@@ -6,6 +6,7 @@
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
 #include "slus/jtbl_80054F9C.h"
+#include "engine/audio.h"
 
 void set_sound_task_priority(s32 pad_event, SoundTask *task) {
     u32 event_index;

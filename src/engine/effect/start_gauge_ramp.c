@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/menu.h"
 
 typedef struct S_80050640 {
     void (*vtable)(void *a0, s32 a1, s32 a2, s32 a3);
@@ -10,7 +12,6 @@ typedef struct S_80050640 {
 
 extern void set_color_components_and_scaled_fields(void *a0, s32 a1, s32 a2);
 extern void advance_gauge_color_then_decay(void *a0, s32 a1, s32 a2, s32 a3);
-extern void handle_object_input(void *a0);
 
 /* Starts the ratio ramp using the current counter, advances it, and updates the object. */
 void start_gauge_ramp(S_80050640 *obj)

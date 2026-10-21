@@ -1,7 +1,6 @@
 #include "common.h"
-
-extern void format_reversed_unsigned_decimal(int value, unsigned short width, char *buf, int pad);
-extern char *reverse_bytes(char *buf, unsigned short width);
+#include "engine/text.h"
+#include "engine/util.h"
 
 /* Format value right-justified with zero padding to width columns and return buf. */
 char *format_int_zero_padded(int value, unsigned short width, char *buf, int unused)

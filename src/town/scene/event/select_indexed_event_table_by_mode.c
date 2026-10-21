@@ -12,7 +12,7 @@ s32 select_indexed_event_table_by_mode(s32 unused_0, s32 unused_1, s32 mode)
 {
     if (mode == 1) {
         func_8001E578(F_sbs01_pad11);
-        return D_80017F94[D_8001E950->unk_03];
+        return D_80017F94[town_event_state->unk_03];
     }
-    return D_80017FB4[D_8001E950->unk_03];
+    return D_80017FB4[town_event_state->unk_03];
 }

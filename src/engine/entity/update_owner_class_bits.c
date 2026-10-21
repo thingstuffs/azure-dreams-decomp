@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/entity.h"
 
 /* Struct pointed to by the entity's "parent"/owner pointer, which sits 0x14
  * bytes before the entity struct itself. Only the field at offset 0x12

@@ -100,7 +100,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
                     ((rand() & 0x7FFF) - 0x4000) << 7;
                 particle_motion->unk_0A =
                     particle_motion->unk_0A -
-                    (D_800DDC40[((S_800D4DE8_8 *)(((Rec_func_800D4BD4_arg1 *)emitter)->unk_00))->unk_13] >> 1);
+                    (entity_height_offsets[((S_800D4DE8_8 *)(((Rec_func_800D4BD4_arg1 *)emitter)->unk_00))->unk_13] >> 1);
             }
             particle_index += 1;
         } while (particle_index < 4);

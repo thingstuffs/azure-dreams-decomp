@@ -123,8 +123,8 @@ extern void func_8015A514(void *, void *, void *, void *);
 extern s32 func_8015A658(void *, void *, void *, s32);
 extern void func_8015C250(void *, void *, void *, void *);
 
-extern void *D_800814A8[3];
-extern u8 D_800DEA68[];
+extern void *primary_actor_record[3];
+extern u8 secondary_sprite[];
 extern u8 D_8015D174[];
 extern u8 D_8015D258[];
 extern u8 D_8015D260[];
@@ -268,7 +268,7 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                 motion->dy = motion->dy +
                     (motion->dy * scale >> 9);
 
-                object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+                object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
                 if (object != 0) {
                     register_node(object, project_sprite_chain);
                     payload = object->motion;
@@ -284,9 +284,9 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
                     part->scale_y = 0x1000;
                     part->scale_x = 0x1000;
                     part->tpage_abr = 0;
-                    part->unk_00 = D_800DEA68;
+                    part->unk_00 = secondary_sprite;
                     part->flags |= 0xC;
-                    texture_word = ((u32)((SpriteSourceEntry *)D_800DEA68)->unk_04);
+                    texture_word = ((u32)((SpriteSourceEntry *)secondary_sprite)->unk_04);
                     color |= 0x8080;
                     part->unk_04 = 0;
                     part->unk_05 = 0;
@@ -392,14 +392,14 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
             update_actor_status_and_food(entity);
             return;
         }
-        if (sprite->position.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (sprite->position.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_80159B68(action_state, motion, sprite, entity);
             return;
         }
         if (!(entity->action & 0x8000)) {
             if ((g_dungeon_status.flags & 0x2000) &&
                 ((check_entity_relation(entity,
-                    (u8 *)((PlayerContext *)(D_800814A8[0]))->actionContext + 0x20) << 16) != 0)) {
+                    (u8 *)((PlayerContext *)(primary_actor_record[0]))->actionContext + 0x20) << 16) != 0)) {
                 return;
             }
             if ((func_8015A658(action_state, motion, sprite, 0) << 16) == 0) {
@@ -439,9 +439,9 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
 
             next_facing = get_rounded_facing_and_rounding_flag(
                 sprite->position.tile.x, sprite->position.tile.y,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);
-            status_object = D_800814A8[0];
+            status_object = primary_actor_record[0];
             entity->facing.s = next_facing;
             if (((PlayerAction *)status_object)->action == 0x11) {
                 begin_actor_spell_action(action_state, motion, sprite, D_8015D290, update_actor_special_action);
@@ -471,17 +471,17 @@ void update_actor_special_action(ActionState *action_state, ActorMotion *motion,
         u32 final_flags =
             entity->flags;
         if (!(final_flags & 0x2000)) {
-            if ((room_id < 0) || !(D_800E2970[room_id].flags & 2)) {
+            if ((room_id < 0) || !(dungeon_rooms[room_id].flags & 2)) {
                 u32 final_mask =
                     final_flags & 0x430;
                 if (!final_mask) {
 
                     if ((compare_monster_neighbor_values(
                             sprite->position.tile.x, sprite->position.tile.y,
-                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                         entity->facing.s = get_rounded_facing_and_rounding_flag(
                             sprite->position.tile.x, sprite->position.tile.y,
-                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                             &direction_aux);
                     }
                 }

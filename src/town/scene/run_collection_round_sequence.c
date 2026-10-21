@@ -19,7 +19,7 @@ void draw_rotating_collection_frame();                      /* extern */
 extern s32 D_80084D5C;
 extern u8 D_80095AA0[8];
 extern u8 D_801328E8[0x14];
-extern u8 D_80132AE8[0x18];
+extern u8 town_motion_state[0x18];
 extern u16 D_80530658[];
 extern u16 D_805306C8[];
 s32 func_802483B8();
@@ -169,15 +169,15 @@ void run_collection_round_sequence(void *sequence) {
     phase_data = (u8 *) owner + 0x20;
     switch (state) {
     case 0:
-        start_x = ((TrailMotion *)(&D_80132AE8))->unk_00.unk_02.unk_02;
+        start_x = ((TrailMotion *)(&town_motion_state))->unk_00.unk_02.unk_02;
         ((S_80527D5C_0 *)sequence)->unk_30 = start_x;
-        start_y = ((TrailMotion *)(&D_80132AE8))->unk_04.unk_06.unk_06;
+        start_y = ((TrailMotion *)(&town_motion_state))->unk_04.unk_06.unk_06;
         ((S_80527D5C_0 *)sequence)->unk_28 = 4U;
         ((S_80527D5C_0 *)sequence)->unk_36.s = 1;
         ((S_80527D5C_0 *)sequence)->unk_32 = start_y;
-        ((TrailMotion *)(&D_80132AE8))->unk_14 = 0xFFE00000;
-        ((TrailMotion *)(&D_80132AE8))->unk_10 = -0x200000;
-        ((TrailMotion *)(&D_80132AE8))->unk_0C = -0x200000;
+        ((TrailMotion *)(&town_motion_state))->unk_14 = 0xFFE00000;
+        ((TrailMotion *)(&town_motion_state))->unk_10 = -0x200000;
+        ((TrailMotion *)(&town_motion_state))->unk_0C = -0x200000;
         (*(s32 *)((u8 *)render_or_counts + (0))) = (s32) &func_802483B8;
         ((S_80527D5C_3 *)(&D_801328E8))->unk_04 = (s32) &advance_accumulator_reset_lowering_stored;
 
@@ -189,16 +189,16 @@ void run_collection_round_sequence(void *sequence) {
         if ((start_ticks << 0x10) <= 0) {
             ((S_80527D5C_0 *)sequence)->unk_28 = 0x10U;
             ((S_80527D5C_0 *)sequence)->unk_36.s = 2;
-            ((TrailMotion *)(&D_80132AE8))->unk_0C = (s32) ((0x420 - (s16) ((S_80527D5C_0 *)sequence)->unk_30)
+            ((TrailMotion *)(&town_motion_state))->unk_0C = (s32) ((0x420 - (s16) ((S_80527D5C_0 *)sequence)->unk_30)
                 << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
-            ((TrailMotion *)(&D_80132AE8))->unk_10 = (s32) ((0x460 - (s16) ((S_80527D5C_0 *)sequence)->unk_32)
+            ((TrailMotion *)(&town_motion_state))->unk_10 = (s32) ((0x460 - (s16) ((S_80527D5C_0 *)sequence)->unk_32)
                 << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
-            ((TrailMotion *)(&D_80132AE8))->unk_14 = 0xFFF40000;
+            ((TrailMotion *)(&town_motion_state))->unk_14 = 0xFFF40000;
         }
         break;
 
     case 2:
-        position_x = (u16 *)((s8 *)&D_80132AE8 + 2);
+        position_x = (u16 *)((s8 *)&town_motion_state + 2);
         ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s = ((u16) ((S_80527D5C_3 *)(&D_801328E8))->unk_10.s + 0x200) & 0xFFF;
         if ((s16) *position_x < 0x420) {
             *position_x = 0x420;
@@ -206,15 +206,15 @@ void run_collection_round_sequence(void *sequence) {
         move_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
         ((S_80527D5C_0 *)sequence)->unk_28 = move_ticks;
         if ((move_ticks << 0x10) <= 0) {
-            ((TrailMotion *)(&D_80132AE8))->unk_10 = 0;
-            ((TrailMotion *)(&D_80132AE8))->unk_0C = 0;
+            ((TrailMotion *)(&town_motion_state))->unk_10 = 0;
+            ((TrailMotion *)(&town_motion_state))->unk_0C = 0;
             ((S_80527D5C_0 *)sequence)->unk_36.s = 3;
         }
         break;
 
     case 3:
     {
-        s32 *position_y = (s32 *)((s8 *)&D_80132AE8 + 4);
+        s32 *position_y = (s32 *)((s8 *)&town_motion_state + 4);
         s32 current_y = *position_y;
 
         if (current_y <= 0x44FFFFF) {
@@ -230,7 +230,7 @@ void run_collection_round_sequence(void *sequence) {
         (*(u16 *)((u8 *)render_or_counts + (0x10))) =
             (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
         height_or_index = (s16) func_8025E01C(position);
-        if (!(((TrailMotion *)(&D_80132AE8))->unk_0A < height_or_index)) {
+        if (!(((TrailMotion *)(&town_motion_state))->unk_0A < height_or_index)) {
             if ((*(s16 *)((u8 *)render_or_counts + (0x10))) == 0x800) {
                 ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
                 create_initialize_eight_objects_table(sequence);
@@ -259,8 +259,8 @@ void run_collection_round_sequence(void *sequence) {
             (*(u16 *)((u8 *)render_or_counts + (0x10))) = 0x800U;
             func_80244588();
             func_802445FC((s32) &func_80290318);
-            ((S_80527D5C_0 *)sequence)->unk_30 = (u16) ((TrailMotion *)(&D_80132AE8))->unk_00.unk_02.unk_02;
-            center_y = (u16) ((TrailMotion *)(&D_80132AE8))->unk_04.unk_06.unk_06;
+            ((S_80527D5C_0 *)sequence)->unk_30 = (u16) ((TrailMotion *)(&town_motion_state))->unk_00.unk_02.unk_02;
+            center_y = (u16) ((TrailMotion *)(&town_motion_state))->unk_04.unk_06.unk_06;
             ((S_80527D5C_0 *)sequence)->unk_2C.u = 0U;
             ((S_80527D5C_0 *)sequence)->unk_2A.u = (u16) (((S_80527D5C_0 *)sequence)->unk_2A.u & 0x7FFF);
             ((S_80527D5C_0 *)sequence)->unk_36.s = 6;
@@ -449,17 +449,17 @@ void run_collection_round_sequence(void *sequence) {
     }
 
     if (((S_80527D5C_0 *)sequence)->unk_36.s >= 4) {
-        if (((TrailMotion *)(&D_80132AE8))->unk_00.unk_00 <= 0x03CFFFFF) {
-            ((TrailMotion *)(&D_80132AE8))->unk_00.unk_00 = 0x03D00000;
+        if (((TrailMotion *)(&town_motion_state))->unk_00.unk_00 <= 0x03CFFFFF) {
+            ((TrailMotion *)(&town_motion_state))->unk_00.unk_00 = 0x03D00000;
         }
-        if ((*(s32 *)((u8 *)(&D_80132AE8) + (4))) <= 0x044FFFFF) {
-            ((TrailMotion *)(&D_80132AE8))->unk_04.unk_04 = 0x04500000;
+        if ((*(s32 *)((u8 *)(&town_motion_state) + (4))) <= 0x044FFFFF) {
+            ((TrailMotion *)(&town_motion_state))->unk_04.unk_04 = 0x04500000;
         }
-        if (((TrailMotion *)(&D_80132AE8))->unk_00.unk_00 > 0x04700000) {
-            ((TrailMotion *)(&D_80132AE8))->unk_00.unk_00 = 0x04700000;
+        if (((TrailMotion *)(&town_motion_state))->unk_00.unk_00 > 0x04700000) {
+            ((TrailMotion *)(&town_motion_state))->unk_00.unk_00 = 0x04700000;
         }
-        if ((*(s32 *)((u8 *)(&D_80132AE8) + (4))) > 0x04700000) {
-            ((TrailMotion *)(&D_80132AE8))->unk_04.unk_04 = 0x04700000;
+        if ((*(s32 *)((u8 *)(&town_motion_state) + (4))) > 0x04700000) {
+            ((TrailMotion *)(&town_motion_state))->unk_04.unk_04 = 0x04700000;
         }
     }
     return;

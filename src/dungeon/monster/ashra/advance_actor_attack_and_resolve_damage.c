@@ -21,7 +21,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern s32 D_80170E54;
 extern u8 D_801739F0[];
 
@@ -67,7 +67,7 @@ void advance_actor_attack_and_resolve_damage(void *action, s32 actor_id, void *s
                 actor->action_flags &= 0x7FFF;
                 return;
             }
-            D_800E3DE8 = (u8 *)actor - 0x20;
+            actor_update_node_cursor = (u8 *)actor - 0x20;
         }
         return;
     }

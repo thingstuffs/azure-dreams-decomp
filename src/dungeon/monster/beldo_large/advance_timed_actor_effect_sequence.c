@@ -88,10 +88,10 @@ void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite
         timer = ((SequenceFieldView_81336BB4 *)sequence)->field_96.u16 + 1;
         ((SequenceFieldView_81336BB4 *)sequence)->field_96.u16 = timer;
         if ((s16)timer == 1) {
-            create_eight_part_textured_ribbon(sequence, transform, sprite, ((u8 *)(&D_80083780)));
+            create_eight_part_textured_ribbon(sequence, transform, sprite, ((u8 *)(&view_reference_entity)));
         }
         if (((SequenceFieldView_81336BB4 *)sequence)->field_96.s16 == 2) {
-            effect_actor = D_800814A8;
+            effect_actor = primary_actor_record;
             ((PlayerRecord *)effect_actor)->unk_10C |= 1;
             effect_actor->movement_facing = ((u16)effect_actor->facing) + 0x800;
             func_800419EC(6, 0xC, effect_actor);

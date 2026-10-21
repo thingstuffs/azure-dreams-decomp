@@ -367,12 +367,12 @@ extern void func_80064624(s32, s32);
 extern void func_80064D20(void *);
 extern void func_80064D50(void *);
 /* extern */
-extern u8 D_8006ADBC[];
-extern u8 D_800D1554[9];
+extern u8 map_runtime_state[];
+extern u8 map_wide_culling[9];
 extern void func_8006658C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, void *);
 
-extern s8 D_800D1548[12];
+extern s8 map_tile_uvs[12];
 extern s32 runtime_initialize_polygon_edges(s32, s32 *, u16 *);
 /* Functions defined in this translation unit. */
 void set_texture_quad_32_uv(s16 texture_page, s16 palette, s8 texture_u, s8 texture_v);

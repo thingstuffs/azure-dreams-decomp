@@ -31,7 +31,7 @@ void create_rotating_layered_line_cage(u8 *effect)
     {
         ObjectPosition *origin;
 
-        for (index = 3, origin = &D_80083780; index >= 0; index--) {
+        for (index = 3, origin = &view_reference_entity; index >= 0; index--) {
             s32 angle_offset = index << 10;
 
             corner[index].x = ((u16)origin->x.w.i) + (func_800644B8(*(s16 *)(effect + 0x28) + angle_offset) >> 6);
@@ -41,7 +41,7 @@ void create_rotating_layered_line_cage(u8 *effect)
     }
 
     {
-        ObjectPosition *origin = &D_80083780;
+        ObjectPosition *origin = &view_reference_entity;
 
         center.x = ((u16)origin->x.w.i);
         center.y = ((u16)origin->y.w.i);

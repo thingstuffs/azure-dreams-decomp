@@ -1,6 +1,8 @@
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
 #include "records/Rec_func_800233D0_arg0.h"
+#include "frontend/libcard.h"
+#include "slus.h"
 
 
 typedef struct S_800233D0_1 {
@@ -38,8 +40,6 @@ typedef struct S_800233D0_7 {
     void * unk_00;
 } S_800233D0_7;   /* ((S_800233D0_1 *)cursor)->unk_1D8 in card_boot_bind_command_panel_resources */
 
-
-extern s32 func_80049E6C(s32 kind);
 extern u8 menu_leaf_template_6[];
 extern u8 D_80077EF0[];
 extern u8 D_80077EFC[];

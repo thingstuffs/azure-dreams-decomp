@@ -31,7 +31,7 @@ void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 conte
 void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg);
 extern u8 D_8009B9BC[];
 extern s32 D_800CFCB4;
-extern s32 *D_800FE5D8;
+extern s32 *town_player_action_callback;
 
 typedef struct S_80092A84_1 {
     u8 pad_00[0x8];
@@ -67,14 +67,14 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(body);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(body);
 
-    position_data = ((u8 *)&D_800FE488);
+    position_data = ((u8 *)&position_query_scratch);
     position = select_the_smaller_position_query_result_capped_n_64_writes_associated(body, position_data);
     if ((position - body->z.w.i) >= 4) {
-        if (D_800CFCEF == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_callback_from_entry(actor, body, context);
             return;
         }
-    } else if (D_800CFCEF == 0) {
+    } else if (town_action_state_flag == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(body), position, (struct TownVec * *)(position_data));
     }
 
@@ -110,7 +110,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
         } else {
             submit_object_resource_data(interaction_state->unk_10);
         }
-        D_800FE5D8 = (s32 *)&dispatch_actor_action;
+        town_player_action_callback = (s32 *)&dispatch_actor_action;
         return;
     }
 

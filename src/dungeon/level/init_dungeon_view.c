@@ -34,12 +34,12 @@ void init_dungeon_view(void)
     func_80064624(0x1000, ((S_804FE87C_0 *)render_state)->unk_88);
     func_80064EC0(0xA0, 0xA0, 0xA0);
 
-    D_801C9E40[0x19] = 0;
-    D_801C9E40[0x1A] = 0;
-    D_801C9E40[0x1B] = 0;
-    D_801DA714[0x19] = 0;
-    D_801DA714[0x1A] = 0;
-    D_801DA714[0x1B] = 0;
+    upper_draw_context[0x19] = 0;
+    upper_draw_context[0x1A] = 0;
+    upper_draw_context[0x1B] = 0;
+    lower_draw_context[0x19] = 0;
+    lower_draw_context[0x1A] = 0;
+    lower_draw_context[0x1B] = 0;
     func_80064F00(0xA0, 0x78);
 
     render_data->view.clip_x = -0xBC;

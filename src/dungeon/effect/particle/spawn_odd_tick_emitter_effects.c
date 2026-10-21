@@ -16,8 +16,8 @@ void *func_7003CF18();
 extern s32 func_7010C274(void *, void *, s32, s32);
 
 extern s32 D_80086AD8;
-extern u16 D_80094422;
-extern u8 D_800E0F20[16];
+extern u16 emitted_effect_counter;
+extern u8 emitter_height_offsets[16];
 extern M2C_UNK D_8010BF40;
 extern Packed12 D_8010C450;
 
@@ -73,7 +73,7 @@ void spawn_odd_tick_emitter_effects(void *emitter, s32 spawn_param_1, s32 spawn_
             effect_state = (*(void **)((u8 *)effect + 8));
             ((S_7FFE99BC_1 *)effect_state)->unk_0A =
                 (u16)(((S_7FFE99BC_1 *)effect_state)->unk_0A -
-                (D_800E0F20[(u8)((S_7FFE99BC_3 *)(((S_7FFE99BC_0 *)emitter)->unk_00))->unk_13] >> 1));
+                (emitter_height_offsets[(u8)((S_7FFE99BC_3 *)(((S_7FFE99BC_0 *)emitter)->unk_00))->unk_13] >> 1));
             effect_config = (*(void **)((u8 *)effect + 0xC));
             (*(Packed12 *)((u8 *)effect + 0x62)) = D_8010C450;
             ((S_7FFE99BC_2 *)effect_config)->unk_08 = (void *)(effect + 0x62);
@@ -85,7 +85,7 @@ void spawn_odd_tick_emitter_effects(void *emitter, s32 spawn_param_1, s32 spawn_
     ticks_left = ((S_7FFE99BC_0 *)emitter)->unk_1E - 1;
     ((S_7FFE99BC_0 *)emitter)->unk_1E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        u16 *active_count = &D_80094422;
+        u16 *active_count = &emitted_effect_counter;
         u16 next_count;
 
         (*(u16 *)((u8 *)emitter + -2)) =

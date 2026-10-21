@@ -118,7 +118,7 @@ void *func_80E122F4(S_80E122F4_0 *owner, void *transform, void *source)
         delta >>= 5;
         part->unk_14 = delta;
         delta = (reference->unk_08 -
-                 ((s32)D_800DDC40[((S_80E122F4_6 *)(owner->unk_60))->unk_13] << 15) -
+                 ((s32)entity_height_offsets[((S_80E122F4_6 *)(owner->unk_60))->unk_13] << 15) -
                  part->unk_0C.at00.v) / 32;
         part->unk_18 = delta;
         return obj;

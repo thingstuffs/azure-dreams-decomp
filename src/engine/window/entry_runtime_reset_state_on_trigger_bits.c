@@ -4,6 +4,7 @@
 #include "records/Rec_func_80036210_arg0.h"
 
 #include "records/Rec_D_80081FDC.h"
+#include "engine/window.h"
 
 
 typedef struct S_80036210_2 {
@@ -11,11 +12,8 @@ typedef struct S_80036210_2 {
     s32 unk_80;
 } S_80036210_2;   /* ((Rec_func_80036210_arg0 *)arg0)->unk_74.as_pv in func_80036210 */
 
-
-void create_cursor_object(s32 task_buffer, Rec_D_80081FDC *record, s32 *source, s16 state_value, s32 setup_arg);
 extern u8 triggered_cursor_record_storage[];
 extern u8 triggered_cursor_node_storage[];
-void runtime_reset_state_on_trigger_bits();
 
 /* Initialize the object's runtime state and set its next handler. */
 void create_window_cursor_and_install_reset(Rec_func_80036210_arg0 *object) {

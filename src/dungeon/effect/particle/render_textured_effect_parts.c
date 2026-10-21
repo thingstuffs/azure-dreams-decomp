@@ -32,7 +32,7 @@ void render_textured_effect_parts(void *record_data, void *unused, void *update_
     }
 }
 
-extern u8 D_800DE870[9];
+extern u8 effect_sprite_sources[9];
 
 /* Creates and initializes an object at an offset from the supplied origin. */
 void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset_x, s16 offset_y, s16 offset_z) {
@@ -71,7 +71,7 @@ void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset
         asset->color.c.r = 0x80;
         asset->clut = 0x7DCF;
         asset->flags = (u16) (asset->flags | 0x100);
-        func_8003DB94(asset, D_800DE870, setup_mode);
+        func_8003DB94(asset, effect_sprite_sources, setup_mode);
     }
 }
 
@@ -417,7 +417,7 @@ extern u8 D_800258FC[];
 extern u8 D_8006CCD8[];
 extern u8 D_8006CCE8[];
 extern s32 D_800814A0[3];
-extern u8 D_800DE870[];
+extern u8 effect_sprite_sources[];
 extern u8 D_800DE9D0[];
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
@@ -460,7 +460,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
         ((S_80024BE8_2 *)sprite)->unk_12 = 0x7DCF;
         ((S_80024BE8_2 *)sprite)->unk_14 |= 0x100;
         ((S_80024BE8_0 *)effect)->unk_84 = 0;
-        func_8003DB94(sprite, D_800DE870, 2);
+        func_8003DB94(sprite, effect_sprite_sources, 2);
         source_flags = ((S_80024BE8_3 *)source)->unk_2A;
         D_80025914 = 1;
         ((S_80024BE8_0 *)effect)->unk_7E.s = (source_flags >> 9) & 7;
@@ -911,7 +911,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
         animation_tick = ((S_80024BE8_0 *)effect)->unk_84;
         ((S_80024BE8_0 *)effect)->unk_84 = animation_tick + 1;
         if ((s16)animation_tick >= 5) {
-            func_8003DB94(sprite, D_800DE870, 2);
+            func_8003DB94(sprite, effect_sprite_sources, 2);
             ((S_80024BE8_0 *)effect)->unk_84 = 0;
         }
     }

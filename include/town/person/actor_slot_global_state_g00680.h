@@ -7,7 +7,7 @@
 #include "common.h"
 
 extern void func_800C3050(void *object, s32 slot_index, void *field_58_value, void *field_5c_value, void *field_7c_value, void *field_80_value);
-extern s32 D_80081458[];
+extern s32 loaded_town_resource_attributes[];
 extern u8 D_800D6674[];
 extern u8 D_800D667C[];
 extern u8 D_800D66A4[];

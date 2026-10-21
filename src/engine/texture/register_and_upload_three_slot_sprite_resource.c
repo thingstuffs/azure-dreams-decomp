@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/texture.h"
+#include "slus.h"
 
 typedef struct {
     void *entry;
@@ -9,7 +11,6 @@ typedef struct {
 extern S_80047EEC_D8 sprite_resource_slots[6];
 extern u8 D_8014A000[];
 
-extern s32 get_resource_block_index_from_address(void *a0);
 extern void *func_80047AB0(void *a0, s32 a1, s32 a2, s32 a3, void *a4);
 
 /* Registers an entity and its type in three consecutive slots, then starts loading. */

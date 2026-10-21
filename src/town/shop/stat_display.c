@@ -137,7 +137,7 @@ void collect_selected_record_values(s32 *output, EntityRec *record) {
         *write_ptr = second_value;
         write_ptr += 1;
     }
-    if (record == ((s32)D_800814A8)) {
+    if (record == ((s32)primary_actor_record)) {
         extra_value = record->unk_D8;
         if (extra_value != 0) {
             *write_ptr = extra_value;

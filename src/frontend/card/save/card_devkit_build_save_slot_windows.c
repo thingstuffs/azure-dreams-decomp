@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/save.h"
 
 extern s32 process_slot_record_on_lookup_success(s32 slot_index);
 extern s32 init_card_window_slot_object(void *init_value, s32 slot_index);

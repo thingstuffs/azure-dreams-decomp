@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 typedef struct {
     s16 field_0;
@@ -8,8 +9,6 @@ typedef struct {
 } S_80086C00;
 
 extern S_80086C00 audio_sequence_slots[8];
-
-extern void audio_refresh_sequence_voice_volumes(void);
 
 /* Stores two 7-bit values in the selected entry, then calls audio_refresh_sequence_voice_volumes for it. */
 void set_sound_slot_byte_pair(s16 index, s32 value_8, s32 value_a)

@@ -13,7 +13,7 @@
 
 
 extern u32 *D_800DD6B8[];
-extern u8 D_800E3648[];
+extern u8 floor_objects[];
 
 extern void clear_player_linked_action_flags(void);
 extern s16 get_special_table_data_index(void *);
@@ -49,7 +49,7 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
         if (result < 0) {
             return -1;
         }
-        call_slot_handler_and_update_status(D_800E3648[result * 4], actor, result, 1);
+        call_slot_handler_and_update_status(floor_objects[result * 4], actor, result, 1);
         return;
     }
     g_dungeon_status.activity_counts.parts.pending_action_count += 1;
@@ -60,11 +60,11 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
         func_800BCFBC(handler_tag - 1, handler_tag, action_index);
     }
     if ((s16)dispatch_mode != 0x15) {
-        if (D_80082E80.secondary_item == 0) {
+        if (reference_tile_object.secondary_item == 0) {
             result = get_special_table_data_index(action);
             if (result != 0x15) {
                 if (result == 0x16) {
-                    *(*(s32 **)((u8 *)D_800E3D7C + 0xF0)) = 0;
+                    *(*(s32 **)((u8 *)dungeon_actor_ring_anchor + 0xF0)) = 0;
                 } else {
                     clear_player_linked_action_flags();
                 }
@@ -72,8 +72,8 @@ s32 dispatch_dungeon_category_action(void *actor, void *action, s16 dispatch_mod
         }
     }
     if ((s16)dispatch_mode == 0x15) {
-        process_unflagged_linked_entries_alt(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
-        process_unflagged_linked_entries(*(s32 *)((u8 *)D_800E3D7C + 0x5C));
+        process_unflagged_linked_entries_alt(*(s32 *)((u8 *)dungeon_actor_ring_anchor + 0x5C));
+        process_unflagged_linked_entries(*(s32 *)((u8 *)dungeon_actor_ring_anchor + 0x5C));
         g_dungeon_status.flags |= 0x812;
     }
     handler(actor, action, dispatch_mode, handler_param);

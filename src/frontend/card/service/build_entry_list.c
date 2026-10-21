@@ -1,9 +1,10 @@
 #include "common.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
-extern s32 D_804094EC[];
-extern s32 D_804000F4;
-extern s32 D_80408AA0[2];
-extern s8 D_80409290[];
+extern s32 card_selected_channel[];
+extern s32 dev_card_paths[2];
+extern s8 dev_card_directory[];
 
 s32 func_8007BF80();
 s32 func_8007BF50();
@@ -18,10 +19,10 @@ s32 build_entry_list(void) {
     s32 entry_count;
 
     entry_count = 0;
-    entry = D_80409290;
-    path_prefix = &D_80408AA0[0];
-    if (D_804094EC[0] != 0) {
-        path_prefix = &D_80408AA0[0] + 1;
+    entry = dev_card_directory;
+    path_prefix = &dev_card_paths[0];
+    if (card_selected_channel[0] != 0) {
+        path_prefix = &dev_card_paths[0] + 1;
     }
     func_8007BF80(&search_path, *path_prefix);
     func_8007BF50(&search_path, &D_804000F4);

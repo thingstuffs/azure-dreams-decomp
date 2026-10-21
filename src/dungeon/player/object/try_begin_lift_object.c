@@ -5,7 +5,7 @@
 #include "shared/entity.h"
 
 typedef struct S_80048A44_Obj S_80048A44_Obj;
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 
 void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
@@ -13,7 +13,7 @@ extern void adjust_source_value_and_finalize();
 extern s32 spawn_object_at_target_position();
 extern void append_packed_action_record();
 extern s32 play_sound_if_enabled();
-extern u8 D_800DCFC8[];
+extern u8 player_lift_frames[];
 extern u8 D_800E0495[];
 
 
@@ -93,7 +93,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *posi
                         } else {
                             tail_result = 0;
                         }
-                        tail_page = (u32)D_80080000;
+                        tail_page = (u32)resident_globals_page;
                         ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
                         action->unk_124 = 0;
                         action->unk_8C.p = (void *)((u32)handle_player_input);
@@ -110,10 +110,10 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *posi
             action->unk_9A = 0x1B;
             action->unk_9B = 0;
             action->unk_8C.p = 0;
-            position->unk_2C = D_800DCFC8;
+            position->unk_2C = player_lift_frames;
             set_sprite_animation_frame(
                 position,
-                D_800DCFC8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle +
+                player_lift_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle +
                                   (s16)((u16)actor->facing) + 0x100) >> 9) & 7],
                 0, 1);
             tail_result = 1;

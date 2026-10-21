@@ -57,7 +57,7 @@ typedef struct S_7FFE83DC_4 {
 
 M2C_UNK func_8003A7C4();
 void *func_8003CF18();
-extern u16 D_80094422[5];
+extern u16 emitted_effect_counter[5];
 extern M2C_UNK D_8010B158;
 
 /* Create an effect at the source position with the supplied color. */
@@ -97,6 +97,6 @@ void func_7FFE83DC(S_7FFE83DC_3 *source, s32 color) {
         sprite->unk_14 =
             (u16)(sprite->unk_14 | 0x100);
         func_8003A7C4(sprite, D_800E2BB8, 0);
-        D_80094422[0] += 1;
+        emitted_effect_counter[0] += 1;
     }
 }

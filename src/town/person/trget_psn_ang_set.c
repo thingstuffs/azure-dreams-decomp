@@ -33,7 +33,7 @@ typedef struct {
 
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
-extern u16 D_800D5070[];
+extern u16 town_facing_angles[];
 
 extern void initialize_object_entries(void *, s32, s32);
 
@@ -53,7 +53,7 @@ void trget_psn_ang_set(s8 object_slot, s8 angle_index)
     object_index = object_slot;
     object = table[object_index].object;
     if (object != 0) {
-        angle = D_800D5070[angle_index];
+        angle = town_facing_angles[angle_index];
         entry = object;
         object_data = (u8 *)object + 0x20;
         if (object_index == object_data->unk_60) {

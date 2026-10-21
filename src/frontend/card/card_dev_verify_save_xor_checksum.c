@@ -1,10 +1,11 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern void func_8007C040(void *ptr_a, void *ptr_b, s32 value);
 
-extern u8 D_80400114[];
-extern u8 D_80400120[];
-extern u8 D_80400134[];
+extern u8 checksum_trace_format[];
+extern u8 saved_checksum_label[];
 
 /* Computes the game-save XOR checksum and compares it with the stored checksum. */
 s32 card_dev_verify_save_xor_checksum(void *gsw)
@@ -28,8 +29,8 @@ s32 card_dev_verify_save_xor_checksum(void *gsw)
         count++;
     } while (count < 0x1782);
 
-    func_8007C040(D_80400114, D_80400134, checksum);
-    func_8007C040(D_80400114, D_80400120,
+    func_8007C040(checksum_trace_format, computed_checksum_label, checksum);
+    func_8007C040(checksum_trace_format, saved_checksum_label,
                   *(s32 *)((u8 *)gsw + 0x204));
     return *(s32 *)((u8 *)gsw + 0x204) == checksum;
 }

@@ -1,6 +1,7 @@
 /* Message dialog lifecycle; G00381; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000F934, CL:main/func_8000FAE8, CL:main/func_8000FB20, CL:main/func_8000FB48, CL:main/func_8000FBE8, CL:main/func_8000FC48, CL:main/func_8000FC90. */
 #include "frontend/libcard/message_dialog_lifecycle_g00381.h"
+#include "frontend/libcard.h"
 
 /* Record the maximum string length and last nonempty slot across five strings. */
 void card_boot_measure_five_line_message(u8 *text_block)
@@ -88,7 +89,7 @@ u8 *card_boot_create_or_reset_message_dialog(s32 value_14, void *entry_index, vo
     context = base + 0x20;
     if (find_active_list_node(base) == 0) {
         base = initialize_scene_object_in_buffer(0, base, 0x27A);
-        register_node(base, D_80027DD0);
+        register_node(base, menu_backdrop_tag);
     } else {
         card_boot_close_message_dialog(((S_80022D60_0 *)context)->unk_0C != 2);
         ((S_80022D60_1 *)base)->unk_1E &= 0x7FFF;

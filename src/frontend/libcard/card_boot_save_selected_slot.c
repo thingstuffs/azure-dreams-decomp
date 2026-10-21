@@ -1,19 +1,15 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/card.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
+#include "slus.h"
 
 extern void *card_boot_recheck_selected_channel(void);
-extern s32 card_boot_write_save_via_temporary_path(s32, s32);
-extern void card_boot_show_overwrite_failure_notice(void *);
-extern void card_boot_set_slot_selection_marker(s32, s32);
-extern void card_boot_set_slot_details_selection(s32, s32, s32);
 extern void card_boot_prepare_save_buffer(s32, s32, s32);
-extern void card_boot_refresh_five_slot_objects(void *);
-short SD_Call(int flags);
 void configure_shared_fade_primitive(void);
 
 extern s16 D_80010208[];
-extern M2C_UNK D_800261C0[];
-void inventory_copy_and_sign_extend_record_fields(s32 object_data);
 extern s32 D_800265B8[];
 
 

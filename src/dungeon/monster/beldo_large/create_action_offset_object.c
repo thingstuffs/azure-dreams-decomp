@@ -10,7 +10,7 @@ s32 register_node();           /* extern */
 extern M2C_UNK D_80077854;
 extern void initialize_action_offset_and_notify(void *action, void *position);
 extern s16 D_80173AFC[];
-extern void *D_80175D54;
+extern void *beldo_script_node;
 extern void *D_80175DB8;
 
 typedef struct S_801715D0_1 {
@@ -54,9 +54,9 @@ void create_action_offset_object(void) {
     SpriteFrameState *render_flags;
     SpriteFrameState *sprite;
 
-    owner_pos = ((Rec_D_80175D54 *)D_80175D54)->unk_08;
-    owner_state = D_80175D54 + 0x20;
-    object = allocate_list_node(0x12, D_80175D54);
+    owner_pos = ((Rec_D_80175D54 *)beldo_script_node)->unk_08;
+    owner_state = beldo_script_node + 0x20;
+    object = allocate_list_node(0x12, beldo_script_node);
     if (object != NULL) {
         ((S_801715D0_1 *)object)->unk_10 = &initialize_action_offset_and_notify;
         object_state = object + 0x20;

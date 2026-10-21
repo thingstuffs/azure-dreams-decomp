@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
+#include "slus/data.h"
 
 /* D_80084960: per-request channel record, stride 0x9C */
 typedef struct Chan {
@@ -170,16 +173,12 @@ typedef struct Req {
 extern Chan audio_channel_controls[16];
 extern Voice audio_voice_records[64];
 extern Slot audio_bank_slots[16];
-extern s16 audio_current_bank_slot[8];
 extern s32 audio_voice_masks[];
 extern s32 audio_voice_count[4];
 extern s32 D_80073734_late[4] __asm__("D_80073734");  /* second view: retail hoists the base per voice loop */
 extern Req audio_voice_request;
-extern s16 D_80084930[];
 
-extern void sound_reset_indexed_voice_envelope(s32 request_index);
 extern void func_8005E97C(s32 mode, s32 mask);
-extern s32 func_8005EB78(s32 mask);
 extern void func_80055E74(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void audio_compute_voice_stereo_volumes(Voice *a0, Chan *a1);
 extern s32 audio_compute_pitch_bend_offset(Voice *a0, s32 a1);
@@ -490,9 +489,9 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                     audio_voice_request.f16 = start_note << 8;
                 }
                 if (tone->f05 != 0) {
-                    D_80084930[0] = ((tone->f04 - 1) << 8) | (0x7F - tone->f05);
+                    voice_packed_tone[0] = ((tone->f04 - 1) << 8) | (0x7F - tone->f05);
                 } else {
-                    D_80084930[0] = tone->f05 | (tone->f04 << 8);
+                    voice_packed_tone[0] = tone->f05 | (tone->f04 << 8);
                 }
                 if (voice_held == 0) {
                     apply_voice_attributes_and_key_on(&audio_voice_request);

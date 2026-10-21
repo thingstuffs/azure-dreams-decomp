@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node.h"
 
 /* --- gcc 2.7.2 -O2 -G0 TU --- */
 

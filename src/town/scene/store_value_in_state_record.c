@@ -12,7 +12,7 @@ extern s32 build_selected_entry_output(s32);
 
 /* Update the selected object record when the current state is 1. */
 s32 store_value_in_state_1_record(TownObject *object, s32 record_index) {
-    if (D_8001E950->unk_05 == 1) {
+    if (town_event_state->unk_05 == 1) {
         *(s32 *)((record_index * 0x10) + (uptr)object->records + 8) =
             build_selected_entry_output(0);
         return 0;

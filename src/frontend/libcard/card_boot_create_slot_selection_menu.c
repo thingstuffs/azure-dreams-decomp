@@ -2,13 +2,11 @@
 #include "m2c_compat.h"
 
 #include "modules/main_server_ship_interfaces.h"
-s32 card_boot_create_three_row_command_panel();                          /* extern */
-s32 render_rotated_grid_surface();            /* extern */
-void card_boot_initialize_slot_menu_request(void *, s32);                 /* extern */
+#include "engine/menu.h"
+#include "frontend/card.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
 struct S_8003FE78; void * initialize_scene_object_in_buffer(s32, struct S_8003FE78 *, s16);   /* extern */
-s32 create_or_reset_seven_entry_menu_backdrop();                  /* extern */
-void update_inventory_menu(void *state_arg);
-extern M2C_UNK D_8002B7E0;
 
 typedef struct S_80025C7C_0 {
     u8 pad_00[0x18];

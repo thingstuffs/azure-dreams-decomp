@@ -134,7 +134,7 @@ void update_actor_motion_variant(void *owner, void *motion, SpriteAnimationTable
             ((ObjectActionState *)owner)->flags = action_value;
             action_value = is_special;
             if (action_value) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 ((ActionActorView *)object)->target = target;
                 target_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->unk_0C;
                 action_value = target_sprite->unk_24;
@@ -142,7 +142,7 @@ void update_actor_motion_variant(void *owner, void *motion, SpriteAnimationTable
                 action_value = target_sprite->unk_25;
                 ((ActionActorView *)object)->targetY.unsignedByte = action_value;
             } else {
-                definitions = D_8006DE24;
+                definitions = item_action_definitions;
                 item_id = *item_slot;
                 definition = &definitions[item_id];
                 if (definition->kind == 2) {
@@ -186,7 +186,7 @@ void update_actor_motion_variant(void *owner, void *motion, SpriteAnimationTable
         ((MotionResetView *)motion)->velocityX = 0;
         set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
         g_dungeon_status.active_actor = 0;
-        ((PlayerActionCountView *)D_800814A8)->remainingActions--;
+        ((PlayerActionCountView *)primary_actor_record)->remainingActions--;
         advance_status_timers(object);
         ((ActionActorView *)object)->remainingActions--;
         ((ObjectActionState *)owner)->nextBehavior = D_8015F014;

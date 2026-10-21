@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 
-extern u8 D_80081484[];
+extern u8 held_item_record[];
 
 /* Selects a table entry address, fixed buffer, or current data pointer by ID. */
 u8 *select_monster_data_pointer(s32 selector_id) {
@@ -10,9 +10,9 @@ u8 *select_monster_data_pointer(s32 selector_id) {
     if (selector_index < 0x14) {
         result = (u8 *)(0x80010248 + (selector_index * (s32)sizeof(void *)));
     } else if (selector_index != 0x14) {
-        result = *(u8 **)(((u8 *)D_800E3D7C) + 0xF0);
+        result = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0xF0);
     } else {
-        result = D_80081484;
+        result = held_item_record;
     }
     return result;
 }

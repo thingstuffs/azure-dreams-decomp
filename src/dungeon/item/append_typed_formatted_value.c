@@ -25,7 +25,7 @@ u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
     u8 *out;
 
     out = buffer;
-    if (!(D_800E3D7C->flags1C & 0x10)) {
+    if (!(dungeon_actor_ring_anchor->flags1C & 0x10)) {
         prefix_kind = data->unk1;
         prefix_id = D_800DD72C[prefix_kind];
         if ((prefix_id != 0) && ((prefix_kind != 0xF) || (data->unk0 < 0xEU))) {
@@ -33,7 +33,7 @@ u8 *append_typed_formatted_value(FuncData *data, u8 *buffer) {
         }
     }
     out = copy_selected_text_without_terminator(data, out);
-    if (!(D_800E3D7C->flags1C & 0x10)) {
+    if (!(dungeon_actor_ring_anchor->flags1C & 0x10)) {
         suffix_kind = data->unk1;
         suffix_id = D_800DD784[suffix_kind];
         if ((suffix_id != 0) && ((suffix_kind != 0xF) || (data->unk0 < 0xEU))) {

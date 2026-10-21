@@ -1,4 +1,5 @@
 #include "engine/scene/gp_shared_slots.h"
+#include "engine/scene.h"
 
 
 
@@ -6,7 +7,7 @@ void render_cd_wait_animation_on_new_field(void)
 {
     void **draw_buffer = &D_80083160[0];
 
-    if ((D_80082E60.field_0 & 3) == 1) {
+    if ((runtime_dispatch_state.field_0 & 3) == 1) {
         u8 field_id = (u8)((u32)VSync(1) >> 8);
 
         if (field_id != scene_sprite_last_field) {
@@ -20,8 +21,8 @@ void render_cd_wait_animation_on_new_field(void)
             PutDispEnv((u8 *)D_80083160[0] + 0x5C);
             PutDrawEnv(*draw_buffer);
 
-            next_buffer = D_801C9E40[0];
-            if (*draw_buffer == D_801C9E40[0]) {
+            next_buffer = upper_draw_context[0];
+            if (*draw_buffer == upper_draw_context[0]) {
                 next_buffer += 0x108D4;
             }
             D_80083160[0] = next_buffer;

@@ -156,7 +156,7 @@ void *find_door_keyed_node(s32 requested_value)
     NodeData *node_data;
     void *result;
 
-    node = D_80081498.head;
+    node = active_node_list_head.head;
     if (node != 0) {
         required_node_key = (s32)&handle_door_check_result;
         do {
@@ -295,22 +295,22 @@ void set_door_handler_if_ready(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s
 void update_door_completion_state(u8 *object, s32 unused, s32 state_id, s32 state_arg) {
     s16 state;
 
-    state = initialize_object_items_in_reverse(D_80100B70, state_id, *(s16 *)(object + 0x90));
+    state = initialize_object_items_in_reverse(door_transition_state, state_id, *(s16 *)(object + 0x90));
     *(s16 *)(object + 0x90) = state;
     if ((s32)(state << 0x10) == 0) {
-        no_op_callback_a(D_80100B70, state_id, state_arg);
+        no_op_callback_a(door_transition_state, state_id, state_arg);
         *(void **)(object + 0x50) = advance_door_state_counter;
         load_indexed_resource_package(0);
-        sound_set_cd_cue_parameters(0, D_8006CD58[0], 0x0600065E, 0x030008B6);
+        sound_set_cd_cue_parameters(0, cd_cue_base[0], 0x0600065E, 0x030008B6);
         SD_Call(0x300);
     }
 }
 
 /* Advance the state counter and apply the next state when the check succeeds. */
 void advance_door_state_counter(S_800A0DAC_0 *state, s32 unused, s32 context_a, s32 context_b) {
-    decrease_value_and_advance_counter(&D_80100B70, context_a, context_b);
+    decrease_value_and_advance_counter(&door_transition_state, context_a, context_b);
     state->unk_6E = (u16)(state->unk_6E + 0x10);
-    if (animate_spinning_shrinking_object(&D_80100B70, context_a, context_b) != 0) {
+    if (animate_spinning_shrinking_object(&door_transition_state, context_a, context_b) != 0) {
         state->unk_6C = 0x20;
         state->unk_50 = &tick_door_countdown;
     }
@@ -320,7 +320,7 @@ void advance_door_state_counter(S_800A0DAC_0 *state, s32 unused, s32 context_a, 
 void tick_door_countdown(Rec_func_800A0668_arg0 *object, S_800A0E3C_1 *source, s32 update_arg_a, s32 update_arg_b) {
     u16 remaining_count;
 
-    decrease_value_and_advance_counter(&D_80100B70, update_arg_a, update_arg_b);
+    decrease_value_and_advance_counter(&door_transition_state, update_arg_a, update_arg_b);
     remaining_count = object->unk_6C - 1;
     object->unk_6C = remaining_count;
     if ((remaining_count << 0x10) <= 0) {
@@ -336,20 +336,20 @@ void into_dn_door_jobs(void) {
     clear_resident_bitmap_bit(sn_mam_pan_give);
     apply_building_pending_updates();
     dispatch_conditional_table_pairs();
-    D_8008146C = 1;
-    D_80082E60.flags16 = 0;
-    D_80013714 &= 0xFFF8;
+    current_dungeon_floor = 1;
+    runtime_dispatch_state.flags16 = 0;
+    system_update_flags &= 0xFFF8;
 }
 
 /* Tests the input and object angle against either supported global state. */
 s32 check_door_input_and_angle(Rec_func_800A0668_arg0 *object, s32 test_value) {
     if (get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(test_value, &D_800CFCB4) != 0) {
-        s32 *global_base = &D_800834B8;
+        s32 *global_base = &scene_object_payload_alias;
         s32 global_angle = ((S_800A0F10_0 *)global_base)->unk_10 & 0xFFF;
         s32 object_angle = object->unk_72 & 0xFFF;
 
         if ((u32) ((object_angle - global_angle) + 0x3FF) < 0x7FFU) {
-            if ((D_800834B8 == (s32)&D_80091260) || (D_800834B8 == (s32)&D_80091528)) {
+            if ((scene_object_payload_alias == (s32)&D_80091260) || (scene_object_payload_alias == (s32)&D_80091528)) {
                 return 1;
             }
             return 0;

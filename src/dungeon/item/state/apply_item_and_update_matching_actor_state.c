@@ -33,9 +33,9 @@ s32 apply_item_and_update_matching_actor_state(void *entity, s32 action_id, s16 
     u8 update_count;
 
     match_state = 0;
-    if (entity == ((u8 *)D_800E3D7C)) {
+    if (entity == ((u8 *)dungeon_actor_ring_anchor)) {
         *(s32 *)((u8 *)entity + 0x110) = action_id;
-        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
 

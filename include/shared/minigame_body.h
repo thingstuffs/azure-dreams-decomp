@@ -24,7 +24,7 @@ typedef struct MinigameBody {
     int unk_58;
     int unk_5C;
 } MinigameBody;
-extern MinigameBody D_800834B8;
+extern MinigameBody scene_object_payload_alias;
 
 /* Exact access views shared across registered binary consumers. */
 /* Minigame progress stage and elapsed time, retained as two signed halves. */

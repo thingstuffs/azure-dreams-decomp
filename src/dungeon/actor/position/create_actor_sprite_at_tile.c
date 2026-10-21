@@ -67,7 +67,7 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
     saved_tile_x = tile_x;
     saved_height = height;
     saved_tile_y = tile_y;
-    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = object + 0x20;
         state->unk_13 = 0x34;

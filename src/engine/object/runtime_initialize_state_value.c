@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "records/Rec_D_80081FDC.h"
+#include "engine/object.h"
 
 
 /* Initialize the state with the supplied value, zeroed fields, and unit scale. */

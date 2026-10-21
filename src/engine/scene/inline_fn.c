@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/scene.h"
+#include "slus.h"
 
 typedef struct S_8003FE78 {
     struct S_8003FE78 *next;
@@ -9,15 +11,13 @@ typedef struct S_8003FE78 {
     u16 flags;
 } S_8003FE78;
 
-extern S_8003FE78 *D_80081498;
+extern S_8003FE78 *active_node_list_head;
 
 extern struct {
     int pad[2];
     S_8003FE78 *active_head;
     int force_large;
 } free_node_list_head;
-
-extern void zero_words(int *p, int n);
 
 inline s32 inline_fn(s32 value)
 {
@@ -36,7 +36,7 @@ void *initialize_scene_object_in_buffer(s32 flags_or_addr, S_8003FE78 *buffer, s
     node = buffer;
     zero_words((int *)flags_or_addr, word_count);
     old_head = free_node_list_head.active_head;
-    D_80081498 = node;
+    active_node_list_head = node;
     node->prev = 0;
     node->next = old_head;
     if (old_head != 0) {

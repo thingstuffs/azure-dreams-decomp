@@ -67,7 +67,7 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, void
     neighbor = place_actor_at_directional_neighbor(actor, ((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25,
         scan_angle(direction));
     if (neighbor != NULL) {
-        if (neighbor == ((u8 *)D_800E3D7C)) {
+        if (neighbor == ((u8 *)dungeon_actor_ring_anchor)) {
             reference_found = 1;
         } else {
             neighbor_flags = ((S_80175E6C_2 *)neighbor)->unk_14;

@@ -1,4 +1,7 @@
 #include "common.h"
+#include "frontend/card/menu.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
 typedef struct S_80407E64_0_pre {
     void * unk_00;
@@ -16,12 +19,9 @@ typedef struct S_80407E64_0 {
 
 
 extern void func_80400908(void);
-extern s32 card_dev_run_selected_operation(s32 card_index);
 extern void func_804030F4(void *context);
 extern void func_80403284(void *context);
 extern void initialize_card_message_object_with_code_0xd(void *context);
-extern u8 D_80407D90[];
-extern u8 D_80407DB8[];
 extern u8 D_804081AC[];
 
 /* Polls the status and selects the corresponding context update and data. */

@@ -94,13 +94,13 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
     chain_head = NULL;
     offset[0] = offset[1] = 0;
     if (resolve_record_orientation_or_fallback(source->unk_08, source, offset, 0) == 0) {
-        offset[2] = (0 - D_800DDC40[0]) + 0x10;
+        offset[2] = (0 - entity_height_offsets[0]) + 0x10;
     }
     effect_index = 0;
     callback = D_80026680;
     effect_entry = D_80028820;
     do {
-        effect = allocate_list_node(0x12, ((s32 *)(&D_80083498)));
+        effect = allocate_list_node(0x12, ((s32 *)(&scene_object_list_anchor)));
         if (effect != NULL) {
             ((S_80026A84_1 *)effect)->unk_10 = callback;
             register_node(effect, D_800CEEFC);

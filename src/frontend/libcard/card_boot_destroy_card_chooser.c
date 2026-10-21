@@ -1,7 +1,7 @@
 #include "common.h"
+#include "engine/menu.h"
+#include "frontend/libcard.h"
 
-extern void set_object_cleanup_flag(s32);
-extern void card_boot_mark_object_complete(s32);
 extern void configure_shared_fade_primitive(void);
 extern s32 D_800814A0;
 

@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/window.h"
 
 typedef struct Func800359FCState Func800359FCState;
 typedef struct Func800359FCEvent Func800359FCEvent;
@@ -23,10 +25,7 @@ struct Func800359FCEvent {
     s16 value;
 };
 
-extern s32 unlink_cursor_when_finished(Func800359FCState *);
-extern void begin_fade_to_black(void);
 extern void shrink_window_and_signal_linked_record(Func800359FCState *, Func800359FCEvent *, void *);
-extern void update_window_extents(Func800359FCState *state, s16 offset);
 
 /* Dispatches the event callback, switching handlers when the cursor marker is 0xFE. */
 void dispatch_window_fade_and_update_extents(Func800359FCState *state, Func800359FCEvent *event, void *callback_data) {

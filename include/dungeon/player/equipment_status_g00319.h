@@ -34,7 +34,7 @@ typedef struct S_80098614_0 {
 
 extern u8 D_800E07C0[];
 extern u8 D_800E07D3[];
-extern s32 *D_800E3D18[];
+extern s32 *actor_direction_sprites[];
 /* Retail sets a3 to 10 at 0x80099114 before reading it; no incoming argument. */
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
@@ -56,8 +56,8 @@ extern u8 D_800E081C[];
 extern u8 D_800E0844[];
 extern u8 D_800E0853[];
 extern u8 D_800E0862[];
-extern u8 D_800E3CF8[];
-extern u8 D_800E3D80[];
+extern u8 unequipped_actor_sprite_sources[];
+extern u8 equipped_actor_sprite_sources[];
 extern void load_equipment_change_palette(s32);
 extern u8 D_800DD2EC[];
 extern u8 D_800E0874[];

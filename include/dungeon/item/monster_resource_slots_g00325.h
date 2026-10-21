@@ -7,10 +7,10 @@
 
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 
-extern u8 D_800E3DB0[];
+extern u8 monster_resource_cache_slots[];
 extern void retain_sprite_resource_in_cache(s16);
-extern u8 D_800E3DA0[];
-extern u8 D_800E3DE0[];
+extern u8 monster_resource_cache_ids[];
+extern u8 monster_fixed_resource_slot[];
 extern u8 D_800E3DD0[];
 extern void mark_sprite_resource_for_purge(s32);
 

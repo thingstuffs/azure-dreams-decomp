@@ -1,9 +1,9 @@
 #include "common.h"
+#include "engine/cd.h"
+#include "slus.h"
 
 typedef struct { u32 v; } __attribute__((packed)) UA32;
 
-extern void submit_global_cd_command_six(void);
-extern void drain_cd_command_queue(void);
 extern void allocate_item_without_data_override(void *a0, void *a1, s32 a2, void *a3);
 extern UA32 D_80080B50[];
 

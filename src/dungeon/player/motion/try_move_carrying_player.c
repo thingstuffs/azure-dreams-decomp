@@ -16,9 +16,9 @@ typedef struct S_8008C13C_2 {
     s8 unk_9B;
 } S_8008C13C_2;   /* arg0 in try_move_carrying_player */
 
-extern u8 D_8008EAC8[];
-extern u8 D_800DCFD8[8];
-extern u8 D_800DD0B8[8];
+extern u8 player_action_tag[];
+extern u8 player_carry_move_frames[8];
+extern u8 player_carry_frames[8];
 
 extern void set_sprite_animation_frame(void *, s32, s32, s32);
 extern void check_tile_entry_at_adjusted_height(void *, s32, SpriteFrameState *, void *);
@@ -60,7 +60,7 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
         ((S_8008C13C_2 *)controller)->unk_8C.s = 0;
 
         if (move_result != 4) {
-            if (D_80013714 & 2) {
+            if (system_update_flags & 2) {
                 g_dungeon_status.flags |= 0x80;
             } else if ((dungeon_state->buttons & 0x20) && check_action_available_without_nearby_actor()) {
                 g_dungeon_status.flags |= 0x80;
@@ -68,10 +68,10 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
         }
 
         if ((g_dungeon_status.flags & 0x80) || (move_result == 1)) {
-            if (actor->frameTable != D_800DCFD8) {
-                actor->frameTable = D_800DCFD8;
+            if (actor->frameTable != player_carry_move_frames) {
+                actor->frameTable = player_carry_move_frames;
                 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
-                set_sprite_animation_frame(actor, D_800DCFD8[direction_index], 0, 1);
+                set_sprite_animation_frame(actor, player_carry_move_frames[direction_index], 0, 1);
             }
             process_unflagged_linked_entries_alt(actor_data->unk_5C);
             process_unflagged_linked_entries(actor_data->unk_5C);
@@ -93,10 +93,10 @@ void try_move_carrying_player(void *controller, s32 actor_id, SpriteFrameState *
 
         append_packed_action_record(actor_data, 8, 0, 0);
     } else {
-        actor->frameTable = D_800DD0B8;
+        actor->frameTable = player_carry_frames;
         direction_index = ((dungeon_state->view.camera_rotation.parts.viewAngle + actor_data->facing + 0x100) >> 9) & 7;
-        set_sprite_animation_frame(actor, D_800DD0B8[direction_index], 0, 1);
-        ((S_8008C13C_2 *)controller)->unk_8C.u = D_8008EAC8;
+        set_sprite_animation_frame(actor, player_carry_frames[direction_index], 0, 1);
+        ((S_8008C13C_2 *)controller)->unk_8C.u = player_action_tag;
         return;
     }
 

@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/item.h"
 
 /* 20-byte item record; offset 0xC is the pointer this function shuffles. */
 typedef struct S_8004AA78_Rec {
@@ -25,7 +26,6 @@ typedef struct S_8004AA78_Buf {
 } S_8004AA78_Buf;
 
 extern S_8004AA78_CategoryEntry itemCategoryTable[];
-extern void shuffle_byte_array(u8 *indices, s32 count);
 
 /* Shuffles nonzero item pointers among occupied records in a category. */
 void shuffle_category_item_data(s32 category) {

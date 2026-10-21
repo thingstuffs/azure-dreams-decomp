@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern void *memcpy(void *dest, void *src, s32 n);
+#include "engine/item.h"
+#include "sdk/libc.h"
 
 /* Sort elements in place by selection sort using the supplied comparator. */
 void selection_sort_elements(u8 *base, s32 count, s32 size, s32 (*compar)(u8 *, u8 *)) {

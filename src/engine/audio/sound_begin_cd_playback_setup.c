@@ -1,5 +1,7 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "slus.h"
 
 /* Canonical status-block struct shared across the D_800847D0 family (see
    w_800552C8.c, w_80054C58.c, w_800540A8.c, w_80054E00.c). field2C/field2D
@@ -15,10 +17,6 @@ typedef struct S_80084904 {
 } S_80084904;
 
 extern S_80084904 audio_sequence_task_mode;
-
-extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
-extern void submit_scaled_driver_halfword_pair(s32 a0, s32 a1, s32 a2);
-extern s32 Control_CD(s32 a0, void *a1, void *a2);
 
 /* Enters mode 2, activates pending status fields, resets subsystems, and registers status callbacks. */
 void sound_begin_cd_playback_setup(void) {

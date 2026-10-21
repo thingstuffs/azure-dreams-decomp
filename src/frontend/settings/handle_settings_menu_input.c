@@ -33,12 +33,12 @@ typedef struct Menu
     u16 flags;
 }
 Menu;
-extern u8 D_80080A84;
+extern u8 animation_tick_scale;
 extern u8 runtime_state_restore_requested;
 extern s32 saved_cd_playback_volume_scale;
 extern s32 saved_sequence_volume_scale;
 extern s32 saved_voice_gain_scale;
-extern s32 D_8008B2F0[3];
+extern s32 volume_slider_levels[3];
 extern s32 runtime_saved_state_word;
 extern s32 render_screen_fade_decreasing_intensity();
 extern s32 render_screen_fade_increasing_intensity();
@@ -74,7 +74,7 @@ void handle_settings_menu_input(Menu *menu)
     s32 channel_or_color;
     s32 blue;
     s32 scaled_b;
-    D_80080A84 = 1;
+    animation_tick_scale = 1;
     pad = &g_game_work;
     switch (menu->state) {
     case 0:
@@ -123,7 +123,7 @@ void handle_settings_menu_input(Menu *menu)
             case 2:
             case 3:
                 channel_or_color = row - 1;
-                levels = D_8008B2F0;
+                levels = volume_slider_levels;
 
                 level_slot = levels + channel_or_color;
                 adjusted_value = *level_slot + delta;
@@ -139,7 +139,7 @@ void handle_settings_menu_input(Menu *menu)
                 }
                 volume_a = &saved_sequence_volume_scale;
                 scaled_a = 0x7FFF;
-                level = D_8008B2F0[0];
+                level = volume_slider_levels[0];
                 if (level < 0x100) {
                     scaled_a = level << 7;
                 }
@@ -149,14 +149,14 @@ void handle_settings_menu_input(Menu *menu)
                 }
                 while (0);
                 volume_b = &saved_voice_gain_scale;
-                level = D_8008B2F0[1];
+                level = volume_slider_levels[1];
                 if (level < 0x100) {
                     scaled_b = level << 7;
                 }
                 *volume_b = scaled_b;
                 volume_c = &saved_cd_playback_volume_scale;
                 volume_or_red = 0x7FFF;
-                level = D_8008B2F0[2];
+                level = volume_slider_levels[2];
                 if (level < 0x100) {
                     volume_or_red = level << 7;
                 }

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 D_800E3CD8[8];
+extern s16 dungeon_floor_marker_entries[8];
 extern void submit_activation_command(void);
 extern void create_transformed_render_object(s16 x, s16 y, s32 color, s32 size, s32 count);
 
@@ -12,7 +12,7 @@ void draw_green_type_two_markers(void) {
 
     submit_activation_command();
     for (entry_count = 0; entry_count < 4; entry_count++) {
-        record = &D_800E3CD8[entry_count * 4];
+        record = &dungeon_floor_marker_entries[entry_count * 4];
         if (record[0] != 2) {
             break;
         }

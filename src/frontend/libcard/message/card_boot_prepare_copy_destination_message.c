@@ -19,13 +19,12 @@ typedef struct TableEntry {
 } TableEntry;
 
 #include "modules/main_server_ship_interfaces.h"
-extern void card_boot_show_insufficient_space_card_advice(void *value);
-extern void card_boot_show_overwrite_protected_notice(void *value);
-extern void card_boot_enter_copying_progress(void *object_data);
+#include "frontend/libcard.h"
+#include "frontend/libcard/message.h"
 
 extern u8 D_80024FAC[];
 extern u8 D_80024FFC[];
-extern TableEntry D_80083E98[];
+extern TableEntry card_save_slot_metadata[];
 
 /* Selects a record update based on its table entry and status and assigns data pointers. */
 void card_boot_prepare_copy_destination_message(void *context)
@@ -38,7 +37,7 @@ void card_boot_prepare_copy_destination_message(void *context)
     table_index = ((S_800254E4_0 *)record)->unk_28;
     context = record - 0x20;
 
-    if (D_80083E98[table_index].value == 0) {
+    if (card_save_slot_metadata[table_index].value == 0) {
         status = card_boot_get_remaining_block_summary();
         context = 0;
         context = record - 0x20;

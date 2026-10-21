@@ -4,7 +4,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 typedef struct S_800CB9DC_0_pre {
     u16 unk_00;
@@ -80,8 +80,8 @@ void update_map_cell_flags_with_item_limit();             /* extern */
 s32 detach_record_and_update_slot_state();                      /* extern */
 s32 check_action_boundary_and_set_flag();                            /* extern */
 extern s32 D_80010234;
-extern s16 D_80081468[3];
-extern u8 D_80082E6B;
+extern s16 floor_generation_state[3];
+extern u8 scene_mode_code;
 
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
 void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, void *animation_in) {
@@ -104,7 +104,7 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
     elapsed_frames = ((S_800CB9DC_0 *)trap_state_in)->unk_06 + 1;
     ((S_800CB9DC_0 *)trap_state_in)->unk_06 = elapsed_frames;
     if (((s16) elapsed_frames >= 0x41) || ((animation_in = (void *)(u32)(animation->unk_14 & 0x8000), (u32)animation_in) != 0)) {
-        if (actor == ((u8 *)D_800E3D7C)) {
+        if (actor == ((u8 *)dungeon_actor_ring_anchor)) {
             s16 *trap_counts;
             u8 transition_id;
             u8 *transition_page;
@@ -119,8 +119,8 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
                 snapshot_inventory_and_familiars(actor);
                 snapshot_inventory_familiar_records();
                 check_action_boundary_and_set_flag();
-                transition_page = (u8 *)D_80080000;
-                trap_counts = D_80081468;
+                transition_page = (u8 *)resident_globals_page;
+                trap_counts = floor_generation_state;
                 transition_id = transition_page[0x2E6B];
                 floors_ascended = motion_state->unk_234 + 1;
                 go_up_trap_count = ((S_800CB9DC_5 *)trap_counts)->unk_04;

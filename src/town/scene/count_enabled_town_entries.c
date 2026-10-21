@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u8 D_8001791C[96];
+extern u8 town_selection_records[96];
 s32 func_8001E670();
 
 // Count entries 1 through 7 whose field at offset 4 passes func_8001E670.
@@ -12,7 +12,7 @@ s32 count_enabled_town_entries(void) {
 
     matchingEntryCount = 0;
     entryIndex = 1;
-    entryTable = D_8001791C;
+    entryTable = town_selection_records;
     entry = entryTable + 0xC;
     do {
         if (func_8001E670(*(s16 *)(entry + 4)) != 0) {

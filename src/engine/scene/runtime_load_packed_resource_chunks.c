@@ -1,5 +1,12 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "engine/cd.h"
+#include "engine/effect.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
+#include "slus/data.h"
 
 typedef struct Info80046E38 {
     s32 *data;
@@ -11,15 +18,7 @@ typedef struct Pair80046E38 {
     s32 second;
 } Pair80046E38;
 
-extern s32 DrawSync(s32);
-extern void Control_CD(s32, s32 *, s32);
-extern void drain_cd_command_queue(void);
-extern void pack_tagged_resource_descriptor(s32, s32, s32 *, s32);
-extern u8 *decompress_lz(u8 *, u8 *);
-extern void runtime_set_list_pointers_from_type_offsets(u8 *, s16);
-
 extern Info80046E38 *resource_type_list_layouts[];
-extern s32 gpu_scratch_ring_size;
 extern u8 *gpu_scratch_write_pointer;
 extern u8 *gpu_scratch_buffer_base[3];
 
@@ -66,7 +65,7 @@ void runtime_load_packed_resource_chunks(s16 entry_id, u8 *stream)
     }
 
     runtime_set_list_pointers_from_type_offsets(stream_start, entry_id);
-    if (D_80082E60.mode != 2) {
+    if (runtime_dispatch_state.mode != 2) {
         gpu_scratch_ring_size = 0x8000;
     } else {
         gpu_scratch_ring_size = 0x4000;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/sprite.h"
 
 /* Struct with a 16-bit flags field at offset 0x14, matching the sibling
  * func_80048374's Struct_80048374 layout. */
@@ -6,9 +8,6 @@ typedef struct {
     u8 pad[0x14];
     u16 unk14;
 } S_80048AC8;
-
-extern void advance_actor_step_sequence(void *actor);
-extern void register_sprite_slot(void *entity, void *slot_index);
 
 /* Updates the entity, then dispatches and clears bit 0x20 if any flags in 0x1220 are set. */
 void step_actor_animation(S_80048AC8 *entity, void *slot_index)

@@ -1,6 +1,10 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/resource.h"
+#include "engine/window.h"
+#include "engine/window/message.h"
 
 typedef struct Func80035BE0State {
     u8 pad00[0x64];
@@ -11,10 +15,6 @@ typedef struct Func80035BE0State {
     u8 sound_id;
     s8 sound_arg;
 } Func80035BE0State;
-
-extern void activate_indexed_resource_and_upload_images(u8 sound_id, s8 sound_arg);
-extern void initialize_shared_sprite_fade_display(void);
-extern void grow_window_extent_to_sixty_four(void *, void *);
 
 /* Count down, then play the configured sound and advance the callback. */
 void window_wait_then_play_sound(Func80035BE0State *state) {

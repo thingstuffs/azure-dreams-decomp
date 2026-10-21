@@ -14,7 +14,7 @@ extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(s32);
 
 extern u8 D_8009B454[];
-extern s16 D_800D45AA[];
+extern s16 terrain_height_limits[];
 
 /* Updates motion, handles ground contact, and checks the tile height limit. */
 void update_falling_motion(void *owner, void *actor, void *motion, s32 callback_arg) {
@@ -26,7 +26,7 @@ void update_falling_motion(void *owner, void *actor, void *motion, s32 callback_
         *(s32 *)((u8 *)motion + 0x14) = 0x200000;
     }
     add_motion_deltas_to_position(motion);
-    ground_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&D_800FE488));
+    ground_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&position_query_scratch));
     call_the_same_context_both_processing_routines(actor, motion);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(actor, motion);
     ground_height_s32 = ground_height;
@@ -47,7 +47,7 @@ void update_falling_motion(void *owner, void *actor, void *motion, s32 callback_
             *(s16 *)((u8 *)motion + 2), *(s16 *)((u8 *)motion + 6)));
         if (tile_type != 0) {
             s16 height = *(s16 *)((u8 *)motion + 0xA);
-            s16 height_limit = D_800D45AA[tile_type];
+            s16 height_limit = terrain_height_limits[tile_type];
 
             if (height > height_limit) {
                 SD_Call(0x517);

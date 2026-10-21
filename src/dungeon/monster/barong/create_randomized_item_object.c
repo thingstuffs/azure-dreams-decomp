@@ -96,8 +96,8 @@ typedef struct {
 extern void register_node(Entity *, void *);
 extern s32 select_random_replacement_item(DungeonArg *selection, u8 *context);
 
-extern DungeonGroup D_80073414[];
-extern s32 D_8007361C[256];
+extern DungeonGroup item_category_groups[];
+extern s32 item_display_icon_words[256];
 extern s32 D_801747F0;
 extern DirectionVector D_801755E0[];
 
@@ -151,8 +151,8 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     work->x_cell = (s16)source_pos->x / 0x40;
     work->y_cell = (s16)source_pos->y / 0x40;
 
-    results = D_8007361C;
-    item_category_table = D_80073414;
+    results = item_display_icon_words;
+    item_category_table = item_category_groups;
     render->color.c.b = 0x80;
     render->color.c.g = 0x80;
     render->color.c.r = 0x80;

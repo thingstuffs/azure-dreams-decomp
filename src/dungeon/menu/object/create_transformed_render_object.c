@@ -88,7 +88,7 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
         *(s32 *)((u8 *)state + 0x28) = update_param;
         *(s16 *)((u8 *)state + 0x2E) = (s16)mode;
         if (mode == 0) {
-            D_800E296C |= 0x40000;
+            dungeon_floor_flags |= 0x40000;
         }
     }
     return object;

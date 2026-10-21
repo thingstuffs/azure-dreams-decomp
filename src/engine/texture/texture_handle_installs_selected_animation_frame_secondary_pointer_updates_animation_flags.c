@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/texture.h"
 
 /* 8-byte "frame" element: a scalar and a pointer field */
 typedef struct S_800489F4_Frame {

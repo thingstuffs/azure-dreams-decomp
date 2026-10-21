@@ -66,7 +66,7 @@ typedef struct S_80D65810_5 {
 s32 func_8003DB94();
 s32 register_node();
 s32 rand();
-extern u8 D_800DE870[];
+extern u8 effect_sprite_sources[];
 extern void project_sprite_chain(void);
 extern void func_8014CD34(void);
 
@@ -129,7 +129,7 @@ void create_baloon_puff_effect_slot_a(s32 unused_0, void *origin_ptr_in, s32 unu
         sprite->unk_0C = 0x80;
         sprite->unk_12 = 0x7DCF;
         sprite->unk_14 = (u16)(sprite->unk_14 | 0x100);
-        func_8003DB94(sprite, D_800DE870, 0);
+        func_8003DB94(sprite, effect_sprite_sources, 0);
     }
 }
 

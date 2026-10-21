@@ -41,7 +41,7 @@ void *allocate_list_node();                  /* extern */
 s32 register_node(); /* extern */
 M2C_UNK select_sprite_entry();         /* extern */
 void * create_tracked_effect(); /* extern */
-extern s8 D_800DCECC[];
+extern s8 view_direction_depth_biases[];
 extern M2C_UNK D_80172610;
 extern u8 D_80174C74[];
 
@@ -101,7 +101,7 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         direction_index += 0x100;
         direction_index >>= 9;
         direction_index &= 7;
-        ((SpriteFrameState *)sprite)->unk_06 = (s16) (D_800DCECC[direction_index] * 4);
+        ((SpriteFrameState *)sprite)->unk_06 = (s16) (view_direction_depth_biases[direction_index] * 4);
         ((S_80172B00_2 *)parent_data)->unk_B0 = (u8) (((S_80172B00_2 *)parent_data)->unk_B0 + 1);
         create_tracked_effect(effect_object, setup_mode, sprite + 0x2C, effect_data + 0x2A);
     }

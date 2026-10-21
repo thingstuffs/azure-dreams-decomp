@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/node.h"
+#include "slus/data.h"
 
 typedef struct RegistrationNode {
     u8 pad00[0x14];
@@ -9,7 +11,6 @@ typedef struct RegistrationNode {
 
 extern s32 registered_draw_callbacks[0x20];
 extern RegistrationNode *registered_draw_objects[0x20];
-extern s32 node_registration_ids[];
 
 /* Registers a node under an existing or newly allocated registration ID. */
 s32 register_node(RegistrationNode *entry, s32 registration_id)

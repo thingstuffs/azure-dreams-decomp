@@ -42,8 +42,8 @@ s32 event_pool_clean_in(void)
         register_node(object, project_sprite_chain);
         ((EntityRec *)body)->x.w.i = 0x10;
         color = 0x00800000;
-        motion[0] = D_80083780.x.v;
-        origin = &D_80083780;
+        motion[0] = view_reference_entity.x.v;
+        origin = &view_reference_entity;
         motion[1] = origin->y.v;
         color |= 0x8080;
         origin_z = origin->z.v;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 typedef struct { u8 bytes[4]; } Bytes4;
 typedef struct {
@@ -10,8 +12,6 @@ typedef struct {
     u8 x;
     u8 y;
 } Fields;
-
-extern u8 D_80400544[];
 
 /* Initializes four pairs of records from D_80400544 and marks the final pair. */
 void *init_frame_primitive_pairs(void *buffer)

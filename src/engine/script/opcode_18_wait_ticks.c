@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script.h"
 
 typedef struct Func80039578State {
     u8 pad_00[0x10];

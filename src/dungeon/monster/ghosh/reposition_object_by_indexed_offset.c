@@ -14,7 +14,7 @@ extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void set_record_integer_tile_center(s32, s32, s32);
 extern Copy12 D_8016A858[];
-extern u8 *D_80174704;
+extern u8 *ghosh_actor_node;
 
 /* Reposition the current object using an indexed offset from the reference coordinates. */
 void reposition_object_by_indexed_offset(s32 offset_index) {
@@ -33,7 +33,7 @@ void reposition_object_by_indexed_offset(s32 offset_index) {
     s32 y;
     s32 updated_y;
 
-    state = D_80174704;
+    state = ghosh_actor_node;
     object = *(u8 **)(state + 0xC);
     old_tile_mask = 0x3000;
     status = (Status *)state + 1;
@@ -46,7 +46,7 @@ void reposition_object_by_indexed_offset(s32 offset_index) {
     }
     offset_bytes = (u8 *)&offsets;
     update_map_cell_flags_with_item_limit(x, y, old_tile_mask);
-    origin = &D_80082E80;
+    origin = &reference_tile_object;
     offset_pos = offset_index << 1;
     xy_offset = (s16 *)(offset_bytes + offset_pos);
     object[0x24] = origin->tile_position.parts.tile_x + ((u8 *)xy_offset)[0];

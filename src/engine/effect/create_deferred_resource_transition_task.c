@@ -1,8 +1,7 @@
 #include "common.h"
-
-extern s32 create_deferred_resource_transition_task(s32 a0, s32 a1, void *a2, void *a3);
-extern void dispatch_after_controller_release(void *a0);
-extern void load_transition_image_and_begin_data_read(void *a0);
+#include "engine/effect.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
 
 typedef struct S_8004ED5C {
     void (*unk18)(void *);

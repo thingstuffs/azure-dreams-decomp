@@ -27,7 +27,7 @@ extern struct { s32 v; s32 pad[2]; } D_800814A0;
 void process_mode_gated_entity(Entity *entity) {
     if (entity) {
         advance_paired_object_sequence(entity);
-        if (D_80082E60.mode == 1 || D_800294A8[entity->field_18](entity->field_0, entity->field_10)) {
+        if (runtime_dispatch_state.mode == 1 || D_800294A8[entity->field_18](entity->field_0, entity->field_10)) {
             ((S_80025480_0_pre *)entity)[-1].unk_00 |= 0x8000;
             D_800814A0.v |= 0x8000;
         }

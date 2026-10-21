@@ -1,5 +1,6 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
+#include "main.h"
 
 extern s32 open();
 extern s32 lseek();

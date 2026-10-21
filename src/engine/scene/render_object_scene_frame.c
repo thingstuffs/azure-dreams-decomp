@@ -1,4 +1,13 @@
 #include "common.h"
+#include "engine/audio.h"
+#include "engine/effect.h"
+#include "engine/node.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
+#include "engine/texture.h"
+#include "sdk/libetc.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 typedef struct S_80083160_ctx
 {
@@ -8,7 +17,7 @@ typedef struct S_80083160_ctx
 }
 S_80083160_ctx;
 extern S_80083160_ctx *D_80083160[3];
-extern u8 D_801C9E40[];
+extern u8 upper_draw_context[];
 typedef struct S_80081480
 {
     s32 field_0;
@@ -23,21 +32,8 @@ typedef struct S_8008148C
 S_8008148C;
 extern S_80081480 gpu_scratch_write_pointer;
 extern S_8008148C gpu_scratch_buffer_base;
-extern u8 D_80080A84[16];
+extern u8 animation_tick_scale[16];
 extern u8 scene_skip_vsync[16];
-extern void PutDispEnv(void *a0);
-extern void PutDrawEnv(void *a0);
-extern void DrawOTag(s32 *a0);
-extern void ClearOTagR(s32 *a0, s32 a1);
-extern void DrawSync(s32 a0);
-extern void VSync(s32 a0);
-extern void run_runtime_callbacks(void);
-extern void dispatch_and_clear_four_pointer_slots(void);
-extern void func_8003E758(void);
-extern void drain_audio_commands_and_service_channels(void);
-extern void update_controller_buttons_and_triggers(void);
-extern void tick_screen_fade_slots(void);
-extern void update_active_nodes(void);
 /* Draw the current frame, swap draw buffers, and wait for optional vertical synchronization. */
 void render_object_scene_frame(void)
 {
@@ -55,12 +51,12 @@ void render_object_scene_frame(void)
     *(s32 *)0x80081480 = saved_value;
     run_runtime_callbacks();
     update_controller_buttons_and_triggers();
-    next_buffer = D_801C9E40;
+    next_buffer = upper_draw_context;
     if (D_80083160[0] == ((S_80083160_ctx *) next_buffer)) {
         next_buffer = next_buffer + 0x108D4;
     }
     else {
-        next_buffer = D_801C9E40;
+        next_buffer = upper_draw_context;
     }
     D_80083160[0] = (S_80083160_ctx *) next_buffer;
     ClearOTagR((s32 *) (((u8 *) next_buffer) + 0x70), 0x218);

@@ -640,7 +640,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             }
             sprite->clut = 0x7DCF;
             sprite->flags |= 0x100;
-            func_8003DB94(sprite, D_800DE870, 0);
+            func_8003DB94(sprite, effect_sprite_sources, 0);
         }
     }
     timer = ((S_800247C0_0 *)effect)->unk_28;
@@ -654,7 +654,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
         object = ((S_800247C0_0 *)effect)->unk_20;
         set_or_clear_actor_status_slot(object + 0x20, 0x18, 0x14);
         ((S_800247C0_7 *)effect_state)->unk_28 = 0;
-        completion_state = ((s32)D_800E3D7C);
+        completion_state = ((s32)dungeon_actor_ring_anchor);
         ((S_800247C0_7 *)effect_state)->unk_64 = -1;
         ((S_800247C0_7 *)effect_state)->unk_60 = completion_state;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
@@ -735,7 +735,7 @@ void clear_circular_list_flags(void)
     s32 link_value;
     s32 next;
 
-    link = D_800814A8;
+    link = primary_actor_record;
     /* unk_5C links to the next object's header; its record follows the header */
     next = link->next_actor_header;
     link_value = (u32)link;
@@ -1317,7 +1317,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             transform->color.c.b = brightness;
             transform->color.c.g = brightness;
             transform->color.c.r = brightness;
-            func_8003DB94(transform, D_800DE870, 0);
+            func_8003DB94(transform, effect_sprite_sources, 0);
         }
         tile_max = iteration + 1;
         iteration = tile_max;
@@ -1502,7 +1502,7 @@ void update_owner_following_effect(void *effect_in, void *position_in, void *vis
     S16_AT(visual_in, 0x10) = half_tile;
     U16_AT(visual_in, 0x14) |= 0xC;
     owner = PTR_AT(effect_in, 0x20);
-    world = ((u8 *)D_800814A8);
+    world = ((u8 *)primary_actor_record);
 
     if (owner == 0) {
         state = S16_AT(effect_in, 0x2C);
@@ -1543,7 +1543,7 @@ void update_owner_following_effect(void *effect_in, void *position_in, void *vis
                               S16_AT(effect_in, 0x3A), S16_AT(effect_in, 0x38));
                 copy_and_expand_effect_record(effect_in, S32_AT(visual_in, 0));
             }
-            if (S16_AT(((u8 *)D_800814A8), 0x96) == 0) {
+            if (S16_AT(((u8 *)primary_actor_record), 0x96) == 0) {
                 U16_AT(effect_in, 0x30) = 0;
                 S32_AT(effect_in, 0x50) = 0x200000;
                 S32_AT(effect_in, 0x5C) = 0;
@@ -1763,7 +1763,7 @@ u16 angle;
             alloc_parent = (uptr)objects[0];
         } else {
             alloc_page = (u8 *)0x80080000;
-            alloc_parent = (uptr)&D_80083498;
+            alloc_parent = (uptr)&scene_object_list_anchor;
         }
         new_object = allocate_list_node(0x12, (Object *)alloc_parent);
         index_offset = ((s32)(s16)object_index) << 2;
@@ -2083,7 +2083,7 @@ void create_offset_colored_effect(
         }
         sprite->clut = 0x7DCF;
         sprite->flags = (u16) (sprite->flags | 0x100);
-        func_8003DB94(sprite, D_800DE870, 0);
+        func_8003DB94(sprite, effect_sprite_sources, 0);
     }
 }
 /* MECHANISM: The ten-argument ABI and reused pointer local produce the retail
@@ -2146,7 +2146,7 @@ typedef struct S_func_80026418_0 {
 } S_func_80026418_0;
 
 extern u8 D_8006E8A0[];
-extern u8 D_8006EE50[];
+extern u8 particle_fade_pixels[];
 
 extern void clear_circular_list_flags(void);
 extern void upload_vram_row_and_cache(void *, s32, s32, s32);
@@ -2172,17 +2172,17 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
     state = effect->unk_0A.s;
     switch (state) {
     case 0:
-        select_nearby_target_and_initialize_slot((u8 *)((GlobalObj *)D_800814A8) - 0x20, ((Position *)&D_80083780), 8, 0x400);
+        select_nearby_target_and_initialize_slot((u8 *)((GlobalObj *)primary_actor_record) - 0x20, ((Position *)&view_reference_entity), 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
-        ((PlayerRecord *)D_800814A8)->unk_102 = 1;
+        ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
         rect[0] = rect_xy;
         rect[1] = rect_size;
         decode_and_upload_image(D_8006E8A0, rect);
-        upload_vram_row_and_cache(D_8006EE50, 0x7AC0, 1, 2);
+        upload_vram_row_and_cache(particle_fade_pixels, 0x7AC0, 1, 2);
         clear_circular_list_flags();
 
-        owner = ((GlobalObj *)D_800814A8);
+        owner = ((GlobalObj *)primary_actor_record);
         owner->unk_F4 = 0;
         owner->unk96 = 30;
         next_state = effect->unk_0A.u;
@@ -2212,12 +2212,12 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
 
         effect->unk_28.u = timer + 1;
         if ((s16)timer >= 0x52) {
-            owner = ((GlobalObj *)D_800814A8);
+            owner = ((GlobalObj *)primary_actor_record);
             effect->unk_1C.s = 0x21;
             owner->unkA6 = owner->unkA6 - 1;
             owner->unkA8 = effect->unk_08;
             next_state = effect->unk_0A.u;
-            direction = ((u16)D_800814A8->facing);
+            direction = ((u16)primary_actor_record->facing);
             effect->unk_0A.u = next_state + 1;
             effect->unk_28.u = 0;
             effect->unk_24 = (direction >> 9) & 7;
@@ -2225,16 +2225,16 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
 
         particle_index = 0;
         if (effect->unk_28.s == 0x4A) {
-            ObjectPosition *effect_position = &D_80083780;
+            ObjectPosition *effect_position = &view_reference_entity;
 
             func_80025CE8((s16)((u16)effect_position->x.w.i),
                           (s16)((u16)effect_position->y.w.i),
                           (s16)((u16)effect_position->z.w.i),
-                          (s16)((u16)D_800814A8->facing));
+                          (s16)((u16)primary_actor_record->facing));
         }
 
-        effect->unk_24 = (((u16)D_800814A8->facing) >> 9) & 7;
-        position = &D_80083780;
+        effect->unk_24 = (((u16)primary_actor_record->facing) >> 9) & 7;
+        position = &view_reference_entity;
         offset_base = offsets.entries;
         do {
             s32 spread_y;
@@ -2300,7 +2300,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             colors->view.tint.parts.tint_g += 10;
             colors->view.tint.parts.tint_b += 10;
         }
-        if ((D_80082E80.sprite_flags & 0x8000) == 0) {
+        if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
             effect->unk_1C.u = effect->unk_1C.u - 1;
             if (effect->unk_1C.s >= 0) {
                 return;
@@ -2335,7 +2335,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
             g_dungeon_status.activity_counts.parts.pending_action_count =
                 ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         }
-        D_80082E80.unk_006 = 0;
+        reference_tile_object.unk_006 = 0;
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;

@@ -2,7 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s16 D_80080B04;
+extern s16 tile_key_pair_count;
 extern s32 D_80081508;
 
 typedef struct S_800AC454_0 {
@@ -17,5 +17,5 @@ void clear_first_record_field_and_counter(void) {
     record = func_8003FC64(0);
     D_80081508 = record + 0x20;
     ((S_800AC454_0 *)record)->unk_20 = 0;
-    D_80080B04 = 0;
+    tile_key_pair_count = 0;
 }

@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 
 extern u8 D_80026F80[];
-extern u8 D_800F7968[16];
+extern u8 tako_minigame_sprites[16];
 extern u8 D_800F79E8[16];
 
 extern s32 rand(void);
@@ -79,12 +79,12 @@ void update_tako_target(A *entity, C *motion, D *sprite) {
 
     func_800478B8(sprite);
     if (entity->flags & 4) {
-        if (sprite->unk0 == (void *)D_800F7968) {
+        if (sprite->unk0 == (void *)tako_minigame_sprites) {
             func_8003DB94(sprite, D_800F79E8, 0);
         }
     }
     if (sprite->h14 & 0x6000) {
-        func_8003DB94(sprite, D_800F7968, 0);
+        func_8003DB94(sprite, tako_minigame_sprites, 0);
     }
 
     state = entity->state;

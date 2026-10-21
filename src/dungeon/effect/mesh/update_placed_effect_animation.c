@@ -119,7 +119,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             u16 next_state;
 
             next_state = self->state;
-            init_page = D_800814A8;
+            init_page = primary_actor_record;
             self->counter = 0;
             next_state++;
             self->state = next_state;
@@ -164,13 +164,13 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             ActorRecord *player;
             s32 spawn_angle;
             s32 player_x;
-            player_x = D_80083780.x.v;
-            player = D_800814A8;
+            player_x = view_reference_entity.x.v;
+            player = primary_actor_record;
             position[0] = player_x;
-            position[1] = D_80083780.y.v;
+            position[1] = view_reference_entity.y.v;
             position[2] = (s32)player->ground_height << 16;
             spawn_angle = player->facing;
-            tile_map = &D_80082E80;
+            tile_map = &reference_tile_object;
             spawned_object = scan_monster_along_heading(player, tile_map->tile_position.parts.tile_x, tile_map->tile_position.parts.tile_y, spawn_angle, 8);
         }
         self->object = spawned_object;
@@ -192,7 +192,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                 {
                     ActorRecord *player;
 
-                    player = D_800814A8;
+                    player = primary_actor_record;
                     tile_step = dir_step_x[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
                     tile_step_2 = dir_step_y[(((u16)player->facing) >> 9) & 7];
@@ -202,7 +202,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                 ((S_81978428_6 *)target_pos)->unk_0A.s = get_surface_height_at_record(target_pos);
                 if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
                     ActorRecord *player;
-                    player = D_800814A8;
+                    player = primary_actor_record;
                     ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->ground_height);
                 }
 
@@ -210,7 +210,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                                     ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
                     ActorRecord *player;
 
-                    player = D_800814A8;
+                    player = primary_actor_record;
                     tile_step_3 = dir_step_x[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step_3 << 6;
                     tile_step_4 = dir_step_y[(((u16)player->facing) >> 9) & 7];
@@ -219,7 +219,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
                     ((S_81978428_6 *)target_pos)->unk_0A.s = get_surface_height_at_record(target_pos);
                     if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
                         ActorRecord *height_player;
-                        height_player = D_800814A8;
+                        height_player = primary_actor_record;
                         ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)height_player->ground_height);
                     }
                     break;
@@ -288,7 +288,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
         }
 
         {
-            u32 map_flags = D_80082E80.sprite_flags;
+            u32 map_flags = reference_tile_object.sprite_flags;
             if ((map_flags & 0x8000) == 0) {
                 timer = self->timer;
                 timer--;

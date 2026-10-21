@@ -138,7 +138,7 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    sprite[0x24], sprite[0x25], D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    sprite[0x24], sprite[0x25], reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &facing_result);
             }
         }

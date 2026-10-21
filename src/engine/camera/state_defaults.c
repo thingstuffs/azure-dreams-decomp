@@ -6,6 +6,7 @@ s32 camera_default_rotation_tail = 0x0;
 s32 camera_default_origin_xy = 0x0;
 s32 camera_default_origin_tail = 0x400;
 #include "engine/util/state_defaults.h"
+#include "engine/camera.h"
 
 void reset_camera_transition_fields(void)
 {
@@ -21,5 +22,5 @@ void reset_camera_transition_fields(void)
     *(s32 *)(state + 0x180) = 0;
     *(s32 *)(state + 0xB4) = 0;
     *(s32 *)(state + 0xF8) = 0;
-    bind_view_triplet_source(((u8 *)(&D_80083780)));
+    bind_view_triplet_source(((u8 *)(&view_reference_entity)));
 }

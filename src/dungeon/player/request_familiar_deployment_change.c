@@ -20,7 +20,7 @@ typedef struct S_80094270_5 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_800E3DF0[];
+extern s32 familiar_record_slots[];
 s16 check_familiar_deployment_placement(); /* extern */
 s32 reject_forbidden_familiar_recall();                         /* extern */
 void clear_player_linked_action_flags();                      /* extern */
@@ -90,7 +90,7 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
                 goto finish;
             } else {
                 clear_player_linked_action_flags();
-                D_80082E80.selected_item = 0;
+                reference_tile_object.selected_item = 0;
                 begin_familiar_deployment_change(actor, param_a, param_b, 0, 0);
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_60 = 0;
             }
@@ -103,7 +103,7 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
                     kind = item->unk_03 & 0x1F;
                     text = expand_text_control_codes(&D_800E0747, msg);
                     text = write_text_byte_and_advance(0xA, text);
-                    call_result = append_entity_display_text(D_800E3DF0[kind], text);
+                    call_result = append_entity_display_text(familiar_record_slots[kind], text);
                     text = expand_text_control_codes(&D_800E0766, call_result);
                 } else if (kind == 2) {
                     text = expand_text_control_codes(&D_800E0769, msg);
@@ -115,7 +115,7 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
                     text = expand_text_control_codes(&D_800E077C, text - 3);
                 } else {
                     bits = item->unk_03 & 0x1F;
-                    call_result = append_entity_display_text(D_800E3DF0[bits], msg);
+                    call_result = append_entity_display_text(familiar_record_slots[bits], msg);
                     text = expand_text_control_codes(&D_800E078A, call_result);
                 }
 
@@ -127,7 +127,7 @@ finish:
                 return 1;
             }
             ((Rec_func_8008ACDC_arg0 *)hdr3)->unk_C8 = 0;
-            D_80082E80.selected_item = (s32) item;
+            reference_tile_object.selected_item = (s32) item;
             begin_familiar_deployment_change(actor, param_a, param_b, out_a, (s32) out_b);
             clear_player_linked_action_flags();
         }

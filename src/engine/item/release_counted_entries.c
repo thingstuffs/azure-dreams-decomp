@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern void func_8004B1A4(u16 *a0);
+#include "engine/item.h"
+#include "engine/resource.h"
 
 /* Flags each non-null entry in the counted array and clears its pointer. */
 void release_counted_entries(u16 **entries, s32 count)

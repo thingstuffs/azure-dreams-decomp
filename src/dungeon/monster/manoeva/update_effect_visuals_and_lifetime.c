@@ -15,7 +15,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 extern u8 D_80170EE4[];
-extern Callback D_80176680[];
+extern Callback manoeva_callbacks[];
 
 
 typedef struct S_80170AD0_0 {
@@ -79,7 +79,7 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, void
         callback(entity_arg, motion_arg, monster_arg, actor);
     }
 
-    D_80176680[(*(u8 *)((u8 *)entity_arg + 0x9A))](entity_arg, motion_arg, monster_arg, actor);
+    manoeva_callbacks[(*(u8 *)((u8 *)entity_arg + 0x9A))](entity_arg, motion_arg, monster_arg, actor);
 
     if ((s16)direction_index != ((S_80170AD0_0 *)actor)->unk_6D) {
         try_move_actor_to_valid_position(entity_arg, motion_arg, monster_arg, actor);

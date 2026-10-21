@@ -1,20 +1,12 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/menu.h"
+#include "slus.h"
+#include "slus/data.h"
 
-extern s32 func_80049E6C(s32 a0);
-extern void reset_six_object_leaf_records(void *slots);
-
-extern u8 menu_leaf_template_0[12];
-extern u8 menu_leaf_template_1[12];
-extern u8 menu_leaf_template_2[12];
-extern u8 menu_leaf_template_3[12];
-extern u8 menu_leaf_template_4[12];
-extern u8 menu_leaf_template_5[12];
 extern u8 menu_leaf_template_6[12];
-extern u8 menu_leaf_variant_template_0[12];
-extern u8 menu_leaf_variant_template_1[12];
-extern u8 D_80081485[12];
+extern u8 held_item_kind_alias[12];
 
 typedef struct S_800506BC_Mid {
     s32 val;
@@ -61,7 +53,7 @@ void initialize_gauge_menu_display_rows(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx
     obj->arr5[3]->val = (s32) menu_leaf_template_3;
     obj->arr5[4]->val = (s32) menu_leaf_template_4;
     variant_entry = obj->slot18;
-    if (D_80081485[0] == 0) {
+    if (held_item_kind_alias[0] == 0) {
         variant_data = menu_leaf_variant_template_0;
     } else {
         variant_data = menu_leaf_variant_template_1;

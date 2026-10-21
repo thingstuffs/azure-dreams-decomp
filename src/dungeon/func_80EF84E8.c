@@ -154,7 +154,7 @@ void update_actor_action_animation_and_target(ActorActionView *action, EntityRec
             update_actor_status_and_food(entity);
             return;
         }
-        if (sprite->position.packed == ((TilePairView *)&D_80082E80.tile_position.parts.tile_x)->packed) {
+        if (sprite->position.packed == ((TilePairView *)&reference_tile_object.tile_position.parts.tile_x)->packed) {
             func_8015A490(action, motion, sprite, entity);
             return;
         }
@@ -162,7 +162,7 @@ void update_actor_action_animation_and_target(ActorActionView *action, EntityRec
         if ((action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
-                        entity, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        entity, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -192,8 +192,8 @@ void update_actor_action_animation_and_target(ActorActionView *action, EntityRec
         case 7:
             facing_angle = get_rounded_facing_and_rounding_flag(
                 sprite->position.tile.x, sprite->position.tile.y,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
-            player = D_800814A8;
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
+            player = primary_actor_record;
             entity->facing = facing_angle;
             if (player->unk_9A == 0x11) {
                 begin_actor_spell_action(action, motion, sprite, D_8015CEF0, update_actor_action_animation_and_target);
@@ -217,14 +217,14 @@ void update_actor_action_animation_and_target(ActorActionView *action, EntityRec
     status_flags = entity->flags1C;
     if (!(status_flags & 0x2000)) {
         if ((tile_id < 0) ||
-            !(D_800E2970[tile_id].flags & 2)) {
+            !(dungeon_rooms[tile_id].flags & 2)) {
             if (!(status_flags & 0x430)) {
                 if ((s16)compare_monster_neighbor_values(
                         sprite->position.tile.x, sprite->position.tile.y,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
                         sprite->position.tile.x, sprite->position.tile.y,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
                 }
             }
         }

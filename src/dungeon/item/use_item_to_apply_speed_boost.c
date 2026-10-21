@@ -22,9 +22,9 @@ extern M2C_UNK D_800E206A;
 s32 use_item_to_apply_speed_boost(void *entity, s32 event_id, s16 event_param) {
     u8 update_count;
 
-    if (entity == D_800E3D7C) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = event_id;
-        begin_deferred_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {

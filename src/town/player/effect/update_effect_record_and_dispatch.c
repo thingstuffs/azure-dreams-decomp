@@ -14,7 +14,7 @@ extern s32 D_800903FC[];
 #include "records/Rec_D_800CFCB4.h"
 extern Rec_D_800CFCB4 D_800CFCB4;
 #include "records/Rec_D_800FE490.h"
-extern Rec_D_800FE490 D_800FE490;
+extern Rec_D_800FE490 town_motion_list;
 
 
 typedef struct S_800A5638_0_pre {
@@ -27,7 +27,7 @@ typedef struct S_800A5638_0_pre {
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
 void update_effect_record_and_dispatch(void *handler, ObjectPosition *record, s32 context) {
     apply_the_enabled_movement_offsets_adding_z_offset_only_positive((struct IntVector3 *)(record));
-    update_the_s_field_10_using_callee_8008_fe_90(&D_800FE490);
+    update_the_s_field_10_using_callee_8008_fe_90(&town_motion_list);
     add_motion_deltas_to_position(record);
     update_object_and_clear_status_fields(record);
     store_position_and_compute_delta((s32 *)(record));

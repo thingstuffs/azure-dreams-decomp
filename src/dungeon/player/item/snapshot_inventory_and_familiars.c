@@ -6,8 +6,8 @@ typedef struct {
     u32 word[35];
 } Blob140;
 
-extern s32 D_800E3DF0[];
-extern u8 D_800E3E48[];
+extern s32 familiar_record_slots[];
+extern u8 familiar_record_storage[];
 
 extern void build_entity_slot_snapshot(void *, void *);
 extern s8 get_bounded_stride_index(s32, void *, s32, s32);
@@ -35,8 +35,8 @@ void snapshot_inventory_and_familiars(void *input_state) {
         s32 *record_slot;
 
         slot_index = 0x13;
-        record_table = D_800E3DF0;
-        record_buffer = D_800E3E48;
+        record_table = familiar_record_slots;
+        record_buffer = familiar_record_storage;
         entry_flags_ptr = (u8 *)0x8001024B;
         do {
             if (entry_flags_ptr[-2] == 0x13) {
@@ -68,8 +68,8 @@ void snapshot_inventory_and_familiars(void *input_state) {
         do {
             ((WordCopy *)(globals + 0x21E8))[slot_index] = ((WordCopy *)(globals + 0x248))[slot_index];
             (globals + 0x2238)[slot_index] = get_bounded_stride_index(((s32 *)(globals + 0x29C))[slot_index], (void *)0x80010248, 4, 0x14);
-            ((Blob140 *)(globals + 0x2260))[slot_index] = ((Blob140 *)D_800E3E48)[slot_index];
-            (globals + 0x224C)[slot_index] = get_bounded_stride_index(D_800E3DF0[slot_index], D_800E3E48, 0x8C, 0x14);
+            ((Blob140 *)(globals + 0x2260))[slot_index] = ((Blob140 *)familiar_record_storage)[slot_index];
+            (globals + 0x224C)[slot_index] = get_bounded_stride_index(familiar_record_slots[slot_index], familiar_record_storage, 0x8C, 0x14);
             slot_index -= 1;
         } while (slot_index >= 0);
     }

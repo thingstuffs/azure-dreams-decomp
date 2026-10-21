@@ -1,15 +1,12 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "slus/data.h"
 
 /* The shared task record is passed to the pending-read check. */
 
 /* Declared as an array (>8B) so gcc emits %hi/%lo addressing (lui+lw), matching
  * the target's lui v1,%hi(D_800847DC); lw v1,%lo(D_800847DC)(v1) sequence. */
-extern u32 cd_stream_end_sector[3];
-
-extern int sound_get_cd_sector_position(void);
-extern int update_audio_fade(SoundTask *a0);
-extern void audio_handle_stream_control_event(s32 a0);
 
 /* Fires event 0x74 when the CD read position reaches its target or the pending read check fails. */
 void check_cd_stream_end(void) {

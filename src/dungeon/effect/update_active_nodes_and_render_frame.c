@@ -5,10 +5,10 @@ typedef struct {
     u32 flags;
 } DungeonControl;
 extern s32 D_800814A0;
-extern u8 D_80080A86;
-extern u16 D_80013714;
+extern u8 node_update_mode;
+extern u16 system_update_flags;
 extern u8 D_80083160[];
-extern DungeonControl *D_800814A8;
+extern DungeonControl *primary_actor_record;
 extern void run_active_node_callbacks(void);
 extern void remove_marked_active_nodes(void);
 extern void integrate_active_node_vectors(void);
@@ -26,15 +26,15 @@ void update_active_nodes_and_render_frame(void) {
         remove_marked_active_nodes();
     }
     D_800814A0 = 0;
-    if (D_80080A86 == 0) {
+    if (node_update_mode == 0) {
         integrate_active_node_vectors();
-        if (D_80013714 & 2) {
+        if (system_update_flags & 2) {
             return;
         }
         if (*(s32 *)(work + 0x1DC) != 0) {
             run_view_callbacks();
             process_current_facing_directions();
-            if (!(D_800814A8->flags & 0x10)) {
+            if (!(primary_actor_record->flags & 0x10)) {
                 render_map_cell_mesh();
             }
         }

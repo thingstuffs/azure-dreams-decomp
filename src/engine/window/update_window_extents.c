@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window.h"
 
 typedef struct Func80037C7CState {
     s32 *field00;

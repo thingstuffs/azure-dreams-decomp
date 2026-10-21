@@ -24,7 +24,7 @@ typedef struct S_80091958_3 {
 } S_80091958_3;   /* ((S_80091958_0 *)arg0)->unk_C8 in update_item_target_selection */
 
 
-extern u8 D_8008EAC8[];
+extern u8 player_action_tag[];
 
 void *create_item_target_selector(u8 *selection_data);
 
@@ -35,7 +35,7 @@ void update_item_target_selection(S_80091958_0 *state, s32 unused_1, s32 unused_
 
     switch (state->unk_9B) {
     case 0:
-        operation = create_item_target_selector(D_80082E80.selected_item);
+        operation = create_item_target_selector(reference_tile_object.selected_item);
         state->unk_C8 = operation;
         if (operation == 0) {
             break;
@@ -48,9 +48,9 @@ void update_item_target_selection(S_80091958_0 *state, s32 unused_1, s32 unused_
         }
         break;
     case 2:
-        ((Rec_D_80082EB0 *)(&D_80082E80.selected_item))->unk_08 = 0;
+        ((Rec_D_80082EB0 *)(&reference_tile_object.selected_item))->unk_08 = 0;
         if (context->unk_1C & 0x100000) {
-            state->unk_8C = D_8008EAC8;
+            state->unk_8C = player_action_tag;
         } else {
             state->unk_8C = handle_player_input;
         }

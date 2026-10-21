@@ -22,7 +22,7 @@ AllocatedObject *allocate_object_with_callbacks(EffectInitialState *source)
     AllocatedObject *obj;
     EffectInitialState *data;
 
-    obj = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
     if (obj == 0) {
         return 0;
     }

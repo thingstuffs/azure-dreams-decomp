@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
+#include "slus/data.h"
 
 /* Resource flag and load helpers. */
 
@@ -18,16 +21,12 @@ void mark_object_removal_for_inner_release(unsigned short *object)
 /* --- wave-60 --- */
 
 /* Ring-buffer size accumulator. */
-extern int gpu_scratch_ring_size;
 
 /* Adds the amount to the global accumulator. */
 void adjust_resource_decode_buffer_capacity(int amount)
 {
     gpu_scratch_ring_size = gpu_scratch_ring_size + amount;
 }
-
-
-extern void file_load_com(void *arg);
 
 typedef struct { u32 word; } PackedLoc;
 extern PackedLoc scene_texture_data_resource;

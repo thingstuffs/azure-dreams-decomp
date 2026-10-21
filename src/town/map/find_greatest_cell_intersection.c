@@ -63,8 +63,8 @@ typedef struct Global_80090854 {
     Map_80090854 map;
 } Global_80090854;
 
-extern s32 D_800FE480;
-extern s32 D_800FE484;
+extern s32 town_map_column_extent;
+extern s32 town_map_row_extent;
 
 extern s32 check_scratch_quad_half_turn_gaps(Scratch_80090854 *);
 
@@ -125,7 +125,7 @@ s32 find_greatest_cell_intersection(s16 query_x, u16 query_y, u16 query_z)
 
             scan_z = next_z;
             if (scratch->z_step >= 0) {
-                if (next_z >= D_800FE484) {
+                if (next_z >= town_map_row_extent) {
                     break;
                 }
             } else if (next_z < 0) {
@@ -142,7 +142,7 @@ s32 find_greatest_cell_intersection(s16 query_x, u16 query_y, u16 query_z)
 
                 scan_x = next_x;
                 if (scratch->x_step >= 0) {
-                    if (next_x >= D_800FE480) {
+                    if (next_x >= town_map_column_extent) {
                         break;
                     }
                 } else if (next_x < 0) {

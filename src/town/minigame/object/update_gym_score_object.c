@@ -34,7 +34,7 @@ typedef struct {
 extern u16 D_800135C2[];
 extern s16 D_800272C8[];
 extern s16 D_800272CA[];
-extern TownTarget D_80083780[];
+extern TownTarget view_reference_entity[];
 
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void SD_Call(s32);
@@ -146,7 +146,7 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
 
     case 0x21:
     {
-        TownTarget *target = D_80083780;
+        TownTarget *target = view_reference_entity;
         s32 target_z = target->z;
         s32 z = motion->z;
         s32 y = motion->y;

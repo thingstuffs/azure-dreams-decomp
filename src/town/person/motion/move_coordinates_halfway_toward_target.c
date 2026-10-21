@@ -17,10 +17,10 @@ void move_coordinates_halfway_toward_target(void *state, s32 *coords) {
     s32 value2;
     u16 timer;
 
-    target = D_80083780.x.v;
+    target = view_reference_entity.x.v;
     value = coords[0];
     coords[0] = value + ((target - value) / 2);
-    target = D_80083780.y.v;
+    target = view_reference_entity.y.v;
     value2 = coords[1];
     coords[1] = value2 + ((target - value2) / 2);
 

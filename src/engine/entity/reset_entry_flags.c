@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/entity.h"
 
 /* Reset global state and clear flags in the primary and secondary entry arrays. */
 void reset_entry_flags(void) {

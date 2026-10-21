@@ -44,7 +44,7 @@ void runtime_dispatch_and_reset_control_string(char *text)
     cursor[2] = (char)(word_addr >> 16);
     cursor[0] = (char)word_addr;
     cursor[3] = (char)(word_addr >> 24);
-    handler = message_mode_handlers[D_80081550];
+    handler = message_mode_handlers[message_handler_mode];
     handler(buffer);
     word_ptr[-1] = 0x2300030C;
     message_output_control_word = 0x2300040C;

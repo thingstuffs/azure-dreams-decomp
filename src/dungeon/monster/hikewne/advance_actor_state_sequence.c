@@ -173,7 +173,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
             }
 
             if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
-                ActorRecord *owner = D_800814A8;
+                ActorRecord *owner = primary_actor_record;
 
                 if ((s16)check_entity_relation(actor,
                         (u8 *)owner->unk_58 + 0x20) != 0) {
@@ -184,7 +184,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
             update_actor_status_and_food(actor);
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
-                TileObject *room_base = &D_80082E80;
+                TileObject *room_base = &reference_tile_object;
                 s8 room_id = *(s8 *)&((SpriteFrameState *)entity)->unk_26;
 
                 if ((room_id == room_base->room_index && room_id >= 0) || (s16)get_tile_chebyshev_distance(room_base, entity) < 2) {

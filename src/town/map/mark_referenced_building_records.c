@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u8 D_800D2644[];
+extern u8 town_building_records[];
 
 typedef struct BuildingMarkRecord {
     u8 pad_00[0xA];
@@ -22,7 +22,7 @@ void mark_referenced_building_records(void) {
     s16 markedFlag;
 
     entryIndex = 0x42;
-    recordCursor = D_800D2644;
+    recordCursor = town_building_records;
     recordCursor += 0x840;
     do {
         ((BuildingMarkRecord *)recordCursor)->marked = 0;
@@ -31,7 +31,7 @@ void mark_referenced_building_records(void) {
     } while (entryIndex >= 0);
 
     entryIndex = 0;
-    recordBase = D_800D2644;
+    recordBase = town_building_records;
     markedFlag = 1;
     do {
         indexPageCursor = (u8 *)0x80010000;

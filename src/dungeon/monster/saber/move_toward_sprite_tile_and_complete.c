@@ -158,8 +158,8 @@ void move_toward_sprite_tile_and_complete(void *action, void *motion, void *spri
             ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24,
                 ((SpriteFrameState *)sprite)->unk_25,
-                D_80082E80.tile_position.parts.tile_x,
-                D_80082E80.tile_position.parts.tile_y,
+                reference_tile_object.tile_position.parts.tile_x,
+                reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);
         }
     }

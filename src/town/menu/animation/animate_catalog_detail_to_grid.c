@@ -23,8 +23,8 @@ typedef struct TownInitialPosition {
 
 extern void layout_catalog_entry_grid(void);
 extern void refresh_catalog_entry_grid(void *);
-extern TownInitialPosition D_80126AF8[5];
-extern void *D_80129728[];
+extern TownInitialPosition catalog_grid_layout[5];
+extern void *catalog_display_node_slots[];
 
 /* Updates town object data according to the current state. */
 void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
@@ -43,12 +43,12 @@ void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
     switch (state_index) {
     case 0:
         object_index = 0x1C;
-        initial_base = (s8 *)D_80126AF8;
+        initial_base = (s8 *)catalog_grid_layout;
         initial_offset = 0;
         do {
             initial_entry = (s32 *)((u32)initial_offset + (u32)initial_base);
             initial_offset += 8;
-            object = D_80129728[object_index];
+            object = catalog_display_node_slots[object_index];
             initial_data = *initial_entry;
             object_index += 1;
             object->unk_00 = initial_data;
@@ -58,7 +58,7 @@ void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
     case 3:
         object_index = 0x1C;
         do {
-            object_data = ((CatalogObjectPayloadView *)(D_80129728[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->unk_08;
             data_value = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(data_value - 0x100);
@@ -72,7 +72,7 @@ void animate_catalog_detail_to_grid(Rec_func_801237A4_arg0 *state)
     case 7:
         object_index = 0x1C;
         do {
-            object_data = ((CatalogObjectPayloadView *)(D_80129728[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->unk_08;
             data_value = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(data_value - 0x100);

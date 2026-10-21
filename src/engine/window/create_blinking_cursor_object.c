@@ -2,6 +2,9 @@
 
 #include "common.h"
 #include "records/Rec_D_80081FDC.h"
+#include "engine/node.h"
+#include "engine/object.h"
+#include "engine/window.h"
 
 typedef struct { unsigned char pad_00[0x54]; void *unk_54; } Struct800350B0;
 
@@ -50,20 +53,15 @@ typedef struct S_80036D4C_3 {
     u16 unk_14;
 } S_80036D4C_3;   /* temp_s2 in create_blinking_cursor_object */
 
-
-void runtime_initialize_state_value();                 /* extern */
 void func_800350B0(void *context, Struct800350B0 *object);
 void copy_texture_descriptor_with_page_offsets(); /* extern */
-void *initialize_runtime_node_storage(); /* extern */
-s32 register_node();           /* extern */
 extern u8 blinking_cursor_texture_template_0[];
 extern u8 blinking_cursor_texture_template_1[];
 extern u8 blinking_cursor_texture_template_2[];
 extern u8 blinking_cursor_texture_descriptor_0[];
 extern u8 blinking_cursor_texture_descriptor_1[];
 extern u8 blinking_cursor_texture_descriptor_2[];
-extern u8 D_80082BC0[];
-void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback();
+extern u8 window_node_list_storage[];
 void update_blinking_cursor_with_bright_idle();
 
 /* Initializes and links a runtime node, then sets its record, state, and display data. */
@@ -73,7 +71,7 @@ void create_blinking_cursor_object(s32 node_addr, Rec_D_80081FDC *record, s32 *c
     S_80036D4C_3 *display;
     void *node;
 
-    node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &D_80082BC0);
+    node = initialize_runtime_node_storage(0x11, node_addr, 0x49, &window_node_list_storage);
     ((S_80036D4C_0 *)node)->unk_10 = &update_blinking_cursor_with_bright_idle;
     register_node(node, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
     state = node + 0x20;

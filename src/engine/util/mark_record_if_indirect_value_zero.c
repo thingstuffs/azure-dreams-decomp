@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/util.h"
 
 typedef struct S_8004B298_a1 {
     s32 unk00;

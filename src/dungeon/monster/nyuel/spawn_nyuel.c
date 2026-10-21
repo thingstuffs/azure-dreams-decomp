@@ -65,7 +65,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
     work = 0;
     call_id = 0x112;
     held_a = attr_a;
-    call_target = &D_80083498;
+    call_target = &scene_object_list_anchor;
     held_c = attr_c;
     held_b = attr_b;
     obj = allocate_list_node(call_id, call_target);

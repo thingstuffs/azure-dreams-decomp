@@ -63,8 +63,8 @@ extern void display_actor_item_status_message();
 extern s32 create_actor_spell_effect();
 extern s32 feed_actor_restore_mp();
 
-extern u8 *D_80073470[];
-extern u16 D_800DF4B0[];
+extern u8 *item_category_tables[];
+extern u16 magic_ball_delay[];
 extern u8 D_800E1440[];
 extern u8 D_800E144C[];
 extern u8 D_800E1456[];
@@ -94,13 +94,13 @@ s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
         return process_record_and_update_linked_state(data, context);
     }
 
-    current_object = D_800E3D7C;
+    current_object = dungeon_actor_ring_anchor;
     if (object == current_object) {
-        callback = &D_80083780;
+        callback = &view_reference_entity;
         data[3] |= 0x20;
-        active_object = D_800E3D7C;
+        active_object = dungeon_actor_ring_anchor;
         ((PlayerRecord *)active_object)->pending_item_action = data;
-        begin_mode_selected_item_action(active_object, callback, ((u8 *)(&D_80082E80)), active_object);
+        begin_mode_selected_item_action(active_object, callback, ((u8 *)(&reference_tile_object)), active_object);
         return 0;
     }
 
@@ -113,7 +113,7 @@ s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
                 clear_slot_and_update_linked_state(data);
                 tail_status = (u8 *)0x80080000;
             } else {
-                message_table = D_8006DE24;
+                message_table = item_action_definitions;
                 slot_scan = object;
 scan_next:
                 if (slot_scan[8] == 0) {
@@ -175,7 +175,7 @@ scan_next:
 
         slot = (data[0] - 1) * 3;
         ((S_800C0E88_2 *)object)->unk_08 = slot + 1;
-        flags = *(u16 *)(D_80073470[0] + (data[0] * 20));
+        flags = *(u16 *)(item_category_tables[0] + (data[0] * 20));
         if (flags & 2) {
             ((S_800C0E88_2 *)object)->unk_08 = slot + 2;
         } else if (flags & 4) {
@@ -192,27 +192,27 @@ scan_next:
 
         if (data[3] & 0x20) {
             if (create_actor_spell_effect(object, object + 8, 0,
-                              ((u8 *)D_800E3D7C) + 0x98) == 0) {
+                              ((u8 *)dungeon_actor_ring_anchor) + 0x98) == 0) {
                 return 0;
             }
-            D_800DF4B0[0] = 16;
+            magic_ball_delay[0] = 16;
             data[3] &= 0xDF;
         }
 
-        delay_timer = D_800DF4B0[0] - 1;
-        D_800DF4B0[0] = delay_timer;
+        delay_timer = magic_ball_delay[0] - 1;
+        magic_ball_delay[0] = delay_timer;
         if (delay_timer >= 0) {
             return 0;
         }
 
-        D_800DF4B0[0] = 0;
+        magic_ball_delay[0] = 0;
         if (get_cd_command_queue_depth() != 0) {
             return 0;
         }
 
         status = &g_dungeon_status;
         status->active_actor = object;
-        D_800814A8->unk_98 |= 0x80;
+        primary_actor_record->unk_98 |= 0x80;
         ((S_800C0E88_1 *)data)->unk_02.u--;
 
         message_start = get_unused_text_buffer();

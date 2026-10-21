@@ -441,7 +441,7 @@ extern int abs(int);
 extern B32_818CF0E8_Vec12 D_8002590C;
 extern B32_818CF0E8_Vec12 D_80025918;
 extern u8 D_800DEC00[];
-extern u8 D_800E3D68[];
+extern u8 current_spell_effect_variant[];
 
 /* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
 void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx)
@@ -701,7 +701,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.u | 0x100;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_12 = 0x7DCF;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-            func_8003DB94(p, D_800DE870, 0);
+            func_8003DB94(p, effect_sprite_sources, 0);
             }
         }
         if ((((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u & 3) == 1) {
@@ -766,7 +766,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 rr = (generate_random_value() & 3) + 2;
                 a2v = (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_15 >> 2) + rr;
                 a1v = 0x10;
-                if (D_800E3D68[0] == 0xFF) {
+                if (current_spell_effect_variant[0] == 0xFF) {
                     a1v = 0xFF;
                 }
                 try_apply_confusion_status(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30, a1v, a2v);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 typedef void (*Callback_8001F2F4)();
 

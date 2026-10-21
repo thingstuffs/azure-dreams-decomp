@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/menu.h"
 
 /* Initializes two 12-byte records from alternating source bytes and returns the end pointer. */
 void *init_paired_packet_records(void *record, void *source)

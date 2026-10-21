@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/settings.h"
 /* Updates an object's movement, blinking, and removal flags from its animation state. */
 void update_settings_effect_object(void *object, void *motion, void *sprite) {
     void *owner = *(void **)object;

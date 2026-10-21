@@ -1,18 +1,12 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "engine/audio/sequence.h"
+#include "slus.h"
+#include "slus/data.h"
 
-
-
-extern s16 pending_sound_selection_entries[][16];
 extern void *audio_selection_record_pointers[][16];
-extern s32 audio_sequence_task_phase[3];
-extern s32 test_sound_channel_availability(s16);
-extern void handle_audio_status_code(s32);
 extern s16 copy_sound_slot_info(s16 idx, u8 *dst);
-extern void set_playback_note(s32);
-extern s16 allocate_sequence_bank_slot(void *, s32);
-extern int submit_shifted_stereo_sound_parameters(s16, s16);
-extern void sound_activate_loaded_sequence_slot(s16, u8, s16);
 
 /* Starts playback of the pending selection when available and initializes its mode. */
 void start_pending_selection(void)

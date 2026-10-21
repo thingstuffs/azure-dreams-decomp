@@ -1,8 +1,7 @@
 #include "common.h"
+#include "engine/object.h"
+#include "engine/script.h"
 
-extern void runtime_set_record_value_and_buffer(void *controller, s32 reset_value);
-extern s32 is_list_nonempty(void *controller);
-extern void remove_all_controller_nodes(void *controller);
 extern void init_message_window(void *controller, s32 selector);
 
 /* Updates the runtime selector, clearing active objects when needed, and resets its state. */

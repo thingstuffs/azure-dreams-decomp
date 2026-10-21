@@ -53,7 +53,7 @@ extern u8 D_800223E8[8];
 extern void *D_80024468;
 extern void *D_8002446C;
 extern s32 D_80053858[4];
-extern s32 D_80053A88;
+extern s32 display_registration_tag;
 extern u8 D_800782EC[8];
 
 /* Initializes display resources and creates rectangle and image objects. */
@@ -75,7 +75,7 @@ void initialize_minigame_display(void *context)
     if (rect_obj != NULL) {
         rect_data = rect_obj + 0x20;
         ((S_80022290_0 *)rect_obj)->unk_10 = D_800223E0;
-        register_node(rect_obj, &D_80053A88);
+        register_node(rect_obj, &display_registration_tag);
         rect_data->unk_0C = 0xB8;
         rect_data->unk_0E = 0x14;
         rect_data->unk_10 = 0x7C;

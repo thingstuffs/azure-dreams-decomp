@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "shared/position_views.h"
+#include "engine/window.h"
 
 typedef struct S_80036110_0 {
     void * unk_00;
@@ -12,9 +13,6 @@ typedef struct S_80036110_0 {
    /* temp_v0 in scroll_window_y */
 
    /* temp_v1 in scroll_window_y */
-
-
-void select_menu_initializer_from_message_handler();
 
 /* Decreases the state field at offset 0x0A by 0x140, clamping below zero and advancing the handler. */
 void scroll_window_y(S_80036110_0 *object) {

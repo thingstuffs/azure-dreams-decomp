@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
 extern void func_800702F0(s32 value);
 extern void func_8007C040(void *first_ptr, void *second_ptr, s32 count);
@@ -6,9 +8,8 @@ extern void func_8007CAA8(s32 entry_value);
 extern s32 func_8040153C(void);
 extern void func_80401578(void);
 extern void func_80408654(s32 value);
-extern s32 D_80408AA0[];
+extern s32 dev_card_paths[];
 extern u8 D_80400038[];
-extern u8 D_804000F8[];
 
 /* Starts the selected card operation and maps its completion status. */
 s32 card_dev_run_selected_operation(s32 card_index) {
@@ -20,7 +21,7 @@ s32 card_dev_run_selected_operation(s32 card_index) {
     func_80408654(0);
     func_80408654(1);
     func_80401578();
-    card_entry = D_80408AA0;
+    card_entry = dev_card_paths;
     if (card_index != 0) {
         card_entry++;
     }

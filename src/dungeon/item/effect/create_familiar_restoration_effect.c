@@ -37,7 +37,7 @@ void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
     SpriteFrameState *render_state;
     S_800C1A44_3 *object_state;
 
-    object = allocate_list_node(0x12, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         ((S_800C1A44_0 *)object)->unk_10 = &D_800C1718[0];
         register_node(object, &D_80045C34[0]);

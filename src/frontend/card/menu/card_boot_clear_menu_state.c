@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/menu.h"
 
 extern void memory_process_handles_and_mark_object(void *ptr);
 extern void func_80406678(void *ptr);

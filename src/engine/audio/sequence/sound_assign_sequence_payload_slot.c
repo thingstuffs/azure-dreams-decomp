@@ -1,7 +1,6 @@
 #include "common.h"
-
-extern void sound_assign_sequence_payload_slot(s32 a0);
-extern void release_sound_channel_and_mark_pending(s32 a0);
+#include "engine/audio.h"
+#include "engine/audio/sequence.h"
 
 /* Reports the low-byte event code and forwards an index for events 0x11, 0x12, 0x14 and 0x18. */
 void assign_sound_payload_and_release_channel(s32 event)

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus.h"
 
 /* First sub-object header written at arg0+0x0 */
 typedef struct S_8004F068_a {

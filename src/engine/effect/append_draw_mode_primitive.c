@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/effect.h"
+#include "sdk/libgpu.h"
 
 /* D_80083160[0] points at a large graphics-context struct; only the
  * OT array at 0x8AC and the primitive cursor pointer at 0x8D0 are
@@ -10,9 +12,6 @@ typedef struct S_80044B48 {
 } S_80044B48;
 
 extern S_80044B48 *D_80083160[3];
-
-extern void SetDrawMode(void *prim, s32 a1, s32 a2, s32 a3, s32 a4);
-extern void AddPrim(void *ot, void *prim);
 
 /* Adds a draw-mode primitive to the current display buffer's ordering table and advances its cursor. */
 void append_draw_mode_primitive(void) {

@@ -88,13 +88,13 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
             ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C = ((Row_8194C8F0_S_800240F0_3 *)position)->unk_00.at00.v;
             ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 = ((Row_8194C8F0_S_800240F0_3 *)position)->unk_04.at00.v;
         }
-        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 = (D_800814A8->ground_height - 0x50) << 16;
+        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 = (primary_actor_record->ground_height - 0x50) << 16;
 
         {
             s32 angle_index;
-            angle_index = (g_game_work.view.camera_rotation.parts.viewAngle + D_800814A8->facing + 0x100) >> 7;
-            if (resolve_record_orientation_or_fallback(*(void **)((angle_index & 0x1C) + (s32)(*(s32 * *)D_800E3D18)),
-                              ((u8 *)(&D_80082E80)), offset, 0) != 0) {
+            angle_index = (g_game_work.view.camera_rotation.parts.viewAngle + primary_actor_record->facing + 0x100) >> 7;
+            if (resolve_record_orientation_or_fallback(*(void **)((angle_index & 0x1C) + (s32)(*(s32 * *)actor_direction_sprites)),
+                              ((u8 *)(&reference_tile_object)), offset, 0) != 0) {
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C += ((s16 *)offset)[0] << 16;
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 += ((s16 *)offset)[1] << 16;
                 ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 += ((s16 *)offset)[2] << 16;
@@ -162,7 +162,7 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
     void *effect;
     void *state;
     SpriteFrameState *sprite;
-    effect = allocate_list_node(0x12, ((s32 *)&D_80083498.next));
+    effect = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (effect != 0) {
         *((s32 **) (((s8 *) effect) + 0x10)) = &D_800240F0;
         color = 0x80;
@@ -170,7 +170,7 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
         *((s16 *) (((s8 *) state) + 0xC)) = 0;
         *((s16 *) (((s8 *) state) + 0xE)) = 0;
         *((s32 *) (((s8 *) effect) + 0x20)) = effect_data;
-        *((s32 **) (((s8 *) state) + 4)) = ((s32 *)&D_80083498.next);
+        *((s32 **) (((s8 *) state) + 4)) = ((s32 *)&scene_object_list_anchor.next);
         *((s32 *) (((s8 *) state) + 8)) = effect_param;
         sprite = *((void **) (((s8 *) effect) + 0xC));
         sprite->color.c.b = color;
@@ -442,14 +442,14 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
     case 0:
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 = 0U;
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
-        ((PlayerRecord *)D_800814A8)->unk_F4 = 0;
+        ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
         allocate_effect_and_initialize_sprite(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_00 - 0x20, ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04, &D_800DE5DC);
     case 1:
         if (*((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04 & 0x80) {
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_18 = 0xAU;
-            ((Row_8194D354_S_80024B54_1 *)D_800814A8)->unk_A6--;
-            D_800814A8->unk_A8 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_08;
-            next_state_c1 = ((u16)D_800814A8->facing);
+            ((Row_8194D354_S_80024B54_1 *)primary_actor_record)->unk_A6--;
+            primary_actor_record->unk_A8 = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_08;
+            next_state_c1 = ((u16)primary_actor_record->facing);
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0E = next_state_c1;
             if (func_80053EF0(4) != 2) {
@@ -473,13 +473,13 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         if ((phase_random) < 0) {
             rounded_phase = (phase_random) + 0xFFF;
         }
-        origin = &D_80083780;
-        origin_x = (s32)D_80083780.x.v;
+        origin = &view_reference_entity;
+        origin_x = (s32)view_reference_entity.x.v;
         (*(s32 *)((u8 *)position + 0)) = origin_x;
         phase = phase_random - ((rounded_phase >> 12) << 12);
         (*(s32 *)((u8 *)position + 4)) = origin->y.v;
-        actor_value = D_800814A8;
-        tile_or_y_steps = &D_80082E80;
+        actor_value = primary_actor_record;
+        tile_or_y_steps = &reference_tile_object;
         shifted_height = ((actor_value->ground_height) - 0x50) << 0x10;
         effect_data = offset;
         (*(s32 *)((u8 *)position + 8)) = shifted_height;
@@ -490,14 +490,14 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         view_heading += 0x100;
         view_heading >>= 7;
         view_heading &= 0x1C;
-        state_or_heading = (*(s32 *)D_800E3D18);
+        state_or_heading = (*(s32 *)actor_direction_sprites);
         actor_or_frame = (void *)(s32)*(s32 *)(view_heading + state_or_heading);
         if (resolve_record_orientation_or_fallback(actor_or_frame, tile_or_y_steps, effect_data, offset_mode) != 0) {
             (*(s32 *)((u8 *)position + 0)) = (s32)((*(s32 *)((u8 *)position + 0)) + (offset[0] << 0x10));
             (*(s32 *)((u8 *)position + 4)) = (s32)((*(s32 *)((u8 *)position + 4)) + (offset[1] << 0x10));
             (*(s32 *)((u8 *)position + 8)) = (s32)((*(s32 *)((u8 *)position + 8)) + (offset[2] << 0x10));
         }
-        actor_or_frame = D_800814A8;
+        actor_or_frame = primary_actor_record;
         target = scan_monster_along_heading(actor_or_frame, tile_or_y_steps->tile_position.parts.tile_x,
             tile_or_y_steps->tile_position.parts.tile_y, (s16)((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A, 8);
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_14 = target;
@@ -510,7 +510,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             tile_y = tile_or_y_steps->tile_position.parts.tile_y;
             ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
             do {
-                actor_or_frame = D_800814A8;
+                actor_or_frame = primary_actor_record;
                 forward_dx = dir_step_x[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u + (forward_dx << 6));
                 forward_dy = dir_step_y[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
@@ -520,12 +520,12 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
                 if ((s16)ground_height > 0x200) {
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u =
-                        (u16)((u16)D_800814A8->ground_height);
+                        (u16)((u16)primary_actor_record->ground_height);
                 }
                 position_valid = check_left_tile_and_center_height(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u,
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u);
                 if ((position_valid << 0x10) != 0) {
-                    actor_or_frame = D_800814A8;
+                    actor_or_frame = primary_actor_record;
                     backtrack_dx = dir_step_x[(((Row_8194D354_S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u - (backtrack_dx
                         << 5));
@@ -537,7 +537,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = near_height;
                     if ((s16)near_height > 0x200) {
                         ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u =
-                            (u16)((u16)D_800814A8->ground_height);
+                            (u16)((u16)primary_actor_record->ground_height);
                     }
                     break;
                 }

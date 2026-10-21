@@ -1,12 +1,12 @@
 #include "common.h"
+#include "frontend/libcard/resource.h"
+#include "main.h"
+#include "main/data.h"
 
 extern s32 card_boot_load_save_and_clear_marker(s32, s32, s32);
-extern void card_boot_show_load_failure_notice(void *);
 extern void no_op_card_hook(s32);
-extern void card_boot_recheck_selected_channel(void);
 
 extern s32 D_8002593C;
-extern s32 D_800251A4;
 extern s32 D_80024F7C;
 
 /* Select a state pointer from the operation result and clear the trailing word. */

@@ -14,9 +14,9 @@ void adjust_object_motion_at_threshold(s32 context, EntityRec *record, s32 actio
     s16 threshold;
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(record);
-    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(record, &D_800FE488);
+    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(record, &position_query_scratch);
     if (record->z.w.i >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(record), threshold, (struct TownVec * *)(&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(record), threshold, (struct TownVec * *)(&position_query_scratch));
         bind_default_data_and_clear_record(context, record, action_data);
         return;
     }

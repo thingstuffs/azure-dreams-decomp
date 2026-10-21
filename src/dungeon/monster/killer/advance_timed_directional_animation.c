@@ -21,7 +21,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern u8 D_80170EA8;
 extern u8 D_80174060[];
 
@@ -63,7 +63,7 @@ void advance_timed_directional_animation(void *action_state, s32 actor_id, void 
             if (actor->pending_turn_updates == 0) {
                 actor->action_flags &= 0x7FFF;
             } else {
-                D_800E3DE8 = (u8 *)actor - 0x20;
+                actor_update_node_cursor = (u8 *)actor - 0x20;
             }
         }
         break;

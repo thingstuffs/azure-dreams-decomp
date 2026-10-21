@@ -64,7 +64,7 @@ void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_801
     depth_scaled = depth * 4;
     depth -= 0xA;
     ot_index = depth - depth_bias;
-    render_data = (T_80170874_S_80DB9000_7 *)&D_8006CD30;
+    render_data = (T_80170874_S_80DB9000_7 *)&sprite_projection_matrix;
     render_data->unk_1C = (s32)depth_scaled;
     scratch_page->unk_100 = ot_index;
     if (ot_index < 0x1D6U) {

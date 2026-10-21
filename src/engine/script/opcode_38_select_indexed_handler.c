@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
 
 typedef struct {
     u8 pad_00[0x10];
@@ -10,8 +11,6 @@ typedef struct {
     u8 pad_20[0x12];
     u8 command;
 } Func80039BE4State;
-
-extern void run_indexed_handler_and_set_next(void *);
 
 /* Read a script command byte and select run_indexed_handler_and_set_next as the next callback. */
 void handle_vm_opcode_38(Func80039BE4State *state) {

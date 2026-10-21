@@ -1,6 +1,8 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
 
 /* D_80082E60: global state struct. field_8 is read as a byte (arg to
  * load_scene_resource_group / copied into field_B), then cleared as a halfword;
@@ -25,19 +27,16 @@ struct S_80082E60 {
 /* D_80083160: shared state table; four u32 fields at these offsets are
  * cleared here (declared >8 bytes to force %hi/%lo addressing). */
 
-
-extern void load_scene_resource_group(s16 a0);
-
 /* Saves and processes the state byte, then clears pending state and four shared table fields. */
 void activate_scene_resource_and_clear_view_callbacks(void)
 {
-    u8 state_byte = ((struct S_80082E60 *)&D_80082E60)->field_8.b;
+    u8 state_byte = ((struct S_80082E60 *)&runtime_dispatch_state)->field_8.b;
 
-    D_80082E60.field_B = state_byte;
+    runtime_dispatch_state.field_B = state_byte;
     load_scene_resource_group(state_byte);
 
-    D_80082E60.unk_0E = 0;
-    D_80082E60.unk_08 = 0;
+    runtime_dispatch_state.unk_0E = 0;
+    runtime_dispatch_state.unk_08 = 0;
 
     g_game_work.view.slot[2].callback = 0;
     g_game_work.view.slot[3].callback = 0;

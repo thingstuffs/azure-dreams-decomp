@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/text.h"
 
 /* Returns 1 when pad key states 1 and 4 are both zero. */
 s32 pad_both_key_states_clear(void) {

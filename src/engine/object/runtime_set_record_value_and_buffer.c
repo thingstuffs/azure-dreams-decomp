@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "records/Rec_D_80082A38.h"
+#include "engine/object.h"
 
 
 /* Sets two record fields to a shared value and initializes an internal buffer pointer. */

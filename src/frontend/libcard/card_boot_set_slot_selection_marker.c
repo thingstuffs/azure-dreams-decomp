@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard.h"
 
 extern s32 D_800786E8[];
 

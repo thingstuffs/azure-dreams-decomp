@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/vector.h"
+#include "engine/node.h"
 
 /* Element of the D_80071A68 lookup table indexed by an object's "kind" field. */
 typedef struct S_80071A68 {
@@ -45,8 +46,6 @@ typedef struct S_80051E94 {
     /* 0x14 */ u8 unk14[0xC];
     /* 0x20 */ S_80051E94_Sub sub;
 } S_80051E94;
-
-extern void register_node(S_80051E94 *a0, void (*a1)(void));
 
 /* Initialize an object's update callback, sub-object, lookup defaults, and fixed-point vector. */
 void init_fade_in_out_effect(S_80051E94 *object, s32 sub_value)

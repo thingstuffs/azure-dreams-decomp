@@ -155,7 +155,7 @@ extern void func_800666F4(void *);
 extern void func_80067E2C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 
 /* Build and enqueue transformed sprite quads and restore the drawing area. */
 s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprite)
@@ -167,7 +167,7 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
     u8 *frame;
     u8 *copy;
     u8 *prim;
-    s16 lower_buffer = state != D_801C9E40;
+    s16 lower_buffer = state != upper_draw_context;
     s16 vertex_y;
     s16 vertex_x;
     u16 rect[4];

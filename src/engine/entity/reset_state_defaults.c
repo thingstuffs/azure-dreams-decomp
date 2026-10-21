@@ -1,9 +1,7 @@
 #include "common.h"
 
 #include "common.h"
-
-extern void reset_entry_flags(void);
-
+#include "engine/entity.h"
 
 /* Reset global state and initialize default parameters. */
 void reset_state_defaults(void)

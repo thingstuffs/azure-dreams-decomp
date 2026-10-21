@@ -32,7 +32,7 @@ void create_an_initialize_fields_randomized_child_state(s32 object_value, s32 fi
     void *object;
     S_81976BC0_1 *fields;
 
-    object = allocate_list_node(0x12, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         ((S_81976BC0_0 *)object)->unk_10 = D_80024050;
         fields = (u8 *)object + 0x20;
@@ -40,7 +40,7 @@ void create_an_initialize_fields_randomized_child_state(s32 object_value, s32 fi
         fields->unk_0E = 0;
         fields->unk_10 = 0;
         ((S_81976BC0_0 *)object)->unk_20 = object_value;
-        fields->unk_04 = ((u8 *)(&D_80083498));
+        fields->unk_04 = ((u8 *)(&scene_object_list_anchor));
         fields->unk_08 = field_value;
         child = ((S_81976BC0_0 *)object)->unk_0C;
         child->source = D_800261E4[0];

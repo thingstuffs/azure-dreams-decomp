@@ -41,7 +41,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern s32 D_80170E5C;
 extern u8 D_80173D04[];
 extern u8 D_80173D34[];
@@ -164,7 +164,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
         if (actor->pending_turn_updates == 0) {
             actor->action_flags &= 0x7FFF;
         } else {
-            D_800E3DE8 = (u8 *)actor - 0x20;
+            actor_update_node_cursor = (u8 *)actor - 0x20;
         }
 
         return;

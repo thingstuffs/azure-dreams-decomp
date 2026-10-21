@@ -18,7 +18,7 @@ s32 register_node();           /* extern */
 s32 find_eligible_entry_at_coordinates();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 s32 check_layer_offset_height();              /* extern */
-extern u16 D_800281F8;
+extern u16 sprite_effect_update_count;
 extern s16 D_8002966C[6];
 extern u8 D_8002966E;
 extern s32 D_80029670;
@@ -158,7 +158,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
 
     linked_monster = ((S_80025C80_0 *)effect_in)->unk_20;
     sprite = sprite_in;
-    D_800281F8 = D_800281F8 + 1;
+    sprite_effect_update_count = sprite_effect_update_count + 1;
     if (linked_monster == NULL) {
         func_8002660C(sprite, effect_in + 0x32, ((S_80025C80_0 *)effect_in)->unk_38,
             ((S_80025C80_0 *)effect_in)->unk_36);
@@ -179,13 +179,13 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             ((S_80025C80_0 *)effect_in)->unk_30.n = rise_ticks;
             if (((rise_ticks << 0x10) <= 0) && (((S_80025C80_1 *)sprite)->unk_14 & 0x4000)) {
                 end_frame = 8;
-                source_data_2 = D_800E3D7C;
+                source_data_2 = dungeon_actor_ring_anchor;
                 ((S_80025C80_0 *)effect_in)->unk_38 = end_frame;
                 ((S_80025C80_0 *)effect_in)->unk_36 = 0xF;
                 ((S_80025C80_0 *)effect_in)->unk_32 = 1;
                 ((S_80025C80_0 *)effect_in)->unk_3A = (u16) ((u16)source_data_2->ground_height);
                 ((S_80025C80_0 *)effect_in)->unk_40.u = (u16) (((u16) ((u16)source_data_2->facing) >> 9) & 7);
-                resident_sprite = &D_80082E80;
+                resident_sprite = &reference_tile_object;
                 ((S_80025C80_0 *)effect_in)->unk_3C = resident_sprite->tile_position.parts.tile_x;
                 start_tile_y = resident_sprite->tile_position.parts.tile_y;
                 ((S_80025C80_0 *)effect_in)->unk_42 = end_frame;
@@ -195,26 +195,26 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             }
             break;
         case 1:
-            sprite = (u8 *)&D_80082E80.unk_000;
+            sprite = (u8 *)&reference_tile_object.unk_000;
             transform_result = resolve_record_orientation_or_fallback(((S_80025C80_1 *)sprite)->unk_08, sprite, effect_in + 0x24, 0);
             follow_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = follow_ticks;
             if ((follow_ticks << 0x10) <= 0 || transform_result == 0
                 || (((S_80025C80_1 *)sprite)->unk_14 & 0x8000) != 0) {
-                if (D_80082E80.sprite_flags & 0x8000) {
-                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = ((u16)D_80083780.x.w.i);
-                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = ((u16)D_80083780.y.w.i);
-                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = ((u16)D_80083780.z.w.i) - 0x10;
+                if (reference_tile_object.sprite_flags & 0x8000) {
+                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = ((u16)view_reference_entity.x.w.i);
+                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = ((u16)view_reference_entity.y.w.i);
+                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = ((u16)view_reference_entity.z.w.i) - 0x10;
                 }
                 ((S_80025C80_0 *)effect_in)->unk_30.n = 0;
                 ((S_80025C80_0 *)effect_in)->unk_2C = (u16) ((S_80025C80_0 *)effect_in)->unk_2C + 1;
             } else {
                 ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v =
-                    (s16) (((u16)D_80083780.x.w.i) + ((S_80025C80_0 *)effect_in)->unk_24);
+                    (s16) (((u16)view_reference_entity.x.w.i) + ((S_80025C80_0 *)effect_in)->unk_24);
                 ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v =
-                    (s16) (((u16)D_80083780.y.w.i) + ((S_80025C80_0 *)effect_in)->unk_26);
+                    (s16) (((u16)view_reference_entity.y.w.i) + ((S_80025C80_0 *)effect_in)->unk_26);
                 ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v =
-                    (s16) (((u16)D_80083780.z.w.i) + ((S_80025C80_0 *)effect_in)->unk_28);
+                    (s16) (((u16)view_reference_entity.z.w.i) + ((S_80025C80_0 *)effect_in)->unk_28);
             }
             break;
         case 2:
@@ -267,7 +267,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             move_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = move_ticks;
             if (move_ticks == 2) {
-                found_tile = find_eligible_entry_at_coordinates(D_800E3D7C, (u16) ((S_80025C80_0 *)effect_in)->unk_3C,
+                found_tile = find_eligible_entry_at_coordinates(dungeon_actor_ring_anchor, (u16) ((S_80025C80_0 *)effect_in)->unk_3C,
                     (u16) ((S_80025C80_0 *)effect_in)->unk_3E.n);
                 if (found_tile != 0) {
                     tile_object = found_tile;

@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u32 *D_80129728[28];
+extern u32 *catalog_display_node_slots[28];
 extern void select_paired_value_tables();
 
 /* Swaps paired entry values and node halfwords, toggles the state flag, and updates. */
@@ -16,7 +16,7 @@ void swap_paired_entry_values_and_node_halfwords(u8 *state)
     void *first_node;
 
     entry_index = 2;
-    entries = (s32 **)D_80129728;
+    entries = (s32 **)catalog_display_node_slots;
     second_entry = entries + 16;
     first_entry = entries + 2;
     do {
@@ -29,11 +29,11 @@ void swap_paired_entry_values_and_node_halfwords(u8 *state)
         second_entry++;
     } while (entry_index < 14);
 
-    first_node = *(void **)((u8 *)D_80129728[8] + 4);
+    first_node = *(void **)((u8 *)catalog_display_node_slots[8] + 4);
     saved_half = *(u16 *)((u8 *)first_node + 8);
     *(u16 *)((u8 *)first_node + 8) =
-        *(u16 *)((u8 *)*(void **)((u8 *)D_80129728[22] + 4) + 8);
-    *(u16 *)((u8 *)*(void **)((u8 *)D_80129728[22] + 4) + 8) = saved_half;
+        *(u16 *)((u8 *)*(void **)((u8 *)catalog_display_node_slots[22] + 4) + 8);
+    *(u16 *)((u8 *)*(void **)((u8 *)catalog_display_node_slots[22] + 4) + 8) = saved_half;
 
     state[0x16] ^= 1;
     select_paired_value_tables(state);

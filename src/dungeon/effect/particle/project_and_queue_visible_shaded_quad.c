@@ -380,7 +380,7 @@ typedef struct Bank1990800_1990fe8_EffectState {
 } Bank1990800_1990fe8_EffectState;
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
-void func_800247E8(Bank1990800_1990fe8_EffectState *state, EntityRec *position)
+void func_800247E8(Bank1990800_1990fe8_EffectState *state, ObjectPosition *position)
 {
     s16 countdown;
 
@@ -1135,11 +1135,11 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     context = context_arg;
     switch (state) {
     case 0:
-        player = D_800814A8;
+        player = primary_actor_record;
         ((PlayerRecord *)player)->unk_F4 = 0;
         player->unk_96 = 20;
-        ((S_8197192C_2 *)((u16 *)(&D_80082E80.unk_006)))->unk_00 = 6;
-        state_2 = ((u8 *)(&D_80083780));
+        ((S_8197192C_2 *)((u16 *)(&reference_tile_object.unk_006)))->unk_00 = 6;
+        state_2 = ((u8 *)(&view_reference_entity));
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
         ((S_8197192C_0 *)effect)->unk_7C.s = ((MovingPosition *)state_2)->unk_02;
         ((S_8197192C_0 *)effect)->unk_7E.s = ((MovingPosition *)state_2)->unk_06;
@@ -1150,11 +1150,11 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         if ((((S_8197192C_14 *)(((S_8197192C_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
-        player_2 = D_800814A8;
+        player_2 = primary_actor_record;
         ((S_8197192C_0 *)effect)->unk_2C.s = 33;
         ((S_8197192C_1 *)player_2)->unk_A6 = ((S_8197192C_1 *)player_2)->unk_A6 - 1;
         ((S_8197192C_1 *)player_2)->unk_A8 = ((S_8197192C_0 *)effect)->unk_08;
-        player = D_800814A8;
+        player = primary_actor_record;
         heading = ((u16)player->facing);
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
         ((S_8197192C_0 *)effect)->unk_38 = 0;
@@ -1182,13 +1182,13 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         {
             s32 step;
             if ((u16)(((S_8197192C_0 *)effect)->unk_2C.s - 5) < 19) {
-                void *map_base = (void *)((void * *)(&D_80082E80));
+                void *map_base = (void *)((void * *)(&reference_tile_object));
                 if (get_sprite_attachment_vector(
                     ((S_8197192C_5 *)map_base)->unk_08, map_base,
                     (u8 *)effect + 0x2E, 0) != 0) {
                     step = 0;
                     do {
-                        spawn_random_offset_effect_record((u8 *)(*(void * *)&((EntityRec *)((void * *)(&D_800814A8)))->x) - 0x20, 0,
+                        spawn_random_offset_effect_record((u8 *)(*(void * *)&((EntityRec *)((void * *)(&primary_actor_record)))->x) - 0x20, 0,
                                       0xE04040, (func_80069EF8() & 0x3F) | 0x40,
                                       ((S_8197192C_0 *)effect)->unk_2E.s,
                                       ((S_8197192C_0 *)effect)->unk_30.s,
@@ -1199,7 +1199,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             }
 
             if (((S_8197192C_0 *)effect)->unk_2C.u == 24) {
-                void *map_base = (void *)((void * *)(&D_80082E80));
+                void *map_base = (void *)((void * *)(&reference_tile_object));
                 if (get_sprite_attachment_vector(((S_8197192C_5 *)map_base)->unk_08, map_base,
                                   (u8 *)effect + 0x2E, 0) != 0) {
                     u8 *sprite;
@@ -1213,7 +1213,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                         ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)advance_timed_visual;
                         register_node(effect_obj, (s32)project_sprite_chain);
                         sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
-                        world_pos = &D_80083780;
+                        world_pos = &view_reference_entity;
                         ((S_8197192C_8 *)sprite)->unk_10 = 0x60;
                         ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
                         position = ((S_8197192C_1 *)effect_obj)->unk_08;
@@ -1259,7 +1259,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 segment = 3;
             }
             {
-                void *map_base = (void *)((void * *)(&D_80082E80));
+                void *map_base = (void *)((void * *)(&reference_tile_object));
                 if (get_sprite_attachment_vector(((S_8197192C_5 *)map_base)->unk_08, map_base,
                                   (u8 *)effect + 0x2E, 0) != 0) {
                 if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
@@ -1278,7 +1278,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     shifted_x <<= 16;
                     half_x = (s32)shifted_x >> 16;
                     half_x += shifted_x >> 31;
-                    world_pos = &D_80083780;
+                    world_pos = &view_reference_entity;
                     half_x >>= 1;
                     ((S_8197192C_9 *)outer_point)->unk_4C = (s16)(half_x +
                         (world_pos->x.w.i - origin_x) / 2);
@@ -1530,9 +1530,9 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         if (((S_8197192C_0 *)effect)->unk_2C.u != 16) {
             status_page = (u8 *)0x80080000;
         } else {
-        source_obj = ((S_8197192C_15 *)((*(void * *)&((EntityRec *)((void * *)(&D_800814A8)))->x)))->unk_60;
+        source_obj = ((S_8197192C_15 *)((*(void * *)&((EntityRec *)((void * *)(&primary_actor_record)))->x)))->unk_60;
         if (source_obj != 0) {
-            angle_table = D_800DDC40;
+            angle_table = entity_height_offsets;
             angle_count = angle_table[((S_8197192C_1 *)source_obj)->unk_10.at03.v];
             source_owner = ((S_8197192C_1_pre *)source_obj)[-1].unk_00;
             angle = 0;
@@ -1567,7 +1567,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
         if (D_80025FF4 == 0) {
             cleanup_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             g_dungeon_status.active_actor = 0;
-            D_80082E80.unk_006 = 0;
+            reference_tile_object.unk_006 = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = cleanup_count - 1;
             ((S_8197192C_0_pre *)effect)[-1].unk_00 = ((S_8197192C_0_pre *)effect)[-1].unk_00 | 0x8000;
             object_flag_block.flags = object_flag_block.flags | 0x8000;

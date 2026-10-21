@@ -1,6 +1,7 @@
 /* Save file updates; G00378; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000EB98, CL:main/func_8000EC4C, CL:main/func_8000EDF4, CL:main/func_8000EEB8, CL:main/func_8000EEE0. */
 #include "frontend/card/save_file_updates_g00378.h"
+#include "frontend/card.h"
 
 /* Checks the stored checksum against the XOR of 6014 data words. */
 s32 card_boot_verify_save_xor_checksum(void *save_data) {
@@ -30,7 +31,7 @@ s32 card_boot_write_save_via_temporary_path(s32 slot, void *data) {
 
     card_boot_build_slot_path(slot_name, slot);
     card_boot_build_slot_path(temporary_name, 5);
-    slot_table = (s32 *)&(*(s32 (*)[][32])(&D_80083E98));
+    slot_table = (s32 *)&(*(s32 (*)[][32])(&card_save_slot_metadata));
     slot_entry = (s32 *)((u8 *)slot_table + (slot << 7));
     if (*slot_entry != 0) {
         rename(slot_name, temporary_name);
@@ -65,7 +66,7 @@ void card_boot_load_save_and_clear_marker(s32 entry_index, void *data, s32 updat
         *(s16 *)((u8 *)data + 0x208) = 0;
         *(s32 *)((u8 *)data + 0x204) = 0;
         card_boot_store_save_xor_checksum(data);
-        entry_table = (s32 *)&(*(s32 (*)[][32])(&D_80083E98));
+        entry_table = (s32 *)&(*(s32 (*)[][32])(&card_save_slot_metadata));
         entry = (s32 *)((u8 *)entry_table + (entry_index << 7));
         *(s16 *)((u8 *)entry + 8) = 0;
         *(s32 *)((u8 *)entry + 4) = *(s32 *)((u8 *)data + 0x204);

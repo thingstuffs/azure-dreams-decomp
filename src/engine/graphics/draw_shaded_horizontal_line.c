@@ -1,6 +1,7 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
 
 
 

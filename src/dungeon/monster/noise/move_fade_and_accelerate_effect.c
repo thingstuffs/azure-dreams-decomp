@@ -100,7 +100,7 @@ void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, 
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (T_80171190_Work *)((u8 *)obj + 0x20);
         obj->unk_10 = D_80171358;

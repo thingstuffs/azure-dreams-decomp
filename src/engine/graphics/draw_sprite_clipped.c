@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/scratchpad.h"
+#include "sdk/libgte.h"
 
 #ifndef NULL
 #define NULL 0
@@ -66,20 +67,6 @@ typedef struct {
     u16 unk20;
     u16 unk22;
 } S_80045CC4_Arg2;
-
-
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void RotMatrix(void *r, void *m);
-extern void ReadRotMatrix(void *m);
-extern void CompMatrix(void *m0, void *m1, void *m2);
-extern void ScaleMatrix(void *m, void *v);
-extern void SetTransMatrix(void *m);
-extern void SetRotMatrix(void *m);
-extern s32 RotAverage4(
-    void *v0, void *v1, void *v2, void *v3,
-    void *sxy0, void *sxy1, void *sxy2, void *sxy3,
-    void *p, void *flag);
 
 /* Transform sprite quads, clip them to the screen, and link visible packets into the ordering table. */
 void draw_sprite_clipped(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 depth_bias)

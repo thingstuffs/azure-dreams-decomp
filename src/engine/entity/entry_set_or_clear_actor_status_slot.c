@@ -11,6 +11,7 @@ typedef struct CallbackObject {
 } CallbackObject;
 
 #include "shared/sys_flags.h"
+#include "engine/entity.h"
 
 extern s32 func_80042518(CallbackObject *object, s32 type);
 extern void set_or_clear_actor_status_slot(CallbackObject *object, s32 type, s32 value);
@@ -42,5 +43,5 @@ void func_80042560(CallbackObject *object)
         }
     }
 
-    D_80013714 = saved_flags;
+    system_update_flags = saved_flags;
 }

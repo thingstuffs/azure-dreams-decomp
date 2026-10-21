@@ -19,7 +19,7 @@ void clear_player_linked_action_flags();                            /* extern */
 s32 generate_random_value();                                /* extern */
 extern u8 D_800DCFE0[];
 extern u8 D_800DCFE8[];
-extern u8 D_800E3E41;
+extern u8 pending_player_damage_kind;
 
 /* Initialize directional animation and reset the actor action state. */
 void begin_player_damage_reaction(void *action, s32 unused, void *sprite, EntityRec *actor) {
@@ -51,7 +51,7 @@ void begin_player_damage_reaction(void *action, s32 unused, void *sprite, Entity
     {
         s32 mode_mask = 0x20000000;
         if (actor->flags1C & mode_mask) {
-            ((Rec_func_8008ACDC_arg0 *)action)->unk_96.as_s16 = (s16) D_800E3E41;
+            ((Rec_func_8008ACDC_arg0 *)action)->unk_96.as_s16 = (s16) pending_player_damage_kind;
         }
     }
 }

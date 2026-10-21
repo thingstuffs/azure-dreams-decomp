@@ -4,7 +4,7 @@
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
-extern EntityCallback D_800E21C0[];
+extern EntityCallback floor_contact_callbacks[];
 
 extern void func_800478B8(void *entity);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
@@ -63,7 +63,7 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
     if (callback != 0) {
         callback(object_base, motion, entity, object_base);
     }
-    D_800E21C0[(*(u8 *)((u8 *)object_base + (0x9A)))](object_base, motion, entity, object_base);
+    floor_contact_callbacks[(*(u8 *)((u8 *)object_base + (0x9A)))](object_base, motion, entity, object_base);
 
     entity_flags = ((S_800D1E34_0 *)entity)->unk_14;
     if (!(entity_flags & 0x8000)) {

@@ -26,10 +26,10 @@ extern void strcat();
 extern void draw_vram_glyph_text();
 extern void draw_cached_catalog_text();
 
-extern u8 D_8011ACEC[16];
-extern u8 D_8011AD00[16];
-extern ImageEntry D_80126E98[];
-extern ImageList D_801278B0[];
+extern u8 catalog_habitat_label[16];
+extern u8 catalog_number_prefix[16];
+extern ImageEntry catalog_glyphs[];
+extern ImageList catalog_detail_images[];
 
 /* Clear display regions and draw the selected entry images and numbered label. */
 void draw_catalog_secondary_detail(void *state)
@@ -61,17 +61,17 @@ void draw_catalog_secondary_detail(void *state)
     func_800671A8(&clear_rect, 0, 0, 0);
 
     entry_index = ((u8 *)state)[0x14];
-    draw_cached_catalog_text(D_80126E98[entry_index].image, 0x1C0, 0x90);
-    draw_vram_glyph_text(D_8011ACEC, 0x1C7, 0xC0);
+    draw_cached_catalog_text(catalog_glyphs[entry_index].image, 0x1C0, 0x90);
+    draw_vram_glyph_text(catalog_habitat_label, 0x1C7, 0xC0);
 
     entry_index = ((u8 *)state)[0x14];
-    draw_vram_glyph_text(*D_80126E98[entry_index].image_ref,
-                  (s16)(0x1CF - D_80126E98[entry_index].width), 0xD0);
+    draw_vram_glyph_text(*catalog_glyphs[entry_index].image_ref,
+                  (s16)(0x1CF - catalog_glyphs[entry_index].width), 0xD0);
 
     entry_index = ((u8 *)state)[0x14];
     pos = 0;
-    if (D_801278B0[entry_index].count != 0) {
-        image_lists = D_801278B0;
+    if (catalog_detail_images[entry_index].count != 0) {
+        image_lists = catalog_detail_images;
         do {
             draw_vram_glyph_text(image_lists[entry_index].images[pos], 0x2C0, (s16)(pos * 0x10));
             if ((pos & 1) || (pos < (image_lists[((u8 *)state)[0x14]].count - 1))) {
@@ -91,7 +91,7 @@ void draw_catalog_secondary_detail(void *state)
         label_cursor--;
     } while (pos >= 0);
 
-    strcat(label, D_8011AD00);
+    strcat(label, catalog_number_prefix);
     number_text[0] = 0x82;
     number_text[1] = ((((u8 *)state)[0x14] + 1) / 10) + 0x4F;
     number_text[2] = 0x82;

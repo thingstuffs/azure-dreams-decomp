@@ -90,7 +90,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 if ((check_entity_relation(actor_in,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -101,7 +101,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
                 TileObject *reference_pos;
                 s8 room_id;
 
-                reference_pos = &D_80082E80;
+                reference_pos = &reference_tile_object;
                 room_id = ((S_80173CD4_1 *)sprite_in)->unk_26;
                 if ((((room_id == reference_pos->room_index) &&
                       (room_id >= 0)) ||
@@ -264,7 +264,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, void *ani
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }

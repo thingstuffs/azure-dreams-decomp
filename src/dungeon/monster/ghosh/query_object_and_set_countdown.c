@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_80174704;
+extern s32 ghosh_actor_node;
 extern s32 create_linked_actor_fade_effect(s32);
 
 /* Store the object query result and set an active flag and countdown when nonzero. */
@@ -9,8 +9,8 @@ s32 query_object_and_set_countdown(void) {
     s32 flag;
     void *status;
 
-    status = (void *)(D_80174704 + 0x20);
-    result = create_linked_actor_fade_effect(D_80174704);
+    status = (void *)(ghosh_actor_node + 0x20);
+    result = create_linked_actor_fade_effect(ghosh_actor_node);
     *(s32 *)((s8 *)status + 0xA4) = result;
     if (result == 0) {
         return 0;

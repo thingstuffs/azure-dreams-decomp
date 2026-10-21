@@ -194,14 +194,14 @@ void advance_actor_ability_and_completion(void *action, ObjectPosition *motion, 
         if (*item_slot != 0) {
             ((ItemEffectActionState *)action)->flags &= 0xFF7F;
             if ((s16)use_player_target != 0) {
-                item_target = D_800814A8;
+                item_target = primary_actor_record;
                 ((ActorActionBytesView *)actor)->target = item_target;
                     effect_state = ((ObjectNodeHeader *)((u8 *)item_target - 0x20))->unk_0C;
                     ((ActorActionBytesView *)actor)->targetX = ((TargetTileView *)effect_state)->tileX;
                     ((ActorActionBytesView *)actor)->targetY = ((TargetTileView *)effect_state)->tileY;
             } else {
                 u8 item_id = *item_slot;
-                DefEntry *item_defs = D_8006DE24;
+                DefEntry *item_defs = item_action_definitions;
                 if (item_defs[item_id].kind == 2) {
                     item_target = ((ActorActionBytesView *)actor)->target;
                     if (item_target != 0) {
@@ -237,7 +237,7 @@ void advance_actor_ability_and_completion(void *action, ObjectPosition *motion, 
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        ((PlayerActionCountView *)D_800814A8)->remainingActions--;
+        ((PlayerActionCountView *)primary_actor_record)->remainingActions--;
         advance_status_timers(actor);
         ((ActorActionBytesView *)actor)->remainingActions--;
         ((ItemEffectActionState *)action)->nextBehavior = &D_80159728;
@@ -262,7 +262,7 @@ void advance_actor_ability_and_completion(void *action, ObjectPosition *motion, 
             timer = ((ItemEffectActionState *)action)->timer.unsignedTicks - 1;
             ((ItemEffectActionState *)action)->timer.unsignedTicks = timer;
             if (timer == 0xB || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
-                effect_handle = (s32)allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+                effect_handle = (s32)allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
                 if (effect_handle != 0) {
                     void *actor_model;
                     u8 animation_id;

@@ -25,7 +25,7 @@ extern s32 has_pending_dungeon_activity();
 extern s32 display_text_with_fullwidth_adjustment();
 
 extern u8 D_80170838[16];
-extern u8 D_80170848[16];
+extern u8 garuda_walk_text[16];
 extern u8 D_80174880[9];
 
 #line 1 "a"
@@ -54,7 +54,7 @@ void advance_actor_walk_animation(void *owner, void *unused, void *part, EntityR
         original_value = current_value;
         current_value = adjusted_value;
         func_80099290(expand_text_control_codes(
-            D_80170848,
+            garuda_walk_text,
             append_entity_display_text(((S_801722E0_2 *)owner)->unk_A8,
                 expand_text_control_codes(D_80170838, current_value))));
         display_text_with_fullwidth_adjustment(original_value);

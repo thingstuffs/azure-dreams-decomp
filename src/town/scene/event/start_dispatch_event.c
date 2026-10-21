@@ -21,11 +21,11 @@ s32 start_dispatch_event(s32 init_arg) {
     TownCallback callback;
     s32 started;
 
-    if (D_8001E950->dispatchState == 0) {
+    if (town_event_state->dispatchState == 0) {
         select_next_event_state();
-        D_8001E950->dispatchState++;
+        town_event_state->dispatchState++;
         started = 1;
-        event = select_event_data_table(D_8001E950->dispatchState, D_8001E950->unk_05);
+        event = select_event_data_table(town_event_state->dispatchState, town_event_state->unk_05);
         town = ((S_8001975C_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_20;
         callback = (*(TownCallback *)((u8 *)town + 0x2F8));
         callback(event[0], event[1]);

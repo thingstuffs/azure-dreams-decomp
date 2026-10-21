@@ -1,6 +1,7 @@
 #include "slus/owned_80038A10.h"
 
 #include "slus/owned_80038A10.h"
+#include "engine/message.h"
 
 void update_message_window(Func80038A10State *input_state) {
     Func80038A10State *state = input_state;

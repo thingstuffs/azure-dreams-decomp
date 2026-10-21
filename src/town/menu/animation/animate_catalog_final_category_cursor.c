@@ -30,10 +30,10 @@ typedef struct TownObject {
 } TownObject;
 
 extern u8 is_catalog_entry_available(u8 value);
-extern u32 D_801269D0[];
-extern u16 D_80126B20[];
-extern u16 D_80126B24;
-extern u8 D_80127B64[];
+extern u32 catalog_normal_digits[];
+extern u16 catalog_cursor_rows[];
+extern u16 catalog_cursor_columns;
+extern u8 catalog_number_marker[];
 
 /* Updates the object's number display and paired fields for its current state. */
 void animate_catalog_final_category_cursor(TownObject *obj)
@@ -62,11 +62,11 @@ void animate_catalog_final_category_cursor(TownObject *obj)
         if (is_catalog_entry_available((u8)entry_index) != 0) {
             s32 display_number = entry_index + 1;
 
-            *((TownObject *)(obj))->pool->slots[slot_index] = (u32)D_80127B64;
+            *((TownObject *)(obj))->pool->slots[slot_index] = (u32)catalog_number_marker;
             slot_index = side_offset + 34;
-            *((TownObject *)(obj))->pool->slots[slot_index] = D_801269D0[display_number / 10];
+            *((TownObject *)(obj))->pool->slots[slot_index] = catalog_normal_digits[display_number / 10];
             slot_index = side_offset + 35;
-            *((TownObject *)(obj))->pool->slots[slot_index] = D_801269D0[display_number % 10];
+            *((TownObject *)(obj))->pool->slots[slot_index] = catalog_normal_digits[display_number % 10];
         }
         break;
 
@@ -79,8 +79,8 @@ void animate_catalog_final_category_cursor(TownObject *obj)
     }
 
     case 3:
-        ((TownObject *)(obj))->pool->pair->first->field8 = D_80126B20[((TownObject *)(obj))->side];
-        ((TownObject *)(obj))->pool->pair->first->fieldA = D_80126B24;
+        ((TownObject *)(obj))->pool->pair->first->field8 = catalog_cursor_rows[((TownObject *)(obj))->side];
+        ((TownObject *)(obj))->pool->pair->first->fieldA = catalog_cursor_columns;
         break;
 
     default:

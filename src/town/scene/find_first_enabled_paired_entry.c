@@ -3,7 +3,7 @@
 
 extern s32 func_8001E578();
 extern s32 func_8001E670();
-extern u8 D_8001791C[96];
+extern u8 town_selection_records[96];
 
 typedef struct S_8001A360_0 {
     u8 pad_00[0x4];
@@ -17,7 +17,7 @@ s32 find_first_enabled_paired_entry(void) {
     u8 *entry;
     u8 *table_base;
 
-    table_base = D_8001791C;
+    table_base = town_selection_records;
     for (entry_index = 1; entry_index < 8; entry_index++) {
         entry = table_base + entry_index * 12;
         if ((func_8001E670(((S_8001A360_0 *)entry)->unk_04) != 0) && (func_8001E670(((S_8001A360_0 *)entry)->unk_06)

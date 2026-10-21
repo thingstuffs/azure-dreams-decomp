@@ -1,6 +1,7 @@
 #include "slus/owned_8004713C.h"
 
 #include "slus/owned_8004713C.h"
+#include "engine/graphics.h"
 
 void runtime_upload_image_blocks_vram_offsets_selected_tile_block_indices(s32 image_addr, s32 tile_id, s32 num_blocks) {
     s32 image_data;

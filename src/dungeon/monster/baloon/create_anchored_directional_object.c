@@ -66,7 +66,7 @@ extern void project_sprite_chain(void);
 extern void select_sprite_entry();
 
 extern u8 D_800D6FEC[];
-extern u8 D_800E23D0[];
+extern u8 baloon_anchored_frames[];
 
 /* Creates an object from a template, selects its direction, and positions it at the anchor. */
 void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80D653B8_2 *object_template,
@@ -78,7 +78,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
     S_80D653B8_0 *object_work;
 
     (void)unused;
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         object_work = (u8 *)object + 0x20;
         object_work->unk_96 = initial_value;
@@ -100,7 +100,7 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
         register_node(object, project_sprite_chain);
 
         {
-            u8 *direction_table = D_800E23D0;
+            u8 *direction_table = baloon_anchored_frames;
 
             ((SpriteFrameState *)object_data)->frameTable = direction_table;
             select_sprite_entry(object_data,

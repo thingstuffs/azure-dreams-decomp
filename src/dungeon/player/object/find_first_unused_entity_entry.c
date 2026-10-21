@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u8 D_800E3E48[];
+extern u8 familiar_record_storage[];
 
 /* Return the index of the first unused entry, or -1 if all entries are occupied. */
 s32 find_first_unused_entity_entry(void)
@@ -10,7 +10,7 @@ s32 find_first_unused_entity_entry(void)
     s32 result;
 
     index = 0;
-    entry = D_800E3E48;
+    entry = familiar_record_storage;
     do {
         if (entry[0x13] == 0) {
             result = index;

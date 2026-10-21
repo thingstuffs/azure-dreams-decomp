@@ -1,6 +1,7 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "main.h"
 
 typedef struct func_8000EEB8_S_80021EB8_0 {
     u8 pad_00[0x204];

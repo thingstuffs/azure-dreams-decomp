@@ -155,7 +155,7 @@ void update_dungeon_actor_actions(void *actor, void *context, void *sprite, void
             update_actor_status_and_food(stats);
             return;
         }
-        if ((F(sprite, u16, 0x24) == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) &&
+        if ((F(sprite, u16, 0x24) == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) &&
             (F(actor, u8, 0xAE) == 0)) {
             require_object_flag(actor, stats);
             func_801718F8(actor, context, sprite, stats);
@@ -165,7 +165,7 @@ void update_dungeon_actor_actions(void *actor, void *context, void *sprite, void
         if (!(F(stats, u16, 0x46) & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(stats,
-                        (u8 *)F(D_800814A8, void *, 0x58) + 0x20) != 0) {
+                        (u8 *)F(primary_actor_record, void *, 0x58) + 0x20) != 0) {
                     return;
                 }
             }
@@ -235,8 +235,8 @@ void update_dungeon_actor_actions(void *actor, void *context, void *sprite, void
 
             heading = get_rounded_facing_and_rounding_flag(
                 F(sprite, u8, 0x24), F(sprite, u8, 0x25),
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &heading_flags);
-            leader = D_800814A8;
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &heading_flags);
+            leader = primary_actor_record;
             F(stats, s16, 0x2A) = heading;
             if (F(leader, u8, 0x9A) != 17) {
                 update_actor_status_and_food(stats);
@@ -262,16 +262,16 @@ void update_dungeon_actor_actions(void *actor, void *context, void *sprite, void
         if (F(actor, u8, 0xAE) == 0) {
             u32 flags = F(stats, u32, 0x1C);
             if (!(flags & 0x2000)) {
-                if (!((s8)tile_index >= 0 && (D_800E2970[(s8)tile_index].flags & 2)) && !(flags & 0x430)) {
+                if (!((s8)tile_index >= 0 && (dungeon_rooms[(s8)tile_index].flags & 2)) && !(flags & 0x430)) {
                     if ((s16)compare_monster_neighbor_values(F(sprite, u8, 0x24), F(sprite, u8, 0x25),
-                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         F(stats, s16, 0x2A) = get_rounded_facing_and_rounding_flag(
                             F(sprite, u8, 0x24), F(sprite, u8, 0x25),
-                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &heading_flags);
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &heading_flags);
                     }
                 }
             } else if ((s16)get_entity_effect_value(stats, 4) == 0) {
-                if (F(D_800814A8, u8, 0x9A) == 23) {
+                if (F(primary_actor_record, u8, 0x9A) == 23) {
                     advance_timed_directional_reset(actor, context, sprite, stats);
                 }
             }

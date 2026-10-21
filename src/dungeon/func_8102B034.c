@@ -117,12 +117,12 @@ void start_actor_action_and_reset(ActionState *action_state, ObjectPosition *mot
             action_state->flags = flags_or_target_mode;
             flags_or_target_mode = use_player_target;
             if (flags_or_target_mode != 0) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 actor->target = target;
                 target_sprite = ((ObjectHeaderTail *)target)[-1].sprite;
                 actor->target_tile_x = target_sprite->tileX;
                 actor->target_tile_y = target_sprite->tileY;
-            } else if (D_8006DE24[*item_slot].kind == 2) {
+            } else if (item_action_definitions[*item_slot].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
                     target_sprite = ((ObjectHeaderTail *)target)[-1].sprite;
@@ -162,7 +162,7 @@ void start_actor_action_and_reset(ActionState *action_state, ObjectPosition *mot
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
-        ((PlayerActionCounter *)D_800814A8)->pendingActions--;
+        ((PlayerActionCounter *)primary_actor_record)->pendingActions--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
         action_state->handler = D_8014D058;

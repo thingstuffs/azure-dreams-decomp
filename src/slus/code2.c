@@ -4,7 +4,7 @@
 
 /* g_game_work.view declared on its own: func_8004D0C8 / func_8004D110 form their base at 0x80083178 (as g_game_work the
  * offsets and the schedule change: cc1 listing differs). */
-extern GameView D_80083178;
+extern GameView game_view_state_alias;
 
 /* The remainder and its extracted owners use their registered TU recipes. */
 
@@ -23,7 +23,7 @@ struct S_80082E60 {
 
 /* Stores the value in D_80082E60 and clears its two flag bytes. */
 void set_scene_phase_callback(int value) {
-    struct S_80082E60 *state = ((struct S_80082E60 *)&D_80082E60);
+    struct S_80082E60 *state = ((struct S_80082E60 *)&runtime_dispatch_state);
 
     state->field_4 = value;
     state->field_D = 0;
@@ -35,12 +35,12 @@ extern struct {
     int f1;
     int f2;
     int f3;
-} D_8006CE34;
+} cd_cue_parameters;
 
 /* Stores four values in consecutive fields of D_8006CE34. */
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3)
 {
-    struct { int f0; int f1; int f2; int f3; } *values = &D_8006CE34;
+    struct { int f0; int f1; int f2; int f3; } *values = &cd_cue_parameters;
     values->f0 = value_0;
     values->f1 = value_1;
     values->f2 = value_2;
@@ -50,11 +50,11 @@ void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int valu
 /* reset_scene_frame_callback_list */
 
 extern int runtime_callback_entries[8];
-extern void *D_800814E0;
+extern void *runtime_callback_write_cursor;
 
 /* Points D_800814E0 at D_80083C68 and clears its first word. */
 void reset_scene_frame_callback_list(void) {
-    D_800814E0 = runtime_callback_entries;
+    runtime_callback_write_cursor = runtime_callback_entries;
     runtime_callback_entries[0] = 0;
 }
 
@@ -65,8 +65,8 @@ void copy_view_halfword_triplet(void);
 /* Registers the state pointer and the default callback copy_view_halfword_triplet. */
 void bind_view_triplet_source(void *state)
 {
-    D_80083178.slot[0].position_source = state;
-    D_80083178.slot[0].callback = copy_view_halfword_triplet;
+    game_view_state_alias.slot[0].position_source = state;
+    game_view_state_alias.slot[0].callback = copy_view_halfword_triplet;
 }
 
 /* func_800419EC */
@@ -97,8 +97,8 @@ void copy_global_short_triplet(void);
 /* Registers the state pointer and the default callback copy_global_short_triplet. */
 void bind_global_triplet_source(void *state)
 {
-    D_80083178.slot[0].unk_04 = state;
-    D_80083178.slot[0].callback = copy_global_short_triplet;
+    game_view_state_alias.slot[0].unk_04 = state;
+    game_view_state_alias.slot[0].callback = copy_global_short_triplet;
 }
 
 extern unsigned char audio_force_center_pan[16];
@@ -175,14 +175,14 @@ typedef struct {
     short d;
 } D_80083D78_t;
 
-extern D_80083D78_t D_80083D78;
+extern D_80083D78_t display_resource_cache_keys;
 
 /* Resets the four short fields of D_80083D78 to -1. */
 void invalidate_four_sprite_resource_slots(void) {
-    D_80083D78.a = -1;
-    D_80083D78.b = -1;
-    D_80083D78.c = -1;
-    D_80083D78.d = -1;
+    display_resource_cache_keys.a = -1;
+    display_resource_cache_keys.b = -1;
+    display_resource_cache_keys.c = -1;
+    display_resource_cache_keys.d = -1;
 }
 
 /* D_8007359C: a pointer-sized global that (per the target's lui/lw access pattern) is
@@ -200,12 +200,12 @@ typedef struct {
 
 /* declared as a small array (size > 8 bytes) purely to force hi/lo addressing for
  * element 0, matching the target's lui/lw access to the pointer value itself. */
-extern Entry8007359C *D_8007359C[4];
+extern Entry8007359C *monster_species_table[4];
 
 /* Returns the word at offset 4 of the indexed D_8007359C entry. */
 int monster_get_species_name_text(int index)
 {
-    Entry8007359C *entries = D_8007359C[0];
+    Entry8007359C *entries = monster_species_table[0];
     return entries[index].unk4;
 }
 
@@ -270,7 +270,7 @@ extern void activate_scene_resource_and_clear_view_callbacks(void);
 /* Copies field_B into field_18 of D_80082E60, then calls activate_scene_resource_and_clear_view_callbacks. */
 void scene_save_previous_mode_and_reset_callbacks(void)
 {
-    D_80082E60.field_18 = ((signed char)D_80082E60.field_B);
+    runtime_dispatch_state.field_18 = ((signed char)runtime_dispatch_state.field_B);
     activate_scene_resource_and_clear_view_callbacks();
 }
 
@@ -289,7 +289,7 @@ u8 select_display_spacing_table_entry(s32 index, s32 count)
     return table[index];
 }
 
-extern char D_8006ADC0[16]; /* >8B forces hi/lo addressing (pointer stored at offset 0) */
+extern char optional_resource_descriptor[16]; /* >8B forces hi/lo addressing (pointer stored at offset 0) */
 extern char D_800812C8[16]; /* >8B forces hi/lo addressing (address-of target) */
 
 extern void resource_load_current_optional_descriptor(void);
@@ -297,7 +297,7 @@ extern void resource_load_current_optional_descriptor(void);
 /* Stores the address of D_800812C8 in D_8006ADC0, then calls resource_load_current_optional_descriptor. */
 void func_80053CA4(void)
 {
-    char **pointer_slot = (char **)D_8006ADC0;
+    char **pointer_slot = (char **)optional_resource_descriptor;
     *pointer_slot = D_800812C8;
     resource_load_current_optional_descriptor();
 }
@@ -359,15 +359,15 @@ typedef struct {
     s32 field8;
 } StructADBC;
 
-extern StructADBC D_8006ADBC;
+extern StructADBC map_runtime_state;
 
 extern void submit_cd_command_six_and_drain(s32 a0);
 
 /* Copies field4 to field0 of D_8006ADBC and forwards nonzero values to func_80053C3C. */
 void resource_load_current_optional_descriptor(void) {
-    s32 value = D_8006ADBC.field4;
+    s32 value = map_runtime_state.field4;
 
-    D_8006ADBC.field0 = value;
+    map_runtime_state.field0 = value;
     if (value != 0) {
         submit_cd_command_six_and_drain(value);
     }

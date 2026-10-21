@@ -60,7 +60,7 @@ void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     saved_spawn_value = spawn_value;
     saved_variant = variant;
     kind_id = 0x112;
-    created = allocate_list_node(kind_id, ((u8 *)(&D_80083498)));
+    created = allocate_list_node(kind_id, ((u8 *)(&scene_object_list_anchor)));
     saved_flags = (s32)flags;
     if (created != 0) {
         void *init_arg0;

@@ -1,5 +1,6 @@
 #include "slus/runtime_directory.h"
 #include "shared/runtime_dispatch.h"
+#include "slus.h"
 
 
 /* PS-X EXE payload at VMA 0x80080A6C: 04 00 00 00. */
@@ -38,7 +39,7 @@ s32 find_or_load_runtime_resource_key(s32 key)
 {
     s32 index;
 
-    if (D_80082E60.mode == 2 && *(s8 *)0x800DCF4D != -2) {
+    if (runtime_dispatch_state.mode == 2 && *(s8 *)0x800DCF4D != -2) {
         index = -1;
     } else {
         index = find_runtime_table_key_index(key);
@@ -59,7 +60,7 @@ void initialize_runtime_resource_directory(void)
     GpTablePrefix default_state;
 
     __builtin_memcpy(&default_state, &runtime_directory_defaults, 0x20);
-    if (D_80082E60.mode != 2) {
+    if (runtime_dispatch_state.mode != 2) {
         runtime_resource_directory = runtime_directory_defaults;
         runtime_directory_entry_count = 4;
     } else {

@@ -106,10 +106,10 @@ extern s16 check_entity_relation(void *, void *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern s16 func_80174BCC(void *, s32, void *, void *);
 
-extern u8 D_80082E80[];
-extern u16 D_80082EA4;
-extern s16 D_8006CD00[];
-extern DungeonModeRecord D_800E2970[];
+extern u8 reference_tile_object[];
+extern u16 reference_tile_position_alias;
+extern s16 actor_turn_angle_offsets[];
+extern DungeonModeRecord dungeon_rooms[];
 
 /* Chooses a movement heading, advances the actor, and updates its path state and height. */
 void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *actor, void *movement)
@@ -170,9 +170,9 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
             } else {
                 {
                     s32 dir;
-                    dir = (((S_8017405C_0 *)movement)->unk_45 + (D_800814A8->facing >> 9)) & 7;
-                    heading = D_80082E80[0x24] + dir_step_x[dir];
-                    target_y = D_80082E80[0x25] + dir_step_y[dir];
+                    dir = (((S_8017405C_0 *)movement)->unk_45 + (primary_actor_record->facing >> 9)) & 7;
+                    heading = reference_tile_object[0x24] + dir_step_x[dir];
+                    target_y = reference_tile_object[0x25] + dir_step_y[dir];
                     if (actor->unk_24.at00.v == (u16)heading && actor->unk_24.at01.v == (u16)target_y) {
                         ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
                         return;
@@ -184,7 +184,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                         (s16)target_y, path_state);
                     ((S_8017405C_0 *)movement)->unk_2A.u = target_heading;
                     if (check_movement_clearance_and_height((s16)target_heading, actor, movement, 0x20) <= 0) {
-                        u8 *leader_pos = (u8 *)&D_80082EA4 - 0x24;
+                        u8 *leader_pos = (u8 *)&reference_tile_position_alias - 0x24;
                         ((S_8017405C_0 *)movement)->unk_2A.u = get_rounded_facing_and_rounding_flag(actor->unk_24.at00.v, actor->unk_24.at01.v,
                                                             leader_pos[0x24], leader_pos[0x25], path_state);
                     }
@@ -193,7 +193,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
         }
     } else {
         s32 mode = actor->unk_26.s;
-        if (mode >= 0 && (D_800E2970[mode].flags & 2)) {
+        if (mode >= 0 && (dungeon_rooms[mode].flags & 2)) {
             rebuild_monster_reachable_tiles(actor, ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8, movement, (u8 *)context + 0x98);
         } else {
             if (!(((S_8017405C_0 *)movement)->unk_46 & 0x8000)) {
@@ -213,15 +213,15 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                 void *first_master;
                 void *second_master;
                 ((Rec_func_800A9E70_arg0 *)context)->unk_A6 = 0;
-                first_master = D_800814A8->unk_AC;
-                if (first_master == 0 || (second_master = D_800814A8->unk_B0) == 0) {
+                first_master = primary_actor_record->unk_AC;
+                if (first_master == 0 || (second_master = primary_actor_record->unk_B0) == 0) {
                     {
-                        u8 *leader_pos = D_80082E80;
+                        u8 *leader_pos = reference_tile_object;
                         s32 angle_delta;
                         s32 relative_angle;
                         angle_delta = forward_monster_coordinate_delta(leader_pos[0x24], leader_pos[0x25],
                                               actor->unk_24.at00.v, actor->unk_24.at01.v);
-                        relative_angle = (((u16)D_800814A8->facing) + angle_delta) & 0xFFF;
+                        relative_angle = (((u16)primary_actor_record->facing) + angle_delta) & 0xFFF;
                         if (relative_angle > 0x400 && relative_angle < 0xC00) {
                             ((S_8017405C_0 *)movement)->unk_45 = 3;
                         } else if (relative_angle == 0x400 || relative_angle == 0xC00) {
@@ -232,9 +232,9 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                     }
                     {
                         s32 dir;
-                        dir = (((S_8017405C_0 *)movement)->unk_45 + (D_800814A8->facing >> 9)) & 7;
-                        heading = D_80082E80[0x24] + dir_step_x[dir];
-                        target_y = D_80082E80[0x25] + dir_step_y[dir];
+                        dir = (((S_8017405C_0 *)movement)->unk_45 + (primary_actor_record->facing >> 9)) & 7;
+                        heading = reference_tile_object[0x24] + dir_step_x[dir];
+                        target_y = reference_tile_object[0x25] + dir_step_y[dir];
                         ((S_8017405C_0 *)movement)->unk_2A.u = get_rounded_facing_and_rounding_flag(actor->unk_24.at00.v, actor->unk_24.at01.v,
                                                             heading, target_y, (u8 *)context + 0x98);
                         if (actor->unk_24.at00.v == (u16)heading && actor->unk_24.at01.v == (u16)target_y) {
@@ -281,19 +281,19 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
             if (((Rec_func_800A9E70_arg0 *)context)->unk_A6 != 0) {
                 s32 base_heading = ((Rec_func_800A9E70_arg0 *)context)->unk_A4;
                 if (((Rec_func_800A9E70_arg0 *)context)->unk_98 & 2) {
-                    y_offset = D_8006CD00[move_index];
+                    y_offset = actor_turn_angle_offsets[move_index];
                     heading = base_heading - y_offset;
                 } else {
-                    y_offset = D_8006CD00[move_index];
+                    y_offset = actor_turn_angle_offsets[move_index];
                     heading = base_heading + y_offset;
                 }
             } else {
                 target = (void *)((u8 *)(((S_8017405C_0 *)movement)->unk_2A.s));
                 if (((Rec_func_800A9E70_arg0 *)context)->unk_98 & 2) {
-                    y_offset = D_8006CD00[move_index];
+                    y_offset = actor_turn_angle_offsets[move_index];
                     heading = (s32)(u8 *)target - y_offset;
                 } else {
-                    y_offset = D_8006CD00[move_index];
+                    y_offset = actor_turn_angle_offsets[move_index];
                     heading = (s32)(u8 *)target + y_offset;
                 }
             }
@@ -329,8 +329,8 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                               (((S_8017405C_0 *)movement)->unk_1C & 0x2000) ? 0x300 : 0x3000);
                 break;
             }
-            if (move_index == 0 && D_80082EA4 != actor->unk_24.at00u.v) {
-                if (check_entity_relation(movement, D_800814A8->unk_58 + 0x20) != 0) {
+            if (move_index == 0 && reference_tile_position_alias != actor->unk_24.at00u.v) {
+                if (check_entity_relation(movement, primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }

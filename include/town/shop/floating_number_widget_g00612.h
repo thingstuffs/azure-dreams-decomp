@@ -105,14 +105,14 @@ extern void func_800B18F8(s32 a0);
 extern s32 D_80078D6C[4];
 extern u8 D_800D1560[16];
 void initialize_templated_state_and_position(s32, s32, s32, s32, s32);
-extern s32 D_8002E5D8[4];
+extern s32 display_block_defaults[4];
 /* object in create_dual_buffer_object */
 extern void *create_callback_pair_default(s32);
 extern void func_8004B1A4(void *);
 extern void *process_context_with_selector_4(void *);
 extern void register_node(void *, void *);
 extern void lower_value_toward_target(void);
-extern u8 D_8004CAA0[];
+extern u8 dungeon_menu_tag[];
 
 /* Functions defined in this translation unit. */
 void initialize_panel_content_and_positions(S_800B19F8_0 *panel);

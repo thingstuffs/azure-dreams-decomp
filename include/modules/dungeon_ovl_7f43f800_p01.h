@@ -68,6 +68,6 @@ typedef struct {
 
 extern void func_800478B8();
 extern s32 func_80065420();
-extern s8 D_800DCECC[8];
+extern s8 view_direction_depth_biases[8];
 void update_effect_visuals_and_lifetime(void *state, void *position, void *effect_arg);
 #endif

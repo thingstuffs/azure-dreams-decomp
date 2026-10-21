@@ -44,7 +44,7 @@ typedef struct {
 } DungeonEntry;
 
 extern u8 D_8016B778[];
-extern u16 D_80013714;
+extern u16 system_update_flags;
 extern u8 D_801746B4[];
 extern u8 D_800F93AA[];
 
@@ -90,7 +90,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, Arg2 *anima
         break;
     case 3:
         if (animation->flags & 0xE000) {
-            if (D_800E3D7C->hp < 2) {
+            if (dungeon_actor_ring_anchor->hp < 2) {
                 s32 entry_index;
                 s32 resource_flag;
                 void *effect;
@@ -101,7 +101,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, Arg2 *anima
                 g_dungeon_status.active_actor = 0;
                 g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
                 *(u16 *)((u8 *)actor + 0x46) &= 0x7FFF;
-                *(u16 *)&D_80013714 = D_80013714 | 8;
+                *(u16 *)&system_update_flags = system_update_flags | 8;
                 func_800353F4(effect);
                 entry_index = 0;
                 resource_flag = 0x80000000;
@@ -111,13 +111,13 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, Arg2 *anima
                     DungeonEntry *entry;
                     u32 entry_addr;
 
-                    entry_addr = (u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C);
+                    entry_addr = (u32)(entry_index * 4) + (u32)((DungeonEntry *)dungeon_actor_ring_anchor);
                     entry = (DungeonEntry *)entry_addr;
                     if (entry->unkac != 0) {
                         u32 *resource_header;
 
                         clear_actor_action_markers(entry->unkac);
-                        entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)((DungeonEntry *)D_800E3D7C));
+                        entry = (DungeonEntry *)((u32)(entry_index * 4) + (u32)((DungeonEntry *)dungeon_actor_ring_anchor));
                         resource_header = (u32 *)(entry->unkac - 0x20);
                         resource_header[4] = resource_header[4] | resource_flag;
                     }

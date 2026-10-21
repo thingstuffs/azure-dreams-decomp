@@ -1,7 +1,8 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern void func_8004DDBC(void *base, void *data, void *entry);
-extern u8 D_80408A30[];
 
 /* Configures two object entries and initializes them with shared data. */
 void card_dev_layout_two_rows(void *object) {

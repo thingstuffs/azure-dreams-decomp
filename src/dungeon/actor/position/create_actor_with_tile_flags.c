@@ -67,7 +67,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
     u8 sprite_tile_x;
     u8 sprite_tile_y;
 
-    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         entity = object + 0x20;
         ((S_800D3F74_0 *)entity)->unk_13 = 0x34;

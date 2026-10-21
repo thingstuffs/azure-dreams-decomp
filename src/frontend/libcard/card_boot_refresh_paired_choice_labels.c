@@ -1,10 +1,8 @@
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
-
-extern void func_8004CBFC(void *, s32, s32 *);
-extern u8 D_80028068[];
-extern s32 D_8002806C[];
-extern s32 D_80028074[];
+#include "frontend/libcard.h"
+#include "main/data.h"
+#include "slus.h"
 
 /* Updates two selected records and writes their table values to paired destinations. */
 void card_boot_refresh_paired_choice_labels(u8 *state)

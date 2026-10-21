@@ -26,7 +26,7 @@ extern u8 D_80025710[16];
 extern u8 D_800256EC[16];
 extern u8 D_800DED28[];
 extern u8 D_800DEB28[];
-extern u8 D_800DE870[];
+extern u8 effect_sprite_sources[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
@@ -100,7 +100,7 @@ void func_80024104(void *owner) {
         rect = (Rect16 *)((u8 *)&rect_table + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
-        draw_transformed_sprite_with_clip_rect(D_800814A8, rect, center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(primary_actor_record, rect, center, 1, 1);
 
         effect = func_8003FC64(0x212);
         if (effect != 0) {
@@ -116,7 +116,7 @@ void func_80024104(void *owner) {
             display->field6 = 4;
             display->flags &= 0xFFF3;
 
-            vector_src = ((S_80024104_2_pre *)D_800814A8)[-1].unk_00;
+            vector_src = ((S_80024104_2_pre *)primary_actor_record)[-1].unk_00;
             vector_dst = ((S_80024104_1 *)effect)->unk_08;
             ((s32 *)vector_dst)[0] = ((s32 *)vector_src)[0];
             ((s32 *)vector_dst)[1] = ((s32 *)vector_src)[1];
@@ -452,8 +452,8 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
     case 0:
         enabled = 1;
         initial_color = 0x00808080;
-        F(D_800814A8, s32, 0xF4) = 0;
-        F(((u8 *)(&D_80082E80)), u16, 6) = 6;
+        F(primary_actor_record, s32, 0xF4) = 0;
+        F(((u8 *)(&reference_tile_object)), u16, 6) = 6;
         F(effect, void *, 0x64) = func_800249F0(effect, position, effect_context, D_80025704,
                                                      enabled, 0x1000, 0x1000, initial_color);
         F(effect, void *, 0x68) = func_800249F0(effect, position, effect_context, D_80025710,
@@ -468,12 +468,12 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
         }
         init_object = effect;
         {
-            void *actor = D_800814A8;
+            void *actor = primary_actor_record;
             F(effect, u16, 0x20) = (u16)((u32)(0x14));
             F(actor, u16, 0xA6) = (u16)(F(actor, u16, 0xA6) - 1);
             F(actor, u8, 0xA8) = F(effect, u8, 8);
         }
-        component = F(D_800814A8, u16, 0x2A);
+        component = F(primary_actor_record, u16, 0x2A);
         F(effect, u16, 0xA) = (u16)(F(effect, u16, 0xA) + 1);
         F(effect, u16, 0x26) = (u16)component;
         advance_object_spawning_displays_high(init_object, position, effect_context);
@@ -515,7 +515,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
             }
         }
         if (F(effect, s16, 0x20) < 11) {
-            u8 *dungeon = ((u8 *)(&D_80082E80));
+            u8 *dungeon = ((u8 *)(&reference_tile_object));
             if (get_sprite_attachment_vector(F(dungeon, void *, 8), dungeon,
                               (u8 *)effect + 0xC, 0) != 0) {
                 particle_index = 0;
@@ -527,7 +527,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                     particle_level = F(effect, s16, 0x26);
                     particle_x = F(effect, s16, 0xC);
                     particle_color |= 0x20F0;
-                    func_80024798((u8 *)D_800814A8 - 0x20,
+                    func_80024798((u8 *)primary_actor_record - 0x20,
                                   particle_level, particle_color,
                                   sprite_rgb,
                                   particle_x, F(effect, s16, 0xE),
@@ -537,7 +537,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                 while (particle_index < 4);
                 particle_index = 0;
                 spawn_data = func_8002492C;
-                world_offset = &D_80083780;
+                world_offset = &view_reference_entity;
                 sprite_rgb = 0x80;
                 do {
                     particle = func_8003FC64(0x212);
@@ -615,7 +615,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                         particle_level = F(effect, s16, 0x26);
                         particle_x = F(effect, s16, 0x18);
                         particle_color |= 0x20F0;
-                        func_80024798((u8 *)D_800814A8 - 0x20,
+                        func_80024798((u8 *)primary_actor_record - 0x20,
                                       particle_level, particle_color,
                                       sprite_rgb,
                                       particle_x, F(effect, s16, 0x1A),
@@ -624,7 +624,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                     } while (particle_index < 4);
                     particle_index = 0;
                     spawn_data = func_8002492C;
-                    world_offset = &D_80083780;
+                    world_offset = &view_reference_entity;
                     sprite_rgb = 0x80;
                     do
                     {
@@ -725,7 +725,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
             void *actor_position;
             F(sprite, u16, 0x10) = (u16)bits;
             F(sprite, u16, 6) = 8;
-            actor_position = D_800814A8;
+            actor_position = primary_actor_record;
             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
             position = F(particle, void *, 8);
             actor_position = F(actor_position, void *, -24);
@@ -734,7 +734,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
             F(position, u32, 8) = F(actor_position, u32, 8);
         }
         {
-            u8 *dungeon = ((u8 *)(&D_80082E80));
+            u8 *dungeon = ((u8 *)(&reference_tile_object));
             if (get_sprite_attachment_vector(F(dungeon, void *, 8), dungeon,
                               (u8 *)effect + 0xC, 0) != 0) {
                 F(position, u32, 0) += (u32)(F(effect, s16, 0xC) << 16);
@@ -756,8 +756,8 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
         if (F(effect, s16, 0x20) >= 13) {
             particle_index = 0;
             particle_script = func_8002492C;
-            spawn_data = ((u8 *)(&D_80082E80));
-            world_offset = &D_80083780;
+            spawn_data = ((u8 *)(&reference_tile_object));
+            world_offset = &view_reference_entity;
             do {
                 particle = func_8003FC64(0x212);
                 if (particle != 0) {
@@ -811,7 +811,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                     if (particle_index != 0) {
                         func_8003DB94(sprite, D_800DEB28, 0);
                     } else {
-                        func_8003DB94(sprite, D_800DE870, 0);
+                        func_8003DB94(sprite, effect_sprite_sources, 0);
                     }
                 }
                 particle_index++;
@@ -819,7 +819,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
         }
         {
             s32 fade;
-            animation_m = F(D_800814A8, void *, 0x60);
+            animation_m = F(primary_actor_record, void *, 0x60);
             if (animation_m != 0) {
                 F(animation_m, u32, 0x1C) |= 0x10000000;
                 {
@@ -835,7 +835,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                 }
             }
         }
-        if ((F(((u8 *)(&D_80082E80)), u16, 0x14) & 0x8000) == 0) {
+        if ((F(((u8 *)(&reference_tile_object)), u16, 0x14) & 0x8000) == 0) {
             F(effect, u16, 0x20) = (u16)(F(effect, u16, 0x20) - 1);
             if (F(effect, s16, 0x20) >= 0) {
                 return;
@@ -846,7 +846,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
 
     case 4:
         if (F(&D_8002571C, s16, 0) == 0) {
-            animation_m = F(D_800814A8, void *, 0x60);
+            animation_m = F(primary_actor_record, void *, 0x60);
             if (animation_m != 0) {
                 bits = (u32)0xEFFFFFFF;
                 neutral_color = 0x00808080;
@@ -860,7 +860,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                 DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
                 bits_2 = ((u16)dungeon_state->activity_counts.parts.pending_action_count);
                 F(dungeon_state, u32, 0xC) = 0;
-                F(((u8 *)(&D_80082E80)), u16, 6) = 0;
+                F(((u8 *)(&reference_tile_object)), u16, 6) = 0;
                 dungeon_state->activity_counts.parts.pending_action_count = (u16)(bits_2 - 1);
             }
             F(effect, u16, -2) = (u16)(F(effect, u16, -2) | 0x8000);

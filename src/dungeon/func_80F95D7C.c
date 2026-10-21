@@ -117,7 +117,7 @@ void func_8016757C(void *controller, EntityRec *motion, void *sprite, EntityRec 
             return;
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-            EntityRec *owner = D_800814A8;
+            EntityRec *owner = primary_actor_record;
 
             if ((func_8009A180(actor,
                     (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
@@ -127,7 +127,7 @@ void func_8016757C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         update_actor_status_and_food(actor);
         func_800A9A04(actor);
         if ((func_80042900(actor, 1) << 16) != 0) {
-            TileObject *origin = &D_80082E80;
+            TileObject *origin = &reference_tile_object;
             s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
 
             if (((tile == origin->room_index) && (tile >= 0)) ||

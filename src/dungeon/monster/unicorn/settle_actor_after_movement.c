@@ -141,7 +141,7 @@ void settle_actor_after_movement(void *animation, void *motion, void *sprite, vo
         if (((T_80172664_S_80172664_0 *)actor)->unk_6D == 0) {
             ((T_80172664_S_80172664_0 *)actor)->unk_46 &= 0x7FFF;
         } else {
-            D_800E3DE8 = (u8 *)actor - 0x20;
+            actor_update_node_cursor = (u8 *)actor - 0x20;
         }
 
     }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 extern void func_8007BEF0(s32 value) __attribute__((noreturn));
 extern void func_8007C040(void *ptr, void *ptr2, s32 value);

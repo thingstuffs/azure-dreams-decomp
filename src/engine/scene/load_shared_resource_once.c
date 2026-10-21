@@ -2,11 +2,10 @@
 #include "m2c_compat.h"
 
 #include "common.h"
-
-s32 Control_CD(s32 event_code, void *event_data, s32 payload);
-void drain_cd_command_queue(void);
-extern s8 shared_sprite_resource_loaded;
-extern M2C_UNK shared_sprite_resource_descriptor;
+#include "engine/cd.h"
+#include "engine/scene.h"
+#include "slus.h"
+#include "slus/data.h"
 
 /* Run initialization once and mark it complete. */
 void load_shared_resource_once(void) {

@@ -103,7 +103,7 @@ extern u8 D_80022454[];
 extern u8 D_80022C2C[];
 extern s16 D_800272A0[];
 extern s16 D_800272B0[];
-extern s32 D_800834B8;
+extern s32 scene_object_payload_alias;
 extern u8 D_800930E4[];
 extern s32 D_80097D2C[3];
 
@@ -131,7 +131,7 @@ void count_entries_matching_search_path(void *scene)
     TownDraw32 draw;
     TownPos pos;
     s32 color[2];
-    u8 *global = (u8 *)&D_800834B8;
+    u8 *global = (u8 *)&scene_object_payload_alias;
     u8 *work;
     void *root = ((S_8002191C_0 *)scene)->unk_04;
     void *compare = ((ObjectPayloadView *)root)->unk_08;
@@ -149,7 +149,7 @@ void count_entries_matching_search_path(void *scene)
         s32 t10;
 
         SD_Call(0xB1);
-        motion = ((u8 *)(&D_80083780));
+        motion = ((u8 *)(&view_reference_entity));
         ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
         t6 = ((S_8002191C_2 *)motion)->unk_06;
         ((S_8002191C_0 *)scene)->unk_28.s = 4;
@@ -158,7 +158,7 @@ void count_entries_matching_search_path(void *scene)
         ((S_8002191C_2 *)motion)->unk_14 = (s32)0xFFE00000;
         (*(s32 *)((u8 *)motion + 0x10)) = 0;
         (*(s32 *)((u8 *)motion + 0x0C)) = 0;
-        D_800834B8 = (s32)D_80097D2C;
+        scene_object_payload_alias = (s32)D_80097D2C;
         ((S_8002191C_3 *)global)->unk_04 = D_80022C2C;
         t10 = ((S_8002191C_3 *)global)->unk_10.s;
         ((S_8002191C_3 *)global)->unk_10.s = (t10 + 0x1000) & 0xFE00;
@@ -177,7 +177,7 @@ void count_entries_matching_search_path(void *scene)
         }
         ((S_8002191C_0 *)scene)->unk_28.s = 0x10;
         ((S_8002191C_0 *)scene)->unk_36.s = 2;
-        motion = ((u8 *)(&D_80083780));
+        motion = ((u8 *)(&view_reference_entity));
         ((S_8002191C_2 *)motion)->unk_0C =
             ((0x420 - ((S_8002191C_0 *)scene)->unk_30.u) << 16) /
             ((S_8002191C_0 *)scene)->unk_28.u;
@@ -193,7 +193,7 @@ void count_entries_matching_search_path(void *scene)
 
     case 2:
     {
-        u8 *motion = ((u8 *)(&D_80083780));
+        u8 *motion = ((u8 *)(&view_reference_entity));
         s32 h2;
         s32 rmw;
 
@@ -220,7 +220,7 @@ void count_entries_matching_search_path(void *scene)
         s32 lim = 0x044FFFFF;
         s32 m1;
 
-        work = ((u8 *)(&D_80083780));
+        work = ((u8 *)(&view_reference_entity));
         if (((s32 *)work)[1] <= lim) {
             ((s32 *)work)[1] += (0x04500000 - ((s32 *)work)[1]) >> 1;
         }
@@ -240,7 +240,7 @@ void count_entries_matching_search_path(void *scene)
         tw_sd_sq_ld_call(0x24, 0x200);
         ((S_8002191C_0 *)scene)->unk_36.s = 4;
         create_eight_linked_scene_sprites(scene);
-        initialize_scene_action_record(global, work, ((u8 *)(&D_80082E80)));
+        initialize_scene_action_record(global, work, ((u8 *)(&reference_tile_object)));
         break;
 
     case 4:
@@ -268,7 +268,7 @@ void count_entries_matching_search_path(void *scene)
         ((S_8002191C_3 *)global)->unk_10.s = 0x800;
         create_familiar_deployment_effect_with_owner_state();
         apply_global_scene_value(D_800D0128);
-        motion = ((u8 *)(&D_80083780));
+        motion = ((u8 *)(&view_reference_entity));
         ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
         ((S_8002191C_0 *)scene)->unk_32.u = ((S_8002191C_2 *)motion)->unk_06;
         ((S_8002191C_0 *)scene)->unk_2C.s = 0;
@@ -457,7 +457,7 @@ void count_entries_matching_search_path(void *scene)
     }
 
     if (((S_8002191C_0 *)scene)->unk_36.s >= 4) {
-        s32 *motion = (s32 *)((u8 *)(&D_80083780));
+        s32 *motion = (s32 *)((u8 *)(&view_reference_entity));
 
         if (motion[0] <= 0x03CFFFFF) {
             motion[0] = 0x03D00000;

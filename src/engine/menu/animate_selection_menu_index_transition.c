@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/menu.h"
+#include "slus.h"
 
 typedef struct S_8004F95C {
     void (*func)(void);
@@ -6,9 +9,6 @@ typedef struct S_8004F95C {
     s32 limit;
     s32 counter;
 } S_8004F95C;
-
-extern void reorder_and_interpolate_selection_menu_entries(S_8004F95C *a0);
-extern void noop_selection_menu_animation_idle(void);
 
 /* Updates state, advances its counter, and disables its callback when the prior count reaches the limit. */
 void animate_selection_menu_index_transition(S_8004F95C *state) {

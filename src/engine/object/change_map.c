@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/object.h"
+#include "slus/data.h"
 
 typedef struct InputRecord {
     s16 field_00;
@@ -49,24 +51,16 @@ typedef void (*RuntimeCallback)(RuntimeState *, void *);
 extern void process_unlinked_type_four_entries(void);
 extern PairRecord *build_four_value_entry_result(s16, s16);
 extern void func_80041094(u16, s16, s16, s32, s32);
-extern s32 runtime_is_record_handler_changed(void *);
 
-extern RuntimeState D_8006ADBC;
+extern RuntimeState map_runtime_state;
 extern RuntimeState map_change_state;
-extern s16 map_change_pending[5];
 extern RuntimeCallback map_change_callback[3];
-extern s16 D_8006AE18[5];
-extern u8 D_80080A88;
-extern u8 D_800812F8;
-extern u8 D_80082A38[9];
-extern u16 D_80082E76[5];
+extern u8 scene_music_hold;
+extern u8 runtime_script_state[9];
 extern TableEntry D_800D2650[];
 extern TableEntry D_800D2FC0[];
-extern u8 D_800D381A;
-extern s16 D_800D426C;
-extern s16 D_800D426E;
-extern u16 D_800D5070[];
-extern u16 D_80013714[5];
+extern u8 town_map_variant;
+extern u16 system_update_flags[5];
 
 
 /* Updates the runtime state from an input record and invokes its callback. */
@@ -80,14 +74,14 @@ void change_map(InputRecord *input)
     u16 entry_index;
 
     process_unlinked_type_four_entries();
-    D_8006ADBC.field_28 = D_8006ADBC.field_18;
-    map_change_state.field_28 = D_8006ADBC.field_18;
-    D_8006ADBC.field_2A = D_8006ADBC.field_1A;
-    map_change_state.field_2A = D_8006ADBC.field_1A;
+    map_runtime_state.field_28 = map_runtime_state.field_18;
+    map_change_state.field_28 = map_runtime_state.field_18;
+    map_runtime_state.field_2A = map_runtime_state.field_1A;
+    map_change_state.field_2A = map_runtime_state.field_1A;
     map_change_state.field_18 = input->field_00;
     entry_index = input->field_02;
     map_change_state.field_1A = entry_index;
-    D_800D381A = entry_index;
+    town_map_variant = entry_index;
     do {
     } while (0);
 
@@ -101,9 +95,9 @@ void change_map(InputRecord *input)
 
     pair = build_four_value_entry_result(map_change_state.field_18,
                          map_change_state.field_1A);
-    if (pair->field_04 == D_800D426C &&
-        pair->field_06 == D_800D426E) {
-        D_80080A88 = 1;
+    if (pair->field_04 == town_saved_stream_index &&
+        pair->field_06 == town_saved_sequence_command) {
+        scene_music_hold = 1;
     }
 
     state = &map_change_state;
@@ -112,7 +106,7 @@ void change_map(InputRecord *input)
     state->field_24 = state_data;
     state->field_14 = input->field_04;
     state->field_16 = input->field_06;
-    state->field_0C = D_800D5070[input->field_10 & 3];
+    state->field_0C = town_facing_angles[input->field_10 & 3];
     state->field_0E = input->field_12;
     callback_data = input->field_08;
     if (callback_data != 0) {
@@ -132,11 +126,11 @@ void change_map(InputRecord *input)
                         (input->field_04 + entry->field_00)),
                   (s16)(entry->field_06 +
                         (input->field_06 + entry->field_02)),
-                  0, D_80082E76[0] ^ 1);
+                  0, runtime_transition_flags_alias[0] ^ 1);
 
-    D_80013714[0] &= 0xFFFD;
+    system_update_flags[0] &= 0xFFFD;
     {
-        s32 check_result = runtime_is_record_handler_changed(D_80082A38);
+        s32 check_result = runtime_is_record_handler_changed(runtime_script_state);
         if (check_result != 0) {
             map_change_pending[0] = 1;
         } else {

@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/item.h"
+#include "engine/util.h"
 
 extern s32 create_callback_pair_default(s32 a0);
-extern void release_null_terminated_entries(s32 *a0);
 
 /* Fills the array with allocated buffers, flagging prior allocations and returning NULL on failure. */
 s32 *alloc_buffer_array(s32 *buffers, s32 buffer_count)

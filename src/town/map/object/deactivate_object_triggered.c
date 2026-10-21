@@ -64,7 +64,7 @@ void deactivate_object_triggered(void *object, void *position, void *rotation) {
             ((S_800B9998_0 *)object)->unk_66.s = 0;
         }
     }
-    town_state = &D_80083780;
+    town_state = &view_reference_entity;
     dx = town_state->x.w.i;
     dy = ((S_800B9998_2 *)position_data)->unk_02;
     position_y = ((S_800B9998_2 *)position_data)->unk_06;

@@ -30,7 +30,7 @@ extern void func_800672D8(s16 *rect, void *data);
 extern s32 Control_CD();
 extern s32 get_enabled_record_flag_priority();
 s32 release_monster_status_request_handles(struct Rec_func_800B683C_arg0 *);
-extern s16 D_80083D78[8];
+extern s16 display_resource_cache_keys[8];
 extern u8 D_800B5B20[16];
 
 /* Functions defined in this translation unit. */

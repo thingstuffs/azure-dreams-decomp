@@ -24,7 +24,7 @@ typedef struct {
     u8 pad10[4];
 } DungeonGroup;
 
-extern DungeonGroup D_80073414[];
+extern DungeonGroup item_category_groups[];
 extern u8 D_800E101C;
 
 /* Dispatch an item action using its category flags and target selector, then decrement the counter. */
@@ -40,16 +40,16 @@ s32 dispatch_item_target_action(void *target, void *item, s16 action_type, s32 a
     if (action_type == 0xD) {
         return process_record_and_update_linked_state(item, action_value);
     }
-    if ((s32) target == ((s32)D_800E3D7C)) {
+    if ((s32) target == ((s32)dungeon_actor_ring_anchor)) {
         *(void **)((u8 *)target + 0x110) = item;
-        begin_mode_selected_item_action(target, ((s32 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((s32 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, item, action_type);
         category_index = *((u8 *)item + 1);
         item_index = *((u8 *)item + 0);
-        item_entries = D_80073414[category_index].entries;
+        item_entries = item_category_groups[category_index].entries;
         item_flags = item_entries[item_index].flags;
         if (!(item_flags & 0x8000)) {
             selector = entity_action_selectors[*((u8 *)target + 0x13)] & 3;

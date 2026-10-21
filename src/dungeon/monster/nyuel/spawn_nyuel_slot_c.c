@@ -18,7 +18,7 @@ void *func_80158894(s16 flags, s16 kind_id, s32 variant, s32 spawn_value)
     held_value = spawn_value;
     held_variant = variant;
     result = 0;
-    created = allocate_list_node(0x112, &D_80083498);
+    created = allocate_list_node(0x112, &scene_object_list_anchor);
     original_flags = saved_flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;

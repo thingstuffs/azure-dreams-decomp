@@ -29,7 +29,7 @@ s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y)
     if ((s16)height < 0x201) {
         biased_height = height + 0x3F;
     } else {
-        height = *(u16 *)((u8 *)D_800814A8 + 0x88);
+        height = *(u16 *)((u8 *)primary_actor_record + 0x88);
         biased_height = height + 0x3F;
     }
     return (s16)(((cell_height + biased_height) & -0x40) - cell_height);

@@ -7,7 +7,7 @@
 #include "shared/dungeon_status.h"
 
 
-extern s32 D_800835E8[];
+extern s32 entity_level_thresholds[];
 extern u8 D_800E131C[];
 
 extern s32 get_entity_effect_value(void *, s32);
@@ -54,9 +54,9 @@ s32 use_item_to_level_up_eligible_actors(EntityRec *target, s32 action_id, s16 a
         return process_record_and_update_linked_state(action_id, action_param);
     }
 
-    if (target == ((u8 *)D_800E3D7C)) {
+    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
         target->unk_110 = action_id;
-        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
 
@@ -70,14 +70,14 @@ s32 use_item_to_level_up_eligible_actors(EntityRec *target, s32 action_id, s16 a
         create_view_color_flash(0x2020C0, 1);
         display_formatted_context_message(D_800E131C);
 
-        head = D_800814A8;
+        head = primary_actor_record;
         node = (u8 *)((void *)head->next_actor_header) + 0x20;
         if (node != head) {
             do {
                 if (((((S_800BF9EC_2 *)node)->unk_1C & 0x2400) != 0x2000 ||
                      (get_entity_effect_value(node, 12) << 16) != 0) &&
                     (*(u8 *)((u8 *)&target->unk_10 + 1)) < 99) {
-                    ((S_800BF9EC_2 *)node)->unk_18 = D_800835E8[((S_800BF9EC_2 *)node)->unk_11];
+                    ((S_800BF9EC_2 *)node)->unk_18 = entity_level_thresholds[((S_800BF9EC_2 *)node)->unk_11];
                     raise_entity_level(node, 0);
                     if ((((S_800BF9EC_3 *)(((S_800BF9EC_2_pre *)node)[-1].unk_00))->unk_14 & 0x8000) == 0) {
                         s32 effect_id = 0x8003;

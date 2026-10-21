@@ -1,9 +1,10 @@
 #include "common.h"
+#include "frontend/card.h"
 
 extern void func_8007C040(s32 *ptr_a, s32 *ptr_b, s32 value);
 
-extern s32 D_80400114[];
-extern s32 D_80400120[];
+extern s32 checksum_trace_format[];
+extern s32 saved_checksum_label[];
 
 /* Compute, store, and print the XOR checksum of the game-save work data. */
 void card_dev_store_save_xor_checksum(void *gsw) {
@@ -22,5 +23,5 @@ void card_dev_store_save_xor_checksum(void *gsw) {
         check_sum ^= word;
     } while (words_left >= 0);
     *(s32 *)((u8 *)gsw + 0x204) = check_sum;
-    func_8007C040(D_80400114, D_80400120, check_sum);
+    func_8007C040(checksum_trace_format, saved_checksum_label, check_sum);
 }

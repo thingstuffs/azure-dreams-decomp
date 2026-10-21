@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/texture.h"
 
 /* D_80083D08: array of 6 8-byte entries; field flags4 (offset 4) is a status/flags
  * short whose bit0 is cleared here. Layout reconciled with siblings that access the
@@ -11,7 +12,6 @@ typedef struct {
 } S_80048224;
 
 extern S_80048224 sprite_resource_slots[6];
-extern s32 find_sprite_resource_slot_by_id(s32 slot_id);
 
 /* Clear flag bit 0 in the slot matching slot_id and return 1 if found, else 0. */
 s32 retain_sprite_resource_in_cache(s16 slot_id) {

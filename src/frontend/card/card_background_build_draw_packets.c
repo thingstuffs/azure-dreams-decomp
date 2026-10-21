@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 typedef struct MainPacket12 {
     u8 tag;

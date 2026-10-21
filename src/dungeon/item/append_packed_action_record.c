@@ -30,7 +30,7 @@ void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload,
     s16 action_offset;
     u32 dispatch_index;
 
-    if (D_800E296C & 0x10000000) {
+    if (dungeon_floor_flags & 0x10000000) {
         return;
     }
     if (state->flags & 1) {

@@ -560,3 +560,16 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     renames unk_58 previous_actor_header). (f) Proof: complete-TU identity (raw, canonical assembly, canonical object)
     for every consumer; two unedited SLUS TUs differ only in `.extern D_80083780, 300 -> 24` with objects equal (-G8);
     SLUS SHA-1 and make check MATCH.
+74. **(r121, OWNER 2026-10-21) Headers: one owning header per src folder.** (a) Function prototypes live in one
+    owning header per src directory, include/<subsystem>/<feature>.h (mirroring src/, decision 61(f) "subsystem
+    interfaces"), holding the definition's own prototype; related functions are grouped like the original team's
+    subsystem headers, not one header per original .c file. A .c includes its own folder header and the owning header
+    of every function it calls instead of local extern lines; owning headers include only shared type headers
+    (include/shared, include/records, common.h, m2c_compat.h). (b) Library functions with no C definition (Psy-Q SDK /
+    SLUS library) get our own declarations in include/sdk/<lib>.h: signatures matching the SDK prototypes the game uses,
+    only functions the game calls, no SDK header text, comments or macros copied. Each such header says it is a
+    stand-in for the copyrighted SDK header, which is not distributed here, and that builders who own the SDK can
+    replace it. (c) Data externs: one declaration per symbol in the owning folder header of its C definition;
+    retail-imported symbols without a C definition go in a per-image data header; applied after the data-name lane so
+    headers carry final names. (d) Every rewrite is proven by complete-TU object identity; a declaration whose
+    prototype changes caller bytes or does not compile stays local and is ledgered with its mechanism (holds.tsv).

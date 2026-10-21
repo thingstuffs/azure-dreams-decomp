@@ -80,7 +80,7 @@ void *spawn_killer_slot_a(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    created = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    created = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     original_flags = flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;

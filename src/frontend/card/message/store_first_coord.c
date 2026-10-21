@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/message.h"
 
 extern void func_804025B8(void *object, void *position, s32 mode);
 extern void func_804025F8(s32 row_value, s32 value, s32 mode);

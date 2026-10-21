@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 #ifndef NULL
 #define NULL 0
@@ -11,7 +12,7 @@ extern void func_80404570(s32 value);
 
 /* Dual symbols at the same address force load-via-v1 / store-via-at RMW
  * (retail uses separate %hi materializations, not a reused base reg). */
-extern s32 D_8008DAB4[4];
+extern s32 card_ui_dirty_flags[4];
 extern s32 D_8008DAB4_2[4];
 
 /* Processes object components and sets the object and global 0x8000 flags. */
@@ -30,7 +31,7 @@ void card_dev_refresh_save_screen(void *object) {
             func_80404570(component_cursor[component_count + 1]);
         }
         object_flags = *(u16 *)((u8 *)object + 0x1E);
-        global_flags = D_8008DAB4[0];
+        global_flags = card_ui_dirty_flags[0];
         object_flags |= 0x8000;
         global_flags |= 0x8000;
         *(u16 *)((u8 *)object + 0x1E) = object_flags;

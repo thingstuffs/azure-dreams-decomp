@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 typedef struct S_802EE3A0_2 {
     u8 pad_00[0x4];
@@ -20,11 +22,8 @@ s32 func_80051B50(s32, void *, s32);
 s32 func_8007BF50(void *, void *);
 s32 get_table_entry_by_flag(void);
 void *memcpy(void *dst, const void *src, u32 n);
-extern u8 D_804006C4[];
-extern u8 D_804006EC[];
 typedef struct { s32 word; s8 byte; } TextConstant;
 extern TextConstant D_80400714;
-extern u8 D_8040071C[];
 
 typedef struct S_802EE3A0_0 {
     u8 pad_00[0xB18];

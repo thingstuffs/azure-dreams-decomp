@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 /* generic sub-entity type: only offset 0x1E (a "used"/flags halfword) is
  * accessed by this function. */
@@ -16,7 +17,6 @@ typedef struct {
 } S_800510DC;
 
 extern int D_800814A0; /* global 32-bit "used"/flags word */
-extern void scene_load_variant_texture_set(void);
 
 /* Propagates the second entity's 0x2000 flag and marks the record and global flags after scene_load_variant_texture_set. */
 void propagate_scene_flag(S_800510DC *record)

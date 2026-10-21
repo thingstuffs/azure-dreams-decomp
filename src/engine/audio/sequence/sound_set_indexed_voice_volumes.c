@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 typedef struct S_80084918 {
     /* 0x0 */ s32 field0;

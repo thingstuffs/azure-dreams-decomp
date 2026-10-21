@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/scene.h"
 
 /* task struct returned by create_deferred_resource_transition_task; only field 0x10 (a function
    pointer callback) is touched here */
@@ -14,8 +15,6 @@ typedef struct S_80051164 {
     S_80051164_task *unk4;
 } S_80051164;
 
-extern void *create_deferred_resource_transition_task(s16 a0, s16 a1, void *callback, void *arg);
-extern void load_scene_record(void *a0);
 extern void propagate_scene_flag(void);
 
 /* Creates a task and, on success, updates the owner's existing task callback. */

@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 typedef union {
     struct {
@@ -102,17 +104,6 @@ typedef struct {
     u32 tag;
     u32 code[2];
 } DR_MODE;
-
-
-extern void RotTransPers4(VERTEX *, VERTEX *, VERTEX *, VERTEX *,
-                          VERTEX *, VERTEX *, VERTEX *, VERTEX *, s32 *, s32 *);
-extern void SetPolyFT4(POLY_FT4 *);
-extern void SetPolyG4(POLY_G4 *);
-extern void SetSemiTrans(void *, s32);
-extern u16 GetClut(s16, s16);
-extern u16 GetTPage(s32, s32, s16, s16);
-extern void SetDrawMode(DR_MODE *, s32, s32, s32, void *);
-extern void AddPrim(void *, void *);
 
 #define ON_SCREEN(v) \
 (((u16)((v).xy.half.x + 0x20) < 0x181U) && \

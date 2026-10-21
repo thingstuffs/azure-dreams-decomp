@@ -21,7 +21,7 @@ void dispatch_paired_table_values();                            /* extern */
 typedef struct {
     s32 words[0x15];
 } Record84;
-extern Record84 D_80100AF8;
+extern Record84 town_slot_snapshot;
 extern s32 D_80100B50[];
 extern s32 D_80100B68;
 
@@ -41,7 +41,7 @@ void move_toward_target_finalize_countdown_expires(void *object, s32 context, Ob
     ticks_or_flags = ((Rec_D_80082D58 *)object)->unk_6C.as_u16 - 1;
     ((Rec_D_80082D58 *)object)->unk_6C.as_u16 = ticks_or_flags;
     if ((ticks_or_flags << 0x10) <= 0) {
-        itm_mon_koyaw_set(D_80100B68, object + 0x4C, &D_80100AF8, 0);
+        itm_mon_koyaw_set(D_80100B68, object + 0x4C, &town_slot_snapshot, 0);
         unlink_scene_list_node(object);
         unlink_node_if_registered(object);
         ticks_or_flags = ((ObjectRetirementFlags *)object)[-1].unk_00;

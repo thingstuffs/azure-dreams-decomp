@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
 
 typedef struct {
     s8 type;
@@ -11,8 +12,6 @@ typedef struct {
     u8 pad[0x2C];
     Slot slots[4];
 } SlotOwner;
-
-extern void end_status_effect_message();
 
 /* Clear slots of the requested type and notify the owner after each match. */
 void clear_slots_of_type(SlotOwner *owner, s8 match_type)

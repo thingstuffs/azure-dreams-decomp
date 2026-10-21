@@ -22,8 +22,8 @@ typedef struct S_80025788_1 {
 
 
 #include "modules/main_server_ship_interfaces.h"
-extern void card_boot_show_delete_failure_notice(void *command_arg);
-extern void card_boot_refresh_slot_window(s32 object_addr);
+#include "frontend/card.h"
+#include "frontend/libcard.h"
 extern u8 D_80024F7C[];
 extern u8 D_8002593C[];
 

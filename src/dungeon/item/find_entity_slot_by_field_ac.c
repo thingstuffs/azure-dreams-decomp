@@ -9,7 +9,7 @@ s32 find_entity_slot_by_field_ac(s32 target_value) {
     s16 match_index;
 
     slot = 0;
-    slot_ptr = (s32 *)((u8 *)D_800E3D7C);
+    slot_ptr = (s32 *)((u8 *)dungeon_actor_ring_anchor);
     do {
         slot_value = slot_ptr[0x2B];
         if (slot_value != target_value) {

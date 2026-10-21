@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/card/menu.h"
+#include "main/data.h"
 
 typedef struct S_80020F68_0 {
     void * unk_00;
@@ -19,7 +21,6 @@ extern void forward_target_value_initcardmessageobject_parameters(void *first_pt
  * Bind them locally as opaque objects at their real linked addresses so the
  * store compiles to the same %hi/%lo(addiu) address computation. */
 extern void *D_804081AC;
-extern void *D_80407F40;
 
 void card_boot_initialize_menu_pointer(void *ptr) {
     if (((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_4C != 0) {

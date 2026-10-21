@@ -21,7 +21,7 @@ const B31_818C8FD0_OffsetTable D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-3
 
 /* Apply the effect offset, update its object, and flag expired or inactive effects. */
 extern u8 D_800DEC00[];
-extern u8 D_800E3D68;
+extern u8 current_spell_effect_variant;
 extern u8 D_800DEC00[];
 
 void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object)
@@ -166,7 +166,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
             sprite->unk_0C = 0x80;
             sprite->unk_12 = 0x7DCF;
             sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
-            func_8003DB94(sprite, D_800DE870, 0);
+            func_8003DB94(sprite, effect_sprite_sources, 0);
         }
         remaining_ticks = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 - 1;
         ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = remaining_ticks;
@@ -235,7 +235,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 sprite->unk_0C = 0x80;
                 sprite->unk_12 = 0x7DCF;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
-                func_8003DB94(sprite, D_800DE870, 0);
+                func_8003DB94(sprite, effect_sprite_sources, 0);
             }
         }
         if ((((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 & 3) == 2) {
@@ -292,7 +292,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 effect_scale >>= 2;
                 effect_value = effect_scale + random_bonus;
                 effect_mode = 0x10;
-                if (D_800E3D68 == 0xFF) {
+                if (current_spell_effect_variant == 0xFF) {
                     effect_mode = 0xFF;
                 }
                 try_apply_confusion_status(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30, effect_mode, effect_value);

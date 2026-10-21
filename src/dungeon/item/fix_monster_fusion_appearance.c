@@ -59,9 +59,9 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
     s32 context;
 
     stored = 0;
-    if (entity == ((s32)D_800E3D7C)) {
+    if (entity == ((s32)dungeon_actor_ring_anchor)) {
         ((S_800BE120_0 *)entity)->unk_110 = (s32)data;
-        begin_deferred_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
         return 0;
     }
 

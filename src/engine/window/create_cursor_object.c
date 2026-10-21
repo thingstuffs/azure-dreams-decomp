@@ -3,6 +3,9 @@
 #include "common.h"
 #include "records/Rec_D_80081FDC.h"
 #include "records/Rec_func_80036210_arg0.h"
+#include "engine/node.h"
+#include "slus.h"
+#include "slus/data.h"
 
 typedef struct S_80036B10_0 {
     u8 pad_00[0xC];
@@ -56,12 +59,7 @@ typedef struct S_80036B10_8 {
 
 void runtime_initialize_state_value();
 void func_800350B0();
-void *initialize_runtime_node_storage();
-s32 register_node();
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
-extern u8 cursor_variant_values[];
-extern u8 cursor_sprite_source[];
-extern u8 D_80082BC0[];
+extern u8 window_node_list_storage[];
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 extern void update_cursor_callback(void);
 
@@ -72,7 +70,7 @@ void create_cursor_object(s32 task_buffer, Rec_D_80081FDC *record, s32 *source, 
     void *task;
     s16 *variant_table;
 
-    task = initialize_runtime_node_storage(0x11, task_buffer, 0x49, &D_80082BC0);
+    task = initialize_runtime_node_storage(0x11, task_buffer, 0x49, &window_node_list_storage);
     ((S_80036B10_0 *)task)->unk_10 = update_cursor_callback;
     register_node(task, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
     state = task + 0x20;

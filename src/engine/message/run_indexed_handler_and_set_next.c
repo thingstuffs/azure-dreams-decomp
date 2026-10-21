@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
 
 typedef struct S_80038708_0 {
     u8 pad_00[0x10];
@@ -11,7 +12,6 @@ typedef struct S_80038708_0 {
 
 
 extern u8 D_800DCF54[];
-void update_message_window();
 
 /* Calls the record's indexed handler, then sets its next handler to update_message_window. */
 void run_indexed_handler_and_set_next(S_80038708_0 *record) {

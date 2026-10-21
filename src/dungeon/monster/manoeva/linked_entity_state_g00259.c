@@ -35,7 +35,7 @@ void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 
 
         if (*(s32 *)(dest_state + 0x14) & 0x4000) {
             call_result = find_entity_slot_by_field_ac(linked_state);
-            state_table = D_800E3D7C;
+            state_table = dungeon_actor_ring_anchor;
             slot_address = (s32)(s16)call_result * 4;
             slot_address += (long)state_table;
             state_slot = (u8 *)slot_address;

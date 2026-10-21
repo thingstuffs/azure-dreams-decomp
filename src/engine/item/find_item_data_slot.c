@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/resident_resources.h"
+#include "engine/item.h"
 
 
 /* Returns the index of the first matching value pair, or 20 if none matches. */

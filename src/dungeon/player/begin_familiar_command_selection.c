@@ -10,8 +10,8 @@ typedef struct {
     s16 field_2A;
 } Arg0;
 
-extern u8 D_800DD0B8[8];
-extern u8 D_800DCFB0[8];
+extern u8 player_carry_frames[8];
+extern u8 player_wait_frames[8];
 
 extern void create_panel_effect_object(void *);
 extern void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
@@ -57,12 +57,12 @@ s32 begin_familiar_command_selection(Rec_func_8008D024_arg0 *actor, s32 context,
                     build_floating_number_widget(0x22, 0xF2, 0x98, 1, 0, 2);
                     build_floating_number_widget(0x24, 0xCE, 0x98, 2, 1, 4);
                     build_floating_number_widget(0x23, 0xE0, 0xAC, 3, 1, 6);
-                    D_800E296C |= 0x2000;
+                    dungeon_floor_flags |= 0x2000;
                 }
                 if (actor->unk_1C & 0x100000) {
-                    direction_frames = D_800DD0B8;
+                    direction_frames = player_carry_frames;
                 } else {
-                    direction_frames = D_800DCFB0;
+                    direction_frames = player_wait_frames;
                 }
                 display->frameTable = direction_frames;
                 set_sprite_animation_frame(display, direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle

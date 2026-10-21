@@ -45,9 +45,9 @@ u32 find_nearest_floor_item_in_room(Entity *entity, s32 filter, s16 *out_x, s16 
     id = filter & 0xFF;
     type = (s16)filter >> 8;
     for (; i >= 0; i--) {
-        if (D_800E3548[i].kind == id && (type == 0 || D_800E3548[i].unk_00 == type)) {
-            x = ((RegionPos *)D_800E36C8)[i].x;
-            y = ((RegionPos *)D_800E36C8)[i].y;
+        if (dungeon_ground_items[i].kind == id && (type == 0 || dungeon_ground_items[i].unk_00 == type)) {
+            x = ((RegionPos *)dungeon_ground_item_positions)[i].x;
+            y = ((RegionPos *)dungeon_ground_item_positions)[i].y;
             if ((s16)find_active_rect_containing_point(x, y) == entity->kind) {
                 dx = abs(x - entity->x);
                 dy = abs(y - entity->y);
@@ -89,8 +89,8 @@ void remove_floor_items_at_tile(s16 target_x, s16 target_y) {
     entry_index = 0;
     x = target_x;
     y = target_y;
-    entry_state = ((s32 *)D_800E3548);
-    entry = ((Entry *)D_800E36C8);
+    entry_state = ((s32 *)dungeon_ground_items);
+    entry = ((Entry *)dungeon_ground_item_positions);
     do {
         if (((u8 *) entry_state)[1] != 0) {
             entry_x = entry->unk0;
@@ -147,8 +147,8 @@ s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
     y = held_y;
     z = (s16)held_z;
     for (; entry_index < 0x40; entry_index++) {
-        active_entry = &((DungeonItemEntry *)D_800E3548)[entry_index];
-        position = &((PositionEntry *)D_800E36C8)[entry_index];
+        active_entry = &((DungeonItemEntry *)dungeon_ground_items)[entry_index];
+        position = &((PositionEntry *)dungeon_ground_item_positions)[entry_index];
         if ((active_entry->kind != 0) && (position->x == x) && (position->y == y)) {
             height_delta = z - position->value;
             if (height_delta < 0) {
@@ -175,7 +175,7 @@ s32 find_first_empty_floor_item_slot(void) {
     s32 entry_index;
 
     entry_index = 0;
-    entry = ((u8 *)D_800E3548);
+    entry = ((u8 *)dungeon_ground_items);
     do {
         if (entry[1] != 0) {
             entry_index++;
@@ -351,7 +351,7 @@ DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s3
     DungeonDescriptor *descriptor;
     DungeonInner *inner;
 
-    descriptor = create_item_render_object(((u8 *)(&D_80083498)), init_data, 0, 0, 0);
+    descriptor = create_item_render_object(((u8 *)(&scene_object_list_anchor)), init_data, 0, 0, 0);
     if (descriptor == 0) {
         return 0;
     }
@@ -431,8 +431,8 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
     if ((s16)remaining <= 0) {
         slot = free_entry_short();
         if (slot >= 0) {
-            ((s32 *)D_800E3548)[slot] = obj->field98;
-            tab = ((D_800E36C8_Entry *)D_800E36C8);
+            ((s32 *)dungeon_ground_items)[slot] = obj->field98;
+            tab = ((D_800E36C8_Entry *)dungeon_ground_item_positions);
             entry = &tab[slot];
             entry->x = obj->fieldAA;
             entry->y = obj->fieldAC;
@@ -441,7 +441,7 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             entry->value4 = height;
             entry->value8 = target->z;
             cycle_map_cell_flags(obj->fieldAA, obj->fieldAC, 0x800);
-            select_position_data_and_update_owner(&D_80082E80.unk_000, ((s32)D_800E3D7C));
+            select_position_data_and_update_owner(&reference_tile_object.unk_000, ((s32)dungeon_actor_ring_anchor));
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
                 /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing
@@ -498,7 +498,7 @@ s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
     u8 *fields;
     s32 payload;
 
-    object = create_item_render_object(((s32 *)&D_80083498.next), payload_ptr, 0, 0, 0);
+    object = create_item_render_object(((s32 *)&scene_object_list_anchor.next), payload_ptr, 0, 0, 0);
     if (object == 0) {
         return 0;
     }
@@ -590,15 +590,15 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
         if (record_index >= 0) {
             if (func_800A794C(x_short, y_short, z_short, object_data,
                               tile_x, tile_y, tile_value) == 0) {
-                ((s32 *)D_800E3548)[record_index] = *object_data;
-                record = &((DungeonRecord *)D_800E36C8)[record_index];
+                ((s32 *)dungeon_ground_items)[record_index] = *object_data;
+                record = &((DungeonRecord *)dungeon_ground_item_positions)[record_index];
                 record->b0 = (u8)tile_x;
                 record->b1 = (u8)tile_y;
                 record->w4 = (u16)tile_value;
                 record->w2 = (u16)tile_value;
                 record->value = get_item_category_value(object_data);
                 cycle_map_cell_flags(tile_x, tile_y, 0x800);
-                select_position_data_and_update_owner(((u8 *)(&D_80082E80)), ((u8 *)D_800E3D7C));
+                select_position_data_and_update_owner(((u8 *)(&reference_tile_object)), ((u8 *)dungeon_actor_ring_anchor));
             }
             return 1;
         }
@@ -660,7 +660,7 @@ extern void func_80065820();
 extern void func_8006658C();
 extern void func_800666F4();
 
-extern u8 D_8006CD30[];
+extern u8 sprite_projection_matrix[];
 typedef struct { u8 b0, b1, b2, b3; } Ent4;
 typedef struct { u8 b0, b1; u16 h2, h4; u8 *p8; } Ent12;
 
@@ -712,7 +712,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
     depth_offset = 0x90;
     flags_offset = 0x94;
     entity_index = 0;
-    view_matrix = D_8006CD30;
+    view_matrix = sprite_projection_matrix;
     rotation_matrix = (u8 *)0x1F8000D0;
     transform = (u8 *)0x1F800050;
     vertex0 = (u8 *)0x1F800070;
@@ -735,8 +735,8 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
     camera_angles.c = U16(render_state, 200);
 
     do {
-        if (((Ent4 *)((entity_index * 4) + (s32)((Ent4 *)D_800E3548)))->b1 != 0) {
-            entities = (u8 *)((Ent12 *)D_800E36C8);
+        if (((Ent4 *)((entity_index * 4) + (s32)((Ent4 *)dungeon_ground_items)))->b1 != 0) {
+            entities = (u8 *)((Ent12 *)dungeon_ground_item_positions);
             entity = entities + entity_index * 12;
             U16(scratch, 0) = (U8(entity, 0) << 6) + 0x20;
             U16(scratch, 2) = (U8(entity, 1) << 6) + 0x20;
@@ -993,9 +993,9 @@ void *find_eligible_actor_at_tile_and_height();
 void set_record_integer_tile_center();
 s32 place_item_at_valid_floor_position();
 void emit_scattered_effects_unless_blocked();
-extern M2C_UNK D_80081484;
+extern M2C_UNK held_item_record;
 extern u8 D_800DD7DC[];
-extern s32 D_800E3540;
+extern s32 saved_held_item_word;
 
 #define DUNGEON_FLAGS_PAGE ((s8 *)0x80080000)
 
@@ -1196,8 +1196,8 @@ void update_dropped_object_motion(void *object, register void *motion, void *til
 
     object_data = object;
     payload = (((S_800A871C_1 *)object_data)->unk_9C);
-    if ((payload == &D_80081484) && (((S_800A871C_0 *)payload)->unk_01 == 0)) {
-        (((S_800A871C_1 *)object_data)->unk_9C) = &D_800E3540;
+    if ((payload == &held_item_record) && (((S_800A871C_0 *)payload)->unk_01 == 0)) {
+        (((S_800A871C_1 *)object_data)->unk_9C) = &saved_held_item_word;
     }
     state = ((S_800A871C_1 *)object)->unk_A0;
     switch (state) {
@@ -1262,7 +1262,7 @@ void update_dropped_object_motion(void *object, register void *motion, void *til
             ((S_800A871C_3 *)motion)->unk_04.at02.v =
                 (s16) (((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_06 + offset[1]);
             source_height = ((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2];
-            height_source = D_800814A8;
+            height_source = primary_actor_record;
             ((S_800A871C_3 *)motion)->unk_08.at02.v = (s16) (source_height + 8);
             (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->ground_height);
         } else if (((S_800A871C_1 *)object)->unk_A2 != 0) {
@@ -1478,7 +1478,7 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
         data->field60 = source_data;
         if (tile_id >= 0) {
             DungeonTile *tile;
-            tiles = ((DungeonTile *)D_800E36C8);
+            tiles = ((DungeonTile *)dungeon_ground_item_positions);
             tile = &tiles[tile_id];
             coords->field2 = (tile->field0 << 6) + 0x20;
             coords->field6 = (tile->field1 << 6) + 0x20;
@@ -1531,7 +1531,7 @@ void mark_category_items_flag_400(s32 group_bit) {
     ram_base = 0x80010000;
     bit_mask = 1;
     do {
-        group = &D_80073414[group_index];
+        group = &item_category_groups[group_index];
         if (((s32)*((u8 *)group + 1) >> group_bit) & 1) {
             item_index = 0;
             if (group->count != 0) {
@@ -1569,7 +1569,7 @@ extern void item_clear_recorded_category_pair(u8, u8);
 void clear_selected_item_flag_400(DungeonArg *selection)
 {
     item_clear_recorded_category_pair(selection->group, selection->index);
-    D_80073414[selection->group].entries[selection->index].flags &= 0xFBFF;
+    item_category_groups[selection->group].entries[selection->index].flags &= 0xFBFF;
 }
 #include "modules/dungeon_engine_entity_effects_fragment_c2fbc.h"
 #include "common.h"
@@ -1607,7 +1607,7 @@ void pack_item_flag_400_bitmap(void)
 
     group_index = 0;
     ram = (RamPage *)0x80010000;
-    item_category = D_80073414;
+    item_category = item_category_groups;
     do {
         cell_index = 0;
         if (item_category->count != 0) {
@@ -1649,9 +1649,9 @@ extern s32 generate_random_value(void);
 extern s32 random_dungeon_range_16(s32, s32);
 
 extern s32 D_80012090[];
-extern s16 D_8008146C;
-extern s8 D_800DCF5A;
-extern s16 D_800E3CCC;
+extern s16 current_dungeon_floor;
+extern s8 random_pickup_enabled;
+extern s16 pickup_event_latch;
 
 /* Dungeon item pickup: run the one-off 0x11F9 event, then occasionally take one entry from the floor's item table. */
 s32 select_random_eligible_item_entry(void *actor)
@@ -1665,11 +1665,11 @@ s32 select_random_eligible_item_entry(void *actor)
 
     result = 0;
     if (*(u8 *)((u8 *)actor + 0x13) == 0x20) {
-        if (D_800E3CCC == 0) {
-            D_800E3CCC = 1;
+        if (pickup_event_latch == 0) {
+            pickup_event_latch = 1;
             state = *(s32 *)0x80012090;
             if (state == 0) {
-                if (D_8008146C == 0x19) {
+                if (current_dungeon_floor == 0x19) {
                     if (test_resident_bit(0x11F9) != 0) {
                         if (test_resident_bit(0x11FC) == 0) {
                             if ((s16)has_recorded_value_pair(0xD, 2) == 0) {
@@ -1684,7 +1684,7 @@ s32 select_random_eligible_item_entry(void *actor)
         }
     }
 
-    if (*(u8 *)&D_800DCF5A == 0) {
+    if (*(u8 *)&random_pickup_enabled == 0) {
         return result;
     }
     if (*(u8 *)((u8 *)actor + 0x49) != 0) {
@@ -1695,7 +1695,7 @@ s32 select_random_eligible_item_entry(void *actor)
     }
 
     index = random_dungeon_range_16(1, 0x1F) & 0xFFFF;
-    base = ((u8 *)D_800E3548);
+    base = ((u8 *)dungeon_ground_items);
     entry = &base[index * 4];
     kind = entry[1];
     if (kind == 0) {

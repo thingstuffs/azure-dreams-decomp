@@ -11,20 +11,20 @@ struct Ent {
     unsigned char unk13;
 };
 
-extern unsigned char D_80126A01[];
-extern struct Tbl D_801278B0[];
+extern unsigned char catalog_scroll_offset[];
+extern struct Tbl catalog_detail_images[];
 
 /* Update entry flags from the global value and the entry's table threshold. */
 void update_catalog_scroll_availability(struct Ent *entry)
 {
     unsigned char flags;
 
-    if (D_80126A01[0] != 0) {
+    if (catalog_scroll_offset[0] != 0) {
         entry->unkE |= 1;
     } else {
         entry->unkE &= 0xFE;
     }
-    if (D_80126A01[0] < ((D_801278B0[entry->unk13].unk4 - 3) << 4)) {
+    if (catalog_scroll_offset[0] < ((catalog_detail_images[entry->unk13].unk4 - 3) << 4)) {
         flags = entry->unkE | 2;
     } else {
         flags = entry->unkE & 0xFD;

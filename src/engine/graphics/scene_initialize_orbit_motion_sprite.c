@@ -1,9 +1,11 @@
 #include "shared/sprite_source.h"
 #include "common.h"
+#include "engine/node.h"
+#include "slus.h"
+#include "slus/data.h"
 
 /* Global >8-byte struct accessed via %hi/%lo (passed by address to func_8003DB94
  * as its `Elem`-shaped table argument). */
-extern u8 orbit_motion_sprite_source[12];
 
 /* callback/update-function pointers, assigned by address only */
 extern void update_sine_motion_effect(void);
@@ -29,9 +31,6 @@ typedef struct S_80051BFC_Dst {
     u16 f1c;
     u16 f1e;
 } S_80051BFC_Dst;
-
-extern void func_8003DB94(S_80051BFC_Dst *a0, SpriteSourceEntry *a1, s16 a2);
-extern void register_node(void *a0, void *a1);
 
 /* Sub-record living at offset 0x20 of the top-level object: a word value
  * followed by three shorts. */

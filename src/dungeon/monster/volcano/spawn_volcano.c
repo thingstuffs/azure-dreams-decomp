@@ -20,7 +20,7 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
     saved_arg1 = part_b_value_a;
     saved_arg3 = part_a_value;
     saved_arg2 = part_b_value_b;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     final_arg0 = value;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/util.h"
 
 /* see src/code2.c sibling audio_set_all_track_tempo_steps: same D_80085FA8 array-of-structs / D_800869B4 count idiom */
 

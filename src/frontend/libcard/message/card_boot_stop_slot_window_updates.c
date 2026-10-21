@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard/message.h"
 
 typedef struct S_80023EC4_0 {
     s32 unk_00;

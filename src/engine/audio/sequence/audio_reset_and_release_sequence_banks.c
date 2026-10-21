@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/slots.h"
 
 /* Slot-table element (see sibling audio_get_current_bank_tone_record for the confirmed 0x1C-byte
  * stride layout of D_80086A40). Only the fields this function touches are
@@ -12,11 +14,6 @@ typedef struct {
 
 extern int audio_slot_service_word[3]; /* forced hi/lo via size > 8 */
 extern S_8005A428_D80086A40 audio_bank_slots[16];
-
-extern void audio_reset_all_voices(void);
-extern void close_timer_2_update_event(void);
-extern void release_sound_ram_block(s32 addr);
-extern void reset_sound_slots(void);
 
 /* Runs frame updates, processes active slots among the first eight, and resets the slot table. */
 void audio_reset_and_release_sequence_banks(void)

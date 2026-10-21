@@ -35,7 +35,7 @@ typedef struct {
 
 extern u8 D_800DD0F8[];
 extern void *D_8008B870;
-extern u8 D_800DD0F0;
+extern u8 player_sleep_frames;
 
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern void set_sprite_animation_frame(void *obj, s32 frame_group, s32 frame_index, s32 slot_index);
@@ -53,8 +53,8 @@ void update_player_sleep_action(Arg0Struct *controller, void *unused, Arg2Struct
     switch (controller->state) {
     case 0:
         if (animation->flags14 & 0xE000) {
-            animation->table = &D_800DD0F0;
-            set_sprite_animation_frame(animation, (&D_800DD0F0)[((s32)(scene->view.camera_rotation.parts.viewAngle + actor->angle + 0x100) >> 9) & 7], 0,
+            animation->table = &player_sleep_frames;
+            set_sprite_animation_frame(animation, (&player_sleep_frames)[((s32)(scene->view.camera_rotation.parts.viewAngle + actor->angle + 0x100) >> 9) & 7], 0,
                 1);
             controller->handler = &D_8008B870;
             controller->state = (s8)(controller->state + 1);

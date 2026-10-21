@@ -7,12 +7,12 @@
 void append_valid_key_pair(s32 first_value, s32 second_value, u32 unused_cell) {
     S_80081508 *entry;
 
-    if (D_80080B04[0] < 64) {
+    if (tile_key_pair_count[0] < 64) {
         if ((s16)has_runtime_key_pair((u16)first_value, (u16)second_value) == 0) {
-            entry = &D_80081508[0][D_80080B04[0]];
+            entry = &D_80081508[0][tile_key_pair_count[0]];
             entry->a = (u8)first_value;
             entry->b = (u8)second_value;
-            D_80080B04[0]++;
+            tile_key_pair_count[0]++;
             entry[1].a = 0;
         }
     }
@@ -71,7 +71,7 @@ s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y
     s32 y_steps_addr;
     u16 *rev_y_step;
     s32 rev_step_dir;
-    grid = D_8008333C;
+    grid = scene_geometry;
     rev_blocked = 0;
     fwd_blocked = rev_blocked;
     rev_x = start_x;
@@ -80,7 +80,7 @@ s32 count_flagged_cells_in_opposite_directions(s32 dir, s16 start_x, s16 start_y
     fwd_y = start_y;
     step_count = 0;
     one = 1;
-    map_base = D_8008333C[0].map_base;
+    map_base = scene_geometry[0].map_base;
     x_steps = (u8 *)((s8 *)dir_step_x);
     rev_count = 0;
     fwd_count = 0;
@@ -261,7 +261,7 @@ void clear_flagged_cells_and_reset_list(void) {
             *cell = cellFlags & 0xBFFF;
         } while (*coordinateEntry != 0);
     }
-    D_80080B04[0] = 0;
+    tile_key_pair_count[0] = 0;
     *(u8 *)D_80081508[0] = 0;
 }
 

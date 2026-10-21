@@ -7,7 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 
 typedef struct S_800930F0_12 {
@@ -86,15 +86,15 @@ typedef struct {
 extern UnalignedCopy3 D_80012080;
 extern UnalignedCopy3 D_80013710;
 extern M2C_UNK D_80021268;
-extern u16 D_8008146C;
-extern u8 D_80082E6B;
+extern u16 current_dungeon_floor;
+extern u8 scene_mode_code;
 extern s16 D_800DCED4[];
 extern s32 D_800DCF64;
-extern u8 D_800E3CD0;
-extern s32 D_800E4938[];
+extern u8 dungeon_button_latch;
+extern s32 dungeon_menu_action_state[];
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
-void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile, S_800930F0_2 *actor) {
+void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *tile, S_800930F0_2 *actor) {
     s32 *transition_base;
     u8 *saved_state_base;
     s32 *slot_cursor;
@@ -106,11 +106,11 @@ void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile
     void *created_object;
     s16 *type_values;
 
-    phase = state->unk_9B;
+    phase = state->actor.unk_9B;
     switch (phase) {
     case 0:
         slot_index = 1;
-        state->unk_96 = 0U;
+        state->actor.unk_96 = 0U;
         create_map_position_object((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20);
         type_values = &D_800DCED4;
         slot_cursor = (s32 *)state + 1;
@@ -123,10 +123,10 @@ void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile
             slot_index -= 1;
             slot_cursor -= 1;
         } while (slot_index >= 0);
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
     case 1:
-        wait_ticks = state->unk_96 + 1;
-        state->unk_96 = wait_ticks;
+        wait_ticks = state->actor.unk_96 + 1;
+        state->actor.unk_96 = wait_ticks;
         if ((s16) wait_ticks < 0x3D) {
             break;
         }
@@ -167,10 +167,10 @@ void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile
             ((S_800930F0_4 *)saved_state_base)->unk_234 = (s32) (((S_800930F0_4 *)saved_state_base)->unk_234 + 1);
         }
         play_sound_if_enabled(0x514);
-        ((S_800930F0_5 *)(&D_800E4938))->unk_00.s = &D_80021268;
-        D_80082E80.unk_038 = 0;
-        (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x2000);
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_00.s = &D_80021268;
+        reference_tile_object.unk_038 = 0;
+        (*(s32 *)&dungeon_floor_flags) = (s32) (((S_800930F0_6 *)(&dungeon_floor_flags))->unk_00 | 0x2000);
+        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
         break;
     case 2:
         load_status = create_expanding_screen_rectangle();
@@ -178,28 +178,28 @@ void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile
         if (load_status == 0) {
             break;
         }
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
         break;
     case 3:
-        created_object = ((S_800930F0_5 *)(&D_800E4938))->unk_00.u(((S_800930F0_5 *)(&D_800E4938))->unk_04,
-            ((S_800930F0_5 *)(&D_800E4938))->unk_08);
+        created_object = ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_00.u(((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_04,
+            ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_08);
         state->unk_C8 = created_object;
         if (created_object == NULL) {
             return;
         }
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
     case 4:
         if (!(((S_800930F0_12 *)(state->unk_C8))->unk_1E & 0x8000)) {
             break;
         }
-        func_80040AA0(D_80082E6B);
-        D_8008146C = *(u16 *)0x80010234;
+        func_80040AA0(scene_mode_code);
+        current_dungeon_floor = *(u16 *)0x80010234;
         mark_sprite_resources_for_purge();
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
         break;
     case 16:
         transition_base = (s32 *)0x800E0000;
-        if (((S_800930F0_7 *)(((s32 *)&D_80013714)))->unk_00 & 4) {
+        if (((S_800930F0_7 *)(((s32 *)&system_update_flags)))->unk_00 & 4) {
             if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
                 break;
             }
@@ -221,18 +221,18 @@ void update_floor_exit_transition(EntityRec *state, s32 unused, MovingTile *tile
             zero_arg_1 = 0;
             zero_arg_2 = zero_arg_1;
             zero_arg_3 = zero_arg_1;
-            flags_base = (u8 *)D_80080000;
+            flags_base = (u8 *)resident_globals_page;
             flags = 0x8000;
             ((S_800930F0_9 *)flags_base)->unk_2E76 = flags;
             func_80041094(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
         }
-        state->unk_9B = (u8) (state->unk_9B + 1);
+        state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
     case 17:
     default:
         break;
     }
     g_game_work.view.slot[0].callback = 0;
     g_game_work.view.slot[2].callback = 0;
-    (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x40000);
+    (*(s32 *)&dungeon_floor_flags) = (s32) (((S_800930F0_6 *)(&dungeon_floor_flags))->unk_00 | 0x40000);
     return;
 }

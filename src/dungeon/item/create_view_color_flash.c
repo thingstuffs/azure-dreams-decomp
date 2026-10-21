@@ -31,7 +31,7 @@ void create_view_color_flash(s32 payload, s16 trigger_event) {
     S_800C4D78_0 *object;
     s16 held_event = trigger_event;
 
-    object = allocate_list_node(0x200, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x200, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         object->unk_26 = 0x20;
         object->unk_10 = &tick_view_color_flash;

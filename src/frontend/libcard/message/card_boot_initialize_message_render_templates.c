@@ -13,8 +13,8 @@ typedef struct S_8002E5E8 {
     s32 unk8;
 } S_8002E5E8;
 
-extern S_8002E5D8 D_8002E5D8;
-extern S_8002E5E8 D_8002E5E8;
+extern S_8002E5D8 display_block_defaults;
+extern S_8002E5E8 display_vector_defaults;
 
 typedef struct {
     s32 unk0;
@@ -40,8 +40,8 @@ typedef struct {
 
 /* Copy and link entity templates, clear its state, and set primary field defaults. */
 void card_boot_initialize_message_render_templates(S_8000F6E0_a0 *entity, S_8002E5D8 *primary_data, S_8000F6E0_a2 *secondary_data) {
-    S_8002E5D8 *primary_template = &D_8002E5D8;
-    S_8002E5E8 *secondary_template = &D_8002E5E8;
+    S_8002E5D8 *primary_template = &display_block_defaults;
+    S_8002E5E8 *secondary_template = &display_vector_defaults;
     s32 *secondary_head;
 
     primary_data->unk0 = primary_template->unk0;

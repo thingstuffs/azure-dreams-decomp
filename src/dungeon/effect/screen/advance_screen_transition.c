@@ -51,11 +51,11 @@ extern s32 func_80053EF0(s32);
 extern void play_sound_if_enabled(s32);
 
 extern u8 D_80028F68[];
-extern u8 D_8002964C[];
+extern u8 screen_transition_pixels[];
 extern s16 D_8002966C[6];
 extern u8 D_8002966E[12];
 extern s32 D_80029670[3];
-extern u16 D_800281F8[];
+extern u16 sprite_effect_update_count[];
 extern u8 D_800281FC[12];
 
 /* Advances the screen transition, updates fade timers, and releases completed state. */
@@ -75,16 +75,16 @@ void advance_screen_transition(State *ctx)
     rect_words[0] = 0x010003A0;
     rect_words[1] = 0x00400020;
     decode_and_upload_image(D_80028F68, (Rect *)rect_words);
-    upload_vram_row_and_cache(D_8002964C, 0x7AC0, 1, 2);
+    upload_vram_row_and_cache(screen_transition_pixels, 0x7AC0, 1, 2);
     D_8002966C[0] = 1;
     D_8002966E[0] = ctx->field_9;
     D_80029670[0] = (s32)ctx->field_0;
 
-    object = D_800814A8;
+    object = primary_actor_record;
     ((PlayerRecord *)object)->unk_F4 = D_800281FC;
     object->unk_96 = 0x14;
     object->unk_A8 = ctx->field_8;
-    ((PlayerRecord *)D_800814A8)->unk_102 = 1;
+    ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
 
     ctx->state++;
 case 1:
@@ -121,7 +121,7 @@ case 1:
         if (ctx->timer_1C >= 0xB) {
             break;
         }
-        (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2))--;
+        (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2))--;
         play_sound_if_enabled(func_80053EF0(4) != 2 ? 0x300 : 0x4300);
         ctx->state++;
         break;
@@ -148,7 +148,7 @@ case 1:
         break;
 
     case 6:
-        if ((s16)D_800281F8[0] != 0) {
+        if ((s16)sprite_effect_update_count[0] != 0) {
             break;
         } else {
             g_dungeon_status.active_actor = 0;
@@ -170,5 +170,5 @@ case 1:
             ctx->phase_20 = 0;
         }
     }
-    D_800281F8[0] = 0;
+    sprite_effect_update_count[0] = 0;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/scene.h"
 
 typedef struct S_80081490 {
     /* 0x00 */ struct S_80081490 *next;
@@ -7,7 +8,7 @@ typedef struct S_80081490 {
 } S_80081490;
 
 extern S_80081490 *free_node_list_head;
-extern S_80081490 *D_80081498;
+extern S_80081490 *active_node_list_head;
 
 /* Returns whether free nodes plus active nodes flagged 0x200 reach the limit. */
 s32 has_enough_available_runtime_nodes(s32 limit) {
@@ -24,7 +25,7 @@ s32 has_enough_available_runtime_nodes(s32 limit) {
         node = node->next;
     }
 
-    node = D_80081498;
+    node = active_node_list_head;
     if (node != 0) {
         do {
             if (node->unk1E & 0x200) {

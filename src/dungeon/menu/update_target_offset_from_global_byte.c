@@ -6,7 +6,7 @@
 void update_target_offset_from_global_byte(void *record, void *owner) {
     u8 current_value;
 
-    current_value = *((u8 *)D_800814A8 + 0x29);
+    current_value = *((u8 *)primary_actor_record + 0x29);
     if (current_value != *((s32 *)record + 5)) {
         s16 *target;
 

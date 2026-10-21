@@ -33,8 +33,8 @@ void update_person_view_and_record(void *ptr, s32 value, SpriteFrameState *recor
     }
 
     load_record_halfwords_3(buf, 0);
-    if (buf[1] != D_80083780.x.w.i || buf[3] != D_80083780.y.w.i ||
-        buf[5] != D_80083780.z.w.i || service_script_controller() != 0 ||
+    if (buf[1] != view_reference_entity.x.w.i || buf[3] != view_reference_entity.y.w.i ||
+        buf[5] != view_reference_entity.z.w.i || service_script_controller() != 0 ||
         (work->buttons & 0xF000) != 0) {
         shift_history_and_store_current_values();
         (*(s16 *)((u8 *)ptr + (0x90))) = 0;

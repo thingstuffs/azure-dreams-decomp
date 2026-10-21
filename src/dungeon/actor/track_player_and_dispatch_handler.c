@@ -34,7 +34,7 @@ typedef struct S_7FFFE25C_4 {
 } S_7FFFE25C_4;   /* ((Rec_D_80082D58 *)arg0)->unk_58 in track_player_and_dispatch_handler */
 
 
-extern TownState D_800834B8;
+extern TownState scene_object_payload_alias;
 extern s32 D_800D0420[];
 
 extern s32 D_80090A6C;
@@ -63,28 +63,28 @@ extern void retry_sound_sequence_when_ready(void);
 /* Adjusts the position and dispatches the current state handler for the owner. */
 void track_player_and_dispatch_handler(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, s32 dispatch_param)
 {
-    TownState *state = &D_800834B8;
+    TownState *state = &scene_object_payload_alias;
     s32 *offset = D_800D0420;
     s32 previous_owner = state->previous_owner;
     s32 current;
     s32 target_z;
     s32 dispatched;
 
-    adjusted_pos->x.v = D_80083780.x.v;
-    adjusted_pos->y.v = D_80083780.y.v;
-    adjusted_pos->z.v = D_80083780.z.v + offset[2];
+    adjusted_pos->x.v = view_reference_entity.x.v;
+    adjusted_pos->y.v = view_reference_entity.y.v;
+    adjusted_pos->z.v = view_reference_entity.z.v + offset[2];
 
-    get_smaller_query_result_capped_hex_80_writes_associated_output(adjusted_pos, ((u8 *)&D_800FE488));
+    get_smaller_query_result_capped_hex_80_writes_associated_output(adjusted_pos, ((u8 *)&position_query_scratch));
     call_the_same_context_both_processing_routines(owner, adjusted_pos);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(owner, adjusted_pos);
 
-    target_z = D_80083780.z.v + offset[2];
+    target_z = view_reference_entity.z.v + offset[2];
     if (target_z - adjusted_pos->z.v >= 0x10) {
         adjusted_pos->z.v =
             target_z + ((S_7FFFE25C_3 *)(owner->unk_0C))->unk_14;
     }
 
-    current = D_800834B8.current;
+    current = scene_object_payload_alias.current;
     dispatched = 1;
 
     {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/resource.h"
 
 /* Copies raw bytes or decodes nibble RLE in linear or column order. */
 u8 *decode_or_copy_resource_pixels(u8 *src_start, u8 *dst_start)

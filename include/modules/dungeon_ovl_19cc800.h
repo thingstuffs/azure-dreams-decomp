@@ -39,6 +39,9 @@ struct FrameState;
 struct Motion;
 struct Position;
 struct RenderData;
+
+/* Node +0x10 member: body, separate motion tail, separate render record. */
+typedef void (*follower_position_update_fn)(FollowerRecord *, ObjectPosition *, struct RenderData *);
 struct S_8002593C_1;
 struct S_8002593C_2;
 
@@ -50,9 +53,9 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, struct 
 void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base);
 void run_warp_cutscene(struct Motion *motion, struct Position *position, u8 *color);
 void *move_effect_toward_target(MovingPosition *src);
-void advance_effect_motion_and_speed(MotionRecord *motion, EntityRec *position);
+void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *position);
 void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param, s32 render_param);
-void copy_follower_owner_position_and_color(FollowerRecord *record, EntityRec *position, struct RenderData *render);
+void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPosition *position, struct RenderData *render);
 void func_80024EF8(ObjectNodeHeader *owner, s16 angle);
 void update_warp_camera_and_effects(void *entity, void *motion, void *gfx);
 void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading);

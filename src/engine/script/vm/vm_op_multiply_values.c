@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef struct Decoder {
     u8 pad_001C[0x1C];

@@ -9,8 +9,8 @@ typedef struct Obj {
     s16 field22;
 } Obj;
 
-extern u8 D_800D2FB4[];
-extern u8 D_800D381A[];
+extern u8 town_map_variants[];
+extern u8 town_map_variant[];
 extern s32 D_800B7B8C;
 extern s32 D_800B7E78;
 extern s32 D_800B7F8C;
@@ -26,8 +26,8 @@ void initialize_building_selection_handler(void) {
 
     obj = (Obj *)func_8003FC64(0);
     if (obj != 0) {
-        entry_table = D_800D2FB4;
-        entry_indices = D_800D381A;
+        entry_table = town_map_variants;
+        entry_indices = town_map_variant;
         obj->field20 = 0;
         entry_index = entry_indices[obj->field20];
         entry = entry_table + (entry_index << 5);

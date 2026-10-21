@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "slus/data.h"
 
 /* D_80083160: shared state table (own view). Only the flags halfword at
  * offset 0x4 is touched here (bit0/bit1 select add-vs-subtract direction
@@ -26,7 +27,6 @@ extern S_80041900_D80083CA8 timed_entity_motion_state;
 /* Same address as D_80083CA8.u.h.field6 (0x80083CA8+6 == 0x80083CAE), but
  * retail refetches it via a fresh hi/lo instead of reusing the already
  * -materialized D_80083CA8 base register, so it must be its own symbol. */
-extern u16 timed_entity_motion_delta_alias[];
 
 typedef struct {
     char pad0[0x14];

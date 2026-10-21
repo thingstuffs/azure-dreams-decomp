@@ -21,7 +21,7 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void spend_actor_mp(void *, s32);
 extern void try_apply_action_by_chance(void *, s32, s32);
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern u8 D_80170854[];
 extern u8 D_80170E68;
 extern u8 D_801738A4[];
@@ -67,7 +67,7 @@ void advance_familiar_defeat_sequence(void *work, void *part_a, void *part_b, vo
         if (S8(actor, 0x6D) == 0) {
             U16(actor, 0x46) &= 0x7FFF;
         } else {
-            D_800E3DE8 = (u8 *)actor - 0x20;
+            actor_update_node_cursor = (u8 *)actor - 0x20;
         }
         object = PTR(actor, 0x60);
         if (object != 0) {

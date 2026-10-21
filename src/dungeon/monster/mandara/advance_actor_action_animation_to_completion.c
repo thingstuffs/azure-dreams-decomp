@@ -21,7 +21,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern s32 D_80170F6C;
 extern u8 D_80175288[];
 
@@ -67,7 +67,7 @@ void advance_actor_action_animation_to_completion(void *action, s32 actor_id, vo
                 actor->action_flags &= 0x7FFF;
                 return;
             }
-            D_800E3DE8 = (u8 *)actor - 0x20;
+            actor_update_node_cursor = (u8 *)actor - 0x20;
         }
         return;
     }

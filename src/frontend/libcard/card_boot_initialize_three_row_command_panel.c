@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "frontend/libcard/interfaces.h"
+#include "frontend/libcard.h"
 void func_80023730(s32, s32, s32);               /* extern */
 void card_dev_store_word();                            /* extern */
 

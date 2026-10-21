@@ -97,7 +97,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
             {
                 s32 player_target = use_player;
                 if (player_target) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     actor->target = target;
                     {
                         target_sprite =
@@ -111,7 +111,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
                     u32 ability_entry;
 
                     ability_kind = *ability;
-                    ability_table = (u8 *)D_8006DE24;
+                    ability_table = (u8 *)item_action_definitions;
                     ability_entry = ability_kind * 20;
                     ability_entry += (u32)ability_table;
                     if (((u8 *)ability_entry)[0x12] == 2) {
@@ -158,7 +158,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
+            (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1);
             advance_status_timers(actor);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             ((S_8017364C_0 *)action)->unk_8C = &D_80171760;

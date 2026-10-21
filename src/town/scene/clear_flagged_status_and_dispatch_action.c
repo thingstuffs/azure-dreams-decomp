@@ -40,7 +40,7 @@ extern void func_80019458(s32);
 extern s32 func_800194D8(s32);
 
 extern s16 D_80019676;
-extern s32 D_80019AFC;
+extern s32 scene_cell_dispatch_code;
 
 /* Clears flagged town status and dispatches the action when its conditions are met. */
 s32 clear_flagged_status_and_dispatch_action(S_800167E4_0 *entity, s32 action_arg)
@@ -50,7 +50,7 @@ s32 clear_flagged_status_and_dispatch_action(S_800167E4_0 *entity, s32 action_ar
 
     town = *(void **)((s8 *)(&D_80016000));
     flag_id = entity->unk_18;
-    D_80019AFC = ((S_800167E4_3 *)(town->unk_08 * 8 + town->unk_40))->unk_04;
+    scene_cell_dispatch_code = ((S_800167E4_3 *)(town->unk_08 * 8 + town->unk_40))->unk_04;
 
     if (func_800194D8(flag_id) != 0) {
         {
@@ -62,12 +62,12 @@ s32 clear_flagged_status_and_dispatch_action(S_800167E4_0 *entity, s32 action_ar
             ((S_800167E4_4 *)(entry_index * 8 + clear_town->unk_40))->unk_04 = 0;
         }
         flag_id = entity->unk_18;
-        D_80019AFC = 0;
+        scene_cell_dispatch_code = 0;
         func_80019458(flag_id);
     }
 
     if (check_are_nonzero() != 0 && func_800194D8(F_sbs14_pad19) != 0) {
-        if (func_800194D8(D_80019676) == 0 && D_80019AFC == 0) {
+        if (func_800194D8(D_80019676) == 0 && scene_cell_dispatch_code == 0) {
             func_80019458(F_sbs14_pad19);
             func_80018308(entity, action_arg);
             return 1;

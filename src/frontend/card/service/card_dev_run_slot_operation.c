@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
 extern void func_800702F0(s32 value);
 extern void func_8007C040(void *first_ptr, void *second_ptr, s32 count);
@@ -8,10 +10,8 @@ extern void func_80401578(void);
 extern void configure_target_for_active_state_and_entry(void *target, s32 entry_index);
 extern void func_80408654(s32 value);
 extern u8 D_80400038[];
-extern u8 D_804000F8[];
-extern s32 D_804094EC[];
-extern s32 D_8009DDD8[];
-extern s32 D_8009EB58[];
+extern s32 card_selected_channel[];
+extern s32 card_slot_header_cache[];
 
 /* Run the slot operation to completion and update its counters. */
 s32 card_dev_run_slot_operation(s32 slot_index)
@@ -43,8 +43,8 @@ s32 card_dev_run_slot_operation(s32 slot_index)
 
         counters = D_8009EB58;
         counter_dst = counters;
-        counter_selector = D_804094EC[0];
-        D_8009DDD8[slot_index * 32] = 0;
+        counter_selector = card_selected_channel[0];
+        card_slot_header_cache[slot_index * 32] = 0;
         if (counter_selector != 0) {
             counter_dst++;
         }

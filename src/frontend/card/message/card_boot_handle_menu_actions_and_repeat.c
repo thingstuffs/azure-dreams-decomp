@@ -1,5 +1,7 @@
 #include "shared/pad_state.h"
 #include "common.h"
+#include "frontend/card/message.h"
+#include "main/data.h"
 
 typedef struct S_804027F8_0 {
     s32 unk_00;
@@ -10,9 +12,6 @@ typedef struct S_804027F8_0 {
     u8 pad_14[0xC];
     s32 * unk_20;
 } S_804027F8_0;   /* arg0 in card_boot_handle_menu_actions_and_repeat */
-
-
-extern u8 D_80408ADE[];
 
 extern s32 func_80056450(s32 selection, s32 step, u8 table_value);
 extern void func_80063FF8(s32 code);

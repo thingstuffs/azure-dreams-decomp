@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void *D_80174704;
+extern void *ghosh_actor_node;
 extern s32 D_80174928[];
 extern s32 *D_80174CCC;
 extern s16 D_80174CD0;
@@ -9,7 +9,7 @@ extern s16 D_80174CD0;
 void initialize_map_object_state(void) {
     void *state;
 
-    state = D_80174704;
+    state = ghosh_actor_node;
     if (state != 0) {
         state = (s8 *)state + 0x20;
         *(s8 *)((s8 *)state + 0xB2) = 1;

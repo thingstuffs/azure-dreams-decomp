@@ -52,8 +52,8 @@ typedef struct S_80123604_8 {
 
 
 
-extern u8 D_80126A18[0x70];
-extern u8 D_80129728[0x38];
+extern u8 catalog_frame_layout[0x70];
+extern u8 catalog_display_node_slots[0x38];
 
 typedef struct SourceEntry {
     s32 word;
@@ -71,9 +71,9 @@ void initialize_catalog_slot_records(void) {
         s16 default_first = 0x10;
         s16 default_second = 0xE0;
 
-        address_base = (u8 *)&D_80129728;
+        address_base = (u8 *)&catalog_display_node_slots;
         object_slot = (void **)(address_base + 0x38);
-        source_entry = (SourceEntry *)D_80126A18;
+        source_entry = (SourceEntry *)catalog_frame_layout;
         do {
             ((S_80123604_0 *)(object_slot[entry_index]))->unk_00 = 0;
             ((S_80123604_3 *)(((S_80123604_0 *)(object_slot[entry_index]))->unk_04))->unk_08 = source_entry[entry_index].first;
@@ -88,8 +88,8 @@ void initialize_catalog_slot_records(void) {
         u8 *source_table;
         u8 *object_table;
 
-        object_table = (u8 *)&D_80129728;
-        source_table = (u8 *)&D_80126A18;
+        object_table = (u8 *)&catalog_display_node_slots;
+        source_table = (u8 *)&catalog_frame_layout;
         ((S_80123604_7 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_68))->unk_08))->unk_06 =
             ((S_80123604_2 *)source_table)->unk_64;
         ((S_80123604_7 *)(((CatalogObjectPayloadView *)(((S_80123604_1 *)object_table)->unk_68))->unk_08))->unk_08 =

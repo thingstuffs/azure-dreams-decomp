@@ -1,5 +1,6 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
+#include "main.h"
 
 
 
@@ -12,12 +13,12 @@ void card_boot_cache_save_header(s32 entry_index, void *source) {
     s32 initial_offset;
     s32 final_offset;
 
-    base = (s32 *)&(*(s32 (*)[][32])(&D_80083E98));
+    base = (s32 *)&(*(s32 (*)[][32])(&card_save_slot_metadata));
     initial_offset = entry_index << 7;
     entry = (s32 *)(initial_offset + (s32)base);
     memcpy(entry, (u8 *)source + 0x200, 0x80);
     final_offset = entry_index << 7;
-    final_base = (s32 *)&(*(s32 (*)[][32])(&D_80083E98));
+    final_base = (s32 *)&(*(s32 (*)[][32])(&card_save_slot_metadata));
     final_entry = (s32 *)((u8 *)final_base + final_offset);
     final_entry[0] = 1;
 }

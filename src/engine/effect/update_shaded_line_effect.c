@@ -6,6 +6,7 @@
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
 #include "slus/jtbl_80052CE0.h"
+#include "engine/effect.h"
 
 void update_shaded_line_effect(S_52CE0 *anim, S_52CE0_Pos *position, S_52CE0_Ent *entity)
 {

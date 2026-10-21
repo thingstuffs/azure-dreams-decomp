@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window.h"
 
 typedef struct S_800362A0_1 {
     u8 pad_00[0x74];
@@ -19,9 +20,6 @@ typedef struct S_800362A0_0 {
     u8 pad_51[0x17];
     s32 * unk_68;
 } S_800362A0_0;   /* arg0 in runtime_mark_state_when_flag_50_set */
-
-
-void select_menu_initializer_from_message_handler();
 
 /* If the flag at offset 0x50 is set, marks the linked state and selects func_80036154. */
 void runtime_mark_state_when_flag_50_set(S_800362A0_0 *state) {

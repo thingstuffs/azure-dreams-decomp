@@ -19,9 +19,9 @@ void unlink_node_if_registered(void *block_data);
 /* extern */
 extern u8 D_800A5638[];
 void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_context);
-extern s32 D_800D0460;
+extern s32 overlay_height_in_range;
 extern M2C_UNK D_800D0C50;
-extern s32 D_800834B8;
+extern s32 scene_object_payload_alias;
 
 /* Functions defined in this translation unit. */
 void initialize_effect_record_handlers(void *record_data, s32 unused, s32 destination);

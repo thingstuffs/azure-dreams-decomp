@@ -12,7 +12,7 @@ typedef struct {
 
 
 
-extern u8 *D_80175D50[3];
+extern u8 *beldo_actor_nodes[3];
 extern s16 func_8016F428(void *arg);
 
 
@@ -28,9 +28,9 @@ typedef struct S_8016F79C_1 {
 
 /* Sets the target field from the record or source field and restores two record words. */
 void apply_script_direction_record(void *unused_0, u8 *record, void *unused_2) {
-    u8 *source_base = (u8 *)(&D_80083498.next);
+    u8 *source_base = (u8 *)(&scene_object_list_anchor.next);
     register u8 *source_data = (u8 *)(source_base + 0x20);
-    u8 *target_base = D_80175D50[1];
+    u8 *target_base = beldo_actor_nodes[1];
     u8 *target_data = target_base + 0x20;
     s16 raw_value = func_8016F428(record);
     s32 decoded_value = raw_value;
@@ -41,7 +41,7 @@ void apply_script_direction_record(void *unused_0, u8 *record, void *unused_2) {
         ((S_8016F79C_0 *)target_data)->unk_2A = (u16)(decoded_value << 9);
     }
     {
-        register u16 *default_words = (u16 *)((u8 *)(&D_80083780));
+        register u16 *default_words = (u16 *)((u8 *)(&view_reference_entity));
         ((RecordFieldView_8133879C *)record)->field_02 = default_words[1];
         ((RecordFieldView_8133879C *)record)->field_06 = default_words[3];
     }

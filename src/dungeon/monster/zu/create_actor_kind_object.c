@@ -69,7 +69,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
     field24_value = field24_input;
     field0A_value = field0A_input;
     field25_value = field25_input;
-    obj = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80FAB000_0 *)obj)->unk_10 = D_8014CA70;

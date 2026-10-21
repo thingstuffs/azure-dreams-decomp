@@ -9,6 +9,7 @@ typedef struct S_80025494_0 {
 
 
 #include "frontend/libcard/interfaces.h"
+#include "frontend/libcard.h"
 
 /* Sets two state fields, initializes embedded data, and assigns the record pointer. */
 void card_boot_enter_copying_progress(void *object_data) {

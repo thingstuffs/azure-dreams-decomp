@@ -23,7 +23,7 @@ void interpolate_view_parameters(void *tracker) {
     if (next_ticks < -0x80) {
         (*(s16 *)((u8 *)tracker + 0x24)) = -0x80;
     }
-    countdown = ((u8 *)D_800E3D20);
+    countdown = ((u8 *)camera_transition_timer);
     if (((Row_81916800_S_81916800_1 *)countdown)->unk_00.u != 0) {
         ((Row_81916800_S_81916800_1 *)countdown)->unk_00.s = (s8) (((Row_81916800_S_81916800_1 *)countdown)->unk_00.u - 1);
     }
@@ -67,7 +67,7 @@ s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_valu
     dispatch->unkDE = request_param;
     state->slot[0].callback = D_80024024;
     if (change_flags & 1) {
-        ((s8 *)D_800E3D20)[0] = saved_value;
+        ((s8 *)camera_transition_timer)[0] = saved_value;
     }
     dispatch->unkDC = request_value;
     return change_flags;
@@ -693,7 +693,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
             target_motion = ((ObjectNodeHeader *)target - 1)->unk_08;
             motion->next_x = target_motion->x.v;
             motion->next_y = target_motion->y.v;
-            motion->next_z = target_motion->z.v - (D_800DDC40[((u8 *)actor->target)[0x13]] << 15);
+            motion->next_z = target_motion->z.v - (entity_height_offsets[((u8 *)actor->target)[0x13]] << 15);
         } else {
             scan_visual = node->unk_0C;
             tile_x = scan_visual->unk_24;
@@ -755,7 +755,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
             motion->next_x = (target_motion->x.v - motion->x.v) / 32;
             motion->next_y = (target_motion->y.v - motion->y.v) / 32;
             motion->next_z = (target_motion->z.v -
-                (D_800DDC40[((u8 *)actor->target)[0x13]] << 15) - motion->z.v) / 32;
+                (entity_height_offsets[((u8 *)actor->target)[0x13]] << 15) - motion->z.v) / 32;
         } else {
             motion->next_x = (motion->next_x - motion->x.v) / 32;
             motion->next_y = (motion->next_y - motion->y.v) / 32;

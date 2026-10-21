@@ -47,7 +47,7 @@ extern Packed12 D_80025E40;
 extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
 extern M2C_UNK D_80025E80;
-extern u8 D_800E3D68;
+extern u8 current_spell_effect_variant;
 
 
 typedef struct S_818FF710_0 {
@@ -430,7 +430,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         if (flight_target != NULL) {
             target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
             (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_8 *)target_pos_or_step)->unk_0A
-                - (D_800DDC40[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
+                - (entity_height_offsets[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
             origin = ((SpriteLinkPrefixView *)parent)[-1].unk_00;
             (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + ((u8 *)dir_step_x)[(*(s16 *)((u8 *)effect
                 + 0x7E)) * 2]);
@@ -619,7 +619,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             first_sprite->unk_1C = 0x1004;
             first_sprite->unk_1E = 0x1004;
             first_sprite->unk_22 = (s16) ((s32) (0
-                - D_800DDC40[((S_818FF710_31 *)(((S_818FF710_2 *)parent)->unk_60))->unk_13]) / 2);
+                - entity_height_offsets[((S_818FF710_31 *)(((S_818FF710_2 *)parent)->unk_60))->unk_13]) / 2);
             first_sprite->unk_0E = 0x80;
             first_sprite->unk_0D = 0x80;
             first_sprite->unk_0C = 0x80;
@@ -777,7 +777,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             return;
         }
         source_id = 0xFF;
-        if (D_800E3D68 != 0xFF) {
+        if (current_spell_effect_variant != 0xFF) {
             source_id = (*(u8 *)((u8 *)effect + 9));
         }
         apply_random_actor_value_adjustment(((S_818FF710_2 *)parent)->unk_60, source_id, parent);

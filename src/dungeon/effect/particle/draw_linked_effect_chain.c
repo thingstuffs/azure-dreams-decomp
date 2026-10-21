@@ -449,12 +449,12 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
         dispatch_state = entity->state;
         switch (dispatch_state) {
         case 0:
-        start_world = D_800814A8;
+        start_world = primary_actor_record;
         ((PlayerRecord *)start_world)->unk_F4 = 0;
         start_world->unk_96 = 20;
         D_80082E86[0] = 6;
         entity->state++;
-        start_origin = &D_80083780[0];
+        start_origin = &view_reference_entity[0];
         {
             Row_819A1654_Blob24 *flag_base = D_80026198;
             entity->base[0] = start_origin->x;
@@ -498,10 +498,10 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
             }
 
             if (entity->timer == 24) {
-                if (get_sprite_attachment_vector((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
+                if (get_sprite_attachment_vector((&reference_tile_object[0])->found, &reference_tile_object[0], &entity->x, 0) != 0) {
                     spawn_index = 0;
                     particle_callback = choose_random_sign;
-                    origin_loop = D_80083780;
+                    origin_loop = view_reference_entity;
                     do {
                         task = (Row_819A1654_Task *)func_8003FC64(0x212);
                         effect = &task->effect;
@@ -538,7 +538,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
             }
 
             if (entity->timer == 24) {
-                if (get_sprite_attachment_vector((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
+                if (get_sprite_attachment_vector((&reference_tile_object[0])->found, &reference_tile_object[0], &entity->x, 0) != 0) {
                     task = (Row_819A1654_Task *)func_8003FC64(0x212);
                     effect = &task->effect;
                     if (task != 0) {
@@ -551,7 +551,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                         burst_size = 96;
                         sprite = task->sprite;
                         burst_flags = sprite->flags;
-                        origin_second = &D_80083780;
+                        origin_second = &view_reference_entity;
                         sprite->field10 = burst_size;
                         sprite->flags = burst_flags | 0xC;
                         coord = task->coord;
@@ -584,7 +584,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                             path_pair = 3;
                         }
 
-                        if (get_sprite_attachment_vector((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
+                        if (get_sprite_attachment_vector((&reference_tile_object[0])->found, &reference_tile_object[0], &entity->x, 0) != 0) {
                             s32 path_point;
                             Row_819A1654_Entity *path_entity;
                             Row_819A1654_Entity *next_entity;
@@ -594,7 +594,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                             path_entity = (Row_819A1654_Entity *)((u8 *)entity + (path_point + path_pair) * 4);
                             path_point++;
                             path_half = entity->x / 2;
-                            origin_path = D_80083780;
+                            origin_path = view_reference_entity;
                             path_entity->path[0] = path_half + (origin_path->x - entity->base[0]) / 2;
                             path_entity->path[1] = entity->y / 2 + (origin_path->y - entity->base[1]) / 2;
                             path_entity->path[2] = entity->z / 2 + (origin_path->z - entity->base[2]) / 2;
@@ -899,7 +899,7 @@ loop_1:
                 }
             }
 
-            world = D_800814A8;
+            world = primary_actor_record;
             focus = world->target;
             if (focus != 0 && entity->timer == 1) {
                 task = (Row_819A1654_Task *)func_8003FC64(0x212);
@@ -916,7 +916,7 @@ loop_1:
                     coord = task->coord;
                     coord->x = focus_coord->x;
                     coord->y = focus_coord->y;
-                    coord->z = focus_coord->z - (D_800DDC40[*((u8 *)focus + 19)] >> 1);
+                    coord->z = focus_coord->z - (entity_height_offsets[*((u8 *)focus + 19)] >> 1);
                     sprite = task->sprite;
                     sprite->field1E = 0x1000;
                     sprite->field1C = 0x1000;

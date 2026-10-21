@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus.h"
 
 /* D_80085458 table element, stride 0x78 bytes. Fields at 0x0A and 0x5C are
  * newly touched here (not referenced by other reconciled siblings); rest of
@@ -36,7 +38,6 @@ extern S_8005BAB0_85458 audio_voice_records[64];
 extern s32 audio_update_guard[4]; /* forced hi/lo access via size > 8 */
 
 extern s32 sound_apply_indexed_voice_envelope(s32 a0, S_8005BAB0_85458 *a1);
-extern void func_8005E97C(s32 a0, s32 a1);
 
 /* Clears matching active indirect-channel slots, redispatches each twice, and applies their combined flags. */
 void audio_stop_matching_effect_voices(s32 packed_key, s32 packed_channel)

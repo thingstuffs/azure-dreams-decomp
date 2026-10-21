@@ -1,20 +1,18 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/resource.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
+#include "slus/data.h"
 
 typedef struct {
     void *data;
     s32 value;
 } Entry;
 
-extern s32 lookup_sentinel_resource_value_or_zero(s32 entry_group);
-extern s32 find_or_load_runtime_resource_key(void *entry_data);
-extern void runtime_move_entry_to_front(s32 index);
-extern void LoadImage(void *rect, void *data);
-
 extern s32 fade_manager_state[];
 extern s32 runtime_resource_directory[];
-extern s32 resource_directory_upload_rectangles[];
 
 /* Processes the selected entry and uploads its two image regions to VRAM. */
 s32 activate_indexed_resource_and_upload_images(s32 entry_group, s32 entry_index) {

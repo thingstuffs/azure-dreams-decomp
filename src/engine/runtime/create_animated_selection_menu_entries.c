@@ -1,10 +1,11 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/runtime.h"
+#include "slus/data.h"
 
 extern s32 cache_value_at_offset_0x24(s32, s32, s32, s32, s32);
-extern void reorder_and_interpolate_selection_menu_entries(void *);
-extern u8 selection_menu_animation_keys[];
 
 /* Initializes items using the selected table row, then activates and updates the state. */
 s32 create_animated_selection_menu_entries(void *state) {

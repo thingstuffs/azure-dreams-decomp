@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 // Initializes two adjacent records with global values and fixed fields, returning the end pointer.
 void *card_background_init_overlay_prims(u8 *record) {

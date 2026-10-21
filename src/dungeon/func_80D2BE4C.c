@@ -130,7 +130,7 @@ void update_ability_actor_action(ActorActionView *action, ObjectPosition *motion
             {
                 s32 player_target = use_player;
                 if (player_target) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     actor->target = target;
                     {
                         target_sprite =
@@ -142,7 +142,7 @@ void update_ability_actor_action(ActorActionView *action, ObjectPosition *motion
                     u8 ability_kind;
 
                     ability_kind = *ability;
-                    if (D_8006DE24[ability_kind].kind == 2) {
+                    if (item_action_definitions[ability_kind].kind == 2) {
                         target = actor->target;
                         if (target != NULL) {
                             {
@@ -186,7 +186,7 @@ void update_ability_actor_action(ActorActionView *action, ObjectPosition *motion
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
             g_dungeon_status.active_actor = 0;
-            ((PlayerActionCounterView *)D_800814A8)->activeActions = (u16) (((PlayerActionCounterView *)D_800814A8)->activeActions - 1);
+            ((PlayerActionCounterView *)primary_actor_record)->activeActions = (u16) (((PlayerActionCounterView *)primary_actor_record)->activeActions - 1);
             advance_status_timers(actor);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             action->nextBehavior = &update_ability_actor_behavior;

@@ -7,11 +7,11 @@ typedef struct {
 } Entry;
 
 extern struct { void *ptr; s32 pad[2]; } D_80016000;
-extern Entry D_800198A4[3];
-extern s32 D_80019B8C[3];
+extern Entry scene_rows[3];
+extern s32 selected_scene_row_index[3];
 
 /* Copy the selected entry value to the current object's destination field. */
 void copy_selected_row_to_player_position(void) {
     s32 *value_ptr = *(s32 **) ((u8 *) D_80016000.ptr + 0x1C);
-    *value_ptr = D_800198A4[D_80019B8C[0]].val;
+    *value_ptr = scene_rows[selected_scene_row_index[0]].val;
 }

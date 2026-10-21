@@ -145,12 +145,12 @@ void update_actor_item_use_animation(void *action, void *item, void *sprite, voi
                 ((S_801728E4_0 *)action)->unk_98 &= 0xFF7F;
                 global_source_test = use_global_source;
                 if (global_source_test) {
-                    source_entity = D_800814A8;
+                    source_entity = primary_actor_record;
                     ((S_801728E4_1 *)act)->unk_60 = source_entity;
                     source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
                     ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
                     ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
-                } else if (D_8006DE24[(*(u8 *)&((EntityRec *)item)->x)].kind == 2) {
+                } else if (item_action_definitions[(*(u8 *)&((EntityRec *)item)->x)].kind == 2) {
                     source_entity = ((S_801728E4_1 *)act)->unk_60;
                     if (source_entity != 0) {
                         source_sprite = *(u8 **)((u8 *)source_entity - 0x14);

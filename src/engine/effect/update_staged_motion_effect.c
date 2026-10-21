@@ -1,5 +1,9 @@
 #include "common.h"
 #include "shared/vector.h"
+#include "engine/effect.h"
+#include "sdk/libgte.h"
+#include "slus.h"
+#include "slus/data.h"
 
 typedef struct S_80051548_Ptr
 {
@@ -36,10 +40,6 @@ typedef struct S_80051548_Flags
     u8 e;
 }
 S_80051548_Flags;
-extern void func_800478B8(void *flags);
-extern s32 rsin(s32 angle);
-extern s32 rcos(s32 angle);
-extern s32 D_800814A0_abs __attribute__((section(".data")));
 /* Advances staged object motion and marks completion. */
 void update_staged_motion_effect(S_80051548_Obj *obj, IntVector3 *position, S_80051548_Flags *flags)
 {

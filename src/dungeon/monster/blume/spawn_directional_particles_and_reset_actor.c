@@ -133,7 +133,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                 for (; particle_index < 5; particle_index++) {
                     void *particle;
 
-                    particle = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+                    particle = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
                     if (particle == 0)
                         continue;
                     {
@@ -300,7 +300,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         ((SpriteFrameState *)render)->color.c.b = 0;
                         ((SpriteFrameState *)render)->clut = 0x7DCF;
                         ((SpriteFrameState *)render)->flags |= 0x100;
-                        func_8003DB94(render, D_800DE870, 0);
+                        func_8003DB94(render, effect_sprite_sources, 0);
                     }
                 }
             }

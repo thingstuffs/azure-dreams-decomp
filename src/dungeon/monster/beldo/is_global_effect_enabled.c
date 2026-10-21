@@ -4,7 +4,7 @@
 
 /* Returns whether bit 0x10 is set in D_80013714[0]. */
 s32 is_global_effect_enabled(void) {
-    if (D_80013714 & 0x10) {
+    if (system_update_flags & 0x10) {
         return 1;
     }
     return 0;

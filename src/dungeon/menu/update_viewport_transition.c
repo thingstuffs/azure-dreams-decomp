@@ -117,39 +117,39 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
 
     render = render_params;
     input = &g_game_work;
-    if (((S_func_8009E038_3 *)&D_800E296C)->unk_00 & 0x2000) {
+    if (((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 & 0x2000) {
         if (transition->unk_1A < 0x20) {
             transition->unk_1A = 0x20;
         }
     }
-    flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
+    flags = ((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00;
     if (flags & 0x800000) {
         previous_state = transition->unk_1A;
         cleared_flags = flags & ~0x2000;
-        (*(s32 *)&D_800E296C) = cleared_flags;
+        (*(s32 *)&dungeon_floor_flags) = cleared_flags;
         if (previous_state >= 2) {
             transition->unk_1A = 0;
             transition->unk_1C = 8;
         }
         transition->unk_2C = 0U;
-        D_800E296C &= 0xFEFFFFFF;
+        dungeon_floor_flags &= 0xFEFFFFFF;
     } else if ((u32) ((u16) transition->unk_1A - 0x20) < 0x10U) {
-        if (!(((S_func_8009E038_3 *)&D_800E296C)->unk_00 & 0x2000)) {
+        if (!(((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 & 0x2000)) {
             transition->unk_1A = 0x30;
         }
     }
-    if (transition->unk_1A != 0 || (D_800E3D7C->flags1C & 0x10)) {
+    if (transition->unk_1A != 0 || (dungeon_actor_ring_anchor->flags1C & 0x10)) {
         transition->unk_2C = 0U;
-        D_800E296C &= 0xFEFFFFFF;
+        dungeon_floor_flags &= 0xFEFFFFFF;
     }
     state = transition->unk_1A;
     switch (state) {
     case 0:
-        if (!((*(s32 *)((u8 *)&D_800E296C + 0)) & 0x800000)) {
+        if (!((*(s32 *)((u8 *)&dungeon_floor_flags + 0)) & 0x800000)) {
             idle_frames = transition->unk_2C + 1;
             transition->unk_2C = idle_frames;
             if ((s16) idle_frames == 0x1F) {
-                (*(s32 *)&D_800E296C) = (s32) (((S_func_8009E038_3 *)&D_800E296C)->unk_00 | 0x01000000);
+                (*(s32 *)&dungeon_floor_flags) = (s32) (((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00 | 0x01000000);
                 create_fullscreen_quad_updater(0);
             } else if ((s16) idle_frames >= 0x20) {
                 transition->unk_2C = 0x20U;
@@ -193,7 +193,7 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
             render->unk_0C.s32 = 0x808080;
             transition->unk_08 = 0x140;
             transition->unk_0A = 0xE0;
-            shared_flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
+            shared_flags = ((S_func_8009E038_3 *)&dungeon_floor_flags)->unk_00;
             transition->unk_04 = 0;
             transition->unk_06 = 0;
             transition->unk_1C = 0;
@@ -233,9 +233,9 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
                 - center->unk_02) / (s16) transition->unk_1C));
             center->unk_06 = (s16) ((u16) center->unk_06 + ((s32) (transition->unk_16
                 - center->unk_06) / (s16) transition->unk_1C));
-            render->unk_20.u16 = (u16) (((s32) (D_80082E80.tile_position.parts.tile_x - render->unk_20.u16) / (s16) transition->unk_1C)
+            render->unk_20.u16 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_x - render->unk_20.u16) / (s16) transition->unk_1C)
                 + render->unk_20.u16);
-            render->unk_22.u16 = (u16) (((s32) (D_80082E80.tile_position.parts.tile_y - render->unk_22.u16) / (s16) transition->unk_1C)
+            render->unk_22.u16 = (u16) (((s32) (reference_tile_object.tile_position.parts.tile_y - render->unk_22.u16) / (s16) transition->unk_1C)
                 + render->unk_22.u16);
             left_step = (s32) (transition->unk_0C - transition->unk_04) / (s16) transition->unk_1C;
             transition->unk_04 = (s16) ((u16) transition->unk_04 + left_step);
@@ -253,8 +253,8 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
                 target_scale = (u16) transition->unk_1E;
                 render->unk_1E = target_scale;
                 render->unk_1C = target_scale;
-                render->unk_20.s16 = (s16) D_80082E80.tile_position.parts.tile_x;
-                render->unk_22.s16 = (s16) D_80082E80.tile_position.parts.tile_y;
+                render->unk_20.s16 = (s16) reference_tile_object.tile_position.parts.tile_x;
+                render->unk_22.s16 = (s16) reference_tile_object.tile_position.parts.tile_y;
                 target_left = (u16) transition->unk_0C;
                 viewport_page = (S_func_8009E038_8 *)0x80010000;
                 transition->unk_04 = (s16) target_left;
@@ -270,8 +270,8 @@ void update_viewport_transition(S_func_8009E038_0 *transition, S_func_8009E038_1
                 viewport_page->unk_3636 = target_height;
             }
         } else {
-            render->unk_20.s16 = (s16) D_80082E80.tile_position.parts.tile_x;
-            render->unk_22.s16 = (s16) D_80082E80.tile_position.parts.tile_y;
+            render->unk_20.s16 = (s16) reference_tile_object.tile_position.parts.tile_x;
+            render->unk_22.s16 = (s16) reference_tile_object.tile_position.parts.tile_y;
         }
         if (input->buttons & 0x10) {
             if (((s32)input->pressed_buttons) & 8) {

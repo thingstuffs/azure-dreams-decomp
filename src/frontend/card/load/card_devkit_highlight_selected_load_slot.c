@@ -1,6 +1,7 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "frontend/card/load.h"
 
-extern void card_devkit_set_window_selection_marker(void *, s32);
 extern void func_80404668(void *);
 extern void func_80405A00(s32, s32);
 

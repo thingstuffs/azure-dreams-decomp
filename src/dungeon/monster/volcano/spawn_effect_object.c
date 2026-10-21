@@ -18,7 +18,7 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     s32 random;
 
     alloc_kind = 0x112;
-    alloc_data = &D_80083498;
+    alloc_data = &scene_object_list_anchor;
     object = allocate_list_node(alloc_kind, alloc_data);
     flags_s16 = spawn_flags;
     if (object != 0) {

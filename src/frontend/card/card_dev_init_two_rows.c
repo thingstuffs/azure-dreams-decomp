@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8004DCCC(s32);

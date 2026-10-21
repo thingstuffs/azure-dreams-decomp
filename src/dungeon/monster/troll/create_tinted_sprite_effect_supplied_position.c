@@ -104,8 +104,8 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
             actor->facing = get_rounded_facing_and_rounding_flag(
                 tile->unk_24,
                 tile->unk_25,
-                D_80082E80.tile_position.parts.tile_x,
-                D_80082E80.tile_position.parts.tile_y,
+                reference_tile_object.tile_position.parts.tile_x,
+                reference_tile_object.tile_position.parts.tile_y,
                 &coord_result);
         }
     }

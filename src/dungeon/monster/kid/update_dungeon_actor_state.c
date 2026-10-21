@@ -161,14 +161,14 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
             update_actor_status_and_food(entity);
             return;
         }
-        if (((S_80171400_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_80171400_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_80171B28(actor, context, sprite_in, entity);
             return;
         }
         if (!(((S_80171400_1 *)entity)->unk_46 & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -205,8 +205,8 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
 
             direction = get_rounded_facing_and_rounding_flag(
                 ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
-            player = D_800814A8;
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
+            player = primary_actor_record;
             ((S_80171400_1 *)entity)->unk_2A = direction;
             if (player->unk_9A != 0x11) {
                 update_actor_status_and_food(entity);
@@ -238,15 +238,15 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
     if (!(((S_80171400_1 *)entity)->unk_1C & 0x2000)) {
         s32 room_index = room_id;
 
-        if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
+        if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((S_80171400_1 *)entity)->unk_1C & 0x430)) {
 
                 if ((compare_monster_neighbor_values(
                         ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     ((S_80171400_1 *)entity)->unk_2A = get_rounded_facing_and_rounding_flag(
                         ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                 }
             }
         }

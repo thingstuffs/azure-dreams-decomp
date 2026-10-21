@@ -6,6 +6,7 @@
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
 #include "slus/jtbl_8004CECC.h"
+#include "engine/graphics.h"
 
 u8 *convert_hsv_to_rgb(u32 hue, s32 saturation, s32 value, u8 *out)
 {

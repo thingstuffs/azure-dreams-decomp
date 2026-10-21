@@ -26,10 +26,10 @@ s32 get_special_table_data_index(s32 dataAddress) {
         lookupIndex++;
         return (s16)lookupIndex;
     }
-    if (dataAddress == D_80081484) {
+    if (dataAddress == held_item_record) {
         return 0x15;
     }
-    if (dataAddress == D_80081470) {
+    if (dataAddress == temporary_item_record) {
         return 0x16;
     }
     return 0;

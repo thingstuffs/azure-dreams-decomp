@@ -9,7 +9,7 @@ extern s32 generate_random_value(void);
 extern s16 find_floor_item_at_world_position(s16, s16, s16);
 extern s32 is_linked_entity_flagged_80000(void *, void *);
 
-extern s32 D_800E3D7C[];
+extern s32 dungeon_actor_ring_anchor[];
 extern s32 D_80162FE4[];
 
 typedef struct { s32 value; } ItemWord;
@@ -35,15 +35,15 @@ typedef struct { s32 value; } ItemWord;
         s32 *shared_slot;
         shared_base = D_80162FE4;
         shared_slot = shared_base;
-        *(ItemWord *)shared_base = *(ItemWord *)&((s32 *)D_800E3548)[tile_slot];
-        ((s32 *)D_800E3548)[tile_slot] = 0;
+        *(ItemWord *)shared_base = *(ItemWord *)&((s32 *)dungeon_ground_items)[tile_slot];
+        ((s32 *)dungeon_ground_items)[tile_slot] = 0;
         return (s32)shared_slot;
     }
 
     target = place_actor_at_directional_neighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
                            *(s16 *)(actor_bytes + 0x2A));
     if (target != NULL) {
-        if (target == (void *)D_800E3D7C[0]) {
+        if (target == (void *)dungeon_actor_ring_anchor[0]) {
             if (is_linked_entity_flagged_80000(target, target) != 0) {
                 return 0;
             }

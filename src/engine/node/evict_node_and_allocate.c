@@ -1,5 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/node.h"
+#include "slus.h"
 
 typedef struct Node {
     struct Node *next;      /* 0x00 */
@@ -7,19 +9,14 @@ typedef struct Node {
     unsigned short field_1E; /* 0x1E */
 } Node;
 
-extern Node *D_80081498;
-
-extern void unlink_node(void *a0);
-extern void unlink_active_node(void *a0);
-extern void push_node_onto_free_list(void *a0);
-extern void *allocate_list_node(void *a0, void *a1);
+extern Node *active_node_list_head;
 
 /* Removes the first eligible active node other than excluded_node, then retries allocation. */
 void *evict_node_and_allocate(void *flags, void *excluded_node)
 {
     Node *node;
 
-    node = D_80081498;
+    node = active_node_list_head;
     if (node != 0) {
         do {
             if ((node->field_1E & 0x200) && excluded_node != (void *)node) {

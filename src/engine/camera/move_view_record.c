@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/camera.h"
 
 typedef struct S_8004D75C_sub {
     s32 w[16];

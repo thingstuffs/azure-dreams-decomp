@@ -132,7 +132,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
                 if (target_player != 0) {
                     u32 item_data;
 
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     (*(void * *)((u8 *)object + 0x60)) = target;
                     item_data = (u32)((S_801737C8_1_pre *)target)[-1].unk_00;
                     (*(u8 *)((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
@@ -142,7 +142,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
                     u8 item_id;
                     u32 item_data;
 
-                    item_table = D_8006DE24;
+                    item_table = item_action_definitions;
                     item_id = *item_slot;
                     item_data = (item_id * 20 + item_table)[0x12];
                     if (item_data == 2) {
@@ -180,7 +180,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(object);
         (*(u8 *)((u8 *)object + 0x6D))--;
         ((S_801737C8_0 *)controller)->unk_8C = D_80171E20;

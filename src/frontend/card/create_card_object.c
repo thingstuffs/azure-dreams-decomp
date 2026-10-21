@@ -18,7 +18,7 @@ typedef struct {
 } StructA_8001B428;
 
 extern StructA_8001B428 *func_8003C480(s32 value);
-extern void (*D_80408AD0[1])(StructA_8001B428 *object);
+extern void (*card_object_callbacks[1])(StructA_8001B428 *object);
 extern void func_804023E4(void);
 
 /* Creates an object with initialization data, runs its selected initializer, and sets its callback. */
@@ -29,7 +29,7 @@ StructA_8001B428 *create_card_object(s32 unused, s32 init_data, s32 init_index) 
     if (object != NULL) {
         object->unk20 = init_data;
         object->unk24 = init_index;
-        D_80408AD0[init_index](object);
+        card_object_callbacks[init_index](object);
         object->unk10 = func_804023E4;
     }
     return object;

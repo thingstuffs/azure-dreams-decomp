@@ -1,5 +1,6 @@
 #include "modules/main_title_callbacks.h"
 #include "common.h"
+#include "frontend/libcard.h"
 
 s32 create_resource_transition_for_descriptor_check();                          /* extern */
 

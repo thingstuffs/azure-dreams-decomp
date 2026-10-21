@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/node.h"
+#include "slus.h"
 
 #ifndef NULL
 #define NULL 0
@@ -18,8 +20,6 @@ typedef struct S_8003FF2C {
     u8 pad10[0x1E - 0x10];
     s16 flags1E;                /* 0x1E */
 } S_8003FF2C;
-
-extern void zero_words(int *p, int n);
 
 /* Clears and prepends a node, setting its flags and optional tail payload pointers. */
 S_8003FF2C *initialize_runtime_node_storage(s32 flags, S_8003FF2C *storage, s16 word_count, S_8003FF2C **list_head)

@@ -104,7 +104,7 @@ loop_0:
         *position = next_x;
         if (next_x <= 0x427FFFF) {
             S16(state, 0xE) = 6;
-            color_state = &D_80082E80;
+            color_state = &reference_tile_object;
             if (U8(color_state, 0xC) >= 9) {
                 S32(color_state, 0xC) -= 0x80808;
             }
@@ -113,7 +113,7 @@ loop_0:
             S16(state, 0xC) = 2;
             break;
         }
-        y_distance = D_80083780.y.v - position[1];
+        y_distance = view_reference_entity.y.v - position[1];
         y_distance = abs(y_distance);
         if (y_distance > 0x200000 || next_x > 0x43FFFFF || (U16(state, 0x10) & 4)) {
             break;

@@ -4,7 +4,7 @@
 /* S_8002E5E8: 3-field vector-like struct (x,y,z), source data copied into target entities' ->vec */
 
 
-extern DisplayPositionWords D_8002E5E8;
+extern DisplayPositionWords display_vector_defaults;
 
 typedef struct {
     s32 unk0;
@@ -18,8 +18,8 @@ void apply_vector_3_template_to_nodes(func_8004CCBC_Obj **objects, s32 object_co
     s32 object_index;
 
     for (object_index = 0; object_index < object_count; object_index++, objects++) {
-        (*objects)->vec->unk0 = D_8002E5E8.unk0;
-        (*objects)->vec->unk4 = D_8002E5E8.unk4;
-        (*objects)->vec->unk8 = D_8002E5E8.unk8;
+        (*objects)->vec->unk0 = display_vector_defaults.unk0;
+        (*objects)->vec->unk4 = display_vector_defaults.unk4;
+        (*objects)->vec->unk8 = display_vector_defaults.unk8;
     }
 }

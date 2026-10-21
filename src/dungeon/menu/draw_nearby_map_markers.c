@@ -6,10 +6,10 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 
-extern u8 D_800E3648[];
-extern u8 D_800E36C8[];
-extern u8 D_800E39C8[];
-extern u8 D_800E3CD8[];
+extern u8 floor_objects[];
+extern u8 dungeon_ground_item_positions[];
+extern u8 dungeon_floor_object_positions[];
+extern u8 dungeon_floor_marker_entries[];
 
 extern s32 func_800644B8(s32);
 extern void append_adjusted_type_two_entry(s32, s32, u8 *, s32);
@@ -66,26 +66,26 @@ void draw_nearby_map_markers(s32 draw_param) {
     s32 distance;
 
     system = &g_game_work;
-    head = D_800E3D7C;
+    head = dungeon_actor_ring_anchor;
 
-    if (D_800E296C & 0x1000) {
-        D_800E296C &= ~0x1000;
+    if (dungeon_floor_flags & 0x1000) {
+        dungeon_floor_flags &= ~0x1000;
         redraw_type_three_floor_markers();
     }
-    if (D_800E296C & 0x400) {
-        D_800E296C &= ~0x400;
+    if (dungeon_floor_flags & 0x400) {
+        dungeon_floor_flags &= ~0x400;
         draw_red_active_entry_markers();
     }
-    if (D_800E296C & 0x200) {
-        D_800E296C &= ~0x200;
+    if (dungeon_floor_flags & 0x200) {
+        dungeon_floor_flags &= ~0x200;
         draw_blue_enabled_entry_markers();
     }
-    if (D_800E296C & 0x800) {
-        D_800E296C &= ~0x800;
+    if (dungeon_floor_flags & 0x800) {
+        dungeon_floor_flags &= ~0x800;
         draw_purple_entry_markers();
     }
-    if (D_800E296C & 0x100) {
-        D_800E296C &= ~0x100;
+    if (dungeon_floor_flags & 0x100) {
+        dungeon_floor_flags &= ~0x100;
         draw_green_type_two_markers();
     }
 
@@ -95,7 +95,7 @@ void draw_nearby_map_markers(s32 draw_param) {
         brightness = 0xff;
     }
     firstContext = draw_param;
-    player = (u8 *)&D_80082E80;
+    player = (u8 *)&reference_tile_object;
     colour[3] = 0x68;
     colour[2] = 0;
     colour[1] = brightness;
@@ -113,11 +113,11 @@ void draw_nearby_map_markers(s32 draw_param) {
             union { u8 * value; } object = {0};
             if (*(s8 *)(entry + 0x13) > 0) {
                 object.value = *(u8 **)(entry - 0x14);
-                if (!(D_800E296C & 4)) {
+                if (!(dungeon_floor_flags & 4)) {
                     if (*(s8 *)(object.value + 0x26) < 0 ||
-                        *(s8 *)(object.value + 0x26) != D_80082E80.room_index) {
+                        *(s8 *)(object.value + 0x26) != reference_tile_object.room_index) {
                         distance = get_tile_chebyshev_distance(object.value,
-                                                 (u8 *)&D_80082E80);
+                                                 (u8 *)&reference_tile_object);
                         if ((s16)distance >= 4) {
                             continue;
                         }
@@ -133,7 +133,7 @@ void draw_nearby_map_markers(s32 draw_param) {
                     }
                 } else if ((entryType.value = entry[0x13]) != 0x23 ||
                            (*(s16 *)(entry + 0xa6)) == 0 ||
-                           (D_800E296C & 4)) {
+                           (dungeon_floor_flags & 4)) {
                     kind.value = 1;
                 }
 
@@ -153,13 +153,13 @@ void draw_nearby_map_markers(s32 draw_param) {
         }
     }
     playerAndIndex = 0;
-    mapEntry = (MapEntry *)D_800E36C8;
-    info = (EntryInfo *)((u8 *)D_800E3548);
+    mapEntry = (MapEntry *)dungeon_ground_item_positions;
+    info = (EntryInfo *)((u8 *)dungeon_ground_items);
     colour[2] = brightness;
     colour[0] = 0;
     do {
         if (info[playerAndIndex].active != 0) {
-            if ((D_800E296C & 2) ||
+            if ((dungeon_floor_flags & 2) ||
                 get_masked_grid_nibble(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y)) {
                 append_adjusted_type_two_entry(mapEntry[playerAndIndex].x,
@@ -170,11 +170,11 @@ void draw_nearby_map_markers(s32 draw_param) {
     } while (playerAndIndex < 0x40);
 
     playerAndIndex = 0;
-    objectEntry = (ObjectEntry *)D_800E3CD8;
+    objectEntry = (ObjectEntry *)dungeon_floor_marker_entries;
     colour[2] = 0;
     colour[1] = brightness;
     for (; playerAndIndex < 4 && objectEntry[playerAndIndex].type == 2; playerAndIndex++) {
-        if ((D_800E296C & 1) ||
+        if ((dungeon_floor_flags & 1) ||
             get_masked_grid_nibble(objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {
             append_adjusted_type_two_entry((u16)objectEntry[playerAndIndex].x,
@@ -183,8 +183,8 @@ void draw_nearby_map_markers(s32 draw_param) {
     }
 
     playerAndIndex = 0;
-    largeMapEntry = (LargeMapEntry *)D_800E39C8;
-    info = (EntryInfo *)D_800E3648;
+    largeMapEntry = (LargeMapEntry *)dungeon_floor_object_positions;
+    info = (EntryInfo *)floor_objects;
     colour[1] = 0x20;
     colour[2] = brightness;
     colour[0] = brightness;
@@ -192,7 +192,7 @@ void draw_nearby_map_markers(s32 draw_param) {
         if (info[playerAndIndex].active != 0 &&
             info[playerAndIndex].exists != 0 &&
             !(info[playerAndIndex].flags & 0x40)) {
-            if ((D_800E296C & 8) ||
+            if ((dungeon_floor_flags & 8) ||
                 (!(info[playerAndIndex].flags & 0x80) &&
                  get_masked_grid_nibble(largeMapEntry[playerAndIndex].x,
                                largeMapEntry[playerAndIndex].y))) {

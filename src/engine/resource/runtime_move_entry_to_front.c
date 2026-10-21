@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/resource.h"
 
 typedef struct Entry {
     s32 word0;

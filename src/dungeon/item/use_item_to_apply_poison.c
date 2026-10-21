@@ -36,9 +36,9 @@ extern M2C_UNK D_800E1729;
 s32 use_item_to_apply_poison(void *entity, s32 item, s16 action_type) {
     MovingTile *tile;
 
-    if (entity == ((u8 *)D_800E3D7C)) {
+    if (entity == ((u8 *)dungeon_actor_ring_anchor)) {
         ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_124 = item;
-        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/sound_volume.h"
+#include "engine/audio.h"
 
 
 /* Returns volume scale [0] / [1] / [2] for selector 2 / 1 / 4, zero for any other selector. */

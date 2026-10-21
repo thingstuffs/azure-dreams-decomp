@@ -60,7 +60,7 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
     saved_tile_x = tile_x;
     saved_height = initial_height;
     saved_tile_y = tile_y;
-    entity = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    entity = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (entity != NULL) {
         entity_state = entity + 0x20;
         D_80174710 = entity;
@@ -82,7 +82,7 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
         tile_state->tpage_abr = 0x20;
         tile_state->flags = (u16) (tile_state->flags | 0xC);
         try_move_actor_to_valid_position(entity_state, world_state, tile_state, entity_state);
-        world_state->unk_0A = (u16) ((u16)D_80083780.z.w.i);
+        world_state->unk_0A = (u16) ((u16)view_reference_entity.z.w.i);
         world_state->unk_16 = (s16) (world_state->unk_0A - 0x20);
         world_state->unk_0A = (u16) (world_state->unk_0A - 0x190);
         saved_tile_1c = tile_state->scale_x;

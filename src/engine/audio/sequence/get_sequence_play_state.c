@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 typedef struct {
     u8 pad_00[0x2C];

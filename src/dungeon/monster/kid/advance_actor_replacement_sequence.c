@@ -124,12 +124,12 @@ s32 play_sound_if_enabled();                     /* extern */
 s32 create_status_linked_render_effect();     /* extern */
 #include "dungeon/select_nearby_target_and_initialize_slot_api.h" /* extern */
 void create_randomly_rotated_offset_effect(); /* extern */
-extern s32 D_8006CD58;
-extern void *D_800DCEEC[];
+extern s32 cd_cue_base;
+extern void *actor_effect_color_targets[];
 extern u8 D_8014A000[];
 s32 update_actor_state_after_map_check(void *initial_payload, s32 entry_data, Entry *entry, s32 unused);
 void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input);
-extern M2C_UNK D_801751F8;
+extern M2C_UNK kid_image_commands;
 extern s32 D_80175200[];
 extern s16 D_80175218;
 extern M2C_UNK D_8017521C;
@@ -170,7 +170,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         return;
     case 1:
-        run_cd_image_commands(&D_801751F8, (u8 *)(&D_8017521C), 0);
+        run_cd_image_commands(&kid_image_commands, (u8 *)(&D_8017521C), 0);
         ((Rec_func_80174800_arg0 *)state)->unk_B0 = 0;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
@@ -184,8 +184,8 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
             ((S_80174B20_1 *)actor)->unk_2A = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
             return;
         }
-        run_cd_image_commands(&D_801751F8, (u8 *)(&D_8017521C), 1);
-        sound_set_cd_cue_parameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
+        run_cd_image_commands(&kid_image_commands, (u8 *)(&D_8017521C), 1);
+        sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         (*(s8 *)&D_8017521D) = 0;
         Control_CD(0xFF, set_byte_one, &D_8017521D);
@@ -207,7 +207,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
             return;
         }
         color_index = lookup_masked_byte_table(actor);
-        target_color = D_800DCEEC[color_index];
+        target_color = actor_effect_color_targets[color_index];
         scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->unk_00
             - scene_color->view.tint.parts.tint_r) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
         scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->unk_01

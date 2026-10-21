@@ -8,7 +8,7 @@ void create_window_object(s32 object_addr, S_func_80035484_4 *model, S_func_8003
     S_func_80035484_3 *appearance;
     S_func_80035484_0 *object;
 
-    object = initialize_runtime_node_storage(0x11, object_addr, 0x49, &D_80082BC0[0]);
+    object = initialize_runtime_node_storage(0x11, object_addr, 0x49, &window_node_list_storage[0]);
     current_window_object = object;
     object->unk_10 = invoke_window_object_callback;
     register_node(object, &runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);

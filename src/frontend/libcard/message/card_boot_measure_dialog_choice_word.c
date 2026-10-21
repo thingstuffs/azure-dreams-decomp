@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/message.h"
 
 /* Finds a word's byte offset and character count, and counts preceding characters. */
 void card_boot_measure_dialog_choice_word(

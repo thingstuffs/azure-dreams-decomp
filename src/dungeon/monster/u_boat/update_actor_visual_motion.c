@@ -7,9 +7,9 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern u8 D_800E23E0[];
+extern u8 uboat_default_frames[];
 extern u8 D_80171A80[];
-extern Callback D_80176374[];
+extern Callback uboat_callbacks[];
 
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void func_800478B8(void *);
@@ -92,7 +92,7 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
     if (callback != 0) {
         callback(object_arg, motion_arg, part_arg, object_arg);
     }
-    D_80176374[(*(u8 *)((u8 *)object_arg + (0x9A)))](object_arg, motion_arg, part_arg, object_arg);
+    uboat_callbacks[(*(u8 *)((u8 *)object_arg + (0x9A)))](object_arg, motion_arg, part_arg, object_arg);
 
     prior_state = (s32)state_or_dir << 16;
     new_state = (*(s8 *)((u8 *)object_arg + (0x6D)));
@@ -148,7 +148,7 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
         ((S_801711B0_2 *)base)->unk_1C = normal_flags;
         if (normal_flags & 0x40000) {
             if (!(((SpriteAnimationTableView *)part_arg)->unk_14 & 0x40) &&
-                ((SpriteAnimationTableView *)part_arg)->unk_2C == D_800E23E0) {
+                ((SpriteAnimationTableView *)part_arg)->unk_2C == uboat_default_frames) {
                 s32 bob_signed;
 
                 bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)))++;
@@ -216,7 +216,7 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
             }
         } else {
             if (!(((SpriteAnimationTableView *)part_arg)->unk_14 & 0x40) &&
-                ((SpriteAnimationTableView *)part_arg)->unk_2C == D_800E23E0) {
+                ((SpriteAnimationTableView *)part_arg)->unk_2C == uboat_default_frames) {
                 s32 bob_signed;
 
                 bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)))++;

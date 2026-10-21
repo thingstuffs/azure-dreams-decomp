@@ -108,7 +108,7 @@ extern void update_actor_status_and_food(void *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern s16 func_80171EBC(void *, void *, void *, void *);
 
-extern s8 D_8006CD00;
+extern s8 actor_turn_angle_offsets;
 extern u8 D_80082E80_b[];
 
 /* Chooses a movement direction, advances the actor, and updates its movement history. */
@@ -198,12 +198,12 @@ void advance_actor_path_with_item_search(void *move_state, void *caller_context,
 
                     follow_offset =
                         ((((S_801715F4_1 *)actor_arg)->unk_45 +
-                          ((s32)(((u16)D_800814A8->facing) << 16) >> 25)) &
+                          ((s32)(((u16)primary_actor_record->facing) << 16) >> 25)) &
                          7) *
                         2;
 
-                    follow_x = D_80082E80.tile_position.parts.tile_x + *(u16 *)((u8 *)((s8 *)dir_step_x) + follow_offset);
-                    follow_y = D_80082E80.tile_position.parts.tile_y + *(u16 *)((u8 *)((s8 *)dir_step_y) + follow_offset);
+                    follow_x = reference_tile_object.tile_position.parts.tile_x + *(u16 *)((u8 *)((s8 *)dir_step_x) + follow_offset);
+                    follow_y = reference_tile_object.tile_position.parts.tile_y + *(u16 *)((u8 *)((s8 *)dir_step_y) + follow_offset);
                 }
                 target_x = follow_x;
                 target_y = follow_y;
@@ -242,7 +242,7 @@ void advance_actor_path_with_item_search(void *move_state, void *caller_context,
         turn_index = find_nearest_floor_item_in_room(position_arg, 0x12, &target_x, &target_y);
         if (((S_801715F4_2 *)position_arg)->unk_26.s >= 0) {
             s32 monster_index = ((S_801715F4_2 *)position_arg)->unk_26.s;
-            u8 *monster_table = D_800E2970;
+            u8 *monster_table = dungeon_rooms;
 
             if (((S_801715F4_6 *)(monster_table + monster_index * 0x14))->unk_0C & 2) {
                 goto call_obstacle;
@@ -266,13 +266,13 @@ void advance_actor_path_with_item_search(void *move_state, void *caller_context,
                 follow_context = (u8 *)move_state + 0x98;
                 ((S_801715F4_1 *)actor_arg)->unk_2A.u = get_rounded_facing_and_rounding_flag(
                     ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     follow_context);
                 if ((s16)compare_monster_neighbor_values(((S_801715F4_2 *)position_arg)->unk_24.at00.v,
                                        ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
-                                       D_80082E80.tile_position.parts.tile_x,
-                                       D_80082E80.tile_position.parts.tile_y) != 0) {
-                    if (get_actor_height_difference(D_800814A8, actor_arg) < 0x81) {
+                                       reference_tile_object.tile_position.parts.tile_x,
+                                       reference_tile_object.tile_position.parts.tile_y) != 0) {
+                    if (get_actor_height_difference(primary_actor_record, actor_arg) < 0x81) {
                         if ((s16)check_diagonal_side_height(
                                 ((s32)(((S_801715F4_1 *)actor_arg)->unk_2A.u << 16) >> 25) & 0xFFFF,
                                 ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
@@ -322,7 +322,7 @@ call_obstacle:
 
 loop_setup:
     turn_index = 0;
-    turn_table = (s16 *)&D_8006CD00;
+    turn_table = (s16 *)&actor_turn_angle_offsets;
 
     for (; turn_index < 8; turn_index++) {
         {
@@ -373,10 +373,10 @@ loop_setup:
         }
 
         if (turn_index == 0) {
-            if (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) != ((S_801715F4_2 *)position_arg)->unk_24.at00u.v) {
+            if (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != ((S_801715F4_2 *)position_arg)->unk_24.at00u.v) {
                 if ((s16)check_entity_relation(
                         actor_arg,
-                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }

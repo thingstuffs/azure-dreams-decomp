@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/gpu_packets.h"
+#include "engine/graphics.h"
 
 typedef struct S_8004BDDC_0 {
     u8 pad_00[0x3];
@@ -56,9 +57,6 @@ typedef struct S_8004BDDC_1 {
 } S_8004BDDC_1;   /* arg4 in build_gouraud_quad_packet */
 
    /* temp_s3 in build_gouraud_quad_packet */
-
-
-s32 multiply_rgb_tint_saturated();                 /* extern */
 
 /* Build a textured Gouraud quad packet with tinted vertex colors and adjusted UV bounds. */
 void *build_gouraud_quad_packet(s32 tint_a, s32 tint_b, void *packet, void *record, void *command) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/sprite.h"
 
 extern int check_fixed_value_pairs(void);
 extern int get_item_name_text(void *a0, int *a1);

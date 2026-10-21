@@ -42,7 +42,7 @@ void clear_player_linked_action_flags();
 void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit();
 s32 find_valid_nearby_position();
-extern DungeonSlot *D_800E3DF0[];
+extern DungeonSlot *familiar_record_slots[];
 
 /* Check the forward tile and selected slot, then clear the actor action flags on success. */
 s32 check_familiar_deployment_placement(void *actor, void *unused, void *position, s16 *out_x, s16 *out_y, void *target) {
@@ -63,7 +63,7 @@ s32 check_familiar_deployment_placement(void *actor, void *unused, void *positio
     x_coord = out_x;
     if (target != NULL) {
         blocked_result = 3;
-        if (D_800E3DF0[(*(u8 *)((u8 *)target + 3)) & 0x1F]->flags & 0x04000000) {
+        if (familiar_record_slots[(*(u8 *)((u8 *)target + 3)) & 0x1F]->flags & 0x04000000) {
             return blocked_result;
         }
         direction_offset = ((u16) ((S_8009402C_0 *)actor)->unk_2A >> 8) & 0xE;

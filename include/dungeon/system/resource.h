@@ -58,20 +58,20 @@ typedef struct ovl_d54c_7FFEDADC_S_8008B23C_0 {
     s32 unk_04;
 } ovl_d54c_7FFEDADC_S_8008B23C_0;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-extern ovl_d54c_7FFED6EC_DungeonEntry D_800CF720[];
+extern ovl_d54c_7FFED6EC_DungeonEntry resource_cache_records[];
 typedef struct {
     s32 value0, value4, value8, valueC, value10, value14;
     u8 pad18[0x14];
     s32 field_2C;
 } DungeonCacheState;
-extern DungeonCacheState D_801131B8;
+extern DungeonCacheState town_resource_context;
 extern s32 alloc_gpu_scratch_ring(s32 size);
 extern void func_80069ED8(s32, s32, s32);
 extern u32 *D_801131EC;
 extern void start_cd_read(u32 *, s32);
 extern void func_80053CFC(u32 *, s32);
 extern s32 func_8008AC84(s32);
-extern s32 D_801131E4[3];
+extern s32 town_resource_buffer[3];
 extern void call_script(void *);
 extern void func_80035208(void *);
 void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count);

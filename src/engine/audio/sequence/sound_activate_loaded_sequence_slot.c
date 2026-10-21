@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 /* S_80086C00: 12-byte-stride entry table (8 entries), indexed by the "slot
  * index" arg0. field_0/field_2 are s16, field_4 is a s32 buffer/base
@@ -18,9 +19,6 @@ extern s32 audio_sequence_stream_limit[4];  /* forced hi/lo access via size > 8 
 extern s32 audio_sequence_data_base[4];  /* forced hi/lo access via size > 8 */
 extern s32 audio_sequence_active[4];  /* forced hi/lo access via size > 8 */
 extern s32 audio_update_guard[4];  /* forced hi/lo access via size > 8 */
-
-extern void audio_reset_sequence_tracks_and_channels(void);
-extern void func_800599B0(void);
 
 /* Activates an occupied slot with the requested sub-id and mode. */
 void sound_activate_loaded_sequence_slot(s16 slot_index, u8 mode, s16 sub_id)

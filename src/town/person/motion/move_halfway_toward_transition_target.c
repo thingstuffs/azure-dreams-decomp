@@ -21,7 +21,7 @@ typedef struct {
     Position *target;
 } TownState;
 
-extern TownState D_80083498;
+extern TownState scene_object_list_anchor;
 extern void func_800CE9EC(Object *, Position *, s32);
 
 /* Counts down to a transition and moves halfway toward the target with a Y offset. */
@@ -37,9 +37,9 @@ void move_halfway_toward_transition_target(Object *object, Position *position, s
         func_800CE9EC(object, position, transition_arg);
     }
 
-    position->x += (-position->x + D_80083498.target->x) / 2;
+    position->x += (-position->x + scene_object_list_anchor.target->x) / 2;
     adjusted_y = position->y;
     adjusted_y -= 0x10;
-    position->y += (D_80083498.target->y - adjusted_y) / 2;
-    position->z += (-position->z + D_80083498.target->z) / 2;
+    position->y += (scene_object_list_anchor.target->y - adjusted_y) / 2;
+    position->z += (-position->z + scene_object_list_anchor.target->z) / 2;
 }

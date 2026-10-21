@@ -1,5 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "slus/data.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -8,15 +12,7 @@
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void TransMatrix(void *m, void *v);
-extern void RotMatrix(void *r, void *m);
-extern void SetRotMatrix(void *m);
-extern void SetTransMatrix(void *m);
 extern void RotTransSV(void *in, void *out, void *flag);
-extern void DrawPrim(void *p);
-extern u8 scene_sprite_draw_list[];
 
 /* Draw the sprite list as textured quads with optional horizontal and vertical flips. */
 void draw_sprite_list(void)

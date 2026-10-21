@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 /* Set the word at 0x80409504 to 4 and return zero. */
 s32 card_dev_event_new_handler(void) {

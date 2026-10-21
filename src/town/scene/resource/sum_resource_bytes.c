@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_800CF720[];
+extern s32 resource_cache_records[];
 
 /* Sum the second word of each requested table entry. */
 s32 sum_resource_bytes(s32 entry_count) {
@@ -10,7 +10,7 @@ s32 sum_resource_bytes(s32 entry_count) {
 
     sum = 0;
     for (i = 0; i < entry_count; i++) {
-        entry = &D_800CF720[i * 2];
+        entry = &resource_cache_records[i * 2];
         sum += entry[1];
     }
     return sum;

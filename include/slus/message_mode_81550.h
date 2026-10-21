@@ -5,7 +5,7 @@
 
 typedef void (*MessageModeHandler)(char *buffer);
 
-extern s32 D_80081550;
+extern s32 message_handler_mode;
 extern MessageModeHandler message_mode_handlers[];
 extern char *strcpy(char *dst, const char *src);
 extern char *strrchr(const char *str, s32 ch);

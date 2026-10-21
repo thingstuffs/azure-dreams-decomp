@@ -379,7 +379,7 @@ void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip
     draw_page = g_game_work.draw_buffer;
     pos_or_ot = screen_pos;
     clip_packet = ((Row_818ED25C_S_80024A5C_0 *)draw_page)->unk_8D0;
-    offset_y = draw_page != (void *)D_801C9E40;
+    offset_y = draw_page != (void *)upper_draw_context;
     ((Row_818ED25C_S_80024A5C_0 *)draw_page)->unk_8D0 = clip_packet + 0xC;
     saved_param = draw_param;
     clear_enabled = clear_rect;

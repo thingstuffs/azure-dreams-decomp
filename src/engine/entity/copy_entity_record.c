@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/entity.h"
 
 typedef struct
 {
@@ -61,7 +62,6 @@ typedef struct
     u32 f54;
 }
 S_80042710;
-extern void apply_entity_effects(S_80042710 *a0);
 /* Copy record fields, merge flags, update the tagged group, and refresh the destination. */
 void copy_entity_record(S_80042710 *dst_record, S_80042710 *src_record)
 {

@@ -27,7 +27,7 @@ void on_actor_status_updated(void *actor);                      /* extern */
 void spend_actor_mp();             /* extern */
 s32 check_actor_floor_trap();                  /* extern */
 void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
-extern void *D_800E262C[];
+extern void *actor_action_frames[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
 void update_actor_landing(void *motion_state, ObjectPosition *transform, void *map_entity, ActorRecord *actor) {
@@ -83,7 +83,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, void *m
             transform->velocity_y = 0;
             transform->velocity_x = 0;
             set_record_integer_tile_center(transform, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
-            animation_table = D_800E262C;
+            animation_table = actor_action_frames;
             ((SpriteFrameState *)map_entity)->frameTable = animation_table;
             func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 7) & 0x1C)), 0);
@@ -107,7 +107,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, void *m
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
                         actor->facing = get_rounded_facing_and_rounding_flag(((SpriteFrameState *)map_entity)->unk_24,
-                            ((SpriteFrameState *)map_entity)->unk_25, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
+                            ((SpriteFrameState *)map_entity)->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                     }
                 }
             }

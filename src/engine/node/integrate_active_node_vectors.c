@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node.h"
 
 /* Linked-list node with a next pointer at offset 0x0, a pointer to a
  * position/velocity vector block at offset 0x8, and a 16-bit flags/state
@@ -22,11 +23,11 @@ typedef struct S_8004027C_vec {
     s32 vz;
 } S_8004027C_vec;
 
-extern Node *D_80081498;
+extern Node *active_node_list_head;
 
 /* Add velocity to position for each node in D_80081498 with flag 0x8 set. */
 void integrate_active_node_vectors(void) {
-    Node *node = D_80081498;
+    Node *node = active_node_list_head;
 
     if (node != 0) {
         do {

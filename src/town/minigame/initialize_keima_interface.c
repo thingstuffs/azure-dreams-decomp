@@ -98,13 +98,13 @@ s32 initialize_keima_interface(void) {
     set_resident_bit(0x58E);
     func_8003E188(0xE, 0);
 
-    obj = allocate_list_node(1, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         owner = obj + 0x20;
         AT(s16, owner, 0x2E) = 0x2D;
         AT(void *, obj, 0x10) = D_800218E4;
     }
-    AT(void *, ((u8 *)(&D_80083498)), 0x74) = owner;
+    AT(void *, ((u8 *)(&scene_object_list_anchor)), 0x74) = owner;
     func_80023DA0(owner);
 
     panel_init.hC = 0x10;
@@ -226,7 +226,7 @@ s32 initialize_keima_interface(void) {
         TileObject *sprite_state;
         index = 2;
         do {
-            new_obj = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
+            new_obj = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
             AT(void *, owner + index * 4, 0x20) = new_obj;
             obj = new_obj;
             if (obj != 0) {
@@ -239,7 +239,7 @@ s32 initialize_keima_interface(void) {
                 AT(s16, AT(u8 *, obj, 8), 0xA) = query_lowered_transform_position(AT(void *, obj, 8));
                 AT(s16, sprite, 0x1E) = 0x1000;
                 AT(s16, sprite, 0x1C) = 0x1000;
-                sprite_state = &D_80082E80;
+                sprite_state = &reference_tile_object;
                 AT(s32, sprite, 0x28) = AT(s32, sprite_state, 0x28);
                 AT(s16, child_data, 0x2A) = 0x800;
                 func_8003DB94(sprite, D_800F15E4, 0);
@@ -252,7 +252,7 @@ s32 initialize_keima_interface(void) {
         } while (index >= 0);
     }
 
-    obj = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         AT(void *, obj, 0x10) = D_80023A00;
         register_node(obj, project_sprite_chain);
@@ -264,7 +264,7 @@ s32 initialize_keima_interface(void) {
         AT(s16, AT(u8 *, obj, 8), 0xA) = template_page;
         AT(s16, sprite, 0x1E) = 0x1000;
         AT(s16, sprite, 0x1C) = 0x1000;
-        AT(s32, sprite, 0x28) = D_80082E80.render_attributes;
+        AT(s32, sprite, 0x28) = reference_tile_object.render_attributes;
         AT(s16, child_data, 0x2A) = 0x800;
         func_8003DB94(sprite, D_800F15E4, 0);
         AT(s32, sprite, 0xC) = 0x808080;

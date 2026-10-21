@@ -25,7 +25,7 @@ void initialize_catalog_glyph_cache();
 s32 initialize_catalog_display_nodes();
 void initialize_catalog_state();
 int draw_tinted_node_sprites_scratch(void *forwarded_ptr, int unused_arg, void *second_ptr);
-extern s8 D_80080A84;
+extern s8 animation_tick_scale;
 extern s32 D_80126704;
 
 /* Initializes the object's state and callbacks, or flags initialization failure. */
@@ -39,7 +39,7 @@ void open_standalone_catalog(void) {
     obj_data = (u8 *)obj + 0x20;
     if (obj != NULL) {
         if (initialize_catalog_display_nodes(obj_data) != 0) {
-            D_80080A84 = 1;
+            animation_tick_scale = 1;
             initialize_catalog_glyph_cache();
             ((S_801267B8_0 *)obj)->unk_0C = (u8 *)obj + 0x68;
             initialize_catalog_state(obj_data);

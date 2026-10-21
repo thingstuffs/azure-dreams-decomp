@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio.h"
 
 typedef struct {
     s32 unk00;

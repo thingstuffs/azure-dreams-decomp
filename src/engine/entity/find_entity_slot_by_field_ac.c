@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/entity.h"
 
 typedef struct S_800E3E48
 {
@@ -29,7 +30,7 @@ typedef struct S_800423C0_Obj
     u8 unk45;
 }
 S_800423C0_Obj;
-extern S_800E3E48 D_800E3E48[];
+extern S_800E3E48 familiar_record_storage[];
 extern void copy_entity_record(void *dst, void *src);
 extern s16 find_entity_slot_by_field_ac(void *obj);
 /* Copies source template data, updates object direction fields, and sets a flag. */
@@ -42,7 +43,7 @@ void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
     if (source != 0) {
         S_800423C0_Obj *pinned_obj;
 
-        template_entry = &D_800E3E48[source->unk3 & 0x1F];
+        template_entry = &familiar_record_storage[source->unk3 & 0x1F];
         copy_entity_record(obj, template_entry);
         pinned_obj = obj;
         upper_bits_mask = -8;

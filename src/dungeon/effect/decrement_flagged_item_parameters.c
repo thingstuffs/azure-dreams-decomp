@@ -30,7 +30,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
     *((u16 *) (((u8 *) action) + 0x50)) = timer;
     switch (state) {
     case 0:
-        *((s32 *) (((u8 *) D_800814A8) + 0xF4)) = 0;
+        *((s32 *) (((u8 *) primary_actor_record) + 0xF4)) = 0;
 
         *((s32 *) (((u8 *) saved_position) + 0)) = *((s32 *) (((u8 *) owner->unk_08) + 0));
         *((s32 *) (((u8 *) saved_position) + 4)) = *((s32 *) (((u8 *) owner->unk_08) + 4));
@@ -41,11 +41,11 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
             return;
         }
 
-        shared_data = D_800814A8;
+        shared_data = primary_actor_record;
         *((u16 *) (((u8 *) action) + 0x50)) = 10;
         (*((u16 *) (((u8 *) shared_data) + 0xA6)))--;
         *((u8 *) (((u8 *) shared_data) + 0xA8)) = *((u8 *) (((u8 *) action) + 8));
-        effect = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+        effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != 0) {
             offset_part = owner->unk_0C;
             if (resolve_record_orientation_or_fallback(*(s32 *)&offset_part->source, offset_part, offsets, 0) == 0) {
@@ -117,7 +117,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
         (*((u16 *) (((u8 *) action) + 0xA)))++;
         return;
     case 3:
-        if (((D_80082E80.sprite_flags & 0x8000) == 0) && (((s32) (timer << 16)) >= 0)) {
+        if (((reference_tile_object.sprite_flags & 0x8000) == 0) && (((s32) (timer << 16)) >= 0)) {
             return;
         }
 

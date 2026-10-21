@@ -35,8 +35,8 @@ extern u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void clear_actor_action_markers(u8 *state);
 
 extern u16 D_800834E2;
-extern s8 D_800DCF4D;
-extern u8 * D_80174704;
+extern s8 spell_effect_selector_cache;
+extern u8 * ghosh_actor_node;
 extern s32 D_801748C8[];
 extern s32 D_801749E0[];
 extern s32 *D_80174CCC;
@@ -56,30 +56,30 @@ void reset_map_state_and_process_entries(void) {
 
     entry_slot = 0;
     sys_work = (SysWork *)0x80010000;   /* integer page, five genuine accesses (decision 44); same SysWork view as func_81337FAC */
-    D_80174704[0xD2] = 1;
+    ghosh_actor_node[0xD2] = 1;
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
-    active_object = D_80174704;
+    active_object = ghosh_actor_node;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     lookup_key = D_800834E2;
     sys_work->handler = (void *)D_801748C8[(lookup_key >> 9) & 7];
     map_object = ((ActiveObjectFieldView_81326794 *)active_object)->field_0C;
-    D_800DCF4D = -1;
+    spell_effect_selector_cache = -1;
     map_data = active_object + 0x20;
     coord_result = get_rounded_facing_and_rounding_flag(map_object[0x24], map_object[0x25],
-                           D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &coord_aux);
+                           reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &coord_aux);
     ((MapDataFieldView_81326794 *)map_data)->field_2A = coord_result;
     D_80174CD0 = 0;
     D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];
 
     for (entry_slot = 0; entry_slot < 2; entry_slot++) {
-        entry = (&D_800E3D7C->unk_AC)[entry_slot];
+        entry = (&dungeon_actor_ring_anchor->unk_AC)[entry_slot];
         if (entry != 0) {
             clear_actor_action_markers(entry);
-            unlink_entity_node((&D_800E3D7C->unk_AC)[entry_slot]);
-            entry = (&D_800E3D7C->unk_AC)[entry_slot];
+            unlink_entity_node((&dungeon_actor_ring_anchor->unk_AC)[entry_slot]);
+            entry = (&dungeon_actor_ring_anchor->unk_AC)[entry_slot];
             entry -= 0x20;
             ((EntryFieldView_81326794 *)entry)->field_10 |= 0x80000000;
         }

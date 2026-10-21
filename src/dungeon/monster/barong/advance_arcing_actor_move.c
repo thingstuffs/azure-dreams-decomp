@@ -170,8 +170,8 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
                 ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)sprite)->unk_24,
                     ((Rec_D_80082E80 *)sprite)->unk_25,
-                    D_80082E80.tile_position.parts.tile_x,
-                    D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x,
+                    reference_tile_object.tile_position.parts.tile_y,
                     &facing_aux);
             }
         }

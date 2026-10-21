@@ -112,15 +112,15 @@ extern void func_80067E2C(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
 extern s32 read_map_cell_at_world_position(s16, s16);
 extern s32 check_masked_value_in_current_range(s32);
-extern u8 D_800834B8[];
-extern u8 D_80083780[];
-extern s32 D_800D0460[3];
+extern u8 scene_object_payload_alias[];
+extern u8 view_reference_entity[];
+extern s32 overlay_height_in_range[3];
 extern u8 D_800D04D0[];
 extern u8 D_800D04D8[];
 extern u8 D_800D04E0[];
-extern u8 D_800D0504[];
-extern s16 D_800D45AA[];
-extern u8 D_801C9E40[];
+extern u8 town_overlay_rotation_offset[];
+extern s16 terrain_height_limits[];
+extern u8 upper_draw_context[];
 
 
 #define CUR_CTX (*page_state)
@@ -167,30 +167,30 @@ s32 draw_entry_overlays(void) {
     u32 fill_height;
 
     page_state = &g_game_work.draw_buffer;
-    entry = &D_80082E80;
-    alternate_page = CUR_PAGE != (void *)D_801C9E40;
+    entry = &reference_tile_object;
+    alternate_page = CUR_PAGE != (void *)upper_draw_context;
     rotation = entry->unk_006;
     page_index = (u16) alternate_page;
     if (!(entry->sprite_flags & 0x80)) {
-        coord = D_80083780;
-#define D_80083780 (*coord)
-        D_800D0460[0] = 0;
+        coord = view_reference_entity;
+#define view_reference_entity (*coord)
+        overlay_height_in_range[0] = 0;
         coord_x = ((SignedPositionView *)coord)->unk_02;
         coord_y = ((SignedPositionView *)coord)->unk_06;
         height_index = check_masked_value_in_current_range(read_map_cell_at_world_position(coord_x, coord_y) & 0xFFFF);
         if (height_index != 0) {
             coord_z = ((SignedPositionView *)coord)->unk_0A;
-            height_delta = (s32) (coord_z - D_800D45AA[height_index]) / 2;
+            height_delta = (s32) (coord_z - terrain_height_limits[height_index]) / 2;
             overlay_height = height_delta + 6;
             if ((u32) ((height_delta + 5) & 0xFFFF) < 0x3FU) {
-                D_800D0460[0] = 1;
+                overlay_height_in_range[0] = 1;
                 scratch_control = (u32 *)0x1F80013C;
                 *scratch_control = 0;
-                project_sprite_commands(NULL, coord, D_800D04E0, (s16) (rotation + ((AngleHalfView *)(&D_800D0504))->unk_00));
+                project_sprite_commands(NULL, coord, D_800D04E0, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
                 scratch_control = (void *)0;
                 scratch_control = (u32 *)0x1F80013C;
                 *scratch_control = 0;
-                project_sprite_commands(D_800834B8, coord, entry, (s16) (rotation + ((AngleHalfView *)(&D_800D0504))->unk_00));
+                project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
                 primitive = ((S_800970FC_3 *)CUR_PAGE)->unk_8D0;
                 ((S_800970FC_3 *)CUR_PAGE)->unk_8D0 = (void *) (primitive + 0xC);
                 func_80067E2C(primitive, CUR_PAGE);
@@ -307,7 +307,7 @@ s32 draw_entry_overlays(void) {
                     func_80067E2C(primitive, rect);
                     func_8006658C(CUR_CTX + 0x830, primitive);
                 }
-                draw_entry = ((u8 *)(&D_80082E80));
+                draw_entry = ((u8 *)(&reference_tile_object));
                 quad_x = ((S_800970FC_6 *)texture_rect)->unk_00;
                 texture_top = ((S_800970FC_6 *)texture_rect)->unk_02.s;
                 saved_flags = ((S_800970FC_12 *)draw_entry)->unk_14;
@@ -374,7 +374,7 @@ s32 draw_entry_overlays(void) {
         scratch_control = (void *)0;
         scratch_control = (u32 *)0x1F80013C;
         *scratch_control = 0;
-        project_sprite_commands(D_800834B8, coord, entry, (s16) (rotation + ((AngleHalfView *)(&D_800D0504))->unk_00));
+        project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
         return 0;
     }
     return 0;

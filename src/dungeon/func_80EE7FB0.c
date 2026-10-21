@@ -141,7 +141,7 @@ void advance_targeted_actor_action(ActorActionView *action, ObjectPosition *moti
             action->flags = direction;
             direction = use_player_target;
             if (direction != 0) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 actor->target = target;
                 {
                     u8 tile_coord;
@@ -152,7 +152,7 @@ void advance_targeted_actor_action(ActorActionView *action, ObjectPosition *moti
                     tile_coord = target_sprite->unk_25;
                     actor->target_tile_y = tile_coord;
                 }
-            } else if (D_8006DE24[*action_data].kind == 2) {
+            } else if (item_action_definitions[*action_data].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
                     {
@@ -190,7 +190,7 @@ void advance_targeted_actor_action(ActorActionView *action, ObjectPosition *moti
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         g_dungeon_status.active_actor = 0;
-        ((PlayerRemainingActionsView *)D_800814A8)->remaining--;
+        ((PlayerRemainingActionsView *)primary_actor_record)->remaining--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
         action->nextBehavior = update_actor_dungeon_behavior;

@@ -31,7 +31,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
     work = 0;
     held_b = attr_b;
     held_flags = spawn_flags;
-    obj = allocate_list_node(0x112, (held_a = attr_a, ((u8 *)(&D_80083498))));
+    obj = allocate_list_node(0x112, (held_a = attr_a, ((u8 *)(&scene_object_list_anchor))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8014C86C_0 *)obj)->unk_10 = func_8014CB64;
@@ -86,7 +86,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
         current = actor;
         count = 0;
         do {
-            child_obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+            child_obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             ((S_8014C86C_5 *)current)->unk_A4 = child_obj;
             if (child_obj != 0) {
                 void *child;

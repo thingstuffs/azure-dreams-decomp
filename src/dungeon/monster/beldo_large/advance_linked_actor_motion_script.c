@@ -167,8 +167,8 @@ extern Table32 D_80164AC0;
 extern u8 D_80173DA4[16];
 extern u8 D_80173DAC[16];
 extern u8 D_80173DB4[16];
-extern void *D_80175D50[3];
-extern void *D_80175D54[3];
+extern void *beldo_actor_nodes[3];
+extern void *beldo_script_node[3];
 extern void *D_80175DB8[16];
 
 /* Advances a scripted movement sequence and updates the sprite facing. */
@@ -232,11 +232,11 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
     direction_table = *((Table32 *)(&D_80164AC0));
     map_info = &g_game_work.map;
     map_tiles = ((S_80171D74_0 *)((s32 *)(&g_game_work.map)))->unk_00;
-    owner_state = D_80175D54[0] + 0x20;
+    owner_state = beldo_script_node[0] + 0x20;
     func_800478B8(sprite_in);
     phase = ((S_80171D74_1 *)state_in)->unk_9A;
-    target_pos = ((S_80171D74_2 *)(D_80175D50[0]))->unk_08;
-    target_state = D_80175D50[0] + 0x20;
+    target_pos = ((S_80171D74_2 *)(beldo_actor_nodes[0]))->unk_08;
+    target_state = beldo_actor_nodes[0] + 0x20;
     switch (phase) {
     case 0:
         wait_frame = ((S_80171D74_1 *)state_in)->unk_96;
@@ -409,8 +409,8 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
         ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
                     /* fallthrough */
     case 16:
-        ((S_80171D74_3 *)motion_in)->unk_0C = (((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_00.at00_vs32.v - ((S_80171D74_3 *)motion_in)->unk_00.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
-        ((S_80171D74_3 *)motion_in)->unk_10 = (((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_04.at00_s32.v - ((S_80171D74_3 *)motion_in)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_3 *)motion_in)->unk_0C = (((Rec_D_800E3D7C *)(((s32 *)(&view_reference_entity))))->unk_00.at00_vs32.v - ((S_80171D74_3 *)motion_in)->unk_00.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
+        ((S_80171D74_3 *)motion_in)->unk_10 = (((Rec_D_800E3D7C *)(((s32 *)(&view_reference_entity))))->unk_04.at00_s32.v - ((S_80171D74_3 *)motion_in)->unk_04.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
         ((S_80171D74_3 *)motion_in)->unk_00.at00.v += ((S_80171D74_3 *)motion_in)->unk_0C;
         ((S_80171D74_3 *)motion_in)->unk_04.at00.v += ((S_80171D74_3 *)motion_in)->unk_10;
         return_frames = ((S_80171D74_1 *)state_in)->unk_96 - 1;
@@ -734,8 +734,8 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
                 ((S_80171D74_1 *)state_in)->unk_96 = 0U;
                 ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
                 {
-                    ((S_80171D74_3 *)motion_in)->unk_00.at02.v = ((u16)D_80083780.x.w.i);
-                    ((S_80171D74_3 *)motion_in)->unk_04.at02u.v = ((u16)D_80083780.y.w.i);
+                    ((S_80171D74_3 *)motion_in)->unk_00.at02.v = ((u16)view_reference_entity.x.w.i);
+                    ((S_80171D74_3 *)motion_in)->unk_04.at02u.v = ((u16)view_reference_entity.y.w.i);
                 }
             }
         }
@@ -786,16 +786,16 @@ shared_tail:
         break;
 
     case 42:
-        snapshot_inventory_and_familiars(((s32)D_800E3D7C), target_state);
+        snapshot_inventory_and_familiars(((s32)dungeon_actor_ring_anchor), target_state);
         snapshot_inventory_familiar_records();
-        D_80082E60.flags16 = 0x8000;
+        runtime_dispatch_state.flags16 = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
         ((S_80171D74_1 *)state_in)->unk_9A++;
         break;
     case 47:
-        snapshot_inventory_and_familiars(((s32)D_800E3D7C), target_state);
+        snapshot_inventory_and_familiars(((s32)dungeon_actor_ring_anchor), target_state);
         snapshot_inventory_familiar_records();
-        D_80082E60.flags16 = 0x8000;
+        runtime_dispatch_state.flags16 = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
         ((S_80171D74_1 *)state_in)->unk_9A++;
         break;
@@ -803,7 +803,7 @@ shared_tail:
     default:
             break;
     }
-    if (D_80175D54[0] != 0) {
+    if (beldo_script_node[0] != 0) {
         sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
         if (((S_80171D74_1 *)state_in)->unk_94 != sprite_dir) {

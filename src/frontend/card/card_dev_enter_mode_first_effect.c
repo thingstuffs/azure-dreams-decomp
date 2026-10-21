@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 extern u8 D_8008CA34;
 extern void func_80400E34(void);

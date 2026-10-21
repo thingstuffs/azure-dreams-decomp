@@ -63,8 +63,8 @@ typedef struct {
 } GlobalState;
 
 extern GlobalState D_80083160;
-extern s32 D_800FE480;
-extern s32 D_800FE484;
+extern s32 town_map_column_extent;
+extern s32 town_map_row_extent;
 
 extern s32 check_scratch_quad_half_turn_gaps(Scratch *);
 
@@ -119,7 +119,7 @@ s32 find_lowest_surface_height(s32 world_x, s32 world_y, u16 world_z)
         s32 next_y = (u16)scratch->scan_y + (u16)scratch->outer_delta;
         scan_y = next_y;
         if (scratch->step_y >= 0) {
-            if ((s16)next_y >= D_800FE484) {
+            if ((s16)next_y >= town_map_row_extent) {
                 break;
             }
         } else if ((s16)next_y < 0) {
@@ -134,7 +134,7 @@ s32 find_lowest_surface_height(s32 world_x, s32 world_y, u16 world_z)
             s32 next_x = (u16)scratch->scan_x + (u16)scratch->inner_delta;
             scan_x = next_x;
             if (scratch->step_x >= 0) {
-                if ((s16)next_x >= D_800FE480) {
+                if ((s16)next_x >= town_map_column_extent) {
                     break;
                 }
             } else if ((s16)next_x < 0) {

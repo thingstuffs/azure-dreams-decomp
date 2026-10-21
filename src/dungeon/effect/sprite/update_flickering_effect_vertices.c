@@ -154,7 +154,7 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
     coord_x = 2;
     distance_or_script = (s32)&update_flickering_effect_vertices;
 next_effect:
-    effect = allocate_list_node(0x201, ((s32 *)&D_80083498.next));
+    effect = allocate_list_node(0x201, ((s32 *)&scene_object_list_anchor.next));
     if (effect != 0) {
         effect->unk_10 = distance_or_script;
         register_node(effect, func_80024A1C);

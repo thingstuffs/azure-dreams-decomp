@@ -151,7 +151,7 @@ extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, v
 
 void update_directional_actor_effect(void *input, void *output);
 extern int abs(int);
-extern s32 D_800DEA68[];
+extern s32 secondary_sprite[];
 extern s32 resolve_record_orientation_or_fallback(void *entry, void *table, void *scratch, s32 a3);
 extern s32 func_800644B8(s32 angle);
 extern s32 func_80069EF8(void);
@@ -218,7 +218,7 @@ void update_directional_actor_effect(void *input, void *output)
 
     switch (state) {
     case 0:
-    ((PlayerRecord *)(D_800814A8))->unk_F4 = 0;
+    ((PlayerRecord *)(primary_actor_record))->unk_F4 = 0;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 =
         ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_00;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 =
@@ -232,11 +232,11 @@ void update_directional_actor_effect(void *input, void *output)
         return;
     }
 
-    scene = D_800814A8;
+    scene = primary_actor_record;
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = 10;
     ((u16 *)&scene->unk_A4)[1] -= 1;
     scene->unk_A8 = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
-    particle = allocate_list_node(0x312, &D_80083498.next);
+    particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
     if (particle != 0) {
         if (resolve_record_orientation_or_fallback(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
                           ((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C, offsets, 0) == 0) {
@@ -306,18 +306,18 @@ void update_directional_actor_effect(void *input, void *output)
     case 3:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u < 3) {
         remaining = 1;
-        height = (s16)sample_terrain_surface_height((u16)D_80083780.x.w.i, (u16)D_80083780.y.w.i, (s16)(D_80083780.z.w.i - 0x80));
+        height = (s16)sample_terrain_surface_height((u16)view_reference_entity.x.w.i, (u16)view_reference_entity.y.w.i, (s16)(view_reference_entity.z.w.i - 0x80));
         particle_script = (void *)func_80024BB8;
-        burst_origin = &D_80082E80;
+        burst_origin = &reference_tile_object;
         do {
-            particle = allocate_list_node(0x312, &D_80083498.next);
+            particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
                 ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
                 register_node(particle, (s32)project_sprite_chain);
                 sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
-                angle = ((ActorRecord *)(D_800814A8))->facing;
+                angle = ((ActorRecord *)(primary_actor_record))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -335,7 +335,7 @@ void update_directional_actor_effect(void *input, void *output)
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
                 random_value = func_80069EF8();
-                angle = ((ActorRecord *)(D_800814A8))->facing;
+                angle = ((ActorRecord *)(primary_actor_record))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -383,16 +383,16 @@ void update_directional_actor_effect(void *input, void *output)
 
         remaining = 9;
         particle_script_debris = (void *)update_rising_landing_effect;
-        debris_origin = &D_80082E80;
+        debris_origin = &reference_tile_object;
         do {
-            particle = allocate_list_node(0x312, &D_80083498.next);
+            particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
                 ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script_debris;
                 register_node(particle, (s32)project_sprite_chain);
                 sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
-                angle = ((ActorRecord *)(D_800814A8))->facing;
+                angle = ((ActorRecord *)(primary_actor_record))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -410,7 +410,7 @@ void update_directional_actor_effect(void *input, void *output)
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
                 random_value = func_80069EF8();
-                angle = ((ActorRecord *)(D_800814A8))->facing;
+                angle = ((ActorRecord *)(primary_actor_record))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -472,14 +472,14 @@ store_state:
     return;
 
     case 4:
-    if (!(D_80082E80.sprite_flags & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 0) {
+    if (!(reference_tile_object.sprite_flags & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 0) {
         return;
     }
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_52.s & 0x8000) {
         ((S_FUNC_8197C800_BODY_0 *)input)->unk_52.u &= 0x7FFF;
         return;
     }
-    apply_attack_power_and_element_effects(((ActorRecord *)(D_800814A8))->target, 8,
+    apply_attack_power_and_element_effects(((ActorRecord *)(primary_actor_record))->target, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
                   ((EntityRec *)owner_data)->facing, owner_data, 2);
     g_dungeon_status.active_actor = 0;
@@ -579,10 +579,10 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
             sprite->bottom = sprite->bottom + 0x78;
             sprite->top = sprite->bottom;
         }
-        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.sprite_source), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
-            target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 14);
-            target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 14);
-            target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 14);
+        if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), ((EntryTable *)&reference_tile_object), entry_pos, 0) != 0) {
+            target->x.word += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.half.coord) << 14);
+            target->y.word += ((((s16)entry_pos[1] + view_reference_entity.y.w.i) - (s16)target->y.half.coord) << 14);
+            target->z.word += ((((s16)entry_pos[2] + view_reference_entity.z.w.i) - (s16)target->z.half.coord) << 14);
             target->z.word -= (func_800644B8(((s16)actor->counter << 11) / 10) << 9);
         }
         if ((s16)actor->counter >= 10) {
@@ -591,10 +591,10 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         }
         break;
     case 1:
-        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.sprite_source), ((EntryTable *)&D_80082E80), entry_pos, 0) != 0) {
-            target->x.word += ((((s16)entry_pos[0] + D_80083780.x.w.i) - (s16)target->x.half.coord) << 15);
-            target->y.word += ((((s16)entry_pos[1] + D_80083780.y.w.i) - (s16)target->y.half.coord) << 15);
-            target->z.word += ((((s16)entry_pos[2] + D_80083780.z.w.i) - (s16)target->z.half.coord) << 15);
+        if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), ((EntryTable *)&reference_tile_object), entry_pos, 0) != 0) {
+            target->x.word += ((((s16)entry_pos[0] + view_reference_entity.x.w.i) - (s16)target->x.half.coord) << 15);
+            target->y.word += ((((s16)entry_pos[1] + view_reference_entity.y.w.i) - (s16)target->y.half.coord) << 15);
+            target->z.word += ((((s16)entry_pos[2] + view_reference_entity.z.w.i) - (s16)target->z.half.coord) << 15);
         }
         if ((s16)actor->counter >= 0x12) {
             sprite->flags = sprite->flags & 0xF7FF;
@@ -638,10 +638,10 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
         remaining = (s32)sprite;
         if (remaining >= 0) {
             void *particle_callback = (void *)func_80024BB8;
-            s32 *particle_data = D_800DEA68;
+            s32 *particle_data = secondary_sprite;
             do {
                 Spawn *spawn;
-                spawn = allocate_list_node(0x312, &D_80083498.next);
+                spawn = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (spawn != 0) {
                     s32 coord_magnitude;
                     s32 x_offset;
@@ -901,11 +901,11 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
             ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
         }
         ground_height = sample_terrain_surface_height(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v,
-            (s16) (((u16)D_80083780.z.w.i) - 0x80));
+            (s16) (((u16)view_reference_entity.z.w.i) - 0x80));
         if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
             particle_index = 4;
             do {
-                particle = allocate_list_node(0x312, &D_80083498.next);
+                particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (particle != NULL) {
                     ((S_8197D468_5 *)particle)->unk_10 = (void *)func_80024BB8;
                     register_node(particle, (s32)project_sprite_chain);

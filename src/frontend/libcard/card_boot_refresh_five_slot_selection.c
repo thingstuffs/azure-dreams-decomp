@@ -10,9 +10,8 @@
 #include "common.h"
 
 #include "frontend/libcard/interfaces.h"
-extern void card_boot_set_slot_selection_marker(s32, s32);
-extern void card_boot_clear_slot_selection_marker(s32);
-extern void card_boot_set_slot_details_selection(s32, s32, s32);
+#include "frontend/card.h"
+#include "frontend/libcard.h"
 
 typedef struct S_80025030_0 {
     u8 pad_00[0x18];

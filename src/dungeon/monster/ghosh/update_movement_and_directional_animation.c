@@ -146,7 +146,7 @@ void update_movement_and_directional_animation(void *state, void *motion_arg, vo
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
                     ((EntityRec *)entity)->facing = get_rounded_facing_and_rounding_flag(((S_8016CB80_2 *)actor)->unk_24,
-                        ((S_8016CB80_2 *)actor)->unk_25, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_info);
+                        ((S_8016CB80_2 *)actor)->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_info);
                 }
             }
         }

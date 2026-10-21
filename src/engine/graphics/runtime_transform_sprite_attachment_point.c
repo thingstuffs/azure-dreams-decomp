@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
+#include "sdk/libgte.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -8,15 +10,7 @@
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void RotMatrix(void *r, void *m);
-extern void ScaleMatrix(void *m, void *v);
-extern void SetRotMatrix(void *m);
-extern void SetTransMatrix(void *m);
 extern void RotTransSV(void *v0, void *out, void *flag);
-extern s32 rcos(s32);
-extern s32 rsin(s32);
 
 /* Transforms a flipped point using local scale, rotation, and offsets, then adjusts for view angles. */
 void runtime_transform_sprite_attachment_point(void *transform, void *point, void *result)

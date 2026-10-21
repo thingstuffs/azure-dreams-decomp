@@ -4,9 +4,9 @@
 
 typedef struct { u8 b0; u8 b1; u8 b2; u8 b3; } Elem;
 
-extern s16 D_8006CD00[];
-extern u16 D_800DCEAC[];
-extern u16 D_800DCEBC[];
+extern s16 actor_turn_angle_offsets[];
+extern u16 direction_x_offsets[];
+extern u16 direction_y_offsets[];
 
 extern Elem *get_conditional_monster_entry(s16);
 extern s32 generate_random_value(void);
@@ -54,7 +54,7 @@ s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *o
             actor_held[0x27] = 0xFF;
             s1 = get_conditional_monster_entry(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
-                count = D_800E2970[(s8)actor_held[0x26]].unk_0E;
+                count = dungeon_rooms[(s8)actor_held[0x26]].unk_0E;
                 for (i = 0; i < count; i++) {
                     scan_entry = (Elem *)((unsigned long)(i * sizeof(Elem)) + (unsigned long)s1);
                     if (scan_entry->b0 != 0 && abs(actor_held[0x24] - scan_entry->b0) < 2 && abs(actor_held[0x25] - scan_entry->b1) < 2) {
@@ -65,10 +65,10 @@ s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *o
                 }
                 i = 0;
                 s0 = generate_random_value();
-                if (c3 = D_800E2970[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
+                if (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
                     do {
                         Elem *cand_entry;
-                        mod = s0 % D_800E2970[(s8)type].unk_0E;
+                        mod = s0 % dungeon_rooms[(s8)type].unk_0E;
                         cand_entry = (Elem *)((unsigned long)(mod * sizeof(Elem)) + (unsigned long)s1);
                         s0 = mod;
                         if (cand_entry->b0 != 0) {
@@ -81,7 +81,7 @@ s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *o
                         }
                         i++;
                         s0++;
-                    } while (c3 = D_800E2970[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], i < c3);
+                    } while (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], i < c3);
                     return 0;
                 }
             }
@@ -92,10 +92,10 @@ s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *o
             s1 = get_conditional_monster_entry(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
                 s0 = g_dungeon_status.turn_counter;
-                if (c3 = D_800E2970[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
+                if (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {
                     i = 0;
                     do {
-                        mod = s0 % D_800E2970[(s8)type].unk_0E;
+                        mod = s0 % dungeon_rooms[(s8)type].unk_0E;
                         entry = (Elem *)((unsigned long)(mod * sizeof(Elem)) + (unsigned long)s1);
                         s0 = mod;
                         if (entry->b0 != 0) {
@@ -108,7 +108,7 @@ s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *o
                         }
                         i++;
                         s0++;
-                    } while (c3 = D_800E2970[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], i < c3);
+                    } while (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], i < c3);
                 }
             }
             return 0;
@@ -133,14 +133,14 @@ s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *o
             bitmap[(d - 1) & 7] = 1;
             for (i = 0; i < 8; i++) {
                 if (*out & 2) {
-                    d = ((angle - D_8006CD00[i]) >> 9) & 7;
+                    d = ((angle - actor_turn_angle_offsets[i]) >> 9) & 7;
                     n = d;
                 } else {
-                    d = ((angle + D_8006CD00[i]) >> 9) & 7;
+                    d = ((angle + actor_turn_angle_offsets[i]) >> 9) & 7;
                     n = d;
                 }
                 if (bitmap[n] == 0) {
-                    if ((s16)sample_terrain_surface_height((u16)(D_800DCEAC[n] + (actor_held[0x24] << 6)), (u16)(D_800DCEBC[n] + (actor_held[0x25] << 6)), *(u16 *)(work_p + 0x88) - 0x20) < 0x200) {
+                    if ((s16)sample_terrain_surface_height((u16)(direction_x_offsets[n] + (actor_held[0x24] << 6)), (u16)(direction_y_offsets[n] + (actor_held[0x25] << 6)), *(u16 *)(work_p + 0x88) - 0x20) < 0x200) {
                         *(u16 *)(work_p + 0x2A) = d << 9;
                         return 0;
                     }
@@ -159,8 +159,8 @@ L_BCB8:
         s32 dir;
 
         actor_held[0x27] = 0xFF;
-        dir = ((*(s16 *)(work_p + 0x2A) - D_8006CD00[1]) >> 9) & 7;
-        if ((s16)sample_terrain_surface_height((u16)(D_800DCEAC[dir] + (actor_held[0x24] << 6)), (u16)(D_800DCEBC[dir] + (actor_held[0x25] << 6)),
+        dir = ((*(s16 *)(work_p + 0x2A) - actor_turn_angle_offsets[1]) >> 9) & 7;
+        if ((s16)sample_terrain_surface_height((u16)(direction_x_offsets[dir] + (actor_held[0x24] << 6)), (u16)(direction_y_offsets[dir] + (actor_held[0x25] << 6)),
                 *(u16 *)(work_p + 0x88) - 0x20) < 0x200) {
             *(u16 *)(work_p + 0x2A) = dir << 9;
         }

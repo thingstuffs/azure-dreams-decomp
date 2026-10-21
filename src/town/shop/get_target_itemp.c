@@ -1,10 +1,10 @@
 #include "common.h"
 
-extern void *D_800CFCC4[];
+extern void *town_target_record[];
 
 /* get_target_itemp: Prepares the target item and returns its item data pointer, or zero. */
 s32 get_target_itemp(void) {
-    u8 *target_object = (u8 *)D_800CFCC4[0];
+    u8 *target_object = (u8 *)town_target_record[0];
 
     if (target_object != 0) {
         s32 item_type = 4;

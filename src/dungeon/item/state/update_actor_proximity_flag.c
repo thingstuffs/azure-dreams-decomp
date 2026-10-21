@@ -17,8 +17,8 @@ s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 
             return ((*(u32 *)&((EntityRec *)state)->flags1C) >> 17) & 1;
         }
         source_index = ((TileObject *)source)->room_index;
-        if (source_index < 0 || source_index != D_80082E80.room_index) {
-            if ((get_tile_chebyshev_distance(((u8 *)(&D_80082E80)), source) << 16) >= (upper_limit << 16)) {
+        if (source_index < 0 || source_index != reference_tile_object.room_index) {
+            if ((get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), source) << 16) >= (upper_limit << 16)) {
                 ((EntityRec *)state)->unk_73 = 0;
                 ((EntityRec *)state)->unk_72 = 0;
                 (*(u32 *)&((EntityRec *)state)->flags1C) &= ~0x20000;
@@ -30,8 +30,8 @@ s32 update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 
     }
     if (!(flags & 0x10)) {
         source_index = ((TileObject *)source)->room_index;
-        if ((source_index >= 0 && source_index == D_80082E80.room_index)
-            || (get_tile_chebyshev_distance(((u8 *)(&D_80082E80)), source) << 16) < (lower_limit << 16))
+        if ((source_index >= 0 && source_index == reference_tile_object.room_index)
+            || (get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), source) << 16) < (lower_limit << 16))
             (*(u32 *)&((EntityRec *)state)->flags1C) |= 0x20000;
     }
     return ((*(u32 *)&((EntityRec *)state)->flags1C) >> 17) & 1;

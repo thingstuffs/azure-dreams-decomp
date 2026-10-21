@@ -11,7 +11,7 @@ extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
 extern void create_owner_linked_directional_object();
 extern void advance_arcing_actor_move();
-extern u8 D_800E23E0[];
+extern u8 uboat_default_frames[];
 
 
 typedef struct S_80172144_0 {
@@ -79,10 +79,10 @@ void advance_aura_actor_turn_path(void *actor, s32 actor_slot, void *entity_arg,
     if ((((S_80172144_0 *)state)->unk_71.s > 0) &&
         ((s32)((S_80172144_0 *)state)->unk_71.u > ((S_80172144_0 *)state)->unk_8A)) {
         if ((((S_80172144_1 *)actor)->unk_B5 == 0) &&
-            (((S_80172144_2 *)entity)->unk_2C != D_800E23E0)) {
-            ((S_80172144_2 *)entity)->unk_2C = D_800E23E0;
+            (((S_80172144_2 *)entity)->unk_2C != uboat_default_frames)) {
+            ((S_80172144_2 *)entity)->unk_2C = uboat_default_frames;
             select_sprite_entry(entity,
-                D_800E23E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172144_0 *)state)->unk_2A + 0x100) >> 9) & 7],
+                uboat_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172144_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
             if (((S_80172144_1 *)actor)->unk_B0 == 0) {
                 create_owner_linked_directional_object(actor, actor_slot, entity);

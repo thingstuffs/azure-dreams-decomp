@@ -90,7 +90,7 @@ void *spawn_killer_slot_e(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     held_a = attr_a;
     held_c = attr_c;
     held_b = attr_b;
-    created = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    created = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     flags_copy = spawn_flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;

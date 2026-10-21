@@ -12,7 +12,7 @@ typedef struct S_80123754_1 {
 } S_80123754_1;
 
 extern s32 D_80126A88;
-extern M2C_UNK D_80129728;
+extern M2C_UNK catalog_display_node_slots;
 
 /* Copy 14 initial values into the referenced records and clear their linked counters. */
 void reset_linked_value_records(void) {
@@ -24,7 +24,7 @@ void reset_linked_value_records(void) {
     void **record_slot;
 
     record_index = 0;
-    table_base = (s8 *)&D_80129728;
+    table_base = (s8 *)&catalog_display_node_slots;
     record_slot = (void **)(table_base + 0x38);
     initial_values = (s8 *)&D_80126A88;
     do {

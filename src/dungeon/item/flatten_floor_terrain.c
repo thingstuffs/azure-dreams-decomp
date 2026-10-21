@@ -20,9 +20,9 @@ extern s32 mark_active_nodes_by_callback();
 extern s32 display_formatted_context_message();
 extern s32 clear_slot_and_update_linked_state();
 
-extern u8 D_800E36C8[];
-extern u8 D_800E3648[];
-extern u8 D_800E39C8[];
+extern u8 dungeon_ground_item_positions[];
+extern u8 floor_objects[];
+extern u8 dungeon_floor_object_positions[];
 extern u8 D_800E1863;
 extern u8 D_800CE028[];
 
@@ -55,9 +55,9 @@ s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 conte
     if (effect_code == 13) {
         return process_record_and_update_linked_state(effect_arg, context);
     }
-    if (target == D_800E3D7C) {
+    if (target == dungeon_actor_ring_anchor) {
         S32(target, 0x110) = effect_arg;
-        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
     if ((u32) target <= 0x9FFFFFFFU) {
@@ -66,25 +66,25 @@ s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 conte
             apply_item_effect_at_entity_position(target, effect_arg);
             return 1;
         }
-    } else if (D_800E296C & 0x20000000) {
+    } else if (dungeon_floor_flags & 0x20000000) {
         create_type_212_object(1, 8);
         play_sound_if_enabled(0x80F);
-        entity = D_800E3D7C;
+        entity = dungeon_actor_ring_anchor;
         first_entity = entity;
         do {
             S16(entity, 0x88) = 0;
             S32(entity, 0x1C) = S32(entity, 0x1C) | 0x40000000;
             entity = (void *) (S32(entity, 0x5C) + 0x20);
         } while (entity != first_entity);
-        entry_data = D_800E36C8;
-        entry_flags = ((u8 *)D_800E3548);
+        entry_data = dungeon_ground_item_positions;
+        entry_flags = ((u8 *)dungeon_ground_items);
         for (effect_counter = 0; effect_counter < 0x40; effect_counter++) {
             if (U8(entry_flags, effect_counter * 4 + 1) != 0) {
                 S16(entry_data, effect_counter * 0xC + 4) = 0;
             }
         }
-        entry_data = D_800E39C8;
-        entry_flags = D_800E3648;
+        entry_data = dungeon_floor_object_positions;
+        entry_flags = floor_objects;
         for (effect_counter = 0; effect_counter < 0x20; effect_counter++) {
             if (U8(entry_flags, effect_counter * 4 + 1) != 0) {
                 S16(entry_data, effect_counter * 0x18 + 0x12) = 0;
@@ -109,7 +109,7 @@ s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 conte
         } while (y < 0x3F);
         refresh_packed_grid_nibbles();
         clear_mask = 0x3FF7FFFF;
-        D_800E296C = D_800E296C & clear_mask;
+        dungeon_floor_flags = dungeon_floor_flags & clear_mask;
         mark_active_nodes_by_callback(D_800CE028);
     } else {
         display_formatted_context_message(&D_800E1863, context, effect_code);

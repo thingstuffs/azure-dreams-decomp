@@ -10,5 +10,5 @@ typedef struct DungeonItemEntry {
     /* 0x02 */ unsigned char unk_02;
     /* 0x03 */ unsigned char unk_03;
 } DungeonItemEntry;
-extern DungeonItemEntry D_800E3548[64];
+extern DungeonItemEntry dungeon_ground_items[64];
 #endif

@@ -17,7 +17,7 @@ typedef struct SaveImage {
     u8 suffix[0x3F6C];
 } SaveImage;
 
-extern s16 D_8008146C;
+extern s16 current_dungeon_floor;
 extern u8 D_800DF3CC[];
 extern s32 test_resident_bit(s32);
 extern void func_80040AA0(s32);
@@ -27,7 +27,7 @@ extern char D_800DF3D4[];
 extern void func_8003E4FC(s32, char *, s32);
 extern void func_8003F320(void);
 
-extern u8 D_80082E6B;
+extern u8 scene_mode_code;
 extern u8 D_800DCF4E;
 
 /* Functions defined in this translation unit. */

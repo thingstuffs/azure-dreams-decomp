@@ -8,8 +8,8 @@ typedef struct S_80094E34_1 {
 } S_80094E34_1;   /* object in clear_player_linked_action_flags */
 
 
-extern s32 D_80081484;
-extern s32 D_800E3540;
+extern s32 held_item_record;
+extern s32 saved_held_item_word;
 
 /* Clear the root and linked object flags, saving and resetting D_80081484 when the root flag is set. */
 void clear_player_linked_action_flags(void) {
@@ -18,16 +18,16 @@ void clear_player_linked_action_flags(void) {
     s32 savedGlobalValue;
     s32 rootFlags;
 
-    root = D_800E3D7C;
+    root = dungeon_actor_ring_anchor;
     if (root->flags1C & 0x100000) {
         linkedObject = ((PlayerRecord *)root)->unk_124;
         if (linkedObject != 0) {
             linkedObject->unk_1C = (s32)(linkedObject->unk_1C & 0xFFF7FFFF);
         }
         rootFlags = root->flags1C;
-        savedGlobalValue = D_80081484;
-        D_80081484 = 0;
+        savedGlobalValue = held_item_record;
+        held_item_record = 0;
         root->flags1C = rootFlags & 0xFFEFFFFF;
-        D_800E3540 = savedGlobalValue;
+        saved_held_item_word = savedGlobalValue;
     }
 }

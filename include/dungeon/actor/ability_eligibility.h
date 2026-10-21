@@ -200,7 +200,7 @@ typedef struct S_800A4ACC_1 {
     s32 unk_00;
 } S_800A4ACC_1;
 
-extern Entry8007359C *D_8007359C[4];
+extern Entry8007359C *monster_species_table[4];
 extern int abs(int);
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
@@ -209,13 +209,13 @@ extern s32 check_monster_neighbor_relations(u8, u8, s16, u8, u8, s16);
 extern s32 check_entity_interaction_compatibility(void *, void *);
 /* data in find_eligible_nearby_entry */
 extern s32 find_active_rect_containing_point(u16, u16);
-extern DungeonSlot *D_800E3DF0[];
+extern DungeonSlot *familiar_record_slots[];
 /* This data symbol has no shared-catalog address. */
-extern u8 D_80081470[];
-extern u8 D_800E3648[];
+extern u8 temporary_item_record[];
+extern u8 floor_objects[];
 extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
 extern s16 find_floor_item_at_world_position(u8, u8, s16);
-extern Entry D_800E3CD8[4];
+extern Entry dungeon_floor_marker_entries[4];
 extern void clear_slots_of_type(void *, s8);
 extern void apply_entity_action_flags(void *, s32);
 extern void apply_capped_damage_and_hit_effect();

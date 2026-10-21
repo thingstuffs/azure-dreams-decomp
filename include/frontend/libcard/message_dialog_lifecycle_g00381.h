@@ -70,7 +70,7 @@ extern void register_node(void *base, void *handler);
 extern s32 find_active_list_node(void *base);
 extern void bzero(void *ptr, s32 size);
 extern u8 D_80022CD8[];
-extern u8 D_80027DD0[];
+extern u8 menu_backdrop_tag[];
 extern u8 D_800287E8[];
 
 extern S_800280B4 D_800280B4[];

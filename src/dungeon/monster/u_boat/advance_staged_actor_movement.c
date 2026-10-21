@@ -15,7 +15,7 @@ extern void spend_actor_mp(void *, s32);
 extern void spawn_randomized_directional_effect(void *, s16, s32, s32);
 extern void create_owner_linked_directional_object(void *, void *, void *);
 
-extern u8 D_800E23E0[];
+extern u8 uboat_default_frames[];
 extern u8 D_800E2400[];
 extern u8 D_80171A80[];
 
@@ -61,7 +61,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Act
             ((SpriteFrameState *)record)->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
 
-            animation_ids = D_800E23E0;
+            animation_ids = uboat_default_frames;
             ((SpriteFrameState *)record)->frameTable = animation_ids;
             select_sprite_entry(record,
                 animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -184,7 +184,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Act
             ((S_80173510_3 *)motion)->unk_0C = 0;
             resolve_attack_damage_and_effects(actor, record, actor->facing, 1);
 
-            animation_ids = D_800E23E0;
+            animation_ids = uboat_default_frames;
             ((SpriteFrameState *)record)->frameTable = animation_ids;
             select_sprite_entry(record,
                 animation_ids[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

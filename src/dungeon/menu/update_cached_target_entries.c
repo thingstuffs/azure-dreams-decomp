@@ -29,7 +29,7 @@ void update_cached_target_entries(S_800DC0BC_1 *cached_values, s32 *target_base)
     u8 first_value;
     u8 second_value;
 
-    page = &D_800814A8;
+    page = &primary_actor_record;
     owner = *page;
     first_value = owner->unk_28;
     if (first_value != cached_values->unk_10) {

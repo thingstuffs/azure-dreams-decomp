@@ -36,7 +36,7 @@ extern void *allocate_list_node();
 extern void register_node();
 extern s32 D_8006E240;
 extern s32 D_8017085C;
-extern void *D_80175D50;
+extern void *beldo_actor_nodes;
 extern void *D_80175D68;
 
 /* Creates a linked object and initializes its position and rendering state. */
@@ -53,9 +53,9 @@ void create_linked_object_position(void)
     S_func_81339A5C_1 *object_pos;
     SpriteFrameState *render_state;
 
-    source_pos = ((S_func_81339A5C_0 *)D_80175D50)->unk_08;
-    source_data = D_80175D50 + 0x20;
-    object = allocate_list_node(0x12, D_80175D50);
+    source_pos = ((S_func_81339A5C_0 *)beldo_actor_nodes)->unk_08;
+    source_data = beldo_actor_nodes + 0x20;
+    object = allocate_list_node(0x12, beldo_actor_nodes);
     if (object != NULL) {
         object->unk_10 = &D_8017085C;
         object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);

@@ -1,14 +1,12 @@
 #include "common.h"
 #include "shared/sound_state.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/slots.h"
+#include "engine/audio/spu.h"
+#include "slus.h"
+#include "slus/data.h"
 
 /* extern decls for callees; sizes/types from asm inspection */
-extern void reset_audio_sequence_state_default(void);
-extern void audio_reset_all_voices(void);
-extern void reset_sound_slots(void);
-extern void initialize_sound_transfer_range(int count, void *record);
-
-
-extern SoundSequenceListState spu_allocation_record_storage;
 
 /* Resets sound state and slot tables, then initializes the record list at D_80086CC0. */
 void audio_reset_sequence_subsystem(void)

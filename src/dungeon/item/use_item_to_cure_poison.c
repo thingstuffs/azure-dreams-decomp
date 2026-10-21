@@ -27,7 +27,7 @@ void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
 extern extern M2C_UNK D_80083460[3];
-extern M2C_UNK D_800E0E69;
+extern M2C_UNK poison_cure_text;
 
 
 typedef struct S_800BD45C_0_pre {
@@ -46,9 +46,9 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
     u16 *type_flags;
     s32 *item_counts;
 
-    if (entity == D_800E3D7C) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((EntityRec *)entity)->unk_110 = item;
-        begin_deferred_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
@@ -71,7 +71,7 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
         s32 message_end;
 
         message_end = get_unused_text_buffer();
-        message_text = &D_800E0E69;
+        message_text = &poison_cure_text;
         message_pos = message_end;
         message_start = message_pos;
         message_end = expand_text_control_codes(message_text, message_pos);

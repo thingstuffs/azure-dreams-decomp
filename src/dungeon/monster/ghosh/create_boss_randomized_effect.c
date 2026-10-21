@@ -86,6 +86,6 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
         display->color.c.r = 0x16;
         display->clut = 0x7DCF;
         display->flags |= 0x100;
-        func_8003DB94(display, D_800DE870, 0);
+        func_8003DB94(display, effect_sprite_sources, 0);
     }
 }

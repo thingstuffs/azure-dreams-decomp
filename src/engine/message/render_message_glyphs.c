@@ -1,9 +1,9 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
+#include "engine/script.h"
 
-extern void process_message_control_bytes(void *);
-extern void handle_vm_opcode_10(void *);
 extern void move_glyph_to_grid_position(u8 *, s16, s16, u8, s32, s32, s32);
 extern void wait_message_countdown(void);
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/window.h"
 
 typedef struct {
     u8 pad_00[0x44];
@@ -16,7 +17,6 @@ typedef struct {
     u32 value_0c;
 } FuncOutput;
 
-extern s32 unlink_cursor_when_finished(FuncInput *input);
 extern void copy_texture_descriptor_with_page_offsets(u32 *texture_pos, u32 *src, void *dst);
 
 extern u32 blinking_cursor_texture_template_0[3];

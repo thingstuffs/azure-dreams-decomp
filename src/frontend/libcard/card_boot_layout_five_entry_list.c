@@ -1,5 +1,7 @@
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
+#include "engine/audio/sequence.h"
+#include "frontend/libcard.h"
 
 typedef struct MainPosition {
     u8 pad0[8];
@@ -12,7 +14,6 @@ typedef struct MainEntry {
     MainPosition *position;
 } MainEntry;
 
-extern s32 decode_note_text(void *, s32, s32);
 extern s32 D_800280B4[][6];
 
 /* Positions five entries in a vertical list and initializes their values from the selected table. */

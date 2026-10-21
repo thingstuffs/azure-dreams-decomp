@@ -121,13 +121,13 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
             ((S_8016C190_0 *)action)->unk_98 = action_value;
             mode_copy = target_mode;
             if (mode_copy != 0) {
-                action_value = (s32)D_800814A8;
+                action_value = (s32)primary_actor_record;
                 actor->target = (void *)action_value;
                 action_control = (u8 *)((SpriteLinkPrefixView *)action_value)[-1].unk_00;
                 actor->target_tile_x = action_control[0x24];
                 actor->target_tile_y = action_control[0x25];
             } else {
-                u8 *action_defs = D_8006DE24;
+                u8 *action_defs = item_action_definitions;
                 action_value = (s32)(action_defs + *action_slot * 20);
                 if (((u8 *)action_value)[0x12] == 2) {
                     action_value = (s32)actor->target;
@@ -163,7 +163,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
         transform->velocity_x = 0;
         set_record_integer_tile_center(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
         ((S_8016C190_0 *)action)->unk_8C = D_8016A36C;

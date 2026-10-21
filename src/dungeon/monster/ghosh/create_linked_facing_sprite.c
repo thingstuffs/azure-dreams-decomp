@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #define F(p,t,o) (*(t)((u8 *)(p)+(o)))
-extern s16 D_80083228;
-extern s32 D_80045340, D_80083498, D_801714B0, D_80174C5C;
+extern s16 view_facing_angle_alias;
+extern s32 D_80045340, scene_object_list_anchor, D_801714B0, D_80174C5C;
 extern void * D_80174CDC[3];
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 extern void register_node();
@@ -20,7 +20,7 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
     u8 tile_x, tile_y;
     void *call_object;
 
-    object = allocate_list_node(0x112, (struct ObjectNodeHeader * *)(&D_80083498));
+    object = allocate_list_node(0x112, (struct ObjectNodeHeader * *)(&scene_object_list_anchor));
     call_object = object;
     if (object != 0) {
         s32 z_offset;
@@ -40,7 +40,7 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
         ((SpriteFrameState *)sprite)->unk_06 = -4;
         initialize_actor_sprite_and_animation(call_object, position, sprite, 0);
         F(state, s16*, 0x2A) = 0x200;
-        select_sprite_entry(sprite, ((u8 *)(*(s32 * *)&((SpriteFrameState *)sprite)->frameTable))[((D_80083228 + 0x300) >> 9) & 7], 0);
+        select_sprite_entry(sprite, ((u8 *)(*(s32 * *)&((SpriteFrameState *)sprite)->frameTable))[((view_facing_angle_alias + 0x300) >> 9) & 7], 0);
         ((SpriteFrameState *)sprite)->scale_y = 0x1800;
         ((SpriteFrameState *)sprite)->scale_x = 0x1800;
         F(position, u16*, 2) -= 0x10;

@@ -2,9 +2,8 @@
 #include "m2c_compat.h"
 
 #include "common.h"
-
-void runtime_clear_value();                   /* extern */
-extern u8 runtime_object_pool[];
+#include "engine/object.h"
+#include "slus/data.h"
 
 /* Calls runtime_clear_value for each of the 20 records starting at D_800816C0. */
 void clear_twenty_runtime_records(void) {

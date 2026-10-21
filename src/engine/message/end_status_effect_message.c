@@ -6,6 +6,7 @@
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
 #include "slus/jtbl_80042BDC.h"
+#include "engine/message.h"
 
 void end_status_effect_message(S_80042BDC *ent, s16 action) {
     S_80042BDC *spawn_result;
@@ -147,10 +148,10 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                 u8 *slot_data;
                 int entity_index;
                 spawn_mode = find_entity_slot_by_field_ac(ent);
-                slot_base = (u8 *)((s16)spawn_mode * 4 + (u32)((u8 *)D_800E3D7C));
+                slot_base = (u8 *)((s16)spawn_mode * 4 + (u32)((u8 *)dungeon_actor_ring_anchor));
                 slot_data = *(u8 **)(slot_base + 0xD0);
                 entity_index = *(u8 *)(slot_data + 3) & 0x1F;
-                D_800E3DF0[entity_index] = spawn_result_2;
+                familiar_record_slots[entity_index] = spawn_result_2;
                 *(S_80042BDC **)(slot_base + 0xAC) = spawn_result_2;
             }
 
@@ -159,7 +160,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                 if (attach_owner) {
                     S_80042BDC *owned_ent = spawn_result_2;
                     u8 *owner_data;
-                    owner_data = ((u8 *)D_800E3D7C);
+                    owner_data = ((u8 *)dungeon_actor_ring_anchor);
                     *(S_80042BDC **)(owner_data + 0x124) = spawn_result_2;
                     spawn_result_2->x60 = owner_data;
                     spawn_result_2->x1C |= 0x80000;

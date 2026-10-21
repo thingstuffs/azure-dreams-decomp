@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_effect_views.h"
+#include "engine/effect.h"
+#include "engine/item.h"
 
 typedef struct S_80050CDC_0 {
     u8 pad_00[0x4];
@@ -19,8 +21,6 @@ typedef struct S_80050CDC_1 {
 
    /* arg0 in fade_effect_parts */
 
-
-extern void release_null_terminated_entries(void *entries);
 extern s32 D_800814A0;
 
 /* Update and fade the effect parts, then signal completion when the timer expires. */

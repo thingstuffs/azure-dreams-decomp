@@ -27,7 +27,7 @@ void *create_status_linked_render_effect(EntityRec *source_pos, s32 render_param
     SpriteFrameState *render_data;
     MovingPosition *position;
 
-    object = allocate_list_node(0x12, ((M2C_UNK *)&D_80083498.next));
+    object = allocate_list_node(0x12, ((M2C_UNK *)&scene_object_list_anchor.next));
     if (object != NULL) {
         object->unk_10 = &D_800ADB8C;
         register_node(object, &D_800ADBCC);

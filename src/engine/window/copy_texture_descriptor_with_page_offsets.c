@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "sdk/libgpu.h"
 
 typedef struct {
     u8 pad0[8];
@@ -17,8 +18,6 @@ typedef struct {
     u32 value4;
     u32 value8;
 } FuncOutput;
-
-extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
 
 /* Copies texture data and adjusts its texture page and UV coordinates. */
 void copy_texture_descriptor_with_page_offsets(FuncInput *texture_pos, u32 *src, FuncOutput *dst) {

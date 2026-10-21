@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s8 D_80080A88;
+extern s8 scene_music_hold;
 
 /* set_no_change_seq: sets the flag that prevents sequence changes. */
 void set_no_change_seq(void) {
-    D_80080A88 = 1;
+    scene_music_hold = 1;
 }

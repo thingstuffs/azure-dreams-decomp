@@ -46,7 +46,7 @@ void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {
     }
     result = link_indexed_entry_chain(handle, mode);
     do {
-        D_800E5910->value = result;
+        dungeon_menu_object->value = result;
     } while (0);
     set_object_value_and_negation(state, current);
 }
@@ -139,7 +139,7 @@ void advance_wrapped_cycle_index(void) {
     s32 incrementedIndex;
     S_800DC888_0 *cycleState;
 
-    cycleState = (S_800DC888_0 *)((s32)D_800E5910 + 0x20);
+    cycleState = (S_800DC888_0 *)((s32)dungeon_menu_object + 0x20);
     cycleIndexToIncrement = cycleState->unk_38;
     *cycleIndexToIncrement += 1;
     cycleIndexToWrap = cycleState->unk_38;

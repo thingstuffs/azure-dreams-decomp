@@ -7,8 +7,9 @@
 
 struct UnkStruct1E; void card_boot_destroy_slot_selection_menu(struct UnkStruct1E *);
 #include "frontend/libcard/interfaces.h"
-void func_80040AA0(s16);
-extern void runtime_save_or_restore_state(void);
+#include "engine/entity.h"
+#include "engine/resource.h"
+#include "frontend/libcard/resource.h"
 
 /* Selects object and global modes, sets the shared state flag, and runs updates. */
 void card_boot_finish_slot_load_and_change_scene(void *object) {
@@ -26,9 +27,9 @@ void card_boot_finish_slot_load_and_change_scene(void *object) {
     if (*(s32 *)((char *)object + 0x44) == 0) {
         object_mode = 3;
     }
-    state_flags = D_80082E60.flags16;
+    state_flags = runtime_dispatch_state.flags16;
     *(s16 *)(global_page + 0x3714) = object_mode;
-    D_80082E60.flags16 = state_flags | 2;
+    runtime_dispatch_state.flags16 = state_flags | 2;
     card_boot_destroy_slot_selection_menu(object - 0x20);
     runtime_save_or_restore_state();
     global_mode = 6;

@@ -23,7 +23,7 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
     saved_value_24 = value_24;
     saved_value_0a = value_0a;
     saved_value_25 = value_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015E870_0 *)obj)->unk_10 = func_8015EA3C;

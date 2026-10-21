@@ -181,14 +181,14 @@ void update_actor_behavior_fourth(void *action, ObjectPosition *motion, void *sp
             ((ItemActionState *)action)->flags &= 0xFF7F;
             special_test = special_mode;
             if (special_test != 0) {
-                special_target = ((u8 *)D_800814A8);
+                special_target = ((u8 *)primary_actor_record);
                 actor->target = special_target;
                 target_sprite = ((ObjectNodeHeader *)((u8 *)special_target - 0x20))->unk_0C;
                 actor->target_tile_x = ((ImpactSpriteView *)target_sprite)->tileX;
                 actor->target_tile_y = ((ImpactSpriteView *)target_sprite)->tileY;
             } else {
                 item_id = *item_slot;
-                if (D_8006DE24[item_id].kind == 2) {
+                if (item_action_definitions[item_id].kind == 2) {
                     target_sprite = actor->target;
                     if (target_sprite != 0) {
                         target_sprite = ((ObjectNodeHeader *)((u8 *)target_sprite - 0x20))->unk_0C;
@@ -224,7 +224,7 @@ void update_actor_behavior_fourth(void *action, ObjectPosition *motion, void *sp
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY);
-            player_state = ((u8 *)D_800814A8);
+            player_state = ((u8 *)primary_actor_record);
             g_dungeon_status.active_actor = 0;
             ((PlayerActionCountView *)player_state)->remainingActions--;
             advance_status_timers(actor);
@@ -254,7 +254,7 @@ void update_actor_behavior_fourth(void *action, ObjectPosition *motion, void *sp
             if (!(((ActionSpriteView *)sprite)->flags & 0x8000)) {
                 flags = ((ItemActionState *)action)->flags;
                 ((ItemActionState *)action)->flags = flags | 0x8000;
-                effect = allocate_list_node(0x112, ((u8 *)&D_80083498));
+                effect = allocate_list_node(0x112, ((u8 *)&scene_object_list_anchor));
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
                     effect_state = (u8 *)effect + 0x20;
@@ -290,7 +290,7 @@ void update_actor_behavior_fourth(void *action, ObjectPosition *motion, void *sp
             particles_left = 7;
             callback = (void *)D_8015C0FC;
             do {
-                effect = allocate_list_node(0x112, ((u8 *)&D_80083498));
+                effect = allocate_list_node(0x112, ((u8 *)&scene_object_list_anchor));
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
                     ((ImpactObjectView *)effect)->update = callback;

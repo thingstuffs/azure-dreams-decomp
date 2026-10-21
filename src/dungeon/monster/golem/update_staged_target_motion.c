@@ -199,7 +199,7 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
             distance_x = (s32)(((S_81087818_7 *)((u8 *)node - 0x18))->unk_00);
             motion->unk_28.word = ((s32 *)distance_x)[0];
             motion->unk_2C.word = ((s32 *)distance_x)[1];
-            height = D_800DDC40[((S_81087818_3 *)((S_81087818_2 *)motion->unk_4C)->unk_60)->unk_13];
+            height = entity_height_offsets[((S_81087818_3 *)((S_81087818_2 *)motion->unk_4C)->unk_60)->unk_13];
             position_z = ((s32 *)distance_x)[2];
             distance_x = motion->unk_28.half.unk_2A;
             motion->unk_30.word = position_z - (height << 15);

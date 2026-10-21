@@ -63,7 +63,7 @@ void create_boss_directional_animation(void) {
     void *object;
     u16 sprite_flags;
 
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         object_state = object + 0x20;
         object_state->unk_13 = 0x18;
@@ -72,10 +72,10 @@ void create_boss_directional_animation(void) {
         ((S_80173F6C_1 *)object)->unk_10 = &func_801730AC;
         register_node(object, project_sprite_chain);
         model = ((S_80173F6C_1 *)object)->unk_08;
-        model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&D_80083498)))->z)))->unk_0A;
+        model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&scene_object_list_anchor)))->z)))->unk_0A;
         sprite = ((S_80173F6C_1 *)object)->unk_0C;
-        sprite->unk_24 = (u8) (D_80082E80.tile_position.parts.tile_x + 9);
-        sprite->unk_25 = (u8) (D_80082E80.tile_position.parts.tile_y - 9);
+        sprite->unk_24 = (u8) (reference_tile_object.tile_position.parts.tile_x + 9);
+        sprite->unk_25 = (u8) (reference_tile_object.tile_position.parts.tile_y - 9);
         sprite->frameTable = D_80174C84;
         initialize_actor_sprite_and_animation(object, model, sprite, 0);
         object_state->unk_B6 = 1;

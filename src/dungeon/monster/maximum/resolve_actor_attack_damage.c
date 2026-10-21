@@ -85,7 +85,7 @@ void set_record_integer_tile_center();
 s32 advance_status_timers();
 s32 play_sound_if_enabled();
 s32 create_actor_spell_effect(void *, u8 *, s32, void *);
-extern M2C_UNK D_800D7960;
+extern M2C_UNK effect_update_tag;
 extern void func_80170E54(void *controller, void *context, void *entity, ActorRecord *actor_state);
 extern u8 D_80173C6C[];
 
@@ -150,12 +150,12 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, void *spri
         if (*slot_or_effect != 0) {
             ((S_801728B4_0 *)actor)->unk_98 = (u16) (((S_801728B4_0 *)actor)->unk_98 & 0xFF7F);
             if (use_player != 0) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 action->target = target;
                 action_value = ((S_801728B4_2_pre *)target)[-1].unk_00;
                 action->target_tile_x = (s8) ((S_801728B4_3 *)action_value)->unk_24;
                 action->target_tile_y = (s8) ((S_801728B4_3 *)action_value)->unk_25;
-            } else if (D_8006DE24[*slot_or_effect].kind == 2) {
+            } else if (item_action_definitions[*slot_or_effect].kind == 2) {
                 target = action->target;
                 if (target != NULL) {
                     action_value = ((S_801728B4_2_pre *)target)[-1].unk_00;
@@ -177,13 +177,13 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, void *spri
             ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
             play_sound_if_enabled(0x703);
             ((S_801728B4_0 *)actor)->unk_9B = (u8) (((S_801728B4_0 *)actor)->unk_9B + 1);
-            new_effect = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+            new_effect = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
             ((S_801728B4_0 *)actor)->unk_A0 = new_effect;
             if (new_effect == NULL) {
                 return;
             }
             register_node(new_effect, project_sprite_chain);
-            ((S_801728B4_6 *)new_effect)->unk_10 = &D_800D7960;
+            ((S_801728B4_6 *)new_effect)->unk_10 = &effect_update_tag;
             ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_00 = (s32) motion->x.v;
             ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_04 = (s32) motion->y.v;
             ((S_801728B4_11 *)(((S_801728B4_6 *)new_effect)->unk_08))->unk_08 = (s32) (motion->z.v + 0xFF800000);
@@ -210,7 +210,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, void *spri
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)D_800814A8)->field_A6) - 1);
+            (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)primary_actor_record)->field_A6) - 1);
             advance_status_timers(action);
             action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);
             ((S_801728B4_0 *)actor)->unk_8C = &func_80170E54;

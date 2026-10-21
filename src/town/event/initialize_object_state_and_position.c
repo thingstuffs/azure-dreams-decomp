@@ -13,8 +13,8 @@ extern s16 D_80100D40;
 extern s16 D_80100D42;
 extern s16 D_80100D60[];
 extern u8 D_80100D68[];
-extern s16 D_80100D80;
-extern s16 D_80100D82;
+extern s16 town_motion_x_step;
+extern s16 town_motion_y_step;
 
 /* Initializes object state and sets its starting position. */
 void initialize_object_state_and_position(void **object, IntVector3 *start_position, void *ptr2) {
@@ -23,8 +23,8 @@ void initialize_object_state_and_position(void **object, IntVector3 *start_posit
     call_the_handler_selects_nonzero_entry((s32 *) D_800D0130, (Rec_func_80094268_arg0 *) object, ptr2);
     *object = D_800AA5F8;
     D_80100D1C = 0;
-    D_80100D80 = 8;
-    D_80100D82 = 8;
+    town_motion_x_step = 8;
+    town_motion_y_step = 8;
     D_80100D40 = 0;
     D_80100D42 = 0;
     D_80100D18 = 0;

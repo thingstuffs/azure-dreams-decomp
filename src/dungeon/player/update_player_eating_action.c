@@ -19,7 +19,7 @@ s32 append_entity_display_text(void *record, u8 *out);
 void play_sound_if_enabled(s32);
 void display_text_with_fullwidth_adjustment(s8 *text);
 void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
-extern s32 D_80081484;
+extern s32 held_item_record;
 extern s32 D_8008D470;
 extern u8 D_800DD100[];
 extern u8 D_800E06E3[];
@@ -104,7 +104,7 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
         if (find_flagged_record_by_id(actor->unk_08, 0) == 0) {
             return;
         }
-        if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&D_80081484) {
+        if (((Rec_func_8008ACDC_arg0 *)controller)->unk_110 == (s32)&held_item_record) {
             ((Rec_func_8008ACDC_arg0 *)controller)->unk_124 = 0;
             ((Rec_func_8008ACDC_arg0 *)controller)->unk_1C &= 0xFFEFFFFF;
         }

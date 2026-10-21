@@ -48,7 +48,7 @@ extern s32 D_80024954;
 extern s32 D_800249A0;
 extern s32 D_80024A30;
 extern s32 D_80053858[4];
-extern s32 D_80053A88;
+extern s32 display_registration_tag;
 
 extern void set_resident_bit(s32);
 extern void func_8003E188(s32, void *);
@@ -87,7 +87,7 @@ s32 initialize_mogura_minigame(void)
     load_default_object_palette(7);
     func_8003E188(0x3F, parent_state);
 
-    object = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         parent_state = (u8 *)object + 0x20;
         ((S_80024100_0 *)object)->unk_10 = &D_800243D8;
@@ -101,7 +101,7 @@ s32 initialize_mogura_minigame(void)
     update_callback = &D_80024954;
     x_first = 0xD0;
     do {
-        object = allocate_list_node(1, ((u8 *)(&D_80083498)));
+        object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
         element = (u8 *)object + 0x20;
         if (object != NULL) {
             ((S_80024100_0 *)object)->unk_10 = update_callback;
@@ -122,7 +122,7 @@ s32 initialize_mogura_minigame(void)
     update_callback = &D_800249A0;
     x_second = 0xD8;
     do {
-        object = allocate_list_node(1, ((u8 *)(&D_80083498)));
+        object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
         element = (u8 *)object + 0x20;
         if (object != NULL) {
             ((S_80024100_0 *)object)->unk_10 = update_callback;
@@ -154,10 +154,10 @@ s32 initialize_mogura_minigame(void)
     update_callback = &D_80024A30;
     x_third = 0xCC;
     do {
-        object = allocate_list_node(1, ((u8 *)(&D_80083498)));
+        object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
         if (object != NULL) {
             S_80024100_2 *third_element;
-            render_data = &D_80053A88;
+            render_data = &display_registration_tag;
             third_element = (u8 *)object + 0x20;
             ((S_80024100_0 *)object)->unk_10 = update_callback;
             register_node(object, render_data);

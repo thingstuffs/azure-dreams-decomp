@@ -80,7 +80,7 @@ typedef struct S_801749A8_7 {
     u8 * unk_2C;
 } S_801749A8_7;
 
-extern s32 D_8006CD58[];
+extern s32 cd_cue_base[];
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 D_8014A000[];
@@ -102,9 +102,9 @@ s32 create_status_linked_render_effect();
 s32 select_nearby_target_and_initialize_slot();
 void create_cylindrical_effect();
 s32 lookup_masked_byte_table(void *, ...);
-extern u8 *D_800DCEEC[];
+extern u8 *actor_effect_color_targets[];
 extern void func_8017487C(u8 *task, void *context, u8 *input);
-extern M2C_UNK D_80174FAC;
+extern M2C_UNK nyuel_image_commands;
 extern M2C_UNK D_80174FB4;
 extern u8 D_80174FCC[];
 extern u8 D_80174FCD[];
@@ -135,7 +135,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         ((S_801749A8_0 *)sequence)->unk_9B = (u8)(((S_801749A8_0 *)sequence)->unk_9B + 1);
         return;
     case 1:
-        run_cd_image_commands(&D_80174FAC, &D_80174FCC, 0);
+        run_cd_image_commands(&nyuel_image_commands, &D_80174FCC, 0);
         ((S_801749A8_0 *)sequence)->unk_A8 = 0;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
         ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
@@ -150,8 +150,8 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v = turn_angle;
             return;
         }
-        run_cd_image_commands(&D_80174FAC, &D_80174FCC, 1);
-        sound_set_cd_cue_parameters(0, *D_8006CD58, 0x04000AD4, 0x05000CC4);
+        run_cd_image_commands(&nyuel_image_commands, &D_80174FCC, 1);
+        sound_set_cd_cue_parameters(0, *cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         D_80174FCD[0] = 0;
         Control_CD(0xFF, (s32) set_byte_one, &D_80174FCD);
@@ -172,7 +172,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             play_sound_if_enabled(0x300);
             return;
         }
-        target_color = D_800DCEEC[lookup_masked_byte_table(target)];
+        target_color = actor_effect_color_targets[lookup_masked_byte_table(target)];
         object->unk_A8 = (u8) (object->unk_A8 + ((s32) (((S_801749A8_3 *)target_color)->unk_00
             - object->unk_A8) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
         object->unk_A9 = (u8) (object->unk_A9 + ((s32) (((S_801749A8_3 *)target_color)->unk_01

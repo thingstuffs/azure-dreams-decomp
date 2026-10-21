@@ -45,7 +45,7 @@ void advance_object_animation_and_effect(void *object)
             return;
         }
         *((s16 *) (((u8 *) object) + 0x26)) = 0;
-        effect = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+        effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != 0) {
             *((void **) (((u8 *) effect) + 0x10)) = D_800BFF7C;
             register_node(effect, project_sprite_chain);

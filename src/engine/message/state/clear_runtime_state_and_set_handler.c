@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/message/state.h"
 
 typedef struct S_80038464_0 {
     u8 pad_00[0x10];

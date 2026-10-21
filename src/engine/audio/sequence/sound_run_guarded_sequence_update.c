@@ -1,8 +1,6 @@
 #include "common.h"
-
-extern void sound_update_voice_modulation_slots(void);
-extern void tick_enabled_sequence_tracks(void);
-extern void drain_ready_sound_voice_flags(void);
+#include "engine/audio/sequence.h"
+#include "slus.h"
 
 typedef struct {
     s32 v;

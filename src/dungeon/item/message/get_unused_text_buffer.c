@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_80082A38[];
+extern s32 runtime_script_state[];
 extern s32 D_800DD718[];
 extern u8 D_800E4958[];
 
@@ -13,7 +13,7 @@ void *get_unused_text_buffer(void) {
     s32 *table;
 
     entry_index = 0xA;
-    table = D_80082A38;
+    table = runtime_script_state;
     entry = table + 10;
     buffer_index = D_800DD718[0] = (D_800DD718[0] + 1) % 6;
     buffer = (buffer_index * 0x138) + D_800E4958;

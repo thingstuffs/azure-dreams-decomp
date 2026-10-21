@@ -144,14 +144,14 @@ void update_a_dungeon_actor_s_behavior_facing_animation_state(Rec_func_800A9E70_
             update_actor_status_and_food(actor);
             return;
         }
-        if (sprite->position.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (sprite->position.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_80159768(action, context, sprite, actor);
             return;
         }
         if (!(actor->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(actor,
-                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -184,9 +184,9 @@ void update_a_dungeon_actor_s_behavior_facing_animation_state(Rec_func_800A9E70_
 
                 direction = get_rounded_facing_and_rounding_flag(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
-                player = D_800814A8;
+                player = primary_actor_record;
                 actor->facing = direction;
                 if (player->unk_9A == 0x11) {
                     begin_actor_spell_action(action, context, sprite, D_8015BFF0, &D_80158F68);
@@ -209,16 +209,16 @@ void update_a_dungeon_actor_s_behavior_facing_animation_state(Rec_func_800A9E70_
     } else if (!(actor->flags1C & 0x2000)) {
         s32 record_index = (s8)tile_id;
 
-        if ((record_index < 0) || !(D_800E2970[record_index].flags & 2)) {
+        if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(actor->flags1C & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(sprite->position.tile.x,
-                        sprite->position.tile.y, D_80082E80.tile_position.parts.tile_x,
-                        D_80082E80.tile_position.parts.tile_y) != 0) {
+                        sprite->position.tile.y, reference_tile_object.tile_position.parts.tile_x,
+                        reference_tile_object.tile_position.parts.tile_y) != 0) {
                     actor->facing = get_rounded_facing_and_rounding_flag(
                         sprite->position.tile.x,
                             sprite->position.tile.y,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }
             }

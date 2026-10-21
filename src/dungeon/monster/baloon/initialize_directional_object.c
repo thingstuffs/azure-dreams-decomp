@@ -17,7 +17,7 @@ s32 try_claim_dungeon_action_slot();
 s32 check_entity_interaction_compatibility();
 s32 apply_camera_offset_and_select_target();
 
-extern u8 D_800E2378;
+extern u8 baloon_attack_frames;
 
 /* Checks action readiness and initializes the actor state and directional animation. */
 s32 initialize_directional_object(void *action_state, s32 action_param, void *sprite, void *actor) {
@@ -80,7 +80,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
         ((ActorRecord *)actor)->unk_85 = 0;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 &= 0xFFF7;
         ((ActorRecord *)actor)->flags1C &= 0xFFFBFFFF;
-        anim_table = &D_800E2378;
+        anim_table = &baloon_attack_frames;
         ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = anim_table;
         select_sprite_entry(sprite,
                       anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],

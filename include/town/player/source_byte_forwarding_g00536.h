@@ -10,7 +10,7 @@
 
 void set_sprite_animation_frame();
 s32 view_relative_angle_sector();
-extern u8 D_80080A84;
+extern u8 animation_tick_scale;
 
 /* Functions defined in this translation unit. */
 void apply_a_selected_source_byte_destination_adjusts_sixth_byte(u8 *sourceBytes, s32 selection, u8 *destination);

@@ -64,7 +64,7 @@ void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32
 s32 generate_random_value(void);
 void update_actor_status_and_food(void *);
 s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
-extern s16 D_8006CD00[];
+extern s16 actor_turn_angle_offsets[];
 extern TileObject D_80082E80_b __asm__("D_80082E80");
 
 static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
@@ -130,8 +130,8 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
         } else {
             if (!(((S_8016FCE4_0 *)actor_in)->unk_46 & 0x8000)) {
                 if (move_flags & 0x20000) {
-                    u8 **heading_ref = &D_800814A8;
-                    TileObject *position_base = &D_80082E80;
+                    u8 **heading_ref = &primary_actor_record;
+                    TileObject *position_base = &reference_tile_object;
                     u8 *heading_base;
                     u8 *x_table_base;
                     s32 dir_index;
@@ -141,7 +141,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                     dir_index = ((((S_8016FCE4_0 *)actor_in)->unk_45 + ((s32) (((S_8016FCE4_4 *)heading_base)->unk_2A
                         << 0x10) >> 0x19)) & 7) * 2;
                     target_x = position_base->tile_position.parts.tile_x + *(u16 *)(x_table_base + dir_index);
-                    target_y = D_80082E80.tile_position.parts.tile_y + *(u16 *)(((u8 *)dir_step_y) + dir_index);
+                    target_y = reference_tile_object.tile_position.parts.tile_y + *(u16 *)(((u8 *)dir_step_y) + dir_index);
                     if ((((S_8016FCE4_1 *)position_in)->unk_24.at00.v != (u16)target_x)
                         || (((S_8016FCE4_1 *)position_in)->unk_24.at01.v != (u16)target_y)) {
                         heading_state = move_state + 0x98;
@@ -172,7 +172,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
         }
         turn_index = 0;
         x_offsets = ((u8 *)dir_step_x);
-        turn_offsets = D_8006CD00;
+        turn_offsets = actor_turn_angle_offsets;
         do {
             heading = ((S_8016FCE4_0 *)actor_in)->unk_2A.s;
             if (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 2) {
@@ -217,8 +217,8 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                     break;
                 }
             }
-            if ((turn_index != 0) || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v)
-                || ((check_entity_relation(actor_in, ((s32)((ActorRecord *)((u8 *)D_800814A8))->unk_58) + 0x20) << 0x10) == 0)) {
+            if ((turn_index != 0) || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v)
+                || ((check_entity_relation(actor_in, ((s32)((ActorRecord *)((u8 *)primary_actor_record))->unk_58) + 0x20) << 0x10) == 0)) {
                 turn_index += 1;
                 turn_offsets += 1;
             } else {

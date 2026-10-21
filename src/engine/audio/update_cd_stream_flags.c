@@ -2,14 +2,11 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/audio.h"
+#include "slus.h"
 
 /* Canonical status block shared across the D_800847D0 family (established in
    w_80054E00.c / w_800540A8.c / w_80054C58.c / w_800559B4.c). */
-
-
-extern s32 get_cd_flags_with_conditional_bit(void);
-extern void audio_handle_stream_control_event(s32 event);
-extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
 
 /* When subsystem bit 4 is set, clears flag 0x200 and commits or arms the countdown. */
 void update_cd_stream_flags(void) {

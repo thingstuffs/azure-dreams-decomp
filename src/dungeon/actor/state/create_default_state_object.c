@@ -26,7 +26,7 @@ typedef struct S_800B0544_6 {
 extern int load_indexed_resource_package(short table_index);
 extern s32 register_node();
 
-extern s16 D_8008146C;
+extern s16 current_dungeon_floor;
 extern M2C_UNK D_800AFAD8;
 extern M2C_UNK D_800AFBFC;
 extern s8 D_800DCF4C;
@@ -75,7 +75,7 @@ void create_default_state_object(s16 new_state) {
         mode = *(s32 *)0x80012090;
         obj_state = obj + 0x20;
         if (mode == 0) {
-            if (D_8008146C == 0x28) {
+            if (current_dungeon_floor == 0x28) {
                 obj_state->unk_02 = 1;
                 return;
             }

@@ -142,7 +142,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
         if (*item_slot != 0) {
             ((S_801731C8_0 *)action)->unk_98 &= 0xFF7F;
             if (is_special != 0) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = target;
                 state = (s32)(((S_801731C8_1_pre *)target)[-1].unk_00);
                 (*(u8 *)((u8 *)actor + 0x72)) = ((S_801731C8_2 *)((u8 *)state))->unk_24;
@@ -151,7 +151,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
                 u8 item_id;
 
                 item_id = *item_slot;
-                if (((LocalItemInfo *)D_8006DE24)[item_id].kind == 2) {
+                if (((LocalItemInfo *)item_action_definitions)[item_id].kind == 2) {
                     target = (*(void * *)((u8 *)actor + 0x60));
                     if (target != 0) {
                         state = (s32)(((S_801731C8_1_pre *)target)[-1].unk_00);
@@ -197,7 +197,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
         ((S_801731C8_0 *)action)->unk_8C = D_801716F4;

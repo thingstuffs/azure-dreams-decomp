@@ -37,7 +37,7 @@ typedef struct S_func_801728C4_3 {
     s8 unk_6D;
 } S_func_801728C4_3;
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern u8 D_80170F74[];
 extern u8 D_80173D58[];
 
@@ -98,7 +98,7 @@ void update_actor_actions_and_impact_effects(S_func_801728C4_0 *action, S_func_8
             actor->unk_46 &= 0x7FFF;
             return;
         }
-        D_800E3DE8 = (u8 *)actor - 0x20;
+        actor_update_node_cursor = (u8 *)actor - 0x20;
         return;
     default:
         return;

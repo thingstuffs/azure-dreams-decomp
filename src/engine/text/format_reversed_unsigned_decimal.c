@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/text.h"
 /* Writes decimal digits least significant first, pads to width, and null-terminates. */
 char *format_reversed_unsigned_decimal(u32 value, s32 width, char *buf, s32 pad) {
     s32 char_count;

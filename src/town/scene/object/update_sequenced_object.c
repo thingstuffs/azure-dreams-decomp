@@ -79,7 +79,7 @@ extern s32 D_80084D5C;
 extern M2C_UNK D_8012F130[5];
 extern u8 D_801328C8[3];
 extern s32 D_801328E8[3];
-extern s32 D_80132AE8[3];
+extern s32 town_motion_state[3];
 extern s32 D_80132AEC[3];
 extern s32 D_80132AF0[3];
 extern s16 D_80132AF2[5];
@@ -229,7 +229,7 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
         }
         break;
     case 6:
-        ((S_8080C650_2 *)motion)->unk_0C = (s32) ((s32) (D_80132AE8[0] - ((S_8080C650_2 *)motion)->unk_00) >> 1);
+        ((S_8080C650_2 *)motion)->unk_0C = (s32) ((s32) (town_motion_state[0] - ((S_8080C650_2 *)motion)->unk_00) >> 1);
         ((S_8080C650_2 *)motion)->unk_10 = (s32) ((s32) (D_80132AEC[0] - ((S_8080C650_2 *)motion)->unk_04) >> 1);
         state6_v0 = D_80132AF0[0] + D_8029070C[0];
         state6_v1 = ((S_8080C650_2 *)motion)->unk_08.at00.v + 0x80000;
@@ -250,7 +250,7 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
     case 7:
     case 8:
     case 9:
-        ((S_8080C650_2 *)motion)->unk_00 = (s32) D_80132AE8[0];
+        ((S_8080C650_2 *)motion)->unk_00 = (s32) town_motion_state[0];
         ((S_8080C650_2 *)motion)->unk_04 = (s32) D_80132AEC[0];
         ((S_8080C650_2 *)motion)->unk_08.at00.v = (s32) (D_80132AF0[0] + D_8029070C[0] + 0xFFF80000);
         global_s7 += 4;

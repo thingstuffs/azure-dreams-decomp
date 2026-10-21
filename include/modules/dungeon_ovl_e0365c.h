@@ -604,9 +604,9 @@ typedef struct E_801742AC_S_80DE6AAC_5 {
 /* Build an encoded message from the record and this bank's suffix. */
 
 /* Build an encoded message from the record and this bank's suffix. */
-extern s16 D_8006CD00[8];
-extern u8 D_8006DE24[];
-extern E_80174084_M2C_UNK D_800DEA68[3];
+extern s16 actor_turn_angle_offsets[8];
+extern u8 item_action_definitions[];
+extern E_80174084_M2C_UNK secondary_sprite[3];
 extern E_801742AC_M2C_UNK D_800DEEC0;
 extern u8 D_80174518[];
 extern u8 D_80174520[];
@@ -618,7 +618,7 @@ extern u8 D_80174548[];
 extern s32 D_80174550;
 extern u8 D_80174558[];
 extern u8 D_80174560[];
-extern E_80170A58_Callback D_80174568[];
+extern E_80170A58_Callback volcano_callbacks[];
 extern u8 D_801745CC[];
 extern u8 D_801745F8[];
 extern int abs(int);

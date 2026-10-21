@@ -76,10 +76,10 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                 s32 offset;
                 s32 target_x;
                 s32 target_y;
-                u8 *target = D_80082E80;
+                u8 *target = reference_tile_object;
 
                 direction = (U8_AT(actor, 0x45) +
-                             ((s32)(U16_AT(D_800814A8, 0x2A) << 16) >> 25)) & 7;
+                             ((s32)(U16_AT(primary_actor_record, 0x2A) << 16) >> 25)) & 7;
                 offset = direction * 2;
                 target_x = U8_AT(target, 0x24) + U16_AT(((s8 *)dir_step_x), offset);
                 target_y = U8_AT(target, 0x25) + U16_AT(((s8 *)dir_step_y), offset);
@@ -97,7 +97,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
 
                     U16_AT(actor, 0x2A) = next_angle;
                     if ((check_movement_clearance_and_height(next_angle, position, actor, 0x20) << 16) <= 0) {
-                        u8 *fallback = (u8 *)&D_80082EA4 - 0x24;
+                        u8 *fallback = (u8 *)&reference_tile_position_alias - 0x24;
 
                         U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
                             U8_AT(position, 0x24), U8_AT(position, 0x25),
@@ -106,7 +106,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                 }
             }
             {
-                u8 *target = (u8 *)&D_80082EA4 - 0x24;
+                u8 *target = (u8 *)&reference_tile_position_alias - 0x24;
 
                 if ((compare_monster_neighbor_values(
                          U8_AT(position, 0x24), U8_AT(position, 0x25),
@@ -122,7 +122,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
 
         tile_kind = S8_AT(position, 0x26);
         if (tile_kind >= 0) {
-            tile_table = (u8 *)D_800E2970;
+            tile_table = (u8 *)dungeon_rooms;
             offset = tile_kind * 0x14;
             offset += (s32)tile_table;
         }
@@ -159,7 +159,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                     if (!(S32_AT(actor, 0x1C) & 0x20000)) {
                         rebuild_monster_reachable_tiles(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
                     } else {
-                        u8 *goal = (u8 *)&D_80082EA4 - 0x24;
+                        u8 *goal = (u8 *)&reference_tile_position_alias - 0x24;
                         u8 *angle_work = move_work + 0x98;
 
                         U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
@@ -182,7 +182,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     }
 
     step_index = 0;
-    angle_steps = D_8006CD00;
+    angle_steps = actor_turn_angle_offsets;
 
     for (; step_index < 8; step_index++) {
         current_angle = S16_AT(actor, 0x2A);
@@ -231,9 +231,9 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
         }
 
         if ((step_index == 0) &&
-            (U16_AT(&D_80082EA4, 0) != U16_AT(position, 0x24)) &&
+            (U16_AT(&reference_tile_position_alias, 0) != U16_AT(position, 0x24)) &&
             ((check_entity_relation(
-                  actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0)) {
+                  actor, S32_AT(primary_actor_record, 0x58) + 0x20) << 16) != 0)) {
             return;
         }
     }

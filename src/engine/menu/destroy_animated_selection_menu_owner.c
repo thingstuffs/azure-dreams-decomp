@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern void destroy_animated_selection_menu(void *entity);
+#include "engine/menu.h"
+#include "engine/runtime.h"
 
 extern int D_800814A0;
 

@@ -144,14 +144,14 @@ void update_entity_action_facing(void *actor, void *context, void *sprite, Actor
             update_actor_status_and_food(entity);
             return;
         }
-        if (((S_80170EA8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_80170EA8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_8017167C(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(entity,
-                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -189,9 +189,9 @@ void update_entity_action_facing(void *actor, void *context, void *sprite, Actor
 
                 direction = get_rounded_facing_and_rounding_flag(
                     ((S_80170EA8_2 *)sprite)->unk_24.at00.v, ((S_80170EA8_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_aux);
-                global_actor = D_800814A8;
+                global_actor = primary_actor_record;
                 entity->facing = direction;
                 if (global_actor->unk_9A == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80174070, &D_80170EA8);
@@ -214,15 +214,15 @@ void update_entity_action_facing(void *actor, void *context, void *sprite, Actor
     } else if (!(((u32)entity->flags1C) & 0x2000)) {
         s32 record_index = (s8)tile_record;
 
-        if ((record_index < 0) || !(D_800E2970[record_index].flags & 2)) {
+        if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(((u32)entity->flags1C) & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(((S_80170EA8_2 *)sprite)->unk_24.at00.v,
-                        ((S_80170EA8_2 *)sprite)->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x,
-                        D_80082E80.tile_position.parts.tile_y) != 0) {
+                        ((S_80170EA8_2 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x,
+                        reference_tile_object.tile_position.parts.tile_y) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
                         ((S_80170EA8_2 *)sprite)->unk_24.at00.v, ((S_80170EA8_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
                 }
             }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 typedef struct {
     s8 pad0[0x18];
@@ -6,7 +7,7 @@ typedef struct {
     s8 pad1[0xC];
 } Entry;
 
-extern Entry D_80409290[];
+extern Entry dev_card_directory[];
 
 /* Return 15 minus the entry sum divided by 8192, rounding the quotient toward zero. */
 s32 card_dev_calc_remaining_8k_blocks(s32 entry_count) {
@@ -20,7 +21,7 @@ s32 card_dev_calc_remaining_8k_blocks(s32 entry_count) {
     i = 0;
     sum = 0;
     if (entry_count > 0) {
-        entry = D_80409290;
+        entry = dev_card_directory;
         do {
             sum += (entry++)->field18;
             i += 1;

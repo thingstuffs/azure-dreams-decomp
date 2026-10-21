@@ -36,9 +36,9 @@ s32 has_pending_dungeon_activity();                         /* extern */
 void func_800A31D0();                      /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
-extern s32 D_80081488;
-extern M2C_UNK D_8008149C;
-extern void *D_80082EB0[];
+extern s32 loaded_entity_sprite_resource;
+extern M2C_UNK sprite_resource_completion_flag;
+extern void *selected_item_record_alias[];
 extern u8 D_800DD138[];
 extern u8 D_800DD140[];
 extern u8 D_800DD260;
@@ -47,9 +47,9 @@ extern M2C_UNK D_800E05E1;
 extern M2C_UNK D_800E05F0;
 extern M2C_UNK D_800E06FA;
 extern M2C_UNK D_800E0714;
-extern s32 D_800E3D74[];
-extern void *D_800E3DF0[];
-extern s8 D_800E3E40;
+extern s32 familiar_turn_counters_alias[];
+extern void *familiar_record_slots[];
+extern s8 entity_resource_read_complete;
 
 typedef union ScratchS1 {
     s32 value;
@@ -247,7 +247,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         ((S_8009345C_5_pre *)removed_object)[-1].unk_00 = (u16) (((S_8009345C_5_pre *)removed_object)[-1].unk_00
             | 0x8000);
         (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
-        if (D_80082EB0[0] == NULL) {
+        if (selected_item_record_alias[0] == NULL) {
             ((S_8009345C_0 *)actor)->unk_96 = 0U;
             next_state = ((S_8009345C_0 *)actor)->unk_9B + 4;
             break;
@@ -258,27 +258,27 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         if ((has_pending_dungeon_activity(0) << 0x10) != 0) {
             return;
         }
-        message_or_list.base = D_80082EB0;
+        message_or_list.base = selected_item_record_alias;
         load_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
         if (load_id != 0) {
-            D_80081488 = begin_sprite_resource_load_with_completion_flag(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &D_8008149C);
+            loaded_entity_sprite_resource = begin_sprite_resource_load_with_completion_flag(((S_8009345C_7 *)(*message_or_list.base))->unk_00, &sprite_resource_completion_flag);
             load_monster_resource_data(((S_8009345C_7 *)(*message_or_list.base))->unk_00, load_id, 0);
-            (*(s8 *)&D_800E3E40) = 0;
-            Control_CD(0xFF, set_byte_one, &D_800E3E40);
+            (*(s8 *)&entity_resource_read_complete) = 0;
+            Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         }
         ((S_8009345C_0 *)actor)->unk_9B++;
         return;
     case 4:
-        if (((S_8009345C_8 *)(&D_800E3E40))->unk_00 == 0) {
+        if (((S_8009345C_8 *)(&entity_resource_read_complete))->unk_00 == 0) {
             return;
         }
-        if (D_80081488 != 0) {
-            register_and_upload_sprite_resource(((S_8009345C_9 *)(D_80082EB0[0]))->unk_00, D_80081488);
+        if (loaded_entity_sprite_resource != 0) {
+            register_and_upload_sprite_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, loaded_entity_sprite_resource);
         }
         ((S_8009345C_0 *)actor)->unk_9B++;
         return;
     case 5:
-        message_or_list.base = D_80082EB0;
+        message_or_list.base = selected_item_record_alias;
         create_id = find_or_retain_sprite_resource_slot(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
         if (create_id != 0) {
             runtime_map_type_16_entry_code(*message_or_list.base);
@@ -287,7 +287,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 (s16) (((S_8009345C_2 *)context)->unk_88 - 0x20));
             if (new_object != NULL) {
                 (*(void **)((u8 *)(((((S_8009345C_4 *)(&D_800DD262))->unk_00.s * 4) + actor)) + (0xAC))) = new_object;
-                D_800E3DF0[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
+                familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
                 object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
                 ((S_8009345C_11 *)object_scale)->unk_1E = 0x800;
                 ((S_8009345C_11 *)object_scale)->unk_1C = 0x800;
@@ -300,8 +300,8 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 object_flags = ((S_8009345C_10 *)new_object)->unk_1C;
                 object_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
                 ((S_8009345C_10 *)new_object)->unk_1C = object_flags | 0x02000000;
-                ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = D_80082EB0[0];
-                ((S_8009345C_9 *)(D_80082EB0[0]))->unk_03 = (u8) (((S_8009345C_9 *)(D_80082EB0[0]))->unk_03 | 0x20);
+                ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = selected_item_record_alias[0];
+                ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
                 message_or_list.value = get_unused_text_buffer(0x02000000);
                 create_message = message_or_list.value;
                 if (D_800DD260 == 0) {
@@ -316,8 +316,8 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                     create_message))));
                 display_text_with_fullwidth_adjustment(message_or_list.value);
                 cleanup_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
-                D_800E3D74[cleanup_slot] = 0;
-                retain_spawn_resource(((S_8009345C_9 *)(D_80082EB0[0]))->unk_00, 3);
+                familiar_turn_counters_alias[cleanup_slot] = 0;
+                retain_spawn_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, 3);
                 func_80042560(new_object);
                 play_sound_if_enabled(0x704);
             }

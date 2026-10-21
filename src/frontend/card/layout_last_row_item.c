@@ -1,4 +1,5 @@
 #include "common.h"
+#include "main/data.h"
 
 typedef struct {
     s32 unk0;
@@ -6,7 +7,6 @@ typedef struct {
     s32 index;
 } Struct8001B74C_arg0;
 
-extern u8 D_80408ADD[][4];
 extern s32 D_80408B2C[][4];
 
 extern void locate_utf16_word_and_report_length(s32 value, s32 value_2, s32 *out_a, s32 *out_b, s32 *out_c);

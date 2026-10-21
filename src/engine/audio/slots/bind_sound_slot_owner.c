@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/audio/slots.h"
+#include "engine/audio/spu.h"
 
 typedef struct {
     s16 marker;
@@ -11,8 +13,6 @@ typedef struct {
     u8 pad18[4];
 } S_80086A40; /* size 0x1C */
 
-extern s32 lookup_and_scale_driver_address(s32 value);
-extern s32 clamp_and_submit_driver_parameter(s32 dest, s32 size);
 extern S_80086A40 audio_bank_slots[];
 
 /* Assigns an owner and updates the entry value when its marker matches and its transfer size is accepted. */

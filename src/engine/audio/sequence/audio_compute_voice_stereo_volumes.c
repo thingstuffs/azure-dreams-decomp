@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/data.h"
 
 
 
@@ -46,8 +47,6 @@ typedef struct {
 
 extern S_800561D8_D80086A40 audio_bank_slots[16];
 extern S_800561D8_D80086C00 audio_sequence_slots[8];
-extern s16 audio_current_bank_slot[8];
-extern u8 audio_force_center_pan[16];
 extern S_800561D8_D80073738 audio_master_level;
 
 /* Compute voice pan and stereo volumes from channel gains and sound parameters. */

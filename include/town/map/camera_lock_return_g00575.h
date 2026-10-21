@@ -5,8 +5,8 @@
 
 #include "common.h"
 
-extern s32 D_80100DE0[];
-extern s32 D_800D0C48[];
+extern s32 town_camera_chase_state[];
+extern s32 saved_camera_callbacks[];
 
 /* Functions defined in this translation unit. */
 void tcame_lock(void);

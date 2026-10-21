@@ -85,7 +85,7 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
     value3_saved = value3;
     value2_byte = value2;
     value1 = 0x112;
-    created = allocate_list_node(value1, ((u8 *)(&D_80083498)));
+    created = allocate_list_node(value1, ((u8 *)(&scene_object_list_anchor)));
     mode_copy = (s32)mode;
     if (created != 0) {
         void *init_object;

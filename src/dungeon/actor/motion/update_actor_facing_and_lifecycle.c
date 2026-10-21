@@ -14,7 +14,7 @@ extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern u8 D_800C9F34;
-extern Callback D_800E0354[];
+extern Callback actor_facing_callbacks[];
 
 
 typedef struct S_800C9AAC_0 {
@@ -82,7 +82,7 @@ void update_actor_facing_and_lifecycle(void *state, void *motion, void *part)
     if (callback != 0) {
         callback(state, motion, part, state);
     }
-    D_800E0354[(*(u8 *)((u8 *)state + (0x9A)))](state, motion, part, state);
+    actor_facing_callbacks[(*(u8 *)((u8 *)state + (0x9A)))](state, motion, part, state);
 
     if ((*(s16 *)((u8 *)state + (0xB8))) == 0) {
         ((S_800C9AAC_0 *)part)->unk_0C += 4;

@@ -107,7 +107,7 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
         sprite->unk_1E = (s16)scale;
         sprite->unk_1C = (s16)scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
-            (*(Copy12 *)((u8 *)&D_80173B34 + 0));
+            (*(Copy12 *)((u8 *)&particle_sprite_template + 0));
         sprite->unk_08 = (void *)(effect + 0x56);
     }
 }

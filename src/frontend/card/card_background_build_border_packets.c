@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern u8 D_80408CF0[];
+#include "frontend/card.h"
+#include "main/data.h"
 
 /* Builds four drawing packets between state packets and returns the buffer end. */
 void *card_background_build_border_packets(void *buffer, s32 width, s32 height) {

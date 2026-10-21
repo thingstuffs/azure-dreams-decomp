@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern u8 D_800198A4[];
+extern u8 scene_rows[];
 extern u8 D_80019A6C[];
-extern s32 D_80019B8C[3];
+extern s32 selected_scene_row_index[3];
 
 extern void func_800193E0(s32);
 extern s32 func_800194D8(s32);
@@ -14,12 +14,12 @@ s32 get_cue_table_entry(void) {
     s32 offset;
     s32 result;
 
-    indexp = D_80019B8C;
+    indexp = selected_scene_row_index;
     if (func_800194D8(*indexp + 0x147A) != 0) {
         result = (s32)D_80019A6C;
     } else {
         func_800193E0(*indexp + 0x147A);
-        base = D_800198A4;
+        base = scene_rows;
         offset = *indexp * 0x18;
         result = *(s32 *)(base + offset);
     }

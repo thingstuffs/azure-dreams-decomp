@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern s32 func_80047FD8(void *object);
 extern void *func_8003C714(s32 option, void *object, s32 param);
@@ -10,9 +12,6 @@ extern void func_8007BFE0(void *object, s32 value);
 extern void initialize_menu_primitive_entries(void *object, s32 value);
 extern s32 register_owner_handler_table(void *value);
 extern void initialize_menu_overlay_objects(void *object, s32 option);
-extern u8 D_8040861C[];
-extern u8 D_80400738[];
-extern u8 D_80400760[];
 
 typedef struct {
     u8 pad_00[0x1E];

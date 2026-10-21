@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -8,7 +10,6 @@
  * (src/w_8004CAE8.c defines its full layout: flags/id table entry). This
  * function never dereferences it directly, only forwards the pointer. */
 typedef struct S_8004CAE8 S_8004CAE8;
-extern S_8004CAE8 *find_flagged_record_by_id(S_8004CAE8 *a0, u32 a1);
 
 /* actor: entity/actor-like struct; only the status/flag halfword at 0x14 is
  * touched directly here (bits 0x6000), the rest is opaque and forwarded on
@@ -25,8 +26,6 @@ typedef struct S_8003DE58_Vec {
     s16 y;
     s16 z;
 } S_8003DE58_Vec;
-
-extern void runtime_transform_sprite_attachment_point(S_8003DE58_Ent *a0, void *a1, S_8003DE58_Vec *a2);
 
 /* Compute orientation from a matching record, or reset it when actor flags require a fallback. */
 S_8004CAE8 *resolve_record_orientation_or_fallback(S_8004CAE8 *records, S_8003DE58_Ent *actor, S_8003DE58_Vec *out_vec, s16 record_id) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     s16 m[3][3];
@@ -12,12 +13,6 @@ typedef struct {
 typedef struct {
     s32 vx, vy, vz;
 } S_8003E0C4_VECTOR;
-
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void SetRotMatrix(S_8003E0C4_MATRIX *m);
-extern void SetTransMatrix(S_8003E0C4_MATRIX *m);
-extern void RotTrans(S_8003E0C4_SVECTOR *v0, S_8003E0C4_VECTOR *v1, s32 *flag);
 
 /* Transforms a vector with the supplied matrix while preserving the matrix stack. */
 void transform_vector_with_saved_matrix(S_8003E0C4_MATRIX *matrix, S_8003E0C4_SVECTOR *input_vec, S_8003E0C4_VECTOR *output_vec) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/texture.h"
 
 typedef struct {
     s32 flag;
@@ -7,8 +8,6 @@ typedef struct {
 } S_80083D08;
 
 extern S_80083D08 sprite_resource_slots[6];
-
-extern s32 find_sprite_resource_slot_by_id(s32 slot_id);
 
 /* Set status bit 0 for the entry matching the lookup key, if found. */
 void mark_sprite_resource_for_purge(s16 lookup_key) {

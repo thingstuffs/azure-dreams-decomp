@@ -1,7 +1,6 @@
 #include "common.h"
-
-extern short scene_sprite_y_history[64];
-extern short scene_sprite_x_history[64];
+#include "engine/scene.h"
+#include "slus/data.h"
 
 /* Initializes the two 64-entry tables to 0x500 and 0x380. */
 void initialize_runtime_table_defaults(void) {

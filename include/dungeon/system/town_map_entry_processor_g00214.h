@@ -20,7 +20,7 @@ typedef struct Node {
 
 extern void process_indexed_entry_record(s32);
 
-extern void *D_800CFCA8;
+extern void *town_map_processor;
 
 /* Functions defined in this translation unit. */
 void advance_index_and_mark_completion(void *counterPtr);

@@ -9,9 +9,9 @@ struct Entry {
 };
 
 extern u8 D_80123124[];
-extern Entry D_80129620[32];
-extern Entry *D_80129720;
-extern s16 D_80129724;
+extern Entry catalog_cache_nodes[32];
+extern Entry *catalog_cache_head;
+extern s16 catalog_lookup_count;
 
 extern void append_terminated_runtime_word(void *);
 
@@ -19,16 +19,16 @@ extern void append_terminated_runtime_word(void *);
 void initialize_catalog_glyph_cache(void) {
     s16 entry_index;
 
-    D_80129724 = 0;
-    D_80129720 = D_80129620;
+    catalog_lookup_count = 0;
+    catalog_cache_head = catalog_cache_nodes;
     for (entry_index = 0; entry_index < 32; entry_index++) {
         if (entry_index != 31) {
-            D_80129620[entry_index].next = &D_80129620[entry_index + 1];
+            catalog_cache_nodes[entry_index].next = &catalog_cache_nodes[entry_index + 1];
         } else {
-            D_80129620[entry_index].next = 0;
+            catalog_cache_nodes[entry_index].next = 0;
         }
-        D_80129620[entry_index].value = entry_index * 48;
-        D_80129620[entry_index].state = 0;
+        catalog_cache_nodes[entry_index].value = entry_index * 48;
+        catalog_cache_nodes[entry_index].state = 0;
     }
     append_terminated_runtime_word(D_80123124);
 }

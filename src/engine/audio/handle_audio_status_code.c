@@ -1,16 +1,11 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "engine/audio/sequence.h"
 
 /* Canonical status-block struct at D_800847D0 (see src/w_800552C8.c, src/w_80054C58.c, etc.) */
 
 /* Canonical "task/timer object" struct (see src/w_800552C8.c). */
-
-
-extern void sound_reset_sequence_slot_to_idle(s16 a0);
-extern void sound_free_sequence_slot(s16 a0);
-extern void start_pending_selection(void);
-extern void suspend_sequence_slot(s16 a0);
-extern void activate_sequence_slot(s16 a0);
 
 /* Clears, activates, or deactivates a status effect according to the supplied code. */
 void handle_audio_status_code(u8 code) {

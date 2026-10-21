@@ -17,12 +17,12 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         /* MATCH: Keep the merged sequence argument in a0 through each arm. */
     s32 sequence;
 
-    entry_index = find_sound_entry_or_terminator_index(D_8006ADBC.index);
-    if (D_8006ADBC.state == 12) {
+    entry_index = find_sound_entry_or_terminator_index(map_runtime_state.index);
+    if (map_runtime_state.state == 12) {
         u16 *current_sound;
 
-        current_sound = D_800D4268;
-        town_entries = D_800D4094;
+        current_sound = town_saved_sound;
+        town_entries = map_sound_settings;
         town_entry = town_entries + (entry_index * 10);
         town_effect = *(u16 *)(town_entry + 6);
         current_sound[2] = town_effect;
@@ -39,13 +39,13 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         sequence = (u16)sequence;
     } else {
         fallback_index = find_target_byte_index_in_list();
-        fallback_entries = D_800D4244;
+        fallback_entries = fallback_sound_pairs;
         fallback_entry = fallback_entries + (fallback_index * 2);
         fallback_effect = fallback_entry[0];
-        D_800D4268[2] = fallback_effect;
+        town_saved_sound[2] = fallback_effect;
         select_sound_stream((s16)fallback_effect, 0);
         fallback_sequence = fallback_entry[1];
-        ((u16 *)D_800D4268)[3] = fallback_sequence;
+        ((u16 *)town_saved_sound)[3] = fallback_sequence;
         sequence = fallback_sequence | sequence_flags;
         sequence = (u16)sequence;
                 /* MATCH: Complete argument preparation before the shared call. */

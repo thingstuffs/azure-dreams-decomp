@@ -1,7 +1,7 @@
 #include "common.h"
-
-extern void decode_note_text(s32 base_addr, void *data, s32 mode);
-extern u8 D_800282CC[];
+#include "engine/audio/sequence.h"
+#include "frontend/libcard/message.h"
+#include "main/data.h"
 
 /* Processes data at base offset 0x7C using D_800282CC and mode 1. */
 void format_save_heading_text(s32 base_addr) {

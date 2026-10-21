@@ -8,7 +8,7 @@ s32 collect_ground_item();
 s32 process_unflagged_linked_entries();
 s32 process_unflagged_linked_entries_alt();
 s32 set_record_integer_tile_center();
-extern s32 D_8008EAC8;
+extern s32 player_action_tag;
 extern u8 D_800DD040[];
 extern u8 D_800DD058[];
 extern u8 D_800DD0C8[];
@@ -88,7 +88,7 @@ void update_carrying_player_step(u8 *entity_in, s32 *motion_in, u16 *sprite_in, 
             if ((collect_ground_item(entity, motion, sprite, actor) << 0x10) <= 0) {
                 return;
             }
-            next_handler = (u8 *)&D_8008EAC8;
+            next_handler = (u8 *)&player_action_tag;
             *(u8 **)((u8 *)entity + 0x8C) = next_handler;
             return;
         }

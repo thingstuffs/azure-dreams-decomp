@@ -1,10 +1,7 @@
 #include "common.h"
-
-extern int CdSync(int mode, unsigned char *result);
-extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
-extern int CdPosToInt(unsigned char *loc);
-
-extern unsigned char cd_sector_position_result[8];
+#include "engine/cd.h"
+#include "sdk/libcd.h"
+#include "slus/data.h"
 
 /* Refreshes the CD position when sync returns 2 and returns its sector count. */
 int cd_poll_and_get_sector(void) {

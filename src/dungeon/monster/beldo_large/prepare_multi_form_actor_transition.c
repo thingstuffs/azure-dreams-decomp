@@ -6,7 +6,7 @@ extern void clear_entry_flag_and_link_owner(void *);
 extern void set_monster_data_pointer(void);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
 
-extern u8 *D_80175D50[3];
+extern u8 *beldo_actor_nodes[3];
 
 void prepare_multi_form_actor_transition(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     s32 i;
@@ -18,16 +18,16 @@ void prepare_multi_form_actor_transition(s32 unused0, s32 unused1, s32 unused2, 
     u8 *callp;
 
     i = 0;
-    p = D_80175D50[0] + 0x20;
+    p = beldo_actor_nodes[0] + 0x20;
     *(u16 *)(p + 0x46) &= 0x7FFF;
-    D_80013714 &= 0xFFF6;
+    system_update_flags &= 0xFFF6;
     set_monster_data_pointer();
     p[0xAF] = 0;
     p[0xB0] = 1;
     set_or_clear_actor_status_slot(p, 7, 1);
     p[0xAE] = 2;
     do {
-        item = *(void **)(((u8 *)D_800E3D7C) + 0xAC + i * 4);
+        item = *(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + i * 4);
         if (item != 0) {
             clear_entry_flag_and_link_owner((u8 *)item - 0x20);
         }

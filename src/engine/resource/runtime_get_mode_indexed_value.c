@@ -1,11 +1,10 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/resource.h"
+#include "slus/data.h"
 
 extern unsigned char runtime_dispatch_mode_alias[9];
-
-extern u32 runtime_mode_two_values[3];
-extern u32 D_800D0858[3];
 
 /* Returns an indexed value from the table selected by the current mode. */
 u32 runtime_get_mode_indexed_value(s32 index)

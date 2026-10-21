@@ -10,7 +10,7 @@ typedef struct Struct_80083460 {
     u16 count;
 } Struct_80083460;
 
-extern s16 D_8008146C;
+extern s16 current_dungeon_floor;
 extern u8 D_800C0180[];
 extern u8 D_800DF45C[];
 extern u8 D_800E1375[];
@@ -33,9 +33,9 @@ s32 apply_return_magic_item(u8 *entity, s32 event, s16 target_type, s32 target_r
     if (target_type == 0xD) {
         return process_record_and_update_linked_state(event, target_record);
     }
-    if ((void *)entity == ((u8 *)D_800E3D7C)) {
+    if ((void *)entity == ((u8 *)dungeon_actor_ring_anchor)) {
         *(s32 *)(entity + 0x110) = event;
-        begin_mode_selected_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
+        begin_mode_selected_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), 0);
         return 0;
     }
     if ((u32)entity <= 0x9FFFFFFF) {
@@ -46,7 +46,7 @@ s32 apply_return_magic_item(u8 *entity, s32 event, s16 target_type, s32 target_r
         }
         ((Struct_80083460 *)&g_dungeon_status)->count--;
     } else {
-        if (*(s32 *)0x80012090 == 0 && D_8008146C == 0x28 && test_resident_bit(0xA2) == 0) {
+        if (*(s32 *)0x80012090 == 0 && current_dungeon_floor == 0x28 && test_resident_bit(0xA2) == 0) {
             display_formatted_context_message(D_800E1375);
             ((Struct_80083460 *)&g_dungeon_status)->count--;
             clear_slot_and_update_linked_state(event);

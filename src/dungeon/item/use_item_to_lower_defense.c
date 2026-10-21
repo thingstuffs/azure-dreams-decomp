@@ -18,9 +18,9 @@ extern void clear_slot_and_update_linked_state(s32);
 
 /* Applies a stat-reducing item to a target and handles item consumption. */
 s32 use_item_to_lower_defense(void *target, s32 item, s16 use_type) {
-    if (target == D_800E3D7C) {
+    if (target == dungeon_actor_ring_anchor) {
         *(s32 *)((u8 *)target + 0x110) = item;
-        begin_deferred_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
 

@@ -2,6 +2,10 @@
 #include "shared/object_index_slots.h"
 
 #include "common.h"
+#include "engine/message.h"
+#include "engine/scene.h"
+#include "engine/window.h"
+#include "sdk/libc.h"
 
 typedef struct RuntimeTail {
     u8 pad00[0x85];
@@ -38,15 +42,12 @@ typedef struct RuntimeTask {
     RuntimeLinks field20;
 } RuntimeTask;
 
-extern u8 D_80082BC0[9];
-extern RuntimeState D_80082A38;
+extern u8 window_node_list_storage[9];
+extern RuntimeState runtime_script_state;
 extern u8 message_window_state_data[9];
 extern u8 D_80012D6E[9];
 
-extern void *initialize_scene_object_in_buffer(s32 flags_or_addr, void *buffer, s16 word_count);
-extern void sync_message_window_state(RuntimeLinks *context);
 extern void init_message_window(RuntimeState *input, u8 mode);
-extern void *memset(void *ptr, s32 value, u32 size);
 
 /* Create the runtime task and initialize its shared state and blocks. */
 void initialize_message_window_runtime_task(void)
@@ -58,22 +59,22 @@ void initialize_message_window_runtime_task(void)
     void *state_data;
     s32 index;
 
-    task = initialize_scene_object_in_buffer(0, D_80082BC0, 0x49);
+    task = initialize_scene_object_in_buffer(0, window_node_list_storage, 0x49);
     links = &task->field20;
     task->field10 = sync_message_window_state;
-    links->field04 = &D_80082A38;
-    links->field00 = &D_80082A38.field8C;
+    links->field04 = &runtime_script_state;
+    links->field00 = &runtime_script_state.field8C;
 
     for (index = 0; index < 107; index++) {
         memset(&object_index_slots[index], 0, sizeof(RuntimeBlock));
     }
 
     for (index = 15; index >= 0; index--) {
-        D_80082A38.field48[index] = 0;
+        runtime_script_state.field48[index] = 0;
     }
 
     do {
-        state = &D_80082A38;
+        state = &runtime_script_state;
     } while (0);
     state_data = message_window_state_data;
     state->field88 = state_data;

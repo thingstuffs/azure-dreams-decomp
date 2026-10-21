@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8002290C_arg0.h"
+#include "frontend/libcard/message.h"
 
 typedef struct S_8002290C_2 {
     u8 pad_00[0x4];

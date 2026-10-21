@@ -3,7 +3,7 @@
 
 extern s32 D_800A5A98;
 extern s16 D_800D01F8[];
-extern u8 D_80100D98[];
+extern u8 town_position_reference_state[];
 
 extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(void *, u8, s8, s32);
 extern void step_actor_animation(void *, s32);
@@ -62,7 +62,7 @@ void turn_entity_toward_target(void *entity, void *transform, void *sprite) {
     }
     step_actor_animation(sprite, 0);
     {
-        u8 *render_state = D_80100D98;
+        u8 *render_state = town_position_reference_state;
 
         copy_entity_record_fields(render_state, transform);
         *(s32 *)(render_state + 8) = 0;

@@ -56,7 +56,7 @@ typedef struct S_819598B4_3 {
 extern s32 spawn_ring();
 extern s32 func_80026384();
 
-extern u16 D_800281F8[];
+extern u16 sprite_effect_update_count[];
 extern u8 D_80028220[];
 
 void update_ring_effect(void *state, S_819598B4_2 *values, S_819598B4_1 *parameters) {
@@ -72,7 +72,7 @@ void update_ring_effect(void *state, S_819598B4_2 *values, S_819598B4_1 *paramet
     u8 tickCountNext;
     u8 byteNext;
 
-    D_800281F8[0]++;
+    sprite_effect_update_count[0]++;
     stateId = ((S_819598B4_0 *)state)->unk_2C.s;
     switch (stateId) {
     case 0:
@@ -108,7 +108,7 @@ void update_ring_effect(void *state, S_819598B4_2 *values, S_819598B4_1 *paramet
     case 1:
         if (((S_819598B4_0 *)state)->unk_38 == 0) {
             if (func_80026384(((S_819598B4_0 *)state)->unk_1C, ((S_819598B4_0 *)state)->unk_1E,
-                ((S_819598B4_0 *)state)->unk_20, D_800E3D7C->facing) == 0) {
+                ((S_819598B4_0 *)state)->unk_20, dungeon_actor_ring_anchor->facing) == 0) {
                 break;
             }
             spawn_ring(((S_819598B4_0 *)state)->unk_1C, ((S_819598B4_0 *)state)->unk_1E,

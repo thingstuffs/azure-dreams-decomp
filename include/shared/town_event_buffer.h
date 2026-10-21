@@ -3,6 +3,6 @@
 
 /* Town event routines read and write four-byte records through this byte
  * buffer. The allocation extent is not independently established. */
-extern unsigned char D_8001B218[];
+extern unsigned char town_event_records[];
 
 #endif

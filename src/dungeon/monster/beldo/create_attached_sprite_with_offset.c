@@ -73,7 +73,7 @@ void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_p
     void *copy_src;
 
     saved_offset_id = offset_id;
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         object_data = object + 0x20;
         ((S_80170B50_0 *)object)->unk_10 = D_80170898;

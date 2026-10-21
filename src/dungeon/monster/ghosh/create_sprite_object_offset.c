@@ -21,7 +21,7 @@ typedef struct {
 
 extern void register_node(Object *, void *);
 extern PackedVec D_80077818[];
-extern s32 *D_80174704[3];
+extern s32 *ghosh_actor_node[3];
 extern Object *D_80174CC8[3];
 extern u8 D_8016E300[];
 
@@ -32,7 +32,7 @@ void create_sprite_object_offset(void) {
     s32 *position;
     u8 *sprite;
 
-    source_pos = (s32 *)D_80174704[0][2];
+    source_pos = (s32 *)ghosh_actor_node[0][2];
     obj = (Object *)func_8003FC64(0x212);
     if (obj != 0) {
         obj->callback = D_8016E300;

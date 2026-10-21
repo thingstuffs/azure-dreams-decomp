@@ -78,7 +78,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
     work = 0;
     object_type = 0x112;
     saved_part_value = part_a_value;
-    object_pool = &D_80083498;
+    object_pool = &scene_object_list_anchor;
     obj = allocate_list_node(object_type, object_pool);
     saved_flags = (s16)spawn_flags;
     if (obj != 0) {

@@ -67,7 +67,7 @@ extern u8 D_800DD7E0[];
 void create_inactive_type_twelve_object(void) {
     Obj12 *object;
 
-    if (!(D_800E296C & 0x80)) {
+    if (!(dungeon_floor_flags & 0x80)) {
         object = func_8003FC64(0x12);
         if (object != NULL) {
             object->unk_10 = D_8009E038;
@@ -116,10 +116,10 @@ void create_inactive_type_twelve_object(void) {
                 config_word2 = ((struct ConfigWord *)0x80013634)->value;
                 (*(s32 *)((u8 *)object_state + 8)) = (s32) config_word2;
                 (*(s32 *)((u8 *)object_state + 0x10)) = (s32) config_word2;
-                flags = D_800E296C;
+                flags = dungeon_floor_flags;
                 object_state->unk_1C = 4;
                 object_state->unk_18 = 0;
-                D_800E296C = flags | 0x80;
+                dungeon_floor_flags = flags | 0x80;
             }
         }
     }

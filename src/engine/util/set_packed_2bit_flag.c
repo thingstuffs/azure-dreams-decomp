@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern u8 D_80013614[16];
+#include "engine/util.h"
+#include "slus/data.h"
 
 /* ORs 3 into the indexed two-bit field if the flag's low 16 bits are nonzero, otherwise 1. */
 void set_packed_2bit_flag(s32 field_index, s32 flag) {

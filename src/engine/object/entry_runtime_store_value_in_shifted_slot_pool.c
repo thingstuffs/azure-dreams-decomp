@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/object.h"
+#include "slus/data.h"
 
 typedef struct {
     u8 pad_00[0x38];
@@ -9,21 +11,18 @@ typedef struct {
     s32 entries[15];
 } State80082A38;
 
-extern State80082A38 D_80082A38;
-extern void *D_80082A70[];
-extern u8 runtime_pool_service_script[];
+extern State80082A38 runtime_script_state;
 
 extern s32 service_script_controller(void);
-extern void runtime_store_value_in_shifted_slot_pool(void *value);
 extern void call_script(void *reset_value);
 
 /* Processes input data, clearing the last five entries when D_8006B230 needs initialization. */
 s32 func_800353F4(void *input_data) {
     s32 entry_index;
 
-    if (service_script_controller() == 0 || D_80082A70[0] != runtime_pool_service_script) {
+    if (service_script_controller() == 0 || runtime_script_handler_alias[0] != runtime_pool_service_script) {
         for (entry_index = 10; entry_index < 15; entry_index++) {
-            D_80082A38.entries[entry_index] = 0;
+            runtime_script_state.entries[entry_index] = 0;
         }
         runtime_store_value_in_shifted_slot_pool(input_data);
         call_script(runtime_pool_service_script);

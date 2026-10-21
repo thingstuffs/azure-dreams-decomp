@@ -1,6 +1,10 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/resident_resources.h"
+#include "engine/cd.h"
+#include "engine/scene.h"
+#include "slus.h"
+#include "slus/data.h"
 
 struct S_8006CE80_ptr
 {
@@ -20,21 +24,11 @@ struct S_8006CE44
     s32 *field4;
 };
 extern struct S_8006CE44 scene_resource_group_records[];
-extern s32 scene_resource_group_counts[];
 
-
-extern ResourceReadState D_8008333C[];
-extern s32 gpu_scratch_ring_size;
+extern ResourceReadState scene_geometry[];
 extern s32 gpu_scratch_buffer_base;
-extern s32 D_80189394;
-extern s32 D_801B8EB8;
-extern s8 D_80080A86;
+extern s8 node_update_mode;
 extern u8 D_800E6000[];
-extern u8 gpu_scratch_ring_buffer[];
-extern void pack_tagged_resource_descriptor(int a0, int a1, int *a2, int a3);
-extern int Control_CD(int a0, void *a1, int a2);
-extern void drain_cd_command_queue(void);
-extern void load_shared_resource_once(void);
 /* Loads the entry's resource data and selects its working buffer. */
 void load_scene_resource_group(s16 entry_index)
 {
@@ -44,15 +38,15 @@ void load_scene_resource_group(s16 entry_index)
     int request_b[2];
     entry = &dispatch_resource_records[entry_index];
     resource_type = entry->field0;
-    D_80080A86 = 0;
-    D_8008333C[0].field0 = 0;
+    node_update_mode = 0;
+    scene_geometry[0].field0 = 0;
     if (resource_type != 0) {
         if (resource_type != 4) {
-            if (D_80082E60.mode != resource_type) {
+            if (runtime_dispatch_state.mode != resource_type) {
                 s32 block_count;
                 s32 *resource_info;
                 s32 block_offset;
-                D_80082E60.mode = resource_type;
+                runtime_dispatch_state.mode = resource_type;
                 block_count = scene_resource_group_counts[resource_type];
                 resource_info = scene_resource_group_records[resource_type].field4;
                 block_offset = 0;
@@ -88,8 +82,8 @@ void load_scene_resource_group(s16 entry_index)
         }
         else {
             load_shared_resource_once();
-            D_801B8EB8 = *entry->field8->f0;
-            D_80189394 = entry->field8->f1;
+            movie_start_sector = *entry->field8->f0;
+            movie_frame_control = entry->field8->f1;
         }
     }
     {
@@ -107,5 +101,5 @@ void load_scene_resource_group(s16 entry_index)
         }
         gpu_scratch_ring_size = buffer_size;
     }
-    D_80082E60.field_4 = scene_resource_group_records[resource_type].field0;
+    runtime_dispatch_state.field_4 = scene_resource_group_records[resource_type].field0;
 }

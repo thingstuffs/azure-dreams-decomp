@@ -1,6 +1,10 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/node.h"
+#include "engine/window/message.h"
+#include "sdk/libgpu.h"
+#include "slus/data.h"
 
 typedef void (*Callback)(void *);
 
@@ -60,12 +64,8 @@ typedef struct S_func_80035E58_5 {
     s32 unk_34;
 } S_func_80035E58_5;
 
-extern void *initialize_runtime_node_storage(s32, s32, s32, void *);
-extern void register_node(void *, Callback);
-extern void ClearImage(void *, s32, s32, s32);
 extern void runtime_initialize_state_value(void *, s32);
 extern void func_800350B0(void *, void *);
-extern void copy_window_offset_rectangle(void *, void *);
 extern void copy_window_params(void *, void *);
 
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void *);
@@ -73,14 +73,7 @@ extern void update_window_state(void *);
 extern void scroll_window_y(void *);
 extern void draw_window_rects(void *);
 
-extern u8 D_80082BC0[];
-extern u8 window_overlay_parameter_template[];
-extern u8 window_overlay_default_render_data[];
-extern u16 window_overlay_field_12_values[];
-extern u16 window_overlay_field_2e_values[];
-extern u16 window_overlay_field_36_values[];
-extern u32 window_overlay_render_variants[];
-extern s16 window_overlay_model_values[];
+extern u8 window_node_list_storage[];
 
 /* Initializes an actor-linked display node, clears its image region, and sets callbacks and rendering data. */
 void create_window_overlay_object(s32 node_addr, void *display, u8 *image, s32 *state_ref,
@@ -90,7 +83,7 @@ void create_window_overlay_object(s32 node_addr, void *display, u8 *image, s32 *
     S_func_80035E58_2 *render_data;
     S_func_80035E58_3 *actor;
 
-    node = initialize_runtime_node_storage(0x11, node_addr, 0x49, D_80082BC0);
+    node = initialize_runtime_node_storage(0x11, node_addr, 0x49, window_node_list_storage);
     node->unk_10 = update_window_state;
     register_node(node, runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
 

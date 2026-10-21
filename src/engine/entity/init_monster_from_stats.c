@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/entity.h"
+#include "slus/data.h"
 
 /* initialStatsTable: monster initial-stats record table, 24 bytes/record
  * (game.h: MonsterInitialStats, adrando-verified at RAM 0x8006d168). Declared
@@ -7,11 +9,9 @@
 extern u8 initialStatsTable[24];
 
 /* D_8006D6D8: word array indexed by monster id (used to seed obj+0x54). */
-extern s32 D_8006D6D8[4];
 
 /* apply_entity_effects: post-init fixup on the struct just filled in (still
  * nonmatching elsewhere; only the arg setup here needs to match). */
-extern void apply_entity_effects(void *obj);
 
 /* 16-byte block (4 words) used to copy the first 4 record fields into the
  * object in one shot, matching retail's load-x4/store-x4 grouping. */

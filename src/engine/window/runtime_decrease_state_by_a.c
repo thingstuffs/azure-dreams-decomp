@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window.h"
 
 typedef struct S_8003571C_0 {
     void * unk_00;
@@ -17,9 +18,6 @@ typedef struct S_8003571C_2 {
     u8 pad_00[0x8];
     u16 unk_08;
 } S_8003571C_2;   /* temp_v1 in runtime_decrease_state_by_a_0 */
-
-
-void runtime_reset_state_and_advance_callback();
 
 /* Decreases the state field at offset 0x08 by 0xA0, clamping below zero and advancing the handler. */
 void runtime_decrease_state_by_a_0(S_8003571C_0 *object) {

@@ -18,7 +18,7 @@ extern s32 func_80240810();
 
 extern s32 D_80012BCC;
 extern s32 D_80084D5C;
-extern u8 D_80132AE8[16];
+extern u8 town_motion_state[16];
 extern u8 D_80290704[16];
 extern Copy12 D_80526760;
 extern u8 D_8053016C[16];
@@ -99,7 +99,7 @@ void step_falling_town_object(void *obj, void *motion, void *part) {
                 S32_AT(motion, 0x14) = -S32_AT(motion, 0x14) >> 1;
             }
         }
-        call_result = func_80240810(D_8053016C, motion, D_80290704, D_80132AE8);
+        call_result = func_80240810(D_8053016C, motion, D_80290704, town_motion_state);
         if (call_result != 0) {
             D_80012BCC = values.v[S16_AT(obj, 0x54)] * 1000 + D_80012BCC;
             U16_AT(obj, 4) = 255;
@@ -114,7 +114,7 @@ void step_falling_town_object(void *obj, void *motion, void *part) {
             U16_AT(obj, 6) = 31;
             U16_AT(obj, 4)++;
         }
-        call_result = func_80240810(D_8053016C, motion, D_80290704, D_80132AE8);
+        call_result = func_80240810(D_8053016C, motion, D_80290704, town_motion_state);
         if (call_result != 0) {
             D_80012BCC = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC;
             U16_AT(obj, 4) = 255;
@@ -122,7 +122,7 @@ void step_falling_town_object(void *obj, void *motion, void *part) {
         }
         return;
     case 4:
-        if (func_80240810(D_8053016C, motion, D_80290704, D_80132AE8) != 0) {
+        if (func_80240810(D_8053016C, motion, D_80290704, town_motion_state) != 0) {
             D_80012BCC = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC;
             S16_AT(obj, 4) = 255;
         }

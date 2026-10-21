@@ -1,5 +1,6 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
 
 /* Shared gauge/timer struct layout also used by D_800848F8 / D_80084858
  * (see service_audio_events / check_cd_stream_end / reset_audio_status family notes):

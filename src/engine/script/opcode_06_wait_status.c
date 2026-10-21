@@ -1,6 +1,9 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
+#include "engine/script.h"
+#include "slus.h"
 
 typedef struct S_80039A08_0 {
     u8 pad_00[0x10];
@@ -11,9 +14,6 @@ typedef struct S_80039A08_0 {
 
 
 s32 check_state_or_global_flags();                          /* extern */
-short SD_Call(int flags);
-s32 func_80053EF0();                         /* extern */
-void advance_message_when_voice_idle();
 
 /* Rewind a gated script or select its next handler according to runtime status. */
 void handle_vm_opcode_06(S_80039A08_0 *state) {

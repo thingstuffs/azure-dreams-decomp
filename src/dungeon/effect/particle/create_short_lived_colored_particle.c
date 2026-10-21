@@ -103,7 +103,7 @@ void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32
         effect_state->unk_04 = held_scale;
         effect_state->unk_08 = held_scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
-            (*(Copy12 *)((u8 *)&D_80173B34 + 0));
+            (*(Copy12 *)((u8 *)&particle_sprite_template + 0));
         sprite->unk_08 = (void *) (effect + 0x56);
     }
 }

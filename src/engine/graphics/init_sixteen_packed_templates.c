@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 typedef struct {
     u8 f0;

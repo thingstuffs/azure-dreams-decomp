@@ -1,8 +1,8 @@
 #include "common.h"
 
 #include "common.h"
-
-extern void *reverse_town_movie_buffer_bytes(u8 *buf, u16 len);
+#include "engine/movie.h"
+#include "engine/town.h"
 
 /* Writes value as fullwidth decimal digits and returns a pointer to the null terminator. */
 u8 *format_unsigned_double_byte_decimal(u32 value, u8 *out)

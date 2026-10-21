@@ -56,7 +56,7 @@ s32 install_resource_descriptor_at_front(s32 kind, s32 state, s32 value, s32 sta
         index = 0;
         func_8008AC84(index);
     } else if (available < alloc_size) {
-        entry_base = (TownAllocEntry *)D_800CF720;
+        entry_base = (TownAllocEntry *)resource_cache_records;
         entry_offset = index * sizeof(TownAllocEntry);
         entry = (TownAllocEntry *)(entry_offset + (s32)entry_base);
         available += entry->size;
@@ -71,12 +71,12 @@ s32 install_resource_descriptor_at_front(s32 kind, s32 state, s32 value, s32 sta
 
     shift_resource_entries_and_data(index, alloc_size);
     func_8008AC84(index + 1);
-    table = (TownAllocEntry *)D_800CF720;
+    table = (TownAllocEntry *)resource_cache_records;
     table[0].kind = kind;
     table[0].state = state;
     table[0].value = value;
     table[0].size = alloc_size;
-    start_cd_read(allocation, D_801131E4);
+    start_cd_read(allocation, town_resource_buffer);
     return 0;
 }
 
@@ -106,17 +106,17 @@ void submit_object_resource_data(Object *object) {
 
     item = object->item98;
     if (item != 0 && (type_mask = item->flags0 & 0xC0000000) == 0xC0000000) {
-        D_801131B8.value0 = object->value60;
+        town_resource_context.value0 = object->value60;
         call_value = (item->flags0 >> 23) & 1;
-        D_801131B8.value4 = call_value;
+        town_resource_context.value4 = call_value;
         high_code = (item->flags0 & 0x3F000000) >> 24;
-        D_801131B8.value8 = high_code;
+        town_resource_context.value8 = high_code;
         low_code = (item->flags0 & 0x007F0000) >> 16;
-        D_801131B8.valueC = low_code;
+        town_resource_context.valueC = low_code;
         extra_flags = item->flags1;
         if ((extra_flags & type_mask) == type_mask) {
-            D_801131B8.value10 = (extra_flags & 0x3F000000) >> 24;
-            D_801131B8.value14 = (item->flags1 & 0x007F0000) >> 16;
+            town_resource_context.value10 = (extra_flags & 0x3F000000) >> 24;
+            town_resource_context.value14 = (item->flags1 & 0x007F0000) >> 16;
         }
         ensure_resource_at_front(call_value, high_code, low_code);
         data_base = 0x80016000;

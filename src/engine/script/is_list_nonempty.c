@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "records/Rec_D_80082A38.h"
+#include "engine/script.h"
 
 
 /* Tests whether the stored address differs from the record's offset-8 address. */

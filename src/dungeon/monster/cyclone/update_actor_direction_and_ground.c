@@ -79,7 +79,7 @@ struct Entity {
 extern u8 D_80171094;
 extern u8 D_80176460[8];
 extern u8 D_80176490[8];
-extern ActorCallback D_801766B8[];
+extern ActorCallback cyclone_callbacks[];
 
 extern void select_indirect_table_entry(Entity *, u8, s8);
 extern void func_800478B8(Entity *);
@@ -164,7 +164,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
     if (dispatch_callback != 0) {
         dispatch_callback(input_actor, input_motion, input_entity, subject);
     }
-    D_801766B8[input_actor->dispatch9A](input_actor, input_motion, input_entity, subject);
+    cyclone_callbacks[input_actor->dispatch9A](input_actor, input_motion, input_entity, subject);
 
     if (old_type != (s8)subject->type) {
         try_move_actor_to_valid_position(input_actor, input_motion, input_entity, subject);

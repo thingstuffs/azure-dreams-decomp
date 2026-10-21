@@ -1,8 +1,6 @@
 #include "common.h"
-
-extern s32 ratan2(s32 y, s32 x);
-extern s32 rsin(s32 angle);
-extern s32 rcos(s32 angle);
+#include "engine/resource.h"
+#include "sdk/libgte.h"
 
 /* Estimates vector length using its dominant component and angle. */
 s32 runtime_estimate_vector_length(s32 x, s32 y) {

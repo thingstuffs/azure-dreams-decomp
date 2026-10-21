@@ -17,7 +17,7 @@ void process_flagged_type_0x18_entries(void) {
     u8 *type_ptr;
     u8 entry_code;
 
-    entry = (u8 *)D_8001B218;
+    entry = (u8 *)town_event_records;
     entry_code = entry[1];
     type_ptr = entry + 1;
     if (entry_code == 0) {

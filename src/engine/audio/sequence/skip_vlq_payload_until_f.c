@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 /* S_800590E0: opaque MIDI/sequencer-stream state pointer passed straight
  * through to read_base_128_vlq (reads a variable-length-quantity count) and
@@ -6,7 +7,6 @@
  * never touches its fields directly. */
 typedef struct S_800590E0 S_800590E0;
 
-extern s32 read_base_128_vlq(S_800590E0 *a0);
 extern s32 read_next_byte_and_finish(S_800590E0 *a0);
 
 /* Consumes at least one stream byte, stopping at the VLQ byte count or 0xF7. */

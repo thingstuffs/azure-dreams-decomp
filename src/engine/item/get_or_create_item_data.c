@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/item.h"
+#include "sdk/libc.h"
 
 typedef struct ItemRecord {
     s16 f0;
@@ -17,7 +19,6 @@ typedef struct ItemCategory {
 } ItemCategory;
 
 extern ItemCategory itemCategoryTable[];
-extern void bzero(void *ptr, s32 len);
 extern void *alloc_item_data_slot(s32 category, s32 item);
 extern void *get_item_data_record(s32 category, s32 item);
 

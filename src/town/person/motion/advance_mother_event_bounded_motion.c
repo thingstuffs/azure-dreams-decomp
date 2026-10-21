@@ -27,10 +27,10 @@ extern s32 select_object_setup_path();
 extern void initialize_mother_event_actor();
 extern int abs(int);
 
-extern s32 D_800D4FE8[4];
-extern s32 D_800D4FF8[4];
-extern s32 D_800D5008[4];
-extern s32 D_800D5018[4];
+extern s32 town_x_acceleration[4];
+extern s32 town_x_speed_limits[4];
+extern s32 town_y_acceleration[4];
+extern s32 town_y_speed_limits[4];
 
 /* Advance motion, clamp it to the directional bound, and update velocity. */
 void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion_state, s32 context)
@@ -100,16 +100,16 @@ void advance_mother_event_bounded_motion(S_800C7674_0 *entity, EntityRec *motion
         break;
     }
     step_x = 0x20000;
-    speed = motion_state->unk_0C + D_800D4FE8[quadrant];
+    speed = motion_state->unk_0C + town_x_acceleration[quadrant];
     motion_state->unk_0C = speed;
     speed = abs(speed);
     speed = step_x < speed;
     if (speed != 0)
-        motion_state->unk_0C = D_800D4FF8[quadrant];
-    speed = motion_state->unk_10 + D_800D5008[quadrant];
+        motion_state->unk_0C = town_x_speed_limits[quadrant];
+    speed = motion_state->unk_10 + town_y_acceleration[quadrant];
     motion_state->unk_10 = speed;
     speed = abs(speed);
     speed = step_x < speed;
     if (speed != 0)
-        motion_state->unk_10 = D_800D5018[quadrant];
+        motion_state->unk_10 = town_y_speed_limits[quadrant];
 }

@@ -27,7 +27,7 @@ extern s32 register_node();
 extern u8 D_800DEAE0[];
 extern LocalTable D_8016482C;
 void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrameState *effect);
-extern s32 D_80175D50;
+extern s32 beldo_actor_nodes;
 
 typedef struct S_801677FC_0 {
     u8 pad_00[0x8];
@@ -81,8 +81,8 @@ void create_forward_layered_sprite_pulse(void)
 
     direction_offsets = D_8016482C;
     effect_index = 0;
-    source_state = (void *)D_80175D50 + 0x20;
-    source_pos = ((S_801677FC_0 *)((void *)D_80175D50))->unk_08;
+    source_state = (void *)beldo_actor_nodes + 0x20;
+    source_pos = ((S_801677FC_0 *)((void *)beldo_actor_nodes))->unk_08;
     do {
         effect = func_8003FC64(0x212);
         if (effect != NULL) {

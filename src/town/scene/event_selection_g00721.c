@@ -14,13 +14,13 @@ s32 choose_valid_entry_or_fallback(s32 candidate) {
 
 void initialize_event_selection_state(s32 unused, s32 unused_second)
 {
-    D_8001E950->unk_02 = 0xFF;
+    town_event_state->unk_02 = 0xFF;
     if (count_enabled_town_entries() != 0) {
-        D_8001E950->unk_04 = reset_event_selection_and_advance();
-        D_8001E950->unk_05 = 2;
-        D_8001E954[0] = choose_valid_entry_or_fallback(D_8001E950->unk_04);
+        town_event_state->unk_04 = reset_event_selection_and_advance();
+        town_event_state->unk_05 = 2;
+        D_8001E954[0] = choose_valid_entry_or_fallback(town_event_state->unk_04);
     } else {
-        D_8001E950->unk_05 = 1;
+        town_event_state->unk_05 = 1;
     }
 }
 
@@ -34,13 +34,13 @@ s32 handle_event_or_fallback(s32 fallback_first, s32 fallback_second) {
     indexed_values = D_80019164;
     if (func_8001E670(F_end_ending_step0) != 0) {
         if (func_8001E670(F_sbs01_pad19) == 0) {
-            D_8001E950->dispatchState = 1;
+            town_event_state->dispatchState = 1;
         } else {
-            D_8001E950->dispatchState = 2;
+            town_event_state->dispatchState = 2;
         }
     }
 
-    if (D_8001E950->dispatchState == 0) {
+    if (town_event_state->dispatchState == 0) {
         second_or_base = 0x80010000;
         page = (void *)second_or_base;
         (*(UseValue *)((u8 *)(((Rec_D_80016000 *)(((S_8001BD20_0 *)page)->unk_6000))->unk_20) + 0x2EC))(

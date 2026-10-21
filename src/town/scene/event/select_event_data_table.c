@@ -22,7 +22,7 @@ u8 *select_event_data_table(s32 unused, s32 selector)
     if (selector != 2) {
         table = D_800178F8;
     } else {
-        table = D_800178F8 + (D_8001E950->unk_04 * 4);
+        table = D_800178F8 + (town_event_state->unk_04 * 4);
     }
     return table;
 }

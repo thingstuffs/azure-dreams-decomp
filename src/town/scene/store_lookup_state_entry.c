@@ -18,7 +18,7 @@ typedef struct S_8001AC10_1 {
 
 /* Store the queried value in the selected entry when the current state is 9. */
 s32 store_lookup_in_state_9_entry(S_8001AC10_1 *entry_table, s32 entry_index) {
-    if (D_8001E950->unk_05 == 9) {
+    if (town_event_state->unk_05 == 9) {
         ((TownEventEntryValueView *)(((entry_index * 0x10) + entry_table->unk_10)))->unk_08 = func_8001A7E8();
         return 0;
     }

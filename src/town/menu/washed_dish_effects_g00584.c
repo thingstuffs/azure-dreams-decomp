@@ -7,7 +7,7 @@ void initialize_timed_resource_object(void *object, s32 unused, void *context) {
     void *resource_base;
 
     *(s32 **) ((s8 *) object - 0x10) = &finalize_object_or_select_town_record;
-    D_800D0E44 = 0x14;
+    dish_counter = 0x14;
     resource_base = &D_800F8A70;
     *(void **) ((s8 *) context + 8) = (void *) ((s8 *) resource_base + 0xF0);
     register_node_if_unregistered(object, (s32)(project_sprite_chain));
@@ -29,10 +29,10 @@ void finalize_object_or_select_town_record(void *object, void *check_context, vo
         return;
     }
 
-    if (D_800D0E44 < 0) {
-        D_800D0E44 = 0;
-    } else if (D_800D0E44 >= 21) {
-        D_800D0E44 = 20;
+    if (dish_counter < 0) {
+        dish_counter = 0;
+    } else if (dish_counter >= 21) {
+        dish_counter = 20;
     }
     *(TownRecord **)((u8 *)record_holder + 8) = &D_800F8A70[D_800D0E40[1]];
 }
@@ -41,15 +41,15 @@ void finalize_object_or_select_town_record(void *object, void *check_context, vo
 s32 washed_dish_suu_set(s32 new_count) {
     s32 dish_count = new_count;
 
-    (*(D800D0E44 *)&D_800D0E44).value = dish_count;
+    (*(D800D0E44 *)&dish_counter).value = dish_count;
     return dish_count;
 }
 
 /* washed_dish_suu_inc: Decrement the washed dish count, clamp it to zero, and return it. */
 s32 washed_dish_suu_inc(void) {
-    D_800D0E44--;
-    if (D_800D0E44 < 0) {
-        D_800D0E44 = 0;
+    dish_counter--;
+    if (dish_counter < 0) {
+        dish_counter = 0;
     }
-    return D_800D0E44;
+    return dish_counter;
 }

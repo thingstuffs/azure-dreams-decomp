@@ -1,6 +1,7 @@
 /* Dialog selection highlight; G00379; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000F25C, CL:main/func_8000F300, CL:main/func_8000F33C, CL:main/func_8000F3B4. */
 #include "frontend/libcard/dialog_selection_highlight_g00379.h"
+#include "frontend/libcard.h"
 
 /* Initializes a packet for the selected slot and returns the next packet. */
 void *card_boot_build_slot_marker_packet(s32 unused, Struct_8000F300 *packet, s32 slot_index) {

@@ -43,7 +43,7 @@ void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 extern s32 rand();
 void update_rising_trail_emitter(void *record_data, S_801720D0_0 *state);
-extern Rec_D_80174CD8 *D_80174CD8;
+extern Rec_D_80174CD8 *ghosh_boss_node;
 
 /* Spawn and initialize an effect at a random offset from the source position. */
 void spawn_rising_trail_emitter(void)
@@ -57,7 +57,7 @@ void spawn_rising_trail_emitter(void)
     s32 random_offset;
     s32 coord;
 
-    source_pos = D_80174CD8->unk_08;
+    source_pos = ghosh_boss_node->unk_08;
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         effect_state = effect + 0x20;
@@ -90,6 +90,6 @@ void spawn_rising_trail_emitter(void)
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
         sprite->flags |= 0x80;
-        func_8003DB94(sprite, D_800DE870, 0);
+        func_8003DB94(sprite, effect_sprite_sources, 0);
     }
 }

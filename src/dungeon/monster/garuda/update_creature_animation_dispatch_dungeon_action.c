@@ -173,13 +173,13 @@ void update_creature_animation_dispatch_dungeon_action(ActionState *actor, void 
             update_actor_status_and_food(creature);
             return;
         }
-        if ((sprite->position.packed) == *(u16 *)&D_80082E80.tile_position.parts.tile_x) {
+        if ((sprite->position.packed) == *(u16 *)&reference_tile_object.tile_position.parts.tile_x) {
             func_8015F848(actor, context, sprite, creature);
             return;
         }
         if (!((creature->action) & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(creature, ((u8 *) D_800814A8->unk_58) + 0x20) << 16) != 0) {
+                if ((check_entity_relation(creature, ((u8 *) primary_actor_record->unk_58) + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -228,12 +228,12 @@ void update_creature_animation_dispatch_dungeon_action(ActionState *actor, void 
         case 5:
         case 6:
         {
-            TileObject *player_pos = &D_80082E80;
+            TileObject *player_pos = &reference_tile_object;
             void *player;
             s16 facing_angle;
             facing_angle = get_rounded_facing_and_rounding_flag(sprite->position.tile.x, sprite->position.tile.y,
                 player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, &direction_aux);
-            player = D_800814A8;
+            player = primary_actor_record;
             creature->facing = facing_angle;
             if ((((ActorRecord *)player)->unk_9A) == 0x11) {
                 begin_actor_spell_action(actor, context, sprite, &D_801628C8, update_creature_animation_dispatch_dungeon_action);
@@ -258,9 +258,9 @@ void update_creature_animation_dispatch_dungeon_action(ActionState *actor, void 
     }
     if (!((creature->flags) & 0x2000)) {
         s32 room_index = room_id;
-        if ((room_index < 0) || (!(D_800E2970[room_index].flags & 2))) {
+        if ((room_index < 0) || (!(dungeon_rooms[room_index].flags & 2))) {
             if (!((creature->flags) & 0x430)) {
-                TileObject *player_pos = &D_80082E80;
+                TileObject *player_pos = &reference_tile_object;
                 if ((compare_monster_neighbor_values(sprite->position.tile.x, sprite->position.tile.y,
                     player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y) << 16) != 0) {
                     creature->facing = get_rounded_facing_and_rounding_flag(sprite->position.tile.x,

@@ -41,7 +41,7 @@ void apply_pending_indexed_value(s32 index, s32 value) {
 void apply_pending_table_entry(s32 index, s32 entryValue) {
     s32 shifted_index = index << 0x10;
     s32 entry_address;
-    entry_address = (shifted_index >> 0xE) + (s32)**D_80081458;
+    entry_address = (shifted_index >> 0xE) + (s32)**loaded_town_resource_attributes;
 
     set_flagged_record_values(*(TownRecord **)entry_address, entryValue);
     D_80100E2C[0] = 0;

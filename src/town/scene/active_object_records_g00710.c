@@ -40,7 +40,7 @@ u8 *record_check_returned(void *unused)
     u32 end_offset;
     u8 *end_record;
 
-    records = D_8001B218;
+    records = town_event_records;
     seed_record = D_8001B1C0;
     *(Copy4 *)records = *(Copy4 *)seed_record;
     record_count = 1;
@@ -71,7 +71,7 @@ u8 *record_check_returned(void *unused)
 
     record_count = checked_count;
     record_id = 1;
-    plain_base = D_8001B218;
+    plain_base = town_event_records;
     plain_tag = 0xB;
     do {
         {
@@ -86,7 +86,7 @@ u8 *record_check_returned(void *unused)
     record_count = plain_count;
     plain_tag = plain_count * 4;
     record_count++;
-    tail_base = D_8001B218;
+    tail_base = town_event_records;
     plain_tag += (u32)tail_base;
     end_record = (u8 *)0x18;
     ((u8 *)plain_tag)[1] = (s32)end_record;
@@ -101,16 +101,16 @@ u8 *record_check_returned(void *unused)
 
 /* Prepares D_8001B218, passes it to the active object's callback, and saves the result. */
 void prepare_passes_active_object_callback(void) {
-    func_80018824((s8 *)D_8001B218, 0x100);
-    record_check_returned(D_8001B218);
-    D_8001B318 = (S_80018174_0 *)D_80016000->unk_20->callback_068(0, 0, 1, D_8001B218);
+    func_80018824((s8 *)town_event_records, 0x100);
+    record_check_returned(town_event_records);
+    D_8001B318 = (S_80018174_0 *)D_80016000->unk_20->callback_068(0, 0, 1, town_event_records);
 }
 
 /* Prepares D_8001B218 for the active object's callback and stores its result. */
 void prepare_active_object_callback(void) {
-    func_80018824((s8 *)D_8001B218, 0x100);
-    func_80018914(D_8001B218);
-    D_8001B318 = (S_80018174_0 *)D_80016000->unk_20->callback_068(0, 1, 1, D_8001B218);
+    func_80018824((s8 *)town_event_records, 0x100);
+    func_80018914(town_event_records);
+    D_8001B318 = (S_80018174_0 *)D_80016000->unk_20->callback_068(0, 1, 1, town_event_records);
 }
 
 /* Cache the value at offset 0x24 and return the value at offset 0x20. */

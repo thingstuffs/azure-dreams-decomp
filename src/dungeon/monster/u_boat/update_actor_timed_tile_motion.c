@@ -41,7 +41,7 @@ extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 extern void create_owner_linked_directional_object(void *, void *, void *);
 
-extern u8 D_800E23E0[];
+extern u8 uboat_default_frames[];
 extern u8 D_800E2458[];
 extern u8 D_800E2460[];
 extern u8 D_80171A80[];
@@ -130,7 +130,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, void *sprite, vo
         break;
     case 3:
     {
-        u8 *anim_table = D_800E23E0;
+        u8 *anim_table = uboat_default_frames;
 
         if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != anim_table) {
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
@@ -178,7 +178,7 @@ void update_actor_timed_tile_motion(void *action, void *motion, void *sprite, vo
             if (actor_flags & 0x20000) {
                 ((S_801730C4_2 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &target_distance);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance);
             }
         }
     }

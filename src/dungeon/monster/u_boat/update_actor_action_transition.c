@@ -6,8 +6,8 @@ extern s32 check_actor_floor_trap(void *, void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void create_owner_linked_directional_object(void *, s32, void *);
 
-extern u8 D_800E23E0[];
-extern u8 D_800E2428[];
+extern u8 uboat_default_frames[];
+extern u8 uboat_action_frames[];
 extern u8 D_80171A80[];
 
 /* Selects a response state or updates the sprite's directional animation. */
@@ -18,11 +18,11 @@ void update_actor_action_transition(void *state, s32 update_mode, void *sprite, 
             *(void **)((u8 *)state + 0x8C) = D_80171A80;
             return;
         }
-    } else if (*(void **)((u8 *)sprite + 0x2C) == D_800E2428 &&
+    } else if (*(void **)((u8 *)sprite + 0x2C) == uboat_action_frames &&
                !(*(s32 *)((u8 *)entity + 0x1C) & 0x208)) {
         u8 *direction_frames;
 
-        direction_frames = D_800E23E0;
+        direction_frames = uboat_default_frames;
         *(void **)((u8 *)sprite + 0x2C) = direction_frames;
         select_sprite_entry(
             sprite,

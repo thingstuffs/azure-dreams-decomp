@@ -70,7 +70,7 @@ extern s32 register_node();
 extern u8 D_800DEAE0[3];
 extern Copy32 D_801648DC;
 void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in);
-extern u8 D_80175DD8[96];
+extern u8 ribbon_vertices[96];
 
 typedef struct S_801690D8_8 {
     u16 unk_00;
@@ -119,7 +119,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
     segment = 0;
     directions = direction_pairs;
     trunc_bias = 0xFFFF;
-    vertex_table = D_80175DD8;
+    vertex_table = ribbon_vertices;
     do {
         object = func_8003FC64(0x12);
         effect = object + 0x20;

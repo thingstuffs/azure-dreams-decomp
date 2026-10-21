@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 extern void func_8007BEF0(s32 value) __attribute__((noreturn));
 extern void func_8007C040(void *ptr, void *ptr1, s32 value);
@@ -6,7 +7,7 @@ extern void func_8007C040(void *ptr, void *ptr1, s32 value);
 extern s32 D_804007A4[];
 extern s32 D_804007CC[];
 
-extern s32 D_8008DAB4;
+extern s32 card_ui_dirty_flags;
 
 /* Asserts a valid card slot and sets its local and global status flags. */
 void card_dev_flag_slot_dirty(s32 card_slot) {
@@ -17,9 +18,9 @@ void card_dev_flag_slot_dirty(s32 card_slot) {
         func_8007BEF0(1);
     }
     slot_flags = *(u16 *)(card_slot + 0x1E);
-    global_flags = D_8008DAB4;
+    global_flags = card_ui_dirty_flags;
     slot_flags |= 0x8000;
     global_flags |= 0x8000;
     *(u16 *)(card_slot + 0x1E) = slot_flags;
-    D_8008DAB4 = global_flags;
+    card_ui_dirty_flags = global_flags;
 }

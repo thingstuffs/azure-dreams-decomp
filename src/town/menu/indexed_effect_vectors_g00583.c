@@ -35,7 +35,7 @@ void create_indexed_effect_object(s32 index, s32 kind) {
 /* Copy the adjusted vector when state references match; otherwise process and flag the object. */
 void copy_adjusted_vector_or_flag_object(void *object, s32 *out_vector, void *unused)
 {
-    s32 *state_refs = D_800834B8;
+    s32 *state_refs = scene_object_payload_alias;
 
     if ((state_refs[0] != (s32)&D_80097D2C) ||
         (state_refs[1] != (s32)&D_80097EA0)) {
@@ -45,7 +45,7 @@ void copy_adjusted_vector_or_flag_object(void *object, s32 *out_vector, void *un
         return;
     }
 
-    out_vector[0] = D_80083780.x.v;
-    out_vector[1] = D_80083780.y.v;
-    out_vector[2] = D_80083780.z.v + D_800D0428;
+    out_vector[0] = view_reference_entity.x.v;
+    out_vector[1] = view_reference_entity.y.v;
+    out_vector[2] = view_reference_entity.z.v + town_target_height_offset;
 }

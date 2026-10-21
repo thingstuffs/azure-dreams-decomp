@@ -124,7 +124,7 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-                if ((check_entity_relation(actor, *(u8 **)(((u8 *)D_800814A8) + 0x58) + 0x20) << 16) != 0) {
+                if ((check_entity_relation(actor, *(u8 **)(((u8 *)primary_actor_record) + 0x58) + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -132,7 +132,7 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *player;
-                player = &D_80082E80;
+                player = &reference_tile_object;
                 floor = ((T_80175050_S_80175050_1 *)sprite_in)->unk_26;
                 if ((floor == player->room_index && floor >= 0) || get_tile_chebyshev_distance(player, sprite_in) < 2) {
                     if (!(generate_random_value() & 7)) {
@@ -341,7 +341,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             }
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 if ((check_entity_relation(actor,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }

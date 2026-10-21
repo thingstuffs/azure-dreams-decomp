@@ -23,7 +23,7 @@ extern s16 check_movement_clearance_and_height();
 extern s16 get_rounded_facing_and_rounding_flag();
 extern s32 initialize_angle_indexed_target();
 
-extern u8 D_800E2348[8];
+extern u8 baloon_default_frames[8];
 
 /* Advance the actor along its queued path and update movement timing. */
 void advance_baloon_along_path(void *motion, s32 actor_index, void *actor, EntityRec *move_data) {
@@ -34,11 +34,11 @@ void advance_baloon_along_path(void *motion, s32 actor_index, void *actor, Entit
 
     if ((((s8)move_data->unk_71) > 0) &&
         (move_data->unk_71 > move_data->unk_8A)) {
-        if (((Rec_D_80082E80 *)actor)->unk_2C.as_pu8 != D_800E2348) {
-            (*(u8 * *)((u8 *)actor + 0x2C)) = D_800E2348;
+        if (((Rec_D_80082E80 *)actor)->unk_2C.as_pu8 != baloon_default_frames) {
+            (*(u8 * *)((u8 *)actor + 0x2C)) = baloon_default_frames;
             select_sprite_entry(
                 actor,
-                D_800E2348[((g_game_work.view.camera_rotation.parts.viewAngle + move_data->facing + 0x100) >> 9) & 7],
+                baloon_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + move_data->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_801724B0_arg0 *)motion)->unk_9E = 0;
         }

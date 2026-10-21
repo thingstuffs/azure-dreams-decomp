@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern char *reverse_bytes(char *a0, u16 a1);
+#include "engine/util.h"
 
 /* Converts an unsigned integer to a NUL-terminated decimal string. */
 char *uint_to_dec_str(u32 num, char *buf)

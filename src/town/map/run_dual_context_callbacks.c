@@ -26,11 +26,11 @@ typedef struct S_func_800A496C_2 {
 } S_func_800A496C_2;
 
 extern void update_view_gray_level(void);
-extern s16 D_8006ADD4;
-extern s8 D_800D1554;
+extern s16 map_scene_selector_alias;
+extern s8 map_wide_culling;
 extern s32 D_80100D90;
 extern s32 D_80100DB8[];
-extern s32 D_80100DE0[];
+extern s32 town_camera_chase_state[];
 
 /* Run both contexts' callbacks, then update the flag from the current mode and threshold. */
 void run_dual_context_callbacks(void)
@@ -39,7 +39,7 @@ void run_dual_context_callbacks(void)
     S_func_800A496C_1 *secondary_context;
     Callback callback;
 
-    primary_context = (S_func_800A496C_0 *)D_80100DE0;
+    primary_context = (S_func_800A496C_0 *)town_camera_chase_state;
     secondary_context = (S_func_800A496C_1 *)D_80100DB8;
 
     callback = primary_context->unk_24;
@@ -57,11 +57,11 @@ void run_dual_context_callbacks(void)
     }
 
     update_view_gray_level();
-    if (D_8006ADD4 != 0xC) {
+    if (map_scene_selector_alias != 0xC) {
         if (((S_func_800A496C_2 *)D_80100D90)->unk_06 < 0x600) {
-            D_800D1554 = 1;
+            map_wide_culling = 1;
             return;
         }
-        D_800D1554 = 0;
+        map_wide_culling = 0;
     }
 }

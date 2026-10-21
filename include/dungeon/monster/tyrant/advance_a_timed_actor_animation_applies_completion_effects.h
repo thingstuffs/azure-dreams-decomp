@@ -42,7 +42,7 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(T_801727CC_Obj3 *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(T_801727CC_Obj3 *, s32);
-extern void * D_800E3DE8[];
+extern void * actor_update_node_cursor[];
 extern u8 D_80173FE8[];
 extern u8 D_80174010[];
 void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 *action, s32 context, T_801727CC_Obj2 *sprite, T_801727CC_Obj3 *actor);

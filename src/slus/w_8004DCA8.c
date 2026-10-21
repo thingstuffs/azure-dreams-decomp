@@ -16,5 +16,5 @@ void runtime_register_object_or_fallback_slot(void *object)
     if (registered_ptr == 0) {
         registered_ptr = script_message_default_record;
     }
-    script_message_command_words[D_80081554++] = (s32)registered_ptr;
+    script_message_command_words[message_command_write_index++] = (s32)registered_ptr;
 }

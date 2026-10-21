@@ -13,5 +13,5 @@ void submit_activation_command(void) {
     command[0] = 0x01000340;
     command[1] = 0x00200020;
     draw_textured_ellipse(&D_800DD80C, command, 1, 0);
-    D_800E296C |= 0x00800000;
+    dungeon_floor_flags |= 0x00800000;
 }

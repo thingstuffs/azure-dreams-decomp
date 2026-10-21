@@ -1,15 +1,14 @@
 #include "common.h"
+#include "frontend/card/load.h"
+#include "frontend/card/service.h"
 
 
 extern s32 boot_pad_state;
-extern s32 D_801379B0;
+extern s32 boot_pressed_buttons;
 
 extern s32 func_80058FF0(s32 value, s32 direction, s32 amount);
 extern void func_80063FF8(s32 sound);
-extern s32 card_devkit_poll_stable_slot_state(void);
 extern void submit_stored_and_queried_boot_values(void);
-extern void card_devkit_highlight_selected_load_slot(void *object);
-extern void reset_menu_object_state(void *object);
 extern void func_804070C4(void *object);
 extern void allocate_or_reuse_effect_and_install_callback(s32 field20, s32 field24);
 
@@ -37,7 +36,7 @@ void handle_menu_selection_input(void *object)
         held_buttons = buttons[0];
     direction = 0;
     if (held_buttons != 0) {
-        buttons = &D_801379B0;
+        buttons = &boot_pressed_buttons;
         pressed_buttons = buttons[0];
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
@@ -52,7 +51,7 @@ void handle_menu_selection_input(void *object)
             if (pressed_buttons & 0x5000) {
                 buttons = (s32 *)((u8 *)object + 0x30);
                 *buttons = 0;
-                buttons = &D_801379B0;
+                buttons = &boot_pressed_buttons;
         pressed_buttons = buttons[0];
                 if (pressed_buttons & 0x1000) {
                     direction = -1;

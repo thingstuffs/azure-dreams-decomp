@@ -96,7 +96,7 @@ void func_80173F14(void *controller, void *context, void *sprite, EntityRec *ent
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((func_8009A180(entity,
-                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/scene.h"
+#include "slus.h"
 
 typedef struct S_801EAFE8
 {
@@ -13,13 +15,12 @@ extern S_801EAFE8 D_801EAFE8[0x100];
 extern void * free_node_list_head;
 
 
-extern void * D_80081498;
+extern void * active_node_list_head;
 
 typedef struct S_80044AAC S_80044AAC;
 
 extern S_80044AAC *registered_draw_objects[0x20];
 extern S_80044AAC *registered_draw_callbacks[0x20];
-extern void zero_words(s32 *p, s32 n);
 
 /* Initialize the node pool free list and reset the pointer tables. */
 void runtime_reset_object_pool(void)
@@ -50,7 +51,7 @@ void runtime_reset_object_pool(void)
     slots_b_base = registered_draw_callbacks;
     slot_b = slots_b_base + 0x1F;
     free_node->next = 0;
-    D_80081498 = 0;
+    active_node_list_head = 0;
     free_node_list_head = D_801EAFE8;
 
     for (; index >= 0; index--) {

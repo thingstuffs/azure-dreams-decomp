@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/text.h"
 
 /* Flags table indexed by a full byte value (0-255); bit 0x10/0x20 => "range A",
    bit 0x40 => "range B", bit 0x80 => "range C" encoding selector. */

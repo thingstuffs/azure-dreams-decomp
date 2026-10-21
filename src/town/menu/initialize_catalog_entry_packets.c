@@ -26,7 +26,7 @@ typedef struct Row {
     s8 f11;
 } Row;
 
-extern Row D_801331D0[0x10];
+extern Row catalog_grid_packets[0x10];
 
 /* Initializes 16 entries with fixed attributes and coordinates in a three-column grid. */
 void initialize_catalog_entry_packets(void)
@@ -37,7 +37,7 @@ void initialize_catalog_entry_packets(void)
     s8 *entry_tail;
     Row *entry;
 
-    entry = &D_801331D0[0];
+    entry = &catalog_grid_packets[0];
     entry_index = 0;
     do {
         entry_tail = (s8 *)entry + 0xB;

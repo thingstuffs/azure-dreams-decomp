@@ -20,7 +20,7 @@ extern s32 feed_actor_restore_mp();
 extern void create_view_color_flash();
 
 extern u8 D_800E1567[];
-extern u8 D_800E3648[];
+extern u8 floor_objects[];
 
 
 /* Apply an entity event or mark eligible slots, then finish the event. */
@@ -36,9 +36,9 @@ s32 make_floor_traps_invisible(EntityRec *entity, s32 event, s16 event_type, s32
     if (event_type == 0xD) {
         return process_record_and_update_linked_state(event, event_arg);
     }
-    if (entity == ((u8 *)D_800E3D7C)) {
+    if (entity == ((u8 *)dungeon_actor_ring_anchor)) {
         entity->unk_110 = event;
-        begin_mode_selected_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_mode_selected_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
         return 0;
     }
     if ((u32)entity <= 0x9FFFFFFF) {
@@ -55,9 +55,9 @@ s32 make_floor_traps_invisible(EntityRec *entity, s32 event, s16 event_type, s32
         message_buf = get_unused_text_buffer();
 
         message_arg = message_buf;
-        if (D_80082E80.room_index >= 0) {
+        if (reference_tile_object.room_index >= 0) {
             for (slot_index = 0; slot_index < 0x20; slot_index++) {
-                slot = &D_800E3648[slot_index * 4];
+                slot = &floor_objects[slot_index * 4];
                 if (slot[1] != 0 && slot[0] != 0) {
                     if (!(slot[3] & 0x40)) {
                         slot[3] |= 0x80;

@@ -99,9 +99,9 @@ void update_boss_actor_movement(void *entity, void *motion, register void *sprit
         (*(u8 *)((u8 *)entity + (0x71))) &= 0x7F;
     }
 
-    if (D_80013714 & 8) {
+    if (system_update_flags & 8) {
         slot_index = 1;
-        actor_slot = ((u8 *)D_800E3D7C) + 4;
+        actor_slot = ((u8 *)dungeon_actor_ring_anchor) + 4;
         do {
             actor_node = ((S_8016F2E0_0 *)actor_slot)->unk_AC;
             if (actor_node != 0) {

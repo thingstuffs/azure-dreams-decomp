@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 
 extern void func_8006658C(void *, void *);
 extern void func_80067E2C(void *, void *);
@@ -20,7 +20,7 @@ void queue_black_draw_buffer_rectangle(s32 draw_param) {
     draw_rect[0] = 0xC00300;
     draw_rect[1] = 0x400040;
     draw_buffer = g_game_work.draw_buffer;
-    adjust_y = draw_buffer != D_801C9E40;
+    adjust_y = draw_buffer != upper_draw_context;
     ordering_table = draw_buffer + 0x8B0;
     area_packet = *(u8 **)(draw_buffer + 0x8D0);
     *(u8 **)(draw_buffer + 0x8D0) = area_packet + 0xC;

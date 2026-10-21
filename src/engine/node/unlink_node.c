@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node.h"
 
 typedef struct S_800833E0 {
     u8 pad00[0x14];

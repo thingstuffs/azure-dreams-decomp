@@ -142,13 +142,13 @@ void set_descriptor_fields_and_flag(void *descriptor)
 }
 
 S_800491F4 *forward_value_to_shared_helper(S_800491F4 **value) {
-    return build_reverse_indexed_chain(value, D_80029500, 4);
+    return build_reverse_indexed_chain(value, menu_selection_chain_indices, 4);
 }
 
 void initialize_owner_defaults(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
                    ovl_1831370_818117D8_S_8002E5E8 *aux_data) {
-    ovl_1831370_818117D8_S_8002E5D8 *patch_defaults = &D_8002E5D8;
-    ovl_1831370_818117D8_S_8002E5E8 *aux_defaults = &D_8002E5E8;
+    ovl_1831370_818117D8_S_8002E5D8 *patch_defaults = &display_block_defaults;
+    ovl_1831370_818117D8_S_8002E5E8 *aux_defaults = &display_vector_defaults;
     s32 *aux_first_word;
 
     patch_data->unk0 = patch_defaults->unk0;
@@ -208,7 +208,7 @@ s32 get_and_position_object_handle(void *object)
     s32 success = 0;
 
     if ((*(s32 *)((s8 *)object + 0x70) = func_80048EE4((s8 *)object + 0x74, 4)) != 0) {
-        initial_pos = &D_8002E5E8;
+        initial_pos = &display_vector_defaults;
         *(s32 *)((s8 *)object + 0x54) = initial_pos->x;
         *(s32 *)((s8 *)object + 0x58) = initial_pos->y;
         *(s32 *)((s8 *)object + 0x5C) = initial_pos->z;

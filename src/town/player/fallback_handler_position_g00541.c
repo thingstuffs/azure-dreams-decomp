@@ -54,11 +54,11 @@ void compute_the_based_position_offset_publishes_resulting_vector(void *object, 
         x = (record->scale * func_80064584(angle)) << 5;
         y = (-record->scale * func_800644B8(angle)) << 5;
         height = record->height;
-        D_80100D20 = &D_800D0AFC;
-        D_800D0AFC.x = D_800D0AE4.x + offset->x + x;
-        D_800D0AFC.y = D_800D0AE4.y + offset->y + y;
+        D_80100D20 = &computed_position;
+        computed_position.x = D_800D0AE4.x + offset->x + x;
+        computed_position.y = D_800D0AE4.y + offset->y + y;
         height <<= 17;
-        D_800D0AFC.z = D_800D0AE4.z + offset->z + height;
+        computed_position.z = D_800D0AE4.z + offset->z + height;
         return;
     }
     D_80100D20 = 0;

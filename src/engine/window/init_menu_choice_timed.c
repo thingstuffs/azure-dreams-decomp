@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/window.h"
 
 typedef struct Child {
     u8 unk00[0x22];
@@ -25,8 +26,6 @@ struct Object {
 
 extern u8 menu_choice_display_data[9];
 extern u8 menu_choice_cursor_storage[9];
-extern void init_cursor_color_object(void *, void *, Object *, s32, s16, u32);
-extern void update_menu_choice_timed(Object *);
 
 /* Initializes the object from its child and sets a 90-tick delay and next callback. */
 void init_menu_choice_timed(Object *object) {

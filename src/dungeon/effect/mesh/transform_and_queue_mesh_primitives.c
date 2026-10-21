@@ -746,7 +746,7 @@ void func_80024D40(void *object, s32 unused, void *target) {
 #define FIELD_U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
 #define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
 
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 extern u32 func_80065420();
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u32, s32);
@@ -768,8 +768,8 @@ s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
     u32 address_mask;
     u32 *mode_ot_entry;
 
-    context = FIELD_PTR(D_80080000, 0x3160);
-    context_slot = (u8 **)(D_80080000 + 0x3160);
+    context = FIELD_PTR(resident_globals_page, 0x3160);
+    context_slot = (u8 **)(resident_globals_page + 0x3160);
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
     scratch = (u8 *)0x1F800000;
@@ -1702,7 +1702,7 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
             U16(effect, 0x74) = U16(object, 2);
             U16(effect, 0x76) = U16(object, 6);
             {
-                s32 height = D_800DDC40[U8(PTR(owner, 0x60), 0x13)] + 0x20;
+                s32 height = entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] + 0x20;
                 U16(effect, 0x78) = U16(object, 0xA) - height;
             }
             owner_sprite = PTR(owner, -0x14);
@@ -1904,10 +1904,10 @@ finish_fade:
         object = PTR(PTR(owner, 0x60), -0x18);
         for (particle_index = 0; particle_index < 2; particle_index++) {
             particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
-            func_800251E8((D_800DDC40[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
+            func_800251E8((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
-                                (D_800DDC40[U8(PTR(owner, 0x60), 0x13)] >> 1)));
+                                (entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1)));
         }
         if (S16(effect, 0x82) >= 0x28) {
             U16(effect, 0x82) = 0;
@@ -1931,10 +1931,10 @@ finish_fade:
         object = PTR(PTR(owner, 0x60), -0x18);
         for (particle_index = 0; particle_index < 2; particle_index++) {
             particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
-            func_800251E8((D_800DDC40[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
+            func_800251E8((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
-                                (D_800DDC40[U8(PTR(owner, 0x60), 0x13)] >> 1)));
+                                (entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1)));
         }
 
         target = PTR(owner, 0x60);

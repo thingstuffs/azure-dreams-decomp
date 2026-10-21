@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "shared/vector.h"
+#include "engine/node.h"
 
 typedef struct S_800520B4_Sub {
     void *field_0x00;
@@ -34,7 +35,6 @@ typedef struct S_800520B4 {
 extern u8 color_fade_visual_data[0x10];
 extern void update_color_fade_effect(void);
 extern void draw_linked_sprites(void);
-extern void register_node(S_800520B4 *a0, void (*a1)(void));
 
 /* Initialize object state, callbacks, settings, and vector values. */
 void init_color_fade_effect(S_800520B4 *object, void *context)

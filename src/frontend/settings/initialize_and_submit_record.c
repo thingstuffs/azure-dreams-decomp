@@ -1,9 +1,10 @@
 #include "common.h"
+#include "engine/node.h"
+#include "engine/scene.h"
+#include "frontend/settings.h"
+#include "main/data.h"
 
-extern s32 *func_8003FC64(s32);
-extern void register_node(s32 *, void *);
 /* >8B so address-of uses %hi/%lo (not $gp) */
-extern s32 D_80053858[4];
 
 typedef struct {
     s32 w0;

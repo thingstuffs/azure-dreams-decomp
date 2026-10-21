@@ -25,7 +25,7 @@ typedef struct {
     s16 transition;
 } GameState;
 
-extern TownState D_80083498;
+extern TownState scene_object_list_anchor;
 
 extern void initialize_reaction_data_and_timer_10_b(Object *, Position *, void *, GameState *);
 extern void SD_Call(s32);
@@ -48,7 +48,7 @@ void move_reaction_toward_target(Object *object, Position *position, void *conte
         return;
     }
 
-    position->x += (-position->x + D_80083498.target->x) / 2;
-    position->y += (-position->y + D_80083498.target->y) / 2;
-    position->z += (-position->z + D_80083498.target->z) / 2;
+    position->x += (-position->x + scene_object_list_anchor.target->x) / 2;
+    position->y += (-position->y + scene_object_list_anchor.target->y) / 2;
+    position->z += (-position->z + scene_object_list_anchor.target->z) / 2;
 }

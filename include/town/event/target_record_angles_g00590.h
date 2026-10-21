@@ -26,7 +26,7 @@ extern s32 D_80100D1C;
 extern IntVector3 D_80100D48, D_80100D68;
 extern PositionRotationPair D_80100D60;
 
-extern u16 D_80100D40, D_80100D42, D_80100D80, D_80100D82;
+extern u16 D_80100D40, D_80100D42, town_motion_x_step, town_motion_y_step;
 extern void draw_random_colored_line(s32, s32);
 
 /* Functions defined in this translation unit. */

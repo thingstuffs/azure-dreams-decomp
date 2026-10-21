@@ -20,7 +20,7 @@ extern s16 select_the_smaller_position_query_result_capped_n_64_writes_associate
 extern void compute_and_clamps_vector_based_adjustment_updates_town();
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
 
-extern void *D_800CFCC4[3];
+extern void *town_target_record[3];
 
 typedef struct S_80092698_2 {
     u8 pad_00[0x14];
@@ -36,21 +36,21 @@ void update_actor_with_interaction_state(Rec_func_80094268_arg0 *controller, Ent
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
-    samples = ((u8 *)&D_800FE488);
+    samples = ((u8 *)&position_query_scratch);
     sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, samples);
     if ((sampled_value - entity->z.w.i) >= 4) {
-        if (D_800CFCEF == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_object(controller, entity, context);
             return;
         }
-    } else if (D_800CFCEF == 0) {
+    } else if (town_action_state_flag == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town(entity, sampled_value, samples);
     }
     countdown = controller->unk_0A.as_u16 - 1;
     controller->unk_0A.as_u16 = countdown;
     if ((s16)countdown < 0) {
-        if (D_800CFCC4[0] != NULL) {
-            if (((S_80092698_2 *)(D_800CFCC4[0]))->unk_14 == 2) {
+        if (town_target_record[0] != NULL) {
+            if (((S_80092698_2 *)(town_target_record[0]))->unk_14 == 2) {
                 initialize_scene_action_record(controller, entity, context);
                 return;
             }

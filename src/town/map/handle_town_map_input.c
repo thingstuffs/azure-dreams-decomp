@@ -8,10 +8,10 @@ void send_resource_command_23(s32);
 
 extern u8 D_80072210[];
 extern u8 D_80072214[];
-extern s32 D_80082ABC;
+extern s32 town_map_selection;
 extern u8 D_8008BED8[];
-extern u8 D_800FC418;
-extern u8 D_800D2EA4;
+extern u8 town_map_status;
+extern u8 town_building_slot_rectangles;
 
 /* Handle input and update the object display position for its current state. */
 void handle_town_map_input(u8 *object, void *transform, void *context) {
@@ -19,7 +19,7 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
     u8 *entries = *(u8 **)(object + 0x7C);
     s16 state;
 
-    if (D_800FC418 != 0) {
+    if (town_map_status != 0) {
         *(void **)(object + 0x68) = D_8008BED8;
         return;
     }
@@ -42,12 +42,12 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
 
             buttons = ((s32)input->pressed_buttons);
             if (buttons & 0x40) {
-                D_800FC418 = 1;
+                town_map_status = 1;
                 call_script((s32)(D_80072214));
                 return;
             }
             if (buttons & 0x20) {
-                D_800FC418 = 1;
+                town_map_status = 1;
                 call_script((s32)(D_80072210));
                 return;
             }
@@ -55,8 +55,8 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
     } else if (state == 9) {
 
         func_800478B8(context);
-        *(s32 *)(*(u8 **)object + 0x30) = D_80083780.x.w.i / 64 - 0x18;
-        *(s32 *)(*(u8 **)object + 0x34) = D_80083780.y.w.i / 64 - 0x40;
+        *(s32 *)(*(u8 **)object + 0x30) = view_reference_entity.x.w.i / 64 - 0x18;
+        *(s32 *)(*(u8 **)object + 0x34) = view_reference_entity.y.w.i / 64 - 0x40;
         return;
     } else if (state == 10) {
         s32 buttons;
@@ -78,7 +78,7 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
             send_resource_command_23(entries[*(s32 *)(object + 0x74)]);
         }
         entry_index = *(s32 *)(object + 0x74);
-        positions = (u8 *)&D_800D2EA4;
+        positions = (u8 *)&town_building_slot_rectangles;
         entry_id = entries[entry_index];
         *(s32 *)(*(u8 **)object + 0x30) = positions[entry_id * 8] - 0x18;
 
@@ -87,6 +87,6 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
         *(s32 *)(*(u8 **)object + 0x34) = positions[entry_id * 8 + 1] - 0x40;
 
         entry_index = *(s32 *)(object + 0x74);
-        D_80082ABC = entries[entry_index];
+        town_map_selection = entries[entry_index];
     }
 }

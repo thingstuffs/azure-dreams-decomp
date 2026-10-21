@@ -42,8 +42,8 @@ typedef struct S_8008B23C_0 {
 } S_8008B23C_0;
 
 extern u32 *D_801131EC[3];
-extern s32 D_800CF720[];
-extern s32 D_801131E4;
+extern s32 resource_cache_records[];
+extern s32 town_resource_buffer;
 extern void start_cd_read(u32 *, s32);
 extern void func_8008AC84(s32);
 extern s32 sum_resource_bytes(s32);
@@ -51,7 +51,7 @@ extern void shift_resource_entries_and_data(s32, s32);
 s32 find_resource_index_by_key(s32 targetField0, s32 targetField1, s32 targetField2);
 /* extern */
 void move_resource_to_front(s32);
-extern TownState D_801131B8;
+extern TownState town_resource_context;
 extern void call_script(s32);
 
 /* Functions defined in this translation unit. */

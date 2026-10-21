@@ -1,15 +1,16 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/town.h"
 
-extern u8 *D_8001029C[];
+extern u8 *town_item_list[];
 extern void itm_mon_koyaw_set(s32, u8 *, u8 *, s32);
 extern void del_t_item_w_ptr(u8 *entry);
 
 /* Processes type-0x13 entries whose associated record code is nonnegative. */
 void clear_town_item_entries(void)
 {
-    if (D_8001029C[0] != 0) {
+    if (town_item_list[0] != 0) {
         u32 data_base = 0x80010000;
         u32 *entry_slot = (u32 *)(data_base + 0x29C);
 

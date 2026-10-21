@@ -53,9 +53,9 @@ typedef struct TownObject {
 } TownObject;
 
 extern u8 is_catalog_entry_available(u8 value);
-extern void *D_801269D0[10];
-extern s16 D_80126B24[8];
-extern u8 D_80127B64[16];
+extern void *catalog_normal_digits[10];
+extern s16 catalog_cursor_columns[8];
+extern u8 catalog_number_marker[16];
 
 typedef struct S_80125800_0 {
     u8 pad_00[0x4];
@@ -80,14 +80,14 @@ void interpolate_catalog_grid_cursor(TownObject *obj) {
     if (is_catalog_entry_available((u8)entry_id) != 0) {
         s32 entry_number = entry_id + 1;
 
-        *obj->town->slots[sprite_slot] = (void *)D_80127B64;
+        *obj->town->slots[sprite_slot] = (void *)catalog_number_marker;
         sprite_slot = slot_offset + 34;
-        *obj->town->slots[sprite_slot] = D_801269D0[entry_number / 10];
+        *obj->town->slots[sprite_slot] = catalog_normal_digits[entry_number / 10];
         sprite_slot = slot_offset + 35;
-        *obj->town->slots[sprite_slot] = D_801269D0[entry_number % 10];
+        *obj->town->slots[sprite_slot] = catalog_normal_digits[entry_number % 10];
     }
     obj->town->display->src->fA =
-        (s16) ((u16) D_80126B24[obj->column & 7]
-        + (((s32) (D_80126B24[obj->index & 7]
-        - D_80126B24[obj->column & 7]) / (s16) obj->field6) * obj->field4));
+        (s16) ((u16) catalog_cursor_columns[obj->column & 7]
+        + (((s32) (catalog_cursor_columns[obj->index & 7]
+        - catalog_cursor_columns[obj->column & 7]) / (s16) obj->field6) * obj->field4));
 }

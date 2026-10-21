@@ -12,9 +12,9 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 void update_motion_at_ground_threshold(s32 context, EntityRec *actor, s32 action_arg) {
     s16 ground_height;
 
-    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &D_800FE488);
+    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
     if (actor->z.w.i >= ground_height) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), ground_height, (struct TownVec * *)(&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), ground_height, (struct TownVec * *)(&position_query_scratch));
         initialize_record_with_handler_table((Struct8009B1C8 *)(context), (s32)(actor), action_arg);
         return;
     }

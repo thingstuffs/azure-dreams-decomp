@@ -1,5 +1,6 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
+#include "main.h"
 
 
 
@@ -19,5 +20,5 @@ void card_boot_select_channel_mode(s32 mode_enabled, s32 *unused_repeat_counts)
         state_base[-0x1E0D] = 0;
     }
 
-    card_boot_request_info((*(s32 (*)[3])(&D_800287CC))[0]);
+    card_boot_request_info((*(s32 (*)[3])(&card_selected_channel_alias))[0]);
 }

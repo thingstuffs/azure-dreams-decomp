@@ -116,7 +116,7 @@ void create_type_212_object(s32 flag, s8 value) {
     SpriteFrameState *state;
     S_8009BF7C_0 *object;
 
-    object = allocate_list_node(0x212, ((s32)D_800E3D7C) - 0x20);
+    object = allocate_list_node(0x212, ((s32)dungeon_actor_ring_anchor) - 0x20);
     if (object != NULL) {
         state = object->unk_0C;
         object->unk_10 = &D_8009BE2C;
@@ -221,7 +221,7 @@ extern M2C_UNK D_800E0D9E;
 extern M2C_UNK D_800E0DB8;
 extern M2C_UNK D_800E0DDD;
 extern M2C_UNK D_800E0DEA;
-extern ActiveEntry D_800E3648[32];
+extern ActiveEntry floor_objects[32];
 
 typedef struct S_8009C12C_0 {
     u8 pad_00[0x13];
@@ -333,7 +333,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     message_state = modifier;
     if (target == NULL) {
         null_result = NULL;
-        if (attacker_in == (void *)D_800E3D7C) {
+        if (attacker_in == (void *)dungeon_actor_ring_anchor) {
             tile_result = find_directional_entry_and_clear_flag(((S_8009C12C_2 *)(tile_in))->unk_24, ((S_8009C12C_2 *)(tile_in))->unk_25,
                 direction, ((S_8009C12C_0 *)attacker_in)->unk_88);
             null_result = NULL;
@@ -343,7 +343,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 message_start = get_unused_text_buffer();
                 message_cursor = write_text_byte_and_advance(8, message_start);
                 tile_text = tile_result << 2;
-                tile_text_base = (s32)&D_800E3648;
+                tile_text_base = (s32)&floor_objects;
                 tile_text += tile_text_base;
                 message_cursor = apply_type_based_entry_adjustments(tile_text, message_cursor);
                 message_cursor = expand_text_control_codes(&D_800E0D7B, message_cursor);
@@ -557,7 +557,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         damage = signed_value >> 0x10;
     }
     create_actor_value_popup(3, target, damage, 0);
-    if (target == (void *)D_800E3D7C) {
+    if (target == (void *)dungeon_actor_ring_anchor) {
         clear_player_linked_action_flags();
     }
     ((S_8009C12C_3 *)target)->unk_60 = attacker_in;
@@ -577,7 +577,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         func_800419EC(8, 0x10);
     }
     effect_elements = attack_elements << 0x10;
-    if (attacker_in == (void *)D_800E3D7C) {
+    if (attacker_in == (void *)dungeon_actor_ring_anchor) {
         if (((S_8009C12C_0 *)attacker_in)->unk_A8 != 0) {
             return target;
         }
@@ -634,8 +634,8 @@ typedef struct {
     u8 unk25;          /* 0x25 */
 } Pos;
 
-extern u16 D_800DCEAC[];
-extern u16 D_800DCEBC[];
+extern u16 direction_x_offsets[];
+extern u16 direction_y_offsets[];
 
 extern s32 generate_random_value();
 extern void setup_object_within_planar_range(void *, s32, s32, s32, s32, s32);
@@ -672,12 +672,12 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     }
     base = (u8 *)a - 0x20;
     shifted = coord >> 8;
-    tableA = D_800DCEAC;
+    tableA = direction_x_offsets;
     off = shifted & 0xE;
 
     setup_object_within_planar_range(base,
                   (b->unk24 << 6) + ((s16)*(u16 *)((u8 *)tableA + off) >> 1) + 0x20,
-                  (b->unk25 << 6) + ((s16)*(u16 *)((u8 *)D_800DCEBC + off) >> 1) + 0x20,
+                  (b->unk25 << 6) + ((s16)*(u16 *)((u8 *)direction_y_offsets + off) >> 1) + 0x20,
                   a->unk88, 8, 0x300);
     a->unk60 = ent2;
     a->flags14 &= ~0x4000000;
@@ -771,7 +771,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     }
     a->flags14 &= ~0x4000000;
     ent2->flags14 &= ~0x20000;
-    if ((u8 *)a == ((u8 *)D_800E3D7C)) {
+    if ((u8 *)a == ((u8 *)dungeon_actor_ring_anchor)) {
         func_8003E188(ent2->unk13, 0);
     }
     return ent2;
@@ -893,7 +893,7 @@ typedef struct S_8009CE1C_1 {
     u16 unk_9C;
 } S_8009CE1C_1;   /* arg0 in apply_attack_power_and_element_effects; pointer addresses record offset 0x14 */
 
-extern u8 D_800E3E41;
+extern u8 pending_player_damage_kind;
 void clear_player_linked_action_flags(void);
 s32 clamp_adjusted_value_0_to_99();
 s32 func_8009CFB4();
@@ -928,7 +928,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
     affinity = 0;
     if ((target != 0) && (try_trigger_target_record_effect(target, (u16) element_mask, source_flags) == 0)) {
         if (requested_bonus == 0xFF) {
-            bonus = ((S_8009CE1C_0 *)(((u8 *)D_800E3D7C)))->unk_11 * 4;
+            bonus = ((S_8009CE1C_0 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_11 * 4;
             if (bonus >= 0x64) {
                 bonus = 0x63;
             }
@@ -1016,8 +1016,8 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
             shown_damage = 0;
         }
         create_actor_value_popup(3, target, shown_damage, 0);
-        if (target == ((u8 *)D_800E3D7C)) {
-            D_800E3E41 = (u8) hit_kind;
+        if (target == ((u8 *)dungeon_actor_ring_anchor)) {
+            pending_player_damage_kind = (u8) hit_kind;
             clear_player_linked_action_flags();
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_flags;
@@ -1121,7 +1121,7 @@ void update_packed_map_levels();                            /* extern */
 
 /* Process the 0x200-byte global buffer and run the follow-up routine. */
 void process_global_buffer_and_submit(void) {
-    zero_words(D_800E50A8, 0x200);
+    zero_words(packed_tile_heights, 0x200);
     update_packed_map_levels();
 }
 #include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
@@ -1149,12 +1149,12 @@ void update_packed_map_levels(void) {
     s16 y_end;
     GameWork *gw;
 
-    map_params = D_80088CB0;
+    map_params = tile_height_upload_rect;
     gw = &g_game_work;
     grid = &gw->map;
-    obj = &D_80082E80;
+    obj = &reference_tile_object;
     if (obj->room_index >= 0) {
-        room = &D_800E2970[obj->room_index];
+        room = &dungeon_rooms[obj->room_index];
         y = room->y - 1;
         n = room->x + room->w + 1;
         y_end = room->h + y + 2;
@@ -1163,7 +1163,7 @@ void update_packed_map_levels(void) {
                 index = (y << grid->shiftX) + x;
                 tile = &D_800EA000[index];
                 if (tile->type != 0 && tile->type != 3) {
-                    cell = &D_800E50A8[index / 2];
+                    cell = &packed_tile_heights[index / 2];
                     level = (s16)(tile->height + 0x200) / 64;
                     if (level >= 16) {
                         level = 15;
@@ -1182,12 +1182,12 @@ void update_packed_map_levels(void) {
         }
     } else {
         for (n = 7; n >= 0; n--) {
-            x = D_80082E80.tile_position.parts.tile_x + dir_step_x[n];
-            y = D_80082E80.tile_position.parts.tile_y + dir_step_y[n];
+            x = reference_tile_object.tile_position.parts.tile_x + dir_step_x[n];
+            y = reference_tile_object.tile_position.parts.tile_y + dir_step_y[n];
             index = (y << grid->shiftX) + x;
             tile = &D_800EA000[index];
             if (tile->type != 0 && tile->type != 3) {
-                cell = &D_800E50A8[index / 2];
+                cell = &packed_tile_heights[index / 2];
                 level = (s16)(tile->height + 0x200) / 64;
                 if (level >= 16) {
                     level = 15;
@@ -1204,7 +1204,7 @@ void update_packed_map_levels(void) {
             }
         }
     }
-    func_800672D8(&map_params, D_800E50A8);
+    func_800672D8(&map_params, packed_tile_heights);
 }
 #include "modules/dungeon_engine_transition_effects_fragment_b7c20.h"
 #include "common.h"
@@ -1239,10 +1239,10 @@ void refresh_packed_grid_nibbles(void) {
     u8 packed_output;
     u8 packed_input;
 
-    data_source = &D_80088CB0;
+    data_source = &tile_height_upload_rect;
     saved_data = *data_source;
     packed_input = 0;
-    base = D_800E50A8;
+    base = packed_tile_heights;
     cursor = base;
     row_index = 0;
     state = ((u8 *)(&g_game_work));
@@ -1350,8 +1350,8 @@ void pack_and_submit_cell_height_levels(void) {
     s32 value;
     s32 value_2;
 
-    upload_pair = D_80088CB0;
-    buffer = D_800E50A8;
+    upload_pair = tile_height_upload_rect;
+    buffer = packed_tile_heights;
     write_ptr = buffer;
     dungeon_data = ((u8 *)(&g_game_work));
     config = (DungeonConfig *)(dungeon_data + 0x1DC);

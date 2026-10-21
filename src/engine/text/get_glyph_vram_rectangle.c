@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern void decode_glyph_id_to_byte_rectangle(s32 rect_id, u8 *source_rect);
+#include "engine/text.h"
+#include "slus.h"
 
 /* Converts the selected rectangle to VRAM coordinates and dimensions. */
 void get_glyph_vram_rectangle(s32 rect_id, s16 *vram_rect)

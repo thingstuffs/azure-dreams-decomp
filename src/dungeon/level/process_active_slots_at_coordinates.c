@@ -13,8 +13,8 @@ typedef struct {
     u8 unused8[0x10];
 } Status;
 
-extern Status D_800E39C8[];
-extern Slot D_800E3648[];
+extern Status dungeon_floor_object_positions[];
+extern Slot floor_objects[];
 extern void clear_slot_and_detach_entity(s32 slot_index);
 
 /* Process each active slot at the given coordinates. */
@@ -27,9 +27,9 @@ void process_active_slots_at_coordinates(s32 x, s32 y) {
     target_x = x;
     target_y = y;
     do {
-        if ((D_800E3648[slot_index].active != 0) &&
-            (D_800E39C8[slot_index].x == target_x) &&
-            (D_800E39C8[slot_index].y == target_y)) {
+        if ((floor_objects[slot_index].active != 0) &&
+            (dungeon_floor_object_positions[slot_index].x == target_x) &&
+            (dungeon_floor_object_positions[slot_index].y == target_y)) {
             clear_slot_and_detach_entity(slot_index);
         }
         slot_index += 1;

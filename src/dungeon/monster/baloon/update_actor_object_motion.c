@@ -14,9 +14,9 @@ extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
-extern u8 D_800E2348[];
+extern u8 baloon_default_frames[];
 extern void D_80171F1C(void *, void *, void *, void *);
-extern Callback D_8017664C[];
+extern Callback baloon_callbacks[];
 
 
 typedef struct S_80171964_0 {
@@ -88,7 +88,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
         if (dispatch_callback != 0) {
             dispatch_callback(object_arg, motion_arg, part_arg, object_arg);
         }
-        D_8017664C[(*(u8 *)((u8 *)object_arg + (0x9A)))](object_arg, motion_arg, part_arg, object_arg);
+        baloon_callbacks[(*(u8 *)((u8 *)object_arg + (0x9A)))](object_arg, motion_arg, part_arg, object_arg);
         if ((s16)old_state != (s8)(*(u8 *)((u8 *)object_arg + (0x6D)))) {
             try_move_actor_to_valid_position(object_arg, motion_arg, part_arg, object_arg);
         }
@@ -166,7 +166,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
         } else {
 
             if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40) &&
-                ((S_80171964_1 *)part_arg)->unk_2C == D_800E2348) {
+                ((S_80171964_1 *)part_arg)->unk_2C == baloon_default_frames) {
                 if (((S_80171964_1 *)part_arg)->unk_04.u16 == 0x400) {
                     (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
                 }
@@ -222,7 +222,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
             }
         } else {
             if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40) &&
-                ((S_80171964_1 *)part_arg)->unk_2C == D_800E2348) {
+                ((S_80171964_1 *)part_arg)->unk_2C == baloon_default_frames) {
                 if (((S_80171964_1 *)part_arg)->unk_04.u16 == 0x400) {
                     (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
                 }

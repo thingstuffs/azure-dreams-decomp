@@ -43,7 +43,7 @@ void update_map_cell_flags_with_item_limit();             /* extern */
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* extern */
 extern void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *sprite_in);
 extern M2C_UNK D_80173DA4;
-extern void *D_80175D54;
+extern void *beldo_script_node;
 
 static __inline__ u16 active_flag(u32 value)
 {
@@ -67,7 +67,7 @@ void create_scripted_encounter_object(void) {
     void *state;
     S_80173140_1 *st;
 
-    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = object + 0x20;
         st = (S_80173140_1 *)state;
@@ -76,11 +76,11 @@ void create_scripted_encounter_object(void) {
         register_node(object, project_sprite_chain);
         object_attrs = ((S_80173140_0 *)object)->unk_08;
         ((S_80173140_2 *)object_attrs)->unk_0A =
-            (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((s32 *)&D_80083498.next)))->z)))->unk_0A;
+            (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((s32 *)&scene_object_list_anchor.next)))->z)))->unk_0A;
         sprite = ((S_80173140_0 *)object)->unk_0C;
-        origin_x = D_80082E80.tile_position.parts.tile_x;
+        origin_x = reference_tile_object.tile_position.parts.tile_x;
         sprite->unk_24 = (u8) (origin_x - 1);
-        origin_y = D_80082E80.tile_position.parts.tile_y;
+        origin_y = reference_tile_object.tile_position.parts.tile_y;
         sprite->frameTable = &D_80173DA4;
         sprite->unk_25 = (u8) (origin_y + 7);
         initialize_actor_sprite_and_animation(object, object_attrs, sprite, 0);
@@ -104,7 +104,7 @@ void create_scripted_encounter_object(void) {
         }
         update_map_cell_flags_with_item_limit(cell_x, cell_y, cell_mask);
         unlink_entity_node(st);
-        D_80175D54 = object;
+        beldo_script_node = object;
         ((S_80173140_0 *)object)->unk_10 = (s32 *) ((s32) ((S_80173140_0 *)object)->unk_10 | 0x80000000);
     }
 }

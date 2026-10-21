@@ -171,7 +171,7 @@ extern void func_800654B0(s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *, s16 *
 extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
-extern u8 D_8006CD30[];
+extern u8 sprite_projection_matrix[];
 
 /* Functions defined in this translation unit. */
 s32 traverse_nodes_and_render_unflagged(void *start_node);

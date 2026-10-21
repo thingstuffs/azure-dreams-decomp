@@ -107,16 +107,16 @@ s32 func_80065820(void *, void *, ...);        /* extern */
 void func_8006658C(void *, void *);         /* extern */
 void func_800666F4(void *);                 /* extern */
 u16 sample_terrain_surface_height();                   /* extern */
-extern M2C_UNK D_8006CD30[8];
-extern s32 D_800E296C[3];
-extern u8 D_800E3648[128];
+extern M2C_UNK sprite_projection_matrix[8];
+extern s32 dungeon_floor_flags[3];
+extern u8 floor_objects[128];
 typedef struct DebugEntry {
     u8 b0;
     u8 b1;
     u8 b2;
     u8 b3;
 } DebugEntry;
-extern u8 D_800E39C8[1024];
+extern u8 dungeon_floor_object_positions[1024];
 
 /* Render active dungeon sprite parts and their ground shadows into the ordering table. */
 s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void *render_params)
@@ -215,13 +215,13 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     transform_flags = (u8 *) 0x1F800094;
     matrix_base = (u8 *)&D_8006CD10 + 32;
     do {
-    entry_table = (u8 *) (&D_800E3648);
+    entry_table = (u8 *) (&floor_objects);
 
     entry_flags = (void *) ((entry_index * 4) + ((s32) entry_table));
-    if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (D_800E296C[0] & 8))
+    if ((((!((*((u8 *) (((s8 *) entry_flags) + 3))) & 0x80)) || (dungeon_floor_flags[0] & 8))
          && ((*((u8 *) (((s8 *) entry_flags) + 1))) != 0)) && ((*((u8 *) (((s8 *) entry_flags) + 0))) != 0)) {
         u8 *entry_table;
-        entry_table = &D_800E39C8;
+        entry_table = &dungeon_floor_object_positions;
         sprite_entry = (entry_index * 0x18) + entry_table;
         if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x40) {
             func_800478B8(sprite_entry);
@@ -372,7 +372,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
 
                 scr->unk_102 = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
                 func_80065820((u8 *)&scr->unk_100, rotation_matrix, view_yaw);
-                func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
+                func_80064840(&sprite_projection_matrix, rotation_matrix, view_matrix);
                 func_80064D80((s32 *) view_matrix);
                 func_80064CF0((s32 *) view_matrix);
                 for (;;) {
@@ -474,7 +474,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
 
                         *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) render_params) + 0xC)));
                         *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
-                        if ((D_800E296C[0] & 8) && (((DebugEntry *)D_800E3648)[entry_index].b3 & 0x80)) {
+                        if ((dungeon_floor_flags[0] & 8) && (((DebugEntry *)floor_objects)[entry_index].b3 & 0x80)) {
                             *((u8 *) (((s8 *) quad) + 7)) = 0x2EU;
                         }
                         func_8006658C(((u8 *) (scr->unk_020))
@@ -514,7 +514,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                                 scr->unk_104 = (s16) shadow_roll;
                             }
                             func_80065820((u8 *)&scr->unk_100, rotation_matrix);
-                            func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
+                            func_80064840(&sprite_projection_matrix, rotation_matrix, view_matrix);
                             func_80064BC0(view_matrix, shadow_scale);
                             func_80064D80((s32 *) view_matrix);
                             func_80064CF0((s32 *) view_matrix);

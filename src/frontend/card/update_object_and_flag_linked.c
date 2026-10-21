@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 typedef struct S_8001B3E4_0 {
     u16 unk_00;

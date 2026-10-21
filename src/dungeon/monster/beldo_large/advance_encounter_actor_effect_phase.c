@@ -76,7 +76,7 @@ s32 play_sound_if_enabled();
 void create_random_velocity_child_effect();
 void create_offset_half_scale_spark(void *, s32, s32, s32);
 extern s16 D_80173AFC[16];
-extern void *D_80175D50[3];
+extern void *beldo_actor_nodes[3];
 
 /* Updates the effect phases, particle bursts, movement, and directional sprite. */
 void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
@@ -112,8 +112,8 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
     u8 turn_phase;
 
     count = 1;
-    heading = D_80175D50[0] + 0x20;
-    link_slot = ((u8 *)D_800E3D7C) + 4;
+    heading = beldo_actor_nodes[0] + 0x20;
+    link_slot = ((u8 *)dungeon_actor_ring_anchor) + 4;
     do {
         linked_entity = ((S_8016FC4C_0 *)link_slot)->unk_AC;
         if (linked_entity != NULL) {
@@ -131,7 +131,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
         s32 scaled_step;
         heading->unk_2A = get_rounded_facing_and_rounding_flag(
             object->unk_24, object->unk_25,
-            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
+            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
         ((S_8016FC4C_3 *)effect)->unk_96 = (u16)(((S_8016FC4C_3 *)effect)->unk_96 + 1);
         height = object->unk_1E.s;
         height = (u16)(height - 0x14);
@@ -168,7 +168,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
         s32 scaled_step;
         heading->unk_2A = get_rounded_facing_and_rounding_flag(
             object->unk_24, object->unk_25,
-            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
+            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
         scaled_step = 0 - (object->unk_1E.s << 6);
         if (scaled_step < 0)
             scaled_step += 0xFFF;

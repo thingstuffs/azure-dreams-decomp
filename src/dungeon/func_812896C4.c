@@ -15,10 +15,10 @@
 #define update_actor_status_and_food func_800A86C4
 #define func_80047784 func_80047320
 #define generate_random_value func_800A59E8
-#define D_800814A8 D_800803DC
+#define primary_actor_record D_800803DC
 #define begin_pushed_actor_move func_800A8F10
 #define func_80042900 func_800424C4
-#define D_80082E80 free_node_list_head
+#define reference_tile_object free_node_list_head
 #define get_tile_chebyshev_distance func_8009EB30
 /* Relink of matched dungeon/func_80977E0C at file 0x997E0C; imports and data use paired retail relocations. */
 #define g_dungeon_status D_80085990

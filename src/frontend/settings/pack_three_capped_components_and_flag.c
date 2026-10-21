@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "frontend/settings.h"
 
 
 /* Packs three capped source components, copies an attribute, and propagates the high-bit flag. */

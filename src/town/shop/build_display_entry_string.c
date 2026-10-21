@@ -27,7 +27,7 @@ void build_display_entry_string(s32 text_id, S_800B52F4_1 *context) {
 
     text = &text_buffer;
     memcpy(text, &D_800892C0, 5);
-    strcat(text, ((s32)D_800814A8) + 0x34);
+    strcat(text, ((s32)primary_actor_record) + 0x34);
     strcat(text, &D_800892C8);
     strcat(text, &D_800892CC);
     strcat(text, &D_800892D8);

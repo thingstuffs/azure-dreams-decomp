@@ -49,10 +49,10 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
         return process_record_and_update_linked_state(action, call_context);
     }
 
-    state = D_800E3D7C;
+    state = dungeon_actor_ring_anchor;
     if (target == (u32)state) {
         ((PlayerRecord *)state)->pending_item_action = action;
-        begin_mode_selected_item_action(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), state);
+        begin_mode_selected_item_action(state, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), state);
         action[3] &= (u8)~0x20;
         return 0;
     }
@@ -68,7 +68,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
         if (item != 0) {
             if (!(action[3] & 0x20)) {
                 ((PlayerRecord *)state)->unk_114 = 0x202080;
-                begin_parameterized_actor_action(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD148, 2);
+                begin_parameterized_actor_action(state, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), D_800DD148, 2);
                 action[3] |= 0x20;
                 return 0;
             }

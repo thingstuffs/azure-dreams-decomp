@@ -1,5 +1,10 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "engine/scene.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
+#include "sdk/libc.h"
+#include "slus.h"
 
 /* Linked-list node shape shared with find_active_list_node/mark_active_nodes_by_callback's Node/
  * S_80081498: next ptr @0x0, a pointer field @0x10, a 16-bit flags field
@@ -21,13 +26,8 @@ extern Node8002BB08 D_8002BB08;
 
 
 /* Address-only use; size clears the small-data threshold. */
-extern u8 D_80027A9C[];
 
-extern Node8002BB08 *find_active_list_node(Node8002BB08 *a0);
-extern Node8002BB08 *initialize_scene_object_in_buffer(s32 a0, void *a1, s32 a2);
 extern void card_boot_destroy_card_chooser(void *a0);
-extern void bzero(void *a0, s32 a1);
-extern void func_80027A68(void *a0, s32 a1, s32 a2);
 
 /* Create or reset the shared node and initialize its request and mode. */
 Node8002BB08 *init_card_boot_request_object(s32 request, s32 mode) {
@@ -41,7 +41,7 @@ Node8002BB08 *init_card_boot_request_object(s32 request, s32 mode) {
         node->field_1E &= 0x7FFF;
         bzero(node_data, 0x44);
     }
-    D_80082E60.flags0F |= 0x80;
+    runtime_dispatch_state.flags0F |= 0x80;
     func_80027A68(node_data, request, mode);
     node->field_10 = &D_80027A9C[0];
     return node;

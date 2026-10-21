@@ -1,10 +1,6 @@
 #include "common.h"
-
-extern u8 D_8040062C[];
-extern u8 D_80400654[];
-extern u8 D_8040861C[];
-extern u8 D_804F281B[];
-extern u8 D_805030EF[];
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern void *func_8003C714(s32 value, void *base, s32 size);
 extern void func_80040560(void *base, void *ptr);

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_floor.h"
 
-extern s16 D_8008146E;
+extern s16 dungeon_room_count;
 
 /* Return the first active record containing the coordinates, or -1 if none matches. */
 s32 find_active_monster_record(s32 pos_x, s32 pos_y) {
@@ -13,14 +13,14 @@ s32 find_active_monster_record(s32 pos_x, s32 pos_y) {
     s32 y;
     s32 count;
 
-    initial_count = D_8008146E;
+    initial_count = dungeon_room_count;
     index = 0;
     if (initial_count > 0) {
         x = pos_x & 0xFFFF;
         y = pos_y & 0xFFFF;
         count = initial_count;
         do {
-            record = (u8 *)D_800E2970 + index * 20;
+            record = (u8 *)dungeon_rooms + index * 20;
             if (*(s16 *)(record + 10) != 0) {
                 u16 left = *(u16 *)(record + 0);
                 if (x >= left - 1 && left + *(u16 *)(record + 4) >= x) {

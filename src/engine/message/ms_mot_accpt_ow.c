@@ -2,6 +2,7 @@
 #include "shared/object_index_slots.h"
 
 #include "common.h"
+#include "engine/message.h"
 
 typedef struct {
     s32 unk0;
@@ -10,7 +11,7 @@ typedef struct {
 
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
-extern u8 D_800C3960[];
+extern u8 person_motion_tag[];
 
 
 /* Returns object data for slot 1 or objects with matching type and data tags. */
@@ -32,7 +33,7 @@ void *ms_mot_accpt_ow(u8 object_index)
 
     object_type = *(void **)(object + 0x10);
     if (object_type == D_800C3174 || object_type == D_800C321C) {
-        if (*(void **)((u8 *)object_data + 0x50) == D_800C3960) {
+        if (*(void **)((u8 *)object_data + 0x50) == person_motion_tag) {
             return object_data;
         }
     }

@@ -2,7 +2,8 @@
 #include "frontend/libcard/interfaces.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                             /* extern */
-extern s16 D_80028010[8];
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 /* Return a bitmask of the eight entries for which test_resident_bitmap_bit is nonzero. */
 s32 card_boot_build_eight_entry_presence_mask(void) {

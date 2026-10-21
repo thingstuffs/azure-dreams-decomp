@@ -40,7 +40,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern u8 D_80171058[];
 extern u8 D_80174880[9];
-extern Callback D_80174900[];
+extern Callback garuda_callbacks[];
 
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void func_800478B8(void *);
@@ -124,7 +124,7 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, void *
             update_callback(obj, input_motion, input_part, obj);
         }
     }
-    D_80174900[(((ObjFieldView_81005278 *)obj)->field_9A)](obj, input_motion, input_part, obj);
+    garuda_callbacks[(((ObjFieldView_81005278 *)obj)->field_9A)](obj, input_motion, input_part, obj);
     if (saved_mode != (((ObjFieldView_81005278 *)obj)->field_6D)) {
         try_move_actor_to_valid_position(obj, input_motion, input_part, obj);
     }

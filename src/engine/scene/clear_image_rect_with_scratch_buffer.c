@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/resource.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 typedef struct {
     /* 0x00 */ s16 unk0;
@@ -6,10 +9,6 @@ typedef struct {
     /* 0x04 */ u16 unk4;
     /* 0x06 */ s16 unk6;
 } S_800404F8;
-
-extern s32 alloc_gpu_scratch_ring(s32 size);
-extern void zero_words(s32 *p, s32 n);
-extern s32 LoadImage(void *rect, s32 *p);
 
 /* Allocates and zeroes an image buffer, then loads it into the destination rectangle. */
 void clear_image_rect_with_scratch_buffer(S_800404F8 *rect) {

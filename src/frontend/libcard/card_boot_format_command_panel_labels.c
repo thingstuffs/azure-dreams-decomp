@@ -1,7 +1,7 @@
 #include "common.h"
-
-void *decode_note_text(void *entries, u8 *text, s32 initial_octave);
-extern s32 D_800282BC;
+#include "engine/audio/sequence.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 /* Processes three table values with addresses spaced 0x48 bytes apart from base + 0x90. */
 void card_boot_format_command_panel_labels(s32 baseAddress) {

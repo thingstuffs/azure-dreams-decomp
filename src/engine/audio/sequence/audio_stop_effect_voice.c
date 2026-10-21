@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
+#include "slus.h"
 
 typedef struct S_80085458 {
     s16 f00, f02, f04;
@@ -30,9 +33,6 @@ extern s32 audio_voice_masks[];
 extern s32 audio_update_guard[3];
 
 extern s32 sound_apply_indexed_voice_envelope(s32 slot_index, S_80085458 *envelope);
-extern void sound_reset_indexed_voice_envelope(s32 slot_index);
-extern void func_8005E97C(s32 key_on, s32 voices);
-extern s32 func_8005EB78(s32 voice_mask);
 
 /* Services an active SPU slot until completion and clears the busy flag. */
 s32 audio_stop_effect_voice(s16 slot_id)

@@ -4,7 +4,7 @@
 /* r121_nodonor relink of dungeon/func_80AF200C: symbols this copy binds at other addresses. */
 extern u8 D_80156ED8[];
 extern u8 D_80156E98[];
-extern u8 D_80156E88[];
+extern u8 noise_knockback_frames[];
 void func_80153760(void *actor_arg, void *context_arg, void *sprite_arg, EntityRec *entity_arg);
 
 void update_noise_knockback(void *action, EntityRec *motion, void *entity, EntityRec *actor)
@@ -102,7 +102,7 @@ void update_noise_knockback(void *action, EntityRec *motion, void *entity, Entit
         if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv == ((u8 *)D_80156E98)) {
             u8 *direction_table;
 
-            direction_table = ((u8 *)D_80156E88);
+            direction_table = ((u8 *)noise_knockback_frames);
             (*(void * *)((u8 *)entity + 0x2C)) = direction_table;
             select_sprite_entry(entity,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

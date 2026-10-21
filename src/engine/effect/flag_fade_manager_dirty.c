@@ -1,11 +1,11 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/node.h"
+#include "slus/data.h"
 
 extern s8 fade_manager_state[9];
-extern u32 D_800814A0_scalar;
-extern void unlink_node_if_registered(void *runtime_data);
-
 
 /* Processes the runtime data and sets both 0x8000 flags. */
 void flag_fade_manager_dirty(void)

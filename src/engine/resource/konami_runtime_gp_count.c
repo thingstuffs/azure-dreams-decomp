@@ -1,6 +1,7 @@
 #include "engine/resource/konami_runtime_gp_count.h"
 
 #include "engine/resource/konami_runtime_gp_count.h"
+#include "engine/resource.h"
 
 void bind_and_load_indexed_resource_record(void *data, s32 entry_index)
 {
@@ -17,7 +18,7 @@ void bind_and_load_indexed_resource_record(void *data, s32 entry_index)
     *(void **)0x80080A8C = paired_data;
     file_load_com(data);
 
-    if (D_80082E60.mode == 2) {
+    if (runtime_dispatch_state.mode == 2) {
         *(s8 *)0x800DCF4D = -2;
     }
 }

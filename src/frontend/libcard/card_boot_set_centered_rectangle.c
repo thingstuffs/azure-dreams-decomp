@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern void func_80049D80(s32 target, s16 *rect);
+#include "engine/menu.h"
+#include "frontend/libcard.h"
 
 /* Apply a centered rectangle with the given width and height and return the target. */
 s32 card_boot_set_centered_rectangle(s32 target, s32 width, s32 height) {

@@ -42,7 +42,7 @@ void ease_reaction_position_with_vertical_offset(void *state, void *position) {
         initialize_reaction_data_and_timer_13(state);
         return;
     }
-    target_table = &D_80083498;
+    target_table = &scene_object_list_anchor;
     x_delta = ((S_800CA134_3 *)(target_table->unk_08))->unk_02
         - ((S_800CA134_1 *)position)->unk_02;
     (*(s16 *)((u8 *)position + (2))) = (s16) ((u16) ((S_800CA134_1 *)position)->unk_02 + (x_delta / 4));

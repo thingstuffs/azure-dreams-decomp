@@ -1,8 +1,8 @@
 #include "common.h"
 
 #include "common.h"
-
-extern u8 menu_object_pointer_order[];
+#include "engine/menu.h"
+#include "slus/data.h"
 
 /* Set 17 objects' data pointers using table-selected groups and 12-byte entries. */
 void initialize_seventeen_object_pointers(s32 *objects, s32 *group_bases)

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 s32 wait_selected();                         /* extern */
 void invoke_callback_for_four_global_values();                            /* extern */

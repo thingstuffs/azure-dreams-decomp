@@ -109,7 +109,7 @@ void advance_jump_to_target_tile(S_80172374_0 *motion, ObjectPosition *position,
 
                 entity->facing = get_rounded_facing_and_rounding_flag(
                     target_tile->unk_24, target_tile->unk_25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }
 

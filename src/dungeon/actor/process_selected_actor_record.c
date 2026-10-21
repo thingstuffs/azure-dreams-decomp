@@ -10,8 +10,8 @@ s32 can_entity_gain_level(void *);
 void raise_entity_level(void *, s32);
 void play_sound_if_enabled(s32);
 void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
-extern s32 D_8007359C;
-extern s8 D_80080A88;
+extern s32 monster_species_table;
+extern s8 scene_music_hold;
 extern s8 D_80080AA0;
 
 
@@ -36,7 +36,7 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Actor
     u8 type_id;
 
     eligible = 0;
-    if (D_800E296C & 0x100000) {
+    if (dungeon_floor_flags & 0x100000) {
         if (((s32)g_dungeon_status.active_actor) != 0) {
             if (((s32)g_dungeon_status.active_actor) == record) {
                 if (g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
@@ -44,13 +44,13 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Actor
                         select_nearby_target_and_initialize_slot((void *)(buffer_addr - 0x20), source, 8, 0x300);
                         raise_entity_level(record, 1);
                         play_sound_if_enabled(0x201);
-                        if (!(D_80013714 & 2)) {
+                        if (!(system_update_flags & 2)) {
                             D_80080AA0 = 1;
-                            D_80080A88 = 0;
+                            scene_music_hold = 0;
                         }
                         if (!(record->status_flags & 0x800000) && (record->flags14 & 0x4000)) {
                             type_id = (*(u8 *)((u8 *)&record->unk_10 + 3));
-                            if ((((S_800AAB10_2_pre *)(((type_id * 0x14) + D_8007359C)))[-1].unk_00 & 0x80)
+                            if ((((S_800AAB10_2_pre *)(((type_id * 0x14) + monster_species_table)))[-1].unk_00 & 0x80)
                                 && (type_id >= 2U) && ((u8) (*(u8 *)((u8 *)&record->unk_10 + 1)) >= 0x14U)
                                 && !(record->flags1C & 0x228) && ((get_entity_effect_value(record, 0x18) << 0x10) == 0)) {
                                 eligible = 1;

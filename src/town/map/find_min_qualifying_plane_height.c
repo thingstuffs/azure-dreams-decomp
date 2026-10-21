@@ -55,8 +55,8 @@ typedef struct TargetGlobal {
 } TargetGlobal;
 
 extern u8 D_800CFCAC[];
-extern s32 D_800FE480;
-extern s32 D_800FE484;
+extern s32 town_map_column_extent;
+extern s32 town_map_row_extent;
 
 struct ScratchQuad; s32 check_scratch_quad_half_turn_gaps(struct ScratchQuad *);
 
@@ -133,7 +133,7 @@ s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height,
     while (scratch->outer_count < 2) {
         y = scratch->y_scan + scratch->outer_offset;
         if (scratch->y_step >= 0) {
-            if (y >= D_800FE484) {
+            if (y >= town_map_row_extent) {
                 break;
             }
         } else if (y < 0) {
@@ -154,7 +154,7 @@ s32 find_min_qualifying_plane_height(u32 query_x, u32 query_y, s16 query_height,
             scan_x_value -= (u32)x_step;
             x = scan_x_value;
             if (x_step >= 0) {
-                if ((s16)x_sum >= D_800FE480) {
+                if ((s16)x_sum >= town_map_column_extent) {
                     break;
                 }
             } else {

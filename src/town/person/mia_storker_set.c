@@ -14,7 +14,7 @@ extern Node * create_town_effect_object(void * , s32, void * , void *);
 extern s16 query_lowered_transform_position(SignedPositionView *);
 extern void initialize_object_entries(Work * , s32, void *);
 extern s32 D_80045340;
-extern u8 D_80083498[];
+extern u8 scene_object_list_anchor[];
 extern u8 D_800C8E9C[];
 extern u8 D_800C8F80[];
 extern u8 D_800D620C[];
@@ -27,7 +27,7 @@ void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header
     s32 node_aux;
     if (test_resident_bitmap_bit(snf_truth) == 0)
         return;
-    node = create_town_effect_object(D_80083498, 0, D_800C8E9C, D_800C8F80);
+    node = create_town_effect_object(scene_object_list_anchor, 0, D_800C8E9C, D_800C8F80);
     if (node == 0)
         return;
     header = node->header;

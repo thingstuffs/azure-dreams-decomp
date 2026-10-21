@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/text.h"
 
 /* Returns whether the string contains a character other than a space or newline. */
 s32 string_has_non_whitespace(u8 *text)

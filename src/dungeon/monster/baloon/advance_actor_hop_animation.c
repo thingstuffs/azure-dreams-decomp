@@ -41,8 +41,8 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
-extern u8 D_800E2348[];
-extern u8 D_800E2368[];
+extern u8 baloon_default_frames[];
+extern u8 baloon_hop_frames[];
 extern u8 D_800E2370[];
 extern s32 D_80171F1C;
 
@@ -62,9 +62,9 @@ void advance_actor_hop_animation(void *motion, void *position, void *sprite, voi
         if ((s16)timer_value < 2) {
             break;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_800E2368;
+        ((SpriteFrameState *)sprite)->frameTable = baloon_hop_frames;
         select_sprite_entry(sprite,
-            D_800E2368[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            baloon_hop_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801733B4_0 *)motion)->unk_98 |= 8;
         ((S_801733B4_1 *)actor)->unk_1C.s &= 0xF7FFFFFF;
@@ -112,10 +112,10 @@ void advance_actor_hop_animation(void *motion, void *position, void *sprite, voi
         break;
         break;
     case 3:
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_800E2348) {
-            ((SpriteFrameState *)sprite)->frameTable = D_800E2348;
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != baloon_default_frames) {
+            ((SpriteFrameState *)sprite)->frameTable = baloon_default_frames;
             select_sprite_entry(sprite,
-                D_800E2348[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                baloon_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801733B4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_801733B4_0 *)motion)->unk_9E = 0;
         }
@@ -146,7 +146,7 @@ void advance_actor_hop_animation(void *motion, void *position, void *sprite, voi
                 if (actor_flags & 0x20000) {
                     ((S_801733B4_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
                         ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
                 }
             }
         }

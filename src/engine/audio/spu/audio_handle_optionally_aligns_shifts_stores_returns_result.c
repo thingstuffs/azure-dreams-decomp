@@ -1,6 +1,7 @@
 #include "engine/audio/spu/sound_register_helpers.h"
 
 #include "engine/audio/spu/sound_register_helpers.h"
+#include "engine/audio/spu.h"
 
 /* Optionally aligns a value, shifts it, and stores or returns the result. */
 s32 audio_handle_optionally_aligns_shifts_stores_returns_result(s32 index, u32 value)

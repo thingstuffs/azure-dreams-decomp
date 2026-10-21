@@ -21,17 +21,17 @@ typedef struct TownTransition {
     Vec3i *other;
 } TownTransition;
 
-extern Vec3i D_80100D98;
+extern Vec3i town_position_reference_state;
 extern void restart_or_update_midpoint_tracking(void *first_ptr, void *second_ptr);
 extern void apply_and_store_setting(Vec3i *setting);
 
 // Initializes the town transition callback, targets, and position from D_80100D98.
 void initialize_transition_state(TownTransition *state) {
     state->callback = restart_or_update_midpoint_tracking;
-    state->target = &D_80100D98;
-    state->previous_target = &D_80100D98;
-    state->other = &D_80100D98;
-    state->x = D_80100D98.x;
+    state->target = &town_position_reference_state;
+    state->previous_target = &town_position_reference_state;
+    state->other = &town_position_reference_state;
+    state->x = town_position_reference_state.x;
     state->y = state->other->y;
     state->z = state->other->z;
     apply_and_store_setting((Vec3i *)&state->x);

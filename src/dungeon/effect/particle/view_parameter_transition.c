@@ -484,7 +484,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                     u32 table;
 
                     copy_source = PTR_AT((u8 *)target, -0x18);
-                    table = (u32)D_800DDC40;
+                    table = (u32)entity_height_offsets;
                     target = U8_AT((u8 *)target, 0x13);
                     target += table;
                     table = U8_AT((u8 *)target, 0x00);
@@ -681,7 +681,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
             S32_AT(display, 0x04) = S32_AT(entity, 0x50) +
                 (S16_AT(entity, 0x0A) * trig * 0x10);
             S32_AT(display, 0x08) = S32_AT(effect_pos, 0x08) +
-                (D_800DDC40[U8_AT(PTR_AT(owner, 0x60), 0x13)] << 16);
+                (entity_height_offsets[U8_AT(PTR_AT(owner, 0x60), 0x13)] << 16);
 
             {
                 u8 *spawn_display = PTR_AT(source, 0x0C);

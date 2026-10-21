@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
+#include "slus/data.h"
 
 typedef struct S_80051F58_ptr {
     u8 pad00[6];
@@ -23,8 +25,6 @@ typedef struct S_80051F58_a2 {
     u8 unk0D;
     u8 unk0E;
 } S_80051F58_a2;
-
-extern s32 D_800814A0_abs __attribute__((section(".data")));
 
 /* Fade the color in, hold it, then fade it out and mark the effect complete. */
 void update_color_fade_effect(S_80051F58 *effect, void *unused_1, S_80051F58_a2 *color, void *unused_3)

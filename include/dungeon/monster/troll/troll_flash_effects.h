@@ -471,7 +471,7 @@ extern u8 D_80175E54[];
 extern u8 D_80175E5C[];
 extern u8 D_80175E64[];
 extern T_80171BEC_Packed3 D_80175EE8;
-extern s8 D_800E2968;
+extern s8 entity_spawn_variant_code;
 extern u8 D_801720B4[];
 extern u8 D_80175E24[];
 extern u8 D_80175E2C[];

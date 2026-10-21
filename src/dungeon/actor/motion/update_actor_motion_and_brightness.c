@@ -5,7 +5,7 @@
 #include "records/Rec_D_80082E80.h"
 
 typedef void (*Func4)(void *, void *, void *, void *);
-extern Func4 D_800E22E0[];
+extern Func4 actor_brightness_callbacks[];
 extern void func_800478B8(void *);
 extern s32 func_800644B8(s32);
 extern s32 sample_terrain_surface_height();
@@ -47,7 +47,7 @@ void update_actor_motion_and_brightness(void *entity, S_800D4158_1 *motion, Spri
     if ((*(Func4 *)((u8 *)entity_ref + 0x8c)) != NULL) {
         ((Func4)(*(Func4 *)((u8 *)entity_ref + 0x8c)))(entity_ref, motion, sprite, entity_ref);
     }
-    D_800E22E0[(*(u8 *)((u8 *)entity_ref + 0x9a))](entity_ref, motion, sprite, entity_ref);
+    actor_brightness_callbacks[(*(u8 *)((u8 *)entity_ref + 0x9a))](entity_ref, motion, sprite, entity_ref);
     if (!(sprite->flags & 0x8000)) {
         if (!(sprite->flags & 0x40)) {
             func_800478B8(sprite);

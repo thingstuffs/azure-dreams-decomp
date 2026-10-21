@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/audio/slots.h"
+#include "engine/audio/spu.h"
 
 typedef struct {
     /* 0x00 */ s16 marker;
@@ -20,9 +22,6 @@ typedef struct {
 } S_8007382C;
 
 extern S_8007382C sound_slot_transfer_cursor;
-
-extern s32 clamp_and_submit_driver_parameter(s32 dest, u32 size);
-extern void lookup_and_scale_driver_address(s32 value);
 
 /* Reads a bounded chunk from the selected entry and advances its cursor. */
 s32 read_sound_slot_chunk(s32 dest, u32 read_size, s16 entry_id)

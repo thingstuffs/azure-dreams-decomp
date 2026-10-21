@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 typedef struct S_80050550_A {
     /* 0x00 */ u8 unk0;

@@ -1,5 +1,6 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "engine/resource.h"
 
 typedef void (*S_8006CE80_FuncPtr)(void);
 
@@ -41,7 +42,7 @@ s32 run_dispatch_entry_callbacks(u16 entry_id)
         if (callback != 0) {
             while ((*callback) != 0) {
                 (*callback)();
-                if (D_80082E60.unk_0E != 0) {
+                if (runtime_dispatch_state.unk_0E != 0) {
                     return 1;
                 }
                 callback++;

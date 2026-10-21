@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/transition_slots.h"
+#include "engine/scene.h"
 
 /* Initializes the last free slot and returns its index, or -1 if all eight slots are occupied. */
 s16 reserve_runtime_slot(s16 slot_id, s16 slot_value)

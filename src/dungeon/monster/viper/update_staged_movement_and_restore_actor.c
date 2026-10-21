@@ -22,7 +22,7 @@ extern Vec3sTable D_8017084C;
 extern u8 D_80174AA4[];
 extern u8 D_80174AAC[];
 extern u8 D_80170E94[];
-extern void *D_800E3DE8[];
+extern void *actor_update_node_cursor[];
 s32 resolve_record_orientation_or_fallback();
 void *allocate_list_node(s32, void *);
 s32 register_node();
@@ -163,7 +163,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
             ((S_801727B4_0 *)action)->unk_AE = (u16) (((S_801727B4_0 *)action)->unk_AE + ((u16)motion->y.w.i));
             ((S_801727B4_0 *)action)->unk_B0 = (u16) (((S_801727B4_0 *)action)->unk_B0 + ((u16)motion->z.w.i));
         } else {
-            effect = allocate_list_node(1, ((u8 *)(&D_80083498)));
+            effect = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
             if (effect != NULL) {
                 (((ObjectNodeHeader *)effect)->unk_10) = &D_800DB618;
                 register_node(effect, &D_800DB660);
@@ -271,7 +271,7 @@ void update_staged_movement_and_restore_actor(void *action, ObjectPosition *moti
         if (actor->pending_turn_updates == 0) {
             actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         } else {
-            *D_800E3DE8 = (u8 *)actor - 0x20;
+            *actor_update_node_cursor = (u8 *)actor - 0x20;
         }
         actor_handle = ((s32)actor->target);
         if (actor_handle == 0) {

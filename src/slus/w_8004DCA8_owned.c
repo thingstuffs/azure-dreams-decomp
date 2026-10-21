@@ -1,7 +1,7 @@
 #include "slus/command_slots_81554.h"
 
-s32 D_80081554 = 0;
-s32 D_80081558 = 0;
+s32 message_command_write_index = 0;
+s32 message_command_start_index = 0;
 
 #include "w_8004DCA8.c"
 #include "w_8004DD2C.c"

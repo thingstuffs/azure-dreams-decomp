@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/cd.h"
+#include "engine/scene.h"
+#include "slus.h"
 
-extern void load_bin_nametwin(void);
-extern void drain_cd_command_queue(void);
 extern void allocate_object_and_mark_failed_setup_for_cleanup(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
 /* Forwards five arguments to allocate_object_and_mark_failed_setup_for_cleanup after calling load_bin_nametwin and drain_cd_command_queue. */

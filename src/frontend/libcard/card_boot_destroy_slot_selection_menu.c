@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/menu.h"
+#include "frontend/libcard.h"
 
 typedef struct UnkStruct1E {
     u8 pad[0x1E];
@@ -7,8 +9,6 @@ typedef struct UnkStruct1E {
 
 extern int D_800814A0;
 
-extern void set_object_cleanup_flag(UnkStruct1E *a0);
-extern void process_nonzero(s32 record);
 extern void func_80024EEC(s32 object);
 extern void func_80024184(s32 object);
 

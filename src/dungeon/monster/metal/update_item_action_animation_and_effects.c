@@ -105,14 +105,14 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
 
             ((S_80173078_0 *)action)->unk_98 &= 0xFF7F;
             if (special != 0) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = target;
                 item_id = ((S_80173078_1_pre *)target)[-1].unk_00;
                 (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173078_2 *)item_id)->unk_24;
                 (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173078_2 *)item_id)->unk_25;
             } else {
                 item_id = (u8 *)(*item_slot);
-                if (D_8006DE24[((u8)item_id)].kind == 2) {
+                if (item_action_definitions[((u8)item_id)].kind == 2) {
                     target = (*(void * *)((u8 *)actor + 0x60));
                     if (target != 0) {
                         item_id = ((S_80173078_1_pre *)target)[-1].unk_00;
@@ -153,7 +153,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
         movement->velocity_x = 0;
         set_record_integer_tile_center(movement, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
         ((S_80173078_0 *)action)->unk_8C = D_80171650;

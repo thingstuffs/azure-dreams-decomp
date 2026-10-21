@@ -1,4 +1,5 @@
 #include "engine/audio/spu/sound_range_records.h"
+#include "engine/audio/spu.h"
 
 
 

@@ -14,9 +14,9 @@ void advance_player_position(s32 context, EntityRec *object, s32 update_data) {
     s16 limit;
 
     object->z.v = (s32) (object->z.v + object->flags14);
-    limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &D_800FE488);
+    limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &position_query_scratch);
     if (limit < object->z.w.i) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(object), limit, (struct TownVec * *)(&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(object), limit, (struct TownVec * *)(&position_query_scratch));
         initialize_record_with_handler_table((Struct8009B1C8 *)(context), (s32)(object), update_data);
         return;
     }

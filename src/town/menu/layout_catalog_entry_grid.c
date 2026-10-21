@@ -63,10 +63,10 @@ typedef struct TownInitialPosition {
 } TownInitialPosition;
 
 extern void initialize_catalog_entry_packets(void);
-extern TownInitialPosition D_80126AF8[5];
+extern TownInitialPosition catalog_grid_layout[5];
 extern s8 D_80128614[];
-extern void *D_80129728[];
-extern s8 D_801331D0[];
+extern void *catalog_display_node_slots[];
+extern s8 catalog_grid_packets[];
 
 /* Initialize town object data, grid positions, and display dimensions. */
 void layout_catalog_entry_grid(void)
@@ -96,10 +96,10 @@ void layout_catalog_entry_grid(void)
     initial_index = 0;
     {
         void **object_base;
-        object_base = D_80129728;
+        object_base = catalog_display_node_slots;
         initial_slot = &object_base[0x1C];
     }
-    initial_pos = D_80126AF8;
+    initial_pos = catalog_grid_layout;
 initial_loop:
     ((S_801232DC_0 *)(*initial_slot))->unk_00 = initial_pos->data;
     object = *initial_slot;
@@ -116,10 +116,10 @@ initial_loop:
     }
 
     initial_index = 0;
-    group_data = D_801331D0;
+    group_data = catalog_grid_packets;
     {
         void **object_base;
-        object_base = D_80129728;
+        object_base = catalog_display_node_slots;
         object_offset = object_index << 2;
         group_slot = (void **)(object_offset + (u32)object_base);
     }
@@ -150,10 +150,10 @@ initial_loop:
     initial_index = 0;
     {
         void **object_base;
-        object_base = D_80129728;
+        object_base = catalog_display_node_slots;
         entry_slot = (void **)((object_index << 2) + (u32)object_base);
     }
-    entry_data = D_801331D0;
+    entry_data = catalog_grid_packets;
     do {
         column = initial_index >> 3;
         row = initial_index & 7;
@@ -170,7 +170,7 @@ initial_loop:
     final_x = 0xE0;
     {
         void **object_base;
-        object_base = D_80129728;
+        object_base = catalog_display_node_slots;
         display_slot = &object_base[0x1C];
         ((S_801232DC_4 *)(object_base[0x61]))->unk_00 = D_80128614;
     }

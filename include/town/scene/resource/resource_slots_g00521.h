@@ -8,8 +8,8 @@
 extern u8 D_80080EA8[];
 extern void file_load_com(void *object);
 
-extern u8 D_800CF828[15];
-extern void *D_800CF838[16];
+extern u8 town_resource_queue[15];
+extern void *town_resource_descriptors[16];
 s32 resource_value_table_contains(s32 target_value);
 
 /* Functions defined in this translation unit. */

@@ -131,7 +131,7 @@ extern void func_800654B0(void *, void *, void *, void *, void *, void *, void *
 extern void func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_800666F4(void *);
-extern u8 D_8006CD30[];
+extern u8 sprite_projection_matrix[];
 
 typedef struct {
     s32 tag;
@@ -211,7 +211,7 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
         u32 sort_depth;
         u32 biased_depth;
         sort_depth = (biased_depth = depth - 6, biased_depth - (s16)depth_bias);
-        matrix = D_8006CD30;
+        matrix = sprite_projection_matrix;
         ((S_80175594_5 *)matrix)->unk_1C = depth * 4;
         ((S_80175594_1 *)scratch)->unk_C0 = sort_depth;
     }

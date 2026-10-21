@@ -1,6 +1,9 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/scene.h"
+#include "sdk/libc.h"
+#include "slus/data.h"
 
 typedef struct {
     s32 word;
@@ -14,11 +17,6 @@ typedef struct {
     s8 byte8;
     s8 byte9;
 } __attribute__((packed)) Copy10;
-
-extern void bzero(void *ptr, s32 size);
-extern u8 session_reset_default_pair[10];
-extern u8 session_reset_default_block[10];
-
 
 /* Clear the memory region and copy defaults while preserving six saved fields. */
 void reset_game_state_preserving_session_fields(void)

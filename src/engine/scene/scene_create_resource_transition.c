@@ -1,5 +1,9 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
+#include "slus.h"
 
 /* Node returned by func_8003FC64. We only model the fields touched here:
  * a "public" area starting at offset 0x20 (owner back-pointer), and two
@@ -17,10 +21,6 @@ typedef struct S_8004EDA8_owner {
     u8 pad_0x0[0x1E];
     u16 flags_0x1E;   /* 0x1E */
 } S_8004EDA8_owner;
-
-extern void scene_begin_transition_texture_read(void *a0);
-extern void schedule_deferred_resource_transition(void *a0);
-extern s16 SD_Call(s32 a0);
 
 /* Clears the owner flag and allocates and initializes a callback node with its context. */
 void *scene_create_resource_transition(void *owner_arg, void *context_arg)

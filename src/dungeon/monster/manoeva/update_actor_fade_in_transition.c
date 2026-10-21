@@ -137,8 +137,8 @@ void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427
             if (entry_index < 0) {
                 break;
             }
-            resolve_familiar_deployment_request(((u8 *)D_800E3D7C), ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)),
-                          ((S_8017427C_4 *)(((u8 *)D_800E3D7C) + entry_index * 4))->unk_D0);
+            resolve_familiar_deployment_request(((u8 *)dungeon_actor_ring_anchor), ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)),
+                          ((S_8017427C_4 *)(((u8 *)dungeon_actor_ring_anchor) + entry_index * 4))->unk_D0);
             actor_data->flags1C &= 0xFFFEFFFF;
             break;
         }

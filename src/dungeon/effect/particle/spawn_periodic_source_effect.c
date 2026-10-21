@@ -54,8 +54,8 @@ void *func_7003CF18();
 s32 func_7010C7A8(void *, void *, s32, s32);
 void *memcpy(void *, const void *, unsigned int);
 extern s32 D_80086AD8;
-extern u8 D_800E0F20[0x100];
-extern u16 D_80094422;
+extern u8 emitter_height_offsets[0x100];
+extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010C460;
 extern M2C_UNK D_8010C984;
 
@@ -78,7 +78,7 @@ void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) 
             ((S_7FFEA1CC_1 *)effect)->unk_10 = &D_8010C460;
             effect_position = ((S_7FFEA1CC_1 *)effect)->unk_08;
             ((S_7FFEA1CC_2 *)effect_position)->unk_0A = (u16) (((S_7FFEA1CC_2 *)effect_position)->unk_0A
-                - (D_800E0F20[((S_7FFEA1CC_4 *)(((S_7FFEA1CC_0 *)source)->unk_00))->unk_13] >> 1));
+                - (emitter_height_offsets[((S_7FFEA1CC_4 *)(((S_7FFEA1CC_0 *)source)->unk_00))->unk_13] >> 1));
             render_state = ((S_7FFEA1CC_1 *)effect)->unk_0C;
             memcpy((s8 *) effect + 0x62, &D_8010C984, 0xC);
             ((S_7FFEA1CC_3 *)render_state)->unk_08 = (void *) (effect + 0x62);
@@ -91,7 +91,7 @@ void spawn_periodic_source_effect(void *source, s32 spawn_arg1, s32 spawn_arg2) 
     remaining_ticks = ((S_7FFEA1CC_0 *)source)->unk_1E - 1;
     ((S_7FFEA1CC_0 *)source)->unk_1E = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
-        u16 *active_count = &D_80094422;
+        u16 *active_count = &emitted_effect_counter;
         u16 next_count;
 
         (*(u16 *)((u8 *)source + -2)) = (u16) (((S_7FFEA1CC_0_pre *)source)[-1].unk_00 | 0x8000);

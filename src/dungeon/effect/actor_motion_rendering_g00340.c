@@ -11,7 +11,7 @@ void update_pending_entity_action(Rec_func_800A9E70_arg0 *actor, s32 update_arg1
     if ((entity->flags1C & 0x2000) || (entity->flags14 & 0x4000)) {
         if ((u32)(actor->unk_9A.as_u8 - 0x13) >= 2U) {
             if (entity->unk_6D == 0) {
-                if (D_800DCE68 == 0) {
+                if (pending_marked_actor_count == 0) {
                     if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
                         return;
                     }
@@ -93,7 +93,7 @@ void update_actor_motion_and_rendering(u8 *actor, u8 *motion, u8 *render) {
         callback(actor, motion, render, actor);
     }
 
-    D_800DF1E8[U8_AT(actor, 0x9A)](actor, motion, render, actor);
+    actor_render_callbacks[U8_AT(actor, 0x9A)](actor, motion, render, actor);
 
     if ((s16)old_state != S8_AT(actor, 0x6D)) {
         try_move_actor_to_valid_position(actor, motion, render, actor);

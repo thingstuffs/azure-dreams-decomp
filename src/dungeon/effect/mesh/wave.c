@@ -445,7 +445,7 @@ typedef struct Packet16 {
     s32 value;
 } Packet16;
 
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 extern void func_80067E2C(void *, void *);
 
 /* Queue drawing with an optional cleared rectangle, then restore the drawing area. */
@@ -465,7 +465,7 @@ void move_linked_effect_along_path(s32 draw_param_a, s32 draw_param_b, Position 
     state = g_game_work.draw_buffer;
     state_ptr = &g_game_work.draw_buffer;
     packet = state->next_packet;
-    offset_y = state != (DungeonState *)D_801C9E40;
+    offset_y = state != (DungeonState *)upper_draw_context;
     state->next_packet = packet + 12;
     clear_enabled = clear_area;
 
@@ -662,7 +662,7 @@ s32 advance_effect_sequence(void) {
 
 
 /* Raise the entity toward the queried ground height and set flags when the countdown expires. */
-void raise_entity_to_ground(PointRecord *state, EntityRec *position)
+void raise_entity_to_ground(PointRecord *state, ObjectPosition *position)
 {
     u16 countdown;
 
@@ -1191,7 +1191,7 @@ extern Copy12 D_80026674;
 extern Copy12 D_80026680;
 extern Copy12 D_80026698;
 extern Copy12 D_800266A4;
-extern u8 D_800E3D68[256];
+extern u8 current_spell_effect_variant[256];
 
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
@@ -1512,7 +1512,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         }
         if (target != 0) {
             target_pos = ((ObjHeadView *)(target - 0x18))->unk_00;
-            target_height = D_800DDC40[((ParentLink *)target)->unk_13];
+            target_height = entity_height_offsets[((ParentLink *)target)->unk_13];
             self->target_y.u = target_pos->unk_08.at02.v - (target_height >> 1);
             parent_data = ((ParentHead *)parent)[-1].unk_00;
             self->tile_x = parent_data->unk_24
@@ -1623,7 +1623,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 position->unk_00.at02.v = target_pos->unk_00.at02.v;
                 position->unk_04.at02.v = target_pos->unk_04.at02.v;
                 position->unk_08.at02.v = target_pos->unk_08.at02.v
-                - D_800DDC40[((ParentLink *)(parent->unk_60.p))->unk_13];
+                - entity_height_offsets[((ParentLink *)(parent->unk_60.p))->unk_13];
                 play_sound_if_enabled(0x300);
                 flash = func_8003FC64(0x212);
                 if (flash != 0) {
@@ -1806,7 +1806,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 flash_pos[1] = target_pos->unk_04.at00.v + angle;
                 height_random = func_80069EF8();
                 flash_pos[2] = target_pos->unk_08.at00.v
-                - (D_800DDC40[parent->unk_60.p[0x13]] << 15)
+                - (entity_height_offsets[parent->unk_60.p[0x13]] << 15)
                 - ((height_random & 0x1F) << 16);
                 particle_data = impact->render;
                 target_data = ((ParentLinkMinus14 *)(parent->unk_60.p - 0x14))->unk_00;
@@ -1825,7 +1825,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 power_bonus = self->unk_09 >> 2;
                 random_bonus = (random_bonus & 3) + 4;
                 amount = power_bonus + random_bonus;
-                if (D_800E3D68[0] == 0xFF) {
+                if (current_spell_effect_variant[0] == 0xFF) {
                     effect_kind = 0xFF;
                 } else {
                     effect_kind = 16;

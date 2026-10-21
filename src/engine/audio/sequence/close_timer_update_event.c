@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus/data.h"
 
 /* S_800737C0: single s32 "critical-section active" flag, forced hi/lo
  * access via size > 8 (extern-array trick shared with sibling functions
@@ -6,7 +8,6 @@
 extern s32 audio_timer_setup_guard[4];
 /* S_80085F9C: single s32 event handle (as returned by OpenEvent),
  * forced hi/lo access via size > 8. */
-extern s32 audio_timer_event_handle[4];
 /* single s32 "mode" flag, forced hi/lo access via size > 8 (shared with
  * sibling functions in this family, e.g. sound_tick_guarded_periodic_update/sound_run_guarded_sequence_update). */
 extern s32 audio_update_guard[4];

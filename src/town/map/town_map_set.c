@@ -8,7 +8,7 @@ extern void unlink_active_node(s32);
 extern void push_node_onto_free_list(s32);
 extern void initialize_town_map_object_state(s32, s32, s32, s32);
 extern s8 D_800CFC2C[11];
-extern u8 D_800FC418;
+extern u8 town_map_status;
 
 s32 town_map_set(s32 value_7c, s32 value_78)
 {
@@ -75,6 +75,6 @@ s32 town_map_set(s32 value_7c, s32 value_78)
         initialize_town_map_object_state(index, linked_data, *object_slot++, *resource_slot++);
         index++;
     } while (index < 11);
-    D_800FC418 = 0;
+    town_map_status = 0;
     return 1;
 }

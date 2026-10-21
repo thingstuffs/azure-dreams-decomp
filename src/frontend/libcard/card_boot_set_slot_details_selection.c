@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
 
 void card_boot_refresh_slot_details();                      /* extern */
-void draw_cylindrical(void *);                      /* extern */
 
 typedef struct S_80024F3C_0 {
     u8 pad_00[0x7C];

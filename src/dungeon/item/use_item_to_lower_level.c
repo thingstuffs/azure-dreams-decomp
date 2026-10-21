@@ -25,9 +25,9 @@ extern M2C_UNK D_800E173A;
 
 /* Processes an entity's item interaction and consumes the item when finished. */
 s32 use_item_to_lower_level(EntityRec *entity, s32 item, s16 action) {
-    if (entity == ((s32)D_800E3D7C)) {
+    if (entity == ((s32)dungeon_actor_ring_anchor)) {
         entity->unk_110 = item;
-        begin_deferred_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {

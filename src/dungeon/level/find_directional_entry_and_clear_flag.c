@@ -2,7 +2,7 @@
 
 extern s8 D_8006CCD8;
 extern s8 D_8006CCE8;
-extern u8 D_800E3648[];
+extern u8 floor_objects[];
 
 extern s16 find_entry_at_tile_coordinates(s32, s32, s16);
 
@@ -27,7 +27,7 @@ s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direct
     shifted_y = (*(u16 *)(offsets_y + offset_index) + origin_y) << 16;
     record_index = find_entry_at_tile_coordinates(shifted_x >> 16, shifted_y >> 16, search_param);
     if (record_index >= 0) {
-        table = D_800E3648;
+        table = floor_objects;
         record = table + record_index * 4;
         flags = record[3];
         if (!(flags & 0x40)) {

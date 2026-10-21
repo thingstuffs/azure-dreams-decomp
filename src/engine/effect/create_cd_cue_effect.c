@@ -1,6 +1,11 @@
 #include "script_symbols.h"
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
+#include "engine/object.h"
+#include "slus.h"
 
 /* Sub-object embedded at offset 0x20 of the allocated node. */
 typedef struct S_800525D4_sub {
@@ -28,16 +33,10 @@ typedef struct S_800525D4_obj {
 
 extern u8 cd_cue_effect_visual_data[0x10];
 
-extern void sound_set_cd_cue_parameters(int a0, int a1, int a2, int a3);
-extern short SD_Call(int a0);
-extern void *allocate_list_node(s32 a0, void *a1);
-extern s32 test_resident_bitmap_bit(s32 a0);
 extern void update_scene_effect_controller(void);
 extern void scene_initialize_arc_motion_sprite(void *a0, S_800525D4_sub *a1);
-extern void scene_initialize_orbit_motion_sprite(void *a0, S_800525D4_sub *a1);
 extern void init_fade_in_out_effect(void *a0, S_800525D4_sub *a1);
 extern void init_color_fade_effect(void *a0, S_800525D4_sub *a1);
-extern void scene_initialize_sixteen_sprite_sequence(void *a0, S_800525D4_sub *a1);
 
 /* Allocates and initializes a node, then attaches up to five slots. */
 void create_cd_cue_effect(void)

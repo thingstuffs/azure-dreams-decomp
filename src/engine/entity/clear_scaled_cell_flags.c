@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/entity.h"
 
 typedef struct S_80043A68_entry {
     /* 0x00 */ s32 unk0;

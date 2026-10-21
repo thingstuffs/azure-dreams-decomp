@@ -67,7 +67,7 @@ s32 func_7006DD28();
 s32 func_700750E0();
 M2C_UNK func_7010AE28();
 extern s32 D_80086AD8;
-extern u16 D_80094422;
+extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010AA44;
 
 /* Update the emitter position, spawn particles, and mark it for removal when its lifetime expires. */
@@ -124,7 +124,7 @@ void update_emitter_and_spawn_particles(void *emitter, MovingPosition *position,
     life_left = ((S_7FFE79F4_0 *)emitter)->unk_1E - 1;
     ((S_7FFE79F4_0 *)emitter)->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
-        u16 *counter = &D_80094422;
+        u16 *counter = &emitted_effect_counter;
         u16 next_counter;
 
         (*(u16 *)((u8 *)emitter + -2)) = (u16) (((S_7FFE79F4_0_pre *)emitter)[-1].unk_00 | 0x8000);

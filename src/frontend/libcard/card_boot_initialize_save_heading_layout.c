@@ -48,7 +48,8 @@ typedef struct S_800270E0_8 {
 
 
 #include "frontend/libcard/interfaces.h"
-void format_save_heading_text(void *);                            /* extern */
+#include "frontend/libcard.h"
+#include "frontend/libcard/message.h"
 void func_80027080(void *, s32, s32);       /* extern */
 
 

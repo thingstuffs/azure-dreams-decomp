@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/menu.h"
+#include "slus/data.h"
 
 typedef struct S_8004F684_Target {
     /* 0x00 */ u8 pad[0xA];
@@ -27,8 +29,6 @@ typedef struct S_8004F684 {
     /* 0x30 */ s32 idxB;
     /* 0x34 */ s32 idxA;
 } S_8004F684;
-
-extern u8 selection_menu_animation_keys[];
 
 /* Interpolate table values into each target's fields with scales of 30 and 12 and fixed offsets. */
 void interpolate_selection_menu_entry_coordinates(S_8004F684 *state)

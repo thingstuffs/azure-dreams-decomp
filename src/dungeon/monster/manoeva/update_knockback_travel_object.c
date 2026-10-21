@@ -90,7 +90,7 @@ typedef struct S_80174CCC_11 {
     u8 unk_29;
 } S_80174CCC_11;   /* ((S_80174CCC_0 *)arg0)->unk_10 in update_knockback_travel_object */
 
-extern s8 D_800E2968;
+extern s8 entity_spawn_variant_code;
 extern u8 D_80176668[];
 
 extern s32 has_enough_available_runtime_nodes(s32);
@@ -190,7 +190,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
             flags = ((S_80174CCC_0 *)motion)->unk_38.s;
             removal_flags |= 0x8000;
             *(u16 *)((u8 *)motion - 2) = removal_flags;
-            state_page = &D_800E2968;
+            state_page = &entity_spawn_variant_code;
             *state_page = state;
             ((S_80174CCC_5 *)((void *)used_page))->unk_14A0 |= 0x8000;
             if (flags & 0x2000) {

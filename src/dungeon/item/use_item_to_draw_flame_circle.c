@@ -45,9 +45,9 @@ s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 co
     if (operation == 0xD) {
         return process_record_and_update_linked_state(value, context);
     }
-    if (object == D_800E3D7C) {
+    if (object == dungeon_actor_ring_anchor) {
         ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_124 = value;
-        begin_mode_selected_item_action(object, &D_80083780.x.v, &D_80082E80.unk_000, 0);
+        begin_mode_selected_item_action(object, &view_reference_entity.x.v, &reference_tile_object.unk_000, 0);
         return 0;
     }
     if ((u32) object <= 0x9FFFFFFFU) {

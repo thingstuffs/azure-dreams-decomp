@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
+#include "slus.h"
 
 typedef struct
 {
@@ -89,11 +92,6 @@ extern s32 audio_voice_masks[64];
 extern S_80085458 audio_voice_records[64];
 extern s32 audio_update_guard[4];
 extern S_80086A40 audio_bank_slots[16];
-extern void sound_reset_indexed_voice_envelope(s32 request_index);
-extern void func_8005E97C(s32 a0, s32 a1);
-extern s32 func_8005EB78(s32 a0);
-extern void apply_voice_attributes_and_key_on(void *a0);
-extern s32 update_spu_register_pair_cc_cd(s32 a0, s32 a1);
 /* Starts a channel voice with sample, pitch, envelope, and panned volume settings. */
 s32 func_8005BBFC(channel_arg, bank_arg, program_arg, tone_arg, note_arg, fine_note_arg, left_gain_arg, right_gain_arg)
 s16 channel_arg;

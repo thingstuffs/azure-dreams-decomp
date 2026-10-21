@@ -24,7 +24,7 @@ extern void handle_selected_entry(s32 *menu);
 extern void close_twin_shop(void *shop_ptr);
 extern void set_shop_subrecord_values(s32 menu_value, s32 row, s32 selection);
 extern void store_shop_embedded_value(s32 menu_value, s32 selection);
-extern s32 D_80082AB8;
+extern s32 script_status;
 
 /* Functions defined in this translation unit. */
 void pass_indexed_record_to_loader(Rec_func_800AD7F8_arg0 *record);

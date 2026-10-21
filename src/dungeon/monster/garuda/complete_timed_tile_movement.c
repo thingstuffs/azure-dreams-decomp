@@ -168,7 +168,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sp
         if (entity_flags & 0x20000) {
             entity->facing = get_rounded_facing_and_rounding_flag(
                 ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, direction_work);
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, direction_work);
         }
     }
     ((S_80173A08_0 *)action)->unk_8C = D_80171058;

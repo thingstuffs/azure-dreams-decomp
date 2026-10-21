@@ -183,7 +183,7 @@ void emit_concentric_ellipse_quads(u16 radius_a_x, u16 radius_a_y, u16 radius_b_
                    u16 center_x, s16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
                    s32 draw_bucket, s32 start_segment, s32 end_segment);
 extern void process_linked_mesh_states_mode_0(void);
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 extern void *allocate_list_node();
 extern void *func_8003FD64();
 extern u8 D_80175F90[12];

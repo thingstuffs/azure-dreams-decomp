@@ -511,10 +511,10 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
     part = color_part;
     switch (state_id) {
     case 0:
-        origin = &D_80082E80;
+        origin = &reference_tile_object;
         {
             u8 *node = PTR_AT((u8 *)owner - 0x20, 0xC);
-            u32 offset = (U16_AT(D_800814A8, 0x2A) >> 8) & 0xE;
+            u32 offset = (U16_AT(primary_actor_record, 0x2A) >> 8) & 0xE;
 
             U16_AT(owner, 0x2A) = get_rounded_facing_and_rounding_flag(
                 node[0x24], node[0x25],
@@ -553,8 +553,8 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         target_pos = scratch.work;
                         /* This expression is intentionally kept in its retail form. */
         if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
-            TileObject *position_base = &D_80082E80;
-            void *direction_node = D_800814A8;
+            TileObject *position_base = &reference_tile_object;
+            void *direction_node = primary_actor_record;
 
             {
                 u8 *x_table = (u8 *)dir_step_x;
@@ -569,8 +569,8 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
                     ((s16 *)(y_table + (((u32)direction_bits >> 8) & 0xE)))[0];
             }
         } else {
-            state->x = D_80082E80.tile_position.parts.tile_x + dir_step_x[state->direction];
-            state->y = D_80082E80.tile_position.parts.tile_y + dir_step_y[state->direction];
+            state->x = reference_tile_object.tile_position.parts.tile_x + dir_step_x[state->direction];
+            state->y = reference_tile_object.tile_position.parts.tile_y + dir_step_y[state->direction];
         }
         {
             ActorRecord *height_node;
@@ -579,7 +579,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             tile_coord = state->x;
             S16_AT(target_pos, 2) = tile_coord * 64 + 0x20;
             tile_coord = state->y;
-            height_node = D_800814A8;
+            height_node = primary_actor_record;
             S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
             S16_AT(target_pos, 0xA) = height_node->ground_height - 0x20;
         }

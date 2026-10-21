@@ -6,7 +6,7 @@ typedef struct {
     s16 value;
 } Record;
 
-extern s16 D_80080B04[5];
+extern s16 tile_key_pair_count[5];
 extern Record *D_80081508[3];
 
 extern s32 has_runtime_key_pair(s32 x, s32 y);
@@ -20,12 +20,12 @@ void append_coordinate_record(s32 x, s32 y, s32 value, s32 store_value)
     Record *record;
     u16 *counter_page;
 
-    has_room = D_80080B04[0] < 64;
+    has_room = tile_key_pair_count[0] < 64;
     record_x = x;
     record_y = y;
     if (has_room) {
         if ((s16)has_runtime_key_pair((u16)record_x, (u16)record_y) == 0) {
-            record = &D_80081508[0][D_80080B04[0]];
+            record = &D_80081508[0][tile_key_pair_count[0]];
             record->x = record_x;
             record->y = record_y;
             if ((s16)store_value != 0) {

@@ -9,7 +9,7 @@ extern u8 D_800D7A78[];
 void create_radial_effect_controller(s32 objectPayload) {
     void *newObject;
 
-    newObject = allocate_list_node(2, ((s32 *)(&D_80083498)));
+    newObject = allocate_list_node(2, ((s32 *)(&scene_object_list_anchor)));
     if (newObject != 0) {
         g_dungeon_status.activity_counts.parts.pending_action_count += 1;
         *(void **)((u8 *)newObject + 0x10) = D_800D7A78;

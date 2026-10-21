@@ -66,7 +66,7 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
     saved_byte_24 = part_byte_24;
     saved_part_value = part_value;
     saved_byte_25 = part_byte_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80B85054_0 *)obj)->unk_10 = D_80158A30;

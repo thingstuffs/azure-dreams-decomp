@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/slots.h"
+#include "engine/audio/spu.h"
 
 typedef struct {
     /* 0x00 */ s16 marker;
@@ -16,11 +18,6 @@ typedef struct {
 
 extern S_80086A40 audio_bank_slots[16];
 extern s32 sound_slot_transfer_cursor[3]; /* size > 8: forced hi/lo, no $gp */
-
-extern void release_sound_ram_block(s32);
-extern s32 reserve_sound_ram_block(s32, s32);
-extern s32 lookup_and_scale_driver_address(s32);
-extern s32 clamp_and_submit_driver_parameter(s32, u32);
 
 /* Reserves a sound slot and transfers sample data to the requested sound RAM address. */
 s32 upload_sample_to_sound_slot(s32 src_addr, s32 sound_addr, s32 size, s16 requested_slot)

@@ -7,7 +7,7 @@ struct Elem;
 
 extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);        /* extern */
 s32 generate_random_value(void);   /* extern */
-extern u8 D_800DD294[];
+extern u8 actor_alternate_frames[];
 
 typedef struct S_80097898_0 {
     u8 pad_00[0x8C];
@@ -36,7 +36,7 @@ void run_saved_actor_action(void *object, s32 unused, void *animation, void *act
     if (!(generate_random_value() & 3)) {
         ((S_80097898_1 *)saved)->unk_1C = (s32) (((S_80097898_1 *)saved)->unk_1C & ~0x620);
     }
-    table = D_800DD294;
+    table = actor_alternate_frames;
     ((SpriteFrameState *)saved2)->frameTable = table;
     func_8003DB94(saved2, (*(s32 *)((u8 *)table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80097898_1 *)saved)->unk_2A
         + 0x100) >> 7) & 0x1C))), 0);

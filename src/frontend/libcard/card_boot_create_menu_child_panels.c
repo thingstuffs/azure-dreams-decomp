@@ -11,9 +11,9 @@ typedef struct S_80027A9C_0 {
 
 
 #include "modules/main_server_ship_interfaces.h"
-s32 create_visual_object();                        /* extern */
-s32 create_or_reset_seven_entry_menu_backdrop();                        /* extern */
 #include "frontend/libcard/interfaces.h"
+#include "engine/menu.h"
+#include "frontend/libcard.h"
 
 /* Initializes record values and installs its callback pointer. */
 void card_boot_create_menu_child_panels(void *record) {

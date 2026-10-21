@@ -30,7 +30,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void install_actor_action_handler_after_floor_trap_check(void *, void *, void *, void *);
 
 extern u8 D_800D8C64[];
-extern u8 D_800E262C[];
+extern u8 actor_action_frames[];
 
 /* Advances the actor action state and updates its directional animation. */
 void advance_actor_action_controller(void *controller, void *action_context, void *sprite, ActorRecord *actor)
@@ -44,7 +44,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             u8 *direction_table;
             DungeonGlobalStatus *system_base;
 
-            direction_table = D_800E262C;
+            direction_table = actor_action_frames;
             ((SpriteFrameState *)sprite)->frameTable = direction_table;
             func_8003DB94(sprite,
                 *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),
@@ -99,7 +99,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
 
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
             if ((check_entity_relation(actor,
-                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }
@@ -111,7 +111,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             TileObject *reference_sprite;
             s8 coordinate;
 
-            reference_sprite = &D_80082E80;
+            reference_sprite = &reference_tile_object;
             coordinate = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
             if ((((coordinate == reference_sprite->room_index) &&
                         (coordinate >= 0)) ||
@@ -124,7 +124,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
         if ((get_entity_effect_value(actor, 1) << 16) == 0) {
             u8 *direction_table;
 
-            direction_table = D_800E262C;
+            direction_table = actor_action_frames;
             ((SpriteFrameState *)sprite)->frameTable = direction_table;
             func_8003DB94(sprite,
                 *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),

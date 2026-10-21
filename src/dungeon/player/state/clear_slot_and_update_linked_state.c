@@ -12,9 +12,9 @@ typedef struct {
     u8 unk_02[10];
 } DungeonRecord;
 
-extern u8 D_80081470[];
-extern u8 D_80081484[];
-extern DungeonRecord D_800E36C8[];
+extern u8 temporary_item_record[];
+extern u8 held_item_record[];
+extern DungeonRecord dungeon_ground_item_positions[];
 
 extern s16 find_table_value_index(s32 *);
 extern void compact_item_entry_table(s16);
@@ -31,20 +31,20 @@ void clear_slot_and_update_linked_state(s32 *slot) {
             compact_item_entry_table(lookup_result);
             return;
         }
-        if ((u8 *)slot == D_80081484) {
-            ActorRecord *state = D_800E3D7C;
+        if ((u8 *)slot == held_item_record) {
+            ActorRecord *state = dungeon_actor_ring_anchor;
             ((PlayerRecord *)state)->unk_124 = 0;
             state->flags1C &= 0xFFEFFFFF;
             return;
         }
-        if ((u8 *)slot == D_80081470 || slot == ((s32 *)((PlayerRecord *)D_800E3D7C)->selected_floor_entry)) {
+        if ((u8 *)slot == temporary_item_record || slot == ((s32 *)((PlayerRecord *)dungeon_actor_ring_anchor)->selected_floor_entry)) {
             s16 record_index;
-            *(s32 *)D_80081470 = 0;
-            record_index = get_bounded_stride_index(((s32 *)((PlayerRecord *)D_800E3D7C)->selected_floor_entry), ((u8 *)D_800E3548), 4, 0x40);
+            *(s32 *)temporary_item_record = 0;
+            record_index = get_bounded_stride_index(((s32 *)((PlayerRecord *)dungeon_actor_ring_anchor)->selected_floor_entry), ((u8 *)dungeon_ground_items), 4, 0x40);
             if (record_index >= 0) {
-                update_map_cell_flags_with_item_limit(D_800E36C8[record_index].first, D_800E36C8[record_index].second, 0x800);
+                update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[record_index].first, dungeon_ground_item_positions[record_index].second, 0x800);
             }
-            *(s32 *)((PlayerRecord *)D_800E3D7C)->selected_floor_entry = 0;
+            *(s32 *)((PlayerRecord *)dungeon_actor_ring_anchor)->selected_floor_entry = 0;
         }
     }
 }

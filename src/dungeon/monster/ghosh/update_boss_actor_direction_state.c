@@ -73,7 +73,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void func_800478B8(void *);
 extern void apply_monster_koyaw_data(void *, void *);
 
-extern s8 D_800DCECC[];
+extern s8 view_direction_depth_biases[];
 extern u8 D_80174C6C[];
 
 /* Update actor direction, copy linked output state, and propagate status flags. */
@@ -142,7 +142,7 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
     output->unk_0A = source->unk_0A;
 
     effect_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172610_0 *)actor)->unk_2A + 0x100) >> 9) & 7;
-    effect = D_800DCECC[effect_index];
+    effect = view_direction_depth_biases[effect_index];
     ((S_80172610_4 *)context)->unk_06 = effect << 2;
     ((S_80172610_4 *)context)->unk_1C = ((S_80172610_3 *)linked)->unk_1C;
     ((S_80172610_4 *)context)->unk_1E = ((S_80172610_3 *)linked)->unk_1E;

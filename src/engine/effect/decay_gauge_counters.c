@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/menu.h"
+#include "slus.h"
 
 typedef union S_800504B4_Val {
     s16 s;
@@ -20,9 +23,6 @@ typedef struct S_800504B4 {
     s8 pad0[0x64];
     S_800504B4_Elem **arr;
 } S_800504B4;
-
-extern void forward_object_input_handler(void *a0);
-extern void handle_object_input(void *a0);
 
 /* Decays six counters, switches callbacks when the last reaches zero, and updates the object. */
 void decay_gauge_counters(S_800504B4 *object)

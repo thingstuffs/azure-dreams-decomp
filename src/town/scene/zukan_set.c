@@ -10,6 +10,6 @@ extern void create_linked_zukan_task(void *related_entity);
 
 /* Set up zukan_func_set after clearing flag bit 0x2000. */
 void zukan_func_set(void) {
-    D_80083498.flags &= 0xDFFF;
-    create_linked_zukan_task(((S800083498 *)&D_80083498));
+    scene_object_list_anchor.flags &= 0xDFFF;
+    create_linked_zukan_task(((S800083498 *)&scene_object_list_anchor));
 }

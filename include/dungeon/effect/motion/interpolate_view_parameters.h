@@ -401,7 +401,7 @@ extern u8 D_80024C0C[];
 extern u8 D_800DE39C[];
 extern s32 D_800DEB70;
 extern M2C_UNK D_80025094;
-extern u8 D_800DDC40[];
+extern u8 entity_height_offsets[];
 extern Row_81917C08_ActionSlot D_8008346C;
 void interpolate_view_parameters(void *tracker);
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param);
@@ -419,6 +419,6 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
 void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform, void *visual);
 s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
 void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
-extern u8 D_800E3D20[];
+extern u8 camera_transition_timer[];
 extern void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
 #endif

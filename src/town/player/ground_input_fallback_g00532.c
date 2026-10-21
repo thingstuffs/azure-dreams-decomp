@@ -9,15 +9,15 @@ void update_actor_ground_and_input(s32 controller, EntityRec *actor, s32 context
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
-    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &D_800FE488);
+    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
     if ((ground_height - actor->z.w.i) >= 4) {
-        if (((S_80091000_1 *)(&D_800CFCEF))->unk_00 == 0) {
+        if (((S_80091000_1 *)(&town_action_state_flag))->unk_00 == 0) {
             initialize_action_object(controller, actor, context);
             return;
         }
     } else {
-        if (((S_80091000_1 *)(&D_800CFCEF))->unk_00 == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town(actor, ground_height, &D_800FE488);
+        if (((S_80091000_1 *)(&town_action_state_flag))->unk_00 == 0) {
+            compute_and_clamps_vector_based_adjustment_updates_town(actor, ground_height, &position_query_scratch);
         }
     }
     if (((s32)input_state->pressed_buttons) & 0x10) {

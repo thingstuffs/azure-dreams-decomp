@@ -44,8 +44,8 @@ extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern void create_owner_linked_directional_object();
 
-extern u8 D_800E23E0[];
-extern u8 D_800E2428[];
+extern u8 uboat_default_frames[];
+extern u8 uboat_action_frames[];
 extern u8 D_801711B0[];
 extern u8 D_80171A80[];
 
@@ -65,7 +65,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     S_80170F9C_4 *work_copy;
 
     work = 0;
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     mode_copy = mode;
     if (object != 0) {
         work = (u8 *)object + 0x20;
@@ -78,7 +78,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         part_a->unk_0A = held_value_0A;
         part_b = ((S_80170F9C_0 *)object)->unk_0C;
         work_copy = work;
-        part_b->frameTable = D_800E23E0;
+        part_b->frameTable = uboat_default_frames;
         part_b->unk_24 = held_value_24;
         part_b->unk_25 = held_value_25;
 
@@ -93,7 +93,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
                 if (generate_random_value() & 1) {
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = D_800E2428;
+                    part_b->frameTable = uboat_action_frames;
                 }
             }
         }

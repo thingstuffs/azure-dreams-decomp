@@ -150,7 +150,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
 
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 if ((check_entity_relation(actor,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -162,7 +162,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 TileObject *origin;
                 s8 coordinate;
 
-                origin = &D_80082E80;
+                origin = &reference_tile_object;
                 coordinate = ((SpriteStatusIndexView *)in_sprite)->unk_26;
                 if ((((coordinate == origin->room_index) &&
                             (coordinate >= 0)) ||

@@ -33,9 +33,9 @@ extern M2C_UNK D_8009B828;
 extern M2C_UNK D_8009B8E8;
 extern M2C_UNK D_8009B9BC;
 extern M2C_UNK D_800CFCB4;
-extern void *D_800CFCC4;
-extern s32 D_800FE518[];
-extern s32 *D_800FE5D8;
+extern void *town_target_record;
+extern s32 town_interaction_pending[];
+extern s32 *town_player_action_callback;
 
 
 typedef struct S_800927EC_1 {
@@ -67,15 +67,15 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(position);
     store_the_valid_shared_angle_in_offset_hex_10(actor);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(position);
-    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, &D_800FE488);
+    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, &position_query_scratch);
     if ((ground_height - position->z.w.i) >= 4) {
-        if (D_800CFCEF == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_callback_from_entry(actor, position, context);
             return;
         }
     } else {
-        if (D_800CFCEF == 0) {
-            compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), ground_height, (struct TownVec * *)(&D_800FE488));
+        if (town_action_state_flag == 0) {
+            compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), ground_height, (struct TownVec * *)(&position_query_scratch));
         }
     }
     if (((s32)input->pressed_buttons) & 0x10) {
@@ -83,17 +83,17 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
         return;
     }
     if (((s32)input->pressed_buttons) & 0x80) {
-        if ((D_800CFCC4 != NULL) && (((Rec_D_800CFCC4 *)D_800CFCC4)->unk_14 == 4)) {
+        if ((town_target_record != NULL) && (((Rec_D_800CFCC4 *)town_target_record)->unk_14 == 4)) {
             run_the_three_update_routines_context((s32)(position));
             func_80094774(actor, position, context);
-            D_800FE518[0] = 1;
+            town_interaction_pending[0] = 1;
             return;
         }
         clear_entity_record_fields(position);
         run_the_three_update_routines_context((s32)(position));
         if (run_the_action_sequence_context_unless_flag_hex_a_5_set((s32)(actor - 0x20)) != 0) {
             set_default_scene_data_pointer(actor, position, context);
-            D_800FE5D8 = &D_80093B00;
+            town_player_action_callback = &D_80093B00;
             return;
         }
     } else {
@@ -119,7 +119,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
             } else {
                 submit_object_resource_data(((S_800927EC_4 *)interaction)->unk_10);
             }
-            D_800FE5D8 = &D_80093B00;
+            town_player_action_callback = &D_80093B00;
             return;
         }
         if (input->buttons & 0xF000) {

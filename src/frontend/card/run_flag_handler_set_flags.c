@@ -1,6 +1,7 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "frontend/settings.h"
 
-extern void create_settings_controller(void);
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* Run the flag handler and set entry and global flags when bit 0x2000 is set. */

@@ -16,12 +16,12 @@ void refresh_object_position_and_initialize(void *context, void *object, s32 mod
         if ((*(s32 *)((u8 *)state + 0xC) != 0) ||
             (*(s32 *)((u8 *)state + 0x10) != 0) ||
             (*(s32 *)((u8 *)state + 0x14) != 0)) {
-            compute_and_clamps_vector_based_adjustment_updates_town(object, select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((u8 *)&D_800FE488)),
-                          ((u8 *)&D_800FE488));
+            compute_and_clamps_vector_based_adjustment_updates_town(object, select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((u8 *)&position_query_scratch)),
+                          ((u8 *)&position_query_scratch));
         }
     } else {
-        compute_and_clamps_vector_based_adjustment_updates_town(object, select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((u8 *)&D_800FE488)),
-                      ((u8 *)&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town(object, select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((u8 *)&position_query_scratch)),
+                      ((u8 *)&position_query_scratch));
     }
     initialize_record_with_handler_table(context, object, mode);
 }

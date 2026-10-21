@@ -14,8 +14,8 @@ extern void copy_indexed_entry_data();
 extern void create_tracked_effect();
 extern s32 sample_terrain_surface_height();
 
-extern s32 D_80081488[];
-extern s8 D_800DCF4D[];
+extern s32 loaded_entity_sprite_resource[];
+extern s8 spell_effect_selector_cache[];
 
 /* Initialize an entity sprite, its position, and direction-dependent display flags. */
 void initialize_actor_sprite_and_animation(void *entity, void *position, void *sprite, s32 init_flags)
@@ -34,9 +34,9 @@ void initialize_actor_sprite_and_animation(void *entity, void *position, void *s
             *(s32 *)((u8 *)sprite + 0x28) =
                 load_and_publish_texture_resource_pair(*(u8 *)(entity_data + 0x13));
         } else {
-            *(s32 *)((u8 *)sprite + 0x28) = D_80081488[0];
+            *(s32 *)((u8 *)sprite + 0x28) = loaded_entity_sprite_resource[0];
         }
-        D_800DCF4D[0] = -1;
+        spell_effect_selector_cache[0] = -1;
     } else {
         if (*(u8 *)(entity_data + 0x13) != 0x38) {
             load_and_upload_sprite_resource(*(u8 *)(entity_data + 0x13));

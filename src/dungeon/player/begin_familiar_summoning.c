@@ -62,7 +62,7 @@ s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 
     (*(s32 **)((u8 *)pointer_data + 0x2C)) = &D_800DD130;
     set_sprite_animation_frame(pointer_data, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80095854_0 *)record)->unk_2A + 0x100) >> 9) & 7)
         + &D_800DD130), 0, 1);
-    D_80082E80.selected_item = input_value;
+    reference_tile_object.selected_item = input_value;
     direction_index = ((u16) (((S_80095854_0 *)record)->unk_2A) >> 8) & 0xE;
     ((S_80095854_0 *)record)->unk_72 = (s8) (((MovingTile *)pointer_data)->unk_24 + *(direction_index + ((s8 *)dir_step_x)));
     next_y = ((MovingTile *)pointer_data)->unk_25 + *(direction_index + ((s8 *)dir_step_y));

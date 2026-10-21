@@ -7,6 +7,7 @@ s32 primitive_pair_secondary_color = 0x0098B8B8;
 s32 primitive_pair_primary_color = 0x00586868;
 
 #include "engine/menu/entry_words.h"
+#include "engine/graphics.h"
 
 void *fill_primitive_pair(S_800508F0 *entry, u8 *template)
 {

@@ -57,7 +57,7 @@ typedef struct S_7FFE7CBC_4 {
 
 M2C_UNK func_7003A7C4();
 void *func_7003CF18();
-extern u16 D_80094422[5];
+extern u16 emitted_effect_counter[5];
 extern M2C_UNK D_8010AC34;
 
 /* Creates an effect at the source position with the given color. */
@@ -97,6 +97,6 @@ void create_colored_source_effect(S_7FFE7CBC_3 *source, s32 color) {
         render_data->unk_14 =
             (u16)(render_data->unk_14 | 0x100);
         func_7003A7C4(render_data, D_800E2BB8, 0);
-        D_80094422[0] += 1;
+        emitted_effect_counter[0] += 1;
     }
 }

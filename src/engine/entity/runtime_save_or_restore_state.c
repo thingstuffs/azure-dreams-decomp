@@ -1,9 +1,9 @@
 #include "common.h"
+#include "engine/entity.h"
+#include "slus/data.h"
 
-extern u8 runtime_state_restore_requested;
 extern u32 runtime_saved_state_word;
 extern u8 runtime_saved_state_byte_04_alias;
-extern u8 runtime_saved_state_byte_06;
 
 /* Restores saved state when requested; otherwise saves the current state. */
 void runtime_save_or_restore_state(void)

@@ -5,14 +5,14 @@ typedef struct {
     u8 unk_16;
     u8 pad2;
 } Rec;
-extern Rec D_800198A4[];
-extern s32 D_80019B8C;
+extern Rec scene_rows[];
+extern s32 selected_scene_row_index;
 extern s32 D_80019A70[];
 
 /* Return the lookup value indexed by the selected entry's byte at 0x16. */
 s32 get_lookup_value_by_row_byte(void) {
     u8 lookup_index;
 
-    lookup_index = D_800198A4[D_80019B8C].unk_16;
+    lookup_index = scene_rows[selected_scene_row_index].unk_16;
     return D_80019A70[lookup_index];
 }

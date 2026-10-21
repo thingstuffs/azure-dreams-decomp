@@ -33,13 +33,13 @@ typedef struct {
     Instance12 *unk8;
 } Owner;
 
-extern Template16 D_8002E5D8;
-extern DisplayPositionWords D_8002E5E8;
+extern Template16 display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 /* Initialize and attach two instances from templates, then apply their default values. */
 void initialize_display_instances(Owner *owner, Template16 *instance16, Instance12 *instance12) {
-    Template16 *template16 = &D_8002E5D8;
-    DisplayPositionWords *template12 = &D_8002E5E8;
+    Template16 *template16 = &display_block_defaults;
+    DisplayPositionWords *template12 = &display_vector_defaults;
     s32 *header_word;
 
     instance16->unk0 = template16->unk0;

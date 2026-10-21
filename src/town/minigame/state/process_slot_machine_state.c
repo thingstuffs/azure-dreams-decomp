@@ -23,9 +23,9 @@ typedef struct State8081FF68 {
 } State8081FF68;
 
 extern u8 D_80020224[];
-extern s32 D_80012D5C[];
+extern s32 town_money[];
 extern s32 D_80024638[];
-extern s16 D_80024630[8];
+extern s16 slot_payout_digits[8];
 extern s16 D_800244E8[16];
 extern u8 D_800244B8[0x30];
 extern u8 D_80024488[0x10];
@@ -122,7 +122,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
     payout_callback = D_80020224;
 
     if ((u32)((u16)state->mode.u - 2) < 5U) {
-        ObjectPosition *angles = &D_80083780;
+        ObjectPosition *angles = &view_reference_entity;
 
         angle = query_lowered_transform_position(angles);
         if (angle > 0) {
@@ -147,7 +147,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
         state->mode.s = 1;
     case 1:
     {
-        s32 *money = D_80012D5C;
+        s32 *money = town_money;
         if ((u32)money[0] < 100U) {
             return;
         }
@@ -181,11 +181,11 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
              (s16)state->timer.s <= 0)) {
             if (state->count < 3) {
                 SD_Call(0x502);
-                if ((u32)D_80012D5C[0] < 100U) {
+                if ((u32)town_money[0] < 100U) {
                     return;
                 }
                 state->count++;
-                D_80012D5C[0] -= 100;
+                town_money[0] -= 100;
                 return;
             }
         }
@@ -195,7 +195,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
              (s16)state->timer.s <= 0)) {
             if (state->count >= 2) {
                 SD_Call(0x502);
-                D_80012D5C[0] += 100;
+                town_money[0] += 100;
                 state->count--;
                 return;
             }
@@ -223,7 +223,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
         if ((s16)timer > 0) {
             return;
         }
-        D_80012D5C[0] += state->count * 100;
+        town_money[0] += state->count * 100;
         set_object_data_pointer_2((void *)D_80024638[0]);
         state->mode.s = 0;
         return;
@@ -417,22 +417,22 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                 thousands_value = (hundreds / 10) * 10;
                 raw_hundreds = hundreds - thousands_value;
                 hundreds_digit = (s16)raw_hundreds;
-                D_80024630[0] = raw_units;
-                D_80024630[1] = raw_tens;
-                D_80024630[2] = raw_hundreds;
+                slot_payout_digits[0] = raw_units;
+                slot_payout_digits[1] = raw_tens;
+                slot_payout_digits[2] = raw_hundreds;
                 {
                     angle += hundreds_digit;
                     angle_delta = angle < 10;
                     if (angle_delta) {
                         if (hundreds_digit > 0) {
                             s32 adjusted = raw_hundreds - 1;
-                            D_80024630[2] = adjusted;
-                            D_80024630[1] = raw_tens + 10;
+                            slot_payout_digits[2] = adjusted;
+                            slot_payout_digits[1] = raw_tens + 10;
                         } else if (tens_digit > 0) {
                             s32 adjusted = raw_tens - 1;
-                            D_80024630[1] = adjusted;
+                            slot_payout_digits[1] = adjusted;
                             adjusted = raw_units + 10;
-                            D_80024630[0] = adjusted;
+                            slot_payout_digits[0] = adjusted;
                         }
                     }
                 }
@@ -451,7 +451,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             return;
         }
         {
-            s16 *digits = D_80024630;
+            s16 *digits = slot_payout_digits;
             if ((s16)digits[0] + (s16)digits[1] + (s16)digits[2] == 0) {
                 if ((state->flags & 2) == 0) {
                     void *bet_display = (void *)D_80024638[0];

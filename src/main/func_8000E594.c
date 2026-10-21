@@ -1,5 +1,6 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
+#include "main.h"
 
 
 
@@ -14,14 +15,14 @@
 s32 card_boot_dispatch_event_callbacks(void)
 {
     CallbackWork callback_sets;
-    MainCallback *first_callbacks;
+    card_event_callback_fn *first_callbacks;
     s32 mode;
     s32 result;
 
-    callback_sets.first = D_80020034;
+    callback_sets.first = card_software_handlers;
     callback_sets.second = D_80020048;
     result = 0;
-    mode = D_800287E0[0];
+    mode = card_event_backend_mode[0];
     first_callbacks = callback_sets.first.value;
     if (mode == 0) {
         result = card_boot_poll_software_events();
@@ -31,7 +32,7 @@ s32 card_boot_dispatch_event_callbacks(void)
     } else if (mode == 1) {
         result = card_boot_take_hardware_status();
         if (result != 0) {
-            result = (*(MainCallback *)((u8 *)first_callbacks + (result * 4) + 0x18))();
+            result = (*(card_event_callback_fn *)((u8 *)first_callbacks + (result * 4) + 0x18))();
         }
     }
     return result;

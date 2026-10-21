@@ -29,9 +29,9 @@ s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
     register s32 msg_arg;
     DungeonGlobalStatus *counters;
     s32 slot;
-    if (actor == (((u8 *)D_800E3D7C))) {
+    if (actor == (((u8 *)dungeon_actor_ring_anchor))) {
         *((s32 *) (((s8 *) actor) + 0x110)) = cause;
-        begin_deferred_item_action(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
+        begin_deferred_item_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), actor);
         return 0;
     }
     if (((u32) actor) <= 0x9FFFFFFFU) {

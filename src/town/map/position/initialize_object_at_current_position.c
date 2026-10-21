@@ -13,7 +13,7 @@ struct Rec_D_800FE490; void initialize_the_store_two_values_set_state_flags(stru
 void run_the_three_update_routines_context(s32);
 extern s16 query_lowered_transform_position();
 
-extern M2C_UNK D_8006ADBC;
+extern M2C_UNK map_runtime_state;
 typedef struct S_800C02C4_1 S_800C02C4_1;
 void initialize_object_rendering_resources(void *object_data, void *unused, S_800C02C4_1 *render_data);
 #include "records/Rec_D_800CFCB4.h"
@@ -22,7 +22,7 @@ extern u8 D_800D0420[];
 extern s32 D_800D0438;
 #include "records/Rec_D_800FE490.h"
 #include "shared/dungeon_projectile_views.h"
-extern Rec_D_800FE490 D_800FE490;
+extern Rec_D_800FE490 town_motion_list;
 
 
 
@@ -38,23 +38,23 @@ void initialize_object_at_current_position(void) {
     ProjectileObject *object;
 
     D_800D0438 = 0;
-    object = initialize_scene_object_in_buffer(0, ((void *)&D_80083498.next), 0x22);
+    object = initialize_scene_object_in_buffer(0, ((void *)&scene_object_list_anchor.next), 0x22);
     object->unk_10 = &initialize_object_rendering_resources;
-    object->unk_0C = &D_80082E80.unk_000;
-    object->unk_08 = &D_80083780.x.v;
+    object->unk_0C = &reference_tile_object.unk_000;
+    object->unk_08 = &view_reference_entity.x.v;
     initialize_circular_list_head();
-    handle_insert_initialize_two_values_status_flags(&D_800CFCB4, (s32)(&D_80083780.x.v), (s32)(&D_800D0420));
+    handle_insert_initialize_two_values_status_flags(&D_800CFCB4, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
     initialize_pointer_table_self_links();
-    initialize_the_store_two_values_set_state_flags(&D_800FE490, (s32)(&D_80083780.x.v), (s32)(&D_800D0420));
+    initialize_the_store_two_values_set_state_flags(&town_motion_list, (s32)(&view_reference_entity.x.v), (s32)(&D_800D0420));
     {
         s8 *position_data;
         u16 *position_entry;
 
-        position_data = (s8 *) &D_8006ADBC;
+        position_data = (s8 *) &map_runtime_state;
         position_entry = ((S_800C01DC_1 *)position_data)->unk_10;
-        D_80083780.x.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
-        D_80083780.y.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
-        D_80083780.z.w.i = query_lowered_transform_position(&D_80083780.x.v);
+        view_reference_entity.x.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
+        view_reference_entity.y.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
+        view_reference_entity.z.w.i = query_lowered_transform_position(&view_reference_entity.x.v);
     }
-    run_the_three_update_routines_context((s32)(&D_80083780.x.v));
+    run_the_three_update_routines_context((s32)(&view_reference_entity.x.v));
 }

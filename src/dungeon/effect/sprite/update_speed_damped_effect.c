@@ -3,19 +3,19 @@
 #include "shared/dir_step.h"
 
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern u16 D_800281F8[];
+extern u16 sprite_effect_update_count[];
 
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
 void update_speed_damped_effect(void *motion_data, s16 *position)
 {
     s16 *motion = motion_data;
     s16 next_speed;
-    u16 update_count = D_800281F8[0];
+    u16 update_count = sprite_effect_update_count[0];
     u16 z = position[5];
     u16 x = position[1];
     u16 y = position[3];
 
-    D_800281F8[0] = update_count + 1;
+    sprite_effect_update_count[0] = update_count + 1;
     if (position[5] < sample_terrain_surface_height(x, y, z + 2)) {
         ((s32 *)position)[0] -= (dir_step_x[motion[27]] * motion[24]) << 11;
         ((s32 *)position)[1] -= (dir_step_y[motion[27]] * motion[24]) << 11;

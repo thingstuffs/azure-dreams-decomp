@@ -74,7 +74,7 @@ typedef struct Vec16 {
     s16 z;
 } Vec16;
 
-extern u8 *D_800E3D18;
+extern u8 *actor_direction_sprites;
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, Vec16 *, s16);
 extern void register_node(void *, void *);
@@ -139,15 +139,15 @@ void func_81976850(void *effect, void *motion, void *visual)
         ((S_81976850_2 *)motion)->unk_0C = ((S_81976850_5 *)target_pos)->unk_00;
         (*(s32 *)((u8 *)motion + 0x10)) = ((S_81976850_5 *)target_pos)->unk_04;
 
-        scene = D_800814A8;
+        scene = primary_actor_record;
         ((S_81976850_2 *)motion)->unk_14 =
             (scene->ground_height - 0x50) << 16;
 
         table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
-        table_entry += (s32)D_800E3D18;
+        table_entry += (s32)actor_direction_sprites;
         if (resolve_record_orientation_or_fallback(
                 ((S_81976850_7 *)((void *)table_entry))->unk_00,
-                &D_80082E80,
+                &reference_tile_object,
                 &delta,
                 0) != 0) {
             ((S_81976850_2 *)motion)->unk_0C += delta.x << 16;

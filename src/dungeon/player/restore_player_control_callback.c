@@ -2,7 +2,7 @@
 #include "common.h"
 
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
-extern u8 D_8008EAC8[];
+extern u8 player_action_tag[];
 extern u8 D_80096384[];
 
 /* Selects the target dispatch pointer from the source type and flags. */
@@ -20,7 +20,7 @@ void restore_player_control_callback(void *target, void *source) {
                 source_flags = *(s32 *)((u8 *)source + 0x1C);
                 source_flags &= 0x100000;
                 if (source_flags != 0) {
-                    *(void **)((u8 *)target + 0x8C) = D_8008EAC8;
+                    *(void **)((u8 *)target + 0x8C) = player_action_tag;
                 } else {
 
                     {

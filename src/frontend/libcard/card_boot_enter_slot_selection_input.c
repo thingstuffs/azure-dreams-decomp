@@ -7,7 +7,7 @@ typedef struct S_80025B60_0 {
 
 
 #include "modules/main_server_ship_interfaces.h"
-void card_boot_refresh_five_slot_selection(void *);                            /* extern */
+#include "frontend/libcard.h"
 extern M2C_UNK D_8002593C;
 
 /* Update the record, run the shared follow-up, and install its next table. */

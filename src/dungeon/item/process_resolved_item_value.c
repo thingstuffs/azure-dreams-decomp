@@ -161,7 +161,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
     default:
         return;
     case 2:
-        spawned = allocate_list_node(0x112, ((u32)&D_80083498));
+        spawned = allocate_list_node(0x112, ((u32)&scene_object_list_anchor));
         if (spawned != 0) {
             spawn_state = spawned + 0x20;
             (((ResolvedSpawn *)spawn_state)->velocity_x) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].x << 0x10);

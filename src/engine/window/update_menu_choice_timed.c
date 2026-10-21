@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/window.h"
 
 typedef struct Child {
     u8 unk00[0x22];
@@ -23,9 +24,6 @@ struct Object {
     u8 unk6c[8];
     Child *child;
 };
-
-extern void runtime_mark_state_when_flag_51_set(Object *state);
-extern void confirm_timed_menu_choice(Object *object);
 
 /* Decrement the countdown, restoring the callback on expiry or updating the selection from state flags. */
 void update_menu_choice_timed(Object *object) {

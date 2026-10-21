@@ -58,7 +58,7 @@ typedef struct ActorMotionView {
     s32 velocityZ;
 } ActorMotionView;
 
-extern s16 D_80081468[];
+extern s16 floor_generation_state[];
 extern void update_dungeon_action_behavior(void *, void *, void *, void *);
 extern u8 D_80150EF8[];
 extern u8 D_80150F00[];
@@ -176,8 +176,8 @@ void update_actor_movement_recovery(ActorActionView *action, ActorMotionView *mo
         }
         select_sprite_entry(sprite, 0x38, 0);
         attempts_left = 0x40;
-        player_tile = &D_80082E80;
-        floor_limits = D_80081468;
+        player_tile = &reference_tile_object;
+        floor_limits = floor_generation_state;
         action->timer.raw = 0;
         x_step = sprite->tile.bytes.x;
         y_step = sprite->tile.bytes.y;

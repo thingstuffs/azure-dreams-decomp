@@ -4,12 +4,12 @@
 
 /* Initializes an object and replaces the callbacks in the active table entries. */
 void initialize_object_and_replace_callbacks(void) {
-    Callback *callback_slot = D_800D4668;
+    Callback *callback_slot = (Callback *)D_800D4668;
     void *object = func_8003FC64(0x11);
 
     if (object != 0) {
         *(void **)((u8 *)object + 0x10) = D_800C1E50;
-        if (D_800D4668[0] != 0) {
+        if (D_800D4668[0].handler != 0) {
             do {
                 *callback_slot = (Callback)D_800C1EA4;
                 callback_slot += 6;
@@ -22,10 +22,10 @@ void initialize_object_and_replace_callbacks(void) {
 void invoke_callbacks_until_terminator(void) {
     Callback *callback;
 
-    callback = D_800D4668;
+    callback = (Callback *)D_800D4668;
     if (*callback != 0) {
         do {
-            (*callback)(callback);
+            (*callback)((map_trigger_record *)callback);
             callback += 6;
         } while (*callback != 0);
     }

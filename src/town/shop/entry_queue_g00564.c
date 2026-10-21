@@ -8,7 +8,7 @@ void clear_entry_table(void) {
     s32 index;
 
     index = 19;
-    entry = (s32 *)D_80100AA0;
+    entry = (s32 *)shop_record_queue;
     entry += 19;
     do {
         *entry = 0;
@@ -23,7 +23,7 @@ void handle_inserts_first_free_slot_discarding_first_full(TownRecord *record) {
     s32 slot;
 
     slot = 0;
-    dst = D_80100AA0;
+    dst = shop_record_queue;
     while (slot < 20) {
         if (dst->bytes.unk1 == 0) {
             break;
@@ -34,25 +34,25 @@ void handle_inserts_first_free_slot_discarding_first_full(TownRecord *record) {
 
     if (slot == 20) {
         for (slot = 0; slot < 19; slot++) {
-            D_80100AA0[slot] = D_80100AA0[slot + 1];
+            shop_record_queue[slot] = shop_record_queue[slot + 1];
         }
     }
 
-    D_80100AA0[slot].bytes.unk0 = record->bytes.unk0;
-    D_80100AA0[slot].bytes.unk1 = record->bytes.unk1;
-    D_80100AA0[slot].bytes.unk2 = record->bytes.unk2;
-    D_80100AA0[slot].bytes.unk3 = record->bytes.unk3;
+    shop_record_queue[slot].bytes.unk0 = record->bytes.unk0;
+    shop_record_queue[slot].bytes.unk1 = record->bytes.unk1;
+    shop_record_queue[slot].bytes.unk2 = record->bytes.unk2;
+    shop_record_queue[slot].bytes.unk3 = record->bytes.unk3;
 }
 
 /* Returns the address of D_80100AA0. */
 s32 *get_address_global_80100_aa_0(void) {
-    return (s32 *)&D_80100AA0;
+    return (s32 *)&shop_record_queue;
 }
 
 /* Shift entries left until a free entry or the limit, then clear the tail. */
 void handle_shift_entries_left_until_free_entry_limit_clear_tail(void) {
     s32 entry_index;
-    s32 *entries = (s32 *)&D_80100AA0[0];
+    s32 *entries = (s32 *)&shop_record_queue[0];
     s32 *write_entry;
     s32 *src;
 

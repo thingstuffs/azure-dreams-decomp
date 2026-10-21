@@ -3,10 +3,8 @@
 
 #include "common.h"
 #include "records/Rec_func_800381D0_arg0.h"
-
-
-void decrement_countdown_and_switch();
-void scroll_message_rows();
+#include "engine/message.h"
+#include "engine/script.h"
 
 /* Clears the record's counter, advances its index if possible, and selects the next handler. */
 void handle_vm_opcode_10(Rec_func_800381D0_arg0 *record) {

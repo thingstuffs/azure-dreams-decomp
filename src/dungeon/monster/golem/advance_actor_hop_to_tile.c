@@ -119,7 +119,7 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, 
             if (actor_flags & 0x20000) {
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     tile->unk_24, tile->unk_25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &coord_result);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &coord_result);
             }
         }
     }

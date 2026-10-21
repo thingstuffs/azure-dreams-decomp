@@ -8,7 +8,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern u8 D_800D3814[12];
+extern u8 town_map_selection_state[12];
 extern void func_80041094(s32 a0, s16 a1, s16 a2, s16 a3, s32 a4);
 /* extern */
 extern u8 D_800D185C;

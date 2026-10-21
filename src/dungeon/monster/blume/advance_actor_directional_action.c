@@ -134,7 +134,7 @@ void advance_actor_directional_action(void *controller, void *context, void *spr
 
         if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
             if ((s16)check_entity_relation(
-                    actor, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                    actor, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                 break;
             }
         }
@@ -142,12 +142,12 @@ void advance_actor_directional_action(void *controller, void *context, void *spr
         update_actor_status_and_food(actor);
         on_actor_status_updated(actor);
         if ((s16)get_entity_effect_value(actor, 1) != 0) {
-            check_target = ((u8 *)(&D_80082E80));
+            check_target = ((u8 *)(&reference_tile_object));
             tile = ((S_801741D8_1 *)sprite)->unk_26;
-            if (tile != ((Rec_D_80082E80 *)((u8 *)(&D_80082E80)))->unk_26.as_s8 || tile < 0) {
+            if (tile != ((Rec_D_80082E80 *)((u8 *)(&reference_tile_object)))->unk_26.as_s8 || tile < 0) {
                 s16 distance;
 
-                distance = get_tile_chebyshev_distance(((u8 *)(&D_80082E80)), sprite);
+                distance = get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), sprite);
                 active_actor = actor;
                 if (distance >= 2) {
                     goto final_call;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 f0;
@@ -16,7 +17,6 @@ typedef struct {
 extern S_80084478 shaded_line_render_templates[16];
 extern void update_shaded_line_effect(void);
 extern void draw_linked_sprites(void);
-extern void register_node(void *a0, void *a1);
 
 typedef struct {
     u8 pad0[8];

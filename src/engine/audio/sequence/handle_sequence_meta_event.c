@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus.h"
 
 typedef struct {
     s32 f00;
@@ -28,9 +30,6 @@ typedef struct {
 } S_80085FA8;
 
 extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
-extern s32 read_base_128_vlq(S_80085FA8 *a0);
-extern s32 read_big_endian_word(S_80085FA8 *a0);
-extern s32 add_to_sequence_counter(S_80085FA8 *a0, s32 a1);
 extern s32 audio_sequence_format[];
 extern S_80085FA8 audio_sequence_tracks[];
 extern u32 audio_sequence_timing_division[];

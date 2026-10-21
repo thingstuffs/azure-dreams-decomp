@@ -53,7 +53,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
             update_callback(actor, motion, part, actor);
         }
     }
-    D_80174018[(*(u8 *)((u8 *)actor + 0x9A))](actor, motion, part, actor);
+    tyrant_callbacks[(*(u8 *)((u8 *)actor + 0x9A))](actor, motion, part, actor);
 
     previous_state = (s32)state_direction << 16;
     current_state = (*(s8 *)((u8 *)actor + 0x6D));

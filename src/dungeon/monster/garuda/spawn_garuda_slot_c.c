@@ -68,7 +68,7 @@ void *spawn_garuda_slot_c(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = allocate_list_node(0x112, ((void *)&D_80083498.next));
+    obj = allocate_list_node(0x112, ((void *)&scene_object_list_anchor.next));
     final_arg0 = flags;
     if (obj != NULL) {
         work = obj + 0x20;

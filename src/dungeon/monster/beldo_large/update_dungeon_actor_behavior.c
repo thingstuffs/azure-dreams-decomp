@@ -28,9 +28,9 @@ extern void create_offset_particle_effect();
 extern void spawn_directional_projectile_effect();
 extern void create_timed_offset_motion_effect();
 
-extern Particle D_80082E80;
+extern Particle reference_tile_object;
 extern Copy8 D_80164A4C;
-extern u8 *D_80175D50;
+extern u8 *beldo_actor_nodes;
 
 /* Update a staged particle effect, ramping emission and brightness before fading out. */
 void update_dungeon_actor_behavior(void *effect) {
@@ -62,14 +62,14 @@ void update_dungeon_actor_behavior(void *effect) {
     s32 enabled;
 
     *(Copy8 *)&blit_data[4] = D_80164A4C;
-    burst_context = ((u8 *)(&D_80083498));
+    burst_context = ((u8 *)(&scene_object_list_anchor));
     state = S16_AT(effect, 0x12);
     render_state = burst_context + 0x20;
     enabled = 1;
 
     switch (state) {
     case 0:
-        actor = D_800E3D7C;
+        actor = dungeon_actor_ring_anchor;
         if (U8_AT(actor, 0x9A) != 0x11) {
             return;
         }
@@ -77,14 +77,14 @@ void update_dungeon_actor_behavior(void *effect) {
         U16_AT(effect, 0x18) = 0;
         U16_AT(effect, 0x12)++;
         S8_AT(actor, 0xA8) = enabled;
-        D_80175D50[0x47] = 0;
+        beldo_actor_nodes[0x47] = 0;
         return;
     case 1:
         U16_AT(effect, 0x18)++;
         if (S16_AT(effect, 0x18) == 6) {
             blit_data[0] = blit_data[4] + ((s16)blit_data[6] >> 1);
             blit_data[1] = blit_data[5] + 0x30;
-            draw_transformed_sprite_with_clip_rect(D_800814A8, &blit_data[4], blit_data, 1, state);
+            draw_transformed_sprite_with_clip_rect(primary_actor_record, &blit_data[4], blit_data, 1, state);
         }
         if (S16_AT(effect, 0x18) >= 7) {
             if ((U16_AT(effect, 0x18) & 3) == 3) {
@@ -96,7 +96,7 @@ void update_dungeon_actor_behavior(void *effect) {
             }
         }
         flag_mask = 0x10000000;
-        particle = &D_80082E80;
+        particle = &reference_tile_object;
         particle_level = particle->c;
         U32_AT(render_state, 0x1C) |= flag_mask;
         if (particle_level < 0xFC) {
@@ -133,7 +133,7 @@ void update_dungeon_actor_behavior(void *effect) {
                 ramp_count--;
                 ramp_x = (s16)((rand() & 0x3F) - 0x20);
                 ramp_y = (s16)((rand() & 0x3F) - 0x20);
-                create_offset_particle_effect(((u8 *)(&D_80083780)), ramp_x, ramp_y,
+                create_offset_particle_effect(((u8 *)(&view_reference_entity)), ramp_x, ramp_y,
                     (s16)(-(rand() & 0x3F) - 0x10));
             } while (ramp_count > 0);
         }
@@ -152,7 +152,7 @@ void update_dungeon_actor_behavior(void *effect) {
                 late_count--;
                 late_x = (s16)((rand() & 0x3F) - 0x20);
                 late_y = (s16)((rand() & 0x3F) - 0x20);
-                spawn_directional_projectile_effect(((u8 *)(&D_80083780)), late_x, late_y,
+                spawn_directional_projectile_effect(((u8 *)(&view_reference_entity)), late_x, late_y,
                     (s16)(-(rand() & 0x1F) - 0x18));
             } while (late_count > 0);
         }
@@ -162,22 +162,22 @@ void update_dungeon_actor_behavior(void *effect) {
                 early_count--;
                 early_x = (s16)((rand() & 0x3F) - 0x20);
                 early_y = (s16)((rand() & 0x3F) - 0x20);
-                create_offset_particle_effect(((u8 *)(&D_80083780)), early_x, early_y,
+                create_offset_particle_effect(((u8 *)(&view_reference_entity)), early_x, early_y,
                     (s16)(-(rand() & 0x3F) - 0x10));
             } while (early_count > 0);
         } else {
         }
-        if (D_80082E80.c >= 0x81) {
-            shade = D_80082E80.e - 3;
-            D_80082E80.e = shade;
-            D_80082E80.d = shade;
-            D_80082E80.c = shade;
+        if (reference_tile_object.c >= 0x81) {
+            shade = reference_tile_object.e - 3;
+            reference_tile_object.e = shade;
+            reference_tile_object.d = shade;
+            reference_tile_object.c = shade;
             return;
         }
         render_flags = U32_AT(render_state, 0x1C);
-        D_80082E80.e = 0x80;
-        D_80082E80.d = 0x80;
-        D_80082E80.c = 0x80;
+        reference_tile_object.e = 0x80;
+        reference_tile_object.d = 0x80;
+        reference_tile_object.c = 0x80;
         U32_AT(render_state, 0x1C) = render_flags & 0xEFFFFFFF;
 
         next_state = U16_AT(effect, 0x12);

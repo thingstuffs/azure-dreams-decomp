@@ -29,7 +29,7 @@ typedef struct SlotTransitionState {
     /* 0x18 */ unsigned char field_18;
     /* 0x19 */ unsigned char pad_19[3];
 } RuntimeDispatchState;
-extern RuntimeDispatchState D_80082E60;
+extern RuntimeDispatchState runtime_dispatch_state;
 
 
 /* Exact access views shared across registered binary consumers. */

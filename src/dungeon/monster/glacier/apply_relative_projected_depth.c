@@ -33,7 +33,7 @@ typedef struct {
     u16 x2;
 } Stack3;
 
-extern s8 D_800DCECC[];
+extern s8 view_direction_depth_biases[];
 extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_800478B8(void *);
 
@@ -58,7 +58,7 @@ void apply_relative_projected_depth(void *entity, MovingPosition *position, void
     coords.x1 = base_position->unk_06;
     coords.x2 = base_position->unk_0A;
     depth_delta = depth_delta - func_80065420(&coords.x0, &screen_xy, &depth_cue, &projection_flags);
-    depth_bias = D_800DCECC[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8102F20C_1 *)entity)->unk_1C + 0x100) >> 9) & 7] * 2;
+    depth_bias = view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8102F20C_1 *)entity)->unk_1C + 0x100) >> 9) & 7] * 2;
     depth_delta = depth_delta + depth_bias;
     result->unk_14 = (u16) (result->unk_14 & 0xFF7F);
     result->unk_06 = depth_delta;

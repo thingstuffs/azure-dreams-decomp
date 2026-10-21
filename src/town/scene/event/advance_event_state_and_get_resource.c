@@ -7,6 +7,6 @@ extern M2C_UNK D_8001FB20;
 
 /* Increment the record's byte counter and return D_8001FB20. */
 s32 *advance_event_state_and_get_resource(void) {
-    D_8001E950->dispatchState = (u8) (D_8001E950->dispatchState + 1);
+    town_event_state->dispatchState = (u8) (town_event_state->dispatchState + 1);
     return &D_8001FB20;
 }

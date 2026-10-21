@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/runtime.h"
 
 /* Canonical global flags word shared by several sibling functions in this
  * TU family (code9.c, code10.c, code11.c, code5.c, w_8004F558.c, ...).

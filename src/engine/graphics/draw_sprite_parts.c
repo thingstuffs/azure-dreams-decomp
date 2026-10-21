@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -15,7 +17,6 @@ extern void RotMatrix(void *r, void *m);
 extern void ScaleMatrix(void *m, void *v);
 extern void SetRotMatrix(void *m);
 extern void SetTransMatrix(void *m);
-extern void AddPrim(void *ot, void *prim);
 
 /* Transform sprite parts into textured quads and add them to the ordering table. */
 void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth)

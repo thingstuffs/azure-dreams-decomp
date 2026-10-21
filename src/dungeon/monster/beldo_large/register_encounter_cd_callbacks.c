@@ -4,14 +4,14 @@
 
 extern void *prepare_encounter_resource_descriptor(void);
 extern void Control_CD(s32, void *, void *);
-extern s8 D_8017397C;
+extern s8 encounter_cd_ready;
 
 /* Clears the status flag and registers the callback and status handlers. */
 void register_encounter_cd_callbacks(void) {
     void *callback;
 
     callback = prepare_encounter_resource_descriptor();
-    D_8017397C = 0;
+    encounter_cd_ready = 0;
     Control_CD(6, callback, 0);
-    Control_CD(0xFF, set_byte_one, &D_8017397C);
+    Control_CD(0xFF, set_byte_one, &encounter_cd_ready);
 }

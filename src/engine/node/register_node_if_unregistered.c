@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/node.h"
 
 typedef struct S_80033CD8_0_pre {
     s32 unk_00;
@@ -10,7 +11,6 @@ typedef struct S_80033CD8_0_pre {
 
 
 typedef struct RegistrationNode RegistrationNode;
-s32 register_node(RegistrationNode *entry, s32 registration_id);                      /* extern */
 
 /* Call register_node on the block header when the preceding status is zero. */
 void register_node_if_unregistered(void *block_data, s32 registration_id) {

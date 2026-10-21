@@ -1,15 +1,15 @@
 #include "common.h"
+#include "engine/cd.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
 
 typedef struct { u32 word; } PackedLoc;
-
-extern void DrawSync(int a0);
-extern s32 Control_CD(s32 a0, void *a1, s32 a2);
-extern void drain_cd_command_queue(void);
-extern void run_image_load_commands(s32 a0, s32 a1);
 
 /* Decode a packed ID or relative offset, synchronize, and dispatch the resolved values. */
 void file_load_com(void *packed_data)

@@ -27,7 +27,7 @@ void begin_action_33_and_dispatch(void *object, s32 unused_1, s32 unused_2, s32 
         saved_target = target;
     } while (0);
 
-    if ((D_80013714 & 2) || ((g_game_work.buttons & 0x20) && check_action_available_without_nearby_actor())) {
+    if ((system_update_flags & 2) || ((g_game_work.buttons & 0x20) && check_action_available_without_nearby_actor())) {
         g_dungeon_status.flags |= 0x80;
     }
     append_packed_action_record(saved_target, 0x10, 0, 0);

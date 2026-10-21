@@ -2,8 +2,7 @@
 #include "shared/game_work.h"
 
 #include "common.h"
-
-extern void update_node_registration(void *entry, void *context);
+#include "engine/node.h"
 
 /* Runs the entry callback, then processes the entry and sets the output field unless flagged to stop. */
 void run_node_callback_and_set_marker(void *entry, void *output, void *context) {

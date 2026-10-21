@@ -17,8 +17,8 @@ typedef struct {
     u8 unk8[16];
 } Unk39C8;
 
-extern Unk3648 D_800E3648[0x20];
-extern Unk39C8 D_800E39C8[0x20];
+extern Unk3648 floor_objects[0x20];
+extern Unk39C8 dungeon_floor_object_positions[0x20];
 
 /* Create purple markers at eligible entry positions. */
 void draw_purple_entry_markers(void) {
@@ -26,9 +26,9 @@ void draw_purple_entry_markers(void) {
 
     submit_activation_command();
     for (i = 0; i < 0x20; i++) {
-        if ((D_800E3648[i].unk1 != 0) && (D_800E3648[i].unk0 != 0) &&
-            !(D_800E3648[i].unk3 & 0x40)) {
-            create_transformed_render_object(D_800E39C8[i].unk6, D_800E39C8[i].unk7,
+        if ((floor_objects[i].unk1 != 0) && (floor_objects[i].unk0 != 0) &&
+            !(floor_objects[i].unk3 & 0x40)) {
+            create_transformed_render_object(dungeon_floor_object_positions[i].unk6, dungeon_floor_object_positions[i].unk7,
                           0x802080, 8, i);
         }
     }

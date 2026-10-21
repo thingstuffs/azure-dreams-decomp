@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 
 /* manual g1 strike 2: order the negative-direction compare like retail */

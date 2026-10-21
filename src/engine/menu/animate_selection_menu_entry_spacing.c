@@ -1,6 +1,7 @@
 #include "common.h"
+#include "engine/menu.h"
+#include "slus.h"
 
-extern void noop_selection_menu_animation_idle(void);
 typedef struct S_8004F9AC_L3
 {
     char pad0[8];

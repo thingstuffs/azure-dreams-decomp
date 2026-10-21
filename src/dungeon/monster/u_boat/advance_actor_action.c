@@ -35,7 +35,7 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_actor_action_transition(void *, void *, void *, void *);
 
-extern u8 D_800E2428[];
+extern u8 uboat_action_frames[];
 extern u8 D_800E2430[];
 extern u8 D_80171A80[];
 
@@ -54,9 +54,9 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_800E2428;
+        ((SpriteFrameState *)sprite)->frameTable = uboat_action_frames;
         select_sprite_entry(sprite,
-            D_800E2428[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            uboat_action_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
             DungeonGlobalStatus *counter_base = &g_dungeon_status;
@@ -104,7 +104,7 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            ActorRecord *owner = D_800814A8;
+            ActorRecord *owner = primary_actor_record;
 
             if ((check_entity_relation(entity,
                     (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
@@ -114,7 +114,7 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
         update_actor_status_and_food(entity);
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
-            TileObject *origin = &D_80082E80;
+            TileObject *origin = &reference_tile_object;
             s8 tile = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
 
             if (((tile == origin->room_index) && (tile >= 0)) ||

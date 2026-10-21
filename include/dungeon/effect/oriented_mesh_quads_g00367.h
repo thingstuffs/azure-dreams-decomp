@@ -176,7 +176,7 @@ s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *
 s32 func_80065820(void *, void *);
 u16 func_80065F90();
 s32 func_8006658C(void *, void *);
-extern s32 D_8006CD30[];
+extern s32 sprite_projection_matrix[];
 
 /* Functions defined in this translation unit. */
 s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data);

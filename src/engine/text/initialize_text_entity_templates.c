@@ -12,8 +12,8 @@ typedef struct S_8002E5D8 {
 /* Template struct copied wholesale (word-by-word) into a2's target. */
 
 
-extern S_8002E5D8 D_8002E5D8;
-extern DisplayPositionWords D_8002E5E8;
+extern S_8002E5D8 display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 /* The live entity struct that a1 points at: same 16 bytes as S_8002E5D8's
    template, but the tail word(s) are reinterpreted/patched as smaller
@@ -37,8 +37,8 @@ typedef struct {
 
 /* Copy two templates into entity buffers, link them to the header, and apply defaults. */
 void initialize_text_entity_templates(S_8004EEFC_a0 *entity, S_8002E5D8 *main_data, DisplayPositionWords *aux_data) {
-    S_8002E5D8 *main_template = &D_8002E5D8;
-    DisplayPositionWords *aux_template = &D_8002E5E8;
+    S_8002E5D8 *main_template = &display_block_defaults;
+    DisplayPositionWords *aux_template = &display_vector_defaults;
     s32 *aux_first_word;
 
     main_data->unk0 = main_template->unk0;

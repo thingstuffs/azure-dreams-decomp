@@ -35,9 +35,9 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
         return process_record_and_update_linked_state(item, use_context);
     }
 
-    if (target == ((u8 *)D_800E3D7C)) {
+    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
         *(s32 *)((u8 *)target + 0x110) = item;
-        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
 
@@ -55,7 +55,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
         clear_slots_of_type(target, 8);
 
         uncursed = 0;
-        equipment = *(u8 **)(((u8 *)D_800E3D7C) + 0x4C);
+        equipment = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0x4C);
         if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
             equipment[3] &= 0xBF;
             message_buf = get_unused_text_buffer();
@@ -65,7 +65,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
             uncursed = 1;
         }
 
-        equipment = *(u8 **)(((u8 *)D_800E3D7C) + 0x50);
+        equipment = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0x50);
         if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
             equipment[3] &= 0xBF;
             message_buf = get_unused_text_buffer();

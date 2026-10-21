@@ -43,7 +43,7 @@ void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Sour
     u32 initial_result;
 
     target_y = target_x = 0;
-    if (context_arg->f60 == ((u8 *)D_800E3D7C)) {
+    if (context_arg->f60 == ((u8 *)dungeon_actor_ring_anchor)) {
         special_data = *(u8 **)((u8 *)context_arg->f60 + 0x4C);
         if (special_data != 0) {
             if (special_data[1] == 15 && special_data[0] == 8) {

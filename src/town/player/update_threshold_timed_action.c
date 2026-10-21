@@ -25,14 +25,14 @@ void update_threshold_timed_action(Rec_func_80094268_arg0 *state, EntityRec *ent
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
-    sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated((s32 *)(entity), &D_800FE488);
+    sampled_value = select_the_smaller_position_query_result_capped_n_64_writes_associated((s32 *)(entity), &position_query_scratch);
     if ((sampled_value - entity->z.w.i) >= 4) {
-        if (D_800CFCEF == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_object(state, entity, context);
             return;
         }
-    } else if (D_800CFCEF == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(entity), sampled_value, (struct TownVec * *)(&D_800FE488));
+    } else if (town_action_state_flag == 0) {
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(entity), sampled_value, (struct TownVec * *)(&position_query_scratch));
     }
     if (state->unk_0A.as_s16 == 0) {
         call_the_handler_selects_nonzero_entry(D_800D00E0, state, (void *)(context));

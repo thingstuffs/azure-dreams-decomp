@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/menu.h"
 
 /* Leaf record: RGB-ish triplet at offset 0, plus a 16-bit field at offset 8. */
 typedef struct S_8004FFF4_Leaf {

@@ -2,16 +2,14 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/movie.h"
+#include "engine/scene.h"
+#include "engine/town.h"
+#include "slus.h"
+#include "slus/data.h"
 
-void move_vram_rect(); /* extern */
-void append_town_movie_list_node();        /* extern */
-void file_load_com(void *packed_data);                   /* extern */
-void load_shared_resource_once(void);                            /* extern */
-void load_bin_nametwin(void);                            /* extern */
-extern M2C_UNK town_movie_resource_descriptor;
 extern M2C_UNK town_movie_callback_list;
-extern M2C_UNK town_movie_primary_resource;
-extern M2C_UNK town_movie_secondary_resource;
 
 /* Append the runtime entry, copy two VRAM strips, and run the associated updates. */
 void queue_town_movie_and_load_resources(void) {

@@ -103,7 +103,7 @@ void build_two_display_entries(s32 data_id, s32 position_offset)
     if (display_obj != 0) {
         *(void **)((u8 *)display_obj + 0x10) = D_800BC390;
         display_data = (u8 *)display_obj + 0x20;
-        register_node(display_obj, &D_80053A88);
+        register_node(display_obj, &display_registration_tag);
         *(s16 *)(display_data + 0xC) = 0x64;
         *(s16 *)(display_data + 0xE) = 0x34;
         *(s16 *)(display_data + 0x10) = 0x7C;

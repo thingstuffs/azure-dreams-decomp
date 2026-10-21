@@ -1,4 +1,8 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "frontend/card/save.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
 typedef struct S_8001EFC4_0_pre {
     void * unk_00;
@@ -16,16 +20,12 @@ typedef struct S_8001EFC4_0 {
 
 
 extern void func_80063FF8(s32 code);
-extern void advance_indexed_object_operation(void *obj);
 extern s32 func_80058FF0(s32 current, s32 direction, s32 amount);
-extern void card_devkit_refresh_save_slot_pair_highlights(void *obj);
-extern s32 card_devkit_poll_stable_slot_state(void);
 extern void submit_stored_and_queried_boot_values(void);
 extern void propagate_object_high_bit_flags(void *obj);
 extern void allocate_or_reuse_effect_and_install_callback(s32 current, s32 mode);
 extern volatile s32 boot_pad_state;
-extern volatile s32 D_801379B0;
-extern u8 D_80405AB4[];
+extern volatile s32 boot_pressed_buttons;
 
 /* Per-frame menu step: handle the pad's edge/repeat flags, move the cursor and run the post-step hooks. */
 void card_dev_update_menu_input(u8 *root)
@@ -43,12 +43,12 @@ void card_dev_update_menu_input(u8 *root)
         s32 flags20;
         s32 flags5000;
 
-        flags20 = D_801379B0;
+        flags20 = boot_pressed_buttons;
         if (flags20 & 0x40) {
             func_80063FF8(0x515);
             ((S_8001EFC4_0_pre *)root)[-1].unk_00 = D_80405AB4;
         }
-        flags10 = D_801379B0;
+        flags10 = boot_pressed_buttons;
         if (flags10 & 0x20) {
             func_80063FF8(0x514);
             advance_indexed_object_operation(root);
@@ -58,7 +58,7 @@ void card_dev_update_menu_input(u8 *root)
                 side = flags10 & 0x5000;
                 if (side != 0) {
                     (*(s32 *)((u8 *)root + 0x30)) = 0;
-                    flags10 = D_801379B0;
+                    flags10 = boot_pressed_buttons;
                     if (flags10 & 0x1000) {
                         action = -1;
                     } else if (flags10 & 0x4000) {

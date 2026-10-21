@@ -1,8 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-extern M2C_UNK D_80083060;
-extern M2C_UNK D_8008306C;
+#include "frontend/card.h"
+#include "main/data.h"
 
 typedef struct S_8002089C_0 {
     u8 pad_00[0xF0];

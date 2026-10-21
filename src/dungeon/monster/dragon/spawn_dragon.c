@@ -18,7 +18,7 @@ void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attr
     saved_attribute_24 = attribute_24;
     saved_attribute_0a = attribute_0a;
     saved_attribute_25 = attribute_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->unk_10 = D_80158A28;

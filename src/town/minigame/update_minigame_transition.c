@@ -31,7 +31,7 @@ typedef struct S_80021E88_4 {
 
 
 extern s32 test_three_axis_box_overlap(void *, void *);
-extern u32 D_80012D5C;
+extern u32 town_money;
 extern u8 D_800243F0[];
 extern s32 D_80024438[];
 extern s32 D_80024444[];
@@ -49,7 +49,7 @@ void update_minigame_transition(S_80021E88_0 *controller, Rec_func_80021E88_arg1
     if (object->unk_18 == 0) {
         controller->unk_00 = 0;
     }
-    if (D_80012D5C >= 100U) {
+    if (town_money >= 100U) {
         if (test_three_axis_box_overlap(D_800243F0, position) != 0) {
             transition = 1;
         } else {

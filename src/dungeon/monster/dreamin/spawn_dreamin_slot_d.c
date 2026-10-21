@@ -72,7 +72,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
     saved_type = type_id;
     saved_y = grid_y;
     global_byte = (s32) *(s8 *)-0x56D4;
-    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         entity = object + 0x20;
         ((S_80DA1000_0 *)object)->unk_10 = &func_8015EA3C;

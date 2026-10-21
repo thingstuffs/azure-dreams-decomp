@@ -92,7 +92,7 @@ void update_actor_status_callback(void *actor_in, void *context_in, void *sprite
                 return;
             }
             if ((has_pending_actor_or_turn_action(entity_in) << 16) != 0) {
-                ActorRecord *owner = D_800814A8;
+                ActorRecord *owner = primary_actor_record;
 
                 if ((check_entity_relation(entity_in,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
@@ -102,7 +102,7 @@ void update_actor_status_callback(void *actor_in, void *context_in, void *sprite
             update_actor_status_and_food(entity_in);
             on_actor_status_updated(entity_in);
             if ((get_entity_effect_value(entity_in, 1) << 16) != 0) {
-                TileObject *origin = &D_80082E80;
+                TileObject *origin = &reference_tile_object;
                 s8 tile = ((S_801730B4_1 *)sprite_in)->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
@@ -242,7 +242,7 @@ void advance_entity_directional_events(void *entity, void *context, void *sprite
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
             if ((check_entity_relation(actor,
-                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }

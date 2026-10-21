@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 typedef struct { u8 pad[0x7C]; s32 index; } Owner;
 void select_memory_task_exit(Owner *owner);                      /* extern */
 void func_80405900(void *);                      /* extern */

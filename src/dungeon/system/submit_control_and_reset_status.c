@@ -4,7 +4,7 @@
 /* Submit D_800DF3DC and reset D_800DCF4D to -1. */
 void submit_control_and_reset_status(void) {
     Control_CD(6, &D_800DF3DC, 0);
-    D_800DCF4D = -1;
+    spell_effect_selector_cache = -1;
 }
 
 /* Passes D_800DF3E4 to Control_CD with selector 6 and a zero final argument. */

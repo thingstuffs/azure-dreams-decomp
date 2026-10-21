@@ -40,7 +40,7 @@ void update_timed_movement_sequence(S_81978140 *entity)
     case 0:
         func_800257B8();
         func_800257B8();
-        (*(u16 *)&D_800814A8->facing) -= 0x200;
+        (*(u16 *)&primary_actor_record->facing) -= 0x200;
         if ((s16)entity->timer < 8) {
             break;
         }

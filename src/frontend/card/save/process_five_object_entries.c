@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/service.h"
 
 typedef struct S_func_804061C4_0 {
     u8 pad_00[4];
@@ -14,7 +15,6 @@ typedef struct S_func_804061C4_1 {
     void (*unk_00)(void);
 } S_func_804061C4_1;
 
-extern s32 card_dev_run_slot_operation(s32 slot_index);
 extern void initialize_card_message_object_with_code_0x13(void *object);
 extern void func_80404688(s32 entry_object);
 extern void handle_object_menu_input(void);

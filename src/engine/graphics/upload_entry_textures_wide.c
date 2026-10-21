@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 struct S_800475A4_Entry {
     u8 flags;

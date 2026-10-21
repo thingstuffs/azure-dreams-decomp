@@ -1,4 +1,9 @@
 #include "common.h"
+#include "engine/audio.h"
+#include "engine/effect.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
+#include "slus/data.h"
 
 
 
@@ -22,12 +27,7 @@ typedef struct S_80053374_obj {
     /* 0x20 */ S_80053374_Sub sub;
 } S_80053374_obj;
 
-extern s32 sixteen_sprite_sequence_source[4];
-
-extern void play_timed_animation_sequence(void *a0);
-extern void *allocate_list_node(s32 a0, void *a1);
 extern void init_shaded_line_effect(void *a0, s16 a1);
-extern void init_sixteen_packed_templates(void);
 
 /* Initializes the entity state and sub-object, creates up to 16 slots, and initializes the global table. */
 void scene_initialize_sixteen_sprite_sequence(S_80053374_obj *entity, void *owner)

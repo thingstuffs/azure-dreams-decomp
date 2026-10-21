@@ -79,13 +79,13 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_s
 
     if ((((S_801717D0_0 *)self)->unk_1C & 0x2000) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
         special_action = 1;
-        if ((*(u16 *)((u8 *)&((ActorRecord *)((u8 *)D_800E3D7C))->unk_A4 + 2)) == 2) {
+        if ((*(u16 *)((u8 *)&((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_A4 + 2)) == 2) {
             counter = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             counter--;
             g_dungeon_status.activity_counts.parts.pending_action_count = counter;
         }
 
-        player = ((u8 *)D_800E3D7C);
+        player = ((u8 *)dungeon_actor_ring_anchor);
         if ((((S_801717D0_3 *)player)->unk_98.s32 & 0x3000) == 0x2000 &&
             ((S_801717D0_3 *)player)->unk_A6 != special_action) {
             ((S_801717D0_3 *)player)->unk_A6 = special_action;
@@ -125,7 +125,7 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_s
             action_word = *action_flags;
             selection_index = action_word & 0x3FFF;
             entry_index = selection_index - 1;
-            action_table = D_8006DE24;
+            action_table = item_action_definitions;
             action_slot = self;
             action_slot += entry_index * 3;
             entry_index = action_slot[8];

@@ -45,14 +45,14 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
     store_the_valid_shared_angle_in_offset_hex_10(action);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(actor);
-    reference_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &D_800FE488);
+    reference_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, &position_query_scratch);
     if ((reference_value - actor->z.w.i) >= 4) {
-        if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
+        if (((S_80092320_1 *)(&town_action_state_flag))->unk_00 == 0) {
             initialize_action_object(action, actor, context);
             return;
         }
-    } else if (((S_80092320_1 *)(&D_800CFCEF))->unk_00 == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), reference_value, (struct TownVec * *)(&D_800FE488));
+    } else if (((S_80092320_1 *)(&town_action_state_flag))->unk_00 == 0) {
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), reference_value, (struct TownVec * *)(&position_query_scratch));
     }
     if (((s32)state->pressed_buttons) & 0x10) {
         initialize_actor_action_state(action, (struct S_800942B0_0 *)(actor), context);

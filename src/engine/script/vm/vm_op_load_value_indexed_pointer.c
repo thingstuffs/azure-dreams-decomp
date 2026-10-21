@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef struct RuntimeState {
     u8 pad0[0x1C];

@@ -1,8 +1,8 @@
 #include "common.h"
 
 #include "modules/main_server_ship_interfaces.h"
-extern s32 card_boot_create_slot_window(void *parent_object, s32 object_index);
-extern void card_boot_show_load_failure_notice(void *value);
+#include "frontend/libcard/message.h"
+#include "frontend/libcard/resource.h"
 extern void card_boot_return_from_slot_menu(void);
 extern void card_boot_restore_saved_selection_callback(void);
 extern void card_boot_enter_slot_selection_input(void);

@@ -54,7 +54,7 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
         }
         distance = count;
         while (distance >= 0) {
-            particle = (u8 *)allocate_list_node(786, ((u8 *)(&D_80083498)));
+            particle = (u8 *)allocate_list_node(786, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
                 register_node(particle, project_sprite_chain);
                 render_data = (u8 *)S32(particle, 12);
@@ -212,7 +212,7 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
             U16(effect, 82) = frame_counter;
             if (S16(effect, 80) == mode) {
                 if (S32(actor, 96) != 0) {
-                    particle = (u8 *)allocate_list_node(770, ((u8 *)(&D_80083498)));
+                    particle = (u8 *)allocate_list_node(770, ((u8 *)(&scene_object_list_anchor)));
                     if (particle != 0) {
                         register_node(particle, D_80024C7C);
                         S32(particle, 16) = (s32)D_80024B60;
@@ -252,7 +252,7 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
             copy_selected_table_pair(S32(actor, 96), S16(effect, 80));
             if (S16(effect, 80) == 6 && try_trigger_target_record_effect(S32(actor, 96), 4, actor) == 0 &&
                 S32(actor, 96) != 0) {
-                try_apply_effect_four_by_chance(S32(actor, 96), U8(D_800E3D68, 0) == 255 ? 255 : 16, 4);
+                try_apply_effect_four_by_chance(S32(actor, 96), U8(current_spell_effect_variant, 0) == 255 ? 255 : 16, 4);
             }
             if (S16(effect, 80) > 0)
                 break;

@@ -47,16 +47,16 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
     s32 action_result;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(actor);
     move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(actor);
-    map_work = ((u8 *)&D_800FE488);
+    map_work = ((u8 *)&position_query_scratch);
     sampled_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, map_work);
     if ((sampled_height - (*((s16 *) (((u8 *) actor) + 0xA)))) >= 4) {
-        if (D_800CFCEF == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_object(action_state, actor, context);
             return;
         }
     }
     else
-        if (D_800CFCEF == 0) {
+        if (town_action_state_flag == 0) {
             compute_and_clamps_vector_based_adjustment_updates_town(actor, sampled_height, map_work);
         }
     timer = (*((u16 *) (((u8 *) action_state) + 0xA))) - 1;

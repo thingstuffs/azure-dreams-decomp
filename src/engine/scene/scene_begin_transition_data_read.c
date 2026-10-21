@@ -1,9 +1,9 @@
 #include "common.h"
+#include "engine/scene.h"
+#include "slus.h"
+#include "slus/data.h"
 
 /* Control_CD(kind, callback, arg) - registers a callback in some table */
-extern s32 Control_CD(s32 a0, void *a1, void *a2);
-extern void set_byte_one(u8 *a0);
-extern u8 transition_data_resource;
 
 /* Clears the state byte and registers two callbacks, binding the default handler to it. */
 void scene_begin_transition_data_read(u8 *state)

@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/cd.h"
+#include "engine/item.h"
+#include "slus.h"
 
-extern void submit_global_cd_command_six(void);
-extern void drain_cd_command_queue(void);
 extern void allocate_item_without_data_override(void *a0, void *a1, s32 a2, void *a3);
 
 /* Calls func_8004B634 and drain_cd_command_queue, then forwards the pointers to func_800253A0 with mode 3. */

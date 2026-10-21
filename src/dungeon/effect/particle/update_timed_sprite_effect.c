@@ -61,7 +61,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
     if ((u32)(effect->unk_0A.u - 1) < 3) {
         index_or_x = 9;
         do {
-            particle_or_y = (s32)allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+            particle_or_y = (s32)allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle_or_y != 0) {
                 sprite_or_x = (s32)((ProjectileObject *)particle_or_y)->unk_0C;
                 ((ProjectileObject *)particle_or_y)->unk_10 = update_timed_sprite_effect;
@@ -94,8 +94,8 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
                     ((ProjectileSprite *)sprite_or_x)->unk_14 |= 1;
                 }
                 *(s16 *)((u8 *)sprite_or_x + 0x10) = 96;
-                *(void * *)((u8 *)sprite_or_x + 0x00) = D_800DEA68;
-                ((ProjectileSprite *)sprite_or_x)->unk_08 = *(void **)(D_800DEA68 + 4);
+                *(void * *)((u8 *)sprite_or_x + 0x00) = secondary_sprite;
+                ((ProjectileSprite *)sprite_or_x)->unk_08 = *(void **)(secondary_sprite + 4);
                 ((ProjectileSprite *)sprite_or_x)->unk_04 = 0;
                 ((ProjectileSprite *)sprite_or_x)->unk_05 = 0;
                 ((ProjectileSprite *)sprite_or_x)->unk_0C.at00u.v = 0x3030C0;

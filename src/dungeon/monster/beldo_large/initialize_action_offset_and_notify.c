@@ -4,13 +4,13 @@
 
 extern void equip_item_and_update_status(void *, void *);
 extern s16 D_80173AFC[];
-extern u8 *D_80175D54;
+extern u8 *beldo_script_node;
 extern u8 D_80175DBC[];
 
 /* Initializes an offset position and sends a message at action phase three. */
 void initialize_action_offset_and_notify(void *action, void *position)
 {
-    u8 *object = D_80175D54;
+    u8 *object = beldo_script_node;
     u8 *object_position = *(u8 **)(object + 8);
     u8 *object_data = object + 0x20;
 
@@ -36,7 +36,7 @@ void initialize_action_offset_and_notify(void *action, void *position)
         message[1] = 15;
         message[2] = 0;
         message[3] = 0;
-        equip_item_and_update_status(((u8 *)D_800E3D7C), message);
+        equip_item_and_update_status(((u8 *)dungeon_actor_ring_anchor), message);
         ((u16 *)action)[-1] |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }

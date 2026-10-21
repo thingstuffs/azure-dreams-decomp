@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus/data.h"
 
 /* Comparator: subtracts two table-lookup values through two independent
    record pointers. Known maspsx-fold-false-positive family
@@ -11,8 +12,6 @@ typedef struct {
 typedef struct {
     S_8004AE68_Rec *rec;
 } S_8004AE68_Outer;
-
-extern u8 record_sort_key_weights[256];
 
 /* Compares two records by subtracting their key-indexed table values. */
 s32 table_handle_compares_two_records_subtracting_key_indexed_table_values(S_8004AE68_Outer *left, S_8004AE68_Outer *right)

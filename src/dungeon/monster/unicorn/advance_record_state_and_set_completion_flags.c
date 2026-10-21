@@ -55,7 +55,7 @@ void create_tinted_sprite_effect_supplied_position(void *unused, void *position_
 }
 
 /* Update the effect's orbit and height, fade its color, and mark it for removal when its life expires. */
-void update_orbit_height_and_fade_effect(void *effect, EntityRec *position, SpriteFrameState *primitive) {
+void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position, SpriteFrameState *primitive) {
     s16 life;
     s16 angle;
     s16 next_life;

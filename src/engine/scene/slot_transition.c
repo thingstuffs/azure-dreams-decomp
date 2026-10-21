@@ -13,14 +13,14 @@ void func_80041AE4(void)
     gpu_scratch_write_pointer = copied_value;
     update_controller_buttons_and_triggers();
 
-    state = &D_80082E60;
+    state = &runtime_dispatch_state;
     upload_dispatch_entry_images(state->field_B);
     upload_dispatch_entry_vram_rows(state->field_B);
     load_dispatch_entry_files(state->field_B);
     if (run_dispatch_entry_callbacks(state->field_B)) {
         scene_save_previous_mode_and_reset_callbacks();
     } else {
-        D_80082E60.field_0 &= ~1;
+        runtime_dispatch_state.field_0 &= ~1;
         transition_runtime_slot_index = reserve_runtime_slot(5, 8);
         set_scene_phase_callback((s32)render_scene_until_runtime_slot_idle);
     }
@@ -39,7 +39,7 @@ void render_scene_until_runtime_slot_idle(void)
 void await_scene_confirmation_and_reserve_slot(void)
 {
     render_scene_frame_with_timing();
-    if (D_80082E60.unk_0E != 0) {
+    if (runtime_dispatch_state.unk_0E != 0) {
         if (runtime_transition_slots[transition_runtime_slot_index].type == 0) {
             transition_runtime_slot_index = reserve_runtime_slot(6, 8);
         }
@@ -54,7 +54,7 @@ void finish_scene_when_runtime_slot_idle(void)
 {
     render_scene_frame_with_timing();
     if (runtime_transition_slots[transition_runtime_slot_index].type == 0) {
-        D_80082E60.field_0 |= 1;
+        runtime_dispatch_state.field_0 |= 1;
         scene_save_previous_mode_and_reset_callbacks();
     }
 }

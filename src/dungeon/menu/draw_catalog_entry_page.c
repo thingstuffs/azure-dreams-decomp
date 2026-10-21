@@ -8,7 +8,7 @@ s32 is_catalog_entry_available();
 void draw_vram_glyph_text();
 void draw_cached_catalog_text();
 extern M2C_UNK D_8011ACD8;
-extern M2C_UNK D_80126E98;
+extern M2C_UNK catalog_glyphs;
 
 typedef struct S_80123A60_0 {
     u8 pad_00[0xF];
@@ -38,12 +38,12 @@ void draw_catalog_entry_page(S_80123A60_0 *state) {
         slot = state->unk_0F;
         entry_id = slot * 0x10;
         if (is_catalog_entry_available(entry_id & 0xF0) & 0xFF) {
-            entry_table = &D_80126E98;
+            entry_table = &catalog_glyphs;
             draw_vram_glyph_text(*(((slot * 0x20) + entry_id) + entry_table), 0x180, 0x80);
         }
         entry_id += 1;
         if (is_catalog_entry_available(entry_id & 0xFF) & 0xFF) {
-            entry_table_2 = &D_80126E98;
+            entry_table_2 = &catalog_glyphs;
             draw_vram_glyph_text(*((entry_id * 3) + entry_table_2), 0x1A4, 0xA0);
         }
         func_80067014(0);
@@ -51,7 +51,7 @@ void draw_catalog_entry_page(S_80123A60_0 *state) {
     }
     group = state->unk_0F;
     entry_id = group * 0x10;
-    entry_table_3 = &D_80126E98;
+    entry_table_3 = &catalog_glyphs;
     entry = ((group * 0x20) + entry_id) + entry_table_3;
 loop_0:
     {

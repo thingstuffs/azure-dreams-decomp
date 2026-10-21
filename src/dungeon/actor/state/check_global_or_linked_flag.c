@@ -17,12 +17,12 @@ typedef struct Slot {
 
 /* Tests the global override or flag 0x20000 on the actor or its linked actors. */
 s32 check_global_or_linked_flag_20000(Actor *actor) {
-    if (D_800E296C & 0x10000000) {
+    if (dungeon_floor_flags & 0x10000000) {
         return 1;
     }
     if (actor->flags14 & 0x4000) {
         s32 slot_index = 1;
-        u8 *slot_cursor = ((u8 *)D_800E3D7C) + 4;
+        u8 *slot_cursor = ((u8 *)dungeon_actor_ring_anchor) + 4;
         do {
             Actor *linked_actor = ((Slot *)slot_cursor)->other;
             if ((linked_actor != 0) && (linked_actor->flags54 & 0x20000)) {

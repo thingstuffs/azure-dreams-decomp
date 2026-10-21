@@ -347,7 +347,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             motion->unk_08.unk_0A_view_u16.unk_0A_u16 =
                 ((S_81850800_7 *)work->source)->unk_08.unk_0A_view_u16.unk_0A_u16;
         }
-        spawn_cb = &D_80083498;
+        spawn_cb = &scene_object_list_anchor;
         obj = allocate_list_node(0x112, spawn_cb);
         if (obj != 0) {
             obj->unk_10 = delay_and_fade_particle;
@@ -427,7 +427,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                 effect_flags = delay_and_fade_particle;
                 particle_anim = (S_81850800_10 *)D_800DEC28;
                 do {
-                    obj = allocate_list_node(0x312, ((s32 *)&D_80083498.next));
+                    obj = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
                     if (obj != 0) {
                         work = obj->unk_0C;
                         obj->unk_10 = effect_flags;

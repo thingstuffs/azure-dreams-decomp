@@ -28,7 +28,7 @@ extern void create_directional_effect(void *, void *, void *);
 extern void create_offset_directional_effect(void *, void *, void *);
 
 extern u8 D_80171094[];
-extern u8 D_80176488[];
+extern u8 cyclone_attack_frames[];
 
 /* Updates a timed backward-then-forward movement sequence and handles animation completion. */
 void advance_backward_forward_motion(void *action, ObjectPosition *motion, void *animation, ActorRecord *actor)
@@ -68,7 +68,7 @@ void advance_backward_forward_motion(void *action, ObjectPosition *motion, void 
         }
 
         if (((SpriteFrameState *)animation)->flags & 0x6000) {
-            u8 *direction_anims = D_80176488;
+            u8 *direction_anims = cyclone_attack_frames;
 
             ((SpriteFrameState *)animation)->frameTable = direction_anims;
             select_sprite_entry(

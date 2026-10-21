@@ -165,12 +165,12 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
 
             ((S_80172FC0_0 *)anim)->unk_98 &= 0xFF7F;
             if ((s16)is_special != 0) {
-                effect = D_800814A8;
+                effect = primary_actor_record;
                 actor->target = effect;
                 main_actor = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
                 actor->target_tile_x = ((S_80172FC0_3 *)main_actor)->unk_24;
                 actor->target_tile_y = ((S_80172FC0_3 *)main_actor)->unk_25;
-            } else if (D_8006DE24[*effect_id].kind == 2) {
+            } else if (item_action_definitions[*effect_id].kind == 2) {
                 effect = actor->target;
                 if (effect != 0) {
                     main_actor = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
@@ -207,7 +207,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
         ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
         ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
         set_record_integer_tile_center(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
-        main_actor = D_800814A8;
+        main_actor = primary_actor_record;
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
         advance_status_timers(actor);

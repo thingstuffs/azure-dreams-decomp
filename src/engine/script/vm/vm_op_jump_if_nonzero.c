@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef struct Func8003A5B4Entry {
     u8 pad_00[0x48];

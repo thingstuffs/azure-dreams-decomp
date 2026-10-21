@@ -27,11 +27,11 @@ extern s32 rand(void);
 extern void unlink_scene_list_node(void *);
 extern s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(void *, void *, void *, void *);
 
-extern s32 D_80012D5C[];
+extern s32 town_money[];
 extern TownRewardValues D_80020278;
 extern u8 D_80024488[];
 extern s32 D_800244DC[];
-extern s32 D_80024628[];
+extern s32 pickup_reward_total[];
 extern u8 D_800D0420[];
 
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */
@@ -110,7 +110,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
             }
         }
         collision_addr = (u32)&D_80024488;
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes((void *)collision_addr, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes((void *)collision_addr, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) == 0) {
             return;
         }
         SD_Call(0x516);
@@ -122,10 +122,10 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
             {
                 s32 reward_total, collected_total;
                 reward_amount = reward_units * 100;
-                reward_total = D_80012D5C[0];
-                collected_total = D_80024628[0];
-                D_80012D5C[0] = reward_total + reward_amount;
-                D_80024628[0] = collected_total + reward_amount;
+                reward_total = town_money[0];
+                collected_total = pickup_reward_total[0];
+                town_money[0] = reward_total + reward_amount;
+                pickup_reward_total[0] = collected_total + reward_amount;
             }
             ((S_800236BC_1 *)object)->unk_04.s = 255;
             return;
@@ -138,7 +138,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
             ((S_800236BC_1 *)object)->unk_06.s = 31;
             ((S_800236BC_1 *)object)->unk_04.u++;
         }
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024488, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) == 0) {
             return;
         }
         SD_Call(0x516);
@@ -146,20 +146,20 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
         {
             s32 reward_total, collected_total;
             reward_amount = reward_units * 100;
-            reward_total = D_80012D5C[0];
-            collected_total = D_80024628[0];
-            D_80012D5C[0] = reward_total + reward_amount;
-            D_80024628[0] = collected_total + reward_amount;
+            reward_total = town_money[0];
+            collected_total = pickup_reward_total[0];
+            town_money[0] = reward_total + reward_amount;
+            pickup_reward_total[0] = collected_total + reward_amount;
         }
         ((S_800236BC_1 *)object)->unk_04.s = 255;
         return;
 
     case 4:
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024488, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);
             reward_amount = reward_table[((S_800236BC_1 *)object)->unk_54] * 100;
-            D_80012D5C[0] += reward_amount;
-            D_80024628[0] += reward_amount;
+            town_money[0] += reward_amount;
+            pickup_reward_total[0] += reward_amount;
             ((S_800236BC_1 *)object)->unk_04.s = 255;
         }
         {

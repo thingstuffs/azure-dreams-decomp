@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/movie.h"
 
 typedef struct S_8003AF58_0 {
     u8 pad_00[0x14];

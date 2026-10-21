@@ -1,9 +1,9 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/util.h"
+#include "sdk/libc.h"
 
-extern void bzero(void *dst, int n);
 extern void *create_callback_pair_default(u32 size);
-extern s32 alloc_buffer_array(s32 *a0, s32 a1);
-extern void apply_block_16_template_to_nodes(s32 *a0, s32 a1);
 
 /* Rebuilds the pointer buffer and links corresponding records from two sub-buffer banks. */
 s32 *realloc_field_0_buffer(s32 *buffer_slot, s32 entry_count, s32 clear_words)

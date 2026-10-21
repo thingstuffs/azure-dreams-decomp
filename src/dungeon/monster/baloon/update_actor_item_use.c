@@ -18,8 +18,8 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void spawn_angled_random_velocity_effect(void *, s32, s32);
 extern void spawn_directional_random_velocity_effect(void *, s32);
 
-extern u8 D_800E2348[];
-extern u8 D_800E2388[8];
+extern u8 baloon_default_frames[];
+extern u8 baloon_fall_frames[8];
 extern u8 D_800E2398[8];
 extern s32 D_80171F1C;
 
@@ -115,14 +115,14 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
 
                 is_special = flag;
                 if (is_special != 0) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     (*(void * *)((u8 *)actor + 0x60)) = target;
                     item_id = ((S_80173B08_1_pre *)target)[-1].unk_00;
                     (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173B08_2 *)item_id)->unk_24;
                     (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173B08_2 *)item_id)->unk_25;
                 } else {
                     item_id = (void *)(*item_slot);
-                    if (D_8006DE24[((u8)item_id)].kind == 2) {
+                    if (item_action_definitions[((u8)item_id)].kind == 2) {
                         target = (*(void * *)((u8 *)actor + 0x60));
                         if (target != 0) {
                             item_id = ((S_80173B08_1_pre *)target)[-1].unk_00;
@@ -163,7 +163,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+            (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
             advance_status_timers(actor);
             (*(u8 *)((u8 *)actor + 0x6D))--;
             ((S_80173B08_0 *)action)->unk_8C = &D_80171F1C;
@@ -282,8 +282,8 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
         state |= 8;
         ((S_80173B08_0 *)action)->unk_9B = stage;
         ((S_80173B08_0 *)action)->unk_98 = state;
-        ((SpriteFrameState *)sprite)->frameTable = D_800E2388;
-        select_sprite_entry(sprite, D_800E2388[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
+        ((SpriteFrameState *)sprite)->frameTable = baloon_fall_frames;
+        select_sprite_entry(sprite, baloon_fall_frames[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
         return;
 
     case 6:
@@ -301,11 +301,11 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_800E2348) {
-            ((SpriteFrameState *)sprite)->frameTable = D_800E2348;
+        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != baloon_default_frames) {
+            ((SpriteFrameState *)sprite)->frameTable = baloon_default_frames;
             select_sprite_entry(
                 sprite,
-                D_800E2348[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
+                baloon_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
                 0);
             ((S_80173B08_0 *)action)->unk_9E = 0;
             ((S_80173B08_0 *)action)->unk_98 |= 8;

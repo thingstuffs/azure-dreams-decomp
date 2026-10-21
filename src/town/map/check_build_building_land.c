@@ -25,8 +25,8 @@ typedef struct {
 } Record;
 
 extern s32 test_resident_bitmap_bit(s32);
-extern Record D_800D2644[];
-extern u8 D_800D2EA4[];
+extern Record town_building_records[];
+extern u8 town_building_slot_rectangles[];
 
 /* Implements CheckBuildBuildingLand by checking pair assignments and matching land attributes. */
 s32 CheckBuildBuildingLand(s32 record_key) {
@@ -49,7 +49,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
 
     key = record_key;
     {
-        Record *records = D_800D2644;
+        Record *records = town_building_records;
         record = records + (key & 0xFF);
     }
     has_match = 0;
@@ -59,7 +59,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
     case 4:
     case 8:
     {
-        Record *records = D_800D2644;
+        Record *records = town_building_records;
         s32 record_id = key & 0xFF;
         pair_id = records[record_id].byte6;
         if (pair_id == 0)
@@ -78,7 +78,7 @@ s32 CheckBuildBuildingLand(s32 record_key) {
     {
         u8 *pair_page;
         u8 *owner_page;
-        Record *records = D_800D2644;
+        Record *records = town_building_records;
         s32 record_id = key & 0xFF;
         single_id = records[record_id].byte6;
         if (single_id == 0)
@@ -98,9 +98,9 @@ s32 CheckBuildBuildingLand(s32 record_key) {
         s32 excluded_id = 0;
         slot = 0;
         slots_page = (u8 *)0x80010000;
-        entries = &D_800D2EA4[0];
+        entries = &town_building_slot_rectangles[0];
         record_id = key & 0xFF;
-        match_records = D_800D2644;
+        match_records = town_building_records;
         match_record = match_records + record_id;
         do {
             slot_index = slot & 0xFF;

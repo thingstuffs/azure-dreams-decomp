@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 typedef struct S_80026C94_3 {
     u8 pad_00[0x4];
@@ -22,9 +24,6 @@ typedef struct S_80026C94_6 {
     s16 unk_08;
     s16 unk_0A;
 } S_80026C94_6;
-
-extern M2C_UNK D_80028418;
-extern M2C_UNK D_80028430;
 
 typedef struct S_80026C94_0 {
     u8 pad_00[0x60];

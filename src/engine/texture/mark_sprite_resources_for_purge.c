@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/texture.h"
 
 typedef struct {
     s32 flag;

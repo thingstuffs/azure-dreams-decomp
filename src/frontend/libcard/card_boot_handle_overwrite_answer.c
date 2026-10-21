@@ -1,5 +1,6 @@
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
+#include "frontend/libcard.h"
 
 extern void inventory_set_object_entry_address(void *);
 extern s32 D_800265B8[];

@@ -23,7 +23,7 @@ typedef struct S_80016B0C_2 {
                 + ((S_80016B0C_1 *)(*(void **)D_80016000))->unk_08 * 8 in process_current_cell_and_clear */
 
 
-extern s32 D_80019AFC;
+extern s32 scene_cell_dispatch_code;
 extern void *D_80019B90;
 
 extern s32 func_80018504(void);
@@ -44,7 +44,7 @@ s32 process_current_cell_and_clear(void) {
     state = *(void **)((s8 *)(&D_80016000));
     cell_index = state->unk_08;
     cells = state->unk_40;
-    D_80019AFC = cells[cell_index * 8 + 4];
+    scene_cell_dispatch_code = cells[cell_index * 8 + 4];
     result = func_80018504();
 
     if (result != 0) {
@@ -55,7 +55,7 @@ s32 process_current_cell_and_clear(void) {
 
         ((S_80016B0C_2 *)((u8 *)((S_80016B0C_1 *)(*(void **)((s8 *)(&D_80016000))))->unk_40
                 + ((S_80016B0C_1 *)(*(void **)((s8 *)(&D_80016000))))->unk_08 * 8))->unk_04 = 0;
-        D_80019AFC = 0;
+        scene_cell_dispatch_code = 0;
         func_80018934();
     } else {
         func_80018D54(D_80019B90, fallback_args);

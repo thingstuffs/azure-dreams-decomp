@@ -16,7 +16,7 @@ void begin_player_damage_reaction(); /* extern */
 void reset_actor_motion_at_sprite_tile(); /* extern */
 void set_record_integer_tile_center();              /* extern */
 void apply_clamped_actor_value_delta();                      /* extern */
-extern u8 D_800DCFB0[8];
+extern u8 player_wait_frames[8];
 extern u8 D_800DCFE0[8];
 
 
@@ -71,7 +71,7 @@ void update_actor_death_motion(void *state, void *motion, void *sprite, void *ac
         }
     }
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-        anim_table = D_800DCFB0;
+        anim_table = player_wait_frames;
         (*(u8 **)((u8 *)sprite + (0x2C))) = anim_table;
         set_sprite_animation_frame(sprite, anim_table[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7], 0, 1);
@@ -79,7 +79,7 @@ void update_actor_death_motion(void *state, void *motion, void *sprite, void *ac
             g_dungeon_status.pending_display_owner = (s32) (((s32)g_dungeon_status.pending_display_owner) & 0x7FFFFFFF);
         }
         if (((EntityRec *)actor)->unk_28 == 0) {
-            if (D_800E296C & 0x08000000) {
+            if (dungeon_floor_flags & 0x08000000) {
                 ((EntityRec *)actor)->unk_28 = 1U;
             } else {
                 ((EntityRec *)actor)->unk_28 = 0U;

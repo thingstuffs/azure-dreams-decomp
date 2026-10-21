@@ -18,7 +18,7 @@ s32 decrement_flagged_item_parameters(DungeonObject *object) {
     if (entry != 0) {
         group = entry->group;
         column = entry->column;
-        if ((D_80073414[group].cells[column].flags & 0x8000) != 0 &&
+        if ((item_category_groups[group].cells[column].flags & 0x8000) != 0 &&
             entry->amount >= -0x62) {
             entry->amount = (u8)entry->amount - 1;
             changed_count = 1;
@@ -28,7 +28,7 @@ s32 decrement_flagged_item_parameters(DungeonObject *object) {
     if (entry != 0) {
         group = entry->group;
         column = entry->column;
-        if ((D_80073414[group].cells[column].flags & 0x8000) != 0) {
+        if ((item_category_groups[group].cells[column].flags & 0x8000) != 0) {
             if (entry->amount >= -0x62) {
                 entry->amount = (u8)entry->amount - 1;
                 changed_count += 1;
@@ -65,8 +65,8 @@ void update_random_particle_field(void *self, void *output)
         }
         {
             ObjectPosition *copy_page;
-            *(Copy24 *)output_data = *(Copy24 *)&D_80083780;
-            copy_page = &D_80083780;
+            *(Copy24 *)output_data = *(Copy24 *)&view_reference_entity;
+            copy_page = &view_reference_entity;
             ((S_81934928_0 *)self)->unk_10.s = ((u16)copy_page->x.w.i);
             ((S_81934928_0 *)self)->unk_12.s = ((u16)copy_page->y.w.i);
             page_value = ((u16)copy_page->z.w.i);
@@ -84,7 +84,7 @@ void update_random_particle_field(void *self, void *output)
     }
     if (spawn_index >= 0) {
         do {
-            particle = allocate_list_node(0x202, ((s32 *)(&D_80083498)));
+            particle = allocate_list_node(0x202, ((s32 *)(&scene_object_list_anchor)));
             if (particle != NULL) {
                 ((S_81934928_2 *)particle)->unk_10 = D_8002445C;
                 register_node(particle, D_80024740);
@@ -122,10 +122,10 @@ void update_random_particle_field(void *self, void *output)
     }
 
     if (((S_81934928_0 *)self)->unk_0C.u == 0x1E) {
-        target = (void *)D_800814A8;
+        target = (void *)primary_actor_record;
         if (target != NULL) {
             void *lookup_origin = target;
-            while ((target = find_eligible_nearby_entry(D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, lookup_origin, target)) != NULL) {
+            while ((target = find_eligible_nearby_entry(reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, lookup_origin, target)) != NULL) {
                 if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
                     copy_src = (Copy24 *)(u32)((S_81934928_0 *)self)->unk_09;
                     apply_attack_power_and_element_effects(target, 0x20, (s32)copy_src, 0xA,
@@ -219,7 +219,7 @@ void draw_red(void *effect) {
             return;
         }
         ((S_81934C5C_0 *)effect)->unk_24.at02.v = surface_height;
-        impact_effect = allocate_list_node(0x312, ((s32 *)&D_80083498.next));
+        impact_effect = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
         if (impact_effect != 0) {
             impact_effect->unk_10 = &D_80024928;
             impact_effect->unk_20 = (void *) ((S_81934C5C_0 *)effect)->unk_00;

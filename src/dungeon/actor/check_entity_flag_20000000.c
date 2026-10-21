@@ -12,7 +12,7 @@ s32 check_entity_flag_20000000(u8 *entity) {
 
     if (*(u32 *)(entity + 0x14) & 0x4000) {
         slot_index = 1;
-        slots_base = (unsigned long)*(u8 **)(&D_800E3D7C);
+        slots_base = (unsigned long)*(u8 **)(&dungeon_actor_ring_anchor);
         state_mask = 0x20000000;
         slot = slots_base + 4;
         while (slot_index >= 0) {

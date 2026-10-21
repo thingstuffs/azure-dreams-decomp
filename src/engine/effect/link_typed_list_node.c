@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/node.h"
 
 typedef struct S_80044AAC {
     u8 pad00[0x14];
@@ -8,8 +10,6 @@ typedef struct S_80044AAC {
 } S_80044AAC;
 
 extern S_80044AAC *registered_draw_objects[0x20];
-
-extern void unlink_node(S_80044AAC *node);
 
 /* Unlink the node, then insert it after the anchor or at the head of its global type list. */
 void link_typed_list_node(S_80044AAC *anchor, S_80044AAC *node) {

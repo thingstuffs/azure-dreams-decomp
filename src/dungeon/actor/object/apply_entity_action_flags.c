@@ -23,8 +23,8 @@ void cycle_map_cell_flags();             /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 void begin_actor_flagged_action(); /* extern */
 void *reset_actor_animation_state();                      /* extern */
-extern s32 D_80083110[];
-extern u8 D_800DD274[];
+extern s32 sprite_resource_pointer_slots[];
+extern u8 actor_default_frames[];
 
 /* Applies an action to the object's flags and tile state, then updates the object. */
 void apply_entity_action_flags(void *object, s32 action) {
@@ -123,11 +123,11 @@ void apply_entity_action_flags(void *object, s32 action) {
             break;
         }
         restore_player_control_callback(object, object);
-        update_state = &D_80082E80;
-        (((s32 *)update_state->frame_table)) = D_800DD274;
-        func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (((ActorRecord *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
+        update_state = &reference_tile_object;
+        (((s32 *)update_state->frame_table)) = actor_default_frames;
+        func_8003DB94(update_state, *(s32 *)(actor_default_frames + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (((ActorRecord *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
         reset_index = 3;
-        reset_slot = D_80083110;
+        reset_slot = sprite_resource_pointer_slots;
         reset_slot += 3;
         do {
             *reset_slot = 0;

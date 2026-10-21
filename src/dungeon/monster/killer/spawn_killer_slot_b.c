@@ -77,7 +77,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
     work = NULL;
     alloc_kind = 0x112;
     saved_x = grid_x;
-    alloc_desc = ((s32 *)&D_80083498.next);
+    alloc_desc = ((s32 *)&scene_object_list_anchor.next);
     saved_y = grid_y;
     random_bits = (s32) *(s8 *)0x4A64;
     obj = allocate_list_node(alloc_kind, alloc_desc);

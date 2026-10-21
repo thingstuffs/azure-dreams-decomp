@@ -22,7 +22,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern s32 D_801711A4;
 extern u8 D_8017419C[];
 extern u8 D_801741A4[];
@@ -99,7 +99,7 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, voi
             if (actor->pending_turn_updates == 0) {
                 actor->action_flags &= 0x7FFF;
             } else {
-                D_800E3DE8 = (u8 *)actor - 0x20;
+                actor_update_node_cursor = (u8 *)actor - 0x20;
             }
         }
     }

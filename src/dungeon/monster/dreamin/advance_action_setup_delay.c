@@ -16,7 +16,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern u8 D_80170E68;
 extern u8 D_80173894[];
 
@@ -74,7 +74,7 @@ void advance_action_setup_delay(void *action, void *motion, void *sprite, void *
         if (S8(actor, 0x6D) == 0) {
             U16(actor, 0x46) &= 0x7FFF;
         } else {
-            D_800E3DE8 = (u8 *)actor - 0x20;
+            actor_update_node_cursor = (u8 *)actor - 0x20;
         }
 
         return;

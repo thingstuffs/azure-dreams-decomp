@@ -88,10 +88,10 @@ void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *d
         if ((((S_800AAF00_0 *)object)->unk_1C & 0x2000) &&
             ((((S_800AAF00_0 *)object)->unk_46 & 0x3FFF) >= 5)) {
             special_action = 1;
-            if (((((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_98.s32 & 0x3000) == 0x2000) &&
-                (((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6 == 0)) {
-                ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_98.u16 |= 0x1000;
-                ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_A6++;
+            if (((((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_98.s32 & 0x3000) == 0x2000) &&
+                (((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_A6 == 0)) {
+                ((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_98.u16 |= 0x1000;
+                ((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_A6++;
                 g_dungeon_status.activity_counts.parts.pending_action_count++;
             } else {
                 advance_status_timers(object);
@@ -126,7 +126,7 @@ void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *d
                 slot_offset &= 0x3FFF;
                 type_index = slot_offset;
                 type_index--;
-                type_table = D_8006DE24;
+                type_table = item_action_definitions;
                 slot_offset = type_index * 3;
                 slot_data = object;
                 slot_data += slot_offset;
@@ -143,7 +143,7 @@ void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *d
                 }
             }
         } else {
-            ((S_800AAF00_2 *)((u8 *)D_800E3D7C))->unk_11C = object;
+            ((S_800AAF00_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_11C = object;
         }
 
         ((S_800AAF00_3 *)actor)->unk_9A = 0x12;

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "engine/item.h"
 
 /* extern decls */
-extern int resolve_indexed_value(int index);
 
 typedef struct {
     unsigned char unk0;
@@ -17,5 +17,5 @@ int resolve_record_value(S_80049330 *record)
     if (record->unk0 != 0) {
         return resolve_indexed_value(record->unk3 & 0x1F);
     }
-    return ((int)D_800814A8);
+    return ((int)primary_actor_record);
 }

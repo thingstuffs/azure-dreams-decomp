@@ -31,7 +31,7 @@ s32 func_800C6C10(s32 state_value) {
     S_800C6C10_1 *state;
     void *object;
 
-    object = allocate_list_node(0x136, (struct ObjectNodeHeader * *)(((s32 *)&D_80083498.next)));
+    object = allocate_list_node(0x136, (struct ObjectNodeHeader * *)(((s32 *)&scene_object_list_anchor.next)));
     if (object == 0) {
         return 0;
     }

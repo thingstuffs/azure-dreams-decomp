@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 s32 func_8007CA58();
 s32 func_8007CA68();

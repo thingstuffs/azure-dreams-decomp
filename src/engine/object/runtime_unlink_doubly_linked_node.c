@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/object_links.h"
+#include "engine/object.h"
 
 typedef struct S_80035090_1 {
     u8 pad_00[0x4];

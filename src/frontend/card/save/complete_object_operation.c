@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/service.h"
 
 #define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
@@ -13,7 +14,6 @@ typedef struct S_func_80405CB8_0 {
     s32 unk_60;
 } S_func_80405CB8_0;
 
-extern s32 read_and_update_indexed_record(s32 index, s32 data_ptr);
 extern void initialize_card_message_object_with_code_0xb(void *object_base);
 extern void func_80405C44(s32 value);
 extern void func_80400908(void);

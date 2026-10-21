@@ -47,7 +47,7 @@ extern void advance_status_timers(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void spend_actor_mp(void *, s32);
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern u8 D_80170854[];
 extern u8 D_80170874[];
 extern u8 D_80170EA8;
@@ -138,7 +138,7 @@ void advance_directional_lift_effect(void *action_record, void *motion_data, voi
             if (((S_80173C20_1 *)entity_data)->unk_6D == 0) {
                 ((S_80173C20_1 *)entity_data)->unk_46 &= 0x7FFF;
             } else {
-                D_800E3DE8 = (u8 *)entity_data - 0x20;
+                actor_update_node_cursor = (u8 *)entity_data - 0x20;
             }
         }
         break;

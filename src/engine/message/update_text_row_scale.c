@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
 
 extern u8 message_mode_row_scale[];
 extern s32 message_row_heights[];

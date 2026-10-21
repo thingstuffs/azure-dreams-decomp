@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 typedef struct PlaybackState {
     s32 position;
@@ -8,9 +9,6 @@ typedef struct PlaybackState {
     s32 pad20[6];
     s32 previous_position;
 } PlaybackState;
-
-extern s32 find_sequence_tag(s32);
-extern u32 read_big_endian_word(PlaybackState *);
 
 /* Stores the position the playback advances to after one step. */
 static inline void playback_set_next(PlaybackState *state, s32 position, s32 step)

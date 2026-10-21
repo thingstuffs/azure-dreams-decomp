@@ -1,10 +1,10 @@
 #include "common.h"
 
 #include "common.h"
+#include "slus.h"
+#include "slus/data.h"
 
 extern s32 func_80042900(void *, s8);
-extern s8 D_800712E4[];
-extern u8 D_800712F0[];
 
 /* Selects a table value from descending object queries, with an adjustment for query 7. */
 u8 select_mapped_object_status_code(void *object) {

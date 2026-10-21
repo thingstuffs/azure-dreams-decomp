@@ -8,7 +8,7 @@ s32 has_active_dungeon_cell_key(s32 key_high, s32 key_low) {
     key = (key_high << 8) | (key_low & 0xFF);
     index = 0;
     key &= 0xFFFF;
-    entry = ((u8 *)D_800E3548);
+    entry = ((u8 *)dungeon_ground_items);
     while (index < 0x40) {
         if (*(u16 *)entry == key) {
             return 1;

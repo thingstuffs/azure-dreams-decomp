@@ -1,5 +1,5 @@
 #include "common.h"
-extern u8 D_80111FA8[];
+extern u8 building_upload_rect[];
 
 extern void func_800672D8(void *, void *);
 extern u8 D_80110EC8[];
@@ -28,9 +28,9 @@ void advance_building_texture_frame(u16 *anim_tick)
     texture_phase = (s16)*anim_tick % 24;
     switch (texture_phase) {
     case 0:
-        rect = (void *)D_80111FA8;
+        rect = (void *)building_upload_rect;
         upload_data = D_80110EC8;
-        *(u16 *)D_80111FA8 = 808;
+        *(u16 *)building_upload_rect = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
@@ -38,9 +38,9 @@ void advance_building_texture_frame(u16 *anim_tick)
         break;
     case 4:
     case 20:
-        rect = (void *)D_80111FA8;
+        rect = (void *)building_upload_rect;
         upload_data = D_801110C8;
-        *(u16 *)D_80111FA8 = 808;
+        *(u16 *)building_upload_rect = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
@@ -48,18 +48,18 @@ void advance_building_texture_frame(u16 *anim_tick)
         break;
     case 8:
     case 16:
-        rect = (void *)D_80111FA8;
+        rect = (void *)building_upload_rect;
         upload_data = D_801112C8;
-        *(u16 *)D_80111FA8 = 808;
+        *(u16 *)building_upload_rect = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
         func_800672D8(rect, upload_data);
         break;
     case 12:
-        rect = (void *)D_80111FA8;
+        rect = (void *)building_upload_rect;
         upload_data = D_801114C8;
-        *(u16 *)D_80111FA8 = 808;
+        *(u16 *)building_upload_rect = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
@@ -69,27 +69,27 @@ void advance_building_texture_frame(u16 *anim_tick)
     palette_phase = (s16)*anim_tick % 6;
     switch (palette_phase) {
     case 0:
-        rect = (void *)D_80111FA8;
+        rect = (void *)building_upload_rect;
         upload_data = D_80111F48;
-        *(u16 *)D_80111FA8 = 16;
+        *(u16 *)building_upload_rect = 16;
         ((u16 *)rect)[1] = 449;
         ((u16 *)rect)[2] = 16;
         ((u16 *)rect)[3] = 1;
         func_800672D8(rect, upload_data);
         return;
     case 2:
-        rect = (void *)D_80111FA8;
+        rect = (void *)building_upload_rect;
         upload_data = D_80111F68;
-        *(u16 *)D_80111FA8 = 16;
+        *(u16 *)building_upload_rect = 16;
         ((u16 *)rect)[1] = 449;
         ((u16 *)rect)[2] = 16;
         ((u16 *)rect)[3] = 1;
         func_800672D8(rect, upload_data);
         return;
     case 4:
-        rect = (void *)D_80111FA8;
+        rect = (void *)building_upload_rect;
         upload_data = D_80111F88;
-        *(u16 *)D_80111FA8 = 16;
+        *(u16 *)building_upload_rect = 16;
         ((u16 *)rect)[1] = 449;
         ((u16 *)rect)[2] = 16;
         ((u16 *)rect)[3] = 1;

@@ -1,7 +1,9 @@
 #include "common.h"
+#include "engine/audio/spu.h"
+#include "slus.h"
+#include "slus/data.h"
 
 /* D_80073828: short flag array (established in code.c: index 0 set by func_8005ACD0). */
-extern short audio_voice_drain_suppressed[5];
 
 /* D_80073734: s32 count array (established elsewhere; index 0 = active-entry count). */
 extern s32 audio_voice_count[4];
@@ -18,9 +20,6 @@ typedef struct S_8005ACDC_85458 {
 } S_8005ACDC_85458;
 
 extern S_8005ACDC_85458 audio_voice_records[64];
-
-extern s32 func_8005EB78(s32 a0);
-extern void func_8005E97C(s32 a0, s32 a1);
 
 /* Advance active entry counters, drain ready flags, and apply the combined flags unless suppressed. */
 void drain_ready_sound_voice_flags(void)

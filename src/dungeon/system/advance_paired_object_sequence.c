@@ -35,7 +35,7 @@ void advance_paired_object_sequence(Entity *entity) {
     flag_object_and_release_inner(entity->field_2C, 0);
     flag_object_and_release_inner(entity->field_30, 0);
     flag_object_and_release_inner(entity->field_34, 0);
-    if (D_80082E60.mode != 1) {
+    if (runtime_dispatch_state.mode != 1) {
         set_state_flag_when_clear();
     }
     if (entity->field_14 == 0x13) {

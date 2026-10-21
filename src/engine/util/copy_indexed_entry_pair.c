@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/util.h"
 
 typedef struct {
     short field_0;

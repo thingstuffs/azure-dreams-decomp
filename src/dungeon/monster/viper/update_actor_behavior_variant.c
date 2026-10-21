@@ -96,7 +96,7 @@ extern Vec3sTable D_8015E84C;
 extern u8 D_80162AA4[];
 extern u8 D_80162AAC[];
 extern u8 D_8015EE94[];
-extern void *D_800E3DE8[];
+extern void *actor_update_node_cursor[];
 s32 resolve_record_orientation_or_fallback();
 void *allocate_list_node(s32, void *);
 s32 register_node();
@@ -198,7 +198,7 @@ void update_actor_behavior_variant(ActorActionView *action, ObjectPosition *moti
             action->effectY = (u16) (action->effectY + ((u16)motion->y.w.i));
             action->effectZ = (u16) (action->effectZ + ((u16)motion->z.w.i));
         } else {
-            effect = allocate_list_node(1, ((u8 *)(&D_80083498)));
+            effect = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
             if (effect != NULL) {
                 ((ObjectNodeHeader *)effect)->unk_10 = &D_800DB618;
                 register_node(effect, &D_800DB660);
@@ -306,7 +306,7 @@ void update_actor_behavior_variant(ActorActionView *action, ObjectPosition *moti
         if (actor->pending_turn_updates == 0) {
             actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         } else {
-            *D_800E3DE8 = (u8 *)actor - 0x20;
+            *actor_update_node_cursor = (u8 *)actor - 0x20;
         }
         actor_handle = ((s32)actor->target);
         if (actor_handle == 0) {

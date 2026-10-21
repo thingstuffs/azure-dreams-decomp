@@ -12,7 +12,7 @@ extern void reset_actor_motion_at_sprite_tile(void *state, void *motion, void *s
 extern void handle_actor_commands_and_facing(void);
 extern void apply_clamped_actor_value_delta(void *actor);
 
-extern void *D_800DD274[8];
+extern void *actor_default_frames[8];
 
 /* Refresh the directional sprite and advance the actor state when sprite flags are set. */
 void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor)
@@ -25,10 +25,10 @@ void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *
     }
 
     if (sprite->flags & 0xE000) {
-        sprite->frameTable = D_800DD274;
+        sprite->frameTable = actor_default_frames;
         func_8003DB94(
             sprite,
-            D_800DD274[
+            actor_default_frames[
                 ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 

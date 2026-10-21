@@ -24,7 +24,7 @@ extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
 extern void update_object_animation(void *obj, void *motion, void *part, void *state);
-extern Callback D_80173EF4[];
+extern Callback beldo_callbacks[];
 extern M2C_UNK D_80173FC8[];
 
 
@@ -124,7 +124,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
     global_flags = *flag_word;
     if (global_flags & 8) {
         s32 slot_index = 1;
-        slot = ((u8 *)D_800E3D7C) + 4;
+        slot = ((u8 *)dungeon_actor_ring_anchor) + 4;
         do {
             node = ((S_8017112C_1 *)slot)->unk_AC;
             if (node != 0) {
@@ -158,7 +158,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
     if (active_callback != 0) {
         active_callback(entity_arg, motion_arg, monster_arg, actor);
     }
-    D_80173EF4[(*(u8 *)((u8 *)entity_arg + (0x9A)))](entity_arg, motion_arg, monster_arg, actor);
+    beldo_callbacks[(*(u8 *)((u8 *)entity_arg + (0x9A)))](entity_arg, motion_arg, monster_arg, actor);
 
     saved_state = (s32)state_direction << 16;
     current_state = ((S_8017112C_0 *)actor)->unk_6D.n2;

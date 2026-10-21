@@ -79,7 +79,7 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80F87000_0 *)obj)->unk_10 = update_bank_actor_movement;
@@ -146,7 +146,7 @@ extern s32 func_800644B8(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
-extern Callback D_80174B1C[];
+extern Callback zu_callbacks[];
 
    /* arg1 in update_bank_actor_movement */
 
@@ -206,7 +206,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
     if (update_callback != 0) {
         update_callback(entity, motion_arg, sprite_arg, entity);
     }
-    D_80174B1C[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion_arg, sprite_arg, entity);
+    zu_callbacks[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion_arg, sprite_arg, entity);
     if ((s16)state_or_facing != (*(s8 *)((u8 *)entity + (0x6D)))) {
         try_move_actor_to_valid_position(entity, motion_arg, sprite_arg, entity);
     }
@@ -508,12 +508,12 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
             update_actor_status_and_food(stats);
             return;
         }
-        if (!(*(u16 *)&sprite->unk_24 == *(u16 *)(&D_80082E80.tile_position.parts.tile_x))) {
+        if (!(*(u16 *)&sprite->unk_24 == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x))) {
             action_state = stats->unk_46;
             if (!(action_state & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(stats,
-                            (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                            (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                         return;
                     }
                 }
@@ -550,9 +550,9 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
 
                     facing_angle = (s16)get_rounded_facing_and_rounding_flag(
                         sprite->unk_24, sprite->unk_25,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &angle_aux);
-                    player = D_800814A8;
+                    player = primary_actor_record;
                     stats->unk_2A = facing_angle;
                     if (player->unk_9A != 0x11) {
                         update_actor_status_and_food(stats);
@@ -583,7 +583,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
         return;
     }
     if (tile_index >= 0) {
-        if (D_800E2970[tile_index].flags & 2) {
+        if (dungeon_rooms[tile_index].flags & 2) {
             return;
         }
     }
@@ -595,10 +595,10 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
 
         if ((compare_monster_neighbor_values(
                 sprite->unk_24, sprite->unk_25,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
             stats->unk_2A = (s16)get_rounded_facing_and_rounding_flag(
                 sprite->unk_24, sprite->unk_25,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &angle_aux);
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &angle_aux);
         }
     }
     return;
@@ -725,7 +725,7 @@ extern s32 generate_random_value(void);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern void rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern s16 check_directional_move_and_terrain(s16, void *, void *, s32);
-extern s16 D_8006CD00[];
+extern s16 actor_turn_angle_offsets[];
 
 /* Selects a movement direction and updates the actor's position and movement state.
  * move_data: the movement record (turn flags at +0x98, turn side at +0x9C); position_data: the grid cell
@@ -793,8 +793,8 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
                 s32 target_y;
                 u8 *turn_data;
                 {
-                    TileObject *target_position = &D_80082E80;
-                    s32 target_facing = ((u16)D_800814A8->facing);
+                    TileObject *target_position = &reference_tile_object;
+                    s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
                         ((((u8 *)&actor_data->unk_44)[1] + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
@@ -817,11 +817,11 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
                 if (check_directional_move_and_terrain(target_angle, position_data, actor_data, 0x20) <= 0) {
                     actor_data->facing = (s16)get_rounded_facing_and_rounding_flag(
                         position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, (u16 *)turn_data);
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (u16 *)turn_data);
                 }
                 if ((s16)compare_monster_neighbor_values(
                         position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     limit_detour = 1;
                 }
             } else {
@@ -830,7 +830,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
             }
         }
     } else if (position_data->room_index >= 0 &&
-               D_800E2970[position_data->room_index].flags & 2) {
+               dungeon_rooms[position_data->room_index].flags & 2) {
         rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
     } else if (!(actor_data->action_flags & 0x8000)) {
@@ -849,14 +849,14 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
         }
 
         if (actor_data->flags1C & 0x20000) {
-            TileObject *target_position = &D_80082E80;
+            TileObject *target_position = &reference_tile_object;
             actor_data->facing = (s16)get_rounded_facing_and_rounding_flag(
                 position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                 target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y, &move_data->unk_98);
             if ((s16)compare_monster_neighbor_values(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
-                if (get_actor_height_difference(D_800814A8, actor_data) < 0x81) {
+                if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
                             ((s16)*(u16 *)&actor_data->facing >> 9) & 0xFFFF,
                             position_data->tile_position.parts.tile_x,
@@ -874,7 +874,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
     }
 
     turn_index = 0;
-    turn_table = D_8006CD00;
+    turn_table = actor_turn_angle_offsets;
 
     for (; turn_index < 8; turn_index++) {
         turn_flags = move_data->unk_98;
@@ -921,9 +921,9 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
         }
 
         if (turn_index == 0 &&
-            *(u16 *)(&D_80082E80.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_position.parts.tile_x) {
+            *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_position.parts.tile_x) {
             if ((s16)check_entity_relation(actor_data,
-                    (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                 return;
             }
         }
@@ -1224,7 +1224,7 @@ extern s32 rand(void);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern u8 D_800DEC28[];
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern u8 D_80174AE4[];
 
 /* Updates a staged movement action, spawns particles, and restores the actor when finished. */
@@ -1374,7 +1374,7 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
             (((S_80172494_1 *)action)->unk_96.u != 0)) {
             index = 9;
             do {
-                particle = allocate_list_node(0x312, ((s32 *)&D_80083498.next));
+                particle = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
                 if (particle != NULL) {
                     register_node(particle, project_sprite_chain);
                     particle_motion = (u8 *)particle + 0x20;
@@ -1428,7 +1428,7 @@ void update_bank_staged_movement(void *action, void *motion, void *map_actor, vo
             ((S_80172494_0 *)actor_arg)->unk_46 &= 0x7FFF;
             return;
         }
-        operand = (s32)((u8 *)&D_800E3DE8 - 0x3DE8);
+        operand = (s32)((u8 *)&actor_update_node_cursor - 0x3DE8);
         actor_base = (s32)((u8 *)actor_arg - 0x20);
         ((S_80172494_8 *)((void *)operand))->unk_3DE8 = (void *)actor_base;
         return;
@@ -1560,13 +1560,13 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
 
             special_copy = special;
             if (special_copy) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 object->target = target;
                 target_record = target[-1].unk_00;
                 object->target_tile_x = target_record->unk_24;
                 object->target_tile_y = target_record->unk_25;
             } else {
-                item_table = D_8006DE24;
+                item_table = item_action_definitions;
                 item_id = *item_slot;
                 item_entry = item_table + item_id * 20;
                 if (item_entry[0x12] == 2) {
@@ -1608,7 +1608,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
         motion_input->velocity_x = 0;
         set_record_integer_tile_center(motion_input, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(object);
         (*(u8 *)&object->pending_turn_updates)--;
         ((S_80172A40_0 *)owner_input)->unk_8C = update_bank_actor_state;
@@ -2153,7 +2153,7 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
             return;
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-            ActorRecord *owner = D_800814A8;
+            ActorRecord *owner = primary_actor_record;
 
             if ((check_entity_relation(actor,
                     (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
@@ -2163,7 +2163,7 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
         update_actor_status_and_food(actor);
         on_actor_status_updated(actor);
         if ((get_entity_effect_value(actor, 1) << 16) != 0) {
-            TileObject *origin = &D_80082E80;
+            TileObject *origin = &reference_tile_object;
             s8 tile = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
 
             if (((tile == origin->room_index) && (tile >= 0)) ||
@@ -2326,7 +2326,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
         }
 
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            ActorRecord *owner = D_800814A8;
+            ActorRecord *owner = primary_actor_record;
 
             if ((check_entity_relation(entity,
                     (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
@@ -2704,7 +2704,7 @@ void update_bank_timed_effect(void *state_input, void *motion_input, void *anima
             spawn_offset[0] = 0;
         }
 
-        effect_object = allocate_list_node(0x201, ((u8 *)(&D_80083498)));
+        effect_object = allocate_list_node(0x201, ((u8 *)(&scene_object_list_anchor)));
         if (effect_object != NULL) {
             register_node(effect_object, D_80174688);
             PTR_AT(effect_object, 0x10) = create_cylindrical_effect;

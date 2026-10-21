@@ -22,7 +22,7 @@ extern s32 classify_object_against_bounds(void *object, void *position_data);
 extern void unlink_node_if_registered(void *object);
 extern s32 D_800D0E40[3];
 
-extern s32 D_800D0E44;
+extern s32 dish_counter;
 extern TownRecord D_800F8A70[];
 
 /* Functions defined in this translation unit. */

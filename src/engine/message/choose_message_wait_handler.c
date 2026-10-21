@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
+#include "slus.h"
 
 typedef struct S_80038288_0 {
     u8 pad_00[0x10];
@@ -8,12 +10,6 @@ typedef struct S_80038288_0 {
     u8 pad_14[0x8];
     u8 * unk_1C;
 } S_80038288_0;   /* arg0 in choose_message_wait_handler */
-
-
-s32 play_message_confirmation_sound();                              /* extern */
-s32 func_80053EF0();                         /* extern */
-void finish_message_when_idle();
-void consume_message_byte_and_start_countdown();
 
 /* Selects the context's next handler based on its current byte when updates are allowed. */
 void choose_message_wait_handler(S_80038288_0 *context) {

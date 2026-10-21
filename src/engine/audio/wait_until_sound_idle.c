@@ -1,6 +1,7 @@
 #include "slus/owned_80044698.h"
 
 #include "slus/owned_80044698.h"
+#include "engine/audio.h"
 
 void wait_until_sound_idle(void)
 {

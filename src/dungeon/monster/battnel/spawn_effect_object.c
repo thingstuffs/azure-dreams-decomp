@@ -20,7 +20,7 @@ void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
     saved_arg1 = value_24;
     saved_arg2 = value_25;
     saved_arg3 = value_0A;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = obj;
         work = (u8 *)work + 0x20;

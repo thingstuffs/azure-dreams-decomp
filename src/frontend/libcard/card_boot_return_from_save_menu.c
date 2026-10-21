@@ -1,7 +1,7 @@
 #include "common.h"
+#include "frontend/libcard.h"
 typedef struct Node8002BB08 Node8002BB08;
 void func_80026920(void *);                         /* extern */
-Node8002BB08 *init_card_boot_request_object();                    /* extern */
 
 typedef struct S_80026784_0 {
     u8 pad_00[0x20];

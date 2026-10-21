@@ -13,7 +13,7 @@ void *func_7003CF18();
 s32 func_700750E0();
 M2C_UNK func_7010BD54();
 extern s32 D_80086AD8;
-extern u16 D_80094422;
+extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010BA44;
 extern Copy12 D_8010BF30;
 
@@ -102,7 +102,7 @@ void spawn_scattered_emitter_particles(void *emitter, void *position, M2C_UNK sp
     life_left = ((S_7FFE9150_0 *)emitter)->unk_1E - 1;
     ((S_7FFE9150_0 *)emitter)->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
-        u16 *global_count = &D_80094422;
+        u16 *global_count = &emitted_effect_counter;
         u16 next_global_count;
 
         (*(u16 *)((u8 *)emitter + -2)) = (u16)(((S_7FFE9150_0_pre *)emitter)[-1].unk_00 | 0x8000);

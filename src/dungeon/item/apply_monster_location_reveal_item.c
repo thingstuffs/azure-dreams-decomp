@@ -25,9 +25,9 @@ s32 apply_monster_location_reveal_item(EntityRec *target, s32 item, s16 action_t
         return process_record_and_update_linked_state(item, source);
     }
 
-    if (target == ((u8 *)D_800E3D7C)) {
+    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
         target->unk_110 = item;
-        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
 
@@ -41,7 +41,7 @@ s32 apply_monster_location_reveal_item(EntityRec *target, s32 item, s16 action_t
         }
     } else {
         display_formatted_context_message(D_800E1279, source, action_type);
-        D_800E296C |= 0x400;
+        dungeon_floor_flags |= 0x400;
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;

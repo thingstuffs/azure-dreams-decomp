@@ -1,6 +1,8 @@
 #include "shared/sound_state.h"
 #include "common.h"
 #include "shared/sound_volume.h"
+#include "engine/audio.h"
+#include "slus.h"
 
 /* Canonical "task/timer object" struct shared with func_80055990's own SoundTask
    (src/code.c) and w_800540A8.c's SoundTask / w_80054C58.c's SoundTask: field0 is
@@ -16,8 +18,6 @@
    0x18-0x29 window. */
 
 extern s32 audio_stream_request_count[];
-
-extern void initialize_audio_ramp_defaults(void *a0);
 
 /* Resets global status and initializes two task objects with callbacks and defaults. */
 void reset_audio_status(void) {

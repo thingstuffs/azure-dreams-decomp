@@ -19,9 +19,9 @@ typedef struct {
     u8 bytes[4];
 } Unaligned4;
 
-extern s32 D_800E3DF0[];
-extern S_800E3E48 D_800E3E48[];
-extern s32 D_800E3D74;
+extern s32 familiar_record_slots[];
+extern S_800E3E48 familiar_record_storage[];
+extern s32 familiar_turn_counters_alias;
 extern s16 D_800DCED4[];
 extern u8 D_800E045C[];
 
@@ -167,13 +167,13 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
         } else {
             *(s32 *)(cursor_ptr + 0x29C + i * 4) = 0;
         }
-        D_800E3E48[i] = *(S_800E3E48 *)(cursor_ptr + 0x2260 + i * 0x8C);
+        familiar_record_storage[i] = *(S_800E3E48 *)(cursor_ptr + 0x2260 + i * 0x8C);
         entry_idx = cursor_ptr[0x224C + i];
         if (entry_idx != 0xFF) {
             entry_idx32 = entry_idx;
-            D_800E3DF0[i] = (s32)&D_800E3E48[entry_idx32];
+            familiar_record_slots[i] = (s32)&familiar_record_storage[entry_idx32];
         } else {
-            D_800E3DF0[i] = 0;
+            familiar_record_slots[i] = 0;
         }
         i++;
     } while (i < 0x14);
@@ -254,12 +254,12 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                             slot_rec->unk_D0 = slot_ptr;
                             ((S_80094988_9 *)slot_flags)->unk_00 =
                                 (u8)(((S_80094988_9 *)slot_flags)->unk_00 | 0x20);
-                            ((s32 *)&D_800E3D74)[slot_index] = 0;
+                            ((s32 *)&familiar_turn_counters_alias)[slot_index] = 0;
                             if (spawned->unk_25 == 0) {
                                 spawned->unk_1C =
                                     (s32)(spawned->unk_1C | 8);
                             }
-                            D_800E3DF0[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
+                            familiar_record_slots[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
                                 (s32)spawned;
                             update_owner_class_bits(spawned);
                             retain_spawn_resource(*slot_ptr, 3);

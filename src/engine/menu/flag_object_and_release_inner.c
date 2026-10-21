@@ -2,6 +2,9 @@
 #include "shared/object_flags.h"
 
 #include "common.h"
+#include "engine/menu.h"
+#include "engine/resource.h"
+#include "slus/data.h"
 
 typedef struct InnerA464 {
     u8 pad0[0x8];
@@ -15,9 +18,6 @@ typedef struct ObjA464 {
     u16 flags;
     InnerA464 inner;
 } ObjA464;
-
-extern void mark_object_removal_for_inner_release(s32 object);
-extern s32 D_800814A0_store;
 
 /* Sets object and global flags and processes the object's two inner values. */
 void flag_object_and_release_inner(ObjA464 *obj)

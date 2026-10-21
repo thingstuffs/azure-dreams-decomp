@@ -727,14 +727,14 @@ s32 resolve_player_input_facing();               /* extern */
 void append_packed_action_record();      /* extern */
 u32 get_rounded_facing_and_rounding_flag(); /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-extern u8 D_80080A87[16];
+extern u8 last_frame_ticks[16];
 extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(void *, u8, s8, s32);
 extern void step_actor_animation(void *, s32);
 extern void func_80048AC8(void *, s32);
-extern s16 D_8002715A;
+extern s16 selection_menu_closing;
 extern u8 D_800DD008[];
-extern u16 D_800DCEAC[];
-extern u16 D_800DCEBC[];
+extern u16 direction_x_offsets[];
+extern u16 direction_y_offsets[];
 extern void drain_cd_command_queue(void);
 extern void func_80042640(void *, s16);
 extern void copy_entity_record(void *, void *);
@@ -755,9 +755,9 @@ M2C_UNK set_message_mode();                     /* extern */
 void runtime_call_selected_mode_handler();                            /* extern */
 M2C_UNK submit_script_with_registered_context();                   /* extern */
 extern M2C_UNK D_80027160;
-extern Cell D_80027120[];
+extern Cell menu_mesh_cells[];
 extern s16 D_8002713A[];
-extern s8 D_8008333C[];
+extern s8 scene_geometry[];
 extern void func_800649A0();
 extern void func_80064B90();
 extern void func_80065820();
@@ -776,8 +776,8 @@ extern void render_projected_sprite_with_depth_bias();
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern s16 D_80027156[5];
-extern u16 D_80027158[5];
+extern s16 selection_blink_timer[5];
+extern u16 selection_blink_target[5];
 extern s16 D_8002715C[5];
 s32 register_node();
 s32 func_8004491C();

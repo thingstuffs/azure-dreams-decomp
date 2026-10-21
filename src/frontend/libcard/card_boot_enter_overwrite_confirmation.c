@@ -7,9 +7,9 @@ typedef struct S_8002644C_0 {
     s32 * unk_44;
 } S_8002644C_0;   /* arg0 in card_boot_enter_overwrite_confirmation; pointer addresses record offset 0x10 */
 
-
-extern M2C_UNK D_800261F0;
 #include "frontend/libcard/interfaces.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 /* Set record pointers around an update of its embedded data. */
 void card_boot_enter_overwrite_confirmation(void *record_part) {

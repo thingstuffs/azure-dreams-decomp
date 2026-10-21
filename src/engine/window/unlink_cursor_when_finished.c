@@ -1,6 +1,9 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/node.h"
+#include "engine/object.h"
+#include "engine/window.h"
 
 typedef struct Func37534State {
     u8 *clear_target;
@@ -10,11 +13,6 @@ typedef struct Func37534State {
     u8 pad49;
     s16 cursor_offset;
 } Func37534State;
-
-extern void runtime_clear_value(s32 *value);
-extern void runtime_unlink_doubly_linked_node(void *node);
-extern void unlink_node(void *node);
-extern void unlink_active_node(void *node);
 
 /* Cleans up and unlinks the node when its enabled cursor has status 0xFF. */
 s32 unlink_cursor_when_finished(Func37534State *state) {

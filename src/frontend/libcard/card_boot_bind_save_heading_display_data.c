@@ -2,6 +2,7 @@
 #include "frontend/libcard/interfaces.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80027018_arg0.h"
+#include "frontend/libcard.h"
 
 extern M2C_UNK D_80077EF0;
 extern M2C_UNK D_80077EFC;

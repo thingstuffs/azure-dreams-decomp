@@ -203,7 +203,7 @@ s32 func_8006658C(void *, void *);
 /* extern */
 s32 func_800666F4(void *);
 
-extern s32 (*D_800DEFF0[])(s32, void *, void *);
+extern s32 (*quad_batch_callbacks[])(s32, void *, void *);
 
 /* Functions defined in this translation unit. */
 s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params);

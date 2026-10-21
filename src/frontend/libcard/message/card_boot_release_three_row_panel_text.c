@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/message.h"
 
 void func_8004E994(s32 value);
 

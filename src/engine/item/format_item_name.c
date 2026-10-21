@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/text.h"
+#include "engine/util.h"
+#include "sdk/libc.h"
 
 typedef struct
 {
@@ -33,13 +36,9 @@ S_80082E6A;
 
 extern S_8004951C_CatEntry itemCategoryTable[];
 extern S_80082E6A runtime_dispatch_mode_alias;
-extern void *memset(void *, s32, s32);
 extern s32 get_item_category_flags(void *);
 extern s32 get_scaled_byte_value(void *);
 extern S_800492B0_Ret *resolve_indexed_value(s32);
-extern void func_8004E5A0(s32, s32, u8 *);
-extern u8 *remap_flagged_string_bytes(u8 *);
-extern s32 build_positioned_text_glyphs(s32, u8 *, s32);
 
 /* Formats and displays item modifiers and status markers. */
 s32 format_item_name(s32 text_target, S_8004951C_Item *item)

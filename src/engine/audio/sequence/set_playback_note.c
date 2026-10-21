@@ -1,8 +1,7 @@
 #include "shared/sound_state.h"
 #include "common.h"
-
-
-extern s32 clamp_sound_value_to_seven_bits(s16 clamp_input);
+#include "engine/audio/sequence.h"
+#include "engine/entity.h"
 
 /* Optionally lowers the note by 0x18, clamps it, and stores it in both note fields. */
 void set_playback_note(s32 note) {

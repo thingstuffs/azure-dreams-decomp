@@ -82,7 +82,7 @@ extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s16 check_entity_relation(void *, void *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern s16 D_8006CD00[];
+extern s16 actor_turn_angle_offsets[];
 
 
 /* Selects a movement direction and updates the actor's position and movement state. */
@@ -151,8 +151,8 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
                 s32 target_y;
                 u8 *turn_data;
                 {
-                    TileObject *target_position = &D_80082E80;
-                    s32 target_facing = ((u16)D_800814A8->facing);
+                    TileObject *target_position = &reference_tile_object;
+                    s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
                         ((((S_80171C34_1 *)actor_data)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
@@ -175,11 +175,11 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
                 if (check_directional_move_and_terrain(target_angle, position_data, actor_data, 0x20) <= 0) {
                     ((S_80171C34_1 *)actor_data)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                         ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, turn_data);
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, turn_data);
                 }
                 if (compare_monster_neighbor_values(
                         ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     limit_detour = 1;
                 }
             } else {
@@ -188,7 +188,7 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
             }
         }
     } else if (((S_80171C34_2 *)position_data)->unk_26.s >= 0 &&
-               ((DungeonRecord *)D_800E2970)[((S_80171C34_2 *)position_data)->unk_26.s].flags & 2) {
+               ((DungeonRecord *)dungeon_rooms)[((S_80171C34_2 *)position_data)->unk_26.s].flags & 2) {
         rebuild_monster_reachable_tiles(position_data, ((S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                       (u8 *)move_data + 0x98);
     } else if (!(((S_80171C34_1 *)actor_data)->unk_46 & 0x8000)) {
@@ -208,14 +208,14 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
         }
 
         if (((S_80171C34_1 *)actor_data)->unk_1C & 0x20000) {
-            TileObject *target_position = &D_80082E80;
+            TileObject *target_position = &reference_tile_object;
             ((S_80171C34_1 *)actor_data)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                 ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
                 target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y, (u8 *)move_data + 0x98);
             if (compare_monster_neighbor_values(
                     ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
-                if (get_actor_height_difference(D_800814A8, actor_data) < 0x81) {
+                if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
                     if (check_diagonal_side_height(
                             ((s16)((S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,
                             ((S_80171C34_2 *)position_data)->unk_24.at00.v,
@@ -233,7 +233,7 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
     }
 
     turn_index = 0;
-    turn_table = D_8006CD00;
+    turn_table = actor_turn_angle_offsets;
 
     do {
         turn_flags = ((S_80171C34_5 *)move_data)->unk_98;
@@ -281,9 +281,9 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
         }
 
         if (turn_index == 0 &&
-            *(u16 *)(&D_80082E80.tile_position.parts.tile_x) != ((S_80171C34_2 *)position_data)->unk_24.at00u.v) {
+            *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != ((S_80171C34_2 *)position_data)->unk_24.at00u.v) {
             if (check_entity_relation(actor_data,
-                    (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                 do {
                     return;
                 } while (0);

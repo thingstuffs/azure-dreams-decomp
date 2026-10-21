@@ -25,7 +25,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
     object = 0;
     allocation_size = 0x112;
     saved_part_byte_24 = part_byte_24;
-    allocation_pool = &D_80083498;
+    allocation_pool = &scene_object_list_anchor;
     saved_halfword = copy_halfword;
     saved_byte_25 = part_byte_25;
     allocated = allocate_list_node(allocation_size, allocation_pool);
@@ -101,7 +101,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
 
         do {
 
-            saved_halfword = (s32)allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+            saved_halfword = (s32)allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             allocated = (void *)saved_halfword;
             ((S_8014C89C_5 *)child_slot)->unk_A4 = allocated;
             if (allocated != 0) {
@@ -134,7 +134,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
                     call_zero = 0;
                     ((S_8014C89C_9 *)child_root)->unk_10 = process_effect_block_entries;
                     (*(void * *)((u8 *)item + 0x2C)) = direction_table;
-                    direction_index = ((D_80083228 +
+                    direction_index = ((view_facing_angle_alias +
                         ((S_8014C89C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
                     select_sprite_entry(item,
                         *(u8 *)((uptr)direction_index + (uptr)direction_table), call_zero);

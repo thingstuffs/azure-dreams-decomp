@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/text.h"
 
 typedef struct PatternSource {
     s8 b0;

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/util.h"
 
 /* Fixed 0x104-byte allocator (matched at gcc 2.8.1, defined in src/code7.c);
    only the size arg is set explicitly by callers of this shape. */
 extern void *create_callback_pair_default(s32 a0);
-
-extern void apply_block_16_template_to_nodes(void **a0, s32 a1);
 
 /* Allocates and initializes a fixed-size pool of pointers to paired 16-byte records. */
 void *alloc_pointer_pool(void **pool, s32 record_count)

@@ -44,9 +44,9 @@ s32 identify_selected_item(ActorRecord *entity, s32 action_id, s16 action_type, 
         return process_record_and_update_linked_state(action_id, action_arg);
     }
 
-    if (entity == D_800E3D7C) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = action_id;
-        begin_mode_selected_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_mode_selected_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
 
@@ -58,7 +58,7 @@ s32 identify_selected_item(ActorRecord *entity, s32 action_id, s16 action_type, 
         }
     } else {
         message_pos = get_unused_text_buffer();
-        entity_state = ((s32 *)(&D_80082E80.selected_item));
+        entity_state = ((s32 *)(&reference_tile_object.selected_item));
         saved_message_pos = message_pos;
         message_pos = expand_text_control_codes(D_800E11F5, append_typed_formatted_value(((S_800BF074_1 *)entity_state)->unk_04, message_pos));
         ((S_800BF074_2 *)(((S_800BF074_1 *)entity_state)->unk_04))->unk_03 &= 0x7F;

@@ -16,7 +16,7 @@ s32 begin_return_magic_for_player_and_familiars(void)
     u8 *object_page;
     s16 *height_table;
 
-    if (create_linked_actor_fade_effect(((s32 *)&D_80083498.next)) == 0) {
+    if (create_linked_actor_fade_effect(((s32 *)&scene_object_list_anchor.next)) == 0) {
         return 0;
     }
 

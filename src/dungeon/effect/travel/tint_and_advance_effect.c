@@ -109,7 +109,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             source_data = F(F(owner, void *, 0x60), void *, -0x18);
             F(self, u16, 0x10) = F(source_data, u16, 2);
             F(self, u16, 0x12) = F(source_data, u16, 6);
-            height_table = D_800DDC40;
+            height_table = entity_height_offsets;
             target_type = F(F(owner, void *, 0x60), u8, 0x13);
             height_offset = height_table[target_type];
             height_offset += 0x20;
@@ -993,21 +993,21 @@ extern s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(
 extern u32 func_80065420();
 extern s32 func_80066460();
 extern void func_80067F20();
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 /* Queue projected point primitives from a linked list into the ordering table. */
 s32 queue_projected_point_primitives(void *node_data, void *position_data, void *appearance_data) {
     MovingPosition *position = position_data;
     void *appearance = appearance_data;
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *render_slot = D_80080000 + 0x3160;
+    u8 *render_slot = resident_globals_page + 0x3160;
     u32 addr_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
     void *packet;
     union { s32 * pointer; u32 value; } ot_entry;
 
     {
-        void *render_state = (*(void * *)((u8 *)D_80080000 + 0x3160));
+        void *render_state = (*(void * *)((u8 *)resident_globals_page + 0x3160));
         void *packet_cursor = ((S_800252E0_0 *)render_state)->unk_8D0;
         ((S_800252E0_1 *)scratch)->unk_20 = (u8 *)render_state + 0xB0;
         ((S_800252E0_1 *)scratch)->unk_18 = packet_cursor;

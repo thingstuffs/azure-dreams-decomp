@@ -4,7 +4,7 @@
 extern s32 check_inputs_after_threshold_two(u32);
 extern void func_800193E0(s32);
 
-extern s32 D_8001967C[];
+extern s32 scene_dispatch_mode_index[];
 extern s32 D_80019770[];
 extern u8 D_8001AAEC[];
 extern u8 D_8001DE58[];
@@ -15,9 +15,9 @@ s32 select_table_for_selector(s32 unused_a, s32 unused_b, s32 selector) {
 
     if (selector == 8) {
         func_800193E0(Ft_paty_love);
-        result = check_inputs_after_threshold_two(D_80019770[D_8001967C[0]]);
+        result = check_inputs_after_threshold_two(D_80019770[scene_dispatch_mode_index[0]]);
     } else if (selector == 1) {
-        if (D_8001967C[0] != 3) {
+        if (scene_dispatch_mode_index[0] != 3) {
             result = (s32)D_8001DE58;
         } else {
             result = (s32)D_8001AAEC;

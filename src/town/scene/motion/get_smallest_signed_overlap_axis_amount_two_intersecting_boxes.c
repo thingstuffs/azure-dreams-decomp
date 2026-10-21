@@ -15,7 +15,7 @@ typedef struct {
     s32 amount;
 } Result92360;
 
-extern Result92360 D_800CFE60[];
+extern Result92360 box_overlap[];
 
 /* Returns the smallest signed overlap axis and amount for two intersecting object boxes. */
 Result92360 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(Object92360 *box_a, Object92360 *box_b)
@@ -95,20 +95,20 @@ Result92360 *get_smallest_signed_overlap_axis_amount_two_intersecting_boxes(Obje
         depth_z_for_x = __builtin_abs(overlap_z);
         y_shallower_z = depth_y < depth_z_for_x;
         if (y_shallower_z || (x_shallower_z = depth_x < depth_z_for_x) != 0) {
-            D_800CFE60[0].axis = 0;
-            D_800CFE60[0].amount = overlap_x;
-            return D_800CFE60;
+            box_overlap[0].axis = 0;
+            box_overlap[0].amount = overlap_x;
+            return box_overlap;
         }
     } else {
         depth_z_for_y = __builtin_abs(overlap_z);
         y_shallower_z_alt = depth_y < depth_z_for_y;
         if (y_shallower_z_alt) {
-            D_800CFE60[0].axis = 1;
-            D_800CFE60[0].amount = overlap_y;
-            return D_800CFE60;
+            box_overlap[0].axis = 1;
+            box_overlap[0].amount = overlap_y;
+            return box_overlap;
         }
     }
-    D_800CFE60[0].axis = 2;
-    D_800CFE60[0].amount = overlap_z;
-    return D_800CFE60;
+    box_overlap[0].axis = 2;
+    box_overlap[0].amount = overlap_z;
+    return box_overlap;
 }

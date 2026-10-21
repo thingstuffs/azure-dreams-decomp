@@ -16,7 +16,7 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void start_direction_based_action(void *, void *, void *, void *);
 
 extern u8 D_801716F4[];
-extern Callback D_80175600[];
+extern Callback barong_callbacks[];
 
 
 typedef struct S_801712A8_0 {
@@ -84,7 +84,7 @@ void update_actor_facing_and_floor_contact(void *entity, S_801712A8_2 *motion, v
         callback(entity, motion, monster, actor);
     }
 
-    D_80175600[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, actor);
+    barong_callbacks[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, actor);
 
     if ((s16)direction != ((S_801712A8_0 *)actor)->unk_6D) {
         try_move_actor_to_valid_position(entity, motion, monster, actor);

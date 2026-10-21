@@ -44,7 +44,7 @@ extern TownRewardValues D_80526448;
 extern s32 D_80530130[];
 extern u8 D_805300F4[];
 extern u8 D_80290704[];
-extern u8 D_80132AE8[];
+extern u8 town_motion_state[];
 extern u8 D_80077C64[];
 extern s32 D_80077C68[3];
 extern s32 D_80012BCC;
@@ -167,7 +167,7 @@ case 2:
             mot->z = floor;
             mot->dz = (-mot->dz) >> 1;
         }
-        if (func_80240810(D_805300F4, mot, D_80290704, D_80132AE8)) {
+        if (func_80240810(D_805300F4, mot, D_80290704, town_motion_state)) {
             s32 product;
             s32 choice;
             product = st->kind;
@@ -191,7 +191,7 @@ case 2:
     }
 
     case 4:
-        if (func_80240810(D_805300F4, mot, D_80290704, D_80132AE8)) {
+        if (func_80240810(D_805300F4, mot, D_80290704, town_motion_state)) {
             s32 product;
             s32 choice;
             product = st->kind;
@@ -217,7 +217,7 @@ case 2:
             result_v0 = act->flags & 0xff7f;
         }
         act->flags = result_v0;
-        if (func_80240810(D_805300F4, mot, D_80290704, D_80132AE8)) {
+        if (func_80240810(D_805300F4, mot, D_80290704, town_motion_state)) {
             s32 product;
             s32 choice;
             product = st->kind;

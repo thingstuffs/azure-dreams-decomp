@@ -1,28 +1,17 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/object.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "slus/data.h"
 
 typedef struct { s32 v; } SpS32;
 typedef struct { u16 v; } SpU16;
 
-extern s32 RotTransPers(void *, void *, void *, void *);
-extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern s32 ratan2(s16, s16);
-extern s32 rsin(s32);
-extern void RotMatrix(void *, void *);
-extern void CompMatrix(void *, void *, void *);
-extern void SetTransMatrix(void *);
-extern void SetRotMatrix(void *);
-extern void AddPrim(void *, void *);
-extern int abs(int);
-extern s16 sprite_depth_amplitude_table[];
-extern u8 sprite_transform_copy_flags[];
-extern u8 sprite_fixed_transform_matrix[32];
 extern u8 D_8006CD10[32];
-extern u8 D_8006CD30[32];
-extern s32 sprite_scaled_depth_word[];
+extern u8 sprite_projection_matrix[32];
 
 /* Renders linked textured sprites with dimmed offset copies near the screen center. */
 s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *render_state)
@@ -148,7 +137,7 @@ s32 runtime_render_linked_textured_sprites(u8 *node_data, u8 *position, u8 *rend
                     }
                 }
                 else {
-                    CompMatrix(D_8006CD30, fixed_matrix, scratch + 0x54);
+                    CompMatrix(sprite_projection_matrix, fixed_matrix, scratch + 0x54);
                 }
                 SetTransMatrix(scratch + 0x54);
                 SetRotMatrix(scratch + 0x54);

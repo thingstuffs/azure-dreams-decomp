@@ -44,7 +44,7 @@ void func_80067014(s32);
 /* extern */
 void func_800672D8(void *, s32);
 /* extern */
-extern s16 D_80083D78[];
+extern s16 display_resource_cache_keys[];
 extern s32 lookup_patterned_display_icon(s32 value);
 extern s32 get_enabled_record_flag_priority(s32 value);
 extern s32 D_80077FBC[];

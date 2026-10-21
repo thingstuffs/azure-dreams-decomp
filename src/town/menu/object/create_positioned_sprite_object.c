@@ -48,7 +48,7 @@ s32 create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 g
     void *transform;
     SpriteFrameState *sprite;
 
-    object = allocate_list_node(0x136, (struct ObjectNodeHeader * *)(((s32 *)&D_80083498.next)));
+    object = allocate_list_node(0x136, (struct ObjectNodeHeader * *)(((s32 *)&scene_object_list_anchor.next)));
     if (object == 0) {
         return 0;
     }

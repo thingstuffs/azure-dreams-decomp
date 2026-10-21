@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 D_80174704;
+extern s32 ghosh_actor_node;
 
 typedef struct S_8016DECC_0 {
     u8 pad_00[0x96];
@@ -14,7 +14,7 @@ typedef struct S_8016DECC_0 {
 void reset_active_encounter_action_state(void) {
     S_8016DECC_0 *state;
 
-    state = D_80174704 + 0x20;
+    state = ghosh_actor_node + 0x20;
     state->unk_9B = 0;
     state->unk_96 = 0;
 }

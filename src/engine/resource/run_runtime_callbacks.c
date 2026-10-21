@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/resource.h"
 
 typedef void (*S_80083C68)(void);
 

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus/data.h"
 
 
 
@@ -16,11 +18,9 @@ typedef struct {
 
 extern s32 audio_sequence_track_count[3];
 extern Entity audio_sequence_tracks[];
-extern s32 audio_sequence_timing_word[4];
 extern s32 audio_sequence_format[4];
 extern void dispatch_sequence_event(Entity *);
 extern s32 audio_read_compact_sequence_event(Entity *);
-extern s32 read_base_128_vlq(Entity *);
 extern void scale_value_with_remainder(Entity *);
 
 /* Advances active entities' tick accumulators and processes actions when their delays expire. */

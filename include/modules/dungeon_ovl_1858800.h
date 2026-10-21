@@ -17,7 +17,7 @@ extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, v
 extern void play_sound_if_enabled(s32);
 extern void unlink_node(void *);
 extern void func_80044A50(void *);
-extern u8 D_800DEA68[];
+extern u8 secondary_sprite[];
 extern s32 func_80065420(SVECTOR *, s16 *, s32 *, s32 *);
 extern void func_800666F4(POLY_FT4 *);
 extern void func_80066640(POLY_FT4 *, s32);

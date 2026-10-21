@@ -22,8 +22,8 @@ extern void set_monster_data_pointer(void);
 extern void func_8016ECFC(void);
 extern void clear_entry_flag_and_link_owner(void *);
 
-extern u16 D_80013714[];
-extern s32 D_80175D50;
+extern u16 system_update_flags[];
+extern s32 beldo_actor_nodes;
 
 /* End the floor: clear the visible flags, run the two teardown passes and release both resident objects. */
 void finish_multi_form_actor_sequence(void)
@@ -32,15 +32,15 @@ void finish_multi_form_actor_sequence(void)
     s32 value;
     S_8016ED98_1 *object;
 
-    object = (void *)(D_80175D50 + 0x20);
+    object = (void *)(beldo_actor_nodes + 0x20);
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     object->unk_46 &= 0x7FFF;
-    D_80013714[0] &= 0xFFF6;
+    system_update_flags[0] &= 0xFFF6;
     set_monster_data_pointer();
     func_8016ECFC();
     i = 0;
     do {
-        value = ((S_8016ED98_2 *)(((s32)D_800E3D7C) + i * 4))->unk_AC;
+        value = ((S_8016ED98_2 *)(((s32)dungeon_actor_ring_anchor) + i * 4))->unk_AC;
         if (value != 0) {
             clear_entry_flag_and_link_owner((void *)(value - 0x20));
         }

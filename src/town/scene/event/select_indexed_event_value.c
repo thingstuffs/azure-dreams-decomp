@@ -16,11 +16,11 @@ s32 select_indexed_event_value(s32 unused_arg0, s32 unused_arg1, s32 selector)
         return &D_8001601C;
     }
     if (selector == 1) {
-        return D_80017FF4[D_8001E950->unk_04];
+        return D_80017FF4[town_event_state->unk_04];
     }
-    if (D_8001E950->unk_06 == 0) {
-        D_8001E950->unk_06 = 1;
-        return D_80017FD4[D_8001E950->unk_04];
+    if (town_event_state->unk_06 == 0) {
+        town_event_state->unk_06 = 1;
+        return D_80017FD4[town_event_state->unk_04];
     }
-    return D_80017FF4[D_8001E950->unk_04];
+    return D_80017FF4[town_event_state->unk_04];
 }

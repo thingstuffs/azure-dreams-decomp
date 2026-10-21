@@ -1,9 +1,8 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 #define U16_AT(base, offset) (*(u16 *)((s8 *)(base) + (offset)))
 #define PTR_AT(base, offset) (*(void **)((s8 *)(base) + (offset)))
-
-extern void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth);
 
 /* Process linked entries with flag 0x80 clear using their coordinates and combined offset. */
 s32 draw_linked_sprites(void *first_payload, void *first_coords, void *first_record) {

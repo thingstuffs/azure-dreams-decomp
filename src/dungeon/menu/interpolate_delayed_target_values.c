@@ -75,7 +75,7 @@ void interpolate_delayed_target_values(InterpState *state, void *unused, InterpT
         ticks_left = state->counter - 1;
         state->counter = ticks_left;
         if ((s16)ticks_left <= 0) {
-            global_state = ((E296C *)&D_800E296C);
+            global_state = ((E296C *)&dungeon_floor_flags);
             prior_flags = global_state->first;
             state_flags = state->flags;
             merged_flags = prior_flags | state_flags;

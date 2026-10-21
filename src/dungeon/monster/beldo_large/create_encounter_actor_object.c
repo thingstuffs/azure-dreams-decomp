@@ -32,9 +32,9 @@ void create_encounter_actor_object(void) {
         register_node(object, project_sprite_chain);
         position = object->unk_08;
         render_state->flags = (u16)(render_state->flags | 0x80);
-        position->unk_02 = ((u16)D_80083780.x.w.i);
-        position->unk_06 = ((u16)D_80083780.y.w.i);
-        position->unk_0A = ((u16)D_80083780.z.w.i);
+        position->unk_02 = ((u16)view_reference_entity.x.w.i);
+        position->unk_06 = ((u16)view_reference_entity.y.w.i);
+        position->unk_0A = ((u16)view_reference_entity.z.w.i);
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->color.c.b = 0x80;

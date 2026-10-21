@@ -52,7 +52,7 @@ void update_object_state_position(S0 *self, s32 *position, S1 *target) {
         register s32 x_distance;
         s32 target_x;
 
-        x_distance = D_80083780.x.v;
+        x_distance = view_reference_entity.x.v;
         target_x = position[0];
         x_distance -= target_x;
         threshold = 0x3FFFFF;
@@ -79,9 +79,9 @@ void update_object_state_position(S0 *self, s32 *position, S1 *target) {
     {
         s32 below_limit;
 
-        below_limit = D_80083780.y.v < y_limit;
+        below_limit = view_reference_entity.y.v < y_limit;
         if (below_limit != 0) {
-            D_80083780.y.v += 0x40000;
+            view_reference_entity.y.v += 0x40000;
         }
         next_value = target->f1A - 32;
         break;

@@ -24,7 +24,7 @@ s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s32 sample_terrain_surface_height();
 extern void D_8016A36C();
 
-extern Callback D_80173B94[];
+extern Callback beldo_large_callbacks[];
 extern u8 D_80173DDC[];
 
 
@@ -86,7 +86,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
     s32 height_offset;
 
     if ((*(u8 *)((u8 *)owner_arg + (0xB1))) == 0 &&
-        !(D_80013714 & 1) && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
+        !(system_update_flags & 1) && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
         (*(u8 *)((u8 *)owner_arg + (0xB1))) = 1;
         func_800353F4(D_80173DDC);
         (*(u8 *)((u8 *)owner_arg + (0x6D))) = 0;
@@ -96,7 +96,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
 
     if ((*(u16 *)0x80013714) & 8) {
         slot_index = 1;
-        slot_ptr = ((u8 *)D_800E3D7C) + 4;
+        slot_ptr = ((u8 *)dungeon_actor_ring_anchor) + 4;
         do {
             slot_entry = ((S_80169EC0_0 *)slot_ptr)->unk_AC;
             if (slot_entry != NULL) {
@@ -139,7 +139,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
     if (update_callback != NULL) {
         update_callback(owner_arg, motion, data, actor);
     }
-    D_80173B94[(*(u8 *)((u8 *)owner_arg + (0x9A)))](owner_arg, motion, data, actor);
+    beldo_large_callbacks[(*(u8 *)((u8 *)owner_arg + (0x9A)))](owner_arg, motion, data, actor);
     if ((s16)initial_state != ((S_80169EC0_3 *)actor)->unk_6D.s) {
         try_move_actor_to_valid_position(owner_arg, motion, data, actor);
     }

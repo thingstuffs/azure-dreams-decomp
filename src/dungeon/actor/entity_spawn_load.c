@@ -18,8 +18,8 @@ s32 select_dungeon_spawn_tile(u8 *x_out, u8 *y_out)
     DungeonArea *areas;
 
     attempts = 0x100;
-    limits = D_80081468;
-    areas = (DungeonArea *)D_800E2970;
+    limits = floor_generation_state;
+    areas = (DungeonArea *)dungeon_rooms;
 
     do {
         areaIndex = (u16)generate_random_value() % limits[3];
@@ -123,15 +123,15 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
         }
         load_result = queue_cd_resource(((S_800A504C_1 *)entity)->unk_13);
         load_spawned = spawned;
-        D_80081488 = load_result;
+        loaded_entity_sprite_resource = load_result;
         load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
-        D_800E3E40[0] = 0;
-        Control_CD(0xFF, set_byte_one, D_800E3E40);
+        entity_resource_read_complete[0] = 0;
+        Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
         break;
 
 case 1:
-        if (D_800E3E40[0] != 0) {
+        if (entity_resource_read_complete[0] != 0) {
             func_80047E30();
             ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
             break;
@@ -192,7 +192,7 @@ case 2:
         ((S_800A504C_3 *)tail_dst)->unk_9B = ((S_800A504C_0 *)base)->unk_9B;
 
         offset = find_entity_slot_by_field_ac(entity);
-        record = ((u8 *)D_800814A8);
+        record = ((u8 *)primary_actor_record);
         offset = (offset << 16) >> 14;
         offset += (s32)record;
         record = (u8 *)offset;
@@ -225,24 +225,24 @@ case 2:
         if (replacement != NULL) {
             ((S_800A504C_1 *)entity)->unk_13--;
             func_8003E188(((S_800A504C_1 *)entity)->unk_13, 0);
-            D_80080A90 = D_80023000;
-            load_result = begin_sprite_resource_load_with_completion_flag(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
+            sprite_resource_base = D_80023000;
+            load_result = begin_sprite_resource_load_with_completion_flag(((S_800A504C_1 *)entity)->unk_13, sprite_resource_completion_flag);
             load_spawned = replacement;
 
-            D_80081488 = load_result;
+            loaded_entity_sprite_resource = load_result;
             load_monster_resource_data(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
-            D_800E3E40[0] = 0;
-            Control_CD(0xFF, set_byte_one, D_800E3E40);
+            entity_resource_read_complete[0] = 0;
+            Control_CD(0xFF, set_byte_one, entity_resource_read_complete);
         }
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
         break;
 
 case 1:
-        if (D_800E3E40[0] == 0) {
+        if (entity_resource_read_complete[0] == 0) {
             return 0;
         }
-        if (D_80081488 != 0) {
-            register_and_upload_sprite_resource(((S_800A504C_1 *)entity)->unk_13, D_80081488);
+        if (loaded_entity_sprite_resource != 0) {
+            register_and_upload_sprite_resource(((S_800A504C_1 *)entity)->unk_13, loaded_entity_sprite_resource);
         }
 
         ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
@@ -260,14 +260,14 @@ case 2:
         if (replacement != NULL) {
             ((S_800A504C_4 *)replacement)->unk_14 |= 0x4000;
             offset = find_entity_slot_by_field_ac(entity);
-            record = ((u8 *)D_800814A8);
+            record = ((u8 *)primary_actor_record);
             offset = (offset << 16) >> 14;
             offset += (s32)record;
             record = (u8 *)offset;
             record_data = ((S_800A504C_5 *)record)->unk_D0;
             ((S_800A504C_5 *)record)->unk_AC = replacement;
             record_data[0] = ((S_800A504C_1 *)entity)->unk_13;
-            (*(u8 * *)((u8 *)D_800E3DF0 + (record_data[3] & 0x1F) * 4)) = replacement;
+            (*(u8 * *)((u8 *)familiar_record_slots + (record_data[3] & 0x1F) * 4)) = replacement;
 
             entity_data = ((S_800A504C_4_pre *)replacement)[-1].unk_00;
             ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
@@ -298,7 +298,7 @@ case 2:
             select_indirect_table_entry(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
                           ((S_800A504C_2 *)entity_data)->unk_04);
             data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
-            D_80080A90 = D_8014A000;
+            sprite_resource_base = D_8014A000;
             ((S_800A504C_2 *)entity_data)->unk_14 = data_flags & 0xFFFE;
             remaining_count = ((S_800A504C_0 *)base)->unk_0A.u;
             D_800DCF5C = count;

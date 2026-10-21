@@ -207,12 +207,12 @@ extern void dispatch_conditional_table_pairs(void);
 s32 get_smallest_signed_overlap_axis_amount_two_intersecting_boxes();
 
 extern s32 D_800D09E0;
-extern ListHead D_80081498;
+extern ListHead active_node_list_head;
 extern s32 D_800D4404;
-extern u8 D_80100B70[];
-extern s32 D_8006CD58[];
-extern s16 D_8008146C;
-extern s32 D_800834B8;
+extern u8 door_transition_state[];
+extern s32 cd_cue_base[];
+extern s16 current_dungeon_floor;
+extern s32 scene_object_payload_alias;
 extern s32 D_80091260;
 extern s32 D_80091528;
 extern s32 D_800CFCB4;

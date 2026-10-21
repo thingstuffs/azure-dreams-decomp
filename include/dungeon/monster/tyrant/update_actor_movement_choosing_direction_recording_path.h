@@ -30,8 +30,8 @@ extern s32 generate_random_value();
 extern void update_actor_status_and_food();
 extern s16 sample_terrain_surface_height();
 extern s32 check_action_eligibility_updates_actor_state_directional_animation_success();
-extern s16 D_8006CD00[8];
-extern u8 D_80082E80[];
-extern s8 D_80082EA4;
+extern s16 actor_turn_angle_offsets[8];
+extern u8 reference_tile_object[];
+extern s8 reference_tile_position_alias;
 void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, u8 *position, u8 *actor);
 #endif

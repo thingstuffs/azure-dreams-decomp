@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/animation_views.h"
+#include "engine/graphics.h"
+#include "engine/texture.h"
 
 /* Frame element pointed to by S_80048A44_Obj.unk0; only the first field (a u16) is read here */
 
@@ -38,11 +40,8 @@ typedef struct S_80083110 {
     s32 field_28;
 } S_80083110;
 
-extern void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(S_800489F4_Obj *a0, s16 a1, s16 a2);
-extern void register_sprite_slot(S_80083110 *a0, s32 a1);
-
 /* one byte (the next named symbol is D_80080A85); an extern, so absolute in ASPSX */
-extern u8 D_80080A84;
+extern u8 animation_tick_scale;
 
 /* Selects and dispatches a frame, stores its scaled leading value, and clears flags 0x6000. */
 void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index) {
@@ -53,7 +52,7 @@ void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_
     register_sprite_slot((S_80083110 *)obj, slot_index);
 
     frame_value = obj->unk0->value;
-    divisor = D_80080A84;
+    divisor = animation_tick_scale;
     obj->unk14 = obj->unk14 & 0x9FFF;
     obj->unk5 = (u8)((s32)frame_value / (s32)divisor);
 }

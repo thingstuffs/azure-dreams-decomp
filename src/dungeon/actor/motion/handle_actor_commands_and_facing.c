@@ -30,10 +30,10 @@ extern s32 generate_random_value(void);
 
 extern u8 D_800245A8[];
 extern u8 D_8004F5F4[];
-extern void *D_800DD274[];
-extern void (*D_800DD830[])();
-extern u8 D_800E3544[];
-extern s32 D_800E4940[];
+extern void *actor_default_frames[];
+extern void (*actor_command_handlers[])();
+extern u8 active_actor_command_code[];
+extern s32 menu_action_argument[];
 
 typedef struct S_80096384_5 {
     u8 unk_00;
@@ -71,9 +71,9 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
     s32 command_state;
 
     if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != idle_state) {
-        sprite->frameTable = D_800DD274;
+        sprite->frameTable = actor_default_frames;
         func_8003DB94(sprite,
-            *(void **)((u8 *)D_800DD274 +
+            *(void **)((u8 *)actor_default_frames +
                 ((((s32)(input->view.camera_rotation.parts.viewAngle +
                     actor_data->facing + 0x100)) >> 7) & 0x1C)),
             0);
@@ -178,8 +178,8 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                     actor_data->facing = next_angle;
                     read_monster_script_entry(turn_angle, signed_target);
                 } else {
-                    D_800E3544[0] = command->unk_01 & 0xF8;
-                    command_state = D_800E3544[0];
+                    active_actor_command_code[0] = command->unk_01 & 0xF8;
+                    command_state = active_actor_command_code[0];
                     switch (command_state) {
                     case 8:
                         update_actor_movement_and_map_flags(actor, actor_id, sprite, actor_data);
@@ -191,7 +191,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                         begin_actor_attack(actor, actor_id, sprite, actor_data);
                         break;
                     case 0xD8:
-                        D_800DD830[command->unk_00 & 0x7F]();
+                        actor_command_handlers[command->unk_00 & 0x7F]();
                         break;
                     }
                 }
@@ -199,7 +199,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
                 return;
             }
         } else {
-            D_800E3544[0] = 0;
+            active_actor_command_code[0] = 0;
             if (command_flags & 4) {
                 func_80040AA0(3);
                 return;
@@ -221,9 +221,9 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
 
             if (input->buttons & 0x80) {
                 actor_data->unk_8A = 2;
-                D_800E4940[0] = 2;
+                menu_action_argument[0] = 2;
                 begin_player_menu_action(actor, actor_id, sprite, D_8004F5F4);
-                D_80082E80.selected_item = 0;
+                reference_tile_object.selected_item = 0;
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
                 return;
@@ -288,9 +288,9 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
     tail_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
     if (tail_flags & 1) {
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
-        sprite->frameTable = D_800DD274;
+        sprite->frameTable = actor_default_frames;
         func_8003DB94(sprite,
-            *(void **)((u8 *)D_800DD274 +
+            *(void **)((u8 *)actor_default_frames +
                 ((((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing +
                     0x100)) >> 7) & 0x1C)),
             0);

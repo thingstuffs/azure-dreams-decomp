@@ -23,7 +23,7 @@ typedef struct TownObject {
     TownContext *context;
 } TownObject;
 
-extern Entry *D_80129728[28];
+extern Entry *catalog_display_node_slots[28];
 
 extern void reset_linked_value_records(void);
 extern void refresh_catalog_secondary_detail(TownObject *);
@@ -54,7 +54,7 @@ void animate_catalog_next_detail(TownObject *obj)
         do {
             entry_index = 14;
         } while (0);
-        entries = D_80129728;
+        entries = catalog_display_node_slots;
         do {
             entry = entries[entry_index];
             inner = entry->inner;
@@ -72,7 +72,7 @@ void animate_catalog_next_detail(TownObject *obj)
         Inner *inner;
 
         entry_index = 16;
-        entries = D_80129728;
+        entries = catalog_display_node_slots;
         do {
             entries[entry_index]->word0 = 0;
             entry_index++;
@@ -82,7 +82,7 @@ void animate_catalog_next_detail(TownObject *obj)
         case 12:
         case 13:
         entry_index = 14;
-        entries = D_80129728;
+        entries = catalog_display_node_slots;
         do {
             entry = entries[entry_index];
             inner = entry->inner;
@@ -100,7 +100,7 @@ void animate_catalog_next_detail(TownObject *obj)
         Inner *inner;
 
         entry_index = 14;
-        entries = D_80129728;
+        entries = catalog_display_node_slots;
         do {
             entry = entries[entry_index];
             inner = entry->inner;
@@ -109,7 +109,7 @@ void animate_catalog_next_detail(TownObject *obj)
         } while (entry_index < 28);
 
         entry_index = 14;
-        entries = D_80129728;
+        entries = catalog_display_node_slots;
         do {
             entries[entry_index]->word0 = 0;
             entry_index++;

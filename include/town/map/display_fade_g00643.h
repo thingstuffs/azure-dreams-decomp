@@ -36,7 +36,7 @@ extern void register_node(void *entry, void *registration_id);
 extern void *decode_note_text(void *entries, void *text, s32 initial_octave);
 extern void func_8004E9E4(void);
 extern void create_positioned_callback_object(void *position, void *object_value, void *data_value);
-extern s32 D_80053A88;
+extern s32 display_registration_tag;
 extern u8 D_800782EC[8];
 extern Copy8 D_8008961C;
 extern u8 D_800BC290[8];

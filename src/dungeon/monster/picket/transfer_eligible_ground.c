@@ -43,7 +43,7 @@ extern s32 generate_random_value(void);
 extern s16 find_floor_item_at_world_position(s16, s16, s16);
 extern s32 is_linked_entity_flagged_80000(void *, void *);
 
-extern s32 D_800E3D7C[];
+extern s32 dungeon_actor_ring_anchor[];
 extern s32 D_80150FE4[];
 
 
@@ -66,15 +66,15 @@ extern s32 D_80150FE4[];
         (s16)(((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25 + *(u16 *)(((u8 *)dir_step_y) + direction_offset)),
         ((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_88);
     if (ground_slot >= 0) {
-        D_80150FE4[0] = ((s32 *)D_800E3548)[ground_slot];
-        ((s32 *)D_800E3548)[ground_slot] = 0;
+        D_80150FE4[0] = ((s32 *)dungeon_ground_items)[ground_slot];
+        ((s32 *)dungeon_ground_items)[ground_slot] = 0;
         return (s32)D_80150FE4;
     }
 
     target = place_actor_at_directional_neighbor(actor, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25,
                            ((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_2A.s16);
     if (target != 0) {
-        if (target == (void *)D_800E3D7C[0]) {
+        if (target == (void *)dungeon_actor_ring_anchor[0]) {
             if (is_linked_entity_flagged_80000(target, target) != 0) {
                 return 0;
             }

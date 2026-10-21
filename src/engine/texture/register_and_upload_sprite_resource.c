@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus.h"
 
 
 typedef struct {
@@ -8,8 +9,7 @@ typedef struct {
 } S_80083D08;
 
 extern S_80083D08 sprite_resource_slots[6];
-extern void *D_80080A90;
-extern s32 get_resource_block_index_from_address(void *a0);
+extern void *sprite_resource_base;
 extern void *func_80047AB0(void *a0, s32 a1, s32 a2, s32 a3, void *a4);
 extern void *register_and_upload_three_slot_sprite_resource(s32 a0, void *a1);
 
@@ -24,7 +24,7 @@ void *register_and_upload_sprite_resource(s32 object_type, void *object)
 
     if (object_type != special_type) {
         lookup_object = object;
-        resource_table = &D_80080A90;
+        resource_table = &sprite_resource_base;
         resources = resource_table;
         slot = get_resource_block_index_from_address(lookup_object);
         (*(sprite_resource_slots + slot)).flag = (s32)object;

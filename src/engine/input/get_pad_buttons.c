@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 
 #include "common.h"
+#include "engine/input.h"
 
 
 /* Returns the current value of D_80083168. */

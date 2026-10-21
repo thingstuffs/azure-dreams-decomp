@@ -65,7 +65,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     unksp20 = (s32) *(s8 *)-0x149C;
     work = NULL;
     variant = 1;
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         work = object + 0x20;
         ((S_80F2D000_0 *)object)->unk_10 = &D_8014CA8C;

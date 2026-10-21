@@ -118,7 +118,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
 
                 special_target = is_special;
                 if (special_target != 0) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     (*(void * *)((u8 *)item + 0x60)) = target;
                     linked = ((SpriteLinkPrefixView *)target)[-1].unk_00;
                     (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->unk_24;
@@ -127,7 +127,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
                     u8 effect_id;
 
                     effect_id = *effect_slot;
-                    if (D_8006DE24[effect_id].kind == 2) {
+                    if (item_action_definitions[effect_id].kind == 2) {
                         target = (*(void * *)((u8 *)item + 0x60));
                         if (target != 0) {
                             linked = ((SpriteLinkPrefixView *)target)[-1].unk_00;
@@ -174,7 +174,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(item);
         (*(u8 *)((u8 *)item + 0x6D))--;
         ((S_80172A48_0 *)action)->unk_8C = D_801714D4;

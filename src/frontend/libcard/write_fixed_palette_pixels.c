@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard.h"
 
 extern void func_8004E994(s32 value);
 

@@ -1,9 +1,11 @@
 #include "common.h"
+#include "engine/resource.h"
+#include "sdk/libgpu.h"
+#include "slus/data.h"
 
 /* Running write/base pointers into a growing decode buffer, plain 32-bit
  * scalars accessed via %hi/%lo (not $gp-relative) -- same globals as the
  * sibling decode_compressed_image_to_vram family (same -G0 TU). */
-extern s32 gpu_scratch_ring_size;
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
 
@@ -16,10 +18,6 @@ typedef struct {
     s16 unk04;
     s16 unk06;
 } S_80047270_hdr;
-
-extern void DrawSync(s32 a0);
-extern void *decode_or_copy_resource_pixels(u8 *src_start, u8 *dst_start);
-extern int LoadImage(void *rect, void *p);
 
 /* Decodes and uploads an image, wrapping the decode buffer and waiting for the GPU when full. */
 void decode_upload_image_from_wrapping_buffer(void *encoded_data, S_80047270_hdr *image_rect)

@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
 
 extern s8 message_skip_disabled[];
 

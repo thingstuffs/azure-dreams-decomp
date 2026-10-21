@@ -5,7 +5,7 @@ extern s32 Control_CD();
 extern s32 drain_cd_command_queue();
 extern s32 pack_tagged_resource_descriptor();
 
-extern s8 D_800E3DA0[];
+extern s8 monster_resource_cache_ids[];
 extern u8 D_800E58A8[];
 extern u8 D_80164800[];
 extern u8 D_8016A800[];
@@ -33,7 +33,7 @@ s32 load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for
     register s32 slot;
 
     if (cached_id_abs != 2) {
-        compare_id = D_800E3DA0[entry[3]];
+        compare_id = monster_resource_cache_ids[entry[3]];
         cached_id_abs = abs(compare_id);
         compare_id = (u32)resource_id << 16;
         compare_id >>= 16;
@@ -70,18 +70,18 @@ s32 load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for
         if ((wait_mode << 0x10) != 0) {
             drain_cd_command_queue();
             if (entry[0] != 2) {
-                D_800E3DA0[entry[3]] = asset_id;
+                monster_resource_cache_ids[entry[3]] = asset_id;
                 result = *(s32 *)data;
             } else {
                 result = *(s32 *)data;
             }
             *(s32 *)(entry + 4) = result;
         } else if (entry[0] != 2) {
-            D_800E3DA0[entry[3]] = -asset_id;
+            monster_resource_cache_ids[entry[3]] = -asset_id;
         }
     } else {
         if (entry[0] != 2) {
-            D_800E3DA0[entry[3]] = asset_id;
+            monster_resource_cache_ids[entry[3]] = asset_id;
         }
         loaded_id = (s16)asset_id;
         if (loaded_id == 0x38) {

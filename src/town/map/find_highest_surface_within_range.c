@@ -74,8 +74,8 @@ typedef struct ScratchPrefix {
 typedef union ScratchArena { Scratch full; ScratchPrefix prefix; } ScratchArena;
 
 s32 check_scratch_quad_half_turn_gaps(Scratch *scratch);
-extern s32 D_800FE480;
-extern s32 D_800FE484;
+extern s32 town_map_column_extent;
+extern s32 town_map_row_extent;
 
 /* Find the highest surface at the given position within 20 units above the height. */
 s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
@@ -134,7 +134,7 @@ s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
         scan_y = (u16)scratch->orig_y + (u16)scratch->outer_delta;
         row_y = scan_y;
         if (scratch->step_y >= 0) {
-            if (row_y >= D_800FE484)
+            if (row_y >= town_map_row_extent)
                 return (s16)(u16)scratch->best;
         } else {
             if (row_y < 0)
@@ -150,7 +150,7 @@ s32 find_highest_surface_within_range(s32 world_x, s32 world_y, s16 height) {
             scan_x = x_sum;
             col_x = x_sum;
             if (x_step >= 0) {
-                if (col_x >= D_800FE480)
+                if (col_x >= town_map_column_extent)
                     break;
             } else {
                 col_x = x_sum;

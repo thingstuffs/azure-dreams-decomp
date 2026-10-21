@@ -87,7 +87,7 @@ void tick_paired_particle_emitter(FuncArg *source) {
     random_values[2] = rand();
     effect_index = 1;
     effect_def = D_800C4640;
-    height_offsets = D_800DDC40;
+    height_offsets = entity_height_offsets;
     tile_data = D_800DF564;
     do {
         effect_item = func_8003FC64(0x202);

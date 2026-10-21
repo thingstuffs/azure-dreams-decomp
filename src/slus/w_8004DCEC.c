@@ -7,6 +7,6 @@ extern char message_mode_work_buffer[2];
 void runtime_call_selected_mode_handler(void)
 {
     FuncPtr_8004DCEC handler;
-    handler = message_mode_handlers[D_80081550];
+    handler = message_mode_handlers[message_handler_mode];
     handler(message_mode_work_buffer);
 }

@@ -68,7 +68,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
 
     work = 0;
     value_0A = value_0A_input;
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         work = (u8 *)object + 0x20;
         ((S_FUNC_80A23000_BODY_0 *)object)->unk_10 = D_8016AA58;

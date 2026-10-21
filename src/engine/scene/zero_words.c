@@ -1,17 +1,17 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/node.h"
+#include "engine/scene.h"
+#include "slus.h"
 
 /* Freelist/active-list node. next at 0x00, prev at 0x04, a slot pointer at
  * 0x08, another slot pointer at 0x0C, flags at 0x1E. Total size 0x124
  * bytes (zeroed via zero_words(node, 0x49) on allocation). */
 
 
-extern struct { u16 flags; u8 pad[8]; } D_80013714;
+extern struct { u16 flags; u8 pad[8]; } system_update_flags;
 extern ObjectNodeHeader *free_node_list_head;   /* freelist head */
-extern ObjectNodeHeader *D_80081498;   /* active list head */
-
-extern void zero_words(void *p, s32 n);
-extern void *evict_node_and_allocate(s32 a0, void *a1);
+extern ObjectNodeHeader *active_node_list_head;   /* active list head */
 
 /* Allocates and initializes an active node, reclaiming an eligible active node if needed and allowed. */
 ObjectNodeHeader *func_8003FC64(s32 flags)
@@ -25,8 +25,8 @@ ObjectNodeHeader *func_8003FC64(s32 flags)
     ObjectNodeHeader **active_ptr_early;
 
     freelist_ptr = &free_node_list_head;
-    active_ptr_early = &D_80081498;
-    if ((D_80013714.flags & 0x2) && (flags & 0x200)) {
+    active_ptr_early = &active_node_list_head;
+    if ((system_update_flags.flags & 0x2) && (flags & 0x200)) {
         return 0;
     }
 
@@ -38,7 +38,7 @@ ObjectNodeHeader *func_8003FC64(s32 flags)
 
         active_ptr = active_ptr_early;
         active_head = *active_ptr;
-        D_80081498 = node;
+        active_node_list_head = node;
         node->next = active_head;
         if (active_head != 0) {
             active_head->pprev = (ObjectNodeHeader **)node;

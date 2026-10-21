@@ -63,7 +63,7 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
     saved_value_24 = part_value_24;
     saved_value_0a = part_value_0a;
     saved_value_25 = part_value_25;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80FE1000_0 *)obj)->unk_10 = D_8016AA7C;

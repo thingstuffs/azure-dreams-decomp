@@ -7,8 +7,9 @@ typedef struct S_80024FAC_0 {
 
 
 #include "modules/main_server_ship_interfaces.h"
-s32 card_boot_close_message_dialog();                     /* extern */
-void card_boot_restore_saved_selection_callback(void *);                            /* extern */
+#include "frontend/libcard.h"
+#include "frontend/libcard/message.h"
+#include "frontend/libcard/state.h"
 extern M2C_UNK D_8002593C;
 
 /* Update the record and switch its table when the status reaches four. */

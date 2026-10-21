@@ -34,7 +34,7 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
 
     if (mode == 0) {
         func_8001E5F0(F_sbs01_pad13);
-        context = D_8001E950;
+        context = town_event_state;
         status = check_event_value_in_list(((S_8001B828_0 *)context)->unk_04);
         if (status == 0) {
             context = D_80016000;
@@ -44,9 +44,9 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
                 return D_8001914C;
             }
             new_code = find_first_enabled_entry_id();
-            D_8001E950->unk_04 = new_code;
+            town_event_state->unk_04 = new_code;
         }
-        state = D_8001E950;
+        state = town_event_state;
         if (state->unk_04 != 0) {
             return clear_event_resource_state_and_get_buffer(state->unk_04);
         }

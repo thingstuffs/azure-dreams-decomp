@@ -14,8 +14,8 @@ typedef struct {
 extern void *func_7003CF18();
 extern void func_7010D230();
 extern s32 D_80086AD8;
-extern u16 D_80094422;
-extern u8 D_800E0F20[16];
+extern u16 emitted_effect_counter;
+extern u8 emitter_height_offsets[16];
 extern M2C_UNK D_8010CEE0;
 extern Packed12 D_8010D40C;
 
@@ -70,7 +70,7 @@ void spawn_alternating_tick_effects(void *effect, s32 init_param_1, s32 init_par
             primitive = (*(void * *)((u8 *)spawned_effect + 8));
             ((S_7FFEB1CC_1 *)primitive)->unk_0A =
                 ((S_7FFEB1CC_1 *)primitive)->unk_0A -
-                (D_800E0F20[(u8)((S_7FFEB1CC_3 *)(((S_7FFEB1CC_0 *)effect)->unk_00))->unk_13] >> 1);
+                (emitter_height_offsets[(u8)((S_7FFEB1CC_3 *)(((S_7FFEB1CC_0 *)effect)->unk_00))->unk_13] >> 1);
 
             part = (*(void * *)((u8 *)spawned_effect + 0xC));
             (*(Packed12 *)((u8 *)spawned_effect + 0x62)) = D_8010D40C;
@@ -86,7 +86,7 @@ void spawn_alternating_tick_effects(void *effect, s32 init_param_1, s32 init_par
     remaining_life = ((S_7FFEB1CC_0 *)effect)->unk_1E - 1;
     ((S_7FFEB1CC_0 *)effect)->unk_1E = remaining_life;
     if ((remaining_life << 0x10) <= 0) {
-        u16 *active_count = &D_80094422;
+        u16 *active_count = &emitted_effect_counter;
         u16 remaining_count;
 
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;

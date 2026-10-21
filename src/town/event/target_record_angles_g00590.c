@@ -42,7 +42,7 @@ void update_positions_from_origin(IntVector3 *origin)
 
     ++origin;
     --origin;
-    D_80100D40 += D_80100D80;
+    D_80100D40 += town_motion_x_step;
     {
         PositionRotationPair *rotation = &D_80100D60;
 
@@ -51,7 +51,7 @@ void update_positions_from_origin(IntVector3 *origin)
         position->x = origin->x;
         position->y = origin->y;
         position->z = origin->z;
-        D_80100D42 += D_80100D82;
+        D_80100D42 += town_motion_y_step;
         position->y += func_80064584(add_x_and_get_angle(
             position, func_800644B8(angle) * D_80100D1C, rotation)) * D_80100D1C;
         draw_random_colored_line((s32)position, (s32)origin);

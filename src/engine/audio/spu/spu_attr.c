@@ -1,5 +1,6 @@
 #include "slus/jtbl_8005EDA0.h"
 #include "common.h"
+#include "engine/audio/spu.h"
 
 
 

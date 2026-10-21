@@ -19,7 +19,7 @@ void update_cached_state_byte(S_800DC5B4_1 *cachedState) {
     u8 currentValue;
     void **globalStateSlot;
 
-    globalStateSlot = (void **)(&D_800814A8);
+    globalStateSlot = (void **)(&primary_actor_record);
     currentValue = ((S_800DC5B4_0 *)(*globalStateSlot))->unk_11;
     if (currentValue != cachedState->unk_30) {
         draw_filler_first_number(currentValue, cachedState->unk_30, 2, 0x18A, 0x190, 0);

@@ -1,6 +1,8 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/menu.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_80053A88_TILE {
     u32 tag;
@@ -25,10 +27,6 @@ typedef struct S_80053A88_Node {
     s16 unk14;
     u16 unk16;
 } S_80053A88_Node;
-extern void SetTile(S_80053A88_TILE *p);
-extern void SetSemiTrans(void *p, s32 abe);
-extern s32 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
-extern void SetDrawMode(S_80053A88_DRTPAGE *p, s32 a1, s32 a2, s32 a3, s32 a4);
 
 /* Builds tile and draw-mode packets for each node and links enabled packets into the draw list. */
 s32 build_menu_line_tile_packets(S_80053A88_Node *first_node)

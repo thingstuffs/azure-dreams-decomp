@@ -46,13 +46,13 @@ void process_unflagged_linked_entries(s32 firstEntryBase) {
     S_80099F04_1 *entry;
 
     entry = firstEntryBase + 0x20;
-    if (entry != ((EntityRec *)(((s32 *)&D_800814A8)))->x.v) {
+    if (entry != ((EntityRec *)(((s32 *)&primary_actor_record)))->x.v) {
         do {
             if (!(entry->unk_14 & 0x4000)) {
                 apply_scaled_entity_velocity(entry);
             }
             entry = entry->unk_5C + 0x20;
-        } while (entry != ((EntityRec *)(((s32 *)&D_800814A8)))->x.v);
+        } while (entry != ((EntityRec *)(((s32 *)&primary_actor_record)))->x.v);
     }
 }
 #include "common.h"
@@ -72,13 +72,13 @@ void process_unflagged_linked_entries_alt(s32 firstNodeBase) {
     S_80099F70_1 *currentEntry;
 
     currentEntry = firstNodeBase + 0x20;
-    if (currentEntry != ((EntityRec *)(((s32 *)&D_800814A8)))->x.v) {
+    if (currentEntry != ((EntityRec *)(((s32 *)&primary_actor_record)))->x.v) {
         do {
             if (currentEntry->unk_14 & 0x4000) {
                 apply_scaled_entity_velocity(currentEntry);
             }
             currentEntry = currentEntry->unk_5C + 0x20;
-        } while (currentEntry != ((EntityRec *)(((s32 *)&D_800814A8)))->x.v);
+        } while (currentEntry != ((EntityRec *)(((s32 *)&primary_actor_record)))->x.v);
     }
 }
 #include "common.h"
@@ -108,7 +108,7 @@ void clear_entry_flag_and_link_owner(void *entry)
     S_80099FDC_3 *neighbor_links;
     ActorRecord *owner;
 
-    owner = D_800814A8;
+    owner = primary_actor_record;
     ((S_80099FDC_0 *)entry)->unk_10 = ((S_80099FDC_0 *)entry)->unk_10 & 0x7FFFFFFF;
     neighbor_links = (u8 *)owner->unk_58 + 0x20;
     entry_links = (u8 *)entry + 0x20;
@@ -124,15 +124,15 @@ void clear_entry_flag_and_link_owner(void *entry)
 #define NULL 0
 #endif
 
-extern EntityLinkNode *D_800E3DE8;
+extern EntityLinkNode *actor_update_node_cursor;
 
 /* Unlink a node and advance the global cursor if it references that node. */
 void unlink_entity_node(EntityLinkNode *node) {
     EntityLinkNode *prev;
     EntityLinkNode *next;
 
-    if (D_800E3DE8 == (EntityLinkNode *)((s8 *)node - 0x20)) {
-        D_800E3DE8 = node->next;
+    if (actor_update_node_cursor == (EntityLinkNode *)((s8 *)node - 0x20)) {
+        actor_update_node_cursor = node->next;
     }
 
     prev = node->prev;
@@ -156,7 +156,7 @@ void process_unflagged_entries_and_set_update(void)
     void *node;
     void *next_entry;
 
-    entry = D_800E3D7C;
+    entry = dungeon_actor_ring_anchor;
     do {
         node = *(void **)((u8 *)entry + 0x5C);
         next_entry = (u8 *)node + 0x20;
@@ -166,9 +166,9 @@ void process_unflagged_entries_and_set_update(void)
             unlink_entity_node(entry);
         }
         entry = next_entry;
-    } while (entry != D_800E3D7C);
+    } while (entry != dungeon_actor_ring_anchor);
 
-    D_800E296C = D_800E296C | 0x10000000;
+    dungeon_floor_flags = dungeon_floor_flags | 0x10000000;
 }
 #include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
 #include "common.h"
@@ -182,7 +182,7 @@ void process_unflagged_entries_and_set_update(void)
 extern struct {
     ActiveNode *head;
     int pad[2];
-} D_80081498;
+} active_node_list_head;
 
 extern s32 D_80012090[];
 
@@ -190,7 +190,7 @@ extern void clear_entry_flag_and_link_owner(void *entry);
 
 /* Process nodes flagged 0x1000 and clear global bit 28 when D_80012090 is not 1. */
 void process_flagged_nodes_and_clear_global_bit(void) {
-    ActiveNode *node = D_80081498.head;
+    ActiveNode *node = active_node_list_head.head;
 
     if (node != 0) {
         do {
@@ -201,7 +201,7 @@ void process_flagged_nodes_and_clear_global_bit(void) {
         } while (node != 0);
     }
     if (*(s32 *)0x80012090 != 1) {
-        D_800E296C &= 0xEFFFFFFF;
+        dungeon_floor_flags &= 0xEFFFFFFF;
     }
 }
 #include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
@@ -402,8 +402,8 @@ void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags)
     }
 }
 #include "modules/dungeon_engine_tile_map_abi_views.h"
-extern s16 D_800DCEBC[];
-extern s16 D_800DCEAC[];
+extern s16 direction_y_offsets[];
+extern s16 direction_x_offsets[];
 #include "common.h"
 
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
@@ -427,7 +427,7 @@ s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
         for (side = -1; side < 2; side += 2) {
             if (get_offset_map_cell_value_and_flags(x, y, (saved + side) & 7, &tile_flags) != 0) {
                 dir = ((u16)saved + side) & 7;
-                if (map_height_wrapped((x << 6) + 0x20 + ((u16 *)D_800DCEAC)[dir], (y << 6) + 0x20 + ((u16 *)D_800DCEBC)[dir], h) > 0x200) {
+                if (map_height_wrapped((x << 6) + 0x20 + ((u16 *)direction_x_offsets)[dir], (y << 6) + 0x20 + ((u16 *)direction_y_offsets)[dir], h) > 0x200) {
                     break;
                 }
             }
@@ -447,8 +447,8 @@ s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height
 
 extern s16 find_active_rect_containing_point(u16, u16);
 
-extern s16 D_800DCEAC[];
-extern s16 D_800DCEBC[];
+extern s16 direction_x_offsets[];
+extern s16 direction_y_offsets[];
 
 /* Checks movement clearance and classifies the destination height relative to the actor. */
 s32 check_movement_clearance_and_height(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 height_offset) {
@@ -482,10 +482,10 @@ s32 check_movement_clearance_and_height(u32 move_flags, FuncArg1 *position, Func
 
         call_direction = direction;
         flags_out = &flags;
-        x_table = D_800DCEAC;
+        x_table = direction_x_offsets;
         offset_or_height = call_direction << 1;
         x_pos = *(u16 *)((u8 *)x_table + offset_or_height) + x_base;
-        y_pos = *(u16 *)((u8 *)D_800DCEBC + offset_or_height) + y_base;
+        y_pos = *(u16 *)((u8 *)direction_y_offsets + offset_or_height) + y_base;
         if ((get_offset_map_cell_value_and_flags(position->x, position->y, call_direction, flags_out) << 16) == 0) {
             return 0;
         }
@@ -497,7 +497,7 @@ s32 check_movement_clearance_and_height(u32 move_flags, FuncArg1 *position, Func
                 (u16)(position->y +
                       *(u16 *)((u8 *)dir_step_y + offset_or_height)));
             if (monster_index >= 0 &&
-                (D_800E2970[monster_index].flags & 2) &&
+                (dungeon_rooms[monster_index].flags & 2) &&
                 !(actor->flags & 0x2000)) {
                 return 0;
             }
@@ -557,8 +557,8 @@ typedef struct {
     u8 pad02[6];
 } StackU16;
 
-extern s16 D_800DCEAC[];
-extern s16 D_800DCEBC[];
+extern s16 direction_x_offsets[];
+extern s16 direction_y_offsets[];
 s16 find_active_rect_containing_point(u16, u16);
 
 /* Check a directional move against map bounds, collisions, monsters, and floor height. */
@@ -633,8 +633,8 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
                         y_or_direction = direction;
                         collision_out = (u32)&collision.value;
                         {
-                            u16 *pa = (u16 *)((u8 *)D_800DCEAC + step_offset);
-                            u16 *pb = (u16 *)((u8 *)D_800DCEBC + step_offset);
+                            u16 *pa = (u16 *)((u8 *)direction_x_offsets + step_offset);
+                            u16 *pb = (u16 *)((u8 *)direction_y_offsets + step_offset);
                             target_x = *pa + coord_work_2;
                             coord_work = *pb + center_y;
                         }
@@ -652,7 +652,7 @@ s32 check_directional_move_and_terrain(u32 move_flags, FuncArg1 *actor, FuncArg2
                         (monster_index = find_active_rect_containing_point((actor_or_height->x + *x_step) & 0xFFFF,
                                                        (actor_or_height->y + *y_step) & 0xFFFF),
                          (monster_index < 0)) ||
-                        !(D_800E2970[monster_index].flags & 2) ||
+                        !(dungeon_rooms[monster_index].flags & 2) ||
                         (result = 0, ((body->flags & 0x2000) != 0)))) {
                         return result;
                     }
@@ -778,7 +778,7 @@ s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, 
         target_height = terrain_height_words(wrapped_x, wrapped_y, target_height);
         x = wrapped_x;
         y = wrapped_y;
-        object = find_eligible_actor_at_tile_and_height(((s32)D_800814A8), x >> 6, y >> 6, (s16)target_height);
+        object = find_eligible_actor_at_tile_and_height(((s32)primary_actor_record), x >> 6, y >> 6, (s16)target_height);
         if (object != 0) {
             if (object->flags1c & 0x2000) {
                 if (!(object->flags1c & 0x628)) {
@@ -893,8 +893,8 @@ s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes
     return 1;
 }
 #include "modules/dungeon_engine_tile_map_abi_views.h"
-extern s16 D_800DCEBC[];
-extern s16 D_800DCEAC[];
+extern s16 direction_y_offsets[];
+extern s16 direction_x_offsets[];
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
@@ -971,13 +971,13 @@ s32 measure_directional_stopping_distance(u32 direction_flags, PositionHeightVie
                     {
                         ActorRecord *world;
 
-                        world = D_800E3D7C;
+                        world = dungeon_actor_ring_anchor;
                         occupant = tile_finder_words(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->ground_height);
                     }
                     if (occupant != NULL) {
                         if (occupant->unk_13 == 0x1F) {
                             if (!(occupant->unk_1C & 0x228)) {
-                                if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(void *)D_800E3D7C)->unk_124))->unk_13 < 0) {
+                                if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(void *)dungeon_actor_ring_anchor)->unk_124))->unk_13 < 0) {
                                     D_800DD7DC = 1;
                                     occupant->unk_14 |= 0x800000;
                                 }
@@ -986,8 +986,8 @@ s32 measure_directional_stopping_distance(u32 direction_flags, PositionHeightVie
                     }
                     return (s16)step;
                 }
-                world_x += ((u16 *)D_800DCEAC)[direction];
-                world_y += ((u16 *)D_800DCEBC)[direction];
+                world_x += ((u16 *)direction_x_offsets)[direction];
+                world_y += ((u16 *)direction_y_offsets)[direction];
                 height_result = map_height_short(world_x & 0xFFFF, world_y & 0xFFFF, origin->height);
                 if (height_result >= 0x200) {
                     return (s16) (step - 1);
@@ -1126,7 +1126,7 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
         return 0;
     }
 
-    object = D_800E3D7C;
+    object = dungeon_actor_ring_anchor;
     first_object = object;
     do {
         tile = *(void **)((u8 *)object - 0x14);
@@ -1192,7 +1192,7 @@ void *find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y)
 typedef struct Source Source;
 typedef struct Spawned Spawned;
 
-extern u8 D_80081484[];
+extern u8 held_item_record[];
 
 extern s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 extern s32 find_type_13_slot_index(Spawned *);
@@ -1253,7 +1253,7 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
     spawn_x = (u16)target_x;
     spawn_y = (u16)target_y;
     probe_result <<= 0x10;
-    active_source = &D_800814A8;
+    active_source = &primary_actor_record;
     if (probe_result == 0) {
         return (void *)0;
     }
@@ -1262,8 +1262,8 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
                             source->height);
     if (spawned != (void *)0) {
         if ((spawned->flags & 0x80000) && source == *active_source) {
-            D_80081484[0] = spawned->kind;
-            D_80081484[1] = 0x13;
+            held_item_record[0] = spawned->kind;
+            held_item_record[1] = 0x13;
             state_code = 0x14;
             if (spawned->flags & 0x4000) {
                 state_code = find_type_13_slot_index(spawned);
@@ -1271,8 +1271,8 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
                     state_code = 0x14;
                 }
             }
-            D_80081484[3] = (u8)state_code;
-            D_80081484[2] = 0;
+            held_item_record[3] = (u8)state_code;
+            held_item_record[2] = 0;
         }
         return spawned;
     }
@@ -1281,7 +1281,7 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
     y = (s16)target_y;
     flags3c = (s16)find_floor_item_at_world_position(x, y, source->height);
     if (flags3c >= 0) {
-        entry = &((u8 *)D_800E3548)[flags3c * 4];
+        entry = &((u8 *)dungeon_ground_items)[flags3c * 4];
         spawned = create_indexed_floor_object(source,
                                 ((Context *)((u8 *)source - 0x20))->x,
                                 ((Context *)((u8 *)source - 0x20))->y,
@@ -1292,8 +1292,8 @@ void *spawn_object_at_target_position(Source *source, s16 target_x, s16 target_y
         spawned->parent = source;
         if (source == *active_source) {
             entry_value = *(s32 *)entry;
-            spawned->fieldbc = D_80081484;
-            *(s32 *)D_80081484 = entry_value;
+            spawned->fieldbc = held_item_record;
+            *(s32 *)held_item_record = entry_value;
         }
         entry[1] = 0;
         entry[0] = 0;
@@ -1404,7 +1404,7 @@ s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x
         actor = entry;
         wrap_pending = 0;
     } else {
-        actor = ((u8 *)D_800E3D7C);
+        actor = ((u8 *)dungeon_actor_ring_anchor);
         wrap_pending = 1;
         entry = *(u8 **)(actor + 88) + 32;
     }

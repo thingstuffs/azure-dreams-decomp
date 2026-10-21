@@ -34,9 +34,9 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
     s32 flag_test;
     u32 flags;
 
-    if (entity == ((s32)D_800E3D7C)) {
+    if (entity == ((s32)dungeon_actor_ring_anchor)) {
         entity->unk_110 = action;
-        begin_deferred_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
         return 0;
     }
     if (((u32) ((*(u8 *)((u8 *)&entity->unk_10 + 3)) - 1) < 0x2EU) && ((u32) entity <= 0x9FFFFFFFU)) {

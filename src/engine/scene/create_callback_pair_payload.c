@@ -1,5 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/item.h"
+#include "engine/scene.h"
 
 /* Sub-record written into the node's field_0x8 slot: two words at offset
  * 0x00 and 0x04. */
@@ -17,8 +19,6 @@ typedef struct S_8004B364_Node {
     void *field_0x0C;
     void (*field_0x10)(void *, void *);
 } S_8004B364_Node;
-
-extern void mark_record_pair_dirty(void *a0, void *a1);
 
 /* Allocates a pool node, installs its record and callback when both values exist, and returns its payload or NULL. */
 void *create_callback_pair_payload(void *second_value, void *first_value)

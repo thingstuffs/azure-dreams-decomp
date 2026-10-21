@@ -23,7 +23,7 @@ void place_item_at_valid_floor_position(u8, u8, s16, s32, void *);
 s16 sample_terrain_surface_height(s32, s32, s16);
 s32 has_saved_entry_key(s32, s32);
 s32 has_active_dungeon_cell_key(s32, s32);
-extern u8 D_80081484[];
+extern u8 held_item_record[];
 extern u8 D_800F6D48[];
 
 /* Advance the animation and handle delayed object spawning. */
@@ -49,7 +49,7 @@ void animate_and_schedule_dungeon_spawn(EntityRec *state) {
     }
     if ((test_resident_bit(0xA2) != 0) && ((has_saved_entry_key(6, 3) << 0x10) == 0) && ((has_active_dungeon_cell_key(6, 3) << 0x10) == 0)) {
         u8 *mode;
-        mode = D_80081484;
+        mode = held_item_record;
         if ((mode[0] != 3) || (mode[1] != 6)) {
             if ((*(s16 *)&state->z) == 0) {
                 (*(s16 *)&state->z) = 0x40;

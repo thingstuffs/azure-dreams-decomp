@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
 
 typedef struct S_80024F7C_0 {
     u8 pad_00[0x1E];

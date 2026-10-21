@@ -127,7 +127,7 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
 extern void create_two_row_object_group(void *, s16);
 
-extern u8 D_800D7960[];
+extern u8 effect_update_tag[];
 extern u8 D_8015E838[16];
 extern u8 D_8015EEA8;
 extern u8 D_80162038[];
@@ -199,7 +199,7 @@ void func_801609A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
 
                 player_target = use_player;
                 if (player_target != 0) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     actor_data->target = target;
                     {
                         ActorSprite *target_sprite;
@@ -213,7 +213,7 @@ void func_801609A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
 
                     /* The item ID is replaced by the target sprite address after selection. */
                     selected_item_or_sprite = *item_slot;
-                    if (D_8006DE24[((u8)selected_item_or_sprite)].kind == 2) {
+                    if (item_action_definitions[((u8)selected_item_or_sprite)].kind == 2) {
                         target = actor_data->target;
                         if (target != 0) {
                             selected_item_or_sprite = ((ObjectHeaderTail *)((u8 *)target - 0x14))->sprite;
@@ -246,14 +246,14 @@ void func_801609A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
             if (!(actor->flags & 0x2000)) {
                 void *new_effect;
 
-                new_effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+                new_effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
                 actor->effect = new_effect;
                 effect = new_effect;
                 if (effect != 0) {
                     VecData *effect_motion;
 
                     register_node(effect, project_sprite_chain);
-                    effect->updateData = D_800D7960;
+                    effect->updateData = effect_update_tag;
                     effect_motion = effect->motion;
                     *effect_motion = *motion;
                     effect->phase = 0;
@@ -304,7 +304,7 @@ void func_801609A0(ActionState *actor, VecData *motion, ActorSprite *sprite, Cre
         motion->dx = 0;
         set_record_integer_tile_center(motion, sprite->tileX, sprite->tileY);
         g_dungeon_status.active_actor = 0;
-        ((PlayerActionCounter *)D_800814A8)->pendingActions--;
+        ((PlayerActionCounter *)primary_actor_record)->pendingActions--;
         advance_status_timers(actor_data);
         actor_data->actionsLeft.u--;
         actor->handler = &D_8015EEA8;

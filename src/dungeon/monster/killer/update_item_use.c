@@ -113,7 +113,7 @@ extern void play_sound_if_enabled(s32);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, u16 *);
 extern void create_two_row_object_group(void *, s16);
 
-extern u8 D_800D7960[];
+extern u8 effect_update_tag[];
 extern u8 D_80170838[16];
 extern u8 D_80170EA8;
 extern u8 D_80174038[];
@@ -182,7 +182,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
 
                 player_target = use_player;
                 if (player_target != 0) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     actor_data->unk_60 = target;
                     {
                         S_func_80FDD1A0_2 *item_id;
@@ -195,7 +195,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
                     S_func_80FDD1A0_2 *item_id;
 
                     item_id = (S_func_80FDD1A0_2 *)(*item_slot);
-                    if (D_8006DE24[((u8)item_id)].kind == 2) {
+                    if (item_action_definitions[((u8)item_id)].kind == 2) {
                         target = actor_data->unk_60;
                         if (target != 0) {
                             item_id = ((S_func_80FDD1A0_5 *)((u8 *)target - 0x14))->unk_00;
@@ -230,14 +230,14 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
             if (!(actor->unk_98 & 0x2000)) {
                 void *new_effect;
 
-                new_effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+                new_effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
                 actor->unk_A8 = new_effect;
                 effect = new_effect;
                 if (effect != 0) {
                     VecData *effect_motion;
 
                     register_node(effect, project_sprite_chain);
-                    effect->unk_10 = D_800D7960;
+                    effect->unk_10 = effect_update_tag;
                     effect_motion = effect->unk_08;
                     *effect_motion = *motion;
                     effect->unk_BB = 0;
@@ -288,7 +288,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
         motion->dx = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor_data);
         actor_data->unk_6D.u--;
         actor->unk_8C = &D_80170EA8;

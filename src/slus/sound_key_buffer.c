@@ -1,4 +1,5 @@
 #include "slus/sound_key_buffer.h"
+#include "slus.h"
 
 
 /* Reads or updates a 24-bit value stored across two words, marking buffered changes. */

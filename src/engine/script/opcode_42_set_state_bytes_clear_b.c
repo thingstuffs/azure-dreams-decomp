@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/message/state.h"
+#include "engine/script.h"
 
 typedef struct Func80039C44State {
     u8 pad_00[0x10];
@@ -9,8 +11,6 @@ typedef struct Func80039C44State {
     u8 byte_26;
     u8 byte_27;
 } Func80039C44State;
-
-extern void clear_two_state_fields_b(void *state);
 
 /* Read an event-script byte and select clear_two_state_fields_b as the handler. */
 void handle_vm_opcode_42(Func80039C44State *state) {

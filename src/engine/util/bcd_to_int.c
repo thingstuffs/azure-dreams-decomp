@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/util.h"
 
 /* Convert eight packed BCD digits to an integer. */
 s32 bcd_to_int(s32 packed_bcd) {

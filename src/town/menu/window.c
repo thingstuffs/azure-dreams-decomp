@@ -85,7 +85,7 @@ void build_entry_list_and_process_items(void) {
     func_8009F788_S_8009CEE8_0 *entry;
     u16 *base;
 
-    base = D_80082D08;
+    base = scaled_window_quad_points;
     compute_four_point_coordinate_bounds(base, setup_a, setup_b);
     collect_overlapping_rectangles(setup_a, setup_b, D_80100900, D_801007F8);
     entry_cursor = (void **)D_801007F8;
@@ -134,29 +134,29 @@ s32 classify_object_against_bounds(func_8009F880_S_8009CFE0_0 *object, void *pos
             result = 0;
             return result;
         }
-        if (D_8006ADD4 == 0xC) {
+        if (map_scene_selector_alias == 0xC) {
             result = 0;
             return result;
         }
     }
     if (check_four_vector_half_turn_gaps(
-            (s16)(D_80082D08[0] - position->unk_02),
-            (s16)(D_80082D08[1] - position->unk_06),
-            (s16)(D_80082D08[4] - position->unk_02),
-            (s16)(D_80082D08[5] - position->unk_06),
-            (s32)(s16)(D_80082D08[8] - position->unk_02),
-            (s32)(s16)(D_80082D08[9] - position->unk_06),
-            (s32)(s16)(D_80082D08[0xC] - position->unk_02),
-            (s32)(s16)(D_80082D08[0xD] - position->unk_06)) == 0) {
+            (s16)(scaled_window_quad_points[0] - position->unk_02),
+            (s16)(scaled_window_quad_points[1] - position->unk_06),
+            (s16)(scaled_window_quad_points[4] - position->unk_02),
+            (s16)(scaled_window_quad_points[5] - position->unk_06),
+            (s32)(s16)(scaled_window_quad_points[8] - position->unk_02),
+            (s32)(s16)(scaled_window_quad_points[9] - position->unk_06),
+            (s32)(s16)(scaled_window_quad_points[0xC] - position->unk_02),
+            (s32)(s16)(scaled_window_quad_points[0xD] - position->unk_06)) == 0) {
         geometry_result = check_four_vector_half_turn_gaps(
-            (s16)(D_80082D08[0] - object->unk_84),
-            (s16)(D_80082D08[1] - object->unk_86),
-            (s16)(D_80082D08[4] - object->unk_84),
-            (s16)(D_80082D08[5] - object->unk_86),
-            (s32)(s16)(D_80082D08[8] - object->unk_84),
-            (s32)(s16)(D_80082D08[9] - object->unk_86),
-            (s32)(s16)(D_80082D08[0xC] - object->unk_84),
-            (s32)(s16)(D_80082D08[0xD] - object->unk_86));
+            (s16)(scaled_window_quad_points[0] - object->unk_84),
+            (s16)(scaled_window_quad_points[1] - object->unk_86),
+            (s16)(scaled_window_quad_points[4] - object->unk_84),
+            (s16)(scaled_window_quad_points[5] - object->unk_86),
+            (s32)(s16)(scaled_window_quad_points[8] - object->unk_84),
+            (s32)(s16)(scaled_window_quad_points[9] - object->unk_86),
+            (s32)(s16)(scaled_window_quad_points[0xC] - object->unk_84),
+            (s32)(s16)(scaled_window_quad_points[0xD] - object->unk_86));
         result = 2;
         if (geometry_result == 0) {
             return result;
@@ -196,15 +196,15 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position
         }
     }
     if (check_four_vector_half_turn_gaps(
-        (s16)(D_80082D08[0] - position->unk_02), (s16)(D_80082D08[1] - position->unk_06),
-        (s16)(D_80082D08[4] - position->unk_02), (s16)(D_80082D08[5] - position->unk_06),
-        (s32)(s16)(D_80082D08[8] - position->unk_02), (s32)(s16)(D_80082D08[9] - position->unk_06),
-        (s32)(s16)(D_80082D08[0xC] - position->unk_02), (s32)(s16)(D_80082D08[0xD] - position->unk_06)) == 0) {
+        (s16)(scaled_window_quad_points[0] - position->unk_02), (s16)(scaled_window_quad_points[1] - position->unk_06),
+        (s16)(scaled_window_quad_points[4] - position->unk_02), (s16)(scaled_window_quad_points[5] - position->unk_06),
+        (s32)(s16)(scaled_window_quad_points[8] - position->unk_02), (s32)(s16)(scaled_window_quad_points[9] - position->unk_06),
+        (s32)(s16)(scaled_window_quad_points[0xC] - position->unk_02), (s32)(s16)(scaled_window_quad_points[0xD] - position->unk_06)) == 0) {
         geom_result = check_four_vector_half_turn_gaps(
-            (s16)(D_80082D08[0] - record->unk_84), (s16)(D_80082D08[1] - record->unk_86),
-            (s16)(D_80082D08[4] - record->unk_84), (s16)(D_80082D08[5] - record->unk_86),
-            (s32)(s16)(D_80082D08[8] - record->unk_84), (s32)(s16)(D_80082D08[9] - record->unk_86),
-            (s32)(s16)(D_80082D08[0xC] - record->unk_84), (s32)(s16)(D_80082D08[0xD] - record->unk_86));
+            (s16)(scaled_window_quad_points[0] - record->unk_84), (s16)(scaled_window_quad_points[1] - record->unk_86),
+            (s16)(scaled_window_quad_points[4] - record->unk_84), (s16)(scaled_window_quad_points[5] - record->unk_86),
+            (s32)(s16)(scaled_window_quad_points[8] - record->unk_84), (s32)(s16)(scaled_window_quad_points[9] - record->unk_86),
+            (s32)(s16)(scaled_window_quad_points[0xC] - record->unk_84), (s32)(s16)(scaled_window_quad_points[0xD] - record->unk_86));
         result = 2;
         if (geom_result == 0) {
             return result;
@@ -232,7 +232,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
 
     saved_angle_index = angle_index;
     saved_state_94 = state_94;
-    object = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
     if (object == 0) {
         return 0;
     }
@@ -296,7 +296,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = color;
-    angle = D_800D5070[saved_angle_index & 3];
+    angle = town_facing_angles[saved_angle_index & 3];
     ((func_8009FCC4_S_8009D424_3 *)state)->unk_94 = saved_state_94;
     ((func_8009FCC4_S_8009D424_3 *)state)->unk_95 = state_95;
     ((func_8009FCC4_S_8009D424_3 *)state)->unk_96 = state_96;
@@ -355,18 +355,18 @@ void init_and_publish_script_state(void **entries) {
     void *entry;
 
     entry_cursor = entries;
-    town_state = &D_801131B8;
-    mode = D_8006ADBC.field18;
+    town_state = &town_resource_context;
+    mode = map_runtime_state.field18;
     town_state->field4 = (mode == 12);
     if (mode == 12) {
-        town_state->field8 = D_8006ADBC.field1A;
+        town_state->field8 = map_runtime_state.field1A;
     } else {
         town_state->field8 = 0;
     }
-    if (D_8006ADC0[0] != 0) {
+    if (optional_resource_descriptor[0] != 0) {
         state_buffer = D_80082A80;
         system_work = state_buffer - 0x48;
-        state = &D_801131B8;
+        state = &town_resource_context;
         state->field1C = state_buffer;
         state->field20 = D_800D3CC8;
         state->field24 = D_800D401C;
@@ -374,11 +374,11 @@ void init_and_publish_script_state(void **entries) {
         state->field38 = (void *)0x80010000;
         state->field18 = (void *)0x80012D70;
         state->field40 = (void *)0x80013188;
-        state->field3C = D_800D2EA4;
+        state->field3C = town_building_slot_rectangles;
         TOWN_SYSTEM_SCRATCH->state = (void *)state;
         runtime_set_record_value_and_buffer(system_work, (void *)TOWN_SYSTEM_SCRATCH->payload);
         *(s32 *)(system_work + 0x84) = 0;
-        init_object = D_80082BC0;
+        init_object = window_node_list_storage;
         init_callback = *(func_8009FE60_InitCallback *)(init_object + 0x10);
         init_callback(init_object + 0x20, 0, 0);
         func_8008AC84(0);
@@ -390,7 +390,7 @@ void init_and_publish_script_state(void **entries) {
             entry_callback();
         entry_cursor++;
     }
-    runtime_set_record_value_and_buffer(D_80082A38, *(void **)((u8 *)D_80082A38 + 0x88));
+    runtime_set_record_value_and_buffer(runtime_script_state, *(void **)((u8 *)runtime_script_state + 0x88));
 }
 
 /* Process each zero-terminated value list in the null-terminated entry array. */
@@ -576,7 +576,7 @@ void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds,
                          (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_12 - test_y),
                          (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_18 - test_x),
                          (s16)(((func_800A02F0_S_8009DA50_1 *)bounds)->unk_1A - test_y)) != 0) ||
-                    (D_8006ADD4 == 0xC) ||
+                    (map_scene_selector_alias == 0xC) ||
                     (entries->unk_01 & 0x10)) {
                     if (create_object_and_initialize_render_state(entries->unk_0C, entries->unk_04, entries->unk_05, entries->unk_06,
                             entries->unk_07, entries->unk_01 & 0x20, entries->unk_08,
@@ -597,11 +597,11 @@ void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds,
 void set_object_state_for_mode(void *owner, void *object, s32 mode, s32 flags) {
     if (mode == 2) {
         ((Rec_func_80094268_arg0 *)owner)->unk_93 = 1;
-        (*(s32 *)((u8 *)object + (0x28))) = D_80081458[0];
+        (*(s32 *)((u8 *)object + (0x28))) = loaded_town_resource_attributes[0];
         select_sprite_entry(object, D_800D07AC, 0);
         return;
     }
-    func_8003DB94(object, D_800D07A4[mode], 0);
+    func_8003DB94(object, window_sprites[mode], 0);
     if (flags & 2) {
         ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0x100;
         return;
@@ -691,7 +691,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
     void *object;
     u8 type;
 
-    created = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
+    created = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
     if (created == 0) {
         return 0;
     }
@@ -722,7 +722,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
 
         copy_src = (func_800A0878_Copy84 *)((u32)(BYTE_AT(object, 0x4F) & 0x1F) * 84U
                               + (u32)copy_table);
-        D_80100AF8 = *copy_src;
+        town_slot_snapshot = *copy_src;
     }
 
     configure_the_set_mode_n_4(object, position, D_800D073C);
@@ -754,35 +754,35 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
 
 /* Store the current record's signed value and table lookup in the script globals. */
 s32 store_record_value_and_table_lookup(void) {
-    D_80082A38[0x12] = (s8)D_800CFCC4->value;
-    D_80082A38[0x13] = D_800D0910[D_800CFCC4->kind];
+    runtime_script_state[0x12] = (s8)town_target_record->value;
+    runtime_script_state[0x13] = item_kind_script_words[town_target_record->kind];
     return 0;
 }
 
 // Populate three global slots with a signed byte, lookup value, and record pointer from the first entry.
 s32 get_selected_table_entry(void) {
-    D_80082A38[0x12] = (s8)D_800CFCC4->value;
-    D_80082A38[0x13] = D_800D0910[D_800CFCC4->kind];
-    D_80082A38[0x14] =
+    runtime_script_state[0x12] = (s8)town_target_record->value;
+    runtime_script_state[0x13] = item_kind_script_words[town_target_record->kind];
+    runtime_script_state[0x14] =
         (u32)((u8 *)0x80010AB4 +
-              ((D_800CFCC4->unk_4F & 0x3F) * 0x54));
+              ((town_target_record->unk_4F & 0x3F) * 0x54));
     return 0;
 }
 
 /* Initializes the shared state from the selected table entry and stores the result. */
 s32 initialize_shared_state_from_table(void) {
     u8 *record_table = (u8 *)0x80010A80;
-    u32 record_index = D_800CFCC4->unk_4F & 0x3F;
-    s32 *state = &D_80100A10;
+    u32 record_index = town_target_record->unk_4F & 0x3F;
+    s32 *state = &town_actor_scratch;
 
     restore_actor_stats_from_snapshot(state, record_table + (record_index * 0x54));
-    D_80100AF4 = load_and_open_monster_status_display(state, 1, 0x5C, -0x68, 0x200);
+    monster_status_window = load_and_open_monster_status_display(state, 1, 0x5C, -0x68, 0x200);
     return 0;
 }
 
 /* Passes D_80100AF4 to process_object_pointer_array and returns zero. */
 s32 pass_shared_data_to_window_handler(void) {
-    process_object_pointer_array(D_80100AF4);
+    process_object_pointer_array(monster_status_window);
     return 0;
 }
 
@@ -790,9 +790,9 @@ s32 pass_shared_data_to_window_handler(void) {
 s32 get_window_mode_value(void)
 {
     func_800A0C10_TownRecord *townRecords = (func_800A0C10_TownRecord *)0x80010AB4;
-    s32 selectedRecordIndex = D_800CFCC4->unk_4F & 0x3F;
+    s32 selectedRecordIndex = town_target_record->unk_4F & 0x3F;
 
-    D_80100AF0 = create_item_view_for_entry(
+    active_item_view = create_item_view_for_entry(
         0,
         townRecords[selectedRecordIndex].bytes,
         ((func_800A0C10_TownPage *)0x80010000)->entries[selectedRecordIndex].value);
@@ -801,12 +801,12 @@ s32 get_window_mode_value(void)
 
 /* Return the high-bit flag from D_80100AF0->unk_1E. */
 s32 get_current_high_bit_flag(void) {
-    return D_80100AF0->unk_1E & 0x8000;
+    return active_item_view->unk_1E & 0x8000;
 }
 
 /* kewn_namewin_open: Open the name window and store its handle. */
 s32 kewn_namewin_open(void) {
-    D_80100AF0 = create_item_view_for_entry(0, (void *)0x80010AB4,
+    active_item_view = create_item_view_for_entry(0, (void *)0x80010AB4,
                                   *(u8 *)0x80010980);
     return 0;
 }
@@ -816,7 +816,7 @@ s32 kewn_namewin_close_check(void) {
     s32 close_flag;
     void *matched_item;
 
-    close_flag = *(u16 *)((u8 *)D_80100AF0 + 0x1E) & 0x8000 & 0xFFFF;
+    close_flag = *(u16 *)((u8 *)active_item_view + 0x1E) & 0x8000 & 0xFFFF;
     if (close_flag != 0) {
         strcpy((void *)0x80010238, (void *)0x80010AB4);
         matched_item = find_item_by_kind_and_type(2, 0x13);

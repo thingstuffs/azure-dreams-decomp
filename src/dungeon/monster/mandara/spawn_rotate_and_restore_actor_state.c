@@ -147,7 +147,7 @@ extern s32 sample_terrain_surface_height(u16, u16, s16);
 extern void try_apply_confusion_status(void *, s32, s32);
 
 extern u8 D_800DEC50[];
-extern u32 D_800E3DE8[];
+extern u32 actor_update_node_cursor[];
 extern u8 D_8017086C[];
 extern u8 D_80170874[];
 extern u8 D_80170F6C[];
@@ -215,7 +215,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         center.y = spawn.y + (spawn.dy >> 1);
         draw_transformed_sprite_with_clip_rect(effect, &spawn, &center, 1, 0);
 
-        effect_alloc = allocate_list_node(0x201, ((u8 *)(&D_80083498)));
+        effect_alloc = allocate_list_node(0x201, ((u8 *)(&scene_object_list_anchor)));
         if (effect_alloc == 0) {
             return;
         }
@@ -243,7 +243,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         if ((rotating_object != 0) && (effect->unk_96.s < 0x34)) {
             ((S_80174668_7 *)rotating_object)->unk_2A =
                 (((S_80174668_7 *)rotating_object)->unk_2A + 0x200) & 0x3FFF;
-            effect_alloc = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+            effect_alloc = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (effect_alloc != 0) {
                 register_node(effect_alloc, project_sprite_chain);
                 effect_data = effect_alloc + 0x20;
@@ -312,7 +312,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         if (((S_80174668_2 *)actor)->unk_6D == 0) {
             ((S_80174668_2 *)actor)->unk_46 &= 0x7FFF;
         } else {
-            D_800E3DE8[0] = (u32)((u8 *)actor - 0x20);
+            actor_update_node_cursor[0] = (u32)((u8 *)actor - 0x20);
         }
 
         spawned_object = ((S_80174668_2 *)actor)->unk_60.u;

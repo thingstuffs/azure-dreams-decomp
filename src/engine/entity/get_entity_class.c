@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "slus/data.h"
 
 typedef struct {
     u8 pad[0x14];
@@ -14,7 +15,6 @@ typedef struct {
 } Entity;
 
 extern InitialStats initialStatsTable[1];
-extern u8 entity_class_lookup[9];
 
 /* Returns the entity class from shared initial-stat flags or its lowest class flag. */
 s32 get_entity_class(Entity *entity)

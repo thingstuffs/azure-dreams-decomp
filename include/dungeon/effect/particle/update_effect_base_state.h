@@ -194,7 +194,7 @@ typedef struct {
     s32 vx, vy, vz;
 } VecState;
 
-extern u8 D_800DEA68[];
+extern u8 secondary_sprite[];
 extern u8 D_800DECF8[];
 extern s32 func_80069EF8(void);
 extern s32 get_definition_entry_byte_13(s16 entry_index);

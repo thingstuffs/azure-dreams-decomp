@@ -13,7 +13,7 @@ extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 extern u8 D_800E2380[8];
-extern u8 D_800E2388[8];
+extern u8 baloon_fall_frames[8];
 extern s32 D_80171F1C;
 
 typedef struct S_801737F8_0 {
@@ -109,9 +109,9 @@ void advance_actor_animation_and_fall(void *action, void *motion, void *sprite, 
             }
             ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
             ((S_801737F8_0 *)action)->unk_98 |= 8;
-            ((SpriteFrameState *)sprite)->frameTable = D_800E2388;
+            ((SpriteFrameState *)sprite)->frameTable = baloon_fall_frames;
             select_sprite_entry(sprite,
-                D_800E2388[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                baloon_fall_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             return;
         }

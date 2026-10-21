@@ -65,7 +65,7 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
         switch (S16_AT(obj, 0x64)) {
         case 0:
             direction_offset = ((-S16_AT(((u8 *)(&g_game_work.view.camera_rotation.parts.viewAngle)), 0) + 0x500) >> 8) & 0xE;
-            room = &D_80082E80;
+            room = &reference_tile_object;
             x_adjust = (s16 *)(((u8 *)dir_step_x) + direction_offset);
             {
                 s32 x_target;
@@ -85,7 +85,7 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
                 U16_AT(obj, 0x12) += (y_target - y_current) / S16_AT(obj, 0x66);
             }
             S32_AT(obj, 0x14) +=
-                (D_80083780.z.v -
+                (view_reference_entity.z.v -
                  (func_800644B8(S16_AT(obj, 0x66) * 42, S16_AT(obj, 0x66)) << 12) -
                  S32_AT(obj, 0x14)) / S16_AT(obj, 0x66);
 
@@ -104,7 +104,7 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
                 final_coord = (room->tile_position.parts.tile_y + *y_adjust) << 6;
                 U16_AT(obj, 0x12) = final_coord + 0x20;
                 final_state = U16_AT(obj, 0x64);
-                final_z = U16_AT(((HeightData *)&D_80083780), 0x0A);
+                final_z = U16_AT(((HeightData *)&view_reference_entity), 0x0A);
                 U16_AT(obj, 0x64) = final_state + 1;
                 U16_AT(obj, 0x16) = final_z;
             }

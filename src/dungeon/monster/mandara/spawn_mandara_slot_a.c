@@ -92,7 +92,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
     S_80FD5000_4 *selected3;
 
     actor_state = 0;
-    created = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    created = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (created != 0) {
         actor_state = (S_80FD5000_1 *)((u8 *)created + 0x20);
         created->unk_10 = &D_8014CB40;

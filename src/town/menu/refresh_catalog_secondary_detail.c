@@ -33,10 +33,10 @@ typedef struct {
 
 extern void draw_catalog_secondary_detail(TownObject *);
 
-extern u8 D_80126A01[16];
+extern u8 catalog_scroll_offset[16];
 extern u8 D_80126A0D[16];
 extern void *D_80126988[4];
-extern ImageEntry D_80126E98[];
+extern ImageEntry catalog_glyphs[];
 extern u8 D_80128038[16];
 extern DisplayPair *D_80129780[3];
 
@@ -44,7 +44,7 @@ extern DisplayPair *D_80129780[3];
 void refresh_catalog_secondary_detail(TownObject *town_obj)
 {
     draw_catalog_secondary_detail(town_obj);
-    D_80126A0D[0] = D_80126A01[0];
+    D_80126A0D[0] = catalog_scroll_offset[0];
 
     if (town_obj->index == 0x31) {
         *town_obj->town->slots[21] = D_80128038;
@@ -54,5 +54,5 @@ void refresh_catalog_secondary_detail(TownObject *town_obj)
     }
 
     D_80129780[0]->src->f8 =
-        (s16)(((5 - D_80126E98[town_obj->index].value) * 6) + 0xD2);
+        (s16)(((5 - catalog_glyphs[town_obj->index].value) * 6) + 0xD2);
 }

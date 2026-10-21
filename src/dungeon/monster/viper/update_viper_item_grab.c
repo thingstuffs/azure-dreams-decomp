@@ -67,11 +67,11 @@ typedef struct {
     u8 state;
 } Spawned;
 
-extern TileRecord D_800E36C8[];
+extern TileRecord dungeon_ground_item_positions[];
 extern u8 D_80174A74[];
 extern u8 D_80174AE4[];
 extern u8 D_80174AEC[];
-extern void *D_800E3DE8[];
+extern void *actor_update_node_cursor[];
 
 extern s32 find_floor_item_at_world_position(s16, s16, s16);
 extern Spawned *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
@@ -103,11 +103,11 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         entity->saved_y = motion->y.w.i;
         index = (s16)find_floor_item_at_world_position(effect->x_tile + dir_step_x[direction],
                                    effect->y_tile + dir_step_y[direction], object->height);
-        records = ((PackedRecord *)D_800E3548);
+        records = ((PackedRecord *)dungeon_ground_items);
         record = &records[index];
         if (record->bytes[1] == 0x12) {
             object->copy = *record;
-            tiles = D_800E36C8;
+            tiles = dungeon_ground_item_positions;
             tile = &tiles[index];
             spawned = create_item_render_object((u8 *)entity - 0x20, record, (tile->x << 6) | 0x20,
                                     (tile->y << 6) | 0x20, motion->height);
@@ -187,7 +187,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         if (object->flag6D == 0) {
             object->flags &= 0x7FFF;
         } else {
-            D_800E3DE8[0] = (u8 *)object - 0x20;
+            actor_update_node_cursor[0] = (u8 *)object - 0x20;
         }
         break;
     }

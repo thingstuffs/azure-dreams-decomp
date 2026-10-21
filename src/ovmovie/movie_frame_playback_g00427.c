@@ -38,22 +38,22 @@ s32 poll_movie_frame_and_update_dimensions(u8 *display) {
     MovieState *movie;
     MovieState *dimensions;
     while (func_80063828(&data,&info)) {
-        func_80060D90(1,D_80189388);
-        if (D_80189388[0] & 0x10) return 1;
+        func_80060D90(1,movie_cd_status);
+        if (movie_cd_status[0] & 0x10) return 1;
         if (--polls_left == 0) return 0;
     }
-    if (info->frame >= (u32)D_801781D4) D_80189390->done = 1;
-    movie = D_80189390;
-    D_801781D0 = info->frame;
+    if (info->frame >= (u32)movie_stop_frame) active_movie->done = 1;
+    movie = active_movie;
+    movie_frame_number = info->frame;
     if (movie->width != info->width || movie->height != info->height) {
         movie->width = info->width;
         movie->height = info->height;
     }
-    if (D_801781E0 & 1) width = (D_80189390->width * 3) / 2;
-    else width = (u16)D_80189390->width;
+    if (movie_rgb24_mode & 1) width = (active_movie->width * 3) / 2;
+    else width = (u16)active_movie->width;
     *(s16 *)(display + 0x1C) = width;
     *(s16 *)(display + 0x14) = width;
-    dimensions = D_80189390;
+    dimensions = active_movie;
     *(s16 *)(display + 0x16) = *(s16 *)(display + 0x1E) = dimensions->height;
     rounded = dimensions->height + 15;
     if (rounded < 0) rounded = dimensions->height + 30;
@@ -97,7 +97,7 @@ void start_movie_cd_stream_and_wait_ready(void *playback_state) {
 
 static inline s32 movie_skip_requested(s32 buttons,s32 previous) {
     s32 requested = 0;
-    if (D_80082E6B == 30 || D_80082E6B == 32 || D_80082E6B == 1) {
+    if (scene_mode_code == 30 || scene_mode_code == 32 || scene_mode_code == 1) {
         if (buttons) requested = 1;
     } else if (~previous & buttons & 0x9F0) requested = 1;
     return requested;
@@ -112,24 +112,24 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
     s32 previous_buttons;
     u8 **screen_slot = (u8 **)&g_game_work;
 
-    D_801781D4 = frame_limit - 8;
-    D_801781D0 = 0;
-    D_80189390 = (MovieState *)D_80189398;
-    func_8006124C(stream,D_80189398);
-    if (mode) initialize_movie_frame_buffers((MovieBuffer *)((u8 *)D_80189390 + 4),0,0,0,240);
-    else initialize_movie_frame_buffers((MovieBuffer *)((u8 *)D_80189390 + 4),0,0,0,224);
-    initialize_movie_decoder_and_start_stream(D_80189390,upload_movie_strip_and_advance_buffer);
-    if (decode_next_movie_frame((u8 *)D_80189390 + 4)) {
+    movie_stop_frame = frame_limit - 8;
+    movie_frame_number = 0;
+    active_movie = (MovieState *)movie_work_buffer;
+    func_8006124C(stream,movie_work_buffer);
+    if (mode) initialize_movie_frame_buffers((MovieBuffer *)((u8 *)active_movie + 4),0,0,0,240);
+    else initialize_movie_frame_buffers((MovieBuffer *)((u8 *)active_movie + 4),0,0,0,224);
+    initialize_movie_decoder_and_start_stream(active_movie,upload_movie_strip_and_advance_buffer);
+    if (decode_next_movie_frame((u8 *)active_movie + 4)) {
         func_80066F78(1);
-        if (D_80189390->height >= 225) {
-            func_80066424(&display,D_80189390->screen[1].x,D_80189390->screen[1].y,D_80189390->screen[1].w,D_80189390->screen[1].h);
-            func_8006636C(&draw,D_80189390->screen[1].x,D_80189390->screen[1].y,D_80189390->screen[1].w,D_80189390->screen[1].h);
+        if (active_movie->height >= 225) {
+            func_80066424(&display,active_movie->screen[1].x,active_movie->screen[1].y,active_movie->screen[1].w,active_movie->screen[1].h);
+            func_8006636C(&draw,active_movie->screen[1].x,active_movie->screen[1].y,active_movie->screen[1].w,active_movie->screen[1].h);
         }
-        if (D_801781E0 & 1) {
+        if (movie_rgb24_mode & 1) {
             display.rgb24 = 1;
             display.viewport.w = (display.viewport.w * 2) / 3;
         }
-        if (D_80189390->height >= 225) {
+        if (active_movie->height >= 225) {
             func_800678E0(&display);
             func_80067688(&draw);
         } else {
@@ -138,34 +138,34 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
         }
         previous_buttons = 0;
         while (1) {
-            configure_decoder_command_flags(D_80189390->frame_buffers[D_80189390->frame_buffer_index],(D_801781E0 & 1) | 2);
-            request_decoder_output_dma((s32)D_80189390->output,(D_80189390->strip.w * D_80189390->strip.h) / 2);
-            if (!decode_next_movie_frame((u8 *)D_80189390 + 4)) break;
-            wait_for_movie_strip_completion((MovieEntity *)((u8 *)D_80189390 + 4),0);
+            configure_decoder_command_flags(active_movie->frame_buffers[active_movie->frame_buffer_index],(movie_rgb24_mode & 1) | 2);
+            request_decoder_output_dma((s32)active_movie->output,(active_movie->strip.w * active_movie->strip.h) / 2);
+            if (!decode_next_movie_frame((u8 *)active_movie + 4)) break;
+            wait_for_movie_strip_completion((MovieEntity *)((u8 *)active_movie + 4),0);
             func_8005FE18(2);
-            if (D_80189390->height >= 225) {
-                s32 index = !D_80189390->screen_index;
-                func_80066424(&display,D_80189390->screen[index].x,D_80189390->screen[index].y,D_80189390->screen[index].w,D_80189390->screen[index].h);
-                func_8006636C(&draw,D_80189390->screen[index].x,D_80189390->screen[index].y,D_80189390->screen[index].w,D_80189390->screen[index].h);
+            if (active_movie->height >= 225) {
+                s32 index = !active_movie->screen_index;
+                func_80066424(&display,active_movie->screen[index].x,active_movie->screen[index].y,active_movie->screen[index].w,active_movie->screen[index].h);
+                func_8006636C(&draw,active_movie->screen[index].x,active_movie->screen[index].y,active_movie->screen[index].w,active_movie->screen[index].h);
             } else {
-                u8 *buffer = D_801C9E40;
-                if (D_80189390->screen_index) buffer += 0x108D4;
+                u8 *buffer = upper_draw_context;
+                if (active_movie->screen_index) buffer += 0x108D4;
                 *screen_slot = buffer;
             }
-            if (D_801781E0 & 1) {
+            if (movie_rgb24_mode & 1) {
                 display.rgb24 = 1;
                 display.viewport.w = (display.viewport.w * 2) / 3;
             }
-            if (D_80189390->height >= 225) {
+            if (active_movie->height >= 225) {
                 func_800678E0(&display);
                 func_80067688(&draw);
             } else {
                 func_800678E0(*screen_slot + 0x5C);
                 func_80067688(*screen_slot);
             }
-            if (D_801781D0 >= frame_limit - 8 || frames >= frame_limit - 3) break;
+            if (movie_frame_number >= frame_limit - 8 || frames >= frame_limit - 3) break;
             ++frames;
-            if (D_80189390->done == 1) break;
+            if (active_movie->done == 1) break;
             if (!fade_started) {
                 s32 old_buttons = previous_buttons;
                 s32 skip;
@@ -174,11 +174,11 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
                 skip = movie_skip_requested(previous_buttons,old_buttons);
                 if (skip) {
                     fade_started = 1;
-                    fade_step = (D_801B8EBC + 9) / 10;
-                } else if (D_801781D0 >= frame_limit - 20) {
+                    fade_step = (movie_volume + 9) / 10;
+                } else if (movie_frame_number >= frame_limit - 20) {
                     fade_started = 1;
                     {
-                        s32 brightness = D_801B8EBC;
+                        s32 brightness = movie_volume;
                         s32 rounded = brightness + 7;
                         if (rounded < 0) rounded = brightness + 14;
                         fade_step = (u32)rounded >> 3;
@@ -186,10 +186,10 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
                 }
                 if (!fade_started) continue;
             }
-            D_801B8EBC -= (s16)fade_step;
-            if (D_801B8EBC < 0) D_801B8EBC = 0;
-            submit_scaled_driver_halfword_pair(0,(s16)D_801B8EBC,(s16)D_801B8EBC);
-            if (!D_801B8EBC) {
+            movie_volume -= (s16)fade_step;
+            if (movie_volume < 0) movie_volume = 0;
+            submit_scaled_driver_halfword_pair(0,(s16)movie_volume,(s16)movie_volume);
+            if (!movie_volume) {
                 submit_tagged_driver_byte(0,0,0);
                 break;
             }
@@ -199,7 +199,7 @@ s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 m
     /* The integer ratio truncates to one. This compiler retains the width
        read (retail word 310) while deleting the redundant store. */
     display.viewport.w *= 3 / 2;
-    if (D_80189390->height >= 225) func_800678E0(&display);
+    if (active_movie->height >= 225) func_800678E0(&display);
     else func_800678E0(*screen_slot + 0x5C);
     func_80063538();
     return 0;

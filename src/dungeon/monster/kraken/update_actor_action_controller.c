@@ -121,7 +121,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     work = 0;
     saved_value_25 = value_25;
     saved_mode = mode;
-    obj = allocate_list_node(0x112, (saved_value_24 = value_24, ((u8 *)(&D_80083498))));
+    obj = allocate_list_node(0x112, (saved_value_24 = value_24, ((u8 *)(&scene_object_list_anchor))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((ProjectileObject *)obj)->unk_10 = D_80170B64;
@@ -176,7 +176,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
         current = actor;
         count = 0;
         do {
-            child_obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+            child_obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             ((S_8017086C_5 *)current)->unk_A4 = child_obj;
             if (child_obj != 0) {
                 void *child;

@@ -2,7 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
    /* arg1 in spawn_random_velocity_offset_effect */
 
@@ -24,8 +24,8 @@ extern void func_800478B8();
 extern s32 func_80065420(void *, void *, void *, void *);
 
 extern s32 D_800814A0 __attribute__((section(".data")));
-extern s16 D_80083228 __attribute__((section(".data")));
-extern s8 D_800DCECC[8];
+extern s16 view_facing_angle_alias __attribute__((section(".data")));
+extern s8 view_direction_depth_biases[8];
 
 typedef struct StackWork {
     u16 xyz[3];
@@ -56,8 +56,8 @@ void spawn_random_velocity_offset_effect(void *state, MovingPosition *position, 
     work.xyz[1] = reference_pos->unk_06;
     work.xyz[2] = reference_pos->unk_0A;
     reference_value = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
-    angle_page = (u32)D_80080000;
-    angle_bias = &D_800DCECC[
+    angle_page = (u32)resident_globals_page;
+    angle_bias = &view_direction_depth_biases[
         ((*(s16 *)(angle_page + 0x3228) +
           ((S_80AC5820_1 *)state)->unk_94 + 0x100) >> 9) & 7];
     ((SpriteFrameState *)result)->unk_06 = position_value - reference_value - *angle_bias * 2;

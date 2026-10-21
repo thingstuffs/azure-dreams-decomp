@@ -5,7 +5,7 @@ typedef struct S_80080B54 {
     s32 color; /* offset 0x0: packed r,g,b,cd read/written as one word */
 } S_80080B54;
 
-extern S_80080B54 D_80080B54;
+extern S_80080B54 shared_primitive_color;
 
 /* Local (non-global) color struct pointed to by Struct800497F4.unk4. */
 typedef struct {
@@ -36,7 +36,7 @@ void fade_color_to_gray(Struct800497F4 *object, s32 stop_at_gray)
         object->unk4->b -= 0x10;
 
         if ((*(u32 *)object->unk4 << 8) == 0x80808000) {
-            *(u32 *)object->unk4 = D_80080B54.color;
+            *(u32 *)object->unk4 = shared_primitive_color.color;
         }
         return;
     }

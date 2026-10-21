@@ -37,7 +37,7 @@ s32 apply_nearby_object_effects(TownObject *object) {
     s16 distance_x;
     s16 distance_z;
 
-    position = (TownPosition *)((u8 *)(&D_80083780));
+    position = (TownPosition *)((u8 *)(&view_reference_entity));
     offset_x = object->x - position->x;
     distance_x = abs(offset_x);
     distance_z = abs(object->z - position->z);

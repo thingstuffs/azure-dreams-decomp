@@ -1,6 +1,7 @@
 #include "engine/audio/spu/sound_reverb.h"
 
 #include "engine/audio/spu/sound_reverb.h"
+#include "engine/audio/spu.h"
 
 /* Copies selected fields to D_80079958, or all 32 fields when the mask is zero. */
 void func_8005DF80(SoundReverbParameters *source) {

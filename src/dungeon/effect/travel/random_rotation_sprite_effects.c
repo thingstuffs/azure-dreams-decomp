@@ -241,10 +241,10 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
     switch (state_id) {
     case 0:
 
-        origin = ((u8 *)&D_80082E80);
+        origin = ((u8 *)&reference_tile_object);
         {
             void *node = ovl_18b8824_81898EBC_PTR_AT((u8 *)owner - 0x20, 0xC);
-            s32 dir = (ovl_18b8824_81898EBC_U16_AT(D_800814A8, 0x2A) >> 9) & 7;
+            s32 dir = (ovl_18b8824_81898EBC_U16_AT(primary_actor_record, 0x2A) >> 9) & 7;
             ovl_18b8824_81898EBC_U16_AT(owner, 0x2A) = get_rounded_facing_and_rounding_flag(ovl_18b8824_81898EBC_U8_AT(node, 0x24), ovl_18b8824_81898EBC_U8_AT(node, 0x25),
                 origin[0x24] + dir_step_x[dir], origin[0x25] + dir_step_y[dir], &ovl_18b8824_81898EBC_result);
         }
@@ -281,13 +281,13 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
 
         target_pos = scratch.work;
         if ((ovl_18b8824_81898EBC_U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
-            void *direction_node = D_800814A8;
+            void *direction_node = primary_actor_record;
 
-            state->x = D_80082E80.tile_position.parts.tile_x + dir_step_x[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
-            state->y = D_80082E80.tile_position.parts.tile_y + dir_step_y[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
+            state->x = reference_tile_object.tile_position.parts.tile_x + dir_step_x[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
+            state->y = reference_tile_object.tile_position.parts.tile_y + dir_step_y[(ovl_18b8824_81898EBC_U16_AT(direction_node, 0x2A) >> 9) & 7];
         } else {
-            state->x = D_80082E80.tile_position.parts.tile_x + dir_step_x[state->direction];
-            state->y = D_80082E80.tile_position.parts.tile_y + dir_step_y[state->direction];
+            state->x = reference_tile_object.tile_position.parts.tile_x + dir_step_x[state->direction];
+            state->y = reference_tile_object.tile_position.parts.tile_y + dir_step_y[state->direction];
         }
 
         {

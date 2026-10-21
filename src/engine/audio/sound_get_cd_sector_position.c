@@ -1,8 +1,6 @@
 #include "common.h"
-
-extern int CdSync(int mode, unsigned char *result);
-extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
-extern int CdPosToInt(unsigned char *loc);
+#include "engine/audio.h"
+#include "sdk/libcd.h"
 
 /* Reads the CD position when the sync status is 2 and converts the position to a sector number. */
 int sound_get_cd_sector_position(void) {

@@ -17,7 +17,7 @@ typedef struct {
     s32 field8;
 } Record12;
 
-extern Record12 D_8001791C[];
+extern Record12 town_selection_records[];
 extern u8 D_80017ADC;
 extern u8 D_80017AE8;
 extern u8 D_80017AF4;
@@ -39,7 +39,7 @@ u8 *build_selected_entry_output(s32 selected_index) {
     output_base = &D_80017D50;
     if (selected_index != 0) {
         for (entry_index = 1; entry_index < 8; entry_index++) {
-            record = &D_8001791C[entry_index];
+            record = &town_selection_records[entry_index];
             entry = output_base + entry_index * 0x14;
             if (func_8001E670(record->field4) != 0) {
                 if (record->field8 != 0) {

@@ -132,14 +132,14 @@ void update_dungeon_actor_behavior_and_targets(void *controller, void *context, 
             update_actor_status_and_food(actor_state);
             return;
         }
-        if (((ActorSpriteView *)entity)->tile.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((ActorSpriteView *)entity)->tile.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_8014D624(controller, context, entity, actor_state);
             return;
         }
         if (!(actor_state->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(actor_state,
-                    (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -171,9 +171,9 @@ void update_dungeon_actor_behavior_and_targets(void *controller, void *context, 
 
                 direction = get_rounded_facing_and_rounding_flag(
                     ((ActorSpriteView *)entity)->tile.bytes.x, ((ActorSpriteView *)entity)->tile.bytes.y,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_flags);
-                player_controller = D_800814A8;
+                player_controller = primary_actor_record;
                 actor_state->facing = direction;
                 if (player_controller->unk_9A != 0x11) {
                     update_actor_status_and_food(actor_state);
@@ -199,15 +199,15 @@ void update_dungeon_actor_behavior_and_targets(void *controller, void *context, 
     } else if (!(((u32)actor_state->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;
 
-        if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
+        if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((u32)actor_state->flags1C) & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(((ActorSpriteView *)entity)->tile.bytes.x,
-                    ((ActorSpriteView *)entity)->tile.bytes.y, D_80082E80.tile_position.parts.tile_x,
-                    D_80082E80.tile_position.parts.tile_y) != 0) {
+                    ((ActorSpriteView *)entity)->tile.bytes.y, reference_tile_object.tile_position.parts.tile_x,
+                    reference_tile_object.tile_position.parts.tile_y) != 0) {
                     actor_state->facing = get_rounded_facing_and_rounding_flag(
                         ((ActorSpriteView *)entity)->tile.bytes.x, ((ActorSpriteView *)entity)->tile.bytes.y,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_flags);
                 }
             }

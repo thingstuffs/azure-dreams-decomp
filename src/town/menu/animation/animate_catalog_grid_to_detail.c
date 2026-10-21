@@ -13,7 +13,7 @@ typedef struct S_80125DDC_2 {
 
 extern void store_cached_value_at_pointer(void);
 extern void refresh_catalog_primary_detail(void *);
-extern s8 D_80129728;
+extern s8 catalog_display_node_slots;
 
 /* Updates or clears table entries according to the request code. */
 void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
@@ -38,7 +38,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         u16 field_value;
 
         entry_index = 0x1C;
-        entry_table = (u8 *)&D_80129728;
+        entry_table = (u8 *)&catalog_display_node_slots;
         entry_slot = (void **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
@@ -61,7 +61,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         s32 *entry;
 
         entry_index = 0x1E;
-        entry_table = (u8 *)&D_80129728;
+        entry_table = (u8 *)&catalog_display_node_slots;
         entry_slot = (s32 **)(entry_table + 0x78);
         do {
             do {
@@ -84,7 +84,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         u16 field_value;
 
         entry_index = 0x1C;
-        entry_table = (u8 *)&D_80129728;
+        entry_table = (u8 *)&catalog_display_node_slots;
         entry_slot = (void **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
@@ -109,7 +109,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
         u16 field_value;
 
         entry_index = 0x1C;
-        entry_table = (u8 *)&D_80129728;
+        entry_table = (u8 *)&catalog_display_node_slots;
         entry_slot = (void **)(entry_table + 0x70);
         do {
             entry = *entry_slot;
@@ -130,7 +130,7 @@ void animate_catalog_grid_to_detail(Rec_func_801237A4_arg0 *request)
             s32 *entry;
 
             entry_index = 0x1C;
-            entry_table = (u8 *)&D_80129728;
+            entry_table = (u8 *)&catalog_display_node_slots;
             entry_slot = (s32 **)(entry_table + 0x70);
             do {
                 do {

@@ -201,7 +201,7 @@ void advance_timed_z_transition(s16 *transition) {
     {
         DungeonGlobalStatus *settings = &g_dungeon_status;
         if ((settings->flags & 0x10) &&
-            ((get_entity_effect_value(((u8 *)D_800E3D7C), 0x1C) << 16) == 0)) {
+            ((get_entity_effect_value(((u8 *)dungeon_actor_ring_anchor), 0x1C) << 16) == 0)) {
             transition[2] = 0x10;
             transition[1] = (u16)transition[1] + 1;
             settings->activity_counts.parts.pending_action_count = (u16)((u16)settings->activity_counts.parts.pending_action_count) + 1;
@@ -254,7 +254,7 @@ s32 create_active_entity_effect_or_message(s32 entity)
     register s32 effect_id;
     register s32 effect_id_half;
 
-    if (entity == ((s32)D_800E3D7C)) {
+    if (entity == ((s32)dungeon_actor_ring_anchor)) {
         if (has_enough_available_runtime_nodes(1) == 0) {
             return 0;
         }
@@ -475,20 +475,20 @@ void advance_trap_effect_and_process_collisions(void *effect)
     U16(effect, 2) += D_8006CCE8[U8(effect, 6)];
     target = find_object_near_tile_height(U16(effect, 0), U16(effect, 2), S16(effect, 4));
     if (target) {
-        apply_attack_power_and_element_effects(target, 6, U8(((u8 *)D_800E3D7C), 0x11), 9,
+        apply_attack_power_and_element_effects(target, 6, U8(((u8 *)dungeon_actor_ring_anchor), 0x11), 9,
                       (s16)(U8(effect, 6) << 9), 0, 3);
     }
     entry_index = find_entry_at_tile_coordinates(S16(effect, 0), S16(effect, 2), S16(effect, 4));
     if (entry_index >= 0) {
-        if (((u8 *)D_800E3648)[entry_index * 4] == 7) {
+        if (((u8 *)floor_objects)[entry_index * 4] == 7) {
             take_map_item_slot(0, entry_index);
         } else {
-            U32(D_800E3648, entry_index * 4) = 0;
+            U32(floor_objects, entry_index * 4) = 0;
         }
     }
     entry_index = find_floor_item_at_world_position(S16(effect, 0), S16(effect, 2), S16(effect, 4));
     if (entry_index >= 0) {
-        U32(((u8 *)D_800E3548), entry_index * 4) = 0;
+        U32(((u8 *)dungeon_ground_items), entry_index * 4) = 0;
     }
     U8(effect, 7)--;
     if (!U8(effect, 7)) {
@@ -887,7 +887,7 @@ void create_five_part_target_effect(u16 x, u16 y, s16 z) {
     } while (part_index >= 0);
     target = find_object_near_tile_height(effect->unk_20, effect->unk_22, (s16) effect->unk_24);
     if (target != 0) {
-        apply_attack_power_and_element_effects(target, 0xC, (*(u8 *)((u8 *)&D_800E3D7C->unk_10 + 1)), 9, 0x400, 0, 3);
+        apply_attack_power_and_element_effects(target, 0xC, (*(u8 *)((u8 *)&dungeon_actor_ring_anchor->unk_10 + 1)), 9, 0x400, 0, 3);
     }
 }
 #include "modules/trap_effects_candidate.h"
@@ -931,14 +931,14 @@ s32 take_map_item_slot(void *object, s16 slot)
     u8 *tail_base;
 
     if (object == 0) {
-        map_base = (u8 *)D_800E3648;
+        map_base = (u8 *)floor_objects;
         index = slot;
         scaled_index = index * 4;
         entry = scaled_index + map_base;
         flags = entry[3];
         if (flags & 0x80) {
             value = flags & 0x7F;
-            item_base = (u8 *)D_800E39C8;
+            item_base = (u8 *)dungeon_floor_object_positions;
             entry[3] = value;
             item = item_base + index * 24;
             countp = &D_800E5908;
@@ -976,7 +976,7 @@ s32 take_map_item_slot(void *object, s16 slot)
         D_800E5908 = 0;
     }
 
-    tail_base = (u8 *)D_800E39C8;
+    tail_base = (u8 *)dungeon_floor_object_positions;
     tail_index = slot;
     item_2 = tail_base + tail_index * 24;
     create_five_part_target_effect(item_2[6], item_2[7], *(s16 *)(item_2 + 0x12));
@@ -1051,7 +1051,7 @@ void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
 
         if (((S_800CCDA0_0 *)effect)->unk_0A < ((S_800CCDA0_1 *)motion)->unk_08.at02.v) {
             apply_attack_power_and_element_effects(((S_800CCDA0_0 *)effect)->unk_00, 10,
-                          ((u8 *)D_800E3D7C)[0x11], 8,
+                          ((u8 *)dungeon_actor_ring_anchor)[0x11], 8,
                           (((S_800CCDA0_0 *)effect)->unk_08 << 25) >> 16, 0, 2);
 
             ((S_800CCDA0_1 *)motion)->unk_14 = -((S_800CCDA0_1 *)motion)->unk_14;
@@ -1248,7 +1248,7 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
             sprite->unk_08 = texture;
             sprite->unk_10 = 0x20;
 
-            height_offset = D_800DDC40[((S_800CD004_0 *)source)->unk_13];
+            height_offset = entity_height_offsets[((S_800CD004_0 *)source)->unk_13];
             effect_state = (u8 *)effect + 0x20;
             height_delta = ((S_800CD004_0 *)source)->unk_88 - height_offset;
             effect_state->unk_0A = height_delta;
@@ -1934,7 +1934,7 @@ s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
         }
 
         if (value < 0x30) {
-            *(u16 *)(((u8 *)D_800E3D7C) + 0xA2) |= 0x100;
+            *(u16 *)(((u8 *)dungeon_actor_ring_anchor) + 0xA2) |= 0x100;
             g_dungeon_status.activity_counts.parts.pending_action_count += 1;
         } else if (*(u8 *)((u8 *)ptr + 0x13) == 0) {
                         /* garbage-passthru: a3 is 10 left by get_entity_effect_value, not a caller-held C value. */
@@ -2015,7 +2015,7 @@ void mark_all_actors_with_high_flag(void) {
     void *first_record;
     S_800CDE0C_0 *record;
 
-    record = D_800E3D7C;
+    record = dungeon_actor_ring_anchor;
     first_record = record;
     do {
         record->unk_1C = (s32) (record->unk_1C | 0x40000000);
@@ -2053,8 +2053,8 @@ void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount)
     first_x = x;
     first_y = y;
     do {
-        first_entry = &D_800E36C8[entry_index];
-        first_active = &D_800E3548[entry_index];
+        first_entry = &dungeon_ground_item_positions[entry_index];
+        first_active = &dungeon_ground_items[entry_index];
         if (first_active->kind != 0 &&
             first_entry->x == first_x &&
             first_entry->y == first_y) {
@@ -2067,8 +2067,8 @@ void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount)
     second_x = x;
     second_y = y;
     do {
-        second_active = &D_800E3648[entry_index];
-        second_entry = &D_800E39C8[entry_index];
+        second_active = &floor_objects[entry_index];
+        second_entry = &dungeon_floor_object_positions[entry_index];
         if (second_active->active != 0 &&
             second_entry->x == second_x &&
             second_entry->y == second_y) {
@@ -2107,8 +2107,8 @@ void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value) {
     first_x = x;
     first_y = y;
     do {
-        first_entry = &D_800E36C8[first_index];
-        first_status = &D_800E3548[first_index];
+        first_entry = &dungeon_ground_item_positions[first_index];
+        first_status = &dungeon_ground_items[first_index];
         if (first_status->kind != 0 && first_entry->x == first_x && first_entry->y == first_y) {
             first_entry->value = value;
         }
@@ -2119,8 +2119,8 @@ void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value) {
     second_x = x;
     second_y = y;
     do {
-        second_status = &D_800E3648[first_index];
-        second_entry = &D_800E39C8[first_index];
+        second_status = &floor_objects[first_index];
+        second_entry = &dungeon_floor_object_positions[first_index];
         if (second_status->active != 0 && second_entry->x == second_x && second_entry->y == second_y) {
             second_entry->value = value;
         }
@@ -2252,7 +2252,7 @@ snap_target_tile:
             } while (target_row < 5);
             refresh_packed_grid_nibbles();
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            D_800E296C &= 0xFFF7FFFF;
+            dungeon_floor_flags &= 0xFFF7FFFF;
             effect->state++;
             return;
         }
@@ -2265,7 +2265,7 @@ snap_target_tile:
                 effect->timer = 0x20;
                 func_800419EC(0x20, 8);
                 effect->state++;
-                D_800E296C |= 0x80000;
+                dungeon_floor_flags |= 0x80000;
             }
         }
     } else {
@@ -2330,7 +2330,7 @@ snap_initial_tile:
                 x_or_mask = 0x7FF70000;
             }
             x_or_mask |= 0xFFFF;
-            D_800E296C &= x_or_mask;
+            dungeon_floor_flags &= x_or_mask;
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
             object_flag_block.flags |= 0x8000;
         }
@@ -2444,9 +2444,9 @@ s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, v
         func_800419EC(0x20, 8);
 
         if (((S_800CE4E8_0 *)grid_data)->unk_6E.u == 0) {
-            D_800E296C |= 0x80080000;
+            dungeon_floor_flags |= 0x80080000;
         } else {
-            D_800E296C |= 0x40080000;
+            dungeon_floor_flags |= 0x40080000;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
@@ -2463,7 +2463,7 @@ extern s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_v
 s32 check_trap_record_or_global_override(void *record) {
     void *source_record;
 
-    if (D_800E296C & 0xC0000000) {
+    if (dungeon_floor_flags & 0xC0000000) {
         return 1;
     }
     source_record = *(void **)((s8 *)record - 0x14);
@@ -2480,7 +2480,7 @@ extern s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_v
 s32 check_linked_entity_or_global_override(void *entity) {
     void *position_record;
 
-    if (D_800E296C & 0xC0000000) {
+    if (dungeon_floor_flags & 0xC0000000) {
         return 1;
     }
     position_record = *(void **)((u8 *)entity - 0x14);
@@ -2701,9 +2701,9 @@ typedef struct AreaRecord {
     u8 pad[12];
 } AreaRecord;
 
-extern u32 D_800835E4[];
+extern u32 level_experience_table[];
 extern u8 D_800E1C3A;
-extern s8 D_800E2968;
+extern s8 entity_spawn_variant_code;
 
 
 extern s32 has_enough_available_runtime_nodes(s32);
@@ -2748,14 +2748,14 @@ void advance_monster_den_sequence(void *den_event) {
     if (state == 0) {
         u32 area_byte;
 
-        area_byte = ((u8)D_80082E80.room_index);
+        area_byte = ((u8)reference_tile_object.room_index);
         area_index = (s8)area_byte;
         if ((s32)(area_byte << 24) >= 0) {
-            count = ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count;
+            count = ((DungeonSlot *)floor_objects)[*(s16 *)(den_event + 0xC)].count;
             if (count >= 0) {
                 do {
                     if (has_enough_available_runtime_nodes(3) == 0) {
-                        ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count -= count;
+                        ((DungeonSlot *)floor_objects)[*(s16 *)(den_event + 0xC)].count -= count;
                         return;
                     }
 
@@ -2767,7 +2767,7 @@ void advance_monster_den_sequence(void *den_event) {
                     if (spawn_availability != 0) {
                         s32 area_calc;
                         retries_left = 0xF;
-                        areas = (AreaRecord *)D_800E2970;
+                        areas = (AreaRecord *)dungeon_rooms;
                         area = (u8 *)&areas[area_index];
                         do {
                             spawn_x = random_dungeon_range_16(0, (u16)(((AreaRecord *)area)->width - 1));
@@ -2791,7 +2791,7 @@ void advance_monster_den_sequence(void *den_event) {
                         if (retries_left >= 0) {
                             s16 spawn_type;
 
-                            D_800E2968 = 1;
+                            entity_spawn_variant_code = 1;
                             spawn_type = monster_type;
                             monster = load_monster_resource_data(spawn_type, spawn_availability, 1)
                             (0, (u8)spawn_x, (u8)y, -0x400);
@@ -2803,7 +2803,7 @@ void advance_monster_den_sequence(void *den_event) {
 
                                 {
 
-                                    area_calc = (s32)(D_800835E4);
+                                    area_calc = (s32)(level_experience_table);
                                     entry_y = ((u32 *)area_calc)[monster_level];
                                     area_calc = (s32)(((u32 *)area_calc) + 1);
                                     *(u32 *)((u8 *)monster + 0x18) = entry_y;
@@ -2854,7 +2854,7 @@ void advance_monster_den_sequence(void *den_event) {
         if ((s16)delay_timer < 0) {
             select_sound_stream(0, 1);
             SD_Call(0x200);
-            *(s32 *)((u8 *)D_800E3648 + *(s16 *)(den_event + 0xC) * 4) = 0;
+            *(s32 *)((u8 *)floor_objects + *(s16 *)(den_event + 0xC) * 4) = 0;
             {
 
                 g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
@@ -2891,7 +2891,7 @@ unsigned int clamp_entry_and_create_effect_node(void *object, s16 entry_index)
         result = 1;
     } else {
         state = &g_dungeon_status;
-        entries = (u8 *)D_800E3648;
+        entries = (u8 *)floor_objects;
         entry = (u8 *)(((s32)(entry_index << 0x10) >> 0xE) + (u32)entries);
         if ((s16)(((u16)state->monster_count) + *(s8 *)(entry + 2)) >= 0x21) {
             *(u8 *)(entry + 2) = 0x20 - *(u8 *)((u16 *)&state->monster_count);

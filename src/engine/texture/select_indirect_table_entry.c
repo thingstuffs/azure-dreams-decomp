@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/texture.h"
 
 typedef struct EntryS_80047738 {
     /* 0x0 */ u16 unk00;

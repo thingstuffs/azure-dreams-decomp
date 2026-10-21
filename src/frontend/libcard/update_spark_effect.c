@@ -1,9 +1,8 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "frontend/libcard.h"
 
-extern void card_boot_set_slot_selection_marker(void *object_addr, s32 enable_table);
 extern void advance_linked_object_counter(void *object, s32 value);
-extern void card_boot_clear_slot_selection_marker(void *object_addr);
-extern void card_boot_set_slot_details_selection(s32 object_addr, s32 value_7c, s32 value_80);
 
 void update_spark_effect(void *menu)
 {

@@ -42,7 +42,7 @@ typedef struct S_8009B2C4_1 {
 
 extern void initialize_target_motion_state(TownObject *object, void *owner, void *context, void *extra_ptr);
 extern void initialize_target_motion(TownObject *object, void *owner, void *context, void *extra_ptr);
-extern s32 D_800834B8;
+extern s32 scene_object_payload_alias;
 extern u8 D_80091F64[];
 extern u8 D_8009204C[];
 extern u8 D_800920F4[];

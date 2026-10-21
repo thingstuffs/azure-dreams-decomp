@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern u32 D_800188C8;   /* saved entry count (set by store_calling_zero / store_run_operation_result) */
+extern u32 scene_money_adjustment;   /* saved entry count (set by store_calling_zero / store_run_operation_result) */
 
 /* Return the saved entry count. */
 u32 get_saved_entry_count(void) {
-    return D_800188C8;
+    return scene_money_adjustment;
 }

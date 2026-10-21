@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 typedef struct S_8001C8C8_1 {
     u8 pad_00[0x1B8];

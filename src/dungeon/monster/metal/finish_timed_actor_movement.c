@@ -155,8 +155,8 @@ void finish_timed_actor_movement(State *action, Motion *motion, Actor *actor, En
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {
             entity->direction2A = get_rounded_facing_and_rounding_flag(
-                actor->x24, actor->y25, D_80082E80.tile_position.parts.tile_x,
-                D_80082E80.tile_position.parts.tile_y, direction_work);
+                actor->x24, actor->y25, reference_tile_object.tile_position.parts.tile_x,
+                reference_tile_object.tile_position.parts.tile_y, direction_work);
         }
     }
 

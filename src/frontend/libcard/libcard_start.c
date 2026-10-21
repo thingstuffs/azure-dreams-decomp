@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard.h"
 
 extern void func_8007CA38(void);
 extern void func_804087A8(void);

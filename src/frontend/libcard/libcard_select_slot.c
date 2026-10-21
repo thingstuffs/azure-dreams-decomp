@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard.h"
 
 extern void func_804086CC(s32);
 extern void func_804086BC(s32, s32, s32);

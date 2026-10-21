@@ -38,7 +38,7 @@ s32 process_record_and_update_linked_state(s32 request, void *record_data) {
     }
     linked_record = ((S_80098864_0 *)((u8 *)record_data - 0x14))->unk_74;
     if (linked_record != 0) {
-        linked_record->unk_60 = (s32) ((s32)D_800E3D7C);
+        linked_record->unk_60 = (s32) ((s32)dungeon_actor_ring_anchor);
     }
     clear_slot_and_update_linked_state(request);
     return 1;

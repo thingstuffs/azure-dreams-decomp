@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus/data.h"
 
 typedef struct {
     /* 0x00 */ s32 f00;
@@ -25,13 +27,9 @@ typedef struct {
 
 extern Entity audio_sequence_tracks[];
 extern s32 audio_sequence_track_count[3];
-extern s32 audio_sequence_timing_word[4];
 extern s32 audio_sequence_format[4];
 extern u8 *audio_sequence_data_base[4];
 
-extern s32 init_sequence_playback(void);
-extern s32 seek_sequence_tag_and_schedule_step(Entity *);
-extern s32 read_base_128_vlq(s32);
 extern void scale_value_with_remainder(Entity *);
 
 /* Initialize playback slot offsets, timing, and state for the input format. */

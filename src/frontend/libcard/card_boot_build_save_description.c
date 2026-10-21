@@ -1,12 +1,10 @@
 #include "common.h"
-
-extern void format_unsigned_double_byte_decimal(s32 value, void *output_buffer);
-extern void strcat(s32 destination, s32 source);
-extern void strcpy(s32 destination, s32 source);
+#include "engine/town.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
+#include "sdk/libc.h"
 
 extern s16 D_80010208;
-extern s32 D_80028294[];
-extern s32 D_800282A0;
 
 /* Build text from a one-based index, global state, and a trailing value. */
 void card_boot_build_save_description(s32 record, s32 index) {

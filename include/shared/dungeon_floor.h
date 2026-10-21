@@ -5,7 +5,7 @@
  * both forms its own lui for each (census/c800E29.jsonl), so they are not fields of one struct. */
 
 /* D_800E296C: a floor state flag word (lw/sw only; bit tests, sets and clears in 60 rows). */
-extern int D_800E296C;
+extern int dungeon_floor_flags;
 
 /* D_800E2970: the floor's room table, 0x14-byte records indexed by a room number (a map cell: the corridor
  * builder func_80287C4C walks cells as idx % D_8001F660 / idx / D_8001F660 and joins room rectangles; tiles and
@@ -22,7 +22,7 @@ typedef struct DungeonRoom {
     /* 0x10 */ int unk_10;
 } DungeonRoom;                       /* size 0x14 */
 
-extern DungeonRoom D_800E2970[];
+extern DungeonRoom dungeon_rooms[];
 
 
 /* Exact access views shared across registered binary consumers. */

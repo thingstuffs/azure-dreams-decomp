@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script/vm.h"
 
 /* Returns without performing any work. */
 void func_80034E40(void) {

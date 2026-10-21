@@ -9,8 +9,8 @@ typedef struct S_8002E5D8 {
 } S_8002E5D8;
 
 
-extern S_8002E5D8 D_8002E5D8;
-extern DisplayPositionWords D_8002E5E8;
+extern S_8002E5D8 display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 typedef struct {
     s32 unk0;
@@ -37,8 +37,8 @@ typedef union {
 void initialize_templated_state_and_position(S_800B4200_a0 *state, S_8002E5D8 *params,
                    DisplayPositionWords *data, s32 x, S_800B4200_arg4 y_arg) {
     s32 y = y_arg.value;
-    S_8002E5D8 *params_template = &D_8002E5D8;
-    DisplayPositionWords *data_template = &D_8002E5E8;
+    S_8002E5D8 *params_template = &display_block_defaults;
+    DisplayPositionWords *data_template = &display_vector_defaults;
     s32 *first_word;
 
     params->unk0 = params_template->unk0;

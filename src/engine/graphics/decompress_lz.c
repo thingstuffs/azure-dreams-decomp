@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/graphics.h"
 
 /* Decompress an LZ stream with LSB-first flags and return the end of the output. */
 u8 *decompress_lz(u8 *src, u8 *dst) {

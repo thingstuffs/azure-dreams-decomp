@@ -26,7 +26,7 @@ typedef struct {
     u8 pad[16];
 } LocalRecord;
 
-extern s32 D_80132AE8;
+extern s32 town_motion_state;
 extern volatile s32 D_80132AEC;
 extern s16 D_80132AF2;
 extern PackedRect D_80526470;
@@ -104,7 +104,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
     s32 case5_old;
     s32 case5_next;
 
-    dx = (D_80132AE8 - 0x03600000) >> 16;
+    dx = (town_motion_state - 0x03600000) >> 16;
     dy = (D_80132AEC - 0x03600000) >> 16;
     work = *ctrl;
     old_angle = ((S_8080EEC4_0 *)view)->unk_1A;
@@ -117,10 +117,10 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
 
     if (distance < (D_80132AEC > 0x035FFFFF ? 0xB9 : 0xC1)) {
         if (D_80132AF2 >= ((S_8080EEC4_1 *)setup)->unk_08.at02.v) {
-            D_80132AE8 = ((S_8080EEC4_2 *)ctrl)->unk_04;
+            town_motion_state = ((S_8080EEC4_2 *)ctrl)->unk_04;
             D_80132AEC = (*(s32 *)((u8 *)ctrl + (8)));
         }
-        (*(s32 *)((u8 *)ctrl + (0x58))) = D_80132AE8;
+        (*(s32 *)((u8 *)ctrl + (0x58))) = town_motion_state;
         ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
         if (distance < 0x80) {
             ((S_8080EEC4_2 *)ctrl)->unk_62 -= (0x80 - distance) >> 1;
@@ -130,7 +130,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
         early_far = distance < 0xD1;
         if (early_far) {
             if (D_80132AF2 >= ((S_8080EEC4_1 *)setup)->unk_08.at02.v) {
-                D_80132AE8 = ((S_8080EEC4_2 *)ctrl)->unk_04;
+                town_motion_state = ((S_8080EEC4_2 *)ctrl)->unk_04;
                 D_80132AEC = (*(s32 *)((u8 *)ctrl + (8)));
             }
     
@@ -143,12 +143,12 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
                 if (dx_abs > dy_abs || D_80132AEC <= 0x033FFFFF) {
                     ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
                     if (dx > 0) {
-                        ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 - 0x00280000;
+                        ((S_8080EEC4_2 *)ctrl)->unk_58 = town_motion_state - 0x00280000;
                     } else {
-                        ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 + 0x00280000;
+                        ((S_8080EEC4_2 *)ctrl)->unk_58 = town_motion_state + 0x00280000;
                     }
                 } else {
-                    ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8;
+                    ((S_8080EEC4_2 *)ctrl)->unk_58 = town_motion_state;
                     if (dy > 0) {
                         ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC - 0x00280000;
                     } else {
@@ -163,7 +163,7 @@ void animate_collection_center_sprite(u8 **ctrl, u8 *setup, u8 *view)
     
     }
 
-    (*(s32 *)((u8 *)ctrl + (4))) = D_80132AE8;
+    (*(s32 *)((u8 *)ctrl + (4))) = town_motion_state;
     ((S_8080EEC4_2 *)ctrl)->unk_08 = D_80132AEC;
 
     value = ((S_8080EEC4_3 *)work)->unk_14 /

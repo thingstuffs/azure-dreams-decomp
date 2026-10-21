@@ -1,6 +1,7 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
 
-extern void scene_load_texture_and_data_pair(void *a0);
 extern s32 allocate_and_initialize_node_2(void *a0);
 
 typedef struct S_800510A0 {

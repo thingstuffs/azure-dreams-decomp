@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/menu.h"
 
 typedef struct S_8004A4E4 {
     u8 pad0;

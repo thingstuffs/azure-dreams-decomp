@@ -2,6 +2,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
+#include "frontend/settings.h"
+#include "main/data.h"
 
 #ifndef NULL
 #define NULL 0
@@ -26,8 +28,7 @@ typedef struct Obj {
     /* 0x26 */ u16 f26;
 } Obj;
 
-extern u8 D_80080A84[];
-extern u8 D_80080A78[];
+extern u8 animation_tick_scale[];
 
 extern s32 render_screen_fade_decreasing_intensity();
 extern s32 render_screen_fade_increasing_intensity();
@@ -161,7 +162,7 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
         }
         {
             u16 flags = obj->f26;
-            D_80080A84[0] = 2;
+            animation_tick_scale[0] = 2;
             obj->f26 = flags | 1;
         }
         switch (obj->f24) {
@@ -204,7 +205,7 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
         return;
 
     case 253:
-        D_80080A84[0] = 2;
+        animation_tick_scale[0] = 2;
         ((u16 *) obj)[-1] |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;
@@ -212,8 +213,8 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
     case 254:
     {
         u8 demo_index;
-        D_80080A84[0] = 2;
-        demo_index = D_80080A78[0];
+        animation_tick_scale[0] = 2;
+        demo_index = attract_scene_index[0];
         switch (demo_index & 7) {
         case 0:
         case 4:
@@ -237,12 +238,12 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
             break;
         }
         {
-            u8 next_demo = D_80080A78[0];
+            u8 next_demo = attract_scene_index[0];
             u16 flags = obj->f26;
             obj->state = 255;
             next_demo = (next_demo + 1) & 7;
             flags |= 1;
-            D_80080A78[0] = next_demo;
+            attract_scene_index[0] = next_demo;
             obj->f26 = flags;
         }
         return;

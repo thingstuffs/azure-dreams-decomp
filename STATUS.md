@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-21T17:04:40Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-21T18:04:04Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -64,13 +64,13 @@ Baseline NOT exact: 0 rows
 | L0 | 8,028,304 | 100.0% |
 | L1 | 8,028,304 | 100.0% |
 | L2 | 8,028,304 | 100.0% |
-| L3 | 7,273,860 | 90.6% |
+| L3 | 7,273,888 | 90.6% |
 | L4 | 1,162,976 | 14.5% |
 | L5 | 1,133,644 | 14.1% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3726 rows, 2,341,128 bytes (29.2%); records used: 98.
+On shared record headers (T7, `include/records/`): 3741 rows, 2,342,848 bytes (29.2%); records used: 98.
 
 L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,838 rows (6,861,616 B).
 

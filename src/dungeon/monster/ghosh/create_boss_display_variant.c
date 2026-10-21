@@ -86,7 +86,7 @@ void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offse
         display_sub->color.c.g = 0x80;
         display_sub->color.c.r = 0x80;
         if (variant == 0) {
-            func_8003DB94(display_sub, D_800DE870, 0);
+            func_8003DB94(display_sub, effect_sprite_sources, 0);
         } else {
             func_8003DB94(display_sub, D_800DEDB0, 0);
         }

@@ -150,13 +150,13 @@ s32 display_text_with_fullwidth_adjustment();
 void begin_actor_flagged_action();
 void *create_orbiting_teleport_effect();
 extern s32 D_800814A0;
-extern s16 D_800DCE68;
+extern s16 pending_marked_actor_count;
 extern s16 D_800DCED4[];
 extern M2C_UNK D_800E0C34;
 extern M2C_UNK D_800E0C58;
 extern M2C_UNK D_800E0C67;
-extern void *D_800E3DF0[];
-extern D_800E3E48_Entry D_800E3E48[];
+extern void *familiar_record_slots[];
+extern D_800E3E48_Entry familiar_record_storage[];
 
 /* Advance actor removal, updating its visual effects and clearing its references. */
 s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visual, void *actor) {
@@ -212,7 +212,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
                 break;
             }
         } else {
-            ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((s32 *)&D_800E3D7C)))->x)))->unk_110 = 0;
+            ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x)))->unk_110 = 0;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         next_state = 3;
@@ -234,7 +234,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
             create_orbiting_teleport_effect(state4_event,
                 D_800DCED4[event_index],
                 (s32)state4_event
-                    == ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((s32 *)&D_800E3D7C)))->x)))->unk_AC,
+                    == ((S_800AB778_21 *)((*(void * *)&((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x)))->unk_AC,
                     event_mode);
             state->unk_96.s = 0;
             state->unk_9B = 0x10;
@@ -285,7 +285,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         } else {
             u16 *state4_global;
 
-            state4_global = (u16 *)&D_800DCE68;
+            state4_global = (u16 *)&pending_marked_actor_count;
             (*state4_global)--;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
@@ -294,7 +294,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         if (actor_slot4 >= 0) {
             void *actor_base4;
 
-            actor_base4 = (*(void * *)&((EntityRec *)(((s32 *)&D_800E3D7C)))->x);
+            actor_base4 = (*(void * *)&((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x);
             actor_entry4 = (void *)((actor_slot4 * 4) + (s32)actor_base4);
             actor_entry4->unk_AC = 0;
             actor_entry4->unk_D0 = 0;
@@ -304,9 +304,9 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
             decrement_monster_entry_count(((Rec_D_80082E80 *)actor)->unk_12.at01_u8.v, 3);
             object_id4 =
                 ((S_800AB778_24 *)(((S_800AB778_22 *)(((S_800AB778_19 *)globals_page4)->unk_3D7C))->unk_110))->unk_03 & 0x1F;
-            object_slot4 = &D_800E3DF0[object_id4];
+            object_slot4 = &familiar_record_slots[object_id4];
             ((S_800AB778_7 *)(*object_slot4))->unk_13 = 0;
-            D_800E3E48[object_id4].field13 = 0;
+            familiar_record_storage[object_id4].field13 = 0;
             globals4 = globals_page4->unk_3D7C;
             *object_slot4 = NULL;
             clear_slot_and_update_linked_state(globals4->unk_110);
@@ -357,7 +357,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         if (actor_slot16 >= 0) {
             void *actor_base16;
 
-            actor_base16 = (*(void * *)&((EntityRec *)(((s32 *)&D_800E3D7C)))->x);
+            actor_base16 = (*(void * *)&((EntityRec *)(((s32 *)&dungeon_actor_ring_anchor)))->x);
             actor_entry16 = (void *)((actor_slot16 * 4) + (s32)actor_base16);
             actor_entry16->unk_AC = 0;
             actor_entry16->unk_D0 = 0;
@@ -365,9 +365,9 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         globals_page16 = (void *)0x800E0000;
         object_id16 =
             ((S_800AB778_25 *)(((S_800AB778_23 *)(((S_800AB778_20 *)globals_page16)->unk_3D7C))->unk_110))->unk_03 & 0x1F;
-        object_slot16 = &D_800E3DF0[object_id16];
+        object_slot16 = &familiar_record_slots[object_id16];
         ((S_800AB778_13 *)(*object_slot16))->unk_13 = 0;
-        D_800E3E48[object_id16].field13 = 0;
+        familiar_record_storage[object_id16].field13 = 0;
         globals16 = globals_page16->unk_3D7C;
         *object_slot16 = NULL;
         clear_slot_and_update_linked_state(globals16->unk_110);

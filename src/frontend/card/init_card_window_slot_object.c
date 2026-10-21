@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 typedef struct S_80404364_0 {
     u8 pad_00[0xC];
@@ -24,11 +26,6 @@ extern void func_80404224(void);
 extern void func_80404254(void *body, s32 value);
 extern void func_80404314(void *body, s32 init_value, s32 slot_index);
 extern void func_80404570(void *record);
-
-extern u8 D_804005F8[];
-extern u8 D_80400620[];
-extern u8 D_8040861C[];
-extern u8 D_8040A0F0[];
 
 /* Create or reset a slot record, initialize its body, and install its callback. */
 void init_card_window_slot_object(s32 init_value, s32 slot_index)

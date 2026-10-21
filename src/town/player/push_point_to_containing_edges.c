@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_800FE520[];
+extern s32 player_blocking_rects[];
 
 /* Push the point to the nearest edge of each containing rectangle and return the hit side flags. */
 s32 push_point_to_containing_edges(s32 *x, s32 *y) {
@@ -12,12 +12,12 @@ s32 push_point_to_containing_edges(s32 *x, s32 *y) {
     s32 first_min_x;
     s32 min_y_side;
 
-    first_min_x = D_800FE520[0];
+    first_min_x = player_blocking_rects[0];
     hit_sides = 0;
     if (first_min_x != 0x80000000) {
         min_y_side = 2;
-        for (bounds_index = 0; D_800FE520[bounds_index] != 0x80000000; bounds_index += 4) {
-            bounds = &D_800FE520[bounds_index];
+        for (bounds_index = 0; player_blocking_rects[bounds_index] != 0x80000000; bounds_index += 4) {
+            bounds = &player_blocking_rects[bounds_index];
             edge_dist[0] = *x - bounds[0];
             if (edge_dist[0] > 0) {
                 edge_dist[1] = bounds[1] - *x;

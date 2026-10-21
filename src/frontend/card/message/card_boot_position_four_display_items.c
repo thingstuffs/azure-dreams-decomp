@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/message.h"
 
 extern s32 func_80051B50(void *buffer, s32 value, s32 option);
 extern u8 D_80408B2C[];

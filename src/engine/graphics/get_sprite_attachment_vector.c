@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
 
 #ifndef NULL
 #define NULL 0
@@ -29,9 +31,6 @@ typedef struct S_8003DF74_Vec {
     s16 y;
     s16 z;
 } S_8003DF74_Vec;
-
-extern S_8003DF0C *find_last_flagged_record_by_id(S_8003DF0C *ent, s32 want, u16 *idxOut);
-extern void runtime_transform_sprite_attachment_point(S_8003DF74_Ent *a0, void *a1, S_8003DF74_Vec *a2);
 
 /* Looks up an entry and fills its vector, using a fixed fallback for flagged entities. */
 S_8003DF0C *get_sprite_attachment_vector(S_8003DF0C *table, S_8003DF74_Ent *entity, S_8003DF74_Vec *out_vec, s16 entry_id) {

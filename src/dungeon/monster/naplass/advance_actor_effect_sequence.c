@@ -53,7 +53,7 @@ void begin_actor_move_to_target_facing();
 void apply_clamped_actor_value_delta();
 extern void func_80171F94(void *action_state, void *action_context, void *sprite, EntityRec *actor);
 void advance_actor_effect_sequence();
-extern u8 D_800D7960[];
+extern u8 effect_update_tag[];
 extern u8 D_80170E68[];
 extern u8 D_801741DC[];
 extern u8 D_801741E4[];
@@ -158,13 +158,13 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         if (((S_801732A4_2 *)actor_state)->unk_6D == 0)
             return;
         if ((has_pending_actor_or_turn_action(actor_state) << 0x10) != 0) {
-            if ((check_entity_relation(actor_state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0)
+            if ((check_entity_relation(actor_state, ((s32)primary_actor_record->unk_58) + 0x20) << 0x10) != 0)
                 return;
         }
         update_actor_status_and_food(actor_state);
         on_actor_status_updated(actor_state);
         if ((get_entity_effect_value(actor_state, 1) << 0x10) != 0) {
-            player_sprite = &D_80082E80;
+            player_sprite = &reference_tile_object;
             region_id = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
             if (region_id == player_sprite->room_index && region_id >= 0) {
                 if (!(generate_random_value() & 7)) {
@@ -218,14 +218,14 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         select_sprite_entry(sprite, D_801741F4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
-        new_effect = allocate_list_node(0x112, ((void *)&D_80083498.next));
+        new_effect = allocate_list_node(0x112, ((void *)&scene_object_list_anchor.next));
         ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = new_effect;
         actor = new_effect;
         if (actor == NULL)
             return;
         register_node(actor, project_sprite_chain);
         effect_transform = ((Rec_func_801732A4_arg0 *)actor)->unk_08;
-        ((Rec_func_801732A4_arg0 *)actor)->unk_10 = D_800D7960;
+        ((Rec_func_801732A4_arg0 *)actor)->unk_10 = effect_update_tag;
         *(Copy24 *)effect_transform = *(Copy24 *)transform;
         ((Rec_func_801732A4_arg0 *)actor)->unk_BB = 0;
         effect_sprite = ((Rec_func_801732A4_arg0 *)actor)->unk_0C;

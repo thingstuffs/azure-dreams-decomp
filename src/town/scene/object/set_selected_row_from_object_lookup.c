@@ -7,10 +7,10 @@
 
 
 extern u8 D_80019B08;
-extern s32 D_80019B8C;
+extern s32 selected_scene_row_index;
 
 
 /* Set the selected record index from the current object's lookup entry. */
 void set_selected_row_from_object_lookup(void) {
-    D_80019B8C = (s32) *((((TownPositionState *)D_80016000->unk_1C)->unk_34 * 4) + &D_80019B08);
+    selected_scene_row_index = (s32) *((((TownPositionState *)D_80016000->unk_1C)->unk_34 * 4) + &D_80019B08);
 }

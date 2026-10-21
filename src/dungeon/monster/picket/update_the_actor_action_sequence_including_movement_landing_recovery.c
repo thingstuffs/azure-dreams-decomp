@@ -134,14 +134,14 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             ((S_80172C90_1 *)action)->unk_98 &= 0xFF7F;
             use_owner = special;
             if (use_owner) {
-                owner = D_800814A8;
+                owner = primary_actor_record;
                 actor->target = owner;
                 move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
                 actor->target_tile_x = ((S_80172C90_4 *)move_result)->unk_24;
                 actor->target_tile_y = ((S_80172C90_4 *)move_result)->unk_25;
             } else {
                 dir_offset = *selector;
-                if (D_8006DE24[dir_offset].kind == 2) {
+                if (item_action_definitions[dir_offset].kind == 2) {
                     owner = actor->target;
                     if (owner != 0) {
                         move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
@@ -204,7 +204,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         {
             void *owner;
 
-            owner = D_800814A8;
+            owner = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             ((S_80172C90_3 *)owner)->unk_A6--;
         }

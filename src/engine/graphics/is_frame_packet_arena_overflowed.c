@@ -2,6 +2,9 @@
 #include "shared/game_work.h"
 
 #include "common.h"
+#include "engine/entity.h"
+#include "engine/graphics.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     u8 pad00[6];
@@ -9,10 +12,6 @@ typedef struct {
     u8 pad08[0x14 - 0x8];
     u16 unk14;
 } Entry80044C54;
-
-extern void RotTransPers(void *a0, void *a1, void *a2, void *a3);
-extern void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth);
-extern s32 is_frame_packet_arena_overflowed(u32 a0);
 
 /* Projects coordinates and processes linked entries whose 0x80 flag is clear. */
 s32 project_and_draw_sprite_node_chain(u8 *first_data, void *first_coords, Entry80044C54 *first_entry)

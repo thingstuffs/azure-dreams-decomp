@@ -63,7 +63,7 @@ typedef struct S_8016EB14_6 {
 extern void register_node(void *, void *);
 extern u8 D_800777B8;
 extern u8 D_8016E528;
-extern void *D_80174704;
+extern void *ghosh_actor_node;
 extern s16 D_80174708[16];
 
 /* Spawn an object at the owner's position and initialize its motion and appearance. */
@@ -82,7 +82,7 @@ void spawn_owned_motion_object(void)
     u8 *direction_table;
     u8 *direction_entry;
 
-    owner_object = D_80174704;
+    owner_object = ghosh_actor_node;
     source_pos = ((S_8016EB14_0 *)owner_object)->unk_08;
     owner_state = (u8 *)owner_object + 0x20;
     spawned_object = func_8003FC64(0x12);

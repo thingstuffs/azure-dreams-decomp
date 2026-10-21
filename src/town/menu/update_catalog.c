@@ -15,7 +15,7 @@ typedef struct S_80126704_0 {
 
 
 extern void (*D_80126B34[])(void *);
-extern void (*D_80126B74[])(void *);
+extern void (*catalog_callbacks[])(void *);
 
 /* Runs the initial handler, packs and bounds the state code, then runs the final handler. */
 void update_catalog(S_80126704_0 *state) {
@@ -50,7 +50,7 @@ void update_catalog(S_80126704_0 *state) {
             state->unk_13.u = 0x30;
         }
     }
-    D_80126B74[state->unk_0A](state);
+    catalog_callbacks[state->unk_0A](state);
 }
 
 /* MECHANISM: The true-space body uses a 24-byte frame and a local join at 0x8012677C, not a phantom

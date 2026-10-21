@@ -6,6 +6,6 @@
 typedef struct Packed12 {
     unsigned char bytes[12];
 } Packed12;
-extern Packed12 D_80173B34;
+extern Packed12 particle_sprite_template;
 
 #endif

@@ -1,10 +1,9 @@
 #include "common.h"
 
-extern void *D_800282A4[3];
-extern void *D_800791A4;
-
 #include "modules/main_server_ship_interfaces.h"
-extern void *decode_note_text(void *, void *, s32);
+#include "engine/audio/sequence.h"
+#include "frontend/libcard/message.h"
+#include "main/data.h"
 
 /* Initializes resources and screen positions for three display entries. */
 void card_boot_layout_empty_slot_window(void *object) {

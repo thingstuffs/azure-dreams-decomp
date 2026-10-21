@@ -8,9 +8,9 @@ void process_unflagged_linked_entries();                         /* extern */
 void process_unflagged_linked_entries_alt(s32);                         /* extern */
 s16 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);          /* extern */
 s32 play_sound_if_enabled(s32);                     /* extern */
-extern s32 D_80081484;
+extern s32 held_item_record;
 extern M2C_UNK D_800DD25C;
-extern s32 D_800E3540;
+extern s32 saved_held_item_word;
 
 
 typedef struct S_8008F878_0 {
@@ -98,9 +98,9 @@ void update_put_down_carried_object(S_8008F878_0 *action, void *unused, S_8008F8
                     event_id = 0x517;
                 }
                 play_sound_if_enabled(event_id);
-                saved_value = (*(s32 *)&D_80081484);
-                (*(s32 *)&D_80081484) = 0;
-                D_800E3540 = saved_value;
+                saved_value = (*(s32 *)&held_item_record);
+                (*(s32 *)&held_item_record) = 0;
+                saved_held_item_word = saved_value;
                 action->unk_9B++;
             }
         }

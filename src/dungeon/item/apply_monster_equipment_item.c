@@ -71,10 +71,10 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
             return process_record_and_update_linked_state(target, context);
         }
     }
-    compare_ptr = ((u8 *)D_800E3D7C);
+    compare_ptr = ((u8 *)dungeon_actor_ring_anchor);
     if (entity == compare_ptr) {
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_128 = target;
-        begin_mode_selected_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_mode_selected_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
     compare_ptr = (u8 *) 0x9FFFFFFF;

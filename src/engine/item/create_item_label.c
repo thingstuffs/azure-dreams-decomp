@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/item.h"
 
 /* Allocator wrapper: the retail definition of create_callback_pair_default (code7.c, gcc 2.8.1)
  * declares "void create_callback_pair_default(int,int,int,int)" but is a tail-call forwarder to

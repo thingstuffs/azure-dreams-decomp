@@ -19,12 +19,9 @@ typedef struct S_80025584_0 {
 extern s32 D_80024FFC;
 
 #include "modules/main_server_ship_interfaces.h"
-extern void update_spark_effect(void *menu);
-extern void card_boot_prepare_copy_destination_message(void *context);
-extern void card_boot_destroy_slot_selection_menu(void *object);
-extern void init_card_boot_request_object(s32 request, s32 mode);
-extern s32 advance_index_with_single_wrap(s32 index, s32 delta, s32 limit);
-extern void SD_Call(s32 flags);
+#include "frontend/libcard.h"
+#include "frontend/libcard/message.h"
+#include "slus.h"
 
 /* Handle menu input, selection repeat, and transition completion. */
 void card_boot_update_copy_destination_selection(u8 *menu)

@@ -15,7 +15,7 @@ typedef struct {
     u16 z;
 } Coord;
 
-extern s32 D_800835E8[];
+extern s32 entity_level_thresholds[];
 extern void func_8003E188(s32 field_index, s32 flag);
 extern void func_80042640(void *obj, s16 monsterId);
 void func_800424E0(); /* extern */
@@ -148,17 +148,17 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 u32 first_call_arg;
                 s32 first_call_mode;
                 s32 raw_first_result;
-                clamp_value = (*(u8 *)((u8 *)&((ActorRecord *)((u8 *)D_800E3D7C))->unk_10 + 1)) + 0x32;
+                clamp_value = (*(u8 *)((u8 *)&((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_10 + 1)) + 0x32;
                 egg_bomb_level = clamp_value;
                 if (clamp_value >= 0x64) {
                     egg_bomb_level = 0x63;
                 }
                 {
-                    s32 *scan_arg = D_800835E8;
-                    target_experience = D_800835E8[egg_bomb_level];
+                    s32 *scan_arg = entity_level_thresholds;
+                    target_experience = entity_level_thresholds[egg_bomb_level];
                     ((S_800B7774_2 *)monster)->unk_18 = target_experience;
-                    if ((u32) target_experience >= (u32) D_800835E8[((S_800B7774_2 *)monster)->unk_11]) {
-                        s32 *loop_base = D_800835E8;
+                    if ((u32) target_experience >= (u32) entity_level_thresholds[((S_800B7774_2 *)monster)->unk_11]) {
+                        s32 *loop_base = entity_level_thresholds;
                         do {
                             raise_entity_level(monster, 0);
                         } while ((u32) loop_base[((S_800B7774_2 *)monster)->unk_11]
@@ -179,7 +179,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 s32 *call_obj;
                 u8 *call_state;
                 call_obj = monster;
-                call_state = ((u8 *)D_800E3D7C);
+                call_state = ((u8 *)dungeon_actor_ring_anchor);
                 ((S_800B7774_0 *)egg_bomb)->unk_0C = 0x10U;
                 check_entity_relation(call_obj, call_state);
             }
@@ -213,7 +213,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 }
             }
         }
-        ((PlayerRecord *)((u8 *)D_800E3D7C))->pending_item_action = 0;
+        ((PlayerRecord *)((u8 *)dungeon_actor_ring_anchor))->pending_item_action = 0;
         (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
         {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

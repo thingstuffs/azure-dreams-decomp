@@ -4,7 +4,7 @@
 extern u32 get_linked_carry_item_data(void *record, s32 first_value, s32 second_value);
 extern void initialize_record_and_select_active_data(void *record, s32 setup_value, s32 init_value);
 
-extern s32 D_800834B8;
+extern s32 scene_object_payload_alias;
 extern s32 D_8009C340;
 
 typedef struct CarryRecord {
@@ -30,7 +30,7 @@ void plt_carry_item_del_ext(void) {
     u8 *saved_object;
     void *context;
 
-    base = (u8 *)&D_800834B8;
+    base = (u8 *)&scene_object_payload_alias;
     context = base;
     input_values = base - 0x20;
     first_value = (s32)((ObjectNodeHeader *)input_values)->unk_08;

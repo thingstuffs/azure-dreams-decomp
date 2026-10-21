@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/scene.h"
 
 typedef struct S_8003DF0C {
     /* 0x0 */ u8 flags;

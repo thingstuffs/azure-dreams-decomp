@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F511800_P04_H
 #define DUNGEON_OVL_7F511800_P04_H
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
@@ -92,11 +93,13 @@ typedef struct T_80174374_S_80174374_0 {
     s32 unk_44;
 } T_80174374_S_80174374_0;   /* work in func_80174374 */
 
+typedef void (*unicorn_orbit_update_fn)(void *effect, ObjectPosition *position, SpriteFrameState *primitive);
+
 typedef struct T_80174374_S_80174374_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    void * unk_10;
+    unicorn_orbit_update_fn unk_10;
 } T_80174374_S_80174374_1;   /* obj in func_80174374 */
 
 typedef struct T_80174374_S_80174374_4 {
@@ -118,7 +121,7 @@ extern s32 D_800DEC70;
 extern s32 D_800DEC00;
 void advance_record_state_and_set_completion_flags(void *record_data, DelayMotionZ *state, s32 update_arg);
 void create_tinted_sprite_effect_supplied_position(void *unused, void *position_data, SpriteFrameState *unused_primitive);
-void update_orbit_height_and_fade_effect(void *effect, EntityRec *position, SpriteFrameState *primitive);
+void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position, SpriteFrameState *primitive);
 void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3,
     s16 angle, u16 height_offset);
 #endif

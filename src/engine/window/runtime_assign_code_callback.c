@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window.h"
 
 typedef struct S_800357B0_0 {
     u8 pad_00[0x50];
@@ -8,9 +9,6 @@ typedef struct S_800357B0_0 {
     u8 pad_52[0x16];
     s32 * unk_68;
 } S_800357B0_0;   /* arg0 in runtime_assign_code_101_callback */
-
-
-void runtime_advance_counter_and_callback();
 
 /* Assigns runtime_advance_counter_and_callback to objects with code 0x101. */
 void runtime_assign_code_101_callback(S_800357B0_0 *object) {

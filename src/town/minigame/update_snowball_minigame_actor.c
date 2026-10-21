@@ -67,8 +67,8 @@ typedef struct S_80020DF0_8 {
 extern volatile u16 D_800135C0;
 extern u8 D_80022B80[];
 extern s16 D_800272A0[];
-extern void *D_800834B8;
-extern s32 D_800D0428;
+extern void *scene_object_payload_alias;
+extern s32 town_target_height_offset;
 extern u8 D_80092698[];
 extern u8 D_800927EC[];
 extern u8 D_80092A84[];
@@ -80,7 +80,7 @@ extern u8 D_800F2EE0[];
 extern u8 D_800F2F28[];
 extern u8 D_800F2F80[];
 extern u8 D_800F2FE0[];
-extern u8 D_800F3020[];
+extern u8 snowball_actor_sprites[];
 
 extern void clear_resident_bit(s32);
 extern void set_resident_bit(s32);
@@ -111,7 +111,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
     effect = NULL;
     actor = NULL;
     world = &g_game_work;
-    music = &D_800834B8;
+    music = &scene_object_payload_alias;
 
     ground_height = (s16)query_lowered_transform_position(motion);
     if (((S_80020DF0_0 *)object)->unk_68.s < 0xFF) {
@@ -216,12 +216,12 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
         s32 target_height;
         s32 base_height;
 
-        target = &D_80083780;
+        target = &view_reference_entity;
         (*(s32 *)((u8 *)motion + 0xC)) =
             (target->x.v - ((S_80020DF0_2 *)motion)->unk_00) >> 1;
         (*(s32 *)((u8 *)motion + 0x10)) =
             (target->y.v - ((S_80020DF0_2 *)motion)->unk_04) >> 1;
-        target_height = target->z.v + D_800D0428;
+        target_height = target->z.v + town_target_height_offset;
         base_height = ((S_80020DF0_2 *)motion)->unk_08.at00.v + 0x80000;
         ((S_80020DF0_2 *)motion)->unk_14 = (target_height - base_height) >> 1;
         add_motion_deltas_to_position(motion);
@@ -243,11 +243,11 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
     {
         ObjectPosition *target;
 
-        target = &D_80083780;
+        target = &view_reference_entity;
         (*(s32 *)((u8 *)motion + 0)) = target->x.v;
         (*(s32 *)((u8 *)motion + 4)) = target->y.v;
         (*(s32 *)((u8 *)motion + 8)) =
-            target->z.v + D_800D0428 - 0x80000;
+            target->z.v + town_target_height_offset - 0x80000;
         if (((s32)world->pressed_buttons) & 0x40) {
             if (target->z.w.i == 0) {
                 if (((S_80020DF0_0 *)object)->unk_68.s == 9) {
@@ -332,7 +332,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
                 do {
                     void *particle;
 
-                    particle = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
+                    particle = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
                     if (particle != NULL) {
                         SpriteFrameState *part;
                         void *link;
@@ -346,7 +346,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
                         ((S_80020DF0_8 *)link)->unk_04 = motion;
                         ((S_80020DF0_8 *)link)->unk_02 = 0x78;
                         ((S_80020DF0_6 *)particle)->unk_10 = particle_data;
-                        func_8003DB94(part, D_800F3020, (s16)(index * 4));
+                        func_8003DB94(part, snowball_actor_sprites, (s16)(index * 4));
                     }
                     index--;
                 } while (index >= 0);

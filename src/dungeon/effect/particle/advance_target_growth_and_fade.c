@@ -139,7 +139,7 @@ extern void try_apply_effect_four_by_chance(void *, s32, s32);
 extern u8 D_800DEAE0[];
 #define D_80024684 ((u8 *)create_coordinate_sprite_object)
 
-extern u8 D_800E3D68[];
+extern u8 current_spell_effect_variant[];
 void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
@@ -244,7 +244,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
             s32 position_or_z_offset;
             s32 prim_color;
 
-            burst_obj = allocate_list_node(0x312, &D_80083498.next);
+            burst_obj = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (burst_obj != 0) {
                 register_node(burst_obj, (s32)project_sprite_chain);
                 prim = burst_obj->unk_0C;
@@ -298,7 +298,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
     }
     if (actor->unk_60 != 0) {
         S_func_818DA800_5 *impact_obj;
-        impact_obj = allocate_list_node(0x201, &D_80083498.next);
+        impact_obj = allocate_list_node(0x201, &scene_object_list_anchor.next);
         if (impact_obj != 0) {
             u16 effect_y;
             u16 effect_z;
@@ -344,7 +344,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         (((S_func_818DA800_3 *)actor->unk_60)->unk_14 & 4) != 0) {
         try_apply_effect_four_by_chance(
             actor->unk_60,
-            ((S_func_818DA800_10 *)D_800E3D68)->unk_00 == 0xFF ? 0xFF : 0x10,
+            ((S_func_818DA800_10 *)current_spell_effect_variant)->unk_00 == 0xFF ? 0xFF : 0x10,
             2);
     }
     effect_state->unk_50.as_u16 = 10;

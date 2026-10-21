@@ -2,7 +2,7 @@
 
 
 extern s32 D_80700630[];
-extern u8 D_80700000[];
+extern u8 devkit_globals_page[];
 extern void func_807007D8(s32);
 extern void func_80700868(s32);
 extern void func_8070096C(s32, s32);
@@ -14,7 +14,7 @@ s32 read_selected_table_value(void) {
 
     func_80700868(1);
     entry_index = D_80700630[0];
-    entry_value = *(s32 *)(D_80700000 + (entry_index * 0x10) + 0x674);
+    entry_value = *(s32 *)(devkit_globals_page + (entry_index * 0x10) + 0x674);
     func_8070096C(entry_index, 1);
     func_807007D8(1);
     return entry_value;

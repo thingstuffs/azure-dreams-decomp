@@ -1,14 +1,12 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     s16 x;
     s16 y;
     s16 z;
 } Vec3s;
-
-extern s32 rcos(s32);
-extern s32 rsin(s32);
 
 /* Projects input x into the xy plane using the global angle and doubles input y into z. */
 void project_vector_by_view_angle(Vec3s *input, Vec3s *output) {

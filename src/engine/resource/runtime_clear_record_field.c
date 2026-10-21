@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "records/Rec_D_80082D58.h"
+#include "engine/resource.h"
 
 
 /* Clears the record's unk_04 field. */

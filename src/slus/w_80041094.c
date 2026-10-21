@@ -1,5 +1,6 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "slus.h"
 
 /* View of the shared global struct D_80082E60 as seen by this function:
  * a block of four consecutive s16 fields at offsets 0x10/0x12/0x14/0x16
@@ -13,8 +14,8 @@ extern void func_80040AA0(u16 a0);
 void func_80041094(s32 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16)
 {
     func_80040AA0((u16)notify_value);
-    D_80082E60.unk_10 = state_10;
-    D_80082E60.unk_12 = state_12;
-    D_80082E60.unk_14 = state_14;
-    D_80082E60.flags16 = state_16;
+    runtime_dispatch_state.unk_10 = state_10;
+    runtime_dispatch_state.unk_12 = state_12;
+    runtime_dispatch_state.unk_14 = state_14;
+    runtime_dispatch_state.flags16 = state_16;
 }

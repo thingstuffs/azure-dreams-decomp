@@ -43,9 +43,9 @@ typedef struct S_8008E504_4 {
 } S_8008E504_4;   /* arg2 in update_player_landing_recovery */
 
 
-extern s32 D_80081484;
-extern s32 D_800E3540;
-extern u8 D_8008EAC8[];
+extern s32 held_item_record;
+extern s32 saved_held_item_word;
+extern u8 player_action_tag[];
 extern u8 D_800DD058[];
 
 extern void func_800419EC(s32, s32);
@@ -73,12 +73,12 @@ void update_player_landing_recovery(S_8008E504_0 *actor, S_8008E504_1 *action, S
             func_800419EC(8, 0x10);
             if (entity->unk_1C & 0x100000) {
                 linked_object = actor->unk_124;
-                saved_status = D_80081484;
+                saved_status = held_item_record;
                 object_flags = linked_object->unk_1C;
-                D_80081484 = 0;
+                held_item_record = 0;
                 linked_object->unk_1C = object_flags & 0xFFF7FFFF;
                 entity_flags = entity->unk_1C;
-                D_800E3540 = saved_status;
+                saved_held_item_word = saved_status;
                 entity->unk_1C = entity_flags & 0xFFEFFFFF;
             }
             state_or_ticks = 0xC;
@@ -90,7 +90,7 @@ void update_player_landing_recovery(S_8008E504_0 *actor, S_8008E504_1 *action, S
                 /* fall through */
     case 1:
         if (entity->unk_1C & 0x100000) {
-            actor->unk_8C = D_8008EAC8;
+            actor->unk_8C = player_action_tag;
             return;
         }
         sprite->unk_2C = D_800DD058;

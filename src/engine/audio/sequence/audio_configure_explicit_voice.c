@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
+#include "slus.h"
 
 typedef struct S_8005C2C0_slot
 {
@@ -59,10 +62,6 @@ extern s32 audio_voice_masks[32];
 extern S_8005C2C0_slot audio_voice_records;
 extern s32 audio_update_guard[4];
 extern S_8005C2C0_kind audio_bank_slots;
-extern void sound_reset_indexed_voice_envelope(s32 request_index);
-extern void func_8005E97C(s32 a0, s32 a1);
-extern s32 func_8005EB78(s32 a0);
-extern void apply_voice_attributes_and_key_on(void *a0);
 /* Initialize a sound voice with the requested volume, pitch, and note. */
 s16 audio_configure_explicit_voice(s16 sound_id, s32 voice_id, s16 note, unsigned short note_offset, u16 pitch, u16 left_volume,
     u16 right_volume)

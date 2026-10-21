@@ -34,8 +34,8 @@ extern void backup_and_clear_linked_values(void *);
 extern void restore_linked_values_from_backup(void *);
 extern void refresh_catalog_secondary_detail(void *);
 extern void refresh_catalog_primary_detail(void *);
-extern TownInitialPosition D_80126AF8[5];
-extern void *D_80129728[];
+extern TownInitialPosition catalog_grid_layout[5];
+extern void *catalog_display_node_slots[];
 
 /* Initializes, updates, or clears town objects according to the current action. */
 void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
@@ -73,7 +73,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
             s32 *clear_entry;
 
             clear_index = 14;
-            clear_base = (u8 *)D_80129728;
+            clear_base = (u8 *)catalog_display_node_slots;
             clear_cursor = (s32 **)(clear_base + 0x38);
             do {
                 clear_entry = *clear_cursor++;
@@ -84,12 +84,12 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
         return;
     case 7:
         object_index = 14;
-        initial_base = (s8 *)D_80126AF8;
+        initial_base = (s8 *)catalog_grid_layout;
         initial_offset = 0;
         do {
             initial_data = (s32 *)((u32)initial_offset + (u32)initial_base);
             initial_offset += 8;
-            target_object = D_80129728[object_index];
+            target_object = catalog_display_node_slots[object_index];
             data_word = *initial_data;
             object_index += 1;
             target_object->unk_00 = data_word;
@@ -99,7 +99,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
     case 10:
         object_index = 14;
         do {
-            object_data = ((CatalogObjectPayloadView *)(D_80129728[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->unk_08;
             object_word = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(object_word - 0x100);
@@ -112,7 +112,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
     case 14:
         object_index = 14;
         do {
-            object_data = ((CatalogObjectPayloadView *)(D_80129728[object_index]))->unk_08;
+            object_data = ((CatalogObjectPayloadView *)(catalog_display_node_slots[object_index]))->unk_08;
             object_word = object_data->unk_02;
             object_index += 1;
             object_data->unk_02 = (u16)(object_word - 0x100);
@@ -127,7 +127,7 @@ void animate_catalog_previous_detail(Rec_func_801237A4_arg0 *context)
             s32 *clear_entry;
 
             clear_index = 14;
-            clear_base = (u8 *)D_80129728;
+            clear_base = (u8 *)catalog_display_node_slots;
             clear_cursor = (s32 **)(clear_base + 0x38);
             do {
                 clear_entry = *clear_cursor++;

@@ -74,9 +74,9 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
     s32 cleared_selection;
     u8 *entity_base;
 
-    if (entity == ((u8 *)D_800E3D7C)) {
+    if (entity == ((u8 *)dungeon_actor_ring_anchor)) {
         ((PlayerRecord *)entity)->pending_item_action = source;
-        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
 

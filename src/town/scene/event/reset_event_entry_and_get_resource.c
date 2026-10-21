@@ -5,7 +5,7 @@ extern u8 D_8001FD7A[];
 
 /* Reset byte 5 and set byte 1 of the first entry, then return D_8001FD7A. */
 u8 *reset_event_entry_and_get_resource(void) {
-    D_8001E950->unk_05 = 0;
-    D_8001E950->dispatchState = 2;
+    town_event_state->unk_05 = 0;
+    town_event_state->dispatchState = 2;
     return D_8001FD7A;
 }

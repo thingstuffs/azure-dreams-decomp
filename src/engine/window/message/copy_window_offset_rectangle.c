@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/window/message.h"
 
 typedef struct S_80036988_0 {
     u8 pad_00[0x8];

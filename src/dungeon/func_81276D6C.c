@@ -140,14 +140,14 @@ void advance_actor_action_phase(ActorActionWork *action, ObjectPosition *motion,
                 u8 use_player_target = usePlayerTarget;
 
                 if (use_player_target) {
-                    target_link = D_800814A8;
+                    target_link = primary_actor_record;
                     actor->target = target_link;
                     /* Both target paths read the link in the object prefix. */
                     actionKindOrTargetAddress = (s32)((TargetLinkHeader *)target_link)[-1].positionRecord;
 
                     actor->target_tile_x = ((TargetPositionView *)actionKindOrTargetAddress)->tileX;
                     actor->target_tile_y = ((TargetPositionView *)actionKindOrTargetAddress)->tileY;
-                } else if (D_8006DE24[*actionEntry].kind == 2) {
+                } else if (item_action_definitions[*actionEntry].kind == 2) {
                     target_link = actor->target;
                     if (target_link != 0) {
                         /* Both target paths read the link in the object prefix. */
@@ -187,7 +187,7 @@ void advance_actor_action_phase(ActorActionWork *action, ObjectPosition *motion,
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
         g_dungeon_status.active_actor = 0;
-        ((ActorCounterView *)D_800814A8)->pendingCount--;
+        ((ActorCounterView *)primary_actor_record)->pendingCount--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
         action->handler = &D_8014D514;

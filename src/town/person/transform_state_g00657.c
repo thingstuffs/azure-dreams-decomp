@@ -13,7 +13,7 @@ void update_transform_motion_page(void *object_data, void *motion_data) {
 
     u32 page;
 
-    if (D_8006ADD4 == 0x17000C) {
+    if (map_scene_selector_alias == 0x17000C) {
         motion->unk_08 = 0xFF600000;
     } else {
         motion->unk_08 = 0xFFE00000;

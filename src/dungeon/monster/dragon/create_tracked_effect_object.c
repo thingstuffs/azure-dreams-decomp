@@ -22,7 +22,7 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
     saved_x = x;
     saved_part_id = part_id;
     saved_y = y;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015E854_0 *)obj)->unk_10 = D_8015EA28;

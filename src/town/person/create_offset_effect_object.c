@@ -44,7 +44,7 @@ s32 create_offset_effect_object(IntVector3 *source_pos) {
     void *object;
     s32 offset_z;
 
-    object = allocate_list_node(0x136, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x136, ((s32 *)&scene_object_list_anchor.next));
     if (object == NULL) {
         return 0;
     }

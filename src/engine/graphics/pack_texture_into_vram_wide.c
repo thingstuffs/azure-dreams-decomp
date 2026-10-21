@@ -1,6 +1,7 @@
 #include "slus/owned_80047338.h"
 
 #include "slus/owned_80047338.h"
+#include "engine/graphics.h"
 
 void pack_texture_into_vram_wide(S_80047338_hdr *texture, S_80047338_rec *record, s32 data_offset)
 {

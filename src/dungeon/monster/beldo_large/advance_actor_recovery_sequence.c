@@ -96,7 +96,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
         }
         actor->unk_2A = get_rounded_facing_and_rounding_flag(
             sprite->unk_24, sprite->unk_25,
-            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &target_distance);
+            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &target_distance);
         action->unk_94 = 1;
         return;
 

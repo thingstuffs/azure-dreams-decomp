@@ -116,11 +116,11 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         draw_textured_ellipse(D_800DF334, upload_rect, 1, 0);
         upload_rect[0] = 0x01000360;
         draw_textured_ellipse(D_80024980, upload_rect, 1, 0);
-        ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_F4 = D_80024998;
+        ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_F4 = D_80024998;
         create_timed_model_effect(((S_8195281C_0 *)effect)->unk_00 - 0x20, ((S_8195281C_0 *)effect)->unk_04, 0, 0);
         ((S_8195281C_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1);
     case 1:
-        actor_slot = (void **) ((int *)(&D_800814A8));
+        actor_slot = (void **) ((int *)(&primary_actor_record));
         if (!(*((S_8195281C_0 *)effect)->unk_04 & 0x80)) {
             break;
         }
@@ -146,14 +146,14 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         if ((delay_left << 0x10) > 0) {
             break;
         }
-        model_owner = ((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.p;
+        model_owner = ((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.p;
         ((S_8195281C_0 *)effect)->unk_18 = 0x20;
         allocate_and_initialize_effect_object(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09,
             model_owner->unk_60);
         ((S_8195281C_0 *)effect)->unk_0A.s = (u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1;
         break;
     case 3:
-        model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.i))->unk_60;
+        model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_60;
         if (model != 0) {
             model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
             ((S_8195281C_5 *)model)->unk_1C = (s32) (((S_8195281C_5 *)model)->unk_1C | 0x10000000);
@@ -170,14 +170,14 @@ void update_directional_actor_effect(void *effect, void *color_data) {
                 model_colors->unk_0C.at02.v = 0x20U;
             }
         }
-        if (!(D_80082E80.sprite_flags & 0x8000)) {
+        if (!(reference_tile_object.sprite_flags & 0x8000)) {
             fade_left = (u16) ((S_8195281C_0 *)effect)->unk_18 - 1;
             ((S_8195281C_0 *)effect)->unk_18 = fade_left;
             if ((fade_left << 0x10) >= 0) {
                 break;
             }
         }
-        model = ((S_8195281C_7 *)(((u8 *)D_800E3D7C)))->unk_60;
+        model = ((S_8195281C_7 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_60;
         if (model != 0) {
             model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
             model_colors->unk_0C.at00u.v = 0x808080;
@@ -426,7 +426,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
     if (mirrored != 0) state->angle = angle + 0x800;
     state->reverse_angle = 0x1000 - state->angle;
     if (target == 0) {
-        origin = &D_80082E80;
+        origin = &reference_tile_object;
         offset = ((u32)angle >> 9) & 7;
         coordinate = ((origin->tile_position.parts.tile_x + dir_step_x[offset]) << 6) + 0x20;
         position->x = coordinate;
@@ -434,7 +434,7 @@ void spawn_spiraling(void *anchor, s16 angle, s16 unused, void *target, s32 mirr
         coordinate_y = ((origin->tile_position.parts.tile_y + dir_step_y[offset]) << 6) + 0x20;
         position->y = coordinate_y;
         state->y = coordinate_y;
-        state->z = position->z.bits = (u16)D_800814A8->ground_height;
+        state->z = position->z.bits = (u16)primary_actor_record->ground_height;
     } else {
         target_position = ((SpawnHeader *)target - 1)->position;
         state->x = position->x = target_position->x;
@@ -457,9 +457,9 @@ void process_effect_modes_and_completion(void *state)
     u16 *counter_base = D_800249A6;
     object_addr = ((s32) state) - 0x20;
     spawn_spiraling(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)),
-        D_800814A8->target, (counter_base[0]++, 0));
+        primary_actor_record->target, (counter_base[0]++, 0));
     spawn_spiraling(object_addr, *((s16 *) (((u8 *) state) + 0x26)), *((s16 *) (((u8 *) state) + 0x30)),
-        D_800814A8->target, 1);
+        primary_actor_record->target, 1);
     countdown = (*((u16 *) (((u8 *) state) + 0x2C))) - 1;
     *((u16 *) (((u8 *) state) + 0x2C)) = countdown;
     if ((((s16) countdown) < 0) || (D_800249A4 != 0)) {

@@ -3,7 +3,7 @@
 #include "common.h"
 #include "shared/sound_volume.h"
 
-extern int   D_80084130[3];
+extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
 extern short audio_command_queue[5];
 extern int   audio_slot_service_word[3];
@@ -84,23 +84,23 @@ int identity_int(int value)
     return value;
 }
 
-extern int D_8006CE34[4];
+extern int cd_cue_parameters[4];
 
 /* Return the global status block. */
 int *read_sound_stream_cue_pointer(void) {
-    return D_8006CE34;
+    return cd_cue_parameters;
 }
 
 /* Return the saved global value. */
 int read_sound_payload_slot(void)
 {
-    return D_800814C8;
+    return sound_payload_buffer;
 }
 
 /* Store the global value. */
 void set_sound_payload_slot(int value)
 {
-    D_800814C8 = value;
+    sound_payload_buffer = value;
 }
 
 /* Wait for 512 vertical synchronization intervals. */
@@ -139,12 +139,12 @@ typedef struct Node {
     unsigned short field_1E; /* 0x1E */
 } Node;
 
-extern Node *D_80081498;
+extern Node *active_node_list_head;
 
 /* Set flag bits 0xC00 on every node in the global list. */
 void mark_resource_list_flags_ten_and_eleven(void)
 {
-    Node *node = D_80081498;
+    Node *node = active_node_list_head;
 
     if (node != 0) {
         do {
@@ -169,14 +169,14 @@ int count_null_terminated_pointers(void **entries)
     return count;
 }
 
-extern int *D_800814E0;
+extern int *runtime_callback_write_cursor;
 
 /* Append a value to the global word list and restore its zero terminator. */
 void append_terminated_runtime_word(int value)
 {
-    *D_800814E0 = value;
-    D_800814E0++;
-    *D_800814E0 = 0;
+    *runtime_callback_write_cursor = value;
+    runtime_callback_write_cursor++;
+    *runtime_callback_write_cursor = 0;
 }
 
 /* Return the stride index relative to base, or -1 when it reaches the limit. */
@@ -601,7 +601,7 @@ void create_single_callback_payload(void *object) {
 /* Find the target node in the global linked list. */
 Node *find_active_list_node(Node *target)
 {
-    Node *node = D_80081498;
+    Node *node = active_node_list_head;
 
     while (node != 0) {
         if (node == target) {
@@ -652,7 +652,7 @@ int create_item_view_without_event(int object, int value)
     return create_item_view_for_entry(object, value, 0);
 }
 
-extern unsigned char D_80080A84;
+extern unsigned char animation_tick_scale;
 
 struct S8004CBFC_a1 {
     unsigned short f0;
@@ -669,7 +669,7 @@ struct S8004CBFC_a0 {
 /* Initialize entry state, compute its rate, and optionally copy its value to the cursor. */
 void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor) {
     state->f8 = entry;
-    state->f0 = entry->f0 / D_80080A84;
+    state->f0 = entry->f0 / animation_tick_scale;
     state->f4 = cursor;
     if (cursor != 0) {
         *cursor = entry->f4;
@@ -711,14 +711,14 @@ void set_descriptor_grid_byte_coordinates(signed char *record, int width, int he
 /* Store the global value. */
 void set_message_mode(int value)
 {
-    D_80081550 = value;
+    message_handler_mode = value;
 }
 
 /* Clear both global values. */
 void clear_message_command_words(void)
 {
-    D_80081554 = 0;
-    D_80081558 = 0;
+    message_command_write_index = 0;
+    message_command_start_index = 0;
 }
 
 extern void clear_resident_bitmap_bit(int);
@@ -779,7 +779,7 @@ void func_8004E9E4(void) {
 
 /* Clear the first word of the global state. */
 void clear_vram_callback_state(void) {
-    D_80084130[0] = 0;
+    card_server_initialized[0] = 0;
 }
 
 extern void *scene_create_resource_transition(void *owner, int task_context);

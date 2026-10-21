@@ -21,7 +21,7 @@ extern struct S_80082EA8 {
     s32 pad[2];
 } D_80082EA8;
 /* extern */
-extern s8 ***D_80081458;
+extern s8 ***loaded_town_resource_attributes;
 
 extern s32 D_80100E2C[3];
 

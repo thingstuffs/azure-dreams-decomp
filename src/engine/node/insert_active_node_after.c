@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node.h"
 
 typedef struct S_80040060 {
     struct S_80040060 *next;  /* 0x00 */
@@ -10,7 +11,7 @@ typedef struct S_80040060 {
 extern struct {
     S_80040060 *head;
     int pad[2];
-} D_80081498;
+} active_node_list_head;
 
 /* Inserts node after anchor, sets flag 0x4000, and leaves prev null when anchor is the global head. */
 void insert_active_node_after(S_80040060 *anchor, S_80040060 *node)
@@ -28,7 +29,7 @@ void insert_active_node_after(S_80040060 *anchor, S_80040060 *node)
         node->next = 0;
     }
 
-    if (anchor == D_80081498.head) {
+    if (anchor == active_node_list_head.head) {
         node->prev = 0;
     } else {
         node->prev = anchor;

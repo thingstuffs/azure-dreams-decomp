@@ -112,13 +112,13 @@ s32 is_selectable_menu_target();                             /* extern */
 void update_selection_tile_markers();            /* extern */
 extern M2C_UNK D_8001EF2C;
 extern M2C_UNK D_8004F5F4;
-extern M2C_UNK D_80082EB0;
-extern s32 D_80082EB8;
-extern s8 D_800DCF4D;
-extern u8 D_800DCFB0[];
-extern u8 D_800DD0B8[];
-extern u8 D_800DD274[];
-extern DdcbcEntry D_800DDCBC[];
+extern M2C_UNK selected_item_record_alias;
+extern s32 selected_item_action_alias;
+extern s8 spell_effect_selector_cache;
+extern u8 player_wait_frames[];
+extern u8 player_carry_frames[];
+extern u8 actor_default_frames[];
+extern DdcbcEntry species_growth_table[];
 extern M2C_UNK D_800E0462;
 extern M2C_UNK D_800E0472;
 extern M2C_UNK D_800E0542;
@@ -127,8 +127,8 @@ extern M2C_UNK D_800E069D;
 extern M2C_UNK D_800E06BD;
 extern M2C_UNK D_800E06C0;
 extern M2C_UNK D_800E06E0;
-extern s32 D_800E3DF0[];
-extern s32 D_800E4938[];
+extern s32 familiar_record_slots[];
+extern s32 dungeon_menu_action_state[];
 
 /* Wait for the menu to close, then dispatch the selected item or companion action. */
 void process_dungeon_menu_selection(void *state, s32 context, void *sprite, ActorRecord *actor) {
@@ -153,18 +153,18 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
     phase = ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8;
     switch (phase) {
     case 0:
-        D_800DCF4D = -1;
+        spell_effect_selector_cache = -1;
         read_vram_blocks_to_buffer();
-        if (((S_80090C10_1 *)(&D_800E4938))->unk_00.s != &D_8004F5F4) {
+        if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s != &D_8004F5F4) {
             if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
-                ((SpriteFrameState *)sprite)->frameTable = &D_800DD274;
-                func_8003DB94(sprite, *(s32 *)(D_800DD274 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+                ((SpriteFrameState *)sprite)->frameTable = &actor_default_frames;
+                func_8003DB94(sprite, *(s32 *)(actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 7) & 0x1C)), 0);
             } else {
                 if (actor->flags1C & 0x100000) {
-                    anim_table = D_800DD0B8;
+                    anim_table = player_carry_frames;
                 } else {
-                    anim_table = D_800DCFB0;
+                    anim_table = player_wait_frames;
                 }
                 ((SpriteFrameState *)sprite)->frameTable = anim_table;
                 set_sprite_animation_frame(sprite, *(anim_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
@@ -173,15 +173,15 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
         }
         ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 + 1);
     case 1:
-        menu = ((S_80090C10_1 *)(&D_800E4938))->unk_00.u(((S_80090C10_1 *)(&D_800E4938))->unk_04,
-            ((S_80090C10_1 *)(&D_800E4938))->unk_08);
+        menu = ((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.u(((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_04,
+            ((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_08);
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = menu;
         if (menu == NULL) {
             return;
         }
         ((Rec_func_8008D024_arg0 *)state)->unk_96 = 0;
-        ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv = NULL;
-        selection = &D_80082EB0;
+        ((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv = NULL;
+        selection = &selected_item_record_alias;
         ((S_80090C10_4 *)selection)->unk_04 = 0;
         ((S_80090C10_4 *)selection)->unk_08 = 0;
         ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = (u8) (((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 + 1);
@@ -192,39 +192,39 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
     }
     if (((S_80090C10_12 *)(((Rec_func_8008D024_arg0 *)state)->unk_C8))->unk_1E & 0x8000) {
         update_selection_tile_markers(0, 0);
-        ui_flags = ((S_80090C10_5 *)(&D_800E296C))->unk_00;
+        ui_flags = ((S_80090C10_5 *)(&dungeon_floor_flags))->unk_00;
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
-        (*(s32 *)&D_800E296C) = ui_flags & ~0x2000;
+        (*(s32 *)&dungeon_floor_flags) = ui_flags & ~0x2000;
     }
     if (((Rec_func_8008D024_arg0 *)state)->unk_C8 != NULL) {
         return;
     }
-    switch (D_80082EB8) {
+    switch (selected_item_action_alias) {
     case 1:
-        append_packed_action_record(actor, 0x48, get_special_table_data_index(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv), 0);
-        if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_01 == 0x11) {
-            change_equipped_item_and_notify(actor, (*(void **)&D_80082EB0));
-            D_80082EB8 = 0;
+        append_packed_action_record(actor, 0x48, get_special_table_data_index(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv), 0);
+        if (((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_01 == 0x11) {
+            change_equipped_item_and_notify(actor, (*(void **)&selected_item_record_alias));
+            selected_item_action_alias = 0;
             break;
         }
-        equip_item_and_update_status(actor, (*(void **)&D_80082EB0));
-        D_80082EB8 = 0;
+        equip_item_and_update_status(actor, (*(void **)&selected_item_record_alias));
+        selected_item_action_alias = 0;
         break;
     case 2:
-        if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_01 == 0x11) {
+        if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv))->unk_01 == 0x11) {
             append_packed_action_record(actor, 0x48, get_special_table_data_index((*(void * *)&actor->unk_50)), 0);
             change_equipped_item_and_notify(actor, NULL);
-            D_80082EB8 = 0;
+            selected_item_action_alias = 0;
             break;
         }
         append_packed_action_record(actor, 0x48, get_special_table_data_index(actor->unk_4C), 0);
         equip_item_and_update_status(actor, NULL);
-        D_80082EB8 = 0;
+        selected_item_action_alias = 0;
         break;
     case 21:
-        if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_03 & 0x20) {
+        if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv))->unk_03 & 0x20) {
             display_formatted_context_message(&D_800E0542);
-            D_80082EB8 = 0;
+            selected_item_action_alias = 0;
             break;
         }
         if (is_selectable_menu_target(((Rec_func_8008D024_arg0 *)state)->unk_AC) != 0 || is_selectable_menu_target(((Rec_func_8008D024_arg0 *)state)->unk_B0) != 0) {
@@ -232,15 +232,15 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
             return;
         }
         display_formatted_context_message(&D_800E0571);
-        D_80082EB8 = 0;
+        selected_item_action_alias = 0;
         break;
     case 3:
     case 4:
     case 20:
-        item_result = dispatch_dungeon_category_action(actor, ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, 3, 0);
+        item_result = dispatch_dungeon_category_action(actor, ((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv, 3, 0);
         if (item_result >= 0) {
-            item_text_id = (s16) get_special_table_data_index((*(void **)&D_80082EB0));
-            append_packed_action_record(actor, 0x48, item_text_id, get_special_table_data_index(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_04));
+            item_text_id = (s16) get_special_table_data_index((*(void **)&selected_item_record_alias));
+            append_packed_action_record(actor, 0x48, item_text_id, get_special_table_data_index(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_04));
             if (item_result > 0) {
                 goto block_64;
             }
@@ -248,40 +248,40 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
                 return;
             }
         }
-        if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_01 != 0x15) {
+        if (((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_01 != 0x15) {
             return;
         }
         ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = 3U;
         return;
     case 5:
-        append_packed_action_record(actor, 0x58, 0, get_special_table_data_index(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv));
-        begin_holding_item(state, context, sprite, (*(void **)&D_80082EB0));
-        D_80082EB8 = 0;
+        append_packed_action_record(actor, 0x58, 0, get_special_table_data_index(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv));
+        begin_holding_item(state, context, sprite, (*(void **)&selected_item_record_alias));
+        selected_item_action_alias = 0;
         break;
     case 8:
     case 9:
-        append_packed_action_record(actor, 0x98, 0, get_special_table_data_index(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv));
-        if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x20) {
-            resolve_familiar_deployment_request(state, context, sprite, (*(void **)&D_80082EB0));
-            D_80082EB8 = 0;
+        append_packed_action_record(actor, 0x98, 0, get_special_table_data_index(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv));
+        if (((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_03 & 0x20) {
+            resolve_familiar_deployment_request(state, context, sprite, (*(void **)&selected_item_record_alias));
+            selected_item_action_alias = 0;
             break;
         }
         direction = ((u16) actor->facing >> 9) & 7;
         if ((find_valid_nearby_position(0, (s16) (((SpriteFrameState *)sprite)->unk_24 + dir_step_x[direction]),
             (s16) (((SpriteFrameState *)sprite)->unk_25 + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
             text_buffer = get_unused_text_buffer();
-            text_end = append_entity_display_text(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F],
+            text_end = append_entity_display_text(familiar_record_slots[((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_03 & 0x1F],
                 expand_text_control_codes(&D_800E069D, text_buffer));
             func_80099290(expand_text_control_codes(&D_800E06BD, text_end));
             display_text_with_fullwidth_adjustment(text_buffer);
-            D_80082EB8 = 0;
+            selected_item_action_alias = 0;
             break;
         }
-        if (begin_familiar_summoning(state, context, sprite, (*(void **)&D_80082EB0)) != 0) {
+        if (begin_familiar_summoning(state, context, sprite, (*(void **)&selected_item_record_alias)) != 0) {
             return;
         }
         text_buffer = get_unused_text_buffer();
-        text_end = append_entity_display_text(D_800E3DF0[((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x1F],
+        text_end = append_entity_display_text(familiar_record_slots[((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_03 & 0x1F],
             expand_text_control_codes(&D_800E06C0, text_buffer));
         func_80099290(expand_text_control_codes(&D_800E06E0, text_end));
         display_text_with_fullwidth_adjustment(text_buffer);
@@ -295,60 +295,60 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
         ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
         goto block_64;
     case 12:
-        companion_value = (s32) ((S_80090C10_14 *)((((s32) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv * 4)
+        companion_value = (s32) ((S_80090C10_14 *)((((s32) ((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv * 4)
             + state)))->unk_AC;
         if (!(((S_80090C10_8 *)((void *)companion_value))->unk_1C & 0x80000)) {
             ((S_80090C10_8 *)((void *)companion_value))->unk_60 = 0;
         }
-        if (((S_80090C10_1 *)(&D_800E4938))->unk_00.s == &D_8001EF2C) {
-            D_80082EB8 = 0;
+        if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s == &D_8001EF2C) {
+            selected_item_action_alias = 0;
             break;
         }
-        companion = ((S_80090C10_9 *)((((s32) (*(void **)&D_80082EB0) * 4) + state)))->unk_AC;
+        companion = ((S_80090C10_9 *)((((s32) (*(void **)&selected_item_record_alias) * 4) + state)))->unk_AC;
         companion_value = ((S_80090C10_10 *)companion)->unk_46 & 0x3FFF;
         if ((u32) (companion_value - 5) < 3U) {
-            D_80082EB8 = 0;
+            selected_item_action_alias = 0;
             break;
         }
         if ((u32) (companion_value - 9) < 2U) {
-            companion_flags = D_800DDCBC[((S_80090C10_10 *)companion)->unk_13].flags;
+            companion_flags = species_growth_table[((S_80090C10_10 *)companion)->unk_13].flags;
             if (companion_value != 9) {
                 state_allowed = companion_flags & 2;
             } else {
                 state_allowed = companion_flags & 1;
             }
             if (state_allowed != 0) {
-                D_80082EB8 = 0;
+                selected_item_action_alias = 0;
                 break;
             }
         }
-        if (begin_familiar_command_selection(state, context, sprite, (s16) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, 1) != 0) {
+        if (begin_familiar_command_selection(state, context, sprite, (s16) ((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv, 1) != 0) {
             return;
         }
-        D_80082EB8 = 0;
+        selected_item_action_alias = 0;
         break;
     case 16:
-        ((Rec_func_8008D024_arg0 *)state)->unk_BC = (void *) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv;
+        ((Rec_func_8008D024_arg0 *)state)->unk_BC = (void *) ((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv;
         if (begin_target_flagged_action(state, context, sprite, actor) != 0) {
             return;
         }
-        D_80082EB8 = 0;
+        selected_item_action_alias = 0;
         break;
     case 6:
     case 7:
     {
-        u8 *action_data = (u8 *)&D_80082EB0;
+        u8 *action_data = (u8 *)&selected_item_record_alias;
         action_index = ((S_80090C10_11 *)action_data)->unk_08 - 6;
         actor->unk_8A = action_index;
         if (request_familiar_deployment_change(state, context, sprite, ((S_80090C10_11 *)action_data)->unk_00, (s32) action_index) == 0) {
             return;
         }
-        D_80082EB8 = 0;
+        selected_item_action_alias = 0;
         break;
     }
     case 17:
     case 18:
-        register_item_object_in_free_slot(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, &D_800E0462, &D_800E0472, 1);
+        register_item_object_in_free_slot(((Rec_D_80082EB0 *)(&selected_item_record_alias))->unk_00.as_pv, &D_800E0462, &D_800E0472, 1);
         goto block_64;
     case 19:
         begin_special_tile_transition(state, context, sprite, actor);
@@ -356,7 +356,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
     case 15:
     default:
 block_64:
-        D_80082EB8 = 0;
+        selected_item_action_alias = 0;
     }
     if (((Rec_func_8008D024_arg0 *)state)->unk_C8 != NULL) {
         return;

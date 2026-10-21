@@ -1,5 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/node.h"
+#include "engine/scene.h"
 
 typedef struct S_800511B4_sub {
     void *unk0;                /* 0x00 (== entity offset 0x20): related entity */
@@ -16,8 +18,6 @@ typedef struct S_800511B4_entity {
     S_800511B4_sub sub;                 /* 0x20 */
     u8 pad2D[0x124 - 0x2D];             /* 0x2D */
 } S_800511B4_entity;
-
-extern void start_scene_load_task(void *a0);
 
 /* Allocates and initializes a new entity linked to the related entity, or returns NULL. */
 void *create_linked_zukan_task(S_800511B4_entity *related_entity)

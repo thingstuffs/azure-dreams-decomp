@@ -14,7 +14,7 @@ typedef struct S_80081498 {
 extern struct {
     S_80081498 *head;
     int pad[2];
-} D_80081498;
+} active_node_list_head;
 
 /* Returns the node matching a negative key with flag 0x400 clear, or NULL. */
 void *find_unflagged_node_by_key(s32 target_key)
@@ -24,7 +24,7 @@ void *find_unflagged_node_by_key(s32 target_key)
     s32 key;
     void *result;
 
-    node = D_80081498.head;
+    node = active_node_list_head.head;
     result = 0;
     while (node != 0) {
         key = node->field_10;

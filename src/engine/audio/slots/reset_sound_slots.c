@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/slots.h"
 
 /* D_80086A40[16]: slot table, 0x1C-byte stride (see sibling funcs
  * free_sound_slot/audio_get_current_bank_tone_record/audio_reset_and_release_sequence_banks/copy_sound_slot_info). This function

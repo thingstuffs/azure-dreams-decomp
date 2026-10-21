@@ -1,11 +1,10 @@
 #include "common.h"
+#include "engine/text.h"
 
 typedef struct {
     u8 pad0[0x1E];
     u16 flags; /* offset 0x1E */
 } S_8004ECAC;
-
-extern void set_object_and_global_removal_flag(u16 *a0);
 
 /* If flag 0x2000 is set, transfer it to the linked entity and mark this entity and global state dirty. */
 void propagate_linked_removal_request(void *link_field)

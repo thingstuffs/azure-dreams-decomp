@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus.h"
 
 
 
@@ -11,7 +12,6 @@ extern void audio_dispatch_stream_request(s32 a0);
 extern void dispatch_audio_command(s32 a0);
 extern void decode_audio_selector(s32 a0);
 extern void service_audio_channels(void);
-extern void clear_audio_command_queue(void);
 
 /* Dispatch commands by type until a zero code, then finalize processing. */
 void drain_audio_commands_and_service_channels(void) {

@@ -30,17 +30,17 @@ typedef struct TownObject {
 } TownObject;
 
 extern void draw_catalog_primary_detail(TownObject *);
-extern u8 D_80126A01;
+extern u8 catalog_scroll_offset;
 extern void *D_80126988[4];
 extern u8 D_80128038[16];
-extern ImageEntry D_80126E98[];
+extern ImageEntry catalog_glyphs[];
 extern DisplayPair *D_80129748;
 
 /* Select the town object's digit graphic and adjust its display offset for width. */
 void refresh_catalog_primary_detail(TownObject *obj)
 {
     draw_catalog_primary_detail(obj);
-    D_80126A01 = 0;
+    catalog_scroll_offset = 0;
 
     if (obj->digit == 0x31) {
         *obj->town->slots[7] = D_80128038;
@@ -48,5 +48,5 @@ void refresh_catalog_primary_detail(TownObject *obj)
         *obj->town->slots[7] = D_80126988[obj->digit / 16];
     }
 
-    D_80129748->src->f8 = (5 - D_80126E98[obj->digit].width) * 6 + 0xD2;
+    D_80129748->src->f8 = (5 - catalog_glyphs[obj->digit].width) * 6 + 0xD2;
 }

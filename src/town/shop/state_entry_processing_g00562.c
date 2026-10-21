@@ -4,9 +4,9 @@
 
 /* Load a record into the shared buffer, process it, and write it back. */
 void load_a_shared_buffer_process_write_back(s32 record_ref) {
-    restore_actor_stats_from_snapshot(&D_80100A10, record_ref);
-    reset_person_object_entries(&D_80100A10);
-    build_entity_slot_snapshot(record_ref, &D_80100A10);
+    restore_actor_stats_from_snapshot(&town_actor_scratch, record_ref);
+    reset_person_object_entries(&town_actor_scratch);
+    build_entity_slot_snapshot(record_ref, &town_actor_scratch);
 }
 
 /* Processes entries in state 19 and triggers their associated sounds. */
@@ -16,7 +16,7 @@ void process_entries_in_state_n_19_triggers_associated_sounds(void) {
     u8 *entry;
     u8 state;
 
-    entry_count = D_800D0728[find_target_byte_index_in_list()];
+    entry_count = town_record_capacities[find_target_byte_index_in_list()];
     entry = (u8 *)0x80010000;
     for (entry_index = 0; entry_index < entry_count; entry_index++) {
         state = entry[0x981 + entry_index * 4];
@@ -36,7 +36,7 @@ void process_table_entries_referenced_objects_type_hex_13(void) {
     s32 object_type;
     u32 table_base;
 
-    if (D_8001029C != 0) {
+    if (town_item_list != 0) {
         object_type = 0x13;
 
         table_base = 0x800102F0;

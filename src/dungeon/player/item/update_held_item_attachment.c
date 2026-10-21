@@ -68,7 +68,7 @@ typedef struct S_8008D470_7 {
 } S_8008D470_7;   /* ((S_8008D470_1 *)target)->unk_124 in update_held_item_attachment */
 
 
-extern u8 D_80081484[];
+extern u8 held_item_record[];
 
 extern s32 resolve_record_orientation_or_fallback();
 extern s32 func_800644B8();
@@ -99,7 +99,7 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
         ((S_8008D470_0 *)effect)->unk_A2.s = ((S_8008D470_0 *)effect)->unk_A2.u + 1;
     case 1:
         target = ((S_8008D470_0 *)effect)->unk_90;
-        if (resolve_record_orientation_or_fallback(target->unk_08, target, offsets, 0) != 0 &&((PlayerRecord *)D_800E3D7C)->unk_124 != 0) {
+        if (resolve_record_orientation_or_fallback(target->unk_08, target, offsets, 0) != 0 &&((PlayerRecord *)dungeon_actor_ring_anchor)->unk_124 != 0) {
             visual->unk_1C = 0x1000;
             steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
             ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;
@@ -160,13 +160,13 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
         expiry_mode = ((S_8008D470_0 *)effect)->unk_AC;
         ((S_8008D470_0 *)effect)->unk_A8.s = 0;
         if (expiry_mode == 1) {
-            spawn_handle = create_indexed_floor_object(effect, position, visual, ((s32)D_800814A8), ((S_8008D470_0 *)effect)->unk_9C,
+            spawn_handle = create_indexed_floor_object(effect, position, visual, ((s32)primary_actor_record), ((S_8008D470_0 *)effect)->unk_9C,
                 -1);
             if (spawn_handle != 0) {
                 entity = (void *)(spawn_handle + 0x20);
-                target = D_800E3D7C;
+                target = dungeon_actor_ring_anchor;
                 target->unk_124 = entity;
-                entity->unk_9C = D_80081484;
+                entity->unk_9C = held_item_record;
                 entity->unk_1C |= 0x80000;
                 ((S_8008D470_7 *)(target->unk_124))->unk_60 = target;
                 target->unk_1C |= 0x100000;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/spu.h"
 
 extern s32 audio_voice_masks[64];
 
@@ -14,8 +15,6 @@ typedef struct S_8005C710_Req {
     /* 0x0A */ s16 fieldA;
     /* 0x0C */ u8 pad0C[0x40 - 0x0C];
 } S_8005C710_Req;
-
-extern void func_8005FA34(S_8005C710_Req *arg);
 
 /* Processes the indexed table entry and copies the two request results to the output pointers. */
 s32 query_driver_halfword_pair(s16 entry_index, s16 *out_first_value, s16 *out_second_value) {

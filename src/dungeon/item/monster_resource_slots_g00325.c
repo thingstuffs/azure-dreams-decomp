@@ -7,7 +7,7 @@ s32 has_matching_six_slot_entry(entry_id)
 s16 entry_id;
 {
     s16 match_id = entry_id;
-    u8 *entry = D_800E3DB0;
+    u8 *entry = monster_resource_cache_slots;
     s16 index;
 
     if (entry_id == 0x39)
@@ -41,36 +41,36 @@ u8 *find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type) {
     short_id = (s16)short_id;
     if (short_id == 0x38) {
         u8 *table;
-        table = D_800E3DB0;
+        table = monster_resource_cache_slots;
         result = table + 0x10;
         table[0x11] = 0;
-        D_800E3DA0[2] = 0;
-        D_800E3DA0[1] = 0;
-        D_800E3DA0[0] = 0;
+        monster_resource_cache_ids[2] = 0;
+        monster_resource_cache_ids[1] = 0;
+        monster_resource_cache_ids[0] = 0;
         return result;
     }
     match_id = 0x31;
     if (short_id == 0x31) {
         u8 *table;
-        table = D_800E3DB0;
+        table = monster_resource_cache_slots;
         result = table + 8;
         table[9] = 0;
-        D_800E3DA0[1] = 0;
-        D_800E3DA0[0] = 0;
+        monster_resource_cache_ids[1] = 0;
+        monster_resource_cache_ids[0] = 0;
         return result;
     }
     if (short_id == 0x39)
         slot_id = 2;
     if ((s16)slot_type == 3) {
-        entry = D_800E3DB0 + 0x20;
+        entry = monster_resource_cache_slots + 0x20;
         slot_index = 4;
     } else {
         if ((s16)slot_type == 2) {
             u8 *result;
-            result = D_800E3DE0;
+            result = monster_fixed_resource_slot;
             return result;
         }
-        entry = D_800E3DB0;
+        entry = monster_resource_cache_slots;
         if (entry[0x11] == 0x38) {
             s32 start_index;
             start_index = 3;
@@ -88,7 +88,7 @@ u8 *find_or_retain_sprite_resource_slot(s32 requested_id, s32 requested_type) {
 return_type_two:
     {
         u8 *result;
-        D_800E3DA0[6] = 0;
+        monster_resource_cache_ids[6] = 0;
         result = entry;
         return result;
     }
@@ -104,7 +104,7 @@ scan:
         type_three = 3;
         match_id = (s16)slot_id;
         type_two = 2;
-        slot_ids = (s8 *)D_800E3DA0;
+        slot_ids = (s8 *)monster_resource_cache_ids;
         entry_id = entry + 1;
         do {
             if (((slot_type != type_one) && (slot_type != type_three)) || (*entry == slot_type)) {
@@ -144,15 +144,15 @@ u8 *find_monster_entry_by_type_and_id(s16 entry_id, s32 entry_type) {
         entry = D_800E3DD0;
         entry_index = 4;
     } else if (entry_type == 2) {
-        return D_800E3DE0;
-    } else if (D_800E3DB0[0x11] == 0x38) {
-        entry = D_800E3DB0 + 0x18;
+        return monster_fixed_resource_slot;
+    } else if (monster_resource_cache_slots[0x11] == 0x38) {
+        entry = monster_resource_cache_slots + 0x18;
         entry_index = 3;
-    } else if (D_800E3DB0[9] == 0x31) {
-        entry = D_800E3DB0 + 0x10;
+    } else if (monster_resource_cache_slots[9] == 0x31) {
+        entry = monster_resource_cache_slots + 0x10;
         entry_index = 2;
     } else {
-        entry = D_800E3DB0;
+        entry = monster_resource_cache_slots;
         entry_index = 0;
     }
 
@@ -177,7 +177,7 @@ u8 *find_monster_entry_by_type_and_id(s16 entry_id, s32 entry_type) {
 void decrement_monster_entry_count(s16 requested_id, s16 requested_type) {
     s16 slot;
     s16 match_id = requested_id;
-    u8 *entry = D_800E3DB0;
+    u8 *entry = monster_resource_cache_slots;
 
     if (requested_id == 0x39) {
         match_id = 2;

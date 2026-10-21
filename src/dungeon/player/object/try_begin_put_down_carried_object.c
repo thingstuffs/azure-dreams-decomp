@@ -12,7 +12,7 @@ s32 check_movement_clearance_and_height();
 void append_packed_action_record();
 s32 check_layer_offset_height();
 s32 find_valid_floor_item_position();
-extern u8 D_80081485;
+extern u8 held_item_kind_alias;
 extern u8 D_800DD0D0[];
 
 /* Updates actor state and animation when the position checks succeed. */
@@ -24,7 +24,7 @@ void try_begin_put_down_carried_object(void *state, EntityRec *target, SpriteFra
     s32 direction_offset;
 
     actor_or_can = 0;
-    if (D_80081485 == 0x13) {
+    if (held_item_kind_alias == 0x13) {
         s32 animate_result = check_movement_clearance_and_height(actor->facing, sprite, actor, 0x20);
         animate_result <<= 0x10;
         actor_or_can = animate_result > 0;

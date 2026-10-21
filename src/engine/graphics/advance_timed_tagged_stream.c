@@ -1,6 +1,7 @@
 #include "common.h"
+#include "engine/graphics.h"
 
-extern u8 D_80080A84;
+extern u8 animation_tick_scale;
 
 typedef struct FrameNode {
     u16 duration;
@@ -47,7 +48,7 @@ s32 advance_timed_tagged_stream(FrameState *state)
             }
 
             timed_node = state->node;
-            duration_scale = D_80080A84;
+            duration_scale = animation_tick_scale;
             duration = timed_node->duration;
             state->countdown = duration / duration_scale;
         }

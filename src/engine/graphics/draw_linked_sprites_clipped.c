@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/entity.h"
+#include "engine/graphics.h"
 
 /* S_80045C34: the "flags/value" record pointed to by a2. Only two fields are
  * accessed by this function: a signed 16-bit value at 0x6 and a 16-bit flags
@@ -12,7 +14,6 @@ typedef struct S_80045C34 {
 } S_80045C34;
 
 extern void draw_sprite_clipped(void *a0, s32 a1, S_80045C34 *a2, s16 a3);
-extern s32 is_frame_packet_arena_overflowed(u32 a0);
 
 /* D_80083160[0] points at a large shared-state struct; only the pointer field
  * at offset 0x8D0 is read here. */

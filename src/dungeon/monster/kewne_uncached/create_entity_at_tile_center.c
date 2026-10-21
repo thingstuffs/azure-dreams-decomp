@@ -9,7 +9,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
     Func812A5000Entity *entity;
 
     entity = NULL;
-    parent = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    parent = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (parent != NULL) {
         if (D_800FBE1C[0] == 0) {
             D_800FBE1C[0] = parent;
@@ -138,17 +138,17 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
         ((S_812A524C_0 *)(&D_800FBE22))->unk_00.u = (u16) ((S_812A524C_1 *)(&D_800FBE20))->unk_00.u;
     }
     if (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s
-        != ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A) {
+        != ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A) {
         ((S_812A524C_1 *)(&D_800FBE20))->unk_00.u =
-            (u16) ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A;
+            (u16) ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A;
     }
     action_state = ((S_812A524C_3 *)actor_in)->unk_B8;
     if (action_state == 2) {
         direction = get_direction_toward_target_position(motion_in);
         ((S_812A524C_3 *)actor_in)->unk_2A = (s16) (direction << 9);
         if ((((S_812A524C_3 *)actor_in)->unk_B8 == action_state)
-            && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A == 0xE)) {
-            ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_2A =
+            && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A == 0xE)) {
+            ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_2A =
                 (s16) (facing_lookup[direction & 7] << 9);
         }
     }
@@ -162,7 +162,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
             ((S_812A524C_4 *)entity)->unk_71 = (u8) (((S_812A524C_4 *)entity)->unk_71 & 0x7F);
         }
     }
-    if ((u32) (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) - 0x2536) < 2U) {
+    if ((u32) (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) - 0x2536) < 2U) {
         ((S_812A524C_3 *)actor_in)->unk_B0 = (s32) (((S_812A524C_3 *)actor_in)->unk_B0 | 0x20000);
     }
     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x20000)) {
@@ -176,22 +176,22 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
             ((S_812A524C_5 *)(&D_800FBE54))->unk_00 = NULL;
         }
     }
-    if (!(((S_812A524C_6 *)(&D_80013714))->unk_00 & 1)) {
+    if (!(((S_812A524C_6 *)(&system_update_flags))->unk_00 & 1)) {
         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
             if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_actor_or_turn_action(entity) << 0x10) == 0)
-                && (event_0 = (u8 *)((u8 *)(&D_80082E80)), position_0 = (u8 *)((u8 *)(&D_80083780)),
+                && (event_0 = (u8 *)((u8 *)(&reference_tile_object)), position_0 = (u8 *)((u8 *)(&view_reference_entity)),
                     (((((S_812A524C_7 *)event_0)->unk_24 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_02))
                 && (((((S_812A524C_7 *)event_0)->unk_25 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_06)) {
-                actor_kind = ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A;
+                actor_kind = ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A;
                 if ((actor_kind != 0x19) && (actor_kind != 0x1B) && !(((S_812A524C_4 *)entity)->unk_1C & 0x80000)) {
-                    if ((((S_812A524C_3 *)actor_in)->unk_B9 == 0) && !(D_80013714[0] & 1)) {
+                    if ((((S_812A524C_3 *)actor_in)->unk_B9 == 0) && !(system_update_flags[0] & 1)) {
                         ((S_812A524C_3 *)actor_in)->unk_B9 = 1U;
                         func_800353F4(&D_8006EE9C);
                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                         ((S_812A524C_3 *)actor_in)->unk_B8 = 2U;
                         start_direction = get_direction_toward_target_position(motion_in);
-                        facing_actor = (*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00);
+                        facing_actor = (*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00);
                         ((S_812A524C_4 *)entity)->unk_2A = (s16) (start_direction << 9);
                         if (facing_actor->unk_9A == 0xE) {
                             facing_actor->unk_2A = (s16) (((u16 *)&facing_map)[start_direction & 7] << 9);
@@ -200,12 +200,12 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                     }
                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                         if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x20)) {
-                            event_1 = (u8 *)((u8 *)(&D_80082E80));
+                            event_1 = (u8 *)((u8 *)(&reference_tile_object));
                             if ((((S_812A524C_10 *)event_1)->unk_24.at00.v == 0x519)
                                 || (((S_812A524C_10 *)event_1)->unk_24.at00.v == 0x619)) {
                                 event_x_1 = ((S_812A524C_10 *)event_1)->unk_24.at00u.v;
-                                if (((event_x_1 <<= 6) + 0x20) == D_80083780.x.w.i) {
-                                    if (((((S_812A524C_10 *)event_1)->unk_24.at01.v << 6) + 0x20) == D_80083780.y.w.i) {
+                                if (((event_x_1 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
+                                    if (((((S_812A524C_10 *)event_1)->unk_24.at01.v << 6) + 0x20) == view_reference_entity.y.w.i) {
                                         func_800353F4(&D_8006F9D0);
                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -215,7 +215,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                     }
                                 }
                             }
-                            current_kind = ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A;
+                            current_kind = ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A;
                             if ((current_kind != 0x19) && (current_kind != 0x1B)
                                 && ((((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1B)
                                     || (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1F)
@@ -232,13 +232,13 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                         }
                         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                             if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x4000)) {
-                                event_2 = (u8 *)((u8 *)(&D_80082E80));
+                                event_2 = (u8 *)((u8 *)(&reference_tile_object));
                                 if ((((S_812A524C_12 *)event_2)->unk_24.at00.v == 0x2B2D)
                                     || (((S_812A524C_12 *)event_2)->unk_24.at00.v == 0x2C2D)) {
                                     event_x_2 = ((S_812A524C_12 *)event_2)->unk_24.at00u.v;
-                                    if (((event_x_2 <<= 6) + 0x20) == D_80083780.x.w.i) {
+                                    if (((event_x_2 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                         if (((((S_812A524C_12 *)event_2)->unk_24.at01.v << 6) + 0x20)
-                                            == D_80083780.y.w.i) {
+                                            == view_reference_entity.y.w.i) {
                                             func_800353F4(&D_800FB8DF);
                                             ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                             ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -248,7 +248,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                         }
                                     }
                                 }
-                                if (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A == 0x1C) {
+                                if (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A == 0x1C) {
                                     func_800353F4(&D_800FB8DF);
                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -259,9 +259,9 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                             }
                             if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                 if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x200)
-                                    && (event_3 = (u8 *)((u8 *)(&D_80082E80)),
+                                    && (event_3 = (u8 *)((u8 *)(&reference_tile_object)),
                                         ((u32) (((S_812A524C_14 *)event_3)->unk_24.at00.v - 0xB36) < 2U))
-                                    && (position_3 = (u8 *)((u8 *)(&D_80083780)),
+                                    && (position_3 = (u8 *)((u8 *)(&view_reference_entity)),
                                         event_x_3 = ((S_812A524C_14 *)event_3)->unk_24.at00u.v,
                                         (((event_x_3 <<= 6) + 0x20) == ((S_812A524C_15 *)position_3)->unk_02))
                                     && (((((S_812A524C_14 *)event_3)->unk_24.at01.v << 6) + 0x20)
@@ -275,9 +275,9 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                 }
                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x8000)
-                                        && (event_4 = (u8 *)((u8 *)(&D_80082E80)),
+                                        && (event_4 = (u8 *)((u8 *)(&reference_tile_object)),
                                             ((u32) (((S_812A524C_16 *)event_4)->unk_24.at00.v - 0x1236) < 2U))
-                                        && (position_4 = (u8 *)((u8 *)(&D_80083780)),
+                                        && (position_4 = (u8 *)((u8 *)(&view_reference_entity)),
                                             event_x_4 = ((S_812A524C_16 *)event_4)->unk_24.at00u.v,
                                             (((event_x_4 <<= 6) + 0x20) == ((S_812A524C_17 *)position_4)->unk_02))
                                         && (((((S_812A524C_16 *)event_4)->unk_24.at01.v << 6) + 0x20)
@@ -291,12 +291,12 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                     }
                                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                         if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 2)) {
-                                            event_5 = (u8 *)((u8 *)(&D_80082E80));
+                                            event_5 = (u8 *)((u8 *)(&reference_tile_object));
                                             if ((u32) (((S_812A524C_18 *)event_5)->unk_24.at00.v - 0x1D07) < 2U) {
                                                 event_x_5 = ((S_812A524C_18 *)event_5)->unk_24.at00u.v;
-                                                if (((event_x_5 <<= 6) + 0x20) == D_80083780.x.w.i) {
+                                                if (((event_x_5 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                                     if (((((S_812A524C_18 *)event_5)->unk_24.at01.v << 6) + 0x20)
-                                                        == D_80083780.y.w.i) {
+                                                        == view_reference_entity.y.w.i) {
                                                         func_800353F4(&D_8006F47A);
                                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -306,7 +306,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                     }
                                                 }
                                             }
-                                            if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
+                                            if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                  != 0x19) && (((s32)flag_base->pressed_buttons) & 0x20)) {
                                                 func_800353F4(&D_8006F47A);
                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
@@ -318,12 +318,12 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                         }
                                         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                             if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 4)) {
-                                                event_6 = (u8 *)((u8 *)(&D_80082E80));
+                                                event_6 = (u8 *)((u8 *)(&reference_tile_object));
                                                 if ((u32) (((S_812A524C_21 *)event_6)->unk_24.at00.v - 0x291E) < 3U) {
                                                     event_x_6 = ((S_812A524C_21 *)event_6)->unk_24.at00u.v;
-                                                    if (((event_x_6 <<= 6) + 0x20) == D_80083780.x.w.i) {
+                                                    if (((event_x_6 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                                         if (((((S_812A524C_21 *)event_6)->unk_24.at01.v << 6) + 0x20)
-                                                            == D_80083780.y.w.i) {
+                                                            == view_reference_entity.y.w.i) {
                                                             func_800353F4(&D_8006F50D);
                                                             ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                             ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -333,7 +333,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                         }
                                                     }
                                                 }
-                                                if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
+                                                if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                      != 0x19) && (flag_base->buttons & 0x10)) {
                                                     func_800353F4(&D_8006F50D);
                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
@@ -345,7 +345,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                             }
                                             if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                 if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x10)
-                                                    && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
+                                                    && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                         != 0x23)) {
                                                     scan_index_10 = 0;
                                                     scan_kind = 0xF;
@@ -365,7 +365,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                 }
                                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x80)
-                                                        && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
+                                                        && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                             != 0x23)) {
                                                         scan_index_80 = 0;
                                                         scan_kind = 0x12;
@@ -385,7 +385,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                     }
                                                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                         if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x100)
-                                                            && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
+                                                            && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                                 != 0x23)) {
                                                             scan_index_100 = 0;
                                                             scan_kind = 4;
@@ -405,10 +405,10 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                         }
                                                         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                             if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x40)
-                                                                && (event_7 = (u8 *)((u8 *)(&D_80082E80)),
+                                                                && (event_7 = (u8 *)((u8 *)(&reference_tile_object)),
                                                                     ((u32) (((S_812A524C_23 *)event_7)->unk_24.at00.v
                                                                 - 0x161C) < 7U))
-                                                                && (position_7 = (u8 *)((u8 *)(&D_80083780)),
+                                                                && (position_7 = (u8 *)((u8 *)(&view_reference_entity)),
                                                                     event_x_7 =
                                                                     ((S_812A524C_23 *)event_7)->unk_24.at00u.v,
                                                                     (((event_x_7 <<= 6) + 0x20)
@@ -424,10 +424,10 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                             }
                                                             if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                                 if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x400)
-                                                                    && (event_8 = (u8 *)((u8 *)(&D_80082E80)),
+                                                                    && (event_8 = (u8 *)((u8 *)(&reference_tile_object)),
                                                                         ((u32) (((S_812A524C_25 *)event_8)->unk_24.at00.v
                                                                     - 0x2036) < 2U))
-                                                                    && (position_8 = (u8 *)((u8 *)(&D_80083780)),
+                                                                    && (position_8 = (u8 *)((u8 *)(&view_reference_entity)),
                                                                         event_x_8 =
                                                                         ((S_812A524C_25 *)event_8)->unk_24.at00u.v,
                                                                         (((event_x_8 <<= 6) + 0x20)
@@ -445,14 +445,14 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                 }
                                                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                                     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x800)
-                                                                        && ((*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x31E)
-                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x41E)
-                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x51E)
-                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x61E)
-                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x71E)
-                                                                            || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) == 0x81E))
-                                                                        && (event_9 = (u8 *)((u8 *)(&D_80082E80)),
-                                                                            position_9 = (u8 *)((u8 *)(&D_80083780)),
+                                                                        && ((*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == 0x31E)
+                                                                            || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == 0x41E)
+                                                                            || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == 0x51E)
+                                                                            || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == 0x61E)
+                                                                            || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == 0x71E)
+                                                                            || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == 0x81E))
+                                                                        && (event_9 = (u8 *)((u8 *)(&reference_tile_object)),
+                                                                            position_9 = (u8 *)((u8 *)(&view_reference_entity)),
                                                                             (((((S_812A524C_27 *)event_9)->unk_24 << 6)
                                                                         + 0x20) == ((S_812A524C_28 *)position_9)->unk_02))
                                                                         && (((((S_812A524C_27 *)event_9)->unk_25 << 6)
@@ -467,21 +467,21 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                     }
                                                                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                                         if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x1000)) {
-                                                                            if (((u32) (*(u16 *)(&D_80082E80.tile_position.parts.tile_x)
+                                                                            if (((u32) (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x)
                                                                                 - 0x2C1E) < 3U)
-                                                                                || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x)
+                                                                                || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x)
                                                                                     == 0x2D1E)
-                                                                                || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x)
+                                                                                || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x)
                                                                                     == 0x2D1F)
-                                                                                || (*(u16 *)(&D_80082E80.tile_position.parts.tile_x)
+                                                                                || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x)
                                                                                     == 0x2D20)) {
-                                                                                event_10 = (u8 *)((u8 *)(&D_80082E80));
+                                                                                event_10 = (u8 *)((u8 *)(&reference_tile_object));
                                                                                 if ((((((S_812A524C_29 *)event_10)->unk_24
                                                                                        << 6) + 0x20)
-                                                                                           == D_80083780.x.w.i)
+                                                                                           == view_reference_entity.x.w.i)
                                                                                     && (((((S_812A524C_29 *)event_10)->unk_25
                                                                                     << 6) + 0x20)
-                                                                                        == D_80083780.y.w.i)) {
+                                                                                        == view_reference_entity.y.w.i)) {
                                                                                     func_800353F4(&D_80070E63);
                                                                                     ((S_812A524C_4 *)entity)->unk_6D =
                                                                                         0U;
@@ -497,10 +497,10 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                         }
                                                                         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                                             if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x2000)
-                                                                                && (event_11 = (u8 *)((u8 *)(&D_80082E80)),
+                                                                                && (event_11 = (u8 *)((u8 *)(&reference_tile_object)),
                                                                                     ((u32) (((S_812A524C_31 *)event_11)->unk_24.at00.v
                                                                                 - 0x121C) < 7U))
-                                                                                && (position_11 = (u8 *)((u8 *)(&D_80083780)),
+                                                                                && (position_11 = (u8 *)((u8 *)(&view_reference_entity)),
                                                                                     event_x_9 =
                                                                                     ((S_812A524C_31 *)event_11)->unk_24.at00u.v,
                                                                                     (((event_x_9 <<= 6) + 0x20)
@@ -530,7 +530,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                                         != NULL) {
                                                                                         nearby_tile =
                                                                                             ((S_812A524C_40 *)(((S_812A524C_5 *)(&D_800FBE54))->unk_00))->unk_0C;
-                                                                                        nearby_event = &D_80082E80;
+                                                                                        nearby_event = &reference_tile_object;
                                                                                         event_x = nearby_event->tile_position.parts.tile_x;
                                                                                         distance_x =
                                                                                             event_x - nearby_tile->unk_24;
@@ -545,9 +545,9 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                                             if (distance_y < 4) {
                                                                                                 scaled_x = event_x << 6;
                                                                                                 if (((scaled_x + 0x20)
-                                                                                                     == D_80083780.x.w.i)
+                                                                                                     == view_reference_entity.x.w.i)
                                                                                                     && (((event_y << 6)
-                                                                                                    + 0x20) == D_80083780.y.w.i)) {
+                                                                                                    + 0x20) == view_reference_entity.y.w.i)) {
                                                                                                     func_800353F4(&D_800FBD96);
                                                                                                     ((S_812A524C_4 *)entity)->unk_6D =
                                                                                                         0U;
@@ -581,11 +581,11 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
         }
     }
     if (((S_812A524C_3 *)actor_in)->unk_B8 != 0) {
-        ((S_812A524C_36 *)(&D_800E296C))->unk_00.n |= 0x200000;
+        ((S_812A524C_36 *)(&dungeon_floor_flags))->unk_00.n |= 0x200000;
     } else {
-        clear_flags = ((S_812A524C_36 *)(&D_800E296C))->unk_00.v;
+        clear_flags = ((S_812A524C_36 *)(&dungeon_floor_flags))->unk_00.v;
         clear_flags &= 0xFFDFFFFF;
-        ((S_812A524C_36 *)(&D_800E296C))->unk_00.v = clear_flags;
+        ((S_812A524C_36 *)(&dungeon_floor_flags))->unk_00.v = clear_flags;
     }
     if (g_dungeon_status.flags & 0x2000) {
         update_special = ((S_812A524C_3 *)actor_in)->unk_8C;
@@ -602,7 +602,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
         if (update_actor != NULL) {
             update_actor(actor_in, motion_in, sprite, entity);
         }
-        D_80175CC8[((S_812A524C_3 *)actor_in)->unk_9A](actor_in, motion_in, sprite, entity);
+        kewne_uncached_callbacks[((S_812A524C_3 *)actor_in)->unk_9A](actor_in, motion_in, sprite, entity);
         if ((s16) previous_state != (s8) ((S_812A524C_4 *)entity)->unk_6D) {
             try_move_actor_to_valid_position(actor_in, motion_in, sprite, entity);
         }

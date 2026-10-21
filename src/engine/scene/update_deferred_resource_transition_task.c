@@ -3,13 +3,13 @@
 #include "shared/object_flags.h"
 
 #include "common.h"
-extern s8 D_80080A86;
+#include "engine/resource.h"
+#include "engine/scene.h"
+#include "slus.h"
+extern s8 node_update_mode;
 #define D_80080A86_store (*(s8 *)0x80080A86)
 extern s32 D_800814A0_load[3];
 #define D_800814A0_store (*(s32 *)0x800814A0)
-extern s16 reserve_runtime_slot(s16 a0, s16 a1);
-extern void clear_flags_on_resource_list(void);
-extern void mark_resource_list_flags_ten_and_eleven(void);
 typedef struct S_80043FD0_Node
 {
     struct S_80043FD0_Node *next;

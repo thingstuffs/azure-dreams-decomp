@@ -1,10 +1,11 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern s32 func_80047FD8(void *node);
 extern void process_four_referenced_values(void *object);
-extern s32 D_8008DAB4[3];
+extern s32 card_ui_dirty_flags[3];
 extern s32 D_8008DAB4_2[3];
-extern u8 D_80409508[];
 
 /* Processes the global state, optionally flags its linked object, and returns the state value. */
 s32 update_global_dialog_state(s32 flag_linked_object) {
@@ -18,7 +19,7 @@ s32 update_global_dialog_state(s32 flag_linked_object) {
         }
         process_four_referenced_values(state_data);
         *(u16 *)(state_data - 2) = (u16) (*(u16 *)(state_data - 2) | 0x8000);
-        D_8008DAB4_2[0] = D_8008DAB4[0] | 0x8000;
+        D_8008DAB4_2[0] = card_ui_dirty_flags[0] | 0x8000;
     }
     return *(s32 *)state_data;
 }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/menu.h"
 
 /* CVECTOR-style color entry: r,g,b + a 4th (pad/code) byte. */
 typedef struct S_80080B54 {
@@ -8,14 +10,11 @@ typedef struct S_80080B54 {
     u8 cd;
 } S_80080B54;
 
-extern S_80080B54 D_80080B54;
-
-extern void *init_paired_packet_records(void *a0, void *a1);
-extern void build_tinted_gradient_rect(u8 *cmd, u8 *rect, u8 *tint);
+extern S_80080B54 shared_primitive_color;
 
 /* Initializes a subrecord pair with shared data and the default color entry. */
 void init_sub_record_pair(void *record_pair, void *init_data)
 {
     init_paired_packet_records(record_pair, init_data);
-    build_tinted_gradient_rect((u8 *)record_pair + 0x18, init_data, &D_80080B54);
+    build_tinted_gradient_rect((u8 *)record_pair + 0x18, init_data, &shared_primitive_color);
 }

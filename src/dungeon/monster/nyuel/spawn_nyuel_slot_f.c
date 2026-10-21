@@ -16,7 +16,7 @@ u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
 
     saved_flags = flags;
     result = 0;
-    allocation = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    allocation = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (allocation != 0) {
         result = allocation + 0x20;
         result[0x13] = 14;

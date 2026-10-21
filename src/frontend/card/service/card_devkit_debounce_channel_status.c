@@ -1,12 +1,9 @@
 #include "common.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
-extern s32 card_devkit_poll_first_software_event(void);
 extern s32 func_804019A4(void);
 extern void func_80400948(s32 value, s32 index);
-
-extern s32 D_80409260[];
-extern s32 D_80409268[];
-extern s32 D_804094F8[];
 
 /* Updates a slot's flag after four repeats of a nonzero state and returns the flag array. */
 s32 *card_devkit_debounce_channel_status(void)

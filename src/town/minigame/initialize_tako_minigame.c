@@ -85,8 +85,8 @@ extern u8 D_80026BC4[];
 extern u8 D_80026C54[];
 extern u8 D_80026F50[];
 extern s32 D_80053858[4];
-extern s32 D_80053A88;
-extern u8 D_800F7968[];
+extern s32 display_registration_tag;
+extern u8 tako_minigame_sprites[];
 
 extern void create_timed_sound(s16 value);
 extern void func_8003DB94(void *, void *, s32);
@@ -158,7 +158,7 @@ create_child:
         child_state->unk_56 = index;
         draw_state->scale_y = 0x1000;
         draw_state->scale_x = 0x1000;
-        func_8003DB94(draw_state, D_800F7968, 0);
+        func_8003DB94(draw_state, tako_minigame_sprites, 0);
         draw_state->color.word = 0x00808080;
         child_state->unk_4C = child_data;
         configure_the_set_mode_n_1((u8 *)object + 0x24, ((S_800254A4_0 *)object)->unk_08, D_80026F50);
@@ -173,7 +173,7 @@ create_child:
     callback = D_80026B78;
     row_y = 0x2C;
 next_left:
-    object = allocate_list_node(1, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     left_state = (u8 *)object + 0x20;
     if (object != NULL) {
         ((S_800254A4_0 *)object)->unk_10 = callback;
@@ -210,7 +210,7 @@ next_left:
     callback = D_80026BC4;
     row_y = 0x2C;
 next_right:
-    object = allocate_list_node(1, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     right_state = (u8 *)object + 0x20;
     if (object != NULL) {
         ((S_800254A4_0 *)object)->unk_10 = callback;
@@ -244,10 +244,10 @@ next_right_row:
         goto next_right;
     }
 
-    object = allocate_list_node(1, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         ((S_800254A4_0 *)object)->unk_10 = D_80026C54;
-        register_node(object, &D_80053A88);
+        register_node(object, &display_registration_tag);
         final_color = 0x00404040;
         final_state = (u8 *)object + 0x20;
         final_extent = 0x1C;

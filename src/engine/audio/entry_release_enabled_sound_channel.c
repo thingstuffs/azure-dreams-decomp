@@ -1,11 +1,6 @@
 #include "shared/sound_state.h"
 #include "common.h"
-
-
-
-
-extern void handle_audio_status_code(s32 code);
-extern void release_enabled_sound_channel(s16 index);
+#include "engine/audio.h"
 
 /* Releases the selected channel and sets its secondary status flag. */
 void release_sound_channel_and_mark_pending(s16 channel)

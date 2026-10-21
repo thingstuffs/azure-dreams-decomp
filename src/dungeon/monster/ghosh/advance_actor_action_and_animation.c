@@ -26,7 +26,7 @@ extern u8 D_8016B778[];
 extern u8 D_801746A4[];
 extern u8 D_801746AC[];
 extern u8 D_801746C4[];
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 typedef struct S_8016D6F0_0 {
     u8 pad_00[0x8C];
@@ -90,7 +90,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
         return;
     case 1:
         if ((get_entity_effect_value(entity, 1) << 0x10) != 0) {
-            if (((S_8016D6F0_2 *)D_80080000)->unk_3462 & 0x1000) {
+            if (((S_8016D6F0_2 *)resident_globals_page)->unk_3462 & 0x1000) {
                 return;
             }
             flags_page = (u8 *)0x80010000;
@@ -128,7 +128,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             if ((has_pending_actor_or_turn_action(entity) << 0x10) != 0) {
                 if ((check_entity_relation(
                          entity,
-                         ((S_8016D6F0_9 *)(((S_8016D6F0_2 *)D_80080000)->unk_14A8))->unk_58 + 0x20)
+                         ((S_8016D6F0_9 *)(((S_8016D6F0_2 *)resident_globals_page)->unk_14A8))->unk_58 + 0x20)
                      << 0x10) != 0) {
                     return;
                 }
@@ -136,7 +136,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             update_actor_status_and_food(entity);
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, 1) << 0x10) != 0) {
-                reference_pos = &D_80082E80;
+                reference_pos = &reference_tile_object;
                 room_id = *(s8 *)&sprite->unk_26;
                 if (((room_id == reference_pos->room_index && room_id >= 0) ||
                      get_tile_chebyshev_distance(reference_pos, sprite) < 2) &&

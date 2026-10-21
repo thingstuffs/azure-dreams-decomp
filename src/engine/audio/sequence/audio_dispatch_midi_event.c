@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/entity.h"
 
 typedef struct
 {
@@ -35,7 +36,6 @@ extern void start_channel_note(s32 a0, s32 a1, s32 a2);
 extern void audio_sequence_note_off(s32 a0, s32 a1, s32 a2);
 extern void func_80057A48(s32 a0, s32 a1, s32 a2);
 extern void audio_apply_channel_control(s32 a0, s32 a1, s32 a2);
-extern void set_audio_channel_program(s32 a0, s32 a1);
 extern void func_8005848C(s32 a0, s32 a1);
 extern void sound_set_seven_bit_channel_value_and_notify(s32 a0, s32 a1, s32 a2);
 /* Dispatch a MIDI channel event and handle track state save, restore, and repeat controls. */

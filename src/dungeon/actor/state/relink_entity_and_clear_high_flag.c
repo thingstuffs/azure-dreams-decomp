@@ -29,7 +29,7 @@ s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entit
         ((g_dungeon_status.activity_counts.parts.pending_movement_count != 0) ||
          ((g_dungeon_status.flags & 0x2808) != 0)) &&
         ((s16)check_entity_relation(entity,
-                            (u8 *)D_800814A8->unk_58 + 0x20) != 0)) {
+                            (u8 *)primary_actor_record->unk_58 + 0x20) != 0)) {
         register s16 failure = -1;
 
         entity_flags = *(u16 *)((u8 *)entity + 0x46);

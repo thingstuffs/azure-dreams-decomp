@@ -1,5 +1,8 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
+#include "engine/node.h"
+#include "engine/scene.h"
+#include "frontend/settings.h"
 
 typedef struct RegistrationNode RegistrationNode;
 
@@ -13,8 +16,6 @@ typedef struct S_7FDD3A2C_4 {
     s32 unk_04;
 } S_7FDD3A2C_4;
 
-void *func_8003FC64();                       /* extern */
-s32 register_node(RegistrationNode *entry, s32 registration_id);
 extern s32 D_80044BB0[3];
 
 typedef struct S_7FDD3A2C_0 {

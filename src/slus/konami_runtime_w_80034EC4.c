@@ -19,11 +19,11 @@ typedef struct {
     u32 unk20;
 } GlobalADBC;
 
-extern GlobalADBC D_8006ADBC;
+extern GlobalADBC map_runtime_state;
 
 /* Initializes state pointers and copies the global default values. */
 void initialize_script_cursor_and_defaults(FuncState *state) {
-    GlobalADBC *defaults = &D_8006ADBC;
+    GlobalADBC *defaults = &map_runtime_state;
 
     state->unk2 = 2;
     state->unk10 = (u8 *)state + 8;

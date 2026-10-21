@@ -184,7 +184,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
                 sprite->color.c.r = 0x80;
                 sprite->clut = 0x7DCF;
                 sprite->flags |= 0x100;
-                func_8003DB94(sprite, D_800DE870, 0);
+                func_8003DB94(sprite, effect_sprite_sources, 0);
             }
         }
 

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
 
 
 
@@ -24,8 +26,6 @@ extern s32 audio_sequence_active[4];
 extern u8 audio_voice_records[0x78 * 64];
 extern s32 audio_update_guard[4];
 extern S_80086C00 audio_sequence_slots[8];
-
-extern void func_8005F134(S_8005B070_req *request);
 
 /* Process eligible entries and set the selected slot state to 4. */
 void suspend_sequence_slot(s16 slot_index)

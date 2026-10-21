@@ -30,7 +30,7 @@ void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *p
         transform = ((Row_818F34E4_S_80024CE4_3_pre *)((*(void **)((u8 *)effect + 0x2C))))[-1].unk_00;
         (*(Row_818F34E4_Block24 *)((u8 *)effect + 0x44)) = (*(Row_818F34E4_Block24 *)((u8 *)transform + 0));
         init_or_snapshot = effect + 0x44;
-        if ((view_state->unk_20 == ((u8 *)(&D_80083780))) && ((*(void **)((u8 *)effect + 0x2C)) == ((int)D_800814A8))) {
+        if ((view_state->unk_20 == ((u8 *)(&view_reference_entity))) && ((*(void **)((u8 *)effect + 0x2C)) == ((int)primary_actor_record))) {
             view_state->unk_20 = (u8 *) init_or_snapshot;
             (*(s16 *)((u8 *)effect + 0xA)) = 9;
         }
@@ -82,7 +82,7 @@ void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *p
     if ((s16) (*(u16 *)((u8 *)effect + 2)) <= 0) {
         ((Row_818F34E4_S_80024CE4_4 *)((*(void **)((u8 *)effect + 0x30))))->unk_9C = 1;
         if ((*(s16 *)((u8 *)effect + 0xA)) == 9) {
-            view_state->unk_20 = ((u8 *)(&D_80083780));
+            view_state->unk_20 = ((u8 *)(&view_reference_entity));
         }
         (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
         object_flag_block.flags |= 0x8000;

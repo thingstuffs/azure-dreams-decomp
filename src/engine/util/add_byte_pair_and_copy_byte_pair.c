@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/util.h"
 
 typedef struct S_8004DA24_dst {
     u8 pad[8];

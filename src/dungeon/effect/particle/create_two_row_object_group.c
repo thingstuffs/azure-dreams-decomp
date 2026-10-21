@@ -376,7 +376,7 @@ void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_val
     S_800DAE44_2 *object_data;
     void *object;
 
-    object = allocate_list_node(0x312, ((M2C_UNK *)&D_80083498.next));
+    object = allocate_list_node(0x312, ((M2C_UNK *)&scene_object_list_anchor.next));
     if (object != NULL) {
         ((S_800DAE44_0 *)object)->unk_10 = spawn_scattered_timed_objects;
         ((MovingPosition *)(((S_800DAE44_3 *)object)->unk_08))->unk_02 = (u16) ((u16)source_pos->x.w.i);
@@ -449,7 +449,7 @@ extern void *allocate_list_node();
 extern void register_node();
 extern s32 func_80069EF8(void);
 extern void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState *visual);
-extern s32 D_800DEA68;
+extern s32 secondary_sprite;
 
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
 void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
@@ -470,9 +470,9 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
     void *part;
 
     remaining = 12;
-    link = (u8 *)&D_800DEA68;
+    link = (u8 *)&secondary_sprite;
     do {
-        object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+        object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (object != 0) {
             ((S_800DAEF4_0 *)object)->unk_10 = update_timed_effect_animation;
             register_node(object, project_sprite_chain);
@@ -677,7 +677,7 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
     do {
         effects_left = 3;
         do {
-            effect = allocate_list_node(0x312, ((M2C_UNK *)&D_80083498.next));
+            effect = allocate_list_node(0x312, ((M2C_UNK *)&scene_object_list_anchor.next));
             if (effect != 0) {
                 ((S_800DB2DC_0 *)effect)->unk_10 = callback;
                 visual = ((S_800DB2DC_0 *)effect)->unk_0C;
@@ -798,14 +798,14 @@ void subtract_limit_or_flag_record(void *record) {
 #include "common.h"
 #include "shared/game_work.h"
 
-extern int D_800814C8;
-extern int D_80081550;
-extern int D_80081558;
-extern int D_80081554;
+extern int sound_payload_buffer;
+extern int message_handler_mode;
+extern int message_command_start_index;
+extern int message_command_write_index;
 extern unsigned char D_80071298[];
 extern int D_800712B4[];
-extern int D_80084130[3];
-extern struct S_80083178State D_80083CE8;
+extern int card_server_initialized[3];
+extern struct S_80083178State saved_view_vectors;
 typedef struct
 {
     s16 x;

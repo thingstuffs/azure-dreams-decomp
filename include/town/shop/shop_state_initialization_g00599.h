@@ -76,7 +76,7 @@ extern void set_shop_object_data_if_present(s32 object);
 extern void set_object_data_pointer_2(s32 object);
 extern s32 D_80082AB4[];
 
-extern TownState D_80082A38;
+extern TownState runtime_script_state;
 
 /* Functions defined in this translation unit. */
 void copy_global_state_and_record_block(s32 *record);

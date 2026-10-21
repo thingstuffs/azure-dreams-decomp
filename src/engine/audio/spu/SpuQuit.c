@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/spu.h"
+#include "slus.h"
 
 extern s32 spu_event_service_active[3];
 extern s32 spu_register_buffer_flags[];
@@ -9,7 +11,6 @@ extern s32 spu_active_voice_mask[3];
 
 extern void EnterCriticalSection(void);
 extern void ExitCriticalSection(void);
-extern void set_dma_channel_4_callback(s32 callback);
 extern s32 CloseEvent(s32 event);
 extern s32 DisableEvent(s32 event);
 

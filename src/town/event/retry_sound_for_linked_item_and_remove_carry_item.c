@@ -24,14 +24,14 @@ typedef struct S_800A9D00_2 {
 extern s32 get_linked_carry_item_data();
 extern s32 plt_carry_item_del_ext();
 extern s32 retry_sound_sequence_when_ready();
-extern s8 D_800834B8[0x30];
+extern s8 scene_object_payload_alias[0x30];
 
 /* Invokes retry_sound_sequence_when_ready for an eligible linked object with code 0xD04, then calls plt_carry_item_del_ext. */
 void retry_sound_for_linked_item_and_remove_carry_item(void) {
     s8 *stateBase;
     S_800A9D00_0 *precedingState;
 
-    stateBase = D_800834B8;
+    stateBase = scene_object_payload_alias;
     precedingState = stateBase - 0x20;
     if ((get_linked_carry_item_data(stateBase, precedingState->unk_08,
                        precedingState->unk_0C) != 0) &&

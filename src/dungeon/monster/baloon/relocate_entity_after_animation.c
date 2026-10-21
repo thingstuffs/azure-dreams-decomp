@@ -48,7 +48,7 @@ typedef struct S_80175594_3 {
 } S_80175594_3;   /* object in relocate_entity_after_animation */
 
 
-extern u8 D_800E2348[];
+extern u8 baloon_default_frames[];
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
 extern s32 D_80171F1C;
@@ -217,8 +217,8 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
                 tile_result = select_dungeon_spawn_tile((u8 *)entity + 0x24, (u8 *)entity + 0x25);
             } while (tile_result < 0);
 
-            dx = abs(D_80082E80.tile_position.parts.tile_x - ((Rec_func_800D6DC0_arg2 *)entity)->unk_24);
-            dy = abs(D_80082E80.tile_position.parts.tile_y - ((Rec_func_800D6DC0_arg2 *)entity)->unk_25);
+            dx = abs(reference_tile_object.tile_position.parts.tile_x - ((Rec_func_800D6DC0_arg2 *)entity)->unk_24);
+            dy = abs(reference_tile_object.tile_position.parts.tile_y - ((Rec_func_800D6DC0_arg2 *)entity)->unk_25);
             if (dx + dy >= 0x21) {
                 break;
             }
@@ -258,7 +258,7 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         ((S_80175594_3 *)object)->unk_1C |= 0x40000;
         (*(u16 *)((u8 *)motion + 0x98)) |= 8;
 
-        animations = D_800E2348;
+        animations = baloon_default_frames;
         if (((Rec_func_800D6DC0_arg2 *)entity)->unk_2C != animations) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = animations;
             select_sprite_entry(entity,

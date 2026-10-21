@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
+#include "sdk/libgte.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -7,18 +9,6 @@
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void TransMatrix(void *m, void *v);
-extern void RotMatrix(void *r, void *m);
-extern void CompMatrix(void *m0, void *m1, void *m2);
-extern void ScaleMatrix(void *m, void *v);
-extern void SetRotMatrix(void *m);
-extern void SetTransMatrix(void *m);
-extern s32 multiply_rgb_tint_saturated(void *dst, void *tint);
-extern void *apply_command_colors(void *t0, void *t1, void *packet, void *record,
-                           void *cmd, s32 *count);
 
 /* Transform and tint sprites from node lists, then link their packets into the ordering table. */
 void draw_tinted_node_sprites(u8 *parent, u8 *node)

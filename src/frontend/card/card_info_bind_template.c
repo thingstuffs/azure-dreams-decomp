@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/card.h"
 
 s32 func_80047358(s32, void *, s32);
 extern M2C_UNK D_80408D28;

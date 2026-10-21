@@ -91,7 +91,7 @@ void render_projected_sprite_with_depth_bias(void *position, void *sprite, s16 w
 
     projected_depth = func_80065420(scratch_base, screen_pos,
                               perspective, clip_flags);
-    matrix = D_8006CD30;
+    matrix = sprite_projection_matrix;
     ((S_800BC4D4_1 *)scratch)->unk_C0 = projected_depth;
     ((S_800BC4D4_4 *)matrix)->unk_1C = projected_depth * 4;
     biased_depth = projected_depth - 7;

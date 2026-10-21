@@ -1,6 +1,7 @@
 #include "engine/audio/spu/sound_event_service.h"
 
 #include "engine/audio/spu/sound_event_service.h"
+#include "engine/audio/spu.h"
 
 /* Starts the SPU callback/event service once when it is not already active. */
 void start_spu_dma_event_service(void)

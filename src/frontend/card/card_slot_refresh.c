@@ -2,6 +2,8 @@
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/card.h"
+#include "frontend/libcard.h"
 
 typedef struct S_80024274_0 {
     u8 pad_00[0x224];
@@ -20,10 +22,6 @@ void card_boot_clear_slot_selection_marker(s32 object_addr) {
         *state->unk_280 = 0;
     }
 }
-
-void card_boot_populate_slot_window_display();                         /* extern */
-void write_fixed_palette_pixels();                         /* extern */
-void card_boot_clear_ten_display_slots();                         /* extern */
 
 /* Runs three update routines on the data of a non-null object. */
 void card_boot_refresh_slot_window(s32 object_addr) {

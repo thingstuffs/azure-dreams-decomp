@@ -8,7 +8,7 @@ extern s32 D_800A5340;
 
 /* Set the record parameters and handler when the global handlers do not match. */
 void set_fallback_record_handler(void *record) {
-    u8 *base = ((u8 *)(&D_80083498));
+    u8 *base = ((u8 *)(&scene_object_list_anchor));
 
     if ((*(s32 **) (base + 0x10) != &D_800A5638) ||
         ((*(s32 **) (base + 0x20) != &D_800A5A98) &&

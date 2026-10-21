@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 /* Linked-entry struct used by the D_8006CE80 table: each 0xC-byte slot
  * holds an unrelated value, a "next"-style pointer to another entry of
@@ -10,8 +11,6 @@ typedef struct S_8006CE80 {
 } S_8006CE80;
 
 extern S_8006CE80 dispatch_resource_records[];
-
-extern void upload_vram_entry_array(S_8006CE80 *a0);
 
 /* Follow two links from the indexed entry and dispatch the final entry if both links exist. */
 void upload_dispatch_entry_vram_rows(u16 entry_index) {

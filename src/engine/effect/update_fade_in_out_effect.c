@@ -2,6 +2,7 @@
 #include "shared/object_flags.h"
 
 #include "common.h"
+#include "engine/effect.h"
 typedef struct S_80071A68
 {
     s32 field_0x00;

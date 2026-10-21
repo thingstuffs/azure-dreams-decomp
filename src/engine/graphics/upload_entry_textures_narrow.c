@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 /* S_8004761C_Entry: array element (same family as S_800482C8_Entry); stride 0xC,
  * only the flags byte at offset 0 is read here. */

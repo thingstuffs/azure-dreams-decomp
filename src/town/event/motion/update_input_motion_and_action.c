@@ -16,8 +16,8 @@ extern s32 D_800D0B14;
 extern s16 D_80100D18;
 extern s32 D_80100D1C;
 extern u8 D_80100D60[];
-extern s16 D_80100D80;
-extern s16 D_80100D82;
+extern s16 town_motion_x_step;
+extern s16 town_motion_y_step;
 
 /* Updates input-driven motion and handles object action transitions. */
 void update_input_motion_and_action(void *controller, void *object, s32 update_arg) {
@@ -32,15 +32,15 @@ void update_input_motion_and_action(void *controller, void *object, s32 update_a
     buttons = &g_game_work;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(object);
-    angle = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((u8 *)&D_800FE488));
+    angle = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, ((u8 *)&position_query_scratch));
     if (angle - *(s16 *)((u8 *)object + 0xA) >= 4) {
-        if (D_800CFCEF == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_object(controller, object, saved_arg);
             D_800D0B14 = 0;
             return;
         }
-    } else if (D_800CFCEF == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town(object, angle, ((u8 *)&D_800FE488));
+    } else if (town_action_state_flag == 0) {
+        compute_and_clamps_vector_based_adjustment_updates_town(object, angle, ((u8 *)&position_query_scratch));
     }
 
     if ((((s32)buttons->pressed_buttons) & 0x40) && D_80100D1C >= 0x800) {
@@ -50,31 +50,31 @@ void update_input_motion_and_action(void *controller, void *object, s32 update_a
     }
 
     if (buttons->buttons & 0x2000) {
-        if (D_80100D80 < 0x100) {
-            D_80100D80 = (u16)D_80100D80 + 8;
+        if (town_motion_x_step < 0x100) {
+            town_motion_x_step = (u16)town_motion_x_step + 8;
         } else {
-            D_80100D80 = 0x100;
+            town_motion_x_step = 0x100;
         }
     }
     if (buttons->buttons & 0x8000) {
-        if (D_80100D80 < -0xFF) {
-            D_80100D80 = -0x100;
+        if (town_motion_x_step < -0xFF) {
+            town_motion_x_step = -0x100;
         } else {
-            D_80100D80 = (u16)D_80100D80 - 8;
+            town_motion_x_step = (u16)town_motion_x_step - 8;
         }
     }
     if (buttons->buttons & 0x4000) {
-        if (D_80100D82 < 0x100) {
-            D_80100D82 = (u16)D_80100D82 + 8;
+        if (town_motion_y_step < 0x100) {
+            town_motion_y_step = (u16)town_motion_y_step + 8;
         } else {
-            D_80100D82 = 0x100;
+            town_motion_y_step = 0x100;
         }
     }
     if (buttons->buttons & 0x1000) {
-        if (D_80100D82 < -0xFF) {
-            D_80100D82 = -0x100;
+        if (town_motion_y_step < -0xFF) {
+            town_motion_y_step = -0x100;
         } else {
-            D_80100D82 = (u16)D_80100D82 - 8;
+            town_motion_y_step = (u16)town_motion_y_step - 8;
         }
     }
 

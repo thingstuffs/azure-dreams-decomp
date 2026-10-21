@@ -131,7 +131,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
 
                 special_check = is_special;
                 if (special_check != 0) {
-                    target_owner = D_800814A8;
+                    target_owner = primary_actor_record;
                     actor->target = target_owner;
                     {
                         void *owner = target_owner;
@@ -140,7 +140,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
                         actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->unk_24;
                         actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->unk_25;
                     }
-                } else if (D_8006DE24[*entry].kind == 2) {
+                } else if (item_action_definitions[*entry].kind == 2) {
                     target_owner = actor->target;
                     if (target_owner != 0) {
                         void *owner = target_owner;
@@ -186,7 +186,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)D_800814A8)->field_A6) - 1);
+        (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)primary_actor_record)->field_A6) - 1);
         advance_status_timers(actor);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
         ((S_801727C8_0 *)action)->unk_8C = &update_actor_animation_and_dispatch;

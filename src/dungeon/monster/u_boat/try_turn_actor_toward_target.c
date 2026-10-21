@@ -11,7 +11,7 @@ s32 try_claim_dungeon_action_slot(void *);
 s32 check_entity_interaction_compatibility(void *, s32);
 void apply_camera_offset_and_select_target(void *, s32, s32, s32);
 void begin_actor_exclusive_action(void *, s32, void *, s32, s32);
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 
 /* Turn toward the target and start an action once aligned. */
@@ -25,7 +25,7 @@ s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, s32 actio
     actor->movement_queue_state = result;
     {
 
-        global_flags = (u16 *)(D_80080000 + 0x3460);
+        global_flags = (u16 *)(resident_globals_page + 0x3460);
     }
     result = 0;
     if (global_flags[1] & 0x2000) {

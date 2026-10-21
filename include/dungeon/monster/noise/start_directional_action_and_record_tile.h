@@ -107,7 +107,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 extern void check_action_six_eligibility(void *, void *);
 extern u8 D_80174EC8;
-extern s8 D_800DCECC[];
+extern s8 view_direction_depth_biases[];
 extern u8 D_80174E88[];
 extern u8 D_80174ED0[];
 void start_directional_action_and_record_tile(void *action_state, void *action_context, void *sprite, ActorRecord *actor);

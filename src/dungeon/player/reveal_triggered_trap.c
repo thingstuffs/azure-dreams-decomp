@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u8 D_800E3648[];
+extern u8 floor_objects[];
 
 s32 reveal_triggered_trap(void *actor) {
     s32 cursor;
@@ -11,7 +11,7 @@ s32 reveal_triggered_trap(void *actor) {
     cursor = *(s16 *)((u8 *)actor + 0x100);
     result = 1;
     if (cursor >= 0) {
-        base = D_800E3648;
+        base = floor_objects;
 
         cursor = (s32)(base + cursor * 4);
 

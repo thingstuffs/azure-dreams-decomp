@@ -2,10 +2,9 @@
 #include "shared/game_work.h"
 
 #include "modules/main_server_ship_interfaces.h"
-extern void card_boot_show_please_wait_notice(void *input, void *value);
-
-extern u8 D_8002789C[];
-extern void *D_8002809C[];
+#include "frontend/libcard.h"
+#include "frontend/libcard/state.h"
+#include "main/data.h"
 
 /* Updates the selected callback or triggers a one-time action when no callback is selected. */
 void card_boot_poll_card_chooser_status(void *state) {

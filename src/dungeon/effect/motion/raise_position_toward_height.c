@@ -41,7 +41,7 @@ extern void func_800672D8(Rect *, s32 *);
 extern void *jtbl_80024088[9];
 extern Packed12 D_80025618;
 extern Packed12 D_80025624;
-extern u8 D_800E3D68[];
+extern u8 current_spell_effect_variant[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
 extern s32 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
@@ -182,7 +182,7 @@ typedef struct EffectRecord {
 } EffectRecord;
 
 /* Raise the position toward the queried height and set flags when the countdown expires. */
-void handle_raise_position_toward_queried_height_set_flags_countdown_expires(EffectRecord *state, EntityRec *position)
+void handle_raise_position_toward_queried_height_set_flags_countdown_expires(EffectRecord *state, ObjectPosition *position)
 {
     u16 countdown;
 
@@ -785,7 +785,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         target = owner->unk_60;
         if (target != 0) {
             target_pos = ((S_func_8190B2D0_2 *)((u8 *)target - 32))->unk_8;
-            height_or_steps = D_800DDC40[target->unk_13] + 32;
+            height_or_steps = entity_height_offsets[target->unk_13] + 32;
             target_z = target_pos->unk_8.at_A_u16.unk_A - height_or_steps;
             effect->unk_78.u16 = (u16)target_z;
             owner_sprite = ((S_func_8190B2D0_2 *)((u8 *)owner - 32))->unk_C;
@@ -1053,7 +1053,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             clear_effect_mask = 0xFFEFFFFF;
             effect_kind = 255;
             target = owner->unk_60;
-            target_mode = D_800E3D68[0];
+            target_mode = current_spell_effect_variant[0];
             target->unk_14 &= clear_effect_mask;
             if (target_mode != effect_kind) {
                 effect_kind = effect->unk_9;

@@ -15,7 +15,7 @@ typedef struct {
     s32 (*callback)(s32);
 } CallbackOwner;
 
-extern InputTable D_80700000;
+extern InputTable devkit_globals_page;
 extern s16 D_80700BB2[];
 extern State *D_80701968[3];
 extern CallbackOwner *D_80701984[4];
@@ -35,7 +35,7 @@ s32 record_devkit_input_and_advance_slot(s32 slot) {
         s32 *word;
         s32 old_value;
 
-        value = D_80700000.values[slot];
+        value = devkit_globals_page.values[slot];
         word = &((s32 *)STATE_ROOT)[value / 32];
         old_value = *word;
         *word = (1 << (value % 32)) | old_value;

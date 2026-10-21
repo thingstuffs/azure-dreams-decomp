@@ -7,23 +7,23 @@ void tcame_lock(void) {
     s32 lock_value_0;
     s32 lock_value_1;
 
-    lock_value_0 = D_80100DE0[9];
-    lock_value_1 = D_80100DE0[10];
-    D_80100DE0[9] = 0;
-    D_80100DE0[10] = 0;
-    D_800D0C48[0] = lock_value_0;
-    D_800D0C48[1] = lock_value_1;
+    lock_value_0 = town_camera_chase_state[9];
+    lock_value_1 = town_camera_chase_state[10];
+    town_camera_chase_state[9] = 0;
+    town_camera_chase_state[10] = 0;
+    saved_camera_callbacks[0] = lock_value_0;
+    saved_camera_callbacks[1] = lock_value_1;
 }
 
 /* tcame_return: copy the saved camera values into script state slots 9 and 10. */
 void tcame_return(void) {
-    D_80100DE0[9] = D_800D0C48[0];
-    D_80100DE0[10] = D_800D0C48[1];
+    town_camera_chase_state[9] = saved_camera_callbacks[0];
+    town_camera_chase_state[10] = saved_camera_callbacks[1];
 }
 
 /* tcame_return_plus: return the camera and clear its secondary state word. */
 void tcame_return_plus(void) {
-    s32 *camera_state = &D_80100DE0[0];
+    s32 *camera_state = &town_camera_chase_state[0];
 
     tcame_return();
 

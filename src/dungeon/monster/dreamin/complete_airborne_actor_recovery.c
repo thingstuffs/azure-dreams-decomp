@@ -144,7 +144,7 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
             if (actor_flags & 0x20000) {
                 ((S_801722BC_2 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }
 

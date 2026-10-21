@@ -46,7 +46,7 @@ void *create_panel_effect_object(void *owner)
     void *panel;
     SpriteFrameState *transform;
     entity = owner;
-    panel = allocate_list_node(0x12, ((u8 *)(&D_80083498)));
+    panel = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
     if (panel != 0) {
         color_or_addr = 0x808080;
         transform = *((void **) (((s8 *) panel) + 0xC));
@@ -59,7 +59,7 @@ void *create_panel_effect_object(void *owner)
         *((u16 *) (((s8 *) panel_pos) + 2)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 2)));
         *((u16 *) (((s8 *) panel_pos) + 6)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
         *((s16 *) (((s8 *) panel_pos) + 0xA)) = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA)))
-            - (D_800DDC40[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
+            - (entity_height_offsets[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
         *((s32 **) (((s8 *) panel) + 0x10)) = update_attached_effect_position;
         register_node(panel, transform_linked_quad_batches, owner_pos, panel_pos);
         panel_data = panel + 0x20;
@@ -326,15 +326,15 @@ s8 *find_first_ended_record(s8 *record) {
 
 /* Returns whether the global record's unk_104 field is zero. */
 s32 check_global_record_field_zero(void) {
-    return ((PlayerRecord *)D_800E3D7C)->unk_104 == 0;
+    return ((PlayerRecord *)dungeon_actor_ring_anchor)->unk_104 == 0;
 }
 #include "common.h"
 
-extern u8 D_80081485;
+extern u8 held_item_kind_alias;
 
 /* Returns whether D_80081485 is zero. */
 s32 check_global_data_byte_zero(void) {
-    return D_80081485 == 0;
+    return held_item_kind_alias == 0;
 }
 #include "common.h"
 #include "shared/entity.h"
@@ -343,7 +343,7 @@ s32 check_global_data_byte_zero(void) {
 
 /* Return whether the current record's unk_9A value differs from 0x29. */
 s32 check_current_record_value_not_29(void) {
-    return D_800E3D7C->unk_9A != 0x29;
+    return dungeon_actor_ring_anchor->unk_9A != 0x29;
 }
 #include "common.h"
 #include "shared/object_flags.h"
@@ -379,7 +379,7 @@ typedef struct S_800B14FC_3_pre {
     u16 unk_00;
 } S_800B14FC_3_pre;   /* the 0x2 bytes before object in update_fading_effect_scale, addressed as object[-1] */
 
-extern s32 (*D_800DF030[])(void);
+#include "dungeon/menu/panel_callbacks.h"
 
 extern void func_8004E994(void *object);
 
@@ -387,7 +387,7 @@ extern void func_8004E994(void *object);
 void update_fading_effect_scale(void *effect, s32 unused, void *render_arg)
 {
     struct { void *p; } render = {render_arg};
-    s32 (**dispatch_table)(void);
+    hud_fade_predicate_fn *dispatch_table;
     s32 dispatch_entry;
     s16 state;
 
@@ -395,7 +395,7 @@ void update_fading_effect_scale(void *effect, s32 unused, void *render_arg)
     dispatch_entry = ((S_800B14FC_0 *)effect)->unk_24;
     dispatch_entry = (u32)&dispatch_table[dispatch_entry];
 
-    if ((*(s32 (**)(void))dispatch_entry)() != 0 &&
+    if ((*(hud_fade_predicate_fn *)dispatch_entry)() != 0 &&
         ((S_800B14FC_0 *)effect)->unk_20.s < 2) {
         ((S_800B14FC_0 *)effect)->unk_22.s = 4;
         ((S_800B14FC_0 *)effect)->unk_20.s = 2;
@@ -616,7 +616,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
     u8 tail_flags;
     u32 tail_field1c;
 
-    obj = allocate_list_node(0x12, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
     if (obj != NULL) {
         meta = obj->meta;
         header = obj->header;
@@ -874,7 +874,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
 
     call_kind = 0x12;
     subroutine_arg4 = flags_held;
-    alloc_data = &D_80083498;
+    alloc_data = &scene_object_list_anchor;
     obj = (s32) allocate_list_node(call_kind, alloc_data);
     compact_s16 = compact_held;
     if (obj != 0) {
@@ -1098,7 +1098,7 @@ void advance_timed_panel_motion(S_800B1F34_0 *animation, S_800B1F34_1 *motion)
         }
         break;
     }
-    update_state = D_800814A8;
+    update_state = primary_actor_record;
     motion->unk_08.at00.v -= motion->unk_14;
     update_state->unk_1C |= 0x40000000;
     *animation->unk_00 = 0x20 - motion->unk_08.at02.v;
@@ -1193,7 +1193,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
         ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
         state_fields = object + 0x20;
         play_sound_if_enabled(0x603);
-        inherited_value = ((u16)D_800814A8->facing);
+        inherited_value = ((u16)primary_actor_record->facing);
         state_fields->unk_0E = inherited_value;
     }
 }

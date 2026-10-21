@@ -71,7 +71,7 @@ void *create_configured_overlay_actor_third(s16 flags, s16 kind_id, s16 variant,
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80F93000_0 *)obj)->unk_10 = D_80164A70;

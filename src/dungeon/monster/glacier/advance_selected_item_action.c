@@ -192,13 +192,13 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
                 s32 use_special = is_special;
 
                 if (use_special != 0) {
-                    active = D_800814A8;
+                    active = primary_actor_record;
                     (((ActorFieldView_810318E4 *)actor)->field_60) = active;
                     linked = (u32)((S_801730E4_1_pre *)active)[-1].unk_00;
                     (((ActorFieldView_810318E4 *)actor)->field_72.u8) = ((S_801730E4_2 *)linked)->unk_24;
                     (((ActorFieldView_810318E4 *)actor)->field_73.u8) = ((S_801730E4_2 *)linked)->unk_25;
                 } else {
-                    linked = D_8006DE24[*selection].kind;
+                    linked = item_action_definitions[*selection].kind;
                     if (linked == 2) {
                         active = (((ActorFieldView_810318E4 *)actor)->field_60);
                         if (active != 0) {
@@ -245,7 +245,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
         {
             void *active;
 
-            active = D_800814A8;
+            active = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             (((ActiveFieldView_810318E4 *)active)->field_A6)--;
         }
@@ -268,7 +268,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
         {
             u8 *effect_object;
 
-            effect_object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+            effect_object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             if (effect_object != 0) {
                 u8 *effect_state;
                 u8 *effect_data;

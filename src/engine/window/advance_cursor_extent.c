@@ -1,6 +1,9 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/node.h"
+#include "engine/script/vm.h"
+#include "engine/window.h"
 
 typedef struct S_80036900_Sub {
     u8 pad00[0xA];
@@ -16,9 +19,6 @@ typedef struct S_80036900 {
     u8 pad4C[0x1C];
     void (*handler)(void);
 } S_80036900;
-
-extern void noop_after_cursor_extent_completion(void);
-extern void unlink_node(void *node);
 
 /* Advances the sub-value, then unlinks the task, switches handlers, and sets its indexed flag past the threshold. */
 void advance_cursor_extent(S_80036900 *state)

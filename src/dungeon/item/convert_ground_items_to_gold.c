@@ -32,7 +32,7 @@ extern s32 feed_actor_restore_mp(void *, s32, s32);
 
 extern u8 D_800893DC[];
 extern u8 D_800E187C[];
-extern u8 D_800E36C8[];
+extern u8 dungeon_ground_item_positions[];
 
 /* Handles a target or active-slot update and decrements the shared count on completion. */
 s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_type, s32 action_param)
@@ -53,9 +53,9 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
         return process_record_and_update_linked_state(action, action_param);
     }
 
-    if (target == D_800E3D7C) {
+    if (target == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)target)->pending_item_action = action;
-        begin_mode_selected_item_action(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
+        begin_mode_selected_item_action(target, &view_reference_entity.x.v, &reference_tile_object.unk_000, target);
         return 0;
     }
 
@@ -86,9 +86,9 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
         create_type_212_object(1, 8);
         play_sound_if_enabled(0x80F);
         slot_index = 0;
-        slot_data = D_800E36C8;
+        slot_data = dungeon_ground_item_positions;
         for (; slot_index < 0x40; slot_index++) {
-            slot_state = (u8 *)D_800E3548 + slot_index * 4;
+            slot_state = (u8 *)dungeon_ground_items + slot_index * 4;
             if (slot_state[1] != 0) {
                 slot_state[1] = 0xE;
                 slot_state[0] = 3;

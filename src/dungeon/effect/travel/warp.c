@@ -65,7 +65,7 @@ void func_80024020(EventState *event) {
         setup[1] = 0x00400020;
         decode_and_upload_image(D_80028260, setup);
         upload_vram_row_and_cache(D_80028780, 0x7AC0, 1, 2);
-        object = D_800814A8;
+        object = primary_actor_record;
         D_800287A0 = 1;
         event_option = ((u8 *)event)[9];
         D_8002744C = 0;
@@ -73,7 +73,7 @@ void func_80024020(EventState *event) {
         D_800287A4 = *(s32 *)event;
         ((PlayerRecord *)object)->unk_F4 = 0;
         object->unk_A8 = ((u8 *)event)[8];
-        ((PlayerRecord *)D_800814A8)->unk_102 = 1;
+        ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
         event->state++;
     }
     case 1:
@@ -87,7 +87,7 @@ void func_80024020(EventState *event) {
         event->mode20 = -1;
         event->timer22 = 0x20;
         event->timer1C = 0x10;
-        ((DungeonObject *)D_800814A8)->countA6--;
+        ((DungeonObject *)primary_actor_record)->countA6--;
         event->state++;
         play_sound_if_enabled(0x300);
         break;
@@ -367,7 +367,7 @@ typedef struct Vec3u {
     u16 z;
 } Vec3u;
 
-extern void **D_800E3D18;
+extern void **actor_direction_sprites;
 
 extern void spawn_blinking_sprite_flash(s16, s16, s16);
 
@@ -385,16 +385,16 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
 
     switch (motion->state) {
     case 0:
-        base.x = D_80083780.x.w.i;
-        base.y = D_80083780.y.w.i;
-        entity = D_800E3D7C;
+        base.x = view_reference_entity.x.w.i;
+        base.y = view_reference_entity.y.w.i;
+        entity = dungeon_actor_ring_anchor;
         base.z = ((u16)entity->ground_height) - 0x50;
         index =
             ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
 
         resolve_record_orientation_or_fallback(
-            *(void **)(index + (s32)D_800E3D18),
-            ((u8 *)(&D_80082E80)), &delta, 0);
+            *(void **)(index + (s32)actor_direction_sprites),
+            ((u8 *)(&reference_tile_object)), &delta, 0);
 
         base.x += delta.x;
         motion->target_x = base.x;
@@ -458,13 +458,13 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
         break;
 
     case 3:
-        source = &D_80082E80;
+        source = &reference_tile_object;
         if (resolve_record_orientation_or_fallback(((void *)source->sprite_source), source, &base, 0) != 0) {
             update_object_movement_proximity_reactions(
-                D_80083780.x.w.i + base.x,
-                D_80083780.y.w.i + base.y,
-                D_80083780.z.w.i + base.z,
-                ((ActorRecord *)((u8 *)D_800E3D7C))->facing, 0);
+                view_reference_entity.x.w.i + base.x,
+                view_reference_entity.y.w.i + base.y,
+                view_reference_entity.z.w.i + base.z,
+                ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->facing, 0);
         }
 
         motion->effect_timer--;
@@ -472,10 +472,10 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
             return;
         }
         create_linked_sprite_pieces(
-            D_80083780.x.w.i,
-            D_80083780.y.w.i,
-            D_80083780.z.w.i - 0x20,
-            ((ActorRecord *)((u8 *)D_800E3D7C))->facing);
+            view_reference_entity.x.w.i,
+            view_reference_entity.y.w.i,
+            view_reference_entity.z.w.i - 0x20,
+            ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->facing);
 
         break;
     default:
@@ -614,7 +614,7 @@ void *move_effect_toward_target(MovingPosition *src)
 /* The effect record the callback runs on (the object header precedes it). */
 
 /* Update position, reduce movement speed, and flag completion when speed runs out. */
-void advance_effect_motion_and_speed(MotionRecord *motion, EntityRec *position)
+void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *position)
 {
     s16 next_speed;
     u16 update_count = D_80027452[0];
@@ -719,7 +719,7 @@ typedef struct RenderData {
 /* The follower's record (the object header precedes it): it tracks the object stored at +8. */
 
 /* Copy the owner's position and colour; flag completion once the owner is finished. */
-void copy_follower_owner_position_and_color(FollowerRecord *record, EntityRec *position, RenderData *render)
+void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPosition *position, RenderData *render)
 {
     ObjectNodeHeader *owner;
     ObjectPosition *owner_pos;
@@ -771,7 +771,7 @@ void func_80024EF8(ObjectNodeHeader *owner, s16 angle) {
 
     spawned = allocate_list_node(0x212, &owner->next);
     if (spawned != 0) {
-        spawned->unk_10 = copy_follower_owner_position_and_color;
+        spawned->unk_10 = (follower_position_update_fn)copy_follower_owner_position_and_color;
         register_node(spawned, (s32)project_sprite_chain);
         ((ObjectPosition *)spawned->unk_08)->x.w.i = (u16)((ObjectPosition *)owner->unk_08)->x.w.i;
         ((ObjectPosition *)spawned->unk_08)->y.w.i = (u16)((ObjectPosition *)owner->unk_08)->y.w.i;
@@ -1027,7 +1027,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                     ((S_819AD81C_0 *)entity)->unk_2C.s = 3;
                     return;
                 }
-                node = (void *) ((int)D_800814A8);
+                node = (void *) ((int)primary_actor_record);
                 head = node;
                 link = ((S_819AD81C_3 *)node)->unk_5C.p;
                 node = link + 0x20;
@@ -1049,7 +1049,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                             }
                         }
                         node = ((S_819AD81C_3 *)node)->unk_5C.i + 0x20;
-                    } while (node != (void *) ((int)D_800814A8));
+                    } while (node != (void *) ((int)primary_actor_record));
                 }
                 saved_x = ((S_819AD81C_0 *)entity)->unk_3C.at00p.v;
                 hits_left = ((S_819AD81C_0 *)entity)->unk_46.u;
@@ -1198,7 +1198,7 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
 
     piece_index = 0;
     x_offsets = dir_step_x;
-    color_table = &D_80082E80;
+    color_table = &reference_tile_object;
     do {
         {
             void *template;
@@ -1206,7 +1206,7 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
             if (piece_index != 0) {
                 template = objects[0];
             } else {
-                template = ((u8 *)(&D_80083498));
+                template = ((u8 *)(&scene_object_list_anchor));
             }
             objects[piece_index] = allocate_list_node(2, template);
         }

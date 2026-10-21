@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_80129728[16];
+extern M2C_UNK catalog_display_node_slots[16];
 extern s32 D_801331A0;
 
 /* Restore 12 referenced values from the backup array. */
@@ -14,7 +14,7 @@ void restore_linked_values_from_backup(void) {
 
     value_index = 0x10;
     backup_value = &D_801331A0;
-    table_base = D_80129728;
+    table_base = catalog_display_node_slots;
     value_slot = (s32 **)(table_base + 0x10);
     do {
         value_ptr = *value_slot;

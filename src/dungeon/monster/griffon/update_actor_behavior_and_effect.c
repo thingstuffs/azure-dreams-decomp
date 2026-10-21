@@ -22,7 +22,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     saved_tile_x = tile_x;
     saved_part_id = part_id;
     saved_tile_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((R08_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)func_80170A50);
@@ -313,14 +313,14 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
             update_actor_status_and_food(actor_data);
             return;
         }
-        if (*(u16 *)&object->unk_24 == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (*(u16 *)&object->unk_24 == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_801717F8(actor, position, object, actor_data);
             return;
         }
         if (!(actor_data->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor_data,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -355,9 +355,9 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
                 ActorRecord *player;
                 s16 facing;
 
-                facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
+                facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y),
                     &distance));
-                player = D_800814A8;
+                player = primary_actor_record;
                 actor_data->facing = facing;
                 if (player->unk_9A == 0x11) {
                     begin_actor_spell_action(actor, position, object, ((u8 *)D_80174C34), ((void *)update_actor_behavior_and_effect));
@@ -385,13 +385,13 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
     if (!(((u32)actor_data->flags1C) & 0x2000)) {
         s32 room_index = room_id;
 
-        if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
+        if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((u32)actor_data->flags1C) & 0x430)) {
 
                 if ((compare_monster_neighbor_values(
                         object->unk_24, object->unk_25,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
-                    actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
+                    actor_data->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(object->unk_24),(s16)(object->unk_25),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y),
                         &distance));
                 }
             }
@@ -444,7 +444,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
         void *tint;
         u8 *sprite_data;
 
-        effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+        effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
         ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_pv.v = effect;
         object = effect;
         if (object == 0) {
@@ -460,7 +460,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
         ((ObjectPosition *)((ObjectNodeHeader *)object)->unk_08)->z.w.i =
             ((u16)position->z.w.i) + effect_offset[2];
         sprite = ((ObjectNodeHeader *)object)->unk_0C;
-        sprite_data = ((u8 *)D_800DEA68);
+        sprite_data = ((u8 *)secondary_sprite);
         ((EntityRec *)((ObjectNodeHeader *)object + 1))->unk_9B = 0;
         ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_1E = 0xC00;
         ((R08_80170E7C_S_80170E7C_7 *)sprite)->unk_1C = 0xC00;
@@ -608,8 +608,8 @@ void func_801717F8(void *move_data, void *context, void *position_data, void *ac
                 s32 target_y;
                 u8 *turn_data;
                 {
-                    TileObject *target_position = &D_80082E80;
-                    s32 target_facing = ((u16)D_800814A8->facing);
+                    TileObject *target_position = &reference_tile_object;
+                    s32 target_facing = ((u16)primary_actor_record->facing);
                     s32 offset_index =
                         ((((R08_801717F8_S_80171C34_1 *)actor_data)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
@@ -628,11 +628,11 @@ void func_801717F8(void *move_data, void *context, void *position_data, void *ac
                 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)position_data)->unk_24,(s16)((SpriteFrameState *)position_data)->unk_25,(s16)((s16)target_x),(s16)((s16)target_y), turn_data));
                 ((R08_801717F8_S_80171C34_1 *)actor_data)->unk_2A.s = target_angle;
                 if (((s16)check_movement_clearance_and_height((s16)(target_angle), position_data, actor_data, 0x20)) <= 0) {
-                    ((R08_801717F8_S_80171C34_1 *)actor_data)->unk_2A.s = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)position_data)->unk_24,(s16)((SpriteFrameState *)position_data)->unk_25,(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y), turn_data));
+                    ((R08_801717F8_S_80171C34_1 *)actor_data)->unk_2A.s = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)position_data)->unk_24,(s16)((SpriteFrameState *)position_data)->unk_25,(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), turn_data));
                 }
                 if (((s16)compare_monster_neighbor_values(
                         ((SpriteFrameState *)position_data)->unk_24, ((SpriteFrameState *)position_data)->unk_25,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y)) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y)) != 0) {
                     limit_detour = 1;
                 }
             } else {
@@ -641,7 +641,7 @@ void func_801717F8(void *move_data, void *context, void *position_data, void *ac
             }
         }
     } else if (*(s8 *)&((SpriteFrameState *)position_data)->unk_26 >= 0 &&
-               ((R08_801717F8_DungeonRecord *)D_800E2970)[*(s8 *)&((SpriteFrameState *)position_data)->unk_26].flags & 2) {
+               ((R08_801717F8_DungeonRecord *)dungeon_rooms)[*(s8 *)&((SpriteFrameState *)position_data)->unk_26].flags & 2) {
         rebuild_monster_reachable_tiles(position_data, ((R08_801717F8_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                       (u8 *)move_data + 0x98);
     } else if (!(((R08_801717F8_S_80171C34_1 *)actor_data)->unk_46 & 0x8000)) {
@@ -657,12 +657,12 @@ void func_801717F8(void *move_data, void *context, void *position_data, void *ac
         }
 
         if (((R08_801717F8_S_80171C34_1 *)actor_data)->unk_1C & 0x20000) {
-            TileObject *target_position = &D_80082E80;
+            TileObject *target_position = &reference_tile_object;
             ((R08_801717F8_S_80171C34_1 *)actor_data)->unk_2A.s = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)position_data)->unk_24,(s16)((SpriteFrameState *)position_data)->unk_25,(s16)(target_position->tile_position.parts.tile_x),(s16)(target_position->tile_position.parts.tile_y), (u8 *)move_data + 0x98));
             if (((s16)compare_monster_neighbor_values(
                     ((SpriteFrameState *)position_data)->unk_24, ((SpriteFrameState *)position_data)->unk_25,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y)) != 0) {
-                if (((s16)get_actor_height_difference(D_800814A8, actor_data)) < 0x81) {
+                if (((s16)get_actor_height_difference(primary_actor_record, actor_data)) < 0x81) {
                     if (((s16)check_diagonal_side_height(
                             ((s16)((R08_801717F8_S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,(s16)((SpriteFrameState *)position_data)->unk_24,(s16)((SpriteFrameState *)position_data)->unk_25,(s16)((s16)(((R08_801717F8_S_80171C34_1 *)actor_data)->unk_88.u - 0x20)))) != 0) {
                         ((R08_801717F8_S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
@@ -677,7 +677,7 @@ void func_801717F8(void *move_data, void *context, void *position_data, void *ac
     }
 
     turn_index = 0;
-    turn_table = ((s16 *)D_8006CD00);
+    turn_table = ((s16 *)actor_turn_angle_offsets);
 
     do {
         turn_flags = ((R08_801717F8_S_80171C34_5 *)move_data)->unk_98;
@@ -723,9 +723,9 @@ void func_801717F8(void *move_data, void *context, void *position_data, void *ac
         }
 
         if (turn_index == 0 &&
-            *(u16 *)(&D_80082E80.tile_position.parts.tile_x) != *(u16 *)&((SpriteFrameState *)position_data)->unk_24) {
+            *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&((SpriteFrameState *)position_data)->unk_24) {
             if (((s16)check_entity_relation(actor_data,
-                    (u8 *)D_800814A8->unk_58 + 0x20)) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20)) != 0) {
                 do {
                     return;
                 } while (0);
@@ -1012,7 +1012,7 @@ void func_8017245C(void *action, void *motion, void *sprite, void *actor)
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            ((R08_8017245C_S_80172478_2 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
+            ((R08_8017245C_S_80172478_2 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)sprite)->unk_24,(s16)((SpriteFrameState *)sprite)->unk_25,(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y),
                 &direction_aux));
         }
     }
@@ -1179,7 +1179,7 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
             actor->action_flags &= 0x7FFF;
             return;
         }
-        ((void * *)D_800E3DE8)[0] = (u8 *)actor - 0x20;
+        ((void * *)actor_update_node_cursor)[0] = (u8 *)actor - 0x20;
 
         return;
     }
@@ -1226,7 +1226,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
 
                 use_existing = is_special;
                 if (use_existing) {
-                    node = D_800814A8;
+                    node = primary_actor_record;
                     (object->target) = node;
                     {
                         item_def = (u32)((R08_80172CE8_S_80172CE8_1_pre *)node)[-1].unk_00;
@@ -1234,7 +1234,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
                         (((u8)object->target_tile_y)) = ((R08_80172CE8_S_80172CE8_2 *)item_def)->unk_25;
                     }
                 } else {
-                    u8 *item_defs = D_8006DE24;
+                    u8 *item_defs = item_action_definitions;
                     u8 item_id = *item_slot;
                     item_def = (item_id * 20 + item_defs)[0x12];
                     if (item_def == 2) {
@@ -1283,7 +1283,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
         set_record_integer_tile_center(motion, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_24, ((R08_80172CE8_S_80172CE8_3 *)actor)->unk_25);
         g_dungeon_status.active_actor = 0;
         {
-            u8 *active_object = (u8 *)D_800814A8;
+            u8 *active_object = (u8 *)primary_actor_record;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
         }
         advance_status_timers(object);
@@ -1617,7 +1617,7 @@ void update_object_or_select_directional_data(void *controller, s32 actor_index,
                 if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                     if ((check_entity_relation(
                              actor,
-                             ((s32)D_800814A8->unk_58)
+                             ((s32)primary_actor_record->unk_58)
                                  + 0x20)
                          << 16)
                         != 0) {
@@ -1630,7 +1630,7 @@ void update_object_or_select_directional_data(void *controller, s32 actor_index,
                 if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                     TileObject *room_base;
                     s32 room_id;
-                    room_base = &D_80082E80;
+                    room_base = &reference_tile_object;
                     room_id = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
                     if (((room_id == room_base->room_index)
                          && (room_id >= 0))
@@ -1756,7 +1756,7 @@ void resume_actor_effect_behavior_after_status_animation(void *controller, void 
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                 return;
             }
         }
@@ -2045,7 +2045,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             return;
         }
         run_cd_image_commands((u8 *)((void * *)D_80174CFC) - 8, (u8 *)((void * *)D_80174D1C) - 4, 1);
-        sound_set_cd_cue_parameters(0, ((s32 *)D_8006CD58)[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, ((s32 *)cd_cue_base)[0], 0x04000AD4, 0x05000CC4);
         effect_id = func_800445E0();
         Control_CD(0x15, effect_id, 0);
         ((u8 *)D_80174D19)[0] = 0;
@@ -2072,7 +2072,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
                 }
                 return;
             }
-            target_color = ((void * *)D_800DCEEC)[lookup_masked_byte_table(actor)];
+            target_color = ((void * *)actor_effect_color_targets)[lookup_masked_byte_table(actor)];
             effect_work->unk_A8 += (((R08_80174648_S_80174648_3 *)target_color)->unk_00
                 - effect_work->unk_A8) / ((R08_80174648_S_80174648_0 *)effect_state)->unk_96.s;
             effect_work->unk_A9 += (((R08_80174648_S_80174648_3 *)target_color)->unk_01

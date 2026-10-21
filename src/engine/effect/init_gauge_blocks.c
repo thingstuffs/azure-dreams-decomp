@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "shared/gpu_packets.h"
+#include "engine/graphics.h"
 
 typedef struct {
     s32 unk0;
@@ -28,15 +29,14 @@ typedef struct {
     DisplayPositionWords *unk8;
 } S_8005084C_Outer;
 
-extern S_8002E5D8 D_8002E5D8;
-extern DisplayPositionWords D_8002E5E8;
-extern void set_color_components_and_scaled_fields(S_8005084C_Outer *, s32, s32);
+extern S_8002E5D8 display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 /* Initialize the object and its two data blocks from defaults, then apply starting settings. */
 void init_gauge_blocks(void *unused, S_8005084C_Outer *object,
                    S_8002E5D8 *primary_data, DisplayPositionWords *secondary_data) {
-    S_8002E5D8 *primary_defaults = &D_8002E5D8;
-    DisplayPositionWords *secondary_defaults = &D_8002E5E8;
+    S_8002E5D8 *primary_defaults = &display_block_defaults;
+    DisplayPositionWords *secondary_defaults = &display_vector_defaults;
     s32 *secondary_first;
 
     primary_data->unk0 = primary_defaults->unk0;

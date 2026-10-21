@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/cd.h"
+#include "engine/scene.h"
+#include "sdk/libgpu.h"
 
 /* S_80048500_elem: 8-byte element type indexed by a0 within a D_800710E4[a1] sub-array. */
 typedef struct {
@@ -25,9 +28,6 @@ typedef struct {
 
 extern S_80081480 gpu_scratch_write_pointer;
 
-extern void file_load_com(void *arg);
-extern void drain_cd_command_queue(void);
-extern void DrawSync(s32 a0);
 extern s32 copy_processed_vram_tile_backward(s32 a0);
 
 /* Processes the selected element, waits for drawing, and redraws the target VRAM tile. */

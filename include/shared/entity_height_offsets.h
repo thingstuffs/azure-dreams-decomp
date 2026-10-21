@@ -4,7 +4,7 @@
  * or subtract the value (or its half) from z, including 16.16 coordinates.
  * Neither the index's game meaning nor the table extent is established. */
 typedef unsigned char EntityHeightOffset;
-extern EntityHeightOffset D_800DDC40[];
+extern EntityHeightOffset entity_height_offsets[];
 
 /* Exact access views shared across registered binary consumers. */
 /* Three signed alternatives selected from the actor height-band value record. */

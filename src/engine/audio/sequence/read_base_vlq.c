@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 extern int read_next_byte_and_finish(int a0);
 

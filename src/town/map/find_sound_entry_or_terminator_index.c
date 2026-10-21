@@ -5,14 +5,14 @@ typedef struct TownEntry {
     u8 pad_02[8];
 } TownEntry;
 
-extern TownEntry D_800D4094[];
+extern TownEntry map_sound_settings[];
 
 /* Return the index of the matching value or the terminating zero in the entry table. */
 s32 find_sound_entry_or_terminator_index(s32 target_value) {
     s32 entry_index;
 
-    for (entry_index = 0; D_800D4094[entry_index].value != 0; entry_index++) {
-        if (D_800D4094[entry_index].value == target_value) {
+    for (entry_index = 0; map_sound_settings[entry_index].value != 0; entry_index++) {
+        if (map_sound_settings[entry_index].value == target_value) {
             break;
         }
     }

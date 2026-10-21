@@ -2,6 +2,7 @@
 #include "shared/object_index_slots.h"
 
 #include "common.h"
+#include "engine/message.h"
 
 typedef struct Func80039470Entry {
     s8 field_0;
@@ -19,7 +20,6 @@ typedef struct Func80039470Block {
 
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
-extern Func80039470Block *ms_mot_accpt_ow(s32 index);
 
 /* Activates an unused entry and stores its pair of values according to the block type. */
 s32 accept_message_motion_request(s32 entry_value, s32 first_value, s32 second_value, s32 packed_index) {

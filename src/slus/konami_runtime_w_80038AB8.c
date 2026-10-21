@@ -1,6 +1,12 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/audio.h"
+#include "engine/graphics.h"
+#include "engine/message.h"
+#include "engine/script.h"
+#include "engine/window.h"
+#include "slus.h"
 
 typedef s32 (*ActionFunc)(void *);
 
@@ -15,16 +21,8 @@ typedef struct RuntimeContext {
     s8 active;
 } RuntimeContext;
 
-extern void func_80034EF8(void *, u8);
-extern void func_80034F58(void *);
-extern s32 func_80034FD0(void *);
-extern ActionFunc func_800381D0(void *);
-extern s32 func_80038A10(void *);
-extern s32 is_message_byte_in_lookup_set(s8);
 struct S_func_80038CB8_0;
-extern void func_80038CB8(struct S_func_80038CB8_0 *);
 extern s32 noop_script_terminator_action(void *);
-extern s32 dispatch_sound_word_unless_disabled(s32);
 extern ActionFunc script_opcode_handlers[];
 
 /* Dispatch script opcodes, advance active text, and report whether processing can continue. */

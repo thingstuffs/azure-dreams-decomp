@@ -14,7 +14,7 @@ void begin_player_menu_action();
 void begin_player_sleep_action();
 void set_record_integer_tile_center();
 extern void * create_animated_selection_menu_owner(void *unused, void *source);
-extern s32 D_800E4940[];
+extern s32 menu_action_argument[];
 
 /* Reset movement and dispatch actor actions based on state and input flags. */
 void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, EntityRec *move_state, SpriteFrameState *entity,
@@ -34,11 +34,11 @@ void handle_sleeping_player_input(Rec_func_8008ACDC_arg0 *controller, EntityRec 
     if (action_state > 0) {
         apply_pending_byte_increase(controller, move_state, entity, actor);
     }
-    if (!(D_80013714 & 1) && !(g_dungeon_status.flags & 4) && (((s32)input_state->buttons) & 0x80)) {
+    if (!(system_update_flags & 1) && !(g_dungeon_status.flags & 4) && (((s32)input_state->buttons) & 0x80)) {
         actor->unk_8A = 2;
-        D_800E4940[0] = 2;
+        menu_action_argument[0] = 2;
         begin_player_menu_action(controller, move_state, entity, &create_animated_selection_menu_owner);
-        D_80082E80.selected_item = 0;
+        reference_tile_object.selected_item = 0;
         controller->unk_C8 = 0;
         controller->unk_104 = 0;
         return;

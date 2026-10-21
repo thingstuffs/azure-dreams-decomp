@@ -28,7 +28,7 @@ void update_threshold_object(void *context, TownObject *object, void *update_dat
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(object);
     store_the_valid_shared_angle_in_offset_hex_10(context);
     handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
-    threshold_data = ((u8 *)&D_800FE488);
+    threshold_data = ((u8 *)&position_query_scratch);
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, threshold_data);
 
     if (object->field_A >= threshold) {
@@ -37,7 +37,7 @@ void update_threshold_object(void *context, TownObject *object, void *update_dat
         return;
     }
 
-    if (D_800CFCEF != 0) {
+    if (town_action_state_flag != 0) {
         object->field_14 = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
         initialize_scene_action_record(context, object, update_data);

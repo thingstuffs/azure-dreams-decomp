@@ -36,9 +36,9 @@ void create_boss_effect_node(void)
         effect = node->partC;
         ((SpriteFrameState *)effect)->unk_06 = 0;
         part_words = (u32 *)node->part8;
-        part_words[0] = ((u32)D_80083780.x.v);
-        part_words[1] = ((u32)D_80083780.y.v);
-        part_words[2] = ((u32)D_80083780.z.v);
+        part_words[0] = ((u32)view_reference_entity.x.v);
+        part_words[1] = ((u32)view_reference_entity.y.v);
+        part_words[2] = ((u32)view_reference_entity.z.v);
 
         effect = (s16 *)node->partC;
         effect[15] = 0x1000;
@@ -47,7 +47,7 @@ void create_boss_effect_node(void)
         ((SpriteFrameState *)effect)->color.c.g = 0;
         ((SpriteFrameState *)effect)->color.c.r = 0;
         effect[10] |= 0x80;
-        func_8003DB94(effect, D_800DE870, 0);
+        func_8003DB94(effect, effect_sprite_sources, 0);
     }
 }
 

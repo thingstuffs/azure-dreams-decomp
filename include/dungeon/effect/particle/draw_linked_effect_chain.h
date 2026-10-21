@@ -484,10 +484,10 @@ extern const Row_819A1450_LocalTable D_80024034;
 extern u8 D_800246F0[];
 extern u8 D_800DEC00[];
 extern Row_819A1654_GlobalState D_800814A0[];
-extern Row_819A1654_LookupGlobal D_80082E80[];
+extern Row_819A1654_LookupGlobal reference_tile_object[];
 extern s16 D_80082E86[6];
 extern u16 D_80082E94[6];
-extern Row_819A1654_Coord D_80083780[];
+extern Row_819A1654_Coord view_reference_entity[];
 
 extern const Row_819A1654_PointTable D_80024054[1];
 extern Row_819A1654_Blob12 D_80026180[];

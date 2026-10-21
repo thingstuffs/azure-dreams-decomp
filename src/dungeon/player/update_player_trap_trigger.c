@@ -8,7 +8,7 @@ typedef struct {
     s16 h100;
 } Actor;
 
-extern u8 D_800E3648[];
+extern u8 floor_objects[];
 extern u8 D_800E0B39[];
 extern u8 D_80088B14[];
 extern u8 D_800E0B4C[];
@@ -46,7 +46,7 @@ void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 
         if ((s16) try_claim_dungeon_action_slot(target) != 0) {
             return;
         }
-        tab = D_800E3648;
+        tab = floor_objects;
         entry = &tab[actor->h100 * 4];
         if (entry[0] == 0) {
             restore_player_control_callback(actor, target);
@@ -67,7 +67,7 @@ void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 
             patch_pos = cursor - 2;
             cursor = expand_text_control_codes(D_80088B14, cursor);
             entry_pos = cursor;
-            cursor = append_typed_formatted_value(&D_800E3648[actor->h100 * 4], entry_pos);
+            cursor = append_typed_formatted_value(&floor_objects[actor->h100 * 4], entry_pos);
             copy_fullwidth_vowel_bytes(patch_pos, entry_pos);
             func_80099290(write_status_prefix_bytes(expand_text_control_codes(D_800E0B4C, write_text_byte_and_advance(10, cursor))));
             display_text_with_fullwidth_adjustment(buffer_start);
@@ -75,14 +75,14 @@ void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 
         actor->state++;
         reveal_triggered_trap(actor, context_a, context_b, target);
     }
-    if (D_800E3648[actor->h100 * 4] == 0) {
+    if (floor_objects[actor->h100 * 4] == 0) {
         restore_player_control_callback(actor, target);
         g_dungeon_status.active_actor = 0;
         g_dungeon_status.trap_counts.parts.pending_trap_count--;
         g_dungeon_status.flags &= 0xFFF7;
         return;
     } else {
-        s16 result = (s16) call_slot_handler_and_update_status(D_800E3648[actor->h100 * 4], target, actor->h100, 0);
+        s16 result = (s16) call_slot_handler_and_update_status(floor_objects[actor->h100 * 4], target, actor->h100, 0);
         if (result != 0) {
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.trap_counts.parts.pending_trap_count--;

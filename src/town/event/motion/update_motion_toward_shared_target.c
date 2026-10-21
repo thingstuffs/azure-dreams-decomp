@@ -8,7 +8,7 @@ void call_the_same_context_both_processing_routines(s32, s32);             /* ex
 void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);             /* extern */
 void add_motion_deltas_to_position();                 /* extern */
 void initialize_target_motion(); /* extern */
-extern s32 D_800D0428;
+extern s32 town_target_height_offset;
 
 
 /* Update motion toward the shared target and advance state when the countdown expires. */
@@ -17,7 +17,7 @@ void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 conte
     u16 ticks_left;
 
     position = motion->z.v;
-    motion->velocity_z = (s32) ((s32) ((D_80083780.z.v + D_800D0428) - position) / 2);
+    motion->velocity_z = (s32) ((s32) ((view_reference_entity.z.v + town_target_height_offset) - position) / 2);
     add_motion_deltas_to_position(motion, position);
     call_the_same_context_both_processing_routines(context, (s32)(motion));
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis((void *)(context), motion);

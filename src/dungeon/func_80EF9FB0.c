@@ -129,7 +129,7 @@ void update_actor_ability_action_2(ActorActionView *action, ObjectPosition *moti
             action->flags = selection;
             selection = use_player_target;
             if (selection != 0) {
-                selection = (s32)(D_800814A8);
+                selection = (s32)(primary_actor_record);
                 actor->target = ((EntityRec *)selection);
                 {
                     u8 target_coordinate;
@@ -140,7 +140,7 @@ void update_actor_ability_action_2(ActorActionView *action, ObjectPosition *moti
                     target_coordinate = ((EntityRec *)selected)->tileY;
                     actor->target_tile_y = target_coordinate;
                 }
-            } else if (D_8006DE24[*action_data].kind == 2) {
+            } else if (item_action_definitions[*action_data].kind == 2) {
                 selection = (s32)(actor->target);
                 if (((EntityRec *)selection) != 0) {
                     {
@@ -178,7 +178,7 @@ void update_actor_ability_action_2(ActorActionView *action, ObjectPosition *moti
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
         g_dungeon_status.active_actor = 0;
-        ((PlayerRemainingActionsView *)D_800814A8)->remaining--;
+        ((PlayerRemainingActionsView *)primary_actor_record)->remaining--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
         action->nextAction.record = D_80159CE8;

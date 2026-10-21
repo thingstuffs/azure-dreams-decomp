@@ -65,7 +65,7 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
     saved_x = tile_x;
     saved_part_value = part_value;
     saved_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80F45000_0 *)obj)->unk_10 = D_8015EA68;

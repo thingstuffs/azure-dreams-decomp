@@ -59,15 +59,15 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
     {
         void *height_record = record;
 
-        height_data = ((u8 *)&D_800FE488);
+        height_data = ((u8 *)&position_query_scratch);
         height = select_the_smaller_position_query_result_capped_n_64_writes_associated(height_record, height_data);
     }
     if ((height - record->z.w.i) >= 4) {
-        if (((S_80090A74_1 *)(&D_800CFCEF))->unk_00 == 0) {
+        if (((S_80090A74_1 *)(&town_action_state_flag))->unk_00 == 0) {
             initialize_action_object(actor, record, context);
             return;
         }
-    } else if (((S_80090A74_1 *)(&D_800CFCEF))->unk_00 == 0) {
+    } else if (((S_80090A74_1 *)(&town_action_state_flag))->unk_00 == 0) {
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(record), height, (struct TownVec * *)(height_data));
     }
     if (((s32)input_state->pressed_buttons) & 0x10) {

@@ -34,10 +34,10 @@ extern void decompress_lz();
 extern void func_800672D8();
 
 extern s32 D_8003E140[];
-extern s32 *D_80126D44[];
-extern u8 D_8012A998[];
-extern u8 D_8012E998[];
-extern u8 D_80133198[];
+extern s32 *catalog_texture_resources[];
+extern u8 catalog_texture_buffer[];
+extern u8 catalog_texture_pixels[];
+extern u8 catalog_texture_request[];
 
 /* Load a texture and its palette, then advance the loader after upload. */
 void load_catalog_detail_texture(void *loader)
@@ -56,9 +56,9 @@ void load_catalog_detail_texture(void *loader)
             return;
         }
     } else {
-        pack_tagged_resource_descriptor(8, D_8012A998, D_80133198,
-                      D_80126D44[((S_80124DB0_0 *)loader)->unk_13][1]);
-        Control_CD(6, D_80133198, 0);
+        pack_tagged_resource_descriptor(8, catalog_texture_buffer, catalog_texture_request,
+                      catalog_texture_resources[((S_80124DB0_0 *)loader)->unk_13][1]);
+        Control_CD(6, catalog_texture_request, 0);
         ((S_80124DB0_0 *)loader)->unk_0D = 0;
         Control_CD(0xFF, D_8003E140, (u8 *)loader + 0xD);
         ((S_80124DB0_0 *)loader)->unk_0B++;
@@ -72,12 +72,12 @@ void load_catalog_detail_texture(void *loader)
     palette_rect.w = 0x100;
     palette_rows = 1;
     palette_rect.h = palette_rows;
-    func_800672D8(&palette_rect, D_8012A998);
+    func_800672D8(&palette_rect, catalog_texture_buffer);
 
-    decompress_lz(D_8012A998 + 0x200, D_8012E998);
+    decompress_lz(catalog_texture_buffer + 0x200, catalog_texture_pixels);
 
     upload_rect = &texture_rect;
-    texture_pixels = D_8012E998;
+    texture_pixels = catalog_texture_pixels;
     texture_height = 0x80;
     texture_rect.x = (((S_80124DB0_0 *)loader)->unk_16 << 6) + 0x240;
     texture_rect.y = texture_height;

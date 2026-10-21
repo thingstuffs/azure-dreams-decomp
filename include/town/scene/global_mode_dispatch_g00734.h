@@ -9,9 +9,9 @@
 
 extern s32 check_inputs_after_threshold_two(s32);
 extern void func_80018570(void);
-extern s32 D_8001967C;
+extern s32 scene_dispatch_mode_index;
 extern s32 D_8001970C[];
-extern s32 D_80019AFC;
+extern s32 scene_cell_dispatch_code;
 extern s32 dispatch_state_entry_event_8(s32, s32, s32, s32);
 extern s32 process_event_ids_and_succeed(void);
 

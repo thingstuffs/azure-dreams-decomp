@@ -116,7 +116,7 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 if ((check_entity_relation(actor_in,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -124,7 +124,7 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
             on_actor_status_updated(actor_in);
             if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
                 s8 coordinate = ((S_80173D4C_1 *)sprite_in)->unk_26;
-                TileObject *origin = &D_80082E80;
+                TileObject *origin = &reference_tile_object;
                 s32 probe_result;
 
                 if ((coordinate != origin->room_index) || (coordinate < 0)) {

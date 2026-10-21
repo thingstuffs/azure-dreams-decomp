@@ -4,5 +4,5 @@
 typedef struct { u16 flags; u8 pad2[18]; } DungeonItem;
 typedef DungeonItem DungeonCell;
 typedef struct { u8 pad0[2]; u8 count; u8 pad3[9]; DungeonItem *entries; u8 pad10[4]; } DungeonGroup;
-extern DungeonGroup D_80073414[];
+extern DungeonGroup item_category_groups[];
 #endif

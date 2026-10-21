@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 void *initialize_consecutive();                         /* extern */
 void *func_80404818();                         /* extern */

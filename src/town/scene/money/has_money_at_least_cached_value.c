@@ -5,10 +5,10 @@
 
 
 
-extern u32 D_80019B00;
+extern u32 scene_charge;
 
 
 /* Check whether the stored value meets the D_80019B00 threshold. */
 s32 has_money_at_least_cached_value(void) {
-    return (u32) D_80016000->unk_38->unk_2D5C >= (u32) D_80019B00;
+    return (u32) D_80016000->unk_38->unk_2D5C >= (u32) scene_charge;
 }

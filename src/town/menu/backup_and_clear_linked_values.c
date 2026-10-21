@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 *D_80129728[];
+extern s32 *catalog_display_node_slots[];
 extern s32 D_801331A0;
 
 /* Save and clear the values referenced by slots sixteen through twenty-seven. */
@@ -13,7 +13,7 @@ void backup_and_clear_linked_values(void) {
 
     slot_index = 0x10;
     saved_value = &D_801331A0;
-    entry_table = D_80129728;
+    entry_table = catalog_display_node_slots;
     entry_slot = entry_table + 0x10;
     do {
         slot_index += 1;

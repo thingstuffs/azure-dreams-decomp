@@ -6,11 +6,11 @@ typedef struct {
     void *unk4;
 } Entry;
 
-extern s32 D_80082A38[64];
+extern s32 runtime_script_state[64];
 
 /* anyone_now_pos_get: store the actor's current position in the script variables. */
 void anyone_now_pos_get(s32 actor_id) {
-    s32 *script_vars = D_80082A38;
+    s32 *script_vars = runtime_script_state;
     void *actor;
     s16 *position;
 

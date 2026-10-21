@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/menu.h"
+#include "slus.h"
 
 typedef struct S_8004FA2C {
     void (*f0)(void *self);   /* 0x00 - callback, compared to animate_selection_menu_entry_spacing */
@@ -12,10 +14,6 @@ typedef struct S_8004FA2C {
     s32 f30;                  /* 0x30 */
     s32 f34;                  /* 0x34 */
 } S_8004FA2C;
-
-extern void animate_selection_menu_entry_spacing(void *a0);
-extern void animate_selection_menu_index_transition(void *a0);
-extern int advance_index_with_single_wrap(int a0, int a1, int a2);
 
 /* Resets the object's transition state, switches callbacks, and advances its saved value. */
 void begin_selection_menu_index_change(S_8004FA2C *object, int target)

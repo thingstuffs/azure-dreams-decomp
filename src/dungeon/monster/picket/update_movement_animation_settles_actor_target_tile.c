@@ -26,7 +26,7 @@ extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
-extern Node *D_800E3DE8[];
+extern Node *actor_update_node_cursor[];
 extern u8 D_801710F4[];
 extern u8 D_80174F30;
 
@@ -119,7 +119,7 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         if (((ActorRecord *)actor)->pending_turn_updates == 0) {
             ((ActorRecord *)actor)->action_flags &= 0x7FFF;
         } else {
-            D_800E3DE8[0] = (Node *)((u8 *)actor - 0x20);
+            actor_update_node_cursor[0] = (Node *)((u8 *)actor - 0x20);
         }
         return;
     default:

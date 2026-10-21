@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/text.h"
+#include "slus.h"
 
 typedef struct S_8004D98C {
     u8 unk0;
@@ -8,8 +10,6 @@ typedef struct S_8004D98C {
     u16 unk6;
     u8 unk8[4];
 } S_8004D98C;
-
-extern void decode_glyph_id_to_byte_rectangle(u32 a0, u8 *a1);
 
 /* Initializes an effect record with a style-selected ID and data derived from the low input byte. */
 void initialize_styled_glyph_rectangle(s32 data_id, s32 style_flags, S_8004D98C *effect)

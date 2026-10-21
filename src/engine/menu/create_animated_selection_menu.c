@@ -1,5 +1,7 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/menu.h"
+#include "engine/runtime.h"
 
 /* Sub-object embedded at offset 0x20 of the allocated object. It matches the
  * prefix layout of Struct_8004FC68 (already-matched func_8004FC68), with
@@ -21,11 +23,6 @@ typedef struct S_8004FDE0_obj {
 } S_8004FDE0_obj;
 
 extern void func_8004FC68(void *a0);
-extern void update_animated_selection_menu(void *a0);
-extern s32 find_resolved_selection_menu_index(void *a0, void *a1);
-extern s32 create_animated_selection_menu_entries(void *a0);
-extern void destroy_animated_selection_menu(void *a0);
-extern void animate_selection_menu_entry_spacing(void *a0);
 
 /* Allocates and initializes an object, installs its callbacks, or returns NULL on failure. */
 void *create_animated_selection_menu(void *init_data)

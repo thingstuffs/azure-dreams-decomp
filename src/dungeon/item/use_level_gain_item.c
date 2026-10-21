@@ -18,9 +18,9 @@ void create_colored_effect_with_sound();    /* extern */
 
 /* Handles item use for an entity, updating its state and consuming the item. */
 s32 use_level_gain_item(void *entity, s32 item, s16 action_id) {
-    if (entity == ((u8 *)D_800E3D7C)) {
+    if (entity == ((u8 *)dungeon_actor_ring_anchor)) {
         ((EntityRec *)entity)->unk_110 = item;
-        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
@@ -34,7 +34,7 @@ s32 use_level_gain_item(void *entity, s32 item, s16 action_id) {
         ((EntityRec *)entity)->unk_18 = lookup_level_experience_threshold(entity, 0);
         ((EntityRec *)entity)->unk_42 = 0;
         ((EntityRec *)entity)->unk_41 = 0;
-        D_800E296C |= 0x100000;
+        dungeon_floor_flags |= 0x100000;
     }
     create_colored_effect_with_sound(entity - 0x20, 0x20F0F0, 0x616);
     clear_slot_and_update_linked_state(item);

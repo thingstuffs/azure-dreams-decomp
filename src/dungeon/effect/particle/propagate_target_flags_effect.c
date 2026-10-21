@@ -407,9 +407,9 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
         position->x = x;
         position->y = y;
         position->z = z;
-        position->x += ((u16)D_80083780.x.w.i);
-        position->y += ((u16)D_80083780.y.w.i);
-        position->z += ((u16)D_80083780.z.w.i);
+        position->x += ((u16)view_reference_entity.x.w.i);
+        position->y += ((u16)view_reference_entity.y.w.i);
+        position->z += ((u16)view_reference_entity.z.w.i);
         jitter = rand() & 0x1F;
         position->x -= 0x10;
         position->x += jitter;
@@ -429,7 +429,7 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
         render->color.c.r = 0x80;
         render->clut = 0x7DCF;
         render->flags |= 0x100;
-        func_8003DB94(render, D_800DE870, 0);
+        func_8003DB94(render, effect_sprite_sources, 0);
     }
 }
 
@@ -480,9 +480,9 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
         position->unk_02 = offset_x;
         position->unk_06 = spawn_y;
         position->unk_0A = spawn_z;
-        position->unk_02 += ((u16)D_80083780.x.w.i);
-        position->unk_06 += ((u16)D_80083780.y.w.i);
-        position->unk_0A += ((u16)D_80083780.z.w.i);
+        position->unk_02 += ((u16)view_reference_entity.x.w.i);
+        position->unk_06 += ((u16)view_reference_entity.y.w.i);
+        position->unk_0A += ((u16)view_reference_entity.z.w.i);
 
         position->unk_02 += (((s16)rand()) & 0x3F) - 0x20;
         position->unk_06 += (((s16)rand()) & 0x3F) - 0x20;
@@ -567,9 +567,9 @@ void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 
         position->unk_02 = x;
         position->unk_06 = offset_y;
         position->unk_0A = offset_z;
-        position->unk_02 += ((u16)D_80083780.x.w.i);
-        position->unk_06 += ((u16)D_80083780.y.w.i);
-        position->unk_0A += ((u16)D_80083780.z.w.i);
+        position->unk_02 += ((u16)view_reference_entity.x.w.i);
+        position->unk_06 += ((u16)view_reference_entity.y.w.i);
+        position->unk_0A += ((u16)view_reference_entity.z.w.i);
 
         position->unk_02 += (((s16)rand()) & 0x3F) - 0x20;
         position->unk_06 += (((s16)rand()) & 0x3F) - 0x20;
@@ -662,7 +662,7 @@ void create_timed_rectangle_effect(void *owner) {
         rect = (Rect16 *)((u8 *)&slot_rects + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
-        draw_transformed_sprite_with_clip_rect(D_800814A8, rect, center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(primary_actor_record, rect, center, 1, 1);
 
         child = func_8003FC64(0x212);
         if (child != 0) {
@@ -678,7 +678,7 @@ void create_timed_rectangle_effect(void *owner) {
             display->field6 = 4;
             display->flags &= 0xFFF3;
 
-            source_vector = ((S_8196BA5C_2_pre *)D_800814A8)[-1].unk_00;
+            source_vector = ((S_8196BA5C_2_pre *)primary_actor_record)[-1].unk_00;
             child_vector = ((S_8196BA5C_1 *)child)->unk_08;
             ((s32 *)child_vector)[0] = ((s32 *)source_vector)[0];
             ((s32 *)child_vector)[1] = ((s32 *)source_vector)[1];
@@ -893,9 +893,9 @@ void func_800257B0(void *object, void *position, void *render_state)
     }
 
     func_80024AF8(object, position, render_state,
-                  (s16)(((S_8196BFB0_0 *)position)->unk_00.at02.v - ((u16)D_80083780.x.w.i)),
-                  (s16)(((S_8196BFB0_0 *)position)->unk_04.at02.v - ((u16)D_80083780.y.w.i)),
-                  (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - ((u16)D_80083780.z.w.i)));
+                  (s16)(((S_8196BFB0_0 *)position)->unk_00.at02.v - ((u16)view_reference_entity.x.w.i)),
+                  (s16)(((S_8196BFB0_0 *)position)->unk_04.at02.v - ((u16)view_reference_entity.y.w.i)),
+                  (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - ((u16)view_reference_entity.z.w.i)));
 
     if (--((S_8196BFB0_1 *)object)->unk_2C <= 0) {
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
@@ -988,9 +988,9 @@ void func_80025A80(void *effect, void *position, void *sprite) {
         ((S_8196C280_2 *)sprite)->unk_1E = next_scale_y;
     }
     func_80024AF8(effect, position, sprite,
-        (s16)(((S_8196C280_0 *)position)->unk_00.at02.v - ((u16)D_80083780.x.w.i)),
-        (s16)(((S_8196C280_0 *)position)->unk_04.at02.v - ((u16)D_80083780.y.w.i)),
-        (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - ((u16)D_80083780.z.w.i)));
+        (s16)(((S_8196C280_0 *)position)->unk_00.at02.v - ((u16)view_reference_entity.x.w.i)),
+        (s16)(((S_8196C280_0 *)position)->unk_04.at02.v - ((u16)view_reference_entity.y.w.i)),
+        (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - ((u16)view_reference_entity.z.w.i)));
     life_left = ((S_8196C280_1 *)effect)->unk_2C - 1;
     ((S_8196C280_1 *)effect)->unk_2C = life_left;
     if ((life_left << 0x10) <= 0) {
@@ -1034,7 +1034,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
     state = work->state;
     switch (state) {
     case 0:
-        dungeon = *(DungeonState **)((u8 *)(&D_800814A8));
+        dungeon = *(DungeonState **)((u8 *)(&primary_actor_record));
         init_timer = 33;
         effect_page = (u8 *)0x80020000;
         *(s32 *)&dungeon->pad0[0xF4] = 0;
@@ -1068,7 +1068,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
 
     case 2:
         if (work->timer < 39) {
-            if (get_sprite_attachment_vector((((SearchContext *)&D_80082E80))->field8, ((SearchContext *)&D_80082E80), &work->x, 0)) {
+            if (get_sprite_attachment_vector((((SearchContext *)&reference_tile_object))->field8, ((SearchContext *)&reference_tile_object), &work->x, 0)) {
                 if (work->timer == 38) {
                     effect = func_8003FC64(0x212);
                     if (effect != 0) {
@@ -1084,9 +1084,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         local_y = work->y;
                         pos->y = local_y;
                         pos->z = work->z;
-                        pos->x += (((Position *)&D_80083780))->x;
-                        pos->y += (((Position *)&D_80083780))->y;
-                        pos->z += (((Position *)&D_80083780))->z;
+                        pos->x += (((Position *)&view_reference_entity))->x;
+                        pos->y += (((Position *)&view_reference_entity))->y;
+                        pos->z += (((Position *)&view_reference_entity))->z;
                         sprite->scale_x = 0x900;
                         sprite->scale_y = 0x604;
                         sprite->b = 0x80;
@@ -1112,9 +1112,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         local_y = work->y;
                         pos->y = local_y;
                         pos->z = work->z;
-                        pos->x += (((Position *)&D_80083780))->x;
-                        pos->y += (((Position *)&D_80083780))->y;
-                        pos->z += (((Position *)&D_80083780))->z;
+                        pos->x += (((Position *)&view_reference_entity))->x;
+                        pos->y += (((Position *)&view_reference_entity))->y;
+                        pos->z += (((Position *)&view_reference_entity))->z;
                         sprite->scale_x = 0x1800;
                         sprite->scale_y = 0x1000;
                         sprite->b = 0x80;
@@ -1154,9 +1154,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
         return;
 
     case 3:
-        if (D_800814A8->target != 0) {
+        if (primary_actor_record->target != 0) {
             if (work->timer >= 13) {
-                if (get_sprite_attachment_vector((((SearchContext *)&D_80082E80))->field8, ((SearchContext *)&D_80082E80), &work->x,
+                if (get_sprite_attachment_vector((((SearchContext *)&reference_tile_object))->field8, ((SearchContext *)&reference_tile_object), &work->x,
                     0)) {
                     for (particle_index = 0; particle_index < 4; particle_index++) {
                         func_80024CA4(work, position_arg, sprite_arg, work->x, work->y, work->z);
@@ -1191,9 +1191,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             local_y = work->y;
                             pos->y = local_y;
                             pos->z = work->z - 16;
-                            pos->x += (((Position *)&D_80083780))->x;
-                            pos->y += (((Position *)&D_80083780))->y;
-                            pos->z += (((Position *)&D_80083780))->z;
+                            pos->x += (((Position *)&view_reference_entity))->x;
+                            pos->y += (((Position *)&view_reference_entity))->y;
+                            pos->z += (((Position *)&view_reference_entity))->z;
                             sprite->scale_y = 0x1000;
                             sprite->scale_x = 0x1000;
                             sprite->b = 0x80;
@@ -1228,9 +1228,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 local_y = work->y;
                                 pos->y = local_y;
                                 pos->z = work->z - 16;
-                                pos->x += (((Position *)&D_80083780))->x;
-                                pos->y += (((Position *)&D_80083780))->y;
-                                pos->z += (((Position *)&D_80083780))->z;
+                                pos->x += (((Position *)&view_reference_entity))->x;
+                                pos->y += (((Position *)&view_reference_entity))->y;
+                                pos->z += (((Position *)&view_reference_entity))->z;
                                 sprite->scale_y = 0x1000;
                                 sprite->scale_x = 0x1000;
                                 sprite->b = 0x80;
@@ -1260,9 +1260,9 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     local_y = work->y;
                     pos->y = local_y;
                     pos->z = work->z;
-                    pos->x += (((Position *)&D_80083780))->x;
-                    pos->y += (((Position *)&D_80083780))->y;
-                    pos->z += (((Position *)&D_80083780))->z;
+                    pos->x += (((Position *)&view_reference_entity))->x;
+                    pos->y += (((Position *)&view_reference_entity))->y;
+                    pos->z += (((Position *)&view_reference_entity))->z;
                     sprite->scale_x = 0x1800;
                     sprite->scale_y = 0x1000;
                     sprite->b = 0x80;
@@ -1280,7 +1280,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
             }
         }
 
-        if ((D_80082E80.sprite_flags & 0x8000) == 0) {
+        if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
             work->timer--;
             if (work->timer >= 0) {
                 return;
@@ -1292,7 +1292,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
     case 4:
         if (D_800269B4 == 0) {
             g_dungeon_status.active_actor = 0;
-            D_80082E80.unk_006 = 0;
+            reference_tile_object.unk_006 = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((u16 *)work)[-1] |= 0x8000;
             object_flag_block.flags |= 0x8000;

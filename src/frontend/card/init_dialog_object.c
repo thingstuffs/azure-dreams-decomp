@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/card.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void position_linked_dialog_and_bind_object_data();                         /* extern */

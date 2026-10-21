@@ -3,11 +3,8 @@
 
 #include "common.h"
 #include "records/Rec_func_800384A8_arg0.h"
-
-
-void play_message_advance_sound();                      /* extern */
-s32 func_80053EF0();                         /* extern */
-void wait_message_voice_idle();
+#include "engine/message.h"
+#include "slus.h"
 
 /* Sets the next handler on status 0x100; otherwise runs the fallback handler. */
 void wait_message_voice_busy(Rec_func_800384A8_arg0 *state) {

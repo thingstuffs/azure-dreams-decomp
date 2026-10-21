@@ -1,9 +1,9 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
-extern int runtime_upload_image_blocks_vram_offsets_selected_tile_block_indices(s32 a0, u16 a1, s32 a2);
-extern int get_image_palette_address(int a0);
-extern int upload_vram_row_and_cache(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void DrawSync(s32 a0);
 extern int mark_palette_colors_with_high_bit(u16 *entry, s32 groupCount, s32 contiguousMode);
 extern int relocate_sprite_metadata_pointers(void *a0);
 extern int patch_sprite_packet_texture_and_palette_ids(void *a0, u16 a1, u16 a2, u16 a3);

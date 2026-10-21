@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "slus.h"
 
 typedef struct {
     u32 word0;

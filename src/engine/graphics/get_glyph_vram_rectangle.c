@@ -1,12 +1,13 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/camera.h"
+#include "engine/graphics.h"
+#include "engine/text.h"
+#include "sdk/libgpu.h"
 
 extern s32 glyph_vram_column_steps[];
 extern s32 glyph_vram_row_steps[];
-extern s32 map_fullwidth_character_to_glyph_byte(s32 code);
-extern void get_glyph_vram_rectangle(s32 value, s16 *rect);
-extern void MoveImage(void *rect, s32 x, s32 y);
 
 /* Copies an image to a table-spaced VRAM position when its destination X is in range. */
 void move_glyph_to_grid_position(u8 *image_code, s16 grid_x, s16 grid_y, s32 spacing, s16 base_x, s16 base_y)

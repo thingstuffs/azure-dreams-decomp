@@ -26,9 +26,9 @@ typedef struct S_800BDA44_0_pre {
 
 /* Apply the item effect to the target and consume the item on completion. */
 s32 use_item_to_restore_attack(void *target, s32 item, s16 use_type) {
-    if (target == ((s32)D_800E3D7C)) {
+    if (target == ((s32)dungeon_actor_ring_anchor)) {
         ((EntityRec *)target)->unk_110 = item;
-        begin_deferred_item_action(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
+        begin_deferred_item_action(target, &view_reference_entity.x.v, &reference_tile_object.unk_000, target);
         return 0;
     }
     if ((u32) target <= 0x9FFFFFFFU) {

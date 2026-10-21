@@ -1,6 +1,7 @@
 #include "engine/effect/cache_afe.h"
 
 #include "engine/effect/cache_afe.h"
+#include "engine/graphics.h"
 
 s32 update_vsync_frame_id(s32 id_mode) {
     u16 cached_id;

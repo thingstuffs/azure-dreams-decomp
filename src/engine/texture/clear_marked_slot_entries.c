@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/texture.h"
+#include "sdk/libc.h"
 
 typedef struct S_80083D08 {
     /* 0x0 */ u32 unk0;
@@ -7,7 +9,6 @@ typedef struct S_80083D08 {
 } S_80083D08;
 
 extern S_80083D08 sprite_resource_slots[6];
-extern void bzero(void *ptr, s32 n);
 
 /* Clears each of the six entries whose flags have bit 0 set. */
 void clear_marked_slot_entries(void) {

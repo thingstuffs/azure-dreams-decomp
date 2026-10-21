@@ -47,11 +47,11 @@ s32 generate_random_value(void);                          /* extern */
 extern M2C_UNK D_800245A8;
 extern void * create_animated_selection_menu_owner(void *unused, void *source);
 extern void submit_enabled_saved_display_value(void);
-extern u8 D_800DCFB0[];
-extern u8 D_800DD0B8[];
-extern s32 (*D_800DD830[])(s32, u16);
-extern M2C_UNK D_800E3544;
-extern s32 D_800E4940;
+extern u8 player_wait_frames[];
+extern u8 player_carry_frames[];
+extern s32 (*actor_command_handlers[])(s32, u16);
+extern M2C_UNK active_actor_command_code;
+extern s32 menu_action_argument;
 
 typedef struct S_8008EAC8_1 {
     u8 pad_00[0x14];
@@ -158,7 +158,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
         call_arg = sprite;
         {
             void *callback = handle_player_input;
-            u8 *table = (u8 *) &D_800DCFB0;
+            u8 *table = (u8 *) &player_wait_frames;
             ((Rec_func_8008ACDC_arg0 *)object)->unk_8C.as_pv = callback;
             call_arg->frameTable = table;
             set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u
@@ -172,9 +172,9 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
             if (((S_8008EAC8_1 *)entity)->unk_1C & 0x20) {
                 if (!((*(u16 *)0x80013714) & 1) && (((u32)held_D_80083160->buttons) & 0x80)) {
                     ((S_8008EAC8_1 *)entity)->unk_8A = 2;
-                    D_800E4940 = 2;
+                    menu_action_argument = 2;
                     begin_player_menu_action(object, aux_entity, sprite, &create_animated_selection_menu_owner);
-                    D_80082E80.selected_item = 0;
+                    reference_tile_object.selected_item = 0;
                     ((Rec_func_8008ACDC_arg0 *)object)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)object)->unk_104 = 0;
                     return;
@@ -242,13 +242,13 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                         }
                         read_monster_script_entry(target_facing);
                         call_arg = sprite;
-                        call_arg->frameTable = D_800DD0B8;
+                        call_arg->frameTable = player_carry_frames;
                         set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                            + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
+                            + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
                         return;
                     }
-                    ((S_8008EAC8_10 *)(&D_800E3544))->unk_00 = (s8) (((S_8008EAC8_6 *)record)->unk_01 & 0xF8);
-                    code = *(u8 *) &D_800E3544;
+                    ((S_8008EAC8_10 *)(&active_actor_command_code))->unk_00 = (s8) (((S_8008EAC8_6 *)record)->unk_01 & 0xF8);
+                    code = *(u8 *) &active_actor_command_code;
                     switch (code) {
                     case 0x10:
                         begin_player_wait_turn(object, aux_entity, sprite, entity);
@@ -316,7 +316,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                         func_8002534C(object, aux_entity, sprite, entity);
                         return;
                     case 0xD8:
-                        D_800DD830[((S_8008EAC8_6 *)record)->unk_00 & 0x7F](target_facing, facing);
+                        actor_command_handlers[((S_8008EAC8_6 *)record)->unk_00 & 0x7F](target_facing, facing);
                         return;
                     case 8:
                         move_state = object;
@@ -337,7 +337,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                 s32 flag_200;
 
                 flag_200 = ((Rec_func_8008ACDC_arg0 *)object)->unk_A2 & 0x200;
-                ((S_8008EAC8_10 *)(&D_800E3544))->unk_00 = 0;
+                ((S_8008EAC8_10 *)(&active_actor_command_code))->unk_00 = 0;
                 if (flag_200 && ((has_pending_actor_or_turn_action(entity) << 0x10) == 0) && !(g_dungeon_status.flags & 4)) {
                     ((Rec_func_8008ACDC_arg0 *)object)->unk_A2 =
                         (u16) (((Rec_func_8008ACDC_arg0 *)object)->unk_A2 & 0xFDFF);
@@ -400,16 +400,16 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                         }
                     }
                     call_arg = sprite;
-                    call_arg->frameTable = D_800DD0B8;
+                    call_arg->frameTable = player_carry_frames;
                     set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
-                        + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
+                        + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
                 }
             }
         } else {
             call_arg = sprite;
-            call_arg->frameTable = D_800DD0B8;
+            call_arg->frameTable = player_carry_frames;
             set_sprite_animation_frame(call_arg, *((u8 *) (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u
-                + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
+                + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
         }
     }
 }

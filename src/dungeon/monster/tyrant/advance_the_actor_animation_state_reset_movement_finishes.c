@@ -122,7 +122,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
             ((S_801729D4_0 *)action)->unk_98 &= 0xFF7F;
             reuse_test = reuse_target;
             if (reuse_test != 0) {
-                target_root = D_800814A8;
+                target_root = primary_actor_record;
                 actor->target = target_root;
                 target_source = ((S_801729D4_2_pre *)target_root)[-1].unk_00;
                 actor->target_tile_x = ((S_801729D4_3 *)target_source)->unk_24;
@@ -154,7 +154,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Obj
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
+        (*(u16 *)((u8 *)primary_actor_record + (0xA6)))--;
         advance_status_timers(actor);
         (*(u8 *)&actor->pending_turn_updates)--;
         ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;

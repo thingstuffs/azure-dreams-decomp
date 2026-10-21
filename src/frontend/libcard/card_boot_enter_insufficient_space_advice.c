@@ -9,7 +9,8 @@ typedef struct S_80026494_0 {
 
 
 #include "frontend/libcard/interfaces.h"
-extern M2C_UNK D_800261F0;
+#include "frontend/libcard.h"
+#include "main/data.h"
 extern M2C_UNK D_800265B8;
 
 /* Set record pointers around an update of its base record. */

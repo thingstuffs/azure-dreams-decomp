@@ -6,6 +6,7 @@
 void *loaded_cd_resource_handle = 0;
 
 #include "engine/scene/address_slot.h"
+#include "engine/cd.h"
 
 void *load_cd_resource(int resource_id)
 {

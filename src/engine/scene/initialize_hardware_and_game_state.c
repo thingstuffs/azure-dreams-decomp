@@ -1,31 +1,29 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/audio.h"
+#include "engine/entity.h"
+#include "engine/scene.h"
+#include "sdk/libc.h"
+#include "sdk/libcd.h"
+#include "sdk/libetc.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "slus/data.h"
 
-extern s32 SetVideoMode(s32 mode);
-extern void CdInit(void);
-extern s32 ResetGraph(s32 mode);
-extern s32 SetGraphDebug(s32 level);
 extern s32 InitPAD(u8 *buf1, s32 siz1, u8 *buf2, s32 siz2);
-extern void bzero(void *ptr, s32 len);
 
-extern void initialize_runtime_table_defaults(void);
 extern void initialize_memory_card_services(s32 a0);
 extern void sound_set_cd_playback_volume_scale(s16 volume_scale);
 extern void sound_set_voice_gain_scale(s16 a0);
 
 extern void reset_cd_command_retry_state(void);
-extern void init_audio_subsystem(void);
-extern void sound_set_sequence_volume_scale(s16 a0);
 extern void StartPAD(void);
-extern void InitGeom(void);
-extern void reset_game_state_preserving_session_fields(void);
-extern void build_cubic_cumulative_table(void);
 
 /* D_80083160[0] holds the current CD/streaming state pointer; default value is
  * the sentinel D_801C9E40. size>8 to force %hi/%lo. */
 extern void *D_80083160[3];
-extern u8 D_801C9E40[16];
-extern u32 D_80083208[3];
+extern u8 upper_draw_context[16];
+extern u32 default_textured_quad_color[3];
 
 /* short globals D_80080A94/98/9C read via %hi/%lo; accessed via fixed
  * absolute-address casts (see D_80013180 group note below) so gcc reuses the
@@ -36,8 +34,8 @@ extern u32 D_80083208[3];
 extern u8 controller_port_one_reply[0x22];
 extern u8 controller_port_two_reply[0x22];
 
-extern u8 D_80081468[8];
-extern u8 D_80082E6B[];
+extern u8 floor_generation_state[8];
+extern u8 scene_mode_code[];
 
 /* D_80012094, D_80012098, D_80012D6E, D_80013180, D_80013184, D_80013186 all
  * share the same %hi() page (0x8001xxxx) in the retail binary and are
@@ -48,10 +46,6 @@ extern u8 D_80082E6B[];
  * shared %hi at compile time instead of via 6 independent extern symbols. */
 
 /* mirror/shadow copies of the same three D_80013180-group fields */
-
-extern u32 frame_packet_limit_pointers[3];
-extern u8 D_801D8D7A[12];
-extern u8 D_801E964E[12];
 
 /* Initialize video, CD, pads, graphics, configuration defaults, and stream state. */
 void initialize_hardware_and_game_state(void)
@@ -81,8 +75,8 @@ void initialize_hardware_and_game_state(void)
     SetGraphDebug(0);
     InitGeom();
 
-    D_80082E6B[0] = 0;
-    bzero(D_80081468, 8);
+    scene_mode_code[0] = 0;
+    bzero(floor_generation_state, 8);
 
     reset_game_state_preserving_session_fields();
 
@@ -105,13 +99,13 @@ void initialize_hardware_and_game_state(void)
     }
     build_cubic_cumulative_table();
 
-    stream_state = (u8 *)D_801C9E40;
-    if (*stream_slot == (void *)D_801C9E40) {
+    stream_state = (u8 *)upper_draw_context;
+    if (*stream_slot == (void *)upper_draw_context) {
         stream_state = stream_state + 0x108D4;
     }
     *stream_slot = stream_state;
     *(u32 *)(stream_state + 0x8D0) = (u32)(stream_state + 0x8D4);
-    D_80083208[0] = 0x2C808080;
+    default_textured_quad_color[0] = 0x2C808080;
     initialize_runtime_table_defaults();
 
     {

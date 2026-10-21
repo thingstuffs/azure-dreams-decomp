@@ -24,7 +24,7 @@ typedef struct S_800A0504_0 {
 
 s32 create_an_position_initializes_graphics_state();
 
-extern TownRecord D_80100AA0[20];
+extern TownRecord shop_record_queue[20];
 
 /* Functions defined in this translation unit. */
 void clear_entry_table(void);

@@ -3,19 +3,19 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern u16 D_800DCE60[];
-extern u16 D_800120A2[5];
-extern s16 D_800DD264[];
-extern s16 D_800DCE66[5];
-extern u8 D_80080A84[16];
+extern u16 dungeon_camera_targets[];
+extern u16 camera_pitch_index[5];
+extern s16 camera_pitch_presets[];
+extern s16 camera_depth_target[5];
+extern u8 animation_tick_scale[16];
 s32 test_resident_bit();
 s32 func_80096190();
 s32 func_80096200();
 s32 func_8009635C();
 s32 has_pending_dungeon_activity();
 void advance_wrapped_cycle_index();
-extern u16 D_800120A0[5];
-extern s16 D_800DD26C[];
+extern u16 camera_depth_index[5];
+extern s16 camera_depth_presets[];
 s32 queue_view_slot(s32 enable);
 s32 set_camera_targets(s32 channel, void *settings, s32 apply);
 /* Config-screen input step: apply the pad's sound-setting changes and report whether input is still accepted. */
@@ -31,7 +31,7 @@ s32 update_sound_settings_from_pad(void *actor)
     result = 0;
     changed = 0;
     base = &g_game_work;
-    if (D_800E296C & 0x40000) {
+    if (dungeon_floor_flags & 0x40000) {
         stopped = 1;
     }
     else {
@@ -52,34 +52,34 @@ s32 update_sound_settings_from_pad(void *actor)
             if (((*((s32 *) (((s8 *) base) + 8))) & 0x10) == 0) {
                 if ((*((s32 *) (((s8 *) base) + 8))) & 8) {
                     changed = 1;
-                    D_800DCE60[2] = D_800DCE60[2] - 0x200;
+                    dungeon_camera_targets[2] = dungeon_camera_targets[2] - 0x200;
                 }
                 else
                     if ((*((s32 *) (((s8 *) base) + 8))) & 4) {
                         changed = 1;
-                        D_800DCE60[2] = D_800DCE60[2] + 0x200;
+                        dungeon_camera_targets[2] = dungeon_camera_targets[2] + 0x200;
                     }
             }
             if ((*((s32 *) (((s8 *) base) + 8))) & 0x10) {
                 if ((*((s32 *) (((s8 *) base) + 0x10))) & 1) {
                     changed = 1;
-                    value = (u16) ((D_800120A2[0] + 1) & 3);
-                    D_800120A2[0] = value;
-                    D_800DCE60[0] = (u16) D_800DD264[(u16) value];
+                    value = (u16) ((camera_pitch_index[0] + 1) & 3);
+                    camera_pitch_index[0] = value;
+                    dungeon_camera_targets[0] = (u16) camera_pitch_presets[(u16) value];
                 }
             }
             if (changed != 0) {
                 g_game_work.view.slot[2].callback = 0;
                 queue_view_slot(1);
-                set_camera_targets(0, D_800DCE60, 1);
+                set_camera_targets(0, dungeon_camera_targets, 1);
             }
         }
         if ((*((s32 *) (((s8 *) base) + 8))) & 0x10) {
             if ((*((s32 *) (((s8 *) base) + 0x10))) & 4) {
-                value = (s16) ((D_800120A0[0] + 1) & 3);
-                D_800120A0[0] = value;
-                D_800E296C |= 0x40;
-                D_800DCE66[0] = D_800DD26C[(u16) value];
+                value = (s16) ((camera_depth_index[0] + 1) & 3);
+                camera_depth_index[0] = value;
+                dungeon_floor_flags |= 0x40;
+                camera_depth_target[0] = camera_depth_presets[(u16) value];
             }
         }
         if ((*((s32 *) (((s8 *) base) + 8))) & 0x10) {
@@ -89,11 +89,11 @@ s32 update_sound_settings_from_pad(void *actor)
         }
         if (test_resident_bit(0xA2) != 0) {
             if ((*((s32 *) (((s8 *) base) + 0x10))) & 0xC0000) {
-                D_80080A84[0] = 1;
+                animation_tick_scale[0] = 1;
             }
             else
                 if ((*((s32 *) (((s8 *) base) + 8))) & 0x30000) {
-                    D_80080A84[0] = 2;
+                    animation_tick_scale[0] = 2;
                 }
         }
     }

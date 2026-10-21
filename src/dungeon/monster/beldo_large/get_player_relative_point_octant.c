@@ -14,34 +14,34 @@ typedef struct {
 s32 get_player_relative_point_octant(DungeonPoint *target)
 {
 
-    if (D_80083780.x.w.i == target->x &&D_80083780.y.w.i == target->y) {
+    if (view_reference_entity.x.w.i == target->x &&view_reference_entity.y.w.i == target->y) {
         return 9;
     }
 
-    if (D_80083780.x.w.i < target->x) {
-        if (D_80083780.y.w.i < target->y) {
+    if (view_reference_entity.x.w.i < target->x) {
+        if (view_reference_entity.y.w.i < target->y) {
             return 1;
         }
-        if (target->y < D_80083780.y.w.i) {
+        if (target->y < view_reference_entity.y.w.i) {
             return 7;
         }
         return 0;
     }
 
-    if (target->x < D_80083780.x.w.i) {
-        if (D_80083780.y.w.i < target->y) {
+    if (target->x < view_reference_entity.x.w.i) {
+        if (view_reference_entity.y.w.i < target->y) {
             return 3;
         }
-        if (target->y < D_80083780.y.w.i) {
+        if (target->y < view_reference_entity.y.w.i) {
             return 5;
         }
         return 4;
     }
 
-    if (D_80083780.y.w.i < target->y) {
+    if (view_reference_entity.y.w.i < target->y) {
         return 2;
     }
-    if (target->y < D_80083780.y.w.i) {
+    if (target->y < view_reference_entity.y.w.i) {
         return 6;
     }
     return 0;

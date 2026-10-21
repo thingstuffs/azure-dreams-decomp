@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/entity.h"
 
 /* Sets the flags bit 0x8000 on four 6-byte table entries per party-slot index
  * i in [10, 12): entries at byte offsets (i << D_8008333C.field14) * 6 +

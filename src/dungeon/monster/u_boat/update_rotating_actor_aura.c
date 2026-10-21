@@ -70,7 +70,7 @@ typedef struct S_80170CEC_7 {
 
 
 extern s32 get_entity_effect_value();
-extern u8 D_800E23F8[];
+extern u8 uboat_ready_frames[];
 extern u8 D_800E2408[];
 
 /* Update the effect rotation, position, and fade, marking it finished when needed. */
@@ -133,7 +133,7 @@ void update_rotating_actor_aura(void *effect, void *position, void *visual) {
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
         }
         if ((((S_80170CEC_4 *)entity_saved)->unk_14 & 0x100000) &&
-            (((u8 *)D_800E3D7C)[0x9A] != 0x28)) {
+            (((u8 *)dungeon_actor_ring_anchor)[0x9A] != 0x28)) {
             ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
@@ -144,7 +144,7 @@ void update_rotating_actor_aura(void *effect, void *position, void *visual) {
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;
         }
         kind = ((S_80170CEC_2 *)record)->unk_2C;
-        if ((kind == D_800E23F8) || (kind == D_800E2408)) {
+        if ((kind == uboat_ready_frames) || (kind == D_800E2408)) {
             ((S_80170CEC_0 *)effect)->unk_2C.s = 3;
             ((S_80170CEC_0 *)effect)->unk_38 = 0x14;
             ((S_80170CEC_0 *)effect)->unk_36.s = 0x14;

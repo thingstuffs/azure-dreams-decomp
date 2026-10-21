@@ -21,8 +21,8 @@ extern s32 pass_value_and_range_groups(s32 value);
 extern u8 D_800FC428;
 void upload_town_movie_pixel_data(s16, s16, s16, s16, const void *);
 /* extern */
-extern s32 D_8006ADD4;
-extern void *D_800CFCA8[];
+extern s32 map_scene_selector_alias;
+extern void *town_map_processor[];
 extern s32 D_8008C304[];
 
 /* Functions defined in this translation unit. */

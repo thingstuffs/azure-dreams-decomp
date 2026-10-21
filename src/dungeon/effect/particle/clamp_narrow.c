@@ -126,7 +126,7 @@ void create_ribbon_head_sprite();
 extern u8 D_800DEAE0[];
 extern void D_80166D14();
 extern u8 D_80167C30[];
-extern PositionTableEntry D_80175DD8[];
+extern PositionTableEntry ribbon_vertices[];
 
 static __inline__ s16 clamp_narrow(s32 value)
 {
@@ -234,7 +234,7 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
         if (phase_threshold >= ((Rec_func_80167A98_arg0 *)effect_data)->unk_18) {
             ((Rec_func_80167A98_arg0 *)effect_data)->unk_12 =
                 (s16) ((u16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_12 + 1);
-            case_base = (u8 *)D_80175DD8;
+            case_base = (u8 *)ribbon_vertices;
             ((Rec_func_80167A98_arg0 *)effect_data)->unk_68 = (s32) ((s32) ((target_pos->unk_00
                 - (((Rec_func_80167A98_arg0 *)effect_data)->unk_5C * 0x14))
                 - (origin->unk_00 + (*(s16 *)(case_base + (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60))
@@ -256,9 +256,9 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
         ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = phase_tick;
         if (phase_tick == 0xC) {
             create_ribbon_head_sprite(effect_data, origin, color);
-            ((PlayerRecord *)D_800814A8)->unk_10C = (u16) (((PlayerRecord *)D_800814A8)->unk_10C | 1);
-            D_800814A8->movement_facing = (s16) (((u16)D_800814A8->facing) + 0x800);
-            func_800419EC(6, 0xC, ((EntityRec *)D_800814A8));
+            ((PlayerRecord *)primary_actor_record)->unk_10C = (u16) (((PlayerRecord *)primary_actor_record)->unk_10C | 1);
+            primary_actor_record->movement_facing = (s16) (((u16)primary_actor_record->facing) + 0x800);
+            func_800419EC(6, 0xC, ((EntityRec *)primary_actor_record));
             play_sound_if_enabled(0x601);
         }
         if ((s16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E >= 0x10) {
@@ -272,11 +272,11 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
             + ((Rec_func_80167A98_arg0 *)effect_data)->unk_70);
         break;
     default:
-        motion_table = (u8 *)D_80175DD8;
+        motion_table = (u8 *)ribbon_vertices;
         goto update_positions;
     }
 
-    motion_table = (u8 *)D_80175DD8;
+    motion_table = (u8 *)ribbon_vertices;
 update_positions:
     table_join = motion_table;
     move_x0 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C;
@@ -326,7 +326,7 @@ update_positions:
         clamp_pair += 1;
     } while (clamp_pair < 2);
     history_index = 7;
-    table_base = (s32)((u8 *)D_80175DD8);
+    table_base = (s32)((u8 *)ribbon_vertices);
     limit_offset = 0x54;
 loop_2:
     {
@@ -358,7 +358,7 @@ copy_pairs:
     if (history_index > 0)
         goto loop_2;
     particle_count = 0xA;
-    interp_base = (u8 *)D_80175DD8;
+    interp_base = (u8 *)ribbon_vertices;
     trail_row = (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + interp_base;
     delta_x = (trail_row->unk_00 + trail_row->unk_06) - (trail_row->unk_18 + trail_row->unk_1E);
     delta_y = (trail_row->unk_02 + trail_row->unk_08) - (trail_row->unk_1A + trail_row->unk_20);
@@ -382,7 +382,7 @@ copy_pairs:
             step_x = sum_x / particle_count;
             effect_object = effect_data - 0x20;
             particle_life = 0xA;
-            interp_row = (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (u8 *)D_80175DD8;
+            interp_row = (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (u8 *)ribbon_vertices;
             interp_y0 = ((S_80167C74_10 *)interp_row)->unk_1A;
             interp_y1 = ((S_80167C74_10 *)interp_row)->unk_20;
             interp_x1 = ((S_80167C74_10 *)interp_row)->unk_1E;
@@ -397,7 +397,7 @@ copy_pairs:
             history_index += 1;
         } while (history_index < (particle_count + 1));
     }
-    object_table_base = (u8 *)&D_80175DD8;
+    object_table_base = (u8 *)&ribbon_vertices;
     head_pos = (u8 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_table_base);
     if ((((S_80167C74_12 *)head_pos)->unk_00 != 0x190) && (((S_80167C74_12 *)head_pos)->unk_02 != 0x190)
         && (((S_80167C74_12 *)head_pos)->unk_04 != 0x190)) {

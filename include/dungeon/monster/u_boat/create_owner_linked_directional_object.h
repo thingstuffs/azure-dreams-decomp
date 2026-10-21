@@ -69,7 +69,7 @@ extern void func_80047784(void *, u8, s32);
 extern void create_tracked_effect(void *, s32, void *, void *);
 
 extern u8 D_800D5594[];
-extern s8 D_800DCECC[];
+extern s8 view_direction_depth_biases[];
 extern u8 D_800E23F0[];
 
 /* Creates an owner-linked object with copied position and direction-adjusted sprite data. */

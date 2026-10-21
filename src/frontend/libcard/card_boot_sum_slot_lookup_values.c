@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
-
-extern u8 D_80028020[];
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 /* Shared-page absolute-address idiom (cf. reset_game_state_preserving_session_fields): D_800133A4 lives at
  * offset 0x33A4 within the 0x80010000 page, walked two bytes per iteration. The

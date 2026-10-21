@@ -47,9 +47,9 @@ s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_
         return process_record_and_update_linked_state(action, action_arg);
     }
 
-    if (target == ((u8 *)D_800E3D7C)) {
+    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
         target->unk_110 = action;
-        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
 
@@ -62,7 +62,7 @@ s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_
         }
     } else {
         message = get_unused_text_buffer();
-        item_state = ((s32 *)(&D_80082E80.selected_item));
+        item_state = ((s32 *)(&reference_tile_object.selected_item));
         if (((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_01 == 4) {
             message_end = expand_text_control_codes(
                 D_800E14EB,

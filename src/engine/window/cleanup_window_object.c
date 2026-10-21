@@ -2,6 +2,10 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
+#include "engine/object.h"
+#include "engine/window.h"
 
 typedef struct S_80035820_0 {
     s32 unk_00;
@@ -10,13 +14,6 @@ typedef struct S_80035820_0 {
     u8 pad_52[0x22];
     s32 unk_74;
 } S_80035820_0;   /* arg0 in cleanup_window_object */
-
-
-void runtime_clear_value();                         /* extern */
-void clear_graphics_record();                         /* extern */
-void runtime_unlink_doubly_linked_node();                      /* extern */
-void unlink_active_node();                      /* extern */
-void unlink_node();                      /* extern */
 
 /* Cleans up a type-0x101 record and unlinks its enclosing object. */
 void cleanup_window_object(void *record) {

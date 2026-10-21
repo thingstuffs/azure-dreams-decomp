@@ -44,7 +44,7 @@ extern void play_sound_if_enabled();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s32 sample_terrain_surface_height();
-extern T_80170AA4_EntityCallback D_80174018[];
+extern T_80170AA4_EntityCallback tyrant_callbacks[];
 void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, void *part);
 extern void update_dungeon_actor_behavior();
 #endif

@@ -51,7 +51,7 @@ void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 
             actor->field46 &= 0x7FFF;
             return;
         }
-        *D_800E3DE8 = (void *)((s8 *)actor - 0x20);
+        *actor_update_node_cursor = (void *)((s8 *)actor - 0x20);
 
         return;
     default:

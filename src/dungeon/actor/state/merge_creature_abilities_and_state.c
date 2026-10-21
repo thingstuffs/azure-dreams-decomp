@@ -26,9 +26,9 @@ typedef struct {
 extern u8 D_80010980[];
 extern u8 D_800287B4[];
 extern s32 D_8006D6D8[4];
-extern void *D_800E3DF0[];
-extern u8 D_800E3E48[];
-extern u8 D_80080000[];
+extern void *familiar_record_slots[];
+extern u8 familiar_record_storage[];
+extern u8 resident_globals_page[];
 extern u8 D_80030000[];
 
 
@@ -516,7 +516,7 @@ merge_donor_primary:
             merged_abilities[2] = 1;
         }
         scan_index = 2;
-        result_seen = D_8006DE24;
+        result_seen = item_action_definitions;
         ability_ids = &merge_buffer[8];
         for (; scan_index >= 0; scan_index--) {
             {
@@ -589,7 +589,7 @@ merge_donor_primary:
             decrement_monster_entry_count(((S_800277F4_8 *)donor)->unk_13, 3);
             slot_index = find_entity_slot_by_field_ac(donor);
             {
-                u8 *slot_page = D_80080000;
+                u8 *slot_page = resident_globals_page;
                 slot_base = *(u8 **) (slot_page + 0x14A8);
             }
             slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) slot_base);
@@ -621,7 +621,7 @@ merge_donor_primary:
             }
             slot_index = find_entity_slot_by_field_ac(donor);
             {
-                u8 *slot_page = D_80080000;
+                u8 *slot_page = resident_globals_page;
                 u8 *runtime_base;
                 u8 *runtime_addr;
                 runtime_base = *(u8 **) (slot_page + 0x14A8);
@@ -629,8 +629,8 @@ merge_donor_primary:
 
                 ((S_800277F4_19 *)runtime_addr)->unk_D0 = 0;
             }
-            zero_words(&D_800E3E48[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
-            D_800E3DF0[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
+            zero_words(&familiar_record_storage[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
+            familiar_record_slots[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
             clear_slot_and_update_linked_state(donor_runtime);
             result_traits = ((S_800277F4_0 *)result)->unk_54;
             if ((result_traits & 0x800000) &&

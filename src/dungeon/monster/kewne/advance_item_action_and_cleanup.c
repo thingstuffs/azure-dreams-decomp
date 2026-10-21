@@ -6,8 +6,8 @@
 #include "shared/entity.h"
 
 
-extern s32 D_8006CD58[];
-extern u8 D_80080A84;
+extern s32 cd_cue_base[];
+extern u8 animation_tick_scale;
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
 extern u8 D_801710EC[];
@@ -140,12 +140,12 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void 
     }
     D_80175F6E = state;
     if (has_item != 0) {
-        target = D_800814A8;
+        target = primary_actor_record;
         ((S_80173560_1 *)actor)->unk_60 = target;
         state = (s32)((S_80173560_2_pre *)target)[-1].unk_00;
         ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)state)->unk_24;
         ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
-    } else if (D_8006DE24[*(u8 *)item_addr].kind == 2) {
+    } else if (item_action_definitions[*(u8 *)item_addr].kind == 2) {
         target = ((S_80173560_1 *)actor)->unk_60;
         if (target != 0) {
             state = (s32)((S_80173560_2_pre *)target)[-1].unk_00;
@@ -202,7 +202,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void 
     return;
 
     case 2:
-    ((S_80173560_0 *)action)->unk_96.u -= D_80080A84;
+    ((S_80173560_0 *)action)->unk_96.u -= animation_tick_scale;
     if (((S_80173560_0 *)action)->unk_96.s < 3) {
         ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
     }
@@ -214,7 +214,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void 
     audio_index = (s16)resolve_alternate_spell_id(item_id);
     sound_id = 0x1300;
     play_sound_if_enabled(sound_id);
-    sound_set_cd_cue_parameters(0, D_8006CD58[0],
+    sound_set_cd_cue_parameters(0, cd_cue_base[0],
                   ((s32 *)(((audio_index << 17) >> 14) + audio_base))[0],
                   ((s32 *)(((audio_index << 17) >> 14) + audio_base))[1]);
     cd_param = func_800445E0();

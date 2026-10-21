@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/texture.h"
 
 typedef struct {
     u8  b0;

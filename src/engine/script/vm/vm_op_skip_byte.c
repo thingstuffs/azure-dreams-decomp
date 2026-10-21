@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/runtime_dispatch.h"
+#include "engine/script/vm.h"
 
    /* arg0 in vm_op_56_skip_byte */
 

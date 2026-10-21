@@ -13,7 +13,7 @@ typedef struct {
 extern s32 register_node();
 extern s32 D_801717A8;
 extern PackedVec D_80173B40;
-extern void *D_80175D60;
+extern void *beldo_camera_object;
 
 
 typedef struct S_80171C7C_0 {
@@ -57,9 +57,9 @@ void create_encounter_camera_controller(void) {
         render_state = (*(void * *)((u8 *)object + 0xC));
         render_state->unk_06 = 0;
         coords = (*(void * *)((u8 *)object + 8));
-        coords->unk_00 = D_80083780.x.v;
-        coords->unk_04 = D_80083780.y.v;
-        coords->unk_08 = D_80083780.z.v;
+        coords->unk_00 = view_reference_entity.x.v;
+        coords->unk_04 = view_reference_entity.y.v;
+        coords->unk_08 = view_reference_entity.z.v;
         render_state = (*(void * *)((u8 *)object + 0xC));
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
@@ -67,7 +67,7 @@ void create_encounter_camera_controller(void) {
         render_state->unk_0D = 0x80;
         render_state->unk_0C = 0x80;
         render_flags = render_state->unk_14;
-        D_80175D60 = object;
+        beldo_camera_object = object;
         render_state->unk_14 = render_flags | 0x80;
         (*(PackedVec *)((u8 *)object + 0x48)) = D_80173B40;
         render_state->unk_08 = (u8 *)object + 0x48;

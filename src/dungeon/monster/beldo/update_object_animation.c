@@ -161,7 +161,7 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
             return;
         }
 
-        if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_80171BE0(obj, motion, part, state);
             return;
         }
@@ -169,12 +169,12 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
         if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
-                        state, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        state, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
 
-            if (D_80013714 & 8) {
+            if (system_update_flags & 8) {
                 u8 callback_flags;
 
                 advance_repeated_command_stream_direction(obj, motion, part);
@@ -234,7 +234,7 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
     if ((state_flags & 0x2000) == 0) {
         entry_index = (s8)query_result;
         if (entry_index >= 0) {
-            entry_base = D_800E2970;
+            entry_base = dungeon_rooms;
             entry = entry_index * 20 + entry_base;
             if (((S_80171514_3 *)entry)->unk_0C & 2) {
                 return;
@@ -243,10 +243,10 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
         if ((state_flags & 0x430) == 0) {
             if ((s16)compare_monster_neighbor_values(
                     ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                 query_result = get_rounded_facing_and_rounding_flag(
                     ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 ((S_80171514_0 *)state)->unk_2A = query_result;
             }
         }

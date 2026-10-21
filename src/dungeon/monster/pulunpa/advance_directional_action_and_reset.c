@@ -26,7 +26,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern u8 D_80170F20;
-extern u8 D_801762E8[];
+extern u8 pulunpa_attack_frames[];
 
 /* Advances the actor's directional animation and resets its action state on completion. */
 void advance_directional_action_and_reset(void *action, void *motion, void *anim, ActorRecord *actor)
@@ -45,7 +45,7 @@ void advance_directional_action_and_reset(void *action, void *motion, void *anim
             ((S_801725B8_3 *)motion)->unk_14 = 0;
             ((S_801725B8_3 *)motion)->unk_10 = 0;
             ((S_801725B8_3 *)motion)->unk_0C = 0;
-            direction_table = D_801762E8;
+            direction_table = pulunpa_attack_frames;
             ((SpriteFrameState *)anim)->frameTable = direction_table;
             select_sprite_entry(anim,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

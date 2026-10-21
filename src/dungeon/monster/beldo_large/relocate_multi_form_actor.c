@@ -7,7 +7,7 @@ typedef struct S_8016EC04_1 {
     u32 unk_1C;
 } S_8016EC04_1;   /* state in relocate_multi_form_actor */
 
-extern u8 *D_80175D50;
+extern u8 *beldo_actor_nodes;
 
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
@@ -24,7 +24,7 @@ void relocate_multi_form_actor(s32 offset_index)
     u8 *step;
     TileObject *origin;
 
-    object = D_80175D50;
+    object = beldo_actor_nodes;
     state = object + 0x20;
     entity = *(u8 **)(object + 0xC);
     motion = *(void **)(object + 8);
@@ -34,7 +34,7 @@ void relocate_multi_form_actor(s32 offset_index)
     update_map_cell_flags_with_item_limit(entity[0x24], entity[0x25],
                   (((S_8016EC04_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
-    origin = &D_80082E80;
+    origin = &reference_tile_object;
     step = (u8 *)&delta[offset_index * 2];
     entity[0x24] = origin->tile_position.parts.tile_x + step[0];
     entity[0x25] = origin->tile_position.parts.tile_y + step[2];

@@ -25,9 +25,9 @@ s32 use_item_to_draw_full_recovery_circle(void *target, s32 action_id, s16 actio
     if (action_type == 0xD) {
         return process_record_and_update_linked_state(action_id, action_arg);
     }
-    if (target == D_800E3D7C) {
+    if (target == dungeon_actor_ring_anchor) {
         *(s32 *)((u8 *)target + 0x110) = action_id;
-        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
+        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), 0);
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFFU) {

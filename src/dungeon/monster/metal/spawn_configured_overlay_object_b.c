@@ -57,7 +57,7 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
     S_80171080_4 *result_copy;
 
     result = 0;
-    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;

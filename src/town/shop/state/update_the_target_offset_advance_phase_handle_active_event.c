@@ -12,9 +12,9 @@ struct Rec_func_80094268_arg0; void initialize_the_town_entity_synchronize_slot_
 typedef struct AllocatedObject AllocatedObject;
 AllocatedObject *allocate_object_with_callbacks();                      /* extern */
 void check_adjusted_input_indices();                      /* extern */
-extern s32 D_800834B8;
+extern s32 scene_object_payload_alias;
 extern M2C_UNK D_800935BC;
-extern s32 D_800CFCC4;
+extern s32 town_target_record;
 
 /* Update the target offset, advance the phase, and handle the active event. */
 void update_the_target_offset_advance_phase_handle_active_event(void *state, s32 event_id, DelayMotionZ *target, s32 context) {
@@ -23,8 +23,8 @@ void update_the_target_offset_advance_phase_handle_active_event(void *state, s32
     target->unk_08 = (s32) (((Rec_func_80094268_arg0 *)state)->unk_A0
         + (func_800644B8(((Rec_func_80094268_arg0 *)state)->unk_6C.as_s16) << 7));
     (*(s16 *)((u8 *)state + 0x6C)) = (s16) ((u16) ((Rec_func_80094268_arg0 *)state)->unk_6C.as_s16 + 0x40);
-    active_event = D_800CFCC4;
-    if ((active_event == event_id) && (D_800834B8 == &D_800935BC)) {
+    active_event = town_target_record;
+    if ((active_event == event_id) && (scene_object_payload_alias == &D_800935BC)) {
         check_adjusted_input_indices(target);
         allocate_object_with_callbacks(target);
         SD_Call(0x513);

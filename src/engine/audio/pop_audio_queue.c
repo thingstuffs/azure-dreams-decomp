@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio.h"
 
 /* FIFO pop from u16 queue at D_80084778: [0]=count (clamped to 0x20),
  * [1..]=entries. Shifts remaining entries left and decrements count. */

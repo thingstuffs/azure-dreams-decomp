@@ -175,7 +175,7 @@ void update_object_animation_and_facing(ActorActionWork *action, void *context, 
                 }
             }
 
-            if (D_80013714 & 8) {
+            if (system_update_flags & 8) {
                 u8 callback_flags;
 
                 func_80160D6C(action, context, sprite);

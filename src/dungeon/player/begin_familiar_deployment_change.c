@@ -42,8 +42,8 @@ void begin_familiar_deployment_change(void *obj, s32 unused, void *display, s32 
         s32 field_value;
         register s32 action_arg;
 
-        if (D_80082E80.selected_item != 0) {
-            lookup_result = get_special_table_data_index(D_80082E80.selected_item);
+        if (reference_tile_object.selected_item != 0) {
+            lookup_result = get_special_table_data_index(reference_tile_object.selected_item);
             action_obj = obj;
             action_kind = 0x68;
             field_value = ((Rec_func_8008ACDC_arg0 *)obj)->unk_8A;

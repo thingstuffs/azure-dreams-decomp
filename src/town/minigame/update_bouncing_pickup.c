@@ -42,11 +42,11 @@ extern s32 rand(void);
 extern void unlink_scene_list_node(void *);
 extern s32 handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(void *, void *, void *, void *);
 
-extern s32 D_80012D5C[];
+extern s32 town_money[];
 extern TownRewardValues D_80020020;
 extern u8 D_80024420[];
 extern s32 D_8002445C[];
-extern s32 D_80024628[];
+extern s32 pickup_reward_total[];
 extern s32 D_8007947C[];
 extern u8 D_800D0420[];
 
@@ -142,11 +142,11 @@ void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
             ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
             ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
         }
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
-            D_80012D5C[0] += reward;
-            D_80024628[0] += reward;
+            town_money[0] += reward;
+            pickup_reward_total[0] += reward;
             ((S_800206D0_0 *)pickup)->unk_00 = 6;
         }
         timer = --((S_800206D0_0 *)pickup)->unk_02.s;
@@ -165,11 +165,11 @@ void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
     }
 
     case 4:
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
-            D_80012D5C[0] += reward;
-            D_80024628[0] += reward;
+            town_money[0] += reward;
+            pickup_reward_total[0] += reward;
             ((S_800206D0_0 *)pickup)->unk_00 = 6;
         }
         timer = --((S_800206D0_0 *)pickup)->unk_02.s;
@@ -186,11 +186,11 @@ void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
         } else {
             ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
         }
-        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+        if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);
             reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
-            D_80012D5C[0] += reward;
-            D_80024628[0] += reward;
+            town_money[0] += reward;
+            pickup_reward_total[0] += reward;
             ((S_800206D0_0 *)pickup)->unk_00 = 6;
         }
         timer = --((S_800206D0_0 *)pickup)->unk_02.s;

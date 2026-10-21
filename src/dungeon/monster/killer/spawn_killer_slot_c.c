@@ -75,7 +75,7 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
     pos_y = 0;
     object_state = (void *)pos_y;
     pos_x = 0x112;
-    object = allocate_list_node(pos_x, ((void *)&D_80083498.next));
+    object = allocate_list_node(pos_x, ((void *)&scene_object_list_anchor.next));
     if (object != NULL) {
         object_state = object + 0x20;
         ((S_80FF3000_0 *)object)->unk_10 = &func_80158A7C;

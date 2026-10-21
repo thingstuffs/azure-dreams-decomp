@@ -28,7 +28,7 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
     actor = (ovl_9c32d4_809A32D4_Actor *)actor_data;
     output = (ovl_9c32d4_809A32D4_Output *)output_data;
     initial_page = DUNGEON_INITIAL;
-    base_page = D_801C9E40;
+    base_page = upper_draw_context;
     state = actor->state;
     alternate_page = initial_page != base_page;
     packet_list = initial_page + 0xB0;

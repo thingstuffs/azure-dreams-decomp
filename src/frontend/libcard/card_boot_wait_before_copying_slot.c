@@ -1,6 +1,8 @@
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 typedef struct S_8002546C_0 {
     s32 * unk_00;
@@ -10,7 +12,6 @@ typedef struct S_8002546C_0 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_80025398;
 
 /* Decrement the record counter and replace its pointer when the counter becomes negative. */
 void card_boot_wait_before_copying_slot(void *record_data) {

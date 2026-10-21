@@ -72,7 +72,7 @@ void *spawn_garuda_slot_d(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     held_a = attr_a;
     held_c = attr_c;
     held_b = attr_b;
-    obj = allocate_list_node(0x112, ((void *)&D_80083498.next));
+    obj = allocate_list_node(0x112, ((void *)&scene_object_list_anchor.next));
     final_arg0 = spawn_flags;
     if (obj != NULL) {
         work = obj + 0x20;

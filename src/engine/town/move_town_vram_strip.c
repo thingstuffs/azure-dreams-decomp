@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 
 #include "common.h"
-
-void move_vram_rect(); /* extern */
+#include "engine/graphics.h"
+#include "engine/town.h"
 
 /* Calls move_vram_rect with a fixed set of parameters. */
 void move_town_vram_strip(void) {

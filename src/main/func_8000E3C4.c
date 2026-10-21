@@ -1,6 +1,7 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "main.h"
 
 s32 _card_info();                             /* extern */
 
@@ -12,7 +13,7 @@ s32 card_boot_request_info(s32 card_channel) {
     do {
 
     } while (_card_info(card_channel) == 0);
-    D_800287E0[0] = 0;
-    (*(s32 (*)[])(&D_800287C8))[0] = 1;
+    card_event_backend_mode[0] = 0;
+    (*(s32 (*)[])(&card_operation_state))[0] = 1;
     return 1;
 }

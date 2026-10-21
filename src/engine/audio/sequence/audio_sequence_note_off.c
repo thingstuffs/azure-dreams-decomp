@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus.h"
 
 
 
@@ -19,7 +21,6 @@ extern s32 audio_voice_masks[];
 extern S_80085458 audio_voice_records[];
 
 extern s32 sound_apply_indexed_voice_envelope();
-extern s32 func_8005E97C();
 
 #define ACTIVE_COUNT (*(s32 *)0x80073734)
 

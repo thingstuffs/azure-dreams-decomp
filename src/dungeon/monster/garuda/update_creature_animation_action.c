@@ -45,7 +45,7 @@ extern u8 D_80174890[];
 extern u8 D_801748C8;
 extern u8 D_801748D8[];
 extern u8 D_801748E0[];
-extern DungeonRecord D_800E2970[];
+extern DungeonRecord dungeon_rooms[];
 void update_creature_animation_action(void *, void *, void *, void *);
 /* Update creature animation and dispatch its dungeon action. */
 void update_creature_animation_action(void *actor, void *context, void *sprite_arg, void *creature)
@@ -142,13 +142,13 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
             update_actor_status_and_food(creature);
             return;
         }
-        if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (((s8 *)&D_80082E80.tile_position.parts.tile_x))))) {
+        if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))))) {
             func_80171848(actor, context, sprite, creature);
             return;
         }
         if (!((*((u16 *) (((u8 *) creature) + 0x46))) & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(creature, ((u8 *) (*((void **) (((u8 *) D_800814A8) + 0x58)))) + 0x20) << 16) != 0) {
+                if ((check_entity_relation(creature, ((u8 *) (*((void **) (((u8 *) primary_actor_record) + 0x58)))) + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -198,12 +198,12 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
         case 5:
         case 6:
         {
-            u8 *player_pos = ((u8 *)(&D_80082E80));
+            u8 *player_pos = ((u8 *)(&reference_tile_object));
             void *player;
             s16 facing_angle;
             facing_angle = get_rounded_facing_and_rounding_flag(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)),
                 *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
-            player = D_800814A8;
+            player = primary_actor_record;
             *((s16 *) (((u8 *) creature) + 0x2A)) = facing_angle;
             if ((*((u8 *) (((u8 *) player) + 0x9A))) == 0x11) {
                 begin_actor_spell_action(actor, context, sprite, &D_801748C8, update_creature_animation_action);
@@ -228,9 +228,9 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
     }
     if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x2000)) {
         s32 room_index = room_id;
-        if ((room_index < 0) || (!(D_800E2970[room_index].flags & 2))) {
+        if ((room_index < 0) || (!(dungeon_rooms[room_index].flags & 2))) {
             if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x430)) {
-                u8 *player_pos = ((u8 *)(&D_80082E80));
+                u8 *player_pos = ((u8 *)(&reference_tile_object));
                 if ((compare_monster_neighbor_values(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)),
                     *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25))) << 16) != 0) {
                     *((s16 *) (((u8 *) creature) + 0x2A)) = get_rounded_facing_and_rounding_flag(*((u8 *) (((u8 *) sprite) + 0x24)),

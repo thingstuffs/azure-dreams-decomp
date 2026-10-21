@@ -8,7 +8,7 @@ typedef struct TownEntry {
     u8 pad5[3];
 } TownEntry;
 
-extern s32 D_80019AFC[];
+extern s32 scene_cell_dispatch_code[];
 
 extern void func_80017E1C(void);
 extern s32 func_80018504(void);
@@ -21,13 +21,13 @@ s32 update_entry_state_and_clear(void)
 
     update_result = 0;
     entry_state = ((TownEntry *)D_80016000->unk_40)[D_80016000->unk_08].state;
-    D_80019AFC[0] = entry_state;
+    scene_cell_dispatch_code[0] = entry_state;
     if (entry_state != 2) {
         update_result = func_80018504();
     }
-    if ((update_result != 0) || (func_80017E1C(), D_80019AFC[0] == 1)) {
+    if ((update_result != 0) || (func_80017E1C(), scene_cell_dispatch_code[0] == 1)) {
         ((TownEntry *)D_80016000->unk_40)[D_80016000->unk_08].state = 0;
-        D_80019AFC[0] = 0;
+        scene_cell_dispatch_code[0] = 0;
     }
     return update_result;
 }

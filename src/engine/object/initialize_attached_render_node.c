@@ -15,7 +15,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
     void *aux_state;
     void *render_state;
 
-    node = initialize_runtime_node_storage(0x11, node_storage, 0x49, D_80082BC0);
+    node = initialize_runtime_node_storage(0x11, node_storage, 0x49, window_node_list_storage);
     ((S_80035888_0 *)node)->unk_10 = dispatch_window_fade_and_update_extents;
     register_node(node, runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback);
 

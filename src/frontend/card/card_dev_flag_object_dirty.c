@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 typedef struct {
     s32 v;
@@ -12,15 +13,15 @@ void card_dev_flag_object_dirty(void *object) {
         u16 object_flags = *flags_ptr;
         s32 global_flags;
         {
-            extern s32 D_8008DAB4;
-            global_flags = D_8008DAB4;
+            extern s32 card_ui_dirty_flags;
+            global_flags = card_ui_dirty_flags;
         }
         object_flags |= 0x8000;
         global_flags |= 0x8000;
         *flags_ptr = object_flags;
         {
-            extern D_8008DAB4_View D_8008DAB4;
-            D_8008DAB4.v = global_flags;
+            extern D_8008DAB4_View card_ui_dirty_flags;
+            card_ui_dirty_flags.v = global_flags;
         }
     }
 }

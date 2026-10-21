@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/runtime.h"
+#include "sdk/libcd.h"
 
 typedef struct S_80083958 {
     /* 0x0 */ u32 unk0;
@@ -10,8 +12,6 @@ typedef struct S_80083958 {
 } S_80083958;
 
 extern S_80083958 cd_driver_prefix;
-
-extern void CdInit(void);
 
 /* Increment both retry counters, resetting counter1 and initializing the CD when counter1 reaches 0x401. */
 void cd_inc_retry_counters(void)

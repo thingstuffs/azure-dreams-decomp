@@ -359,7 +359,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
                 u8 target_kind;
                 u8 *height_offsets;
 
-                height_offsets = D_800DDC40;
+                height_offsets = entity_height_offsets;
                 target_kind = ((S_func_81886800_8 *)(owner->unk_60))->unk_13;
                 effect->unk_10.u16 =
                     target_data->unk_08.parts.unk_0A - height_offsets[target_kind];
@@ -634,7 +634,7 @@ typedef struct {
     u32 flags;
 } Object;
 
-extern u8 D_80080A87[];
+extern u8 last_frame_ticks[];
 
 extern void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z);
 extern void create_quad_fragments_vertex_grid_randomized_motion_rotation(void);
@@ -712,7 +712,7 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
         D_80026474[0] = (func_80069EF8() % 0x3F) - 0x80;
         random_rgb = D_80026474;
         random_rgb[1] = (func_80069EF8() % 0x3F) - 0x80;
-        effect->timer -= D_80080A87[0];
+        effect->timer -= last_frame_ticks[0];
         if (effect->timer <= 0) {
             create_quad_fragments_vertex_grid_randomized_motion_rotation();
             effect->timer = 0x10;

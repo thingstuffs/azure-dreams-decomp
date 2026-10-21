@@ -6,7 +6,7 @@ s32 resolve_spell_effect_resource_id(s16 index) {
     s32 compare;
 
     index = D_800DD8E7[index];
-    if (((Inner *)D_800E3D7C->unk_4C)->flag != 0) {
+    if (((Inner *)dungeon_actor_ring_anchor->unk_4C)->flag != 0) {
         compare = index;
         if (compare == 0x32) {
             return 0x33;
@@ -33,7 +33,7 @@ s32 resolve_alternate_spell_id(s32 tile_index)
     tile = D_800DD8E7 + (s16)tile_index;
     tile_code = *tile;
 
-    if (*(*(u8 **)(((u8 *)D_800E3D7C) + 0x4C) + 1) != 0) {
+    if (*(*(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0x4C) + 1) != 0) {
         if (tile_code == 0x32) {
             return 7;
         }

@@ -37,7 +37,7 @@ s32 transform_linked_quad_batches(u8 *initial_batch, s32 initial_dispatch_arg, u
     ((S_800B06F0_0 *)scratch)->unk_20 = initial_manager + 0xB0;
 
     for (;;) {
-    D_800DEFF0[((S_800B06F0_2 *)batch)->unk_08 & 1](dispatch_arg, params, scratch);
+    quad_batch_callbacks[((S_800B06F0_2 *)batch)->unk_08 & 1](dispatch_arg, params, scratch);
 
     primitive_list = ((S_800B06F0_2 *)batch)->unk_00;
     depth = ((S_800B06F0_0 *)scratch)->unk_C0.i;

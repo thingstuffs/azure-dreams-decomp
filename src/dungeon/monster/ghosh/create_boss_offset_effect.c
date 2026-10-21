@@ -6,7 +6,7 @@ typedef struct {
     u8 bytes[12];
 } Blob12;
 
-extern void **D_80174CD8[];
+extern void **ghosh_boss_node[];
 void register_node(void *, void *);
 extern s32 D_801723D0;
 extern Blob12 D_80174AC8;
@@ -19,7 +19,7 @@ void create_boss_offset_effect(void) {
     s32 *effect_pos;
     u8 *effect_state;
 
-    source_pos = (s32 *)D_80174CD8[0][2];
+    source_pos = (s32 *)ghosh_boss_node[0][2];
     effect = (u8 *)func_8003FC64(0x212);
     if (effect != (void *)0) {
         effect_state = effect + 0x20;

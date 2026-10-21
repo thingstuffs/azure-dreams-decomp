@@ -163,7 +163,7 @@ void update_weadog_timed_move(void *action, void *motion, void *sprite, void *ac
         if (actor_flags & 0x20000) {
             ((S_80EF98E0_1 *)actor)->unk_2A = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
         }
     }
 

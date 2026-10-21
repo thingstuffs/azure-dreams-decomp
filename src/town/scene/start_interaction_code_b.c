@@ -16,15 +16,15 @@ s32 func_800175B0(void);
 s32 copy_indexed_entry_value(s32);
 s32 record_value_table_contains_first_byte_d(void);
 s32 select_next_eligible_wrapped_entry(void);
-extern s32 D_80019BB0;
-extern s32 D_80019BB4;
+extern s32 scene_update_state;
+extern s32 scene_choice_index;
 
 /* Selects a value with a fallback and stores its converted result in the town entry. */
 s32 start_interaction_on_code_0x479(TownContext *context, s32 entry_index) {
     s32 selected_value;
     s32 entry_value;
 
-    D_80019BB0 = 2;
+    scene_update_state = 2;
     if (func_800175B0() == 0) {
         return 1;
     }
@@ -35,7 +35,7 @@ s32 start_interaction_on_code_0x479(TownContext *context, s32 entry_index) {
     }
 
     entry_value = copy_indexed_entry_value(selected_value);
-    D_80019BB4 = selected_value;
+    scene_choice_index = selected_value;
     context->entries[entry_index].unk8 = entry_value;
     return 0;
 }

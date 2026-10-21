@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window.h"
 
 typedef s8 s8_local;
 
@@ -16,8 +17,6 @@ typedef struct S_80037030_1 {
     s32 * unk_0C;
 } S_80037030_1;   /* call_arg2 in init_cursor_color_object */
 
-
-extern void create_blinking_cursor_object(s32, void *, s32 *, s16, s32, s32);
 extern void update_blinking_cursor_with_dark_idle(void *, void *, void *);
 
 /* Initialize the object, install its color update callback, and run it once. */

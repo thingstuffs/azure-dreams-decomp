@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 
 #include "common.h"
+#include "slus.h"
 
 typedef struct RuntimeState {
     u8 pad_00[0x10];
@@ -20,7 +21,6 @@ typedef struct CursorState {
     CursorInfo *info_74;
 } CursorState;
 
-extern void SD_Call(u32);
 extern void confirm_menu_choice(CursorState *, s32, s32);
 
 /* Wrap the cursor on directional input and dispatch the selected action. */

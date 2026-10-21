@@ -14,9 +14,9 @@ extern void *select_event_data_table();
 s32 dispatch_active_event_27(void) {
     TownEventArgumentPair16 *event;
 
-    if ((u8) D_8001E950->dispatchState < 2U) {
-        event = select_event_data_table(D_8001E950->dispatchState,
-                              D_8001E950->unk_05);
+    if ((u8) town_event_state->dispatchState < 2U) {
+        event = select_event_data_table(town_event_state->dispatchState,
+                              town_event_state->unk_05);
         if (event->unk_00 == 0x27) {
             if (event->unk_02 == 0x200) {
                 D_80016000->unk_20->callback_2F8(0x27, 0x200);

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 extern void reset_audio_command_state(void);
-extern void reinit_audio_voices(void);
 extern void set_cd_audio_mix_mode(s32 a0);
 
 /* Dispatches an audio action by its low byte, preserving the low 16 bits for volume updates. */

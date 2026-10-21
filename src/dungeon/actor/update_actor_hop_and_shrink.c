@@ -40,7 +40,7 @@ typedef struct S_800AB538_3 {
 
 extern s32 func_800644B8();
 
-extern u8 D_80083780[];
+extern u8 view_reference_entity[];
 extern s16 D_8008378A;
 
 /* Move toward the target while shrinking, then mark the animation complete. */
@@ -59,7 +59,7 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
         ((S_800AB538_0 *)animation)->unk_96.s = 0x10;
         ((S_800AB538_1 *)render)->unk_1C &= 0xFFFBFFFF;
         (*(u16 *)((u8 *)animation + 0x98)) |= 8;
-        if (D_80013714 & 2) {
+        if (system_update_flags & 2) {
             ((S_800AB538_0 *)animation)->unk_9B = 2;
             break;
         }
@@ -70,7 +70,7 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
     case 1:
         move_frames = ((S_800AB538_0 *)animation)->unk_96.s - 2;
         if (move_frames > 0) {
-            u8 *target = D_80083780;
+            u8 *target = view_reference_entity;
 
             (*(s32 *)((u8 *)motion + 0xC)) =
                 ((((S_800AB538_2 *)target)->unk_02.s - ((S_800AB538_3 *)motion)->unk_02) << 16) / move_frames;
@@ -78,7 +78,7 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
                 ((((S_800AB538_2 *)target)->unk_06.s - ((S_800AB538_3 *)motion)->unk_06.s) << 16) /
                 (((S_800AB538_0 *)animation)->unk_96.s - 2);
         } else {
-            u8 *target = D_80083780;
+            u8 *target = view_reference_entity;
 
             (*(s32 *)((u8 *)motion + 0x10)) = 0;
             (*(s32 *)((u8 *)motion + 0xC)) = 0;

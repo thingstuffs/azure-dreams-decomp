@@ -14,7 +14,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s32 sample_terrain_surface_height(s32, s32, s16);
 extern u8 D_801710EC[12];
 extern u8 D_80175E40[12];
-extern ActorCallback D_80175ED8[16];
+extern ActorCallback kewne_callbacks[16];
 /* Update actor callbacks, movement, facing, animation, and ground height. */
 void update_actor_callbacks_and_ground(void *actor, void *motion, void *sprite)
 {
@@ -54,7 +54,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, void *sprite)
     if ((*((ActorCallback *) (((u8 *) actor) + 0x8C))) != 0) {
         (*((ActorCallback *) (((u8 *) actor) + 0x8C)))(actor, motion, sprite, actor);
     }
-    D_80175ED8[*((u8 *) (((u8 *) actor) + 0x9A))](actor, motion, sprite, actor);
+    kewne_callbacks[*((u8 *) (((u8 *) actor) + 0x9A))](actor, motion, sprite, actor);
     if (((s16) old_state) != (*((s8 *) (((u8 *) actor) + 0x6D)))) {
         try_move_actor_to_valid_position(actor, motion, sprite, actor);
     }

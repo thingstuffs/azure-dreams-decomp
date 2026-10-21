@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 /* 12-byte struct; entries in D_80086C00[8] */
 typedef struct {
@@ -10,7 +11,6 @@ typedef struct {
 } S_80086C00;
 
 extern S_80086C00 audio_sequence_slots[8];
-extern s32 get_sequence_play_state(void);
 
 /* Advances an entry's state from 1 to 3 when get_sequence_play_state returns 3, then returns the state. */
 s16 update_sequence_slot_state(s16 entry_index)

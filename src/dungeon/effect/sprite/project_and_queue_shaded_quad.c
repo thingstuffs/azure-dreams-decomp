@@ -380,7 +380,7 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
         render_style->color.c.r = 0x80;
         render_style->clut = 0x7DCF;
         render_style->flags = render_style->flags | 0x100;
-        func_8003DB94(render_style, D_800DE870, 0);
+        func_8003DB94(render_style, effect_sprite_sources, 0);
     }
 }
 
@@ -483,7 +483,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
                     travel_distance = (distance_x >> 6) + (travel_distance >> 6);
                     ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = (u16) (((s32) (travel_distance << 0x10) >> 0xF) + 0xB);
                 }
-                height_table = D_800DDC40;
+                height_table = entity_height_offsets;
                 travel_frames = (s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u;
                 target_z = ((Row_8192365C_S_80024E5C_3 *)target_position)->unk_08
                 - (((u8) *(((Row_8192365C_S_80024E5C_4 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))->unk_13 + height_table) >> 1)

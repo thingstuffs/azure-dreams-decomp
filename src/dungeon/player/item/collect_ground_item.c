@@ -38,9 +38,9 @@ typedef struct Unit {
     s16 id;
 } Unit;
 
-extern u8 D_80081485[16];
+extern u8 held_item_kind_alias[16];
 extern u16 D_80012094;
-extern Ent D_800E36C8[];
+extern Ent dungeon_ground_item_positions[];
 extern char D_80088A80[];
 extern char D_80088A84[];
 extern char D_800E0A76[];
@@ -111,18 +111,18 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
     }
     message_handle = get_unused_text_buffer();
     message = write_text_byte_and_advance(8, message_handle);
-    if (D_80081485[0] != 0) {
-        func_80099290(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&D_800E3548[item_id], expand_text_control_codes(D_800E0A76,
+    if (held_item_kind_alias[0] != 0) {
+        func_80099290(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A76,
             message))));
         display_text_with_fullwidth_adjustment(message_handle);
         return 1;
     }
     free_slot = find_last_zero_entry_run_start();
     free_entry = find_and_clear_empty_item_slot();
-    if ((D_80013714 & 1) == 0) {
+    if ((system_update_flags & 1) == 0) {
         if ((sys->buttons & 0x20) != 0) {
             append_packed_action_record(unit, 64, 0, 0);
-            func_80099290(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&D_800E3548[item_id], expand_text_control_codes(D_800E0A83,
+            func_80099290(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A83,
                 message))));
             display_text_with_fullwidth_adjustment(message_handle);
             return 1;
@@ -136,18 +136,18 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
             read_monster_script_entry();
         }
     }
-    ground_items = D_800E3548;
+    ground_items = dungeon_ground_items;
     ground_item = &ground_items[(s16) item_lookup];
     if ((ground_item->kind == 14) || ((ground_item->kind == 12) && (ground_item->unk_00 == 4))
         || ((ground_item->kind == 18) && (ground_item->unk_00 == 1))) {
-        named_item = &D_800E3548[(s16) item_lookup];
+        named_item = &dungeon_ground_items[(s16) item_lookup];
         message = append_typed_formatted_value(named_item, message);
         if (named_item->kind == 14) {
             message = expand_text_control_codes(D_80088A84, message);
         } else {
             message = expand_text_control_codes(D_800E0A90, message);
         }
-        special_items = D_800E3548;
+        special_items = dungeon_ground_items;
         ctx->flags |= 0x80;
         special_item = &special_items[(s16) item_lookup];
         item_kind = special_item->kind;
@@ -169,22 +169,22 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
         }
         consumed_id = (s16) item_lookup;
         pickup_slot = (u32 *) 0x80010298;
-        consumed_items = D_800E3548;
+        consumed_items = dungeon_ground_items;
         consumed_item = &consumed_items[consumed_id];
         *pickup_slot = *(u32 *) consumed_item;
         consumed_item->unk_00 = 0;
         consumed_item->kind = 0;
-        update_map_cell_flags_with_item_limit(D_800E36C8[consumed_id].a, D_800E36C8[consumed_id].b, 0x800);
+        update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[consumed_id].a, dungeon_ground_item_positions[consumed_id].b, 0x800);
         ctx->link = pickup_slot;
     } else {
         slot_index = free_slot;
         entry_index = free_entry;
         if ((slot_index < 0) || (entry_index < 0)) {
-            message = expand_text_control_codes(D_80088A80, append_typed_formatted_value(&D_800E3548[(s16) item_lookup], expand_text_control_codes(D_800E0AFA,
+            message = expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[(s16) item_lookup], expand_text_control_codes(D_800E0AFA,
                 write_text_byte_and_advance(10, expand_text_control_codes(D_800E0AD8, message)))));
         } else {
             stored_id = item_lookup;
-            stored_item = &D_800E3548[stored_id];
+            stored_item = &dungeon_ground_items[stored_id];
             message = expand_text_control_codes(D_800E0B07, append_typed_formatted_value(stored_item, message));
             inventory_slot = (void **) 0x80010248 + slot_index;
             *inventory_slot = *(void **) stored_item;
@@ -193,7 +193,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
             ctx->flags |= 0x80;
             stored_item->unk_00 = 0;
             stored_item->kind = 0;
-            update_map_cell_flags_with_item_limit(D_800E36C8[stored_id].a, D_800E36C8[stored_id].b, 0x800);
+            update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[stored_id].a, dungeon_ground_item_positions[stored_id].b, 0x800);
             ctx->link = inventory_slot;
         }
     }

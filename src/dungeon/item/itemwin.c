@@ -33,7 +33,7 @@ void restore_item_text_before_edit(void *item_object)
     if (category != 0x13) {
         if (subobject->unk_08 != 0) {
             free_item_data_slot(category, subobject->unk_1C);
-            D_80073414[((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_0C]
+            item_category_groups[((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_0C]
             .records[subobject->unk_1C].value =
                 subobject->unk_08;
             return;
@@ -196,13 +196,13 @@ void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet) {
 }
 
 S_800491F4 *inventory_create_context_entry_13(S_800491F4 **context) {
-    return build_reverse_indexed_chain(context, D_800294E8, 13);
+    return build_reverse_indexed_chain(context, item_window_chain_indices, 13);
 }
 
 void inventory_initialize_owner_patch_and_state(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
                    ovl_1830850_81810D9C_S_8002E5E8 *state) {
-    ovl_1830850_81810D9C_S_8002E5D8 *patch_defaults = &D_8002E5D8;
-    ovl_1830850_81810D9C_S_8002E5E8 *state_defaults = &D_8002E5E8;
+    ovl_1830850_81810D9C_S_8002E5D8 *patch_defaults = &display_block_defaults;
+    ovl_1830850_81810D9C_S_8002E5E8 *state_defaults = &display_vector_defaults;
     s32 *state_first_word;
 
     patch->unk0 = patch_defaults->unk0;
@@ -295,9 +295,9 @@ s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *
         call_result = allocate_and_append_callback_payload(buffer, 6);
         state->unk74 = call_result;
         if (call_result != 0) {
-            state->unk38[0] = D_8002E5E8.unk0;
-            state->unk38[1] = D_8002E5E8.unk4;
-            state->unk38[2] = D_8002E5E8.unk8;
+            state->unk38[0] = display_vector_defaults.unk0;
+            state->unk38[1] = display_vector_defaults.unk4;
+            state->unk38[2] = display_vector_defaults.unk8;
             texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(state->unk54, state->unk38, 13);
             success = 1;
         }

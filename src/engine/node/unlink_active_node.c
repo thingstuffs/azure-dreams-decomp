@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node.h"
 
 /* Doubly-linked list node: next at 0x0, prev at 0x4, flags at 0x1E */
 typedef struct S_8003FFF0 {
@@ -8,7 +9,7 @@ typedef struct S_8003FFF0 {
     u16 flags;                    /* 0x1E */
 } S_8003FFF0;
 
-extern S_8003FFF0 *D_80081498;
+extern S_8003FFF0 *active_node_list_head;
 
 /* Unlinks a node from its doubly-linked list, clears flag 0x4000, and resets its links. */
 void unlink_active_node(S_8003FFF0 *node) {
@@ -25,7 +26,7 @@ void unlink_active_node(S_8003FFF0 *node) {
         prev->next = next;
     } else {
         next = node->next;
-        D_80081498 = next;
+        active_node_list_head = next;
         if (next != 0) {
             next->prev = 0;
         }

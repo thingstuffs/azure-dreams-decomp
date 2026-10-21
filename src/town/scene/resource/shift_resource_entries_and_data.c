@@ -12,8 +12,8 @@ typedef struct TownState {
     u8 *field2C;
 } TownState;
 
-extern TownEntry D_800CF720[];
-extern TownState D_801131B8;
+extern TownEntry resource_cache_records[];
+extern TownState town_resource_context;
 extern s32 sum_resource_bytes(s32 index);
 extern void copy_words_backward_from_offset(void *dst, void *src, s32 value);
 
@@ -26,8 +26,8 @@ void shift_resource_entries_and_data(s32 count, s32 data_offset) {
     u8 *entry_data;
 
     if (count != 0) {
-        entries = D_800CF720;
-        state = &D_801131B8;
+        entries = resource_cache_records;
+        state = &town_resource_context;
         do {
             TownEntry *dst_entry = (TownEntry *)((count << 3) + (unsigned long)entries);
             src_index = count - 1;

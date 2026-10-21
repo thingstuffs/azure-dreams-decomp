@@ -9,7 +9,7 @@ extern s32 D_800DD784[];
 s32 apply_type_based_entry_adjustments(void *entry, s32 value) {
     u8 pre_type;
     s32 post_type, pre_adjustment, post_adjustment, result;
-    if (!(F(((u8 *)D_800E3D7C), s32, 0x1C) & 0x10)) {
+    if (!(F(((u8 *)dungeon_actor_ring_anchor), s32, 0x1C) & 0x10)) {
         pre_type = F(entry, u8, 1);
         pre_adjustment = D_800DD72C[pre_type];
         if (pre_adjustment && (pre_type != 15 || F(entry, u8, 0) < 14)) {
@@ -17,7 +17,7 @@ s32 apply_type_based_entry_adjustments(void *entry, s32 value) {
         }
     }
     result = copy_selected_text_without_terminator(entry, value);
-    if (!(F(((u8 *)D_800E3D7C), s32, 0x1C) & 0x10)) {
+    if (!(F(((u8 *)dungeon_actor_ring_anchor), s32, 0x1C) & 0x10)) {
         post_type = F(entry, u8, 1);
         post_adjustment = D_800DD784[post_type];
         if (post_adjustment) {

@@ -160,7 +160,7 @@ s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *
         }
         func_8003DB94(sprite, &D_800DEF08,
                       (s16)(random_value - ((rounded_random >> 4) * 0x10)));
-        register_node(object, &D_800D36D0);
+        register_node(object, &transform_effect_tag);
         object_transform = ((Row_8189EBBC_S_800243BC_0 *)object)->unk_08;
         return_value = (s32)object;
         *object_transform = *(Row_8189EBBC_S_800243BC_4 *)transform;

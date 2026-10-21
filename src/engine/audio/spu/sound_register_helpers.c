@@ -1,4 +1,5 @@
 #include "engine/audio/spu/sound_register_helpers.h"
+#include "engine/audio/spu.h"
 
 
 

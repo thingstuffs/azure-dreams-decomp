@@ -12,7 +12,7 @@ extern void fill_person_records(void);
 extern void initialize_object_entries(void *state, s32 output, void *entries);
 extern void register_node_if_unregistered(void *state, void *callback);
 
-extern s32 D_80081458[];
+extern s32 loaded_town_resource_attributes[];
 extern u8 D_800AB1E0[];
 extern u8 D_800AB708[];
 extern u8 D_800D1200[];
@@ -30,15 +30,15 @@ void create_person_object(void) {
         position = *(s8 **)(object + 8);
         render_data = *(s8 **)(object + 0xC);
         *(s8 *)(state + 0x93) = 1;
-        ((SpriteFrameState *)render_data)->unk_28 = D_80081458[0];
+        ((SpriteFrameState *)render_data)->unk_28 = loaded_town_resource_attributes[0];
         initialize_object_entries(state, render_data, D_800D1200);
         register_node_if_unregistered(state, project_sprite_chain);
         fill_person_records();
         *(s16 *)(state + 0x90) = 0;
         *(void **)(state + 0x50) = D_800AB708;
         *(s16 *)(state + 0x6A) = 0;
-        *(u16 *)(position + 2) = (u16) ((u16)D_80083780.x.w.i);
-        *(u16 *)(position + 6) = (u16) ((u16)D_80083780.y.w.i);
-        *(s16 *)(position + 0xA) = (s16) (((u16)D_80083780.z.w.i) - get_person_lookup_step(position));
+        *(u16 *)(position + 2) = (u16) ((u16)view_reference_entity.x.w.i);
+        *(u16 *)(position + 6) = (u16) ((u16)view_reference_entity.y.w.i);
+        *(s16 *)(position + 0xA) = (s16) (((u16)view_reference_entity.z.w.i) - get_person_lookup_step(position));
     }
 }

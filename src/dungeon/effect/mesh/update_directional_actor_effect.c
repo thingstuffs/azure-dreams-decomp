@@ -18,9 +18,9 @@ extern u16 D_80024A70[];
 
 extern s32 func_80053EF0(s32);
 extern void draw_textured_ellipse(void *, void *, s32, s32);
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
-#define MANAGER_PTR() ((void *)(u32)U32_AT(((u8 *)(&D_800814A8)), 0))
+#define MANAGER_PTR() ((void *)(u32)U32_AT(((u8 *)(&primary_actor_record)), 0))
 
 void update_directional_actor_effect(void *state_data);
 
@@ -56,7 +56,7 @@ void update_directional_actor_effect(void *state_data)
         }
         {
             void *manager =
-                *(void **)(D_80080000 + 0x14A8);
+                *(void **)(resident_globals_page + 0x14A8);
 
             U16_AT(state, 0x18) = 0x12;
             result = U16_AT(manager, 0xA6) - 1;
@@ -95,7 +95,7 @@ void update_directional_actor_effect(void *state_data)
             }
             U32_AT(child, 0x0C) = tint;
         }
-        if ((U16_AT(((u16 *)(&D_80082E80.sprite_flags)), 0) & 0x8000) == 0) {
+        if ((U16_AT(((u16 *)(&reference_tile_object.sprite_flags)), 0) & 0x8000) == 0) {
             U16_AT(state, 0x18)--;
             if ((s16)U16_AT(state, 0x18) >= 0) {
                 break;
@@ -239,7 +239,7 @@ typedef struct Vec3s {
 
 extern u8 D_80024AE0;
 extern u16 D_80024A70[];
-extern void *D_800E3D18;
+extern void *actor_direction_sprites;
 
 /* Ordinary declaration: the private selector authenticates this one
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
@@ -353,9 +353,9 @@ loop_top:
         target[1] = target_node->unk_04;
         target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
 
-        entry_offset = (g_game_work.view.camera_rotation.parts.viewAngle + D_800814A8->facing + 0x100) >> 7;
+        entry_offset = (g_game_work.view.camera_rotation.parts.viewAngle + primary_actor_record->facing + 0x100) >> 7;
         delta_out = delta;
-        entry_base = D_800E3D18;
+        entry_base = actor_direction_sprites;
         entry_offset &= 0x1C;
         call_node = ((S_8199AAD4_0 *)self)->unk_04;
         if (resolve_record_orientation_or_fallback(((S_8199AAD4_5 *)(entry_offset + (s32)entry_base))->unk_00, call_node->unk_0C, delta_out,
@@ -439,15 +439,15 @@ void func_800246F4(ObjectNodeHeader *node_value, void *child_value)
     void *callback;
     u16 source_value;
 
-    node = allocate_list_node(0x10, &D_80083498.next);
+    node = allocate_list_node(0x10, &scene_object_list_anchor.next);
     if (node != NULL) {
         child = (Child *)((char *)node + 0x20);
         node->field10 = D_800242D4;
         callback = D_80024A8C;
-        source = D_800814A8;
+        source = primary_actor_record;
         child->field10 = callback;
         node->field20 = node_value;
-        child->field04 = &D_80083498.next;
+        child->field04 = &scene_object_list_anchor.next;
         source_value = ((u16)source->ground_height);
         child->field0C = child_value;
         child->field08 = node;

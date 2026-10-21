@@ -1,5 +1,7 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "engine/audio/sequence.h"
 
 /* Canonical status-block struct (established in w_800540A8.c / w_80054C58.c /
    w_800559B4.c / w_8005440C.c / w_80054E00.c). This function only reads
@@ -11,15 +13,6 @@
 
 /* Canonical task/event object struct (established in w_8005440C.c). Only its
    address is taken by this function, no fields accessed here. */
-
-
-extern void assign_sound_payload_and_release_channel(u16 a0);
-extern void select_marker_table(u16 a0);
-extern void handle_audio_status_code(u8 a0);
-extern void func_80054104(void);
-extern void audio_handle_stream_control_event(s32 a0);
-extern void dispatch_audio_mix_action(u8 a0);
-extern void set_sound_task_priority(u32 a0, void *a1);
 
 /* Dispatches packed events by status nibble and enabled event flags. */
 void dispatch_audio_event(s32 event) {

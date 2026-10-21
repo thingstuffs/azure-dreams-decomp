@@ -7,7 +7,7 @@
 
 
 extern void *D_80083160[3];
-extern u8 D_801C9E40[2][0x108D4];
+extern u8 upper_draw_context[2][0x108D4];
 extern u16 scene_sprite_mode_word[5];
 extern s16 scene_sprite_wave_tick;
 extern u16 scene_sprite_cached_mode;

@@ -7,10 +7,10 @@ void unlink_node_if_registered();
 struct Container; struct Source; void copy_window_params(struct Container *, struct Source *);
 void func_8003DB94(void *, void *, s16);
 s32 register_node();
-extern u8 D_80033D54;
+extern u8 town_map_tag;
 extern u8 D_80037714;
 extern u8 D_800794AC;
-extern s32 D_80082ABC;
+extern s32 town_map_selection;
 extern M2C_UNK D_8008B9D8;
 extern M2C_UNK D_8008BA00;
 extern s32 D_800CFB74[];
@@ -29,7 +29,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *ob
     s32 *value_table;
     s32 *type_entry;
     *((s32 **) (((s8 *) object) + 0x10)) = &D_8008B9D8;
-    register_node(object, &D_80033D54);
+    register_node(object, &town_map_tag);
     init_value = 0;
     transform = *((void **) (((s8 *) object) + 8));
     render_data = *((void **) (((s8 *) object) + 0xC));
@@ -71,7 +71,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *ob
     }
     if (type_id == 0xA) {
         *((s32 *) (((s8 *) state) + 0x74)) = 0;
-        D_80082ABC = (s32) (*(*((u8 **) (((s8 *) state) + 0x7C))));
+        town_map_selection = (s32) (*(*((u8 **) (((s8 *) state) + 0x7C))));
     }
     *((s32 **) (((s8 *) state) + 0x68)) = &D_8008BA00;
     value_table_base = D_800CFC44;

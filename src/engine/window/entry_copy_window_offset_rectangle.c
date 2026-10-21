@@ -1,6 +1,10 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
+#include "engine/script/vm.h"
+#include "engine/window.h"
+#include "engine/window/message.h"
 
 typedef struct S_80036154_1 {
     u8 pad_00[0x74];
@@ -21,19 +25,6 @@ typedef struct S_80036154_0 {
     u8 pad_6C[0x8];
     void * unk_74;
 } S_80036154_0;   /* arg0 in func_80036154 */
-
-
-void copy_window_offset_rectangle();              /* extern */
-void create_window_cursor_and_install_reset();
-void init_menu_choice_object();
-void init_menu_choice_timed();
-void init_menu_choice_wide();
-void mark_menu_slot_used();
-void advance_message_on_flag();
-void advance_message_on_confirm_flag();
-void advance_message_on_input_flag();
-void advance_message_on_ready_flag();
-void noop_runtime_record_idle();
 
 /* Selects a handler from the linked object, initializes its data, and sets its flag. */
 void select_menu_initializer_from_message_handler(void *object) {

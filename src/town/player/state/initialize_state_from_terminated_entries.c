@@ -11,36 +11,36 @@ typedef struct {
 
 void expand_bounds_to_inset_rectangle();                 /* extern */
 extern s16 D_8006ADD6;
-extern s32 D_800FE508[4];
-extern State D_800FE520;
+extern s32 player_motion_bounds[4];
+extern State player_blocking_rects;
 
 /* Process the terminated entry list and initialize the state for the current mode. */
 void initialize_state_from_terminated_entries(s32 *entries) {
     s16 mode;
 
-    D_800FE508[0] = 0x1FFFFFFF;
-    D_800FE508[2] = 0x1FFFFFFF;
-    D_800FE508[1] = 0;
-    D_800FE508[3] = 0;
+    player_motion_bounds[0] = 0x1FFFFFFF;
+    player_motion_bounds[2] = 0x1FFFFFFF;
+    player_motion_bounds[1] = 0;
+    player_motion_bounds[3] = 0;
     for (; *entries != 0; entries++) {
-        expand_bounds_to_inset_rectangle(D_800FE508, *entries);
+        expand_bounds_to_inset_rectangle(player_motion_bounds, *entries);
     }
     mode = D_8006ADD6;
     if (mode == 8) {
-        D_800FE520.unk0 = 0x03000000;
-        (&D_800FE520)->unk4 = 0x04000000;
-        (&D_800FE520)->unkC = 0x02A00000;
-        (&D_800FE520)->unk8 = 0;
-        (&D_800FE520)->unk10 = 0x80000000;
+        player_blocking_rects.unk0 = 0x03000000;
+        (&player_blocking_rects)->unk4 = 0x04000000;
+        (&player_blocking_rects)->unkC = 0x02A00000;
+        (&player_blocking_rects)->unk8 = 0;
+        (&player_blocking_rects)->unk10 = 0x80000000;
         return;
     }
     if (mode == 0xB) {
-        D_800FE520.unk0 = 0;
-        (&D_800FE520)->unk4 = 0x04A00000;
-        (&D_800FE520)->unkC = 0x03B00000;
-        (&D_800FE520)->unk8 = 0;
-        (&D_800FE520)->unk10 = 0x80000000;
+        player_blocking_rects.unk0 = 0;
+        (&player_blocking_rects)->unk4 = 0x04A00000;
+        (&player_blocking_rects)->unkC = 0x03B00000;
+        (&player_blocking_rects)->unk8 = 0;
+        (&player_blocking_rects)->unk10 = 0x80000000;
         return;
     }
-    D_800FE520.unk0 = 0x80000000;
+    player_blocking_rects.unk0 = 0x80000000;
 }

@@ -74,7 +74,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
             tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
-        if ((find_valid_nearby_position(0, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &tile_x, &tile_y) << 16) == 0) {
+        if ((find_valid_nearby_position(0, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &tile_x, &tile_y) << 16) == 0) {
             tile_x = ((Coord *)position)->coord0;
             source_height = ((ArgObj *)object)->value;
             source_y = ((Coord *)position)->coord1;

@@ -63,7 +63,7 @@ void mark_owner_on_target_completion(MovingPosition *origin)
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
-        func_8003DB94(render_data, D_800DE870, 0);
+        func_8003DB94(render_data, effect_sprite_sources, 0);
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->tpage_abr |= 0x20;

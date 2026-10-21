@@ -110,7 +110,7 @@ void func_8016D64C(void *action, ObjectPosition *motion, void *sprite, ActorReco
             {
                 s32 player_target = use_player;
                 if (player_target) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     actor->target = target;
                     {
                         target_sprite =
@@ -124,7 +124,7 @@ void func_8016D64C(void *action, ObjectPosition *motion, void *sprite, ActorReco
                     DefEntry *ability_entry;
 
                     ability_kind = *ability;
-                    ability_table = D_8006DE24;
+                    ability_table = item_action_definitions;
                     ability_entry = &ability_table[ability_kind];
                     if (ability_entry->kind == 2) {
                         target = actor->target;
@@ -164,7 +164,7 @@ void func_8016D64C(void *action, ObjectPosition *motion, void *sprite, ActorReco
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             g_dungeon_status.active_actor = 0;
-            ((PlayerActionCountView *)D_800814A8)->remainingActions = (u16) (((PlayerActionCountView *)D_800814A8)->remainingActions - 1);
+            ((PlayerActionCountView *)primary_actor_record)->remainingActions = (u16) (((PlayerActionCountView *)primary_actor_record)->remainingActions - 1);
             advance_status_timers(actor);
             actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             ((AbilityActionState *)action)->nextBehavior = &D_8016B760;

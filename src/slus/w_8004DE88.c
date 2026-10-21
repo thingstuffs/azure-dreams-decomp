@@ -33,7 +33,7 @@ void runtime_dispatch_control_coded_message(char *message)
     cursor[2] = address >> 16;
     cursor[3] = address >> 24;
 
-    message_mode_handlers[D_80081550](buffer);
+    message_mode_handlers[message_handler_mode](buffer);
     message_embedded_control_words[0] = 0x2300030C;
     message_embedded_control_words[1] = 0x2300040C;
 }

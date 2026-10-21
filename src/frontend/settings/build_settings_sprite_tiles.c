@@ -1,6 +1,8 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "frontend/settings.h"
+#include "sdk/libgpu.h"
 
 
 typedef struct {
@@ -16,12 +18,6 @@ typedef struct {
 #define addPrim(ordering_table, primitive) \
 (setaddr((primitive), getaddr(ordering_table)), \
     setaddr((ordering_table), (primitive)))
-
-extern void func_80066758(void *prim);
-extern void func_80066640(void *prim, s32 flag);
-extern s16 func_8006649C(s32 a0, s32 a1);
-extern s32 func_80066460(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80067F20(void *prim, s32 a1, s32 a2, s32 a3, s32 a4);
 
 /* Builds layered sprite tiles and texture-page commands for each linked node. */
 s32 build_settings_sprite_tiles(void *node_data, void *scroll_state)

@@ -31,9 +31,9 @@ extern void clear_high_flag_and_update_counter(void *, void *, void *, void *);
 extern void update_actor_counter_and_status(void *, void *, void *, void *);
 
 extern u8 D_800DCF5B;
-extern u8 D_800E2348[];
+extern u8 baloon_default_frames[];
 extern u8 D_800E2358[];
-extern u8 D_800E2378;
+extern u8 baloon_attack_frames;
 extern u8 D_800E23A0[];
 extern u8 D_800E23A8[];
 extern s32 D_80171F1C;
@@ -132,7 +132,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, void *a
                 ((S_80171F1C_0 *)motion_arg)->unk_9A = idle_state;
             }
             current_anim = ((S_80171F1C_2 *)actor_arg)->unk_2C;
-            anim_table = D_800E2348;
+            anim_table = baloon_default_frames;
             if (current_anim != anim_table) {
                 (*(void * *)((u8 *)actor_arg + (0x2C))) = anim_table;
                 select_sprite_entry(actor_arg,
@@ -178,11 +178,11 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, void *a
             update_actor_status_and_food(move_data);
             return;
         }
-        if (((S_80171F1C_2 *)actor_arg)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_80171F1C_2 *)actor_arg)->unk_24.at00u.v != *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             if (!(move_data->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(move_data,
-                            (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                            (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                         return;
                     }
                 }
@@ -231,12 +231,12 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, void *a
 
                 heading = get_rounded_facing_and_rounding_flag(
                     ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_flags);
-                player = D_800814A8;
+                player = primary_actor_record;
                 move_data->facing = heading;
                 if (player->unk_9A == 0x11) {
-                    begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &D_800E2378, &D_80171F1C);
+                    begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, &D_80171F1C);
                     return;
                 }
             }
@@ -248,7 +248,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, void *a
             case 1:
             case 2:
             case 3:
-                begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &D_800E2378, &D_80171F1C);
+                begin_actor_spell_action(motion_arg, actor_index_arg, actor_arg, &baloon_attack_frames, &D_80171F1C);
                 return;
 
             case 4:
@@ -264,15 +264,15 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, void *a
     if (!(((u32)move_data->flags1C) & 0x2000)) {
         s32 room_index = room_id;
 
-        if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
+        if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((u32)move_data->flags1C) & 0x430)) {
 
                 if ((compare_monster_neighbor_values(
                         ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     move_data->facing = get_rounded_facing_and_rounding_flag(
                         ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_flags);
                 }
             }

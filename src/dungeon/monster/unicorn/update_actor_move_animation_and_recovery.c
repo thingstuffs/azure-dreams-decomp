@@ -138,12 +138,12 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
         if (*move_id != 0) {
             ((S_80172AB4_0 *)action)->unk_98 &= 0xFF7F;
             if (use_player != 0) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 ((S_80172AB4_1 *)actor)->unk_60 = target;
                 move_kind = (s32)((S_80172AB4_2_pre *)target)[-1].unk_00;
                 ((S_80172AB4_1 *)actor)->unk_72.s = ((S_80172AB4_3 *)(void *)move_kind)->unk_24;
                 ((S_80172AB4_1 *)actor)->unk_73.s = ((S_80172AB4_3 *)(void *)move_kind)->unk_25;
-            } else if (D_8006DE24[*move_id].kind == 2) {
+            } else if (item_action_definitions[*move_id].kind == 2) {
                 target = ((S_80172AB4_1 *)actor)->unk_60;
                 if (target != 0) {
                     move_kind = (s32)((S_80172AB4_2_pre *)target)[-1].unk_00;
@@ -179,7 +179,7 @@ void update_actor_move_animation_and_recovery(void *action, void *motion, void *
         ((S_80172AB4_5 *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteAnimationTableView *)sprite)->unk_24, ((SpriteAnimationTableView *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         ((S_80172AB4_1 *)actor)->unk_6D.s--;
         ((S_80172AB4_0 *)action)->unk_8C = &D_80170E7C;

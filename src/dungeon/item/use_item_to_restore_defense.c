@@ -26,9 +26,9 @@ typedef struct S_800BDB74_0_pre {
 
 /* Apply an item effect to the entity and consume the item when handled. */
 s32 use_item_to_restore_defense(void *entity, s32 item, s16 use_type) {
-    if (entity == D_800E3D7C) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((EntityRec *)entity)->unk_110 = item;
-        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
 

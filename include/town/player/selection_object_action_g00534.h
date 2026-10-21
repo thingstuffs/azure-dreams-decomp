@@ -52,7 +52,7 @@ typedef struct S_80093894_4 {
     void * unk_2C;
 } S_80093894_4;
 
-extern TownState D_8006ADBC;
+extern TownState map_runtime_state;
 extern void write_resource_command(void *ptr, s32 value);
 extern void initialize_actor_movement_interaction_action(void *object, void *position, void *callback_data);
 extern void set_item_selection_data_pointer(void *object, void *position, void *callback_data);
@@ -68,11 +68,11 @@ extern u8 D_80088CCC[];
 extern u8 D_80088D04[];
 extern s32 D_80093D48;
 extern u8 D_800CFCB4[];
-extern s32 D_800D0428;
-extern s32 D_800D0728[];
-extern s32 D_800FE518;
-extern void (*D_800FE5D8)(void *object, void *position, void *callback_data);
-extern u8 D_80110EB8[];
+extern s32 town_target_height_offset;
+extern s32 town_record_capacities[];
+extern s32 town_interaction_pending;
+extern void (*town_player_action_callback)(void *object, void *position, void *callback_data);
+extern u8 item_menu_scene_state[];
 
 extern void initialize_scene_action_record(Rec_func_80094268_arg0 *, void *, void *);
 

@@ -1,11 +1,9 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "slus.h"
 
 /* callee: task/timer-like initializer, already matched in src/code.c */
-
-extern void initialize_audio_ramp_defaults(SoundTask *a0);
-extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
-
 
 /* Sibling struct for D_800847D0: fields cleared here are a subset of a larger
    object; layout inferred purely from the offsets this function touches. */

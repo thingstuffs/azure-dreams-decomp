@@ -1,12 +1,12 @@
 #include "common.h"
+#include "engine/resource.h"
+#include "sdk/libgpu.h"
+#include "slus/data.h"
 
 /* D_80081480 / D_8008148C / D_80080A7C are 4-byte words (retail neighbours D_80081485 /
  * D_80081490 / D_80080A80 bound them). */
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
-extern s32 gpu_scratch_ring_size;
-
-extern s32 DrawSync(s32 a0);
 
 /* Reserves bytes from the buffer's end, resetting its write pointer and waiting for the GPU on overlap. */
 s32 reserve_gpu_scratch_tail(s32 byte_count)

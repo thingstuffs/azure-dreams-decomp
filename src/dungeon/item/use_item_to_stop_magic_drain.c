@@ -21,9 +21,9 @@ extern u8 D_800E107C[];
 /* Applies an item effect to the target and handles item consumption. */
 s32 use_item_to_stop_magic_drain(void *target, s32 item, s16 message_kind)
 {
-    if (target == D_800E3D7C) {
+    if (target == dungeon_actor_ring_anchor) {
         *(s32 *)((u8 *)target + 0x110) = item;
-        begin_deferred_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
 

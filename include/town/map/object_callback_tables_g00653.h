@@ -6,11 +6,12 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-typedef void (*Callback)(void *);
+#include "town/map/trigger_callbacks.h"
+
+typedef map_trigger_callback_fn Callback;
 
 extern u8 D_800C1E50[];
 extern u8 D_800C1EA4[];
-extern Callback D_800D4668[];
 
 /* Functions defined in this translation unit. */
 void initialize_object_and_replace_callbacks(void);

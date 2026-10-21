@@ -46,9 +46,9 @@ extern s32 func_80025344(s16, s16, s16, s16);
 extern void resolve_record_orientation_or_fallback(s32, u8 *, Vec3s *, s32);
 extern void register_node(void *, void *);
 
-extern u16 D_800281F8;
+extern u16 sprite_effect_update_count;
 extern s32 D_800CEEFC;
-extern s32 *D_800E3D18;
+extern s32 *actor_direction_sprites;
 
 /* Per-frame update for a following color effect: blend its position and shade toward a target node or a palette color, then fade it out over its lifetime. */
 void update_following_color_blend_effect(AnimState *state, void *pos, void *tint) {
@@ -65,7 +65,7 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
     void *target;
     void *child;
 
-    D_800281F8++;
+    sprite_effect_update_count++;
     state->frame++;
     phase = S16(state, 0x2C);
 
@@ -185,17 +185,17 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
                 S16(state, 0x3A) = 0xA0;
                 U16(state, 0x30)--;
                 if (S16(state, 0x30) <= 0) {
-                    ObjectPosition *base = &D_80083780;
+                    ObjectPosition *base = &view_reference_entity;
                     s32 tableAddress;
                     color.x = U16(base, 2);
                     color.y = U16(base, 6);
-                    color.z = U16(((u8 *)D_800E3D7C), 0x88) - 0x50;
+                    color.z = U16(((u8 *)dungeon_actor_ring_anchor), 0x88) - 0x50;
                     tableAddress =
-                        ((g_game_work.view.camera_rotation.parts.viewAngle + S16(((u8 *)D_800E3D7C), 0x2A) + 0x100) >> 7) & 0x1C;
-                    tableAddress += (s32)D_800E3D18;
+                        ((g_game_work.view.camera_rotation.parts.viewAngle + S16(((u8 *)dungeon_actor_ring_anchor), 0x2A) + 0x100) >> 7) & 0x1C;
+                    tableAddress += (s32)actor_direction_sprites;
                     resolve_record_orientation_or_fallback(
                         *(s32 *)tableAddress,
-                        ((u8 *)(&D_80082E80)),
+                        ((u8 *)(&reference_tile_object)),
                         &effect,
                         0);
                     color.x += effect.x;

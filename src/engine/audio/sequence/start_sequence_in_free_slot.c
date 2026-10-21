@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
 
 /* D_80073734: s32 count array (established elsewhere; index 0 = active-entry count). */
 extern s32 audio_voice_count[4];
@@ -19,7 +21,6 @@ extern S_80085458 audio_voice_records[64];
 /* D_80085F98: mode/busy flag, set while this function runs. */
 extern s32 audio_update_guard[4];
 
-extern s32 func_8005EB78(s32 a0);
 extern s16 func_8005BBFC(s16 idx, s16 a0, s16 a1, s16 a2, s16 a3, s16 a4, s16 a5, s16 a6);
 
 /* Dispatches to the first done or empty slot and returns the result, or -1 if none is available. */

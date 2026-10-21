@@ -9,7 +9,7 @@ s32 reject_forbidden_familiar_recall(s32 entry_index) {
     s32 entry;
 
     {
-        s32 *table_base = ((s32 *)&D_800E3D7C);
+        s32 *table_base = ((s32 *)&dungeon_actor_ring_anchor);
 
         entry = *(s32 *)((s8 *)(((s32)(entry_index << 0x10) >> 0xE) + *table_base) + 0xAC);
     }

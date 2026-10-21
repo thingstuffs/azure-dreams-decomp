@@ -191,11 +191,11 @@ void build_floating_number_widget();
 void *create_actor_value_popup();
 void spawn_directed_and_scattered_particles();
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
-extern s32 D_8007359C;
-extern s32 D_80081484;
-extern u32 D_800835E4[];
+extern s32 monster_species_table;
+extern s32 held_item_record;
+extern u32 level_experience_table[];
 void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, s32 context, Rec_D_80082E80 *object, EntityRec *state);
-extern s8 D_800DCF4F;
+extern s8 dungeon_event_pending_flag;
 extern u8 D_800DD108[];
 extern u8 D_800DD110[];
 extern u8 D_800DD118[];
@@ -206,10 +206,10 @@ extern u8 D_800DD140[];
 extern M2C_UNK D_800E0458;
 extern M2C_UNK D_800E0A2A;
 extern M2C_UNK D_800E0A33;
-extern s8 D_800E2968;
-extern u8 D_800E3544;
-extern void *D_800E3DF0[];
-extern u8 D_800E3E48[];
+extern s8 entity_spawn_variant_code;
+extern u8 active_actor_command_code;
+extern void *familiar_record_slots[];
+extern u8 familiar_record_storage[];
 
 /* Advances the item interaction, spawning, initializing, and saving a linked creature. */
 void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_func_800B1364_3 *sprite,
@@ -286,7 +286,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         *(u8 **)((u8 *)sprite + 0x2C) = D_800DD110;
         set_sprite_animation_frame(sprite, D_800DD110[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
-        if (!(((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1)) {
+        if (!(((S_func_800B1364_14 *)&system_update_flags)->unk_00 & 1)) {
             build_floating_number_widget(0x22, 0xF2, 0xBA, 0x105, 0, 8);
             build_floating_number_widget(0x23, 0xE0, 0xCE, 0x104, 1, 8);
         }
@@ -300,7 +300,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             item_word = saved_item->unk_00;
             callback = &dispatch_actor_state_handler;
             action->unk_8C = callback;
-            D_80081484 = item_word;
+            held_item_record = item_word;
             return;
         }
     case 2:
@@ -323,7 +323,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
                 return;
             }
             command = input_command->unk_01 & 0xF8;
-            D_800E3544 = command;
+            active_actor_command_code = command;
             if (command != 0x60) {
                 read_monster_script_entry();
                 *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
@@ -362,7 +362,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         }
         {
             s32 cancel_test;
-            cancel_test = ((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1;
+            cancel_test = ((S_func_800B1364_14 *)&system_update_flags)->unk_00 & 1;
             if (cancel_test) {
                 return;
             }
@@ -395,16 +395,16 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        clear_slot_and_update_linked_state(&D_80081484);
+        clear_slot_and_update_linked_state(&held_item_record);
         {
             void *callback = handle_player_input;
-            event_flags = ((S_func_800B1364_15 *)&D_800E296C)->unk_00 & 0xFFDFFFFF;
+            event_flags = ((S_func_800B1364_15 *)&dungeon_floor_flags)->unk_00 & 0xFFDFFFFF;
             action->unk_8C = callback;
-            (*(s32 *)&D_800E296C) = event_flags;
+            (*(s32 *)&dungeon_floor_flags) = event_flags;
         }
         return;
     case 5:
-        item_effect = begin_holding_item(action, position, sprite, &D_80081484);
+        item_effect = begin_holding_item(action, position, sprite, &held_item_record);
         if (item_effect == NULL) {
             return;
         }
@@ -419,7 +419,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (resolve_record_orientation_or_fallback(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
             spawn_offset[1] = 0;
             spawn_offset[0] = 0;
-            spawn_offset[2] = 0 - (*((u8 *)D_800DDC40));
+            spawn_offset[2] = 0 - (*((u8 *)entity_height_offsets));
         }
         spawn_directed_and_scattered_particles(position->unk_02 + spawn_offset[0], position->unk_06 + spawn_offset[1],
             position->unk_0A + spawn_offset[2]);
@@ -427,7 +427,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         return;
     case 7:
         spawn_item = action->unk_C0;
-        D_800E2968 = 1;
+        entity_spawn_variant_code = 1;
         creature_variant = find_or_retain_sprite_resource_slot(*spawn_item, 2);
         creature = load_monster_resource_data(*action->unk_C0, creature_variant, 1)(2, sprite->unk_24, sprite->unk_25,
             (s16) (actor->unk_88 - 0x20));
@@ -441,7 +441,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (resolve_record_orientation_or_fallback(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
             spawn_offset[1] = 0;
             spawn_offset[0] = 0;
-            spawn_offset[2] = 0 - (*((u8 *)D_800DDC40));
+            spawn_offset[2] = 0 - (*((u8 *)entity_height_offsets));
         }
         creature_pos = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_00;
         creature_pos->unk_02 = (s16) ((u16) position->unk_02 + (u16) spawn_offset[0]);
@@ -459,8 +459,8 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         linked_creature = actor->unk_60;
         linked_creature->unk_98 = (u16) (linked_creature->unk_98 | 0xC);
         func_80069E78((u8 *)creature + 0x34, runtime_get_mode_indexed_value(creature->unk_13));
-        experience = D_800835E4[(*(u8 *)((u8 *)&D_800E3D7C->unk_10 + 1))];
-        level_thresholds = D_800835E4 + 1;
+        experience = level_experience_table[(*(u8 *)((u8 *)&dungeon_actor_ring_anchor->unk_10 + 1))];
+        level_thresholds = level_experience_table + 1;
         creature->unk_18 = experience;
         if (experience >= level_thresholds[creature->unk_11]) {
             level_table = level_thresholds;
@@ -471,26 +471,26 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         creature->unk_28 = (u8) creature->unk_29;
         creature->unk_26 = (u8) creature->unk_68;
         creature->unk_27 = (u8) creature->unk_69;
-        if (!(((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1)) {
+        if (!(((S_func_800B1364_14 *)&system_update_flags)->unk_00 & 1)) {
             u16 summon_count;
             DungeonGlobalStatus *summon_control;
-            D_800DCF4F = 1;
+            dungeon_event_pending_flag = 1;
             summon_control = &g_dungeon_status;
             summon_count = ((u16)summon_control->activity_counts.parts.pending_action_count);
             summon_control->activity_counts.parts.pending_action_count = (u16) (summon_count + 1);
         }
         message_start = get_unused_text_buffer();
         message_end = expand_text_control_codes(&D_800E0A33, append_entity_display_text(creature, expand_text_control_codes(&D_800E0A2A,
-            expand_text_control_codes(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + D_8007359C))->unk_04,
+            expand_text_control_codes(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + monster_species_table))->unk_04,
             write_text_byte_and_advance(8, message_start)))));
-        if (!((*(u16 *)(&D_80013714)) & 1)) {
+        if (!((*(u16 *)(&system_update_flags)) & 1)) {
             message_end = copy_four_text_bytes(&D_800E0458, write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, message_end)));
         }
         func_80099290(message_end);
         display_text_with_fullwidth_adjustment(message_start);
         *(u16 *)((u8 *)action + 0x96) = 0x20U;
         action->unk_9B = (u8) (action->unk_9B + 1);
-        if (!((*(u16 *)(&D_80013714)) & 1)) {
+        if (!((*(u16 *)(&system_update_flags)) & 1)) {
             summon_state = &g_dungeon_status;
             if ((s16) ((u16)summon_state->activity_counts.parts.pending_action_count) < 2) {
                 return;
@@ -538,7 +538,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         item_entry->unk_03.s8 = save_slot;
         item_entry->unk_02 = 0;
         item_entry->unk_00 = species;
-        D_800E3DF0[save_slot] = save_data = (save_slot * 0x8C) + D_800E3E48;
+        familiar_record_slots[save_slot] = save_data = (save_slot * 0x8C) + familiar_record_storage;
         *(CreatureSave *)save_data = *(CreatureSave *)actor->unk_60;
         stored_creature = actor->unk_60;
         stored_creature->unk_1C = (s32) (stored_creature->unk_1C | 0x400000);
@@ -554,7 +554,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         }
         unlink_entity_node(finished_creature);
         item_entry = D_80010000_PTR->table[actor->unk_8A];
-        saved_creature = D_800E3DF0[item_entry->unk_03.u8 & 0x1F];
+        saved_creature = familiar_record_slots[item_entry->unk_03.u8 & 0x1F];
         saved_creature->unk_14 = (s32) (saved_creature->unk_14 & ~0x4000);
         release_value = actor->unk_60;
         ((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 =

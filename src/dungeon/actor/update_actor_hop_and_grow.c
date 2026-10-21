@@ -37,7 +37,7 @@ typedef struct {
     u16 field8A;
 } Extra;
 
-extern s16 D_80013714[8];
+extern s16 system_update_flags[8];
 extern void set_record_integer_tile_center(Motion *, u8, u8);
 extern s32 func_800644B8(s32);
 
@@ -56,7 +56,7 @@ s32 update_actor_hop_and_grow(State *state, Motion *motion, Params *params, Extr
     case 0:
         state->field96 = 0x10;
         extra->field1C &= 0xFFFBFFFF;
-        if ((*D_80013714 & 2) != 0) {
+        if ((*system_update_flags & 2) != 0) {
             set_record_integer_tile_center(motion, ((SpriteFrameState *)params)->unk_24, ((SpriteFrameState *)params)->unk_25);
             ((SpriteFrameState *)params)->scale_x = 0x1000;
             ((SpriteFrameState *)params)->scale_y = 0x1000;

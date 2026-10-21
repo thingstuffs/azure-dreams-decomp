@@ -62,9 +62,9 @@ void update_directional_actor_effect(void *object)
         D_800273C0 = ((S_8002401C_0 *)object_bytes)->unk_00.s;
         D_8002732C = source_obj;
 
-        ((PlayerRecord *)D_800814A8)->unk_F4 = 0;
-        ((PlayerRecord *)D_800814A8)->unk_102 = 1;
-        D_800814A8->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
+        ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
+        ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
+        primary_actor_record->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
 
         clear_row = D_800274DC[0];
         do {
@@ -83,12 +83,12 @@ void update_directional_actor_effect(void *object)
         } while (1);
 
         D_800273A8 = 0;
-        map_data = (u8 *)D_800E3D7C;
+        map_data = (u8 *)dungeon_actor_ring_anchor;
         direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
         flag_nearby_seven_by_seven_tiles(
-            (s16)(D_80082E80.tile_position.parts.tile_x +
+            (s16)(reference_tile_object.tile_position.parts.tile_x +
                   (dir_step_x[direction_offset >> 1] * 4)),
-            (s16)(D_80082E80.tile_position.parts.tile_y +
+            (s16)(reference_tile_object.tile_position.parts.tile_y +
                   (dir_step_y[direction_offset >> 1] * 4)));
         ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
                         /* fallthrough */
@@ -99,7 +99,7 @@ void update_directional_actor_effect(void *object)
             created_obj = func_8002453C(((S_8002401C_2_pre *)source)[-1].unk_00, source);
             ((S_8002401C_0 *)object_bytes)->unk_0C = created_obj;
             if (created_obj != 0) {
-                display = D_800814A8;
+                display = primary_actor_record;
                 ((S_8002401C_0 *)object_bytes)->unk_1C.s = 0x10;
                 ((S_8002401C_3 *)display)->unk_A6--;
                 ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
@@ -124,7 +124,7 @@ void update_directional_actor_effect(void *object)
         break;
 
     case 4:
-        if ((s16)D_80027330 == 0) {
+        if ((s16)terrain_effect_update_count == 0) {
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
@@ -154,7 +154,7 @@ void update_directional_actor_effect(void *object)
         y += 0x10;
     }
 
-    D_80027330 = 0;
+    terrain_effect_update_count = 0;
     D_80027374[8] = (palette->unk_004 & 0x1F) + 0x80;
     D_80027374[9] = palette->unk_004 & 0x1F;
 }
@@ -181,7 +181,7 @@ void update_brightening_fading_effect(void *effect, S_8195EB88_2 *position, S_81
     S_8195EB88_3 *base_position;
     S_8195EB88_1 *source_state;
 
-    (*(u16 *)&D_80027330) = (*(u16 *)&D_80027330) + 1;
+    (*(u16 *)&terrain_effect_update_count) = (*(u16 *)&terrain_effect_update_count) + 1;
     phase = ((S_8195EB88_0 *)effect)->unk_48.s;
     phase_value = ((S_8195EB88_0 *)effect)->unk_48.u;
 
@@ -292,9 +292,9 @@ void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion
     s16 next_ticks;
     u16 counter;
 
-    counter = (*(u16 *)&D_80027330);
+    counter = (*(u16 *)&terrain_effect_update_count);
     phase_or_height = state->unk_48;
-    (*(u16 *)&D_80027330) = counter + 1;
+    (*(u16 *)&terrain_effect_update_count) = counter + 1;
     if (phase_or_height == 0) {
         ticks_left = state->unk_4C;
         if (ticks_left > 0) {
@@ -410,7 +410,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
     void *tile;
     u16 timer;
 
-    (*(u16 *)&D_80027330)++;
+    (*(u16 *)&terrain_effect_update_count)++;
     if (state->active == 0) {
         if (!(state->timer & 3)) {
             func_800419EC(8, 16);
@@ -429,15 +429,15 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
                 scratch = ((u16)origin->x >> 6) - 3;
                 tile_x = scratch + grid_x;
                 random_value = func_80069EF8() & 7;
-                D_8002745C[grid_y][grid_x] += (s8)D_80027334[grid_y][grid_x] - random_value;
-                tile = find_eligible_entry_at_coordinates(D_800E3D7C, tile_x & 0xFFFF, tile_y & 0xFFFF);
+                terrain_effect_height_grid[grid_y][grid_x] += (s8)D_80027334[grid_y][grid_x] - random_value;
+                tile = find_eligible_entry_at_coordinates(dungeon_actor_ring_anchor, tile_x & 0xFFFF, tile_y & 0xFFFF);
                 if (tile != 0 && tile != D_8002732C) {
                     *(u16 *)(*(u8 **)((u8 *)tile - 0x18) + 0xA) =
-                        D_8002745C[grid_y][grid_x] + origin->height;
+                        terrain_effect_height_grid[grid_y][grid_x] + origin->height;
                 }
                 if (!(func_80069EF8() & 7)) {
                     set_record_pair_to_one((s16)(tile_x << 6), (s16)(tile_y << 6),
-                                  (s16)D_8002745C[grid_y][grid_x], (s16)grid_x,
+                                  (s16)terrain_effect_height_grid[grid_y][grid_x], (s16)grid_x,
                                   (s16)grid_y);
                 }
                 grid_x++;
@@ -455,7 +455,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
                 grid_x_fixed = grid_x;
                 do {
                     scratch = grid_x - 3;
-                    tile = find_eligible_entry_at_coordinates(D_800E3D7C,
+                    tile = find_eligible_entry_at_coordinates(dungeon_actor_ring_anchor,
                                          (((u16)origin->x >> 6) + scratch) & 0xFFFF,
                                          (((u16)origin->y >> 6) + (offset_y = grid_y - 3)) & 0xFFFF);
                     if (tile != 0 && tile != D_8002732C) {
@@ -522,7 +522,7 @@ void project_height_grid_object_quad(void *unused, void *origin, u8 *object, s16
 {
     u8 **render_state = (u8 **)((u8 *)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *height_grid = ((u8 *)D_8002745C);
+    u8 *height_grid = ((u8 *)terrain_effect_height_grid);
     u8 *render_ctx;
     u8 *packet;
     u8 *texture;
@@ -810,7 +810,7 @@ void func_80025334(s16 x, s16 y, s16 z) {
     S_8195FB34_3 *object_data;
 
     row_index = 0;
-    grid = ((s8 *)D_8002745C);
+    grid = ((s8 *)terrain_effect_height_grid);
     do {
         column_index = 0;
         row = (s8 *)(((s32) (row_index << 0x10) >> 0xC) + (u32)grid);
@@ -857,7 +857,7 @@ void func_80025460(u16 *state, Motion *motion, Effect *effect)
     u8 brightness;
     s16 ticks_left;
 
-    (*(u16 *)&D_80027330)++;
+    (*(u16 *)&terrain_effect_update_count)++;
 
     motion->x += motion->dx;
     motion->y += motion->dy;
@@ -1141,7 +1141,7 @@ void flag_nearby_seven_by_seven_tiles(s32 input_x, s32 center_y) {
         sample_ptr = (u16 *)sample_row;
         do {
             tile_sample = get_surface_height_at_coordinates((tile_x << 6) & 0xFFC0, world_y);
-            map = ((u8 *)D_800E3D7C);
+            map = ((u8 *)dungeon_actor_ring_anchor);
             *sample_ptr = 0 - tile_sample;
             tile = find_eligible_entry_at_coordinates(map, (u16)tile_x, (u16)tile_y);
             if ((tile != NULL) && (tile != (s32)D_8002732C)) {
@@ -1349,7 +1349,7 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
 #include "common.h"
 #include "shared/game_work.h"
 
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 
 /* Renders data with the active buffer offset between ordering-table commands. */
 void func_80026064(void *draw_data, s32 draw_mode)
@@ -1366,7 +1366,7 @@ void func_80026064(void *draw_data, s32 draw_mode)
 
     draw_context = g_game_work.draw_buffer;
     draw_contexts = ((void * *)(&g_game_work));
-    buffer_shift = draw_context != (void *)D_801C9E40;
+    buffer_shift = draw_context != (void *)upper_draw_context;
     start_packet = *(s32 *)((u8 *)draw_context + 0x8D0);
     ordering_table = (u8 *)draw_context + 0x8B0;
     *(s32 *)((u8 *)draw_context + 0x8D0) = start_packet + 0xC;
@@ -1587,10 +1587,10 @@ void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effec
     ((S_81960CD4_0 *)scratch)->unk_8A = ((S_81960CD4_1 *)quad)->unk_2A - motion->unk_04.at02.v;
     ((S_81960CD4_0 *)scratch)->unk_74 = ((S_81960CD4_1 *)quad)->unk_14 - motion->unk_08.at02.v;
     ((S_81960CD4_0 *)scratch)->unk_7C = ((S_81960CD4_1 *)quad)->unk_1C - motion->unk_08.at02.v;
-    update_count = D_80027330;
+    update_count = terrain_effect_update_count;
     vertex_z = ((S_81960CD4_1 *)quad)->unk_24;
     center_z = motion->unk_08.at02.v;
-    D_80027330 = (u16)(update_count + 1);
+    terrain_effect_update_count = (u16)(update_count + 1);
     ((S_81960CD4_0 *)scratch)->unk_84 = vertex_z - center_z;
     ((S_81960CD4_0 *)scratch)->unk_8C = ((S_81960CD4_1 *)quad)->unk_2C - motion->unk_08.at02.v;
     func_800649A0(center_z);
@@ -1783,7 +1783,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         x_offset <<= 6;
         row = (u32) tile_y << 16;
         row >>= 16;
-        height_row = ((s8 *)D_8002745C);
+        height_row = ((s8 *)terrain_effect_height_grid);
         tile_y = row;
         tile_y <<= 4;
         top_heights = (s16 *)(tile_y + (s32)height_row);
@@ -1894,7 +1894,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
 
-extern void **D_800E3D18;
+extern void **actor_direction_sprites;
 
 /* Interpolate the target position, fade its color, and finish the transition. */
 /* MECHANISM: state->state selects with a switch, cases 0..3 laid out in source order so the
@@ -1914,18 +1914,18 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
     u16 phase_value;
     u16 const_reg;
 
-    D_80027330++;
+    terrain_effect_update_count++;
 
     switch (state->state) {
     case 0:
     {
         s32 transform_offset;
 
-        position.x = ((u16)D_80083780.x.w.i);
-        position.y = ((u16)D_80083780.y.w.i);
-        position.z = ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.u16_value - 0x50;
-        transform_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
-        resolve_record_orientation_or_fallback(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, ((u8 *)(&D_80082E80)),
+        position.x = ((u16)view_reference_entity.x.w.i);
+        position.y = ((u16)view_reference_entity.y.w.i);
+        position.z = ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_88.u16_value - 0x50;
+        transform_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
+        resolve_record_orientation_or_fallback(((S_func_819615E4_3 *)((s32)transform_offset + (s32)actor_direction_sprites))->unk_00, ((u8 *)(&reference_tile_object)),
                       &position_offset, 0);
         position.x += position_offset.x;
         state->x = position.x;
@@ -2016,20 +2016,20 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
         s32 direction_offset;
         TileObject *table;
 
-        table = &D_80082E80;
+        table = &reference_tile_object;
         resolve_record_orientation_or_fallback(((void *)table->sprite_source), table, &position, 0);
         phase_value = state->phase - 1;
         state->phase = phase_value;
         if ((s16)phase_value > 0) {
             return;
         }
-        direction_offset = ((((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.u16_value >> 8) & 0xE);
+        direction_offset = ((((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_2A.u16_value >> 8) & 0xE);
         func_80025334(
             (s16)(((table->tile_position.parts.tile_x +
                     (((S_func_819615E4_5 *)((u8 *)((s8 *)dir_step_x) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             (s16)(((table->tile_position.parts.tile_y +
                     (((S_func_819615E4_6 *)((u8 *)((s8 *)dir_step_y) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
-            ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.s16_value);
+            ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_88.s16_value);
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         return;

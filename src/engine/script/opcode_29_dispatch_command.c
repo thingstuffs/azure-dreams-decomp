@@ -1,6 +1,9 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/script.h"
+#include "slus.h"
+#include "slus/data.h"
 
 typedef struct Func800398BCOwner {
     u8 pad_00[0x10];
@@ -13,12 +16,7 @@ typedef struct Func800398BCOwner {
     s8 field_88;
 } Func800398BCOwner;
 
-extern s32 func_80053EF0(s32 mode);
 extern s32 check_state_or_global_flags(Func800398BCOwner *state);
-extern void sound_set_cd_cue_parameters(s32 value_0, s32 value_1, u32 value_2, u32 value_3);
-extern s16 SD_Call(s32 flags);
-extern s32 script_command_resource_indices[32];
-extern s32 dispatch_entry_resource_values[];
 
 /* Dispatch an eight-byte script command, or rewind the opcode when runtime state blocks it. */
 void handle_vm_opcode_29(Func800398BCOwner *owner)

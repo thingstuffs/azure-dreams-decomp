@@ -3,15 +3,15 @@
 typedef unsigned long uptr;
 
 extern void func_800B7B48();
-extern u8 D_800D2644[];
-extern u8 D_800D2EA4[];
+extern u8 town_building_records[];
+extern u8 town_building_slot_rectangles[];
 
 /* Processes populated entity entries and sets their state field to 1. */
 void mark_populated_building_entities(void)
 {
     s32 entry_index = 0;
-    u8 *entities = D_800D2644;
-    u8 *record = D_800D2EA4;
+    u8 *entities = town_building_records;
+    u8 *record = town_building_slot_rectangles;
     u8 *ram_page = (u8 *)0x80010000;
     u8 entity_id;
 

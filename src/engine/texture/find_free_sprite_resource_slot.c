@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/texture.h"
 
 /* D_80083D08: array of 6 8-byte elements (see src/code2.c D8Elem: two shorts unk0/unk2 form
  * the first 4-byte word this function tests). Declared >8 bytes total to force hi/lo

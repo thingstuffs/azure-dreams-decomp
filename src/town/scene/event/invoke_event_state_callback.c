@@ -14,7 +14,7 @@ void invoke_event_state_callback(void)
         (TownCallback)&D_8001CF1C,
     };
 
-    callbacks[D_8001E950->dispatchState]();
+    callbacks[town_event_state->dispatchState]();
 }
 
 /* MECHANISM: A two-entry sibling stack array creates the retail 0x20 frame and 0x10/0x14 callback

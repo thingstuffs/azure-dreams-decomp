@@ -7,7 +7,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_800FE490.h"
 
-extern void *D_800FE490[];
+extern void *town_motion_list[];
 
 /* Functions defined in this translation unit. */
 void append_secondary_list_node(void *node);

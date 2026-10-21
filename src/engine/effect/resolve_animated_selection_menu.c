@@ -1,4 +1,8 @@
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/graphics.h"
+#include "engine/menu.h"
+#include "engine/node.h"
 
 typedef struct S_80050EF8_sub {
     u8 pad00[0x20];  /* +0x00: unknown, used by other functions */
@@ -13,10 +17,6 @@ typedef struct S_80050EF8 {
     u8 pad14[0xC];     /* +0x14 */
     S_80050EF8_sub sub; /* +0x20 */
 } S_80050EF8;
-
-extern void *create_animated_selection_menu(void *a0);
-extern int draw_tinted_node_sprites_scratch(void *a0, int a1, void *a2);
-extern void register_node(void *a0, void *a1);
 
 /* Lazily initializes and returns the result object, applying any pending value and registering a callback when ready. */
 void *ensure_selection_menu_and_register_draw(S_80050EF8 *object)

@@ -44,7 +44,7 @@ extern s32 func_700750E0(void);
 extern void func_7010B30C(Particle *, Entity *, Position *, s32);
 extern void D_8010B008(void);
 extern s32 D_80086AD8;
-extern u16 D_80094422;
+extern u16 emitted_effect_counter;
 
 /* Emit scattered particles during the first 19 ticks and mark the entity expired when its timer ends. */
 void emit_early_scattered_particles(Entity *self, Position *origin, s32 spawn_param) {
@@ -90,7 +90,7 @@ void emit_early_scattered_particles(Entity *self, Position *origin, s32 spawn_pa
     tick_count = self->timer - 1;
     self->timer = tick_count;
     if ((tick_count << 16) <= 0) {
-        u16 *active_count = &D_80094422;
+        u16 *active_count = &emitted_effect_counter;
         u16 remaining_count;
 
         *((u16 *)self - 1) |= 0x8000;

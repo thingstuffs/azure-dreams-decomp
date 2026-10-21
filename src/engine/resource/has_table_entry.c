@@ -1,8 +1,7 @@
 #include "common.h"
 
 #include "common.h"
-
-s32 lookup_sentinel_resource_value_or_zero(s32 lookup_key);                                /* extern */
+#include "engine/resource.h"
 
 /* Checks whether the indexed table entry has a nonzero first word. */
 s32 has_table_entry(s32 unused, s32 entry_index) {

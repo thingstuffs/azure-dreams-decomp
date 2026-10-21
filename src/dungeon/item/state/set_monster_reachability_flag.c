@@ -14,7 +14,7 @@ s32 set_monster_reachability_flag(void) {
         return changed;
     }
 
-    if (*(u16 *)(((u8 *)D_800E3D7C) + 0x118) < 0x401) {
+    if (*(u16 *)(((u8 *)dungeon_actor_ring_anchor) + 0x118) < 0x401) {
         if (D_80013716 < 0xC01) {
             do {
                 changed = 0;

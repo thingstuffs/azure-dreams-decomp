@@ -73,7 +73,7 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     saved_value = initial_value;
     saved_y = spawn_y;
     global_byte = (s32) *(s8 *)-0x56D4;
-    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         state = object + 0x20;
         ((S_80DAD000_0 *)object)->unk_10 = &func_80152A3C;

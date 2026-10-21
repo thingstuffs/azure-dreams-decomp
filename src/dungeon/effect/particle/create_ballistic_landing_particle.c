@@ -110,7 +110,7 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
         effect_state->unk_04 = scale;
         effect_state->unk_08 = scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
-            (*(Copy12 *)((u8 *)&D_80173B34 + 0));
+            (*(Copy12 *)((u8 *)&particle_sprite_template + 0));
         sprite->unk_08 = (void *) (effect + 0x56);
     }
 }

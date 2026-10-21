@@ -1,4 +1,5 @@
 #include "engine/audio/spu/sound_transfer_frontends.h"
+#include "engine/audio/spu.h"
 
 
 

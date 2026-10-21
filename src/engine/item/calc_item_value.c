@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/item.h"
+#include "slus/data.h"
 
 typedef struct ItemRecord {
     u8 pad[0x10];
@@ -16,7 +18,6 @@ typedef struct ItemCategory {
 } ItemCategory;
 
 extern ItemCategory itemCategoryTable[];
-extern s32 item_value_multipliers[];
 
 /* Returns the selected item value scaled by its category multiplier and adjusted by its callback. */
 s32 calc_item_value(u8 *item, s32 use_value1) {

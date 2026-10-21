@@ -32,15 +32,15 @@ s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1
     if ((check_diagonal_side_height((u16)direction, target_x >> 6, target_y >> 6, (s16)(height - height_offset)) << 16) == 0) {
         return 0;
     }
-    target_x = D_800DCEAC[direction] + target_x;
-    target_y = D_800DCEBC[direction] + target_y;
+    target_x = direction_x_offsets[direction] + target_x;
+    target_y = direction_y_offsets[direction] + target_y;
     get_offset_map_cell_value_and_flags(position->tileX, position->tileY, direction, &tile_flags);
     if (tile_flags & 0x8002) {
         return 0;
     }
     if ((s8)position->unk_26 < 0) {
         room = find_active_rect_containing_point((position->tileX + (u16)dir_step_x[direction]) & 0xFFFF, (position->tileY + (u16)dir_step_y[direction]) & 0xFFFF);
-        if (room >= 0 && (D_800E2970[room].flags & 2) && !(object->unk_1C & 0x2000)) {
+        if (room >= 0 && (dungeon_rooms[room].flags & 2) && !(object->unk_1C & 0x2000)) {
             return 0;
         }
     }
@@ -71,14 +71,14 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     }
     update_actor_proximity_flag(tile, actor, 3, 6, motion + 0x9C);
     tile_type = tile->unk_26;
-    if (tile_type >= 0 && (D_800E2970[tile_type].flags & 2)) {
+    if (tile_type >= 0 && (dungeon_rooms[tile_type].flags & 2)) {
         rebuild_monster_reachable_tiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     } else if (!(((S_800CA444_1 *)actor)->unk_46 & 0x8000)) {
         rebuild_monster_reachable_tiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     }
     scan_result = 0;
-    heading_offsets = D_8006CD00;
-    map_state = &D_80082E80;
+    heading_offsets = actor_turn_angle_offsets;
+    map_state = &reference_tile_object;
     for (; scan_result < 8; scan_result++) {
         heading = ((S_800CA444_1 *)actor)->unk_2A;
         if (((S_800CA444_2 *)motion)->unk_98 & 2) {
@@ -99,7 +99,7 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
             break;
         }
         if (scan_result == 0 && *(u16 *)(&map_state->tile_position.parts.tile_x) != tile->unk_24.at00u.v) {
-            if ((check_entity_relation(actor, ((S_800CA444_4 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
+            if ((check_entity_relation(actor, ((S_800CA444_4 *)(((int)primary_actor_record)))->unk_58 + 0x20) << 0x10) != 0) {
                 return;
             }
         }

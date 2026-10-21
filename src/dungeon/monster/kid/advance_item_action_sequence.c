@@ -142,13 +142,13 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, void *sp
 
                 special_test = special_item;
                 if (special_test != 0) {
-                    entity = D_800814A8;
+                    entity = primary_actor_record;
                     actor->target = entity;
                     position = ((S_80172D74_2_pre *)entity)[-1].unk_00;
                     actor->target_tile_x = ((S_80172D74_3 *)position)->unk_24;
                     actor->target_tile_y = ((S_80172D74_3 *)position)->unk_25;
                 } else {
-                    u8 *item_defs = D_8006DE24;
+                    u8 *item_defs = item_action_definitions;
                     u8 item_id = *item_slot;
 
                     if (item_defs[item_id * 20 + 0x12] == 2) {
@@ -191,7 +191,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, void *sp
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((S_80172D74_4 *)sprite)->unk_24, ((S_80172D74_4 *)sprite)->unk_25);
         {
-            void *entity = D_800814A8;
+            void *entity = primary_actor_record;
 
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)entity + 0xA6))--;

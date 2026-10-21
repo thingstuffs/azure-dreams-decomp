@@ -58,14 +58,14 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(position);
     move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(position);
 
-    height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, ((u8 *)&D_800FE488));
+    height = select_the_smaller_position_query_result_capped_n_64_writes_associated(position, ((u8 *)&position_query_scratch));
     if ((height - position->z.w.i) >= 4) {
-        if (D_800CFCEF == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_object((s32 * *)(actor), position, (void *)(context));
             return;
         }
-    } else if (D_800CFCEF == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), height, (struct TownVec * *)(((u8 *)&D_800FE488)));
+    } else if (town_action_state_flag == 0) {
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(position), height, (struct TownVec * *)(((u8 *)&position_query_scratch)));
     }
 
     input_flags = ((s32)input_state->pressed_buttons);

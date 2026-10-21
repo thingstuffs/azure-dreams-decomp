@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/texture.h"
 
 typedef struct S_80047054_0 {
     s32 unk_00;

@@ -7,14 +7,14 @@ void initialize_nine_records_and_vectors(u8 *object) {
     s32 i;
 
     for (i = 0; i < 9; i++) {
-        *(s32 *)(i * 0x10 + *(s32 *)(object + 4)) = D_8002E5D8.unk0;
-        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 4) = D_8002E5D8.unk4;
-        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 8) = D_8002E5D8.unk8;
-        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 0xC) = D_8002E5D8.unkC;
+        *(s32 *)(i * 0x10 + *(s32 *)(object + 4)) = display_block_defaults.unk0;
+        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 4) = display_block_defaults.unk4;
+        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 8) = display_block_defaults.unk8;
+        *(s32 *)(i * 0x10 + *(s32 *)(object + 4) + 0xC) = display_block_defaults.unkC;
         *(u8 *)(i * 0x10 + *(s32 *)(object + 4) + 0xF) = 4;
-        *(s32 *)(i * 0xC + *(s32 *)(object + 8)) = D_8002E5E8.x;
-        *(s32 *)(i * 0xC + *(s32 *)(object + 8) + 4) = D_8002E5E8.y;
-        *(s32 *)(i * 0xC + *(s32 *)(object + 8) + 8) = D_8002E5E8.z;
+        *(s32 *)(i * 0xC + *(s32 *)(object + 8)) = display_vector_defaults.x;
+        *(s32 *)(i * 0xC + *(s32 *)(object + 8) + 4) = display_vector_defaults.y;
+        *(s32 *)(i * 0xC + *(s32 *)(object + 8) + 8) = display_vector_defaults.z;
     }
 }
 
@@ -39,7 +39,7 @@ void *allocate_object_with_failure_flag(void) {
 
     object = func_8003FC64(0);
     if (object != 0) {
-        D_800E5910[0] = object;
+        dungeon_menu_object[0] = object;
         allocation = create_callback_pair_default(0x100);
         header = (ObjectHeader *)(object + 0x20);
         if (allocation != 0) {
@@ -50,7 +50,7 @@ void *allocate_object_with_failure_flag(void) {
             *(s32 *)(object + 0xC) = run_object_setup_and_finalize(data, source_table[0]);
             initialize_complemented_state(object);
             *(u8 **)(object + 0x10) = D_800DC8F8;
-            register_node(object, D_8004CAA0);
+            register_node(object, dungeon_menu_tag);
             return object;
         }
         *(u16 *)(object + 0x1E) |= 0x8000;

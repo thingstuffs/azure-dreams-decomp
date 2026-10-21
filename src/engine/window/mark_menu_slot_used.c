@@ -1,10 +1,10 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/script/vm.h"
+#include "engine/window.h"
 
 typedef void (*Callback)(void);
-
-extern void noop_after_menu_slot_release(void);
 
 #define FIELD(ptr, type, offset) (*(type *)((u8 *)(ptr) + (offset)))
 

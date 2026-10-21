@@ -2,11 +2,12 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/object.h"
+#include "engine/script.h"
 
-void runtime_set_record_value_and_buffer();              /* extern */
-extern u8 D_80082A38[];
+extern u8 runtime_script_state[];
 
 /* Passes the value and the shared object to runtime_set_record_value_and_buffer. */
 void set_script_record_buffer(s32 value) {
-    runtime_set_record_value_and_buffer(&D_80082A38, value);
+    runtime_set_record_value_and_buffer(&runtime_script_state, value);
 }

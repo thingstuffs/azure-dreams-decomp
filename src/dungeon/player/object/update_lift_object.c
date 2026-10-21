@@ -18,13 +18,13 @@ extern s32 play_sound_if_enabled();
 extern s32 display_text_with_fullwidth_adjustment();
 extern s16 random_dungeon_range_16();
 
-extern u8 D_8008EAC8[];
-extern u8 D_800DCFB0[8];
-extern u8 D_800DD0B8[8];
+extern u8 player_action_tag[];
+extern u8 player_wait_frames[8];
+extern u8 player_carry_frames[8];
 extern u8 D_800E0523[];
 extern u8 D_800E0683[];
-extern s32 D_800E3540;
-extern s16 D_800E3DA8[2];
+extern s32 saved_held_item_word;
+extern s16 lift_jitter_offsets[2];
 
 #line 1 "a"
 
@@ -95,8 +95,8 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
             s32 entity_flags;
             s32 wait_roll;
 
-            D_800E3DA8[0] = 0;
-            D_800E3DA8[1] = 0;
+            lift_jitter_offsets[0] = 0;
+            lift_jitter_offsets[1] = 0;
             entity_flags = ((S_8008F428_6 *)(((S_8008F428_0 *)effect_state)->unk_124))->unk_1C;
             effect_target = animation;
             if (!(entity_flags & 0x2000)) {
@@ -110,17 +110,17 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
                     }
                 }
             }
-            ((S_8008F428_0 *)effect_state)->unk_8C = D_8008EAC8;
-            (*(u8 * *)((u8 *)effect_target + (0x2C))) = D_800DD0B8;
+            ((S_8008F428_0 *)effect_state)->unk_8C = player_action_tag;
+            (*(u8 * *)((u8 *)effect_target + (0x2C))) = player_carry_frames;
             set_sprite_animation_frame(effect_target,
-                D_800DD0B8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+                player_carry_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
                 0, 1);
             return;
         }
 
         if (state == 1) {
-            D_800E3DA8[0] = (rand() & 0xF) - 8;
-            D_800E3DA8[1] = (rand() & 0xF) - 8;
+            lift_jitter_offsets[0] = (rand() & 0xF) - 8;
+            lift_jitter_offsets[1] = (rand() & 0xF) - 8;
             ticks_left = ((S_8008F428_0 *)effect_state)->unk_96 - 1;
             ((S_8008F428_0 *)effect_state)->unk_96 = ticks_left;
             if ((s16)ticks_left > 0) {
@@ -145,7 +145,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
                 owner_mask |= 0xFFFF;
                 ((S_8008F428_2 *)global_page)->unk_1484 = 0;
                 ((S_8008F428_3 *)entity)->unk_1C = flags & entity_mask;
-                D_800E3540 = saved_global;
+                saved_held_item_word = saved_global;
                 ((S_8008F428_4 *)owner)->unk_1C = ((S_8008F428_4 *)owner)->unk_1C & owner_mask;
             }
             ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
@@ -160,9 +160,9 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
         process_unflagged_linked_entries(((S_8008F428_4 *)owner)->unk_5C);
         target = animation;
         ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)handle_player_input;
-        (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
+        (*(u8 * *)((u8 *)target + (0x2C))) = player_wait_frames;
         set_sprite_animation_frame(target,
-            D_800DCFB0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            player_wait_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
             0, 1);
         return;
     }
@@ -197,9 +197,9 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
         display_text_with_fullwidth_adjustment(saved_effect_id);
         target = animation;
         ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)handle_player_input;
-        (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
+        (*(u8 * *)((u8 *)target + (0x2C))) = player_wait_frames;
         set_sprite_animation_frame(target,
-            D_800DCFB0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            player_wait_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
             0, 1);
     }
 }

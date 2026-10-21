@@ -1,4 +1,5 @@
 #include "common.h"
+#include "slus.h"
 
 /* Sound driver "sequence slot" table; 8 entries, 12 bytes each. */
 typedef struct S_80086C00 {

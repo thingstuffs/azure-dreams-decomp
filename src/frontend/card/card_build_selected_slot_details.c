@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 typedef struct S_80404EA0_3 {
     u8 pad_00[0x4];
@@ -64,14 +66,7 @@ void func_80051B50(void *, void *, s32); /* extern */
 void func_8007BF50(void *, void *);                /* extern */
 void func_8007BF80(void *, s32);                  /* extern */
 extern M2C_UNK D_8009DDE4[];
-extern s16 D_80400660[];
-extern s32 D_80400668[];
-extern s16 D_804006AC[];
-extern s16 D_804006BC[];
-extern s16 D_804006C0[];
-extern s32 D_80408CF4[];
-extern s32 D_80408CFC[];
-extern u8 D_8009DDD8[];
+extern u8 card_slot_header_cache[];
 
 /* Build the selected slot's text fields and position its status icons. */
 void card_build_selected_slot_details(void *panel) {
@@ -116,10 +111,10 @@ void card_build_selected_slot_details(void *panel) {
     widget->unk_00.s = panel + 0x188;
     ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->unk_08 = 0xBC;
     ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->unk_0A = 0x110;
-    if (((S_80404EA0_4 *)(D_8009DDD8 + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_08 != 0) {
+    if (((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_08 != 0) {
         widget = ((S_80404EA0_0 *)panel)->unk_B20;
         func_8007BF80(text_buf, D_80408CF4[0]);
-        func_8003830C(((S_80404EA0_4 *)(D_8009DDD8 + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_34, number_buf);
+        func_8003830C(((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_34, number_buf);
         func_8007BF50(text_buf, number_buf);
         func_8007BF50(text_buf, D_804006AC);
         detail_text = panel + 0x290;
@@ -129,7 +124,7 @@ void card_build_selected_slot_details(void *panel) {
         ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->unk_0A = 0x140;
     }
     widget = ((S_80404EA0_0 *)panel)->unk_B24;
-    func_80051804(((S_80404EA0_4 *)(D_8009DDD8 + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_24, 0xA, text_buf);
+    func_80051804(((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_24, 0xA, text_buf);
     func_80051900(text_buf);
     value_text = panel + 0x398;
     func_80051520(value_text, text_buf, 1);
@@ -137,16 +132,16 @@ void card_build_selected_slot_details(void *panel) {
     ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->unk_08 = 0x140;
     ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->unk_0A = 0x110;
     widget = ((S_80404EA0_0 *)panel)->unk_B28;
-    func_80051898(((S_80404EA0_4 *)(D_8009DDD8 + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_1C, text_buf);
-    hours = ((S_80404EA0_4 *)(D_8009DDD8 + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_1C / 216000;
+    func_80051898(((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_1C, text_buf);
+    hours = ((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_1C / 216000;
     func_80051804(hours, 3, text_buf);
     func_8007BF50(text_buf, D_804006BC);
-    mins = ((S_80404EA0_4 *)(D_8009DDD8 + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_1C / 3600;
+    mins = ((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_1C / 3600;
     minute_quotient = mins / 3600;
     func_8005184C(mins - minute_quotient * 3600, 2, time_buf);
     func_8007BF50(text_buf, time_buf);
     func_8007BF50(text_buf, D_804006BC);
-    secs = ((S_80404EA0_4 *)(D_8009DDD8 + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_1C / 60;
+    secs = ((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_1C / 60;
     second_quotient = secs / 60;
     func_8005184C(secs - second_quotient * 60, 2, time_buf);
     func_8007BF50(text_buf, time_buf);
@@ -157,7 +152,7 @@ void card_build_selected_slot_details(void *panel) {
     ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->unk_08 = 0x147;
     ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->unk_0A = 0x120;
     widget = ((S_80404EA0_0 *)panel)->unk_B2C;
-    func_80051804(((S_80404EA0_4 *)(D_8009DDD8 + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_2C, 4, text_buf);
+    func_80051804(((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_2C, 4, text_buf);
     func_80051900(text_buf);
     count_text = panel + 0x5A8;
     func_80051520(count_text, text_buf, 1);
@@ -183,7 +178,7 @@ void card_build_selected_slot_details(void *panel) {
     ((S_80404EA0_5 *)(((S_80404EA0_3 *)widget)->unk_04))->unk_0A = 0x130;
     do {
         widget = ((S_80404EA0_2 *)widget_cursor)->unk_B34;
-        if ((bit_one << icon_index) & ((S_80404EA0_4 *)(D_8009DDD8 + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_30) {
+        if ((bit_one << icon_index) & ((S_80404EA0_4 *)(card_slot_header_cache + (((S_80404EA0_0 *)panel)->unk_7C << 7)))->unk_30) {
             icon_data = *icon_cursor;
         } else {
             icon_data = *inactive_icon;

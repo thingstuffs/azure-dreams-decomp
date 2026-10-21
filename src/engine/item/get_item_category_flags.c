@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/item.h"
 
 typedef struct S_80042A80_Item
 {
@@ -25,7 +26,7 @@ typedef struct S_80042A80_CategoryEntry
 }
 S_80042A80_CategoryEntry;
 extern u8 runtime_dispatch_mode_alias[9];
-extern S_80042A80_Rec20 *D_80073470[3];
+extern S_80042A80_Rec20 *item_category_tables[3];
 extern S_80042A80_CategoryEntry itemCategoryTable[];
 /* Returns category-dependent item flags when the current mode is 2. */
 s32 get_item_category_flags(S_80042A80_Item *item)
@@ -40,7 +41,7 @@ s32 get_item_category_flags(S_80042A80_Item *item)
     }
     kind = item->f1;
     if (kind == 4) {
-        item_flags = ((D_80073470[0][item->f0].f0 & 0x400) != 0) << 10;
+        item_flags = ((item_category_tables[0][item->f0].f0 & 0x400) != 0) << 10;
         if (item->f3 & 0x80) {
             item_flags |= 0x80;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/entity.h"
 
 #define U8(o, p)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8(o, p)  (*(s8 *)((u8 *)(p) + (o)))

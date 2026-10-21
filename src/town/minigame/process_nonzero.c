@@ -24,26 +24,26 @@ extern void update_directional_record(void *, void *, SpriteFrameState *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void func_800478B8(void *);
 
-extern s32 D_80081458[];
-extern s16 D_80083228;
+extern s32 loaded_town_resource_attributes[];
+extern s16 view_facing_angle_alias;
 extern u8 D_80083220[];
 
 extern u8 D_800D2398[];
-extern u8 D_800D23A0[];
+extern u8 town_minigame_directional_frames[];
 
 /* Updates entity state and selects direction-dependent table entries. */
 void process_nonzero(void *object, void *output, void *entity_data)
 {
     u8 *caller_obj = object;
     u8 *output_bytes = output;
-    u8 *state_base = (u8 *)&D_800834B8;
+    u8 *state_base = (u8 *)&scene_object_payload_alias;
     s32 state;
     s32 initial_magnitude;
     s32 magnitude;
     u8 *direction_table;
 
     func_800478B8(entity_data);
-    *(Copy24 *)output_bytes = *(Copy24 *)((u8 *)(&D_80083780));
+    *(Copy24 *)output_bytes = *(Copy24 *)((u8 *)(&view_reference_entity));
     ((S_80023A00_0 *)object)->unk_2A =
         (0x1400 - (*(u16 *)&((MinigameBody *)state_base)->unk_10)) & 0xFFF;
 
@@ -54,11 +54,11 @@ void process_nonzero(void *object, void *output, void *entity_data)
         return;
 
     case 1:
-        initial_magnitude = D_80081458[0];
-        ((SpriteFrameState *)entity_data)->frameTable = D_800D23A0;
+        initial_magnitude = loaded_town_resource_attributes[0];
+        ((SpriteFrameState *)entity_data)->frameTable = town_minigame_directional_frames;
         ((SpriteFrameState *)entity_data)->unk_28 = initial_magnitude;
         select_sprite_entry(entity_data,
-            D_800D23A0[((D_80083228 +
+            town_minigame_directional_frames[((view_facing_angle_alias +
                 ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_80023A00_0 *)object)->unk_18.u++;
@@ -78,9 +78,9 @@ void process_nonzero(void *object, void *output, void *entity_data)
         magnitude = ((MinigameBody *)state_base)->unk_48;
         magnitude = abs(magnitude);
         if (0xFFFF >= magnitude) {
-            (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D23A0;
+            (*(void * *)((u8 *)entity_data + 0x2C)) = town_minigame_directional_frames;
             select_sprite_entry(entity_data,
-                D_800D23A0[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+                town_minigame_directional_frames[((view_facing_angle_alias + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80023A00_0 *)object)->unk_18.u++;
         }
@@ -93,7 +93,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
             direction_table = D_800D2398;
             (*(void * *)((u8 *)entity_data + 0x2C)) = direction_table;
             select_sprite_entry(entity_data,
-                direction_table[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+                direction_table[((view_facing_angle_alias + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_80023A00_0 *)object)->unk_18.u--;
         }

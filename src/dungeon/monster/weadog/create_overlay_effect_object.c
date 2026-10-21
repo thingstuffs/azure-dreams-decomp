@@ -59,7 +59,7 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
     S_80171718_4 *result_copy;
 
     result = 0;
-    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;

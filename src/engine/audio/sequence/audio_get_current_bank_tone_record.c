@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 typedef struct {
     /* 0x00 */ unsigned char pad00[4];   /* includes an s16 slot-marker (see sibling free_sound_slot) */

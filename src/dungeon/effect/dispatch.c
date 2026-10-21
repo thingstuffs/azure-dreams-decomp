@@ -461,7 +461,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
                 position->unk_10 = (s32) (position->unk_10 + (((rand() & 0x1F) - 0x10) << 0xE));
                 position->unk_14 = (s32) ((0 - ((rand() & 0xF) + 0x18)) << 0xD);
                 sprite = ((S_800C5BBC_0 *)particle)->unk_0C;
-                func_8003DB94(sprite, &D_800DEA68, 0);
+                func_8003DB94(sprite, &secondary_sprite, 0);
                 sprite->color.word = sprite_data;
                 sprite->scale_y = 0x1000;
                 sprite->scale_x = 0x1000;
@@ -650,11 +650,11 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-extern u8 D_80081468[];
-extern u16 D_8008146C;
-extern u8 D_80082E6B;
+extern u8 floor_generation_state[];
+extern u16 current_dungeon_floor;
+extern u8 scene_mode_code;
 extern s16 D_800DCED4[];
-extern u8 D_800DCF4F;
+extern u8 dungeon_event_pending_flag;
 extern u8 D_800E0458[];
 extern u8 D_800E0B65[];
 extern u8 D_800E0B73[];
@@ -755,7 +755,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
         if (*(s16 *)((u8 *) st + 20) != 0) {
             return;
         }
-        if (((u32)D_800E296C) & 0x100000) {
+        if (((u32)dungeon_floor_flags) & 0x100000) {
             return;
         }
         if (*(s16 *)((u8 *) st + 10) != 0) {
@@ -775,7 +775,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
         sys = (u8 *)0x80010000;
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
             ic = *(u16 *)((u8 *) st + 10);
-            D_800DCF4F = 1;
+            dungeon_event_pending_flag = 1;
             *(u16 *)((u8 *) st + 10) = ic + 1;
         }
         phase = 1;
@@ -831,12 +831,12 @@ L_third:
         *(u16 *)((u8 *) st + 10) = *(u16 *)((u8 *) st + 10) + 1;
         *(u16 *)(w + 4) = *(u16 *)(w + 4) + 1;
         rv = generate_random_value() & 0xFFFF;
-        cnt = D_80081468;
+        cnt = floor_generation_state;
         cc = *(s16 *)(cnt + 6);
         phase = rv % cc;
         st = cc;
         if (st > 0) {
-            rbase = D_800E2970;
+            rbase = dungeon_rooms;
             cnt2 = cnt;
             do {
                 room = (u8 *)(phase * 20 + (s32)rbase);
@@ -893,21 +893,21 @@ L_zero:
         }
         tbl = D_800DCED4;
         phase = *(s16 *)(w + 6);
-        e = ((u8 *)D_800E3D7C);
+        e = ((u8 *)dungeon_actor_ring_anchor);
         *(s16 *)(w + 18) = 0;
         do {
             ep = *(u8 **)(e - 20);
             if (phase == (s16)find_active_monster_record(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
                 if (*(u8 *)(e + 19) == 0) {
-                    D_800E296C |= 0x2000;
+                    dungeon_floor_flags |= 0x2000;
                     create_orbiting_teleport_effect(e, tbl[get_entity_class(e)], 0, 0);
-                    p = D_800E3D7C;
+                    p = dungeon_actor_ring_anchor;
                     q = ((u8 *)p->unk_AC);
                     if (q != 0) {
                         create_orbiting_teleport_effect(q, tbl[get_entity_class(q)], 0, 0);
                     }
                     {
-                        ActorRecord *p2 = D_800E3D7C;
+                        ActorRecord *p2 = dungeon_actor_ring_anchor;
                         q = ((u8 *)p2->unk_B0);
                     }
                     if (q != 0) {
@@ -916,7 +916,7 @@ L_zero:
                     *(s16 *)(w + 18) = 1;
                 } else if (*(u32 *)(e + 20) & 0x4000) {
                     if (*(s16 *)(w + 18) == 0) {
-                        teleport_familiar_near_player(e, *(u8 **)(((u8 *)D_800E3D7C) + 172) != e);
+                        teleport_familiar_near_player(e, *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 172) != e);
                     }
                 } else {
                     if (*(s16 *)(w + 18) != 0) {
@@ -941,11 +941,11 @@ L_zero:
                 }
             }
             e = *(u8 **)(e + 92) + 32;
-        } while (e != ((u8 *)D_800E3D7C));
+        } while (e != ((u8 *)dungeon_actor_ring_anchor));
         if (phase < 0) {
             return;
         }
-        rooms = D_800E2970;
+        rooms = dungeon_rooms;
         rm = rooms + phase * 20;
         *(s16 *)(rm + 10) = 0;
         return;
@@ -1027,19 +1027,19 @@ L_zero:
         func_80040AA0(3);
         return;
     }
-    snapshot_inventory_and_familiars(((u8 *)D_800E3D7C));
+    snapshot_inventory_and_familiars(((u8 *)dungeon_actor_ring_anchor));
     snapshot_inventory_familiar_records();
     check_action_boundary_and_set_flag();
     {
         u8 code;
 
         ch = *(u32 *)(o + 0x234);
-        code = D_80082E6B;
+        code = scene_mode_code;
         ch++;
         *(u32 *)(o + 0x234) = ch;
         ch = code;
     }
-    D_8008146C = *(u16 *)(o + 0x234);
+    current_dungeon_floor = *(u16 *)(o + 0x234);
     func_80040AA0(ch);
     mark_sprite_resources_for_purge();
     *(u16 *)(w - 2) |= 0x8000;
@@ -1059,7 +1059,7 @@ extern s32 D_800E58B8[];
 
 /* Create a record and assign dispatch_action_callback_by_opcode to its field10 pointer. */
 void create_record_with_effect_callback(void) {
-    initialize_runtime_node_storage(0, D_800E58B8, 0x10, ((s32 *)(&D_80083498)))->field10 = dispatch_action_callback_by_opcode;
+    initialize_runtime_node_storage(0, D_800E58B8, 0x10, ((s32 *)(&scene_object_list_anchor)))->field10 = dispatch_action_callback_by_opcode;
 }
 #include "common.h"
 
@@ -1173,7 +1173,7 @@ extern s32 func_80065420(void *, void *, ...);
 void func_800654B0();
 extern void *func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
-extern s32 D_8006CD30[];
+extern s32 sprite_projection_matrix[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */
 void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s16 depth_bias) {
@@ -1258,7 +1258,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
     *(u16 *)(scratch + 0x004) = (u16)(*(u16 *)((u8 *)position + 0xA));
     packet_next = *(s32 *)(state + 0x8D0);
     ((ScratchDepth *)scratch)->depth = func_80065420(scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
-    matrix_or_u = (s32)D_8006CD30;
+    matrix_or_u = (s32)sprite_projection_matrix;
     (*(u16 *)((u8 *)sprite + 0x14)) = (u16)((*(u16 *)((u8 *)sprite + 0x14)) | 0x8000);
     depth = ((ScratchDepth *)scratch)->depth;
     *(s32 *)((u8 *)matrix_or_u + 0x1C) = (s32)(depth * 4);
@@ -1577,7 +1577,7 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
     s32 angle;
     void *callback_fn;
 
-    parent = allocate_list_node(0x12, ((u8 *)(&D_80083498)));
+    parent = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
     if (parent != NULL) {
         s16 frame;
         u16 state_limit;
@@ -1650,8 +1650,8 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
 #include "shared/game_work.h"
 
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern u8 D_800DF63C[];
-extern u8 D_800E3D20[];
+extern u8 camera_height_tracking[];
+extern u8 camera_transition_timer[];
 extern u16 D_800E58F8[];
 
 /* Update target tracking and smoothly approach its position and transition value. */
@@ -1677,7 +1677,7 @@ void update_target_tracking_and_transition(void *tracker) {
         state->view_offset.parts.view_offset_z = (u16)state->view_offset.parts.view_offset_z +
             (*(s16 *)((char *)tracker + 0x26) - state->view_offset.parts.view_offset_z) / frames_left;
     } else {
-        D_800E3D20[0] = 0;
+        camera_transition_timer[0] = 0;
     }
     next_frames = *(s16 *)((char *)tracker + 0x24) - 1;
     *(s16 *)((char *)tracker + 0x24) = next_frames;
@@ -1694,10 +1694,10 @@ void update_target_tracking_and_transition(void *tracker) {
     }
     state->camera_position.parts.camera_position_x = (u16)state->camera_position.parts.camera_position_x + ((s32)((s16)*(u16 *)((char *)tracker + 4) - state->camera_position.parts.camera_position_x) >> 2);
     state->camera_position.parts.camera_position_y = (u16)state->camera_position.parts.camera_position_y + ((s32)((s16)*(u16 *)((char *)tracker + 6) - state->camera_position.parts.camera_position_y) >> 2);
-    if (D_800DF63C[0] != 0) {
+    if (camera_height_tracking[0] != 0) {
         state->camera_position.parts.camera_position_z = (u16)state->camera_position.parts.camera_position_z + ((s32)(*(s16 *)((char *)tracker + 8) - state->camera_position.parts.camera_position_z) >> 2);
     }
-    D_800DF63C[0] = (s8)(state->camera_position.parts.camera_position_z != *(s16 *)((char *)tracker + 8));
+    camera_height_tracking[0] = (s8)(state->camera_position.parts.camera_position_z != *(s16 *)((char *)tracker + 8));
     state->view_offset.parts.view_offset_x = (s32)(((u16)state->view_offset.parts.view_offset_x) << 0x10) >> 0x12;
     state->view_offset.parts.view_offset_y = (s32)(((u16)state->view_offset.parts.view_offset_y) << 0x10) >> 0x12;
 }
@@ -1707,7 +1707,7 @@ void update_target_tracking_and_transition(void *tracker) {
 #include "shared/entity.h"
 
 extern void update_target_tracking_and_transition(void *tracker);
-extern u8 D_800E3D20[];
+extern u8 camera_transition_timer[];
 
 /* Selects a nearby target, initializes its state slot, and returns change flags. */
 s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value) {
@@ -1719,7 +1719,7 @@ s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 targ
     u8 *slot;
     s16 new_target_id;
 
-    distance = D_80083780.x.w.i;
+    distance = view_reference_entity.x.w.i;
     target_coord = *(s16 *)((u8 *)target + 2);
     distance -= target_coord;
     if (distance < 0)
@@ -1728,7 +1728,7 @@ s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 targ
     if (distance >= 0xC1) {
         return 0;
     }
-    distance = D_80083780.y.w.i;
+    distance = view_reference_entity.y.w.i;
     target_coord = *(s16 *)((u8 *)target + 6);
     distance -= target_coord;
     if (distance < 0)
@@ -1752,7 +1752,7 @@ s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 targ
     *(s16 *)(slot + 0x26) = slot_value;
     state->slot[0].callback = update_target_tracking_and_transition;
     if (change_flags & 1)
-        D_800E3D20[0] = new_target_id;
+        camera_transition_timer[0] = new_target_id;
     *(s16 *)(slot + 0x24) = target_id;
     return change_flags;
 }
@@ -1768,12 +1768,12 @@ void setup_object_within_planar_range(s32 object, s32 x, s32 y, s32 height, s32 
     s32 saved_mode;
 
     saved_mode = mode;
-    mode = D_80083780.x.w.i - x;
+    mode = view_reference_entity.x.w.i - x;
     if (mode < 0) {
         mode = -mode;
     }
     if (mode < 193) {
-        mode = D_80083780.y.w.i - y;
+        mode = view_reference_entity.y.w.i - y;
         if (mode < 0) {
             mode = -mode;
         }
@@ -1815,8 +1815,8 @@ typedef struct S_800C7930_3 {
 } S_800C7930_3;   /* destination in apply_camera_offset_and_select_target */
 
 
-extern u16 D_800DCEAC;
-extern u16 D_800DCEBC;
+extern u16 direction_x_offsets;
+extern u16 direction_y_offsets;
 extern u16 D_800E58F8[];
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
@@ -1838,7 +1838,7 @@ s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32
     s32 object = object_addr;
     S_800C7930_1 *source = source_pos;
 
-    camera = &D_80083780;
+    camera = &view_reference_entity;
 
     delta = camera->x.w.i;
     source_coord = source->unk_02.s;
@@ -1857,11 +1857,11 @@ s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32
         if (delta < 0xC1) {
             work = (u8 *)object + 0x20;
             destination = D_800E58F8;
-            x_offsets = (u8 *)&D_800DCEAC;
+            x_offsets = (u8 *)&direction_x_offsets;
             x_offset_index = (work->unk_2A >> 8) & 0xE;
             adjusted_x = (s16)*(u16 *)(x_offsets + x_offset_index) / 2;
             ((S_800C7930_3 *)destination)->unk_02 = ((s32)(source_x - -adjusted_x));
-            y_offsets = (u8 *)&D_800DCEBC;
+            y_offsets = (u8 *)&direction_y_offsets;
             y_offset_index = (work->unk_2A >> 8) & 0xE;
             y_offset = *(u16 *)(y_offsets + y_offset_index);
             ((S_800C7930_3 *)destination)->unk_06 = source->unk_06.u + (s16)y_offset / 2;
@@ -1892,7 +1892,7 @@ void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height
     mid_coord = mid_coord >> 1;
     coord = coord + mid_coord;
     mid_coord = coord;
-    x_distance = D_80083780.x.w.i - mid_coord;
+    x_distance = view_reference_entity.x.w.i - mid_coord;
     if (x_distance < 0) {
         x_distance = -x_distance;
     }
@@ -1907,7 +1907,7 @@ void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height
         mid_coord = mid_coord >> 1;
         coord = coord + mid_coord;
         mid_coord = coord;
-        y_adjust = D_80083780.y.w.i - mid_coord;
+        y_adjust = view_reference_entity.y.w.i - mid_coord;
         if (y_adjust < 0) {
             y_adjust = -y_adjust;
         }
@@ -1947,9 +1947,9 @@ typedef struct Sub {
 
 /* View over the D_80083178 dispatch/blend record (fields not in game.h struct) */
 
-extern s16 D_800120A2;
-extern s16 D_800DD264[];
-extern s16 D_800DCE66[5];
+extern s16 camera_pitch_index;
+extern s16 camera_pitch_presets[];
+extern s16 camera_depth_target[5];
 
 extern s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
 
@@ -1963,10 +1963,10 @@ void blend_entity_toward_target_state(void *entity_data) {
     case 0:
         if (entity->unk24 > 0) {
             s16 half_ticks;
-            s16 *table = D_800DD264;
+            s16 *table = camera_pitch_presets;
             entity->unk10 -= entity->unk10 >> 2;
             blend->view_offset.parts.view_offset_z = entity->unk26 + (u16)entity->unk10;
-            blend->camera_rotation.parts.camera_rotation_x = (u16)blend->camera_rotation.parts.camera_rotation_x + (table[D_800120A2] - blend->camera_rotation.parts.camera_rotation_x) / entity->unk24;
+            blend->camera_rotation.parts.camera_rotation_x = (u16)blend->camera_rotation.parts.camera_rotation_x + (table[camera_pitch_index] - blend->camera_rotation.parts.camera_rotation_x) / entity->unk24;
             blend->camera_rotation.parts.viewAngle = (u16)blend->camera_rotation.parts.viewAngle + (0 - blend->camera_rotation.parts.viewAngle) / entity->unk24;
             blend->camera_position.parts.camera_position_x = (u16)blend->camera_position.parts.camera_position_x + (((Sub *)entity->unkC)->f2 - blend->camera_position.parts.camera_position_x) / entity->unk24;
             blend->camera_position.parts.camera_position_y = (u16)blend->camera_position.parts.camera_position_y + (((Sub *)entity->unkC)->f6 - blend->camera_position.parts.camera_position_y) / entity->unk24;
@@ -1983,15 +1983,15 @@ void blend_entity_toward_target_state(void *entity_data) {
             }
         }
         {
-            s16 *table = D_800DD264;
-            blend->camera_rotation.parts.camera_rotation_x = (u16)table[D_800120A2];
+            s16 *table = camera_pitch_presets;
+            blend->camera_rotation.parts.camera_rotation_x = (u16)table[camera_pitch_index];
         }
         blend->camera_rotation.parts.viewAngle = 0;
         blend->view_offset.parts.view_offset_z = entity->unk26;
         entity->unk18 += 1;
         return;
     case 1:
-        select_nearby_target_and_initialize_slot((void *)(((s32)D_800E3D7C) - 0x20), ((u8 *)(&D_80083780)), 8, D_800DCE66[0]);
+        select_nearby_target_and_initialize_slot((void *)(((s32)dungeon_actor_ring_anchor) - 0x20), ((u8 *)(&view_reference_entity)), 8, camera_depth_target[0]);
         g_dungeon_status.activity_counts.parts.pending_action_count = g_dungeon_status.activity_counts.parts.pending_action_count - 1;
     }
 }
@@ -2058,8 +2058,8 @@ typedef struct Other {
     u16 value64;
 } Other;
 
-extern DungeonGroup D_80073414[];
-extern u8 D_800E3E41;
+extern DungeonGroup item_category_groups[];
+extern u8 pending_player_damage_kind;
 extern s32 play_sound_if_enabled();
 extern void create_textured_ellipse_effect(void *, Object *);
 
@@ -2080,7 +2080,7 @@ s32 prepare_quarter_damage_return(Object *object, Other *source) {
             u8 item_index;
 
             category_index = target_item[1];
-            item_category_table = D_80073414;
+            item_category_table = item_category_groups;
             item_category = &item_category_table[category_index];
             item_index = target_item[0];
 
@@ -2115,7 +2115,7 @@ s32 prepare_quarter_damage_return(Object *object, Other *source) {
         play_sound_if_enabled(0x60F);
         object->flags1C |= 0x20000000;
         if (object->value13 == 0) {
-            D_800E3E41 = 2;
+            pending_player_damage_kind = 2;
         }
         return 1;
     }

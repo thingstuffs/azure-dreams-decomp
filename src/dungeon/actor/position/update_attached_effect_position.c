@@ -116,7 +116,7 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
         if (anim_offset != 0) {
             ((S_800B0D34_3 *)anim_state)->unk_18.u = anim_offset + 0x80;
         }
-        if (((S_800B0D34_4 *)(((u8 *)D_800E3D7C)))->unk_104 !=
+        if (((S_800B0D34_4 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_104 !=
             ((S_800B0D34_0 *)object)->unk_14) {
             ((S_800B0D34_0 *)object)->unk_10.u++;
         }
@@ -161,7 +161,7 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
         u16 source_z;
         position->unk_02 = source->unk_02;
         position->unk_06 = source->unk_06;
-        z_adjustment = D_800DDC40[((S_800B0D34_1 *)info)->unk_13] + 0x50;
+        z_adjustment = entity_height_offsets[((S_800B0D34_1 *)info)->unk_13] + 0x50;
         source_z = source->unk_0A;
         position->unk_0A = source_z - z_adjustment;
     }

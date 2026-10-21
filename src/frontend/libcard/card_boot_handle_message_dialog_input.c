@@ -1,5 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/menu.h"
+#include "frontend/libcard.h"
+#include "frontend/libcard/message.h"
+#include "slus.h"
 
 typedef struct S_80022524_0 {
     s32 unk_00;
@@ -11,11 +15,6 @@ typedef struct S_80022524_0 {
     s32 * unk_20;
 } S_80022524_0;   /* arg0 in card_boot_handle_message_dialog_input */
 
-
-extern void SD_Call(s32 code);
-extern s32 card_boot_close_message_dialog(s32 mode);
-extern s32 advance_index_with_directional_clamp(s32 current, s32 direction, u8 entry);
-extern void card_boot_update_message_choice_highlight(void *object);
 typedef struct S_800280B4 {
     u8 pad_00[0x14];
     u8 unk_14;

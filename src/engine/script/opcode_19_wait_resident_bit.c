@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/message.h"
+#include "engine/script.h"
 
 typedef struct Func800395B0State {
     u8 pad_00[0x10];
@@ -8,8 +10,6 @@ typedef struct Func800395B0State {
     u8 pad_20[0x10];
     u16 half_30;
 } Func800395B0State;
-
-extern void wait_message_resident_bit(void *state);
 
 /* Reads a little-endian 16-bit script operand and selects the next state handler. */
 void handle_vm_opcode_19(Func800395B0State *state) {

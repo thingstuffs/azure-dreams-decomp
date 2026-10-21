@@ -58,9 +58,9 @@ extern void process_unflagged_linked_entries_alt(s32);
 extern void process_unflagged_linked_entries(s32);
 extern s32 func_8003DB94(void *, s32, s32);
 
-extern u8 D_800E3648[16];
+extern u8 floor_objects[16];
 extern s32 D_800DF258[16];
-extern D_800E39C8_entry D_800E39C8[];
+extern D_800E39C8_entry dungeon_floor_object_positions[];
 
 /* Functions defined in this translation unit. */
 s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);

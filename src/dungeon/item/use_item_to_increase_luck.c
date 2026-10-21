@@ -19,9 +19,9 @@ extern u8 D_800E1843[];
 s32 use_item_to_increase_luck(void *entity, s32 event, s16 event_type) {
     u8 entity_count;
 
-    if (entity == ((s32)D_800E3D7C)) {
+    if (entity == ((s32)dungeon_actor_ring_anchor)) {
         ((EntityRec *)entity)->unk_110 = event;
-        begin_deferred_item_action(entity, ((s32 *)(&D_80083780)), ((s32 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((s32 *)(&view_reference_entity)), ((s32 *)(&reference_tile_object)), entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {

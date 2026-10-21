@@ -153,14 +153,14 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
             action->flags &= 0xFF7F;
             use_owner = special;
             if (use_owner) {
-                owner = D_800814A8;
+                owner = primary_actor_record;
                 actor->target = owner;
                 target_sprite_or_effect = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
                 actor->target_tile_x = ((SpriteFrameState *)target_sprite_or_effect)->unk_24;
                 actor->target_tile_y = ((SpriteFrameState *)target_sprite_or_effect)->unk_25;
             } else {
                 direction_byte_offset = *selector;
-                if (D_8006DE24[direction_byte_offset].kind == 2) {
+                if (item_action_definitions[direction_byte_offset].kind == 2) {
                     owner = actor->target;
                     if (owner != 0) {
                         target_sprite_or_effect = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
@@ -223,7 +223,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
         {
             void *owner;
 
-            owner = D_800814A8;
+            owner = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             ((PlayerRemainingActionsView *)owner)->remaining--;
         }

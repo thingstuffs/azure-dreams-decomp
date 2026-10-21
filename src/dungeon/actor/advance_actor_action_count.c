@@ -14,7 +14,7 @@ extern void begin_actor_move_to_target_facing();
 extern void install_actor_action_handler_after_floor_trap_check();
 
 extern u8 D_800D8C64[];
-extern void *D_800E262C[];
+extern void *actor_action_frames[];
 
 #define U8_AT(p, n)  (*(u8 *)((u8 *)(p) + (n)))
 #define S8_AT(p, n)  (*(s8 *)((u8 *)(p) + (n)))
@@ -35,9 +35,9 @@ void advance_actor_action_count(void *controller, s32 context, void *sprite, voi
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        PTR_AT(sprite, 0x2C) = D_800E262C;
+        PTR_AT(sprite, 0x2C) = actor_action_frames;
         func_8003DB94(sprite,
-            *(void **)((u8 *)D_800E262C +
+            *(void **)((u8 *)actor_action_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
             0);
         U8_AT(controller, 0x9B)++;
@@ -69,7 +69,7 @@ void advance_actor_action_count(void *controller, s32 context, void *sprite, voi
         }
         if ((has_pending_actor_or_turn_action(actor) << 0x10) != 0) {
             if ((check_entity_relation(actor,
-                    *(s32 *)((u8 *)D_800814A8 + 0x58) + 0x20) << 0x10) != 0) {
+                    *(s32 *)((u8 *)primary_actor_record + 0x58) + 0x20) << 0x10) != 0) {
                 return;
             }
         }
@@ -78,9 +78,9 @@ void advance_actor_action_count(void *controller, s32 context, void *sprite, voi
         if (U8_AT(actor, 0x25) == 0) {
             return;
         }
-        PTR_AT(sprite, 0x2C) = D_800E262C;
+        PTR_AT(sprite, 0x2C) = actor_action_frames;
         func_8003DB94(sprite,
-            *(void **)((u8 *)D_800E262C +
+            *(void **)((u8 *)actor_action_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
             0);
         S32_AT(actor, 0x1C) |= 0x40000;

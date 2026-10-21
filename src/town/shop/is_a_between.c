@@ -6,11 +6,11 @@ typedef struct {
     u16 unk1A;
 } GlobalADBC;
 
-extern GlobalADBC D_8006ADBC;
+extern GlobalADBC map_runtime_state;
 
 /* Check whether unk18 is 12 and unk1A is between 37 and 41. */
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41(void) {
-    GlobalADBC *global_state = &D_8006ADBC;
+    GlobalADBC *global_state = &map_runtime_state;
 
     if (global_state->unk18 == 12) {
         if ((u32)(global_state->unk1A - 37) < 5) {

@@ -22,9 +22,9 @@ typedef struct {
     u8 pad19[0x43];
 } Object;
 
-extern u8 D_80082E6B;
-extern s8 D_80080A84;
-extern s8 D_80129728;
+extern u8 scene_mode_code;
+extern s8 animation_tick_scale;
+extern s8 catalog_display_node_slots;
 
 extern u8 is_catalog_entry_available(u8);
 extern void SD_Call(s32);
@@ -86,9 +86,9 @@ void handle_catalog_grid_input(Object *object)
 
     if (input_flags & 0x20) {
         SD_Call(0x700);
-        if (D_80082E6B == 0x17) {
+        if (scene_mode_code == 0x17) {
             create_deferred_resource_transition_task(0, 0, 0, 0);
-            reset_entries = (s32 **)&D_80129728;
+            reset_entries = (s32 **)&catalog_display_node_slots;
             for (entry_index = 0; entry_index < 98; entry_index++) {
                 *reset_entries[entry_index] = 0;
             }
@@ -97,7 +97,7 @@ void handle_catalog_grid_input(Object *object)
             *(u16 *)((u8 *)object - 2) |= 0x8000;
             object_flag_block.flags |= 0x8000;
             remove_scene_runtime_callback();
-            D_80080A84 = 2;
+            animation_tick_scale = 2;
             return;
         }
     }

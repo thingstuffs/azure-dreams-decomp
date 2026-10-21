@@ -2,7 +2,7 @@
 #include "records/Rec_func_8008D024_arg0.h"
 
 
-extern void *D_800E3DF0[];
+extern void *familiar_record_slots[];
 extern u8 D_800E0B18[16];
 extern u8 D_800E0B2B[16];
 extern u8 D_800E202D[16];
@@ -58,7 +58,7 @@ void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void
     s16 result;
     s32 value;
 
-    object = D_800E3DF0[((S_800956B8_0 *)selection_ptr)->unk_03 & 0x1F];
+    object = familiar_record_slots[((S_800956B8_0 *)selection_ptr)->unk_03 & 0x1F];
     if (!(((S_800956B8_1 *)object)->unk_1C & 0x20000)) {
         result = find_entity_slot_by_field_ac(object);
                 /* Retail callee sets a3 = 10 at 0x80099114 before reading it; no incoming argument. */

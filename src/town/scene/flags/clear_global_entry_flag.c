@@ -1,4 +1,4 @@
 #include "common.h"
 
-extern s16 D_80129724;
-void clear_global_entry_flag(void) { D_80129724 = 0; }
+extern s16 catalog_lookup_count;
+void clear_global_entry_flag(void) { catalog_lookup_count = 0; }

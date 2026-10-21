@@ -1,11 +1,11 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/script/vm.h"
 
 extern u8 message_window_object_template[];
 extern u8 message_window_state_data[];
 
-extern void copy_four_halfword_coordinates(void *dest, void *source);
 extern void update_text_row_scale(u8 *state, u8 value);
 extern void update_message_window(void);
 

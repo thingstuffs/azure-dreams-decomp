@@ -53,7 +53,7 @@ extern u8 D_800203D8[];
 extern u8 D_80020468[];
 extern u8 D_800204AC[];
 extern u8 D_80020900[];
-extern s16 D_80024308[];
+extern s16 keima_payout_factors[];
 extern s16 D_8002430A[];
 
 extern void func_800201C8();
@@ -82,7 +82,7 @@ void baken_uriba(void)
     buffer = 0;
     screen.text_words = D_80020010;
     screen.number_words = D_80020050;
-    allocation = allocate_list_node(1, ((u8 *)(&D_80083498)));
+    allocation = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (allocation != 0) {
         buffer = (u8 *)allocation + 0x20;
         *(void **)((u8 *)allocation + 0x10) = D_80020900;
@@ -179,7 +179,7 @@ void baken_uriba(void)
     grid_index = 0;
     value_screen = &screen;
 
-    column_factor = D_80024308;
+    column_factor = keima_payout_factors;
     do {
         row_index = grid_index;
         if (grid_index < 3) {

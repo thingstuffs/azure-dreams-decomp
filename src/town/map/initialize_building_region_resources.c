@@ -5,8 +5,8 @@
 extern s32 *initialize_shared_script_data();
 extern void **scale_coordinates_and_append_pointers();
 extern void func_8009CE34();
-extern u8 D_800D2644[];
-extern u8 D_800D2EA4[];
+extern u8 town_building_records[];
+extern u8 town_building_slot_rectangles[];
 extern u8 D_800D43F0[];
 
 typedef struct S_800B8248_0 {
@@ -39,21 +39,21 @@ void initialize_building_region_resources(void) {
     scale_coordinates_and_append_pointers(0x3FU, 0U, 0x10U, 0x10U, D_800D43F0);
     slot_counter = 0;
     state_base = (void *)0x80010000;
-    resources = D_800D2644;
+    resources = town_building_records;
     do {
         slot_index = slot_counter & 0xFF;
         slot = (void *)((slot_index * 2) + (s32)state_base);
         resource_index = slot->unk_33A4;
         if (resource_index != 0) {
             ((ResourceSlotStateView *)((void *)((resource_index << 5) + (s32)resources)))->unk_0A = 1;
-            region = (slot_index * 8) + D_800D2EA4;
+            region = (slot_index * 8) + town_building_slot_rectangles;
             region_x = region->unk_00;
             region_y = region->unk_01;
             region_width = region->unk_02;
             region_height = region->unk_03;
             resource_index = slot->unk_33A4;
             scale_coordinates_and_append_pointers(region_x, region_y, region_width, region_height,
-                          (resource_index << 5) + (D_800D2644 + 0xC));
+                          (resource_index << 5) + (town_building_records + 0xC));
         }
         slot_counter += 1;
     } while ((u32)(u8)slot_counter < 0x21U);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 /* struct describing one draw-entry: word handle/flag at 0, two halfword coords at 4/6, pad to 0xC */
 typedef struct S_8003F9E0 {
@@ -7,8 +8,6 @@ typedef struct S_8003F9E0 {
     u16 f6;
     s32 f8;
 } S_8003F9E0;
-
-extern s32 upload_vram_row_and_cache(s32 a0, s32 a1, s32 a2, s32 a3);
 
 /* Uploads and caches VRAM strips until an entry with a zero source address is reached. */
 void upload_vram_entry_array(S_8003F9E0 *entries) {

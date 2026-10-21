@@ -44,7 +44,7 @@ extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
 extern u8 D_801714B8;
-extern Callback D_80176138[];
+extern Callback glacier_callbacks[];
 
 
 typedef struct S_8017103C_0 {
@@ -132,7 +132,7 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
             callback(entity_arg, motion, monster, entity_arg);
         }
     }
-    D_80176138[(((EntityArgFieldView_8102F83C *)entity_arg)->field_9A)](entity_arg, motion, monster, entity_arg);
+    glacier_callbacks[(((EntityArgFieldView_8102F83C *)entity_arg)->field_9A)](entity_arg, motion, monster, entity_arg);
 
     if ((s16)old_direction != (((EntityArgFieldView_8102F83C *)entity_arg)->field_6D.s8)) {
         try_move_actor_to_valid_position(entity_arg, motion, monster, entity_arg);

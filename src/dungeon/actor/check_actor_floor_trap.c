@@ -15,7 +15,7 @@ extern void update_actor_status_and_food(void *);
 extern void begin_actor_floor_trap_action(void *, void *);
 extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
 
-extern DungeonEntry D_800E3648[];
+extern DungeonEntry floor_objects[];
 
 typedef struct S_800AD9B4_0_pre {
     u16 unk_00;
@@ -35,7 +35,7 @@ s32 check_actor_floor_trap(Rec_D_80082E80 *actor, ActorRecord *target)
     if (((S_800AD9B4_0_pre *)target)[-1].unk_00 & 0x8000) {
         return 1;
     }
-    player = &D_80082E80;
+    player = &reference_tile_object;
     if (player->room_index != *(s8 *)&((SpriteFrameState *)actor)->unk_26 && get_tile_chebyshev_distance(player, actor) >= 7) {
         return 1;
     }
@@ -48,7 +48,7 @@ s32 check_actor_floor_trap(Rec_D_80082E80 *actor, ActorRecord *target)
                                   target->ground_height);
     result = 1;
     if (entry_index >= 0) {
-        entries = D_800E3648;
+        entries = floor_objects;
         if (!(entries[entry_index].flags & 0x80)) {
             return 1;
         }

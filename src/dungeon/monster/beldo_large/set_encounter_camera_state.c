@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 D_80175D60;
+extern s32 beldo_camera_object;
 
 typedef struct S_8017178C_0 {
     u8 pad_00[0x12];
@@ -14,7 +14,7 @@ typedef struct S_8017178C_0 {
 void set_encounter_camera_state(s16 value) {
     S_8017178C_0 *state;
 
-    state = D_80175D60 + 0x20;
+    state = beldo_camera_object + 0x20;
     state->unk_12 = value;
     state->unk_18 = 0;
 }

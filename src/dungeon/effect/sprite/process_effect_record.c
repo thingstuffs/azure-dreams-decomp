@@ -19,7 +19,7 @@ typedef struct Outer {
     u16 flags1E;
 } Outer;
 
-extern u16 D_800281F8[];
+extern u16 sprite_effect_update_count[];
 
 void process_effect_record(void *ptr, Inner *fields_target, Inner *field_c_target)
 {
@@ -29,7 +29,7 @@ void process_effect_record(void *ptr, Inner *fields_target, Inner *field_c_targe
 
     outer = *(Outer **)((u8 *)ptr + 8);
     flags1E = outer->flags1E & 0x8000;
-    D_800281F8[0]++;
+    sprite_effect_update_count[0]++;
     if (flags1E != 0) {
         ((u16 *)ptr)[-1] |= 0x8000;
         object_flag_block.flags |= 0x8000;

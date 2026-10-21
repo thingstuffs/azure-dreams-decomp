@@ -1,5 +1,12 @@
 #include "shared/object_node.h"
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/item.h"
+#include "engine/menu.h"
+#include "engine/node.h"
+#include "engine/scene.h"
+#include "engine/sprite.h"
+#include "slus/data.h"
 
 typedef struct S_80050BA4_s1
 {
@@ -26,21 +33,15 @@ typedef struct S_80050BA4_sub
 }
 S_80050BA4_sub;
 
-extern s32 allocate_selection_menu_entry_buffers(void *a0, s32 a1);
 extern void *link_seventeen_indexed_entries(void *a0);
 extern void init_gauge_object(void *a0, void *a1);
-extern void *create_animated_selection_menu(void *a0);
 extern void func_8004E130(void);
-extern void register_node(void *a0, void *a1);
-extern void release_null_terminated_entries(u16 **a0);
 extern void invoke_leading_object_callback(void *a0);
-extern int draw_tinted_node_sprites_scratch(void *a0, int a1, void *a2);
 
 /* Retail materializes a fresh %hi(D_800814A0) for the store after the |= load
  * destroyed the address register; cdk cc1 otherwise CSEs the address across
  * load+store. The absolute-bound section alias (LEAD-24 idiom, same cohort as
  * w_80050DA8/w_80051F58, same global) forces per-access lui. */
-extern s32 D_800814A0_abs __attribute__((section(".data")));
 
 /* Creates an owner and its companion object, flagging failed setup for cleanup. */
 void *create_gauge_with_selection_menu(s32 context)

@@ -228,7 +228,7 @@ loop_effects:
                         sprite->color.c.b = 0x80;
                         sprite->color.c.g = 0x80;
                         sprite->color.c.r = 0x80;
-                        func_8003DB94(sprite, D_800DE870, 0);
+                        func_8003DB94(sprite, effect_sprite_sources, 0);
                     }
                     effect_index += 1;
                 } while (effect_index < 2);

@@ -2,13 +2,13 @@
 extern int abs(int);
 #include "shared/object_index_slots.h"
 
-extern int D_800814C8;
-extern int D_80081550;
-extern int D_80081558;
-extern int D_80081554;
+extern int sound_payload_buffer;
+extern int message_handler_mode;
+extern int message_command_start_index;
+extern int message_command_write_index;
 extern unsigned char D_80071298[];
 extern int D_800712B4[];
-extern int D_80084130[3];
+extern int card_server_initialized[3];
 s32 runtime_estimate_vector_length(s32, s32);
 #include "town/player/initialize_record_with_handler_table_api.h"
 u16 query_lowered_transform_position();

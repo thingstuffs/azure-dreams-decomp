@@ -3,8 +3,8 @@
 
 typedef s32 (*Callback)(void *);
 
-extern s32 D_80019B00;
-extern u8 D_80019B8C;
+extern s32 scene_charge;
+extern u8 selected_scene_row_index;
 
 /* Call the handler with the current kind and store its result in the current slot and global. */
 void request_handler_for_current_kind(void) {
@@ -15,12 +15,12 @@ void request_handler_for_current_kind(void) {
 
     slot = *(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x40) +
            (*(s32 *)(*(s8 **)((s8 *)(&D_80016000)) + 8) * 8);
-    kind = D_80019B8C;
+    kind = selected_scene_row_index;
     request[1] = 0x19;
     request[0] = kind;
     *(u8 *)(slot + 6) = kind;
     handler_result = (*(Callback *)(*(s8 **)(*(s8 **)((s8 *)(&D_80016000)) + 0x20) + 0x50))(request);
-    D_80019B00 = handler_result;
+    scene_charge = handler_result;
     *(s32 *)slot = handler_result;
 }
 

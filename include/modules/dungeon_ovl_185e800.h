@@ -3,7 +3,7 @@
 #include "shared/dungeon_height_query.h"
 #include "shared/dungeon_delay_views.h"
 #include "shared/slus_callbacks.h"
-extern u8 D_800DEA68[];
+extern u8 secondary_sprite[];
 extern u8 D_800DE990[];
 extern u8 D_800DECF8[];
 void *allocate_list_node(s32, void *);

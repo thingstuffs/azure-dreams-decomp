@@ -7,18 +7,18 @@ void set_texture_quad_32_uv(s16 texture_page, s16 palette, s8 texture_u, s8 text
     s8 right_u;
     s8 bottom_v;
 
-    D_800D1548[8] = texture_u;
-    D_800D1548[0] = texture_u;
+    map_tile_uvs[8] = texture_u;
+    map_tile_uvs[0] = texture_u;
     right_u = texture_u + 0x1F;
-    D_800D1548[5] = texture_v;
-    D_800D1548[1] = texture_v;
+    map_tile_uvs[5] = texture_v;
+    map_tile_uvs[1] = texture_v;
     bottom_v = texture_v + 0x1F;
-    D_800D1548[0xA] = right_u;
-    D_800D1548[4] = right_u;
-    D_800D1548[0xB] = bottom_v;
-    D_800D1548[9] = bottom_v;
-    *(s16 *)&D_800D1548[6] = texture_page;
-    *(s16 *)&D_800D1548[2] = palette;
+    map_tile_uvs[0xA] = right_u;
+    map_tile_uvs[4] = right_u;
+    map_tile_uvs[0xB] = bottom_v;
+    map_tile_uvs[9] = bottom_v;
+    *(s16 *)&map_tile_uvs[6] = texture_page;
+    *(s16 *)&map_tile_uvs[2] = palette;
 }
 
 /* Render visible town map tiles as shaded polygons in the ordering table. */
@@ -88,7 +88,7 @@ void render_shaded_map_tiles(void) {
     }
     scratch = (ScratchAddress){ (S_func_800AED64_4 *)0x1F800000 };
     func_80064D20((u8 *)render_state + 0x50);
-    if (D_800D1554[0] != 0) {
+    if (map_wide_culling[0] != 0) {
         render_state->unk_1A = -0xB8;
         render_state->unk_1E = 0x1DA;
     } else {
@@ -135,7 +135,7 @@ void render_shaded_map_tiles(void) {
     if (scratch.ptr->unk_174 != 0) {
         one = 1;
         vertex_input = (u8 *)scratch.ptr + 0xE0;
-        tile_uvs = (S_func_800AED64_10 *)D_800D1548;
+        tile_uvs = (S_func_800AED64_10 *)map_tile_uvs;
         tag_low_mask = 0xFFFFFF;
         tag_high_mask = 0xFF000000;
         do {
@@ -262,7 +262,7 @@ void render_shaded_map_tiles(void) {
                             gte_stotz((u8 *)scratch.ptr + 0xC8);
                             gte_stsxy3_g3(packet);
                             gte_ldv0((u8 *)scratch.ptr + 0xF8);
-                            packet->unk_0C = (s32) ((s32 *)D_800D1548)[0];
+                            packet->unk_0C = (s32) ((s32 *)map_tile_uvs)[0];
                             gte_rtps_nn();
                             gte_stsxy(&packet->unk_20);
                             packet->unk_14 = (s32) tile_uvs->unk_04;
@@ -558,7 +558,7 @@ void render_shaded_map_tiles(void) {
                             ((S_func_800AED64_6 *)(render_state->unk_00))->unk_8D0 = packet;
                             {
                                 S_func_800AED64_17 *scene_state;
-                                scene_state = D_8006ADBC;
+                                scene_state = map_runtime_state;
                                 if ((scene_state->unk_18 == 0xC) && ((u32) (scene_state->unk_1A - 0x25) >= 5U)
                                     && ((s16) scene_state->unk_1A != 0x34)) {
                                     draw_empty_map_cell_quads(scratch.ptr->unk_164);
@@ -593,7 +593,7 @@ void render_shaded_map_tiles(void) {
     ((S_func_800AED64_6 *)(render_state->unk_00))->unk_8D0 = packet;
     {
         S_func_800AED64_17 *scene_state;
-        scene_state = D_8006ADBC;
+        scene_state = map_runtime_state;
         if ((scene_state->unk_18 == 0xC) && ((u32) (scene_state->unk_1A - 0x25) >= 5U)
             && ((s16) scene_state->unk_1A != 0x34)) {
             draw_empty_map_cell_quads(scratch.ptr->unk_164);

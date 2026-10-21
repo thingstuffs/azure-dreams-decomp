@@ -1470,7 +1470,7 @@ L0_adjust_z:
             {
                 s32 depth_bias;
                 s32 resident_value;
-                depth_bias = D_800DDC40[((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13];
+                depth_bias = entity_height_offsets[((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13];
                 resident_value = ((S_800259D8_5 *)entry)->unk_08.at02.v - depth_bias - 0x60;
                 ((S_800259D8_0 *)effect)->unk_78.u = resident_value;
             }
@@ -1677,7 +1677,7 @@ L1_calc:
                 index = ((S_800259D8_3 *)obj)->unk_60 != 0;
                 index = ((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13;
                 ((S_800259D8_9 *)dst)->unk_08.at00.v = ((S_800259D8_5 *)entry)->unk_08.at00.v -
-                    (D_800DDC40[index] << 15);
+                    (entity_height_offsets[index] << 15);
                 work = ((S_800259D8_7 *)spawn)->unk_0C;
                 {
                     s16 scale2 = 0x1000;

@@ -42,7 +42,7 @@ extern s32 generate_random_value();
 extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
-extern u8 D_800E2348[];
+extern u8 baloon_default_frames[];
 extern u8 D_800E23A8[];
 extern u8 D_80171964[];
 extern s32 D_80171F1C;
@@ -66,7 +66,7 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     saved_kind_id = kind_id;
     saved_spawn = spawn_value;
     saved_variant = variant;
-    obj = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80171780_0 *)obj)->unk_10 = D_80171964;
@@ -79,7 +79,7 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;
-        part_b->frameTable = D_800E2348;
+        part_b->frameTable = baloon_default_frames;
         part_b->unk_24 = saved_kind_id;
         work->unk_9E = 0;
 

@@ -1,9 +1,9 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern s32 func_80051B50(void *buffer, s32 value, s32 option);
 extern s32 get_table_entry_by_flag(void);
-extern s32 D_8008432C;
-extern s32 D_80408CB0[];
 
 typedef struct {
     u8 pad8[8];

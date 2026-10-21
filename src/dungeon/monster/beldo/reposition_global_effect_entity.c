@@ -34,7 +34,7 @@ void reposition_global_effect_entity(s32 offset_index)
     update_map_cell_flags_with_item_limit(entity[0x24], entity[0x25],
                   (((S_8125414C_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
-    origin = &D_80082E80;
+    origin = &reference_tile_object;
     offset_bytes = (u8 *)&offsets[offset_index * 2];
     entity[0x24] = origin->tile_position.parts.tile_x + offset_bytes[0];
     entity[0x25] = origin->tile_position.parts.tile_y + offset_bytes[2];

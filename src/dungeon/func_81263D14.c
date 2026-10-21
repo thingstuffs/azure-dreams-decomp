@@ -155,7 +155,7 @@ void update_overlay_actor_action(ActorActionWork *action, void *context, ActorSp
             return;
         }
 
-        if (sprite->position.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (sprite->position.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_8015FBE0(action, context, sprite, actor);
             return;
         }
@@ -163,12 +163,12 @@ void update_overlay_actor_action(ActorActionWork *action, void *context, ActorSp
         if ((actor->action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
-                        actor, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        actor, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
 
-            if (D_80013714 & 8) {
+            if (system_update_flags & 8) {
                 u8 callback_flags;
 
                 func_80161D6C(action, context, sprite);
@@ -228,7 +228,7 @@ void update_overlay_actor_action(ActorActionWork *action, void *context, ActorSp
     if ((state_flags & 0x2000) == 0) {
         entry_index = (s8)roomOrDirection;
         if (entry_index >= 0) {
-            roomTable = D_800E2970;
+            roomTable = dungeon_rooms;
             roomEntry = &roomTable[entry_index];
             if (roomEntry->flags & 2) {
                 return;
@@ -237,10 +237,10 @@ void update_overlay_actor_action(ActorActionWork *action, void *context, ActorSp
         if ((state_flags & 0x430) == 0) {
             if ((s16)compare_monster_neighbor_values(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                 roomOrDirection = get_rounded_facing_and_rounding_flag(
                     sprite->position.tile.x, sprite->position.tile.y,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 actor->facing = roomOrDirection;
             }
         }

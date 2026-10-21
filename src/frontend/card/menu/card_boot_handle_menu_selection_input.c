@@ -1,5 +1,7 @@
 #include "shared/pad_state.h"
 #include "common.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
 
 typedef struct StatePair {
@@ -8,16 +10,12 @@ typedef struct StatePair {
 } StatePair;
 
 extern s8 D_8008CA34;
-extern s32 D_804090F8[];
-extern s32 D_80400854;
-extern s32 D_80400860;
 
 extern void func_8003FA78(void *display_object, s32 state_entry);
 extern void func_8003FD58(s32 value0, s32 value1, s32 value2, s32 value3);
 extern void func_80063FF8(s32 sound_code);
 extern void func_804008A0(s32 slot_index);
 extern void func_80400EF8(void);
-extern StatePair *card_devkit_debounce_channel_status(void);
 extern void submit_stored_and_queried_boot_values(void);
 extern void assert_slot_store_value_and_process_state(s32 slot_addr, s32 slot_value);
 extern void update_embedded_selected_slot_outputs(s32 slot_addr, StatePair *display_state, s32 *state_changed);

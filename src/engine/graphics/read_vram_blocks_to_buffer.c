@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
 
 /* PSX libgpu RECT: x,y,w,h as s16 fields. */
 typedef struct {
@@ -17,10 +19,7 @@ typedef struct {
 extern S_80081480_8004B568 gpu_scratch_write_pointer;
 extern S_8008148C_8004B568 gpu_scratch_buffer_base;
 
-extern void DrawSync(s32 a0);
-extern s32 StoreImage(RECT_8004B568 *rect, void *p);
 /* RLE-style byte decoder; returns the advanced dst pointer ($a1 at exit). */
-extern void *decompress_lz(u8 *src, u8 *dst);
 
 /* Reads two adjacent VRAM blocks and decodes their data into a buffer at 0x80016000. */
 void read_vram_blocks_to_buffer(void)

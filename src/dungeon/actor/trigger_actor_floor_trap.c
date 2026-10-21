@@ -23,7 +23,7 @@ typedef struct Ctx {
     /* 0x88 */ s16 unk88;
 } Ctx;
 
-extern Ent D_800E3648[];
+extern Ent floor_objects[];
 
 extern s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z);
 extern s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
@@ -41,7 +41,7 @@ s32 trigger_actor_floor_trap(Actor *actor, Ctx *ctx)
     if (entry_index < 0) {
         return 1;
     }
-    entries = D_800E3648;
+    entries = floor_objects;
     entry = entries + entry_index;
     entry_flags = entry->unk3;
     if ((entry_flags & 0x80) == 0) {

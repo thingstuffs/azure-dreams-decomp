@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 
 extern u8 D_80081471;
-extern u8 D_80081485;
+extern u8 held_item_kind_alias;
 extern u8 D_800E04BA[];
 extern u8 D_800E04E6[];
 
@@ -14,12 +14,12 @@ extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 p
 
 /* Start the actor action and apply its target effect unless a blocking flag is set. */
 s32 begin_target_flagged_action(void *actor, s32 action_arg, s32 unused, void *target) {
-    if ((D_80081485 != 0) || (D_80081471 != 0)) {
+    if ((held_item_kind_alias != 0) || (D_80081471 != 0)) {
         if (D_80081471 != 0) {
             display_formatted_context_message(D_800E04BA);
             return 0;
         }
-        adjust_source_value_and_finalize(((s32)D_800E3D7C), D_800E04E6);
+        adjust_source_value_and_finalize(((s32)dungeon_actor_ring_anchor), D_800E04E6);
         return 0;
     }
     *(s32 *)((u8 *)target + 0x1C) |= 0x100000;

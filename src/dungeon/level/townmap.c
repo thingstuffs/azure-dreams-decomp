@@ -6,16 +6,16 @@ void process_pending_resource_load(void)
     s32 entry_result;
     s32 *entry_table;
 
-    if (D_800CF874[0] != 0) {
+    if (town_resource_request[0] != 0) {
         func_80067014(0);
-        entry_table = &D_800CF838[15];
-        entry_result = load_cd_resource(entry_table[D_800CF874[0]]);
-        D_80081458[0] = entry_result;
-        if (D_800CF874[0] == 1) {
-            D_800CF874[0] = 0;
+        entry_table = &town_resource_descriptors[15];
+        entry_result = load_cd_resource(entry_table[town_resource_request[0]]);
+        loaded_town_resource_attributes[0] = entry_result;
+        if (town_resource_request[0] == 1) {
+            town_resource_request[0] = 0;
             return;
         }
-        D_800CF874[0] = 1;
+        town_resource_request[0] = 1;
     }
 }
 
@@ -105,7 +105,7 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
                 initialize_town_map_object_state(count++, linked_data, *object_cursor++, *resource_cursor++);
             }
             if (count >= 11) {
-                D_800FC418 = 0;
+                town_map_status = 0;
                 return 1;
             }
         }
@@ -113,12 +113,12 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
 }
 
 s32 town_map_del(void) {
-    D_800FC418 = 0xFF;
+    town_map_status = 0xFF;
     return 1;
 }
 
 s32 clear_town_map_status(void) {
-    D_800FC418 = 0;
+    town_map_status = 0;
     return 1;
 }
 
@@ -134,7 +134,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
 
 
     *(Callback *)(context + 0x10) = func_8008B9D8;
-    register_node(context, &D_80033D54);
+    register_node(context, &town_map_tag);
     transform = *(u8 **)(context + 8);
     display = *(u8 **)(context + 0xC);
 
@@ -170,7 +170,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     }
     if (mode == 10) {
         *(u32 *)(record + 0x74) = 0;
-        D_80082ABC = *(u8 *)(*(u8 **)(record + 0x7C));
+        town_map_selection = *(u8 *)(*(u8 **)(record + 0x7C));
     }
     *(Callback *)(record + 0x68) = advance_town_map_countdown_callback;
     *(s16 *)(record + 0x64) = (s16)(s8)D_800CFC38[mode];
@@ -250,7 +250,7 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
     u8 *display_record;
     s16 state;
 
-    if (D_800FC418 != 0) {
+    if (town_map_status != 0) {
         ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_68 = (void *)restore_town_map_input_state;
         return;
     }
@@ -272,12 +272,12 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
             }
             buttons = ((s32)input->pressed_buttons);
             if (buttons & 0x40) {
-                D_800FC418 = 1;
+                town_map_status = 1;
                 call_script(D_80072214);
                 return;
             }
             if (buttons & 0x20) {
-                D_800FC418 = 1;
+                town_map_status = 1;
                 call_script(D_80072210);
                 return;
             }
@@ -290,10 +290,10 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
 
         func_800478B8(update_context);
         display_record = *(u8 **)object;
-        x = D_80083780.x.w.i / 64 - 0x18;
+        x = view_reference_entity.x.w.i / 64 - 0x18;
         ((town_map_7FFEE4F8_S_8008BC58_3 *)display_record)->unk_30 = x;
         display_record = *(u8 **)object;
-        y = D_80083780.y.w.i / 64 - 0x40;
+        y = view_reference_entity.y.w.i / 64 - 0x40;
         ((town_map_7FFEE4F8_S_8008BC58_3 *)display_record)->unk_34 = y;
         return;
     } else if (state == 10) {
@@ -327,7 +327,7 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
         }
 
         selection_index_4 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74;
-        selection_positions = D_800D2EA4;
+        selection_positions = town_building_slot_rectangles;
         selection_id = selection_ids[selection_index_4];
         ((town_map_7FFEE4F8_S_8008BC58_3 *)(*(u8 **)object))->unk_30 = selection_positions[selection_id * 8] - 0x18;
 
@@ -338,7 +338,7 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
 
         selection_index_6 = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74;
         selection_id = selection_ids[selection_index_6];
-        D_80082ABC = selection_id;
+        town_map_selection = selection_id;
     }
 
     return;
@@ -346,7 +346,7 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
 
 void restore_town_map_input_state(town_map_7FFEE778_S_8008BED8_0 *state) {
     s32 *handler;
-    u32 status = D_800FC418;
+    u32 status = town_map_status;
 
     if (status == 0xFF) {
         handler = (s32 *)advance_town_map_countdown_callback;

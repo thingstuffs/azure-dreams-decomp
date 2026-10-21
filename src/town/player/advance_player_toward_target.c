@@ -20,8 +20,8 @@ typedef struct S_8009B014_1 {
 extern void call_the_handler_selects_nonzero_entry(void *entries, void *record, s32 handler_param);
 extern void clear_entity_record_fields(void *record);
 extern void *D_8009AFF4[3];
-extern u8 D_800D0078[3];
-extern s32 D_800D0620;
+extern u8 town_scene_record_handlers[3];
+extern s32 town_player_target_adjustment;
 extern M2C_UNK D_800D0640[3];
 
 /* Updates motion toward the target and advances the state when the countdown expires. */
@@ -31,7 +31,7 @@ void advance_player_toward_target(void *state, EntityRec *motion, s32 context) {
     s32 *target_bases;
     s32 *target_base;
 
-    target_index = D_800D0620;
+    target_index = town_player_target_adjustment;
     target_bases = D_800D0640;
     target_base = target_bases + target_index;
     motion->unk_10 = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base
@@ -43,7 +43,7 @@ void advance_player_toward_target(void *state, EntityRec *motion, s32 context) {
         clear_entity_record_fields(motion);
         ((S_8009B014_1 *)state)->unk_10 = 0x400;
         ((S_8009B014_1 *)state)->unk_0A.u = 0xA;
-        call_the_handler_selects_nonzero_entry(D_800D0078, state, context);
+        call_the_handler_selects_nonzero_entry(town_scene_record_handlers, state, context);
         ((S_8009B014_1 *)state)->unk_04 = D_8009AFF4;
     }
 }

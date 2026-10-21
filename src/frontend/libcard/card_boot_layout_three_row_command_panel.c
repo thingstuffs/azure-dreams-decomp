@@ -70,9 +70,7 @@ typedef struct S_80023600_12 {
 
 
 #include "frontend/libcard/interfaces.h"
-void card_boot_format_command_panel_labels(void *);                            /* extern */
-s32 card_boot_set_centered_rectangle(s32, s32, s32);    /* extern */
-
+#include "frontend/libcard.h"
 
 /* Initialize the panel and position its elements in three rows. */
 void card_boot_layout_three_row_command_panel(void *panel) {

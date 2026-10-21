@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
 
 /* Inferred layout for D_80084918, shared with sibling functions in this
  * global's family (audio_update_voice_tremolo, audio_update_voice_pitch, sound_set_indexed_voice_volumes,
@@ -16,8 +18,6 @@ typedef struct S_80084918 {
 
 extern S_80084918 audio_voice_request;
 extern s32 audio_voice_masks[];
-
-extern void func_8005F134(S_80084918 *descriptor);
 
 /* Builds and submits a request using the indexed table value. */
 void sound_reset_indexed_voice_envelope(s32 request_index) {

@@ -23,7 +23,7 @@ extern u8 D_80024AC0[];
 extern u8 D_80024B04[];
 extern u8 D_80024B48[];
 extern s32 D_80053858[4];
-extern s32 D_80053A88;
+extern s32 display_registration_tag;
 extern u8 D_800F7DFC[];
 
 extern void clear_resident_bit(s32);
@@ -96,8 +96,8 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         spawn_interval = 16;
     }
 
-    if (D_80083780.y.v > 0x03200000) {
-        D_80083780.y.v = 0x03200000;
+    if (view_reference_entity.y.v > 0x03200000) {
+        view_reference_entity.y.v = 0x03200000;
     }
 
     state = controller->state;
@@ -112,7 +112,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
                 controller->countdown--;
             }
 
-            object = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
+            object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
                 u8 *object_tail = object + 0x20;
                 ((S_800243D8_0 *)object)->unk_10 = D_80024B48;
@@ -147,7 +147,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             break;
         }
 
-        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
+        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
             object_data = object + 0x20;
             ((S_800243D8_0 *)object)->unk_10 = D_80024AC0;
@@ -160,11 +160,11 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
         }
 
-        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
+        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
             object_data = object + 0x20;
             ((S_800243D8_0 *)object)->unk_10 = D_80024B04;
-            register_node(object, &D_80053A88);
+            register_node(object, &display_registration_tag);
             ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x74;
             ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;
             ((S_800243D8_2 *)object_data)->unk_10.at00u.v = 0x58;
@@ -178,7 +178,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
         break;
 
     case 2:
-        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
+        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
             object_data = object + 0x20;
             ((S_800243D8_0 *)object)->unk_10 = D_80024AC0;
@@ -191,11 +191,11 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
             ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
         }
 
-        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
+        object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
             object_data = object + 0x20;
             ((S_800243D8_0 *)object)->unk_10 = D_80024B04;
-            register_node(object, &D_80053A88);
+            register_node(object, &display_registration_tag);
             ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x78;
             ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;
             ((S_800243D8_2 *)object_data)->unk_10.at00u.v = 0x50;

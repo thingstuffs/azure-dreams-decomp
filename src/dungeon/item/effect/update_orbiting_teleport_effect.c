@@ -159,7 +159,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
         break;
     case 1:
         orbit_offset = func_80064584(((S_800C4F20_0 *)anim)->unk_2E);
-        orbit_center = &D_80083780;
+        orbit_center = &view_reference_entity;
         target_x = orbit_center->x.w.i + (orbit_offset >> 6);
         target_y = orbit_center->y.w.i + (func_800644B8(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
         x_delta = target_x - position->unk_02;

@@ -66,7 +66,7 @@ void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context,
         }
         break;
     case 1:
-        if (D_80013714 & 8) {
+        if (system_update_flags & 8) {
             if (actor->flags & 0x6000) {
                 if (actor->field2c == D_800DD148) {
                     controller->state = 0x10;

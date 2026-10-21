@@ -1,9 +1,8 @@
 #include "common.h"
-
-extern int get_cd_command_queue_depth(void);
-extern void render_cd_wait_animation_on_new_field(void);
-extern void update_vsync_frame_id(int);
-extern void func_8003E758(void);
+#include "engine/cd.h"
+#include "engine/graphics.h"
+#include "engine/scene.h"
+#include "slus.h"
 
 /* Repeat the update sequence while get_cd_command_queue_depth reports pending work. */
 void drain_cd_command_queue(void)

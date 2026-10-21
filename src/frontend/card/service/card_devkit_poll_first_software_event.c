@@ -1,11 +1,8 @@
 #include "common.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
 extern s32 func_8007C9C8(s32 event_handle);
-
-extern s32 D_80409270[];
-extern s32 D_80409274[];
-extern s32 D_80409278[];
-extern s32 D_8040927C[];
 
 s32 card_devkit_poll_first_software_event(void) {
     s32 result;

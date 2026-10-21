@@ -336,7 +336,7 @@ void update_actor_status_and_food();                      /* extern */
 s32 refresh_actor_facing_and_lifecycle();  /* extern */
 s32 sample_terrain_surface_height();                   /* extern */
 void *find_linked_entity_of_type_21();                /* extern */
-extern u16 D_80013714[8];
+extern u16 system_update_flags[8];
 extern u8 D_8006EE9C[16];
 extern u8 D_8006F47A[16];
 extern u8 D_8006F50D[16];
@@ -349,8 +349,8 @@ extern u8 D_80070684[16];
 extern u8 D_80070AF8[16];
 extern u8 D_80070C11[16];
 extern u8 D_80070E63[16];
-extern u8 D_800E296C[16];
-extern u8 D_800E3D7C[16];
+extern u8 dungeon_floor_flags[16];
+extern u8 dungeon_actor_ring_anchor[16];
 extern u8 D_800FB3C8[16];
 extern u8 D_800FB8DF[16];
 extern u8 D_800FBAD7[16];
@@ -364,10 +364,10 @@ typedef struct {
 extern Packed16 D_80170804;
 extern u8 D_80171FA4[16];
 extern u8 D_80175C30[16];
-extern void (*D_80175CC8[])(void *, void *, void *, void *);
+extern void (*kewne_uncached_callbacks[])(void *, void *, void *, void *);
 
-#define event_base ((u8 *)((u8 *)(&D_80082E80)))
-#define position_base ((u8 *)((u8 *)(&D_80083780)))
+#define event_base ((u8 *)((u8 *)(&reference_tile_object)))
+#define position_base ((u8 *)((u8 *)(&view_reference_entity)))
 
 /* Updates actor events, behavior, movement, and sprite height and facing. */
 

@@ -9,8 +9,8 @@ typedef struct {
 } Template16;
 
 
-extern Template16 D_8002E5D8;
-extern DisplayPositionWords D_8002E5E8;
+extern Template16 display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 typedef struct {
     u8 unk0;
@@ -41,8 +41,8 @@ typedef struct {
 
 /* Initialize an entity and its part and vector storage from default templates. */
 void initialize_entity_display_parts(Entity *entity, Template16 *part, EntityVector *vector) {
-    Template16 *part_template = &D_8002E5D8;
-    DisplayPositionWords *vector_template = &D_8002E5E8;
+    Template16 *part_template = &display_block_defaults;
+    DisplayPositionWords *vector_template = &display_vector_defaults;
     s32 *vector_word;
 
     part->unk0 = part_template->unk0;

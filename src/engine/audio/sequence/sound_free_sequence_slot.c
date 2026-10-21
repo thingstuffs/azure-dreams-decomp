@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/util.h"
 
 /* S_80086C00: 12-byte-stride sound-driver "sequence slot" table (8 entries),
  * indexed by the slot index arg0. Canonical layout established by sibling
@@ -13,9 +15,6 @@ typedef struct S_80086C00 {
 
 extern S_80086C00 audio_sequence_slots[8];
 extern s32 audio_update_guard[4]; /* forced hi/lo access via size > 8 */
-
-extern void activate_entries_and_clear_state(void);
-extern void audio_reset_sequence_tracks_and_channels(void);
 
 /* Resets a sound sequence slot to its free/default state. */
 void sound_free_sequence_slot(s32 slot_id)

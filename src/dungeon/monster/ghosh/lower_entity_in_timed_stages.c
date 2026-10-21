@@ -13,14 +13,14 @@ typedef struct {
     s32 y;
 } Position;
 
-extern u8 *D_80174704[];
+extern u8 *ghosh_actor_node[];
 extern u8 *D_80174CC8[];
 extern void play_sound_if_enabled(s32);
 
 /* Lowers the entity in two timed stages, then flags completion and clears the active pointer. */
 void lower_entity_in_timed_stages(Entity *entity, Position *pos)
 {
-    u8 *context_base = D_80174704[0];
+    u8 *context_base = ghosh_actor_node[0];
     s32 state = entity->state;
     s32 expected_state;
     u16 initial_state;

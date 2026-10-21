@@ -82,7 +82,7 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
         ((S_80025198_1 *)state)->unk_1C = (s32) ((S_80025198_2 *)descriptor_data)->unk_00;
         set_item_data_from_lookup(state, descriptor_data, setup_arg);
         (*(s32 *)((u8 *)object + (0x10))) = 0;
-        if (D_80082E60.mode != 1) {
+        if (runtime_dispatch_state.mode != 1) {
             clear_state_flag_bit();
         }
         display_ids = &D_80029498;

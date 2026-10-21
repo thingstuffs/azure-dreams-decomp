@@ -12,9 +12,9 @@ extern s32 Krom2RawAdd(s32);
 extern void func_80067014(s32);
 extern s16 *build_filtered_catalog_glyph(s32, s16 *);
 
-extern s16 D_80128A20[];
-extern Entry *D_80129720;
-extern s16 D_80129724;
+extern s16 catalog_glyph_pixels[];
+extern Entry *catalog_cache_head;
+extern s16 catalog_lookup_count;
 
 /* Returns cached glyph data, loading it on a miss and updating cache order. */
 s16 *get_cached_catalog_glyph(s16 char_code)
@@ -32,28 +32,28 @@ s16 *get_cached_catalog_glyph(s16 char_code)
         return 0;
     }
 
-    if (D_80129724 >= 30) {
+    if (catalog_lookup_count >= 30) {
         func_80067014(0);
-        D_80129724 = 0;
+        catalog_lookup_count = 0;
     }
 
-    last_entry = D_80129720;
+    last_entry = catalog_cache_head;
     last_prev = last_entry;
     entry = last_entry;
     if (entry != 0) {
         do {
             if ((u16)entry->state == glyph_id) {
-                glyph_data = &D_80128A20[(u16)entry->value];
-                cache_head = D_80129720;
+                glyph_data = &catalog_glyph_pixels[(u16)entry->value];
+                cache_head = catalog_cache_head;
                 if (entry == cache_head) {
-                    D_80129724++;
+                    catalog_lookup_count++;
                     return glyph_data;
                 }
                 next_entry = entry->next;
-                D_80129720 = entry;
+                catalog_cache_head = entry;
                 last_entry->next = next_entry;
                 entry->next = cache_head;
-                D_80129724++;
+                catalog_lookup_count++;
                 return glyph_data;
             }
             last_prev = last_entry;
@@ -63,8 +63,8 @@ s16 *get_cached_catalog_glyph(s16 char_code)
     }
 
     glyph_data = build_filtered_catalog_glyph((u16)char_code,
-                               &D_80128A20[(u16)last_entry->value]);
-    if (glyph_data != &D_80128A20[(u16)last_entry->value]) {
+                               &catalog_glyph_pixels[(u16)last_entry->value]);
+    if (glyph_data != &catalog_glyph_pixels[(u16)last_entry->value]) {
         return 0;
     }
     {
@@ -72,14 +72,14 @@ s16 *get_cached_catalog_glyph(s16 char_code)
 
         last_entry->state = char_code;
         last_prev->next = 0;
-        old_head = D_80129720;
-        D_80129720 = last_entry;
+        old_head = catalog_cache_head;
+        catalog_cache_head = last_entry;
         last_entry->next = old_head;
-        D_80129724++;
+        catalog_lookup_count++;
         return glyph_data;
     }
 
-    D_80129724++;
+    catalog_lookup_count++;
     return glyph_data;
 
     return 0;

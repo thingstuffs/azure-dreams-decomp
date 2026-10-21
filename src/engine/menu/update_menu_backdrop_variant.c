@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/menu.h"
 
 typedef struct S_8004EEBC_Inner {
     int unk0;

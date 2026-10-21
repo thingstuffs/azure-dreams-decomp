@@ -45,7 +45,7 @@ void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
 
     saved_size = size;
 
-    object = allocate_list_node(0x12, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         ((S_80026ED0_0 *)object)->unk_10 = &D_80026E3C;
         register_node(object, project_sprite_chain);

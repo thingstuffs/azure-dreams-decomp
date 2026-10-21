@@ -1,6 +1,13 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/audio.h"
+#include "engine/effect.h"
+#include "engine/graphics.h"
+#include "engine/object.h"
+#include "engine/resource.h"
+#include "engine/window.h"
+#include "engine/window/message.h"
 
 typedef struct Func80035AF8State {
     u8 pad00[0x14];
@@ -15,15 +22,6 @@ typedef struct Func80035AF8State {
     u8 sound_id;
     s8 sound_arg;
 } Func80035AF8State;
-
-extern void window_wait_then_play_sound(void *state);
-extern void grow_window_extent_to_sixty_four(void *state, void *progress);
-extern s32 select_resident_resource_table_value(s32 entry_index);
-extern void draw_glyph_row(s16 x, s16 y, s32 spacing_index, s32 glyph_codes);
-extern void fill_vram_rect(s16 x, s16 y, s16 w, s16 h, u8 r, u8 g, u8 b);
-extern void clear_fade_manager(void);
-extern s32 has_table_entry(s32 unused, s32 entry_index);
-extern u32 *find_sound_table_entry(s32 sound_id);
 
 /* Display the requested sound and select its next state callback. */
 void display_sound_selection_and_prepare_playback(Func80035AF8State *state) {

@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern s32 D_80408C8C;
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern void func_80051B50(s32 buffer, s32 value, s32 option);
 

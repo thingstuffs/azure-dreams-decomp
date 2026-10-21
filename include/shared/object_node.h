@@ -25,7 +25,7 @@ typedef struct ObjectNodeHeader {
     /* 0x1E */ unsigned short flags;             /* flags | 0x4000 at allocation; & 0x200 / & 0x80 tests (func_8003FB98) */
 } ObjectNodeHeader;
 
-extern ObjectNodeHeader D_80083498;
+extern ObjectNodeHeader scene_object_list_anchor;
 ObjectNodeHeader *func_8003FC64(int flags);
 
 #endif

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio.h"
 
 extern u8 runtime_dispatch_mode_alias[];
 

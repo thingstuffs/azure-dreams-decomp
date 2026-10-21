@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/window.h"
 
 typedef struct Source {
     s16 f00;

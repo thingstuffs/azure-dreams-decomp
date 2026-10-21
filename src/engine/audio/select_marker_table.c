@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio.h"
+#include "slus/data.h"
 
 /* D_800847F0: only a single s16 field is ever touched here (sh of 0/1), but
  * the target addresses it via lui/%lo rather than gp-relative, so it must be
@@ -12,11 +14,6 @@ extern S_800847F0 sound_stream_marker_index;
 
 /* Marker-table arrays: only their addresses are taken here (matching the
  * sibling usage in src/w_8004437C.c), never dereferenced. */
-extern s32 sound_stream_primary_marker_address[4];
-extern s32 sound_stream_secondary_marker_address[4];
-
-extern void handle_audio_status_code(s32 a0);
-extern void build_record_pointer_table(void *a0, s32 a1);
 
 /* Fires event 0x71 and selects the marker table and flag for types 0x21 and 0x22. */
 void select_marker_table(s32 marker_code) {

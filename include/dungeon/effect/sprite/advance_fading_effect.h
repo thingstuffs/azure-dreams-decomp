@@ -195,8 +195,8 @@ typedef struct ovl_188298c_818632E4_LargeFlag {
     u32 value;
     u32 pad[2];
 } ovl_188298c_818632E4_LargeFlag;
-extern void *D_800E3D7C;
-extern u8 D_800E3D68;
+extern void *dungeon_actor_ring_anchor;
+extern u8 current_spell_effect_variant;
 extern s32 check_entity_interaction_compatibility(void *kind, void *actor);
 extern s32 check_entity_eligibility(void *actor);
 extern s32 generate_random_value(void);

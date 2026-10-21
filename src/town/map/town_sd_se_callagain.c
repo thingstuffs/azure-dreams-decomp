@@ -14,8 +14,8 @@ typedef struct {
     s16 unk8;
 } TownEntry;
 
-extern TownState D_8006ADBC;
-extern TownEntry D_800D4094[];
+extern TownState map_runtime_state;
+extern TownEntry map_sound_settings[];
 
 extern s32 find_sound_entry_or_terminator_index(s16 target_value);
 extern void reset_audio_command_state(void);
@@ -29,11 +29,11 @@ s32 town_sd_se_callagain(void) {
     TownEntry *entries;
     TownEntry *entry;
 
-    town_state = &D_8006ADBC;
+    town_state = &map_runtime_state;
     entry_index = find_sound_entry_or_terminator_index(town_state->index);
     reset_audio_command_state();
     if (town_state->state == 12) {
-        entries = D_800D4094;
+        entries = map_sound_settings;
         entry = &entries[entry_index];
         if (entry->effect != -1) {
             audio_load_sound_effect_bank(entry->effect);

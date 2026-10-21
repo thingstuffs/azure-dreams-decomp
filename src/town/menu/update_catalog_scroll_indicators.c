@@ -16,7 +16,7 @@ typedef struct {
     void **slot6C;
 } TownState;
 
-extern TownState D_80129728;
+extern TownState catalog_display_node_slots;
 extern void **D_80129758[];
 extern void **D_8012975C[];
 extern u8 D_801285FC[];
@@ -34,7 +34,7 @@ void update_catalog_scroll_indicators(TownObject *object)
             return;
         }
     } else {
-        TownState *state = &D_80129728;
+        TownState *state = &catalog_display_node_slots;
 
         *state->slot30 = 0;
         *state->slot34 = 0;

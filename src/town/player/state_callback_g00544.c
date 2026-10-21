@@ -8,7 +8,7 @@ void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unuse
     s8 status;
 
     if (service_script_controller() == 0) {
-        ((Callback)D_800FE5D8[0])(value, ptr, ptr2);
+        ((Callback)town_player_action_callback[0])(value, ptr, ptr2);
         return;
     }
     state = object_index_slots;
@@ -18,7 +18,7 @@ void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unuse
         return;
     }
     if (status < 0) {
-        callback = (Callback)D_800FE5D8[0];
+        callback = (Callback)town_player_action_callback[0];
         *(s8 *)(state + 8) = 0;
         callback(value, ptr, ptr2);
     }

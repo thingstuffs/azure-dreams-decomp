@@ -12,8 +12,8 @@ typedef struct TownState {
     u8 *field2C;
 } TownState;
 
-extern TownEntry D_800CF720[];
-extern TownState D_801131B8;
+extern TownEntry resource_cache_records[];
+extern TownState town_resource_context;
 
 extern void *alloc_gpu_scratch_ring(s32);
 extern void memcpy(void *, void *, s32);
@@ -33,7 +33,7 @@ void move_resource_to_front(s32 entry_index)
     s32 data_size;
     s32 data_offset;
 
-    entries = D_800CF720;
+    entries = resource_cache_records;
     entry = &entries[entry_index];
     saved_field0 = entry->field0;
     saved_field1 = entry->field1;
@@ -42,12 +42,12 @@ void move_resource_to_front(s32 entry_index)
 
     scratch = alloc_gpu_scratch_ring(0x8000);
     data_offset = sum_resource_bytes(entry_index);
-    state = &D_801131B8;
+    state = &town_resource_context;
     memcpy(scratch, state->field2C + data_offset, data_size);
     shift_resource_entries_and_data(entry_index, data_size);
     memcpy(state->field2C, scratch, data_size);
 
-    D_800CF720[0].field0 = saved_field0;
+    resource_cache_records[0].field0 = saved_field0;
     entries[0].field1 = saved_field1;
     entries[0].field2 = saved_field2;
     entries[0].field4 = data_size;

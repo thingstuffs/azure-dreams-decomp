@@ -45,7 +45,7 @@ void create_paired_vector_color_effect(s32 effect_param, Vec3s *vectors, Color *
     EffectSub *sub;
     s32 pair_index;
 
-    effect = allocate_list_node(1, ((u8 *)(&D_80083498)));
+    effect = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (effect != NULL) {
         sub = &effect->sub;
         sub->field24 = sub_param;

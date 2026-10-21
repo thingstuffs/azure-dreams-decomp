@@ -1,4 +1,8 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/texture.h"
+#include "sdk/libgpu.h"
+#include "slus/data.h"
 
 /* This whole TU is compiled with -G0 (small-data disabled), so gcc
  * addresses these plain scalars via independent lui/%hi + lw/sw/%lo pairs
@@ -6,7 +10,6 @@
  * $gp. D_80080A7C is a plain int elsewhere too (see code5.c func_8004066C,
  * same -G0 TU). D_80081480/D_8008148C are really running write/base
  * pointers into a growing decode buffer, stored as plain 32-bit values. */
-extern s32 gpu_scratch_ring_size;
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
 
@@ -19,12 +22,8 @@ typedef struct {
     s16 unk06;
 } S_8004878C_hdr;
 
-extern void DrawSync(s32 a0);
 /* RLE-style byte decoder; only the argument setup (src/dst pointers) needs
  * to match, so declare it minimally. */
-extern void *decompress_lz(u8 *src, u8 *dst);
-extern void texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1(u8 *source, u8 *output);
-extern int LoadImage(void *rect, void *p);
 
 /* Decodes and uploads an image, wrapping the decode buffer when needed. */
 void decode_compressed_image_to_vram(void *src, S_8004878C_hdr *rect)

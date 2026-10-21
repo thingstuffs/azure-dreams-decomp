@@ -161,7 +161,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
 
 s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
-  u8 *globals_page = D_80080000;
+  u8 *globals_page = resident_globals_page;
   s32 segment = 15;
   s32 *point_base = points_addr;
   s32 initial_z = plane_z;

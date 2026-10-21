@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 /* S_800737C0: a plain s32 flag/mutex scalar. Declared as a struct with
  * padding (size > 8B) to force hi/lo access while keeping gcc from CSE-ing

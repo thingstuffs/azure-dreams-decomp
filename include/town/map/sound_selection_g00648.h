@@ -20,25 +20,25 @@ typedef struct {
 } GlobalState;
 
 extern s32 find_target_byte_index_in_list(void);
-extern u16 D_800D4244[];
-extern s16 D_8006ADD4;
+extern u16 fallback_sound_pairs[];
+extern s16 map_scene_selector_alias;
 extern u8 D_800D0004[];
-extern u8 D_800D4094;
-extern s16 D_800D4268[];
+extern u8 map_sound_settings;
+extern s16 town_saved_sound[];
 extern u8 D_80110004[];
 extern s16 D_80113200[];
 extern s32 find_sound_entry_or_terminator_index(s32 target_value);
-extern GlobalState D_8006ADBC;
-extern s16 D_800D4258[];
-extern s16 D_800D4260[];
+extern GlobalState map_runtime_state;
+extern s16 town_pending_sound[];
+extern s16 town_sound_selection[];
 extern void audio_load_sound_effect_bank(s32 record_id);
 extern void load_sound_set(s32 state_index);
 extern void drain_audio_commands_and_service_channels(void);
 extern s32 select_sound_stream(s16 entry_index, s16 mode);
-extern s8 D_80080A88[];
-extern s16 D_800D4262[];
-extern s16 D_800D4264[];
-extern s16 D_800D4266[];
+extern s8 scene_music_hold[];
+extern s16 town_sound_command[];
+extern s16 town_stream_index[];
+extern s16 town_sequence_command[];
 
 extern s16 SD_Call(s32 flags);
 /* Functions defined in this translation unit. */

@@ -20,8 +20,8 @@ typedef struct GlobalFlags {
     s32 pad[2];
 } GlobalFlags;
 
-extern s32 D_800E3648[0x20];
-extern EntitySlot D_800E39C8[0x20];
+extern s32 floor_objects[0x20];
+extern EntitySlot dungeon_floor_object_positions[0x20];
 
 extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 type);
 
@@ -34,8 +34,8 @@ void clear_slot_and_detach_entity(s32 slot_index) {
     u16 entity_flags;
     s32 global_flags;
 
-    slot_base = D_800E39C8;
-    D_800E3648[slot_index] = 0;
+    slot_base = dungeon_floor_object_positions;
+    floor_objects[slot_index] = 0;
     slot_offset = slot_index * 0x18;
 
     slot = (EntitySlot *)((u8 *)slot_base + slot_offset);

@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window.h"
 
 typedef struct S_80037394_0 {
     u8 pad_00[0x44];
@@ -23,8 +24,6 @@ typedef struct S_80037394_2 {
     s32 unk_0C;
 } S_80037394_2;   /* arg2 in update_cursor_blink_colors */
 
-
-extern s32 unlink_cursor_when_finished(void *state);
 extern void copy_texture_descriptor_with_page_offsets(s32 *texture_pos, void *src, void *dst);
 
 extern u8 cursor_texture_template_0[];

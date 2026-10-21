@@ -62,7 +62,7 @@ extern s32 link_indexed_entry_chain(void *, s32);
 extern s32 SD_Call();
 extern u8 D_800E2924[];
 
-extern GlobalState *D_800E5910;
+extern GlobalState *dungeon_menu_object;
 
 /* Functions defined in this translation unit. */
 void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y);

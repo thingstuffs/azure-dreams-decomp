@@ -1,17 +1,9 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 
-typedef struct {
-    void *handler;
-    s16 x;
-    s16 y;
-    s16 limit_x;
-    s16 limit_y;
-    u8 pad_C[4];
-    u16 argument;
-    s16 predicate_arg;
-    s16 mode;
-} Entity;
+#include "town/map/trigger_callbacks.h"
+
+typedef map_trigger_record Entity;
 
 extern s32 D_800C1F8C;
 extern int abs(int);
@@ -25,8 +17,8 @@ void trigger_entity_action_when_allowed(Entity *entity)
     s32 x_distance;
     s32 y_distance;
 
-    x_distance = abs(entity->x - D_80083780.x.w.i);
-    y_distance = abs(entity->y - D_80083780.y.w.i);
+    x_distance = abs(entity->x - view_reference_entity.x.w.i);
+    y_distance = abs(entity->y - view_reference_entity.y.w.i);
 
     if (entity->mode == 0) {
         if (test_resident_bitmap_bit(entity->predicate_arg) == 0) {
@@ -46,5 +38,5 @@ void trigger_entity_action_when_allowed(Entity *entity)
     }
 
     SD_Call(entity->argument);
-    entity->handler = &D_800C1F8C;
+    entity->handler = (map_trigger_callback_fn)&D_800C1F8C;
 }

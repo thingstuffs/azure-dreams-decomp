@@ -15,7 +15,7 @@ s32 func_80064584(s32);                           /* extern */
 void select_sprite_entry(void *, u8, s32);              /* extern */
 extern s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_state);
 extern void update_expiring_sprite_effect(void *effect, S_800D6C18_2 *size_state);
-extern M2C_UNK D_800E23D8;
+extern M2C_UNK radial_effect_frames;
 
 typedef struct {
     s32 w0;
@@ -90,10 +90,10 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
     s32 scale = 3;
 
     segment = 0;
-    direction_table = (u8 *)&D_800E23D8;
+    direction_table = (u8 *)&radial_effect_frames;
     end_angle = 0x200;
     do {
-        effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+        effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
         effect_state = effect + 0x20;
         if (effect != NULL) {
             copy_src = render_template;

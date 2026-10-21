@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/object.h"
 
 typedef struct S_80033D38_0 {
     s32 unk_00;

@@ -12,7 +12,7 @@ typedef struct S_8009F868_0 {
     u8 * unk_0C;
 } S_8009F868_0;   /* state in advance_monster_timed_sequence */
 
-extern u8 D_800DCE60[16];
+extern u8 dungeon_camera_targets[16];
 
 extern void bind_view_triplet_source(void *);
 extern void queue_view_slot(s32);
@@ -31,16 +31,16 @@ void *advance_monster_timed_sequence(void)
     opcode = entry[1];
 
     if (opcode == 0) {
-        if (D_80013714 & 8) {
+        if (system_update_flags & 8) {
             ((S_8009F868_0 *)state)->unk_04 |= 0x10;
             return 0;
         }
         ((S_8009F868_0 *)state)->unk_0A = 0;
         ((S_8009F868_0 *)state)->unk_04 &= 0xC;
-        bind_view_triplet_source(((u8 *)(&D_80083780)));
+        bind_view_triplet_source(((u8 *)(&view_reference_entity)));
         g_game_work.view.slot[2].callback = 0;
         queue_view_slot(1);
-        set_camera_targets(0, D_800DCE60, 8);
+        set_camera_targets(0, dungeon_camera_targets, 8);
         return 0;
     }
 

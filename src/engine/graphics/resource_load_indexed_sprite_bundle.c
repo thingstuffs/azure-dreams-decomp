@@ -1,4 +1,10 @@
 #include "common.h"
+#include "engine/cd.h"
+#include "engine/graphics.h"
+#include "engine/texture.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
+#include "slus/data.h"
 
 typedef struct S_80048C3C_0 {
     s32 unk_00;
@@ -10,15 +16,6 @@ typedef struct S_80048C3C_1 {
     s32 unk_1C;
     s32 unk_20;
 } S_80048C3C_1;   /* temp_s2 in resource_load_indexed_sprite_bundle */
-void DrawSync(s32);                          /* extern */
-s32 Control_CD(s32 event_code, void *event_data, s32 payload);       /* extern */
-void drain_cd_command_queue(void);                            /* extern */
-void upload_vram_row_and_cache(); /* extern */
-s32 relocate_sprite_metadata_pointers();                      /* extern */
-void mark_palette_colors_with_high_bit();    /* extern */
-void texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14();                      /* extern */
-extern u8 D_80071210[];
-extern s8 shared_sprite_resource_loaded;
 
 /* Loads and initializes a resource, registers its payload in two VRAM cache slots, and returns its table slot. */
 void *resource_load_indexed_sprite_bundle(s32 resource_id) {
@@ -31,7 +28,7 @@ void *resource_load_indexed_sprite_bundle(s32 resource_id) {
 
     entry = (void *)(resource_id * 8);
     load_mode = 6;
-    entry2 = (u8 *)entry + (u32)D_80071210;
+    entry2 = (u8 *)entry + (u32)indexed_sprite_bundle_records;
     Control_CD(load_mode, ((S_80048C3C_0 *)entry2)->unk_00, 0);
     drain_cd_command_queue();
     resource = ((S_80048C3C_0 *)entry2)->unk_04;

@@ -4,7 +4,7 @@
 
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 
-extern DungeonCallback D_800E2228[];
+extern DungeonCallback actor_gravity_callbacks[];
 
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
@@ -66,7 +66,7 @@ void update_actor_gravity(void *object, void *motion, void *entity) {
     if (callback != 0) {
         callback(update_obj, motion, ent, update_obj);
     }
-    D_800E2228[(*(u8 *)((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);
+    actor_gravity_callbacks[(*(u8 *)((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);
 
     x = ((S_800D2664_0 *)motion)->unk_00.at00.v;
     dx = ((S_800D2664_0 *)motion)->unk_0C;

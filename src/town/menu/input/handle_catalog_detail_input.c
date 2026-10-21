@@ -34,7 +34,7 @@ extern void reset_catalog_scroll_indicators(TownState *);
 extern void update_catalog_scroll_availability(TownState *);
 
 extern u8 D_801269F8[];
-extern ImageList D_801278B0[];
+extern ImageList catalog_detail_images[];
 
 /* Handles selection navigation, scrolling, transitions, and the idle toggle timer. */
 void handle_catalog_detail_input(TownState *state)
@@ -74,7 +74,7 @@ void handle_catalog_detail_input(TownState *state)
     if (buttons & 0x4000) {
         u8 *selection;
 
-        max_scroll = (D_801278B0[state->index].count - 3) << 4;
+        max_scroll = (catalog_detail_images[state->index].count - 3) << 4;
         selection = D_801269F8;
         if (((max_scroll & 0xF0) - 4) >= selection[9]) {
             state->state = 0xE;

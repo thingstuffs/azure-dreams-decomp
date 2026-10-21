@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/audio/slots.h"
+#include "engine/util.h"
+#include "slus/data.h"
 
 typedef struct {
     /* 0x00 */ u32 addr;
@@ -7,8 +10,6 @@ typedef struct {
 
 extern S_800869C0 audio_ram_blocks[16];
 extern s8 sound_ram_reserve_mode[9];
-extern s32 sound_ram_reserved_sizes[9];
-extern void sort_entries_by_key(void);
 
 /* Register or resize a memory block at the requested address. */
 s32 reserve_sound_ram_block(u32 addr, s32 size)

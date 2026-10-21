@@ -18,7 +18,7 @@ s32 begin_familiar_restoration_effects(void)
 
     slot = 0;
     do {
-        object = *(u8 **)(((u8 *)D_800E3D7C) + 0xAC + slot * 4);
+        object = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + slot * 4);
         if (object != 0) {
             linked_object = *(u8 **)(object - 0x14);
             create_familiar_restoration_effect(linked_object[0x24], linked_object[0x25],

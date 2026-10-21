@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 D_80019BB4;
+extern s32 scene_choice_index;
 
 /* Returns whether D_80019BB4 equals 3. */
 s32 get_equals_3(void) {
-    return D_80019BB4 == 3;
+    return scene_choice_index == 3;
 }

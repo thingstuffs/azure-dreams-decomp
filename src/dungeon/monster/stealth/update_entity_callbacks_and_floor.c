@@ -8,7 +8,7 @@
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
 extern u8 D_80170F74[];
-extern EntityCallback D_80173D90[];
+extern EntityCallback stealth_callbacks[];
 
 extern void register_node(void *, void *);
 extern void select_indirect_table_entry(void *, u8, s8);
@@ -138,13 +138,13 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
         if (callback != 0) {
             callback(entity_state, entity_motion, entity_part, entity_state);
         }
-        D_80173D90[((CallbackActorState *)entity_state)->handler_index](entity_state, entity_motion, entity_part, entity_state);
+        stealth_callbacks[((CallbackActorState *)entity_state)->handler_index](entity_state, entity_motion, entity_part, entity_state);
 
         if ((s16)old_mode != ((CallbackActorState *)entity_state)->action_count.signed_value) {
             try_move_actor_to_valid_position(entity_state, entity_motion, entity_part, entity_state);
         }
 
-        if ((D_800E296C & 4) && (((CallbackActorState *)entity_state)->fade_frame.signed_value < 0)) {
+        if ((dungeon_floor_flags & 4) && (((CallbackActorState *)entity_state)->fade_frame.signed_value < 0)) {
             if (((CallbackActorState *)entity_state)->fade_state != 0) {
                 ((CallbackActorState *)entity_state)->fade_frame.signed_value = 0;
                 ((CallbackActorState *)entity_state)->fade_state = 0;

@@ -1,5 +1,6 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
+#include "main.h"
 
 
 
@@ -10,7 +11,7 @@ s32 card_boot_count_cached_slots(void) {
 
     active_count = 0;
     for (i = 0; i < 5; i++) {
-        if ((*(s32 (*)[])(&D_80083E98))[i * 0x20] != 0) {
+        if ((*(s32 (*)[])(&card_save_slot_metadata))[i * 0x20] != 0) {
             active_count += 1;
         }
     }

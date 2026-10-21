@@ -179,7 +179,7 @@ s32 func_800644B8(s32);
 s32 rand(void);
 void transform_rotated_vertices(void *);
 extern u8 D_800DEC28[];
-extern u8 D_800E3D68[];
+extern u8 current_spell_effect_variant[];
 void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0800_10 *actor_state);
 void func_80024594(void *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_80082E80 *sprite);
 #endif

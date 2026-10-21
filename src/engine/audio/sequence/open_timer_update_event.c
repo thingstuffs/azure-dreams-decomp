@@ -1,10 +1,11 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus/data.h"
 
 /* D_800737C0: "in-progress" guard flag for the RCnt/event init sequence.
  * hi/lo access (lui/lw with %hi/%lo, not gp_rel) -> size must be > 8 bytes. */
 extern s32 audio_timer_setup_guard[4];
 /* D_80085F9C: stores the event handle returned by OpenEvent. */
-extern s32 audio_timer_event_handle[4];
 /* D_80085F98: mode/status flag, cleared at the end of the init sequence. */
 extern s32 audio_update_guard[4];
 
@@ -14,8 +15,6 @@ extern s32 OpenEvent(u32 class, s32 spec, s32 mode, void (*func)(void));
 extern s32 EnableEvent(s32 event);
 extern s32 SetRCnt(u32 spec, u16 target, s32 mode);
 extern s32 StartRCnt(u32 spec);
-
-extern void sound_tick_guarded_periodic_update(void);
 
 /* Set up the root counter interrupt event and start the counter unless setup is in progress. */
 void open_timer_2_update_event(void)

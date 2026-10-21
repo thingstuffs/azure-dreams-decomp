@@ -72,7 +72,7 @@ s32 register_node();
 s32 func_80069EF8();
 extern M2C_UNK D_800777F4;
 extern u8 D_8016E528;
-extern void *D_80174704[];
+extern void *ghosh_actor_node[];
 extern TableEntry D_80174708[];
 
 /* Spawn and initialize an effect at the source position when its mode and status allow it. */
@@ -90,7 +90,7 @@ void spawn_conditional_source_effect(void) {
     S_8016ECE4_4 *effect_pos;
     void *source;
 
-    source = D_80174704[0];
+    source = ghosh_actor_node[0];
     {
         u8 *addr = (u8 *)0x80010000;   /* integer page, two genuine reads of the 16-bit counter at 0x80013610 (decision 44; func_8132C638 uses the same counter) */
         low_byte = addr[0x3611];

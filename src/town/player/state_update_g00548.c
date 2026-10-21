@@ -11,14 +11,14 @@ void update_player_global_state(Entity *entity, void *ptr, void *ptr2) {
         entity->unkA = 4;
         call_the_handler_selects_nonzero_entry((s32 *) D_800D0190, (Rec_func_80094268_arg0 *) entity, ptr2);
         entity->unk4 = D_8009B0EC;
-    } else if ((((u32)state->pressed_buttons) & 0x1000) && ((adjustment = D_800D0620) >= 0)) {
-        D_800D0620 = adjustment - 1;
+    } else if ((((u32)state->pressed_buttons) & 0x1000) && ((adjustment = town_player_target_adjustment) >= 0)) {
+        town_player_target_adjustment = adjustment - 1;
         entity->unk10 = 0x800;
         entity->unkA = 4;
         call_the_handler_selects_nonzero_entry((s32 *) D_800D0088, (Rec_func_80094268_arg0 *) entity, ptr2);
         entity->unk4 = D_8009B014;
-    } else if ((((u32)state->pressed_buttons) & 0x4000) && ((adjustment = D_800D0620) <= 0)) {
-        D_800D0620 = adjustment + 1;
+    } else if ((((u32)state->pressed_buttons) & 0x4000) && ((adjustment = town_player_target_adjustment) <= 0)) {
+        town_player_target_adjustment = adjustment + 1;
         entity->unk10 = 0;
         entity->unkA = 4;
         call_the_handler_selects_nonzero_entry((s32 *) D_800D0088, (Rec_func_80094268_arg0 *) entity, ptr2);
@@ -33,7 +33,7 @@ void advance_player_state_table(Struct8009D814 *state, s32 update_arg, s32 share
     countdown = state->unkA - 1;
     state->unkA = countdown;
     if (countdown <= 0) {
-        call_the_handler_selects_nonzero_entry((s32 *)D_800D0078, (Rec_func_80094268_arg0 *)state, (void *)shared_arg);
+        call_the_handler_selects_nonzero_entry((s32 *)town_scene_record_handlers, (Rec_func_80094268_arg0 *)state, (void *)shared_arg);
         state->unk4 = D_8009AFF4;
     }
     update_player_global_state((Entity *)state, (void *)update_arg, (void *)shared_arg);

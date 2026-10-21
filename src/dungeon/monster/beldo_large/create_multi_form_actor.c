@@ -4,7 +4,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-extern u8 *D_80175D50[3];
+extern u8 *beldo_actor_nodes[3];
 extern u8 D_8016A36C[];
 extern u8 *allocate_list_node(s32, u8 *);
 extern void register_node(u8 *, u8 *);
@@ -62,10 +62,10 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
     saved_value24 = value24;
     saved_value25 = value25;
     if (clear_center_tile_flags_when_enabled() == 0) {
-        obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+        obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
         if (obj != NULL) {
             result = obj + 0x20;
-            *D_80175D50 = obj;
+            *beldo_actor_nodes = obj;
             ((S_80169D28_0 *)obj)->unk_10 = &update_actor_callbacks_and_motion;
             child = obj + 0x20;
             ((S_80169D28_1 *)child)->unk_13 = 0x38;

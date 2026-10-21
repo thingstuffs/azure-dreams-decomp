@@ -28,7 +28,7 @@ extern s32 play_sound_if_enabled();
 extern s32 try_move_actor_to_valid_position();
 void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite);
 
-extern u8 D_800E23E0[];
+extern u8 uboat_default_frames[];
 extern u8 D_800E2448[];
 extern u8 D_80171A80[];
 
@@ -72,8 +72,8 @@ void leave_actor_aura_mode(void *state, ObjectPosition *motion, void *sprite, Ac
                 entity->flags1C |= 0x40000;
                 ((S_80176084_0 *)state)->unk_B5 = 0;
                 ((S_80176084_0 *)state)->unk_98 |= 8;
-                ((SpriteFrameState *)sprite)->frameTable = (u8 *)D_800E23E0;
-                select_sprite_entry(sprite, D_800E23E0[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                ((SpriteFrameState *)sprite)->frameTable = (u8 *)uboat_default_frames;
+                select_sprite_entry(sprite, uboat_default_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80176084_0 *)state)->unk_96 = 5U;
                 ((S_80176084_0 *)state)->unk_9B++;

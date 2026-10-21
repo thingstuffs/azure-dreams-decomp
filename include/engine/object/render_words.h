@@ -73,7 +73,7 @@ extern void func_80035AAC(void);
 extern void draw_window_rects(void);
 extern void func_80037714(void);
 
-extern u8 D_80082BC0[12];
+extern u8 window_node_list_storage[12];
 extern u8 attached_node_default_parameters[12];
 extern s16 attached_node_variant_data[];
 extern u8 attached_node_default_render_data[12];

@@ -52,7 +52,7 @@ void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byt
     saved_byte_24 = part_b_byte_24;
     part_a_s16 = part_a_value;
     byte_25 = part_b_byte_25;
-    obj = allocate_list_node(0x112, (void *)&D_80083498);
+    obj = allocate_list_node(0x112, (void *)&scene_object_list_anchor);
     init_mode = mode;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;

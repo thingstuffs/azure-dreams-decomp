@@ -38,13 +38,13 @@ typedef struct S_8008B9FC_7_pre {
 
 extern u16 D_80083460[];
 extern s16 D_80083464[];
-extern u8 D_800DCFB0[];
+extern u8 player_wait_frames[];
 extern u8 D_800DCFB8[];
 extern u8 D_800DCFC0[];
 extern u8 D_800DCFE8[];
 extern u8 D_800DD030[];
 extern u8 D_800DD0D0[];
-extern u8 D_800E3544[];
+extern u8 active_actor_command_code[];
 
 extern void set_sprite_animation_frame();
 extern void begin_player_push();
@@ -92,7 +92,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         move_state->unk_8C.s = 0;
 
         if (move_result != 4) {
-            if ((D_80013714 & 2) ||
+            if ((system_update_flags & 2) ||
                 (((dungeon_state->buttons & 0x20) != 0) &&
                  ((move_state->unk_A2 & 0x100) == 0) &&
                  check_action_available_without_nearby_actor())) {
@@ -113,7 +113,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
             process_unflagged_linked_entries_alt(actor->unk_5C);
             process_unflagged_linked_entries(actor->unk_5C);
             if (!(check_flags[1] & 0x80) &&
-                ((D_800E3544[0] == 8) || (D_800E3544[0] == 0))) {
+                ((active_actor_command_code[0] == 8) || (active_actor_command_code[0] == 0))) {
                 if (sprite->unk_2C.as_pu8 != D_800DCFB8) {
                     void *anim_sprite;
                     anim_sprite = sprite;
@@ -160,7 +160,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         update_mask = 0x40000000;
     } else {
         if (move_result < 0) {
-            if ((D_80013714 & 1) ||
+            if ((system_update_flags & 1) ||
                 (blocked_ticks = move_state->unk_96 + 1,
                  move_state->unk_96 = blocked_ticks,
                  (s16)blocked_ticks >= 0x15)) {
@@ -176,10 +176,10 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         {
             register void *idle_sprite;
             idle_sprite = sprite;
-            ((S_8008B9FC_5 *)idle_sprite)->unk_2C = D_800DCFB0;
+            ((S_8008B9FC_5 *)idle_sprite)->unk_2C = player_wait_frames;
             set_sprite_animation_frame(
                 idle_sprite,
-                D_800DCFB0[((s32)(dungeon_state->view.camera_rotation.parts.viewAngle +
+                player_wait_frames[((s32)(dungeon_state->view.camera_rotation.parts.viewAngle +
                                   actor->facing + 0x100) >> 9) & 7],
                 0, 1);
         }
@@ -192,11 +192,11 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
     flags_2[1] |= 0x812;
     clear_pending_item_action_state();
     check_tile_entry_at_adjusted_height(move_state, actor_id, sprite, actor);
-    if (!(D_80013714 & 8)) {
+    if (!(system_update_flags & 8)) {
         return;
     }
 
-    if (D_800E3544[0] == 0xF0) {
+    if (active_actor_command_code[0] == 0xF0) {
         if (sprite->unk_2C.as_pu8 == D_800DCFC0) {
             flags_2[2] = (s16)flags_2[2] >> 1;
             return;
@@ -216,7 +216,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         return;
     }
 
-    if (D_800E3544[0] == 0xF8) {
+    if (active_actor_command_code[0] == 0xF8) {
         alt_anim = D_800DCFB8 + 8;
         move_state->unk_A2 |= 0x100;
         flags_2[5]++;
@@ -234,7 +234,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         return;
     }
 
-    if (D_800E3544[0] == 0xE8) {
+    if (active_actor_command_code[0] == 0xE8) {
         sprite->unk_2C.as_pu8 = D_800DCFE8;
         set_sprite_animation_frame(
             sprite,
@@ -250,7 +250,7 @@ void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *spr
         return;
     }
 
-    if (D_800E3544[0] == 0xE0) {
+    if (active_actor_command_code[0] == 0xE0) {
         sprite->unk_2C.as_pu8 = D_800DD0D0;
         set_sprite_animation_frame(
             sprite,

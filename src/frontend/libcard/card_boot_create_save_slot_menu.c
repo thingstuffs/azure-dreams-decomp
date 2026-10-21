@@ -6,12 +6,11 @@
 #define NULL 0
 #endif
 
-extern s32 card_boot_initialize_save_menu_request(void *a0, s32 a1);
 #include "modules/main_server_ship_interfaces.h"
-extern s32 create_or_reset_seven_entry_menu_backdrop(void *a0, s32 a1);
-extern s32 render_rotated_grid_surface(void *a0, s32 a1, s32 a2);
-extern s32 create_save_heading(void *a0);
-extern s32 D_800267C0[];
+#include "engine/menu.h"
+#include "frontend/card.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 /* Allocate an object and initialize its state and dispatch table. */
 void *card_boot_create_save_slot_menu(s32 init_value, s32 state_value)

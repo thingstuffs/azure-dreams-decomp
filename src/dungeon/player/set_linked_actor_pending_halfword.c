@@ -18,7 +18,7 @@ void set_linked_actor_pending_halfword(s32 entry_index, s32 value) {
     s32 entry_offset;
     s32 table_base;
 
-    table_base = ((s32)D_800E3D7C);
+    table_base = ((s32)dungeon_actor_ring_anchor);
     entry_offset = (s32) (entry_index << 0x10) >> 0xE;
     ((S_800945C4_1 *)(((S_800945C4_0 *)(entry_offset + table_base))->unk_AC))->unk_46 = (s16) (value | 0x8000);
 }

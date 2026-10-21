@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 extern s32 D_8002D690[4];
 extern s32 D_8002D6A0[3];

@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 typedef struct S_800242D8_0 {
     u8 unk_00;
@@ -16,9 +18,6 @@ typedef struct S_800242D8_1_pre {
 typedef struct S_800242D8_1 {
     s8 unk_00;
 } S_800242D8_1;
-
-
-extern u8 D_80027FD0[];
 
 /* Initialize four graphics packets with shared colors and halved coordinates. */
 void *card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y) {

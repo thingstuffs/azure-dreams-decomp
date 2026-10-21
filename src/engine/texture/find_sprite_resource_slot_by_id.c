@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/texture.h"
 
 /* struct element of D_80083D08: only the s16 field at offset 6 is read by this function */
 typedef struct {

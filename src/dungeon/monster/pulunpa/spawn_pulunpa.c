@@ -44,7 +44,7 @@ extern s32 generate_random_value(void);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
-extern u8 D_800E2968;
+extern u8 entity_spawn_variant_code;
 extern u8 D_80170AE0[];
 extern u8 D_80170F20[];
 extern u8 D_80173B98[];
@@ -71,7 +71,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     work = 0;
     alloc_id = 0x112;
     kind_id = unused_kind_id;
-    alloc_base = &D_80083498;
+    alloc_base = &scene_object_list_anchor;
     spawn_value = unused_spawn;
     part = allocate_list_node(alloc_id, alloc_base);
     arg0_copy = flags;
@@ -106,7 +106,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
                     state->frameTable = D_80176300;
                 }
             }
-            if (D_800E2968 < 10) {
+            if (entity_spawn_variant_code < 10) {
                 ((S_80CBD000_4 *)actor)->unk_8C = D_80170F20;
                 state->frameTable = D_801762C0;
             } else {

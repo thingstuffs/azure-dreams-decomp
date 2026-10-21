@@ -34,7 +34,7 @@ typedef struct DungeonObject {
     DungeonObjectEntry *entry50;
 } DungeonObject;
 
-extern DungeonGroup D_80073414[];
+extern DungeonGroup item_category_groups[];
 
 /* Decrement eligible entry amounts on flagged cells and return the number changed. */
 

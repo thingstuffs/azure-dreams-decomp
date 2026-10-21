@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 #ifndef NULL
 #define NULL 0
@@ -30,10 +31,7 @@ typedef struct {
 extern StructA_8002001C *func_8003C480(s32 value);
 extern void func_80402214(void);
 extern void run_slot_operation_code_five(void);
-extern s32 init_card_background_object(StructA_8002001C *init_value, s32 config_value);
-extern s32 init_card_info_object(StructA_8002001C *init_option, s32 info_value);
 extern void func_80406F14(void *object, s32 value);
-extern s32 init_card_sme_object(StructA_8002001C *init_option);
 extern void func_80406F70(void);
 
 /* Allocates and initializes an object and installs its callback. */

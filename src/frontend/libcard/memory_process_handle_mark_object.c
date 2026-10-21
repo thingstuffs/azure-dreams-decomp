@@ -6,7 +6,7 @@ extern void func_8007BEF0(s32);
 extern u8 D_8040086C[], D_80400894[];
 extern void func_80404DBC(void *);
 extern void assert_card_slot_and_set_high_bit(void *);
-extern s32 D_8008DAB4;
+extern s32 card_ui_dirty_flags;
 /* Release the devkit node's two allocations and flag its completion. */
 void memory_process_handles_and_mark_object(Node *node) {
     if (node == 0) {
@@ -16,5 +16,5 @@ void memory_process_handles_and_mark_object(Node *node) {
     func_80404DBC(node->work);
     assert_card_slot_and_set_high_bit(node->other);
     node->flags |= 0x8000;
-    D_8008DAB4 |= 0x8000;
+    card_ui_dirty_flags |= 0x8000;
 }

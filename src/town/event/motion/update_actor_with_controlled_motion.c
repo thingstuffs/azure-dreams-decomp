@@ -63,7 +63,7 @@ extern void D_8009B454(Actor *, Subject *, Motion *, TownMovementOutput *);
 extern void D_8009B594(Actor *, Subject *, Motion *, TownMovementOutput *);
 extern void update_actor_with_controlled_motion(Actor *, Subject *, Motion *, TownMovementOutput *);
 
-extern TownState D_80083498;
+extern TownState scene_object_list_anchor;
 extern TownControl D_800CFCB4;
 extern MotionDelta D_800CFDF0[];
 extern MotionDelta D_800CFE08[];
@@ -83,10 +83,10 @@ void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion 
     s32 *actor_value;
 
     if ((control->subject != subject) || ((control_index = control->index), ((u8 *)control)[control_index + 0x3A] != 1)
-        || ((town_callback = &D_80083498.current), (*town_callback != D_800924EC))) {
+        || ((town_callback = &scene_object_list_anchor.current), (*town_callback != D_800924EC))) {
         select_object_value_by_height_band(actor, subject, motion, context);
     } else {
-        town_state = &D_80083498;
+        town_state = &scene_object_list_anchor;
         x_deltas = D_800CFDF0;
         motion->x += x_deltas[control_index].x;
         y_deltas = D_800CFE08;
@@ -94,7 +94,7 @@ void update_actor_with_controlled_motion(Actor *actor, Subject *subject, Motion 
         town_state->target->x += x_deltas[control->index].x;
         town_state->target->y += y_deltas[control->index].x;
     }
-    surface_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&D_800FE488));
+    surface_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&position_query_scratch));
     call_the_same_context_both_processing_routines(subject, motion);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(subject, motion);
     if (subject->state == 0) {

@@ -1,8 +1,6 @@
 #include "common.h"
-
-
-
-extern s32 runtime_find_sentinel_table_value(s32 value);
+#include "engine/audio.h"
+#include "engine/resource.h"
 
 /* Returns the table entry for a sound ID, or null if it is absent. */
 u32 *find_sound_table_entry(s32 sound_id)

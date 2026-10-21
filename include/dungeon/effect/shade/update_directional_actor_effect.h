@@ -351,5 +351,5 @@ void advance_object_motion_and_animation(void *object);
 void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
     Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params);
 void update_three_way_target_effect(void *effect_arg, void *position);
-extern u8 D_800E3D18[];
+extern u8 actor_direction_sprites[];
 #endif

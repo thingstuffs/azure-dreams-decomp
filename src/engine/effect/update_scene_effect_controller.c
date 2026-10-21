@@ -100,8 +100,8 @@ void update_scene_effect_controller(Controller *controller)
         notify_id = 6;
         zero = 0;
         third_zero = zero;
-        D_80082E60.flags16 |= 0x8000;
-        func_80041094(notify_id, zero, third_zero, zero, D_80082E60.flags16 ^ 1);
+        runtime_dispatch_state.flags16 |= 0x8000;
+        func_80041094(notify_id, zero, third_zero, zero, runtime_dispatch_state.flags16 ^ 1);
         *((u16 *)controller - 1) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
@@ -141,8 +141,8 @@ void update_scene_effect_controller(Controller *controller)
         zero = 0;
         third_zero = zero;
     }
-    D_80082E60.flags16 |= 0x8000;
-    func_80041094(notify_id, zero, third_zero, zero, D_80082E60.flags16 ^ 1);
+    runtime_dispatch_state.flags16 |= 0x8000;
+    func_80041094(notify_id, zero, third_zero, zero, runtime_dispatch_state.flags16 ^ 1);
     *((u16 *)controller - 1) |= 0x8000;
     D_800814A0 |= 0x8000;
 }

@@ -26,10 +26,10 @@ typedef struct {
 
 extern u8 D_800D0190[];
 extern u8 D_800D0088[];
-extern s32 D_800D0620;
+extern s32 town_player_target_adjustment;
 extern u8 D_8009B0EC[];
 extern u8 D_8009B014[];
-extern u8 D_800D0078[];
+extern u8 town_scene_record_handlers[];
 extern void *D_8009AFF4[];
 
 /* Functions defined in this translation unit. */

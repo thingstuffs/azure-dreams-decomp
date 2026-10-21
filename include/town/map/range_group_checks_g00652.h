@@ -8,7 +8,7 @@
 
 extern s32 D_800D456C;
 /* extern */
-extern M2C_UNK D_8006ADBC;
+extern M2C_UNK map_runtime_state;
 extern M2C_UNK D_800D4640;
 extern M2C_UNK D_800D4658;
 extern M2C_UNK D_800D4660;

@@ -3,10 +3,9 @@
 
 /* manual g1 strike 2: preserve the incoming second argument through the call */
 #include "common.h"
-
-
-void pack_tagged_resource_descriptor(int tag, int id, int *record, int value);
-extern M2C_UNK sprite_image_read_descriptor;
+#include "engine/graphics.h"
+#include "slus.h"
+#include "slus/data.h"
 
 /* Selects an entry offset and requests data in the shared buffer. */
 s32 *build_sprite_image_read_descriptor(s16 entry_id, s32 request_arg) {

@@ -2,6 +2,8 @@
 #include "shared/object_index_slots.h"
 
 #include "common.h"
+#include "engine/script.h"
+#include "slus/data.h"
 
 typedef struct Entry {
     s8 value;
@@ -40,7 +42,6 @@ typedef struct State {
 } State;
 
 extern u8 D_800C3174[];
-extern u8 D_800C321C[];
 extern ObjectBlock *ms_mot_accpt_ow(s32 entry_index);
 extern void wait_message_entry_ready(void);
 extern void wait_message_motion_accept(void);

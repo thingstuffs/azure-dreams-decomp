@@ -48,8 +48,8 @@ typedef struct Grid80090320 {
     u16 y_mask;
 } Grid80090320;
 
-extern s32 D_800FE480;
-extern s32 D_800FE484;
+extern s32 town_map_column_extent;
+extern s32 town_map_row_extent;
 struct ScratchQuad; s32 check_scratch_quad_half_turn_gaps(struct ScratchQuad *);
 
 
@@ -162,7 +162,7 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
         row_y = (u16)scratch->start_y + (u16)scratch->outer_offset;
         y = row_y;
         if (scratch->y_step >= 0) {
-            if ((s16)row_y >= D_800FE484)
+            if ((s16)row_y >= town_map_row_extent)
                 break;
         } else if ((s16)row_y < 0) {
             break;
@@ -174,7 +174,7 @@ s16 find_smallest_surface_x_across_tiles(s32 query_x, s32 query_y, s32 query_z)
             column_x = (u16)scratch->start_x + (u16)scratch->inner_offset;
             x = column_x;
             if (scratch->x_step >= 0) {
-                if ((s16)column_x >= D_800FE480)
+                if ((s16)column_x >= town_map_column_extent)
                     break;
             } else if ((s16)column_x < 0) {
                 break;

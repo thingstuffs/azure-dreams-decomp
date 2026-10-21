@@ -14,7 +14,7 @@ typedef struct Position {
 } Position;
 
 extern u8 D_8009AE88[];
-extern u8 D_800D0078[];
+extern u8 town_scene_record_handlers[];
 
 
 extern IntVector3 D_800D0624;
@@ -43,7 +43,7 @@ void move_player_halfway_to_target(Rec_func_80094268_arg0 *state, Position *posi
 
         state->unk_30 = ((u16)((EntityRec *)position)->x.w.i);
         state->unk_32 = ((u16)((EntityRec *)position)->y.w.i);
-        call_the_handler_selects_nonzero_entry(D_800D0078, state, context);
+        call_the_handler_selects_nonzero_entry(town_scene_record_handlers, state, context);
 
         state->unk_04.as_pv = D_8009AE88;
         state->unk_10.as_s16 = 0x400;

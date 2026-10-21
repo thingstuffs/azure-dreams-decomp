@@ -79,7 +79,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
         base->unk_04 = 0;
         base->unk_06 = 0x10;
 
-        scaled_color = D_800DDC40[((S_818BD52C_5 *)(owner->unk_18))->unk_13] * 3;
+        scaled_color = entity_height_offsets[((S_818BD52C_5 *)(owner->unk_18))->unk_13] * 3;
         if (scaled_color < 0) {
             scaled_color += 3;
         }

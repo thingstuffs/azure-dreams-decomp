@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
+#include "slus.h"
 
 typedef struct Func8003800CData Func8003800CData;
 typedef struct Func8003800CState Func8003800CState;
@@ -33,9 +35,6 @@ extern u8 D_800809C4[];
 extern u8 message_window_audio_sync_data[];
 
 extern s32 func_80043FB8(void *, ...);
-extern s32 func_80053EF0(s32);
-extern void scroll_message_rows(Func8003800CState *);
-extern void update_message_window(Func8003800CState *);
 
 /* Synchronize changed data, consume the pending value, and run the state callback. */
 void sync_message_window_data(Func8003800CState *state)

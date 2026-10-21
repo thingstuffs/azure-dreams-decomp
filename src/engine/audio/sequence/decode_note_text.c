@@ -1,9 +1,8 @@
 #include "common.h"
-
-extern int map_fullwidth_character_to_glyph_byte(int a0);
-extern void initialize_styled_glyph_rectangle(int a0, int a1, void *a2);
-extern void set_glyph_style_index(void *a0, int a1);
-extern void set_descriptor_grid_byte_coordinates(signed char *a0, int a1, int a2, int a3, int a4);
+#include "engine/audio/sequence.h"
+#include "engine/camera.h"
+#include "engine/text.h"
+#include "slus.h"
 
 /* Decodes text into note entries and marks the final entry as the end of the sequence. */
 void *decode_note_text(void *entries, u8 *text, s32 initial_octave)

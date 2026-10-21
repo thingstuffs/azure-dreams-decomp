@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u16 D_80111FA8[];
+extern u16 building_upload_rect[];
 extern u8 D_80110EC8[];
 extern u8 D_801110C8[];
 extern u8 D_801112C8[];
@@ -34,8 +34,8 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
     dispatch_index = phase;
     switch (dispatch_index) {
     case 0:
-        rect = (s16 *)D_80111FA8;
-        *(s16 *)D_80111FA8 = 0x328;
+        rect = (s16 *)building_upload_rect;
+        *(s16 *)building_upload_rect = 0x328;
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
@@ -44,8 +44,8 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
 
     case 4:
     case 20:
-        rect = (s16 *)D_80111FA8;
-        *(s16 *)D_80111FA8 = 0x328;
+        rect = (s16 *)building_upload_rect;
+        *(s16 *)building_upload_rect = 0x328;
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
@@ -54,8 +54,8 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
 
     case 8:
     case 16:
-        rect = (s16 *)D_80111FA8;
-        *(s16 *)D_80111FA8 = 0x328;
+        rect = (s16 *)building_upload_rect;
+        *(s16 *)building_upload_rect = 0x328;
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
@@ -63,9 +63,9 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         break;
 
     case 12:
-        rect = (s16 *)D_80111FA8;
+        rect = (s16 *)building_upload_rect;
 
-        *(s16 *)D_80111FA8 = 0x328;
+        *(s16 *)building_upload_rect = 0x328;
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
@@ -79,8 +79,8 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
     phase = *(s16 *)anim_tick % 16;
     switch (phase) {
     case 0:
-        rect = (s16 *)D_80111FA8;
-        *(s16 *)D_80111FA8 = 0x330;
+        rect = (s16 *)building_upload_rect;
+        *(s16 *)building_upload_rect = 0x330;
         ((s16 *)rect)[1] = 0x80;
         ((s16 *)rect)[2] = 8;
         rect[3] = 0x20;
@@ -88,8 +88,8 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         break;
 
     case 4:
-        rect = (s16 *)D_80111FA8;
-        *(s16 *)D_80111FA8 = 0x330;
+        rect = (s16 *)building_upload_rect;
+        *(s16 *)building_upload_rect = 0x330;
         rect[1] = 0x80;
         rect[2] = 8;
         rect[3] = 0x20;
@@ -98,8 +98,8 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
 
     case 8:
         tile_width = 8;
-        rect = (s16 *)D_80111FA8;
-        *(s16 *)D_80111FA8 = 0x330;
+        rect = (s16 *)building_upload_rect;
+        *(s16 *)building_upload_rect = 0x330;
         rect[1] = 0x80;
         {
             s32 tile_height;
@@ -112,9 +112,9 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
 
     case 12:
         tile_width = 8;
-        rect = (s16 *)D_80111FA8;
+        rect = (s16 *)building_upload_rect;
 
-        *(s16 *)D_80111FA8 = 0x330;
+        *(s16 *)building_upload_rect = 0x330;
         rect[1] = 0x80;
         {
             s32 tile_height;
@@ -128,8 +128,8 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
     phase = *(s16 *)anim_tick % 8;
     switch (phase) {
     case 0:
-        rect = (s16 *)D_80111FA8;
-        *(s16 *)D_80111FA8 = 0;
+        rect = (s16 *)building_upload_rect;
+        *(s16 *)building_upload_rect = 0;
         rect[1] = 0x1FB;
         rect[2] = 0x10;
         rect[3] = 1;
@@ -137,8 +137,8 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         return;
 
     case 2:
-        rect = (s16 *)D_80111FA8;
-        *(s16 *)D_80111FA8 = 0;
+        rect = (s16 *)building_upload_rect;
+        *(s16 *)building_upload_rect = 0;
         rect[1] = 0x1FB;
         rect[2] = 0x10;
         rect[3] = 1;
@@ -146,8 +146,8 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         return;
 
     case 4:
-        rect = (s16 *)D_80111FA8;
-        *(s16 *)D_80111FA8 = 0;
+        rect = (s16 *)building_upload_rect;
+        *(s16 *)building_upload_rect = 0;
         rect[1] = 0x1FB;
         rect[2] = 0x10;
         rect[3] = 1;
@@ -155,9 +155,9 @@ void advance_building_texture_and_palette(u16 *anim_tick, s32 unused, s32 upload
         return;
 
     case 6:
-        rect = (s16 *)D_80111FA8;
+        rect = (s16 *)building_upload_rect;
 
-        *(s16 *)D_80111FA8 = 0;
+        *(s16 *)building_upload_rect = 0;
         rect[1] = 0x1FB;
         rect[2] = 0x10;
         rect[3] = 1;

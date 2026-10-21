@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef struct S_800395F0_0 {
     u8 pad_00[0x1C];

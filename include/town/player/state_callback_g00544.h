@@ -11,7 +11,7 @@ typedef void (*Callback)(s32, void *, void *);
 
 extern s32 service_script_controller(void);
 extern s32 *D_800D0508[];
-extern s32 *D_800FE5D8[3];
+extern s32 *town_player_action_callback[3];
 
 /* Functions defined in this translation unit. */
 void dispatch_state_callback_by_mode(s32 value, void *ptr, void *ptr2, s32 unused);

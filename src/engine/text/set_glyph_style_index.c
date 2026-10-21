@@ -1,6 +1,6 @@
 #include "common.h"
-
-extern void set_glyph_style_index(void *a0, s32 a1);
+#include "engine/text.h"
+#include "slus.h"
 
 /* Process 12-byte entries through the entry whose first byte has bit 0x80 set. */
 void set_style_for_tagged_glyph_entries(u8 *entries, s32 process_arg)

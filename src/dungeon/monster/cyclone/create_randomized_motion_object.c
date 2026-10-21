@@ -74,7 +74,7 @@ s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *in
         part->unk_0C = color;
         part->unk_14 = (u16) (part->unk_14 | 0xC);
         part->unk_10 = (u16) (part->unk_10 | 0x20);
-        func_8003DB94(part, &D_800DEA68, 0);
+        func_8003DB94(part, &secondary_sprite, 0);
         func_800478B8(part);
         biased_rotation = rand();
         rotation_rand = biased_rotation;

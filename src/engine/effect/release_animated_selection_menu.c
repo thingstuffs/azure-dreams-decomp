@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/node.h"
+#include "engine/runtime.h"
 
 typedef struct {
     u8 pad0[0x24];
@@ -12,9 +14,6 @@ typedef struct {
     u8 pad14[0x0C];
     S_80050EA8_sub unk20;
 } S_80050EA8;
-
-extern void unlink_node(S_80050EA8 *a0);
-extern void destroy_animated_selection_menu(void *a0);
 
 /* Saves the pending value, unlinks the object, and releases and clears its attachment. */
 void release_selection_menu_and_preserve_pending_value(S_80050EA8 *object)

@@ -171,7 +171,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
             if (actor_flags & 0x20000) {
                 ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }
 

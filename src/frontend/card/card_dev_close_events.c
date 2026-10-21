@@ -1,13 +1,12 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern void func_8007BEF0(s32 value);
 extern void func_8007C040(void *ptr, void *ptr2, s32 value);
 extern s32 func_8007C9A8(s32 value);
 extern void func_8007CA38(void);
 extern void func_8007CA48(void);
-
-extern s32 D_80400004[];
-extern s32 D_8040002C[];
 
 /* Checks eight c_server entries and asserts on failed checks. */
 void card_dev_close_events(void) {

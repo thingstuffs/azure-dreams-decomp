@@ -77,7 +77,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
         }
         count = 0;
         do {
-            object_or_height = (s32)allocate_list_node(0x112, &D_80083498);
+            object_or_height = (s32)allocate_list_node(0x112, &scene_object_list_anchor);
             effect_body = (u8 *)((void *)object_or_height);
             effect_body += 0x20;
             if (((void *)object_or_height) == 0) {
@@ -136,7 +136,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
                 mesh_flags = ((T_801748D0_S_801748D0_9 *)anchor_pos)->unk_0A;
                 frame.pos[2] = mesh_flags;
                 anchor_height = func_80065420(frame.pos, frame.out0, &frame.out1, &frame.out2);
-                lookup_value = D_800DCECC[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 + 0x100)
+                lookup_value = view_direction_depth_biases[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)((T_801748D0_S_801748D0_3 *)effect_body)->unk_94 + 0x100)
                     >> 9) & 7];
                 effect_mesh->unk_06 = first_height - anchor_height - (lookup_value << 1);
                 continue;

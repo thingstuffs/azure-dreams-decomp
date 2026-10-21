@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus.h"
 
 typedef struct { s16 f0; s16 pad[7]; } S_80073738;
 
@@ -63,9 +65,6 @@ extern s32 audio_voice_masks[64];
 extern S_80084960 audio_channel_controls[16];
 extern S_80085458 audio_voice_records[64];
 extern S_80085FA8 audio_sequence_tracks[32];
-
-extern s32 sound_reset_indexed_voice_envelope(s32 request_index);
-extern void func_8005E97C(s32 key_on, s32 voices);
 
 /* Resets global state tables and applies per-entry and combined flags. */
 void audio_reset_sequence_tracks_and_channels(void) {

@@ -95,7 +95,7 @@ void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 un
         sprite->clut = 0x7DCF;
         sprite_flags |= 0x100;
         sprite->flags = sprite_flags;
-        func_8003DB94(sprite, D_800DE870, 0);
+        func_8003DB94(sprite, effect_sprite_sources, 0);
     }
 }
 

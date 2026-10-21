@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef struct S_8003AB14_0 {
     u16 unk_00;

@@ -33,7 +33,7 @@ typedef struct S_80089588_2 {
 
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 s32 func_8006658C(void *, void *);
 s32 func_80067E2C(void *, s32);
 s32 func_80067EF4(void *, s32, s32);
@@ -49,7 +49,7 @@ void queue_framebuffer_strip_quads(void) {
     void *packet;
     u32 context_slot;
 
-    alternate_buffer = (s32) g_game_work.draw_buffer != (s32) D_801C9E40;
+    alternate_buffer = (s32) g_game_work.draw_buffer != (s32) upper_draw_context;
     packet = ((Rec_D_80083160 *)g_game_work.draw_buffer)->unk_8D0;
     func_80067E2C(packet, g_game_work.draw_buffer);
     func_8006658C((u8 *)g_game_work.draw_buffer + 0x7B0, packet);

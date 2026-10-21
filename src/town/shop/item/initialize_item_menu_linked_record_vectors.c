@@ -28,14 +28,14 @@ typedef struct S_800AEBC4_6 {
     s16 unk_18;
 } S_800AEBC4_6;   /* vectors */
 
-extern s32 D_8002E5D8[4];
-extern s32 D_8002E5E8[3];
+extern s32 display_block_defaults[4];
+extern s32 display_vector_defaults[3];
 
 /* Copies two templates into linked records and initializes position and offset vectors. */
 void initialize_item_menu_linked_record_vectors(S_800AEBC4_6 *vectors, S_800AEBC4_4 *config, s32 *position_data,
                    s32 *secondary_data, s32 x, s32 y) {
-    const s32 *src0 = D_8002E5D8;
-    const s32 *src1 = D_8002E5E8;
+    const s32 *src0 = display_block_defaults;
+    const s32 *src1 = display_vector_defaults;
     position_data[0] = src0[0];
     position_data[1] = src0[1];
     position_data[2] = src0[2];

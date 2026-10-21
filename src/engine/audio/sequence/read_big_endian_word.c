@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus.h"
 
 extern s32 read_next_byte_and_finish(s32 a0);
-extern u32 pack_big_endian_word(s32 a0, s32 a1, s32 a2, s32 a3);
 
 /* Reads four bytes from the stream and packs them into a word. */
 u32 read_big_endian_word(s32 stream)

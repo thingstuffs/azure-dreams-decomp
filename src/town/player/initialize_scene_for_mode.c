@@ -19,27 +19,27 @@ void initialize_scene_for_mode(void)
     u16 y_coord;
     u16 frame;
 
-    scene = &D_80083780;
-    D_80100E18[0] = 0;
-    D_80100DB0[0] = 0;
+    scene = &view_reference_entity;
+    camera_height_mode[0] = 0;
+    camera_turn_lock[0] = 0;
     zero_words(scene, 6);
-    render = &D_80082E80;
+    render = &reference_tile_object;
     zero_words(render, 0xC);
-    render->render_attributes = D_80080A80;
+    render->render_attributes = loaded_sprite_bundle_attributes;
     initialize_circular_list_head();
 
     shared_data = D_800D0420;
     handle_insert_initialize_two_values_status_flags(D_800CFCB4, scene, shared_data);
     initialize_pointer_table_self_links();
-    initialize_the_store_two_values_set_state_flags(D_800FE490, scene, shared_data);
+    initialize_the_store_two_values_set_state_flags(town_motion_list, scene, shared_data);
 
-    state = &D_8006ADBC;
+    state = &map_runtime_state;
     if (state->mode == 0x37000C) {
         initialize_object_at_current_position();
         return;
     }
 
-    object = initialize_scene_object_in_buffer(0, ((u8 *)(&D_80083498)), 0x22);
+    object = initialize_scene_object_in_buffer(0, ((u8 *)(&scene_object_list_anchor)), 0x22);
     object->scene = scene;
     object->render = render;
 
@@ -51,7 +51,7 @@ void initialize_scene_for_mode(void)
         scene->x.w.i = state->x_offset + coords[0];
         scene->y.w.i = state->y_offset + coords[1];
         scene->z.w.i = 0;
-        copy_entity_record_fields(D_80100D98, scene);
+        copy_entity_record_fields(town_position_reference_state, scene);
         return;
     }
 
@@ -90,8 +90,8 @@ void initialize_scene_for_mode(void)
             work->active = 1;
         }
 
-        render->render_attributes = D_80080A80;
-        if ((D_8006ADD4[0] != 0xC) && (find_item_by_kind_and_type(2, 0x13) != 0)) {
+        render->render_attributes = loaded_sprite_bundle_attributes;
+        if ((map_scene_selector_alias[0] != 0xC) && (find_item_by_kind_and_type(2, 0x13) != 0)) {
             create_person_object();
         }
     }
@@ -102,9 +102,9 @@ void synchronize_mode_and_pending_callback(void) {
     s32 disabled_flag;
     s32 enabled_flag;
     s32 mode_result; /* MATCH: Keep the merged call result in v0 for the shared stores. */
-    u8 *work_state = (u8 *)&D_80083780.x.v;
-    TileObject *update_state = &D_80082E80;
-    u8 *handler_state = (u8 *)&D_800834B8;
+    u8 *work_state = (u8 *)&view_reference_entity.x.v;
+    TileObject *update_state = &reference_tile_object;
+    u8 *handler_state = (u8 *)&scene_object_payload_alias;
     void (*callback)();
 
     if (((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_00 != D_8008FFC0) {
@@ -113,7 +113,7 @@ void synchronize_mode_and_pending_callback(void) {
             disabled_flag = test_resident_bitmap_bit(F_player_mizugi);
             if (disabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
                 mode_result = load_town_sprite_bundle();
-                D_80080A80 = mode_result;
+                loaded_sprite_bundle_attributes = mode_result;
                 update_state->render_attributes = mode_result;
             }
         } else {
@@ -122,7 +122,7 @@ void synchronize_mode_and_pending_callback(void) {
             if (enabled_flag != test_resident_bitmap_bit(F_player_mizugi_old)) {
                 s32 mode_result;
                 mode_result = load_alternate_town_sprite_bundle();
-                D_80080A80 = mode_result;
+                loaded_sprite_bundle_attributes = mode_result;
                 update_state->render_attributes = mode_result;
             }
         }
@@ -131,7 +131,7 @@ void synchronize_mode_and_pending_callback(void) {
         } else {
             clear_resident_bitmap_bit(F_player_mizugi_old);
         }
-        call_the_handler_selects_nonzero_entry(D_800D0078, handler_state, update_state);
+        call_the_handler_selects_nonzero_entry(town_scene_record_handlers, handler_state, update_state);
         initialize_player_object(handler_state);
         initialize_record_and_select_active_data(handler_state, work_state, update_state);
         initialize_record_with_handler_table(handler_state, work_state, update_state);
@@ -147,7 +147,7 @@ void synchronize_mode_and_pending_callback(void) {
 
 /* Initialize the global record using its preceding value and D_800D0178. */
 void initialize_global_scene_record(void) {
-    s32 *record = &D_800834B8;
+    s32 *record = &scene_object_payload_alias;
     call_the_handler_selects_nonzero_entry(&D_800D0178, record, ((func_80092C18_S_80090378_0 *)((u8 *)record - 0x14))->unk_00);
 }
 
@@ -186,7 +186,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
         update_object_and_clear_status_fields(node_in);
     }
 
-    if (node_in->z.v > 0 && D_8006ADD4[0] != 12 &&node_in->y.v > 0x03FFFFFF) {
+    if (node_in->z.v > 0 && map_scene_selector_alias[0] != 12 &&node_in->y.v > 0x03FFFFFF) {
         if (check_masked_value_in_current_range((u16)read_map_cell_at_world_position(node_in->x.w.i,
                                                   node_in->y.w.i)) == 0) {
             node_in->z.v = 0;
@@ -195,14 +195,14 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
 
     store_position_and_compute_delta(node_in);
 
-    work = (u8 *)&D_800FE490;
+    work = (u8 *)&town_motion_list;
     ((func_80092C9C_S_800903FC_1 *)work)->unk_16 = (*(u16 *)((u8 *)owner + (0x10)));
     update_the_s_field_10_using_callee_8008_fe_90(work);
     if (get_whether_has_attached_state_type_n_1_n_3(work) != 0) {
         (*(s32 *)((u8 *)owner + (0x2C))) = 0;
         submit_object_resource_data(((func_80092C9C_S_800903FC_1 *)work)->unk_10);
 
-        object = D_80082BC0;
+        object = window_node_list_storage;
         (*(func_80092C9C_ObjectCallback *)((u8 *)object + (0x10)))(object + 0x20, 0, 0);
 
         if (service_script_controller() != 0) {
@@ -213,7 +213,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
                 {
                     u8 *update_work;
 
-                    update_work = ((u8 *)&D_800FE488);
+                    update_work = ((u8 *)&position_query_scratch);
                     value = select_the_smaller_position_query_result_capped_n_64_writes_associated(node_in, update_work);
                     compute_and_clamps_vector_based_adjustment_updates_town(node_in, value, update_work);
                 }
@@ -249,7 +249,7 @@ void process_scene_record_update(void *context, void *input, void *record) {
 
     clear_motion_along_blocked_directions_update_affected_axes(input);
 
-    if (D_80100DB0[0] == 0) {
+    if (camera_turn_lock[0] == 0) {
         if (((u16)work->view.camera_rotation.parts.viewAngle) >= 0x800) {
             work->view.camera_rotation.parts.viewAngle |= 0xF000;
         }
@@ -258,12 +258,12 @@ void process_scene_record_update(void *context, void *input, void *record) {
                 /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_motion_along_blocked_directions_update_affected_axes. */
         if (callback == (void *)D_80097D2C || callback == (void *)&func_80090A64 ||
             service_script_controller() != 0) {
-            if (D_8006ADD4[0] == 12) {
+            if (map_scene_selector_alias[0] == 12) {
                 func_800909A0();
             } else if (*(s16 *)((u8 *)input + 6) < 0x400) {
                 clear_record_state_or_update(input);
             }
-        } else if (D_8006ADD4[0] == 12) {
+        } else if (map_scene_selector_alias[0] == 12) {
             initial_flags = work->buttons;
             if (initial_flags & 8) {
                 work->view.camera_rotation.parts.viewAngle -= 0x20;
@@ -327,14 +327,14 @@ void process_scene_record_update(void *context, void *input, void *record) {
     step_actor_animation(record, 0);
 
     {
-        u8 *state = D_80100D98;
+        u8 *state = town_position_reference_state;
 
         copy_entity_record_fields(state, input);
-        if (D_80100E18[0] == 0) {
+        if (camera_height_mode[0] == 0) {
             *(s32 *)(state + 8) = 0;
             return;
         }
-        if (D_80100E18[0] == 2) {
+        if (camera_height_mode[0] == 2) {
             *(s32 *)(state + 8) /= 2;
         }
     }

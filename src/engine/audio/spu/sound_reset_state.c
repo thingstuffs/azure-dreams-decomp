@@ -1,4 +1,5 @@
 #include "engine/audio/spu/sound_reset_state.h"
+#include "engine/audio/spu.h"
 
 
 

@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
-
-extern void move_view_record(void *dst, void *src);
+#include "engine/camera.h"
 
 /* Moves the selected 0x44-byte dispatch record back to its callback slot and clears the source callback. */
 void restore_view_slot(void *record_selector)

@@ -13,6 +13,6 @@ void *select_event_data_by_mode(s32 unused_value, s32 unused_option, s32 mode)
     } else if (mode == 5) {
         return D_80017774;
     } else {
-        return D_80018034[D_8001E950->unk_03];
+        return D_80018034[town_event_state->unk_03];
     }
 }

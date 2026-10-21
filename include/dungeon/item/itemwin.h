@@ -207,7 +207,7 @@ typedef struct ovl_1830850_81811340_S_80026340_0 {
     s32 unk_54;
 } ovl_1830850_81811340_S_80026340_0;
 extern DispatchFunc D_800294D0[];
-extern ovl_1830850_818108B8_ItemCategory D_80073414[];
+extern ovl_1830850_818108B8_ItemCategory item_category_groups[];
 extern void free_item_data_slot();
 extern void func_8004A7D8();
 extern void strcpy();
@@ -220,9 +220,9 @@ extern s32 advance_index_with_single_wrap(s32 selection_step, s32 unk8, s32 valu
 extern u8 D_800789B8[9];
 extern s32 D_800294E4;
 S_800491F4 *build_reverse_indexed_chain(S_800491F4 **, u8 *, s32);
-extern u8 D_800294E8[13];
-extern ovl_1830850_81810D9C_S_8002E5D8 D_8002E5D8;
-extern ovl_1830850_81810D9C_S_8002E5E8 D_8002E5E8;
+extern u8 item_window_chain_indices[13];
+extern ovl_1830850_81810D9C_S_8002E5D8 display_block_defaults;
+extern ovl_1830850_81810D9C_S_8002E5E8 display_vector_defaults;
 extern u8 D_80078C10[9];
 extern u8 D_8007795C[9];
 extern u8 D_80029474[9];

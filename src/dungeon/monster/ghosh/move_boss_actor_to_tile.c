@@ -128,7 +128,7 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Rec_D
         } else {
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
-                    entity->facing = get_rounded_facing_and_rounding_flag(tile->unk_24, tile->unk_25, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    entity->facing = get_rounded_facing_and_rounding_flag(tile->unk_24, tile->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &facing_aux);
                 }
             }

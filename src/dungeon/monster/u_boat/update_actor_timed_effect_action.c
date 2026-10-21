@@ -50,12 +50,12 @@ typedef struct S_8017558C_5 {
 } S_8017558C_5;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_800E2438[];
+extern u8 uboat_aura_start_frames[];
 extern u8 D_80170A84[];
 extern s32 D_80045C34[3];
-extern u8 D_800E2440[];
+extern u8 uboat_aura_later_frames[];
 extern u8 D_800E2448[];
-extern u8 D_800E23E0[];
+extern u8 uboat_default_frames[];
 extern u8 D_800E2488[];
 extern u8 D_80171A80[];
 void *allocate_list_node();               /* extern */
@@ -98,9 +98,9 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
                 s32 finish_phase;
                 pack_and_submit_cell_height_levels();
                 finish_phase = 5;
-                global_flags = D_800E296C;
+                global_flags = dungeon_floor_flags;
                 ((S_8017558C_0 *)action)->unk_96 = finish_phase;
-                D_800E296C = global_flags | 0x800000;
+                dungeon_floor_flags = global_flags | 0x800000;
                 ((S_8017558C_0 *)action)->unk_9B = finish_phase;
             }
             sprite->flags = (u16) (sprite->flags | 0x6000);
@@ -122,8 +122,8 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
             }
         }
         if (((S_8017558C_0 *)action)->unk_92.s == 0) {
-            sprite->frameTable = D_800E2438;
-            select_sprite_entry(sprite, D_800E2438[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            sprite->frameTable = uboat_aura_start_frames;
+            select_sprite_entry(sprite, uboat_aura_start_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             play_sound_if_enabled(0x800);
             ((S_8017558C_0 *)action)->unk_96 = 2U;
             ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
@@ -169,8 +169,8 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
                 return;
             }
         }
-        sprite->frameTable = D_800E2440;
-        select_sprite_entry(sprite, D_800E2440[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        sprite->frameTable = uboat_aura_later_frames;
+        select_sprite_entry(sprite, uboat_aura_later_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_8017558C_0 *)action)->unk_96 = 3U;
         ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
         ((S_8017558C_0 *)action)->unk_B6 = (u16) ((u16)position->x.w.i);
@@ -242,11 +242,11 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
             set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
             actor->flags1C = (s32) (actor->flags1C | 0x40000);
             ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
-            if (*(u8 * *)&sprite->frameTable == D_800E23E0) {
+            if (*(u8 * *)&sprite->frameTable == uboat_default_frames) {
                 return;
             }
-            sprite->frameTable = D_800E23E0;
-            select_sprite_entry(sprite, D_800E23E0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            sprite->frameTable = uboat_default_frames;
+            select_sprite_entry(sprite, uboat_default_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             ((S_8017558C_0 *)action)->unk_96 = 5U;
             ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
             if (((S_8017558C_0 *)action)->unk_B0 != 0) {

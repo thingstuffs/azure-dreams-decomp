@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/text.h"
 
 extern u8 glyph_code_flags[0x100];
 

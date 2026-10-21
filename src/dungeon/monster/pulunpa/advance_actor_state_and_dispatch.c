@@ -99,7 +99,7 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
             if ((s16)has_pending_actor_or_turn_action(entity) != 0) {
                 ActorRecord *owner;
 
-                owner = D_800814A8;
+                owner = primary_actor_record;
                 if ((s16)check_entity_relation(
                         entity, (u8 *)owner->unk_58 + 0x20) != 0) {
                     return;

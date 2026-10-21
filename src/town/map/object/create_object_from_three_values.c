@@ -27,7 +27,7 @@ s32 create_object_from_three_values(s32 *values)
     s32 *values_src;
     u8 (*init_data)[16];
     clear_resident_bit(0x97);
-    init_data = ((u8 *)(&D_80083498));
+    init_data = ((u8 *)(&scene_object_list_anchor));
     object = allocate_list_node(0x312, init_data);
     created_object = object;
     if (created_object != 0) {

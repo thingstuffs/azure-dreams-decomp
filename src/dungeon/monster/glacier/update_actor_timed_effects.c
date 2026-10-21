@@ -35,7 +35,7 @@ extern s32 func_80172918(void *, void *, void *, s32);
 extern void func_8017412C(void *, void *, void *, void *);
 extern void func_801756E0(void *, void *, void *, void *);
 
-extern u8 D_800DEA68[];
+extern u8 secondary_sprite[];
 extern void *D_80170808[];
 extern u8 D_80170A0C[];
 extern u8 D_801714B8;
@@ -220,14 +220,14 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
 
     if (((S_801714B8_1 *)stats)->unk_6D > 0) {
         if (!(((S_801714B8_1 *)stats)->unk_1C & 0x20)) {
-            if (((S_801714B8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+            if (((S_801714B8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
                 func_80171E80(actor, context, sprite, stats);
                 return;
             }
             if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((s16)check_entity_relation(stats,
-                            (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                            (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                         return;
                     }
                 }
@@ -262,9 +262,9 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
 
                 heading = get_rounded_facing_and_rounding_flag(
                     ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
-                player = D_800814A8;
+                player = primary_actor_record;
                 ((S_801714B8_1 *)stats)->unk_2A.s = heading;
                 if (player->unk_9A == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_801760DC, &D_801714B8);
@@ -296,15 +296,15 @@ ordinary_cleanup:
     } else if (!(((S_801714B8_1 *)stats)->unk_1C & 0x2000)) {
         s32 room_index = (s8)room_id;
 
-        if ((room_index < 0) || !(D_800E2970[room_index].flags & 2)) {
+        if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((S_801714B8_1 *)stats)->unk_1C & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(
                         ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     ((S_801714B8_1 *)stats)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                         ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }
             }
@@ -376,7 +376,7 @@ ordinary_cleanup:
                     {
                         void *part = ((S_801714B8_6 *)object)->unk_0C;
                         ((S_801714B8_9 *)part)->unk_14 |= 0x80;
-                        func_8003DB94(part, &D_800DEA68, 0);
+                        func_8003DB94(part, &secondary_sprite, 0);
                     }
                 }
             }

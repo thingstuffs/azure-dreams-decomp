@@ -1,10 +1,10 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/object.h"
+#include "slus/data.h"
 
 extern u8 runtime_dispatch_mode_alias[9];
-extern s16 map_change_pending[5];
-extern s32 runtime_is_record_handler_changed(void *record);
 
 /* Returns the check result in mode 2, otherwise whether the check or fallback status is nonzero. */
 s32 test_runtime_handler_or_fallback_status(void *context) {

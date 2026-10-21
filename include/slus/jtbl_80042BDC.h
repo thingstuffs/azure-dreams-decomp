@@ -39,7 +39,7 @@ typedef struct S_80042BDC_child {
 } S_80042BDC_child;
 
 
-extern void *D_800E3DF0[32];
+extern void *familiar_record_slots[32];
 
 extern char status_end_action_1_text[];
 extern char status_end_action_2_text[];

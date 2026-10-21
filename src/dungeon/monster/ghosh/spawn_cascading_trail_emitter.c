@@ -37,7 +37,7 @@ s32 register_node();
 extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
 s32 play_sound_if_enabled();
 extern void update_cascading_trail_emitter(void *record_data);
-extern Rec_D_80174CD8 *D_80174CD8;
+extern Rec_D_80174CD8 *ghosh_boss_node;
 
 /* Create an effect at the source position and play its sound. */
 void spawn_cascading_trail_emitter(void) {
@@ -48,7 +48,7 @@ void spawn_cascading_trail_emitter(void) {
     S_801722F0_1 *effect_params;
     S_801722F0_4 *effect_pos;
 
-    source_pos = D_80174CD8->unk_08;
+    source_pos = ghosh_boss_node->unk_08;
     effect = func_8003FC64(0x212);
     if (effect != 0) {
         setup_data = project_sprite_chain;
@@ -70,7 +70,7 @@ void spawn_cascading_trail_emitter(void) {
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
         sprite->flags = (u16) (sprite->flags | 0x80);
-        func_8003DB94(sprite, D_800DE870, 0);
+        func_8003DB94(sprite, effect_sprite_sources, 0);
         play_sound_if_enabled(0x703);
     }
 }

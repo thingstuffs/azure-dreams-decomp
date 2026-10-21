@@ -7,17 +7,17 @@ typedef struct {
     s32 value;
 } TownRecord;
 
-extern TownRecord D_8001791C[];
+extern TownRecord town_selection_records[];
 extern s32 D_80018054[];
 extern void func_8001E578(s32);
 
 /* Return the player's table value, calling func_8001E578 if its town record value is zero. */
 s32 get_player_entry_value(void) {
-    u8 **player_ptr = ((u8 **)&D_8001E950);
+    u8 **player_ptr = ((u8 **)&town_event_state);
     u8 *player = *player_ptr;
     u8 player_index = player[4];
 
-    if (D_8001791C[player_index].value == 0) {
+    if (town_selection_records[player_index].value == 0) {
         func_8001E578(F_sbs01_pad12);
     }
 

@@ -87,7 +87,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(void *, void *, s32);
 
-extern s16 D_80083228;
+extern s16 view_facing_angle_alias;
 extern u8 D_800D71A8[];
 extern u8 D_800D78C0[];
 extern u8 D_8016ABF8[];

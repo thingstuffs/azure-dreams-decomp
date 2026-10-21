@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "frontend/card/message_object.h"   /* extern */
+#include "frontend/card.h"
 
 /* Dispatch operation 5 for the target with one value. */
 void card_dev_show_overwrite_confirmation(s32 target, s32 value) {

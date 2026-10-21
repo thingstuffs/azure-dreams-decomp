@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/card/save.h"
+#include "frontend/card/service.h"
 
 typedef struct S_80406368_0 {
     u8 pad_00[0x20];
@@ -14,13 +16,11 @@ typedef struct S_80406368_0 {
 
 
 extern s32 boot_pad_state;
-extern s32 D_801379B0;
+extern s32 boot_pressed_buttons;
 
 extern void func_80063FF8(s32 sound_code);
 extern s32  func_80058FF0(s32 selection_index, s32 direction, s32 selection_count);
-extern s32  card_devkit_poll_stable_slot_state(void);
 extern void submit_stored_and_queried_boot_values(void);
-extern void card_devkit_refresh_save_slot_selection(void *menu);
 extern void invoke_indexed_object_callback(void *menu);
 extern void func_80406358(void *menu);
 extern void propagate_object_high_bit_flags(void *object);
@@ -35,13 +35,13 @@ void handle_object_menu_input(void *menu)
     s32 needs_refresh;
     s32 repeat_ticks;
     s32 *held_p = &boot_pad_state;
-    s32 *press_p = &D_801379B0;
+    s32 *press_p = &boot_pressed_buttons;
 
     held_buttons = boot_pad_state;
     nav_result = 0;
     needs_refresh = 0;
     if (held_buttons != 0) {
-        pressed_buttons = D_801379B0;
+        pressed_buttons = boot_pressed_buttons;
         if (pressed_buttons & 0x40) {
             func_80063FF8(0x515);
             propagate_object_high_bit_flags((u8 *) menu - 0x20);

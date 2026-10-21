@@ -31,7 +31,7 @@ typedef struct {
     u8 pad[0xA];
     u16 fieldA;
 } D_80083460_t;
-extern M2C_UNK D_800E0E82;
+extern M2C_UNK confusion_cure_text;
 
 
 typedef struct S_800BD5C4_0_pre {
@@ -49,9 +49,9 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
     s32 type_index;
     s32 effect_result;
 
-    if (entity == D_800E3D7C) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((EntityRec *)entity)->unk_110 = update_value;
-        begin_deferred_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_deferred_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
@@ -67,7 +67,7 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
     create_timed_paired_particle_emitter(((S_800BD5C4_0_pre *)entity)[-1].unk_00, 0xC02020, entity);
     if ((((EntityRec *)entity)->flags14 & 0x4000) && !(((EntityRec *)entity)->flags1C & 0x400)) {
         effect_result = get_unused_text_buffer();
-        call_arg = &D_800E0E82;
+        call_arg = &confusion_cure_text;
         context_arg = effect_result;
         saved_context = context_arg;
         effect_result = expand_text_control_codes(call_arg, context_arg);

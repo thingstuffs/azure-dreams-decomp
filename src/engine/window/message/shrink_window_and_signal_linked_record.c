@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef struct {
     u8 pad00[0x44];
@@ -15,8 +16,6 @@ typedef struct {
     u16 pad00;
     u16 value;
 } FuncValue;
-
-extern void noop_after_window_shrink(void);
 
 /* Decreases value by 0x20, clamps it to 2, and updates the callback and data flag at the lower limit. */
 void shrink_window_and_signal_linked_record(FuncState *state, FuncValue *value_state) {

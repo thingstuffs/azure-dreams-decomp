@@ -21,7 +21,7 @@ struct ScriptContext {
 
 extern void func_80016B98(s32 records, s32 count);
 extern s32 func_800173F4(s32 flag);
-extern s32 D_80017594;
+extern s32 script_rescan_request;
 
 /* Return the first entry whose flag is clear and whose callback returns zero, rescanning while D_80017594 is set. */
 s32 find_eligible_entry_b(ScriptContext *context) {
@@ -29,12 +29,12 @@ s32 find_eligible_entry_b(ScriptContext *context) {
 
     func_80016B98(context->unk_14, context->unk_1A);
     do {
-        D_80017594 = 0;
+        script_rescan_request = 0;
         entry_index = 0;
         while (func_800173F4(context->entries[entry_index].flag) != 0 ||
                context->entries[entry_index].callback(context, entry_index) != 0) {
             entry_index++;
         }
-    } while (D_80017594 != 0);
+    } while (script_rescan_request != 0);
     return entry_index;
 }

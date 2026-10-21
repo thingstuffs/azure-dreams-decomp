@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "slus/data.h"
 
 typedef struct S_800357D0_2 {
     void * unk_00;
@@ -25,9 +26,6 @@ typedef struct S_800357D0_1 {
     u8 pad_00[0x8];
     u16 unk_08;
 } S_800357D0_1;   /* temp_v1 in runtime_advance_counter_and_callback */
-
-
-extern s32 cleanup_window_object;
 
 /* Increase the counter by 64 and advance the callback after it exceeds 1024. */
 void runtime_advance_counter_and_callback(S_800357D0_0 *state) {

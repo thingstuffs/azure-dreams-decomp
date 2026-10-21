@@ -1,6 +1,7 @@
 #include "common.h"
+#include "engine/sprite.h"
+#include "slus.h"
 
-extern s32 count_nonzero_word_prefix(s32 *a0, s32 a1);
 extern s32 create_callback_pair_default(s32 a0);
 
 /* Allocates a 0x104-byte block, stores its address at the looked-up array index, and returns it. */

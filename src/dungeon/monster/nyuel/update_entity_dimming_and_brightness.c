@@ -129,7 +129,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                 return;
             }
             if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-                ActorRecord *owner = D_800814A8;
+                ActorRecord *owner = primary_actor_record;
 
                 if ((check_entity_relation(entity,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
@@ -139,7 +139,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
             update_actor_status_and_food(entity);
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, 1) << 16) != 0) {
-                TileObject *origin = &D_80082E80;
+                TileObject *origin = &reference_tile_object;
                 s8 tile = sprite->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||

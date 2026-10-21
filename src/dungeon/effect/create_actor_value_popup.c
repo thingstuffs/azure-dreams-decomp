@@ -88,7 +88,7 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
     S_800B4C7C_2 *source_position;
     void *anchor;
 
-    new_object = allocate_list_node(0x212, ((u8 *)(&D_80083498)));
+    new_object = allocate_list_node(0x212, ((u8 *)(&scene_object_list_anchor)));
     saved_flags = flags;
     object = new_object;
     saved_value = value;

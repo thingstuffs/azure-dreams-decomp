@@ -1,6 +1,9 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
+#include "slus/data.h"
 
 typedef struct {
     void *data;
@@ -11,13 +14,8 @@ typedef struct {
     s32 unk0C;
 } S_8003F8F8;
 
-extern s32 gpu_scratch_ring_size;
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
-
-extern void DrawSync(s32 mode);
-extern void *decompress_lz(u8 *src, u8 *dst);
-extern s32 LoadImage(void *rect, void *data);
 
 /* Uploads a null-terminated image list to VRAM through a staging buffer. */
 void decode_and_upload_image_array(S_8003F8F8 *images)

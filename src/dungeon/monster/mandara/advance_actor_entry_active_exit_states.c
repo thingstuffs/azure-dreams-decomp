@@ -118,7 +118,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
             0);
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        effect = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
+        effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
@@ -207,7 +207,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
 
-            effect = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
+            effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
             effect_state = (u8 *)effect + 0x20;
             if (effect != 0) {
                 ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
@@ -270,7 +270,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
         }
         if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
             if ((s16)check_entity_relation(
-                    actor, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                    actor, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                 return;
             }
         }
@@ -280,12 +280,12 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
         if ((s16)get_entity_effect_value(actor, 1) != 0) {
             s8 tile;
 
-            check_actor = ((u8 *)(&D_80082E80));
+            check_actor = ((u8 *)(&reference_tile_object));
             tile = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
-            if ((tile != ((Rec_D_80082E80 *)((u8 *)(&D_80082E80)))->unk_26.as_s8) || (tile < 0)) {
+            if ((tile != ((Rec_D_80082E80 *)((u8 *)(&reference_tile_object)))->unk_26.as_s8) || (tile < 0)) {
                 s32 distance;
 
-                distance = (s16)get_tile_chebyshev_distance(((u8 *)(&D_80082E80)), sprite);
+                distance = (s16)get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), sprite);
                 check_actor = actor;
                 if (distance >= 2) {
                     goto second_call;
@@ -309,7 +309,7 @@ second_call:
             exit_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
-        effect = allocate_list_node(0x10, ((u8 *)(&D_80083498)));
+        effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             u16 facing;

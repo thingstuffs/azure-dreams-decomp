@@ -13,7 +13,7 @@ typedef struct S_80123700_1 {
 
 
 extern s32 D_80126A88;
-extern M2C_UNK D_80129728;
+extern M2C_UNK catalog_display_node_slots;
 
 
 /* Initialize 14 entries from the value table and set each linked field to 0x800. */
@@ -28,7 +28,7 @@ void initialize_linked_value_records(void) {
 
     entry_index = 0;
     initial_value = 0x800;
-    entry_table = (s8 *)&D_80129728;
+    entry_table = (s8 *)&catalog_display_node_slots;
     entry_slot = (void **)(entry_table + 0x38);
     source_record = (s8 *)&D_80126A88;
     do {

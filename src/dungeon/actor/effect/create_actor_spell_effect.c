@@ -68,8 +68,8 @@ typedef struct S_800A94A0_9 {
 
 
 extern u8 D_800E3CC8[];
-extern u16 D_800DCEAC[];
-extern u16 D_800DCEBC[];
+extern u16 direction_x_offsets[];
+extern u16 direction_y_offsets[];
 
 void *allocate_list_node();
 s32 func_80069EF8(void);
@@ -89,7 +89,7 @@ extern M2C_UNK D_80089080;
 extern u8 D_800DD880[];
 extern u8 D_800DD8B4[];
 extern M2C_UNK D_800E1C58;
-extern u8 D_800E3D68;
+extern u8 current_spell_effect_variant;
 
 /* Creates an effect for an actor, sets its position and scale, and builds its message. */
 void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context) {
@@ -113,7 +113,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
     TileObject *map_state;
 
     actor_state = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04;
-    effect = allocate_list_node(0x12, ((u8 *)(&D_80083498)));
+    effect = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
     if (effect != NULL) {
         effect_mode = ((s32) mode << 0x10) >> 0x10;
         {
@@ -121,7 +121,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
             u8 entry_variant;
             effect_id = (*(u8 *)&effect_record->x);
             entry_variant = (*(u8 *)((u8 *)&effect_record->x + 1));
-            D_800E3D68 = entry_variant;
+            current_spell_effect_variant = entry_variant;
             effect_data = load_spell_effect_code((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
         }
         if (effect_data == 0) {
@@ -147,7 +147,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
             effect_position->unk_06 = (u16) actor_position->unk_06;
             effect_position->unk_0A = (u16) actor_position->unk_0A;
             text_context = func_80069EF8();
-            if (!((u16) *((s16 *)&D_80013714) & 1)) {
+            if (!((u16) *((s16 *)&system_update_flags) & 1)) {
                 linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;
                 if (linked_object != NULL) {
                     get_tile_chebyshev_distance(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04,
@@ -164,18 +164,18 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
                 effect_mode = 0;
             }
         } else {
-            map_state = &D_80082E80;
+            map_state = &reference_tile_object;
             if (!(actor_state->unk_14 & 0x8000)) {
                 if (!(map_state->sprite_flags & 0x8000)) {
-                    process_nearby_object_midpoint(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88,
+                    process_nearby_object_midpoint(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_88,
                         ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
                     goto set_effect_scale;
                 }
             }
-            direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_2A >> 8) & 0xE;
-            setup_object_within_planar_range(actor - 0x20, (map_state->tile_position.parts.tile_x << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset)
-                << 0x10) >> 0x11) + 0x20, (map_state->tile_position.parts.tile_y << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC
-                + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
+            direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_2A >> 8) & 0xE;
+            setup_object_within_planar_range(actor - 0x20, (map_state->tile_position.parts.tile_x << 6) + ((s32) (*(u16 *)((u8 *)direction_x_offsets + direction_offset)
+                << 0x10) >> 0x11) + 0x20, (map_state->tile_position.parts.tile_y << 6) + ((s32) (*(u16 *)((u8 *)direction_y_offsets
+                + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_88, 8, 0x300);
         }
 set_effect_scale:
         if ((mode << 0x10) != 0) {
@@ -189,10 +189,10 @@ set_effect_scale:
             message = expand_text_control_codes(&D_800E1C58, message);
             if (((u32)(u16)mode << 0x10) != 0) {
                 effect_id = resolve_alternate_spell_id(effect_id);
-                name_text = D_8006DE24[effect_id].unk_08;
+                name_text = item_action_definitions[effect_id].unk_08;
                 message = expand_text_control_codes(name_text, message);
             } else {
-                name_text = D_8006DE24[effect_id].unk_00;
+                name_text = item_action_definitions[effect_id].unk_00;
                 message = expand_text_control_codes(name_text, message);
             }
             func_80099290(expand_text_control_codes(&D_80089080, message));

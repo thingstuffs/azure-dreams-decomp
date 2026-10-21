@@ -3,6 +3,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
+#include "engine/menu.h"
+#include "slus.h"
 
 typedef struct S_8004FA2C S_8004FA2C;
 
@@ -15,11 +17,6 @@ typedef struct S_8004FAA4_1 {
     u8 pad_34[0x4];
     s32 unk_38;
 } S_8004FAA4_1;   /* arg0 in handle_animated_selection_menu_input */
-
-
-void begin_selection_menu_index_change(S_8004FA2C *object, int target);
-s32 find_resolved_selection_menu_index();
-short SD_Call(int flags);
 
 /* Update menu selection from directional and side-switch input, with key repeat and sound. */
 void handle_animated_selection_menu_input(S_8004FAA4_1 *menu) {
@@ -60,13 +57,13 @@ void handle_animated_selection_menu_input(S_8004FAA4_1 *menu) {
         }
         if (index_delta == 0) {
             if (((s32)input->pressed_buttons) & 1) {
-                if (((s32)D_800814A8->unk_B0) != 0) {
+                if (((s32)primary_actor_record->unk_B0) != 0) {
                     next_index = find_resolved_selection_menu_index(menu, 1);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;
                 }
             } else if (((s32)input->pressed_buttons) & 2) {
-                if (((s32)D_800814A8->unk_AC) != 0) {
+                if (((s32)primary_actor_record->unk_AC) != 0) {
                     next_index = find_resolved_selection_menu_index(menu, 0);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;

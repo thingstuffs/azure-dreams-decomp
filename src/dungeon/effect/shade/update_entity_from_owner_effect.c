@@ -7,14 +7,14 @@ extern void func_800478B8(void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 get_entity_effect_value(void *, s32);
 
-extern s8 D_800DCECC[];
-extern u8 D_800E23F8[];
+extern s8 view_direction_depth_biases[];
+extern u8 uboat_ready_frames[];
 extern u8 D_800E2400[];
 extern u8 D_800E2408[];
 extern u8 D_800E2420[];
-extern u8 D_800E2428[];
-extern u8 D_800E2438[];
-extern u8 D_800E2440[];
+extern u8 uboat_action_frames[];
+extern u8 uboat_aura_start_frames[];
+extern u8 uboat_aura_later_frames[];
 extern u8 D_800E2450[];
 extern u8 D_800E2458[];
 extern u8 D_800E2460[];
@@ -91,22 +91,22 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
 
     direction_index =
         (S16(angle_table, 0xC8) + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9 & 7;
-    S16(entity, 6) = (s32)D_800DCECC[(u8)direction_index] * 4;
+    S16(entity, 6) = (s32)view_direction_depth_biases[(u8)direction_index] * 4;
     U16(entity, 0x1C) = U16(appearance, 0x1C);
     U16(entity, 0x1E) = U16(appearance, 0x1E);
     U16(entity, 0x12) = U16(appearance, 0x12);
 
     if ((U16(record, 0x1E) & 0x8000) == 0) {
         appearance_type = PTR(appearance, 0x2C);
-        if (appearance_type == D_800E23F8 ||
+        if (appearance_type == uboat_ready_frames ||
             appearance_type == D_800E2408 ||
             appearance_type == D_800E2420 ||
-            appearance_type == D_800E2428 ||
+            appearance_type == uboat_action_frames ||
             appearance_type == D_800E2450 ||
             appearance_type == D_800E2458 ||
             appearance_type == D_800E2460 ||
-            appearance_type == D_800E2440 ||
-            appearance_type == D_800E2438) {
+            appearance_type == uboat_aura_later_frames ||
+            appearance_type == uboat_aura_start_frames) {
             U16(((u8 *)(owner_data)), -2) |= 0x8000;
             object_flag_block.flags |= 0x8000;
             U8(saved_effect, 0xB0)--;

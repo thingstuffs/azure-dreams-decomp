@@ -1,11 +1,11 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
+#include "slus/data.h"
 
 typedef struct { s16 x, y, w, h; } RECT;
-
-extern int LoadImage(RECT *rect, void *p);
-extern s32 vram_row_upload_cache[128];
 
 /* Uploads a VRAM strip and records its source and width in the cache. */
 void upload_vram_row_and_cache(s32 src_addr, s32 vram_addr, s32 block_count, s32 skip_flags)

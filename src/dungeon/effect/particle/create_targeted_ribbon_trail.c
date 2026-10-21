@@ -67,7 +67,7 @@ extern void register_node(EffectObject *, void *);
 extern u8 D_800DEAE0[];
 extern LocalPositionTable D_8016484C;
 extern u8 D_80167C74[];
-extern s16 D_80175DD8[][8][2][3];
+extern s16 ribbon_vertices[][8][2][3];
 
 /* Create a direction- and color-selected effect and initialize its vertices. */
 void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unused,
@@ -152,7 +152,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
             do {
                 axis = 0;
                 do {
-                    D_80175DD8[(s16)payload->color_mode]
+                    ribbon_vertices[(s16)payload->color_mode]
                     [pair_index][vertex_index][axis] =
                         payload->vertices[vertex_index][axis];
                     axis++;

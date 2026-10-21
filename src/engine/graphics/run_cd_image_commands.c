@@ -4,6 +4,10 @@
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "sdk/libc.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 typedef struct {
     u16 type;
@@ -14,14 +18,6 @@ typedef struct {
     s16 flags;
 } StreamCommand;
 
-
-extern void set_byte_one(u8 *);
-extern s32 Control_CD(s32, void *, void *);
-extern u8 *decompress_lz(u8 *, u8 *);
-extern void upload_vram_row_and_cache(s32, s32, s32, s32);
-extern s32 DrawSync(s32);
-extern s32 LoadImage(void *, void *);
-extern void *memcpy(void *, const void *, u32);
 extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
 

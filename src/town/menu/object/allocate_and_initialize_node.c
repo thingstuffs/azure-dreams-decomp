@@ -19,8 +19,8 @@ extern void initialize_catalog_glyph_cache(void);
 extern s32 initialize_catalog_display_nodes(void *);
 extern void initialize_catalog_state(void *);
 
-extern s32 D_8004CAA0;
-extern s8 D_80080A84;
+extern s32 dungeon_menu_tag;
+extern s8 animation_tick_scale;
 extern s32 D_80126704;
 
 /* Allocates and initializes a node for the supplied data, returning null on failure. */
@@ -33,11 +33,11 @@ static void *allocate_and_initialize_node_2(void *data) {
         ((S_80126890_0 *)node)->unk_20 = data;
         payload = (u8 *)node + 0x20;
         if (initialize_catalog_display_nodes(payload) != 0) {
-            D_80080A84 = 1;
+            animation_tick_scale = 1;
             initialize_catalog_glyph_cache();
             ((S_80126890_0 *)node)->unk_0C = (u8 *)node + 0x68;
             initialize_catalog_state(payload);
-            register_node(node, &D_8004CAA0);
+            register_node(node, &dungeon_menu_tag);
             ((S_80126890_0 *)node)->unk_10 = &D_80126704;
             SD_Call(0x701);
         } else {

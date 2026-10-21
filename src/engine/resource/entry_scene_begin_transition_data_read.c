@@ -2,6 +2,11 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
+#include "sdk/libgpu.h"
+#include "slus/data.h"
 
 typedef struct S_8004ED00_0_pre {
     s32 * unk_00;
@@ -12,11 +17,7 @@ typedef struct S_8004ED00_0 {
     u8 pad_00[0x8];
     u8 unk_08;
 } S_8004ED00_0;   /* arg0 in func_8004ED00 */
-void DrawSync(s32);                          /* extern */
-void run_image_load_commands(s32 data_base, void *scratch);                /* extern */
-void scene_begin_transition_data_read(u8 *state);                      /* extern */
 extern s32 gpu_scratch_write_pointer[];
-extern M2C_UNK propagate_linked_removal_request;
 
 /* Processes flagged state with drawing synchronization and installs the next callback. */
 void load_transition_image_and_begin_data_read(void *state) {

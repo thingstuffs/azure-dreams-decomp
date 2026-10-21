@@ -1,15 +1,6 @@
 #include "shared/sound_state.h"
 #include "common.h"
-
-
-
-
-
-
-extern void update_audio_ramp(SoundTask *ramp);
-extern void check_cd_stream_end(void);
-extern void update_cd_stream_flags(void);
-extern void audio_handle_stream_control_event(s32 event);
+#include "engine/audio.h"
 
 /* Updates the CD cue task and commits the countdown when its ramp completes. */
 void update_cd_stream_ramp_and_completion(void) {

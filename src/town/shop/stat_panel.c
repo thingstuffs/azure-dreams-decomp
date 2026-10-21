@@ -15,7 +15,7 @@ void complete_display_transfer(void *texture_state) {
 
     if (((DisplayTransferState *)state)->transfer_pending != 0) {
         func_80067014(0);
-        slot_table = D_80083D78;
+        slot_table = display_resource_cache_keys;
         table_index = ((DisplayTransferState *)state)->slot_index;
         texture = ((DisplayTransferState *)state)->texture;
         ((DisplayTransferState *)state)->transfer_phase = 0;
@@ -71,7 +71,7 @@ void initialize_three_display_entries(s32 source_value, Func800B8500Entry **entr
 
 /* Returns the global in mode 1, otherwise calls the default handler. */
 s32 get_mode_specific_value(void *entry) {
-    if (D_80082E60.mode != 1) {
+    if (runtime_dispatch_state.mode != 1) {
         return select_object_state_value();
     }
     return D_800D1790[0];

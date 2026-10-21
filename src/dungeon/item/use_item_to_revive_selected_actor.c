@@ -19,7 +19,7 @@ void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 extern M2C_UNK D_800E1580;
 extern M2C_UNK D_800E15A2;
-extern void *D_800E3DF0[];
+extern void *familiar_record_slots[];
 
 
 typedef struct S_800C22EC_1 {
@@ -54,9 +54,9 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
     if (action_type == 0xD) {
         return process_record_and_update_linked_state(action, context);
     }
-    if (entity == ((s32)D_800E3D7C)) {
+    if (entity == ((s32)dungeon_actor_ring_anchor)) {
         entity->unk_110 = action;
-        begin_mode_selected_item_action(entity, &D_80083780.x.v, &D_80082E80.unk_000, entity);
+        begin_mode_selected_item_action(entity, &view_reference_entity.x.v, &reference_tile_object.unk_000, entity);
         return 0;
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
@@ -72,11 +72,11 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
         }
         return 1;
     }
-    selection = *(void **)((u8 *)&D_80082E80.unk_000 + 0x34);
+    selection = *(void **)((u8 *)&reference_tile_object.unk_000 + 0x34);
     if (selection->unk_01 == 0x13) {
         target_index = selection->unk_03 & 0x1F;
         if (target_index < 0x14) {
-            target = D_800E3DF0[target_index];
+            target = familiar_record_slots[target_index];
             if ((get_entity_effect_value(target, 0xE) << 0x10) != 0) {
                 void *update_target;
 

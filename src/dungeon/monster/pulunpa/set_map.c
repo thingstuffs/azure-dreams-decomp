@@ -130,13 +130,13 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
             update_actor_status_and_food(creature);
             return;
         }
-        if (((S_80173B98_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_80173B98_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             choose_heading_and_advance_actor(actor, context, sprite, creature);
             return;
         }
         if (!(creature->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(creature, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
+                if ((check_entity_relation(creature, ((s32)primary_actor_record->unk_58) + 0x20) << 0x10) != 0) {
                     return;
                 }
             }
@@ -177,12 +177,12 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
     }
     status_flags = creature->flags1C;
     if (!(status_flags & 0x2000)) {
-        if (tile_index >= 0 && (D_800E2970[tile_index].flags & 2)) {
+        if (tile_index >= 0 && (dungeon_rooms[tile_index].flags & 2)) {
         } else if (!(status_flags & 0x430)) {
             if ((compare_monster_neighbor_values(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 0x10) != 0) {
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
                 creature->facing = get_rounded_facing_and_rounding_flag(((S_80173B98_2 *)sprite)->unk_24.at00.v,
-                    ((S_80173B98_2 *)sprite)->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
+                    ((S_80173B98_2 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }
     }

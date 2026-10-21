@@ -1,10 +1,11 @@
 #include "common.h"
+#include "frontend/libcard/message.h"
+#include "main/data.h"
 
 
 typedef struct Bytes4 { u8 bytes[4]; } Bytes4;
 typedef struct Bytes24 { u8 bytes[24]; } Bytes24;
 extern u8 D_800200A0[];
-extern u8 D_80027F48[];
 extern s32 D_800280B4[];
 
 

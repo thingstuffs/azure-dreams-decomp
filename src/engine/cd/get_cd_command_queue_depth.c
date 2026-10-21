@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/cd.h"
 
 extern u8 cd_command_write_index;
 

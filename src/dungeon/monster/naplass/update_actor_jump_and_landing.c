@@ -130,7 +130,7 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, void *map
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
             }
         }
 

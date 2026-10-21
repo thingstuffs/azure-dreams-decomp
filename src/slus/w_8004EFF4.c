@@ -1,8 +1,6 @@
 #include "common.h"
-
-extern s32 object_header_b_default_word_08[];
-extern s32 object_header_b_default_word_0c[];
-extern s32 object_header_b_default_word_04[];
+#include "slus.h"
+#include "slus/data.h"
 
 typedef struct S_8004EFF4 {
     /* 0x00 */ u8 unk00;

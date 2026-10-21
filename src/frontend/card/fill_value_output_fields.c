@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 typedef struct MainValue {
     u8 pad0[0xC];
@@ -7,10 +9,6 @@ typedef struct MainValue {
     u8 padE[8];
     s16 flags;
 } MainValue;
-
-extern u16 D_8008B368[];
-extern u16 D_8008B36A[];
-extern u16 D_8008B36C[];
 
 /* Sets output fields from the value's type and propagates its high flag bit. */
 void fill_value_output_fields(MainValue **value_slot, u8 *output, MainValue *value)

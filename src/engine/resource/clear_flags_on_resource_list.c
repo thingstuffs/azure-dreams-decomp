@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/resource.h"
 
 /* Linked-list node with a next pointer at offset 0x0 and a 16-bit flags/state
  * field at offset 0x1E. Iterates the global singly-linked list headed by
@@ -11,12 +12,12 @@ typedef struct S_80040454 {
     unsigned short field_1E;       /* 0x1E */
 } S_80040454;
 
-extern S_80040454 *D_80081498;
+extern S_80040454 *active_node_list_head;
 
 /* Clear flag bits 0xC00 in every node of the global list. */
 void clear_flags_on_resource_list(void)
 {
-    S_80040454 *node = D_80081498;
+    S_80040454 *node = active_node_list_head;
 
     if (node != 0) {
         do {

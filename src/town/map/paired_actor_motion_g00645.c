@@ -501,7 +501,7 @@ s32 event_tori_in(void *source) {
 
     source_data = source;
     child_slot = NULL;
-    object = allocate_list_node(0x202, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x202, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         child_slot = object + 0x20;
         ((LinkedMotionObject *)object)->update.parent = randomize_paired_object_motion;
@@ -513,7 +513,7 @@ s32 event_tori_in(void *source) {
     x_step = 0x300000;
     child_slot = child_slot + 4;
     do {
-        object = allocate_list_node(0x312, ((s32 *)&D_80083498.next));
+        object = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
         if (object != NULL) {
             s32 motion_base = 0;
             s32 color;

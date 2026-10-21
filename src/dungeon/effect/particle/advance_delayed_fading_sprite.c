@@ -41,9 +41,9 @@ void func_80024020(u8 *self, u8 *motion)
     owner_record = F(owner, u8 *, -20);
     if (state != 0 && state < 5) {
         particles_left = 16;
-        particle_texture = D_800DEA68;
+        particle_texture = secondary_sprite;
         do {
-            particle = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+            particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
                 particle_data = particle + 32;
                 child_data = F(particle, u8 *, 12);
@@ -155,7 +155,7 @@ void func_80024020(u8 *self, u8 *motion)
     case 3:
         timer = F(self, s16, 80);
         if (timer % 3 == 0) {
-            particle = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+            particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
                 F(particle, void *, 16) = brighten_accelerate_and_fade_effect;
                 register_node(particle, project_sprite_chain);
@@ -343,7 +343,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
             particle_data = advance_delayed_fading_sprite;
             ((DelayParticle *)effect_arg)->unk_4C.s = (s16) ((u16) ((DelayParticle *)effect_arg)->unk_4C.s + 1);
             do {
-                particle = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+                particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
                 if (particle != NULL) {
                     ((DelayObject *)particle)->unk_10 = particle_data;
                     particle_sprite = ((DelayObject *)particle)->unk_0C;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/scene.h"
 
 /* Struct pointed to by D_8006CE80[i].unk4; its field at offset 8 is a pointer
  * passed to decode_and_upload_image_array. */

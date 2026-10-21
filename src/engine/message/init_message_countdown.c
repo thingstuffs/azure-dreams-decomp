@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "slus/data.h"
 
 typedef struct S_8003832C_0 {
     u8 pad_00[0x10];
@@ -17,7 +18,6 @@ typedef struct {
     u8 *buffer;
 } Func80039AF0State;
 void read_message_byte(Func80039AF0State *state);                            /* extern */
-extern s32 decrement_countdown_and_switch_b;
 
 /* Initialize the context and set its next handler and state. */
 void consume_message_byte_and_start_countdown(S_8003832C_0 *context) {

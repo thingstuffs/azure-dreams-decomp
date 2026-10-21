@@ -63,8 +63,8 @@ typedef struct Scratch_8008EA20 {
     s16 quad[8];
 } Scratch_8008EA20;
 
-extern s32 D_800FE480;
-extern s32 D_800FE484;
+extern s32 town_map_column_extent;
+extern s32 town_map_row_extent;
 
 extern s32 check_scratch_quad_half_turn_gaps(Scratch_8008EA20 *scratch);
 
@@ -115,7 +115,7 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y)
     while (scratch->z_count < 2) {
         scan_z = (u16)scratch->z_start + (u16)scratch->z_offset_acc;
         if (scratch->z_step >= 0) {
-            if (scan_z >= D_800FE484) {
+            if (scan_z >= town_map_row_extent) {
                 break;
             }
         } else if (scan_z < 0) {
@@ -132,7 +132,7 @@ s32 find_highest_valid_cell_height(s32 world_x, s32 world_z, s32 world_y)
 
             scan_x = (u16)scratch->x_start + (u16)scratch->x_offset;
             if (scratch->x_step >= 0) {
-                if (scan_x >= D_800FE480) {
+                if (scan_x >= town_map_column_extent) {
                     break;
                 }
             } else if (scan_x < 0) {

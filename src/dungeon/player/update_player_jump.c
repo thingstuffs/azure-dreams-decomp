@@ -16,13 +16,13 @@ extern s16 measure_directional_stopping_distance(s16 a0, void *a1, void *a2, s32
 extern void append_packed_action_record(void *a0, s32 a1, s16 a2, s32 a3);
 extern void play_sound_if_enabled(s32 a0);
 
-extern s32 D_80081484;
-extern u8 D_8008EAC8[];
+extern s32 held_item_record;
+extern u8 player_action_tag[];
 extern u8 D_800DCFD0[8];
 extern u8 D_800DD048[8];
 extern u8 D_800DD060[8];
 extern u8 D_800DD0C8[8];
-extern s32 D_800E3540[3];
+extern s32 saved_held_item_word[3];
 
 /* Advance the entity action through its motion, animation, and linked-child effects. */
 void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
@@ -60,7 +60,7 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
 
             *(s32 *)(motion + 0x14) = 0;
             if (*(s32 *)(entity + 0x1C) & 0x100000) {
-                *(u8 **)(action + 0x8C) = D_8008EAC8;
+                *(u8 **)(action + 0x8C) = player_action_tag;
             } else {
                 anim_sprite = sprite;
                 animations = D_800DD060;
@@ -90,13 +90,13 @@ void update_player_jump(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
                         s32 heading;
 
                         ((S_8008E700_0 *)entity)->unk_1C &= 0xFFEFFFFF;
-                        saved_state = D_80081484;
-                        D_80081484 = 0;
+                        saved_state = held_item_record;
+                        held_item_record = 0;
                         g_dungeon_status.activity_counts.parts.pending_action_count++;
                         *(u8 **)(sprite + 0x2C) = D_800DCFD0;
                         angle = g_game_work.view.camera_rotation.parts.viewAngle;
                         heading = *(s16 *)(entity + 0x2A);
-                        D_800E3540[0] = saved_state;
+                        saved_held_item_word[0] = saved_state;
                         set_sprite_animation_frame(sprite, D_800DCFD0[((angle + heading + 0x100) >> 9) & 7], 5, 1);
                     }
                     play_sound_if_enabled(0x512);

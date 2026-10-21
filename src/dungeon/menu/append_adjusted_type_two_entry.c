@@ -14,7 +14,7 @@ typedef struct State {
     Inner *next;
 } State;
 
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 extern s32 func_8006658C(s32 submission_target, void *entry);
 
 // Appends a type-2 entry with adjusted coordinates and submits it for processing.
@@ -29,7 +29,7 @@ void append_adjusted_type_two_entry(s32 x, s32 y, s32 *entryValue, s32 submissio
     state->next = entry + 1;
     entry->type = 2;
     entry->val8 = (s16)adjustedX;
-    if (state != (State *)D_801C9E40) {
+    if (state != (State *)upper_draw_context) {
         adjustedY = maskedY - 0x20;
     }
     entry->valA = (s16)adjustedY;

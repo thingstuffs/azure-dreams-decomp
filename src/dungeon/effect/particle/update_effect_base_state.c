@@ -35,9 +35,9 @@ void func_80024020(void *effect, void *motion, void *source_render) {
     if (state != 0) {
         if (state < 5) {
             particles_left = 12;
-            sprite_page = D_800DEA68;
+            sprite_page = secondary_sprite;
             do {
-                spawned = allocate_list_node(0x312, (ObjectNodeHeader **)&D_80083498);
+                spawned = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
                 if (spawned != 0) {
                     particle_data = (u8 *)spawned + 0x20;
                     sprite = ((S_81844800_2 *)spawned)->unk_0C;
@@ -193,7 +193,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
 
     case 3:
         if ((((S_81844800_0 *)effect)->unk_52.s & 0x7FFF) == 0) {
-            spawned = allocate_list_node(0x201, (ObjectNodeHeader **)&D_80083498);
+            spawned = allocate_list_node(0x201, (ObjectNodeHeader **)&scene_object_list_anchor);
             if (spawned != 0) {
                 S_81844800_12 *burst_data = (u8 *)spawned + 0x20;
                 ((S_81844800_2 *)spawned)->unk_10 = update_effect_base_state;
@@ -220,7 +220,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
         }
         particles_left = 20;
         do {
-            spawned = allocate_list_node(0x312, (ObjectNodeHeader **)&D_80083498);
+            spawned = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
             if (spawned != 0) {
                 particle_data = (u8 *)spawned + 0x20;
                 sprite = ((S_81844800_2 *)spawned)->unk_0C;

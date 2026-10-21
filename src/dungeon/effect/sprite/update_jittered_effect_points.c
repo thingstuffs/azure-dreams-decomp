@@ -93,7 +93,7 @@ typedef struct S_func_819A6800_9 {
     u32 unk_04;
 } S_func_819A6800_9;
 
-extern u8 D_800814A8[16];
+extern u8 primary_actor_record[16];
 struct S_800244BC_2;
 void func_800244BC(void *, struct S_800244BC_2 *, s32);
 void update_jittered_effect_points(void *);
@@ -101,7 +101,7 @@ s32 update_segment(void *);
 extern u8 D_800DEE38[];
 extern u32 D_800814A0[];
 
-#define GLOBAL_OBJECT (*(void **)D_800814A8)
+#define GLOBAL_OBJECT (*(void **)primary_actor_record)
 
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
@@ -153,8 +153,8 @@ void func_80024020(void *sequence, void *out_position)
         ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
         new_object = scan_monster_along_heading(reloaded_object,
-                                   D_80082E80.tile_position.parts.tile_x,
-                                   D_80082E80.tile_position.parts.tile_y,
+                                   reference_tile_object.tile_position.parts.tile_x,
+                                   reference_tile_object.tile_position.parts.tile_y,
                                    reloaded_object->unk_2A,
                                    7);
         owner->unk_60.p = new_object;
@@ -177,7 +177,7 @@ void func_80024020(void *sequence, void *out_position)
         SELF->unk_50.u = 10;
         counter_object->unk_A6--;
         counter_object->unk_A8 = SELF->unk_08;
-        new_object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+        new_object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         record = new_object;
         if (record != 0) {
             if (resolve_record_orientation_or_fallback(((S_func_819A6800_2 *)(owner_object->unk_0C))->unk_08,
@@ -244,7 +244,7 @@ void func_80024020(void *sequence, void *out_position)
         s16 timer_left = SELF->unk_50.s;
         if (timer_left == 7) {
             if (owner->unk_60.p != 0) {
-                record = allocate_list_node(0x302, ((u8 *)(&D_80083498)));
+                record = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
                 if (record != 0) {
                     S_func_819A6800_7 *effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
                     u32 target_object;
@@ -273,7 +273,7 @@ void func_80024020(void *sequence, void *out_position)
                           owner,
                           2);
         }
-        if ((D_80082E80.sprite_flags & 0x8000) == 0 &&
+        if ((reference_tile_object.sprite_flags & 0x8000) == 0 &&
             SELF->unk_50.s >= 0) {
             return;
         }
@@ -403,19 +403,19 @@ void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
         ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
                         /* fall through */
     case 1:
-        if (resolve_record_orientation_or_fallback(D_80082E80.sprite_source, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
             func_800478B8(context);
-            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i)
+            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + view_reference_entity.x.w.i)
                 - position->unk_00.at02.v) << 0xE));
-            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i)
+            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + view_reference_entity.y.w.i)
                 - position->unk_04.at02.v) << 0xE));
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i)
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + view_reference_entity.z.w.i)
                 - position->unk_08.at02.v) << 0xE));
             effects_left = 0;
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v
-                - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&D_80083780))) << 9));
+                - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
             do {
-                effect = allocate_list_node(0x302, ((u8 *)(&D_80083498)));
+                effect = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
                 effect_data = effect + 0x20;
                 if (effect != 0) {
                     ((S_800244BC_3 *)effect)->unk_10 = update_randomized_intermediate_points;
@@ -440,13 +440,13 @@ void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
         }
         break;
     case 2:
-        if (resolve_record_orientation_or_fallback(D_80082E80.sprite_source, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
             func_800478B8(context);
-            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i)
+            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + view_reference_entity.x.w.i)
                 - position->unk_00.at02.v) << 0xF));
-            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i)
+            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + view_reference_entity.y.w.i)
                 - position->unk_04.at02.v) << 0xF));
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i)
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + view_reference_entity.z.w.i)
                 - position->unk_08.at02.v) << 0xF));
         }
         if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
@@ -517,10 +517,10 @@ void update_jittered_effect_points(void *effect) {
     ((S_80024810_0 *)effect)->unk_24 = (u16) ((MovingPosition *)(target->unk_08))->unk_02;
     ((S_80024810_0 *)effect)->unk_26 = (u16) ((MovingPosition *)(target->unk_08))->unk_06;
     ((S_80024810_0 *)effect)->unk_28 = (s16) (((MovingPosition *)(target->unk_08))->unk_0A - 0x20);
-    ((S_80024810_0 *)effect)->unk_04 = (u16) D_80083780.x.w.i;
-    ((S_80024810_0 *)effect)->unk_06 = (u16) D_80083780.y.w.i;
-    ((S_80024810_0 *)effect)->unk_08 = (u16) D_80083780.z.w.i;
-    if (resolve_record_orientation_or_fallback(D_80082E80.sprite_source, ((s32 *)(&D_80082E80)), coord_delta, 0) != 0) {
+    ((S_80024810_0 *)effect)->unk_04 = (u16) view_reference_entity.x.w.i;
+    ((S_80024810_0 *)effect)->unk_06 = (u16) view_reference_entity.y.w.i;
+    ((S_80024810_0 *)effect)->unk_08 = (u16) view_reference_entity.z.w.i;
+    if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), coord_delta, 0) != 0) {
         ((S_80024810_0 *)effect)->unk_04 = (u16) (((S_80024810_0 *)effect)->unk_04 + coord_delta[0]);
         ((S_80024810_0 *)effect)->unk_06 = (u16) (((S_80024810_0 *)effect)->unk_06 + coord_delta[1]);
         ((S_80024810_0 *)effect)->unk_08 = (u16) (((S_80024810_0 *)effect)->unk_08 + coord_delta[2]);

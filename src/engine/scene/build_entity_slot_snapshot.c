@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/scene.h"
+#include "slus.h"
 
 /* "self" object updated by this function (destination of the field copy). */
 typedef struct S_800422DC_Self {
@@ -23,8 +25,6 @@ typedef struct S_800422DC_Other {
     s32 f54;
 } S_800422DC_Other;
 
-extern void copy_words_forward(int *a0, int *a1, int a2);
-extern short get_bounded_stride_index(unsigned int a0, unsigned int a1, unsigned short a2, unsigned short a3);
 extern void clear_slots_of_type(void *a0, int a1);
 extern int  find_slot_by_type(void *a0, int a1);
 

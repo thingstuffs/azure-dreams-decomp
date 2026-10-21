@@ -19,7 +19,7 @@ s32 request_random_slot_effect(S_801761AC_0 *actor) {
     s32 remainder;
     s16 slot;
 
-    if (actor == D_800E3D7C) {
+    if (actor == dungeon_actor_ring_anchor) {
         return 0;
     }
     seed = generate_random_value() & 0xFFFF;

@@ -131,7 +131,7 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
             return;
         }
         random_value = (s16)func_80069EF8();
-        magnitude_table = D_800DDC40;
+        magnitude_table = entity_height_offsets;
         scaled_magnitude = magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13] * 3;
         create_colored(effect, motion, (s16)random_value, 0 - (scaled_magnitude / 4));
         func_800247B0(effect, motion, magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13]);

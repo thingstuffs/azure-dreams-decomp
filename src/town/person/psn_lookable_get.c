@@ -14,7 +14,7 @@ struct Node {
 extern struct {
     Node *head;
     s32 pad[2];
-} D_80081498;
+} active_node_list_head;
 extern u8 D_800C3174[];
 extern u8 D_800C321C[];
 
@@ -30,7 +30,7 @@ Node *psn_lookable_get(s16 target_id)
     u8 *kind_a;
     u8 *kind_b;
 
-    node = D_80081498.head;
+    node = active_node_list_head.head;
     if (node != 0) {
         kind_a = D_800C3174;
         kind_b = D_800C321C;

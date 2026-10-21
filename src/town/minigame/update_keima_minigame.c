@@ -49,12 +49,12 @@ s32 rand();                      /* extern */
 void spawn_person_radial_effects();                       /* extern */
 s32 create_dual_buffer_object();       /* extern */
 void set_object_data_pointer_2();              /* extern */
-extern s32 D_80012D5C[0xB58];
+extern s32 town_money[0xB58];
 extern u8 D_80022514[0x100];
 extern s32 D_80024338[3];
 
-extern s16 D_80113158[8];
-extern s32 D_8011315C[0xC58];
+extern s16 keima_selection_mask[8];
+extern s32 keima_payout_remaining[0xC58];
 
 typedef struct DialogArgs {
     s16 unk_10;
@@ -137,7 +137,7 @@ s32 update_keima_minigame(MinigameState *game) {
     ObjectPosition *init_position;
 
     state = game->stage.s;
-    base_object = &D_800834B8;
+    base_object = &scene_object_payload_alias;
     switch (state) {
     case 0:
         object_index = 3;
@@ -149,7 +149,7 @@ s32 update_keima_minigame(MinigameState *game) {
         motion_mode = 1;
         game->unk_46 = -1;
         game->unk_44 = -1;
-        game->rec[0] = &D_80083780;
+        game->rec[0] = &view_reference_entity;
         game->angle[0] = (s16 *)&base_object->unk_10;
         for (; object_index >= 0; object_index--) {
             init_object = game->node[object_index];
@@ -298,12 +298,12 @@ loop_3:
             one = 1;
             collision_value = game->unk_44;
             pair_value = game->unk_46;
-            winning_mask = D_80113158[0];
+            winning_mask = keima_selection_mask[0];
             collision_value = one << collision_value;
             pair_value = one << pair_value;
             object_index = collision_value + pair_value;
             if (winning_mask != object_index) {
-                D_8011315C[0] = 0;
+                keima_payout_remaining[0] = 0;
             }
             game->timer.s = 0x40U;
             game->unk_4A.s = 0x400U;
@@ -340,7 +340,7 @@ loop_3:
         if (transition_timer <= 0) {
             s32 stage;
 
-            if (D_80113158[0] != 0) {
+            if (keima_selection_mask[0] != 0) {
                 D_80024338[0] = create_dual_buffer_object(0, -0x50, 0x40);
             }
             stage = game->stage.u;
@@ -407,12 +407,12 @@ loop_3:
         if (phase_value <= 0) {
             s32 stage;
 
-            if (D_80113158[0] != 0) {
-                gold_total = D_80012D5C[0];
-                gold_remaining = D_8011315C[0];
+            if (keima_selection_mask[0] != 0) {
+                gold_total = town_money[0];
+                gold_remaining = keima_payout_remaining[0];
                 payout_handle = D_80024338[0];
                 gold_total += gold_remaining;
-                D_80012D5C[0] = gold_total;
+                town_money[0] = gold_total;
                 set_object_data_pointer_2(payout_handle);
             }
             stage = game->stage.u;
@@ -448,19 +448,19 @@ loop_3:
         break;
     }
     if ((u32) ((u16) game->stage.s - 6) < 3U) {
-        payout_amount = D_8011315C[0];
+        payout_amount = keima_payout_remaining[0];
         if (payout_amount >= 0x3E8) {
-            payout_gold = D_80012D5C;
+            payout_gold = town_money;
             payout_carry = *payout_gold;
             payout_amount -= 0x3E8;
-            D_8011315C[0] = payout_amount;
+            keima_payout_remaining[0] = payout_amount;
             payout_carry += 0x3E8;
             *payout_gold = payout_carry;
         } else if (payout_amount >= 0x64) {
-            payout_gold = D_80012D5C;
+            payout_gold = town_money;
             payout_carry = *payout_gold;
             payout_amount -= 0x64;
-            D_8011315C[0] = payout_amount;
+            keima_payout_remaining[0] = payout_amount;
             payout_carry += 0x64;
             *payout_gold = payout_carry;
         }

@@ -16,7 +16,7 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 
     result = 0;
     mode = 1;
-    object = allocate_list_node(274, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         result = (u8 *)object + 0x20;
         ((S_80158854_0 *)object)->unk_10 = func_80158A8C;

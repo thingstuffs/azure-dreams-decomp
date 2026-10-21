@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
-
-extern void move_view_record(void *dst, void *src);
+#include "engine/camera.h"
 
 /* Moves the selected dispatch table slot to its destination slot. */
 void queue_view_slot(int slot_selector)

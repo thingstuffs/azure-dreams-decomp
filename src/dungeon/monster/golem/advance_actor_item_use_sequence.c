@@ -115,12 +115,12 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             ((S_801738B4_0 *)action_ctx)->unk_98 &= 0xFF7F;
             use_shared_object = (special_mode == 1);
             if (use_shared_object) {
-                copy_object = D_800814A8;
+                copy_object = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = copy_object;
                 action_status = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
                 (*(u8 *)((u8 *)actor + 0x72)) = action_status[0x24];
                 (*(u8 *)((u8 *)actor + 0x73)) = action_status[0x25];
-            } else if (D_8006DE24[*item].kind == 2) {
+            } else if (item_action_definitions[*item].kind == 2) {
                 copy_object = (*(void * *)((u8 *)actor + 0x60));
                 if (copy_object != 0) {
                     action_status = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
@@ -148,7 +148,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             scene_object->velocity_y = 0;
             scene_object->velocity_x = 0;
             set_record_integer_tile_center(scene_object, ((SpriteAnimationTableView *)entity)->unk_24, ((SpriteAnimationTableView *)entity)->unk_25);
-            active_object = D_800814A8;
+            active_object = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
             advance_status_timers(actor);

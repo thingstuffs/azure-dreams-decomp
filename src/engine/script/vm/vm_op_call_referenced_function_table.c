@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/script/vm.h"
 
 typedef s32 (*Func80039E1CHandler)(u32, u32, u32, u32);
 

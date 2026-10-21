@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window.h"
+#include "sdk/libgpu.h"
 
 typedef struct {
     u8 pad[0x8D0];
@@ -15,10 +17,6 @@ typedef struct {
 } Func80036A70_DrawMode;
 
 extern Func80036A70_State *D_80083160[3];
-extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
-extern void SetDrawMode(void *p, s32 dfe, s32 abe, u16 tpage,
-                        Func80036A70_DrawMode *env);
-extern void AddPrim(void *ot, void *p);
 
 /* Adds a draw-mode primitive for the texture page at (448, 256) to the ordering table. */
 void queue_unwindowed_texture_draw_mode(s32 ot_index)

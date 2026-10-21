@@ -110,7 +110,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
     scratch->unk_10E = func_80065F90((s16)end_y - (s16)packet_code,
                                 (s16)end_x - (s16)start_x,
                                 (s16)end_x);
-    end_depth = (s32)D_8006CD30;
+    end_depth = (s32)sprite_projection_matrix;
     mean_depth = scratch->unk_0C0;
     ((S_800CEFB8_3 *)(s32 *)end_depth)->unk_1C = (s32) (mean_depth * 4);
     sort_depth = mean_depth - depth_bias;

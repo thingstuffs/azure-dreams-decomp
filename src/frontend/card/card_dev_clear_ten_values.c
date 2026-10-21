@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 /* Clears the ten values referenced by the pointer array at offset 0x1D8. */
 void card_dev_clear_ten_values(void *state) {

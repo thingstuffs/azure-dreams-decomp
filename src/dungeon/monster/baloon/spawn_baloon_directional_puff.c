@@ -69,8 +69,8 @@ extern s32 rand(void);
 extern void register_node(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
-extern s32 D_800DE870;
-extern s16 D_800E2468[];
+extern s32 effect_sprite_sources;
+extern s16 actor_direction_step_pairs[];
 extern u8 D_80165384[];
 
 /* Spawns a directional sprite effect near the source with randomized velocity. */
@@ -91,7 +91,7 @@ void spawn_baloon_directional_puff(S_80D65C5C_1 *source, s32 angle)
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_0A =
             ((S_80D65C5C_5 *)(source->unk_08))->unk_0A - 0x58;
 
-        direction_step = (s16 *)((u8 *)D_800E2468 + (((u32)angle >> 7) & 0x1C));
+        direction_step = (s16 *)((u8 *)actor_direction_step_pairs + (((u32)angle >> 7) & 0x1C));
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_02 += direction_step[0] * 0x12;
         ((S_80D65C5C_4 *)(((S_80D65C5C_0 *)node)->unk_08))->unk_06 += direction_step[1] * 0x12;
 
@@ -127,7 +127,7 @@ void spawn_baloon_directional_puff(S_80D65C5C_1 *source, s32 angle)
             part->unk_0C = 0x80;
             part->unk_14 |= 0x100;
             part->unk_12 = 0x7DCF;
-            func_8003DB94(part, &D_800DE870, 0);
+            func_8003DB94(part, &effect_sprite_sources, 0);
         }
     }
 }

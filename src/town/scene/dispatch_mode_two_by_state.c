@@ -7,13 +7,13 @@ typedef struct {
     s32 pad[2];
 } Global32;
 
-extern Global32 D_8001967C;
-extern Global32 D_80019AFC;
+extern Global32 scene_dispatch_mode_index;
+extern Global32 scene_cell_dispatch_code;
 
 /* Set the mode to two and dispatch according to the current state. */
 void dispatch_mode_two_by_state(s32 state_input) {
-    D_8001967C.value = 2;
-    if (3 == D_80019AFC.value) {
+    scene_dispatch_mode_index.value = 2;
+    if (3 == scene_cell_dispatch_code.value) {
         set_selected_entry_state_3(state_input);
         return;
     }

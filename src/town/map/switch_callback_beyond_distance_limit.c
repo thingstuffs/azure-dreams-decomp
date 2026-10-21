@@ -28,8 +28,8 @@ s32 switch_callback_beyond_distance_limit(S_800C21F8_0 *object) {
     s32 x_distance;
     s32 axis_delta;
 
-    x_distance = abs(object->unk_04 - D_80083780.x.w.i);
-    y_distance = abs(object->unk_06 - D_80083780.y.w.i);
+    x_distance = abs(object->unk_04 - view_reference_entity.x.w.i);
+    y_distance = abs(object->unk_06 - view_reference_entity.y.w.i);
     x_distance = (s32)((u32)x_distance << 16);
     if ((object->unk_0C < (x_distance >> 16)) ||
         ((s16)y_distance > object->unk_0E)) {

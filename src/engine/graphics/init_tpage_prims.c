@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
 
 typedef struct Prim12 {
     u8 tag;
@@ -13,9 +15,6 @@ typedef struct Prim12 {
     u8 u;
     u8 v;
 } Prim12;
-
-extern s16 GetClut();
-extern s16 GetTPage();
 
 /* Initializes four primitive records and returns the next free record. */
 Prim12 *init_tpage_prims(Prim12 *prim) {

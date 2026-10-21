@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/menu.h"
+#include "slus/data.h"
 
 typedef struct S_8004F780_Obj {
     /* 0x00 */ u8 pad0[4];
@@ -19,9 +21,6 @@ typedef struct S_8004F780 {
     /* 0x30 */ s32 idxB;
     /* 0x34 */ s32 idxA;
 } S_8004F780;
-
-extern u8 selection_menu_animation_keys[];
-extern u8 selection_menu_shade_keys[];
 
 /* Interpolates table values and fills each entry's three-byte buffer with the result. */
 void interpolate_selection_menu_entry_shade(S_8004F780 *state)

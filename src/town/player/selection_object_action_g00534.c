@@ -9,9 +9,9 @@ s32 is_town_state_pair_accepted(void) {
     s16 secondaryState;
 
     isAcceptedStatePair = 0;
-    primaryState = D_8006ADBC.field_18;
+    primaryState = map_runtime_state.field_18;
     if (primaryState == 12) {
-        secondaryState = D_8006ADBC.field_1A;
+        secondaryState = map_runtime_state.field_1A;
         if (secondaryState == 6 ||
             secondaryState == 8 ||
             secondaryState == 9 ||
@@ -26,7 +26,7 @@ s32 is_town_state_pair_accepted(void) {
 
 /* Initialize the global context record using its two stored values. */
 void initialize_town_context_action(void) {
-    ObjectNodeHeader *context = &D_80083498;
+    ObjectNodeHeader *context = &scene_object_list_anchor;
     initialize_scene_action_record((Rec_func_80094268_arg0 *)((u8 *)context + 0x20),
                   ((void *)(s32)context->unk_08),
                   ((void *)(s32)context->unk_0C));
@@ -47,9 +47,9 @@ void handle_selection_and_create_object(void) {
     s32 is_available;
     s32 mode;
 
-    data = &D_80083498;
+    data = &scene_object_list_anchor;
     object = (u8 *)data + 0x20;
-    context = D_80110EB8;
+    context = item_menu_scene_state;
     position = data->unk_08;
     callback_data = data->unk_0C;
 
@@ -77,26 +77,26 @@ void handle_selection_and_create_object(void) {
                 break;
             }
             set_item_selection_data_pointer(object, position, callback_data);
-            D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
-            D_800FE518 = 0;
+            town_player_action_callback = (void (*)(void *, void *, void *))&D_80093D48;
+            town_interaction_pending = 0;
             return;
         }
         default: {
             if (work.bytes.unk1 != 0x13) {
                 if (work.bytes.unk1 == 0x12) {
                     mode = find_target_byte_index_in_list();
-                    if (get_first_free_four_byte_entry_index_n_1_none_available((void *)0x80010980, D_800D0728[mode]) == -1) {
+                    if (get_first_free_four_byte_entry_index_n_1_none_available((void *)0x80010980, town_record_capacities[mode]) == -1) {
                         write_resource_command(D_80088CCC, 0x11);
                         set_item_selection_data_pointer(object, position, callback_data);
-                        D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
-                        D_800FE518 = 0;
+                        town_player_action_callback = (void (*)(void *, void *, void *))&D_80093D48;
+                        town_interaction_pending = 0;
                         return;
                     }
                 } else {
                     write_resource_command(D_80088D04, 0x11);
                     set_item_selection_data_pointer(object, position, callback_data);
-                    D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
-                    D_800FE518 = 0;
+                    town_player_action_callback = (void (*)(void *, void *, void *))&D_80093D48;
+                    town_interaction_pending = 0;
                     return;
                 }
             }
@@ -106,12 +106,12 @@ void handle_selection_and_create_object(void) {
 
         work.pos.x = position->x;
         work.pos.y = position->y;
-        work.pos.z = position->z + D_800D0428;
+        work.pos.z = position->z + town_target_height_offset;
         mode = 0;
         if (state_is_12_or_13) {
             mode = is_available != 0;
         }
-        created_entry = create_configured_object(((S_80093894_3 *)(&D_80110EB8))->unk_00, &work.pos, mode);
+        created_entry = create_configured_object(((S_80093894_3 *)(&item_menu_scene_state))->unk_00, &work.pos, mode);
         if (created_entry != 0) {
             Unk96134State *state = (Unk96134State *)D_800CFCB4;
             void *next_object;
@@ -127,5 +127,5 @@ void handle_selection_and_create_object(void) {
         return;
     }
 
-    D_800FE5D8(object, position, callback_data);
+    town_player_action_callback(object, position, callback_data);
 }

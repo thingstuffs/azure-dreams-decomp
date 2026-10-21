@@ -19,7 +19,7 @@ void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
     saved_x = pos_x;
     saved_value = init_value;
     saved_y = pos_y;
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         state = object + 0x20;
         ((S_80158878_0 *)object)->unk_10 = &D_80158A58;

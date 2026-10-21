@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/scene.h"
 
 typedef struct S_8003E240_0 {
     u8 unk_00;

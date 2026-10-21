@@ -38,8 +38,8 @@ typedef struct {
 s32 get_entity_effect_value();                 /* extern */
 void update_map_cell_flags_with_item_limit(u8, u8, s32);     /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-extern void *D_800E3DF0[];
-extern u8 D_800E3E48[];
+extern void *familiar_record_slots[];
+extern u8 familiar_record_storage[];
 
 /* Copy the indexed record into storage, clear its owner slot, and trigger an effect. */
 void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg2, EntityRec *owner) {
@@ -74,7 +74,7 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
         index_byte = (u8)flags_index;
         saved_index = index_byte;
         record_index = saved_index;
-        source_table = D_800E3DF0;
+        source_table = familiar_record_slots;
         slot_entry->unk_03 = (u8) cleared_flags;
         record_slot = source_table + record_index;
         source_record = *record_slot;
@@ -82,10 +82,10 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
     if ((get_entity_effect_value(source_record, 0xA) << 0x10) != 0) {
         source_record->unk_13 = (u8) source_record->unk_A8;
     }
-    record_storage = &D_800E3E48[((((record_index * 8) + record_index) * 4) - record_index) * 4];
+    record_storage = &familiar_record_storage[((((record_index * 8) + record_index) * 4) - record_index) * 4];
     *record_slot = record_storage;
     *(Copy140 *) record_storage = *(Copy140 *) source_record;
-    record_table = D_800E3DF0;
+    record_table = familiar_record_slots;
     stored_record = record_table[saved_index];
     stored_record->unk_14 = (s32) (stored_record->unk_14 & ~0x4000);
     ((S_80093E74_7 *)(((owner->unk_8A * 4) + slot_table)))->unk_D0.u = 0;

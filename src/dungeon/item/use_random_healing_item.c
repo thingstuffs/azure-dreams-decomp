@@ -54,9 +54,9 @@ s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     u16 *kind_flags;
 
     effect_state = 0;
-    if (obj == (DungeonObject *)((u8 *)D_800E3D7C)) {
+    if (obj == (DungeonObject *)((u8 *)dungeon_actor_ring_anchor)) {
         obj->payload = payload;
-        begin_deferred_item_action(obj, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), obj);
+        begin_deferred_item_action(obj, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), obj);
         return 0;
     }
     if ((u32)obj <= 0x9FFFFFFFU) {

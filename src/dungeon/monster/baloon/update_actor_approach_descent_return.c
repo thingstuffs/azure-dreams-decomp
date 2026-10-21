@@ -67,12 +67,12 @@ typedef struct WorldStatePage {
 } WorldStatePage;
 
 extern s32 D_80012090;
-extern s16 D_80081468[3];
-extern s16 D_8008146C;
-extern u8 D_80082E6B;
+extern s16 floor_generation_state[3];
+extern s16 current_dungeon_floor;
+extern u8 scene_mode_code;
 extern s16 D_800DCED4[];
-extern u8 D_800E2348[];
-extern u8 D_800E2368[];
+extern u8 baloon_default_frames[];
+extern u8 baloon_hop_frames[];
 extern u8 D_80170940[];
 extern u8 D_80170950[];
 extern u8 D_80170988[];
@@ -132,11 +132,11 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
 
             effect_actor = actor;
             effect_flags = 0x2000;
-            target_tile_x = D_80082E80.tile_position.parts.tile_x;
+            target_tile_x = reference_tile_object.tile_position.parts.tile_x;
             sprite_tile_x = ((SpriteFrameState *)sprite)->unk_24;
             sprite_tile_y = ((SpriteFrameState *)sprite)->unk_25;
             tile_dx = target_tile_x - sprite_tile_x;
-            target_tile_y = D_80082E80.tile_position.parts.tile_y;
+            target_tile_y = reference_tile_object.tile_position.parts.tile_y;
             tile_dx = __builtin_abs(tile_dx);
             tile_dy = target_tile_y - sprite_tile_y;
             tile_dy = __builtin_abs(tile_dy);
@@ -145,32 +145,32 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             spend_actor_mp(effect_actor, effect_flags);
         }
 
-            if (D_80082E80.tile_position.parts.tile_x == ((SpriteFrameState *)sprite)->unk_24) {
-                if (D_80082E80.tile_position.parts.tile_y > ((SpriteFrameState *)sprite)->unk_25) {
+            if (reference_tile_object.tile_position.parts.tile_x == ((SpriteFrameState *)sprite)->unk_24) {
+                if (reference_tile_object.tile_position.parts.tile_y > ((SpriteFrameState *)sprite)->unk_25) {
                     direction = 2;
                 } else {
                     direction = 6;
                 }
-            } else if (D_80082E80.tile_position.parts.tile_y == ((SpriteFrameState *)sprite)->unk_25) {
-                direction = (((SpriteFrameState *)sprite)->unk_24 >= D_80082E80.tile_position.parts.tile_x) * 4;
-            } else if (((SpriteFrameState *)sprite)->unk_24 < D_80082E80.tile_position.parts.tile_x) {
-                if (((SpriteFrameState *)sprite)->unk_25 < D_80082E80.tile_position.parts.tile_y) {
+            } else if (reference_tile_object.tile_position.parts.tile_y == ((SpriteFrameState *)sprite)->unk_25) {
+                direction = (((SpriteFrameState *)sprite)->unk_24 >= reference_tile_object.tile_position.parts.tile_x) * 4;
+            } else if (((SpriteFrameState *)sprite)->unk_24 < reference_tile_object.tile_position.parts.tile_x) {
+                if (((SpriteFrameState *)sprite)->unk_25 < reference_tile_object.tile_position.parts.tile_y) {
                     direction = 1;
                 } else {
                     direction = 7;
                 }
-            } else if (((SpriteFrameState *)sprite)->unk_25 < D_80082E80.tile_position.parts.tile_y) {
+            } else if (((SpriteFrameState *)sprite)->unk_25 < reference_tile_object.tile_position.parts.tile_y) {
                 direction = 3;
             } else {
                 direction = 5;
             }
             (*(s16 *)((u8 *)actor + 0x2A)) = direction << 9;
 
-            if ((D_80012090 != 0) || (D_8008146C != 0x28)) {
-                if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= D_8008146C) {
+            if ((D_80012090 != 0) || (current_dungeon_floor != 0x28)) {
+                if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
                     slot = 0;
                     do {
-                        companion = *(u8 **)(((u8 *)D_800E3D7C) + 0xAC + slot * 4);
+                        companion = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + slot * 4);
                         if ((companion != 0) && (companion != (u8 *)actor)) {
                             companion_type = get_entity_class(companion);
                             create_orbiting_teleport_effect(companion, D_800DCED4[companion_type], (s16)slot, 0);
@@ -181,9 +181,9 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             }
 
         case 1:
-            target_x = ((D_80082E80.tile_position.parts.tile_x << 6) + 0x20) << 16;
-            target_y = ((D_80082E80.tile_position.parts.tile_y << 6) + 0x20) << 16;
-            target_z = D_80083780.z.v - 0x600000;
+            target_x = ((reference_tile_object.tile_position.parts.tile_x << 6) + 0x20) << 16;
+            target_y = ((reference_tile_object.tile_position.parts.tile_y << 6) + 0x20) << 16;
+            target_z = view_reference_entity.z.v - 0x600000;
             approach_ticks = ((S_80175CD8_0 *)action)->unk_96.s;
             if (approach_ticks >= 0xE) {
                 ((S_80175CD8_3 *)motion)->unk_0C = (target_x
@@ -227,9 +227,9 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             return;
 
         case 2:
-            ((SpriteFrameState *)sprite)->frameTable = D_800E2368;
+            ((SpriteFrameState *)sprite)->frameTable = baloon_hop_frames;
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
-            select_sprite_entry(sprite, D_800E2368[facing & 7], 0);
+            select_sprite_entry(sprite, baloon_hop_frames[facing & 7], 0);
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
             ((S_80175CD8_0 *)action)->unk_9B++;
             clear_player_linked_action_flags();
@@ -246,7 +246,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
         }
             ((S_80175CD8_0 *)action)->unk_9B++;
             {
-                u8 *player = ((u8 *)D_800E3D7C);
+                u8 *player = ((u8 *)dungeon_actor_ring_anchor);
 
                 ((S_80175CD8_0 *)action)->unk_96.s = 0;
                 ((S_80175CD8_4 *)player)->unk_14 |= 0x100000;
@@ -256,7 +256,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
 
         case 4:
         {
-            u8 *scene = ((u8 *)(&D_80083780));
+            u8 *scene = ((u8 *)(&view_reference_entity));
             s32 fall_speed = (s32)0xFFF40000;
 
             ((S_80175CD8_3 *)motion)->unk_14 = fall_speed;
@@ -272,9 +272,9 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             }
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
 
-            if ((((WorldStatePage *)0x80010000)->actionMode == 0) && (D_8008146C == 0x28)) {
+            if ((((WorldStatePage *)0x80010000)->actionMode == 0) && (current_dungeon_floor == 0x28)) {
                 ((S_80175CD8_0 *)action)->unk_9B = 7;
-            } else if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= D_8008146C) {
+            } else if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= current_dungeon_floor) {
                 ((S_80175CD8_0 *)action)->unk_9B++;
             } else {
                 ((S_80175CD8_0 *)action)->unk_9B = 7;
@@ -287,7 +287,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             return;
 
         case 6:
-            snapshot_inventory_and_familiars(((u8 *)D_800E3D7C));
+            snapshot_inventory_and_familiars(((u8 *)dungeon_actor_ring_anchor));
             snapshot_inventory_familiar_records();
             check_action_boundary_and_set_flag();
             {
@@ -300,9 +300,9 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
                 s32 next_visit;
                 s32 next_floor;
 
-                scene_page = &D_80082E6B;
+                scene_page = &scene_mode_code;
                 counter_page = (u8 *)0x80010000;
-                floor_stats = D_80081468;
+                floor_stats = floor_generation_state;
                 map_id = *scene_page;
 
                 visit_count = *(s32 *)(counter_page + 0x234);
@@ -324,7 +324,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
 
         case 7:
         {
-            u8 *player = ((u8 *)D_800E3D7C);
+            u8 *player = ((u8 *)dungeon_actor_ring_anchor);
             u8 *scene;
             u8 *scene_base;
             u32 player_flags;
@@ -332,10 +332,10 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
 
             player_flags = ((S_80175CD8_6 *)player)->unk_14 & 0xFFEFFFFF;
 
-            scene_base = ((u8 *)(&D_80083498));
+            scene_base = ((u8 *)(&scene_object_list_anchor));
             scene = scene_base + 0x20;
             ((S_80175CD8_6 *)player)->unk_14 = player_flags;
-            height = ((u16)D_80083780.z.w.i) - ((S_80175CD8_5 *)scene)->unk_88.s;
+            height = ((u16)view_reference_entity.z.w.i) - ((S_80175CD8_5 *)scene)->unk_88.s;
             ((S_80175CD8_6 *)player)->unk_92 = height;
             ((S_80175CD8_5 *)scene)->unk_88.u = height;
             ((S_80175CD8_5 *)scene)->unk_1C |= 0x40000000;
@@ -343,7 +343,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             (*(s16 *)((u8 *)action + 0x96)) = 0x28;
             ((S_80175CD8_0 *)action)->unk_9B++;
 
-            if ((D_80012090 != 0) || (D_8008146C != 0x28)) {
+            if ((D_80012090 != 0) || (current_dungeon_floor != 0x28)) {
                 text_start = get_unused_text_buffer();
                 text_end = expand_text_control_codes(D_80170940, text_start);
                 text_end = write_text_byte_and_advance(0xA, text_end);
@@ -414,9 +414,9 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             g_dungeon_status.active_actor = 0;
             ((EntityRec *)actor)->flags1C |= 0x40000;
             (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
-            ((SpriteFrameState *)sprite)->frameTable = D_800E2348;
+            ((SpriteFrameState *)sprite)->frameTable = baloon_default_frames;
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
-            select_sprite_entry(sprite, D_800E2348[facing & 7], 0);
+            select_sprite_entry(sprite, baloon_default_frames[facing & 7], 0);
             ((SpriteFrameState *)sprite)->unk_05 = 1;
             ((S_80175CD8_0 *)action)->unk_A2.s = 0;
             ((S_80175CD8_0 *)action)->unk_9E = 0;

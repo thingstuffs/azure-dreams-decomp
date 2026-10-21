@@ -34,7 +34,7 @@ void append_packed_action_record();
 s32 play_sound_if_enabled();
 
 extern u8 D_800DCFB8[];
-extern u8 D_800DD018[];
+extern u8 player_push_frames[];
 
 /* Checks the next tile and updates the actor's movement state and directional animation. */
 void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor,
@@ -47,7 +47,7 @@ void begin_player_push(Rec_func_8008ACDC_arg0 *action, s32 context, S_8008CD4C_0
     u16 *x_step;
     u16 *y_step;
 
-    ((SpriteFrameState *)sprite)->frameTable = D_800DD018;
+    ((SpriteFrameState *)sprite)->frameTable = player_push_frames;
     state = move_state;
     action->unk_9A.as_u8 = 0x18;
     action->unk_9B.as_u8 = 0;

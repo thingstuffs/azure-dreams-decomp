@@ -7,7 +7,7 @@
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 void func_800353F4(void *);                   /* extern */
 void select_indirect_table_entry(void *, u8, s8);              /* extern */
@@ -19,10 +19,10 @@ void try_move_actor_to_valid_position(void *, void *, void *, void *); /* extern
 s16 sample_terrain_surface_height(u16, u16, s16);                   /* extern */
 void clear_actor_action_markers(u8 *state);                         /* extern */
 extern u8 D_80013610[0x3612];
-extern u32 D_800835E4[64];
+extern u32 level_experience_table[64];
 extern u8 D_800F927E[16];
 extern void D_8016B778(void);
-extern void (*D_80174728[256])(void *, void *, void *, void *);
+extern void (*ghosh_callbacks[256])(void *, void *, void *, void *);
 
 typedef struct S_8016B0E8_0 {
     u8 pad_00[0x11];
@@ -218,7 +218,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
             scaled_level = (u32) (level_seed + 3) >> 2;
         }
         level_index = clamp_level(scaled_level);
-        exp_table = D_800835E4;
+        exp_table = level_experience_table;
         exp_limits = exp_table + 1;
         initial_exp = exp_table[level_index] + 1;
         ((S_8016B0E8_0 *)entity)->unk_18 = initial_exp;
@@ -240,7 +240,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
 
 
 
-            (*(s16 *)&D_80013714) = (s16) (D_80013714 | 8);
+            (*(s16 *)&system_update_flags) = (s16) (system_update_flags | 8);
 
             func_800353F4(message);
             actor_index = 0;
@@ -266,7 +266,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
 
     if (*(u16 *)0x80013714 & 8) {
         actor_index = 1;
-        slot_cursor = ((EntityRec *)(((u8 * *)(&D_800E3D7C))))->x.v + 4;
+        slot_cursor = ((EntityRec *)(((u8 * *)(&dungeon_actor_ring_anchor))))->x.v + 4;
         do {
             linked_entry = ((S_8016B0E8_8 *)slot_cursor)->unk_AC;
             if (linked_entry != 0) {
@@ -289,7 +289,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
             object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
         }
     }
-    if (((S_8016B0E8_13 *)D_80080000)->unk_3462 & 0x2000) {
+    if (((S_8016B0E8_13 *)resident_globals_page)->unk_3462 & 0x2000) {
         paused_callback = ((S_8016B0E8_0 *)entity)->unk_8C;
         if (paused_callback == &D_8016B778) {
             paused_callback(entity, motion, sprite, actor);
@@ -304,7 +304,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
         if (update_callback != 0) {
             update_callback(entity, motion, sprite, actor);
         }
-        D_80174728[((S_8016B0E8_0 *)entity)->unk_9A](entity, motion, sprite, actor);
+        ghosh_callbacks[((S_8016B0E8_0 *)entity)->unk_9A](entity, motion, sprite, actor);
         if ((s16) prior_state != (s8) ((S_8016B0E8_2 *)actor)->unk_6D) {
             try_move_actor_to_valid_position(entity, motion, sprite, actor);
         }

@@ -79,8 +79,8 @@ typedef struct {
     s32 field14;
 } Stack24;
 
-extern Record12 D_800242D8[];
-extern s32 D_80081458[];
+extern Record12 town_minigame_path_records[];
+extern s32 loaded_town_resource_attributes[];
 extern u8 D_800D2388[];
 
 /* Updates path following, turning, sprite state, and ground movement. */
@@ -127,7 +127,7 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
     u8 *directions;
 
     actor_ref = actor;
-    paths = D_800242D8;
+    paths = town_minigame_path_records;
     model_base = ((S_80023260_0 *)actor)->unk_00;
     waypoint = paths[((S_80023260_0 *)actor)->unk_22].ptr + (((S_80023260_0 *)actor)->unk_1C * 8);
     func_800478B8(sprite);
@@ -153,7 +153,7 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
         return;
     case 1:
         ((S_80023260_0 *)actor)->unk_2A = 0x800;
-        sprite_config = D_80081458[0];
+        sprite_config = loaded_town_resource_attributes[0];
         directions = D_800D2388;
         ((SpriteFrameState *)sprite)->frameTable = directions;
         ((SpriteFrameState *)sprite)->unk_28 = sprite_config;
@@ -197,12 +197,12 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
             path_flag = path_flags & 0x10;
             if (path_flag != 0) {
                 target_x = ((S_80023260_3 *)waypoint)->unk_00;
-                turn_limit = D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
+                turn_limit = town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
                 if (((S_80023260_1 *)motion)->unk_00.at02.v >= target_x) {
                     reached_point = 1;
                 }
             } else {
-                turn_limit = 0 - D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
+                turn_limit = 0 - town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
                 if (((S_80023260_1 *)motion)->unk_00.at02.v <= ((S_80023260_3 *)waypoint)->unk_00) {
                     reached_point = 1;
                 }
@@ -227,12 +227,12 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
             path_flag = path_flags & 0x10;
             if (path_flag != 0) {
                 target_y = ((S_80023260_3 *)waypoint)->unk_02;
-                turn_limit = D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
+                turn_limit = town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
                 if (((S_80023260_1 *)motion)->unk_04.at02.v >= target_y) {
                     reached_point = 1;
                 }
             } else {
-                turn_limit = 0 - D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
+                turn_limit = 0 - town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
                 if (((S_80023260_1 *)motion)->unk_04.at02.v <= ((S_80023260_3 *)waypoint)->unk_02) {
                     reached_point = 1;
                 }

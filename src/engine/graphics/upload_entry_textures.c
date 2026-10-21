@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 /* D_80082E6A: standalone byte global (siblings in this wave access it directly
  * via hi/lo, distinct symbol from D_80082E60 even though numerically adjacent).
@@ -19,10 +20,6 @@ struct S_800482C8_Entry {
     u8 flags;
     u8 pad[0xB];
 };
-
-extern void upload_entry_textures_narrow(struct S_8004761C_Entry *entries, s32 *cursor);
-extern void upload_eligible_entries_by_mode(struct S_800482C8_Entry *entries, s32 *cursor);
-extern void upload_entry_textures_wide(struct S_8004761C_Entry *entries, s32 *cursor);
 
 /* S_80047694: caller-side view of an entity/state struct.
  *   field_8  (0x08): pointer to the 0xC-byte entry array (passed on to callees)

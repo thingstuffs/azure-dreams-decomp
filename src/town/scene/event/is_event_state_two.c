@@ -10,5 +10,5 @@ typedef struct S_8001C31C_0 {
 
 /* Check whether the first entry's state byte is 2. */
 s32 is_event_state_two(void) {
-    return ((S_8001C31C_0 *)(((u8 *)D_8001E950)))->unk_04 == 2;
+    return ((S_8001C31C_0 *)(((u8 *)town_event_state)))->unk_04 == 2;
 }

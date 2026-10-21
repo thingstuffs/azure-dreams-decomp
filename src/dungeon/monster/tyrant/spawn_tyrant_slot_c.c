@@ -73,7 +73,7 @@ extern M2C_UNK D_8015C000;
     saved_x = x;
     saved_config_value = config_value;
     saved_y = y;
-    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         object_state = object + 0x20;
         ((S_func_80158898_0 *)object)->unk_10 = &func_80158AA4;

@@ -32,12 +32,12 @@ extern void draw_catalog_entry_page(TownObject *);
 
 extern void *D_80126988[4];
 extern void *D_80126998[4];
-extern void *D_801269A8[10];
-extern void *D_801269D0[10];
-extern u16 D_80126B20[2];
-extern u16 D_80126B24[8];
-extern u8 D_80127B64[16];
-extern u8 D_80127B70[16];
+extern void *catalog_selected_digits[10];
+extern void *catalog_normal_digits[10];
+extern u16 catalog_cursor_rows[2];
+extern u16 catalog_cursor_columns[8];
+extern u8 catalog_number_marker[16];
+extern u8 catalog_unavailable_marker[16];
 extern u8 D_80127E4C[16];
 extern u8 D_80127F48[16];
 extern u8 D_80128038[16];
@@ -72,14 +72,14 @@ void refresh_catalog_entry_grid(TownObject *menu)
     if (obj->digit == 3) {
         sprite_slot = 33;
         entry_index = 0;
-        selected_digits = (void **)D_801269A8;
+        selected_digits = (void **)catalog_selected_digits;
         digit_base = obj->digit << 4;
-        normal_digits = (void **)D_801269D0;
+        normal_digits = (void **)catalog_normal_digits;
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {
             if (is_catalog_entry_available((u8)entry_id) != 0) {
-                *obj->town->slots[sprite_slot++] = D_80127B64;
+                *obj->town->slots[sprite_slot++] = catalog_number_marker;
                 if (entry_index == obj->row) {
                     *obj->town->slots[sprite_slot] = selected_digits[entry_number / 10];
                     sprite_slot++;
@@ -90,7 +90,7 @@ void refresh_catalog_entry_grid(TownObject *menu)
                     *obj->town->slots[sprite_slot++] = normal_digits[entry_number % 10];
                 }
             } else {
-                *obj->town->slots[sprite_slot++] = D_80127B70;
+                *obj->town->slots[sprite_slot++] = catalog_unavailable_marker;
                 *obj->town->slots[sprite_slot++] = 0;
                 *obj->town->slots[sprite_slot++] = 0;
             }
@@ -105,22 +105,22 @@ void refresh_catalog_entry_grid(TownObject *menu)
             entry_number++;
         } while (entry_index < 2);
 
-        obj->town->display->src->f8 = D_80126B20[obj->row];
-        obj->town->display->src->fA = D_80126B24[0];
+        obj->town->display->src->f8 = catalog_cursor_rows[obj->row];
+        obj->town->display->src->fA = catalog_cursor_columns[0];
         if (obj->row != 0) {
             *obj->town->slots[30] = D_80128038;
         }
     } else {
         sprite_slot = 33;
         entry_index = 0;
-        selected_digits = (void **)D_801269A8;
+        selected_digits = (void **)catalog_selected_digits;
         digit_base = obj->digit << 4;
-        normal_digits = (void **)D_801269D0;
+        normal_digits = (void **)catalog_normal_digits;
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {
             if (is_catalog_entry_available((u8)entry_id) != 0) {
-                *obj->town->slots[sprite_slot++] = D_80127B64;
+                *obj->town->slots[sprite_slot++] = catalog_number_marker;
                 if (entry_index == menu_row_index(obj->row, obj->index)) {
                     *obj->town->slots[sprite_slot] = selected_digits[entry_number / 10];
                     sprite_slot++;
@@ -131,7 +131,7 @@ void refresh_catalog_entry_grid(TownObject *menu)
                     *obj->town->slots[sprite_slot++] = normal_digits[entry_number % 10];
                 }
             } else {
-                *obj->town->slots[sprite_slot++] = D_80127B70;
+                *obj->town->slots[sprite_slot++] = catalog_unavailable_marker;
                 *obj->town->slots[sprite_slot++] = 0;
                 *obj->town->slots[sprite_slot++] = 0;
             }
@@ -141,8 +141,8 @@ void refresh_catalog_entry_grid(TownObject *menu)
             entry_number++;
         } while (entry_index < 16);
 
-        obj->town->display->src->f8 = D_80126B20[obj->row];
-        obj->town->display->src->fA = D_80126B24[obj->index];
+        obj->town->display->src->f8 = catalog_cursor_rows[obj->row];
+        obj->town->display->src->fA = catalog_cursor_columns[obj->index];
     }
 
     display_sprite = obj->town->display->src;

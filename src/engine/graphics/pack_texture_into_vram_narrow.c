@@ -1,6 +1,7 @@
 #include "slus/owned_80047468.h"
 
 #include "slus/owned_80047468.h"
+#include "engine/graphics.h"
 
 void pack_texture_into_vram_narrow(S_80047468_arg0 *image, S_80047468_arg1 *source, s32 data_offset)
 {

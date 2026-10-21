@@ -60,7 +60,7 @@ void create_an_random_angle_height_offset_around_reference_position(void)
     s32 height_quotient;
     TargetSub *motion;
     TargetObj *obj;
-    obj = allocate_list_node(0x212, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x212, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         motion = &obj->sub;
         obj->field10 = &expand_fade;

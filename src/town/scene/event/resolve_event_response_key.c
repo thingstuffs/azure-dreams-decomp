@@ -21,7 +21,7 @@ void *resolve_event_response_key(s32 unused_a, s32 unused_b, s32 key)
     void **table;
     s16 *entry;
 
-    state0 = D_8001E950;
+    state0 = town_event_state;
     if (state0->unk_06 == 0) {
         state0->unk_06 = 1;
         table = D_80018094;
@@ -32,7 +32,7 @@ void *resolve_event_response_key(s32 unused_a, s32 unused_b, s32 key)
     if (key == 1) {
         TownEventState *state1;
 
-        state1 = D_8001E950;
+        state1 = town_event_state;
         if (state1->unk_04 == 4) {
             if (D_80016000->unk_20->callback_2D4(0, table) == 2) {
                 if (count_enabled_town_entries() >= 3) {

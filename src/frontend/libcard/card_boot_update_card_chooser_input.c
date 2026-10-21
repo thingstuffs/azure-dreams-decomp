@@ -7,18 +7,18 @@ typedef struct StatePair {
     s32 second;
 } StatePair;
 
-extern u8 D_80082E6B;
+extern u8 scene_mode_code;
 
 extern void card_boot_select_channel_mode(s32 mode_enabled);
 extern StatePair *card_boot_debounce_card_presence(void);
 #include "modules/main_server_ship_interfaces.h"
-extern void card_boot_set_paired_choice_selection(s32 object_addr, s32 value);
-extern void card_boot_update_paired_choice_animations(s32 base_addr, StatePair *display_state, s32 *changed_flags);
 #include "frontend/libcard/interfaces.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
+#include "frontend/card.h"
+#include "frontend/libcard.h"
+#include "slus.h"
 extern void card_boot_destroy_card_chooser(void *entry);
-extern void func_80040AA0(s32 requested_state);
-extern void create_deferred_resource_transition_task(s32 mode, s32 lookup_id, s32 payload_word_0, s32 payload_word_4);
-extern void SD_Call(s32 flags);
 extern void restore_entity_flag_ten(void);
 extern void card_boot_poll_card_chooser_status(void);
 
@@ -49,7 +49,7 @@ void card_boot_update_card_chooser_input(void *menu)
             SD_Call(0x515);
             card_boot_destroy_card_chooser((u8 *)menu - 0x20);
             card_boot_close_events_and_resume_timer();
-            if (D_80082E6B == 3) {
+            if (scene_mode_code == 3) {
                 func_80040AA0(3);
             } else {
                 create_deferred_resource_transition_task(0, 0, 0, 0);

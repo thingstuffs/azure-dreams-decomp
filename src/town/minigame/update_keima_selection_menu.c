@@ -65,11 +65,11 @@ extern u8 D_800200D0[];
 extern u8 D_800203D8[];
 extern u8 D_800204AC[];
 extern u8 D_80021028[];
-extern s32 D_80012D5C;
+extern s32 town_money;
 extern s32 D_80024300[];
-extern s16 D_80024308[];
-extern u16 D_80113158;
-extern s32 D_8011315C;
+extern s16 keima_payout_factors[];
+extern u16 keima_selection_mask;
+extern s32 keima_payout_remaining;
 
 extern void func_800201C8(void *, void *);
 extern void func_8002025C(void *, void *);
@@ -176,12 +176,12 @@ void update_keima_selection_menu(TownEntity *menu)
             return;
         }
         if (((s32)input->pressed_buttons) & 0x40) {
-            s32 *money = &D_80012D5C;
+            s32 *money = &town_money;
 
             SD_Call(0x503);
             (*(s16 *)((u8 *)entity + 8)) = 1;
             *money -= 100;
-            D_80113158 = option_ids.value[(*(s16 *)((u8 *)entity + 6))];
+            keima_selection_mask = option_ids.value[(*(s16 *)((u8 *)entity + 6))];
             set_resident_bit(0x592);
             D_80024300[0] = create_dual_buffer_object(0, -0x48, -0x28);
             entity->timer = -1;
@@ -209,21 +209,21 @@ void update_keima_selection_menu(TownEntity *menu)
         }
         if ((input->buttons & 0x2000) &&
             (entity->quantity < 10) &&
-            ((u32)D_80012D5C >= 100U)) {
+            ((u32)town_money >= 100U)) {
             SD_Call(0x502);
             set_resident_bit(0x592);
             set_resident_bit(0x594);
             entity->quantity = (u16)entity->quantity + 1;
             do {
             } while (0);
-            D_80012D5C -= 100;
+            town_money -= 100;
             entity->timer = 0x10;
             entity->state = (u16)entity->state - 1;
             return;
         }
         if ((input->buttons & 0x8000) &&
             (entity->quantity >= 2)) {
-            s32 *money = &D_80012D5C;
+            s32 *money = &town_money;
 
             SD_Call(0x502);
             set_resident_bit(0x592);
@@ -243,22 +243,22 @@ void update_keima_selection_menu(TownEntity *menu)
                 SD_Call(0x503);
                 selected_pair = factor_pairs.pair;
             } while (0);
-            prices = D_80024308;
+            prices = keima_payout_factors;
             selected_pair += entity->selection;
             first_factor = (TownRecord30 *)prices[*(s16 *)(void *)selected_pair];
             quantity = entity->quantity;
             scaled_quantity = quantity * ((s16)first_factor);
             second_factor = prices[(s16)*(u16 *)((u8 *)selected_pair + 2)];
             total_factor = scaled_quantity * second_factor;
-            D_8011315C = total_factor * 100;
-            D_80113158 = option_ids.value[entity->selection];
+            keima_payout_remaining = total_factor * 100;
+            keima_selection_mask = option_ids.value[entity->selection];
             set_resident_bit(0x592);
             set_object_data_pointer_2(D_80024300[0]);
             entity->state = 0x100;
         }
         if (((s32)input->pressed_buttons) & 0x20) {
             SD_Call(0x515);
-            D_80012D5C += entity->quantity * 100;
+            town_money += entity->quantity * 100;
             set_object_data_pointer_2(D_80024300[0]);
             set_resident_bit(0x592);
             set_resident_bit(0x593);

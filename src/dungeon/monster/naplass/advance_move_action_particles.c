@@ -121,7 +121,7 @@ extern void play_sound_if_enabled(s32);
 extern s32 generate_random_value(void);
 extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 
-extern u8 D_800DEA68[0x20];
+extern u8 secondary_sprite[0x20];
 extern u8 D_80170E68[0x10];
 extern u8 D_80173EC0[0x10];
 extern u8 D_80174194[0x10];
@@ -211,12 +211,12 @@ void advance_move_action_particles(void *action, void *position, void *sprite, v
             ((S_80172840_1 *)action)->unk_98 &= 0xFF7F;
             special_flag = is_special;
             if (special_flag != 0) {
-                move_object = ((u8 *)D_800814A8);
+                move_object = ((u8 *)primary_actor_record);
                 ((S_80172840_0 *)actor)->unk_60 = move_object;
                 record = ((S_80172840_2_pre *)move_object)[-1].unk_00;
                 ((S_80172840_0 *)actor)->unk_72.s = record->unk_24;
                 ((S_80172840_0 *)actor)->unk_73.s = record->unk_25;
-            } else if (D_8006DE24[*move_slot].kind == 2) {
+            } else if (item_action_definitions[*move_slot].kind == 2) {
                 move_object = ((S_80172840_0 *)actor)->unk_60;
                 if (move_object != 0) {
                     record = ((S_80172840_2_pre *)move_object)[-1].unk_00;
@@ -254,7 +254,7 @@ void advance_move_action_particles(void *action, void *position, void *sprite, v
         ((S_80172840_5 *)position)->unk_0C = 0;
         set_record_integer_tile_center(position, ((S_80172840_4 *)sprite)->unk_24, ((S_80172840_4 *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        ((S_80172840_6 *)(((u8 *)D_800814A8)))->unk_A6--;
+        ((S_80172840_6 *)(((u8 *)primary_actor_record)))->unk_A6--;
         advance_status_timers(actor);
         ((S_80172840_0 *)actor)->unk_6D.s--;
         ((S_80172840_1 *)action)->unk_8C = D_80170E68;
@@ -286,10 +286,10 @@ void advance_move_action_particles(void *action, void *position, void *sprite, v
             ((S_80172840_1 *)action)->unk_A8.u--;
             if ((s16)((S_80172840_1 *)action)->unk_A8.u >= 0) {
                 counter = 9;
-                effect_base = D_800DEA68;
+                effect_base = secondary_sprite;
                 for (; counter >= 0; counter--) {
                     SpriteFrameState *particle_data;
-                    particle = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+                    particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
                     if (particle != 0) {
 
                         register_node(particle, project_sprite_chain);

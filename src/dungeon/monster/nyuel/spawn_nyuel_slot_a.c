@@ -17,7 +17,7 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s16 attr_a, s32 attr_b, s32 at
     s32 randomTest;
     slot1 = (unsigned long)attr_c;
     arg2Reg = attr_b;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     savedArg0 = spawn_flags;
     if (obj != 0) {
         result = &obj->unk20;

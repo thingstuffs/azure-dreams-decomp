@@ -49,7 +49,7 @@ extern s32 register_node();
 extern s32 rand();
 extern s32 D_800D68F4[];
 extern s32 D_800D707C[];
-extern s16 D_800E2468[];
+extern s16 actor_direction_step_pairs[];
 
 typedef struct S_80D659DC_0 {
     u8 pad_00[0x8];
@@ -105,7 +105,7 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
         ((MovingPosition *)((*(void * *)&source->z)))->unk_06;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_0A = (s16)
         (((MovingPosition *)((*(void * *)&source->z)))->unk_0A - 0x58);
-        direction = (void *)D_800E2468 + ((angle >> 7) & 0x1C);
+        direction = (void *)actor_direction_step_pairs + ((angle >> 7) & 0x1C);
         position_x = ((S_80D659DC_0 *)effect)->unk_08;
         position_x->unk_02 = (u16)
         (position_x->unk_02 +

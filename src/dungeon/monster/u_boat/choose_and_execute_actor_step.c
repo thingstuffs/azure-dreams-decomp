@@ -35,7 +35,7 @@ extern s32 try_turn_actor_toward_target();
 
 extern u8 D_8006CCD8[16];
 extern u8 D_8006CCE8[16];
-extern s16 D_8006CD00[];
+extern s16 actor_turn_angle_offsets[];
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
 void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *position, u8 *actor) {
@@ -121,8 +121,8 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             TileObject *path_center;
             u8 *path_work;
 
-            path_center = &D_80082E80;
-            direction = (U8_AT(actor, 0x45) + (S16_AT(D_800814A8, 0x2A) >> 9)) & 7;
+            path_center = &reference_tile_object;
+            direction = (U8_AT(actor, 0x45) + (S16_AT(primary_actor_record, 0x2A) >> 9)) & 7;
             target_x = U8_AT(path_center, 0x24) +
                        *(u16 *)(D_8006CCD8 + (direction * 2));
             target_y = U8_AT(path_center, 0x25) +
@@ -143,14 +143,14 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             if ((call_result << 16) <= 0) {
                 U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
-                    D_80082E80.tile_position.parts.tile_x,
-                    D_80082E80.tile_position.parts.tile_y, path_work);
+                    reference_tile_object.tile_position.parts.tile_x,
+                    reference_tile_object.tile_position.parts.tile_y, path_work);
             }
 
             work_value = compare_monster_neighbor_values(
                 U8_AT(position, 0x24), U8_AT(position, 0x25),
-                D_80082E80.tile_position.parts.tile_x,
-                D_80082E80.tile_position.parts.tile_y);
+                reference_tile_object.tile_position.parts.tile_x,
+                reference_tile_object.tile_position.parts.tile_y);
             attempt = 0;
             if ((work_value << 16) != 0) {
                 limit_turn = 1;
@@ -164,7 +164,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
         u8 *tile_record;
 
         tile_type = S8_AT(position, 0x26);
-        if (tile_type >= 0 && (tile_records = D_800E2970, tile_record = tile_records + tile_type * 0x14,
+        if (tile_type >= 0 && (tile_records = dungeon_rooms, tile_record = tile_records + tile_type * 0x14,
             U16_AT(tile_record, 0xC) & 2)) {
             rebuild_monster_reachable_tiles(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
         } else if (!(U16_AT(actor, 0x46) & 0x8000)) {
@@ -183,7 +183,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             if (S32_AT(actor, 0x1C) & 0x20000) {
                 TileObject *move_center;
 
-                move_center = &D_80082E80;
+                move_center = &reference_tile_object;
                 U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
                     U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
@@ -192,7 +192,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
                 if ((compare_monster_neighbor_values(
                         U8_AT(position, 0x24), U8_AT(position, 0x25),
                         U8_AT(move_center, 0x24), U8_AT(move_center, 0x25)) << 16) != 0) {
-                    if (get_actor_height_difference(D_800814A8, actor) < 0x81) {
+                    if (get_actor_height_difference(primary_actor_record, actor) < 0x81) {
                         if ((check_diagonal_side_height(
                                 ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
                                 U8_AT(position, 0x24), U8_AT(position, 0x25),
@@ -210,7 +210,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
 
     attempt = 0;
     work_value = (s32)0x80070000;
-    angle_step = D_8006CD00;
+    angle_step = actor_turn_angle_offsets;
 
     do {
         node = (void *)S16_AT(actor, 0x2A);
@@ -279,8 +279,8 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             break;
         }
         if (attempt == 0) {
-            if (*(u16 *)(&D_80082E80.tile_position.parts.tile_x) != U16_AT(position, 0x24)) {
-                if ((check_entity_relation(actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0) {
+            if (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != U16_AT(position, 0x24)) {
+                if ((check_entity_relation(actor, S32_AT(primary_actor_record, 0x58) + 0x20) << 16) != 0) {
                     return;
                 }
             }

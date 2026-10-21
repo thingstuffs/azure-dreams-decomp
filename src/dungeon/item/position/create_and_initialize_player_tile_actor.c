@@ -33,9 +33,9 @@ s32 create_and_initialize_player_tile_actor(void) {
     S_800C135C_0 *entry;
 
     entry = create_player_tile_actor_at_coordinates(
-        D_80082E80.tile_position.parts.tile_x,
-        D_80082E80.tile_position.parts.tile_y,
-        D_800E3D7C->ground_height);
+        reference_tile_object.tile_position.parts.tile_x,
+        reference_tile_object.tile_position.parts.tile_y,
+        dungeon_actor_ring_anchor->ground_height);
     if (entry != 0) {
         ((S_800C135C_1 *)(((S_800C135C_0_pre *)entry)[-1].unk_00))->unk_0C = 0;
         func_80042640(entry, entry->unk_13);

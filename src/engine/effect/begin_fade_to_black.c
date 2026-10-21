@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/resource.h"
 
 typedef struct {
     u8 pad0[0x0C];
@@ -19,7 +20,6 @@ typedef struct {
 } Manager;
 
 extern Manager fade_manager_state;
-extern void runtime_set_destination_flag_from_source(void *dest, void *source);
 extern void fade_manager_step_black(void);
 
 /* Prepare the state when needed, set the manager callback, and process the state. */

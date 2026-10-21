@@ -21,7 +21,7 @@ M2C_UNK func_800D3AB8();
 M2C_UNK func_800D3B28();
 M2C_UNK func_800D3D40();
 M2C_UNK func_800D3D90();
-extern M2C_UNK D_8006CD30[];
+extern M2C_UNK sprite_projection_matrix[];
 
 typedef struct S_func_800CDFD8_1 {
     u16 unk_00;
@@ -259,7 +259,7 @@ void render_actor_sprite_parts(void *unused, MovingPosition *position, S_func_80
     scratch->unk_C0 = func_80065420((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
     sprite->unk_14 |= 0x8000;
     depth = scratch->unk_C0;
-    matrix_or_part = (S_func_800CDFD8_6 *)&D_8006CD30;
+    matrix_or_part = (S_func_800CDFD8_6 *)&sprite_projection_matrix;
     ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_20 = (s32) (depth * 4);
     depth -= 0xA;
     ot_depth = depth - depth_bias;

@@ -1,4 +1,8 @@
 #include "slus/gp_shared_8099c.h"
+#include "engine/object.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
+#include "slus/data.h"
 
 
 /* Shared display-cancellation state; retail initializes it to zero. */
@@ -6,18 +10,6 @@ s32 object_render_cancel_switch = 0;
 
 
 /* obj_disp23_cancel_sw_set: sets the display cancellation switch and returns it. */
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void TransMatrix(void *, void *);
-extern void RotMatrix(void *, void *);
-extern void ScaleMatrix(void *, void *);
-extern void CompMatrix(void *, void *, void *);
-extern void SetRotMatrix(void *);
-extern void SetTransMatrix(void *);
-extern void RotTransPers4(void *, void *, void *, void *, void *, void *,
-                          void *, void *, void *, void *);
-extern void AddPrim(void *, void *);
-extern u8 object_render_rotation_angles[];
 extern u8 *D_80083160[3];
 
 s32 obj_disp23_cancel_sw_set(s32 cancel_switch)

@@ -25,7 +25,7 @@ typedef struct S_8001640C_3 {
                 ((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_40 in pass_and_clear_selected_entry_byte */
 
 
-extern s32 D_80019AFC;
+extern s32 scene_cell_dispatch_code;
 
 s32 func_80018618(void);
 
@@ -35,7 +35,7 @@ s32 pass_and_clear_selected_entry_byte(void) {
     s32 handlerResult;
 
     pageSlot = (void **)((s8 *)(&D_80016000));
-    D_80019AFC = ((S_8001640C_2 *)((((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_08 * 8) +
+    scene_cell_dispatch_code = ((S_8001640C_2 *)((((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_08 * 8) +
             ((S_8001640C_1 *)(((S_8001640C_0 *)pageSlot)->unk_00))->unk_40))->unk_04;
     handlerResult = func_80018618();
     if (handlerResult != 0) {

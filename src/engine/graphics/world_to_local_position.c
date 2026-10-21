@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "sdk/libgte.h"
 
 typedef struct {
     s16 m[3][3];
@@ -21,12 +22,6 @@ typedef struct {
     s16 vz;
     s16 pad;
 } SVECTOR;
-
-extern void ReadRotMatrix(MATRIX *m);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void TransposeMatrix(MATRIX *m0, MATRIX *m1);
-extern void ApplyMatrixSV(MATRIX *m, SVECTOR *v0, SVECTOR *v1);
 
 /* Transform a position into local coordinates using the current matrix. */
 void world_to_local_position(USVECTOR *position, SVECTOR *local_position) {

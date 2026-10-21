@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus.h"
 
 extern int read_next_byte_and_finish(int a0);
-extern int pack_big_endian_halfword(int a0, int a1);
 
 /* Combines the low bytes of two successive calls with the same input and returns the low 16 bits. */
 int read_sequence_halfword(int input)

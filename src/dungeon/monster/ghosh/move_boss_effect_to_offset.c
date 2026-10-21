@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
-extern s32 D_80174CD8[3];
+extern s32 ghosh_boss_node[3];
 typedef struct {
     u8 data[24];
 } Config24;
@@ -42,9 +42,9 @@ void move_boss_effect_to_offset(s32 offset_index) {
     offsets = *offset_table;
     offset_pair = (s16 *)offsets.data;
     old_cell_mask = 0x3000;
-    entity_state = *D_80174CD8 + 0x20;
-    entity = ((S_80171168_0 *)(*D_80174CD8))->unk_0C;
-    entity_id = ((S_80171168_0 *)(*D_80174CD8))->unk_08;
+    entity_state = *ghosh_boss_node + 0x20;
+    entity = ((S_80171168_0 *)(*ghosh_boss_node))->unk_0C;
+    entity_id = ((S_80171168_0 *)(*ghosh_boss_node))->unk_08;
     entity->flags = (u16) (entity->flags & 0xFF7F);
     old_x = entity->unk_24;
     old_y = entity->unk_25;
@@ -52,7 +52,7 @@ void move_boss_effect_to_offset(s32 offset_index) {
         old_cell_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, old_cell_mask);
-    origin = &D_80082E80;
+    origin = &reference_tile_object;
     offset_pair = &offset_pair[offset_index];
     offset_bytes = (u8 *)offset_pair;
     entity->unk_24 = (u8) (origin->tile_position.parts.tile_x + offset_bytes[0]);

@@ -1,6 +1,9 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
+#include "engine/script/vm.h"
+#include "engine/town.h"
 
 typedef struct RuntimeContext {
     u8 pad0[0x1C];
@@ -10,8 +13,6 @@ typedef struct RuntimeContext {
     u8 *base;
 } RuntimeContext;
 
-extern void vm_op_22_return(RuntimeContext *);
-extern void format_unsigned_double_byte_decimal(s32, u8 *);
 extern u8 *message_control_string_table[];
 
 /* Processes stream control bytes until the next data byte. */

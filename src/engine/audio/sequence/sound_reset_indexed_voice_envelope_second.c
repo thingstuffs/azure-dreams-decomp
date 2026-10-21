@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
+#include "slus.h"
 typedef struct S_80086A40
 {
     s16 unk0;
@@ -98,11 +101,6 @@ extern s32 audio_voice_masks[128];
 extern S_80085458 audio_voice_records[64];
 extern s32 audio_update_guard[4];
 extern S_80086A40 audio_bank_slots[16];
-extern void sound_reset_indexed_voice_envelope(s32 request_index);
-extern void func_8005E97C(s32 a0, s32 a1);
-extern s32 func_8005EB78(s32 voice_mask);
-extern void apply_voice_attributes_and_key_on(void *a0);
-extern s32 update_spu_register_pair_cc_cd(s32 a0, s32 a1);
 /* Allocates and configures voices for program tones matching the requested note. */
 void start_sound_effect_program_voices(s32 bank_program, s32 note_pitch, s16 left_gain, s16 right_gain, s32 force_effect)
 {

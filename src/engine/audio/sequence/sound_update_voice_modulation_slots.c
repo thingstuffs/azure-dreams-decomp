@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
 
 /* Element of D_80084960 stat/entity table, stride 0x9C (156) bytes.
    Layout reconciled with src/w_80056A08.c (same TU family). */
@@ -55,11 +56,7 @@ extern s32 audio_voice_count[4];
 extern S_80084960 audio_channel_controls[16];
 extern S_80085458 audio_voice_records[64];
 
-extern void sound_step_bipolar_oscillation(S_80084960 *state);
-extern void sound_step_clamped_signed_ramp(S_80084960 *state);
 extern void audio_update_voice_vibrato(S_80085458 *envelope);
-extern void audio_update_voice_tremolo(S_80085458 *envelope);
-extern void audio_update_voice_pitch(S_80085458 *envelope, s32 value);
 
 /* Refresh all 16 entity slots, then update active D_80085458 slots. */
 void sound_update_voice_modulation_slots(void) {

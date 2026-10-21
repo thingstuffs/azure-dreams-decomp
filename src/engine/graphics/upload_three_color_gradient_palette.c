@@ -1,9 +1,7 @@
 #include "common.h"
-
-extern s32 DrawSync(s32 mode);
-extern void upload_vram_row_and_cache(void *data, s32 vram, s32 palette, s32 flags);
-
-extern u8 gradient_palette_weights[];
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
+#include "slus/data.h"
 
 /* Builds and uploads a palette blending three RGB colors. */
 void upload_three_color_gradient_palette(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s32 blend_row, s32 semitrans_end)

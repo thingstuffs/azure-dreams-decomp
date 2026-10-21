@@ -27,8 +27,8 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 extern void create_owner_linked_directional_object(void *, void *, void *);
 
 extern u8 D_800D58D8[];
-extern s8 D_800DCECC[];
-extern u8 D_800E23E0[];
+extern s8 view_direction_depth_biases[];
+extern u8 uboat_default_frames[];
 extern u8 D_800E2410[];
 extern u8 D_80171A80[];
 
@@ -136,13 +136,13 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, void *
             if (use_player_test != 0) {
                 u8 *linked_sprite;
 
-                linked_actor = D_800814A8;
+                linked_actor = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = linked_actor;
                 linked_sprite = ((S_80173A60_1_pre *)linked_actor)[-1].unk_00;
                 (*(u8 *)((u8 *)actor + 0x72)) = linked_sprite[0x24];
                 offset_x = linked_sprite[0x25];
                 (*(u8 *)((u8 *)actor + 0x73)) = offset_x;
-            } else if (D_8006DE24[*item_id].kind == 2) {
+            } else if (item_action_definitions[*item_id].kind == 2) {
                 linked_actor = (*(void * *)((u8 *)actor + 0x60));
                 if (linked_actor != 0) {
                     u8 *linked_sprite;
@@ -181,7 +181,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, void *
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
         ((S_80173A60_0 *)actor_state)->unk_8C = D_80171A80;
@@ -209,7 +209,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, void *
         if ((s16)timer == 3) {
             u8 *effect;
 
-            effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+            effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             if (effect != 0) {
                 u8 *effect_state;
                 SpriteFrameState *effect_sprite;
@@ -242,7 +242,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, void *
 
                 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle +
                           ((S_80173A60_0 *)actor_state)->unk_2A.s + 0x100) >> 9) & 7;
-                height_offsets = D_800DCECC;
+                height_offsets = view_direction_depth_biases;
                 effect_sprite->unk_06 = -(height_offsets[direction_index] * 4);
                 ((S_80173A60_4 *)effect_state)->unk_94 =
                     (((S_80173A60_0 *)actor_state)->unk_2A.u >> 9) & 7;
@@ -259,7 +259,7 @@ void advance_actor_item_action(void *actor_state, ObjectPosition *motion, void *
             u8 *anim_table;
             s32 direction_index;
 
-            anim_table = D_800E23E0;
+            anim_table = uboat_default_frames;
             ((SpriteFrameState *)sprite)->frameTable = anim_table;
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, anim_table[direction_index], 3);

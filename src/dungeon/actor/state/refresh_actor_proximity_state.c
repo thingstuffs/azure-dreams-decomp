@@ -8,7 +8,7 @@ extern void update_all_actor_proximity_flags(s16 near_limit, s16 far_limit);
 /* Updates the default or linked state and dispatches action (3, 6). */
 void refresh_actor_proximity_state(u8 *context) {
     if ((context == 0) || (context[0x13] == 0)) {
-        TileObject *state = &D_80082E80;
+        TileObject *state = &reference_tile_object;
 
         state->room_index = find_active_rect_containing_point(state->tile_position.parts.tile_x, state->tile_position.parts.tile_y);
         update_all_actor_proximity_flags(3, 6);

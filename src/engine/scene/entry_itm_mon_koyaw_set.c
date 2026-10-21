@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/scene.h"
 
 typedef struct Entry {
     u8 unk0;
@@ -9,7 +10,7 @@ typedef struct Entry {
     u8 index;
 } Entry;
 
-extern Entry *D_8001029C[];
+extern Entry *town_item_list[];
 extern void itm_mon_koyaw_set(s32, Entry *, void *, s32);
 
 /* Process kind 0x13 entries with nonnegative codes in their indexed records. */
@@ -20,7 +21,7 @@ void refresh_monster_items_from_creature_records(void) {
     u32 data_page;
     s32 record_code;
 
-    if (D_8001029C[0] != 0) {
+    if (town_item_list[0] != 0) {
         data_page = 0x80010000;
         cursor = (Entry **)0x8001029C;
 loop:

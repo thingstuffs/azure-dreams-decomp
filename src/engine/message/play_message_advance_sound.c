@@ -3,8 +3,8 @@
 
 #include "common.h"
 #include "records/Rec_func_800384A8_arg0.h"
-short SD_Call(int flags);                     /* extern */
-extern M2C_UNK update_message_window;
+#include "slus.h"
+#include "slus/data.h"
 
 /* Calls SD_Call with 0xB4 and installs update_message_window as the next handler. */
 void play_message_advance_sound(Rec_func_800384A8_arg0 *state) {

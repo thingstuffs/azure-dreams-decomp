@@ -96,13 +96,13 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
     pointers.offset = position_offset;
     position_offset[0] = position_offset[1] = 0;
     if (resolve_record_orientation_or_fallback(source_object->unk_08, source_object, pointers.offset, 0) == 0) {
-        position_offset[2] = (0 - D_800DDC40[0]) + 0x10;
+        position_offset[2] = (0 - entity_height_offsets[0]) + 0x10;
     }
     object_index = 0;
     callback = D_80026680;
     table_entry = D_80028820;
     do {
-        object = allocate_list_node(0x212, ((s32 *)(&D_80083498)));
+        object = allocate_list_node(0x212, ((s32 *)(&scene_object_list_anchor)));
         if (object != NULL) {
             s32 point_index;
             S_80026C88_2 *state;

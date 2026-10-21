@@ -49,18 +49,18 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s3
 
     scene_state = &g_game_work;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((struct EntityRec *)(actor));
-    effect_data = ((u8 *)&D_800FE488);
+    effect_data = ((u8 *)&position_query_scratch);
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, effect_data);
     if (actor->unk_0A >= threshold) {
         compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), threshold, (struct TownVec * *)(effect_data));
-    } else if (((S_800A5DF8_1 *)(&D_800CFCEF))->unk_00 != 0) {
+    } else if (((S_800A5DF8_1 *)(&town_action_state_flag))->unk_00 != 0) {
         actor->unk_14 = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(actor));
     } else {
         add_hex_20000_s_signed_offset_hex_14(actor);
     }
 
-    if (check_masked_value_in_current_range(read_map_cell_at_world_position(D_80083780.x.w.i, D_80083780.y.w.i) & 0xFFFF) != 0) {
+    if (check_masked_value_in_current_range(read_map_cell_at_world_position(view_reference_entity.x.w.i, view_reference_entity.y.w.i) & 0xFFFF) != 0) {
         offset_step = actor->unk_14 - compute_height_based_offset((struct EntityRec *)(actor));
         actor->unk_14 = offset_step;
     }

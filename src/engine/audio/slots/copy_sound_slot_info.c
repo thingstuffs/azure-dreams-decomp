@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/slots.h"
 
 typedef struct {
     s16 unk0;

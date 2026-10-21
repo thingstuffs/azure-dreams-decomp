@@ -38,10 +38,10 @@ void resume_multi_form_actor_control(void *controller, void *unused_1, void *unu
     *(void **)((u8 *)controller + 0x8C) = (void *)update_multi_form_actor_control;
 
     do {
-        object = *(u8 **)(((u8 *)D_800E3D7C) + (object_index * 4) + 0xAC);
+        object = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + (object_index * 4) + 0xAC);
         if (object != 0) {
             func_80164BA4(object);
-            object_header = *(u8 **)(((u8 *)D_800E3D7C) + (object_index * 4) + 0xAC) - 0x20;
+            object_header = *(u8 **)(((u8 *)dungeon_actor_ring_anchor) + (object_index * 4) + 0xAC) - 0x20;
             *(u32 *)(object_header + 0x10) |= 0x80000000;
         }
         object_index++;

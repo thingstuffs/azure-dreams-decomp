@@ -3,18 +3,18 @@
 #include "shared/vector.h"
 
 
-extern IntVector3 D_80100D98;
+extern IntVector3 town_position_reference_state;
 extern u8 D_800A4F4C[];
 extern void initialize_transition_state(void *);
 
 /* Copy the default state and initialize the supplied control block. */
 void initialize_control_block(void *control) {
-    IntVector3 *dst = &D_80100D98;
+    IntVector3 *dst = &town_position_reference_state;
     s32 value;
 
-    D_80100D98.x = D_80083780.x.v;
-    value = D_80083780.y.v;
-    dst->z = D_80083780.z.v;
+    town_position_reference_state.x = view_reference_entity.x.v;
+    value = view_reference_entity.y.v;
+    dst->z = view_reference_entity.z.v;
     dst->y = value;
     *(void **)((u8 *)control + 0x24) = D_800A4F4C;
     *(s32 *)((u8 *)control + 0x30) = 0;

@@ -38,9 +38,9 @@ s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mo
     s32 effect_text;
     s32 message_context;
 
-    if (target == ((s32)D_800E3D7C)) {
+    if (target == ((s32)dungeon_actor_ring_anchor)) {
         ((EntityRec *)target)->unk_110 = source;
-        begin_deferred_item_action(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
+        begin_deferred_item_action(target, &view_reference_entity.x.v, &reference_tile_object.unk_000, target);
         return 0;
     }
 

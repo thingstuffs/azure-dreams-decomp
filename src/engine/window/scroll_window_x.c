@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window.h"
 
 typedef struct S_8003566C_3 {
     void * unk_00;
@@ -32,12 +33,9 @@ typedef struct S_8003566C_2 {
     u16 unk_08;
 } S_8003566C_2;   /* temp_v1 in scroll_window_x */
 
-
-void create_window_overlay_object(s32 node_addr, void *display, u8 *image, s32 *state_ref, s32 option, u8 *owner);
 extern u8 message_window_object_template[];
 extern u8 scrolling_window_display_storage[];
 extern u8 scrolling_window_node_storage[];
-void runtime_decrease_state_by_a_0();
 
 /* Decrease the stored value, clamp negatives to zero, and advance state below 0x100. */
 void scroll_window_x(S_8003566C_0 *state) {

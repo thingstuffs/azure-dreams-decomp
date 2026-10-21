@@ -1,4 +1,6 @@
 #include "common.h"
+#include "slus.h"
+#include "slus/data.h"
 
 /* Globals: single scalar values read via %hi/%lo. Declared as arrays (>8B)
  * to force hi/lo codegen for this single-use load. D_80071664 is volatile:
@@ -6,9 +8,6 @@
  * the load into one scheduled unit, matching retail's split (the %hi
  * computation is hoisted early to fill an unrelated load's delay slot,
  * while the %lo-folded load itself stays at its later point of use). */
-extern s32 object_header_a_default_word_08[4];
-extern u32 object_header_a_default_word_0c[4];
-extern s32 object_header_a_default_word_04[4];
 
 typedef struct S_8004EF90_sub {
     u8 unk0;

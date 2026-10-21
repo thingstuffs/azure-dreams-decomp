@@ -16,6 +16,6 @@ u8 *tick_shop_event_state(void) {
     if (func_8001E82C() != 0) {
         reset_dispatch_state_and_flags();
     }
-    D_8001E950->unk_00 += 1;
+    town_event_state->unk_00 += 1;
     return (u8 *)0;
 }

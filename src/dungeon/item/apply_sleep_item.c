@@ -18,9 +18,9 @@ s32 try_apply_action_by_chance();
 
 /* Process an entity's item, deferring the primary entity's handling and cleaning up completed uses. */
 s32 apply_sleep_item(ActorRecord *entity, s32 item, s16 use_type) {
-    if (entity == D_800E3D7C) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((PlayerRecord *)entity)->pending_item_action = item;
-        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
     if ((s32)entity <= 0x9FFFFFFFU) {

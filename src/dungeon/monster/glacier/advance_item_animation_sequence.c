@@ -2,7 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 typedef struct S_80172F04_0 {
     u8 pad_00[0x8C];
@@ -105,7 +105,7 @@ void advance_item_animation_sequence(S_80172F04_0 *action, S_80172F04_3 *motion,
             spend_actor_mp(actor, 0x140);
             call_actor = actor;
             action->unk_8C = (u8 *)((u32)D_801714B8);
-            ((S_80172F04_4 *)D_80080000)->unk_346C = 0;
+            ((S_80172F04_4 *)resident_globals_page)->unk_346C = 0;
             advance_status_timers(call_actor);
             ((S_80172F04_2 *)actor)->unk_46 &= 0x7FFF;
         }

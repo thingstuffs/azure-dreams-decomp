@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
 
 extern s32 D_800814A0;
 

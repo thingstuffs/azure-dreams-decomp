@@ -14,7 +14,7 @@ typedef struct ValueLink {
     HalfValue *next;
 } ValueLink;
 
-extern s32 * D_80129728[28];
+extern s32 * catalog_display_node_slots[28];
 
 
 /* Swap paired slot values and linked halfwords, toggle the state flag, and update. */
@@ -32,7 +32,7 @@ void swap_paired_entry_values_and_node_halfwords(Rec_func_801237A4_arg0 *state) 
     HalfValue *left_value;
 
     slot_index = 2;
-    slots = D_80129728;
+    slots = catalog_display_node_slots;
     right_slot = slots + 0x10;
     left_slot = slots + 2;
     do {
@@ -44,13 +44,13 @@ void swap_paired_entry_values_and_node_halfwords(Rec_func_801237A4_arg0 *state) 
         **right_slot = saved_word;
         right_slot += 1;
     } while (slot_index < 0xE);
-    right = (ValueLink *) D_80129728[22];
-    left = (ValueLink *) D_80129728[8];
+    right = (ValueLink *) catalog_display_node_slots[22];
+    left = (ValueLink *) catalog_display_node_slots[8];
     right_value = right->next;
     left_value = left->next;
     saved_half = left_value->value;
     left_value->value = right_value->value;
-    ((ValueLink *) D_80129728[22])->next->value = saved_half;
+    ((ValueLink *) catalog_display_node_slots[22])->next->value = saved_half;
     state->unk_16 = (s8) (state->unk_16 ^ 1);
     select_paired_value_tables(state);
 }

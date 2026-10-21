@@ -46,7 +46,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
     register s32 tint_arg;
 
     state = 0;
-    entity = allocate_list_node(0x112, &D_80083498.next);
+    entity = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (entity != 0) {
         state = (u8 *)entity + 0x20;
         FLD(entity, void *, 0x10) = &D_800C9AAC;

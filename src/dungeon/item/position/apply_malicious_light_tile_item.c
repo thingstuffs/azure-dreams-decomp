@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #define F(p,t,o) (*(t *)((u8 *)(p)+(o)))
-extern u8 D_80082E80[],D_80083780[],D_800893D8[],D_800E16E3[],D_800E1713[],D_800E39C8[];
+extern u8 reference_tile_object[],view_reference_entity[],D_800893D8[],D_800E16E3[],D_800E1713[],dungeon_floor_object_positions[];
 extern s16 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern void clear_slot_and_update_linked_state(void *);
@@ -22,9 +22,9 @@ s32 apply_malicious_light_tile_item(void *actor, u8 *item, s16 action) {
     u8 *object_fields;
     u8 *entries;
 
-    if (actor == ((u8 *)D_800E3D7C)) {
+    if (actor == ((u8 *)dungeon_actor_ring_anchor)) {
         F(actor, u8 *, 0x110) = item;
-        begin_mode_selected_item_action(actor, D_80083780, D_80082E80, actor);
+        begin_mode_selected_item_action(actor, view_reference_entity, reference_tile_object, actor);
         return 0;
     }
 
@@ -36,7 +36,7 @@ s32 apply_malicious_light_tile_item(void *actor, u8 *item, s16 action) {
         object_fields = (u8 *)object_addr + 0x20;
         entry_index = select_and_initialize_entry_at_position(F(entity, u8, 0x24), F(entity, u8, 0x25),
                                     F(actor, s16, 0x88), 5, object_addr);
-        entries = D_800E39C8;
+        entries = dungeon_floor_object_positions;
         F(object_fields, s16, 0x20) = entry_index;
         F(entries + entry_index * 0x18, s32, 8) = 0;
         message_handle = get_unused_text_buffer();

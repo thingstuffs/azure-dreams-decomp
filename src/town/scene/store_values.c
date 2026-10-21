@@ -1,5 +1,5 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern s32 D_8001967C;
-void store_supplied_values(void) { D_8001967C = 2; }
+extern s32 scene_dispatch_mode_index;
+void store_supplied_values(void) { scene_dispatch_mode_index = 2; }

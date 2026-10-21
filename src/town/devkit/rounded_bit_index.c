@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern u8 D_80700000[];
+extern u8 devkit_globals_page[];
 
 static __inline__ s32 rounded_bit_index(s32 bit_index) {
     s32 rounded_index = bit_index;
@@ -27,7 +27,7 @@ static __inline__ void clear_indexed_bit(s32 bitmap, s32 bit_index, s32 rounded_
 void clear_six_devkit_bitmap_bits(void) {
     s32 slot = 1;
     s32 one_bit = 1;
-    s16 *bit_index_ptr = (s16 *)(D_80700000 + 0xBAE);
+    s16 *bit_index_ptr = (s16 *)(devkit_globals_page + 0xBAE);
     do {
         s32 slot_offset = 0;
         s32 bit_index;
@@ -36,7 +36,7 @@ void clear_six_devkit_bitmap_bits(void) {
         bit_index = *bit_index_ptr;
         rounded_index = rounded_bit_index(bit_index);
         clear_indexed_bit(0x80700000, bit_index, rounded_index, one_bit);
-        bit_index = *(s16 *)(D_80700000 + slot_offset + 0xBA4);
+        bit_index = *(s16 *)(devkit_globals_page + slot_offset + 0xBA4);
         rounded_index = rounded_bit_index(bit_index);
         slot += 1;
         bit_index_ptr += 1;

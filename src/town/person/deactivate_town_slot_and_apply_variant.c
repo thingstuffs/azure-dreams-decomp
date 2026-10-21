@@ -8,7 +8,7 @@ typedef struct {
     u8 unk3[5];
 } TownSlot;
 
-extern u16 D_800D5070[];
+extern u16 town_facing_angles[];
 extern void install_object_handler_and_clear_slot_flag(void *, void *, void *, void *);
 
 /* Deactivate the town slot, apply its variant to the object and child, and update the object. */
@@ -27,6 +27,6 @@ void deactivate_town_slot_and_apply_variant(void *town_object, void *passthru_1,
     if (child != 0) {
         *(u8 *)((u8 *)child + 4) = slot;
     }
-    *(u16 *)((u8 *)town_object + 0x6E) = D_800D5070[slot];
+    *(u16 *)((u8 *)town_object + 0x6E) = town_facing_angles[slot];
     install_object_handler_and_clear_slot_flag(town_object, passthru_1, passthru_2, child);
 }

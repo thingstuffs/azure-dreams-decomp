@@ -3,6 +3,8 @@
 #include "shared/object_flags.h"
 
 #include "common.h"
+#include "engine/node.h"
+#include "engine/window.h"
 
 typedef struct S_8004A330_Sub20 {
     u16 field0;
@@ -24,9 +26,6 @@ typedef struct S_8004A330_Entity {
 } S_8004A330_Entity;
 
 extern s32 create_callback_pair_default(s32 a0);
-extern void init_menu_panel(S_8004A330_Sub20 *a0, s32 a1, s32 a2,
-                          s16 a3, s16 a4, s16 a5);
-extern void register_node(void *a0, void *a1);
 extern void draw_tinted_node_sprites_scratch(void);
 extern void menu_move_the_position_halfway_toward_target_position(void *a0);
 extern s32 D_800814A0_load[3];

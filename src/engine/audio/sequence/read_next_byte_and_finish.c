@@ -1,9 +1,9 @@
 #include "common.h"
+#include "slus/data.h"
 
 
 
 extern s32 audio_sequence_data_base[4];
-extern s32 audio_sequence_stream_limit[4];
 
 typedef struct {
     s32 unk00;

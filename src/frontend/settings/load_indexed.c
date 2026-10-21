@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "frontend/settings.h"
 
 /* Load an indexed value divided by four and propagate the source flag. */
 void load_indexed(void *entry) {

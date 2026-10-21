@@ -91,7 +91,7 @@ extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s16 check_entity_relation(void *, void *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
-extern s16 D_8006CD00[];
+extern s16 actor_turn_angle_offsets[];
 
 
 /* Updates an actor's movement path, trying alternate directions around obstacles. */
@@ -159,8 +159,8 @@ void update_path_with_alternate_directions(void *move_ctx_in, void *action_ctx, 
                 s32 target_y;
                 u8 *move_flags;
                 {
-                    TileObject *target_position = &D_80082E80;
-                    s32 target_heading = ((u16)D_800814A8->facing);
+                    TileObject *target_position = &reference_tile_object;
+                    s32 target_heading = ((u16)primary_actor_record->facing);
                     s32 table_index =
                         ((((S_8017163C_1 *)actor_in)->unk_45 + ((s16)target_heading >> 9)) & 7) << 1;
                     target_x = target_position->tile_position.parts.tile_x +
@@ -183,11 +183,11 @@ void update_path_with_alternate_directions(void *move_ctx_in, void *action_ctx, 
                 if (check_movement_clearance_and_height(target_angle, position_in, actor_in, 0x20) <= 0) {
                     ((S_8017163C_1 *)actor_in)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                         ((S_8017163C_2 *)position_in)->unk_24.at00.v, ((S_8017163C_2 *)position_in)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, move_flags);
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, move_flags);
                 }
                 if (compare_monster_neighbor_values(
                         ((S_8017163C_2 *)position_in)->unk_24.at00.v, ((S_8017163C_2 *)position_in)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     near_target = 1;
                 }
             } else {
@@ -197,7 +197,7 @@ void update_path_with_alternate_directions(void *move_ctx_in, void *action_ctx, 
         }
     } else {
         if (((S_8017163C_2 *)position_in)->unk_26.s >= 0 &&
-            (((DungeonRecord *)D_800E2970 + ((S_8017163C_2 *)position_in)->unk_26.s)->flags & 2)) {
+            (((DungeonRecord *)dungeon_rooms + ((S_8017163C_2 *)position_in)->unk_26.s)->flags & 2)) {
             rebuild_monster_reachable_tiles(position_in, ((S_8017163C_5 *)move_ctx_in)->unk_9C.s, actor_in,
                           (u8 *)move_ctx_in + 0x98);
         } else if (!(((S_8017163C_1 *)actor_in)->unk_46 & 0x8000) &&
@@ -218,14 +218,14 @@ void update_path_with_alternate_directions(void *move_ctx_in, void *action_ctx, 
             }
 
             if (((S_8017163C_1 *)actor_in)->unk_1C & 0x20000) {
-                TileObject *target_position = &D_80082E80;
+                TileObject *target_position = &reference_tile_object;
                 ((S_8017163C_1 *)actor_in)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                     ((S_8017163C_2 *)position_in)->unk_24.at00.v, ((S_8017163C_2 *)position_in)->unk_24.at01.v,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y, (u8 *)move_ctx_in + 0x98);
                 if (compare_monster_neighbor_values(
                         ((S_8017163C_2 *)position_in)->unk_24.at00.v, ((S_8017163C_2 *)position_in)->unk_24.at01.v,
                         target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
-                    if ((s16)get_actor_height_difference(D_800814A8, actor_in) < 0x81) {
+                    if ((s16)get_actor_height_difference(primary_actor_record, actor_in) < 0x81) {
                         if (check_diagonal_side_height(
                                 ((s16)((S_8017163C_1 *)actor_in)->unk_2A.u >> 9) & 0xFFFF,
                                 ((S_8017163C_2 *)position_in)->unk_24.at00.v,
@@ -249,9 +249,9 @@ void update_path_with_alternate_directions(void *move_ctx_in, void *action_ctx, 
         turn_flags = ((S_8017163C_5 *)move_ctx_in)->unk_98;
         current_angle = ((S_8017163C_1 *)actor_in)->unk_2A.s;
         if (turn_flags & 2) {
-            trial_angle = current_angle - D_8006CD00[turn_index];
+            trial_angle = current_angle - actor_turn_angle_offsets[turn_index];
         } else {
-            trial_angle = current_angle + D_8006CD00[turn_index];
+            trial_angle = current_angle + actor_turn_angle_offsets[turn_index];
         }
 
         if (check_movement_clearance_and_height(trial_angle, position_in, actor_in, 0x20) > 0) {
@@ -291,9 +291,9 @@ void update_path_with_alternate_directions(void *move_ctx_in, void *action_ctx, 
         }
 
         if (turn_index == 0 &&
-            *(u16 *)(&D_80082E80.tile_position.parts.tile_x) != ((S_8017163C_2 *)position_in)->unk_24.at00u.v) {
+            *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != ((S_8017163C_2 *)position_in)->unk_24.at00u.v) {
             if (check_entity_relation(actor_in,
-                    (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                 return;
             }
         }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "frontend/settings.h"
 
 typedef struct EffectOwner {
     u8 pad0[0x16];

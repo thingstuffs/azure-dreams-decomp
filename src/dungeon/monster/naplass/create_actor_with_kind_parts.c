@@ -22,7 +22,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
     saved_x = grid_x;
     saved_value = part_value;
     saved_y = grid_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (void *)((Work *)((u8 *)obj + 0x20));
         ((S_8014C870_0 *)obj)->unk_10 = func_8014CA3C;

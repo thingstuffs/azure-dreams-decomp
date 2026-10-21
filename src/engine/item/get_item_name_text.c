@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "sdk/libc.h"
+#include "slus/data.h"
 
 typedef struct {
     u8 unk0;
@@ -24,11 +26,9 @@ extern s32 record_has_type_twenty(Item *);
 extern s32 read_item_category_flag_ten(Item *);
 extern s32 submit_script_with_registered_context(char *);
 extern char *rindex(char *, s32);
-extern char *strcpy(char *, char *);
 
 extern CatEnt itemCategoryTable[];
 extern char item_name_suffix_buffer[0x40];
-extern char *item_name_suffix_texts[];
 
 /* Selects item text or a fallback, adjusts its special suffix, and passes it to func_8004DD2C. */
 s32 get_item_name_text(Item *item, StrPair *fallbacks) {

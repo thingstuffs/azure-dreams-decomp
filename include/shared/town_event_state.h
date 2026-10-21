@@ -15,7 +15,7 @@ typedef struct TownEventState {
     /* 0x05 */ unsigned char unk_05;
     /* 0x06 */ unsigned char unk_06;
 } TownEventState;
-extern TownEventState *D_8001E950;
+extern TownEventState *town_event_state;
 
 
 /* Exact access views shared across registered binary consumers. */

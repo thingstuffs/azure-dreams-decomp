@@ -134,7 +134,7 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
             action->actionFlags &= 0xFF7F;
             reuse_test = reuse_target;
             if (reuse_test != 0) {
-                target_root = D_800814A8;
+                target_root = primary_actor_record;
                 actor->target = target_root;
                 target_source = ((TargetLinkHeader *)target_root)[-1].positionRecord;
                 actor->target_tile_x = ((TargetPositionView *)target_source)->tileX;
@@ -166,7 +166,7 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
         g_dungeon_status.active_actor = 0;
-        ((ActorCounterView *)D_800814A8)->pendingCount--;
+        ((ActorCounterView *)primary_actor_record)->pendingCount--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
         action->handler = &D_80158F68;

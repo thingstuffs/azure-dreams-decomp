@@ -6,7 +6,7 @@ typedef struct {
     s32 field14;
 } TownObject;
 
-extern u8 D_800CFCEE[];
+extern u8 town_blocked_directions[];
 
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(TownObject *);
 extern void store_the_valid_shared_angle_in_offset_hex_10(void *);
@@ -25,7 +25,7 @@ void update_town_object_from_input(void *context, TownObject *object, void *acti
     store_the_valid_shared_angle_in_offset_hex_10(context);
     handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
 
-    if (D_800CFCEE[0] != 0) {
+    if (town_blocked_directions[0] != 0) {
         object->field14 = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2(object);
     } else {

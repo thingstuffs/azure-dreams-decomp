@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "sdk/libgpu.h"
 
 typedef struct
 {
@@ -45,10 +46,6 @@ typedef struct
 }
 S_80053604_Main;
 extern S_80053604_Main D_80083160;
-extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
-extern void SetPolyF4(S_80053604_PolyF4 *p);
-extern void SetSemiTrans(S_80053604_PolyF4 *p, s32 abe);
-extern void SetDrawMode(S_80053604_TPage *p, s32 tge, s32 abe, u16 tpage, s32 unk4);
 /* Draws a full-screen additive or subtractive fade, advances its timer, and reports completion. */
 s32 render_screen_fade_increasing_intensity(S_80053604_Obj *fade)
 {

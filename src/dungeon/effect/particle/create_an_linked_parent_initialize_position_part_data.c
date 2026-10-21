@@ -159,7 +159,7 @@ void func_80024104(void *owner) {
         rect = (Rect16 *)((u8 *)&rect_table + rect_offset);
         center[0] = rect->x + ((s16)rect->w >> 1);
         center[1] = rect->y + 0x30;
-        draw_transformed_sprite_with_clip_rect((s32)D_800814A8, rect, center, 1, 1);
+        draw_transformed_sprite_with_clip_rect((s32)primary_actor_record, rect, center, 1, 1);
 
         child = func_8003FC64(0x212);
         if (child != 0) {
@@ -175,7 +175,7 @@ void func_80024104(void *owner) {
             display->field6 = 4;
             display->flags &= 0xFFF3;
 
-            source_words = ((S_80024104_2_pre *)D_800814A8)[-1].unk_00;
+            source_words = ((S_80024104_2_pre *)primary_actor_record)[-1].unk_00;
             child_words = ((S_80024104_1 *)child)->unk_08;
             ((s32 *)child_words)[0] = ((s32 *)source_words)[0];
             ((s32 *)child_words)[1] = ((s32 *)source_words)[1];
@@ -402,10 +402,10 @@ enum TransitionPhase {
 
 extern u8 D_80025330[];
 extern PackedResource D_80025348, D_80025360;
-extern PaletteControl D_8002536C;
+extern PaletteControl ellipse_palette_channel_limits;
 extern s16 D_80025384;
 extern u16 D_80082E94;
-extern AnimationState D_80082E80;
+extern AnimationState reference_tile_object;
 
 extern s32 get_sprite_attachment_vector(void *, AnimationState *, s16 *, s32);
 
@@ -452,27 +452,27 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
     state->ticks++;
     switch (state->phase) {
     case PHASE_SETUP: /* initialise palette/tint state, then fall into the wait */
-        ((PlayerRecord *)D_800814A8)->unk_F4 = (s32)&D_80025330;
-        D_80082E80.phase = 6;
-        D_8002536C.low_r = 0;
-        D_8002536C.low_g = 0;
-        D_8002536C.low_b = 0;
-        D_8002536C.high_r = 0xFF;
-        D_8002536C.high_g = 0xFF;
-        D_8002536C.high_b = 0xFF;
+        ((PlayerRecord *)primary_actor_record)->unk_F4 = (s32)&D_80025330;
+        reference_tile_object.phase = 6;
+        ellipse_palette_channel_limits.low_r = 0;
+        ellipse_palette_channel_limits.low_g = 0;
+        ellipse_palette_channel_limits.low_b = 0;
+        ellipse_palette_channel_limits.high_r = 0xFF;
+        ellipse_palette_channel_limits.high_g = 0xFF;
+        ellipse_palette_channel_limits.high_b = 0xFF;
         upload_rect.xy = 0x01000340;
         upload_rect.wh = 0x400040;
-        draw_textured_ellipse(&D_8002536C, &upload_rect, 1, 0);
+        draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect, 1, 0);
         D_80025384 = 1;
         state->phase++;
         /* fallthrough */
     case PHASE_WAIT_CONFIRM: /* wait for the trigger bit, then snapshot facing and start the effect */
         if (*state->flags & 0x80) {
-            actor = D_800814A8;
+            actor = primary_actor_record;
             state->countdown = 0x14;
             *(u16 *)((u8 *)actor + 0xA6) -= 1; /* halfword counter at +0xA6 (high half of unk_A4) */
             actor->unk_A8 = (u8) state->event_id;
-            actor_facing = (u16)D_800814A8->facing;
+            actor_facing = (u16)primary_actor_record->facing;
             state->phase++;
             state->ticks = 0;
             state->facing = actor_facing;
@@ -500,7 +500,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
     case PHASE_ENTER: /* countdown with flickering tint and trailing particles */
         if (state->countdown < 9) {
             if (state->countdown >= 5) {
-                player = D_800814A8;
+                player = primary_actor_record;
                 entry_tint = TINT_FLASH_BRIGHT;
                 player->unk_98 = player->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)player)[-1].unk_0C;
@@ -510,9 +510,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 }
                 tint_part->color.rgb = entry_tint;
             } else {
-                tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)D_800814A8)[-1].unk_0C;
+                tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)primary_actor_record)[-1].unk_0C;
                 entry_tint = TINT_FLASH_BRIGHT;
-                D_800814A8->unk_98 = D_800814A8->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
+                primary_actor_record->unk_98 = primary_actor_record->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part->color.rgb = entry_tint;
             }
         }
@@ -530,7 +530,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             }
             play_sound_if_enabled(sound_request);
         }
-        if ((state->countdown < 9) && ((particle_scratch = (TransitionParticlePayload *)(get_sprite_attachment_vector(D_80082E80.resource, &D_80082E80, &state->current_x, 0))) != 0)) {
+        if ((state->countdown < 9) && ((particle_scratch = (TransitionParticlePayload *)(get_sprite_attachment_vector(reference_tile_object.resource, &reference_tile_object, &state->current_x, 0))) != 0)) {
             if (state->countdown >= 7) {
                 particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
                 particle_scratch = &particle->payload;
@@ -545,9 +545,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->x.w.i = state->current_x;
                     position->y.w.i = state->current_y;
                     position->z.w.i = state->current_z;
-                    position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
-                    position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
-                    position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
+                    position->x.w.i = (u16) (position->x.w.i + view_reference_entity.x.w.i);
+                    position->y.w.i = (u16) (position->y.w.i + view_reference_entity.y.w.i);
+                    position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0xFF;
@@ -572,9 +572,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                         position->x.w.i = state->current_x;
                         position->y.w.i = state->current_y;
                         position->z.w.i = state->current_z;
-                        position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
-                        position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
-                        position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
+                        position->x.w.i = (u16) (position->x.w.i + view_reference_entity.x.w.i);
+                        position->y.w.i = (u16) (position->y.w.i + view_reference_entity.y.w.i);
+                        position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                         render_part->scale_y = PARTICLE_SCALE_BASE;
                         render_part->scale_x = PARTICLE_SCALE_BASE;
                         render_part->color.channel.blue = 0x80;
@@ -598,9 +598,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->x.w.i = state->current_x;
                     position->y.w.i = state->current_y;
                     position->z.w.i = state->current_z;
-                    position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
-                    position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
-                    position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
+                    position->x.w.i = (u16) (position->x.w.i + view_reference_entity.x.w.i);
+                    position->y.w.i = (u16) (position->y.w.i + view_reference_entity.y.w.i);
+                    position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0xFF;
@@ -624,9 +624,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->x.w.i = state->current_x;
                     position->y.w.i = state->current_y;
                     position->z.w.i = state->current_z;
-                    position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
-                    position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
-                    position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
+                    position->x.w.i = (u16) (position->x.w.i + view_reference_entity.x.w.i);
+                    position->y.w.i = (u16) (position->y.w.i + view_reference_entity.y.w.i);
+                    position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0x80;
@@ -655,9 +655,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->x.w.i = state->midpoint_x;
                     position->y.w.i = state->midpoint_y;
                     position->z.w.i = state->midpoint_z;
-                    position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
-                    position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
-                    position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
+                    position->x.w.i = (u16) (position->x.w.i + view_reference_entity.x.w.i);
+                    position->y.w.i = (u16) (position->y.w.i + view_reference_entity.y.w.i);
+                    position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0xFF;
@@ -677,7 +677,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
     case PHASE_EXIT: /* tint flicker, growing particles, target highlight */
         if (state->countdown >= 7) {
             if (state->countdown < 0xD) {
-                player = D_800814A8;
+                player = primary_actor_record;
                 exit_tint = TINT_FLASH_BRIGHT;
                 player->unk_98 = player->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)player)[-1].unk_0C;
@@ -687,13 +687,13 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 }
                 tint_part->color.rgb = exit_tint;
             } else {
-                tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)D_800814A8)[-1].unk_0C;
+                tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)primary_actor_record)[-1].unk_0C;
                 exit_tint = TINT_FLASH_BRIGHT;
-                D_800814A8->unk_98 = D_800814A8->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
+                primary_actor_record->unk_98 = primary_actor_record->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
                 tint_part->color.rgb = exit_tint;
             }
         }
-        if ((state->countdown >= 0xD) && ((particle_scratch = (TransitionParticlePayload *)(get_sprite_attachment_vector(D_80082E80.resource, &D_80082E80, &state->current_x, 0))) != 0)) {
+        if ((state->countdown >= 0xD) && ((particle_scratch = (TransitionParticlePayload *)(get_sprite_attachment_vector(reference_tile_object.resource, &reference_tile_object, &state->current_x, 0))) != 0)) {
             particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
             particle_scratch = &particle->payload;
             if (particle != 0) {
@@ -710,9 +710,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 position->x.w.i = state->current_x;
                 position->y.w.i = state->current_y;
                 position->z.w.i = state->current_z;
-                position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
-                position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
-                position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
+                position->x.w.i = (u16) (position->x.w.i + view_reference_entity.x.w.i);
+                position->y.w.i = (u16) (position->y.w.i + view_reference_entity.y.w.i);
+                position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                 scale_countdown = state->countdown;
                 render_part->color.channel.blue = 0xFF;
                 render_part->color.channel.green = 0xFF;
@@ -739,9 +739,9 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     position->x.w.i = state->current_x;
                     position->y.w.i = state->current_y;
                     position->z.w.i = state->current_z;
-                    position->x.w.i = (u16) (position->x.w.i + D_80083780.x.w.i);
-                    position->y.w.i = (u16) (position->y.w.i + D_80083780.y.w.i);
-                    position->z.w.i = (u16) (position->z.w.i + D_80083780.z.w.i);
+                    position->x.w.i = (u16) (position->x.w.i + view_reference_entity.x.w.i);
+                    position->y.w.i = (u16) (position->y.w.i + view_reference_entity.y.w.i);
+                    position->z.w.i = (u16) (position->z.w.i + view_reference_entity.z.w.i);
                     render_part->scale_y = PARTICLE_SCALE_BASE;
                     render_part->scale_x = PARTICLE_SCALE_BASE;
                     render_part->color.channel.blue = 0x80;
@@ -752,7 +752,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 }
             }
         }
-        target = D_800814A8->target;
+        target = primary_actor_record->target;
         if (target != 0) {
             target->flags1C = (s32) (target->flags1C | 0x10000000);
             tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)target)[-1].unk_0C;
@@ -768,17 +768,17 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         break;
     case PHASE_FINISH: /* restore tints and release the transition */
         if (D_80025384 == 0) {
-            target = D_800814A8->target;
+            target = primary_actor_record->target;
             if (target != 0) {
                 target->flags1C = (s32) (target->flags1C & 0xEFFFFFFF);
                 tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)target)[-1].unk_0C;
                 tint_part->color.rgb = TINT_NEUTRAL;
             }
             g_dungeon_status.active_actor = 0;
-            D_80082E80.phase = 0;
+            reference_tile_object.phase = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (g_dungeon_status.activity_counts.parts.pending_action_count - 1);
-            tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)D_800814A8)[-1].unk_0C;
-            D_800814A8->unk_98 = D_800814A8->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
+            tint_part = (TransitionRenderPart *)((ObjectNodeHeader *)primary_actor_record)[-1].unk_0C;
+            primary_actor_record->unk_98 = primary_actor_record->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
             tint_part->color.rgb = TINT_NEUTRAL;
             ((ObjectNodeHeader *)state)[-1].flags = (u16) (((ObjectNodeHeader *)state)[-1].flags | 0x8000);
             object_flag_block.flags |= 0x8000;
@@ -790,14 +790,14 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
     /* Alternate palette uploads once the transition is active. */
     if ((state->phase >= 2) && (state->ticks >= 0xC)) {
         if (!(state->countdown & 1)) {
-            first_palette = &D_8002536C;
+            first_palette = &ellipse_palette_channel_limits;
             upload_value = 0;
             first_palette->low_r = upload_value;
             first_palette->low_g = upload_value;
             first_palette->low_b = upload_value;
             upload_value = 0xFF;
         } else {
-            first_palette = &D_8002536C;
+            first_palette = &ellipse_palette_channel_limits;
             upload_value = 0x60;
             first_palette->low_r = upload_value;
             first_palette->low_g = upload_value;
@@ -808,26 +808,26 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         first_palette->high_g = upload_value;
         first_palette->high_b = upload_value;
         upload_rect = (RectWords){0x01400380, 0x00400040};
-        draw_textured_ellipse(&D_8002536C, &upload_rect, 1, 0);
+        draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect, 1, 0);
         if (state->ticks >= 0xF) {
             if (!(state->countdown & 1)) {
-                D_8002536C.low_r = 0;
-                D_8002536C.low_g = 0;
-                D_8002536C.low_b = 0;
-                D_8002536C.high_r = 0x50;
-                D_8002536C.high_g = 0x50;
-                D_8002536C.high_b = 0x50;
+                ellipse_palette_channel_limits.low_r = 0;
+                ellipse_palette_channel_limits.low_g = 0;
+                ellipse_palette_channel_limits.low_b = 0;
+                ellipse_palette_channel_limits.high_r = 0x50;
+                ellipse_palette_channel_limits.high_g = 0x50;
+                ellipse_palette_channel_limits.high_b = 0x50;
             } else {
-                D_8002536C.low_r = 0x50;
-                D_8002536C.low_g = 0x50;
-                D_8002536C.low_b = 0x50;
-                D_8002536C.high_r = 0;
-                D_8002536C.high_g = 0;
-                D_8002536C.high_b = 0;
+                ellipse_palette_channel_limits.low_r = 0x50;
+                ellipse_palette_channel_limits.low_g = 0x50;
+                ellipse_palette_channel_limits.low_b = 0x50;
+                ellipse_palette_channel_limits.high_r = 0;
+                ellipse_palette_channel_limits.high_g = 0;
+                ellipse_palette_channel_limits.high_b = 0;
             }
             upload_rect.xy = 0x01800380;
             upload_rect.wh = 0x400040;
-            draw_textured_ellipse(&D_8002536C, &upload_rect, 1, 0);
+            draw_textured_ellipse(&ellipse_palette_channel_limits, &upload_rect, 1, 0);
         }
     }
 }

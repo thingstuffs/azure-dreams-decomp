@@ -170,12 +170,12 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
             update_actor_status_and_food(entity);
             return;
         }
-        if (!(sprite->position.packed == ((TilePairView *)&D_80082E80.tile_position.parts.tile_x)->packed)) {
+        if (!(sprite->position.packed == ((TilePairView *)&reference_tile_object.tile_position.parts.tile_x)->packed)) {
             action_state = entity->unk_46;
             if (!(action_state & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((s16)check_entity_relation(entity,
-                            (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                            (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                         return;
                     }
                 }
@@ -212,9 +212,9 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
 
                     facing_angle = get_rounded_facing_and_rounding_flag(
                         sprite->position.tile.x, sprite->position.tile.y,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &facing_aux);
-                    player = D_800814A8;
+                    player = primary_actor_record;
                     entity->facing = facing_angle;
                     if (player->unk_9A != 0x11) {
                         update_actor_status_and_food(entity);
@@ -245,7 +245,7 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
         return;
     }
     if (tile_index >= 0) {
-        if (D_800E2970[tile_index].flags & 2) {
+        if (dungeon_rooms[tile_index].flags & 2) {
             return;
         }
     }
@@ -257,10 +257,10 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
 
         if ((s16)compare_monster_neighbor_values(
                 sprite->position.tile.x, sprite->position.tile.y,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
             entity->facing = get_rounded_facing_and_rounding_flag(
                 sprite->position.tile.x, sprite->position.tile.y,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
         }
     }
     return;

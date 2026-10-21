@@ -74,11 +74,11 @@ extern void update_actor_action_transition(void *, void *, void *, void *);
 extern void complete_actor_action(void *, void *, void *, void *);
 extern void begin_actor_exclusive_action(void *, void *, void *, s32, s32);
 
-extern u8 D_800E23E0[];
-extern u8 D_800E23F8[];
+extern u8 uboat_default_frames[];
+extern u8 uboat_ready_frames[];
 extern u8 D_800E2418[];
 extern u8 D_800E2420[];
-extern u8 D_800E2428[];
+extern u8 uboat_action_frames[];
 extern u8 D_80171A80[];
 
 /* Updates dungeon actor animation, status, and action dispatch. */
@@ -99,7 +99,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
             void *anim_table;
 
             advance_actor_pending_action(entity, context, sprite, actor);
-            if (((S_80171A80_2 *)sprite)->unk_2C == D_800E2428) {
+            if (((S_80171A80_2 *)sprite)->unk_2C == uboat_action_frames) {
                 return;
             }
             anim_table = D_800E2420;
@@ -115,7 +115,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
     }
 
     if (((u32)actor->flags1C) & 0x200) {
-        if (((S_80171A80_2 *)sprite)->unk_2C == D_800E2428) {
+        if (((S_80171A80_2 *)sprite)->unk_2C == uboat_action_frames) {
             ((S_80171A80_0 *)entity)->unk_9A.n = 0xD;
             ((S_80171A80_0 *)entity)->unk_9B = 1;
             ((S_80171A80_0 *)entity)->unk_8C = 0;
@@ -137,7 +137,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
             ((S_80171A80_0 *)entity)->unk_9A.v = 0xE;
         }
         if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-            void *anim_table = D_800E23E0;
+            void *anim_table = uboat_default_frames;
             u8 is_active;
 
             if (((S_80171A80_2 *)sprite)->unk_2C != anim_table) {
@@ -162,7 +162,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
         }
 
         if (actor->unk_64 != 0) {
-            if (begin_ready_actor_directional_action(entity, context, sprite, D_800E23F8) != 0) {
+            if (begin_ready_actor_directional_action(entity, context, sprite, uboat_ready_frames) != 0) {
                 return;
             }
         }
@@ -193,14 +193,14 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
             update_actor_status_and_food(actor);
             return;
         }
-        if (((S_80171A80_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_80171A80_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             choose_and_execute_actor_step(entity, context, sprite, actor);
             return;
         }
         if (!(actor->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -253,9 +253,9 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
 
                 facing = get_rounded_facing_and_rounding_flag(
                     ((S_80171A80_2 *)sprite)->unk_24.at00.v, ((S_80171A80_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
-                player = D_800814A8;
+                player = primary_actor_record;
                 actor->facing = facing;
                 if (player->unk_9A != 0x11) {
                     update_actor_status_and_food(actor);
@@ -267,7 +267,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
                 }
             }
             {
-                void *leader = D_800E3D7C;
+                void *leader = dungeon_actor_ring_anchor;
 
                 if (((S_80171A80_6 *)leader)->unk_A6 != 0) {
                     choose_and_execute_actor_step(entity, context, sprite, actor);
@@ -303,15 +303,15 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
-            !(D_800E2970[room_index].flags & 2)) {
+            !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((u32)actor->flags1C) & 0x430)) {
 
                 if ((compare_monster_neighbor_values(
                         ((S_80171A80_2 *)sprite)->unk_24.at00.v, ((S_80171A80_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     actor->facing = get_rounded_facing_and_rounding_flag(
                         ((S_80171A80_2 *)sprite)->unk_24.at00.v, ((S_80171A80_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }
             }

@@ -36,8 +36,8 @@ s32 resolve_attack_damage_and_effects();
 void set_record_integer_tile_center(); /* extern */
 s32 select_nearby_target_and_initialize_slot(); /* extern */
 void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data);
-extern void *D_800DD274[];
-extern u8 D_800DD294[8];
+extern void *actor_default_frames[];
+extern u8 actor_alternate_frames[8];
 
 /* Updates airborne movement, landing animation, and alignment to the actor's tile. */
 void update_airborne_actor_motion(void *action, ObjectPosition *motion, void *sprite, EntityRec *actor) {
@@ -51,8 +51,8 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, void *sp
     switch (phase) {
     case 0:
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
-        ((SpriteFrameState *)sprite)->frameTable = D_800DD294;
-        func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD294 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+        ((SpriteFrameState *)sprite)->frameTable = actor_alternate_frames;
+        func_8003DB94(sprite, *(s32 *)((u8 *)actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         dir_offset = ((u16) actor->facing >> 8) & 0xE;
         motion->velocity_x = (s32) (*(s16 *)((u8 *)dir_step_x + dir_offset) << 0x11);
@@ -84,8 +84,8 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, void *sp
         }
         if ((s16) ((S_800974DC_0 *)action)->unk_96.s <= 0) {
             if (((SpriteFrameState *)sprite)->flags & 0xE000) {
-                ((SpriteFrameState *)sprite)->frameTable = D_800DD274;
-                func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
+                ((SpriteFrameState *)sprite)->frameTable = actor_default_frames;
+                func_8003DB94(sprite, *(s32 *)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
                     + 0x100) >> 7) & 0x1C)), 0);
                 ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
             }
@@ -100,8 +100,8 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, void *sp
         if ((s16) ((S_800974DC_0 *)action)->unk_96.s > 0) {
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_800DD274;
-        func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD274 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+        ((SpriteFrameState *)sprite)->frameTable = actor_default_frames;
+        func_8003DB94(sprite, *(s32 *)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         ((S_800974DC_0 *)action)->unk_9B = 3U;
         return;

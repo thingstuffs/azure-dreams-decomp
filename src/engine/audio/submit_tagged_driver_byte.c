@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio.h"
 
 typedef struct S_8005A4E8 {
     s32 type;

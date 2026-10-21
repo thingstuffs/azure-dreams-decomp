@@ -177,7 +177,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
             update_actor_status_and_food(stats);
             return;
         }
-        if (((S_801714D4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_801714D4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             select_movement_direction_and_advance(actor_arg, context_arg, sprite, stats);
             return;
         }
@@ -185,7 +185,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
         if ((action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
-                        stats, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        stats, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -216,8 +216,8 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
         case 6:
             angle = get_rounded_facing_and_rounding_flag(
                 ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
-            owner = D_800814A8;
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
+            owner = primary_actor_record;
             stats->facing = angle;
             if (owner->unk_9A == 0x11) {
                 callback = (void *)update_actor_behavior_animation_and_facing;
@@ -248,7 +248,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
         return;
     }
     if (tile_index >= 0) {
-        if (D_800E2970[tile_index].flags & 2) {
+        if (dungeon_rooms[tile_index].flags & 2) {
             return;
         }
     }
@@ -260,12 +260,12 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
 
         if ((s16)compare_monster_neighbor_values(
                 ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) == 0) {
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) == 0) {
             return;
         }
         stats->facing = get_rounded_facing_and_rounding_flag(
             ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
-            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &distance);
+            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
     }
 #undef actor_arg
 #undef context_arg

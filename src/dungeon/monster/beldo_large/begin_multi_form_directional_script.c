@@ -26,9 +26,9 @@ extern void upload_encounter_texture(void);
 extern u16 D_800834E2;
 extern u8 D_80173C8C[];
 extern u8 D_80173D74[];
-extern u8 *D_80175D50;
+extern u8 *beldo_actor_nodes;
 extern s32 D_80175DC4;
-extern s16 D_80175DC8;
+extern s16 beldo_script_timer;
 
 /* Set up the active object's handler and direction, then update its two linked entries. */
 void begin_multi_form_directional_script(void)
@@ -50,24 +50,24 @@ void begin_multi_form_directional_script(void)
     work_page = (u8 *)0x800E0000;
     sys_work = (SysWork *)0x80010000;
     high_bit = 0x80000000;
-    D_80175D50[0xCF] = 1;
+    beldo_actor_nodes[0xCF] = 1;
     sys_work->f371A = 0;
     sys_work->f3718 = 0;
     sys_work->f3716 = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
-    active_object = D_80175D50;
+    active_object = beldo_actor_nodes;
     sys_work->flags = (sys_work->flags | 9) & 0xFFEF;
     handler_index = D_800834E2 >> 7;
     handler_table = D_80173C8C;
     sys_work->handler = *(void **)(handler_table + (handler_index & 0x1C));
     position_data = *(u8 **)(active_object + 0xC);
-    D_800E296C |= 0x200000;
+    dungeon_floor_flags |= 0x200000;
     object_state = active_object + 0x20;
     direction = get_rounded_facing_and_rounding_flag(position_data[0x24], position_data[0x25],
-                              D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &unused_result);
+                              reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &unused_result);
     *(u16 *)(object_state + 0x2A) = direction;
     direction >>= 7;
-    D_80175DC8 = 0;
+    beldo_script_timer = 0;
     {
         u8 *direction_table;
 

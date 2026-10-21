@@ -75,7 +75,7 @@ typedef struct S_8014C89C_9 {
     void * unk_10;
 } S_8014C89C_9;   /* child_root in func_8014C89C */
 
-extern s16 D_80083228;
+extern s16 view_facing_angle_alias;
 
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);

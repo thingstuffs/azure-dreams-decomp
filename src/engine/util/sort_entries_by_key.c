@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/util.h"
 
 extern s32 audio_ram_blocks[];
 

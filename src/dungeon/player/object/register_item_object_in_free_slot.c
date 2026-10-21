@@ -15,10 +15,10 @@ extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 
-extern u8 D_80081470[];
-extern void *D_80081484;
+extern u8 temporary_item_record[];
+extern void *held_item_record;
 extern u8 D_800E07EF[];
-extern u8 D_800E36C8[];
+extern u8 dungeon_ground_item_positions[];
 
 void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s16 flag)
 {
@@ -37,9 +37,9 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
     void *global_object;
     void **slot;
 
-    if (target == (void *)&D_80081484 ||
-        target == (void *)D_80081470 ||
-        target == *(void **)((u8 *)D_800814A8 + 0xF0)) {
+    if (target == (void *)&held_item_record ||
+        target == (void *)temporary_item_record ||
+        target == *(void **)((u8 *)primary_actor_record + 0xF0)) {
     first = find_last_zero_entry_run_start();
     second = find_and_clear_empty_item_slot();
     index = (s16)first;
@@ -61,28 +61,28 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
     }
     play_sound_if_enabled(0x508);
 
-    if (target == (void *)&D_80081484) {
+    if (target == (void *)&held_item_record) {
         slot = &((void **)0x80010248)[index];
-        *slot = D_80081484;
-        global_object = D_800814A8;
+        *slot = held_item_record;
+        global_object = primary_actor_record;
         flags = *(u32 *)((u8 *)global_object + 0x1C);
-        D_80081484 = 0;
+        held_item_record = 0;
         *(s32 *)((u8 *)global_object + 0x124) = 0;
         *(u32 *)((u8 *)global_object + 0x1C) = flags & 0xFFEFFFFF;
     } else {
 
-        found = (s16)get_bounded_stride_index(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
-                                 ((u8 *)D_800E3548), 4, 0x40);
+        found = (s16)get_bounded_stride_index(*(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xF0),
+                                 ((u8 *)dungeon_ground_items), 4, 0x40);
         if (found >= 0) {
-            entry_base_s = (s32)D_800E36C8;
+            entry_base_s = (s32)dungeon_ground_item_positions;
             entry = (u8 *)(found * 12);
             entry += entry_base_s;
             update_map_cell_flags_with_item_limit(entry[0], entry[1], 0x800);
-            ((void **)0x80010248)[index] = *(void **)D_80081470;
+            ((void **)0x80010248)[index] = *(void **)temporary_item_record;
         } else {
-            ((void **)0x80010248)[index] = *(void **)D_80081470;
+            ((void **)0x80010248)[index] = *(void **)temporary_item_record;
         }
-        *(s32 *)*(void **)((u8 *)D_800814A8 + 0xF0) = 0;
+        *(s32 *)*(void **)((u8 *)primary_actor_record + 0xF0) = 0;
     }
     entry_base = (u8 *)0x80010248;
     narrowed = first << 16;

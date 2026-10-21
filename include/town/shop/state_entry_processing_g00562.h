@@ -20,12 +20,12 @@ void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *sou
 /* extern */
 void reset_person_object_entries(void *);
 /* extern */
-extern s32 D_80100A10;
+extern s32 town_actor_scratch;
 extern u32 find_target_byte_index_in_list(void);
 extern void set_resident_bitmap_bit(s32 bit_id);
-extern s32 D_800D0728[];
+extern s32 town_record_capacities[];
 extern s16 D_800D253C[];
-extern void *D_8001029C;
+extern void *town_item_list;
 
 /* Functions defined in this translation unit. */
 void load_a_shared_buffer_process_write_back(s32 record_ref);

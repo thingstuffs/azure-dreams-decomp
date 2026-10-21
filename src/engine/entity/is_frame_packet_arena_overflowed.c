@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/entity.h"
+#include "slus/data.h"
 
 /* --- gcc 2.7.2-cdk (cygnus SN32.3.7.0004) translation unit: zero-frame shared-tail
    epilogue that the -psx builds don't reproduce. See tools/compiler_notes.md. --- */
@@ -46,44 +48,36 @@ typedef struct {
     u8 unk11;
 } Struct1;
 
-extern s32 D_800835E8[];
+extern s32 entity_level_thresholds[];
 
 /* Look up a signed table value using the entry byte field plus an index offset. */
 s32 lookup_level_experience_threshold(Struct1 *entry, s16 index_offset) {
-    return D_800835E8[entry->unk11 + index_offset];
+    return entity_level_thresholds[entry->unk11 + index_offset];
 }
-
-extern u8 primary_packet_limit_indices[16];
-extern s32 D_8007361C[256];
 
 /* Look up a word through the byte index table D_800712AC. */
 s32 lookup_patterned_display_icon(s32 index) {
-    return D_8007361C[primary_packet_limit_indices[index]];
+    return item_display_icon_words[primary_packet_limit_indices[index]];
 }
-
-extern u8 secondary_packet_limit_indices[256];
-extern s32 D_8007361C[256];
 
 /* Look up a word through the byte index table D_800712B0. */
 s32 lookup_unpatterned_display_icon(s32 index) {
-    return D_8007361C[secondary_packet_limit_indices[index]];
+    return item_display_icon_words[secondary_packet_limit_indices[index]];
 }
 
 /* extern decls */
-extern void *D_8006ADC0[4];
-extern int D_800812D0[4];
+extern void *optional_resource_descriptor[4];
 extern void resource_load_current_optional_descriptor(void);
 
 /* Set the list tail to D_800812D0 and process the list. */
 void func_80053CD0(void)
 {
-    D_8006ADC0[0] = (void *)D_800812D0;
+    optional_resource_descriptor[0] = (void *)D_800812D0;
     resource_load_current_optional_descriptor();
 }
 
 /* size >8B to force %hi/%lo (not gp_rel) codegen for all three globals */
-extern u32 frame_packet_limit_pointers[3];
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 
 /* Return whether the state-selected table value is below the unsigned limit. */
 s32 is_frame_packet_arena_overflowed(u32 limit)
@@ -91,7 +85,7 @@ s32 is_frame_packet_arena_overflowed(u32 limit)
     u32 *values = &frame_packet_limit_pointers[0];
     u32 *selected_value = values;
 
-    if (g_game_work.draw_buffer != (void *)D_801C9E40) {
+    if (g_game_work.draw_buffer != (void *)upper_draw_context) {
         selected_value = values + 1;
     }
     return *selected_value < limit;

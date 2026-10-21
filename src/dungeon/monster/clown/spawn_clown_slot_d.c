@@ -69,7 +69,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
     saved_y = tile_y;
     unused_byte_21d8 = (s32) *(s8 *)0x21D8;
     unused_byte_neg_ba0 = (s32) *(s8 *)-0xBA0;
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         actor_state = object + 0x20;
         actor = actor_state;

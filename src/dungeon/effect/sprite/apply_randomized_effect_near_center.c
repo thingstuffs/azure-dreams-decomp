@@ -14,7 +14,7 @@ s32 check_entity_interaction_compatibility();
 s32 check_entity_eligibility();
 s32 generate_random_value();
 s32 try_apply_status_effect();
-extern u8 D_800E3D68;
+extern u8 current_spell_effect_variant;
 
 /* Apply a randomized effect to eligible targets within two tiles of the center. */
 void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source, s32 power) {
@@ -26,7 +26,7 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source,
     u8 *target;
     MovingTile *position;
 
-    target = ((u8 *)D_800E3D7C);
+    target = ((u8 *)dungeon_actor_ring_anchor);
     base_value = (s16)(((u32)(power & 0xFF) >> 2) + 0x10);
     do {
         if ((check_entity_interaction_compatibility(source, target) << 0x10) != 0) {
@@ -44,7 +44,7 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source,
                     if ((check_entity_eligibility(target) << 0x10) != 0) {
                         effect_value = base_value + (generate_random_value() & 3);
                         effect_code = 0x20;
-                        if (D_800E3D68 == 0xFF) {
+                        if (current_spell_effect_variant == 0xFF) {
                             effect_code = 0xFF;
                         }
                         try_apply_status_effect(target, effect_code, effect_value);
@@ -53,6 +53,6 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source,
             }
         }
         target = ((S_8185C860_0 *)((u8 *)target - 0x14))->unk_70 + 0x20;
-    } while (target != ((u8 *)D_800E3D7C));
+    } while (target != ((u8 *)dungeon_actor_ring_anchor));
 }
 

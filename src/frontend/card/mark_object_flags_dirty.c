@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "frontend/card.h"
 
 /* Set bit 15 in the preceding halfword and the global value. */
 void mark_object_flags_dirty(unsigned short *data)

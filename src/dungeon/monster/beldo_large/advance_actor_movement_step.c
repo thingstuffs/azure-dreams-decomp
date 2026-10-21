@@ -93,7 +93,7 @@ void update_actor_status_and_food(struct ActorRecord *);
 extern s16 sample_terrain_surface_height();
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, s32, struct Rec_D_80082E80 *, struct ActorRecord *);
 
-extern s16 D_8006CD00[];
+extern s16 actor_turn_angle_offsets[];
 
 /* Select a movement direction, record the previous tile, and update the actor position and height. */
 void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor) {
@@ -181,9 +181,9 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 s16 new_angle;
                 TileObject *target;
 
-                target = &D_80082E80;
+                target = &reference_tile_object;
                 direction = (((S_8016B230_1 *)actor)->unk_45 +
-                             ((s32)(((u16)D_800814A8->facing) << 16) >> 25)) & 7;
+                             ((s32)(((u16)primary_actor_record->facing) << 16) >> 25)) & 7;
                 target_x = target->tile_position.parts.tile_x +
                            ((u16 *)((s8 *)dir_step_x))[direction];
                 target_y = target->tile_position.parts.tile_y +
@@ -198,7 +198,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                                           target_x, (s16)target_y, movement_in + 0x98);
                 ((S_8016B230_1 *)actor)->unk_2A.u = new_angle;
                 if ((check_movement_clearance_and_height(new_angle, position, actor, 0x20) << 16) <= 0) {
-                    TileObject *retry_target = &D_80082E80;
+                    TileObject *retry_target = &reference_tile_object;
 
                     ((S_8016B230_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(
                         ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
@@ -206,7 +206,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                         movement_in + 0x98);
                 }
                 {
-                    TileObject *check_target = &D_80082E80;
+                    TileObject *check_target = &reference_tile_object;
 
                     if ((compare_monster_neighbor_values(((S_8016B230_2 *)position)->unk_24.at00.v,
                         ((S_8016B230_2 *)position)->unk_24.at01.v,
@@ -223,7 +223,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
         s32 kind;
 
         kind = ((S_8016B230_2 *)position)->unk_26.s;
-        if ((kind >= 0) && (((S_8016B230_10 *)((u8 *)D_800E2970 + kind * 0x14))->unk_0C & 2)) {
+        if ((kind >= 0) && (((S_8016B230_10 *)((u8 *)dungeon_rooms + kind * 0x14))->unk_0C & 2)) {
             rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
         } else if (!(((S_8016B230_1 *)actor)->unk_46 & 0x8000)) {
             found = place_actor_at_directional_neighbor(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
@@ -238,13 +238,13 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                 return;
             }
             if (((S_8016B230_1 *)actor)->unk_1C & 0x20000) {
-                TileObject *target = &D_80082E80;
+                TileObject *target = &reference_tile_object;
                 ((S_8016B230_1 *)actor)->unk_2A.u = get_rounded_facing_and_rounding_flag(
                     ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
                     target->tile_position.parts.tile_x, target->tile_position.parts.tile_y, movement_in + 0x98);
                 if ((compare_monster_neighbor_values(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
                                    target->tile_position.parts.tile_x, target->tile_position.parts.tile_y) << 16) != 0) {
-                    if (get_actor_height_difference(D_800814A8, (struct ActorRecord *)(actor)) < 0x81) {
+                    if (get_actor_height_difference(primary_actor_record, (struct ActorRecord *)(actor)) < 0x81) {
                         path_result = check_diagonal_side_height(
                             ((s32)(((S_8016B230_1 *)actor)->unk_2A.u << 16) >> 25) & 0xFFFF,
                             ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
@@ -267,13 +267,13 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
         base_angle = (s32)((S_8016B230_1 *)actor)->unk_2A.s;
         if (((S_8016B230_5 *)movement_in)->unk_98 & 2) {
             {
-                s32 angle_delta = (s32)D_8006CD00[attempt];
+                s32 angle_delta = (s32)actor_turn_angle_offsets[attempt];
 
                 move_angle = (s16)(base_angle - angle_delta);
             }
         } else {
             {
-                s32 angle_delta = (s32)D_8006CD00[attempt];
+                s32 angle_delta = (s32)actor_turn_angle_offsets[attempt];
 
                 move_angle = (s16)(base_angle + angle_delta);
             }
@@ -309,9 +309,9 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
             break;
         }
         if (attempt == 0) {
-            if ((((S_8016B230_11 *)(((s8 *)&D_80082E80.tile_position.parts.tile_x)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v)
+            if ((((S_8016B230_11 *)(((s8 *)&reference_tile_object.tile_position.parts.tile_x)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v)
                 &&
-                ((s16)check_entity_relation((struct ActorRecord *)(actor), (struct ActorRecord *)(((s32)D_800814A8->unk_58) + 0x20)) != 0)) {
+                ((s16)check_entity_relation((struct ActorRecord *)(actor), (struct ActorRecord *)(((s32)primary_actor_record->unk_58) + 0x20)) != 0)) {
                 return;
             }
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 #ifndef NULL
 #define NULL 0
@@ -23,9 +24,6 @@ extern StructA_8001F678 *func_8003C714(s32 value, s32 value2, s32 value3);
 extern void func_80406570(void *ptr, s32 value);
 extern void run_slot_operation_code_five(void);
 extern void func_80402214(void);
-extern s32 init_card_background_object(StructA_8001F678 *state, s32 *value_ptr);
-extern s32 init_card_options_object(StructA_8001F678 *state);
-extern s32 init_card_info_object(StructA_8001F678 *state, s32 value);
 extern void card_devkit_build_save_slot_windows(void);
 extern u8 D_8040C628[0x1C];
 

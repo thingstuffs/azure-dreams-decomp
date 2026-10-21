@@ -12,12 +12,12 @@ typedef struct S_800265B8_0 {
 
 
 #include "modules/main_server_ship_interfaces.h"
-extern void card_boot_highlight_selected_load_slot(void *state);
 #include "frontend/libcard/interfaces.h"
+#include "frontend/libcard.h"
+#include "frontend/libcard/message.h"
+#include "frontend/libcard/resource.h"
+#include "slus.h"
 extern void func_80026920(void *object);
-extern void init_card_boot_request_object(s32 request, s32 mode);
-extern s32 advance_index_with_single_wrap(s32 index, s32 delta, s32 limit);
-extern void SD_Call(s32 flags);
 
 /* Handles menu navigation with button repeat and dispatches the selected action. */
 void write_text_and_advance_selection(u8 *menu)

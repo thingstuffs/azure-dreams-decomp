@@ -31,7 +31,7 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
     work = 0;
     saved_variant = variant;
     saved_spawn_flags = spawn_flags;
-    obj = allocate_list_node(0x112, (saved_kind_id = kind_id, ((u8 *)(&D_80083498))));
+    obj = allocate_list_node(0x112, (saved_kind_id = kind_id, ((u8 *)(&scene_object_list_anchor))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8016A86C_0 *)obj)->unk_10 = func_8016AB64;
@@ -86,7 +86,7 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
         current = actor;
         count = 0;
         do {
-            child_obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+            child_obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             ((S_8016A86C_5 *)current)->unk_A4 = child_obj;
             if (child_obj != 0) {
                 void *child;

@@ -7,8 +7,8 @@ typedef struct {
     s16 unk16;
 } TownViewState;
 
-extern s32 D_800FE480[];
-extern s32 D_800FE484[];
+extern s32 town_map_column_extent[];
+extern s32 town_map_row_extent[];
 
 /* Set the two view scales from the stored shift counts. */
 void update_map_world_extents(void)
@@ -19,6 +19,6 @@ void update_map_world_extents(void)
 
     state = (TownViewState *)((u8 *)state + 0x1DC);
 
-    D_800FE480[0] = 0x40 << state->unk14;
-    D_800FE484[0] = 0x40 << state->unk16;
+    town_map_column_extent[0] = 0x40 << state->unk14;
+    town_map_row_extent[0] = 0x40 << state->unk16;
 }

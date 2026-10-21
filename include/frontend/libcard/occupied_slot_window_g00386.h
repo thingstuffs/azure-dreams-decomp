@@ -36,13 +36,13 @@ extern s32 build_positioned_text_glyphs(void *a0, void *a1, s32 a2);
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
 extern void remap_flagged_string_bytes(void *a0);
 extern u8 D_80078FD0[16];
-extern u8 D_80083EA4[0x8000];
+extern u8 card_slot_payload[0x8000];
 extern s16 D_80027F7C;
 extern s16 D_800282B0;
 extern void card_boot_layout_empty_slot_window(s32 *object);
 extern void func_80023BE4(void *, s32, s32);
 // size 0x80
-extern EntryS80083E98 D_80083E98[];
+extern EntryS80083E98 card_save_slot_metadata[];
 
 extern void *decode_note_text(void *entries, u8 *text, s32 initial_octave);
 

@@ -17,12 +17,12 @@ s32 update_actor_proximity_flag(); /* extern */
 void update_all_actor_proximity_flags(s16 near_limit, s16 far_limit) {
     void *actor;
 
-    actor = (void *) (D_800E3D7C->next_actor_header + 0x20);
-    if (actor != ((EntityRec *)D_800E3D7C)) {
+    actor = (void *) (dungeon_actor_ring_anchor->next_actor_header + 0x20);
+    if (actor != ((EntityRec *)dungeon_actor_ring_anchor)) {
         do {
             update_actor_proximity_flag(((S_800A1B44_1 *)((u8 *)actor - 0x14))->unk_00, actor, near_limit, far_limit,
                 (void *) ((s32) actor + 0x9C));
             actor = (void *) (((S_800A1B44_1 *)((u8 *)actor - 0x14))->unk_70 + 0x20);
-        } while (actor != ((EntityRec *)D_800E3D7C));
+        } while (actor != ((EntityRec *)dungeon_actor_ring_anchor));
     }
 }

@@ -110,12 +110,12 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, vo
                 s16 player_target = use_player_target;
 
                 if (player_target != 0) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     actor->target = target;
                     action_state = ((S_80172AA8_2_pre *)target)[-1].unk_00;
                     actor->target_tile_x = ((S_80172AA8_3 *)action_state)->unk_24;
                     actor->target_tile_y = ((S_80172AA8_3 *)action_state)->unk_25;
-                } else if (D_8006DE24[*motion].kind == 2) {
+                } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
                         action_state = ((S_80172AA8_2_pre *)target)[-1].unk_00;
@@ -149,7 +149,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, vo
         ((EntityRec *)transform)->unk_0C = 0;
         set_record_integer_tile_center(transform, ((SpriteAnimationTableView *)sprite)->unk_24, ((SpriteAnimationTableView *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
+        (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         ((S_80172AA8_0 *)motion_state)->unk_8C = D_80170F74;

@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/gpu_packets.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_8004C080_0 {
     u8 pad_00[0x1];
@@ -39,14 +41,7 @@ typedef struct Tint8004C080 {
     u8 cd;
 } Tint8004C080;
 
-extern s32 multiply_rgb_tint_saturated(u8 *dst, Tint8004C080 *tint);
-extern void *build_gouraud_quad_packet(Tint8004C080 *tint0, Tint8004C080 *tint1,
-                           u8 *packet, void *record, u8 *command);
 extern void SetTexWindow(void *packet, s16 *values);
-extern void SetDrawMode(void *packet, s32 a1, s32 a2, s32 a3, s32 a4);
-extern void *func_8004B954(Tint8004C080 *tint0, Tint8004C080 *tint1,
-                           u8 *packet, void *record, u8 *command,
-                           s32 *count, s32 mode);
 
 /* Apply command colors or draw settings to a GPU packet and return the next record. */
 void *apply_command_colors(Tint8004C080 *tint0, Tint8004C080 *tint1,

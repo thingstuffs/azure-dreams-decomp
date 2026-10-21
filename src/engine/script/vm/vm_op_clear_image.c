@@ -1,8 +1,8 @@
 #include "common.h"
 
 #include "common.h"
-
-extern void ClearImage(void *rect, s32 r, s32 g, s32 b);
+#include "engine/script/vm.h"
+#include "sdk/libgpu.h"
 
 /* Handles event-script image clearing by zeroing two state fields and clearing the rectangle to black. */
 void vm_op_08_clear_image(void *vm_state) {

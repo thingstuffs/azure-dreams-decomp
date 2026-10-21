@@ -67,6 +67,6 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        func_8003DB94(sprite, D_800DE870, 0);
+        func_8003DB94(sprite, effect_sprite_sources, 0);
     }
 }

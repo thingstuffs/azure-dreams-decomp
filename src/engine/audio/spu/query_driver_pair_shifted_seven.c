@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/spu.h"
 
 /* Request/response struct passed to func_8005FA34: caller pre-fills unk0
  * (flags from D_80073740[idx]) and zeroes unk4; callee writes back two
@@ -12,7 +13,6 @@ typedef struct S_8005C784 {
 } S_8005C784;
 
 extern s32 audio_voice_masks[];
-extern void func_8005FA34(S_8005C784 *a0);
 
 /* Computes two outputs from indexed flags, scales them down by 128, and returns zero. */
 s32 query_driver_pair_shifted_seven(s16 flags_index, s16 *out_first, s16 *out_second)

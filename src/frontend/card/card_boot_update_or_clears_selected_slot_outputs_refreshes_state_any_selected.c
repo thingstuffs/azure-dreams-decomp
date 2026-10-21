@@ -1,8 +1,9 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern void func_8004DDBC(void *ptr, void *ptr1, void *ptr2);
 extern void update_two_slots_using_selection_mapping(void *ptr);
-extern u8 D_80408A30[];
 
 /* Updates or clears selected slot outputs, then refreshes the state if any were selected. */
 void card_boot_update_or_clears_selected_slot_outputs_refreshes_state_any_selected(void *state, s32 *enabled, s32 *selected) {

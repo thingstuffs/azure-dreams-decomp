@@ -33,9 +33,9 @@ s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type)
     s32 message;
     s32 message_end;
 
-    if (object == ((DungeonObject *)D_800E3D7C)) {
+    if (object == ((DungeonObject *)dungeon_actor_ring_anchor)) {
         object->unk_110 = action;
-        begin_deferred_item_action(object, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), object);
+        begin_deferred_item_action(object, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), object);
         return 0;
     }
     if ((u32) object <= 0x9FFFFFFFU) {

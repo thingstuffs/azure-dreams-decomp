@@ -77,8 +77,8 @@ extern void play_sound_if_enabled();
 extern s32 sample_terrain_surface_height();
 
 extern u8 D_80045C34[];
-extern u8 D_800E2438[];
-extern u8 D_800E2440[];
+extern u8 uboat_aura_start_frames[];
+extern u8 uboat_aura_later_frames[];
 extern u8 D_800E2488[];
 extern u8 D_80170CEC[];
 extern u8 D_80171A80[];
@@ -147,9 +147,9 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
             }
         }
         if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2438;
+            (*(void * *)((u8 *)sprite + 0x2C)) = uboat_aura_start_frames;
             select_sprite_entry(sprite,
-                          D_800E2438[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                          uboat_aura_start_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
                               >> 9) & 7],
                           0);
             ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
@@ -166,9 +166,9 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
         first_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
         ((S_80175BA8_0 *)actor_state)->unk_96 = first_delay;
         if (((first_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0xE000)) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2440;
+            (*(void * *)((u8 *)sprite + 0x2C)) = uboat_aura_later_frames;
             select_sprite_entry(sprite,
-                          D_800E2440[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                          uboat_aura_later_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
                               >> 9) & 7],
                           0);
             ((S_80175BA8_0 *)actor_state)->unk_96 = 3;

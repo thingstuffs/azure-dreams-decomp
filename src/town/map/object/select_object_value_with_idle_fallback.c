@@ -3,9 +3,9 @@
 #include "shared/dungeon_effect_views.h"
 
 
-extern s32 D_80082A38[];
+extern s32 runtime_script_state[];
 extern u8 D_800A4F4C[];
-extern u8 D_80100D98[];
+extern u8 town_position_reference_state[];
 
 
 typedef struct S_800A4F84_0 {
@@ -35,7 +35,7 @@ void select_object_value_with_idle_fallback(S_800A4F84_0 *object, s32 check_arg_
     u8 state_index;
 
     if (service_script_controller() != 0) {
-        state = (u8 *)D_80082A38;
+        state = (u8 *)runtime_script_state;
         if (state[1] != 0) {
             object->unk_34 = 0;
         }
@@ -63,10 +63,10 @@ void select_object_value_with_idle_fallback(S_800A4F84_0 *object, s32 check_arg_
             object->unk_34 = 9;
         }
 
-        object->unk_00.p = D_80100D98;
+        object->unk_00.p = town_position_reference_state;
         return;
     } else {
-        object->unk_00.p = D_80100D98;
+        object->unk_00.p = town_position_reference_state;
         object->unk_24 = D_800A4F4C;
         object->unk_30.i = 0;
     }

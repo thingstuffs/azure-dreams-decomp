@@ -12,7 +12,7 @@ extern void select_indirect_table_entry(void *state, u8 table_index, s8 entry_in
 extern void func_800478B8(void *entity);
 extern void begin_actor_flagged_action(void *entity, s32 unused, void *status, void *event_state);
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status);
-extern s16 D_800DCE68;
+extern s16 pending_marked_actor_count;
 typedef struct S_800A9E70_2 {
     u8 pad_00[0x4];
     s8 unk_04;
@@ -106,7 +106,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
         (entity->flags14 & 0x4000)) {
         if ((u32)(anim->unk_9A.as_u8 - 0x13) >= 2U) {
             if (entity->pending_turn_updates == 0) {
-                if (D_800DCE68 == 0) {
+                if (pending_marked_actor_count == 0) {
                     if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
                         return 0;
                     }

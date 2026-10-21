@@ -6,6 +6,7 @@
  * placed at the retail address by config/slus_modules.json (assets/800.bin carve). */
 
 #include "slus/jtbl_800517CC.h"
+#include "engine/effect.h"
 
 void update_sine_motion_effect(
     EffectState800517CC *effect,

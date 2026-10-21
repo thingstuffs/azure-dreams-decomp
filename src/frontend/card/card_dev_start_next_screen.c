@@ -1,8 +1,9 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 void func_8003D548(s32);                     /* extern */
 void func_80400EF8(void);                            /* extern */
 extern s32 D_80010208;
-extern s16 D_80011F48;
 extern s8 D_8008CA34;
 
 typedef struct S_8001EC4C_0 {

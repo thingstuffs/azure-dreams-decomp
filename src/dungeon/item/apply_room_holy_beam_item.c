@@ -58,9 +58,9 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
         return process_record_and_update_linked_state((s32)item, action_param);
     }
 
-    if (target == ((u8 *)D_800E3D7C)) {
+    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
         ((EntityRec *)target)->unk_110 = (s32)item;
-        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
 
@@ -75,7 +75,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
     } else {
         record_obj = ((S_800BF7FC_0_pre *)target)[-1].unk_00;
         record_index = ((S_800BF7FC_1 *)record_obj)->unk_26;
-        if (record_index >= 0 && !(D_800E2970[record_index].flags & 2)) {
+        if (record_index >= 0 && !(dungeon_rooms[record_index].flags & 2)) {
             if (create_timed_region_flag_expiry(((S_800BF7FC_1 *)record_obj)->unk_24,
                               ((S_800BF7FC_1 *)record_obj)->unk_25,
                               ((EntityRec *)target)->unk_88,
@@ -83,7 +83,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
                 return 0;
             }
 
-            record = &D_800E2970[((S_800BF7FC_1 *)record_obj)->unk_26];
+            record = &dungeon_rooms[((S_800BF7FC_1 *)record_obj)->unk_26];
             record->flags |= 2;
             create_view_color_flash(0x20C0C0, 1);
             random_value = get_unused_text_buffer();

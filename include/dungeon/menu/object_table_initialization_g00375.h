@@ -34,8 +34,8 @@ typedef struct {
     u8 field_3C[1];
 } ObjectHeader;
 
-extern Template0 D_8002E5D8;
-extern Vec3 D_8002E5E8;
+extern Template0 display_block_defaults;
+extern Vec3 display_vector_defaults;
 /* extern */
 extern M2C_UNK D_800E2804;
 extern M2C_UNK D_800E2828;
@@ -44,9 +44,9 @@ extern s32 create_callback_pair_default(s32);
 extern void register_node(void *, void *);
 extern void initialize_complemented_state(void *);
 extern s32 run_object_setup_and_finalize(void *, s32);
-extern u8 D_8004CAA0[];
+extern u8 dungeon_menu_tag[];
 extern u8 D_800DC8F8[];
-extern void *D_800E5910[];
+extern void *dungeon_menu_object[];
 
 /* Functions defined in this translation unit. */
 void initialize_nine_records_and_vectors(u8 *object);

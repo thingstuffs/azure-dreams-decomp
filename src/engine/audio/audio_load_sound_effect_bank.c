@@ -1,5 +1,9 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "engine/cd.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 /* S_8006E61C: 12-byte record array indexed by a signed 16-bit id.
  * field0 (u16) is a counter/state value; field4 and field8 are pointers
@@ -19,24 +23,16 @@ extern s32 gpu_scratch_write_pointer;
 extern s32 gpu_scratch_buffer_base;
 
 /* switch dispatcher on pad events; takes no arguments (matched, gcc 2.7.2, code.c) */
-extern void drain_audio_commands_and_service_channels(void);
-
-extern void DrawSync(s32 a0);
 
 /* registers a callback (kind, callback-ptr, arg) (matched, code.c) */
-extern s32 Control_CD(s32 a0, void *a1, void *a2);
 
 /* runs one step of the main loop while a condition holds (matched, code.c) */
-extern void drain_cd_command_queue(void);
 
 /* setter for D_800814C8 (matched, gcc 2.7.2, code.c) */
-extern void set_sound_payload_slot(s32 a0);
 
 /* masks a0 to 16 bits and forwards to func_80055778, sign-extends result (matched, code.c) */
-extern short SD_Call(s32 a0);
 
 /* tests availability bit n of D_800847D0 (matched, gcc 2.8.1, w_8005405C.c) */
-extern s32 test_sound_channel_availability(s16 n);
 
 /* Activates an unprocessed record, registers its callbacks, and waits for availability. */
 void audio_load_sound_effect_bank(s16 record_id)

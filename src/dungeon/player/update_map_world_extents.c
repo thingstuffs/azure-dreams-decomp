@@ -22,7 +22,7 @@ extern void display_text_with_fullwidth_adjustment();
 extern void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z);
 
 extern u8 D_8008D470[12];
-extern u8 D_800DD0B8[8];
+extern u8 player_carry_frames[8];
 extern u8 D_800E06EE[9];
 extern u8 D_800E06F7[9];
 
@@ -104,7 +104,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
     case 0:
         if (((S_800927E4_0 *)action)->unk_9A == 0x2C) {
             void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
-            u8 *anim_table = D_800DD0B8;
+            u8 *anim_table = player_carry_frames;
 
                            /* Pin: removal changes a delay-slot fill. */
             ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
@@ -130,7 +130,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             if ((((base_angle + signed_angle + 0x100) >> 9) & 7) == 2) {
                 angle_or_sprite = (s32)sprite;
                 {
-                    u8 *anim_table = D_800DD0B8;   /* Pin: removal changes the instruction count (a copy retail keeps is dropped or added). */
+                    u8 *anim_table = player_carry_frames;   /* Pin: removal changes the instruction count (a copy retail keeps is dropped or added). */
 
                     ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
                     set_sprite_animation_frame(

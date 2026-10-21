@@ -6,9 +6,9 @@
 void invoke_action_21_or_default(void) {
     s32 *state_flags;
 
-    if (D_80082E6B == 0x11) {
+    if (scene_mode_code == 0x11) {
         state_flags = (s32 *)0x80010000;
-        if (state_flags[0x824] == 0 && D_8008146C == 0x28 &&
+        if (state_flags[0x824] == 0 && current_dungeon_floor == 0x28 &&
             test_resident_bit(0xa2) == 0 && state_flags[0x823] == 0) {
             state_flags[0x823] = 1;
             func_80040AA0(0x21);
@@ -21,9 +21,9 @@ void invoke_action_21_or_default(void) {
 }
 
 void trigger_action_21_or_update_control(void) {
-    if (D_80082E6B == 0x11) {
+    if (scene_mode_code == 0x11) {
         SaveImage *save = (SaveImage *)0x80010000;
-        if (save->active == 0 && D_8008146C == 0x28 &&
+        if (save->active == 0 && current_dungeon_floor == 0x28 &&
             test_resident_bit(0xA2) == 0 && save->pending == 0) {
             save->pending = 1;
             func_80040AA0(0x21);

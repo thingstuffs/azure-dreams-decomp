@@ -14,7 +14,7 @@ extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(s32);
 
 extern u8 D_8009B454[];
-extern s16 D_800D45AA[];
+extern s16 terrain_height_limits[];
 
 /* Update motion, handle contact callbacks, and play the terrain height sound. */
 void update_motion_and_handle_terrain_contact_alt(void *entity, void *collision, void *motion, s32 callback_arg) {
@@ -26,7 +26,7 @@ void update_motion_and_handle_terrain_contact_alt(void *entity, void *collision,
         *(s32 *)((u8 *)motion + 0x14) = 0x200000;
     }
     add_motion_deltas_to_position(motion);
-    contact_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&D_800FE488));
+    contact_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&position_query_scratch));
     call_the_same_context_both_processing_routines(collision, motion);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(collision, motion);
     contact_height_s32 = contact_height;
@@ -47,7 +47,7 @@ void update_motion_and_handle_terrain_contact_alt(void *entity, void *collision,
             *(s16 *)((u8 *)motion + 2), *(s16 *)((u8 *)motion + 6)));
         if (terrain_index != 0) {
             s16 height = *(s16 *)((u8 *)motion + 0xA);
-            s16 terrain_height = D_800D45AA[terrain_index];
+            s16 terrain_height = terrain_height_limits[terrain_index];
 
             if (height > terrain_height) {
                 SD_Call(0x517);

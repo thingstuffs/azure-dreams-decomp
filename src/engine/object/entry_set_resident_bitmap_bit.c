@@ -2,10 +2,8 @@
 
 #include "common.h"
 #include "shared/resident_resources.h"
-
-
-extern ResidentBitmapEntry resident_bitmap_key_map[];
-extern void set_resident_bitmap_bit(s32 bit_id);
+#include "engine/object.h"
+#include "slus/data.h"
 
 /* Pass each matching key's value to set_resident_bitmap_bit. */
 void set_resident_bits_for_matching_key(s16 key) {

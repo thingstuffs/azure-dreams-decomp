@@ -100,13 +100,13 @@ s32 generate_random_value(void);                      /* extern */
 extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
 void submit_enabled_saved_display_value(void);
-extern u8 D_800DCFB0[8];
+extern u8 player_wait_frames[8];
 extern u8 D_800DD058[];
 extern M2C_UNK D_800DD148;
-extern void (*D_800DD830[])(void);
-extern u8 D_800E3544;
-extern s8 D_800E3CD0[9];
-extern s32 D_800E4940;
+extern void (*actor_command_handlers[])(void);
+extern u8 active_actor_command_code;
+extern s8 dungeon_button_latch[9];
+extern s32 menu_action_argument;
 
 /* Handles actor commands, movement, and facing updates. */
 void handle_player_input(void *actor, void *motion, register void *sprite, void *stats) {
@@ -197,9 +197,9 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
             if (((S_8008ACDC_4 *)stats)->unk_1C & 0x20) {
                 if (!((*(u16 *)0x80013714) & 1) && (((u32)input->buttons) & 0x80)) {
                     ((S_8008ACDC_4 *)stats)->unk_8A = 2;
-                    D_800E4940 = 2;
+                    menu_action_argument = 2;
                     begin_player_menu_action(actor, motion, sprite, &D_8004F5F4);
-                    D_80082E80.selected_item = 0;
+                    reference_tile_object.selected_item = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
                     return;
@@ -269,8 +269,8 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                     ((S_8008ACDC_4 *)stats)->unk_2A.s = next_angle;
                     read_monster_script_entry(target_angle, signed_target);
                 } else {
-                    D_800E3544 = (u8) (((S_8008ACDC_6 *)command)->unk_01 & 0xF8);
-                    switch (D_800E3544) {
+                    active_actor_command_code = (u8) (((S_8008ACDC_6 *)command)->unk_01 & 0xF8);
+                    switch (active_actor_command_code) {
                     default:
                         return;
                     case 0x08:
@@ -381,15 +381,15 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         begin_parameterized_actor_action(actor, motion, sprite, &D_800DD148, 2);
                         return;
                     case 0xD8:
-                        D_800DD830[((S_8008ACDC_6 *)command)->unk_00 & 0x7F]();
+                        actor_command_handlers[((S_8008ACDC_6 *)command)->unk_00 & 0x7F]();
                         return;
                     }
                 }
             } else {
-                D_800E3544 = 0;
+                active_actor_command_code = 0;
                 if (input_flags & 4) {
-                    if ((*(u8 *)D_800E3CD0) == 0) {
-                        (*(s8 *)D_800E3CD0) = 1;
+                    if ((*(u8 *)dungeon_button_latch) == 0) {
+                        (*(s8 *)dungeon_button_latch) = 1;
                         func_80040AA0(3);
                         return;
                     }
@@ -494,8 +494,8 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
             }
         }
         if (((S_8008ACDC_1 *)sprite)->unk_14 & 0xE000) {
-            (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DCFB0;
-            set_sprite_animation_frame(sprite, D_800DCFB0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
+            (*(u8 **)((u8 *)sprite + 0x2C)) = player_wait_frames;
+            set_sprite_animation_frame(sprite, player_wait_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
         }
     }

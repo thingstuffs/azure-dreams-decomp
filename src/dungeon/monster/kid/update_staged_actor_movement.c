@@ -96,7 +96,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 extern u8 D_800DEC28[];
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern u8 D_80171400[];
 extern u8 D_801743EC[];
 extern u8 D_80175148[];
@@ -151,7 +151,7 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
         heading_byte = 15;
         particle_x_offset = (x_step << 5) - 8;
         do {
-            particle = allocate_list_node(0x312, ((s32 *)&D_80083498.next));
+            particle = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
             if (particle != NULL) {
                 register_node(particle, project_sprite_chain);
                 particle_motion = (u8 *)particle + 0x20;
@@ -318,7 +318,7 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
         if (((S_80172790_0 *)actor)->unk_6D == 0) {
             ((S_80172790_0 *)actor)->unk_46 &= 0x7FFF;
         } else {
-            D_800E3DE8 = (u8 *)actor - 0x20;
+            actor_update_node_cursor = (u8 *)actor - 0x20;
         }
         return;
 

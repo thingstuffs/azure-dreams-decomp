@@ -51,7 +51,7 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
     result = 0;
     held_c = param_c;
     held_b = param_b;
-    object = allocate_list_node(0x112, ((s32 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((s32 *)(&scene_object_list_anchor)));
     if (object != 0) {
         result = (u8 *)object + 0x20;
         (*(Callback *)((u8 *)object + 0x10)) = D_8016AAA4;

@@ -126,7 +126,7 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
         }
 
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            void *owner = D_800814A8;
+            void *owner = primary_actor_record;
 
             if ((check_entity_relation(entity,
                     (u8 *)((S_80173ED8_5 *)owner)->unk_58 + 0x20) << 16) != 0) {

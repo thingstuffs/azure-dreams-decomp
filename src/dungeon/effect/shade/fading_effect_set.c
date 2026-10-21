@@ -3,7 +3,7 @@
 void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))move_linked_effect_along_path;
 
 void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
-    u8 *actor = D_800E3D7C;
+    u8 *actor = dungeon_actor_ring_anchor;
     x = (s16)x;
     y = (s16)y;
     flags = ((u8)flags >> 2) + 0x10;
@@ -13,12 +13,12 @@ void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
             if (abs(header[0x24] - x) < 3 && abs(header[0x25] - y) < 3 && (s16)check_entity_eligibility(actor) != 0) {
                 s32 amount = flags + (generate_random_value() & 3);
                 s32 mode = 0x10;
-                if (D_800E3D68 == 0xFF) mode = 0xFF;
+                if (current_spell_effect_variant == 0xFF) mode = 0xFF;
                 try_apply_status_effect(actor, mode, amount);
             }
         }
         actor = *(u8 **)(actor + 0x5C) + 0x20;
-    } while (actor != D_800E3D7C);
+    } while (actor != dungeon_actor_ring_anchor);
 }
 
 void advance_fading_effect(void *effect, void *position, void *render_data)

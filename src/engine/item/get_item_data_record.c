@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/item.h"
 
 /* 19-byte-stride record table at 0x800133E8 (20 entries), immediately
    preceding the 4-byte {short,short} table D_80013564 (indexed the same
@@ -8,8 +9,6 @@
 typedef struct {
     char unk[0x13];
 } S_800133E8;
-
-extern int find_item_data_slot(int a0, int a1);
 
 /* Returns the record for the given category and item, or NULL if absent. */
 S_800133E8 *get_item_data_record(int category, int item)

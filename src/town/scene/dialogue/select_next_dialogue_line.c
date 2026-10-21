@@ -96,7 +96,7 @@ s8 *select_next_dialogue_line(void) {
         {
             TownEventState *state;
 
-            state = D_8001E950;
+            state = town_event_state;
             state_zero = state->unk_00;
             if (state_zero == 2) {
                 state_five = state->unk_05;
@@ -111,7 +111,7 @@ s8 *select_next_dialogue_line(void) {
                                 {
                                     TownEventState *state;
 
-                                    state = D_8001E950;
+                                    state = town_event_state;
                                     value = state->unk_04;
                                 }
                                 if (value == state_one) {
@@ -131,7 +131,7 @@ s8 *select_next_dialogue_line(void) {
                             {
                                 TownEventState *state;
 
-                                state = D_8001E950;
+                                state = town_event_state;
                                 value = state->unk_04;
                             }
                             if (value == state_one) {

@@ -85,7 +85,7 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
             sprite->unk_00 = texture;
             color = 0x808080;
         } else {
-            texture = D_800DE870;
+            texture = effect_sprite_sources;
             sprite->unk_00 = texture;
             color = 0x808080;
         }
@@ -127,7 +127,7 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
                 sprite->unk_00 = texture;
                 color = 0x808080;
             } else {
-                texture = D_800DE870;
+                texture = effect_sprite_sources;
                 sprite->unk_00 = texture;
                 color = 0x808080;
             }

@@ -57,7 +57,7 @@ extern u8 D_80173A60[];
 extern u8 D_80173A88[];
 extern u8 D_80173AF8;
 extern u8 *D_80175DC4;
-extern s16 D_80175DC8;
+extern s16 beldo_script_timer;
 
 /* Advances the entity action script and updates its animation, facing, and timed events. */
 s32 advance_actor_effect_sequence_2(Entity *entity, s32 action_value, Aux *aux)
@@ -93,11 +93,11 @@ top:
         entity->fieldAF = 0;
     } else {
         duration = script[0];
-        timer = (u16)(D_80175DC8 + 1);
-        D_80175DC8 = (s16)timer;
+        timer = (u16)(beldo_script_timer + 1);
+        beldo_script_timer = (s16)timer;
         if (duration < (s16)timer) {
             D_80175DC4 = script + 2;
-            D_80175DC8 = 0;
+            beldo_script_timer = 0;
         }
         old_flags = actor->flags46;
         actor->angle = (s16)((command & 7) << 9);
@@ -106,7 +106,7 @@ top:
         switch (opcode) {
         case 0xD0:
             jump_script = D_80175DC4;
-            D_80175DC8 = 0;
+            beldo_script_timer = 0;
             jump_script += *(s8 *)jump_script * 2;
             D_80175DC4 = jump_script;
             goto top;
@@ -121,7 +121,7 @@ top:
 
         case 0xE8:
             actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
+                reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
             complete_actor_facing_action(entity, action_value, aux, actor);
             return 0;
 
@@ -272,7 +272,7 @@ top:
                 entity->direction = 0;
             case 1:
                 actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                 timer = (u16)(entity->timer + 1);
                 entity->timer = timer;
                 if (timer & 1) {
@@ -290,7 +290,7 @@ top:
             switch (state) {
             case 0:
                 actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                 entity->state++;
                 entity->timer = 0;
                 entity->direction = 0;
@@ -307,7 +307,7 @@ top:
                     entity->timer = 0;
                     entity->state = (u8)(entity->state + 1);
                     actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                     idle_sequence = D_801739A0;
                     angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
                     entity->animation = 0;
@@ -319,7 +319,7 @@ top:
             }
             case 2:
                 actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, angle_out);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                 break;
             }
             break;

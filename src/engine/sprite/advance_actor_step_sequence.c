@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/sprite.h"
 
 typedef struct S_800477F4_Sub {
     u16 f0;
@@ -25,7 +26,7 @@ typedef struct S_800477F4_Actor {
     u16 flags;
 } S_800477F4_Actor;
 
-extern u8 D_80080A84;
+extern u8 animation_tick_scale;
 
 /* Advances the actor's timed step sequence and updates its state flags. */
 void advance_actor_step_sequence(S_800477F4_Actor *actor)
@@ -57,7 +58,7 @@ void advance_actor_step_sequence(S_800477F4_Actor *actor)
                     } else {
                         actor->f4 = actor->f4 + 1;
                     }
-                    actor->f5 = step->f0 / D_80080A84;
+                    actor->f5 = step->f0 / animation_tick_scale;
                     flags |= 0x1000;
                     actor->f8 = (s32)step->next;
                 }

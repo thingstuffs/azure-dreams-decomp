@@ -24,7 +24,7 @@ void create_scene_object_with_48_byte_payload(s32 init_value, void *init_data)
 {
     void *obj;
 
-    obj = allocate_list_node(1, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (obj != NULL) {
         *(CopyBlock *)((s8 *)obj + 0x20) = *(CopyBlock *)init_data;
         ((S_800206F4_0 *)obj)->unk_10 = init_value;

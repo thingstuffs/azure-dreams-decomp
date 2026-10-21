@@ -7,7 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-extern u8 D_800E3CD0[9];
+extern u8 dungeon_button_latch[9];
 void snapshot_inventory_and_familiars();
 void snapshot_inventory_familiar_records();
 void adjust_source_value_and_finalize();
@@ -56,15 +56,15 @@ void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, S_8008E
             break;
         }
         if (*(u16 *)0x80013714 & 4) {
-            if (((S_8008E0C4_2 *)D_800E3CD0)->unk_00 == 0) {
-                ((S_8008E0C4_2 *)D_800E3CD0)->unk_00 = state;
+            if (((S_8008E0C4_2 *)dungeon_button_latch)->unk_00 == 0) {
+                ((S_8008E0C4_2 *)dungeon_button_latch)->unk_00 = state;
                 func_80040AA0(3);
                 break;
             }
         } else {
             snapshot_inventory_and_familiars(context);
             snapshot_inventory_familiar_records();
-            D_80082E60.flags16 = 0xC000;
+            runtime_dispatch_state.flags16 = 0xC000;
             func_80041094(6, 0, 0, 0, 0xC000);
             context->unk_9B++;
             break;

@@ -1,20 +1,19 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
+#include "slus/data.h"
 
-s32 ClearImage(void *, u8, u8, u8);
-void clear_graphics_record();                   /* extern */
 void initialize_script_cursor_and_defaults();                   /* extern */
-void initialize_runtime_resource_directory();                            /* extern */
-extern u8 graphics_clear_rectangle_0[];
-extern u8 graphics_clear_rectangle_1[];
-extern u8 D_80082A38[];
+extern u8 runtime_script_state[];
 
 /* Reset graphics state and clear both image regions to black. */
 void reset_graphics_state(void) {
     initialize_runtime_resource_directory();
-    clear_graphics_record(&D_80082A38);
-    initialize_script_cursor_and_defaults(&D_80082A38);
+    clear_graphics_record(&runtime_script_state);
+    initialize_script_cursor_and_defaults(&runtime_script_state);
     ClearImage(&graphics_clear_rectangle_0, 0, 0, 0);
     ClearImage(&graphics_clear_rectangle_1, 0, 0, 0);
 }

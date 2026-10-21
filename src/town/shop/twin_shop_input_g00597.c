@@ -35,7 +35,7 @@ void handle_twin_shop_input(s32 *menu) {
     }
     if (((s32)pad_state->pressed_buttons) & 0x20) {
         SD_Call(0x515);
-        D_80082AB8 = 0;
+        script_status = 0;
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }

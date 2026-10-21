@@ -9,13 +9,13 @@ void fill_person_records(void) {
     u16 *secondary_values;
 
     record_index = 0;
-    primary_values = &D_80083780;
-    secondary_values = D_800834B8;
+    primary_values = &view_reference_entity;
+    secondary_values = scene_object_payload_alias;
     for (; record_index < 8; record_index++) {
-        D_80100E40[record_index].field_0 = ((u16)primary_values->x.w.i);
-        D_80100E40[record_index].field_2 = ((u16)primary_values->y.w.i);
-        D_80100E40[record_index].field_4 = ((u16)primary_values->z.w.i);
-        D_80100E40[record_index].field_6 = secondary_values[8];
+        town_position_history[record_index].field_0 = ((u16)primary_values->x.w.i);
+        town_position_history[record_index].field_2 = ((u16)primary_values->y.w.i);
+        town_position_history[record_index].field_4 = ((u16)primary_values->z.w.i);
+        town_position_history[record_index].field_6 = secondary_values[8];
     }
 }
 
@@ -29,7 +29,7 @@ void shift_history_and_store_current_values(void)
     TownRecord *source;
 
     record_index = 7;
-    records = (u8 *)&D_80100E40;
+    records = (u8 *)&town_position_history;
     while (record_index > 0) {
         destination_offset = record_index * 8;
         source = (TownRecord *)(((record_index - 1) * 8) + (u32)records);
@@ -45,8 +45,8 @@ void shift_history_and_store_current_values(void)
         ObjectPosition *current_values;
         TownRecord *newest_record;
 
-        current_values = &D_80083780;
-        newest_record = (TownRecord *)&D_80100E40;
+        current_values = &view_reference_entity;
+        newest_record = (TownRecord *)&town_position_history;
         newest_record->field_0 = ((u16)current_values->x.w.i);
         newest_record->field_2 = ((u16)current_values->y.w.i);
         newest_record->field_4 = ((u16)current_values->z.w.i);
@@ -59,7 +59,7 @@ void load_record_halfwords_3(void *destination, s32 entry_index) {
     s8 *table_base;
     s8 *entry;
 
-    table_base = (s8 *)&D_80100E40;
+    table_base = (s8 *)&town_position_history;
     entry = table_base + (entry_index * 8);
     *(u16 *)((s8 *)destination + 2) = *(u16 *)(entry + 0);
     *(u16 *)((s8 *)destination + 6) = *(u16 *)(entry + 2);
@@ -71,7 +71,7 @@ void copy_person_table_value(Rec_func_800AB014_arg0 *record, s32 entry_index) {
     s8 *table_base;
     s8 *entry;
 
-    table_base = (s8 *) &D_80100E40;
+    table_base = (s8 *) &town_position_history;
     entry = table_base + (entry_index * 8);
     record->unk_72.as_u16 = (u16) ((S_800AB014_1 *)entry)->unk_06;
 }

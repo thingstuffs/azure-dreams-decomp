@@ -1,11 +1,10 @@
 #include "common.h"
+#include "engine/audio.h"
 
 typedef struct {
     u8 pad[0x1c];
     u8 *read_ptr;
 } ParserState;
-
-extern u8 *find_sound_table_entry(s32 entry_key);
 
 /* Read a script entry key and value, copying the value to entry bytes 2 and 3 if found. */
 void vm_op_83_set_entry_byte_pair(ParserState *parser)

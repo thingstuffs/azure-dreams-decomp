@@ -4,7 +4,7 @@
 
 void submit_activation_command(void);                            /* extern */
 void *create_transformed_render_object(); /* extern */
-extern u8 D_800E36C8[];
+extern u8 dungeon_ground_item_positions[];
 
 typedef struct S_8009F020_0 {
     u8 unk_00;
@@ -24,8 +24,8 @@ void draw_blue_enabled_entry_markers(s32 setup_arg_0, s32 setup_arg_1, s32 setup
 
     submit_activation_command();
     entry_index = 0;
-    entry_position = D_800E36C8;
-    entry_state = ((u8 *)D_800E3548);
+    entry_position = dungeon_ground_item_positions;
+    entry_state = ((u8 *)dungeon_ground_items);
     do {
         if ((((S_8009F020_0 *)entry_state)->unk_01 != 0) && (((S_8009F020_0 *)entry_state)->unk_00 != 0)) {
             create_transformed_render_object(((S_8009F020_1 *)entry_position)->unk_00, ((S_8009F020_1 *)entry_position)->unk_01, 0x802020,

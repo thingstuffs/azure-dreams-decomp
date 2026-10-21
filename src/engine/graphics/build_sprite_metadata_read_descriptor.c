@@ -3,9 +3,9 @@
 
 /* manual g1 strike 2: preserve the incoming second argument through the call */
 #include "common.h"
-
-void pack_tagged_resource_descriptor(int tag, int id, int *record, int value);
-extern M2C_UNK sprite_metadata_read_descriptor;
+#include "engine/graphics.h"
+#include "slus.h"
+#include "slus/data.h"
 
 /* Builds and returns a shared descriptor for the record ID and packed value. */
 s32 *build_sprite_metadata_read_descriptor(s16 record_id, s32 packed_value) {

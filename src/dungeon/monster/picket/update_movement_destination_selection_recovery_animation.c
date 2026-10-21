@@ -46,7 +46,7 @@ typedef struct S_80174428_3 {
     s32 unk_10;
 } S_80174428_3;   /* motion in update_movement_destination_selection_recovery_animation */
 
-extern s16 D_80081468[3];
+extern s16 floor_generation_state[3];
 extern u8 D_801710F4[];
 extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
@@ -114,7 +114,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         ((S_80174428_3 *)motion)->unk_0C = 0;
         (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F58;
         select_sprite_entry(actor,
-            D_80174F58[((*(s16 *)(((u8 *)(&D_80082E80)) + 0x3A8) +
+            D_80174F58[((*(s16 *)(((u8 *)(&reference_tile_object)) + 0x3A8) +
                 ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         ((S_80174428_1 *)state)->unk_96.s = 0;
         ((S_80174428_3 *)motion)->unk_0C = (-x_step) << 18;
@@ -163,8 +163,8 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         }
         select_sprite_entry(actor, 0x38, 0);
         attempts_left = 0x40;
-        world = &D_80082E80;
-        level = D_80081468;
+        world = &reference_tile_object;
+        level = floor_generation_state;
         ((S_80174428_1 *)state)->unk_96.s = 0;
         x_step = ((S_80174428_2 *)actor)->unk_24;
         y_step = ((S_80174428_2 *)actor)->unk_25;

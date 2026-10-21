@@ -50,7 +50,7 @@ void create_eight_linked_scene_sprites(void *owner) {
 
     slot_index = 7;
     do {
-        object = allocate_list_node(0x136, ((s32 *)(&D_80083498)));
+        object = allocate_list_node(0x136, ((s32 *)(&scene_object_list_anchor)));
         ((ObjectPayloadView *)((u8 *)owner + slot_index * 4))->unk_08 = object;
         slot_offset = slot_index * 4;
         if (object != 0) {

@@ -14,7 +14,8 @@ typedef struct Object13B18 {
 } Object13B18;   /* object in card_boot_set_paired_choice_animations */
 
 #include "frontend/libcard/interfaces.h"
-extern void func_8004CBFC(void *, s32, s32 *);
+#include "frontend/libcard.h"
+#include "slus.h"
 extern u8 D_80027E68[];
 
 /* Updates or clears active records, then refreshes the object if any were active. */

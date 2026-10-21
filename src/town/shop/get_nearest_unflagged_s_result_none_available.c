@@ -16,7 +16,7 @@ typedef struct {
 } TownState;
 
 extern s32 runtime_estimate_vector_length(s32, s32);
-extern s32 D_800D0728[];
+extern s32 town_record_capacities[];
 extern TownState *D_80100900;
 
 /* Return the nearest unflagged record's result, or -1 if none is available. */
@@ -37,7 +37,7 @@ s32 get_nearest_unflagged_s_result_n_1_none_available(s32 record_set, void *targ
 
     best_distance = 0x7FFFFFFF;
     record_index = 0;
-    count = D_800D0728[record_set];
+    count = town_record_capacities[record_set];
     records = *(TownRecord **)((u8 *)D_80100900->recordsOwner + 4);
     raw_x = D_80100900->x;
     raw_y = D_80100900->y;

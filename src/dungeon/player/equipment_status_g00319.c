@@ -45,7 +45,7 @@ void equip_item_and_update_status(Arg0 *context, Item *item) {
             return;
         }
         current_item->b3 = value & 0xDF;
-        D_800E3D18[0] = (s32 *)D_800E3CF8;
+        actor_direction_sprites[0] = (s32 *)unequipped_actor_sprite_sources;
         if (current_item == selected_item) {
             selected_item = NULL;
         }
@@ -59,7 +59,7 @@ void equip_item_and_update_status(Arg0 *context, Item *item) {
         result_value = get_unused_text_buffer();
         func_80099290(expand_text_control_codes(D_800E0844, append_typed_formatted_value((FuncData *)selected_item, write_text_byte_and_advance(8, result_value))));
         display_text_with_fullwidth_adjustment(result_value);
-        D_800E3D18[0] = (s32 *)D_800E3D80;
+        actor_direction_sprites[0] = (s32 *)equipped_actor_sprite_sources;
         tail_index = 0x70A;
         if (selected_item->b3 & 0x40) {
             context->flags |= 0x800;

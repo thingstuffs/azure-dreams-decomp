@@ -1,14 +1,16 @@
 #include "slus/gp_shared_81510.h"
 #include "common.h"
 #include "shared/scratchpad.h"
+#include "engine/entity.h"
+#include "engine/graphics.h"
+#include "sdk/libgte.h"
 
 
 /* Inferred present ownership of the retail zero word. */
-s32 D_80081510 = 0;
+s32 sprite_command_depth_scale = 0;
 
 
 /* set to 0 at entry and again on the "list exhausted" exit path */
-extern s32 D_80081510;
 
 /* size >8B to force %hi/%lo codegen; D_80083160[0] points at the "current state" struct */
 extern void *D_80083160[3];
@@ -33,8 +35,6 @@ typedef struct S_80045340_Entry {
     u8 pad1C[4];
 } S_80045340_Entry; /* size >= 0x20 */
 
-extern s32 is_frame_packet_arena_overflowed(u32 a0);
-
 /* Scratchpad hardware-flag word at fixed address 0x1F80013C, reached by casting the
  * scratchpad base (0x1F800000) to a padded struct so gcc folds the whole address into
  * a single store immediate (lui $at,hi; sw $0,lo($at)) instead of materializing it. */
@@ -45,17 +45,7 @@ typedef struct {
 
 /* Processes unflagged entries across groups until the stop condition or end of the chain. */
 extern void *D_80083160[3];
-extern u32 D_8006CD30[8];
-extern s32 D_80081510;
-extern u32 RotTransPers(void *, void *, void *, void *);
-extern void RotTransPers4(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void RotMatrix(void *, void *);
-extern void ScaleMatrix(void *, void *);
-extern void CompMatrix(void *, void *, void *);
-extern void SetTransMatrix(void *);
-extern void SetRotMatrix(void *);
+extern u32 sprite_projection_matrix[8];
 
 s32 project_sprite_chain(void *group_data, s32 context, S_80045340_Entry *entry, s32 unused)
 {
@@ -63,7 +53,7 @@ s32 project_sprite_chain(void *group_data, s32 context, S_80045340_Entry *entry,
     S_80045340_Entry *current_entry = entry;
     S_80045340_Entry *next_group;
 
-    D_80081510 = 0;
+    sprite_command_depth_scale = 0;
     ((S_80045340_HwFlag *)0x1F800000)->flag = 0;
 
     for (;;) {
@@ -76,7 +66,7 @@ s32 project_sprite_chain(void *group_data, s32 context, S_80045340_Entry *entry,
 
         next_group = *(S_80045340_Entry **)((u8 *)current_data - 8);
         if (next_group == 0) {
-            D_80081510 = 0;
+            sprite_command_depth_scale = 0;
             return 0;
         }
         current_data = (u8 *)next_group + 0x20;
@@ -225,7 +215,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         u32 base_depth;
         sort_depth = (base_depth = projected_depth - 10, base_depth - depth_bias);
     }
-    D_8006CD30[7] = projected_depth * 4;
+    sprite_projection_matrix[7] = projected_depth * 4;
     SP32(scratch, 0xC0) = sort_depth;
 
     if (sort_depth < 0x1D6U) {
@@ -263,7 +253,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         SP32(scratch, 0x38) = 0x1000;
         SP32(scratch, 0x34) = scale_y;
         ScaleMatrix((u8 *)scratch + 0xD0, (u8 *)scratch + 0x30);
-        CompMatrix(D_8006CD30, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
+        CompMatrix(sprite_projection_matrix, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
         SetTransMatrix((u8 *)scratch + 0x50);
         SetRotMatrix((u8 *)scratch + 0x50);
 
@@ -419,7 +409,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                     P32(packet, 4) = E32(entry, 0x0C);
                     {
                         s32 depth_delta;
-                        depth_delta = -((u32)(D_80081510 * CS8(command, 3)) >> 14);
+                        depth_delta = -((u32)(sprite_command_depth_scale * CS8(command, 3)) >> 14);
                         SP32(scratch, 0xCC) = depth_delta;
                         if (depth_delta > 0) {
                             SP32(scratch, 0xCC) = 0;

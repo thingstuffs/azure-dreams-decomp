@@ -1,8 +1,6 @@
 #include "common.h"
-
-extern void card_boot_show_formatting_progress(void *a, void *b);
-extern u8 D_8002765C[];
-extern u8 D_8002789C[];
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 /* Checks the object's guard field, initializes its state, and installs its dispatch table. */
 void card_boot_handle_format_answer(void *object) {

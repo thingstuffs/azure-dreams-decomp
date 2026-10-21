@@ -27,7 +27,7 @@ extern void func_8006733C();
 void update_active_building_entries(void);
 
 extern u8 D_80083160[], D_80110EC8[], D_801116C8[], D_80111EC8[], D_8012F004[], D_80162004[];
-extern u16 D_80111FA8[];
+extern u16 building_upload_rect[];
 /* Initialize drawing state and upload image and palette data. */
 void initialize_building_graphics(void)
 {
@@ -39,7 +39,7 @@ void initialize_building_graphics(void)
     u16 image_width;
     void *draw_buffer;
 
-    image_rect = D_80111FA8;
+    image_rect = building_upload_rect;
     first_rect = image_rect;
     image_data = D_80110EC8;
     base = D_80083160;
@@ -53,9 +53,9 @@ void initialize_building_graphics(void)
     ((S_800B6FB8_0 *)draw)->unk_16 = draw_setting;
     ((S_800B6FB8_0 *)draw)->unk_1A = color;
     ((S_800B6FB8_0 *)draw)->unk_1E = width;
-    status = ((u8 *)&D_80082E60);
+    status = ((u8 *)&runtime_dispatch_state);
 
-    D_80111FA8[0] = 0x328;
+    building_upload_rect[0] = 0x328;
     image_rect[1] = 0x80;
     image_width = 8;
     image_rect[2] = image_width;
@@ -63,14 +63,14 @@ void initialize_building_graphics(void)
     ((S_800B6FB8_1 *)status)->unk_16 &= 0xFFFE;
     func_8006733C(first_rect, image_data);
 
-    D_80111FA8[0] = 0x330;
+    building_upload_rect[0] = 0x330;
     image_rect[1] = 0x80;
     image_rect[2] = image_width;
     image_rect[3] = 0x80;
     func_8006733C(image_rect, D_801116C8);
 
-    palette_rect = D_80111FA8;
-    D_80111FA8[0] = 0;
+    palette_rect = building_upload_rect;
+    building_upload_rect[0] = 0;
     palette_rect[1] = 0x1FB;
     palette_rect[2] = 0x40;
     palette_rect[3] = 1;

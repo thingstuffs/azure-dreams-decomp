@@ -14,7 +14,7 @@ typedef struct {
     s32 words[0x15];
 } Record84;
 
-extern Record84 D_80100AF8;
+extern Record84 town_slot_snapshot;
 
 
 /* Initialize the entity's action and copy its selected record for state 0x13. */
@@ -34,7 +34,7 @@ void initialize_the_entity_s_action_copy_selected_state_hex_13(Rec_func_8009EE9C
         Record84 *records = (Record84 *)0x80010A80;
         u8 *record_map = (u8 *)0x80010000;
 
-        D_80100AF8 = records
+        town_slot_snapshot = records
         [record_map[entity->unk_95 * 4 + 0x983] & 0x3F];
     }
 }

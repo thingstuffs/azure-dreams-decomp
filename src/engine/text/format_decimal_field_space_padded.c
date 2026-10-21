@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/text.h"
 
 /* Writes a right-justified decimal value into a fixed-width buffer with leading spaces. */
 void format_decimal_field_space_padded(s32 value, s32 width, char *buf)

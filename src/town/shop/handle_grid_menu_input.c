@@ -7,7 +7,7 @@ extern void pass_indexed_entry_address(void *menu);
 extern void close_twin_shop(void *shop);
 extern void set_shop_subrecord_values(s32 menu_context, s32 row, s32 selection);
 extern void store_shop_embedded_value(s32 menu_context, s32 selection);
-extern s32 D_80082AB8;
+extern s32 script_status;
 
 /* Handles grid menu navigation, confirmation, and cancellation. */
 void handle_grid_menu_input(s32 *menu) {
@@ -27,7 +27,7 @@ void handle_grid_menu_input(s32 *menu) {
     if (menu[2] == 0) {
         if (((s32)pad_state->pressed_buttons) & 0x20) {
             SD_Call(0x515);
-            D_80082AB8 = 0;
+            script_status = 0;
             close_twin_shop((u8 *)menu - 0x20);
         }
         return;
@@ -35,13 +35,13 @@ void handle_grid_menu_input(s32 *menu) {
     pressed_buttons = ((s32)pad_state->pressed_buttons);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515);
-        D_80082AB8 = 0;
+        script_status = 0;
         close_twin_shop((u8 *)menu - 0x20);
         return;
     }
     if (pressed_buttons & 0x40) {
         SD_Call(0x514);
-        D_80082AB8 = 1;
+        script_status = 1;
         close_twin_shop((u8 *)menu - 0x20);
         selected_entry = (u8 *)(menu[1] * 4 + menu[8]);
         selected_entry[3] |= 0x20;

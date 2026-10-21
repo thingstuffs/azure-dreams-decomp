@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "slus/data.h"
 
 typedef struct S_80036484_0 {
     u8 pad_00[0x4D];
@@ -12,9 +13,6 @@ typedef struct S_80036484_0 {
     u8 pad_66[0x2];
     s32 * unk_68;
 } S_80036484_0;   /* arg0 in runtime_decrement_countdown_and_reset */
-
-
-extern s32 runtime_mark_state_when_flag_51_set;
 
 /* Decrements the countdown and resets state before switching handlers when it expires. */
 void runtime_decrement_countdown_and_reset(S_80036484_0 *state) {

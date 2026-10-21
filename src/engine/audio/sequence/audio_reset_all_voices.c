@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus.h"
 
 /* D_80085458[64]: same table layout inferred in src/w_80056A08.c (S_80085458). */
 typedef struct {
@@ -47,10 +49,6 @@ extern s32 audio_voice_count[4];
 extern s32 audio_voice_masks[64];
 extern S_80056C30_85458 audio_voice_records[64];
 extern S_80056C30_85014 audio_reset_channel_control_alias;
-
-extern void audio_reset_sequence_tracks_and_channels(void);
-extern s32 sound_reset_indexed_voice_envelope(s32 request_index);
-extern void func_8005E97C(s32 key_on, s32 voices);
 
 /* Resets global state, re-registers active slots, and initializes the shared request with their combined flags. */
 void audio_reset_all_voices(void) {

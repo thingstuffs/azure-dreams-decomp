@@ -25,7 +25,7 @@ extern void clear_selected_item_flag_400(void *selection);
 s32 process_eligible_object_value(Object *object, s32 input_value) {
     s32 result = input_value;
 
-    if (!(((u32)D_800E3D7C->flags1C) & 0x10)) {
+    if (!(((u32)dungeon_actor_ring_anchor->flags1C) & 0x10)) {
         if ((object->flags & 0x80) || get_item_category_flags(object)) {
             result = expand_text_control_codes(
                 D_800E18C0,

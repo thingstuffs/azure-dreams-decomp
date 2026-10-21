@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message.h"
 
 typedef struct S_800381A4_0 {
     u8 pad_00[0x10];
@@ -8,9 +9,6 @@ typedef struct S_800381A4_0 {
     u8 pad_14[0x4];
     u16 unk_18;
 } S_800381A4_0;   /* arg0 in decrement_countdown_and_switch */
-
-
-void update_message_window();
 
 /* Decrements the countdown and switches the handler when the signed count reaches zero or below. */
 void decrement_countdown_and_switch(S_800381A4_0 *state) {

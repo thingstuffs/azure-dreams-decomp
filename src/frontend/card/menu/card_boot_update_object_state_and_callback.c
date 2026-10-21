@@ -1,16 +1,15 @@
 #include "shared/pad_state.h"
 #include "common.h"
+#include "frontend/card/menu.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
 extern void func_80400948(void);
-extern s32 card_devkit_poll_stable_slot_state(void);
 extern void submit_stored_and_queried_boot_values(void);
 extern s32 func_804010E0(void);
 extern void forward_target_value_initcardmessageobject(void *left, void *right);
 extern void func_8003FA78(void *descriptor, s32 value, s32 item);
-extern u8 D_80400848[];
 extern u8 D_804081AC[];
-extern s32 D_804090C8[];
-extern s32 D_804090E0[];
 
 /* Updates the object's state and callback and performs a one-time transition. */
 void card_boot_update_object_state_and_callback(void *object_data)

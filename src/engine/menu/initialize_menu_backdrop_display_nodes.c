@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/gpu_packets.h"
+#include "engine/menu.h"
 
 typedef struct S_8002E5D8 {
     s32 unk0;
@@ -9,8 +10,8 @@ typedef struct S_8002E5D8 {
 } S_8002E5D8;
 
 
-extern S_8002E5D8 D_8002E5D8;
-extern DisplayPositionWords D_8002E5E8;
+extern S_8002E5D8 display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 typedef struct S_8004F330_Node {
     s32 unk0;
@@ -34,16 +35,16 @@ void initialize_menu_backdrop_display_nodes(S_8004F330_Entity *entity, s32 node_
     s32 w0;
 
     for (i = 0; i < node_count; i++) {
-        w0 = D_8002E5D8.unk0;
+        w0 = display_block_defaults.unk0;
         entity->ptrArray[i] = &entity->nodeArray[i];
         entity->bodyArray[i].unk0 = w0;
-        entity->bodyArray[i].unk4 = D_8002E5D8.unk4;
-        entity->bodyArray[i].unk8 = D_8002E5D8.unk8;
-        entity->bodyArray[i].unkC = D_8002E5D8.unkC;
+        entity->bodyArray[i].unk4 = display_block_defaults.unk4;
+        entity->bodyArray[i].unk8 = display_block_defaults.unk8;
+        entity->bodyArray[i].unkC = display_block_defaults.unkC;
         entity->nodeArray[i].unk4 = &entity->bodyArray[i];
         entity->nodeArray[i].unk8 = &entity->hdr;
     }
-    entity->hdr.unk0 = D_8002E5E8.unk0;
-    entity->hdr.unk4 = D_8002E5E8.unk4;
-    entity->hdr.unk8 = D_8002E5E8.unk8;
+    entity->hdr.unk0 = display_vector_defaults.unk0;
+    entity->hdr.unk4 = display_vector_defaults.unk4;
+    entity->hdr.unk8 = display_vector_defaults.unk8;
 }

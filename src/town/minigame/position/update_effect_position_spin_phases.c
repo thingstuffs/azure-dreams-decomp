@@ -24,7 +24,7 @@ extern void SD_Call(s32);
 /* Update the effect position, spin phases, animated icons, and rotation sound. */
 void update_effect_position_spin_phases(void *state_arg, void *target_arg, void *effect_arg)
 {
-    ObjectPosition *world_pos = &D_80083780;
+    ObjectPosition *world_pos = &view_reference_entity;
     ObjectPosition *close_pos;
     s32 dx = (world_pos->x.v + (s32)0xFCA00000) >> 16;
     s32 dy = (world_pos->y.v + (s32)0xFCA00000) >> 16;
@@ -59,7 +59,7 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
     S32(state_arg, 0x60) = S32(target_arg, 8);
 
     if (world_pos->y.v > 0x035FFFFF ? distance < 185 : distance < 193) {
-        close_pos = &D_80083780;
+        close_pos = &view_reference_entity;
         if (S16(close_pos, 0xA) >= S16(target_arg, 0xA)) {
             close_pos->x.v = S32(state_arg, 4);
             close_pos->y.v = S32(state_arg, 8);
@@ -72,7 +72,7 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
         }
     } else if (distance < 209) {
         ObjectPosition *mid_pos;
-        mid_pos = &D_80083780;
+        mid_pos = &view_reference_entity;
         if (S16(mid_pos, 0xA) >= S16(target_arg, 0xA)) {
             mid_pos->x.v = S32(state_arg, 4);
             mid_pos->y.v = S32(state_arg, 8);
@@ -102,8 +102,8 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
         S32(state_arg, 0x5C) = 0x03600000;
     }
 
-    S32(state_arg, 4) = S32(((u8 *)(&D_80083780)), 0);
-    S32(state_arg, 8) = S32(((u8 *)(&D_80083780)), 4);
+    S32(state_arg, 4) = S32(((u8 *)(&view_reference_entity)), 0);
+    S32(state_arg, 8) = S32(((u8 *)(&view_reference_entity)), 4);
 
     {
         s32 scaled_speed = S32(spin_data, 0x14) / ((S16(spin_data, 0x22) << 8) + 0x300);
@@ -136,7 +136,7 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
 
     case 2:
         U16(effect_arg, 0x1A) += speed_limit;
-        if (distance >= 161 && S32(((u8 *)(&D_80083780)), 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
+        if (distance >= 161 && S32(((u8 *)(&view_reference_entity)), 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
             S16(state_arg, 0x72) = speed_limit;
             S16(state_arg, 0x70) = 3;
         }

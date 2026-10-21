@@ -7,7 +7,7 @@ typedef struct DungeonState {
 } DungeonState;
 
 extern DungeonState D_80083460;
-extern u8 D_800DCF4F[];
+extern u8 dungeon_event_pending_flag[];
 extern u8 D_800E0458[];
 extern u8 D_800E0C78[];
 
@@ -31,7 +31,7 @@ void announce_familiar_defeat(void *input_data) {
     flag_page = (u16 *)0x80010000;
     saved_input = input_data;
     if (!(flag_page[0x3714 / 2] & 1)) {
-        context = D_800DCF4F;
+        context = dungeon_event_pending_flag;
         {
             DungeonState *counter_state = &D_80083460;
             counter = counter_state->counter;

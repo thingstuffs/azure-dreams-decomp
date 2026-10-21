@@ -1,7 +1,7 @@
 #include "common.h"
-
-extern s32 count_nonzero_word_prefix(s32 *a0, s32 a1);
-extern s32 alloc_buffer_array(s32 *a0, s32 a1);
+#include "engine/sprite.h"
+#include "engine/util.h"
+#include "slus.h"
 
 /* Skip live entries and allocate size / 21 + 1 slots, returning their pointer or NULL on failure. */
 s32 *allocate_entry_slots(s32 *entries, u32 size, s32 skip_limit)

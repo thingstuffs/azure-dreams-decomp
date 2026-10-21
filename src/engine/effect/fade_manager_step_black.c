@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
 
 typedef struct Func8003C4C8State {
     u8 pad_00[0xC];

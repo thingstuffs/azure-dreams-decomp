@@ -1,8 +1,7 @@
 #include "common.h"
 
 #include "common.h"
-
-s32 is_list_nonempty(void *record);                                /* extern */
+#include "engine/script.h"
 
 /* Sets the output flag when is_list_nonempty returns nonzero. */
 void set_flag_if_list_nonempty(s8 *result_flag) {

@@ -11,7 +11,7 @@ typedef struct {
     s32 zVelocity;
 } Motion;
 
-extern u16 D_800281F8;
+extern u16 sprite_effect_update_count;
 
 /* Advance and damp motion, flagging completion when the timer expires or motion slows. */
 void advance_damped_motion(void *actor, Motion *motion) {
@@ -31,9 +31,9 @@ void advance_damped_motion(void *actor, Motion *motion) {
     motion->yVelocity = y_velocity - ((y_velocity >> 3) + (y_velocity >> 4));
 
     timer = *(u16 *)((u8 *)actor + 0x30) - 1;
-    counter = D_800281F8 + 1;
+    counter = sprite_effect_update_count + 1;
     ((u16 *)actor)[24] = timer;
-    D_800281F8 = counter;
+    sprite_effect_update_count = counter;
 
     if ((s16)timer > 0) {
         speed = *(s16 *)((u8 *)motion + 0xE);

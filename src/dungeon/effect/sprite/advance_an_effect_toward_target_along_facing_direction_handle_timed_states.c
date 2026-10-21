@@ -161,7 +161,7 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
         }
 
         z_distance = S16_AT(target_pos, 0xA) -
-                D_800DDC40[U8_AT(state->target, 0x13)] - S16_AT(motion, 0xA);
+                entity_height_offsets[U8_AT(state->target, 0x13)] - S16_AT(motion, 0xA);
         z_distance = abs(z_distance);
         work.probe_delta[2] = z_distance;
 
@@ -179,7 +179,7 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
         motion->dx = (S32_AT(target_pos, 0) - motion->x) / state->duration;
         motion->dy = (S32_AT(target_pos, 4) - motion->y) / state->duration;
         motion->dz = (S32_AT(target_pos, 8) -
-                      (((D_800DDC40[U8_AT(state->target, 0x13)] >> 1) * 3) << 16) -
+                      (((entity_height_offsets[U8_AT(state->target, 0x13)] >> 1) * 3) << 16) -
                       motion->z) / state->duration;
         func_80025344(state, motion);
         next_state = (u16)state->state + 1;

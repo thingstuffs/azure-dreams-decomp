@@ -1,15 +1,9 @@
 #include "common.h"
 #include "shared/entity_objects.h"
 
-typedef struct S_800C1F8C_0 {
-    void * unk_00;
-    s16 unk_04;
-    s16 unk_06;
-    u8 pad_08[0x4];
-    s16 unk_0C;
-    s16 unk_0E;
-    u16 unk_10;
-} S_800C1F8C_0;   /* arg0 in trigger_action_when_position_limit_exceeded */
+#include "town/map/trigger_callbacks.h"
+
+typedef map_trigger_record S_800C1F8C_0;   /* arg0 in trigger_action_when_position_limit_exceeded */
 
 
 typedef struct Position {
@@ -32,13 +26,13 @@ void trigger_action_when_position_limit_exceeded(S_800C1F8C_0 *object)
     s32 x_distance;
     s32 y_distance;
 
-    x_offset = object->unk_04 - D_80083780.x.w.i;
+    x_offset = object->x - view_reference_entity.x.w.i;
     x_distance = abs(x_offset);
-    y_offset = object->unk_06 - D_80083780.y.w.i;
+    y_offset = object->y - view_reference_entity.y.w.i;
     y_distance = abs(y_offset);
-    if (object->unk_0C >= (s16)x_distance && object->unk_0E >= (s16)y_distance) {
+    if (object->reset_limit_x >= (s16)x_distance && object->reset_limit_y >= (s16)y_distance) {
         return;
     }
-    SD_Call(object->unk_10 | 0x1000);
-    object->unk_00 = D_800C1EA4;
+    SD_Call(object->argument | 0x1000);
+    object->handler = (map_trigger_callback_fn)D_800C1EA4;
 }

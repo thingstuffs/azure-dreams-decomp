@@ -1,13 +1,6 @@
 #include "frontend/card/message_object.h"
-
-
-
-extern u8 D_80409508[];
-extern u8 D_80400548[];
-extern u8 D_80400570[];
-extern u8 D_8040861C[];
-extern u8 D_80402F04[];
-extern u16 D_80409526;
+#include "frontend/card/message.h"
+#include "main/data.h"
 
 s32 func_8003C714(s32, u8 *, s32);
 s32 func_80040560(s32, u8 *);

@@ -7,7 +7,7 @@ typedef struct {
     u8 flags;
 } DungeonEntry;
 
-extern DungeonEntry D_800E3648[];
+extern DungeonEntry floor_objects[];
 
 /* Store the looked-up dungeon entry index if flag 0x80 is set, or report failure. */
 s32 find_flagged_tile_entry(void *state, void *unused, void *position, void *lookup_context) {
@@ -23,7 +23,7 @@ s32 find_flagged_tile_entry(void *state, void *unused, void *position, void *loo
     if (entry_index < 0) {
         failed = 1;
     } else {
-        if (D_800E3648[entry_index].flags & 0x80) {
+        if (floor_objects[entry_index].flags & 0x80) {
             failed = 0;
         } else {
             *(s16 *)((u8 *)state + 0x100) = -1;

@@ -4,7 +4,7 @@
 #include "shared/dungeon_delay_views.h"
 
 extern M2C_UNK D_800C5BA8;
-extern s32 D_800D0428;
+extern s32 town_target_height_offset;
 
    /* arg1 in move_motion_value_halfway_toward */
 
@@ -21,7 +21,7 @@ void move_motion_value_halfway_toward(S_800C5B48_1 *actor, DelayMotionZ *motion)
     u16 ticks_left;
 
     current_value = motion->unk_08;
-    motion->unk_08 = (s32) (current_value + ((s32) ((D_80083780.z.v + D_800D0428) - current_value) / 2));
+    motion->unk_08 = (s32) (current_value + ((s32) ((view_reference_entity.z.v + town_target_height_offset) - current_value) / 2));
     ticks_left = actor->unk_6C - 1;
     actor->unk_6C = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

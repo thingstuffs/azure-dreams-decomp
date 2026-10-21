@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u16 D_80111FA8[];
+extern u16 building_upload_rect[];
 extern u8 D_80110EC8[];
 extern u8 D_801110C8[];
 extern u8 D_801112C8[];
@@ -23,8 +23,8 @@ void advance_building_animation_frame(u16 *frame_tick) {
     tick_index = (s16)*frame_tick % 24;
     switch (tick_index) {
     case 0:
-        rect = (void *)D_80111FA8;
-        (*D_80111FA8) = 808;
+        rect = (void *)building_upload_rect;
+        (*building_upload_rect) = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
@@ -33,8 +33,8 @@ void advance_building_animation_frame(u16 *frame_tick) {
 
     case 4:
     case 20:
-        rect = (void *)D_80111FA8;
-        (*D_80111FA8) = 808;
+        rect = (void *)building_upload_rect;
+        (*building_upload_rect) = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
@@ -43,8 +43,8 @@ void advance_building_animation_frame(u16 *frame_tick) {
 
     case 8:
     case 16:
-        rect = (void *)D_80111FA8;
-        (*D_80111FA8) = 808;
+        rect = (void *)building_upload_rect;
+        (*building_upload_rect) = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;
@@ -52,9 +52,9 @@ void advance_building_animation_frame(u16 *frame_tick) {
         return;
 
     case 12:
-        rect = (void *)D_80111FA8;
+        rect = (void *)building_upload_rect;
 
-        (*D_80111FA8) = 808;
+        (*building_upload_rect) = 808;
         ((u16 *)rect)[1] = 128;
         ((u16 *)rect)[2] = 8;
         ((u16 *)rect)[3] = 32;

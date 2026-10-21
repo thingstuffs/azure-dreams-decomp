@@ -52,7 +52,7 @@ void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_par
     u16 component_y;
     u16 component_z;
 
-    object = allocate_list_node(0x202, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x202, ((u8 *)(&scene_object_list_anchor)));
     if (object == NULL) {
         return;
     }

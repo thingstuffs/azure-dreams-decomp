@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
+#include "frontend/libcard/resource.h"
 
 typedef struct S_80026748_0 {
     s32 * unk_00;
@@ -8,7 +10,6 @@ typedef struct S_80026748_0 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800265B8[];
-void card_boot_highlight_selected_load_slot(void *);                            /* extern */
 
 /* Update the record, run the shared follow-up, and install its next table. */
 void update_record_and_install_next_table(void *record_data) {

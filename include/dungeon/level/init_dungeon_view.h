@@ -44,8 +44,8 @@ extern void func_80064EC0(s32, s32, s32);
 extern void func_80064F00(s32, s32);
 
 extern u8 D_800DDC7C[];
-extern u8 D_801C9E40[0x1C];
-extern u8 D_801DA714[0x1C];
+extern u8 upper_draw_context[0x1C];
+extern u8 lower_draw_context[0x1C];
 
 static __inline__ void set_light_vectors(S_804FE87C_0 *state, s16 x, s16 y) {
     state->unk_38 = x;

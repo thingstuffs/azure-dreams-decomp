@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/script/vm.h"
 
 /* Reads a script byte and fills sixteen words in the target state with its value. */
 void vm_op_50_fill_sixteen_values(void *vm) {

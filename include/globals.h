@@ -6,18 +6,18 @@
  * original -G8 build. Addresses are resolved by the linker from
  * config/generated/*.undefined_syms.txt. Names/types provisional. */
 
-extern int D_800814C8;
-extern int D_80081550;
-extern int D_80081558;
-extern int D_80081554;
+extern int sound_payload_buffer;
+extern int message_handler_mode;
+extern int message_command_start_index;
+extern int message_command_write_index;
 
 extern unsigned char D_80071298[];
 
 extern volatile int D_80071250[];
 extern int D_800712B4[];
 
-extern int D_80084130[3];
+extern int card_server_initialized[3];
 
-extern struct S_80083178State D_80083CE8;
+extern struct S_80083178State saved_view_vectors;
 
 #endif /* GLOBALS_H */

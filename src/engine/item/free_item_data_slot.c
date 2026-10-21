@@ -1,9 +1,7 @@
 #include "common.h"
 #include "shared/resident_resources.h"
-
-
-extern int find_item_data_slot(int first_value, int second_value);
-extern void bzero(void *ptr, int len);
+#include "engine/item.h"
+#include "sdk/libc.h"
 
 /* Clear the selected record and its paired values when the index is below 20. */
 void free_item_data_slot(int first_value, int second_value)

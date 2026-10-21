@@ -4,6 +4,8 @@
 #include "shared/game_work.h"
 
 #include "common.h"
+#include "sdk/libgpu.h"
+#include "sdk/libgte.h"
 
 
 typedef struct S_800463EC_1 {
@@ -93,21 +95,7 @@ typedef struct RenderScratch {
 
 #define PPAD(base, type, field) (((type *)(base))->field)
 
-extern void PushMatrix(void);
-extern void PopMatrix(void);
-extern void ReadRotMatrix(MATRIX *m);
-extern void TransMatrix(void *m, void *v);
-extern void RotMatrix(void *r, void *m);
-extern void ScaleMatrix(void *m, void *v);
-extern void CompMatrix(void *m0, void *m1, void *m2);
-extern void SetTransMatrix(void *m);
-extern void SetRotMatrix(void *m);
-extern s32 RotAverage4();
-extern s32 NormalClip();
 extern void NormalColorCol(void *a0, void *a1, void *a2);
-extern void SetPolyFT4(void *p);
-extern void AddPrim(void *ot, void *p);
-
 
 /* Transform, light, and queue visible textured mesh quads for rendering. */
 void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_bias)

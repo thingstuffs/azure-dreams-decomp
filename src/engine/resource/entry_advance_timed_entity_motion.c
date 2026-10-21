@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/vector.h"
+#include "engine/resource.h"
+#include "sdk/libgte.h"
 
 
 
@@ -21,13 +23,6 @@ typedef struct
 }
 SVECTOR;
 
-
-extern void RotMatrix(SVECTOR *r, MATRIX *m);
-extern void SetRotMatrix(MATRIX *m);
-extern void SetTransMatrix(MATRIX *m);
-extern void TransMatrix(MATRIX *m, GteTranslationVector *v);
-extern void RotTrans(SVECTOR *v0, GteTranslationVector *v1, s32 *flg);
-extern void CompMatrix(MATRIX *m0, MATRIX *m1, MATRIX *m2);
 extern void advance_timed_entity_motion(MATRIX *m);
 
 /* Build and install the combined rotation and translation from global transform state. */

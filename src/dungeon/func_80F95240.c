@@ -142,13 +142,13 @@ void update_actor_sequence_third(ActorActionView *action, ObjectPosition *motion
 
             player_target_flag = use_player_target;
             if (player_target_flag) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 actor->target = target;
                 target_position = ((ObjectNodeHeader *)target)[-1].unk_0C;
                 actor->target_tile_x = target_position->tileX;
                 actor->target_tile_y = target_position->tileY;
             } else {
-                item_table = D_8006DE24;
+                item_table = item_action_definitions;
                 item_id = *item_slot;
                 item_entry = &item_table[item_id];
                 if (item_entry->kind == 2) {
@@ -190,7 +190,7 @@ void update_actor_sequence_third(ActorActionView *action, ObjectPosition *motion
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
         g_dungeon_status.active_actor = 0;
-        ((PlayerActionCountView *)D_800814A8)->remaining--;
+        ((PlayerActionCountView *)primary_actor_record)->remaining--;
         advance_status_timers(actor);
         actor->pending_turn_updates = (u8)actor->pending_turn_updates - 1;
         action->nextAction.record = D_80165138;

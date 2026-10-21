@@ -107,7 +107,7 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
 
                 entity->facing = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)destination)->unk_24, ((SpriteFrameState *)destination)->unk_25,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &query_output);
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &query_output);
             }
         }
 

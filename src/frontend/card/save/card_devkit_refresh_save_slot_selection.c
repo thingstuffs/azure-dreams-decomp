@@ -1,7 +1,8 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "frontend/card/save.h"
 
 extern void save_object_value_and_set_control_fields(s32 object, s32 new_value);
-extern void card_devkit_set_window_selection_marker(s32 object, s32 value);
 extern void func_80404668(s32 object);
 extern void func_80405A00(s32 object, s32 value);
 

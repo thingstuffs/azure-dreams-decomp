@@ -30,5 +30,5 @@ s16 get_cached_or_coordinate_transform_value(void *object, s32 lookup_mode)
         return D_800D5078[state->object_index];
     }
 
-    return clamp_transform_coordinate_deltas(D_80083780.x.w.i, D_80083780.y.w.i, lookup_mode);
+    return clamp_transform_coordinate_deltas(view_reference_entity.x.w.i, view_reference_entity.y.w.i, lookup_mode);
 }

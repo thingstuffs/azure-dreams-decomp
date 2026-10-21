@@ -8,7 +8,7 @@
 extern s32 read_map_cell_at_world_position();
 extern void set_actor_motion_state(Rec_func_80094268_arg0 *, void *);
 extern s32 check_masked_value_in_current_range();
-extern s16 D_800D45AA[];
+extern s16 terrain_height_limits[];
 
    /* ((Rec_func_80094268_arg0 *)arg0)->unk_7C.as_pv in select_object_value_by_height_band */
 
@@ -26,7 +26,7 @@ void select_object_value_by_height_band(Rec_func_80094268_arg0 *object, void *co
     table_index = check_masked_value_in_current_range(
         read_map_cell_at_world_position(position->x.w.i, position->y.w.i) & 0xFFFF);
     if (table_index != 0) {
-        table_delta = ((u16)position->z.w.i) - D_800D45AA[table_index];
+        table_delta = ((u16)position->z.w.i) - terrain_height_limits[table_index];
         if (table_delta >= 0x19) {
             if (table_delta < 0x29) {
                 ((SpriteFrameState *)output)->source =

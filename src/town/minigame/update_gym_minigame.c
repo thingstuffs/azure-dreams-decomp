@@ -99,8 +99,8 @@ extern s32 D_80026F34;
 extern s16 D_800272C8;
 extern s16 D_800272CA;
 extern s32 D_80053858[4];
-extern s32 D_80053A88;
-extern u8 D_800834B8[];
+extern s32 display_registration_tag;
+extern u8 scene_object_payload_alias[];
 typedef struct {
     u8 raw[0x18];
 } MotionState;
@@ -114,7 +114,7 @@ extern s32 D_800F9B40;
 /* Run the ending cutscene's state machine: swing the camera, spawn the credits sprites and hand over to the next scene. */
 void update_gym_minigame(u8 *state_obj) {
     u8 *secondary = NULL;
-    u8 *main_state = D_800834B8;
+    u8 *main_state = scene_object_payload_alias;
     s32 state;
     u16 timer;
     s32 two;
@@ -140,11 +140,11 @@ void update_gym_minigame(u8 *state_obj) {
             ((S_80022F60_0 *)state_obj)->unk_02.s = 4;
             ((S_80022F60_0 *)state_obj)->unk_06 = 0;
             (*(u16 *)((u8 *)state_obj + 0))++;
-            motion = (u8 *)(&D_80083780);
+            motion = (u8 *)(&view_reference_entity);
             ((S_80022F60_2 *)motion)->unk_10 = 0;
             ((S_80022F60_2 *)motion)->unk_0C = 0;
             ((S_80022F60_2 *)motion)->unk_14 = 0xFFE00000;
-            *(void **)D_800834B8 = D_80097D2C;
+            *(void **)scene_object_payload_alias = D_80097D2C;
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
             ((S_80022F60_0 *)state_obj)->unk_08 = 0;
         }
@@ -154,7 +154,7 @@ void update_gym_minigame(u8 *state_obj) {
         ((S_80022F60_1 *)main_state)->unk_10.u =
             (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
         if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
-            u8 *motion = (u8 *)(&D_80083780);
+            u8 *motion = (u8 *)(&view_reference_entity);
             s32 value;
 
             (*(u16 *)((u8 *)state_obj + 2)) = 8;
@@ -177,7 +177,7 @@ void update_gym_minigame(u8 *state_obj) {
         masked_angle = raw & 0xFFF;
         ((S_80022F60_1 *)main_state)->unk_10.u = masked_angle;
         if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
-            u8 *motion = (u8 *)(&D_80083780);
+            u8 *motion = (u8 *)(&view_reference_entity);
 
             ((S_80022F60_2 *)motion)->unk_10 = 0;
             ((S_80022F60_2 *)motion)->unk_0C = 0;
@@ -190,7 +190,7 @@ void update_gym_minigame(u8 *state_obj) {
 
     case 3:
     {
-        u8 *motion = (u8 *)(&D_80083780);
+        u8 *motion = (u8 *)(&view_reference_entity);
         u8 *loop_asset;
         s32 *table_base;
         s32 *table_cursor;
@@ -216,12 +216,12 @@ void update_gym_minigame(u8 *state_obj) {
                 ((S_80022F60_2 *)motion)->unk_04 = 0x03800000;
                 (*(s32 *)((u8 *)motion + 0x10)) = 0;
                 D_800272CA = 0;
-                *(s32 *)(&D_80083780) = D_80026F26 << 16;
+                *(s32 *)(&view_reference_entity) = D_80026F26 << 16;
 
                 obj = allocate_list_node(one, alloc_page);
                 if (obj != NULL) {
                     ((S_80022F60_3 *)obj)->unk_10 = D_80023F6C;
-                    register_node(obj, &D_80053A88);
+                    register_node(obj, &display_registration_tag);
                     secondary = (u8 *)obj + 0x20;
                     ((S_80022F60_4 *)secondary)->unk_0C.s = 0xC8;
                     ((S_80022F60_4 *)secondary)->unk_0E.s = 0xA0;
@@ -240,7 +240,7 @@ void update_gym_minigame(u8 *state_obj) {
                 main_state = (u8 *)0xB0;
 loop_0:
                 {
-                    obj = allocate_list_node(1, ((u8 *)(&D_80083498)));
+                    obj = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
                     if (obj != NULL) {
 
                         sprite = (u8 *)obj + 0x20;
@@ -295,7 +295,7 @@ loop_0:
         break;
 
     case 4:
-        if (D_80082E80.sprite_flags & 0x6000) {
+        if (reference_tile_object.sprite_flags & 0x6000) {
             apply_global_scene_value(D_800D0128);
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
@@ -315,7 +315,7 @@ loop_0:
         break;
 
     case 6:
-        if (D_80082E80.sprite_flags & 0x6000) {
+        if (reference_tile_object.sprite_flags & 0x6000) {
             ((S_80022F60_0 *)state_obj)->unk_02.s = 1;
             apply_global_scene_value(D_800D0120);
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023994;
@@ -367,7 +367,7 @@ loop_0:
             apply_global_scene_value(D_800D0138);
             D_800272CA = 0;
             D_800272C8 = 1;
-            D_80083780.velocity_x = 0;
+            view_reference_entity.velocity_x = 0;
             ((S_80022F60_0 *)state_obj)->unk_02.s = 0x40;
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
@@ -379,8 +379,8 @@ loop_0:
         s32 current;
 
         two = 0x03800000;
-        current = ((ObjectPosition *)(((MotionState *)&D_80083780)))->x.v;
-        ((ObjectPosition *)(((MotionState *)&D_80083780)))->x.v =
+        current = ((ObjectPosition *)(((MotionState *)&view_reference_entity)))->x.v;
+        ((ObjectPosition *)(((MotionState *)&view_reference_entity)))->x.v =
             current + ((two - current) >> 1);
         if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
             obj = func_8003FC64(0x136);
@@ -417,7 +417,7 @@ loop_0:
             obj = allocate_list_node(1, main_state - 0x20);
             if (obj != NULL) {
                 ((S_80022F60_3 *)obj)->unk_10 = D_80023F6C;
-                register_node(obj, &D_80053A88);
+                register_node(obj, &display_registration_tag);
                 secondary = (u8 *)obj + 0x20;
                 ((S_80022F60_4 *)secondary)->unk_0C.s = 0x78;
                 ((S_80022F60_4 *)secondary)->unk_0E.s = 0x72;
@@ -479,7 +479,7 @@ loop_0:
     case 0xFF:
         if ((s16)timer <= 0) {
             SD_Call(0x200);
-            initialize_scene_action_record(main_state, ((MotionState *)&D_80083780), ((u8 *)(&D_80082E80)));
+            initialize_scene_action_record(main_state, ((MotionState *)&view_reference_entity), ((u8 *)(&reference_tile_object)));
             ((S_80022F60_0 *)state_obj)->unk_00.s = 0;
         }
         break;

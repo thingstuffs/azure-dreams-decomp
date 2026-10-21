@@ -20,8 +20,8 @@ extern u8 D_800D1DDC[];
 extern u8 D_800D1DE4[];
 extern u8 D_800D1DEC[];
 extern u8 D_800D1E7C[];
-extern u8 D_800D2FB4[];
-extern u8 D_800D3814[];
+extern u8 town_map_variants[];
+extern u8 town_map_selection_state[];
 
 /* Builds a null-terminated entry list for the current map kind and variant. */
 void build_map_variant_entry_list(void) {
@@ -39,8 +39,8 @@ void build_map_variant_entry_list(void) {
         D_800718E4[1] = D_800D1D24;
         D_800718E4[2] = D_800D1D2C;
     }
-    map_records = D_800D2FB4;
-    switch (map_records[D_800D3814[6] << 5]) {
+    map_records = town_map_variants;
+    switch (map_records[town_map_selection_state[6] << 5]) {
     case 5:
         switch ((*(u8 *)0x800136B8)) {
         default: D_800718E4[count++] = D_800D1D54; break;
@@ -70,8 +70,8 @@ void build_map_variant_entry_list(void) {
         break;
     default:
         i = 0;
-        records = (u32)D_800D2FB4;
-        state = D_800D3814;
+        records = (u32)town_map_variants;
+        state = town_map_selection_state;
         table = (u32)D_800D1A0C;
         do {
             D_800718E4[count++] = ((void **)((*(u8 *)((state[6] << 5) + records) << 3) + table))[i];

@@ -106,7 +106,7 @@ s32 play_sound_if_enabled();
 void refresh_actor_proximity_state();
 void spend_actor_mp();
 s16 sample_terrain_surface_height();
-extern s16 D_8008146E;
+extern s16 dungeon_room_count;
 extern s32 D_8014D058;
 extern u8 D_80150888[];
 extern u8 D_801508F0[];
@@ -272,7 +272,7 @@ void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *moti
         launch_ticks = (u16) actor->ticks - 1;
         actor->ticks = launch_ticks;
         if (launch_ticks == 8) {
-            height_offset = D_800DDC40[partner->heightClass];
+            height_offset = entity_height_offsets[partner->heightClass];
             height_value = ((SignedHeight *) partner_motion)->integer;
             entity_height = (s16)((CreatureState *)entity)->groundHeight;
             motion->dz = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10)
@@ -301,7 +301,7 @@ void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *moti
         return;
     case 2:
         motion->dz = (s32) (motion->dz + 0xFFFE0000);
-        height_adjust = D_800DDC40[partner->heightClass];
+        height_adjust = entity_height_offsets[partner->heightClass];
         partner_actor->heightOffset.parts.integer = (u16) ((motion->z.parts.integer + height_adjust) - 0x10);
         fall_ticks = (u16) actor->ticks - 1;
         actor->ticks = fall_ticks;
@@ -329,8 +329,8 @@ void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *moti
             if (tile_type < 0) {
                 continue;
             }
-            if (tile_type == D_80082E80.room_index) {
-                angle_or_count = &D_8008146E;
+            if (tile_type == reference_tile_object.room_index) {
+                angle_or_count = &dungeon_room_count;
                 if (*angle_or_count >= 2) {
                     continue;
                 }

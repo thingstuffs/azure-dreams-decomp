@@ -2,6 +2,8 @@
 #include "m2c_compat.h"
 
 #include "common.h"
+#include "engine/window/message.h"
+#include "slus/data.h"
 
 typedef struct S_80035C44_0 {
     u8 pad_00[0x2];
@@ -12,9 +14,6 @@ typedef struct S_80035C44_1 {
     u8 pad_00[0x68];
     s32 * unk_68;
 } S_80035C44_1;   /* arg0 in grow_window_extent_to_sixty_four */
-
-
-extern M2C_UNK fade_and_shrink_window_on_value_change;
 
 /* Advance progress by 16, clamp it to 64, and switch handlers when it exceeds 64. */
 void grow_window_extent_to_sixty_four(S_80035C44_1 *state, S_80035C44_0 *progress) {

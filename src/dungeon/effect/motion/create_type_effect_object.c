@@ -34,7 +34,7 @@ void *create_type_212_effect_object(MovingPosition *source) {
         appearance->color.c.b = 0x80;
         appearance->color.c.g = 0x80;
         appearance->color.c.r = 0x80;
-        func_8003DB94(appearance, D_800DE870, 0);
+        func_8003DB94(appearance, effect_sprite_sources, 0);
         appearance->scale_y = 0x2000;
         appearance->scale_x = 0x2000;
         register_node(object, project_sprite_chain);

@@ -23,19 +23,19 @@ s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s3
     slot = slot << 0x10;
     slot = slot >> 0x10;
     clear_slot_and_detach_entity(slot);
-    entries = (D_800E3648_entry *)D_800E3648;
+    entries = (D_800E3648_entry *)floor_objects;
     entry = &entries[slot];
     entry->field1 = 0x15;
     entry->field3 = 0xC0;
     entry->field0 = entry_type;
     entry->field2 = 0;
-    D_800E39C8[slot].field6 = (s8) x;
-    D_800E39C8[slot].field7 = (s8) y;
+    dungeon_floor_object_positions[slot].field6 = (s8) x;
+    dungeon_floor_object_positions[slot].field7 = (s8) y;
     cycle_map_cell_flags(x, y, 0x20);
-    D_800E39C8[slot].field10 = z;
-    D_800E39C8[slot].field14 = 0;
-    D_800E39C8[slot].fieldC = entry_value;
-    D_800E39C8[slot].field8 = *(s32 *)(((s32) (entry_type << 0x10) >> 0xE) + (u8 *)D_800DF258);
+    dungeon_floor_object_positions[slot].field10 = z;
+    dungeon_floor_object_positions[slot].field14 = 0;
+    dungeon_floor_object_positions[slot].fieldC = entry_value;
+    dungeon_floor_object_positions[slot].field8 = *(s32 *)(((s32) (entry_type << 0x10) >> 0xE) + (u8 *)D_800DF258);
     return slot;
 }
 
@@ -72,10 +72,10 @@ s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 sl
             process_unflagged_linked_entries(object->unk5C);
             g_dungeon_status.flags |= 0x812;
         }
-        slot_base = (u8 *) D_800E39C8;
+        slot_base = (u8 *) dungeon_floor_object_positions;
         status = (StatusEntry *) (slot_base + slot_index * 0x18);
         if (status->flags & 0x40) {
-            func_8003DB94(status, D_800DF258[D_800E3648[slot_index * 4]], 0);
+            func_8003DB94(status, D_800DF258[floor_objects[slot_index * 4]], 0);
             status->flags &= 0xF7FF;
         }
     }

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
 
 typedef struct S_80056654_0 {
     u16 unk_00;
@@ -42,8 +44,6 @@ typedef struct {
 } S_80084918;
 
 s32 audio_compute_pitch_bend_offset(void *, s32);
-s32 func_8005EB78(s32);
-void func_8005F134(S_80084918 *);
 extern s32 audio_voice_masks[];
 extern S_80084918 audio_voice_request;
 extern u8 audio_channel_controls[];

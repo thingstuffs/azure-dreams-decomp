@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/slots.h"
+#include "engine/util.h"
 
 typedef struct {
     /* 0x00 */ s16 marker;
@@ -26,8 +28,6 @@ typedef struct {
 
 extern S_80086A40 audio_bank_slots[16];
 extern s32 sound_slot_transfer_cursor[3]; /* size > 8: forced hi/lo, no $gp */
-extern void release_sound_ram_block(u32);
-extern s32 reserve_sound_ram_region(s32);
 
 /* Initializes a requested or free sound slot and returns its index. */
 s32 init_sound_slot(Sound *sound, s16 requested_slot)

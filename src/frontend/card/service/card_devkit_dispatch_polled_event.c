@@ -1,10 +1,9 @@
 #include "common.h"
+#include "frontend/card/event_callbacks.h"
+#include "frontend/card/service.h"
 
-typedef s32 (*Callback)(void);
-
-typedef struct CallbackTable {
-    Callback slot[5];
-} CallbackTable;
+typedef card_dev_event_callback_fn Callback;
+typedef card_dev_event_table CallbackTable;
 
 typedef struct CallbackTables {
     CallbackTable first;
@@ -12,11 +11,8 @@ typedef struct CallbackTables {
     CallbackTable second;
 } CallbackTables;
 
-extern s32 card_devkit_poll_first_software_event(void);
 extern s32 func_8040153C(void);
-extern CallbackTable D_80400054;
-extern CallbackTable D_80400068;
-extern s32 D_80409500[];
+extern s32 card_ui_event_mode[];
 
 /* Dispatches a nonzero selection through the callback table for the current state. */
 s32 card_devkit_dispatch_polled_event(void)
@@ -30,7 +26,7 @@ s32 card_devkit_dispatch_polled_event(void)
     callbacks.first = D_80400054;
     callbacks.second = D_80400068;
     result = 0;
-    state = D_80409500[0];
+    state = card_ui_event_mode[0];
     table_base = callbacks.first.slot;
     if (state == 0) {
         result = card_devkit_poll_first_software_event();

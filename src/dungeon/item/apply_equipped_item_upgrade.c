@@ -43,13 +43,13 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
         return process_record_and_update_linked_state(item, effect_value);
     }
 
-    actor = ((u8 *)D_800E3D7C);
+    actor = ((u8 *)dungeon_actor_ring_anchor);
     if ((u8 *)target_addr == actor) {
         u8 item_flags;
         s32 result;
 
         *(u8 **)(actor + 0x110) = item;
-        begin_mode_selected_item_action(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
+        begin_mode_selected_item_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), actor);
         item_flags = item[3];
         result = 0;
         item[3] = item_flags & 0xDF;
@@ -74,7 +74,7 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
             register s32 result;
 
             ((PlayerRecord *)actor)->unk_114 = 0x802020;
-            begin_parameterized_actor_action(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD158, 0);
+            begin_parameterized_actor_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), D_800DD158, 0);
             item_flags = item[3];
             result = 0;
             item[3] = item_flags | 0x20;

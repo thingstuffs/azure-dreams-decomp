@@ -110,7 +110,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite
 
                 use_special = is_special;
                 if (use_special != 0) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     (*(void * *)((u8 *)actor + 0x60)) = target;
                     scratch_pointer = ((S_8017293C_1_pre *)target)[-1].unk_00;
                     (*(u8 *)((u8 *)actor + 0x72)) = ((S_8017293C_2 *)scratch_pointer)->unk_24;
@@ -119,7 +119,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite
                     u8 item_id;
 
                     item_id = *item_slot;
-                    if (D_8006DE24[item_id].kind == 2) {
+                    if (item_action_definitions[item_id].kind == 2) {
                         target = (*(void * *)((u8 *)actor + 0x60));
                         if (target != 0) {
                             scratch_pointer = ((S_8017293C_1_pre *)target)[-1].unk_00;
@@ -164,7 +164,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
         ((S_8017293C_0 *)action)->unk_8C = D_80170E9C;

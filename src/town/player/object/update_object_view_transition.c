@@ -52,9 +52,9 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
     object_ref = (s32) object;
     town = &g_game_work;
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((void *) object_ref);
-    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated((void *) object_ref, &D_800FE488);
+    threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated((void *) object_ref, &position_query_scratch);
     if (((S_800A58CC_0 *)((void *) object_ref))->unk_0A >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((void *) object_ref, threshold, (struct TownVec * *)(&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town((void *) object_ref, threshold, (struct TownVec * *)(&position_query_scratch));
     } else {
         if (D_800D0000[-0x311] != 0) {
             ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = 0;
@@ -63,7 +63,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
             add_hex_20000_s_signed_offset_hex_14((void *) object_ref);
         }
     }
-    coords = &D_80083780;
+    coords = &view_reference_entity;
     if (check_masked_value_in_current_range(read_map_cell_at_world_position(coords->x.w.i, coords->y.w.i) & 0xFFFF) != 0) {
         pitch_step = ((S_800A58CC_0 *)((void *) object_ref))->unk_14 - compute_height_based_offset((void *) object_ref);
         ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = pitch_step;

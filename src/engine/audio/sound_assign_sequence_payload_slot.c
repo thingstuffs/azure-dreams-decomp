@@ -1,12 +1,11 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/audio.h"
+#include "slus.h"
+#include "slus/data.h"
 
-s32 read_sound_payload_slot();                                /* extern */
 extern s32 audio_bank_owner_payloads[];
-extern s32 sequence_payload_slot_18[];
-extern s32 sequence_payload_slot_20[];
-extern s32 sequence_payload_slot_24[];
 
 /* Store the fetched value in the global selected by the low 16 bits. */
 void sound_assign_sequence_payload_slot(s32 selector) {

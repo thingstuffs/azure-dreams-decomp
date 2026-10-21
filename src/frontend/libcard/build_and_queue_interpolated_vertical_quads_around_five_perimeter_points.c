@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 typedef struct {
     u8 pad[8];
@@ -10,11 +12,6 @@ typedef struct {
     void *field0;
     WinSub *field4;
 } WinObj;
-
-extern void card_boot_build_shaded_panel_packets(u8 *packet, u32 x, u32 y);
-extern s32 D_80079054;
-extern s32 D_800790B4;
-extern s32 D_80079114;
 
 /* Initialize window data and configure the four window objects. */
 void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(u8 *window_state) {

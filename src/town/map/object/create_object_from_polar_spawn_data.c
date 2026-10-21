@@ -58,7 +58,7 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
 
     component = radius * trig_factor;
     spawn_data->unk_10 = component;
-    object = allocate_list_node(0x312, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         object_data = ((S_800BB798_2 *)object)->unk_08;
         ((S_800BB798_2 *)object)->unk_10 = &D_800BB894;

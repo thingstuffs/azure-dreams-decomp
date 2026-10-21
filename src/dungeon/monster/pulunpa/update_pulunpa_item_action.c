@@ -139,7 +139,7 @@ void func_80175480(void *action, ObjectPosition *motion, void *sprite, ActorReco
 
                 special_test = special;
                 if (special_test != 0) {
-                    target = D_800814A8;
+                    target = primary_actor_record;
                     actor->target = target;
                     target_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->unk_0C;
                     ((ActorActionBytesView *)actor)->targetX = ((TargetTileView *)target_sprite)->tileX;
@@ -148,7 +148,7 @@ void func_80175480(void *action, ObjectPosition *motion, void *sprite, ActorReco
                     u8 item_id;
 
                     item_id = *item_slot;
-                    if (D_8006DE24[item_id].kind == 2) {
+                    if (item_action_definitions[item_id].kind == 2) {
                         target = actor->target;
                         if (target != 0) {
                             target_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->unk_0C;
@@ -179,7 +179,7 @@ void func_80175480(void *action, ObjectPosition *motion, void *sprite, ActorReco
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        ((PlayerActionCountView *)D_800814A8)->remainingActions--;
+        ((PlayerActionCountView *)primary_actor_record)->remainingActions--;
         advance_status_timers(actor);
         ((ActorActionBytesView *)actor)->remainingActions--;
         ((ItemActionState *)action)->nextBehavior = D_80173B98;

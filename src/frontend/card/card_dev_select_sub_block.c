@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 #ifndef NULL
 #define NULL 0
 #endif

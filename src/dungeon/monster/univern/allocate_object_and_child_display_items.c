@@ -24,7 +24,7 @@ void *allocate_object_and_child_display_items(s32 kind, s32 part_x, s32 part_y, 
     object = 0;
     allocation_size = 0x112;
     saved_part_byte_24 = part_x;
-    allocation_pool = &D_80083498;
+    allocation_pool = &scene_object_list_anchor;
     saved_copy_value = copy_value;
     saved_part_y = part_y;
     allocated = allocate_list_node(allocation_size, allocation_pool);
@@ -100,7 +100,7 @@ void *allocate_object_and_child_display_items(s32 kind, s32 part_x, s32 part_y, 
 
         do {
 
-            saved_copy_value = (s32)allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+            saved_copy_value = (s32)allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             allocated = (void *)saved_copy_value;
             ((S_8016A89C_5 *)outer)->unk_A4 = allocated;
             if (allocated != 0) {
@@ -133,7 +133,7 @@ void *allocate_object_and_child_display_items(s32 kind, s32 part_x, s32 part_y, 
                     call_zero = 0;
                     ((S_8016A89C_9 *)outer_child)->unk_10 = D_800D78C0;
                     (*(void * *)((u8 *)item + 0x2C)) = table;
-                    direction_index = ((D_80083228 +
+                    direction_index = ((view_facing_angle_alias +
                         ((S_8016A89C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
                     select_sprite_entry(item,
                         *(u8 *)((uptr)direction_index + (uptr)table), call_zero);

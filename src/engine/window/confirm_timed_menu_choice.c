@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window.h"
+#include "slus.h"
 
 typedef struct S_8003661C_1 {
     u8 pad_00[0x74];
@@ -21,10 +23,6 @@ typedef struct S_8003661C_0 {
     u8 pad_66[0x2];
     s32 * unk_68;
 } S_8003661C_0;   /* arg0 in confirm_timed_menu_choice */
-
-
-short SD_Call(int flags);
-void runtime_decrement_countdown_and_reset();
 
 /* Save the object's flags in its linked data and initialize state 0x11. */
 void confirm_timed_menu_choice(S_8003661C_0 *object) {

@@ -1,10 +1,10 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/graphics.h"
 
-extern u32 D_80080B54;
+extern u32 shared_primitive_color;
 
-extern void *apply_command_colors(void *a0, void *a1, void *a2, void *a3, void *a4, s32 *a5);
 extern void *memcpy(void *dst, const void *src, u32 n);
 
 /* Emit GPU packets, link them into the ordering table, and optionally clear the anchor. */
@@ -19,7 +19,7 @@ void *emit_gpu_packets(u32 *ot, u8 *source, u8 **anchor, u8 *entry) {
 
     packets_left = 1;
     memcpy(descriptor, *anchor, 12);
-    *anchor = apply_command_colors(source + 0xC, &D_80080B54, entry, *anchor, descriptor, &packets_left);
+    *anchor = apply_command_colors(source + 0xC, &shared_primitive_color, entry, *anchor, descriptor, &packets_left);
 
     empty_count = -1;
     packets_left = packets_left - 1;

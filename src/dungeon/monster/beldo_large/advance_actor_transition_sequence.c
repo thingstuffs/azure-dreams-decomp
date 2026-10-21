@@ -169,7 +169,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
         return;
 
     case 5:
-        world = *(u8 **)((u8 *)(&D_800E3D7C));
+        world = *(u8 **)((u8 *)(&dungeon_actor_ring_anchor));
         if (((S_8016BE20_4 *)world)->unk_28 < 2) {
             if (((S_8016BE20_2 *)ctx)->unk_60 == world) {
                 setup_data = D_80175392;
@@ -179,17 +179,17 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
                 control_count++;
                 g_dungeon_status.activity_counts.parts.pending_action_count = control_count;
                 ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
-                global_flags = ((ResetFlagWord *)&D_80013714)->flags;
-                ((ResetFlagWord *)&D_80013714)->flags = global_flags | 8;
+                global_flags = ((ResetFlagWord *)&system_update_flags)->flags;
+                ((ResetFlagWord *)&system_update_flags)->flags = global_flags | 8;
                 func_800353F4(setup_data);
                 ((S_8016BE20_2 *)ctx)->unk_6D = 0;
                 ((S_8016BE20_0 *)state)->unk_9B.n = 0;
 
                 for (object_index = 0; object_index < 2; object_index++) {
-                    object = (*(void * *)((u8 *)(*(u8 **)((u8 *)(&D_800E3D7C))) + 0xAC + object_index * 4));
+                    object = (*(void * *)((u8 *)(*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC + object_index * 4));
                     if (object != 0) {
                         func_80164BA4(object);
-                        object_header = (u8 *)(*(void * *)((u8 *)(*(u8 **)((u8 *)(&D_800E3D7C))) + 0xAC
+                        object_header = (u8 *)(*(void * *)((u8 *)(*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC
                             + object_index * 4)) - 0x20;
                         ((S_8016BE20_6 *)object_header)->unk_10 |= 0x80000000;
                     }

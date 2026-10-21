@@ -64,7 +64,7 @@ void *damp_and_fade_effect_sprite(s16 init_flags, s16 x, s16 y, s16 initial_valu
     saved_value = initial_value;
     saved_y = y;
     global_byte = (s32) *(s8 *)-0x56D4;
-    object = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         state = object + 0x20;
         ((S_80D95000_0 *)object)->unk_10 = &D_8016AA3C;

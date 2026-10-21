@@ -15,7 +15,7 @@
 extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_800DEA68[];
+extern u8 secondary_sprite[];
 extern u8 D_800DED70[];
 void *allocate_list_node();                     /* extern */
 s32 register_node();                /* extern */
@@ -173,9 +173,9 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             count = 5;
         }
         particle_callback = &update_shrinking_effect_sprite;
-        particle_texture = (S_func_81832800_7 *) D_800DEA68;
+        particle_texture = (S_func_81832800_7 *) secondary_sprite;
         while (count >= 0) {
-            object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+            object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (object != NULL) {
                 void *callback;
                 S_func_81832800_4 *spawn_position;
@@ -306,7 +306,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         ground_height = (s16) sample_terrain_surface_height(position->unk_00.parts.unk_02.as_u16, position->unk_04.parts.unk_06.as_u16,
             (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
         do {
-            object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+            object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (object != NULL) {
                 void *callback;
                 register_node(object, project_sprite_chain);

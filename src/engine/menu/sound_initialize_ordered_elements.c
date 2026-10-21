@@ -5,6 +5,7 @@
 u8 menu_element_order[4] = { 1, 3, 2, 4 };
 
 #include "engine/menu/gp_order_bytes_owner.h"
+#include "engine/menu.h"
 
 void sound_initialize_ordered_elements(S_80049F68_Obj *obj)
 {
@@ -15,14 +16,14 @@ void sound_initialize_ordered_elements(S_80049F68_Obj *obj)
     u8 elem_index;
     s32 end_marker;
 
-    obj->unkA0 = D_8002E5E8.f0;
-    obj->unkA4 = D_8002E5E8.f4;
-    obj->unkA8 = D_8002E5E8.f8;
+    obj->unkA0 = display_vector_defaults.f0;
+    obj->unkA4 = display_vector_defaults.f4;
+    obj->unkA8 = display_vector_defaults.f8;
     for (i = 0; i < 4; i++) {
-        obj->elem[i].f00 = D_8002E5D8.f0;
-        obj->elem[i].f04 = D_8002E5D8.f4;
-        obj->elem[i].f08 = D_8002E5D8.f8;
-        obj->elem[i].f0C = D_8002E5D8.fC;
+        obj->elem[i].f00 = display_block_defaults.f0;
+        obj->elem[i].f04 = display_block_defaults.f4;
+        obj->elem[i].f08 = display_block_defaults.f8;
+        obj->elem[i].f0C = display_block_defaults.fC;
         obj->elem[i].link.self = &obj->elem[i];
         obj->elem[i].link.parent = &obj->unkA0;
     }

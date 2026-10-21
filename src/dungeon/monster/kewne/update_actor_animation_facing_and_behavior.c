@@ -188,14 +188,14 @@ void update_actor_animation_facing_and_behavior(void *actor, void *context, void
             update_actor_status_and_food(entity);
             return;
         }
-        if (((S_801650EC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_801650EC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_80165854(actor, context, sprite, entity);
             return;
         }
         if (!(entity->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -231,9 +231,9 @@ void update_actor_animation_facing_and_behavior(void *actor, void *context, void
 
                 facing_angle = get_rounded_facing_and_rounding_flag(
                     ((S_801650EC_2 *)sprite)->unk_24.at00.v, ((S_801650EC_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
-                player = D_800814A8;
+                player = primary_actor_record;
                 entity->facing = facing_angle;
                 if (player->unk_9A == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_80169E98, update_actor_animation_facing_and_behavior);
@@ -266,22 +266,22 @@ void update_actor_animation_facing_and_behavior(void *actor, void *context, void
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
-            !(D_800E2970[room_index].flags & 2)) {
+            !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((u32)entity->flags1C) & 0x430)) {
 
                 if ((compare_monster_neighbor_values(
                         ((S_801650EC_2 *)sprite)->unk_24.at00.v, ((S_801650EC_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
                         ((S_801650EC_2 *)sprite)->unk_24.at00.v, ((S_801650EC_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                     return;
                 }
             }
         }
     } else if ((get_entity_effect_value(entity, 4) << 16) == 0) {
-        if (D_800814A8->unk_9A == 0x17) {
+        if (primary_actor_record->unk_9A == 0x17) {
             func_80166358(actor, context, sprite, entity);
         }
     }

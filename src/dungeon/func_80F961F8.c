@@ -117,7 +117,7 @@ void func_801679F8(void *controller, void *context, void *sprite, void *entity)
         }
 
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            EntityRec *owner = D_800814A8;
+            EntityRec *owner = primary_actor_record;
 
             if ((func_8009A180(entity,
                     (u8 *)owner->unk_58 + 0x20) << 16) != 0) {

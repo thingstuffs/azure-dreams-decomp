@@ -1,5 +1,6 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "engine/graphics.h"
 
 /* S_800482C8: array element for the entity/monster list iterated here;
  * stride 0xC, only the flags byte at offset 0 is read. */
@@ -28,7 +29,7 @@ void upload_eligible_entries_by_mode(struct S_800482C8_Entry *entries, s32 *shar
     do {
         if (!(entry->flags & 0x60)) {
             value_cursor--;
-            if (D_80082E60.mode == 1) {
+            if (runtime_dispatch_state.mode == 1) {
                 pack_texture_into_vram_narrow(entry, *value_ptr, *value_cursor);
             } else {
                 pack_texture_into_vram_wide(entry, *value_ptr, *value_cursor);

@@ -5,10 +5,10 @@
 /* Store the state byte and invoke the handler at the stored tile center. */
 void store_state_and_update_tile_center(s32 state)
 {
-    D_800D3814[6] = state;
-    func_80041094(0xC, ((D_800D3814[0] + 1) << 6) | 0x20,
-                  ((D_800D3814[1] + 1) << 6) | 0x20, -0x100,
-                  D_80082E60.flags16);
+    town_map_selection_state[6] = state;
+    func_80041094(0xC, ((town_map_selection_state[0] + 1) << 6) | 0x20,
+                  ((town_map_selection_state[1] + 1) << 6) | 0x20, -0x100,
+                  runtime_dispatch_state.flags16);
 }
 
 /* Updates two wrapping indices from input flags and calls store_state_and_update_tile_center on a button combination. */

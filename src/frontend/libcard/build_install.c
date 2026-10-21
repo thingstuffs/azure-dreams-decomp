@@ -2,15 +2,9 @@
 #include "shared/game_work.h"
 #include "records/Rec_func_80025030_arg0.h"
 
-
-extern void SD_Call(s32);
-extern void card_boot_destroy_slot_selection_menu(void *);
-extern void init_card_boot_request_object(s32, s32);
-extern void set_record_pair_to_one(void *);
-extern void card_boot_dispatch_selected_menu_action(void *);
-extern s32 advance_index_with_single_wrap(s32, s32, s32);
-extern void card_boot_refresh_five_slot_selection(void *);
 #include "modules/main_server_ship_interfaces.h"
+#include "frontend/libcard.h"
+#include "slus.h"
 
 /* Handle menu selection, directional repeat, and closing from controller input and update status. */
 void build_install(u8 *object)

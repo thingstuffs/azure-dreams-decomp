@@ -158,13 +158,13 @@ void advance_actor_action_and_target(void *action, void *motion, void *sprite, v
                 u8 use_player_target = is_special;
 
                 if (use_player_target) {
-                    target_link = D_800814A8;
+                    target_link = primary_actor_record;
                     ((S_8017256C_1 *)actor)->unk_60.p = target_link;
                     kind = (s32)((S_8017256C_2_pre *)target_link)[-1].unk_00;
 
                     ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)kind)->unk_24;
                     ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)kind)->unk_25;
-                } else if (D_8006DE24[*action_entry].kind == 2) {
+                } else if (item_action_definitions[*action_entry].kind == 2) {
                     target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
                     if (target_link != 0) {
                         kind = (s32)((S_8017256C_2_pre *)target_link)[-1].unk_00;
@@ -205,7 +205,7 @@ void advance_actor_action_and_target(void *action, void *motion, void *sprite, v
         ((S_8017256C_5 *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((S_8017256C_4 *)sprite)->unk_24, ((S_8017256C_4 *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        ((D800814A8FieldView_81252D6C *)D_800814A8)->field_A6--;
+        ((D800814A8FieldView_81252D6C *)primary_actor_record)->field_A6--;
         advance_status_timers(actor);
         ((S_8017256C_1 *)actor)->unk_6D--;
         ((S_8017256C_0 *)action)->unk_8C = &update_object_animation;

@@ -1,5 +1,6 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "slus.h"
 
 /* Canonical status block shared across the D_800847D0 family (see w_8005405C.c etc). */
 
@@ -10,7 +11,6 @@ extern void *audio_bank_owner_payloads[];
 extern s32 init_sound_slot_from_header(void *a0, s16 a1, void *a2);
 extern s32 bind_sound_slot_owner(void *a0, s32 a1);
 extern void release_enabled_sound_channel(s32 a0);
-extern void identity_int(s32 a0);
 extern void sound_check_or_wait_for_spu_transfer(s32 a0);
 
 /* Initializes an entry, marking it available on success or reporting an error on failure. */

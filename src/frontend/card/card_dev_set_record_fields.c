@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/card.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_80021394_0 {

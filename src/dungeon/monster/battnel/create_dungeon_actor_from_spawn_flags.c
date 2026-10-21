@@ -66,7 +66,7 @@ void *create_dungeon_actor_from_spawn_flags(s16 spawn_flags, s16 tile_x, s16 til
     saved_x = tile_x;
     saved_value = part_value;
     saved_y = tile_y;
-    obj = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80B73054_0 *)obj)->unk_10 = D_8016AA30;

@@ -18,7 +18,7 @@ void process_global_effect_slots(void)
     *(u16 *)(state + 0x46) &= 0x7FFF;
     func_80173A48();
     do {
-        object = *(void **)(((u8 *)D_800E3D7C) + 0xAC + slot * 4);
+        object = *(void **)(((u8 *)dungeon_actor_ring_anchor) + 0xAC + slot * 4);
         if (object != 0) {
             clear_entry_flag_and_link_owner((u8 *)object - 0x20);
         }

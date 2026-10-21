@@ -50,20 +50,20 @@ typedef struct S_800AFF00_7 {
 } S_800AFF00_7;   /* ((S_800AFF00_4 *)arg0)->unk_08 in initialize_item_menu_linked_blocks */
 
 
-extern s32 D_8002E5D8[4];
-extern s32 D_8002E5E8[3];
+extern s32 display_block_defaults[4];
+extern s32 display_vector_defaults[3];
 
 /* Initialize two linked data blocks from templates and set their default fields. */
 void initialize_item_menu_linked_blocks(S_800AFF00_4 *state, S_800AFF00_0 *primary, DisplayPositionWords *secondary) {
-    s32 *primary_defaults = D_8002E5D8;
-    s32 *secondary_defaults = D_8002E5E8;
+    s32 *primary_defaults = display_block_defaults;
+    s32 *secondary_defaults = display_vector_defaults;
     s32 secondary_head;
     s32 initial_offset = -60;
 
-    primary->unk_00 = D_8002E5D8[0];
+    primary->unk_00 = display_block_defaults[0];
     primary->unk_04 = ((S_800AFF00_1 *)primary_defaults)->unk_04;
     primary->unk_08 = ((S_800AFF00_1 *)primary_defaults)->unk_08;
-    secondary_head = D_8002E5E8[0];
+    secondary_head = display_vector_defaults[0];
     primary->unk_0C = ((S_800AFF00_1 *)primary_defaults)->unk_0C;
     secondary->unk0 = secondary_head;
     secondary->unk4 = ((S_800AFF00_3 *)secondary_defaults)->unk_04;

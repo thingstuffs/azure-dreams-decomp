@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "slus/data.h"
 
 typedef struct S_80035760_0 {
     u8 pad_00[0x4C];
@@ -13,9 +14,6 @@ typedef struct S_80035760_0 {
     u8 pad_6C[0x8];
     u8 * unk_74;
 } S_80035760_0;   /* arg0 in runtime_reset_state_and_advance_callback */
-
-
-extern s32 runtime_assign_code_101_callback;
 
 /* Reset the state bytes and advance the callback when the shared flag or state requests it. */
 void runtime_reset_state_and_advance_callback(S_80035760_0 *state) {

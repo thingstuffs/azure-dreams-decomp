@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/entity.h"
 
 
 /* Rodata owner: the row's switch emits its jump table into this object's .rodata,
@@ -32,7 +33,6 @@ extern s32 read_next_byte_and_finish(Entity *);
 extern void audio_sequence_note_off(s32, s32, s32);
 extern void start_channel_note(s32, s32, s32);
 extern void sound_set_seven_bit_channel_value_and_notify(s32, s32, s32);
-extern void set_audio_channel_program(u8, u8);
 extern void audio_dispatch_midi_event(Entity *, s32, s32, s32);
 
 /* Processes the next entity command and returns its control flag. */

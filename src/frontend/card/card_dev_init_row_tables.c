@@ -1,10 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 s32 func_80056F14();
-extern M2C_UNK D_80082FF4;
-extern M2C_UNK D_80083060;
-extern M2C_UNK D_8008306C;
 
 typedef struct S_8001C698_0 {
     u8 pad_00[0x1B8];

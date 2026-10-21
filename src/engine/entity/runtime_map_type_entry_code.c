@@ -12,8 +12,8 @@ typedef struct {
     u8 field_0x03;
 } S_80043914_Arg;
 
-extern S_800E3E48 D_800E3E48[];
-extern u8 D_800E2968;
+extern S_800E3E48 familiar_record_storage[];
+extern u8 entity_spawn_variant_code;
 
 /* Maps the selected entry's code from 0xD/0xF to 0xF/0xA for type 0x16. */
 void runtime_map_type_16_entry_code(S_80043914_Arg *input)
@@ -21,7 +21,7 @@ void runtime_map_type_16_entry_code(S_80043914_Arg *input)
     S_80043914_Arg *entrySelector = input;
 
     if (entrySelector->field_0x00 == 0x16) {
-        S_800E3E48 *entries = D_800E3E48;
+        S_800E3E48 *entries = familiar_record_storage;
         u8 entryCode = entries[entrySelector->field_0x03 & 0x1F].field_0x48;
         u8 mappedCode;
 
@@ -32,6 +32,6 @@ void runtime_map_type_16_entry_code(S_80043914_Arg *input)
         } else {
             return;
         }
-        D_800E2968 = mappedCode;
+        entity_spawn_variant_code = mappedCode;
     }
 }

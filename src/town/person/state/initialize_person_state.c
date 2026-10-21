@@ -16,8 +16,8 @@ void initialize_person_state(void *state, void *output) {
     *(s16 *)((s8 *)state + 0x6A) = 0;
 
     {
-        *(u16 *)((s8 *)output + 2) = ((u16)D_80083780.x.w.i);
-        *(u16 *)((s8 *)output + 6) = ((u16)D_80083780.y.w.i);
-        *(s16 *)((s8 *)output + 0xA) = ((u16)D_80083780.z.w.i) - get_person_lookup_step(output);
+        *(u16 *)((s8 *)output + 2) = ((u16)view_reference_entity.x.w.i);
+        *(u16 *)((s8 *)output + 6) = ((u16)view_reference_entity.y.w.i);
+        *(s16 *)((s8 *)output + 0xA) = ((u16)view_reference_entity.z.w.i) - get_person_lookup_step(output);
     }
 }

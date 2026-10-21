@@ -1,5 +1,7 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "slus.h"
 
 /* Canonical status-block struct (established in w_800540A8.c / w_80054C58.c /
    w_800559B4.c / w_8005440C.c). field1C added here (previously an unnamed
@@ -19,13 +21,6 @@ typedef struct S_80084904 {
 /* Same shape/reasoning as S_80084904. */
 
 extern S_80084904 audio_sequence_task_mode;
-
-extern void submit_tagged_driver_byte(u8 a0, u8 a1, u8 a2);
-extern s32 Control_CD(s32 a0, void *a1, void *a2);
-extern s32 sound_get_cd_sector_position(void);
-extern int select_audio_mode_attenuation(int mode);
-extern void activate_pending_playback(void);
-extern void sound_begin_cd_playback_setup(void);
 
 /* Handles byte opcodes to arm, commit, or cancel a countdown. */
 void audio_handle_stream_control_event(s32 event) {

@@ -1,7 +1,7 @@
 #include "common.h"
+#include "frontend/card/load.h"
+#include "main/data.h"
 
-extern short D_80408EC8[];
-extern short D_8040077C[];
 extern void func_8003830C(int a, void *b);
 extern void func_8007BF50(void *a, void *b);
 extern int D_80010208;

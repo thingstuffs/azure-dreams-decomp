@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/node.h"
+#include "slus.h"
 
 /* struct Elem / struct Dst as established in src/code.c for func_8003DB94 */
 struct Elem {
@@ -21,8 +23,6 @@ struct Dst {
     unsigned short f14;
 };
 
-extern void func_8003DB94(struct Dst *a0, struct Elem *a1, short a2);
-extern void register_node(void *a0, void (*a1)(void));
 extern void update_staged_motion_effect(void);
 extern void draw_linked_sprites(void);
 

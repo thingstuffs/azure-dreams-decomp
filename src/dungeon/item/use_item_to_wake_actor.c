@@ -28,9 +28,9 @@ typedef struct S_800BD72C_0_pre {
 /* Processes an entity event, handling the player separately and completing other events. */
 s32 use_item_to_wake_actor(void *entity, s32 event, s16 event_type)
 {
-    if (entity == D_800E3D7C) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((EntityRec *)entity)->unk_110 = event;
-        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
 

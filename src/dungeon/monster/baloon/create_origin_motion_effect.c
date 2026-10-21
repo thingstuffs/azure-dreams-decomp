@@ -100,7 +100,7 @@ void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2
         sprite->color.c.r = 0x80;
         sprite->clut = 0x7DCF;
         sprite->flags = (u16)(sprite->flags | 0x100);
-        func_8003DB94(sprite, D_800DE870, 0);
+        func_8003DB94(sprite, effect_sprite_sources, 0);
     }
 }
 

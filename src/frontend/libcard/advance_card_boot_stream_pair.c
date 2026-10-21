@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
 
 struct FrameState; s32 advance_timed_tagged_stream(struct FrameState *);                         /* extern */
 

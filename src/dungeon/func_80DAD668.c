@@ -138,14 +138,14 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
                 return;
             }
 
-            if (sprite->tile.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+            if (sprite->tile.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
                 func_801535CC(action, context, sprite, entity);
                 return;
             }
 
             if ((entity->action_flags & 0x8000) == 0) {
                 if (g_dungeon_status.flags & 0x2000) {
-                    if ((s16)check_entity_relation(entity, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                    if ((s16)check_entity_relation(entity, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                         return;
                     }
                 }
@@ -181,8 +181,8 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
             case 7:
                 room_or_facing = get_rounded_facing_and_rounding_flag(
                     sprite->tile.bytes.x, sprite->tile.bytes.y,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, (s16 *)&distance);
-                player = D_800814A8;
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
+                player = primary_actor_record;
                 entity->facing = room_or_facing;
                 if (player->unk_9A == 0x11) {
                     begin_actor_spell_action(action, context, sprite, D_8015589C, func_80152E68);
@@ -212,7 +212,7 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
         if ((flags & 0x2000) == 0) {
             room_index = (s8)room_or_facing;
             if (room_index >= 0) {
-                room_table = (u8 *)D_800E2970;
+                room_table = (u8 *)dungeon_rooms;
                 room_entry = room_table + room_index * 20;
             }
             if (room_index < 0 ||
@@ -220,10 +220,10 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
                 if ((flags & 0x430) == 0) {
                     if ((s16)compare_monster_neighbor_values(
                             sprite->tile.bytes.x, sprite->tile.bytes.y,
-                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         room_or_facing = get_rounded_facing_and_rounding_flag(
                             sprite->tile.bytes.x, sprite->tile.bytes.y,
-                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, (s16 *)&distance);
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
                         entity->facing = room_or_facing;
                     }
                 }

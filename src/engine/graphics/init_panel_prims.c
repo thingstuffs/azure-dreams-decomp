@@ -1,11 +1,8 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "slus/data.h"
 
 /* --- gcc 2.7.2 -O2 -fno-expensive-optimizations translation unit --- */
-
-extern char panel_primary_primitive_template[8];
-extern char panel_gradient_primitive_template[4];
-extern void fill_primitive_pair();
-extern void build_tinted_gradient_rect();
 
 /* Initializes the sub-objects at offsets 0 and 0x18 from shared templates. */
 void init_panel_prims(char *object)

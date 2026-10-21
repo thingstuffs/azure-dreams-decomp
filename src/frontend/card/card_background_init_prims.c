@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 // Initializes two consecutive buffer records and returns the end pointer.
 void *card_background_init_prims(u8 *record) {

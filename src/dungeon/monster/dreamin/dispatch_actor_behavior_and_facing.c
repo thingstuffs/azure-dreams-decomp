@@ -113,14 +113,14 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 return;
             }
 
-            if (*(u16 *)((u8 *)sprite + 0x24) == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+            if (*(u16 *)((u8 *)sprite + 0x24) == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
                 func_801715CC(actor, context, sprite, state);
                 return;
             }
 
             if ((state->action_flags & 0x8000) == 0) {
                 if (g_dungeon_status.flags & 0x2000) {
-                    if ((s16)check_entity_relation(state, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                    if ((s16)check_entity_relation(state, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                         return;
                     }
                 }
@@ -156,8 +156,8 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             case 7:
                 result = get_rounded_facing_and_rounding_flag(
                     *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, (s16 *)&distance);
-                player = D_800814A8;
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
+                player = primary_actor_record;
                 state->facing = result;
                 if (player->unk_9A == 0x11) {
                     begin_actor_spell_action(actor, context, sprite, D_8017389C, D_80170E68);
@@ -187,7 +187,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
         if ((flags & 0x2000) == 0) {
             entry_index = (s8)result;
             if (entry_index >= 0) {
-                entry_base = (u8 *)D_800E2970;
+                entry_base = (u8 *)dungeon_rooms;
                 entry = entry_base + entry_index * 20;
             }
             if (entry_index < 0 ||
@@ -195,10 +195,10 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 if ((flags & 0x430) == 0) {
                     if ((s16)compare_monster_neighbor_values(
                             *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
-                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) != 0) {
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         result = get_rounded_facing_and_rounding_flag(
                             *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
-                            D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, (s16 *)&distance);
+                            reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
                         state->facing = result;
                     }
                 }

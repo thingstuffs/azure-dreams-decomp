@@ -97,7 +97,7 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
                 effect_pos->unk_06 = (u16) (effect_pos->unk_06 + delta.y);
                 effect_pos->unk_0A = (u16) (effect_pos->unk_0A + delta.z);
             }
-            func_8003DB94(((S_800D58D8_2 *)effect)->unk_0C, D_800DE870, 0);
+            func_8003DB94(((S_800D58D8_2 *)effect)->unk_0C, effect_sprite_sources, 0);
         }
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800D58D8_0_pre *)state)[-1].unk_12 | 0x8000);
         object_flag_block.flags |= 0x8000;

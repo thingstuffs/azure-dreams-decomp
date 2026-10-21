@@ -19,13 +19,13 @@ extern void func_8006733C();
 void clear_and_initialize_building_grid(s32);
 
 
-extern u8 D_800D2FB4[];
-extern u8 D_800D381A[];
+extern u8 town_map_variants[];
+extern u8 town_map_variant[];
 extern u8 D_80110EC8[];
 extern u8 D_801116C8[];
 extern u8 D_80111EC8[];
 extern u8 D_80111F48[];
-extern u16 D_80111FA8[];
+extern u16 building_upload_rect[];
 extern u8 D_8012F004[];
 extern u8 D_8014F004[];
 
@@ -52,7 +52,7 @@ void initialize_building_scene_assets(void) {
     u16 *upload_rect;
     u8 *image_data;
 
-    upload_rect = D_80111FA8;
+    upload_rect = building_upload_rect;
     image_data = D_80110EC8;
     state_base = ((u8 *)(&g_game_work));
     asset_state = state_base + 0x1DC;
@@ -65,8 +65,8 @@ void initialize_building_scene_assets(void) {
     ((S_800B70EC_0 *)asset_state)->unk_16 = seven;
     ((S_800B70EC_0 *)asset_state)->unk_1A = limit;
     ((S_800B70EC_0 *)asset_state)->unk_1E = size;
-    shared_state = &D_80082E60;
-    D_80111FA8[0] = 0x328;
+    shared_state = &runtime_dispatch_state;
+    building_upload_rect[0] = 0x328;
     upload_rect[1] = 0x80;
     upload_rect[2] = 8;
     upload_rect[3] = 0x80;
@@ -75,19 +75,19 @@ void initialize_building_scene_assets(void) {
     func_8006733C(upload_rect, image_data);
 
     single_row = 1;
-    kind_table = D_800D2FB4;
-    kind = kind_table[D_800D381A[0] << 5];
+    kind_table = town_map_variants;
+    kind = kind_table[town_map_variant[0] << 5];
     special_scene = 0x21;
     if (kind != special_scene) {
         if (!scene_below(kind, 0x21) && (s32)kind < 0x29) {
             scene_offset = (s32)kind < 0x26;
             if (!scene_offset) {
-            D_80111FA8[0] = 0x330;
+            building_upload_rect[0] = 0x330;
             upload_rect[1] = 0x80;
             upload_rect[2] = 8;
             upload_rect[3] = 0x80;
             func_8006733C(upload_rect, D_801116C8);
-            D_80111FA8[0] = 0;
+            building_upload_rect[0] = 0;
             upload_rect[1] = 0x1FB;
             upload_rect[2] = 0x40;
             upload_rect[3] = single_row;
@@ -95,7 +95,7 @@ void initialize_building_scene_assets(void) {
             }
         }
     } else {
-        D_80111FA8[0] = 0x10;
+        building_upload_rect[0] = 0x10;
         upload_rect[1] = 0x1C1;
         upload_rect[2] = 0x30;
         upload_rect[3] = single_row;
@@ -105,9 +105,9 @@ void initialize_building_scene_assets(void) {
     func_80067014(0);
     *(void **)asset_state = asset_data;
     clear_and_initialize_building_grid((s32)(asset_data));
-    scene_table = D_800D2FB4;
+    scene_table = town_map_variants;
     {
-        u8 *entry = &scene_table[D_800D381A[0] << 5];
+        u8 *entry = &scene_table[town_map_variant[0] << 5];
         if (*entry != 0x29) {
             runtime_load_packed_resource_chunks(*entry, D_8012F004);
         }

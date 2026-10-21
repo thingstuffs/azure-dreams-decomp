@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_80025030_arg0.h"
+#include "frontend/libcard.h"
 
 
 /* Sets both record fields to one. */

@@ -7,18 +7,18 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
-extern u8 D_800D3814[12];
-extern u8 D_800D2EA4[];
+extern u8 town_map_selection_state[12];
+extern u8 town_building_slot_rectangles[];
 
-extern s8 D_800D381A;
+extern s8 town_map_variant;
 extern s32 func_80041094();
 /* Passes the selected entry's bottom-center coordinates to func_80041094 and clears the selection. */
 void clear_selected_entry_at_bottom_center(void)
 {
     s32 entry_index = 0x20;
-    u8 *selection_state = D_800D3814;
-    u8 *shared_state = ((u8 *)&D_80082E60);
-    u8 *entries = D_800D2EA4;
+    u8 *selection_state = town_map_selection_state;
+    u8 *shared_state = ((u8 *)&runtime_dispatch_state);
+    u8 *entries = town_building_slot_rectangles;
     u8 *page = (u8 *) 0x80010000;
     u8 *entry;
     u8 *fallback_entries;
@@ -32,9 +32,9 @@ void clear_selected_entry_at_bottom_center(void)
             return;
         }
     }
-    fallback_entries = D_800D2EA4;
+    fallback_entries = town_building_slot_rectangles;
     entry = fallback_entries + entry_index * 8;
     func_80041094(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20,
-        ((entry[1] + entry[3]) << 6) | 0x20, 0, D_80082E60.flags16 ^ 1);
-    D_800D381A = 0;
+        ((entry[1] + entry[3]) << 6) | 0x20, 0, runtime_dispatch_state.flags16 ^ 1);
+    town_map_variant = 0;
 }

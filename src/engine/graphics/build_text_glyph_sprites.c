@@ -1,6 +1,8 @@
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/item.h"
+#include "sdk/libgpu.h"
 
 
 typedef struct
@@ -37,11 +39,6 @@ typedef struct
     u16 unk1C;
 }
 S_80053858_rec;
-extern void func_8004E21C(u8 *, u8);
-extern s32 SetSprt(S_80053858_prim *);
-extern void SetSemiTrans(S_80053858_prim *, s32);
-extern s32 GetTPage(s32, s16, s32, s32);
-extern void SetDrawMode(S_80053858_prim *, s32, s32, s32, s32);
 /* Builds character sprites and draw modes for a linked list of text records. */
 s32 build_text_glyph_sprites(S_80053858_rec *first_text)
 {

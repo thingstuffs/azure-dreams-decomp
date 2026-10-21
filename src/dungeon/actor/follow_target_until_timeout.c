@@ -3,7 +3,7 @@
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 D_80080000[];
+extern s32 resident_globals_page[];
 s32 call_the_same_context_both_processing_routines(s32, ObjectPosition *);             /* extern */
 s32 handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(s32, ObjectPosition *);             /* extern */
 s32 add_motion_deltas_to_position(ObjectPosition *);                      /* extern */
@@ -20,7 +20,7 @@ void follow_target_until_timeout(S_7FFFE188_1 *entity, s32 context, ObjectPositi
     s32 *target_pos;
     u16 remaining_ticks;
 
-    target_pos = D_80080000 + 0xDE0;
+    target_pos = resident_globals_page + 0xDE0;
     motion->velocity_x = (s32) ((s32) (target_pos[0] - motion->x.v) / 2);
     motion->velocity_y = (s32) ((s32) (target_pos[1] - motion->y.v) / 2);
     add_motion_deltas_to_position(motion);

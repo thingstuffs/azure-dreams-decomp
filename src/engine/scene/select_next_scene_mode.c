@@ -1,13 +1,11 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "engine/resource.h"
+#include "slus/data.h"
 
-extern s32 gpu_scratch_ring_size;
 extern s32 gpu_scratch_buffer_base;
 extern s32 gpu_scratch_write_pointer;
 
-extern u8 gpu_scratch_ring_buffer[];
-
-extern void load_dispatch_entry_files(u16);
 extern void queue_mode_selected_resource_table(void);
 extern s32 read_combined_controller_buttons(s32);
 extern void load_scene_resource_group(s16);
@@ -15,7 +13,7 @@ extern void load_scene_resource_group(s16);
 /* Selects the next mode, clears transient state, and dispatches mode setup. */
 void select_next_scene_mode(void)
 {
-    RuntimeDispatchState *state_ptr = &D_80082E60;
+    RuntimeDispatchState *state_ptr = &runtime_dispatch_state;
     RuntimeDispatchState *reset_state;
     s32 saved_data_addr;
     s32 buffer_size;
@@ -41,7 +39,7 @@ void select_next_scene_mode(void)
         }
     }
     state_ptr->field_B = next_mode;
-    reset_state = &D_80082E60;
+    reset_state = &runtime_dispatch_state;
     buffer_size = reset_state->field_B;
     flags = reset_state->flags0F;
     reset_state->field_D = 0;

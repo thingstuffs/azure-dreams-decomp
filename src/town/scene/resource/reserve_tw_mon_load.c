@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 D_800CF874;
+extern s32 town_resource_request;
 
 /* reserve_tw_mon_load: store the town monster load reservation value. */
 void reserve_tw_mon_load(s32 reservation_value) {
-    D_800CF874 = reservation_value;
+    town_resource_request = reservation_value;
 }

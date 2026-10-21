@@ -8,8 +8,8 @@
 void advance_dispatch_state_to_two(void) {
     u8 counter;
 
-    counter = D_8001E950->dispatchState;
+    counter = town_event_state->dispatchState;
     if (counter < 2U) {
-        D_8001E950->dispatchState = (u8) (counter + 1);
+        town_event_state->dispatchState = (u8) (counter + 1);
     }
 }

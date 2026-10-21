@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "frontend/settings.h"
 
 typedef struct S_7FDD3AE0_1 {
     u8 pad_00[0x4];

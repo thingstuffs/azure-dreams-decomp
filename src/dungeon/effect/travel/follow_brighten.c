@@ -107,7 +107,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
                 ((MovingEffectState *)self)->unk_0C = ((MovingTargetPosition *)target_part)->unk_02;
                 ((MovingEffectState *)self)->unk_0E = ((MovingTargetPosition *)target_part)->unk_06;
                 ((MovingEffectState *)self)->unk_10.u = ((MovingTargetPosition *)target_part)->unk_0A -
-                                          D_800DDC40[0];
+                                          entity_height_offsets[0];
                 {
                     u8 *target_record = ((MovingActor_pre *)owner)[-1].unk_00;
                     u8 x = ((MovingTile *)target_record)->unk_24 +

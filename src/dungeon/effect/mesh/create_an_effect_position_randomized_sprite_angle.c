@@ -888,7 +888,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             y_distance = abs(y_distance);
             stack.distance[1] = y_distance;
             entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
-            z_table = D_800DDC40[((ovl_1930844_81912154_S_80025954_9 *)entity)->unk_13] << 0x10;
+            z_table = entity_height_offsets[((ovl_1930844_81912154_S_80025954_9 *)entity)->unk_13] << 0x10;
             z_distance = ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_08.at02.v - z_table;
             z_base = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at02u.v + 0x300000;
             z_distance -= z_base;
@@ -910,7 +910,7 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
             ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_10 = (((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_04.at00.v
                 - ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_04.at00.v) / ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
             entity = ((ovl_1930844_81912154_S_80025954_1 *)owner)->unk_60;
-            z_table2 = D_800DDC40[((ovl_1930844_81912154_S_80025954_9 *)entity)->unk_13] << 0x10;
+            z_table2 = entity_height_offsets[((ovl_1930844_81912154_S_80025954_9 *)entity)->unk_13] << 0x10;
             z_velocity = ((ovl_1930844_81912154_S_80025954_8 *)destination)->unk_08.at00.v - z_table2;
             z_base2 = ((ovl_1930844_81912154_S_80025954_5 *)motion)->unk_08.at00.v + 0x300000;
             z_velocity -= z_base2;

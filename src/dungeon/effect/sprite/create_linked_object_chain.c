@@ -63,7 +63,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
         return NULL;
     }
     for (i = 0; i < 18; i++) {
-        objects[i] = allocate_list_node(18, (i != 0) ? objects[0] : (void *)&D_80083498);
+        objects[i] = allocate_list_node(18, (i != 0) ? objects[0] : (void *)&scene_object_list_anchor);
         if (objects[i] != NULL) {
             ((ObjectNodeHeader *)objects[i])->unk_10 = &D_80025C80;
             position = ((ObjectNodeHeader *)objects[i])->unk_08;

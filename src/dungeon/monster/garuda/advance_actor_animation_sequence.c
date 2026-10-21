@@ -37,7 +37,7 @@ typedef struct S_func_81006E50_3 {
     s8 unk_6D;
 } S_func_81006E50_3;
 
-extern void *D_800E3DE8;
+extern void *actor_update_node_cursor;
 extern u8 D_80171058[];
 extern u8 D_801748B8[];
 
@@ -96,7 +96,7 @@ void advance_actor_animation_sequence(S_func_81006E50_0 *action, S_func_81006E50
             actor->unk_46 &= 0x7FFF;
             break;
         }
-        D_800E3DE8 = (u8 *)actor - 0x20;
+        actor_update_node_cursor = (u8 *)actor - 0x20;
         break;
     }
 }

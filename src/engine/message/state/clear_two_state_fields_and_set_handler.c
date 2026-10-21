@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/message/state.h"
 
 typedef struct S_80038630_0 {
     u8 pad_00[0x10];

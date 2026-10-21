@@ -112,7 +112,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
             ((S_801737B0_0 *)action)->unk_98 = direction;
             direction = use_player_target;
             if (((void *)direction) != 0) {
-                direction = (s32)D_800814A8;
+                direction = (s32)primary_actor_record;
                 actor->target = (void *)direction;
                 {
                     u8 facing;
@@ -123,7 +123,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
                     facing = ((MovingTile *)((u8 *)action_kind))->unk_25;
                     actor->target_tile_y = facing;
                 }
-            } else if (D_8006DE24[*action_data].kind == 2) {
+            } else if (item_action_definitions[*action_data].kind == 2) {
                 direction = (s32)(actor->target);
                 if (((void *)direction) != 0) {
                     {
@@ -161,7 +161,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         actor->pending_turn_updates--;
         ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;

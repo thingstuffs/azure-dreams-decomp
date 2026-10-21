@@ -30,7 +30,7 @@ extern void announce_familiar_defeat(void *);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern s32 random_below_limit(s32);
 
-extern u8 D_800E2368[];
+extern u8 baloon_hop_frames[];
 extern LocalTable D_8017088C;
 
 
@@ -133,7 +133,7 @@ void update_monster_staged_motion(void *state, void *motion, void *monster, void
         } while (facing_angle < 0x1000);
 
         {
-            u8 *animation_table = D_800E2368;
+            u8 *animation_table = baloon_hop_frames;
             (*(u8 * *)((u8 *)monster + (0x2C))) = animation_table;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
             select_sprite_entry(monster, animation_table[direction_index], 0);
@@ -146,7 +146,7 @@ void update_monster_staged_motion(void *state, void *motion, void *monster, void
             u16 next_state = ((S_8017450C_0 *)state)->unk_9B;
             u16 state_or_height;
             s32 height_offset = ((S_8017450C_0 *)state)->unk_90.at02.v;
-            s32 *sound_flags = &D_800E296C;
+            s32 *sound_flags = &dungeon_floor_flags;
             ((S_8017450C_0 *)state)->unk_A0 = 0;
             ((S_8017450C_0 *)state)->unk_9B = next_state + 1;
             state_or_height = ((S_8017450C_4 *)motion)->unk_0A;

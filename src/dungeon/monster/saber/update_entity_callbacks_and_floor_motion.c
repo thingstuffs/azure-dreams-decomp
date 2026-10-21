@@ -15,7 +15,7 @@ extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
 extern s32 D_80171728;
-extern Callback D_80174E5C[];
+extern Callback saber_callbacks[];
 
 
    /* monster in update_entity_callbacks_and_floor_motion */
@@ -74,7 +74,7 @@ void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion
         callback(entity, motion, monster, entity);
     }
 
-    D_80174E5C[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, entity);
+    saber_callbacks[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, entity);
 
     if ((s16)old_direction != (*(s8 *)((u8 *)entity + 0x6D))) {
         try_move_actor_to_valid_position(entity, motion, monster, entity);

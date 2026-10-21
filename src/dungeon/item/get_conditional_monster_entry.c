@@ -12,7 +12,7 @@ s32 get_conditional_monster_entry(s16 entry_index) {
     if (entry_index >= 0) {
         s8 *entry;
 
-        value_2 = (s32)D_800E2970;
+        value_2 = (s32)dungeon_rooms;
         entry = (s8 *)value_2 + entry_index * 0x14;
         value_3 = *(s16 *)(entry + 0xA);
         if (value_3 == 0) {

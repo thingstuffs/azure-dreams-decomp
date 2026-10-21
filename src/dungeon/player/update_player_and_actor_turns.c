@@ -49,19 +49,19 @@ void emit_scattered_effects_unless_blocked();                      /* extern */
 s32 sample_terrain_surface_height();                   /* extern */
 void create_record_with_effect_callback();                            /* extern */
 s32 select_nearby_target_and_initialize_slot();    /* extern */
-extern s8 D_80080A88;
-extern s16 D_80081468[3];
-extern s16 D_800DCE60[];
-extern s8 D_800DCF4F;
+extern s8 scene_music_hold;
+extern s16 floor_generation_state[3];
+extern s16 dungeon_camera_targets[];
+extern s8 dungeon_event_pending_flag;
 extern u32 D_800DD160;
 extern Callback4 D_800DD168[];
 extern u16 D_800DD258;
 extern u16 D_800DD25A;
-extern u8 D_800E3CD0;
-extern s8 D_800E3D20;
-extern s32 D_800E3D70;
-extern s32 D_800E3D74;
-extern void *D_800E3DE8;
+extern u8 dungeon_button_latch;
+extern s8 camera_transition_timer;
+extern s32 player_turn_fraction;
+extern s32 familiar_turn_counters_alias;
+extern void *actor_update_node_cursor;
 extern s32 D_800E4948;
 
 typedef struct S_80089AA0_1 {
@@ -298,32 +298,32 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
 
     linked_actor = in_actor;
     world_state = &g_game_work;
-    initial_flags = D_80013714;
+    initial_flags = system_update_flags;
     sprite_or_root = in_sprite;
     actor = linked_actor;
     world_object = (u8 *)world_state + 0x18;
     if (initial_flags & 4) {
         record_or_page = (s32 *)0x80080000;
-        if ((D_800E3CD0 == 0) && (((s32)world_state->pressed_buttons) != 0)) {
-            D_800E3CD0 = 1;
+        if ((dungeon_button_latch == 0) && (((s32)world_state->pressed_buttons) != 0)) {
+            dungeon_button_latch = 1;
             func_80040AA0(3);
             return;
         }
     } else {
         record_or_page = (s32 *)0x80080000;
     }
-    if ((((S_80089AA0_1 *)record_or_page)->unk_AA0.u != 0) && (D_800E3CD0 == 0) && (func_80053EF0(1) == 0)) {
+    if ((((S_80089AA0_1 *)record_or_page)->unk_AA0.u != 0) && (dungeon_button_latch == 0) && (func_80053EF0(1) == 0)) {
         SD_Call(0x200);
         ((S_80089AA0_1 *)record_or_page)->unk_AA0.s = 0;
-        D_80080A88 = 1;
+        scene_music_hold = 1;
     }
     if ((*(u16 *)0x80013714) & 4) {
         s16 *effect_data;
         s32 effect_angle;
         s32 angle_step;
         s32 effect_flags;
-        effect_data = D_800DCE60;
-        effect_flags = *(s32 *)((u8 *)&D_80081468);
+        effect_data = dungeon_camera_targets;
+        effect_flags = *(s32 *)((u8 *)&floor_generation_state);
         effect_angle = effect_data[2];
         if (effect_flags & 1) {
             angle_step = effect_angle + 8;
@@ -333,7 +333,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         effect_data[2] = (s16) angle_step;
         g_game_work.view.slot[2].callback = 0;
         queue_view_slot(1);
-        set_camera_targets(0, (s16 *)((u8 *)&D_800DCF4F - 0xEF), 2);
+        set_camera_targets(0, (s16 *)((u8 *)&dungeon_event_pending_flag - 0xEF), 2);
     }
     (*(s16 *)((u8 *)linked_actor + 0x9E)) = (s16) (((u16) world_object->unk_B0 >> 9) & 7);
     status_base = &g_dungeon_status.turn_scale;
@@ -341,9 +341,9 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     previous_input = &D_800E4948;
     if ((status_base->unk_08 == D_800E4948) && (status_base->unk_0C == ((S_80089AA0_4 *)previous_input)->unk_04)
         && (status_base->unk_10 == ((S_80089AA0_4 *)previous_input)->unk_08)
-        && (status_base->unk_14 == ((S_80089AA0_4 *)previous_input)->unk_0C) && !(D_80013714 & 8)
+        && (status_base->unk_14 == ((S_80089AA0_4 *)previous_input)->unk_0C) && !(system_update_flags & 8)
         && ((action_id = (*(u8 *)((u8 *)linked_actor + 0x9A))) != 0x17) && (action_id != 0x27) && (action_id != 0x29)
-        && (D_800DCF4F == 0) && ((status_base->unk_0C != 0) || (status_base->unk_10 != 0) || (status_base->unk_14 != 0)
+        && (dungeon_event_pending_flag == 0) && ((status_base->unk_0C != 0) || (status_base->unk_10 != 0) || (status_base->unk_14 != 0)
         || (status_base->unk_08 != 0))) {
         D_800DD160 += 1;
     } else {
@@ -355,7 +355,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     if ((((S_80089AA0_5 *)input_status)->unk_0C == 0) && (((S_80089AA0_5 *)input_status)->unk_10 == 0)) {
         input_flags = ((S_80089AA0_5 *)input_status)->unk_02;
         if (!(input_flags & 8) && (((S_80089AA0_5 *)input_status)->unk_08 == 0)
-            && (((S_80089AA0_5 *)input_status)->unk_14 == 0) && !(((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x100000)
+            && (((S_80089AA0_5 *)input_status)->unk_14 == 0) && !(((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x100000)
             && (((S_80089AA0_5 *)input_status)->unk_0A == 0) && !(input_flags & 0x2E01)) {
             if ((set_monster_reachability_flag(input_flags) << 0x10) != 0) {
                 create_record_with_effect_callback();
@@ -376,15 +376,15 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                 } else {
                     ((S_80089AA0_7_pre *)input_snapshot)[-1].unk_00 = (s16) state_or_address;
                 }
-                if (!(D_80013714 & 8)) {
+                if (!(system_update_flags & 8)) {
                     g_dungeon_status.turn_counter = (u16) (g_dungeon_status.turn_counter + 1);
-                    actor_fraction = ((S_80089AA0_9 *)(&D_800E3D70))->unk_00 + (*(u8 *)((u8 *)actor + 0x29));
-                    D_800E3D70 = (s32)actor_fraction;
+                    actor_fraction = ((S_80089AA0_9 *)(&player_turn_fraction))->unk_00 + (*(u8 *)((u8 *)actor + 0x29));
+                    player_turn_fraction = (s32)actor_fraction;
                     turn_sign = (*(u8 *)((u8 *)actor + 0x28));
                     if (actor_fraction >= 0x101U) {
                         do {
-                            actor_remainder = (u32)D_800E3D70 - 0x100;
-                            D_800E3D70 = (s32)actor_remainder;
+                            actor_remainder = (u32)player_turn_fraction - 0x100;
+                            player_turn_fraction = (s32)actor_remainder;
                             turn_sign += 1;
                         } while (actor_remainder >= 0x101U);
                     }
@@ -394,7 +394,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     }
                     (*(u8 *)((u8 *)actor + 0x28)) = turn_sign;
                     companion_index = 1;
-                    companion_counters = &D_800E3D74;
+                    companion_counters = &familiar_turn_counters_alias;
                     companion_fraction = (u32 *)((u8 *)companion_counters + 4);
                     companion_slot = linked_actor + 4;
                     do {
@@ -431,7 +431,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     (*(s8 *)((u8 *)actor + 3)) = (s8) ((func_800644B8((s16) normal_phase) >> 7) + 0x40);
                 }
                 (*(s32 *)((u8 *)linked_actor + 0x128)) = (s32) (generate_random_value() & 0xFFFF);
-                if (!(D_80013714 & 8)) {
+                if (!(system_update_flags & 8)) {
                     (*(u16 *)((u8 *)linked_actor + 0x118)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0x118)) + 1);
                 }
                 advance_status_timers(actor);
@@ -462,16 +462,16 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     } else {
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 4);
     }
-    if (!(D_80013714 & 8)) {
-        if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x17) && (D_800DCF4F == 0)
+    if (!(system_update_flags & 8)) {
+        if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x17) && (dungeon_event_pending_flag == 0)
             && ((u32) ((S_80089AA0_13 *)(&D_800DD160))->unk_00 >= 0x385U)) {
-            reset_actor = D_800E3D7C;
+            reset_actor = dungeon_actor_ring_anchor;
             D_800DD160 = 0;
             do {
                 reset_actor->unk_6C = 0;
                 reset_actor->unk_71 = (u8) (reset_actor->unk_71 & 0x7F);
                 reset_actor = reset_actor->unk_5C + 0x20;
-            } while (reset_actor != D_800E3D7C);
+            } while (reset_actor != dungeon_actor_ring_anchor);
             {
                 DungeonGlobalStatus *reset_base;
                 reset_base = &g_dungeon_status;
@@ -484,14 +484,14 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
             }
         }
         if (!((*(u16 *)0x80013714) & 8) && (!(g_dungeon_status.flags & 4)
-            || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
-            D_800E296C = (s32)(D_800E296C & ~0x40);
-            if ((select_nearby_target_and_initialize_slot(actor - 0x20, in_motion, 8, D_800DCE60[3]) << 0x10) != 0) {
+            || (((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
+            dungeon_floor_flags = (s32)(dungeon_floor_flags & ~0x40);
+            if ((select_nearby_target_and_initialize_slot(actor - 0x20, in_motion, 8, dungeon_camera_targets[3]) << 0x10) != 0) {
                 g_game_work.view.slot[2].callback = 0;
                 queue_view_slot(1);
-                set_camera_targets(0, D_800DCE60, 2);
+                set_camera_targets(0, dungeon_camera_targets, 2);
             } else {
-                D_800E3D20 = 0;
+                camera_transition_timer = 0;
             }
         }
     }
@@ -534,7 +534,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         room_index <<= 24;
         table_index = room_index >> 24;
         if (table_index >= 0) {
-            table_base = D_800E2970;
+            table_base = dungeon_rooms;
             table_entry = table_base + (table_index * 0x14);
             table_entry->unk_0C = (u16) (table_entry->unk_0C | 1);
         }
@@ -565,7 +565,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     ((S_80089AA0_18 *)motion_or_count)->unk_14 = 0;
                     (*(s8 *)((u8 *)linked_actor + 0x9D)) = 0;
                     if (!((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0x10)) {
-                        if (!(((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x80000)) {
+                        if (!(((S_80089AA0_6 *)(&dungeon_floor_flags))->unk_00 & 0x80000)) {
                             play_sound_if_enabled(0x508);
                         }
                         emit_scattered_effects_unless_blocked(motion_or_count);
@@ -633,7 +633,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         linked_actor = find_eligible_actor_at_tile_and_height(actor, ((S_80089AA0_16 *)sprite_or_root)->unk_24,
             ((S_80089AA0_16 *)sprite_or_root)->unk_25, (s16) (*(u16 *)((u8 *)actor + 0x88)));
         if (linked_actor != 0) {
-            check_entity_relation(linked_actor, D_800814A8);
+            check_entity_relation(linked_actor, primary_actor_record);
             (*(s32 *)((u8 *)linked_actor + 0x1C)) = (s32) ((*(s32 *)((u8 *)linked_actor + 0x1C)) & 0x7FFFFFFF);
         }
         D_800DD258 = (u16) ((S_80089AA0_16 *)sprite_or_root)->unk_24;
@@ -681,7 +681,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                     if (linked_actor != actor) {
                         do {
                             retry_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
-                            D_800E3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
+                            actor_update_node_cursor = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
                             if (retry_callback > 0) {
                                 retry_callback |= 0x80000000;
                                 ((s32 (*)(void *, s32, s32)) retry_callback)((u8 *)record_or_page + 0x20,
@@ -692,7 +692,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
                                     companion_index += 1;
                                 }
                             }
-                            record_or_page = D_800E3DE8;
+                            record_or_page = actor_update_node_cursor;
                             linked_actor = (u8 *)record_or_page + 0x20;
                         } while (linked_actor != root);
                     }
@@ -739,8 +739,8 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     loop_status = tail_status;
     ((S_80089AA0_24 *)loop_status)->unk_02 = next_flags;
     for (;;) {
-        if ((D_800E296C & 0x100000) && ((has_pending_actor_or_turn_action(0) << 0x10) == 0)) {
-            actor = (void *)D_800E3D7C;
+        if ((dungeon_floor_flags & 0x100000) && ((has_pending_actor_or_turn_action(0) << 0x10) == 0)) {
+            actor = (void *)dungeon_actor_ring_anchor;
 apply_pending_points:
             pending_high = (*(u8 *)((u8 *)actor + 0x41));
             pending_low = (*(u8 *)((u8 *)actor + 0x42));
@@ -752,20 +752,20 @@ apply_pending_points:
             }
             next_link = (*(void **)((u8 *)actor + 0x5C));
             actor = (u8 *)next_link + 0x20;
-            if (actor != (void *)D_800E3D7C) {
+            if (actor != (void *)dungeon_actor_ring_anchor) {
                 goto apply_pending_points;
             }
-            D_800E296C &= ~0x100000;
+            dungeon_floor_flags &= ~0x100000;
         }
 begin_linked_pass:
-        root = (void *)D_800E3D7C;
+        root = (void *)dungeon_actor_ring_anchor;
         record_or_page = ((S_80089AA0_16 *)root)->unk_5C;
         actor = (u8 *)record_or_page + 0x20;
         motion_or_count = 0;
         if (actor != root) {
             do {
                 next_record = (*(void * *)((u8 *)actor + 0x5C));
-                D_800E3DE8 = next_record;
+                actor_update_node_cursor = next_record;
                 if (((repeat_pass == 0) || ((*(s8 *)((u8 *)actor + 0x6D)) != 0)
                     || (((S_80089AA0_24 *)loop_status)->unk_14 != 0)) && (((S_80089AA0_1 *)record_or_page)->unk_10 > 0)) {
                     linked_actor = (void *)(s32)(s16)has_pending_actor_or_turn_action(0);
@@ -774,7 +774,7 @@ begin_linked_pass:
                             if ((((S_80089AA0_1 *)record_or_page)->unk_B8 & 0xFFFF0000) == 0x150000) {
                                 ((S_80089AA0_24 *)loop_status)->unk_0C = (void *) ((u8 *)record_or_page + 0x20);
                             } else {
-                                record_or_page = D_800E3DE8;
+                                record_or_page = actor_update_node_cursor;
                                 actor = (u8 *)record_or_page + 0x20;
                                 continue;
                             }
@@ -796,14 +796,14 @@ begin_linked_pass:
                             motion_or_count = (void *)((s32)motion_or_count + 1);
                         }
                         if ((linked_actor == 0) || ((has_pending_actor_or_turn_action(0) << 0x10) != 0)) {
-                            record_or_page = D_800E3DE8;
+                            record_or_page = actor_update_node_cursor;
                             actor = (u8 *)record_or_page + 0x20;
                             continue;
                         }
                     }
                     break;
                 } else {
-                    record_or_page = D_800E3DE8;
+                    record_or_page = actor_update_node_cursor;
                     actor = (u8 *)record_or_page + 0x20;
                 }
             } while (actor != root);
@@ -849,7 +849,7 @@ store_pending_actor:
             }
         }
 check_pass_completion:
-        if ((actor == (void *)D_800E3D7C) && (motion_or_count == 0)) {
+        if ((actor == (void *)dungeon_actor_ring_anchor) && (motion_or_count == 0)) {
             ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (((S_80089AA0_24 *)loop_status)->unk_02 & 0xFFFE);
         }
         final_flags = ((S_80089AA0_24 *)loop_status)->unk_02;

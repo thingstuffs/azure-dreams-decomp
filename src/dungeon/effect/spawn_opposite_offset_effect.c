@@ -57,7 +57,7 @@ extern s32 rand();
 extern s32 func_8003DB94();
 
 extern s32 D_800B63A8;
-extern s32 D_800DEA68;
+extern s32 secondary_sprite;
 
 /* Spawn an offset effect with randomized motion opposite to the source. */
 void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
@@ -93,7 +93,7 @@ void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
         motion->unk_10 =
             0 - (source->unk_10 * ((rand() & 1) + 2));
         motion->unk_14 = (~rand() & 1) << 0xF;
-        func_8003DB94(sprite, &D_800DEA68, 0);
+        func_8003DB94(sprite, &secondary_sprite, 0);
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;

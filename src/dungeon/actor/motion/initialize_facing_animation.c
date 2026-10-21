@@ -5,7 +5,7 @@ struct Elem;
 
 void func_8003DB94(struct Dst *state, struct Elem *entries, short index);        /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-extern u8 D_800DD294[];
+extern u8 actor_alternate_frames[];
 
 typedef struct S_func_80097A68_0 {
     u8 pad_00[0x8C];
@@ -39,8 +39,8 @@ void initialize_facing_animation(S_func_80097A68_0 *actor, s32 unused, S_func_80
     actor->unk_9A = 0x38;
     actor->unk_9B = 0;
     actor->unk_8C = 0;
-    *(u8 **)((u8 *)anim + 0x2C) = D_800DD294;
-    func_8003DB94(anim, ((S_func_80097A68_3 *) (D_800DD294 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A
+    *(u8 **)((u8 *)anim + 0x2C) = actor_alternate_frames;
+    func_8003DB94(anim, ((S_func_80097A68_3 *) (actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A
         + 0x100) >> 7) & 0x1C)))->unk_00, 0);
     play_sound_if_enabled(0x50A);
     actor->unk_96 = 2;

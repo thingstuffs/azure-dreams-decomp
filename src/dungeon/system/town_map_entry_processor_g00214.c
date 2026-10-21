@@ -10,7 +10,7 @@ void advance_index_and_mark_completion(void *counterPtr) {
     *(s32 *)counterPtr = nextCounter;
     if (nextCounter >= 0x80) {
         ((u16 *)counterPtr)[-1] |= 0x8000;
-        D_800CFCA8 = 0;
+        town_map_processor = 0;
         object_flag_block.flags |= 0x8000;
     }
 }
@@ -22,6 +22,6 @@ void create_town_map_entry_processor(void) {
         node->cb = advance_index_and_mark_completion;
         node->field_0x20 = 0;
         node = (Node *)((u8 *)node + 0x20);
-        D_800CFCA8 = node;
+        town_map_processor = node;
     }
 }

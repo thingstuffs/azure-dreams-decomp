@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/slots.h"
 
 /* 0x1C-byte-stride slot table shared with audio_get_current_bank_tone_record (D_80086A40). This
  * function clears a slot: if the slot's s16 marker (offset 0x00) is not -1,
@@ -14,8 +15,6 @@ typedef struct {
 } S_8005AC68; /* size 0x1C (28) */
 
 extern S_8005AC68 audio_bank_slots[16];
-
-extern void release_sound_ram_block(s32 addr);
 
 /* Releases an occupied slot's data and marks the slot free. */
 void free_sound_slot(s16 slot_index) {

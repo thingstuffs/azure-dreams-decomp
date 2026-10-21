@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "sdk/libgpu.h"
 
 typedef struct {
     char pad0[0x70];
@@ -41,11 +42,6 @@ typedef struct {
     s16 x3;
     s16 y3;
 } PolyF4;
-
-extern u16 GetTPage(s32 tp, s32 abr, s32 x, s32 y);
-extern void SetPolyF4(PolyF4 *p);
-extern void SetSemiTrans(void *p, s32 abe);
-extern void SetDrawMode(void *a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
 /* Draw a fading fullscreen overlay and advance its frame counter. */
 s32 render_screen_fade_decreasing_intensity(Param *fade)

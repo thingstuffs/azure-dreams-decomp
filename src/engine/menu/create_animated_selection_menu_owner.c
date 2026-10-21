@@ -3,6 +3,7 @@
 #include "shared/object_flags.h"
 
 #include "common.h"
+#include "engine/menu.h"
 
 typedef struct S_8004F5F4_sub {
     u8 pad0[0x4];
@@ -16,9 +17,6 @@ typedef struct S_8004F5F4_node {
     u16 flags;
     S_8004F5F4_sub sub;
 } S_8004F5F4_node;
-
-extern void handle_animated_selection_menu_cancel(void *a0);
-extern void *create_animated_selection_menu(void *a0);
 
 /* Creates a callback node and initializes its result, marking failure if initialization fails. */
 void *create_animated_selection_menu_owner(void *unused, void *source)

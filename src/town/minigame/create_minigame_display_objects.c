@@ -42,7 +42,7 @@ extern u8 D_80023EB0[];
 extern u8 D_8002415C[];
 extern u8 D_80024470[];
 extern u8 D_800244A0[];
-extern s32 D_80024628[];
+extern s32 pickup_reward_total[];
 extern u8 D_80024640[];
 extern u8 D_80024680[];
 extern u8 D_800246E0[];
@@ -74,7 +74,7 @@ void create_minigame_display_objects(void)
     parent_state = NULL;
     callback = D_80020224;
     func_8004E9E4();
-    D_80024628[0] = 0;
+    pickup_reward_total[0] = 0;
     initialize_minigame_display(D_800246E0);
     set_resident_bit(0xA4);
 

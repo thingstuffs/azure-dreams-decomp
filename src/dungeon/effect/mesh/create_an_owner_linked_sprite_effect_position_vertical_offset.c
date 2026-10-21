@@ -53,7 +53,7 @@ void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 
     SpriteFrameState *sprite;
     S_81977D08_0 *effect;
 
-    effect = allocate_list_node(0x212, ((s32 *)&D_80083498.next));
+    effect = allocate_list_node(0x212, ((s32 *)&scene_object_list_anchor.next));
     if (effect != NULL) {
         void *sprite_data = &D_800DEB70;
 
@@ -80,7 +80,7 @@ void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 
         effect_pos->unk_00 = position->unk_00;
         effect_pos->unk_04 = position->unk_04;
         effect_pos->unk_08 = position->unk_08 -
-            (((u8 *)((s32 *)D_800DDC40))[((S_81977D08_5 *)(owner->unk_14))->unk_13] >> 1 << 16);
+            (((u8 *)((s32 *)entity_height_offsets))[((S_81977D08_5 *)(owner->unk_14))->unk_13] >> 1 << 16);
         register_node(effect, project_sprite_chain);
     }
 }

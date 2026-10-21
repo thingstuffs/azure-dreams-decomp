@@ -13,8 +13,8 @@ typedef struct S_8002E5E8 {
     s32 unk8;
 } S_8002E5E8;
 
-extern S_8002E5D8 D_8002E5D8;
-extern S_8002E5E8 D_8002E5E8;
+extern S_8002E5D8 display_block_defaults;
+extern S_8002E5E8 display_vector_defaults;
 
 typedef struct {
     s32 unk0;
@@ -40,8 +40,8 @@ typedef struct {
 
 /* Initialize and link two template blocks, applying defaults and a slot-based offset. */
 void card_boot_initialize_slot_window_frame(S_80010A78_a0 *entity, S_8002E5D8 *primary, S_80010A78_a2 *secondary, s32 slot_index) {
-    S_8002E5D8 *primary_template = &D_8002E5D8;
-    S_8002E5E8 *secondary_template = &D_8002E5E8;
+    S_8002E5D8 *primary_template = &display_block_defaults;
+    S_8002E5E8 *secondary_template = &display_vector_defaults;
     s32 *secondary_head;
 
     primary->unk0 = primary_template->unk0;

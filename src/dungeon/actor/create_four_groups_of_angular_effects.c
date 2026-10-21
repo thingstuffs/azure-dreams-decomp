@@ -9,7 +9,7 @@ void draw_textured_ellipse(void *, void *, s32, s32);
 extern u8 D_8002744C[9];
 extern u8 D_80028880[9];
 extern u8 D_8002888C[9];
-extern s16 D_80083228;
+extern s16 view_facing_angle_alias;
 extern s32 D_800CEEFC[3];
 /* Creates four groups of 32 effect objects with angularly distributed motion. */
 void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z)
@@ -32,7 +32,7 @@ void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z)
 
     rect[0] = 0x01800380;
     rect[1] = 0x400040;
-    angle = ((D_80083228 + 0x500) >> 9) & 7;
+    angle = ((view_facing_angle_alias + 0x500) >> 9) & 7;
     facing = (u8)angle << 9;
     sprite = D_8002888C;
     data = rect;

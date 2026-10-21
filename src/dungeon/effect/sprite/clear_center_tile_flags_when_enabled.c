@@ -111,8 +111,8 @@ s32 clear_center_tile_flags_when_enabled(void) {
         return 1;
     }
     result = 0;
-    reset_state = ((u8 *)D_800E3548);
+    reset_state = ((u8 *)dungeon_ground_items);
     reset_state[1] = 0;
-    ((u8 *)D_800E3548)[0] = 0;
+    ((u8 *)dungeon_ground_items)[0] = 0;
     return result;
 }

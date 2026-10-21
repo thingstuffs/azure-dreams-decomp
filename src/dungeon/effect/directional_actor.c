@@ -47,7 +47,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         particles_left = 5;
         sprite_set = D_800DEC28;
         do {
-            entity = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+            entity = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (entity != 0) {
                 register_node(entity, project_sprite_chain);
                 render_state = ((Row_818E0800_S_818E0800_4 *)entity)->unk_0C;
@@ -181,7 +181,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             !try_trigger_target_record_effect(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, 2, actor)) {
             if (((Row_818E0800_S_818E0800_15 *)(((Row_818E0800_S_818E0800_1 *)actor)->unk_60))->unk_14 & 1) {
                 if (((Row_818E0800_S_818E0800_1 *)actor)->unk_60 != 0) {
-                    hit_effect = (((Row_818E0800_S_818E0800_11 *)D_800E3D68)->unk_00 == 0xFF) ? 0xFF : 0x10;
+                    hit_effect = (((Row_818E0800_S_818E0800_11 *)current_spell_effect_variant)->unk_00 == 0xFF) ? 0xFF : 0x10;
                     try_apply_effect_four_by_chance(((Row_818E0800_S_818E0800_1 *)actor)->unk_60, hit_effect, 2);
                 }
             }

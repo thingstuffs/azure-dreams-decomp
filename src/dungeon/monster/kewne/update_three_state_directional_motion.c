@@ -19,7 +19,7 @@ extern void spend_actor_mp(void *, s32);
 
 extern u8 D_801710EC[];
 extern u8 D_80175E88[];
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 /* Updates the actor's directional motion and animation across three action states. */
 void update_three_state_directional_motion(void *action, void *motion, void *sprite, void *actor)
@@ -118,7 +118,7 @@ void update_three_state_directional_motion(void *action, void *motion, void *spr
                 return;
             }
             anim_table += 0x5EB8;
-            facing_ptr = (u8 *)D_80080000;
+            facing_ptr = (u8 *)resident_globals_page;
             PTR(sprite, 0x2C) = (void *)anim_table;
             facing_index = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
             facing_index &= 7;
@@ -142,7 +142,7 @@ advance_state:
         }
         spend_actor_mp(actor, 0x100);
         PTR(action, 0x8C) = D_801710EC;
-        S32(D_80080000, 0x346C) = 0;
+        S32(resident_globals_page, 0x346C) = 0;
         U16(actor, 0x46) &= 0x7FFF;
         advance_status_timers(actor);
     }

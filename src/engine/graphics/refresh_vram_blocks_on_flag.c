@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 /* sub_obj is the "sub-object" pointer (entity_base + 0x20 in sibling functions
  * func_8004ECAC/scene_create_resource_transition/create_linked_zukan_task): a u16 flags word lives at sub_obj - 2
@@ -6,7 +7,6 @@
  * data-ptr here) lives at sub_obj - 0x10 (entity offset 0x10). */
 
 extern int D_800212DC[8]; /* hi/lo global; only its address is used here */
-extern void read_vram_blocks_to_buffer(void);
 
 /* Clear flag 0x2000, reset the data pointer, and update the flagged sub-object. */
 void refresh_vram_blocks_on_flag(void *sub_obj)

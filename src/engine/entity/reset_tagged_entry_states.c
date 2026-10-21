@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/entity.h"
 
 /* Replace state 0x39 with 2 in entries tagged 0x13 and their linked records. */
 void reset_tagged_entry_states(void) {

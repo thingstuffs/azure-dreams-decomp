@@ -11,7 +11,7 @@ typedef struct {
 extern s32 prepare_stored_value_pair(void);
 
 s32 store_state_1_entry_value(TownObject *object, s32 index, s32 unused2, s32 unused3) {
-    if (D_8001E950->unk_05 != 1) {
+    if (town_event_state->unk_05 != 1) {
         return 1;
     }
     {

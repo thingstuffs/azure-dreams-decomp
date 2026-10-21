@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/texture.h"
 
 /* Object self-relocation: if live address != last-known anchor at +0x24,
  * add the byte delta to every embedded absolute pointer inside the object

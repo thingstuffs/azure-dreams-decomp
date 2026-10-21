@@ -69,15 +69,15 @@ s32 invalidate_cached_state_and_queue_read(void *state) {
         ((Rec_func_800B683C_arg0 *)state)->unk_10 = 0;
     }
     if (release_monster_status_request_handles(state) != 0) {
-        *((((Rec_func_800B683C_arg0 *)state)->unk_08 * 2) + D_80083D78) = -1;
+        *((((Rec_func_800B683C_arg0 *)state)->unk_08 * 2) + display_resource_cache_keys) = -1;
     }
-    cached_state = (((Rec_func_800B683C_arg0 *)state)->unk_08 * 2) + D_80083D78;
+    cached_state = (((Rec_func_800B683C_arg0 *)state)->unk_08 * 2) + display_resource_cache_keys;
     if ((cached_state->unk_00 != ((Rec_func_800B683C_arg0 *)state)->unk_0A)
         || (cached_state->unk_02 != ((Rec_func_800B683C_arg0 *)state)->unk_10)) {
         cached_state->unk_00 = -1;
         cache_addr = ((Rec_func_800B683C_arg0 *)state)->unk_08;
         cache_addr <<= 2;
-        cache_addr += (s32)D_80083D78;
+        cache_addr += (s32)display_resource_cache_keys;
         ((S_800B6E3C_2 *)((void *)cache_addr))->unk_02 = -1;
         clear_monster_status_texture((void *)(((Rec_func_800B683C_arg0 *)state)->unk_14));
         ((Rec_func_800B683C_arg0 *)state)->unk_DC = 0;

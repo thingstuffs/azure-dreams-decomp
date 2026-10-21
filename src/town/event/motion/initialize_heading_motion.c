@@ -4,12 +4,12 @@ extern s32 func_800644B8(s32 value_a);
 extern s32 func_80064584(s32 value_b);
 extern void add_motion_deltas_to_position(void *motion);
 extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *collider, void *position);
-extern s32 D_800834B8;
+extern s32 scene_object_payload_alias;
 extern void *D_8009BC44;
 
 /* Initialize heading-based motion, apply it to the object, and update the owner state. */
 void initialize_heading_motion(void *owner, void *object, void *motion) {
-    s32 *global_state = &D_800834B8;
+    s32 *global_state = &scene_object_payload_alias;
     s32 source_z;
 
     *(s8 *)((u8 *)object + 0x15) = 1;

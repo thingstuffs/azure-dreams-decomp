@@ -162,14 +162,14 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
             update_actor_status_and_food(actor_state_arg);
             return;
         }
-        if (((S_80170F68_2 *)map_object_arg)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_80170F68_2 *)map_object_arg)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             update_actor_movement_choosing_direction_recording_path(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
         if (!(((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(actor_state_arg,
-                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -202,9 +202,9 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
 
                 direction = get_rounded_facing_and_rounding_flag(
                     ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
-                player = D_800814A8;
+                player = primary_actor_record;
                 ((S_80170F68_1 *)actor_state_arg)->unk_2A = direction;
                 if (player->unk_9A == 0x11) {
                     begin_actor_spell_action(actor_arg, context_arg, map_object_arg, D_80173FF0, &D_80170F68);
@@ -227,16 +227,16 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
     } else if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x2000)) {
         s32 record_index = (s8)tile_id;
 
-        if ((record_index < 0) || !(D_800E2970[record_index].flags & 2)) {
+        if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x430)) {
 
                 if ((s16)compare_monster_neighbor_values(((S_80170F68_2 *)map_object_arg)->unk_24.at00.v,
-                        ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x,
-                        D_80082E80.tile_position.parts.tile_y) != 0) {
+                        ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x,
+                        reference_tile_object.tile_position.parts.tile_y) != 0) {
                     ((S_80170F68_1 *)actor_state_arg)->unk_2A = get_rounded_facing_and_rounding_flag(
                         ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v,
                             ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }
             }

@@ -5,7 +5,7 @@
 
 /* Word view of external storage; its complete extent is not established. */
 extern s32 runtime_callback_entries[];
-extern s32 *D_800814E0;
+extern s32 *runtime_callback_write_cursor;
 
 void reset_scene_frame_callback_list(void);
 void append_terminated_runtime_word(s32 value);

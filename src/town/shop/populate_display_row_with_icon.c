@@ -68,7 +68,7 @@ void populate_display_row_with_icon(void *entry_data, s32 display_base, s32 row_
 
     text_y = (row_index * 0x10) + 0xD8;
     row_data = (S_800B6094_1 *)((row_index * 4) + display_base);
-    entry_info = (S_800B6094_2 *)((entry->unk_00 * 0x14) + ((u8 *)D_8006DE24));
+    entry_info = (S_800B6094_2 *)((entry->unk_00 * 0x14) + ((u8 *)item_action_definitions));
     set_display_entry_text_and_position((struct S_800B5264_0 *)(row_data->unk_20), entry_info->unk_00, 0, 0x58, text_y);
     func_800B53BC(row_data->unk_2C, build_encoded_display_sequence(entry->unk_01, text_buffer), 0, 0xA0, text_y);
     icon_id = get_low_flag_priority(entry_info->unk_10);

@@ -1,6 +1,7 @@
 /* Card directory operations; G00377; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000EA04, PD:main/image_25c800:80027F18, PD:main/image_25c800:80028570. */
 #include "frontend/card/card_directory_operations_g00377.h"
+#include "frontend/card.h"
 
 /* Collect directory entries matching the selected search path and return their count. */
 s32 count_entries_matching_search_path(void)
@@ -11,16 +12,16 @@ s32 count_entries_matching_search_path(void)
     s32 file_count;
 
     file_count = 0;
-    dir_entry = (*(u8 (*)[])(&D_80028570));
-    path_ptr = D_80027F18;
-    if (D_800287CC[0] != 0) {
+    dir_entry = (*(u8 (*)[])(&boot_card_directory));
+    path_ptr = boot_card_paths;
+    if (card_selected_channel_alias[0] != 0) {
         path_ptr++;
     }
 
     strcpy(search_path, *path_ptr);
     strcat(search_path, D_80020084);
 
-    if (firstfile2(search_path, (*(u8 (*)[])(&D_80028570))) != 0) {
+    if (firstfile2(search_path, (*(u8 (*)[])(&boot_card_directory))) != 0) {
         do {
             file_count++;
             dir_entry += 40;
@@ -39,7 +40,7 @@ s32 card_boot_calc_remaining_8k_blocks(s32 entry_count) {
 
     entry_index = 0;
     total_size = entry_index;
-    size_value = (s32)&(*(func_8000E9B8_EntryT (*)[])(&D_80028570))[0];
+    size_value = (s32)&(*(func_8000E9B8_EntryT (*)[])(&boot_card_directory))[0];
     if (entry_count > 0) {
         entry = (func_8000E9B8_EntryT *)size_value;
         do {
@@ -63,7 +64,7 @@ s32 card_boot_has_directory_name_prefix(s32 count, u8 *text)
 
     record_index = 0;
     found = record_index;
-    records = (*(u8 (*)[])(&D_80028570));
+    records = (*(u8 (*)[])(&boot_card_directory));
     if (count > 0) {
         u8 *record;
 
@@ -107,9 +108,9 @@ s32 card_boot_format_card_and_wait(s32 card_slot) {
     _card_wait(0);
     _card_wait(1);
     card_boot_drain_hardware_events();
-    card_device = &D_80027F18[0];
+    card_device = &boot_card_paths[0];
     if (card_slot != 0) {
-        card_device = &D_80027F18[1];
+        card_device = &boot_card_paths[1];
     }
     format(*card_device);
     do {
@@ -133,11 +134,11 @@ s32 card_boot_format_card_and_wait(s32 card_slot) {
 void card_boot_build_slot_path(s32 dest, s32 suffix_index) {
     s32 *prefix_ptr;
 
-    prefix_ptr = &(*(u8 *)(&D_80027F18));
-    if ((*(s32 *)(&D_800287CC)) != 0) {
-        prefix_ptr = &(*(u8 *)(&D_80027F18)) + 4;
+    prefix_ptr = &(*(u8 *)(&boot_card_paths));
+    if ((*(s32 *)(&card_selected_channel_alias)) != 0) {
+        prefix_ptr = &(*(u8 *)(&boot_card_paths)) + 4;
     }
     strcpy(dest, *prefix_ptr);
     strcat(dest, &(*(s32 *)(&D_80027F20)));
-    strcat(dest, ((s32 *) &(*(s32 *)(&D_80027F30)))[suffix_index]);
+    strcat(dest, ((s32 *) &(*(s32 *)(&boot_card_slot_names)))[suffix_index]);
 }

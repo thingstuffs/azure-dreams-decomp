@@ -51,7 +51,7 @@ void create_an_n_30_randomized_entries_spread_across_six_angular_directions(void
     void *object;
     S_81977B40_2 *data;
 
-    object = allocate_list_node(0x212, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x212, ((u8 *)(&scene_object_list_anchor)));
     entry_index = 0;
     if (object != NULL) {
         ((S_81977B40_0 *)object)->unk_10 = D_800251E8;

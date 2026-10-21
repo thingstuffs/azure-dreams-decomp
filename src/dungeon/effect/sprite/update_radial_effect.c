@@ -78,7 +78,7 @@ typedef struct {
     u16 count;
 } DungeonCounter;
 
-extern u8 D_800DEA68[];
+extern u8 secondary_sprite[];
 extern u8 D_800D7D30[];
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
@@ -91,11 +91,11 @@ void update_radial_effect(DungeonState *effect) {
     u16 position_offset[3];
 
     {
-        TileObject *position_table = &D_80082E80;
+        TileObject *position_table = &reference_tile_object;
         if (resolve_record_orientation_or_fallback(position_table->sprite_source, position_table, position_offset, 0) != 0) {
-            effect->x = ((u16)D_80083780.x.w.i) + position_offset[0];
-            effect->y = ((u16)D_80083780.y.w.i) + position_offset[1];
-            effect->z = ((u16)D_80083780.z.w.i) + position_offset[2] + 0x20;
+            effect->x = ((u16)view_reference_entity.x.w.i) + position_offset[0];
+            effect->y = ((u16)view_reference_entity.y.w.i) + position_offset[1];
+            effect->z = ((u16)view_reference_entity.z.w.i) + position_offset[2] + 0x20;
         }
     }
 
@@ -110,10 +110,10 @@ void update_radial_effect(DungeonState *effect) {
         s32 spawn_index = 7;
         u8 *object_data = D_800D7D30;
         DungeonGlobalStatus *object_counter = &g_dungeon_status;
-        DungeonTemplate *object_template = (DungeonTemplate *)D_800DEA68;
+        DungeonTemplate *object_template = (DungeonTemplate *)secondary_sprite;
 
         do {
-            DungeonObject *object = allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+            DungeonObject *object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (object != NULL) {
                 object->unk10 = (DungeonInner *)object_data;
                 object_counter->activity_counts.parts.pending_action_count += 1;

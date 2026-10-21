@@ -1,7 +1,8 @@
 #include "common.h"
 #include "shared/transition_slots.h"
+#include "engine/effect.h"
+#include "sdk/libc.h"
 
-extern int abs(int);
 extern s16 render_screen_fade_decreasing_intensity(TransitionSlot *a0);
 extern s16 render_screen_fade_increasing_intensity(TransitionSlot *a0);
 /* Processes type 5 and 6 entries in reverse order, clearing their type when handled. */

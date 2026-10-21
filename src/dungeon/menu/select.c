@@ -44,12 +44,12 @@ void func_80025014(void *motion_state, void *position, void *draw_state) {
         }
     }
     func_800478B8(draw_state, target_y, target_pos, position);
-    blink_ticks = (*(s16 *)D_80027156);
-    blink_remaining = *(u16 *)&(*(s16 *)D_80027156);
+    blink_ticks = (*(s16 *)selection_blink_timer);
+    blink_remaining = *(u16 *)&(*(s16 *)selection_blink_timer);
     if (blink_ticks != 0) {
-        *(u16 *)&(*(s16 *)D_80027156) = (u16) (blink_remaining - 1);
+        *(u16 *)&(*(s16 *)selection_blink_timer) = (u16) (blink_remaining - 1);
     }
-    if ((*(u16 *)&(*(s16 *)D_80027156)) & 1) {
+    if ((*(u16 *)&(*(s16 *)selection_blink_timer)) & 1) {
         ((S_81809800_6 *)draw_state)->unk_14 = (u16) (((S_81809800_6 *)draw_state)->unk_14 | 0x80);
     } else {
         ((S_81809800_6 *)draw_state)->unk_14 = (u16) (((S_81809800_6 *)draw_state)->unk_14 & 0xFF7F);
@@ -167,10 +167,10 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
             ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
             case 2:
         }
-        if (D_80027156[0] == 0) {
+        if (selection_blink_timer[0] == 0) {
             S_8002520C_6 *cell;
             input_angle = resolve_player_input_facing(((u16) appearance->unk_1A >> 9) & 7,
-                ((EntityRec *)(((u8 *)(&D_800E3D7C))))->x.v + 0xA2, 0) & 0xFFFF;
+                ((EntityRec *)(((u8 *)(&dungeon_actor_ring_anchor))))->x.v + 0xA2, 0) & 0xFFFF;
             if ((input_angle != 0xFFF) && (((s32)state_base->pressed_buttons) & 0xF000)) {
                 s32 step_or_cell;
                 s32 side_index;
@@ -320,9 +320,9 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
                         }
                     }
                 }
-                if (D_80080A87[0] != 0) {
-                    D_80027158[0] = (u16) ((S_8002520C_0 *)menu)->unk_26;
-                    D_80027156[0] = (s16) (0x20 / (s32) D_80080A87[0]);
+                if (last_frame_ticks[0] != 0) {
+                    selection_blink_target[0] = (u16) ((S_8002520C_0 *)menu)->unk_26;
+                    selection_blink_timer[0] = (s16) (0x20 / (s32) last_frame_ticks[0]);
                 }
                 ((S_8002520C_25 *)(((S_8002520C_24 *)(((((S_8002520C_0 *)menu)->unk_26 * 4)
                     + menu)))->unk_0C))->unk_B6 = 1;
@@ -472,8 +472,8 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
         ((S_80025A14_2 *)obj_arg)->unk_0E = 0;
         ((S_80025A14_2 *)obj_arg)->unk_0D = 0;
         ((S_80025A14_2 *)obj_arg)->unk_0C = 0;
-        ((S_80025A14_2 *)obj_arg)->unk_28 = D_80082E80.render_attributes;
-        ((S_80025A14_2 *)obj_arg)->unk_14 = D_80082E80.sprite_flags & 0xFFFC;
+        ((S_80025A14_2 *)obj_arg)->unk_28 = reference_tile_object.render_attributes;
+        ((S_80025A14_2 *)obj_arg)->unk_14 = reference_tile_object.sprite_flags & 0xFFFC;
         ((S_80025A14_2 *)obj_arg)->unk_2C = D_800DD008;
         ((S_80025A14_2 *)obj_arg)->unk_14 |= 0x200;
         ((S_80025A14_0 *)state)->unk_73.s = 8;
@@ -500,7 +500,7 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
         }
                         /* fall through */
     case 2:
-        if (D_8002715A != 0) {
+        if (selection_menu_closing != 0) {
             ((S_80025A14_0 *)state)->unk_73.u = 8;
             ((S_80025A14_1 *)buffer)->unk_16 = 8;
             current_phase = ((S_80025A14_0 *)state)->unk_72.u;
@@ -595,8 +595,8 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
         object->unk_2A = 0x400;
         direction_table = (u16 *)0x80010000;
         direction = (((S_80025C94_6 *)((s8 *)direction_table + (object->unk_6A * 2)))->unk_2094 + 2) & 7;
-        position->unk_00.at02.v = D_800DCEAC[direction];
-        start_y = D_800DCEBC[direction];
+        position->unk_00.at02.v = direction_x_offsets[direction];
+        start_y = direction_y_offsets[direction];
         position->unk_0A = 0;
         position->unk_04.at02.v = start_y;
         sprite->unk_24 = (u8) (((s8 *)dir_step_x)[direction * 2] + 1);
@@ -621,7 +621,7 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
             object->unk_72.u = (u8) (object->unk_72.u + 1);
         }
     case 2:
-        if (D_8002715A != 0) {
+        if (selection_menu_closing != 0) {
             object->unk_73.u = 8U;
             position->unk_16 = 8;
             object->unk_72.u = (u8) (object->unk_72.u + 1);
@@ -670,8 +670,8 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFBF);
     position->unk_00.at02.v = (u16) (position->unk_00.at02.v + 0x100);
     position->unk_04.at02.v = (u16) (position->unk_04.at02.v + 0x100);
-    if ((*(s16 *)D_80027158) == object->unk_6A) {
-        draw_scale = ((*(s16 *)D_80027156) << 9) + 0x400;
+    if ((*(s16 *)selection_blink_target) == object->unk_6A) {
+        draw_scale = ((*(s16 *)selection_blink_timer) << 9) + 0x400;
         object->unk_2A = draw_scale;
     } else {
         object->unk_2A = 0x400;
@@ -793,7 +793,7 @@ void initialize_children_or_shutdown(void *owner)
         if (aux_child != NULL) {
             ((S_80026190_3 *)aux_child)->unk_0E = 3;
         }
-        D_8002715A = 1;
+        selection_menu_closing = 1;
         ((S_80026190_0 *)owner)->unk_1C.s = stop_state;
         (*(s16 *)D_8002715C) = 0;
         func_8004E130();
@@ -847,7 +847,7 @@ void initialize_children_or_shutdown(void *owner)
 
     for (source_slot = 0; source_slot < 2; source_slot++) {
     flag_page = (u8 *)0x80080000;
-    source = *(void **)(((u8 *)D_800E3D7C) + (source_slot * 4) + 0xAC);
+    source = *(void **)(((u8 *)dungeon_actor_ring_anchor) + (source_slot * 4) + 0xAC);
     if (source != NULL) {
         object_or_kind = 0x1E;
         if (!(((S_80026190_10 *)source)->unk_14 & 0x20000000)) {
@@ -1041,7 +1041,7 @@ void initialize_fading_effect(void *effect, void *control)
 void *initialize_available_object(s16 initialValue) {
     S_800267F0_0 *object;
 
-    D_8002715A = 0;
+    selection_menu_closing = 0;
     object = func_8003FC64(0);
     if (object != NULL) {
         object->unk_10 = (void *)initialize_children_or_shutdown;
@@ -1104,7 +1104,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
     u32 height_bias;
     s32 vert3_y;
 
-    geometry = (Geometry *)&D_8008333C[0];
+    geometry = (Geometry *)&scene_geometry[0];
     vertices = geometry->vertices;
     materials = geometry->materials;
     func_800649A0();
@@ -1116,7 +1116,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
         scratch->view_h = render_params->height;
         scratch->view_mid = (s32) (render_params->width + render_params->height) >> 1;
         render_state = (RenderState *)&g_game_work;
-        cells = &D_80027120[0];
+        cells = &menu_mesh_cells[0];
         scratch->eye[0] = view_position->x;
         scratch->eye[1] = view_position->y;
         scratch->eye[2] = view_position->z;
@@ -1152,7 +1152,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
             cell_x = -0x60;
             col = 0;
             do {
-                mesh_index.value = D_80027120[cell_index].idx;
+                mesh_index.value = menu_mesh_cells[cell_index].idx;
                 if (mesh_index.value != 0) {
                     face = geometry->faces[mesh_index.value];
                     for (;;) {
@@ -1186,7 +1186,7 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
                         vert2_y = ((Vert *)vert2_ref.value)->y;
                         x3 = ((Vert *)vert3_ref_y)->x;
                         height0 = ((Vert *)vert0_ref)->w;
-                        height_bias = D_80027120[cell_index].bias;
+                        height_bias = menu_mesh_cells[cell_index].bias;
                         height0 = height0 - height_bias;
                         vert3_ref_y += 2;
                         vert3_y = S16((u8 *)vert3_ref_y, 0);
@@ -1202,20 +1202,20 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
                         y3_high = (cell_y.value + vert3_y) << 0x10;
                         height1 = U16((u8 *)vert1_addr.value, 4);
                         S32(scratch, 0x78) = packed1.value;
-                        height1 = height1 - D_80027120[cell_index].bias;
+                        height1 = height1 - menu_mesh_cells[cell_index].bias;
                         scratch->h1 = height1;
                         index2.value = U16((u8 *)face, 4);
                         vert2_addr.value = index2.value * 8 + (u32)vertices;
                         height2 = ((Vert *)vert2_addr.value)->w;
                         S32(scratch, 0x80) = packed2;
-                        height2 = height2 - D_80027120[cell_index].bias;
+                        height2 = height2 - menu_mesh_cells[cell_index].bias;
                         scratch->h2 = height2;
                         index3.value = face->i3;
                         vert3_addr.value = index3.value * 8 + (u32)vertices;
                         packed3 = x3_masked | y3_high;
                         scratch->xy3 = packed3;
                         height3 = ((Vert *)vert3_addr.value)->w;
-                        height3 = height3 - D_80027120[cell_index].bias;
+                        height3 = height3 - menu_mesh_cells[cell_index].bias;
                         scratch->h3 = height3;
                         facing.value = func_800656C0(&scratch->xy0, &scratch->xy1, &scratch->xy2, &scratch->xy3,
                                           &prim->xy0, &prim->xy1, &prim->xy2, &prim->xy3,

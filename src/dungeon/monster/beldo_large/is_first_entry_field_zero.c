@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 *D_80175D50[3];
+extern u8 *beldo_actor_nodes[3];
 typedef struct S_8016F2A4_0 {
     u8 pad_00[0xCF];
     u8 unk_CF;
@@ -10,5 +10,5 @@ typedef struct S_8016F2A4_0 {
 
 /* Return whether the first entry's unk_CF field is zero. */
 s32 is_first_entry_field_zero(void) {
-    return ((S_8016F2A4_0 *)(*D_80175D50))->unk_CF == 0;
+    return ((S_8016F2A4_0 *)(*beldo_actor_nodes))->unk_CF == 0;
 }

@@ -1,8 +1,7 @@
 #include "common.h"
-
-extern void card_boot_set_slot_selection_marker(void *ptr, s32 value);
-extern void card_boot_clear_slot_selection_marker(void *ptr);
-extern void card_boot_set_slot_details_selection(void *ptr, s32 index, s32 value);
+#include "frontend/card.h"
+#include "frontend/libcard.h"
+#include "frontend/libcard/resource.h"
 
 /* Update the five entries according to the selected index. */
 void card_boot_highlight_selected_load_slot(void *state) {

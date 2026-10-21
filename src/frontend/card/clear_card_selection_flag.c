@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/card.h"
 
 void invoke_callback_for_four_global_values();                            /* extern */
 

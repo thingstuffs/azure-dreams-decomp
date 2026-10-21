@@ -4,6 +4,10 @@
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
+#include "engine/node.h"
+#include "frontend/settings.h"
+#include "main/data.h"
+#include "sdk/libgte.h"
 
 typedef struct S_80089608_0_pre {
     u16 unk_00;
@@ -55,13 +59,7 @@ typedef struct S_80089608_7 {
     s16 unk_06;
 } S_80089608_7;
 
-s32 register_node();           /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
 extern s32 D_80044BB0[3];
-extern M2C_UNK D_80088790;
-extern M2C_UNK D_800887B8;
-extern M2C_UNK D_800887CC;
 
 typedef struct {
     s32 w0;

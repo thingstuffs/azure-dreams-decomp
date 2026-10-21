@@ -76,9 +76,9 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
             return;
         }
         if (!(entity->action_flags & 0x8000)) {
-            if (!(g_dungeon_status.flags & 0x2000) || ((check_entity_relation(entity, (struct ActorRecord *)(((s32)D_800814A8->unk_58) + 0x20)) << 0x10)
+            if (!(g_dungeon_status.flags & 0x2000) || ((check_entity_relation(entity, (struct ActorRecord *)(((s32)primary_actor_record->unk_58) + 0x20)) << 0x10)
                 == 0)) {
-                if (D_80013714 & 8) {
+                if (system_update_flags & 8) {
                     advance_boss_command_stream(actor, context, sprite);
                     entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
                     update_actor_status_and_food(entity);

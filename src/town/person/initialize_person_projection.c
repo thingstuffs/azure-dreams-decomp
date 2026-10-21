@@ -9,10 +9,10 @@ void func_80064EC0(s32, s32, s32);   /* extern */
 void func_80064EE0(s32, s32, s32);   /* extern */
 void func_80064F00(s32, s32);            /* extern */
 void func_80064F20(s32);                     /* extern */
-extern M2C_UNK D_8006ADBC;
+extern M2C_UNK map_runtime_state;
 /* Retail writes +0x19..+0x1B; the asset allocation extent is not established here. */
-extern u8 D_801C9E40[];
-extern u8 D_801DA714[];
+extern u8 upper_draw_context[];
+extern u8 lower_draw_context[];
 
 typedef struct S_800AB7FC_1 {
     u8 pad_00[0x18];
@@ -63,7 +63,7 @@ void initialize_person_projection(void) {
     func_80064D20(scene_state);
     view_state->fog_far = 0x1000;
     func_80064624(0x1000, view_state->projection_distance);
-    scene_state = &D_8006ADBC;
+    scene_state = &map_runtime_state;
     if ((scene_state->unk_18 == 0xC) && (scene_state->unk_1A != 0x34)) {
         ambient_red = 0xA0;
         ambient_green = ambient_red;
@@ -88,10 +88,10 @@ void initialize_person_projection(void) {
     view_state->tint.parts.tint_r = 0x80;
     view_state->tint.parts.tint_g = 0x80;
     view_state->tint.parts.tint_b = 0x80;
-    D_801C9E40[0x19] = 0;
-    D_801C9E40[0x1A] = 0;
-    D_801C9E40[0x1B] = 0;
-    D_801DA714[0x19] = 0;
-    D_801DA714[0x1A] = 0;
-    D_801DA714[0x1B] = 0;
+    upper_draw_context[0x19] = 0;
+    upper_draw_context[0x1A] = 0;
+    upper_draw_context[0x1B] = 0;
+    lower_draw_context[0x19] = 0;
+    lower_draw_context[0x1A] = 0;
+    lower_draw_context[0x1B] = 0;
 }

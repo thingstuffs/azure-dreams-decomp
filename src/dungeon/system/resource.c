@@ -29,7 +29,7 @@ s32 sum_resource_bytes(s32 entry_count) {
 
     sum = 0;
     for (entry_index = 0; entry_index < entry_count; entry_index++) {
-        sum += D_800CF720[entry_index].field_4;
+        sum += resource_cache_records[entry_index].field_4;
     }
     return sum;
 }
@@ -39,7 +39,7 @@ s32 find_resource_index_by_key(s32 first_byte, s32 second_byte, s32 halfword_val
     s8 *entry_table;
     s8 *entry;
 
-    entry_table = D_800CF720;
+    entry_table = resource_cache_records;
     for (entry_index = 0; entry_table[entry_index * 8 + 1] != -1; entry_index++) {
         entry = &entry_table[entry_index * 8];
         if ((first_byte == entry[0]) && (second_byte == entry[1]) && (halfword_value == *(s16 *)(entry + 2))) {
@@ -61,8 +61,8 @@ void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
 
     dst_index = record_count;
     if (dst_index != 0) {
-        records_base = (s32)D_800CF720;
-        state = (u8 *)&D_801131B8;
+        records_base = (s32)resource_cache_records;
+        state = (u8 *)&town_resource_context;
         do {
             dst_record = (ovl_d54c_7FFED630_Record *)(dst_index * 8 + records_base);
             src_index = dst_index - 1;
@@ -89,18 +89,18 @@ void move_resource_to_front(s32 entry_index) {
     s32 data_size;
     s32 scratch_buffer;
 
-    entries = D_800CF720;
+    entries = resource_cache_records;
     entry = &entries[entry_index];
     saved_field_0 = entry->field_0;
     saved_field_1 = entry->field_1;
     saved_field_2 = entry->field_2;
     data_size = entry->field_4;
     scratch_buffer = alloc_gpu_scratch_ring(0x8000);
-    func_80069ED8(scratch_buffer, D_801131B8.field_2C + sum_resource_bytes(entry_index), data_size);
+    func_80069ED8(scratch_buffer, town_resource_context.field_2C + sum_resource_bytes(entry_index), data_size);
     shift_resource_entries_and_data(entry_index, data_size);
-    state = &D_801131B8;
+    state = &town_resource_context;
     func_80069ED8(state->field_2C, scratch_buffer, data_size);
-    D_800CF720[0].field_0 = saved_field_0;
+    resource_cache_records[0].field_0 = saved_field_0;
     entries->field_1 = saved_field_1;
     entries->field_2 = saved_field_2;
     entries->field_4 = data_size;
@@ -155,7 +155,7 @@ s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, 
         entry = 0;
         func_8008AC84(entry);
     } else if (free_bytes < alloc_size) {
-        s8 *entries = (s8 *)D_800CF720;
+        s8 *entries = (s8 *)resource_cache_records;
         u32 entry_offset = entry << 3;
         entry_ptr = entries + entry_offset;
         free_bytes += ((s32 *)entry_ptr)[1];
@@ -169,11 +169,11 @@ s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, 
     }
     shift_resource_entries_and_data(entry, alloc_size);
     func_8008AC84(entry + 1);
-    D_800CF720[0].field_0 = resource_kind;
-    ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&D_800CF720[0]))->unk_01 = resource_group;
-    ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&D_800CF720[0]))->unk_02 = resource_id;
-    ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&D_800CF720[0]))->unk_04 = alloc_size;
-    start_cd_read(resource, D_801131E4[0]);
+    resource_cache_records[0].field_0 = resource_kind;
+    ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&resource_cache_records[0]))->unk_01 = resource_group;
+    ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&resource_cache_records[0]))->unk_02 = resource_id;
+    ((ovl_d54c_7FFED850_S_8008AFB0_0 *)(&resource_cache_records[0]))->unk_04 = alloc_size;
+    start_cd_read(resource, town_resource_buffer[0]);
     return 0;
 }
 
@@ -202,17 +202,17 @@ void submit_object_resource_data(ovl_d54c_7FFED9F8_Object *object) {
 
     item = object->item98;
     if ((item != 0) && (tag_mask = item->flags0 & 0xC0000000, tag_mask == 0xC0000000)) {
-        D_801131B8.value0 = object->value60;
+        town_resource_context.value0 = object->value60;
         option_bit = (item->flags0 >> 23) & 1;
-        D_801131B8.value4 = option_bit;
+        town_resource_context.value4 = option_bit;
         high_field = (item->flags0 & 0x3F000000) >> 24;
-        D_801131B8.value8 = high_field;
+        town_resource_context.value8 = high_field;
         middle_field = (item->flags0 & 0x007F0000) >> 16;
-        D_801131B8.valueC = middle_field;
+        town_resource_context.valueC = middle_field;
         extra_flags = item->flags1;
         if ((extra_flags & tag_mask) == tag_mask) {
-            D_801131B8.value10 = (extra_flags & 0x3F000000) >> 24;
-            D_801131B8.value14 = (item->flags1 & 0x007F0000) >> 16;
+            town_resource_context.value10 = (extra_flags & 0x3F000000) >> 24;
+            town_resource_context.value14 = (item->flags1 & 0x007F0000) >> 16;
         }
         ensure_resource_at_front(option_bit, high_field, middle_field);
         data_base = 0x80016000;

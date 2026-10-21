@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "frontend/card/service.h"
 
 typedef struct S_8001EDE0_0 {
     u8 pad_00[0x2C];
@@ -19,7 +20,6 @@ typedef struct S_8001EDE0_1 {
 
 extern s32 func_80400908(void);
 extern s32 process_entry_with_table_value(s32, s32);
-extern s32 read_and_update_indexed_record(s32, s32);
 extern void func_80402214(void);
 extern void initialize_card_message_object_with_code_0x10(void *);
 extern void func_80404688(s32);

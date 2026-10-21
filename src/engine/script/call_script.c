@@ -1,11 +1,12 @@
 #include "common.h"
 
 #include "common.h"
-void prepare_script_controller_and_set_cursor(void *controller, s32 reset_value, s32 requested_selector);     /* extern */
 #include "records/Rec_D_80082A38.h"
-extern Rec_D_80082A38 D_80082A38;
+#include "engine/object.h"
+#include "engine/script.h"
+extern Rec_D_80082A38 runtime_script_state;
 
 /* Calls func_80035164 for D_80082A38 with the supplied value and mode 2. */
 void call_script(s32 value) {
-    prepare_script_controller_and_set_cursor(&D_80082A38, value, 2);
+    prepare_script_controller_and_set_cursor(&runtime_script_state, value, 2);
 }

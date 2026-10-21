@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/effect.h"
 
 /* D_8006E7F0: array of pointers to per-type info records; each record has a
  * u16 count at +0x6 and four u16 word-offsets at +0x8/+0xA/+0xC/+0xE. */

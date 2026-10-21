@@ -13,7 +13,7 @@ extern s32 check_entity_flag_4000(void *);
 extern char D_800E1A88[];
 extern char D_800E1A9D[];
 extern char D_800E1AC2[];
-extern char D_800E1AD0[];
+extern char stack_split_text[];
 
 /* Roll the actor's stack-split chance; on a hit decrement the stack and post the split message. */
 s32 roll_actor_stack_split(void *actor, s32 chance)
@@ -77,7 +77,7 @@ s32 roll_actor_stack_split(void *actor, s32 chance)
         } else {
             text = expand_text_control_codes(D_800E1AC2, text);
             text = append_entity_display_text(actor, text);
-            msg = D_800E1AD0;
+            msg = stack_split_text;
             text = expand_text_control_codes(msg, text);
         }
     }

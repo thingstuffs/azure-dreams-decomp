@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus/data.h"
 
 /* S_80058B70: view of the D_80085FA8[] element struct touched here (base passed
  * to read_big_endian_word/read_sequence_halfword/read_next_byte_and_finish; direct fields f00,f1c,f20,f24). */
@@ -12,19 +14,11 @@ typedef struct {
 
 extern S_80058B70 audio_sequence_tracks[32];
 extern s32 audio_sequence_data_base[4];   /* [0] = base pointer to another struct */
-extern s32 D_80085FA0[4];
-extern s32 audio_sequence_timing_word[4];
 extern s32 audio_sequence_format[4];
-extern s32 D_800737D4[4];
 extern s32 audio_sequence_timing_division[4];
-extern s32 audio_sequence_stream_limit[4];
 extern s32 audio_sequence_track_count[4];
 extern s32 audio_sequence_multitrack_mode[4];
 
-extern s32 find_sequence_magic_after_offset(s32);
-extern s32 scan_stream_for_three_byte_marker(s32);
-extern u32 read_big_endian_word(S_80058B70 *);
-extern s32 read_sequence_halfword(S_80058B70 *);
 extern void read_next_byte_and_finish(S_80058B70 *);
 
 /* Configures the first playback slot and playback parameters for the current mode. */
@@ -47,7 +41,7 @@ s32 init_sequence_playback(void)
             return 0;
         }
     }
-        D_80085FA0[0] = read_big_endian_word(slot);
+        sequence_header_word[0] = read_big_endian_word(slot);
         audio_sequence_multitrack_mode[0] = read_sequence_halfword(slot) & 0xFFFF;
         audio_sequence_track_count[0] = read_sequence_halfword(slot) & 0xFFFF;
         audio_sequence_timing_division[0] = read_sequence_halfword(slot) & 0xFFFF;

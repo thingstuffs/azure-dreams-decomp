@@ -30,16 +30,16 @@ typedef union {
     s32 value;
 } StackArg;
 
-extern Template0 D_8002E5D8;
-extern DisplayPositionWords D_8002E5E8;
+extern Template0 display_block_defaults;
+extern DisplayPositionWords display_vector_defaults;
 
 /* Initialize the owner's instances from defaults and set their position. */
 void func_800B67A4(Owner *owner, Template0 *instance_data, DisplayPositionWords *instance1,
                    s32 x, StackArg y_arg, StackArg z_arg) {
     s32 y = y_arg.value;
     s32 z = z_arg.value;
-    Template0 *defaults0 = &D_8002E5D8;
-    DisplayPositionWords *defaults1 = &D_8002E5E8;
+    Template0 *defaults0 = &display_block_defaults;
+    DisplayPositionWords *defaults1 = &display_vector_defaults;
     s32 *first_word;
 
     instance_data->unk0 = defaults0->unk0;

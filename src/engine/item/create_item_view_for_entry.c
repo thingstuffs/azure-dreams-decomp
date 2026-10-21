@@ -1,12 +1,13 @@
 #include "common.h"
+#include "engine/cd.h"
+#include "engine/item.h"
+#include "slus.h"
 
 typedef struct S_8004B854 {
     u8 a2;
     u8 code;
 } S_8004B854;
 
-extern void load_bin_nametwin(void);
-extern void drain_cd_command_queue(void);
 extern void create_item_view(int a0, int a1, int a2, S_8004B854 *a3, int a4);
 
 /* Sends a packet containing the entry byte and command code 0x13 to the target. */

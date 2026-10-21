@@ -31,8 +31,8 @@ s32 check_masked_value_in_current_range(s32);
 extern int abs(int);
 
 extern s32 D_800A58CC;
-extern u8 D_800CFCEE[];
-extern s32 D_80100E20[];
+extern u8 town_blocked_directions[];
+extern s32 town_movement_speed[];
 
 
 /* Updates town movement, terrain response, facing, and action state from input. */
@@ -67,7 +67,7 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
         direction = input_angle_with_offset(globals->buttons,
                                   globals->view.camera_rotation.parts.viewAngle);
         if (direction != -1) {
-            add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, D_80100E20[0], table);
+            add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, town_movement_speed[0], table);
         }
         random_choice = scale_random_to_unsigned_halfword_limit(1);
         spawn_directional_effects(table, (u16)random_choice);
@@ -78,26 +78,26 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
         move_both_components_toward_zero_direction_dependent_steps_clamping_zero(table);
     }
 
-    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(table, ((u8 *)&D_800FE488));
+    ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(table, ((u8 *)&position_query_scratch));
     if (table->z.w.i >= ground_height) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(table), ground_height, (struct TownVec * *)(((u8 *)&D_800FE488)));
-    } else if (D_800CFCEE[1] != 0) {
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(table), ground_height, (struct TownVec * *)(((u8 *)&position_query_scratch)));
+    } else if (town_blocked_directions[1] != 0) {
         table->flags14 = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(table));
     } else {
         add_hex_20000_s_signed_offset_hex_14(table);
     }
-    tile_id = read_map_cell_at_world_position(D_80083780.x.w.i,
-                            D_80083780.y.w.i);
+    tile_id = read_map_cell_at_world_position(view_reference_entity.x.w.i,
+                            view_reference_entity.y.w.i);
     if (check_masked_value_in_current_range((u16)tile_id) != 0) {
         table->flags14 -= compute_height_based_offset(table);
     }
 
     speed = runtime_estimate_vector_length(table->unk_0C,
                           table->unk_10);
-    if (D_80100E20[0] != 0) {
-        speed_delta = abs(D_80100E20[0] - speed);
-        sound_interval = (s32)((u32)speed_delta * 7U) / D_80100E20[0];
+    if (town_movement_speed[0] != 0) {
+        speed_delta = abs(town_movement_speed[0] - speed);
+        sound_interval = (s32)((u32)speed_delta * 7U) / town_movement_speed[0];
         if ((globals->unk_004 % (sound_interval + 2)) == 0) {
             SD_Call(0x60A);
         }
@@ -119,7 +119,7 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
     }
 
     if ((((s32)globals->pressed_buttons) & 0x10) &&
-        (D_800CFCEE[0] == 0)) {
+        (town_blocked_directions[0] == 0)) {
         initialize_effect_and_adjust_value(state, table, (s32)(context));
         return;
     }

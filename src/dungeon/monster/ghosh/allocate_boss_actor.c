@@ -13,7 +13,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern u8 D_8016F2E0[];
 extern M2C_UNK D_8016F78C;
 extern u8 D_80174A2C[];
-extern void *D_80174CD8;
+extern void *ghosh_boss_node;
 
 typedef struct S_8016F160_0 {
     u8 pad_00[0x8];
@@ -65,11 +65,11 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
     saved_config_24 = config_24;
     saved_config_0a = config_0a;
     saved_config_25 = config_25;
-    obj = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     saved_mode = mode;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        D_80174CD8 = obj;
+        ghosh_boss_node = obj;
         ((S_8016F160_0 *)obj)->unk_10 = D_8016F2E0;
         ((S_8016F160_1 *)work)->unk_13 = 0x32;
         register_node(obj, project_sprite_chain);

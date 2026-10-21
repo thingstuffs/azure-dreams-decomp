@@ -68,7 +68,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
 
     previous_segment = NULL;
     segment_index = 0;
-    angle = forward_monster_coordinate_delta(D_80083780.x.w.i, D_80083780.y.w.i, position->unk_02, position->unk_06);
+    angle = forward_monster_coordinate_delta(view_reference_entity.x.w.i, view_reference_entity.y.w.i, position->unk_02, position->unk_06);
     do {
         alloc_flags = 0x12;
         if (segment_index != 0) {
@@ -76,7 +76,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
         }
         parent = previous_segment;
         if (previous_segment == NULL) {
-            parent = ((u8 *)(&D_80083498));
+            parent = ((u8 *)(&scene_object_list_anchor));
         }
         segment = allocate_list_node(alloc_flags, parent);
         segment_state = segment + 0x20;

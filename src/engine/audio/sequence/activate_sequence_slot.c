@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/audio/spu.h"
 
 typedef struct {
     s16 field_0;
@@ -22,8 +24,6 @@ extern s32 audio_sequence_active[4];
 extern u8 audio_voice_records[0x78 * 64];
 extern s32 audio_update_guard[4];
 extern S_80086C00 audio_sequence_slots[8];
-
-extern void func_8005F134(S_8005B16C_req *request);
 
 /* Dispatches type-3 requests for active channels and marks the selected slot active. */
 void activate_sequence_slot(s16 slot_index)

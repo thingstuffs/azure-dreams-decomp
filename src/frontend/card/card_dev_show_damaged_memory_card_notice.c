@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "frontend/card/message_object.h"   /* extern */
+#include "frontend/card.h"
 
 /* Forwards value to init_card_message_object with fixed arguments 3, 0, and 0. */
 void card_dev_show_damaged_memory_card_notice(s32 value) {

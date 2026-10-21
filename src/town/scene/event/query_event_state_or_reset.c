@@ -22,7 +22,7 @@ s32 query_event_state_or_reset(void)
     }
 
     reset_dispatch_state_and_flags();
-    D_8001E950->unk_00++;
+    town_event_state->unk_00++;
     return 0;
 }
 

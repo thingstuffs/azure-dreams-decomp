@@ -16,12 +16,9 @@ typedef struct S_80027584_0 {
 
 
 #include "modules/main_server_ship_interfaces.h"
-extern void card_boot_show_no_memory_card_notice(void *context);
-extern void card_boot_show_format_failure_notice(void *value);
-extern void card_boot_show_format_success_notice(void *input_value);
+#include "frontend/libcard.h"
+#include "main/data.h"
 extern u8 D_800274A8[];
-extern u8 D_800274D8[];
-extern u8 D_8002789C[];
 
 /* Polls status with bounded retries and dispatches the corresponding context update. */
 void card_boot_format_card_with_retry(void *state) {

@@ -431,8 +431,8 @@ typedef struct {
     u16 h;
 } S_Stack;
 
-extern u8 D_80080000[];
-extern u8 D_801C9E40[16];
+extern u8 resident_globals_page[];
+extern u8 upper_draw_context[16];
 extern void func_80066890(u8 *dst, S_Stack *rect, s32 x, s32 y);
 extern void func_8006658C(void *, void *);
 
@@ -445,9 +445,9 @@ void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {
     u8 *cursor;
     Ctx **active_ctx;
 
-    active_ctx = (Ctx **)((u8 *)&D_80080000 + 0x3160);
-    cursor = (*(Ctx **)((u8 *)&D_80080000 + 0x3160))->field_8D0;
-    second_buffer = *(Ctx **)((u8 *)&D_80080000 + 0x3160) != (Ctx *)D_801C9E40;
+    active_ctx = (Ctx **)((u8 *)&resident_globals_page + 0x3160);
+    cursor = (*(Ctx **)((u8 *)&resident_globals_page + 0x3160))->field_8D0;
+    second_buffer = *(Ctx **)((u8 *)&resident_globals_page + 0x3160) != (Ctx *)upper_draw_context;
     if (source->index < 480) {
         source_x = source->x;
         source_y = source->y;
@@ -470,7 +470,7 @@ void queue_visible_rectangle_copy(S_Rect *copy_rect, S_Arg1 *source) {
                     func_80066890(cursor, &source_rect, source_x + copy_rect->w, (s16)buffer_y + copy_rect->h);
                     packet = cursor;
                     cursor += 24;
-                    func_8006658C((u8 *)(*(Ctx **)((u8 *)&D_80080000 + 0x3160)) + ((source->index * 4) + 0xB0), packet);
+                    func_8006658C((u8 *)(*(Ctx **)((u8 *)&resident_globals_page + 0x3160)) + ((source->index * 4) + 0xB0), packet);
                 }
             }
         }

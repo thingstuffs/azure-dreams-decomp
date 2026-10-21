@@ -169,10 +169,10 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
             update_actor_status_and_food(status);
             return;
         }
-        if (((S_801711A4_2 *)sprite)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((S_801711A4_2 *)sprite)->unk_24.at00u.v != *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             if (!(status->action_flags & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
-                    if ((check_entity_relation(status, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
+                    if ((check_entity_relation(status, ((s32)primary_actor_record->unk_58) + 0x20) << 0x10) != 0) {
                         return;
                     }
                 }
@@ -196,8 +196,8 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
                 case 6:
                 case 7:
                     angle = get_rounded_facing_and_rounding_flag(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
-                    active_actor = D_800814A8;
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
+                    active_actor = primary_actor_record;
                     status->facing = angle;
                     if (active_actor->unk_9A == 0x11) {
                         next_handler = &update_actor_animation_and_dispatch;
@@ -229,7 +229,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
         return;
     }
     if (room_id >= 0) {
-        if (D_800E2970[room_id].flags & 2) {
+        if (dungeon_rooms[room_id].flags & 2) {
             return;
         }
     }
@@ -237,12 +237,12 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
         return;
     }
     if ((compare_monster_neighbor_values(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
-        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 0x10) == 0) {
+        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) == 0) {
         return;
     }
     direction_aux_ptr = &direction_aux;
     angle = get_rounded_facing_and_rounding_flag(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
-        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, direction_aux_ptr, ({  empty_arg; }));
+        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, direction_aux_ptr, ({  empty_arg; }));
     status->facing = angle;
     return;
 }

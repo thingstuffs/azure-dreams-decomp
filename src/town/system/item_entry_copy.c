@@ -15,11 +15,11 @@ s32 find_first_vacant_record();
 void *find_unused_default_pool_slot();
 void *func_800B2344();
 /* extern */
-extern s32 D_80100A10;
+extern s32 town_actor_scratch;
 typedef struct {
     s32 words[0x15];
 } Record84;
-extern Record84 D_80100AF8;
+extern Record84 town_slot_snapshot;
 typedef struct Copy10 {
     s8 bytes[10];
 } __attribute__((packed)) Copy10;
@@ -61,14 +61,14 @@ static void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, 
     entry->unk_02 = (u8) source_entry->unk_02;
     entry->unk_03 = (u8) source_entry->unk_03;
     if (entry->unk_01 == 0x13) {
-        memset(&D_80100A10, 0, 0x54);
-        func_80042640(&D_80100A10, entry->unk_00);
-        func_800423C0(&D_80100A10, entry->unk_00, 0);
+        memset(&town_actor_scratch, 0, 0x54);
+        func_80042640(&town_actor_scratch, entry->unk_00);
+        func_800423C0(&town_actor_scratch, entry->unk_00, 0);
         {
             u8 *record_buffer;
-            record_buffer = (u8 *)&D_80100AF8;
+            record_buffer = (u8 *)&town_slot_snapshot;
             copy_src = record_buffer;
-            build_entity_slot_snapshot(record_buffer, &D_80100A10);
+            build_entity_slot_snapshot(record_buffer, &town_actor_scratch);
         }
         record_index = find_first_vacant_record((void *)0x800102F0, 0x14);
         copy_dst = (record_index * 0x54) + (u8 *)0x800102F0;

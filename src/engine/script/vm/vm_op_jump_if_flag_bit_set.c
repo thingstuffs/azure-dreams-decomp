@@ -1,13 +1,13 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/object.h"
+#include "engine/script/vm.h"
 
 typedef struct Func80039694State {
     u8 pad_00[0x1c];
     u8 *read_ptr;
 } Func80039694State;
-
-extern s32 test_resident_bitmap_bit(s32 bit_id);
 
 /* Branches to the script target when the key check succeeds, otherwise skipping the target. */
 u32 vm_op_24_jump_if_flag_bit_set(Func80039694State *state) {

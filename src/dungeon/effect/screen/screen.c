@@ -19,7 +19,7 @@ typedef struct FlagsView {
     s32 pad[2];
 } FlagsView;
 
-extern CounterView D_800281F8;
+extern CounterView sprite_effect_update_count;
 
 
 typedef struct S_800243C4_0_pre {
@@ -67,7 +67,7 @@ void func_800243C4(void *effect, Rec_func_800243C4_arg1 *position, S_800243C4_4 
     MovingPosition *base_position;
     S_800243C4_1 *source;
 
-    D_800281F8.value = D_800281F8.value + 1;
+    sprite_effect_update_count.value = sprite_effect_update_count.value + 1;
     phase = ((S_800243C4_0 *)effect)->unk_2C.s;
     phase_value = ((S_800243C4_0 *)effect)->unk_2C.u;
 

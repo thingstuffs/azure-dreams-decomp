@@ -9,11 +9,11 @@ typedef struct {
     s32 *unk6C;
 } State;
 
-extern State D_80129728;
+extern State catalog_display_node_slots;
 
 /* Reset the controller fields and clear four shared state values. */
 void reset_catalog_scroll_indicators(void *controller) {
-    State *state = &D_80129728;
+    State *state = &catalog_display_node_slots;
 
     *((u8 *)controller + 0xC) = 1;
     *((s16 *)((u8 *)controller + 8)) = 0;

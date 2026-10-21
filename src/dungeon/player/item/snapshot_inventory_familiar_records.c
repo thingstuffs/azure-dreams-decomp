@@ -6,7 +6,7 @@ typedef struct DungeonSlot {
     u8 pad_14[0x54 - 0x14];
 } DungeonSlot;
 
-extern DungeonSlot *D_800E3DF0[];
+extern DungeonSlot *familiar_record_slots[];
 extern void build_entity_slot_snapshot(DungeonSlot *slot, DungeonSlot *other);
 
 /* Resets slot state and updates slots referenced by records of type 0x13. */
@@ -30,7 +30,7 @@ void snapshot_inventory_familiar_records(void)
 
     count = 0;
     record_type = 0x13;
-    slot_table = D_800E3DF0;
+    slot_table = familiar_record_slots;
     record = (u8 *)0x8001024B;
 loop_1:
     {

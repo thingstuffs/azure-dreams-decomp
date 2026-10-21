@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/slots.h"
 
 /* Globals accessed directly via %hi/%lo (not $gp small-data); declared with a
  * size > -G (8) so gcc/as emit %hi/%lo rather than $gp-relative access. Only

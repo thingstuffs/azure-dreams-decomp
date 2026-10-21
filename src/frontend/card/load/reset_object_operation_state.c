@@ -1,7 +1,8 @@
 #include "common.h"
+#include "frontend/card/load.h"
+#include "main/data.h"
 
 extern s32 func_80406B9C(void *ptr);
-extern s32 D_80406DA0;
 
 void reset_object_operation_state(void *ptr) {
     if (*(s32 *)((u8 *)ptr + 0x38) != 0) {

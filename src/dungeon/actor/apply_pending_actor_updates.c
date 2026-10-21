@@ -9,7 +9,7 @@ extern void run_saved_actor_action(void *, s32, void *, void *);
 extern void func_80097C50(void *, s32, void *, void *);
 
 extern u8 D_8004F5F4[];
-extern s32 D_800E4940;
+extern s32 menu_action_argument;
 
 /* Apply pending actor updates and handle input-driven state transitions. */
 void apply_pending_actor_updates(void *controller, s32 move_state, void *entity, void *actor)
@@ -27,11 +27,11 @@ void apply_pending_actor_updates(void *controller, s32 move_state, void *entity,
         apply_pending_byte_increase(controller, move_state, entity, actor);
     }
 
-    if (!(D_80013714 & 1) && (input_state->buttons & 0x80)) {
+    if (!(system_update_flags & 1) && (input_state->buttons & 0x80)) {
         *(s16 *)((u8 *)actor + 0x8A) = 2;
-        D_800E4940 = 2;
+        menu_action_argument = 2;
         begin_player_menu_action(controller, move_state, entity, D_8004F5F4);
-        D_80082E80.selected_item = 0;
+        reference_tile_object.selected_item = 0;
         *(s32 *)((u8 *)controller + 0xC8) = 0;
         *(s32 *)((u8 *)controller + 0x104) = 0;
         return;

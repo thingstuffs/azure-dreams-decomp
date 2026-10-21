@@ -1,5 +1,7 @@
 #include "shared/sound_state.h"
 #include "common.h"
+#include "engine/audio.h"
+#include "slus.h"
 typedef struct CueRecord {
     u16 value;
     u8 pad_02[0x2];
@@ -7,12 +9,6 @@ typedef struct CueRecord {
     u32 first;
     u32 second;
 } CueRecord;
-
-extern CueRecord *read_sound_stream_cue_pointer(void);
-extern int select_audio_mode_attenuation(int);
-extern void activate_pending_playback(void);
-extern void sound_begin_cd_playback_setup(void);
-extern void audio_handle_stream_control_event(s32);
 
 /* Loads pending CD cue fields from the current record or dispatches a countdown message. */
 void audio_dispatch_stream_request(s32 message)

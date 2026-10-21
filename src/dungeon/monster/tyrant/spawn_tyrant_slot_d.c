@@ -67,7 +67,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
     saved_input1 = input1;
     saved_input3 = input3;
     saved_input2 = input2;
-    allocation = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+    allocation = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (allocation != NULL) {
         record = allocation + 0x20;
         ((S_8106B000_0 *)allocation)->unk_10 = &D_8015EAA4;

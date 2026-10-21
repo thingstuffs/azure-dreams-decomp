@@ -11,7 +11,7 @@ s32 has_listed_resource_in_slots(void) {
     s32 entry_index;
 
     for (entry_index = 0; entry_index < 15; entry_index++) {
-        if (resource_value_table_contains((s32)D_800CF838[D_800CF828[entry_index]]) != 0) {
+        if (resource_value_table_contains((s32)town_resource_descriptors[town_resource_queue[entry_index]]) != 0) {
             return 1;
         }
     }
@@ -26,7 +26,7 @@ s32 find_slot_for_resource_entry(void) {
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 15; slot_index++) {
-        if (D_800CF838[D_800CF828[slot_index]] == D_80080EA8) {
+        if (town_resource_descriptors[town_resource_queue[slot_index]] == D_80080EA8) {
             return slot_index;
         }
     }
@@ -41,21 +41,21 @@ void reserve_twch_load(s32 character_id) {
     s32 i;
     s32 found;
 
-    found = resource_value_table_contains((s32)((void **)D_800CF838)[character_id]);
+    found = resource_value_table_contains((s32)((void **)town_resource_descriptors)[character_id]);
     i = 0;
     if (found != 0) {
         i = find_slot_for_resource_entry();
         if (i >= 0) {
-            D_800CF828[i] = character_id;
+            town_resource_queue[i] = character_id;
             return;
         }
         i = 0;
     }
 
     do {
-        if (D_800CF828[i] == 0) {
-            D_800CF828[i] = character_id;
-            D_800CF828[i + 1] = 0;
+        if (town_resource_queue[i] == 0) {
+            town_resource_queue[i] = character_id;
+            town_resource_queue[i + 1] = 0;
             return;
         }
         i++;
@@ -72,8 +72,8 @@ void func_8008B4B0(void) {
     u8 *id_ptr;
 
     slot = 0;
-    object_ids = D_800CF828;
-    objects = D_800CF838;
+    object_ids = town_resource_queue;
+    objects = town_resource_descriptors;
     do {
         id_ptr = (u8 *)((unsigned long)slot + (unsigned long)object_ids);
 
@@ -84,9 +84,9 @@ void func_8008B4B0(void) {
     } while (slot < 15);
 
     if (has_listed_resource_in_slots() != 0) {
-        D_800CF828[0] = 1;
-        D_800CF828[1] = 0;
+        town_resource_queue[0] = 1;
+        town_resource_queue[1] = 0;
         return;
     }
-    D_800CF828[0] = 0;
+    town_resource_queue[0] = 0;
 }

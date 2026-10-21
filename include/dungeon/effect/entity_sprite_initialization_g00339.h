@@ -76,7 +76,7 @@ extern void create_tracked_effect(void *, s32, void *, void *);
 /* (void *)reg_s3 in create_mode_configured_object */
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern s32 D_80083498;
+extern s32 scene_object_list_anchor;
 extern M2C_UNK D_800B274C;
 extern M2C_UNK D_800B2A60;
 

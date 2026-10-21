@@ -280,7 +280,7 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
 s32 func_80069EF8();
-extern unsigned char D_80080000[];
+extern unsigned char resident_globals_page[];
 s32 func_80065420();
 s32 func_80066460();
 M2C_UNK func_80067F20();

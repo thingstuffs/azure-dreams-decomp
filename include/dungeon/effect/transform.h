@@ -98,7 +98,7 @@ s32 func_8003DB94();
 extern u8 D_80024020[];
 extern u8 D_80024C78[];
 extern s32 D_80024264;
-extern s32 D_800D36D0;
+extern s32 transform_effect_tag;
 extern s32 D_800DEF08;
 s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 stored_tag);
 void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record);

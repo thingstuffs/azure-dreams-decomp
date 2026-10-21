@@ -21,8 +21,8 @@ typedef struct {
     s32 value;
 } Actor;
 
-extern u8 D_800CFCEE;
-extern s32 D_80100E20;
+extern u8 town_blocked_directions;
+extern s32 town_movement_speed;
 extern u8 D_800A5DF8;
 
 extern s32 scale_random_to_unsigned_halfword_limit();
@@ -63,7 +63,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     *(u16 *)((u8 *)state + 0x10) = direction;
 
     if (((u32)input->buttons) & 0x20) {
-        add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, D_80100E20, actor);
+        add_a_directional_step_vector_scale_down_exceeds_length_limit(direction, town_movement_speed, actor);
         spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
 
@@ -75,26 +75,26 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     } else {
         move_both_components_toward_zero_direction_dependent_steps_clamping_zero((struct EntityRec *)(actor));
     }
-    height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, ((u8 *)&D_800FE488));
+    height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, ((u8 *)&position_query_scratch));
     if (actor->height >= height_limit) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), height_limit, (struct TownVec * *)(((u8 *)&D_800FE488)));
-    } else if ((&D_800CFCEE)[1] != 0) {
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), height_limit, (struct TownVec * *)(((u8 *)&position_query_scratch)));
+    } else if ((&town_blocked_directions)[1] != 0) {
         actor->value = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(actor));
     } else {
         add_hex_20000_s_signed_offset_hex_14(actor);
     }
-    world_value = read_map_cell_at_world_position(D_80083780.x.w.i, D_80083780.y.w.i);
+    world_value = read_map_cell_at_world_position(view_reference_entity.x.w.i, view_reference_entity.y.w.i);
     if (check_masked_value_in_current_range((u16)world_value) != 0) {
         actor->value -= compute_height_based_offset((struct EntityRec *)(actor));
     }
 
     speed = runtime_estimate_vector_length(actor->x, actor->y);
-    if (D_80100E20 != 0) {
+    if (town_movement_speed != 0) {
         {
             s32 speed_delta;
-            speed_delta = D_80100E20 - speed;
-            sound_period = (((speed_delta < 0 ? -speed_delta : speed_delta) * 7) / D_80100E20) + 2;
+            speed_delta = town_movement_speed - speed;
+            sound_period = (((speed_delta < 0 ? -speed_delta : speed_delta) * 7) / town_movement_speed) + 2;
         }
         {
             u16 tick_count;
@@ -109,7 +109,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
         input->view.camera_rotation.parts.viewAngle = (((u16)input->view.camera_rotation.parts.viewAngle) + 8) & 0xFFF0;
     } else {
         if ((((u32)input->buttons) & 0x30) == 0x10) {
-            speed = (D_80100E20 * 3) / 2;
+            speed = (town_movement_speed * 3) / 2;
         }
     }
     {
@@ -145,7 +145,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
         spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
 
-    if ((((u32)input->pressed_buttons) & 0x10) && (D_800CFCEE == 0)) {
+    if ((((u32)input->pressed_buttons) & 0x10) && (town_blocked_directions == 0)) {
         state->callback = &D_800A5DF8;
         state->timer = 8;
         state->mode = 1;

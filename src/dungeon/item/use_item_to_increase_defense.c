@@ -25,9 +25,9 @@ s32 use_item_to_increase_defense(void *entity, s32 update_value, s16 update_mode
     u8 progress;
     u8 completion_count;
 
-    if (entity == D_800E3D7C) {
+    if (entity == dungeon_actor_ring_anchor) {
         ((EntityRec *)entity)->unk_110 = update_value;
-        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/spu.h"
 
 /* Request struct passed to func_8005F134 (an ~0x40-byte object; here only
  * flags word (offset 0), type/count word (offset 4), and two s16 params
@@ -12,7 +13,6 @@ typedef struct S_8005C668 {
 } S_8005C668;
 
 extern s32 audio_voice_masks[];
-extern void func_8005F134(void *a0);
 
 /* Sends a type-3 request with indexed flags and two s16 parameters, then returns zero. */
 s32 submit_driver_halfword_pair(s16 flags_index, s16 first_value, s16 second_value)

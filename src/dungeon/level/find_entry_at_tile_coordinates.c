@@ -16,8 +16,8 @@ typedef struct {
     u8 unk14[4];
 } Status;
 
-extern Slot D_800E3648[];
-extern Status D_800E39C8[];
+extern Slot floor_objects[];
+extern Status dungeon_floor_object_positions[];
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
 s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z) {
@@ -33,9 +33,9 @@ s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z) {
     if (flags & 0x20) {
         i = 0;
         do {
-            if (D_800E3648[i].active != 0 && D_800E39C8[i].x == x &&
-                D_800E39C8[i].y == y) {
-                delta = z - D_800E39C8[i].z;
+            if (floor_objects[i].active != 0 && dungeon_floor_object_positions[i].x == x &&
+                dungeon_floor_object_positions[i].y == y) {
+                delta = z - dungeon_floor_object_positions[i].z;
                 if (delta < 0) {
                     delta = -delta;
                 }

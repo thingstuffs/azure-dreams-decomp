@@ -13,10 +13,10 @@ extern void func_8001E578(s32);
 s32 dispatch_enabled_message_coordinates(void) {
     TownEventArgumentPair16 *message;
 
-    if (D_8001E950->dispatchState == 1) {
-        message = select_event_data_table(0, D_8001E950->unk_05);
+    if (town_event_state->dispatchState == 1) {
+        message = select_event_data_table(0, town_event_state->unk_05);
         D_80016000->unk_20->callback_2F8(message->unk_00, message->unk_02);
-        D_8001E950->dispatchState++;
+        town_event_state->dispatchState++;
         func_8001E578(F_sbs01_pad19);
         return 1;
     }

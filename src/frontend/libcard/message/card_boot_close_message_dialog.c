@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "frontend/libcard/message.h"
 
-extern void card_boot_release_five_message_entries(void *record);
 extern s32 D_80028808[4];
 
 // Optionally flags the linked record, processes the global record, and sets status bits.

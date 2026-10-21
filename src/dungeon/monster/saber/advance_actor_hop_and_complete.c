@@ -160,8 +160,8 @@ void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *
             actor->facing = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24,
                 ((SpriteFrameState *)sprite)->unk_25,
-                D_80082E80.tile_position.parts.tile_x,
-                D_80082E80.tile_position.parts.tile_y,
+                reference_tile_object.tile_position.parts.tile_x,
+                reference_tile_object.tile_position.parts.tile_y,
                 &facing_aux);
         }
     }

@@ -1,8 +1,8 @@
 #include "common.h"
 
 #include "common.h"
-
-extern void runtime_advance_three_component_interpolation(void *);
+#include "engine/camera.h"
+#include "engine/util.h"
 
 /* Initializes three-component interpolation state and its update callback. */
 void func_8004D1EC(void *state_data, u16 *target, s32 duration, u16 *values) {

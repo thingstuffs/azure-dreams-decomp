@@ -1,6 +1,9 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
+#include "slus.h"
 
 typedef struct {
     u8 pad[4];
@@ -8,10 +11,6 @@ typedef struct {
 } State;
 
 extern s32 object_render_cancel_switch[];
-extern void register_node_if_unregistered(void *, void *);
-extern void unlink_node_if_registered(void *);
-extern void draw_linked_sprites(void *, void *, void *);
-extern void func_800478B8(void *);
 
 /* Routes state processing according to the global gate and state flag. */
 void update_node_registration(void *state, void *context) {

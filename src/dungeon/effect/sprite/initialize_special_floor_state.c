@@ -6,8 +6,8 @@
 
 /* Set the state values to 0x20 and 0x31 and enable the associated flags. */
 void initialize_special_floor_state(void) {
-    D_80082E60.unk_10 = 0x20;
-    D_80082E60.unk_12 = 0x31;
-    D_80082E60.flags16 |= 1;
-    D_800E296C |= 0x2000;
+    runtime_dispatch_state.unk_10 = 0x20;
+    runtime_dispatch_state.unk_12 = 0x31;
+    runtime_dispatch_state.flags16 |= 1;
+    dungeon_floor_flags |= 0x2000;
 }

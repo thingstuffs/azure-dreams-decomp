@@ -86,9 +86,9 @@ void create_player_centered_sequence_effect(void)
         sub_object->unk_14 |= 0xC;
 
         position = (*(Vec3i * *)((u8 *)object + 8));
-        position->x = D_80083780.x.v;
-        position->y = D_80083780.y.v;
-        position->z = D_80083780.z.v;
+        position->x = view_reference_entity.x.v;
+        position->y = view_reference_entity.y.v;
+        position->z = view_reference_entity.z.v;
 
         sub_object = (*(void * *)((u8 *)object + 0xC));
         sub_object->unk_1E = 0x1000;

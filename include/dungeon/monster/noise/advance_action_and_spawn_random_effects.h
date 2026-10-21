@@ -114,7 +114,7 @@ extern void * resolve_attack_damage_and_effects();
 extern s32 advance_status_timers();
 extern s32 play_sound_if_enabled();
 extern void spend_actor_mp(void *, s32);
-extern s8 D_800DCECC[];
+extern s8 view_direction_depth_biases[];
 extern Packed32 D_80170838;
 extern u8 D_80174E90[];
 extern u8 D_80174EB8[];

@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "frontend/settings.h"
+#include "sdk/libgpu.h"
 
 typedef struct S_8008896C_0 {
     u8 pad_00[0x4];
@@ -50,13 +52,6 @@ typedef struct RenderState {
 typedef struct MainState {
     RenderState *render_state;
 } MainState;
-
-
-extern s32 func_80066460(s32 texture_depth, s32 blend_mode, s32 texture_x, s32 texture_y);
-extern s16 func_8006649C(s32 clut_x, s32 clut_y);
-extern void func_80066668(void *primitive, s32 raw_texture);
-extern void func_80066758(void *sprite);
-extern void func_80067F20(void *draw_mode, s32 draw_in_display_area, s32 dither, u16 texture_page, s32 texture_window);
 
 /* Queue a 2x2 grid of textured sprites for each linked entry. */
 s32 queue_settings_sprite_grid(u8 *entry_data, u8 *scroll_data)

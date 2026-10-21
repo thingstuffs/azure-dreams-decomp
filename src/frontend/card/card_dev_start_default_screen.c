@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 void func_8003D548(s32);                     /* extern */
 void func_80400EF8(void);                            /* extern */
 extern s8 D_8008CA34;

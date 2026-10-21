@@ -20,7 +20,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
     saved_x = grid_x;
     saved_type = type_id;
     saved_y = grid_y;
-    object = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         state = object + 0x20;
         ((S_8014C878_0 *)object)->unk_10 = &D_8014CA58;

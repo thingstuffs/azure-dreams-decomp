@@ -3,6 +3,11 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "engine/node.h"
+#include "frontend/settings.h"
+#include "main/data.h"
+#include "sdk/libgpu.h"
+#include "slus.h"
 
 typedef struct S_80089C24_0 {
     u8 pad_00[0x8];
@@ -33,38 +38,13 @@ static inline void sol9_copy8(void *dst, const void *src, s32 ignored_size) {
     (void)ignored_size;
 }
 
-s32 register_node();           /* extern */
 s32 render_screen_fade_decreasing_intensity();                      /* extern */
-short SD_Call(int flags); /* extern */
-void func_80067014(s32);                     /* extern */
-void func_800672D8(void *, void *);        /* extern */
-void func_8006733C(void *, void *);        /* extern */
-void *create_type(); /* extern */
-void initialize_available();   /* extern */
-void initialize_and_submit_record(s32 value, void *data);            /* extern */
-extern u8 D_80013180;
-extern u8 D_80013181;
-extern u8 D_80013182;
-extern u8 D_80013184;
-extern u8 D_80013186;
 extern M2C_UNK D_800786E8;
-extern M2C_UNK D_80078AF0;
-extern s8 D_80080A84;
+extern s8 animation_tick_scale;
 extern s32 saved_cd_playback_volume_scale;
 extern s32 saved_sequence_volume_scale;
 extern s32 saved_voice_gain_scale;
-extern u8 D_800888AC;
-extern M2C_UNK D_8008AC70;
-extern M2C_UNK D_8008B030;
-extern s32 D_8008B2B0;
-extern s32 D_8008B2B4;
-extern s32 D_8008B2BC;
-extern M2C_UNK D_8008B2C4;
-extern M2C_UNK D_8008B2D4;
-extern s32 D_8008B2DC;
-extern M2C_UNK D_8008B2E4;
-extern M2C_UNK D_8008B2F0;
-extern M2C_UNK D_8008B2FC;
+extern M2C_UNK volume_slider_levels;
 
 /* Initializes the settings screen palette, labels, panels, and sliders. */
 void initialize_settings_screen(void) {
@@ -116,10 +96,10 @@ void initialize_settings_screen(void) {
 #define label_index (((s32 *)(frame + 0x40))[9])
 
     settings = NULL;
-    sol9_copy8(frame + 0x270, &D_800888AC, 8);
+    sol9_copy8(frame + 0x270, &settings_palette_rect, 8);
     first_level = 0x100;
-    D_80080A84 = 1;
-    levels = (s32 *)&D_8008B2F0;
+    animation_tick_scale = 1;
+    levels = (s32 *)&volume_slider_levels;
     if (saved_sequence_volume_scale != 0x7FFF) {
         first_level = (s32) saved_sequence_volume_scale >> 7;
     }

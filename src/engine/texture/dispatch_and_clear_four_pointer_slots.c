@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/sprite.h"
+#include "engine/texture.h"
 
 /* Struct for the objects pointed to by D_80083110[]: only fields at offset
  * 0x08 and 0x28 are accessed by this function/its siblings. */
@@ -9,14 +11,12 @@ typedef struct S_80083110 {
     s32 unk28;
 } S_80083110;
 
-extern S_80083110 *D_80083110[4];
-
-extern void process_sprite_scroll_and_texture_uploads(s32 a0, s32 a1, s32 a2);
+extern S_80083110 *sprite_resource_pointer_slots[4];
 
 /* Dispatches each occupied slot in mode 1 and clears it. */
 void dispatch_and_clear_four_pointer_slots(void)
 {
-    S_80083110 **slot = D_80083110;
+    S_80083110 **slot = sprite_resource_pointer_slots;
     s32 slots_left;
 
     for (slots_left = 4; slots_left > 0; slots_left--, slot++) {

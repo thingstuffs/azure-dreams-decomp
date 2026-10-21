@@ -26,9 +26,9 @@ s32 use_item_to_restore_eyesight(void *entity_arg, s32 amount_arg, s16 effect_ar
     s32 initial_id;
     s32 selected_id;
 
-    if (entity_arg == D_800E3D7C) {
+    if (entity_arg == dungeon_actor_ring_anchor) {
         *(s32 *)((u8 *)entity_arg + 0x110) = amount;
-        begin_deferred_item_action(((void *)(entity_arg)), ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), ((void *)(entity_arg)));
+        begin_deferred_item_action(((void *)(entity_arg)), ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), ((void *)(entity_arg)));
         return 0;
     }
 

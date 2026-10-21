@@ -11,7 +11,7 @@ typedef struct {
     s8 value;
     u8 flags;
 } Item;
-extern ItemCategory D_80073414[];
+extern ItemCategory item_category_groups[];
 extern s32 memset(void *, s32, s32);
 extern void func_8004E5A0(s32, s32, u8 *);
 extern u8 *remap_flagged_string_bytes(u8 *);
@@ -30,7 +30,7 @@ static s32 format_item_value_and_flag_marker(void *output, Item *item) {
     memset(text, 0x20, 0x20);
     text[0x1F] = 0;
     category = item->category;
-    category_kind = D_80073414[category].kind;
+    category_kind = item_category_groups[category].kind;
     if (category_kind == 1) {
         s8 value = item->value;
 

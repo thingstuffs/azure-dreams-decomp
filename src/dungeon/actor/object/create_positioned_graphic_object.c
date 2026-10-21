@@ -39,7 +39,7 @@ void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s
     S_80027070_1 *position;
     S_80027070_3 *state;
 
-    object = allocate_list_node(0x12, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         ((S_80027070_0 *)object)->unk_10 = &D_80026FB0;
         register_node(object, project_sprite_chain);

@@ -45,8 +45,8 @@ void *func_7003CF18();                       /* extern */
 s32 func_700750E0();                                /* extern */
 extern s32 func_7010CD00(void *, void *, s32, s32); /* extern */
 extern s32 D_80086AD8;
-extern u8 D_800E0F20[0x100];
-extern u16 D_80094422;
+extern u8 emitter_height_offsets[0x100];
+extern u16 emitted_effect_counter;
 extern M2C_UNK D_8010C994;
 
 /* Spawns randomized particles while the emitter is young and marks it inactive when its timer expires. */
@@ -91,7 +91,7 @@ void spawn_young_emitter_particles(void *emitter, s32 init_param_1, s32 init_par
                 emitter_data = ((S_7FFEA9D4_0 *)emitter)->unk_00;
                 particle->unk_60 = (u16) position->unk_0A;
                 rand_value = func_700750E0();
-                z_offset = D_800E0F20[emitter_data->unk_13];
+                z_offset = emitter_height_offsets[emitter_data->unk_13];
                 pos_z = position->unk_0A;
                 z_offset += 0x20;
                 z_offset -= rand_value & 0xF;
@@ -105,7 +105,7 @@ void spawn_young_emitter_particles(void *emitter, s32 init_param_1, s32 init_par
     ((S_7FFEA9D4_0 *)emitter)->unk_1E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         header = (u16 *)emitter - 1;
-        z_offset = (s32)&D_80094422;
+        z_offset = (s32)&emitted_effect_counter;
         *header |= 0x8000;
         active_count = *(u16 *)z_offset - 1;
         D_80086AD8 |= 0x8000;

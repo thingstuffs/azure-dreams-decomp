@@ -29,7 +29,7 @@ extern s32 begin_ready_actor_directional_action();
 extern void begin_actor_move_to_target_facing();
 extern void update_actor_action_transition();
 
-extern u8 D_800E2428[];
+extern u8 uboat_action_frames[];
 extern u8 D_800E2430[];
 extern u8 D_80171A80[];
 
@@ -51,9 +51,9 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
+        (*(void * *)((u8 *)sprite + 0x2C)) = uboat_action_frames;
         select_sprite_entry(sprite,
-                      D_800E2428[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                      uboat_action_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
         ((S_80174788_0 *)action)->unk_9B++;
         return;
@@ -89,7 +89,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
             return;
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-            if ((check_entity_relation(actor, ((s32)D_800814A8->unk_58) + 0x20) << 16) != 0) {
+            if ((check_entity_relation(actor, ((s32)primary_actor_record->unk_58) + 0x20) << 16) != 0) {
                 return;
             }
         }

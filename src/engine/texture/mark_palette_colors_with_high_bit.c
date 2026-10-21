@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/texture.h"
 
 // Sets bit 15 on 255 consecutive entries or the last 15 entries of each 16-entry group.
 void mark_palette_colors_with_high_bit(u16 *entry, s32 groupCount, s32 contiguousMode)

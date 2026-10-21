@@ -11,31 +11,31 @@ void play_selected_movie_and_restore_display(void) {
     u8 *resident_globals_hi = (u8 *) 0x80080000;
     u8 *movie_globals_hi;
 
-    D_80082E60.field_0 &= ~1;
-    if (D_80080A88 == 0) {
+    runtime_dispatch_state.field_0 &= ~1;
+    if (scene_music_hold == 0) {
         SD_Call(0x7F);
         drain_audio_commands_and_service_channels();
     }
 
     submit_tagged_driver_byte(0, 0, 1);
-    D_801B8EBC = 0x7F;
-    submit_scaled_driver_halfword_pair(0, (s16) D_801B8EBC, (s16) D_801B8EBC);
+    movie_volume = 0x7F;
+    submit_scaled_driver_halfword_pair(0, (s16) movie_volume, (s16) movie_volume);
 
-    movie_flag = (u32) D_80189394 >> 31;
+    movie_flag = (u32) movie_frame_control >> 31;
     movie_globals_hi = (u8 *) 0x80180000;
     *(s32 *) (movie_globals_hi - 0x7E1C) = movie_flag;
     clear_movie_display_area(movie_flag);
     func_80066F78(0);
 
-    frame_buffers = D_801C9E40;
+    frame_buffers = upper_draw_context;
     frame_buffers[0x6D] = 1;
     frame_buffers[0x10941] = 1;
     saved_movie_flag = *(s32 *) (movie_globals_hi - 0x7E1C);
     clear_movie_display_area(saved_movie_flag);
 
-    D_801781E0 = 1;
-    set_movie_strip_offsets(0, ((D_80189394 & 0x40000000) == 0) * 0x10);
-    play_movie_frames_with_skip_fade(0, D_80189394 & 0x3FFFFFFF, D_801B8EB8, *(s32 *) (movie_globals_hi - 0x7E1C));
+    movie_rgb24_mode = 1;
+    set_movie_strip_offsets(0, ((movie_frame_control & 0x40000000) == 0) * 0x10);
+    play_movie_frames_with_skip_fade(0, movie_frame_control & 0x3FFFFFFF, movie_start_sector, *(s32 *) (movie_globals_hi - 0x7E1C));
     func_80066F78(0);
 
     {
@@ -108,17 +108,17 @@ void clear_movie_display_area(s32 useFullHeight) {
 
 /* Stores two signed values in the movie state globals. */
 void set_movie_strip_offsets(s16 value_d8, s16 value_dc) {
-    D_801781D8 = (s32) value_d8;
-    D_801781DC = (s32) value_dc;
+    movie_strip_x_offset = (s32) value_d8;
+    movie_strip_y_offset = (s32) value_dc;
 }
 
 /* Reset movie state and apply the requested playback settings. */
 void initialize_movie_decoder_and_start_stream(void *playback_state, void (*playback_option)(void)) {
     set_movie_decode_mode(0);
-    *(s32 *)((u8 *)D_80189390 + 0x34) = 0;
+    *(s32 *)((u8 *)active_movie + 0x34) = 0;
     register_mode_one_callback(playback_option);
-    func_80060B04((u8 *)D_80189390 + 0x40, 0x20);
-    func_800636AC(D_801781E0 & 1, 1, -1, 0, 0);
+    func_80060B04((u8 *)active_movie + 0x40, 0x20);
+    func_800636AC(movie_rgb24_mode & 1, 1, -1, 0, 0);
     start_movie_cd_stream_and_wait_ready(playback_state);
 }
 
@@ -127,8 +127,8 @@ void initialize_movie_frame_buffers(MovieBuffer *movie, s32 frame_x, s32 frame_y
     s32 buffer_offset = 0x15A40;
     s32 next_buffer_offset = 0x22AB0;
     s32 work_offset = 0x10040;
-    u8 *buffer_base = (u8 *)D_80189390;
-    s32 movie_flags = *(s32 *)((u8 *)&D_801781E0 + 0);   /* read through a plain pointer: the array spelling sets MEM_IN_STRUCT_P and reschedules the two global loads */
+    u8 *buffer_base = (u8 *)active_movie;
+    s32 movie_flags = *(s32 *)((u8 *)&movie_rgb24_mode + 0);   /* read through a plain pointer: the array spelling sets MEM_IN_STRUCT_P and reschedules the two global loads */
 
     movie->unk08 = 0;
     movie->unk20 = 0;
@@ -168,23 +168,23 @@ void initialize_movie_frame_buffers(MovieBuffer *movie, s32 frame_x, s32 frame_y
 void upload_movie_strip_and_advance_buffer(void) {
     MovieRect rectangle;
     MovieState *movie;
-    if (D_801781E0 & 1) {
+    if (movie_rgb24_mode & 1) {
         if (D_80086D8C) {
             func_8006390C();
             D_80086D8C = 0;
         }
     }
-    rectangle = D_80189390->strip;
-    if (D_801781E0 & 1) {
-        rectangle.x += (D_801781D8 / 3) * 3;
-        rectangle.y += (D_801781DC / 3) * 3;
+    rectangle = active_movie->strip;
+    if (movie_rgb24_mode & 1) {
+        rectangle.x += (movie_strip_x_offset / 3) * 3;
+        rectangle.y += (movie_strip_y_offset / 3) * 3;
     } else {
-        rectangle.x += D_801781D8;
-        rectangle.y += D_801781DC;
+        rectangle.x += movie_strip_x_offset;
+        rectangle.y += movie_strip_y_offset;
     }
-    func_800672D8(&rectangle, D_80189390->output);
+    func_800672D8(&rectangle, active_movie->output);
     func_80067014(0);
-    movie = D_80189390;
+    movie = active_movie;
     movie->strip.x += movie->strip.w;
     if (movie->strip.x < movie->screen[movie->screen_index].x + movie->screen[movie->screen_index].w) {
         request_decoder_output_dma((s32)movie->output, (movie->strip.w * movie->strip.h) / 2);

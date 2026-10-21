@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 /* Sets or clears status bit 0x2 in each variable-size record through the end marker. */
 void update_tagged_record_flag_2(u8 *record, s32 set_status_bit) {

@@ -55,7 +55,7 @@ typedef struct {
     s16 field22;
 } StackData;
 
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 extern u8 D_800DD0F8[];
 extern s16 transition_runtime_slot_index;
 
@@ -91,7 +91,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
     render_state = g_game_work.draw_buffer;
     prim = (Primitive *)render_state->nextPrim;
     render_state->nextPrim = (u8 *)prim + 0xC;
-    buffer_diff = (u32)render_state ^ (u32)D_801C9E40;
+    buffer_diff = (u32)render_state ^ (u32)upper_draw_context;
     prim_list = (u8 *)render_state + 0x8B0;
     call_state = g_game_work.draw_buffer;
     use_alt_buffer = buffer_diff != 0;
@@ -152,12 +152,12 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
             if ((s16)frame_count >= 0x21) {
                 if (obj->handle[0x13] == 0) {
                     ActorRecord *dungeon_state;
-                    begin_deferred_player_item_effect(obj->handle, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
-                    D_800E3D7C->unk_9B = 0x11;
-                    dungeon_state = D_800E3D7C;
-                    D_80082E80.frame_table = (s32)D_800DD0F8;
+                    begin_deferred_player_item_effect(obj->handle, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), 0);
+                    dungeon_actor_ring_anchor->unk_9B = 0x11;
+                    dungeon_state = dungeon_actor_ring_anchor;
+                    reference_tile_object.frame_table = (s32)D_800DD0F8;
                     set_sprite_animation_frame(
-                        ((u8 *)(&D_80082E80)),
+                        ((u8 *)(&reference_tile_object)),
                         D_800DD0F8[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + dungeon_state->facing) + 0x100 >> 9) & 7],
                         1,
                         1);
@@ -177,18 +177,18 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
             parent_motion->field8 = motion->field8;
             motion->field14 = motion->field14 + 0xFFFC0000;
             if (obj->handle[0x13] == 0 &&
-                (*(u16 *)(*(u8 **)((u8 *)D_800E3D7C - 0x14) + 0x14) & 0x6000)) {
+                (*(u16 *)(*(u8 **)((u8 *)dungeon_actor_ring_anchor - 0x14) + 0x14) & 0x6000)) {
                 s16 entry_index = reserve_runtime_slot(6, 0x20);
                 u8 *entry_table = (u8 *)runtime_transition_slots;
                 s16 *entry_flag;
                 void *active_dungeon;
                 transition_runtime_slot_index = entry_index;
                 entry_flag = (s16 *)(entry_table + (((s32)(entry_index << 16)) >> 0xD) + 6);
-                active_dungeon = D_800E3D7C;
+                active_dungeon = dungeon_actor_ring_anchor;
                 *entry_flag = index_or_phase;
                 snapshot_inventory_and_familiars(active_dungeon);
                 snapshot_inventory_familiar_records();
-                D_80082E60.flags16 = 0x8000;
+                runtime_dispatch_state.flags16 = 0x8000;
                 func_80041094(6, 0, 0, 0, 0x8000);
                 obj->phase = (u16)obj->phase + 1;
             }

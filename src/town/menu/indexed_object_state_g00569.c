@@ -26,7 +26,7 @@ void *allocate_object_with_initial_state(EffectInitialState *source_data, s32 in
     EffectInitialState *object_data;
     void *result;
 
-    object = allocate_list_node(0x136, ((u8 *)(&D_80083498)));
+    object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
     if (object == 0) {
         return 0;
     }

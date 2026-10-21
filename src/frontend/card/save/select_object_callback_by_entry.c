@@ -19,7 +19,7 @@ extern void initialize_card_message_object_with_code_7(void *object);
 extern void handle_object_menu_input(void);
 extern void func_80405A64(void);
 extern void process_menu_input_and_cursor_state(void);
-extern s32 D_8009DDD8[];
+extern s32 card_slot_header_cache[];
 
 /* Selects the object's next callback based on whether its indexed entry is active. */
 void select_object_callback_by_entry(void *object_state)
@@ -30,7 +30,7 @@ void select_object_callback_by_entry(void *object_state)
     s32 entry_active;
 
     entry_index = ((S_func_8001F150_0 *)((u8 *)object_state - 0x20))->unk_48;
-    entry_active = ((S_func_8001F150_1 *)D_8009DDD8)[entry_index].unk_00;
+    entry_active = ((S_func_8001F150_1 *)card_slot_header_cache)[entry_index].unk_00;
     object_base = (S_func_8001F150_0 *)((u8 *)object_state - 0x20);
     if (entry_active != 0) {
         next_callback = process_menu_input_and_cursor_state;

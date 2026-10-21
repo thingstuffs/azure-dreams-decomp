@@ -15,7 +15,7 @@ typedef struct {
 } S_800DCE60;
 
 extern S_80174CF0 D_80174CF0;
-extern S_800DCE60 D_800DCE60;
+extern S_800DCE60 dungeon_camera_targets;
 extern void queue_view_slot(s32);
 void set_camera_targets(void *, void *, s32);
 
@@ -26,8 +26,8 @@ void initialize_destination_state(void)
 
     destinationState->unk4 = 0;
     g_game_work.view.slot[2].callback = 0;
-    D_80174CF0.unk0 = D_800DCE60.unk0;
-    destinationState->unk2 = D_800DCE60.unk2;
+    D_80174CF0.unk0 = dungeon_camera_targets.unk0;
+    destinationState->unk2 = dungeon_camera_targets.unk2;
     queue_view_slot(1);
     set_camera_targets(0, destinationState, 10);
 }

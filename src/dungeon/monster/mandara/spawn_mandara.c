@@ -79,7 +79,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
     call_id = 0x112;
     pin_arg1 = part_b_value;
     pin_arg3 = part_a_value;
-    call_target = &D_80083498;
+    call_target = &scene_object_list_anchor;
     obj = allocate_list_node(call_id, call_target);
     saved_arg0 = (s16)input_value;
     if (obj != 0) {

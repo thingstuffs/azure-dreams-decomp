@@ -76,7 +76,7 @@ void update_familiar_restoration_effect(DungeonState *state, RenderSource *rende
         object_index = 0;
         reset_marker = 0xff;
         do {
-            object_entry = *(void **)(((u8 *)D_800E3D7C) + object_index * 4 + 0xac);
+            object_entry = *(void **)(((u8 *)dungeon_actor_ring_anchor) + object_index * 4 + 0xac);
             if (object_entry != NULL) {
                 object = object_entry;
                 step_index = 1;

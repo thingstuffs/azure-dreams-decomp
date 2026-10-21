@@ -127,7 +127,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         }
         actor->unk_98 = (u16) (actor->unk_98 & 0xFFF3);
         if (actor->unk_B4 == 0) {
-            if (!((u16)*((s16 *)&D_80013714) & 8)) {
+            if (!((u16)*((s16 *)&system_update_flags) & 8)) {
                 if (entity->unk_64 != 0) {
                     if (begin_ready_actor_directional_action(actor, context, map_actor, D_801746C4) != 0) {
                         return;
@@ -167,17 +167,17 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             update_actor_status_and_food(entity);
             return;
         }
-        if (map_actor->unk_24.at00u.v == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (map_actor->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             advance_actor_path(actor, context, map_actor, entity);
             return;
         }
         if (!(entity->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
-                if ((check_entity_relation(entity, ((S_8016B778_3 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
+                if ((check_entity_relation(entity, ((S_8016B778_3 *)(((int)primary_actor_record)))->unk_58 + 0x20) << 0x10) != 0) {
                     return;
                 }
             }
-            if ((u16) *((s16 *)&D_80013714) & 8) {
+            if ((u16) *((s16 *)&system_update_flags) & 8) {
                 execute_actor_script_command((u8 *)(actor), context, (u8 *)(map_actor));
                 entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
                 update_actor_status_and_food(entity);
@@ -209,9 +209,9 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         case 5:
         case 6:
         case 7:
-            target_angle = get_rounded_facing_and_rounding_flag(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x,
-                D_80082E80.tile_position.parts.tile_y, &target_distance);
-            active_actor = (u8 *)*((int *)(&D_800814A8));
+            target_angle = get_rounded_facing_and_rounding_flag(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x,
+                reference_tile_object.tile_position.parts.tile_y, &target_distance);
+            active_actor = (u8 *)*((int *)(&primary_actor_record));
             entity->facing = target_angle;
             if (((S_8016B778_4 *)active_actor)->unk_9A != 0x11) {
                 update_actor_status_and_food(entity);
@@ -238,7 +238,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
         return;
     }
     if (tile_index >= 0) {
-        tile_table = D_800E2970;
+        tile_table = dungeon_rooms;
         tile_entry = (tile_index * 0x14) + tile_table;
         if (((S_8016B778_5 *)tile_entry)->unk_0C & 2) {
             return;
@@ -247,11 +247,11 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
     if (entity_flags & 0x430) {
         return;
     }
-    if ((compare_monster_neighbor_values(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 0x10)
+    if ((compare_monster_neighbor_values(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10)
         == 0) {
         return;
     }
-    entity->facing = get_rounded_facing_and_rounding_flag(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tile_position.parts.tile_x,
-        D_80082E80.tile_position.parts.tile_y, &target_distance);
+    entity->facing = get_rounded_facing_and_rounding_flag(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x,
+        reference_tile_object.tile_position.parts.tile_y, &target_distance);
     return;
 }

@@ -1,4 +1,9 @@
 #include "common.h"
+#include "engine/cd.h"
+#include "engine/item.h"
+#include "engine/scene.h"
+#include "engine/util.h"
+#include "slus/data.h"
 
 /* Item-category table entry: kind at 0x0 selects 12-byte vs 20-byte record
  * layout; records pointer at 0xC. Only the byte at offset 0x1 is read here as a
@@ -15,14 +20,8 @@ extern S_8004AB7C_CategoryEntry itemCategoryTable[];
 /* External words used to select item categories. */
 extern s32 D_80012090;
 
-extern s32 D_80013628;
-
-extern void queue_mode_selected_resource_table(void);
-extern void drain_cd_command_queue(void);
 extern void save_or_restore_random_seed(s32 a0);
 extern void restore_dungeon_random_seed(s32 a0);
-extern void shuffle_category_item_data(s32 a0);
-extern void table_handle_assign_consecutive_n_19_byte_data_blocks_items_selected_category_index(void);
 
 /* Shuffles item pointers in enabled categories and restores item-effect links. */
 void shuffle_enabled_item_category_pointers(void)

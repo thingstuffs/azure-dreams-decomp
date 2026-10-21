@@ -7,9 +7,9 @@ s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)
 
     for (slot = 0; slot < 64; slot++) {
         if ((excluded_slot != slot) &&
-            (D_800E3548[slot].kind != 0) &&
-            (((floor_spawns_isolated_8028B110_DungeonPosition *)D_800E36C8)[slot].x == x) &&
-            (((floor_spawns_isolated_8028B110_DungeonPosition *)D_800E36C8)[slot].y == y)) {
+            (dungeon_ground_items[slot].kind != 0) &&
+            (((floor_spawns_isolated_8028B110_DungeonPosition *)dungeon_ground_item_positions)[slot].x == x) &&
+            (((floor_spawns_isolated_8028B110_DungeonPosition *)dungeon_ground_item_positions)[slot].y == y)) {
             return 1;
         }
     }
@@ -36,10 +36,10 @@ void populate_floor_item_records(void)
     floor_spawns_isolated_8028B18C_DungeonRecord *saved_record;
     floor_spawns_isolated_8028B18C_DungeonRecord *spawn_records;
     u8 *setup_globals;
-    if (D_800E3D6C[0] & 2) {
+    if (floor_loaded_content_flags[0] & 2) {
         count = 0;
-        saved_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
-        item_state = (DungeonItemEntry *)((u8 *)D_800E3548);
+        saved_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)dungeon_ground_item_positions);
+        item_state = (DungeonItemEntry *)((u8 *)dungeon_ground_items);
         do {
             if (item_state->unk_00 != 0) {
                 cycle_map_cell_flags(saved_record->x, saved_record->y, 0x800);
@@ -58,7 +58,7 @@ void populate_floor_item_records(void)
     *(u16 *)(setup_globals + 0x3626) += (generate_random_value() & 3) + 0x33;
     *(u16 *)(setup_globals + 0x209E) += (generate_random_value() & 3) + 0x33;
 
-    if (D_80081468[3] == 1) {
+    if (floor_generation_state[3] == 1) {
         s32 limit_roll;
 
         crystal_pending = 0;
@@ -70,7 +70,7 @@ void populate_floor_item_records(void)
 
         crystal_pending = 0;
         limit_roll = generate_random_value() & 3;
-        base_limit = (s16)D_80081468[3] / 2;
+        base_limit = (s16)floor_generation_state[3] / 2;
         slot_limit = base_limit + limit_roll;
     }
 
@@ -94,10 +94,10 @@ void populate_floor_item_records(void)
                     } while (is_floor_item_tile_occupied(spawn_index, tile_x, tile_y) != 0);
 
                     {
-                        s32 *spawn_table = (s32 *)((u8 *)D_800E3548);
+                        s32 *spawn_table = (s32 *)((u8 *)dungeon_ground_items);
                         spawn_table[spawn_index] = 0x603;
                     }
-                    spawn_records = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
+                    spawn_records = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)dungeon_ground_item_positions);
                     spawn_records[spawn_index].x = tile_x;
                     spawn_records[spawn_index].y = tile_y;
                     cycle_map_cell_flags(spawn_records[spawn_index].x,
@@ -109,9 +109,9 @@ void populate_floor_item_records(void)
 
     count = 0;
     spawn_check = (s32)((u8 *)0x80010000);
-    item_category_table = ((floor_spawns_isolated_8028B18C_DungeonGroup *)D_80073414);
-    item_state = (DungeonItemEntry *)((u8 *)D_800E3548);
-    item_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)D_800E36C8);
+    item_category_table = ((floor_spawns_isolated_8028B18C_DungeonGroup *)item_category_groups);
+    item_state = (DungeonItemEntry *)((u8 *)dungeon_ground_items);
+    item_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)dungeon_ground_item_positions);
 main_loop:
     if (item_state->kind == 0) {
         if (count >= slot_limit) {
@@ -193,7 +193,7 @@ cleanup:
         DungeonItemEntry *cleanup_base;
         DungeonItemEntry *cleanup_state;
 
-        cleanup_base = (DungeonItemEntry *)((u8 *)D_800E3548);
+        cleanup_base = (DungeonItemEntry *)((u8 *)dungeon_ground_items);
         cleanup_state = cleanup_base + count;
 cleanup_loop:
             cleanup_state->kind = 0;
@@ -213,14 +213,14 @@ s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 u
     special_selected = ((u8 *)D_8001F6F0)[0];
 
     if ((special_selected == 0) && (skip_special == 0) && (*(s32 *)0x80012090 == 0)) {
-        if (((s16 *)D_8008146C)[0] == 12) {
-            if (((floor_spawns_isolated_8028B660_S_8001E660_0 *)(D_800E3D7C))->unk_FB == 0) {
+        if (((s16 *)current_dungeon_floor)[0] == 12) {
+            if (((floor_spawns_isolated_8028B660_S_8001E660_0 *)(dungeon_actor_ring_anchor))->unk_FB == 0) {
                 *out_group = 12;
                 *out_index = 4;
                 ((u8 *)D_8001F6F0)[0] = 1;
                 return 1;
             }
-        } else if (((s16 *)D_8008146C)[0] == 15) {
+        } else if (((s16 *)current_dungeon_floor)[0] == 15) {
             if ((test_resident_bit(0x145E) != 0) && (test_resident_bit(0x1460) == 0)
                 && ((has_recorded_value_pair(0xD, 1) << 0x10) == 0)) {
                 *out_group = 0xD;
@@ -228,14 +228,14 @@ s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 u
                 ((u8 *)D_8001F6F0)[0] = 1;
                 return 1;
             }
-        } else if (((s16 *)D_8008146C)[0] == 28) {
+        } else if (((s16 *)current_dungeon_floor)[0] == 28) {
             if ((test_resident_bit(0xFC3) != 0) && (test_resident_bit(0xFAD) == 0) && ((has_recorded_value_pair(1, 8) << 0x10) == 0)) {
                 *out_group = 1;
                 *out_index = 8;
                 ((u8 *)D_8001F6F0)[0] = 1;
                 return 1;
             }
-        } else if (((s16 *)D_8008146C)[0] == 20) {
+        } else if (((s16 *)current_dungeon_floor)[0] == 20) {
             if ((test_resident_bit(0xAC) != 0) && (test_resident_bit(0x12C6) == 0) && ((has_recorded_value_pair(0xD, 6) << 0x10) == 0)) {
                 *out_group = 0xD;
                 *out_index = 6;
@@ -308,7 +308,7 @@ void clear_dungeon_cell_entries(void) {
     s32 entry_index;
 
     for (entry_index = 0x3F; entry_index >= 0; entry_index--) {
-        ((int *)D_800E3548)[entry_index] = 0;
+        ((int *)dungeon_ground_items)[entry_index] = 0;
     }
 }
 
@@ -324,15 +324,15 @@ void build_cumulative_item_weights(void)
 
     total_weight = 0;
     for (category_index = 1; category_index < 0x13; category_index++) {
-        for (item_index = 1; item_index < ((floor_spawns_isolated_8028B994_DungeonGroup *)D_80073414)[category_index].count; item_index++) {
-            item_flags = ((floor_spawns_isolated_8028B994_DungeonGroup *)D_80073414)[category_index].entries[item_index].flags;
+        for (item_index = 1; item_index < ((floor_spawns_isolated_8028B994_DungeonGroup *)item_category_groups)[category_index].count; item_index++) {
+            item_flags = ((floor_spawns_isolated_8028B994_DungeonGroup *)item_category_groups)[category_index].entries[item_index].flags;
             if (item_flags & 0x10) {
                 continue;
             }
             if ((item_flags & 0x40) && *(s32 *)0x80012090 != 2) {
                 continue;
             }
-            weight_bits = ((floor_spawns_isolated_8028B994_DungeonGroup *)((u8 *)((floor_spawns_isolated_8028B994_DungeonGroup *)D_80073414) + (((category_index << 3) + (category_index << 1)) << 1)))->entries[item_index].flags & 0x3000;
+            weight_bits = ((floor_spawns_isolated_8028B994_DungeonGroup *)((u8 *)((floor_spawns_isolated_8028B994_DungeonGroup *)item_category_groups) + (((category_index << 3) + (category_index << 1)) << 1)))->entries[item_index].flags & 0x3000;
             weight_kind = (weight_bits / 0x1000) & 3;
             item_weight = 0x80;
             if (weight_kind != 0) {
@@ -393,7 +393,7 @@ s32 select_weighted_floor_item(s8 *category_out, s8 *item_out) {
     }
     category_scale_or_weight = category_index * 4;
     entry = &((u16 *)item_offset)[category_index];
-    table_base_or_mode = (unsigned long)((u8 *)D_80073414);
+    table_base_or_mode = (unsigned long)((u8 *)item_category_groups);
     scan_value = category_scale_or_weight + category_index;
     scan_value *= 4;
     table_cursor_or_item_offset = (u8 *)(scan_value + table_base_or_mode);
@@ -497,14 +497,14 @@ void generate_random_dungeon_item_drops(void)
 
     mode_page = D_80010000;
     if (*(s32 *)(mode_page + 0x2090) == 2) {
-        mode_page = (u8 *)(*(s16 *)D_8008146C);
+        mode_page = (u8 *)(*(s16 *)current_dungeon_floor);
         scaled = ((s32)mode_page) * 25;
         budget = scaled << 3;
     } else {
         budget = 75;
-        if ((*(s16 *)D_8008146C) >= 12) {
+        if ((*(s16 *)current_dungeon_floor) >= 12) {
             budget = 700;
-            if ((*(s16 *)D_8008146C) < 22) {
+            if ((*(s16 *)current_dungeon_floor) < 22) {
                 budget = 200;
             }
         }
@@ -517,7 +517,7 @@ void generate_random_dungeon_item_drops(void)
     }
 
     if (budget >= 0) {
-        entry_base = (DungeonItemEntry *)((u8 *)D_800E3548);
+        entry_base = (DungeonItemEntry *)((u8 *)dungeon_ground_items);
         cell_page = (u8 *)0x800E0000;
         do {
         cell_index = (s16)find_first_empty_floor_item_slot();
@@ -547,7 +547,7 @@ void generate_random_dungeon_item_drops(void)
 
         scan_x = x;
         scan_y = y;
-        for (index = 0, cell_scan = (floor_spawns_isolated_8028BC54_DungeonCell *)((u8 *)D_800E36C8), entry_scan = entry_base;
+        for (index = 0, cell_scan = (floor_spawns_isolated_8028BC54_DungeonCell *)((u8 *)dungeon_ground_item_positions), entry_scan = entry_base;
              index < 64;
              cell_scan++, index++, entry_scan++) {
             if (!(entry_scan->kind == 0 || cell_scan->x != scan_x || cell_scan->y != scan_y)) {
@@ -607,10 +607,10 @@ void restore_spawns_and_place_floor_traps(void) {
     floor_spawns_isolated_8028BF0C_S_8001EF0C_0 *object;
 
     slot = 0;
-    initial = D_800835E4->initial;
+    initial = level_experience_table->initial;
     limits = (s32 *)(initial + 1);
-    meta = ((floor_spawns_isolated_8028BF0C_SpawnMeta *)D_800E3648);
-    position = D_800E39C8;
+    meta = ((floor_spawns_isolated_8028BF0C_SpawnMeta *)floor_objects);
+    position = dungeon_floor_object_positions;
     do {
         if (meta[slot].state == 0x13) {
             existing_type = meta[slot].type;
@@ -627,7 +627,7 @@ void restore_spawns_and_place_floor_traps(void) {
                     object->unk_18 = initial_value;
                     if (initial_value >= (u32)limits[object->unk_11]) {
                         s32 *loop_limits;
-                        loop_limits = D_800835E8;
+                        loop_limits = entity_level_thresholds;
                         do {
                             raise_entity_level(object, 0);
                         } while ((u32)loop_limits[object->unk_11] <=
@@ -641,7 +641,7 @@ void restore_spawns_and_place_floor_traps(void) {
         slot++;
     } while (slot < 0x20);
 
-    floor_config = (u8 *)D_80081468;
+    floor_config = (u8 *)floor_generation_state;
     if (((floor_spawns_isolated_8028BF0C_S_8001EF0C_1 *)floor_config)->unk_06 == 1) {
         spawn_limit = (generate_random_value() & 3) + 4;
     } else {
@@ -654,9 +654,9 @@ void restore_spawns_and_place_floor_traps(void) {
     value = generate_random_value();
     slot = 0;
     trap_state = 0x15;
-    position = D_800E39C8;
-    trap_budget = ((s16 *)D_8008146C)[0] / 2 + (value & 0x3F);
-    meta = ((floor_spawns_isolated_8028BF0C_SpawnMeta *)D_800E3648);
+    position = dungeon_floor_object_positions;
+    trap_budget = ((s16 *)current_dungeon_floor)[0] / 2 + (value & 0x3F);
+    meta = ((floor_spawns_isolated_8028BF0C_SpawnMeta *)floor_objects);
 
     for (; slot < 0x20; slot++) {
         if (meta[slot].state == trap_state) {
@@ -667,7 +667,7 @@ void restore_spawns_and_place_floor_traps(void) {
             spawn_marker = meta[slot].unk3;
             spawn_height = -0x400;
         } else {
-            if ((D_800E3D6C[0] & 8) || slot >= spawn_limit) continue;
+            if ((floor_loaded_content_flags[0] & 8) || slot >= spawn_limit) continue;
             meta[slot].state = 0;
             meta[slot].type = 0;
             trap_budget += generate_random_value() & 0xF;
@@ -680,7 +680,7 @@ void restore_spawns_and_place_floor_traps(void) {
             trap_cost = (shifted_flag_bits >> 26) + 4;
             if (trap_budget < trap_cost) continue;
             trap_budget -= trap_cost;
-            if (!((D_800E296C & 0x20000000) || ((u8)(trap_type - 0xF) >= 2))) continue;
+            if (!((dungeon_floor_flags & 0x20000000) || ((u8)(trap_type - 0xF) >= 2))) continue;
             meta[slot].state = trap_state;
             meta[slot].type = store_type;
             do {
@@ -729,7 +729,7 @@ void clear_dungeon_object_entries(void) {
     s32 entry_index;
 
     for (entry_index = 0x1F; entry_index >= 0; entry_index--) {
-        ((int *)D_800E3648)[entry_index] = 0;
+        ((int *)floor_objects)[entry_index] = 0;
     }
 }
 
@@ -779,7 +779,7 @@ void draw_dungeon_value_and_label(void)
     u8 digit;
     special_label = 0;
     if (*(s32 *)0x80012090 != 2) {
-        if ((*(s16 *)D_8008146C) == 0x28) {
+        if ((*(s16 *)current_dungeon_floor) == 0x28) {
             special_label = D_80077E00;
         }
         draw_mode = 0;
@@ -796,7 +796,7 @@ void draw_dungeon_value_and_label(void)
     do {
         digit_ptr = digits;
     } while (0);
-    func_8004E634((*(s16 *)D_8008146C), digit_ptr);
+    func_8004E634((*(s16 *)current_dungeon_floor), digit_ptr);
 
     draw_x = 0xC8;
     if (digits[1] == 0) {

@@ -24,7 +24,7 @@ typedef struct Context800B4194
 }
 Context800B4194;
 extern s32 D_80012090[];
-extern s16 D_8008146C[];
+extern s16 current_dungeon_floor[];
 extern u8 D_800892C4[];
 extern u8 D_800892C8[];
 extern u8 D_800E0BC7[];
@@ -32,7 +32,7 @@ extern u8 D_800E0BDC[];
 extern u8 D_800E0BF3[];
 extern u8 D_800E0C09[];
 extern u8 D_800E0C1D[];
-extern volatile u8 *D_800E3D7C[];
+extern volatile u8 *dungeon_actor_ring_anchor[];
 extern s16 get_entity_effect_value(Entity800B4194 *, s32);
 extern u8 *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *, u8 *);
@@ -71,8 +71,8 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         {
             if (!blocked) {
                 value = generate_random_value();
-                range = (D_800E3D7C[0][0xA9] >> 2) + 0x10;
-                if (roll_threshold_effect_variant_b(entityp, D_800E3D7C[0][0xA9] + 0x80, range + (value & 3)) != 0) {
+                range = (dungeon_actor_ring_anchor[0][0xA9] >> 2) + 0x10;
+                if (roll_threshold_effect_variant_b(entityp, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
                     saved = get_unused_text_buffer();
                     text = expand_text_control_codes(D_800E0BC7, saved);
                     text = append_entity_display_text(entityp, text);
@@ -88,8 +88,8 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         {
             if (!(blocked || (entityp->flags1C & 0x20))) {
                 value = generate_random_value();
-                range = (D_800E3D7C[0][0xA9] >> 2) + 2;
-                if (roll_chance_and_apply_effect_four(entityp, D_800E3D7C[0][0xA9] + 0x80, range + (value & 3)) != 0) {
+                range = (dungeon_actor_ring_anchor[0][0xA9] >> 2) + 2;
+                if (roll_chance_and_apply_effect_four(entityp, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
                     saved = get_unused_text_buffer();
                     text = expand_text_control_codes(D_800E0BDC, saved);
                     text = append_entity_display_text(entityp, text);
@@ -157,14 +157,14 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
             return 0;
         }
         saved[1] = 0xE;
-        if ((D_80012090[0] != 2) && (D_8008146C[0] < 0xC)) {
+        if ((D_80012090[0] != 2) && (current_dungeon_floor[0] < 0xC)) {
             low = 0x10;
             high = 0x18;
             saved[0] = 1;
             saved[2] = random_dungeon_range_16(low, high);
             saved[3] = 0;
         }
-        else if ((D_80012090[0] != 2) && (D_8008146C[0] < 0x16)) {
+        else if ((D_80012090[0] != 2) && (current_dungeon_floor[0] < 0x16)) {
             low = 0x50;
             high = 0x78;
             saved[0] = 2;

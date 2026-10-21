@@ -85,7 +85,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
         spawn_count = 0;
         screen_pos = (s32 *)&effect_work.out18;
         do {
-            effect = allocate_list_node(0x112, ((s32 *)&D_80083498.next));
+            effect = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
             effect_data = effect + 0x20;
             if (effect != NULL) {
                 ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_96 = 0x19;
@@ -148,7 +148,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
                 position[2] = ((T_80172FFC_S_80172FFC_3 *)motion)->unk_0A;
                 effect_sprite->unk_06 = (s16) ((effect_depth - func_80065420(position_ptr,
                     screen_pos, &projection_aux, &projection_flags))
-                    - (D_800DCECC[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94
+                    - (view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) ((T_80172FFC_S_80172FFC_4 *)effect_data)->unk_94
                     + 0x100) >> 9) & 7] * 2));
             }
             next_count = spawn_count + 1;

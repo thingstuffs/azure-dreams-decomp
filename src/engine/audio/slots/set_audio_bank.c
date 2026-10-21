@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/audio/slots.h"
 
 extern s32 func_8005DA88(s32 *request);
 extern s8 sound_ram_reserve_mode[9];

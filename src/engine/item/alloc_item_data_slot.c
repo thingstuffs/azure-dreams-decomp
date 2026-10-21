@@ -1,12 +1,11 @@
 #include "common.h"
 #include "shared/resident_resources.h"
+#include "engine/item.h"
 
 
 typedef struct {
     char unk[0x13];
 } S_800133E8;
-
-extern s32 find_item_data_slot(s32 a0, s32 a1);
 
 /* Stores two values in the selected slot and returns the corresponding record. */
 S_800133E8 *alloc_item_data_slot(s16 first_value, s16 second_value)

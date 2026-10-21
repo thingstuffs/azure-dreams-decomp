@@ -105,7 +105,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, void
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_state) << 16) != 0) {
-                ActorRecord *owner = D_800814A8;
+                ActorRecord *owner = primary_actor_record;
 
                 if ((check_entity_relation(actor_state,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
@@ -115,7 +115,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, void
             update_actor_status_and_food(actor_state);
             on_actor_status_updated(actor_state);
             if ((get_entity_effect_value(actor_state, 1) << 16) != 0) {
-                TileObject *origin = &D_80082E80;
+                TileObject *origin = &reference_tile_object;
                 s8 tile = *(s8 *)&((SpriteFrameState *)render_record)->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||

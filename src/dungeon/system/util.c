@@ -31,7 +31,7 @@ extern s16 SD_Call(s32 query_value);
 s32 play_sound_if_enabled(s32 query_value) {
     s32 result;
 
-    if (D_80013714 & 2) {
+    if (system_update_flags & 2) {
         result = 0;
     } else {
         result = SD_Call(query_value & 0xFFFF);
@@ -53,7 +53,7 @@ s32 display_text_with_fullwidth_adjustment(s8 *text) {
     s8 *cursor;
     u8 trail_byte;
 
-    if (!(D_80013714 & 2)) {
+    if (!(system_update_flags & 2)) {
         cursor = text;
         if (*text > 0) {
             do {
@@ -218,7 +218,7 @@ void *create_textured_ellipse_effect(s32 object_id, s32 state_value) {
     S_800A5A18_1 *render_data;
     S_800A5A18_2 *state_data;
 
-    object = allocate_list_node(0x212, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x212, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
         ((S_800A5A18_0 *)object)->unk_10 = &D_800A5828;
         register_node(object, project_sprite_chain);
@@ -368,8 +368,8 @@ s32 check_action_available_without_nearby_actor(void) {
     void *first_entry;
     S_800A5C70_2 *entry_coords;
 
-    entry_addr = &D_800E3D7C;
-    buttons = D_80013714;
+    entry_addr = &dungeon_actor_ring_anchor;
+    buttons = system_update_flags;
     entry = *entry_addr;
     if (buttons & 2) {
         return 1;
@@ -377,11 +377,11 @@ s32 check_action_available_without_nearby_actor(void) {
     if (buttons & 9) {
         return 0;
     }
-    if (D_800E296C & 0x200000) {
+    if (dungeon_floor_flags & 0x200000) {
         return 0;
     }
 
-    origin_coords = &D_80082E80;
+    origin_coords = &reference_tile_object;
     first_entry = entry;
     do {
         if (!(((S_800A5C70_0 *)entry)->unk_1C & 0x2208)) {
@@ -683,13 +683,13 @@ void func_800A6194(void *ramp) {
         *(s16 *)((s8 *)ramp + 10) += (0xFF - *(s16 *)((s8 *)ramp + 10)) / (s16)ticks_left;
     } else {
         *(s16 *)((s8 *)ramp + 10) = 0xFF;
-        initial_flags = ((u32)D_800E296C);
+        initial_flags = ((u32)dungeon_floor_flags);
         *(u16 *)((s8 *)ramp + 8) = 0;
-        D_800E296C = initial_flags | 0x02000000;
+        dungeon_floor_flags = initial_flags | 0x02000000;
     }
-    current_flags = (u32) D_800E296C;
+    current_flags = (u32) dungeon_floor_flags;
     if (!(current_flags & 0x01000000)) {
-        D_800E296C = current_flags & 0xFDFFFFFF;
+        dungeon_floor_flags = current_flags & 0xFDFFFFFF;
         *(s16 *)((s8 *)ramp - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
@@ -795,7 +795,7 @@ s32 expand_text_control_codes();                  /* extern */
 s32 append_typed_formatted_value();                    /* extern */
 s32 append_entity_display_text();                        /* extern */
 s32 write_status_prefix_bytes();                             /* extern */
-extern u8 D_80089000[];
+extern u8 fullwidth_period[];
 extern M2C_UNK D_800E0A03[];
 extern M2C_UNK D_800E0A12[];
 
@@ -811,7 +811,7 @@ void display_item_status_message(s32 entity, s32 item, s32 message_kind, s32 buf
     } else {
         text_end = expand_text_control_codes(D_800E0A12, append_typed_formatted_value(item, message));
     }
-    func_80099290(write_status_prefix_bytes(expand_text_control_codes(&D_80089000, append_entity_display_text(entity, text_end))));
+    func_80099290(write_status_prefix_bytes(expand_text_control_codes(&fullwidth_period, append_entity_display_text(entity, text_end))));
     display_text_with_fullwidth_adjustment(message);
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
@@ -821,7 +821,7 @@ extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern s32 append_typed_formatted_value(void *data, s32 buffer);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern s32 write_status_prefix_bytes(s32 dst);
-extern u8 D_80089000[];
+extern u8 fullwidth_period[];
 extern u8 D_800E0A1B[];
 
 void display_actor_item_status_message(s32 actor, void *item, s32 buffer_arg2, s32 buffer_arg3) {
@@ -832,7 +832,7 @@ void display_actor_item_status_message(s32 actor, void *item, s32 buffer_arg2, s
     adjusted_value = append_typed_formatted_value(item, current_value = get_unused_text_buffer());
     original_value = current_value;
     current_value = adjusted_value;
-    func_80099290(write_status_prefix_bytes(expand_text_control_codes(D_80089000,
+    func_80099290(write_status_prefix_bytes(expand_text_control_codes(fullwidth_period,
         append_entity_display_text(actor, expand_text_control_codes(D_800E0A1B, current_value)))));
     display_text_with_fullwidth_adjustment(original_value);
 }
@@ -935,7 +935,7 @@ extern void update_map_cell_flags_with_item_limit(u8 sound_x, u8 sound_y, s32 so
 extern s16 find_entity_slot_by_field_ac(void *object);
 extern void detach_record_and_update_slot_state(void *object);
 
-extern void *D_800E3DF0[];
+extern void *familiar_record_slots[];
 
 /* Removes the object from its slot, performs flagged cleanup, and releases its handle. */
 s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
@@ -950,7 +950,7 @@ s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
     u8 sound_x;
     u8 sound_y;
 
-    object_table = D_800E3DF0;
+    object_table = familiar_record_slots;
     index = ((u8 *)handle)[3] & 0x1F;
     object_slot = &object_table[index];
     object = *object_slot;
@@ -965,7 +965,7 @@ s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
     if (((u8 *)handle)[3] & 0x20) {
         index = find_entity_slot_by_field_ac(object);
         if (index >= 0) {
-            state_entry = (void *)(index * 4 + ((s32)D_800E3D7C));
+            state_entry = (void *)(index * 4 + ((s32)dungeon_actor_ring_anchor));
             ((S_800A6620_2 *)state_entry)->unk_AC = 0;
             ((S_800A6620_2 *)state_entry)->unk_D0 = 0;
         }
@@ -994,7 +994,7 @@ s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
 }
 #include "common.h"
 
-extern s8 D_80080A88;   /* keep-floor-music flag; declared scalar as in func_80087A70, func_802833F4, func_80084340 and the town readers */
+extern s8 scene_music_hold;   /* keep-floor-music flag; declared scalar as in func_80087A70, func_802833F4, func_80084340 and the town readers */
 
 /* Preserve the sound sequence for tutorial mode or within a normal floor group. */
 s32 check_action_boundary_and_set_flag(void) {
@@ -1003,11 +1003,11 @@ s32 check_action_boundary_and_set_flag(void) {
     s32 boundaryValue;
 
     mode = stateBase[0x2090 / 4];
-    D_80080A88 = 0;
+    scene_music_hold = 0;
     if (mode == 1 || (mode == 0 &&
         (boundaryValue = stateBase[0x234 / 4],
          boundaryValue / 5 == (boundaryValue + 1) / 5))) {
-        D_80080A88 = 1;
+        scene_music_hold = 1;
         return 1;
     }
     return 0;
@@ -1018,7 +1018,7 @@ s32 check_action_boundary_and_set_flag(void) {
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 
-extern s8 D_800DCF4F[];
+extern s8 dungeon_event_pending_flag[];
 extern s8 D_800E045C[];
 
 extern s32 call_script(void *arg);
@@ -1026,9 +1026,9 @@ extern void runtime_clear_state_and_entry_range(void);
 
 /* When unblocked, clears a set flag and decrements its counter before running updates. */
 void clear_pending_item_action_state(void) {
-    if (!(D_800E296C & 0x200000) && !(D_80013714 & 8)) {
-        if (D_800DCF4F[0] != 0) {
-            D_800DCF4F[0] = 0;
+    if (!(dungeon_floor_flags & 0x200000) && !(system_update_flags & 8)) {
+        if (dungeon_event_pending_flag[0] != 0) {
+            dungeon_event_pending_flag[0] = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         call_script(&D_800E045C[0]);
@@ -1060,8 +1060,8 @@ s32 get_random_scaled_value(s16 input_value) {
 
 /* Save and clear bit 4 of the current record flags. */
 void save_and_clear_entity_flag_ten(void) {
-    D_800DD878 = ((u32) ((u32)D_800E3D7C->flags1C) >> 4) & 1;
-    D_800E3D7C->flags1C = (u32) (((u32)D_800E3D7C->flags1C) & ~0x10);
+    D_800DD878 = ((u32) ((u32)dungeon_actor_ring_anchor->flags1C) >> 4) & 1;
+    dungeon_actor_ring_anchor->flags1C = (u32) (((u32)dungeon_actor_ring_anchor->flags1C) & ~0x10);
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
 #include "common.h"
@@ -1074,7 +1074,7 @@ void save_and_clear_entity_flag_ten(void) {
 /* Restore bit 4 of the current record flags when it was saved as set. */
 void restore_entity_flag_ten(void) {
     if (D_800DD878 != 0) {
-        D_800E3D7C->flags1C = (s32) (D_800E3D7C->flags1C | 0x10);
+        dungeon_actor_ring_anchor->flags1C = (s32) (dungeon_actor_ring_anchor->flags1C | 0x10);
     }
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c1094.h"
@@ -1184,7 +1184,7 @@ typedef struct {
 } DungeonGroup;
 
 extern void clear_item_flag_400_for_egg_one(void);
-extern DungeonGroup D_80073414[];
+extern DungeonGroup item_category_groups[];
 
 typedef struct {
     u8 pad[0x5720];
@@ -1217,7 +1217,7 @@ void restore_item_flag_400_bitmap(void)
     clear_flag_mask = -0x401;
     ram_page = (RamPage *)0x80010000;
     do {
-        group = (u8 *)D_80073414 + group_index * sizeof(DungeonGroup);
+        group = (u8 *)item_category_groups + group_index * sizeof(DungeonGroup);
         item_index = 0;
         if (((S_800A6A9C_0 *)group)->unk_02 != 0) {
             bitmap_offset = group_index * 8;
@@ -1413,7 +1413,7 @@ s32 generate_random_value(void) {
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 D_800DD87C[];
+extern s32 saved_random_seed[];
 
 /* Saves or restores the random seed according to the low 16 bits of save_seed. */
 void save_or_restore_random_seed(s32 save_seed) {
@@ -1421,10 +1421,10 @@ void save_or_restore_random_seed(s32 save_seed) {
     s32 save_flag = save_seed << 16;
 
     if (save_flag != 0) {
-        D_800DD87C[0] = rng_state->randSeed;
+        saved_random_seed[0] = rng_state->randSeed;
         return;
     }
-    rng_state->randSeed = D_800DD87C[0];
+    rng_state->randSeed = saved_random_seed[0];
 }
 #include "common.h"
 #include "shared/game_work.h"
@@ -1464,7 +1464,7 @@ s32 random_dungeon_range_16(u32 bound_a, u32 bound_b) {
 
 
 
-extern s32 D_800E36C8;
+extern s32 dungeon_ground_item_positions;
 
 /* Counts active entries whose first two key bytes match the given values. */
 s16 count_floor_items_at_tile(s16 first_key, s16 second_key) {
@@ -1481,8 +1481,8 @@ s16 count_floor_items_at_tile(s16 first_key, s16 second_key) {
     entry_index = zero;
     match_first = first_key;
     match_second = second_key;
-    key_entry = &D_800E36C8;
-    status_entry = ((s32 *)D_800E3548);
+    key_entry = &dungeon_ground_item_positions;
+    status_entry = ((s32 *)dungeon_ground_items);
     do {
         if ((*((u8 *) status_entry + 1) != 0) && (*((u8 *) key_entry) == match_first)
             && (*((u8 *) key_entry + 1) == match_second)) {

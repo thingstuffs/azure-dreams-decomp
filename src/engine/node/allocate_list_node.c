@@ -3,6 +3,8 @@
 #include "shared/sys_flags.h"
 
 #include "common.h"
+#include "engine/node.h"
+#include "slus.h"
 
 
 
@@ -11,10 +13,6 @@ typedef struct S_80013714 {
     u8 pad[8];      /* keep size > 8 to force %hi/%lo addressing */
 } S_80013714;
 
-
-extern void zero_words(int *p, int n);
-extern void *evict_node_and_allocate(s32 a0, void *a1);
-
 /* Allocates and initializes a node with the requested flags and links it at the list head. */
 void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head)
 {
@@ -22,7 +20,7 @@ void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head)
     ObjectNodeHeader *free_node;
     u8 *payload_cursor;
 
-    if ((D_80013714 & 0x2) && (flags & 0x200)) {
+    if ((system_update_flags & 0x2) && (flags & 0x200)) {
         return 0;
     }
 

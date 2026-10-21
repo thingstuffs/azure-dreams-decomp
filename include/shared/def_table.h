@@ -17,6 +17,6 @@ typedef struct DefEntry {
     /* 0x13 */ unsigned char unk_13;
 } DefEntry;
 
-extern DefEntry D_8006DE24[];
+extern DefEntry item_action_definitions[];
 
 #endif

@@ -109,7 +109,7 @@ int func_800445E0();
 s32 func_80053EF0();
 extern M2C_UNK D_80010000;
 extern u16 D_8001371A;
-extern s32 D_8006CD58;
+extern s32 cd_cue_base;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
 void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
@@ -182,7 +182,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
         break;
     case 4:
         if (((S_807AE960_1 *)state)->unk_10 == 0) {
-            sound_set_cd_cue_parameters(0, D_8006CD58, 0x0600065E, 0x030008B6);
+            sound_set_cd_cue_parameters(0, cd_cue_base, 0x0600065E, 0x030008B6);
             Control_CD(0x15, func_800445E0(), 0);
         }
         ((S_807AE960_1 *)state)->unk_04.s = 0x60;
@@ -213,7 +213,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
     if (((S_807AE960_1 *)state)->unk_00.u != 0) {
         return;
     }
-    if ((u8) D_80082E80.tile_position.parts.tile_y >= 0x3DU) {
+    if ((u8) reference_tile_object.tile_position.parts.tile_y >= 0x3DU) {
         return;
     }
     if (((S_807AE960_1 *)state)->unk_0A == (s16) ((S_807AE960_1 *)state)->unk_02) {
@@ -267,7 +267,7 @@ typedef struct S_800F643C_3 {
 
 
 s32 draw_linked_lit_meshes(void *,s32,void *);
-extern s32 D_80083208;
+extern s32 default_textured_quad_color;
 extern s16 *D_800F8A44[];
 
 /* Creates a dungeon object at the given position and records it in its slot. */
@@ -283,7 +283,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     if (object != NULL) {
         ((S_800F643C_0 *)object)->unk_10 = (void *)advance_dungeon_tile_action_state;
         register_node(object, (s32)draw_linked_lit_meshes);
-        render_config = D_80083208;
+        render_config = default_textured_quad_color;
         model = ((S_800F643C_0 *)object)->unk_0C;
         (*(s16 *)((u8 *)model + 0x20)) = 0x1000;
         ((S_800F643C_1 *)model)->unk_1E = 0x1000;
@@ -423,7 +423,7 @@ void initialize_overlay_effect_state(void) {
     state_code = 0x11;
     state_table = D_800F8A44;
     state_slot = state_table + 1;
-    effect_state = &D_80082E60;
+    effect_state = &runtime_dispatch_state;
     effect_state->unk_10 = 0x1F;
     effect_state->unk_12 = 0x3E;
     effect_state->flags16 = (u16)(((s16)effect_state->flags16) | 1);
@@ -478,7 +478,7 @@ void mark_special_actors_and_set_player_tile(void) {
     void *first_entity;
     S_800F6738_0 *entity;
 
-    entity = D_800E3D7C;
+    entity = dungeon_actor_ring_anchor;
     first_entity = entity;
     do {
         if (entity->unk_13 == 0x32) {
@@ -486,7 +486,7 @@ void mark_special_actors_and_set_player_tile(void) {
         }
         entity = entity->unk_5C + 0x20;
     } while (entity != first_entity);
-    D_80082E80.tile_position.parts.tile_x = 0x1F;
+    reference_tile_object.tile_position.parts.tile_x = 0x1F;
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
@@ -504,7 +504,7 @@ typedef struct {
     u8 bytes[8];
 } __attribute__((packed)) Packed8;
 
-extern DungeonState D_8008333C;
+extern DungeonState scene_geometry;
 extern Packed8 D_800F8B24;
 
 extern void clear_scaled_cell_flags_8000(void);
@@ -534,21 +534,21 @@ void update_dungeon_tile_boundary_state(void *owner) {
     s32 i;
     s32 i3;
 
-    base = D_8008333C.base;
+    base = scene_geometry.base;
     mode = 0;
-    state = &D_8008333C;
+    state = &scene_geometry;
     if (!(g_dungeon_status.flags & 2)) {
         return;
     }
-    if (*(s32 *)((u8 *)D_800E3D7C + 0x14) & 0x100000) {
+    if (*(s32 *)((u8 *)dungeon_actor_ring_anchor + 0x14) & 0x100000) {
         return;
     }
-    if (D_80082E80.tile_position.parts.tile_y != 0x24) {
+    if (reference_tile_object.tile_position.parts.tile_y != 0x24) {
         return;
     }
-    if (D_80082E80.tile_position.parts.tile_x == 0x1F) {
+    if (reference_tile_object.tile_position.parts.tile_x == 0x1F) {
         mode = 2;
-    } else if (D_80082E80.tile_position.parts.tile_x == 0x20) {
+    } else if (reference_tile_object.tile_position.parts.tile_x == 0x20) {
         mode = 1;
     }
     if (mode == 0) {
@@ -606,7 +606,7 @@ void update_dungeon_tile_boundary_state(void *owner) {
     i = 0;
     *(u16 *)((u8 *)owner - 2) |= 0x8000;
     object_flag_block.flags |= 0x8000;
-    objects = D_800814A8;
+    objects = primary_actor_record;
     do {
         object = *(u8 **)(objects + 0xAC);
         if (object != 0) {
@@ -687,12 +687,12 @@ void func_800F6AF4(void)
 
     set_scaled_cell_flags_8000();
 
-    global_state = &D_80082E60;
+    global_state = &runtime_dispatch_state;
     global_state->unk_10 = 0x1F;
     global_state->unk_12 = 0x39;
     D_800DCF5B.bytes[0] = 1;
     global_state->flags16 |= 1;
-    D_800E296C |= 0x10000000;
+    dungeon_floor_flags |= 0x10000000;
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
@@ -702,29 +702,29 @@ void func_800F6AF4(void)
 /* Returns the direction to the target position, or 9 for a coincident position. */
 s32 get_direction_toward_target_position(s16 *target_pos)
 {
-    if (D_80083780.x.w.i == target_pos[1] && D_80083780.y.w.i == target_pos[3]) {
+    if (view_reference_entity.x.w.i == target_pos[1] && view_reference_entity.y.w.i == target_pos[3]) {
         return 9;
     }
 
-    if (D_80083780.x.w.i < target_pos[1]) {
-        if (D_80083780.y.w.i < target_pos[3]) {
+    if (view_reference_entity.x.w.i < target_pos[1]) {
+        if (view_reference_entity.y.w.i < target_pos[3]) {
             return 5;
         }
-        if (target_pos[3] < D_80083780.y.w.i) {
+        if (target_pos[3] < view_reference_entity.y.w.i) {
             return 3;
         }
         return 4;
     }
 
-    if (target_pos[1] < D_80083780.x.w.i) {
-        if (D_80083780.y.w.i < target_pos[3]) {
+    if (target_pos[1] < view_reference_entity.x.w.i) {
+        if (view_reference_entity.y.w.i < target_pos[3]) {
             return 7;
         }
-        return target_pos[3] < D_80083780.y.w.i;
+        return target_pos[3] < view_reference_entity.y.w.i;
     }
 
-    if (D_80083780.y.w.i >= target_pos[3]) {
-        return (target_pos[3] < D_80083780.y.w.i) * 2;
+    if (view_reference_entity.y.w.i >= target_pos[3]) {
+        return (target_pos[3] < view_reference_entity.y.w.i) * 2;
     }
     return 6;
 }
@@ -1444,14 +1444,14 @@ void func_800F7A38(EntityRec *source, s16 state_value, s32 render_value) {
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
-extern s8 D_800DCF4D;
+extern s8 spell_effect_selector_cache;
 
 /* Set the current entity state to one, reset the global status, increment the counter, and set flag 8. */
 void func_800F7B5C(void) {
     *((s8 *)D_800FBE1C + 0xD8) = 1;
-    D_800DCF4D = -1;
+    spell_effect_selector_cache = -1;
     g_dungeon_status.activity_counts.parts.pending_action_count++;
-    D_80013714 |= 8;
+    system_update_flags |= 8;
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
@@ -1483,7 +1483,7 @@ void func_800F7BC0(void) {
     entity = (Entity *)((u8 *)D_800FBE1C + 0x20);
     entity->state = 3;
     g_dungeon_status.activity_counts.parts.pending_action_count--;
-    D_80013714 &= 0xFFF7;
+    system_update_flags &= 0xFFF7;
     entity->flags &= 0x7F;
 }
 #include "modules/dungeon_ovl_7ce800.h"
@@ -1577,7 +1577,7 @@ s32 update_special_actor_transition(void) {
             s32 room_distance_y;
 
             room_page = (u8 *)0x80080000;
-            nearby_room = &D_80082E80;
+            nearby_room = &reference_tile_object;
             dx = nearby_room->tile_position.parts.tile_x;
             target_coord = ((SpriteFrameState *)target)->unk_24;
             dx -= target_coord;
@@ -1606,8 +1606,8 @@ s32 update_special_actor_transition(void) {
         if (direction >= 8) {
             direction -= 8;
         }
-        room = &D_80082E80;
-        collision = &D_80083780;
+        room = &reference_tile_object;
+        collision = &view_reference_entity;
 
         while (1) {
             get_offset_map_cell_value_and_flags(room->tile_position.parts.tile_x, room->tile_position.parts.tile_y,
@@ -1866,7 +1866,7 @@ void func_800F81A0(S_807B09A0_0 *emitter) {
     tick_count = emitter->unk_08 + 1;
     emitter->unk_08 = tick_count;
     if (tick_count & 1) {
-        particle = allocate_list_node(0x312, ((s32 *)&D_80083498.next));
+        particle = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
         if (particle != NULL) {
             particle->unk_10 = (void *)func_800F89B8;
             register_node(particle, project_sprite_chain);

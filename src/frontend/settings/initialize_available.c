@@ -1,8 +1,8 @@
 #include "common.h"
-
-extern s32 *func_8003FC64(s32);
-extern void register_node(s32 *, void *);
-extern s32 D_80053A88;
+#include "engine/node.h"
+#include "engine/scene.h"
+#include "frontend/settings.h"
+#include "main/data.h"
 
 typedef struct { s32 words[10]; } RecordData;
 
@@ -14,6 +14,6 @@ void initialize_available(s32 value, void *data) {
     if (record != 0) {
         *(RecordData *)(record + 8) = *(RecordData *)data;
         record[4] = value;
-        register_node(record, &D_80053A88);
+        register_node(record, &display_registration_tag);
     }
 }

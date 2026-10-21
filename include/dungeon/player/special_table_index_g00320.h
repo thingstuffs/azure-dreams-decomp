@@ -5,8 +5,8 @@
 
 #include "common.h"
 
-extern u8 D_80081484[];
-extern u8 D_80081470[];
+extern u8 held_item_record[];
+extern u8 temporary_item_record[];
 
 /* Functions defined in this translation unit. */
 s32 find_table_entry_address_index(s32 entry_address);

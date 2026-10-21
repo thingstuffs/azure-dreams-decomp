@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/resource.h"
+#include "engine/scene.h"
 
 typedef struct S_8006CE80_inner {
     s32 unk00;
@@ -14,7 +16,6 @@ typedef struct S_8006CE80 {
 } S_8006CE80;
 
 extern S_8006CE80 dispatch_resource_records[100];
-extern void file_load_com(s32);
 
 /* Calls file_load_com for each value in the indexed entry's zero-terminated list. */
 void load_dispatch_entry_files(u16 entry_index) {

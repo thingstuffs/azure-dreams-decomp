@@ -1,7 +1,6 @@
 #include "common.h"
-
-extern s32 fill_string_tail_and_detect_zero(u8 *buffer, s32 pair_count);
-extern char *strncpy(char *dest, const char *src, u32 n);
+#include "engine/text.h"
+#include "sdk/libc.h"
 
 /* Writes a two-character code to a slot, terminates it if needed, and returns the slot. */
 char *write_char_pair(u8 *buffer, char *code, s32 slot_index) {

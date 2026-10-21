@@ -18,26 +18,26 @@ typedef struct S_805D2FC4_1 {
 s32 func_80017E1C(void);
 s32 func_80018504();                    /* extern */
 s32 func_800194D8();                         /* extern */
-extern M2C_UNK D_80019AFC;
+extern M2C_UNK scene_cell_dispatch_code;
 
 s32 process_current_town_cell(s32 input_value, s32 input) {
     s32 result;
     u8 field_value;
 
     field_value = ((S_805D2FC4_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04.s;
-    ((S_805D2FC4_1 *)(&D_80019AFC))->unk_00 = (s32) field_value;
+    ((S_805D2FC4_1 *)(&scene_cell_dispatch_code))->unk_00 = (s32) field_value;
     result = 0;
     if ((field_value != 2) && (func_800194D8(F_sbs14_pad21) != 0)) {
         result = func_80018504(input_value, input);
     }
     if (result != 0) {
         ((S_805D2FC4_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04.u = 0;
-        D_80019AFC = 0;
+        scene_cell_dispatch_code = 0;
     } else {
         func_80017E1C();
-        if (((S_805D2FC4_1 *)(&D_80019AFC))->unk_00 == 1) {
+        if (((S_805D2FC4_1 *)(&scene_cell_dispatch_code))->unk_00 == 1) {
             ((S_805D2FC4_2 *)(((D_80016000->unk_08 * 8) + ((s32)D_80016000->unk_40))))->unk_04.u = 0;
-            D_80019AFC = 0;
+            scene_cell_dispatch_code = 0;
         }
     }
     return result;

@@ -1,4 +1,6 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 
 
 typedef void (*Callback)(void *);
@@ -13,14 +15,6 @@ extern void func_8007BFE0(void *object, s32 size);
 extern void func_80403AC8(void *object, s32 value);
 extern s32 func_80403AA0(void *ptr);
 extern void func_80403B84(void *object, s32 option_param);
-extern void card_animate_selection_marker_rows(void *object);
-
-extern u8 D_804005A0[];
-extern u8 D_804005C8[];
-extern u8 D_8040861C[];
-extern u8 D_80409C90[];
-extern u16 D_80409CAE;
-
 
 typedef struct S_8001CBC4_0 {
     u8 pad_00[0x1B4];

@@ -1,10 +1,6 @@
 #include "common.h"
-
-
-
-extern s32 test_sound_channel_availability(s16 bit_index);
-extern void sound_start_scaled_primary_and_secondary_voices(s32 a0, s32 a1);
-extern void stop_matching_effect_voices(void);
+#include "engine/audio.h"
+#include "slus.h"
 
 /* Decode a packed selector and dispatch its index and offset if its code is available. */
 void decode_audio_selector(s32 selector) {

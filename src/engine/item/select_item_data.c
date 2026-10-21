@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/item.h"
 typedef struct
 {
     u8 kind;
@@ -44,7 +45,6 @@ S_80082E6A;
 extern S_80082E6A runtime_dispatch_mode_alias;
 extern S_8004AC3C_CategoryEntry itemCategoryTable[];
 extern s32 resolve_record_value(S_8004AC3C_Item *);
-extern s32 get_item_category_flags(S_8004AC3C_Item *);
 /* Select item data by category and state, and report its mode. */
 s32 select_item_data(S_8004AC3C_Item *item, s32 *out_mode)
 {

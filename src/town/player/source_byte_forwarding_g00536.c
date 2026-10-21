@@ -8,7 +8,7 @@ void apply_a_selected_source_byte_destination_adjusts_sixth_byte(u8 *sourceBytes
 
     offset = view_relative_angle_sector(selection);
     set_sprite_animation_frame(destination, *(sourceBytes + offset), 0, 0);
-    destination[5] = destination[5] + (2 / (s32)D_80080A84);
+    destination[5] = destination[5] + (2 / (s32)animation_tick_scale);
 }
 
 /* Stores the value in the record and forwards it with unk_10 to apply_a_selected_source_byte_destination_adjusts_sixth_byte. */

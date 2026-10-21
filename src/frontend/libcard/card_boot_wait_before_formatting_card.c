@@ -1,5 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
+#include "main/data.h"
 
 typedef struct S_8002765C_0 {
     s32 * unk_00;
@@ -9,7 +11,6 @@ typedef struct S_8002765C_0 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_80027584;
 
 /* Decrement the record's countdown and switch its handler when it becomes negative. */
 void card_boot_wait_before_formatting_card(void *record_data) {

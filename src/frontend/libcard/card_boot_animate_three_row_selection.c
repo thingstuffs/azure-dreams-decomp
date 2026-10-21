@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard.h"
 
 
 typedef struct S_80023258_0 {

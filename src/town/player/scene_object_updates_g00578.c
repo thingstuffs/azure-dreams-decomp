@@ -18,27 +18,27 @@ void initialize_enabled_scene_object(void) {
         if (test_resident_bitmap_bit(F_get_bike_b) != 0) {
             D_80100E24 = D_800D0D0C;
             *(void **)&D_80100E28 = D_800D0D30;
-            D_80100E20 = 0x260000;
+            town_movement_speed = 0x260000;
         } else {
             D_80100E24 = D_800D0CC4;
             *(void **)&D_80100E28 = D_800D0CE8;
-            D_80100E20 = 0x1C0000;
+            town_movement_speed = 0x1C0000;
         }
-        object = create_town_effect_object(((s8 *)(&D_80083498)), 0, D_800A6684, 0);
+        object = create_town_effect_object(((s8 *)(&scene_object_list_anchor)), 0, D_800A6684, 0);
         if (object != NULL) {
             position = *(s8 **)(object + 8);
             object_resource = *(s32 *)(object + 0xC);
-            saved_position = D_800D0C78;
-            *(s32 *)(position + 0) = D_800D0C78[0];
+            saved_position = bike_saved_position;
+            *(s32 *)(position + 0) = bike_saved_position[0];
             state = object + 0x20;
             *(s32 *)(position + 4) = saved_position[1];
             *(s32 *)(position + 8) = saved_position[2];
             *(s16 *)(position + 0xA) = query_lowered_transform_position(position);
 
             if ((u32)(*(s32 *)(position + 8) + 0x300000) > 0x400000U) {
-                default_position = D_800D0C60;
+                default_position = bike_default_position;
                 coordinate = default_position[0];
-                D_800D0C78[0] = coordinate;
+                bike_saved_position[0] = coordinate;
                 *(s32 *)(position + 0) = coordinate;
                 coordinate = default_position[1];
                 saved_position[1] = coordinate;
@@ -131,9 +131,9 @@ void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, s3
     obj->callback = update_actor_position_and_heading;
     initialize_object_entries((Struct800C5724 *)obj, (s8 *)resource_arg, (s32 *)resource);
     update_target_from_previous_state();
-    motion->x = D_80083780.x.v;
-    motion->y = D_80083780.y.v;
-    motion->z = D_80083780.z.v;
+    motion->x = view_reference_entity.x.v;
+    motion->y = view_reference_entity.y.v;
+    motion->z = view_reference_entity.z.v;
     apply_pending_indexed_value(0xE5, (s32)D_800A630C);
     set_flagged_entry_values((u32 *)D_800D0D54, (s32)D_800A62E8);
     update_actor_position_and_heading(obj, (s32)state, motion, callback_arg);
@@ -146,11 +146,11 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
     s32 *saved_position;
     ObjectPosition *fixed_position;
 
-    state = ((u8 *)(&D_80083498));
+    state = ((u8 *)(&scene_object_list_anchor));
     if (((S_800A6994_0 *)state)->unk_10 != &D_800A5638) {
         set_flagged_entry_values((u32 *)&D_800D0D54, 0);
-        *(s32 *)D_800D0C78 = ((EntityRec *)position)->x.v;
-        saved_position = (s32 *)&D_800D0C78;
+        *(s32 *)bike_saved_position = ((EntityRec *)position)->x.v;
+        saved_position = (s32 *)&bike_saved_position;
         ((EntityRec *)saved_position)->y.v = ((EntityRec *)position)->y.v;
         ((DelayMotionZ *)saved_position)->unk_08 = (*(s32 *)((u8 *)position + 8));
         initialize_object_entries((Struct800C5724 *)actor, (s8 *)setup_context, (s32 *)D_80100E24);
@@ -159,8 +159,8 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
         heading += 0x200;
         heading &= 0xFC00;
     } else {
-        fixed_position = &D_80083780;
-        ((EntityRec *)position)->x.v = D_80083780.x.v;
+        fixed_position = &view_reference_entity;
+        ((EntityRec *)position)->x.v = view_reference_entity.x.v;
         ((EntityRec *)position)->y.v = fixed_position->y.v;
         ((EntityRec *)position)->z.v = fixed_position->z.v;
         heading = ((S_800A6994_0 *)state)->unk_38;

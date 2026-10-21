@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 typedef struct MenuPolyPos {
     u8 pad_00[0x8];

@@ -16,14 +16,14 @@ extern void process_unflagged_linked_entries(s32);
 extern void set_sprite_animation_frame(void *, u8, s16, s32);
 extern s16 measure_directional_stopping_distance(s16, void *, void *, s32);
 
-extern s32 D_80081484[3];
-extern u8 D_8008EAC8[];
-extern u8 D_800DCFB0[8];
+extern s32 held_item_record[3];
+extern u8 player_action_tag[];
+extern u8 player_wait_frames[8];
 extern u8 D_800DCFD0[8];
 extern u8 D_800DD060[8];
-extern u8 D_800DD0B8[8];
+extern u8 player_carry_frames[8];
 extern u8 D_800DD0C8[8];
-extern s32 D_800E3540[];
+extern s32 saved_held_item_word[];
 
 
 typedef struct S_8008FA7C_0 {
@@ -177,7 +177,7 @@ void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entit
             ((S_8008FA7C_8 *)active_anim)->unk_2C = active_table;
             active_entry = g_game_work.view.camera_rotation.parts.viewAngle;
             entity_angle = ((S_8008FA7C_2 *)entity)->unk_2A;
-            D_800E3540[0] = saved_value;
+            saved_held_item_word[0] = saved_value;
             active_entry += entity_angle;
             active_entry += 0x100;
             active_entry >>= 9;
@@ -221,11 +221,11 @@ void update_throw_carried_object(u8 *actor, u8 *motion, u8 *animation, u8 *entit
         process_unflagged_linked_entries_alt(((S_8008FA7C_2 *)entity)->unk_5C);
         process_unflagged_linked_entries(((S_8008FA7C_2 *)entity)->unk_5C);
         if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
-            ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
-            (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DD0B8;
+            ((S_8008FA7C_3 *)actor)->unk_8C.p = player_action_tag;
+            (*(u8 * *)((u8 *)animation + (0x2C))) = player_carry_frames;
         } else {
             ((S_8008FA7C_3 *)actor)->unk_8C.p2 = handle_player_input;
-            (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DCFB0;
+            (*(u8 * *)((u8 *)animation + (0x2C))) = player_wait_frames;
         }
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
         set_sprite_animation_frame(animation, (*(u8 * *)((u8 *)animation + (0x2C)))[direction], 0, 1);

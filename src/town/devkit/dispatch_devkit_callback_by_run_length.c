@@ -5,7 +5,7 @@ typedef struct {
     TownCallback callback[3];
 } TownCallbackTable;
 
-extern u8 D_80700000[];
+extern u8 devkit_globals_page[];
 extern u8 D_80700BB4[];
 extern s32 *D_80701968[];
 
@@ -20,7 +20,7 @@ void dispatch_devkit_callback_by_run_length(void) {
     s32 bits;
     s32 one;
 
-    callbacks = *(TownCallbackTable *)(D_80700000 + 0xBC8);
+    callbacks = *(TownCallbackTable *)(devkit_globals_page + 0xBC8);
     flag_ids = (s16 *)(D_80700BB4 + 8);
     matched_count = 0;
     if (*flag_ids != 0) {

@@ -5,8 +5,8 @@
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 extern s32 D_800CF85C[];
-extern u8 D_800CF828[16];
-extern s32 D_800CF838[16];
+extern u8 town_resource_queue[16];
+extern s32 town_resource_descriptors[16];
 extern u8 D_80080EA8[];
 extern void file_load_com(s32);
 s32 resource_value_table_contains(s32 value);

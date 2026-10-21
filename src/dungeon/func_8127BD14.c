@@ -175,7 +175,7 @@ void update_object_animation_dispatches_action_adjusts_facing(ActorActionWork *a
                 }
             }
 
-            if (D_80013714 & 8) {
+            if (system_update_flags & 8) {
                 u8 callback_flags;
 
                 func_80172D6C(action, context, sprite);

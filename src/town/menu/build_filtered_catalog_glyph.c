@@ -2,8 +2,8 @@
 
 extern s32 Krom2RawAdd(s32);
 
-extern u16 D_8012695C[];
-extern u8 D_8012697C[];
+extern u16 catalog_override_glyph[];
+extern u8 catalog_glyph_blend_table[];
 
 #if 0 /* recarved into the func_80969000 data row */
 static const u8 s_func_80969000_text_prefix[0x7F8] __attribute__((section(".text"))) = {
@@ -185,7 +185,7 @@ s32 build_filtered_catalog_glyph(s32 char_code, s32 dst_addr) {
         return 0;
     }
     if (glyph_code == 0x81F1) {
-        scratch->src = D_8012695C;
+        scratch->src = catalog_override_glyph;
     }
 
     scratch->p0 = (u8 *)0x1F800034;
@@ -508,36 +508,36 @@ s32 build_filtered_catalog_glyph(s32 char_code, s32 dst_addr) {
         scratch->word = *scratch->p2++;
         scratch->n[0] = (scratch->word >> 4) & 0xF;
         scratch->n[1] = scratch->word & 0xF;
-        scratch->o[0] |= D_8012697C[scratch->n[0] * 3 + scratch->n[1]];
+        scratch->o[0] |= catalog_glyph_blend_table[scratch->n[0] * 3 + scratch->n[1]];
         scratch->n[2] = scratch->word >> 12;
-        scratch->o[0] |= D_8012697C[(scratch->n[1] + scratch->n[2]) * 2] << 4;
+        scratch->o[0] |= catalog_glyph_blend_table[(scratch->n[1] + scratch->n[2]) * 2] << 4;
         scratch->n[3] = (scratch->word >> 8) & 0xF;
-        scratch->o[0] |= D_8012697C[scratch->n[3] * 3 + scratch->n[2]] << 8;
+        scratch->o[0] |= catalog_glyph_blend_table[scratch->n[3] * 3 + scratch->n[2]] << 8;
 
         scratch->word = *scratch->p2++;
         scratch->n[0] = (scratch->word >> 4) & 0xF;
         scratch->n[1] = scratch->word & 0xF;
-        scratch->o[0] |= D_8012697C[scratch->n[0] * 3 + scratch->n[1]] << 12;
+        scratch->o[0] |= catalog_glyph_blend_table[scratch->n[0] * 3 + scratch->n[1]] << 12;
         scratch->n[2] = scratch->word >> 12;
-        scratch->o[1] |= D_8012697C[(scratch->n[1] + scratch->n[2]) * 2];
+        scratch->o[1] |= catalog_glyph_blend_table[(scratch->n[1] + scratch->n[2]) * 2];
         scratch->n[3] = (scratch->word >> 8) & 0xF;
-        scratch->o[1] |= D_8012697C[scratch->n[3] * 3 + scratch->n[2]] << 4;
+        scratch->o[1] |= catalog_glyph_blend_table[scratch->n[3] * 3 + scratch->n[2]] << 4;
 
         scratch->word = *scratch->p2++;
         scratch->n[0] = (scratch->word >> 4) & 0xF;
         scratch->n[1] = scratch->word & 0xF;
-        scratch->o[1] |= D_8012697C[scratch->n[0] * 3 + scratch->n[1]] << 8;
+        scratch->o[1] |= catalog_glyph_blend_table[scratch->n[0] * 3 + scratch->n[1]] << 8;
         scratch->n[2] = scratch->word >> 12;
-        scratch->o[1] |= D_8012697C[(scratch->n[1] + scratch->n[2]) * 2] << 12;
+        scratch->o[1] |= catalog_glyph_blend_table[(scratch->n[1] + scratch->n[2]) * 2] << 12;
         scratch->n[3] = (scratch->word >> 8) & 0xF;
-        scratch->o[2] |= D_8012697C[scratch->n[3] * 3 + scratch->n[2]];
+        scratch->o[2] |= catalog_glyph_blend_table[scratch->n[3] * 3 + scratch->n[2]];
 
         scratch->word = *scratch->p2++;
         scratch->n[0] = (scratch->word >> 4) & 0xF;
         scratch->n[1] = scratch->word & 0xF;
-        scratch->o[2] |= D_8012697C[scratch->n[0] * 3 + scratch->n[1]] << 4;
+        scratch->o[2] |= catalog_glyph_blend_table[scratch->n[0] * 3 + scratch->n[1]] << 4;
         scratch->n[2] = scratch->word >> 12;
-        scratch->o[2] |= D_8012697C[(scratch->n[1] + scratch->n[2]) * 2] << 8;
+        scratch->o[2] |= catalog_glyph_blend_table[(scratch->n[1] + scratch->n[2]) * 2] << 8;
         scratch->n[3] = (scratch->word >> 8) & 0xF;
         scratch->o[2] &= 0xFFF;
 

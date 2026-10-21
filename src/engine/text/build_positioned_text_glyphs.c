@@ -1,8 +1,6 @@
 #include "common.h"
-
-extern void set_glyph_style_index(void *a0, s32 a1);
-extern u8 *read_decimal_digit_value(u8 *a0, s32 *a1);
-extern void *decode_glyph_fields(void *a0, s32 a1);
+#include "engine/text.h"
+#include "slus.h"
 
 /* Builds positioned glyph records from text and embedded formatting commands. */
 void *build_positioned_text_glyphs(u8 *glyph_buf, u8 *text, s32 style)

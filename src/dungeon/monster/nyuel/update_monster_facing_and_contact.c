@@ -16,7 +16,7 @@ extern s16 sample_terrain_surface_height();
 
 extern u8 D_80170E9C;
 extern u8 D_80173B98;
-extern Callback D_80174F4C[];
+extern Callback nyuel_callbacks[];
 extern Callback D_80176380[];
 extern Callback D_801763E0[];
 
@@ -117,7 +117,7 @@ void update_monster_facing_and_contact(void *entity, S_80170A98_2 *motion, void 
         callback(entity, motion, monster, actor);
     }
 
-    D_80174F4C[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, actor);
+    nyuel_callbacks[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, monster, actor);
 
     if (old_direction != ((S_80170A98_1 *)actor)->unk_6D) {
         try_move_actor_to_valid_position(entity, motion, monster, actor);

@@ -12,7 +12,7 @@ typedef struct EarlyCallData {
     s32 value;
 } EarlyCallData;
 
-extern s16 D_800E3DA8[2];
+extern s16 lift_jitter_offsets[2];
 s32 resolve_record_orientation_or_fallback();
 s32 find_flagged_record_by_id(s32, s32);
 void clear_player_linked_action_flags();
@@ -141,8 +141,8 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
         return 0;
     }
     if (resolve_record_orientation_or_fallback(parent_data->unk_08, parent_data, offset, 0) != 0) {
-        position->x.w.i = (u16) ((u16) *D_800E3DA8 + (parent_position->unk_02 + offset[0]));
-        position->y.w.i = (u16) ((u16) D_800E3DA8[1] + (parent_position->unk_06 + offset[1]));
+        position->x.w.i = (u16) ((u16) *lift_jitter_offsets + (parent_position->unk_02 + offset[0]));
+        position->y.w.i = (u16) ((u16) lift_jitter_offsets[1] + (parent_position->unk_06 + offset[1]));
         parent_height = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_88;
         (*(u16 *)((u8 *)actor + 0x88)) = parent_height;
         state->unk_90.at02_s16.v = (s16) (((parent_position->unk_0A + offset[2]) - parent_height) + 8);

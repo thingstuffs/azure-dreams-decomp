@@ -21,13 +21,13 @@ typedef struct Root {
     Entity entity;
 } Root;
 
-extern Root *D_80175D50;
+extern Root *beldo_actor_nodes;
 extern u8 D_8016FC4C[];
 
 /* Update the entity at its position and reset its state fields. */
 void reset_encounter_actor_state(void)
 {
-    Root *root = D_80175D50;
+    Root *root = beldo_actor_nodes;
     Entity *entity;
     u8 *position;
 
@@ -39,7 +39,7 @@ void reset_encounter_actor_state(void)
                   (entity->flags & 0x2000) ? 0x300 : 0x3000);
     update_actor_status_and_food(entity);
     unlink_entity_node(entity);
-    D_80175D50->field_10 = D_8016FC4C;
+    beldo_actor_nodes->field_10 = D_8016FC4C;
     entity->field_9A = 0;
     entity->field_96 = 0;
 }

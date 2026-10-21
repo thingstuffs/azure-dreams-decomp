@@ -53,6 +53,6 @@ typedef struct TileObject {
     /* 0x03C */ unsigned char pad_03C[0x4];
 } TileObject;                             /* 0x40: bounded by the separate table at 0x80082EC0 (below) */
 
-extern TileObject D_80082E80;
+extern TileObject reference_tile_object;
 
 #endif

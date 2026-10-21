@@ -6,7 +6,7 @@
 
 extern u8  D_800DD0F8[];
 extern s8  D_80080AA0;
-extern s8  D_80080A88;
+extern s8  scene_music_hold;
 
 extern void select_nearby_target_and_initialize_slot();
 extern void set_sprite_animation_frame();
@@ -15,7 +15,7 @@ extern void raise_entity_level();
 
 /* Starts the selected target's action when ready and reports whether a target is active. */
 s32 begin_selected_target_level_up(void *actor_state, s32 action_arg, void *sprite, void *target) {
-    if (!(D_800E296C & 0x100000) || g_dungeon_status.active_actor == 0) {
+    if (!(dungeon_floor_flags & 0x100000) || g_dungeon_status.active_actor == 0) {
         return 0;
     }
     if (g_dungeon_status.active_actor == target && g_dungeon_status.activity_counts.parts.pending_action_count == 0 && !(g_dungeon_status.flags & 8)) {
@@ -29,9 +29,9 @@ s32 begin_selected_target_level_up(void *actor_state, s32 action_arg, void *spri
                 >> 9) & 7], 1, 1);
         }
         play_sound_if_enabled(0x201);
-        if (!(D_80013714 & 2)) {
+        if (!(system_update_flags & 2)) {
             D_80080AA0 = 1;
-            D_80080A88 = 0;
+            scene_music_hold = 0;
         }
         *(s16 *)((char *)actor_state + 0x96) = 0x78;
         raise_entity_level(target, 1);

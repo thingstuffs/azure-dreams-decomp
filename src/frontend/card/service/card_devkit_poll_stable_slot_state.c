@@ -1,12 +1,9 @@
 #include "common.h"
+#include "frontend/card/service.h"
+#include "main/data.h"
 
-extern s32 card_devkit_dispatch_polled_event(void);
 extern s32 func_804019A4(void);
 extern void func_804008A0(s32 index);
-
-extern s32 D_80409250[];
-extern s32 D_80409258[];
-extern s32 D_804094F0[];
 
 /* Tracks repeated states and updates the selected slot after state-specific delays. */
 s32 card_devkit_poll_stable_slot_state(void)

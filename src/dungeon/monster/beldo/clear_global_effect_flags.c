@@ -7,9 +7,9 @@ extern void set_monster_data_pointer(void);
 
 /* Clears global flag bits and calls spawn_initial_floor_monsters and set_monster_data_pointer. */
 void clear_global_effect_flags(void) {
-    D_800E296C = (s32)(D_800E296C & 0xEFFFFFFF);
+    dungeon_floor_flags = (s32)(dungeon_floor_flags & 0xEFFFFFFF);
     spawn_initial_floor_monsters();
-    D_80013714 = (s16)(D_80013714 & 0xFFF6);
+    system_update_flags = (s16)(system_update_flags & 0xFFF6);
     set_monster_data_pointer();
 }
 

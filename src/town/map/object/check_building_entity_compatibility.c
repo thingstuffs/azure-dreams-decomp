@@ -1,8 +1,8 @@
 #include "common.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"
-extern u8 D_800D2644[];
-extern u8 D_800D2EA4[];
+extern u8 town_building_records[];
+extern u8 town_building_slot_rectangles[];
 
 /* Checks whether a record can use an entity based on its kind and existing links. */
 s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
@@ -20,14 +20,14 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
     u8 *scan_link_page;
     u8 *slot;
 
-    entity_base = D_800D2644;
+    entity_base = town_building_records;
     entity_index = entity_id & 0xFF;
     entity = entity_base + (entity_index << 5);
     if (test_resident_bitmap_bit(*(s16 *)(entity + 8)) == 0) {
         return 0;
     }
 
-    record_base = D_800D2EA4;
+    record_base = town_building_slot_rectangles;
     record_index = record_id & 0xFF;
     record = record_base + (record_index << 3);
     if (record[2] != entity[4] || record[3] != entity[5]) {
@@ -71,7 +71,7 @@ s32 check_building_entity_compatibility(s32 record_id, s32 entity_id)
         u8 *other_link_page;
 
         no_match = 0;
-        other_entity_base = D_800D2644;
+        other_entity_base = town_building_records;
         other_link_page = (u8 *)0x80010000;
         other_entity_index = other_link_page[((record_id & 0xFF) << 1) + 0x33A4];
         other_entity = other_entity_base + (other_entity_index << 5);

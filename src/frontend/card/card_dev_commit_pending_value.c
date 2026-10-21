@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/card.h"
 
 typedef struct S_8001EA3C_0 {
     s32 unk_00;

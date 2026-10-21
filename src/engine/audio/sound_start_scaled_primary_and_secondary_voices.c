@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/sound_volume.h"
+#include "engine/audio.h"
+#include "engine/entity.h"
 
 extern void audio_stop_matching_effect_voices(s32 packed_key, s32 packed_channel);
-extern s32 clamp_sound_value_to_seven_bits(s16 scaled_volume);
-extern s32 read_capped_audio_meter(void);
 extern s32 start_sound_effect_program_voices(s32 a0, void *a1, u16 a2, u16 a3, s32 a4);
 
 extern u16 primary_voice_volume_scale_alias[8];   /* size>8 forces %hi/%lo addressing */

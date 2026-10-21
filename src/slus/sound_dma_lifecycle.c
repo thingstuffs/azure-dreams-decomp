@@ -300,6 +300,7 @@ s32 dispatch_spu_dma_transfer_command(s32 command, ...)
     return 0;
 }
 #include "slus/sound_dma_lifecycle.h"
+#include "slus.h"
 
 /* Multiplies a volatile stack value by 13 sixty times, then discards the result. */
 void delay_multiply_loop(void) {

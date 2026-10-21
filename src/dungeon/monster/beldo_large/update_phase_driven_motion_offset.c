@@ -26,7 +26,7 @@ typedef struct S_8016F5D8_2 {
 s32 func_800644B8();                        /* extern */
 extern M2C_UNK D_80173DA4;
 extern M2C_UNK D_80173DB4;
-extern u8 *D_80175D54;
+extern u8 *beldo_script_node;
 
 /* Advances the phase-driven offset and writes the adjusted output value. */
 void update_phase_driven_motion_offset(S_8016F5D8_1 *state, S_8016F5D8_2 *output, S_8016F5D8_0 *command) {
@@ -74,5 +74,5 @@ void update_phase_driven_motion_offset(S_8016F5D8_1 *state, S_8016F5D8_2 *output
             state->unk_A0.at00.v += func_800644B8(phase) << 6;
         }
     }
-    output->unk_0A = (s16) ((((Rec_D_80175D54 *)D_80175D54)->unk_A8 + state->unk_92) - state->unk_A0.at02.v);
+    output->unk_0A = (s16) ((((Rec_D_80175D54 *)beldo_script_node)->unk_A8 + state->unk_92) - state->unk_A0.at02.v);
 }

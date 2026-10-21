@@ -30,7 +30,7 @@ void dispatch_object_renderers(void)
 {
     Entry *entry_m;
     Callback callback;
-    if (D_800E296C & 0x02000000) {
+    if (dungeon_floor_flags & 0x02000000) {
         Callback *callback_slot;
         register Callback *callback_base;
         register Callback *special_start;
@@ -71,7 +71,7 @@ first_scan:
         return;
     }
 
-    if (*(s32 *)((u8 *)D_800814A8 + 0x1C) & 0x10) {
+    if (*(s32 *)((u8 *)primary_actor_record + 0x1C) & 0x10) {
         s32 i;
         Callback *special_scan;
 
@@ -87,7 +87,7 @@ first_scan:
                     if (!(entry_m->flags & 0x800)) {
                         special_scan = special_start + 1;
                         if (*special_start == callback) {
-                            entry_m = ((Entry *)&D_80083498);
+                            entry_m = ((Entry *)&scene_object_list_anchor);
                             if (entry_m->active != 0) {
                                 saved = entry_m->saved;
                                 entry_m->saved = 0;

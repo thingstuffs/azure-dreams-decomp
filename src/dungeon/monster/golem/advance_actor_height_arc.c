@@ -141,7 +141,7 @@ void advance_actor_height_arc(void *action, void *motion, void *record, ActorRec
                 owner = actor->target;
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
-                fall_step = D_800DDC40[
+                fall_step = entity_height_offsets[
                     ((S_80172D08_5 *)(actor->target))->unk_13] + 0x20;
                 scaled_arc = arc_sample * fall_step;
                 height_delta = (((S_80172D08_4 *)owner)->unk_0A - actor->ground_height) << 13;
@@ -243,7 +243,7 @@ void advance_actor_height_arc(void *action, void *motion, void *record, ActorRec
                 owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
                 height_delta = ((S_80172D08_4 *)owner)->unk_0A -
-                           D_800DDC40[((S_80172D08_5 *)(actor->target))->unk_13] -
+                           entity_height_offsets[((S_80172D08_5 *)(actor->target))->unk_13] -
                            actor->ground_height;
                 height_delta <<= 13;
                 height_offset = height_delta * ((S_80172D08_0 *)action)->unk_96.s;

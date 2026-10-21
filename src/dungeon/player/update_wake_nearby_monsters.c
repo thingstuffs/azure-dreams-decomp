@@ -125,7 +125,7 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
         if (!((*(u16 *)0x80013714) & 8)) {
             node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
             do {
-                if ((D_80082E80.room_index ==
+                if ((reference_tile_object.room_index ==
                      ((S_80092E90_9 *)(((S_80092E90_7_pre *)node)[-1].unk_00))->unk_26) &&
                     ((get_entity_effect_value(node, 1) << 16) != 0)) {
                     clear_slots_of_type(node, 1);

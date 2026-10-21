@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 /* CVECTOR-like tint source: r,g,b,cd bytes */
 typedef struct S_8004C010 {

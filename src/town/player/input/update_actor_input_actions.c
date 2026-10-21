@@ -35,15 +35,15 @@ void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg
 
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(entity);
     move_both_components_toward_zero_direction_dependent_steps_clamping_zero(entity);
-    reference_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, ((u8 *)&D_800FE488));
+    reference_value = select_the_smaller_position_query_result_capped_n_64_writes_associated(entity, ((u8 *)&position_query_scratch));
     if ((reference_value - entity->z.w.i) >= 4) {
-        if (D_800CFCEF == 0) {
+        if (town_action_state_flag == 0) {
             initialize_action_object(context, entity, update_arg);
             return;
         }
     }
-    else if (D_800CFCEF == 0) {
-        compute_and_clamps_vector_based_adjustment_updates_town(entity, reference_value, ((u8 *)&D_800FE488));
+    else if (town_action_state_flag == 0) {
+        compute_and_clamps_vector_based_adjustment_updates_town(entity, reference_value, ((u8 *)&position_query_scratch));
     }
 
     state_flags = ((s32)state->pressed_buttons);

@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/window/message.h"
+#include "slus/data.h"
 
 typedef struct S_80035ABC_0 {
     u8 pad_00[0x2];
@@ -11,9 +13,6 @@ typedef struct S_80035ABC_1 {
     u8 pad_00[0x68];
     s32 * unk_68;
 } S_80035ABC_1;   /* arg0 in shrink_window_extent_to_two */
-
-
-extern s32 display_sound_selection_and_prepare_playback;
 
 /* Decreases the entry value by 16, clamping it to 2 and switching handlers below 2. */
 void shrink_window_extent_to_two(S_80035ABC_1 *state, S_80035ABC_0 *entry) {

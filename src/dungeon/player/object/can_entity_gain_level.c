@@ -4,7 +4,7 @@
 #include "shared/record_ptrs.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
-extern s32 D_800835E8[];
+extern s32 entity_level_thresholds[];
 extern u8 D_800E0000[];
 /* Checks whether an entity can level up with its current experience. */
 s32 can_entity_gain_level(void *entity) {
@@ -38,7 +38,7 @@ s32 can_entity_gain_level(void *entity) {
          /* Required for byte-exact code generation. */
     level = F(entity, u8, 0x11);
     table_offset = level << 2;
-    exp_table = (s32 *)D_800835E8;
+    exp_table = (s32 *)entity_level_thresholds;
     exp_entry = (u8 *)(table_offset + (u32)exp_table);
          /* Required for byte-exact code generation. */
     if (*(u32 *)exp_entry <= F(entity, u32, 0x18)) {
@@ -65,8 +65,8 @@ extern s32 append_entity_display_text();
 extern s32 display_text_with_fullwidth_adjustment();
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
-extern u8 D_8006D168[];
-extern u8 D_800DDCBC[];
+extern u8 species_base_stats[];
+extern u8 species_growth_table[];
 extern u8 D_800E0953[];
 extern u8 D_800E095F[];
 extern u8 D_800E0970[];
@@ -92,9 +92,9 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
         level = ((u8 *)entity_data)[0x11];
         species_id = ((u8 *)entity_data)[0x13];
         ((u8 *)entity_data)[0x11] = level + 1;
-        stat_growth = D_800DDCBC + (species_id * 8);
+        stat_growth = species_growth_table + (species_id * 8);
         prev_level = level - 1;
-        initial_stats = D_8006D168 + (species_id * 0x18);
+        initial_stats = species_base_stats + (species_id * 0x18);
 
         {
             s32 old_base;
@@ -315,7 +315,7 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
 
             slot = 2;
             gained_base = ability_gained;
-            ability_table = D_8006DE24;
+            ability_table = item_action_definitions;
             gained_flag = 1;
             levels_left = 100 - level;
             ability_slot = ((u8 *)entity_data) + 6;
@@ -355,8 +355,8 @@ loop_0:
         apply_entity_effects(((u8 *)entity_data));
 
         if ((show_message << 0x10) != 0) {
-            if (!(D_80013714 & 1)) {
-                D_800DCF4F[0] = 1;
+            if (!(system_update_flags & 1)) {
+                dungeon_event_pending_flag[0] = 1;
                 g_dungeon_status.activity_counts.parts.pending_action_count++;
             }
             stat_gain_m = 0x8003;
@@ -371,13 +371,13 @@ loop_0:
             text_end = append_entity_display_text(((u8 *)entity_data), text_end);
             text_end = expand_text_control_codes(D_800E095F, text_end);
             text_end = format_unsigned_double_byte_decimal(((u8 *)entity_data)[0x11], text_end);
-            text_end = expand_text_control_codes(D_80089000, text_end);
+            text_end = expand_text_control_codes(fullwidth_period, text_end);
 
             if (((u8 *)entity_data)[0x13] != 0 && ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x4000) != 0)) {
                 u8 *ability_slot;
                 u8 *ability_table;
                 slot = 0;
-                ability_table = D_8006DE24;
+                ability_table = item_action_definitions;
                 ability_slot = ((u8 *)entity_data);
                 do {
                     if (ability_gained[slot] != 0) {
@@ -391,7 +391,7 @@ loop_0:
                 } while (slot < 3);
             }
 
-            if (!(D_80013714 & 1)) {
+            if (!(system_update_flags & 1)) {
                 text_end = write_text_byte_and_advance(0x11, text_end);
                 text_end = write_text_byte_and_advance(0x4C, text_end);
                 text_end = copy_four_text_bytes(D_800E0458, text_end);
@@ -422,9 +422,9 @@ extern s32 play_sound_if_enabled();
 extern s32 display_text_with_fullwidth_adjustment();
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
-extern u8 D_8006D168[];
-extern s32 D_800835E8[];
-extern u8 D_800DDCBC[];
+extern u8 species_base_stats[];
+extern s32 entity_level_thresholds[];
+extern u8 species_growth_table[];
 extern M2C_UNK D_800E098B;
 extern M2C_UNK D_800E099A;
 extern M2C_UNK D_800E09B2;
@@ -454,11 +454,11 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
     entity[0x11] -= 1;
     level = entity[0x11];
     monster_id = entity[0x13];
-    xp_table = D_800835E8;
+    xp_table = entity_level_thresholds;
     *(s32 *)(entity + 0x18) = xp_table[level] - 1;
-    stat_growth = D_800DDCBC + (monster_id * 8);
+    stat_growth = species_growth_table + (monster_id * 8);
     level_offset = level - 1;
-    initial_stats = D_8006D168 + (monster_id * 0x18);
+    initial_stats = species_base_stats + (monster_id * 0x18);
 
     {
         s32 base_hp;
@@ -653,7 +653,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
             u8 *lowered_flag;
             s32 lowered_value;
             spell_flags = spell_lowered;
-            spell_table = D_8006DE24;
+            spell_table = item_action_definitions;
             lowered_value = 1;
             do {
                 lowered_flag = spell_flags + spell_index;
@@ -692,7 +692,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
     }
     {
         if (!(*(u16 *)0x80013714 & 1)) {
-            D_800DCF4F[0] = 1;
+            dungeon_event_pending_flag[0] = 1;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
         }
         create_actor_value_popup(0x8003, entity, -3, 1);
@@ -704,14 +704,14 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         message_end = append_entity_display_text(entity, message_end);
         message_end = expand_text_control_codes(&D_800E099A, message_end);
         message_end = format_unsigned_double_byte_decimal(entity[0x11], message_end);
-        message_end = expand_text_control_codes(D_80089000, message_end);
+        message_end = expand_text_control_codes(fullwidth_period, message_end);
 
         if (entity[0x13] != 0 && ((*(s32 *)(entity + 0x14) & 0x4000) != 0)) {
             spell_index = 0;
             do {
                 if (spell_lowered[spell_index] != 0) {
                     message_end = write_text_byte_and_advance(0xA, message_end);
-                    message_end = expand_text_control_codes(*(s32 *)(((u8 *)D_8006DE24) + entity[8] * 0x14), message_end);
+                    message_end = expand_text_control_codes(*(s32 *)(((u8 *)item_action_definitions) + entity[8] * 0x14), message_end);
                     message_end = expand_text_control_codes(&D_800E09B2, message_end);
                     message_end = expand_text_control_codes(&D_800E09BB, message_end);
                 }
@@ -719,7 +719,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
             } while (++spell_index < 3);
         }
 
-        if (!(D_80013714 & 1)) {
+        if (!(system_update_flags & 1)) {
             message_end = write_text_byte_and_advance(0x11, message_end);
             message_end = write_text_byte_and_advance(0x4C, message_end);
             message_end = copy_four_text_bytes(&D_800E0458, message_end);
@@ -737,7 +737,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
 /* Clear D_800DCF4F and decrement the sixth counter in D_80083460. */
 void clear_monster_event_and_decrement_count(void) {
 
-    D_800DCF4F[0] = 0;
+    dungeon_event_pending_flag[0] = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count--;
 }
 #include "modules/dungeon_engine_experience_fragment_bc5ec.h"
@@ -755,11 +755,11 @@ void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile
 #include "common.h"
 #include "shared/sys_flags.h"
 
-extern u8 D_800E3D20;
+extern u8 camera_transition_timer;
 
 /* Returns whether D_800E3D20 is set while bit 1 of D_80013714 is clear. */
 s32 is_dungeon_action_enabled(void) {
-    if (!(D_80013714 & 2) && D_800E3D20) {
+    if (!(system_update_flags & 2) && camera_transition_timer) {
         return 1;
     }
     return 0;
@@ -898,7 +898,7 @@ void accumulate_experience_award(u8 *record, u16 amount)
     }
     record[0x41] = value >> 8;
     record[0x42] = value;
-    D_800E296C |= 0x100000;
+    dungeon_floor_flags |= 0x100000;
 }
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -998,7 +998,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
         }
 
         member_index = recipient_count;
-        member_slot = (u8 *)D_800E3D7C + 4;
+        member_slot = (u8 *)dungeon_actor_ring_anchor + 4;
         do {
             member = ((S_800A2DB8_2 *)member_slot)->unk_AC;
             if ((member != NULL) && (member->unk_28 != 0)) {
@@ -1015,7 +1015,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
         if (target->flags14 & 0x4000) {
             member_index = 1;
             do {
-                member = ((S_800A2DB8_5 *)((u8 *)D_800E3D7C + member_index * 4))->unk_AC;
+                member = ((S_800A2DB8_5 *)((u8 *)dungeon_actor_ring_anchor + member_index * 4))->unk_AC;
                 if ((member != NULL) && (member->unk_28 != 0)) {
                     level_delta = member->unk_11 - source->unk_11;
                     award = experience;
@@ -1067,7 +1067,7 @@ extern void * func_80099290(s8 *byte_ptr);
 s32 append_entity_display_text();                     /* extern */
 s32 distribute_experience_awards();                          /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
-extern void *D_8007359C;
+extern void *monster_species_table;
 
 extern M2C_UNK D_800E09CD;
 extern M2C_UNK D_800E09D9;
@@ -1121,7 +1121,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
             targetState = entity->target;
             if ((targetState != NULL) && (targetState->unk_13 >= 0)) {
                 currentValue = get_unused_text_buffer();
-                func_80099290(expand_text_control_codes(D_80089000, append_entity_display_text(entity, expand_text_control_codes(&D_800E09CD, currentValue))));
+                func_80099290(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, expand_text_control_codes(&D_800E09CD, currentValue))));
                 display_text_with_fullwidth_adjustment(currentValue);
             }
         }
@@ -1129,7 +1129,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
             if (targetData->unk_14 & 0x4000) {
                 if (!(entity->flags14 & 0x4000)) {
                     selectionInputThird = get_unused_text_buffer();
-                    globalData = D_8007359C;
+                    globalData = monster_species_table;
                     currentValue = selectionInputThird;
                     func_80099290(expand_text_control_codes(&D_800E09E6, format_unsigned_double_byte_decimal(result, expand_text_control_codes(&D_800E09D9,
                         expand_text_control_codes(globalData->unk_04, currentValue)))));
@@ -1177,7 +1177,7 @@ struct Entity {
     s16 fieldAA;
 };
 
-extern u16 D_800DCE68[];
+extern u16 pending_marked_actor_count[];
 
 /* Mark owned entities of kind 0x1E and increment the dungeon counters. */
 void func_800A31D0(Entity *owner_entity) {
@@ -1190,7 +1190,7 @@ void func_800A31D0(Entity *owner_entity) {
     if (owner_entity->kind == 0x1E) {
         if (owner_entity->flags & 0x4000) {
             if (owner_entity->fieldAA != 0) {
-                sentinel = D_800E3D7C;
+                sentinel = dungeon_actor_ring_anchor;
                 node = (Entity *)((u8 *)((Entity *)sentinel->next_actor_header) + 0x20);
                 if (node != sentinel) {
                     do {
@@ -1198,17 +1198,17 @@ void func_800A31D0(Entity *owner_entity) {
                             (node->owner == (void *)((u8 *)owner_entity - 0x20))) {
                             incremented_count = (u16)g_dungeon_status.activity_counts.parts.pending_action_count + 1;
                             g_dungeon_status.activity_counts.parts.pending_action_count = incremented_count;
-                            marked_count = D_800DCE68[0];
+                            marked_count = pending_marked_actor_count[0];
                             node_status = node->status;
                             node->field6E = 0;
                             incremented_count = marked_count + 1;
                             node_status |= 0x400000;
-                            D_800DCE68[0] = incremented_count;
+                            pending_marked_actor_count[0] = incremented_count;
                             node->field6D = 0;
                             node->status = node_status;
                         }
                         node = (Entity *)((u8 *)node->next + 0x20);
-                    } while (node != ((Entity *)D_800E3D7C));
+                    } while (node != ((Entity *)dungeon_actor_ring_anchor));
                 }
             }
         }
@@ -1262,8 +1262,8 @@ struct S_16 {
     s32 wC;
 };
 typedef struct S_800E3E48 S_800E3E48;
-extern S_800E3E48 D_800E3E48[];
-extern s32 D_800E3DF0[];
+extern S_800E3E48 familiar_record_storage[];
+extern s32 familiar_record_slots[];
 extern void clear_slots_of_type(void *, s32);
 extern void decrement_monster_entry_count();
 extern void func_800A31D0();
@@ -1301,8 +1301,8 @@ s32 detach_record_and_update_slot_state(void *record) {
         slot_index = 0;
         page_base = (u8 *)0x80080000;
         copy_src = (void *)~0x4000;
-        registry = D_800E3DF0;
-        copy_base = D_800E3E48;
+        registry = familiar_record_slots;
+        copy_base = familiar_record_storage;
         copy_end = record + 0x80;
 scan_slots:
         slot_offset = slot_index * 4;

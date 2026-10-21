@@ -515,7 +515,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
             Row_8191CD78_S_func_80024578_3 *owner;
             s32 effect_size;
 
-            height_base = D_800DDC40;
+            height_base = entity_height_offsets;
             owner = effect->unk_1C;
             target_pos = effect->unk_20;
             height_entry = (Row_8191CD78_S_func_80024578_10 *)(height_base + owner->unk_13);

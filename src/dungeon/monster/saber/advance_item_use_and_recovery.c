@@ -164,14 +164,14 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, v
         if (*item_slot != 0) {
             ((S_80173230_0 *)action_in)->unk_98 &= 0xFF7F;
             if ((s16)special_or_effect != 0) {
-                item_target = D_800814A8;
+                item_target = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = item_target;
                     effect_state = ((S_80173230_1_pre *)item_target)[-1].unk_00;
                     (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173230_2 *)effect_state)->unk_24;
                     (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173230_2 *)effect_state)->unk_25;
             } else {
                 u8 item_id = *item_slot;
-                u8 *item_defs = D_8006DE24;
+                u8 *item_defs = item_action_definitions;
                 if (item_defs[item_id * 20 + 0x12] == 2) {
                     item_target = (*(void * *)((u8 *)actor + 0x60));
                     if (item_target != 0) {
@@ -207,7 +207,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, v
         motion_in->velocity_x = 0;
         set_record_integer_tile_center(motion_in, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x6D))--;
         ((S_80173230_0 *)action_in)->unk_8C = &D_80171728;
@@ -232,7 +232,7 @@ void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, v
             timer = ((S_80173230_0 *)action_in)->unk_96.u - 1;
             ((S_80173230_0 *)action_in)->unk_96.u = timer;
             if (timer == 0xB || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
-                effect_handle = (s32)allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+                effect_handle = (s32)allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
                 if (effect_handle != 0) {
                     void *actor_model;
                     u8 animation_id;

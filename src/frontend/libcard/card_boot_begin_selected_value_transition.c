@@ -1,5 +1,6 @@
 #include "common.h"
 #include "frontend/libcard/interfaces.h"
+#include "frontend/libcard.h"
 
 /* Set the object's value, preserve its previous value, and reset its state. */
 void card_boot_begin_selected_value_transition(s32 object_addr, s32 value) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 typedef struct SubStruct8001D8F8 {
     s8 unk0[8];

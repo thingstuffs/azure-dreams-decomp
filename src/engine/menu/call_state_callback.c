@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/menu.h"
+#include "slus/data.h"
 
 /* byte flags array indexed by a state/id field (obj->unk1C) */
-extern u8 menu_state_callback_flags[];
 
 /* table of callback function pointers indexed by the same state/id field;
    called as fn(parent_ptr, arg) */

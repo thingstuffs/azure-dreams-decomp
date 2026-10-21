@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 D_80082A38[];
-extern u8 D_800D381A[];
+extern s32 runtime_script_state[];
+extern u8 town_map_variant[];
 extern u8 D_800D3C00[];
 extern u8 D_800D3950[];
 
@@ -29,7 +29,7 @@ typedef void (*PacketHandler)(Packet *);
 /* flgtst: dispatches a packet containing the handler arguments and current global state. */
 void flgtst(s32 handler_arg0, s32 handler_arg1, s32 handler_arg2, s32 handler_arg3) {
     Packet packet;
-    s32 *state = D_80082A38;
+    s32 *state = runtime_script_state;
 
     packet.handler = 0x80016000;
     packet.descriptor = 0x80012D70;
@@ -39,7 +39,7 @@ void flgtst(s32 handler_arg0, s32 handler_arg1, s32 handler_arg2, s32 handler_ar
     packet.handler_arg1 = handler_arg1;
     packet.handler_arg2 = handler_arg2;
     packet.handler_arg3 = handler_arg3;
-    packet.mode = D_800D381A[0];
+    packet.mode = town_map_variant[0];
     packet.data1 = (s32)D_800D3950;
     packet.value0 = state[16];
     packet.value1 = state[17];

@@ -2,6 +2,10 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/resource.h"
+#include "slus.h"
+#include "slus/data.h"
 
 
 
@@ -43,12 +47,7 @@ typedef struct Func8003C160Context {
 } Func8003C160Context;
 
 extern Func8003C160Context fade_manager_state;
-extern u8 D_800F26F8[12];
-extern u8 flagged_effect_source_1[12];
-extern u8 flagged_effect_source_0[12];
 
-extern void func_8003DB94(Func8003C160Dst *, SpriteSourceEntry *, s16);
-extern void runtime_set_destination_flag_from_source(Func8003C160Context *, Func8003C160Dst *);
 extern void ramp_fade_up_fast(void);
 
 /* Initialize the destination and vector for the current source and set the next callback. */

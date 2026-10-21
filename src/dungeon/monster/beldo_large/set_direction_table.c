@@ -118,12 +118,12 @@ void run_timed_three_effect_sequence(DungeonState *state, DungeonWork *work,
         timer = state->timer.unsigned_value + 1;
         state->timer.unsigned_value = timer;
         if ((s16)timer == 1) {
-            create_targeted_ribbon_trail(state, work, object, ((u8 *)(&D_80083780)), 0);
+            create_targeted_ribbon_trail(state, work, object, ((u8 *)(&view_reference_entity)), 0);
             current_timer = state->timer.signed_value;
             if (current_timer == (s16)timer) {
-                create_targeted_ribbon_trail(state, work, object, ((u8 *)(&D_80083780)), current_timer);
+                create_targeted_ribbon_trail(state, work, object, ((u8 *)(&view_reference_entity)), current_timer);
                 if (state->timer.signed_value == current_timer)
-                    create_targeted_ribbon_trail(state, work, object, ((u8 *)(&D_80083780)), 2);
+                    create_targeted_ribbon_trail(state, work, object, ((u8 *)(&view_reference_entity)), 2);
             }
         }
         if (state->timer.signed_value == 0xB) {

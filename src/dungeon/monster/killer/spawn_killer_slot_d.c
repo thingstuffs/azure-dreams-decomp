@@ -77,7 +77,7 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
     grid_y = 0;
     state = (void *)grid_y;
     grid_x = 0x112;
-    node = allocate_list_node(grid_x, ((s32 *)&D_80083498.next));
+    node = allocate_list_node(grid_x, ((s32 *)&scene_object_list_anchor.next));
     if (node != NULL) {
         state = (DungeonSub1 *)((u8 *)node + 0x20);
         node->field10 = &D_8015EA7C;

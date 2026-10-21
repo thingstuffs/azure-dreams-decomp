@@ -284,7 +284,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
             effect_z = coords->unk_0A.u;
             z_delta = target_coords->unk_0A - effect_z;
             delta_z = z_delta;
-            delta_z -= D_800DDC40[((T_8017121C_S_8017121C_10 *)(target->target))->unk_13] >> 1;
+            delta_z -= entity_height_offsets[((T_8017121C_S_8017121C_10 *)(target->target))->unk_13] >> 1;
             ((T_8017121C_S_8017121C_0 *)effect_state)->unk_62 = delta_z / 2;
             return;
         }
@@ -340,7 +340,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     if (((s32)actor->target) == 0 &&actor->unk_72 >= 0) {
         return;
     }
-    effect = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (effect == 0) {
         return;
     }
@@ -381,7 +381,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_06 = ((T_801714FC_S_801714FC_4 *)linked_pos)->unk_06
         - ((*(s16 *)((u8 *)direction_offsets + (((((u16)actor->facing) >> 7) & 0x1c) + 2))) * 0x10);
         ((T_801714FC_S_801714FC_3 *)effect_data)->unk_0A = ((T_801714FC_S_801714FC_4 *)linked_pos)->unk_0A
-        - (D_800DDC40[((T_801714FC_S_801714FC_8 *)(actor->target))->unk_13] >> 1);
+        - (entity_height_offsets[((T_801714FC_S_801714FC_8 *)(actor->target))->unk_13] >> 1);
         return;
     }
     if (actor->unk_72 < 0) {
@@ -571,7 +571,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
     void *owner;
     T_80171BEC_S_80171BEC_2 *position;
 
-    object = allocate_list_node(0x212, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x212, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         ((T_80171BEC_S_80171BEC_0 *)object)->unk_40 = attachment;
         ((T_80171BEC_S_80171BEC_0 *)object)->unk_10 = &update_tracked_attachment_sprite;
@@ -635,7 +635,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
     result = 0;
     call_object = 0x112;
     saved_x = sprite_x;
-    call_position = (s32)((u8 *)(&D_80083498));
+    call_position = (s32)((u8 *)(&scene_object_list_anchor));
     saved_y = sprite_y;
     object = allocate_list_node(call_object, (void *)call_position);
     init_flags = spawn_flags;
@@ -665,7 +665,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
         if (mode == 1) {
             (*(u32 *)((u8 *)result + 0x14)) |= 0x6000;
             branch_flags = result->flags1C;
-            global_kind = (u8)D_800E2968;
+            global_kind = (u8)entity_spawn_variant_code;
             result->flags1C = branch_flags | 0x6000;
             if (global_kind >= 0xA) {
                 if (global_kind < 0xD) {
@@ -679,7 +679,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
                 result->flags14 |= 0x2000;
                 result->flags1C |= 0x2000;
             } else {
-                global_kind = (u8)D_800E2968;
+                global_kind = (u8)entity_spawn_variant_code;
                 if (global_kind < 0xA) {
                     result->unk_48 = call_position;
                 } else if (global_kind < 0xD) {

@@ -9,10 +9,10 @@ typedef struct {
     s32 unk14;
 } TownStruct_800198A4;
 
-extern TownStruct_800198A4 D_800198A4[];
-extern s32 D_80019B8C;
+extern TownStruct_800198A4 scene_rows[];
+extern s32 selected_scene_row_index;
 
 /* Returns unk8 from the currently selected town entry. */
 s32 get_selected_entry_field_8(void) {
-    return D_800198A4[D_80019B8C].unk8;
+    return scene_rows[selected_scene_row_index].unk8;
 }

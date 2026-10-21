@@ -7,8 +7,8 @@ extern int abs(int);
 
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 
-extern u32 D_800835E4[];
-extern u8 D_800E2968;
+extern u32 level_experience_table[];
+extern u8 entity_spawn_variant_code;
 
 extern void func_80042640(void *, s32);
 extern void unlink_entity_node(void *);
@@ -47,7 +47,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
     void *level_monster; /* MATCH: Both threshold arms supply the call argument in the branch delay slot. */
 
     distance = 0x100;
-    if (D_800E296C & 0x10000000) {
+    if (dungeon_floor_flags & 0x10000000) {
         return;
     }
     if (g_dungeon_status.monster_count >= 0x20) {
@@ -55,7 +55,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
     }
 
     attempt = 0;
-    reference_object = &D_80082E80;
+    reference_object = &reference_tile_object;
     mode = (s16)spawn_mode;
     fixed_entry_offset = (mode - 2) * 2;
 
@@ -88,7 +88,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
             }
             raw_variant = spawn_entry[1];
             spawn_level = raw_variant;
-            D_800E2968 = raw_variant;
+            entity_spawn_variant_code = raw_variant;
             monster_type = spawn_entry[0];
         }
 
@@ -122,7 +122,7 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
             return;
         }
 
-        limits = D_800835E4;
+        limits = level_experience_table;
         ((u32 *)((u8 *)monster + 0x18))[0] = limits[spawn_level];
         next_limits = limits + 1;
         if (*(u32 *)((u8 *)monster + 0x18) >= next_limits[((u8 *)monster)[0x11]]) {

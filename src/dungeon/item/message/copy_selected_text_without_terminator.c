@@ -19,7 +19,7 @@ s32 copy_selected_text_without_terminator(s32 text_id, s32 dest) {
     s32 text;
     s32 length;
 
-    if (((u32)D_800E3D7C->flags1C) & 0x10) {
+    if (((u32)dungeon_actor_ring_anchor->flags1C) & 0x10) {
         text = (s32)D_800DD724[0];
     } else {
         text = select_item_data(text_id, &text_info);

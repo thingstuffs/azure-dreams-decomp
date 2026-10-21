@@ -509,7 +509,7 @@ void draw_menu_progress_bar(void *context, s32 currentValue, s32 maxValue) {
 
     rect = D_80025034[0];
     rect.h = ((s32) (currentValue * 0x90) / maxValue) + 4;
-    build_tinted_gradient_rect(*(s32 *)((s8 *)context + 0x4C) + 0x18, &rect, D_80080B54);
+    build_tinted_gradient_rect(*(s32 *)((s8 *)context + 0x4C) + 0x18, &rect, shared_primitive_color);
 }
 
 void store_scaled_menu_ratio(ovl_1831cd8_81812B44_S_80027B44_0 *object, s32 numerator, s32 denominator) {
@@ -654,8 +654,8 @@ void *initialize_menu_mode_one_fields(ovl_1831cd8_81812FF4_S_80027FF4_0 *object,
 }
 
 void initialize_menu_header_records(void *unused, ovl_1831cd8_81813050_Header *header, ovl_1831cd8_81813050_Template0 *record_a, ovl_1831cd8_81813050_Record1 *record_b) {
-    ovl_1831cd8_81813050_Template0 *defaults_a = &D_8002E5D8;
-    ovl_1831cd8_81813050_Template1 *defaults_b = &D_8002E5E8;
+    ovl_1831cd8_81813050_Template0 *defaults_a = &display_block_defaults;
+    ovl_1831cd8_81813050_Template1 *defaults_b = &display_vector_defaults;
     s32 *first_word;
 
     record_a->unk0 = defaults_a->unk0;
@@ -740,9 +740,9 @@ s32 allocate_menu_object_buffers(ovl_1831cd8_81813284_Unk818110CC *object, s32 b
         allocated_buffer = allocate_and_append_callback_payload(buffers, 8);
         object->unk4C = allocated_buffer;
         if (allocated_buffer != 0) {
-            object->unk6C[0] = D_8002E5E8.unk0;
-            object->unk6C[1] = D_8002E5E8.unk4;
-            object->unk6C[2] = D_8002E5E8.unk8;
+            object->unk6C[0] = display_vector_defaults.unk0;
+            object->unk6C[1] = display_vector_defaults.unk4;
+            object->unk6C[2] = display_vector_defaults.unk8;
             texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(object->unk88, object->unk6C, 15);
             success = 1;
         }

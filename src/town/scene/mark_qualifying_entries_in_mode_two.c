@@ -23,8 +23,8 @@ typedef struct S_80017DBC_2 {
 extern s32 func_800198D0();
 extern s32 D_80016470;
 extern s32 D_80016608;
-extern s32 D_80019BB0;
-extern s32 D_80019BB4;
+extern s32 scene_update_state;
+extern s32 scene_choice_index;
 
 /* Marks qualifying entries and their associated state with 0x400 in mode 2. */
 s32 mark_qualifying_entries_in_mode_two(void)
@@ -34,7 +34,7 @@ s32 mark_qualifying_entries_in_mode_two(void)
     void *dest_entry;
     void *dest_state;
 
-    if (D_80019BB0 == 2) {
+    if (scene_update_state == 2) {
         dest_state = &D_80016608;
         for (entry_index = 1; entry_index < 8; entry_index++) {
             source_entry = (u8 *)&D_80016470 + entry_index * 0xC;
@@ -47,7 +47,7 @@ s32 mark_qualifying_entries_in_mode_two(void)
                     } else {
                         ((S_80017DBC_2 *)dest_state)->unk_B6 = 0x400;
                     }
-                } else if (D_80019BB4 == entry_index) {
+                } else if (scene_choice_index == entry_index) {
                     ((S_80017DBC_1 *)dest_entry)->unk_02 = 0x400;
                 }
             }

@@ -9,8 +9,8 @@ extern s32 func_800445E0(void);
 extern s32 resolve_spell_effect_resource_id(s16);
 extern s32 resolve_alternate_spell_id(s16);
 
-extern s32 D_8006CD58[];
-extern s8 D_800DCF4D;
+extern s32 cd_cue_base[];
+extern s8 spell_effect_selector_cache;
 extern u8 D_800DCF59;
 extern s32 D_800DD918[];
 extern s32 D_800DDAB8[];
@@ -33,8 +33,8 @@ s32 load_spell_effect_code(s16 selection_id, s16 alternate_table) {
     resource_data = (s32 *)0x80024000;
     if (D_800DCF59 == 0) {
         changed = 0;
-        if ((selection_id != (D_800DCF4D & 0x3F)) ||
-            ((((u8)D_800DCF4D >> 6) & 1) != alternate_table)) {
+        if ((selection_id != (spell_effect_selector_cache & 0x3F)) ||
+            ((((u8)spell_effect_selector_cache >> 6) & 1) != alternate_table)) {
             changed = 1;
         }
         change_result = changed;
@@ -48,19 +48,19 @@ s32 load_spell_effect_code(s16 selection_id, s16 alternate_table) {
             pack_tagged_resource_descriptor(0xC, resource_data, message_data, message_offset);
             Control_CD(6, message_data, 0);
             Control_CD(0xFF, set_byte_one, &D_800DCF59);
-            D_800DCF4D = selection_id | (alternate_table << 6);
+            spell_effect_selector_cache = selection_id | (alternate_table << 6);
         }
 
         if (alternate_table != 0) {
             selection_table = D_800DDAB8;
             index_hi = resolve_alternate_spell_id(selection_id) << 16;
             doubled_index = index_hi >> 15;
-            state_value = D_8006CD58[0];
+            state_value = cd_cue_base[0];
         } else {
             selection_table = D_800DD918;
             index_hi = selection_id << 16;
             doubled_index = index_hi >> 15;
-            state_value = D_8006CD58[0];
+            state_value = cd_cue_base[0];
         }
         entry_offset = (s32)(doubled_index << 16) >> 14;
         selection_entry = (s32 *)(entry_offset + (u32)selection_table);

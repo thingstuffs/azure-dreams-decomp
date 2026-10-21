@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 
 /* Locate a space-delimited word in two-byte text and report its length and preceding character count. */
 void find_text_word_bounds(u8 *text, s32 limit, s32 *start_out,

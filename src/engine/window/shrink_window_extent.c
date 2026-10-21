@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/window.h"
 
 typedef struct Func80035C80Object Func80035C80Object;
 
@@ -18,7 +20,6 @@ struct Func80035C80Object {
     u8 field78;
 };
 
-extern void begin_fade_to_black(void);
 extern void shrink_window_extent_to_two(void);
 
 /* Flag the referenced record and switch callbacks when the state byte changes. */

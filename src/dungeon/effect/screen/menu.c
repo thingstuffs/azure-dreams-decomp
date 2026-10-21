@@ -27,7 +27,7 @@ typedef struct {
     } data;
 } DungeonInput;
 
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 
 extern void func_80067E2C(void *, void *);
 extern void func_8006658C(void *, void *, ...);
@@ -49,7 +49,7 @@ void draw_textured_ellipse(s32 draw_value, DungeonInput *rect, u16 fill_rect, u1
     s16 offset_y;
 
     initial_state = g_game_work.draw_buffer;
-    offset_y = initial_state != (GpuContext *)D_801C9E40 ? 1 : 0;
+    offset_y = initial_state != (GpuContext *)upper_draw_context ? 1 : 0;
     command_cursor = initial_state->packetCursor;
     draw_list = (u8 *)initial_state + 0x8B0;
     initial_state->packetCursor = command_cursor + 0xC;
@@ -282,7 +282,7 @@ typedef struct ShortVec {
     s16 z;
 } ShortVec;
 
-extern void *D_800E3D18;
+extern void *actor_direction_sprites;
 
 extern void *resolve_record_orientation_or_fallback(void *, void *, ShortVec *, s16);
 extern s32 register_node();
@@ -451,8 +451,8 @@ void update_arcing_effect(void *motion, S_800B8830_3 *coords, S_800B8830_1 *rend
         target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
 
         entry_addr = ((g_game_work.view.camera_rotation.parts.viewAngle +
-                  D_800814A8->facing + 0x100) >> 7) & 0x1C;
-        entry_addr += (s32)D_800E3D18;
+                  primary_actor_record->facing + 0x100) >> 7) & 0x1C;
+        entry_addr += (s32)actor_direction_sprites;
         entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;
         if (resolve_record_orientation_or_fallback(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_0C, &delta, 0) != NULL) {
             target_pos[0] += (s32)delta.x << 16;
@@ -556,7 +556,7 @@ void create_timed_model_effect(void *owner, s32 value, void *child_data, void *t
 
         call_page = (u8 *)0x80080000;
         kind = 0x12;
-        object = allocate_list_node(kind, (u8 *)((u8 *)(&D_80083498)));
+        object = allocate_list_node(kind, (u8 *)((u8 *)(&scene_object_list_anchor)));
     }
     if (object != 0) {
         child = object->child;
@@ -579,8 +579,8 @@ void create_timed_model_effect(void *owner, s32 value, void *child_data, void *t
             fallback = D_800DF334 - 0x3C;
             ((Tail *)object)->valueC = fallback;
         }
-        descriptor = (void *)&D_80083498;
-        header = D_800814A8;
+        descriptor = (void *)&scene_object_list_anchor;
+        header = primary_actor_record;
         ((Tail *)object)->owner = owner;
         ((Tail *)object)->descriptor = descriptor;
         ((Tail *)object)->value32 = ((u16)header->ground_height);
@@ -842,7 +842,7 @@ typedef struct DrawContext {
 extern void func_8006658C(void *, void *, ...);
 extern void func_80067E2C(void *, void *);
 extern void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16 draw_mode);
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 
 /* Queue a clipped sprite with an optional black background, adjusting Y for the active buffer. */
 void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, s16 draw_flags)
@@ -858,7 +858,7 @@ void draw_transformed_sprite_with_clip_rect(s32 sprite, Position *clip_rect, Pos
 
     context = (DrawContext *)g_game_work.draw_buffer;
     saved_clear_bg = clear_bg;
-    shift_y = context != (DrawContext *)D_801C9E40;
+    shift_y = context != (DrawContext *)upper_draw_context;
     area_packet = context->next_packet;
     ordering_table = context->ordering_table;
     context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
@@ -1285,7 +1285,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 
 #define F(base, type, off) (*(type *)((char *)(base) + (off)))
 
-extern void *D_800DF364[];
+extern void *screen_effect_target[];
 
 extern s32 play_sound_if_enabled();
 extern void func_800478B8(void *);
@@ -1298,18 +1298,18 @@ void update_familiar_selection_marker(void *state, void *position_arg, void *mar
     if (F(state, s16, 0xC) == 0) {
         void *tracked_target = F(F(state, void *, 0), void *, 0);
         if (tracked_target != 0) {
-            if (D_800DF364[0] != tracked_target) {
+            if (screen_effect_target[0] != tracked_target) {
                 play_sound_if_enabled(0x507);
                 F(state, s16, 0xE) = 4;
-                D_800DF364[0] = F(F(state, void *, 0), void *, 0);
+                screen_effect_target[0] = F(F(state, void *, 0), void *, 0);
             }
         } else {
             void *fallback_target;
             u16 phase;
             F(state, s16, 0xE) = 4;
-            fallback_target = D_800E3D7C;
+            fallback_target = dungeon_actor_ring_anchor;
             phase = F(state, u16, 0xC);
-            D_800DF364[0] = fallback_target;
+            screen_effect_target[0] = fallback_target;
             F(state, u16, 0xC) = phase + 1;
         }
         if (F(marker_arg, u16, 0x1C) < 0x1000) {
@@ -1338,13 +1338,13 @@ void update_familiar_selection_marker(void *state, void *position_arg, void *mar
         void *tracked_target = F(F(state, void *, 0), void *, 0);
         if (tracked_target == 0) {
             F(marker_arg, s32, 0xC) = 0x808080;
-        } else if (tracked_target == F(D_800E3D7C, void *, 0xAC)) {
+        } else if (tracked_target == F(dungeon_actor_ring_anchor, void *, 0xAC)) {
             F(marker_arg, s32, 0xC) = 0x101080;
         } else {
             F(marker_arg, s32, 0xC) = 0x801010;
         }
     }
-    target = D_800DF364[0];
+    target = screen_effect_target[0];
     target_pos = F((char *)target - 0x18, void *, 0);
     if (F(state, s16, 0xE) != 0) {
         F(((void *)(position_arg)), s32, 0) = F(((void *)(position_arg)), s32, 0) + (F(target_pos, s32, 0)
@@ -1414,7 +1414,7 @@ typedef struct EntityHdr {
 } EntityHdr;
 
 extern u8 D_80079444[];
-extern s16 D_800DCE66[5];
+extern s16 camera_depth_target[5];
 
 extern void * allocate_list_node();
 extern s32 register_node();
@@ -1430,7 +1430,7 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
     SubB_800B4204 *sprite;
     u8 *owner_data;
 
-    object = allocate_list_node(18, &D_80083498.next);
+    object = allocate_list_node(18, &scene_object_list_anchor.next);
     if (object != 0) {
         owner_data = (u8 *)object + 0x20;
         register_node(object, (void *)draw_linked_sprites_clipped);
@@ -1438,8 +1438,8 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
 
         transform = object->sub1;
         sprite = object->sub2;
-        transform->f2 = ((u16)D_80083780.x.w.i);
-        transform->f6 = ((u16)D_80083780.y.w.i);
+        transform->f2 = ((u16)view_reference_entity.x.w.i);
+        transform->f6 = ((u16)view_reference_entity.y.w.i);
         transform->fA = (*entity_ref)->f88;
         func_8003DB94(sprite, D_80079444, 0);
 
@@ -1459,7 +1459,7 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
             object->owner = entity_ref;
 
             g_dungeon_status.active_actor = object;
-            select_nearby_target_and_initialize_slot(object, transform, 8, D_800DCE66[0]);
+            select_nearby_target_and_initialize_slot(object, transform, 8, camera_depth_target[0]);
         }
     }
 
@@ -1472,7 +1472,7 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 extern u8 D_800E0000[];
-extern u8 D_80080000[];
+extern u8 resident_globals_page[];
 
 typedef struct Entity {
     u8 pad00[0x13];
@@ -1580,7 +1580,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 current_height = work->y.whole;
                 entity = ((Node *)height_base)->entity;
                 entity = (Entity *)(u32)entity->kind;
-                entity = (Entity *)((u8 *)entity + (u32)D_800DDC40);
+                entity = (Entity *)((u8 *)entity + (u32)entity_height_offsets);
                 height_step = (target_pos[2] - ((s32)*(u8 *)entity << 16) - current_height) / (*(s16 *)((u8 *)work
                     + 0xE));
                 height_step -= (trig_value * work->timer) << 6;
@@ -1603,7 +1603,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 entity = ((Node *)height_base)->entity;
                 height_addr = (u8 *)(u32)entity->kind;
                 target_height = entity->height;
-                height_addr += (u32)((u8 *)D_800DDC40);
+                height_addr += (u32)((u8 *)entity_height_offsets);
                 height_base = (u8 *)(u32)*height_addr;
                 target_height -= (s32)(u32)height_base;
                 if (entity->flags & 0x40000) {
@@ -1627,12 +1627,12 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 s32 new_timer;
                 GlobalObj *object;
                 Entity *left;
-                left = (*(GlobalObj **)((GlobalObj * *)(&D_800E3D7C)))->left;
+                left = (*(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor)))->left;
                 if (is_selectable_menu_target(left)) {
-                    status_page = D_80080000;
+                    status_page = resident_globals_page;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->left != work->node->entity) {
                         new_timer = 8;
-                        object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
+                        object = *(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor));
                         work->timer = new_timer;
                         work->node = (Node *)&object->left;
                         if (work->mode == 2) {
@@ -1646,12 +1646,12 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 s32 new_timer;
                 GlobalObj *object;
                 Entity *right;
-                right = (*(GlobalObj **)((GlobalObj * *)(&D_800E3D7C)))->right;
+                right = (*(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor)))->right;
                 if (is_selectable_menu_target(right)) {
-                    status_page = D_80080000;
+                    status_page = resident_globals_page;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->right != work->node->entity) {
                         new_timer = 8;
-                        object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
+                        object = *(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor));
                         work->timer = new_timer;
                         work->node = (Node *)&object->right;
                         if (work->mode == 2) {
@@ -1688,14 +1688,14 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                     action = 0x48;
                     result = (s32)((u32)result << 16);
                     amount = result >> 16;
-                    object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
+                    object = *(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor));
                     append_packed_action_record(object, action, amount, 0);
                 } else {
                     s32 amount;
                     GlobalObj *object;
                     result = get_special_table_data_index((*(s32 *)((u8 *)work + 0x2C)));
                     amount = (s16)result;
-                    object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
+                    object = *(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor));
                     append_packed_action_record(object, 0x50,
                                   work->node->entity == object->right, amount);
                 }
@@ -1837,7 +1837,7 @@ struct Work;
 struct Out;
 struct Render;
 extern void update_item_target_marker(struct Work *work, struct Out *out, struct Render *render_arg);
-extern s16 D_800DCE66[5];
+extern s16 camera_depth_target[5];
 extern u8 D_800DF368[];
 
 
@@ -1873,7 +1873,7 @@ void *create_item_target_selector(u8 *selection_data) {
 
     part_index = 0;
     last_part = 2;
-    layout = &D_80083780;
+    layout = &view_reference_entity;
     global_page = (u8 *)0x800E0000;
     object_slot = objects;
     do {
@@ -1902,7 +1902,7 @@ void *create_item_target_selector(u8 *selection_data) {
             sprite->f6 = 4;
 
             if (part_index == 0) {
-                select_nearby_target_and_initialize_slot(objects[0], transform, 8, D_800DCE66[0]);
+                select_nearby_target_and_initialize_slot(objects[0], transform, 8, camera_depth_target[0]);
                 sprite->f8 = (void *)lookup_item_category_mapped_value(selection_data[1], selection_data[0]);
             } else if (part_index == 1) {
                 sprite->f8 = D_800DF368;
@@ -1916,8 +1916,8 @@ void *create_item_target_selector(u8 *selection_data) {
 
                 object = *object_slot;
                 part_state = (Aux *)((u8 *)object + 0x20);
-                part_state->fA = ((u16)layout->z.w.i) - D_800DDC40[0];
-                ((S_800BA074_0 *)object)->unk_20 = &D_800814A8;
+                part_state->fA = ((u16)layout->z.w.i) - entity_height_offsets[0];
+                ((S_800BA074_0 *)object)->unk_20 = &primary_actor_record;
                 part_state->f12 = part_index;
                 part_state->f16 = transform->f2;
                 part_state->f1A = transform->f6;
@@ -2465,7 +2465,7 @@ void update_selection_tile_markers(S_800B50B0_Entity *entity, s32 selection) {
         }
         entry_value = (mode_index - 1) * 3;
         entry_id = *((u8 *) entity + entry_value + 8);
-        entry_type = D_8006DE24[entry_id].kind;
+        entry_type = item_action_definitions[entry_id].kind;
         if (entry_type == 1) {
             forward_steps = D_800DF380[entry_id] & 0x1F;
             if (forward_steps > 0) {
@@ -2950,7 +2950,7 @@ struct Position;
 struct Position;
 extern void draw_transformed_sprite_with_clip_rect(s32 sprite, struct Position *clip_rect, struct Position *screen_pos, s32 clear_bg, s16 draw_flags);
 
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 
 
 /* Queues a line or filled rectangle with optional content and drawing state commands. */
@@ -2969,7 +2969,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
     state_addr = (u8 **)((u8 *)(&g_game_work));
     state = *(u8 **)((u8 *)(&g_game_work));
     ordering_table = state + 0x8B0;
-    odd = state != D_801C9E40;
+    odd = state != upper_draw_context;
 
     if (content_id != 0) {
         primitive = ((GpuContext *)state)->packetCursor;
@@ -3306,7 +3306,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
     call_data[0] = 0x01000340;
     call_data[1] = 0x01000080;
     draw_content_or_rect(0, 0, call_data, 1, 0);
-    effect = allocate_list_node(0x12, ((s32 *)&D_80083498.next));
+    effect = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (effect != NULL) {
         s32 angle_index;
         void *setup_cursor;
@@ -3339,7 +3339,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
             angle += 0x999;
             angle_index += 1;
         } while (angle_index < 5);
-        select_nearby_target_and_initialize_slot(((s32 *)&D_80083498.next), &D_80083780.x.v, 8, 0x300);
+        select_nearby_target_and_initialize_slot(((s32 *)&scene_object_list_anchor.next), &view_reference_entity.x.v, 8, 0x300);
     }
     return effect;
 }
@@ -3667,7 +3667,7 @@ void *create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_5
     void *object;
     S_800BC0A8_1 *position;
 
-    object = allocate_list_node(0x202, ((s32 *)&D_80083498.next));
+    object = allocate_list_node(0x202, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         ((S_800BC0A8_0 *)object)->unk_10 = update_orbiting_color_particle;
         register_node(object, draw_shaded_quad_chain);
@@ -3814,14 +3814,14 @@ struct S_8003FFF0 {
     s32 id;
 };
 
-extern S_8003FFF0 *D_80081498[4];
+extern S_8003FFF0 *active_node_list_head[4];
 extern void retire_effect_when_owner_or_value_ends(void *context);
 
 // Set bit 0x8000 in the first matching node's flags and the shared flags.
 void retire_tracked_effect_by_id(s32 targetId) {
     S_8003FFF0 *node;
 
-    node = *D_80081498;
+    node = *active_node_list_head;
     if (node != NULL) {
         do {
             if ((node->kind == retire_effect_when_owner_or_value_ends) && (node->id == targetId)) {

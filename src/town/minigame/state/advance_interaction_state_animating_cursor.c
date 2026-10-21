@@ -34,7 +34,7 @@ typedef struct Counter {
 
 extern EntryPair D_800898C4;
 extern u8 D_80011F81[];
-extern Counter D_80012D5C;
+extern Counter town_money;
 
 extern int abs(int);
 
@@ -58,7 +58,7 @@ void advance_interaction_state_animating_cursor(Obj *self, Arg1 *position, Arg2 
     switch (state) {
     case 0:
         do {
-            const Counter *global_counter = &D_80012D5C;
+            const Counter *global_counter = &town_money;
             entry_index = 0;
             if (D_80011F81[0] != 0) {
                 entry_index = 1;
@@ -73,7 +73,7 @@ void advance_interaction_state_animating_cursor(Obj *self, Arg1 *position, Arg2 
     case 3:
     {
         x_range_check = 0x3FFFFF;
-        current_x = D_80083780.x.v;
+        current_x = view_reference_entity.x.v;
         target_x = position->x;
         {
             s32 x_distance = abs((s32)((u32)current_x - (u32)target_x));
@@ -95,8 +95,8 @@ void advance_interaction_state_animating_cursor(Obj *self, Arg1 *position, Arg2 
         return;
 
     case 1:
-        if (D_80083780.y.v < position->y + 0x800000) {
-            D_80083780.y.v += 0x40000;
+        if (view_reference_entity.y.v < position->y + 0x800000) {
+            view_reference_entity.y.v += 0x40000;
         }
         {
             register s32 cursor = cursor_data->cursor;

@@ -11,7 +11,7 @@ s32 check_event_identifier_when_enabled(void) {
     s32 check_passed;
 
     check_passed = 0;
-    if (D_8001E950->unk_04 != 1) {
+    if (town_event_state->unk_04 != 1) {
         check_passed = func_8001E670(D_8001792C) != 0;
     }
     return check_passed;

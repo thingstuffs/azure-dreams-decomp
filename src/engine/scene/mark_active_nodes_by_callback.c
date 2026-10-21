@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/scene.h"
 
 /* Singly-linked list node headed by D_80081498 (shared shape with
    func_80040418/remove_marked_active_nodes/find_active_list_node): next ptr @0x0, a 32-bit
@@ -11,14 +12,14 @@ typedef struct S_80081498 {
     u16 field_1E;             /* 0x1E */
 } S_80081498;
 
-extern S_80081498 *D_80081498;
+extern S_80081498 *active_node_list_head;
 
 extern int D_800814A0;
 
 /* Sets bit 0x8000 on every node with the matching ID and in the global flags. */
 void mark_active_nodes_by_callback(s32 target_id)
 {
-    S_80081498 *node = D_80081498;
+    S_80081498 *node = active_node_list_head;
 
     while (node != 0) {
         if (node->field_10 == target_id) {

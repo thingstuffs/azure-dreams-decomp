@@ -8,8 +8,8 @@ typedef struct {
 extern UA32 D_80028064;
 
 #include "frontend/libcard/interfaces.h"
-void card_boot_build_save_description(void *record, s32 index);
-void initialize_text_editor_context(void *dest, s32 record_index);
+#include "frontend/libcard.h"
+#include "frontend/libcard/message.h"
 
 /* Copies the initial word into the buffer and initializes state for the selected mode. */
 void card_boot_prepare_save_buffer(UA32 *buffer, s32 config, s32 mode) {

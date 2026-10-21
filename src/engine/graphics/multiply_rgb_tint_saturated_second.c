@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/vector.h"
+#include "engine/graphics.h"
+#include "sdk/libgte.h"
 
 #define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
@@ -7,11 +9,6 @@
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
-
-extern s32 multiply_rgb_tint_saturated(void *a, void *b);
-extern s32 rsin(s32 a);
-extern s32 rcos(s32 a);
 
 /* Builds a tinted flat or shaded triangle fan for an ellipse or quarter ellipse. */
 void *func_8004B954(void *tint_a, void *tint_b, void *primitives,

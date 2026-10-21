@@ -6,7 +6,7 @@ typedef struct {
     u8 pad6[6];
 } Entry;
 
-extern Entry D_8001791C[8];
+extern Entry town_selection_records[8];
 extern u8 D_80017BC0[];
 extern s32 func_8001E670(s32 value);
 
@@ -15,7 +15,7 @@ u8 find_first_enabled_entry_id(void) {
     s32 list_index = 0;
 
     if (D_80017BC0[list_index] != 0) {
-        Entry *entries = D_8001791C;
+        Entry *entries = town_selection_records;
         do {
             if (func_8001E670(entries[D_80017BC0[list_index]].value) != 0) {
                 break;

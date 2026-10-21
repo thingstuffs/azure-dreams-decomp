@@ -44,7 +44,7 @@ typedef struct Owner {
 extern Object *func_8003CF18(u32 kind);
 extern void func_8003A7C4(RenderData *render, void *data, u32 value);
 extern void func_8010C0F8(void);
-extern u16 D_80094422[5];
+extern u16 emitted_effect_counter[5];
 
 /* Creates and initializes an object at its owner's position. */
 void func_7FFE9C0C(Owner *owner, u32 value)
@@ -79,6 +79,6 @@ void func_7FFE9C0C(Owner *owner, u32 value)
         render->field_12 = 32206;
         render->flags |= 0x100;
         func_8003A7C4(render, D_800E2BB8, 0);
-        D_80094422[0]++;
+        emitted_effect_counter[0]++;
     }
 }

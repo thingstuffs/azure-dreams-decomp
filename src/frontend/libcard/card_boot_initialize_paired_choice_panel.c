@@ -2,6 +2,7 @@
 #include "records/Rec_func_80026CF0_arg0.h"
 void func_80026C00(void *, void *, void *);         /* extern */
 #include "frontend/libcard/interfaces.h"
+#include "frontend/libcard.h"
 
 
 /* Store the initial value, link embedded data, and update the record. */

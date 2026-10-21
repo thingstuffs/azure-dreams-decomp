@@ -1,8 +1,8 @@
 #include "common.h"
 
 #include "common.h"
-
-extern u8 message_mode_default_bytes[];
+#include "engine/graphics.h"
+#include "slus/data.h"
 
 extern void update_text_row_scale(u8 *entity, u8 unused);
 

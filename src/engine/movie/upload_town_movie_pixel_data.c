@@ -1,7 +1,8 @@
 #include "common.h"
 
 #include "common.h"
-void LoadImage(void *, void *);                      /* extern */
+#include "engine/movie.h"
+#include "sdk/libgpu.h"
 
 /* --- port/hal accessor shims (mechanical, no HAL dependency) --- */
 #define U8AT(b, o)  (*(u8  *)((u8 *)(b) + (o)))

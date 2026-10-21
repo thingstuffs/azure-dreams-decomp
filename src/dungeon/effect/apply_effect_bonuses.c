@@ -11,7 +11,7 @@ typedef struct S_800B3D10_6 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 get_clamped_adjusted_value();                          /* extern */
 s32 resolve_alternate_spell_id();                             /* extern */
-extern u8 D_800E3D68;
+extern u8 current_spell_effect_variant;
 
 
 typedef struct S_800B3D10_1 {
@@ -50,7 +50,7 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
     case 0:
     {
         s32 value_bonus =
-            (s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+            (s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
             + 1);
         s32 flags = record->flags14 | 1;
         record->flags14 = flags;
@@ -60,7 +60,7 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
     case 1:
     {
         s32 value_bonus =
-            (s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+            (s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
             + 1);
         s32 flags = record->flags14 | 2;
         record->flags14 = flags;
@@ -70,7 +70,7 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
     case 2:
     {
         s32 value_bonus =
-            (s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+            (s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
             + 1);
         s32 flags = record->flags14 | 4;
         record->flags14 = flags;
@@ -83,12 +83,12 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         if (type6_data->unk_01 == 0x10) {
             if (type6_data->unk_00 == 6) {
                 record->unk_20 = (s16) ((u16) record->unk_20
-                    + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+                    + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                     + 1)));
                 return;
             }
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&D_800E3D68)
-                + ((u8) (*(u8 *)&D_800E3D68) >> 1))) / (s32) ((*(u8 *)&D_800E3D68) + 1)));
+            record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&current_spell_effect_variant)
+                + ((u8) (*(u8 *)&current_spell_effect_variant) >> 1))) / (s32) ((*(u8 *)&current_spell_effect_variant) + 1)));
             return;
         }
         bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF);
@@ -96,12 +96,12 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
             bonus_base = 0;
         }
         if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == 5) {
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
-                + (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+            record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
+                + (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                 + 1)));
         } else {
             record->unk_20 = (s16) ((u16) record->unk_20
-                + ((bonus_base * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+                + ((bonus_base * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                 + 1)));
         }
         return;
@@ -111,12 +111,12 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         if (type7_data->unk_01 == 0x10) {
             if (type7_data->unk_00 == 7) {
                 record->unk_20 = (s16) ((u16) record->unk_20
-                    + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+                    + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                     + 1)));
                 return;
             }
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&D_800E3D68)
-                + ((u8) (*(u8 *)&D_800E3D68) >> 1))) / (s32) ((*(u8 *)&D_800E3D68) + 1)));
+            record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&current_spell_effect_variant)
+                + ((u8) (*(u8 *)&current_spell_effect_variant) >> 1))) / (s32) ((*(u8 *)&current_spell_effect_variant) + 1)));
             return;
         }
         bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF);
@@ -124,12 +124,12 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
             bonus_base = 0;
         }
         if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == 6) {
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
-                + (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+            record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
+                + (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                 + 1)));
         } else {
             record->unk_20 = (s16) ((u16) record->unk_20
-                + ((bonus_base * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+                + ((bonus_base * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                 + 1)));
         }
         return;
@@ -139,12 +139,12 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
         if (type8_data->unk_01 == 0x10) {
             if (type8_data->unk_00 == 8) {
                 record->unk_20 = (s16) ((u16) record->unk_20
-                    + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+                    + ((s32) (record->unk_20 * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 * 2) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                     + 1)));
                 return;
             }
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&D_800E3D68)
-                + ((u8) (*(u8 *)&D_800E3D68) >> 1))) / (s32) ((*(u8 *)&D_800E3D68) + 1)));
+            record->unk_20 = (s16) ((u16) record->unk_20 + ((s32) (record->unk_20 * ((*(u8 *)&current_spell_effect_variant)
+                + ((u8) (*(u8 *)&current_spell_effect_variant) >> 1))) / (s32) ((*(u8 *)&current_spell_effect_variant) + 1)));
             return;
         }
         bonus_base = record->unk_20 - ((s32) (get_clamped_adjusted_value(record) << 0x10) >> 0xF);
@@ -152,12 +152,12 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
             bonus_base = 0;
         }
         if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == 7) {
-            record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
-                + (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+            record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
+                + (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                 + 1)));
         } else {
             record->unk_20 = (s16) ((u16) record->unk_20
-                + ((bonus_base * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
+                + ((bonus_base * ((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00) / (s32) (((S_800B3D10_1 *)(&current_spell_effect_variant))->unk_00
                 + 1)));
         }
         return;

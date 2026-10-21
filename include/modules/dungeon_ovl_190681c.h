@@ -77,7 +77,7 @@ extern u8 D_80024C7C[];
 extern u8 D_80024B60[];
 extern u8 D_800249DC[];
 extern u8 D_800DECF8[];
-extern u8 D_800E3D68[];
+extern u8 current_spell_effect_variant[];
 void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg);
 s32 handle_spawn_initialize_randomized_offset_parent(void *sprite_data, void *position);
 #endif

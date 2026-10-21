@@ -1,4 +1,9 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/town.h"
+#include "engine/util.h"
+#include "frontend/libcard.h"
+#include "sdk/libc.h"
 
 typedef struct S_80024390_5 {
     u8 pad_00[0x4];
@@ -58,21 +63,15 @@ typedef struct S_80024390_4 {
     void * unk_B68;
 } S_80024390_4;   /* recordCursor in card_boot_format_saved_slot_details */
 
-
-u8 * format_unsigned_double_byte_decimal(u32, u8 *); /* extern */
-void * decode_note_text(void *, u8 *, s32); /* extern */
 void * build_positioned_text_glyphs(u8 *, u8 *, s32); /* extern */
-char * func_8004E5A0(int, unsigned short, char *); /* extern */
 char *func_8004E5E8(); /* extern */
 u8 * remap_flagged_string_bytes(u8 *); /* extern */
-void func_80069E38(void *destination, void *source);
-void func_80069E78(void *, void *);
 extern u8 D_800200A4[0x100];
 extern s32 D_80027FD4[0x40];
 extern u8 D_800282D8[0x100];
 extern u8 D_800282E8[0x100];
 extern u8 D_800283A8[0x100];
-extern u8 D_80083EA4[0x4000];
+extern u8 card_slot_payload[0x4000];
 
 void card_boot_format_saved_slot_details(void *record) {
     u8 textBuffer[256];
@@ -107,7 +106,7 @@ void card_boot_format_saved_slot_details(void *record) {
     assetSlot = ((S_80024390_0 *)record)->unk_B4C;
     format_unsigned_double_byte_decimal(((S_80024390_0 *)record)->unk_7C + 1, (u8 *)(&textBuffer));
     func_80069E38(&textBuffer, D_800282D8);
-    assetDataBase = D_80083EA4;
+    assetDataBase = card_slot_payload;
     func_80069E38(&textBuffer, (((S_80024390_0 *)record)->unk_7C << 7) + assetDataBase);
     asset0 = record + 0x84;
     decode_note_text(asset0, (u8 *)(&textBuffer), 1);

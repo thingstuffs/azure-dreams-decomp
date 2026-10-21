@@ -16,8 +16,8 @@ extern s32 func_8001A664();
 
 /* In event state 3, store func_8001A664(D_8001E950->unk_03) in the indexed entry and return 0; otherwise return 1. */
 s32 in_event_state_3_store(TownStateEntryTable *table, s32 index) {
-    if (D_8001E950->unk_05 == 3) {
-        table->entries[index].unk_08 = func_8001A664(D_8001E950->unk_03);
+    if (town_event_state->unk_05 == 3) {
+        table->entries[index].unk_08 = func_8001A664(town_event_state->unk_03);
         return 0;
     }
     return 1;

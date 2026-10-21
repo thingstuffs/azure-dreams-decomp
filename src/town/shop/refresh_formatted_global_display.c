@@ -7,7 +7,7 @@ typedef struct {
     s32 *handle;
 } Func800B40ACArg;
 
-extern s32 D_80012D5C;
+extern s32 town_money;
 extern u8 D_800D160C[];
 
 #define READ_D_80012D5C() (*(s32 *)0x80012D5C)

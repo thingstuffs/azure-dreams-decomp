@@ -116,8 +116,8 @@ void update_directional_actor_effect(void *state_data, void *position_data)
 
     switch (((S_81988800_0 *)state_data)->unk_0A.s) {
     case 0:
-        ((PlayerRecord *)D_800814A8)->unk_102 = 1;
-        ((PlayerRecord *)D_800814A8)->unk_F4 = 0;
+        ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
+        ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
         ((S_81988800_2 *)position_data)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
         ((S_81988800_2 *)position_data)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
         ((S_81988800_2 *)position_data)->unk_08.at00.v =
@@ -127,12 +127,12 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     {
         u8 *spawn_data;
         if (((S_81988800_11 *)(((S_81988800_0 *)state_data)->unk_04))->unk_00 & 0x80) {
-            actor = D_800814A8;
+            actor = primary_actor_record;
             ((S_81988800_0 *)state_data)->unk_50.u = 10;
             ((S_81988800_4 *)actor)->unk_A6--;
             ((S_81988800_4 *)actor)->unk_A8 = ((S_81988800_0 *)state_data)->unk_08;
 
-            object = allocate_list_node(0x302, ((u8 *)(&D_80083498)));
+            object = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
                 if (resolve_record_orientation_or_fallback(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C))->unk_08,
                                   ((S_81988800_3 *)work)->unk_0C, offset, 0) == 0) {
@@ -184,12 +184,12 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     {
         s32 entry_index;
         if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
-            object = allocate_list_node(0x302, ((u8 *)(&D_80083498)));
+            object = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
                 ((S_81988800_5 *)object)->unk_10 = update_segment;
                 register_node(object, (s32)&D_80024D58);
-                actor = (void *)((u8 *)(&D_80082E80));
-                offset[0] = (((u16)D_800814A8->facing) >> 9) & 7;
+                actor = (void *)((u8 *)(&reference_tile_object));
+                offset[0] = (((u16)primary_actor_record->facing) >> 9) & 7;
                 work = (u8 *)object + 0x20;
                 ((S_81988800_3 *)work)->unk_04 = (((u8 *)actor)[0x24] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;
@@ -210,11 +210,11 @@ void update_directional_actor_effect(void *state_data, void *position_data)
     case 4:
     {
         if (((S_81988800_0 *)state_data)->unk_50.s == 8) {
-            object = D_800814A8;
+            object = primary_actor_record;
             if (object != 0) {
 
                 list_head = object;
-                work = (u8 *)((u8 *)(&D_80082E80));
+                work = (u8 *)((u8 *)(&reference_tile_object));
 loop:
                 object = find_eligible_nearby_entry(work[0x24], work[0x25], list_head, object);
                 if (object != 0) {
@@ -227,7 +227,7 @@ loop:
             }
         }
 
-        if ((D_80082E80.sprite_flags & 0x8000) || ((S_81988800_0 *)state_data)->unk_50.s < 0) {
+        if ((reference_tile_object.sprite_flags & 0x8000) || ((S_81988800_0 *)state_data)->unk_50.s < 0) {
             if (((S_81988800_0 *)state_data)->unk_52.s & 0x8000) {
                 ((S_81988800_0 *)state_data)->unk_52.u &= 0x7FFF;
             } else {
@@ -542,10 +542,10 @@ void update_effect_and_spawn_fragments(MainObject *obj)
         obj->state++;
     case 1:
         state_count = 14;
-        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.sprite_source), &D_80082E80, hit, 0)) {
-            obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 14;
-            obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 14;
-            obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 14;
+        if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), &reference_tile_object, hit, 0)) {
+            obj->x += (hit[0] + view_reference_entity.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 14;
+            obj->y += (hit[1] + view_reference_entity.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 14;
+            obj->z += (hit[2] + view_reference_entity.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 14;
             obj->z -= func_800644B8((obj->age << 11) / 10) << 9;
         }
         if (obj->age >= 10) {
@@ -559,10 +559,10 @@ void update_effect_and_spawn_fragments(MainObject *obj)
             state_count = 4;
         }
         obj->angle += 2;
-        if (resolve_record_orientation_or_fallback(((void *)D_80082E80.sprite_source), &D_80082E80, hit, 0)) {
-            obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 15;
-            obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 15;
-            obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 15;
+        if (resolve_record_orientation_or_fallback(((void *)reference_tile_object.sprite_source), &reference_tile_object, hit, 0)) {
+            obj->x += (hit[0] + view_reference_entity.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 15;
+            obj->y += (hit[1] + view_reference_entity.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 15;
+            obj->z += (hit[2] + view_reference_entity.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 15;
         }
         if (obj->age >= 13) {
             obj->age = 8;
@@ -593,7 +593,7 @@ void update_effect_and_spawn_fragments(MainObject *obj)
     callback = mark_referenced_object_and_update_flags;
     resource = (Resource *)D_800DEC00;
     do {
-        effect = (EffectObject *)allocate_list_node(0x312, ((u8 *)(&D_80083498)));
+        effect = (EffectObject *)allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != (EffectObject *)0) {
             effect->callback = callback;
             register_node(effect, (s32)project_sprite_chain);

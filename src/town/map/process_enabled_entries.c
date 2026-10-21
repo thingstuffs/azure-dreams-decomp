@@ -10,8 +10,8 @@ s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 void drain_cd_command_queue(void);
 void apply_building_tile_entry(s16, s16, u8);
 extern M2C_UNK D_800D1BF4;
-extern u8 D_800D2644[];
-extern u8 D_800D2EA4[];
+extern u8 town_building_records[];
+extern u8 town_building_slot_rectangles[];
 
 typedef struct S_800B98B4_0 {
     u8 unk_00;
@@ -46,8 +46,8 @@ void process_enabled_entries(void) {
     slot_index = 0;
     drain_cd_command_queue();
     clear_resident_bitmap_bit(F_funsui_sound);
-    entry_table = D_800D2644;
-    slot_data = D_800D2EA4;
+    entry_table = town_building_records;
+    slot_data = town_building_slot_rectangles;
     state_base = (S_800B98B4_3 *)0x80010000;
     do {
         entry_id = ((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4;

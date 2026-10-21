@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/texture.h"
 
 typedef struct S_800485E0_Q {
     s32 *unk0;

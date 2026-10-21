@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/graphics.h"
+#include "sdk/libgte.h"
 
 typedef struct RectU16_80046884 {
     u16 x;
@@ -39,8 +41,6 @@ extern s32 ReadGeomScreen(void);
 extern void world_to_local_position(UVec4_80046884 *, SVec4_80046884 *);
 extern s16 intersect_view_ray_with_depth_plane(
     SVec4_80046884 *, SVec4_80046884 *, SVec4_80046884 *, s16);
-extern s32 rsin(s32);
-extern s32 rcos(s32);
 
 /* Builds a closed outline from a screen rectangle, with a rotated square as fallback. */
 void build_screen_outline(

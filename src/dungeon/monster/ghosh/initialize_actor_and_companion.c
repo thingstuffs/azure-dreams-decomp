@@ -75,7 +75,7 @@ void * allocate_boss_actor(s16, s16, s16, s16);
 extern u8 D_8016B0E8[];
 extern s32 D_8016B778;
 extern u8 D_8017467C[];
-extern u8 *D_80174704;
+extern u8 *ghosh_actor_node;
 
 /* Initialize an actor and its companion, then return the actor work area. */
 void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
@@ -96,11 +96,11 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
     work = 0;
     saved_config_24 = config_24;
     saved_config_25 = config_25;
-    object = allocate_list_node(0x112, (struct ObjectNodeHeader * *)(((u8 *)(&D_80083498))));
+    object = allocate_list_node(0x112, (struct ObjectNodeHeader * *)(((u8 *)(&scene_object_list_anchor))));
     saved_config_0a = config_0a;
     if (object != 0) {
         work = object + 0x20;
-        D_80174704 = object;
+        ghosh_actor_node = object;
         ((S_8016AEDC_0 *)object)->unk_10 = D_8016B0E8;
         ((S_8016AEDC_1 *)work)->unk_13 = 0x31;
         register_node(object, project_sprite_chain);

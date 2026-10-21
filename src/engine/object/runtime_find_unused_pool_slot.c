@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 
 #include "common.h"
-
-extern u8 runtime_object_pool[];
+#include "engine/object.h"
+#include "slus/data.h"
 
 /* --- port/hal accessor shims (mechanical, no HAL dependency) --- */
 #define U8AT(b, o)  (*(u8  *)((u8 *)(b) + (o)))

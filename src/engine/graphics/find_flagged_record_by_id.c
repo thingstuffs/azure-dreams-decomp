@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/graphics.h"
 
 typedef struct S_8004CAE8 {
     /* 0x0 */ u8 flags;   /* bit 0x20 = enabled/active entry, bit 0x80 = last entry */

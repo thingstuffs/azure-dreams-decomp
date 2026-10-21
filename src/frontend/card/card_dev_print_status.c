@@ -1,12 +1,8 @@
 #include "common.h"
+#include "frontend/card.h"
+#include "main/data.h"
 void func_8003FA78(void *destination, s32 value);                /* extern */
 s32 func_80408644();                         /* extern */
-extern u8 D_80400090[];
-extern u8 D_8040009C[];
-extern u8 D_804000A4[];
-extern u8 D_804000B0[];
-extern u8 D_804000BC[];
-extern u8 D_804000D0[];
 
 /* Passes four stored values and two queried values to func_8003FA78. */
 void card_dev_print_status(void) {

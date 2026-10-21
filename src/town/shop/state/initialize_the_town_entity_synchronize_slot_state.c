@@ -45,8 +45,8 @@ void set_object_state_for_mode(void *, void *, s32, s32);    /* extern */
 typedef struct S_8009F374_2 S_8009F374_2;
 #include "shared/entity.h"
 void handle_jitter_position_pulse_scale_until_countdown_expires(Rec_D_800CFCB4 *state, s32 context, EntityRec *position, S_8009F374_2 *scale);
-extern s32 D_80100A10;
-extern struct TownCopy84 D_80100AF8;
+extern s32 town_actor_scratch;
+extern struct TownCopy84 town_slot_snapshot;
 
 
 typedef struct S_8009F4C0_1 {
@@ -78,12 +78,12 @@ void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *e
     register_node_if_unregistered(entity, (s32)(project_sprite_chain));
     slot_state = (slot_index * 4) + 0x80010000;
     slot_state->unk_981 = 0x13;
-    memset(&D_80100A10, 0, 0x54);
-    func_80042640(&D_80100A10, entity->unk_4C);
+    memset(&town_actor_scratch, 0, 0x54);
+    func_80042640(&town_actor_scratch, entity->unk_4C);
     record_index = slot_index;
-    func_800423C0(&D_80100A10, entity->unk_4C, 0);
-    build_entity_slot_snapshot(&D_80100AF8, &D_80100A10);
-    *(struct TownCopy84 *)((u8 *)0x80010A80 + (record_index * 0x54)) = D_80100AF8;
+    func_800423C0(&town_actor_scratch, entity->unk_4C, 0);
+    build_entity_slot_snapshot(&town_slot_snapshot, &town_actor_scratch);
+    *(struct TownCopy84 *)((u8 *)0x80010A80 + (record_index * 0x54)) = town_slot_snapshot;
     stored_entry = (void *) 0x80010AB4;
     record_offset = record_index * 0x54;
     stored_entry = (u8 *)stored_entry + record_offset;

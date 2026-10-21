@@ -1,6 +1,7 @@
 /* Dialog packet setup; G00380; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:main/func_8000F90C, CL:main/func_8000F934, CL:main/func_8000FA30. */
 #include "frontend/libcard/dialog_packet_setup_g00380.h"
+#include "frontend/libcard.h"
 
 /* Initializes four pairs of records from the value table and returns the buffer end. */
 void *card_boot_build_paired_dialog_packets(void *buffer, s32 unused)

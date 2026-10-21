@@ -25,10 +25,10 @@ typedef struct {
 } __attribute__((packed)) PhaseHeights;
 
 extern PhaseHeights D_80164A54;
-extern u8 *D_80175D50;
-extern u16 D_800DCE60[4];
-extern s16 D_801760E0[4];
-extern s16 D_801760E8[4];
+extern u8 *beldo_actor_nodes;
+extern u16 dungeon_camera_targets[4];
+extern s16 beldo_camera_rotation[4];
+extern s16 beldo_camera_position[4];
 
 extern void set_camera_targets(void *, void *, s32);
 extern void queue_view_slot(s32);
@@ -37,7 +37,7 @@ extern s16 get_player_relative_point_octant(void *);
 /* Update camera focus and height through timed entity states and phases. */
 void update_encounter_camera_focus(Entity *entity) {
     PhaseHeights heights = D_80164A54;
-    Actor *actor = *(Actor **)(D_80175D50 + 8);
+    Actor *actor = *(Actor **)(beldo_actor_nodes + 8);
     s16 phase_slot;
     s16 height_slot;
     s32 state = entity->state;
@@ -54,18 +54,18 @@ void update_encounter_camera_focus(Entity *entity) {
         entity->timer = 0;
         entity->phase = 2;
         entity->state++;
-        D_801760E0[0] = D_800DCE60[0];
-        D_801760E0[1] = D_800DCE60[1];
-        D_801760E0[2] = D_800DCE60[2] - 0x600;
-        D_801760E8[0] = actor->x;
-        D_801760E8[1] = actor->y - 0x100;
-        D_801760E8[2] = actor->z;
+        beldo_camera_rotation[0] = dungeon_camera_targets[0];
+        beldo_camera_rotation[1] = dungeon_camera_targets[1];
+        beldo_camera_rotation[2] = dungeon_camera_targets[2] - 0x600;
+        beldo_camera_position[0] = actor->x;
+        beldo_camera_position[1] = actor->y - 0x100;
+        beldo_camera_position[2] = actor->z;
         globals = ((u8 *)(&g_game_work));
         *(s32 *)(globals + 0x154) = 0;
         *(s32 *)(globals + 0xCC) = 0;
         queue_view_slot(1);
         queue_view_slot(0);
-        set_camera_targets(D_801760E8, D_801760E0, 0xA);
+        set_camera_targets(beldo_camera_position, beldo_camera_rotation, 0xA);
         return;
     }
 
@@ -74,8 +74,8 @@ void update_encounter_camera_focus(Entity *entity) {
         if (entity->timer < 0x28) {
             return;
         } else {
-            focus_arg = D_801760E8;
-            offset_arg = D_801760E0;
+            focus_arg = beldo_camera_position;
+            offset_arg = beldo_camera_rotation;
             previous_state = entity->state;
             transition_ticks = 0x14;
             entity->timer = 0;
@@ -90,7 +90,7 @@ void update_encounter_camera_focus(Entity *entity) {
             return;
         }
         focus_arg = 0;
-        offset_arg = D_800DCE60;
+        offset_arg = dungeon_camera_targets;
         previous_state = entity->state;
         transition_ticks = 0xA;
 
@@ -108,22 +108,22 @@ void update_encounter_camera_focus(Entity *entity) {
         entity->state++;
         phase_slot = get_player_relative_point_octant(actor);
         height_slot = phase_slot + 3;
-        D_801760E0[0] = D_800DCE60[0];
-        D_801760E0[1] = D_800DCE60[1];
+        beldo_camera_rotation[0] = dungeon_camera_targets[0];
+        beldo_camera_rotation[1] = dungeon_camera_targets[1];
         if (height_slot >= 8) {
             height_slot = phase_slot - 5;
         }
-        D_801760E0[2] = heights.values[height_slot] * 0x200;
-        D_801760E8[0] = ((s32)(actor->x + D_80083780.x.w.i)) / 2;
-        y_sum = actor->y + D_80083780.y.w.i;
-        D_801760E8[1] = y_sum / 2;
-        D_801760E8[2] = actor->z;
+        beldo_camera_rotation[2] = heights.values[height_slot] * 0x200;
+        beldo_camera_position[0] = ((s32)(actor->x + view_reference_entity.x.w.i)) / 2;
+        y_sum = actor->y + view_reference_entity.y.w.i;
+        beldo_camera_position[1] = y_sum / 2;
+        beldo_camera_position[2] = actor->z;
         globals = ((u8 *)(&g_game_work));
         *(s32 *)(globals + 0x154) = 0;
         *(s32 *)(globals + 0xCC) = 0;
         queue_view_slot(1);
         queue_view_slot(0);
-        set_camera_targets(D_801760E8, D_801760E0, 0xA);
+        set_camera_targets(beldo_camera_position, beldo_camera_rotation, 0xA);
         return;
     }
 
@@ -136,22 +136,22 @@ void update_encounter_camera_focus(Entity *entity) {
         entity->state++;
         phase_slot = get_player_relative_point_octant(actor);
         height_slot = phase_slot + 2;
-        D_801760E0[0] = D_800DCE60[0];
-        D_801760E0[1] = D_800DCE60[1];
+        beldo_camera_rotation[0] = dungeon_camera_targets[0];
+        beldo_camera_rotation[1] = dungeon_camera_targets[1];
         if (height_slot >= 8) {
             height_slot = phase_slot - 6;
         }
-        D_801760E0[2] = heights.values[height_slot] * 0x200;
-        D_801760E8[0] = ((s32)(actor->x + D_80083780.x.w.i)) / 2;
-        y_sum = actor->y + D_80083780.y.w.i;
-        D_801760E8[1] = y_sum / 2;
-        D_801760E8[2] = actor->z;
+        beldo_camera_rotation[2] = heights.values[height_slot] * 0x200;
+        beldo_camera_position[0] = ((s32)(actor->x + view_reference_entity.x.w.i)) / 2;
+        y_sum = actor->y + view_reference_entity.y.w.i;
+        beldo_camera_position[1] = y_sum / 2;
+        beldo_camera_position[2] = actor->z;
         globals = ((u8 *)(&g_game_work));
         *(s32 *)(globals + 0x154) = 0;
         *(s32 *)(globals + 0xCC) = 0;
         queue_view_slot(1);
         queue_view_slot(0);
-        set_camera_targets(D_801760E8, D_801760E0, 2);
+        set_camera_targets(beldo_camera_position, beldo_camera_rotation, 2);
         break;
     }
 
@@ -162,24 +162,24 @@ void update_encounter_camera_focus(Entity *entity) {
 
         if ((entity->timer & 0xF) == 0) {
             height_slot = get_player_relative_point_octant(actor);
-            D_801760E0[0] = D_800DCE60[0];
-            D_801760E0[1] = D_800DCE60[1];
+            beldo_camera_rotation[0] = dungeon_camera_targets[0];
+            beldo_camera_rotation[1] = dungeon_camera_targets[1];
             entity->phase++;
             height_slot += entity->phase;
             if (height_slot >= 8) {
                 height_slot -= 8;
             }
-            D_801760E0[2] = heights.values[height_slot] * 0x200;
-            D_801760E8[0] = ((s32)(actor->x + D_80083780.x.w.i)) / 2;
-            y_sum = actor->y + D_80083780.y.w.i;
-            D_801760E8[1] = y_sum / 2;
-            D_801760E8[2] = actor->z;
+            beldo_camera_rotation[2] = heights.values[height_slot] * 0x200;
+            beldo_camera_position[0] = ((s32)(actor->x + view_reference_entity.x.w.i)) / 2;
+            y_sum = actor->y + view_reference_entity.y.w.i;
+            beldo_camera_position[1] = y_sum / 2;
+            beldo_camera_position[2] = actor->z;
             globals = ((u8 *)(&g_game_work));
             *(s32 *)(globals + 0x154) = 0;
             *(s32 *)(globals + 0xCC) = 0;
             queue_view_slot(1);
             queue_view_slot(0);
-            set_camera_targets(D_801760E8, D_801760E0, 4);
+            set_camera_targets(beldo_camera_position, beldo_camera_rotation, 4);
         }
     }
 

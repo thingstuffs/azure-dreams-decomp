@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/scene.h"
 
 typedef struct S_8003AEF8_1 {
     s32 (*unk_00)(s32, s32, s32, s32);

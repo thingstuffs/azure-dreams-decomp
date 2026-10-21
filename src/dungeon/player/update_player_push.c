@@ -63,7 +63,7 @@ void process_unflagged_linked_entries();
 void process_unflagged_linked_entries_alt();
 void set_record_integer_tile_center();
 void spawn_opposite_offset_effect();
-extern u8 D_800DD018[];
+extern u8 player_push_frames[];
 extern u8 D_800DD020[];
 extern u8 D_800DD028[];
 
@@ -113,9 +113,9 @@ void update_player_push(void *actor, void *motion, void *sprite, void *model) {
         if ((start_frames_left << 0x10) > 0) {
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = D_800DD018;
+        ((SpriteFrameState *)sprite)->frameTable = player_push_frames;
         set_sprite_animation_frame(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7)
-            + D_800DD018), 0, 1);
+            + player_push_frames), 0, 1);
         attachment = ((S_80092018_0 *)actor)->unk_124;
         ((S_80092018_4 *)attachment)->unk_1C = (s32) (((S_80092018_4 *)attachment)->unk_1C | 0x100);
         ((S_80092018_7 *)(((S_80092018_0 *)actor)->unk_124))->unk_6A = (u16) ((S_80092018_2 *)model)->unk_2A;

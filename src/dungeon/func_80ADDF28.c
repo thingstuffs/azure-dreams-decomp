@@ -144,14 +144,14 @@ void update_creature_behavior_and_animation(void *controller, void *context, voi
             update_actor_status_and_food(creature);
             return;
         }
-        if (((ActorSpriteView *)sprite)->tile.packed == *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
+        if (((ActorSpriteView *)sprite)->tile.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
             func_80159F40(controller, context, sprite, creature);
             return;
         }
         if (!(creature->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(creature,
-                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -188,9 +188,9 @@ void update_creature_behavior_and_animation(void *controller, void *context, voi
 
                 heading = get_rounded_facing_and_rounding_flag(
                     ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_flags);
-                player = D_800814A8;
+                player = primary_actor_record;
                 creature->facing = heading;
                 if (player->unk_9A == 0x11) {
                     begin_actor_spell_action(controller, context, sprite, D_8015CE2C, &D_80159728);
@@ -219,15 +219,15 @@ void update_creature_behavior_and_animation(void *controller, void *context, voi
         s32 room_index = room_id;
 
         if ((room_index < 0) ||
-            !(D_800E2970[room_index].flags & 2)) {
+            !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((u32)creature->flags1C) & 0x430)) {
 
                 if ((compare_monster_neighbor_values(
                     ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
-                    D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y) << 16) != 0) {
+                    reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     creature->facing = get_rounded_facing_and_rounding_flag(
                         ((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y,
-                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_flags);
                 }
             }

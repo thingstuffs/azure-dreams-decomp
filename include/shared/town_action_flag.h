@@ -3,6 +3,6 @@
 
 /* Every observed access reads byte zero as an unsigned action-state flag.
  * No further storage extent is claimed. */
-extern unsigned char D_800CFCEF;
+extern unsigned char town_action_state_flag;
 
 #endif

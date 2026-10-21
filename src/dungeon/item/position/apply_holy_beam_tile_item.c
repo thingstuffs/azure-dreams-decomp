@@ -28,7 +28,7 @@ extern s32 create_central_and_child_effects(u8 x, u8 y, s16 value, s32 mode, s32
 extern u8 D_800893D4[];
 extern u8 D_800E1684[];
 extern u8 D_800E169A[];
-extern u8 D_800E39C8[];
+extern u8 dungeon_floor_object_positions[];
 
 
    /* the 0x14 bytes before arg0 in apply_holy_beam_tile_item, addressed as arg0[-1] */
@@ -70,9 +70,9 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
     s32 handle;
     s16 entry_index;
 
-    if (actor == *(u8 **)((u8 *)(&D_800E3D7C))) {
+    if (actor == *(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) {
         ((S_800C2CDC_0 *)actor)->unk_110 = object_data;
-        begin_mode_selected_item_action(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
+        begin_mode_selected_item_action(actor, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), actor);
         return 0;
     }
 
@@ -89,7 +89,7 @@ s32 apply_holy_beam_tile_item(void *actor, u8 *object_data, s16 action_type) {
     entry_index = select_and_initialize_entry_at_position(entity->unk_24,
                           entity->unk_25,
                           ((S_800C2CDC_0 *)actor)->unk_88, 6, object);
-    entries = D_800E39C8;
+    entries = dungeon_floor_object_positions;
     ((S_800C2CDC_2 *)object_fields)->unk_20 = entry_index;
     ((S_800C2CDC_3 *)(entries + (entry_index * 24)))->unk_08 = 0;
 

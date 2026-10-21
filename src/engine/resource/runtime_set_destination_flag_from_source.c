@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "shared/runtime_dispatch.h"
+#include "engine/resource.h"
 
    /* arg1 in runtime_set_destination_flag_from_source */
 

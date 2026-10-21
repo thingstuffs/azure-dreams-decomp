@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "engine/util.h"
+#include "sdk/libc.h"
 
 /* Already-matched callees (reuse their real signature where it doesn't
    conflict with how THIS call site uses the return value / passes args). */
@@ -12,9 +15,6 @@ extern void func_8004B1A4(void *a0);
 
 /* Not yet matched elsewhere -- inventing a prototype that matches this call
    site's register setup only (a0=obj, a1=format string, a2=arg value). */
-extern s32 decode_note_text(void *a0, char *a1, s32 a2);
-
-extern int puts(const char *s);
 
 /* Allocates a 0x100-byte note buffer, decodes text, and frees the buffer if decoding produces no entries. */
 void *alloc_object_100(char *text, s32 initial_octave, s32 alloc_arg2, s32 alloc_arg3)

@@ -1,8 +1,8 @@
 #include "common.h"
 
 typedef struct Node8002BB08 Node8002BB08;
-Node8002BB08 *init_card_boot_request_object();                /* extern */
 #include "frontend/libcard/interfaces.h"
+#include "frontend/libcard.h"
 void save_and_clear_entity_flag_ten(void);                            /* extern */
 
 /* Run the extra setup callback and dispatch the request in mode 2. */

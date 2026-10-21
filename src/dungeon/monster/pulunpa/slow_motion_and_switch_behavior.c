@@ -54,7 +54,7 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, ObjectPosition *motion
                 if (state->unk_A8 != 0) {
                     u8 *mark_base;
 
-                    mark_base = ((u8 *)D_800E3D7C);
+                    mark_base = ((u8 *)dungeon_actor_ring_anchor);
                     mark_base += state->unk_A8;
                     mark_base[0xF9] = mark_value;
                 }
@@ -95,7 +95,7 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, ObjectPosition *motion
                 if (state->unk_A8 != 0) {
                     u8 *mark_base;
 
-                    mark_base = ((u8 *)D_800E3D7C);
+                    mark_base = ((u8 *)dungeon_actor_ring_anchor);
                     mark_base += state->unk_A8;
                     mark_base[0xF9] = 1;
                 }

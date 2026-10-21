@@ -14,8 +14,8 @@
 #define NULL 0
 #endif
 
-extern s32 D_8006CD58[];
-extern u8 *D_800DCEEC[];
+extern s32 cd_cue_base[];
+extern u8 *actor_effect_color_targets[];
 extern u8 D_8014A000[200000];
 extern u8 D_80173F68[];
 extern u8 D_801745D8[];
@@ -167,7 +167,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             return;
         }
         run_cd_image_commands(D_80174E24, D_80174E3C, 1);
-        sound_set_cd_cue_parameters(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, cd_cue_base[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);
         D_80174E3D[0] = 0;
         Control_CD(0xFF, set_byte_one, D_80174E3D);
@@ -194,7 +194,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             return;
         }
 
-        target_color = D_800DCEEC[lookup_masked_byte_table(actor)];
+        target_color = actor_effect_color_targets[lookup_masked_byte_table(actor)];
         ((S_80174704_3 *)object)->unk_A8 +=
             (((S_80174704_4 *)target_color)->unk_00 - ((S_80174704_3 *)object)->unk_A8) /
             ((S_80174704_0 *)action)->unk_96.s;

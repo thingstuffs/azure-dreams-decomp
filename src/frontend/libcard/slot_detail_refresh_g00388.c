@@ -124,7 +124,7 @@ void card_boot_refresh_slot_details(S_80011A50 *object)
     u8 *entry_table;
     register s32 state;
 
-    entry_table = &D_80083E98;
+    entry_table = &card_save_slot_metadata;
     if (*(s32 *)(entry_table + (object->unk7C << 7)) != 0) {
         card_boot_format_saved_slot_details(object);
         return;

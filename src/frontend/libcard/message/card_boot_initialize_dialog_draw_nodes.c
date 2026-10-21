@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard/message.h"
 
 typedef struct Template4 {
     s32 unk0;
@@ -29,8 +30,8 @@ typedef struct Entity {
     Template4 data_array[7];
 } Entity;
 
-extern Template4 D_8002E5D8;
-extern Template3 D_8002E5E8;
+extern Template4 display_block_defaults;
+extern Template3 display_vector_defaults;
 
 /* Initialize entity nodes with template data and link them to shared common data. */
 void card_boot_initialize_dialog_draw_nodes(Entity *entity, s32 node_count)
@@ -42,19 +43,19 @@ void card_boot_initialize_dialog_draw_nodes(Entity *entity, s32 node_count)
     s32 w3;
 
     for (i = 0; i < node_count; i++) {
-        w0 = D_8002E5D8.unk0;
+        w0 = display_block_defaults.unk0;
         entity->ptr_array[i] = &entity->node_array[i];
         entity->data_array[i].unk0 = w0;
-        w1 = D_8002E5D8.unk4;
+        w1 = display_block_defaults.unk4;
         entity->data_array[i].unk4 = w1;
-        w2 = D_8002E5D8.unk8;
+        w2 = display_block_defaults.unk8;
         entity->data_array[i].unk8 = w2;
-        w3 = D_8002E5D8.unkC;
+        w3 = display_block_defaults.unkC;
         entity->node_array[i].data = &entity->data_array[i];
         entity->node_array[i].common = &entity->common;
         entity->data_array[i].unkC = w3;
     }
-    entity->common.unk0 = D_8002E5E8.unk0;
-    entity->common.unk4 = D_8002E5E8.unk4;
-    entity->common.unk8 = D_8002E5E8.unk8;
+    entity->common.unk0 = display_vector_defaults.unk0;
+    entity->common.unk4 = display_vector_defaults.unk4;
+    entity->common.unk8 = display_vector_defaults.unk8;
 }

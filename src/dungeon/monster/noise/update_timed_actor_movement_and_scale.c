@@ -126,7 +126,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
                         actor->value_2a = get_rounded_facing_and_rounding_flag(sprite->value_24, sprite->value_25,
-                                                        D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y,
+                                                        reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                                                         &direction_scratch);
                     }
                 }

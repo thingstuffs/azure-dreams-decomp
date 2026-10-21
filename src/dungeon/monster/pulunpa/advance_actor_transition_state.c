@@ -79,18 +79,18 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
             ObjectPosition *primary_table;
             TileObject *secondary_table;
 
-            saved_index = ((u16)((ActorRecord *)((u8 *)D_800E3D7C))->unk_8A);
-            saved_actor = ((ActorRecord *)((u8 *)D_800E3D7C))->target;
+            saved_index = ((u16)((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_8A);
+            saved_actor = ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->target;
             actor_index = find_entity_slot_by_field_ac(actor);
-            primary_table = &D_80083780;
-            secondary_table = &D_80082E80;
-            actor_map = D_800E3D7C;
+            primary_table = &view_reference_entity;
+            secondary_table = &reference_tile_object;
+            actor_map = dungeon_actor_ring_anchor;
             owner[0xA9] = actor_index;
             actor_map->unk_8A = actor_index;
-            ((ActorRecord *)((u8 *)D_800E3D7C))->target = actor;
-            store_recalled_familiar(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
-            (*(u8 * *)((u8 *)((u8 *)D_800E3D7C) + (0x60))) = saved_actor;
-            ((ActorRecord *)((u8 *)D_800E3D7C))->unk_8A = saved_index;
+            ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->target = actor;
+            store_recalled_familiar(((u8 *)dungeon_actor_ring_anchor), primary_table, secondary_table, ((u8 *)dungeon_actor_ring_anchor));
+            (*(u8 * *)((u8 *)((u8 *)dungeon_actor_ring_anchor) + (0x60))) = saved_actor;
+            ((ActorRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_8A = saved_index;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
 
@@ -109,7 +109,7 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
                 return;
             }
 
-            map = ((u8 *)D_800E3D7C);
+            map = ((u8 *)dungeon_actor_ring_anchor);
             *(u32 *)(map + 0xAC + owner[0xA9] * 4) = 0;
             *(u32 *)(map + 0xD0 + owner[0xA9] * 4) = 0;
             decrement_monster_entry_count(actor[0x13], 3);
@@ -124,7 +124,7 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
             {
                 u8 *actor_slot;
 
-                actor_slot = ((u8 *)D_800E3D7C) + 0xFA;
+                actor_slot = ((u8 *)dungeon_actor_ring_anchor) + 0xFA;
                 actor_slot[owner[0xA9]] = state;
             }
             owner[0xA8] = owner[0xA9] + 1;

@@ -1,7 +1,8 @@
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/graphics.h"
+#include "slus/data.h"
 
-extern s32 D_800814A0_loop __attribute__((section(".data")));
-extern s32 D_800814A0_tail __attribute__((section(".data")));
 typedef struct A0
 {
     u16 pad0[3];
@@ -48,7 +49,6 @@ typedef struct S_8005313C
     Ent *unk10[16];
 }
 S_8005313C;
-extern void clear_and_draw_paired_text_rows(s16, FrameB *);
 /* Plays timed entity animations, then flags the sequence and its entities for cleanup. */
 void play_timed_animation_sequence(S_8005313C *sequence)
 {

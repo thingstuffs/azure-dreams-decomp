@@ -14,7 +14,7 @@ s32 func_8092185C(void) {
     entry_index = 0x3F;
     key_high = 0x12;
     key_low = 1;
-    table_or_result = (u8 *)((s32 *)D_800E3548);
+    table_or_result = (u8 *)((s32 *)dungeon_ground_items);
     entry = table_or_result + 0xFC;
     for (;;) {
         if ((entry[1] != key_high) || (entry[0] != key_low)) {

@@ -1,6 +1,7 @@
 #include "slus/gp_d92c_owned.h"
 
 #include "slus/gp_d92c_owned.h"
+#include "engine/camera.h"
 
 int update_shoulder_button_angle(void)
 {
@@ -10,7 +11,7 @@ int update_shoulder_button_angle(void)
     int saved_setting;
     GameWork *input_state;
     input_state = &g_game_work;
-    if (D_80082E60.flags0F & 0x80) {
+    if (runtime_dispatch_state.flags0F & 0x80) {
         return 0;
     }
     trigger_flags = ((int)input_state->pressed_buttons);
@@ -37,7 +38,7 @@ int update_shoulder_button_angle(void)
     }
     if (camera_shoulder_repeat_latch != 0) {
         if (held_flags & 0x800) {
-            camera_shoulder_hold_ticks += D_80080A84;
+            camera_shoulder_hold_ticks += animation_tick_scale;
             if (camera_shoulder_hold_ticks >= 0x169) {
                 camera_shoulder_hold_ticks = 0x168;
             }
@@ -46,7 +47,7 @@ int update_shoulder_button_angle(void)
             camera_shoulder_hold_ticks = 0;
         }
     }
-    if ((0x78 / D_80080A84) < camera_shoulder_hold_ticks) {
+    if ((0x78 / animation_tick_scale) < camera_shoulder_hold_ticks) {
         camera_shoulder_repeat_latch = 0;
         camera_shoulder_hold_ticks = 0;
         drain_cd_command_queue();
@@ -65,18 +66,18 @@ int update_shoulder_button_angle(void)
         func_80040AA0(3);
         {
             saved_setting = saved_cd_playback_volume_scale;
-            flags = D_80082E60.field_0;
+            flags = runtime_dispatch_state.field_0;
             runtime_state_restore_requested = 0;
-            D_80080A88 = 0;
+            scene_music_hold = 0;
             D_80080AA0 = 0;
-            D_80082E60.field_0 = flags & ~2;
+            runtime_dispatch_state.field_0 = flags & ~2;
             sound_set_cd_playback_volume_scale(saved_setting);
         }
         sound_set_sequence_volume_scale(saved_sequence_volume_scale);
         sound_set_voice_gain_scale(saved_voice_gain_scale);
         SD_Call(0x7F);
         reset_game_state_preserving_session_fields();
-        D_80080A84 = 2;
+        animation_tick_scale = 2;
         return 1;
     }
     return 0;

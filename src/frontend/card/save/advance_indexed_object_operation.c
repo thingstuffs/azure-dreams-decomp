@@ -8,7 +8,7 @@ extern void handle_object_menu_input(void);
 extern void func_80405AB4(void);
 extern void func_80405A64(void);
 
-extern u8 D_8009DDD8[];
+extern u8 card_slot_header_cache[];
 
 void advance_indexed_object_operation(void *inputPtr)
 {
@@ -19,7 +19,7 @@ void advance_indexed_object_operation(void *inputPtr)
     base = inputPtr;
     index = *(s32 *)(base + 0x28);
     inputPtr = base - 0x20;
-    if (*(s32 *)(D_8009DDD8 + (index << 7)) == 0) {
+    if (*(s32 *)(card_slot_header_cache + (index << 7)) == 0) {
         result = get_table_entry_by_flag(inputPtr);
         inputPtr = 0;
         inputPtr = base - 0x20;

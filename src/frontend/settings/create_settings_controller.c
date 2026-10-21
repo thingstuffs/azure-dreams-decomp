@@ -4,6 +4,11 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+#include "engine/graphics.h"
+#include "engine/node.h"
+#include "frontend/settings.h"
+#include "main/data.h"
+#include "slus.h"
 
 typedef struct S_80088BD0_0 {
     u8 pad_00[0x8];
@@ -73,19 +78,8 @@ typedef struct S_80088BD0_9 {
 } S_80088BD0_9;
 struct Dst;
 struct Elem;
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
-s32 register_node();           /* extern */
-s32 draw_linked_sprites(void *first_payload, void *first_coords, void *first_record);
-extern s32 D_80053A88;
-extern s8 D_80080A84;
-extern M2C_UNK D_80088760;
+extern s8 animation_tick_scale;
 void sync_object_with_sub_object();  /* extern */
-void update_settings_effect_object();  /* extern */
-void update_settings_menu_animation();  /* extern */
-void update_settings_effect();  /* extern */
-void update_settings_phase_motion();  /* extern */
-extern M2C_UNK D_8008B230;
-extern M2C_UNK D_8008B270;
 
 typedef struct { s32 a, b, c; } Desc3;
 
@@ -107,7 +101,7 @@ void create_settings_controller(void) {
 
     parent_state = NULL;
     *(Desc3 *)sprite_ids = *(Desc3 *)&D_80088760;
-    D_80080A84 = 1;
+    animation_tick_scale = 1;
     object = func_8003FC64(0x11);
     if (object != NULL) {
         parent_state = object + 0x20;
@@ -154,7 +148,7 @@ void create_settings_controller(void) {
     object = func_8003FC64(1);
     if (object != NULL) {
         ((S_80088BD0_0 *)object)->unk_10 = (void *)sync_object_with_sub_object;
-        register_node(object, &D_80053A88);
+        register_node(object, &display_registration_tag);
         effect_state = object + 0x20;
         effect_state->unk_0C = 0x60;
         effect_state->unk_0E = -0x100;

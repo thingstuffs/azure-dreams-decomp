@@ -1,7 +1,6 @@
 #include "common.h"
-
-extern u8 D_80408D40[][2];
-extern s32 D_80408D44[];
+#include "frontend/card.h"
+#include "main/data.h"
 
 extern void func_8004DDBC(void *base, s32 value, s32 *entry);
 

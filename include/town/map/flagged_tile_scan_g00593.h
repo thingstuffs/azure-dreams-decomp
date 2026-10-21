@@ -29,9 +29,9 @@ typedef struct {
 } Config;
 
 extern s32 has_runtime_key_pair(s32, s32);
-extern GridInfo D_8008333C[];
+extern GridInfo scene_geometry[];
 
-extern s16 D_80080B04[5];
+extern s16 tile_key_pair_count[5];
 extern S_80081508 *D_80081508[3];
 
 /* Functions defined in this translation unit. */

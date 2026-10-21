@@ -172,7 +172,7 @@ typedef struct S_800A504C_7_pre {
 
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 generate_random_value(void);
-extern s16 D_80081468[3];
+extern s16 floor_generation_state[3];
 /* the 0x30A2 bytes before D_800E0000 in advance_staged_entity_load, addressed as D_800E0000[-1] */
 extern s32 func_8003E188();
 extern s32 Control_CD();
@@ -195,11 +195,11 @@ extern s32 retain_spawn_resource();
 extern s32 find_or_retain_sprite_resource_slot();
 extern s32 find_entity_slot_by_field_ac();
 extern u8 D_80023000[];
-extern u8 *D_80080A90;
-extern s32 D_80081488;
-extern u8 D_8008149C[];
-extern u8 D_800E3DF0[];
-extern u8 D_800E3E40[];
+extern u8 *sprite_resource_base;
+extern s32 loaded_entity_sprite_resource;
+extern u8 sprite_resource_completion_flag[];
+extern u8 familiar_record_slots[];
+extern u8 entity_resource_read_complete[];
 #include "shared/dungeon_image_buffer.h"
 extern u8 D_800E0000[];
 

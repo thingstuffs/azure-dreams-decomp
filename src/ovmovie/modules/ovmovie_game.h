@@ -45,16 +45,16 @@ typedef struct { u8 pad00[0x14]; s16 w0, h0; u8 pad18[4]; s16 w1, h1; u8 pad20[1
 typedef struct { MovieRect viewport, screen; u8 interlaced, rgb24, pad[6]; } MovieDisplayEnv;
 typedef struct { u8 bytes[96]; } MovieDrawEnv;
 
-extern s8 D_80080A88;
-extern u8 D_80082E6B;
+extern s8 scene_music_hold;
+extern u8 scene_mode_code;
 extern s32 D_80086D8C;
-extern s32 D_801781D0, D_801781D4, D_801781D8, D_801781DC, D_801781E0, D_801781E4;
-extern u8 D_80189388[8];
-extern MovieState *D_80189390;
-extern s32 D_80189394;
-extern u8 D_80189398[];
-extern s32 D_801B8EB8, D_801B8EBC;
-extern u8 D_801C9E40[];
+extern s32 movie_frame_number, movie_stop_frame, movie_strip_x_offset, movie_strip_y_offset, movie_rgb24_mode, D_801781E4;
+extern u8 movie_cd_status[8];
+extern MovieState *active_movie;
+extern s32 movie_frame_control;
+extern u8 movie_work_buffer[];
+extern s32 movie_start_sector, movie_volume;
+extern u8 upper_draw_context[];
 
 extern s32 Control_CD(s32, s32, s32);
 extern void func_8003F320(void);

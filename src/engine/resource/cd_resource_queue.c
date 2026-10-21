@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/resource.h"
+#include "engine/texture.h"
 
 extern void create_callback_pair_payload(int a0, int a1, int a2, int a3);
 
@@ -14,7 +16,6 @@ void create_callback_pair_default(int value, int unused_1, int unused_2, int ext
 /* Fixed input buffers and the shared texture-result pointer. */
 extern u8 D_80016000[0x10];
 extern u8 D_80023000[0x10];
-extern void *runtime_texture_resource_handle;
 
 extern void queue_entity_resource_descriptor_pair(void *a0, void *a1, u16 a2);
 

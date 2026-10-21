@@ -65,7 +65,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
     saved_x = grid_x;
     saved_height = height;
     saved_y = grid_y;
-    entity = allocate_list_node(0x112, ((u8 *)(&D_80083498)));
+    entity = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (entity != 0) {
         entity_data = (u8 *)entity + 0x20;
         ((S_801708B4_0 *)entity)->unk_10 = update_actor_callbacks_and_ground;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/util.h"
 
 extern int D_800814A0;
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/util.h"
 
 /* Reverses len bytes in place and returns the original buffer pointer. */
 void *reverse_bytes(u8 *buf, u16 len)

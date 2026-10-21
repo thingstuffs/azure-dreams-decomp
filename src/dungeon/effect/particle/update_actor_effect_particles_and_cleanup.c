@@ -49,7 +49,7 @@ const PackedOffsets dungeon_18f4800_offsets = { {
 int abs(int);
 extern u8 D_80025100[16];
 extern Packed12 D_8002510C;
-extern u8 D_800E3D68[16];
+extern u8 current_spell_effect_variant[16];
 extern s32 get_sprite_attachment_vector(void *, void *, s16 *, s32);
 extern void unlink_node(void *);
 extern s32 func_80069EF8(void);
@@ -695,7 +695,7 @@ state1_cleanup:
                 s32 effect_kind;
                 effect_kind = (generate_random_value() & 3) + 4;
                 effect_type = (actor->field09 >> 2) + effect_kind;
-                room_id = (D_800E3D68[0] == 0xFF) ? 0xFF : 0x10;
+                room_id = (current_spell_effect_variant[0] == 0xFF) ? 0xFF : 0x10;
                 try_apply_threshold_effect_variant_b(entity->target, room_id, effect_type);
                 return;
             }

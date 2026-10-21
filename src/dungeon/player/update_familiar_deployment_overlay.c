@@ -21,7 +21,7 @@ void update_familiar_deployment_overlay(void *object_data, void *unused, void *s
     u8 brightness;
 
     step_actor_animation(state, *(s16 *)(obj + 8) + 2);
-    if (D_80082E80.sprite_flags & 1) {
+    if (reference_tile_object.sprite_flags & 1) {
         *(u16 *)(state + 0x14) |= 1;
     } else {
         *(u16 *)(state + 0x14) &= 0xFFFE;

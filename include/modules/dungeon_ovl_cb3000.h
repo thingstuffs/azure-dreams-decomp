@@ -1040,12 +1040,12 @@ typedef struct {
 
 /* Resume the action dispatcher after the resident action completes. */
 extern s32 D_8003E140[];
-extern s16 D_8006CD00[];
-extern s32 D_8006CD58;
-extern u16 D_80082EA4;
+extern s16 actor_turn_angle_offsets[];
+extern s32 cd_cue_base;
+extern u16 reference_tile_position_alias;
 extern M2C_UNK D_80083460;
-extern u16 D_80083462;
-extern void *D_800DCEEC[];
+extern u16 dungeon_status_flags_alias;
+extern void *actor_effect_color_targets[];
 extern s8 D_800DCF5C;
 extern s16 D_800DCF5E;
 extern u8 D_8014A000[];
@@ -1061,12 +1061,12 @@ extern u8 D_801752EC[8];
 extern u8 D_801752F4[8];
 extern u8 D_801752FC[];
 extern u8 D_80175304[];
-extern s32 D_8017530C;
+extern s32 block_image_commands;
 extern s16 D_80175314;
 extern u8 D_80175318[];
 extern u8 D_80175324[12];
 extern u8 D_80175330[12];
-extern CB_80170C24_Callback D_8017533C[];
+extern CB_80170C24_Callback block_callbacks[];
 extern CB_80172BCC_Copy12 D_8017539C;
 extern u8 D_801753A8;
 extern u8 D_801753A9;

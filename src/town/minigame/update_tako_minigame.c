@@ -163,14 +163,14 @@ case 4:
     if (state->timer >= 0) {
 
         loop_index = 7;
-        D_80082E80.primitive_color.parts.color_b += (0x90 - D_80082E80.primitive_color.parts.color_b) >> 1;
-        D_80082E80.primitive_color.parts.color_g = D_80082E80.primitive_color.parts.color_b;
-        D_80082E80.primitive_color.parts.color_r = D_80082E80.primitive_color.parts.color_b;
+        reference_tile_object.primitive_color.parts.color_b += (0x90 - reference_tile_object.primitive_color.parts.color_b) >> 1;
+        reference_tile_object.primitive_color.parts.color_g = reference_tile_object.primitive_color.parts.color_b;
+        reference_tile_object.primitive_color.parts.color_r = reference_tile_object.primitive_color.parts.color_b;
         do {
-            particle_x = D_80083780.x.v +
+            particle_x = view_reference_entity.x.v +
                 (((rand() & 0x3F) - 0x20) << 16);
             create_tinted_animated_particle(0xF0F0F0, particle_x,
-                          D_80083780.y.v +
+                          view_reference_entity.y.v +
                           (((rand() & 0x3F) - 0x20) << 16),
                           0);
             loop_index--;
@@ -208,7 +208,7 @@ case 5:
             clear_resident_bit(0xAE4);
         }
         clear_alternate_texture_regions(2);
-        *(u32 *)(&D_80082E80.primitive_color.parts.color_r) = 0x00808080;
+        *(u32 *)(&reference_tile_object.primitive_color.parts.color_r) = 0x00808080;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
         break;

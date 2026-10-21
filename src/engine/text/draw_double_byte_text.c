@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/text.h"
+#include "sdk/libgpu.h"
 
 typedef struct
 {
@@ -10,10 +12,6 @@ typedef struct
     s16 h;
 }
 RECT;
-
-extern void StoreImage(RECT *rect, void *p);
-extern void LoadImage(RECT *rect, void *p);
-extern void DrawSync(s32 mode);
 
 /* Draws a two-byte character string by copying font tiles to successive screen positions. */
 void draw_double_byte_text(u8 *text, s16 start_x, s16 start_y)

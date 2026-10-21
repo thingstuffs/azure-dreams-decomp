@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/texture.h"
 
 typedef struct S_80048B8C_node {
     u8 flags;

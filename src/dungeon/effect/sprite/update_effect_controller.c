@@ -77,7 +77,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
         play_sound_if_enabled(0x600);
         spawn_index = 0x96;
         do {
-            entry = allocate_list_node((void *)0x312, ((u8 *)(&D_80083498)));
+            entry = allocate_list_node((void *)0x312, ((u8 *)(&scene_object_list_anchor)));
             if (entry != NULL) {
                 entry_data = (S_func_800D7FB8_1 *)((u8 *)entry + 0x20);
                 entry->d81d4 = (u8 *)&D_800D81D4;

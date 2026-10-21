@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/text.h"
 
 /* Sets bit 0x8000 in the object and global flags when the object exists. */
 void set_object_and_global_removal_flag(unsigned short *object_fields)

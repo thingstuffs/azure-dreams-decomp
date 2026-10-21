@@ -4,7 +4,7 @@
 
 /* Chains nodes using D_800D17AC indices until an index reaches 24. */
 void *link_monster_status_main_entries(s32 nodes) {
-    return build_reverse_indexed_chain((struct S_800491F4 **)nodes, D_800D17AC, 24);
+    return build_reverse_indexed_chain((struct S_800491F4 **)nodes, monster_status_chain_indices, 24);
 }
 
 /* Stores the fetched chain and initializes its terminal link. */

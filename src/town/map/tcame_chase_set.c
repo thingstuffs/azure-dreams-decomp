@@ -7,13 +7,13 @@ typedef struct {
 } State;
 
 extern void reset_or_copy_state_values(void *);
-extern u8 D_80100D98[];
-extern State D_80100DE0;
+extern u8 town_position_reference_state[];
+extern State town_camera_chase_state;
 
 /* tcame_chase_set: Set the camera chase callback and target. */
 void tcame_chase_set(void) {
-    u8 *state_bytes = (u8 *)&D_80100DE0;
+    u8 *state_bytes = (u8 *)&town_camera_chase_state;
 
     *(void (**)(void *))(state_bytes + 0x28) = reset_or_copy_state_values;
-    D_80100DE0.value = D_80100D98;
+    town_camera_chase_state.value = town_position_reference_state;
 }

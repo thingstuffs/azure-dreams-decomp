@@ -1,5 +1,6 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
+#include "main.h"
 
 
 
@@ -8,9 +9,9 @@ s32 card_boot_reset_operation_return_five(void) {
     s32 status;
 
     status = 0;
-    if (D_800287C8.a != 0) {
+    if (card_operation_state.a != 0) {
         status = 5;
-        D_800287C8.a = 0;
+        card_operation_state.a = 0;
     }
     return status;
 }

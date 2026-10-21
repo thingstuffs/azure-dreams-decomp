@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "engine/entity.h"
+#include "engine/graphics.h"
 
 typedef s32 (*Callback)(void *, s32, s32);
 
@@ -12,7 +14,6 @@ typedef struct Entry {
     u8 data[1];
 } Entry;
 
-extern s32 is_frame_packet_arena_overflowed(s32);
 extern Callback registered_draw_callbacks[0x20];
 extern Entry *registered_draw_objects[0x20];
 

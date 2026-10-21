@@ -2,11 +2,9 @@
 #include "m2c_compat.h"
 
 #include "common.h"
-
-void runtime_clear_value();                         /* extern */
-void runtime_unlink_doubly_linked_node();                      /* extern */
-void unlink_active_node();                      /* extern */
-void unlink_node();                      /* extern */
+#include "engine/node.h"
+#include "engine/object.h"
+#include "engine/script.h"
 
 /* --- port/hal accessor shims (mechanical, no HAL dependency) --- */
 #define U8AT(b, o)  (*(u8  *)((u8 *)(b) + (o)))

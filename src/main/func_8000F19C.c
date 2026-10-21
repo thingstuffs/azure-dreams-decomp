@@ -1,7 +1,8 @@
 #include "modules/main_server_ship.h"
 #include "common.h"
+#include "main.h"
+#include "sdk/libetc.h"
 
-extern void func_8005FE18(s32);
 extern void erase(void *);
 
 typedef struct {
@@ -31,7 +32,7 @@ s32 card_boot_erase_slot_file(s32 file_index) {
         }
     } while (erase_status == 0);
     if (file_index < 5) {
-        (*(func_8000F19C_Unk80083E98Elem (*)[])(&D_80083E98))[file_index].unk0[0] = 0;
+        (*(func_8000F19C_Unk80083E98Elem (*)[])(&card_save_slot_metadata))[file_index].unk0[0] = 0;
         card_boot_refresh_directory_summary();
     }
     return erase_status == 1;

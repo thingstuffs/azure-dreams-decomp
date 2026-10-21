@@ -10,8 +10,8 @@ typedef struct {
 
 
 
-extern Template0 D_8002E5D8;
-extern CatalogRecordDefaults D_8002E5E8;
+extern Template0 display_block_defaults;
+extern CatalogRecordDefaults display_vector_defaults;
 
 typedef struct {
     s32 unk0;
@@ -39,8 +39,8 @@ typedef struct {
 
 /* Initialize the header and its two records from default templates. */
 void initialize_catalog_view_records(Header *header, Template0 *primary_record, Record1 *secondary_record) {
-    Template0 *primary_defaults = &D_8002E5D8;
-    CatalogRecordDefaults *secondary_defaults = &D_8002E5E8;
+    Template0 *primary_defaults = &display_block_defaults;
+    CatalogRecordDefaults *secondary_defaults = &display_vector_defaults;
     s32 *default_word;
 
     primary_record->unk0 = primary_defaults->unk0;

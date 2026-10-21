@@ -11,8 +11,8 @@ s32 store_selected_entry_and_dispatch_402(void *entryOwner, s32 entryIndex) {
     s32 entryValue;
     s32 entriesBase;
 
-    if (D_8001E950->unk_05 == 2) {
-        entryValue = prepare_selected_entry_buffer(D_8001E950->unk_04);
+    if (town_event_state->unk_05 == 2) {
+        entryValue = prepare_selected_entry_buffer(town_event_state->unk_04);
         entriesBase = *(s32 *)((u8 *)entryOwner + 0x10);
         *(s32 *)((entryIndex << 4) + entriesBase + 8) = entryValue;
         func_8001E578(F_sbs01_pad13, entriesBase);

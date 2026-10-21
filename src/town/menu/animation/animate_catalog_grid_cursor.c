@@ -32,10 +32,10 @@ typedef struct TownObject {
 } TownObject;
 
 extern u8 is_catalog_entry_available(u32);
-extern void *D_801269D0[10];
-extern u16 D_80126B20[2];
-extern u16 D_80126B24[8];
-extern u8 D_80127B64[16];
+extern void *catalog_normal_digits[10];
+extern u16 catalog_cursor_rows[2];
+extern u16 catalog_cursor_columns[8];
+extern u8 catalog_number_marker[16];
 
 /* Updates numbered slots and sprite display fields according to the object state. */
 void animate_catalog_grid_cursor(TownObject *object)
@@ -59,11 +59,11 @@ void animate_catalog_grid_cursor(TownObject *object)
         slot_index = slot_base + 33;
         entry_id = (((TownObject *)(object))->digit << 4) + row_offset + column;
         if (is_catalog_entry_available((u8)entry_id) != 0) {
-            *((TownObject *)(object))->town->slots[slot_index] = D_80127B64;
+            *((TownObject *)(object))->town->slots[slot_index] = catalog_number_marker;
             slot_index = slot_base + 34;
-            *((TownObject *)(object))->town->slots[slot_index] = D_801269D0[(entry_id + 1) / 10];
+            *((TownObject *)(object))->town->slots[slot_index] = catalog_normal_digits[(entry_id + 1) / 10];
             slot_index = slot_base + 35;
-            *((TownObject *)(object))->town->slots[slot_index] = D_801269D0[(entry_id + 1) % 10];
+            *((TownObject *)(object))->town->slots[slot_index] = catalog_normal_digits[(entry_id + 1) % 10];
         }
         break;
     case 2:
@@ -72,8 +72,8 @@ void animate_catalog_grid_cursor(TownObject *object)
         hidden_sprite->f4 = 0;
         return;
     case 3:
-        ((TownObject *)(object))->town->display->src->f8 = D_80126B20[((TownObject *)(object))->row];
-        ((TownObject *)(object))->town->display->src->fA = D_80126B24[((TownObject *)(object))->index];
+        ((TownObject *)(object))->town->display->src->f8 = catalog_cursor_rows[((TownObject *)(object))->row];
+        ((TownObject *)(object))->town->display->src->fA = catalog_cursor_columns[((TownObject *)(object))->index];
         break;
     default:
         return;

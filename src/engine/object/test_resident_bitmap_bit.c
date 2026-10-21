@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/object.h"
 
 typedef struct {
     u8 pad[0x2D70];

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/node.h"
 
 /* Linked-list node with a next pointer at offset 0x0, two callback-argument
  * fields at 0x8/0xC, a raw (possibly-null) function-pointer value at 0x10,
@@ -14,7 +15,7 @@ typedef struct S_80081498_Node {
 } S_80081498_Node;
 
 /* head of the active node list (8 bytes to D_800814A0; only the head word is read) */
-extern S_80081498_Node *D_80081498;
+extern S_80081498_Node *active_node_list_head;
 
 /* Invokes negative-address callbacks on nodes in D_80081498 whose flags omit bit 0x400. */
 void run_active_node_callbacks(void)
@@ -23,7 +24,7 @@ void run_active_node_callbacks(void)
     S_80081498_Node *next_node;
     s32 callback_address;
 
-    node = D_80081498;
+    node = active_node_list_head;
     if (node != 0) {
         do {
             callback_address = node->field_10;

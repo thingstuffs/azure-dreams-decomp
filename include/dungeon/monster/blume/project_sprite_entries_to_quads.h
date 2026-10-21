@@ -199,6 +199,6 @@ extern s32 func_80170BAC();
 extern s32 func_80170DF8();
 extern s32 func_80170E48();
 extern s32 func_80170F78();
-extern s32 D_8006CD30[];
+extern s32 sprite_projection_matrix[];
 void project_sprite_entries_to_quads(T_80170874_S_80DB9000_1 *sprite_size, T_80170874_S_80DB9000_2 *position, T_80170874_S_80DB9000_3 *sprite, s16 depth_bias);
 #endif

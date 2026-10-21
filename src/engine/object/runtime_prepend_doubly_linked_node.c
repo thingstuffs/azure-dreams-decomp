@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "records/Rec_func_80034F58_arg0.h"
+#include "engine/object.h"
 
 
 typedef struct S_80035068_3 {

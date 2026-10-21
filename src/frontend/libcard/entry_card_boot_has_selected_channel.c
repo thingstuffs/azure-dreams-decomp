@@ -2,6 +2,7 @@
 #include "m2c_compat.h"
 
 #include "modules/main_server_ship_interfaces.h"
+#include "frontend/libcard.h"
 
 typedef struct S_80027A68_0 {
     s32 unk_00;

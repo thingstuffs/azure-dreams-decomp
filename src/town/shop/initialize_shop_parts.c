@@ -24,19 +24,19 @@ typedef struct {
     TownPartB *partB;
 } TownOwner;
 
-extern s32 D_8002E5D8[4];
-extern s32 D_8002E5E8[3];
+extern s32 display_block_defaults[4];
+extern s32 display_vector_defaults[3];
 
 /* Initialize and attach both town parts, then set the owner and part defaults. */
 void initialize_shop_parts(TownOwner *owner, TownPartA *part_a, TownPartB *part_b) {
-    s32 *defaults_a = D_8002E5D8;
-    s32 *defaults_b = D_8002E5E8;
+    s32 *defaults_a = display_block_defaults;
+    s32 *defaults_b = display_vector_defaults;
     s32 first_b_word;
 
-    ((s32 *)part_a)[0] = D_8002E5D8[0];
+    ((s32 *)part_a)[0] = display_block_defaults[0];
     ((s32 *)part_a)[1] = defaults_a[1];
     ((s32 *)part_a)[2] = defaults_a[2];
-    first_b_word = D_8002E5E8[0];
+    first_b_word = display_vector_defaults[0];
     ((s32 *)part_a)[3] = defaults_a[3];
     ((s32 *)part_b)[0] = first_b_word;
     ((s32 *)part_b)[1] = defaults_b[1];

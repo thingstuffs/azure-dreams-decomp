@@ -1,13 +1,13 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/object.h"
+#include "engine/script/vm.h"
 
 typedef struct Func80039C74State {
     u8 pad_00[0x1C];
     u8 *read_ptr;
 } Func80039C74State;
-
-extern s32 test_resident_bitmap_bit(s32 bit_id);
 
 /* Jump the event script to the encoded address if the signed operand check returns zero. */
 void vm_op_43_jump_if_flag_bit_clear(Func80039C74State *state) {

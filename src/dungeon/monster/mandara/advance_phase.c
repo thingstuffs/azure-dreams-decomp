@@ -38,7 +38,7 @@ typedef struct {
 } Projection;
 
 extern u8 D_8017089C[];
-extern u8 D_801C9E40[];
+extern u8 upper_draw_context[];
 
 extern void transform_rotated_vertices(void *);
 extern s32 func_80065420(void *, void *, void *, void *);
@@ -185,7 +185,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
         bounds[2] = (s16) (max_xy - min_xy);
         bounds[0] = left_bound;
         depth = depth >> 2;
-        if ((*((u8 **) render_state)) != D_801C9E40) {
+        if ((*((u8 **) render_state)) != upper_draw_context) {
             base_y += 0xE0;
         }
         max_y = (s16) (max_xy >> 16);

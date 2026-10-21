@@ -126,12 +126,12 @@ void advance_actor_ability_and_reset_state(ActorActionView *action, ObjectPositi
         if (*ability != 0) {
             action->flags &= 0xFF7F;
             if (use_player_target != 0) {
-                target = D_800814A8;
+                target = primary_actor_record;
                 actor->target = target;
                 target_sprite = ((ActorSpriteLink *)target)[-1].sprite;
                 actor->target_tile_x = ((SpriteFrameState *)target_sprite)->unk_24;
                 actor->target_tile_y = ((SpriteFrameState *)target_sprite)->unk_25;
-            } else if (D_8006DE24[*ability].kind == 2) {
+            } else if (item_action_definitions[*ability].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
                     target_sprite = ((ActorSpriteLink *)target)[-1].sprite;
@@ -163,7 +163,7 @@ void advance_actor_ability_and_reset_state(ActorActionView *action, ObjectPositi
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         g_dungeon_status.active_actor = 0;
-        ((PlayerActionCounterView *)D_800814A8)->activeActions = ((PlayerActionCounterView *)D_800814A8)->activeActions - 1;
+        ((PlayerActionCounterView *)primary_actor_record)->activeActions = ((PlayerActionCounterView *)primary_actor_record)->activeActions - 1;
         advance_status_timers(actor);
         actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         action->nextBehavior = func_8015EE68;

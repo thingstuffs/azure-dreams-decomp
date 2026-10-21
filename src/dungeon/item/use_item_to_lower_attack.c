@@ -19,9 +19,9 @@ extern void clear_slot_and_update_linked_state();
 /* Apply the level-down item effect to an entity and finish item use. */
 s32 use_item_to_lower_attack(void *entity, s32 item, s16 action)
 {
-    if (entity == D_800E3D7C) {
+    if (entity == dungeon_actor_ring_anchor) {
         *(s32 *)((u8 *)entity + 0x110) = item;
-        begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
+        begin_deferred_item_action(entity, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), entity);
         return 0;
     }
 

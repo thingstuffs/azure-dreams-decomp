@@ -53,7 +53,7 @@ void func_80921B2C(S_80921B2C_3 *position, s16 x_offset, s16 y_offset, s16 z_off
     direction_source = D_800F6000;
     memcpy(direction_table, direction_source, 0x20);
     effect_type = 0x212;
-    global_state = ((u8 *)(&D_80083498));
+    global_state = ((u8 *)(&scene_object_list_anchor));
     direction_state = global_state + 0x20;
     effect = func_8003FC64(effect_type);
     if (effect != 0) {

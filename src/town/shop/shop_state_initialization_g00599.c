@@ -4,7 +4,7 @@
 
 /* Copy a global state word and a 17-word block into the record. */
 void copy_global_state_and_record_block(s32 *record) {
-    s32 *base = (s32 *)&D_80082A38;
+    s32 *base = (s32 *)&runtime_script_state;
 
     record[0xC] = base[0x20];
     *(Record68 *)(record + 0xD) = *(Record68 *)(base + 0x32);
@@ -12,11 +12,11 @@ void copy_global_state_and_record_block(s32 *record) {
 
 /* Initialize town state from the source value and block, clearing two state fields. */
 void initialize_state_from_source(Source *source) {
-    D_80082A38.value38 = source->value;
-    D_80082A38.valueA8 = source->value;
-    D_80082A38.valueBA = 0;
-    D_80082A38.value9C = 0;
-    D_80082A38.block = source->block;
+    runtime_script_state.value38 = source->value;
+    runtime_script_state.valueA8 = source->value;
+    runtime_script_state.valueBA = 0;
+    runtime_script_state.value9C = 0;
+    runtime_script_state.block = source->block;
 }
 
 /* open_shop: Allocate and initialize the shop and its resources, cleaning up if either resource fails. */

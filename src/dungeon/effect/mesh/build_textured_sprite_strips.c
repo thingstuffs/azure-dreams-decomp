@@ -503,7 +503,7 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
     draw_page = g_game_work.draw_buffer;
     pos_or_ot = screen_pos;
     clip_packet = draw_page->packetCursor;
-    offset_y = (void *)draw_page != (void *)D_801C9E40;
+    offset_y = (void *)draw_page != (void *)upper_draw_context;
     draw_page->packetCursor = clip_packet + 0xC;
     saved_param = draw_param;
     clear_enabled = clear_rect;
@@ -653,7 +653,7 @@ s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition
 /* Effect record: the object header precedes it. */
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */
-void raise_effect_to_height_limit(EffectRecord *object, EntityRec *source)
+void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source)
 {
     u16 x;
     u16 y;
@@ -1059,7 +1059,7 @@ void update_traveling(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_fu
 
                 target_motion_m = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->unk_08;
                 kind_or_shade = target->unk_13;
-                target_height = D_800DDC40[kind_or_shade] + 64;
+                target_height = entity_height_offsets[kind_or_shade] + 64;
                 effect->unk_78.u16 = target_motion_m->unk_08.u16_0A.unk_0A - target_height;
                 owner_info = ((S_func_81905FD0_5 *)((u8 *)owner - 0x20))->unk_0C;
                 effect->unk_BA = owner_info->unk_24 +
@@ -1309,7 +1309,7 @@ update_coords:
                 child_render->unk_1C.s16 = 4100;
                 child_render->unk_1E.s16 = 4100;
                 {
-                    u8 target_height = D_800DDC40[((S_func_81905FD0_6 *)owner->unk_60)->unk_13];
+                    u8 target_height = entity_height_offsets[((S_func_81905FD0_6 *)owner->unk_60)->unk_13];
 
                     child_render->unk_0C.u8_0E.unk_0E = 128;
                     child_render->unk_0C.u8_0D.unk_0D = 128;
@@ -1524,7 +1524,7 @@ update_coords:
             return;
         }
         result = 0xFF;
-        if (((S_func_81905FD0_11 *)D_800E3D68)->unk_00 != result) {
+        if (((S_func_81905FD0_11 *)current_spell_effect_variant)->unk_00 != result) {
             result = effect->unk_09;
         }
         func_8002405C(owner->unk_60, result, owner);

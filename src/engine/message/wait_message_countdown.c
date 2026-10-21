@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 
 #include "common.h"
+#include "engine/message.h"
 
 typedef struct {
     u8 pad0[0x10];
@@ -13,8 +14,6 @@ typedef struct {
     u8 pad2F[0x58];
     s8 field87;
 } Func80038128State;
-
-extern void update_message_window(void *state);
 
 /* Advance to the next handler when the countdown expires or the global flag permits. */
 void wait_message_countdown(Func80038128State *state) {

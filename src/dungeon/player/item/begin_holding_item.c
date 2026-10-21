@@ -83,9 +83,9 @@ extern void play_sound_if_enabled();
 extern void display_text_with_fullwidth_adjustment();
 extern void *create_item_render_object();
 
-extern u8 D_80081484[];
+extern u8 held_item_record[];
 extern u8 D_8008D470[];
-extern u8 D_800DD0B8[8];
+extern u8 player_carry_frames[8];
 extern u8 D_800E08CC[];
 extern u8 D_800E08E5[];
 extern u8 D_800E08F1[];
@@ -105,12 +105,12 @@ void *begin_holding_item(void *actor, s32 action, void *target, void *item)
     s32 text_cursor;
 
     actor_state = actor;
-    if ((item != ((void *)(D_80081484))) && (((S_80098CF8_0 *)((void *)(D_80081484)))->unk_01 != 0)) {
+    if ((item != ((void *)(held_item_record))) && (((S_80098CF8_0 *)((void *)(held_item_record)))->unk_01 != 0)) {
         message_id = get_unused_text_buffer();
         text_cursor = write_text_byte_and_advance(8, message_id);
         text_cursor = append_typed_formatted_value(item, text_cursor);
         text_cursor = expand_text_control_codes(D_800E08CC, text_cursor);
-        text_cursor = append_typed_formatted_value(((void *)(D_80081484)), text_cursor);
+        text_cursor = append_typed_formatted_value(((void *)(held_item_record)), text_cursor);
         message = D_800E08E5;
 print_message:
         text_cursor = expand_text_control_codes(message, text_cursor);
@@ -173,13 +173,13 @@ print_message:
             ((S_80098CF8_5 *)state)->unk_98 = data_word;
             ((S_80098CF8_6 *)actor)->unk_BC = item;
             target_arg = (void *)((S_80098CF8_1 *)item)->unk_00.at00.v;
-            ((S_80098CF8_5 *)state)->unk_9C = D_80081484;
+            ((S_80098CF8_5 *)state)->unk_9C = held_item_record;
             ((S_80098CF8_6 *)actor)->unk_8C = 0;
             ((S_80098CF8_6 *)actor)->unk_124 = 0;
-            *(s32 *)D_80081484 = (s32)target_arg;
+            *(s32 *)held_item_record = (s32)target_arg;
             ((S_80098CF8_6 *)actor)->unk_9A = 0x1B;
             ((S_80098CF8_6 *)actor)->unk_9B = 0;
-            sound_table = D_800DD0B8;
+            sound_table = player_carry_frames;
             (*(void * *)((u8 *)message + 0x2C)) = sound_table;
 
             set_sprite_animation_frame(

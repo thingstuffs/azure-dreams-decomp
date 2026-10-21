@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/libcard.h"
 
 s32 func_8006A084(void);
 s32 func_8006A094(void);

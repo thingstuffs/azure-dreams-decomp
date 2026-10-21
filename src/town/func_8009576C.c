@@ -28,13 +28,13 @@ void update_actor_movement_with_radial_effects(s32 object_id, EntityRec *object,
     if (((s32)town_state->pressed_buttons) & 0x40) {
         func_80094714(object_id, object, update_context);
     }
-    update_threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &D_800FE488);
+    update_threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &position_query_scratch);
     if (object->z.w.i >= update_threshold) {
         select_sound_command_from_mode();
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(object), update_threshold, (struct TownVec * *)(&D_800FE488));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(object), update_threshold, (struct TownVec * *)(&position_query_scratch));
         spawn_person_radial_effects(object);
         initialize_actor_movement_interaction_action(object_id, object, update_context);
-    } else if (D_800CFCEF != 0) {
+    } else if (town_action_state_flag != 0) {
         select_sound_command_from_mode();
         object->flags14 = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(object));

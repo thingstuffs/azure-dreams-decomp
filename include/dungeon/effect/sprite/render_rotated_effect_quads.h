@@ -92,7 +92,7 @@ void func_80065820();
 void func_80067EF4();
 void func_80067E2C(void *, void *);
 extern u8 D_8006CD10[3];
-extern u8 D_801C9E40[16];
+extern u8 upper_draw_context[16];
 void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode);
 void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param);
 #endif

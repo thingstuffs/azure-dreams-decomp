@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/item.h"
 
 extern s32 generate_random_value(void);
 

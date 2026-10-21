@@ -63,8 +63,8 @@ s32 play_sound_if_enabled();
 s32 create_status_linked_render_effect();
 #include "dungeon/select_nearby_target_and_initialize_slot_api.h"
 struct R16_80173904_S_80173904_3; void func_80161904(s32, struct R16_80173904_S_80173904_3 *, s32, s32, s16, u16);
-extern s32 D_8006CD58;
-extern ColorChannels *D_800DCEEC[];
+extern s32 cd_cue_base;
+extern ColorChannels *actor_effect_color_targets[];
 extern s32 D_8014A000;
 extern s32 D_801616AC;
 extern s32 D_80161B94;
@@ -121,7 +121,7 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
             return;
         }
         run_cd_image_commands(&D_801622CC, (u8 *)(&D_801622E4), 1);
-        sound_set_cd_cue_parameters(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
+        sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
         D_801622E5 = 0;
         Control_CD(0xFF, set_byte_one, &D_801622E5);
@@ -142,7 +142,7 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
             play_sound_if_enabled(0x300);
             return;
         }
-        target_color = D_800DCEEC[lookup_masked_byte_table(model)];
+        target_color = actor_effect_color_targets[lookup_masked_byte_table(model)];
         scene_color->view.tint.parts.tint_r = (u8) (scene_color->view.tint.parts.tint_r + ((s32) (target_color->red
             - scene_color->view.tint.parts.tint_r) / (s16) state->unk_96));
         scene_color->view.tint.parts.tint_g = (u8) (scene_color->view.tint.parts.tint_g + ((s32) (target_color->green

@@ -6,7 +6,7 @@ void remove_runtime_callback(s32 value) {
     if (*entry != 0) {
         do {
             if (*entry == value) {
-                D_800814E0--;
+                runtime_callback_write_cursor--;
                 for (;;) {
                     *entry = entry[1];
                     entry++;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/camera.h"
 
 extern s32 runtime_lookup_byte_by_key(s32);
 

@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "frontend/card/message_object.h"   /* extern */
+#include "frontend/card.h"
 
 /* Forward the context and value with fixed arguments 0x12 and 1. */
 void card_dev_show_delete_confirmation(s32 context, s32 value) {

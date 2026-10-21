@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "frontend/card/message_object.h"   /* extern */
+#include "frontend/card.h"
 
 /* Dispatches operation 0xf in mode 2 with the supplied target and value. */
 void card_dev_show_copying_progress(s32 target, s32 value) {

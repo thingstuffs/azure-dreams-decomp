@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-extern s8 D_800E2468[];
+extern s8 actor_direction_step_pairs[];
 s32 check_left_tile_and_center_height(s32, s32, s16);
 s16 sample_terrain_surface_height(s32, s32, s16);
 
@@ -24,7 +24,7 @@ s32 check_forward_collision_and_height(EntityRec *position, EntityRec *orientati
 
     height = position->z.w.i;
     probe_height = height - 0x20;
-    offset_table = D_800E2468;
+    offset_table = actor_direction_step_pairs;
     offset = offset_table + ((((u16)orientation->facing) >> 7) & 0x1C);
     probe_x = (position->x.w.i + (offset->unk_00 << 6)) & 0xFFFF;
     probe_y = (position->y.w.i + (offset->unk_02 << 6)) & 0xFFFF;

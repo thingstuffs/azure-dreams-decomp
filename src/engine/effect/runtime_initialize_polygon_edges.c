@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/effect.h"
 
 /* Initialize four polygon edges for rasterization and return the aligned minimum y. */
 s32 runtime_initialize_polygon_edges(s32 bottom_vertex, s32 *edges, u16 *edge_count) {

@@ -5,7 +5,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern u8 D_800E1532[];
+extern u8 familiar_call_text[];
 
 extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern s32 process_record_and_update_linked_state(s32, s32);
@@ -36,7 +36,7 @@ s32 apply_familiar_call_item(void *target, s32 action, s16 action_type, s32 acti
     global_page = (u8 *)0x800E0000;
     if (target == *(u8 **)(global_page + 0x3D7C)) {
         *(s32 *)((u8 *)target + 0x110) = action;
-        begin_mode_selected_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_mode_selected_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
 
@@ -62,10 +62,10 @@ s32 apply_familiar_call_item(void *target, s32 action, s16 action_type, s32 acti
                 }
                 slot += 1;
             } while (slot < 2);
-            message_end = expand_text_control_codes(D_800E1532, message_end);
+            message_end = expand_text_control_codes(familiar_call_text, message_end);
             play_sound_if_enabled(0x501);
         } else {
-            message_end = expand_text_control_codes(D_800E1532 + 0x17, message_start);
+            message_end = expand_text_control_codes(familiar_call_text + 0x17, message_start);
         }
         func_80099290(message_end);
         display_text_with_fullwidth_adjustment(message_start);

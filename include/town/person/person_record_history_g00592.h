@@ -28,10 +28,10 @@ typedef struct S_800AB014_1 {
     u16 unk_06;
 } S_800AB014_1;
 
-extern u16 D_800834B8[];
+extern u16 scene_object_payload_alias[];
 extern s16 D_800834C8;
 
-extern Record D_80100E40[8];
+extern Record town_position_history[8];
 /* Functions defined in this translation unit. */
 void fill_person_records(void);
 void shift_history_and_store_current_values(void);

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 
-extern u32 D_800C3960[4];
+extern u32 person_motion_tag[4];
 extern u32 D_800C3988[4];
 typedef struct {
     u8 pad0;
@@ -12,7 +12,7 @@ typedef struct {
 
 /* Installs object handlers, sets its status, and clears its object and slot state bytes. */
 void initialize_object_handlers(void *object) {
-    *(void **) ((u8 *) object + 0x50) = &D_800C3960[0];
+    *(void **) ((u8 *) object + 0x50) = &person_motion_tag[0];
     *(s8 *) ((u8 *) object + 0x92) = 1;
     *(void **) ((u8 *) object + 0x54) = &D_800C3988[0];
     *(s8 *) ((u8 *) object + 0x15) = 0;

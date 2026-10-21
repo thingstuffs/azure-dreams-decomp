@@ -1,7 +1,7 @@
 #include "common.h"
+#include "engine/graphics.h"
+#include "slus/data.h"
 
-extern u8 gradient_rectangle_edge_color[16];
-extern u8 gradient_rectangle_center_color[16];
 extern void *bzero(void *, s32);
 
 /* Builds a tinted rectangle with gradient top and bottom bands. */

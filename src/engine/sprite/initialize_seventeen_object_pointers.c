@@ -1,9 +1,7 @@
 #include "common.h"
-
-extern s32 func_80049004(s32 *a0, s32 a1, s32 a2);
-extern s32 *allocate_entry_slots(s32 *a0, u32 a1, s32 a2);
-extern s32 initialize_seventeen_object_pointers(s32 *a0, s32 a1);
-extern s32 allocate_and_append_callback_payload(s32 *a0, s32 a1);
+#include "engine/menu.h"
+#include "engine/sprite.h"
+#include "engine/util.h"
 
 typedef struct S_80050AF0 {
     u8 pad_00[0x2C];

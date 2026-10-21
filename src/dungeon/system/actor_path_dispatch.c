@@ -63,7 +63,7 @@ void dispatch_actor_behavior_state(Rec_func_800C9F34_arg0 *actor_state, s32 cont
     if ((entity->pending_turn_updates > 0) &&
         (!(g_dungeon_status.flags & 0x2000) ||
          ((check_entity_relation(entity,
-            ((s32)D_800814A8->unk_58) + 0x20) << 0x10) == 0))) {
+            ((s32)primary_actor_record->unk_58) + 0x20) << 0x10) == 0))) {
         choose_best_eligible_entry_for_actor(actor_state, context, position);
     }
 }

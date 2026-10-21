@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-void card_boot_set_paired_choice_selection(s32 object_addr, s32 value);                         /* extern */
+#include "frontend/card.h"
+#include "frontend/libcard.h"
 
 typedef struct S_80027DF4_0 {
     u8 pad_00[0xC];

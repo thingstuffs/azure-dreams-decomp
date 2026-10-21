@@ -6,7 +6,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8008D024_arg0.h"
 
-extern u8 D_800DCFB0[8];
+extern u8 player_wait_frames[8];
 extern s16 transition_runtime_slot_index;
 extern s16 get_entity_effect_value(void *, s32);
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
@@ -25,8 +25,8 @@ void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, Sp
     state->unk_8C = 0;
     clear_player_linked_action_flags();
     if (get_entity_effect_value(actor, 0xA) == 0) {
-        entity->frameTable = D_800DCFB0;
-        set_sprite_animation_frame(entity, D_800DCFB0[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
+        entity->frameTable = player_wait_frames;
+        set_sprite_animation_frame(entity, player_wait_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
     }
     tile_type = lookup_definition_pair_value(entity->unk_24, entity->unk_25);
     if (tile_type == 3) {

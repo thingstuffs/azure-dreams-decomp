@@ -24,7 +24,7 @@ extern u8 D_800E1402[];
 extern u8 D_800E1411[];
 extern u8 D_800E1426[];
 extern u8 D_80089380[];
-extern u8 D_800E140A[];
+extern u8 genus_change_text[];
 
 /* Changes the target's element, updates its slots, and displays the result. */
 s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
@@ -35,9 +35,9 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
     s32 slot_index;
     u8 *slot;
 
-    if (target == ((u8 *)D_800E3D7C)) {
+    if (target == ((u8 *)dungeon_actor_ring_anchor)) {
         *(u8 **)(target + 0x110) = event;
-        begin_deferred_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
+        begin_deferred_item_action(target, ((u8 *)(&view_reference_entity)), ((u8 *)(&reference_tile_object)), target);
         return 0;
     }
     if ((u32)target <= 0x9FFFFFFF) {
@@ -69,7 +69,7 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
                 *(s32 *)(target + 0x14) |= 2;
                 *(s32 *)(target + 0x1C) |= 2;
             } else {
-                message = D_800E140A;
+                message = genus_change_text;
                 effect_target = target - 32;
                 color_mask = 0xF000;
                 effect_code = 0x81C;
@@ -86,7 +86,7 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
                 s32 item = slot[0];
                 s32 flags = *(s32 *)(target + 0x14);
 
-                if (((D_8006DE24[item].unk_10 & 7) & flags) == 0) {
+                if (((item_action_definitions[item].unk_10 & 7) & flags) == 0) {
                     if (flags & 1) {
                         slot[0] = ((item - 1) / 3) * 3 + 1;
                     } else if (flags & 2) {

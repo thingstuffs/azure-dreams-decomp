@@ -1,4 +1,6 @@
 #include "common.h"
+#include "engine/util.h"
+#include "slus/data.h"
 
 typedef struct {
     s32 unk00;
@@ -7,8 +9,6 @@ typedef struct {
 
 extern S_800869C0 audio_ram_blocks[16];
 extern u8 sound_ram_reserve_mode[9];
-extern s32 sound_ram_reserved_sizes[9];
-extern void sort_entries_by_key(void);
 
 /* Reserves space in the entry table and returns its offset, or -1 if it exceeds the limit. */
 s32 reserve_sound_ram_region(s32 size)

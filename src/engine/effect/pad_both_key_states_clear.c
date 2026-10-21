@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/effect.h"
+#include "engine/graphics.h"
+#include "engine/text.h"
 
 typedef struct S_8004EC20 {
     u8 pad00[4];
@@ -6,9 +9,6 @@ typedef struct S_8004EC20 {
     u8 b8;         /* 0x8 */
     u8 b9;         /* 0x9 */
 } S_8004EC20;
-
-extern s32 pad_both_key_states_clear(void);
-extern void update_vsync_frame_id(s32);
 
 extern s32 (*effect_state_callbacks[])(void *);
 

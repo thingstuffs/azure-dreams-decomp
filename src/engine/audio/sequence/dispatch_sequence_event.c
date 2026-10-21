@@ -1,4 +1,7 @@
 #include "common.h"
+#include "engine/audio/sequence.h"
+#include "slus.h"
+#include "slus/data.h"
 
 
 
@@ -29,11 +32,8 @@ typedef struct {
     s8 f4d[3];
 } S_80085FA8;
 
-extern s32 audio_event_data_counts[16];
 extern s32 read_next_byte_and_finish(S_80085FA8 *a0);
-extern void func_80058E64(u8 status);
 extern void handle_sequence_meta_event(S_80085FA8 *a0, s32 a1);
-extern void skip_vlq_payload_until_f_7(S_80085FA8 *a0);
 extern s32 audio_dispatch_midi_event(S_80085FA8 *a0, s32 a1, s32 a2, s32 a3);
 
 /* Read and dispatch the next event, reusing the previous status when needed. */

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card.h"
 void func_8007C9C8(s32 handle);                         /* extern */
 
 /* Pass each of the four stored values to the shared callback. */

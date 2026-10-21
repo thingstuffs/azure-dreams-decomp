@@ -26,7 +26,7 @@ extern s32 check_masked_value_in_current_range(u16);
 extern void SD_Call(u32);
 
 extern u8 D_8009B454[];
-extern s16 D_800D45AA[];
+extern s16 terrain_height_limits[];
 
 /* Update object motion, handle contact, and play the tile height sound. */
 void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *collision, ObjectPosition *motion, s32 callback_arg) {
@@ -38,7 +38,7 @@ void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *coll
         motion->velocity_z = 0x200000;
     }
     add_motion_deltas_to_position(motion);
-    contact_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&D_800FE488));
+    contact_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&position_query_scratch));
     call_the_same_context_both_processing_routines(collision, motion);
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(collision, motion);
     contact_height_ext = contact_height;
@@ -56,7 +56,7 @@ void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *coll
         tile_type = check_masked_value_in_current_range((u16)read_map_cell_at_world_position(
             motion->x.w.i, motion->y.w.i));
         if (tile_type != 0) {
-            s16 *thresholds = D_800D45AA;
+            s16 *thresholds = terrain_height_limits;
             s16 height = motion->z.w.i;
             s16 threshold = thresholds[tile_type];
 

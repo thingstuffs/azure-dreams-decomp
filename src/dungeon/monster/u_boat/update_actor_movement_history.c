@@ -13,7 +13,7 @@ extern void pack_and_submit_cell_height_levels(void);
 extern void play_sound_if_enabled(s32);
 extern s32 sample_terrain_surface_height(u16, u16, signed short);
 
-extern DirectionDelta D_800E2468[];
+extern DirectionDelta actor_direction_step_pairs[];
 
 typedef struct S_80174C64_0 {
     u8 pad_00[0x92];
@@ -164,8 +164,8 @@ void update_actor_movement_history(S_80174C64_0 *motion, void *position, SpriteF
             if ((timer << 16) <= 0) {
                 motion->unk_B2 = 0;
             }
-            (*(u16 *)((u8 *)position + 2)) = D_800E2468[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
-            (*(u16 *)((u8 *)position + 6)) = D_800E2468[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
+            (*(u16 *)((u8 *)position + 2)) = actor_direction_step_pairs[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
+            (*(u16 *)((u8 *)position + 6)) = actor_direction_step_pairs[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
             break;
         }
 
@@ -307,8 +307,8 @@ state1_case2:
                 {
                     u16 timer;
 
-                    (*(u16 *)((u8 *)position + 2)) = D_800E2468[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
-                    (*(u16 *)((u8 *)position + 6)) = D_800E2468[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
+                    (*(u16 *)((u8 *)position + 2)) = actor_direction_step_pairs[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
+                    (*(u16 *)((u8 *)position + 6)) = actor_direction_step_pairs[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
 
                     timer = motion->unk_96;
                     motion->unk_96 = timer - 1;
@@ -409,7 +409,7 @@ state1_minus_angle:
         motion->unk_96 = 0;
         motion->unk_A2 = 0;
         pack_and_submit_cell_height_levels();
-        D_800E296C |= 0x800000;
+        dungeon_floor_flags |= 0x800000;
         play_sound_if_enabled(0x80F);
     }
 state3_test:
@@ -474,7 +474,7 @@ state3_test:
             motion->unk_96 = 0;
             motion->unk_A2 = 0;
             pack_and_submit_cell_height_levels();
-            D_800E296C |= 0x800000;
+            dungeon_floor_flags |= 0x800000;
             play_sound_if_enabled(0x80F);
 
         }

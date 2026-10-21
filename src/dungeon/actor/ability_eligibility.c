@@ -9,7 +9,7 @@
 void copy_indexed_entry_data(void *entity) {
     void *entry_data;
 
-    entry_data = ((S_800A34BC_0 *)(((*(u8 *)((u8 *)entity + 0x13)) * 0x14) + (s8 *)D_8007359C[0]))->unk_04;
+    entry_data = ((S_800A34BC_0 *)(((*(u8 *)((u8 *)entity + 0x13)) * 0x14) + (s8 *)monster_species_table[0]))->unk_04;
     (*(Copy12 *)((u8 *)entity + 0x34)) = (*(Copy12 *)((u8 *)entry_data + 0));
     (*(s8 *)((u8 *)entity + 0x3C)) = 0;
 }
@@ -24,7 +24,7 @@ s16 find_slot_by_definition_kind(u8 *slots, u8 kind) {
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 3; slot_index++) {
-        if (slots[slot_index * 3 + 8] != 0 && D_8006DE24[slots[slot_index * 3 + 8]].unk_11 == kind) {
+        if (slots[slot_index * 3 + 8] != 0 && item_action_definitions[slots[slot_index * 3 + 8]].unk_11 == kind) {
             return slot_index;
         }
     }
@@ -33,7 +33,7 @@ s16 find_slot_by_definition_kind(u8 *slots, u8 kind) {
 
 /* Returns the table field selected by the byte at offset 8 of a three-byte entry. */
 u8 get_definition_field_from_triple(s32 entry_addr, s32 entry_index) {
-    S_D_8006DE24 *lookup_table = D_8006DE24;
+    S_D_8006DE24 *lookup_table = item_action_definitions;
 
     entry_addr = entry_addr + entry_index * 3;
     return lookup_table[*(u8 *)(entry_addr + 8)].f13;
@@ -166,7 +166,7 @@ s32 check_tile_path_clear(void *source, void *target) {
 
 /* Returns the last byte of the selected 20-byte table entry. */
 s32 get_definition_entry_byte_13(s16 entry_index) {
-    DefEntry *entry = &D_8006DE24[entry_index];
+    DefEntry *entry = &item_action_definitions[entry_index];
     return entry->unk_13;
 }
 
@@ -222,7 +222,7 @@ s16 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
     flags = actor->flags14;
     if (!(flags & 0x10000)) {
         actor->flags14 = flags | 0x10000;
-        if ((s16)get_tile_chebyshev_distance(&D_80082E80, actor_entity) < 0x11
+        if ((s16)get_tile_chebyshev_distance(&reference_tile_object, actor_entity) < 0x11
             && ((actor->flags14 & 0x6000) || !(self->status98 & 0x10) || !(generate_random_value() & 0xF))
             && !(generate_random_value() & 3) && (s16)get_entity_effect_value(actor, 6) == 0) {
             self->status98 |= 0x11;
@@ -245,7 +245,7 @@ s16 choose_usable_ability_or_attack(Actor *actor, Actor *target, u16 *out_angle,
             offset = ability_id << 2;
             offset += ability_id;
             offset <<= 2;
-            ability = (DefEntry *)((u8 *)D_8006DE24 + offset);
+            ability = (DefEntry *)((u8 *)item_action_definitions + offset);
             effect_id = ability->unk_11;
             if ((u32)effect_id >= 0x12) {
                 continue;
@@ -391,7 +391,7 @@ void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
         if (special_cmp == best_cmp) {
             if (((S_800A3D18_5 *)best)->unk_1C & 8) {
                 best = special;
-            } else if (!((((PlayerRecord *)((u8 *)D_800E3D7C))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3)) {
+            } else if (!((((PlayerRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3)) {
                 best = special;
             }
         } else if (special_cmp < best_cmp) {
@@ -455,7 +455,7 @@ s32 check_active_object_state_567(void) {
     void *base;
 
     index = 0;
-    base = D_800814A8;
+    base = primary_actor_record;
     do {
         object = *(void **)(base + 0xAC);
         if ((object != NULL) &&
@@ -498,7 +498,7 @@ s16 select_highest_value_item(s32 records_addr, s32 item_kind)
     best_value = 0;
     count = 0;
     tripled_index = g_dungeon_status.turn_counter;
-    table_or_result = (s32)D_8006DE24;
+    table_or_result = (s32)item_action_definitions;
     index = tripled_index & 3;
     do {
         if (((s16)(index)) == 3) {
@@ -576,7 +576,7 @@ s32 find_type_13_slot_index(DungeonSlot *targetSlot) {
 
     recordIndex = 0;
     requiredRecordType = 0x13;
-    slotTable = D_800E3DF0;
+    slotTable = familiar_record_slots;
     recordSlotByte = (u8 *) 0x8001024B;
     do {
         if (recordSlotByte[-2] == requiredRecordType) {
@@ -602,8 +602,8 @@ void select_position_data_and_update_owner(Rec_D_80082E80 *entity, ActorRecord *
 
     lookup_code = lookup_definition_pair_value(((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
     if ((lookup_code << 16) != 0) {
-        *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
-        ((PlayerRecord *)D_800814A8)->selected_floor_entry = 0;
+        *(s16 *)temporary_item_record = (s16)(lookup_code | 0x1400);
+        ((PlayerRecord *)primary_actor_record)->selected_floor_entry = 0;
         return;
     } else {
         map_index_bits = (u32)find_entry_at_tile_coordinates(((SpriteFrameState *)entity)->unk_24,
@@ -611,14 +611,14 @@ void select_position_data_and_update_owner(Rec_D_80082E80 *entity, ActorRecord *
                                             search_state->ground_height) << 16;
         map_index = (s16)((s32)map_index_bits >> 16);
         if (map_index >= 0) {
-            map_base = D_800E3648;
+            map_base = floor_objects;
             map_entry = map_base + map_index * 4;
             if (!(map_entry[3] & 0x40)) {
-                *(void **)D_80081470 = *(void **)map_entry;
-                ((PlayerRecord *)D_800814A8)->selected_floor_entry = map_entry;
+                *(void **)temporary_item_record = *(void **)map_entry;
+                ((PlayerRecord *)primary_actor_record)->selected_floor_entry = map_entry;
                 return;
             }
-            ((PlayerRecord *)D_800814A8)->selected_floor_entry = 0;
+            ((PlayerRecord *)primary_actor_record)->selected_floor_entry = 0;
             return;
         }
 
@@ -627,15 +627,15 @@ void select_position_data_and_update_owner(Rec_D_80082E80 *entity, ActorRecord *
                                               search_state->ground_height) << 16;
         floor_index = (s16)((s32)floor_index_bits >> 16);
         if (floor_index >= 0) {
-            floor_base = ((u8 *)D_800E3548);
+            floor_base = ((u8 *)dungeon_ground_items);
             floor_entry = floor_base + floor_index * 4;
-            *(void **)D_80081470 = *(void **)floor_entry;
-            ((PlayerRecord *)D_800814A8)->selected_floor_entry = floor_entry;
+            *(void **)temporary_item_record = *(void **)floor_entry;
+            ((PlayerRecord *)primary_actor_record)->selected_floor_entry = floor_entry;
             return;
         }
 
-        owner = D_800814A8;
-        *(void **)D_80081470 = 0;
+        owner = primary_actor_record;
+        *(void **)temporary_item_record = 0;
     }
     ((S_800A4300_2 *)owner)->unk_F0.i = 0;
 }
@@ -644,14 +644,14 @@ void select_position_data_and_update_owner(Rec_D_80082E80 *entity, ActorRecord *
 u8 *get_stored_or_fallback_data(void) {
     u8 *stored_data;
 
-    if (D_80081470[1] < 0x14U) {
-        stored_data = *(u8 **)((u8 *)D_800814A8 + 0xF0);
+    if (temporary_item_record[1] < 0x14U) {
+        stored_data = *(u8 **)((u8 *)primary_actor_record + 0xF0);
         if (stored_data != NULL) {
             return stored_data;
         }
-        *(s32 *)D_80081470 = 0;
+        *(s32 *)temporary_item_record = 0;
     }
-    return D_80081470;
+    return temporary_item_record;
 }
 
 s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey) {
@@ -659,12 +659,12 @@ s32 lookup_definition_pair_value(s16 firstKey, s16 secondKey) {
     s16 entryValue;
 
     for (entryIndex = 0; entryIndex < 4; entryIndex++) {
-        entryValue = D_800E3CD8[entryIndex].value;
+        entryValue = dungeon_floor_marker_entries[entryIndex].value;
         if (entryValue < 2) {
             return 0;
         }
-        if ((firstKey == D_800E3CD8[entryIndex].first) &&
-            (secondKey == D_800E3CD8[entryIndex].second)) {
+        if ((firstKey == dungeon_floor_marker_entries[entryIndex].first) &&
+            (secondKey == dungeon_floor_marker_entries[entryIndex].second)) {
             return entryValue;
         }
     }

@@ -1,9 +1,8 @@
 #include "common.h"
 
 #include "common.h"
-
-void load_alternate_sprite_bundle_and_clear_textures(void);
-void init_town_runtime_objects(void);
+#include "engine/graphics.h"
+#include "engine/town.h"
 
 /* Runs the two Konami runtime routines in sequence. */
 void init_town_runtime(void) {

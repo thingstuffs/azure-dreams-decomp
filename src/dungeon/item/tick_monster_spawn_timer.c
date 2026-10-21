@@ -9,14 +9,14 @@ typedef struct {
 
 extern void spawn_floor_monster_from_table(s32);
 extern s32 generate_random_value(void);
-extern s16 D_8008146E;
+extern s16 dungeon_room_count;
 
 
 /* Counts down turns until a monster spawn, then resets the spawn timer. */
 void tick_monster_spawn_timer(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     s16 spawn_turns;
 
-    if (D_8008146E != 0) {
+    if (dungeon_room_count != 0) {
         spawn_turns = g_dungeon_status.unk_06 - 1;
         g_dungeon_status.unk_06 = spawn_turns;
         if (spawn_turns < 0) {

@@ -133,14 +133,14 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(
                      entity,
-                     ((s32)D_800814A8->unk_58) + 0x20) << 16) != 0) {
+                     ((s32)primary_actor_record->unk_58) + 0x20) << 16) != 0) {
                 return;
             }
         }
         update_actor_status_and_food(entity);
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
-            floor_base = &D_80082E80;
+            floor_base = &reference_tile_object;
             floor = sprite->unk_26;
             if (((floor == floor_base->room_index) && (floor >= 0)) ||
                 get_tile_chebyshev_distance(floor_base, sprite) < 2) {

@@ -1,9 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
-
-extern u8 D_80410000[];
-extern u8 D_80400000[];
-extern u8 D_80408ADC[];
+#include "frontend/card/message.h"
+#include "main/data.h"
 
 typedef struct S_80402A1C_0 {
     u8 pad_00[0x8];

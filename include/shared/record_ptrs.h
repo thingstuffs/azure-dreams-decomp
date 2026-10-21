@@ -17,8 +17,8 @@
  *   D_80016000: 298 rows (dungeon, slus, town)  - below the SLUS image (0x80016000). */
 struct ActorRecord;              /* include/shared/entity.h (include it to dereference) */
 struct Rec_D_80016000;
-extern struct ActorRecord *D_800814A8;
-extern struct ActorRecord *D_800E3D7C;
+extern struct ActorRecord *primary_actor_record;
+extern struct ActorRecord *dungeon_actor_ring_anchor;
 extern struct Rec_D_80016000 *D_80016000;
 
 #endif

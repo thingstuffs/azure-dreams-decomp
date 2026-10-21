@@ -116,7 +116,7 @@ extern void register_node();
 extern u8 D_80166914[];
 extern u8 D_80167C30[];
 extern u8 D_80173B4C[];
-extern u8 D_80175DD8[];
+extern u8 ribbon_vertices[];
 
 static __inline__ s16 interpolate_value(s32 delta, s32 step, u16 start)
 {
@@ -176,7 +176,7 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
             axis = 0;
             do {
                 dest_coord = axis * 2;
-                shape_row = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60 + (s32)D_80175DD8);
+                shape_row = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60 + (s32)ribbon_vertices);
                 endpoint = (u8 *)(edge * 6 + (s32)shape_row);
                 start_coord = (s16 *)dest_coord;
                 start_coord = (s16 *)((u8 *)start_coord + (s32)endpoint);
@@ -193,7 +193,7 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
     } while (step < 7);
 
     segment = 0;
-    coord_table = D_80175DD8;
+    coord_table = ribbon_vertices;
     one = 1;
     ((S_80168C88_0 *)effect)->unk_1E = ((S_80168C88_0 *)effect)->unk_1E - 1;
     segment_offset = segment;

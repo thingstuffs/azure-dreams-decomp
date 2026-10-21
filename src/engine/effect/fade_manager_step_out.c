@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/node.h"
 
 typedef struct {
     u8 unk_00[0x0C];
@@ -11,7 +12,6 @@ typedef struct {
     u16 unk_1C;
 } Func8003C520Data;
 
-extern void unlink_node_if_registered(void *object);
 extern u32 D_800814A0;
 
 /* Decreases intensity and marks the object finished when its countdown expires. */

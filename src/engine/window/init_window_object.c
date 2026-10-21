@@ -1,6 +1,8 @@
 #include "common.h"
 
 #include "common.h"
+#include "engine/object.h"
+#include "engine/window.h"
 
 typedef struct S_80035614_0 {
     u8 pad_00[0x4C];
@@ -10,10 +12,8 @@ typedef struct S_80035614_0 {
     u8 pad_6C[0x8];
     s32 unk_74;
 } S_80035614_0;   /* arg0 in init_window_object */
-void initialize_attached_message_window_node(void *node_storage, void *attached_object, s32 *init_data, s16 object_id, void *owner); /* extern */
 extern u8 attached_window_object_storage[];
 extern u8 attached_window_node_storage[];
-void scroll_window_x();
 
 /* Initialize the object, clear its state byte, and set its next handler. */
 void init_window_object(S_80035614_0 *object) {

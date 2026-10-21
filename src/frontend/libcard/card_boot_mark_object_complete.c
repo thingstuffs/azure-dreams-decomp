@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "shared/object_flags.h"
+#include "frontend/libcard.h"
 void card_boot_mark_object_complete(void *object) {
     u16 of = *(u16 *)((char *)object + 0x1E);
     int gf = object_flag_block.flags;

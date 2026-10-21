@@ -1,6 +1,7 @@
 #include "shared/sound_state.h"
 #include "common.h"
 #include "shared/sound_volume.h"
+#include "engine/audio.h"
 
 /* Canonical status block shared across the D_800847D0 family (w_800540A8.c,
    w_80054C58.c, w_8005405C.c, w_800559B4.c). Only flags1 is touched here. */
@@ -8,9 +9,6 @@
 /* Canonical "task/timer object" struct established in w_800559B4.c. field0 is a
    callback pointer (set to func_80054D64 there); field8/field10 are the two
    s16 fields this function reads. */
-
-
-extern void submit_scaled_driver_halfword_pair(s32 mode, s32 level_a, s32 level_b);
 
 /* When status flag 0x400 is set: D_80084858's level, scaled by volume scale [2], goes to submit_scaled_driver_halfword_pair (mode 0). */
 void apply_scaled_cd_stream_volume(void) {

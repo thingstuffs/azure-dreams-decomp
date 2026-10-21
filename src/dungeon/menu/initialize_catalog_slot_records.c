@@ -33,8 +33,8 @@ typedef struct {
     Record records[14];
 } RecordTable;
 
-extern SlotTable D_80129728;
-extern RecordTable D_80126A18;
+extern SlotTable catalog_display_node_slots;
+extern RecordTable catalog_frame_layout;
 
 /* Initialize 14 slots from records, applying part_8 defaults except for the last two slots. */
 void initialize_catalog_slot_records(void) {
@@ -48,10 +48,10 @@ void initialize_catalog_slot_records(void) {
     slot_index = 0;
     default_6 = 0x10;
     default_8 = 0xE0;
-    slot_base = &D_80129728;
+    slot_base = &catalog_display_node_slots;
     slot = slot_base->slots;
     for (; slot_index < 14; slot_index++) {
-        record = &D_80126A18.records[slot_index];
+        record = &catalog_frame_layout.records[slot_index];
         (*slot)->part_0 = 0;
         (*slot)->part_4->value_8 = record->value_4;
         (*slot)->part_4->value_A = record->value_6;
@@ -65,8 +65,8 @@ void initialize_catalog_slot_records(void) {
         Record *records;
         Slot *current;
 
-        slots = &D_80129728;
-        records = D_80126A18.records;
+        slots = &catalog_display_node_slots;
+        records = catalog_frame_layout.records;
         current = slots->slots[12];
         current->part_8->value_6 = records[12].value_4;
         slots->slots[12]->part_8->value_8 = records[12].value_6;

@@ -6,10 +6,10 @@ extern s16 get_clamped_transform_coordinate(void *object, s32 step_x, s32 step_y
 extern void initialize_object_assigns_state_data(void *object, void *unusedArg, void *initializationArg);
 extern int abs(int);
 
-extern s32 D_800D4FE8[4];
-extern s32 D_800D4FF8[4];
-extern s32 D_800D5008[4];
-extern s32 D_800D5018[4];
+extern s32 town_x_acceleration[4];
+extern s32 town_x_speed_limits[4];
+extern s32 town_y_acceleration[4];
+extern s32 town_y_speed_limits[4];
 
 
 typedef struct S_800C355C_0 {
@@ -110,19 +110,19 @@ void advance_bounded_motion(S_800C355C_1 *entity, void *motion, void *context, s
 
     max_speed = 0x20000;
 
-    speed = ((S_800C355C_0 *)motion)->unk_0C + D_800D4FE8[quadrant];
+    speed = ((S_800C355C_0 *)motion)->unk_0C + town_x_acceleration[quadrant];
     ((S_800C355C_0 *)motion)->unk_0C = speed;
     speed = abs(speed);
     speed = max_speed < speed;
     if (speed != 0) {
-        ((S_800C355C_0 *)motion)->unk_0C = D_800D4FF8[quadrant];
+        ((S_800C355C_0 *)motion)->unk_0C = town_x_speed_limits[quadrant];
     }
 
-    speed = ((S_800C355C_0 *)motion)->unk_10 + D_800D5008[quadrant];
+    speed = ((S_800C355C_0 *)motion)->unk_10 + town_y_acceleration[quadrant];
     ((S_800C355C_0 *)motion)->unk_10 = speed;
     speed = abs(speed);
     speed = max_speed < speed;
     if (speed != 0) {
-        ((S_800C355C_0 *)motion)->unk_10 = D_800D5018[quadrant];
+        ((S_800C355C_0 *)motion)->unk_10 = town_y_speed_limits[quadrant];
     }
 }
