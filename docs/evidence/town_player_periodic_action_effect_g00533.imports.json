@@ -1,0 +1,29 @@
+{
+  "module": "town_player_periodic_action_effect_g00533",
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_player_periodic_action_effect_g00533.imports.json",
+      "declaration": "include/town/player/periodic_action_effect_g00533.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083160": "word_default",
+    "D_800CFCEF": "sizeof",
+    "D_800D0158": "sizeof",
+    "D_800D043C": "retail_string",
+    "D_800FE488": "sizeof",
+    "D_800FE4E0": "sizeof"
+  },
+  "address_only_anchors": {}
+}

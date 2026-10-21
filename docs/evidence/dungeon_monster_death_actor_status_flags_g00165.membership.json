@@ -1,0 +1,21 @@
+{
+  "module": "dungeon_monster_death_actor_status_flags_g00165",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "actor_status_flags_g00165.c",
+    "module_index": 134172
+  },
+  "members": [
+    "dungeon/func_80BC44D4",
+    "dungeon/func_80BC489C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00165 - PD:dungeon/bank_be1000:8017468C, PD:dungeon/bank_be7000:8016E68C, PD:dungeon/bank_bed000:8016868C, PD:dungeon/bank_bf3000:8016268C, PD:dungeon/bank_bf9000:8015C68C, PD:dungeon/bank_bff000:8015668C. Grouping by tools/tu/infer_groups.py (group G00165); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b,d,h); strong inferred group G00165. No original filename anchor; feature name follows the whole group.",
+    "Members are the contiguous registered home rows 0xBE44D4..0xBE4BF0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

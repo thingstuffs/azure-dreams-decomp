@@ -1,0 +1,46 @@
+{
+  "module": "main_occupied_slot_window_g00386",
+  "runtime_views": {
+    "D_80078FD0": {
+      "symbol": "D_80078FD0",
+      "kind": "runtime_data",
+      "vma": 2147979216,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/main_occupied_slot_window_g00386.imports.json",
+      "declaration": "include/frontend/libcard/occupied_slot_window_g00386.h"
+    },
+    "D_80083E98": {
+      "symbol": "D_80083E98",
+      "kind": "runtime_data",
+      "vma": 2148023960,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/main_occupied_slot_window_g00386.imports.json",
+      "declaration": "include/frontend/libcard/occupied_slot_window_g00386.h"
+    },
+    "D_80083EA4": {
+      "symbol": "D_80083EA4",
+      "kind": "runtime_data",
+      "vma": 2148023972,
+      "view_bytes": 32768,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/main_occupied_slot_window_g00386.imports.json",
+      "declaration": "include/frontend/libcard/occupied_slot_window_g00386.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80027F7C": "sizeof",
+    "D_800282B0": "sizeof",
+    "D_80078FD0": "sizeof",
+    "D_80083E98": "word_default",
+    "D_80083EA4": "sizeof"
+  },
+  "address_only_anchors": {}
+}

@@ -1,0 +1,24 @@
+{
+  "module": "town_mesh_quad_transform_g00591",
+  "ledger_group": {
+    "container": "town",
+    "module": "mesh_quad_transform_g00591.c",
+    "module_index": 134137
+  },
+  "members": [
+    "town/func_800AC8E4",
+    "town/func_800AC908",
+    "town/func_800AC9AC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00591 - CL:town/func_800AC7B4, CL:town/func_800AC8E4, CL:town/func_800AC908, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D1C, PD:town/engine:80100D40. Grouping by tools/tu/infer_groups.py (group G00591); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "G00591: CL:town/func_800AC7B4,CL:town/func_800AC8E4,CL:town/func_800AC908,CL:town/func_800AC9AC,PD:town/engine:80100D18,PD:town/engine:80100D1C,PD:town/engine:80100D40; no weak or hard cut crosses a selected join under pd4_cl2.",
+    "Original file edges and filename are unknown; literals retain their existing imports (decision 72(f)).",
+    "Decision 72(d): reconcile declarations to one prototype and verify complete object identity.",
+    "Members are the contiguous registered home rows 0x2C8E4..0x2CE98 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

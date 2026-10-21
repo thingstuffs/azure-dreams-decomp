@@ -1,0 +1,24 @@
+{
+  "module": "town_shaded_quad_projection_g00568",
+  "ledger_group": {
+    "container": "town",
+    "module": "shaded_quad_projection_g00568.c",
+    "module_index": 134154
+  },
+  "members": [
+    "town/func_800A56D0",
+    "town/func_800A586C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00568 - CL:town/func_800A56D0. Grouping by tools/tu/infer_groups.py (group G00568); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "G00568: CL:town/func_800A56D0; no weak or hard cut crosses a selected join under pd4_cl2.",
+    "Original file edges and filename are unknown; literals retain their existing imports (decision 72(f)).",
+    "Decision 72(d): reconcile declarations to one prototype and verify complete object identity.",
+    "The one public prototype uses the default-promoted s32 shade type; its C89 identifier-list definition retains the u16 parameter object. Text and relocations remain identical.",
+    "Members are the contiguous registered home rows 0x256D0..0x25AE8 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

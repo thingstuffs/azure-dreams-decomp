@@ -1,0 +1,27 @@
+{
+  "module": "town_entry_kind_filters_g00589",
+  "runtime_views": {
+    "D_8006BC7A": {
+      "symbol": "D_8006BC7A",
+      "kind": "runtime_data",
+      "vma": 2147925114,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_entry_kind_filters_g00589.imports.json",
+      "declaration": "include/town/event/entry_kind_filters_g00589.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006BC7A": "sizeof",
+    "D_800D1038": "retail_string",
+    "D_800D1074": "retail_string",
+    "D_800D1080": "retail_string"
+  },
+  "address_only_anchors": {}
+}

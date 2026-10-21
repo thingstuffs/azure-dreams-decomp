@@ -1,0 +1,50 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "town_scene_flagged_entry_followup_g00725",
+  "placement": "town_scene_flagged_entry_followup_g00725_ll3a_618094_6181fc",
+  "review": {
+    "membership": "reviewed",
+    "types": "reviewed",
+    "ownership": "reviewed",
+    "reviewer": "codex-r121w-tub9"
+  },
+  "basis": "Decision 72, B006/G00725 destination review: both registered siblings are contiguous at one displacement; the link-list binding gives one function target for the shared void (void *, s32) import in the canonical header. The uniform 2.7.2-cdk-G0 -O1 recipe and full frozen-member object identity preserve both call sites. The placement owns text only; it imports no storage and claims no literal or data ownership. Scoped destination windows must project and compare the complete compiled object with genuine ASPSX replay.",
+  "views": {},
+  "maps": {},
+  "placement_descriptor": {
+    "key": "town_scene_flagged_entry_followup_g00725_ll3a_618094_6181fc",
+    "module": "town_scene_flagged_entry_followup_g00725",
+    "image": "town/ll3a_618094_6181fc",
+    "home_image": "town/ll3a_40050c_401200",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0 -O1",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "town/func_804811BC",
+        "row": "town/func_806981B8"
+      },
+      {
+        "home": "town/func_804811DC",
+        "row": "town/func_806981D8"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "func_80017100",
+        "kind": "function",
+        "vma": 2147578108
+      }
+    ],
+    "review": {
+      "membership": "reviewed",
+      "types": "reviewed",
+      "ownership": "reviewed",
+      "reviewer": "codex-r121w-tub9"
+    },
+    "review_inputs": [
+      "docs/evidence/town_scene_flagged_entry_followup_g00725_ll3a_618094_6181fc.placement.json"
+    ]
+  }
+}

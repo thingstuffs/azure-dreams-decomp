@@ -1,0 +1,24 @@
+{
+  "module": "main_message_dialog_lifecycle_g00381",
+  "ledger_group": {
+    "container": "main",
+    "module": "message_dialog_lifecycle_g00381.c",
+    "module_index": 134180
+  },
+  "members": [
+    "main/func_8000FBE8",
+    "main/func_8000FC48",
+    "main/func_8000FC90",
+    "main/func_8000FCD8",
+    "main/func_8000FD60"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00381 - CL:main/func_8000F934, CL:main/func_8000FAE8, CL:main/func_8000FB20, CL:main/func_8000FB48, CL:main/func_8000FBE8, CL:main/func_8000FC48, CL:main/func_8000FC90. Grouping by tools/tu/infer_groups.py (group G00381); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "N3 reference group reproduced exactly; no proven cut is crossed. Original file name and complete TU edges are unknown.",
+    "Members are the contiguous registered home rows 0x25FBE8..0x25FE74 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

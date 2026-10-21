@@ -1,0 +1,59 @@
+{
+  "module": "dungeon_monster_manoeva_linked_entity_state_g00259",
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259.imports.json",
+      "declaration": "include/dungeon/monster/manoeva/linked_entity_state_g00259.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259.imports.json",
+      "declaration": "include/dungeon/monster/manoeva/linked_entity_state_g00259.h"
+    }
+  },
+  "views": {
+    "D_800E3D7C": {
+      "symbol": "D_800E3D7C",
+      "kind": "data",
+      "vma": 2148416892,
+      "foff": 1041948,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "resident_xfer_dungeon_a3000",
+      "evidence": "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259.imports.json"
+    }
+  },
+  "maps": {
+    "resident_xfer_dungeon_a3000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "container": "dungeon",
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven load-map record."
+    }
+  },
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083160": "word_default",
+    "D_80083460": "word_default",
+    "D_800E3D7C": "sizeof",
+    "D_80176670": "sizeof"
+  },
+  "address_only_anchors": {}
+}

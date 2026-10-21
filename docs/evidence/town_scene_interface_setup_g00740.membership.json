@@ -1,0 +1,22 @@
+{
+  "module": "town_scene_interface_setup_g00740",
+  "ledger_group": {
+    "container": "town",
+    "module": "interface_setup_g00740.c",
+    "module_index": 134168
+  },
+  "members": [
+    "town/func_80615500",
+    "town/func_80615574"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00740 - PD:town/ll34_594800_80016000:80018FB4. Grouping by tools/tu/infer_groups.py (group G00740); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b), batch B006: regenerated group row exactly equals the supplied row; PD/CL joins and model cuts as recorded in the evidence. Original file name and complete file edges are unknown.",
+    "Strong-group boundary selection: Only the strong PD gap is included; complete file edges remain unknown.",
+    "Members are the contiguous registered home rows 0x595500..0x5955F0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

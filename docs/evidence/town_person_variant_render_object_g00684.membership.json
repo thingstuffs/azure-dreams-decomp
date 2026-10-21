@@ -1,0 +1,24 @@
+{
+  "module": "town_person_variant_render_object_g00684",
+  "ledger_group": {
+    "container": "town",
+    "module": "variant_render_object_g00684.c",
+    "module_index": 134124
+  },
+  "members": [
+    "town/func_800CE16C",
+    "town/func_800CE258",
+    "town/func_800CE34C",
+    "town/func_800CE380",
+    "town/func_800CE408"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00684 - CL:town/func_800CE070, CL:town/func_800CE380, CL:town/func_800CE408, PD:town/engine:800D68B0. Grouping by tools/tu/infer_groups.py (group G00684); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b), G00684: inferred-strong; joins from the listed CL/PD evidence, with proven and cross-image cut constraints retained by infer_groups. Original filename and complete TU edges are unknown.",
+    "Members are the contiguous registered home rows 0x4E16C..0x4E4BC at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

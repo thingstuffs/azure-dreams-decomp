@@ -42,9 +42,10 @@ SPEC.json:
    "modules": [{"key": "town_shop_stat_display", "source": "src/town/shop/stat_display.c",
                 "title": "...", "members": ["town/func_800B7CEC", ...]}, ...]}
 Optional evidence_level/evidence_ids fields are emitted in each source's opening
-comment. runtime_anchors maps address-only D_XXXXXXXX imports to a declaration,
-basis and review_inputs; these receive a one-byte runtime view without a retail
-storage or allocation claim. They are never inferred from an address range.
+comment. runtime_anchors maps individually evidenced D_XXXXXXXX imports to a
+declaration, basis and review_inputs (or evidence). Address-only views default
+to one byte; explicit view_bytes records a bounded declaration view without
+retail storage or allocation claims. They are never inferred from a range.
 Exit codes: 0 ok, 2 draft conflicts, 3 identity differs, 4 install refused.
 """
 from __future__ import annotations
@@ -64,6 +65,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
+# Compiler helpers may import through the shared toolchain symlink.
+os.environ.setdefault('PYTHONDONTWRITEBYTECODE', '1')
 RECIPES = {  # same closed table as tools/gate/overlay_module_gate.module_recipe
     '2.7.2-cdk-G0': ('2.7.2-cdk', ('-O2', '-G0')),
     '2.7.2-G0': ('2.7.2', ('-O2', '-G0')),
@@ -117,7 +120,7 @@ DEF = re.compile(r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t\n*]*?\b([A-Za-z_][A-Za-z0-9_]*
 # parameter declaration. A shared typed prototype still specifies the ABI.
 KR_DEF = re.compile(r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t\n*]*?\b([A-Za-z_]\w*)\s*'
                     r'\(([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\)\s*'
-                    r'((?:[A-Za-z_][A-Za-z0-9_ \t*]*;\s*)+)\{', re.M)
+                    r'((?:[A-Za-z_][A-Za-z0-9_ \t*,]*;\s*)+)\{', re.M)
 
 
 def definitions(source):
@@ -130,8 +133,9 @@ def definitions(source):
     matches = list(DEF.finditer(masked))
     for m in KR_DEF.finditer(masked):
         params = [x.strip() for x in m[2].split(',')]
-        declared = [re.search(r'(\w+)\s*$', x.strip())[1]
-                    for x in m[3].split(';') if x.strip()]
+        declared = [re.search(r'(\w+)\s*$', declarator.strip())[1]
+                    for declaration in m[3].split(';') if declaration.strip()
+                    for declarator in declaration.split(',')]
         if len(params) == len(set(params)) and sorted(params) == sorted(declared):
             matches.append(m)
     for m in sorted(matches, key=lambda x: x.start()):
@@ -270,6 +274,8 @@ def evidence_line(spec):
     if not lvl:
         return ''
     kind = {'proven': 'proven (string literals)'}.get(lvl, 'inferred (adjacency/recipe/locality), %s' % lvl)
+    if spec.get('group'):
+        kind += ' - group ' + spec['group']
     ids = spec.get('evidence') or []
     shown = ', '.join(ids[:8]) + (' (+%d more)' % (len(ids) - 8) if len(ids) > 8 else '')
     return 'Original-file evidence: %s%s.' % (kind, (' - ' + shown) if shown else '')
@@ -860,6 +866,12 @@ def resolve_function(root, sym, names):
     return None
 
 
+def data_address(sym):
+    """Address-named storage views may carry registered aliases such as _R."""
+    match = re.fullmatch(r'D_([0-9A-F]{8})(?:_[A-Za-z0-9]+)*', sym)
+    return int(match[1], 16) if match else None
+
+
 def header_closure(root, hdr):
     seen, todo = [], [hdr]
     while todo:
@@ -868,8 +880,30 @@ def header_closure(root, hdr):
             continue
         seen.append(h)
         for m in re.finditer(r'#\s*include\s*"([^"]+)"', (root / h).read_text()):
-            todo.append('include/' + m[1])
+            options = [Path(h).parent / m[1], Path('include') / m[1], Path(m[1])]
+            for option in options:
+                rel = Path(os.path.normpath(option))
+                if not rel.is_absolute() and '..' not in rel.parts and (root / rel).is_file():
+                    todo.append(rel.as_posix())
+                    break
     return seen
+
+
+def rewrite_include_facade(text, facade, old_paths):
+    """An optional natural-order include TU includes each new merged source once."""
+    emitted, lines = set(), []
+    parent = Path(facade).parent
+    for line in text.splitlines(keepends=True):
+        hit = re.match(r'\s*#\s*include\s*"([^"]+)"\s*$', line)
+        target = os.path.normpath(parent / hit[1]) if hit else None
+        if target not in old_paths:
+            lines.append(line)
+            continue
+        new = old_paths[target]
+        if new not in emitted:
+            lines.append('#include "%s"\n' % os.path.relpath(new, parent))
+            emitted.add(new)
+    return ''.join(lines)
 
 
 def view_bytes(root, sym, header, cfg, blob, foff, limit, includes):
@@ -987,14 +1021,17 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
     # Explicit address-only runtime anchors may live outside the loaded SLUS
     # bytes (for example the CD image scratch buffers).  Keep these reviewed
     # claims separate from inferred data views and never claim retail storage.
-    anchors = spec.get('runtime_anchors', {})
+    anchors = {sym: dict(anchor, declaration=anchor.get('declaration', hdr),
+                        review_inputs=anchor.get('review_inputs', anchor.get('evidence', [])))
+               for sym, anchor in spec.get('runtime_anchors', {}).items()}
     for sym, anchor in anchors.items():
-        if not re.fullmatch(r'D_[0-9A-F]{8}', sym) or not anchor.get('basis'):
+        if (not re.fullmatch(r'D_[0-9A-F]{8}', sym) or not anchor.get('basis')
+                or not isinstance(anchor.get('view_bytes', 1), int) or anchor.get('view_bytes', 1) <= 0):
             raise Refused('runtime anchor needs an address symbol and basis: ' + sym)
         if not (root / anchor.get('declaration', '')).is_file() and anchor.get('declaration') != hdr:
             raise Refused('runtime anchor declaration missing: ' + sym)
         for path in anchor.get('review_inputs', []):
-            if not (root / path).is_file():
+            if Path(path).is_absolute() or '..' in Path(path).parts or not (root / path).is_file():
                 raise Refused('runtime anchor evidence missing: ' + path)
     fr = Freezer(root, base)
     # 1. header and module sources
@@ -1057,13 +1094,12 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
         decl_headers = header_closure(root, hdr)
         for sym in undefined:
             fv = resolve_function(root, sym, names)
-            is_data = bool(re.fullmatch(r'D_[0-9A-F]{8}(_\d+)?', sym))
-            if not is_data:
+            vma = data_address(sym)
+            if vma is None:
                 if fv is None:
                     raise Refused('unresolved function import %s' % sym)
                 imports.append(dict(symbol=sym, kind='function', vma=fv))
                 continue
-            vma = int(sym[2:10], 16)
             if rlo + delta <= vma < rhi + delta:
                 foff = vma - delta
                 vb, how = view_bytes(root, sym, hdr, cfg, blob, foff, rhi, [])
@@ -1073,7 +1109,7 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
                                     owner='retail_asset:%s:%s' % (container, region['region'])))
             elif sym in anchors or SLUS_RESIDENT[0] <= vma < SLUS_RESIDENT[1] or any(a <= vma < b for a, b in SLUS_MANAGED):
                 anchor = anchors.get(sym)
-                vb, how = (1, 'address_only_runtime_anchor') if anchor else view_bytes(
+                vb, how = (anchor.get('view_bytes', 1), 'address_only_runtime_anchor') if anchor else view_bytes(
                     root, sym, hdr, cfg, None, None, 0, [])
                 sizes[sym] = how
                 decl = anchor['declaration'] if anchor else next((h for h in decl_headers
@@ -1107,7 +1143,7 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
                 xviews[sym] = d
                 imports.append(d)
         # a fallback-sized view never runs into the next imported object of the region
-        local = sorted((d['vma'], d) for d in imports if d['kind'] == 'data')
+        local = sorted(((d['vma'], d) for d in imports if d['kind'] == 'data'), key=lambda item: item[0])
         for (v, d), (v2, _) in zip(local, local[1:]):
             if sizes.get(d['symbol']) != 'sizeof' and v < v2 < v + d['view_bytes']:
                 d['view_bytes'] = v2 - v
@@ -1197,6 +1233,11 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
         reattribute(root, fr, container, members, spec['recipe'], spec.get('group') or spec.get('span') or '?')
     # 5. path rewrites in the link catalogues (TU paths of homes and placements)
     old_paths = {m['path']: next(x['source'] for x in spec['modules'] if x['key'] == m['module']) for m in members}
+    for rel in spec.get('include_facades', []):
+        p = Path(rel)
+        if p.is_absolute() or '..' in p.parts or not (root / p).is_file():
+            raise Refused('invalid include facade: ' + rel)
+        fr.write(rel, rewrite_include_facade((root / p).read_text(), rel, old_paths))
     for pat in ('config/link/*/*.json', 'link/*/*.tsv'):
         for path in sorted(root.glob(pat)):
             t = path.read_text()
@@ -1344,23 +1385,97 @@ def make_spec(root, span_id, evdir, ranked):
                               title='REPLACE: one-line feature description.', members=ids)])
 
 
-def consolidate_region(root, base, image, lo=None, hi=None, name=None, basis=''):
+def data_hypothesis_slice(root, image, record, lo, hi):
+    """A solved code-base hypothesis cannot defeat an audited non-code census slice.
+
+    This is opt-in, never applies to a proven record, and cannot touch any registered
+    row. Preserve the original hypothesis in the resulting region's evidence.
+    """
+    if record['base_confidence'] != 'solved':
+        raise Refused('only solved hypotheses may be superseded by proven data')
+    sys.path.insert(0, str(root / 'tools'))
+    from byte_map_format import read_parts
+    container, stem = image.split('/', 1)
+    parts = sorted((root / 'link' / container).glob(stem + '*.tsv'))
+    if not parts:
+        raise Refused('superseding a solved hypothesis requires a typed byte map')
+    doc = read_parts(parts, root)
+    if doc['image'] != image:
+        raise Refused('data hypothesis byte-map image differs')
+    for row in jl(root / 'ledger/rows.jsonl'):
+        if (row['container'] == container and isinstance(row.get('foff'), int)
+                and row['foff'] < hi and lo < row['foff'] + row['size']):
+            raise Refused('a registered row overlaps the proposed data-hypothesis slice: ' + row['id'])
+    p = root / 'config/overlays/modules.json'
+    if p.exists() and any(m['container'] == container and m['region'] == record['region']
+                          for m in json.loads(p.read_text())['modules']):
+        raise Refused('a live module references the proposed solved hypothesis')
+    cursor, evidence = lo, []
+    number = lambda x: int(x, 0) if isinstance(x, str) else x
+    for entry in sorted(doc['entries'], key=lambda e: number(e['foff'])):
+        a, b = number(entry['foff']), number(entry['foff']) + entry['size']
+        if b <= cursor or a >= hi:
+            continue
+        if (a > cursor or entry.get('kind') not in ('data', 'asset')
+                or entry.get('census_label') != 'proven_data'):
+            raise Refused('the foreign solved hypothesis is not tiled by proven data')
+        evidence.append(dict(entry))
+        cursor = min(hi, b)
+        if cursor == hi:
+            break
+    if cursor != hi:
+        raise Refused('typed byte map does not cover the foreign solved hypothesis')
+    return dict(original_hypothesis=record, superseded_extent=['0x%X' % lo, '0x%X' % hi],
+                byte_map=[p.relative_to(root).as_posix() for p in parts], proven_data_entries=evidence,
+                basis='Decision 72(h) image load region; the conflicting solved code hypothesis overlaps '
+                      'only audited proven_data and no registered row. Original hypothesis retained verbatim; '
+                      'any portion outside this image remains a solved record.')
+
+
+def consolidate_region(root, base, image, lo=None, hi=None, name=None, basis='',
+                       supersede_data_hypotheses=False):
     """MAIN owner model (tu7): one proven load region over a link image's code AND its own
     .rdata/.data, so a merged file's imports of its own literals/data are retail views of
-    that region.  Every rowbase record inside the extent must share the image's load delta;
+    that region. Every rowbase record inside the extent must share the image's load delta,
+    except explicitly superseded solved hypotheses over audited data without registered rows;
     they are replaced by one record that embeds them verbatim (no proof is dropped).  A single
     covering record is widened in place and keeps its name (modules cite region names)."""
     container, _ = image.split('/', 1)
-    doc = json.loads((root / 'config/link' / container / (image.split('/', 1)[1] + '.json')).read_text())
-    ifoff, isize, ivma = (int(doc[k], 16) if isinstance(doc[k], str) else doc[k] for k in ('foff', 'size', 'vma'))
-    delta = ivma - ifoff
+    catalogue = root / 'config/link' / (image + '.json')
+    if catalogue.exists():
+        doc = json.loads(catalogue.read_text())
+    else:
+        sys.path.insert(0, str(root / 'tools'))
+        from byte_map_format import read_parts
+        parts = sorted((root / 'link' / container).glob(image.split('/', 1)[1] + '*.tsv'))
+        if not parts:
+            raise Refused('no link catalogue for ' + image)
+        doc = read_parts(parts, root)
+        if doc['image'] != image:
+            raise Refused('file-view identity differs: ' + image)
+        catalogue = parts[0]
+    ifoff, isize = (int(doc[k], 0) if isinstance(doc[k], str) else doc[k] for k in ('foff', 'size'))
+    ivma = doc.get('vma')
+    if ivma is None:
+        if lo is None or hi is None:
+            raise Refused('file view without a load vma requires --extent')
+        deltas = {int(r['delta'], 0) for r in jl(root / ('config/overlays/%s.rowbase.jsonl' % container))
+                  if r['base_confidence'] == 'proven' and int(r['foff_start'], 0) < hi
+                  and lo < int(r['foff_end'], 0)}
+        if len(deltas) != 1:
+            raise Refused('file view has no unique proven delta in its explicit extent')
+        delta = deltas.pop()
+        ivma = ifoff + delta
+    else:
+        ivma = int(ivma, 0) if isinstance(ivma, str) else ivma
+        delta = ivma - ifoff
     lo = ifoff if lo is None else lo
     hi = ifoff + isize if hi is None else hi
     if not ifoff <= lo < hi <= ifoff + isize:
         raise Refused('extent 0x%X-0x%X is outside link image %s' % (lo, hi, image))
     rel = 'config/overlays/%s.rowbase.jsonl' % container
     lines = (root / rel).read_text().splitlines()
-    keep, inside = [], []
+    keep, inside, superseded = [], [], []
     for line in lines:
         if not line.strip().startswith('{'):
             keep.append(line)
@@ -1369,7 +1484,19 @@ def consolidate_region(root, base, image, lo=None, hi=None, name=None, basis='')
         a, b = int(r['foff_start'], 0), int(r['foff_end'], 0)
         if a < hi and lo < b:
             if int(r['delta'], 0) != delta:
-                raise Refused('region %s inside the image has delta %s, not 0x%X' % (r['region'], r['delta'], delta))
+                if not supersede_data_hypotheses:
+                    raise Refused('region %s inside the image has delta %s, not 0x%X' % (r['region'], r['delta'], delta))
+                cut_lo, cut_hi = max(lo, a), min(hi, b)
+                superseded.append(data_hypothesis_slice(root, image, r, cut_lo, cut_hi))
+                remnants = [(a, cut_lo), (cut_hi, b)]
+                remnants = [(x, y) for x, y in remnants if x < y]
+                for i, (x, y) in enumerate(remnants):
+                    remnant = dict(r, foff_start='0x%X' % x, foff_end='0x%X' % y,
+                                   hypothesis_clipped_by=dict(image=image, extent=['0x%X' % cut_lo, '0x%X' % cut_hi]))
+                    if len(remnants) > 1:
+                        remnant['region'] += '_part%d' % i
+                    keep.append(json.dumps(remnant))
+                continue
             if a < lo or b > hi:
                 lo, hi = min(lo, a), max(hi, b)
             inside.append(r)
@@ -1377,25 +1504,42 @@ def consolidate_region(root, base, image, lo=None, hi=None, name=None, basis='')
             keep.append(line)
     if not any(r['base_confidence'] == 'proven' for r in inside):
         raise Refused('no proven region at delta 0x%X inside %s' % (delta, image))
-    proof = ('tu7 owner model for merged files (decision 72): link catalogue config/link/%s/%s.json maps file '
-             '0x%X..0x%X at vma 0x%X (delta 0x%X; %s). The image text, .rdata and .data load as one unit; '
+    proof = ('tu7 owner model for merged files (decision 72): link catalogue %s describes file '
+             '0x%X..0x%X; selected extent 0x%X..0x%X uses vma 0x%X at its start (delta 0x%X; %s). '
+             'The selected image text, .rdata and .data load as one unit; '
              '%d byte-exact region proofs at this delta lie inside and are embedded below unchanged. %s' % (
-                 container, image.split('/', 1)[1], ifoff, ifoff + isize, ivma, delta, doc.get('evidence', ''),
+                 catalogue.relative_to(root).as_posix(), ifoff, ifoff + isize, lo, hi, lo + delta,
+                 delta, doc.get('evidence', ''),
                  len(inside), basis)).strip()
     if len(inside) == 1:
         rec = dict(inside[0])
         rec['proof'] = rec['proof'] + '; WIDENED ' + proof
         rec['widened_from'] = [inside[0]['foff_start'], inside[0]['foff_end']]
     else:
+        modules_path = root / 'config/overlays/modules.json'
+        referenced = set()
+        if modules_path.exists():
+            old_names = {r['region'] for r in inside}
+            referenced = {m['region'] for m in json.loads(modules_path.read_text())['modules']
+                          if m['container'] == container and m['region'] in old_names}
+        if len(referenced) > 1:
+            raise Refused('consolidation would retire multiple live module regions: %s' % sorted(referenced))
+        if referenced:
+            if name and name not in referenced:
+                raise Refused('consolidation name would retire a live module region')
+            name = next(iter(referenced))
         rec = dict(schema='azure-clean.rowbase.v1', region=name or 'link_%s' % image.split('/', 1)[1],
                    foff_start='0x%X' % lo, foff_end='0x%X' % hi, delta='0x%X' % delta, base_confidence='proven',
                    proof=proof, consolidated=inside)
     rec['foff_start'], rec['foff_end'] = '0x%X' % lo, '0x%X' % hi
+    if superseded:
+        rec['superseded_data_hypotheses'] = rec.get('superseded_data_hypotheses', []) + superseded
     out = [l for l in keep] + [json.dumps(rec)]
     fr = Freezer(root, base)
     fr.write(rel, '\n'.join(out) + '\n')
     return dict(region=rec['region'], foff_start=rec['foff_start'], foff_end=rec['foff_end'], delta=rec['delta'],
-                consolidated=[r['region'] for r in inside])
+                consolidated=[r['region'] for r in inside],
+                superseded_data_hypotheses=[r['original_hypothesis']['region'] for r in superseded])
 
 
 def restore(root, base):
@@ -1445,6 +1589,8 @@ def main(argv=None):
     ap.add_argument('command', choices=['spec', 'run', 'draft', 'own', 'prove', 'install', 'restore', 'region'])
     ap.add_argument('--image', help='region: link image (e.g. main/ll34_269000_80400000)')
     ap.add_argument('--extent', help='region: LO,HI file offsets (default: the whole link image)')
+    ap.add_argument('--supersede-data-hypotheses', action='store_true',
+                    help='region: retain but supersede solved foreign-base hypotheses only over audited proven data')
     ap.add_argument('--span', help='spec: span id from spans_ranked.tsv / boundary_map.tsv')
     ap.add_argument('--ranked', type=Path, help='spec: spans_ranked.tsv (default: next to --evidence)')
     ap.add_argument('--group', help='spec: inferred group id from groups.tsv (tools/tu/infer_groups.py)')
@@ -1478,7 +1624,8 @@ def main(argv=None):
             lo = hi = None
             if args.extent:
                 lo, hi = (int(x, 0) for x in args.extent.split(','))
-            print(json.dumps(consolidate_region(root, args.base.resolve(), args.image, lo, hi)))
+            print(json.dumps(consolidate_region(root, args.base.resolve(), args.image, lo, hi,
+                                               supersede_data_hypotheses=args.supersede_data_hypotheses)))
             return 0
         if args.command == 'restore':
             if not args.base:

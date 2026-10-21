@@ -1,0 +1,102 @@
+/* inferred-strong G00570: randomized_effect_motion_g00570; joins PD:town/engine:800D0B20; no crossing cuts. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0B20. */
+#include "town/menu/randomized_effect_motion_g00570.h"
+
+/* Initializes the object record and a randomized motion vector. */
+void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *record)
+{
+    s32 tilt_angle;
+    s32 scale;
+    s32 direction_angle;
+    s32 direction_term;
+    s32 init_value;
+    s32 product;
+    s32 scale_numerator;
+    s32 scale_sample;
+    s32 unit_scale;
+
+    unit_scale = 0x1000;
+    record->scale_y = unit_scale;
+    record->color.word = 0x808080;
+    record->scale_x = unit_scale;
+    record->source = D_800D0B50[((S_800A3508_1 *)obj)->unk_22];
+    record->unk_00 = 0;
+    record->unk_04 = 0;
+    record->unk_05 = 0;
+
+    init_value = D_800D0B20[((S_800A3508_1 *)obj)->unk_22];
+    if (init_value != 0) {
+        func_8003DB94(record, init_value, 0);
+    }
+
+    register_node(obj - 0x20, project_sprite_chain);
+
+    if (((S_800A3508_1 *)obj)->unk_22 < 4) {
+        init_value = scale_random_to_unsigned_halfword_limit(0x1000);
+        tilt_angle = 0x400;
+        direction_angle = D_800D0B18[((S_800A3508_1 *)obj)->unk_22] + (init_value & 0xFFFF);
+    } else {
+        direction_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
+        tilt_angle = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
+    }
+    scale_sample = scale_random_to_unsigned_halfword_limit(0x1000) & 0xFFFF;
+    scale_numerator = scale_sample + 0x1000;
+    if (scale_numerator < 0) {
+        scale_numerator = scale_sample + 0x101F;
+    }
+    scale = (s32)scale_numerator >> 5;
+    product = func_800644B8(direction_angle) * func_800644B8(tilt_angle);
+    if (product < 0) {
+        product += 0xFFF;
+    }
+    vec[3] = product >> 12;
+
+    direction_term = func_80064584(direction_angle);
+    product = direction_term * func_800644B8(tilt_angle);
+    vec[4] = (product / 4096);
+
+    vec[5] = func_80064584(tilt_angle);
+    vec[3] *= scale;
+    vec[4] *= scale;
+    vec[5] *= scale;
+
+    (*(s32 *)((u8 *)obj + 0x2C)) = vec[3] / 23;
+    ((S_800A3508_1 *)obj)->unk_30 = vec[4] / 23;
+    ((S_800A3508_1 *)obj)->unk_34 = vec[5] / 23;
+    ((S_800A3508_1 *)obj)->unk_24 = 0x18;
+    ((S_800A3508_1 *)obj)->unk_00 = D_800A378C;
+
+    add_motion_deltas_to_position((EntityRec *)vec);
+    add_motion_deltas_to_position((EntityRec *)vec);
+}
+
+/* Updates the transform until the countdown expires, then resets appearance and advances state. */
+void advance_motion_and_reset_appearance(S_800A378C_0 *state, EntityRec *transform, SpriteFrameState *appearance) {
+    s32 ticks_left;
+
+    ticks_left = state->unk_24 - 1;
+    state->unk_24 = ticks_left;
+    if (ticks_left < 0) {
+        transform->unk_0C = 0;
+        transform->unk_10 = 0;
+        transform->flags14 = 0;
+        appearance->color.c.b = 0x40;
+        appearance->color.c.g = 0x40;
+        appearance->color.c.r = 0x40;
+        appearance->tpage_abr = 0x20;
+        appearance->flags = (u16) (appearance->flags | 0x1C);
+        state->unk_00 = &D_800A38A8;
+        transform->unk_0C = 0;
+        transform->unk_10 = 0;
+        transform->flags14 =
+            ((((u16) scale_random_to_unsigned_halfword_limit(0x1000)) << 1) + 0x2000) << 4;
+        return;
+    }
+    transform->unk_0C = (s32) (transform->unk_0C - state->unk_2C);
+    transform->unk_10 = (s32) (transform->unk_10 - state->unk_30);
+    transform->flags14 = (s32) (transform->flags14 - state->unk_34);
+    add_motion_deltas_to_position(transform);
+    if (*((s32 *)&D_800D0B20 + state->unk_22) != 0) {
+        func_800478B8(appearance);
+    }
+}

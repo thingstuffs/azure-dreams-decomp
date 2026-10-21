@@ -1,0 +1,25 @@
+{
+  "module": "town_washed_dish_effects_g00584",
+  "ledger_group": {
+    "container": "town",
+    "module": "washed_dish_effects_g00584.c",
+    "module_index": 134131
+  },
+  "members": [
+    "town/func_800AAB90",
+    "town/func_800AABDC",
+    "town/func_800AACA8",
+    "town/func_800AACB8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00584 - PD:town/engine:800D0E44, PD:town/engine:800F8A70. Grouping by tools/tu/infer_groups.py (group G00584); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "G00584: PD:town/engine:800D0E44,PD:town/engine:800F8A70; no weak or hard cut crosses a selected join under pd4_cl2.",
+    "Original file edges and filename are unknown; literals retain their existing imports (decision 72(f)).",
+    "Decision 72(d): reconcile declarations to one prototype and verify complete object identity.",
+    "Members are the contiguous registered home rows 0x2AB90..0x2ACE0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

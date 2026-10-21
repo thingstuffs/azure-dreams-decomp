@@ -1,0 +1,21 @@
+{
+  "module": "dungeon_monster_golem_actor_action_display_g00034",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "actor_action_display_g00034.c",
+    "module_index": 134171
+  },
+  "members": [
+    "dungeon/func_81084850",
+    "dungeon/func_81084A18"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00034 - CL:dungeon/func_81084A18@dungeon/bank_10a3000, CL:dungeon/func_81084A18@dungeon/bank_10a9000, CL:dungeon/func_81084A18@dungeon/bank_10af000, CL:dungeon/func_81084A18@dungeon/bank_10b5000, CL:dungeon/func_81084A18@dungeon/bank_10bb000, CL:dungeon/func_81084A18@dungeon/bank_10c1000. Grouping by tools/tu/infer_groups.py (group G00034); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b,d,h); strong inferred group G00034. No original filename anchor; feature name follows the whole group.",
+    "Members are the contiguous registered home rows 0x10A4850..0x10A4B34 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

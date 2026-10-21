@@ -1,0 +1,21 @@
+{
+  "module": "town_value_handler_modes_g00712",
+  "ledger_group": {
+    "container": "town",
+    "module": "value_handler_modes_g00712.c",
+    "module_index": 134162
+  },
+  "members": [
+    "town/func_80472098",
+    "town/func_804720B8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00712 - CL:town/func_8032EA2C. Grouping by tools/tu/infer_groups.py (group G00712); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong group G00712; contiguous home rows, uniform recipe, joins CL:town/func_8032EA2C. No known cut is crossed.",
+    "Members are the contiguous registered home rows 0x3F2098..0x3F20DC at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

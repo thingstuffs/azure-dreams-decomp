@@ -1,0 +1,25 @@
+{
+  "module": "ovmovie_movie_display_setup_g00426",
+  "ledger_group": {
+    "container": "ovmovie",
+    "module": "movie_display_setup_g00426.c",
+    "module_index": 134184
+  },
+  "members": [
+    "ovmovie/func_800400AC",
+    "ovmovie/func_800402D8",
+    "ovmovie/func_8004033C",
+    "ovmovie/func_80040360",
+    "ovmovie/func_800403EC",
+    "ovmovie/func_800404A8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00426 - CL:ovmovie/func_800402D8, CL:ovmovie/func_8004033C, CL:ovmovie/func_80040360, CL:ovmovie/func_800403EC, CL:ovmovie/func_80040954, CL:ovmovie/func_80040ED8, PD:ovmovie/ovmovie_bin:801781D8, PD:ovmovie/ovmovie_bin:80189390. Grouping by tools/tu/infer_groups.py (group G00426); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b,d,h); strong inferred group G00426. No original filename anchor; feature name follows the whole group.",
+    "Members are the contiguous registered home rows 0xAC..0x690 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

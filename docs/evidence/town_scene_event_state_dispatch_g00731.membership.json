@@ -1,0 +1,23 @@
+{
+  "module": "town_scene_event_state_dispatch_g00731",
+  "ledger_group": {
+    "container": "town",
+    "module": "event_state_dispatch_g00731.c",
+    "module_index": 134166
+  },
+  "members": [
+    "town/func_8059E8A0",
+    "town/func_8059E8E0",
+    "town/func_8059E948"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00731 - CL:town/func_8059E8A0, PD:town/ll34_51e000_80016000:80019088. Grouping by tools/tu/infer_groups.py (group G00731); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b), batch B006: regenerated group row exactly equals the supplied row; PD/CL joins and model cuts as recorded in the evidence. Original file name and complete file edges are unknown.",
+    "Strong-group boundary selection: Only the two strong CL/PD gaps are included; complete file edges remain unknown.",
+    "Members are the contiguous registered home rows 0x51E8A0..0x51EAA0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

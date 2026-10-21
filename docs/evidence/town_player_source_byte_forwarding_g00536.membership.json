@@ -1,0 +1,21 @@
+{
+  "module": "town_player_source_byte_forwarding_g00536",
+  "ledger_group": {
+    "container": "town",
+    "module": "source_byte_forwarding_g00536.c",
+    "module_index": 134112
+  },
+  "members": [
+    "town/func_80097264",
+    "town/func_800972D8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00536 - CL:town/func_80097264, CL:town/func_80097300. Grouping by tools/tu/infer_groups.py (group G00536); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b), G00536: inferred-strong; joins from the listed CL/PD evidence, with proven and cross-image cut constraints retained by infer_groups. Original filename and complete TU edges are unknown.",
+    "Members are the contiguous registered home rows 0x17264..0x17300 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

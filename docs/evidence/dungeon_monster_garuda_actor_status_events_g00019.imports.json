@@ -1,0 +1,57 @@
+{
+  "module": "dungeon_monster_garuda_actor_status_events_g00019",
+  "runtime_views": {
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019.imports.json",
+      "declaration": "include/dungeon/monster/garuda/actor_status_events_g00019.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019.imports.json",
+      "declaration": "include/dungeon/monster/garuda/actor_status_events_g00019.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800814A8": "sizeof",
+    "D_80082E80": "sizeof",
+    "D_80083160": "word_default",
+    "D_80083460": "word_default",
+    "D_80171058": "retail_string",
+    "D_801748E0": "retail_string",
+    "D_801748E8": "retail_string"
+  },
+  "address_only_anchors": {}
+}

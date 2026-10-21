@@ -1,0 +1,21 @@
+{
+  "module": "town_person_timed_actor_motion_g00677",
+  "ledger_group": {
+    "container": "town",
+    "module": "timed_actor_motion_g00677.c",
+    "module_index": 134115
+  },
+  "members": [
+    "town/func_800CB820",
+    "town/func_800CB890"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00677 - PD:town/engine:800D6268. Grouping by tools/tu/infer_groups.py (group G00677); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b), G00677: inferred-strong; joins from the listed CL/PD evidence, with proven and cross-image cut constraints retained by infer_groups. Original filename and complete TU edges are unknown.",
+    "Members are the contiguous registered home rows 0x4B820..0x4B91C at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

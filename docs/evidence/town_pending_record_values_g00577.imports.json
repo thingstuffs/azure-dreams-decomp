@@ -1,0 +1,35 @@
+{
+  "module": "town_pending_record_values_g00577",
+  "runtime_views": {
+    "D_80081458": {
+      "symbol": "D_80081458",
+      "kind": "runtime_data",
+      "vma": 2148013144,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_pending_record_values_g00577.imports.json",
+      "declaration": "include/town/player/pending_record_values_g00577.h"
+    },
+    "D_80082EA8": {
+      "symbol": "D_80082EA8",
+      "kind": "runtime_data",
+      "vma": 2148019880,
+      "view_bytes": 12,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_pending_record_values_g00577.imports.json",
+      "declaration": "include/town/player/pending_record_values_g00577.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80081458": "sizeof",
+    "D_80082EA8": "sizeof",
+    "D_80100E2C": "sizeof"
+  },
+  "address_only_anchors": {}
+}

@@ -177,7 +177,7 @@
     },
     {
       "row": "dungeon/func_80E3A18C",
-      "tu": "src/dungeon/monster/manoeva/transfer_linked_object_state.c",
+      "tu": "src/dungeon/monster/manoeva/linked_entity_state_g00259.c",
       "home": "dungeon/func_80E3A18C",
       "foff": "0xE5A18C",
       "vma": "0x8017398C",
@@ -185,7 +185,7 @@
     },
     {
       "row": "dungeon/func_80E3A440",
-      "tu": "src/dungeon/monster/manoeva/initialize_object_and_clear_state.c",
+      "tu": "src/dungeon/monster/manoeva/linked_entity_state_g00259.c",
       "home": "dungeon/func_80E3A440",
       "foff": "0xE5A440",
       "vma": "0x80173C40",
@@ -193,7 +193,7 @@
     },
     {
       "row": "dungeon/func_80E3A540",
-      "tu": "src/dungeon/monster/manoeva/reset_linked_entity_state.c",
+      "tu": "src/dungeon/monster/manoeva/linked_entity_state_g00259.c",
       "home": "dungeon/func_80E3A540",
       "foff": "0xE5A540",
       "vma": "0x80173D40",
@@ -257,7 +257,7 @@
     },
     {
       "row": "dungeon/func_80E3B86C",
-      "tu": "src/dungeon/monster/manoeva/check_adjacent_tile_height.c",
+      "tu": "src/dungeon/monster/manoeva/knockback_travel_g00260.c",
       "home": "dungeon/func_80E3B86C",
       "foff": "0xE5B86C",
       "vma": "0x8017506C",
@@ -265,7 +265,7 @@
     },
     {
       "row": "dungeon/func_80E3B96C",
-      "tu": "src/dungeon/monster/manoeva/create_knockback_travel_object.c",
+      "tu": "src/dungeon/monster/manoeva/knockback_travel_g00260.c",
       "home": "dungeon/func_80E3B96C",
       "foff": "0xE5B96C",
       "vma": "0x8017516C",

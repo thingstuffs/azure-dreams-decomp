@@ -48,45 +48,26 @@
 {"id": "main/func_8000E7D4", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000E904", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000E90C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000E91C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000E9B8", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000EA04", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000EA84", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000EB18", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000EB98", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000EC4C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000ED38", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000ED54", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000EDF4", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000EEB8", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000EEE0", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000EF18", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000EFF0", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F0DC", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F138", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F160", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F19C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F23C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F25C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000F300", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000F33C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000F3B4", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000F488", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F524", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F6A8", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F6E0", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F774", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F90C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000F934", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000FA30", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000FAE8", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000FB20", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000FB48", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000FBE8", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000FC48", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000FC90", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000FCD8", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_8000FD60", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000FE74", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000FE9C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8000FEC4", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
@@ -124,9 +105,6 @@
 {"id": "main/func_80010A50", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80010A78", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80010B18", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_80010C44", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_80010D64", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_80010E14", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80010EC4", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80010ECC", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80010F94", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
@@ -139,9 +117,6 @@
 {"id": "main/func_80011298", "container": "main", "module": "card_slot_refresh.c", "module_index": 3, "confidence": "strong"}
 {"id": "main/func_800112D8", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80011390", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_80011818", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_800119B4", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_80011A50", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80011ACC", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80011C48", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80011D10", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
@@ -158,7 +133,6 @@
 {"id": "main/func_80012230", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_800122A4", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_800122CC", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
-{"id": "main/func_80012398", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_8001246C", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_80012494", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
 {"id": "main/func_800124E4", "container": "main", "module": "c_server.c", "module_index": 3, "confidence": "proven"}
@@ -520,13 +494,8 @@
 {"id": "town/func_80093690", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_800937A0", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_80093824", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
-{"id": "town/func_800938A0", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
-{"id": "town/func_800939B4", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
-{"id": "town/func_80093A74", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_80093B00", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_80093DC8", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
-{"id": "town/func_8009408C", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
-{"id": "town/func_80094230", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_800942A8", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_80094478", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_80094580", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
@@ -556,9 +525,6 @@
 {"id": "town/func_80095F70", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_80095FA4", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_80095FE4", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
-{"id": "town/func_80096098", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
-{"id": "town/func_80096104", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
-{"id": "town/func_80096134", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_800963A0", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_8009644C", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_800964E0", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
@@ -584,8 +550,6 @@
 {"id": "town/func_8009717C", "container": "town", "module": "player_actions.c", "module_index": 5, "confidence": "strong"}
 {"id": "town/func_800971E4", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_80097224", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_80097264", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_800972D8", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_80097300", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_80097340", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_80097398", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
@@ -609,8 +573,6 @@
 {"id": "town/func_80097D94", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_80097DAC", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_80097DE4", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_80097F1C", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_80098000", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_800980E0", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_800981B0", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_800981DC", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
@@ -630,14 +592,6 @@
 {"id": "town/func_80098F98", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_80098FC8", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_80098FF8", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_80099028", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_80099080", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_800990B0", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_80099108", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_800991B8", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_800991C4", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_800992D0", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
-{"id": "town/func_800992FC", "container": "town", "module": "player_motion.c", "module_index": 6, "confidence": "weak"}
 {"id": "town/func_80099330", "container": "town", "module": "player_effects.c", "module_index": 7, "confidence": "weak"}
 {"id": "town/func_800993F0", "container": "town", "module": "player_effects.c", "module_index": 7, "confidence": "weak"}
 {"id": "town/func_800994DC", "container": "town", "module": "player_effects.c", "module_index": 7, "confidence": "weak"}
@@ -650,14 +604,10 @@
 {"id": "town/func_8009994C", "container": "town", "module": "player_effects.c", "module_index": 7, "confidence": "weak"}
 {"id": "town/func_8009999C", "container": "town", "module": "player_effects.c", "module_index": 7, "confidence": "weak"}
 {"id": "town/func_8009A0E4", "container": "town", "module": "player_effects.c", "module_index": 7, "confidence": "weak"}
-{"id": "town/func_8009A1CC", "container": "town", "module": "player_effects.c", "module_index": 7, "confidence": "weak"}
-{"id": "town/func_8009A370", "container": "town", "module": "player_effects.c", "module_index": 7, "confidence": "weak"}
 {"id": "town/func_8009A4F0", "container": "town", "module": "player_effects.c", "module_index": 7, "confidence": "weak"}
 {"id": "town/func_8009A5A8", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
 {"id": "town/func_8009A5CC", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
 {"id": "town/func_8009A5F4", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
-{"id": "town/func_8009A688", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
-{"id": "town/func_8009A740", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
 {"id": "town/func_8009A760", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
 {"id": "town/func_8009A79C", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
 {"id": "town/func_8009A8DC", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
@@ -705,8 +655,6 @@
 {"id": "town/func_8009BD08", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
 {"id": "town/func_8009BD7C", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
 {"id": "town/func_8009BDDC", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
-{"id": "town/func_8009BF20", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
-{"id": "town/func_8009BF88", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
 {"id": "town/func_8009BFF4", "container": "town", "module": "player_animation.c", "module_index": 8, "confidence": "weak"}
 {"id": "town/func_8009C004", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
 {"id": "town/func_8009C030", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
@@ -736,23 +684,15 @@
 {"id": "town/func_8009D148", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
 {"id": "town/func_8009D150", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
 {"id": "town/func_8009D23C", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
-{"id": "town/func_8009D2CC", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
-{"id": "town/func_8009D358", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
 {"id": "town/func_8009D4AC", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
 {"id": "town/func_8009D52C", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
 {"id": "town/func_8009D610", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
-{"id": "town/func_8009D728", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
-{"id": "town/func_8009D814", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
-{"id": "town/func_8009D894", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
 {"id": "town/func_8009D8B4", "container": "town", "module": "player.c", "module_index": 9, "confidence": "strong"}
 {"id": "town/func_8009D98C", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
 {"id": "town/func_8009D9C0", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
 {"id": "town/func_8009D9E8", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
 {"id": "town/func_8009DAB8", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
 {"id": "town/func_8009DB5C", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
-{"id": "town/func_8009DB64", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
-{"id": "town/func_8009DCF4", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
-{"id": "town/func_8009DE34", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
 {"id": "town/func_8009DF54", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
 {"id": "town/func_8009E0C8", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
 {"id": "town/func_8009E188", "container": "town", "module": "town_interaction.c", "module_index": 10, "confidence": "weak"}
@@ -903,23 +843,15 @@
 {"id": "town/func_800A4C70", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A4D48", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A4D64", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_800A4D9C", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_800A4E6C", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A4F30", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A52B8", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A5398", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A5690", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_800A56D0", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_800A586C", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A5AE8", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A5B68", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A5B90", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A5BC0", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_800A5C88", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_800A5CF0", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A5D80", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_800A5DA8", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_800A602C", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A61B8", "container": "town", "module": "menu_draw.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_800A712C", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
 {"id": "town/func_800A7138", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
@@ -937,9 +869,6 @@
 {"id": "town/func_800A7920", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
 {"id": "town/func_800A7934", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
 {"id": "town/func_800A7958", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
-{"id": "town/func_800A7980", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
-{"id": "town/func_800A79AC", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
-{"id": "town/func_800A79D0", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
 {"id": "town/func_800A7A00", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
 {"id": "town/func_800A7A0C", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
 {"id": "town/func_800A7A18", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
@@ -949,8 +878,6 @@
 {"id": "town/func_800A7CE0", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
 {"id": "town/func_800A7D3C", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
 {"id": "town/func_800A7D9C", "container": "town", "module": "camera.c", "module_index": 15, "confidence": "strong"}
-{"id": "town/func_800A7DDC", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_800A7E38", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A7E6C", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A7ED8", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A7FDC", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
@@ -962,14 +889,6 @@
 {"id": "town/func_800A8B88", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A8BAC", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A8BC8", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_800A8C3C", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_800A8C68", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_800A8CDC", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_800A8D1C", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_800A8D60", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_800A8F24", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_800A9160", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_800A9234", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A9334", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A93B0", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A94EC", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
@@ -977,8 +896,6 @@
 {"id": "town/func_800A9640", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A96BC", "container": "town", "module": "player_event.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_800A9744", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800A9784", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800A97E8", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800A998C", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800A9A90", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800A9BA8", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
@@ -995,8 +912,6 @@
 {"id": "town/func_800AA0CC", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800AA14C", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800AA1AC", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AA1F0", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AA268", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800AA290", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800AA360", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800AA3B4", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
@@ -1005,14 +920,6 @@
 {"id": "town/func_800AA538", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800AA71C", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800AA760", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AA878", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AA910", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AAA24", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AAAE8", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AAB90", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AABDC", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AACA8", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
-{"id": "town/func_800AACB8", "container": "town", "module": "town_emotes.c", "module_index": 17, "confidence": "strong"}
 {"id": "town/func_800AACE0", "container": "town", "module": "map_item_events.c", "module_index": 18, "confidence": "weak"}
 {"id": "town/func_800AAF5C", "container": "town", "module": "map_item_events.c", "module_index": 18, "confidence": "weak"}
 {"id": "town/func_800AB37C", "container": "town", "module": "map_item_events.c", "module_index": 18, "confidence": "weak"}
@@ -1029,14 +936,6 @@
 {"id": "town/func_800AC018", "container": "town", "module": "map_item_events.c", "module_index": 18, "confidence": "weak"}
 {"id": "town/func_800AC078", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
 {"id": "town/func_800AC0F8", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC118", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC164", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC198", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC210", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC278", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC2D8", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC37C", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC3CC", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
 {"id": "town/func_800AC4B8", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
 {"id": "town/func_800AC4F0", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
 {"id": "town/func_800AC50C", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
@@ -1044,11 +943,6 @@
 {"id": "town/func_800AC54C", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
 {"id": "town/func_800AC5A0", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
 {"id": "town/func_800AC614", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC708", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC7B4", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC8E4", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC908", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
-{"id": "town/func_800AC9AC", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
 {"id": "town/func_800ACE98", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
 {"id": "town/func_800AD0E4", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
 {"id": "town/func_800AD238", "container": "town", "module": "carry_event.c", "module_index": 19, "confidence": "weak"}
@@ -1192,7 +1086,6 @@
 {"id": "town/func_800B5978", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B5A18", "container": "town", "module": "paged_entry_brightness.c", "module_index": 134028, "confidence": "strong"}
 {"id": "town/func_800B5B74", "container": "town", "module": "paged_entry_brightness.c", "module_index": 134028, "confidence": "strong"}
-{"id": "town/func_800B5CE0", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B5D28", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B5D48", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B5D9C", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
@@ -1200,9 +1093,6 @@
 {"id": "town/func_800B5FD4", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B60EC", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B6384", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
-{"id": "town/func_800B63B8", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
-{"id": "town/func_800B64A4", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
-{"id": "town/func_800B6514", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B65A4", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B6624", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B6664", "container": "town", "module": "paired_entry_update.c", "module_index": 134029, "confidence": "strong"}
@@ -1214,8 +1104,6 @@
 {"id": "town/func_800B6980", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B6A28", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B6D90", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
-{"id": "town/func_800B6EE8", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
-{"id": "town/func_800B6F6C", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B6FC0", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B7138", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B7218", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
@@ -1224,8 +1112,6 @@
 {"id": "town/func_800B7534", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B7778", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
 {"id": "town/func_800B795C", "container": "town", "module": "souko_window.c", "module_index": 27, "confidence": "weak"}
-{"id": "town/func_800B79CC", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B7A14", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B7B04", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B7B94", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B8368", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
@@ -1234,30 +1120,14 @@
 {"id": "town/func_800B8A60", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B8B44", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B8C8C", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B8D04", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B8D2C", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B8DA8", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B8E18", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B8E20", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B8E78", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B8F88", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B8FF4", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B901C", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B9044", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B90DC", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B914C", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B9168", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B91BC", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B92AC", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B93B0", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B9464", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B94D0", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B9534", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B956C", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B958C", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B95F4", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B9634", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
-{"id": "town/func_800B96DC", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B97F4", "container": "town", "module": "monster_status.c", "module_index": 28, "confidence": "strong"}
 {"id": "town/func_800B9858", "container": "town", "module": "town_building.c", "module_index": 29, "confidence": "strong"}
 {"id": "town/func_800B998C", "container": "town", "module": "town_building.c", "module_index": 29, "confidence": "strong"}
@@ -1410,11 +1280,6 @@
 {"id": "town/func_800C4414", "container": "town", "module": "overlay_dispatch.c", "module_index": 38, "confidence": "strong"}
 {"id": "town/func_800C4444", "container": "town", "module": "overlay_dispatch.c", "module_index": 38, "confidence": "strong"}
 {"id": "town/func_800C4470", "container": "town", "module": "overlay_dispatch.c", "module_index": 38, "confidence": "strong"}
-{"id": "town/func_800C4508", "container": "town", "module": "map_transition.c", "module_index": 39, "confidence": "weak"}
-{"id": "town/func_800C45C0", "container": "town", "module": "map_transition.c", "module_index": 39, "confidence": "weak"}
-{"id": "town/func_800C45E4", "container": "town", "module": "map_transition.c", "module_index": 39, "confidence": "weak"}
-{"id": "town/func_800C4678", "container": "town", "module": "map_transition.c", "module_index": 39, "confidence": "weak"}
-{"id": "town/func_800C46F0", "container": "town", "module": "map_transition.c", "module_index": 39, "confidence": "weak"}
 {"id": "town/func_800C4744", "container": "town", "module": "map_transition.c", "module_index": 39, "confidence": "weak"}
 {"id": "town/func_800C482C", "container": "town", "module": "map_transition.c", "module_index": 39, "confidence": "weak"}
 {"id": "town/func_800C48CC", "container": "town", "module": "map_transition.c", "module_index": 39, "confidence": "weak"}
@@ -1541,11 +1406,6 @@
 {"id": "town/func_800C9958", "container": "town", "module": "person_event_setup.c", "module_index": 44, "confidence": "weak"}
 {"id": "town/func_800C99D8", "container": "town", "module": "person_event_setup.c", "module_index": 44, "confidence": "weak"}
 {"id": "town/func_800C9F14", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
-{"id": "town/func_800CA148", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
-{"id": "town/func_800CA2A0", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
-{"id": "town/func_800CA30C", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
-{"id": "town/func_800CA364", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
-{"id": "town/func_800CA490", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
 {"id": "town/func_800CA528", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
 {"id": "town/func_800CA54C", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
 {"id": "town/func_800CA554", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
@@ -1557,8 +1417,6 @@
 {"id": "town/func_800CA950", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
 {"id": "town/func_800CA99C", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
 {"id": "town/func_800CA9C0", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
-{"id": "town/func_800CAA34", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
-{"id": "town/func_800CAA84", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
 {"id": "town/func_800CAAE8", "container": "town", "module": "mother_events.c", "module_index": 45, "confidence": "weak"}
 {"id": "town/func_800CABAC", "container": "town", "module": "character_events.c", "module_index": 46, "confidence": "weak"}
 {"id": "town/func_800CABD0", "container": "town", "module": "character_events.c", "module_index": 46, "confidence": "weak"}
@@ -1580,8 +1438,6 @@
 {"id": "town/func_800CB4DC", "container": "town", "module": "character_events.c", "module_index": 46, "confidence": "weak"}
 {"id": "town/func_800CB660", "container": "town", "module": "character_events.c", "module_index": 46, "confidence": "weak"}
 {"id": "town/func_800CB73C", "container": "town", "module": "character_events.c", "module_index": 46, "confidence": "weak"}
-{"id": "town/func_800CB820", "container": "town", "module": "character_events.c", "module_index": 46, "confidence": "weak"}
-{"id": "town/func_800CB890", "container": "town", "module": "character_events.c", "module_index": 46, "confidence": "weak"}
 {"id": "town/func_800CB91C", "container": "town", "module": "character_events.c", "module_index": 46, "confidence": "weak"}
 {"id": "town/func_800CC338", "container": "town", "module": "person_reactions.c", "module_index": 47, "confidence": "weak"}
 {"id": "town/func_800CC3E4", "container": "town", "module": "person_reactions.c", "module_index": 47, "confidence": "weak"}
@@ -1618,19 +1474,12 @@
 {"id": "town/func_800CE010", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CE070", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CE08C", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
-{"id": "town/func_800CE16C", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
-{"id": "town/func_800CE258", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
-{"id": "town/func_800CE34C", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
-{"id": "town/func_800CE380", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
-{"id": "town/func_800CE408", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CE4BC", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CE7E8", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CE84C", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CE888", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CE910", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CEA50", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
-{"id": "town/func_800CEBD0", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
-{"id": "town/func_800CEC24", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CECBC", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CED50", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
 {"id": "town/func_800CEEE4", "container": "town", "module": "person_scene.c", "module_index": 48, "confidence": "weak"}
@@ -1963,9 +1812,6 @@
 {"id": "town/func_8046AA8C", "container": "town", "module": "ovl_3e9188.c", "module_index": 13, "confidence": "strong"}
 {"id": "town/func_8046AAC4", "container": "town", "module": "ovl_3e9188.c", "module_index": 13, "confidence": "strong"}
 {"id": "town/func_8046ABB4", "container": "town", "module": "ovl_3e9188.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_8046AC60", "container": "town", "module": "ovl_3e9188.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_8046AC98", "container": "town", "module": "ovl_3e9188.c", "module_index": 13, "confidence": "strong"}
-{"id": "town/func_8046AD20", "container": "town", "module": "ovl_3e9188.c", "module_index": 13, "confidence": "strong"}
 {"id": "town/func_8046AED0", "container": "town", "module": "ovl_3e9188.c", "module_index": 13, "confidence": "strong"}
 {"id": "town/func_8046AF58", "container": "town", "module": "ovl_3e9188.c", "module_index": 13, "confidence": "strong"}
 {"id": "town/func_8046AF94", "container": "town", "module": "ovl_3e9188.c", "module_index": 13, "confidence": "strong"}
@@ -2048,9 +1894,6 @@
 {"id": "town/func_8047047C", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_8047054C", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470664", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
-{"id": "town/func_80470808", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
-{"id": "town/func_80470824", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
-{"id": "town/func_804708B4", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470A50", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470B20", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470BF0", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
@@ -2060,8 +1903,6 @@
 {"id": "town/func_80470CA4", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470CC4", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470CE4", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
-{"id": "town/func_80470D04", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
-{"id": "town/func_80470D24", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470DB4", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470DD4", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470DF4", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
@@ -2069,13 +1910,6 @@
 {"id": "town/func_80470E34", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470E5C", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
 {"id": "town/func_80470E98", "container": "town", "module": "ovl_3ef1c8.c", "module_index": 15, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3ef1c8.membership.json"}
-{"id": "town/func_80470EB8", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_80470F3C", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_8047109C", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_80471108", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_80471174", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_80471198", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_804711DC", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_804712B4", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_804712E0", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_8047130C", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
@@ -2088,8 +1922,6 @@
 {"id": "town/func_804716D8", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_804717E8", "container": "town", "module": "town_o1_misc.c", "module_index": 98, "confidence": "weak"}
 {"id": "town/func_80471F74", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_80472098", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
-{"id": "town/func_804720B8", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_80472120", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_80472618", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
 {"id": "town/func_80472778", "container": "town", "module": "ovl_3f0eb8.c", "module_index": 16, "confidence": "weak"}
@@ -2181,8 +2013,6 @@
 {"id": "town/func_8047CED4", "container": "town", "module": "ovl_3faa98.c", "module_index": 18, "confidence": "weak"}
 {"id": "town/func_8047CEE0", "container": "town", "module": "ovl_3faa98.c", "module_index": 18, "confidence": "weak"}
 {"id": "town/func_8047E0D0", "container": "town", "module": "ovl_3fe0d0_p00.c", "module_index": 19, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3fe0d0_p00.membership.json"}
-{"id": "town/func_8047E0D8", "container": "town", "module": "ovl_3fe0d0_p00.c", "module_index": 19, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3fe0d0_p00.membership.json"}
-{"id": "town/func_8047E130", "container": "town", "module": "ovl_3fe0d0_p00.c", "module_index": 19, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3fe0d0_p00.membership.json"}
 {"id": "town/func_8047E1C0", "container": "town", "module": "ovl_3fe0d0_p00.c", "module_index": 19, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3fe0d0_p00.membership.json"}
 {"id": "town/func_8047E24C", "container": "town", "module": "ovl_3fe0d0_p00.c", "module_index": 19, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3fe0d0_p00.membership.json"}
 {"id": "town/func_8047E278", "container": "town", "module": "ovl_3fe0d0_p00.c", "module_index": 19, "confidence": "strong", "reviewer": "pending", "evidence": "docs/evidence/town_admit_3fe0d0_p00.membership.json"}
@@ -2339,9 +2169,6 @@
 {"id": "town/func_8059E77C", "container": "town", "module": "ovl_51e540.c", "module_index": 32, "confidence": "weak"}
 {"id": "town/func_8059E824", "container": "town", "module": "ovl_51e540.c", "module_index": 32, "confidence": "weak"}
 {"id": "town/func_8059E874", "container": "town", "module": "ovl_51e540.c", "module_index": 32, "confidence": "weak"}
-{"id": "town/func_8059E8A0", "container": "town", "module": "ovl_51e540.c", "module_index": 32, "confidence": "weak"}
-{"id": "town/func_8059E8E0", "container": "town", "module": "ovl_51e540.c", "module_index": 32, "confidence": "weak"}
-{"id": "town/func_8059E948", "container": "town", "module": "ovl_51e540.c", "module_index": 32, "confidence": "weak"}
 {"id": "town/func_8059EAA0", "container": "town", "module": "ovl_51e540.c", "module_index": 32, "confidence": "weak"}
 {"id": "town/func_805D213C", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
 {"id": "town/func_805D21B4", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
@@ -2357,8 +2184,6 @@
 {"id": "town/func_805D2974", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
 {"id": "town/func_805D2994", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
 {"id": "town/func_805D29B4", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
-{"id": "town/func_805D2A4C", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
-{"id": "town/func_805D2AAC", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
 {"id": "town/func_805D2B0C", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
 {"id": "town/func_805D2D5C", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
 {"id": "town/func_805D2FC4", "container": "town", "module": "ovl_55213c.c", "module_index": 33, "confidence": "weak"}
@@ -2435,8 +2260,6 @@
 {"id": "town/func_806153E8", "container": "town", "module": "ovl_594930.c", "module_index": 35, "confidence": "weak"}
 {"id": "town/func_8061545C", "container": "town", "module": "ovl_594930.c", "module_index": 35, "confidence": "weak"}
 {"id": "town/func_8061547C", "container": "town", "module": "ovl_594930.c", "module_index": 35, "confidence": "weak"}
-{"id": "town/func_80615500", "container": "town", "module": "ovl_594930.c", "module_index": 35, "confidence": "weak"}
-{"id": "town/func_80615574", "container": "town", "module": "ovl_594930.c", "module_index": 35, "confidence": "weak"}
 {"id": "town/func_806155F0", "container": "town", "module": "ovl_594930.c", "module_index": 35, "confidence": "weak"}
 {"id": "town/func_80615604", "container": "town", "module": "ovl_594930.c", "module_index": 35, "confidence": "weak"}
 {"id": "town/func_80632120", "container": "town", "module": "ovl_5b2120.c", "module_index": 36, "confidence": "weak"}
@@ -2591,8 +2414,6 @@
 {"id": "town/func_806D7B34", "container": "town", "module": "ovl_657918.c", "module_index": 56, "confidence": "weak"}
 {"id": "town/func_806D7DAC", "container": "town", "module": "ovl_657918.c", "module_index": 56, "confidence": "weak"}
 {"id": "town/func_806D7FDC", "container": "town", "module": "ovl_657918.c", "module_index": 56, "confidence": "weak"}
-{"id": "town/func_806D81FC", "container": "town", "module": "ovl_657918.c", "module_index": 56, "confidence": "weak"}
-{"id": "town/func_806D8308", "container": "town", "module": "ovl_657918.c", "module_index": 56, "confidence": "weak"}
 {"id": "town/func_806D835C", "container": "town", "module": "ovl_657918.c", "module_index": 56, "confidence": "weak"}
 {"id": "town/func_806D847C", "container": "town", "module": "ovl_657918.c", "module_index": 56, "confidence": "weak"}
 {"id": "town/func_806D85A0", "container": "town", "module": "ovl_657918.c", "module_index": 56, "confidence": "weak"}
@@ -4886,8 +4707,6 @@
 {"id": "dungeon/func_80BC3AC4", "container": "dungeon", "module": "ovl_7f58f800.c", "module_index": 71, "confidence": "weak"}
 {"id": "dungeon/func_80BC4214", "container": "dungeon", "module": "ovl_7f58f800.c", "module_index": 71, "confidence": "weak"}
 {"id": "dungeon/func_80BC4440", "container": "dungeon", "module": "ovl_7f58f800.c", "module_index": 71, "confidence": "weak"}
-{"id": "dungeon/func_80BC44D4", "container": "dungeon", "module": "ovl_7f58f800.c", "module_index": 71, "confidence": "weak"}
-{"id": "dungeon/func_80BC489C", "container": "dungeon", "module": "ovl_7f58f800.c", "module_index": 71, "confidence": "weak"}
 {"id": "dungeon/func_80BC7BA8", "container": "dungeon", "module": "ovl_7f583800.c", "module_index": 72, "confidence": "weak"}
 {"id": "dungeon/func_80BCDBA8", "container": "dungeon", "module": "ovl_7f577800.c", "module_index": 73, "confidence": "weak"}
 {"id": "dungeon/func_80BD3BA8", "container": "dungeon", "module": "ovl_7f56b800.c", "module_index": 74, "confidence": "weak"}
@@ -5087,9 +4906,6 @@
 {"id": "dungeon/func_80E38EA4", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E390E4", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E39504", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
-{"id": "dungeon/func_80E3A18C", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
-{"id": "dungeon/func_80E3A440", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
-{"id": "dungeon/func_80E3A540", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E3A578", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E3AA7C", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E3ADF0", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
@@ -5097,8 +4913,6 @@
 {"id": "dungeon/func_80E3AF4C", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E3B390", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E3B4CC", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
-{"id": "dungeon/func_80E3B86C", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
-{"id": "dungeon/func_80E3B96C", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E3BD94", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E3C460", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
 {"id": "dungeon/func_80E3C574", "container": "dungeon", "module": "ovl_7f319800.c", "module_index": 101, "confidence": "weak"}
@@ -5234,8 +5048,6 @@
 {"id": "dungeon/func_81006E50", "container": "dungeon", "module": "ovl_7f14b800.c", "module_index": 138, "confidence": "weak"}
 {"id": "dungeon/func_81007034", "container": "dungeon", "module": "ovl_7f14b800.c", "module_index": 138, "confidence": "weak"}
 {"id": "dungeon/func_810074E0", "container": "dungeon", "module": "ovl_7f14b800.c", "module_index": 138, "confidence": "weak"}
-{"id": "dungeon/func_810078B4", "container": "dungeon", "module": "ovl_7f14b800.c", "module_index": 138, "confidence": "weak"}
-{"id": "dungeon/func_81007CE0", "container": "dungeon", "module": "ovl_7f14b800.c", "module_index": 138, "confidence": "weak"}
 {"id": "dungeon/func_81008208", "container": "dungeon", "module": "ovl_7f14b800.c", "module_index": 138, "confidence": "weak"}
 {"id": "dungeon/func_81008664", "container": "dungeon", "module": "ovl_7f14b800.c", "module_index": 138, "confidence": "weak"}
 {"id": "dungeon/func_8102F348", "container": "dungeon", "module": "ovl_7f121800.c", "module_index": 139, "confidence": "weak"}
@@ -5265,8 +5077,6 @@
 {"id": "dungeon/func_81083284", "container": "dungeon", "module": "ovl_7f0cd800.c", "module_index": 142, "confidence": "weak"}
 {"id": "dungeon/func_81083694", "container": "dungeon", "module": "ovl_7f0cd800.c", "module_index": 142, "confidence": "weak"}
 {"id": "dungeon/func_81084840", "container": "dungeon", "module": "ovl_7f0cd800.c", "module_index": 142, "confidence": "weak"}
-{"id": "dungeon/func_81084850", "container": "dungeon", "module": "ovl_7f0cd800.c", "module_index": 142, "confidence": "weak"}
-{"id": "dungeon/func_81084A18", "container": "dungeon", "module": "ovl_7f0cd800.c", "module_index": 142, "confidence": "weak"}
 {"id": "dungeon/func_81084B34", "container": "dungeon", "module": "ovl_7f0cd800.c", "module_index": 142, "confidence": "weak"}
 {"id": "dungeon/func_81084BD8", "container": "dungeon", "module": "ovl_7f0cd800.c", "module_index": 142, "confidence": "weak"}
 {"id": "dungeon/func_81084D04", "container": "dungeon", "module": "ovl_7f0cd800.c", "module_index": 142, "confidence": "weak"}
@@ -7378,14 +7188,6 @@
 {"id": "town/D_80950CC0", "container": "town", "module": "main_seg3.c", "module_index": 95, "confidence": "weak", "evidence": "physical carrier association only (decision 32 per-image data row); data owner separately recorded", "reviewer": "orchestrator-r117"}
 {"id": "town/D_80951000", "container": "town", "module": "main_seg3.c", "module_index": 95, "confidence": "weak", "evidence": "physical carrier association only (decision 32 per-image data row); data owner separately recorded", "reviewer": "orchestrator-r117"}
 {"id": "town/D_80951004", "container": "town", "module": "main_seg3.c", "module_index": 95, "confidence": "weak", "evidence": "physical carrier association only (decision 32 per-image data row); data owner separately recorded", "reviewer": "orchestrator-r117"}
-{"id": "ovmovie/func_800400AC", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
-{"id": "ovmovie/func_800402D8", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
-{"id": "ovmovie/func_8004033C", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
-{"id": "ovmovie/func_80040360", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
-{"id": "ovmovie/func_800403EC", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
-{"id": "ovmovie/func_80040690", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
-{"id": "ovmovie/func_800408BC", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
-{"id": "ovmovie/func_80040954", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
 {"id": "ovmovie/func_80040ED8", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
 {"id": "ovmovie/func_80040F10", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
 {"id": "ovmovie/func_80040F9C", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
@@ -7400,9 +7202,6 @@
 {"id": "ovmovie/func_800413C0", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
 {"id": "ovmovie/func_800414F0", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
 {"id": "ovmovie/func_80041508", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
-{"id": "ovmovie/func_800404A8", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
-{"id": "ovmovie/func_8004072C", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
-{"id": "ovmovie/func_8004099C", "container": "ovmovie", "module": "ovmovie_game.c", "module_index": 0, "confidence": "weak", "reviewer": "orchestrator-r120"}
 {"id": "ovmovie/func_800410C0", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
 {"id": "ovmovie/func_800411A0", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
 {"id": "ovmovie/func_80041458", "container": "ovmovie", "module": "ovmovie_libpress.c", "module_index": 1, "confidence": "strong", "reviewer": "orchestrator-r120", "evidence": "docs/evidence/ovmovie_libpress.membership.json"}
@@ -8054,3 +7853,218 @@
 {"id": "dungeon/func_8009BEB8", "container": "dungeon", "module": "monster_resource_slots_g00325.c", "module_index": 134108, "confidence": "strong"}
 {"id": "dungeon/func_8009C088", "container": "dungeon", "module": "monster_resource_slots_g00325.c", "module_index": 134108, "confidence": "strong"}
 {"id": "dungeon/func_8009C188", "container": "dungeon", "module": "monster_resource_slots_g00325.c", "module_index": 134108, "confidence": "strong"}
+{"id": "town/func_800938A0", "container": "town", "module": "ground_input_fallback_g00532.c", "module_index": 134109, "confidence": "strong"}
+{"id": "town/func_800939B4", "container": "town", "module": "ground_input_fallback_g00532.c", "module_index": 134109, "confidence": "strong"}
+{"id": "town/func_80093A74", "container": "town", "module": "ground_input_fallback_g00532.c", "module_index": 134109, "confidence": "strong"}
+{"id": "town/func_8009408C", "container": "town", "module": "periodic_action_effect_g00533.c", "module_index": 134110, "confidence": "strong"}
+{"id": "town/func_80094230", "container": "town", "module": "periodic_action_effect_g00533.c", "module_index": 134110, "confidence": "strong"}
+{"id": "town/func_80096098", "container": "town", "module": "selection_object_action_g00534.c", "module_index": 134111, "confidence": "strong"}
+{"id": "town/func_80096104", "container": "town", "module": "selection_object_action_g00534.c", "module_index": 134111, "confidence": "strong"}
+{"id": "town/func_80096134", "container": "town", "module": "selection_object_action_g00534.c", "module_index": 134111, "confidence": "strong"}
+{"id": "town/func_80097264", "container": "town", "module": "source_byte_forwarding_g00536.c", "module_index": 134112, "confidence": "strong"}
+{"id": "town/func_800972D8", "container": "town", "module": "source_byte_forwarding_g00536.c", "module_index": 134112, "confidence": "strong"}
+{"id": "town/func_80097F1C", "container": "town", "module": "direction_entry_status_g00538.c", "module_index": 134113, "confidence": "strong"}
+{"id": "town/func_80098000", "container": "town", "module": "direction_entry_status_g00538.c", "module_index": 134113, "confidence": "strong"}
+{"id": "town/func_800CAA34", "container": "town", "module": "actor_output_state_g00671.c", "module_index": 134114, "confidence": "strong"}
+{"id": "town/func_800CAA84", "container": "town", "module": "actor_output_state_g00671.c", "module_index": 134114, "confidence": "strong"}
+{"id": "town/func_800CB820", "container": "town", "module": "timed_actor_motion_g00677.c", "module_index": 134115, "confidence": "strong"}
+{"id": "town/func_800CB890", "container": "town", "module": "timed_actor_motion_g00677.c", "module_index": 134115, "confidence": "strong"}
+{"id": "town/func_800CBA4C", "container": "town", "module": "actor_slot_render_state_g00679.c", "module_index": 134116, "confidence": "strong"}
+{"id": "town/func_8004BA94", "container": "town", "module": "actor_slot_render_state_g00679.c", "module_index": 134116, "confidence": "strong"}
+{"id": "town/func_8004D174", "container": "town", "module": "actor_slot_global_state_g00680.c", "module_index": 134117, "confidence": "strong"}
+{"id": "town/func_8004D1D0", "container": "town", "module": "actor_slot_global_state_g00680.c", "module_index": 134117, "confidence": "strong"}
+{"id": "town/func_8004D22C", "container": "town", "module": "actor_slot_global_state_g00680.c", "module_index": 134117, "confidence": "strong"}
+{"id": "town/func_8004D288", "container": "town", "module": "actor_slot_global_state_g00680.c", "module_index": 134117, "confidence": "strong"}
+{"id": "town/func_800CEBD0", "container": "town", "module": "callback_object_reset_g00688.c", "module_index": 134118, "confidence": "strong"}
+{"id": "town/func_800CEC24", "container": "town", "module": "callback_object_reset_g00688.c", "module_index": 134118, "confidence": "strong"}
+{"id": "town/func_800D1710", "container": "town", "module": "scene_slot_pair_setup_g00692.c", "module_index": 134119, "confidence": "strong"}
+{"id": "town/func_800D176C", "container": "town", "module": "scene_slot_pair_setup_g00692.c", "module_index": 134119, "confidence": "strong"}
+{"id": "town/func_800D1880", "container": "town", "module": "scene_slot_pair_offsets_g00693.c", "module_index": 134120, "confidence": "strong"}
+{"id": "town/func_800D18DC", "container": "town", "module": "scene_slot_pair_offsets_g00693.c", "module_index": 134120, "confidence": "strong"}
+{"id": "town/func_80099028", "container": "town", "module": "position_upper_bound_g00540.c", "module_index": 134121, "confidence": "strong"}
+{"id": "town/func_80099080", "container": "town", "module": "position_upper_bound_g00540.c", "module_index": 134121, "confidence": "strong"}
+{"id": "town/func_800990B0", "container": "town", "module": "position_upper_bound_g00540.c", "module_index": 134121, "confidence": "strong"}
+{"id": "town/func_80099108", "container": "town", "module": "fallback_handler_position_g00541.c", "module_index": 134122, "confidence": "strong"}
+{"id": "town/func_800991B8", "container": "town", "module": "fallback_handler_position_g00541.c", "module_index": 134122, "confidence": "strong"}
+{"id": "town/func_800991C4", "container": "town", "module": "fallback_handler_position_g00541.c", "module_index": 134122, "confidence": "strong"}
+{"id": "town/func_800992D0", "container": "town", "module": "fallback_handler_position_g00541.c", "module_index": 134122, "confidence": "strong"}
+{"id": "town/func_800992FC", "container": "town", "module": "fallback_handler_position_g00541.c", "module_index": 134122, "confidence": "strong"}
+{"id": "town/func_800CA148", "container": "town", "module": "mother_event_motion_g00670.c", "module_index": 134123, "confidence": "strong"}
+{"id": "town/func_800CA2A0", "container": "town", "module": "mother_event_motion_g00670.c", "module_index": 134123, "confidence": "strong"}
+{"id": "town/func_800CA30C", "container": "town", "module": "mother_event_motion_g00670.c", "module_index": 134123, "confidence": "strong"}
+{"id": "town/func_800CA364", "container": "town", "module": "mother_event_motion_g00670.c", "module_index": 134123, "confidence": "strong"}
+{"id": "town/func_800CA490", "container": "town", "module": "mother_event_motion_g00670.c", "module_index": 134123, "confidence": "strong"}
+{"id": "town/func_800CE16C", "container": "town", "module": "variant_render_object_g00684.c", "module_index": 134124, "confidence": "strong"}
+{"id": "town/func_800CE258", "container": "town", "module": "variant_render_object_g00684.c", "module_index": 134124, "confidence": "strong"}
+{"id": "town/func_800CE34C", "container": "town", "module": "variant_render_object_g00684.c", "module_index": 134124, "confidence": "strong"}
+{"id": "town/func_800CE380", "container": "town", "module": "variant_render_object_g00684.c", "module_index": 134124, "confidence": "strong"}
+{"id": "town/func_800CE408", "container": "town", "module": "variant_render_object_g00684.c", "module_index": 134124, "confidence": "strong"}
+{"id": "town/func_800A4D9C", "container": "town", "module": "view_effect_state_g00567.c", "module_index": 134125, "confidence": "strong"}
+{"id": "town/func_800A4E6C", "container": "town", "module": "view_effect_state_g00567.c", "module_index": 134125, "confidence": "strong"}
+{"id": "town/func_800A5C88", "container": "town", "module": "indexed_object_state_g00569.c", "module_index": 134126, "confidence": "strong"}
+{"id": "town/func_800A5CF0", "container": "town", "module": "indexed_object_state_g00569.c", "module_index": 134126, "confidence": "strong"}
+{"id": "town/func_800A5DA8", "container": "town", "module": "randomized_effect_motion_g00570.c", "module_index": 134127, "confidence": "strong"}
+{"id": "town/func_800A602C", "container": "town", "module": "randomized_effect_motion_g00570.c", "module_index": 134127, "confidence": "strong"}
+{"id": "town/func_800AA1F0", "container": "town", "module": "primitive_scale_effect_g00581.c", "module_index": 134128, "confidence": "strong"}
+{"id": "town/func_800AA268", "container": "town", "module": "primitive_scale_effect_g00581.c", "module_index": 134128, "confidence": "strong"}
+{"id": "town/func_800AA878", "container": "town", "module": "flower_part_positions_g00582.c", "module_index": 134129, "confidence": "strong"}
+{"id": "town/func_800AA910", "container": "town", "module": "flower_part_positions_g00582.c", "module_index": 134129, "confidence": "strong"}
+{"id": "town/func_800AAA24", "container": "town", "module": "indexed_effect_vectors_g00583.c", "module_index": 134130, "confidence": "strong"}
+{"id": "town/func_800AAAE8", "container": "town", "module": "indexed_effect_vectors_g00583.c", "module_index": 134130, "confidence": "strong"}
+{"id": "town/func_800AAB90", "container": "town", "module": "washed_dish_effects_g00584.c", "module_index": 134131, "confidence": "strong"}
+{"id": "town/func_800AABDC", "container": "town", "module": "washed_dish_effects_g00584.c", "module_index": 134131, "confidence": "strong"}
+{"id": "town/func_800AACA8", "container": "town", "module": "washed_dish_effects_g00584.c", "module_index": 134131, "confidence": "strong"}
+{"id": "town/func_800AACB8", "container": "town", "module": "washed_dish_effects_g00584.c", "module_index": 134131, "confidence": "strong"}
+{"id": "town/func_80035C0C", "container": "town", "module": "alternate_page_records_g00619.c", "module_index": 134132, "confidence": "strong"}
+{"id": "town/func_800B5CE0", "container": "town", "module": "alternate_page_records_g00619.c", "module_index": 134132, "confidence": "strong"}
+{"id": "town/func_8009DB64", "container": "town", "module": "actor_script_motion_g00549.c", "module_index": 134133, "confidence": "strong"}
+{"id": "town/func_8009DCF4", "container": "town", "module": "actor_script_motion_g00549.c", "module_index": 134133, "confidence": "strong"}
+{"id": "town/func_8009DE34", "container": "town", "module": "actor_script_motion_g00549.c", "module_index": 134133, "confidence": "strong"}
+{"id": "town/func_800AC118", "container": "town", "module": "item_query_checks_g00588.c", "module_index": 134134, "confidence": "strong"}
+{"id": "town/func_800AC164", "container": "town", "module": "item_query_checks_g00588.c", "module_index": 134134, "confidence": "strong"}
+{"id": "town/func_800AC198", "container": "town", "module": "item_query_checks_g00588.c", "module_index": 134134, "confidence": "strong"}
+{"id": "town/func_800AC210", "container": "town", "module": "item_query_checks_g00588.c", "module_index": 134134, "confidence": "strong"}
+{"id": "town/func_800AC278", "container": "town", "module": "item_query_checks_g00588.c", "module_index": 134134, "confidence": "strong"}
+{"id": "town/func_800AC2D8", "container": "town", "module": "entry_kind_filters_g00589.c", "module_index": 134135, "confidence": "strong"}
+{"id": "town/func_800AC37C", "container": "town", "module": "entry_kind_filters_g00589.c", "module_index": 134135, "confidence": "strong"}
+{"id": "town/func_800AC3CC", "container": "town", "module": "entry_kind_filters_g00589.c", "module_index": 134135, "confidence": "strong"}
+{"id": "town/func_800AC708", "container": "town", "module": "target_record_angles_g00590.c", "module_index": 134136, "confidence": "strong"}
+{"id": "town/func_800AC7B4", "container": "town", "module": "target_record_angles_g00590.c", "module_index": 134136, "confidence": "strong"}
+{"id": "town/func_800AC8E4", "container": "town", "module": "mesh_quad_transform_g00591.c", "module_index": 134137, "confidence": "strong"}
+{"id": "town/func_800AC908", "container": "town", "module": "mesh_quad_transform_g00591.c", "module_index": 134137, "confidence": "strong"}
+{"id": "town/func_800AC9AC", "container": "town", "module": "mesh_quad_transform_g00591.c", "module_index": 134137, "confidence": "strong"}
+{"id": "town/func_800C4508", "container": "town", "module": "range_group_checks_g00652.c", "module_index": 134138, "confidence": "strong"}
+{"id": "town/func_800C45C0", "container": "town", "module": "range_group_checks_g00652.c", "module_index": 134138, "confidence": "strong"}
+{"id": "town/func_800C45E4", "container": "town", "module": "range_group_checks_g00652.c", "module_index": 134138, "confidence": "strong"}
+{"id": "town/func_800C4678", "container": "town", "module": "object_callback_tables_g00653.c", "module_index": 134139, "confidence": "strong"}
+{"id": "town/func_800C46F0", "container": "town", "module": "object_callback_tables_g00653.c", "module_index": 134139, "confidence": "strong"}
+{"id": "town/func_800A7980", "container": "town", "module": "camera_lock_return_g00575.c", "module_index": 134140, "confidence": "strong"}
+{"id": "town/func_800A79AC", "container": "town", "module": "camera_lock_return_g00575.c", "module_index": 134140, "confidence": "strong"}
+{"id": "town/func_800A79D0", "container": "town", "module": "camera_lock_return_g00575.c", "module_index": 134140, "confidence": "strong"}
+{"id": "town/func_800B63B8", "container": "town", "module": "slot_resource_updates_g00621.c", "module_index": 134141, "confidence": "strong"}
+{"id": "town/func_800B64A4", "container": "town", "module": "slot_resource_updates_g00621.c", "module_index": 134141, "confidence": "strong"}
+{"id": "town/func_800B6514", "container": "town", "module": "slot_resource_updates_g00621.c", "module_index": 134141, "confidence": "strong"}
+{"id": "town/func_800B6EE8", "container": "town", "module": "object_component_refresh_g00626.c", "module_index": 134142, "confidence": "strong"}
+{"id": "town/func_800B6F6C", "container": "town", "module": "object_component_refresh_g00626.c", "module_index": 134142, "confidence": "strong"}
+{"id": "town/func_800B79CC", "container": "town", "module": "display_element_layout_g00630.c", "module_index": 134143, "confidence": "strong"}
+{"id": "town/func_800B7A14", "container": "town", "module": "display_element_layout_g00630.c", "module_index": 134143, "confidence": "strong"}
+{"id": "town/func_800B8E78", "container": "town", "module": "monster_status_opening_g00633.c", "module_index": 134144, "confidence": "strong"}
+{"id": "town/func_800B8F88", "container": "town", "module": "monster_status_opening_g00633.c", "module_index": 134144, "confidence": "strong"}
+{"id": "town/func_800B914C", "container": "town", "module": "monster_status_initialization_g00634.c", "module_index": 134145, "confidence": "strong"}
+{"id": "town/func_800B9168", "container": "town", "module": "monster_status_initialization_g00634.c", "module_index": 134145, "confidence": "strong"}
+{"id": "town/func_800B91BC", "container": "town", "module": "monster_status_initialization_g00634.c", "module_index": 134145, "confidence": "strong"}
+{"id": "town/func_800B93B0", "container": "town", "module": "monster_status_target_updates_g00635.c", "module_index": 134146, "confidence": "strong"}
+{"id": "town/func_800B9464", "container": "town", "module": "monster_status_target_updates_g00635.c", "module_index": 134146, "confidence": "strong"}
+{"id": "town/func_800B94D0", "container": "town", "module": "monster_status_target_updates_g00635.c", "module_index": 134146, "confidence": "strong"}
+{"id": "town/func_800B956C", "container": "town", "module": "monster_status_resource_cache_g00636.c", "module_index": 134147, "confidence": "strong"}
+{"id": "town/func_800B958C", "container": "town", "module": "monster_status_resource_cache_g00636.c", "module_index": 134147, "confidence": "strong"}
+{"id": "town/func_800B95F4", "container": "town", "module": "monster_status_resource_cache_g00636.c", "module_index": 134147, "confidence": "strong"}
+{"id": "town/func_800B9634", "container": "town", "module": "monster_status_resource_cache_g00636.c", "module_index": 134147, "confidence": "strong"}
+{"id": "town/func_800B96DC", "container": "town", "module": "monster_status_resource_cache_g00636.c", "module_index": 134147, "confidence": "strong"}
+{"id": "town/func_800B8D04", "container": "town", "module": "monster_status_display_chains_g00632.c", "module_index": 134148, "confidence": "strong"}
+{"id": "town/func_800B8D2C", "container": "town", "module": "monster_status_display_chains_g00632.c", "module_index": 134148, "confidence": "strong"}
+{"id": "town/func_800B8DA8", "container": "town", "module": "monster_status_display_chains_g00632.c", "module_index": 134148, "confidence": "strong"}
+{"id": "town/func_8009A1CC", "container": "town", "module": "radial_offset_effects_g00543.c", "module_index": 134149, "confidence": "strong"}
+{"id": "town/func_8009A370", "container": "town", "module": "radial_offset_effects_g00543.c", "module_index": 134149, "confidence": "strong"}
+{"id": "town/func_8009A688", "container": "town", "module": "state_callback_g00544.c", "module_index": 134150, "confidence": "strong"}
+{"id": "town/func_8009A740", "container": "town", "module": "state_callback_g00544.c", "module_index": 134150, "confidence": "strong"}
+{"id": "town/func_8009BF20", "container": "town", "module": "object_initialization_g00546.c", "module_index": 134151, "confidence": "strong"}
+{"id": "town/func_8009BF88", "container": "town", "module": "object_initialization_g00546.c", "module_index": 134151, "confidence": "strong"}
+{"id": "town/func_8009D2CC", "container": "town", "module": "target_motion_g00547.c", "module_index": 134152, "confidence": "strong"}
+{"id": "town/func_8009D358", "container": "town", "module": "target_motion_g00547.c", "module_index": 134152, "confidence": "strong"}
+{"id": "town/func_8009D728", "container": "town", "module": "state_update_g00548.c", "module_index": 134153, "confidence": "strong"}
+{"id": "town/func_8009D814", "container": "town", "module": "state_update_g00548.c", "module_index": 134153, "confidence": "strong"}
+{"id": "town/func_8009D894", "container": "town", "module": "state_update_g00548.c", "module_index": 134153, "confidence": "strong"}
+{"id": "town/func_800A56D0", "container": "town", "module": "shaded_quad_projection_g00568.c", "module_index": 134154, "confidence": "strong"}
+{"id": "town/func_800A586C", "container": "town", "module": "shaded_quad_projection_g00568.c", "module_index": 134154, "confidence": "strong"}
+{"id": "town/func_800A7DDC", "container": "town", "module": "effect_handlers_g00576.c", "module_index": 134155, "confidence": "strong"}
+{"id": "town/func_800A7E38", "container": "town", "module": "effect_handlers_g00576.c", "module_index": 134155, "confidence": "strong"}
+{"id": "town/func_800A8C3C", "container": "town", "module": "pending_record_values_g00577.c", "module_index": 134156, "confidence": "strong"}
+{"id": "town/func_800A8C68", "container": "town", "module": "pending_record_values_g00577.c", "module_index": 134156, "confidence": "strong"}
+{"id": "town/func_800A8CDC", "container": "town", "module": "pending_record_values_g00577.c", "module_index": 134156, "confidence": "strong"}
+{"id": "town/func_800A8D1C", "container": "town", "module": "pending_record_values_g00577.c", "module_index": 134156, "confidence": "strong"}
+{"id": "town/func_800A8D60", "container": "town", "module": "scene_object_updates_g00578.c", "module_index": 134157, "confidence": "strong"}
+{"id": "town/func_800A8F24", "container": "town", "module": "scene_object_updates_g00578.c", "module_index": 134157, "confidence": "strong"}
+{"id": "town/func_800A9160", "container": "town", "module": "scene_object_updates_g00578.c", "module_index": 134157, "confidence": "strong"}
+{"id": "town/func_800A9234", "container": "town", "module": "scene_object_updates_g00578.c", "module_index": 134157, "confidence": "strong"}
+{"id": "town/func_80470808", "container": "town", "module": "progress_interaction_g00708.c", "module_index": 134158, "confidence": "strong"}
+{"id": "town/func_80470824", "container": "town", "module": "progress_interaction_g00708.c", "module_index": 134158, "confidence": "strong"}
+{"id": "town/func_804708B4", "container": "town", "module": "progress_interaction_g00708.c", "module_index": 134158, "confidence": "strong"}
+{"id": "town/func_80470D04", "container": "town", "module": "scene_choice_g00709.c", "module_index": 134159, "confidence": "strong"}
+{"id": "town/func_80470D24", "container": "town", "module": "scene_choice_g00709.c", "module_index": 134159, "confidence": "strong"}
+{"id": "town/func_80470EB8", "container": "town", "module": "active_object_records_g00710.c", "module_index": 134160, "confidence": "strong"}
+{"id": "town/func_80470F3C", "container": "town", "module": "active_object_records_g00710.c", "module_index": 134160, "confidence": "strong"}
+{"id": "town/func_8047109C", "container": "town", "module": "active_object_records_g00710.c", "module_index": 134160, "confidence": "strong"}
+{"id": "town/func_80471108", "container": "town", "module": "active_object_records_g00710.c", "module_index": 134160, "confidence": "strong"}
+{"id": "town/func_80471174", "container": "town", "module": "active_object_records_g00710.c", "module_index": 134160, "confidence": "strong"}
+{"id": "town/func_80471198", "container": "town", "module": "flagged_entry_actions_g00711.c", "module_index": 134161, "confidence": "strong"}
+{"id": "town/func_804711DC", "container": "town", "module": "flagged_entry_actions_g00711.c", "module_index": 134161, "confidence": "strong"}
+{"id": "town/func_80472098", "container": "town", "module": "value_handler_modes_g00712.c", "module_index": 134162, "confidence": "strong"}
+{"id": "town/func_804720B8", "container": "town", "module": "value_handler_modes_g00712.c", "module_index": 134162, "confidence": "strong"}
+{"id": "town/func_8047E0D8", "container": "town", "module": "context_callback_g00713.c", "module_index": 134163, "confidence": "strong"}
+{"id": "town/func_8047E130", "container": "town", "module": "context_callback_g00713.c", "module_index": 134163, "confidence": "strong"}
+{"id": "town/func_8046AC60", "container": "town", "module": "event_selection_g00721.c", "module_index": 134164, "confidence": "strong"}
+{"id": "town/func_8046AC98", "container": "town", "module": "event_selection_g00721.c", "module_index": 134164, "confidence": "strong"}
+{"id": "town/func_8046AD20", "container": "town", "module": "event_selection_g00721.c", "module_index": 134164, "confidence": "strong"}
+{"id": "town/func_804811BC", "container": "town", "module": "flagged_entry_followup_g00725.c", "module_index": 134165, "confidence": "strong"}
+{"id": "town/func_804811DC", "container": "town", "module": "flagged_entry_followup_g00725.c", "module_index": 134165, "confidence": "strong"}
+{"id": "town/func_8059E8A0", "container": "town", "module": "event_state_dispatch_g00731.c", "module_index": 134166, "confidence": "strong"}
+{"id": "town/func_8059E8E0", "container": "town", "module": "event_state_dispatch_g00731.c", "module_index": 134166, "confidence": "strong"}
+{"id": "town/func_8059E948", "container": "town", "module": "event_state_dispatch_g00731.c", "module_index": 134166, "confidence": "strong"}
+{"id": "town/func_805D2A4C", "container": "town", "module": "global_mode_dispatch_g00734.c", "module_index": 134167, "confidence": "strong"}
+{"id": "town/func_805D2AAC", "container": "town", "module": "global_mode_dispatch_g00734.c", "module_index": 134167, "confidence": "strong"}
+{"id": "town/func_80615500", "container": "town", "module": "interface_setup_g00740.c", "module_index": 134168, "confidence": "strong"}
+{"id": "town/func_80615574", "container": "town", "module": "interface_setup_g00740.c", "module_index": 134168, "confidence": "strong"}
+{"id": "town/func_806D81FC", "container": "town", "module": "event_cycle_reset_g00753.c", "module_index": 134169, "confidence": "strong"}
+{"id": "town/func_806D8308", "container": "town", "module": "event_cycle_reset_g00753.c", "module_index": 134169, "confidence": "strong"}
+{"id": "dungeon/func_810078B4", "container": "dungeon", "module": "actor_status_events_g00019.c", "module_index": 134170, "confidence": "strong"}
+{"id": "dungeon/func_81007CE0", "container": "dungeon", "module": "actor_status_events_g00019.c", "module_index": 134170, "confidence": "strong"}
+{"id": "dungeon/func_81084850", "container": "dungeon", "module": "actor_action_display_g00034.c", "module_index": 134171, "confidence": "strong"}
+{"id": "dungeon/func_81084A18", "container": "dungeon", "module": "actor_action_display_g00034.c", "module_index": 134171, "confidence": "strong"}
+{"id": "dungeon/func_80BC44D4", "container": "dungeon", "module": "actor_status_flags_g00165.c", "module_index": 134172, "confidence": "strong"}
+{"id": "dungeon/func_80BC489C", "container": "dungeon", "module": "actor_status_flags_g00165.c", "module_index": 134172, "confidence": "strong"}
+{"id": "dungeon/func_80E3A18C", "container": "dungeon", "module": "linked_entity_state_g00259.c", "module_index": 134173, "confidence": "strong"}
+{"id": "dungeon/func_80E3A440", "container": "dungeon", "module": "linked_entity_state_g00259.c", "module_index": 134173, "confidence": "strong"}
+{"id": "dungeon/func_80E3A540", "container": "dungeon", "module": "linked_entity_state_g00259.c", "module_index": 134173, "confidence": "strong"}
+{"id": "dungeon/func_80E3B86C", "container": "dungeon", "module": "knockback_travel_g00260.c", "module_index": 134174, "confidence": "strong"}
+{"id": "dungeon/func_80E3B96C", "container": "dungeon", "module": "knockback_travel_g00260.c", "module_index": 134174, "confidence": "strong"}
+{"id": "town/func_800A9784", "container": "town", "module": "paired_offset_effects_g00579.c", "module_index": 134175, "confidence": "strong"}
+{"id": "town/func_800A97E8", "container": "town", "module": "paired_offset_effects_g00579.c", "module_index": 134175, "confidence": "strong"}
+{"id": "main/func_8000E91C", "container": "main", "module": "card_directory_operations_g00377.c", "module_index": 134176, "confidence": "strong"}
+{"id": "main/func_8000E9B8", "container": "main", "module": "card_directory_operations_g00377.c", "module_index": 134176, "confidence": "strong"}
+{"id": "main/func_8000EA04", "container": "main", "module": "card_directory_operations_g00377.c", "module_index": 134176, "confidence": "strong"}
+{"id": "main/func_8000EA84", "container": "main", "module": "card_directory_operations_g00377.c", "module_index": 134176, "confidence": "strong"}
+{"id": "main/func_8000EB18", "container": "main", "module": "card_directory_operations_g00377.c", "module_index": 134176, "confidence": "strong"}
+{"id": "main/func_8000EEE0", "container": "main", "module": "save_file_updates_g00378.c", "module_index": 134177, "confidence": "strong"}
+{"id": "main/func_8000EF18", "container": "main", "module": "save_file_updates_g00378.c", "module_index": 134177, "confidence": "strong"}
+{"id": "main/func_8000EFF0", "container": "main", "module": "save_file_updates_g00378.c", "module_index": 134177, "confidence": "strong"}
+{"id": "main/func_8000F300", "container": "main", "module": "dialog_selection_highlight_g00379.c", "module_index": 134178, "confidence": "strong"}
+{"id": "main/func_8000F33C", "container": "main", "module": "dialog_selection_highlight_g00379.c", "module_index": 134178, "confidence": "strong"}
+{"id": "main/func_8000F3B4", "container": "main", "module": "dialog_selection_highlight_g00379.c", "module_index": 134178, "confidence": "strong"}
+{"id": "main/func_8000F488", "container": "main", "module": "dialog_selection_highlight_g00379.c", "module_index": 134178, "confidence": "strong"}
+{"id": "main/func_8000FA30", "container": "main", "module": "dialog_packet_setup_g00380.c", "module_index": 134179, "confidence": "strong"}
+{"id": "main/func_8000FAE8", "container": "main", "module": "dialog_packet_setup_g00380.c", "module_index": 134179, "confidence": "strong"}
+{"id": "main/func_8000FBE8", "container": "main", "module": "message_dialog_lifecycle_g00381.c", "module_index": 134180, "confidence": "strong"}
+{"id": "main/func_8000FC48", "container": "main", "module": "message_dialog_lifecycle_g00381.c", "module_index": 134180, "confidence": "strong"}
+{"id": "main/func_8000FC90", "container": "main", "module": "message_dialog_lifecycle_g00381.c", "module_index": 134180, "confidence": "strong"}
+{"id": "main/func_8000FCD8", "container": "main", "module": "message_dialog_lifecycle_g00381.c", "module_index": 134180, "confidence": "strong"}
+{"id": "main/func_8000FD60", "container": "main", "module": "message_dialog_lifecycle_g00381.c", "module_index": 134180, "confidence": "strong"}
+{"id": "main/func_80010C44", "container": "main", "module": "occupied_slot_window_g00386.c", "module_index": 134181, "confidence": "strong"}
+{"id": "main/func_80010D64", "container": "main", "module": "occupied_slot_window_g00386.c", "module_index": 134181, "confidence": "strong"}
+{"id": "main/func_80010E14", "container": "main", "module": "occupied_slot_window_g00386.c", "module_index": 134181, "confidence": "strong"}
+{"id": "main/func_80011818", "container": "main", "module": "slot_detail_refresh_g00388.c", "module_index": 134182, "confidence": "strong"}
+{"id": "main/func_800119B4", "container": "main", "module": "slot_detail_refresh_g00388.c", "module_index": 134182, "confidence": "strong"}
+{"id": "main/func_80011A50", "container": "main", "module": "slot_detail_refresh_g00388.c", "module_index": 134182, "confidence": "strong"}
+{"id": "main/func_80012358", "container": "main", "module": "save_copy_completion_g00392.c", "module_index": 134183, "confidence": "strong"}
+{"id": "main/func_80012398", "container": "main", "module": "save_copy_completion_g00392.c", "module_index": 134183, "confidence": "strong"}
+{"id": "ovmovie/func_800400AC", "container": "ovmovie", "module": "movie_display_setup_g00426.c", "module_index": 134184, "confidence": "strong"}
+{"id": "ovmovie/func_800402D8", "container": "ovmovie", "module": "movie_display_setup_g00426.c", "module_index": 134184, "confidence": "strong"}
+{"id": "ovmovie/func_8004033C", "container": "ovmovie", "module": "movie_display_setup_g00426.c", "module_index": 134184, "confidence": "strong"}
+{"id": "ovmovie/func_80040360", "container": "ovmovie", "module": "movie_display_setup_g00426.c", "module_index": 134184, "confidence": "strong"}
+{"id": "ovmovie/func_800403EC", "container": "ovmovie", "module": "movie_display_setup_g00426.c", "module_index": 134184, "confidence": "strong"}
+{"id": "ovmovie/func_800404A8", "container": "ovmovie", "module": "movie_display_setup_g00426.c", "module_index": 134184, "confidence": "strong"}
+{"id": "ovmovie/func_80040690", "container": "ovmovie", "module": "movie_frame_playback_g00427.c", "module_index": 134185, "confidence": "strong"}
+{"id": "ovmovie/func_8004072C", "container": "ovmovie", "module": "movie_frame_playback_g00427.c", "module_index": 134185, "confidence": "strong"}
+{"id": "ovmovie/func_800408BC", "container": "ovmovie", "module": "movie_frame_playback_g00427.c", "module_index": 134185, "confidence": "strong"}
+{"id": "ovmovie/func_80040954", "container": "ovmovie", "module": "movie_frame_playback_g00427.c", "module_index": 134185, "confidence": "strong"}
+{"id": "ovmovie/func_8004099C", "container": "ovmovie", "module": "movie_frame_playback_g00427.c", "module_index": 134185, "confidence": "strong"}

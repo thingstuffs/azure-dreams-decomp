@@ -33,6 +33,22 @@ sys.path.insert(0, str(HERE))
 import tu_merge as M  # noqa: E402
 
 
+def unindexed_home_image(module, images, rows):
+    """A census code range may omit home entries; never hide registered copies."""
+    members = module.get('data_members', []) + module['members']
+    homes = {a['id'] for a in members}
+    copies = [r['id'] for r in rows.values() if r.get('source_row') in homes]
+    if copies:
+        raise ValueError('unindexed home has registered foreign copies: %s' % ', '.join(sorted(copies)))
+    candidates = [key for key, image in images.items()
+                  if key.split('/', 1)[0] == module['container'] and image.get('vma') is not None and all(
+                      image['foff'] <= a['foff'] and a['foff'] + a['size'] <= image['foff'] + image['size']
+                      and image['vma'] - image['foff'] == a['vma'] - a['foff'] for a in members)]
+    if not candidates:
+        raise ValueError('unindexed home has no catalogue image matching its verified geometry')
+    return min(candidates, key=lambda key: (images[key]['size'], '/image_' not in key, key))
+
+
 def plan(root, key):
     sys.path[:0] = [str(root / 'tools'), str(root / 'tools/gate')]
     import linklist
@@ -41,6 +57,11 @@ def plan(root, key):
     images, _, by_row, local = tables = linklist.load(root)
     rows = {r['id']: r for r in M.jl(root / 'ledger/rows.jsonl')}
     homes = [a['id'] for a in m.get('data_members', []) + m['members']]
+    if any(h not in by_row for h in homes):
+        if any(e['home'] in homes and rid not in homes for rid, e in by_row.items()):
+            raise ValueError('unindexed home still has indexed foreign placements')
+        home_image = unindexed_home_image(m, images, rows)
+        return m, home_image, images, tables, [], []
     home_image = by_row[homes[0]]['image']
     # every placement row of each home, by image
     per_image = {}
@@ -152,6 +173,21 @@ def descriptor(root, m, home_image, images, tables, img, es):
             imports.append(dict(symbol=d['symbol'], kind='function', vma=v))
         elif d['kind'] == 'runtime_data':
             imports.append(dict(d))
+        elif 'asset' in d:
+            # A resident engine view is not storage of the destination bank.
+            # Preserve its existing, validated map; a moved external view needs
+            # a separate destination proof rather than a guessed bank offset.
+            if v != d['vma']:
+                raise ValueError('resident asset view moves without a destination proof: ' + d['symbol'])
+            proof = json.loads((root / d['evidence']).read_text())
+            mname = d['map']
+            mp = proof['maps'][mname]
+            if mname in maps and maps[mname] != mp:
+                raise ValueError('resident asset map name collision: ' + mname)
+            maps[mname] = dict(mp)
+            nd = dict(d, evidence=ev)
+            imports.append(nd)
+            views[d['symbol']] = nd
         else:
             mimg = storage_image(images, dimg, v - delta, d['view_bytes'])
             mname = 'destination_image' if mimg is dimg else 'image_' + re.sub(r'[^a-z0-9_]', '_', mimg['image'].split('/', 1)[1].lower())
@@ -198,7 +234,11 @@ def main(argv=None):
     if unified:
         m, home_image, images, tables, ok, partial = plan(root, args.module)   # reload the link lists
     for img, es in ok:
-        desc, ev, evidence = descriptor(root, m, home_image, images, tables, img, es)
+        try:
+            desc, ev, evidence = descriptor(root, m, home_image, images, tables, img, es)
+        except ValueError as exc:
+            partial.append(dict(image=img, reason='destination import view unavailable: %s' % exc))
+            continue
         if any(p['key'] == desc['key'] for p in doc['placements']):
             continue
         doc['placements'].append(desc)
@@ -209,7 +249,7 @@ def main(argv=None):
         fr.write(manifest_rel, json.dumps(doc, indent=1) + '\n')
     report = dict(module=args.module, home_image=home_image, placements=made, partial=partial,
                   unified_bindings=unified)
-    if not args.dry_run and made:
+    if not args.dry_run:
         sys.path[:0] = [str(root / 'tools/gate')]
         import overlay_module_placements as P
         try:

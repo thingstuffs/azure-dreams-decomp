@@ -1,0 +1,21 @@
+{
+  "module": "dungeon_monster_garuda_actor_status_events_g00019",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "actor_status_events_g00019.c",
+    "module_index": 134170
+  },
+  "members": [
+    "dungeon/func_810078B4",
+    "dungeon/func_81007CE0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00019 - PD:dungeon/bank_1025000:801748E8, PD:dungeon/bank_102b000:8016E8E8, PD:dungeon/bank_1031000:801688E8, PD:dungeon/bank_1037000:801628E8, PD:dungeon/bank_103d000:8015C8E8, PD:dungeon/bank_1043000:801568E8. Grouping by tools/tu/infer_groups.py (group G00019); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b,d,h); strong inferred group G00019. No original filename anchor; feature name follows the whole group.",
+    "Members are the contiguous registered home rows 0x10278B4..0x1028034 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

@@ -1,0 +1,21 @@
+{
+  "module": "town_player_periodic_action_effect_g00533",
+  "ledger_group": {
+    "container": "town",
+    "module": "periodic_action_effect_g00533.c",
+    "module_index": 134110
+  },
+  "members": [
+    "town/func_8009408C",
+    "town/func_80094230"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00533 - CL:town/func_8009408C. Grouping by tools/tu/infer_groups.py (group G00533); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b), G00533: inferred-strong; joins from the listed CL/PD evidence, with proven and cross-image cut constraints retained by infer_groups. Original filename and complete TU edges are unknown.",
+    "Members are the contiguous registered home rows 0x1408C..0x142A8 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

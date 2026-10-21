@@ -323,7 +323,7 @@
     },
     {
       "row": "dungeon/func_80BD04D4",
-      "tu": "src/dungeon/monster/death/advance_actor_action_state_handle_status.c",
+      "tu": "src/dungeon/monster/death/actor_status_flags_g00165.c",
       "home": "dungeon/func_80BC44D4",
       "foff": "0xBF04D4",
       "vma": "0x80167CD4",
@@ -335,7 +335,7 @@
     },
     {
       "row": "dungeon/func_80BD089C",
-      "tu": "src/dungeon/monster/death/advance_actor_states_and_entity_flags.c",
+      "tu": "src/dungeon/monster/death/actor_status_flags_g00165.c",
       "home": "dungeon/func_80BC489C",
       "foff": "0xBF089C",
       "vma": "0x8016809C",

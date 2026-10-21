@@ -1,0 +1,31 @@
+/* G00680: actor slot global state. */
+/* Original-file evidence (G00680): inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D6674, PD:town/engine:800D667C, PD:town/engine:800D66A4, PD:town/engine:800D66A8. */
+#include "town/person/actor_slot_global_state_g00680.h"
+
+void configure_actor_slot_75_and_copy_global(void *actor, s32 unused, void *state) {
+    *((s8 *)actor + 0x93) = 1;
+    *(s32 *)((u8 *)state + 0x28) = D_80081458[0];
+    func_800C3050(actor, 0x4B, D_800D66A4, D_800D66A8, D_800D6674,
+                  D_800D667C);
+}
+
+void configure_actor_slot_76_and_copy_global(void *actor, s32 unused, void *state) {
+    *((s8 *)actor + 0x93) = 1;
+    *(s32 *)((u8 *)state + 0x28) = D_80081458[0];
+    func_800C3050(actor, 0x4C, D_800D66A4, D_800D66A8, D_800D6674,
+                  D_800D667C);
+}
+
+void configure_actor_slot_77_and_copy_global(void *actor, s32 unused, void *state) {
+    *((s8 *)actor + 0x93) = 1;
+    *(s32 *)((u8 *)state + 0x28) = D_80081458[0];
+    func_800C3050(actor, 0x4D, D_800D66A4, D_800D66A8, D_800D6674,
+                  D_800D667C);
+}
+
+void configure_actor_slot_78_and_copy_global(void *actor, s32 unused, void *state) {
+    *((s8 *)actor + 0x93) = 1;
+    *(s32 *)((u8 *)state + 0x28) = D_80081458[0];
+    func_800C3050(actor, 0x4E, D_800D66A4, D_800D66A8, D_800D6674,
+                  D_800D667C);
+}

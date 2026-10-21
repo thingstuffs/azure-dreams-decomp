@@ -1,0 +1,24 @@
+{
+  "module": "town_player_source_byte_forwarding_g00536",
+  "runtime_views": {
+    "D_80080A84": {
+      "symbol": "D_80080A84",
+      "kind": "runtime_data",
+      "vma": 2148010628,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_player_source_byte_forwarding_g00536.imports.json",
+      "declaration": "include/town/player/source_byte_forwarding_g00536.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80080A84": "sizeof"
+  },
+  "address_only_anchors": {}
+}

@@ -1,0 +1,229 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "dungeon_monster_death_actor_status_flags_g00165",
+  "placement": "dungeon_monster_death_actor_status_flags_g00165_bank_bf3000",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "tu7 computational candidate: the merged home object dungeon_monster_death_actor_status_flags_g00165 is linked whole into dungeon/bank_bf3000 (all 2 members, contiguous, one displacement; link lists). Destination types/storage/ownership review pending.",
+  "views": {
+    "D_801719DC": {
+      "symbol": "D_801719DC",
+      "kind": "data",
+      "vma": 2148923868,
+      "foff": 12534236,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165_bank_bf3000.placement.json"
+    },
+    "D_80174684": {
+      "symbol": "D_80174684",
+      "kind": "data",
+      "vma": 2148935300,
+      "foff": 12545668,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165_bank_bf3000.placement.json"
+    },
+    "D_8017468C": {
+      "symbol": "D_8017468C",
+      "kind": "data",
+      "vma": 2148935308,
+      "foff": 12545676,
+      "view_bytes": 14,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165_bank_bf3000.placement.json"
+    }
+  },
+  "maps": {
+    "destination_image": {
+      "kind": "link_image",
+      "image": "dungeon/bank_bf3000",
+      "link_list": "config/link/dungeon/bank_bf3000.json",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 12529664,
+      "file_end": 12554240,
+      "delta": 2136389632,
+      "basis": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F56B800: img_bf3060_8015e860; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)"
+    }
+  },
+  "placement_descriptor": {
+    "key": "dungeon_monster_death_actor_status_flags_g00165_bank_bf3000",
+    "module": "dungeon_monster_death_actor_status_flags_g00165",
+    "image": "dungeon/bank_bf3000",
+    "home_image": "dungeon/bank_be1000",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "dungeon/func_80BC44D4",
+        "row": "dungeon/func_80BD64D4"
+      },
+      {
+        "home": "dungeon/func_80BC489C",
+        "row": "dungeon/func_80BD689C"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_800814A8",
+        "kind": "runtime_data",
+        "vma": 2148013224,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165.imports.json",
+        "declaration": "include/shared/record_ptrs.h"
+      },
+      {
+        "symbol": "D_80082E80",
+        "kind": "runtime_data",
+        "vma": 2148019840,
+        "view_bytes": 64,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165.imports.json",
+        "declaration": "include/shared/tile_object.h"
+      },
+      {
+        "symbol": "D_80083160",
+        "kind": "runtime_data",
+        "vma": 2148020576,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165.imports.json",
+        "declaration": "include/dungeon/monster/death/actor_status_flags_g00165.h"
+      },
+      {
+        "symbol": "D_80083460",
+        "kind": "runtime_data",
+        "vma": 2148021344,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165.imports.json",
+        "declaration": "include/dungeon/monster/death/actor_status_flags_g00165.h"
+      },
+      {
+        "symbol": "D_801719DC",
+        "kind": "data",
+        "vma": 2148923868,
+        "foff": 12534236,
+        "view_bytes": 4,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165_bank_bf3000.placement.json"
+      },
+      {
+        "symbol": "D_80174684",
+        "kind": "data",
+        "vma": 2148935300,
+        "foff": 12545668,
+        "view_bytes": 8,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165_bank_bf3000.placement.json"
+      },
+      {
+        "symbol": "D_8017468C",
+        "kind": "data",
+        "vma": 2148935308,
+        "foff": 12545676,
+        "view_bytes": 14,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_monster_death_actor_status_flags_g00165_bank_bf3000.placement.json"
+      },
+      {
+        "symbol": "func_80042900",
+        "kind": "function",
+        "vma": 2147756288
+      },
+      {
+        "symbol": "func_80042B68",
+        "kind": "function",
+        "vma": 2147756904
+      },
+      {
+        "symbol": "func_80047784",
+        "kind": "function",
+        "vma": 2147776388
+      },
+      {
+        "symbol": "func_8009A180",
+        "kind": "function",
+        "vma": 2148114816
+      },
+      {
+        "symbol": "func_8009FD40",
+        "kind": "function",
+        "vma": 2148138304
+      },
+      {
+        "symbol": "func_800A2C34",
+        "kind": "function",
+        "vma": 2148150324
+      },
+      {
+        "symbol": "func_800A6D30",
+        "kind": "function",
+        "vma": 2148166960
+      },
+      {
+        "symbol": "func_800A9A04",
+        "kind": "function",
+        "vma": 2148178436
+      },
+      {
+        "symbol": "func_800A9A0C",
+        "kind": "function",
+        "vma": 2148178444
+      },
+      {
+        "symbol": "func_800AA258",
+        "kind": "function",
+        "vma": 2148180568
+      },
+      {
+        "symbol": "func_800AA6B4",
+        "kind": "function",
+        "vma": 2148181684
+      },
+      {
+        "symbol": "func_800AA79C",
+        "kind": "function",
+        "vma": 2148181916
+      },
+      {
+        "symbol": "func_800AA888",
+        "kind": "function",
+        "vma": 2148182152
+      },
+      {
+        "symbol": "func_801743F0",
+        "kind": "function",
+        "vma": 2148934640
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/dungeon_monster_death_actor_status_flags_g00165_bank_bf3000.placement.json"
+    ]
+  }
+}

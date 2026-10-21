@@ -1,0 +1,54 @@
+#ifndef TOWN_MENU_RANDOMIZED_EFFECT_MOTION_G00570_H
+#define TOWN_MENU_RANDOMIZED_EFFECT_MOTION_G00570_H
+/* inferred-strong G00570: randomized_effect_motion_g00570; shared declarations. */
+/* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0B20. */
+
+#include "common.h"
+#include "shared/sprite_frame_state.h"
+#include "shared/slus_callbacks.h"
+#include "records/Rec_D_80082E80.h"
+#include "m2c_compat.h"
+#include "shared/entity.h"
+
+typedef struct S_800A3508_1 {
+    void * unk_00;
+    u8 pad_04[0x1E];
+    s16 unk_22;
+    s32 unk_24;
+    u8 pad_28[0x8];
+    s32 unk_30;
+    s32 unk_34;
+} S_800A3508_1;
+
+typedef struct S_800A378C_0 {
+    s32 * unk_00;
+    u8 pad_04[0x1E];
+    s16 unk_22;
+    s32 unk_24;
+    u8 pad_28[0x4];
+    s32 unk_2C;
+    s32 unk_30;
+    s32 unk_34;
+} S_800A378C_0;
+
+extern void func_8003DB94(void *, s32, s32);
+extern void register_node(void *, void *);
+extern s32 func_800644B8(s32);
+extern s32 func_80064584(s32);
+extern u8 D_800A378C[];
+extern s16 D_800D0B18[];
+extern s32 D_800D0B50[];
+/* extern */
+void func_800478B8(void *entity);
+/* extern */
+extern M2C_UNK D_800A38A8;
+
+extern u32 scale_random_to_unsigned_halfword_limit(s32);
+extern void add_motion_deltas_to_position(EntityRec *);
+extern s32 D_800D0B20[];
+
+/* Functions defined in this translation unit. */
+void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *record);
+void advance_motion_and_reset_appearance(S_800A378C_0 *state, EntityRec *transform, SpriteFrameState *appearance);
+
+#endif

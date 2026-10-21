@@ -1,0 +1,21 @@
+{
+  "module": "town_context_callback_g00713",
+  "ledger_group": {
+    "container": "town",
+    "module": "context_callback_g00713.c",
+    "module_index": 134163
+  },
+  "members": [
+    "town/func_8047E0D8",
+    "town/func_8047E130"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00713 - CL:town/func_8047E130. Grouping by tools/tu/infer_groups.py (group G00713); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong group G00713; contiguous home rows, uniform recipe, joins CL:town/func_8047E130. No known cut is crossed.",
+    "Members are the contiguous registered home rows 0x3FE0D8..0x3FE178 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

@@ -1,0 +1,21 @@
+{
+  "module": "town_radial_offset_effects_g00543",
+  "ledger_group": {
+    "container": "town",
+    "module": "radial_offset_effects_g00543.c",
+    "module_index": 134149
+  },
+  "members": [
+    "town/func_8009A1CC",
+    "town/func_8009A370"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00543 - CL:town/func_8009A1CC. Grouping by tools/tu/infer_groups.py (group G00543); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong group G00543; contiguous home rows, uniform recipe, joins CL:town/func_8009A1CC. No known cut is crossed.",
+    "Members are the contiguous registered home rows 0x1A1CC..0x1A4F0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

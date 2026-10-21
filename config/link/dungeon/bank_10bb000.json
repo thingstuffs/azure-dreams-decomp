@@ -70,7 +70,7 @@
     },
     {
       "row": "dungeon/func_8109C850",
-      "tu": "src/dungeon/monster/golem/attempt_actor_action_and_display.c",
+      "tu": "src/dungeon/monster/golem/actor_action_display_g00034.c",
       "home": "dungeon/func_81084850",
       "foff": "0x10BC850",
       "vma": "0x8015A050",
@@ -82,7 +82,7 @@
     },
     {
       "row": "dungeon/func_8109CA18",
-      "tu": "src/dungeon/monster/golem/update_eligible_actor_action.c",
+      "tu": "src/dungeon/monster/golem/actor_action_display_g00034.c",
       "home": "dungeon/func_81084A18",
       "foff": "0x10BCA18",
       "vma": "0x8015A218",

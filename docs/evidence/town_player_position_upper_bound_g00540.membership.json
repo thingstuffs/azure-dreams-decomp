@@ -1,0 +1,22 @@
+{
+  "module": "town_player_position_upper_bound_g00540",
+  "ledger_group": {
+    "container": "town",
+    "module": "position_upper_bound_g00540.c",
+    "module_index": 134121
+  },
+  "members": [
+    "town/func_80099028",
+    "town/func_80099080",
+    "town/func_800990B0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00540 - CL:town/func_80099028, CL:town/func_80099080, PD:town/engine:800FE5D4. Grouping by tools/tu/infer_groups.py (group G00540); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b), G00540: inferred-strong; joins from the listed CL/PD evidence, with proven and cross-image cut constraints retained by infer_groups. Original filename and complete TU edges are unknown.",
+    "Members are the contiguous registered home rows 0x19028..0x19108 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

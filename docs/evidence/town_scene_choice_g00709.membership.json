@@ -1,0 +1,21 @@
+{
+  "module": "town_scene_choice_g00709",
+  "ledger_group": {
+    "container": "town",
+    "module": "scene_choice_g00709.c",
+    "module_index": 134159
+  },
+  "members": [
+    "town/func_80470D04",
+    "town/func_80470D24"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00709 - CL:town/func_80470C64, CL:town/func_80470D04. Grouping by tools/tu/infer_groups.py (group G00709); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong group G00709; contiguous home rows, uniform recipe, joins CL:town/func_80470C64, CL:town/func_80470D04. No known cut is crossed.",
+    "Members are the contiguous registered home rows 0x3F0D04..0x3F0DB4 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

@@ -52,7 +52,7 @@
     },
     {
       "row": "town/func_8059F3C8",
-      "tu": "src/town/scene/process_flagged_entries_mode_append.c",
+      "tu": "src/town/scene/flagged_entry_followup_g00725.c",
       "home": "town/func_804811BC",
       "foff": "0x51F3C8",
       "vma": "0x800173C8",
@@ -65,7 +65,7 @@
     },
     {
       "row": "town/func_8059F3E8",
-      "tu": "src/town/scene/process_flagged_entries_follow_four.c",
+      "tu": "src/town/scene/flagged_entry_followup_g00725.c",
       "home": "town/func_804811DC",
       "foff": "0x51F3E8",
       "vma": "0x800173E8",

@@ -1,0 +1,23 @@
+{
+  "module": "town_indexed_object_state_g00569",
+  "ledger_group": {
+    "container": "town",
+    "module": "indexed_object_state_g00569.c",
+    "module_index": 134126
+  },
+  "members": [
+    "town/func_800A5C88",
+    "town/func_800A5CF0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00569 - CL:town/func_800A5CF0. Grouping by tools/tu/infer_groups.py (group G00569); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "G00569: CL:town/func_800A5CF0; no weak or hard cut crosses a selected join under pd4_cl2.",
+    "Original file edges and filename are unknown; literals retain their existing imports (decision 72(f)).",
+    "Decision 72(d): reconcile declarations to one prototype and verify complete object identity.",
+    "Members are the contiguous registered home rows 0x25C88..0x25D80 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

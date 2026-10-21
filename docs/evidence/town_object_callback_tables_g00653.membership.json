@@ -1,0 +1,23 @@
+{
+  "module": "town_object_callback_tables_g00653",
+  "ledger_group": {
+    "container": "town",
+    "module": "object_callback_tables_g00653.c",
+    "module_index": 134139
+  },
+  "members": [
+    "town/func_800C4678",
+    "town/func_800C46F0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00653 - PD:town/engine:800D4668. Grouping by tools/tu/infer_groups.py (group G00653); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "G00653: PD:town/engine:800D4668; no weak or hard cut crosses a selected join under pd4_cl2.",
+    "Original file edges and filename are unknown; literals retain their existing imports (decision 72(f)).",
+    "Decision 72(d): reconcile declarations to one prototype and verify complete object identity.",
+    "Members are the contiguous registered home rows 0x44678..0x44744 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

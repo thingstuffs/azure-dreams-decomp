@@ -1,0 +1,132 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "dungeon_monster_golem_actor_action_display_g00034",
+  "placement": "dungeon_monster_golem_actor_action_display_g00034_bank_10af000",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "tu7 computational candidate: the merged home object dungeon_monster_golem_actor_action_display_g00034 is linked whole into dungeon/bank_10af000 (all 2 members, contiguous, one displacement; link lists). Destination types/storage/ownership review pending.",
+  "views": {
+    "D_80175F48": {
+      "symbol": "D_80175F48",
+      "kind": "data",
+      "vma": 2148966216,
+      "foff": 17516360,
+      "view_bytes": 1,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_monster_golem_actor_action_display_g00034_bank_10af000.placement.json"
+    }
+  },
+  "maps": {
+    "destination_image": {
+      "kind": "link_image",
+      "image": "dungeon/bank_10af000",
+      "link_list": "config/link/dungeon/bank_10af000.json",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 17494016,
+      "file_end": 17518592,
+      "delta": 2131449856,
+      "basis": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F0B5800: r121_followup_10B2878, r121_rest_10B2898_10B4710, r121c2_10B1DB4, r121c2_rest_10AF284_10B1DB4, r121c2_rest_10B1DBC_10B2878; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)"
+    }
+  },
+  "placement_descriptor": {
+    "key": "dungeon_monster_golem_actor_action_display_g00034_bank_10af000",
+    "module": "dungeon_monster_golem_actor_action_display_g00034",
+    "image": "dungeon/bank_10af000",
+    "home_image": "dungeon/bank_10a3000",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "dungeon/func_81084850",
+        "row": "dungeon/func_81090850"
+      },
+      {
+        "home": "dungeon/func_81084A18",
+        "row": "dungeon/func_81090A18"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_80083160",
+        "kind": "runtime_data",
+        "vma": 2148020576,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_golem_actor_action_display_g00034.imports.json",
+        "declaration": "include/dungeon/monster/golem/actor_action_display_g00034.h"
+      },
+      {
+        "symbol": "D_80083460",
+        "kind": "runtime_data",
+        "vma": 2148021344,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_golem_actor_action_display_g00034.imports.json",
+        "declaration": "include/dungeon/monster/golem/actor_action_display_g00034.h"
+      },
+      {
+        "symbol": "D_80175F48",
+        "kind": "data",
+        "vma": 2148966216,
+        "foff": 17516360,
+        "view_bytes": 1,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_monster_golem_actor_action_display_g00034_bank_10af000.placement.json"
+      },
+      {
+        "symbol": "func_80047784",
+        "kind": "function",
+        "vma": 2147776388
+      },
+      {
+        "symbol": "func_8009C93C",
+        "kind": "function",
+        "vma": 2148124988
+      },
+      {
+        "symbol": "func_800A0134",
+        "kind": "function",
+        "vma": 2148139316
+      },
+      {
+        "symbol": "func_800A04F0",
+        "kind": "function",
+        "vma": 2148140272
+      },
+      {
+        "symbol": "func_800A2B5C",
+        "kind": "function",
+        "vma": 2148150108
+      },
+      {
+        "symbol": "func_800A2CB8",
+        "kind": "function",
+        "vma": 2148150456
+      },
+      {
+        "symbol": "func_800C7930",
+        "kind": "function",
+        "vma": 2148301104
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/dungeon_monster_golem_actor_action_display_g00034_bank_10af000.placement.json"
+    ]
+  }
+}

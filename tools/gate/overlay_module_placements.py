@@ -138,8 +138,12 @@ def _load(root, modules=None):
             anchors.append(e)
             fam = img['container']
             if fam not in splits:
-                splits[fam] = G.read_records(root / 'ledger/splits' / (fam + '.jsonl'))
-            live = [s for s in splits[fam] if not s.get('rerun') and fam + '/' + str(s.get('func_vram')) == rid]
+                by_id = {}
+                for s in G.read_records(root / 'ledger/splits' / (fam + '.jsonl')):
+                    if not s.get('rerun'):
+                        by_id.setdefault(fam + '/' + str(s.get('func_vram')), []).append(s)
+                splits[fam] = by_id
+            live = splits[fam].get(rid, [])
             if (len(live) != 1 or live[0].get('result') != 'MATCH' or live[0].get('source_kind', 'c') != 'c'
                     or (live[0]['foff'], live[0]['size'], linklist.split_vma(live[0])) != (e['foff'], e['size'], e['vma'])):
                 raise ValueError('module placement split identity differs: ' + rid)

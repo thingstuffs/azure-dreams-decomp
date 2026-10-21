@@ -1,0 +1,25 @@
+{
+  "module": "town_shop_monster_status_resource_cache_g00636",
+  "runtime_views": {
+    "D_80083D78": {
+      "symbol": "D_80083D78",
+      "kind": "runtime_data",
+      "vma": 2148023672,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_monster_status_resource_cache_g00636.imports.json",
+      "declaration": "include/town/shop/monster_status_resource_cache_g00636.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083D78": "sizeof",
+    "D_800B5B20": "sizeof"
+  },
+  "address_only_anchors": {}
+}

@@ -94,7 +94,7 @@ def _load_modules(root=ROOT):
  if (root/'config/overlay_modules_disabled').exists() or not path.exists(): return []
  doc=read_json(path)
  if doc['schema'] not in (SCHEMA,'overlay-module-native-v3','overlay-module-text-v2'):raise ValueError('unsupported manifest')
- reg=rows(root);layout=source_mapping(root);seen=set();keys=set();assignments=None;levels=None
+ reg=rows(root);layout=source_mapping(root);seen=set();keys=set();assignments=None;levels=None;cohort_index=None
  for m in doc['modules']:
   if not re.fullmatch('[a-z][a-z0-9_]*',m['key']) or m['key'] in keys:raise ValueError('duplicate/invalid key')
   keys.add(m['key'])
@@ -133,7 +133,16 @@ def _load_modules(root=ROOT):
    if m['membership_evidence'] not in m['review_inputs']:raise ValueError('membership evidence not fingerprinted')
    group=ev['ledger_group']
    if assignments is None:assignments=read_jsonl(root/'ledger/modules.jsonl')
-   cohort=sorted([x['id'] for x in assignments if all(x[k]==v for k,v in group.items())],key=lambda rid:reg[rid]['foff'])
+   # Index the common exact cohort tuple once per complete validation. Keep
+   # every member and duplicate; unusual evidence keys retain the generic scan.
+   cohort_keys=('container','module','module_index')
+   if set(group)==set(cohort_keys):
+    if cohort_index is None:
+     cohort_index={}
+     for x in assignments:cohort_index.setdefault(tuple(x[k] for k in cohort_keys),[]).append(x['id'])
+    cohort_ids=cohort_index.get(tuple(group[k] for k in cohort_keys),[])
+   else:cohort_ids=[x['id'] for x in assignments if all(x[k]==v for k,v in group.items())]
+   cohort=sorted(cohort_ids,key=lambda rid:reg[rid]['foff'])
    if cohort!=[a['id'] for a in all_members(m)]:raise ValueError('complete ledger cohort differs')
    if levels is None:levels={x['id']:x for x in read_jsonl(root/'ledger/levels.jsonl')}
    for a in m['members']:

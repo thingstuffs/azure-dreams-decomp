@@ -1,0 +1,21 @@
+{
+  "module": "dungeon_monster_manoeva_knockback_travel_g00260",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "knockback_travel_g00260.c",
+    "module_index": 134174
+  },
+  "members": [
+    "dungeon/func_80E3B86C",
+    "dungeon/func_80E3B96C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00260 - CL:dungeon/func_80E3B86C@dungeon/bank_e56c58, CL:dungeon/func_80E3B86C@dungeon/bank_e5d000, CL:dungeon/func_80E3B86C@dungeon/bank_e63000, CL:dungeon/func_80E3B86C@dungeon/bank_e69000, CL:dungeon/func_80E3B86C@dungeon/bank_e6f000, CL:dungeon/func_80E3B86C@dungeon/bank_e75000. Grouping by tools/tu/infer_groups.py (group G00260); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b,d,h); strong inferred group G00260. No original filename anchor; feature name follows the whole group.",
+    "Members are the contiguous registered home rows 0xE5B86C..0xE5BD40 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

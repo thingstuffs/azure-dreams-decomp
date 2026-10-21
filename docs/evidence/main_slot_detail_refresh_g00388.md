@@ -1,0 +1,7 @@
+# Slot detail refresh; G00388; inferred-strong; CL/PD joins as listed below, no proven or weak cut crossed
+
+
+
+3 functions (foff 0x261818-0x261ACC) of one original translation unit. Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00388 - CL:main/func_800112D8, CL:main/func_80011390, CL:main/func_80011818, CL:main/func_800119B4, PD:main/image_25c800:800283EC.
+
+Definitions retain retail order; declarations are reconciled in `include/frontend/libcard/slot_detail_refresh_g00388.h` to one true prototype, with explicit caller/data-view casts and parameter or live-argument corrections where required (decision 72(d)), preserving object bytes and relocations (proved by tools/tu/tu_merge.py). String literals stay retail imports until the whole TU and its pool extent are recovered (decision 72(f)).

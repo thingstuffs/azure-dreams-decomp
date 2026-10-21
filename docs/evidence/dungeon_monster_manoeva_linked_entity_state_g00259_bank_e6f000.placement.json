@@ -1,0 +1,178 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "dungeon_monster_manoeva_linked_entity_state_g00259",
+  "placement": "dungeon_monster_manoeva_linked_entity_state_g00259_bank_e6f000",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "tu7 computational candidate: the merged home object dungeon_monster_manoeva_linked_entity_state_g00259 is linked whole into dungeon/bank_e6f000 (all 3 members, contiguous, one displacement; link lists). Destination types/storage/ownership review pending.",
+  "views": {
+    "D_800E3D7C": {
+      "symbol": "D_800E3D7C",
+      "kind": "data",
+      "vma": 2148416892,
+      "foff": 1041948,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "resident_xfer_dungeon_a3000",
+      "evidence": "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259_bank_e6f000.placement.json"
+    },
+    "D_80176670": {
+      "symbol": "D_80176670",
+      "kind": "data",
+      "vma": 2148918896,
+      "foff": 15158896,
+      "view_bytes": 16,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259_bank_e6f000.placement.json"
+    }
+  },
+  "maps": {
+    "resident_xfer_dungeon_a3000": {
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 667648,
+      "file_end": 1050624,
+      "delta": 2147374944,
+      "kind": "rowbase",
+      "region": "xfer_dungeon_A3000",
+      "container": "dungeon",
+      "basis": "config/overlays/dungeon.rowbase.jsonl xfer_dungeon_A3000 proven load-map record."
+    },
+    "destination_image": {
+      "kind": "link_image",
+      "image": "dungeon/bank_e6f000",
+      "link_list": "config/link/dungeon/bank_e6f000.json",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 15134720,
+      "file_end": 15159296,
+      "delta": 2133760000,
+      "basis": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F2E9800: img_e6f2d0_80158ad0, r121nd_E74C80; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)"
+    }
+  },
+  "placement_descriptor": {
+    "key": "dungeon_monster_manoeva_linked_entity_state_g00259_bank_e6f000",
+    "module": "dungeon_monster_manoeva_linked_entity_state_g00259",
+    "image": "dungeon/bank_e6f000",
+    "home_image": "dungeon/bank_e56c58",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "dungeon/func_80E3A18C",
+        "row": "dungeon/func_80E5218C"
+      },
+      {
+        "home": "dungeon/func_80E3A440",
+        "row": "dungeon/func_80E52440"
+      },
+      {
+        "home": "dungeon/func_80E3A540",
+        "row": "dungeon/func_80E52540"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_80083160",
+        "kind": "runtime_data",
+        "vma": 2148020576,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259.imports.json",
+        "declaration": "include/dungeon/monster/manoeva/linked_entity_state_g00259.h"
+      },
+      {
+        "symbol": "D_80083460",
+        "kind": "runtime_data",
+        "vma": 2148021344,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259.imports.json",
+        "declaration": "include/dungeon/monster/manoeva/linked_entity_state_g00259.h"
+      },
+      {
+        "symbol": "D_800E3D7C",
+        "kind": "data",
+        "vma": 2148416892,
+        "foff": 1041948,
+        "view_bytes": 4,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "resident_xfer_dungeon_a3000",
+        "evidence": "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259_bank_e6f000.placement.json"
+      },
+      {
+        "symbol": "D_80176670",
+        "kind": "data",
+        "vma": 2148918896,
+        "foff": 15158896,
+        "view_bytes": 16,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259_bank_e6f000.placement.json"
+      },
+      {
+        "symbol": "func_80042710",
+        "kind": "function",
+        "vma": 2147755792
+      },
+      {
+        "symbol": "func_80042900",
+        "kind": "function",
+        "vma": 2147756288
+      },
+      {
+        "symbol": "func_80047784",
+        "kind": "function",
+        "vma": 2147776388
+      },
+      {
+        "symbol": "func_80099FDC",
+        "kind": "function",
+        "vma": 2148114396
+      },
+      {
+        "symbol": "func_800A17E8",
+        "kind": "function",
+        "vma": 2148145128
+      },
+      {
+        "symbol": "func_800A1BD0",
+        "kind": "function",
+        "vma": 2148146128
+      },
+      {
+        "symbol": "func_800A2B04",
+        "kind": "function",
+        "vma": 2148150020
+      },
+      {
+        "symbol": "func_800A2BDC",
+        "kind": "function",
+        "vma": 2148150236
+      },
+      {
+        "symbol": "func_800ACB98",
+        "kind": "function",
+        "vma": 2148191128
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/dungeon_monster_manoeva_linked_entity_state_g00259_bank_e6f000.placement.json"
+    ]
+  }
+}

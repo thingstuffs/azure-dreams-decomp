@@ -1,0 +1,26 @@
+{
+  "module": "town_object_initialization_g00546",
+  "runtime_views": {
+    "D_80082668": {
+      "symbol": "D_80082668",
+      "kind": "runtime_data",
+      "vma": 2148017768,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_object_initialization_g00546.imports.json",
+      "declaration": "include/town/player/object_initialization_g00546.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80082668": "sizeof",
+    "D_80098078": "sizeof",
+    "D_800D01E0": "retail_string"
+  },
+  "address_only_anchors": {}
+}

@@ -1,0 +1,21 @@
+{
+  "module": "town_target_motion_g00547",
+  "ledger_group": {
+    "container": "town",
+    "module": "target_motion_g00547.c",
+    "module_index": 134152
+  },
+  "members": [
+    "town/func_8009D2CC",
+    "town/func_8009D358"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00547 - PD:town/engine:800D0608. Grouping by tools/tu/infer_groups.py (group G00547); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong group G00547; contiguous home rows, uniform recipe, joins PD:town/engine:800D0608. No known cut is crossed.",
+    "Members are the contiguous registered home rows 0x1D2CC..0x1D414 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

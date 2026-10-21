@@ -278,7 +278,7 @@
     },
     {
       "row": "dungeon/func_810138B4",
-      "tu": "src/dungeon/monster/garuda/update_actor_status_callback.c",
+      "tu": "src/dungeon/monster/garuda/actor_status_events_g00019.c",
       "home": "dungeon/func_810078B4",
       "foff": "0x10338B4",
       "vma": "0x801670B4",
@@ -289,7 +289,7 @@
     },
     {
       "row": "dungeon/func_81013CE0",
-      "tu": "src/dungeon/monster/garuda/advance_entity_directional_events.c",
+      "tu": "src/dungeon/monster/garuda/actor_status_events_g00019.c",
       "home": "dungeon/func_81007CE0",
       "foff": "0x1033CE0",
       "vma": "0x801674E0",

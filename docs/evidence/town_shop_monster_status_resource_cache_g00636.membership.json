@@ -1,0 +1,24 @@
+{
+  "module": "town_shop_monster_status_resource_cache_g00636",
+  "ledger_group": {
+    "container": "town",
+    "module": "monster_status_resource_cache_g00636.c",
+    "module_index": 134147
+  },
+  "members": [
+    "town/func_800B956C",
+    "town/func_800B958C",
+    "town/func_800B95F4",
+    "town/func_800B9634",
+    "town/func_800B96DC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00636 - CL:town/func_800B956C, CL:town/func_800B958C, CL:town/func_800B95F4, CL:town/func_800B9634, CL:town/func_800B97F4. Grouping by tools/tu/infer_groups.py (group G00636); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00636, inferred-strong joins from call locality; contiguous home rows at one registered recipe; no intervening cut in the regenerated grouping model. Original file edges are unknown.",
+    "Members are the contiguous registered home rows 0x3956C..0x397F4 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

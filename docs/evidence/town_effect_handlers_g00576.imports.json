@@ -1,0 +1,27 @@
+{
+  "module": "town_effect_handlers_g00576",
+  "runtime_views": {
+    "D_800834B8": {
+      "symbol": "D_800834B8",
+      "kind": "runtime_data",
+      "vma": 2148021432,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_effect_handlers_g00576.imports.json",
+      "declaration": "include/town/player/effect_handlers_g00576.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800834B8": "sizeof",
+    "D_800A5638": "retail_string",
+    "D_800D0460": "sizeof",
+    "D_800D0C50": "sizeof"
+  },
+  "address_only_anchors": {}
+}

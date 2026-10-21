@@ -1,0 +1,28 @@
+{
+  "module": "town_person_actor_slot_global_state_g00680",
+  "runtime_views": {
+    "D_80081458": {
+      "symbol": "D_80081458",
+      "kind": "runtime_data",
+      "vma": 2148013144,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_person_actor_slot_global_state_g00680.imports.json",
+      "declaration": "include/town/person/actor_slot_global_state_g00680.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80081458": "word_default",
+    "D_800D6674": "retail_string",
+    "D_800D667C": "retail_string",
+    "D_800D66A4": "word_default",
+    "D_800D66A8": "word_default"
+  },
+  "address_only_anchors": {}
+}

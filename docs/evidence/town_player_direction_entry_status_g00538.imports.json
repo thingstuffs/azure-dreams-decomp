@@ -1,0 +1,26 @@
+{
+  "module": "town_player_direction_entry_status_g00538",
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_player_direction_entry_status_g00538.imports.json",
+      "declaration": "include/town/player/direction_entry_status_g00538.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083160": "word_default",
+    "D_800D0464": "sizeof",
+    "D_800D046C": "sizeof"
+  },
+  "address_only_anchors": {}
+}

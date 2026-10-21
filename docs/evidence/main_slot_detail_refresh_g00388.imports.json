@@ -1,0 +1,29 @@
+{
+  "module": "main_slot_detail_refresh_g00388",
+  "runtime_views": {
+    "D_80083E98": {
+      "symbol": "D_80083E98",
+      "kind": "runtime_data",
+      "vma": 2148023960,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/main_slot_detail_refresh_g00388.imports.json",
+      "declaration": "include/frontend/libcard/slot_detail_refresh_g00388.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800283B8": "retail_string",
+    "D_800283C4": "retail_string",
+    "D_800283EC": "retail_string",
+    "D_800283F4": "retail_string",
+    "D_800283FC": "retail_string",
+    "D_80083E98": "sizeof"
+  },
+  "address_only_anchors": {}
+}

@@ -1,0 +1,229 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "dungeon_monster_garuda_actor_status_events_g00019",
+  "placement": "dungeon_monster_garuda_actor_status_events_g00019_bank_102b000",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "tu7 computational candidate: the merged home object dungeon_monster_garuda_actor_status_events_g00019 is linked whole into dungeon/bank_102b000 (all 2 members, contiguous, one displacement; link lists). Destination types/storage/ownership review pending.",
+  "views": {
+    "D_80171058": {
+      "symbol": "D_80171058",
+      "kind": "data",
+      "vma": 2148970584,
+      "foff": 16955480,
+      "view_bytes": 14,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019_bank_102b000.placement.json"
+    },
+    "D_801748E0": {
+      "symbol": "D_801748E0",
+      "kind": "data",
+      "vma": 2148985056,
+      "foff": 16969952,
+      "view_bytes": 8,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019_bank_102b000.placement.json"
+    },
+    "D_801748E8": {
+      "symbol": "D_801748E8",
+      "kind": "data",
+      "vma": 2148985064,
+      "foff": 16969960,
+      "view_bytes": 49,
+      "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "map": "destination_image",
+      "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019_bank_102b000.placement.json"
+    }
+  },
+  "maps": {
+    "destination_image": {
+      "kind": "link_image",
+      "image": "dungeon/bank_102b000",
+      "link_list": "config/link/dungeon/bank_102b000.json",
+      "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+      "file_start": 16953344,
+      "file_end": 16977920,
+      "delta": 2132015104,
+      "basis": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F13F800: r101_rc7_func_8100B858, r101_rc7_func_8100D034, r101_rc7_func_8100E664, r121_followup_102D810, rc7_res_102BDF0_102D034, rc7_res_102D4E0_102E664 (+1 more); symbol map: r121 obj_screen bindings of the placements in this image (rule 5)"
+    }
+  },
+  "placement_descriptor": {
+    "key": "dungeon_monster_garuda_actor_status_events_g00019_bank_102b000",
+    "module": "dungeon_monster_garuda_actor_status_events_g00019",
+    "image": "dungeon/bank_102b000",
+    "home_image": "dungeon/bank_1025000",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "dungeon/func_810078B4",
+        "row": "dungeon/func_8100D8B4"
+      },
+      {
+        "home": "dungeon/func_81007CE0",
+        "row": "dungeon/func_8100DCE0"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_800814A8",
+        "kind": "runtime_data",
+        "vma": 2148013224,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019.imports.json",
+        "declaration": "include/shared/record_ptrs.h"
+      },
+      {
+        "symbol": "D_80082E80",
+        "kind": "runtime_data",
+        "vma": 2148019840,
+        "view_bytes": 64,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019.imports.json",
+        "declaration": "include/shared/tile_object.h"
+      },
+      {
+        "symbol": "D_80083160",
+        "kind": "runtime_data",
+        "vma": 2148020576,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019.imports.json",
+        "declaration": "include/dungeon/monster/garuda/actor_status_events_g00019.h"
+      },
+      {
+        "symbol": "D_80083460",
+        "kind": "runtime_data",
+        "vma": 2148021344,
+        "view_bytes": 4,
+        "owner": "resident_runtime:slus",
+        "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019.imports.json",
+        "declaration": "include/dungeon/monster/garuda/actor_status_events_g00019.h"
+      },
+      {
+        "symbol": "D_80171058",
+        "kind": "data",
+        "vma": 2148970584,
+        "foff": 16955480,
+        "view_bytes": 14,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019_bank_102b000.placement.json"
+      },
+      {
+        "symbol": "D_801748E0",
+        "kind": "data",
+        "vma": 2148985056,
+        "foff": 16969952,
+        "view_bytes": 8,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019_bank_102b000.placement.json"
+      },
+      {
+        "symbol": "D_801748E8",
+        "kind": "data",
+        "vma": 2148985064,
+        "foff": 16969960,
+        "view_bytes": 49,
+        "owner": "retail_asset:work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "asset": "work/disc/containers/DUNGEON_DUNGEON.BIN",
+        "map": "destination_image",
+        "evidence": "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019_bank_102b000.placement.json"
+      },
+      {
+        "symbol": "func_80042900",
+        "kind": "function",
+        "vma": 2147756288
+      },
+      {
+        "symbol": "func_80042B68",
+        "kind": "function",
+        "vma": 2147756904
+      },
+      {
+        "symbol": "func_80047784",
+        "kind": "function",
+        "vma": 2147776388
+      },
+      {
+        "symbol": "func_8009A180",
+        "kind": "function",
+        "vma": 2148114816
+      },
+      {
+        "symbol": "func_8009FD40",
+        "kind": "function",
+        "vma": 2148138304
+      },
+      {
+        "symbol": "func_800A2C34",
+        "kind": "function",
+        "vma": 2148150324
+      },
+      {
+        "symbol": "func_800A6D30",
+        "kind": "function",
+        "vma": 2148166960
+      },
+      {
+        "symbol": "func_800A9A04",
+        "kind": "function",
+        "vma": 2148178436
+      },
+      {
+        "symbol": "func_800A9A0C",
+        "kind": "function",
+        "vma": 2148178444
+      },
+      {
+        "symbol": "func_800AA258",
+        "kind": "function",
+        "vma": 2148180568
+      },
+      {
+        "symbol": "func_800AA6B4",
+        "kind": "function",
+        "vma": 2148181684
+      },
+      {
+        "symbol": "func_800AA79C",
+        "kind": "function",
+        "vma": 2148181916
+      },
+      {
+        "symbol": "func_800AA888",
+        "kind": "function",
+        "vma": 2148182152
+      },
+      {
+        "symbol": "func_80173834",
+        "kind": "function",
+        "vma": 2148980788
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/dungeon_monster_garuda_actor_status_events_g00019_bank_102b000.placement.json"
+    ]
+  }
+}

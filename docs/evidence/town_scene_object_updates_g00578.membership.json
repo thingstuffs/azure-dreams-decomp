@@ -1,0 +1,23 @@
+{
+  "module": "town_scene_object_updates_g00578",
+  "ledger_group": {
+    "container": "town",
+    "module": "scene_object_updates_g00578.c",
+    "module_index": 134157
+  },
+  "members": [
+    "town/func_800A8D60",
+    "town/func_800A8F24",
+    "town/func_800A9160",
+    "town/func_800A9234"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00578 - CL:town/func_800A8BC8, CL:town/func_800A9234, CL:town/func_800A9334, CL:town/func_800A9410, PD:town/engine:800D0C78, PD:town/engine:800D0D54, PD:town/engine:80100E24, PD:town/engine:80100E28. Grouping by tools/tu/infer_groups.py (group G00578); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong group G00578; contiguous home rows, uniform recipe, joins CL:town/func_800A8BC8, CL:town/func_800A9234, CL:town/func_800A9334, CL:town/func_800A9410, PD:town/engine:800D0C78, PD:town/engine:800D0D54, PD:town/engine:80100E24, PD:town/engine:80100E28. No known cut is crossed.",
+    "Members are the contiguous registered home rows 0x28D60..0x29334 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

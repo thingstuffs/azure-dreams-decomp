@@ -1,0 +1,22 @@
+{
+  "module": "town_scene_global_mode_dispatch_g00734",
+  "ledger_group": {
+    "container": "town",
+    "module": "global_mode_dispatch_g00734.c",
+    "module_index": 134167
+  },
+  "members": [
+    "town/func_805D2A4C",
+    "town/func_805D2AAC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00734 - CL:town/func_805D29B4, CL:town/func_805D2A4C. Grouping by tools/tu/infer_groups.py (group G00734); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b), batch B006: regenerated group row exactly equals the supplied row; PD/CL joins and model cuts as recorded in the evidence. Original file name and complete file edges are unknown.",
+    "Strong-group boundary selection: Exclude the weaker left CL:town/func_805D29B4 join; complete file edges remain unknown.",
+    "Members are the contiguous registered home rows 0x552A4C..0x552B0C at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

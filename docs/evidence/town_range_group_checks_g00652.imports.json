@@ -1,0 +1,28 @@
+{
+  "module": "town_range_group_checks_g00652",
+  "runtime_views": {
+    "D_8006ADBC": {
+      "symbol": "D_8006ADBC",
+      "kind": "runtime_data",
+      "vma": 2147921340,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_range_group_checks_g00652.imports.json",
+      "declaration": "include/town/map/range_group_checks_g00652.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006ADBC": "sizeof",
+    "D_800D456C": "sizeof",
+    "D_800D4640": "sizeof",
+    "D_800D4658": "sizeof",
+    "D_800D4660": "sizeof"
+  },
+  "address_only_anchors": {}
+}

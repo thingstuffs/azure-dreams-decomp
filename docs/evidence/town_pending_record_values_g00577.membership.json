@@ -1,0 +1,23 @@
+{
+  "module": "town_pending_record_values_g00577",
+  "ledger_group": {
+    "container": "town",
+    "module": "pending_record_values_g00577.c",
+    "module_index": 134156
+  },
+  "members": [
+    "town/func_800A8C3C",
+    "town/func_800A8C68",
+    "town/func_800A8CDC",
+    "town/func_800A8D1C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00577 - CL:town/func_800A8BC8, CL:town/func_800A8C3C, CL:town/func_800A8C68, PD:town/engine:80100E2C. Grouping by tools/tu/infer_groups.py (group G00577); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong group G00577; contiguous home rows, uniform recipe, joins CL:town/func_800A8BC8, CL:town/func_800A8C3C, CL:town/func_800A8C68, PD:town/engine:80100E2C. No known cut is crossed.",
+    "Members are the contiguous registered home rows 0x28C3C..0x28D60 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

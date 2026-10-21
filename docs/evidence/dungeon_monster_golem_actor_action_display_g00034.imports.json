@@ -1,0 +1,35 @@
+{
+  "module": "dungeon_monster_golem_actor_action_display_g00034",
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_monster_golem_actor_action_display_g00034.imports.json",
+      "declaration": "include/dungeon/monster/golem/actor_action_display_g00034.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_monster_golem_actor_action_display_g00034.imports.json",
+      "declaration": "include/dungeon/monster/golem/actor_action_display_g00034.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083160": "word_default",
+    "D_80083460": "word_default",
+    "D_80175F48": "sizeof"
+  },
+  "address_only_anchors": {}
+}

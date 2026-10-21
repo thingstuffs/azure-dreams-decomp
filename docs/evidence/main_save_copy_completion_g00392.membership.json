@@ -1,0 +1,21 @@
+{
+  "module": "main_save_copy_completion_g00392",
+  "ledger_group": {
+    "container": "main",
+    "module": "save_copy_completion_g00392.c",
+    "module_index": 134183
+  },
+  "members": [
+    "main/func_80012358",
+    "main/func_80012398"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00392 - CL:main/func_80012358. Grouping by tools/tu/infer_groups.py (group G00392); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "N3 reference group reproduced exactly; no proven cut is crossed. Original file name and complete TU edges are unknown.",
+    "Members are the contiguous registered home rows 0x262358..0x26246C at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

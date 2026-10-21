@@ -1,0 +1,23 @@
+{
+  "module": "main_dialog_selection_highlight_g00379",
+  "ledger_group": {
+    "container": "main",
+    "module": "dialog_selection_highlight_g00379.c",
+    "module_index": 134178
+  },
+  "members": [
+    "main/func_8000F300",
+    "main/func_8000F33C",
+    "main/func_8000F3B4",
+    "main/func_8000F488"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00379 - CL:main/func_8000F25C, CL:main/func_8000F300, CL:main/func_8000F33C, CL:main/func_8000F3B4. Grouping by tools/tu/infer_groups.py (group G00379); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "N3 reference group reproduced exactly; no proven cut is crossed. Original file name and complete TU edges are unknown.",
+    "Members are the contiguous registered home rows 0x25F300..0x25F524 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

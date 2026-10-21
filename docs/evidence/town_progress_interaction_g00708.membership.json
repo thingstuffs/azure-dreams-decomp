@@ -1,0 +1,22 @@
+{
+  "module": "town_progress_interaction_g00708",
+  "ledger_group": {
+    "container": "town",
+    "module": "progress_interaction_g00708.c",
+    "module_index": 134158
+  },
+  "members": [
+    "town/func_80470808",
+    "town/func_80470824",
+    "town/func_804708B4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00708 - CL:town/func_80470808, PD:town/image_3ef000:8001B718. Grouping by tools/tu/infer_groups.py (group G00708); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong group G00708; contiguous home rows, uniform recipe, joins CL:town/func_80470808, PD:town/image_3ef000:8001B718. No known cut is crossed.",
+    "Members are the contiguous registered home rows 0x3F0808..0x3F099C at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

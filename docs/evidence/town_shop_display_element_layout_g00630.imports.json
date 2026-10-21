@@ -1,0 +1,25 @@
+{
+  "module": "town_shop_display_element_layout_g00630",
+  "runtime_views": {
+    "D_80077FBC": {
+      "symbol": "D_80077FBC",
+      "kind": "runtime_data",
+      "vma": 2147975100,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_display_element_layout_g00630.imports.json",
+      "declaration": "include/town/shop/display_element_layout_g00630.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80077FBC": "sizeof",
+    "D_800D1794": "sizeof"
+  },
+  "address_only_anchors": {}
+}

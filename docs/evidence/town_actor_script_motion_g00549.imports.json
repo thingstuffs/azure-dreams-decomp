@@ -1,0 +1,37 @@
+{
+  "module": "town_actor_script_motion_g00549",
+  "runtime_views": {
+    "D_800834B8": {
+      "symbol": "D_800834B8",
+      "kind": "runtime_data",
+      "vma": 2148021432,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_actor_script_motion_g00549.imports.json",
+      "declaration": "include/town/event/actor_script_motion_g00549.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800834B8": "sizeof",
+    "D_80091F64": "retail_string",
+    "D_8009204C": "retail_string",
+    "D_800920F4": "retail_string",
+    "D_800924EC": "retail_string",
+    "D_80092698": "retail_string",
+    "D_800927EC": "retail_string",
+    "D_8009B454": "retail_string",
+    "D_8009B594": "retail_string",
+    "D_8009BDC0": "retail_string",
+    "D_800CFCB4": "sizeof",
+    "D_800CFCCC": "sizeof",
+    "D_800CFDD8": "retail_string",
+    "D_800FE488": "sizeof"
+  },
+  "address_only_anchors": {}
+}

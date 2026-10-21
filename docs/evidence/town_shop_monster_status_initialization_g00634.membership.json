@@ -1,0 +1,22 @@
+{
+  "module": "town_shop_monster_status_initialization_g00634",
+  "ledger_group": {
+    "container": "town",
+    "module": "monster_status_initialization_g00634.c",
+    "module_index": 134145
+  },
+  "members": [
+    "town/func_800B914C",
+    "town/func_800B9168",
+    "town/func_800B91BC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00634 - CL:town/func_800B9044, CL:town/func_800B90DC, CL:town/func_800B914C, CL:town/func_800B9168. Grouping by tools/tu/infer_groups.py (group G00634); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00634, inferred-strong joins from call locality; contiguous home rows at one registered recipe; no intervening cut in the regenerated grouping model. Original file edges are unknown.",
+    "Members are the contiguous registered home rows 0x3914C..0x39230 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

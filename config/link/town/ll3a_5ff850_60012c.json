@@ -200,7 +200,7 @@
     },
     {
       "row": "town/func_806800E8",
-      "tu": "src/town/scene/process_flagged_entries_mode_append.c",
+      "tu": "src/town/scene/flagged_entry_followup_g00725.c",
       "home": "town/func_804811BC",
       "foff": "0x6000E8",
       "vma": "0x800170E8",
@@ -213,7 +213,7 @@
     },
     {
       "row": "town/func_80680108",
-      "tu": "src/town/scene/process_flagged_entries_follow_four.c",
+      "tu": "src/town/scene/flagged_entry_followup_g00725.c",
       "home": "town/func_804811DC",
       "foff": "0x600108",
       "vma": "0x80017108",
