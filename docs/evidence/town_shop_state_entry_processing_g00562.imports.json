@@ -1,0 +1,27 @@
+{
+  "module": "town_shop_state_entry_processing_g00562",
+  "runtime_views": {
+    "D_8001029C": {
+      "symbol": "D_8001029C",
+      "kind": "runtime_data",
+      "vma": 2147549852,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_state_entry_processing_g00562.imports.json",
+      "declaration": "include/town/shop/state_entry_processing_g00562.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8001029C": "sizeof",
+    "D_800D0728": "retail_string",
+    "D_800D253C": "retail_string",
+    "D_80100A10": "sizeof"
+  },
+  "address_only_anchors": {}
+}

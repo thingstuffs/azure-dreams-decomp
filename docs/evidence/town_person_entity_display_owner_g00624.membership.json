@@ -1,0 +1,25 @@
+{
+  "module": "town_person_entity_display_owner_g00624",
+  "ledger_group": {
+    "container": "town",
+    "module": "entity_display_owner_g00624.c",
+    "module_index": 134102
+  },
+  "members": [
+    "town/func_800B6BF0",
+    "town/func_800B6C88",
+    "town/func_800B6D34",
+    "town/func_800B6D50"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B678C, CL:town/func_800B6858, CL:town/func_800B6980, CL:town/func_800B6A28, CL:town/func_800B6BF0, CL:town/func_800B6C88, CL:town/func_800B6D34. Grouping by tools/tu/infer_groups.py (group G00624); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00624 inferred-strong; joins CL:town/func_800B678C,CL:town/func_800B6858,CL:town/func_800B6980,CL:town/func_800B6A28,CL:town/func_800B6BF0,CL:town/func_800B6C88,CL:town/func_800B6D34. No hard/weak cut crosses its selected strong joins.",
+    "Partial inferred file; complete original-file edges are not proven. Literal pools remain imported under decision 72(f).",
+    "Decision 72(d), owner 2026-10-20: canonical prototype and data-view reconciliation with complete object identity re-proved on integration HEAD.",
+    "Members are the contiguous registered home rows 0x36BF0..0x36D90 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

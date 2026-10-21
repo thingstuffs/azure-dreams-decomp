@@ -1,0 +1,24 @@
+{
+  "module": "town_textured_resource_strips_g00571",
+  "ledger_group": {
+    "container": "town",
+    "module": "textured_resource_strips_g00571.c",
+    "module_index": 134060
+  },
+  "members": [
+    "town/func_800A63BC",
+    "town/func_800A6420",
+    "town/func_800A6A78",
+    "town/func_800A7048"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A6420, CL:town/func_800A6A78, PD:town/engine:80100D88, PD:town/engine:80100D8A. Grouping by tools/tu/infer_groups.py (group G00571); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; adjacency and one registered compiler recipe, supported by the listed call-locality/private-data evidence.",
+    "Original file edges are not proven; literal imports remain under decision 72(f).",
+    "Members are the contiguous registered home rows 0x263BC..0x2712C at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

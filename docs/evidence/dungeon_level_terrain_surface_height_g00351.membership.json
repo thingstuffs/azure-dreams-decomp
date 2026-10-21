@@ -1,0 +1,21 @@
+{
+  "module": "dungeon_level_terrain_surface_height_g00351",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "terrain_surface_height_g00351.c",
+    "module_index": 134094
+  },
+  "members": [
+    "dungeon/func_800B73A4",
+    "dungeon/func_800B771C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800B771C. Grouping by tools/tu/infer_groups.py (group G00351); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; original file edges remain unknown. Literal imports retained under decision 72(f).",
+    "Members are the contiguous registered home rows 0xD73A4..0xD785C at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

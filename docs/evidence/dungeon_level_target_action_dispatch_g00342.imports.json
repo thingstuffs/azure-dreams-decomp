@@ -1,0 +1,30 @@
+{
+  "module": "dungeon_level_target_action_dispatch_g00342",
+  "runtime_views": {
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_level_target_action_dispatch_g00342.imports.json",
+      "declaration": "include/dungeon/level/target_action_dispatch_g00342.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083460": "word_default",
+    "D_800DF258": "sizeof",
+    "D_800DF2A8": "retail_string",
+    "D_800E0DF5": "retail_string",
+    "D_800E3648": "sizeof",
+    "D_800E39C8": "word_default",
+    "D_800E3D40": "sizeof"
+  },
+  "address_only_anchors": {}
+}

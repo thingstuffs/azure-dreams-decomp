@@ -1,0 +1,19 @@
+/* Scene slot initialization (G00668).
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D5E0C, PD:town/engine:800D5E14, PD:town/engine:800D5E3C, PD:town/engine:800D5E40.
+ */
+#include "town/scene/scene_slot_initialization_g00668.h"
+
+void initialize_scene_slot_52_context(void *object, s32 unused, void *context)
+{
+    initialize_object_and_register_slot(object, 52, (s32)D_800D5E3C, (s32)D_800D5E40, (s32)D_800D5E0C, (s32)D_800D5E14);
+}
+
+void initialize_scene_slot_54(void *object, s32 unused, void *context)
+{
+    initialize_object_and_register_slot(object, 54, (s32)D_800D5E3C, (s32)D_800D5E40, (s32)D_800D5E0C, (s32)D_800D5E14);
+}
+
+void initialize_scene_slot_56(void *object, s32 unused, void *context)
+{
+    initialize_object_and_register_slot(object, 56, (s32)D_800D5E3C, (s32)D_800D5E40, (s32)D_800D5E0C, (s32)D_800D5E14);
+}

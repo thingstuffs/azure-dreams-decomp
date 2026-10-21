@@ -1,0 +1,22 @@
+{
+  "module": "town_shop_twin_storage_initialization_g00618",
+  "ledger_group": {
+    "container": "town",
+    "module": "twin_storage_initialization_g00618.c",
+    "module_index": 134052
+  },
+  "members": [
+    "town/func_800B5400",
+    "town/func_800B5440",
+    "town/func_800B550C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B5270, CL:town/func_800B52D8, CL:town/func_800B5400, CL:town/func_800B550C. Grouping by tools/tu/infer_groups.py (group G00618); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong contiguous town engine group; CL call locality, PD where listed; no model cut or weak-cut blocks its joins. Complete original-file edges are unknown, so 72(f) literals remain imported.",
+    "Members are the contiguous registered home rows 0x35400..0x35588 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

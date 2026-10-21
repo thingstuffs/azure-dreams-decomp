@@ -1,0 +1,49 @@
+{
+  "module": "town_map_directional_sprite_effect_g00644",
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_directional_sprite_effect_g00644.imports.json",
+      "declaration": "include/town/map/directional_sprite_effect_g00644.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_directional_sprite_effect_g00644.imports.json",
+      "declaration": "include/town/map/directional_sprite_effect_g00644.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_directional_sprite_effect_g00644.imports.json",
+      "declaration": "include/shared/object_node.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800814A0": "word_default",
+    "D_80083160": "word_default",
+    "D_80083498": "sizeof",
+    "D_800BC6CC": "sizeof",
+    "D_800BC764": "sizeof",
+    "D_800D20CC": "sizeof",
+    "D_800D20E4": "sizeof",
+    "D_800F15E4": "sizeof"
+  },
+  "address_only_anchors": {}
+}

@@ -1,0 +1,23 @@
+{
+  "module": "town_map_display_fade_g00643",
+  "ledger_group": {
+    "container": "town",
+    "module": "display_fade_g00643.c",
+    "module_index": 134071
+  },
+  "members": [
+    "town/func_800BEB30",
+    "town/func_800BEC30",
+    "town/func_800BECFC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BEA7C, PD:town/engine:80111FB0. Grouping by tools/tu/infer_groups.py (group G00643); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00643 inferred-strong; joins CL:town/func_800BEA7C,PD:town/engine:80111FB0. No hard/weak cut crosses its selected strong joins.",
+    "Partial inferred file; complete original-file edges are not proven. Literal pools remain imported under decision 72(f).",
+    "Members are the contiguous registered home rows 0x3EB30..0x3EE14 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

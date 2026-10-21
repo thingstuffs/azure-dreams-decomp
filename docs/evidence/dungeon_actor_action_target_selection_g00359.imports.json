@@ -1,0 +1,87 @@
+{
+  "module": "dungeon_actor_action_target_selection_g00359",
+  "runtime_views": {
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "runtime_data",
+      "vma": 2147929304,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_action_target_selection_g00359.imports.json",
+      "declaration": "include/dungeon/actor/action_target_selection_g00359.h"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "runtime_data",
+      "vma": 2147929320,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_action_target_selection_g00359.imports.json",
+      "declaration": "include/dungeon/actor/action_target_selection_g00359.h"
+    },
+    "D_8006CD00": {
+      "symbol": "D_8006CD00",
+      "kind": "runtime_data",
+      "vma": 2147929344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_action_target_selection_g00359.imports.json",
+      "declaration": "include/dungeon/actor/action_target_selection_g00359.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_action_target_selection_g00359.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_action_target_selection_g00359.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_action_target_selection_g00359.imports.json",
+      "declaration": "include/dungeon/actor/action_target_selection_g00359.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_action_target_selection_g00359.imports.json",
+      "declaration": "include/dungeon/actor/action_target_selection_g00359.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006CCD8": "word_default",
+    "D_8006CCE8": "word_default",
+    "D_8006CD00": "word_default",
+    "D_800814A8": "sizeof",
+    "D_80082E80": "sizeof",
+    "D_80083160": "word_default",
+    "D_80083460": "word_default",
+    "D_800DCEAC": "retail_string",
+    "D_800DCEBC": "word_default",
+    "D_800E2970": "word_default"
+  },
+  "address_only_anchors": {}
+}

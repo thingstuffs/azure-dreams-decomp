@@ -113,6 +113,13 @@ def mask(source):
 DEF = re.compile(r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t\n*]*?\b([A-Za-z_][A-Za-z0-9_]*)\s*\([^;{}]*\)\s*\{', re.M)
 
 
+# C89 identifier-list definitions can narrow a promoted word argument in the
+# parameter declaration. A shared typed prototype still specifies the ABI.
+KR_DEF = re.compile(r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t\n*]*?\b([A-Za-z_]\w*)\s*'
+                    r'\(([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\)\s*'
+                    r'((?:[A-Za-z_][A-Za-z0-9_ \t*]*;\s*)+)\{', re.M)
+
+
 def definitions(source):
     masked, directives = mask(source)
     depth, level = [], 0
@@ -120,7 +127,14 @@ def definitions(source):
         depth.append(level)
         level += (c == '{') - (c == '}')
     out = []
-    for m in DEF.finditer(masked):
+    matches = list(DEF.finditer(masked))
+    for m in KR_DEF.finditer(masked):
+        params = [x.strip() for x in m[2].split(',')]
+        declared = [re.search(r'(\w+)\s*$', x.strip())[1]
+                    for x in m[3].split(';') if x.strip()]
+        if len(params) == len(set(params)) and sorted(params) == sorted(declared):
+            matches.append(m)
+    for m in sorted(matches, key=lambda x: x.start()):
         if depth[m.start()]:
             continue
         brace = m.end() - 1
@@ -404,8 +418,14 @@ def draft(root, spec, work, evidence=None, force=False):
         if len(public) != 1:
             raise Refused('%s: expected one non-static definition, found %s' % (m['path'], [f[0] for f in public]))
         start, end = found[0][1], found[-1][3]
-        if any(start < a < end for a, _, _ in directives):
-            raise Refused('%s: preprocessor directive inside the definitions' % m['path'])
+        # Only reviewed, verbatim function-local macros may remain in place.
+        # Conditional directives require a separate reconstruction.
+        for a, b, _ in directives:
+            if start < a < end:
+                directive = src[a:b].strip()
+                if not (re.match(r'#\s*(define|undef)\b', directive)
+                        and directive in spec.get('body_directives', [])):
+                    raise Refused('%s: preprocessor directive inside the definitions' % m['path'])
         for (_, _, _, e1), (_, s2, _, _) in zip(found, found[1:]):
             between = src[e1:s2]
             if mask(between)[0].strip():
@@ -1150,8 +1170,9 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
             'Uniform registered member recipe; merged TU compiles to the in-order concatenation of the member '
             'objects (text bytes and relocations identical).']), indent=2) + '\n')
         fr.write(ev + '.md', '# %s\n\n%s\n\n%d functions (foff 0x%X-0x%X) of one original translation unit. %s\n\n'
-                 'Definitions retain retail order; declarations are reconciled in `%s`, with explicit caller '
-                 'casts where required, preserving object bytes and relocations '
+                 'Definitions retain retail order; declarations are reconciled in `%s` to one true prototype, '
+                 'with explicit caller/data-view casts and parameter or live-argument corrections where required '
+                 '(decision 72(d)), preserving object bytes and relocations '
                  '(proved by tools/tu/tu_merge.py). String literals stay retail imports until '
                  'the whole TU and its pool extent are recovered (decision 72(f)).\n' % (
                      mod.get('title', key), mod.get('description', ''), len(ms), ms[0]['foff'],

@@ -1,0 +1,36 @@
+{
+  "module": "town_map_shaded_tile_rendering_g00594",
+  "runtime_views": {
+    "D_8006ADBC": {
+      "symbol": "D_8006ADBC",
+      "kind": "runtime_data",
+      "vma": 2147921340,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_shaded_tile_rendering_g00594.imports.json",
+      "declaration": "include/town/map/shaded_tile_rendering_g00594.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_shaded_tile_rendering_g00594.imports.json",
+      "declaration": "include/town/map/shaded_tile_rendering_g00594.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006ADBC": "word_default",
+    "D_80083160": "word_default",
+    "D_800D1548": "sizeof",
+    "D_800D1554": "sizeof"
+  },
+  "address_only_anchors": {}
+}

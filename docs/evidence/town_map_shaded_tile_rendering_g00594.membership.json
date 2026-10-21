@@ -1,0 +1,23 @@
+{
+  "module": "town_map_shaded_tile_rendering_g00594",
+  "ledger_group": {
+    "container": "town",
+    "module": "shaded_tile_rendering_g00594.c",
+    "module_index": 134068
+  },
+  "members": [
+    "town/func_800AED28",
+    "town/func_800AED64",
+    "town/func_800AF9D8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AF9D8, PD:town/engine:800D1548. Grouping by tools/tu/infer_groups.py (group G00594); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00594 inferred-strong; joins CL:town/func_800AF9D8,PD:town/engine:800D1548. No hard/weak cut crosses its selected strong joins.",
+    "Partial inferred file; complete original-file edges are not proven. Literal pools remain imported under decision 72(f).",
+    "Members are the contiguous registered home rows 0x2ED28..0x30098 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

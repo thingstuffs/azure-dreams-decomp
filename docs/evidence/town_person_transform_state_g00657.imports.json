@@ -1,0 +1,27 @@
+{
+  "module": "town_person_transform_state_g00657",
+  "runtime_views": {
+    "D_8006ADD4": {
+      "symbol": "D_8006ADD4",
+      "kind": "runtime_data",
+      "vma": 2147921364,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_person_transform_state_g00657.imports.json",
+      "declaration": "include/town/person/transform_state_g00657.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006ADD4": "sizeof",
+    "D_800C2A10": "sizeof",
+    "D_800D4FB8": "sizeof",
+    "D_800FE4A6": "sizeof"
+  },
+  "address_only_anchors": {}
+}

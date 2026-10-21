@@ -1,0 +1,23 @@
+{
+  "module": "town_paired_value_dispatch_g00647",
+  "ledger_group": {
+    "container": "town",
+    "module": "paired_value_dispatch_g00647.c",
+    "module_index": 134064
+  },
+  "members": [
+    "town/func_800C34E8",
+    "town/func_800C3528",
+    "town/func_800C3620"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3620, PD:town/engine:800D25C0. Grouping by tools/tu/infer_groups.py (group G00647); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; adjacency and one registered compiler recipe, supported by the listed call-locality/private-data evidence.",
+    "Original file edges are not proven; literal imports remain under decision 72(f).",
+    "Members are the contiguous registered home rows 0x434E8..0x43688 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

@@ -1,0 +1,24 @@
+{
+  "module": "town_person_actor_slot_render_state_g00667",
+  "ledger_group": {
+    "container": "town",
+    "module": "actor_slot_render_state_g00667.c",
+    "module_index": 134082
+  },
+  "members": [
+    "town/func_800C9B24",
+    "town/func_800C9B6C",
+    "town/func_800C9BB4",
+    "town/func_80049BFC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D5DD4, PD:town/engine:800D5DDC, PD:town/engine:800D5E04, PD:town/engine:800D5E08. Grouping by tools/tu/infer_groups.py (group G00667); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00667 inferred-strong; joins PD:town/engine:800D5DD4,PD:town/engine:800D5DDC,PD:town/engine:800D5E04,PD:town/engine:800D5E08. No hard/weak cut crosses its selected strong joins.",
+    "Partial inferred file; complete original-file edges are not proven. Literal pools remain imported under decision 72(f).",
+    "Members are the contiguous registered home rows 0x49B24..0x49C64 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

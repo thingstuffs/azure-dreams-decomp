@@ -1,0 +1,26 @@
+{
+  "module": "town_resource_slots_g00521",
+  "runtime_views": {
+    "D_80080EA8": {
+      "symbol": "D_80080EA8",
+      "kind": "runtime_data",
+      "vma": 2148011688,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_resource_slots_g00521.imports.json",
+      "declaration": "include/town/scene/resource/resource_slots_g00521.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80080EA8": "word_default",
+    "D_800CF828": "sizeof",
+    "D_800CF838": "sizeof"
+  },
+  "address_only_anchors": {}
+}

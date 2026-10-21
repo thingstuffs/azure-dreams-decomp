@@ -1,0 +1,48 @@
+{
+  "module": "town_map_display_fade_g00643",
+  "runtime_views": {
+    "D_80053A88": {
+      "symbol": "D_80053A88",
+      "kind": "runtime_data",
+      "vma": 2147826312,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_display_fade_g00643.imports.json",
+      "declaration": "include/town/map/display_fade_g00643.h"
+    },
+    "D_800782EC": {
+      "symbol": "D_800782EC",
+      "kind": "runtime_data",
+      "vma": 2147975916,
+      "view_bytes": 8,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_display_fade_g00643.imports.json",
+      "declaration": "include/town/map/display_fade_g00643.h"
+    },
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_display_fade_g00643.imports.json",
+      "declaration": "include/town/map/display_fade_g00643.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80053A88": "sizeof",
+    "D_800782EC": "sizeof",
+    "D_800814A0": "word_default",
+    "D_8008961C": "sizeof",
+    "D_800BC290": "sizeof",
+    "D_800BC390": "sizeof",
+    "D_80111FB0": "sizeof"
+  },
+  "address_only_anchors": {}
+}

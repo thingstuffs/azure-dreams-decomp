@@ -1,0 +1,21 @@
+{
+  "module": "dungeon_effect_entity_sprite_initialization_g00339",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "entity_sprite_initialization_g00339.c",
+    "module_index": 134090
+  },
+  "members": [
+    "dungeon/func_800ACB90",
+    "dungeon/func_800ACC98"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACB90. Grouping by tools/tu/infer_groups.py (group G00339); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; original file edges remain unknown. Literal imports retained under decision 72(f).",
+    "Members are the contiguous registered home rows 0xCCB90..0xCCDDC at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

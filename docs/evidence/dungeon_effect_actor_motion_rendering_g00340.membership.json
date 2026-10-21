@@ -1,0 +1,21 @@
+{
+  "module": "dungeon_effect_actor_motion_rendering_g00340",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "actor_motion_rendering_g00340.c",
+    "module_index": 134091
+  },
+  "members": [
+    "dungeon/func_800ACDDC",
+    "dungeon/func_800ACFEC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACDDC. Grouping by tools/tu/infer_groups.py (group G00340); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; original file edges remain unknown. Literal imports retained under decision 72(f).",
+    "Members are the contiguous registered home rows 0xCCDDC..0xCD300 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

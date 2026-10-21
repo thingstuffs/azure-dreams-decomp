@@ -1,0 +1,22 @@
+{
+  "module": "dungeon_menu_object_table_initialization_g00375",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "object_table_initialization_g00375.c",
+    "module_index": 134099
+  },
+  "members": [
+    "dungeon/func_800D74DC",
+    "dungeon/func_800D7594",
+    "dungeon/func_800D75D8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D7228, CL:dungeon/func_800D7484, CL:dungeon/func_800D74DC, CL:dungeon/func_800D7594. Grouping by tools/tu/infer_groups.py (group G00375); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; original file edges remain unknown. Literal imports retained under decision 72(f).",
+    "Members are the contiguous registered home rows 0xF74DC..0xF76AC at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

@@ -1,0 +1,22 @@
+{
+  "module": "town_map_sound_sequence_load_g00649",
+  "ledger_group": {
+    "container": "town",
+    "module": "sound_sequence_load_g00649.c",
+    "module_index": 134075
+  },
+  "members": [
+    "town/func_800C3E04",
+    "town/func_800C3E60"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3E04, PD:town/engine:800D4244. Grouping by tools/tu/infer_groups.py (group G00649); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00649 inferred-strong; joins CL:town/func_800C3E04,PD:town/engine:800D4244. No hard/weak cut crosses its selected strong joins.",
+    "Partial inferred file; complete original-file edges are not proven. Literal pools remain imported under decision 72(f).",
+    "Members are the contiguous registered home rows 0x43E04..0x43E80 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

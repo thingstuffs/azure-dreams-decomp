@@ -1,0 +1,22 @@
+{
+  "module": "town_midpoint_tracking_g00574",
+  "ledger_group": {
+    "container": "town",
+    "module": "midpoint_tracking_g00574.c",
+    "module_index": 134062
+  },
+  "members": [
+    "town/func_800A75EC",
+    "town/func_800A76BC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A75EC, CL:town/func_800A76BC. Grouping by tools/tu/infer_groups.py (group G00574); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; adjacency and one registered compiler recipe, supported by the listed call-locality/private-data evidence.",
+    "Original file edges are not proven; literal imports remain under decision 72(f).",
+    "Members are the contiguous registered home rows 0x275EC..0x277EC at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

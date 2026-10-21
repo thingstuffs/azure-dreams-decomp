@@ -1,0 +1,24 @@
+{
+  "module": "dungeon_level_target_action_dispatch_g00342",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "target_action_dispatch_g00342.c",
+    "module_index": 134105
+  },
+  "members": [
+    "dungeon/func_800B0958",
+    "dungeon/func_800B0AA4",
+    "dungeon/func_800B0AC8",
+    "dungeon/func_800B0B1C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DF258. Grouping by tools/tu/infer_groups.py (group G00342); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; original file edges remain unknown. Literal imports retained under decision 72(f).",
+    "Decision 72(d), owner 2026-10-20: canonical prototype and data-view reconciliation with complete object identity re-proved on integration HEAD.",
+    "Members are the contiguous registered home rows 0xD0958..0xD0C48 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

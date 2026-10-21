@@ -1,0 +1,37 @@
+{
+  "module": "town_town_map_entry_processor_g00524",
+  "runtime_views": {
+    "D_8006ADD4": {
+      "symbol": "D_8006ADD4",
+      "kind": "runtime_data",
+      "vma": 2147921364,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_town_map_entry_processor_g00524.imports.json",
+      "declaration": "include/town/map/town_map_entry_processor_g00524.h"
+    },
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_town_map_entry_processor_g00524.imports.json",
+      "declaration": "include/town/map/town_map_entry_processor_g00524.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006ADD4": "sizeof",
+    "D_800814A0": "word_default",
+    "D_8008C304": "retail_string",
+    "D_800CFCA8": "word_default",
+    "D_800FC428": "sizeof"
+  },
+  "address_only_anchors": {}
+}

@@ -8,6 +8,7 @@ import shutil
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from collections import defaultdict
 from pathlib import Path
 
@@ -89,6 +90,47 @@ class InferTests(unittest.TestCase):
 
 
 class MergeTests(unittest.TestCase):
+    def test_identifier_list_definition_extents(self):
+        source = ('s32 narrowed(s32 value);\n'
+                  's32 narrowed(value)\ns16 value;\n{\n'
+                  '    if (value) { return value; }\n    return 0;\n}\n'
+                  's32 next(void) { return 1; }\n')
+        found, _, _ = M.definitions(source)
+        self.assertEqual([f[0] for f in found], ['narrowed', 'next'])
+        self.assertEqual(source[found[0][1]:found[0][2]],
+                         's32 narrowed(value)\ns16 value;\n')
+        self.assertEqual(source[found[0][3]-1], '}')
+        for malformed in ('s32 bad(x)\ns16 y;\n{ return 0; }',
+                          's32 bad(x, x)\ns16 x;\n{ return 0; }'):
+            self.assertEqual(M.definitions(malformed)[0], [])
+
+    def test_body_macro_requires_exact_review_and_refuses_conditionals(self):
+        with tempfile.TemporaryDirectory(prefix='tu-macro-') as td:
+            root = Path(td)
+            (root / 'src').mkdir()
+            (root / 'config').mkdir()
+            (root / 'config/names.tsv').write_text('')
+            row = dict(container='dungeon', cfg='2.7.2-cdk-G0', foff=0, size=4, func='helper')
+            spec = dict(container='dungeon', header='include/merged.h', modules=[
+                dict(key='test_macro', source='src/merged.c', members=['dungeon/helper'])])
+            directive = '#define BODY_VALUE 1'
+            with patch.object(M, 'load_repo', return_value=(
+                    {'dungeon/helper': row}, {'dungeon/helper': 'src/member.c'})), \
+                    patch.object(M, 'compile_obj', return_value=(root / 'unused.o', '')):
+                for text, allowed, succeeds in (
+                        (directive, [], False),
+                        (directive, [directive], True),
+                        ('#define BODY_VALUE 2', [directive], False),
+                        ('#if BODY_VALUE\n#endif', ['#if BODY_VALUE', '#endif'], False)):
+                    (root / 'src/member.c').write_text('int helper(void) {\n' + text + '\nreturn 1;\n}\n')
+                    spec['body_directives'] = allowed
+                    if succeeds:
+                        M.draft(root, spec, root / 'draft', force=True)
+                        self.assertIn(directive, (root / 'draft/tree/src/merged.c').read_text())
+                    else:
+                        with self.assertRaises(M.Refused):
+                            M.draft(root, spec, root / 'draft', force=True)
+
     def test_c_string_round_trips(self):
         for raw in (b'a"b\\c\n%d', b'\x82\x60\x82\x61', b'x\x011'):
             lit = M.c_string(raw)

@@ -1,0 +1,34 @@
+{
+  "module": "dungeon_player_special_table_index_g00320",
+  "runtime_views": {
+    "D_80081470": {
+      "symbol": "D_80081470",
+      "kind": "runtime_data",
+      "vma": 2148013168,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_player_special_table_index_g00320.imports.json",
+      "declaration": "include/dungeon/player/special_table_index_g00320.h"
+    },
+    "D_80081484": {
+      "symbol": "D_80081484",
+      "kind": "runtime_data",
+      "vma": 2148013188,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_player_special_table_index_g00320.imports.json",
+      "declaration": "include/dungeon/player/special_table_index_g00320.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80081470": "word_default",
+    "D_80081484": "word_default"
+  },
+  "address_only_anchors": {}
+}

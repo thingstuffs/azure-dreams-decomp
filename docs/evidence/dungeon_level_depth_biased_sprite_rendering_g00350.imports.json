@@ -1,0 +1,34 @@
+{
+  "module": "dungeon_level_depth_biased_sprite_rendering_g00350",
+  "runtime_views": {
+    "D_8006CD30": {
+      "symbol": "D_8006CD30",
+      "kind": "runtime_data",
+      "vma": 2147929392,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_level_depth_biased_sprite_rendering_g00350.imports.json",
+      "declaration": "include/dungeon/level/depth_biased_sprite_rendering_g00350.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_level_depth_biased_sprite_rendering_g00350.imports.json",
+      "declaration": "include/dungeon/level/depth_biased_sprite_rendering_g00350.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006CD30": "word_default",
+    "D_80083160": "word_default"
+  },
+  "address_only_anchors": {}
+}

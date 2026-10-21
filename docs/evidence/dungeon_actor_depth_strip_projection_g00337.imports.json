@@ -1,0 +1,24 @@
+{
+  "module": "dungeon_actor_depth_strip_projection_g00337",
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_depth_strip_projection_g00337.imports.json",
+      "declaration": "include/dungeon/actor/depth_strip_projection_g00337.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083160": "word_default"
+  },
+  "address_only_anchors": {}
+}

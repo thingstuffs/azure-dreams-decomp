@@ -1,0 +1,49 @@
+{
+  "module": "dungeon_menu_object_table_initialization_g00375",
+  "runtime_views": {
+    "D_8002E5D8": {
+      "symbol": "D_8002E5D8",
+      "kind": "runtime_data",
+      "vma": 2147673560,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_menu_object_table_initialization_g00375.imports.json",
+      "declaration": "include/dungeon/menu/object_table_initialization_g00375.h"
+    },
+    "D_8002E5E8": {
+      "symbol": "D_8002E5E8",
+      "kind": "runtime_data",
+      "vma": 2147673576,
+      "view_bytes": 12,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_menu_object_table_initialization_g00375.imports.json",
+      "declaration": "include/dungeon/menu/object_table_initialization_g00375.h"
+    },
+    "D_8004CAA0": {
+      "symbol": "D_8004CAA0",
+      "kind": "runtime_data",
+      "vma": 2147797664,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_menu_object_table_initialization_g00375.imports.json",
+      "declaration": "include/dungeon/menu/object_table_initialization_g00375.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8002E5D8": "sizeof",
+    "D_8002E5E8": "sizeof",
+    "D_8004CAA0": "word_default",
+    "D_800DC8F8": "retail_string",
+    "D_800E2804": "sizeof",
+    "D_800E2828": "sizeof",
+    "D_800E28B8": "sizeof",
+    "D_800E5910": "word_default"
+  },
+  "address_only_anchors": {}
+}

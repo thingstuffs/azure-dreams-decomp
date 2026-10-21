@@ -1,0 +1,44 @@
+{
+  "module": "town_shop_shop_state_initialization_g00599",
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_shop_state_initialization_g00599.imports.json",
+      "declaration": "include/town/shop/shop_state_initialization_g00599.h"
+    },
+    "D_80082A38": {
+      "symbol": "D_80082A38",
+      "kind": "runtime_data",
+      "vma": 2148018744,
+      "view_bytes": 268,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_shop_state_initialization_g00599.imports.json",
+      "declaration": "include/town/shop/shop_state_initialization_g00599.h"
+    },
+    "D_80082AB4": {
+      "symbol": "D_80082AB4",
+      "kind": "runtime_data",
+      "vma": 2148018868,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_shop_state_initialization_g00599.imports.json",
+      "declaration": "include/town/shop/shop_state_initialization_g00599.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800814A0": "word_default",
+    "D_80082A38": "sizeof",
+    "D_80082AB4": "word_default"
+  },
+  "address_only_anchors": {}
+}

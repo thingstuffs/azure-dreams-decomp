@@ -1,0 +1,24 @@
+{
+  "module": "town_person_four_slot_object_owner_g00628",
+  "ledger_group": {
+    "container": "town",
+    "module": "four_slot_object_owner_g00628.c",
+    "module_index": 134103
+  },
+  "members": [
+    "town/func_800B7604",
+    "town/func_800B771C",
+    "town/func_800B7738"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/engine@3755C, CL:town/func_800B7604, CL:town/func_800B771C. Grouping by tools/tu/infer_groups.py (group G00628); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00628 inferred-strong; joins CL:town/engine@3755C,CL:town/func_800B7604,CL:town/func_800B771C. No hard/weak cut crosses its selected strong joins.",
+    "Partial inferred file; complete original-file edges are not proven. Literal pools remain imported under decision 72(f).",
+    "Decision 72(d), owner 2026-10-20: canonical prototype and data-view reconciliation with complete object identity re-proved on integration HEAD.",
+    "Members are the contiguous registered home rows 0x37604..0x37778 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

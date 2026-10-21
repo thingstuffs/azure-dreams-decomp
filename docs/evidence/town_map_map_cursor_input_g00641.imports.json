@@ -1,0 +1,37 @@
+{
+  "module": "town_map_map_cursor_input_g00641",
+  "runtime_views": {
+    "D_80082E60": {
+      "symbol": "D_80082E60",
+      "kind": "runtime_data",
+      "vma": 2148019808,
+      "view_bytes": 28,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_map_cursor_input_g00641.imports.json",
+      "declaration": "include/shared/runtime_dispatch.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_map_cursor_input_g00641.imports.json",
+      "declaration": "include/town/map/map_cursor_input_g00641.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80082E60": "sizeof",
+    "D_80083160": "word_default",
+    "D_800D185C": "sizeof",
+    "D_800D185D": "sizeof",
+    "D_800D3814": "sizeof"
+  },
+  "address_only_anchors": {}
+}

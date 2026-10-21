@@ -1,0 +1,34 @@
+{
+  "module": "dungeon_actor_movement_overlap_wait_g00334",
+  "runtime_views": {
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_movement_overlap_wait_g00334.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_movement_overlap_wait_g00334.imports.json",
+      "declaration": "include/dungeon/actor/movement_overlap_wait_g00334.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800814A8": "sizeof",
+    "D_80083460": "word_default"
+  },
+  "address_only_anchors": {}
+}

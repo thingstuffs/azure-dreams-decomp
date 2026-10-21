@@ -1,0 +1,24 @@
+{
+  "module": "town_map_sound_selection_g00648",
+  "ledger_group": {
+    "container": "town",
+    "module": "sound_selection_g00648.c",
+    "module_index": 134074
+  },
+  "members": [
+    "town/func_800C3884",
+    "town/func_800C38D4",
+    "town/func_800C39F0",
+    "town/func_800C3ACC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800C3884, CL:town/func_800C38D4, PD:town/engine:800D4244, PD:town/engine:800D4260. Grouping by tools/tu/infer_groups.py (group G00648); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00648 inferred-strong; joins CL:town/func_800C3884,CL:town/func_800C38D4,PD:town/engine:800D4244,PD:town/engine:800D4260. No hard/weak cut crosses its selected strong joins.",
+    "Partial inferred file; complete original-file edges are not proven. Literal pools remain imported under decision 72(f).",
+    "Members are the contiguous registered home rows 0x43884..0x43D04 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

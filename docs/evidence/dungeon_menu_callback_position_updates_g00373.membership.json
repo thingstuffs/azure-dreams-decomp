@@ -1,0 +1,25 @@
+{
+  "module": "dungeon_menu_callback_position_updates_g00373",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "callback_position_updates_g00373.c",
+    "module_index": 134107
+  },
+  "members": [
+    "dungeon/func_800D6EF0",
+    "dungeon/func_800D6FC4",
+    "dungeon/func_800D70CC",
+    "dungeon/func_800D7128",
+    "dungeon/func_800D7198"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D6EF0, CL:dungeon/func_800D6FC4, CL:dungeon/func_800D70CC, PD:dungeon/engine:800E2934. Grouping by tools/tu/infer_groups.py (group G00373); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; original file edges remain unknown. Literal imports retained under decision 72(f).",
+    "Decision 72(d), owner 2026-10-20: canonical prototype and data-view reconciliation with complete object identity re-proved on integration HEAD.",
+    "Members are the contiguous registered home rows 0xF6EF0..0xF7228 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

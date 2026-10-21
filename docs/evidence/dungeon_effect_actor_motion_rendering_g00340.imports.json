@@ -1,0 +1,26 @@
+{
+  "module": "dungeon_effect_actor_motion_rendering_g00340",
+  "runtime_views": {
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_effect_actor_motion_rendering_g00340.imports.json",
+      "declaration": "include/dungeon/effect/actor_motion_rendering_g00340.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083460": "word_default",
+    "D_800DCE68": "sizeof",
+    "D_800DF1E8": "retail_string"
+  },
+  "address_only_anchors": {}
+}

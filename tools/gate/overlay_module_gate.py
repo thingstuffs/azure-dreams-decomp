@@ -484,8 +484,9 @@ def build(m,out,root=ROOT,substitutions=None,*,artifact_only=False):
  canon=command([sys.executable,gate_tool(root,'ccproc.py'),'--names-only','--names-tsv',root/'config/names.tsv'],root,env,out/'names.log',raw)
  sys.path.insert(0,str(root/'tools/fidelity'));import aspsx_diff as A
  (out/'IN.S').write_bytes(A.aspsx_input(canon.decode()))
- # ASPSX has a DOS path-length limit; keep its working directory short.
- with tempfile.TemporaryDirectory(prefix='g',dir='/tmp') as td:
+ # ASPSX has a DOS path-length limit; use a short directory in the private root.
+ scratch=root/'tmp';scratch.mkdir(exist_ok=True)
+ with tempfile.TemporaryDirectory(prefix='g',dir=scratch) as td:
   td=Path(td);shutil.copy2(out/'IN.S',td/'IN.S')
   command([root/'toolchain/genuine/bin/wibo',root/'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE','-q','-G0',*genuine_flags(m,root),'-o','OUT.OBJ','IN.S'],td,dict(env,TMPDIR=str(td),TMP=str(td),TEMP=str(td)),out/'genuine.log')
   shutil.copy2(td/'OUT.OBJ',out/'OUT.OBJ')

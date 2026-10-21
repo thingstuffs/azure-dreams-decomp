@@ -1,0 +1,21 @@
+{
+  "module": "dungeon_player_equipment_status_g00319",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "equipment_status_g00319.c",
+    "module_index": 134088
+  },
+  "members": [
+    "dungeon/func_80092B48",
+    "dungeon/func_80092EB4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800E07C0, PD:dungeon/engine:800E07D3. Grouping by tools/tu/infer_groups.py (group G00319); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; original file edges remain unknown. Literal imports retained under decision 72(f).",
+    "Members are the contiguous registered home rows 0xB2B48..0xB3104 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

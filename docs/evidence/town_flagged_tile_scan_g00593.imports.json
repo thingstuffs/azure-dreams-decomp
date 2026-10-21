@@ -1,0 +1,74 @@
+{
+  "module": "town_flagged_tile_scan_g00593",
+  "runtime_views": {
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "runtime_data",
+      "vma": 2147929304,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_flagged_tile_scan_g00593.imports.json",
+      "declaration": "include/town/map/flagged_tile_scan_g00593.h"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "runtime_data",
+      "vma": 2147929320,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_flagged_tile_scan_g00593.imports.json",
+      "declaration": "include/town/map/flagged_tile_scan_g00593.h"
+    },
+    "D_80080B04": {
+      "symbol": "D_80080B04",
+      "kind": "runtime_data",
+      "vma": 2148010756,
+      "view_bytes": 10,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_flagged_tile_scan_g00593.imports.json",
+      "declaration": "include/town/map/flagged_tile_scan_g00593.h"
+    },
+    "D_80081508": {
+      "symbol": "D_80081508",
+      "kind": "runtime_data",
+      "vma": 2148013320,
+      "view_bytes": 12,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_flagged_tile_scan_g00593.imports.json",
+      "declaration": "include/town/map/flagged_tile_scan_g00593.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_flagged_tile_scan_g00593.imports.json",
+      "declaration": "include/town/map/flagged_tile_scan_g00593.h"
+    },
+    "D_8008333C": {
+      "symbol": "D_8008333C",
+      "kind": "runtime_data",
+      "vma": 2148021052,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_flagged_tile_scan_g00593.imports.json",
+      "declaration": "include/town/map/flagged_tile_scan_g00593.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006CCD8": "word_default",
+    "D_8006CCE8": "word_default",
+    "D_80080B04": "sizeof",
+    "D_80081508": "sizeof",
+    "D_80083160": "word_default",
+    "D_8008333C": "word_default"
+  },
+  "address_only_anchors": {}
+}

@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-20T23:55:58Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-21T04:36:36Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -14,9 +14,9 @@ Generated 2026-10-20T23:55:58Z. Baseline: first-pass text frozen 2026-09-07.
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
 | **Readability** | L3 90.6%, L4 0.0%, L5 0.0% of bytes (levels below) |
-| **Module certificates** | 0 of 304 current, 222 stale, 75 not certified yet, 7 not checked here |
+| **Module certificates** | 0 of 378 current, 222 stale, 149 not certified yet, 7 not checked here |
 
-**Current proof state.** 304 of 304 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
+**Current proof state.** 378 of 378 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
 
 
 ## Not yet C
@@ -73,7 +73,7 @@ Baseline NOT exact: 0 rows
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3638 rows, 2,309,648 bytes (28.8%); records used: 98.
+On shared record headers (T7, `include/records/`): 3670 rows, 2,317,424 bytes (28.9%); records used: 98.
 
 L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 21,432 rows (8,028,304 B).
 
@@ -86,12 +86,12 @@ Defects still present in the current tree (files = source files, bytes = image b
 | m2c local names | 29 | 36,004 | 0.4% |
 | goto | 151 | 384,700 | 4.8% |
 | computed-goto jump table | 1 | 16 | 0.0% |
-| inline asm outside macros | 7 | 8,984 | 0.1% |
+| inline asm outside macros | 6 | 7,608 | 0.1% |
 | any fidelity site | 2 | 23,708 | 0.3% |
 | any live audit site, unnarrowed | 1,643 | 2,473,124 | 30.8% |
 | do{}while(0) scheduling barrier | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 2,697 | 3,682,604 | 45.9% |
+| local address-named struct | 2,701 | 3,683,888 | 45.9% |
 | clean shape | 8,469 | 7,607,600 | 94.8% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
@@ -104,7 +104,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | ASM_ pins | 2135 | 1,456,292 | 18.1% | 0 | 0 | 0.0% |
 | goto | 1545 | 1,312,068 | 16.3% | 151 | 384,700 | 4.8% |
 | computed-goto jump table | 317 | 436,504 | 5.4% | 1 | 16 | 0.0% |
-| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 7 | 8,984 | 0.1% |
+| inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 6 | 7,608 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.4% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 16.0% | 2 | 23,708 | 0.3% |
 | any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,473,124 | 30.8% |
@@ -112,7 +112,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 2697 | 3,682,604 | 45.9% |
+| local address-named struct | 633 | 346,824 | 4.3% | 2701 | 3,683,888 | 45.9% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8469 | 7,607,600 | 94.8% |
 
 </details>
@@ -216,13 +216,13 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 ## Overlay modules
 
-248 modules (1,869 rows). Each is one translation unit placed in a container overlay; its certificate is the whole-TU and window proof:
+322 modules (2,089 rows). Each is one translation unit placed in a container overlay; its certificate is the whole-TU and window proof:
 
 | state | modules | rows | meaning |
 |---|---:|---:|---|
 | current | 0 | 0 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
 | stale: inputs changed | 220 | 1,522 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
-| not certified yet | 21 | 317 | no certificate has been issued for this module |
+| not certified yet | 95 | 537 | no certificate has been issued for this module |
 | not checked here | 7 | 30 | an input the check reads (compiler, disc image) is not present in this checkout, so the certificate could not be validated |
 
 <details><summary>stale: inputs changed - 220 modules, 1,522 rows</summary>
@@ -452,7 +452,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 </details>
 
-<details><summary>not certified yet - 21 modules, 317 rows</summary>
+<details><summary>not certified yet - 95 modules, 537 rows</summary>
 
 | module | rows |
 |---|---:|
@@ -477,6 +477,80 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | town_shop_stat_panel | 6 |
 | dungeon_actor_entity_spawn_load | 2 |
 | dungeon_actor_ability_eligibility | 25 |
+| town_shop_state_countdown_updates_g00558 | 2 |
+| town_shop_item_equip_selection_g00560 | 2 |
+| town_shop_state_entry_processing_g00562 | 4 |
+| town_shop_position_object_initialization_g00563 | 2 |
+| town_shop_entry_queue_g00564 | 5 |
+| town_shop_twin_shop_input_g00597 | 3 |
+| town_shop_paged_selection_refresh_g00598 | 2 |
+| town_shop_shop_state_initialization_g00599 | 4 |
+| town_shop_item_menu_object_lifecycle_g00600 | 2 |
+| town_shop_item_menu_cursor_transition_g00601 | 2 |
+| town_shop_item_menu_selection_steps_g00604 | 5 |
+| town_shop_item_menu_display_lifecycle_g00607 | 2 |
+| town_shop_shop_record_processing_g00608 | 2 |
+| town_shop_shop_window_layout_g00610 | 3 |
+| town_shop_entry_handler_notifications_g00613 | 3 |
+| town_shop_item_pointer_removal_g00615 | 2 |
+| town_shop_resource_entry_initialization_g00617 | 3 |
+| town_shop_twin_storage_initialization_g00618 | 3 |
+| town_resource_install_g00520 | 5 |
+| town_resource_slots_g00521 | 4 |
+| town_secondary_object_list_g00528 | 3 |
+| town_active_object_overlap_g00529 | 3 |
+| town_scene_slot_initialization_g00668 | 3 |
+| town_scene_slot_context_initialization_g00669 | 2 |
+| town_scene_slot_pair_initialization_g00694 | 2 |
+| town_textured_resource_strips_g00571 | 4 |
+| town_target_interpolation_g00573 | 2 |
+| town_midpoint_tracking_g00574 | 2 |
+| town_randomized_position_effect_g00585 | 2 |
+| town_paired_value_dispatch_g00647 | 3 |
+| town_town_map_entry_processor_g00524 | 6 |
+| town_radial_motion_effect_g00586 | 2 |
+| town_flagged_tile_scan_g00593 | 5 |
+| town_map_shaded_tile_rendering_g00594 | 3 |
+| town_map_building_grid_g00638 | 3 |
+| town_map_map_cursor_input_g00641 | 2 |
+| town_map_display_fade_g00643 | 3 |
+| town_map_directional_sprite_effect_g00644 | 4 |
+| town_map_paired_actor_motion_g00645 | 5 |
+| town_map_sound_selection_g00648 | 4 |
+| town_map_sound_sequence_load_g00649 | 2 |
+| town_map_sound_sequence_replay_g00650 | 2 |
+| town_person_person_record_history_g00592 | 4 |
+| town_person_transform_state_g00657 | 3 |
+| town_person_person_object_lifecycle_g00659 | 4 |
+| town_person_actor_data_references_g00663 | 4 |
+| town_person_object_slot_context_g00665 | 2 |
+| town_person_actor_slot_render_state_g00667 | 4 |
+| dungeon_system_town_map_entry_processor_g00214 | 2 |
+| dungeon_item_monster_koyaw_g00324 | 2 |
+| dungeon_actor_spell_resource_ids_g00331 | 2 |
+| dungeon_actor_movement_overlap_wait_g00334 | 2 |
+| dungeon_actor_depth_strip_projection_g00337 | 2 |
+| dungeon_player_equipment_status_g00319 | 2 |
+| dungeon_actor_textured_quad_batches_g00338 | 2 |
+| dungeon_effect_entity_sprite_initialization_g00339 | 2 |
+| dungeon_effect_actor_motion_rendering_g00340 | 2 |
+| dungeon_effect_radial_burst_g00343 | 2 |
+| dungeon_level_depth_biased_sprite_rendering_g00350 | 2 |
+| dungeon_level_terrain_surface_height_g00351 | 2 |
+| dungeon_actor_action_target_selection_g00359 | 4 |
+| dungeon_effect_oriented_mesh_quads_g00367 | 3 |
+| dungeon_effect_expiring_sprite_effect_g00370 | 2 |
+| dungeon_actor_movement_path_g00371 | 5 |
+| dungeon_menu_object_table_initialization_g00375 | 3 |
+| town_shop_shop_subrecord_values_g00611 | 2 |
+| town_shop_floating_number_widget_g00612 | 5 |
+| town_person_entity_display_owner_g00624 | 4 |
+| town_person_four_slot_object_owner_g00628 | 3 |
+| dungeon_player_special_table_index_g00320 | 2 |
+| dungeon_level_target_action_dispatch_g00342 | 4 |
+| dungeon_actor_action_control_dispatch_g00352 | 2 |
+| dungeon_menu_callback_position_updates_g00373 | 5 |
+| dungeon_item_monster_resource_slots_g00325 | 4 |
 
 </details>
 
@@ -558,7 +632,7 @@ Choices the tree keeps on purpose and tracks; none is an assembler pin. The comp
 | one-trip barrier rows | 2 | `ledger/onetrip_barrier_rows.jsonl` |
 | load-bearing one-trip rows | 85 | `ledger/onetrip_loadbearing.jsonl` |
 | carve debt: composite rows | 0 statements in 0 rows | `tools/pin_census.py composite_asm_spans` |
-| hidden scaffolding (not pins) | 9 sites (7 symbol aliases) | `pin_census.hidden_asm` |
+| hidden scaffolding (not pins) | 8 sites (6 symbol aliases) | `pin_census.hidden_asm` |
 | per-row optimization flags | 2,010 rows with one, 0 with two or more | `ledger/rows.jsonl` |
 | site-for-pin trades | 27 | `ledger/recipe_trades.jsonl` |
 | dead-initializer trades | 24 | `ledger/recipe_trades.jsonl` |
@@ -573,7 +647,7 @@ Choices the tree keeps on purpose and tracks; none is an assembler pin. The comp
 
 Tracked, not pins (owner 2026-10-06): oddities 0 (ledger/oddities.jsonl - zero-byte fences retail needs, curiosities, not removal targets: -); one-trip barrier rows 2 (ledger/onetrip_barrier_rows.jsonl); load-bearing one-trip rows 85 (ledger/onetrip_loadbearing.jsonl, statement-macro bodies, not counted in the do{}while(0) row above).
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 0 statements in 0 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 7 (a second typed name for one symbol: a missing type); file-scope asm directives 2; file-scope global register variables 0 (`register T g asm("$R")`).
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 6 (a second typed name for one symbol: a missing type); file-scope asm directives 2; file-scope global register variables 0 (`register T g asm("$R")`).
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 2,010 rows carry one flag, 0 carry two or more.
 

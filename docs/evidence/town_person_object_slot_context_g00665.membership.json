@@ -1,0 +1,22 @@
+{
+  "module": "town_person_object_slot_context_g00665",
+  "ledger_group": {
+    "container": "town",
+    "module": "object_slot_context_g00665.c",
+    "module_index": 134081
+  },
+  "members": [
+    "town/func_800C9710",
+    "town/func_800C9758"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D5AC8, PD:town/engine:800D5AD0, PD:town/engine:800D5AF8, PD:town/engine:800D5AFC. Grouping by tools/tu/infer_groups.py (group G00665); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): G00665 inferred-strong; joins PD:town/engine:800D5AC8,PD:town/engine:800D5AD0,PD:town/engine:800D5AF8,PD:town/engine:800D5AFC. No hard/weak cut crosses its selected strong joins.",
+    "Partial inferred file; complete original-file edges are not proven. Literal pools remain imported under decision 72(f).",
+    "Members are the contiguous registered home rows 0x49710..0x497C0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

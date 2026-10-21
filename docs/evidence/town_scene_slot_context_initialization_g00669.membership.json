@@ -1,0 +1,22 @@
+{
+  "module": "town_scene_slot_context_initialization_g00669",
+  "ledger_group": {
+    "container": "town",
+    "module": "scene_slot_context_initialization_g00669.c",
+    "module_index": 134058
+  },
+  "members": [
+    "town/func_800C9D84",
+    "town/func_800C9DCC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D5EF4, PD:town/engine:800D5EFC, PD:town/engine:800D5F24, PD:town/engine:800D5F28. Grouping by tools/tu/infer_groups.py (group G00669); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; adjacency and one registered compiler recipe, supported by the listed call-locality/private-data evidence.",
+    "Original file edges are not proven; literal imports remain under decision 72(f).",
+    "Members are the contiguous registered home rows 0x49D84..0x49E14 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

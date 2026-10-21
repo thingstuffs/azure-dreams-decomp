@@ -1,0 +1,36 @@
+{
+  "module": "town_shop_shop_window_layout_g00610",
+  "runtime_views": {
+    "D_800788E0": {
+      "symbol": "D_800788E0",
+      "kind": "runtime_data",
+      "vma": 2147977440,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_shop_window_layout_g00610.imports.json",
+      "declaration": "include/town/shop/shop_window_layout_g00610.h"
+    },
+    "D_800792DC": {
+      "symbol": "D_800792DC",
+      "kind": "runtime_data",
+      "vma": 2147979996,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_shop_window_layout_g00610.imports.json",
+      "declaration": "include/town/shop/shop_window_layout_g00610.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800788E0": "sizeof",
+    "D_800792DC": "sizeof",
+    "D_800B0824": "retail_string",
+    "D_800D15F4": "sizeof"
+  },
+  "address_only_anchors": {}
+}

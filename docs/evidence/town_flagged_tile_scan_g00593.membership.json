@@ -1,0 +1,25 @@
+{
+  "module": "town_flagged_tile_scan_g00593",
+  "ledger_group": {
+    "container": "town",
+    "module": "flagged_tile_scan_g00593.c",
+    "module_index": 134067
+  },
+  "members": [
+    "town/func_800AE700",
+    "town/func_800AE78C",
+    "town/func_800AEA50",
+    "town/func_800AEC1C",
+    "town/func_800AEC8C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AE700, CL:town/func_800AE78C, CL:town/func_800AEA50, CL:town/func_800AEC1C. Grouping by tools/tu/infer_groups.py (group G00593); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; adjacency and one registered compiler recipe, supported by the listed call-locality/private-data evidence.",
+    "Original file edges are not proven; literal imports remain under decision 72(f).",
+    "Members are the contiguous registered home rows 0x2E700..0x2ECF4 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

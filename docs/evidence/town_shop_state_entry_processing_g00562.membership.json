@@ -1,0 +1,23 @@
+{
+  "module": "town_shop_state_entry_processing_g00562",
+  "ledger_group": {
+    "container": "town",
+    "module": "state_entry_processing_g00562.c",
+    "module_index": 134037
+  },
+  "members": [
+    "town/func_800A2608",
+    "town/func_800A265C",
+    "town/func_800A2724",
+    "town/func_800A27C8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A2608, CL:town/func_800A265C, CL:town/func_800A2724. Grouping by tools/tu/infer_groups.py (group G00562); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong contiguous town engine group; CL call locality, PD where listed; no model cut or weak-cut blocks its joins. Complete original-file edges are unknown, so 72(f) literals remain imported.",
+    "Members are the contiguous registered home rows 0x22608..0x227F0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

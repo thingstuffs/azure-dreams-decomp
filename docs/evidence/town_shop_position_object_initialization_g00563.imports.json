@@ -1,0 +1,38 @@
+{
+  "module": "town_shop_position_object_initialization_g00563",
+  "runtime_views": {
+    "D_8006E240": {
+      "symbol": "D_8006E240",
+      "kind": "runtime_data",
+      "vma": 2147934784,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_position_object_initialization_g00563.imports.json",
+      "declaration": "include/town/shop/position_object_initialization_g00563.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 32,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_position_object_initialization_g00563.imports.json",
+      "declaration": "include/shared/object_node.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006E240": "sizeof",
+    "D_80083498": "sizeof",
+    "D_8009BC44": "sizeof",
+    "D_800D073C": "word_default",
+    "D_800D0754": "word_default",
+    "D_800D076C": "retail_string"
+  },
+  "address_only_anchors": {}
+}

@@ -1,0 +1,24 @@
+{
+  "module": "dungeon_item_monster_resource_slots_g00325",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "monster_resource_slots_g00325.c",
+    "module_index": 134108
+  },
+  "members": [
+    "dungeon/func_8009BE50",
+    "dungeon/func_8009BEB8",
+    "dungeon/func_8009C088",
+    "dungeon/func_8009C188"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_8009BE50, PD:dungeon/engine:800E3DA0, PD:dungeon/engine:800E3DB0, PD:dungeon/engine:800E3DD0, PD:dungeon/engine:800E3DE0. Grouping by tools/tu/infer_groups.py (group G00325); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong grouping; original file edges remain unknown. Literal imports retained under decision 72(f).",
+    "Decision 72(d): shared canonical s32 prototype with C89 identifier-list s16 parameter declaration (default argument promotion to s32); declaration-only reconciliation, original body retained, complete object identity exact.",
+    "Members are the contiguous registered home rows 0xBBE50..0xBC284 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

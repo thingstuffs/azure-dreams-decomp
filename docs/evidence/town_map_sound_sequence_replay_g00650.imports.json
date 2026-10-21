@@ -1,0 +1,27 @@
+{
+  "module": "town_map_sound_sequence_replay_g00650",
+  "runtime_views": {
+    "D_8006ADBC": {
+      "symbol": "D_8006ADBC",
+      "kind": "runtime_data",
+      "vma": 2147921340,
+      "view_bytes": 28,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_map_sound_sequence_replay_g00650.imports.json",
+      "declaration": "include/town/map/sound_sequence_replay_g00650.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006ADBC": "sizeof",
+    "D_800D4094": "retail_string",
+    "D_800D4244": "retail_string",
+    "D_800D4268": "retail_string"
+  },
+  "address_only_anchors": {}
+}

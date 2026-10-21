@@ -1,0 +1,24 @@
+{
+  "module": "town_shop_shop_state_initialization_g00599",
+  "ledger_group": {
+    "container": "town",
+    "module": "shop_state_initialization_g00599.c",
+    "module_index": 134042
+  },
+  "members": [
+    "town/func_800B0994",
+    "town/func_800B09E8",
+    "town/func_800B0A4C",
+    "town/func_800B0B44"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0888, CL:town/func_800B0994, CL:town/func_800B09E8, CL:town/func_800B0B44. Grouping by tools/tu/infer_groups.py (group G00599); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72(b): inferred-strong contiguous town engine group; CL call locality, PD where listed; no model cut or weak-cut blocks its joins. Complete original-file edges are unknown, so 72(f) literals remain imported.",
+    "Decision 72(d), owner 2026-10-20: canonical declarations, explicit data-view casts and live call arguments; complete object identity re-proved on integration HEAD.",
+    "Members are the contiguous registered home rows 0x30994..0x30BAC at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

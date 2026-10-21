@@ -1,0 +1,25 @@
+{
+  "module": "town_person_four_slot_object_owner_g00628",
+  "runtime_views": {
+    "D_80078CDC": {
+      "symbol": "D_80078CDC",
+      "kind": "runtime_data",
+      "vma": 2147978460,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_person_four_slot_object_owner_g00628.imports.json",
+      "declaration": "include/town/person/four_slot_object_owner_g00628.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80078CDC": "word_default",
+    "D_800B4C38": "sizeof"
+  },
+  "address_only_anchors": {}
+}

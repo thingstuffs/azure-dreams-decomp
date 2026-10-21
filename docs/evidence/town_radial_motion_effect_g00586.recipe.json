@@ -1,0 +1,16 @@
+{
+  "module": "town_radial_motion_effect_g00586",
+  "scope": "whole_tu",
+  "flags": [
+    "-q",
+    "-G0",
+    "-0"
+  ],
+  "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+  },
+  "basis": [
+    "Uniform registered member recipe; merged TU compiles to the in-order concatenation of the member objects (text bytes and relocations identical)."
+  ]
+}
