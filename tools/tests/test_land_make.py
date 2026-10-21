@@ -2,6 +2,7 @@
 import contextlib
 import io
 import json
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -12,6 +13,64 @@ from tools.build import land_make as L
 
 
 class LandMakeTests(unittest.TestCase):
+    def test_verified_configuration_avoids_repeating_make_generation(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);(root/'build/.state').mkdir(parents=True)
+            (root/'Makefile').write_text('.DEFAULT_GOAL := images\ninclude build/build.mk\n'
+                'build/build.mk: tool.py\n\t@echo cache-hit >> calls\n'
+                'images: object\nobject: source.c\n\t@echo unexpected-compile >> calls\n')
+            files={'build/build.mk':'# verified projection\n','tool.py':'tool',
+                   'source.c':'source','object':'object','object.proof.json':'proof',
+                   'build/.state/headers.ok':'digest'}
+            for name,data in files.items():(root/name).write_text(data)
+            for name,mtime in [('build/build.mk',10),('source.c',20),('tool.py',30),('object',40)]:
+                os.utime(root/name,(mtime,mtime))
+            def make():
+                subprocess.run(['make'],cwd=root,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
+            make();self.assertEqual((root/'calls').read_text(),'cache-hit\n')
+            L.acknowledge_configuration(root)
+            make();self.assertEqual((root/'calls').read_text(),'cache-hit\n')
+            self.assertEqual((root/'object').stat().st_mtime,40)
+            for name,data in files.items():self.assertEqual((root/name).read_text(),data)
+
+    def test_configuration_acknowledgement_refuses_missing_or_symlink_output(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)/'root';(root/'build').mkdir(parents=True)
+            with self.assertRaisesRegex(ValueError,'missing or unsafe'):
+                L.acknowledge_configuration(root)
+            outside=Path(td)/'outside.mk';outside.write_text('outside')
+            (root/'build/build.mk').symlink_to(outside)
+            st=outside.stat()
+            with self.assertRaisesRegex(ValueError,'missing or unsafe'):
+                L.acknowledge_configuration(root)
+            self.assertEqual(outside.stat().st_mtime_ns,st.st_mtime_ns)
+
+    def test_accounting_cache_verifies_proof_inputs_and_outputs(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            for name in ('src','ledger','build/landing'):(root/name).mkdir(parents=True)
+            source=root/'src/a.c';source.write_text('int a;')
+            calls=[]
+            def step(name, argv=None, action=None):
+                if action:return action()
+                calls.append(name)
+                if name=='levels':(root/'ledger/levels.jsonl').write_text('levels')
+                if name=='status':(root/'STATUS.md').write_text('status')
+            with patch('tools.build.make_evidence.checked_receipt') as proof:
+                L.accounting(root,step);self.assertEqual(calls,['levels','status'])
+                calls.clear();L.accounting(root,step);self.assertEqual(calls,[])
+                self.assertIn('SKIP:',(root/'build/landing/levels.log').read_text())
+                (root/'STATUS.md').write_text('tampered')
+                L.accounting(root,step);self.assertEqual(calls,['levels','status'])
+                calls.clear();st=source.stat();source.write_text('int b;')
+                os.utime(source,ns=(st.st_atime_ns,st.st_mtime_ns))
+                L.accounting(root,step);self.assertEqual(calls,['levels','status'])
+                self.assertEqual(proof.call_count,7)
+                calls.clear();proof.side_effect=ValueError('stale make check proof')
+                with self.assertRaisesRegex(ValueError,'stale make check proof'):
+                    L.accounting(root,step)
+                self.assertEqual(calls,[])
+
     def test_privacy_failure_preserves_patch_and_never_commits(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)

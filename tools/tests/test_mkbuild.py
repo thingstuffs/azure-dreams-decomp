@@ -3,6 +3,7 @@ import contextlib
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -270,12 +271,140 @@ class SlusPlacementViewTests(unittest.TestCase):
 
 
 class SlusAssemblyDependencyTests(unittest.TestCase):
-    def test_shared_include_stamp_invalidates_slus_assembly(self):
+    def test_shared_include_is_a_dependency_of_slus_assembly(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);(root/'build_slus').mkdir()
+            (root/'build_slus/asm').mkdir()
+            (root/'build_slus/include').mkdir()
+            (root/'build_slus/asm/unit.s').write_text('.include "labels.inc"\n')
+            (root/'build_slus/include/labels.inc').write_text('.macro glabel name\n.endm\n')
             (root/'build_slus/build.ninja').write_text('rule as\n  command = as $in -o $out\nbuild build/asm/unit.o: as asm/unit.s\n')
             with patch.object(B,'ROOT',root):
                 rules,count=B.slus_rules([])
             assembly=next(r for r in rules if r.startswith('build_slus/build/asm/unit.o:'))
-            self.assertIn('build/.state/headers.ok',assembly.splitlines()[0])
+            self.assertIn('build_slus/include/labels.inc',assembly.splitlines()[0])
+            self.assertNotIn('build/.state/headers.ok',assembly.splitlines()[0])
             self.assertEqual(count,0)
+
+
+class ContentReuseTests(unittest.TestCase):
+    def test_bootstrap_cache_binds_outputs_sources_and_environment(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);state=root/'build/.state';state.mkdir(parents=True)
+            (root/'src').mkdir();source=root/'src/unit.c';source.write_text('int a;')
+            calls=[]
+            def bootstrap():
+                calls.append(1)
+                B.write(root/'build_slus/build.ninja','rules')
+                B.write(root/'build_slus/build/slus_006.14.ld','script')
+            with patch.object(B,'ROOT',root),patch.object(B,'STATE',state), \
+                 patch.object(B,'_bootstrap',side_effect=bootstrap),contextlib.redirect_stdout(io.StringIO()):
+                B.bootstrap();first=(state/'setup.ok').stat().st_mtime_ns
+                B.bootstrap();self.assertEqual(len(calls),1)
+                self.assertEqual((state/'setup.ok').stat().st_mtime_ns,first)
+                st=source.stat();source.write_text('int b;')
+                os.utime(source,ns=(st.st_atime_ns,st.st_mtime_ns))
+                B.bootstrap();self.assertEqual(len(calls),2)
+                (root/'build_slus/build.ninja').write_text('tampered')
+                B.bootstrap();self.assertEqual(len(calls),3)
+                with patch.dict(os.environ,AZURE_TEST_BOOTSTRAP='changed'):
+                    B.bootstrap();self.assertEqual(len(calls),4)
+
+    def test_identical_stamp_and_ledger_preserve_mtimes(self):
+        from common import write_jsonl
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); state=root/'build/.state';state.mkdir(parents=True)
+            (root/'h.h').write_text('int a;\n')
+            (state/'headers.list').write_text('["h.h"]')
+            ledger=root/'rows.jsonl'
+            write_jsonl(ledger, [dict(id='unit')]);first=ledger.stat().st_mtime_ns
+            write_jsonl(ledger, iter([dict(id='unit')]))
+            self.assertEqual(ledger.stat().st_mtime_ns, first)
+            with patch.object(B,'ROOT',root),patch.object(B,'STATE',state):
+                B.write_stamp('headers');first=(state/'headers.ok').stat().st_mtime_ns
+                os.utime(root/'h.h', None)
+                B.write_stamp('headers')
+                self.assertEqual((state/'headers.ok').stat().st_mtime_ns,first)
+
+    def test_generation_reuses_only_current_inputs_and_generated_bytes(self):
+        import types
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);state=root/'build/.state';state.mkdir(parents=True)
+            (root/'src').mkdir();source=root/'src/unit.c';source.write_text('int x;')
+            (root/'build_slus').mkdir();(root/'build_slus/build.ninja').write_text('')
+            calls=[]
+            def generate():
+                calls.append(1)
+                B.put(state/'index.json',dict(inputs=['src/unit.c']))
+                B.put(state/'recipes/unit.json',dict(source='src/unit.c'))
+                B.write(root/'build/build.mk','images:\n')
+            modules=types.SimpleNamespace(closure_snapshot=contextlib.nullcontext)
+            with patch.object(B,'ROOT',root),patch.object(B,'STATE',state),patch.object(B,'load_gate'), \
+                 patch.object(B,'_generate',side_effect=generate),patch.dict('sys.modules',overlay_module_gate=modules), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                B.generate();first=(root/'build/build.mk').stat().st_mtime_ns
+                B.generate()
+                self.assertEqual(len(calls),1)
+                self.assertEqual((root/'build/build.mk').stat().st_mtime_ns,first)
+                (root/'build/build.mk').write_text('tampered')
+                B.generate();self.assertEqual(len(calls),2)
+                st=source.stat();source.write_text('int y;')
+                os.utime(source,ns=(st.st_atime_ns,st.st_mtime_ns))
+                B.generate();self.assertEqual(len(calls),3)
+                (root/'src/added.c').write_text('int z;')
+                B.generate();self.assertEqual(len(calls),4)
+                # Equal bytes through a different link must not reuse an old view.
+                target=root/'src/target.c';target.write_text(source.read_text())
+                source.unlink();source.symlink_to(target)
+                B.generate();self.assertEqual(len(calls),5)
+
+    def test_closure_reuses_shared_headers_and_detects_midrun_change(self):
+        from gate import overlay_module_gate as M
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);(root/'src').mkdir();(root/'include').mkdir()
+            (root/'src/a.c').write_text('#include "shared.h"\n')
+            (root/'src/b.c').write_text('#include "shared.h"\n')
+            header=root/'include/shared.h';header.write_text('#include "leaf.h"\n')
+            (root/'include/leaf.h').write_text('int a;\n')
+            expected={'include/shared.h','include/leaf.h'}
+            with patch.object(M,'read_text',wraps=M.read_text) as reads:
+                with M.closure_snapshot():
+                    self.assertEqual(M.closure(root,['src/a.c']),expected|{'src/a.c'})
+                    self.assertEqual(M.closure(root,['src/b.c']),expected|{'src/b.c'})
+                self.assertEqual(reads.call_count,4)
+            with self.assertRaisesRegex(ValueError,'include inputs changed'):
+                with M.closure_snapshot():
+                    M.closure(root,['src/a.c'])
+                    st=header.stat();header.write_text('int b;\n')
+                    os.utime(header,ns=(st.st_atime_ns,st.st_mtime_ns))
+            with self.assertRaisesRegex(ValueError,'include inputs changed'):
+                with M.closure_snapshot():
+                    M.closure(root,['src/a.c'])
+                    (root/'src/shared.h').write_text('int shadows;\n')
+
+    def test_closure_cycles_keep_every_dependency(self):
+        from gate import overlay_module_gate as M
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            (root/'a.h').write_text('#include "b.h"\n#include "c.h"\n')
+            (root/'b.h').write_text('#include "a.h"\n')
+            (root/'c.h').write_text('int c;')
+            with M.closure_snapshot():
+                self.assertEqual(M.closure(root,['a.h']),{'a.h','b.h','c.h'})
+                self.assertEqual(M.closure(root,['b.h']),{'a.h','b.h','c.h'})
+
+    def test_rowbase_cache_preserves_first_match_and_deferred_errors(self):
+        from gate import overlay_module_gate  # install sibling imports
+        from gate import overlay_local_gate as G
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'rowbase.jsonl'
+            rec=dict(foff_start='0x10',foff_end='0x20',delta='0x1000',base_confidence='proven')
+            path.write_text(json.dumps(rec)+'\nnot-json\n')
+            with patch.object(G,'cfg_path',return_value=path):
+                self.assertEqual(G._rowbase_proven_delta('town',0x12),0x1000)
+                self.assertEqual(G._rowbase_proven_delta('town',0x1F),0x1000)
+                with self.assertRaisesRegex(SystemExit,':2: invalid rowbase record'):
+                    G._rowbase_proven_delta('town',0x20)
+                st=path.stat();rec['delta']='0x2000';path.write_text(json.dumps(rec)+'\n')
+                os.utime(path,ns=(st.st_atime_ns,st.st_mtime_ns))
+                self.assertEqual(G._rowbase_proven_delta('town',0x12),0x2000)

@@ -48,9 +48,13 @@ def append_jsonl(p, rec):
         fh.write(json.dumps(rec, separators=(",", ":")) + "\n")
 
 def write_jsonl(p, recs):
-    with open(p, "w") as fh:
-        for r in recs:
-            fh.write(json.dumps(r, separators=(",", ":")) + "\n")
+    p = Path(p)
+    blob = "".join(json.dumps(r, separators=(",", ":")) + "\n" for r in recs).encode()
+    if p.exists() and p.read_bytes() == blob:
+        return
+    temporary = p.with_name(p.name + ".tmp")
+    temporary.write_bytes(blob)
+    temporary.replace(p)
 
 def raw_path(row) -> Path:
     """The row's pinned text (frozen)."""

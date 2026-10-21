@@ -306,6 +306,25 @@ def inline_records(root=ROOT):
 _PROJECTION_DIRECTIVE = re.compile(rb'^[ \t]*#[ \t]*([A-Za-z_]*)')
 
 
+@lru_cache(maxsize=16)
+def _projection_index(path, stamp):
+    """Index provenance only; member_projection still validates the current TU bytes.
+
+    Keep duplicates so the existing per-member duplicate check cannot be hidden
+    by a dictionary overwrite. The identity includes ctime (see _stamp).
+    """
+    members, first = {}, {}
+    if stamp is not None:
+        for line in Path(path).read_text().splitlines():
+            if not line.strip():
+                continue
+            rec = json.loads(line)
+            members.setdefault(rec['member_id'], []).append(rec)
+            tu = rec['tu_new']
+            first[tu] = min(first.get(tu, rec['offset']), rec['offset'])
+    return members, first
+
+
 def member_projection(row_id, root=ROOT):
     """Span-aware compile unit for an inlined member, or None for an own-file row.
 
@@ -317,10 +336,8 @@ def member_projection(row_id, root=ROOT):
     """
     root = Path(root).absolute()
     path = root / 'ledger/layout_inline.jsonl'
-    if not path.exists():
-        return None
-    records = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
-    mine = [r for r in records if r['member_id'] == row_id]
+    members, first_offsets = _projection_index(str(path), _stamp(path))
+    mine = members.get(row_id, ())
     if not mine:
         return None
     if len(mine) != 1:
@@ -345,7 +362,7 @@ def member_projection(row_id, root=ROOT):
     if (restored[rec['bytes']:] not in (b'', b'\n')
             or hashlib.sha256(restored[:rec['bytes']]).hexdigest() != rec['source_sha256']):
         raise ValueError('inline source_sha256 mismatch: ' + row_id)
-    first = min(r['offset'] for r in records if r['tu_new'] == rec['tu_new'])
+    first = first_offsets[rec['tu_new']]
     context = []
     for line in data[:first].splitlines(keepends=True):
         hit = _PROJECTION_DIRECTIVE.match(line)

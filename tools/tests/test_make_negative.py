@@ -171,7 +171,7 @@ class TreeNegatives(unittest.TestCase):
             self.expect_fail(r'DIFF ' + re.escape(image) + r' offset=0x[0-9A-F]+ disc=0x[0-9A-F]+ symbol=')
 
     def test_b_slus_constant_names_executable(self):
-        with mutated('src/slus/w_8004DF8C.c', 'D_8008154C = 0x2300040C;', 'D_8008154C = 0x2300050C;'):
+        with mutated('src/slus/w_8004DF8C.c', 'message_output_control_word = 0x2300040C;', 'message_output_control_word = 0x2300050C;'):
             self.expect_fail(r'DIFF slus/slus_bin offset=0x[0-9A-F]+ .*symbol=func_8004DF8C')
 
     def test_d_comment_only_edit_passes(self):

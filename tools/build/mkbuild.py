@@ -25,14 +25,22 @@ sys.path.insert(0, str(ROOT))
 from tools.link.graph import Graph, number
 from tools.link.combined import selected_images, object_metadata, slus_origins
 from tools.link.prepare import load_gate, linklist_snapshot
+from tools.build import content_cache
 
 STATE = ROOT / 'build/.state'
+GENERATION_WRITES = None
 CONTAINERS = {'main': 'MAIN_MAIN.BIN', 'town': 'TOWN_TOWN.BIN',
               'dungeon': 'DUNGEON_DUNGEON.BIN', 'ovmovie': 'OVMOVIE.BIN'}
 
 
 def rel(path):
-    return Path(path).absolute().relative_to(ROOT).as_posix()
+    # Paths passed here are already rooted; avoid constructing several pathlib
+    # objects per recipe/input in the 18,000-row enumeration.
+    value = os.path.abspath(path)
+    prefix = os.fspath(ROOT) + os.sep
+    if not value.startswith(prefix):
+        raise ValueError('path outside build root: ' + value)
+    return value[len(prefix):]
 
 
 def sha(blob):
@@ -41,6 +49,8 @@ def sha(blob):
 
 def write(path, blob):
     path = Path(path)
+    if GENERATION_WRITES is not None:
+        GENERATION_WRITES.add(rel(path))
     if isinstance(blob, str):
         blob = blob.encode()
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -58,7 +68,6 @@ def stamp(kind):
 
 def write_stamp(kind):
     write(STATE/(kind+'.ok'), stamp(kind))
-    (STATE/(kind+'.ok')).touch()
 
 
 def put(path, value):
@@ -77,7 +86,65 @@ def run(argv, **kw):
     return result.stdout
 
 
+def configure_inputs(extra=()):
+    # Landing/accounting code and ordinary documentation cannot alter a recipe.
+    # Review inputs are added explicitly below, including reviews outside docs/.
+    irrelevant = {'tools/build/land_make.py', 'tools/build/make_evidence.py'}
+    names = content_cache.inventory(ROOT, ('src', 'include', 'config', 'tools/build',
+                                          'tools/gate', 'tools/link', 'tools/fidelity'), irrelevant)
+    names.update(['tools/common.py', 'tools/source_layout.py', 'tools/row_db.py',
+                  'tools/overlay_module_evidence.py'])
+    manifest = content_cache.load(ROOT/'config/overlays/modules.json')
+    names.update(n for m in manifest.get('modules', ()) for n in m.get('review_inputs', ()))
+    names.update(content_cache.inventory(ROOT, ('ledger',)))
+    names.update('work/disc/containers/' + name for name in CONTAINERS.values())
+    names.update(['work/disc/extract/SLUS_006.14', 'baserom/slus_006.14'])
+    names.update(['ledger/rows.jsonl', 'ledger/layout.jsonl', 'ledger/layout_inline.jsonl',
+                  'ledger/tu_layout.jsonl', 'ledger/modules.jsonl', 'ledger/containers.jsonl',
+                  'ledger/instance_load_regions.jsonl'])
+    names.update(n for n in extra if n not in irrelevant and not n.startswith(('build/.state/', 'build_slus/build/partition_sources/')))
+    return names
+
+
+def configure_links(views=True):
+    result = content_cache.links(ROOT, ('src', 'include', 'config', 'tools', 'ledger'))
+    if views:
+        result.update(content_cache.links(ROOT, ('build_ovl', 'build_slus'), prune=('build', 'work')))
+    return result
+
+
+def configure_environment():
+    return {k:v for k,v in os.environ.items() if k.startswith(('AZURE_', 'MASPSX_')) or k in ('RAW', 'EXP', 'SRCROOT')}
+
+
 def bootstrap():
+    marker = STATE/'bootstrap.json'
+    before = content_cache.hashes(ROOT, configure_inputs())
+    input_links = configure_links(views=False)
+    previous = content_cache.load(marker)
+    if (previous.get('root') == str(ROOT) and previous.get('environment') == configure_environment()
+            and previous.get('links') == configure_links()
+            and previous.get('inputs') == before and previous.get('outputs')
+            and all(v is not None for v in previous['outputs'].values())
+            and content_cache.hashes(ROOT, previous['outputs']) == previous['outputs']):
+        print('Build views unchanged (content verified)', flush=True)
+        return
+    _bootstrap()
+    outputs = content_cache.inventory(ROOT, ('build_ovl/tools', 'build_slus/config/generated', 'build_slus/asm', 'build_slus/assets'))
+    outputs.update(['build_slus/build.ninja', 'build_slus/build/slus_006.14.ld', 'build/.state/setup.ok'])
+    after = content_cache.hashes(ROOT, configure_inputs())
+    # The module graph is a bootstrap output, included in the next input snapshot.
+    graph_output = 'ledger/splits/overlay_modules.build.json'
+    if {k:v for k,v in before.items() if k != graph_output} != {k:v for k,v in after.items() if k != graph_output}:
+        raise ValueError('bootstrap inputs changed during generation')
+    if input_links != configure_links(views=False):
+        raise ValueError('bootstrap input links changed during generation')
+    put(STATE/'setup.ok', dict(inputs_sha256=sha(json.dumps(after, sort_keys=True).encode())))
+    content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=configure_links(),
+                                    inputs=after, outputs=content_cache.hashes(ROOT, outputs)))
+
+
+def _bootstrap():
     run(['bash', 'tools/build/mk_slus_root.sh'])
     view = ROOT / 'build_slus'
     split_script = view/'build/slus_006.14.ld'
@@ -88,8 +155,6 @@ def bootstrap():
     STATE.mkdir(parents=True, exist_ok=True)
     write(ROOT / 'build/.ignore', '*\n')
     write(ROOT / 'build/.gitignore', '*\n')
-    write(STATE / 'setup.ok', 'generated private build views\n')
-    (STATE/'setup.ok').touch()
 
 
 def make_path(value):
@@ -184,15 +249,24 @@ def slus_script():
 
 def slus_rules(headers):
     edges = ninja_edges((ROOT / 'build_slus/build.ninja').read_text())
+    # A cold checkout has not rendered partition bodies yet. Use the registered
+    # producer verbatim before scanning includes; it validates coverage and
+    # preserves content-identical output mtimes. The emitted make edge remains.
+    for edge in edges:
+        if edge['rule'] == 'partition_render':
+            run(['bash', '-c', edge['command']], cwd=ROOT/'build_slus')
+            if GENERATION_WRITES is not None:
+                GENERATION_WRITES.update('build_slus/' + n for n in edge['outputs'])
     output, cc = [], 0
     for edge in edges:
         if edge['rule'] == 'sha1':
             continue
         deps = ['build_slus/' + d for d in edge['deps']]
         if edge['rule'] in ('cc', 'as'):
-            deps += ['build/.state/pipeline.ok']
-        if edge['rule'] in ('cc', 'as'):
-            deps += ['build/.state/headers.ok']
+            deps += ['build/.state/compiletools.ok']
+            import overlay_module_gate as M
+            starts = [d for d in edge['explicit'] if d.endswith(('.c', '.s'))]
+            deps += ['build_slus/' + d for d in M.closure(ROOT/'build_slus', starts)]
         if edge['rule'] == 'cc':
             cc += 1
         targets = ['build_slus/' + t for t in edge['outputs']]
@@ -472,6 +546,42 @@ def extend_placement_checks(images, recipes, row_plans, registry, modules, modul
 
 
 def generate():
+    global GENERATION_WRITES
+    marker = STATE/'configure.json'
+    previous = content_cache.load(marker)
+    names = configure_inputs(previous.get('inputs', ()))
+    names.add('build_slus/build.ninja')
+    before = content_cache.hashes(ROOT, names)
+    input_links = configure_links()
+    if (previous.get('root') == str(ROOT) and previous.get('environment') == configure_environment()
+            and previous.get('links') == configure_links()
+            and previous.get('inputs') == before and previous.get('outputs')
+            and all(v is not None for v in previous['outputs'].values())
+            and content_cache.hashes(ROOT, previous['outputs']) == previous['outputs']):
+        print('Make projection unchanged (inputs and generated bytes verified)', flush=True)
+        return
+    load_gate(ROOT)
+    import overlay_module_gate as M
+    GENERATION_WRITES = set()
+    try:
+        with M.closure_snapshot():
+            _generate()
+        outputs = GENERATION_WRITES
+    finally:
+        GENERATION_WRITES = None
+    if before != content_cache.hashes(ROOT, names) or input_links != configure_links():
+        raise ValueError('configure inputs changed during generation')
+    index = read(STATE/'index.json')
+    for path in (STATE/'recipes').glob('*.json'):
+        source = read(path)['source']
+        if source.startswith('build/.state/'):
+            outputs.add(source)
+    names = configure_inputs(index['inputs']) | {'build_slus/build.ninja'}
+    content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=configure_links(),
+                                   inputs=content_cache.hashes(ROOT, names), outputs=content_cache.hashes(ROOT, outputs)))
+
+
+def _generate():
     print('Reading link graph and live registry', flush=True)
     graph = Graph(ROOT / 'config/link_graph')
     registry = {r['id']: r for r in map(json.loads, (ROOT/'ledger/rows.jsonl').read_text().splitlines())}
@@ -637,7 +747,8 @@ def generate():
     placement_checks = extend_placement_checks(images, recipes, row_plans, registry, modules, module_jobs, placements, gate)
     put(STATE/'placement_checks.json', placement_checks)
     put(STATE/'row_plans.json', [dict(container=f, off=o, size=n, **v) for (f,o,n),v in row_plans.items()])
-    # A conservative include stamp is intentional: correctness before header-selective scheduling.
+    # Keep the full header/pipeline stamps as independently checked witnesses;
+    # schedule objects from their actual include closure and compiler tools.
     headers = sorted(rel(p) for p in (ROOT/'include').rglob('*') if p.is_file())
     headers += sorted(rel(p) for directory in (ROOT/'src').iterdir() if directory.is_dir() for p in directory.rglob('*.h') if p.is_file())
     pipeline = sorted(rel(p) for d in ('tools/build', 'tools/gate', 'tools/link')
@@ -646,16 +757,21 @@ def generate():
     pipeline += sorted(rel(p) for p in (ROOT/'tools/fidelity').glob('*.py'))
     pipeline += ['tools/overlay_module_evidence.py']
     pipeline += sorted(rel(p) for p in (ROOT/'toolchain/maspsx').rglob('*.py') if p.is_file())
+    compile_build = {'mkbuild.py', 'cc.sh', 'ccproc.py', 'as.sh', 'asproc.py', 'slus_rodata_trim.py'}
+    compiletools = [n for n in pipeline if not n.startswith(('tools/build/', 'tools/link/'))
+                    or n.rsplit('/', 1)[-1] in compile_build]
+    linktools = [n for n in pipeline if not n.startswith('tools/build/') or n == 'tools/build/mkbuild.py']
     out = ['# Generated by tools/build/mkbuild.py; private, no authority switch.\n']
     # Link inputs read by image_one (symbol catalogs, rowbase/rodata-owner/link-list/graph tables).
     linkinputs = sorted(rel(p) for d in ('config/overlays', 'config/link', 'config/link_graph')
                         for p in (ROOT/d).rglob('*') if p.is_file())
     linkinputs += sorted(rel(p) for p in (ROOT/'config').glob('*.txt'))
-    for kind, names in (('headers', headers), ('pipeline', pipeline), ('linkinputs', linkinputs)):
+    stamp_inputs = [('headers', headers), ('pipeline', pipeline), ('linkinputs', linkinputs),
+                    ('compiletools', compiletools), ('linktools', linktools)]
+    for kind, names in stamp_inputs:
         put(STATE/(kind+'.list'), names)
-    out += [rule(['build/.state/headers.ok'], headers + ['build/.state/headers.list'], 'python3 tools/build/mkbuild.py stamp headers'),
-            rule(['build/.state/pipeline.ok'], pipeline + ['build/.state/pipeline.list'], 'python3 tools/build/mkbuild.py stamp pipeline'),
-            rule(['build/.state/linkinputs.ok'], linkinputs + ['build/.state/linkinputs.list'], 'python3 tools/build/mkbuild.py stamp linkinputs')]
+        out.append(rule(['build/.state/'+kind+'.ok'], names + ['build/.state/'+kind+'.list'],
+                        'python3 tools/build/mkbuild.py stamp '+kind))
     sr, slus_cc = slus_rules(headers)
     out += sr
     for key, spec in recipes.items():
@@ -664,7 +780,7 @@ def generate():
         # inline ledger (added below), and compile_one re-derives it, so it is not a make prerequisite.
         unit = [] if spec.get('projection') else [spec['source']]
         unit_exclude = {spec['source']} if spec.get('projection') else set()
-        deps = [rel(path), *unit, 'build/.state/headers.ok', 'build/.state/pipeline.ok'] + list(spec['env'].values())
+        deps = [rel(path), *unit, 'build/.state/compiletools.ok'] + list(spec['env'].values())
         if 'module' in spec:
             deps += [a['source'] for a in spec['module']['members']] + spec['module']['headers'] + spec['module']['review_inputs']
             deps += [a['declaration'] for a in spec['module']['imports'] if 'declaration' in a]
@@ -673,7 +789,7 @@ def generate():
         if spec.get('projection'):
             deps += [spec['projection']['owner'], 'ledger/layout_inline.jsonl']
         starts = [spec['source']] + ([a['source'] for a in spec['module']['members']] if 'module' in spec else [])
-        deps += [n for n in M.closure(ROOT, starts) if not n.endswith('.h') and (ROOT/n).is_file() and n not in unit_exclude]
+        deps += [n for n in M.closure(ROOT, starts) if (ROOT/n).is_file() and n not in unit_exclude]
         if spec['args']:
             deps += ['toolchain/compilers/gcc-' + spec['args'][0] + '/' + tool for tool in ('gcc','cc1','cpp')]
         spec['dependencies'] = sorted(set(deps))
@@ -682,15 +798,17 @@ def generate():
     for tag, spec in images.items():
         path = STATE/'images'/(tag+'.json')
         put(path, spec)
-        deps = [rel(path), spec['container'], 'build/.state/pipeline.ok', 'build/.state/linkinputs.ok'] + [recipes[u['recipe']]['output'] for u in spec['units']]
+        deps = [rel(path), spec['container'], 'build/.state/linktools.ok', 'build/.state/linkinputs.ok'] + [recipes[u['recipe']]['output'] for u in spec['units']]
         out.append(rule([spec['output']], deps, f'python3 tools/build/mkbuild.py image {rel(path)}'))
     outputs = ['build/slus_slus_bin.bin'] + [s['output'] for s in images.values()]
-    out += ['.PHONY: images\nimages: ' + ' '.join(outputs + [r['output'] for r in recipes.values()]) + '\n']
+    out += ['.PHONY: images\nimages: ' + ' '.join(outputs + [r['output'] for r in recipes.values()] +
+            ['build/.state/'+kind+'.ok' for kind, _ in stamp_inputs]) + '\n']
     index = dict(schema='azure-clean.make-build.v1', files=graph.files,
                  images=[dict(image='slus/slus_bin', output=outputs[0], file='slus', start=0, size=graph.files['slus']['size'])] +
                         [dict(image=s['image'], output=s['output'], file=s['image'].split('/')[0], start=s['start'], size=s['size']) for s in images.values()],
                  overlay_recipes=len(recipes), slus_c_recipes=slus_cc, ordinary_rows=len(row_plans),
                  native_modules=len(module_jobs), graph_attestation_sha256=sha(json.dumps(attestation, sort_keys=True).encode()), assembler=sdk, check_images=len(outside), placement_check_images=len(placement_checks), physical_overlay_sources=len({r['source'] for r in recipes.values()}))
+    index['stamp_kinds'] = [kind for kind, _ in stamp_inputs]
     put(STATE/'index.json', index)
     source_deps = []
     metadata = sorted(rel(p) for d in ('config/link_graph', 'config/link', 'config/overlays')
@@ -705,6 +823,8 @@ def generate():
     slus_sources = [rel(slus_source(source, ROOT)) for m in read(ROOT/'config/slus_modules.json')['modules']
                     for source in [m['source']]+[a['source'] for a in m['members']]]
     index['inputs'] = sorted(set(slus_sources + metadata + pipeline + headers + ['config/slus_modules.json', 'config/slus_partitions.json', 'ledger/tu_layout.jsonl', 'ledger/layout_inline.jsonl', 'ledger/splits/slus.build.ninja'] + [r['source'] for r in recipes.values()] + [d for r in recipes.values() for d in r['dependencies'] if d.startswith('src/')] + [t['source'] for t in attestation['tus'].values()] + [a['source'] for m in modules.values() for a in M.all_members(m)]))
+    index['inputs'] = sorted(set(index['inputs']) | set(graph.manifest.get('inputs', {})) |
+                             {d for r in recipes.values() for d in r['dependencies'] if d.startswith('toolchain/')})
     put(STATE/'index.json', index)
     # Always refresh the makefile timestamp after regeneration, even if its text is stable.
     write(ROOT/'build/build.mk', ''.join(out))
@@ -1008,7 +1128,7 @@ def check():
         put(STATE/'checked_graph_attestation.json', current)
         if genuine_status() != index['assembler']:
             raise ValueError('genuine ASPSX availability/identity changed; run make configure')
-    for kind in ('headers', 'pipeline', 'linkinputs') if 'graph_attestation_sha256' in index else ():
+    for kind in index.get('stamp_kinds', ('headers', 'pipeline', 'linkinputs')) if 'graph_attestation_sha256' in index else ():
         if (STATE/(kind+'.ok')).read_text() != stamp(kind):
             raise ValueError('stale ' + kind + ' stamp: inputs changed since the build; run make')
     inputs_before = hash_inputs(index.get('inputs', []))

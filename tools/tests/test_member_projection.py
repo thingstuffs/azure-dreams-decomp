@@ -1,5 +1,6 @@
 """T1 adapter: in-place inline (layout_apply) and the span-aware placement projection."""
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -116,6 +117,31 @@ class InPlaceInline(unittest.TestCase):
         self.write('src/dungeon/level/shared.h', '/* would shadow include/shared.h next to the owner */\n')
         with self.assertRaisesRegex(ValueError, 'owner-relative include'):
             GL.member_projection('dungeon/func_80000000', self.root)
+
+    def test_cached_provenance_detects_duplicate_with_restored_mtime(self):
+        self.apply()
+        rid = 'dungeon/func_80000000'
+        GL.member_projection(rid, self.root)
+        ledger = self.root/'ledger/layout_inline.jsonl'
+        data, st = ledger.read_bytes(), ledger.stat()
+        ledger.write_bytes(data + data.splitlines(keepends=True)[0])
+        os.utime(ledger, ns=(st.st_atime_ns, st.st_mtime_ns))
+        with self.assertRaisesRegex(ValueError, 'duplicate inline provenance'):
+            GL.member_projection(rid, self.root)
+
+    def test_provenance_reuse_still_checks_current_owner_bytes(self):
+        self.apply()
+        rid = 'dungeon/func_80000000'
+        good = GL.member_projection(rid, self.root)
+        with patch.object(GL.json, 'loads', wraps=json.loads) as loads:
+            self.assertEqual(GL.member_projection(rid, self.root), good)
+            self.assertEqual(loads.call_count, 0)
+        owner = self.root/'src/dungeon/level/owner.c'
+        st = owner.stat()
+        owner.write_text(owner.read_text().replace('return helper();', 'return danger();'))
+        os.utime(owner, ns=(st.st_atime_ns, st.st_mtime_ns))
+        with self.assertRaisesRegex(ValueError, 'source_sha256 mismatch'):
+            GL.member_projection(rid, self.root)
 
 
     def test_row_source_module_copy_supersedes_row_file(self):

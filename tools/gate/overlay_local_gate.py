@@ -22,6 +22,7 @@ import subprocess
 import sys
 import dataclasses
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -567,6 +568,26 @@ def rodata_first_link(obj: Path, seg: "Segment", owner: dict[str, Any], gp_value
     return rod[:rsize] + txt
 
 
+@lru_cache(maxsize=8)
+def _rowbase_records(text):
+    """Decode each file content once, preserving row order and deferred errors."""
+    records = []
+    for lineno, line in enumerate(text.splitlines(), 1):
+        line = line.strip()
+        if not line or line.startswith('#'):
+            continue
+        try:
+            rec = json.loads(line)
+            records.append((lineno, int(str(rec['foff_start']), 0),
+                            int(str(rec['foff_end']), 0), int(str(rec['delta']), 0),
+                            rec.get('base_confidence') == 'proven', None))
+        except (ValueError, KeyError, TypeError) as exc:
+            # The production selector stops at its first match. An invalid later
+            # record must still fail when reached, with the original line number.
+            records.append((lineno, 0, 0, 0, False, str(exc)))
+    return records
+
+
 def _rowbase_proven_delta(family: str, foff: int) -> int | None:
     """True-base delta for a foff in a PROVEN rowbase region (else None).
     Same evidence file the scoring loader validates; landing-side consumers
@@ -574,17 +595,10 @@ def _rowbase_proven_delta(family: str, foff: int) -> int | None:
     path = cfg_path(f"config/overlays/{family}.rowbase.jsonl")
     if not path.exists():
         return None
-    for lineno, line in enumerate(read_text(path).splitlines(), 1):
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
-        try:
-            rec = json.loads(line)
-            start, end = int(str(rec["foff_start"]), 0), int(str(rec["foff_end"]), 0)
-            delta = int(str(rec["delta"]), 0)
-        except (ValueError, KeyError, TypeError) as exc:
-            raise SystemExit(f"{path}:{lineno}: invalid rowbase record: {exc}")
-        if start <= foff < end and rec.get("base_confidence") == "proven":
+    for lineno, start, end, delta, proven, error in _rowbase_records(read_text(path)):
+        if error is not None:
+            raise SystemExit(f"{path}:{lineno}: invalid rowbase record: {error}")
+        if start <= foff < end and proven:
             return delta
     return None
 

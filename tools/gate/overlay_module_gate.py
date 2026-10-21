@@ -18,7 +18,7 @@ from source_layout import row_relative, mapping as source_mapping
 import asm_paths
 import overlay_native_rodata as N
 import overlay_native_allocations as Z
-from gate_read_cache import digest, read_jsonl, read_text, read_json as _read_json, read_records as _read_records
+from gate_read_cache import digest, read_jsonl, read_text, read_json as _read_json, read_records as _read_records, observe, observers, merge_observed
 from contextvars import ContextVar
 CONTAINERS={'dungeon':'DUNGEON_DUNGEON.BIN','town':'TOWN_TOWN.BIN','main':'MAIN_MAIN.BIN','ovmovie':'OVMOVIE.BIN'}
 META={'.reginfo','.MIPS.abiflags'}
@@ -267,35 +267,105 @@ def affected_windows(m,root=ROOT,*,parsed_windows=None):
  if not out:raise ValueError('module has no production window')
  return out
 
+_CLOSURE_READS=ContextVar('module_include_reads',default=None)
+_INCLUDE_LINE=re.compile(r'\s*(?:#\s*include|\.include)\b')
+_QUOTED_INCLUDE=re.compile(r'\s*(?:#\s*include|\.include)\s+"([^"]+)"')
+
+def _closure_stamp(path):
+ try:
+  s=os.stat(path)
+  return s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns,s.st_ctime_ns
+ except FileNotFoundError:return None
+
+from contextlib import contextmanager
+@contextmanager
+def closure_snapshot():
+ """Reuse include scans during one generation, rejecting any input mutation.
+
+ Cache resolution probes too: creating a previously absent local header must
+ invalidate a result that used the include/ fallback. No closure persists into
+ another invocation, and all the original include/preprocessor checks still run.
+ """
+ if _CLOSURE_READS.get() is not None:
+  yield
+  return
+ cache=dict(files={},edges={},closures={})
+ token=_CLOSURE_READS.set(cache)
+ try:
+  yield
+  if any(_closure_stamp(p)!=s for p,s in cache['files'].items()):
+   raise ValueError('include inputs changed during generation')
+ finally:_CLOSURE_READS.reset(token)
+
+def _closure_observe(path):
+ observe(path)
+ cache=_CLOSURE_READS.get()
+ if cache is not None:
+  name=os.fspath(path)
+  if name not in cache['files']:cache['files'][name]=_closure_stamp(name)
+
+def _closure_edges(root,n):
+ cache=_CLOSURE_READS.get();key=(os.fspath(root),n)
+ if cache is not None and key in cache['edges']:return cache['edges'][key]
+ lp=local(root,n)
+ _closure_observe(lp)
+ if n.startswith('asm/'):_closure_observe(root/'build_slus'/n)
+ p=asm_paths.resolve(root,n) if n.startswith('asm/') else lp
+ _closure_observe(p)
+ t=read_text(p);pending=set();terminal=set()
+ for line in t.splitlines():
+  if not _INCLUDE_LINE.match(line):continue
+  hit=_QUOTED_INCLUDE.match(line)
+  if not hit:
+   gcc=root/'toolchain/compilers/gcc-2.7.2-cdk'
+   viaslus=p!=lp
+   pdep=subprocess.run([str(gcc/'gcc'),'-B'+str(gcc)+'/', '-M','-G0','-I'+str(root/'include'),str(p)],capture_output=True,text=True,check=True)
+   for dep in pdep.stdout.replace('\\\n',' ').split(':',1)[1].split():
+    dest=Path(dep).absolute()
+    if not dest.is_relative_to(root):raise ValueError('system dependency outside fingerprint root: '+dep)
+    _closure_observe(dest)
+    terminal.add((asm_paths.logical(root,dest) or str(dest.relative_to(root))) if viaslus else str(dest.relative_to(root)))
+   continue
+  opts=[lp.parent/hit[1],root/'include'/hit[1],root/hit[1]]
+  dest=None
+  for o in opts:
+   o=Path(os.path.abspath(o));_closure_observe(o)
+   try:relative=o.relative_to(root).as_posix()
+   except ValueError:relative=''
+   if relative.startswith('asm/'):_closure_observe(root/'build_slus'/relative)
+   if asm_paths.is_file(root,o):
+    dest=o;break
+  if dest is None or not dest.is_relative_to(root):raise ValueError('include escapes build root: '+line)
+  pending.add(str(dest.relative_to(root)))
+ answer=pending,terminal
+ if cache is not None:cache['edges'][key]=answer
+ return answer
+
 def closure(root,starts):
- pending=list(starts);found=set();resolved={}
- while pending:
-  n=pending.pop()
-  if n in found:continue
-  lp=local(root,n);p=asm_paths.resolve(root,n) if n.startswith('asm/') else lp;t=read_text(p);found.add(n)
-  for line in t.splitlines():
-   if not re.match(r'\s*(?:#\s*include|\.include)\b',line):continue
-   hit=re.match(r'\s*(?:#\s*include|\.include)\s+"([^"]+)"',line)
-   if not hit:
-    # Ask the actual preprocessor about conditional/system includes; inactive
-    # NON_MATCHING headers are not build dependencies.
-    gcc=root/'toolchain/compilers/gcc-2.7.2-cdk'
-    viaslus=p!=lp
-    pdep=subprocess.run([str(gcc/'gcc'),'-B'+str(gcc)+'/', '-M','-G0','-I'+str(root/'include'),str(p)],capture_output=True,text=True,check=True)
-    for dep in pdep.stdout.replace('\\\n',' ').split(':',1)[1].split():
-     dest=Path(dep).absolute()
-     if not dest.is_relative_to(root):raise ValueError('system dependency outside fingerprint root: '+dep)
-     found.add((asm_paths.logical(root,dest) or str(dest.relative_to(root))) if viaslus else str(dest.relative_to(root)))
-    continue
-   key=(p.parent,hit[1])
-   target=resolved.get(key)
-   if target is None:
-    opts=[lp.parent/hit[1],root/'include'/hit[1],root/hit[1]]
-    dest=next((Path(os.path.abspath(o)) for o in opts if asm_paths.is_file(root,o)),None)
-    if dest is None or not dest.is_relative_to(root):raise ValueError('include escapes build root: '+line)
-    target=str(dest.relative_to(root));resolved[key]=target
-   pending.append(target)
+ root=Path(root);cache=_CLOSURE_READS.get()
+ if cache is None:
+  pending=list(starts);found=set()
+  while pending:
+   n=pending.pop()
+   if n in found:continue
+   deps,terminal=_closure_edges(root,n)
+   found.add(n);found.update(terminal);pending.extend(deps)
+  return found
+ def expand(n,active):
+  key=(os.fspath(root),n)
+  if key in cache['closures']:return cache['closures'][key],False
+  if n in active:return {n},True
+  deps,terminal=_closure_edges(root,n);found={n}|terminal;cyclic=False
+  for dep in deps:
+   values,cycle=expand(dep,active|{n});found.update(values);cyclic|=cycle
+  if not cyclic:cache['closures'][key]=frozenset(found)
+  return found,cyclic
+ found=set()
+ for n in starts:found.update(expand(n,set())[0])
+ # Preserve enclosing fingerprint observers on cache hits as well as real reads.
+ if observers():merge_observed(cache['files'])
  return found
+
 
 def gate_tool(root,name):
  p=root/'tools/gate'/name
@@ -581,7 +651,10 @@ def verify_window_modules(receipts,root=ROOT):
 def main():
  ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--root',type=Path,default=ROOT);ap.add_argument('--graph',action='store_true');ap.add_argument('--module');ap.add_argument('--out',type=Path);args=ap.parse_args()
  if args.graph:
-  p=args.root/'ledger/splits/overlay_modules.build.json';p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(graph(args.root),indent=2)+'\n');print('graph',p)
+  p=args.root/'ledger/splits/overlay_modules.build.json';p.parent.mkdir(parents=True,exist_ok=True)
+  text=json.dumps(graph(args.root),indent=2)+'\n'
+  if not p.exists() or p.read_text()!=text:p.write_text(text)
+  print('graph',p)
  else:
   m=next(m for m in load_modules(args.root) if m['key']==args.module);r,b=build(m,args.out,args.root);print(json.dumps({'module':m['key'],'gate':r['gate'],'genuine':r['genuine']},indent=2))
 if __name__=='__main__':main()

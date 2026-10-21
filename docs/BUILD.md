@@ -74,11 +74,23 @@ never labels the run genuine. Changing the SDK requires `make configure`.
 `make configure` also refreshes the live source/layout attestation; a changed
 compiler cell or placement extent fails instead of being silently blessed.
 
-Incremental rebuilds: a source edit rebuilds its recipe and consuming images; a
-header edit conservatively rebuilds all C; an edit under `config/overlays` or
-`config/link` regenerates the projection and relinks every image. Adding or
-removing files needs `make configure`. The SLUS side follows Ninja's declared
-edges (mtime-based, as before). For a landing, use a cold build (below).
+Incremental rebuilds: a source edit rebuilds its recipe and consuming images;
+a header edit rebuilds recipes whose include closures consume it, including
+SLUS assembly includes. The complete header and pipeline digests are still
+checked independently. Compiler tools invalidate objects; linker tools
+invalidate images. Changes to landing/accounting tools or ordinary documentation
+do not invalidate either. A content-identical regenerated ledger or stamp keeps
+its mtime. An edit under `config/overlays` or `config/link` regenerates the
+projection and relinks images when the link-input content digest changes.
+Adding or removing files needs `make configure`.
+
+`make configure` verifies content snapshots of the input trees and generated
+files before reusing the build views and make projection. A changed input or a
+missing/edited generated file runs the corresponding generator again. These
+snapshots are private build caches, never gate receipts. Include scans are
+shared only during one generation, with all file and resolution probes checked
+again before it completes; inline-member provenance is indexed by file identity
+and every projected source span is still checked against the current TU bytes.
 
 Regression tests for these properties: `tools/tests/test_make_negative.py`
 (synthetic parts always run; `AZURE_MAKE_NEGATIVE=1` mutates a built checkout:
@@ -106,7 +118,7 @@ python3 tools/status.py --legacy-certificates
 ## Landing
 
 ```sh
-tools/land_make.sh --jobs 12 --message 'Describe change' patch.diff
+tools/land_make.sh --incremental --jobs 8 --message 'Describe change' patch.diff
 ```
 
 The lander requires a clean worktree/index, checks and applies the patch series,
@@ -120,14 +132,25 @@ applied tree is kept for diagnosis; logs and timings in `build/landing/`):
    exception, never for asm; report in `build/landing/debt.json`);
 3. source layout check, registry, physical graph and source index regeneration;
 4. `make configure`, a **cold** clean of every object, link product and image
-   (`--incremental` skips it for rehearsals), `make -jN`, `make check`;
+   unless `--incremental` is given, `make -jN`, `make check`;
 5. genuine ASPSX required (`--allow-maspsx-only` to accept a maspsx-only run);
-6. levels and status regeneration, the make/lander unit tests
+6. content-bound levels and status regeneration (skipped only when their inputs
+   and outputs are unchanged and the current make proof verifies), the make/lander unit tests
    (`--test-module` adds more), a final scrub and a freshness re-check of the
    image proof;
 7. exactly one commit (`--no-commit` performs every proof without it).
 
-Measured on the shared 24-core host at -j12: configure 4-9 min, cold build
+The default remains cold: omit `--incremental` for the first landing in a
+checkout or when deliberately requesting a complete rebuild. Once `build/` is
+current, `--incremental` is the normal landing mode; every landing still runs
+`make check`, unit tests and the final proof freshness check. After successful
+configuration, the lander acknowledges the generated Makefile's timestamp so
+an orchestration-tool mtime does not repeat the verified generator during the
+following build and check. Input digest stamps advance with content changes. Accounting reuse
+also verifies its output bytes, so a manually edited levels ledger or status
+page is regenerated.
+
+Historical measurements before content-bound configure reuse, at -j12: configure 4-9 min, cold build
 20-24 min, `make check` 20-25 s, no-op make under 1 s, one-file C edit about 8 s
 plus the check; a cold comment-only landing took 33 min.
 
