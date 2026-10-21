@@ -479,8 +479,13 @@ def fingerprint(m, root, G, windows=True):
 def _fingerprint(m, root, G, windows):
     if m.get('container') not in {'main','town','dungeon','ovmovie'}:
         raise ValueError('scoped fingerprint does not model this container evidence')
+    # tu7 MAIN owner model: a MAIN module may import retail views of its own proven load region
+    # (owner retail_asset:main:<region>, bound below by retail bytes) and SLUS runtime objects;
+    # owned payload and allocation models stay text-only.
     if m.get('container') == 'main' and (m.get('owned_data') or m.get('data_members') or m.get('allocations')
-            or any(d.get('kind') != 'function' for d in m.get('imports', []))):
+            or any(d.get('kind') not in ('function', 'data', 'runtime_data') or 'asset' in d
+                   or (d.get('kind') == 'data' and d.get('owner') != 'retail_asset:main:' + m['region'])
+                   for d in m.get('imports', []))):
         raise ValueError('MAIN scoped modules currently require text-only payload and function-only imports')
     reg,assign,splits,regions,owners,mods,physical,wins=validate(root,G)
     current=next((v for v in mods if v['key']==m['key']),None)

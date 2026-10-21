@@ -1,0 +1,138 @@
+{
+  "module": "dungeon_actor_entity_spawn_load",
+  "runtime_views": {
+    "D_80023000": {
+      "symbol": "D_80023000",
+      "kind": "runtime_data",
+      "vma": 2147627008,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/dungeon/actor/entity_spawn_load.h"
+    },
+    "D_80080A90": {
+      "symbol": "D_80080A90",
+      "kind": "runtime_data",
+      "vma": 2148010640,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/dungeon/actor/entity_spawn_load.h"
+    },
+    "D_80081468": {
+      "symbol": "D_80081468",
+      "kind": "runtime_data",
+      "vma": 2148013160,
+      "view_bytes": 6,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/dungeon/actor/entity_spawn_load.h"
+    },
+    "D_80081488": {
+      "symbol": "D_80081488",
+      "kind": "runtime_data",
+      "vma": 2148013192,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/dungeon/actor/entity_spawn_load.h"
+    },
+    "D_8008149C": {
+      "symbol": "D_8008149C",
+      "kind": "runtime_data",
+      "vma": 2148013212,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/dungeon/actor/entity_spawn_load.h"
+    },
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/dungeon/actor/entity_spawn_load.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/dungeon/actor/entity_spawn_load.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/dungeon/actor/entity_spawn_load.h"
+    },
+    "D_8014A000": {
+      "symbol": "D_8014A000",
+      "kind": "runtime_data",
+      "vma": 2148835328,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_entity_spawn_load.imports.json",
+      "declaration": "include/shared/dungeon_image_buffer.h"
+    }
+  },
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim."
+  ],
+  "view_bytes_method": {
+    "D_80023000": "address_only_runtime_anchor",
+    "D_80080A90": "sizeof",
+    "D_80081468": "sizeof",
+    "D_80081488": "sizeof",
+    "D_8008149C": "word_default",
+    "D_800814A0": "word_default",
+    "D_800814A8": "sizeof",
+    "D_80083160": "word_default",
+    "D_80083460": "word_default",
+    "D_800DCF5C": "sizeof",
+    "D_800E0000": "retail_string",
+    "D_800E2970": "word_default",
+    "D_800E3DF0": "word_default",
+    "D_800E3E40": "word_default",
+    "D_8014A000": "address_only_runtime_anchor"
+  },
+  "address_only_anchors": {
+    "D_80023000": {
+      "declaration": "include/dungeon/actor/entity_spawn_load.h",
+      "basis": [
+        "Address-only CD image scratch buffer. queue_cd_resource passes this exact base to queue_entity_resource_descriptor_pair; advance_staged_entity_load assigns it to D_80080A90, the image destination consumed by queue_sprite_resource_slot_reads and register_and_upload_sprite_resource. No contents, extent, allocation, or initialization claim."
+      ],
+      "review_inputs": [
+        "src/engine/resource/cd_resource_queue.c",
+        "src/engine/texture/queue_sprite_resource_slot_reads.c",
+        "src/engine/texture/register_and_upload_sprite_resource.c"
+      ]
+    },
+    "D_8014A000": {
+      "declaration": "include/shared/dungeon_image_buffer.h",
+      "basis": [
+        "Existing reviewed address-only image scratch anchor, documented by the resident uploader argument proof in docs/evidence/dungeon_runtime_image_buffer.json. advance_staged_entity_load assigns this base to D_80080A90. No contents, extent, allocation, or initialization claim."
+      ],
+      "review_inputs": [
+        "docs/evidence/dungeon_runtime_image_buffer.json",
+        "include/shared/dungeon_image_buffer.h"
+      ]
+    }
+  }
+}

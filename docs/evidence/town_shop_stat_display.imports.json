@@ -1,0 +1,35 @@
+{
+  "module": "town_shop_stat_display",
+  "runtime_views": {
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_stat_display.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    }
+  },
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim."
+  ],
+  "view_bytes_method": {
+    "D_800814A8": "sizeof",
+    "D_800892D8": "sizeof",
+    "D_800892DC": "sizeof",
+    "D_800892E8": "retail_string",
+    "D_800892EC": "retail_string",
+    "D_800892F0": "sizeof",
+    "D_800892F4": "sizeof",
+    "D_800892F8": "sizeof",
+    "D_800892FC": "sizeof",
+    "D_80089304": "retail_string",
+    "D_80089308": "sizeof",
+    "D_80089310": "retail_string",
+    "D_80089318": "retail_string",
+    "D_8008931C": "retail_string",
+    "D_80089324": "retail_string"
+  },
+  "address_only_anchors": {}
+}

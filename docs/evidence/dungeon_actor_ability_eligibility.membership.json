@@ -1,0 +1,44 @@
+{
+  "module": "dungeon_actor_ability_eligibility",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "ability_eligibility.c",
+    "module_index": 134034
+  },
+  "members": [
+    "dungeon/func_8009DD5C",
+    "dungeon/func_8009DDB8",
+    "dungeon/func_8009DDE4",
+    "dungeon/func_8009DE44",
+    "dungeon/func_8009DE78",
+    "dungeon/func_8009DEFC",
+    "dungeon/func_8009DF54",
+    "dungeon/func_8009E0C0",
+    "dungeon/func_8009E0EC",
+    "dungeon/func_8009E5B8",
+    "dungeon/func_8009E7C8",
+    "dungeon/func_8009E8EC",
+    "dungeon/func_8009E94C",
+    "dungeon/func_8009EA90",
+    "dungeon/func_8009EB38",
+    "dungeon/func_8009EBA0",
+    "dungeon/func_8009ECCC",
+    "dungeon/func_8009ED14",
+    "dungeon/func_8009ED80",
+    "dungeon/func_8009EE78",
+    "dungeon/func_8009EF28",
+    "dungeon/func_8009F018",
+    "dungeon/func_8009F190",
+    "dungeon/func_8009F33C",
+    "dungeon/func_8009F36C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Literal-pool ownership (dungeon/engine, g0246): string literals 0x80089000 are each referenced by two or more functions of 0xBC5EC..0xC0DA8; gcc 2.7.2 shares an anonymous literal only inside one translation unit, so every function between the first and last user is one TU.",
+    "Decision 72: proven (string literals); partial TU span, feature name; literal pools remain imports.",
+    "Members are the contiguous registered home rows 0xBDD5C..0xBF428 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

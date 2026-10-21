@@ -1,0 +1,21 @@
+{
+  "module": "dungeon_actor_entity_spawn_load",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "entity_spawn_load.c",
+    "module_index": 134033
+  },
+  "members": [
+    "dungeon/func_8009F6CC",
+    "dungeon/func_8009F8EC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Literal-pool ownership (dungeon/engine, g0246): string literals 0x80089000 are each referenced by two or more functions of 0xBC5EC..0xC0DA8; gcc 2.7.2 shares an anonymous literal only inside one translation unit, so every function between the first and last user is one TU.",
+    "Decision 72: proven (string literals); partial TU span, feature name; literal pools remain imports.",
+    "Members are the contiguous registered home rows 0xBF6CC..0xBFF30 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

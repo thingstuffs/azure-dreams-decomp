@@ -52,6 +52,7 @@ def module_recipe(m):
   '2.7.2-cdk-G0':('2.7.2-cdk',('-O2','-G0')),
   '2.7.2-G0':('2.7.2',('-O2','-G0')),
   '2.7.2-cdk-G0 -O1':('2.7.2-cdk',('-O2','-G0','-O1')),
+  '2.6.3-G0':('2.6.3',('-O2','-G0')),  # tu7: MAIN devkit card files (decision 72(c) one-recipe files)
  }
  r=m.get('recipe')
  if (not isinstance(r,dict) or set(r)!={'cfg','row_asflags'} or r['row_asflags']!=''

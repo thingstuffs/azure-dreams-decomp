@@ -1,0 +1,50 @@
+{
+  "module": "town_shop_stat_panel",
+  "runtime_views": {
+    "D_80077FBC": {
+      "symbol": "D_80077FBC",
+      "kind": "runtime_data",
+      "vma": 2147975100,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_stat_panel.imports.json",
+      "declaration": "include/town/shop/stat_panel.h"
+    },
+    "D_80082E60": {
+      "symbol": "D_80082E60",
+      "kind": "runtime_data",
+      "vma": 2148019808,
+      "view_bytes": 28,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_stat_panel.imports.json",
+      "declaration": "include/shared/runtime_dispatch.h"
+    },
+    "D_80083D78": {
+      "symbol": "D_80083D78",
+      "kind": "runtime_data",
+      "vma": 2148023672,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_shop_stat_panel.imports.json",
+      "declaration": "include/town/shop/stat_panel.h"
+    }
+  },
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim."
+  ],
+  "view_bytes_method": {
+    "D_80077FBC": "word_default",
+    "D_80082E60": "sizeof",
+    "D_80083D78": "word_default",
+    "D_800892C0": "sizeof",
+    "D_80089308": "sizeof",
+    "D_80089310": "sizeof",
+    "D_80089318": "sizeof",
+    "D_8008931C": "sizeof",
+    "D_80089324": "sizeof",
+    "D_8008933C": "retail_string",
+    "D_80089340": "sizeof",
+    "D_800D1790": "sizeof"
+  },
+  "address_only_anchors": {}
+}

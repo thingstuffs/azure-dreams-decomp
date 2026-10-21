@@ -496,3 +496,31 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     (empty comment stubs, unused M2C_FIELD, duplicate prototypes, M2C_UNK) is cleaned with object identity. The two data
     includes (ovl_19c088c_data.c, ovmovie_libpress_storage.c) are inlined in place: their position sets the table
     addresses. libpress stays one SDK file under movie/playback.
+
+72. **(r121, OWNER 2026-10-20) Original source files from the bytes.** Rows are merged into the source files they came
+    from, every merge proven by complete-TU object identity and the build.
+    (a) Decisive evidence: functions that load the same anonymous string literal are one file, with everything between
+    them in text order (gcc 2.7 shares identical literals only within a TU); identical literal text at two addresses is
+    two files; nonzero .rdata alignment fill marks the end of a file's .rdata (inside a file the fill is zero). Caveat
+    checked per span: a named const char[] global shared across files. Link order is alphabetical by file name in every
+    image with two or more named anchors and is used to order and name files.
+    (b) Beyond proven spans, files may be grouped from inferred evidence (contiguous text, one compiler recipe, call
+    locality, private data, alphabetical order consistent with the anchors). Every merged file's header comment states
+    its evidence level: "proven (string literals)" or "inferred (adjacency/recipe/locality)", with the evidence ids.
+    (c) A proven file with mixed registered per-row compiler cells gets ONE recipe: the one under which the merged file
+    compiles byte-identical; the per-row attributions it replaces were artefacts (a file has one compiler).
+    (d) Conflicting declarations inside a merged file are fixed to one true prototype (a real file could not hold both);
+    block-scope externs are only a tracked interim.
+    (e) A goto that a merge moves (not adds) is acceptable; the goto lanes keep the row.
+    (f) A complete file owns its .rdata pool as real C literals instead of retail imports, file by file, proven by the build.
+    (g) In-image placement copies become their own home rows (per-file static copies) ONLY where the literal evidence
+    proves the copy belongs to that file; otherwise LL4 placements stand.
+    Tools: tools/tu/{tu_evidence,boundary_map,tu_merge}.py (lanes opus_tu5/opus_tu6).
+    (h) (delegated 2026-10-20, opus_tu7) Inferred grouping as built: tools/tu/infer_groups.py cuts on any non-bank image
+    that places a neighbour next to a different function, joins on call locality / private data / private rodata /
+    always-together short blocks; dungeon banks are treated as template files (bank order is only a weak cut);
+    compiler cells are only a weak cut. Inferred-strong groups merge now (Psy-Q library holdout precision 0.94, 0 false
+    joins against proven cuts); inferred-weak groups (0.87) wait for a sampled review after the strong batches land.
+    A proven literal span that straddles existing modules folds them into one file. Data ownership: a module may own
+    and import data from its own image's proven .rdata/.data region (load region widened over it); 2.6.3-G0 is a
+    module recipe (c_server.c proves it under genuine ASPSX).

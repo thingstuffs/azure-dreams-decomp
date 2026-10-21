@@ -1,0 +1,96 @@
+{
+  "module": "dungeon_actor_ability_eligibility",
+  "runtime_views": {
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "runtime_data",
+      "vma": 2147929304,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_ability_eligibility.imports.json",
+      "declaration": "include/dungeon/actor/ability_eligibility.h"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "runtime_data",
+      "vma": 2147929320,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_ability_eligibility.imports.json",
+      "declaration": "include/dungeon/actor/ability_eligibility.h"
+    },
+    "D_8006DE24": {
+      "symbol": "D_8006DE24",
+      "kind": "runtime_data",
+      "vma": 2147933732,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_ability_eligibility.imports.json",
+      "declaration": "include/shared/def_table.h"
+    },
+    "D_8007359C": {
+      "symbol": "D_8007359C",
+      "kind": "runtime_data",
+      "vma": 2147956124,
+      "view_bytes": 16,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_ability_eligibility.imports.json",
+      "declaration": "include/dungeon/actor/ability_eligibility.h"
+    },
+    "D_80081470": {
+      "symbol": "D_80081470",
+      "kind": "runtime_data",
+      "vma": 2148013168,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_ability_eligibility.imports.json",
+      "declaration": "include/dungeon/actor/ability_eligibility.h"
+    },
+    "D_800814A8": {
+      "symbol": "D_800814A8",
+      "kind": "runtime_data",
+      "vma": 2148013224,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_ability_eligibility.imports.json",
+      "declaration": "include/shared/record_ptrs.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 64,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_ability_eligibility.imports.json",
+      "declaration": "include/shared/tile_object.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_actor_ability_eligibility.imports.json",
+      "declaration": "include/dungeon/actor/ability_eligibility.h"
+    }
+  },
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim."
+  ],
+  "view_bytes_method": {
+    "D_8006CCD8": "word_default",
+    "D_8006CCE8": "word_default",
+    "D_8006DE24": "word_default",
+    "D_8007359C": "sizeof",
+    "D_80081470": "word_default",
+    "D_800814A8": "sizeof",
+    "D_80082E80": "sizeof",
+    "D_80083460": "word_default",
+    "D_800E3548": "sizeof",
+    "D_800E3648": "word_default",
+    "D_800E3CD8": "sizeof",
+    "D_800E3D7C": "sizeof",
+    "D_800E3DF0": "word_default"
+  },
+  "address_only_anchors": {}
+}

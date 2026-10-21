@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-20T21:58:28Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-20T23:55:58Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -14,9 +14,9 @@ Generated 2026-10-20T21:58:28Z. Baseline: first-pass text frozen 2026-09-07.
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
 | **Readability** | L3 90.6%, L4 0.0%, L5 0.0% of bytes (levels below) |
-| **Module certificates** | 0 of 300 current, 229 stale, 71 not certified yet |
+| **Module certificates** | 0 of 304 current, 222 stale, 75 not certified yet, 7 not checked here |
 
-**Current proof state.** 300 of 300 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
+**Current proof state.** 304 of 304 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
 
 
 ## Not yet C
@@ -73,7 +73,7 @@ Baseline NOT exact: 0 rows
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3614 rows, 2,304,112 bytes (28.7%); records used: 98.
+On shared record headers (T7, `include/records/`): 3638 rows, 2,309,648 bytes (28.8%); records used: 98.
 
 L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 21,432 rows (8,028,304 B).
 
@@ -216,25 +216,22 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 ## Overlay modules
 
-244 modules (1,829 rows). Each is one translation unit placed in a container overlay; its certificate is the whole-TU and window proof:
+248 modules (1,869 rows). Each is one translation unit placed in a container overlay; its certificate is the whole-TU and window proof:
 
 | state | modules | rows | meaning |
 |---|---:|---:|---|
 | current | 0 | 0 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
-| stale: inputs changed | 227 | 1,552 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
-| not certified yet | 17 | 277 | no certificate has been issued for this module |
+| stale: inputs changed | 220 | 1,522 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
+| not certified yet | 21 | 317 | no certificate has been issued for this module |
+| not checked here | 7 | 30 | an input the check reads (compiler, disc image) is not present in this checkout, so the certificate could not be validated |
 
-<details><summary>stale: inputs changed - 227 modules, 1,552 rows</summary>
+<details><summary>stale: inputs changed - 220 modules, 1,522 rows</summary>
 
 | module | rows |
 |---|---:|
 | dungeon_cd_control_d79c4 | 3 |
 | town_minigame_dispatch_44b44 | 13 |
-| dungeon_ovl_1852800 | 4 |
 | dungeon_ovl_1870800 | 2 |
-| dungeon_ovl_1858800 | 3 |
-| dungeon_ovl_1840800 | 3 |
-| dungeon_ovl_185e800 | 3 |
 | dungeon_ovl_18ac800 | 2 |
 | dungeon_ovl_18fa800 | 3 |
 | dungeon_ovl_19ba800 | 3 |
@@ -251,7 +248,6 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_197281c | 5 |
 | dungeon_ovl_1990800 | 13 |
 | dungeon_ovl_1960800 | 11 |
-| dungeon_ovl_183a800 | 10 |
 | dungeon_ovl_18a0800 | 15 |
 | dungeon_ovl_19c6800 | 5 |
 | dungeon_ovl_19cc800 | 22 |
@@ -262,8 +258,6 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_fa7000 | 28 |
 | dungeon_ovl_1924800 | 11 |
 | dungeon_ovl_19b4800 | 5 |
-| dungeon_ovl_184c800 | 3 |
-| dungeon_ovl_1864800 | 4 |
 | dungeon_ovl_7e6a5800 | 23 |
 | dungeon_ovl_18d6800 | 12 |
 | dungeon_ovl_18ee800 | 8 |
@@ -458,7 +452,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 </details>
 
-<details><summary>not certified yet - 17 modules, 277 rows</summary>
+<details><summary>not certified yet - 21 modules, 317 rows</summary>
 
 | module | rows |
 |---|---:|
@@ -479,6 +473,24 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | dungeon_ovl_18b8824 | 9 |
 | dungeon_floor_spawns | 12 |
 | dungeon_floor_generate | 50 |
+| town_shop_stat_display | 7 |
+| town_shop_stat_panel | 6 |
+| dungeon_actor_entity_spawn_load | 2 |
+| dungeon_actor_ability_eligibility | 25 |
+
+</details>
+
+<details><summary>not checked here - 7 modules, 30 rows</summary>
+
+| module | rows |
+|---|---:|
+| dungeon_ovl_1852800 | 4 |
+| dungeon_ovl_1858800 | 3 |
+| dungeon_ovl_1840800 | 3 |
+| dungeon_ovl_185e800 | 3 |
+| dungeon_ovl_183a800 | 10 |
+| dungeon_ovl_184c800 | 3 |
+| dungeon_ovl_1864800 | 4 |
 
 </details>
 
