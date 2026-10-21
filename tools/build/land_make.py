@@ -1,0 +1,216 @@
+"""Land reviewed text patches using complete make image proof.
+
+A failure preserves the applied tree for inspection and never commits it.
+Use --no-commit for a complete proof rehearsal. This is an opt-in successor;
+it does not modify the old lander or run arbitrary package scripts.
+"""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import resource
+import subprocess
+import sys
+import time
+
+ROOT = Path(__file__).resolve().parents[2]
+# Generic privacy patterns; personal strings (names, emails, private checkout names) are listed one per line in an
+# untracked .scrub_patterns file (or $AZURE_SCRUB_PATTERNS) so the published tree never carries them.
+PATTERNS = ('/'+'home/', 'claude.ai'+'/code')
+
+
+def scrub_patterns(root):
+    local = Path(os.environ.get('AZURE_SCRUB_PATTERNS') or root/'.scrub_patterns')
+    extra = [l.strip() for l in local.read_text().splitlines()] if local.is_file() else []
+    return PATTERNS + tuple(l for l in extra if l and not l.startswith('#'))
+
+
+def command(argv, root):
+    return subprocess.check_output(argv, cwd=root)
+
+
+def scrub(root):
+    changed = command(['git','diff','--name-only','-z','HEAD'], root).split(b'\0')
+    changed += command(['git','ls-files','--others','--exclude-standard','-z'], root).split(b'\0')
+    patterns = scrub_patterns(root)
+    for name in sorted(set(changed)-{b''}):
+        rel = os.fsdecode(name)
+        p = root/rel
+        if p.is_symlink():
+            raise ValueError('landing refuses changed symlink: '+rel)
+        if p.is_file():
+            data = p.read_bytes()
+            if any(pattern.encode() in data for pattern in patterns):
+                raise ValueError('privacy scrub failed: '+rel)
+            if b'\0' in data:
+                raise ValueError('landing refuses binary file: '+rel)
+
+
+# "No new debt" (owner 2026-10-16): changed C/headers may not add these beyond what HEAD had.
+# Counted in code only (comments and string literals removed). asm is never waivable.
+DEBT = {
+    'asm': r'\b__asm__\b|\basm\s*(?:volatile\s*)?\(|\bINCLUDE_ASM\b|\bINCLUDE_RODATA\b',
+    'volatile': r'\bvolatile\b',
+    'NON_MATCHING': r'\bNON_MATCHING\b',
+    'pragma': r'^\s*#\s*pragma\b',
+    'goto': r'\bgoto\b',
+    'm2c': r'\bM2C_\w+',
+}
+REPORT_ONLY = {'S_addr': r'\bS_[0-9A-Fa-f]{8}\w*'}
+_COMMENT_OR_STRING = re.compile(r'/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\\n])*"|\'(?:\\.|[^\'\\\n])*\'', re.S)
+
+
+def debt_counts(text):
+    code = _COMMENT_OR_STRING.sub(lambda m: ' ' if m[0].startswith(('/', '"', "'")) else m[0], text)
+    return {k: len(re.findall(v, code, re.M)) for k, v in {**DEBT, **REPORT_ONLY}.items()}
+
+
+def debt_scan(root, allowed=()):
+    """Compare debt in every changed src/ and include/ C file with its HEAD version."""
+    changed = command(['git','diff','--name-only','-z','HEAD','--','src','include'], root).split(b'\0')
+    changed += command(['git','ls-files','--others','--exclude-standard','-z','--','src','include'], root).split(b'\0')
+    before, after, files = {}, {}, {}
+    for name in sorted({os.fsdecode(n) for n in changed if n}):
+        if not name.endswith(('.c', '.h')):
+            continue
+        try:
+            old = subprocess.run(['git','show','HEAD:'+name], cwd=root, capture_output=True, check=True).stdout.decode('utf-8','replace')
+        except subprocess.CalledProcessError:
+            old = ''
+        new = (root/name).read_text(errors='replace') if (root/name).is_file() else ''
+        b, a = debt_counts(old), debt_counts(new)
+        for k in b:
+            before[k] = before.get(k, 0)+b[k]; after[k] = after.get(k, 0)+a[k]
+        if a != b:
+            files[name] = dict(before=b, after=a)
+    report = dict(before=before, after=after, files=files, allowed=sorted(allowed))
+    (root/'build/landing').mkdir(parents=True, exist_ok=True)
+    (root/'build/landing/debt.json').write_text(json.dumps(report, indent=2, sort_keys=True)+'\n')
+    grown = [k for k in DEBT if after.get(k, 0) > before.get(k, 0) and (k == 'asm' or k not in allowed)]
+    if grown:
+        raise ValueError('new debt in changed C: ' + ', '.join(f'{k} {before.get(k,0)}->{after[k]}' for k in grown)
+                         + ' (build/landing/debt.json)')
+    return report
+
+
+def clean(root):
+    """Cold proof: drop every object, link product and image so nothing stale can match."""
+    import shutil
+    for d in ('build/obj', 'build/.state/link', 'build/.state/native', 'build/.state/origins'):
+        shutil.rmtree(root/d, ignore_errors=True)
+    for f in (root/'build').glob('*.bin'):
+        f.unlink()
+    slus = root/'build_slus/build'
+    if slus.is_dir():
+        for f in slus.rglob('*.o'):
+            f.unlink()
+        for name in ('slus_006.14', 'slus_006.14.elf', 'slus_006.14.ok'):
+            (slus/name).unlink(missing_ok=True)
+
+
+def main(argv=None, root=ROOT):
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--jobs', type=int, default=8)
+    p.add_argument('--message', required=True)
+    p.add_argument('--no-commit', action='store_true')
+    p.add_argument('--require-genuine', action='store_true', help='retained for compatibility; genuine ASPSX is now required by default')
+    p.add_argument('--allow-maspsx-only', action='store_true', help='accept a landing without the native genuine ASPSX comparison')
+    p.add_argument('--incremental', action='store_true', help='reuse existing objects/images (default: cold rebuild of every object and image)')
+    p.add_argument('--allow-debt', action='append', default=[], choices=sorted(set(DEBT)-{'asm'}),
+                   help='accept growth of one debt category (recorded in debt.json); asm is never accepted')
+    p.add_argument('--test-module', action='append', default=[],
+                   help='extra unittest module run after accounting (default: the make/lander tests)')
+    p.add_argument('patches', nargs='+', type=Path)
+    args = p.parse_args(argv)
+    if args.jobs < 1:
+        p.error('--jobs must be positive')
+    if command(['git','status','--porcelain','--untracked-files=normal'],root).strip():
+        raise ValueError('landing requires a clean worktree/index')
+    patches = [q.resolve() for q in args.patches]
+    for q in patches:
+        if not q.is_file():
+            raise ValueError('missing patch')
+    steps = []
+    log_dir = root/'build/landing'
+    log_dir.mkdir(parents=True, exist_ok=True)
+    def step(name, argv=None, action=None):
+        start = time.monotonic(); cpu = resource.getrusage(resource.RUSAGE_CHILDREN); load = os.getloadavg()
+        code = 0
+        try:
+            if action:
+                action()
+            else:
+                with (log_dir/(name+'.log')).open('wb') as log:
+                    code = subprocess.run(argv, cwd=root, stdout=log, stderr=subprocess.STDOUT).returncode
+                if code:
+                    raise ValueError('step failed: '+name+' (see build/landing/'+name+'.log)')
+        except Exception:
+            code = code or 1
+            raise
+        finally:
+            after = resource.getrusage(resource.RUSAGE_CHILDREN)
+            steps.append(dict(step=name, wall_seconds=time.monotonic()-start,
+                              cpu_seconds=after.ru_utime+after.ru_stime-cpu.ru_utime-cpu.ru_stime,
+                              returncode=code, load_start=list(load), load_end=list(os.getloadavg())))
+            (log_dir/'timings.json').write_text(json.dumps(dict(steps=steps, complete=False),indent=2)+'\n')
+    # A later patch may depend on an earlier one. Failures preserve the applied prefix.
+    for i, patch in enumerate(patches):
+        suffix = '' if len(patches)==1 else '_'+str(i+1)
+        step('apply-check'+suffix, ['git','apply','--check',str(patch)])
+        step('apply'+suffix, ['git','apply',str(patch)])
+    step('scrub', action=lambda:scrub(root))
+    step('debt', action=lambda:debt_scan(root, args.allow_debt))
+    step('layout', ['python3','tools/source_layout.py','--root',str(root),'check'])
+    step('registry', ['python3','tools/registry.py'])
+    step('native-graph', ['python3','tools/gate/overlay_module_gate.py','--root',str(root),'--graph'])
+    step('source-index', ['python3','tools/gen_src_index.py'])
+    step('configure', ['make','configure'])
+    if not args.incremental:
+        step('clean', action=lambda:clean(root))
+    step('build', ['make','-j'+str(args.jobs)])
+    step('check', ['make','check'])
+    if not args.allow_maspsx_only:
+        def require():
+            proof = json.loads((root/'build/check.json').read_text())
+            if proof['assembler']['mode'] != 'genuine_aspsx_verified':
+                raise ValueError('genuine ASPSX required; provision tools/setup.sh --psyq DIR')
+        step('genuine', action=require)
+    step('levels', ['python3','tools/levels.py'])
+    step('status', ['python3','tools/status.py'])
+    tests = ['tools.tests.test_mkbuild', 'tools.tests.test_land_make', 'tools.tests.test_make_negative'] + args.test_module
+    env = dict(os.environ, PYTHONPATH=os.pathsep.join(str(root/d) for d in ('tools', 'tools/tests', '.')))
+    def unit():
+        with (log_dir/'unit.log').open('wb') as log:
+            if subprocess.run([sys.executable,'-m','unittest',*tests], cwd=root, env=env, stdout=log, stderr=subprocess.STDOUT).returncode:
+                raise ValueError('unit tests failed (see build/landing/unit.log)')
+    step('unit', action=unit)
+    step('final-scrub', action=lambda:scrub(root))
+    # Accounting must not invalidate the checked source or image bytes.
+    def freshness():
+        import sys
+        sys.path.insert(0,str(root/'tools'))
+        from build.make_evidence import checked_receipt
+        checked_receipt(root)
+    step('final-proof', action=freshness)
+    dirty = [os.fsdecode(n) for n in command(['git','diff','--name-only','-z','HEAD'],root).split(b'\0') if n]
+    new = [os.fsdecode(n) for n in command(['git','ls-files','--others','--exclude-standard','-z'],root).split(b'\0') if n]
+    staged = sorted(set(dirty+new))
+    permitted = ('src/','include/','tools/','config/','docs/','ledger/','link/')  # link/ = byte maps / link lists
+    if any(n not in ('Makefile','STATUS.md','.gitignore','README.md') and not n.startswith(permitted) for n in staged):
+        raise ValueError('unexpected changed path outside landing trees')
+    if not args.no_commit:
+        if not staged:
+            raise ValueError('empty landing')
+        step('stage', ['git','add','--',*staged])
+        step('commit', ['git','commit','-m',args.message])
+    record = dict(complete=True, committed=not args.no_commit, steps=steps,
+                  patches=[dict(name=q.name,sha256=hashlib.sha256(q.read_bytes()).hexdigest()) for q in patches],
+                  changed_files=staged)
+    (log_dir/'timings.json').write_text(json.dumps(record,indent=2)+'\n')
+    print('LAND MAKE PASS'+(' (proof rehearsal; no commit)' if args.no_commit else ' (one commit)'))
+
+
+if __name__ == '__main__':
+    main()

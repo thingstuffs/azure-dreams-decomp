@@ -15,7 +15,8 @@ this row's container `config/sibcall_syms*.txt`/`config/noreturn_syms*.txt` -- c
 `ledger/split_audit.jsonl` record (owner ruling 2026-09-22 evening: a retail `j` to a "function"
 symbol may mean a mis-split, and that deserves a check before L3) whose `kind` is neither `intra`
 (mis-split/pseudo-call) nor `unresolved`; a row with no tail-jump dependency is unaffected.  L4
-adds the module criterion (`l4_modules` sweep) AND pins == 0 AND no tail-jump dependency of any
+adds current make-checked image placement in a module with a shared header
+(the former certificate rule is available with --legacy-certificates) AND pins == 0 AND no tail-jump dependency of any
 kind, audited or not -- the sibcall/noreturn tail-jump scaffolding is a residue class in its own
 right (owner ruling: "needs to be covered by a level, somewhere") -- EXCEPT a call-verified target (owner
 ruling 2026-10-14): the latest `ledger/split_audit.jsonl` record for (row, target) is `byte_verified`, its
@@ -30,7 +31,7 @@ are already excluded by L4).  A row that cannot reach L5 stays at L4 with its re
 `not_in_module`).  See docs/PIN_CAMPAIGN_CHARTER.md "Rulings 2026-09-22 (evening)" and "Rulings
 2026-09-22 (afternoon, goal round)".
 """
-import re, collections, sys, hashlib
+import re, collections, sys, hashlib, argparse
 from pathlib import Path
 # A spawned accounting worker (certify_batch, multiprocessing "spawn") re-imports the main script as
 # __mp_main__ with the parent's sys.path, where tools/gate/ already precedes tools/.  Keep tools/ first so
@@ -519,6 +520,10 @@ def row_view(r, by_id, root=None):
     return r, text, raw_text
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--legacy-certificates', action='store_true', help='old placement rule for the single dual-proof comparison')
+    parser.add_argument('--output', type=Path, default=LEDGER/'levels.jsonl')
+    args = parser.parse_args()
     cache = RowCache(ROOT, "levels")
     promoted = {j["id"] for j in read_jsonl(LEDGER / "promotions.jsonl") if j.get("outcome") == "landed"} if (LEDGER / "promotions.jsonl").exists() else set()
     try:
@@ -530,17 +535,20 @@ def main():
     sweeps = {}
     for p in (LEDGER / "sweeps").glob("*.jsonl"):
         sweeps[p.stem] = {j["id"]: j for j in read_jsonl(p) if j.get("id") and j.get("outcome") in ("applied", "noop")}
-    # SLUS placement comes from a reviewed build certificate whose shared inputs
-    # are still current. A historical sweep entry cannot substitute for that proof.
-    from slus_module_evidence import valid_placements
-    from accounting_modules import overlay_placements
-    with cache.phase("overlay_placements"):
-        placement = overlay_placements(ROOT)
+    if args.legacy_certificates:
+        from slus_module_evidence import valid_placements
+        from accounting_modules import overlay_placements
+        with cache.phase("overlay_placements"):
+            placement = overlay_placements(ROOT)
+        with cache.phase("slus_placements"):
+            placement.update(valid_placements())
+    else:
+        from build.make_evidence import placements
+        with cache.phase("make_placements"):
+            placement = placements(ROOT)
     from overlay_module_evidence import source_contexts
     with cache.phase("source_contexts"):
         module_contexts = source_contexts()
-    with cache.phase("slus_placements"):
-        placement.update(valid_placements())
     sweeps["l4_modules"] = placement
     audit = audit_index()
     split_idx = split_audit_index()   # ledger/split_audit.jsonl -- see the module docstring; empty until it exists
@@ -578,10 +586,10 @@ def main():
         rec["id"] = r["id"]; rec["evidence"] = list(_ev.get(r["id"], []))
         if r["id"] in placement and r.get("placement") != "unproven":
             rec["module"] = placement[r["id"]].get("module")
-            rec["evidence"].append("module_certificate")
+            rec["evidence"].append("module_certificate" if args.legacy_certificates else "make_checked_image_shared_header")
         out.append(rec); tally[rec["level"]] += r["size"]
         if rec["records"]: tally["records"] += r["size"]; tally["records_rows"] += 1
-    write_jsonl(LEDGER / "levels.jsonl", out)
+    write_jsonl(args.output, out)
     cache.save()
     tot = sum(r["size"] for r in rows())
     for l in sorted(k for k in tally if isinstance(k, int)): print(f"L{l}: {tally[l]:,} B ({100*tally[l]/tot:.1f}%)")

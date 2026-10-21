@@ -10,9 +10,10 @@ defines the terms without duplicating changing totals.
 | Check | Scope and limit |
 |---|---|
 | Per-row verification (`tools/verify.py`) | Ordinary SLUS rows compare pinned objects; overlay rows compare retail slices. Grouped SLUS candidates use their module/partition image context. This is the candidate feedback step. |
-| Overlay window gate | Compiles and links a complete selected region against the extracted container. It checks placement and resolved targets that a row-only score can miss. |
+| Legacy overlay window gate (dual-proof transition only) | Compiles and links a complete selected region against the extracted container. It checks placement and resolved targets that a row-only score can miss. |
 | SLUS image gate | Rebuilds the executable and checks its retail SHA-1 and pinned build recipe. |
-| Module/placement certificate | Binds the reviewed source, headers, recipe, tools, ownership and affected gate results. Required native-module checks include genuine-ASPSX comparison. A stale certificate grants no current placement proof. |
+| `make check` | Builds and compares every selected image and extra recipe layout with the disc. Current content-bound receipts identify compiled rows; native TUs use the canonical genuine ASPSX comparison when provisioned. |
+| Legacy module/placement certificate | Retained behind `--legacy-certificates` for one dual-proof comparison, then retired as a landing and L4/L5 requirement. |
 | Byte-map census | Accounts for physical container extents, including code outside registered C, library code, data and unresolved spans. It does not turn a data label into compiled C. |
 
 Use [source locations](SOURCE_LAYOUT.md) to resolve row IDs to the editable TU.
@@ -33,7 +34,7 @@ of a source file.
 | L1 | No decompiler boilerplate or blocking fidelity spelling; pin erasure has been attempted where pins remain. Whole functions emitted as assembly remain blocking. |
 | L2 | Typed access replaces raw `M2C_FIELD`/`FIELD` access. Partial types may retain unknown fields. |
 | L3 | A recorded source refinement is present, and every tail-jump dependency has an acceptable split audit. Unresolved or intra-function pseudo-call boundaries block it. |
-| L4 | Reviewed current module placement, no pins or tail-jump dependencies, and no source-driven assembler imitation or contradictory compiler-cell fingerprint. Shared declarations and evidence-backed membership are part of the module review. |
+| L4 | Byte-exact in a current make-checked image, in a registered module with a shared header, no pins or tail-jump dependencies, and no source-driven assembler imitation or contradictory compiler-cell fingerprint. Shared declarations and evidence-backed membership are part of the module review. |
 | L5 | No remaining blocking fidelity site, computed goto, inline assembly, `NON_MATCHING` guard or recorded compiler-model dependency. |
 
 A byte-verified real `jal` call with no assembler rewrite can be excluded from
@@ -43,14 +44,16 @@ distinguishes a source-dependent assembler workaround from an accepted model of
 an unavailable historical compiler. See [FIDELITY.md](FIDELITY.md).
 
 The machine-readable `l4_residue` and `l5_residue` fields explain why a row stops
-at its current level. A module certificate alone grants neither L4 nor L5, and
+at its current level. A matching image alone grants neither L4 nor L5, and
 an exact C row does not prove that all other code in its container is decompiled.
 
 ## Making a change
 
 Explain the evidence for the name, type, source shape or module boundary.
-Compare the candidate at the registered recipe, run the affected window or image
-gate, and refresh certificates whose bound inputs changed. A header change can
+Compare the candidate at the registered recipe, run `make -j8` and `make check`,
+then regenerate levels and status. During the transition, run the full window
+gate once on the same tree; retain `tools/levels.py --legacy-certificates` for
+the quality-level comparison. A header change can
 affect multiple containers; a shared TU can affect multiple placements.
 See the [documentation index](README.md) for a concrete lookup/verification
 example and [type consolidation](TYPE_CONSOLIDATION.md) for shared types.

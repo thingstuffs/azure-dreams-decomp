@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
-import collections, json, re, sys, time
+import collections, json, re, sys, time, argparse
 from pathlib import Path
 # A spawned accounting worker (certify_batch, multiprocessing "spawn") re-imports the main script as
 # __mp_main__ with the parent's sys.path, where tools/gate/ already precedes tools/.  Keep tools/ first so
@@ -433,7 +433,14 @@ READ_NEXT = ("\n**Read next.** [README](README.md) (project overview) - [docs/RE
              "[CONTRIBUTING.md](CONTRIBUTING.md).\n")
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--legacy-certificates', action='store_true')
+    args = parser.parse_args()
     cache = RowCache(ROOT, "status")
+    if not args.legacy_certificates:
+        global PROOF_TEXT
+        PROOF_TEXT = ("Landing proof: `make check` compares all generated images with the disc, including the SLUS EXE and extra recipe layouts. "
+                      "Native TUs use the canonical genuine ASPSX comparison when the SDK is present. L4/L5 also require the independent source-quality predicates.\n")
     rs = rows(); by = {r["id"]: r for r in rs}
     base = {b["id"]: b for b in read_jsonl(LEDGER / "baseline.jsonl")}
     cen = {c["id"]: c for c in current_row_records(read_jsonl(LEDGER / "census.jsonl"), by)}
@@ -459,62 +466,71 @@ def main():
     out.append(placement_unproven_status(rs))
     bad = [r for r in rs if r["stock"] and r["id"] in base and base[r["id"]].get("exact") is False]
     parked = (", ".join(sorted(PARKED_CONTAINERS)) + " parked by the owner (listed, excluded from ALL).") if PARKED_CONTAINERS else "No container is parked (ovmovie unparked by the owner 2026-10-14)."
-    sec["proof"].append(f"{parked} Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are {nonstock} at the pin.\n")
+    sec["proof"].append(f"{parked} Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with complete make image proof as the landing check. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are {nonstock} at the pin.\n")
     out.append(f"\nBaseline NOT exact: {len(bad)} rows" + (": " + ", ".join(r["id"] for r in bad[:20]) if bad else "") + "\n")
     out = sec["modules"]
-    from slus_module_evidence import module_status
-    with cache.phase("slus_placements"):
-        module_records = module_status()
-    slus_groups = {}
-    slus_partition = []
-    if module_records:
-        for entry in module_records:
-            module = entry["module"]
-            item = (module["name"], len(module["members"]), module["headers"])
-            if module.get("partition_only"):
-                slus_partition.append(item)
-            elif entry["valid"]:
-                slus_groups.setdefault("current", []).append(item)
-            elif not (LEDGER / "modules" / (module["name"] + ".json")).exists():
-                slus_groups.setdefault("missing", []).append(item)
-            else:
-                slus_groups.setdefault(cert_state(entry["reason"]), []).append(item)
-        n_slus = sum(len(g) for g in slus_groups.values())
-        out.append(f"## SLUS modules\n\n{len(module_records)} modules: {n_slus} need a placement certificate, {len(slus_partition)} are partition owners "
-                   f"(they grant no whole-row placement, so there is nothing to certify). State of the {n_slus}:\n")
-        out.extend(_state_table(slus_groups))
-        for k, (word, _) in CERT_STATES.items():
-            g = slus_groups.get(k, [])
-            if g:
-                out.extend(_details(f"{word} - {len(g)} modules, {sum(x[1] for x in g):,} rows", ["| module | logical rows | shared headers (under include/) |", "|---|---:|---|"],
-                                    [f"| {n} | {r} | {_short_headers(h)} |" for n, r, h in g]))
-        if slus_partition:
-            out.extend(_details(f"partition owners: {len(slus_partition)} modules", ["| module | logical rows | shared headers (under include/) |", "|---|---:|---|"],
-                                [f"| {n} | {r} | {_short_headers(h)} |" for n, r, h in slus_partition]))
-        out.append("\nNot certified yet means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement. "
-                   "Shared headers lists exclude the four every module includes (`common.h`, `game.h`, `globals.h`, `include_asm.h`).\n")
-        out.append("Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.\n")
-    from accounting_modules import overlay_statuses as overlay_module_status
-    with cache.phase("overlay_placements"):
-        overlay_records = overlay_module_status(ROOT)
-    ov_groups = {}
-    for entry in overlay_records:
-        ov_groups.setdefault(cert_state(entry["reason"] if not entry["valid"] else None), []).append(
-            (entry["module"]["key"], len(entry["module"]["members"])))
-    if overlay_records:
-        out.append(f"## Overlay modules\n\n{len(overlay_records)} modules ({sum(len(entry['module']['members']) for entry in overlay_records):,} rows). "
-                   f"Each is one translation unit placed in a container overlay; its certificate is the whole-TU and window proof:\n")
-        out.extend(_state_table(ov_groups))
-        for k, (word, _) in CERT_STATES.items():
-            g = ov_groups.get(k, [])
-            if g:
-                out.extend(_details(f"{word} - {len(g)} modules, {sum(x[1] for x in g):,} rows", ["| module | rows |", "|---|---:|"],
-                                    [f"| {n} | {r} |" for n, r in g]))
-        out.append("\nPlacement alone does not override any lower-level or source-residue guard.\n")
-    from certificate_summaries import status_text as certificate_summary_text
-    summary_text = certificate_summary_text(ROOT)
-    if summary_text:
-        out.append("\n" + summary_text + "\n")
+    slus_groups, ov_groups = {}, {}
+    if args.legacy_certificates:
+        from slus_module_evidence import module_status
+        with cache.phase("slus_placements"):
+            module_records = module_status()
+        slus_groups = {}
+        slus_partition = []
+        if module_records:
+            for entry in module_records:
+                module = entry["module"]
+                item = (module["name"], len(module["members"]), module["headers"])
+                if module.get("partition_only"):
+                    slus_partition.append(item)
+                elif entry["valid"]:
+                    slus_groups.setdefault("current", []).append(item)
+                elif not (LEDGER / "modules" / (module["name"] + ".json")).exists():
+                    slus_groups.setdefault("missing", []).append(item)
+                else:
+                    slus_groups.setdefault(cert_state(entry["reason"]), []).append(item)
+            n_slus = sum(len(g) for g in slus_groups.values())
+            out.append(f"## SLUS modules\n\n{len(module_records)} modules: {n_slus} need a placement certificate, {len(slus_partition)} are partition owners "
+                       f"(they grant no whole-row placement, so there is nothing to certify). State of the {n_slus}:\n")
+            out.extend(_state_table(slus_groups))
+            for k, (word, _) in CERT_STATES.items():
+                g = slus_groups.get(k, [])
+                if g:
+                    out.extend(_details(f"{word} - {len(g)} modules, {sum(x[1] for x in g):,} rows", ["| module | logical rows | shared headers (under include/) |", "|---|---:|---|"],
+                                        [f"| {n} | {r} | {_short_headers(h)} |" for n, r, h in g]))
+            if slus_partition:
+                out.extend(_details(f"partition owners: {len(slus_partition)} modules", ["| module | logical rows | shared headers (under include/) |", "|---|---:|---|"],
+                                    [f"| {n} | {r} | {_short_headers(h)} |" for n, r, h in slus_partition]))
+            out.append("\nNot certified yet means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement. "
+                       "Shared headers lists exclude the four every module includes (`common.h`, `game.h`, `globals.h`, `include_asm.h`).\n")
+            out.append("Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.\n")
+        from accounting_modules import overlay_statuses as overlay_module_status
+        with cache.phase("overlay_placements"):
+            overlay_records = overlay_module_status(ROOT)
+        ov_groups = {}
+        for entry in overlay_records:
+            ov_groups.setdefault(cert_state(entry["reason"] if not entry["valid"] else None), []).append(
+                (entry["module"]["key"], len(entry["module"]["members"])))
+        if overlay_records:
+            out.append(f"## Overlay modules\n\n{len(overlay_records)} modules ({sum(len(entry['module']['members']) for entry in overlay_records):,} rows). "
+                       f"Each is one translation unit placed in a container overlay; its certificate is the whole-TU and window proof:\n")
+            out.extend(_state_table(ov_groups))
+            for k, (word, _) in CERT_STATES.items():
+                g = ov_groups.get(k, [])
+                if g:
+                    out.extend(_details(f"{word} - {len(g)} modules, {sum(x[1] for x in g):,} rows", ["| module | rows |", "|---|---:|"],
+                                        [f"| {n} | {r} |" for n, r in g]))
+            out.append("\nPlacement alone does not override any lower-level or source-residue guard.\n")
+        from certificate_summaries import status_text as certificate_summary_text
+        summary_text = certificate_summary_text(ROOT)
+        if summary_text:
+            out.append("\n" + summary_text + "\n")
+    else:
+        from build.make_evidence import checked_receipt
+        proof = checked_receipt(ROOT)
+        out.append(f"## Image proof\n\n`make check`: {proof['matched']}/{proof['images']} images exact; "
+                   f"{proof['overlay_recipes_checked']} overlay recipes checked. L4/L5 use current image proof "
+                   "and registered module shared headers. Module certificates are retired from this rule.\n")
+        sec["proof"].append("Current landing proof: `make -j8 && make check`; extra layouts cover recipes outside load images.\n")
     out = sec["shape"]
     shape_full = ["| defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |", "|---|---:|---:|---:|---:|---:|---:|"]
     shape_now = ["| defect still in the clean tree | files | bytes | % of bytes |", "|---|---:|---:|---:|"]
@@ -762,7 +778,7 @@ def main():
         out.append("| level | bytes | % |\n|---|---:|---:|")
         for l in range(6): out.append(f"| L{l} | {L[l]:,} | {100*L[l]/tot:.1f}% |")
         out.append("\nL0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a "
-                   "module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.")
+                   "module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.")
         recs = [x for x in level_rows if x.get("records")]
         rb = sum(by[x["id"]]["size"] for x in recs)
         out.append(f"\nOn shared record headers (T7, `include/records/`): {len(recs)} rows, {rb:,} bytes ({100*rb/tot:.1f}%); "

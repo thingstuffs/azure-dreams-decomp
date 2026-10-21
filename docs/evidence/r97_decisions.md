@@ -497,6 +497,22 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     includes (ovl_19c088c_data.c, ovmovie_libpress_storage.c) are inlined in place: their position sets the table
     addresses. libpress stays one SDK file under movie/playback.
 
+71. **(r121, OWNER 2026-10-20) L4 without certificates; the make build is the landing proof.** `make check` against
+    the disc (every image, every recipe, every placed switch table's contents; genuine ASPSX) replaces gate_all + module
+    certificates as the landing proof (owner: "the biggest proof is the byte matching"). A row is L4 when its bytes are
+    proven in a checked image (current `build/check.json`; a stale or missing image proof fails accounting), it belongs
+    to a registered module, and that module consumes a shared header; zero pins, zero tail jumps and the lower-level and
+    compiler/fidelity predicates still apply. L5's residue tests are unchanged. No module certificate or reviewed
+    placement is required. Dual proof on one tree (91579eeeb + build3): make check 1,490/1,490 images MATCH and the full
+    window gate 3,197/3,197 MATCH, rows covered identical both ways (20,548 = 20,548); a negative suite shows make check
+    fails every mutation it should (tampered image/object, stale relink, header edits incl. old mtimes, switch-table
+    swap, linker-catalog and symbol-address edits, edits inside inlined spans). Same-tree levels under the two rules:
+    601 rows differ, exactly the rule's classes - 279 overlay + 95 SLUS rows promoted (modules never certified), 158
+    placement rows promoted, 4 SLUS rows promoted (invalid legacy certificate), 65 demoted (module consumes no shared
+    header - real missing structure). Certificates are retired (the final 227 renewals were not landed);
+    `tools/levels.py --legacy-certificates` keeps the old rule for comparison only. Landings use tools/land_make.sh
+    (cold build + genuine ASPSX by default, no-new-debt scan, unit step); docs/BUILD.md.
+
 72. **(r121, OWNER 2026-10-20) Original source files from the bytes.** Rows are merged into the source files they came
     from, every merge proven by complete-TU object identity and the build.
     (a) Decisive evidence: functions that load the same anonymous string literal are one file, with everything between

@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-21T04:36:36Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-21T09:32:32Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,10 +13,7 @@ Generated 2026-10-21T04:36:36Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 21,432 of 21,432 rows (100.0%), 8,028,304 bytes; 0 unverified |
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.6%, L4 0.0%, L5 0.0% of bytes (levels below) |
-| **Module certificates** | 0 of 378 current, 222 stale, 149 not certified yet, 7 not checked here |
-
-**Current proof state.** 378 of 378 module certificates are not current; L4 and L5, which need the module certificate, read 0.0% and 0.0%. A certificate goes stale when any input it covers changes, so this is a gap in the recorded module proof, not a mismatch; one consolidation gate renews them after change batches (decision 53).
+| **Readability** | L3 90.6%, L4 13.5%, L5 13.1% of bytes (levels below) |
 
 
 ## Not yet C
@@ -68,14 +65,14 @@ Baseline NOT exact: 0 rows
 | L1 | 8,028,304 | 100.0% |
 | L2 | 8,028,304 | 100.0% |
 | L3 | 7,273,860 | 90.6% |
-| L4 | 0 | 0.0% |
-| L5 | 0 | 0.0% |
+| L4 | 1,081,112 | 13.5% |
+| L5 | 1,051,780 | 13.1% |
 
-L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module whose certificate is current, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
+L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
 On shared record headers (T7, `include/records/`): 3670 rows, 2,317,424 bytes (28.9%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 21,432 rows (8,028,304 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 19,133 rows (6,943,480 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -120,458 +117,9 @@ Defects still present in the current tree (files = source files, bytes = image b
 Pin sites now: 0 in 0 rows; none left.  At the pin: 25,918; REG 12,816, KEEP 6,936, KEEP_NV 2,505, SCHED_BARRIER 1,355, TAILSLOT_PIN 506, USE 294, USE_NV 260, KEEP_DEP_NV 190.
 
 
-## SLUS modules
+## Image proof
 
-59 modules: 56 need a placement certificate, 3 are partition owners (they grant no whole-row placement, so there is nothing to certify). State of the 56:
-
-| state | modules | rows | meaning |
-|---|---:|---:|---|
-| current | 0 | 0 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
-| stale: inputs changed | 2 | 4 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
-| not certified yet | 54 | 97 | no certificate has been issued for this module |
-
-<details><summary>stale: inputs changed - 2 modules, 4 rows</summary>
-
-| module | logical rows | shared headers (under include/) |
-|---|---:|---|
-| runtime_directory | 3 | `slus/runtime_directory.h` |
-| list_cursor_e0 | 1 | `slus/list_cursor_e0.h` |
-
-</details>
-
-<details><summary>not certified yet - 54 modules, 97 rows</summary>
-
-| module | logical rows | shared headers (under include/) |
-|---|---:|---|
-| entry_words | 1 | `engine/menu/entry_words.h` |
-| render_words | 1 | `records/Rec_func_80034F58_arg0.h`, `engine/object/render_words.h` |
-| owned_80035484 | 1 | `slus/owned_80035484.h` |
-| owned_80038A10 | 1 | `slus/owned_80038A10.h` |
-| owned_80044698 | 1 | `slus/owned_80044698.h` |
-| owned_800448BC | 1 | `slus/owned_800448BC.h` |
-| owned_8004713C | 1 | `slus/owned_8004713C.h` |
-| owned_80047338 | 1 | `slus/owned_80047338.h` |
-| owned_80047468 | 1 | `slus/owned_80047468.h` |
-| state_defaults | 1 | `engine/util/state_defaults.h` |
-| slot_transition | 4 | `engine/scene/slot_transition.h` |
-| slot_transition_secondary | 4 | `engine/scene/slot_transition.h` |
-| konami_runtime_gp_count | 1 | `engine/resource/konami_runtime_gp_count.h` |
-| gp_shared_slots | 2 | `engine/scene/gp_shared_slots.h` |
-| gp_split_storage | 1 | `engine/texture/gp_split_storage.h` |
-| gp_shared_81510 | 2 | `slus/gp_shared_81510.h`, `shared/scratchpad.h` |
-| gp_shared_8099c | 2 | `slus/gp_shared_8099c.h` |
-| cache_afe | 1 | `engine/effect/cache_afe.h` |
-| saved_value_b98 | 2 | `slus/saved_value_b98.h` |
-| sort_rank_81540 | 1 | `slus/sort_rank_81540.h` |
-| command_slots_81554 | 4 | `slus/command_slots_81554.h` |
-| address_slot | 1 | `engine/scene/address_slot.h` |
-| command_words | 1 | `engine/scene/command_words.h` |
-| gp_shared_8152c | 3 | `slus/gp_shared_8152c.h` |
-| gp_d92c_owned | 1 | `slus/gp_d92c_owned.h` |
-| gp_order_bytes_owner | 1 | `engine/menu/gp_order_bytes_owner.h` |
-| gp_af3_pair | 2 | `slus/gp_af3_pair.h` |
-| message_mode_81550 | 3 | `slus/message_mode_81550.h` |
-| cd_command_state | 7 | `engine/scene/cd_state.h`, `engine/scene/cd_cohort_types.h` |
-| jtbl_80054F9C | 1 | `slus/jtbl_80054F9C.h` |
-| jtbl_80041344 | 1 | `slus/jtbl_80041344.h` |
-| jtbl_80057A94 | 1 | `slus/jtbl_80057A94.h` |
-| jtbl_80052CE0 | 1 | `slus/jtbl_80052CE0.h` |
-| jtbl_800517CC | 1 | `slus/jtbl_800517CC.h` |
-| jtbl_8004CECC | 1 | `slus/jtbl_8004CECC.h` |
-| jtbl_80042BDC | 1 | `slus/jtbl_80042BDC.h` |
-| jtbl_8005F134 | 3 | `slus/jtbl_8005F134.h`, `shared/spu_voice.h` |
-| jtbl_8005EDA0 | 2 | `slus/jtbl_8005EDA0.h` |
-| jtbl_80052144 | 1 | `slus/jtbl_80052144.h` |
-| jtbl_80057D20 | 1 | `slus/jtbl_80057D20.h` |
-| jtbl_80041588 | 1 | - |
-| jtbl_800595C0 | 1 | - |
-| sound_pitch_conversions | 3 | `engine/audio/sound_pitch_conversions.h` |
-| sound_register_helpers | 3 | `engine/audio/spu/sound_register_helpers.h` |
-| sound_range_records | 3 | `engine/audio/spu/sound_range_records.h` |
-| sound_transfer_helpers | 3 | `engine/audio/spu/sound_transfer_helpers.h` |
-| sound_streaming_transfer | 1 | `slus/sound_streaming_transfer.h` |
-| sound_key_buffer | 2 | `slus/sound_key_buffer.h` |
-| sound_dma_lifecycle | 6 | `slus/sound_dma_lifecycle.h` |
-| sound_reset_state | 2 | `engine/audio/spu/sound_reset_state.h`, `engine/audio/spu/sound_range_records.h` |
-| sound_transfer_frontends | 2 | `engine/audio/spu/sound_transfer_frontends.h` |
-| sound_event_start | 1 | `engine/audio/spu/sound_event_service.h`, `slus/sound_dma_lifecycle.h` |
-| sound_register_value | 1 | `engine/audio/spu/sound_register_helpers.h` |
-| sound_reverb_writer | 1 | `slus/sound_dma_lifecycle.h`, `engine/audio/spu/sound_reverb.h` |
-
-</details>
-
-<details><summary>partition owners: 3 modules</summary>
-
-| module | logical rows | shared headers (under include/) |
-|---|---:|---|
-| accessors_814c8 | 0 | - |
-| table_counters_b1b_b1c | 0 | - |
-| sound_tu_code | 0 | - |
-
-</details>
-
-Not certified yet means no placement certificate has been issued; ownership and retail-byte proofs are separate. Partition owners do not grant whole-row placement. Shared headers lists exclude the four every module includes (`common.h`, `game.h`, `globals.h`, `include_asm.h`).
-
-Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
-
-## Overlay modules
-
-322 modules (2,089 rows). Each is one translation unit placed in a container overlay; its certificate is the whole-TU and window proof:
-
-| state | modules | rows | meaning |
-|---|---:|---:|---|
-| current | 0 | 0 | complete TU, all affected windows and the genuine assembler agree with retail, bound to the current inputs |
-| stale: inputs changed | 220 | 1,522 | a certificate exists but a source, recipe, header, tool or review it covers has changed since; it needs renewing |
-| not certified yet | 95 | 537 | no certificate has been issued for this module |
-| not checked here | 7 | 30 | an input the check reads (compiler, disc image) is not present in this checkout, so the certificate could not be validated |
-
-<details><summary>stale: inputs changed - 220 modules, 1,522 rows</summary>
-
-| module | rows |
-|---|---:|
-| dungeon_cd_control_d79c4 | 3 |
-| town_minigame_dispatch_44b44 | 13 |
-| dungeon_ovl_1870800 | 2 |
-| dungeon_ovl_18ac800 | 2 |
-| dungeon_ovl_18fa800 | 3 |
-| dungeon_ovl_19ba800 | 3 |
-| dungeon_ovl_199c800 | 4 |
-| dungeon_ovl_18f4800 | 5 |
-| dungeon_ovl_19a8800 | 5 |
-| dungeon_ovl_189a800 | 13 |
-| dungeon_ovl_188e800 | 6 |
-| dungeon_ovl_198a800 | 17 |
-| dungeon_ovl_1876800 | 5 |
-| dungeon_ovl_1894800 | 11 |
-| dungeon_ovl_18a6800 | 15 |
-| dungeon_ovl_19d2800 | 6 |
-| dungeon_ovl_197281c | 5 |
-| dungeon_ovl_1990800 | 13 |
-| dungeon_ovl_1960800 | 11 |
-| dungeon_ovl_18a0800 | 15 |
-| dungeon_ovl_19c6800 | 5 |
-| dungeon_ovl_19cc800 | 22 |
-| dungeon_ovl_192a800 | 7 |
-| dungeon_ovl_1918800 | 11 |
-| dungeon_ovl_19de800 | 22 |
-| dungeon_ovl_7ce800 | 30 |
-| dungeon_ovl_fa7000 | 28 |
-| dungeon_ovl_1924800 | 11 |
-| dungeon_ovl_19b4800 | 5 |
-| dungeon_ovl_7e6a5800 | 23 |
-| dungeon_ovl_18d6800 | 12 |
-| dungeon_ovl_18ee800 | 8 |
-| dungeon_ovl_18e8800 | 4 |
-| dungeon_ovl_18b2800 | 11 |
-| ovmovie_libpress | 17 |
-| dungeon_engine_dungeon_util | 43 |
-| dungeon_engine_experience | 17 |
-| dungeon_engine_transition_effects | 12 |
-| dungeon_engine_entity_effects | 21 |
-| dungeon_engine_tile_map | 25 |
-| dungeon_engine_entity_panel | 21 |
-| dungeon_engine_particle_effects | 11 |
-| dungeon_engine_screen_effects | 4 |
-| dungeon_engine_trap_effects | 38 |
-| dungeon_engine_menu_effects | 38 |
-| dungeon_engine_effect_dispatch | 18 |
-| town_door_22f08 | 25 |
-| town_player_init_12868 | 12 |
-| town_town_windows_1f5b8 | 36 |
-| dungeon_town_load | 5 |
-| dungeon_ovl_16b08_local | 16 |
-| dungeon_ovl_12c50ac | 2 |
-| dungeon_ovl_e0365c | 38 |
-| dungeon_ovl_be1084 | 6 |
-| dungeon_ovl_cb3000 | 39 |
-| dungeon_ovl_9950e8 | 3 |
-| dungeon_ovl_d5b0b8 | 1 |
-| dungeon_ovl_cb9000 | 39 |
-| dungeon_ovl_cc5000 | 39 |
-| dungeon_ovl_ccb000 | 39 |
-| dungeon_ovl_cd7000 | 39 |
-| dungeon_ovl_18be820 | 1 |
-| dungeon_ovl_7e705800 | 1 |
-| dungeon_ovl_194286c | 1 |
-| dungeon_ovl_7e711800 | 2 |
-| dungeon_ovl_1966800 | 1 |
-| dungeon_ovl_7e765800 | 3 |
-| dungeon_ovl_7e67b800 | 1 |
-| dungeon_ovl_7e71d800 | 4 |
-| dungeon_ovl_193c848 | 5 |
-| dungeon_ovl_1954800 | 3 |
-| dungeon_ovl_7e6b7800 | 8 |
-| dungeon_ovl_7e6e1800 | 9 |
-| dungeon_ovl_19c088c | 11 |
-| dungeon_ovl_1936800 | 16 |
-| dungeon_ovl_190d6a4 | 3 |
-| dungeon_ovl_190081c | 2 |
-| dungeon_ovl_1906f98 | 1 |
-| dungeon_ovl_190681c | 1 |
-| dungeon_ovl_191284c | 4 |
-| dungeon_ovl_19134e4 | 1 |
-| dungeon_ovl_18c4828 | 9 |
-| dungeon_ovl_190c800 | 2 |
-| dungeon_ovl_191e87c | 1 |
-| dungeon_ovl_191eef8 | 5 |
-| dungeon_ovl_be7084 | 1 |
-| dungeon_ovl_bf3084 | 1 |
-| dungeon_ovl_bf9084 | 1 |
-| dungeon_ovl_c05084 | 1 |
-| dungeon_ovl_a130dc | 1 |
-| dungeon_ovl_a190dc | 1 |
-| dungeon_ovl_a250dc | 1 |
-| dungeon_ovl_a2b0dc | 1 |
-| dungeon_ovl_a370dc | 1 |
-| dungeon_ovl_c3b09c | 1 |
-| dungeon_ovl_c4709c | 1 |
-| dungeon_ovl_c4d09c | 1 |
-| dungeon_ovl_bbd094 | 1 |
-| dungeon_ovl_bc9094 | 1 |
-| dungeon_ovl_bcf094 | 1 |
-| dungeon_ovl_bdb094 | 1 |
-| dungeon_ovl_7f559800 | 1 |
-| dungeon_ovl_7f535800 | 1 |
-| dungeon_ovl_7f51d800 | 1 |
-| dungeon_ovl_bb1054 | 1 |
-| dungeon_ovl_9ef054 | 1 |
-| dungeon_ovl_9fb054 | 1 |
-| dungeon_ovl_a01054 | 1 |
-| dungeon_ovl_a0d054 | 1 |
-| dungeon_resource03_slot0 | 28 |
-| dungeon_resource17_slot0 | 26 |
-| dungeon_resource07_slot0 | 28 |
-| dungeon_resource08_slot0 | 36 |
-| dungeon_resource10_slot0 | 41 |
-| dungeon_resource12_slot0 | 39 |
-| dungeon_resource16_slot0 | 32 |
-| dungeon_resource06_slot0 | 38 |
-| dungeon_ovl_7f0f7800_p01 | 1 |
-| dungeon_ovl_7f0f7800_p03 | 1 |
-| dungeon_ovl_7f0f7800_p04 | 1 |
-| dungeon_ovl_7f0f7800_p05 | 1 |
-| dungeon_ovl_7f0f7800_p07 | 1 |
-| dungeon_ovl_7f1d5800 | 1 |
-| dungeon_ovl_7f1ed800 | 1 |
-| dungeon_ovl_7f211800 | 1 |
-| dungeon_ovl_7f217800 | 1 |
-| dungeon_ovl_7f223800 | 1 |
-| dungeon_ovl_7f23b800 | 1 |
-| dungeon_ovl_7f43f800_p01 | 1 |
-| dungeon_ovl_7f43f800_p02 | 3 |
-| dungeon_ovl_7f469800_p01 | 12 |
-| dungeon_ovl_7f469800_p03 | 5 |
-| dungeon_ovl_7f469800_p04 | 1 |
-| dungeon_ovl_7f469800_p06 | 1 |
-| dungeon_ovl_7f469800_p07 | 3 |
-| dungeon_ovl_7f511800_p01 | 1 |
-| dungeon_ovl_7f511800_p03 | 2 |
-| dungeon_ovl_c5909c | 1 |
-| dungeon_ovl_c89084 | 1 |
-| dungeon_ovl_c8f084 | 1 |
-| dungeon_ovl_c9b084 | 1 |
-| dungeon_ovl_ca1084 | 1 |
-| dungeon_ovl_cad084 | 1 |
-| dungeon_ovl_d10bc4_p02 | 1 |
-| dungeon_ovl_d16bc4_p02 | 1 |
-| dungeon_ovl_d1cbc4_p02 | 1 |
-| dungeon_ovl_d28bc4_p02 | 1 |
-| dungeon_ovl_d2ebc4_p02 | 1 |
-| dungeon_ovl_dd9000_p03 | 1 |
-| dungeon_ovl_e09000_code | 1 |
-| dungeon_ovl_e15054 | 1 |
-| dungeon_ovl_e1b054 | 1 |
-| dungeon_ovl_e27054 | 1 |
-| dungeon_ovl_edb06c | 1 |
-| dungeon_ovl_ee706c | 1 |
-| dungeon_ovl_eed06c | 1 |
-| dungeon_ovl_ef906c | 1 |
-| dungeon_ovl_f7d070_p01 | 1 |
-| dungeon_ovl_f8f070 | 1 |
-| dungeon_ovl_f95070 | 1 |
-| dungeon_ovl_fa1070 | 1 |
-| town_ovl_79dd70 | 1 |
-| town_ovl_6490c0 | 1 |
-| town_ovl_64b0c0 | 1 |
-| town_ovl_64f0c0 | 1 |
-| town_ovl_64f118 | 1 |
-| town_ovl_6510c0 | 1 |
-| town_ovl_480100 | 2 |
-| town_ovl_4f9100 | 1 |
-| town_ovl_629100 | 1 |
-| town_ovl_47027c | 1 |
-| town_ovl_5c7308 | 1 |
-| town_ovl_65b134 | 2 |
-| town_ovl_64d298 | 1 |
-| town_ovl_450958 | 1 |
-| town_ovl_4d9100 | 1 |
-| town_ovl_71a1ec | 1 |
-| town_ovl_8d2114 | 1 |
-| dungeon_ovl_51e800 | 1 |
-| town_ovl_2d3f0c | 3 |
-| town_ovl_2da5e4 | 1 |
-| dungeon_ovl_7f43f800_p04 | 1 |
-| dungeon_ovl_7f43f800_p05 | 1 |
-| dungeon_ovl_7f43f800_p06 | 1 |
-| dungeon_ovl_7f43f800_p08 | 2 |
-| dungeon_ovl_7f511800_p04 | 4 |
-| dungeon_ovl_1829800 | 12 |
-| town_ovl_6f48d0 | 1 |
-| dungeon_item_slot_search | 3 |
-| main_card_slot_refresh | 2 |
-| main_card_slot_records | 2 |
-| main_card_save_request | 2 |
-| main_card_choice_state | 2 |
-| town_shop_value_dispatch | 2 |
-| town_person_idle_dispatch | 2 |
-| town_person_timers | 2 |
-| town_shop_entry_flags | 2 |
-| town_flag_test_pair_actions | 2 |
-| town_flag_test_conditions | 2 |
-| dungeon_item_tile_distance | 2 |
-| dungeon_actor_sprite_lifecycle | 2 |
-| dungeon_actor_directional_action | 2 |
-| dungeon_actor_path_dispatch | 2 |
-| dungeon_object_setup_links | 2 |
-| main_card_slot_menu_request | 2 |
-| town_map_cell_read | 2 |
-| town_context_boundary_adjustment | 2 |
-| town_input_direction_angle | 2 |
-| town_item_index_flags | 2 |
-| town_item_entry_copy | 2 |
-| town_item_menu_display_resource | 2 |
-| town_item_menu_page_format | 2 |
-| town_actor_display_resource | 2 |
-| town_item_menu_request_input | 2 |
-| town_shop_object_value_format | 2 |
-| town_indexed_entry_remove | 2 |
-| town_secondary_item_menu_input | 2 |
-| town_paged_entry_brightness | 2 |
-| town_paired_entry_update | 2 |
-| town_grid_rectangle_preset | 2 |
-
-</details>
-
-<details><summary>not certified yet - 95 modules, 537 rows</summary>
-
-| module | rows |
-|---|---:|
-| dungeon_town_map | 16 |
-| dungeon_ovl_d54c | 10 |
-| dungeon_dungeon_setup | 14 |
-| dungeon_ovl_16b08_f6a8 | 1 |
-| dungeon_ovl_1831370 | 23 |
-| dungeon_ovl_1831cd8 | 50 |
-| dungeon_ovl_1830850 | 26 |
-| dungeon_ovl_9c32d4 | 5 |
-| dungeon_ovl_19a332c | 19 |
-| dungeon_ovl_1930844 | 10 |
-| dungeon_ovl_18d0850 | 12 |
-| dungeon_ovl_188898c | 9 |
-| dungeon_ovl_188298c | 7 |
-| dungeon_ovl_18ca83c | 4 |
-| dungeon_ovl_18b8824 | 9 |
-| dungeon_floor_spawns | 12 |
-| dungeon_floor_generate | 50 |
-| town_shop_stat_display | 7 |
-| town_shop_stat_panel | 6 |
-| dungeon_actor_entity_spawn_load | 2 |
-| dungeon_actor_ability_eligibility | 25 |
-| town_shop_state_countdown_updates_g00558 | 2 |
-| town_shop_item_equip_selection_g00560 | 2 |
-| town_shop_state_entry_processing_g00562 | 4 |
-| town_shop_position_object_initialization_g00563 | 2 |
-| town_shop_entry_queue_g00564 | 5 |
-| town_shop_twin_shop_input_g00597 | 3 |
-| town_shop_paged_selection_refresh_g00598 | 2 |
-| town_shop_shop_state_initialization_g00599 | 4 |
-| town_shop_item_menu_object_lifecycle_g00600 | 2 |
-| town_shop_item_menu_cursor_transition_g00601 | 2 |
-| town_shop_item_menu_selection_steps_g00604 | 5 |
-| town_shop_item_menu_display_lifecycle_g00607 | 2 |
-| town_shop_shop_record_processing_g00608 | 2 |
-| town_shop_shop_window_layout_g00610 | 3 |
-| town_shop_entry_handler_notifications_g00613 | 3 |
-| town_shop_item_pointer_removal_g00615 | 2 |
-| town_shop_resource_entry_initialization_g00617 | 3 |
-| town_shop_twin_storage_initialization_g00618 | 3 |
-| town_resource_install_g00520 | 5 |
-| town_resource_slots_g00521 | 4 |
-| town_secondary_object_list_g00528 | 3 |
-| town_active_object_overlap_g00529 | 3 |
-| town_scene_slot_initialization_g00668 | 3 |
-| town_scene_slot_context_initialization_g00669 | 2 |
-| town_scene_slot_pair_initialization_g00694 | 2 |
-| town_textured_resource_strips_g00571 | 4 |
-| town_target_interpolation_g00573 | 2 |
-| town_midpoint_tracking_g00574 | 2 |
-| town_randomized_position_effect_g00585 | 2 |
-| town_paired_value_dispatch_g00647 | 3 |
-| town_town_map_entry_processor_g00524 | 6 |
-| town_radial_motion_effect_g00586 | 2 |
-| town_flagged_tile_scan_g00593 | 5 |
-| town_map_shaded_tile_rendering_g00594 | 3 |
-| town_map_building_grid_g00638 | 3 |
-| town_map_map_cursor_input_g00641 | 2 |
-| town_map_display_fade_g00643 | 3 |
-| town_map_directional_sprite_effect_g00644 | 4 |
-| town_map_paired_actor_motion_g00645 | 5 |
-| town_map_sound_selection_g00648 | 4 |
-| town_map_sound_sequence_load_g00649 | 2 |
-| town_map_sound_sequence_replay_g00650 | 2 |
-| town_person_person_record_history_g00592 | 4 |
-| town_person_transform_state_g00657 | 3 |
-| town_person_person_object_lifecycle_g00659 | 4 |
-| town_person_actor_data_references_g00663 | 4 |
-| town_person_object_slot_context_g00665 | 2 |
-| town_person_actor_slot_render_state_g00667 | 4 |
-| dungeon_system_town_map_entry_processor_g00214 | 2 |
-| dungeon_item_monster_koyaw_g00324 | 2 |
-| dungeon_actor_spell_resource_ids_g00331 | 2 |
-| dungeon_actor_movement_overlap_wait_g00334 | 2 |
-| dungeon_actor_depth_strip_projection_g00337 | 2 |
-| dungeon_player_equipment_status_g00319 | 2 |
-| dungeon_actor_textured_quad_batches_g00338 | 2 |
-| dungeon_effect_entity_sprite_initialization_g00339 | 2 |
-| dungeon_effect_actor_motion_rendering_g00340 | 2 |
-| dungeon_effect_radial_burst_g00343 | 2 |
-| dungeon_level_depth_biased_sprite_rendering_g00350 | 2 |
-| dungeon_level_terrain_surface_height_g00351 | 2 |
-| dungeon_actor_action_target_selection_g00359 | 4 |
-| dungeon_effect_oriented_mesh_quads_g00367 | 3 |
-| dungeon_effect_expiring_sprite_effect_g00370 | 2 |
-| dungeon_actor_movement_path_g00371 | 5 |
-| dungeon_menu_object_table_initialization_g00375 | 3 |
-| town_shop_shop_subrecord_values_g00611 | 2 |
-| town_shop_floating_number_widget_g00612 | 5 |
-| town_person_entity_display_owner_g00624 | 4 |
-| town_person_four_slot_object_owner_g00628 | 3 |
-| dungeon_player_special_table_index_g00320 | 2 |
-| dungeon_level_target_action_dispatch_g00342 | 4 |
-| dungeon_actor_action_control_dispatch_g00352 | 2 |
-| dungeon_menu_callback_position_updates_g00373 | 5 |
-| dungeon_item_monster_resource_slots_g00325 | 4 |
-
-</details>
-
-<details><summary>not checked here - 7 modules, 30 rows</summary>
-
-| module | rows |
-|---|---:|
-| dungeon_ovl_1852800 | 4 |
-| dungeon_ovl_1858800 | 3 |
-| dungeon_ovl_1840800 | 3 |
-| dungeon_ovl_185e800 | 3 |
-| dungeon_ovl_183a800 | 10 |
-| dungeon_ovl_184c800 | 3 |
-| dungeon_ovl_1864800 | 4 |
-
-</details>
-
-Placement alone does not override any lower-level or source-residue guard.
-
-
-Portable overlay proof summaries: 0 bound to their certificates; 0 inputs current, 0 inputs changed, 0 inputs not checked here; 1 invalid, 226 absent. Full private proofs are not replayed by this summary check; these records do not change certificate placement or L4/L5 counts.
+`make check`: 1490/1490 images exact; 8859 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
 
 
 
@@ -682,12 +230,14 @@ Every lane prompt (tools/agent_task.py) carries the row's block; L4 module place
 
 ## How a match is proven
 
-(1) Per row: the row's C is compiled with the period compiler and assembler and compared byte for byte with the retail bytes. (2) Window gate: the container's overlay windows (and the whole `SLUS` image) are rebuilt from the sources and compared with retail. (3) Module certificates: a certificate records that a module's complete translation unit and every affected window rebuild to retail with the genuine assembler; it is bound to a fingerprint of the module's sources, recipe, headers and tools, so any change to those makes it stale.
+Landing proof: `make check` compares all generated images with the disc, including the SLUS EXE and extra recipe layouts. Native TUs use the canonical genuine ASPSX comparison when the SDK is present. L4/L5 also require the independent source-quality predicates.
 
 
 <details><summary>How rows are verified</summary>
 
-No container is parked (ovmovie unparked by the owner 2026-10-14). Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with the window gate as the fallback of record. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are 0 at the pin.
+No container is parked (ovmovie unparked by the owner 2026-10-14). Ordinary SLUS rows use pinned-TU object verification; grouped module candidates use the full SLUS image gate, including sibling functions and owned data. Historical raw baselines stay per row. Overlay rows use retail-slice comparison through the per-row scorer, with complete make image proof as the landing check. Non-stock rows (bridge cells, per-row assembler dials, platform asm) would be excluded; there are 0 at the pin.
+
+Current landing proof: `make -j8 && make check`; extra layouts cover recipes outside load images.
 
 
 </details>
