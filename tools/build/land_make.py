@@ -130,7 +130,9 @@ def accounting(root, step):
     from tools.build import content_cache as C
     from tools.build.make_evidence import checked_receipt
     checked_receipt(root)
-    excluded = {'ledger/levels.jsonl'}
+    # tools/status.py also regenerates the per-container source indexes (they carry each row's level): outputs.
+    indexes = sorted(str(p.relative_to(root)) for p in (root/'src').glob('*/INDEX.md'))
+    excluded = {'ledger/levels.jsonl', *indexes}
     def inputs():
         names = C.inventory(root, ('ledger', 'src', 'include', 'config', 'tools', 'docs'), excluded)
         names.add('build/check.json')
@@ -138,7 +140,7 @@ def accounting(root, step):
     before = inputs()
     marker = root/'build/.state/accounting.json'
     previous = C.load(marker)
-    outputs = ('ledger/levels.jsonl', 'STATUS.md')
+    outputs = ('ledger/levels.jsonl', 'STATUS.md', *indexes)
     if (previous.get('inputs') == before
             and previous.get('outputs') == C.hashes(root, outputs)
             and all(v is not None for v in previous['outputs'].values())):
