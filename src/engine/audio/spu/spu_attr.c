@@ -22,7 +22,7 @@ s32 set_spu_reverb_enabled_if_available(s32 enable)
         break;
 
     case 1:
-        if ((spu_reverb_range_override != enable) && func_8005D9DC(spu_reverb_start_address)) {
+        if ((spu_reverb_range_override != enable) && test_spu_blocks_beyond_address(spu_reverb_start_address)) {
             spu_control = spu_registers->spucnt;
             spu_reverb_enabled = 0;
             spu_control &= ~0x80;
@@ -39,7 +39,7 @@ s32 set_spu_reverb_enabled_if_available(s32 enable)
     return spu_reverb_enabled;
 }
 
-void func_8005EDA0(SpuCommonAttr *attr)
+void apply_spu_common_attributes(SpuCommonAttr *attr)
 {
     u32 mask;
     s32 set_all;

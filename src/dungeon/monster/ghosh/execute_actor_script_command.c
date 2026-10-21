@@ -34,7 +34,7 @@ typedef struct S_8016EF10_2 {
 
 
 extern s32 select_sprite_entry();
-extern s32 update_actor_status_and_food();
+extern s32 update_actor_status_and_mp();
 extern s32 create_five_point_effect();
 extern s32 func_8016A928();
 extern s32 advance_actor_path();
@@ -68,7 +68,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
     command_wide = command;
     if (command_wide == 0) {
         ((S_8016EF10_1 *)actor)->unk_B2 = 0;
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         return 0;
     }
 
@@ -86,7 +86,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
 
     switch (opcode) {
     default:
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         return 0;
 
     case 8:
@@ -134,6 +134,6 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
 
     }
 
-    update_actor_status_and_food(actor);
+    update_actor_status_and_mp(actor);
     return 0;
 }

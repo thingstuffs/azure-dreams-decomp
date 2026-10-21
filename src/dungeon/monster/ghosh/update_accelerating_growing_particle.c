@@ -26,7 +26,7 @@ typedef struct S_80172DFC_1 {
     s32 unk_08;
 } S_80172DFC_1;   /* arg1 in update_accelerating_growing_particle */
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Advance effect motion and animation, and flag completion when its lifetime ends. */
 void update_accelerating_growing_particle(void *effect, S_80172DFC_1 *position, SpriteFrameState *animation) {
@@ -42,7 +42,7 @@ void update_accelerating_growing_particle(void *effect, S_80172DFC_1 *position, 
     frame_count = ((S_80172DFC_0 *)effect)->unk_18 + 1;
     ((S_80172DFC_0 *)effect)->unk_18 = frame_count;
     if (!(frame_count & 1)) {
-        func_800478B8(animation);
+        advance_sprite_animation_and_textures(animation);
     }
     animation->scale_x = animation->scale_x + 0x28;
     animation->scale_y = animation->scale_y + 0x28;

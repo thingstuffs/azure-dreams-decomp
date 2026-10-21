@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 get_free_shop_slot_count();
+extern s32 count_free_item_slots();
 extern void resolve_entry_flag();
 extern s32 apply_entry_position();
 extern s32 D_8001BB4C[];
@@ -18,7 +18,7 @@ s32 dispatch_request_by_mode(s32 request, s32 unused, s32 mode) {
     data_base = D_8001BB4C;
     result = apply_entry_position(data_base, &D_8001C354, saved_request, saved_mode);
     if (saved_mode == 7) {
-        if (get_free_shop_slot_count() != 0) {
+        if (count_free_item_slots() != 0) {
             return result;
         }
         return (s32)D_8001FAE8;

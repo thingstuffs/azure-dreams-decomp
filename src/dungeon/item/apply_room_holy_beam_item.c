@@ -22,10 +22,10 @@ extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void display_formatted_context_message(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_view_color_flash(s32, s16);
@@ -69,7 +69,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
         if (feed_actor_restore_mp(target,
                           entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
                           (s32)item) == 0) {
-            apply_item_effect_at_entity_position(target, (s32)item);
+            place_actor_item(target, (s32)item);
             return 1;
         }
     } else {
@@ -89,7 +89,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
             random_value = get_unused_text_buffer();
             event_value = random_value;
             random_value = expand_text_control_codes(D_800E12D6, random_value);
-            func_80099290(random_value);
+            clear_byte_and_advance(random_value);
             display_text_with_fullwidth_adjustment(event_value);
         } else {
             display_formatted_context_message(D_800E1303);

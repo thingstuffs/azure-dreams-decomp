@@ -28,7 +28,7 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -112,7 +112,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, void
                     return;
                 }
             }
-            update_actor_status_and_food(actor_state);
+            update_actor_status_and_mp(actor_state);
             on_actor_status_updated(actor_state);
             if ((get_entity_effect_value(actor_state, 1) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;

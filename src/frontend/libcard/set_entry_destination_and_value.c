@@ -42,9 +42,9 @@ void set_entry_destination_and_value(void *state) {
     left_item = ((S_80026CF0_0 *)state)->unk_68;
     ((S_80026CF0_3 *)(left_item->unk_04))->unk_08 = 0x40;
     ((S_80026CF0_3 *)(left_item->unk_04))->unk_0A = 0x20;
-    func_8004CBFC(state + 4, &D_80027E68, left_item);
+    initialize_scaled_entry_cursor(state + 4, &D_80027E68, left_item);
     right_item = ((S_80026CF0_0 *)state)->unk_6C;
     ((S_80026CF0_4 *)(right_item->unk_04))->unk_08 = 0xC0;
     ((S_80026CF0_4 *)(right_item->unk_04))->unk_0A = 0x20;
-    func_8004CBFC(state + 0x10, &D_80027E68, right_item);
+    initialize_scaled_entry_cursor(state + 0x10, &D_80027E68, right_item);
 }

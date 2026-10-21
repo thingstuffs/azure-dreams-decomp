@@ -1,6 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
-s32 func_80016570(s32 context, s32 check_value, s32 selector) {
+s32 select_scene_result_with_overrides(s32 context, s32 check_value, s32 selector) {
     s32 result;
 
     if (check_table_result_below_minus_47(context, check_value) != 0) {

@@ -81,7 +81,7 @@ typedef struct DdcbcEntry {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
-void func_8003DB94();        /* extern */
+void select_record_entry_and_value();        /* extern */
 s32 get_entity_effect_value();                 /* extern */
 void set_sprite_animation_frame(); /* extern */
 void read_vram_blocks_to_buffer();                            /* extern */
@@ -102,7 +102,7 @@ s16 get_special_table_data_index();                          /* extern */
 void *begin_holding_item(); /* extern */
 s32 get_unused_text_buffer();                                /* extern */
 s32 expand_text_control_codes();                  /* extern */
-void *func_80099290();                         /* extern */
+void *clear_byte_and_advance();                         /* extern */
 s32 append_entity_display_text();                        /* extern */
 void display_formatted_context_message();                   /* extern */
 s32 find_valid_nearby_position(); /* extern */
@@ -158,7 +158,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
         if (((S_80090C10_1 *)(&dungeon_menu_action_state))->unk_00.s != &D_8004F5F4) {
             if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
                 ((SpriteFrameState *)sprite)->frameTable = &actor_default_frames;
-                func_8003DB94(sprite, *(s32 *)(actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+                select_record_entry_and_value(sprite, *(s32 *)(actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 7) & 0x1C)), 0);
             } else {
                 if (actor->flags1C & 0x100000) {
@@ -272,7 +272,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
             text_buffer = get_unused_text_buffer();
             text_end = append_entity_display_text(familiar_record_slots[((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_03 & 0x1F],
                 expand_text_control_codes(&D_800E069D, text_buffer));
-            func_80099290(expand_text_control_codes(&D_800E06BD, text_end));
+            clear_byte_and_advance(expand_text_control_codes(&D_800E06BD, text_end));
             display_text_with_fullwidth_adjustment(text_buffer);
             selected_item_action_alias = 0;
             break;
@@ -283,7 +283,7 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
         text_buffer = get_unused_text_buffer();
         text_end = append_entity_display_text(familiar_record_slots[((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_03 & 0x1F],
             expand_text_control_codes(&D_800E06C0, text_buffer));
-        func_80099290(expand_text_control_codes(&D_800E06E0, text_end));
+        clear_byte_and_advance(expand_text_control_codes(&D_800E06E0, text_end));
         display_text_with_fullwidth_adjustment(text_buffer);
         goto block_64;
     case 10:

@@ -13,7 +13,7 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
 
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern void play_sound_if_enabled(s32);
 void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 init_param);
 extern M2C_UNK D_800DECF8[3];
@@ -31,7 +31,7 @@ void create_colored_effect_with_sound(void *source, s32 color, unsigned short so
     void *effect;
     void *position;
     color_ptr = &color;
-    effect = func_8003FC64(0x12);
+    effect = allocate_flagged_object_node(0x12);
     if (effect != 0) {
         effect_data = effect + 0x20;
         *((void **) (((u8 *) effect_data) + 0x24)) = source;
@@ -56,7 +56,7 @@ void create_colored_effect_with_sound(void *source, s32 color, unsigned short so
         render_data->clut = 0x7DCE;
         sprite_data = D_800DECF8;
         render_data->flags = (u16) (render_data->flags | 0x100);
-        func_8003DB94(render_data, sprite_data, 0);
+        select_record_entry_and_value(render_data, sprite_data, 0);
         sound = sound_id & 0xFFFF;
         if (sound != 0) {
             play_sound_if_enabled(sound);

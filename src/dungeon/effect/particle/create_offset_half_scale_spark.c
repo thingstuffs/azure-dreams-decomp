@@ -27,7 +27,7 @@ typedef struct Object {
     void *callback;
 } Object;
 
-extern void func_8003DB94(Sprite *, void *, s16);
+extern void select_record_entry_and_value(Sprite *, void *, s16);
 extern void register_node(Object *, void *);
 extern u8 D_80165580;
 
@@ -38,7 +38,7 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
     u16 x;
     u16 y;
 
-    obj = (Object *)func_8003FC64(0x212);
+    obj = (Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->callback = &D_80165580;
         register_node(obj, project_sprite_chain);
@@ -67,6 +67,6 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        func_8003DB94(sprite, effect_sprite_sources, 0);
+        select_record_entry_and_value(sprite, effect_sprite_sources, 0);
     }
 }

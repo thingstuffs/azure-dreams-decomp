@@ -33,7 +33,7 @@ typedef union MotionView {
     s16 half[10];
 } MotionView;
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern int abs(int);
 
 /* Updates phased motion and marks completion when stopped or out of bounds. */
@@ -46,7 +46,7 @@ void update_settings_phase_motion(State *state, Motion *motion, void *update_dat
     s32 previous_y;
 
     owner = state->owner;
-    func_800478B8(update_data);
+    advance_sprite_animation_and_textures(update_data);
     if (owner->flags & 1)
         state->step = 255;
 

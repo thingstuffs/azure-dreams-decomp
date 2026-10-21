@@ -1,7 +1,7 @@
 #include "dungeon/effect/particle/draw_linked_effect_chain.h"
 #include "shared/sprite_frame_state.h"
 
-void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bias)
+void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
@@ -125,7 +125,7 @@ void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bia
 s32 draw_linked_effect_chain(void *state, void *position, void *appearance) {
     Row_819A0D64_GapNode *node;
     for (;;) {
-        func_8002408C(state, position, appearance, 0);
+        project_vertex_shaded_effect_quad(state, position, appearance, 0);
         node = *(Row_819A0D64_GapNode **)((u8 *)state - 8);
         state = (u8 *)node + 0x20;
         if (node == 0) break;
@@ -211,7 +211,7 @@ void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteF
     ticks_left = ((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s;
     ((s16 *)D_800261B0)[0] = 1;
     ((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s = ticks_left - 1;
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     brightness = ((s16)((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3A.s << 7) /
             ((Row_819A0EF0_S_800246F0_0 *)effect)->unk_3C;
     primitive->color.c.b = brightness;
@@ -249,7 +249,7 @@ void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState
     }
 }
 
-void func_80024834(void *fade_data)
+void fade_quad_vertex_colors(void *fade_data)
 {
     void *fade;
     s32 color_index;
@@ -344,7 +344,7 @@ void choose_random_sign(void *effect, s32 unused, void *primitive)
     }
 }
 
-void func_80024BD0(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj) {
+void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj) {
     s32 scaled_count;
     u16 count;
     u16 angle;
@@ -365,7 +365,7 @@ void func_80024BD0(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj) {
     object_flag_block.flags |= 0x8000;
 }
 
-void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
+void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z)
 {
     Row_819A1450_LocalTable direction_table;
@@ -376,7 +376,7 @@ void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2
     s16 direction;
 
     direction_table = D_80024034;
-    node = func_8003FC64(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         setup = (u8 *)node + 0x20;
         ((Row_819A1450_S_819A1450_0 *)setup)->unk_3A = 5;
@@ -411,7 +411,7 @@ void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2
         part->color.c.b = 0x80;
         part->color.c.g = 0x80;
         part->color.c.r = 0x80;
-        func_8003DB94(part, D_800DEC00, 0);
+        select_record_entry_and_value(part, D_800DEC00, 0);
     }
 }
 
@@ -489,7 +489,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
             }
 
             if (entity->timer == 18) {
-                spawn_index = func_80053EF0(4);
+                spawn_index = read_sound_mode_blocking_status(4);
                 sound_id = 0x4300;
                 if (spawn_index != 2) {
                     sound_id = 0x300;
@@ -503,7 +503,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                     particle_callback = choose_random_sign;
                     origin_loop = view_reference_entity;
                     do {
-                        task = (Row_819A1654_Task *)func_8003FC64(0x212);
+                        task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
                         effect = &task->effect;
                         if (task != 0) {
                             effect->timer3A = 20;
@@ -539,14 +539,14 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
 
             if (entity->timer == 24) {
                 if (get_sprite_attachment_vector((&reference_tile_object[0])->found, &reference_tile_object[0], &entity->x, 0) != 0) {
-                    task = (Row_819A1654_Task *)func_8003FC64(0x212);
+                    task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
                     effect = &task->effect;
                     if (task != 0) {
                         s32 burst_size;
                         u16 burst_flags;
                         effect->timer3A = 20;
                         effect->timer3C = 20;
-                        task->callback = func_80024BD0;
+                        task->callback = rotate_and_fade_timed_sprite;
                         register_node(task, project_sprite_chain);
                         burst_size = 96;
                         sprite = task->sprite;
@@ -604,12 +604,12 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                             next_entity->path[2] = entity->z / 4 + (origin_path->z - entity->base[2]) / 2;
 
                             if (entity->timer == first_path_timer) {
-                                task = (Row_819A1654_Task *)func_8003FC64(0x212);
+                                task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
                                     effect->timer3A = 20;
                                     effect->timer3C = 20;
-                                    task->callback = func_80024834;
+                                    task->callback = fade_quad_vertex_colors;
                                     register_node(task, draw_linked_effect_chain);
                                     sprite = task->sprite;
                                     sprite->field10 = 32;
@@ -642,7 +642,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                             }
 
                             if (entity->timer == 2) {
-                                task = (Row_819A1654_Task *)func_8003FC64(0x212);
+                                task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
                                     s32 bright_color;
@@ -658,7 +658,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     effect->value18 = effect->value28;
                                     effect->timer3A = 20;
                                     effect->timer3C = 20;
-                                    task->callback = func_80024834;
+                                    task->callback = fade_quad_vertex_colors;
                                     register_node(task, draw_linked_effect_chain);
                                     sprite = task->sprite;
                                     sprite->field10 = 32;
@@ -692,7 +692,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
 
                             saved_timer = entity->timer;
                             if (saved_timer == 1) {
-                                task = (Row_819A1654_Task *)func_8003FC64(0x212);
+                                task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
                                 effect = &task->effect;
                                 if (task != 0) {
                                     s32 bright_color;
@@ -708,7 +708,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     effect->value18 = effect->value28;
                                     effect->timer3A = 20;
                                     effect->timer3C = 20;
-                                    task->callback = func_80024834;
+                                    task->callback = fade_quad_vertex_colors;
                                     register_node(task, draw_linked_effect_chain);
                                     sprite = task->sprite;
                                     sprite->field10 = 32;
@@ -741,7 +741,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
 
                                 rechecked_timer = entity->timer;
                                 if (rechecked_timer == saved_timer) {
-                                    task = (Row_819A1654_Task *)func_8003FC64(0x212);
+                                    task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
                                     effect = &task->effect;
                                     if (task != 0) {
                                         effect->timer3A = 20;
@@ -794,7 +794,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
 
                                     saved_timer = entity->timer;
                                     if (saved_timer == rechecked_timer) {
-                                        task = (Row_819A1654_Task *)func_8003FC64(0x212);
+                                        task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
                                         effect = &task->effect;
                                         if (task != 0) {
                                             effect->timer3A = 20;
@@ -902,7 +902,7 @@ loop_1:
             world = primary_actor_record;
             focus = world->target;
             if (focus != 0 && entity->timer == 1) {
-                task = (Row_819A1654_Task *)func_8003FC64(0x212);
+                task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
                 effect = &task->effect;
                 if (task != 0) {
                     effect->timer3A = 13;

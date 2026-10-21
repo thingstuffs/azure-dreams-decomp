@@ -44,7 +44,7 @@ void create_positioned_callback_object(Input *position, s32 object_value, s32 da
     u8 *sub;
     s32 neutral_color;
 
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     if (object != 0) {
         sub = (u8 *)object + 0x20;
         object->field_0x10 = object_value;

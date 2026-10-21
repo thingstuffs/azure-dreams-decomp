@@ -6,7 +6,7 @@
 void release_null_terminated_entries(u16 **entries)
 {
     while (*entries != 0) {
-        func_8004B1A4(*entries);
+        flag_object_for_removal(*entries);
         entries++;
     }
 }

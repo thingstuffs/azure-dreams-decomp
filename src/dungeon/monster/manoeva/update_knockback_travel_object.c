@@ -96,7 +96,7 @@ extern u8 D_80176668[];
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void func_80042640(void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s32);
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
 extern s32 find_or_retain_sprite_resource_slot(s32, s32);
@@ -249,6 +249,6 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
         }
         break;
     }
-    func_800478B8(record);
+    advance_sprite_animation_and_textures(record);
     return;
 }

@@ -11,7 +11,7 @@ typedef struct S_800CB4C0_6 {
 
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
-M2C_UNK func_8003DB94();  /* extern */
+M2C_UNK select_record_entry_and_value();  /* extern */
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
 extern M2C_UNK D_800CB374;
@@ -53,7 +53,7 @@ void *create_source_linked_fading_effect(void *source, s16 copy_position) {
         ((S_800CB4C0_0 *)object)->unk_10 = &D_800CB374;
         register_node(object, project_sprite_chain);
         display = ((S_800CB4C0_0 *)object)->unk_0C;
-        func_8003DB94(display, &D_800E02CC, 0);
+        select_record_entry_and_value(display, &D_800E02CC, 0);
         display->scale_y = 0x1400;
         display->scale_x = 0x1400;
         display->tpage_abr = 0x20;

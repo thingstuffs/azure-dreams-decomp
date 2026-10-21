@@ -15,5 +15,5 @@
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 
-ObjectNodeHeader *func_8003FC64(int flags);
+ObjectNodeHeader *allocate_flagged_object_node(int flags);
 #endif

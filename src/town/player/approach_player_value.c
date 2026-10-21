@@ -1,6 +1,6 @@
 #include "common.h"
 /* Move the current value toward the target by the given divisor. */
-s16 approach_player_value(s32 divisor, s16 current, s16 target)
+s16 approach_scalar_target(s32 divisor, s16 current, s16 target)
 {
     if (divisor != 0) {
         u32 current_shifted = (u32)current << 16;

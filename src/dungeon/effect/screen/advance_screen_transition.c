@@ -47,7 +47,7 @@ typedef struct {
 extern s32 decode_and_upload_image(u8 *, Rect *);
 extern s32 upload_vram_row_and_cache();
 extern void *update_actor_effect_sequence(void *, s32);
-extern s32 func_80053EF0(s32);
+extern s32 read_sound_mode_blocking_status(s32);
 extern void play_sound_if_enabled(s32);
 
 extern u8 D_80028F68[];
@@ -122,7 +122,7 @@ case 1:
             break;
         }
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2))--;
-        play_sound_if_enabled(func_80053EF0(4) != 2 ? 0x300 : 0x4300);
+        play_sound_if_enabled(read_sound_mode_blocking_status(4) != 2 ? 0x300 : 0x4300);
         ctx->state++;
         break;
 

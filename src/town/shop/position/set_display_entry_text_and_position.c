@@ -15,7 +15,7 @@ typedef struct S_800B5264_2 {
 
 
 s32 func_8004DC14();                /* extern */
-void func_8004E99C(void *object);
+void flag_optional_object_for_removal(void *object);
 
 typedef struct S_800B5264_0 {
     s32 unk_00;
@@ -27,7 +27,7 @@ void set_display_entry_text_and_position(S_800B5264_0 *entry, s32 text, s32 text
 
     old_text = entry->unk_00;
     if (old_text != 0) {
-        func_8004E99C(old_text);
+        flag_optional_object_for_removal(old_text);
         entry->unk_00 = 0;
     }
     ((S_800B5264_2 *)(((S_800B5264_1 *)entry)->unk_04))->unk_08 = x;

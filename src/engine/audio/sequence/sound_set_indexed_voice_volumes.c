@@ -13,7 +13,7 @@ typedef struct S_80084918 {
 extern S_80084918 audio_voice_request;
 extern s32 audio_voice_masks[];
 
-extern s32 func_8005F134(S_80084918 *arg);
+extern s32 apply_spu_voice_attributes(S_80084918 *arg);
 
 /* Fills D_80084918 with an indexed table value and two parameters, then dispatches it. */
 s32 sound_set_indexed_voice_volumes(s32 table_index, s16 field_8_value, s16 field_a_value) {
@@ -27,5 +27,5 @@ s32 sound_set_indexed_voice_volumes(s32 table_index, s16 field_8_value, s16 fiel
     record->fieldC = 0;
     record->fieldE = 0;
     record->field0 = table_value;
-    return func_8005F134(record);
+    return apply_spu_voice_attributes(record);
 }

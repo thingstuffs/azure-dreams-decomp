@@ -1625,7 +1625,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                 position->unk_08.at02.v = target_pos->unk_08.at02.v
                 - entity_height_offsets[((ParentLink *)(parent->unk_60.p))->unk_13];
                 play_sound_if_enabled(0x300);
-                flash = func_8003FC64(0x212);
+                flash = allocate_flagged_object_node(0x212);
                 if (flash != 0) {
                     flash->unk_22 = 120;
                     flash->callback = advance_record_counter;
@@ -1649,7 +1649,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
                     flash->anim = D_80026680;
                     flash_data->unk_08 = &flash->anim;
                 }
-                impact = func_8003FC64(0x212);
+                impact = allocate_flagged_object_node(0x212);
                 if (impact != 0) {
                     particle_state = (ParticleState *)((u8 *)impact + 0x20);
                     index = 95;
@@ -1718,7 +1718,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         if ((s16)ticks != 4) {
             return;
         }
-        impact = func_8003FC64(0x212);
+        impact = allocate_flagged_object_node(0x212);
         if (impact != 0) {
             particle_state = (ParticleState *)((u8 *)impact + 0x20);
             index = 95;
@@ -1777,7 +1777,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         ticks = self->timer + 1;
         self->timer = ticks;
         if (!((ticks & 3) != 0 || (s16)ticks >= 80)) {
-            impact = func_8003FC64(0x212);
+            impact = allocate_flagged_object_node(0x212);
             if (impact != 0) {
                 particle_state = (ParticleState *)((u8 *)impact + 0x20);
                 particle_state->unk_02 = 20;

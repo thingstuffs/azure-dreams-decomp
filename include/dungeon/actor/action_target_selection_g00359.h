@@ -117,7 +117,7 @@ s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s16 actor_turn_angle_offsets[];
 s32 rebuild_monster_reachable_tiles();
 s32 update_actor_proximity_flag();
-void update_actor_status_and_food();
+void update_actor_status_and_mp();
 s32 check_entity_relation();
 /* object in select_target_tile_for_actor_action */
 extern s32 find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y);

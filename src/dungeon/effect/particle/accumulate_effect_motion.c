@@ -29,7 +29,7 @@ typedef struct {
 } Flags;
 
 extern s16 D_80025338;
-extern void func_800478B8(void *flags);
+extern void advance_sprite_animation_and_textures(void *flags);
 
 /* Accumulate motion, process the update mode, and mark expired or flagged state. */
 void accumulate_effect_motion(State *state, s32 *sum, Flags *flags) {
@@ -48,13 +48,13 @@ void accumulate_effect_motion(State *state, s32 *sum, Flags *flags) {
 
     switch (state->unk18) {
     case 0:
-        func_800478B8(flags);
+        advance_sprite_animation_and_textures(flags);
         break;
     case 1:
         if (state->unk1a > 0) {
             update_count = 0;
             do {
-                func_800478B8(flags);
+                advance_sprite_animation_and_textures(flags);
                 update_count = update_count + 1;
                 more_updates = update_count < state->unk1a;
             } while (more_updates);
@@ -64,7 +64,7 @@ void accumulate_effect_motion(State *state, s32 *sum, Flags *flags) {
         next_tick = state->unk1c + 1;
         state->unk1c = next_tick;
         if ((s16) next_tick >= state->unk1a) {
-            func_800478B8(flags);
+            advance_sprite_animation_and_textures(flags);
             state->unk1c = 0;
         }
         break;

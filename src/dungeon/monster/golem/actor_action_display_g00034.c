@@ -19,7 +19,7 @@ s32 attempt_actor_action_and_display(void *action_out, s32 action_param, void *a
         return result;
     }
 
-    computed_angle = place_actor_at_directional_neighbor(acting_actor, ((S_80172050_1 *)actor_info)->unk_24,
+    computed_angle = probe_directional_neighbor(acting_actor, ((S_80172050_1 *)actor_info)->unk_24,
         ((S_80172050_1 *)actor_info)->unk_25, ((S_80172050_0 *)acting_actor)->unk_2A);
     if ((check_entity_interaction_compatibility(((void *)(acting_actor)), computed_angle) << 16) == 0) {
         result = 0;

@@ -197,7 +197,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             if (spawned != 0) {
                 S_81844800_12 *burst_data = (u8 *)spawned + 0x20;
                 ((S_81844800_2 *)spawned)->unk_10 = update_effect_base_state;
-                register_node(spawned, (s32)func_80024868);
+                register_node(spawned, (s32)draw_layered_vertical_sprite_chain);
                 burst_data->unk_2A = 8;
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
                 burst_data->unk_04 = ((S_81844800_3 *)motion)->unk_00.at02.v;
@@ -365,7 +365,7 @@ void update_effect_base_state(s32 effect_or_count) {
 #define STORE_U8(p, v) (*(u8 *)(p) = (v))
 
 /* Draw textured quads with randomized texture and horizontal jitter for each linked effect node. */
-s32 func_80024868(u8 *first_node)
+s32 draw_layered_vertical_sprite_chain(u8 *first_node)
 {
     u32 uv_choices[4];
     Packed8 world_pos;
@@ -563,7 +563,7 @@ void fade_effect_sprite_to_black(void *effect, VecState *motion, void *sprite) {
         break;
 
     case 1:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if (*(u16 *)((s8 *)sprite + 0x14) & 0x6000) {
             *(s8 *)((s8 *)sprite + 4) = 0;
             *(s8 *)((s8 *)sprite + 5) = 0;

@@ -823,7 +823,7 @@ void setup_run_and_load_track(void) {
 
     srand((*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).seed);
     restore_dungeon_random_seed((*(floor_generate_isolated_80285A70_SaveHead *)floor_generation_state).seed);
-    store_monster_direction_nibble();
+    store_random_nibble();
     runtime_dispatch_state.flags16 = 0;
     floor_loaded_content_flags = 0;
     clear_dungeon_object_entries();
@@ -1914,11 +1914,11 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
         start.y = end.y;
         if (dir_step_x[travel_dir] != 0) {
             if (cursor_x == dest_grid_x) {
-                start.dir = (forward_monster_coordinate_delta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
+                start.dir = (calculate_planar_heading(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         } else {
             if (cursor_y == dest_grid_y) {
-                start.dir = (forward_monster_coordinate_delta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
+                start.dir = (calculate_planar_heading(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         }
         cursor_x = cursor_x + dir_step_x[start.dir];
@@ -2091,11 +2091,11 @@ failed:
         start.y = end.y;
         if (dir_step_x[travel_dir] != 0) {
             if (cursor_x == dest_grid_x) {
-                start.dir = (forward_monster_coordinate_delta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
+                start.dir = (calculate_planar_heading(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         } else {
             if (cursor_y == dest_grid_y) {
-                start.dir = (forward_monster_coordinate_delta(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
+                start.dir = (calculate_planar_heading(cursor_x, cursor_y, dest_grid_x, dest_grid_y) >> 9) & 6;
             }
         }
         cursor_x = cursor_x + dir_step_x[start.dir];
@@ -2198,7 +2198,7 @@ s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *st
         } else {
             wx = dstX;
         }
-        delta = forward_monster_coordinate_delta(cx, cy, wx, wy);
+        delta = calculate_planar_heading(cx, cy, wx, wy);
         for (;;) {
             s32 ix;
             s32 iy;
@@ -2217,7 +2217,7 @@ s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *st
     }
 
     if (wx != dstX || wy != dstY) {
-        delta = forward_monster_coordinate_delta(cx, cy, dstX, dstY);
+        delta = calculate_planar_heading(cx, cy, dstX, dstY);
         for (;;) {
             s32 ix;
             s32 iy;
@@ -2346,7 +2346,7 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
         } else {
             wx = dst_x;
         }
-        r = forward_monster_coordinate_delta(cx, cy, wx, wy);
+        r = calculate_planar_heading(cx, cy, wx, wy);
         dir = (r >> 9) & 6;
         for (;;) {
             s32 iy;
@@ -2376,7 +2376,7 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
     }
 
     if (wx != dst_x || wy != dst_y) {
-        r = forward_monster_coordinate_delta(cx, cy, dst_x, dst_y);
+        r = calculate_planar_heading(cx, cy, dst_x, dst_y);
         dir = (r >> 9) & 6;
         for (;;) {
             s32 iy;
@@ -2479,6 +2479,12 @@ s32 is_value_within_inclusive_bounds(s16 value, s32 lower_bound, s16 upper_bound
 void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id) {
     do {
         fill_region_with_random_patches(region, update_id);
+        /*
+         * Original bug: special rooms place items and traps before the path check. A retry redraws terrain without
+         * clearing those records, leaving placements on the old layout.
+         * Found and documented by the Azure Dreams community
+         * (adrando.com/guide/bugs.html).
+         */
         choose_random_region_feature(region, update_id);
     } while ((mark_path_through_neighboring_tiles(update_id) << 0x10) == 0);
     mask_generation_cell_rect(region->unk_00, region->unk_02, region->unk_04, region->unk_06, 0xF);
@@ -2598,6 +2604,12 @@ void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect,
         item_category_table = item_category_groups;
 
 
+        /*
+         * Original bug: trap rooms overwrite spawn slots, including zero, without checking for existing entries. On
+         * floor 31 this can replace the reserved Beldo vision.
+         * Found and documented by the Azure Dreams community
+         * (adrando.com/guide/bugs.html).
+         */
         for (; slot_index >= 0; slot_index--) {
             x_offset = random_dungeon_range_16(0, (rect->width - 1) & 0xFFFF) & 0xFFFF;
             y_offset = random_dungeon_range_16(0, (rect->height - 1) & 0xFFFF) & 0xFFFF;

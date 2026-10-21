@@ -67,7 +67,7 @@ void create_timed_offset_motion_effect(s32 unused, s16 duration, s32 offset_x, s
     u8 *prim;
     u8 *packet;
 
-    obj = func_8003FC64(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         work = obj + 0x20;
         ((S_80170D2C_0 *)work)->unk_18 = duration;

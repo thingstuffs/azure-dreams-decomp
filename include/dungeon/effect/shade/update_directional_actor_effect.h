@@ -319,14 +319,14 @@ s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 func_800644B8(s32);
 void *allocate_list_node();
 void *func_8003FD64();
-M2C_UNK func_800478B8();
+M2C_UNK advance_sprite_animation_and_textures();
 s32 func_80064584();
 M2C_UNK func_800649A0();
 M2C_UNK func_80064A40();
 M2C_UNK func_80064B30();
-M2C_UNK func_8003DB94();
+M2C_UNK select_record_entry_and_value();
 
-s32 func_80053EF0();
+s32 read_sound_mode_blocking_status();
 M2C_UNK func_80065820();
 s32 func_80069EF8();
 void apply_attack_power_and_element_effects();

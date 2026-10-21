@@ -296,7 +296,7 @@ void cycle_map_cell_flags(s16 x, s16 y, u16 flags)
 #include "shared/dir_step.h"
 
 /* Checks whether the adjacent tile has masked flags or a zero tile value. */
-s32 func_8009A2B8(s16 origin_x, s16 origin_y, s32 direction) {
+s32 is_neighbor_tile_blocked(s16 origin_x, s16 origin_y, s32 direction) {
     s32 tile_index;
     s32 tile_y;
     s32 result;

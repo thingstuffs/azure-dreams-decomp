@@ -20,6 +20,6 @@ void card_boot_format_command_panel_labels(s32 baseAddress) {
         entryAddress = baseAddress + entryOffset;
         entryOffset += 0x48;
         entriesProcessed += 1;
-        decode_note_text(entryAddress, tableValue, 1);
+        decode_fullwidth_text(entryAddress, tableValue, 1);
     } while (entriesProcessed < 3);
 }

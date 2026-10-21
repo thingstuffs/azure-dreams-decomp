@@ -8,7 +8,7 @@ extern char D_80021386[];
 extern char *award_next_unearned_milestone(s32, s32, s32, s32);
 
 /* Selects a text string, delegating selector 52 to the shared lookup. */
-char *func_80017580(s32 unused, s32 passthru_1, s32 selector_id, s32 passthru_3)
+char *select_pointer_with_dispatch_cases(s32 unused, s32 passthru_1, s32 selector_id, s32 passthru_3)
 {
     s32 arg2_val;
     u32 case_index;

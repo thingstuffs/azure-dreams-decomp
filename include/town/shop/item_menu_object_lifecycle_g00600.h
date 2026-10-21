@@ -35,7 +35,7 @@ extern s32 create_dual_buffer_object(void *setup_value, s32 x, s32 y);
 extern void reset_item_menu_object_state(s32 object);
 extern void schedule_item_menu_child_release(s32 object);
 extern void set_object_data_pointer_2(s32 object);
-extern void func_8004E130(void);
+extern void enqueue_script_message_command(void);
 extern void handle_selection_and_create_object(void);
 
 /* Functions defined in this translation unit. */

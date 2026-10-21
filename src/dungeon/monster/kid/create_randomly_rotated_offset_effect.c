@@ -58,7 +58,7 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, EntityRec *source_p
     S_80174800_1 *data;
     S_80174800_2 *pos;
 
-    node = func_8003FC64(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         part = (u8 *)node + 0x20;
         part->unk_1A = 65;

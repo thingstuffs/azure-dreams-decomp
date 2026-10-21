@@ -98,7 +98,7 @@ typedef struct SignedHeight {
 
 #include "engine/graphics/select_sprite_entry_api.h"
 void cycle_map_cell_flags(s16, s16, u16);
-s32 func_8009A2B8(s16, s16, s32);
+s32 is_neighbor_tile_blocked(s16, s16, s32);
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"
 s32 select_dungeon_spawn_tile(u8 *, u8 *);
@@ -335,7 +335,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, ActorSp
                     continue;
                 }
             }
-            tile_blocked = func_8009A2B8(partner_sprite->tileX, partner_sprite->tileY, direction);
+            tile_blocked = is_neighbor_tile_blocked(partner_sprite->tileX, partner_sprite->tileY, direction);
             if ((tile_blocked << 0x10) != 0) {
                 continue;
             }

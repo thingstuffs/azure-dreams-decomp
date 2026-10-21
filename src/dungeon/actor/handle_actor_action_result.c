@@ -1,11 +1,11 @@
 #include "common.h"
 
 extern s32 fade_actor_to_removal(s32 value_a, s32 value_b, void *ptr, s32 value_c);
-extern void decrement_event_counter(void);
+extern void decrement_bounded_counter(void);
 
 void handle_actor_action_result(s32 value_a, s32 value_b, void *ptr, s32 value_c) {
     if (fade_actor_to_removal(value_a, value_b, ptr, value_c) != 0) {
-        decrement_event_counter();
+        decrement_bounded_counter();
         return;
     }
 

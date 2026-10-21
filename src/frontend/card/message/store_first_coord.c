@@ -25,7 +25,7 @@ static __inline__ void store_second_coord(s32 *record, void *object, s32 row)
 }
 
 /* Positions the object's record and updates the selected row. */
-void func_8001B670(void *object, s32 column, s32 mode, s32 row, s32 value)
+void configure_card_grid_entry(void *object, s32 column, s32 mode, s32 row, s32 value)
 {
     u32 column_tripled;
     s32 row_value;

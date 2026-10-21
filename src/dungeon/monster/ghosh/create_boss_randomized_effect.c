@@ -33,7 +33,7 @@ typedef struct S_80172F44_4 {
 
 extern void register_node(void *entry, void *registration_id);
 extern s32 rand(void);
-extern void func_8003DB94(void *ptr, void *ptr1, s32 value);
+extern void select_record_entry_and_value(void *ptr, void *ptr1, s32 value);
 extern void project_sprite_chain(void);
 extern void update_accelerating_growing_particle(void);
 
@@ -48,7 +48,7 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
     s32 z_fixed;
     u16 x_integer;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = (u8 *)object + 0x20;
         ((S_80172F44_0 *)state)->unk_16 = 0x1A;
@@ -86,6 +86,6 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
         display->color.c.r = 0x16;
         display->clut = 0x7DCF;
         display->flags |= 0x100;
-        func_8003DB94(display, effect_sprite_sources, 0);
+        select_record_entry_and_value(display, effect_sprite_sources, 0);
     }
 }

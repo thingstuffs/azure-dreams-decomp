@@ -31,10 +31,10 @@ extern void begin_deferred_item_action(DungeonObject *, u8 *, u8 *, DungeonObjec
 extern void clear_slot_and_update_linked_state(u8 *);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void apply_item_effect_at_entity_position(DungeonObject *, u8 *);
+extern void place_actor_item(DungeonObject *, u8 *);
 extern void display_item_status_message(DungeonObject *, u8 *, s16);
 extern s32 generate_random_value(void);
 extern s32 cap_pending_actor_value_delta(DungeonObject *);
@@ -63,7 +63,7 @@ s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
         display_item_status_message(obj, payload, effect_arg);
         kind_flags = entity_action_selectors;
         if (feed_actor_restore_mp(obj, ((u32)kind_flags[obj->kind] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(obj, payload);
+            place_actor_item(obj, payload);
             return 1;
         }
     }
@@ -104,13 +104,13 @@ s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     if (obj->flags & 0x4000) {
         message_handle = get_unused_text_buffer();
         if (effect_state > 0) {
-            func_80099290(expand_text_control_codes(&D_80089354[0], format_unsigned_double_byte_decimal(obj->amount, expand_text_control_codes(&D_800E0E14[0],
+            clear_byte_and_advance(expand_text_control_codes(&D_80089354[0], format_unsigned_double_byte_decimal(obj->amount, expand_text_control_codes(&D_800E0E14[0],
                 append_entity_display_text(obj, message_handle)))));
         } else if (effect_state == 0) {
-            func_80099290(expand_text_control_codes(&D_80089354[0], format_unsigned_double_byte_decimal(obj->amount, expand_text_control_codes(&D_800E0E34[0],
+            clear_byte_and_advance(expand_text_control_codes(&D_80089354[0], format_unsigned_double_byte_decimal(obj->amount, expand_text_control_codes(&D_800E0E34[0],
                 append_entity_display_text(obj, message_handle)))));
         } else {
-            func_80099290(expand_text_control_codes(&D_800E0E50[0], message_handle));
+            clear_byte_and_advance(expand_text_control_codes(&D_800E0E50[0], message_handle));
         }
         display_text_with_fullwidth_adjustment(message_handle);
     }

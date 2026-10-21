@@ -88,8 +88,8 @@ typedef struct S_80095A10_10 {
 
 
 s32 Control_CD();
-void func_800424E0();
-void func_80042560();
+void apply_actor_template_and_class();
+void replay_actor_status_slots();
 s32 func_80042640(void *, s32);
 void clear_slots_of_type();
 void runtime_map_type_16_entry_code();
@@ -185,12 +185,12 @@ void update_familiar_summoning(u8 *actor, MovingPosition *position, void *animat
             ((S_80095A10_7 *)object_position)->unk_06 = (u16) position->unk_06;
             ((S_80095A10_7 *)object_position)->unk_0A = (s16) (position->unk_0A - 0x10);
             func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
-            func_800424E0(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
+            apply_actor_template_and_class(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
             object_flags = ((S_80095A10_5 *)object)->unk_1C;
             object_flags |= 0x02000000;
             object_flags |= 0x20000;
             ((S_80095A10_5 *)object)->unk_1C = object_flags;
-            func_80042560(object);
+            replay_actor_status_slots(object);
             play_sound_if_enabled(0x704);
             clear_slots_of_type(object, 3);
             clear_slots_of_type(object, 1);

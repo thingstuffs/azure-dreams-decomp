@@ -17,7 +17,7 @@ s32 open_twin_souko(s32 option) {
     void *state;
     void *task;
 
-    task = func_8003FC64(0);
+    task = allocate_flagged_object_node(0);
     state = task + 0x20;
     if (task == 0 ||
         (initialize_record_table_and_group(state),

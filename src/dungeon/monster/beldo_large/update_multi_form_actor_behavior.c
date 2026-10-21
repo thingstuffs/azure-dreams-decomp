@@ -37,7 +37,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, s32, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, s32, void *, void *);
@@ -129,7 +129,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
                 return;
             }
         }
-        update_actor_status_and_food(actor_arg);
+        update_actor_status_and_mp(actor_arg);
         on_actor_status_updated(actor_arg);
         if (((S_8016D0FC_3 *)actor_arg)->unk_25 == 0) {
             return;

@@ -7,6 +7,6 @@ typedef struct S_80702640_0 {
 
 
 /* Invoke the runtime callback at offset 0x60 with zero. */
-void shop_invoke_runtime_callback(void) {
+void invoke_runtime_callback(void) {
     ((S_80702640_0 *)(*(void **)0x807030B8))->unk_60(0);
 }

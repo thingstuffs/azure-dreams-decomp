@@ -44,7 +44,7 @@ void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, 
     linked_counter->unk_14 = (u16) (linked_counter->unk_14 + 1);
     ((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_04 = (u16) (((B28_818B68B8_S_818B68B8_0 *)counter_state)->unk_04 + 1);
     value_state->unk_08 = (s32) (value_state->unk_08 + 0xFFF60000);
-    func_800478B8(status);
+    advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 = (u16) (((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
@@ -71,7 +71,7 @@ s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 i
     void *object;
     B28_818B6954_S_818B6954_1 *object_data;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         ((B28_818B6954_S_818B6954_0 *)object)->unk_10 = func_800240B8;
         object_data = (B28_818B6954_S_818B6954_1 *)((u8 *)object + 0x20);
@@ -84,7 +84,7 @@ s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 i
         render_state->flags |= 0xC;
         render_state->tpage_abr |= 0x20;
         render_state->flags |= 0x100;
-        func_8003DB94(render_state, D_800DEC70, 0);
+        select_record_entry_and_value(render_state, D_800DEC70, 0);
         render_state->angle_z = rand() % 0x1000;
         render_state->scale_y = 0xC00;
         render_state->scale_x = 0xC00;
@@ -586,7 +586,7 @@ void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4
     B28_818B77D4_Inner818B77D4 *state;
     u16 source_value;
 
-    obj = (B28_818B77D4_Obj818B77D4 *)func_8003FC64(0x212);
+    obj = (B28_818B77D4_Obj818B77D4 *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->unk10 = cycle_seven_color_fade;
         state = &obj->unk20;
@@ -641,7 +641,7 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
     variant = shifted >> 0x10;
     variant %= 7;
     variant_index = variant + 1;
-    func_800478B8(gfx);
+    advance_sprite_animation_and_textures(gfx);
     gfx->field1A = (u16) (gfx->field1A + 0x300);
     phase = obj->state;
     switch (phase) {
@@ -742,7 +742,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
     void *obj;
     B28_818B7BD0_S_818B7BD0_4 *dst;
 
-    obj = func_8003FC64(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != NULL) {
         update_handler = update_spark_effect;
         part = obj + 0x20;
@@ -761,7 +761,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
         render->color.c.r = 0x80;
         render->clut = 0x7E00;
         render->flags = (u16) (render->flags | 0x100);
-        func_8003DB94(render, model, 0);
+        select_record_entry_and_value(render, model, 0);
         adjusted = func_80069EF8();
         random = adjusted;
         if (random < 0) {
@@ -787,7 +787,7 @@ void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, B
 {
     owner->child->counter++;
     owner->counter++;
-    func_800478B8(entity);
+    advance_sprite_animation_and_textures(entity);
     entity->angle += 0x300;
 
     vec->x += vec->dx;
@@ -821,7 +821,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
     s32 copy2;
     s32 copy3;
 
-    obj = func_8003FC64(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         sub = (u8 *)obj + 0x20;
         obj->update = func_8002553C;
@@ -834,7 +834,7 @@ s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *sour
         render->color.c.r = 0x80;
         render->clut = 0x7E00;
         render->flags |= 0x100;
-        func_8003DB94(render, D_80025EE4, 0);
+        select_record_entry_and_value(render, D_80025EE4, 0);
         random = rand();
         adjusted = random;
         render->angle_z = (random % 4096);

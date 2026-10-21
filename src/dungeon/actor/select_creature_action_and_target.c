@@ -29,7 +29,7 @@ extern s32 get_rounded_facing_and_rounding_flag();
 extern s32 rebuild_monster_reachable_tiles();
 extern s32 update_actor_proximity_flag();
 extern s32 has_pending_actor_or_turn_action();
-extern s32 func_800A2CAC();
+extern s32 has_low_actor_mp();
 extern s32 check_entity_interaction_compatibility();
 extern s32 check_scaled_value_threshold();
 extern s32 find_slot_by_definition_kind();
@@ -44,7 +44,7 @@ extern s32 check_entity_eligibility();
 extern s32 check_left_tile_and_center_height();
 extern s32 find_nearest_floor_item_in_room();
 extern s32 find_floor_item_at_world_position();
-extern s32 update_actor_status_and_food();
+extern s32 update_actor_status_and_mp();
 extern s32 refresh_actor_proximity_state();
 extern s32 roll_actor_flag_once();
 extern s32 sample_terrain_surface_height();
@@ -115,14 +115,14 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     saved_lower_limit = lower_limit;
     ((ActorRecord *)creature)->action_flags |= 0x4000;
     if (system_update_flags & 8) {
-        update_actor_status_and_food(creature);
+        update_actor_status_and_mp(creature);
         return -1;
     }
     if (creature[0x25] == 0) {
         default_action = 0;
         goto return_default;
     }
-    if ((func_800A2CAC(creature) << 16) != 0) {
+    if ((has_low_actor_mp(creature) << 16) != 0) {
         if ((find_nearest_floor_item_in_room(position, 0x60C, &tile_x, &tile_y) << 16) != 0) {
             if (creature[0x13] != 0x22) {
                 if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
@@ -619,7 +619,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     do {
         ally = *(void **)(((u8 *)((u8 *)dungeon_actor_ring_anchor) + scan_index * 4) + 0xAC);
         if (ally != NULL) {
-            if ((func_800A2CAC(ally) << 16) != 0) {
+            if ((has_low_actor_mp(ally) << 16) != 0) {
                 ((ActorRecord *)creature)->action_flags = 0x8009;
                 (*(u16 *)&((ActorRecord *)creature)->facing) = get_rounded_facing_and_rounding_flag(
                     ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y,

@@ -36,7 +36,7 @@ extern u8 D_8015D574[];
 extern u8 D_8015D57C[];
 
 /* Updates hop movement and animation, then finalizes the action when its timer expires. */
-void func_80E7B34C(void *action, void *motion, void *sprite, void *actor)
+void hop_actor_and_restore_scale(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
     s32 move_ticks;

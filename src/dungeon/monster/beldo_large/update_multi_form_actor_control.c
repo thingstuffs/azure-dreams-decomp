@@ -28,14 +28,14 @@ typedef struct S_8016A36C_3 {
 
 
 #include "engine/graphics/select_sprite_entry_api.h"
-void func_800478B8();
+void advance_sprite_animation_and_textures();
 s32 func_80069EF8();
 struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);
 s8 find_active_rect_containing_point();
-s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+s32 test_neighbor_position_relation(s32, s32, s32, s32);
 s32 get_rounded_facing_and_rounding_flag();
 s32 can_entity_gain_level();
-void update_actor_status_and_food(struct ActorRecord *);
+void update_actor_status_and_mp(struct ActorRecord *);
 void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action(void *, s32, void *, void *);
@@ -279,7 +279,7 @@ block_37:
     ((S_8016A36C_3 *)sprite)->unk_26 = room_id;
     if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & 0x20) {
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         }
         if (((S_8016A36C_3 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -295,7 +295,7 @@ block_37:
             if (system_update_flags & 8) {
                 advance_actor_effect_sequence_2(actor, context, sprite);
                 entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
-                update_actor_status_and_food(entity);
+                update_actor_status_and_mp(entity);
                 entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
                 return;
             }
@@ -324,7 +324,7 @@ block_37:
             start_actor_directional_action(actor, context, sprite, entity);
             return;
         case 12:
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         case 5:
         case 6:
@@ -335,7 +335,7 @@ block_37:
             ActorRecord *owner = primary_actor_record;
             entity->facing = (s16)angle;
             if (owner->unk_9A != 0x11) {
-                update_actor_status_and_food(entity);
+                update_actor_status_and_mp(entity);
                 return;
             }
         }
@@ -369,7 +369,7 @@ block_37:
         if (!(system_update_flags & 8)) {
             if (room_id < 0 || !(dungeon_rooms[room_id].flags & 2)) {
                 if (!(entity_flags & 0x430)) {
-                    if ((compare_monster_neighbor_values(((S_8016A36C_3 *)sprite)->unk_24.at00.v,
+                    if ((test_neighbor_position_relation(((S_8016A36C_3 *)sprite)->unk_24.at00.v,
                         ((S_8016A36C_3 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
                         entity->facing = get_rounded_facing_and_rounding_flag(((S_8016A36C_3 *)sprite)->unk_24.at00.v,
                             ((S_8016A36C_3 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
@@ -430,7 +430,7 @@ block_37:
                 (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_80173A50;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &D_80173A50), 0);
-                func_800478B8(sprite);
+                advance_sprite_animation_and_textures(sprite);
                 ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             }
         }
@@ -466,7 +466,7 @@ block_37:
                 (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_80173A58;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &D_80173A58), 0);
-                func_800478B8(sprite);
+                advance_sprite_animation_and_textures(sprite);
                 ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             }
         }

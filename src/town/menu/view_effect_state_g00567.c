@@ -25,7 +25,7 @@ void *allocate_randomized_effect_object(s32 state_value)
     S_800A25CC_1 *state;
     void *object;
 
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     if (object == 0) {
         return 0;
     }

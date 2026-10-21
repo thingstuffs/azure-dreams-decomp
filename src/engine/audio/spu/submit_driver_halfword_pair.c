@@ -23,6 +23,6 @@ s32 submit_driver_halfword_pair(s16 flags_index, s16 first_value, s16 second_val
     request.unk0 = *(&audio_voice_masks[flags_index]);
     request.unk8 = first_value;
     request.unkA = second_value;
-    func_8005F134(&request);
+    apply_spu_voice_attributes(&request);
     return 0;
 }

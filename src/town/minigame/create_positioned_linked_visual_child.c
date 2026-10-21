@@ -24,7 +24,7 @@ typedef struct S_800BF9E4_5 {
 } S_800BF9E4_5;
 struct Dst;
 struct Elem;
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 extern void configure_the_set_mode_n_1();
 
@@ -50,9 +50,9 @@ void create_positioned_linked_visual_child(void *object, IntVector3 *position, s
     position->y = 0x02600000;
     position->z = 0;
     configure_the_set_mode_n_1(object, position, &D_800D2364[0]);
-    func_8003DB94(resource_context, &D_800F9F78[0], 0);
+    select_record_entry_and_value(resource_context, &D_800F9F78[0], 0);
     ((Rec_func_8008F074_arg0 *)object)->unk_48 = D_800D237C[0];
-    child = func_8003FC64(0x136);
+    child = allocate_flagged_object_node(0x136);
     if (child != 0) {
         child_data = child + 0x20;
         register_node(child, &D_80046398[0]);

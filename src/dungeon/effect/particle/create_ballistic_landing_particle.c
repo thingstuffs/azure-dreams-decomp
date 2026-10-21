@@ -78,7 +78,7 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
     S_80165D0C_1 *effect_state;
     void *effect;
 
-    effect = func_8003FC64(0x12);
+    effect = allocate_flagged_object_node(0x12);
     if (effect != NULL) {
         (((ObjectNodeHeader *)effect)->unk_10) = &D_80165AB8;
         ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_02 =

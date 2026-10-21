@@ -8,8 +8,8 @@ struct Elem;
 
 
 extern void func_8002421C();
-extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
-extern void func_800478B8(void *entity);
+extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
+extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 func_800644B8();
 extern s32 func_80064584();
 extern u8 D_800DEAE0[];
@@ -80,8 +80,8 @@ void update_expanding_spiral_motion(S_8185CB30_0 *motion, S_8185CB30_2 *position
     object->unk_1A.as_s16 =
         (s16)((s32)(0 - ((func_80064584((s16)motion->unk_1C -
                                         angle_table->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8);
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     if (object->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94(object, D_800DEAE0, 0);
+        select_record_entry_and_value(object, D_800DEAE0, 0);
     }
 }

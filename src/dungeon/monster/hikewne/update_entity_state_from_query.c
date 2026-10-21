@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 s32 has_pending_dungeon_activity();                          /* extern */
-void update_actor_status_and_food();                      /* extern */
+void update_actor_status_and_mp();                      /* extern */
 s32 relink_entity_and_clear_high_flag(); /* extern */
 void select_movement_direction_and_advance(); /* extern */
 
@@ -32,7 +32,7 @@ s32 update_entity_state_from_query(void *entity_arg, void *primary_context_arg, 
     switch (state_type) {
     case 0:
         ((S_80172628_0 *)entity)->unk_9A = 0xE;
-        update_actor_status_and_food(entity);
+        update_actor_status_and_mp(entity);
         result = 0;
         return result;
     case 2:

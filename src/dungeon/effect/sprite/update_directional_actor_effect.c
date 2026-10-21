@@ -85,7 +85,7 @@ typedef struct S_81988800_12 {
 extern M2C_UNK D_80024D58;
 
 extern s32 resolve_record_orientation_or_fallback();
-extern s32 func_80053EF0();
+extern s32 read_sound_mode_blocking_status();
 extern void apply_attack_power_and_element_effects();
 extern void *find_eligible_nearby_entry();
 
@@ -168,7 +168,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
         s32 effect_id;
         s32 variant;
         if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
-            variant = func_80053EF0(4);
+            variant = read_sound_mode_blocking_status(4);
             effect_id = 0x4300;
             if (variant != 2) {
                 effect_id = 0x300;
@@ -631,7 +631,7 @@ void mark_referenced_object_and_update_flags(void *entry, void *unused, void *ta
     object = *(void **)entry;
     *(u16 *)((u8 *)object + 0x52) =
         (u16)(*(u16 *)((u8 *)object + 0x52) | 0x8000);
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         *(u16 *)((u8 *)entry - 2) =
             (u16)(*(u16 *)((u8 *)entry - 2) | 0x8000);

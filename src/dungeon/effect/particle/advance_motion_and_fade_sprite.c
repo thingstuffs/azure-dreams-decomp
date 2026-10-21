@@ -671,7 +671,7 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
         break;
 
     case 1:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if (sprite->status & 0x6000) {
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;

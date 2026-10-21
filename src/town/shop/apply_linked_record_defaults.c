@@ -13,13 +13,13 @@ typedef struct S_800B2F38_1 {
 } S_800B2F38_1;   /* ((S_800B2F38_0 *)arg0)->unk_A8 in apply_linked_record_defaults */
 
 
-void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);
+void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);
 extern M2C_UNK D_80071244;
 extern M2C_UNK D_800792DC;
 
 
 /* Apply D_800792DC using the linked value and set the linked target to D_80071244. */
 void apply_linked_record_defaults(void *record) {
-    func_8004CBFC(record + 0x1C, &D_800792DC, ((S_800B2F38_1 *)(((S_800B2F38_0 *)record)->unk_A8))->unk_10);
+    initialize_scaled_entry_cursor(record + 0x1C, &D_800792DC, ((S_800B2F38_1 *)(((S_800B2F38_0 *)record)->unk_A8))->unk_10);
     *((S_800B2F38_1 *)(((S_800B2F38_0 *)record)->unk_A8))->unk_14 = &D_80071244;
 }

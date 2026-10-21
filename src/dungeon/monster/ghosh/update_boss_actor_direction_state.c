@@ -70,7 +70,7 @@ typedef struct S_80172610_8 {
 
 
 extern void select_sprite_entry(void *, s32, s32);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void apply_monster_koyaw_data(void *, void *);
 
 extern s8 view_direction_depth_biases[];
@@ -112,12 +112,12 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
 
     apply_monster_koyaw_data(((S_80172610_2 *)base)->unk_1C.p, context + 0xC);
     if ((((S_80172610_2 *)base)->unk_1C.i & 0x20) == 0) {
-        func_800478B8(context);
+        advance_sprite_animation_and_textures(context);
     }
 
     if (((S_80172610_3 *)linked)->unk_2C == D_80174C6C) {
-        func_800478B8(context);
-        func_800478B8(context);
+        advance_sprite_animation_and_textures(context);
+        advance_sprite_animation_and_textures(context);
     }
 
     old_angle = ((S_80172610_0 *)actor)->unk_2A;

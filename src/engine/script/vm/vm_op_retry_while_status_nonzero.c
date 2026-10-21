@@ -14,7 +14,7 @@ typedef struct S_80039A88_0 {
 
 /* Clear the script state and rewind one byte while the runtime status is nonzero. */
 void vm_op_86_retry_while_status_nonzero(S_80039A88_0 *state) {
-    if (func_80053EF0(4) != 0) {
+    if (read_sound_mode_blocking_status(4) != 0) {
         state->unk_10 = 0;
         state->unk_1C = (s32) (state->unk_1C - 1);
     }

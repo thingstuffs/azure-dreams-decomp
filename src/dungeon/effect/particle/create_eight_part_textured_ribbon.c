@@ -65,7 +65,7 @@ typedef struct {
     u8 bytes[32];
 } Copy32;
 
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern s32 register_node();
 extern u8 D_800DEAE0[3];
 extern Copy32 D_801648DC;
@@ -121,7 +121,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
     trunc_bias = 0xFFFF;
     vertex_table = ribbon_vertices;
     do {
-        object = func_8003FC64(0x12);
+        object = allocate_flagged_object_node(0x12);
         effect = object + 0x20;
         if (object != 0) {
             effect->unk_18 = 0xEU;
@@ -219,7 +219,7 @@ void create_eight_part_textured_ribbon(S_801690D8_1 *source, void *origin, s32 u
                 appearance->color.c.r);
             effect->unk_01 = (u8) appearance->color.c.g;
             effect->unk_02 = (u8) appearance->color.c.b;
-            func_8003DB94(appearance, &D_800DEAE0, 0);
+            select_record_entry_and_value(appearance, &D_800DEAE0, 0);
             ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_00 = effect->unk_80;
             ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_02 = (u16) effect->unk_82;
             ((S_801690D8_8 *)(((effect->unk_1C * 0x60) + vertex_table)))->unk_04 = (u16) effect->unk_84;

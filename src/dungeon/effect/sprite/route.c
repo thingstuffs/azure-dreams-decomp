@@ -153,7 +153,7 @@ s32 func_8002403C(void *start_node, void *start_coords)
 extern s32 rand(void);
 
 /* Raises the source toward its height limit and flags the object when its counter expires. */
-void func_8002428C(void *object_data, void *source_data)
+void advance_jittered_effect_toward_terrain(void *object_data, void *source_data)
 {
     u8 *object = object_data;
     u8 *source = source_data;
@@ -203,7 +203,7 @@ void func_8002428C(void *object_data, void *source_data)
 extern s32 rand(void);
 
 /* Creates an object at a randomized offset from the source and initializes its fields. */
-void func_80024358(
+void create_jittered_terrain_seeking_point(
     void *source,
     s16 field_34,
     s32 field_28,
@@ -233,7 +233,7 @@ void func_80024358(
 
     object_cursor = allocate_list_node(0x211, source_obj);
     if (object_cursor != NULL) {
-        ((B32_818CEB58_S_818CEB58_0 *)object_cursor)->unk_10 = (s32)func_8002428C;
+        ((B32_818CEB58_S_818CEB58_0 *)object_cursor)->unk_10 = (s32)advance_jittered_effect_toward_terrain;
         jitter_x = rand() & 0x1F;
         position_x = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_02;
         dest_x = ((B32_818CEB58_S_818CEB58_0 *)object_cursor)->unk_08.s;
@@ -274,7 +274,7 @@ void func_80024358(
 #include "shared/object_flags.h"
 
 /* Advance position and object state, then flag completion on timeout or object status. */
-void func_80024478(void *state, void *position, void *object)
+void move_and_grow_timed_sprite(void *state, void *position, void *object)
 {
     s32 position_z;
     s32 step_z;
@@ -286,7 +286,7 @@ void func_80024478(void *state, void *position, void *object)
     step_z = *(s32 *)((u8 *)state + 0x54);
     D_80025924[0] = 1;
     *(s32 *)((u8 *)position + 8) = position_z + step_z;
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
 
     *(u16 *)((u8 *)object + 0x1C) += 0x80;
     *(u16 *)((u8 *)object + 0x1E) += 0x80;
@@ -341,7 +341,7 @@ void update_actor_effect_sequence(void *record)
 s32 rand();
 
 /* Updates effect motion, collisions, animation, scale, and expiration. */
-void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite) {
+void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite) {
     s32 current_z;
     u16 frame_count;
     u16 scale_x;
@@ -385,7 +385,7 @@ void func_800245C8(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrame
     frame_count = ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_04 + 1;
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_04 = frame_count;
     if (!(frame_count & 3)) {
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
     }
     scale_x = sprite->scale_x + 0x64;
     sprite->scale_x = scale_x;
@@ -471,7 +471,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             w1 = (s32)((u8 *)entity - 0x20);
             src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
-            func_80024358((void *)w1, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
+            create_jittered_terrain_seeking_point((void *)w1, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
             p = (u8 *)p + 1;
         } if ((s32)p < 4) goto loop_0;
         if ((check_adjacent_tile_height_clearance(pos->unk_00.at02.v, pos->unk_04.at02.v,
@@ -659,14 +659,14 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u += 1;
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
-        obj = func_8003FC64(0x212);
+        obj = allocate_flagged_object_node(0x212);
         {
             u8 *s3;
             s3 = (u8 *)obj;
             s3 += 0x20;
             if (obj != 0) {
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_02 = 0x34;
-            ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = func_800245C8;
+            ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = advance_damped_ground_sliding_sprite;
             register_node(obj, project_sprite_chain);
             p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s |= 0xC;
@@ -701,16 +701,16 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.u | 0x100;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_12 = 0x7DCF;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-            func_8003DB94(p, effect_sprite_sources, 0);
+            select_record_entry_and_value(p, effect_sprite_sources, 0);
             }
         }
         if ((((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.u & 3) == 1) {
-            obj = func_8003FC64(0x212);
+            obj = allocate_flagged_object_node(0x212);
             {
             w1 = (s32)((u8 *)obj + 0x20);
             if (obj != 0) {
                 ((B32_818CF0E8_S_818CF0E8_4 *)w1)->unk_02 = 0x14;
-                ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = func_80024478;
+                ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = move_and_grow_timed_sprite;
                 register_node(obj, project_sprite_chain);
                 p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
                 flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
@@ -752,7 +752,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                 flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.u | 0x100;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_12 = 0x7DC0;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-                func_8003DB94(p, D_800DEC00, 0);
+                select_record_entry_and_value(p, D_800DEC00, 0);
             }
             }
         }
@@ -784,7 +784,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             return;
         }
     }
-    obj = func_8003FC64(0x12);
+    obj = allocate_flagged_object_node(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = update_actor_effect_sequence;
@@ -809,7 +809,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         *(B32_818CF0E8_Vec12 *)((u8 *)obj + 0x40) = D_8002590C;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at00.v = (u8 *)obj + 0x40;
     }
-    obj = func_8003FC64(0x12);
+    obj = allocate_flagged_object_node(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = update_actor_effect_sequence;
@@ -874,7 +874,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
         graphic->flagsC = 0x00808080;
         graphic->scale1E = 0x1000;
         graphic->scale1C = 0x1000;
-        func_8003DB94(graphic, D_800DEC00, 0);
+        select_record_entry_and_value(graphic, D_800DEC00, 0);
         flags = *(u16 *)((u8 *)entity + 0x2A);
         D_80025924[0] = 1;
         next_state = *(u16 *)&state->stateA;
@@ -922,7 +922,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
         s32 *path_position;
         s32 path_z;
 
-        spawn = (B32_818CFB74_Spawned *)func_8003FC64(0x12);
+        spawn = (B32_818CFB74_Spawned *)allocate_flagged_object_node(0x12);
         if (spawn != 0) {
             offset_x = offsets.entry[(s16)state->variant7E].x;
             offset_x <<= 16;

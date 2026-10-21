@@ -35,7 +35,7 @@ typedef struct S_80D65534_1 {
     s32 unk_40;
 } S_80D65534_1;   /* arg0 in update_effect_collision_and_lifetime */
 
-extern void func_800478B8(void *entity);
+extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
@@ -108,7 +108,7 @@ void update_effect_collision_and_lifetime(void *effect, S_80D65534_0 *position, 
     updated_value = ((S_80D65534_1 *)effect)->unk_18 + 1;
     ((S_80D65534_1 *)effect)->unk_18 = updated_value;
     if ((s16)updated_value == 3) {
-        func_800478B8(visual);
+        advance_sprite_animation_and_textures(visual);
         ((S_80D65534_1 *)effect)->unk_18 = 0;
     }
 

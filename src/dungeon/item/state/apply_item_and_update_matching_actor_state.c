@@ -15,12 +15,12 @@ extern void begin_deferred_item_action(void *, void *, void *, void *);
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 func_80099290(s8 *byte_ptr);
+extern s32 clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void display_formatted_context_message(void *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_colored_effect_with_event(void *source, s32 color, unsigned short event_id);
@@ -48,7 +48,7 @@ s32 apply_item_and_update_matching_actor_state(void *entity, s32 action_id, s16 
 
         type_flags = entity_action_selectors[((u8 *)entity)[0x13]];
         if ((feed_actor_restore_mp(entity, ((u32)type_flags >> 8) & 3, action_id) << 16) == 0) {
-            apply_item_effect_at_entity_position(entity, action_id);
+            place_actor_item(entity, action_id);
             return 1;
         }
 
@@ -69,13 +69,13 @@ s32 apply_item_and_update_matching_actor_state(void *entity, s32 action_id, s16 
 
             message_id = get_unused_text_buffer();
             if (match_state < 0) {
-                func_80099290(expand_text_control_codes(D_800E0F2D,
+                clear_byte_and_advance(expand_text_control_codes(D_800E0F2D,
                                             append_entity_display_text(entity, message_id)));
             } else if (match_state != 0) {
-                func_80099290(expand_text_control_codes(D_800E0F44,
+                clear_byte_and_advance(expand_text_control_codes(D_800E0F44,
                                             append_entity_display_text(entity, message_id)));
             } else {
-                func_80099290(expand_text_control_codes(D_800E0F65,
+                clear_byte_and_advance(expand_text_control_codes(D_800E0F65,
                                             append_entity_display_text(entity, message_id)));
             }
             display_text_with_fullwidth_adjustment(message_id);

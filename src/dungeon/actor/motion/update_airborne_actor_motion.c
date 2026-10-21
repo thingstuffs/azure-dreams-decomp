@@ -30,7 +30,7 @@ typedef struct S_800974DC_6 {
     s32 unk_0C;
 } S_800974DC_6;
 
-void func_8003DB94();
+void select_record_entry_and_value();
 void process_unflagged_linked_entries(); /* extern */
 s32 resolve_attack_damage_and_effects();
 void set_record_integer_tile_center(); /* extern */
@@ -52,7 +52,7 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, void *sp
     case 0:
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, motion, 8, 0x300);
         ((SpriteFrameState *)sprite)->frameTable = actor_alternate_frames;
-        func_8003DB94(sprite, *(s32 *)((u8 *)actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+        select_record_entry_and_value(sprite, *(s32 *)((u8 *)actor_alternate_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         dir_offset = ((u16) actor->facing >> 8) & 0xE;
         motion->velocity_x = (s32) (*(s16 *)((u8 *)dir_step_x + dir_offset) << 0x11);
@@ -85,7 +85,7 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, void *sp
         if ((s16) ((S_800974DC_0 *)action)->unk_96.s <= 0) {
             if (((SpriteFrameState *)sprite)->flags & 0xE000) {
                 ((SpriteFrameState *)sprite)->frameTable = actor_default_frames;
-                func_8003DB94(sprite, *(s32 *)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
+                select_record_entry_and_value(sprite, *(s32 *)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing
                     + 0x100) >> 7) & 0x1C)), 0);
                 ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
             }
@@ -101,7 +101,7 @@ void update_airborne_actor_motion(void *action, ObjectPosition *motion, void *sp
             return;
         }
         ((SpriteFrameState *)sprite)->frameTable = actor_default_frames;
-        func_8003DB94(sprite, *(s32 *)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+        select_record_entry_and_value(sprite, *(s32 *)((u8 *)actor_default_frames + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         ((S_800974DC_0 *)action)->unk_9B = 3U;
         return;

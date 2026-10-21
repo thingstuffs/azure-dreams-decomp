@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
 
@@ -11,7 +11,7 @@ void update_radial_motion_or_complete(u16 *motion, s32 *position, u8 *object)
     s32 y_offset;
 
     motion[0]++;
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     if (*(u16 *)(object + 0x14) & 0x6000) {
         motion[-1] |= 0x8000;
         object_flag_block.flags |= 0x8000;

@@ -152,7 +152,7 @@ typedef struct S_818D4A94_1 {
 
 
 /* Advance position and velocity, and flag completion near the target or when the countdown expires. */
-void func_80024294(void *motion, void *position_data)
+void accelerate_particle_toward_source(void *motion, void *position_data)
 {
     S_818D4A94_0 *position = position_data;
     s32 updated_value;
@@ -227,7 +227,7 @@ typedef struct S_818D4B94_1 {
 } S_818D4B94_1;
 
 /* Creates an offset effect with velocity directed back toward the source position. */
-void func_80024394(ObjectNodeHeader *source, s32 setting_14, s32 setting_08, s32 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
+void create_accelerating_return_particle(ObjectNodeHeader *source, s32 setting_14, s32 setting_08, s32 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
     s32 signed_duration;
     s32 step_count;
     s32 delta_x;
@@ -237,7 +237,7 @@ void func_80024394(ObjectNodeHeader *source, s32 setting_14, s32 setting_08, s32
 
     effect = allocate_list_node(0x211, &source->next);
     if (effect != NULL) {
-        ((S_818D4B94_0 *)effect)->unk_10 = (void *)func_80024294;
+        ((S_818D4B94_0 *)effect)->unk_10 = (void *)accelerate_particle_toward_source;
         ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_02 = (s16) (((MovingPosition *)source->unk_08)->unk_02 + offset_x);
         ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_06 = (s16) (((MovingPosition *)source->unk_08)->unk_06 + offset_y);
         ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_0A = (s16) (((MovingPosition *)source->unk_08)->unk_0A + offset_z);
@@ -293,7 +293,7 @@ typedef struct RenderFade33 {
 
 
 /* Fades and rotates an effect, decrements its timer, and flags completion. */
-void func_80024548(void *record_data, s32 unused, RenderFade33 *effect)
+void fade_and_rotate_timed_effect(void *record_data, s32 unused, RenderFade33 *effect)
 {
     void *record_cursor = record_data;
     u16 old_angle;
@@ -540,12 +540,12 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
             if ((u16)(angle + 0x300) >= 0x1001) {
                 render->angle = angle - 0xD00;
             }
-            task = (Task *)func_8003FC64(0x212);
+            task = (Task *)allocate_flagged_object_node(0x212);
             if (task != 0) {
                 Motion33 *task_motion;
                 Render33 *task_render;
                 task->field22 = 0x10;
-                task->header.unk_10 = (void *)func_80024548;
+                task->header.unk_10 = (void *)fade_and_rotate_timed_effect;
                 register_node(task, (s32)project_sprite_chain);
                 task_render = task->header.unk_0C;
                 task_render->field10 = 0x40;
@@ -659,7 +659,7 @@ state1_cleanup:
                 offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
                 offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
                 offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
-                func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
+                create_accelerating_return_particle((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
                               shade, offset_x, offset_y, offset_z);
                 more_particles = particle_count < 2;
                 if (!more_particles) {
@@ -679,7 +679,7 @@ state1_cleanup:
                 offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
                 offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
                 offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
-                func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
+                create_accelerating_return_particle((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
                               shade, offset_x, offset_y, offset_z);
             }
         }

@@ -45,7 +45,7 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
     s32 random_rotation;
     B22_818928F8_Object *sprite_obj;
 
-    obj = (B22_818928F8_Object *)func_8003FC64(0x212);
+    obj = (B22_818928F8_Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->callback = func_80024028;
         state = (u8 *)obj + 0x20;
@@ -77,7 +77,7 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
 #include "shared/object_flags.h"
 
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
-void func_8002420C(void *step_state, void *accumulator, void *target)
+void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, void *target)
 {
     void *owner;
     s32 total;
@@ -98,7 +98,7 @@ void func_8002420C(void *step_state, void *accumulator, void *target)
         *(u16 *)((u8 *)target + 0x1E) >>= 1;
     }
 
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
 
     if (*(s16 *)((u8 *)step_state + 4) > *(s16 *)((u8 *)step_state + 6)) {
         *(u16 *)((u8 *)step_state - 2) |= 0x8000;
@@ -117,15 +117,15 @@ void func_8002420C(void *step_state, void *accumulator, void *target)
 extern s32 D_800E2178;
 
 /* Creates a sprite object with initialized state and a copied, adjusted transform. */
-void *func_800242F0(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant) {
+void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant) {
     B22_81892AF0_Copy24 *transform;
     SpriteFrameState *sprite;
     void *object;
     B22_81892AF0_S_81892AF0_1 *state;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        ((B22_81892AF0_S_81892AF0_0 *)object)->unk_10 = func_8002420C;
+        ((B22_81892AF0_S_81892AF0_0 *)object)->unk_10 = accelerate_and_expire_animated_sprite;
         state = object + 0x20;
         ((B22_81892AF0_S_81892AF0_0 *)object)->unk_20 = state_value;
         state->unk_04 = 0;
@@ -134,7 +134,7 @@ void *func_800242F0(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        func_8003DB94(sprite, &D_800E2178, 0);
+        select_record_entry_and_value(sprite, &D_800E2178, 0);
         sprite->scale_y = 0x1800;
         sprite->scale_x = 0x1800;
         register_node(object, project_sprite_chain);
@@ -156,7 +156,7 @@ void *func_800242F0(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 
    /* arg0 in func_800243F8 */
 
 /* Increment both counters and set completion flags when the count reaches its limit. */
-void func_800243F8(void *counterState) {
+void expire_counted_child_effect(void *counterState) {
     u16 incrementedCount;
     B22_81892BF8_S_81892BF8_1 *linkedCounter;
 
@@ -325,17 +325,17 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
 #include "m2c_compat.h"
 
 /* Creates an object with copied data, an adjusted field, and initialized arguments. */
-void *func_80024824(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta) {
+void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 initial_value, s16 field_delta) {
     B22_81893024_M2C_BLOCK *src;
     B22_81893024_M2C_OBJECT *object;
     s32 *object_args;
     B22_81893024_M2C_BLOCK *data;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
 
     if (object != NULL) {
         src = (B22_81893024_M2C_BLOCK *)source_data;
-        object->callback = func_800243F8;
+        object->callback = expire_counted_child_effect;
         object_args = &object->params;
         object->params = object_arg;
         ((s16 *)object_args)[2] = 0;
@@ -364,10 +364,10 @@ void func_800248F8(void *state, s32 draw_context, s32 update_context) {
     object = ((B22_818930F8_S_818930F8_0 *)state)->unk_00;
     object->unk_14 = (u16) (object->unk_14 + 1);
     ((B22_818930F8_S_818930F8_0 *)state)->unk_04 = (u16) (((B22_818930F8_S_818930F8_0 *)state)->unk_04 + 1);
-    func_800478B8(update_context);
+    advance_sprite_animation_and_textures(update_context);
     frame = (s16) ((B22_818930F8_S_818930F8_0 *)state)->unk_04;
     if (frame < 5) {
-        func_80024824(((B22_818930F8_S_818930F8_0 *)state)->unk_00, draw_context, 8, (s16) ((frame * 0x10) - 0x40));
+        create_timed_transform_copy_effect(((B22_818930F8_S_818930F8_0 *)state)->unk_00, draw_context, 8, (s16) ((frame * 0x10) - 0x40));
     }
     if ((s16) ((B22_818930F8_S_818930F8_0 *)state)->unk_04 > ((B22_818930F8_S_818930F8_0 *)state)->unk_06) {
         ((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 = (u16) (((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 | 0x8000);
@@ -387,13 +387,13 @@ void func_800248F8(void *state, s32 draw_context, s32 update_context) {
    /* arg1 in func_800249B8 */
 
 /* Increment the linked counter, reduce the source value by four, and process and flag the target status. */
-void func_800249B8(void *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target) {
+void step_sprite_height_and_animation(void *entry, B22_818931B8_S_818931B8_2 *source, SpriteFrameState *target) {
     B22_818931B8_S_818931B8_1 *counter_state;
 
     counter_state = ((B22_818931B8_S_818931B8_0 *)entry)->unk_00;
     counter_state->unk_14 = (u16) (counter_state->unk_14 + 1);
     source->unk_0A = (u16) (source->unk_0A - 4);
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
     if (target->flags & 0x6000) {
         ((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 = (u16) (((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
@@ -409,14 +409,14 @@ extern s32 D_800E2178;
 s32 rand(void);
 extern s32 D_800253BC;
 /* Spawns a primary effect and eight randomly offset particles from the supplied data. */
-void func_80024A44(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param) {
+void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param) {
     SpriteFrameState *sprite;
     B22_81893244_Func81893244Data *payload;
     B22_81893244_Func81893244Object *effect;
     B22_81893244_Func81893244Status *status;
     s32 brightness;
     s32 particle_index;
-    effect = (B22_81893244_Func81893244Object *)func_8003FC64(0x212);
+    effect = (B22_81893244_Func81893244Object *)allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         status = &effect->status;
         effect->field10 = func_800248F8;
@@ -427,20 +427,20 @@ void func_80024A44(s32 source, B22_81893244_Func81893244Data *initial_data, s16 
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        func_8003DB94(sprite, &D_800E2178, 0);
+        select_record_entry_and_value(sprite, &D_800E2178, 0);
         sprite->scale_y = 0x1800;
         sprite->scale_x = 0x1800;
         register_node(effect, project_sprite_chain);
         payload = effect->field8;
         *payload = *initial_data;
-        func_80024824(source, payload, 8, -0x40);
+        create_timed_transform_copy_effect(source, payload, 8, -0x40);
     }
     particle_index = 0;
     do {
-        effect = (B22_81893244_Func81893244Object *)func_8003FC64(0x212);
+        effect = (B22_81893244_Func81893244Object *)allocate_flagged_object_node(0x212);
         status = &effect->status;
         if (effect != NULL) {
-            effect->field10 = func_800249B8;
+            effect->field10 = step_sprite_height_and_animation;
             brightness = 0x80;
             status->field20 = source;
             status->field24 = 0;
@@ -449,7 +449,7 @@ void func_80024A44(s32 source, B22_81893244_Func81893244Data *initial_data, s16 
             sprite->color.c.b = brightness;
             sprite->color.c.g = brightness;
             sprite->color.c.r = brightness;
-            func_8003DB94(sprite, &D_800253BC, 0);
+            select_record_entry_and_value(sprite, &D_800253BC, 0);
             sprite->scale_y = 0x800;
             sprite->scale_x = 0x800;
             sprite->flags = (u16) (sprite->flags | 0xC);
@@ -589,7 +589,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         if ((map_flags & 0x3300) != 0 ||
             (target_z = S16_AT(target_pos, 0xA)) > 0x200 ||
             (check_left_tile_and_center_height(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0 ||
-            (increment_bounded_event_counter() << 16) == 0) {
+            (increment_bounded_counter() << 16) == 0) {
             state->state = 7;
         } else {
             if ((U16_AT(owner_data, 0x1E) | 0x2000) == 0) {
@@ -637,7 +637,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         if (state->timer < state->duration) {
             break;
         }
-        func_800242F0(state, motion, 12);
+        create_vertical_acceleration_sprite(state, motion, 12);
         state->timer = 0;
         state->state++;
         break;
@@ -655,8 +655,8 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
         if (state->timer < 5) {
             break;
         }
-        func_80024A44(state, motion, 16);
-        func_800419EC(8, 36);
+        create_animated_sprite_burst(state, motion, 16);
+        initialize_timed_motion_step(8, 36);
         state->timer = 0;
         state->state++;
         break;

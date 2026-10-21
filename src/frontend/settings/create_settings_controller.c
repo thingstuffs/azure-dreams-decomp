@@ -102,7 +102,7 @@ void create_settings_controller(void) {
     parent_state = NULL;
     *(Desc3 *)sprite_ids = *(Desc3 *)&D_80088760;
     animation_tick_scale = 1;
-    object = func_8003FC64(0x11);
+    object = allocate_flagged_object_node(0x11);
     if (object != NULL) {
         parent_state = object + 0x20;
         ((S_80088BD0_0 *)object)->unk_10 = (void *)update_settings_menu_animation;
@@ -118,7 +118,7 @@ void create_settings_controller(void) {
     unit_scale = 0x1000;
     child_slot = parent_state + 8;
     do {
-        object = func_8003FC64(0x111);
+        object = allocate_flagged_object_node(0x111);
         ((S_80088BD0_2 *)child_slot)->unk_04 = object;
         id_offset = (void *)(child_index << 2);
         if (object != NULL) {
@@ -145,7 +145,7 @@ void create_settings_controller(void) {
         child_index -= 1;
         child_slot -= 4;
     } while (child_index >= 0);
-    object = func_8003FC64(1);
+    object = allocate_flagged_object_node(1);
     if (object != NULL) {
         ((S_80088BD0_0 *)object)->unk_10 = (void *)sync_object_with_sub_object;
         register_node(object, &display_registration_tag);
@@ -162,7 +162,7 @@ void create_settings_controller(void) {
     }
     child_index = 1;
     do {
-        object = func_8003FC64(0x111);
+        object = allocate_flagged_object_node(0x111);
         ((S_80088BD0_8 *)((s8 *)parent_state + (child_index << 2)))->unk_10 = object;
         if (object != NULL) {
             child_state = object + 0x20;
@@ -173,11 +173,11 @@ void create_settings_controller(void) {
             if (child_index != 0) {
                 ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = -0x15;
                 ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_0C = 0x160000;
-                func_8003DB94(sprite, &D_8008B270, 0);
+                select_record_entry_and_value(sprite, &D_8008B270, 0);
             } else {
                 ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = 0x155;
                 ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_0C = 0xFFEA0000;
-                func_8003DB94(sprite, &D_8008B230, 0);
+                select_record_entry_and_value(sprite, &D_8008B230, 0);
             }
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_10 = 0xFFF80000;
             sprite->scale_y = 0x1000;
@@ -188,7 +188,7 @@ void create_settings_controller(void) {
         }
         child_index -= 1;
     } while (child_index >= 0);
-    object = func_8003FC64(1);
+    object = allocate_flagged_object_node(1);
     if (object != NULL) {
         ((S_80088BD0_0 *)object)->unk_10 = (void *)update_settings_effect;
         ((S_80088BD0_0 *)object)->unk_20.p32 = parent_state;

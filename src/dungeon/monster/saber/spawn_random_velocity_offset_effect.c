@@ -20,7 +20,7 @@ typedef struct S_80AC5820_1 {
 
    /* other in spawn_random_velocity_offset_effect */
 
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 extern s32 func_80065420(void *, void *, void *, void *);
 
 extern s32 D_800814A0 __attribute__((section(".data")));
@@ -62,7 +62,7 @@ void spawn_random_velocity_offset_effect(void *state, MovingPosition *position, 
           ((S_80AC5820_1 *)state)->unk_94 + 0x100) >> 9) & 7];
     ((SpriteFrameState *)result)->unk_06 = position_value - reference_value - *angle_bias * 2;
 
-    func_800478B8(result);
+    advance_sprite_animation_and_textures(result);
     ticks_left = ((S_80AC5820_1 *)state)->unk_96 - 1;
     ((S_80AC5820_1 *)state)->unk_96 = ticks_left;
     if ((ticks_left << 16) <= 0) {

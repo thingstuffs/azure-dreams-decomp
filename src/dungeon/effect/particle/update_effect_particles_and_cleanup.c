@@ -27,7 +27,7 @@ typedef union {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void apply_random_actor_value_adjustment();          /* extern */
 void spawn_jittered_child_effect(); /* extern */
-void func_80024DB8(); /* extern */
+void create_owner_linked_mirrored_sprite(); /* extern */
 s32 resolve_record_orientation_or_fallback();     /* extern */
 s32 register_node();           /* extern */
 s16 func_80066460(); /* extern */
@@ -465,7 +465,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
         (*(s16 *)((u8 *)effect + 0x88)) = (s16) (s8) (u8) (*(s8 *)((u8 *)effect + 0x7B));
         (*(s16 *)((u8 *)effect + 0x8A)) = (s16) ((s8) flight_ticks * (s8) flight_ticks);
-        func_80024DB8(effect, motion, sprite);
+        create_owner_linked_mirrored_sprite(effect, motion, sprite);
         return;
     case 2:
         launch_particle = 0;
@@ -523,7 +523,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
                 ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_02;
                 ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_06;
                 ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (*(s16 *)((u8 *)effect + 0x78));
-                func_80024DB8(effect, motion, sprite);
+                create_owner_linked_mirrored_sprite(effect, motion, sprite);
                 return;
             }
             (*(s16 *)((u8 *)effect + 0xA)) = 8;
@@ -531,13 +531,13 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0;
             ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0;
             ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0;
-            func_80024DB8(effect, motion, sprite);
+            create_owner_linked_mirrored_sprite(effect, motion, sprite);
             return;
         }
         ((S_818FF710_5 *)motion)->unk_00.at00.v += ((S_818FF710_5 *)motion)->unk_0C;
         ((S_818FF710_5 *)motion)->unk_04.at00.v += ((S_818FF710_5 *)motion)->unk_10.i;
         ((S_818FF710_5 *)motion)->unk_08.at00.v += ((S_818FF710_5 *)motion)->unk_14;
-        func_80024DB8(effect, motion, sprite);
+        create_owner_linked_mirrored_sprite(effect, motion, sprite);
         return;
     case 3:
     {
@@ -558,7 +558,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         if ((u32) (hit_angle & 0xFFFF) >= 0x1001U) {
             ((S_818FF710_1 *)sprite)->unk_1A = (u16) (old_hit_angle - 0xE70);
         }
-        func_80024DB8(effect, motion, sprite);
+        create_owner_linked_mirrored_sprite(effect, motion, sprite);
         hit_tick = (*(u16 *)((u8 *)effect + 0x82)) + 1;
         (*(u16 *)((u8 *)effect + 0x82)) = hit_tick;
         if ((s16) hit_tick == 1) {
@@ -593,7 +593,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         if (impact_tick != 4) {
             return;
         }
-        first_object = func_8003FC64(0x212);
+        first_object = allocate_flagged_object_node(0x212);
         child_effect = first_object + 0x20;
         if (first_object != NULL) {
             child_effect->unk_02 = 0x78;
@@ -627,7 +627,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             first_sprite->unk_08 = (void *) (first_object + 0x40);
             ((S_818FF710_32 *)(first_sprite->unk_08))->unk_04 = func_80066460(2, 2, 0x340, 0x154);
         }
-        second_object = func_8003FC64(0x212);
+        second_object = allocate_flagged_object_node(0x212);
         child_effect = second_object + 0x20;
         if (second_object != NULL) {
             child_effect->unk_02 = 0x78;
@@ -659,7 +659,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             second_sprite->unk_08 = (void *) (second_object + 0x40);
             ((S_818FF710_33 *)(second_sprite->unk_08))->unk_04 = func_80066460(2, 1, 0x340, 0x1A8);
         }
-        third_object = func_8003FC64(0x212);
+        third_object = allocate_flagged_object_node(0x212);
         child_effect = third_object + 0x20;
         if (third_object != NULL) {
             child_effect->unk_02 = 0x78;
@@ -690,7 +690,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             (*(Packed12 *)((u8 *)third_object + 0x40)) = D_80025E58;
             ((S_818FF710_21 *)((void *)second_sprite))->unk_08 = (void *) (third_object + 0x40);
         }
-        fourth_object = func_8003FC64(0x212);
+        fourth_object = allocate_flagged_object_node(0x212);
         child_effect = fourth_object + 0x20;
         if (fourth_object != NULL) {
             particle_owner = fourth_object;
@@ -765,7 +765,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             ((S_818FF710_1 *)sprite)->unk_0C.at01.v = (s8) (((0x64 - (s16) (*(u16 *)((u8 *)effect + 0x82))) << 7) / 20);
             ((S_818FF710_1 *)sprite)->unk_0C.at02.v = (s8) (((0x64 - (s16) (*(u16 *)((u8 *)effect + 0x82))) << 7) / 20);
         }
-        func_80024DB8(effect, motion, sprite);
+        create_owner_linked_mirrored_sprite(effect, motion, sprite);
         if ((s16) (*(u16 *)((u8 *)effect + 0x82)) < 0x64) {
             return;
         }

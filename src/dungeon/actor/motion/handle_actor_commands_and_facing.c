@@ -8,8 +8,8 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
-extern void func_8003DB94();
-extern void func_80040AA0(s32);
+extern void select_record_entry_and_value();
+extern void request_scene_dispatch_state(s32);
 extern void apply_pending_byte_increase();
 extern void begin_player_menu_action();
 extern s16 resolve_player_input_facing();
@@ -72,7 +72,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
 
     if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != idle_state) {
         sprite->frameTable = actor_default_frames;
-        func_8003DB94(sprite,
+        select_record_entry_and_value(sprite,
             *(void **)((u8 *)actor_default_frames +
                 ((((s32)(input->view.camera_rotation.parts.viewAngle +
                     actor_data->facing + 0x100)) >> 7) & 0x1C)),
@@ -201,7 +201,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
         } else {
             active_actor_command_code[0] = 0;
             if (command_flags & 4) {
-                func_80040AA0(3);
+                request_scene_dispatch_state(3);
                 return;
             }
 
@@ -289,7 +289,7 @@ void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameStat
     if (tail_flags & 1) {
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
         sprite->frameTable = actor_default_frames;
-        func_8003DB94(sprite,
+        select_record_entry_and_value(sprite,
             *(void **)((u8 *)actor_default_frames +
                 ((((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing +
                     0x100)) >> 7) & 0x1C)),

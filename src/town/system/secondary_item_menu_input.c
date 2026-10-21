@@ -26,10 +26,10 @@ extern void decrement_entry_and_notify_handlers(void *);
 extern void store_table_index_and_entry_bytes(void *, s32);
 extern s32 move_item_to_list(void *);
 extern s32 func_800B2400(void *);
-static void func_800B25D8(void *);
+static void sort_selected_record_entries(void *);
 extern void set_object_data_pointer_if_present(void *);
 
-static void func_800B25D8(void *record) {
+static void sort_selected_record_entries(void *record) {
     sort_entries_by_category(((S_800B25D8_0 *)((((*(s32 *)((u8 *)record + 0x14)) * 4) + record)))->unk_3C);
 }
 
@@ -59,7 +59,7 @@ void handle_item_menu_input_2(u8 *menu) {
             SD_Call(0x503);
         } else if (pressed_buttons & 0x10) {
             SD_Call(0x503);
-            func_800B25D8(menu);
+            sort_selected_record_entries(menu);
             decrement_entry_and_notify_handlers(menu);
         } else if (pressed_buttons & 4) {
             store_table_index_and_entry_bytes(menu, 0);

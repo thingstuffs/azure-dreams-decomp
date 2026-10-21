@@ -10,7 +10,7 @@
 struct Dst;
 struct Elem;
 
-extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
+extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
 s32 register_node();           /* extern */
 typedef struct {
     s16 x;
@@ -42,7 +42,7 @@ void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98
     SpriteFrameState *render_state;
     S_80167A98_0 *object;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = &D_80167A2C;
         register_node(object, project_sprite_chain);
@@ -61,13 +61,13 @@ void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98
         render_state->color.c.g = 0x80;
         render_state->color.c.r = 0x80;
         if (source->unk_1C == 0) {
-            func_8003DB94(render_state, effect_sprite_sources, 0);
+            select_record_entry_and_value(render_state, effect_sprite_sources, 0);
         }
         if (source->unk_1C == 1) {
-            func_8003DB94(render_state, &D_800DEE38, 0);
+            select_record_entry_and_value(render_state, &D_800DEE38, 0);
         }
         if (source->unk_1C == 2) {
-            func_8003DB94(render_state, &D_800DEDB0, 0);
+            select_record_entry_and_value(render_state, &D_800DEDB0, 0);
         }
     }
 }

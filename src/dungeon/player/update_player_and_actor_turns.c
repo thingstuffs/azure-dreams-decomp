@@ -17,16 +17,16 @@ typedef struct {
 typedef s32 (*Callback4)(void *, void *, void *, void *);
 extern u8 D_80096384[];
 extern void copy_words_forward(int *dst, int *src, int count);   /* extern */
-extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);             /* extern */
-extern void func_80040AA0(s16 requested_state);                     /* extern */
+extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);             /* extern */
+extern void request_scene_dispatch_state(s16 requested_state);                     /* extern */
 s16 get_entity_effect_value();                 /* extern */
-extern void func_800478B8(void *entity);                      /* extern */
+extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 void texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags();     /* extern */
 extern void step_actor_animation(S_80048AC8 *entity, void *slot_index);             /* extern */
 extern void set_camera_targets(void *target_position, void *target_rotation, s32 transition_param); /* extern */
 extern void queue_view_slot(int slot_selector);                     /* extern */
 extern short SD_Call(int flags);                     /* extern */
-s32 func_80053EF0();                         /* extern */
+s32 read_sound_mode_blocking_status();                         /* extern */
 s32 func_800644B8();                             /* extern */
 s32 update_sound_settings_from_pad(); /* extern */
 s32 check_entity_relation();                 /* extern */
@@ -306,13 +306,13 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
         record_or_page = (s32 *)0x80080000;
         if ((dungeon_button_latch == 0) && (((s32)world_state->pressed_buttons) != 0)) {
             dungeon_button_latch = 1;
-            func_80040AA0(3);
+            request_scene_dispatch_state(3);
             return;
         }
     } else {
         record_or_page = (s32 *)0x80080000;
     }
-    if ((((S_80089AA0_1 *)record_or_page)->unk_AA0.u != 0) && (dungeon_button_latch == 0) && (func_80053EF0(1) == 0)) {
+    if ((((S_80089AA0_1 *)record_or_page)->unk_AA0.u != 0) && (dungeon_button_latch == 0) && (read_sound_mode_blocking_status(1) == 0)) {
         SD_Call(0x200);
         ((S_80089AA0_1 *)record_or_page)->unk_AA0.s = 0;
         scene_music_hold = 1;
@@ -497,7 +497,7 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     }
     if (!((*(s32 *)((u8 *)actor + 0x1C)) & 0x20)) {
         if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
-            func_800478B8(sprite_or_root);
+            advance_sprite_animation_and_textures(sprite_or_root);
         } else {
             step_actor_animation(sprite_or_root, 1);
         }
@@ -510,9 +510,15 @@ void update_player_and_actor_turns(void *in_actor, void *in_motion, void *in_spr
     }
     D_800DD168[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, in_motion, sprite_or_root, actor);
     facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
+    /*
+     * Original bug: egg heating clears the mirror bit while updating the cached direction. After canceling, walking in
+     * that same direction skips restoring the bit, so Koh walks backward. Refresh it when heating ends too.
+     * Found and documented by the Azure Dreams community
+     * (adrando.com/guide/bugs.html).
+     */
     if ((*(s16 *)((u8 *)linked_actor + 0x94)) != facing) {
         if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {
-            func_8003DB94(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing],
+            select_record_entry_and_value(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing],
                 ((S_80089AA0_16 *)sprite_or_root)->unk_04);
         } else {
             texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(sprite_or_root, ((u8 *)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing],

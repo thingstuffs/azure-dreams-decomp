@@ -32,7 +32,7 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
 /* Builds scaled vertices and submits a shaded strip using scratchpad storage. */
-s32 func_81977584(Record *record) {
+s32 draw_shaded_rotating_vertex_strip(Record *record) {
     register s32 shade_step = 0;
     s32 *vertices;
     s32 upper_color;

@@ -19,7 +19,7 @@ typedef struct S_800D4BD4_1 {
 } S_800D4BD4_1;   /* arg0 in initialize_effect_object_state */
 
 extern void register_node(void *, void *);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 D_800DECF8;
 
 /* Initialize object state and rendering data from the source and position. */
@@ -52,5 +52,5 @@ void initialize_effect_object_state(void *object, Rec_func_800D4BD4_arg1 *source
     flags |= 0x100;
     render_data->color.word = source_value;
     render_data->flags = flags;
-    func_8003DB94(render_data, &D_800DECF8, 0);
+    select_record_entry_and_value(render_data, &D_800DECF8, 0);
 }

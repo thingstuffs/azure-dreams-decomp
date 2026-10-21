@@ -13,7 +13,7 @@ typedef struct S_8016C98C_0 {
 
 
 extern s32 has_pending_dungeon_activity(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
 extern void advance_actor_path(void *, s32, s32, void *);
 
@@ -42,7 +42,7 @@ s32 dispatch_actor_action_phase(Rec_func_800A9E70_arg0 *actor, s32 x, s32 y, s32
     case 0:
         result = 0xE;
         actor->unk_9A.as_s8 = result;
-        update_actor_status_and_food(base);
+        update_actor_status_and_mp(base);
         return 0;
 
     case 2:

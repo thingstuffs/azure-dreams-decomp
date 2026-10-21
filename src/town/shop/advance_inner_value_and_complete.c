@@ -18,7 +18,7 @@ typedef struct Obj_800B45A0 {
 } Obj_800B45A0;
 
 extern void func_8004E994(void *ptr_a, void *ptr_b);
-extern void func_8004B1A4(void *ptr);
+extern void flag_object_for_removal(void *ptr);
 
 /* Advance the inner value and mark completion when it exceeds the object's threshold. */
 void advance_inner_value_and_complete(Obj_800B45A0 *obj)
@@ -40,8 +40,8 @@ void advance_inner_value_and_complete(Obj_800B45A0 *obj)
 
     if (obj->field4 + 0x80 < obj->field3C->field8) {
         func_8004E994(*obj->field54, inner);
-        func_8004B1A4(obj->field8);
-        func_8004B1A4(obj->fieldC);
+        flag_object_for_removal(obj->field8);
+        flag_object_for_removal(obj->fieldC);
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }

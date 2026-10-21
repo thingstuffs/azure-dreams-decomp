@@ -24,7 +24,7 @@ extern void *allocate_list_node(s32 a0, void *a1);
 extern u8 find_active_rect_containing_point(u8 a0, u8 a1);
 extern void set_record_integer_tile_center(void *a0, u8 a1, u8 a2);
 extern s16 sample_terrain_surface_height(u16 a0, u16 a1, s16 a2);
-extern void func_8003DB94(void *a0, s32 a1, s32 a2);
+extern void select_record_entry_and_value(void *a0, s32 a1, s32 a2);
 extern void clear_entry_flag_and_link_owner(void *a0);
 extern void create_source_linked_fading_effect(void *, s16);
 extern void register_node(void *a0, void *a1);
@@ -68,7 +68,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         camera = &g_game_work;
         direction_entry = ((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 7) & 0x1C;
         direction_entry += (s32)FLD(state, void *, 0xA4);
-        func_8003DB94(sprite, FLD((void *)direction_entry, s32, 0), 0);
+        select_record_entry_and_value(sprite, FLD((void *)direction_entry, s32, 0), 0);
         clear_entry_flag_and_link_owner(entity);
         *(ResultCopy *)((u8 *)entity + 0x54) = *(ResultCopy *)&D_80089430;
         FLD(state, s32, 0x1C) |= 0x40000000;

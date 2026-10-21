@@ -28,7 +28,7 @@ extern u8 D_800F7DFC[];
 
 extern void clear_resident_bit(s32);
 extern void set_resident_bit(s32);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -129,7 +129,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
                 inner_data->scale_y = 0x1000;
                 inner_data->scale_x = 0x1000;
                 inner_data->unk_06 = -0x100;
-                func_8003DB94(inner_data, D_800F7DFC, 0);
+                select_record_entry_and_value(inner_data, D_800F7DFC, 0);
                 inner_data->color.word = 0x00808080;
             }
             controller->flags |= 1;

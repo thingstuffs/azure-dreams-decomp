@@ -4,7 +4,7 @@
 extern s16 dungeon_room_count;
 
 /* Return the first active record containing the coordinates, or -1 if none matches. */
-s32 find_active_monster_record(s32 pos_x, s32 pos_y) {
+s32 find_padded_rectangle(s32 pos_x, s32 pos_y) {
     u8 *record;
     s32 index;
     s32 initial_count;

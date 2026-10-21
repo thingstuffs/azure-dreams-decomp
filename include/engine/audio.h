@@ -53,7 +53,7 @@ void release_sound_channel_and_mark_pending(s16 channel);
 void dispatch_audio_mix_action(s32 action);
 
 /* entry_test_sound_channel_availability.c */
-void func_80054104(void);
+void stop_flagged_sound_voices(void);
 
 /* find_sound_table_entry.c */
 u32 *find_sound_table_entry(s32 sound_id);
@@ -133,7 +133,7 @@ void sound_load_pending_bank_slot(s16 entry_id);
 
 /* sound_scale_pitch_by_fractional_note.c */
 u32 sound_scale_pitch_by_fractional_note(s32 pitch, u32 note_offset);
-u32 func_8005F7D0(u16 center_note, u16 center_fine, u16 note, u16 fine);
+u32 calculate_pitch_from_note(u16 center_note, u16 center_fine, u16 note, u16 fine);
 u32 sound_convert_pitch_to_packed_note(u16 center_note, u16 center_fine, u16 pitch);
 
 /* sound_set_sequence_volume_scale.c */

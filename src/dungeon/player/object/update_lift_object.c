@@ -9,7 +9,7 @@ extern void set_sprite_animation_frame();
 extern s32 rand();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
-extern void *func_80099290();
+extern void *clear_byte_and_advance();
 extern s32 append_entity_display_text();
 extern void adjust_source_value_and_finalize();
 extern void process_unflagged_linked_entries();
@@ -193,7 +193,7 @@ void update_lift_object(void *effect_state, void *saved_effect_id, void *animati
         effect_id = effect_result;
         effect_result = append_entity_display_text(target, effect_id);
         saved_effect_id = effect_id;
-        func_80099290(expand_text_control_codes(D_800E0683, effect_result));
+        clear_byte_and_advance(expand_text_control_codes(D_800E0683, effect_result));
         display_text_with_fullwidth_adjustment(saved_effect_id);
         target = animation;
         ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)handle_player_input;

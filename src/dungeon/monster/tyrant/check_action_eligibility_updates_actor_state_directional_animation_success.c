@@ -12,7 +12,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
         return -1;
     }
 
-    target_direction = place_actor_at_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+    target_direction = probe_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
         ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
 
     if ((((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)

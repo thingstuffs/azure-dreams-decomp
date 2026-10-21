@@ -11,7 +11,7 @@
 s32 lookup_level_experience_threshold();                 /* extern */
 void begin_deferred_item_action(void *, void *, void *, void *); /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
-void apply_item_effect_at_entity_position();                 /* extern */
+void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_colored_effect_with_sound();    /* extern */
@@ -26,7 +26,7 @@ s32 use_level_gain_item(void *entity, s32 item, s16 action_id) {
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, item, action_id);
         if (feed_actor_restore_mp(entity, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(entity, item);
+            place_actor_item(entity, item);
             return 1;
         }
     }

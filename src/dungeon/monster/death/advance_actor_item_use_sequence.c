@@ -276,7 +276,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
             if (!(timer & 1) || (s16)timer < 0x13) {
                 return;
             }
-            object = func_8003FC64(0x212);
+            object = allocate_flagged_object_node(0x212);
             if (object == 0) {
                 return;
             }

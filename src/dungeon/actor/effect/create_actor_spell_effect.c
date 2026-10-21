@@ -75,7 +75,7 @@ void *allocate_list_node();
 s32 func_80069EF8(void);
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
-void *func_80099290();
+void *clear_byte_and_advance();
 s32 append_entity_display_text();
 s16 get_tile_chebyshev_distance();
 s32 display_text_with_fullwidth_adjustment();
@@ -195,7 +195,7 @@ set_effect_scale:
                 name_text = item_action_definitions[effect_id].unk_00;
                 message = expand_text_control_codes(name_text, message);
             }
-            func_80099290(expand_text_control_codes(&D_80089080, message));
+            clear_byte_and_advance(expand_text_control_codes(&D_80089080, message));
             display_text_with_fullwidth_adjustment(new_text_context);
             return effect;
         }

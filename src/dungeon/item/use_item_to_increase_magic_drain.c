@@ -10,7 +10,7 @@ extern void clear_slot_and_update_linked_state(s32);
 extern void display_formatted_context_message(void *);
 extern void adjust_source_value_and_finalize(void *, void *);
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
 extern s32 generate_random_value(void);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
@@ -34,7 +34,7 @@ s32 use_item_to_increase_magic_drain(void *target, s32 item, s16 message_kind)
         display_item_status_message(target, item, message_kind);
         if (feed_actor_restore_mp(
                 target, (entity_action_selectors[*((u8 *)target + 0x13)] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(target, item);
+            place_actor_item(target, item);
             return 1;
         }
 

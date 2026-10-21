@@ -130,6 +130,12 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
             u32 next_level_exp;
             level_thresholds = next_limits;
             do {
+                /*
+                 * Original bug: second-tower spawn groups can request level 100 on floor 99. At level 99,
+                 * raise_entity_level stops changing the monster, so this loop never exits.
+                 * Found and documented by the Azure Dreams community
+                 * (adrando.com/guide/bugs.html).
+                 */
                 raise_entity_level(monster, 0);
                 next_level_exp = level_thresholds[((u8 *)monster)[0x11]];
             } while (*(u32 *)((u8 *)monster + 0x18) >= next_level_exp);

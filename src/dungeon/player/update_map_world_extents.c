@@ -11,7 +11,7 @@ extern void set_sprite_animation_frame();
 extern void begin_deferred_player_item_effect();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
-extern s32 func_80099290();
+extern s32 clear_byte_and_advance();
 extern s32 write_text_byte_and_advance();
 extern s32 append_typed_formatted_value();
 extern s32 process_eligible_object_value();
@@ -87,7 +87,7 @@ typedef struct S_800927E4_10 {
 } S_800927E4_10;   /* entity in func_800927E4 */
 
 /* Advances a directional animation, spawns its effect and message, and handles completion. */
-void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
+void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
     u16 offset[3];
     void *effect_obj;
     S_800927E4_8 *effect_prim;
@@ -201,7 +201,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             if (entity->unk_01 != 4) {
                 text = process_eligible_object_value(entity, text);
             }
-            func_80099290(text);
+            clear_byte_and_advance(text);
             display_text_with_fullwidth_adjustment(text_root);
         }
 

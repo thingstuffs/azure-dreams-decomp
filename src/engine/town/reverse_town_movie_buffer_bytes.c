@@ -18,7 +18,7 @@ u8 *format_unsigned_double_byte_decimal(u32 value, u8 *out)
         digit++;
     } while (value != 0);
 
-    digit = reverse_town_movie_buffer_bytes(digits, digit_count);
+    digit = reverse_buffer_bytes(digits, digit_count);
     do {
         *out++ = 0x82;
         *out++ = *digit++ + 0x4F;

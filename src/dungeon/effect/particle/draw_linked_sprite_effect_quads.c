@@ -163,7 +163,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         if ((s16) effect->unk_50 > 0) {
             return;
         }
-        if (func_80053EF0(4) != 2) {
+        if (read_sound_mode_blocking_status(4) != 2) {
             effect_code = 0x300;
         } else {
             effect_code = 0x4300;
@@ -177,7 +177,7 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
         return;
     case 3:
         if ((s16) effect->unk_50 == 2) {
-            func_800419EC(0x18, 0x10);
+            initialize_timed_motion_step(0x18, 0x10);
         }
         if ((s16) effect->unk_50 > 0) {
             return;
@@ -647,7 +647,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(Ef
     EffectOwner *owner = effect->owner;
 
     owner->flags |= 0x8000;
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     if (sprite->status & 0x6000) {
         ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
         object_flag_block.flags |= 0x8000;

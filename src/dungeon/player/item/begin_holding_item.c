@@ -76,7 +76,7 @@ extern void change_equipped_item_and_notify();
 extern void clear_slot_and_update_linked_state();
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes();
-extern void func_80099290();
+extern void clear_byte_and_advance();
 extern s32 write_text_byte_and_advance();
 extern s32 append_typed_formatted_value();
 extern void play_sound_if_enabled();
@@ -114,7 +114,7 @@ void *begin_holding_item(void *actor, s32 action, void *target, void *item)
         message = D_800E08E5;
 print_message:
         text_cursor = expand_text_control_codes(message, text_cursor);
-        func_80099290(text_cursor);
+        clear_byte_and_advance(text_cursor);
         display_text_with_fullwidth_adjustment(message_id);
 
         return 0;
@@ -128,7 +128,7 @@ print_message:
             text_cursor = append_typed_formatted_value(item, result);
             message = D_800E08F1;
             text_cursor = expand_text_control_codes(message, text_cursor);
-            func_80099290(text_cursor);
+            clear_byte_and_advance(text_cursor);
             display_text_with_fullwidth_adjustment(message_id);
 
             return 0;
@@ -136,7 +136,7 @@ print_message:
 
         text_cursor = append_typed_formatted_value(item, result);
         text_cursor = expand_text_control_codes(D_800E0919, text_cursor);
-        func_80099290(text_cursor);
+        clear_byte_and_advance(text_cursor);
         display_text_with_fullwidth_adjustment(message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at01.v == 0x11) {
             change_equipped_item_and_notify(actor_state, item);

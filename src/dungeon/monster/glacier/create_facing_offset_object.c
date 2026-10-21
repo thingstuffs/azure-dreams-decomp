@@ -107,7 +107,7 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
     SecondaryBlock *secondary_block;
     void *secondary;
 
-    allocated = (AllocationObject *)func_8003FC64(0x212);
+    allocated = (AllocationObject *)allocate_flagged_object_node(0x212);
     if (allocated != 0) {
         block = (BlockObject *)((u8 *)allocated + 0x20);
         block->owner = owner;

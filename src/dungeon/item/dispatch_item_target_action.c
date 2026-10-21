@@ -9,7 +9,7 @@ extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused
 extern s32 process_record_and_update_linked_state(void *request, s32 record_data);
 extern s32 clear_slot_and_update_linked_state(void *slot);
 extern s32 display_formatted_context_message(void *context, s32 first_input, s32 second_input);
-extern s32 apply_item_effect_at_entity_position(void *object_context, void *target);
+extern s32 place_actor_item(void *object_context, void *target);
 extern s32 display_actor_item_status_message(void *actor, void *item, s32 buffer_arg2);
 extern s32 feed_actor_restore_mp(void *state, s32 mode, void *item);
 
@@ -59,7 +59,7 @@ s32 dispatch_item_target_action(void *target, void *item, s16 action_type, s32 a
             selector = (selector_bits >> 4) & 3;
         }
         if (feed_actor_restore_mp(target, selector, item) == 0) {
-            apply_item_effect_at_entity_position(target, item);
+            place_actor_item(target, item);
             return 1;
         }
         clear_slot_and_update_linked_state(item);

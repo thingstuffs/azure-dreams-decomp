@@ -31,7 +31,7 @@ typedef struct S_800B63A8_1 {
     u8 unk_18;
 } S_800B63A8_1;   /* arg0 in advance_effect_fade_and_flag */
 
-extern void func_800478B8(void *entity);            /* extern */
+extern void advance_sprite_animation_and_textures(void *entity);            /* extern */
 
 /* Advance effect motion, fade its color, and flag it when its lifetime expires. */
 void advance_effect_fade_and_flag(void *effect, void *motion, void *primitive) {
@@ -56,7 +56,7 @@ void advance_effect_fade_and_flag(void *effect, void *motion, void *primitive) {
     ((S_800B63A8_0 *)motion)->unk_00 = (s32) (((S_800B63A8_0 *)motion)->unk_00 + ((S_800B63A8_0 *)motion)->unk_0C);
     ((S_800B63A8_0 *)motion)->unk_04 = (s32) (((S_800B63A8_0 *)motion)->unk_04 + velocity_y);
     ((S_800B63A8_0 *)motion)->unk_08 = (s32) (((S_800B63A8_0 *)motion)->unk_08 + velocity_z);
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     red = ((SpriteFrameState *)primitive)->color.c.r;
     if (red != 0) {
         faded_red = red - ((S_800B63A8_1 *)effect)->unk_14;

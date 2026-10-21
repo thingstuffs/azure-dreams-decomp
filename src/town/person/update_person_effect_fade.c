@@ -20,7 +20,7 @@ typedef struct S_800ABB20_1 {
     s16 unk_06;
 } S_800ABB20_1;   /* arg0 in update_person_effect_fade; pointer addresses record offset 0x2 */
 
-extern void func_800478B8(void *primitive);
+extern void advance_sprite_animation_and_textures(void *primitive);
 
 /* Update effect motion, fade its brightness, and mark it expired when its timer ends. */
 void update_person_effect_fade(void *effect_record, S_800ABB20_0 *motion, SpriteFrameState *primitive) {
@@ -33,7 +33,7 @@ void update_person_effect_fade(void *effect_record, S_800ABB20_0 *motion, Sprite
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C);
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10);
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14);
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     brightness = primitive->color.c.r;
     if (brightness != 0) {
         brightness = brightness - 0x10;

@@ -26,11 +26,11 @@ extern s32 D_80174E3C[];
 extern u8 D_80174E3D[];
 extern void *D_80174E40[];
 
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern s32 Control_CD();
 extern void sound_set_cd_cue_parameters();
 extern s32 run_cd_image_commands();
-extern s32 func_800445E0();
+extern s32 read_stream_cue_start_offset();
 extern s32 register_node();
 extern void select_indirect_table_entry();
 extern s32 lookup_masked_byte_table();
@@ -168,7 +168,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
         }
         run_cd_image_commands(D_80174E24, D_80174E3C, 1);
         sound_set_cd_cue_parameters(0, cd_cue_base[0], 0x04000AD4, 0x05000CC4);
-        Control_CD(0x15, func_800445E0(), 0);
+        Control_CD(0x15, read_stream_cue_start_offset(), 0);
         D_80174E3D[0] = 0;
         Control_CD(0xFF, set_byte_one, D_80174E3D);
         select_nearby_target_and_initialize_slot((u8 *)actor - 0x20, position, 8, 0x300);
@@ -208,7 +208,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
     }
 
     case 4:
-        object = func_8003FC64(0x12);
+        object = allocate_flagged_object_node(0x12);
         if (object == NULL) {
             return;
         }
@@ -236,7 +236,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
             if (effect_index < 0) {
                 effect_index = func_80069EF8() % 3;
             }
-            func_8003DB94(object, D_8014A000 + D_80174E2C[effect_index], 0);
+            select_record_entry_and_value(object, D_8014A000 + D_80174E2C[effect_index], 0);
         }
         entity->flags |= 0x80;
         ((S_80174704_0 *)action)->unk_96.u = 0;

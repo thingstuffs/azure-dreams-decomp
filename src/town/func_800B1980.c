@@ -1,6 +1,6 @@
 #include "common.h"
 
-void func_8004E99C(void *object);
+void flag_optional_object_for_removal(void *object);
 
 /* Pass the first value of each pointed-to entry, starting at slot 20, to func_8004E99C. */
 void send_item_menu_page_entries_to_formatter(s32 entryTableAddress, s32 entryCount) {
@@ -18,7 +18,7 @@ void send_item_menu_page_entries_to_formatter(s32 entryTableAddress, s32 entryCo
             entry = *entryCursor;
             entryCursor += 1;
             entryIndex += 1;
-            func_8004E99C(*entry);
+            flag_optional_object_for_removal(*entry);
         } while (entryIndex < endIndex);
     }
 }

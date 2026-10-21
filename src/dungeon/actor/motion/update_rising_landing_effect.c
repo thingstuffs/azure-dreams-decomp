@@ -145,7 +145,7 @@ extern u8 D_800DE9D0[];
 extern u8 D_800DEC00[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern s32 func_80053EF0(s32);
+extern s32 read_sound_mode_blocking_status(s32);
 extern s32 func_80069EF8(void);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s16, void *, s32);
 
@@ -289,7 +289,7 @@ void update_directional_actor_effect(void *input, void *output)
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u > 0) {
         return;
     }
-    result = func_80053EF0(4);
+    result = read_sound_mode_blocking_status(4);
     if (result != 2) {
         play_sound_if_enabled(0x300);
     } else {
@@ -307,7 +307,7 @@ void update_directional_actor_effect(void *input, void *output)
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u < 3) {
         remaining = 1;
         height = (s16)sample_terrain_surface_height((u16)view_reference_entity.x.w.i, (u16)view_reference_entity.y.w.i, (s16)(view_reference_entity.z.w.i - 0x80));
-        particle_script = (void *)func_80024BB8;
+        particle_script = (void *)move_sprite_until_animation_ends;
         burst_origin = &reference_tile_object;
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
@@ -566,7 +566,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
 
     actor->counter = actor->counter + 1;
     ((u16 *)actor->field0)[0x29] = ((u16 *)actor->field0)[0x29] | 0x8000;
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     start_pos[0] = target->x.half.coord;
     start_pos[1] = target->y.half.coord;
     start_pos[2] = target->z.half.coord;
@@ -637,7 +637,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
 
         remaining = (s32)sprite;
         if (remaining >= 0) {
-            void *particle_callback = (void *)func_80024BB8;
+            void *particle_callback = (void *)move_sprite_until_animation_ends;
             s32 *particle_data = secondary_sprite;
             do {
                 Spawn *spawn;
@@ -722,7 +722,7 @@ typedef struct S_8197D3B8_2 {
 } S_8197D3B8_2;   /* primitive in func_80024BB8 */
 
 /* Applies motion deltas, marks the primitive, and propagates status flags. */
-void func_80024BB8(void *render_entry, void *motion_data, void *render_status)
+void move_sprite_until_animation_ends(void *render_entry, void *motion_data, void *render_status)
 {
     S_8197D3B8_0 *motion = motion_data;
     Rec_D_80082E80 *status = render_status;
@@ -739,7 +739,7 @@ void func_80024BB8(void *render_entry, void *motion_data, void *render_status)
     primitive = ((S_8197D3B8_1 *)render_entry)->unk_00;
     primitive->unk_52 |= 0x8000;
 
-    func_800478B8(status);
+    advance_sprite_animation_and_textures(status);
     if (((SpriteFrameState *)status)->flags & 0x6000) {
         ((S_8197D3B8_1_pre *)render_entry)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;
@@ -843,7 +843,7 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
         ((S_8197D468_2 *)sprite)->unk_05 = 0;
         ((S_8197D468_2 *)sprite)->unk_14 = (u16) (((S_8197D468_2 *)sprite)->unk_14 & 0x9FFF);
     }
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     state = ((S_8197D468_0 *)effect)->unk_4C.s;
     switch (state) {
     case 0:
@@ -907,7 +907,7 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
             do {
                 particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (particle != NULL) {
-                    ((S_8197D468_5 *)particle)->unk_10 = (void *)func_80024BB8;
+                    ((S_8197D468_5 *)particle)->unk_10 = (void *)move_sprite_until_animation_ends;
                     register_node(particle, (s32)project_sprite_chain);
                     particle_sprite = ((S_8197D468_5 *)particle)->unk_0C;
                     ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_00 =

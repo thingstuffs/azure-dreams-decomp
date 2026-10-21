@@ -36,7 +36,7 @@ typedef struct {
     u16 pad;
 } OutputVector;
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void transform_rotated_vertices(void *);
 
 /* Update the effect trajectory and sprite, then flag completion when its animation ends. */
@@ -51,7 +51,7 @@ void update_effect_trajectory_and_sprite(void *effect, MovingPosition *position,
     state = ((S_801743EC_0 *)effect)->unk_4C.s;
     switch (state) {
     case 0:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             ((SpriteFrameState *)sprite)->unk_04 = 0;
             ((SpriteFrameState *)sprite)->unk_05 = 0;

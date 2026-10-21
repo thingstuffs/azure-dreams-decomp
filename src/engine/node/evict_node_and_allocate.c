@@ -28,7 +28,7 @@ void *evict_node_and_allocate(void *flags, void *excluded_node)
                 if (excluded_node != 0) {
                     node = allocate_list_node(flags, excluded_node);
                 } else {
-                    node = func_8003FC64(flags);
+                    node = allocate_flagged_object_node(flags);
                 }
                 return node;
             }

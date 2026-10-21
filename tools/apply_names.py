@@ -27,7 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, append_jsonl, sha_text
-from source_layout import row_path as layout_row_path, source_files as layout_source_files
+from source_layout import row_path as layout_row_path, source_files as layout_source_files, own_source
 from verify import verify
 
 NAMES = ROOT / "config" / "names.tsv"
@@ -123,10 +123,10 @@ def main():
         if explicit:
             row = next((r for r in rows() if r["id"] == explicit.get("row")), None)
             symbol = explicit.get("symbol", "")
-            source = ROOT / "src" / row["container"] / Path(row["c_path"]).name if row else None
+            source = layout_row_path(row, ROOT) if row else None
             definition = applied.get(symbol, symbol)
             pattern = r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \t*]*?\b" + re.escape(definition) + r"\s*\([^;{]*\)[^{;]*\{"
-            if a.data or not re.fullmatch(r"func_[0-9A-Fa-f]{8}", symbol) or source not in texts or not re.search(pattern, texts[source], re.M):
+            if a.data or not re.fullmatch(r"func_[0-9A-Fa-f]{8}", symbol) or source not in texts or not re.search(pattern, own_source(row, ROOT)[0], re.M):
                 raise ValueError("identity map does not name a current C definition: " + old)
             old = symbol; addr = "0x" + old[5:]
             rec.update({"old": old, "addr": addr, "identity_row": row["id"]})

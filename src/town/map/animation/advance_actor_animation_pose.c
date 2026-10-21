@@ -53,7 +53,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Re
     u16 elapsed_frames;
 
     *(AnimTable *)animations = *(AnimTable *)D_80089684;
-    func_800478B8(animation);
+    advance_sprite_animation_and_textures(animation);
     state = actor->unk_68;
     switch (state) {
     case 0:
@@ -61,7 +61,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Re
             animation_index = rand() & 7;
             actor->unk_68 = animation_index;
             actor->unk_A4 = (u32)animation_index;
-            func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_3 *)((s8 *)animations
+            select_record_entry_and_value((struct Dst *)animation, (struct Elem *)((S_800BE214_3 *)((s8 *)animations
                 + (actor->unk_68 * 4)))->unk_00, 0);
             actor->unk_68 = (s16)((u16)actor->unk_68 + 0x20);
         }
@@ -69,7 +69,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Re
     case 0x20:
         if (!(animation->unk_14.at00_u16.v & 0x6000))
             return;
-        func_8003DB94((struct Dst *)animation, (struct Elem *)animations[0], 0);
+        select_record_entry_and_value((struct Dst *)animation, (struct Elem *)animations[0], 0);
         actor->unk_6C = 0;
         actor->unk_A4 = 0;
         pose->unk_0A = (u16)actor->unk_A0;
@@ -80,13 +80,13 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Re
             return;
         actor->unk_6C = 6;
         actor->unk_A4 = 8;
-        func_8003DB94((struct Dst *)animation, (struct Elem *)animations[8], 0);
+        select_record_entry_and_value((struct Dst *)animation, (struct Elem *)animations[8], 0);
         actor->unk_68 = 0x40;
         break;
     case 0x24:
         if (!(animation->unk_14.at00_u16.v & 0x6000))
             return;
-        func_8003DB94((struct Dst *)animation, (struct Elem *)&D_800F9D80, 0);
+        select_record_entry_and_value((struct Dst *)animation, (struct Elem *)&D_800F9D80, 0);
         {
             StateWord next_state = { 0x20 };
             actor->unk_68 = next_state.state;
@@ -95,7 +95,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Re
     case 0x25:
         if (!(animation->unk_14.at00_u16.v & 0x6000))
             return;
-        func_8003DB94((struct Dst *)animation, (struct Elem *)D_800F9D80, 0);
+        select_record_entry_and_value((struct Dst *)animation, (struct Elem *)D_800F9D80, 0);
         actor->unk_68 = 0x20;
         break;
     case 0x21:
@@ -122,7 +122,7 @@ void advance_actor_animation_pose(S_800BE214_0 *actor, TrailHeightView *pose, Re
     }
 
     if (animation->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_4 *)((s8 *)animations
+        select_record_entry_and_value((struct Dst *)animation, (struct Elem *)((S_800BE214_4 *)((s8 *)animations
             + (actor->unk_A4 * 4)))->unk_00, 0);
     }
 

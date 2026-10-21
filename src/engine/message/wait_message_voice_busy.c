@@ -8,7 +8,7 @@
 
 /* Sets the next handler on status 0x100; otherwise runs the fallback handler. */
 void wait_message_voice_busy(Rec_func_800384A8_arg0 *state) {
-    if (func_80053EF0(4) != 0x100) {
+    if (read_sound_mode_blocking_status(4) != 0x100) {
         play_message_advance_sound(state);
         return;
     }

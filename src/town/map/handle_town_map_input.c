@@ -3,7 +3,7 @@
 #include "shared/game_work.h"
 
 void call_script(s32);
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 void send_resource_command_23(s32);
 
 extern u8 D_80072210[];
@@ -54,7 +54,7 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
         }
     } else if (state == 9) {
 
-        func_800478B8(context);
+        advance_sprite_animation_and_textures(context);
         *(s32 *)(*(u8 **)object + 0x30) = view_reference_entity.x.w.i / 64 - 0x18;
         *(s32 *)(*(u8 **)object + 0x34) = view_reference_entity.y.w.i / 64 - 0x40;
         return;
@@ -64,7 +64,7 @@ void handle_town_map_input(u8 *object, void *transform, void *context) {
         u8 entry_id;
         u8 *positions;
 
-        func_800478B8(context);
+        advance_sprite_animation_and_textures(context);
         buttons = ((s32)input->pressed_buttons);
         if (buttons & 0x6000) {
             if (++*(s32 *)(object + 0x74) >= *(s32 *)(object + 0x78)) {

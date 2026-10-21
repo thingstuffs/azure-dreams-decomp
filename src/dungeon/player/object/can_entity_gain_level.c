@@ -17,6 +17,12 @@ s32 can_entity_gain_level(void *entity) {
     if (F(entity, s8, 0x13) < 0) {
         return 0;
     }
+    /*
+     * Original bug: Salamanders can qualify for level-up after their last attack disables the callback that clears
+     * their EXP. An off-screen kill can then make the pending EXP owner block its own removal.
+     * Found and documented by the Azure Dreams community
+     * (adrando.com/guide/bugs.html).
+     */
     if (F(entity, u8, 0x11) >= 0x63) {
         return 0;
     }
@@ -59,7 +65,7 @@ extern s32 func_800647A0();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
 extern s32 copy_four_text_bytes();
-extern void * func_80099290(s8 *byte_ptr);
+extern void * clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_text_byte_and_advance();
 extern s32 append_entity_display_text();
 extern s32 display_text_with_fullwidth_adjustment();
@@ -143,6 +149,10 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             }
             stat_gain_m = stat - old_value;
             ((u8 *)entity_data)[5] = stat;
+            /*
+             * Original bug: HP growth is added directly to a byte even when doubled HP is already 255. It wraps instead
+             * of saturating; a full-health Naplass can reach zero HP on leveling up.
+             */
             ((u8 *)entity_data)[0x28] += stat_gain_m;
         }
 
@@ -203,6 +213,10 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             }
             stat_gain_m = stat - old_value;
             ((u8 *)entity_data)[0] = stat;
+            /*
+             * Original bug: doubled attack can already be 255 while base attack still grows. This byte addition wraps;
+             * a full-strength Arachne can reach zero attack on leveling up.
+             */
             ((u8 *)entity_data)[0x26] += stat_gain_m;
         }
 
@@ -237,6 +251,10 @@ s32 raise_entity_level(void *entity_data, s32 show_message) {
             }
             stat_gain_m = stat - old_value;
             ((u8 *)entity_data)[1] = stat;
+            /*
+             * Original bug: doubled defense can already be 255 while base defense still grows. This byte addition
+             * wraps; a full-strength Metal can drop to 1 defense on leveling up.
+             */
             ((u8 *)entity_data)[0x27] += stat_gain_m;
 
             old_scaled = stat_growth[2];
@@ -396,7 +414,7 @@ loop_0:
                 text_end = write_text_byte_and_advance(0x4C, text_end);
                 text_end = copy_four_text_bytes(D_800E0458, text_end);
             }
-            func_80099290(text_end);
+            clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(message);
         }
     }
@@ -415,7 +433,7 @@ extern s32 func_800647A0();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
 extern s32 copy_four_text_bytes();
-extern void * func_80099290(s8 *byte_ptr);
+extern void * clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_text_byte_and_advance();
 extern s32 append_entity_display_text();
 extern s32 play_sound_if_enabled();
@@ -451,6 +469,12 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
     if (entity[0x11] < 2U) {
         return 0;
     }
+    /*
+     * Original bug: level loss subtracts the evolved species' growth from inherited stats but only repairs exactly
+     * zero. Negative results wrap to 255; clamp them before byte stores.
+     * Found and documented by the Azure Dreams community
+     * (adrando.com/guide/bugs.html).
+     */
     entity[0x11] -= 1;
     level = entity[0x11];
     monster_id = entity[0x13];
@@ -724,7 +748,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
             message_end = write_text_byte_and_advance(0x4C, message_end);
             message_end = copy_four_text_bytes(&D_800E0458, message_end);
         }
-        func_80099290(message_end);
+        clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
     }
     return 1;
@@ -735,7 +759,7 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
 
 
 /* Clear D_800DCF4F and decrement the sixth counter in D_80083460. */
-void clear_monster_event_and_decrement_count(void) {
+void clear_counted_action(void) {
 
     dungeon_event_pending_flag[0] = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -827,7 +851,7 @@ typedef struct {
 
 
 /* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
-s32 has_pending_action_or_turn_count(void) {
+s32 has_actor_or_actions(void) {
     s32 has_value;
 
     has_value = 0;
@@ -845,7 +869,7 @@ typedef struct S_800A2CAC_0 {
 } S_800A2CAC_0;   /* arg0 in func_800A2CAC */
 
 /* Checks whether the record's byte at offset 0x25 is below 0x40. */
-s32 func_800A2CAC(S_800A2CAC_0 *record) {
+s32 has_low_actor_mp(S_800A2CAC_0 *record) {
     return (u8) record->unk_25 < 0x40U;
 }
 #include "common.h"
@@ -1020,10 +1044,20 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
                     level_delta = member->unk_11 - source->unk_11;
                     award = experience;
                     if (level_delta < 0) {
+                        /*
+                         * Possible original bug: level_delta is already negative, so '< 2' always gives shift zero and
+                         * doubles XP. The apparent half-bonus tier for a small level gap is unreachable.
+                         */
                         bonus_shift = (level_delta < 2) ^ 1;
                         award = experience + (experience >> bonus_shift);
                     }
                     create_actor_value_popup(0x82, member, (s16)award, 1);
+                    /*
+                     * Original bug: masking the award to 16 bits wraps EXP above 65535 before the accumulator can
+                     * saturate it. Clamp the wide award first.
+                     * Found and documented by the Azure Dreams community
+                     * (adrando.com/guide/bugs.html).
+                     */
                     accumulate_experience_award(member, award & 0xFFFF);
                 }
                 member_index--;
@@ -1037,9 +1071,19 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
             level_delta = global_member->unk_11 - source->unk_11;
             award = experience;
             if (level_delta < 0) {
+                /*
+                 * Possible original bug: level_delta is already negative, so '< 2' always gives shift zero and doubles
+                 * XP. The apparent half-bonus tier for a small level gap is unreachable.
+                 */
                 bonus_shift = (level_delta < 2) ^ 1;
                 award = experience + (experience >> bonus_shift);
             }
+            /*
+             * Original bug: masking the award to 16 bits wraps EXP above 65535 before the accumulator can saturate it.
+             * Clamp the wide award first.
+             * Found and documented by the Azure Dreams community
+             * (adrando.com/guide/bugs.html).
+             */
             accumulate_experience_award(global_member, award & 0xFFFF);
             create_actor_value_popup(0x82, ((S_800A2DB8_6 *)global_page)->unk_3D7C, (s16)award, 1);
             return award;
@@ -1063,7 +1107,7 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 s32 format_unsigned_double_byte_decimal();                        /* extern */
 s32 get_unused_text_buffer();                                /* extern */
 s32 expand_text_control_codes();                  /* extern */
-extern void * func_80099290(s8 *byte_ptr);
+extern void * clear_byte_and_advance(s8 *byte_ptr);
 s32 append_entity_display_text();                     /* extern */
 s32 distribute_experience_awards();                          /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
@@ -1121,7 +1165,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
             targetState = entity->target;
             if ((targetState != NULL) && (targetState->unk_13 >= 0)) {
                 currentValue = get_unused_text_buffer();
-                func_80099290(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, expand_text_control_codes(&D_800E09CD, currentValue))));
+                clear_byte_and_advance(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, expand_text_control_codes(&D_800E09CD, currentValue))));
                 display_text_with_fullwidth_adjustment(currentValue);
             }
         }
@@ -1131,7 +1175,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                     selectionInputThird = get_unused_text_buffer();
                     globalData = monster_species_table;
                     currentValue = selectionInputThird;
-                    func_80099290(expand_text_control_codes(&D_800E09E6, format_unsigned_double_byte_decimal(result, expand_text_control_codes(&D_800E09D9,
+                    clear_byte_and_advance(expand_text_control_codes(&D_800E09E6, format_unsigned_double_byte_decimal(result, expand_text_control_codes(&D_800E09D9,
                         expand_text_control_codes(globalData->unk_04, currentValue)))));
                 } else {
                     return;
@@ -1142,7 +1186,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                 }
                 selectionInputSecond = get_unused_text_buffer();
                 currentValue = selectionInputSecond;
-                func_80099290(expand_text_control_codes(&D_800E09FB, format_unsigned_double_byte_decimal(result, expand_text_control_codes(&D_800E09EE,
+                clear_byte_and_advance(expand_text_control_codes(&D_800E09FB, format_unsigned_double_byte_decimal(result, expand_text_control_codes(&D_800E09EE,
                     append_entity_display_text(entity->target, currentValue)))));
             }
             display_text_with_fullwidth_adjustment(currentValue);
@@ -1180,7 +1224,7 @@ struct Entity {
 extern u16 pending_marked_actor_count[];
 
 /* Mark owned entities of kind 0x1E and increment the dungeon counters. */
-void func_800A31D0(Entity *owner_entity) {
+void mark_owned_linked_actor_actions(Entity *owner_entity) {
     Entity *node;
     ActorRecord *sentinel;
     u16 marked_count;
@@ -1266,7 +1310,7 @@ extern S_800E3E48 familiar_record_storage[];
 extern s32 familiar_record_slots[];
 extern void clear_slots_of_type(void *, s32);
 extern void decrement_monster_entry_count();
-extern void func_800A31D0();
+extern void mark_owned_linked_actor_actions();
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */
 s32 detach_record_and_update_slot_state(void *record) {
@@ -1297,7 +1341,7 @@ s32 detach_record_and_update_slot_state(void *record) {
     clear_slots_of_type(record, 0x1C);
     clear_slots_of_type(record, 0x1D);
     if (!(((EntityRec *)record)->flags14 & 0x20000000)) {
-        func_800A31D0(record);
+        mark_owned_linked_actor_actions(record);
         slot_index = 0;
         page_base = (u8 *)0x80080000;
         copy_src = (void *)~0x4000;

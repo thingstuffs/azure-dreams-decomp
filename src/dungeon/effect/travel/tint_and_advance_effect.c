@@ -487,7 +487,7 @@ void advance_sprite_on_alternate_ticks_until_complete(void *record, s32 unused, 
 
     D_800257CE[0] = D_800257CE[0] + 1;
     if (flags & 1) {
-        func_800478B8(target);
+        advance_sprite_animation_and_textures(target);
         if (*(u16 *)((u8 *)target + 0x14) & 0x4000) {
             *(u16 *)((u8 *)record - 2) |= 0x8000;
             object_flag_block.flags |= 0x8000;
@@ -523,7 +523,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
     MovingPosition *coords;
     S_80024A98_0 *node;
 
-    node = func_8003FC64(0x202);
+    node = allocate_flagged_object_node(0x202);
     if (node != 0) {
         node->unk_10 = advance_sprite_on_alternate_ticks_until_complete;
         register_node(node, (s32)project_sprite_chain);
@@ -535,7 +535,7 @@ void *create_radial_effect_node(MovingPosition *source_coords)
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
         part->color.word = 0x808080;
-        func_8003DB94(part, D_800DE938, 0);
+        select_record_entry_and_value(part, D_800DE938, 0);
         part->tpage_abr = 0x20;
         part->flags |= 0xC;
         effect_index = 0;
@@ -621,7 +621,7 @@ void func_80024B98(void *effect, void *motion, void *primitive) {
     ((S_80024B98_1 *)primitive)->unk_1E -= wave_value >> 5;
     if (((S_80024B98_1 *)primitive)->unk_0C.u8 >= 0x41)
         ((S_80024B98_1 *)primitive)->unk_0C.s32 = 0x404040;
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     if (!(((S_80024B98_0 *)effect)->unk_1C & 0x1F))
         create_effect_render_object(motion, ((S_80024B98_0 *)effect)->unk_14, ((S_80024B98_0 *)effect)->unk_24);
     if (!(((S_80024B98_0 *)effect)->unk_1C & 3))
@@ -678,7 +678,7 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
     register SpriteFrameState *component;
 
     do {
-        effect = func_8003FC64(0x202);
+        effect = allocate_flagged_object_node(0x202);
         if (effect != NULL) {
             ((S_80024D90_0 *)effect)->unk_10 = callback;
             register_node(effect, (s32)draw_linked_sprites_clipped);
@@ -694,7 +694,7 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
             component->scale_x = 0x800;
             component->scale_y = 0x1CCC;
             component->color.word = 0;
-            func_8003DB94(component, D_80025854, 0);
+            select_record_entry_and_value(component, D_80025854, 0);
             value = counter_page[0x57CC / 2];
             source_pos = (u8 *)effect + 0x20;
             component->angle_x = 0x400;
@@ -799,7 +799,7 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
     MovingPosition *position;
     S_80024FD8_4 *effect_state;
 
-    object = func_8003FC64(0x202);
+    object = allocate_flagged_object_node(0x202);
     if (object != 0) {
         ((S_80024FD8_0 *)object)->unk_10 = move_and_fade_effect;
         register_node(object, (s32)draw_linked_sprites_clipped);
@@ -811,7 +811,7 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
         render_state->color.word = 0x808080;
         render_state->scale_x = 0x400;
         render_state->scale_y = 0x1CCC;
-        func_8003DB94(render_state, D_80025854, 0);
+        select_record_entry_and_value(render_state, D_80025854, 0);
         signed_size = (s16)size;
         render_state->angle_y = (signed_size << 8) - 0x400;
         render_code = 0x60;
@@ -1097,7 +1097,7 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
     register s16 mode = spawn_mode;
     register void *node;
 
-    node = func_8003FC64(0x202);
+    node = allocate_flagged_object_node(0x202);
     if (node != 0) {
         s32 mode_test;
 
@@ -1218,7 +1218,7 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
     S_80025654_0 *object;
     SpriteFrameState *object_settings;
 
-    object = func_8003FC64(0x202);
+    object = allocate_flagged_object_node(0x202);
     if (object != 0) {
         object->unk_10 = fade_effect_color_below_eight;
         register_node(object, (s32)process_linked_mesh_states_mode_0);

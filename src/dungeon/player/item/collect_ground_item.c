@@ -58,7 +58,7 @@ s32 get_unused_text_buffer(void);
 char *write_text_byte_and_advance(s8 value, s8 *dest);
 char *expand_text_control_codes(char *, char *);
 char *append_typed_formatted_value(DungeonItemEntry *, char *);
-void func_80099290(char *);
+void clear_byte_and_advance(char *);
 void display_text_with_fullwidth_adjustment(s8 *text);
 s32 find_last_zero_entry_run_start(void);
 s32 find_and_clear_empty_item_slot(void);
@@ -112,7 +112,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
     message_handle = get_unused_text_buffer();
     message = write_text_byte_and_advance(8, message_handle);
     if (held_item_kind_alias[0] != 0) {
-        func_80099290(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A76,
+        clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A76,
             message))));
         display_text_with_fullwidth_adjustment(message_handle);
         return 1;
@@ -122,7 +122,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
     if ((system_update_flags & 1) == 0) {
         if ((sys->buttons & 0x20) != 0) {
             append_packed_action_record(unit, 64, 0, 0);
-            func_80099290(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A83,
+            clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_typed_formatted_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A83,
                 message))));
             display_text_with_fullwidth_adjustment(message_handle);
             return 1;
@@ -197,7 +197,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
             ctx->link = inventory_slot;
         }
     }
-    func_80099290(message);
+    clear_byte_and_advance(message);
     display_text_with_fullwidth_adjustment(message_handle);
     return 1;
 }

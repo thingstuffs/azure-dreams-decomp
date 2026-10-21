@@ -5,7 +5,7 @@ extern void clear_resident_bitmap_bit(s32 flag_id);
 extern s16 D_800D15C0[];
 
 /* Processes the terminated ID list, 54 evenly spaced IDs, and ID 0xD31. */
-void process_terminated_shop_ids(void)
+void clear_resident_bit_patterns(void)
 {
     s32 list_index;
     s32 range_index;

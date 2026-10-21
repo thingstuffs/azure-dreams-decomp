@@ -19,7 +19,7 @@ typedef struct S_800B4648_0 {
     s32 unk_5C;
 } S_800B4648_0;
 
-void func_8004E99C(void *object);
+void flag_optional_object_for_removal(void *object);
 extern void release_null_terminated_entries(void *entries);
 
 /* Functions defined in this translation unit. */

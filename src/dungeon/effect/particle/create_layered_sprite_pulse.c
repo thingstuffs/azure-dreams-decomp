@@ -10,7 +10,7 @@
 extern void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrameState *effect);
 extern u8 D_800DEAE0[];
 extern s32 register_node(void *, void *);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 
 typedef struct S_801676CC_0 {
     u8 pad_00[0x18];
@@ -50,7 +50,7 @@ void create_layered_sprite_pulse(EntityRec *origin) {
     scale_y = 0x1000;
     scale_x = 0x1400;
     do {
-        effect = func_8003FC64(0x212);
+        effect = allocate_flagged_object_node(0x212);
         if (effect != NULL) {
             effect_state = effect + 0x20;
             effect_state->unk_18 = initial_ticks;
@@ -73,7 +73,7 @@ void create_layered_sprite_pulse(EntityRec *origin) {
             sprite->unk_06 = 0;
             sprite->clut = 0x7DCF;
             sprite->flags = (u16) (sprite->flags | 0x100);
-            func_8003DB94(sprite, D_800DEAE0, 0);
+            select_record_entry_and_value(sprite, D_800DEAE0, 0);
         }
         scale_y += 0x200;
         effect_index += 1;

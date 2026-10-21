@@ -36,7 +36,7 @@ void *create_type(S_7FDD3A2C_1 *position, s32 object_value, s32 render_value, s3
     S_7FDD3A2C_0 *object;
     SpriteFrameState *render_state;
 
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     if (object != 0) {
         object->unk_10 = object_value;
         ((S_7FDD3A2C_4 *)(((S_7FDD3A2C_3 *)object)->unk_08))->unk_00 = (s32) position->unk_00;

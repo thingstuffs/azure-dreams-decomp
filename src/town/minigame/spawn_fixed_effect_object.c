@@ -50,7 +50,7 @@ void spawn_fixed_effect_object(void *caller_data)
     s32 transform_value;
     u32 color;
 
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     if (object != NULL) {
         register_node(object, D_80046398);
         color = 0x00808080U;

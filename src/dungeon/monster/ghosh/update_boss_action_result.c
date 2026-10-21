@@ -14,7 +14,7 @@ typedef struct S_80170224_0 {
 
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
 extern void advance_boss_actor_movement_state(void *, s32, s32, void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern s16 has_pending_dungeon_activity(void *);
 
 /* Updates an entity's state and flags according to its action result. */
@@ -38,7 +38,7 @@ s32 update_boss_action_result(Rec_func_800A9E70_arg0 *entity, s32 target_x, s32 
     switch (action_result) {
     case 0:
         entity->unk_9A.as_u8 = 14;
-        update_actor_status_and_food(entity_data);
+        update_actor_status_and_mp(entity_data);
         return 0;
 
     case 2:

@@ -7,7 +7,7 @@ typedef struct S_800423C0_Src S_800423C0_Src;
 void *runtime_get_mode_indexed_value();
 /* extern */
 void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source);
-void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);
+void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);
 void func_80042640(void *obj, s16 monsterId);
 void *memset(void *, s32, u32);
 s32 find_first_vacant_record();
@@ -63,7 +63,7 @@ static void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, 
     if (entry->unk_01 == 0x13) {
         memset(&town_actor_scratch, 0, 0x54);
         func_80042640(&town_actor_scratch, entry->unk_00);
-        func_800423C0(&town_actor_scratch, entry->unk_00, 0);
+        apply_actor_template_and_direction(&town_actor_scratch, entry->unk_00, 0);
         {
             u8 *record_buffer;
             record_buffer = (u8 *)&town_slot_snapshot;

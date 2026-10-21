@@ -117,8 +117,8 @@ typedef struct {
     u8 pad[0x5A];
 } PositionTableEntry;
 
-void func_8003DB94();
-void func_800419EC();
+void select_record_entry_and_value();
+void initialize_timed_motion_step();
 s32 register_node();
 s32 play_sound_if_enabled();
 struct EntityRec; void create_jittered_child_effect(struct EntityRec *, s32, s16, s16, s16, s16);
@@ -258,7 +258,7 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
             create_ribbon_head_sprite(effect_data, origin, color);
             ((PlayerRecord *)primary_actor_record)->unk_10C = (u16) (((PlayerRecord *)primary_actor_record)->unk_10C | 1);
             primary_actor_record->movement_facing = (s16) (((u16)primary_actor_record->facing) + 0x800);
-            func_800419EC(6, 0xC, ((EntityRec *)primary_actor_record));
+            initialize_timed_motion_step(6, 0xC, ((EntityRec *)primary_actor_record));
             play_sound_if_enabled(0x601);
         }
         if ((s16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E >= 0x10) {
@@ -406,7 +406,7 @@ copy_pairs:
         object_base = object_table_base;
         history_offset = 0;
         do {
-            object = func_8003FC64(0x212);
+            object = allocate_flagged_object_node(0x212);
             if (object != NULL) {
                 object_data = object + 0x20;
                 ((S_80167C74_13 *)object_data)->unk_18 = 1;
@@ -438,7 +438,7 @@ copy_pairs:
                     history_index += 1;
                 } while (history_index < 4);
                 object_render->unk_06 = 0;
-                func_8003DB94(object_render, D_800DEAE0, 0);
+                select_record_entry_and_value(object_render, D_800DEAE0, 0);
                 object_pair = 0;
                 object_offset = history_offset;
                 copy_row_offset = object_data;

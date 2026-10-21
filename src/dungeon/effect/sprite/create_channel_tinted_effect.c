@@ -28,7 +28,7 @@ typedef struct Copy24 {
     s32 words[6];
 } Copy24;
 
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
 s32 register_node();           /* extern */
 s32 func_80069EF8();                                /* extern */
 void func_800248C0(void *state, s32 unused, Rec_D_80082E80 *primitive);
@@ -50,7 +50,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
     s32 saved_y_offset;
 
     saved_y_offset = y_offset;
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         ((S_818BD1C4_0 *)object)->unk_10 = &func_800248C0;
         ((S_818BD1C4_0 *)object)->unk_20 = (s32) *owner_id;
@@ -81,7 +81,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
         visual->flags = (u16) (visual->flags | 0xC);
         visual->tpage_abr = (u16) (visual->tpage_abr | 0x60);
         visual->flags = (u16) (visual->flags | 0x100);
-        func_8003DB94(data_ptr, &D_80025E04, 0);
+        select_record_entry_and_value(data_ptr, &D_80025E04, 0);
         phase_rounded = func_80069EF8();
         phase_value = phase_rounded;
         if (phase_value < 0) {

@@ -81,11 +81,11 @@ void audio_update_voice_pitch(S_80056654_0 *state, s32 force_update) {
             audio_voice_request.field18 = (s16) (state->unk_23 | (state->unk_22 << 8));
         }
         audio_voice_request.field16 = (s16) packed_pitch;
-        func_8005F134(&audio_voice_request);
+        apply_spu_voice_attributes(&audio_voice_request);
     }
     if (state->unk_30 != 0) {
         voice_entry = audio_voice_masks;
-        if (func_8005EB78(voice_entry[state->unk_00]) != 0) return;
+        if (read_selected_voice_key_state(voice_entry[state->unk_00]) != 0) return;
         state->unk_30 = 0;
         state->unk_3C.s32 = 0;
     }

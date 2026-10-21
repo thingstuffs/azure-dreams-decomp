@@ -30,7 +30,7 @@ typedef struct S_80024550_3 {
    /* arg0 in mark_owner_on_target_completion */
 
 extern s32 rand(void);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 extern void register_node(void *, void *);
@@ -49,7 +49,7 @@ void mark_owner_on_target_completion(MovingPosition *origin)
     void *effect;
 
     scene_state = &g_game_work;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         ((S_80024550_0 *)effect)->unk_10 = D_800244A4;
         adjusted_random = rand();
@@ -63,7 +63,7 @@ void mark_owner_on_target_completion(MovingPosition *origin)
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
-        func_8003DB94(render_data, effect_sprite_sources, 0);
+        select_record_entry_and_value(render_data, effect_sprite_sources, 0);
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->tpage_abr |= 0x20;

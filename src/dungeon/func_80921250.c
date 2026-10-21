@@ -15,7 +15,7 @@ typedef struct S_800B90BC_0 {
 void func_800F6250(void) {
     S_800B90BC_0 *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != NULL) {
         object->unk_10 = &D_800F6020;
     }

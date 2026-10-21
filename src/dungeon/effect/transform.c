@@ -10,7 +10,7 @@ s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 st
     SpriteFrameState *display;
     void *input_copy;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = (Row_8189E934_Tail *)((s8 *)object + 0x20);
         ((Row_8189E934_S_80024134_0 *)object)->unk_10 = D_80024020;
@@ -49,7 +49,7 @@ void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32
     owner = sequence->unk_08;
     owner->unk_14++;
     sequence->unk_02.u++;
-    func_800478B8(record);
+    advance_sprite_animation_and_textures(record);
 
     state = sequence->unk_00.s;
     switch (state) {
@@ -118,7 +118,7 @@ void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32
         return;
     }
     case 3:
-        func_800478B8(record);
+        advance_sprite_animation_and_textures(record);
         return;
     default:
         return;
@@ -135,7 +135,7 @@ s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *
     Row_8189EBBC_S_800243BC_1 *state;
     Row_8189EBBC_S_800243BC_4 *object_transform;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = object + 0x20;
         ((Row_8189EBBC_S_800243BC_0 *)object)->unk_10 = &D_80024264;
@@ -158,7 +158,7 @@ s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *
         if (random_value < 0) {
             rounded_random = random_value + 0xF;
         }
-        func_8003DB94(sprite, &D_800DEF08,
+        select_record_entry_and_value(sprite, &D_800DEF08,
                       (s16)(random_value - ((rounded_random >> 4) * 0x10)));
         register_node(object, &transform_effect_tag);
         object_transform = ((Row_8189EBBC_S_800243BC_0 *)object)->unk_08;

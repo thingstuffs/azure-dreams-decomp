@@ -1,14 +1,14 @@
 #include "common.h"
 
-extern void shop_set_indexed_flag(s32);
-extern void shop_clear_indexed_flag(s32);
-extern s32 shop_test_indexed_flag(s32);
+extern void set_linked_flag(s32);
+extern void clear_linked_flag(s32);
+extern s32 test_linked_flag(s32);
 
 /* Update flag 0x24C based on flags 0x20C and 0x268. */
-void shop_update_availability_flag(void) {
-    if ((shop_test_indexed_flag(0x20C) == 0) && (shop_test_indexed_flag(0x268) == 0)) {
-        shop_set_indexed_flag(0x24C);
+void update_combined_flag(void) {
+    if ((test_linked_flag(0x20C) == 0) && (test_linked_flag(0x268) == 0)) {
+        set_linked_flag(0x24C);
         return;
     }
-    shop_clear_indexed_flag(0x24C);
+    clear_linked_flag(0x24C);
 }

@@ -49,10 +49,10 @@ typedef struct ActorSpriteView {
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 compare_monster_neighbor_values(u8, u8, u8, u8);
+extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -167,7 +167,7 @@ void func_8016B138(ActorActionView *action_input, EntityRec *motion_input, Actor
 
     if (entity->unk_6D > 0) {
         if (entity->flags1C & 0x20) {
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         }
         if (!(sprite->position.packed == ((TilePairView *)&reference_tile_object.tile_position.parts.tile_x)->packed)) {
@@ -200,7 +200,7 @@ void func_8016B138(ActorActionView *action_input, EntityRec *motion_input, Actor
                     return;
 
                 case 12:
-                    update_actor_status_and_food(entity);
+                    update_actor_status_and_mp(entity);
                     return;
 
                 case 5:
@@ -217,7 +217,7 @@ void func_8016B138(ActorActionView *action_input, EntityRec *motion_input, Actor
                     player = primary_actor_record;
                     entity->facing = facing_angle;
                     if (player->unk_9A != 0x11) {
-                        update_actor_status_and_food(entity);
+                        update_actor_status_and_mp(entity);
                         return;
                     }
                 }
@@ -255,7 +255,7 @@ void func_8016B138(ActorActionView *action_input, EntityRec *motion_input, Actor
 
     {
 
-        if ((s16)compare_monster_neighbor_values(
+        if ((s16)test_neighbor_position_relation(
                 sprite->position.tile.x, sprite->position.tile.y,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
             entity->facing = get_rounded_facing_and_rounding_flag(

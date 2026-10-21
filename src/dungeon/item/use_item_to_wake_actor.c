@@ -11,7 +11,7 @@ extern void clear_slots_of_type(void *entity, s32 value);
 extern void begin_deferred_item_action(void *entity_ptr, void *ptr0, void *ptr1, void *entity);
 extern void clear_slot_and_update_linked_state(s32 event);
 extern void display_formatted_context_message(void *ptr);
-extern void apply_item_effect_at_entity_position(void *entity, s32 event);
+extern void place_actor_item(void *entity, s32 event);
 extern void display_item_status_message(void *entity, s32 event, s16 event_type);
 extern s32 feed_actor_restore_mp(void *entity, s32 value, s32 value2);
 extern void create_timed_paired_particle_emitter(s32 value, s32 value2, void *entity);
@@ -38,7 +38,7 @@ s32 use_item_to_wake_actor(void *entity, s32 event, s16 event_type)
         display_item_status_message(entity, event, event_type);
         if (feed_actor_restore_mp(
                 entity, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(entity, event);
+            place_actor_item(entity, event);
             return 1;
         }
     }

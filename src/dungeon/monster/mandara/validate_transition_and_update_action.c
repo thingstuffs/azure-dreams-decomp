@@ -18,7 +18,7 @@ typedef struct S_80172314_2 {
 extern s32 select_sprite_entry();
 extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
-extern s32 place_actor_at_directional_neighbor();
+extern s32 probe_directional_neighbor();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target();
@@ -35,7 +35,7 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, void *
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    target_heading = place_actor_at_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+    target_heading = probe_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                            ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_heading) << 16) == 0) {
         return 0;

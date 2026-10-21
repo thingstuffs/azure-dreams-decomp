@@ -63,7 +63,7 @@ void apply_tone_parameter_command(S_80057A94 *command) {
             message.type = 1;
             message.f4 = command->f4E;
             sound_ram_reserve_mode[0] = command->f4E;
-            func_8005DA88(&message);
+            configure_spu_reverb(&message);
             set_spu_reverb_enabled_if_available(1);
         }
         break;
@@ -71,19 +71,19 @@ void apply_tone_parameter_command(S_80057A94 *command) {
         message.type = 6;
         message.x = command->f4E << 8;
         message.y = command->f4E << 8;
-        func_8005DA88(&message);
+        configure_spu_reverb(&message);
         set_spu_reverb_enabled_if_available(1);
         break;
     case 17:
         message.type = 0x10;
         message.f10 = command->f4E;
-        func_8005DA88(&message);
+        configure_spu_reverb(&message);
         break;
     case 18:
     case 19:
         message.type = 8;
         message.fc = command->f4E;
-        func_8005DA88(&message);
+        configure_spu_reverb(&message);
         break;
     case 0:
     case 13:

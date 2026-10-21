@@ -29,5 +29,5 @@ void sound_reset_indexed_voice_envelope(s32 request_index) {
     audio_voice_request.field_0x3C = 0;
     audio_voice_request.field_0x24 = 5;
     audio_voice_request.field_0x00 = request_value;
-    func_8005F134(&audio_voice_request);
+    apply_spu_voice_attributes(&audio_voice_request);
 }

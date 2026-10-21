@@ -890,7 +890,7 @@ ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_upda
     ObjectNodeHeader *object;
     SpriteFrameState *object_settings;
 
-    object = func_8003FC64(0x202);
+    object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
         object->unk_10 = (void *)handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark;
         register_node(object, (s32)&D_800CEEFC);
@@ -1451,7 +1451,7 @@ typedef struct Motion {
 
 
 extern u16 D_80026326;
-extern void func_800478B8(void *color);
+extern void advance_sprite_animation_and_textures(void *color);
 
 
 /* Advance and fade the effect, flagging expiration when its timer runs out. */
@@ -1479,7 +1479,7 @@ void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Mo
     color->green = green - (green >> 2);
     color->blue = blue - (blue >> 2);
 
-    func_800478B8(color);
+    advance_sprite_animation_and_textures(color);
 
     timer = actor->timer - 1;
     actor->timer = timer;
@@ -1498,7 +1498,7 @@ void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Mo
 struct Dst;
 struct Elem;
 
-extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
+extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
 
 s32 rand();                                /* extern */
 extern M2C_UNK D_800263F8;
@@ -1524,7 +1524,7 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
 
-    effect = func_8003FC64(0x202);
+    effect = allocate_flagged_object_node(0x202);
     if (effect != NULL) {
         effect->unk_10 = (s32 *)advance_and_fade_effect_flagging_expiration_timer_runs_out;
         register_node(effect, project_sprite_chain);
@@ -1537,7 +1537,7 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
         transform->unk_16 = (s16) (rand() & 7);
         sprite = effect->unk_0C;
         sprite->color.word = 0x808080;
-        func_8003DB94(sprite, &D_800263F8, 0);
+        select_record_entry_and_value(sprite, &D_800263F8, 0);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->tpage_abr = 0x20;
@@ -1872,7 +1872,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
 
     for (quad_index = 0; quad_index < (s16)D_8002632A; quad_index++) {
         vertices = (Cell *)D_80026478;
-        fragment = func_8003FC64(0x202);
+        fragment = allocate_flagged_object_node(0x202);
         if (fragment != NULL) {
             object_or_x = (s32)fragment;
             fragment->unk_10 = handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends;

@@ -42,7 +42,7 @@ s32 create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_stat
     S_80174A6C_4 *dst_state;
     SpriteFrameState *prim;
 
-    obj = func_8003FC64(0x312);
+    obj = allocate_flagged_object_node(0x312);
     if (obj != 0) {
         obj->unk_10 = D_80174A00;
         register_node(obj, project_sprite_chain);

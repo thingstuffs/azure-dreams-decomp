@@ -34,7 +34,7 @@ extern u8  cd_command_status_flags[1];
 #define CDBUF (cd_command_result.bytes)
 
 /* Processes queued CD commands and advances pending reads and drive operations. */
-void func_8003E758(void)
+void service_cd_command_queue(void)
 {
     SlusCdDriverPrefix *driver;
     SlusCdQueueEntry *queue, *command, *active_queue, *active_command;

@@ -7,7 +7,7 @@ extern void func_800188E4(s32);
 extern void *D_800190C0[];
 
 /* Conditionally updates flag 0x619, then dispatches D_800190C0 to the callback. */
-void func_8059E728(void) {
+void change_map_after_flag_test(void) {
     if (func_80018964(Fp_bibian_pool) != 0) {
         func_800188E4(F_sbs13_pad32);
     }

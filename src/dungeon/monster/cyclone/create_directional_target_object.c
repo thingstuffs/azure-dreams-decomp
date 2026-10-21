@@ -50,7 +50,7 @@ void *create_directional_target_object(void *emitter, Copy24 *position, void *so
         + direction_offset))) * (*((s16 *) (((u8 *) emitter) + 0xB2)))) * 0x40;
     *((u16 *) (((u8 *) (&target_position)) + 6)) += ((*((s16 *) (((u8 *) (((u8 *)dir_step_y)))
         + direction_offset))) * (*((s16 *) (((u8 *) emitter_copy) + 0xB2)))) * 0x40;
-    object = func_8003FC64(0x312);
+    object = allocate_flagged_object_node(0x312);
     if (object != 0) {
         *((void **) (((u8 *) object) + 0x10)) = &D_80175978;
         register_node(object, project_sprite_chain);

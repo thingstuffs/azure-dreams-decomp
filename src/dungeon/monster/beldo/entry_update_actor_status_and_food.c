@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 
 extern s32 select_sprite_entry();
-extern void update_actor_status_and_food();
+extern void update_actor_status_and_mp();
 extern void func_80171BE0();
 
 extern u8 D_80173E94[];
@@ -10,7 +10,7 @@ extern u8 *D_80174714;
 extern u16 D_80174718;
 
 /* Advance the repeated command stream and apply its direction and action to the actor. */
-s32 func_8125456C(u8 *actor, s32 action_context, u8 *sprite) {
+s32 replay_actor_direction_commands(u8 *actor, s32 action_context, u8 *sprite) {
     u8 *saved_actor;
     u8 *entry;
     s32 command;
@@ -59,6 +59,6 @@ s32 func_8125456C(u8 *actor, s32 action_context, u8 *sprite) {
         }
         dispatch_actor = saved_actor;
     }
-    update_actor_status_and_food(dispatch_actor);
+    update_actor_status_and_mp(dispatch_actor);
     return 0;
 }

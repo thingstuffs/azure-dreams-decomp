@@ -14,7 +14,7 @@ void create_mesh_effect_object(void)
 {
     void *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     register_node(object, &D_800D1824);
     D_80081508 = ((u8 *)object) + 0x20;
     *((s8 *)(((u8 *)object) + 0x20)) = 0;

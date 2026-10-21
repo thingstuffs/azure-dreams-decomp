@@ -62,7 +62,7 @@ typedef struct S_80E122F4_6 {
 } S_80E122F4_6;   /* ((S_80E122F4_0 *)owner)->unk_60 in func_80E122F4 */
 
 /* Spawn a 0x312 effect object at the source's position, offset into the owner's room and depth-sorted against the camera. */
-void *func_80E122F4(S_80E122F4_0 *owner, void *transform, void *source)
+void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *source)
 {
     Vec3u16 offset;
     S_80E122F4_5 *reference;
@@ -75,7 +75,7 @@ void *func_80E122F4(S_80E122F4_0 *owner, void *transform, void *source)
 
     source_obj = source;
     reference = ((S_80E122F4_6_pre *)(owner->unk_60))[-1].unk_00;
-    obj = func_8003FC64(0x312);
+    obj = allocate_flagged_object_node(0x312);
     if (obj != 0) {
         (*(s32 * *)((u8 *)obj + 0x10)) = &D_80175978;
         register_node(obj, project_sprite_chain);

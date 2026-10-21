@@ -75,7 +75,7 @@ s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 sl
         slot_base = (u8 *) dungeon_floor_object_positions;
         status = (StatusEntry *) (slot_base + slot_index * 0x18);
         if (status->flags & 0x40) {
-            func_8003DB94(status, D_800DF258[floor_objects[slot_index * 4]], 0);
+            select_record_entry_and_value(status, D_800DF258[floor_objects[slot_index * 4]], 0);
             status->flags &= 0xF7FF;
         }
     }

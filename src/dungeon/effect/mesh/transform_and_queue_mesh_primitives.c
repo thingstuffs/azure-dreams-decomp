@@ -8,7 +8,7 @@ typedef struct S_func_8187A800_0 {
 
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *, void *);
 extern s32 try_trigger_target_record_effect(void *, s32);
@@ -43,7 +43,7 @@ void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *
             message = expand_text_control_codes(&D_80024004, message);
             message = append_entity_display_text(target, message);
             message = expand_text_control_codes(&D_80024034, message);
-            func_80099290(message);
+            clear_byte_and_advance(message);
             display_text_with_fullwidth_adjustment(message_start);
         }
     }
@@ -724,7 +724,7 @@ typedef struct S_8187B540_1 {
 extern s16 D_8002694C[5];
 
 /* Add the object increment to the target and flag completion when its countdown expires. */
-void func_80024D40(void *object, s32 unused, void *target) {
+void rotate_point_cloud_until_expired(void *object, s32 unused, void *target) {
     u8 *object_data = object;
     u8 *global_base = (u8 *)&D_8002694C - 0x694C;
     u16 remaining;
@@ -835,7 +835,7 @@ s32 project_colored_point_to_ordering_table(u8 *render_data, u8 *source_vertex)
 extern s16 D_8002694C[5];
 
 /* Conditionally advances the position and decrements a counter, setting flags when it expires. */
-void func_80024FF0(void *object, s16 *position)
+void advance_colored_point_toward_terrain(void *object, s16 *position)
 {
     s16 *object_fields = object;
     s16 counter;
@@ -886,7 +886,7 @@ typedef struct S_func_800250B0_3 {
 extern s32 rand();
 
 /* Creates an object at a randomized offset from the source and initializes its actor data. */
-void func_800250B0(
+void create_terrain_seeking_colored_point(
     void *source,
     s32 field_04_value,
     s32 field_00_value,
@@ -919,7 +919,7 @@ void func_800250B0(
     spawned_obj = allocate_list_node(0x211, source_obj);
     if (spawned_obj != NULL) {
         saved_pair = paired_value;
-        spawned_obj->unk_10 = (s32)func_80024FF0;
+        spawned_obj->unk_10 = (s32)advance_colored_point_toward_terrain;
         z_offset = rand() & 0x1F;
         x_pos = ((MovingPosition *)source_obj->unk_08)->unk_02;
         x_dest = spawned_obj->unk_08;
@@ -1010,7 +1010,7 @@ void func_800251E8(s32 radius, s32 initial_value, s16 extent, s32 position_x_wor
     S_8187B9E8_4 *state;
     S_8187B9E8_3 *scale;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         point_count = 0;
         state = (u8 *)effect + 0x20;
@@ -1034,7 +1034,7 @@ void func_800251E8(s32 radius, s32 initial_value, s16 extent, s32 position_x_wor
         scale->unk_1E = 0x1000;
         scale->unk_1C = 0x1000;
         state->unk_14 = 0x17;
-        effect->unk_10 = func_80024D40;
+        effect->unk_10 = rotate_point_cloud_until_expired;
         state->unk_A0 = (func_80069EF8() & 0x3F) + 0x3C;
         state->unk_10 = extent;
         state->unk_12 = extent;
@@ -1411,7 +1411,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
     case 1:
         if (((S_8187BFE0_0 *)state_data)->unk_02.s == 0) {
             ((S_8187BFE0_0 *)state_data)->unk_02.u++;
-            node = (u8 *)func_8003FC64(0x212);
+            node = (u8 *)allocate_flagged_object_node(0x212);
             if (node == 0) {
                 break;
             }
@@ -1749,7 +1749,7 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
     case 2:
         trail_color = 0x60;
         do {
-            object = func_8003FC64(0x12);
+            object = allocate_flagged_object_node(0x12);
             object_data = (u8 *)object + 0x20;
             if (object != 0) {
                 U16(object_data, 2) = 8;
@@ -1818,7 +1818,7 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
             U8(effect, 0xA0) = U8(effect, 0xA0) - 0x18;
         }
 
-        object = func_8003FC64(0x12);
+        object = allocate_flagged_object_node(0x12);
         object_data = (u8 *)object + 0x20;
         if (object != 0) {
             U16(object_data, 2) = 8;
@@ -1877,7 +1877,7 @@ loop_0:
                 base_color = 0x0020E0E0;
                 particle_color &= 0xFF;
                 brightness = particle_color | 0x80;
-                func_800250B0(target, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
+                create_terrain_seeking_colored_point(target, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
             }
             particle_index += 1;
         }

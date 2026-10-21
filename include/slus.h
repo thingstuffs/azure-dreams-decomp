@@ -20,7 +20,7 @@ struct VtableObj;
 void initialize_memory_card_services(void);
 void zero_words(int *dst, int count);
 void copy_words_forward(int *dst, int *src, int count);
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 void swap_int_values(int *left, int *right);
 void set_byte_one(unsigned char *flag);
 int identity_int(int value);
@@ -34,12 +34,12 @@ void mark_resource_list_flags_ten_and_eleven(void);
 int count_null_terminated_pointers(void **entries);
 void append_terminated_runtime_word(int value);
 short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned short stride, unsigned short limit);
-void func_800424E0(void *entity, int value);
+void apply_actor_template_and_class(void *entity, int value);
 void set_cd_cue_and_submit_sound_command(int first, int second, int third, int fourth);
-int func_800445E0(void);
+int read_stream_cue_start_offset(void);
 int draw_linked_lit_meshes(void *object, int value, void *record);
 short draw_linked_sprites_and_narrow_result(void);
-void func_800478B8(void *entity);
+void advance_sprite_animation_and_textures(void *entity);
 void clear_sprite_work_table(void);
 void *get_sprite_resource_slot_buffer(s32 index);
 int get_image_palette_address(int value);
@@ -58,7 +58,7 @@ int is_type_twenty(int type);
 int get_item_name_with_shared_text_table(void *object);
 int read_item_category_flag_ten(void);
 int get_low_flag_priority(int flags);
-int func_800499DC(int *flag);
+int set_flag_and_return_success(int *flag);
 void initialize_packet_pair_from_record(void *packets, void *record);
 int advance_index_with_single_wrap(int index, int delta, int limit);
 int func_80049E6C(int index);
@@ -77,7 +77,7 @@ struct Node *find_active_list_node(struct Node *target);
 void submit_global_cd_command_six(void);
 void load_bin_nametwin(void);
 int create_item_view_without_event(int object, int value);
-void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);
+void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);
 void *advance_packed_record_by_type(void *object);
 void decode_glyph_id_to_byte_rectangle(u32 value, u8 *record);
 void set_descriptor_grid_byte_coordinates(signed char *record, int width, int height, int column, int row);
@@ -88,7 +88,7 @@ void set_glyph_style_index(void *record, int index);
 unsigned char *read_decimal_digit_value(unsigned char *text, int *digit);
 void format_reversed_decimal_space_padded(int value, unsigned short width, char *buf);
 void func_8004E994(void);
-void func_8004E99C(void *object);
+void flag_optional_object_for_removal(void *object);
 void func_8004E9C0(void *object);
 void func_8004E9E4(void);
 void clear_vram_callback_state(void);
@@ -105,9 +105,9 @@ void forward_object_input_handler(void *object);
 void invoke_leading_object_callback(struct VtableObj *object);
 void link_seventeen_indexed_entries(void *entries);
 void submit_enabled_saved_display_value(void);
-void func_80050F84(void);
-void func_80050FA8(void);
-void func_80051500(void);
+void run_town_movie_callbacks(void);
+void run_town_transition_callbacks(void);
+void load_direct_resource_descriptor(void);
 void submit_cd_command_six_and_drain(void *record);
 short SD_Call(int flags);
 void sound_set_cd_playback_volume_scale(short value);
@@ -142,7 +142,7 @@ void set_sound_flag_update_suppression(short value);
 void flush_pending_sound_voice_flags(void);
 void enable_available_spu_reverb(void);
 int submit_shifted_stereo_sound_parameters(short x, short y);
-int func_8005C808(void);
+int read_sequence_tempo_step(void);
 void set_audio_channel_volume_control(int unused, short index, int value);
 void set_audio_channel_pan_control(int unused, short index, int value);
 void func_8005C980(void);
@@ -169,12 +169,12 @@ void set_scene_phase_callback(int value);
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void reset_scene_frame_callback_list(void);
 void bind_view_triplet_source(void *state);
-void func_800419EC(unsigned short countdown, unsigned int amount);
+void initialize_timed_motion_step(unsigned short countdown, unsigned int amount);
 void bind_global_triplet_source(void *state);
 int audio_enable_mono_mix(void);
 void audio_set_all_track_tempo_steps(int unused, int value);
 void set_current_and_previous_menu_selection(void *object, s32 value);
-int func_800542AC(void);
+int cancel_pending_sound_selection(void);
 void invalidate_four_sprite_resource_slots(void);
 int monster_get_species_name_text(int index);
 void clear_runtime_slot_word_table(void);
@@ -209,10 +209,10 @@ void delay_multiply_loop(void);
 
 /* sound_key_buffer.c */
 u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_index);
-void func_8005E97C(s32 key_on, u32 voices);
+void set_spu_voice_keys(s32 key_on, u32 voices);
 
 /* sound_streaming_transfer.c */
-s32 func_8005E7E0(s32 voice);
+s32 clear_spu_reverb_work_area(s32 voice);
 
 /* w_8003E34C.c */
 void reset_cd_command_retry_state(void);
@@ -222,7 +222,7 @@ s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 s32 func_8003E4FC(s32 event_code, void *event_data, s32 payload);
 
 /* w_8003E758.c */
-void func_8003E758(void);
+void service_cd_command_queue(void);
 
 /* w_8003F368.c */
 s32 query_validated_cd_sector_with_retry(void);
@@ -234,7 +234,7 @@ s32 get_cd_flags_with_conditional_bit(void);
 void cd_set_mode_with_retry(void);
 
 /* w_80041094.c */
-void func_80041094(s32 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16);
+void request_scene_state_with_parameters(s32 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16);
 
 /* w_80041134.c */
 void remove_runtime_callback(s32 value);
@@ -261,7 +261,7 @@ void runtime_dispatch_control_coded_message(char *message);
 void runtime_dispatch_and_reset_control_string(char *text);
 
 /* w_8004E130.c */
-void func_8004E130(void);
+void enqueue_script_message_command(void);
 
 /* w_8004EF90.c */
 void *func_8004EF90(void *cursor);
@@ -279,7 +279,7 @@ void begin_selection_menu_teardown_and_fade(u8 *object);
 void destroy_selection_menu_and_release_owner(struct S_80050E20 *object);
 
 /* w_80053EF0.c */
-s32 func_80053EF0(s32 mode);
+s32 read_sound_mode_blocking_status(s32 mode);
 
 /* w_8005ACDC.c */
 void drain_ready_sound_voice_flags(void);

@@ -53,7 +53,7 @@ typedef struct S_80036D4C_3 {
     u16 unk_14;
 } S_80036D4C_3;   /* temp_s2 in create_blinking_cursor_object */
 
-void func_800350B0(void *context, Struct800350B0 *object);
+void prepend_embedded_object_node(void *context, Struct800350B0 *object);
 void copy_texture_descriptor_with_page_offsets(); /* extern */
 extern u8 blinking_cursor_texture_template_0[];
 extern u8 blinking_cursor_texture_template_1[];
@@ -86,7 +86,7 @@ void create_blinking_cursor_object(s32 node_addr, Rec_D_80081FDC *record, s32 *c
     ((S_80036D4C_5 *)(((S_80036D4C_4 *)node)->unk_20))->unk_14 = 2;
     state->unk_04 = 0;
     state->unk_08 = 0;
-    func_800350B0(setup_id, state);
+    prepend_embedded_object_node(setup_id, state);
     display->unk_0C = 0xC0C0C0;
     copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &blinking_cursor_texture_template_0, &blinking_cursor_texture_descriptor_0);
     copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &blinking_cursor_texture_template_1, &blinking_cursor_texture_descriptor_1);

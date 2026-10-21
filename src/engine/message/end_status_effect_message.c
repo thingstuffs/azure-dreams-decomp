@@ -20,7 +20,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         ent->x1C &= ~0x200;
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_1_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_1_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
@@ -28,7 +28,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         ent->x1C &= ~0x400;
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_2_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_2_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
@@ -36,7 +36,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         ent->x1C &= ~0x10;
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_3_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_3_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         if (ent->x13 != 0) {
@@ -47,7 +47,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         ent->x1C &= ~0x20;
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_4_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_4_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
@@ -55,7 +55,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         ent->x1C &= ~0x40;
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_5_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_5_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
@@ -63,14 +63,14 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         ent->x1C &= ~0x80;
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_6_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_6_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
     case 6:
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_7_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_7_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
@@ -81,7 +81,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         ent->x1C &= ~0x1000;
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_9_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_9_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
@@ -140,7 +140,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                     g_dungeon_status.activity_counts.parts.pending_movement_count -= (ent->x71 - ent->x8A);
                 }
             }
-            update_actor_status_and_food(spawn_result_2);
+            update_actor_status_and_mp(spawn_result_2);
             spawn_result_2->x1C &= ~0x10000;
 
             if (ent->x14 & 0x4000) {
@@ -164,6 +164,12 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                     *(S_80042BDC **)(owner_data + 0x124) = spawn_result_2;
                     spawn_result_2->x60 = owner_data;
                     spawn_result_2->x1C |= 0x80000;
+                    /*
+                     * Original bug: the lifted replacement shares Koh's tile. This lift setup clears that tile again
+                     * after the constructor marked it occupied. Reattach without clearing Koh's occupancy.
+                     * Found and documented by the Azure Dreams community
+                     * (adrando.com/guide/bugs.html).
+                     */
                     begin_actor_move_to_target_facing(owned_ent, *(int *)((u8 *)spawn_result_2 - 0x18),
                         *(int *)((u8 *)spawn_result_2 - 0x14), spawn_result_2);
                     update_actor_transform_from_parent(spawn_result_2, *(int *)((u8 *)spawn_result_2 - 0x18),
@@ -186,7 +192,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
 L_print4B:
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_10_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_10_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
@@ -205,7 +211,7 @@ L_print4B:
     case 11:
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_12_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_12_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         child = *(S_80042BDC_child **)((u8 *)ent - 0x14);
@@ -226,7 +232,7 @@ L_print4B:
     case 31:
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_32_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_32_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
@@ -235,28 +241,28 @@ L_print4B:
     case 22:
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_21_to_23_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_21_to_23_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
     case 17:
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_18_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_18_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
     case 18:
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_19_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_19_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
         break;
     case 19:
         if (ent->x14 & 0x4000) {
             message_ctx = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(status_end_action_20_text, append_entity_display_text(ent, message_ctx)));
+            clear_byte_and_advance(expand_text_control_codes(status_end_action_20_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
 

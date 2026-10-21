@@ -160,7 +160,7 @@ typedef struct {
     u8 padE[6];
 } DungeonEntry;
 
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 extern s32 func_80069EF8(void);
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
@@ -188,11 +188,11 @@ s32 update_actor_proximity_flag();
 s32 generate_random_value();
 
 struct Dst; struct Elem;
-extern void func_8003DB94(struct Dst *, struct Elem *, s16);
+extern void select_record_entry_and_value(struct Dst *, struct Elem *, s16);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);
-extern void update_actor_status_and_food(ActorRecord *);
+extern void update_actor_status_and_mp(ActorRecord *);
 extern void cycle_map_cell_flags(s16, s16, u16);
 extern void update_map_cell_flags_with_item_limit(s32, s32, u16);
 extern s32 check_movement_clearance_and_height(u32, void *, void *, s16);

@@ -14,7 +14,7 @@ extern ObjectNodeHeader *free_node_list_head;   /* freelist head */
 extern ObjectNodeHeader *active_node_list_head;   /* active list head */
 
 /* Allocates and initializes an active node, reclaiming an eligible active node if needed and allowed. */
-ObjectNodeHeader *func_8003FC64(s32 flags)
+ObjectNodeHeader *allocate_flagged_object_node(s32 flags)
 {
     ObjectNodeHeader *node;
     ObjectNodeHeader *free_head;

@@ -96,10 +96,10 @@ void build_two_display_entries(s32 data_id, s32 position_offset)
     func_8004E9E4();
     *(u16 *)&layout.word0 += (s32)(position_offset << 16) >> 14;
     create_positioned_callback_object(&layout, D_800BC290,
-                  decode_note_text(D_80111FB0, (void *)data_id, 0));
+                  decode_fullwidth_text(D_80111FB0, (void *)data_id, 0));
     create_positioned_callback_object((u8 *)&layout + 4, D_800BC290, D_800782EC);
 
-    display_obj = func_8003FC64(1);
+    display_obj = allocate_flagged_object_node(1);
     if (display_obj != 0) {
         *(void **)((u8 *)display_obj + 0x10) = D_800BC390;
         display_data = (u8 *)display_obj + 0x20;

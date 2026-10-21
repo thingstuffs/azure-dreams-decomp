@@ -44,10 +44,10 @@ typedef struct S_8015FFA4_2 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -180,7 +180,7 @@ table_done:
 
     if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & 0x20) {
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         }
         if (((S_8015FFA4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -235,7 +235,7 @@ table_done:
         }
 
         case 12:
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
 
         case 1:
@@ -258,7 +258,7 @@ table_done:
             !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((u32)entity->flags1C) & 0x430)) {
 
-                if ((compare_monster_neighbor_values(
+                if ((test_neighbor_position_relation(
                         ((S_8015FFA4_2 *)sprite)->unk_24.at00.v, ((S_8015FFA4_2 *)sprite)->unk_24.at01.v,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(

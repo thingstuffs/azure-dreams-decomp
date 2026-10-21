@@ -13,7 +13,7 @@ typedef struct {
     s16 y;
 } Pair16;
 
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
@@ -140,7 +140,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
 
     case 1:
         for (particle_index = 0; particle_index < 2; particle_index++) {
-            particle = func_8003FC64(0x212);
+            particle = allocate_flagged_object_node(0x212);
             if (particle != 0) {
 
                 particle_work = (u8 *)particle;
@@ -184,7 +184,7 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
                 sprite->color.c.r = 0x80;
                 sprite->clut = 0x7DCF;
                 sprite->flags |= 0x100;
-                func_8003DB94(sprite, effect_sprite_sources, 0);
+                select_record_entry_and_value(sprite, effect_sprite_sources, 0);
             }
         }
 

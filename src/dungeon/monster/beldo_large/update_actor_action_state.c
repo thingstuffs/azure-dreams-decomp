@@ -46,7 +46,7 @@ s16 get_tile_chebyshev_distance(void *, void *);
 s32 has_pending_actor_or_turn_action(void *);
 s32 generate_random_value(void);
 void on_actor_status_updated(void *);
-void update_actor_status_and_food(void *);
+void update_actor_status_and_mp(void *);
 void begin_pushed_actor_move(void *, s32, void *, void *);
 s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 void advance_actor_pending_action(void *, s32, void *, void *);
@@ -144,7 +144,7 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, void *target_ar
                     return;
                 }
             }
-            update_actor_status_and_food(actor_arg);
+            update_actor_status_and_mp(actor_arg);
             on_actor_status_updated(actor_arg);
             if ((get_entity_effect_value(actor_arg, 1) << 0x10) != 0) {
                 room_base = &reference_tile_object;

@@ -50,7 +50,7 @@ typedef void (*RuntimeCallback)(RuntimeState *, void *);
 
 extern void process_unlinked_type_four_entries(void);
 extern PairRecord *build_four_value_entry_result(s16, s16);
-extern void func_80041094(u16, s16, s16, s32, s32);
+extern void request_scene_state_with_parameters(u16, s16, s16, s32, s32);
 
 extern RuntimeState map_runtime_state;
 extern RuntimeState map_change_state;
@@ -121,7 +121,7 @@ void change_map(InputRecord *input)
         map_change_callback[0](state, callback_data);
     }
 
-    func_80041094(input->field_00,
+    request_scene_state_with_parameters(input->field_00,
                   (s16)(entry->field_04 +
                         (input->field_04 + entry->field_00)),
                   (s16)(entry->field_06 +

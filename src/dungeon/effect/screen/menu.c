@@ -673,7 +673,7 @@ void spawn_blinking_sprite_flash(s16 x, s16 y, s16 z) {
     S_800B8D64_1 *position;
     S_800B8D64_2 *sprite;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         effect->unk_10 = update_blinking_sprite_flash;
         register_node(effect, project_sprite_chain);
@@ -1288,7 +1288,7 @@ void draw_transformed_sprite_parts(void *position, void *context, s32 depth, s16
 extern void *screen_effect_target[];
 
 extern s32 play_sound_if_enabled();
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates a target marker's position, scale, color, and rotation. */
 void update_familiar_selection_marker(void *state, void *position_arg, void *marker_arg) {
@@ -1370,7 +1370,7 @@ void update_familiar_selection_marker(void *state, void *position_arg, void *mar
         }
     }
     F(marker_arg, u16, 0x1A) = F(marker_arg, u16, 0x1A) + 0x40;
-    func_800478B8(marker_arg);
+    advance_sprite_animation_and_textures(marker_arg);
 }
 #include "common.h"
 #include "shared/object_node.h"
@@ -1420,7 +1420,7 @@ extern void * allocate_list_node();
 extern s32 register_node();
 extern s32 draw_linked_sprites_clipped();
 extern void update_familiar_selection_marker(void *state, void *position_arg, void *marker_arg);
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern s32 select_nearby_target_and_initialize_slot();
 
 /* Creates and initializes a display object attached to the entity. */
@@ -1441,7 +1441,7 @@ void *create_familiar_selection_marker(EntityHdr **entity_ref) {
         transform->f2 = ((u16)view_reference_entity.x.w.i);
         transform->f6 = ((u16)view_reference_entity.y.w.i);
         transform->fA = (*entity_ref)->f88;
-        func_8003DB94(sprite, D_80079444, 0);
+        select_record_entry_and_value(sprite, D_80079444, 0);
 
         {
             u32 color;
@@ -1544,7 +1544,7 @@ extern s32 get_special_table_data_index();
 extern s32 dispatch_dungeon_category_action();
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 extern void append_packed_action_record();
 extern s32 select_nearby_target_and_initialize_slot();
 
@@ -1747,7 +1747,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
         work->phase++;
     }
     if (render->primitive != 0) {
-        func_800478B8(render);
+        advance_sprite_animation_and_textures(render);
     }
     trig_value = func_80064584(controls->view.camera_rotation.parts.viewAngle);
     *(s16 *)((u8 *)out + 2) = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
@@ -1820,7 +1820,7 @@ extern s32 has_enough_available_runtime_nodes(s32);
 extern s32 register_node();
 extern s32 select_nearby_target_and_initialize_slot();
 extern s32 lookup_item_category_mapped_value(u8, u8);
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern void *func_800BA110();
 extern void *func_800BA1D0();
 extern void *func_800BA224();
@@ -1877,7 +1877,7 @@ void *create_item_target_selector(u8 *selection_data) {
     global_page = (u8 *)0x800E0000;
     object_slot = objects;
     do {
-        *object_slot = (Obj_800B4914 *)func_8003FC64(0x12);
+        *object_slot = (Obj_800B4914 *)allocate_flagged_object_node(0x12);
         if (*object_slot != 0) {
             SubA_800B4914 *transform;
             SubB_800B4914 *sprite;
@@ -1907,7 +1907,7 @@ void *create_item_target_selector(u8 *selection_data) {
             } else if (part_index == 1) {
                 sprite->f8 = D_800DF368;
             } else {
-                func_8003DB94(sprite, D_80079444, 0);
+                select_record_entry_and_value(sprite, D_80079444, 0);
                 sprite->f14 |= 0xC;
             }
             {
@@ -2307,7 +2307,7 @@ void *create_pulsing_tile_sprite(u16 tile_x, u16 tile_y, s16 coord_z, s32 user_d
     u32 tile_x_u32;
     u32 tile_y_u32;
 
-    object = func_8003FC64(0x202);
+    object = allocate_flagged_object_node(0x202);
     if (object != 0) {
         object->unk_10 = update_pulsing_sprite_color;
         register_node(object, draw_linked_quad_chain);
@@ -3042,7 +3042,7 @@ void draw_content_or_rect(s32 *line_start, s32 *line_end, u8 *rect, s16 fill, s3
 
 extern s32 func_800644B8(s32, ...);
 extern s32 func_80064584(s32, ...);
-s16 forward_monster_coordinate_delta();
+s16 calculate_planar_heading();
 extern s32 play_sound_if_enabled();
 void draw_content_or_rect();
 extern void * create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
@@ -3124,7 +3124,7 @@ void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_
     draw_params[0] = 0x01000340;
     draw_params[1] = 0x460044;
     packet_or_angle_2 = effect + 0xC;
-    func_800478B8(packet_or_angle_2);
+    advance_sprite_animation_and_textures(packet_or_angle_2);
     saved_link = restore_link;
     ((S_800BB55C_0_pre *)effect)[-1].unk_00 = packet_or_angle_2;
     draw_content_or_rect(NULL, NULL, draw_params, 0, effect);
@@ -3138,7 +3138,7 @@ void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_
         end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
         end_y = (func_800644B8(packet_or_angle) >> 7) + 0x122;
         end_xy[1] = end_y;
-        arc_angle = forward_monster_coordinate_delta(start_xy[0], start_xy[1], end_xy[0], end_y);
+        arc_angle = calculate_planar_heading(start_xy[0], start_xy[1], end_xy[0], end_y);
         line_angle = arc_angle;
         end_xy[0] = (u16) start_xy[0] + ((s32) (func_80064584(line_angle) * ((DungeonWork *)effect)->field_30[point_index])
             >> 0xB);
@@ -3241,7 +3241,7 @@ s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data) {
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern void * allocate_list_node();
 extern s32 register_node();
 extern s32 play_sound_if_enabled();
@@ -3325,7 +3325,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
         render_data->unk_0C = 0x808080;
         render_data->unk_06 = 8;
         setup_base = effect + 0x20;
-        func_8003DB94(effect + 0x2C, held_transform, 0);
+        select_record_entry_and_value(effect + 0x2C, held_transform, 0);
         setup_cursor = setup_base;
         ((S_800BBA40_3 *)setup_cursor)->unk_2A = (s16) scale;
         ((S_800BBA40_3 *)setup_cursor)->unk_28 = (s16) scale;
@@ -3740,7 +3740,7 @@ typedef struct S_800BC228_0 {
 void create_wrapped_texture_scroll(s16 value) {
     S_800BC228_0 *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != 0) {
         object->unk_10 = update_wrapped_texture_scroll;
         object->unk_2C = value;

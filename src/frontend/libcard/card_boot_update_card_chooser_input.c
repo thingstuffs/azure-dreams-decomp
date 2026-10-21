@@ -50,7 +50,7 @@ void card_boot_update_card_chooser_input(void *menu)
             card_boot_destroy_card_chooser((u8 *)menu - 0x20);
             card_boot_close_events_and_resume_timer();
             if (scene_mode_code == 3) {
-                func_80040AA0(3);
+                request_scene_dispatch_state(3);
             } else {
                 create_deferred_resource_transition_task(0, 0, 0, 0);
                 object = (*(s32 * *)((u8 *)menu + 0x14));

@@ -18,7 +18,7 @@ extern u8 D_80016148[16];
 extern u8 D_80016170[16];
 
 /* Returns the entry index for a key, asserting at main.c line 54 if absent. */
-s32 func_806D2AB0(s32 *entries, s32 target_key)
+s32 find_event_entry_or_assert(s32 *entries, s32 target_key)
 {
     s32 *entry;
     s32 entry_index;

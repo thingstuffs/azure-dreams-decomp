@@ -31,7 +31,7 @@ void create_offset_colored_effect(s32,s32,s32,s32,s32,s32,s32,s32,s32,s32);
 void advance_particle_fade_and_cleanup(struct S_func_80026418_0 *);
 s32 register_node(void *, s32, ...);
 s32 func_8004491C(void *, s32, ...);
-s32 func_8003DB94(void *, void *, s32);
+s32 select_record_entry_and_value(void *, void *, s32);
 void func_80064BC0(void *, void *);
 s32 play_sound_if_enabled(s32);
 extern s16 D_8002992E;

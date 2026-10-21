@@ -157,7 +157,7 @@ typedef struct S_func_800B1364_19 {
 s32 runtime_get_mode_indexed_value();
 s32 resolve_record_orientation_or_fallback();
 s32 func_8003E188(s32, s32);
-void func_800424E0();
+void apply_actor_template_and_class();
 s32 func_80042640(void *, s32);
 void set_sprite_animation_frame();
 s32 func_80069E78(void *, s32);
@@ -170,7 +170,7 @@ s32 find_first_unused_entity_entry();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
 s32 copy_four_text_bytes();
-void *func_80099290();
+void *clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
 void process_unflagged_linked_entries();
@@ -451,7 +451,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         creature->unk_88 = spawn_height;
         actor->unk_60 = creature;
         func_80042640(creature, creature->unk_13);
-        func_800424E0(creature, creature->unk_13, 0);
+        apply_actor_template_and_class(creature, creature->unk_13, 0);
         creature->unk_43 = 0xFF;
         creature->unk_60 = actor;
         creature->unk_1C = (s32) (creature->unk_1C | 0x80000);
@@ -486,7 +486,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (!((*(u16 *)(&system_update_flags)) & 1)) {
             message_end = copy_four_text_bytes(&D_800E0458, write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, message_end)));
         }
-        func_80099290(message_end);
+        clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
         *(u16 *)((u8 *)action + 0x96) = 0x20U;
         action->unk_9B = (u8) (action->unk_9B + 1);

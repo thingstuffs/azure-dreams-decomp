@@ -7,7 +7,7 @@
 extern u8 D_80096384[];
 extern u8 actor_default_frames[];
 
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 extern void check_tile_entry_at_adjusted_height();
 extern void process_unflagged_linked_entries();
 extern void process_unflagged_linked_entries_alt();
@@ -67,7 +67,7 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
                     P32(actor, 0x2C) = anim_table;
                     facing_offset = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
                     anim_entry = anim_table + (facing_offset & 0x1C);
-                    func_8003DB94(actor, *(void **)anim_entry, 0);
+                    select_record_entry_and_value(actor, *(void **)anim_entry, 0);
                 }
             } else if ((S32(globals, 8) & 0x20) && check_action_available_without_nearby_actor()) {
                 register u8 *alternate_anim;
@@ -76,7 +76,7 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
                 alternate_anim = actor_default_frames;
                 P32(actor, 0x2C) = alternate_anim;
                 facing_offset = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
-                func_8003DB94(actor, *(void **)(alternate_anim + (facing_offset & 0x1C)), 0);
+                select_record_entry_and_value(actor, *(void **)(alternate_anim + (facing_offset & 0x1C)), 0);
             } else {
                 move_result = 5;
                 U8(obj, 0x9B) = 10;
@@ -94,7 +94,7 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
                 if (!(updated_state->flags & 0x80)) {
                     P32(actor, 0x2C) = actor_default_frames;
                     facing_offset = (g_game_work.view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
-                    func_8003DB94(actor, *(void **)(actor_default_frames + (facing_offset & 0x1C)), 0);
+                    select_record_entry_and_value(actor, *(void **)(actor_default_frames + (facing_offset & 0x1C)), 0);
                     U8(obj, 0x9A) = 0x35;
                 } else {
                     U8(obj, 0x9A) = 0x35;
@@ -104,7 +104,7 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
                 U16(obj, 0x98) |= 0xC;
                 P32(actor, 0x2C) = actor_default_frames + 0x20;
                 facing_offset = (g_game_work.view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
-                func_8003DB94(actor, *(void **)((actor_default_frames + 0x20) + (facing_offset & 0x1C)), 0);
+                select_record_entry_and_value(actor, *(void **)((actor_default_frames + 0x20) + (facing_offset & 0x1C)), 0);
                 if (move_kind < 4) {
                     U16(obj, 0xA2) |= 1;
                 } else if (move_kind == 2 || move_kind == 4) {
@@ -128,7 +128,7 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
         idle_anim = actor_default_frames;
         P32(actor, 0x2C) = idle_anim;
         facing_offset = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
-        func_8003DB94(actor, *(void **)(idle_anim + (facing_offset & 0x1C)), 0);
+        select_record_entry_and_value(actor, *(void **)(idle_anim + (facing_offset & 0x1C)), 0);
         S32(obj, 0x8C) = (s32)D_80096384;
         return;
     }

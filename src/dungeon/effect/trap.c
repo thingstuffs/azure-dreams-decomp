@@ -9,7 +9,7 @@
 struct Dst;
 struct Elem;
 
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 extern s32 play_sound_if_enabled();
 extern M2C_UNK D_800CB9DC;
@@ -63,7 +63,7 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
     u32 tile_x_low;
     u32 tile_y_low;
 
-    effect = func_8003FC64(2);
+    effect = allocate_flagged_object_node(2);
     if (effect != 0) {
         effect->unk_10 = &D_800CB9DC;
         register_node(effect, project_sprite_chain);
@@ -77,7 +77,7 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
         sprite->unk_0C = 0x808080;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
-        func_8003DB94(sprite, D_800DF650, 0);
+        select_record_entry_and_value(sprite, D_800DF650, 0);
         effect->unk_20 = saved_owner;
         saved_owner->unk_14 = (s32) (saved_owner->unk_14 | 0x100000);
         play_sound_if_enabled(0x614);
@@ -170,7 +170,7 @@ extern u8 D_800E1B2E[];
 
 extern void display_formatted_context_message();
 extern s32 get_entity_effect_value();
-extern void func_800419EC();
+extern void initialize_timed_motion_step();
 extern s32 play_sound_if_enabled();
 
 /* Advances a timed Z transition, waits for readiness, and marks completion. */
@@ -205,7 +205,7 @@ void advance_timed_z_transition(s16 *transition) {
             transition[2] = 0x10;
             transition[1] = (u16)transition[1] + 1;
             settings->activity_counts.parts.pending_action_count = (u16)((u16)settings->activity_counts.parts.pending_action_count) + 1;
-            func_800419EC(0x10, 8);
+            initialize_timed_motion_step(0x10, 8);
             play_sound_if_enabled(0x818);
         }
     }
@@ -242,7 +242,7 @@ extern u8 D_800E1B5D;
 extern s32 has_enough_available_runtime_nodes(s32 a0);
 extern s32 get_entity_effect_value();
 extern s16 set_or_clear_actor_status_slot();
-extern void func_800419EC();
+extern void initialize_timed_motion_step();
 extern s32 play_sound_if_enabled();
 extern void display_formatted_context_message();
 
@@ -261,13 +261,13 @@ s32 create_active_entity_effect_or_message(s32 entity)
         status = get_entity_effect_value(entity, 0x1C);
         if ((status << 0x10) == 0) {
             if ((set_or_clear_actor_status_slot(entity, 0x1C, 0x10) << 0x10) >= 0) {
-                effect = func_8003FC64(2);
+                effect = allocate_flagged_object_node(2);
                 effect_id = 0x10;
                 *(void **)((u8 *)effect + 0x10) = &D_800CBDB4;
                 effect_id_half = effect_id;
                 *(s16 *)((u8 *)effect + 0x24) = effect_id_half;
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);
-                func_800419EC(effect_id, 8);
+                initialize_timed_motion_step(effect_id, 8);
                 play_sound_if_enabled(0x818);
                 return 1;
             }
@@ -607,7 +607,7 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
     s16 world_x;
     s16 world_y;
     s16 saved_render_mode;
-    obj = func_8003FC64(0x202);
+    obj = allocate_flagged_object_node(0x202);
     saved_render_mode = (s16) render_mode;
     if (obj != 0) {
         obj->field10 = &D_800CC4F0;
@@ -748,7 +748,7 @@ ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value,
     CoordBlock *coords;
     DescBlock *desc;
 
-    obj = (ObjectBlock *)func_8003FC64(2);
+    obj = (ObjectBlock *)allocate_flagged_object_node(2);
     if (obj != 0) {
         obj->resource = D_800CC744;
         register_node(obj, draw_linked_sprites_clipped);
@@ -1220,7 +1220,7 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
     }
 
     if (roll < 0x30) {
-        effect = func_8003FC64(2);
+        effect = allocate_flagged_object_node(2);
         if (effect != NULL) {
             init_effect = effect;
             ((S_800CD004_1 *)effect)->unk_10 = &D_800CCDA0;
@@ -1486,7 +1486,7 @@ typedef struct S_800CD474_3 {
 } S_800CD474_3;   /* global_base in advance_falling_trap_effect */
 
 
-extern void func_800419EC();
+extern void initialize_timed_motion_step();
 extern s32 play_sound_if_enabled();
 extern void apply_mode_selected_trap_mask();
 
@@ -1508,7 +1508,7 @@ void advance_falling_trap_effect(void *effect, S_800CD474_1 *motion, S_800CD474_
             play_sound_if_enabled(0x701);
         }
         if ((motion->unk_08.at02.v + 0x10) >= ((S_800CD474_0 *)effect)->unk_0A.s) {
-            func_800419EC(8, 8);
+            initialize_timed_motion_step(8, 8);
             target_y = ((S_800CD474_0 *)effect)->unk_0A.u;
             motion->unk_14 = 0;
             motion->unk_08.at02.v = target_y;
@@ -1705,7 +1705,7 @@ s32 create_four_owner_sprite_effects(void *source, s16 slot_index, s32 slot_bits
         effect_counts = &g_dungeon_status;
         x_offsets = dir_step_x;
         for (; effect_index < 4; x_offsets += 2) {
-            ((S_800CD6E0_2 *)((effect = func_8003FC64(2))))->unk_10 = update_callback;
+            ((S_800CD6E0_2 *)((effect = allocate_flagged_object_node(2))))->unk_10 = update_callback;
             register_node(effect, draw_linked_sprites_clipped);
             color = 0x808080;
             y_offset = effect_index << 2;
@@ -1878,7 +1878,7 @@ s32 trigger_step_trap_effect(void *object) {
             }
             result = 0;
             if (has_enough_available_runtime_nodes(2) != 0) {
-                effect = func_8003FC64(2);
+                effect = allocate_flagged_object_node(2);
                 *(u8 **)((u8 *)effect + 0x10) = D_800CD910;
                 *(void **)((u8 *)effect + 0x20) = object;
                 *(s16 *)((u8 *)effect + 0x26) = 0xC;
@@ -2161,7 +2161,7 @@ extern s32 play_sound_if_enabled();
 extern void mark_all_actors_with_high_flag(void);
 extern void add_value_to_active_entries_at_tile(s16 x, s16 y, s32 amount);
 extern void set_value_of_active_entries_at_tile(s16 x, s16 y, s16 value);
-extern void func_800419EC();
+extern void initialize_timed_motion_step();
 
 /* Animate a 5x5 tile patch to target heights, wait, then restore its initial heights. */
 void update_long_lived_trap_effect(DungeonEffect *effect) {
@@ -2263,7 +2263,7 @@ snap_target_tile:
             if ((delay_ticks << 16) <= 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count++;
                 effect->timer = 0x20;
-                func_800419EC(0x20, 8);
+                initialize_timed_motion_step(0x20, 8);
                 effect->state++;
                 dungeon_floor_flags |= 0x80000;
             }
@@ -2372,7 +2372,7 @@ typedef struct {
     s16 field_22;
 } GridEffectObject;
 
-extern void func_800419EC();
+extern void initialize_timed_motion_step();
 extern s32 random_dungeon_range_16(s32, s32);
 extern s32 get_surface_height_at_coordinates(s32, s32);
 
@@ -2398,7 +2398,7 @@ s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, v
     u8 *row_data;
     u8 *row_base;
 
-    object = func_8003FC64(2);
+    object = allocate_flagged_object_node(2);
     offset_mode = reverse_offset;
     if (object != NULL) {
         row = 0;
@@ -2441,7 +2441,7 @@ s32 create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value, v
         ((S_800CE4E8_0 *)grid_data)->unk_6C = 0x10;
         ((S_800CE4E8_0 *)grid_data)->unk_68 = 0x20;
         ((S_800CE4E8_0 *)grid_data)->unk_6E.s = offset_mode;
-        func_800419EC(0x20, 8);
+        initialize_timed_motion_step(0x20, 8);
 
         if (((S_800CE4E8_0 *)grid_data)->unk_6E.u == 0) {
             dungeon_floor_flags |= 0x80080000;
@@ -2532,7 +2532,7 @@ typedef struct S_800CE748_3 {
 
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(u8 *src, u8 *dst);
-void func_80099290(s8 *byte_ptr);
+void clear_byte_and_advance(s8 *byte_ptr);
 s32 write_text_byte_and_advance(s8 value, s8 *dest);
 s32 apply_type_based_entry_adjustments(void *, s32);
 extern s32 play_sound_if_enabled();
@@ -2661,7 +2661,7 @@ s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3)
                     }
                 }
             }
-            func_80099290(currentValue);
+            clear_byte_and_advance(currentValue);
             display_text_with_fullwidth_adjustment(initialValue);
         }
     }
@@ -2707,7 +2707,7 @@ extern s8 entity_spawn_variant_code;
 
 
 extern s32 has_enough_available_runtime_nodes(s32);
-extern void func_800419EC();
+extern void initialize_timed_motion_step();
 extern void func_80042640(void *, s32);
 extern void select_sound_stream(s32, s32);
 extern void SD_Call(s32);
@@ -2841,7 +2841,7 @@ void advance_monster_den_sequence(void *den_event) {
             return;
         }
         display_formatted_context_message(&D_800E1C3A);
-        func_800419EC(0xC, 0x18);
+        initialize_timed_motion_step(0xC, 0x18);
         play_sound_if_enabled(0x602);
         next_state = *(u16 *)(den_event + 6);
         tail_value = 0x10;
@@ -2900,7 +2900,7 @@ unsigned int clamp_entry_and_create_effect_node(void *object, s16 entry_index)
         result = has_enough_available_runtime_nodes(*(s8 *)(entry + 2) + 1);
         entry_ready = result != 0;
         if (entry_ready) {
-            node = func_8003FC64(2);
+            node = allocate_flagged_object_node(2);
             if (node != 0) {
                 *(u8 **)((u8 *)node + 0x10) = D_800CEA44;
                 *(s16 *)((u8 *)node + 0x2C) = entry_index;

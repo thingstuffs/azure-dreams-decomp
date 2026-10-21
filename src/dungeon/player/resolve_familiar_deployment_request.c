@@ -11,7 +11,7 @@ extern s16 find_entity_slot_by_field_ac(void *target_value);
 extern s32 find_entity_slot_by_field_e4(void *target_value);
 extern void *get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(void *src, s32 dst);
-extern void func_80099290(s32 byte_ptr);
+extern void clear_byte_and_advance(s32 byte_ptr);
 extern void display_text_with_fullwidth_adjustment(s32 text);
 extern void begin_actor_flagged_action(void *entity, s32 unused, s32 status, void *event_state);
 extern u8 D_800E05E1[];
@@ -85,7 +85,7 @@ void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void
                 value = (s32)context_ptr;
                 value = expand_text_control_codes(msg3, value);
             }
-            func_80099290(value);
+            clear_byte_and_advance(value);
         }
         display_text_with_fullwidth_adjustment((s32)context_ptr);
         return;

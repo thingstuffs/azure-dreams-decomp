@@ -34,9 +34,9 @@ typedef struct S_8102F348_1 {
 
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 /* Updates effect motion and collision, grows its sprite, and flags expired effects. */
-void func_8102F348(void *effect, S_8102F348_0 *position, SpriteFrameState *sprite) {
+void grow_terrain_colliding_sprite(void *effect, S_8102F348_0 *position, SpriteFrameState *sprite) {
     s32 height;
 
     position->unk_00.at00.v += ((S_8102F348_1 *)effect)->unk_50;
@@ -75,7 +75,7 @@ void func_8102F348(void *effect, S_8102F348_0 *position, SpriteFrameState *sprit
 
     ((S_8102F348_1 *)effect)->unk_20++;
     if ((((S_8102F348_1 *)effect)->unk_20 & 3) == 0) {
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
     }
 
     sprite->scale_x += 100;

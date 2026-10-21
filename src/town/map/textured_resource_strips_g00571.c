@@ -509,7 +509,7 @@ void create_resource_display_object(s16 resource_index) {
     S_800A47A8_1 *component;
     SpriteFrameState *scale;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         ((S_800A47A8_0 *)object)->unk_10 = D_800A3918;
         register_node(object, D_800A3B1C);

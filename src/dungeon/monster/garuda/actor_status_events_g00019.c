@@ -99,7 +99,7 @@ void update_actor_status_callback(void *actor_in, void *context_in, void *sprite
                     return;
                 }
             }
-            update_actor_status_and_food(entity_in);
+            update_actor_status_and_mp(entity_in);
             on_actor_status_updated(entity_in);
             if ((get_entity_effect_value(entity_in, 1) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
@@ -247,7 +247,7 @@ void advance_entity_directional_events(void *entity, void *context, void *sprite
             }
         }
 
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
         if (((ActorRecord *)actor)->mp == 0) {
             return;

@@ -48,7 +48,7 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern s32 rand();
 extern void register_node();
 
@@ -71,7 +71,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
     void *node;
     s32 end_z;
 
-    node = func_8003FC64(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         ((S_818BD52C_0 *)node)->unk_10 = D_80024BB0;
         base = (u8 *)node + 0x20;
@@ -101,7 +101,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
         part->flags |= 0xC;
         part->tpage_abr |= 0x20;
         part->flags |= 0x100;
-        func_8003DB94(part, D_800DEC70, 0);
+        select_record_entry_and_value(part, D_800DEC70, 0);
 
         random_angle = rand();
         part->angle_z = random_angle % 0x1000;

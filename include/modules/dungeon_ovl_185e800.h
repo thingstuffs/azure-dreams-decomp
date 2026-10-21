@@ -15,7 +15,7 @@ s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 void play_sound_if_enabled(s32);
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
-void func_800478B8(void *);
+void advance_sprite_animation_and_textures(void *);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 void func_80024020(u8 *, u8 *);
 void advance_delayed_fading_sprite(void *, DelayPosition *, void *);

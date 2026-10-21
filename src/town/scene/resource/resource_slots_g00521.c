@@ -63,7 +63,7 @@ void reserve_twch_load(s32 character_id) {
 }
 
 /* Process the 15 object slots and update the first slot from the status check. */
-void func_8008B4B0(void) {
+void load_reserved_slot_resources(void) {
 
 
     s32 slot;

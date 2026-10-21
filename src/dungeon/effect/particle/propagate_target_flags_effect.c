@@ -273,7 +273,7 @@ void func_800244E4(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprit
     anim_tick = ((S_8196ACE4_1 *)effect)->unk_34 + 1;
     ((S_8196ACE4_1 *)effect)->unk_34 = anim_tick;
     if ((s16) anim_tick == 3) {
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         ((S_8196ACE4_1 *)effect)->unk_34 = 0U;
     }
     scale_x = sprite->scale_x + 0xC8;
@@ -309,14 +309,14 @@ void func_800244E4(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprit
    /* arg1 in func_8196B074 */
 
 /* Advance motion, resolve collisions, and mark expired objects for removal. */
-void func_80024874(void *motion, void *position, s32 update_id) {
+void advance_terrain_colliding_sprite(void *motion, void *position, s32 update_id) {
     s32 height;
     u16 remaining_ticks;
 
     remaining_ticks = ((S_8196B074_0 *)motion)->unk_2C;
     D_800269B4 = 1;
     ((S_8196B074_0 *)motion)->unk_2C = remaining_ticks - 1;
-    func_800478B8(update_id);
+    advance_sprite_animation_and_textures(update_id);
     ((S_8196B074_1 *)position)->unk_00.at00.v += ((S_8196B074_0 *)motion)->unk_8C;
     ((S_8196B074_0 *)motion)->unk_8C += ((S_8196B074_0 *)motion)->unk_98;
     if ((check_left_tile_and_center_height(((S_8196B074_1 *)position)->unk_00.at02.v, ((S_8196B074_1 *)position)->unk_04.at02.v,
@@ -382,7 +382,7 @@ void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
 }
 
 /* Creates an effect with randomized position offsets and initializes its rendering state. */
-void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z) {
+void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z) {
     Effect *effect;
     EffectState *state;
     SpriteFrameState *render;
@@ -390,7 +390,7 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
     s16 size;
     s32 jitter;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         state = &effect->payload.state;
         size = (rand() & 7) + 0x20;
@@ -429,7 +429,7 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
         render->color.c.r = 0x80;
         render->clut = 0x7DCF;
         render->flags |= 0x100;
-        func_8003DB94(render, effect_sprite_sources, 0);
+        select_record_entry_and_value(render, effect_sprite_sources, 0);
     }
 }
 
@@ -447,7 +447,7 @@ void func_80024AF8(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z
 
 
 /* Spawns a sprite effect with randomized position and motion based on the source direction. */
-void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
+void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z)
 {
     LocalPoints direction_points;
@@ -463,11 +463,11 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
 
     direction_points = D_80024004.raw;
     directions = (LocalPoint *)&direction_points;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
         motion->unk_2C = 0xF;
-        ((S_8196B4A4_1 *)effect)->unk_10 = func_80024874;
+        ((S_8196B4A4_1 *)effect)->unk_10 = advance_terrain_colliding_sprite;
         register_node(effect, (s32)project_sprite_chain);
 
         sprite = ((S_8196B4A4_1 *)effect)->unk_0C;
@@ -512,7 +512,7 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
             sprite->color.c.b = 0x80;
         sprite->clut = 0x7DCE;
         sprite->flags |= 0x100;
-        func_8003DB94(sprite, D_800DEC70, 0);
+        select_record_entry_and_value(sprite, D_800DEC70, 0);
     }
 }
 
@@ -534,7 +534,7 @@ void func_80024CA4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_
 
 
 /* Spawns an effect with randomized position and direction-based motion. */
-void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y,
+void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y,
                    s16 z)
 {
     LocalPoints points;
@@ -550,11 +550,11 @@ void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 
 
     points = D_80024004.raw;
     point_base = (LocalPoint *)&points;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
         motion->unk_2C = 0x4;
-        ((S_8196B780_1 *)effect)->unk_10 = func_80024874;
+        ((S_8196B780_1 *)effect)->unk_10 = advance_terrain_colliding_sprite;
         register_node(effect, (s32)project_sprite_chain);
 
         sprite = ((S_8196B780_1 *)effect)->unk_0C;
@@ -599,7 +599,7 @@ void func_80024F80(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 
             sprite->color.c.b = 0x80;
         sprite->clut = 0x7DCE;
         sprite->flags |= 0x100;
-        func_8003DB94(sprite, D_800DECF8, 0);
+        select_record_entry_and_value(sprite, D_800DECF8, 0);
     }
 }
 
@@ -664,7 +664,7 @@ void create_timed_rectangle_effect(void *owner) {
         center[1] = rect->y + 0x30;
         draw_transformed_sprite_with_clip_rect(primary_actor_record, rect, center, 1, 1);
 
-        child = func_8003FC64(0x212);
+        child = allocate_flagged_object_node(0x212);
         if (child != 0) {
             child_work = (u8 *)child + 0x20;
             ((S_8196BA5C_0 *)child_work)->unk_2C = 7;
@@ -724,7 +724,7 @@ void func_8002553C(void *source, s32 unused_position, s32 unused_render) {
     void *source_pos;
     void *object_pos;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object_state = (u8 *)object + 0x20;
         ((S_8196BD3C_0 *)object_state)->unk_2C = 0xB;
@@ -801,7 +801,7 @@ void update_timed(void *effect_data, s32 unused, void *sprite) {
    /* arg2 in advance_effect_animation */
 
 /* Advance the effect animation and flag completion when its countdown expires. */
-void func_80025724(void *effect, s32 unused, S_8196BF24_1 *transform) {
+void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *transform) {
     u8 next_u;
 
     ((S_8196BF24_0 *)effect)->unk_2C.s = (s16)(((S_8196BF24_0 *)effect)->unk_2C.s - 1);
@@ -828,7 +828,7 @@ void func_80025724(void *effect, s32 unused, S_8196BF24_1 *transform) {
    /* camera in update_renders */
 
 /* Updates and renders a shrinking object with collision and lifetime checks. */
-void func_800257B0(void *object, void *position, void *render_state)
+void advance_particle_emitting_projectile(void *object, void *position, void *render_state)
 {
     s32 height;
     s16 scale_x;
@@ -892,7 +892,7 @@ void func_800257B0(void *object, void *position, void *render_state)
         ((S_8196BFB0_2 *)render_state)->unk_1E.s = scale_y;
     }
 
-    func_80024AF8(object, position, render_state,
+    create_randomized_paletted_sprite(object, position, render_state,
                   (s16)(((S_8196BFB0_0 *)position)->unk_00.at02.v - ((u16)view_reference_entity.x.w.i)),
                   (s16)(((S_8196BFB0_0 *)position)->unk_04.at02.v - ((u16)view_reference_entity.y.w.i)),
                   (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - ((u16)view_reference_entity.z.w.i)));
@@ -915,7 +915,7 @@ void func_800257B0(void *object, void *position, void *render_state)
    /* arg2 in func_8196C280 */
 
 /* Move the effect with collision checks, shrink its sprite, and expire it when finished. */
-void func_80025A80(void *effect, void *position, void *sprite) {
+void shrink_particle_emitting_projectile(void *effect, void *position, void *sprite) {
     u16 age;
     u16 reduced_scale_x;
     u16 reduced_scale_y;
@@ -987,7 +987,7 @@ void func_80025A80(void *effect, void *position, void *sprite) {
         ((S_8196C280_2 *)sprite)->unk_1C = scale_x;
         ((S_8196C280_2 *)sprite)->unk_1E = next_scale_y;
     }
-    func_80024AF8(effect, position, sprite,
+    create_randomized_paletted_sprite(effect, position, sprite,
         (s16)(((S_8196C280_0 *)position)->unk_00.at02.v - ((u16)view_reference_entity.x.w.i)),
         (s16)(((S_8196C280_0 *)position)->unk_04.at02.v - ((u16)view_reference_entity.y.w.i)),
         (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - ((u16)view_reference_entity.z.w.i)));
@@ -1070,7 +1070,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
         if (work->timer < 39) {
             if (get_sprite_attachment_vector((((SearchContext *)&reference_tile_object))->field8, ((SearchContext *)&reference_tile_object), &work->x, 0)) {
                 if (work->timer == 38) {
-                    effect = func_8003FC64(0x212);
+                    effect = allocate_flagged_object_node(0x212);
                     if (effect != 0) {
                         *(s16 *)&effect->payload.motion.pad0[0x2C] = 33;
                         effect->callback.update = update_timed;
@@ -1098,7 +1098,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                 }
 
                 if (work->timer < 6) {
-                    effect = func_8003FC64(0x212);
+                    effect = allocate_flagged_object_node(0x212);
                     if (effect != 0) {
                         *(s16 *)&effect->payload.motion.pad0[0x2C] = 1;
                         effect->callback.update = draw_effect_and_restore_clip;
@@ -1127,7 +1127,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
 
                 if (work->timer < 7) {
                     for (particle_index = 0; particle_index < 2; particle_index++) {
-                        func_80024AF8(work, position_arg, sprite_arg, work->x, work->y, work->z);
+                        create_randomized_paletted_sprite(work, position_arg, sprite_arg, work->x, work->y, work->z);
                     }
                 }
                 if (work->timer < 3) {
@@ -1136,7 +1136,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     work->mid_y = (work->y + work->old_y) / 2;
                     work->mid_z = (work->z + work->old_z) / 2;
                     for (; particle_index < 2; particle_index++) {
-                        func_80024AF8(work, position_arg, sprite_arg,
+                        create_randomized_paletted_sprite(work, position_arg, sprite_arg,
                             work->mid_x, work->mid_y, work->mid_z);
                     }
                 }
@@ -1159,19 +1159,19 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                 if (get_sprite_attachment_vector((((SearchContext *)&reference_tile_object))->field8, ((SearchContext *)&reference_tile_object), &work->x,
                     0)) {
                     for (particle_index = 0; particle_index < 4; particle_index++) {
-                        func_80024CA4(work, position_arg, sprite_arg, work->x, work->y, work->z);
+                        create_lingering_ballistic_sprite(work, position_arg, sprite_arg, work->x, work->y, work->z);
                     }
                     for (particle_index = 0; particle_index < 4; particle_index++) {
-                        func_80024F80(work, position_arg, sprite_arg, work->x, work->y, work->z);
+                        create_brief_ballistic_sprite(work, position_arg, sprite_arg, work->x, work->y, work->z);
                     }
                     spawn_timer = work->timer;
                     if (spawn_timer == 16) {
-                        effect = func_8003FC64(0x212);
+                        effect = allocate_flagged_object_node(0x212);
                         if (effect != 0) {
                             motion = &effect->payload.motion;
                             *(s16 *)&motion->pad0[0x2C] = 30;
                             *(s16 *)&motion->pad0[0x2E] = 30;
-                            effect->callback.update = func_800257B0;
+                            effect->callback.update = advance_particle_emitting_projectile;
                             register_node(effect, (s32)project_sprite_chain);
                             sprite = effect->visual.sprite;
                             sprite->unk10 = 32;
@@ -1203,12 +1203,12 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             sprite->image = &effect->payload.motion.pad0[0x38];
                         }
                         if (work->timer == spawn_timer) {
-                            effect = func_8003FC64(0x212);
+                            effect = allocate_flagged_object_node(0x212);
                             if (effect != 0) {
                                 motion = &effect->payload.motion;
                                 *(s16 *)&motion->pad0[0x2C] = 30;
                                 *(s16 *)&motion->pad0[0x2E] = 30;
-                                effect->callback.update = func_80025A80;
+                                effect->callback.update = shrink_particle_emitting_projectile;
                                 register_node(effect, (s32)project_sprite_chain);
                                 sprite = effect->visual.sprite;
                                 sprite->unk10 = 32;
@@ -1245,12 +1245,12 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
             }
         } else {
             if (work->timer == 16) {
-                effect = func_8003FC64(0x212);
+                effect = allocate_flagged_object_node(0x212);
                 if (effect != 0) {
                     motion = &effect->payload.motion;
                     *(s16 *)&motion->pad0[0x2C] = 7;
                     *(s16 *)&motion->pad0[0x2E] = 7;
-                    effect->callback.update = func_80025724;
+                    effect->callback.update = shrink_effect_and_step_texture;
                     register_node(effect, (s32)project_sprite_chain);
                     sprite = effect->visual.sprite;
                     sprite->unk10 = 32;
@@ -1274,7 +1274,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
             }
             if (work->timer >= 13) {
                 for (particle_index = 0; particle_index < 2; particle_index++) {
-                    func_80024AF8(work, position_arg, sprite_arg,
+                    create_randomized_paletted_sprite(work, position_arg, sprite_arg,
                         work->x, work->y, (s16)(work->z - 8));
                 }
             }

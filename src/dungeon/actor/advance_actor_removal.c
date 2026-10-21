@@ -136,7 +136,7 @@ void clear_player_linked_action_flags();
 void clear_slot_and_update_linked_state();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
-void *func_80099290();
+void *clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
 void adjust_source_value_and_finalize();
@@ -144,8 +144,8 @@ void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void decrement_monster_entry_count();
 s16 find_entity_slot_by_field_ac();
-s32 has_pending_action_or_turn_count();
-void func_800A31D0();
+s32 has_actor_or_actions();
+void mark_owned_linked_actor_actions();
 s32 display_text_with_fullwidth_adjustment();
 void begin_actor_flagged_action();
 void *create_orbiting_teleport_effect();
@@ -208,7 +208,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         register s32 next_state;
 
         if (((Rec_D_80082E80 *)actor)->unk_43 != 0xFD) {
-            if ((has_pending_action_or_turn_count(actor) << 0x10) != 0) {
+            if ((has_actor_or_actions(actor) << 0x10) != 0) {
                 break;
             }
         } else {
@@ -275,12 +275,12 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         if (state_or_type == 0xFF) {
             state4_result = append_entity_display_text(actor, event_arg);
             state4_event = &D_800E0C58;
-            func_80099290(expand_text_control_codes(state4_event, state4_result));
+            clear_byte_and_advance(expand_text_control_codes(state4_event, state4_result));
             display_text_with_fullwidth_adjustment(event_source);
         } else if (state_or_type == 0xFE) {
             state4_result = append_entity_display_text(actor, event_arg);
             state4_event = &D_800E0C67;
-            func_80099290(expand_text_control_codes(state4_event, state4_result));
+            clear_byte_and_advance(expand_text_control_codes(state4_event, state4_result));
             display_text_with_fullwidth_adjustment(event_source);
         } else {
             u16 *state4_global;
@@ -289,7 +289,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
             (*state4_global)--;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        func_800A31D0(actor);
+        mark_owned_linked_actor_actions(actor);
         actor_slot4 = find_entity_slot_by_field_ac(actor);
         if (actor_slot4 >= 0) {
             void *actor_base4;
@@ -343,7 +343,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
         if (flags_mask == 0) {
             ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v &= ~0x4000;
         }
-        func_800A31D0(actor);
+        mark_owned_linked_actor_actions(actor);
         actor_type = ((Rec_D_80082E80 *)actor)->unk_43;
         ((Rec_D_80082E80 *)actor)->unk_44 = 0;
         if ((get_entity_effect_value(actor, 0xA) << 0x10) != 0) {

@@ -11,7 +11,7 @@ extern void *create_callback_pair_default(s32 a0, s32 a1, s32 a2, s32 a3); /* co
     this caller relies on that passthrough, so it's declared returning a
     pointer here. Argument shape (4 ints) is identical. */
 extern s32 count_tagged_records(void *a0);
-extern void func_8004B1A4(void *a0);
+extern void flag_object_for_removal(void *a0);
 
 /* Not yet matched elsewhere -- inventing a prototype that matches this call
    site's register setup only (a0=obj, a1=format string, a2=arg value). */
@@ -23,14 +23,14 @@ void *alloc_object_100(char *text, s32 initial_octave, s32 alloc_arg2, s32 alloc
 
     entries = create_callback_pair_default(0x100, initial_octave, alloc_arg2, alloc_arg3);
     if (entries != 0) {
-        if (decode_note_text(entries, text, initial_octave) != 0) {
+        if (decode_fullwidth_text(entries, text, initial_octave) != 0) {
             if (count_tagged_records(entries) < 0x16) {
                 return entries;
             }
             puts(text);
             return entries;
         }
-        func_8004B1A4(entries);
+        flag_object_for_removal(entries);
         entries = 0;
     }
 

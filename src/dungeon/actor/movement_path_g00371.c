@@ -54,7 +54,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
             void *direction_table = monster->unk_2C;
             if (direction_table != 0) {
                 s32 direction_offset = (s16)compare_direction * 4;
-                func_8003DB94(monster,
+                select_record_entry_and_value(monster,
                               *(void **)(direction_offset + (s32)direction_table),
                               monster->unk_04);
             }
@@ -69,7 +69,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
 
         if (!(actor->unk_1C & 0x20)) {
             if (!(((S_func_800D8728_2 *)monster)->unk_14 & 0x40)) {
-                func_800478B8(monster);
+                advance_sprite_animation_and_textures(monster);
             }
         } else {
             ((S_func_800D8728_2 *)monster)->unk_14 |= 0x7000;
@@ -93,7 +93,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
             entity->unk_98 |= 1;
             *(u8 **)((u8 *)monster + 0x2C) = actor_movement_frames;
             hop_direction_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 7) & 0x1C;
-            func_8003DB94(monster, *(void **)(actor_movement_frames + hop_direction_offset), 0);
+            select_record_entry_and_value(monster, *(void **)(actor_movement_frames + hop_direction_offset), 0);
         }
 
         if (entity->unk_A0.s16 == 0) {
@@ -210,7 +210,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
                 anim_table = actor_action_frames;
                 if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv != anim_table) {
                     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
-                    func_8003DB94(sprite,
+                    select_record_entry_and_value(sprite,
                         *(void **)((u8 *)anim_table +
                             (((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C)),
                         0);
@@ -229,6 +229,12 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_90.at00_s32.v = 0;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFFE;
                 motion->flags14 = 0;
+                /*
+                 * Original bug: Tumna leaves an already lifted familiar on Koh's tile. Restarting lift setup here
+                 * clears Koh's occupancy; resume the attachment without clearing the tile.
+                 * Found and documented by the Azure Dreams community
+                 * (adrando.com/guide/bugs.html).
+                 */
                 begin_actor_move_to_target_facing(actor, motion, sprite, status);
                 install_actor_action_handler_after_floor_trap_check(actor, motion, sprite, status);
                 return;
@@ -245,7 +251,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
 
         if (status->pending_turn_updates > 0) {
             if (((u32)status->flags1C) & 0x20) {
-                update_actor_status_and_food(status);
+                update_actor_status_and_mp(status);
                 return;
             }
             advance_actor_traversable_heading(actor, motion, sprite, status);
@@ -259,7 +265,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
                 !(dungeon_rooms[record_index].flags & 2)) {
                 if (!(((u32)status->flags1C) & 0x430)) {
 
-                    if ((s16)compare_monster_neighbor_values(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
+                    if ((s16)test_neighbor_position_relation(((Rec_func_800AA258_arg2 *)sprite)->unk_24,
                             ((Rec_func_800AA258_arg2 *)sprite)->unk_25, reference_tile_object.tile_position.parts.tile_x,
                             reference_tile_object.tile_position.parts.tile_y) != 0) {
                         status->facing = get_rounded_facing_and_rounding_flag(
@@ -286,7 +292,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
         }
     }
     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
-    func_8003DB94(sprite,
+    select_record_entry_and_value(sprite,
         *(void **)((((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C) +
             (u32)anim_table),
         0);
@@ -314,9 +320,9 @@ void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *m
             (*(void * *)((u8 *)actor + (0x2C))) = actor_movement_frames;
             anim_slot = actor_movement_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
-            func_8003DB94(actor, *(void **)anim_slot, 0);
+            select_record_entry_and_value(actor, *(void **)anim_slot, 0);
         } else if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x6000) {
-            func_8003DB94(
+            select_record_entry_and_value(
                 actor,
                 *(void **)(actor_movement_frames +
                     (((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C)),
@@ -399,7 +405,7 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
 
     limit_turn = 0;
     if ((g_dungeon_status.flags & 0x4000) || (((S_800D92C0_0 *)actor)->unk_71 >= 0)) {
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         return;
     }
     if (g_dungeon_status.flags & 0x2000) {
@@ -444,7 +450,7 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
                         }
                         {
                                                         s32 distance_result;
-                            distance_result = compare_monster_neighbor_values(position->unk_24.at00.v, position->unk_24.at01.v,
+                            distance_result = test_neighbor_position_relation(position->unk_24.at00.v, position->unk_24.at01.v,
                                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y);
                             if ((distance_result << 0x10) != 0) {
                                 limit_turn = 1;
@@ -535,7 +541,7 @@ post_loop:
                 if (post_index >= 8) {
                     ((S_800D92C0_0 *)actor)->unk_71 = (s8) ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F);
                     ((S_800D92C0_0 *)actor)->unk_46 = (u16) (((S_800D92C0_0 *)actor)->unk_46 & 0x7FFF);
-                    update_actor_status_and_food(actor);
+                    update_actor_status_and_mp(actor);
                     return;
                 }
             }
@@ -566,5 +572,5 @@ void initialize_actor_direction_table(void *object, void *unusedContext, void *t
     *((u8 *)object + 0x9B) = 0;
     ((SpriteFrameState *)tableTarget)->frameTable = actor_movement_frames;
     tableByteOffset = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)headingSource + 0x2A) + 0x100) >> 7) & 0x1C;
-    func_8003DB94(tableTarget, *(s32 *)(actor_movement_frames + tableByteOffset), 0);
+    select_record_entry_and_value(tableTarget, *(s32 *)(actor_movement_frames + tableByteOffset), 0);
 }

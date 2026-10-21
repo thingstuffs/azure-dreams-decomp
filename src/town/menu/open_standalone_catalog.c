@@ -35,7 +35,7 @@ void open_standalone_catalog(void) {
     u16 object_flags;
     void *obj;
 
-    obj = func_8003FC64(0);
+    obj = allocate_flagged_object_node(0);
     obj_data = (u8 *)obj + 0x20;
     if (obj != NULL) {
         if (initialize_catalog_display_nodes(obj_data) != 0) {

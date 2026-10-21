@@ -3,7 +3,7 @@
 extern void flag_script_list_nonempty(void);
 
 /* Marks the current registration slot, advances the slot counter, and calls two helpers. */
-void func_8004E130(void)
+void enqueue_script_message_command(void)
 {
     s32 slot_index;
     s32 *slot;

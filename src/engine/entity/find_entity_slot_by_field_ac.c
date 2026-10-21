@@ -34,7 +34,7 @@ extern S_800E3E48 familiar_record_storage[];
 extern void copy_entity_record(void *dst, void *src);
 extern s16 find_entity_slot_by_field_ac(void *obj);
 /* Copies source template data, updates object direction fields, and sets a flag. */
-void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
+void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
 {
     int next_direction;
     S_800E3E48 *template_entry;

@@ -13,7 +13,7 @@ s32 create_item_menu_object(s32 selector) {
     if (selector != 0) {
         object = allocate_list_node(0, selector);
     } else {
-        object = func_8003FC64(0);
+        object = allocate_flagged_object_node(0);
     }
 
     if (object != 0) {
@@ -49,6 +49,6 @@ void start_item_menu_object_processing(ItemMenuParameters *parameters) {
     reset_item_menu_object_state(firstParameter);
     schedule_item_menu_child_release(parameters->field4);
     set_object_data_pointer_2(parameters->field8);
-    func_8004E130();
+    enqueue_script_message_command();
     handle_selection_and_create_object();
 }

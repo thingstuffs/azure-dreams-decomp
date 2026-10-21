@@ -44,7 +44,7 @@ s32 town_map_set(s32 value_7c, s32 value_78) {
     object_cursor = objects;
     resource_cursor = resources;
     while (1) {
-        object = func_8003FC64(0x11);
+        object = allocate_flagged_object_node(0x11);
         if (object == 0) {
             break;
         }
@@ -159,7 +159,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     *(u16 *)(record + 0x60) = 0;
     *(u32 *)(display + 0xC) = 0x00808080;
     if ((u32)(mode - 9) < 2U) {
-        func_8003DB94(display, &D_800794AC, 0);
+        select_record_entry_and_value(display, &D_800794AC, 0);
     } else {
         *(u32 *)(display + 8) = 0;
     }
@@ -288,7 +288,7 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
         s32 x;
         s32 y;
 
-        func_800478B8(update_context);
+        advance_sprite_animation_and_textures(update_context);
         display_record = *(u8 **)object;
         x = view_reference_entity.x.w.i / 64 - 0x18;
         ((town_map_7FFEE4F8_S_8008BC58_3 *)display_record)->unk_30 = x;
@@ -307,7 +307,7 @@ void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_para
         u8 *selection_positions;
         s32 buttons;
 
-        func_800478B8(update_context);
+        advance_sprite_animation_and_textures(update_context);
         buttons = ((s32)input->pressed_buttons);
         if (buttons & 0x6000) {
             selection_index = ((town_map_7FFEE4F8_S_8008BC58_0 *)object)->unk_74 + 1;

@@ -28,7 +28,7 @@ S_80083968 *enqueue_cd_command_record(s16 entry_type, s32 entry_value, s32 paylo
     if (((cd_command_write_index + 1) & 0x1F) == queue_index[-1]) {
         wait_index = queue_index;
         do {
-            func_8003E758();
+            service_cd_command_queue();
         }
         while (((cd_command_write_index + 1) & 0x1F) == wait_index[-1]);
     }

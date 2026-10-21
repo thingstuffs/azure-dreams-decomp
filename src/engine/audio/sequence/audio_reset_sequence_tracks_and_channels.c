@@ -119,7 +119,7 @@ void audio_reset_sequence_tracks_and_channels(void) {
             entry_flags = audio_voice_masks[entry_index];
             sound_reset_indexed_voice_envelope(entry_index);
             combined_flags |= entry_flags;
-            func_8005E97C(0, entry_flags);
+            set_spu_voice_keys(0, entry_flags);
         }
     }
 
@@ -154,5 +154,5 @@ void audio_reset_sequence_tracks_and_channels(void) {
         audio_channel_controls[entry_index].f98 = 0;
     }
 
-    func_8005E97C(0, combined_flags);
+    set_spu_voice_keys(0, combined_flags);
 }

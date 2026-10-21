@@ -6,7 +6,7 @@
 
 extern s32 get_unused_text_buffer(s32, u8 *, void *);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 
@@ -62,7 +62,7 @@ void animate_timed_fade_effect(void *effect) {
         result = write_text_byte_and_advance(0xA, result);
         result = write_text_byte_and_advance(0xA, result);
         result = write_text_byte_and_advance(1, result);
-        func_80099290(result);
+        clear_byte_and_advance(result);
         display_text_with_fullwidth_adjustment(first_result);
         return;
 

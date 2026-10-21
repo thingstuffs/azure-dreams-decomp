@@ -80,7 +80,7 @@ extern u8 D_80170994[];
 extern u8 D_801709B8[];
 extern s32 D_80171F1C;
 
-extern void func_80040AA0(u8);
+extern void request_scene_dispatch_state(u8);
 extern s32 get_entity_class(void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void mark_sprite_resources_for_purge(void);
@@ -89,7 +89,7 @@ extern void snapshot_inventory_familiar_records(void);
 extern void clear_player_linked_action_flags(void);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void play_sound_if_enabled(s32);
@@ -311,7 +311,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
                 next_floor = floor_count + 1;
                 *(s32 *)(counter_page + 0x234) = next_visit;
                 *(u16 *)((u8 *)floor_stats + 4) = next_floor;
-                func_80040AA0(map_id);
+                request_scene_dispatch_state(map_id);
             }
             mark_sprite_resources_for_purge();
             ((S_80175CD8_3 *)motion)->unk_14 = 0;
@@ -356,7 +356,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
                 text_start = get_unused_text_buffer();
                 text_end = expand_text_control_codes(D_801709B8, text_start);
             }
-            func_80099290(text_end);
+            clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(text_start);
 
         case 8:

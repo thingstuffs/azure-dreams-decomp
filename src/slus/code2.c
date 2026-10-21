@@ -84,7 +84,7 @@ extern struct {
 } timed_entity_motion_state;
 
 /* Sets the countdown, amount, and per-tick quotient in D_80083CA8. */
-void func_800419EC(unsigned short countdown, unsigned int amount) {
+void initialize_timed_motion_step(unsigned short countdown, unsigned int amount) {
     timed_entity_motion_state.field8 = countdown;
     timed_entity_motion_state.field6 = amount;
     timed_entity_motion_state.field0 = amount / countdown;
@@ -157,7 +157,7 @@ void set_current_and_previous_menu_selection(void *object, s32 value) {
 extern short D_800847F6[8];
 
 /* Sets D_800847F6 to -1 and returns -1. */
-int func_800542AC(void) {
+int cancel_pending_sound_selection(void) {
     short *flag = &D_800847F6[0];
     int disabled;
     disabled = -1;

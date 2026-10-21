@@ -32,7 +32,7 @@ void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position,
     position[1] += state->y;
     D_80024D04 = 1;
     position[2] += state->z;
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     object->field1C += 0x80;
     object->field1E += 0x80;
     life = state->life - 1;
@@ -73,7 +73,7 @@ void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924
     timer = effect->timer + 1;
     effect->timer = timer;
     if (!(timer & 1)) {
-        func_800478B8(object);
+        advance_sprite_animation_and_textures(object);
     }
 
     object->field1C += 200;
@@ -132,7 +132,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
     D_80024D04 = 1;
     source = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_2C;
     if (((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 == 0) {
-        particle = func_8003FC64(0x212);
+        particle = allocate_flagged_object_node(0x212);
         particle_state = particle + 0x20;
         if (particle != NULL) {
             particle_state->unk_02 = 0x1A;
@@ -166,7 +166,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
             sprite->unk_0C = 0x80;
             sprite->unk_12 = 0x7DCF;
             sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
-            func_8003DB94(sprite, effect_sprite_sources, 0);
+            select_record_entry_and_value(sprite, effect_sprite_sources, 0);
         }
         remaining_ticks = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 - 1;
         ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = remaining_ticks;
@@ -195,7 +195,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
         burst_ticks = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 + 1;
         ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = burst_ticks;
         if ((burst_ticks & 3) == phase) {
-            particle = func_8003FC64(0x212);
+            particle = allocate_flagged_object_node(0x212);
             particle_state = particle + 0x20;
             if (particle != NULL) {
                 u32 particle_z;
@@ -235,11 +235,11 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 sprite->unk_0C = 0x80;
                 sprite->unk_12 = 0x7DCF;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
-                func_8003DB94(sprite, effect_sprite_sources, 0);
+                select_record_entry_and_value(sprite, effect_sprite_sources, 0);
             }
         }
         if ((((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 & 3) == 2) {
-            particle = func_8003FC64(0x212);
+            particle = allocate_flagged_object_node(0x212);
             particle_state = particle + 0x20;
             if (particle != NULL) {
                 s16 particle_z;
@@ -276,7 +276,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 sprite->unk_0C = 0x80;
                 sprite->unk_12 = 0x7DC0;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
-                func_8003DB94(sprite, D_800DEC00, 0);
+                select_record_entry_and_value(sprite, D_800DEC00, 0);
             }
         }
         if ((s16) ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 >= 0x29) {
@@ -374,7 +374,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
         part->unk_0C = 0x00808080;
         part->unk_1E = 0x1000;
         part->unk_1C = 0x1000;
-        func_8003DB94(part, D_800DEC00, 0);
+        select_record_entry_and_value(part, D_800DEC00, 0);
         angle = object->unk_2A;
         D_80024D04 = one;
         state->unk_7E.s16 = (angle >> 9) & 7;
@@ -418,7 +418,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
     case 2:
         {
 
-            effect_node = func_8003FC64(0x12);
+            effect_node = allocate_flagged_object_node(0x12);
 
             if (effect_node != 0) {
                 B31_818C8FD0_S_func_818C8FD0_7 *effect;

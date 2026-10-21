@@ -20,7 +20,7 @@ void initialize_and_submit_record(s32 value, void *data) {
     Blk16 *src;
     Blk16 *end;
 
-    record = func_8003FC64(1);
+    record = allocate_flagged_object_node(1);
     dst = (Blk16 *)(record + 8); /* +0x20 bytes */
     if (record != 0) {
         src = (Blk16 *)data;

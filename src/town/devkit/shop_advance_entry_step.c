@@ -8,25 +8,25 @@ typedef struct {
 extern u16 D_80701DCE[];
 extern TownPair D_80701DFC[];
 
-extern s32 shop_skip_accepted_entries(s32 index);
-extern void shop_set_entry_step_flag(s32 index, s32 value);
-extern s32 shop_find_first_eligible_entry(void);
-extern void shop_set_indexed_flag(u16 value);
-extern void shop_clear_indexed_flag(s32 value);
-extern s32 shop_test_indexed_flag(u16 value);
+extern s32 test_flag_list_terminator(s32 index);
+extern void set_entry_bit_flag(s32 index, s32 value);
+extern s32 advance_clear_flag_row(void);
+extern void set_linked_flag(u16 value);
+extern void clear_linked_flag(s32 value);
+extern s32 test_linked_flag(u16 value);
 
-/* Advance the shop entry at `index`: start its 0x1F9 step when eligible, otherwise just clear it. */
-s32 shop_advance_entry_step(s32 index) {
-    if (shop_test_indexed_flag(D_80701DCE[0]) == 0 &&
-        shop_test_indexed_flag(0x1F9) != 0) {
-        if (shop_skip_accepted_entries(index) != 0) {
-            shop_set_indexed_flag(D_80701DFC[index].field_0);
-            shop_clear_indexed_flag(0x1F9);
-            return shop_find_first_eligible_entry();
+/* Advance the selected flag row and process entry zero when required. */
+s32 advance_selected_flag_row(s32 index) {
+    if (test_linked_flag(D_80701DCE[0]) == 0 &&
+        test_linked_flag(0x1F9) != 0) {
+        if (test_flag_list_terminator(index) != 0) {
+            set_linked_flag(D_80701DFC[index].field_0);
+            clear_linked_flag(0x1F9);
+            return advance_clear_flag_row();
         }
-        shop_set_entry_step_flag(index, 0);
+        set_entry_bit_flag(index, 0);
         return index;
     }
-    shop_set_entry_step_flag(index, 0);
+    set_entry_bit_flag(index, 0);
     return index;
 }

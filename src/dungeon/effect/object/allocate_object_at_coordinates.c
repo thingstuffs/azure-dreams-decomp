@@ -39,7 +39,7 @@ void *allocate_object_at_coordinates(void *source, s32 *init_value) {
     S_800B7B60_0 *object;
     MovingPosition *dst_coords;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         object->unk_10 = &D_800B7774;
         object->unk_20 = *init_value;

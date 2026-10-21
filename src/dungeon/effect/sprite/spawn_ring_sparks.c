@@ -51,7 +51,7 @@ void *spawn_ring_sparks(s16 x, s16 y, s16 z) {
     sign_bits = -0x800;
     scale = 0x20;
     do {
-        obj = func_8003FC64(0x212);
+        obj = allocate_flagged_object_node(0x212);
         if (obj != NULL) {
             ((S_81959E04_0 *)obj)->unk_10 = &D_80025528;
             register_node(obj, D_800C95C0);

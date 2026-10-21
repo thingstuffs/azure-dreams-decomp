@@ -134,7 +134,7 @@ void update_spark_emitter_effect(void *effect, void *position) {
             func_800245BC(effect - 0x20, spark_kind, 0xF0, spark_speed, 0, 0,
                 (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
         }
-        particle = func_8003FC64(0x212);
+        particle = allocate_flagged_object_node(0x212);
         if (particle != NULL) {
             ((S_81814EDC_1 *)particle)->unk_22 = 9;
             ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
@@ -175,9 +175,9 @@ void update_spark_emitter_effect(void *effect, void *position) {
             sprite->color.c.b = 0x80;
             sprite->color.c.g = 0x80;
             sprite->color.c.r = 0x80;
-            func_8003DB94(sprite, D_800DE938, 0);
-            func_800478B8(sprite);
-            func_800478B8(sprite);
+            select_record_entry_and_value(sprite, D_800DE938, 0);
+            advance_sprite_animation_and_textures(sprite);
+            advance_sprite_animation_and_textures(sprite);
         }
         ticks_left = ((S_81814EDC_0 *)effect)->unk_02.s - 1;
         ((S_81814EDC_0 *)effect)->unk_02.s = ticks_left;
@@ -195,7 +195,7 @@ loop_effects:
                 }
                 effect_index = 0;
                 do {
-                    particle = func_8003FC64(0x212);
+                    particle = allocate_flagged_object_node(0x212);
                     debris = particle + 0x20;
                     if (particle != NULL) {
                         s32 random_offset = 0xB;
@@ -228,7 +228,7 @@ loop_effects:
                         sprite->color.c.b = 0x80;
                         sprite->color.c.g = 0x80;
                         sprite->color.c.r = 0x80;
-                        func_8003DB94(sprite, effect_sprite_sources, 0);
+                        select_record_entry_and_value(sprite, effect_sprite_sources, 0);
                     }
                     effect_index += 1;
                 } while (effect_index < 2);
@@ -237,7 +237,7 @@ loop_effects:
                 neutral_color = 0x80;
                 double_scale = 0x2000;
                 do {
-                    particle = func_8003FC64(0x212);
+                    particle = allocate_flagged_object_node(0x212);
                     if (particle != NULL) {
                         s32 random_offset = 0xB;
                         s32 coordinate;
@@ -273,7 +273,7 @@ loop_effects:
                             sprite->scale_x = double_scale;
                             sprite->scale_y = unit_scale;
                         }
-                        func_8003DB94(sprite, D_800DE938, 0);
+                        select_record_entry_and_value(sprite, D_800DE938, 0);
                     }
                     effect_index += 1;
                 } while (effect_index < 2);

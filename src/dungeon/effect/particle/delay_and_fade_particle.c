@@ -180,7 +180,7 @@ void (*const dungeon_1870800_entry)(S_81850800_0 *, S_81850800_7 *, SpriteFlagsV
 /* Advance a directional effect, spawn its particles, and apply its target impact. */
 extern s32 register_node(ObjectNodeHeader *, s32);
 extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_80069EF8(void);
 
 void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion, SpriteFlagsView *sprite)
@@ -551,7 +551,7 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
         }
         break;
     case 1:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if (sprite->flags & 0x6000) {
             sprite->frame_x = 0;
             sprite->frame_y = 0;

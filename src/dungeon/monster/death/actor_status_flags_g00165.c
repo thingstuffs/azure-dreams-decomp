@@ -95,7 +95,7 @@ void advance_actor_action_state_handle_status(void *action_in, void *context_in,
                 }
             }
 
-            update_actor_status_and_food(actor_in);
+            update_actor_status_and_mp(actor_in);
             on_actor_status_updated(actor_in);
             if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
                 TileObject *reference_pos;
@@ -269,7 +269,7 @@ void advance_actor_states_and_entity_flags(void *actor, void *context, void *ani
             }
         }
 
-        update_actor_status_and_food(entity);
+        update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
         if (((ActorRecord *)entity)->mp == 0) {
             return;

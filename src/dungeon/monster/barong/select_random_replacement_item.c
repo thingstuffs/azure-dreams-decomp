@@ -55,6 +55,12 @@ s32 select_random_replacement_item(DungeonArg *selection, u8 *context)
             continue;
         }
 
+        /*
+         * Original bug: selection still names the original item, so the rarity checks compare it with itself. Check the
+         * candidate's rarity instead.
+         * Found and documented by the Azure Dreams community
+         * (adrando.com/guide/bugs.html).
+         */
         if (retries_left >= 12) {
             class_check = item_category_table[selection->group].entries[selection->index].flags & 0x3000;
             if (original_class == class_check) {

@@ -7,7 +7,7 @@
 struct Dst;
 struct Elem;
 
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 extern s32 rand();
 void func_8002418C(void *object_ref, void *unused, void *state);
@@ -22,7 +22,7 @@ void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
     void *effect_pos;
     void *effect;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         *((s32 **)(((s8 *)effect) + 0x10)) = &func_8002418C;
         sprite = *((void **)(((s8 *)effect) + 0xC));
@@ -31,7 +31,7 @@ void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
         sprite->color.c.b = color;
         sprite->color.c.g = color;
         sprite->color.c.r = color;
-        func_8003DB94(sprite, D_800DEDB0, 0);
+        select_record_entry_and_value(sprite, D_800DEDB0, 0);
         sprite->scale_y = 0x1800;
         sprite->scale_x = 0x1800;
         sprite->clut = 0x7E0B;

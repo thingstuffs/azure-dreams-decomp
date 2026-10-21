@@ -12,7 +12,7 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern void advance_status_timers(void *);
@@ -41,7 +41,7 @@ void advance_familiar_defeat_sequence(void *work, void *part_a, void *part_b, vo
         result = append_entity_display_text(actor, first = get_unused_text_buffer());
         saved_first = first;
         first = result;
-        func_80099290(expand_text_control_codes(D_80170854, first));
+        clear_byte_and_advance(expand_text_control_codes(D_80170854, first));
         display_text_with_fullwidth_adjustment(saved_first);
         object = scan_monster_along_heading(actor, U8(part_b, 0x24), U8(part_b, 0x25),
                                S16(actor, 0x2A), 0x10);

@@ -63,7 +63,7 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
     s32 angle;
     s32 color;
 
-    particle = func_8003FC64(0x212);
+    particle = allocate_flagged_object_node(0x212);
     if (particle != NULL) {
         effect_state = (s8 *)particle + 0x20;
         motion = ((S_80099C58_0 *)particle)->unk_08;
@@ -101,7 +101,7 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags)
     }
 
     for (spokes_left = 0x10; spokes_left > 0; spokes_left--) {
-        particle = func_8003FC64(0x212);
+        particle = allocate_flagged_object_node(0x212);
         if (particle != NULL) {
             effect_state = (s8 *)particle + 0x20;
             angle = spokes_left << 8;

@@ -24,7 +24,7 @@ typedef struct {
     s32 field68;
 } S_80056D44_Arg1;
 
-extern s32 func_8005F134(S_80084918 *descriptor);
+extern s32 apply_spu_voice_attributes(S_80084918 *descriptor);
 
 /* Populates the global descriptor from a table entry and source fields, then processes it. */
 s32 sound_apply_indexed_voice_envelope(s32 table_index, S_80056D44_Arg1 *source) {
@@ -34,5 +34,5 @@ s32 sound_apply_indexed_voice_envelope(s32 table_index, S_80056D44_Arg1 *source)
     descriptor->field3A = source->field60;
     descriptor->field3C = source->field64;
     descriptor->field24 = source->field68;
-    return func_8005F134(descriptor);
+    return apply_spu_voice_attributes(descriptor);
 }

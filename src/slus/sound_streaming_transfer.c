@@ -3,7 +3,7 @@
 
 
 /* Streams sample data to a voice in SPU chunks, preserving busy and pending queue state. */
-s32 func_8005E7E0(s32 voice)
+s32 clear_spu_reverb_work_area(s32 voice)
 {
     s32 voice_or_chunk_size = voice;
     s32 remaining, spu_addr, more_chunks, saved_busy, restore_busy = 0;
@@ -12,7 +12,7 @@ s32 func_8005E7E0(s32 voice)
     if ((u32)voice_or_chunk_size >= 10)
         return -1;
 
-    if (func_8005D9DC(spu_reverb_start_addresses[voice_or_chunk_size]) != 0)
+    if (test_spu_blocks_beyond_address(spu_reverb_start_addresses[voice_or_chunk_size]) != 0)
         return -1;
 
     if (voice_or_chunk_size == 0) {

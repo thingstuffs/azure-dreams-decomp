@@ -24,7 +24,7 @@ void create_encounter_actor_object(void) {
     SpriteFrameState *render_state;
     MovingPosition *position;
 
-    object = func_8003FC64(0x112);
+    object = allocate_flagged_object_node(0x112);
     if (object != 0) {
         render_state = object->unk_0C;
         object->unk_38 = 0;

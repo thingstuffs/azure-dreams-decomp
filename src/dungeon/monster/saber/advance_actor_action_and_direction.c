@@ -41,7 +41,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value(void *);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -120,7 +120,7 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
                     return;
                 }
             }
-            update_actor_status_and_food(actor_in);
+            update_actor_status_and_mp(actor_in);
             on_actor_status_updated(actor_in);
             if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
                 s8 coordinate = ((S_80173D4C_1 *)sprite_in)->unk_26;

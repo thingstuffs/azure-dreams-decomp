@@ -49,7 +49,7 @@ void create_encounter_camera_controller(void) {
     void *object;
     u16 render_flags;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         (*(s16 *)((u8 *)object + 0x38)) = 0;
         (*(s32 * *)((u8 *)object + 0x10)) = &D_801717A8;

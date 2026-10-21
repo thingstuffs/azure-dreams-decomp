@@ -61,7 +61,7 @@ void update_minigame_child_positions(void *state)
 
         child_index = 1;
         do {
-            child_obj = func_8003FC64(0x136);
+            child_obj = allocate_flagged_object_node(0x136);
             if (child_obj != 0) {
                 child_state = (u8 *)child_obj + 0x20;
                 PTR_AT(child_obj, 0x10) = D_80024334;

@@ -53,7 +53,7 @@ void func_8002405C(u8 *entity, s32 chance, void *unused_context) {
             message_arg = write_text_byte_and_advance(format_code, result_arg);
             message_arg = append_entity_display_text(entity, message_arg);
             message_arg = expand_text_control_codes(D_800E20D6, message_arg);
-            func_80099290(message_arg);
+            clear_byte_and_advance(message_arg);
         }
         display_text_with_fullwidth_adjustment(effect_result);
         create_actor_value_popup(0x53, entity, removed_count, 1);   /* retail jumps to the shared call at +0x16C */
@@ -1279,7 +1279,7 @@ update_coords:
             S_func_81905FD0_3 *child_render;
             S_func_81905FD0_2 *child_motion;
 
-            upper_effect = func_8003FC64(0x212);
+            upper_effect = allocate_flagged_object_node(0x212);
             if (upper_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)upper_effect + 0x20);
                 child_data->unk_02 = 120;
@@ -1321,7 +1321,7 @@ update_coords:
                 ((S_func_81905FD0_13 *)child_render->unk_08)->unk_04 =
                     func_80066460(2, 1, 832, 340);
             }
-            lower_effect = func_8003FC64(0x212);
+            lower_effect = allocate_flagged_object_node(0x212);
             if (lower_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)lower_effect + 0x20);
                 child_data->unk_02 = 140;
@@ -1356,7 +1356,7 @@ update_coords:
                 ((S_func_81905FD0_13 *)child_render->unk_08)->unk_04 =
                     func_80066460(2, 1, 832, 424);
             }
-            ring_effect = func_8003FC64(0x212);
+            ring_effect = allocate_flagged_object_node(0x212);
             if (ring_effect != 0) {
                 child_data = (S_func_81905FD0_7 *)((u8 *)ring_effect + 0x20);
                 child_data->unk_02 = 120;
@@ -1413,7 +1413,7 @@ update_coords:
                 }
                 child_render->unk_08 = (u8 *)child_data + 0x20;
             }
-            control_effect = func_8003FC64(0x212);
+            control_effect = allocate_flagged_object_node(0x212);
             if (control_effect != 0) {
                 void *render_template;
                 void *control_script;

@@ -67,7 +67,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
             if (!(U16_AT(sprite, 0x14) & 0x8000)) {
                 play_sound_if_enabled(0x707);
             }
-            spawned_actor = func_8003FC64(0x12);
+            spawned_actor = allocate_flagged_object_node(0x12);
             if (spawned_actor != 0) {
                 PTR_AT(spawned_actor, 0x10) = D_801708BC;
                 spawned_work = (u8 *)spawned_actor + 0x20;

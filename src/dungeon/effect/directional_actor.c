@@ -51,7 +51,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             if (entity != 0) {
                 register_node(entity, project_sprite_chain);
                 render_state = ((Row_818E0800_S_818E0800_4 *)entity)->unk_0C;
-                ((Row_818E0800_S_818E0800_4 *)entity)->unk_10 = func_80024594;
+                ((Row_818E0800_S_818E0800_4 *)entity)->unk_10 = shrink_spiraling_sprite_effect;
                 particle = (u8 *)entity + 0x20;
                 ((Row_818E0800_S_818E0800_5 *)particle)->unk_0C = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v;
                 ((Row_818E0800_S_818E0800_5 *)particle)->unk_0E = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v;
@@ -170,7 +170,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             effect_arg->z.w.i = 0xFF;
             return;
         }
-        func_800419EC(sound_id, 0x10);
+        initialize_timed_motion_step(sound_id, 0x10);
         effect_arg->unk_50 = 6;
         effect_arg->z.w.i = 0xF0;
         return;
@@ -206,7 +206,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
     }
 }
 
-void func_80024594(void *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_80082E80 *sprite)
+void shrink_spiraling_sprite_effect(void *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_80082E80 *sprite)
 {
     Row_818E0D94_CallRecord transform;
     Row_818E0D94_OutputVector offset;
@@ -262,7 +262,7 @@ void func_80024594(void *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_8008
     position->unk_02 = offset.x;
     position->unk_06 = offset.y;
     position->unk_0A = offset.z;
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
 
     if (sprite->unk_14.at00_u16.v & 0x6000) {
         sprite->unk_04.as_s8 = 0;

@@ -16,7 +16,7 @@ extern s32 memset(void *, s32, s32);
 extern void func_8004E5A0(s32, s32, u8 *);
 extern u8 *remap_flagged_string_bytes(u8 *);
 extern s32 build_positioned_text_glyphs(void *, u8 *, s32);
-void func_8004B1A4(unsigned short *object);
+void flag_object_for_removal(unsigned short *object);
 s32 create_callback_pair_default();
 s32 func_8004B404();
 /* extern */
@@ -63,7 +63,7 @@ s32 allocate_and_initialize_shop_object(s32 initializationArg) {
     if (allocatedObject != 0) {
         resultObject = allocatedObject;
         if (format_item_value_and_flag_marker(allocatedObject, initializationArg) == 0) {
-            func_8004B1A4(allocatedObject);
+            flag_object_for_removal(allocatedObject);
             resultObject = 0;
         }
     }

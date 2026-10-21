@@ -18,7 +18,7 @@ void *card_boot_create_save_slot_menu(s32 init_value, s32 state_value)
     void *object;
     void *state;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != NULL) {
         state = (u8 *)object + 0x20;
         *(s32 *)((u8 *)state + 0x24) = state_value;

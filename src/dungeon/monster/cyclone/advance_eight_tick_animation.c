@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *object);
+extern void advance_sprite_animation_and_textures(void *object);
 extern void select_sprite_entry(void *object, s32 kind, s32 value);
 
 /* Advances the animation, moves its sprite, and marks completion after eight ticks. */
@@ -34,7 +34,7 @@ void advance_eight_tick_animation(u16 *anim, u32 *motion, u16 *sprite) {
         motion[0] += motion[3];
         motion[1] += motion[4];
     }
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     if (sprite[10] & 0x6000) {
         select_sprite_entry(sprite, 0x30, 0);
     }

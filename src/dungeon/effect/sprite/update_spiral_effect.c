@@ -4,7 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand(void);
@@ -55,7 +55,7 @@ void update_spiral_effect(void *effect, void *motion, void *sprite) {
     state = ((S_800D7D30_1 *)effect)->unk_4C.s;
     switch (state) {
     case 0:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if (((SpriteFrameState *)sprite)->flags & 0x6000) {
             ((SpriteFrameState *)sprite)->unk_04 = 0;
             ((SpriteFrameState *)sprite)->unk_05 = 0;

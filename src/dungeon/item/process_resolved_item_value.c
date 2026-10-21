@@ -8,13 +8,13 @@
  * builder uses the engine's cursor idiom (message_end / message_start, as in
  * src/dungeon/func_800BB400.c and func_800940E4.c).  Evidence:
  * docs/evidence/r121_rem_opus.md. */
-extern void func_8003DB94(void *, void *, short);
+extern void select_record_entry_and_value(void *, void *, short);
 extern void * allocate_list_node(s32, void *);
 extern s32 register_node(void *, s32);
 extern void select_sprite_entry(void *, s16, s16);
 extern void * get_unused_text_buffer(void);
 extern void * expand_text_control_codes(void *, void *);
-extern void * func_80099290(void *);
+extern void * clear_byte_and_advance(void *);
 extern u8 *append_entity_display_text(void *, u8 *);
 extern s16 set_or_clear_actor_status_slot(void *, s8, s8);
 extern s32 display_text_with_fullwidth_adjustment(s8 *);
@@ -143,7 +143,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
         (((ResolvedSprite *)sprite)->color) = 0x808080;
         (((ResolvedSprite *)sprite)->scale_y) = 0x1000;
         (((ResolvedSprite *)sprite)->scale_x) = 0x1000;
-        func_8003DB94(sprite, ((u32)D_800DEC00), 0);
+        select_record_entry_and_value(sprite, ((u32)D_800DEC00), 0);
         direction = (((ResolvedActor *)owner)->facing);
         D_80025B60 = 1;
         (((ResolvedEffect *)effect_state)->direction) = (direction >> 9) & 7;
@@ -240,7 +240,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
                     message_start = message_end;
                     message_end = append_entity_display_text((((ResolvedActor *)owner)->target), message_end);
                     message_end = expand_text_control_codes(((u32)D_80024024), message_end);
-                    func_80099290(message_end);
+                    clear_byte_and_advance(message_end);
                     display_text_with_fullwidth_adjustment((s8 *)message_start);
                 }
                 return;

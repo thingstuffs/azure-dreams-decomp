@@ -10,7 +10,7 @@ typedef struct {
     s32 field14;
 } S_8081C8DC;
 
-extern void func_800478B8(void *result);
+extern void advance_sprite_animation_and_textures(void *result);
 
 /* Advances the position and propagates flags from the processed result. */
 void advance_particle_until_animation_boundary(void *object_data, S_8081C8DC *motion, S_8081C8DC *result)
@@ -23,7 +23,7 @@ void advance_particle_until_animation_boundary(void *object_data, S_8081C8DC *mo
     motion->field0 += motion->fieldC;
     motion->field4 += delta_y;
     motion->field8 += delta_z;
-    func_800478B8(result);
+    advance_sprite_animation_and_textures(result);
     if (*(u16 *)((u8 *)result + 0x14) & 0x6000) {
         *(u16 *)((u8 *)object_data - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;

@@ -150,7 +150,7 @@ s32 play_sound_if_enabled();                     /* extern */
 extern void func_800246DC(void *effect, void *position);
 
 /* Updates an effect through attachment, spawning, tracking, and cleanup. */
-void func_818154FC(void *effect, S_818154FC_5 *position, SpriteFrameState *sprite) {
+void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *position, SpriteFrameState *sprite) {
     Offset offset;
     LocalPoints points;
     LocalPoint *point_base;
@@ -179,7 +179,7 @@ void func_818154FC(void *effect, S_818154FC_5 *position, SpriteFrameState *sprit
         sprite->color.word = 0x00808080;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        func_8003DB94(sprite, D_800DEC00, 0);
+        select_record_entry_and_value(sprite, D_800DEC00, 0);
         angle = ((S_818154FC_3 *)parent)->unk_2A;
         D_80025338[0] = 1;
         ((S_818154FC_0 *)effect)->unk_7E.s = (s16) ((angle >> 9) & 7);
@@ -233,7 +233,7 @@ void func_818154FC(void *effect, S_818154FC_5 *position, SpriteFrameState *sprit
         ((S_818154FC_0 *)effect)->unk_84.s = spawn_tick;
         if (spawn_tick & 1) {
 
-            node = (u8 *)func_8003FC64(0x12);
+            node = (u8 *)allocate_flagged_object_node(0x12);
             if (node != NULL) {
                 u8 *work;
                 MovingTile *map;

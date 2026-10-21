@@ -67,7 +67,7 @@ void register_node();
 void unlink_node();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
-void func_80099290();
+void clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
 void unlink_entity_node();
@@ -77,7 +77,7 @@ void *find_eligible_actor_at_tile_and_height();
 void play_sound_if_enabled();
 void display_text_with_fullwidth_adjustment();
 s16 find_floor_item_at_world_position();
-void update_actor_status_and_food();
+void update_actor_status_and_mp();
 void retire_tracked_effect_by_id();
 void spawn_offset_motion_object();
 void *spawn_manoeva_from_record();
@@ -152,7 +152,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
                     random_value = get_unused_text_buffer();
                     random_arg = random_value;
                     random_value = append_entity_display_text(actor, saved_random = random_arg);
-                    func_80099290(
+                    clear_byte_and_advance(
                         expand_text_control_codes(&D_80170898,
                             append_entity_display_text(target,
                                 write_text_byte_and_advance(0xA,
@@ -176,7 +176,7 @@ void update_actor_target_effect_action(void *action, void *context, S_80173D78_1
 
         if (actor->unk_60.i == 0) {
 
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             ((Rec_func_80173D78_arg0 *)action)->unk_8C = &func_80170EE4;
             g_dungeon_status.activity_counts.parts.pending_action_count =
                 ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;

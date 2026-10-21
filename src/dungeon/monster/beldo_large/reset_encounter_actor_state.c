@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void unlink_entity_node(void *);
 
 typedef struct Entity {
@@ -37,7 +37,7 @@ void reset_encounter_actor_state(void)
 
     update_map_cell_flags_with_item_limit(position[0x24], position[0x25],
                   (entity->flags & 0x2000) ? 0x300 : 0x3000);
-    update_actor_status_and_food(entity);
+    update_actor_status_and_mp(entity);
     unlink_entity_node(entity);
     beldo_actor_nodes->field_10 = D_8016FC4C;
     entity->field_9A = 0;

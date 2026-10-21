@@ -37,14 +37,14 @@ s32 begin_deferred_item_action();
 s32 clear_slot_and_update_linked_state();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
-s32 func_80099290();
+s32 clear_byte_and_advance();
 s32 append_typed_formatted_value();
 s32 append_entity_display_text();
 s32 unlink_entity_node();
 s32 update_map_cell_flags_with_item_limit();
 s32 detach_record_and_update_slot_state();
 s32 display_text_with_fullwidth_adjustment();
-s32 apply_item_effect_at_entity_position();
+s32 place_actor_item();
 s32 display_item_status_message();
 s32 release_entity_slot_and_update_flags();
 s32 generate_random_value();
@@ -95,7 +95,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
             text_end = append_typed_formatted_value(source, text_end);
             text_end = expand_text_control_codes(D_80089360, text_end);
         }
-        func_80099290(text_end);
+        clear_byte_and_advance(text_end);
         display_text_with_fullwidth_adjustment(text_buffer);
     }
 
@@ -145,6 +145,12 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
             if (((ActorRecord *)entity)->flags1C & 0x2000) {
                 tile_mask = 0x300;
             }
+            /*
+             * Original bug: a lifted familiar shares Koh's tile. Roche removes the familiar but this clear also removes
+             * Koh's occupancy; preserve the shared tile.
+             * Found and documented by the Azure Dreams community
+             * (adrando.com/guide/bugs.html).
+             */
             update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
         }
 
@@ -152,7 +158,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
         ((S_800BE6F0_0_pre *)entity)[-1].unk_16 |= 0x8000;
         object_flag_block.flags |= 0x8000;
     } else {
-        apply_item_effect_at_entity_position(entity, source);
+        place_actor_item(entity, source);
         return 1;
     }
     clear_slot_and_update_linked_state(source);

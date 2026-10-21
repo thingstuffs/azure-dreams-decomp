@@ -73,7 +73,7 @@ void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32
     void *effect;
     s32 held_scale ;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         held_scale = scale;
         (((ObjectNodeHeader *)effect)->unk_10) = &D_801654F0;

@@ -25,7 +25,7 @@ void *create_user_data_object_b(s32 user_data)
     SpriteFrameState *part;
     S_800C5214_0 *object;
 
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     if (object == NULL) {
         return NULL;
     }

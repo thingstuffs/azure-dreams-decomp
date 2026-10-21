@@ -7,7 +7,7 @@ extern s32 find_last_zero_entry_run_start(void);
 extern s32 find_and_clear_empty_item_slot(void);
 extern void *get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 append_typed_formatted_value(void *, s32);
 extern s32 apply_type_based_entry_adjustments(void *, s32);
@@ -46,7 +46,7 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
 
     if (index < 0 || (s16)second < 0) {
         object = get_unused_text_buffer();
-        func_80099290(expand_text_control_codes(ptr2,
+        clear_byte_and_advance(expand_text_control_codes(ptr2,
             apply_type_based_entry_adjustments(target,
                 expand_text_control_codes(ptr1, write_text_byte_and_advance(8, object)))));
         display_text_with_fullwidth_adjustment(object);
@@ -54,7 +54,7 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
     }
 
     object = get_unused_text_buffer();
-    func_80099290(expand_text_control_codes(D_800E07EF,
+    clear_byte_and_advance(expand_text_control_codes(D_800E07EF,
         append_typed_formatted_value(target, object)));
     if (held_flag != 0) {
         display_text_with_fullwidth_adjustment(object);

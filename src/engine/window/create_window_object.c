@@ -22,7 +22,7 @@ void create_window_object(s32 object_addr, S_func_80035484_4 *model, S_func_8003
     ((S_func_80035484_4 *)object->unk_20)->unk_08 = 0x400;
     state->unk_04 = 0;
     state->unk_08 = 0;
-    func_800350B0(config, state);
+    prepend_embedded_object_node(config, state);
     state->unk_68 = init_window_object;
     transform->unk_02 = -0x86;
     transform->unk_06 = 0x78;

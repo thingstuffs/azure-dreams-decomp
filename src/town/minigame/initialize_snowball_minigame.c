@@ -84,7 +84,7 @@ extern u8 D_800F2F28[];
 extern void create_scene_object_with_48_byte_payload(void *, TownDraw32 *);
 extern void create_scene_object_with_record_payload(void *, TownDraw24 *);
 extern void set_resident_bit(s32);
-extern void func_8003DB94(TownData *, void *, s32);
+extern void select_record_entry_and_value(TownData *, void *, s32);
 extern void func_8003E188(s32, void *);
 extern TownObject *allocate_list_node(s32, void *);
 extern void register_node(TownObject *, void *);
@@ -133,7 +133,7 @@ s32 initialize_snowball_minigame(void)
         object_part->root = root_part;
         object_data->scale_y = 0x1000;
         object_data->scale_x = 0x1000;
-        func_8003DB94(object_data, D_800F2F28, 0);
+        select_record_entry_and_value(object_data, D_800F2F28, 0);
         object_data->color.word = 0x00808080;
         configure_the_set_mode_n_2(object_part, object->transform, D_80026DC8);
     }

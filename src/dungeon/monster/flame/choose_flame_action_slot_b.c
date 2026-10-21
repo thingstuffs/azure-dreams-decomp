@@ -115,7 +115,7 @@ void choose_flame_action_slot_b(void *actor, void *actor_context, void *sprite, 
 
     if (((R06_8017140C_S_8017140C_1 *)creature)->unk_6D > 0) {
         if (((R06_8017140C_S_8017140C_1 *)creature)->unk_1C & 0x20) {
-            update_actor_status_and_food(creature);
+            update_actor_status_and_mp(creature);
             return;
         }
         if (((R06_8017140C_S_8017140C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -170,7 +170,7 @@ void choose_flame_action_slot_b(void *actor, void *actor_context, void *sprite, 
             }
 
             case 11:
-                update_actor_status_and_food(creature);
+                update_actor_status_and_mp(creature);
                 return;
 
             case 0:
@@ -193,7 +193,7 @@ void choose_flame_action_slot_b(void *actor, void *actor_context, void *sprite, 
             !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((R06_8017140C_S_8017140C_1 *)creature)->unk_1C & 0x430)) {
 
-                if ((compare_monster_neighbor_values(
+                if ((test_neighbor_position_relation(
                         ((R06_8017140C_S_8017140C_2 *)sprite)->unk_24.at00.v, ((R06_8017140C_S_8017140C_2 *)sprite)->unk_24.at01.v,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     ((R06_8017140C_S_8017140C_1 *)creature)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R06_8017140C_S_8017140C_2 *)sprite)->unk_24.at00.v),(s16)(((R06_8017140C_S_8017140C_2 *)sprite)->unk_24.at01.v),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y),

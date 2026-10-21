@@ -97,5 +97,5 @@ extern u8 D_80175188[];
 
 /* Allocate and initialize an object and its child entries. */
 
-void *func_801708DC(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
+void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy_value);
 #endif

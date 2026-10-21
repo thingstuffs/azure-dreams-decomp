@@ -73,7 +73,7 @@ extern void func_80021120();
 extern u8 D_80022FD8[];
 extern void func_80023DA0();
 extern void set_resident_bit();
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern void func_8003E188();
 extern u8 *allocate_list_node();
 extern void register_node();
@@ -182,7 +182,7 @@ s32 initialize_keima_interface(void) {
         sprite_handler = D_80023158;
         sprite = (u8 *)0x1000;
         do {
-            obj = (u8 *)func_8003FC64(0x136);
+            obj = (u8 *)allocate_flagged_object_node(0x136);
             if (obj != 0) {
                 register_node(obj, D_80046398);
                 grid_sprite = AT(u8 *, obj, 0xC);
@@ -203,7 +203,7 @@ s32 initialize_keima_interface(void) {
 
     index = 3;
     do {
-        obj = (u8 *)func_8003FC64(0x136);
+        obj = (u8 *)allocate_flagged_object_node(0x136);
         if (obj != 0) {
             register_node(obj, project_sprite_chain);
             sprite = AT(u8 *, obj, 0xC);
@@ -211,7 +211,7 @@ s32 initialize_keima_interface(void) {
             AT(s16, sprite, 0x1E) = 0x1000;
             AT(s16, sprite, 0x1C) = 0x1000;
             AT(s32, sprite, 0xC) = 0x808080;
-            func_8003DB94(sprite, (void *)sprite_images.v[index], 0);
+            select_record_entry_and_value(sprite, (void *)sprite_images.v[index], 0);
             AT(u16, sprite, 0x12) = 0xFFC0;
             AT(s32, AT(u8 *, obj, 8), 0) = ((index >> 2) << 22) + 0x0FD00000;
             AT(s32, AT(u8 *, obj, 8), 4) = ((index % 4) << 22) + 0x04100000;
@@ -242,7 +242,7 @@ s32 initialize_keima_interface(void) {
                 sprite_state = &reference_tile_object;
                 AT(s32, sprite, 0x28) = AT(s32, sprite_state, 0x28);
                 AT(s16, child_data, 0x2A) = 0x800;
-                func_8003DB94(sprite, D_800F15E4, 0);
+                select_record_entry_and_value(sprite, D_800F15E4, 0);
                 AT(s32, sprite, 0xC) = 0x808080;
                 AT(s16, sprite, 0x12) = (index + 1) * 4;
                 AT(void *, obj, 0x20) = owner;
@@ -266,7 +266,7 @@ s32 initialize_keima_interface(void) {
         AT(s16, sprite, 0x1C) = 0x1000;
         AT(s32, sprite, 0x28) = reference_tile_object.render_attributes;
         AT(s16, child_data, 0x2A) = 0x800;
-        func_8003DB94(sprite, D_800F15E4, 0);
+        select_record_entry_and_value(sprite, D_800F15E4, 0);
         AT(s32, sprite, 0xC) = 0x808080;
         AT(void *, obj, 0x20) = owner;
     }

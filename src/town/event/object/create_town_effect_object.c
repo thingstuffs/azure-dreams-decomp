@@ -36,7 +36,7 @@ void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_val
         object = (void *)allocate_list_node(0x116, parent);
         state = object + 0x20;
     } else {
-        object = func_8003FC64(0x116);
+        object = allocate_flagged_object_node(0x116);
         state = object + 0x20;
     }
     if (object == NULL) {

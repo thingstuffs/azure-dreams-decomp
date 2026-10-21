@@ -12,9 +12,9 @@ extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
-extern void func_80099290();
+extern void clear_byte_and_advance();
 extern void display_text_with_fullwidth_adjustment();
-extern void apply_item_effect_at_entity_position();
+extern void place_actor_item();
 extern void display_actor_item_status_message();
 extern s32 feed_actor_restore_mp();
 extern void create_view_color_flash();
@@ -47,7 +47,7 @@ s32 make_floor_traps_invisible(EntityRec *entity, s32 event, s16 event_type, s32
                 entity,
                 entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3,
                 event) == 0) {
-            apply_item_effect_at_entity_position(entity, event);
+            place_actor_item(entity, event);
             return 1;
         }
     } else {
@@ -65,10 +65,10 @@ s32 make_floor_traps_invisible(EntityRec *entity, s32 event, s16 event_type, s32
                 }
             }
 
-            func_80099290(message_arg);
+            clear_byte_and_advance(message_arg);
         } else {
             message_end = expand_text_control_codes(D_800E1567, message_buf);
-            func_80099290(message_end);
+            clear_byte_and_advance(message_end);
         }
         display_text_with_fullwidth_adjustment(message_buf);
     }

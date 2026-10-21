@@ -18,8 +18,8 @@ typedef struct S_818BD0C0_1 {
     u16 unk_14;
 } S_818BD0C0_1;   /* p in update_triple_flash_effect */
 
-extern void func_8003DB94();
-extern void func_800478B8();
+extern void select_record_entry_and_value();
+extern void advance_sprite_animation_and_textures();
 extern u8 D_80025E04[];
 
 /* Update state counters and cycle the primitive color for up to three flagged updates. */
@@ -31,7 +31,7 @@ void update_triple_flash_effect(void *state, s32 unused, SpriteFrameState *primi
     shared_state = ((S_818BD0C0_0 *)state)->unk_00;
     shared_state->unk_14++;
     ((S_818BD0C0_0 *)state)->unk_06++;
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
 
     if (primitive->flags & 0x6000) {
         cycle_count = ((S_818BD0C0_0 *)state)->unk_04 + 1;
@@ -42,7 +42,7 @@ void update_triple_flash_effect(void *state, s32 unused, SpriteFrameState *primi
             return;
         }
 
-        func_8003DB94(primitive, D_80025E04, 0);
+        select_record_entry_and_value(primitive, D_80025E04, 0);
         if (primitive->color.c.r != 0) {
             primitive->color.c.r = 0;
             primitive->color.c.g = 0x80;

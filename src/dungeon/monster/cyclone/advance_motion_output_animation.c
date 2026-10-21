@@ -23,7 +23,7 @@ typedef struct {
 
 extern s32 func_800644B8(u32);
 extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void select_sprite_entry(void *, s32, s32);
 
 /* Advances motion and output animation, then signals completion after a short delay. */
@@ -58,7 +58,7 @@ void advance_motion_output_animation(FuncState *motion, void *position, FuncOutp
     }
     object = (void *)((s8 *)motion - 0x20);
     select_nearby_target_and_initialize_slot(object, position, 8, 0x300);
-    func_800478B8(output);
+    advance_sprite_animation_and_textures(output);
     if (output->flags & 0x6000) {
         select_sprite_entry(output, 0x47, 0);
     }

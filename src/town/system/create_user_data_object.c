@@ -28,7 +28,7 @@ void create_user_data_object(s32 user_data) {
     S_80956DA0_1 *instance_data;
     s32 color;
 
-    object = func_8003FC64(0x15);
+    object = allocate_flagged_object_node(0x15);
     if (object != NULL) {
         ((S_80956DA0_0 *)object)->unk_10 = &D_80023E64;
         color = 0x800000;

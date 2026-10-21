@@ -40,7 +40,7 @@ void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position
     position->unk_08 =
         (s32)(current_z + (delta / 5));
 
-    func_800478B8(visual);
+    advance_sprite_animation_and_textures(visual);
     if (visual->unk_14 & 0x6000) {
         visual->unk_04 = 0;
         visual->unk_05 = 0;

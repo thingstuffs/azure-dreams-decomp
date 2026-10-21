@@ -15,9 +15,9 @@ typedef union {
 } DivProduct;
 
 
-extern void func_800353F4();
+extern void enqueue_runtime_pool_script();
 extern void select_indirect_table_entry();
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
@@ -115,7 +115,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
 
     if (((S_8017112C_0 *)actor)->unk_BB == 0 && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
         ((S_8017112C_0 *)actor)->unk_BB = 1;
-        func_800353F4(D_80173FC8);
+        enqueue_runtime_pool_script(D_80173FC8);
         ((S_8017112C_0 *)actor)->unk_6D.n = 0;
         ((S_8017112C_0 *)actor)->unk_9B = 0;
     }
@@ -184,7 +184,7 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
 
     if (!(((S_8017112C_0 *)actor)->unk_1C & 0x20)) {
         if (!(((S_8017112C_5 *)monster_arg)->unk_14 & 0x40)) {
-            func_800478B8(monster_arg);
+            advance_sprite_animation_and_textures(monster_arg);
         }
     } else {
         ((S_8017112C_5 *)monster_arg)->unk_14 |= 0x7000;

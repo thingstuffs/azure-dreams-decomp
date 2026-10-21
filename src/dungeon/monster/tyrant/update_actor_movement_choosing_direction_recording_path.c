@@ -22,7 +22,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     if ((state_flags & 0x4000) || S8_AT(actor, 0x71) >= 0) {
         if (U8_AT(actor, 0x12) >= 2 ||
             (check_action_eligibility_updates_actor_state_directional_animation_success(move_work, entry_context, position, actor) << 16) == 0) {
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             return;
         }
         if (PTR_AT(state, 0xC) == actor) {
@@ -60,7 +60,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                 }
             }
         } else {
-            if (place_actor_at_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+            if (probe_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
                               S16_AT(actor, 0x2A)) != 0) {
                 U8_AT(actor, 0x71) &= 0x7F;
                 return;
@@ -108,7 +108,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
             {
                 u8 *target = (u8 *)&reference_tile_position_alias - 0x24;
 
-                if ((compare_monster_neighbor_values(
+                if ((test_neighbor_position_relation(
                          U8_AT(position, 0x24), U8_AT(position, 0x25),
                          U8_AT(target, 0x24), U8_AT(target, 0x25)) << 16) != 0) {
                     limit_turn = 1;
@@ -146,7 +146,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                     U8_AT(actor, 0x71) &= 0x7F;
                     return;
                 } else {
-                    if (place_actor_at_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+                    if (probe_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
                                       S16_AT(actor, 0x2A)) != 0) {
                         if ((check_diagonal_side_height(
                                  ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
@@ -165,7 +165,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                         U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
                             U8_AT(position, 0x24), U8_AT(position, 0x25),
                             U8_AT(goal, 0x24), U8_AT(goal, 0x25), angle_work);
-                        if ((compare_monster_neighbor_values(
+                        if ((test_neighbor_position_relation(
                                  U8_AT(position, 0x24), U8_AT(position, 0x25),
                                  U8_AT(goal, 0x24), U8_AT(goal, 0x25)) << 16) != 0) {
                             if ((check_diagonal_side_height(
@@ -241,7 +241,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     if (step_index >= 8) {
         U8_AT(actor, 0x71) &= 0x7F;
         U16_AT(actor, 0x46) &= 0x7FFF;
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         return;
     }
 

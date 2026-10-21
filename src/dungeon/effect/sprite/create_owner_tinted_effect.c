@@ -66,7 +66,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
     S_818BDD8C_1 *state;
     S_818BDD8C_5 *object_data;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = object + 0x20;
         ((S_818BDD8C_0 *)object)->unk_10 = &D_800254E0;

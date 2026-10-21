@@ -19,7 +19,7 @@ void select_sprite_entry();         /* extern */
 typedef struct Ent Ent;
 Ent *prepare_directional_attack(); /* extern */
 s32 get_actor_height_difference();                     /* extern */
-s32 place_actor_at_directional_neighbor();             /* extern */
+s32 probe_directional_neighbor();             /* extern */
 s32 try_claim_dungeon_action_slot();                          /* extern */
 s32 check_entity_interaction_compatibility();                     /* extern */
 s32 apply_camera_offset_and_select_target(); /* extern */
@@ -36,7 +36,7 @@ s32 check_movement_and_initialize_action(void *action_state, void *action_ctx, v
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    move_heading = place_actor_at_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+    move_heading = probe_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
         actor->facing);
     if ((check_entity_interaction_compatibility(actor, move_heading) << 0x10) == 0) {
         return 0;

@@ -28,7 +28,7 @@ typedef struct S_80171040_1 {
     s32 unk_B0;
 } S_80171040_1;   /* arg0 in update_damped_height_effect */
 
-extern void func_800478B8(void *entity);
+extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
@@ -75,7 +75,7 @@ void update_damped_height_effect(void *state, void *position, void *object)
     }
 
     ((S_80171040_1 *)state)->unk_9E++;
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     ticks_left = ((S_80171040_1 *)state)->unk_96 - 1;
     ((S_80171040_1 *)state)->unk_96 = ticks_left;
     if ((s16)ticks_left <= 0) {

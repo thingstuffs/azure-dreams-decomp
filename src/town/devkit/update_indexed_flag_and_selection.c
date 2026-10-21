@@ -19,7 +19,7 @@ typedef struct S_808B2B98_0 {
     u8 unk_0E;
 } S_808B2B98_0;   /* record in func_808B2B98 */
 
-s32 func_808B2B98(s32 initial_index, s32 input1, s32 input2, s32 input3) {
+s32 update_flagged_selection_index(s32 initial_index, s32 input1, s32 input2, s32 input3) {
     s32 value;
     s32 offset;
     s32 index;

@@ -67,7 +67,7 @@ typedef struct S_80D65C5C_6 {
 
 extern s32 rand(void);
 extern void register_node(void *, void *);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 
 extern s32 effect_sprite_sources;
 extern s16 actor_direction_step_pairs[];
@@ -80,7 +80,7 @@ void spawn_baloon_directional_puff(S_80D65C5C_1 *source, s32 angle)
     S_80D65C5C_2 *sprite;
     s16 *direction_step;
 
-    node = func_8003FC64(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         ((S_80D65C5C_0 *)node)->unk_10 = D_80165384;
 
@@ -127,7 +127,7 @@ void spawn_baloon_directional_puff(S_80D65C5C_1 *source, s32 angle)
             part->unk_0C = 0x80;
             part->unk_14 |= 0x100;
             part->unk_12 = 0x7DCF;
-            func_8003DB94(part, &effect_sprite_sources, 0);
+            select_record_entry_and_value(part, &effect_sprite_sources, 0);
         }
     }
 }

@@ -59,7 +59,7 @@ typedef struct {
 
 extern s32 register_node();
 extern s32 rand();
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 
 extern s32 D_800ABB20;
 extern s32 D_800D1464;
@@ -79,7 +79,7 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
     source = source_data;
     angle >>= 9;
     direction = angle & 7;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         motion = effect->unk8;
         sprite = effect->unkC;
@@ -101,7 +101,7 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
             0 - (source->unk_10 *
                  ((rand() & 1) + 2));
         motion->unk_14 = (~rand() & 1) << 0xF;
-        func_8003DB94(sprite, &D_800D1464, 0);
+        select_record_entry_and_value(sprite, &D_800D1464, 0);
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;

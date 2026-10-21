@@ -36,7 +36,7 @@ typedef struct ParentState800517CC {
     void *child10;
 } ParentState800517CC;
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 rsin(s32);
 extern s32 rcos(s32);
 extern s32 rand(void);

@@ -12,14 +12,14 @@ extern s32 process_record_and_update_linked_state(u8 *, s32);
 extern s32 clear_slot_and_update_linked_state();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
-extern s32 func_80099290();
+extern s32 clear_byte_and_advance();
 extern s32 append_typed_formatted_value();
 extern s32 apply_type_based_entry_adjustments();
 extern s32 display_formatted_context_message();
 extern s32 copy_fullwidth_vowel_bytes();
 extern s32 append_value_seven_suffix();
 extern s32 display_text_with_fullwidth_adjustment();
-extern s32 apply_item_effect_at_entity_position();
+extern s32 place_actor_item();
 extern s32 display_actor_item_status_message();
 extern s32 feed_actor_restore_mp();
 
@@ -59,7 +59,7 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
     if (target_addr <= 0x9FFFFFFF) {
         display_actor_item_status_message(target_addr, item, effect_type);
         if (feed_actor_restore_mp(target_addr, entity_action_selectors[*(u8 *)(target_addr + 0x13)] & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(target_addr, item);
+            place_actor_item(target_addr, item);
             return 1;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -101,12 +101,12 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
                 message_end = text_cursor;
                 text_cursor = next_cursor;
                 copy_fullwidth_vowel_bytes(text_target, message_end);
-                func_80099290(expand_text_control_codes(D_80089370, text_cursor));
+                clear_byte_and_advance(expand_text_control_codes(D_80089370, text_cursor));
             } else {
                 text_start = get_unused_text_buffer();
 
                 text_end = append_typed_formatted_value(linked_item, text_start);
-                func_80099290(expand_text_control_codes(D_800E11AB, text_end));
+                clear_byte_and_advance(expand_text_control_codes(D_800E11AB, text_end));
             }
         }
         display_text_with_fullwidth_adjustment(text_start);

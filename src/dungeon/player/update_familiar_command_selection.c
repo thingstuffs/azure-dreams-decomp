@@ -129,7 +129,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                         != 0) {
                         display_formatted_context_message(&D_800E2004);
                     } else {
-                        func_8004E130();
+                        enqueue_script_message_command();
                     }
                     (*(s32 *)((u8 *)state + 0xC8)) = 0;
                     begin_familiar_deployment_change(state, context_a, context_b, action_id, (s32) action_arg);
@@ -153,7 +153,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                         ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;
-                        func_8004E130();
+                        enqueue_script_message_command();
                         return;
                     }
                     if (((s32)dungeon_state->pressed_buttons) & 0x20) {
@@ -164,7 +164,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                         ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;
-                        func_8004E130();
+                        enqueue_script_message_command();
                         return;
                     }
                     if (((s32)dungeon_state->pressed_buttons) & 0x40) {
@@ -177,7 +177,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                         ((Rec_D_80082EB0 *)selected_item_record_alias)->unk_00.as_s32 = 0;
                         (*(s32 *)((u8 *)state + 0xC8)) = 0;
                         (*(void **)((u8 *)state + 0x104)) = NULL;
-                        func_8004E130();
+                        enqueue_script_message_command();
                         return;
                     }
                 }
@@ -220,7 +220,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
                     play_sound_if_enabled(0x503);
                 }
                 (*(void **)((u8 *)state + 0x104)) = NULL;
-                func_8004E130();
+                enqueue_script_message_command();
                 dungeon_floor_flags &= ~0x2000;
                 {
                     void *callback;
@@ -238,7 +238,7 @@ void update_familiar_command_selection(void *state, s32 context_a, void *context
         return;
     case 2:
         (*(s32 *)((u8 *)state + 0xC8)) = 0;
-        func_8004E130();
+        enqueue_script_message_command();
         dungeon_floor_flags &= ~0x2000;
         {
             void *callback;

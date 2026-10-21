@@ -11,7 +11,7 @@ typedef s32 M2C_UNK;
 #endif
 
 
-extern M2C_UNK func_8003DB94();
+extern M2C_UNK select_record_entry_and_value();
 extern s32 register_node();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -72,7 +72,7 @@ s32 create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s
     S_8185CE28_1 *state;
     void *effect;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         phase_step = effect_index * 3;
         ((S_8185CE28_0 *)effect)->unk_20 = effect_param;
@@ -91,7 +91,7 @@ s32 create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s
         component->unk_0E = 0x80;
         component->unk_0D = 0x80;
         component->unk_0C = 0x80;
-        func_8003DB94(component, D_800DEAE0, 0);
+        select_record_entry_and_value(component, D_800DEAE0, 0);
         component->unk_1E = 0x1800;
         component->unk_1C = 0x1800;
         component->unk_12 = 0x7E0B;

@@ -11,15 +11,15 @@ extern void cycle_map_cell_flags();
 extern void update_map_cell_flags_with_item_limit();
 extern s32 check_diagonal_side_height();
 extern s32 check_movement_clearance_and_height();
-extern s32 compare_monster_neighbor_values();
+extern s32 test_neighbor_position_relation();
 extern s16 get_actor_height_difference();
 extern void *find_valid_monster_neighbor();
-extern void *place_actor_at_directional_neighbor();
+extern void *probe_directional_neighbor();
 extern u16 get_rounded_facing_and_rounding_flag();
 extern void rebuild_monster_reachable_tiles();
 extern void update_actor_proximity_flag();
 extern s32 generate_random_value();
-extern void update_actor_status_and_food();
+extern void update_actor_status_and_mp();
 extern s16 sample_terrain_surface_height();
 extern s32 check_movement_and_initialize_action();
 extern s16 actor_turn_angle_offsets[8];
@@ -40,7 +40,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
     limit_turn = 0;
     if ((state_flags & 0x4000) || (*(s8 *)(actor + 0x71)) >= 0) {
         if ((*(u8 *)(actor + 0x12)) >= 2 || (check_movement_and_initialize_action(object, entry_context, tile, actor) << 16) == 0) {
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
 
             return;
         }
@@ -82,7 +82,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
             }
         }
         else {
-            if (place_actor_at_directional_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor + 0x2A)) != 0) {
+            if (probe_directional_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor + 0x2A)) != 0) {
                 *(u8 *)(actor + 0x71) &= 0x7F;
                 return;
             }
@@ -121,7 +121,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
                 }
                 {
                     u8 *check_goal = ((u8 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))) - 0x24;
-                    if ((compare_monster_neighbor_values(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(check_goal + 0x24),
+                    if ((test_neighbor_position_relation(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(check_goal + 0x24),
                         *(u8 *)(check_goal + 0x25)) << 16) != 0) {
                         limit_turn = 1;
                     }
@@ -137,7 +137,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
             }
             else {
                 if (!((*(u16 *)(actor + 0x46)) & 0x8000)) {
-                    target_record = place_actor_at_directional_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor
+                    target_record = probe_directional_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor
                         + 0x2A));
                     if (target_record != 0) {
                         if ((*((s32 *) (((u8 *) target_record) + 0x1C))) & 0x2000) {
@@ -158,7 +158,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
                     u8 *angle_flags = object + 0x98;
                     *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25),
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_flags);
-                    if ((compare_monster_neighbor_values(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y)
+                    if ((test_neighbor_position_relation(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y)
                          << 16) != 0) {
                         if (get_actor_height_difference(primary_actor_record, actor) < 0x81) {
                             if ((check_diagonal_side_height(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24),
@@ -223,7 +223,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
         if (turn_index >= 8) {
             *(u8 *)(actor + 0x71) &= 0x7F;
             *(u16 *)(actor + 0x46) &= 0x7FFF;
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             return;
         }
 

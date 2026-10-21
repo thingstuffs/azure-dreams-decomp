@@ -222,7 +222,7 @@ void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 co
     u8 *object;
     u8 *state;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     state = object + 0x20;
     if (object != 0) {
         if (get_and_position_object_handle(state) != 0) {
@@ -231,7 +231,7 @@ void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 co
             initialize_embedded_object_state(state, parent_object, type_code, config_value);
             register_node(object, draw_tinted_node_sprites_scratch);
         } else {
-            func_8004B1A4(*(s32 *)(state + 0x74));
+            flag_object_for_removal(*(s32 *)(state + 0x74));
             *(u16 *)(object + 0x1E) |= 0x8000;
             object = 0;
             object_flag_block.flags |= 0x8000;
@@ -245,7 +245,7 @@ void release_object_handle(ovl_1831370_81811B44_S_80026B44_0 *owner) {
 
     handle = *owner->unk_0C;
     if (handle != 0) {
-        func_8004E99C(handle);
+        flag_optional_object_for_removal(handle);
         *owner->unk_0C = 0;
     }
 }
@@ -257,7 +257,7 @@ void cleanup_object_resources(ovl_1831370_81811B94_CleanupObject *object)
     if (object != 0) {
         cleanup = &object->cleanup;
         release_object_handle(cleanup->field_70);
-        func_8004B1A4(cleanup->field_74);
+        flag_object_for_removal(cleanup->field_74);
         object->flags |= 0x8000;
         D_800814A0 |= 0x8000;
     }

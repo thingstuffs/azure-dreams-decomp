@@ -64,7 +64,7 @@ typedef struct S_81257000_6 {
 } S_81257000_6;   /* callee_part in copy_part_state */
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
 
 
@@ -158,7 +158,7 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
         }
     }
 
-    func_800478B8(dst_part);
+    advance_sprite_animation_and_textures(dst_part);
     if (owner->unk_1E & 0x8000) {
         ((S_81257000_0_pre *)root)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= 0x8000;

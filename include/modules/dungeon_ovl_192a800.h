@@ -10,7 +10,7 @@ typedef struct { u32 word[3]; } __attribute__((packed)) Packed12;
 extern const Rect D_80024038, D_80024040;
 extern const CoordTable D_80024064;
 extern s16 D_80025630;
-void func_800240AC(void *,s32,void *);
+void try_lower_actor_level(void *,s32,void *);
 struct PointRecord; struct EntityRec; struct ObjectPosition;
 s32 func_80024154(struct PointRecord *,struct ObjectPosition *);
 struct EffectRecord; struct EntityRec;

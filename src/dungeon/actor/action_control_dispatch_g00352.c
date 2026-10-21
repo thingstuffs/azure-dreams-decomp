@@ -11,7 +11,7 @@ void invoke_action_21_or_default(void) {
         if (state_flags[0x824] == 0 && current_dungeon_floor == 0x28 &&
             test_resident_bit(0xa2) == 0 && state_flags[0x823] == 0) {
             state_flags[0x823] = 1;
-            func_80040AA0(0x21);
+            request_scene_dispatch_state(0x21);
             ((u8 *)&D_800DCF4E)[0] = 0;
             return;
         }
@@ -26,7 +26,7 @@ void trigger_action_21_or_update_control(void) {
         if (save->active == 0 && current_dungeon_floor == 0x28 &&
             test_resident_bit(0xA2) == 0 && save->pending == 0) {
             save->pending = 1;
-            func_80040AA0(0x21);
+            request_scene_dispatch_state(0x21);
             D_800DCF4E = 0;
             return;
         }

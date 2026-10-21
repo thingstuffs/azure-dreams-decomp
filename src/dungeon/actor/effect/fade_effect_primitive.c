@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
-void func_800478B8(void *entity);                      /* extern */
+void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 typedef struct S_800CB374_0_pre {
     u16 unk_00;
 } S_800CB374_0_pre;   /* the 0x2 bytes before arg0 in fade_effect_primitive, addressed as arg0[-1] */
@@ -50,7 +50,7 @@ void fade_effect_primitive(void *effect, void *unused, S_800CB374_1 *primitive) 
     u8 blue;
     S_800CB374_2 *source_primitive;
 
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     if (((S_800CB374_0 *)effect)->unk_B4 != 0) {
         primitive->unk_0C.at00.v = (u8) (primitive->unk_0C.at00.v
             - ((s32) primitive->unk_0C.at00.v / (s16) ((S_800CB374_0 *)effect)->unk_96));

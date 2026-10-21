@@ -9,7 +9,7 @@ void *create_item_menu_display_controller(s32 owner, s32 display_config, s32 x, 
     S_800B05DC_0 *state;
     void *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != NULL) {
         state = object + 0x20;
         state->unk_08 = owner;

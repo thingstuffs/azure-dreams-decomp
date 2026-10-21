@@ -8,7 +8,7 @@
 
 void *allocate_list_node();
 extern s32 register_node();
-s32 decode_note_text();
+s32 decode_fullwidth_text();
 s32 build_positioned_text_glyphs();
 extern char * func_8004E5A0(int value, unsigned short width, char *buf);
 s32 func_80069E98();
@@ -99,7 +99,7 @@ void *create_panel_effect_object(void *owner)
             text_id = *((u16 *) (((s8 *) entity) + 0x46));
             color_ptr = (s32 *)((u8 *)panel + 0x64);
             if (text_id & 0x8000) {
-                *((s32 *) (((s8 *) panel) + 0x7C)) = decode_note_text(prim, D_800DEFF8[text_id & 0x3FFF] + 1, 0);
+                *((s32 *) (((s8 *) panel) + 0x7C)) = decode_fullwidth_text(prim, D_800DEFF8[text_id & 0x3FFF] + 1, 0);
                 text_addr = D_800DEFF8[(*((u16 *) (((s8 *) entity) + 0x46))) & 0x3FFF];
                 prim_index = 4;
                 text_width = func_80069E98(text_addr + 1);
@@ -107,7 +107,7 @@ void *create_panel_effect_object(void *owner)
             }
             else {
                 s32 *text_table = D_800DEFF8;
-                *((s32 *) (((s8 *) panel) + 0x7C)) = decode_note_text(prim, text_table[4] + 1, 0);
+                *((s32 *) (((s8 *) panel) + 0x7C)) = decode_fullwidth_text(prim, text_table[4] + 1, 0);
                 text_addr_2 = text_table[4];
                 prim_index = 4;
                 text_width = func_80069E98(text_addr_2 + 1);
@@ -160,14 +160,14 @@ void *create_panel_effect_object(void *owner)
 }
 #include "common.h"
 
-extern ObjectNodeHeader * func_8003FC64();
+extern ObjectNodeHeader * allocate_flagged_object_node();
 
 /* Add 0x20 to a nonzero result from func_8003FC64(0), preserving zero. */
 s32 allocate_panel_offset_or_zero(void) {
     s32 value;
     s32 adjusted_value;
 
-    value = func_8003FC64(0);
+    value = allocate_flagged_object_node(0);
     adjusted_value = 0;
     if (value != 0) {
         adjusted_value = value + 0x20;
@@ -832,7 +832,7 @@ typedef struct S_800B1B10_7 {
 
 extern void * allocate_list_node();
 extern s32 register_node();
-s32 decode_note_text();
+s32 decode_fullwidth_text();
 s32 func_80069E98();
 s32 get_unused_text_buffer();
 s8 *append_typed_formatted_value();
@@ -913,7 +913,7 @@ void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s
             }
             value_4 = get_unused_text_buffer();
             *append_typed_formatted_value(owner_held, value_4) = 0;
-            value_5 = decode_note_text((void *) b_held, value_4, 0);
+            value_5 = decode_fullwidth_text((void *) b_held, value_4, 0);
             {
                 s32 mask_v1;
                 mask_v1 = 0x7FFFFFFF;
@@ -1033,7 +1033,7 @@ typedef struct S_800B1F00_0 {
 void create_entity_panel_object(void) {
     S_800B1F00_0 *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != 0) {
         object->unk_10 = advance_cyclic_panel_entry;
     }
@@ -1166,7 +1166,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
     pos_x = world_x;
     pos_z = world_z;
     tile_addr = g_game_work.map.cells;
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         init_object = object;
         {
@@ -1199,7 +1199,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
 }
 #include "common.h"
 
-extern void func_800478B8(s32);
+extern void advance_sprite_animation_and_textures(s32);
 extern struct { s32 unk0; s32 pad[2]; } D_800814A0;
 
 /* Advances the accumulator and decrements the counter, setting flags on underflow. */
@@ -1207,7 +1207,7 @@ void advance_panel_accumulator(void *counter_state, void *accumulator, s32 updat
     s16 remaining;
 
     *((s32 *) accumulator + 2) = *((s32 *) accumulator + 2) + 0x8000;
-    func_800478B8(update_arg);
+    advance_sprite_animation_and_textures(update_arg);
     remaining = *(u16 *) ((u8 *) counter_state + 6) - 1;
     *(u16 *) ((u8 *) counter_state + 6) = remaining;
     if (remaining < 0) {
@@ -1241,7 +1241,7 @@ typedef struct {
 } Object;
 
 extern s32 register_node();
-extern void func_8003DB94(RenderPart *part, void *data, s32 index);
+extern void select_record_entry_and_value(RenderPart *part, void *data, s32 index);
 
 extern void advance_panel_accumulator(void *counter_state, void *accumulator, s32 update_arg);
 extern u8 D_800DEC70[16];
@@ -1252,7 +1252,7 @@ void create_rendered_panel_object(CopyBlock *source)
     Object *object;
     SpriteFrameState *part;
 
-    object = (Object *)func_8003FC64(0x212);
+    object = (Object *)allocate_flagged_object_node(0x212);
     if (object != 0) {
         object->callback = advance_panel_accumulator;
         register_node(object, project_sprite_chain);
@@ -1262,7 +1262,7 @@ void create_rendered_panel_object(CopyBlock *source)
         part->color.word = 0x00808080;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
-        func_8003DB94(part, D_800DEC70, 0);
+        select_record_entry_and_value(part, D_800DEC70, 0);
         object->kind = 0x20;
     }
 }

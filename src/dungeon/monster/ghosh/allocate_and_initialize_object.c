@@ -39,7 +39,7 @@ void allocate_and_initialize_object(void) {
     S_8016AC30_0 *position;
     S_8016AC30_1 *primitive;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         (*(void * *)((u8 *)object + 0x10)) = D_8016A9FC;
         register_node(object, D_80044BB0);

@@ -2,12 +2,12 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
 
-void func_80024048(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status) {
+void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status) {
     s32 y_step_scaled;
     Row_8191C848_S_8191C848_1 *counter_state;
     counter_state = ((Row_8191C848_S_8191C848_0 *)motion)->unk_00;
     counter_state->unk_14 = (u16) (counter_state->unk_14 + 1);
-    func_800478B8(status);
+    advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 = (u16) (((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
@@ -30,7 +30,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
     void *result;
     register u16 word_override;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = object + 0x20;
         ((Row_8191C938_S_8191C938_0 *)object)->unk_10 = D_80024048;
@@ -48,7 +48,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
         render_data->flags |= 0xC;
         render_data->tpage_abr |= 0x20;
         render_data->flags |= 0x100;
-        func_8003DB94(render_data, D_800DED70, 0);
+        select_record_entry_and_value(render_data, D_800DED70, 0);
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
@@ -158,7 +158,7 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
     Row_8191CBCC_S_8191CBCC_1 *state;
     void *object;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = object + 0x20;
         ((Row_8191CBCC_S_8191CBCC_0 *)object)->unk_10 = &D_80024288;
@@ -478,7 +478,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         break;
 
     case 4:
-        if (func_80053EF0(4) == 1) {
+        if (read_sound_mode_blocking_status(4) == 1) {
             effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
             effect->unk_10.u16 = 0;
             break;
@@ -526,7 +526,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
                 max_height = effect->unk_16.u16;
                 target_pos->unk_08.parts_0A.unk_0A.u16 =
                     (u16)(max_height - height_entry->unk_00);
-                func_800419EC(delta_x, effect_size);
+                initialize_timed_motion_step(delta_x, effect_size);
                 index = 0;
                 do {
                     create_randomized_source_effect(effect);
@@ -610,7 +610,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         break;
 
     case 13:
-        if (func_80053EF0(4) != 1) {
+        if (read_sound_mode_blocking_status(4) != 1) {
             break;
         }
         effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);

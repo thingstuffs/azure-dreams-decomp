@@ -69,7 +69,7 @@ typedef struct S_8016FC4C_8 {
 
 
 void select_indirect_table_entry();
-void func_800478B8();
+void advance_sprite_animation_and_textures();
 s32 func_80069EF8();
 u16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 play_sound_if_enabled();
@@ -266,6 +266,6 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
             select_indirect_table_entry(object, *(object->unk_2C + sprite_direction), object->unk_04);
             ((S_8016FC4C_3 *)effect)->unk_94 = direction;
         }
-        func_800478B8(object);
+        advance_sprite_animation_and_textures(object);
     }
 }

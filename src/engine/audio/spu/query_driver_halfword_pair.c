@@ -22,7 +22,7 @@ s32 query_driver_halfword_pair(s16 entry_index, s16 *out_first_value, s16 *out_s
 
     request.field4 = 0;
     request.field0 = audio_voice_masks[entry_index];
-    func_8005FA34(&request);
+    read_spu_voice_attributes(&request);
     *out_first_value = request.field8;
     *out_second_value = request.fieldA;
     return 0;

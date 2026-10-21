@@ -2,11 +2,11 @@
 #include "common.h"
 
 void dev_report_kind_mode_sno();                     /* extern */
-void shop_dispatch_entry_value();                     /* extern */
-s32 shop_find_first_eligible_entry();                                /* extern */
-void shop_process_entry_pairs();                            /* extern */
-s32 shop_check_selected_entry_state();                             /* extern */
-void shop_update_availability_flag();                            /* extern */
+void propagate_indexed_flag_pair();                     /* extern */
+s32 advance_clear_flag_row();                                /* extern */
+void clear_three_flag_pairs();                            /* extern */
+s32 get_selected_flag_state();                             /* extern */
+void update_combined_flag();                            /* extern */
 void func_80702924(s32);                         /* extern */
 void reset_town_display_pick_scene();                    /* extern */
 
@@ -17,17 +17,17 @@ extern s32 D_80701DC4_3[];
 extern s32 D_80701DC8_0[];
 extern s32 D_80701DC8_1[];
 
-/* Run the shop's open sequence and return the resulting handle. */
-s32 shop_run_open_sequence(void) {
+/* Initialize flag-row selection, report diagnostics, and return the stored word. */
+s32 initialize_flag_selection(void) {
     s32 handle;
 
-    shop_dispatch_entry_value(0);
+    propagate_indexed_flag_pair(0);
     dev_report_kind_mode_sno(0);
-    shop_process_entry_pairs();
-    handle = shop_find_first_eligible_entry();
+    clear_three_flag_pairs();
+    handle = advance_clear_flag_row();
     D_80701DC4_0[0] = handle;
-    D_80701DC8_0[0] = shop_check_selected_entry_state(handle);
-    shop_update_availability_flag();
+    D_80701DC8_0[0] = get_selected_flag_state(handle);
+    update_combined_flag();
     dev_report_kind_mode_sno(0);
     reset_town_display_pick_scene(D_80701DC4_1[0], D_80701DC8_1[0]);
     func_80702924(D_80701DC4_2[0]);

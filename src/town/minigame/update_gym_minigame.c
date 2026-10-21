@@ -265,7 +265,7 @@ loop_0:
                 if ((s32)secondary >= 0)
                     goto loop_0;
 
-                obj = func_8003FC64(0x136);
+                obj = allocate_flagged_object_node(0x136);
                 if (obj != NULL) {
 
                     sprite = (u8 *)obj + 0x20;
@@ -330,7 +330,7 @@ loop_0:
             secondary = (u8 *)1;
         }
         if (((s16)timer % (s32)secondary) == 0) {
-            obj = func_8003FC64(0x136);
+            obj = allocate_flagged_object_node(0x136);
 
             if (obj != NULL) {
                 s32 random;
@@ -383,7 +383,7 @@ loop_0:
         ((ObjectPosition *)(((MotionState *)&view_reference_entity)))->x.v =
             current + ((two - current) >> 1);
         if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
-            obj = func_8003FC64(0x136);
+            obj = allocate_flagged_object_node(0x136);
 
             if (obj != NULL) {
                 s32 *position;

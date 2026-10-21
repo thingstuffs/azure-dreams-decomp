@@ -99,6 +99,12 @@ void store_recalled_familiar(s32 slot_table, void *unused_arg1, void *unused_arg
     if (((S_80093E74_5 *)((u8 *)owner_record - 0x14))->unk_30 & 0x2000) {
         effect_mask = 0x300;
     }
+    /*
+     * Original bug: a lifted familiar shares Koh's tile. Recalling it clears that tile's occupancy too; skip this clear
+     * while it is lifted.
+     * Found and documented by the Azure Dreams community
+     * (adrando.com/guide/bugs.html).
+     */
     update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_mask);
     play_sound_if_enabled(0x704);
 }

@@ -55,7 +55,7 @@ void initialize_actor_sprite_and_animation(); /* extern */
 s32 try_move_actor_to_valid_position(); /* extern */
 s32 get_direction_toward_target_position();                          /* extern */
 extern void *D_800FBE1C[];
-void func_80170A4C(void *, void *, void *);
+void update_actor_scripts_and_motion(void *, void *, void *);
 
 /* Creates and initializes an entity at the center of the specified tile. */
 
@@ -323,16 +323,16 @@ typedef struct S_812A524C_40 {
 } S_812A524C_40;   /* ((S_812A524C_5 *)(&D_800FBE54))->unk_00 in func_80170A4C */
 
 
-s32 func_800353F4(); /* extern */
+s32 enqueue_runtime_pool_script(); /* extern */
 void clear_slots_of_type();
 void func_80042B68();                /* extern */
 void select_indirect_table_entry();              /* extern */
-void func_800478B8();                      /* extern */
+void advance_sprite_animation_and_textures();                      /* extern */
 s32 func_800644B8();                             /* extern */
 void apply_monster_koyaw_data();                 /* extern */
 s32 has_pending_actor_or_turn_action();                          /* extern */
 s16 set_or_clear_actor_status_slot();       /* extern */
-void update_actor_status_and_food();                      /* extern */
+void update_actor_status_and_mp();                      /* extern */
 s32 refresh_actor_facing_and_lifecycle();  /* extern */
 s32 sample_terrain_surface_height();                   /* extern */
 void *find_linked_entity_of_type_21();                /* extern */

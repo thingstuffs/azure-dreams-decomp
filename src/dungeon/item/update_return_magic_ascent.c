@@ -69,7 +69,7 @@ extern void set_sprite_animation_frame();
 extern void snapshot_inventory_and_familiars();
 extern void snapshot_inventory_familiar_records();
 extern void draw_transformed_sprite_with_clip_rect();
-extern void func_80041094();
+extern void request_scene_state_with_parameters();
 
 /* Draws randomized vertical streaks and advances the object's motion and fade sequence. */
 void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectState *effect) {
@@ -189,7 +189,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
                 snapshot_inventory_and_familiars(active_dungeon);
                 snapshot_inventory_familiar_records();
                 runtime_dispatch_state.flags16 = 0x8000;
-                func_80041094(6, 0, 0, 0, 0x8000);
+                request_scene_state_with_parameters(6, 0, 0, 0, 0x8000);
                 obj->phase = (u16)obj->phase + 1;
             }
         }

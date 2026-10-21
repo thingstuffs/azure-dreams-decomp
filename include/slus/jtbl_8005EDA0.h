@@ -42,12 +42,12 @@ extern SpuRegs *spu_registers;
 
 /* Apply masked SPU master volume and CD/external input volume, reverb, and mixing settings. */
 
-void func_8005EDA0(SpuCommonAttr *attr);
+void apply_spu_common_attributes(SpuCommonAttr *attr);
 
 extern s32 spu_reverb_enabled;
 extern s32 spu_reverb_range_override;
 extern u32 spu_reverb_start_address;
-s32 func_8005D9DC(u32 value);
+s32 test_spu_blocks_beyond_address(u32 value);
 s32 set_spu_reverb_enabled_if_available(s32 enable);
 
 #endif

@@ -85,7 +85,7 @@ void spawn_owned_motion_object(void)
     owner_object = ghosh_actor_node;
     source_pos = ((S_8016EB14_0 *)owner_object)->unk_08;
     owner_state = (u8 *)owner_object + 0x20;
-    spawned_object = func_8003FC64(0x12);
+    spawned_object = allocate_flagged_object_node(0x12);
     if (spawned_object != 0) {
         ((S_8016EB14_1 *)spawned_object)->unk_10 = &D_8016E528;
         object_state = (u8 *)spawned_object + 0x20;

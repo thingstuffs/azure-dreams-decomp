@@ -12,7 +12,7 @@ extern EntityCallback stealth_callbacks[];
 
 extern void register_node(void *, void *);
 extern void select_indirect_table_entry(void *, u8, s8);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -186,7 +186,7 @@ void update_entity_callbacks_and_floor(void *entity_state, void *entity_motion, 
 
             if (!(((CallbackActorState *)state_alias)->flags & 0x20)) {
                 if (!(((CallbackActorSprite *)entity_part)->flags & 0x40)) {
-                    func_800478B8(entity_part);
+                    advance_sprite_animation_and_textures(entity_part);
                 }
             } else {
                 ((CallbackActorSprite *)entity_part)->flags |= 0x7000;

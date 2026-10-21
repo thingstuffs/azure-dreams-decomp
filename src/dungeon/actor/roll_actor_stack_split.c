@@ -3,7 +3,7 @@
 extern s32 apply_entity_effects(void *);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 func_80099290(s8 *byte_ptr);
+extern s32 clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern s32 play_sound_if_enabled(s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
@@ -82,7 +82,7 @@ s32 roll_actor_stack_split(void *actor, s32 chance)
         }
     }
 
-    func_80099290(text);
+    clear_byte_and_advance(text);
     display_text_with_fullwidth_adjustment(handle);
     play_sound_if_enabled(0x615);
     return 1;

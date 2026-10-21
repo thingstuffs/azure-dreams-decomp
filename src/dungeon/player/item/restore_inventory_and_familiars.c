@@ -26,9 +26,9 @@ extern s16 D_800DCED4[];
 extern u8 D_800E045C[];
 
 extern void restore_actor_stats_from_snapshot(S_80041E28_Dst *dst, S_80041E28_Src *src);
-extern void func_800424E0(void *, s32, void *);
+extern void apply_actor_template_and_class(void *, s32, void *);
 extern void call_script(s32 value);
-extern void func_80042560(CallbackObject *object);
+extern void replay_actor_status_slots(CallbackObject *object);
 extern void func_80042640(void *obj, s16 monsterId);
 extern void update_owner_class_bits(void *entity);
 extern s32 get_entity_class();
@@ -248,7 +248,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                         if (spawned != 0) {
                             func_80042640(spawned,
                                           spawned->unk_13);
-                            func_800424E0(spawned,
+                            apply_actor_template_and_class(spawned,
                                           spawned->unk_13,
                                           slot_ptr);
                             slot_rec->unk_D0 = slot_ptr;
@@ -263,7 +263,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, 
                                 (s32)spawned;
                             update_owner_class_bits(spawned);
                             retain_spawn_resource(*slot_ptr, 3);
-                            func_80042560(spawned);
+                            replay_actor_status_slots(spawned);
                             create_orbiting_teleport_effect(
                                 spawned,
                                 D_800DCED4[(scratch = get_entity_class(spawned))],

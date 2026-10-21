@@ -31,7 +31,7 @@ typedef struct S_800A378C_0 {
     s32 unk_34;
 } S_800A378C_0;
 
-extern void func_8003DB94(void *, s32, s32);
+extern void select_record_entry_and_value(void *, s32, s32);
 extern void register_node(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -39,7 +39,7 @@ extern u8 D_800A378C[];
 extern s16 D_800D0B18[];
 extern s32 D_800D0B50[];
 /* extern */
-void func_800478B8(void *entity);
+void advance_sprite_animation_and_textures(void *entity);
 /* extern */
 extern M2C_UNK D_800A38A8;
 

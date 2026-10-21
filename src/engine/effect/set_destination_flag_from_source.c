@@ -64,7 +64,7 @@ void initialize_shared_sprite_fade_display(void) {
     dst->f0 = 0;
     dst->f4 = 0;
     dst->f5 = 0;
-    func_8003DB94(dst, context->source, 0);
+    select_record_entry_and_value(dst, context->source, 0);
     dst->f14 = 0;
     dst->f10 = 0;
 

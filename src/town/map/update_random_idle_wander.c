@@ -9,9 +9,9 @@ extern int abs(int);
 extern s32 service_script_controller(void);
 extern s32 check_transform_identifier_and_hook(void *);
 extern void SD_Call(s32);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 
 extern void *D_800D210C[];
 extern u8 D_800E9CD4[];
@@ -51,7 +51,7 @@ void update_random_idle_wander(void *actor, void *motion, void *sprite, s32 upda
     } else {
         F_S32(actor, 0xAC) &= -2;
     }
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     timer = F_U16(actor, 0x6C) - 1;
     state = F_S16(actor, 0x68);
     F_U16(actor, 0x6C) = timer;
@@ -167,6 +167,6 @@ void update_random_idle_wander(void *actor, void *motion, void *sprite, s32 upda
         F_U16(sprite, 0x14) |= 1;
     }
     if (anim_script != 0) {
-        func_8003DB94(sprite, anim_script, 0);
+        select_record_entry_and_value(sprite, anim_script, 0);
     }
 }

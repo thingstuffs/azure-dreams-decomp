@@ -60,7 +60,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
     u8 old_x;
     u8 old_y;
 
-    task = func_8003FC64(2);
+    task = allocate_flagged_object_node(2);
     if (task != NULL) {
         object_index = get_entity_class(object);
         create_orbiting_teleport_effect(object, D_800DCED4[object_index], action_arg, 3);

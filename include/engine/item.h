@@ -17,7 +17,7 @@ void create_item_view_for_entry(int target, int record_addr, int entry_value);
 void func_8004B854(int target, int record_addr, int entry_value);
 
 /* decode_item_code.c */
-void *decode_item_code(void *dest, u8 item_code);
+void *decode_glyph_rectangle(void *dest, u8 item_code);
 void *func_8004E21C(void *dest, u8 item_code);
 
 /* delete_items_and_reset_state.c */

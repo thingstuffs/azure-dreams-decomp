@@ -3,11 +3,11 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 extern s32 check_entity_relation();
 extern s32 has_pending_actor_or_turn_action();
 extern void on_actor_status_updated();
-extern void update_actor_status_and_food();
+extern void update_actor_status_and_mp();
 extern void begin_pushed_actor_move();
 extern s32 begin_ready_actor_directional_action();
 extern void begin_actor_move_to_target_facing();
@@ -36,7 +36,7 @@ void advance_actor_action_count(void *controller, s32 context, void *sprite, voi
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         PTR_AT(sprite, 0x2C) = actor_action_frames;
-        func_8003DB94(sprite,
+        select_record_entry_and_value(sprite,
             *(void **)((u8 *)actor_action_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
             0);
@@ -73,13 +73,13 @@ void advance_actor_action_count(void *controller, s32 context, void *sprite, voi
                 return;
             }
         }
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
         if (U8_AT(actor, 0x25) == 0) {
             return;
         }
         PTR_AT(sprite, 0x2C) = actor_action_frames;
-        func_8003DB94(sprite,
+        select_record_entry_and_value(sprite,
             *(void **)((u8 *)actor_action_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 7) & 0x1C)),
             0);

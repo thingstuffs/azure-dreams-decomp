@@ -21,7 +21,7 @@ const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{
 
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *, void *);
 extern s32 try_trigger_target_record_effect(void *, s32);
@@ -55,7 +55,7 @@ extern s32 func_80069EF8(void);
 extern s32 check_adjacent_tile_height_clearance();
 extern s32 func_800644B8();
 extern s32 func_80064584();
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern const s16 D_80024038[8][2];
 extern void *D_80024058[9];
 extern u8 D_800252FC[12];
@@ -80,7 +80,7 @@ void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_p
             message_end = expand_text_control_codes(&D_80024004, message_end);
             message_end = append_entity_display_text(entity, message_end);
             message_end = expand_text_control_codes(&D_80024034, message_end);
-            func_80099290(message_end);
+            clear_byte_and_advance(message_end);
             display_text_with_fullwidth_adjustment(message_start);
         }
     }
@@ -282,7 +282,7 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
     position->unk_00 = (s32) (anim->base0 + (anim->count * func_800644B8((*(u16 *)&D_80025308 = 1,
         first_angle)) * 0x10));
     position->unk_04 = (s32) (anim->base1 + (anim->count * func_80064584(anim->angle) * 0x10));
-    func_800478B8(effect);
+    advance_sprite_animation_and_textures(effect);
     phase = anim->state;
     switch (phase) {
     case 0:
@@ -647,7 +647,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
             U8_AT(effect_data, 0x9C) -= 0x18;
         }
 
-        source = (u8 *)func_8003FC64(0x212);
+        source = (u8 *)allocate_flagged_object_node(0x212);
         if (source != 0) {
             s32 trig;
 
@@ -690,7 +690,7 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                 U8_AT(spawn_display, 0x0E) = 0x14;
                 U8_AT(spawn_display, 0x0D) = 0x14;
                 U8_AT(spawn_display, 0x0C) = 0x14;
-                func_8003DB94(spawn_display, D_800DEAE0, 0);
+                select_record_entry_and_value(spawn_display, D_800DEAE0, 0);
             }
         }
 

@@ -14,7 +14,7 @@ void initialize_panel_content_and_positions(S_800B19F8_0 *panel)
     ((S_800B19F8_7 *)(((S_800B19F8_3 *)(((S_800B19F8_1 *)panel)->unk_4C))->unk_04))->unk_0A = 0xF;
 
     ((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_00 =
-        (s32) decode_note_text(panel->unk_0C, D_800D1560, 0);
+        (s32) decode_fullwidth_text(panel->unk_0C, D_800D1560, 0);
     ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_04))->unk_08 = 0x43;
     ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_04))->unk_0A = 0x88;
 
@@ -80,7 +80,7 @@ void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
     u16 object_flags;
     u32 global_flags;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != 0) {
         part = (u8 *)object + 0x20;
         part->unk_08 = create_callback_pair_default(0xCC);
@@ -95,8 +95,8 @@ void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
             register_node(object, dungeon_menu_tag);
             ((S_800B1BEC_1 *)object)->unk_10 = lower_value_toward_target;
         } else {
-            func_8004B1A4(part->unk_08);
-            func_8004B1A4(part->unk_0C);
+            flag_object_for_removal(part->unk_08);
+            flag_object_for_removal(part->unk_0C);
             object_flags = ((S_800B1BEC_1 *)object)->unk_1E | 0x8000;
             global_flags = ((u32)object_flag_block.flags) | 0x8000;
             ((S_800B1BEC_1 *)object)->unk_1E = object_flags;

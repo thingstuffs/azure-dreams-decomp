@@ -4,7 +4,7 @@
 s16 transition_runtime_slot_index = 0;
 
 /* Refreshes controller input and runs the current entry's handlers, starting a state transition if none signals completion. */
-void func_80041AE4(void)
+void load_scene_dispatch_resources(void)
 {
     unsigned int copied_value;
     struct SlotTransitionState *state;

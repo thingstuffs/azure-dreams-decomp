@@ -491,7 +491,7 @@ extern void * create_item_render_object(s32 parent, s32 sprite_source, s16 x, s3
 extern u8 D_800A77AC[];
 
 /* Create an object at the tile center, initialize its fields, and increment the object count. */
-s32 func_800A794C(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
+s32 create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
                   s32 field_aa, s32 field_ac, s32 field_ae) {
     u8 *object;
     u8 *position;
@@ -555,7 +555,7 @@ extern s32 D_800E0B54;
 
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 func_80099290(s8 *byte_ptr);
+extern s32 clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_typed_formatted_value(s32 *, s32);
 extern void select_position_data_and_update_owner(void *entity, void *search_state);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
@@ -563,7 +563,7 @@ extern s32 find_first_empty_floor_item_slot(void);
 extern s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance);
 struct DungeonDescriptor;
 extern struct DungeonDescriptor * create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data);
-extern s32 func_800A794C(s32, s32, s32, s32 *, s32, s32, s32);
+extern s32 create_tile_centered_item_effect(s32, s32, s32, s32 *, s32, s32, s32);
 extern s32 get_item_category_value(u8 *item);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 
@@ -588,7 +588,7 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
 
         record_index = find_first_empty_floor_item_slot();
         if (record_index >= 0) {
-            if (func_800A794C(x_short, y_short, z_short, object_data,
+            if (create_tile_centered_item_effect(x_short, y_short, z_short, object_data,
                               tile_x, tile_y, tile_value) == 0) {
                 ((s32 *)dungeon_ground_items)[record_index] = *object_data;
                 record = &((DungeonRecord *)dungeon_ground_item_positions)[record_index];
@@ -609,7 +609,7 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
     output_start = output_cursor;
     output_cursor = append_typed_formatted_value(object_data, output_cursor);
     output_cursor = expand_text_control_codes(&D_800E0B54, output_cursor);
-    func_80099290(output_cursor);
+    clear_byte_and_advance(output_cursor);
     display_text_with_fullwidth_adjustment(output_start);
     return 0;
 }
@@ -631,7 +631,7 @@ void create_floor_item_renderer(void) {
     SpriteFrameState *render_data;
     S_800A7C64_0 *object;
 
-    object = func_8003FC64(2);
+    object = allocate_flagged_object_node(2);
     if (object != NULL) {
         render_data = object->unk_0C;
         object->unk_10 = 0;

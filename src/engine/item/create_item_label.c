@@ -16,7 +16,7 @@ extern s32 format_item_name(void *a0, void *a1);
 
 /* func_8004B1A4 (code5.c): sets a "used" flag bit on a 16-bit
  * flags field 2 bytes before the object pointer, plus a global flags word. */
-extern void func_8004B1A4(u16 *a0);
+extern void flag_object_for_removal(u16 *a0);
 
 /* Allocates and initializes a 0x104-byte object, returning NULL on failure. */
 void *create_item_label(void *init_data)
@@ -26,7 +26,7 @@ void *create_item_label(void *init_data)
     object = create_callback_pair_default(0x104);
     if (object != 0) {
         if (format_item_name(object, init_data) == 0) {
-            func_8004B1A4(object);
+            flag_object_for_removal(object);
             object = 0;
         }
     }

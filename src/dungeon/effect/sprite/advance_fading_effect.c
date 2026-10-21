@@ -34,7 +34,7 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
     effect->unk0E = brightness;
     effect->unk0D = brightness;
     effect->unk0C = brightness;
-    func_800478B8(effect);
+    advance_sprite_animation_and_textures(effect);
 
     if (effect->unk14 & 0x6000) {
         if (state->unk04 != 0) {
@@ -42,7 +42,7 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
             object_flag_block.flags |= 0x8000;
             return;
         } else {
-            func_8003DB94(effect, D_800DEDB0, 4);
+            select_record_entry_and_value(effect, D_800DEDB0, 4);
             state->unk04 = 1;
         }
     }
@@ -54,7 +54,7 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
     void *render;
     int white;
     void *obj;
-    obj = func_8003FC64(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         *((s32 *) (((s8 *) obj) + 0x20)) = owner;
         *((s32 **) (((s8 *) obj) + 0x10)) = (void *)advance_fading_effect;
@@ -64,7 +64,7 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
         *((s8 *) (((s8 *) render) + 0xE)) = white;
         *((s8 *) (((s8 *) render) + 0xD)) = white;
         *((s8 *) (((s8 *) render) + 0xC)) = white;
-        func_8003DB94(render, D_800DEDB0, 0);
+        select_record_entry_and_value(render, D_800DEDB0, 0);
         *((s16 *) (((s8 *) render) + 0x1E)) = 0x1000;
         *((s16 *) (((s8 *) render) + 0x1C)) = 0x1000;
         *((s16 *) (((s8 *) render) + 0x12)) = 0x7E0B;
@@ -86,7 +86,7 @@ void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_
 
     linked_object = ((ovl_188298c_81862B74_S_81862B74_0 *)state)->unk_00;
     linked_object->unk_14 = (u16) (linked_object->unk_14 + 1);
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
     update_count = ((ovl_188298c_81862B74_S_81862B74_0 *)state)->unk_04 + 1;
     ((ovl_188298c_81862B74_S_81862B74_0 *)state)->unk_04 = update_count;
     if ((s16) update_count == 0xA) {
@@ -111,7 +111,7 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
     s16 origin_z;
 
     if (radius_arg == 0) {
-        effect = func_8003FC64(0x212);
+        effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {
             effect_data = effect->unk_0C;
             effect->unk_10 = advance_counter_and_propagate_target_flags;
@@ -120,7 +120,7 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
             effect_data->unk_0E = 0x80;
             effect_data->unk_0D = 0x80;
             effect_data->unk_0C = 0x80;
-            func_8003DB94(effect_data, D_800DE9D0, 0);
+            select_record_entry_and_value(effect_data, D_800DE9D0, 0);
             effect_data->unk_1C = 0x1000;
             effect_data->unk_1E = 0x3000;
             effect_data->unk_12 = 0x7E0B;
@@ -147,7 +147,7 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
                     effect_data->unk_00 = 1;
                     continue;
                 }
-                effect = func_8003FC64(0x212);
+                effect = allocate_flagged_object_node(0x212);
                 if (effect != 0) {
                     effect_data = effect->unk_0C;
                     effect->unk_10 = advance_counter_and_propagate_target_flags;
@@ -156,7 +156,7 @@ void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 r
                     effect_data->unk_0E = 0x40;
                     effect_data->unk_0D = 0x40;
                     effect_data->unk_0C = 0x40;
-                    func_8003DB94(effect_data, D_800DE9D0, 0);
+                    select_record_entry_and_value(effect_data, D_800DE9D0, 0);
                     effect_data->unk_1C = 0x1000;
                     effect_data->unk_1E = 0x1800;
                     effect_data->unk_12 = 0x7E0B;

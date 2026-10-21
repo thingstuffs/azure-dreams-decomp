@@ -7,7 +7,7 @@
 extern void set_audio_timer_state(s32 value);
 extern void func_8005A420(void *a0, s32 a1, s32 a2);
 extern void set_sound_flag_update_suppression(s16 value);
-extern s32 func_8005E7E0(s32 a0);
+extern s32 clear_spu_reverb_work_area(s32 a0);
 extern void enable_available_spu_reverb(void);
 extern s32 submit_shifted_stereo_sound_parameters(s16 a0, s16 a1);
 extern void clear_audio_command_queue(void);
@@ -21,7 +21,7 @@ void init_audio_subsystem(void) {
     func_8005A420(D_80084548, 1, 1);
     set_sound_flag_update_suppression(0);
     set_audio_bank(4);
-    func_8005E7E0(4);
+    clear_spu_reverb_work_area(4);
     enable_available_spu_reverb();
     submit_shifted_stereo_sound_parameters(0x3C, 0x3C);
     sound_set_spu_master_volume(0x7F, 0x7F);

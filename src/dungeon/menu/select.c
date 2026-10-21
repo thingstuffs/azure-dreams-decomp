@@ -2,7 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/menu/select.h"
 
-void func_80025014(void *motion_state, void *position, void *draw_state) {
+void follow_selection_and_blink_sprite(void *motion_state, void *position, void *draw_state) {
     s16 move_ticks;
     s32 target_y;
     s16 ticks_left;
@@ -43,7 +43,7 @@ void func_80025014(void *motion_state, void *position, void *draw_state) {
             ((EntityRec *)motion_state)->z.w.i = 0;
         }
     }
-    func_800478B8(draw_state, target_y, target_pos, position);
+    advance_sprite_animation_and_textures(draw_state, target_y, target_pos, position);
     blink_ticks = (*(s16 *)selection_blink_timer);
     blink_remaining = *(u16 *)&(*(s16 *)selection_blink_timer);
     if (blink_ticks != 0) {
@@ -61,11 +61,11 @@ void *allocate_sprite_data_object(s32 user_data) {
     SpriteFrameState *sprite;
     S_80025170_0 *object;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         sprite = object->unk_0C;
-        object->unk_10 = (void *)func_80025014;
-        func_8003DB94(sprite, &D_80079444, 0);
+        object->unk_10 = (void *)follow_selection_and_blink_sprite;
+        select_record_entry_and_value(sprite, &D_80079444, 0);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.word = 0x2C808080;
@@ -796,7 +796,7 @@ void initialize_children_or_shutdown(void *owner)
         selection_menu_closing = 1;
         ((S_80026190_0 *)owner)->unk_1C.s = stop_state;
         (*(s16 *)D_8002715C) = 0;
-        func_8004E130();
+        enqueue_script_message_command();
         return;
     }
 
@@ -804,7 +804,7 @@ void initialize_children_or_shutdown(void *owner)
         return;
     }
 
-    object_or_kind = (s32)func_8003FC64(0x12);
+    object_or_kind = (s32)allocate_flagged_object_node(0x12);
     if (object_or_kind == 0) {
         return;
     }
@@ -813,7 +813,7 @@ void initialize_children_or_shutdown(void *owner)
     ((S_80026190_0 *)owner)->unk_00 = child;
     ((S_80026190_5 *)child)->unk_26 = ((S_80026190_0 *)owner)->unk_26;
 
-    child_object = func_8003FC64(0x112);
+    child_object = allocate_flagged_object_node(0x112);
     ((S_80026190_5 *)child)->unk_08 = child_object;
     if (child_object == NULL) {
         alloc_container = ((S_80026190_0 *)owner)->unk_00;
@@ -951,7 +951,7 @@ void initialize_children_or_shutdown(void *owner)
     }
     }
 
-    object_or_kind = (s32)func_8003FC64(0x212);
+    object_or_kind = (s32)allocate_flagged_object_node(0x212);
     if (object_or_kind != 0) {
         ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = (void *)initialize_fading_effect;
         ((S_80026190_0 *)owner)->unk_04 = (u8 *)object_or_kind + 0x20;
@@ -1042,7 +1042,7 @@ void *initialize_available_object(s16 initialValue) {
     S_800267F0_0 *object;
 
     selection_menu_closing = 0;
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != NULL) {
         object->unk_10 = (void *)initialize_children_or_shutdown;
         object->unk_46 = initialValue;

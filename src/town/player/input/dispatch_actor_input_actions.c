@@ -19,7 +19,7 @@ void initialize_action_object(s32 * *, void *, void *);
 struct Rec_func_80094268_arg0; void func_800943B8(struct Rec_func_80094268_arg0 *, s32, s32);
 struct Rec_func_80094268_arg0; void initialize_action_object_with_counter(struct Rec_func_80094268_arg0 *, s32, s32);
 void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
-void trigger_event_hex_519_interval_multiples_enabled(s32, s32);
+void play_periodic_sound(s32, s32);
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 extern void handle_adjust_vector_toward_selected_angle_limit_magnitude();
 extern void reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting();
@@ -130,7 +130,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
     if (input_flags & 0xF000) {
         remaining_count = actor->unk_3E.u - 1;
         actor->unk_3E.s = remaining_count;
-        trigger_event_hex_519_interval_multiples_enabled(remaining_count, 12);
+        play_periodic_sound(remaining_count, 12);
         store_the_valid_shared_angle_in_offset_hex_10(actor);
         handle_adjust_vector_toward_selected_angle_limit_magnitude(position);
         reduce_object_coordinates_toward_direction_dependent_limits_without_overshooting(position);

@@ -5,8 +5,8 @@
 struct Dst;
 struct Elem;
 
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
-void func_800478B8(void *entity);                      /* extern */
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
+void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 extern M2C_UNK D_800DEB28;
@@ -39,9 +39,9 @@ void advance_orbit_and_position(S_800246AC_0 *orbit, S_800246AC_2 *position, Rec
         wrap_angle = angle + 0x103F;
     }
     orbit->unk_08 = (s16) (next_angle - ((wrap_angle >> 0xC) << 0xC));
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     if (object->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94(object, &D_800DEB28, 0);
+        select_record_entry_and_value(object, &D_800DEB28, 0);
         position->unk_02 = (s16) (orbit->unk_00 + ((s32) ((func_800644B8(orbit->unk_08) >> 4) * 0x1C) >> 8));
         position->unk_06 = (s16) (orbit->unk_02 + ((s32) ((func_80064584(orbit->unk_08) >> 4) * 0x1C) >> 8));
     }

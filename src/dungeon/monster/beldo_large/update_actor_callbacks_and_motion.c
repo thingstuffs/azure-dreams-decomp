@@ -13,10 +13,10 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-s32 func_800353F4(void *);
+s32 enqueue_runtime_pool_script(void *);
 extern void clear_slots_of_type();
 #include "engine/texture/select_indirect_table_entry_api.h"
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 void apply_monster_koyaw_data(s32, s8 *);
 struct Owner_800A48F0; s16 set_or_clear_actor_status_slot(struct Owner_800A48F0 *, s8, s8);
 struct ActorRecord; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct ActorRecord *);
@@ -88,7 +88,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
     if ((*(u8 *)((u8 *)owner_arg + (0xB1))) == 0 &&
         !(system_update_flags & 1) && g_dungeon_status.activity_counts.parts.pending_action_count == 0) {
         (*(u8 *)((u8 *)owner_arg + (0xB1))) = 1;
-        func_800353F4(D_80173DDC);
+        enqueue_runtime_pool_script(D_80173DDC);
         (*(u8 *)((u8 *)owner_arg + (0x6D))) = 0;
         (*(u8 *)((u8 *)owner_arg + (0x9B))) = 0;
     }
@@ -164,7 +164,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         ((SpriteAnimationTableView *)data)->unk_14 = cleared_status;
         if (!(((S_80169EC0_3 *)actor)->unk_1C & 0x20)) {
             if (!(frame_status & 0x40)) {
-                func_800478B8(data);
+                advance_sprite_animation_and_textures(data);
             }
         } else {
             ((SpriteAnimationTableView *)data)->unk_14 = cleared_status | 0x7000;

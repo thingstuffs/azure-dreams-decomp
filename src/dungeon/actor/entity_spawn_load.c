@@ -114,7 +114,7 @@ s32 advance_staged_entity_load(s32 unused, u8 *entity)
         switch (((S_800A504C_2_pre *)mode_page)[-1].unk_00) {
         case 0:
 
-        if (func_80053EF0(4) != 0) {
+        if (read_sound_mode_blocking_status(4) != 0) {
             return 0;
         }
         spawned = (u8 *)find_or_retain_sprite_resource_slot(((S_800A504C_1 *)entity)->unk_13, 2);
@@ -179,7 +179,7 @@ case 2:
         ((S_800A504C_4 *)spawned)->unk_1C &= -8;
         ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
         ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
-        func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
+        apply_actor_template_and_class(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
                       copy_call_zero);
         copy_entity_record(spawned, entity);
         ((S_800A504C_4 *)spawned)->unk_14 &= ~0x4000;
@@ -279,7 +279,7 @@ case 2:
             ((S_800A504C_4 *)replacement)->unk_1C &= -8;
             ((S_800A504C_4 *)replacement)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
             ((S_800A504C_4 *)replacement)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
-            func_800424E0(copy_call_entity, ((S_800A504C_4 *)replacement)->unk_10.at03.v,
+            apply_actor_template_and_class(copy_call_entity, ((S_800A504C_4 *)replacement)->unk_10.at03.v,
                           replace_call_zero);
             copy_entity_record(replacement, entity);
 
@@ -291,7 +291,7 @@ case 2:
                 table_page->table4[table_index].value = table_value;
             }
             retain_spawn_resource(((S_800A504C_4 *)replacement)->unk_10.at03.v, 3);
-            func_80042560(replacement);
+            replay_actor_status_slots(replacement);
             angle = ((S_800A504C_1 *)entity)->unk_2A;
             (*(u16 *)((u8 *)replacement + 0x2A)) = angle;
             offset = ((g_game_work.view.camera_rotation.parts.viewAngle + (s16)angle + 0x100) >> 9) & 7;

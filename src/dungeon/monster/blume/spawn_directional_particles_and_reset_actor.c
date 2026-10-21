@@ -78,7 +78,7 @@ typedef struct {
     u32 words[8];
 } __attribute__((packed)) PackedTable;
 
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, Vec3u *, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, Vec3u *, s32);
 extern void *allocate_list_node(s32, void *);
@@ -228,7 +228,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                 for (; particle_index < 4; particle_index++) {
                     void *particle;
 
-                    particle = func_8003FC64(0x212);
+                    particle = allocate_flagged_object_node(0x212);
                     if (particle == 0)
                         continue;
                     {
@@ -300,7 +300,7 @@ void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *so
                         ((SpriteFrameState *)render)->color.c.b = 0;
                         ((SpriteFrameState *)render)->clut = 0x7DCF;
                         ((SpriteFrameState *)render)->flags |= 0x100;
-                        func_8003DB94(render, effect_sprite_sources, 0);
+                        select_record_entry_and_value(render, effect_sprite_sources, 0);
                     }
                 }
             }

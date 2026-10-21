@@ -20,10 +20,10 @@ void card_boot_format_empty_slot_guidance(void *context)
     mode_one = selection == 1;
     state = card_boot_get_remaining_block_summary();
     if (mode_one != 0 && card_boot_count_cached_slots() == 0) {
-        decode_note_text(context + 0x84, D_800283EC[0], 1);
+        decode_fullwidth_text(context + 0x84, D_800283EC[0], 1);
         text_buffer = context + 0x204;
         text = (s32)D_800283EC[1];
-        decode_note_text(text_buffer, (void *)text, 1);
+        decode_fullwidth_text(text_buffer, (void *)text, 1);
         node_count = 2;
     } else {
         below_three = state < 3;
@@ -33,12 +33,12 @@ void card_boot_format_empty_slot_guidance(void *context)
             void *text_buffer;
             s32 selection;
 
-            decode_note_text(first_buffer, D_800283C4, 1);
+            decode_fullwidth_text(first_buffer, D_800283C4, 1);
             text_buffer = context + 0x204;
             table = D_800283B8;
             selection = mode_one << 2;
-            decode_note_text(text_buffer, *(void **)((u8 *)table + selection), 1);
-            decode_note_text(context + 0x384, table[2], 1);
+            decode_fullwidth_text(text_buffer, *(void **)((u8 *)table + selection), 1);
+            decode_fullwidth_text(context + 0x384, table[2], 1);
             node_count = 3;
         } else {
             {
@@ -47,14 +47,14 @@ void card_boot_format_empty_slot_guidance(void *context)
 
                 table = D_800283F4;
                 selection = mode_one << 2;
-                decode_note_text(first_buffer, *(void **)((u8 *)table + selection), 1);
+                decode_fullwidth_text(first_buffer, *(void **)((u8 *)table + selection), 1);
             }
             format_unsigned_double_byte_decimal(state / 3, number_buf);
             strcpy(text_buf, number_buf);
             strcat(text_buf, D_800283FC);
             text_buffer = context + 0x204;
             text = (s32)text_buf;
-            decode_note_text(text_buffer, (void *)text, 1);
+            decode_fullwidth_text(text_buffer, (void *)text, 1);
             node_count = 2;
         }
     }
@@ -97,8 +97,8 @@ void build_a_trigonometric_table_processes_up_eight_height_offset_segments(void 
     S_800249B4_2 *position;
     void *entry_cursor;
 
-    decode_note_text((u8 *)context + 0x84, D_800283EC[0], 1);
-    decode_note_text((u8 *)context + 0x204, D_800283EC[1], 1);
+    decode_fullwidth_text((u8 *)context + 0x84, D_800283EC[0], 1);
+    decode_fullwidth_text((u8 *)context + 0x204, D_800283EC[1], 1);
     entry_index = 0;
     x = 0xA9;
     y = 0x110;

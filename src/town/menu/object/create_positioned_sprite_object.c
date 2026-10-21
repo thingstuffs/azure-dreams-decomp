@@ -34,7 +34,7 @@ typedef struct S_800A71F0_4 {
 void register_node_if_unregistered(void *block_data, s32 registration_id);
 struct Dst;
 struct Elem;
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
 void copy_indexed_motion_value_and_advance();
 typedef struct S_800A7338_0 S_800A7338_0;
@@ -67,7 +67,7 @@ s32 create_positioned_sprite_object(IntVector3 *position, s32 state_value, s32 g
     sprite->scale_y = 0x1000;
     sprite->scale_x = 0x1000;
     sprite->color.word = 0x808080;
-    func_8003DB94(sprite, graphic_id, 0);
+    select_record_entry_and_value(sprite, graphic_id, 0);
     register_node_if_unregistered(object_state, project_sprite_chain);
     return (s32) object;
 }

@@ -14,7 +14,7 @@ typedef struct S_800B93C0_0 {
 void allocate_second_object_variant(void) {
     S_800B93C0_0 *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != NULL) {
         object->unk_10 = &D_800B93B8;
     }

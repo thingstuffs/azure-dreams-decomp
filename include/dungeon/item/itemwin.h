@@ -236,7 +236,7 @@ extern void release_null_terminated_entries(void *);
 extern void func_8004B248(void *);
 extern int draw_tinted_node_sprites_scratch(void *object, int unused, void *data);
 extern int func_8004CAA0(void *object, int unused, void *data);
-M2C_UNK func_8004E99C();
+M2C_UNK flag_optional_object_for_removal();
 void inventory_dispatch_indexed_handler(void *context, s32 handler_index);
 void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, s32 index);
 s32 func_800258B0(void *menu);

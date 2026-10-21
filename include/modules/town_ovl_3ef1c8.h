@@ -126,7 +126,7 @@ s32 select_table_result_with_override(s32 context, s32 check_value, s32 selector
 void call_clear_script_flag_bit(s32 context, s32 entry_index);
 s32 query_state_with_selector_10(s32 context, s32 check_value, s32 selector);
 void forward_context_value_to_handler_a(s32 input_a, s32 input_b);
-s32 func_80016570(s32 context, s32 check_value, s32 selector);
+s32 select_scene_result_with_overrides(s32 context, s32 check_value, s32 selector);
 void forward_context_value_to_handler_b(s32 first_value, s32 second_value);
 void *select_lookup_with_progress_threshold(s32 selector, s32 check_value, s32 lookup_value);
 void forward_context_value_to_handler_c(s32 context, s32 value);

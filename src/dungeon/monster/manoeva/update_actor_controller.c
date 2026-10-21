@@ -10,10 +10,10 @@
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 compare_monster_neighbor_values(u8, u8, u8, u8);
+extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
 extern s16 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -169,7 +169,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
 
     if (((S_80170EE4_1 *)actor_data)->unk_6D > 0) {
         if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x20) {
-            update_actor_status_and_food(actor_data);
+            update_actor_status_and_mp(actor_data);
             return;
         }
         if (((S_80170EE4_2 *)map_object)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -225,7 +225,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
             }
 
         case 12:
-            update_actor_status_and_food(actor_data);
+            update_actor_status_and_mp(actor_data);
             return;
 
         case 1:
@@ -246,7 +246,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
         if ((tile_index < 0) ||
             !(dungeon_rooms[tile_index].flags & 2)) {
             if (!(status_flags & 0x430)) {
-                if ((s16)compare_monster_neighbor_values(
+                if ((s16)test_neighbor_position_relation(
                         ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     ((S_80170EE4_1 *)actor_data)->unk_2A = get_rounded_facing_and_rounding_flag(

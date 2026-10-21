@@ -16,7 +16,7 @@ typedef struct S_8003AF58_1 {
 
 
 /* Appends a node to the end of the linked list. */
-void append_town_movie_list_node(void *list_head, S_8003AF58_1 *new_node) {
+void append_list_tail(void *list_head, S_8003AF58_1 *new_node) {
     S_8003AF58_0 *tail;
 
     tail = list_head;

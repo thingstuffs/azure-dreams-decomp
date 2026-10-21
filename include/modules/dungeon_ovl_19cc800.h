@@ -67,7 +67,7 @@ void fade_color_to_black(void *owner, s32 unused, void *color_data);
 s32 process_effect_buffer_chain(void *initial_state, s32 initial_value, struct Entry *initial_entry);
 void *create_copied_effect_object(void *source_data, MovingPosition *source_triplet, struct S_80025B78_4 *source_state);
 void initialize_inventory_packet(void *state, void *points, void *appearance);
-void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param);
+void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param);
 void fade_effect_color_to_black(void *record, s32 unused, struct EffectColor *color);
 void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);

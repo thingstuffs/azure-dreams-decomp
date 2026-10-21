@@ -3,8 +3,8 @@
 
 extern void find_eligible_actor_at_tile_and_height(void *, s32, s32, s32);
 
-/* Apply direction offsets to the coordinates and update the entity. */
-void place_actor_at_directional_neighbor(void *entity, s32 x, s32 y, u32 direction) {
+/* Probe for an eligible actor at the directional neighbor and current height. */
+void probe_directional_neighbor(void *entity, s32 x, s32 y, u32 direction) {
     s32 direction_bits;
     u8 *x_offsets;
     s32 direction_offset;

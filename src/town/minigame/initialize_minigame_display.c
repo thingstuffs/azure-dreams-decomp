@@ -43,7 +43,7 @@ typedef struct {
 } __attribute__((packed)) Packed8;
 
 extern void register_node(void *, void *);
-extern void *decode_note_text(void *, void *, s32);
+extern void *decode_fullwidth_text(void *, void *, s32);
 extern void create_positioned_callback_object(void *, void *, void *);
 
 extern Packed8 D_8002021C;
@@ -68,10 +68,10 @@ void initialize_minigame_display(void *context)
 
     setup_words = D_8002021C;
     create_positioned_callback_object(&setup_words, D_800223D8,
-                  decode_note_text(context, D_8002446C, 0));
+                  decode_fullwidth_text(context, D_8002446C, 0));
     create_positioned_callback_object((u8 *)&setup_words + 4, D_800223D8, D_800782EC);
 
-    rect_obj = func_8003FC64(1);
+    rect_obj = allocate_flagged_object_node(1);
     if (rect_obj != NULL) {
         rect_data = rect_obj + 0x20;
         ((S_80022290_0 *)rect_obj)->unk_10 = D_800223E0;
@@ -84,7 +84,7 @@ void initialize_minigame_display(void *context)
         rect_data->unk_08 = 0x402020;
     }
 
-    image_obj = func_8003FC64(1);
+    image_obj = allocate_flagged_object_node(1);
     if (image_obj != NULL) {
         image_data = image_obj + 0x20;
         ((S_80022290_2 *)image_obj)->unk_10 = D_800223E8;

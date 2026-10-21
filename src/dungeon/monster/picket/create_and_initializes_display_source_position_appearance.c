@@ -77,7 +77,7 @@ void create_and_initializes_display_source_position_appearance(void *source, Rec
     S_80174D48_2 *transform;
 
     if (((((AppearanceFieldView_80E8F548 *)appearance)->field_49) != 0) &&
-        (object = func_8003FC64(0x12), object != NULL)) {
+        (object = allocate_flagged_object_node(0x12), object != NULL)) {
         init_object = object;
         transform = ((ProjectileObject *)object)->unk_08;
         data_base_2 = source;

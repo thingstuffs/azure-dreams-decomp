@@ -32,7 +32,7 @@ typedef struct S_8017142C_1 {
     } unk_08;   /* overlapping accesses */
 } S_8017142C_1;   /* arg1 in update_growing_colliding_effect */
 
-extern s32 func_800478B8();
+extern s32 advance_sprite_animation_and_textures();
 extern s32 check_left_tile_and_center_height();
 extern s16 sample_terrain_surface_height();
 
@@ -89,7 +89,7 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
         anim_tick = ((S_8017142C_0 *)effect)->unk_26 + 1;
         ((S_8017142C_0 *)effect)->unk_26 = anim_tick;
         if (!(anim_tick & 3)) {
-            func_800478B8(sprite);
+            advance_sprite_animation_and_textures(sprite);
         }
         move_scale_x = ((SpriteFrameState *)sprite)->scale_x + 0x64;
         ((SpriteFrameState *)sprite)->scale_x = move_scale_x;

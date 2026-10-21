@@ -12,7 +12,7 @@ void *create_randomized_position_effect(MovingPosition *source_position) {
     void *object;
     S_800A84D0_4 *effect_state;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         position = ((S_800A84D0_0 *)object)->unk_08;
         sprite = ((S_800A84D0_0 *)object)->unk_0C;
@@ -21,7 +21,7 @@ void *create_randomized_position_effect(MovingPosition *source_position) {
         position->unk_02 = (u16) source_position->unk_02;
         position->unk_06 = (u16) source_position->unk_06;
         position->unk_0A = (u16) source_position->unk_0A;
-        func_8003DB94(sprite, &D_800D1464, 0);
+        select_record_entry_and_value(sprite, &D_800D1464, 0);
         sprite->color.c.b = 0xFF;
         sprite->color.c.g = 0xFF;
         sprite->color.c.r = 0xFF;

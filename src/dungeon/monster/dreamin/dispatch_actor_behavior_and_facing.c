@@ -10,10 +10,10 @@
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(u8, u8);
-extern s32 compare_monster_neighbor_values(u8, u8, u8, u8);
+extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
 extern s32 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -109,7 +109,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
 
         if (state->pending_turn_updates > 0) {
             if (((u32)state->flags1C) & 0x20) {
-                update_actor_status_and_food(state);
+                update_actor_status_and_mp(state);
                 return;
             }
 
@@ -165,7 +165,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 }
                                         /* fallthrough */
             case 12:
-                update_actor_status_and_food(state);
+                update_actor_status_and_mp(state);
                 return;
 
             case 1:
@@ -193,7 +193,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             if (entry_index < 0 ||
                 !(((S_80170E68_4 *)entry)->unk_0C & 2)) {
                 if ((flags & 0x430) == 0) {
-                    if ((s16)compare_monster_neighbor_values(
+                    if ((s16)test_neighbor_position_relation(
                             *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         result = get_rounded_facing_and_rounding_flag(

@@ -254,7 +254,7 @@ s32 card_dev_read_file_units_128(s32 file_path, void *buffer, s32 block_count, s
 void card_dev_refresh_options_object(void *object);
 
 /* card_dev_refresh_save_screen.c */
-void card_dev_refresh_save_screen(void *object);
+void release_card_screen_parts(void *object);
 
 /* card_dev_refresh_slot_outputs.c */
 void card_dev_refresh_slot_outputs(s32 value, s32 *enabled, s32 *selected);
@@ -447,7 +447,7 @@ void fill_value_output_fields(struct MainValue **value_slot, u8 *output, struct 
 void find_text_word_bounds(u8 *text, s32 limit, s32 *start_out, s32 *length_out, s32 *total_out);
 
 /* handle_object_menu_input.c */
-void func_8001ED54(void *task);
+void select_card_slot_message(void *task);
 
 /* init_card_background_object.c */
 s32 init_card_background_object(s32 init_value, s32 config_value);

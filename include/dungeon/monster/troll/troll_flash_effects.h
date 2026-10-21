@@ -448,7 +448,7 @@ typedef struct T_80171D64_S_80171D64_4 {
     s8 unk_9C;
 } T_80171D64_S_80171D64_4;   /* the record, addressed through its copy in func_80171D64 */
 
-extern void func_800478B8(void *entity);
+extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, T_8017121C_Vec3u16 *, s32);

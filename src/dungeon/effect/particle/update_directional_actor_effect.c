@@ -244,7 +244,7 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
         case 240:
             unlink_node(effect - 32);
             U16(effect, 80) = 10;
-            func_800419EC(8, 16);
+            initialize_timed_motion_step(8, 16);
             U16(effect, 10) = (u16)(U16(effect, 10) + 1);
             return;
 

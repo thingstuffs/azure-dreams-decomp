@@ -1,6 +1,6 @@
 /* Item menu page format and its file-private helper. */
 #include "common.h"
-void func_8004E99C(void *object);
+void flag_optional_object_for_removal(void *object);
 #include "shared/object_flags.h"
 typedef struct S_800AF148_0_pre {
     u16 unk_00;
@@ -31,7 +31,7 @@ static void send_item_menu_page_entries_to_formatter(s32 entryTableAddress, s32 
             entry = *entryCursor;
             entryCursor += 1;
             entryIndex += 1;
-            func_8004E99C(*entry);
+            flag_optional_object_for_removal(*entry);
         } while (entryIndex < endIndex);
     }
 }

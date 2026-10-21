@@ -51,14 +51,14 @@ extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state();
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes();
-extern void func_80099290();
+extern void clear_byte_and_advance();
 extern s32 copy_selected_text_without_terminator();
 extern s32 append_entity_display_text();
 extern void display_formatted_context_message();
 extern void *scan_monster_along_heading();
 extern void display_text_with_fullwidth_adjustment();
 extern s32 find_slot_by_item_group();
-extern void apply_item_effect_at_entity_position();
+extern void place_actor_item();
 extern void display_actor_item_status_message();
 extern s32 create_actor_spell_effect();
 extern s32 feed_actor_restore_mp();
@@ -141,7 +141,7 @@ scan_next:
                         message_end = expand_text_control_codes(
                             *(void **)(message_table + (slot_scan[8] * 20)), message_end);
                         message_end = expand_text_control_codes(D_800E144C, message_end);
-                        func_80099290(message_end);
+                        clear_byte_and_advance(message_end);
                         display_text_with_fullwidth_adjustment(message_start);
                     }
                 } else {
@@ -156,7 +156,7 @@ scan_next:
         } else {
             if (feed_actor_restore_mp(object,
                               entity_action_selectors[object[0x13]] & 3, 0) == 0) {
-                apply_item_effect_at_entity_position(object, data);
+                place_actor_item(object, data);
                 return 1;
             }
             clear_slot_and_update_linked_state(data);
@@ -218,7 +218,7 @@ scan_next:
         message_start = get_unused_text_buffer();
         message_end = copy_selected_text_without_terminator(data, message_start);
         message_end = expand_text_control_codes(D_800E146F, message_end);
-        func_80099290(message_end);
+        clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
         (*(u16 *)&status->activity_counts.parts.pending_action_count)--;
     }

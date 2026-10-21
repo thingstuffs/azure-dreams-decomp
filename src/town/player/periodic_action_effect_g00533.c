@@ -38,7 +38,7 @@ void update_actor_with_periodic_effect(Rec_func_80094268_arg0 *actor, EntityRec 
     if ((state_flags & 0xF000) && (state_flags & 0x20)) {
         action_timer = actor->unk_3E.as_u16 - 1;
         actor->unk_3E.as_u16 = (u16)action_timer;
-        trigger_event_hex_519_interval_multiples_enabled(action_timer, 8);
+        play_periodic_sound(action_timer, 8);
         store_the_valid_shared_angle_in_offset_hex_10(actor);
         call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(position);
         return;

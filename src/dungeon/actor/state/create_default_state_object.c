@@ -57,7 +57,7 @@ void create_default_state_object(s16 new_state) {
         load_indexed_resource_package(new_state);
         *state = (s8)new_state;
     }
-    obj = func_8003FC64(0x12);
+    obj = allocate_flagged_object_node(0x12);
     if (obj != NULL) {
         ((S_800B0544_0 *)obj)->unk_10 = &D_800AFAD8;
         register_node(obj, &D_800AFBFC);

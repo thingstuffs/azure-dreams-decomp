@@ -26,7 +26,7 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *re
 
     init_value = D_800D0B20[((S_800A3508_1 *)obj)->unk_22];
     if (init_value != 0) {
-        func_8003DB94(record, init_value, 0);
+        select_record_entry_and_value(record, init_value, 0);
     }
 
     register_node(obj - 0x20, project_sprite_chain);
@@ -97,6 +97,6 @@ void advance_motion_and_reset_appearance(S_800A378C_0 *state, ObjectPosition *tr
     transform->velocity_z = (s32) (transform->velocity_z - state->unk_34);
     add_motion_deltas_to_position(transform);
     if (*((s32 *)&D_800D0B20 + state->unk_22) != 0) {
-        func_800478B8(appearance);
+        advance_sprite_animation_and_textures(appearance);
     }
 }

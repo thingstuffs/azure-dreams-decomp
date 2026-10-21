@@ -79,7 +79,7 @@ typedef struct S_SCRATCH {
 } S_SCRATCH;
 
 
-void func_800478B8();                      /* extern */
+void advance_sprite_animation_and_textures();                      /* extern */
 s32 func_80064840(void *, void *, void *); /* extern */
 void func_80064AE0(void *);
 s32 func_80064BC0(void *, void *);              /* extern */
@@ -224,7 +224,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
         entry_table = &dungeon_floor_object_positions;
         sprite_entry = (entry_index * 0x18) + entry_table;
         if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x40) {
-            func_800478B8(sprite_entry);
+            advance_sprite_animation_and_textures(sprite_entry);
         }
         scr->unk_000.u16 = (s16) (((*((u8 *) (((s8 *) sprite_entry) + 6))) << 6) + 0x20);
         scr->unk_002 = (u16) (((*((u8 *) (((s8 *) sprite_entry) + 7))) << 6) + 0x20);

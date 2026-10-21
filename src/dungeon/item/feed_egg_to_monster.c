@@ -15,7 +15,7 @@ typedef struct {
 } DungeonState;
 
 extern s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item);
-extern void apply_item_effect_at_entity_position(void *object_context, s32 target);
+extern void place_actor_item(void *object_context, s32 target);
 extern void clear_slot_and_update_linked_state(s32 slot);
 extern void display_formatted_context_message(void *context);
 
@@ -27,7 +27,7 @@ s32 feed_egg_to_monster(void *target, s32 item) {
         display_actor_item_status_message(target);
         type_flags = entity_action_selectors[((u8 *) target)[0x13]];
         if (feed_actor_restore_mp(target, (type_flags >> 2) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(target, item);
+            place_actor_item(target, item);
             return 1;
         }
         clear_slot_and_update_linked_state(item);

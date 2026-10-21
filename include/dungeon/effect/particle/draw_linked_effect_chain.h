@@ -468,15 +468,15 @@ s32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *
 void func_80065820(void *, void *);
 u16 func_80066460(s32, s32, s32, s32);
 void func_80067F20(void *, s32, s32, u16, s32);
-void func_800478B8(void *);
+void advance_sprite_animation_and_textures(void *);
 void register_node();
 void func_8004491C();
-void func_8003DB94();
+void select_record_entry_and_value();
 s16 rand();
 s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 s32 func_8003DF74(void *, void *, void *, s32);
 s32 func_80069EF8(void);
-s32 func_80053EF0(s32);
+s32 read_sound_mode_blocking_status(s32);
 void play_sound_if_enabled(s32);
 void D_80024C50(void *, void *, void *, s32, s32, s32);
 
@@ -493,16 +493,16 @@ extern const Row_819A1654_PointTable D_80024054[1];
 extern Row_819A1654_Blob12 D_80026180[];
 extern Row_819A1654_Blob12 D_8002618C[];
 extern Row_819A1654_Blob24 D_80026198[];
-void func_8002408C(void *quad, void *position, void *render_state, s16 depth_bias);
+void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_state, s16 depth_bias);
 s32 draw_linked_effect_chain(void *state, void *position, void *appearance);
 void update_effect_countdown_fields(void *object_data);
 void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive);
 void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive);
-void func_80024834(void *fade_data);
+void fade_quad_vertex_colors(void *fade_data);
 void advance_object_motion_and_animation(void *effect);
 void choose_random_sign(void *effect, s32 unused, void *primitive);
-void func_80024BD0(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj);
-void func_80024C50(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
+void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj);
+void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z);
 void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data);
 extern u8 D_800261B0[];

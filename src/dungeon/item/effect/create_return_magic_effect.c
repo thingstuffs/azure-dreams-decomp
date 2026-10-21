@@ -15,7 +15,7 @@ extern u8 D_800C2824[];
 void *create_return_magic_effect(s32 value) {
     S_800BD51C_node *object;
 
-    object = func_8003FC64(2);
+    object = allocate_flagged_object_node(2);
     if (object != 0) {
         object->field10 = D_800C2824;
         object->field20 = value;

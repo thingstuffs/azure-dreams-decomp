@@ -51,7 +51,7 @@ void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
     S_800B8228_1 *position;
     S_800B8228_3 *grid_position;
 
-    effect = func_8003FC64(0x12);
+    effect = allocate_flagged_object_node(0x12);
     if (effect != NULL) {
         register_node(effect, project_sprite_chain);
         ((S_800B8228_0 *)effect)->unk_10 = D_800B80D8;

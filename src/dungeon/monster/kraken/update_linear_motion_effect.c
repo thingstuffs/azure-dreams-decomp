@@ -15,14 +15,14 @@ typedef struct {
     u16 timer;
 } EffectState;
 
-extern void func_800478B8(void *update_data);
+extern void advance_sprite_animation_and_textures(void *update_data);
 
 /* Advance effect motion, update its data, and set expiry flags when its timer runs out. */
 void update_linear_motion_effect(EffectState *effect, VecState *motion, void *update_data) {
     motion->x += motion->vx;
     motion->y += motion->vy;
     motion->z += motion->vz;
-    func_800478B8(update_data);
+    advance_sprite_animation_and_textures(update_data);
     if ((s16)--effect->timer <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;

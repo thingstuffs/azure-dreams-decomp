@@ -27,7 +27,7 @@ static __inline__ S_func_8065C05C_0 *terminate_entries(S_func_8065C05C_0 *base, 
 }
 
 /* Build a terminated list of four-byte entries for IDs accepted by the callback. */
-S_func_8065C05C_0 *func_8065C05C(register S_func_8065C05C_0 *entries_base) {
+S_func_8065C05C_0 *collect_enabled_tagged_entries(register S_func_8065C05C_0 *entries_base) {
     s32 entry_count;
     register s32 entry_id;
     s32 entry_tag;

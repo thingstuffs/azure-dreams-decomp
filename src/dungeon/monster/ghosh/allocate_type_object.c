@@ -42,7 +42,7 @@ void allocate_type_12_object(void)
     S_8016AD00_0 *primary_state;
     S_8016AD00_1 *secondary_state;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         (*(void * *)((u8 *)object + 0x10)) = D_8016ABC8;
         register_node(object, D_80044BB0);

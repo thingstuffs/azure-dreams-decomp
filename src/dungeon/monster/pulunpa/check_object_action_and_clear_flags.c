@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
 extern void choose_heading_and_advance_actor(void *, s32, s32, void *);
 
@@ -28,7 +28,7 @@ s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, 
             goto tail_block;
         }
         *((s8 *)saved_object + 0x9A) = next_state;
-        update_actor_status_and_food(saved_object);
+        update_actor_status_and_mp(saved_object);
         return 0;
     } else {
         choose_heading_and_advance_actor(saved_object, query_x, query_y, saved_object);

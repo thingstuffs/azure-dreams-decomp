@@ -12,10 +12,10 @@ extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, u16, s32);
 extern void teleport_familiar_near_player(s32, s16);
@@ -43,7 +43,7 @@ s32 apply_familiar_call_item(void *target, s32 action, s16 action_type, s32 acti
     if ((u32)target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, action, action_type);
         if (feed_actor_restore_mp(target, entity_action_selectors[((u8 *)target)[0x13]] & 3, action) == 0) {
-            apply_item_effect_at_entity_position(target, action);
+            place_actor_item(target, action);
             return 1;
         }
     } else {
@@ -67,7 +67,7 @@ s32 apply_familiar_call_item(void *target, s32 action, s16 action_type, s32 acti
         } else {
             message_end = expand_text_control_codes(familiar_call_text + 0x17, message_start);
         }
-        func_80099290(message_end);
+        clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
     }
 

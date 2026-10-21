@@ -19,7 +19,7 @@ typedef struct S_800D6FEC_0 {
 
 
 
-M2C_UNK func_800478B8();                     /* extern */
+M2C_UNK advance_sprite_animation_and_textures();                     /* extern */
 
 /* Copy stored values, run the update, and flag completion when the count reaches zero. */
 void update_effect_countdown(void *object, MovingPosition *output, M2C_UNK update_arg) {
@@ -30,7 +30,7 @@ void update_effect_countdown(void *object, MovingPosition *output, M2C_UNK updat
     output->unk_02 = (u16) source->unk_02;
     output->unk_06 = (u16) source->unk_06;
     output->unk_0A = (u16) source->unk_0A;
-    func_800478B8(update_arg);
+    advance_sprite_animation_and_textures(update_arg);
     remaining = ((S_800D6FEC_0 *)object)->unk_96 - 1;
     ((S_800D6FEC_0 *)object)->unk_96 = remaining;
     if ((remaining << 0x10) <= 0) {

@@ -15,6 +15,6 @@ extern S_800799BC *spu_ram_block_records;
 
 s32 initialize_sound_transfer_range(s32 count, S_800799BC *record);
 s32 audio_get_whether_non_skipped_block_contains_address_starts_beyond(u32 address);
-s32 func_8005D9DC(u32 value);
+s32 test_spu_blocks_beyond_address(u32 value);
 
 #endif

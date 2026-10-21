@@ -64,7 +64,7 @@ typedef struct S_func_80035484_5 {
 
 
 extern void runtime_initialize_state_value(void *modelPtr, s32 value);
-extern void func_800350B0(void *configPtr, void *statePtr);
+extern void prepend_embedded_object_node(void *configPtr, void *statePtr);
 extern void *initialize_runtime_node_storage(s32 value, s32 address, s32 value2, void **tablePtr);
 extern s32 register_node(void *objectPtr, void (*callback)(void));
 extern s32 func_8004491C(void *objectPtr, void (*callback)(void));

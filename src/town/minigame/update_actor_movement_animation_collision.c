@@ -58,12 +58,12 @@ typedef struct AnimData {
 } AnimData;
 
 extern s32 rand(void);
-extern void func_8003DB94(Anim *, void *, s32);
+extern void select_record_entry_and_value(Anim *, void *, s32);
 extern void configure_the_set_mode_n_1(Actor *, Motion *, void *);
 extern void unlink_scene_list_node(Actor *);
 extern void unlink_node_if_registered(Actor *);
 extern void SD_Call(s32);
-extern void func_800478B8(Anim *);
+extern void advance_sprite_animation_and_textures(Anim *);
 extern s32 test_three_axis_box_overlap(void *, Motion *);
 
 extern u8 D_800F7DD4[];
@@ -124,7 +124,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
             motion->vy = -motion->vy;
         } else {
             anim->value6 = -0x40;
-            func_8003DB94(anim, D_800F7DD4, 0);
+            select_record_entry_and_value(anim, D_800F7DD4, 0);
         }
         actor->state68 = 1;
         break;
@@ -141,7 +141,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
             if (actor->typeA0 < 2) {
                 motion->vx = -motion->vx;
             }
-            func_8003DB94(anim, D_800F7D64, 0);
+            select_record_entry_and_value(anim, D_800F7D64, 0);
             actor->state68 = 2;
         }
         break;
@@ -245,10 +245,10 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
     case 7:
         if (actor->timerA2 <= 0) {
             if (actor->typeA0 & 1) {
-                func_8003DB94(anim, D_800F7D64, 0);
+                select_record_entry_and_value(anim, D_800F7D64, 0);
             } else {
                 anim->value6 = 0x40;
-                func_8003DB94(anim, D_800F7DD4, 0);
+                select_record_entry_and_value(anim, D_800F7DD4, 0);
             }
             actor->flagsA4 &= ~2;
             owner->flagsC &= ~4;
@@ -300,7 +300,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
         break;
 
     }
-    func_800478B8(anim);
+    advance_sprite_animation_and_textures(anim);
     if ((actor->flagsA4 & 2) && test_three_axis_box_overlap(D_80026F38, motion)) {
         motion->vz = 0;
         motion->vy = 0;

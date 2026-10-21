@@ -200,7 +200,7 @@ void load_indexed_resource_package(s32 value);
 void sound_set_cd_cue_parameters(s32 value0, s32 value1, s32 value2, s32 value3);
 void SD_Call(s32 value);
 extern void decrease_value_and_advance_counter();
-extern void process_terminated_shop_ids(void);
+extern void clear_resident_bit_patterns(void);
 extern void clear_resident_bitmap_bit(s32 a0);
 extern void apply_building_pending_updates(void);
 extern void dispatch_conditional_table_pairs(void);

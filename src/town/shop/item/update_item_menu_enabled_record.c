@@ -17,7 +17,7 @@ typedef struct S_800AF448_2 {
 } S_800AF448_2;   /* ((S_800AF448_0 *)arg0)->unk_A8 in update_item_menu_enabled_record */
 struct S8004CBFC_a0;
 struct S8004CBFC_a1;
-void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);      /* extern */
+void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor);      /* extern */
 extern M2C_UNK D_80071244;
 extern M2C_UNK D_800792DC;
 
@@ -25,7 +25,7 @@ extern M2C_UNK D_800792DC;
 /* Update an enabled object's data and reset its referenced pointer. */
 void update_item_menu_enabled_record(void *object) {
     if (((ItemMenuEnabledView *)(((S_800AF448_0 *)object)->unk_00))->unk_1C != 0) {
-        func_8004CBFC(object + 0x1C, &D_800792DC, ((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_10);
+        initialize_scaled_entry_cursor(object + 0x1C, &D_800792DC, ((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_10);
         *((S_800AF448_2 *)(((S_800AF448_0 *)object)->unk_A8))->unk_14 = &D_80071244;
     }
 }

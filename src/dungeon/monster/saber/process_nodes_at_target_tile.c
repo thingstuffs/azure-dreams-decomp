@@ -61,7 +61,7 @@ typedef struct OffsetTable {
 
 extern OffsetTable D_80170884;
 
-extern void func_800419EC(u16, u32);
+extern void initialize_timed_motion_step(u16, u32);
 extern void spawn_radial_particle_burst(s16, s16, s16, s16, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void play_sound_if_enabled(s32);
@@ -102,7 +102,7 @@ void process_nodes_at_target_tile(void *node, s32 target_x, s32 target_y, s32 ta
 
                         ((S_801745BC_1 *)node)->unk_28 = 0;
                         ((S_801745BC_1 *)node)->unk_64 = -1;
-                        func_800419EC(6, 0xC);
+                        initialize_timed_motion_step(6, 0xC);
                         target_y = 0x601;
                         if (((S_801745BC_1 *)node)->unk_13 == 0x34) {
                             target_y = 0x80B;

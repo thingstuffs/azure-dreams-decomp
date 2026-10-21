@@ -20,12 +20,12 @@ typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void *place_actor_at_directional_neighbor(void *, s32, s32, s32);
+extern void *probe_directional_neighbor(void *, s32, s32, s32);
 extern s32 check_global_or_linked_flag_20000(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -139,7 +139,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
     *((u8 *) (((u8 *) sprite) + 0x26)) = room_id;
     if ((*((s8 *) (((u8 *) creature) + 0x6D))) > 0) {
         if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x20) {
-            update_actor_status_and_food(creature);
+            update_actor_status_and_mp(creature);
             return;
         }
         if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))))) {
@@ -170,7 +170,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
         switch (action - 1) {
         case 8:
         {
-            void *target = place_actor_at_directional_neighbor(creature, *((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite)
+            void *target = probe_directional_neighbor(creature, *((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite)
                 + 0x25)), *((s16 *) (((u8 *) creature) + 0x2A)));
             *((void **) (((u8 *) actor) + 0xA8)) = target;
             if (target == 0) {
@@ -211,7 +211,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
             }
         }
         case 11:
-            update_actor_status_and_food(creature);
+            update_actor_status_and_mp(creature);
             return;
         case 0:
         case 1:
@@ -231,7 +231,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
         if ((room_index < 0) || (!(dungeon_rooms[room_index].flags & 2))) {
             if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x430)) {
                 u8 *player_pos = ((u8 *)(&reference_tile_object));
-                if ((compare_monster_neighbor_values(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)),
+                if ((test_neighbor_position_relation(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)),
                     *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25))) << 16) != 0) {
                     *((s16 *) (((u8 *) creature) + 0x2A)) = get_rounded_facing_and_rounding_flag(*((u8 *) (((u8 *) sprite) + 0x24)),
                         *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)),

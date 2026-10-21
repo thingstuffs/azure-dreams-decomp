@@ -93,7 +93,7 @@ void spawn_randomized_quad_effects(void) {
 
     for (quad_index = 0; quad_index < D_80026476; quad_index++) {
         vertices = D_800265C8;
-        effect = func_8003FC64(0x202);
+        effect = allocate_flagged_object_node(0x202);
         if (effect != NULL) {
             effect_or_x = (s32)effect;
             effect->unk_10 = D_800255E8;

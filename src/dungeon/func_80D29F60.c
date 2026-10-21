@@ -44,10 +44,10 @@ extern void select_sprite_entry();
 extern s32 rand(void);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -159,7 +159,7 @@ void update_ability_actor_behavior(ActorActionView *action, void *context, Actor
         u16 action_state;
 
         if (((u32)actor->flags1C) & 0x20) {
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             return;
         }
         if (!(sprite->tile.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x))) {
@@ -211,7 +211,7 @@ void update_ability_actor_behavior(ActorActionView *action, void *context, Actor
                 }
 
                 case 12:
-                    update_actor_status_and_food(actor);
+                    update_actor_status_and_mp(actor);
                     return;
 
                 case 1:
@@ -235,7 +235,7 @@ void update_ability_actor_behavior(ActorActionView *action, void *context, Actor
             !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((u32)actor->flags1C) & 0x430)) {
 
-                if ((compare_monster_neighbor_values(
+                if ((test_neighbor_position_relation(
                         sprite->tile.bytes.x, sprite->tile.bytes.y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     actor->facing = get_rounded_facing_and_rounding_flag(

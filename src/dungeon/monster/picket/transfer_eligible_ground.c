@@ -38,7 +38,7 @@ typedef struct {
 } TargetFieldView_80EAF000;
 
 extern void clear_slot_and_update_linked_state(void *);
-extern void *place_actor_at_directional_neighbor(void *, u8, u8, s16);
+extern void *probe_directional_neighbor(void *, u8, u8, s16);
 extern s32 generate_random_value(void);
 extern s16 find_floor_item_at_world_position(s16, s16, s16);
 extern s32 is_linked_entity_flagged_80000(void *, void *);
@@ -71,7 +71,7 @@ extern s32 D_80150FE4[];
         return (s32)D_80150FE4;
     }
 
-    target = place_actor_at_directional_neighbor(actor, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25,
+    target = probe_directional_neighbor(actor, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_24, ((OriginBytesFieldView_80EAF000 *)origin_bytes)->field_25,
                            ((ActorBytesFieldView_80EAF000 *)actor_bytes)->field_2A.s16);
     if (target != 0) {
         if (target == (void *)dungeon_actor_ring_anchor[0]) {

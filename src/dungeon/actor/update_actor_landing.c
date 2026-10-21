@@ -19,7 +19,7 @@ typedef struct S_800D991C_0 {
     s32 unk_A4;
 } S_800D991C_0;   /* arg0 in update_actor_landing */
 
-void func_8003DB94();        /* extern */
+void select_record_entry_and_value();        /* extern */
 s16 get_rounded_facing_and_rounding_flag();       /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 advance_status_timers();                      /* extern */
@@ -85,7 +85,7 @@ void update_actor_landing(void *motion_state, ObjectPosition *transform, void *m
             set_record_integer_tile_center(transform, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
             animation_table = actor_action_frames;
             ((SpriteFrameState *)map_entity)->frameTable = animation_table;
-            func_8003DB94(map_entity, *(void **)((u8 *)animation_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
+            select_record_entry_and_value(map_entity, *(void **)((u8 *)animation_table + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
                 + actor->facing + 0x100) >> 7) & 0x1C)), 0);
             ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
         }

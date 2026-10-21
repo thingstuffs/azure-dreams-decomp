@@ -164,7 +164,7 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
     top_y = -0x20;
     ((S_8016E4E8_0 *)animation)->unk_1E++;
 outer_loop:
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     part = (u8 *)object + 0x20;
     if (object != NULL) {
         ((S_8016E4E8_2 *)part)->unk_18 = one;

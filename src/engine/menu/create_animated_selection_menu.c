@@ -22,7 +22,7 @@ typedef struct S_8004FDE0_obj {
     S_8004FDE0_sub sub;         /* 0x20 */
 } S_8004FDE0_obj;
 
-extern void func_8004FC68(void *a0);
+extern void initialize_menu_record_value(void *a0);
 
 /* Allocates and initializes an object, installs its callbacks, or returns NULL on failure. */
 void *create_animated_selection_menu(void *init_data)
@@ -30,10 +30,10 @@ void *create_animated_selection_menu(void *init_data)
     S_8004FDE0_obj *obj;
     S_8004FDE0_sub *sub;
 
-    obj = func_8003FC64(0);
+    obj = allocate_flagged_object_node(0);
     if (obj != 0) {
         sub = &obj->sub;
-        func_8004FC68(sub);
+        initialize_menu_record_value(sub);
         sub->unk30 = find_resolved_selection_menu_index(sub, init_data);
         if (create_animated_selection_menu_entries(sub) == 0) {
             destroy_animated_selection_menu(obj);

@@ -56,7 +56,7 @@ extern D_800DF2A8_fn D_800DF2A8[];
 extern u8 D_800E3D40[16];
 extern void process_unflagged_linked_entries_alt(s32);
 extern void process_unflagged_linked_entries(s32);
-extern s32 func_8003DB94(void *, s32, s32);
+extern s32 select_record_entry_and_value(void *, s32, s32);
 
 extern u8 floor_objects[16];
 extern s32 D_800DF258[16];

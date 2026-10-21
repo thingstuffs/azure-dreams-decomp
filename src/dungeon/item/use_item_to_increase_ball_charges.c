@@ -16,11 +16,11 @@ extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 copy_selected_text_without_terminator(void *, s32);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 
@@ -57,7 +57,7 @@ s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_
         display_actor_item_status_message(target, action, action_type);
         if (feed_actor_restore_mp(
                 target, entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(target, action);
+            place_actor_item(target, action);
             return 1;
         }
     } else {
@@ -76,7 +76,7 @@ s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_
         } else {
             message_end = expand_text_control_codes(D_800E1514, message);
         }
-        func_80099290(message_end);
+        clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message);
     }
 

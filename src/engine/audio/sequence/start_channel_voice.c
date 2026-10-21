@@ -154,8 +154,8 @@ u16 right_gain_arg;
                 voice_id = voice_ids + channel;
             }
             do {
-                func_8005E97C(0, *voice_id);
-                voice_state = func_8005EB78(*voice_id);
+                set_spu_voice_keys(0, *voice_id);
+                voice_state = read_selected_voice_key_state(*voice_id);
                 if (voice_state == 2) {
                     break;
                 }

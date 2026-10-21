@@ -10,7 +10,7 @@ void wait_until_sound_idle(void)
     s32 frame_value;
 
     for (;;) {
-        poll_state = func_80053EF0(1);
+        poll_state = read_sound_mode_blocking_status(1);
         if (poll_state == 0) {
             return;
         }

@@ -65,8 +65,8 @@ typedef struct S_800930F0_9 {
 } S_800930F0_9;   /* store_base in update_floor_exit_transition */
 
 
-void func_80040AA0();
-void func_80041094();
+void request_scene_dispatch_state();
+void request_scene_state_with_parameters();
 s32 get_entity_class();
 void reset_tagged_entry_states();
 void mark_sprite_resources_for_purge();
@@ -137,7 +137,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
                 break;
             }
             ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
-            func_80040AA0(3U);
+            request_scene_dispatch_state(3U);
             break;
         }
         snapshot_inventory_and_familiars(state);
@@ -192,7 +192,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
         if (!(((S_800930F0_12 *)(state->unk_C8))->unk_1E & 0x8000)) {
             break;
         }
-        func_80040AA0(scene_mode_code);
+        request_scene_dispatch_state(scene_mode_code);
         current_dungeon_floor = *(u16 *)0x80010234;
         mark_sprite_resources_for_purge();
         state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
@@ -204,7 +204,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
                 break;
             }
             ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
-            func_80040AA0(3U);
+            request_scene_dispatch_state(3U);
             break;
         }
         snapshot_inventory_and_familiars(state);
@@ -224,7 +224,7 @@ void update_floor_exit_transition(PlayerRecord *state, s32 unused, MovingTile *t
             flags_base = (u8 *)resident_globals_page;
             flags = 0x8000;
             ((S_800930F0_9 *)flags_base)->unk_2E76 = flags;
-            func_80041094(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
+            request_scene_state_with_parameters(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
         }
         state->actor.unk_9B = (u8) (state->actor.unk_9B + 1);
     case 17:

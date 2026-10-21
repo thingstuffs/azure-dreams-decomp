@@ -11,10 +11,10 @@ extern void clear_slots_of_type(void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -41,7 +41,7 @@ typedef struct CreatureState {
     u8 pad_00[0x1C];
     u32 flags;
     u8 pad_20[0x5];
-    u8 tileY;
+    u8 mp;
     u8 pad_26[0x4];
     s16 facing;
     u8 pad_2C[0x1A];
@@ -79,7 +79,7 @@ void update_dungeon_actor_behavior_and_animation(void *actor, void *context, Act
         return;
     }
 
-    if (entity->tileY == 0) {
+    if (entity->mp == 0) {
         u8 *inactive_anims;
 
         advance_actor_pending_action(actor, context, sprite, entity);
@@ -153,7 +153,7 @@ void update_dungeon_actor_behavior_and_animation(void *actor, void *context, Act
 
     if (entity->actionsLeft > 0) {
         if (entity->flags & 0x20) {
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         }
         if (sprite->position.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -207,7 +207,7 @@ void update_dungeon_actor_behavior_and_animation(void *actor, void *context, Act
             }
         /* fall through */
         case 12:
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         case 1:
         case 2:
@@ -224,7 +224,7 @@ void update_dungeon_actor_behavior_and_animation(void *actor, void *context, Act
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(entity->flags & 0x430)) {
 
-                if ((s16)compare_monster_neighbor_values(sprite->position.tile.x,
+                if ((s16)test_neighbor_position_relation(sprite->position.tile.x,
                         sprite->position.tile.y, reference_tile_object.tile_position.parts.tile_x,
                         reference_tile_object.tile_position.parts.tile_y) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(

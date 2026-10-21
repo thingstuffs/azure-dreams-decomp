@@ -68,7 +68,7 @@ void close_timer_2_update_event(void);
 s32 compare_byte_span(u8 *p1, u8 *p2, s32 n);
 
 /* decode_note_text.c */
-void *decode_note_text(void *entries, u8 *text, s32 initial_octave);
+void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);
 
 /* entry_compare_byte_span.c */
 s32 find_sequence_magic_after_offset(s32 start_index);
@@ -101,7 +101,7 @@ int read_sequence_halfword(int input);
 void reinit_audio_voices(void);
 
 /* scale_value_with_remainder_second.c */
-s32 func_800599B0(void);
+s32 initialize_audio_sequence_tracks(void);
 
 /* scan_stream_for_three_byte_marker.c */
 s32 scan_stream_for_three_byte_marker(s32 offset);

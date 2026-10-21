@@ -13,5 +13,5 @@ s32 resource_value_table_contains(s32 value);
 s32 has_listed_resource_in_slots(void);
 s32 find_slot_for_resource_entry(void);
 void reserve_twch_load(s32 entry_id);
-void func_8008B4B0(void);
+void load_reserved_slot_resources(void);
 #endif

@@ -21,7 +21,7 @@ extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused
 extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
 extern void display_formatted_context_message(void *);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32);
 extern s32 feed_actor_restore_mp(void *, u16, s32);
 extern s32 create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
@@ -41,7 +41,7 @@ s32 apply_return_magic_item(u8 *entity, s32 event, s16 target_type, s32 target_r
     if ((u32)entity <= 0x9FFFFFFF) {
         display_actor_item_status_message(entity, event);
         if (feed_actor_restore_mp(entity, entity_action_selectors[entity[0x13]] & 3, event) == 0) {
-            apply_item_effect_at_entity_position(entity, event);
+            place_actor_item(entity, event);
             return 1;
         }
         ((Struct_80083460 *)&g_dungeon_status)->count--;

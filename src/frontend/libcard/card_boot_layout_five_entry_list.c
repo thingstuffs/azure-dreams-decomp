@@ -26,7 +26,7 @@ void card_boot_layout_five_entry_list(void *context)
         entry = ((MainEntry **)((u8 *)context + 0x8CC))[entry_index];
         entry->position->x = 0x124 - (*(s32 *)((u8 *)context + 0x18) / 2);
         entry->position->y = entry_index * 0x11 - (*(s32 *)((u8 *)context + 0x1C) / 2) + 0xFC;
-        entry->value = decode_note_text((u8 *)context + 0x114 + entry_index * 0x180,
+        entry->value = decode_fullwidth_text((u8 *)context + 0x114 + entry_index * 0x180,
                                      D_800280B4[*(s32 *)((u8 *)context + 8)][entry_index], 1);
     }
 }

@@ -84,11 +84,11 @@ extern u8 snowball_actor_sprites[];
 
 extern void clear_resident_bit(s32);
 extern void set_resident_bit(s32);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void SD_Call(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -127,7 +127,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
     if (((S_80020DF0_2 *)motion)->unk_08.at02.v >= ground_height) {
         ((S_80020DF0_2 *)motion)->unk_08.at02.v = ground_height;
     }
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
 
     state = ((S_80020DF0_0 *)object)->unk_68.s;
     state_bits = ((S_80020DF0_0 *)object)->unk_68.u;
@@ -346,7 +346,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
                         ((S_80020DF0_8 *)link)->unk_04 = motion;
                         ((S_80020DF0_8 *)link)->unk_02 = 0x78;
                         ((S_80020DF0_6 *)particle)->unk_10 = particle_data;
-                        func_8003DB94(part, snowball_actor_sprites, (s16)(index * 4));
+                        select_record_entry_and_value(part, snowball_actor_sprites, (s16)(index * 4));
                     }
                     index--;
                 } while (index >= 0);
@@ -528,7 +528,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
     }
 
     if (effect != NULL) {
-        func_8003DB94(sprite, effect, 0);
+        select_record_entry_and_value(sprite, effect, 0);
     }
 
     return;

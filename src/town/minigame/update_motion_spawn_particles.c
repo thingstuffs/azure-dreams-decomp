@@ -33,7 +33,7 @@ typedef struct Object {
     void (*callback)(void);
 } Object;
 
-extern void func_8003DB94(Sprite *, void *, s32);
+extern void select_record_entry_and_value(Sprite *, void *, s32);
 extern void register_node(Object *, void *);
 extern void SD_Call(s32, s32);
 extern void func_80067014(s32);
@@ -78,7 +78,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
         SD_Call(0x519, gravity);
         index = 15;
         do {
-            particle = (Object *)func_8003FC64(0x136);
+            particle = (Object *)allocate_flagged_object_node(0x136);
             if (particle != 0) {
                 particle->callback = set_linked_object_and_global_flags;
                 register_node(particle, project_sprite_chain);
@@ -90,7 +90,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
                 sprite->scale_y = 0x1000;
                 sprite->scale_x = 0x1000;
                 sprite->flags |= 0xC;
-                func_8003DB94(sprite, D_800F15AC, 0);
+                select_record_entry_and_value(sprite, D_800F15AC, 0);
                 sprite->color.word = 0x606060;
             }
             index--;

@@ -55,7 +55,7 @@ void update_directional_record();      /* extern */
 void advance_bounded_entry_index();              /* extern */
 void fill_eligible_negative_slots();            /* extern */
 M2C_UNK select_sprite_entry();         /* extern */
-M2C_UNK func_800478B8();                      /* extern */
+M2C_UNK advance_sprite_animation_and_textures();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();              /* extern */
@@ -130,7 +130,7 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
     paths = town_minigame_path_records;
     model_base = ((S_80023260_0 *)actor)->unk_00;
     waypoint = paths[((S_80023260_0 *)actor)->unk_22].ptr + (((S_80023260_0 *)actor)->unk_1C * 8);
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     position_ref = actor + 0x14;
     advance_bounded_entry_index(motion, position_ref);
     fill_eligible_negative_slots(model_base, position_ref, ((S_80023260_0 *)actor)->unk_24);

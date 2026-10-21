@@ -30,7 +30,7 @@ void sound_activate_loaded_sequence_slot(s16 slot_index, u8 mode, s16 sub_id)
             audio_active_sequence_sub_id[0] = sub_id;
             audio_sequence_stream_limit[0] = 0x10000;
             audio_sequence_data_base[0] = audio_sequence_slots[slot_index].field_4;
-            func_800599B0();
+            initialize_audio_sequence_tracks();
             if (!(mode & 0xFF)) {
                 audio_sequence_active[0] = 0;
                 audio_update_guard[0] = 1;

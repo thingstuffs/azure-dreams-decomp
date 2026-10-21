@@ -45,7 +45,7 @@ s32 get_entity_effect_value();                 /* extern */
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 void detach_record_and_update_slot_state(void *);                 /* extern */
-void decrement_event_counter();                            /* extern */
+void decrement_bounded_counter();                            /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 
 void update_actor_fade_state(void *state, void *unused, void *data, void *entity) {
@@ -109,7 +109,7 @@ void update_actor_fade_state(void *state, void *unused, void *data, void *entity
             unlink_entity_node(entity);
             (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_800D34CC_1_pre *)entity)[-1].unk_00 | 0x8000);
             object_flag_block.flags |= 0x8000;
-            decrement_event_counter();
+            decrement_bounded_counter();
         }
     }
 }

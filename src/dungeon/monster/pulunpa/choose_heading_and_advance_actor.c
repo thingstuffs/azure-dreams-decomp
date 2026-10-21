@@ -87,19 +87,19 @@ typedef struct {
     u8 padE[6];
 } DungeonModeRecord;
 
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void update_actor_proximity_flag(void *, void *, s32, s32, void *);
 extern void *find_valid_monster_neighbor(void *, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, void *);
 extern s32 generate_random_value(void);
-extern void *place_actor_at_directional_neighbor(void *, s32, s32, s32);
+extern void *probe_directional_neighbor(void *, s32, s32, s32);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern void rebuild_monster_reachable_tiles(void *, s32, void *, void *);
 extern s16 get_actor_height_difference(void *, void *);
 extern s16 check_diagonal_side_height(s32, s32, s32, s32);
-extern s32 forward_monster_coordinate_delta(s32, s32, s32, s32);
+extern s32 calculate_planar_heading(s32, s32, s32, s32);
 extern s16 get_tile_chebyshev_distance(void *, void *);
-extern s16 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s16 test_neighbor_position_relation(s32, s32, s32, s32);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void cycle_map_cell_flags(s32, s32, s32);
 extern s16 check_entity_relation(void *, void *);
@@ -127,7 +127,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
 
     if ((state_flags & 0x4000) || ((S_8017405C_0 *)movement)->unk_71.s >= 0) {
         if (((S_8017405C_0 *)movement)->unk_71.s >= 0 || func_80174BCC(context, action, actor, movement) == 0) {
-            update_actor_status_and_food(movement);
+            update_actor_status_and_mp(movement);
         } else {
             ((S_8017405C_0 *)movement)->unk_46 = 0xC008;
         }
@@ -158,7 +158,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                     ((S_8017405C_0 *)movement)->unk_2A.u += (generate_random_value() & 7) << 9;
                 }
             }
-        } else if (place_actor_at_directional_neighbor(movement, actor->unk_24.at00.v, actor->unk_24.at01.v,
+        } else if (probe_directional_neighbor(movement, actor->unk_24.at00.v, actor->unk_24.at01.v,
             ((S_8017405C_0 *)movement)->unk_2A.s) != 0) {
             ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
             return;
@@ -197,7 +197,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
             rebuild_monster_reachable_tiles(actor, ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8, movement, (u8 *)context + 0x98);
         } else {
             if (!(((S_8017405C_0 *)movement)->unk_46 & 0x8000)) {
-                target = place_actor_at_directional_neighbor(movement, actor->unk_24.at00.v, actor->unk_24.at01.v,
+                target = probe_directional_neighbor(movement, actor->unk_24.at00.v, actor->unk_24.at01.v,
                     ((S_8017405C_0 *)movement)->unk_2A.s);
                 if (target != 0 && (((S_8017405C_2 *)target)->unk_1C & 0x2000)
                     && get_actor_height_difference(target, movement) < 0x81) {
@@ -219,7 +219,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                         u8 *leader_pos = reference_tile_object;
                         s32 angle_delta;
                         s32 relative_angle;
-                        angle_delta = forward_monster_coordinate_delta(leader_pos[0x24], leader_pos[0x25],
+                        angle_delta = calculate_planar_heading(leader_pos[0x24], leader_pos[0x25],
                                               actor->unk_24.at00.v, actor->unk_24.at01.v);
                         relative_angle = (((u16)primary_actor_record->facing) + angle_delta) & 0xFFF;
                         if (relative_angle > 0x400 && relative_angle < 0xC00) {
@@ -251,7 +251,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                                                             ((S_8017405C_9 *)first_pos)->unk_24,
                                                                 ((S_8017405C_9 *)first_pos)->unk_25,
                                                             (u8 *)context + 0x98);
-                        if (compare_monster_neighbor_values(actor->unk_24.at00.v, actor->unk_24.at01.v,
+                        if (test_neighbor_position_relation(actor->unk_24.at00.v, actor->unk_24.at01.v,
                                           ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25)
                                               != 0) {
                             ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
@@ -262,7 +262,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                                                             ((S_8017405C_10 *)second_pos)->unk_24,
                                                                 ((S_8017405C_10 *)second_pos)->unk_25,
                                                             (u8 *)context + 0x98);
-                        if (compare_monster_neighbor_values(actor->unk_24.at00.v, actor->unk_24.at01.v,
+                        if (test_neighbor_position_relation(actor->unk_24.at00.v, actor->unk_24.at01.v,
                                           ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25)
                                               != 0) {
                             ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
@@ -340,7 +340,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
     if (move_index >= 8) {
         ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
         ((S_8017405C_0 *)movement)->unk_46 &= 0x7FFF;
-        update_actor_status_and_food(movement);
+        update_actor_status_and_mp(movement);
         return;
     }
     {

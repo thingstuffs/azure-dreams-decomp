@@ -22,7 +22,7 @@ typedef struct {
     s32 words[8];
 } __attribute__((packed)) LocalTable;
 
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 extern u8 D_800DEAE0[];
 extern LocalTable D_8016482C;
@@ -84,7 +84,7 @@ void create_forward_layered_sprite_pulse(void)
     source_state = (void *)beldo_actor_nodes + 0x20;
     source_pos = ((S_801677FC_0 *)((void *)beldo_actor_nodes))->unk_08;
     do {
-        effect = func_8003FC64(0x212);
+        effect = allocate_flagged_object_node(0x212);
         if (effect != NULL) {
             effect_state = effect + 0x20;
             effect_state->unk_18 = 0xE;
@@ -118,7 +118,7 @@ void create_forward_layered_sprite_pulse(void)
             sprite->clut = 0x7DCF;
             sprite->flags =
                 (u16)(sprite->flags | 0x100);
-            func_8003DB94(sprite, D_800DEAE0, 0);
+            select_record_entry_and_value(sprite, D_800DEAE0, 0);
         }
         effect_index += 1;
     } while (effect_index < 0x10);

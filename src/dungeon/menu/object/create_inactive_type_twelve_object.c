@@ -68,7 +68,7 @@ void create_inactive_type_twelve_object(void) {
     Obj12 *object;
 
     if (!(dungeon_floor_flags & 0x80)) {
-        object = func_8003FC64(0x12);
+        object = allocate_flagged_object_node(0x12);
         if (object != NULL) {
             object->unk_10 = D_8009E038;
             register_node(object, D_8009E798);

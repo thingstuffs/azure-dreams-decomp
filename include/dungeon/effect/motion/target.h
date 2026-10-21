@@ -134,7 +134,7 @@ typedef struct Row_818E786C_S_8002506C_2 {
 } Row_818E786C_S_8002506C_2;   /* temp_v1 in func_8002506C */
 
 /* Copy the selected pair of table values into the linked record. */
-void func_800478B8(void *visual);
+void advance_sprite_animation_and_textures(void *visual);
 void func_80065770();
 s32 func_80069EF8();
 s32 func_800666F4();

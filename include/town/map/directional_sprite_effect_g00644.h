@@ -75,14 +75,14 @@ s32 func_80064584();
 /* extern */
 extern M2C_UNK D_800BC6CC;
 extern M2C_UNK D_800F15E4;
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 void configure_the_set_mode_n_1(struct Rec_func_8008F074_arg0 *, s32, s32);
 /* extern */
 extern M2C_UNK D_800BC764;
 extern M2C_UNK D_800D20CC;
 extern s32 D_800D20E4;
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 /* Functions defined in this translation unit. */
 s32 create_directional_sprite_effect(void *position, s16 angle);
 void advance_coordinates_and_propagate_flags(void *object_data, void *motion, void *status);

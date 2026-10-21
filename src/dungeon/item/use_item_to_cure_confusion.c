@@ -21,9 +21,9 @@ void begin_deferred_item_action(); /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 s32 get_unused_text_buffer(void);                          /* extern */
 s32 expand_text_control_codes();                  /* extern */
-void *func_80099290();                         /* extern */
+void *clear_byte_and_advance();                         /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
-void apply_item_effect_at_entity_position();                 /* extern */
+void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
@@ -60,7 +60,7 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
         type_index = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
         type_flags = (u16 *)&entity_action_selectors;
         if (feed_actor_restore_mp(call_arg, (type_flags[type_index] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(entity, update_value);
+            place_actor_item(entity, update_value);
             return 1;
         }
     }
@@ -71,7 +71,7 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
         context_arg = effect_result;
         saved_context = context_arg;
         effect_result = expand_text_control_codes(call_arg, context_arg);
-        func_80099290(effect_result);
+        clear_byte_and_advance(effect_result);
         display_text_with_fullwidth_adjustment(saved_context);
     }
     clear_slots_of_type(entity, 2);

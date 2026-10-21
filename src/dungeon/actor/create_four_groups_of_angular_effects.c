@@ -44,7 +44,7 @@ next_group:
     motion_angle = base_angle + 0x400;
     scale_shift = 5 - group_index;
 spawn:
-    effect = func_8003FC64(0x202);
+    effect = allocate_flagged_object_node(0x202);
     if (effect != 0) {
         *(void **)((u8 *)effect + 0x10) = callback;
         data = D_800CEEFC;

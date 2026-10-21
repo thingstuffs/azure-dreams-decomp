@@ -71,7 +71,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
     effect_slot = &D_80175D78;
     end_angle = 0x100;
     do {
-        effect = func_8003FC64(0x12);
+        effect = allocate_flagged_object_node(0x12);
         if (effect != 0) {
             effect_data = effect + 0x20;
             initial_count = 0x32;

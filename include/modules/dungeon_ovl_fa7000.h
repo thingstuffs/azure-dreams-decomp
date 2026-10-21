@@ -10,14 +10,14 @@
 extern u8 D_80174AD4[];
 void select_sprite_entry();
 void func_80047784();
-s32 compare_monster_neighbor_values();
+s32 test_neighbor_position_relation();
 /* This retail bank used the signed-halfword declaration. */
 s16 sample_terrain_surface_height();
 void update_map_cell_flags_with_item_limit();
 void cycle_map_cell_flags();
 s32 check_entity_relation();
 s16 get_actor_height_difference();
-s32 place_actor_at_directional_neighbor();
+s32 probe_directional_neighbor();
 s32 apply_camera_offset_and_select_target();
 s32 advance_status_timers();
 void spend_actor_mp();

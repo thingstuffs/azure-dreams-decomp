@@ -146,10 +146,10 @@ typedef struct { s16 x; u16 y; } ScriptDirection;
 #define SP2_X_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->x)
 #define SP2_Y_AT(base, a) (((ScriptDirection *)((u8 *)(base) + ((((u16)(a)) >> 7) & 0x1C)))->y)
 
-void func_80041094(s32, s16, s16, s16, s32); /* extern */
+void request_scene_state_with_parameters(s32, s16, s16, s16, s32); /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
-void func_800478B8();  /* extern */
+void advance_sprite_animation_and_textures();  /* extern */
 s32 func_800644B8();                     /* extern */
 void snapshot_inventory_and_familiars();                 /* extern */
 void snapshot_inventory_familiar_records(void);                            /* extern */
@@ -233,7 +233,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
     map_info = &g_game_work.map;
     map_tiles = ((S_80171D74_0 *)((s32 *)(&g_game_work.map)))->unk_00;
     owner_state = beldo_script_node[0] + 0x20;
-    func_800478B8(sprite_in);
+    advance_sprite_animation_and_textures(sprite_in);
     phase = ((S_80171D74_1 *)state_in)->unk_9A;
     target_pos = ((S_80171D74_2 *)(beldo_actor_nodes[0]))->unk_08;
     target_state = beldo_actor_nodes[0] + 0x20;
@@ -789,14 +789,14 @@ shared_tail:
         snapshot_inventory_and_familiars(((s32)dungeon_actor_ring_anchor), target_state);
         snapshot_inventory_familiar_records();
         runtime_dispatch_state.flags16 = 0x8000;
-        func_80041094(6, 0, 0, 0, 0x8000);
+        request_scene_state_with_parameters(6, 0, 0, 0, 0x8000);
         ((S_80171D74_1 *)state_in)->unk_9A++;
         break;
     case 47:
         snapshot_inventory_and_familiars(((s32)dungeon_actor_ring_anchor), target_state);
         snapshot_inventory_familiar_records();
         runtime_dispatch_state.flags16 = 0x8000;
-        func_80041094(6, 0, 0, 0, 0x8000);
+        request_scene_state_with_parameters(6, 0, 0, 0, 0x8000);
         ((S_80171D74_1 *)state_in)->unk_9A++;
         break;
     case 48:

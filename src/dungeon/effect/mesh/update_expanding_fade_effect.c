@@ -27,7 +27,7 @@ typedef struct S_81977E0C_3 {
     u16 unk_0A;
 } S_81977E0C_3;   /* D_80026208 in update_expanding_fade_effect */
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 s32 func_800644B8();
 s32 func_80064584();
 s32 rand();
@@ -57,7 +57,7 @@ void update_expanding_fade_effect(void *effect, void *position, void *sprite) {
         ((SpriteFrameState *)sprite)->scale_y = scale;
         ((SpriteFrameState *)sprite)->scale_x = scale;
     }
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     if (((SpriteFrameState *)sprite)->flags & 0x6000) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81977E0C_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;

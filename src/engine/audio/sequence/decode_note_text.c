@@ -4,8 +4,8 @@
 #include "engine/text.h"
 #include "slus.h"
 
-/* Decodes text into note entries and marks the final entry as the end of the sequence. */
-void *decode_note_text(void *entries, u8 *text, s32 initial_octave)
+/* Decode fullwidth text into glyph entries and mark the final entry. */
+void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave)
 {
     s8 *entry = (s8 *)entries;
     u8 *cursor = text;

@@ -62,9 +62,9 @@ extern s32 spu_reverb_feedback[];
 extern S_80079958 *spu_registers;
 extern s32 spu_reverb_start_addresses[];
 extern S_8005DA88_buf spu_reverb_parameter_tables[];
-extern s32 func_8005D9DC(s32 handle);
-extern void func_8005DF80(void *buf);
-extern void func_8005E7E0(s32 idx);
+extern s32 test_spu_blocks_beyond_address(s32 handle);
+extern void write_spu_reverb_parameters(void *buf);
+extern void clear_spu_reverb_work_area(s32 idx);
 extern void func_8005D550(s32 a0, s32 handle, s32 a2);
 /* Return the reverb parameter buffer as bytes for copying. */
 inline u8 *inline_fn_8005DA88(S_8005DA88_buf *params)
@@ -73,7 +73,7 @@ inline u8 *inline_fn_8005DA88(S_8005DA88_buf *params)
 }
 
 /* Update reverb mode, depth, delay and feedback, optionally clearing its work area. */
-s32 func_8005DA88(S_8005DA88 *settings, s32 unused_1, s32 *unused_2, s32 unused_3)
+s32 configure_spu_reverb(S_8005DA88 *settings, s32 unused_1, s32 *unused_2, s32 unused_3)
 {
     S_8005DA88_buf reverb_params;
     s32 flags;
@@ -114,7 +114,7 @@ s32 func_8005DA88(S_8005DA88 *settings, s32 unused_1, s32 *unused_2, s32 unused_
         if (mode >= 0xAU) {
             return -1;
         }
-        if (func_8005D9DC(spu_reverb_start_addresses[mode]) != 0) {
+        if (test_spu_blocks_beyond_address(spu_reverb_start_addresses[mode]) != 0) {
             return -1;
         }
         mode_changed = 1;
@@ -224,10 +224,10 @@ s32 func_8005DA88(S_8005DA88 *settings, s32 unused_1, s32 *unused_2, s32 unused_
         spu_reverb_depth_right[0] = 0;
     }
     if ((mode_changed || delay_changed) || feedback_changed) {
-        func_8005DF80(&reverb_params);
+        write_spu_reverb_parameters(&reverb_params);
     }
     if (clear_work_area) {
-        func_8005E7E0(spu_reverb_mode[0]);
+        clear_spu_reverb_work_area(spu_reverb_mode[0]);
     }
     if (mode_changed) {
         func_8005D550(0xD1, spu_reverb_start_address[0], 0);

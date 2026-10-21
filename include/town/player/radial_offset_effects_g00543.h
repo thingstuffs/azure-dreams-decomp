@@ -76,7 +76,7 @@ typedef struct {
     s16 field16;
 } StackRecord;
 
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 extern s32 D_800ABB20;
 extern s32 D_800D1464;

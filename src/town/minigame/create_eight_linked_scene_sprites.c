@@ -27,7 +27,7 @@ typedef struct S_8002082C_3 {
     s16 unk_34;
 } S_8002082C_3;   /* arg0 in create_eight_linked_scene_sprites */
 
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 extern void *allocate_list_node();
 extern s32 register_node();
 
@@ -66,7 +66,7 @@ void create_eight_linked_scene_sprites(void *owner) {
             object_data->scale_y = 0x1000;
             object_data->scale_x = 0x1000;
             object_data->flags |= 0xC;
-            func_8003DB94(object_data, D_800F29B4, 0);
+            select_record_entry_and_value(object_data, D_800F29B4, 0);
         }
         slot_index--;
     } while (slot_index >= 0);

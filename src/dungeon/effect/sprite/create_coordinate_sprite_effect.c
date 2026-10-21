@@ -21,18 +21,18 @@ void func_80024028(void *target, s32 effect_param) {
 }
 
 
-void func_800240C4(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
+void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
                    Row_818A48C4_Func818A48C4Object *target) {
     Row_818A48C4_Func818A48C4Object *source;
     s32 random_value;
 
     source = *source_ref;
     source->flags += 1;
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
     random_value = rand();
     target->value = (s16)(random_value % 0x1000);
     if (target->flags & 0x6000) {
-        func_8003DB94(target, D_80025238, 0);
+        select_record_entry_and_value(target, D_80025238, 0);
     }
 }
 
@@ -41,15 +41,15 @@ void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A494
     SpriteFrameState *render_data;
     Row_818A4948_S_func_818A4948_2 *coords;
 
-    obj = func_8003FC64(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->unk_10 = func_800240C4;
+        obj->unk_10 = animate_randomly_rotated_sprite;
         render_data = obj->unk_0C;
         obj->unk_20 = user_data;
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
-        func_8003DB94(render_data, D_80025238, 0);
+        select_record_entry_and_value(render_data, D_80025238, 0);
         render_data->scale_y = 0x800;
         render_data->scale_x = 0x800;
         render_data->clut = 0x7E07;
@@ -64,7 +64,7 @@ void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A494
     return 0;
 }
 
-void func_80024230(void **object_ref, long long value) {
+void advance_counted_sprite_animation(void **object_ref, long long value) {
     void *object;
     u16 *counter;
     u32 low_value;
@@ -73,7 +73,7 @@ void func_80024230(void **object_ref, long long value) {
     counter = (u16 *)((s8 *)object + 0x14);
     low_value = value;
     *counter = (u16)(*counter + 1);
-    func_800478B8(low_value);
+    advance_sprite_animation_and_textures(low_value);
 }
 
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position) {
@@ -81,15 +81,15 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
     Row_818A4A64_S_818A4A64_0 *object;
     Row_818A4A64_S_818A4A64_3 *position;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         render_state = object->unk_0C;
-        object->unk_10 = (s32 *) func_80024230;
+        object->unk_10 = (s32 *) advance_counted_sprite_animation;
         object->unk_20 = context_value;
         render_state->color.c.b = 0;
         render_state->color.c.g = 0;
         render_state->color.c.r = 0;
-        func_8003DB94(render_state, D_800DEAE0, 0);
+        select_record_entry_and_value(render_state, D_800DEAE0, 0);
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->flags |= 0xC;
@@ -103,7 +103,7 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
     return NULL;
 }
 
-void func_80024340(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, SpriteFrameState *object) {
+void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, SpriteFrameState *object) {
     s16 angle;
     s32 random_value;
     s32 biased_random;
@@ -124,9 +124,9 @@ void func_80024340(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 
         motion->unk_06 = (u16) (-6 - (rand() % 5));
     }
     position->unk_0A = (s16) (motion->unk_0C + motion->unk_04);
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
-        func_8003DB94(object, &D_800DECF8, 0);
+        select_record_entry_and_value(object, &D_800DECF8, 0);
     }
 }
 
@@ -142,9 +142,9 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
     Row_818A4CA0_S_818A4CA0_4 *position;
     void *effect;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        random_value = (s32)func_80024340;
+        random_value = (s32)cycle_sprite_height_and_position;
         ((Row_818A4CA0_S_818A4CA0_0 *)effect)->unk_20 = effect_data;
         effect_data = effect + 0x20;
         ((Row_818A4CA0_S_818A4CA0_0 *)effect)->unk_10 = (void *)random_value;
@@ -161,7 +161,7 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
         sprite->tpage_abr = (u16) (sprite->tpage_abr | 0x60);
         sprite->flags = (u16) (sprite->flags | 0x100);
         shifted_frame = (s32)frame_index << 0x10;
-        func_8003DB94(sprite, &D_800DECF8, (s16) ((shifted_frame >> 0x10) % 5));
+        select_record_entry_and_value(sprite, &D_800DECF8, (s16) ((shifted_frame >> 0x10) % 5));
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         register_node(effect, project_sprite_chain);
@@ -181,7 +181,7 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
 }
 
 
-void func_80024674(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target) {
+void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target) {
     s32 random_value;
     s32 random_quotient;
     Row_818A4E74_S_func_818A4E74_0 *object;
@@ -199,9 +199,9 @@ s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *
     Row_818A4ED0_S_818A4ED0_2 *position;
     Row_818A4ED0_S_818A4ED0_0 *object;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        object->unk_10 = func_80024674;
+        object->unk_10 = randomize_counted_sprite_angle;
         object->unk_20 = object_param;
         render_state = object->unk_0C;
         render_state->source = D_80025214;

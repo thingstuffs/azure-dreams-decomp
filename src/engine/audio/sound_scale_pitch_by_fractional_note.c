@@ -31,7 +31,7 @@ u32 sound_scale_pitch_by_fractional_note(s32 pitch, u32 note_offset)
     return (u32)(pitch_low + (((u32)(pitch_high - pitch_low) >> 5) * note_offset)) >> 12;
 }
 
-u32 func_8005F7D0(u16 center_note, u16 center_fine, u16 note, u16 fine)
+u32 calculate_pitch_from_note(u16 center_note, u16 center_fine, u16 note, u16 fine)
 {
     s32 center_tuning;
             /* 8 bytes of frame below reload's spill slot: retail's product carrier

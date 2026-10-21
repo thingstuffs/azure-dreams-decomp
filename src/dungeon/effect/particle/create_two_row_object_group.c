@@ -19,7 +19,7 @@ void create_two_row_object_group(void *payload, s16 value_scale) {
     s32 column;
     do {
         for (column = 7; column >= 0; column--) {
-            u8 *object = func_8003FC64(2);
+            u8 *object = allocate_flagged_object_node(2);
             if (object != 0) {
                 u8 *data = object + 0x20;
                 *(s16 *)(object + 0x20) = 0;
@@ -556,7 +556,7 @@ typedef struct S_800DB164_2 {
     s32 unk_14;
 } S_800DB164_2;   /* arg1 in update_timed_effect_animation */
 
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 s32 rand();                             /* extern */
 
 /* Updates a timed effect's animation and motion, marking it for removal when finished. */
@@ -605,7 +605,7 @@ void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState 
     if (((S_800DB164_0 *)effect)->unk_4C.s != 0) {
         ((S_800DB164_2 *)motion)->unk_08.at00.v = (s32) (((S_800DB164_2 *)motion)->unk_08.at00.v
             + ((S_800DB164_2 *)motion)->unk_14);
-        func_800478B8(visual);
+        advance_sprite_animation_and_textures(visual);
     }
 }
 #include "common.h"
@@ -745,7 +745,7 @@ typedef struct D_800DB420_Effect {
 extern void register_node(void *, void *);
 extern s32 rand(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 
 /* Jitter the position and advance the effect through its modes and countdown. */
 void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB420_Effect *effect) {
@@ -765,7 +765,7 @@ void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *pos
         *(u16 *)((u8 *)state + 4) += 1;
         return;
     case 2:
-        func_800478B8(effect);
+        advance_sprite_animation_and_textures(effect);
         {
             u16 remaining = *(u16 *)((u8 *)state + 6) - 1;
             *(u16 *)((u8 *)state + 6) = remaining;

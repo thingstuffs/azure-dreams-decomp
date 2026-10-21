@@ -109,7 +109,7 @@ void choose_unicorn_action(void *entity, void *context, void *sprite, void *acto
 
     if (((R12_80170E70_S_80170E70_1 *)actor)->unk_6D > 0) {
         if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x20) {
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             return;
         }
         if (((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -160,7 +160,7 @@ void choose_unicorn_action(void *entity, void *context, void *sprite, void *acto
             }
 
         case 11:
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             return;
 
         case 0:
@@ -180,7 +180,7 @@ void choose_unicorn_action(void *entity, void *context, void *sprite, void *acto
         if ((tile_id < 0) ||
             ((dungeon_rooms[tile_id].flags & 2) == 0)) {
             if ((actor_flags & 0x430) == 0) {
-                if ((s16)compare_monster_neighbor_values((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v),(u8)(reference_tile_object.tile_position.parts.tile_x),(u8)(reference_tile_object.tile_position.parts.tile_y)) != 0) {
+                if ((s16)test_neighbor_position_relation((u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v),(u8)(((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v),(u8)(reference_tile_object.tile_position.parts.tile_x),(u8)(reference_tile_object.tile_position.parts.tile_y)) != 0) {
                     ((R12_80170E70_S_80170E70_1 *)actor)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
                         ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at00.v, ((R12_80170E70_S_80170E70_2 *)sprite)->unk_24.at01.v,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &path_distance));

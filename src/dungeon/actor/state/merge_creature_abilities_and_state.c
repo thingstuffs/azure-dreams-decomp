@@ -16,7 +16,7 @@ void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void decrement_monster_entry_count();
 s32 find_entity_slot_by_field_ac();
-void func_800A31D0();
+void mark_owned_linked_actor_actions();
 s16 find_slot_by_item_group();
 typedef struct {
     u8 pad_00[0x10];
@@ -547,6 +547,10 @@ merge_donor_primary:
             s32 *trait_table = D_8006D6D8;
 
             donor_trait_bits = ((S_800277F4_8 *)donor)->unk_54;
+            /*
+             * Original bug: frogged participants still carry their original talents, but both masks use frog species
+             * 0x2E, whose native talents are zero. Fusion erases those talents; use the saved original species.
+             */
             donor_mask_ptr = trait_table + donor_kind;
             result_mask_ptr = trait_table + base_kind;
             donor_traits = *donor_mask_ptr & donor_trait_bits;
@@ -555,6 +559,10 @@ merge_donor_primary:
             ((S_800277F4_0 *)result)->unk_54 = (s32) ((base_traits & result_mask) | donor_traits);
         }
         apply_entity_effects(result);
+        /*
+         * Original bug: the MP sum is truncated to 16 bits before halving. A sum of 256 MP or more loses 128 MP from
+         * the average; the sum should be halved before narrowing.
+         */
         ((S_800277F4_0 *)result)->unk_24.at00.v = (u16) ((u32) ((((S_800277F4_0 *)result)->unk_24.at00.v
             + ((S_800277F4_8 *)donor)->unk_24) & 0xFFFF) >> 1);
         level_cap = ((S_800277F4_0 *)result)->unk_66;
@@ -585,7 +593,13 @@ merge_donor_primary:
             }
         }
         if (destination == 0) {
-            func_800A31D0(donor);
+            mark_owned_linked_actor_actions(donor);
+            /*
+             * Original bug: A frogged donor has species 0x2E, but its familiar sprite slot is keyed by its saved native
+             * species. Releasing 0x2E leaks that slot and can prevent deployment of another species.
+             * Found and documented by the Azure Dreams community
+             * (adrando.com/guide/bugs.html).
+             */
             decrement_monster_entry_count(((S_800277F4_8 *)donor)->unk_13, 3);
             slot_index = find_entity_slot_by_field_ac(donor);
             {

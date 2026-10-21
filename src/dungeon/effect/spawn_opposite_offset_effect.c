@@ -54,7 +54,7 @@ typedef struct {
 
 extern s32 register_node();
 extern s32 rand();
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 
 extern s32 D_800B63A8;
 extern s32 secondary_sprite;
@@ -73,7 +73,7 @@ void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
     source = source_data;
     direction_bits >>= 9;
     direction = direction_bits & 7;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         motion = effect->unk8;
         sprite = effect->unkC;
@@ -93,7 +93,7 @@ void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
         motion->unk_10 =
             0 - (source->unk_10 * ((rand() & 1) + 2));
         motion->unk_14 = (~rand() & 1) << 0xF;
-        func_8003DB94(sprite, &secondary_sprite, 0);
+        select_record_entry_and_value(sprite, &secondary_sprite, 0);
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;

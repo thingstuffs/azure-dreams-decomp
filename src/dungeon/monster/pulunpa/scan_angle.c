@@ -33,10 +33,10 @@ typedef struct S_80175E6C_6_pre {
 
 
 void select_sprite_entry(void *, u8, s32);
-void *place_actor_at_directional_neighbor(void *, u8, u8, s16);
+void *probe_directional_neighbor(void *, u8, u8, s16);
 s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 has_pending_actor_or_turn_action(void *);
-void update_actor_status_and_food(void *);
+void update_actor_status_and_mp(void *);
 void build_and_display_encoded_message(void *);
 extern u8 D_80176348[];
 
@@ -64,7 +64,7 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, void
         return result;
     }
     for (direction = 0; direction < 8; direction++) {
-    neighbor = place_actor_at_directional_neighbor(actor, ((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25,
+    neighbor = probe_directional_neighbor(actor, ((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25,
         scan_angle(direction));
     if (neighbor != NULL) {
         if (neighbor == ((u8 *)dungeon_actor_ring_anchor)) {
@@ -83,7 +83,7 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, void
         reference_found = (s16) (g_dungeon_status.activity_counts.parts.pending_action_count + 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = reference_found;
         ((EntityRec *)actor)->target = target;
-        update_actor_status_and_food(target);
+        update_actor_status_and_mp(target);
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;

@@ -7,7 +7,7 @@
 void register_node_if_unregistered(void *block_data, s32 registration_id);           /* extern */
 struct Dst;
 struct Elem;
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);  /* extern */
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);  /* extern */
 void *allocate_list_node();            /* extern */
 void load_indexed_state_value();      /* extern */
 typedef struct S_800C8B8C_0 S_800C8B8C_0;
@@ -63,7 +63,7 @@ s32 create_offset_effect_object(IntVector3 *source_pos) {
     render_state->scale_y = 0x1000;
     render_state->scale_x = 0x1000;
     render_state->color.word = 0x808080;
-    func_8003DB94(render_state, &D_800EE344, 0);
+    select_record_entry_and_value(render_state, &D_800EE344, 0);
     register_node_if_unregistered(object_state, project_sprite_chain);
     return (s32) object;
 }

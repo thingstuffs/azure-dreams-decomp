@@ -10,7 +10,7 @@
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
 struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);                     /* extern */
 s8 find_active_rect_containing_point();                           /* extern */
-void update_actor_status_and_food(struct ActorRecord *);                      /* extern */
+void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
 void begin_pushed_actor_move(); /* extern */
 s32 begin_ready_actor_directional_action(); /* extern */
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *); /* extern */
@@ -72,7 +72,7 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
         ((SpriteFrameState *)sprite)->unk_25);
     if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & 0x20) {
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         }
         if (!(entity->action_flags & 0x8000)) {
@@ -81,7 +81,7 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
                 if (system_update_flags & 8) {
                     advance_boss_command_stream(actor, context, sprite);
                     entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
-                    update_actor_status_and_food(entity);
+                    update_actor_status_and_mp(entity);
                     entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
                     return;
                 }
@@ -95,7 +95,7 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
         }
         entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
         entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
-        update_actor_status_and_food(entity);
+        update_actor_status_and_mp(entity);
         advance_boss_actor_movement_state(actor, context, sprite, entity);
     }
 }

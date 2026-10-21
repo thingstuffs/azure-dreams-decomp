@@ -12,7 +12,7 @@
 #define D_801740F8 D_80166E94
 #define D_80174158 D_80166EC4
 #define begin_ready_actor_directional_action func_800A936C
-#define update_actor_status_and_food func_800A86C4
+#define update_actor_status_and_mp func_800A86C4
 #define func_80047784 func_80047320
 #define generate_random_value func_800A59E8
 #define primary_actor_record D_800803DC

@@ -343,7 +343,7 @@ typedef struct Row_8191CD78_S_func_80024578_13 {
 /* Updates effect movement, target spinning, and completion across animation states. */
 s32 func_800644B8();
 s32 func_80064584();
-s32 func_8003DB94(void *, void *, s16);
+s32 select_record_entry_and_value(void *, void *, s16);
 s32 register_node(void *, void *);
 s32 func_8004491C(void *, void *);
 s32 rand(void);
@@ -351,8 +351,8 @@ int abs(int);
 s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 s32 check_layer_offset_height(s32, s32, s16, s32);
 s16 sample_terrain_surface_height(s32, s32, s16);
-void func_800419EC(u16, u16);
-s32 func_80053EF0(s32);
+void initialize_timed_motion_step(u16, u16);
+s32 read_sound_mode_blocking_status(s32);
 void drain_audio_commands_and_service_channels(void);
 void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 void play_sound_if_enabled(s32);
@@ -361,7 +361,7 @@ extern u8 D_800DED70[];
 extern M2C_UNK D_80024288;
 extern M2C_UNK D_80024F74;
 extern M2C_UNK D_80045C34;
-void func_80024048(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status);
+void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status);
 void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source);
 void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect);
 s32 create_scaled_rotating_effect(void *params_input, void *transform_input);

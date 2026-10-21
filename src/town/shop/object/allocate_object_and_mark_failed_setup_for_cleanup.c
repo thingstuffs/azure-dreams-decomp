@@ -30,7 +30,7 @@ void *allocate_object_and_mark_failed_setup_for_cleanup(s32 resource_id, s32 slo
     S_800B6A0C_1 *state;
     void *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     state = object + 0x20;
     if (object != 0) {
         if (func_800B6990(state, 0x18) != 0) {

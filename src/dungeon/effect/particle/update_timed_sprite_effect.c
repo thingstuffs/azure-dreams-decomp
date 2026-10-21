@@ -422,7 +422,7 @@ void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
         ((ProjectileParticle *)effect)->unk_4C.u = ((ProjectileParticle *)effect)->unk_4C.u + 1;
         return;
     case 1:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if (((ProjectileSprite *)sprite)->unk_14 & 0x6000) {
             ((ProjectileSprite *)sprite)->unk_04 = 0;
             ((ProjectileSprite *)sprite)->unk_05 = 0;
@@ -458,7 +458,7 @@ void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
         }
                         /* fall through */
     case 2:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if (((ProjectileSprite *)sprite)->unk_14 & 0x6000) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((EffectStatusPrefix *)effect)[-1].unk_00 | 0x8000);
             object_flag_block.flags = object_flag_block.flags | 0x8000;

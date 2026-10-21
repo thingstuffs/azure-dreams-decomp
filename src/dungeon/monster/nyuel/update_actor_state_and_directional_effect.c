@@ -17,7 +17,7 @@ extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
@@ -91,7 +91,7 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
                 }
             }
 
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
             if (actor->mp == 0) {
                 return;

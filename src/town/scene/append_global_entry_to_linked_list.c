@@ -7,5 +7,5 @@ extern M2C_UNK D_800D42E4;
 
 /* Appends D_800D42E4 to the linked list rooted at D_800717D0. */
 void append_global_entry_to_linked_list(void) {
-    append_town_movie_list_node(town_movie_callback_list, &D_800D42E4);
+    append_list_tail(town_movie_callback_list, &D_800D42E4);
 }

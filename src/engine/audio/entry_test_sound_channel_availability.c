@@ -9,7 +9,7 @@ extern S_80032E0C D_80032E0C[];
 extern void stop_matching_effect_voices();
 
 /* Sends packed codes and region offsets for available lookup entries across 48 slots. */
-void func_80054104(void) {
+void stop_flagged_sound_voices(void) {
     S_80032E0C lookup;
     s32 slot, entry_index;
     s32 slot_group, region_offset;

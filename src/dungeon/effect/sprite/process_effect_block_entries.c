@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800478B8(void *entry);
+extern void advance_sprite_animation_and_textures(void *entry);
 
 extern struct {
     s32 value;
@@ -17,6 +17,6 @@ void process_effect_block_entries(void *block) {
     }
 
     for (entry_index = 0; entry_index < *(s16 *)((u8 *)block + 2); entry_index++) {
-        func_800478B8((u8 *)block + 8 + entry_index * 0x30);
+        advance_sprite_animation_and_textures((u8 *)block + 8 + entry_index * 0x30);
     }
 }

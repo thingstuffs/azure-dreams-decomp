@@ -22,7 +22,7 @@ typedef struct {
 
 extern void update_directional_record(void *, void *, SpriteFrameState *);
 extern void select_sprite_entry(void *, s32, s32);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 
 extern s32 loaded_town_resource_attributes[];
 extern s16 view_facing_angle_alias;
@@ -42,7 +42,7 @@ void process_nonzero(void *object, void *output, void *entity_data)
     s32 magnitude;
     u8 *direction_table;
 
-    func_800478B8(entity_data);
+    advance_sprite_animation_and_textures(entity_data);
     *(Copy24 *)output_bytes = *(Copy24 *)((u8 *)(&view_reference_entity));
     ((S_80023A00_0 *)object)->unk_2A =
         (0x1400 - (*(u16 *)&((MinigameBody *)state_base)->unk_10)) & 0xFFF;

@@ -34,7 +34,7 @@ extern void animate_bouncing_score_object(State *, Motion *, Actor *);
 extern s32 D_80530130[3];
 
 /* Create an object, copy its two records, and initialize rendering state. */
-void func_8080E838(void *source_data, void *initial_data)
+void create_bouncing_score_sprite(void *source_data, void *initial_data)
 {
     Object *object;
     Object *allocated;

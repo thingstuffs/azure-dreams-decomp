@@ -77,7 +77,7 @@ typedef struct {
 } StackRecord;
 
 /* extern */
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 s32 register_node();
 /* extern */
 extern M2C_UNK D_800A86BC;

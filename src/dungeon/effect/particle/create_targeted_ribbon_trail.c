@@ -61,7 +61,7 @@ typedef struct {
     EffectPayload payload;
 } EffectObject;
 
-extern void func_8003DB94(RenderState *, void *, s16);
+extern void select_record_entry_and_value(RenderState *, void *, s16);
 extern void register_node(EffectObject *, void *);
 
 extern u8 D_800DEAE0[];
@@ -90,7 +90,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
     color_mode = (u16)input_color_mode;
     held_source = source;
     positions = D_8016484C;
-    object = (EffectObject *)func_8003FC64(0x212);
+    object = (EffectObject *)allocate_flagged_object_node(0x212);
     if (object != NULL) {
         payload = &object->payload;
         payload->size_x = 0x50;
@@ -144,7 +144,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
             positions.values[(held_source->direction >> 9) & 7][mode][1] * 0x50000;
         payload->position[2] =
             positions.values[(held_source->direction >> 9) & 7][mode][2] << 19;
-        func_8003DB94(render, D_800DEAE0, 0);
+        select_record_entry_and_value(render, D_800DEAE0, 0);
 
         pair_index = 0;
         do {

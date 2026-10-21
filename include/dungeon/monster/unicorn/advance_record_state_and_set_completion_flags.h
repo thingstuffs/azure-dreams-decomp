@@ -111,8 +111,8 @@ typedef struct T_80174374_S_80174374_4 {
 
 extern s32 rand(void);
 
-extern s32 func_800478B8();
-extern s32 func_8003DB94();
+extern s32 advance_sprite_animation_and_textures();
+extern s32 select_record_entry_and_value();
 extern s32 register_node();
 extern s32 func_8004491C();
 extern s32 func_800644B8();

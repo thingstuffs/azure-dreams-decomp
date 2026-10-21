@@ -19,7 +19,7 @@ extern u8 D_8028DFD8[16];
 extern u8 D_8052E40C[0x2000];
 
 /* Per-frame portrait step: lay out the panel on first entry, blink its tint and ease it toward its target. */
-void func_80813368(void *hud) {
+void animate_paired_threshold_indicators(void *hud) {
     u8 frame_pad[32];
     void *obj;
     void *part;

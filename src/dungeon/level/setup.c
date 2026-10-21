@@ -186,7 +186,7 @@ void initialize_dungeon_floor_state(void) {
     dungeon_state = &runtime_dispatch_state;
     if (dungeon_state->field_B >= 0x12) {
         floor_index = dungeon_state->field_B - 0x12;
-        func_80040AA0(0x11);
+        request_scene_dispatch_state(0x11);
         pack_tagged_resource_descriptor(0xC, (void *)0x80010000, &floor_data,
                       (floor_index * 0xC) + 0x399D);
         Control_CD(6, &floor_data, 0);
@@ -194,7 +194,7 @@ void initialize_dungeon_floor_state(void) {
         D_800E3D1C = 0x384;
         *(u16 *)(globals_base + 0x3714) |= 5;
     } else {
-        func_80040AA0(0x11);
+        request_scene_dispatch_state(0x11);
         D_800E3D1C = 0;
     }
     set_monster_data_pointer();
@@ -358,7 +358,7 @@ initialize_position:
 
     if ((get_entity_effect_value(entity, 0xA) << 16) != 0) {
         (*(void * *)((u8 *)state + 0x2C)) = actor_default_frames;
-        func_8003DB94(state,
+        select_record_entry_and_value(state,
             *(void **)((u8 *)actor_default_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);

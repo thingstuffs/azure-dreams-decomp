@@ -1,13 +1,13 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg);
+extern void advance_sprite_animation_and_textures(void *arg);
 
 // Updates the object, retains its 0x6000 flags, and marks the preceding and global flags if any remain.
 void update_effect_and_retain_flags(void *dataAfterFlags, void *unused, void *object) {
     u16 retainedFlags;
 
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     retainedFlags = *(u16 *)((u8 *)object + 0x14) & 0x6000;
     *(u16 *)((u8 *)object + 0x14) = retainedFlags;
     if (retainedFlags != 0) {

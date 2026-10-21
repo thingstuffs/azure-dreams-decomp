@@ -706,7 +706,7 @@ typedef struct {
 
 /* Queues four shaded quadrants and a draw-mode packet for each linked rectangle. */
 
-void func_80025014(void *motion_state, void *position, void *draw_state);
+void follow_selection_and_blink_sprite(void *motion_state, void *position, void *draw_state);
 void *allocate_sprite_data_object(s32 user_data);
 void update_selection_menu_animation(void *menu_in, void *motion_in, void *appearance_in);
 void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg);
@@ -719,8 +719,8 @@ s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_posi
 void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra);
 s32 queue_four_shaded_quadrants(void *rect_arg, void *owner_arg);
 
-extern void func_800478B8(void *, s16, void *, void *);
-M2C_UNK func_8003DB94();  /* extern */
+extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
+M2C_UNK select_record_entry_and_value();  /* extern */
 extern M2C_UNK D_80079444;
 s32 func_800644B8();                        /* extern */
 s32 resolve_player_input_facing();               /* extern */
@@ -745,7 +745,7 @@ extern void set_code_for_entity_mode(void *);
 extern void func_8004397C(void *);
 extern void unlink_node(void *);
 extern void func_80044A50(void *);
-extern void func_8004E130(void);
+extern void enqueue_script_message_command(void);
 extern void *load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
 extern s32 find_or_retain_sprite_resource_slot(s32, s32);
 extern void unlink_entity_node(void *);

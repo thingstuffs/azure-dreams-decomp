@@ -17,7 +17,7 @@ extern s32 func_80042518(CallbackObject *object, s32 type);
 extern void set_or_clear_actor_status_slot(CallbackObject *object, s32 type, s32 value);
 
 /* Remove type 0x1B and replay the remaining slots with global flag bit 1 set. */
-void func_80042560(CallbackObject *object)
+void replay_actor_status_slots(CallbackObject *object)
 {
     CallbackSlot saved_slots[4];
     s32 initial_type = 0x1B;

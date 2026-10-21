@@ -188,8 +188,8 @@ s32 get_random_scaled_value(s16 input_value);
 void apply_clamped_actor_value_delta(void *);
 void cap_pending_actor_value_delta(void *);
 void create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
-void func_8003DB94(void *, void *, s32);
-void func_800478B8(void *);
+void select_record_entry_and_value(void *, void *, s32);
+void advance_sprite_animation_and_textures(void *);
 s32 rand(void);
 s32 register_node(void *, s32);
 s32 func_8004491C(void *, s32);
@@ -200,13 +200,13 @@ extern u8 D_800DEAE0[];
 extern M2C_UNK D_800DECF8;
 extern u8 D_80025214[];
 void func_80024028(void *target, s32 effect_param);
-void func_800240C4(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
+void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
                    Row_818A48C4_Func818A48C4Object *target);
 void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords);
-void func_80024230(void **object_ref, long long value);
+void advance_counted_sprite_animation(void **object_ref, long long value);
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);
-void func_80024340(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, SpriteFrameState *object);
+void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, SpriteFrameState *object);
 s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index);
-void func_80024674(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target);
+void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target);
 s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position);
 #endif

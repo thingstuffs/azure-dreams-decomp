@@ -208,6 +208,6 @@ extern void func_80066640(void *, s32);
 extern void func_800666F4(void *);
 void func_80024020(void *effect, void *motion, void *source_render);
 void update_effect_base_state(s32 effect_or_count);
-s32 func_80024868(u8 *first_node);
+s32 draw_layered_vertical_sprite_chain(u8 *first_node);
 void fade_effect_sprite_to_black(void *effect, VecState *motion, void *sprite);
 #endif

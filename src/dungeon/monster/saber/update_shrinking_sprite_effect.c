@@ -25,7 +25,7 @@ typedef struct {
     u16 size1;
 } Sprite;
 
-extern void func_800478B8(Sprite *);
+extern void advance_sprite_animation_and_textures(Sprite *);
 
 /* Advance the actor, fade and shrink its sprite, and flag proximity or fade completion. */
 void update_shrinking_sprite_effect(Actor *actor, Vec3 *vec, Sprite *sprite)
@@ -63,7 +63,7 @@ void update_shrinking_sprite_effect(Actor *actor, Vec3 *vec, Sprite *sprite)
     sprite->size0 = sprite_size;
     sprite->size1 = sprite_size;
     actor->scale = (u16)actor->scale - 8;
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     if (actor->scale <= 0) {
         *(u16 *)((u8 *)actor - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;

@@ -35,7 +35,7 @@ typedef struct S_80975170_0 {
 
    /* src in func_80170970 */
 
-extern void func_800478B8(void *render_state);
+extern void advance_sprite_animation_and_textures(void *render_state);
 
 /* Copy the source transform, advance and fade the effect, and flag completion when its timer expires. */
 #include "shared/object_node.h"

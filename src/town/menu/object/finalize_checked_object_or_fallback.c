@@ -3,7 +3,7 @@
 
 extern s32 classify_object_against_bounds(void *, void *);
 extern void unlink_node_if_registered(void *object);
-extern void func_800478B8(void *fallback_data);
+extern void advance_sprite_animation_and_textures(void *fallback_data);
 
 /* Clear object status and set flags on a successful check, or run the fallback. */
 void finalize_checked_object_or_fallback(void *object, void *check_data, void *fallback_data)
@@ -20,6 +20,6 @@ void finalize_checked_object_or_fallback(void *object, void *check_data, void *f
         object_flag_block.flags |= 0x8000;
         return;
     } else {
-        func_800478B8(fallback_data);
+        advance_sprite_animation_and_textures(fallback_data);
     }
 }

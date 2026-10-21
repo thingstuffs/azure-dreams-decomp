@@ -42,7 +42,7 @@ void advance_fading_effect(void *effect, void *position, void *render_data)
         object_flag_block.flags |= 0x8000;
     }
     *(u16 *)((u8 *)position + 0xA) -= 8;
-    func_800478B8(render_data);
+    advance_sprite_animation_and_textures(render_data);
     if (*(u16 *)((u8 *)render_data + 0x14) & 0x6000) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
@@ -54,7 +54,7 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
     ovl_188898c_81868A64_S_81868A64_2 *effect_pos;
     ovl_188898c_81868A64_S_81868A64_0 *effect;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         render_state = effect->unk_0C;
         effect->unk_10 = (void *)advance_fading_effect;
@@ -62,7 +62,7 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
         render_state->color.c.b = intensity;
         render_state->color.c.g = intensity;
         render_state->color.c.r = intensity;
-        func_8003DB94(render_state, &D_800DEDB0, 0);
+        select_record_entry_and_value(render_state, &D_800DEDB0, 0);
         render_state->scale_y = 0x1800;
         render_state->scale_x = 0x1800;
         render_state->clut = 0x7E0B;
@@ -202,7 +202,7 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
     ovl_188898c_81868E84_S_81868E84_1 *state;
     ovl_188898c_81868E84_S_81868E84_4 *coord_pairs;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_10 = (void *)animate_spiral_grayscale_effect;
         state = object + 0x20;
@@ -246,7 +246,7 @@ void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect) {
     *(u8 *)((u8 *)effect + 0xE) = brightness;
     *(u8 *)((u8 *)effect + 0xD) = brightness;
     *(u8 *)((u8 *)effect + 0xC) = brightness;
-    func_800478B8(effect);
+    advance_sprite_animation_and_textures(effect);
     if (*(u16 *)((u8 *)effect + 0x14) & 0x6000) {
         *(s8 *)((u8 *)*(void **)state_ref + 0x16) = 1;
         *(u16 *)((u8 *)state_ref - 2) |= 0x8000;
@@ -260,7 +260,7 @@ void delay_and_fade_particle(s32 value, void *source_data) {
     u16 *dst;
     u16 *src;
 
-    obj = (ovl_188898c_81868FDC_Object *)func_8003FC64(0x212);
+    obj = (ovl_188898c_81868FDC_Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->callback = (void *)shrink_and_brighten_effect;
         sprite = obj->sprite;
@@ -268,7 +268,7 @@ void delay_and_fade_particle(s32 value, void *source_data) {
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        func_8003DB94(sprite, D_80025368, 0);
+        select_record_entry_and_value(sprite, D_80025368, 0);
         sprite->scale_y = 0x4000;
         sprite->scale_x = 0x4000;
         sprite->clut = 0x7E0B;

@@ -199,7 +199,7 @@ void update_window_state(struct RuntimeObject *object, s32 handler_arg1, s32 han
 struct S_8004A330_Entity *window_create_animated_content_panel(s32 style_flags, s16 start_x, s16 start_y, s16 target_x, s16 target_y, s16 width, s32 flags, s32 content_id);
 
 /* window_wait_then_play_sound.c */
-void window_wait_then_play_sound(struct Func80035BE0State *state);
+void activate_delayed_window_resource(struct Func80035BE0State *state);
 
 /* Data declarations. */
 extern void *current_window_object;

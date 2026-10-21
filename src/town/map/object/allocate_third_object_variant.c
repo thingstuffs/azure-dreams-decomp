@@ -11,7 +11,7 @@ typedef struct S_800B93FC_0 {
 void allocate_third_object_variant(void) {
     S_800B93FC_0 *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != 0) {
         object->unk_10 = &no_op_entry_callback;
     }

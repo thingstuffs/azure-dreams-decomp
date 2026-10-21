@@ -15,7 +15,7 @@ typedef struct S_800A4B88_0_pre {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_8003DB94();     /* extern */
+void select_record_entry_and_value();     /* extern */
 extern void func_8003E188(s32 field_index, s32 flag);            /* extern */
 void apply_entity_effects();                      /* extern */
 void restore_player_control_callback();              /* extern */
@@ -125,7 +125,7 @@ void apply_entity_action_flags(void *object, s32 action) {
         restore_player_control_callback(object, object);
         update_state = &reference_tile_object;
         (((s32 *)update_state->frame_table)) = actor_default_frames;
-        func_8003DB94(update_state, *(s32 *)(actor_default_frames + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (((ActorRecord *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
+        select_record_entry_and_value(update_state, *(s32 *)(actor_default_frames + ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (((ActorRecord *)object)->facing) + 0x100) >> 7) & 0x1C))), 0);
         reset_index = 3;
         reset_slot = sprite_resource_pointer_slots;
         reset_slot += 3;

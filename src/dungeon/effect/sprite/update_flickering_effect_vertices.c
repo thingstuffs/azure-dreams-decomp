@@ -157,7 +157,7 @@ next_effect:
     effect = allocate_list_node(0x201, ((s32 *)&scene_object_list_anchor.next));
     if (effect != 0) {
         effect->unk_10 = distance_or_script;
-        register_node(effect, func_80024A1C);
+        register_node(effect, draw_jittered_triangle_trails);
         duration = state_obj->unk_50;
         effect_data = (TrailParticleData *) ((u8 *) effect + 0x20);
         effect_data->unk_54 = coord_y;
@@ -366,7 +366,7 @@ void update_flickering_effect_vertices(DungeonObj *obj)
 
 
 /* Draw four jittered triangles per linked item into the ordering table. */
-s32 func_80024A1C(void *first_item)
+s32 draw_jittered_triangle_trails(void *first_item)
 {
     u16 screen_coords[3];
     void *list_item;

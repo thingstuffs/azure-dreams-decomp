@@ -16,7 +16,7 @@ typedef struct S_800243E0_0 {
 
    /* arg0 in create_type_212_effect_object */
 
-extern M2C_UNK func_8003DB94();
+extern M2C_UNK select_record_entry_and_value();
 extern s32 register_node();
 extern s32 D_80024374;
 
@@ -27,14 +27,14 @@ void *create_type_212_effect_object(MovingPosition *source) {
     MovingPosition *components;
     void *result; /* MATCH: Keep the merged return value in v0 for the shared epilogue. */
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object->unk_10 = &D_80024374;
         appearance = object->unk_0C;
         appearance->color.c.b = 0x80;
         appearance->color.c.g = 0x80;
         appearance->color.c.r = 0x80;
-        func_8003DB94(appearance, effect_sprite_sources, 0);
+        select_record_entry_and_value(appearance, effect_sprite_sources, 0);
         appearance->scale_y = 0x2000;
         appearance->scale_x = 0x2000;
         register_node(object, project_sprite_chain);

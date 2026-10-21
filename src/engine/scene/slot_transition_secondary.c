@@ -4,7 +4,7 @@
 s16 secondary_transition_slot_index = 0;
 
 /* Updates controller and dispatch state, then allocates a slot and schedules func_80043DB8 if callbacks do not signal completion. */
-void func_80043D04(void)
+void load_object_scene_dispatch_resources(void)
 {
     unsigned int source_value;
     struct SlotTransitionState *state;

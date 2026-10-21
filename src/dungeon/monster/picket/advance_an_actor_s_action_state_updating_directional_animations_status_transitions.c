@@ -33,7 +33,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -155,7 +155,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 }
             }
 
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
 
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {

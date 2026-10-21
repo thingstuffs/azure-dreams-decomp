@@ -174,7 +174,7 @@ void update_settings_effect(void *effect) {
     color_step_or_index = 9;
     callback = (void *)mark_object_flags_dirty;
     do {
-        element = func_8003FC64(0x111);
+        element = allocate_flagged_object_node(0x111);
         if (element != NULL) {
             sprite = ((S_80089608_2 *)element)->unk_0C;
             ((S_80089608_2 *)element)->unk_10 = callback;

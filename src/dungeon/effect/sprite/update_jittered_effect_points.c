@@ -105,7 +105,7 @@ extern u32 D_800814A0[];
 
 extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
-extern s32 func_80053EF0(s32);
+extern s32 read_sound_mode_blocking_status(s32);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern u16 func_8006649C(s32, s32);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
@@ -222,7 +222,7 @@ void func_80024020(void *sequence, void *out_position)
             return;
         }
         {
-            s32 mode = func_80053EF0(4);
+            s32 mode = read_sound_mode_blocking_status(4);
             if (mode != 2) {
                 mode = 0x300;
             } else {
@@ -404,7 +404,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
                         /* fall through */
     case 1:
         if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
-            func_800478B8(context);
+            advance_sprite_animation_and_textures(context);
             position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + view_reference_entity.x.w.i)
                 - position->unk_00.at02.v) << 0xE));
             position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + view_reference_entity.y.w.i)
@@ -441,7 +441,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
         break;
     case 2:
         if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
-            func_800478B8(context);
+            advance_sprite_animation_and_textures(context);
             position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + view_reference_entity.x.w.i)
                 - position->unk_00.at02.v) << 0xF));
             position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + view_reference_entity.y.w.i)

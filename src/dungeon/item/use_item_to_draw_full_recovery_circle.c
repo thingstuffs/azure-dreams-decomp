@@ -13,7 +13,7 @@ s32 process_record_and_update_linked_state(s32, s32);
 void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 void display_actor_item_status_message(void *, s32);
 s32 feed_actor_restore_mp(void *, s32, s32);
-void apply_item_effect_at_entity_position(void *, s32);
+void place_actor_item(void *, s32);
 s32 create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c, s32 setup_word_60);
 void display_formatted_context_message(void *);
 void clear_slot_and_update_linked_state(s32);
@@ -33,7 +33,7 @@ s32 use_item_to_draw_full_recovery_circle(void *target, s32 action_id, s16 actio
     if ((u32)target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, action_id);
         if (feed_actor_restore_mp(target, entity_action_selectors[*(u8 *)((u8 *)target + 0x13)] & 3, action_id) == 0) {
-            apply_item_effect_at_entity_position(target, action_id);
+            place_actor_item(target, action_id);
             return 1;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;

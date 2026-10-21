@@ -178,7 +178,7 @@ extern s32 audio_voice_count[4];
 extern s32 D_80073734_late[4] __asm__("D_80073734");  /* second view: retail hoists the base per voice loop */
 extern Req audio_voice_request;
 
-extern void func_8005E97C(s32 mode, s32 mask);
+extern void set_spu_voice_keys(s32 mode, s32 mask);
 extern void func_80055E74(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void audio_compute_voice_stereo_volumes(Voice *a0, Chan *a1);
 extern s32 audio_compute_pitch_bend_offset(Voice *a0, s32 a1);
@@ -264,14 +264,14 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                 if (voice_idx != -1) {
                     if (audio_voice_records[voice_idx].f1A == 0) {
                         sound_reset_indexed_voice_envelope(voice_idx);
-                        func_8005E97C(0, audio_voice_masks[voice_idx]);
+                        set_spu_voice_keys(0, audio_voice_masks[voice_idx]);
                     } else {
                         voice_held = 1;
                     }
                 } else {
                     voice_idx = 0;
                     while (1) {
-                        if (func_8005EB78(audio_voice_masks[voice_idx]) == 0) {
+                        if (read_selected_voice_key_state(audio_voice_masks[voice_idx]) == 0) {
                             break;
                         }
                         if (++voice_idx >= audio_voice_count[0]) {
@@ -282,7 +282,7 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                     if (voice_idx == -1) {
                         voice_idx = 0;
                         while (1) {
-                            voice_status = func_8005EB78(audio_voice_masks[voice_idx]);
+                            voice_status = read_selected_voice_key_state(audio_voice_masks[voice_idx]);
                             if (voice_status == 2) {
                                 break;
                             }
@@ -342,7 +342,7 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
             if (voice_idx == -1) {
                 voice_idx = 0;
                 while (1) {
-                    if (func_8005EB78(audio_voice_masks[voice_idx]) == 0) {
+                    if (read_selected_voice_key_state(audio_voice_masks[voice_idx]) == 0) {
                         break;
                     }
                     if (++voice_idx >= audio_voice_count[0]) {
@@ -353,7 +353,7 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                 if (voice_idx == -1) {
                     voice_idx = 0;
                     while (1) {
-                        voice_status = func_8005EB78(audio_voice_masks[voice_idx]);
+                        voice_status = read_selected_voice_key_state(audio_voice_masks[voice_idx]);
                         if (voice_status == 2) {
                             break;
                         }
@@ -398,7 +398,7 @@ void start_channel_note(u8 channel_id, s16 note, u8 velocity)
                 voice = &audio_voice_records[voice_idx];
                 if (channel->f98 == 0) {
                     sound_reset_indexed_voice_envelope(voice_idx);
-                    func_8005E97C(0, audio_voice_masks[voice_idx]);
+                    set_spu_voice_keys(0, audio_voice_masks[voice_idx]);
                     func_80055E74(voice_idx, note & 0xFF, channel_id, audio_voice_request.f08, audio_voice_request.f0A);
                 }
                 entry_idx = 0;

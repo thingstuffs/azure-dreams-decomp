@@ -141,7 +141,7 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void select_indirect_table_entry(void *, u8, s8);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
@@ -249,7 +249,7 @@ void update_bank_actor_movement(void *entity, void *motion_arg, void *sprite_arg
 
         if (!(object->unk_1C & 0x20)) {
             if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
-                func_800478B8(sprite_arg);
+                advance_sprite_animation_and_textures(sprite_arg);
             }
         } else {
             ((S_80170A70_1 *)sprite_arg)->unk_14 |= 0x7000;
@@ -400,7 +400,7 @@ typedef struct S_80171138_0 {
 
 extern s8 find_active_rect_containing_point(u8, u8);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
@@ -505,7 +505,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
 
     if (stats->unk_6D > 0) {
         if (stats->unk_1C & 0x20) {
-            update_actor_status_and_food(stats);
+            update_actor_status_and_mp(stats);
             return;
         }
         if (!(*(u16 *)&sprite->unk_24 == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x))) {
@@ -538,7 +538,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
                     return;
 
                 case 12:
-                    update_actor_status_and_food(stats);
+                    update_actor_status_and_mp(stats);
                     return;
 
                 case 5:
@@ -555,7 +555,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
                     player = primary_actor_record;
                     stats->unk_2A = facing_angle;
                     if (player->unk_9A != 0x11) {
-                        update_actor_status_and_food(stats);
+                        update_actor_status_and_mp(stats);
                         return;
                     }
                 }
@@ -593,7 +593,7 @@ void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, 
 
     {
 
-        if ((compare_monster_neighbor_values(
+        if ((test_neighbor_position_relation(
                 sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
             stats->unk_2A = (s16)get_rounded_facing_and_rounding_flag(
@@ -718,7 +718,7 @@ void advance_bank_actor_path(void *motion, s32 unused, void *entity, void *path_
 #include "shared/dir_step.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern void *find_valid_monster_neighbor(void *, u8, u8);
 extern s32 generate_random_value(void);
@@ -747,7 +747,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
     if ((dungeon_flags & 0x4000) || (s8)actor_data->movement_queue_state >= 0) {
         if (((u8 *)&actor_data->unk_10)[2] >= 2 ||
             (s16)begin_bank_directional_effect(move_data, context, position_data, actor_data) == 0) {
-            update_actor_status_and_food(actor_data);
+            update_actor_status_and_mp(actor_data);
             return;
         }
         if (g_dungeon_status.active_actor == actor_data) {
@@ -780,7 +780,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
                 actor_data->facing += (generate_random_value() & 7) << 9;
             }
         } else {
-            if (place_actor_at_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing) != 0) {
+            if (probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing) != 0) {
                 actor_data->movement_queue_state &= 0x7F;
                 return;
             }
@@ -819,7 +819,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
                         position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (u16 *)turn_data);
                 }
-                if ((s16)compare_monster_neighbor_values(
+                if ((s16)test_neighbor_position_relation(
                         position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     limit_detour = 1;
@@ -834,7 +834,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
         rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
     } else if (!(actor_data->action_flags & 0x8000)) {
-        current_angle = (s32)place_actor_at_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
+        current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
         blocker = (EntityRec *)current_angle;
         if (blocker != 0 &&
             (blocker->flags1C & 0x2000) &&
@@ -853,7 +853,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
             actor_data->facing = (s16)get_rounded_facing_and_rounding_flag(
                 position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                 target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y, &move_data->unk_98);
-            if ((s16)compare_monster_neighbor_values(
+            if ((s16)test_neighbor_position_relation(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     target_position->tile_position.parts.tile_x, target_position->tile_position.parts.tile_y) != 0) {
                 if (get_actor_height_difference(primary_actor_record, actor_data) < 0x81) {
@@ -933,7 +933,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
     if (turn_index >= 8) {
         actor_data->movement_queue_state &= 0x7F;
         actor_data->action_flags &= 0x7FFF;
-        update_actor_status_and_food(actor_data);
+        update_actor_status_and_mp(actor_data);
         return;
     }
 
@@ -984,7 +984,7 @@ s32 begin_bank_directional_effect(Rec_func_800A9E70_arg0 *action_state, s32 moti
         return -1;
     }
 
-    target_angle = place_actor_at_directional_neighbor(actor, sprite->unk_24, sprite->unk_25, actor->facing);
+    target_angle = probe_directional_neighbor(actor, sprite->unk_24, sprite->unk_25, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
         return 0;
     }
@@ -1056,7 +1056,7 @@ void initialize_bank_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 moti
 #include "shared/entity.h"
 
 s32 has_pending_dungeon_activity();
-void update_actor_status_and_food();
+void update_actor_status_and_mp();
 s32 relink_entity_and_clear_high_flag();
 /* Update entity state and flags according to the state query result. */
 s32 complete_actor_jump_to_destination(ActorRecord *actor, void *primary_context, void *secondary_context, s32 force_move) {
@@ -1074,7 +1074,7 @@ s32 complete_actor_jump_to_destination(ActorRecord *actor, void *primary_context
     switch (state_type) {
     case 0:
         entity->unk_9A = 0xE;
-        update_actor_status_and_food(entity);
+        update_actor_status_and_mp(entity);
         result = 0;
         return result;
     case 2:
@@ -2073,7 +2073,7 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
@@ -2160,7 +2160,7 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
                 return;
             }
         }
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
         if ((get_entity_effect_value(actor, 1) << 16) != 0) {
             TileObject *origin = &reference_tile_object;
@@ -2227,7 +2227,7 @@ void handle_actor_action_effects(void *controller, EntityRec *motion, void *spri
 
 extern s32 has_pending_actor_or_turn_action(void *);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern u8 D_80174AF4[];
@@ -2334,7 +2334,7 @@ void advance_bank_actor_animation(void *controller, void *context, void *sprite,
             }
         }
 
-        update_actor_status_and_food(entity);
+        update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
         if (((EntityRec *)entity)->tileY == 0) {
             return;
@@ -2492,7 +2492,7 @@ typedef struct {
     u16 pad;
 } OutputVector;
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
 extern void transform_rotated_vertices(void *);
 
@@ -2508,7 +2508,7 @@ void update_bank_effect_fade(void *effect, MovingPosition *position, SpriteFrame
     state = ((S_80173F0C_0 *)effect)->unk_4C.s;
     switch (state) {
     case 0:
-        func_800478B8(visual);
+        advance_sprite_animation_and_textures(visual);
         if (visual->flags & 0x6000) {
             visual->unk_04 = 0;
             visual->unk_05 = 0;
@@ -2575,7 +2575,7 @@ typedef struct S_801740F4_1 {
 
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes();
-extern s32 func_80099290();
+extern s32 clear_byte_and_advance();
 extern s32 append_entity_display_text();
 extern s32 has_pending_dungeon_activity();
 extern s32 display_text_with_fullwidth_adjustment();
@@ -2607,7 +2607,7 @@ void start_bank_actor_hit_reaction(void *work, void *part_a, void *part_b, Entit
                 actor->facing = (u16)(((u16)actor->facing) + ((generate_random_value() & 7) << 9));
             }
         }
-        field_60 = place_actor_at_directional_neighbor(actor, ((SpriteFrameState *)part_b)->unk_24, ((SpriteFrameState *)part_b)->unk_25,
+        field_60 = probe_directional_neighbor(actor, ((SpriteFrameState *)part_b)->unk_24, ((SpriteFrameState *)part_b)->unk_25,
             (s16)((u16)actor->facing));
         table_base = D_80174B0C;
         actor->target = field_60;
@@ -2621,7 +2621,7 @@ void start_bank_actor_hit_reaction(void *work, void *part_a, void *part_b, Entit
         pass_result = raw_result;
         result = pass_result;
         raw_result = append_entity_display_text(call_arg, pass_result);
-        func_80099290(expand_text_control_codes(&D_80170854, raw_result));
+        clear_byte_and_advance(expand_text_control_codes(&D_80170854, raw_result));
         display_text_with_fullwidth_adjustment(result);
     }
 }

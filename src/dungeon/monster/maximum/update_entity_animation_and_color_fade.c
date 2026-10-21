@@ -33,7 +33,7 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, s32, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 extern void advance_actor_pending_action(void *, s32, void *, void *);
@@ -137,7 +137,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
                 return;
             }
         }
-        update_actor_status_and_food(entity);
+        update_actor_status_and_mp(entity);
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             floor_base = &reference_tile_object;

@@ -47,7 +47,7 @@ extern s32 select_sprite_entry();
 extern s32 func_80047784();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
-extern void * func_80099290();
+extern void * clear_byte_and_advance();
 extern s32 append_entity_display_text();
 extern void cycle_map_cell_flags();
 extern void update_map_cell_flags_with_item_limit();

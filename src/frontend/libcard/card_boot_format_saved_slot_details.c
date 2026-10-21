@@ -109,14 +109,14 @@ void card_boot_format_saved_slot_details(void *record) {
     assetDataBase = card_slot_payload;
     func_80069E38(&textBuffer, (((S_80024390_0 *)record)->unk_7C << 7) + assetDataBase);
     asset0 = record + 0x84;
-    decode_note_text(asset0, (u8 *)(&textBuffer), 1);
+    decode_fullwidth_text(asset0, (u8 *)(&textBuffer), 1);
     assetSlot->unk_00.s = asset0;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0xA8;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x110;
     assetSlot = ((S_80024390_0 *)record)->unk_B50;
     func_80069E78(&textBuffer, D_800282E8);
     asset1 = record + 0x204;
-    decode_note_text(asset1, (u8 *)(&textBuffer), 1);
+    decode_fullwidth_text(asset1, (u8 *)(&textBuffer), 1);
     assetSlot->unk_00.s = asset1;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0xA0;
     ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x110;
@@ -129,7 +129,7 @@ void card_boot_format_saved_slot_details(void *record) {
         func_80069E38(&textBuffer, &numberBuffer);
         func_80069E38(&textBuffer, table_base->unk_0C);
         asset2 = record + 0x384;
-        decode_note_text(asset2, (u8 *)(&textBuffer), 1);
+        decode_fullwidth_text(asset2, (u8 *)(&textBuffer), 1);
         assetSlot->unk_00.s = asset2;
         ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_08 = 0xB8;
         ((S_80024390_7 *)(((S_80024390_5 *)assetSlot)->unk_04))->unk_0A = 0x140;

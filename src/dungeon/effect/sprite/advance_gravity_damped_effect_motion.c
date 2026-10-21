@@ -17,9 +17,9 @@ typedef struct S_80921A44_2_pre {
 } S_80921A44_2_pre;   /* the 0x2 bytes before arg0 in func_80921A44, addressed as arg0[-1] */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void func_800478B8(void *, void *, s32, s32);
+extern void advance_sprite_animation_and_textures(void *, void *, s32, s32);
 /* Advance position, damp horizontal motion, and propagate object status flags. */
-void func_80921A44(void *entry, void *motion, void *object) {
+void advance_damped_animated_sprite(void *entry, void *motion, void *object) {
     s32 velocity_y;
     s32 velocity_x;
 
@@ -30,7 +30,7 @@ void func_80921A44(void *entry, void *motion, void *object) {
     velocity_y = ((S_80921A44_0 *)motion)->unk_10;
     ((S_80921A44_0 *)motion)->unk_0C = (velocity_x * 4) / 5;
     ((S_80921A44_0 *)motion)->unk_10 = (velocity_y * 4) / 5;
-    func_800478B8(object, motion, (s32) (velocity_y * 4) >> 0x1F, (s32) (velocity_x * 4) >> 0x1F);
+    advance_sprite_animation_and_textures(object, motion, (s32) (velocity_y * 4) >> 0x1F, (s32) (velocity_x * 4) >> 0x1F);
     if (((SpriteFrameState *)object)->flags & 0x6000) {
         (*(u16 *)((u8 *)entry + -2)) = (u16) (((S_80921A44_2_pre *)entry)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;

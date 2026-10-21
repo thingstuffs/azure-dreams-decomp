@@ -6,7 +6,7 @@ extern u8 reference_tile_object[],view_reference_entity[],D_800893D8[],D_800E16E
 extern s16 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern void clear_slot_and_update_linked_state(void *);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void display_formatted_context_message(void *);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void play_sound_if_enabled(s32);
@@ -48,7 +48,7 @@ s32 apply_malicious_light_tile_item(void *actor, u8 *item, s16 action) {
             message_handle = append_entity_display_text(actor, message_handle);
             message_handle = expand_text_control_codes(D_800893D8, message_handle);
             message_handle = write_status_prefix_bytes(message_handle);
-            func_80099290(message_handle);
+            clear_byte_and_advance(message_handle);
             display_text_with_fullwidth_adjustment(saved_handle);
         }
 

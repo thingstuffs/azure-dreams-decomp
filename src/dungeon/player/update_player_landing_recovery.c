@@ -48,7 +48,7 @@ extern s32 saved_held_item_word;
 extern u8 player_action_tag[];
 extern u8 D_800DD058[];
 
-extern void func_800419EC(s32, s32);
+extern void initialize_timed_motion_step(s32, s32);
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern s32 has_action_input_without_modifier(void);
 
@@ -70,7 +70,7 @@ void update_player_landing_recovery(S_8008E504_0 *actor, S_8008E504_1 *action, S
         }
         action->unk_14 = 0;
         if ((entity->unk_88 - entity->unk_8A) >= 0x41) {
-            func_800419EC(8, 0x10);
+            initialize_timed_motion_step(8, 0x10);
             if (entity->unk_1C & 0x100000) {
                 linked_object = actor->unk_124;
                 saved_status = held_item_record;

@@ -45,7 +45,7 @@ s32 has_pending_actor_or_turn_action();
 s32 play_sound_if_enabled();
 s32 generate_random_value();
 extern void on_actor_status_updated(void *actor);
-void update_actor_status_and_food();
+void update_actor_status_and_mp();
 void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action();
@@ -161,7 +161,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
             if ((check_entity_relation(actor_state, ((s32)primary_actor_record->unk_58) + 0x20) << 0x10) != 0)
                 return;
         }
-        update_actor_status_and_food(actor_state);
+        update_actor_status_and_mp(actor_state);
         on_actor_status_updated(actor_state);
         if ((get_entity_effect_value(actor_state, 1) << 0x10) != 0) {
             player_sprite = &reference_tile_object;

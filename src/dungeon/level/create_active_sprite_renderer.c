@@ -24,7 +24,7 @@ void create_active_sprite_renderer(void)
     ObjectNodeHeader *node;
     SpriteFrameState *render;
 
-    node = func_8003FC64(2);
+    node = allocate_flagged_object_node(2);
     if (node != 0) {
         render = (MapRenderPrefix *)node->unk_0C;
         node->unk_10 = 0;

@@ -28,7 +28,7 @@ static void *allocate_and_initialize_node_2(void *data) {
     void *node;
     void *payload;
 
-    node = func_8003FC64(0);
+    node = allocate_flagged_object_node(0);
     if (node != 0) {
         ((S_80126890_0 *)node)->unk_20 = data;
         payload = (u8 *)node + 0x20;

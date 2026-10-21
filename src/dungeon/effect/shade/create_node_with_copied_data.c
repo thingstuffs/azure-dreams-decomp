@@ -28,14 +28,14 @@ extern u8 D_800240C0[9];
 extern u8 D_800241D4[9];
 
 /* Allocate and initialize a node with the supplied value and 24 bytes of data. */
-void *func_818C2E40(s32 node_value, void *initial_data)
+void *create_motion_copy_sprite(s32 node_value, void *initial_data)
 {
     void *node;
     S_818C2E40_1 *fields;
     SpriteFrameState *display;
     void *node_data;
 
-    node = func_8003FC64(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
 
         ((S_818C2E40_0 *)node)->unk_10 = D_800240C0;

@@ -93,7 +93,7 @@ typedef struct S_81087818_7 {
     s32 *unk_00;
 } S_81087818_7;
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void *resolve_record_orientation_or_fallback(void *, void *, u16 *, s32);
 extern s32 func_80069EF8(void);
 extern s32 func_800644B8(s16);
@@ -113,7 +113,7 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
     u32 state;
 
     motion->unk_02.u++;
-    func_800478B8(context);
+    advance_sprite_animation_and_textures(context);
 
     base = *motion->unk_44;
     delta[0] = delta[1] = delta[2] = 0;

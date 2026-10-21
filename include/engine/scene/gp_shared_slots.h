@@ -23,7 +23,7 @@ extern s32 rcos(s32 angle);
 extern s32 rsin(s32 angle);
 extern void draw_sprite_list(void);
 extern void func_8003D0F0(void);
-extern void func_8003CCB0(s32 layer);
+extern void draw_cd_wait_sprite_trail(s32 layer);
 
 static inline s32 shift10(s32 value)
 {
@@ -83,6 +83,6 @@ typedef struct {
 /* Draw fourteen sprites with interpolated positions and pulsing color. */
 
 void render_cd_wait_animation_on_new_field(void);
-void func_8003CCB0(s32 blend_step);
+void draw_cd_wait_sprite_trail(s32 blend_step);
 
 #endif

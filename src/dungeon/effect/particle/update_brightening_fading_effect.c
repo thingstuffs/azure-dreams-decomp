@@ -96,7 +96,7 @@ void update_directional_actor_effect(void *object)
     case 1:
         if ((((S_8002401C_4 *)(((S_8002401C_0 *)object_bytes)->unk_04))->unk_00 & 0x80) != 0) {
             source = ((S_8002401C_0 *)object_bytes)->unk_00.u;
-            created_obj = func_8002453C(((S_8002401C_2_pre *)source)[-1].unk_00, source);
+            created_obj = create_brightening_fading_effect(((S_8002401C_2_pre *)source)[-1].unk_00, source);
             ((S_8002401C_0 *)object_bytes)->unk_0C = created_obj;
             if (created_obj != 0) {
                 display = primary_actor_record;
@@ -118,7 +118,7 @@ void update_directional_actor_effect(void *object)
 
     case 3:
         if ((s16)D_800273BC.value == 0) {
-            func_80025C8C();
+            restore_saved_map_tile_region();
             ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
         }
         break;
@@ -147,7 +147,7 @@ void update_directional_actor_effect(void *object)
             rect[2] = cell_size;
             rect[3] = cell_size;
             cell_value = row[col_index];
-            func_80026064(rect, cell_value);
+            draw_buffered_textured_quad_pair(rect, cell_value);
             col_index++;
         }
         row += 8;
@@ -241,7 +241,7 @@ extern s32 D_800273B0;
 extern s32 D_800DF334;
 
 /* Creates an object, initializes its parts, and loads its graphics. */
-void *func_8002453C(S_8195ED3C_2 *source, s32 offset)
+void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
 {
     s32 rect[2];
     s32 rect_size;
@@ -249,7 +249,7 @@ void *func_8002453C(S_8195ED3C_2 *source, s32 offset)
     S_8195ED3C_1 *part;
     void *handle;
 
-    obj = func_8003FC64(2);
+    obj = allocate_flagged_object_node(2);
     if (obj != NULL) {
         rect[0] = 0x01000340;
         rect_size = 0x200020;
@@ -351,7 +351,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
     u16 cell;
 
     map = &g_game_work.map;
-    obj = func_8003FC64(2);
+    obj = allocate_flagged_object_node(2);
     if (obj != NULL) {
         work = *(void **)((u8 *)obj + 0xC);
         cell_x = world_x / 64;
@@ -413,7 +413,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
     (*(u16 *)&terrain_effect_update_count)++;
     if (state->active == 0) {
         if (!(state->timer & 3)) {
-            func_800419EC(8, 16);
+            initialize_timed_motion_step(8, 16);
         }
         fade_color = (FadeColor *)&D_80027398;
         fade_color->red += (0xF0 - fade_color->red) / (s16)state->timer;
@@ -461,7 +461,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
                     if (tile != 0 && tile != D_8002732C) {
                         apply_attack_power_and_element_effects(
                             tile, 16, D_800273BE, 9,
-                            (s16)forward_monster_coordinate_delta(grid_x_fixed >> 16,
+                            (s16)calculate_planar_heading(grid_x_fixed >> 16,
                                                grid_y_fixed >> 16, 3, 3),
                             D_800273C0, 2);
                         *(s32 *)((u8 *)tile + 0x14) &= 0xFFEFFFFF;
@@ -794,7 +794,7 @@ s32 dispatch_seven_by_seven_tile_grid(void *tile_data, s32 draw_arg_1, s32 draw_
 #include "m2c_compat.h"
 
 /* Clears the 8-by-8 grid and initializes an object at the given position. */
-void func_80025334(s16 x, s16 y, s16 z) {
+void create_animated_tile_grid(s16 x, s16 y, s16 z) {
     s16 row_index;
     s16 column_index;
     s16 next_row;
@@ -823,7 +823,7 @@ void func_80025334(s16 x, s16 y, s16 z) {
         next_row = row_index + 1;
         row_index = next_row;
     } while (next_row < 8);
-    object = func_8003FC64(0x202);
+    object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
         init_object = object;
 
@@ -852,7 +852,7 @@ void func_80025334(s16 x, s16 y, s16 z) {
 #include "shared/object_flags.h"
 
 /* Advance motion, fade the effect, and flag expiry when its timer runs out. */
-void func_80025460(u16 *state, Motion *motion, Effect *effect)
+void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect)
 {
     u8 brightness;
     s16 ticks_left;
@@ -899,7 +899,7 @@ void func_80025460(u16 *state, Motion *motion, Effect *effect)
                               ((S_8195FD40_0 *)scratch)->unk_20) in func_80025540 */
 
 /* Transform a textured quad and add it to the ordering table if visible. */
-void func_80025540(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
+void draw_depth_biased_textured_quad(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 depth_bias)
 {
     s32 view_matrix[8];
     u8 *scratch = (u8 *)0x1F800000;
@@ -1025,7 +1025,7 @@ s32 draw_linked_object_chain(void *payload, void *position, void *render)
 {
     DrawChainNode *next;
     while (1) {
-        func_80025540((s32)payload, position, render, ((DrawChainRender *)render)->depth);
+        draw_depth_biased_textured_quad((s32)payload, position, render, ((DrawChainRender *)render)->depth);
         next = ((DrawChainNode *)payload - 1)->next;
         if (next == 0) return 0;
         payload = next + 1;
@@ -1062,9 +1062,9 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     void *object;
 
     tile_row_copy = tile_row;
-    object = func_8003FC64(0x202);
+    object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
-        ((S_8196012C_0 *)object)->unk_10 = func_80025460;
+        ((S_8196012C_0 *)object)->unk_10 = advance_ballistic_fading_effect;
         register_node(object, (s32)draw_linked_object_chain);
         position = ((S_8196012C_0 *)object)->unk_08;
         position->unk_02 = x;
@@ -1179,7 +1179,7 @@ extern u8 D_8002744C[9];
 extern u8 D_8002744D[9];
 
 /* Copies a 7-by-7 tile region from the source grid into the dungeon map around the current coordinates. */
-void func_80025C8C(void)
+void restore_saved_map_tile_region(void)
 {
     s8 *dungeon_state;
     DungeonMap *map;
@@ -1352,7 +1352,7 @@ void *select_containing_cell_surface(s32 world_x, s32 world_y, s16 min_height) {
 extern u8 upper_draw_context[16];
 
 /* Renders data with the active buffer offset between ordering-table commands. */
-void func_80026064(void *draw_data, s32 draw_mode)
+void draw_buffered_textured_quad_pair(void *draw_data, s32 draw_mode)
 {
     s32 start_packet;
     s32 end_packet;
@@ -1770,7 +1770,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s32 height_or_child;
     TempObj *object;
 
-    object = (TempObj *)func_8003FC64(0x202);
+    object = (TempObj *)allocate_flagged_object_node(0x202);
     saved_row = tile_y;
     if (object != NULL) {
         s32 local_x_or_height;
@@ -2024,7 +2024,7 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
             return;
         }
         direction_offset = ((((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_2A.u16_value >> 8) & 0xE);
-        func_80025334(
+        create_animated_tile_grid(
             (s16)(((table->tile_position.parts.tile_x +
                     (((S_func_819615E4_5 *)((u8 *)((s8 *)dir_step_x) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             (s16)(((table->tile_position.parts.tile_y +
@@ -2072,7 +2072,7 @@ void *allocate_nine_position_objects(void *position)
     control_handler = &D_800273B0;
     last_slot = 8;
     do {
-        object = func_8003FC64(2);
+        object = allocate_flagged_object_node(2);
         if (object != NULL) {
             ((S_81961A04_0 *)object)->unk_10 = object_handler;
             register_node(object, &D_800CEEFC);

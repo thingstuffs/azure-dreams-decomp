@@ -23,5 +23,5 @@ void func_80066690(void *);
 void func_80067F20(void *, s32, s32, s32, s32);
 void func_80024020(void *, TrailMotion *, void *);
 void update_flickering_effect_vertices(DungeonObj *);
-s32 func_80024A1C(void *);
+s32 draw_jittered_triangle_trails(void *);
 #endif

@@ -58,7 +58,7 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
     Copy24 *data_src = initial_data;
     void *render_ref = render_src;
 
-    object = func_8003FC64(0x312);
+    object = allocate_flagged_object_node(0x312);
     if (object != NULL) {
         ((S_80175858_0 *)object)->unk_10 = &D_8017573C;
         register_node(object, project_sprite_chain);

@@ -23,7 +23,7 @@ extern void func_800666F4(POLY_FT4 *);
 extern void func_80066640(POLY_FT4 *, s32);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern u16 func_8006649C(s32, s32);
-void func_800478B8(void *);                 /* extern */
+void advance_sprite_animation_and_textures(void *);                 /* extern */
 extern u8 D_800DEC70[];
 extern SpriteSourceEntry D_800DED28;
 void func_80024020(ProjectileState *, ProjectileMotion *, ProjectileSprite *);

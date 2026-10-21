@@ -161639,7 +161639,7 @@
       ]
     },
     {
-      "source": "src/town/func_8054FA70.c",
+      "source": "src/town/increment_scene_selection_index.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -170039,7 +170039,7 @@
       ]
     },
     {
-      "source": "src/town/func_806975C4.c",
+      "source": "src/town/initialize_packed_record_defaults.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -170119,7 +170119,7 @@
       ]
     },
     {
-      "source": "src/town/func_806977B4.c",
+      "source": "src/town/apply_stored_amount_to_town.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""

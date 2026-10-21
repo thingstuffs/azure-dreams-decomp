@@ -89,7 +89,7 @@ extern s32 display_registration_tag;
 extern u8 tako_minigame_sprites[];
 
 extern void create_timed_sound(s16 value);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern void func_8003E188(s32, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
@@ -130,7 +130,7 @@ s32 initialize_tako_minigame(void)
     create_timed_sound(0x5A);
     func_8003E188(0x3C, (s32)parent_state);
 
-    object = func_8003FC64(2);
+    object = allocate_flagged_object_node(2);
     if (object != NULL) {
         parent_state = (u8 *)object + 0x20;
         ((S_800254A4_0 *)object)->unk_10 = D_80025BC8;
@@ -142,7 +142,7 @@ s32 initialize_tako_minigame(void)
     child_data = D_80020148;
     child_slot = (void **)(parent_state + 8);
 create_child:
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     *child_slot = object;
     if (object != NULL) {
         ((S_800254A4_0 *)object)->unk_10 = child_callback;
@@ -158,7 +158,7 @@ create_child:
         child_state->unk_56 = index;
         draw_state->scale_y = 0x1000;
         draw_state->scale_x = 0x1000;
-        func_8003DB94(draw_state, tako_minigame_sprites, 0);
+        select_record_entry_and_value(draw_state, tako_minigame_sprites, 0);
         draw_state->color.word = 0x00808080;
         child_state->unk_4C = child_data;
         configure_the_set_mode_n_1((u8 *)object + 0x24, ((S_800254A4_0 *)object)->unk_08, D_80026F50);

@@ -23,7 +23,7 @@ extern void select_sprite_entry();
 extern s32 check_entity_relation();
 extern s32 has_pending_actor_or_turn_action();
 extern void on_actor_status_updated();
-extern void update_actor_status_and_food();
+extern void update_actor_status_and_mp();
 extern void begin_pushed_actor_move();
 extern s32 begin_ready_actor_directional_action();
 extern void begin_actor_move_to_target_facing();
@@ -67,6 +67,12 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
                 return;
             }
         }
+        /*
+         * Original bug: after a Mazarr seed restores MP, this waits on the pending EXP owner, which can be this U-Boat
+         * itself. Allow its own pending level-up to proceed.
+         * Found and documented by the Azure Dreams community
+         * (adrando.com/guide/bugs.html).
+         */
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
             return;
         }
@@ -93,7 +99,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
                 return;
             }
         }
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
         if (actor->mp == 0) {
             return;

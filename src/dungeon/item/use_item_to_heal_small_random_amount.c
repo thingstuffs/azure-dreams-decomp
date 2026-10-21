@@ -12,10 +12,10 @@ extern void begin_deferred_item_action();
 extern void clear_slot_and_update_linked_state();
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes();
-extern void func_80099290();
+extern void clear_byte_and_advance();
 extern s32 append_entity_display_text();
 extern void display_text_with_fullwidth_adjustment();
-extern void apply_item_effect_at_entity_position();
+extern void place_actor_item();
 extern void display_item_status_message();
 extern s32 generate_random_value();
 extern s16 feed_actor_restore_mp();
@@ -50,7 +50,7 @@ s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mo
                           (*(u16 *)(((u8 *)entity_action_selectors) +
                                     (*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
                           source) == 0) {
-            apply_item_effect_at_entity_position(target, source);
+            place_actor_item(target, source);
             return 1;
         }
     }
@@ -77,7 +77,7 @@ s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mo
             message_context = context_arg;
             effect_text = append_entity_display_text(message_target, context_arg);
         }
-        func_80099290(expand_text_control_codes(
+        clear_byte_and_advance(expand_text_control_codes(
             &D_800893E0,
             format_unsigned_double_byte_decimal(((EntityRec *)target)->unk_64,
                           expand_text_control_codes(&D_800E18A4, effect_text))));

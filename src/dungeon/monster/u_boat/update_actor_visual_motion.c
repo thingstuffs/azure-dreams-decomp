@@ -12,7 +12,7 @@ extern u8 D_80171A80[];
 extern Callback uboat_callbacks[];
 
 extern void select_indirect_table_entry(void *, u8, s8);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s32);
 extern void apply_monster_koyaw_data(u32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
@@ -137,7 +137,7 @@ void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_a
         apply_monster_koyaw_data(((S_801711B0_2 *)base)->unk_1C, (u8 *)part_arg + 0xC);
         if (!(((S_801711B0_2 *)base)->unk_1C & 0x20)) {
             if (!(((SpriteAnimationTableView *)part_arg)->unk_14 & 0x40)) {
-                func_800478B8(part_arg);
+                advance_sprite_animation_and_textures(part_arg);
             }
         } else {
             ((SpriteAnimationTableView *)part_arg)->unk_14 |= 0x7000;

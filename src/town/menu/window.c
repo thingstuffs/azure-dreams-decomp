@@ -53,7 +53,7 @@ void **scale_coordinates_and_append_pointers(s32 firstX, s32 firstY, s32 secondX
 }
 
 /* Create a record, assign its handler, and run the remaining initialization routines. */
-void func_8009CE34(void) {
+void create_entry_builder_controller(void) {
     ((func_8009F6D4_S_8009CE34_0 *)(initialize_scene_object_in_buffer(0x11, &D_801006D0, 0x49)))->unk_10 = &build_entries_and_update_state;
     dispatch_parameterized_or_default(&D_80100900);
     update_map_world_extents();
@@ -601,7 +601,7 @@ void set_object_state_for_mode(void *owner, void *object, s32 mode, s32 flags) {
         select_sprite_entry(object, D_800D07AC, 0);
         return;
     }
-    func_8003DB94(object, window_sprites[mode], 0);
+    select_record_entry_and_value(object, window_sprites[mode], 0);
     if (flags & 2) {
         ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0x100;
         return;
@@ -632,7 +632,7 @@ void cleanup_or_dispatch_object(void *object, s32 source, s32 context) {
     if (!(((func_800A05E0_S_8009DD40_0_pre *)object)[-1].unk_00 & 0x8000)) {
         set_state_bytes_from_flags(update_object_and_clear_status_fields(source), object);
         if (((Rec_D_80082D58 *)object)->unk_4D == 0x13) {
-            func_800478B8(context);
+            advance_sprite_animation_and_textures(context);
         }
     }
 }
@@ -646,7 +646,7 @@ void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 
     if (!(*flags & 0x8000)) {
         set_state_bytes_from_flags(update_state_when_active(callback_id), entity);
         if (entity->unk4D == 0x13) {
-            func_800478B8((void *)callback_data);
+            advance_sprite_animation_and_textures((void *)callback_data);
         }
     }
 }
@@ -668,7 +668,7 @@ void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *
     if (!(((func_800A075C_S_func_8009DEBC_1 *)((u8 *)object - 0x10))->unk_0E & 0x8000)) {
         set_state_bytes_from_flags(update_state_when_active(source), object);
         if (object->unk_4D == 0x13) {
-            func_800478B8(context);
+            advance_sprite_animation_and_textures(context);
         }
     }
 }
@@ -760,7 +760,7 @@ s32 store_record_value_and_table_lookup(void) {
 }
 
 // Populate three global slots with a signed byte, lookup value, and record pointer from the first entry.
-s32 get_selected_table_entry(void) {
+s32 store_selected_record_fields(void) {
     runtime_script_state[0x12] = (s8)town_target_record->value;
     runtime_script_state[0x13] = item_kind_script_words[town_target_record->kind];
     runtime_script_state[0x14] =
@@ -787,7 +787,7 @@ s32 pass_shared_data_to_window_handler(void) {
 }
 
 // Processes the selected town record and saves the returned result.
-s32 get_window_mode_value(void)
+s32 create_selected_record_view(void)
 {
     func_800A0C10_TownRecord *townRecords = (func_800A0C10_TownRecord *)0x80010AB4;
     s32 selectedRecordIndex = town_target_record->unk_4F & 0x3F;
@@ -948,7 +948,7 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
     primitive->unk_0C = (s8)brightness;
     if (!(((func_800A0FB4_S_func_8009E714_2 *)object)[-1].unk_00 & 0x8000) &&
         object->unk_4D == 0x13) {
-        func_800478B8(primitive);
+        advance_sprite_animation_and_textures(primitive);
     }
 }
 

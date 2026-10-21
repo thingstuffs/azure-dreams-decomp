@@ -8,17 +8,17 @@
 #include "shared/dungeon_status.h"
 
 
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 rand(void);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -283,7 +283,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
             }
         }
 special_cleanup:
-        update_actor_status_and_food(stats);
+        update_actor_status_and_mp(stats);
         return;
 
 aaf_cleanup:
@@ -299,7 +299,7 @@ ordinary_cleanup:
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((S_801714B8_1 *)stats)->unk_1C & 0x430)) {
 
-                if ((s16)compare_monster_neighbor_values(
+                if ((s16)test_neighbor_position_relation(
                         ((S_801714B8_2 *)sprite)->unk_24.at00.v, ((S_801714B8_2 *)sprite)->unk_24.at01.v,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     ((S_801714B8_1 *)stats)->unk_2A.s = get_rounded_facing_and_rounding_flag(
@@ -349,10 +349,10 @@ ordinary_cleanup:
                 select_sprite_entry(sprite,
                     alt_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801714B8_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                     0);
-                func_800478B8(sprite);
+                advance_sprite_animation_and_textures(sprite);
 
                 do {
-                    object = func_8003FC64(0x212);
+                    object = allocate_flagged_object_node(0x212);
                 } while (0);
                 if (object != 0) {
                     initialize_object_rendering_and_params(object, actor, context);
@@ -376,7 +376,7 @@ ordinary_cleanup:
                     {
                         void *part = ((S_801714B8_6 *)object)->unk_0C;
                         ((S_801714B8_9 *)part)->unk_14 |= 0x80;
-                        func_8003DB94(part, &secondary_sprite, 0);
+                        select_record_entry_and_value(part, &secondary_sprite, 0);
                     }
                 }
             }

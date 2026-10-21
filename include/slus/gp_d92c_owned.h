@@ -17,12 +17,12 @@ extern u8 scene_music_hold;
 extern u8 D_80080AA0;
 
 extern void drain_cd_command_queue(void);
-extern int func_80053EF0(int);
-extern void func_8003E758(void);
+extern int read_sound_mode_blocking_status(int);
+extern void service_cd_command_queue(void);
 extern void update_vsync_frame_id(int);
 extern void func_80044618(int);
 extern short SD_Call(int a0);
-extern void func_80040AA0(int);
+extern void request_scene_dispatch_state(int);
 extern void sound_set_cd_playback_volume_scale(short saved_setting);
 extern void sound_set_sequence_volume_scale(short);
 extern void sound_set_voice_gain_scale(short a0);

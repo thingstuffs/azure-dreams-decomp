@@ -43,7 +43,7 @@ typedef struct {
     s32 *callback;
 } Node;
 
-extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 s32 register_node();
 
 extern s32 D_800DEDB0[3];
@@ -60,7 +60,7 @@ void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offse
     u16 y;
     u16 z;
 
-    node = (Node *)func_8003FC64(0x212);
+    node = (Node *)allocate_flagged_object_node(0x212);
     if (node != 0) {
         node->callback = D_80170D60;
         register_node(node, project_sprite_chain);
@@ -86,9 +86,9 @@ void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offse
         display_sub->color.c.g = 0x80;
         display_sub->color.c.r = 0x80;
         if (variant == 0) {
-            func_8003DB94(display_sub, effect_sprite_sources, 0);
+            select_record_entry_and_value(display_sub, effect_sprite_sources, 0);
         } else {
-            func_8003DB94(display_sub, D_800DEDB0, 0);
+            select_record_entry_and_value(display_sub, D_800DEDB0, 0);
         }
     }
 }

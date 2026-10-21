@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *target);
+extern void advance_sprite_animation_and_textures(void *target);
 extern s32 rand(void);
 
 extern void func_80025090(void);
@@ -67,7 +67,7 @@ void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
     update_index = 0;
     if (update_count > 0) {
         do {
-            func_800478B8(target);
+            advance_sprite_animation_and_textures(target);
             next_index = update_index + 1;
             update_index = next_index;
         } while (next_index < update_count);

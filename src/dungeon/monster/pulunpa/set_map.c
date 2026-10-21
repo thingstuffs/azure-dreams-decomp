@@ -38,10 +38,10 @@ typedef struct S_80173B98_2 {
 void select_sprite_entry(void *sprite, u8 frame, s32 mode);
 s32 check_entity_relation(void *creature, s32 offset);
 s8 find_active_rect_containing_point(u8 tile_x, u8 tile_y);
-s32 compare_monster_neighbor_values(u8 source_x, u8 source_y, u8 target_x, u8 target_y);
+s32 test_neighbor_position_relation(u8 source_x, u8 source_y, u8 target_x, u8 target_y);
 s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *creature);
-void update_actor_status_and_food(void *creature);
+void update_actor_status_and_mp(void *creature);
 extern void begin_pushed_actor_move(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, ActorRecord *actor);
 extern s32 begin_ready_actor_directional_action(void *entity, s32 context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames);
 extern s32 advance_actor_pending_action(void *actor_state, s32 action, void *status, void *actor);
@@ -127,7 +127,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
     ((S_80173B98_2 *)sprite)->unk_26 = tile_index;
     if (creature->pending_turn_updates > 0) {
         if (creature->flags1C & 0x20) {
-            update_actor_status_and_food(creature);
+            update_actor_status_and_mp(creature);
             return;
         }
         if (((S_80173B98_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -165,7 +165,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
         case 7:
         case 8:
         case 12:
-            update_actor_status_and_food(creature);
+            update_actor_status_and_mp(creature);
             return;
         case 4:
         case 10:
@@ -179,7 +179,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
     if (!(status_flags & 0x2000)) {
         if (tile_index >= 0 && (dungeon_rooms[tile_index].flags & 2)) {
         } else if (!(status_flags & 0x430)) {
-            if ((compare_monster_neighbor_values(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v,
+            if ((test_neighbor_position_relation(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
                 creature->facing = get_rounded_facing_and_rounding_flag(((S_80173B98_2 *)sprite)->unk_24.at00.v,
                     ((S_80173B98_2 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);

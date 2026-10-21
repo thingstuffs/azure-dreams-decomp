@@ -51,7 +51,7 @@ s32 set_reverb_address_available(s32 enabled) {
     s32 check_result;
 
     if (enabled != 0) {
-        check_result = func_8005D9DC(spu_reverb_start_address);
+        check_result = test_spu_blocks_beyond_address(spu_reverb_start_address);
         if (check_result == 0) {
             spu_reverb_range_override = 1;
             return 1;

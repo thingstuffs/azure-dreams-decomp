@@ -13,7 +13,7 @@ extern s32 get_unused_text_buffer(void);
 extern s32 get_entity_effect_value(DungeonState *entry, s32 effect_id);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern s32 append_entity_display_text(void *record, u8 *out);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void play_sound_if_enabled(s32 query_value);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 
@@ -34,7 +34,7 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
     base_message = get_unused_text_buffer();
     message = base_message;
     if ((get_entity_effect_value(state, 0x19) << 16) != 0) {
-        func_80099290(expand_text_control_codes(D_80089084,
+        clear_byte_and_advance(expand_text_control_codes(D_80089084,
                                     append_entity_display_text(state,
                                                   expand_text_control_codes(D_800E0CAE, base_message))));
         display_text_with_fullwidth_adjustment(base_message);
@@ -77,15 +77,19 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
     }
 
     if (item != 0) {
-        func_80099290(message);
+        clear_byte_and_advance(message);
         display_text_with_fullwidth_adjustment(base_message);
     } else if (mode == 0) {
-        func_80099290(message);
+        clear_byte_and_advance(message);
         display_text_with_fullwidth_adjustment(base_message);
     }
     if (old_meter != meter) {
         play_sound_if_enabled(0x51E);
     }
+    /*
+     * Original bug: exactly 0x10000 is not saturated and becomes zero in the u16 MP store. The overflow check should
+     * include equality so feeding fills MP instead of emptying it.
+     */
     if (meter > 0x10000) {
         meter = 0xFFFF;
     }

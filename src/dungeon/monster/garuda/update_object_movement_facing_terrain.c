@@ -43,7 +43,7 @@ extern u8 D_80174880[9];
 extern Callback garuda_callbacks[];
 
 extern void select_indirect_table_entry(void *, u8, s8);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
@@ -173,7 +173,7 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, void *
         apply_monster_koyaw_data(((S_80170A78_2 *)state)->unk_1C, (u8 *)input_part + 0xC);
         if (!(((S_80170A78_2 *)state)->unk_1C & 0x20)) {
             if (!(((S_80170A78_1 *)input_part)->unk_14 & 0x40)) {
-                func_800478B8(input_part);
+                advance_sprite_animation_and_textures(input_part);
             }
         } else {
             ((S_80170A78_1 *)input_part)->unk_14 |= 0x7000;

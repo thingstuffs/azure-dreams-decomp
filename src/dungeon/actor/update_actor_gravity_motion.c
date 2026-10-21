@@ -7,7 +7,7 @@ typedef void (*DungeonCallback)(void *, void *, void *, void *);
 extern DungeonCallback gravity_motion_callbacks[];
 
 extern s16 sample_terrain_surface_height(u16, u16, s16);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 
 
 typedef struct S_800D2E9C_0 {
@@ -73,7 +73,7 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, void *motion, vo
         u16 render_flags = ((S_800D2E9C_2 *)ent)->unk_14;
         if (!(render_flags & 0x8000)) {
             if (!(render_flags & 0x40)) {
-                func_800478B8(ent);
+                advance_sprite_animation_and_textures(ent);
             }
         }
     }

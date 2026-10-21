@@ -34,7 +34,7 @@ typedef struct S_800D1C70_2 {
     s16 unk_0A;
 } S_800D1C70_2;
 
-void func_8003DB94(void *, void *, s32);
+void select_record_entry_and_value(void *, void *, s32);
 void *allocate_list_node(s32, void *);
 void register_node(void *, void *);
 void clear_entry_flag_and_link_owner(void *);
@@ -86,7 +86,7 @@ void *create_actor_at_tile(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {
         sprite->unk_25 = saved_y;
         sprite->scale_y = 0x1800;
         sprite->scale_x = 0x1800;
-        func_8003DB94(sprite, &D_800E2178, 0);
+        select_record_entry_and_value(sprite, &D_800E2178, 0);
         ((S_800D1C70_1 *)object)->unk_10 = &update_actor_floor_contact;
         state->unk_8C = &process_actor_status_transitions;
         sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);

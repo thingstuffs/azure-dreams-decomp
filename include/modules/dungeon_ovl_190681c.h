@@ -64,7 +64,7 @@ s16 sample_terrain_surface_height(s32, s32, s16);
 void play_sound_if_enabled(s32);
 void unlink_node(void *);
 void func_80044A50(void *);
-void func_800419EC(s32, s32);
+void initialize_timed_motion_step(s32, s32);
 void copy_selected_table_pair(s32, s16);
 s32 try_trigger_target_record_effect(s32, s32, void *);
 void try_apply_effect_four_by_chance(s32, s32, s32);

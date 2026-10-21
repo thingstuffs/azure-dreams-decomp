@@ -8,7 +8,7 @@ typedef struct EffectScaleState {
     s16 scale_enabled;
 } EffectScaleState;
 extern s32 D_800814A0;
-void adjust_actor_packet_depth_and_mark_complete(void *actor, void *unused, void *packet) {
+void fade_and_scale_sprite(void *actor, void *unused, void *packet) {
     u16 depth;
     u16 *flags;
     ((SpriteFrameState *)packet)->color.word += 0xFFEFEFF0U;

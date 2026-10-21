@@ -16,7 +16,7 @@ s16 get_tile_chebyshev_distance(void *, void *);
 s32 has_pending_actor_or_turn_action(void *);
 s32 generate_random_value(void);
 void on_actor_status_updated(void *);
-void update_actor_status_and_food(void *);
+void update_actor_status_and_mp(void *);
 void begin_pushed_actor_move(void *, s32, void *, void *);
 s32 begin_ready_actor_directional_action(void *, s32, void *, void *);
 void begin_actor_move_to_target_facing(void *, s32, void *, void *);
@@ -133,7 +133,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
                     return;
                 }
             }
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, 1) << 0x10) != 0) {
                 reference_pos = &reference_tile_object;

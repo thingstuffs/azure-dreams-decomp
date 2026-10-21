@@ -45,7 +45,7 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
     s32 z_value;
     s16 height;
 
-    obj = (Obj *)func_8003FC64(0x212);
+    obj = (Obj *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->arg = object_arg;
         motion = (ObjSub *)&obj->arg;

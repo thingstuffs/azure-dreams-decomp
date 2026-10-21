@@ -4,7 +4,7 @@
 
 
 
-extern void func_800419EC(s32, s32);
+extern void initialize_timed_motion_step(s32, s32);
 extern void play_sound_if_enabled(u32);
 extern s16 D_801760D8[5];
 
@@ -42,7 +42,7 @@ void advance_timed_blink_effect(void *state_data, void *unused, void *color_data
         frame = ((S_80170534_0 *)state_data)->unk_18 + 1;
         ((S_80170534_0 *)state_data)->unk_18 = frame;
         if (!(frame & 3)) {
-            func_800419EC(6, 0xC);
+            initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x818);
         }
         if (!(((S_80170534_0 *)state_data)->unk_18 & 7)) {

@@ -33,7 +33,7 @@ typedef struct S_8092192C_4 {
 
 extern u8 D_800DEC70[];
 s32 register_node();
-void func_8003DB94();
+void select_record_entry_and_value();
 void func_800F68AC(s16 *state, s32 *position, u16 *object);
 
 static __inline__ u32 set_flag_bits(u32 flags, u32 mask)
@@ -42,7 +42,7 @@ static __inline__ u32 set_flag_bits(u32 flags, u32 mask)
 }
 
 /* Creates and initializes an object at the supplied position plus coordinate offsets. */
-void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offset_z) {
+void create_offset_half_scale_sprite(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offset_z) {
     u16 flags;
     s32 render_value;
     SpriteFrameState *render_state;
@@ -54,7 +54,7 @@ void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offse
     s32 base_y;
     s32 base_z;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object->unk_10 = &func_800F68AC;
         register_node(object, project_sprite_chain);
@@ -86,6 +86,6 @@ void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offse
         render_state->color.c.b = 0x80;
         render_state->color.c.g = 0x80;
         render_state->color.c.r = 0x80;
-        func_8003DB94(render_state, (void *) sprite_data_addr, 0);
+        select_record_entry_and_value(render_state, (void *) sprite_data_addr, 0);
     }
 }

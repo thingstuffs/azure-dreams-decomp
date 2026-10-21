@@ -119,9 +119,9 @@ void *apply_command_colors(Tint8004C080 *tint0, Tint8004C080 *tint1,
                 SetDrawMode(packet, 1, ((S_8004C080_0 *)command)->unk_04.at02.v,
                             ((S_8004C080_0 *)command)->unk_04.at00u.v, 0);
             } else if (extended_type == 0x30) {
-                record = func_8004B954(tint0, tint1, packet, record, command, count, 1);
+                record = build_elliptical_triangle_fan(tint0, tint1, packet, record, command, count, 1);
             } else if (extended_type == 0x20) {
-                record = func_8004B954(tint0, tint1, packet, record, command, count, 0);
+                record = build_elliptical_triangle_fan(tint0, tint1, packet, record, command, count, 0);
             }
         }
     }

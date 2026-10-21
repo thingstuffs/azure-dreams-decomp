@@ -51,19 +51,19 @@ int update_shoulder_button_angle(void)
         camera_shoulder_repeat_latch = 0;
         camera_shoulder_hold_ticks = 0;
         drain_cd_command_queue();
-        while (func_80053EF0(4) == 0x100) {
-            func_8003E758();
+        while (read_sound_mode_blocking_status(4) == 0x100) {
+            service_cd_command_queue();
             update_vsync_frame_id(2);
         }
 
         SD_Call(0x74);
-        while (func_80053EF0(4) != 0) {
-            func_8003E758();
+        while (read_sound_mode_blocking_status(4) != 0) {
+            service_cd_command_queue();
             update_vsync_frame_id(2);
         }
 
         drain_cd_command_queue();
-        func_80040AA0(3);
+        request_scene_dispatch_state(3);
         {
             saved_setting = saved_cd_playback_volume_scale;
             flags = runtime_dispatch_state.field_0;

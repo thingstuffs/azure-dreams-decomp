@@ -64,7 +64,7 @@ extern void func_8004491C(void *, void *);
 extern void runtime_initialize_state_value(void *, s32);
 extern void copy_window_params(void *, void *);
 extern void func_800375C0(void *, void *);
-extern void func_800350B0(void *, void *);
+extern void prepend_embedded_object_node(void *, void *);
 
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 extern void dispatch_window_fade_and_update_extents(void);

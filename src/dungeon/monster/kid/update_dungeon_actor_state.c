@@ -39,10 +39,10 @@ typedef struct S_80171400_2 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -158,7 +158,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
 
     if (((S_80171400_1 *)entity)->unk_6D > 0) {
         if (((S_80171400_1 *)entity)->unk_1C & 0x20) {
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         }
         if (((S_80171400_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -193,7 +193,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
             return;
 
         case 11:
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
 
         case 4:
@@ -209,7 +209,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
             player = primary_actor_record;
             ((S_80171400_1 *)entity)->unk_2A = direction;
             if (player->unk_9A != 0x11) {
-                update_actor_status_and_food(entity);
+                update_actor_status_and_mp(entity);
                 return;
             }
         }
@@ -241,7 +241,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((S_80171400_1 *)entity)->unk_1C & 0x430)) {
 
-                if ((compare_monster_neighbor_values(
+                if ((test_neighbor_position_relation(
                         ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     ((S_80171400_1 *)entity)->unk_2A = get_rounded_facing_and_rounding_flag(

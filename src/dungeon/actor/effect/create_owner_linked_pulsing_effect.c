@@ -75,7 +75,7 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
     MovingTile *owner_map;
     u16 object_count;
 
-    object = func_8003FC64(0x102);
+    object = allocate_flagged_object_node(0x102);
     if (object != NULL) {
         ((S_800CB82C_0 *)object)->unk_10 = &D_800CB600;
         register_node(object, project_sprite_chain);

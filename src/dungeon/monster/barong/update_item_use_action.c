@@ -254,7 +254,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
             for (; particle_count < 1; particle_count++) {
                 void *particle;
 
-                particle = func_8003FC64(0x212);
+                particle = allocate_flagged_object_node(0x212);
                 if (particle == 0) {
                     continue;
                 }

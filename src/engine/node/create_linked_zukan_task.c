@@ -22,7 +22,7 @@ typedef struct S_800511B4_entity {
 /* Allocates and initializes a new entity linked to the related entity, or returns NULL. */
 void *create_linked_zukan_task(S_800511B4_entity *related_entity)
 {
-    S_800511B4_entity *new_entity = func_8003FC64(0);
+    S_800511B4_entity *new_entity = allocate_flagged_object_node(0);
     S_800511B4_sub *sub;
 
     if (new_entity != 0) {

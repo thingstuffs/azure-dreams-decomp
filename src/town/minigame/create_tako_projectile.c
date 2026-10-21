@@ -32,7 +32,7 @@ void create_tako_projectile(Copy20 *init_data, s32 pos_y)
     u8 *data;
     u8 *entity;
 
-    obj = func_8003FC64(0x136);
+    obj = allocate_flagged_object_node(0x136);
     if (obj != 0) {
         obj->init = *init_data;
         obj->callback = D_8002614C;

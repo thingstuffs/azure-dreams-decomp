@@ -11,6 +11,6 @@ typedef struct {
 void sort_entries_by_category(S_8004AFE8 **entries);                         /* extern */
 
 /* Pass the indexed record value to sort_entries_by_category. */
-void func_800B25D8(void *record) {
+void sort_selected_record_entries(void *record) {
     sort_entries_by_category(((S_800B25D8_0 *)((((*(s32 *)((u8 *)record + 0x14)) * 4) + record)))->unk_3C);
 }

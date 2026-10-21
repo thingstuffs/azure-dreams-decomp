@@ -206,7 +206,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
             effect_count = 0;
             dim_channel = 0x20;
             for (; effect_count < 1; effect_count++) {
-                object = func_8003FC64(0x212);
+                object = allocate_flagged_object_node(0x212);
                 if (object != 0) {
                     u8 *effect_data;
                     void *sprite;

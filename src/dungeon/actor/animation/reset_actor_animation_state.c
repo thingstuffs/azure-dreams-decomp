@@ -41,7 +41,7 @@ typedef struct S_800D8590_3 {
 } S_800D8590_3;
 
 
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern void clear_slots_of_type();
 extern void bzero();
 extern void clear_player_linked_action_flags();
@@ -100,7 +100,7 @@ void *reset_actor_animation_state(void *entity)
         (*(void ** *)((u8 *)child + 0x2C)) = actor_action_frames;
 
         frame_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
-        func_8003DB94(child,
+        select_record_entry_and_value(child,
                       *(void **)((u8 *)actor_action_frames + (frame_index & 0x1C)), 0);
         ((S_800D8590_2 *)object)->unk_A0 = 0x14;
         ((S_800D8590_3 *)child)->unk_14 |= 0x8000;

@@ -107,11 +107,11 @@ typedef struct S_80174B20_11 {
 } S_80174B20_11;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_8003DB94();     /* extern */
+void select_record_entry_and_value();     /* extern */
 s32 Control_CD(); /* extern */
 #include "slus/sound_set_cd_cue_parameters_api.h" /* extern */
 #include "engine/graphics/run_cd_image_commands_api.h" /* extern */
-int func_800445E0(void);                           /* extern */
+int read_stream_cue_start_offset(void);                           /* extern */
 s32 register_node();           /* extern */
 #include "engine/texture/select_indirect_table_entry_api.h"              /* extern */
 s32 lookup_masked_byte_table();  /* extern */
@@ -186,7 +186,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         }
         run_cd_image_commands(&kid_image_commands, (u8 *)(&D_8017521C), 1);
         sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
-        Control_CD(0x15, func_800445E0(), NULL);
+        Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         (*(s8 *)&D_8017521D) = 0;
         Control_CD(0xFF, set_byte_one, &D_8017521D);
         select_nearby_target_and_initialize_slot((s32)(actor - 0x20), position, 8, 0x300);
@@ -216,7 +216,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
             - scene_color->view.tint.parts.tint_b) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
         return;
     case 4:
-        effect = func_8003FC64(0x12);
+        effect = allocate_flagged_object_node(0x12);
         if (effect == NULL) {
             return;
         }
@@ -240,7 +240,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
             random_value = func_80069EF8();
             style = random_value % 3;
         }
-        func_8003DB94(sprite, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
+        select_record_entry_and_value(sprite, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
         ((SpriteFrameState *)entity)->flags = (u16) (((SpriteFrameState *)entity)->flags | 0x80);
         ray_index = 1;
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;

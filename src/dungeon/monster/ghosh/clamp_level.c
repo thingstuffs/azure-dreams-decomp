@@ -9,9 +9,9 @@
 #include "shared/dungeon_status.h"
 extern u8 resident_globals_page[];
 
-void func_800353F4(void *);                   /* extern */
+void enqueue_runtime_pool_script(void *);                   /* extern */
 void select_indirect_table_entry(void *, u8, s8);              /* extern */
-void func_800478B8(void *);                      /* extern */
+void advance_sprite_animation_and_textures(void *);                      /* extern */
 void apply_monster_koyaw_data(s32, void *);                 /* extern */
 void raise_entity_level(void *, s32);             /* extern */
 s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);  /* extern */
@@ -242,7 +242,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
 
             (*(s16 *)&system_update_flags) = (s16) (system_update_flags | 8);
 
-            func_800353F4(message);
+            enqueue_runtime_pool_script(message);
             actor_index = 0;
             actors_page = (u8 *)0x800E0000;
             inactive_mask = 0x80000000;
@@ -330,7 +330,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
             }
             if (!(((S_8016B0E8_2 *)actor)->unk_1C & 0x20)) {
                 if (!(((S_8016B0E8_14 *)sprite)->unk_14 & 0x40)) {
-                    func_800478B8(sprite);
+                    advance_sprite_animation_and_textures(sprite);
                 }
             } else {
                 ((S_8016B0E8_14 *)sprite)->unk_14 = (u16) (((S_8016B0E8_14 *)sprite)->unk_14 | 0x7000);

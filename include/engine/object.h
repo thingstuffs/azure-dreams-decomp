@@ -29,7 +29,7 @@ s32 test_runtime_handler_or_fallback_status(void *context);
 void prepare_script_controller_and_set_cursor(void *controller, s32 reset_value, s32 requested_selector);
 
 /* entry_runtime_store_value_in_shifted_slot_pool.c */
-s32 func_800353F4(void *input_data);
+s32 enqueue_runtime_pool_script(void *input_data);
 
 /* entry_set_resident_bitmap_bit.c */
 void set_resident_bits_for_matching_key(s16 key);

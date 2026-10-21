@@ -101,11 +101,11 @@ extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(s32, s32);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
 extern s32 can_entity_gain_level(void *);
 extern void set_record_integer_tile_center(void *, s32, s32);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -386,7 +386,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
 
     if (((S_80170F6C_1 *)entity)->unk_6D > 0) {
         if (((S_80170F6C_1 *)entity)->unk_1C & 0x20) {
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         }
         if (((S_80170F6C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -446,7 +446,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
             }
         }
         case 12:
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
 
         case 1:
@@ -473,7 +473,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
                     final_flags & 0x430;
                 if (!final_mask) {
 
-                    if ((compare_monster_neighbor_values(
+                    if ((test_neighbor_position_relation(
                             ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                         ((S_80170F6C_1 *)entity)->unk_2A.s = get_rounded_facing_and_rounding_flag(

@@ -22,6 +22,6 @@ void check_record_field_0x04_is_one(s32 value);
 u8 *init_card_message_object(s32 message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4);
 
 /* store_first_coord.c */
-void func_8001B670(void *object, s32 column, s32 mode, s32 row, s32 value);
+void configure_card_grid_entry(void *object, s32 column, s32 mode, s32 row, s32 value);
 
 #endif

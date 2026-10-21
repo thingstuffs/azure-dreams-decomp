@@ -28,7 +28,7 @@ typedef struct {
     u16 f14;
 } Arg2State;
 
-void func_800478B8();
+void advance_sprite_animation_and_textures();
 s32 rand(void);
 
 /* Updates the effect's motion and fade state, then refreshes its display. */
@@ -80,5 +80,5 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
     height = motion->f8;
     height -= random_drop;
     motion->f8 = height;
-    func_800478B8(display);
+    advance_sprite_animation_and_textures(display);
 }

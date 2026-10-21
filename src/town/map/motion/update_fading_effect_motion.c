@@ -21,7 +21,7 @@ typedef struct S_800A86BC_1 {
     s32 unk_04;
 } S_800A86BC_1;   /* arg0 in update_fading_effect_motion */
 
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 
 /* Update effect motion, fade its primitive, and flag expiration when its timer ends. */
 void update_fading_effect_motion(void *effect, S_800A86BC_0 *motion, SpriteFrameState *primitive) {
@@ -32,7 +32,7 @@ void update_fading_effect_motion(void *effect, S_800A86BC_0 *motion, SpriteFrame
     motion->unk_00 = motion->unk_00 + motion->unk_0C;
     motion->unk_04 = motion->unk_04 + motion->unk_10;
     motion->unk_08 = motion->unk_08 + motion->unk_14;
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     shade = primitive->color.c.r;
     if (shade != 0) {
         shade -= 0x10;

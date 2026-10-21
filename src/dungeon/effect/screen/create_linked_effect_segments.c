@@ -10,7 +10,7 @@ void spawn_spiraling();
 void *allocate_list_node();
 s32 func_800644B8();
 s32 func_80064584();
-s16 forward_monster_coordinate_delta();
+s16 calculate_planar_heading();
 void draw_textured_ellipse();
 extern M2C_UNK D_80028214;
 extern M2C_UNK D_80024728;
@@ -68,7 +68,7 @@ void *create_linked_effect_segments(Rec_func_800243C4_arg1 *position) {
 
     previous_segment = NULL;
     segment_index = 0;
-    angle = forward_monster_coordinate_delta(view_reference_entity.x.w.i, view_reference_entity.y.w.i, position->unk_02, position->unk_06);
+    angle = calculate_planar_heading(view_reference_entity.x.w.i, view_reference_entity.y.w.i, position->unk_02, position->unk_06);
     do {
         alloc_flags = 0x12;
         if (segment_index != 0) {

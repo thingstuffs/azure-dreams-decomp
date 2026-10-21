@@ -61,9 +61,9 @@ loop:
             slot->f1a = 0;
             slot->f0a = 0;
             sound_apply_indexed_voice_envelope(slot_index, slot);
-            func_8005E97C(0, *slot_flags);
+            set_spu_voice_keys(0, *slot_flags);
             sound_apply_indexed_voice_envelope(slot_index, slot);
-            func_8005E97C(0, *slot_flags);
+            set_spu_voice_keys(0, *slot_flags);
             combined_flags |= *slot_flags;
         }
         slot_flags++;
@@ -74,6 +74,6 @@ loop:
         }
     }
 
-    func_8005E97C(0, combined_flags);
+    set_spu_voice_keys(0, combined_flags);
     audio_update_guard[0] = 0;
 }

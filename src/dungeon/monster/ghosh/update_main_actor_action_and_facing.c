@@ -47,9 +47,9 @@ extern u8 D_801746C4[];
 extern u8 D_8017467C[];
 extern u8 D_8016B778[];
 s8 find_active_rect_containing_point();
-s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+s32 test_neighbor_position_relation(s32, s32, s32, s32);
 s32 can_entity_gain_level();
-struct ActorRecord; void update_actor_status_and_food(struct ActorRecord *);
+struct ActorRecord; void update_actor_status_and_mp(struct ActorRecord *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 s32 begin_ready_actor_directional_action();
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
@@ -164,7 +164,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
     map_actor->unk_26 = tile_index;
     if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & 0x20) {
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         }
         if (map_actor->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -180,7 +180,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             if ((u16) *((s16 *)&system_update_flags) & 8) {
                 execute_actor_script_command((u8 *)(actor), context, (u8 *)(map_actor));
                 entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
-                update_actor_status_and_food(entity);
+                update_actor_status_and_mp(entity);
                 entity->action_flags &= 0x7FFF;
                 return;
             }
@@ -204,7 +204,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             clear_actor_flag_and_advance_action(actor, context, map_actor, entity);
             return;
         case 12:
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         case 5:
         case 6:
@@ -214,7 +214,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             active_actor = (u8 *)*((int *)(&primary_actor_record));
             entity->facing = target_angle;
             if (((S_8016B778_4 *)active_actor)->unk_9A != 0x11) {
-                update_actor_status_and_food(entity);
+                update_actor_status_and_mp(entity);
                 return;
             }
             /* Fall through to install the action handler. */
@@ -247,7 +247,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
     if (entity_flags & 0x430) {
         return;
     }
-    if ((compare_monster_neighbor_values(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10)
+    if ((test_neighbor_position_relation(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10)
         == 0) {
         return;
     }

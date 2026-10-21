@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 
 extern void unlink_node(void *node);
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 
 extern s32 D_80175220;
 
@@ -15,7 +15,7 @@ void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input)
 
     if (task[0x9A] == 0) {
         D_80175220 = *(s32 *)(input + 8);
-        func_800478B8(input);
+        advance_sprite_animation_and_textures(input);
         if (*(u16 *)(input + 0x14) & 0xE000) {
             unlink_node(task - 0x20);
             *(s16 *)(task + 0x96) = 0x10;

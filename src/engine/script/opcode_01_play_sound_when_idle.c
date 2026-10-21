@@ -15,7 +15,7 @@ extern u8 runtime_dispatch_mode_alias[];
 /* Selects the next callback or clears it and decrements the state counter. */
 void handle_vm_opcode_01(S_800390D0_0 *state) {
     if (runtime_dispatch_mode_alias[0] != 2) {
-        if (func_80053EF0(4) != 0x100) {
+        if (read_sound_mode_blocking_status(4) != 0x100) {
             SD_Call(0xC4);
         } else {
             state->unk_10 = 0;

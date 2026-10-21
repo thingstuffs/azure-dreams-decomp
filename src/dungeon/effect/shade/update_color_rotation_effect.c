@@ -36,7 +36,7 @@ typedef struct {
 } Func818C3448State;
 
 /* Update the effect's color, rotation, growth, motion, and phase transitions. */
-void func_818C3448(void *effect, void *motion, SpriteFrameState *visual) {
+void animate_color_cycling_sprite_burst(void *effect, void *motion, SpriteFrameState *visual) {
     s16 scale;
     s32 color_bits;
     s16 color_cycle;
@@ -67,7 +67,7 @@ void func_818C3448(void *effect, void *motion, SpriteFrameState *visual) {
     ((S_818C3448_0 *)effect)->unk_10.s = (u16) (((S_818C3448_0 *)effect)->unk_10.s + 1);
     ((S_818C3448_0 *)effect)->unk_12 = (u16) next_tick;
     color_cycle = (color_cycle % 7) + 1;
-    func_800478B8(visual);
+    advance_sprite_animation_and_textures(visual);
     color_bits = (s16) color_cycle;
     color_bias = color_bits;
     visual->angle_z = (u16) (visual->angle_z + 0x300);

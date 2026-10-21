@@ -32,7 +32,7 @@ typedef struct { u32 word; } PackedLoc;
 extern PackedLoc scene_texture_data_resource;
 
 /* Passes the global buffer to file_load_com. */
-void func_80050FCC(void)
+void load_scene_texture_resource(void)
 {
     file_load_com(&scene_texture_data_resource);
 }
@@ -40,7 +40,7 @@ void func_80050FCC(void)
 extern int D_800814A0;
 
 /* Sets bit 0x8000 in the object's preceding flags and global flags if non-NULL. */
-void func_8004B1A4(unsigned short *object)
+void flag_object_for_removal(unsigned short *object)
 {
     unsigned short *flags;
     if (object != 0) {

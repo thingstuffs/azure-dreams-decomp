@@ -23,12 +23,12 @@ void begin_deferred_item_action(Entity *, void *, void *, Entity *);
 void clear_slot_and_update_linked_state(s32);
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(u8 *src, u8 *dst);
-void func_80099290(s8 *byte_ptr);
+void clear_byte_and_advance(s8 *byte_ptr);
 s32 append_typed_formatted_value(s32, s32);
 s32 append_entity_display_text(void *record, u8 *out);
 void display_formatted_context_message(void *);
 void display_text_with_fullwidth_adjustment(s8 *text);
-void apply_item_effect_at_entity_position(Entity *, s32);
+void place_actor_item(Entity *, s32);
 void display_item_status_message(Entity *, s32, s16);
 s32 create_return_magic_effect(Entity *);
 
@@ -66,9 +66,9 @@ s32 use_return_magic(Entity *entity, s32 item, s16 action_type) {
             adjusted_value = append_entity_display_text(entity, current_value = get_unused_text_buffer());
             original_value = current_value;
             current_value = adjusted_value;
-            func_80099290(expand_text_control_codes(D_80089384, append_typed_formatted_value(item, expand_text_control_codes(D_800E1677, current_value))));
+            clear_byte_and_advance(expand_text_control_codes(D_80089384, append_typed_formatted_value(item, expand_text_control_codes(D_800E1677, current_value))));
             display_text_with_fullwidth_adjustment(original_value);
-            apply_item_effect_at_entity_position(entity, item);
+            place_actor_item(entity, item);
         }
         return 1;
     }

@@ -29,7 +29,7 @@ void handle_vm_opcode_29(Func800398BCOwner *owner)
     u32 payload_word;
     u32 table_index;
 
-    runtime_state = func_80053EF0(4);
+    runtime_state = read_sound_mode_blocking_status(4);
     owner_gate = check_state_or_global_flags(owner);
     if (owner_gate != 0) {
         if (runtime_state != 0) {

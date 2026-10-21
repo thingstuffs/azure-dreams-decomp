@@ -5,7 +5,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-M2C_UNK func_8003DB94();
+M2C_UNK select_record_entry_and_value();
 s32 register_node();
 extern M2C_UNK D_80024224;
 extern M2C_UNK D_800DE8E8;
@@ -27,7 +27,7 @@ void *allocate_effect_at_coordinates(s32 object_value, MovingPosition *source_co
     S_800242A0_0 *object;
     MovingPosition *coords;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = &D_80024224;
         sprite = object->unk_0C;
@@ -35,7 +35,7 @@ void *allocate_effect_at_coordinates(s32 object_value, MovingPosition *source_co
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        func_8003DB94(sprite, &D_800DE8E8, 0);
+        select_record_entry_and_value(sprite, &D_800DE8E8, 0);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         register_node(object, project_sprite_chain);

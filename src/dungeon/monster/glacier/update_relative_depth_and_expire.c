@@ -22,7 +22,7 @@ typedef struct S_8102F0D4_1 {
 
 extern s8 view_direction_depth_biases[];
 s32 func_80065420();
-extern s32 func_800478B8();
+extern s32 advance_sprite_animation_and_textures();
 
 /* Updates relative depth with a direction offset and flags expiration when the countdown ends. */
 void update_relative_depth_and_expire(void *state, MovingPosition *position, SpriteFrameState *entity) {
@@ -48,7 +48,7 @@ void update_relative_depth_and_expire(void *state, MovingPosition *position, Spr
     direction_offset = &view_direction_depth_biases[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100)
         >> 9) & 7];
     entity->unk_06 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
-    func_800478B8(entity);
+    advance_sprite_animation_and_textures(entity);
     ticks_left = ((S_8102F0D4_1 *)state)->unk_96 - 1;
     ((S_8102F0D4_1 *)state)->unk_96 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

@@ -11,11 +11,11 @@ void begin_deferred_item_action();
 void clear_slot_and_update_linked_state();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
-void *func_80099290();
+void *clear_byte_and_advance();
 s32 append_entity_display_text();
 s32 set_or_clear_actor_status_slot();
 s32 display_text_with_fullwidth_adjustment();
-void apply_item_effect_at_entity_position();
+void place_actor_item();
 void display_item_status_message();
 s32 feed_actor_restore_mp();
 void create_colored_effect_with_event();
@@ -68,7 +68,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
         if ((u32)entity <= 0x9FFFFFFF) {
             display_item_status_message(entity, action_id, mode);
             if (feed_actor_restore_mp(entity, (entity_action_selectors[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
-                apply_item_effect_at_entity_position(entity, action_id);
+                place_actor_item(entity, action_id);
                 return 1;
             }
         }
@@ -92,7 +92,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
                     result = expand_text_control_codes(D_800E0FD7, message_arg);
                     result = append_entity_display_text(entity, result);
                     result = expand_text_control_codes(D_80089358, result);
-                    func_80099290(result);
+                    clear_byte_and_advance(result);
                     display_text_with_fullwidth_adjustment(text);
                 }
 
@@ -123,7 +123,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
                     result = expand_text_control_codes(message, message_handle);
                 }
             }
-            func_80099290(result);
+            clear_byte_and_advance(result);
             display_text_with_fullwidth_adjustment(message_handle);
             create_colored_effect_with_event((u8 *)entity - 0x20, 0x20A0A0, 0x613);
         } else {
@@ -143,7 +143,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
             result = expand_text_control_codes(D_800E0FD7, message_arg);
             result = append_entity_display_text(entity, result);
             result = expand_text_control_codes(D_80089358, result);
-            func_80099290(result);
+            clear_byte_and_advance(result);
             display_text_with_fullwidth_adjustment(text);
         }
 

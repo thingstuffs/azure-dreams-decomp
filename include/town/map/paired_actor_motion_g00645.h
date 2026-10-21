@@ -182,11 +182,11 @@ extern s32 D_800D2130;
 extern int abs(int);
 
 extern s32 rand(void);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 struct Dst;
 struct Elem;
 struct RegistrationNode;
-extern void func_8003DB94(struct Dst *, struct Elem *, s16);
+extern void select_record_entry_and_value(struct Dst *, struct Elem *, s16);
 extern s32 register_node(struct RegistrationNode *, s32);
 extern void *allocate_list_node(s32, void *);
 extern s32 D_800E9E14[];

@@ -10,7 +10,7 @@ typedef struct {
     s32 count;
 } S_800B52D8;
 
-extern void func_8004B1A4(void *items);
+extern void flag_object_for_removal(void *items);
 
 /* Copy leading item values to the fixed output buffer and zero the remaining slots. */
 void fill_item_value_buffer(S_800B52D8 *table, void *unused) {
@@ -37,6 +37,6 @@ void fill_item_value_buffer(S_800B52D8 *table, void *unused) {
         for (; i < table->count; i++) {
             ((s32 *)0x80011F80)[i] = 0;
         }
-        func_8004B1A4(table->items);
+        flag_object_for_removal(table->items);
     }
 }

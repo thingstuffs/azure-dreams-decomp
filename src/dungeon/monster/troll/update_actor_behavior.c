@@ -28,10 +28,10 @@ typedef struct S_801724BC_2 {
 void select_sprite_entry();         /* extern */
 s32 check_entity_relation();                     /* extern */
 s8 find_active_rect_containing_point();                           /* extern */
-s32 compare_monster_neighbor_values();                  /* extern */
+s32 test_neighbor_position_relation();                  /* extern */
 s32 get_rounded_facing_and_rounding_flag();       /* extern */
 s32 can_entity_gain_level();                          /* extern */
-void update_actor_status_and_food();                      /* extern */
+void update_actor_status_and_mp();                      /* extern */
 void begin_pushed_actor_move(); /* extern */
 s32 begin_ready_actor_directional_action(); /* extern */
 s32 advance_actor_pending_action(); /* extern */
@@ -224,7 +224,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
     ((S_801724BC_2 *)sprite)->unk_26 = room_id;
     if (state->pending_turn_updates > 0) {
         if (state->flags1C & 0x20) {
-            update_actor_status_and_food(state);
+            update_actor_status_and_mp(state);
             return;
         }
         if (((S_801724BC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -257,7 +257,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
             prepare_actor_path_movement(actor, context, sprite, state);
             return;
         case 12:
-            update_actor_status_and_food(state);
+            update_actor_status_and_mp(state);
             return;
         case 5:
         case 6:
@@ -269,7 +269,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
             player = primary_actor_record;
             state->facing = heading;
             if (player->unk_9A != 0x11) {
-                update_actor_status_and_food(state);
+                update_actor_status_and_mp(state);
                 return;
             }
         case 1:
@@ -300,7 +300,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
             return;
         }
     } else {
-        if ((compare_monster_neighbor_values(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+        if ((test_neighbor_position_relation(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
             state->facing = get_rounded_facing_and_rounding_flag(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &path_info);

@@ -14,14 +14,14 @@ extern s32 process_record_and_update_linked_state();
 extern s32 clear_slot_and_update_linked_state();
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
-extern s32 func_80099290();
+extern s32 clear_byte_and_advance();
 extern s32 append_typed_formatted_value();
 extern s32 apply_type_based_entry_adjustments();
 extern s32 display_formatted_context_message();
 extern s32 copy_fullwidth_vowel_bytes();
 extern s32 append_value_seven_suffix();
 extern s32 display_text_with_fullwidth_adjustment();
-extern s32 apply_item_effect_at_entity_position();
+extern s32 place_actor_item();
 extern s32 display_actor_item_status_message();
 extern s32 feed_actor_restore_mp();
 
@@ -60,7 +60,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
     if (target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, action, action_kind);
         if (feed_actor_restore_mp(target, entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(target, action);
+            place_actor_item(target, action);
             return 1;
         }
     } else {
@@ -96,7 +96,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
             } else {
                 value = expand_text_control_codes(D_800E1156, append_typed_formatted_value(item, value));
             }
-            func_80099290(value);
+            clear_byte_and_advance(value);
             display_text_with_fullwidth_adjustment(action_value);
         } else {
             display_formatted_context_message(D_800E116E, call_context, action_kind);

@@ -13,7 +13,7 @@ extern M2C_UNK D_800D17C8;
 s32 invalidate_cached_state_and_queue_read(void *);
 /* extern */
 extern M2C_UNK D_800B66E8;
-extern void func_800B67A4(void *owner, void *instance_data, void *instance1, s32 x, s32 y_arg, s32 z_arg);
+extern void initialize_positioned_display_templates(void *owner, void *instance_data, void *instance1, s32 x, s32 y_arg, s32 z_arg);
 extern void clear_linked_entry_state(void *object);
 
 /* Functions defined in this translation unit. */

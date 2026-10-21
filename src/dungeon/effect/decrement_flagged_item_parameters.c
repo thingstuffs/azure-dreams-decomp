@@ -98,7 +98,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
                 *((u16 *) (((u8 *) effect_work) + 0x10)) = coord_integer;
                 *((u16 *) (((u8 *) effect_position) + 0xA)) = coord_integer;
             }
-            if (func_80053EF0(4) != 2) {
+            if (read_sound_mode_blocking_status(4) != 2) {
                 event_code = 0x300;
             }
             else {

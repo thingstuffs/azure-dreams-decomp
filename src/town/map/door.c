@@ -332,7 +332,7 @@ void tick_door_countdown(Rec_func_800A0668_arg0 *object, S_800A0E3C_1 *source, s
 
 /* into_dn_door_jobs: Run dungeon entrance setup and reset entry flags. */
 void into_dn_door_jobs(void) {
-    process_terminated_shop_ids();
+    clear_resident_bit_patterns();
     clear_resident_bitmap_bit(sn_mam_pan_give);
     apply_building_pending_updates();
     dispatch_conditional_table_pairs();

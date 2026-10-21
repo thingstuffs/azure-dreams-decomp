@@ -35,7 +35,7 @@ S_80050BA4_sub;
 
 extern void *link_seventeen_indexed_entries(void *a0);
 extern void init_gauge_object(void *a0, void *a1);
-extern void func_8004E130(void);
+extern void enqueue_script_message_command(void);
 extern void invoke_leading_object_callback(void *a0);
 
 /* Retail materializes a fresh %hi(D_800814A0) for the store after the |= load
@@ -51,11 +51,11 @@ void *create_gauge_with_selection_menu(s32 context)
     S_80050BA4_sub *state;
     void *resource;
 
-    owner = func_8003FC64(0);
+    owner = allocate_flagged_object_node(0);
     if (owner == 0) {
         return 0;
     }
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != 0) {
         state = (S_80050BA4_sub *) (((u8 *) object) + 0x20);
         state->field_0xA0 = owner;
@@ -67,7 +67,7 @@ void *create_gauge_with_selection_menu(s32 context)
             resource = create_animated_selection_menu((void *) 2);
             state->field_0x28 = resource;
             if (resource != 0) {
-                func_8004E130();
+                enqueue_script_message_command();
                 register_node(object, (void *) draw_tinted_node_sprites_scratch);
                 return owner;
             }

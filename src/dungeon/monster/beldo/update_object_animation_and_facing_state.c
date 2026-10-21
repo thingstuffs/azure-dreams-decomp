@@ -10,10 +10,10 @@
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(u8, u8);
-extern s32 compare_monster_neighbor_values(u8, u8, u8, u8);
+extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
 extern s32 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
@@ -151,7 +151,7 @@ void update_object_animation_and_facing_state(ActorActionWork *action, void *con
 
     if (actor->pending_turn_updates > 0) {
         if (actor->flags1C & 0x20) {
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             return;
         }
 
@@ -176,7 +176,7 @@ void update_object_animation_and_facing_state(ActorActionWork *action, void *con
                 callback_state = actor;
                 callback_flags &= 0x7F;
                 actor->movement_queue_state = callback_flags;
-                update_actor_status_and_food(callback_state);
+                update_actor_status_and_mp(callback_state);
                 actor->action_flags &= 0x7FFF;
                 return;
             }
@@ -195,7 +195,7 @@ void update_object_animation_and_facing_state(ActorActionWork *action, void *con
         jump_index = action_kind - 1;
         switch (jump_index) {
         case 11:
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             return;
 
         case 4:
@@ -205,7 +205,7 @@ void update_object_animation_and_facing_state(ActorActionWork *action, void *con
         case 8:
             callback_state = actor;
             action->handler = &D_8016B514;
-            update_actor_status_and_food(callback_state);
+            update_actor_status_and_mp(callback_state);
             actor->action_flags &= 0x7FFF;
             return;
 
@@ -235,7 +235,7 @@ void update_object_animation_and_facing_state(ActorActionWork *action, void *con
             }
         }
         if ((state_flags & 0x430) == 0) {
-            if ((s16)compare_monster_neighbor_values(
+            if ((s16)test_neighbor_position_relation(
                     sprite->position.tile.x, sprite->position.tile.y,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                 roomOrDirection = get_rounded_facing_and_rounding_flag(

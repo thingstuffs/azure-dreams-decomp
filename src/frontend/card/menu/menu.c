@@ -10,7 +10,7 @@ typedef struct S_80020F40_0 {
 } S_80020F40_0;   /* arg0 in func_80020F40; pointer addresses record offset 0x10 */
 
 /* Decrement the record's counter and replace its pointer when the counter becomes negative. */
-void func_80020F40(void *record_data) {
+void decrement_card_menu_countdown(void *record_data) {
     s32 counter;
 
     counter = ((S_80020F40_0 *)((u8 *)record_data - 0x10))->unk_50 - 1;

@@ -41,12 +41,12 @@ s32 lookup_item_category_mapped_value();
 s32 copy_fullwidth_vowel_bytes();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
-void *func_80099290();
+void *clear_byte_and_advance();
 s32 append_typed_formatted_value();
 s32 append_entity_display_text();
 s32 append_value_seven_suffix();
 s32 display_text_with_fullwidth_adjustment(); /* extern */
-void apply_item_effect_at_entity_position(); /* extern */
+void place_actor_item(); /* extern */
 void display_actor_item_status_message(); /* extern */
 s32 generate_random_value(void);
 s32 place_item_at_valid_floor_position(); /* extern */
@@ -82,7 +82,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
         if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) {
             display_actor_item_status_message(entity, target);
             if (feed_actor_restore_mp(entity, (entity_action_selectors[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
-                apply_item_effect_at_entity_position(entity, target);
+                place_actor_item(entity, target);
                 return 1;
             }
             clear_slot_and_update_linked_state(target);
@@ -115,7 +115,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
                 external_entity_value = result;
                 copy_fullwidth_vowel_bytes(node_offset, entity_value);
             }
-            func_80099290(expand_text_control_codes(&D_8008937C, external_entity_value));
+            clear_byte_and_advance(expand_text_control_codes(&D_8008937C, external_entity_value));
         }
         display_text_with_fullwidth_adjustment(script);
         clear_slot_and_update_linked_state(target);
@@ -138,7 +138,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
                 external_entity_value = result;
                 copy_fullwidth_vowel_bytes(node_offset, entity_value);
             }
-            func_80099290(expand_text_control_codes(&D_8008937C, external_entity_value));
+            clear_byte_and_advance(expand_text_control_codes(&D_8008937C, external_entity_value));
         }
         display_text_with_fullwidth_adjustment(script);
     }

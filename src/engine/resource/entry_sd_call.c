@@ -16,7 +16,7 @@ extern struct S_8006CE80 dispatch_resource_records[];
 
 extern s8 scene_music_hold[12];
 /* Updates the requested state and triggers transition handling when needed. */
-void func_80040AA0(s16 requested_state)
+void request_scene_dispatch_state(s16 requested_state)
 {
     u16 state_index = ((u16) requested_state) & 0xFFFF;
     struct S_8006CE80 *state_entry = &dispatch_resource_records[state_index];

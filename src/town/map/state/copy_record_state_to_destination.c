@@ -22,13 +22,13 @@ void copy_record_state_to_destination(S0 *self, s32 unused_value, S1 *destinatio
     s32 state;
     s32 callValue;
 
-    func_800478B8(dst);
+    advance_sprite_animation_and_textures(dst);
     state = obj->state;
     switch (state) {
     case 0:
         if (service_script_controller() && check_transform_identifier_and_hook(obj)) {
             callValue = obj->fieldA4;
-            func_8003DB94(dst, callValue, 0);
+            select_record_entry_and_value(dst, callValue, 0);
             obj->state = (u16)obj->state + 1;
             return;
         }
@@ -36,7 +36,7 @@ void copy_record_state_to_destination(S0 *self, s32 unused_value, S1 *destinatio
     case 1:
         if (dst->field14 & 0x6000) {
             callValue = obj->fieldA8;
-            func_8003DB94(dst, callValue, 0);
+            select_record_entry_and_value(dst, callValue, 0);
             obj->state = (u16)obj->state + 1;
             return;
         }
@@ -52,7 +52,7 @@ void copy_record_state_to_destination(S0 *self, s32 unused_value, S1 *destinatio
             return;
         }
         callValue = obj->fieldA0;
-        func_8003DB94(dst, callValue, 0);
+        select_record_entry_and_value(dst, callValue, 0);
         obj->state = (u16)obj->state + 1;
         return;
     case 4:

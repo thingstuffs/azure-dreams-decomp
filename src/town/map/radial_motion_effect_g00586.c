@@ -19,7 +19,7 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
     void *effect;
 
     direction = (flags >> 9) & 7;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         motion = ((S_800A878C_0 *)effect)->unk_08;
         sprite = ((S_800A878C_0 *)effect)->unk_0C;
@@ -36,7 +36,7 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
         velocity_y = 0 - (source_motion->unk_10 * ((rand() & 1) + 2));
         motion->unk_10 = (s32) (velocity_y / 16);
         motion->unk_14 = (s32) ((~rand() & 1) << 0xF);
-        func_8003DB94(sprite, &D_800F15AC, 0);
+        select_record_entry_and_value(sprite, &D_800F15AC, 0);
         sprite->color.c.b = 0xFF;
         sprite->color.c.g = 0xFF;
         sprite->color.c.r = 0xFF;

@@ -15,7 +15,7 @@ typedef struct S_80024130_0 {
 
    /* arg1 in create_randomized_effect_object */
 
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 extern s32 register_node();
 extern s32 rand();
 extern u8 D_80024048[9];
@@ -32,7 +32,7 @@ s32 create_randomized_effect_object(s32 context, MovingPosition *position)
     s32 pos_z;
     void *result;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object->unk_10 = D_80024048;
         visual = object->unk_0C;
@@ -40,7 +40,7 @@ s32 create_randomized_effect_object(s32 context, MovingPosition *position)
         visual->color.c.b = 0x80;
         visual->color.c.g = 0x80;
         visual->color.c.r = 0x80;
-        func_8003DB94(visual, D_800DE8E8, 0);
+        select_record_entry_and_value(visual, D_800DE8E8, 0);
         visual->scale_y = 0x1000;
         visual->scale_x = 0x1000;
         rounded_value = rand();

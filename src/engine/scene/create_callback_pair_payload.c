@@ -23,7 +23,7 @@ typedef struct S_8004B364_Node {
 /* Allocates a pool node, installs its record and callback when both values exist, and returns its payload or NULL. */
 void *create_callback_pair_payload(void *second_value, void *first_value)
 {
-    S_8004B364_Node *node = (S_8004B364_Node *)func_8003FC64(0);
+    S_8004B364_Node *node = (S_8004B364_Node *)allocate_flagged_object_node(0);
 
     if (node != 0) {
         if (second_value != 0 && first_value != 0) {

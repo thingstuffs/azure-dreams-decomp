@@ -16,7 +16,7 @@ extern u8 D_80024A64[];
 extern u16 D_80024A70[];
 
 
-extern s32 func_80053EF0(s32);
+extern s32 read_sound_mode_blocking_status(s32);
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern u8 resident_globals_page[];
 
@@ -45,7 +45,7 @@ void update_directional_actor_effect(void *state_data)
     switch (phase) {
     case 0:
         U32_AT(MANAGER_PTR(), 0xF4) = (u32)D_80024A64;
-        func_800246F4((ObjectNodeHeader *)((u8 *)PTR_AT(state, 0) - 0x20), PTR_AT(state, 4));
+        create_linked_effect_controller((ObjectNodeHeader *)((u8 *)PTR_AT(state, 0) - 0x20), PTR_AT(state, 4));
         result = U16_AT(state, 0x0A);
         result++;
         U16_AT(state, 0x0A) = result;
@@ -62,7 +62,7 @@ void update_directional_actor_effect(void *state_data)
             result = U16_AT(manager, 0xA6) - 1;
             U16_AT(manager, 0xA6) = result;
         }
-        result = func_80053EF0(4);
+        result = read_sound_mode_blocking_status(4);
         if (result != 2) {
             play_sound_if_enabled(0x300);
         } else {
@@ -431,7 +431,7 @@ typedef struct Child {
 extern char D_80024A8C[];
 
 /* Allocate a node and initialize its child with supplied values and shared source data. */
-void func_800246F4(ObjectNodeHeader *node_value, void *child_value)
+void create_linked_effect_controller(ObjectNodeHeader *node_value, void *child_value)
 {
     Node *node;
     Child *child;

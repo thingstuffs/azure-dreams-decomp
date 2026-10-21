@@ -57,7 +57,7 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
     void *effect;
     ovl_1930844_81910970_S_80024170_4 *position;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         effect_state = effect + 0x20;
         ((ovl_1930844_81910970_S_80024170_0 *)effect)->unk_10 = (void *)func_80024044;
@@ -621,7 +621,7 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
 void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value) {
     ovl_1930844_81911B9C_S_81911B9C_0 *object;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = (void *)draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends;
         ((SpriteFrameState *)((ovl_1930844_81911B9C_S_81911B9C_1 *)object)->unk_0C)->unk_05 = 0x10;
@@ -779,7 +779,7 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl
     ovl_1930844_81912074_S_80025874_1 *fields;
     void *object_data;
 
-    obj = func_8003FC64(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_10 = (void *)update_the_five_orbiting_points_advance_effect_animation;
         fields = obj + 0x20;

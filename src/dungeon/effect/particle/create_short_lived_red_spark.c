@@ -48,7 +48,7 @@ typedef struct S_80166204_1 {
     u16 unk_46;
 } S_80166204_1;
 
-M2C_UNK func_8003DB94();  /* extern */
+M2C_UNK select_record_entry_and_value();  /* extern */
 s32 register_node();           /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_80165A0C;
@@ -62,7 +62,7 @@ void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 un
     S_80166204_1 *effect_state;
     void *effect;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         ((S_80166204_0 *)effect)->unk_10 = &D_80165A0C;
         ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_02 =
@@ -95,7 +95,7 @@ void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 un
         sprite->clut = 0x7DCF;
         sprite_flags |= 0x100;
         sprite->flags = sprite_flags;
-        func_8003DB94(sprite, effect_sprite_sources, 0);
+        select_record_entry_and_value(sprite, effect_sprite_sources, 0);
     }
 }
 

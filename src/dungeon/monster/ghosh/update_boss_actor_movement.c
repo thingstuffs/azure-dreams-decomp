@@ -8,9 +8,9 @@
 typedef void (*Callback)(void *, void *, void *, void *);
 
 
-s32 func_800353F4(void *);
+s32 enqueue_runtime_pool_script(void *);
 #include "engine/texture/select_indirect_table_entry_api.h"
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 void apply_monster_koyaw_data(s32, s8 *);
 struct ActorRecord; struct Rec_func_800A9E70_arg0; struct S_800A9E70_2; s32 refresh_actor_facing_and_lifecycle(struct Rec_func_800A9E70_arg0 *, s32, struct S_800A9E70_2 *, struct ActorRecord *);
 s32 try_move_actor_to_valid_position(void *, void *, void *, void *);
@@ -93,7 +93,7 @@ void update_boss_actor_movement(void *entity, void *motion, register void *sprit
 
     if ((*(s32 *)((u8 *)entity + (0x14))) & 0x00800000) {
         (*(s32 *)((u8 *)entity + (0x14))) &= 0xFF7FFFFF;
-        func_800353F4(&D_800F8BBC);
+        enqueue_runtime_pool_script(&D_800F8BBC);
         (*(u8 *)((u8 *)entity + (0x6D))) = 0;
         (*(u8 *)((u8 *)entity + (0x9B))) = 0;
         (*(u8 *)((u8 *)entity + (0x71))) &= 0x7F;
@@ -166,7 +166,7 @@ void update_boss_actor_movement(void *entity, void *motion, register void *sprit
         }
         if (!(((S_8016F2E0_3 *)actor)->unk_1C & 0x20)) {
             if (!(((S_8016F2E0_4 *)sprite)->unk_14.v & 0x40)) {
-                func_800478B8(sprite);
+                advance_sprite_animation_and_textures(sprite);
             }
         } else {
             ((S_8016F2E0_4 *)sprite)->unk_14.v |= 0x7000;

@@ -21,7 +21,7 @@ void apply_countdown_scaled_color_intensity(void *record_data, void *unused, Spr
     color->color.c.b = (s8) intensity;
     color->color.c.g = (s8) intensity;
     color->color.c.r = (s8) intensity;
-    func_800478B8(color);
+    advance_sprite_animation_and_textures(color);
     ticks_left = (u16) ((S_801588E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
     ((S_801588E8_0 *)((u8 *)record_data - 0x2))->unk_98 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

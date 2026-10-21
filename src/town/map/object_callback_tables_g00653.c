@@ -5,7 +5,7 @@
 /* Initializes an object and replaces the callbacks in the active table entries. */
 void initialize_object_and_replace_callbacks(void) {
     Callback *callback_slot = (Callback *)D_800D4668;
-    void *object = func_8003FC64(0x11);
+    void *object = allocate_flagged_object_node(0x11);
 
     if (object != 0) {
         *(void **)((u8 *)object + 0x10) = D_800C1E50;

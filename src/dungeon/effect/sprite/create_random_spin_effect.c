@@ -61,7 +61,7 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
     s32 random_value;
     s32 scale;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         payload = (u8 *)object + 0x20;
         ((S_818BDB44_0 *)object)->unk_10 = D_80024F4C;

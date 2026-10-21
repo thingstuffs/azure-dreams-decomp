@@ -8,7 +8,7 @@ extern M2C_UNK D_80017AB8;
 extern s32 *D_80017B6C;
 
 /* Set the active data pointer and process entries for the two checks for index 7. */
-void func_80761DA4(void) {
+void install_table_and_test_entries(void) {
     D_80017B6C = &D_80017AB8;
     if (get_indexed_table_entry(7) != 0) {
         check_ready_or_run_followup(F_sbs36_pad08);

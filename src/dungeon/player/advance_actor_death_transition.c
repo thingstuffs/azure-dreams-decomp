@@ -58,14 +58,14 @@ void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, S_8008E
         if (*(u16 *)0x80013714 & 4) {
             if (((S_8008E0C4_2 *)dungeon_button_latch)->unk_00 == 0) {
                 ((S_8008E0C4_2 *)dungeon_button_latch)->unk_00 = state;
-                func_80040AA0(3);
+                request_scene_dispatch_state(3);
                 break;
             }
         } else {
             snapshot_inventory_and_familiars(context);
             snapshot_inventory_familiar_records();
             runtime_dispatch_state.flags16 = 0xC000;
-            func_80041094(6, 0, 0, 0, 0xC000);
+            request_scene_state_with_parameters(6, 0, 0, 0, 0xC000);
             context->unk_9B++;
             break;
         }

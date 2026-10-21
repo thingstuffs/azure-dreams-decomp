@@ -36,7 +36,7 @@ extern s32 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -136,7 +136,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                     return;
                 }
             }
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, 1) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;

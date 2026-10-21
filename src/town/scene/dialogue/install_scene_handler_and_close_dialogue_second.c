@@ -9,7 +9,7 @@ extern s32 func_80016EB8(void *, void *, s32);
 extern s32 install_scene_handler_and_close_dialogue(s16);
 
 /* Selects a result for the context, applying an override when both checks pass. */
-void *func_80761B70(void *context, s32 unused, s32 mode)
+void *select_checked_table_pointer(void *context, s32 unused, s32 mode)
 {
     void *result;
 

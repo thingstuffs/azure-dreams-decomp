@@ -3,6 +3,6 @@
 #include "shared/town_root.h"
 
 /* Run town service callback 0x84 with zero. */
-void get_scene_object_mode_and_raise_event(void) {
+void invoke_scene_callback(void) {
     D_80016000->unk_20->callback_084(0);
 }

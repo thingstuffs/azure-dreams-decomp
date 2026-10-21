@@ -81,7 +81,7 @@ typedef struct {
 
 
 extern void func_800243C0(void *, void *);
-extern s32 func_80053EF0(s32);
+extern s32 read_sound_mode_blocking_status(s32);
 extern void play_sound_if_enabled(s32);
 extern void *scan_monster_along_heading();
 extern u16 get_surface_height_at_record(void *);
@@ -144,7 +144,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             facing_player = *(u8 **)(player_page + 0x14A8);
             self->angle = ((S_81978428_3 *)facing_player)->unk_2A;
             self->state++;
-            if (func_80053EF0(4) != 2) {
+            if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(0x300);
                 break;
             }

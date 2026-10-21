@@ -10,7 +10,7 @@ typedef struct S_808B16A0_0 {
 } S_808B16A0_0;
 
 /* Pass both signed 16-bit values in each pair to func_80016BDC. */
-void func_808B16A0(void *pairs, s32 pairCount) {
+void dispatch_packed_value_pairs(void *pairs, s32 pairCount) {
     char pad[8];
     s32 secondValue;
     s32 pairsProcessed;

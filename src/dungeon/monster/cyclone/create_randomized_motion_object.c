@@ -39,9 +39,9 @@ typedef struct S_80175060_3 {
 } S_80175060_3;
 
 
-void func_8003DB94(void *, void *, s32);  /* extern */
+void select_record_entry_and_value(void *, void *, s32);  /* extern */
 s32 register_node();           /* extern */
-extern void func_800478B8(void *entity);                      /* extern */
+extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 s32 rand();                                /* extern */
 extern void update_radial_motion_or_complete(u16 *motion, s32 *position, u8 *object);
 
@@ -57,7 +57,7 @@ s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *in
     void *object;
     S_80175060_3 *state;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         ((S_80175060_0 *)object)->unk_10 = &update_radial_motion_or_complete;
         biased_phase = rand();
@@ -74,8 +74,8 @@ s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *in
         part->unk_0C = color;
         part->unk_14 = (u16) (part->unk_14 | 0xC);
         part->unk_10 = (u16) (part->unk_10 | 0x20);
-        func_8003DB94(part, &secondary_sprite, 0);
-        func_800478B8(part);
+        select_record_entry_and_value(part, &secondary_sprite, 0);
+        advance_sprite_animation_and_textures(part);
         biased_rotation = rand();
         rotation_rand = biased_rotation;
         part->unk_1A = (s16) (rotation_rand % 4096);

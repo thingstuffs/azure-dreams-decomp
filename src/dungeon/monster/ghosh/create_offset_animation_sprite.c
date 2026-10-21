@@ -37,7 +37,7 @@ typedef struct {
     s32 *callback;
 } Node;
 
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 s32 register_node(RegistrationNode *entry, s32 registration_id);
 void func_80170D60(void *destination, s32 unused, void *source);
 
@@ -48,7 +48,7 @@ void create_offset_animation_sprite(void *unused, void *origin) {
     Vec3 *position;
     SpriteFrameState *display_sub;
 
-    node = (Node *)func_8003FC64(0x212);
+    node = (Node *)allocate_flagged_object_node(0x212);
     if (node != 0) {
         node->callback = &func_80170D60;
         register_node(node, project_sprite_chain);
@@ -66,6 +66,6 @@ void create_offset_animation_sprite(void *unused, void *origin) {
         display_sub->color.c.b = 0x80;
         display_sub->color.c.g = 0x80;
         display_sub->color.c.r = 0x80;
-        func_8003DB94(display_sub, effect_sprite_sources, 0);
+        select_record_entry_and_value(display_sub, effect_sprite_sources, 0);
     }
 }

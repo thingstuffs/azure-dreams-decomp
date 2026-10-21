@@ -20,7 +20,7 @@ void create_boss_offset_effect(void) {
     u8 *effect_state;
 
     source_pos = (s32 *)ghosh_boss_node[0][2];
-    effect = (u8 *)func_8003FC64(0x212);
+    effect = (u8 *)allocate_flagged_object_node(0x212);
     if (effect != (void *)0) {
         effect_state = effect + 0x20;
         *(s16 *)(effect_state + 0x16) = 0x1E;

@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 
 extern void apply_monster_koyaw_data(void *, void *);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 get_entity_effect_value(void *, s32);
 
@@ -51,12 +51,12 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
 
     saved_effect = effect;
     if ((*(u32 *)(effect + 0x1C) & 0x20) == 0) {
-        func_800478B8(entity);
+        advance_sprite_animation_and_textures(entity);
     }
 
     if (PTR(appearance, 0x2C) == D_800E2400) {
-        func_800478B8(entity);
-        func_800478B8(entity);
+        advance_sprite_animation_and_textures(entity);
+        advance_sprite_animation_and_textures(entity);
     }
 
     facing_check = U16(effect, 0x2A);

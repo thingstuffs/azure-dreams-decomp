@@ -13,7 +13,7 @@ void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message();                   /* extern */
 void adjust_source_value_and_finalize();           /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-void apply_item_effect_at_entity_position();                 /* extern */
+void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 extern M2C_UNK D_800E17C6;
@@ -43,7 +43,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
         display_item_status_message(entity, action, action_param);
         saved_flag = ((u32) ((u32)entity->flags1C) >> 3) & 1;
         if (feed_actor_restore_mp(entity, (entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(entity, action);
+            place_actor_item(entity, action);
             return 1;
         }
         flag_test = saved_flag;

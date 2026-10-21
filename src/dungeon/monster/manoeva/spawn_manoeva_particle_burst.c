@@ -56,7 +56,7 @@ void spawn_manoeva_particle_burst(MovingPosition *origin, S_80E3CC80_2 *source_s
 
     remaining = 0x10;
     do {
-        particle = func_8003FC64(0x300);
+        particle = allocate_flagged_object_node(0x300);
         if (particle != NULL) {
             particle->unk_10 = D_801763D0;
             register_node(particle, project_sprite_chain);

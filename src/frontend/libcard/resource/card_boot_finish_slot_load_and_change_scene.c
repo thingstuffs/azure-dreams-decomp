@@ -36,5 +36,5 @@ void card_boot_finish_slot_load_and_change_scene(void *object) {
     if (*(u16 *)(global_page + 0x208) != 0) {
         global_mode = 5;
     }
-    func_80040AA0(global_mode);
+    request_scene_dispatch_state(global_mode);
 }

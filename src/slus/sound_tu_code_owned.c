@@ -23,7 +23,7 @@ extern D_80079958_t spu_registers;
 extern s32 modify_spu_register_bit_pair(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void read_spu_register_pair(int a0, int a1);
 extern void func_8005E7B0(int a0, int a1);
-extern void func_8005F134(void *a0);
-extern void func_8005E97C(int a0, int a1);
+extern void apply_spu_voice_attributes(void *a0);
+extern void set_spu_voice_keys(int a0, int a1);
 
 #include "../build/partition_sources/code__sound_tu_code.c"

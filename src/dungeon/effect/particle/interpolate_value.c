@@ -198,7 +198,7 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
     ((S_80168C88_0 *)effect)->unk_1E = ((S_80168C88_0 *)effect)->unk_1E - 1;
     segment_offset = segment;
     do {
-        task = func_8003FC64(0x12);
+        task = allocate_flagged_object_node(0x12);
         if (task != NULL) {
             void *init_fn = 0;
             void *callback;

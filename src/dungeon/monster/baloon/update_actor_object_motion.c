@@ -7,7 +7,7 @@
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern void select_indirect_table_entry(void *, u8, s8);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
@@ -133,7 +133,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
 
         if (!(((S_80171964_2 *)base)->unk_1C.u & 0x20)) {
             if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40)) {
-                func_800478B8(part_arg);
+                advance_sprite_animation_and_textures(part_arg);
             }
         } else {
             ((S_80171964_1 *)part_arg)->unk_14 |= 0x7000;

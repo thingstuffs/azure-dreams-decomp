@@ -38,7 +38,7 @@ typedef struct T_80170AA4_S_80170AA4_1 {
 extern void update_owner_class_bits();
 extern void func_80042984();
 extern void select_indirect_table_entry();
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 extern void apply_monster_koyaw_data();
 extern void play_sound_if_enabled();
 extern s32 refresh_actor_facing_and_lifecycle();

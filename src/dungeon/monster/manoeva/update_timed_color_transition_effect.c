@@ -12,7 +12,7 @@ extern s32 D_800C6AEC;
 
 extern void register_node();
 extern void unlink_node();
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 extern void retire_tracked_effect_by_id();
 
 /* Advances the effect through color fades and animation changes, then marks it complete. */
@@ -71,5 +71,5 @@ void update_timed_color_transition_effect(u8 *effect_state, s32 unused, u8 *rend
         break;
     }
 
-    func_800478B8(render_data);
+    advance_sprite_animation_and_textures(render_data);
 }

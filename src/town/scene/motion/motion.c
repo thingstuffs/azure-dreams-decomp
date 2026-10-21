@@ -14,7 +14,7 @@ extern s32 func_80058F88();
 extern s32 D_80084D5C;
 
 /* Step the record's two-state timer, raising the finished bit when it runs out. */
-void func_808152DC(void *record) {
+void play_timed_sound_sequence(void *record) {
     s16 state;
     u16 timer;
 

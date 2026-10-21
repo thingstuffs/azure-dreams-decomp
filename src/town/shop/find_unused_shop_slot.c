@@ -11,8 +11,8 @@ extern void clear_bytes(s8 *buffer, s32 length);
 extern u8 D_80016034[16];
 extern u8 D_8001605C[];
 
-/* Returns the first unused shop slot address, asserting on duplicate entries or a full slot table. */
-s32 find_unused_shop_slot(s32 *slot_list)
+/* Return the first unused item slot, asserting on duplicate entries or a full pool. */
+s32 find_unused_item_slot(s32 *slot_list)
 {
     u8 used_slots[0x100];
     s32 *slot_cursor;

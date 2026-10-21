@@ -105,7 +105,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
         }
         if (!(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C & 0x20)) {
             if (!(((T_80170AA4_S_80170AA4_0 *)part)->unk_14.v & 0x40)) {
-                func_800478B8(part);
+                advance_sprite_animation_and_textures(part);
             }
         } else {
             ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.v |= 0x7000;

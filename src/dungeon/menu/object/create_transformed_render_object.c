@@ -53,7 +53,7 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
     if (mode != 0) {
         alloc_flags = 0x202;
     }
-    object = func_8003FC64(alloc_flags);
+    object = allocate_flagged_object_node(alloc_flags);
     if (object != NULL) {
         position = *(void **)((u8 *)object + 8);
         *(void **)((u8 *)object + 0x10) = &interpolate_delayed_target_values;

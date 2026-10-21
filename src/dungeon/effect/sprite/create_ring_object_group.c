@@ -71,7 +71,7 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
         if (radius_scale != 0) {
             object_flags = 0x212;
         }
-        object = func_8003FC64(object_flags);
+        object = allocate_flagged_object_node(object_flags);
         if (object != 0) {
             ((S_81959B44_0 *)object)->unk_10 = &D_800250B4;
             register_node(object, &D_80045C34);

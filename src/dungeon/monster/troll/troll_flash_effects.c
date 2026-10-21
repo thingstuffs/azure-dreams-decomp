@@ -131,7 +131,7 @@ void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
     frame_count = ((T_80170F94_S_80170F94_1 *)effect)->unk_1A + 1;
     ((T_80170F94_S_80170F94_1 *)effect)->unk_1A = frame_count;
     if ((frame_count & 3) == 0) {
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
     }
 
     scale_x = ((SpriteFrameState *)sprite)->scale_x + 100;
@@ -195,7 +195,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     s32 scaled_y;
     s32 centered_coord;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect == NULL) {
         return;
     }
@@ -420,7 +420,7 @@ void spawn_random_color_burst_particle(void *source, void *position) {
 
     source_obj = source;
     source_pos = position;
-    obj_or_angle = (s32) func_8003FC64(0x212);
+    obj_or_angle = (s32) allocate_flagged_object_node(0x212);
     if (obj_or_angle != 0) {
         init_obj = (void *) obj_or_angle;
         effect_state = (void *) obj_or_angle + 0x20;
@@ -477,7 +477,7 @@ void spawn_growing_rotating_flash(void *unused, s32 *position) {
     T_80171928_Child *child;
     u32 *object_pos;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         header = (T_80171928_Header *)((u8 *)object + 0x20);
         header->value18 = 0x1C;

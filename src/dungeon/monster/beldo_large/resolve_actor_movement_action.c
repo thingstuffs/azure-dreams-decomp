@@ -12,7 +12,7 @@ typedef struct S_8016BBC0_0 {
 } S_8016BBC0_0;   /* base in resolve_actor_movement_action */
 
 extern s32 has_pending_dungeon_activity(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern s16 relink_entity_and_clear_high_flag(void *context, void *position, void *entity, s16 near_range, s16 far_range, s32 state_out_addr);
 extern void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor);
 
@@ -44,7 +44,7 @@ s32 resolve_actor_movement_action(Rec_func_800A9E70_arg0 *entity, s32 action_ctx
     case 0:
         result = 0xE;
         entity->unk_9A.as_s8 = result;
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         return 0;
     case 2:
         advance_actor_movement_step(entity, action_ctx, position, actor);

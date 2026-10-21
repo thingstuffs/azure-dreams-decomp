@@ -89,8 +89,8 @@ extern s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 void run_cd_image_commands();
 s32 register_node();
-extern int func_800445E0(void);
-s32 func_8003DB94();
+extern int read_stream_cue_start_offset(void);
+s32 select_record_entry_and_value();
 s32 select_indirect_table_entry();
 s32 rand();
 void unlink_entity_node();
@@ -152,7 +152,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         }
         run_cd_image_commands(&nyuel_image_commands, &D_80174FCC, 1);
         sound_set_cd_cue_parameters(0, *cd_cue_base, 0x04000AD4, 0x05000CC4);
-        Control_CD(0x15, func_800445E0(), NULL);
+        Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         D_80174FCD[0] = 0;
         Control_CD(0xFF, (s32) set_byte_one, &D_80174FCD);
         select_nearby_target_and_initialize_slot(target - 0x20, position, 8, 0x300);
@@ -181,7 +181,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             - object->unk_AA) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
         return;
     case 4:
-        object = func_8003FC64(0x12);
+        object = allocate_flagged_object_node(0x12);
         if (object == 0) {
             return;
         }
@@ -200,7 +200,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         if ((effect_choice << 0x10) < 0) {
             effect_index = rand() % 3;
         }
-        func_8003DB94(object, &D_8014A000[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
+        select_record_entry_and_value(object, &D_8014A000[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
         actor->flags = (u16) (actor->flags | 0x80);
         ((S_801749A8_0 *)sequence)->unk_96 = 0U;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);

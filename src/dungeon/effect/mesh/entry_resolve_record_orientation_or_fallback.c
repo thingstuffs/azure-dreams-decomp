@@ -81,7 +81,7 @@ extern void register_node(void *, void *);
 extern s32 func_800644B8(s32);
 
 /* Follow the source, then brighten and move to the target over ten frames. */
-void func_81976850(void *effect, void *motion, void *visual)
+void follow_source_then_seek_target(void *effect, void *motion, void *visual)
 {
     Vec16 delta;
     void *source;

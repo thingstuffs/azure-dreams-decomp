@@ -74,7 +74,7 @@ void create_player_centered_sequence_effect(void)
     S_80169C1C_0 *sub_object;
     Vec3i *position;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         (*(s16 *)((u8 *)object + 0x38)) = 0;
         (*(void * *)((u8 *)object + 0x10)) = D_80169754;

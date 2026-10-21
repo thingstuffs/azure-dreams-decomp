@@ -35,7 +35,7 @@ typedef struct {
 
 extern s8 view_direction_depth_biases[];
 extern s32 func_80065420(void *, void *, void *, void *);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Apply a relative projected depth with a direction bias and propagate output status flags. */
 void apply_relative_projected_depth(void *entity, MovingPosition *position, void *output) {
@@ -62,7 +62,7 @@ void apply_relative_projected_depth(void *entity, MovingPosition *position, void
     depth_delta = depth_delta + depth_bias;
     result->unk_14 = (u16) (result->unk_14 & 0xFF7F);
     result->unk_06 = depth_delta;
-    func_800478B8(result);
+    advance_sprite_animation_and_textures(result);
     if (result->unk_14 & 0x6000) {
         ((S_8102F20C_1_pre *)entity)[-1].unk_00 = (u16) (((S_8102F20C_1_pre *)entity)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;

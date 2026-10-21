@@ -20,6 +20,6 @@ void card_boot_poll_status_and_select_context(void *state);
 void card_boot_update_object_state_and_callback(void *object_data);
 
 /* menu.c */
-void func_80020F40(void *record_data);
+void decrement_card_menu_countdown(void *record_data);
 
 #endif

@@ -84,7 +84,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     if ((s16)age < 0x14) {
         particle_index = 0;
         do {
-            particle = func_8003FC64(0x212);
+            particle = allocate_flagged_object_node(0x212);
             if (particle != NULL) {
                 initialize_effect_object_state(particle, emitter, position, init_param);
                 particle_state = (u8 *)particle + 0x20;

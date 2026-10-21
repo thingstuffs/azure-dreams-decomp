@@ -25,7 +25,7 @@ typedef struct S_800C6C10_1 {
 } S_800C6C10_1;
 
 /* Creates an object, initializes its render data, and runs its callback. */
-s32 func_800C6C10(s32 state_value) {
+s32 create_owner_following_sprite(s32 state_value) {
     s32 callback_arg;
     SpriteFrameState *render_data;
     S_800C6C10_1 *state;

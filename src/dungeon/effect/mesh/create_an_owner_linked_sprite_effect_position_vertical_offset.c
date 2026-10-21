@@ -39,7 +39,7 @@ typedef struct S_81977D08_5 {
     u8 unk_13;
 } S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in create_an_owner_linked_sprite_effect_position_vertical_offset */
 
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 extern void *allocate_list_node();
 extern s32 register_node();
 
@@ -69,7 +69,7 @@ void create_an_owner_linked_sprite_effect_position_vertical_offset(S_81977D08_4 
                 sprite->color.c.b = color;
                 sprite->color.c.g = color;
                 sprite->color.c.r = color;
-                func_8003DB94(sprite, sprite_data, zero);
+                select_record_entry_and_value(sprite, sprite_data, zero);
             }
         }
         sprite->scale_y = 0x1800;

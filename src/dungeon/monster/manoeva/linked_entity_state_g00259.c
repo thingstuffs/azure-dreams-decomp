@@ -46,6 +46,13 @@ void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 
             }
         }
 
+        /*
+         * Original bug: Oleem removes a living item-form Manoeva without reserving its reappearance. This test skips
+         * the extra count, but both the fade-in and pentagram later decrement it, leaving -1 until the watchdog resets
+         * it.
+         * Found and documented by the Azure Dreams community
+         * (adrando.com/guide/bugs.html).
+         */
         if ((linked_state[0x13] != 0x1E) && (linked_state[0x28] == 0)) {
             (((u16)g_dungeon_status.activity_counts.parts.pending_action_count))++;
         }

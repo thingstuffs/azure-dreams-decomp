@@ -253,7 +253,7 @@ s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_ty
 }
 
 void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
-    func_8004B1A4(record->unk_08);
+    flag_object_for_removal(record->unk_08);
     record->unk_04 = get_half_byte_length(record->unk_00);
     record->unk_08 = configure_menu_resource(record->unk_00, resource_arg);
     return record;
@@ -262,7 +262,7 @@ void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, s32 resource_
 void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
     s32 resource_value;
 
-    func_8004B1A4(record->unk_08);
+    flag_object_for_removal(record->unk_08);
     resource_value = count_menu_entry_matches(record->unk_00);
     record->unk_04 = resource_value;
     record->unk_08 = pack_selected_menu_entries(record->unk_00, resource_arg, resource_value);
@@ -272,7 +272,7 @@ void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, s32 resource_arg) {
 void *refresh_menu_derived_value(ovl_1831cd8_818123E4_S_800273E4_0 *state, s32 replacementInput, s32 calculationInput) {
     s32 adjustedValue;
 
-    func_8004B1A4(state->unk_08);
+    flag_object_for_removal(state->unk_08);
     adjustedValue = count_menu_entry_pair_matches(state->unk_00, calculationInput) + 5;
     state->unk_04 = adjustedValue;
     state->unk_08 = build_menu_text_page(state->unk_00, replacementInput, adjustedValue, calculationInput);
@@ -517,7 +517,7 @@ void store_scaled_menu_ratio(ovl_1831cd8_81812B44_S_80027B44_0 *object, s32 nume
         (s16) ((s32) (numerator * 0x90) / denominator);
 }
 
-void set_menu_object_scale_fields(s32 object_table, s32 scale_numerator, s32 scale_denominator) {
+void position_scaled_entries(s32 object_table, s32 scale_numerator, s32 scale_denominator) {
     s32 scaled_value;
     s32 entry_index;
     s32 scaled_numerator;
@@ -561,7 +561,7 @@ void refresh_menu_entry_resources(void *entry_table, void *resource_names)
                 (*entry_slot)->unk0 = (s32 *)func_8004DC14(&name_buffer, 1);
             }
         } else if (entry->unk0 != 0) {
-            func_8004E99C(entry->unk0);
+            flag_optional_object_for_removal(entry->unk0);
             (*entry_slot)->unk0 = 0;
         }
         entry_slot += 1;
@@ -576,7 +576,7 @@ void refresh_menu_entry_resources(void *entry_table, void *resource_names)
 void update_menu_object_data(void *object) {
     store_scaled_menu_ratio(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
     draw_menu_progress_bar(object, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
-    set_menu_object_scale_fields(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
+    position_scaled_entries(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_00, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_04);
     refresh_menu_entry_resources(((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_88, ((ovl_1831cd8_81812C94_S_80027C94_0 *)object)->unk_40);
     advance_timed_tagged_stream(object + 0x2C);
 }
@@ -584,7 +584,7 @@ void update_menu_object_data(void *object) {
 void update_menu_progress_bar(ovl_1831cd8_81812D08_ProgressState *state) {
     store_scaled_menu_ratio(state->entries, state->current, state->maximum);
     draw_menu_progress_bar(state, state->current, state->maximum);
-    set_menu_object_scale_fields(state->entries, state->current, state->maximum);
+    position_scaled_entries(state->entries, state->current, state->maximum);
     refresh_menu_entry_resources(state->entries, state->resource_names);
     advance_timed_tagged_stream(state->cursor);
 }
@@ -689,7 +689,7 @@ void initialize_menu_panel_rows(void *panel, void *widgets) {
 
     *((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_00 = &D_80078AB4;
     *((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_04 = &D_80078AD8;
-    func_8004CBFC(panel + 0x2C, &D_80079324, ((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_08);
+    initialize_scaled_entry_cursor(panel + 0x2C, &D_80079324, ((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_08);
     *((ovl_1831cd8_818130FC_S_800280FC_0 *)widgets)->unk_0C = 0;
     ((ovl_1831cd8_818130FC_S_800280FC_6 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_10))->unk_00 = 0;
     ((ovl_1831cd8_818130FC_S_800280FC_9 *)(((ovl_1831cd8_818130FC_S_800280FC_6 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_10))->unk_04))->unk_08 = 0x58;
@@ -790,7 +790,7 @@ void *create_menu_child_object(s32 parent_obj, s32 descriptor_value)
     ovl_1831cd8_8181345C_Obj8181345C *obj;
     ovl_1831cd8_8181345C_Sub8181345C *sub;
 
-    obj = func_8003FC64(0);
+    obj = allocate_flagged_object_node(0);
     sub = &obj->sub;
     if (obj != 0) {
         if (allocate_menu_object_buffers(sub, 15) != 0) {
@@ -817,11 +817,11 @@ void format_menu_referenced_values(void *state) {
     value_slot = state + 0x18;
     do {
         slot_index += 1;
-        func_8004E99C(**value_slot);
+        flag_optional_object_for_removal(**value_slot);
         **value_slot = 0;
         value_slot += 1;
     } while (slot_index < 0xE);
-    func_8004E99C(**(s32 **)((u8 *)state + 0x38));
+    flag_optional_object_for_removal(**(s32 **)((u8 *)state + 0x38));
 }
 
 void retire_menu_object(void *object)
@@ -833,7 +833,7 @@ void retire_menu_object(void *object)
     if (object != 0) {
         objectData = (u8 *)object + 0x20;
         format_menu_referenced_values(*(void **)(objectData + 0x88));
-        func_8004B1A4(*(void **)(objectData + 0x40));
+        flag_object_for_removal(*(void **)(objectData + 0x40));
         release_null_terminated_entries((u8 *)object + 0xAC);
         objectFlags = *(u16 *)((u8 *)object + 0x1E);
         globalFlags = object_flag_block.flags;

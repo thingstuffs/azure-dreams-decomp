@@ -161,7 +161,7 @@ void func_80024104(void *owner) {
         center[1] = rect->y + 0x30;
         draw_transformed_sprite_with_clip_rect((s32)primary_actor_record, rect, center, 1, 1);
 
-        child = func_8003FC64(0x212);
+        child = allocate_flagged_object_node(0x212);
         if (child != 0) {
             child_work = (u8 *)child + 0x20;
             ((S_80024104_0 *)child_work)->unk_2A = 7;
@@ -258,7 +258,7 @@ void create_an_linked_parent_initialize_position_part_data(void *parent, void *u
     S_800243E4_0 *state;
     S_800243E4_3 *parent_position;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = object + 0x20;
         state->unk_2A = 0x9;
@@ -409,7 +409,7 @@ extern AnimationState reference_tile_object;
 
 extern s32 get_sprite_attachment_vector(void *, AnimationState *, s16 *, s32);
 
-extern s32 func_80053EF0(s32);
+extern s32 read_sound_mode_blocking_status(s32);
 
 extern void draw_textured_ellipse(PaletteControl *, RectWords *, s32, s32);
 
@@ -523,7 +523,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             state->phase++;
         }
         if (state->countdown == 0x11) {
-            particle_scratch = (TransitionParticlePayload *)(func_80053EF0(4));
+            particle_scratch = (TransitionParticlePayload *)(read_sound_mode_blocking_status(4));
             sound_request = 0x4300;
             if (((s32)particle_scratch) != 2) {
                 sound_request = 0x300;
@@ -532,7 +532,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
         }
         if ((state->countdown < 9) && ((particle_scratch = (TransitionParticlePayload *)(get_sprite_attachment_vector(reference_tile_object.resource, &reference_tile_object, &state->current_x, 0))) != 0)) {
             if (state->countdown >= 7) {
-                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 1;
@@ -559,7 +559,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     particle_scratch->resource.extent.height = 0x40;
                 }
                 if (!(state->countdown & 1)) {
-                    particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
+                    particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                     if (particle != 0) {
                         particle->payload.lifetime = 1;
                         particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;
@@ -585,7 +585,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     }
                 }
             } else {
-                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
@@ -611,7 +611,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                     particle_scratch->resource.extent.width = 0;
                     particle_scratch->resource.extent.height = 0;
                 }
-                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;
@@ -642,7 +642,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 midpoint_sum_y = state->current_y + state->previous_y;
                 state->midpoint_y = (s32)(midpoint_sum_y + (midpoint_sum_y >> 31)) >> 1;
                 state->midpoint_z = (state->current_z + state->previous_z) / 2;
-                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 particle_scratch = &particle->payload;
                 if (particle != 0) {
                     particle_scratch->lifetime = 0xC;
@@ -694,7 +694,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             }
         }
         if ((state->countdown >= 0xD) && ((particle_scratch = (TransitionParticlePayload *)(get_sprite_attachment_vector(reference_tile_object.resource, &reference_tile_object, &state->current_x, 0))) != 0)) {
-            particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
+            particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
             particle_scratch = &particle->payload;
             if (particle != 0) {
                 particle_scratch->lifetime = 0xC;
@@ -726,7 +726,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
                 particle_scratch->resource.extent.height = 0x40;
             }
             if (!(state->countdown & 1)) {
-                particle = (TransitionParticle *)func_8003FC64(PARTICLE_ALLOC_ID);
+                particle = (TransitionParticle *)allocate_flagged_object_node(PARTICLE_ALLOC_ID);
                 if (particle != 0) {
                     particle->payload.lifetime = 1;
                     particle->header.unk_10 = (void *)fade_the_primitive_flag_effect_countdown_expires;

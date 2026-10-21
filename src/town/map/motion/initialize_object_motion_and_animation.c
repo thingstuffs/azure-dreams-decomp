@@ -10,7 +10,7 @@ typedef struct Func800BF66CObject {
     s16 fieldA6;
 } Func800BF66CObject;
 
-extern void func_8003DB94(s32, s32, s32);
+extern void select_record_entry_and_value(s32, s32, s32);
 extern void register_node(void *, void *);
 extern void configure_the_set_mode_n_1(void *, s32, void *);
 extern u8 D_800BC990[];
@@ -25,6 +25,6 @@ void initialize_object_motion_and_animation(Func800BF66CObject *object, s32 moti
     register_node((u8 *)object - 0x20, project_sprite_chain);
     object->fieldA6 = 2;
     configure_the_set_mode_n_1(object, motion, D_800D20CC);
-    func_8003DB94(anim, D_800D211C[object->fieldA6], 0);
+    select_record_entry_and_value(anim, D_800D211C[object->fieldA6], 0);
     object->field48 = D_800D212C;
 }

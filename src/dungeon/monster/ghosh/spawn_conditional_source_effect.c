@@ -100,7 +100,7 @@ void spawn_conditional_source_effect(void) {
     source_pos = ((S_8016ECE4_0 *)source)->unk_08;
     source_state = source + 0x20;
     if (((count & 3) == 1) && !(func_80069EF8(source) & 1)) {
-        effect = func_8003FC64(0x12);
+        effect = allocate_flagged_object_node(0x12);
         if (effect != NULL) {
             effect_state = effect + 0x20;
             effect_state->unk_12 = 3;

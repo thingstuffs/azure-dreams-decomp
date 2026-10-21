@@ -55,8 +55,8 @@ typedef struct S_800B6C30_0 {
     s32 unk_98;
 } S_800B6C30_0;
 
-M2C_UNK func_8004B1A4();
-M2C_UNK func_8004E99C();
+M2C_UNK flag_object_for_removal();
+M2C_UNK flag_optional_object_for_removal();
 /* Canonical global flags word shared by several sibling functions across
  * the codebase (code9.c, code10.c, code11.c, code5.c, w_8004FE78.c, ...).
  * Declared as a plain `extern int` so the address is recomputed separately

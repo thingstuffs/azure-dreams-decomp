@@ -9,7 +9,7 @@
    codegen uses %hi/%lo addressing rather than $gp-relative. */
 
 /* Returns the blocking status for the selected mode from flags and pending state. */
-s32 func_80053EF0(s32 mode) {
+s32 read_sound_mode_blocking_status(s32 mode) {
     s32 flags;
 
     switch (mode) {

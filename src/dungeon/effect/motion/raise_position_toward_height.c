@@ -47,7 +47,7 @@ extern s32 func_80069EF8(void);
 extern s32 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 extern u16 GetTPage(s32, s32, s32, s32);
 
-void func_800240AC(void *target, s32 threshold_arg, void *owner_context) {
+void try_lower_actor_level(void *target, s32 threshold_arg, void *owner_context) {
     s32 value_index;
     s32 threshold;
 
@@ -935,7 +935,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             return;
         }
         {
-            motion_or_child = func_8003FC64(0x212);
+            motion_or_child = allocate_flagged_object_node(0x212);
             if (motion_or_child != 0) {
                 child_object = motion_or_child;
                 child_data = (u32)((u8 *)motion_or_child + 32);
@@ -1058,7 +1058,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             if (target_mode != effect_kind) {
                 effect_kind = effect->unk_9;
             }
-            func_800240AC(owner->unk_60, effect_kind, owner);
+            try_lower_actor_level(owner->unk_60, effect_kind, owner);
             effect->unk_A.u16 = 8;
             effect->unk_82.u16 = 30;
         }

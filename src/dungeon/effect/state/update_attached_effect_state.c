@@ -36,7 +36,7 @@ extern volatile u8 *dungeon_actor_ring_anchor[];
 extern s16 get_entity_effect_value(Entity800B4194 *, s32);
 extern u8 *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes(u8 *, u8 *);
-extern u8 *func_80099290(u8 *);
+extern u8 *clear_byte_and_advance(u8 *);
 extern u8 *append_entity_display_text(Entity800B4194 *, u8 *);
 extern s16 set_or_clear_actor_status_slot(Entity800B4194 *, s32, s32);
 extern void play_sound_if_enabled(s32);
@@ -77,7 +77,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
                     text = expand_text_control_codes(D_800E0BC7, saved);
                     text = append_entity_display_text(entityp, text);
                     text = expand_text_control_codes(D_800892C4, text);
-                    text = func_80099290(text);
+                    text = clear_byte_and_advance(text);
                     display_text_with_fullwidth_adjustment(saved);
                 }
             }
@@ -94,7 +94,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
                     text = expand_text_control_codes(D_800E0BDC, saved);
                     text = append_entity_display_text(entityp, text);
                     text = expand_text_control_codes(D_800892C8, text);
-                    text = func_80099290(text);
+                    text = clear_byte_and_advance(text);
                     display_text_with_fullwidth_adjustment(saved);
                 }
             }
@@ -138,7 +138,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         text = expand_text_control_codes(D_800E0BF3, saved);
         text = append_entity_display_text(entityp, text);
         text = expand_text_control_codes(D_800892C4, text);
-        text = func_80099290(text);
+        text = clear_byte_and_advance(text);
         display_text_with_fullwidth_adjustment(saved);
         return 0;
     }
@@ -197,7 +197,7 @@ s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Contex
         text = expand_text_control_codes(D_800E0C09, saved);
         text = append_entity_display_text(entityp, text);
         text = expand_text_control_codes(D_800E0C1D, text);
-        text = func_80099290(text);
+        text = clear_byte_and_advance(text);
         display_text_with_fullwidth_adjustment(saved);
         return 0;
     }

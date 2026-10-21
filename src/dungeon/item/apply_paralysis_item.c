@@ -8,7 +8,7 @@
 void begin_deferred_item_action();
 void clear_slot_and_update_linked_state();
 s32 play_sound_if_enabled();
-void apply_item_effect_at_entity_position();
+void place_actor_item();
 void display_item_status_message();
 s32 feed_actor_restore_mp();
 s32 try_apply_effect_four_by_chance();
@@ -26,7 +26,7 @@ s32 apply_paralysis_item(ActorRecord *target, s32 item, s16 use_type) {
         if (feed_actor_restore_mp(target,
                           (entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] >> 6) & 3,
                           0) == 0) {
-            apply_item_effect_at_entity_position(target, item);
+            place_actor_item(target, item);
             return 1;
         }
     }

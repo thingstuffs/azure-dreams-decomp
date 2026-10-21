@@ -25,7 +25,7 @@ typedef struct S_80174300_1 {
 } S_80174300_1;   /* arg1 in advance_item_motion_collision */
 
 
-extern s32 func_800478B8();
+extern s32 advance_sprite_animation_and_textures();
 extern s32 check_left_tile_and_center_height();
 extern s16 sample_terrain_surface_height();
 
@@ -34,7 +34,7 @@ void advance_item_motion_collision(void *motion, void *position, s32 update_arg)
     s32 height;
 
     ((S_80174300_0 *)motion)->unk_1E = ((S_80174300_0 *)motion)->unk_1E - 1;
-    func_800478B8(update_arg);
+    advance_sprite_animation_and_textures(update_arg);
     ((S_80174300_1 *)position)->unk_00.at00.v += ((S_80174300_0 *)motion)->unk_50;
     ((S_80174300_0 *)motion)->unk_50 += ((S_80174300_0 *)motion)->unk_5C;
     if ((check_left_tile_and_center_height(((S_80174300_1 *)position)->unk_00.at02.v, ((S_80174300_1 *)position)->unk_04.at02.v,

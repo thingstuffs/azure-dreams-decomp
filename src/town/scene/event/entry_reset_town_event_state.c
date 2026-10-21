@@ -22,7 +22,7 @@ typedef struct S_8059E540_0 {
 } S_8059E540_0;   /* page in func_8059E540 */
 
 /* Close the 0x11FC dialogue if it is open, then hand the scene's queued record to the handler slot. */
-void func_8059E540(void) {
+void restore_pending_town_event(void) {
     void *pending;
     void *new_value;
     Rec_D_80016000 *state;

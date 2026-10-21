@@ -34,7 +34,7 @@ extern Template0 display_block_defaults;
 extern DisplayPositionWords display_vector_defaults;
 
 /* Initialize the owner's instances from defaults and set their position. */
-void func_800B67A4(Owner *owner, Template0 *instance_data, DisplayPositionWords *instance1,
+void initialize_positioned_display_templates(Owner *owner, Template0 *instance_data, DisplayPositionWords *instance1,
                    s32 x, StackArg y_arg, StackArg z_arg) {
     s32 y = y_arg.value;
     s32 z = z_arg.value;

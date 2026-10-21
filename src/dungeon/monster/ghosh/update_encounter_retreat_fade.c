@@ -47,12 +47,12 @@ typedef struct {
 extern u8 D_80174B30[9];
 extern Node *D_80174CDC;
 
-extern void func_800419EC(s32, s32);
+extern void initialize_timed_motion_step(s32, s32);
 extern void create_offset_animation_sprite(void *, Vec3 *, Sub *);
 extern void play_sound_if_enabled(s32);
 extern void select_sprite_entry(Sub *, u8, s32);
 extern void func_80170CE0(void);
-extern void func_800478B8(Sub *);
+extern void advance_sprite_animation_and_textures(Sub *);
 
 /* Delays an effect, then moves and fades its sprite before finishing. */
 void update_encounter_retreat_fade(void) {
@@ -84,7 +84,7 @@ void update_encounter_retreat_fade(void) {
             effect->field_96 = 0x14;
             effect->field_9E = 0x14;
             effect->field_9A++;
-            func_800419EC(6, 12);
+            initialize_timed_motion_step(6, 12);
             create_offset_animation_sprite(effect, position, sprite);
             play_sound_if_enabled(0x601);
             position->field_0C = -0x200000;
@@ -110,5 +110,5 @@ void update_encounter_retreat_fade(void) {
         }
     }
 
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
 }

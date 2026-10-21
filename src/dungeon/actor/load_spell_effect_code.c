@@ -5,7 +5,7 @@
 extern void Control_CD(s32, void *, void *);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void pack_tagged_resource_descriptor(s32, void *, void *, s32);
-extern s32 func_800445E0(void);
+extern s32 read_stream_cue_start_offset(void);
 extern s32 resolve_spell_effect_resource_id(s16);
 extern s32 resolve_alternate_spell_id(s16);
 
@@ -65,7 +65,7 @@ s32 load_spell_effect_code(s16 selection_id, s16 alternate_table) {
         entry_offset = (s32)(doubled_index << 16) >> 14;
         selection_entry = (s32 *)(entry_offset + (u32)selection_table);
         sound_set_cd_cue_parameters(0, state_value, selection_entry[0], selection_entry[1]);
-        Control_CD(0x15, (void *)func_800445E0(), 0);
+        Control_CD(0x15, (void *)read_stream_cue_start_offset(), 0);
 
         change_result = changed;
         if (change_result != 0) {

@@ -20,9 +20,9 @@ void begin_deferred_item_action(); /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 s32 get_unused_text_buffer(void);                          /* extern */
 s32 expand_text_control_codes();                  /* extern */
-void *func_80099290();                         /* extern */
+void *clear_byte_and_advance();                         /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
-void apply_item_effect_at_entity_position();                 /* extern */
+void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
@@ -59,7 +59,7 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
         call_entity = entity;
         type_id = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
         if (feed_actor_restore_mp(call_entity, (entity_action_selectors[type_id] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(entity, item);
+            place_actor_item(entity, item);
             return 1;
         }
     }
@@ -75,7 +75,7 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
         message_pos = message_end;
         message_start = message_pos;
         message_end = expand_text_control_codes(message_text, message_pos);
-        func_80099290(message_end);
+        clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
     }
     clear_slots_of_type(entity, 5);

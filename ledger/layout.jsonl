@@ -1265,7 +1265,7 @@
 {"id":"town/func_800B4C34","path":"src/town/shop/store_table_index_and_entry_bytes.c"}
 {"id":"town/func_800B4C60","path":"src/town/shop/get_zero_based_group_index.c"}
 {"id":"town/func_800B4CA0","path":"src/town/shop/move_item_to_list.c"}
-{"id":"town/func_800B4E78","path":"src/town/func_800B4E78.c"}
+{"id":"town/func_800B4E78","path":"src/town/sort_selected_record_entries.c"}
 {"id":"town/func_800B4EAC","path":"src/town/func_800B4EAC.c"}
 {"id":"town/func_800B50D4","path":"src/town/shop/get_player_homerank.c"}
 {"id":"town/func_800B5140","path":"src/town/shop/find_target_byte_index_in_list.c"}
@@ -2464,7 +2464,7 @@
 {"id":"town/func_8054F9D4","path":"src/town/func_8054F9D4.c"}
 {"id":"town/func_8054FA0C","path":"src/town/func_8054FA0C.c"}
 {"id":"town/func_8054FA64","path":"src/town/scene/reset_selection_index.c"}
-{"id":"town/func_8054FA70","path":"src/town/func_8054FA70.c"}
+{"id":"town/func_8054FA70","path":"src/town/increment_scene_selection_index.c"}
 {"id":"town/func_8054FA88","path":"src/town/scene/decrement_town_global_counter.c"}
 {"id":"town/func_8054FAA0","path":"src/town/scene/service/run_scene_service_230_by_index.c"}
 {"id":"town/func_8054FAEC","path":"src/town/scene/money/has_money_at_least_100.c"}
@@ -2633,11 +2633,11 @@
 {"id":"town/func_806974BC","path":"src/town/func_806974BC.c"}
 {"id":"town/func_806974E0","path":"src/town/scene/hooks/forward_request_if_ready.c"}
 {"id":"town/func_80697518","path":"src/town/func_80697518.c"}
-{"id":"town/func_806975C4","path":"src/town/func_806975C4.c"}
+{"id":"town/func_806975C4","path":"src/town/initialize_packed_record_defaults.c"}
 {"id":"town/func_8069761C","path":"src/town/scene/hooks/register_shared_data.c"}
 {"id":"town/func_806976E8","path":"src/town/scene/object/cache_object_field_and_get_id.c"}
 {"id":"town/func_8069770C","path":"src/town/scene/store_lookup_result.c"}
-{"id":"town/func_806977B4","path":"src/town/func_806977B4.c"}
+{"id":"town/func_806977B4","path":"src/town/apply_stored_amount_to_town.c"}
 {"id":"town/func_806977DC","path":"src/town/scene/hooks/forward_shared_data.c"}
 {"id":"town/func_80697800","path":"src/town/func_80697800.c"}
 {"id":"town/func_80697824","path":"src/town/scene/get_stored_amount.c"}

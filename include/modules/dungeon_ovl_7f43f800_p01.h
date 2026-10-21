@@ -66,7 +66,7 @@ typedef struct {
     s32 out24;
 } T_80170AD0_StackWork;
 
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 extern s32 func_80065420();
 extern s8 view_direction_depth_biases[8];
 void update_effect_visuals_and_lifetime(void *state, void *position, void *effect_arg);

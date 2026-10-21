@@ -10,7 +10,7 @@ void apply_countdown_scaled_effect_intensity(void *record_data, void *unused, Sp
     color_target->color.c.b = (s8) intensity;
     color_target->color.c.g = (s8) intensity;
     color_target->color.c.r = (s8) intensity;
-    func_800478B8(color_target);
+    advance_sprite_animation_and_textures(color_target);
     remaining_ticks = (u16) ((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
     ((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_98 = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
@@ -42,7 +42,7 @@ void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform
     render_state->color.c.b = (s8)brightness;
     render_state->color.c.g = (s8)brightness;
     render_state->color.c.r = (s8)brightness;
-    func_800478B8(render_state);
+    advance_sprite_animation_and_textures(render_state);
 
     if (((S_80975170_0 *)effect)->unk_96.u <= 0) {
         ((ObjectRetirementFlags *)effect)[-1].unk_00 = (u16)(((ObjectRetirementFlags *)effect)[-1].unk_00 | 0x8000);

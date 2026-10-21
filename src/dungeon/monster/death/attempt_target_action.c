@@ -21,7 +21,7 @@ typedef struct S_80172920_3 {
 
 extern void prepare_directional_attack(void *, void *, s16, s32, s32);
 extern s32 get_actor_height_difference(s32, void *);
-extern s32 place_actor_at_directional_neighbor(void *, u8, u8, s16);
+extern s32 probe_directional_neighbor(void *, u8, u8, s16);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern s32 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
@@ -37,7 +37,7 @@ s32 attempt_target_action(S_80172920_3 *action_state, s32 effect_arg, Rec_D_8008
         return -1;
     }
 
-    target_direction = place_actor_at_directional_neighbor(
+    target_direction = probe_directional_neighbor(
         actor,
         target->unk_24,
         target->unk_25,

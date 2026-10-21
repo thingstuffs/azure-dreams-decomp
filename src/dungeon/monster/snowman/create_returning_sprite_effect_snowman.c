@@ -71,7 +71,7 @@ typedef struct S_80AC55DC_6 {
 
 
 extern void register_node(void *, void *);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 
 extern u8 D_800DEC70[];
 extern u8 D_8016AB0C[];
@@ -90,7 +90,7 @@ void create_returning_sprite_effect_snowman(
     s32 step_z;
     s32 t;
 
-    node = func_8003FC64(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         ((S_80AC55DC_0 *)node)->unk_10 = D_8016AB0C;
 
@@ -136,7 +136,7 @@ void create_returning_sprite_effect_snowman(
         sprite->unk_14 = sprite_flags | 0xC;
         ((S_80AC55DC_0 *)node)->unk_20 = effect_value;
         work->unk_08 = effect_value;
-        func_8003DB94(sprite, D_800DEC70, 0);
+        select_record_entry_and_value(sprite, D_800DEC70, 0);
     }
 }
 

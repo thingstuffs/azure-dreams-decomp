@@ -56,11 +56,11 @@ typedef struct S_80171094_2 {
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 compare_monster_neighbor_values(u8, u8, u8, u8);
+extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
 extern s16 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern s32 can_entity_gain_level(void *);
 extern s32 generate_random_value(void);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -191,7 +191,7 @@ void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg
 
     if (((S_80171094_1 *)stats)->unk_6D > 0) {
         if (((S_80171094_1 *)stats)->unk_1C & 0x20) {
-            update_actor_status_and_food(stats);
+            update_actor_status_and_mp(stats);
             return;
         }
         if (((S_80171094_2 *)sprite_arg)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -265,7 +265,7 @@ void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg
             }
             /* fallthrough */
         case 12:
-            update_actor_status_and_food(stats);
+            update_actor_status_and_mp(stats);
             return;
         case 1:
         case 2:
@@ -287,7 +287,7 @@ void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg
             if ((tile_index < 0) ||
                 !(dungeon_rooms[tile_index].flags & 2)) {
                 if (!(flags & 0x430)) {
-                    if ((s16)compare_monster_neighbor_values(
+                    if ((s16)test_neighbor_position_relation(
                             ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         ((S_80171094_1 *)stats)->unk_2A.s = get_rounded_facing_and_rounding_flag(

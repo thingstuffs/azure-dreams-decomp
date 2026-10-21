@@ -10,7 +10,7 @@ void spend_actor_mp();             /* extern */
 
 
 /* Process an entity's pending updates and clear its update flags. */
-void update_actor_status_and_food(ActorRecord *entity) {
+void update_actor_status_and_mp(ActorRecord *entity) {
     s8 updates_left;
     u8 entity_type;
 

@@ -44,7 +44,7 @@ extern void func_80023BE4(void *, s32, s32);
 // size 0x80
 extern EntryS80083E98 card_save_slot_metadata[];
 
-extern void *decode_note_text(void *entries, u8 *text, s32 initial_octave);
+extern void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);
 
 /* Functions defined in this translation unit. */
 void card_boot_format_occupied_slot_window(void *slot_owner);

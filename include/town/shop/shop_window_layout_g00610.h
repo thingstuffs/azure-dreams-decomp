@@ -117,7 +117,7 @@ typedef struct S_800B1390_1 {
     s32 unk_24;
 } S_800B1390_1;
 
-void func_8004CBFC(struct S8004CBFC_a0 *, struct S8004CBFC_a1 *, int *);
+void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *, struct S8004CBFC_a1 *, int *);
 void process_shop_record_and_subrecord(s32);
 void position_shop_row_widgets(struct Rec_func_800B0C68_arg0 *);
 void position_shop_child_elements(struct Rec_func_800B0C68_arg0 *);

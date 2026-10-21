@@ -5,7 +5,7 @@
 extern s16 D_800E3CCE;
 
 /* Increment the counter up to 32 and report whether it advanced. */
-s32 increment_bounded_event_counter(void) {
+s32 increment_bounded_counter(void) {
     if (D_800E3CCE < 0x20) {
         D_800E3CCE++;
         return 1;
@@ -17,7 +17,7 @@ s32 increment_bounded_event_counter(void) {
 extern s16 D_800E3CCE;
 
 /* Decrement the counter if it is nonzero. */
-void decrement_event_counter(void) {
+void decrement_bounded_counter(void) {
     if (D_800E3CCE != 0) {
         D_800E3CCE = (u16) D_800E3CCE - 1;
     }
@@ -41,7 +41,7 @@ s32 play_sound_if_enabled(s32 query_value) {
 #include "common.h"
 #include "shared/sys_flags.h"
 
-extern s32 func_800353F4(s8 *text);
+extern s32 enqueue_runtime_pool_script(s8 *text);
 
 typedef struct S_800A5720_0 {
     u8 unk_00;
@@ -66,7 +66,7 @@ s32 display_text_with_fullwidth_adjustment(s8 *text) {
                 ((S_800A5720_0 *)cursor)->unk_01 = (u8) (trail_byte - 0x21);
             }
         }
-        return func_800353F4(text);
+        return enqueue_runtime_pool_script(text);
     }
     return 0;
 }
@@ -407,8 +407,8 @@ s32 check_action_available_without_nearby_actor(void) {
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-/* Copy g_dungeon_status.unk_1E into the 32-bit value D_8001362C. */
-void save_current_monster_direction(void) {
+/* Store the dungeon turn counter in its retained word. */
+void store_dungeon_turn_counter(void) {
     *(s32 *)0x8001362C = (s32) g_dungeon_status.turn_counter;
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
@@ -445,7 +445,7 @@ extern s32 D_800A5D5C;
 /* Set the object data pointer and increment the global state counter. */
 void create_timed_status_object(void) {
 
-    ((s32 **)func_8003FC64(0))[4] = &D_800A5D5C;
+    ((s32 **)allocate_flagged_object_node(0))[4] = &D_800A5D5C;
     g_dungeon_status.activity_counts.parts.pending_action_count += 1;
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c05e4.h"
@@ -511,7 +511,7 @@ extern s32 play_sound_if_enabled(s32);
 extern void place_item_at_valid_floor_position(u16, u16, s16, s32, void *);
 
 /* Processes a target using the linked object's position, then decrements the shared count. */
-void apply_item_effect_at_entity_position(void *object_context, void *target) {
+void place_actor_item(void *object_context, void *target) {
     void *object;
 
     object = *(void **)((s8 *)object_context - 0x18);
@@ -657,7 +657,7 @@ s32 create_expanding_screen_rectangle(void) {
     s32 object;
     S_800A613C_0 *object_data;
 
-    object = (s32)func_8003FC64(0);
+    object = (s32)allocate_flagged_object_node(0);
     if (object != 0) {
         register_node(object, &D_800A5FC0);
         object_data = object + 0x20;
@@ -672,7 +672,7 @@ s32 create_expanding_screen_rectangle(void) {
 
 
 /* Advance the timed ramp to 255 and update completion and shutdown flags. */
-void func_800A6194(void *ramp) {
+void advance_timed_intensity_ramp(void *ramp) {
     u16 ticks_left;
     u32 initial_flags;
     u32 current_flags;
@@ -777,7 +777,7 @@ void *create_fullscreen_quad_updater(s16 initialValue) {
     void *object;
     S_800A634C_1 *objectState;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != NULL) {
         ((S_800A634C_0 *)object)->unk_10 = &D_800A6194;
         register_node(object, &D_800A624C);
@@ -811,7 +811,7 @@ void display_item_status_message(s32 entity, s32 item, s32 message_kind, s32 buf
     } else {
         text_end = expand_text_control_codes(D_800E0A12, append_typed_formatted_value(item, message));
     }
-    func_80099290(write_status_prefix_bytes(expand_text_control_codes(&fullwidth_period, append_entity_display_text(entity, text_end))));
+    clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(&fullwidth_period, append_entity_display_text(entity, text_end))));
     display_text_with_fullwidth_adjustment(message);
 }
 #include "modules/dungeon_engine_dungeon_util_fragment_c0bec.h"
@@ -832,7 +832,7 @@ void display_actor_item_status_message(s32 actor, void *item, s32 buffer_arg2, s
     adjusted_value = append_typed_formatted_value(item, current_value = get_unused_text_buffer());
     original_value = current_value;
     current_value = adjusted_value;
-    func_80099290(write_status_prefix_bytes(expand_text_control_codes(fullwidth_period,
+    clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(fullwidth_period,
         append_entity_display_text(actor, expand_text_control_codes(D_800E0A1B, current_value)))));
     display_text_with_fullwidth_adjustment(original_value);
 }
@@ -1317,7 +1317,7 @@ void advance_record_values_by_step(Record *record, s16 step)
 
 
 s32 register_node(void *entry, s32 registration_id);
-s32 decode_note_text();
+s32 decode_fullwidth_text();
 void advance_record_values_by_step();
 void offset_record_coordinates();
 void set_record_flags_and_negate_x();
@@ -1373,7 +1373,7 @@ void *create_pulsing_effect_object(void) {
     void *object;
     S_800A6C00_1 *position;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         position = ((S_800A6C00_0 *)object)->unk_08;
         transform = ((S_800A6C00_0 *)object)->unk_0C;
@@ -1388,7 +1388,7 @@ void *create_pulsing_effect_object(void) {
         sprite = object + 0x30;
         ((S_800A6C00_0 *)object)->unk_20 = (void *)(object + 0xF0);
         render_state->unk_04 = (void *)(object + 0xC0);
-        ((S_800A6C00_0 *)object)->unk_F0 = decode_note_text(sprite, &D_80089074, 0) & 0x7FFFFFFF;
+        ((S_800A6C00_0 *)object)->unk_F0 = decode_fullwidth_text(sprite, &D_80089074, 0) & 0x7FFFFFFF;
         offset_record_coordinates(sprite, 0xA8, (s16)((0 - (s8)sprite->unk_03) + 8));
         advance_record_values_by_step(sprite, 4);
         set_record_flags_and_negate_x(sprite, 8);

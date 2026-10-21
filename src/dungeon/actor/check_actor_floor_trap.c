@@ -11,7 +11,7 @@ typedef struct {
 } DungeonEntry;
 
 extern s16 get_tile_chebyshev_distance(void *, void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_actor_floor_trap_action(void *, void *);
 extern s16 find_entry_at_tile_coordinates(u8, u8, s16);
 
@@ -65,7 +65,7 @@ s32 check_actor_floor_trap(Rec_D_80082E80 *actor, ActorRecord *target)
             }
         }
 
-        update_actor_status_and_food(target);
+        update_actor_status_and_mp(target);
         begin_actor_floor_trap_action(actor, target);
         result = 0;
     }

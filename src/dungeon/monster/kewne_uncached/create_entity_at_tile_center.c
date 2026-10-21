@@ -15,7 +15,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
             D_800FBE1C[0] = parent;
         }
         entity = (Func812A5000Entity *)((u8 *)parent + 0x20);
-        parent->field10 = func_80170A4C;
+        parent->field10 = update_actor_scripts_and_motion;
         entity->field13 = 0x39;
         register_node(parent, project_sprite_chain);
         tile_state = parent->child0;
@@ -42,7 +42,7 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
     return entity;
 }
 
-void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
+void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *sprite_in) {
     Packed16 facing_map;
     Packed16 *facing_map_src;
     void *sprite = sprite_in;
@@ -157,7 +157,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
         try_move_actor_to_valid_position(actor_in, motion_in, sprite, entity);
     }
     if (((S_812A524C_3 *)actor_in)->unk_B8 != 0) {
-        update_actor_status_and_food(entity);
+        update_actor_status_and_mp(entity);
         if (g_dungeon_status.flags & 0x2000) {
             ((S_812A524C_4 *)entity)->unk_71 = (u8) (((S_812A524C_4 *)entity)->unk_71 & 0x7F);
         }
@@ -186,7 +186,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                 if ((actor_kind != 0x19) && (actor_kind != 0x1B) && !(((S_812A524C_4 *)entity)->unk_1C & 0x80000)) {
                     if ((((S_812A524C_3 *)actor_in)->unk_B9 == 0) && !(system_update_flags[0] & 1)) {
                         ((S_812A524C_3 *)actor_in)->unk_B9 = 1U;
-                        func_800353F4(&D_8006EE9C);
+                        enqueue_runtime_pool_script(&D_8006EE9C);
                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                         ((S_812A524C_3 *)actor_in)->unk_B8 = 2U;
@@ -206,7 +206,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                 event_x_1 = ((S_812A524C_10 *)event_1)->unk_24.at00u.v;
                                 if (((event_x_1 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                     if (((((S_812A524C_10 *)event_1)->unk_24.at01.v << 6) + 0x20) == view_reference_entity.y.w.i) {
-                                        func_800353F4(&D_8006F9D0);
+                                        enqueue_runtime_pool_script(&D_8006F9D0);
                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                         ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -223,7 +223,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                     || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x1B)
                                     || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x1F)
                                     || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x20))) {
-                                func_800353F4(&D_8006F9D0);
+                                enqueue_runtime_pool_script(&D_8006F9D0);
                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                 ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -239,7 +239,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                     if (((event_x_2 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                         if (((((S_812A524C_12 *)event_2)->unk_24.at01.v << 6) + 0x20)
                                             == view_reference_entity.y.w.i) {
-                                            func_800353F4(&D_800FB8DF);
+                                            enqueue_runtime_pool_script(&D_800FB8DF);
                                             ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                             ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                             ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -249,7 +249,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                     }
                                 }
                                 if (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A == 0x1C) {
-                                    func_800353F4(&D_800FB8DF);
+                                    enqueue_runtime_pool_script(&D_800FB8DF);
                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                     ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -266,7 +266,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                         (((event_x_3 <<= 6) + 0x20) == ((S_812A524C_15 *)position_3)->unk_02))
                                     && (((((S_812A524C_14 *)event_3)->unk_24.at01.v << 6) + 0x20)
                                         == ((S_812A524C_15 *)position_3)->unk_06)) {
-                                    func_800353F4(&D_80070684);
+                                    enqueue_runtime_pool_script(&D_80070684);
                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                     ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -282,7 +282,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                             (((event_x_4 <<= 6) + 0x20) == ((S_812A524C_17 *)position_4)->unk_02))
                                         && (((((S_812A524C_16 *)event_4)->unk_24.at01.v << 6) + 0x20)
                                             == ((S_812A524C_17 *)position_4)->unk_06)) {
-                                        func_800353F4(&D_800FBAD7);
+                                        enqueue_runtime_pool_script(&D_800FBAD7);
                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                         ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -297,7 +297,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                 if (((event_x_5 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                                     if (((((S_812A524C_18 *)event_5)->unk_24.at01.v << 6) + 0x20)
                                                         == view_reference_entity.y.w.i) {
-                                                        func_800353F4(&D_8006F47A);
+                                                        enqueue_runtime_pool_script(&D_8006F47A);
                                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                         ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -308,7 +308,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                             }
                                             if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                  != 0x19) && (((s32)flag_base->pressed_buttons) & 0x20)) {
-                                                func_800353F4(&D_8006F47A);
+                                                enqueue_runtime_pool_script(&D_8006F47A);
                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                 ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -324,7 +324,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                     if (((event_x_6 <<= 6) + 0x20) == view_reference_entity.x.w.i) {
                                                         if (((((S_812A524C_21 *)event_6)->unk_24.at01.v << 6) + 0x20)
                                                             == view_reference_entity.y.w.i) {
-                                                            func_800353F4(&D_8006F50D);
+                                                            enqueue_runtime_pool_script(&D_8006F50D);
                                                             ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                             ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                             ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -335,7 +335,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                 }
                                                 if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A
                                                      != 0x19) && (flag_base->buttons & 0x10)) {
-                                                    func_800353F4(&D_8006F50D);
+                                                    enqueue_runtime_pool_script(&D_8006F50D);
                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                     ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -353,7 +353,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                     scan_10 = (u8 *)0x80010000;
                                                     do {
                                                         if ((scan_10[scan_index_10 * 4 + 0x249] == scan_kind) && (scan_10[scan_index_10 * 4 + 0x248] == scan_group)) {
-                                                            func_800353F4(&D_8006F6B9);
+                                                            enqueue_runtime_pool_script(&D_8006F6B9);
                                                             ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                             ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                             ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -373,7 +373,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                         scan_80 = (u8 *)0x80010000;
                                                         do {
                                                             if ((scan_80[scan_index_80 * 4 + 0x249] == scan_kind) && (scan_80[scan_index_80 * 4 + 0x248] == scan_group)) {
-                                                                func_800353F4(&D_8006FFB7);
+                                                                enqueue_runtime_pool_script(&D_8006FFB7);
                                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                                 ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -393,7 +393,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                             scan_100 = (u8 *)0x80010000;
                                                             do {
                                                                 if ((scan_100[scan_index_100 * 4 + 0x249] == scan_kind) && ((scan_type = scan_100[scan_index_100 * 4 + 0x248]) == scan_group)) {
-                                                                    func_800353F4(&D_800703D9);
+                                                                    enqueue_runtime_pool_script(&D_800703D9);
                                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                                     ((S_812A524C_3 *)actor_in)->unk_B8 = scan_type;
@@ -415,7 +415,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                 == ((S_812A524C_24 *)position_7)->unk_02))
                                                                 && (((((S_812A524C_23 *)event_7)->unk_24.at01.v << 6)
                                                                 + 0x20) == ((S_812A524C_24 *)position_7)->unk_06)) {
-                                                                func_800353F4(&D_8006FD01);
+                                                                enqueue_runtime_pool_script(&D_8006FD01);
                                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                                 ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -435,7 +435,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                     && (((((S_812A524C_25 *)event_8)->unk_24.at01.v
                                                                     << 6) + 0x20)
                                                                         == ((S_812A524C_26 *)position_8)->unk_06)) {
-                                                                    func_800353F4(&D_80070AF8);
+                                                                    enqueue_runtime_pool_script(&D_80070AF8);
                                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                                     ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -457,7 +457,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                         + 0x20) == ((S_812A524C_28 *)position_9)->unk_02))
                                                                         && (((((S_812A524C_27 *)event_9)->unk_25 << 6)
                                                                         + 0x20) == ((S_812A524C_28 *)position_9)->unk_06)) {
-                                                                        func_800353F4(&D_80070C11);
+                                                                        enqueue_runtime_pool_script(&D_80070C11);
                                                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                                         ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -482,7 +482,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                                     && (((((S_812A524C_29 *)event_10)->unk_25
                                                                                     << 6) + 0x20)
                                                                                         == view_reference_entity.y.w.i)) {
-                                                                                    func_800353F4(&D_80070E63);
+                                                                                    enqueue_runtime_pool_script(&D_80070E63);
                                                                                     ((S_812A524C_4 *)entity)->unk_6D =
                                                                                         0U;
                                                                                     ((S_812A524C_3 *)actor_in)->unk_9B =
@@ -508,7 +508,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                                 && (((((S_812A524C_31 *)event_11)->unk_24.at01.v
                                                                                 << 6) + 0x20)
                                                                                     == ((S_812A524C_32 *)position_11)->unk_06)) {
-                                                                                func_800353F4(&D_800FB3C8);
+                                                                                enqueue_runtime_pool_script(&D_800FB3C8);
                                                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                                                                                 ((S_812A524C_3 *)actor_in)->unk_B8 = 1U;
@@ -548,7 +548,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                                                                      == view_reference_entity.x.w.i)
                                                                                                     && (((event_y << 6)
                                                                                                     + 0x20) == view_reference_entity.y.w.i)) {
-                                                                                                    func_800353F4(&D_800FBD96);
+                                                                                                    enqueue_runtime_pool_script(&D_800FBD96);
                                                                                                     ((S_812A524C_4 *)entity)->unk_6D =
                                                                                                         0U;
                                                                                                     ((S_812A524C_3 *)actor_in)->unk_9B =
@@ -642,7 +642,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
             apply_monster_koyaw_data(((S_812A524C_4 *)entity)->unk_1C, sprite + 0xC);
             if (!(((S_812A524C_4 *)entity)->unk_1C & 0x20)) {
                 if (!(((S_812A524C_38 *)sprite)->unk_14.n & 0x40)) {
-                    func_800478B8(sprite);
+                    advance_sprite_animation_and_textures(sprite);
                 }
             } else {
                 ((S_812A524C_38 *)sprite)->unk_14.n = (u16) (((S_812A524C_38 *)sprite)->unk_14.n | 0x7000);

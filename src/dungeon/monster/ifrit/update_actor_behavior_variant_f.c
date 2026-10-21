@@ -10,10 +10,10 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -129,7 +129,7 @@ void update_actor_behavior_variant_f(void *controller, void *context, void *enti
 
     if (actor_state->pending_turn_updates > 0) {
         if (((u32)actor_state->flags1C) & 0x20) {
-            update_actor_status_and_food(actor_state);
+            update_actor_status_and_mp(actor_state);
             return;
         }
         if (((ActorSpriteView *)entity)->tile.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -176,14 +176,14 @@ void update_actor_behavior_variant_f(void *controller, void *context, void *enti
                 player_controller = primary_actor_record;
                 actor_state->facing = direction;
                 if (player_controller->unk_9A != 0x11) {
-                    update_actor_status_and_food(actor_state);
+                    update_actor_status_and_mp(actor_state);
                     return;
                 }
                 begin_actor_spell_action(controller, context, entity, D_80162848, &D_8015EE84);
                 return;
             }
         case 12:
-            update_actor_status_and_food(actor_state);
+            update_actor_status_and_mp(actor_state);
             return;
         case 1:
         case 2:
@@ -202,7 +202,7 @@ void update_actor_behavior_variant_f(void *controller, void *context, void *enti
         if ((room_index < 0) || !(dungeon_rooms[room_index].flags & 2)) {
             if (!(((u32)actor_state->flags1C) & 0x430)) {
 
-                if ((s16)compare_monster_neighbor_values(((ActorSpriteView *)entity)->tile.bytes.x,
+                if ((s16)test_neighbor_position_relation(((ActorSpriteView *)entity)->tile.bytes.x,
                     ((ActorSpriteView *)entity)->tile.bytes.y, reference_tile_object.tile_position.parts.tile_x,
                     reference_tile_object.tile_position.parts.tile_y) != 0) {
                     actor_state->facing = get_rounded_facing_and_rounding_flag(

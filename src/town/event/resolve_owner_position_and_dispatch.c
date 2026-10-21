@@ -57,7 +57,7 @@ extern void call_the_same_context_both_processing_routines(void *, void *);
 extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 extern s32 service_script_controller();
 extern s32 check_object_type_and_data_tag(void *);
-extern void func_8009C340(void *, void *, void *, s32);
+extern void unlink_and_remove_scene_object(void *, void *, void *, s32);
 extern void retry_sound_sequence_when_ready(void);
 
 /* Resolve the owner position and dispatch its handler for the current town state. */
@@ -98,7 +98,7 @@ void resolve_owner_position_and_dispatch(void *object, S_8009B9BC_1 *owner, Enti
         ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_0C)(object, owner, resolved_pos,
             dispatch_param);
     } else if (current_state == (s32)&D_80093638) {
-        func_8009C340(object, owner, resolved_pos, dispatch_param);
+        unlink_and_remove_scene_object(object, owner, resolved_pos, dispatch_param);
     } else {
         if (!(current_state == (s32)&D_80092698 || current_state == (s32)&D_800927EC ||
               current_state == (s32)&D_80092A84 || current_state == (s32)&D_80092FF0 ||

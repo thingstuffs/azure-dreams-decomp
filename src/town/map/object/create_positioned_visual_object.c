@@ -18,7 +18,7 @@ void *create_positioned_visual_object(TownPropPosition *source_pos, s32 object_d
     SpriteFrameState *visual;
     IntVector3 *position;
 
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     if (object != NULL) {
         register_node(object, draw_linked_lit_meshes);
         visual = object->unk_0C;

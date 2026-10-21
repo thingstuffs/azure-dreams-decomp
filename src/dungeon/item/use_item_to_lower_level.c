@@ -18,7 +18,7 @@ void begin_deferred_item_action();
 void clear_slot_and_update_linked_state();
 void adjust_source_value_and_finalize();
 s32 lower_entity_level();
-void apply_item_effect_at_entity_position();
+void place_actor_item();
 void display_item_status_message();
 s32 feed_actor_restore_mp();
 extern M2C_UNK D_800E173A;
@@ -36,7 +36,7 @@ s32 use_item_to_lower_level(EntityRec *entity, s32 item, s16 action) {
                 entity,
                 (entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
                 0) == 0) {
-            apply_item_effect_at_entity_position(entity, item);
+            place_actor_item(entity, item);
             return 1;
         }
     }

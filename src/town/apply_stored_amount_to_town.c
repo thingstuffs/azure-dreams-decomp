@@ -8,7 +8,7 @@
 extern s32 D_80018AE0;
 
 /* Add D_80018AE0 to the current state's accumulator. */
-void func_806977B4(void) {
+void apply_stored_amount_to_town(void) {
     TownStateRecord *state;
 
     state = D_80016000->unk_38;

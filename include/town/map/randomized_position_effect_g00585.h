@@ -42,7 +42,7 @@ typedef struct {
     s16 unk16;
 } LocalRecord;
 
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 void fade_timed_primitive(void *record_fields, void *unused, SpriteFrameState *primitive);
 extern s32 D_800D1464;

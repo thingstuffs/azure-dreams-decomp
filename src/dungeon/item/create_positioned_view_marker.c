@@ -3,7 +3,7 @@
 #include "common.h"
 /* Forwards the third argument to func_800478B8. */
 void update_sprite_from_third_argument(s32 unused_first, s32 unused_second, s32 value) {
-    func_800478B8(value);
+    advance_sprite_animation_and_textures(value);
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "shared/sprite_frame_state.h"
@@ -37,7 +37,7 @@ void create_positioned_view_marker(s16 x, s16 y) {
     S_800F6090_0 *object;
     u32 render_config;
 
-    object = func_8003FC64(0x16);
+    object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
         object->unk_10 = (void *)update_sprite_from_third_argument;
         register_node(object, project_sprite_chain);
@@ -46,7 +46,7 @@ void create_positioned_view_marker(s16 x, s16 y) {
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->color.word = render_config;
-        func_8003DB94(render_state, D_800DEAE0, 0);
+        select_record_entry_and_value(render_state, D_800DEAE0, 0);
         render_state->tpage_abr = 0x20;
         render_state->flags = 0xC;
         position = object->unk_08;
@@ -105,8 +105,8 @@ extern void *D_800F6000[];
 s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 s32 get_cd_command_queue_depth();
 void sound_set_cd_cue_parameters();
-int func_800445E0();
-s32 func_80053EF0();
+int read_stream_cue_start_offset();
+s32 read_sound_mode_blocking_status();
 extern M2C_UNK D_80010000;
 extern u16 D_8001371A;
 extern s32 cd_cue_base;
@@ -169,7 +169,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
         }
         cd_mode = ((S_807AE960_3 *)global)->unk_2090;
         if (cd_mode == 1) {
-            if (func_80053EF0(4) != 0) {
+            if (read_sound_mode_blocking_status(4) != 0) {
                 ((S_807AE960_1 *)state)->unk_04.s = 0;
                 break;
             }
@@ -183,7 +183,7 @@ void advance_dungeon_tile_action_state(u8 *state, u8 *actor, u8 *target) {
     case 4:
         if (((S_807AE960_1 *)state)->unk_10 == 0) {
             sound_set_cd_cue_parameters(0, cd_cue_base, 0x0600065E, 0x030008B6);
-            Control_CD(0x15, func_800445E0(), 0);
+            Control_CD(0x15, read_stream_cue_start_offset(), 0);
         }
         ((S_807AE960_1 *)state)->unk_04.s = 0x60;
         ((S_807AE960_1 *)state)->unk_0C.s = 0x60;
@@ -279,7 +279,7 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     void *model;
     void *object;
 
-    object = func_8003FC64(0x16);
+    object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
         ((S_800F643C_0 *)object)->unk_10 = (void *)advance_dungeon_tile_action_state;
         register_node(object, (s32)draw_linked_lit_meshes);
@@ -435,7 +435,7 @@ void initialize_overlay_effect_state(void) {
         index -= 1;
         state_slot -= 1;
     } while (index >= 0);
-    effect = func_8003FC64(0x12);
+    effect = allocate_flagged_object_node(0x12);
     if (effect != 0) {
         s16 *status_base;
 
@@ -627,8 +627,8 @@ typedef struct S_807AF2CC_0 {
 } S_807AF2CC_0;   /* func_8003FC64(0) in func_800F6ACC */
 
 /* Set the returned object's data pointer to update_dungeon_tile_boundary_state. */
-void func_800F6ACC(void) {
-    ((S_807AF2CC_0 *)(func_8003FC64(0)))->unk_10 = (void *)update_dungeon_tile_boundary_state;
+void create_tile_boundary_updater(void) {
+    ((S_807AF2CC_0 *)(allocate_flagged_object_node(0)))->unk_10 = (void *)update_dungeon_tile_boundary_state;
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "shared/runtime_dispatch.h"
@@ -646,7 +646,7 @@ typedef struct {
 extern void set_scaled_cell_flags_8000(void);
 
 /* Mark fixed dungeon cells and initialize global coordinates and flags. */
-void func_800F6AF4(void)
+void mark_scripted_map_boundary(void)
 {
     MapGrid *dungeon;
     u8 *cells;
@@ -991,7 +991,7 @@ typedef struct S_807AFAE4_1 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Initializes a linked object from the source record and invokes play_sound_if_enabled on success. */
-void func_800F72E4(void *sourceData) {
+void create_linked_particle_controller(void *sourceData) {
     S_807AFAE4_0 *linkedObject;
 
     linkedObject = allocate_list_node(2, sourceData - 0x20);
@@ -1052,7 +1052,7 @@ typedef struct S_807AFB48_2 {
 
 
 /* Advances position and selected color channels toward their targets and flags completion. */
-void func_800F7348(void *transition, S_807AFB48_0 *position, S_807AFB48_2 *color) {
+void converge_particle_position_and_color(void *transition, S_807AFB48_0 *position, S_807AFB48_2 *color) {
     s16 steps_left;
     s32 color_bits;
     u8 next_level;
@@ -1128,7 +1128,7 @@ typedef struct S_807AFC9C_5 {
 } S_807AFC9C_5;
 
 /* Spawns an effect near the origin with color channels selected by the source flags. */
-void func_800F749C(s32 spawn_arg, MovingPosition *origin, S_807AFC9C_4 *source) {
+void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_807AFC9C_4 *source) {
     SpriteFrameState *sprite;
     S_807AFC9C_1 *position;
     void *effect;
@@ -1136,7 +1136,7 @@ void func_800F749C(s32 spawn_arg, MovingPosition *origin, S_807AFC9C_4 *source) 
 
     effect = allocate_list_node(0x212, spawn_arg);
     if (effect != NULL) {
-        ((S_807AFC9C_0 *)effect)->unk_10 = (void *)func_800F7348;
+        ((S_807AFC9C_0 *)effect)->unk_10 = (void *)converge_particle_position_and_color;
         register_node(effect, project_sprite_chain);
         position = ((S_807AFC9C_0 *)effect)->unk_08;
         position->unk_02 = (s16) ((origin->unk_02 + (rand() & 0x3F)) - 0x20);
@@ -1250,9 +1250,9 @@ void update_owner_attached_color_effect(void *effect, Position3 *position, Color
             effect_base = (u8 *)effect - 0x20;
 
             if (((S_807AFDEC_0 *)effect)->unk_0C.s >= 8) {
-                func_800F749C(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
-                func_800F749C(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
-                func_800F749C(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
+                create_converging_color_particle(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
+                create_converging_color_particle(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
+                create_converging_color_particle(effect_base, position, ((S_807AFDEC_0 *)effect)->unk_00);
             }
 
             ticks_left = ((S_807AFDEC_0 *)effect)->unk_0C.u - 1;
@@ -1319,7 +1319,7 @@ typedef struct S_807B004C_3 {
 } S_807B004C_3;   /* arg0 in func_800F784C */
 
 /* Creates a child object, initializes its state, and loads its graphics. */
-void func_800F784C(void *parent_data) {
+void create_owner_attached_color_effect(void *parent_data) {
     Bank7ce_18_Pair texture_rect;
     s32 rect_origin;
     s32 rect_size;
@@ -1355,7 +1355,7 @@ void func_800F784C(void *parent_data) {
 
 
 /* Updates position using decaying speed and sets completion flags when speed expires. */
-void func_800F7910(void *motion_data, s16 *position) {
+void advance_reverse_direction_particle(void *motion_data, s16 *position) {
     s16 *motion = motion_data;
     s16 next_speed;
 
@@ -1413,14 +1413,14 @@ typedef struct S_807B0238_2 {
 } S_807B0238_2;
 
 /* Creates an effect at a randomized offset from the source and initializes its state. */
-void func_800F7A38(EntityRec *source, s16 state_value, s32 render_value) {
+void create_reverse_direction_particle(EntityRec *source, s16 state_value, s32 render_value) {
     S_807B0238_2 *effect_state;
     void *effect;
     SpriteFrameState *render_data;
 
     effect = allocate_list_node(0x212, source);
     if (effect != NULL) {
-        ((S_807B0238_0 *)effect)->unk_10 = (void *)func_800F7910;
+        ((S_807B0238_0 *)effect)->unk_10 = (void *)advance_reverse_direction_particle;
         register_node(effect, project_sprite_chain);
         ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_02 =
             (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
@@ -1447,7 +1447,7 @@ void func_800F7A38(EntityRec *source, s16 state_value, s32 render_value) {
 extern s8 spell_effect_selector_cache;
 
 /* Set the current entity state to one, reset the global status, increment the counter, and set flag 8. */
-void func_800F7B5C(void) {
+void begin_active_object_action(void) {
     *((s8 *)D_800FBE1C + 0xD8) = 1;
     spell_effect_selector_cache = -1;
     g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -1477,7 +1477,7 @@ typedef struct {
 
 
 /* Set the current entity state to three, decrement the counter, and clear the global and entity flags. */
-void func_800F7BC0(void) {
+void finish_active_object_action(void) {
     Entity *entity;
 
     entity = (Entity *)((u8 *)D_800FBE1C + 0x20);
@@ -1762,7 +1762,7 @@ typedef struct S_807B08D4_0 {
 } S_807B08D4_0;
 
 /* Clears the state block's fields at offsets 0x96 and 0x9B. */
-void func_800F80D4(void) {
+void reset_active_object_action(void) {
     S_807B08D4_0 *state;
 
     state = D_800FBE1C + 0x20;
@@ -1793,9 +1793,9 @@ void func_800F80F0(s16 tile_x, s16 tile_y, s16 initial_value) {
     S_807B08F0_1 *state;
     void *object;
 
-    object = func_8003FC64(2);
+    object = allocate_flagged_object_node(2);
     if (object != NULL) {
-        ((S_807B08F0_0 *)object)->unk_10 = (void *)func_800F81A0;
+        ((S_807B08F0_0 *)object)->unk_10 = (void *)emit_scattered_animated_particles;
         register_node(object, (void *)render_particle_effect_object);
         state = object + 0x20;
         ((S_807B08F0_0 *)object)->unk_20 = (u16) (tile_x * 0x40 + 0x20);
@@ -1855,7 +1855,7 @@ typedef struct S_807B09A0_3 {
 } S_807B09A0_3;   /* &D_800DEED0 in func_800F81A0 */
 
 /* Spawn a particle near the emitter with randomized motion every other update. */
-void func_800F81A0(S_807B09A0_0 *emitter) {
+void emit_scattered_animated_particles(S_807B09A0_0 *emitter) {
     s32 spawn_x;
     s32 spawn_y;
     s32 sprite_config;
@@ -1868,7 +1868,7 @@ void func_800F81A0(S_807B09A0_0 *emitter) {
     if (tick_count & 1) {
         particle = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
         if (particle != NULL) {
-            particle->unk_10 = (void *)func_800F89B8;
+            particle->unk_10 = (void *)move_sprite_until_animation_finishes;
             register_node(particle, project_sprite_chain);
             sprite = particle->unk_0C;
             spawn_x = (emitter->unk_00 + (rand() % 48)) - 0x18;
@@ -2430,10 +2430,10 @@ typedef struct UnkStruct807B11B8 {
 } UnkStruct807B11B8;
 
 /* Advance motion and propagate update flags to the object and global state. */
-void func_800F89B8(u16 *object_data, UnkStruct807B11B8 *motion, u16 *update_state) {
+void move_sprite_until_animation_finishes(u16 *object_data, UnkStruct807B11B8 *motion, u16 *update_state) {
     motion->unk0 += motion->unkC;
     motion->unk4 += motion->unk10;
-    func_800478B8(update_state);
+    advance_sprite_animation_and_textures(update_state);
     if (*(u16 *)((u8 *)update_state + 0x14) & 0x6000) {
         u16 *object_flags = (u16 *)((u8 *)object_data - 2);
         *object_flags = (u16)(*object_flags | 0x8000);

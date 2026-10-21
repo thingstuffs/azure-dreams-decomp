@@ -41,7 +41,7 @@ void create_fixed_tile_effect_if_available(void) {
 
     if (test_resident_bit(0xA2) == 0) {
         file_load_com(&D_800F6F28);
-        object = func_8003FC64(0x12);
+        object = allocate_flagged_object_node(0x12);
         if (object != NULL) {
             object->unk_10 = &update_pulsing_actor_color;
             register_node(object, &D_80045C34);

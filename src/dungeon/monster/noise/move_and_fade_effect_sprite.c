@@ -41,7 +41,7 @@ typedef struct S_80D23000_2 {
    /* other in move_and_fade_effect_sprite */
 
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_80065420(void *, void *, void *, void *);
 
 extern s8 view_direction_depth_biases[8];
@@ -106,7 +106,7 @@ void move_and_fade_effect_sprite(void *effect, void *motion, void *sprite)
         ((S_80D23000_1 *)sprite)->unk_0C = scale_or_shade;
     }
 
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     next_life = ((S_80D23000_2 *)effect)->unk_96.u - 1;
     ((S_80D23000_2 *)effect)->unk_96.u = next_life;
     if ((next_life << 16) <= 0) {

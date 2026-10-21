@@ -10,8 +10,8 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 Control_CD(); /* extern */
-void func_800424E0();          /* extern */
-void func_80042560();                      /* extern */
+void apply_actor_template_and_class();          /* extern */
+void replay_actor_status_slots();                      /* extern */
 M2C_UNK func_80042640();                  /* extern */
 void runtime_map_type_16_entry_code();                      /* extern */
 M2C_UNK register_and_upload_sprite_resource();                     /* extern */
@@ -22,7 +22,7 @@ void create_familiar_deployment_overlay();      /* extern */
 void store_recalled_familiar(); /* extern */
 s32 get_unused_text_buffer();                         /* extern */
 s32 expand_text_control_codes();                  /* extern */
-void *func_80099290();                         /* extern */
+void *clear_byte_and_advance();                         /* extern */
 s32 write_text_byte_and_advance();                    /* extern */
 s32 append_entity_display_text();                     /* extern */
 void process_unflagged_linked_entries();                         /* extern */
@@ -33,7 +33,7 @@ s32 retain_spawn_resource();                 /* extern */
 s32 find_or_retain_sprite_resource_slot();                     /* extern */
 void decrement_monster_entry_count();                 /* extern */
 s32 has_pending_dungeon_activity();                         /* extern */
-void func_800A31D0();                      /* extern */
+void mark_owned_linked_actor_actions();                      /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 extern s32 loaded_entity_sprite_resource;
@@ -234,12 +234,12 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         } else {
             remove_text = &D_800E05E1;
         }
-        func_80099290(expand_text_control_codes(&D_800E06FA, append_entity_display_text(((S_8009345C_2 *)context)->unk_60,
+        clear_byte_and_advance(expand_text_control_codes(&D_800E06FA, append_entity_display_text(((S_8009345C_2 *)context)->unk_60,
             expand_text_control_codes(remove_text, remove_message))));
         display_text_with_fullwidth_adjustment(message_or_list.value);
         old_object = ((S_8009345C_2 *)context)->unk_60;
         D_800DD260 = 1;
-        func_800A31D0(old_object);
+        mark_owned_linked_actor_actions(old_object);
         ((S_8009345C_16 *)(((((S_8009345C_4 *)(&D_800DD262))->unk_00.s * 4) + actor)))->unk_AC = 0;
         decrement_monster_entry_count(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_13, 3);
         unlink_entity_node(((S_8009345C_2 *)context)->unk_60);
@@ -296,7 +296,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 ((S_8009345C_12 *)object_position)->unk_06 = (u16) map->unk_06;
                 ((S_8009345C_12 *)object_position)->unk_0A = (s16) (map->unk_0A - 0x10);
                 func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
-                func_800424E0(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
+                apply_actor_template_and_class(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
                 object_flags = ((S_8009345C_10 *)new_object)->unk_1C;
                 object_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
                 ((S_8009345C_10 *)new_object)->unk_1C = object_flags | 0x02000000;
@@ -312,13 +312,13 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 } else {
                     create_text = &D_800E05E1;
                 }
-                func_80099290(expand_text_control_codes(&D_800E0714, append_entity_display_text(new_object, expand_text_control_codes(create_text,
+                clear_byte_and_advance(expand_text_control_codes(&D_800E0714, append_entity_display_text(new_object, expand_text_control_codes(create_text,
                     create_message))));
                 display_text_with_fullwidth_adjustment(message_or_list.value);
                 cleanup_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
                 familiar_turn_counters_alias[cleanup_slot] = 0;
                 retain_spawn_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, 3);
-                func_80042560(new_object);
+                replay_actor_status_slots(new_object);
                 play_sound_if_enabled(0x704);
             }
         }

@@ -6,7 +6,7 @@
 void store_state_and_update_tile_center(s32 state)
 {
     town_map_selection_state[6] = state;
-    func_80041094(0xC, ((town_map_selection_state[0] + 1) << 6) | 0x20,
+    request_scene_state_with_parameters(0xC, ((town_map_selection_state[0] + 1) << 6) | 0x20,
                   ((town_map_selection_state[1] + 1) << 6) | 0x20, -0x100,
                   runtime_dispatch_state.flags16);
 }

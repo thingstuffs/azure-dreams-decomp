@@ -40,7 +40,7 @@ typedef struct S_80173C20_3 {
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
@@ -68,10 +68,10 @@ void advance_directional_lift_effect(void *action_record, void *motion_data, voi
     case 0:
         saved = get_unused_text_buffer();
         if ((((S_80173C20_1 *)entity_data)->unk_2A.s >> 9) & 1) {
-            func_80099290(expand_text_control_codes(
+            clear_byte_and_advance(expand_text_control_codes(
                 D_80170854, append_entity_display_text(entity_data, saved)));
         } else {
-            func_80099290(expand_text_control_codes(
+            clear_byte_and_advance(expand_text_control_codes(
                 D_80170874, append_entity_display_text(entity_data, saved)));
         }
         display_text_with_fullwidth_adjustment(saved);

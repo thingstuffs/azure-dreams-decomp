@@ -22,7 +22,7 @@ extern void initialize_action_object(void *action_state, void *actor, s32 contex
 extern void func_800943B8(void *action_state, void *actor, s32 context);
 extern void initialize_action_object_with_counter(void *action_state, void *actor, s32 context);
 extern void initialize_actor_movement_interaction_action(void *action_state, void *actor, s32 context);
-extern void trigger_event_hex_519_interval_multiples_enabled(s16 timer, s32 limit);
+extern void play_periodic_sound(s16 timer, s32 limit);
 extern void store_the_valid_shared_angle_in_offset_hex_10(void *action_state);
 extern void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(void *actor);
 extern void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides(void *actor);
@@ -110,7 +110,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
     if (buttons & 0xF000) {
         timer = (*((u16 *) (((u8 *) action_state) + 0x3E))) - 1;
         *((u16 *) (((u8 *) action_state) + 0x3E)) = timer;
-        trigger_event_hex_519_interval_multiples_enabled((s16) timer, 8);
+        play_periodic_sound((s16) timer, 8);
         store_the_valid_shared_angle_in_offset_hex_10(action_state);
         call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(actor);
         return;

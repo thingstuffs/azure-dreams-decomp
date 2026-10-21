@@ -5,7 +5,7 @@
 
 extern u8 D_80175392[];
 
-extern void func_800353F4(void *);
+extern void enqueue_runtime_pool_script(void *);
 extern void func_80164BA4(void *);
 extern void update_multi_form_actor_control(void);
 
@@ -31,7 +31,7 @@ void resume_multi_form_actor_control(void *controller, void *unused_1, void *unu
         *(u32 *)&state->pending_display_owner &= 0x7FFFFFFF;
     }
 
-    func_800353F4(D_80175392);
+    enqueue_runtime_pool_script(D_80175392);
     object_index = 0;
     active_object[0x6D] = 0;
     ((u8 *)controller)[0x9B] = 0;

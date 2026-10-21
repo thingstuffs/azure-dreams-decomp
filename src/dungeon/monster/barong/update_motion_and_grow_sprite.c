@@ -29,7 +29,7 @@ typedef struct S_80170D58_1 {
     s32 unk_68;
 } S_80170D58_1;   /* arg0 in update_motion_and_grow_sprite */
 
-extern void func_800478B8(void *entity);
+extern void advance_sprite_animation_and_textures(void *entity);
 extern s32 check_left_tile_and_center_height(u16 x, u16 y, s16 z);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
 
@@ -83,7 +83,7 @@ void update_motion_and_grow_sprite(void *motion, void *position, void *sprite)
     frame_count = ((S_80170D58_1 *)motion)->unk_28 + 1;
     ((S_80170D58_1 *)motion)->unk_28 = frame_count;
     if ((frame_count & 3) == 0) {
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
     }
 
     scale_x = ((SpriteFrameState *)sprite)->scale_x + 0x64;

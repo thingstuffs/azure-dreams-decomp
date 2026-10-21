@@ -39,7 +39,7 @@ void update_shrinking_homing_effect(void *effect, S_80F606C0_1 *position, Sprite
         - position->unk_04.at02.v) / 4) << 0x10));
     position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_10
         - position->unk_08.at02.v) / 4) << 0x10));
-    func_800478B8(transform);
+    advance_sprite_animation_and_textures(transform);
     phase = ((S_80F606C0_0 *)effect)->unk_4C;
     switch (phase) {                              /* irregular */
     case 0:

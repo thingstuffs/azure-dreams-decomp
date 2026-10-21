@@ -49,7 +49,7 @@ typedef struct S_80172050_3 {
 typedef struct Ent Ent;
 
 extern s32 get_actor_height_difference(s32, void *);
-extern s32 place_actor_at_directional_neighbor(void *, s32, s32, s32);
+extern s32 probe_directional_neighbor(void *, s32, s32, s32);
 extern s32 check_entity_interaction_compatibility(void *, s32);
 extern u8 D_80175F48;
 

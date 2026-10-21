@@ -15,7 +15,7 @@ typedef struct S_80026CE4_0 {
 void create_timed_sound(s16 value) {
     S_80026CE4_0 *object;
 
-    object = func_8003FC64(2);
+    object = allocate_flagged_object_node(2);
     if (object != NULL) {
         object->unk_10 = &D_80026D28;
         object->unk_72 = value;

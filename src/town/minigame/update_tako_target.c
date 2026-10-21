@@ -6,8 +6,8 @@ extern u8 tako_minigame_sprites[16];
 extern u8 D_800F79E8[16];
 
 extern s32 rand(void);
-extern void func_800478B8(void *);
-extern void func_8003DB94(void *, void *, s32);
+extern void advance_sprite_animation_and_textures(void *);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern void create_tinted_animated_particle(s32, s32, s32, s32);
 extern void create_tako_projectile(void *, s32, s32);
 extern void create_timed_sound(s16 value);
@@ -77,14 +77,14 @@ void update_tako_target(A *entity, C *motion, D *sprite) {
         cell->field1a = cell_flags | 6;
     }
 
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     if (entity->flags & 4) {
         if (sprite->unk0 == (void *)tako_minigame_sprites) {
-            func_8003DB94(sprite, D_800F79E8, 0);
+            select_record_entry_and_value(sprite, D_800F79E8, 0);
         }
     }
     if (sprite->h14 & 0x6000) {
-        func_8003DB94(sprite, tako_minigame_sprites, 0);
+        select_record_entry_and_value(sprite, tako_minigame_sprites, 0);
     }
 
     state = entity->state;

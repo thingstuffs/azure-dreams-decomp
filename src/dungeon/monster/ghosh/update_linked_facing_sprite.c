@@ -17,7 +17,7 @@ typedef struct S_801714B0_1 {
 extern void *D_80174CDC[3];
 
 extern void select_indirect_table_entry(void *, u8, s8);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates the record's directional selection and flag from the entity's facing. */
 void update_linked_facing_sprite(S_801714B0_1 *state, void *unused, SpriteFrameState *record)
@@ -28,7 +28,7 @@ void update_linked_facing_sprite(S_801714B0_1 *state, void *unused, SpriteFrameS
     s32 direction;
 
     entity = (u8 *)D_80174CDC[0] + 0x20;
-    func_800478B8(record);
+    advance_sprite_animation_and_textures(record);
     if (D_80174CDC[0] != 0) {
         calculated_direction =
             ((g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7;

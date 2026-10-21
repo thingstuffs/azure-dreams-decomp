@@ -64,7 +64,7 @@ typedef struct S_func_81331914_4 {
 } S_func_81331914_4;
 
 extern void register_node(void *, void *);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 
 extern u8 D_800DEAE0[];
 extern u8 D_80166914[];
@@ -110,7 +110,7 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
 
     segment_index = 0;
     do {
-        object = func_8003FC64(0x212);
+        object = allocate_flagged_object_node(0x212);
         if (object != 0) {
             payload = (ObjectPayload *)((u8 *)object + 0x20);
             payload->unk_18 = 1;
@@ -148,7 +148,7 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
             }
 
             sprite->unk_06 = 0;
-            func_8003DB94(sprite, D_800DEAE0, 0);
+            select_record_entry_and_value(sprite, D_800DEAE0, 0);
 
             vertex_index = 0;
             do {

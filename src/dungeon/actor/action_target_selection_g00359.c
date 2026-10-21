@@ -63,7 +63,7 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     s8 tile_type;
 
     if (g_dungeon_status.flags & 0x4000) {
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         return;
     }
     if (!(g_dungeon_status.flags & 0x2000)) {
@@ -108,7 +108,7 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     if (scan_result >= 8) {
         ((S_800CA444_1 *)actor)->unk_71 = (u8) (((S_800CA444_1 *)actor)->unk_71 & 0x7F);
         ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         return;
     }
     ((S_800CA444_1 *)actor)->unk_46 = (u16) (((S_800CA444_1 *)actor)->unk_46 & 0x7FFF);

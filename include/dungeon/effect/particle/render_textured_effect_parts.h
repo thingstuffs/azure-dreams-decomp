@@ -334,7 +334,7 @@ typedef struct Pair16 {
 typedef struct PathBlock {
     Pair16 entries[8];
 } PathBlock;
-void func_8003DB94(void *, void *, s32);
+void select_record_entry_and_value(void *, void *, s32);
 s32 draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 u32 func_80065420(void *, void *, void *, void *);
 extern s16 D_80025914;
@@ -342,13 +342,13 @@ typedef struct S_80045C34 { u8 pad0[6]; s16 unk6; u8 pad1[12]; u16 unk14; } S_80
 s32 draw_linked_sprites_clipped(u8 *, s32, S_80045C34 *);
 s32 func_80045C34(u8 *, s32, S_80045C34 *);
 void render_textured_effect_parts(void *record_data, void *unused, void *update_data);
-void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset_x, s16 offset_y, s16 offset_z);
-s32 func_800241EC(PointRecord *first_point, ObjectPosition *first_position);
+void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unused_id, s16 offset_x, s16 offset_y, s16 offset_z);
+s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_position);
 void create_radial_height_offset_effect(MotionState *state, s32 *sum, UpdateFlags *flags);
-void func_80024604(void *object_data, s16 *position);
+void advance_scattered_directional_particle(void *object_data, s16 *position);
 void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
-void func_80024878(void *object, S_8181B078_1 *position, S_8181B078_2 *source);
+void cycle_moving_effect_phase(void *object, S_8181B078_1 *position, S_8181B078_2 *source);
 void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value);
-void func_80024B14(void *state_data, s32 unused, void *target);
-void func_80024BE8(void *effect, void *motion, void *sprite);
+void grow_timed_sprite_effect(void *state_data, s32 unused, void *target);
+void advance_projectile_burst_and_impact(void *effect, void *motion, void *sprite);
 #endif

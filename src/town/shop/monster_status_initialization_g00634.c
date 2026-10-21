@@ -20,7 +20,7 @@ void initialize_monster_status_state(Rec_func_800B683C_arg0 *record, s32 context
 
 /* Initialize an object's position, internal links, and resource state. */
 void initialize_entry_object(void *object, s32 entityId, s32 resourceIndex, s32 positionX, s32 positionY, s32 positionZ) {
-    func_800B67A4((u8 *)object + 0x88, (u8 *)object + 0x60, (u8 *)object + 0x70, positionX, positionY, positionZ);
+    initialize_positioned_display_templates((u8 *)object + 0x88, (u8 *)object + 0x60, (u8 *)object + 0x70, positionX, positionY, positionZ);
     clear_linked_entry_state(object);
     initialize_monster_status_state((Rec_func_800B683C_arg0 *)object, entityId, resourceIndex);
 }

@@ -42,7 +42,7 @@ void *create_item_menu_child_object(s32 init_value)
     void *object;
     void *object_data;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     object_data = (void *)((u8 *)object + 0x20);
     if (object != 0) {
         if (func_800B0198(object_data, 0x28) != 0) {

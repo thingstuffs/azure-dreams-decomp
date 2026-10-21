@@ -2,7 +2,7 @@
 #include "common.h"
 #include "shared/dir_step.h"
 extern void clear_slot_and_update_linked_state(void *, void *);
-extern void *place_actor_at_directional_neighbor(void *, u8, u8, s16);
+extern void *probe_directional_neighbor(void *, u8, u8, s16);
 extern s32 generate_random_value(void);
 extern s16 find_floor_item_at_world_position(s16, s16, s16);
 extern s32 is_linked_entity_flagged_80000(void *, void *);
@@ -37,7 +37,7 @@ typedef struct { s32 value; } ItemWord;
         return (s32)item_slot;
     }
 
-    target = place_actor_at_directional_neighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
+    target = probe_directional_neighbor(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
                            *(s16 *)(actor_bytes + 0x2A));
     if (target != 0) {
         if (target == (void *)dungeon_actor_ring_anchor[0]) {

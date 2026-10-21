@@ -55,7 +55,7 @@ void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrame
     } else {
         effect->flags = (u16) (effect->flags & 0xFFFD);
     }
-    func_800478B8(effect);
+    advance_sprite_animation_and_textures(effect);
     if (((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A <= 0) {
         ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_80167540_0 *)((u8 *)effect_data
             - 0x2))->unk_00 | 0x8000);

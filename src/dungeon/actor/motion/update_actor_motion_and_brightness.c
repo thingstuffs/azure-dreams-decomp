@@ -6,7 +6,7 @@
 
 typedef void (*Func4)(void *, void *, void *, void *);
 extern Func4 actor_brightness_callbacks[];
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s32);
 extern s32 sample_terrain_surface_height();
 
@@ -50,7 +50,7 @@ void update_actor_motion_and_brightness(void *entity, S_800D4158_1 *motion, Spri
     actor_brightness_callbacks[(*(u8 *)((u8 *)entity_ref + 0x9a))](entity_ref, motion, sprite, entity_ref);
     if (!(sprite->flags & 0x8000)) {
         if (!(sprite->flags & 0x40)) {
-            func_800478B8(sprite);
+            advance_sprite_animation_and_textures(sprite);
         }
     }
     motion->unk_00.at00.v += motion->unk_0C;

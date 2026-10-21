@@ -26,7 +26,7 @@ typedef struct {
     s32 f10;
     s32 f14;
 } State1;
-void func_800478B8(void *entity);                      /* extern */
+void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Update effect motion, size and brightness, then mark it finished. */
 s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPositionView *position, SpriteFrameState *sprite) {
@@ -38,7 +38,7 @@ s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPosition
 
     ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4A = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields
         - 0x2))->unk_4A - 1);
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     state = ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_4E;
     switch (state) {
     case 0:

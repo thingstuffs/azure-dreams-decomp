@@ -19,6 +19,6 @@ void audio_initialize_resident_sequence(void)
     audio_sequence_data_base[0] = 0x80080000;
     audio_sequence_stream_limit[0] = 0xC000;
     audio_reset_all_voices();
-    func_800599B0();
+    initialize_audio_sequence_tracks();
     audio_sequence_active[0] = 1;
 }

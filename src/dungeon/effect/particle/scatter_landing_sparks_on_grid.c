@@ -67,7 +67,7 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
         grid_y = -5;
         do {
             if (!(rand() & 7)) {
-                particle = func_8003FC64(0x12);
+                particle = allocate_flagged_object_node(0x12);
                 if (particle != NULL) {
                     (((ObjectNodeHeader *)particle)->unk_10) = effect_data;
                     jitter_or_scale = rand();

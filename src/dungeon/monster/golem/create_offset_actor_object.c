@@ -32,7 +32,7 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
     MovingPosition *object_data;
     SpriteFrameState *primitive;
 
-    object = func_8003FC64(0x312);
+    object = allocate_flagged_object_node(0x312);
     if (object != 0) {
         object->unk_10 = D_80174A00;
         register_node(object, project_sprite_chain);

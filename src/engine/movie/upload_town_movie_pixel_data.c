@@ -16,7 +16,7 @@
 
 /* port body: port/hal/resident_gap2.c:632 */
 /* Uploads pixel data to the specified VRAM rectangle. */
-void upload_town_movie_pixel_data(s16 x, s16 y, s16 width, s16 height, const void *pixels)
+void upload_pixel_rectangle(s16 x, s16 y, s16 width, s16 height, const void *pixels)
 {
     s16 rect[4];
 

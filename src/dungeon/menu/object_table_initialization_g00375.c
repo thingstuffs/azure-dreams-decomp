@@ -37,7 +37,7 @@ void *allocate_object_with_failure_flag(void) {
     u8 *data;
     u8 *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != 0) {
         dungeon_menu_object[0] = object;
         allocation = create_callback_pair_default(0x100);

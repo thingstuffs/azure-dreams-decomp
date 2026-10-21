@@ -11,7 +11,7 @@ void initialize_source_and_initial_data(minigame_pickup_source *source_data, min
     u8 *table;
 
     table = D_80020014;
-    allocated = (Object *)func_8003FC64(0x136);
+    allocated = (Object *)allocate_flagged_object_node(0x136);
     object = allocated;
     if (object != 0) {
         payload = (Payload88 *)((u8 *)object + 0x20);

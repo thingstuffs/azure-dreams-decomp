@@ -55,7 +55,7 @@ typedef struct S_80174234_2 {
 extern void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);         /* extern */
 s32 get_unused_text_buffer();                                /* extern */
 s32 expand_text_control_codes();                  /* extern */
-void *func_80099290();                         /* extern */
+void *clear_byte_and_advance();                         /* extern */
 s32 write_text_byte_and_advance();                    /* extern */
 u8 *append_typed_formatted_value();                 /* extern */
 s32 append_entity_display_text();                     /* extern */
@@ -100,7 +100,7 @@ void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(S_80174234_0 *own
         } else {
             anim = expand_text_control_codes(&D_801708BC, append_entity_display_text(actor, session));
         }
-        func_80099290(anim);
+        clear_byte_and_advance(anim);
         display_text_with_fullwidth_adjustment(session);
         owner->unk_9A = 0x17;
         owner->unk_8C = 0;

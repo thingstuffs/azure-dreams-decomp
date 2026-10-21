@@ -93,8 +93,8 @@ typedef struct Row_8189EBBC_S_800243BC_4 {
 void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 rand(void);
-void func_800478B8(void *record);
-s32 func_8003DB94();
+void advance_sprite_animation_and_textures(void *record);
+s32 select_record_entry_and_value();
 extern u8 D_80024020[];
 extern u8 D_80024C78[];
 extern s32 D_80024264;

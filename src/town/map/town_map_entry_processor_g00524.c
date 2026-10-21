@@ -39,7 +39,7 @@ void process_indexed_entry_record(s32 entry_index) {
 /* Call upload_town_movie_pixel_data with fixed parameters when D_8006ADD4 equals 0x13000C. */
 void upload_town_movie_pixel_data_2(void) {
     if (map_scene_selector_alias == 0x13000C) {
-        upload_town_movie_pixel_data(0x360, 0x100, 0x20, 0x80, &D_800FC428);
+        upload_pixel_rectangle(0x360, 0x100, 0x20, 0x80, &D_800FC428);
     }
 }
 
@@ -61,7 +61,7 @@ void advance_index_and_mark_completion(s32 *currentIndex)
 /* Initialize an allocated node and store its data pointer in D_800CFCA8. */
 void create_town_map_entry_processor(void)
 {
-    S_8008EC14_node *node = func_8003FC64(0);
+    S_8008EC14_node *node = allocate_flagged_object_node(0);
 
     if (node != 0) {
         node->field_0x10 = D_8008C304;

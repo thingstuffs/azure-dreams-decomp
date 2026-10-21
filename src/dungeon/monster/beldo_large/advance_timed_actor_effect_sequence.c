@@ -42,7 +42,7 @@ extern u8 D_8016A36C[];
 extern s16 D_801760D8[];
 extern u8 D_801739A0[];
 
-extern void func_800419EC(s32, s32, void *);
+extern void initialize_timed_motion_step(s32, s32, void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
@@ -94,7 +94,7 @@ void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite
             effect_actor = primary_actor_record;
             ((PlayerRecord *)effect_actor)->unk_10C |= 1;
             effect_actor->movement_facing = ((u16)effect_actor->facing) + 0x800;
-            func_800419EC(6, 0xC, effect_actor);
+            initialize_timed_motion_step(6, 0xC, effect_actor);
             play_sound_if_enabled(0x601);
             create_player_centered_sequence_effect(sequence, transform, sprite);
         }

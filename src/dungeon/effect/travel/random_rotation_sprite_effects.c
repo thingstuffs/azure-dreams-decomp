@@ -35,7 +35,7 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
     ovl_18b8824_818988CC_Copy24 *dst;
     s32 random_value;
 
-    obj = (ovl_18b8824_818988CC_Object *)func_8003FC64(0x212);
+    obj = (ovl_18b8824_818988CC_Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->callback = (void *)interpolate_view_parameters;
         fields = (u8 *)obj + 0x20;
@@ -68,7 +68,7 @@ void handle_increment_entry_counters_process_target_propagate_status_flags(void 
     object = *(void **)entry;
     *(u16 *)((u8 *)object + 0x14) += 1;
     *(u16 *)((u8 *)entry + 4) += 1;
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         *(u16 *)((u8 *)entry - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
@@ -81,7 +81,7 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
     SpriteFrameState *appearance;
     ovl_18b8824_81898A64_S_80024264_0 *object;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = (void *)handle_increment_entry_counters_process_target_propagate_status_flags;
         appearance = object->unk_0C;
@@ -90,7 +90,7 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
         appearance->color.c.b = 0x80;
         appearance->color.c.g = 0x80;
         appearance->color.c.r = 0x80;
-        func_8003DB94(appearance, &D_80024EF4, 0);
+        select_record_entry_and_value(appearance, &D_80024EF4, 0);
         appearance->scale_x = 0x2000;
         appearance->scale_y = 0x1000;
         appearance->angle_z = 0xC00;
@@ -133,7 +133,7 @@ void advance_the_entry_counters_trigger_count_milestones_update_target(void *ent
         break;
     }
     }
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
 }
 
 void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state) {
@@ -142,7 +142,7 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
     ovl_18b8824_81898C1C_S_8002441C_2 *state;
     void *result;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object->unk_10 = (void *)advance_the_entry_counters_trigger_count_milestones_update_target;
         display = object->unk_0C;
@@ -152,7 +152,7 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
         display->color.c.g = 0x80;
         display->color.c.r = 0x80;
         display->color.c.b = 0xC0;
-        func_8003DB94(display, &D_80024E40, 0);
+        select_record_entry_and_value(display, &D_80024E40, 0);
         display->scale_x = 0x2000;
         display->scale_y = 0x1000;
         display->clut = 0x7DCF;
@@ -180,7 +180,7 @@ void mark_owner_on_target_completion(void *object_ref, s32 unused, void *target)
 
     object = *(u8 **)((u8 *)object_ref + 0x0);
     *(u16 *)(object + 0x14) += 1;
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         *(u16 *)((u8 *)object_ref - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
@@ -192,7 +192,7 @@ ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32
     u8 *sprite;
     s32 *data;
 
-    obj = (ovl_18b8824_81898DCC_Object *)func_8003FC64(0x212);
+    obj = (ovl_18b8824_81898DCC_Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
         obj->callback = (void *)mark_owner_on_target_completion;
         sprite = obj->sprite;
@@ -202,7 +202,7 @@ ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32
         sprite[0xC] = 0x80;
         ((SpriteFrameState *)sprite)->scale_y = 0x1400;
         ((SpriteFrameState *)sprite)->scale_x = 0x1400;
-        func_8003DB94(sprite, D_80024FC4, 0);
+        select_record_entry_and_value(sprite, D_80024FC4, 0);
         register_node(obj, project_sprite_chain);
 
         data = obj->data;
@@ -330,7 +330,7 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
                         ((s16 *)ovl_18b8824_81898EBC_PTR_AT(global_page, 0x14A8))[0x44] << 16;
                     ovl_18b8824_81898EBC_S32_AT((u8 *)target_pos, 8) = fallback_value;
                     state->state = 6;
-                } else if ((increment_bounded_event_counter() << 16) == 0) {
+                } else if ((increment_bounded_counter() << 16) == 0) {
                     s32 fallback_value;
 
                     fallback_value =

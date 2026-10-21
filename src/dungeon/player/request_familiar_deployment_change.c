@@ -26,7 +26,7 @@ s32 reject_forbidden_familiar_recall();                         /* extern */
 void clear_player_linked_action_flags();                      /* extern */
 s32 get_unused_text_buffer();                          /* extern */
 s32 expand_text_control_codes();                  /* extern */
-void * func_80099290();                    /* extern */
+void * clear_byte_and_advance();                    /* extern */
 s32 write_text_byte_and_advance();                    /* extern */
 s32 append_entity_display_text();                        /* extern */
 void display_formatted_context_message();                   /* extern */
@@ -86,7 +86,7 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
                 }
                 text = expand_text_control_codes(hdr, text);
                 call_result = expand_text_control_codes(&D_800E0739, text - 3);
-                func_80099290(call_result);
+                clear_byte_and_advance(call_result);
                 goto finish;
             } else {
                 clear_player_linked_action_flags();
@@ -120,7 +120,7 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
                 }
 
                 /* The three outcomes share the termination and display tail. */
-                func_80099290(text);
+                clear_byte_and_advance(text);
 finish:
                 display_text_with_fullwidth_adjustment(msg);
                 play_sound_if_enabled(0x506);

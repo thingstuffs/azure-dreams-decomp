@@ -16,7 +16,7 @@ void update_sine_motion_effect(
     u32 state_index;
 
     effect->timer++;
-    func_800478B8(color);
+    advance_sprite_animation_and_textures(color);
 
     state_index = effect->state;
     switch (state_index) {

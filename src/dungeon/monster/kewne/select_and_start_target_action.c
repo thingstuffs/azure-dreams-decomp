@@ -15,7 +15,7 @@ typedef struct S_80171F9C_0 {
 extern s32 select_sprite_entry();
 extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
-extern s32 place_actor_at_directional_neighbor();
+extern s32 probe_directional_neighbor();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target();
@@ -41,7 +41,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
             return -1;
         }
 
-        target = place_actor_at_directional_neighbor(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25,
+        target = probe_directional_neighbor(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25,
             actor->facing);
         if ((check_entity_interaction_compatibility(actor, target) << 16) == 0) {
             return 0;

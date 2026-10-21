@@ -39,7 +39,7 @@ void render_scene_frame_with_timing(void)
     if (!(system_update_flags[0] & 2)) {
         DrawOTag((u8 *)g_game_work.draw_buffer + 0x8CC);
     }
-    func_8003E758();
+    service_cd_command_queue();
     drain_audio_commands_and_service_channels();
     copied_value = gpu_scratch_buffer_base;
     gpu_scratch_write_pointer = copied_value;

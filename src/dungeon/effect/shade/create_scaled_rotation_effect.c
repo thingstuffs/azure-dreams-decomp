@@ -2,7 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 extern void register_node();
 extern s32 func_80069EF8();
 
@@ -62,7 +62,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
     S_818C3A3C_5 *effect_data;
     void *effect_name;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         handler = D_80025098;
         effect_state = (u8 *)effect + 0x20;
@@ -81,7 +81,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         sprite->flags |= 0xC;
         sprite->tpage_abr |= 0x20;
         sprite->flags |= 0x100;
-        func_8003DB94(sprite, effect_name, call_zero);
+        select_record_entry_and_value(sprite, effect_name, call_zero);
 
         biased_random = func_80069EF8();
         random_value = biased_random;

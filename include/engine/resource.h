@@ -35,14 +35,14 @@ void compose_and_install_camera_transform(void);
 /* entry_file_load_com.c */
 void mark_object_removal_for_inner_release(unsigned short *object);
 void adjust_resource_decode_buffer_capacity(int amount);
-void func_80050FCC(void);
-void func_8004B1A4(unsigned short *object);
+void load_scene_texture_resource(void);
+void flag_object_for_removal(unsigned short *object);
 
 /* entry_scene_begin_transition_data_read.c */
 void load_transition_image_and_begin_data_read(void *state);
 
 /* entry_sd_call.c */
-void func_80040AA0(s16 requested_state);
+void request_scene_dispatch_state(s16 requested_state);
 
 /* entry_set_scene_phase_callback.c */
 void begin_scene_dispatch_resource_loading(void);

@@ -136,7 +136,7 @@ extern u8 D_80025068[];
 extern u8 D_800287F0[];
 
 extern void sound_set_cd_cue_parameters(void *, void *, void *, s32);
-extern s32 func_800445E0(void);
+extern s32 read_stream_cue_start_offset(void);
 extern void Control_CD(s32, s32, s32);
 extern void begin_actor_flagged_action(void *, void *, void *, void *);
 extern void play_sound_if_enabled(s32);
@@ -149,7 +149,7 @@ extern s32 get_unused_text_buffer(void);
 extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 func_80099290(s8 *byte_ptr);
+extern s32 clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_status_prefix_bytes(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void *select_object_by_flags_and_keys(void *, void *, void *);
@@ -199,7 +199,7 @@ void advance_paired_object_sequence(void *sequence, void *position, void *actor,
             sound_set_cd_cue_parameters(0, sound_data, 0, 0x1000530);
         }
         {
-            s32 cd_value = func_800445E0();
+            s32 cd_value = read_stream_cue_start_offset();
             Control_CD(21, cd_value, 0);
         }
         state = ((S_800253C0_0 *)sequence)->unk_9B.n;
@@ -527,7 +527,7 @@ case 4:
                     ((S_800253C0_0 *)sequence)->unk_9B.n += 2;
                 }
             }
-            func_80099290(message_text);
+            clear_byte_and_advance(message_text);
             display_text_with_fullwidth_adjustment(message_id);
             return;
         }
@@ -589,7 +589,7 @@ case 4:
                 message_text = append_entity_display_text(*text_slot, message_text);
                 message_text = expand_text_control_codes(D_80025024, message_text);
                 message_text = write_status_prefix_bytes(message_text);
-                message_text = func_80099290(message_text);
+                message_text = clear_byte_and_advance(message_text);
                 message_text = write_text_byte_and_advance(17, message_text);
                 display_text_with_fullwidth_adjustment(message_id);
                 object_m = merge_creature_abilities_and_state(((S_800253C0_0 *)sequence)->unk_AC,
@@ -601,7 +601,7 @@ case 4:
                 *removed_slot = 0;
                 message_id = get_unused_text_buffer();
                 message_text = build_status_effect_name_list(object_m, message_id);
-                message_text = func_80099290(message_text);
+                message_text = clear_byte_and_advance(message_text);
                 display_text_with_fullwidth_adjustment(message_id);
             }
         }

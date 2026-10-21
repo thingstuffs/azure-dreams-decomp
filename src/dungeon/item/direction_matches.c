@@ -8,7 +8,7 @@ extern s16 actor_turn_angle_offsets[];
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 
-extern Elem *get_conditional_monster_entry(s16);
+extern Elem *get_active_region_data(s16);
 extern s32 generate_random_value(void);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);
 extern s32 sample_terrain_surface_height(s32, s32, s16);
@@ -52,7 +52,7 @@ s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *o
             work_p[0x72] = 0;
             work_p[0x67] = 0;
             actor_held[0x27] = 0xFF;
-            s1 = get_conditional_monster_entry(*(s8 *)(actor_held + 0x26));
+            s1 = get_active_region_data(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
                 count = dungeon_rooms[(s8)actor_held[0x26]].unk_0E;
                 for (i = 0; i < count; i++) {
@@ -89,7 +89,7 @@ s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *o
         }
 
         if ((actor_held[0x24] == b72) && (actor_held[0x25] == b73)) {
-            s1 = get_conditional_monster_entry(*(s8 *)(actor_held + 0x26));
+            s1 = get_active_region_data(*(s8 *)(actor_held + 0x26));
             if (s1 != 0) {
                 s0 = g_dungeon_status.turn_counter;
                 if (c3 = dungeon_rooms[*(s8 *)(actor_held + 0x26)].unk_0E, type = actor_held[0x26], c3 > 0) {

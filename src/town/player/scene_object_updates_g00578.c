@@ -73,7 +73,7 @@ void update_entity_sprite_and_effects(void *entity, EntityRec *position, S_800A6
 
         frame_index = quantize_heading_to_sector((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64)));
         if ((*(s16 *)((u8 *)entity + 0x74)) != frame_index) {
-            func_8003DB94(sprite, (*(void ** *)((u8 *)entity + 0x78))[frame_index], sprite->unk_04);
+            select_record_entry_and_value(sprite, (*(void ** *)((u8 *)entity + 0x78))[frame_index], sprite->unk_04);
             (*(s16 *)((u8 *)entity + 0x74)) = frame_index;
         }
 
@@ -83,7 +83,7 @@ void update_entity_sprite_and_effects(void *entity, EntityRec *position, S_800A6
             sprite->unk_14 &= 0xFFFE;
         }
                    /* MATCH: keep the flags store before call argument setup. */
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
 
         if (position->y.v <= 0x06500000 && (*(s32 *)((u8 *)entity + 0xA0)) > 0x06500000) {
             sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;

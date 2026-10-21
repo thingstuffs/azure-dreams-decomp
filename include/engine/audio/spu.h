@@ -14,7 +14,7 @@ void stop_spu_dma_event_service(void);
 /* audio_get_whether_non_skipped_block_contains_address_starts_beyond.c */
 s32 initialize_sound_transfer_range(s32 count, struct S_800799BC *record);
 s32 audio_get_whether_non_skipped_block_contains_address_starts_beyond(u32 address);
-s32 func_8005D9DC(u32 value);
+s32 test_spu_blocks_beyond_address(u32 value);
 
 /* audio_handle_optionally_aligns_shifts_stores_returns_result.c */
 s32 audio_handle_optionally_aligns_shifts_stores_returns_result(s32 index, u32 value);
@@ -25,9 +25,9 @@ s32 lookup_and_scale_driver_address(s32 address);
 s32 poll_driver_completion_event(s32 wait_for_completion);
 
 /* jtbl.c */
-s32 func_8005EB78(s32 voice_mask);
-void func_8005F134(SpuVoiceAttr_ *attr);
-void func_8005FA34(SpuVoiceAttr_ *voice_attr);
+s32 read_selected_voice_key_state(s32 voice_mask);
+void apply_spu_voice_attributes(SpuVoiceAttr_ *attr);
+void read_spu_voice_attributes(SpuVoiceAttr_ *voice_attr);
 
 /* query_driver_halfword_pair.c */
 s32 query_driver_halfword_pair(s16 entry_index, s16 *out_first_value, s16 *out_second_value);
@@ -53,7 +53,7 @@ void reset_spu_runtime_and_start_event_service(s32 channel);
 s32 set_reverb_address_available(s32 enabled);
 
 /* sound_reverb_writer.c */
-void func_8005DF80(struct SoundReverbParameters *source);
+void write_spu_reverb_parameters(struct SoundReverbParameters *source);
 
 /* spu_attr.c */
 s32 set_spu_reverb_enabled_if_available(s32 enable);

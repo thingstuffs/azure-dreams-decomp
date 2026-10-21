@@ -56,7 +56,7 @@ typedef struct S_8008ACDC_9 {
 } S_8008ACDC_9;
 
 void func_8002534C(); /* extern */
-void func_80040AA0();                     /* extern */
+void request_scene_dispatch_state();                     /* extern */
 void set_sprite_animation_frame(); /* extern */
 void try_move_player(); /* extern */
 void select_state_16_directional_animation(); /* extern */
@@ -390,7 +390,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                 if (input_flags & 4) {
                     if ((*(u8 *)dungeon_button_latch) == 0) {
                         (*(s8 *)dungeon_button_latch) = 1;
-                        func_80040AA0(3);
+                        request_scene_dispatch_state(3);
                         return;
                     }
                     return;

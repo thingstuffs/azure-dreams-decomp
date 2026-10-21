@@ -3,8 +3,8 @@
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_800478B8(void *);
-extern void func_8003DB94(void *, void *, s32);
+extern void advance_sprite_animation_and_textures(void *);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern u8 D_800DEAE0[];
 
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -37,8 +37,8 @@ void update_expanding_spiral_sprite(void *state, void *position, void *sprite)
     S16_AT(sprite, 0x1A) =
         (s32)(0 - ((func_80064584(S16_AT(state, 0x1C) - angle_table->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
 
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     if (U16_AT(sprite, 0x14) & 0x6000) {
-        func_8003DB94(sprite, D_800DEAE0, 0);
+        select_record_entry_and_value(sprite, D_800DEAE0, 0);
     }
 }

@@ -111,7 +111,7 @@ void sort_signed_word_array(int count, void *base)
 }
 
 /* Return the word at offset 0xC in the selected table entry. */
-int func_8005C858(int unused_0, short entry_index, int unused_2)
+int read_audio_channel_control(int unused_0, short entry_index, int unused_2)
 {
     return audio_channel_controls[entry_index].unk0C;
 }

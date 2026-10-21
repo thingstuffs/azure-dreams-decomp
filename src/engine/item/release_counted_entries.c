@@ -9,7 +9,7 @@ void release_counted_entries(u16 **entries, s32 count)
 
     for (index = 0; index < count; index++) {
         if (entries[index] != 0) {
-            func_8004B1A4(entries[index]);
+            flag_object_for_removal(entries[index]);
             entries[index] = 0;
         }
     }

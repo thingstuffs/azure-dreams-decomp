@@ -15,7 +15,7 @@ typedef struct S_800B8170_0 {
 void create_building_resource_object(void) {
     S_800B8170_0 *object;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != 0) {
         object->unk_10 = &D_800B7B8C;
         object->unk_20 = 0;

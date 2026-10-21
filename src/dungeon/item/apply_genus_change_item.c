@@ -9,13 +9,13 @@
 extern void begin_deferred_item_action();
 extern void display_item_status_message();
 extern s32 feed_actor_restore_mp();
-extern void apply_item_effect_at_entity_position();
+extern void place_actor_item();
 extern void create_colored_effect_with_sound();
 extern void update_owner_class_bits();
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes();
 extern u8 *append_entity_display_text();
-extern void func_80099290();
+extern void clear_byte_and_advance();
 extern void display_text_with_fullwidth_adjustment();
 extern void clear_slot_and_update_linked_state();
 
@@ -43,7 +43,7 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, event, (s16)value);
         if (feed_actor_restore_mp(target, (entity_action_selectors[target[0x13]] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(target, event);
+            place_actor_item(target, event);
             return 1;
         }
         *(s32 *)(target + 0x14) &= -8;
@@ -106,7 +106,7 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
             message_end = expand_text_control_codes(D_800E1411, message_end);
             message_end = expand_text_control_codes(message, message_end);
             message_end = expand_text_control_codes(D_80089380, message_end);
-            func_80099290(message_end);
+            clear_byte_and_advance(message_end);
             display_text_with_fullwidth_adjustment(message_start);
         }
     } else {
@@ -116,7 +116,7 @@ s32 apply_genus_change_item(u8 *target, u8 *event, s32 value)
         message_end = expand_text_control_codes(D_800E1426, message_end);
         message_end = append_entity_display_text(target, message_end);
         message_end = expand_text_control_codes(D_80089380, message_end);
-        func_80099290(message_end);
+        clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
     }
 

@@ -74,7 +74,7 @@ extern u8 D_8052FDF8[];
 extern u8 D_805301F0[];
 
 /* Build the shop display: the root object plus three item panels and their sprites. */
-s32 func_80813AB0(void)
+s32 create_linked_value_display(void)
 {
     RootPair roots[2];
     u8 *base;

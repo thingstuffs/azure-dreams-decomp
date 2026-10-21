@@ -53,7 +53,7 @@ void advance_two_state_action(void *state_data, void *unused, SpriteFrameState *
         timer = ((S_8182718C_0 *)state_data)->unk_48;
         ((S_8182718C_0 *)state_data)->unk_48 = (u16) (timer - 1);
         if ((timer << 0x10) <= 0) {
-            func_800478B8(target);
+            advance_sprite_animation_and_textures(target);
             ((S_8182718C_0 *)state_data)->unk_48 = (u16) ((S_8182718C_0 *)state_data)->unk_4E;
         }
         if (target->flags & 0x6000) {

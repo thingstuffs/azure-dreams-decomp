@@ -26,6 +26,6 @@ typedef struct ObjectNodeHeader {
 } ObjectNodeHeader;
 
 extern ObjectNodeHeader scene_object_list_anchor;
-ObjectNodeHeader *func_8003FC64(int flags);
+ObjectNodeHeader *allocate_flagged_object_node(int flags);
 
 #endif

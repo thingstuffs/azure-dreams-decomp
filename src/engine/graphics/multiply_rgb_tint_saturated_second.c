@@ -11,7 +11,7 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Builds a tinted flat or shaded triangle fan for an ellipse or quarter ellipse. */
-void *func_8004B954(void *tint_a, void *tint_b, void *primitives,
+void *build_elliptical_triangle_fan(void *tint_a, void *tint_b, void *primitives,
                     void *color_data, void *style, s32 *out_count, s32 shaded)
 {
     ScreenPoint16 edge_pos;

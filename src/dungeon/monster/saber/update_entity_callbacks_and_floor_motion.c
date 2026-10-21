@@ -8,7 +8,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 
 extern void select_indirect_table_entry();
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
@@ -103,7 +103,7 @@ void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion
 
         if (!(((S_80171320_1 *)actor)->unk_1C & 0x20)) {
             if (!(((SpriteAnimationTableView *)monster)->unk_14 & 0x40)) {
-                func_800478B8(monster);
+                advance_sprite_animation_and_textures(monster);
             }
         } else {
             ((SpriteAnimationTableView *)monster)->unk_14 |= 0x7000;

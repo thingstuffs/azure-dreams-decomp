@@ -136,7 +136,7 @@ s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(u8 *src, u8 *dst);
 s32 format_unsigned_double_byte_decimal(s32, s32);
 s32 append_entity_display_text(void *record, u8 *out);
-extern void * func_80099290(s8 *byte_ptr);
+extern void * clear_byte_and_advance(s8 *byte_ptr);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 
 extern u8 D_80088CAC[];
@@ -178,7 +178,7 @@ void add_random_quarter_value(void *source, void *target) {
             message_end = expand_text_control_codes(D_800E0D6D, message_end);
             message_end = append_entity_display_text(target, message_end);
             message_end = expand_text_control_codes(D_80088CAC, message_end);
-            func_80099290(message_end);
+            clear_byte_and_advance(message_end);
             display_text_with_fullwidth_adjustment(message_start);
         }
     }
@@ -195,13 +195,13 @@ typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
 s32 format_unsigned_double_byte_decimal();
-void func_800419EC();
+void initialize_timed_motion_step();
 s32 get_entity_effect_value();
 void clear_player_linked_action_flags();
 s32 clamp_adjusted_value_0_to_99();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
-extern void * func_80099290(s8 *byte_ptr);
+extern void * clear_byte_and_advance(s8 *byte_ptr);
 s32 write_text_byte_and_advance();
 s32 apply_type_based_entry_adjustments();
 s32 append_entity_display_text();
@@ -347,7 +347,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 tile_text += tile_text_base;
                 message_cursor = apply_type_based_entry_adjustments(tile_text, message_cursor);
                 message_cursor = expand_text_control_codes(&D_800E0D7B, message_cursor);
-                func_80099290(message_cursor);
+                clear_byte_and_advance(message_cursor);
                 display_text_with_fullwidth_adjustment(message_start);
                 play_sound_if_enabled(0x700);
                 accumulate_experience_award(attacker_in, 8);
@@ -395,7 +395,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             }
             null_result = NULL;
             if (modifier >= 0) {
-                func_80099290(message_cursor);
+                clear_byte_and_advance(message_cursor);
                 display_text_with_fullwidth_adjustment(message_start);
                 return (void *)0;
             }
@@ -535,7 +535,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         signed_value = message_state << 0x10;
     }
     if (signed_value >= 0) {
-        func_80099290(message_cursor);
+        clear_byte_and_advance(message_cursor);
         display_text_with_fullwidth_adjustment(message_start);
     }
     if (distance == 1) {
@@ -574,7 +574,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     }
     play_sound_if_enabled(0x601);
     if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & 0x8000)) {
-        func_800419EC(8, 0x10);
+        initialize_timed_motion_step(8, 0x10);
     }
     effect_elements = attack_elements << 0x10;
     if (attacker_in == (void *)dungeon_actor_ring_anchor) {
@@ -682,6 +682,12 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     a->unk60 = ent2;
     a->flags14 &= ~0x4000000;
     if (ent2 == 0) {
+        /*
+         * Original bug: The Salamander passes distance zero and no explicit target. The diagonal corner check can still
+         * reject a wall beside this same-tile attack, leaving unk60 null and dealing no damage.
+         * Found and documented by the Azure Dreams community
+         * (adrando.com/guide/bugs.html).
+         */
         if ((check_diagonal_side_height((a->unk2a >> 9) & 7, b->unk24, b->unk25,
                            (s16)(*(u16 *)&a->unk88 - 0x20)) << 16) != 0) {
             ent2 = find_eligible_actor_at_tile_and_height(a,
@@ -753,6 +759,12 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     } else {
         a->flags1c &= ~0x1000000;
     }
+    /*
+     * Original bug: the luck dodge roll is limited to incapacitated targets and adds an evasion byte left at zero.
+     * Capable targets skip the roll entirely.
+     * Found and documented by the Azure Dreams community
+     * (adrando.com/guide/bugs.html).
+     */
     if ((ent2->flags1c & 0x238) != 0) {
         u8 d;
         s32 rnd;
@@ -998,6 +1010,10 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
         }
         affinity_shift = affinity << 0x10;
         affinity_product = power * (affinity_shift >> 0x10);
+        /*
+         * Possible original bug: only negative affinity products are divided by four. A +1 affinity doubles power
+         * instead of adding the quarter suggested by the negative branch.
+         */
         affinity_adjust = affinity_product;
         if (affinity_product < 0) {
             affinity_adjust = (s16) ((u32) (affinity_product + 3) >> 2);
@@ -1023,7 +1039,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_flags;
         g_dungeon_status.pending_display_owner = target - 0x20;
         if (!(((SpriteFrameState *)((S_8009CE1C_3_pre *)target)[-1].unk_00)->flags & 0x8000)) {
-            func_800419EC(8, 0x10);
+            initialize_timed_motion_step(8, 0x10);
         }
         event_id = 0x601;
         if ((source_flags != 0) && !(source_flags & 0x20000000)) {

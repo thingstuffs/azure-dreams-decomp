@@ -70,10 +70,10 @@ typedef struct S_80170E9C_2 {
 void select_sprite_entry();
 s32 check_entity_relation();
 s8 find_active_rect_containing_point();
-s32 compare_monster_neighbor_values();
+s32 test_neighbor_position_relation();
 s16 get_rounded_facing_and_rounding_flag();
 s32 can_entity_gain_level();
-void update_actor_status_and_food();
+void update_actor_status_and_mp();
 void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action();
@@ -177,7 +177,7 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, void 
     ((S_80170E9C_2 *)sprite)->unk_26 = terrain_index;
     if (((S_80170E9C_1 *)state)->unk_6D > 0) {
         if (((S_80170E9C_1 *)state)->unk_1C & 0x20) {
-            update_actor_status_and_food(state);
+            update_actor_status_and_mp(state);
             return;
         }
         if (((S_80170E9C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -222,7 +222,7 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, void 
                 return;
             }
         case 12:
-            update_actor_status_and_food(state);
+            update_actor_status_and_mp(state);
             return;
         case 1:
         case 2:
@@ -240,7 +240,7 @@ void update_entity_actions_facing_and_animation(void *entity, s32 context, void 
     if (!(idle_flags & 0x2000)) {
         if (terrain_index < 0 || !(dungeon_rooms[terrain_index].flags & 2)) {
             if (!(idle_flags & 0x430)) {
-                if ((compare_monster_neighbor_values(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v,
+                if ((test_neighbor_position_relation(((S_80170E9C_2 *)sprite)->unk_24.at00.v, ((S_80170E9C_2 *)sprite)->unk_24.at01.v,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
                     ((S_80170E9C_1 *)state)->unk_2A = get_rounded_facing_and_rounding_flag(((S_80170E9C_2 *)sprite)->unk_24.at00.v,
                         ((S_80170E9C_2 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);

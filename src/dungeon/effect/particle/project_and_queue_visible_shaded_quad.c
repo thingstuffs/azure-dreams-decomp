@@ -497,7 +497,7 @@ typedef struct S_819711E0_1 {
    /* src in func_800249E0 */
 
 /* Decrement the timer, update scale and position, and flag completion at zero. */
-void func_800249E0(void *state, MovingPosition *position, S_819711E0_1 *scale) {
+void follow_origin_and_fade_sprite(void *state, MovingPosition *position, S_819711E0_1 *scale) {
     s32 scale_factor;
     u16 ticks_left;
     MovingPosition *base_position;
@@ -541,7 +541,7 @@ typedef struct {
     s32 delta;
 } Motion;
 
-extern void func_800478B8(void *render_data);
+extern void advance_sprite_animation_and_textures(void *render_data);
 
 /* Advance a timed effect, update its intensity and motion, and flag completion. */
 void fade_effect_color_by_quarter(Obj *effect, Motion *motion, s8 *render_data)
@@ -555,7 +555,7 @@ void fade_effect_color_by_quarter(Obj *effect, Motion *motion, s8 *render_data)
     effect->phase = phase;
     if ((s16)phase == 2) {
         effect->phase = 0;
-        func_800478B8(render_data);
+        advance_sprite_animation_and_textures(render_data);
     }
     intensity = (effect->timer << 7) / effect->divisor;
     render_data[14] = intensity;
@@ -744,7 +744,7 @@ struct Bank1990800_19915d4_Object {
     s16 unk5A;
 };
 
-extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);
+extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 s32 rand();
 extern u8 D_800DECF8[];
 
@@ -760,7 +760,7 @@ typedef struct S_819715D4_2 {
 } S_819715D4_2;
 
 /* Creates a sprite object with randomized offsets from the source position. */
-void func_80024DD4(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base_y, s16 base_z) {
+void create_fading_jittered_sprite(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base_y, s16 base_z) {
     s32 random_value;
     SpriteFrameState *sprite;
     SpriteFrameState *render_sprite;
@@ -768,7 +768,7 @@ void func_80024DD4(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base
     Bank1990800_19915d4_Object *object;
     u8 *object_data;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object_data = (u8 *)object + 0x20;
         ((S_819715D4_0 *)object_data)->unk_38 = 0x14;
@@ -816,7 +816,7 @@ void func_80024DD4(u16 *source, s32 unused_1, s32 unused_2, s16 base_x, s16 base
         render_sprite->color.c.r = 0x80;
         render_sprite->clut = 0x7DCE;
         render_sprite->flags |= 0x100;
-        func_8003DB94(render_sprite, D_800DECF8, 0);
+        select_record_entry_and_value(render_sprite, D_800DECF8, 0);
     }
 }
 
@@ -868,7 +868,7 @@ typedef struct {
 } OffsetYZ;
 
 /* Creates an effect at a randomized offset from the origin and initializes its rendering data. */
-void func_80024F60(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x, OffsetYZ offset_yz) {
+void create_origin_following_fade_sprite(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x, OffsetYZ offset_yz) {
     u16 jittered_x;
     void *effect_arg;
     u16 coord;
@@ -879,7 +879,7 @@ void func_80024F60(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
     MovingPosition *origin = origin_data;
     s32 initial_y = offset_yz.y;
     s32 initial_z = offset_yz.z;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         effect_arg = effect;
         effect_state = effect + 0x20;
@@ -889,7 +889,7 @@ void func_80024F60(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
         effect_state->unk_46 = (u16) initial_y;
         effect_state->unk_48 = (u16) initial_z;
         effect_state->unk_40 = origin;
-        ((S_81971760_1 *)effect)->unk_10 = func_800249E0;
+        ((S_81971760_1 *)effect)->unk_10 = follow_origin_and_fade_sprite;
         register_node(effect_arg, project_sprite_chain);
         render_data = ((S_81971760_1 *)effect)->unk_0C;
         render_data->unk_10 = 0x20;
@@ -1109,7 +1109,7 @@ typedef struct {
 extern Data12 D_80025FD0;
 extern Data12 D_80025FDC;
 
-extern s32 func_80053EF0(s32);
+extern s32 read_sound_mode_blocking_status(s32);
 extern void *get_sprite_attachment_vector(void *, void *, void *, s16);
 extern s32 func_80069EF8(void);
 
@@ -1170,7 +1170,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             return;
         }
         if ((s16)((S_8197192C_0 *)effect)->unk_2C.s == 26) {
-            if (func_80053EF0(4) != 2) {
+            if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(0x300);
             } else {
                 play_sound_if_enabled(0x4300);
@@ -1205,7 +1205,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     u8 *sprite;
                     ObjectPosition *world_pos;
 
-                    effect_obj = func_8003FC64(0x212);
+                    effect_obj = allocate_flagged_object_node(0x212);
                     if (effect_obj != 0) {
                         effect_data_m = (u8 *)effect_obj + 0x20;
                         ((S_8197192C_7 *)effect_data_m)->unk_38 = 20;
@@ -1303,7 +1303,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
 
             if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
                 u8 *effect_data;
-                effect_obj = func_8003FC64(0x212);
+                effect_obj = allocate_flagged_object_node(0x212);
                 effect_data = (u8 *)effect_obj + 0x20;
                 if (effect_obj != 0) {
 
@@ -1355,7 +1355,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             }
             if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
                 u8 *effect_data;
-                effect_obj = func_8003FC64(0x212);
+                effect_obj = allocate_flagged_object_node(0x212);
                 effect_data = (u8 *)effect_obj + 0x20;
                 if (effect_obj != 0) {
 
@@ -1406,7 +1406,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 }
             }
             if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
-                effect_obj = func_8003FC64(0x212);
+                effect_obj = allocate_flagged_object_node(0x212);
                 if (effect_obj != 0) {
                     u8 *sprite;
                     void *init_data;
@@ -1471,7 +1471,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_5C.s +
                               (((S_8197192C_0 *)effect)->unk_50.u - ((S_8197192C_0 *)effect)->unk_5C.u) * step / 6)
                                   << 1);
-                    func_80024DD4(effect, owner, context,
+                    create_fading_jittered_sprite(effect, owner, context,
                         spawn_x, spawn_y, spawn_z);
                     step++;
                 } while (step < 6);
@@ -1491,7 +1491,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                     spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_68.s +
                               (((S_8197192C_0 *)effect)->unk_5C.u - ((S_8197192C_0 *)effect)->unk_68.u) * step / 12)
                                   << 1);
-                    func_80024DD4(effect, owner, context,
+                    create_fading_jittered_sprite(effect, owner, context,
                         spawn_x, spawn_y, spawn_z);
                     step++;
                 } while (step < 12);
@@ -1510,7 +1510,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                           (((S_8197192C_0 *)effect)->unk_66.u - ((S_8197192C_0 *)effect)->unk_72.u) * step / 2) << 1);
                 spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_74.s +
                           (((S_8197192C_0 *)effect)->unk_68.u - ((S_8197192C_0 *)effect)->unk_74.u) * step / 2) << 1);
-                func_80024DD4(effect, owner, context,
+                create_fading_jittered_sprite(effect, owner, context,
                     spawn_x, spawn_y, spawn_z);
                 step++;
             } while (step < 2);
@@ -1540,7 +1540,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 angle_base = angle_table;
                 do {
                     {
-                        func_80024F60(effect, source_owner, context, 0, (OffsetYZ){0, (s16)angle});
+                        create_origin_following_fade_sprite(effect, source_owner, context, 0, (OffsetYZ){0, (s16)angle});
                         angle -= 15;
                     }
                 } while (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle);

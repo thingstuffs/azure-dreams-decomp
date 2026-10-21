@@ -50,7 +50,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
     SpriteFrameState *primitive;
 
     palette = D_800201B4;
-    object = func_8003FC64(0x15);
+    object = allocate_flagged_object_node(0x15);
     if (object != 0) {
         palette_entries = palette.value;
         ((S_80956E6C_0 *)object)->unk_10 = D_80023FA8;

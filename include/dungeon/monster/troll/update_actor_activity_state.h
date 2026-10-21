@@ -135,7 +135,7 @@ extern s32 has_pending_actor_or_turn_action();
 extern s32 generate_random_value();
 extern s32 on_actor_status_updated();
 extern s32 func_800A9A04();
-extern void update_actor_status_and_food();
+extern void update_actor_status_and_mp();
 extern void begin_pushed_actor_move();
 extern s32 begin_ready_actor_directional_action();
 extern s32 advance_actor_pending_action();

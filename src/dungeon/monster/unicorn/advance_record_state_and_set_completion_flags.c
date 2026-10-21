@@ -6,7 +6,7 @@ void advance_record_state_and_set_completion_flags(void *record_data, DelayMotio
     u16 remaining_count;
 
     state->unk_08 = (s32) (state->unk_08 + 0x10000);
-    func_800478B8(update_arg);
+    advance_sprite_animation_and_textures(update_arg);
     remaining_count = ((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C - 1;
     ((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C = remaining_count;
     if ((remaining_count << 0x10) <= 0) {
@@ -24,7 +24,7 @@ void create_tinted_sprite_effect_supplied_position(void *unused, void *position_
     T_8017406C_S_8017406C_3 *source_pos = position_data;
     T_8017406C_S_8017406C_4 *effect_pos;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         effect_state = effect + 0x20;
         effect_state->unk_1A = 0xF;
@@ -48,7 +48,7 @@ void create_tinted_sprite_effect_supplied_position(void *unused, void *position_
         ((T_8017406C_S_8017406C_1 *)effect)->unk_20 = 0xFFU;
         effect_state->unk_01 = (u8)sprite->color.c.g;
         effect_state->unk_02 = (u8)sprite->color.c.b;
-        func_8003DB94(sprite, &D_800DEC70, rand() & 1);
+        select_record_entry_and_value(sprite, &D_800DEC70, rand() & 1);
         sprite->clut = 0x7DCF;
         sprite->flags = (u16)(sprite->flags | 0x100);
     }
@@ -66,7 +66,7 @@ void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position,
     position->y.v = (s32) (((T_801741A0_S_801741A0_0 *)effect)->unk_44
         + (func_800644B8((s16) ((T_801741A0_S_801741A0_0 *)effect)->unk_1E) * 0x280));
     position->z.v = (s32) (position->z.v + 0xFFF60000);
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     if ((((T_801741A0_S_801741A0_0 *)effect)->unk_1A < 0x11) && (((T_801741A0_S_801741A0_0 *)effect)->unk_20 == 0) && !(rand() & 0xF)) {
         create_tinted_sprite_effect_supplied_position(effect, position, primitive);
     }
@@ -93,7 +93,7 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
     void *position;
     s16 wrapped_angle;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     wrapped_angle = angle;
     if (effect != 0) {
         effect_state = (u8 *)effect + 0x20;
@@ -128,7 +128,7 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         effect_state->unk_01 = sprite->color.c.g;
         effect_state->unk_02 = sprite->color.c.b;
 
-        func_8003DB94(sprite, &D_800DEC00, rand() & 1);
+        select_record_entry_and_value(sprite, &D_800DEC00, rand() & 1);
         sprite->clut = 0x7DCF;
         sprite->flags |= 0x100;
     }

@@ -379,6 +379,10 @@ s32 select_weighted_floor_item(s8 *category_out, s8 *item_out) {
     item_offset = (u8 *)thresholds;
     category_threshold = (u16 *)(item_offset + 2);
     category_scale_or_weight = random_weight & 0xFFFF;
+    /*
+     * Original bug: equality selects the preceding category, but its item scan uses an exclusive upper bound. A roll at
+     * a cumulative boundary falls through to item 0/0; equality should advance to the next category.
+     */
     while (1) {
         if (!(*category_threshold < (u32)category_scale_or_weight)) {
             item_index = 1;
@@ -709,7 +713,7 @@ void restore_spawns_and_place_floor_traps(void) {
             value = *(s32 *)(lookup_base + (table_index << 2));
         }
         if (value < 0) {
-            func_8003DB94(&position[slot], value, 0);
+            select_record_entry_and_value(&position[slot], value, 0);
             flags = position[slot].flags;
             position[slot].flags = flags | 0x840;
             if (value & 0x20000000) {
@@ -741,7 +745,7 @@ void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
     s16 *position;
     s16 *object_data;
 
-    object = func_8003FC64(2);
+    object = allocate_flagged_object_node(2);
     if (object != NULL) {
         ((floor_spawns_isolated_8028C354_S_8001F354_0 *)object)->unk_10 = (s32)D_800A5AF0;
         register_node(object, D_80044BB0);

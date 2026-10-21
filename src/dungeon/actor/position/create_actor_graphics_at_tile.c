@@ -5,7 +5,7 @@
 
 #include "slus/gp_shared_81510.h"
 
-void func_8003DB94();  /* extern */
+void select_record_entry_and_value();  /* extern */
 void *allocate_list_node();            /* extern */
 s32 register_node();           /* extern */
 void clear_entry_flag_and_link_owner();                      /* extern */
@@ -87,7 +87,7 @@ void *create_actor_graphics_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16
         graphics = ((S_800D2CB4_1 *)object)->unk_0C;
         graphics->unk_24 = saved_x;
         graphics->unk_25 = saved_y;
-        func_8003DB94(graphics, &D_800DEF08, 0);
+        select_record_entry_and_value(graphics, &D_800DEF08, 0);
         graphics->clut = 0x7E02;
         graphics->scale_x = 0x1800;
         graphics->scale_y = 0x2000;

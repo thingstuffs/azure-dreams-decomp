@@ -75,7 +75,7 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
             if (object_index != 0) {
                 object_flags = 0x202;
             }
-            object = func_8003FC64(object_flags);
+            object = allocate_flagged_object_node(object_flags);
             if (object != 0) {
                 ((S_800262AC_0 *)object)->unk_10 = callback;
                 register_node(object, &D_800CEEFC);

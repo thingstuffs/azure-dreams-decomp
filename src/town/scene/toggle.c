@@ -16,7 +16,7 @@ typedef struct S_8077DC0C_1 {
 } S_8077DC0C_1;   /* dispatch_base in func_8077DC0C */
 
 /* Flip the current slot's toggle byte, point the dispatcher at the matching handler and raise two events. */
-void func_8077DC0C(void) {
+void toggle_active_scene_event(void) {
     u8 *toggle;
     Rec_D_80016000 *state;
     s32 event;

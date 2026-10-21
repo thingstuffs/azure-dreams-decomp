@@ -42,7 +42,7 @@ void create_encounter_view_darkener(void)
     S_80170298_0 *axis_state;
     S_80170298_1 *data_state;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != 0) {
         (*(void * *)((u8 *)object + 0x10)) = D_801701CC;
         register_node(object, D_80044BB0);

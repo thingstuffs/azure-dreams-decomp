@@ -310,7 +310,7 @@ ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child
     ovl_1830850_81811168_DungeonObj81811168 *obj;
     ovl_1830850_81811168_DungeonSub81811168 *state;
 
-    obj = (ovl_1830850_81811168_DungeonObj81811168 *)func_8003FC64(0);
+    obj = (ovl_1830850_81811168_DungeonObj81811168 *)allocate_flagged_object_node(0);
     state = &obj->sub20;
     if (obj != 0) {
         if (inventory_copy_state_vector_after_buffers(state, 13) != 0) {
@@ -330,7 +330,7 @@ ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child
 }
 
 void inventory_clear_referenced_handle(ovl_1830850_81811250_S_80026250_0 *context) {
-    func_8004E99C(*context->unk_14);
+    flag_optional_object_for_removal(*context->unk_14);
     *context->unk_14 = 0;
 }
 

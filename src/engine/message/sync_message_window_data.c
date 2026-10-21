@@ -40,7 +40,7 @@ extern s32 func_80043FB8(void *, ...);
 void sync_message_window_data(Func8003800CState *state)
 {
     func_80043FB8(D_800809C4);
-    func_80043FB8(message_window_audio_sync_data, func_80053EF0(4));
+    func_80043FB8(message_window_audio_sync_data, read_sound_mode_blocking_status(4));
     func_80043FB8(D_800809C4);
 
     {

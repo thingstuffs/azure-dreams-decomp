@@ -9,7 +9,7 @@
 
 
 /* Returns the active/key-on state of the first selected voice, or -1 if none is selected. */
-s32 func_8005EB78(s32 voice_mask)
+s32 read_selected_voice_key_state(s32 voice_mask)
 {
     s32 voice;
     s32 bit_base;
@@ -50,7 +50,7 @@ s32 func_8005EB78(s32 voice_mask)
     return active != 0 ? 2 : 0;
 }
 
-void func_8005F134(SpuVoiceAttr_ *attr)
+void apply_spu_voice_attributes(SpuVoiceAttr_ *attr)
 {
     s32 voice;
     u32 mask;
@@ -85,7 +85,7 @@ void func_8005F134(SpuVoiceAttr_ *attr)
                 sample_note = spu_voice_sample_notes[voice];
                 note = attr->note;
                 spu_registers[reg_base + 2] =
-                    func_8005F7D0(sample_note >> 8, sample_note & 0xFF, note >> 8, note & 0xFF);
+                    calculate_pitch_from_note(sample_note >> 8, sample_note & 0xFF, note >> 8, note & 0xFF);
             }
             if (set_all || (mask & 0x1)) {
                 volume_mode = 0;
@@ -268,7 +268,7 @@ void func_8005F134(SpuVoiceAttr_ *attr)
 }
 
 /* Read volume, pitch, addresses, and envelope settings for the first selected voice. */
-void func_8005FA34(SpuVoiceAttr_ *voice_attr)
+void read_spu_voice_attributes(SpuVoiceAttr_ *voice_attr)
 {
     s32 voice_index;
     s32 voice_bit;

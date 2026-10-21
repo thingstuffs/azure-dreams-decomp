@@ -70,8 +70,8 @@ typedef struct S_800CB9DC_9 {
 } S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
 
-extern void func_80040AA0(s16 requested_state);               /* extern */
-extern void func_800478B8(void *entity);                      /* extern */
+extern void request_scene_dispatch_state(s16 requested_state);               /* extern */
+extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 void mark_sprite_resources_for_purge();                            /* extern */
 void snapshot_inventory_and_familiars();           /* extern */
 void snapshot_inventory_familiar_records();                            /* extern */
@@ -94,7 +94,7 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
     S_800CB9DC_3 *position;
     void *actor;
 
-    func_800478B8(animation);
+    advance_sprite_animation_and_textures(animation);
     actor = ((S_800CB9DC_0 *)trap_state_in)->unk_00;
     actor_data = ((S_800CB9DC_1_pre *)actor)[-1].unk_04;
     position = ((S_800CB9DC_1_pre *)actor)[-1].unk_00;
@@ -114,7 +114,7 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
 
             motion_state = (void *)0x80010000;
             if (motion_state->unk_3714 & 4) {
-                func_80040AA0(3U);
+                request_scene_dispatch_state(3U);
             } else {
                 snapshot_inventory_and_familiars(actor);
                 snapshot_inventory_familiar_records();
@@ -127,7 +127,7 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
                 go_up_trap_count++;
                 motion_state->unk_234 = floors_ascended;
                 ((S_800CB9DC_5 *)trap_counts)->unk_04 = go_up_trap_count;
-                func_80040AA0(transition_id);
+                request_scene_dispatch_state(transition_id);
                 mark_sprite_resources_for_purge();
             }
         } else {

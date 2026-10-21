@@ -83,8 +83,8 @@ s16 audio_configure_explicit_voice(s16 sound_id, s32 voice_id, s16 note, unsigne
             voice_mask = &voice_masks[voice_id];
             key_off_status = 2;
             do {
-                func_8005E97C(0, *voice_mask);
-                key_status = func_8005EB78(*voice_mask);
+                set_spu_voice_keys(0, *voice_mask);
+                key_status = read_selected_voice_key_state(*voice_mask);
             }
             while ((key_status != key_off_status) && (key_status != 0));
             voice_attr.field_04 = 0x1FFEF;

@@ -16,7 +16,7 @@ void *begin_sprite_resource_load_with_completion_flag(s32 packed_code, s32 *call
     slot = prepare_uncached_sprite_resource(code);
     if (slot != 0) {
         *callback_state = 0;
-        Control_CD(0xFF, (void *)func_800499DC, callback_state);
+        Control_CD(0xFF, (void *)set_flag_and_return_success, callback_state);
     }
     return slot;
 }

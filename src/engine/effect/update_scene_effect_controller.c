@@ -53,7 +53,7 @@ void update_scene_effect_controller(Controller *controller)
     state = controller->state;
     switch (state) {
     case 0:
-        if (func_80053EF0(4) != 1) {
+        if (read_sound_mode_blocking_status(4) != 1) {
             return;
         }
         mark_staged_motion_effect_complete(controller->child0);
@@ -101,7 +101,7 @@ void update_scene_effect_controller(Controller *controller)
         zero = 0;
         third_zero = zero;
         runtime_dispatch_state.flags16 |= 0x8000;
-        func_80041094(notify_id, zero, third_zero, zero, runtime_dispatch_state.flags16 ^ 1);
+        request_scene_state_with_parameters(notify_id, zero, third_zero, zero, runtime_dispatch_state.flags16 ^ 1);
         *((u16 *)controller - 1) |= 0x8000;
         D_800814A0 |= 0x8000;
         return;
@@ -142,7 +142,7 @@ void update_scene_effect_controller(Controller *controller)
         third_zero = zero;
     }
     runtime_dispatch_state.flags16 |= 0x8000;
-    func_80041094(notify_id, zero, third_zero, zero, runtime_dispatch_state.flags16 ^ 1);
+    request_scene_state_with_parameters(notify_id, zero, third_zero, zero, runtime_dispatch_state.flags16 ^ 1);
     *((u16 *)controller - 1) |= 0x8000;
     D_800814A0 |= 0x8000;
 }

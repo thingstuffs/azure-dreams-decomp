@@ -269,7 +269,7 @@ void advance_delayed_fading_sprite(void *effect, DelayPosition *motion, void *sp
     case 1:
         position->f0 += position->fC;
         position->f4 += position->f10;
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
 
         if (*(u16 *)((u8 *)sprite + 0x14) & 0x6000) {
             *(u8 *)((u8 *)sprite + 4) = 0;
@@ -321,7 +321,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
     ((DelayParticle *)effect_arg)->unk_48 = (u16) (((DelayParticle *)effect_arg)->unk_48 - 1);
     switch (phase) {
     case 0:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if ((u8) sprite->unk_0C.at00.v < 0x81U) {
             bright_level = sprite->unk_0C.at02.v + 0x20;
             sprite->unk_0C.at02.v = bright_level;

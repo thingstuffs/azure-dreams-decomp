@@ -524,7 +524,7 @@ extern const u16 D_8002400C[4];
 extern const s16 D_80024014[8][2];
 extern s32 get_unused_text_buffer(s32, s32);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 write_text_byte_and_advance(s8 value, s8 *dest);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(u8 *, u8 *);

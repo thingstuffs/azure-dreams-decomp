@@ -10,7 +10,7 @@ typedef struct S_8017573C_0 {
 } S_8017573C_0;   /* arg0 in grow_object_after_delay */
 
 extern void select_sprite_entry(void *, u8, s32);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern u8 D_80176460[8];
 
 /* Updates object direction and grows it to full scale after an eight-tick delay. */
@@ -21,7 +21,7 @@ void grow_object_after_delay(S_8017573C_0 *animation, s32 unused, SpriteFrameSta
     u16 scale;
 
     animation->unk_02.s = animation->unk_02.s + 1;
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
         direction_index = g_game_work.view.camera_rotation.parts.viewAngle;
         direction_index += animation->unk_04;

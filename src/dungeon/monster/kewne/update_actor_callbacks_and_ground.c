@@ -6,7 +6,7 @@
 
 typedef s32 (*ActorCallback)(void *, void *, void *, void *);
 extern void select_indirect_table_entry(void *, s32, s32);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
@@ -92,7 +92,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, void *sprite)
         apply_monster_koyaw_data(*((s32 *) (((u8 *) actor_base) + 0x1C)), ((u8 *) sprite) + 0xC);
         if (!((*((u32 *) (((u8 *) actor_base) + 0x1C))) & 0x20)) {
             if (!((*((u16 *) (((u8 *) sprite) + 0x14))) & 0x40)) {
-                func_800478B8(sprite);
+                advance_sprite_animation_and_textures(sprite);
             }
         }
         else {

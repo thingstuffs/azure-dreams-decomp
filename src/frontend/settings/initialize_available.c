@@ -10,7 +10,7 @@ typedef struct { s32 words[10]; } RecordData;
 void initialize_available(s32 value, void *data) {
     s32 *record;
 
-    record = func_8003FC64(1);
+    record = allocate_flagged_object_node(1);
     if (record != 0) {
         *(RecordData *)(record + 8) = *(RecordData *)data;
         record[4] = value;

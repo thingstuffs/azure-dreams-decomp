@@ -15,7 +15,7 @@ extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern void func_800A9A04(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void func_800AA258(void *, void *, void *, void *);
 extern s32 func_800AA6B4(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
@@ -101,7 +101,7 @@ void func_8017313C(void *controller, void *context, void *sprite, EntityRec *ent
             }
         }
 
-        update_actor_status_and_food(entity);
+        update_actor_status_and_mp(entity);
         func_800A9A04(entity);
         if (entity->tileY == 0) {
             return;

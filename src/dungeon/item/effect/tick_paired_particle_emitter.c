@@ -90,7 +90,7 @@ void tick_paired_particle_emitter(FuncArg *source) {
     height_offsets = entity_height_offsets;
     tile_data = D_800DF564;
     do {
-        effect_item = func_8003FC64(0x202);
+        effect_item = allocate_flagged_object_node(0x202);
         if (effect_item != 0) {
             effect_item->field10 = effect_def;
             effect_state = (FuncSub *)((u8 *)effect_item + 0x20);

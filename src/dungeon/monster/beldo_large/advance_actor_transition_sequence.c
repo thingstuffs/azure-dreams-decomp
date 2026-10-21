@@ -57,7 +57,7 @@ typedef struct S_8016BE20_6 {
 
 typedef struct ResetFlagWord { u16 flags; } ResetFlagWord;
 
-extern void func_800353F4(void *);
+extern void enqueue_runtime_pool_script(void *);
 extern void select_sprite_entry(void *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
@@ -181,7 +181,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
                 ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
                 global_flags = ((ResetFlagWord *)&system_update_flags)->flags;
                 ((ResetFlagWord *)&system_update_flags)->flags = global_flags | 8;
-                func_800353F4(setup_data);
+                enqueue_runtime_pool_script(setup_data);
                 ((S_8016BE20_2 *)ctx)->unk_6D = 0;
                 ((S_8016BE20_0 *)state)->unk_9B.n = 0;
 

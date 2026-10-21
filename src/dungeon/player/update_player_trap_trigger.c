@@ -22,7 +22,7 @@ extern s32 append_value_seven_suffix(u8 *dst);
 extern s32 append_typed_formatted_value(void *, s32);
 extern void copy_fullwidth_vowel_bytes(s32, s32);
 extern s32 write_status_prefix_bytes(s32);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void reveal_triggered_trap(Actor *, s32, s32, s32);
 extern s16 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);
@@ -69,7 +69,7 @@ void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 
             entry_pos = cursor;
             cursor = append_typed_formatted_value(&floor_objects[actor->h100 * 4], entry_pos);
             copy_fullwidth_vowel_bytes(patch_pos, entry_pos);
-            func_80099290(write_status_prefix_bytes(expand_text_control_codes(D_800E0B4C, write_text_byte_and_advance(10, cursor))));
+            clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(D_800E0B4C, write_text_byte_and_advance(10, cursor))));
             display_text_with_fullwidth_adjustment(buffer_start);
         }
         actor->state++;

@@ -66,7 +66,7 @@ extern u8 D_800283FC[];
 extern u8 card_save_slot_metadata;
 extern void card_boot_format_saved_slot_details(S_80011A50 *record);
 
-extern void *decode_note_text(void *entries, u8 *text, s32 initial_octave);
+extern void *decode_fullwidth_text(void *entries, u8 *text, s32 initial_octave);
 extern u8 *D_800283EC[];
 
 /* Functions defined in this translation unit. */

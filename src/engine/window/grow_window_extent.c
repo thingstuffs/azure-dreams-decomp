@@ -44,7 +44,7 @@ void display_sound_selection_and_prepare_playback(Func80035AF8State *state) {
             ((u8 *)sound_entry)[2] = ((u8 *)sound_entry)[3];
             clear_fade_manager();
             state->counter = 1;
-            state->callback = window_wait_then_play_sound;
+            state->callback = activate_delayed_window_resource;
             return;
         }
     }

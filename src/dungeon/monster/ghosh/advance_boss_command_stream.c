@@ -33,7 +33,7 @@ typedef struct S_80174320_2 {
 extern void select_sprite_entry(void *, u8, s32);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void advance_boss_actor_movement_state(void *, void *, void *, void *);
 extern void create_linked_facing_sprite(u8, u8, s16);
 extern void create_boss_offset_effect(void);
@@ -84,7 +84,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
     command = command_byte & 0xFF;
     if (command == 0) {
         ((S_80174320_1 *)obj)->unk_B2 = 0;
-        update_actor_status_and_food(obj);
+        update_actor_status_and_mp(obj);
         return 0;
     }
 
@@ -196,6 +196,6 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         }
         break;
     }
-    update_actor_status_and_food(obj);
+    update_actor_status_and_mp(obj);
     return 0;
 }

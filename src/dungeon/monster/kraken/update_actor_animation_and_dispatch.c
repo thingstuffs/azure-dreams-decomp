@@ -53,10 +53,10 @@ typedef struct EmptyArg {
 void select_sprite_entry();
 s32 check_entity_relation();
 s8 find_active_rect_containing_point();
-s32 compare_monster_neighbor_values();
+s32 test_neighbor_position_relation();
 s16 get_rounded_facing_and_rounding_flag();
 s32 can_entity_gain_level();
-void update_actor_status_and_food();
+void update_actor_status_and_mp();
 void begin_pushed_actor_move();
 s32 begin_ready_actor_directional_action();
 s32 advance_actor_pending_action();
@@ -166,7 +166,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
     ((S_801711A4_2 *)sprite)->unk_26 = room_id;
     if (status->pending_turn_updates > 0) {
         if (status->flags1C & 0x20) {
-            update_actor_status_and_food(status);
+            update_actor_status_and_mp(status);
             return;
         }
         if (((S_801711A4_2 *)sprite)->unk_24.at00u.v != *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -205,7 +205,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
                         return;
                     }
                 case 12:
-                    update_actor_status_and_food(status);
+                    update_actor_status_and_mp(status);
                     return;
                 case 1:
                 case 2:
@@ -236,7 +236,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
     if (status_flags & 0x430) {
         return;
     }
-    if ((compare_monster_neighbor_values(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
+    if ((test_neighbor_position_relation(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) == 0) {
         return;
     }

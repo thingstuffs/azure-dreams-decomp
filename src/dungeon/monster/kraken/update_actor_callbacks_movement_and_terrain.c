@@ -9,7 +9,7 @@
 
 
 void select_indirect_table_entry();
-void func_800478B8(void *entity);
+void advance_sprite_animation_and_textures(void *entity);
 void apply_monster_koyaw_data();
 s32 refresh_actor_facing_and_lifecycle();
 s32 try_move_actor_to_valid_position();
@@ -142,7 +142,7 @@ void update_actor_callbacks_movement_and_terrain(void *actor, void *motion, void
             apply_monster_koyaw_data(((S_80170B64_3 *)actor_base)->unk_1C.s, sprite_arg + 0xC);
             if (!(((S_80170B64_3 *)actor_base)->unk_1C.s & 0x20)) {
                 if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
-                    func_800478B8(sprite_arg);
+                    advance_sprite_animation_and_textures(sprite_arg);
                 }
             } else {
                 ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x7000;

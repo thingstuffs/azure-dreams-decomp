@@ -30,8 +30,8 @@ typedef struct S_800B7C14_2 {
 } S_800B7C14_2;   /* arg1 in advance_effect_fade_and_remove */
 
 
-extern void func_8003DB94(struct Dst *state, struct Elem *entries, short index);        /* extern */
-extern void func_800478B8(void *entity);                      /* extern */
+extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);        /* extern */
+extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Advance effect motion, fade its primitive, and mark it for removal when its lifetime ends. */
 void advance_effect_fade_and_remove(void *effect, void *motion, void *primitive) {
@@ -40,9 +40,9 @@ void advance_effect_fade_and_remove(void *effect, void *motion, void *primitive)
     u8 brightness;
 
     if (((Rec_D_80082E80 *)primitive)->unk_00 != 0) {
-        func_800478B8(primitive);
+        advance_sprite_animation_and_textures(primitive);
         if (((Rec_D_80082E80 *)primitive)->unk_14.at00_u16.v & 0x4000) {
-            func_8003DB94(primitive, ((S_800B7C14_1 *)effect)->unk_08, 0);
+            select_record_entry_and_value(primitive, ((S_800B7C14_1 *)effect)->unk_08, 0);
         }
     }
     ((S_800B7C14_2 *)motion)->unk_00 = (s32) (((S_800B7C14_2 *)motion)->unk_00 + ((S_800B7C14_2 *)motion)->unk_0C);

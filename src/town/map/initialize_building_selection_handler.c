@@ -24,7 +24,7 @@ void initialize_building_selection_handler(void) {
     u8 entry_index;
     s32 entry_kind;
 
-    obj = (Obj *)func_8003FC64(0);
+    obj = (Obj *)allocate_flagged_object_node(0);
     if (obj != 0) {
         entry_table = town_map_variants;
         entry_indices = town_map_variant;

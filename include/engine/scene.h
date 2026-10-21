@@ -155,16 +155,16 @@ void set_next_scene_phase(void);
 
 /* shared_slot_state.c */
 void render_cd_wait_animation_on_new_field(void);
-void func_8003CCB0(s32 blend_step);
+void draw_cd_wait_sprite_trail(s32 blend_step);
 
 /* slot_transition.c */
-void func_80041AE4(void);
+void load_scene_dispatch_resources(void);
 void render_scene_until_runtime_slot_idle(void);
 void await_scene_confirmation_and_reserve_slot(void);
 void finish_scene_when_runtime_slot_idle(void);
 
 /* slot_transition_secondary.c */
-void func_80043D04(void);
+void load_object_scene_dispatch_resources(void);
 void render_object_scene_until_slot_idle(void);
 void await_object_scene_confirmation(void);
 void finish_object_scene_when_slot_idle(void);
@@ -186,7 +186,7 @@ void *func_80047AB0(void *object, u16 texture_page, s32 clut_id, s32 alternate_p
 void *upload_image_tiles(void *object, u16 texture_page, s32 clut_id, s32 alternate_page, s32 image_addr);
 
 /* zero_words.c */
-ObjectNodeHeader *func_8003FC64(s32 flags);
+ObjectNodeHeader *allocate_flagged_object_node(s32 flags);
 
 /* Data declarations. */
 extern u16 scene_sprite_cached_mode;

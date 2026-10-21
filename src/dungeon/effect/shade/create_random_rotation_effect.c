@@ -19,7 +19,7 @@ typedef union {
 #define NULL 0
 #endif
 
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 extern s32 register_node();
 extern s32 func_800644B8();
 extern s32 func_80064584();
@@ -71,7 +71,7 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
 
     object_type = 0x212;
     offset_angle = direction;
-    effect = (uptr)func_8003FC64(object_type);
+    effect = (uptr)allocate_flagged_object_node(object_type);
     if (effect != NULL) {
 
         ((S_818C2FAC_0 *)((void *)effect))->unk_10 = D_80024710;
@@ -111,7 +111,7 @@ s32 create_random_rotation_effect(void *data_addr, Copy24 *position_addr, s32 di
             u8 *render_table;
             render_arg = (s32)render_or_radius;
             render_table = D_800DEC70;
-            func_8003DB94(render_arg, render_table, 0);
+            select_record_entry_and_value(render_arg, render_table, 0);
         }
         random_value = func_80069EF8();
         biased_random = random_value;

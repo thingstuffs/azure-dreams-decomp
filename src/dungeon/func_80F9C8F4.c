@@ -23,7 +23,7 @@ typedef struct S_801740F4_1 {
 
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes();
-extern s32 func_80099290();
+extern s32 clear_byte_and_advance();
 extern s32 append_entity_display_text();
 extern s32 has_pending_dungeon_activity();
 extern s32 display_text_with_fullwidth_adjustment();
@@ -69,7 +69,7 @@ void func_801620F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
         pass_result = raw_result;
         result = pass_result;
         raw_result = append_entity_display_text(call_arg, pass_result);
-        func_80099290(expand_text_control_codes(&D_8015E854, raw_result));
+        clear_byte_and_advance(expand_text_control_codes(&D_8015E854, raw_result));
         display_text_with_fullwidth_adjustment(result);
     }
 }

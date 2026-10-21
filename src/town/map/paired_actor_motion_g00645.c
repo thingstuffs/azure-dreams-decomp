@@ -331,9 +331,9 @@ case 0xFF:
 
     }
 
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     if (sequence != 0) {
-        func_8003DB94((struct Dst *)(sprite), (struct Elem *)(sequence), 0);
+        select_record_entry_and_value((struct Dst *)(sprite), (struct Elem *)(sequence), 0);
     }
 }
 
@@ -355,13 +355,13 @@ void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *pa
 
     case 0:
         configure_the_set_mode_n_1(object, params, D_800D20CC);
-        func_8003DB94((struct Dst *)(dispatch_context), (struct Elem *)(D_800E9E7C), 0);
+        select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(D_800E9E7C), 0);
         object->field68 = 0;
         object->field48 = D_800D2130;
         return;
 
     case 1:
-        func_8003DB94((struct Dst *)(dispatch_context), (struct Elem *)(D_800E9E7C), 0);
+        select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(D_800E9E7C), 0);
         object->field68 = 0;
         break;
     }
@@ -467,7 +467,7 @@ void randomize_paired_object_motion(void *pair_in) {
 void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, s32 actor_id) {
     u16 tick;
 
-    func_800478B8((void *)actor_id);
+    advance_sprite_animation_and_textures((void *)actor_id);
     motion->x += motion->dx;
     motion->y += motion->dy;
     motion->z += motion->dz;
@@ -476,9 +476,9 @@ void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, s32 act
     actor->counter = tick;
     if (tick == 0) {
         if (motion->dz < 0) {
-            func_8003DB94((struct Dst *)((void *)actor_id), (struct Elem *)(D_800E9E34), 0);
+            select_record_entry_and_value((struct Dst *)((void *)actor_id), (struct Elem *)(D_800E9E34), 0);
         } else {
-            func_8003DB94((struct Dst *)((void *)actor_id), (struct Elem *)(D_800E9E14), 0);
+            select_record_entry_and_value((struct Dst *)((void *)actor_id), (struct Elem *)(D_800E9E14), 0);
         }
     }
     if (motion->dx == 0) {
@@ -551,7 +551,7 @@ s32 event_tori_in(void *source) {
             render_state->scale_y = 0x1000;
             render_state->scale_x = 0x1000;
             render_state->color.word = color;
-            func_8003DB94((struct Dst *)(render_state), (struct Elem *)(&D_800E9E14), 0);
+            select_record_entry_and_value((struct Dst *)(render_state), (struct Elem *)(&D_800E9E14), 0);
         }
         x_step += 0xFFD00000;
         child_index -= 1;

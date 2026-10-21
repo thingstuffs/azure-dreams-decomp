@@ -5,7 +5,7 @@
 #include "engine/util.h"
 
 /* Initializes three-component interpolation state and its update callback. */
-void func_8004D1EC(void *state_data, u16 *target, s32 duration, u16 *values) {
+void initialize_three_component_interpolation(void *state_data, u16 *target, s32 duration, u16 *values) {
     void *state = state_data;
     s32 delta_z;
 

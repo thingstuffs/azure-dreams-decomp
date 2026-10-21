@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 
@@ -12,7 +12,7 @@ void advance_actor_status_turn_second(s32 dispatch_arg0, s32 dispatch_arg1, s32 
     if ((s8)state[0x6D] > 0) {
         previous_status = (s8)(state[0x6D] + 0);
         *(s32 *)(state + 0x60) = 0;
-        update_actor_status_and_food(state);
+        update_actor_status_and_mp(state);
         if (previous_status != 0 && *(s8 *)(state + 0x6D) == 0) {
             state[0x28]--;
         }

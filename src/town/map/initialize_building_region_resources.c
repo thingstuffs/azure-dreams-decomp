@@ -4,7 +4,7 @@
 
 extern s32 *initialize_shared_script_data();
 extern void **scale_coordinates_and_append_pointers();
-extern void func_8009CE34();
+extern void create_entry_builder_controller();
 extern u8 town_building_records[];
 extern u8 town_building_slot_rectangles[];
 extern u8 D_800D43F0[];
@@ -57,5 +57,5 @@ void initialize_building_region_resources(void) {
         }
         slot_counter += 1;
     } while ((u32)(u8)slot_counter < 0x21U);
-    func_8009CE34();
+    create_entry_builder_controller();
 }

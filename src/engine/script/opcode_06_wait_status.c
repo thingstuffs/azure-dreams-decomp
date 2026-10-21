@@ -19,7 +19,7 @@ s32 check_state_or_global_flags();                          /* extern */
 void handle_vm_opcode_06(S_80039A08_0 *state) {
     s32 status;
 
-    status = func_80053EF0(4);
+    status = read_sound_mode_blocking_status(4);
     if (check_state_or_global_flags(state) != 0) {
         if (status != 0) {
             state->unk_10 = 0;

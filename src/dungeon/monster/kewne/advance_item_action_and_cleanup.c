@@ -18,7 +18,7 @@ extern u16 D_80175F6E;
 extern s32 Control_CD();
 extern s32 get_cd_command_queue_depth();
 extern s32 sound_set_cd_cue_parameters();
-extern s32 func_800445E0();
+extern s32 read_stream_cue_start_offset();
 extern s32 select_sprite_entry();
 extern void *scan_monster_along_heading();
 extern s32 set_record_integer_tile_center();
@@ -217,7 +217,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void 
     sound_set_cd_cue_parameters(0, cd_cue_base[0],
                   ((s32 *)(((audio_index << 17) >> 14) + audio_base))[0],
                   ((s32 *)(((audio_index << 17) >> 14) + audio_base))[1]);
-    cd_param = func_800445E0();
+    cd_param = read_stream_cue_start_offset();
     Control_CD(0x15, cd_param, 0);
     ((S_80173560_0 *)action)->unk_9B.n++;
 

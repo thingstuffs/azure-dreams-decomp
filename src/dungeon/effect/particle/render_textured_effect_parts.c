@@ -12,7 +12,7 @@
 #include "shared/dir_step.h"
 #include "shared/dungeon_status.h"
 
-void (*const dungeon_183a800_entry)(void *, void *, void *) = func_80024BE8;
+void (*const dungeon_183a800_entry)(void *, void *, void *) = advance_projectile_burst_and_impact;
 const PathBlock D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}}};
 
 /* Decrement the record counter, process update data, and flag depletion. */
@@ -24,7 +24,7 @@ void render_textured_effect_parts(void *record_data, void *unused, void *update_
     remaining = (s16)((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 - 1;
     update_flag[0] = 1;
     ((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 = remaining;
-    func_800478B8(update_data);
+    advance_sprite_animation_and_textures(update_data);
     if (((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 <= 0) {
         ((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 =
             (u16)(((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
@@ -35,7 +35,7 @@ void render_textured_effect_parts(void *record_data, void *unused, void *update_
 extern u8 effect_sprite_sources[9];
 
 /* Creates and initializes an object at an offset from the supplied origin. */
-void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset_x, s16 offset_y, s16 offset_z) {
+void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unused_id, s16 offset_x, s16 offset_y, s16 offset_z) {
     SpriteFrameState *asset;
     D8181A8C0Object *object;
     s32 asset_param;
@@ -43,7 +43,7 @@ void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset
     D8181A8C0Header *header;
     D8181A8C0Vector *position;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         header = (D8181A8C0Header *)((u8 *)object + 0x20);
         header->f2 = 1;
@@ -71,7 +71,7 @@ void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset
         asset->color.c.r = 0x80;
         asset->clut = 0x7DCF;
         asset->flags = (u16) (asset->flags | 0x100);
-        func_8003DB94(asset, effect_sprite_sources, setup_mode);
+        select_record_entry_and_value(asset, effect_sprite_sources, setup_mode);
     }
 }
 
@@ -80,7 +80,7 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Retail 8181A9EC (func_800241EC): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
-s32 func_800241EC(PointRecord *first_point, ObjectPosition *first_position)
+s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
     ObjectPosition *position = first_position;
@@ -182,13 +182,13 @@ void create_radial_height_offset_effect(MotionState *state, s32 *sum, UpdateFlag
 
     switch (state->mode) {
     case 0:
-        func_800478B8(flags);
+        advance_sprite_animation_and_textures(flags);
         break;
     case 1:
         if (state->period > 0) {
             update_count = 0;
             do {
-                func_800478B8(flags);
+                advance_sprite_animation_and_textures(flags);
                 update_count = update_count + 1;
                 more_updates = update_count < state->period;
             } while (more_updates);
@@ -198,7 +198,7 @@ void create_radial_height_offset_effect(MotionState *state, s32 *sum, UpdateFlag
         next_tick = state->tick + 1;
         state->tick = next_tick;
         if ((s16) next_tick >= state->period) {
-            func_800478B8(flags);
+            advance_sprite_animation_and_textures(flags);
             state->tick = 0;
         }
         break;
@@ -219,7 +219,7 @@ void create_radial_height_offset_effect(MotionState *state, s32 *sum, UpdateFlag
 extern s32 rand(void);
 
 /* Applies randomized movement and reduces speed, setting flags when speed runs out. */
-void func_80024604(void *object_data, s16 *position)
+void advance_scattered_directional_particle(void *object_data, s16 *position)
 {
     s16 *object = object_data;
     s16 speed;
@@ -271,7 +271,7 @@ void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
-        spawned->unk_10 = (void *)func_80024604;
+        spawned->unk_10 = (void *)advance_scattered_directional_particle;
         jitter_x = rand() & 0x1F;
         position_x = ((ObjectPosition *)source_obj->unk_08)->x.w.i;
         dest_x = spawned->unk_08;
@@ -299,13 +299,13 @@ void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 fie
         dest_z->z.w.i = position_z;
         fields->unk_14 = field_34;
         fields->brightness = saved_field_52;
-        register_node(spawned, (s32)(s32)func_800241EC);
+        register_node(spawned, (s32)(s32)draw_shaded_point_chain);
         fields->color = saved_field_28;
     }
 }
 
 /* Advances the object cycle and position, flagging expiry or a flagged source. */
-void func_80024878(void *object, S_8181B078_1 *position, S_8181B078_2 *source)
+void cycle_moving_effect_phase(void *object, S_8181B078_1 *position, S_8181B078_2 *source)
 {
     s32 one;
     s16 phase;
@@ -357,12 +357,12 @@ void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offs
     void *effect;
     S_8181B1A0_3 *position;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         state = effect + 0x20;
         state->unk_02 = effect_value;
         state->unk_60 = (s32) ((rand() & 0x1FFFF) + 0x10000);
-        ((S_8181B1A0_1 *)effect)->unk_10 = &func_80024878;
+        ((S_8181B1A0_1 *)effect)->unk_10 = &cycle_moving_effect_phase;
         register_node(effect, (s32)project_sprite_chain);
         render = ((S_8181B1A0_1 *)effect)->unk_0C;
         render->unk_14 = (u16) (render->unk_14 | 0xC);
@@ -382,7 +382,7 @@ void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offs
 }
 
 /* Advances the timer, ramps target values, and flags completion on timeout or target status. */
-void func_80024B14(void *state_data, s32 unused, void *target) {
+void grow_timed_sprite_effect(void *state_data, s32 unused, void *target) {
     u16 timer;
     u8 *state = state_data;
 
@@ -406,7 +406,7 @@ void func_80024B14(void *state_data, s32 unused, void *target) {
 
 extern s32 get_sprite_attachment_vector(s32, void *, s16 *, s32);
 extern s32 func_8003DF74(s32, void *, s16 *, s32);
-extern void func_800419EC(s32, s32, void *);
+extern void initialize_timed_motion_step(s32, s32, void *);
 extern void unlink_node(void *);
 extern void func_80044A50(void *);
 extern s32 func_80069EF8(void);
@@ -421,7 +421,7 @@ extern u8 effect_sprite_sources[];
 extern u8 D_800DE9D0[];
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
-void func_80024BE8(void *effect, void *motion, void *sprite) {
+void advance_projectile_burst_and_impact(void *effect, void *motion, void *sprite) {
     s16 offset[3];
     PathBlock velocity_table;
     void *source;
@@ -460,7 +460,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
         ((S_80024BE8_2 *)sprite)->unk_12 = 0x7DCF;
         ((S_80024BE8_2 *)sprite)->unk_14 |= 0x100;
         ((S_80024BE8_0 *)effect)->unk_84 = 0;
-        func_8003DB94(sprite, effect_sprite_sources, 2);
+        select_record_entry_and_value(sprite, effect_sprite_sources, 2);
         source_flags = ((S_80024BE8_3 *)source)->unk_2A;
         D_80025914 = 1;
         ((S_80024BE8_0 *)effect)->unk_7E.s = (source_flags >> 9) & 7;
@@ -595,12 +595,12 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
                 ((S_80024BE8_10 *)target_graphics)->unk_0C = random_intensity;
                 ((S_80024BE8_10 *)target_graphics)->unk_0D = random_intensity;
                 ((S_80024BE8_10 *)target_graphics)->unk_0E = random_intensity;
-                func_800419EC(color_mode, 8, target_graphics);
+                initialize_timed_motion_step(color_mode, 8, target_graphics);
                 play_sound_if_enabled(0x300);
 
-                impact = func_8003FC64(0x212);
+                impact = allocate_flagged_object_node(0x212);
                 if (impact != 0) {
-                    ((S_80024BE8_11 *)impact)->unk_10 = func_80024B14;
+                    ((S_80024BE8_11 *)impact)->unk_10 = grow_timed_sprite_effect;
                     register_node(impact, (s32)draw_linked_sprites_clipped);
                     impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
                     ((S_80024BE8_12 *)(void *)impact_sprite)->unk_10 = 0;
@@ -645,7 +645,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+            create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
                 (s16)((func_80069EF8() & 0xF) - 8));
             impact_position = func_80069EF8() & 0xF;
             impact_position -= 8;
@@ -655,7 +655,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+            create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
                 (s16)((func_80069EF8() & 0xF) - 8));
             impact_position = func_80069EF8() & 0xF;
             impact_position -= 8;
@@ -665,7 +665,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+            create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
                 (s16)((func_80069EF8() & 0xF) - 8));
             impact_position = func_80069EF8() & 0xF;
             impact_position -= 8;
@@ -675,7 +675,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+            create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
                 (s16)((func_80069EF8() & 0xF) - 8));
             impact_position = func_80069EF8() & 0xF;
             impact_position -= 8;
@@ -685,7 +685,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+            create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
                 (s16)((func_80069EF8() & 0xF) - 8));
             impact_position = func_80069EF8() & 0xF;
             impact_position -= 8;
@@ -695,7 +695,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
             impact_sprite -= 8;
             impact_sprite <<= 16;
             impact_sprite >>= 16;
-            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+            create_offset_paletted_sprite(effect, motion, sprite, impact_position, impact_sprite,
                 (s16)((func_80069EF8() & 0xF) - 8));
             break;
         }
@@ -752,7 +752,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
 
         particle_kind = 0x212;
         side = ((S_80024BE8_0 *)effect)->unk_86.u & 3;
-        impact = func_8003FC64(particle_kind);
+        impact = allocate_flagged_object_node(particle_kind);
         if (impact != 0) {
             ((S_80024BE8_15 *)impact)->unk_22 = 0x1E;
             ((S_80024BE8_15 *)impact)->unk_10 = create_radial_height_offset_effect;
@@ -811,7 +811,7 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
                 ((S_80024BE8_18 *)scaled_sprite)->unk_0D = 0x80;
                 ((S_80024BE8_18 *)scaled_sprite)->unk_0C = 0x80;
                 ((S_80024BE8_18 *)scaled_sprite)->unk_1E = scale * 0xCC;
-                func_8003DB94(scaled_sprite, animation, animation_mode);
+                select_record_entry_and_value(scaled_sprite, animation, animation_mode);
             }
         }
 
@@ -907,11 +907,11 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
     {
         u16 animation_tick;
 
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         animation_tick = ((S_80024BE8_0 *)effect)->unk_84;
         ((S_80024BE8_0 *)effect)->unk_84 = animation_tick + 1;
         if ((s16)animation_tick >= 5) {
-            func_8003DB94(sprite, effect_sprite_sources, 2);
+            select_record_entry_and_value(sprite, effect_sprite_sources, 2);
             ((S_80024BE8_0 *)effect)->unk_84 = 0;
         }
     }

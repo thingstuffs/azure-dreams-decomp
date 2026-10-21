@@ -35,7 +35,7 @@ void spawn_effect_object_with_packet(void *caller_data)
     void *setup;
     s32 *packet;
 
-    obj = func_8003FC64(0x136);
+    obj = allocate_flagged_object_node(0x136);
     if (obj != NULL) {
         register_node(obj, D_80046398);
         ((S_800BF654_0 *)obj)->unk_10 = D_800BF4CC;

@@ -40,7 +40,7 @@ typedef struct S_80921B2C_6 {
 } S_80921B2C_6;
 
 /* Creates an effect at an offset position with direction-based motion and sprite settings. */
-void func_80921B2C(S_80921B2C_3 *position, s16 x_offset, s16 y_offset, s16 z_offset) {
+void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, s16 y_offset, s16 z_offset) {
     u8 direction_table[32];
     u8 *direction_source;
     s32 effect_type;
@@ -55,7 +55,7 @@ void func_80921B2C(S_80921B2C_3 *position, s16 x_offset, s16 y_offset, s16 z_off
     effect_type = 0x212;
     global_state = ((u8 *)(&scene_object_list_anchor));
     direction_state = global_state + 0x20;
-    effect = func_8003FC64(effect_type);
+    effect = allocate_flagged_object_node(effect_type);
     if (effect != 0) {
         u8 *directions = direction_table;
 
@@ -87,6 +87,6 @@ void func_80921B2C(S_80921B2C_3 *position, s16 x_offset, s16 y_offset, s16 z_off
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        func_8003DB94(sprite, D_800DEC70, 0);
+        select_record_entry_and_value(sprite, D_800DEC70, 0);
     }
 }

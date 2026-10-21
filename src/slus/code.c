@@ -56,7 +56,7 @@ struct Dst {
 };
 
 /* Select an entry and reset the state's entry flags and value. */
-void func_8003DB94(struct Dst *state, struct Elem *entries, short index) {
+void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index) {
     state->f0 = entries + index;
     state->f4 = index;
     state->f5 = entries->b0;
@@ -189,13 +189,13 @@ short get_bounded_stride_index(unsigned int value, unsigned int base, unsigned s
     return (short)index;
 }
 
-extern void func_800423C0(void *a0, short a1);
+extern void apply_actor_template_and_direction(void *a0, short a1);
 extern void update_owner_class_bits(void *a0);
 
 /* Configure an entity with a signed halfword value and update its status. */
-void func_800424E0(void *entity, int value)
+void apply_actor_template_and_class(void *entity, int value)
 {
-    func_800423C0(entity, (short)value);
+    apply_actor_template_and_direction(entity, (short)value);
     update_owner_class_bits(entity);
 }
 
@@ -218,7 +218,7 @@ void set_cd_cue_and_submit_sound_command(int first, int second, int third, int f
 extern int *read_sound_stream_cue_pointer(void);
 
 /* Combine the status block's low 24-bit tick value with its base adjustment. */
-int func_800445E0(void)
+int read_stream_cue_start_offset(void)
 {
     int *status = read_sound_stream_cue_pointer();
     int ticks = status[2] & 0xFFFFFF;
@@ -268,7 +268,7 @@ extern void advance_actor_step_sequence(void *actor);
 extern void upload_entry_textures(void *entry_state);
 
 /* Run both update steps on an entity. */
-void func_800478B8(void *entity)
+void advance_sprite_animation_and_textures(void *entity)
 {
     advance_actor_step_sequence(entity);
     upload_entry_textures(entity);
@@ -486,7 +486,7 @@ int get_enabled_record_flag_priority(Struct80049984 *record)
 }
 
 /* Set the pointed-to flag and return one. */
-int func_800499DC(int *flag)
+int set_flag_and_return_success(int *flag)
 {
     *flag = 1;
     return 1;
@@ -667,7 +667,7 @@ struct S8004CBFC_a0 {
 };
 
 /* Initialize entry state, compute its rate, and optionally copy its value to the cursor. */
-void func_8004CBFC(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor) {
+void initialize_scaled_entry_cursor(struct S8004CBFC_a0 *state, struct S8004CBFC_a1 *entry, int *cursor) {
     state->f8 = entry;
     state->f0 = entry->f0 / animation_tick_scale;
     state->f4 = cursor;
@@ -754,22 +754,22 @@ void format_reversed_decimal_space_padded(int value, unsigned short width, char 
 void func_8004E994(void) {
 }
 
-extern void func_8004B1A4(void *a0);
+extern void flag_object_for_removal(void *a0);
 
 /* Update the object when its pointer is non-NULL. */
-void func_8004E99C(void *object)
+void flag_optional_object_for_removal(void *object)
 {
     if (object != 0) {
-        func_8004B1A4(object);
+        flag_object_for_removal(object);
     }
 }
 
-extern void func_8004B1A4(void *object);
+extern void flag_object_for_removal(void *object);
 
 /* Update the object when its pointer is non-NULL. */
 void func_8004E9C0(void *object) {
     if (object != 0) {
-        func_8004B1A4(object);
+        flag_object_for_removal(object);
     }
 }
 
@@ -874,7 +874,7 @@ typedef struct {
 extern s32 func_80021448(void *embedded_record);
 
 /* Store the query result for the object's embedded record. */
-void func_8004FC68(Struct_8004FC68 *object) {
+void initialize_menu_record_value(Struct_8004FC68 *object) {
     object->unk24 = func_80021448(&object->unk10);
 }
 
@@ -941,7 +941,7 @@ extern void run_deferred_callbacks(void *a0);
 extern unsigned char town_movie_callback_list[16];
 
 /* Process the global buffer D_800717D0. */
-void func_80050F84(void)
+void run_town_movie_callbacks(void)
 {
     run_deferred_callbacks(&town_movie_callback_list);
 }
@@ -951,7 +951,7 @@ extern void run_deferred_callbacks(void *a0);
 extern char town_transition_callback_list[12];
 
 /* Process the global buffer D_800717E8. */
-void func_80050FA8(void)
+void run_town_transition_callbacks(void)
 {
     run_deferred_callbacks(town_transition_callback_list);
 }
@@ -960,7 +960,7 @@ extern char direct_load_resource_descriptor;
 extern void file_load_com(void *arg);
 
 /* Load the fixed global record D_80080C1C. */
-void func_80051500(void)
+void load_direct_resource_descriptor(void)
 {
     file_load_com(&direct_load_resource_descriptor);
 }
@@ -1271,7 +1271,7 @@ void enable_available_spu_reverb(void) {
     set_spu_reverb_enabled_if_available(1);
 }
 
-extern int func_8005DA88(void *arg);
+extern int configure_spu_reverb(void *arg);
 
 struct Msg8005B3D8 {
     int type;   /* 0x00 */
@@ -1294,13 +1294,13 @@ int submit_shifted_stereo_sound_parameters(short x, short y) {
     scaled_y = scaled_y << 8;
     msg.x = scaled_x;
     msg.y = scaled_y;
-    return func_8005DA88(&msg);
+    return configure_spu_reverb(&msg);
 }
 
 extern int D_80085FCC[4];
 
 /* Return the first word of the global state. */
-int func_8005C808(void) {
+int read_sequence_tempo_step(void) {
     return D_80085FCC[0];
 }
 
@@ -1449,15 +1449,15 @@ void read_spu_register_pair_cc_cd(void)
     read_spu_register_pair(0xCC, 0xCD);
 }
 
-extern void func_8005F134(void *a0);
-extern void func_8005E97C(int a0, int a1);
+extern void apply_spu_voice_attributes(void *a0);
+extern void set_spu_voice_keys(int a0, int a1);
 
 /* Update an object and pass its first word to the mode-one handler. */
 void apply_voice_attributes_and_key_on(void *object)
 {
     void *current = object;
 
-    func_8005F134(object);
-    func_8005E97C(1, *(int *)current);
+    apply_spu_voice_attributes(object);
+    set_spu_voice_keys(1, *(int *)current);
 }
 

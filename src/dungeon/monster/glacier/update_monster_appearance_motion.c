@@ -37,7 +37,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern s32 get_entity_effect_value();
 extern void select_indirect_table_entry();
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 extern void apply_monster_koyaw_data();
 extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
@@ -163,7 +163,7 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
 
         if (!(actor->unk_1C & 0x20)) {
             if (!(((S_8017103C_0 *)monster)->unk_14 & 0x40)) {
-                func_800478B8(monster);
+                advance_sprite_animation_and_textures(monster);
             }
         } else {
             ((S_8017103C_0 *)monster)->unk_14 |= 0x7000;

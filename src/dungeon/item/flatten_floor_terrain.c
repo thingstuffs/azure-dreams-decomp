@@ -12,7 +12,7 @@ extern s32 process_record_and_update_linked_state();
 extern s32 begin_mode_selected_item_action();
 extern s32 display_actor_item_status_message();
 extern s32 feed_actor_restore_mp();
-extern s32 apply_item_effect_at_entity_position();
+extern s32 place_actor_item();
 extern s32 create_type_212_object();
 extern s32 play_sound_if_enabled();
 extern s32 refresh_packed_grid_nibbles();
@@ -63,7 +63,7 @@ s32 flatten_floor_terrain(void *target, s32 effect_arg, s16 effect_id, s32 conte
     if ((u32) target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, effect_arg, effect_code);
         if (feed_actor_restore_mp(target, U16(((u8 *)entity_action_selectors), U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
-            apply_item_effect_at_entity_position(target, effect_arg);
+            place_actor_item(target, effect_arg);
             return 1;
         }
     } else if (dungeon_floor_flags & 0x20000000) {

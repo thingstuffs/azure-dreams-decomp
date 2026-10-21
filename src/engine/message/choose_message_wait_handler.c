@@ -15,7 +15,7 @@ typedef struct S_80038288_0 {
 void choose_message_wait_handler(S_80038288_0 *context) {
     s32 *next_handler;
 
-    if (func_80053EF0(4) != 0x100) {
+    if (read_sound_mode_blocking_status(4) != 0x100) {
         if (play_message_confirmation_sound(*context->unk_1C) != 0) {
             next_handler = &finish_message_when_idle;
         } else {

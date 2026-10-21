@@ -13,7 +13,7 @@ typedef struct Func8094D708Object {
 extern void process_value_pairs(s32, s16);
 
 /* Invokes the object's callbacks in order and returns the index of the first to return zero. */
-s32 func_808B1704(Func8094D708Object *object)
+s32 process_pairs_and_find_callback(Func8094D708Object *object)
 {
     s32 callbackIndex = 0;
     u8 *callbackAddress;

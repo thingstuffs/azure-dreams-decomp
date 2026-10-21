@@ -98,7 +98,7 @@ void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, E
 
     state->spawn_count++;
     for (object_index = 0; object_index < 4; object_index++) {
-        object = (EffectObject *)func_8003FC64(0x12);
+        object = (EffectObject *)allocate_flagged_object_node(0x12);
         if (object != 0) {
             effect_data = object->sub;
             *(s16 *)(effect_data + 0x1A) = 1;

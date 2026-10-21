@@ -16,13 +16,13 @@ typedef struct S_800DA014_0 {
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
-extern void func_8003DB94(void *, s32, s32);
+extern void select_record_entry_and_value(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value(void);
 extern void on_actor_status_updated(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -46,7 +46,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
 
             direction_table = actor_action_frames;
             ((SpriteFrameState *)sprite)->frameTable = direction_table;
-            func_8003DB94(sprite,
+            select_record_entry_and_value(sprite,
                 *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
             system_base = &g_dungeon_status;
@@ -104,7 +104,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             }
         }
 
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
 
         if ((get_entity_effect_value(actor, 1) << 16) != 0) {
@@ -126,7 +126,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
 
             direction_table = actor_action_frames;
             ((SpriteFrameState *)sprite)->frameTable = direction_table;
-            func_8003DB94(sprite,
+            select_record_entry_and_value(sprite,
                 *(void **)(direction_table + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 7) & 28)),
                 0);
         } else {

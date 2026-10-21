@@ -37,7 +37,7 @@ typedef struct S_800422DC_Self S_800422DC_Self;
 void build_entity_slot_snapshot(S_800422DC_Self *snapshot, S_800422DC_Other *source);            /* extern */
 typedef struct S_800423C0_Src S_800423C0_Src;
 typedef struct S_800423C0_Obj S_800423C0_Obj;
-void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);      /* extern */
+void apply_actor_template_and_direction(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source);      /* extern */
 void func_80042640(void *obj, s16 monsterId);               /* extern */
 void *memset(); /* extern */
 void set_object_state_for_mode(void *, void *, s32, s32);    /* extern */
@@ -81,7 +81,7 @@ void initialize_the_town_entity_synchronize_slot_state(Rec_func_80094268_arg0 *e
     memset(&town_actor_scratch, 0, 0x54);
     func_80042640(&town_actor_scratch, entity->unk_4C);
     record_index = slot_index;
-    func_800423C0(&town_actor_scratch, entity->unk_4C, 0);
+    apply_actor_template_and_direction(&town_actor_scratch, entity->unk_4C, 0);
     build_entity_slot_snapshot(&town_slot_snapshot, &town_actor_scratch);
     *(struct TownCopy84 *)((u8 *)0x80010A80 + (record_index * 0x54)) = town_slot_snapshot;
     stored_entry = (void *) 0x80010AB4;

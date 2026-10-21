@@ -87,7 +87,7 @@ typedef struct S_80F90E88_7 {
 #define setaddr(t, a) ((t) = ((t) & 0xFF000000) | ((a) & address_mask))
 
 /* Draws paired gradient quads from the projected bounds of each linked object. */
-s32 func_80F90E88(void *object) {
+s32 draw_linked_gradient_quads(void *object) {
     WorkCell work[2];
     TransformRec transform_rec;
     void *transform;

@@ -17,7 +17,7 @@ extern s32 service_script_controller(void);
 extern void call_script(void *reset_value);
 
 /* Processes input data, clearing the last five entries when D_8006B230 needs initialization. */
-s32 func_800353F4(void *input_data) {
+s32 enqueue_runtime_pool_script(void *input_data) {
     s32 entry_index;
 
     if (service_script_controller() == 0 || runtime_script_handler_alias[0] != runtime_pool_service_script) {

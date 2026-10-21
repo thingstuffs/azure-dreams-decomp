@@ -43,11 +43,11 @@ typedef struct {
     u16 z;
 } Vec3u16;
 
-M2C_UNK func_8003DB94();  /* extern */
+M2C_UNK select_record_entry_and_value();  /* extern */
 s32 resolve_record_orientation_or_fallback(void *, void *, Vec3u16 *, s32);     /* extern */
 s32 register_node();           /* extern */
 void select_indirect_table_entry();              /* extern */
-M2C_UNK func_800478B8();                      /* extern */
+M2C_UNK advance_sprite_animation_and_textures();                      /* extern */
 extern s32 D_800D586C[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */
@@ -69,11 +69,11 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
         }
         ((S_800D58D8_0 *)state)->unk_94 = facing;
     }
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     ticks_left = ((S_800D58D8_0 *)state)->unk_96 - 1;
     ((S_800D58D8_0 *)state)->unk_96 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        effect = func_8003FC64(0x12);
+        effect = allocate_flagged_object_node(0x12);
         if (effect != NULL) {
             register_node(effect, project_sprite_chain);
             effect_render = ((S_800D58D8_2 *)effect)->unk_0C;
@@ -97,7 +97,7 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
                 effect_pos->unk_06 = (u16) (effect_pos->unk_06 + delta.y);
                 effect_pos->unk_0A = (u16) (effect_pos->unk_0A + delta.z);
             }
-            func_8003DB94(((S_800D58D8_2 *)effect)->unk_0C, effect_sprite_sources, 0);
+            select_record_entry_and_value(((S_800D58D8_2 *)effect)->unk_0C, effect_sprite_sources, 0);
         }
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800D58D8_0_pre *)state)[-1].unk_12 | 0x8000);
         object_flag_block.flags |= 0x8000;

@@ -45,7 +45,7 @@ void render_object_scene_frame(void)
     PutDispEnv(((u8 *) D_80083160[0]) + 0x5C);
     PutDrawEnv(D_80083160[0]);
     DrawOTag(&D_80083160[0]->ot[8]);
-    func_8003E758();
+    service_cd_command_queue();
     drain_audio_commands_and_service_channels();
     saved_value = gpu_scratch_buffer_base.field_0;
     *(s32 *)0x80081480 = saved_value;

@@ -62,7 +62,7 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
     s32 direction_fixed;
     s32 parent;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     saved_mode = effect_mode;
     if (object != NULL) {
         callback = D_800C4F20;

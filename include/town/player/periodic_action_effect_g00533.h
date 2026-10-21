@@ -21,7 +21,7 @@ typedef struct S_800917EC_2 {
 s32 scale_random_to_unsigned_halfword_limit();
 void func_80094048(s32 **record, void *ptr, void *ptr2);
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
-void trigger_event_hex_519_interval_multiples_enabled();
+void play_periodic_sound();
 void store_the_valid_shared_angle_in_offset_hex_10();
 void call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58();
 void move_the_actor_perpendicular_selected_direction_unless_step_changes_sides();

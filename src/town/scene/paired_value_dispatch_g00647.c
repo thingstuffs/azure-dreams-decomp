@@ -8,7 +8,7 @@ s32 run_setup_and_get_object_handler(s32 context, s32 value, s32 options) {
     S_800C0C48_0 *object;
 
     process_paired_arrays_until_terminator();
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != NULL) {
         object->unk_10 = &D_800C0C28;
     }

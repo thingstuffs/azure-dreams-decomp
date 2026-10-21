@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 
 extern s32 func_80064584(s32);
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Update the derived angle and offset, then propagate status flags. */
 void update_derived_angle_and_offset(void *angle_source, void *offset_state, void *angle_state)
@@ -11,7 +11,7 @@ void update_derived_angle_and_offset(void *angle_source, void *offset_state, voi
     *(s16 *)((u8 *)angle_state + 0x1A) =
         (s16)((s32)(-((func_80064584(*(s16 *)((u8 *)angle_source + 8) - g_game_work.view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8);
     *(u16 *)((u8 *)offset_state + 0xA) = *(u16 *)((u8 *)offset_state + 0xA) - 8;
-    func_800478B8(angle_state);
+    advance_sprite_animation_and_textures(angle_state);
     if (*(u16 *)((u8 *)angle_state + 0x14) & 0x6000) {
         *(u16 *)((u8 *)angle_source - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;

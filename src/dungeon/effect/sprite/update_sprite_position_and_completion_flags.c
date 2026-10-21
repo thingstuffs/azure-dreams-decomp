@@ -1,12 +1,12 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Adjust the position, update the object, and propagate its status to state and global flags. */
-void func_809218AC(s16 *state, s32 *position, u16 *object) {
+void lower_sprite_until_animation_finishes(s16 *state, s32 *position, u16 *object) {
     *(s32 *)((u8 *)position + 8) += 0xFFFE8000;
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     if (*(u16 *)((u8 *)object + 0x14) & 0x6000) {
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;

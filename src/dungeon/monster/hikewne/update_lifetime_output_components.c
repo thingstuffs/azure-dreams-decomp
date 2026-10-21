@@ -21,7 +21,7 @@ void update_lifetime_output_components(void *record_data, void *unused, SpriteFr
     output->color.c.b = (s8) fade_level;
     output->color.c.g = (s8) fade_level;
     output->color.c.r = (s8) fade_level;
-    func_800478B8(output);
+    advance_sprite_animation_and_textures(output);
     ticks_left = (u16) ((S_8016A8E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
     ((S_8016A8E8_0 *)((u8 *)record_data - 0x2))->unk_98 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

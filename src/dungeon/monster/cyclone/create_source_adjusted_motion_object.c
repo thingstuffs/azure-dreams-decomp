@@ -81,7 +81,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
         (axis_step * actor->unk_B2 * 0x40) +
         (axis_step * 0x20);
 
-    object = func_8003FC64(0x312);
+    object = allocate_flagged_object_node(0x312);
     if (object != 0) {
         (*(void * *)((u8 *)object + 0x10)) = &D_80175978;
         register_node(object, project_sprite_chain);

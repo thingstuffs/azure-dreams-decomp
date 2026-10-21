@@ -46,7 +46,7 @@ struct S_80083178__jr {
     /* 0xD8 */ void *ptr;
 };                                                  /* size = 0xDC */
 
-void func_8003DB94();  /* extern */
+void select_record_entry_and_value();  /* extern */
 s32 register_node();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
@@ -67,7 +67,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
     S_800B7D74_2 *effect_data;
     void *effect;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect == NULL) {
         return;
     }
@@ -85,7 +85,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         motion->unk_10.at02.v = (s16) ((rand() & 0x1F) - 0x10);
         motion->unk_16 = (s16) (-8 - (rand() & 0x1F));
         effect_data->unk_08 = &D_8006E5D4;
-        func_8003DB94(sprite, &D_8006E5D4, 0);
+        select_record_entry_and_value(sprite, &D_8006E5D4, 0);
         break;
     case 1:
         sprite->source = &D_8006E24C;
@@ -103,7 +103,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         break;
     case 3:
         effect_data->unk_08 = &D_8006E51C;
-        func_8003DB94(sprite, &D_8006E51C, 0);
+        select_record_entry_and_value(sprite, &D_8006E51C, 0);
         motion->unk_0C.at00.v = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle) << 7);
         velocity_y = func_800644B8(game_state->camera_rotation.parts.viewAngle) << 7;
         motion->unk_10.at00.v = velocity_y;
@@ -111,7 +111,7 @@ void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u3
         break;
     case 4:
         effect_data->unk_08 = &D_8006E57C;
-        func_8003DB94(sprite, &D_8006E57C, 0);
+        select_record_entry_and_value(sprite, &D_8006E57C, 0);
         motion->unk_0C.at00.v = (s32) ((0 - func_80064584(game_state->camera_rotation.parts.viewAngle)) << 7);
         velocity_y = (0 - func_800644B8(game_state->camera_rotation.parts.viewAngle)) << 7;
         motion->unk_10.at00.v = velocity_y;

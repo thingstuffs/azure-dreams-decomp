@@ -31,7 +31,7 @@ typedef struct S_818C3898_3 {
 } S_818C3898_3;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void func_800478B8(void *sprite);
+extern void advance_sprite_animation_and_textures(void *sprite);
 /* Advance effect motion, color, rotation, and size, and flag lifetime expiration. */
 void update_rotating_effect_lifetime(void *effect, void *motion_data, SpriteFrameState *sprite) {
     s16 size;
@@ -53,7 +53,7 @@ void update_rotating_effect_lifetime(void *effect, void *motion_data, SpriteFram
     ((S_818C3898_0 *)effect)->unk_10 = frame;
     color_step = color_step % 7;
     color_step += 1;
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     color_index = (s16) color_step;
     sprite->angle_z = (u16) (sprite->angle_z + 0x300);
     quarter_bias = color_index;

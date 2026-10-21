@@ -71,7 +71,7 @@ void *allocate_item_object(s32 value_00, s32 value_10, s32 value_18, void *descr
     void *object;
     void *resource_cursor;
 
-    object = func_8003FC64(0);
+    object = allocate_flagged_object_node(0);
     if (object != NULL) {
         descriptor_data = descriptor;
         state = object + 0x20;

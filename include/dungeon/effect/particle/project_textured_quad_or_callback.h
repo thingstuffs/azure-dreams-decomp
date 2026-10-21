@@ -13,10 +13,10 @@ void func_80024758(void *, void *, void *, u16);
 s32 project_linked_quad_record(void *, void *, void *);
 s32 draw_chained_object_records(void *, void *, void *);
 s32 project_colored_point(u8 *, u8 *);
-void func_80025278(void *, s16 *);
+void advance_point_effect_toward_terrain(void *, s16 *);
 void update_effect_quad_and_completion(void *, void *, void *);
 void spawn_randomized_spark_burst(u8 *, void *, u8 *);
-void func_80024098(void *, s32, void *);
+void apply_random_duration_actor_status(void *, s32, void *);
 /* Signed two-byte view of the first counter; indexed reads use its address. */
 extern s16 D_80026664;
 #endif

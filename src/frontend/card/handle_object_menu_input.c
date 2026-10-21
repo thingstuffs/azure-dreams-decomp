@@ -9,7 +9,7 @@ extern void handle_object_menu_input(void);
 extern void func_80405A64(void);
 
 /* Arm the task's next callback: ready slot -> attach the sub-object, otherwise detach it. */
-void func_8001ED54(void *task)
+void select_card_slot_message(void *task)
 {
     s32 one;
     void *owner;

@@ -101,8 +101,8 @@ extern void func_80057A94(S_80084960 *e);
 extern void audio_compute_voice_stereo_volumes(S_80085458 *e, S_80084960 *rec);
 extern s32 sound_set_indexed_voice_volumes(s32 a0, u16 a1, u16 a2);
 extern void audio_reset_sequence_tracks_and_channels(void);
-extern void func_8005E97C(s32 a0, s32 a1);
-extern s32 func_8005EB78(s32 a0);
+extern void set_spu_voice_keys(s32 a0, s32 a1);
+extern s32 read_selected_voice_key_state(s32 a0);
 /* Applies a channel control change and updates affected voices. */
 void audio_apply_channel_control(u8 channel, u8 control, u32 value);
 

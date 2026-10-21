@@ -164,7 +164,7 @@ void move_vram_rect(s16 x, s16 y, s16 width, s16 height, s32 move_x, s32 move_y)
 s32 multiply_rgb_tint_saturated(u8 *color, struct S_8004C010 *tint);
 
 /* multiply_rgb_tint_saturated_second.c */
-void *func_8004B954(void *tint_a, void *tint_b, void *primitives, void *color_data, void *style, s32 *out_count, s32 shaded);
+void *build_elliptical_triangle_fan(void *tint_a, void *tint_b, void *primitives, void *color_data, void *style, s32 *out_count, s32 shaded);
 
 /* read_vram_blocks_to_buffer.c */
 void read_vram_blocks_to_buffer(void);

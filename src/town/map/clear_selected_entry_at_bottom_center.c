@@ -11,7 +11,7 @@ extern u8 town_map_selection_state[12];
 extern u8 town_building_slot_rectangles[];
 
 extern s8 town_map_variant;
-extern s32 func_80041094();
+extern s32 request_scene_state_with_parameters();
 /* Passes the selected entry's bottom-center coordinates to func_80041094 and clears the selection. */
 void clear_selected_entry_at_bottom_center(void)
 {
@@ -26,7 +26,7 @@ void clear_selected_entry_at_bottom_center(void)
     for (; entry_index > 0; entry_index--) {
         entry = entries + entry_index * 8;
         if (page[0x33A4 + entry_index * 2] == selection_state[6]) {
-            func_80041094(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20, ((entry[1] + entry[3]) << 6) | 0x20, 0,
+            request_scene_state_with_parameters(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20, ((entry[1] + entry[3]) << 6) | 0x20, 0,
                 (*((u16 *) (&shared_state[0x16]))) ^ 1);
             selection_state[6] = 0;
             return;
@@ -34,7 +34,7 @@ void clear_selected_entry_at_bottom_center(void)
     }
     fallback_entries = town_building_slot_rectangles;
     entry = fallback_entries + entry_index * 8;
-    func_80041094(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20,
+    request_scene_state_with_parameters(0xB, ((entry[0] + (entry[2] >> 1)) << 6) | 0x20,
         ((entry[1] + entry[3]) << 6) | 0x20, 0, runtime_dispatch_state.flags16 ^ 1);
     town_map_variant = 0;
 }

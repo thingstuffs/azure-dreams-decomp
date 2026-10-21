@@ -54,7 +54,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
     void *object;
     void *object_data;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = object + 0x20;
         ((S_818C370C_0 *)object)->unk_10 = &func_80024C48;
@@ -73,7 +73,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
         render_data->flags = render_data->flags | 0xC;
         render_data->tpage_abr = render_data->tpage_abr | 0x20;
         render_data->flags = render_data->flags | 0x100;
-        func_8003DB94(render_data, &D_80025AF0, 0);
+        select_record_entry_and_value(render_data, &D_80025AF0, 0);
         angle_random = func_80069EF8();
         render_data->angle_z = angle_random % 0x1000;
         scale = 0x1400 / (s16)state->unk_14;

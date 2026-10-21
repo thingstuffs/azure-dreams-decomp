@@ -22,7 +22,7 @@ typedef struct S_818C2F10_2 {
     s32 unk_08;
 } S_818C2F10_2;   /* arg1 in update_vertical_drift_effect */
 
-extern void func_800478B8(void *entity);                      /* extern */
+extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Increment linked counters, reduce the stored value, and propagate status flags. */
 void update_vertical_drift_effect(void *entry, S_818C2F10_2 *value_state, SpriteFrameState *status) {
@@ -32,7 +32,7 @@ void update_vertical_drift_effect(void *entry, S_818C2F10_2 *value_state, Sprite
     linked_counts->unk_0C = (u16) (linked_counts->unk_0C + 1);
     ((S_818C2F10_0 *)entry)->unk_04 = (u16) (((S_818C2F10_0 *)entry)->unk_04 + 1);
     value_state->unk_08 = (s32) (value_state->unk_08 + 0xFFF60000);
-    func_800478B8(status);
+    advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((S_818C2F10_0_pre *)entry)[-1].unk_00 = (u16) (((S_818C2F10_0_pre *)entry)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);

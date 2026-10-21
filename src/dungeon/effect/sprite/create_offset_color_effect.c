@@ -42,7 +42,7 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
     void *obj;
     SpriteFrameState *scale_state;
 
-    obj = func_8003FC64(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         ((S_818BCFB0_0 *)obj)->unk_10 = D_80024088;
         register_node(obj, D_800241CC);

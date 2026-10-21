@@ -82,7 +82,7 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
     owner = *((void **) (((s8 *) motion) + 0));
     *((u16 *) (((s8 *) owner) + 0x14)) = (u16) ((*((u16 *) (((s8 *) owner) + 0x14))) + 1);
     *((u16 *) (((s8 *) motion) + 4)) = (u16) ((*((u16 *) (((s8 *) motion) + 4))) + 1);
-    func_800478B8(update_context);
+    advance_sprite_animation_and_textures(update_context);
     *((s32 *) (((s8 *) position) + 0)) = (s32) ((*((s32 *) (((s8 *) position) + 0)))
         + ((func_80064584(*((s16 *) (((s8 *) motion) + 0xA))) >> 4) * (((*((s16 *) (((s8 *) motion) + 8)))
         - ((s16) (*((u16 *) (((s8 *) motion) + 4))))) << 8)));
@@ -109,7 +109,7 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
     Row_81916AEC_Copy6 *object_data;
     void *result;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = (u8 *)object + 0x20;
         ((Row_81916AEC_S_800242EC_0 *)object)->unk_10 = &D_800241E4;
@@ -126,7 +126,7 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
         visual->flags |= 0xC;
         visual->tpage_abr |= 0x20;
         visual->flags |= 0x100;
-        func_8003DB94(visual, &D_800DEC70, 0);
+        select_record_entry_and_value(visual, &D_800DEC70, 0);
         visual->scale_y = 0x1000;
         visual->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
@@ -175,7 +175,7 @@ void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg819
 void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
     Row_81916D2C_S_8002452C_0 *object;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = &D_8002441C;
         ((SpriteFrameState *)((Row_81916D2C_S_8002452C_1 *)object)->unk_0C)->unk_05 = 4;
@@ -190,7 +190,7 @@ void update_the_target_records_counts_flags_status(void *object_slot, void *unus
 
     pre_object = *(void **)object_slot;
     *(u16 *)((u8 *)pre_object + 0x14) += 1;
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         u16 object_count;
         u16 slot_flags;
@@ -224,7 +224,7 @@ void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, 
         render_state->flags = (u16) (render_state->flags | 0xC);
         render_state->tpage_abr = (u16) (render_state->tpage_abr | 0x60);
         render_state->flags = (u16) (render_state->flags | 0x100);
-        func_8003DB94(render_state, &D_800DEC50, 0);
+        select_record_entry_and_value(render_state, &D_800DEC50, 0);
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
@@ -350,7 +350,7 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
         node_index += 1;
         node_slot += 1;
     } while (node_index < 3);
-    func_8003DB94(visual, D_800DEDB0, 0);
+    select_record_entry_and_value(visual, D_800DEDB0, 0);
     visual->color.c.b = 0xC0;
     visual->color.c.g = 0xC0;
     visual->color.c.r = 0xC0;
@@ -445,8 +445,8 @@ void advance_radial_effect_state(void *motion, void *position, void *effect) {
         size = ((SpriteFrameState *)effect)->scale_y + 0x400;
         ((SpriteFrameState *)effect)->scale_y = size;
         ((SpriteFrameState *)effect)->scale_x = size;
-        func_800478B8(effect);
-        func_800478B8(effect);
+        advance_sprite_animation_and_textures(effect);
+        advance_sprite_animation_and_textures(effect);
         if (((SpriteFrameState *)effect)->flags & 0x6000) {
             object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
             ((Row_8191740C_S_80024C0C_1 *)object)->unk_16++;
@@ -533,7 +533,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
 
     owner = ((Row_81917894_S_80025094_0 *)effect)->unk_00;
     ((Row_81917894_S_80025094_1 *)owner)->unk_14 = (u16) (((Row_81917894_S_80025094_1 *)owner)->unk_14 + 1);
-    func_800478B8(visual);
+    advance_sprite_animation_and_textures(visual);
     ((Row_81917894_S_80025094_0 *)effect)->unk_06.u = (u16) (((Row_81917894_S_80025094_0 *)effect)->unk_06.u + 1);
     ((SpriteFrameState *)visual)->angle_z = (u16) (((SpriteFrameState *)visual)->angle_z + 0x200);
     phase = ((Row_81917894_S_80025094_0 *)effect)->unk_04.s;
@@ -617,7 +617,7 @@ s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *objec
         ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v | 0xC);
         ((Rec_D_80082E80 *)object)->unk_10.as_u16 = (u16) (((Rec_D_80082E80 *)object)->unk_10.as_u16 | 0x20);
         ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v | 0x100);
-        func_8003DB94(object, &D_800DEB70, 0);
+        select_record_entry_and_value(object, &D_800DEB70, 0);
         adjusted_random = rand();
         random_value = adjusted_random;
         if (random_value < 0) {

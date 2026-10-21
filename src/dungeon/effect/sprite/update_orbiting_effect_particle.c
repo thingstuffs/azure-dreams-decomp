@@ -38,7 +38,7 @@ typedef struct S_800D81D4_2 {
 } S_800D81D4_2;   /* p2 in update_orbiting_effect_particle */
 
 
-void func_800478B8(void *);
+void advance_sprite_animation_and_textures(void *);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
 s32 func_80064710(s32);
@@ -51,7 +51,7 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
     S_800D81D4_2 *primitive = primitive_data;
 
     effect->unk_48.s = (s16) (effect->unk_48.s - 1);
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     phase_index = effect->unk_4C.s;
     switch (phase_index) {
     default:

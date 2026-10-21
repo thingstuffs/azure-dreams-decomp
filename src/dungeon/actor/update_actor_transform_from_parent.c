@@ -18,7 +18,7 @@ s32 find_flagged_record_by_id(s32, s32);
 void clear_player_linked_action_flags();
 s32 find_valid_nearby_position();
 void set_record_integer_tile_center();
-void update_actor_status_and_food();
+void update_actor_status_and_mp();
 void begin_actor_throw_from_attachment();
 void cycle_map_cell_flags();
 s32 try_move_actor_to_valid_position();
@@ -94,7 +94,7 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosi
         clear_player_linked_action_flags();
     }
     if ((*(s8 *)((u8 *)actor + 0x6D)) != 0) {
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
     }
     if ((*(s32 *)((u8 *)actor + 0x1C)) & 0x200000) {
         begin_actor_throw_from_attachment(state, position, tile, actor);

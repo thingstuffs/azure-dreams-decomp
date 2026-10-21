@@ -10,12 +10,12 @@ void begin_deferred_item_action();
 void clear_slot_and_update_linked_state();
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes();
-void *func_80099290();
+void *clear_byte_and_advance();
 s32 append_typed_formatted_value();
 s32 append_entity_display_text();
 void adjust_source_value_and_finalize();
 s32 display_text_with_fullwidth_adjustment();
-void apply_item_effect_at_entity_position();
+void place_actor_item();
 void display_item_status_message();
 s32 feed_actor_restore_mp();
 void create_colored_effect_with_event();
@@ -67,13 +67,19 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
 
     if ((u32)entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, data, mode);
+        /*
+         * Original bug: Frog species 0x2E passes this restriction even when the saved species is Hikewne. Ovum can then
+         * make that Hikewne survive fusion despite its normal absorption rule.
+         * Found and documented by the Azure Dreams community
+         * (adrando.com/guide/bugs.html).
+         */
         if (((S_800BE120_0 *)entity)->unk_13 >= 2) {
             if (!(((S_800BE120_0 *)entity)->unk_54 & 0x800000)) {
                 if (((S_800BE120_0 *)entity)->unk_48.at01.v == 0) {
                     if (feed_actor_restore_mp(entity,
                             (entity_action_selectors[((S_800BE120_0 *)entity)->unk_13] >> 6) & 3,
                             0) == 0) {
-                        apply_item_effect_at_entity_position(entity, data);
+                        place_actor_item(entity, data);
                         return 1;
                     }
                     ((S_800BE120_0 *)entity)->unk_48.at00.v = *(s32 *)data;
@@ -102,9 +108,9 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
         context_arg = new_context;
         context = context_arg;
         new_context = append_entity_display_text((s32)call_entity, context_arg);
-        func_80099290(expand_text_control_codes(D_8008935C, append_typed_formatted_value(data, expand_text_control_codes(D_800E100F, new_context))));
+        clear_byte_and_advance(expand_text_control_codes(D_8008935C, append_typed_formatted_value(data, expand_text_control_codes(D_800E100F, new_context))));
         display_text_with_fullwidth_adjustment(context);
-        apply_item_effect_at_entity_position(entity, data);
+        place_actor_item(entity, data);
         return 1;
     }
     clear_slot_and_update_linked_state(data);

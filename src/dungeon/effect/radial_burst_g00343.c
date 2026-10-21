@@ -59,7 +59,7 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
     angle = rand();
     if ((u16)particle_count != 0) {
         do {
-            particle = func_8003FC64(0x212);
+            particle = allocate_flagged_object_node(0x212);
 
             if (particle != NULL) {
                 motion = ((S_800B6814_0 *)particle)->unk_08;
@@ -79,7 +79,7 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
                 effect_state = (u8 *)particle + 0x20;
                 effect_state->unk_08 = 0x2000;
                 effect_state->unk_04 = -velocity_y >> 6;
-                func_8003DB94(sprite, &D_800DEC00, 0);
+                select_record_entry_and_value(sprite, &D_800DEC00, 0);
                 sprite->color.word = 0x808080;
                 sprite->scale_y = 0x400;
                 sprite->scale_x = 0x400;

@@ -73,7 +73,7 @@ void render_cd_wait_animation_on_new_field(void)
 
             draw_sprite_list();
             for (; layer >= 0; layer--) {
-                func_8003CCB0(layer);
+                draw_cd_wait_sprite_trail(layer);
             }
 
             if (scene_sprite_fade_ticks != 0) {
@@ -85,7 +85,7 @@ void render_cd_wait_animation_on_new_field(void)
     }
 }
 
-void func_8003CCB0(s32 blend_step)
+void draw_cd_wait_sprite_trail(s32 blend_step)
 {
     u8 *scratch;
     SpriteQuad *packet;

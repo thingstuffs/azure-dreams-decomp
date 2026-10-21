@@ -33,7 +33,7 @@ s32 event_pool_clean_in(void)
     SpriteFrameState *object_part;
     void *body;
 
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     if (object != NULL) {
         SD_Call(0x512);
         motion = ((S_800BEAD0_0 *)object)->unk_08;

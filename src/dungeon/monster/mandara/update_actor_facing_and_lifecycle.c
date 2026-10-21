@@ -84,7 +84,7 @@ void update_actor_facing_and_lifecycle_2(void *entity, R03_80170A28_S_80170A28_2
         }
         if (!(((R03_80170A28_S_80170A28_1 *)entity_base)->unk_1C & 0x20)) {
             if (!(((R03_80170A28_S_80170A28_0 *)part)->unk_14 & 0x40)) {
-                func_800478B8(part);
+                advance_sprite_animation_and_textures(part);
             }
         } else {
             ((R03_80170A28_S_80170A28_0 *)part)->unk_14 |= 0x7000;

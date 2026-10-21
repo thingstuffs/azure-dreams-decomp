@@ -28,7 +28,7 @@ typedef struct S_80096AE0_3 {
 } S_80096AE0_3;   /* part in run_three_stage_actor_step */
 
 
-extern void func_800419EC(s32, s32);
+extern void initialize_timed_motion_step(s32, s32);
 extern s32 has_action_input_without_modifier(void);
 extern u8 D_80096384[];
 
@@ -48,7 +48,7 @@ void run_three_stage_actor_step(S_80096AE0_0 *actor, S_80096AE0_1 *record, S_800
         }
         record->unk_14 = 0;
         if ((range->unk_88 - range->unk_8A) >= 0x41) {
-            func_800419EC(8, 0x10);
+            initialize_timed_motion_step(8, 0x10);
             actor->unk_96 = 0xC;
         } else {
             actor->unk_96 = 1;

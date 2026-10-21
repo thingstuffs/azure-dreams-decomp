@@ -78,7 +78,7 @@ void create_minigame_display_objects(void)
     initialize_minigame_display(D_800246E0);
     set_resident_bit(0xA4);
 
-    obj = func_8003FC64(0x32);
+    obj = allocate_flagged_object_node(0x32);
     if (obj != NULL) {
         parent_state = obj + 0x20;
         prim = ((S_800224E0_0 *)obj)->unk_08;
@@ -93,7 +93,7 @@ void create_minigame_display_objects(void)
     child_script = D_80023404;
     child_slot = parent_state + 8;
     do {
-        obj = func_8003FC64(2);
+        obj = allocate_flagged_object_node(2);
         ((S_800224E0_3 *)child_slot)->unk_4C = obj;
         if (obj != NULL) {
             ((S_800224E0_0 *)obj)->unk_10 = child_script;
@@ -104,7 +104,7 @@ void create_minigame_display_objects(void)
         child_slot -= 4;
     } while (child_index >= 0);
 
-    obj = func_8003FC64(0x136);
+    obj = allocate_flagged_object_node(0x136);
     if (obj != NULL) {
         render_state = obj + 0x28;
         register_node(obj, D_80046398);
@@ -138,7 +138,7 @@ void create_minigame_display_objects(void)
 
     child_index = 4;
     do {
-        obj = func_8003FC64(0x100);
+        obj = allocate_flagged_object_node(0x100);
         if (obj != NULL) {
             register_node(obj, D_8002415C);
             ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;

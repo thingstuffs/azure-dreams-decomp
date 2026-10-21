@@ -12,11 +12,11 @@ void process_handled_entry_types(void **entries) {
         entry = entries[entry_index];
         entry_type = ((S_800B6B10_4 *)(((S_800B6B10_2 *)entry)->unk_04))->unk_0E;
         if (entry_type == 2) {
-            func_8004E99C(entry->unk_00);
+            flag_optional_object_for_removal(entry->unk_00);
             ((S_800B6B10_1 *)entries[entry_index])->unk_00 = 0;
             ((S_800B6B10_5 *)(((S_800B6B10_3 *)entries[entry_index])->unk_04))->unk_0E = 0;
         } else if (entry_type == 1) {
-            func_8004B1A4(entry->unk_00);
+            flag_object_for_removal(entry->unk_00);
             ((S_800B6B10_1 *)entries[entry_index])->unk_00 = 0;
             ((S_800B6B10_5 *)(((S_800B6B10_3 *)entries[entry_index])->unk_04))->unk_0E = 0;
         }

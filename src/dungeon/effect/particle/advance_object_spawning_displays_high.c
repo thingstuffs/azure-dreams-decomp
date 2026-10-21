@@ -12,7 +12,7 @@
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 
-void (*const dungeon_1960800_entry)(void *, void *, void *) = func_80024B38;
+void (*const dungeon_1960800_entry)(void *, void *, void *) = advance_actor_tint_particle_sequence;
 const RectTable D_80024004 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
 void func_8002405C(void *effect, void *unused, void *primitive)
@@ -30,7 +30,7 @@ extern u8 effect_sprite_sources[];
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
-extern s32 func_80053EF0(s32);
+extern s32 read_sound_mode_blocking_status(s32);
 
 void func_8002405C(void *effect, void *unused, void *primitive) {
     s32 shade;
@@ -102,7 +102,7 @@ void func_80024104(void *owner) {
         center[1] = rect->y + 0x30;
         draw_transformed_sprite_with_clip_rect(primary_actor_record, rect, center, 1, 1);
 
-        effect = func_8003FC64(0x212);
+        effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {
             effect_work = (u8 *)effect + 0x20;
             ((S_80024104_0 *)effect_work)->unk_2A = 7;
@@ -154,7 +154,7 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
     S_800243D8_0 *state;
     S_800243D8_3 *source_position;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = object + 0x20;
         state->unk_2A = 0xB;
@@ -260,7 +260,7 @@ s32 func_800244E4(PointRecord *first_point, ObjectPosition *first_position)
 }
 
 // Decrease position and timer, setting entity and global flags when the timer expires.
-void func_80024734(Entity *entity, State *state)
+void lower_timed_effect_position(Entity *entity, State *state)
 {
     s16 remainingTimer;
 
@@ -289,7 +289,7 @@ void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 s
 
     spawned = (Object *)allocate_list_node(0x211, (ObjectNodeHeader **)parent);
     if (spawned != 0) {
-        spawned->callback = func_80024734;
+        spawned->callback = lower_timed_effect_position;
         jitter = rand();
         spawned->data->x =
             parent->data->x +
@@ -334,11 +334,11 @@ void func_800248B8(void *countdownState, s32 unused, void *animationState)
 }
 
 // Decrement the object's timer, call its handler, and set expiry flags when the timer runs out.
-void func_8002492C(DungeonObject *object, s32 unused, void *handlerContext)
+void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext)
 {
     D_8002571C = 1;
     object->timer--;
-    func_800478B8(handlerContext);
+    advance_sprite_animation_and_textures(handlerContext);
     if (object->timer <= 0) {
         ((u16 *)object)[-1] |= 0x8000;
         object_flag_block.flags |= 0x8000;
@@ -375,7 +375,7 @@ void *func_800249F0(void *source, void *unused_1, void *unused_2, void *packed_d
     void *object;
     S_800249F0_4 *source_position;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = object + 0x20;
         state->unk_2A = 0x3C;
@@ -413,7 +413,7 @@ static __inline__ u8 particle_alpha_from_random(s32 random_bits)
 }
 
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
-void func_80024B38(void *effect, void *effect_pos, void *effect_data)
+void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *effect_data)
 {
     void *position = effect_pos;
     void *effect_context = effect_data;
@@ -508,7 +508,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
             F(effect, u16, 0xA) = (u16)(F(effect, u16, 0xA) + 1);
         }
         if (F(effect, s16, 0x20) == 0x13) {
-            if (func_80053EF0(4) != 2) {
+            if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(0x300);
             } else {
                 play_sound_if_enabled(0x4300);
@@ -536,11 +536,11 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                 }
                 while (particle_index < 4);
                 particle_index = 0;
-                spawn_data = func_8002492C;
+                spawn_data = advance_timed_effect_animation;
                 world_offset = &view_reference_entity;
                 sprite_rgb = 0x80;
                 do {
-                    particle = func_8003FC64(0x212);
+                    particle = allocate_flagged_object_node(0x212);
                     if (particle != 0) {
                         F(particle, s16, 0x4A) = 8;
                         F(particle, void *, 0x10) = spawn_data;
@@ -584,14 +584,14 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                                 F(sprite, u16, 0x10) = mode_c;
                                 F(sprite, u16, 0x1E) = 0x1000;
                                 F(sprite, u16, 0x1C) = 0x1000;
-                                func_8003DB94(anim_sprite, animation, anim_context);
+                                select_record_entry_and_value(anim_sprite, animation, anim_context);
                             } else {
                                 void *animation = D_800DEB28;
                                 void *anim_context = 0;
                                 F(sprite, u16, 0x1E) = 0x2000;
                                 F(sprite, u16, 0x1C) = 0x2000;
                                 F(sprite, u16, 0x10) = (u16)0x20;
-                                func_8003DB94(anim_sprite, animation, anim_context);
+                                select_record_entry_and_value(anim_sprite, animation, anim_context);
                             }
                         }
                         F(sprite, u8, 0xE) = (u8)sprite_rgb;
@@ -623,12 +623,12 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                         particle_index++;
                     } while (particle_index < 4);
                     particle_index = 0;
-                    spawn_data = func_8002492C;
+                    spawn_data = advance_timed_effect_animation;
                     world_offset = &view_reference_entity;
                     sprite_rgb = 0x80;
                     do
                     {
-                        particle = func_8003FC64(0x212);
+                        particle = allocate_flagged_object_node(0x212);
                         if (particle != 0) {
                             F(particle, s16, 0x4A) = 8;
                             F(particle, void *, 0x10) = spawn_data;
@@ -677,7 +677,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                                     F((void *)neutral_color, u8, 0xE) = (u8)sprite_rgb;
                                     F((void *)neutral_color, u8, 0xD) = (u8)sprite_rgb;
                                     F((void *)neutral_color, u8, 0xC) = (u8)sprite_rgb;
-                                    func_8003DB94((void *)neutral_color, animation, anim_context);
+                                    select_record_entry_and_value((void *)neutral_color, animation, anim_context);
                                 } else {
                                     void *animation = D_800DEB28;
                                     void *anim_context = 0;
@@ -688,7 +688,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                                     F((void *)neutral_color, u8, 0xE) = (u8)sprite_rgb;
                                     F((void *)neutral_color, u8, 0xD) = (u8)sprite_rgb;
                                     F((void *)neutral_color, u8, 0xC) = (u8)sprite_rgb;
-                                    func_8003DB94((void *)neutral_color, animation, anim_context);
+                                    select_record_entry_and_value((void *)neutral_color, animation, anim_context);
                                 }
                             }
                         }
@@ -710,7 +710,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
         if (F(effect, s16, 0x20) != 11) {
             return;
         }
-        particle = func_8003FC64(0x212);
+        particle = allocate_flagged_object_node(0x212);
         if (particle == 0) {
             return;
         }
@@ -755,11 +755,11 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
     case 3:
         if (F(effect, s16, 0x20) >= 13) {
             particle_index = 0;
-            particle_script = func_8002492C;
+            particle_script = advance_timed_effect_animation;
             spawn_data = ((u8 *)(&reference_tile_object));
             world_offset = &view_reference_entity;
             do {
-                particle = func_8003FC64(0x212);
+                particle = allocate_flagged_object_node(0x212);
                 if (particle != 0) {
                     burst_tail = (u8 *)particle + 0x20;
                     F(burst_tail, s16, 0x2A) = 12;
@@ -809,9 +809,9 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
                     F(sprite, u8, 0xD) = 0x80;
                     F(sprite, u8, 0xC) = 0x80;
                     if (particle_index != 0) {
-                        func_8003DB94(sprite, D_800DEB28, 0);
+                        select_record_entry_and_value(sprite, D_800DEB28, 0);
                     } else {
-                        func_8003DB94(sprite, effect_sprite_sources, 0);
+                        select_record_entry_and_value(sprite, effect_sprite_sources, 0);
                     }
                 }
                 particle_index++;

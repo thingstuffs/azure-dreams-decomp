@@ -31,7 +31,7 @@ void card_boot_set_paired_choice_animations(Object13B18 *object, s32 *enable_fla
             slot_value = object->slots[slot_index];
             updated = 1;
             if (enable_flags[slot_index] != 0) {
-                func_8004CBFC(&object->records[slot_index], (s32)D_80027E68, slot_value);
+                initialize_scaled_entry_cursor(&object->records[slot_index], (s32)D_80027E68, slot_value);
             } else {
                 *slot_value = 0;
                 object->records[slot_index].unk_04 = 0;

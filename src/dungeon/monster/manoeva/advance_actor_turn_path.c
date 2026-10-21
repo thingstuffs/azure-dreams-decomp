@@ -75,15 +75,15 @@ typedef struct DungeonRecord {
 } DungeonRecord;
 
 extern s32 func_80171E38(void *, void *, void *, void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern void *find_valid_monster_neighbor(void *, u8, u8);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern s32 generate_random_value(void);
-extern void *place_actor_at_directional_neighbor(void *, u8, u8, s16);
+extern void *probe_directional_neighbor(void *, u8, u8, s16);
 extern s16 get_actor_height_difference(void *, void *);
 extern s16 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
-extern s16 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s16 test_neighbor_position_relation(s32, s32, s32, s32);
 extern void rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
@@ -111,7 +111,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
     if ((dungeon_flags & 0x4000) || ((S_801716A4_1 *)actor_in)->unk_71.s >= 0) {
         if (((S_801716A4_1 *)actor_in)->unk_12 >= 2 ||
             (s16)func_80171E38(move_data_in, context, tile_in, actor_in) == 0) {
-            update_actor_status_and_food(actor_in);
+            update_actor_status_and_mp(actor_in);
             return;
         }
         if (g_dungeon_status.active_actor == actor_in) {
@@ -145,7 +145,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
                 ((S_801716A4_1 *)actor_in)->unk_2A.u +=
                     (generate_random_value() & 7) << 9;
             }
-        } else if (place_actor_at_directional_neighbor(actor_in, ((S_801716A4_2 *)tile_in)->unk_24.at00.v,
+        } else if (probe_directional_neighbor(actor_in, ((S_801716A4_2 *)tile_in)->unk_24.at00.v,
                           ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
                           ((S_801716A4_1 *)actor_in)->unk_2A.s) != 0) {
             ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
@@ -185,7 +185,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
                         ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, turn_data);
                 }
-                if (compare_monster_neighbor_values(
+                if (test_neighbor_position_relation(
                         ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     stop_on_wide_turn = 1;
@@ -201,7 +201,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
             rebuild_monster_reachable_tiles(tile_in, ((S_801716A4_5 *)move_data_in)->unk_9C.s, actor_in,
                           (u8 *)move_data_in + 0x98);
         } else if (!(((S_801716A4_1 *)actor_in)->unk_46 & 0x8000)) {
-            current_angle = (s32)place_actor_at_directional_neighbor(actor_in, ((S_801716A4_2 *)tile_in)->unk_24.at00.v,
+            current_angle = (s32)probe_directional_neighbor(actor_in, ((S_801716A4_2 *)tile_in)->unk_24.at00.v,
                                   ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
                                   ((S_801716A4_1 *)actor_in)->unk_2A.s);
             if (((void *)current_angle) != 0 &&
@@ -221,7 +221,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
                 ((S_801716A4_1 *)actor_in)->unk_2A.s = get_rounded_facing_and_rounding_flag(
                     ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
                     origin->tile_position.parts.tile_x, origin->tile_position.parts.tile_y, (u8 *)move_data_in + 0x98);
-                if (compare_monster_neighbor_values(
+                if (test_neighbor_position_relation(
                         ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
                         origin->tile_position.parts.tile_x, origin->tile_position.parts.tile_y) != 0) {
                     if (check_diagonal_side_height(
@@ -299,7 +299,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
     if (turn_or_height >= 8) {
         ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
         ((S_801716A4_1 *)actor_in)->unk_46 &= 0x7FFF;
-        update_actor_status_and_food(actor_in);
+        update_actor_status_and_mp(actor_in);
         return;
     }
 

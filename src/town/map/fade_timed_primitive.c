@@ -9,7 +9,7 @@ typedef struct S_800A8440_1 {
     u16 unk_04;
 } S_800A8440_1;   /* arg0 in fade_timed_primitive; pointer addresses record offset 0x2 */
 
-void func_800478B8(void *entity);
+void advance_sprite_animation_and_textures(void *entity);
 
 /* Fades the primitive and sets completion flags when the countdown expires. */
 void fade_timed_primitive(void *record_fields, void *unused, SpriteFrameState *primitive) {
@@ -17,7 +17,7 @@ void fade_timed_primitive(void *record_fields, void *unused, SpriteFrameState *p
     u8 brightness;
     u8 unused_byte;
 
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     brightness = primitive->color.c.r;
     if (brightness != 0) {
         primitive->color.c.r = (brightness - 0x10);

@@ -67,7 +67,7 @@ void create_encounter_overlay(s32 variant)
     u8 *sprite_vector;
     u8 *coords;
 
-    obj = func_8003FC64(0x12);
+    obj = allocate_flagged_object_node(0x12);
     if (obj != NULL) {
         call_obj = obj;
         part = obj + 0x20;

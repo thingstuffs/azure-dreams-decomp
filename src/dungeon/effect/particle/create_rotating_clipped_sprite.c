@@ -50,7 +50,7 @@ void create_rotating_clipped_sprite(u32 *source_pos, s16 variant) {
     Subobject *state;
     Object *object;
 
-    object = (Object *)func_8003FC64(0x212);
+    object = (Object *)allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = (Subobject *)((u8 *)object + 0x20);
         state->field18 = 0x1E;

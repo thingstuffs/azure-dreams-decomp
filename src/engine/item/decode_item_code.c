@@ -11,8 +11,8 @@ typedef struct S_8004E21C {
     u8 pad[12];
 } S_8004E21C;
 
-/* Decodes an item code, copies the packed fields, and returns the destination. */
-void *decode_item_code(void *dest, u8 item_code)
+/* Decode the glyph rectangle, copy its packed fields, and return the destination. */
+void *decode_glyph_rectangle(void *dest, u8 item_code)
 {
     S_8004E21C decoded;
 

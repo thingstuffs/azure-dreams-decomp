@@ -11,10 +11,10 @@ extern void begin_deferred_item_action(void *, u8 *, u8 *, void *);
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_timed_paired_particle_emitter(s32, s32, void *);
@@ -37,7 +37,7 @@ s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
     if (((u32) actor) <= 0x9FFFFFFFU) {
         display_item_status_message(actor, cause, amount);
         if (feed_actor_restore_mp(actor, (entity_action_selectors[*((u8 *) (((s8 *) actor) + 0x13))] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(actor, cause);
+            place_actor_item(actor, cause);
             return 1;
         }
     }
@@ -48,7 +48,7 @@ s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
         msg = &D_800E0EB4;
         msg_arg = handle;
         handle = expand_text_control_codes(msg, msg_value = msg_arg);
-        func_80099290(expand_text_control_codes(&D_800E0EC9, append_entity_display_text(actor, handle)));
+        clear_byte_and_advance(expand_text_control_codes(&D_800E0EC9, append_entity_display_text(actor, handle)));
         display_text_with_fullwidth_adjustment(msg_value);
     }
     if ((*((s32 *) (((s8 *) actor) + 0x1C))) & 0x04000000) {

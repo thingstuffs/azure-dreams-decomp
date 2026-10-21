@@ -12,7 +12,7 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
 
     angle >>= 9;
     direction = angle & 7;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         effect_params = (s16 *)((s8 *)effect + 0x20);
         motion = ((S_8009792C_0 *)effect)->unk_08;
@@ -25,7 +25,7 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
         motion->unk_0C = -(source->unk_0C * ((rand() & 1) + 2)) / 16;
         motion->unk_10 = -(source->unk_10 * ((rand() & 1) + 2)) / 16;
         motion->unk_14 = (~rand() & 1) << 0xF;
-        func_8003DB94(appearance, &D_800D1464, 0);
+        select_record_entry_and_value(appearance, &D_800D1464, 0);
         appearance->color.c.b = 0xFF;
         appearance->color.c.g = 0xFF;
         appearance->color.c.r = 0xFF;

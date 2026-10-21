@@ -36,7 +36,7 @@ typedef struct S_800206D0_2 {
 } S_800206D0_2;   /* arg2 in update_bouncing_pickup */
 
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
 extern void unlink_scene_list_node(void *);
@@ -113,7 +113,7 @@ void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
     }
 
     case 2:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         ((Rec_func_800206D0_arg1 *)motion)->unk_00 += ((Rec_func_800206D0_arg1 *)motion)->unk_0C;
         ((Rec_func_800206D0_arg1 *)motion)->unk_04 += ((Rec_func_800206D0_arg1 *)motion)->unk_10;
         ((Rec_func_800206D0_arg1 *)motion)->unk_08 += ((Rec_func_800206D0_arg1 *)motion)->unk_14;
@@ -134,7 +134,7 @@ void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
         s32 floor_z = 0xFFC00000;
         s32 idle_frame;
 
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         ((Rec_func_800206D0_arg1 *)motion)->unk_08 += ((Rec_func_800206D0_arg1 *)motion)->unk_14;
         ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
         if (floor_z < ((Rec_func_800206D0_arg1 *)motion)->unk_08) {

@@ -351,7 +351,7 @@ spawn_trail:
                 + ((S_8182C800_5 *)motion)->unk_10);
             ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_5 *)motion)->unk_08
                 + ((S_8182C800_5 *)motion)->unk_14);
-            func_800478B8((void *) sprite_or_step_x);
+            advance_sprite_animation_and_textures((void *) sprite_or_step_x);
             sprite_flags = ((S_8182C800_6 *)sprite_or_step_x)->unk_14;
             if (sprite_flags & 0x6000) {
                 ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = (u16) (sprite_flags & 0x9FFF);
@@ -400,7 +400,7 @@ spawn_trail:
         }
         return;
     case 2:
-        func_800478B8((void *) sprite_or_step_x);
+        advance_sprite_animation_and_textures((void *) sprite_or_step_x);
         if (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x6000) {
             if (((S_8182C800_1 *)owner)->unk_60 != 0) {
                 apply_attack_power_and_element_effects(((S_8182C800_1 *)owner)->unk_60, 0xA, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
@@ -502,7 +502,7 @@ void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544
         break;
 
     case 1:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if (sprite->unk_14 & 0x6000) {
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
@@ -551,7 +551,7 @@ void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object 
         return;
     }
     case 1:
-        func_800478B8(effect);
+        advance_sprite_animation_and_textures(effect);
         if (effect->flags & 0x6000) {
             effect->pad[4] = 0;
             effect->pad[5] = 0;

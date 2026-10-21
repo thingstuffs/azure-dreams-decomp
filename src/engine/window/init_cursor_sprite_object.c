@@ -54,7 +54,7 @@ typedef struct S_8003719C_3 {
     u16 unk_14;
 } S_8003719C_3;   /* sprite in init_cursor_sprite_object */
 
-void func_800350B0(void *context, Struct800350B0 *object);
+void prepend_embedded_object_node(void *context, Struct800350B0 *object);
 void copy_texture_descriptor_with_page_offsets(); /* extern */
 extern u8 cursor_texture_template_0[];
 extern u8 cursor_texture_template_1[];
@@ -94,7 +94,7 @@ void init_cursor_sprite_object(s32 node_addr, Rec_D_80081FDC *transform, s32 *sc
     ((S_8003719C_5 *)(((S_8003719C_4 *)node)->unk_20))->unk_14 = 2;
     state->unk_04 = 0;
     state->unk_08 = 0;
-    func_800350B0(owner, state);
+    prepend_embedded_object_node(owner, state);
     sprite->unk_0C = 0xC0C0C0;
     copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &cursor_texture_template_0, &cursor_texture_descriptor_0);
     copy_texture_descriptor_with_page_offsets(state->unk_44 + 3, &cursor_texture_template_1, &cursor_texture_descriptor_1);

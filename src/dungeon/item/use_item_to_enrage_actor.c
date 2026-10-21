@@ -20,11 +20,11 @@ extern void begin_deferred_item_action(void *, void *, void *, void *);
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern s32 func_80099290(s8 *byte_ptr);
+extern s32 clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
-extern s32 apply_item_effect_at_entity_position(void *, s32);
+extern s32 place_actor_item(void *, s32);
 extern s32 display_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 
@@ -41,7 +41,7 @@ s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type)
     if ((u32) object <= 0x9FFFFFFFU) {
         display_item_status_message(object, action, action_type);
         if (feed_actor_restore_mp(object, (entity_action_selectors[object->unk_13] >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(object, action);
+            place_actor_item(object, action);
             return 1;
         }
     }
@@ -55,7 +55,7 @@ s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type)
             message_end = message;
             message_end = expand_text_control_codes(D_800E15E5, message_end);
         }
-        func_80099290(message_end);
+        clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message);
     }
     clear_slot_and_update_linked_state(action);

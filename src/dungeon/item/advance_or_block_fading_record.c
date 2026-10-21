@@ -3,7 +3,7 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
-extern void func_800478B8(void *record);
+extern void advance_sprite_animation_and_textures(void *record);
 typedef struct S_80099B18_1_pre {
     u16 unk_00;
 } S_80099B18_1_pre;   /* the 0x2 bytes before arg0 in advance_or_block_fading_record, addressed as arg0[-1] */
@@ -42,7 +42,7 @@ void advance_or_block_fading_record(void *state, S_80099B18_2 *motion, SpriteFra
     if ((update_count << 0x10) > 0) {
         record->flags =
             (u16)(record->flags & 0xFF7F);
-        func_800478B8(record);
+        advance_sprite_animation_and_textures(record);
     }
     if (((S_80099B18_1 *)state)->unk_0E != 0) {
         motion->unk_00 =

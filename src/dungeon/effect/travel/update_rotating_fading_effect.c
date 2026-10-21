@@ -98,11 +98,11 @@ void update_rotating_fading_effect(void *effect, void *position, void *sprite)
         *(u16 *)((u8 *) sprite + 0x1E) = 0x1000;
         *(u16 *)((u8 *) sprite + 0x1C) = 0x1000;
         *(u16 *)((u8 *) sprite + 0x10) |= 0x20;
-        func_8003DB94(sprite, &D_800DECF8, 0);
+        select_record_entry_and_value(sprite, &D_800DECF8, 0);
         return;
 
     case 3:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         if (!((*(u16 *)((u8 *) sprite + 0x14)) & 0x6000)) {
             break;
         }
@@ -126,7 +126,7 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
     ovl_18ca83c_818AABB8_S_800243B8_6 *position;
     register s32 start_z;
 
-    obj = func_8003FC64(0x212);
+    obj = allocate_flagged_object_node(0x212);
     if (obj != NULL) {
         data = (u8 *)obj + 0x20;
         ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_10 = (void *)update_rotating_fading_effect;

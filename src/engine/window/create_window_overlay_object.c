@@ -65,7 +65,7 @@ typedef struct S_func_80035E58_5 {
 } S_func_80035E58_5;
 
 extern void runtime_initialize_state_value(void *, s32);
-extern void func_800350B0(void *, void *);
+extern void prepend_embedded_object_node(void *, void *);
 extern void copy_window_params(void *, void *);
 
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void *);
@@ -99,7 +99,7 @@ void create_window_overlay_object(s32 node_addr, void *display, u8 *image, s32 *
     node_data->unk_04 = image;
     node_data->unk_08 = draw_window_rects;
     copy_window_params(node_data, window_overlay_parameter_template);
-    func_800350B0(owner, node_data);
+    prepend_embedded_object_node(owner, node_data);
 
     node_data->unk_68 = scroll_window_y;
     actor = (S_func_80035E58_3 *)(owner + 0x8C);

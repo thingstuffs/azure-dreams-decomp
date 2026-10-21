@@ -17,7 +17,7 @@ void advance_index_and_mark_completion(void *counterPtr) {
 
 /* Allocates a node, initializes its callback and field, and saves the field pointer. */
 void create_town_map_entry_processor(void) {
-    Node *node = func_8003FC64(0);
+    Node *node = allocate_flagged_object_node(0);
     if (node != NULL) {
         node->cb = advance_index_and_mark_completion;
         node->field_0x20 = 0;

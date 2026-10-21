@@ -368,7 +368,7 @@ void func_800244BC(s32 state_value, S_800244BC_3 *source_pos)
     SpriteFrameState *appearance;
     u16 render_flags;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = (u8 *)object + 0x20;
         state->unk_28 = 0x27;
@@ -444,7 +444,7 @@ s32 update_palette_particle_transition(s32 limit) {
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *visual);
+extern void advance_sprite_animation_and_textures(void *visual);
 
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */
 void advance_effect_motion_and_animation(void *effect, void *position, void *visual) {
@@ -468,7 +468,7 @@ void advance_effect_motion_and_animation(void *effect, void *position, void *vis
     frame_count += 1;
     *(u16 *)((u8 *)effect + 0x2A) = frame_count;
     if (!(frame_count & 1)) {
-        func_800478B8(visual);
+        advance_sprite_animation_and_textures(visual);
     }
     frames_left = *(u16 *)((u8 *)effect + 0x28) - 1;
     *(u16 *)((u8 *)effect + 0x28) = frames_left;
@@ -598,7 +598,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
     if (((S_800247C0_0 *)effect)->unk_28 >= 0xB) {
         particle_index = 0;
         for (; particle_index < 4; particle_index++) {
-            object = func_8003FC64(0x212);
+            object = allocate_flagged_object_node(0x212);
             if (object == NULL) {
                 continue;
             }
@@ -640,7 +640,7 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
             }
             sprite->clut = 0x7DCF;
             sprite->flags |= 0x100;
-            func_8003DB94(sprite, effect_sprite_sources, 0);
+            select_record_entry_and_value(sprite, effect_sprite_sources, 0);
         }
     }
     timer = ((S_800247C0_0 *)effect)->unk_28;
@@ -703,7 +703,7 @@ void create_shrinking_entry_particle_effect(s32 effect_value, S_80024AE8_3 *posi
     S_80024AE8_2 *effect_position;
     SpriteFrameState *render_state;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         effect_state = effect + 0x20;
         effect_state->unk_28 = 0x1E;
@@ -1026,7 +1026,7 @@ s32 draw_linked_meshes(void *initial_mesh, void *transform, void *object) {
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *render_state);
+extern void advance_sprite_animation_and_textures(void *render_state);
 
 /* Updates motion and rotation and marks the object finished when flagged or expired. */
 void advance_rotating_ballistic_particle_and_expire(void *state, void *position, void *render_state) {
@@ -1042,7 +1042,7 @@ void advance_rotating_ballistic_particle_and_expire(void *state, void *position,
     frame_count = frame_count + 1;
     *(u16 *)((u8 *)state + 0x2A) = frame_count;
     if (!(frame_count & 1)) {
-        func_800478B8(render_state);
+        advance_sprite_animation_and_textures(render_state);
     }
     if (*(s16 *)((u8 *)state + 0x2C) == 0) {
         *(u16 *)((u8 *)render_state + 0x16) = *(u16 *)((u8 *)render_state + 0x16) + 0x190;
@@ -1199,7 +1199,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
     saved_x = center_x;
     brightness = 0x80;
     do {
-        particle = func_8003FC64(0x212);
+        particle = allocate_flagged_object_node(0x212);
         particle_work = (u8 *)particle + 0x20;
         if (particle != 0) {
             ((S_800251F4_0 *)particle_work)->unk_28 = 0x78;
@@ -1317,7 +1317,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
             transform->color.c.b = brightness;
             transform->color.c.g = brightness;
             transform->color.c.r = brightness;
-            func_8003DB94(transform, effect_sprite_sources, 0);
+            select_record_entry_and_value(transform, effect_sprite_sources, 0);
         }
         tile_max = iteration + 1;
         iteration = tile_max;
@@ -1326,7 +1326,7 @@ void spawn_randomized_textured_particles(s32 unused, s32 center_x, s16 center_y,
 
 #include "common.h"
 
-extern s32 func_800419EC();
+extern s32 initialize_timed_motion_step();
 extern s16 sample_terrain_surface_height();
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
@@ -1353,7 +1353,7 @@ void update_timed(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bou
             raw_x = (s16)x;
             raw_y = (s16)y;
             spawn_randomized_textured_particles(object_data, raw_x, raw_y, upper);
-            func_800419EC(6, 12);
+            initialize_timed_motion_step(6, 12);
             play_sound_if_enabled(0x50B);
         }
     }
@@ -1964,7 +1964,7 @@ void set_mesh_entry_address(Bank19de800_19e092c_EntryCursor *object, s16 entry_i
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *visual);
+extern void advance_sprite_animation_and_textures(void *visual);
 
 /* Updates effect motion and visual state, marking the effect inactive when its lifetime expires. */
 void update_effect_motion_and_visual(void *effect, void *position, void *visual) {
@@ -1988,7 +1988,7 @@ void update_effect_motion_and_visual(void *effect, void *position, void *visual)
     frame += 1;
     *(u16 *)((u8 *)effect + 0x2A) = frame;
     if (!(frame & 1)) {
-        func_800478B8(visual);
+        advance_sprite_animation_and_textures(visual);
     }
     ticks_left = *(u16 *)((u8 *)effect + 0x28) - 1;
     *(u16 *)((u8 *)effect + 0x28) = ticks_left;
@@ -2045,7 +2045,7 @@ void create_offset_colored_effect(
     SpriteFrameState *sprite;
     void *effect;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         effect_state = effect + 0x20;
         effect_state->unk_28 = 0x14;
@@ -2083,7 +2083,7 @@ void create_offset_colored_effect(
         }
         sprite->clut = 0x7DCF;
         sprite->flags = (u16) (sprite->flags | 0x100);
-        func_8003DB94(sprite, effect_sprite_sources, 0);
+        select_record_entry_and_value(sprite, effect_sprite_sources, 0);
     }
 }
 /* MECHANISM: The ten-argument ABI and reused pointer local produce the retail

@@ -21,15 +21,15 @@ extern void cycle_map_cell_flags();
 extern void update_map_cell_flags_with_item_limit();
 extern s32 check_diagonal_side_height();
 extern s32 check_directional_move_and_terrain();
-extern s32 compare_monster_neighbor_values();
+extern s32 test_neighbor_position_relation();
 extern s16 get_actor_height_difference();
 extern void *find_valid_monster_neighbor();
-extern void *place_actor_at_directional_neighbor();
+extern void *probe_directional_neighbor();
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 extern void rebuild_monster_reachable_tiles();
 extern void update_actor_proximity_flag();
 extern s32 generate_random_value();
-extern void update_actor_status_and_food();
+extern void update_actor_status_and_mp();
 extern s16 sample_terrain_surface_height();
 extern s32 try_turn_actor_toward_target();
 
@@ -64,7 +64,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
     if ((turn_flags & 0x4000) || (S8_AT(actor, 0x71) >= 0)) {
         if ((U8_AT(actor, 0x12) >= 2) || U8_AT(work_data, 0xB5) ||
             ((try_turn_actor_toward_target(work_data, action_context, position, actor) << 16) == 0)) {
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             return;
         }
         if (PTR_AT(turn_state, 0xC) == actor) {
@@ -106,7 +106,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
                 U16_AT(actor, 0x2A) += (call_result & 7) << 9;
             }
         } else {
-            work_value = (s32)place_actor_at_directional_neighbor(actor, U8_AT(position, 0x24),
+            work_value = (s32)probe_directional_neighbor(actor, U8_AT(position, 0x24),
                                             U8_AT(position, 0x25),
                                             S16_AT(actor, 0x2A));
             if (work_value != 0) {
@@ -147,7 +147,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
                     reference_tile_object.tile_position.parts.tile_y, path_work);
             }
 
-            work_value = compare_monster_neighbor_values(
+            work_value = test_neighbor_position_relation(
                 U8_AT(position, 0x24), U8_AT(position, 0x25),
                 reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y);
@@ -168,7 +168,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             U16_AT(tile_record, 0xC) & 2)) {
             rebuild_monster_reachable_tiles(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
         } else if (!(U16_AT(actor, 0x46) & 0x8000)) {
-            node = place_actor_at_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+            node = probe_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
                                  S16_AT(actor, 0x2A));
             if ((node != NULL) && (S32_AT(node, 0x1C) & 0x2000) &&
                 (get_actor_height_difference(node, actor) < 0x81) &&
@@ -189,7 +189,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
                     U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
                     (u8 *)work_data + 0x98);
 
-                if ((compare_monster_neighbor_values(
+                if ((test_neighbor_position_relation(
                         U8_AT(position, 0x24), U8_AT(position, 0x25),
                         U8_AT(move_center, 0x24), U8_AT(move_center, 0x25)) << 16) != 0) {
                     if (get_actor_height_difference(primary_actor_record, actor) < 0x81) {
@@ -291,7 +291,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
     if (attempt >= 8) {
         U8_AT(actor, 0x71) &= 0x7F;
         U16_AT(actor, 0x46) &= 0x7FFF;
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         return;
     }
 

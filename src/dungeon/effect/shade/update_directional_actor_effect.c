@@ -219,7 +219,7 @@ void update_rotating_effect_and_fade(void *effect, void *position, void *sprite)
     ((SpriteFrameState *)sprite)->color.c.r = brightness;
     if (!(brightness & 0xFF) || (scale = ((SpriteFrameState *)sprite)->scale_y - 0x100,
         ((SpriteFrameState *)sprite)->scale_y = scale, ((SpriteFrameState *)sprite)->scale_x = scale,
-        ((SpriteFrameState *)sprite)->angle_z = (u16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E, func_800478B8(sprite),
+        ((SpriteFrameState *)sprite)->angle_z = (u16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E, advance_sprite_animation_and_textures(sprite),
         ((((SpriteFrameState *)sprite)->flags & 0x6000) != 0))) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_8194CD5C_S_8002455C_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags |= 0x8000;
@@ -248,7 +248,7 @@ void create_textured_offset_object(void *source_object)
     void *primitive_2;
     s32 angle_or_zero;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         link = D_8002455C;
         (*(s32 * *)((u8 *)object + 0x10)) = link;
@@ -269,7 +269,7 @@ void create_textured_offset_object(void *source_object)
         primitive->color.c.b = 0x40;
         primitive->color.c.g = 0x40;
         primitive->color.c.r = 0x40;
-        func_8003DB94(primitive, D_800DE938, angle_or_zero);
+        select_record_entry_and_value(primitive, D_800DE938, angle_or_zero);
 
         value = 0x2000;
         primitive->scale_y = value;
@@ -347,7 +347,7 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
     void *state;
     void *object;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         state = object + 0x20;
         (*(s32 **)((u8 *)object + 0x10)) = &D_80024918;
@@ -452,7 +452,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
             next_state_c1 = ((u16)primary_actor_record->facing);
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
             ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0E = next_state_c1;
-            if (func_80053EF0(4) != 2) {
+            if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(0x300);
                 ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_1A = 0;
                 return;

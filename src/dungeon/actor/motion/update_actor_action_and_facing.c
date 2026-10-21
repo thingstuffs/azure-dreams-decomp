@@ -6,7 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
-extern void func_8003DB94(void *sprite, void *ptr, s32 value);
+extern void select_record_entry_and_value(void *sprite, void *ptr, s32 value);
 extern void clear_slots_of_type(void *actor, s32 value);
 extern void reset_actor_motion_at_sprite_tile(void *state, void *motion, void *sprite, void *actor);
 extern void handle_actor_commands_and_facing(void);
@@ -26,7 +26,7 @@ void update_actor_action_and_facing_2(Rec_func_8008ACDC_arg0 *state, EntityRec *
 
     if (sprite->flags & 0xE000) {
         sprite->frameTable = actor_default_frames;
-        func_8003DB94(
+        select_record_entry_and_value(
             sprite,
             actor_default_frames[
                 ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

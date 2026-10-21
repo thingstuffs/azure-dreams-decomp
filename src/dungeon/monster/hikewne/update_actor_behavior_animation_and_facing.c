@@ -10,10 +10,10 @@
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(u8, u8);
-extern s32 compare_monster_neighbor_values(u8, u8, u8, u8);
+extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
 extern s16 get_rounded_facing_and_rounding_flag(u8, u8, u8, u8, s16 *);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -174,7 +174,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
 
     if (stats->unk_6D > 0) {
         if (((u32)stats->flags1C) & 0x20) {
-            update_actor_status_and_food(stats);
+            update_actor_status_and_mp(stats);
             return;
         }
         if (((S_801714D4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -226,7 +226,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
             }
 
         case 11:
-            update_actor_status_and_food(stats);
+            update_actor_status_and_mp(stats);
             return;
 
         case 0:
@@ -258,7 +258,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
 
     {
 
-        if ((s16)compare_monster_neighbor_values(
+        if ((s16)test_neighbor_position_relation(
                 ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) == 0) {
             return;

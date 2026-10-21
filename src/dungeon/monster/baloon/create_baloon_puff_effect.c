@@ -63,7 +63,7 @@ typedef struct S_80D65810_5 {
 } S_80D65810_5;
 
 
-s32 func_8003DB94();
+s32 select_record_entry_and_value();
 s32 register_node();
 s32 rand();
 extern u8 effect_sprite_sources[];
@@ -90,7 +90,7 @@ void create_baloon_puff_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2, 
     x = offset_x;
     y = offset_y;
     z = offset_z;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = effect + 0x20;
         motion->unk_0C = 0x1E;
@@ -129,7 +129,7 @@ void create_baloon_puff_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2, 
         sprite->unk_0C = 0x80;
         sprite->unk_12 = 0x7DCF;
         sprite->unk_14 = (u16)(sprite->unk_14 | 0x100);
-        func_8003DB94(sprite, effect_sprite_sources, 0);
+        select_record_entry_and_value(sprite, effect_sprite_sources, 0);
     }
 }
 

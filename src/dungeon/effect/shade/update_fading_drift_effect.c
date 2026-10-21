@@ -6,7 +6,7 @@ typedef struct {
     u16 unk4;
 } State;
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 
 /* Updates effect motion and fading, marking completion when the timer expires. */
 void update_fading_drift_effect(State *state, void *position, void *visual) {
@@ -18,7 +18,7 @@ void update_fading_drift_effect(State *state, void *position, void *visual) {
     state->unk4 += 1;
     *(u16 *)((u8 *)visual + 0x1A) += 0x480;
     *(s32 *)((u8 *)position + 8) += 0xFFF60000;
-    func_800478B8(visual);
+    advance_sprite_animation_and_textures(visual);
 
     if ((s16)state->unk4 < 0x11) {
         color = *(u8 *)((u8 *)visual + 0xC);

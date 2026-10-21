@@ -16,7 +16,7 @@ typedef struct ActorSpriteView {
     u8 pad_00[4];
     s8 frame;
     u8 pad_05[3];
-    s32 animationKey;
+    s32 attachment_table;
     u8 pad_0C[8];
     u16 flags;
     u8 pad_16[0xE];
@@ -189,7 +189,7 @@ void update_actor_behavior_variant(ActorActionView *action, ObjectPosition *moti
         return;
     case 3:
         if (animation->frame < 3) {
-            if (resolve_record_orientation_or_fallback(animation->animationKey, animation, &action->effectX, 0) == 0) {
+            if (resolve_record_orientation_or_fallback(animation->attachment_table, animation, &action->effectX, 0) == 0) {
                 action->effectZ = 0U;
                 action->effectY = 0U;
                 action->effectX = 0U;
@@ -206,7 +206,7 @@ void update_actor_behavior_variant(ActorActionView *action, ObjectPosition *moti
                 effect_data->startX = (u16) action->effectX;
                 effect_data->startY = (u16) action->effectY;
                 effect_data->startZ = (u16) action->effectZ;
-                has_offset = resolve_record_orientation_or_fallback(animation->animationKey, animation, &action->effectX, 0);
+                has_offset = resolve_record_orientation_or_fallback(animation->attachment_table, animation, &action->effectX, 0);
                 if (has_offset == 0) {
                     action->effectZ = 0U;
                     action->effectY = 0U;

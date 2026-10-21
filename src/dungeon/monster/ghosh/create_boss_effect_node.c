@@ -13,7 +13,7 @@ typedef struct Node {
 } Node;
 
 extern void register_node(Node *, void *);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 
 extern u8 D_80170A54[9];
 
@@ -25,7 +25,7 @@ void create_boss_effect_node(void)
     s16 *effect;
     u32 *part_words;
 
-    node = (Node *)func_8003FC64(0x212);
+    node = (Node *)allocate_flagged_object_node(0x212);
     if (node != 0) {
         node_params = (s16 *)((u8 *)node + 0x20);
         node_params[11] = 0x1E;
@@ -47,7 +47,7 @@ void create_boss_effect_node(void)
         ((SpriteFrameState *)effect)->color.c.g = 0;
         ((SpriteFrameState *)effect)->color.c.r = 0;
         effect[10] |= 0x80;
-        func_8003DB94(effect, effect_sprite_sources, 0);
+        select_record_entry_and_value(effect, effect_sprite_sources, 0);
     }
 }
 

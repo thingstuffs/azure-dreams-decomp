@@ -8,7 +8,7 @@
 #include "records/Rec_D_80083460.h"
 
 
-extern s32 func_800419EC();
+extern s32 initialize_timed_motion_step();
 extern s32 get_entity_effect_value();
 extern s32 clear_slots_of_type();
 extern s32 set_sprite_animation_frame();
@@ -106,7 +106,7 @@ void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void 
         if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
             return;
         }
-        func_800419EC(0x10, 8);
+        initialize_timed_motion_step(0x10, 8);
         (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
         set_sprite_animation_frame(
             actor,

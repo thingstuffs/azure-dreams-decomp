@@ -6,8 +6,8 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-extern void func_8003DB94(void *, s32, s8);
-extern void func_800478B8(void *);
+extern void select_record_entry_and_value(void *, s32, s8);
+extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_800644B8(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
@@ -104,7 +104,7 @@ void update_actor_facing_and_lifecycle(void *state, void *motion, void *part)
         direction &= 7;
         direction_index = direction;
         if ((*(s16 *)((u8 *)state + (0x94))) != direction_index) {
-            func_8003DB94(part,
+            select_record_entry_and_value(part,
                 ((s32 *)(*(void * *)((u8 *)state + (0xA4))))[direction_index],
                 ((S_800C9AAC_0 *)part)->unk_04);
             (*(s16 *)((u8 *)state + (0x94))) = direction;
@@ -122,7 +122,7 @@ void update_actor_facing_and_lifecycle(void *state, void *motion, void *part)
 
         if (!(((S_800C9AAC_2 *)secondary)->unk_1C & 0x20)) {
             if (!(((S_800C9AAC_0 *)part)->unk_14 & 0x40)) {
-                func_800478B8(part);
+                advance_sprite_animation_and_textures(part);
             }
         } else {
             ((S_800C9AAC_0 *)part)->unk_14 |= 0x7000;

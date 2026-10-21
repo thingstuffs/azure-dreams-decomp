@@ -76,7 +76,7 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
     void *effect;
     S_80165F00_2 *effect_transform;
 
-    effect = func_8003FC64(0x12);
+    effect = allocate_flagged_object_node(0x12);
     if (effect != 0) {
         (((ObjectNodeHeader *)effect)->unk_10) = &update_landing_particle_fade;
         x_jitter = rand() & 0x3F;

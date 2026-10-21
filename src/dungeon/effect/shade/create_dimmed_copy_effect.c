@@ -42,7 +42,7 @@ typedef struct S_818C32F4_5 {
     s32 unk_14;
 } S_818C32F4_5;
 
-extern s32 func_8003DB94();
+extern s32 select_record_entry_and_value();
 extern s32 register_node();
 extern u8 D_80024A08[9];
 extern u8 D_80025B38[9];
@@ -57,7 +57,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
     S_818C32F4_1 *object_state;
     S_818C32F4_5 *object_data;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         ((S_818C32F4_0 *)object)->unk_10 = D_80024A08;
         ((S_818C32F4_0 *)object)->unk_20 = *object_id;
@@ -77,7 +77,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         }
         visual->flags = visual->flags | 0xC;
         visual->tpage_abr = visual->tpage_abr | 0x60;
-        func_8003DB94(visual, D_80025B38, 0);
+        select_record_entry_and_value(visual, D_80025B38, 0);
         init_data = D_80045C34;
         angle = ((S_818C32F4_3 *)(visual_template))->unk_1A;
         visual->scale_y = 0x1400;

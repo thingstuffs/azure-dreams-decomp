@@ -31,7 +31,7 @@ void drain_ready_sound_voice_flags(void)
     if (audio_voice_drain_suppressed[0] == 0) {
         for (entry_index = 0; entry_index < audio_voice_count[0]; entry_index++) {
             if (audio_voice_records[entry_index].f1a != 0) {
-                if (func_8005EB78(audio_voice_masks[entry_index]) == 3) {
+                if (read_selected_voice_key_state(audio_voice_masks[entry_index]) == 3) {
                     s32 dispatch_state;
                     u32 counter;
 
@@ -39,8 +39,8 @@ void drain_ready_sound_voice_flags(void)
                     if (counter >= 2) {
                         flags |= audio_voice_masks[entry_index];
                         do {
-                            func_8005E97C(0, audio_voice_masks[entry_index]);
-                            dispatch_state = func_8005EB78(audio_voice_masks[entry_index]);
+                            set_spu_voice_keys(0, audio_voice_masks[entry_index]);
+                            dispatch_state = read_selected_voice_key_state(audio_voice_masks[entry_index]);
                         } while (dispatch_state != 2 && dispatch_state != 0);
                         audio_voice_records[entry_index].f1a = 0;
                     } else {
@@ -52,6 +52,6 @@ void drain_ready_sound_voice_flags(void)
     }
 
     if (flags != 0) {
-        func_8005E97C(0, flags);
+        set_spu_voice_keys(0, flags);
     }
 }

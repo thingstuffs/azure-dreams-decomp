@@ -48,7 +48,7 @@ s32 initialize_gym_minigame(void)
         *(count_page + (0x35C2 / 2)) = 20;
     }
 
-    object_or_slot = (s32)func_8003FC64(2);
+    object_or_slot = (s32)allocate_flagged_object_node(2);
     if (object_or_slot != 0) {
         parent_link = (u8 *)object_or_slot + 0x20;
         ((S_80022C8C_0 *)((void *)object_or_slot))->unk_10 = &D_80022F60;
@@ -74,7 +74,7 @@ s32 initialize_gym_minigame(void)
         create_gym_mesh_object(position, 0x35, (u8 *)&D_8002390C + 0x14, parent_link);
     }
 
-    object_or_slot = (s32)func_8003FC64(0x136);
+    object_or_slot = (s32)allocate_flagged_object_node(0x136);
     if (object_or_slot != 0) {
         ((S_80022C8C_0 *)((void *)object_or_slot))->unk_10 = &D_800240B0;
         register_node((void *)object_or_slot, project_sprite_chain);

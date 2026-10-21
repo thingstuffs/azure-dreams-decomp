@@ -19,7 +19,7 @@ extern void func_800173F8();
 extern void clear_thirty_six_table_fields(void);
 
 /* Installs the town callback, enforces a minimum town value of 40, and runs the setup sequence. */
-void func_8050E100(void)
+void initialize_town_counter_and_callback(void)
 {
     s32 current_town_value;
     S_8050E100_1 *town = ((S_8050E100_0 *)(*(void **)((u8 *)(&D_80016000))))->unk_38;

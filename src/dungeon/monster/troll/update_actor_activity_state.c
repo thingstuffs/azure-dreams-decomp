@@ -128,7 +128,7 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
                     return;
                 }
             }
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *player;
@@ -345,7 +345,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                     return;
                 }
             }
-            update_actor_status_and_food(actor);
+            update_actor_status_and_mp(actor);
             on_actor_status_updated(actor);
             if (((ActorRecord *)actor)->mp == 0) {
                 return;

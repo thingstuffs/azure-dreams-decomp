@@ -10,7 +10,7 @@ typedef struct {
     s32 dz;
 } Position;
 
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 
 /* Advance the position and timer, setting completion flags when the timer expires. */
 void tick_linear_effect_with_double_refresh(void *state, Position *pos, s32 handle)
@@ -24,8 +24,8 @@ void tick_linear_effect_with_double_refresh(void *state, Position *pos, s32 hand
     pos->x += pos->dx;
     pos->y += dy;
     pos->z += dz;
-    func_800478B8(handle);
-    func_800478B8(handle);
+    advance_sprite_animation_and_textures(handle);
+    advance_sprite_animation_and_textures(handle);
     timer = *(u16 *)((u8 *)state + 0x32) - 1;
     *(u16 *)((u8 *)state + 0x32) = timer;
     if ((timer << 16) <= 0) {

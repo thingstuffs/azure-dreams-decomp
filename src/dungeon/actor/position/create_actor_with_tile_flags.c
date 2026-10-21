@@ -42,7 +42,7 @@ typedef struct S_800D3F74_2 {
 
 extern void *allocate_list_node();
 extern void register_node();
-extern void func_8003DB94();
+extern void select_record_entry_and_value();
 extern s8 find_active_rect_containing_point();
 extern void set_record_integer_tile_center();
 extern s16 sample_terrain_surface_height();
@@ -88,7 +88,7 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
         sprite->unk_25 = saved_tile_y;
         sprite->clut = 0x7E40;
         sprite->flags |= 0x100;
-        func_8003DB94(sprite, &D_800DEEC0, 0);
+        select_record_entry_and_value(sprite, &D_800DEEC0, 0);
         ((S_800D3F74_1 *)object)->unk_10 = &D_800D4158;
         ((S_800D3F74_0 *)entity)->unk_8C = &D_800D4494;
         sprite->unk_26 =

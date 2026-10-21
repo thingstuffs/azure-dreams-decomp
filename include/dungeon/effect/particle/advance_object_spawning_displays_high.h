@@ -192,7 +192,7 @@ typedef struct S_800249F0_5 {
 typedef struct {
     u8 bytes[12];
 } __attribute__((packed)) EffectPacked12;
-void func_8003DB94(void *, void *, s32);
+void select_record_entry_and_value(void *, void *, s32);
 s32 draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 u32 func_80065420(void *, void *, void *, void *);
 extern s16 D_8002571C;
@@ -201,11 +201,11 @@ void func_8002405C(void *effect, void *unused, void *primitive);
 void func_80024104(void *owner);
 void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite);
 s32 func_800244E4(PointRecord *first_point, ObjectPosition *first_position);
-void func_80024734(Entity *entity, State *state);
+void lower_timed_effect_position(Entity *entity, State *state);
 void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 void advance_animation_values_set_completion_flags_countdown_expires(void *countdownState, s32 unused, void *animationState);
-void func_8002492C(DungeonObject *object, s32 unused, void *handlerContext);
+void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext);
 void decrement_object_counter(void *object);
 void *create_an_copied_position_packed_data_initialize_rendering_state(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
-void func_80024B38(void *effect, void *effect_pos, void *effect_data);
+void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *effect_data);
 #endif

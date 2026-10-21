@@ -354,7 +354,7 @@ typedef struct S_800C5A64_1 {
     s16 unk_1C;
 } S_800C5A64_1;   /* arg0 in damp_effect_motion_and_fade */
 
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 
 /* Advance and damp effect motion, fade its primitive, and mark it expired when its lifetime ends. */
 void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive)
@@ -367,7 +367,7 @@ void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *pr
     motion[3] -= motion[3] >> 3;
     motion[4] -= motion[4] >> 3;
 
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
 
     primitive->color.c.r -= primitive->color.c.r / ((S_800C5A64_1 *)effect)->unk_10.s;
     primitive->color.c.g -= primitive->color.c.g / ((S_800C5A64_1 *)effect)->unk_10.s;
@@ -394,7 +394,7 @@ void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *pr
 struct Dst;
 struct Elem;
 
-extern s32 func_8003DB94(struct Dst *state, struct Elem *entries, s32 index);  /* extern */
+extern s32 select_record_entry_and_value(struct Dst *state, struct Elem *entries, s32 index);  /* extern */
 extern s32 register_node();
 s32 rand();                                /* extern */
 extern s32 play_sound_if_enabled();
@@ -449,7 +449,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
             if (particle_index != 0) {
                 alloc_flags = 0x212;
             }
-            particle = func_8003FC64(alloc_flags);
+            particle = allocate_flagged_object_node(alloc_flags);
             if (particle != 0) {
                 ((S_800C5BBC_0 *)particle)->unk_10 = damp_effect_motion_and_fade;
                 register_node(particle, project_sprite_chain);
@@ -461,7 +461,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
                 position->unk_10 = (s32) (position->unk_10 + (((rand() & 0x1F) - 0x10) << 0xE));
                 position->unk_14 = (s32) ((0 - ((rand() & 0xF) + 0x18)) << 0xD);
                 sprite = ((S_800C5BBC_0 *)particle)->unk_0C;
-                func_8003DB94(sprite, &secondary_sprite, 0);
+                select_record_entry_and_value(sprite, &secondary_sprite, 0);
                 sprite->color.word = sprite_data;
                 sprite->scale_y = 0x1000;
                 sprite->scale_x = 0x1000;
@@ -504,7 +504,7 @@ typedef struct S_800C5D80_2 {
     s16 unk_12;
 } S_800C5D80_2;   /* arg0 in advance_effect_motion_and_fade; pointer addresses record offset 0x2 */
 
-extern void func_800478B8();
+extern void advance_sprite_animation_and_textures();
 
 /* Advance effect motion, fade its color, and mark it finished when its timer expires. */
 void advance_effect_motion_and_fade(void *effect_data, S_800C5D80_0 *motion, SpriteFrameState *primitive) {
@@ -513,7 +513,7 @@ void advance_effect_motion_and_fade(void *effect_data, S_800C5D80_0 *motion, Spr
 
     motion->unk_08 += motion->unk_14;
     motion->unk_14 += 0x2000;
-    func_800478B8(primitive);
+    advance_sprite_animation_and_textures(primitive);
     brightness = primitive->color.c.r
         - ((s32) primitive->color.c.r / (s16) ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_12);
     primitive->color.c.r = brightness;
@@ -546,7 +546,7 @@ typedef struct CounterBlock {
     u16 count;
 } CounterBlock;
 
-s32 func_8003DB94();        /* extern */
+s32 select_record_entry_and_value();        /* extern */
 extern s32 register_node();
 extern s32 play_sound_if_enabled();
 extern s32 draw_linked_sprites_clipped();
@@ -602,9 +602,9 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
         object_type = 0x12;
         if (effect_index != 0) {
             object_type = 0x212;
-            effect = func_8003FC64(object_type);
+            effect = allocate_flagged_object_node(object_type);
         } else {
-            effect = func_8003FC64(object_type);
+            effect = allocate_flagged_object_node(object_type);
         }
         if (effect != 0) {
             ((S_800C5E5C_0 *)effect)->unk_10 = advance_effect_motion_and_fade;
@@ -615,7 +615,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
             transform->unk_0A = z;
             transform->unk_14 = effect_offset;
             sprite = ((S_800C5E5C_0 *)effect)->unk_0C;
-            func_8003DB94(sprite, sprite_id, 0);
+            select_record_entry_and_value(sprite, sprite_id, 0);
             sprite_flags = sprite->flags;
             {
                 s32 color;
@@ -660,8 +660,8 @@ extern u8 D_800E0B65[];
 extern u8 D_800E0B73[];
 extern u8 D_800E0BA1[];
 
-void func_800419EC();
-void func_80040AA0();
+void initialize_timed_motion_step();
+void request_scene_dispatch_state();
 s32 get_entity_class();
 void mark_sprite_resources_for_purge();
 void snapshot_inventory_and_familiars();
@@ -669,12 +669,12 @@ void snapshot_inventory_familiar_records();
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes();
 s32 copy_four_text_bytes();
-void func_80099290();
+void clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void refresh_packed_grid_nibbles();
-s32 find_active_monster_record();
+s32 find_padded_rectangle();
 void detach_record_and_update_slot_state();
 extern s32 play_sound_if_enabled();
 void display_text_with_fullwidth_adjustment();
@@ -770,7 +770,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
             return;
         }
         play_sound_if_enabled(0x818);
-        func_800419EC(0x20, 8);
+        initialize_timed_motion_step(0x20, 8);
         *(u16 *)(w + 20) = *(u16 *)(w + 20) + 1;
         sys = (u8 *)0x80010000;
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
@@ -788,7 +788,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
                 r = write_text_byte_and_advance(0x4C, r);
                 r = copy_four_text_bytes(D_800E0458, r);
             }
-            func_80099290(r);
+            clear_byte_and_advance(r);
             display_text_with_fullwidth_adjustment(hnd);
             *(s16 *)(w + 22) = 0x80;
             return;
@@ -802,7 +802,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
             r = write_text_byte_and_advance(0x4C, r);
             r = copy_four_text_bytes(D_800E0458, r);
         }
-        func_80099290(r);
+        clear_byte_and_advance(r);
         display_text_with_fullwidth_adjustment(hnd);
         *(s16 *)(w + 22) = 0x40;
         return;
@@ -825,7 +825,7 @@ L_third:
             r = write_text_byte_and_advance(0x4C, r);
             r = copy_four_text_bytes(D_800E0458, r);
         }
-        func_80099290(r);
+        clear_byte_and_advance(r);
         display_text_with_fullwidth_adjustment(hnd);
         *(s16 *)w = phase;
         *(u16 *)((u8 *) st + 10) = *(u16 *)((u8 *) st + 10) + 1;
@@ -897,7 +897,7 @@ L_zero:
         *(s16 *)(w + 18) = 0;
         do {
             ep = *(u8 **)(e - 20);
-            if (phase == (s16)find_active_monster_record(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
+            if (phase == (s16)find_padded_rectangle(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
                 if (*(u8 *)(e + 19) == 0) {
                     dungeon_floor_flags |= 0x2000;
                     create_orbiting_teleport_effect(e, tbl[get_entity_class(e)], 0, 0);
@@ -1024,7 +1024,7 @@ L_zero:
     }
     o = (u8 *)0x80010000;
     if (*(u16 *)(o + 0x3714) & 4) {
-        func_80040AA0(3);
+        request_scene_dispatch_state(3);
         return;
     }
     snapshot_inventory_and_familiars(((u8 *)dungeon_actor_ring_anchor));
@@ -1040,7 +1040,7 @@ L_zero:
         ch = code;
     }
     current_dungeon_floor = *(u16 *)(o + 0x234);
-    func_80040AA0(ch);
+    request_scene_dispatch_state(ch);
     mark_sprite_resources_for_purge();
     *(u16 *)(w - 2) |= 0x8000;
     object_flag_block.flags |= 0x8000;

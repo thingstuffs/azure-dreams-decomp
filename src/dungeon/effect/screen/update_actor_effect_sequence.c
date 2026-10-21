@@ -33,7 +33,7 @@ void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base)
     SpriteFrameState *effect;
     void *result;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         init_data[0] = 0x01000340;
         init_data[1] = 0x00200020;

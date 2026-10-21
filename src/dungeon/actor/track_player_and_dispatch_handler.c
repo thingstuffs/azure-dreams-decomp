@@ -57,7 +57,7 @@ extern void call_the_same_context_both_processing_routines(void *, void *);
 extern void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 extern s32 service_script_controller();
 extern s32 check_object_type_and_data_tag(void *);
-extern void func_8009C340(void *, void *, void *, s32);
+extern void unlink_and_remove_scene_object(void *, void *, void *, s32);
 extern void retry_sound_sequence_when_ready(void);
 
 /* Adjusts the position and dispatches the current state handler for the owner. */
@@ -112,7 +112,7 @@ void track_player_and_dispatch_handler(void *context, S_7FFFE25C_1 *owner, Entit
             dispatch_pos = adjusted_pos;
             ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
         } else if (current == (s32)&D_80093638) {
-            func_8009C340(context, owner, adjusted_pos, dispatch_param);
+            unlink_and_remove_scene_object(context, owner, adjusted_pos, dispatch_param);
         } else if (!(current == (s32)&D_80092698 || current == (s32)&D_800927EC ||
             current == (s32)&D_80092A84 || current == (s32)&D_80092FF0 ||
             current == (s32)&D_80092CD4 || current == (s32)&D_80092DA8 ||

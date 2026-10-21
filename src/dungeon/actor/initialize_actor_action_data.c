@@ -7,11 +7,11 @@ typedef struct {
 } Func800CF16CArg;
 
 extern s32 fade_actor_to_removal(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value);
-extern void decrement_event_counter(void);
+extern void decrement_bounded_counter(void);
 
 void initialize_actor_action_data(void *first_ptr, void *second_ptr, Func800CF16CArg *record, s32 value) {
     if (fade_actor_to_removal(first_ptr, second_ptr, record, value) != 0) {
-        decrement_event_counter();
+        decrement_bounded_counter();
         return;
     }
 

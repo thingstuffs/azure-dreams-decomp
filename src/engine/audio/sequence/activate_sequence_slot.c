@@ -48,7 +48,7 @@ loop:
                 request.field_0 = *channel_flags;
                 request.field_8 = *(u16 *)(channel + 0x10);
                 request.field_A = *(u16 *)(channel + 0x12);
-                func_8005F134(&request);
+                apply_spu_voice_attributes(&request);
             }
         }
         channel_flags++;

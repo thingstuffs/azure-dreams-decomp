@@ -28,7 +28,7 @@ void create_gym_mesh_object(void *source_words, s32 data_value_08, s32 object_va
     void *copy_dst;
     SpriteFrameState *object_data;
 
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     if (object != NULL) {
         register_node(object, D_80046398);
         copy_dst = object->unk_08;

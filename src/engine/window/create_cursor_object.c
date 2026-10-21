@@ -58,7 +58,7 @@ typedef struct S_80036B10_8 {
 
 
 void runtime_initialize_state_value();
-void func_800350B0();
+void prepend_embedded_object_node();
 extern u8 window_node_list_storage[];
 extern void runtime_handle_transform_submit_textured_sprite_quads_each_node_invoke_callback(void);
 extern void update_cursor_callback(void);
@@ -87,7 +87,7 @@ void create_cursor_object(s32 task_buffer, Rec_D_80081FDC *record, s32 *source, 
         variant_table[((S_80036B10_8 *)(((S_80036B10_7 *)(((Rec_func_80036210_arg0 *)source)->unk_74.as_pm))->unk_80))->unk_02];
     state->unk_04 = 0;
     state->unk_08 = 0;
-    func_800350B0(setup_arg, state);
+    prepend_embedded_object_node(setup_arg, state);
     render_data->unk_0C = 0x808080;
-    func_8003DB94(render_data, &cursor_sprite_source, 0);
+    select_record_entry_and_value(render_data, &cursor_sprite_source, 0);
 }

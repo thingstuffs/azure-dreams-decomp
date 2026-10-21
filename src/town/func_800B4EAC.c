@@ -13,7 +13,7 @@ extern void update_active_entry_and_notify_handlers(s8 *state, s32 input);
 extern void decrement_entry_and_notify_handlers(void *);
 extern void store_table_index_and_entry_bytes(void *, s32);
 extern s32 move_item_to_list(void *);
-extern void func_800B25D8(void *);
+extern void sort_selected_record_entries(void *);
 extern void set_object_data_pointer_if_present(void *);
 
 /* Handles menu button actions and directional cursor movement with key repeat. */
@@ -43,7 +43,7 @@ void handle_item_menu_input_2(u8 *menu) {
             SD_Call(0x503);
         } else if (pressed_buttons & 0x10) {
             SD_Call(0x503);
-            func_800B25D8(menu);
+            sort_selected_record_entries(menu);
             decrement_entry_and_notify_handlers(menu);
         } else if (pressed_buttons & 4) {
             store_table_index_and_entry_bytes(menu, 0);

@@ -408,7 +408,7 @@ void advance_target_growth_and_fade(Unk818DAD38Owner *owner, s32 unused,
     owner_flags = (u16 *)((u8 *)owner->unk0 + 0x52);
     *owner_flags |= 0x8000;
     owner->timer--;
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
 
     if (target->flags & 0x6000) {
         target->unk4 = 0;

@@ -7,5 +7,5 @@ extern M2C_UNK D_800D42CC;
 
 /* Passes the global buffer and data address to append_town_movie_list_node. */
 void create_familiar_restoration_effect(void) {
-    append_town_movie_list_node(town_movie_callback_list, &D_800D42CC);
+    append_list_tail(town_movie_callback_list, &D_800D42CC);
 }

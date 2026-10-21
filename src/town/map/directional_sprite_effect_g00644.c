@@ -62,7 +62,7 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
 
 /* Advance the two coordinates and propagate status flags to the object and global state. */
 void advance_coordinates_and_propagate_flags(void *object_data, void *motion, void *status) {
-    func_800478B8(status);
+    advance_sprite_animation_and_textures(status);
     ((S_800BC6CC_0 *)motion)->unk_00 = (s32) (((S_800BC6CC_0 *)motion)->unk_00 + ((S_800BC6CC_0 *)motion)->unk_0C);
     ((S_800BC6CC_0 *)motion)->unk_04 = (s32) (((S_800BC6CC_0 *)motion)->unk_04 + ((S_800BC6CC_0 *)motion)->unk_10);
     if (((SpriteFrameState *)status)->flags & 0x6000) {
@@ -90,9 +90,9 @@ void wait_then_process_record(S_800BC764_0 *context, void *unused, Rec_D_80082E8
         }
         return;
     case 2:
-        func_800478B8(record);
+        advance_sprite_animation_and_textures(record);
         if (record->unk_14.at00_u16.v & 0x6000) {
-            func_8003DB94(record, &D_800F15E4, 0);
+            select_record_entry_and_value(record, &D_800F15E4, 0);
             context->unk_68 = 0;
         }
         break;
@@ -105,6 +105,6 @@ void initialize_record_resources(void *record, s32 init_context, s32 resource_ta
     ((S_800BC840_0 *)((u8 *)record - 0x10))->unk_60 = 0;
     register_node(record - 0x20, project_sprite_chain);
     ((S_800BC840_0 *)((u8 *)record - 0x10))->unk_58 = (s32) D_800D20E4;
-    func_8003DB94(resource_target, &D_800F15E4, 0);
+    select_record_entry_and_value(resource_target, &D_800F15E4, 0);
     configure_the_set_mode_n_1(record, init_context, (s32)(&D_800D20CC));
 }

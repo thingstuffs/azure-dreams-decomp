@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-extern void func_8004D1EC(void *a0, void *a1, u16 a2, void *a3);
+extern void initialize_three_component_interpolation(void *a0, void *a1, u16 a2, void *a3);
 /* Set position and rotation targets, adjusting rotation components across the 12-bit wrap. */
 void set_camera_targets(void *target_position, void *target_rotation, s32 transition_param)
 {
@@ -14,7 +14,7 @@ void set_camera_targets(void *target_position, void *target_rotation, s32 transi
     s32 angle_delta;
     s32 within_half_turn;
     if (target_position != 0) {
-        func_8004D1EC(&state->slot[0].unk_04, target_position, transition_param, &state->camera_position.parts.camera_position_x);
+        initialize_three_component_interpolation(&state->slot[0].unk_04, target_position, transition_param, &state->camera_position.parts.camera_position_x);
     }
     if (target_rotation != 0) {
         s32 current_angle_wide_m;
@@ -108,6 +108,6 @@ void set_camera_targets(void *target_position, void *target_rotation, s32 transi
         if (!within_half_turn) {
             *((s16 *) (((u8 *) target_rotation) + 4)) = (current_angle & 0xF000) | (angle_bits & 0xFFF);
         }
-        func_8004D1EC(&state->slot[2].unk_04, target_rotation, transition_param, &state->camera_rotation.parts.camera_rotation_x);
+        initialize_three_component_interpolation(&state->slot[2].unk_04, target_rotation, transition_param, &state->camera_rotation.parts.camera_rotation_x);
     }
 }

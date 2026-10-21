@@ -48,7 +48,7 @@ extern u16 system_update_flags;
 extern u8 D_801746B4[];
 extern u8 D_800F93AA[];
 
-extern void func_800353F4(void *);
+extern void enqueue_runtime_pool_script(void *);
 extern void select_sprite_entry(Arg2 *, u8, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(Arg3 *);
@@ -102,7 +102,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, Arg2 *anima
                 g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
                 *(u16 *)((u8 *)actor + 0x46) &= 0x7FFF;
                 *(u16 *)&system_update_flags = system_update_flags | 8;
-                func_800353F4(effect);
+                enqueue_runtime_pool_script(effect);
                 entry_index = 0;
                 resource_flag = 0x80000000;
                 actor->unk6d = 0;

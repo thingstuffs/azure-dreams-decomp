@@ -27,7 +27,7 @@ s32 submit_driver_seven_bit_pair(s32 flag_index, s32 first_value, s32 second_val
     request.fa = (second_value & 0x7F) << 7;
     request.flags = flags;
 
-    func_8005F134(&request);
+    apply_spu_voice_attributes(&request);
 
     return 0;
 }

@@ -14,7 +14,7 @@ typedef struct S_800AC454_0 {
 void clear_first_record_field_and_counter(void) {
     void *record;
 
-    record = func_8003FC64(0);
+    record = allocate_flagged_object_node(0);
     D_80081508 = record + 0x20;
     ((S_800AC454_0 *)record)->unk_20 = 0;
     tile_key_pair_count = 0;

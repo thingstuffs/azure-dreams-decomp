@@ -168,7 +168,7 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
     SpriteFrameState *sprite;
     Row_81922FB8_S_800247B8_4 *position;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         state = effect + 0x20;
         state->unk_5A = 10;
@@ -274,7 +274,7 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
     Row_819232EC_S_80024AEC_0 *effect_state;
     Row_819232EC_S_80024AEC_4 *effect_position;
 
-    effect = func_8003FC64(0x12);
+    effect = allocate_flagged_object_node(0x12);
     effect_state = effect + 0x20;
     if (effect != NULL) {
         effect_state->unk_5A = 0x3C;
@@ -309,7 +309,7 @@ void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_Dun
     ticks_left = *(u16 *)(entity_data + 0x5A);
     *(s16 *)((u8 *)&(*(Row_8192340C_DungeonActive *)D_80025B60)) = 1;
     if (!(ticks_left & 3)) {
-        func_800478B8(effect_data);
+        advance_sprite_animation_and_textures(effect_data);
     }
 
     updated_value = effect_data->unk_1C + 0x32;
@@ -351,7 +351,7 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
     Row_81923534_S_80024D34_0 *effect_data;
     s32 random_value;
 
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         effect_data = (u8 *)effect + 0x20;
         effect_data->unk_5A = 0xE;
@@ -380,7 +380,7 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
         render_style->color.c.r = 0x80;
         render_style->clut = 0x7DCF;
         render_style->flags = render_style->flags | 0x100;
-        func_8003DB94(render_style, effect_sprite_sources, 0);
+        select_record_entry_and_value(render_style, effect_sprite_sources, 0);
     }
 }
 
@@ -668,5 +668,5 @@ update_impact:
             return;
         }
     }
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
 }

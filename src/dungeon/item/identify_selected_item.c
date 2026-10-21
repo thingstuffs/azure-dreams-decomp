@@ -26,10 +26,10 @@ extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_typed_formatted_value(void *, s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32);
 extern void clear_selected_item_flag_400(void *);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
@@ -53,7 +53,7 @@ s32 identify_selected_item(ActorRecord *entity, s32 action_id, s16 action_type, 
     if ((u32)entity <= 0x9FFFFFFF) {
         display_actor_item_status_message(entity, action_id);
         if (feed_actor_restore_mp(entity, entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, action_id) == 0) {
-            apply_item_effect_at_entity_position(entity, action_id);
+            place_actor_item(entity, action_id);
             return 1;
         }
     } else {
@@ -63,7 +63,7 @@ s32 identify_selected_item(ActorRecord *entity, s32 action_id, s16 action_type, 
         message_pos = expand_text_control_codes(D_800E11F5, append_typed_formatted_value(((S_800BF074_1 *)entity_state)->unk_04, message_pos));
         ((S_800BF074_2 *)(((S_800BF074_1 *)entity_state)->unk_04))->unk_03 &= 0x7F;
         clear_selected_item_flag_400(((S_800BF074_1 *)entity_state)->unk_04);
-        func_80099290(expand_text_control_codes(D_80089374, append_typed_formatted_value(((S_800BF074_1 *)entity_state)->unk_04, message_pos)));
+        clear_byte_and_advance(expand_text_control_codes(D_80089374, append_typed_formatted_value(((S_800BF074_1 *)entity_state)->unk_04, message_pos)));
         display_text_with_fullwidth_adjustment(saved_message_pos);
     }
 

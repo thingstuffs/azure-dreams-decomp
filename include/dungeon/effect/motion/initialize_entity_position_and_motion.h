@@ -62,7 +62,7 @@ typedef struct ovl_19a332c_81982864_StackPair {
 typedef struct ovl_19a332c_81982B2C_EntityInner {
     u8 pad0[8];
     void *coords;
-    void *actor;
+    void *sprite;
 } ovl_19a332c_81982B2C_EntityInner;
 typedef struct ovl_19a332c_81982B2C_Entity {
     u8 pad0[8];
@@ -608,14 +608,14 @@ extern s32 D_800DF31C;
 extern s32 rand(void);
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
-extern void func_8003DB94(void *, void *, s32);
+extern void select_record_entry_and_value(void *, void *, s32);
 extern u8 D_80026AB0[];
 extern u8 D_800269EC[];
 extern s16 curved_trail_sample_count;
 extern ovl_19a332c_8198332C_Coord curved_trail_position;
 s32 func_80069EF8();
 void apply_attack_power_and_element_effects();
-s32 forward_monster_coordinate_delta();
+s32 calculate_planar_heading();
 void spawn_blinking_sprite_flash();
 extern u8 D_80026BC8[];
 extern u8 D_80026BD4[];

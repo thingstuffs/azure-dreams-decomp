@@ -7,7 +7,7 @@ typedef struct {
 extern PackedWord D_80018A98[3];
 
 /* Initialize a record with the default header and field values. */
-void *func_806975C4(void *record) {
+void *initialize_packed_record_defaults(void *record) {
     *(PackedWord *)record = D_80018A98[0];
     ((u8 *)record)[5] = 15;
     ((u8 *)record)[4] = 2;

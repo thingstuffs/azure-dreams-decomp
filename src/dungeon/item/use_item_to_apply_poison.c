@@ -26,7 +26,7 @@ void begin_deferred_item_action(void *entity, void *first_ptr, void *second_ptr,
 void clear_slot_and_update_linked_state();                         /* extern */
 void adjust_source_value_and_finalize();           /* extern */
 s32 set_or_clear_actor_status_slot();        /* extern */
-void apply_item_effect_at_entity_position();                 /* extern */
+void place_actor_item();                 /* extern */
 void display_item_status_message(void *entity, s32 item, s16 action_type);   /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void *spawn_randomized_particle_burst(); /* extern */
@@ -45,7 +45,7 @@ s32 use_item_to_apply_poison(void *entity, s32 item, s16 action_type) {
         display_item_status_message(entity, item, action_type);
         if (feed_actor_restore_mp(entity, (*((u16 *)(((u8 *)entity_action_selectors) + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2))
             >> 6) & 3, 0) == 0) {
-            apply_item_effect_at_entity_position(entity, item);
+            place_actor_item(entity, item);
             return 1;
         }
     }

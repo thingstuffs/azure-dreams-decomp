@@ -16,7 +16,7 @@ extern s32 card_ui_dirty_flags[4];
 extern s32 D_8008DAB4_2[4];
 
 /* Processes object components and sets the object and global 0x8000 flags. */
-void card_dev_refresh_save_screen(void *object) {
+void release_card_screen_parts(void *object) {
     s32 *component_cursor;
     s32 component_count;
     u16 object_flags;

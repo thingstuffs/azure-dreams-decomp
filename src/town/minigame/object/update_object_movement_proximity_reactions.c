@@ -140,7 +140,7 @@ loop_0:
         U16(state, 0x10) |= 4;
         U16(PTR(object, 0), 0x14)++;
         do {
-            effect = func_8003FC64(0x136);
+            effect = allocate_flagged_object_node(0x136);
             if (effect != 0) {
                 effect_state = effect + 0x20;
                 PTR(effect, 0x10) = D_80026748;

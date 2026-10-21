@@ -12,7 +12,7 @@ typedef struct Ent Ent;
 void select_sprite_entry();
 Ent *prepare_directional_attack();
 s32 get_actor_height_difference();
-s32 place_actor_at_directional_neighbor();
+s32 probe_directional_neighbor();
 s32 try_claim_dungeon_action_slot();
 s32 check_entity_interaction_compatibility();
 s32 apply_camera_offset_and_select_target();
@@ -33,7 +33,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
         return -1;
     }
 
-    direction = place_actor_at_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+    direction = probe_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                          ((Rec_D_80082E80 *)sprite)->unk_25,
                          ((ActorRecord *)actor)->facing);
     result = 0;

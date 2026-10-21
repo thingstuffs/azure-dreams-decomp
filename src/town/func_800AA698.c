@@ -4,7 +4,7 @@
 
 extern s32 classify_object_against_bounds(void *, void *);
 extern void unlink_node_if_registered(void *object);
-extern void func_800478B8(void *fallback_data);
+extern void advance_sprite_animation_and_textures(void *fallback_data);
 
 void handle_object_bounds_and_cleanup(void *object, void *check_data, void *fallback_data)
 {
@@ -20,6 +20,6 @@ void handle_object_bounds_and_cleanup(void *object, void *check_data, void *fall
         object_flag_block.flags |= 0x8000;
         return;
     } else {
-        func_800478B8(fallback_data);
+        advance_sprite_animation_and_textures(fallback_data);
     }
 }

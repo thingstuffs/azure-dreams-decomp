@@ -42,7 +42,7 @@ void card_boot_refresh_paired_choice_labels(u8 *state)
         if (*entry != 0) {
             record_offset = id * 12;
             record_offset += 4;
-            func_8004CBFC(state + record_offset, D_80028074[slot], entry);
+            initialize_scaled_entry_cursor(state + record_offset, D_80028074[slot], entry);
         }
 
         table_offset = *(s32 *)(state + 0x24) * 2;

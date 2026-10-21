@@ -29,7 +29,7 @@ typedef struct {
 
 extern s32 func_800644B8(s32 angle);
 extern s32 unlink_entity_node(void *node);
-extern s32 has_pending_action_or_turn_count(void *unused);
+extern s32 has_actor_or_actions(void *unused);
 extern s32 detach_record_and_update_slot_state(void *record);
 
 /* Animate a staged shrinking and fading effect, then release its object. */
@@ -40,7 +40,7 @@ void advance_pulsing_effect_animation(State *state, Position *position, Motion *
 
     switch (state->state_9b) {
     case 0:
-        if ((has_pending_action_or_turn_count(object) << 16) != 0) {
+        if ((has_actor_or_actions(object) << 16) != 0) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;

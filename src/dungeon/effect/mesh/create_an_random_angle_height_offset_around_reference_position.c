@@ -83,7 +83,7 @@ void create_an_random_angle_height_offset_around_reference_position(void)
             render_data->color.c.b = (height_or_shade = 0x80);
             render_data->color.c.g = height_or_shade;
             render_data->color.c.r = height_or_shade;
-            func_8003DB94(render_data, render_config, 0);
+            select_record_entry_and_value(render_data, render_config, 0);
             render_data->scale_y = 0x200;
             render_data->scale_x = 0x200;
             render_data->flags = (u16) (render_data->flags | 0xC);

@@ -19,7 +19,7 @@ typedef struct S_801722E0_2 {
 extern void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
 extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
-extern void * func_80099290();
+extern void * clear_byte_and_advance();
 extern s32 append_entity_display_text();
 extern s32 has_pending_dungeon_activity();
 extern s32 display_text_with_fullwidth_adjustment();
@@ -53,7 +53,7 @@ void advance_actor_walk_animation(void *owner, void *unused, void *part, EntityR
         adjusted_value = append_entity_display_text(actor, current_value = get_unused_text_buffer());
         original_value = current_value;
         current_value = adjusted_value;
-        func_80099290(expand_text_control_codes(
+        clear_byte_and_advance(expand_text_control_codes(
             garuda_walk_text,
             append_entity_display_text(((S_801722E0_2 *)owner)->unk_A8,
                 expand_text_control_codes(D_80170838, current_value))));

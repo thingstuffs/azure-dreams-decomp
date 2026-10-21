@@ -33,7 +33,7 @@ extern u8 *audio_sequence_data_base[4];
 extern void scale_value_with_remainder(Entity *);
 
 /* Initialize playback slot offsets, timing, and state for the input format. */
-s32 func_800599B0(void)
+s32 initialize_audio_sequence_tracks(void)
 {
     u32 entity_index;
     Entity *entity;

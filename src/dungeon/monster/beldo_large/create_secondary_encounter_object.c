@@ -46,7 +46,7 @@ void create_secondary_encounter_object(void) {
     S_80170700_1 *object;
 
     source_data = ((Rec_D_80175D50 *)beldo_actor_nodes)->unk_0C;
-    object = func_8003FC64(0x112);
+    object = allocate_flagged_object_node(0x112);
     if (object != NULL) {
         render_data = object->unk_0C;
         object->unk_38 = 0;

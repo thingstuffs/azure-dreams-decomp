@@ -9,7 +9,7 @@ typedef struct S_800BC8D0_1_pre {
     u8 pad_04[0xC];
 } S_800BC8D0_1_pre;   /* the 0x10 bytes before arg0 in initialize_object_with_default_data, addressed as arg0[-1] */
 
-extern void func_8003DB94(void *, s32, s32);
+extern void select_record_entry_and_value(void *, s32, s32);
 extern void register_node(void *, void *);
 extern void configure_the_set_mode_n_3(void *, s32, void *);
 extern u8 D_80089634[];
@@ -33,5 +33,5 @@ void initialize_object_with_default_data(void *object, s32 init_arg, SpriteFrame
     ((Rec_D_800CFCB4 *)object)->unk_A4 = defaults[1];
     ((Rec_D_800CFCB4 *)object)->unk_A8 = defaults[2];
     configure_the_set_mode_n_3(object, init_arg, D_800D20F4);
-    func_8003DB94(state, defaults[2], 0);
+    select_record_entry_and_value(state, defaults[2], 0);
 }

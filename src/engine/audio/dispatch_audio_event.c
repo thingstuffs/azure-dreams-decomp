@@ -31,7 +31,7 @@ void dispatch_audio_event(s32 event) {
             handle_audio_status_code(0x71);
         }
         if (event_bits & 2) {
-            func_80054104();
+            stop_flagged_sound_voices();
         }
         if (event_bits & 4) {
             audio_handle_stream_control_event(0x74);

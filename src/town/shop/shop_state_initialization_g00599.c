@@ -25,7 +25,7 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_p
     S_800AE1AC_0 *shop_state;
     void *shop;
 
-    shop = func_8003FC64(0);
+    shop = allocate_flagged_object_node(0);
     if (shop != 0) {
         shop_state = shop + 0x20;
         shop_state->unk_20 = shared_param;

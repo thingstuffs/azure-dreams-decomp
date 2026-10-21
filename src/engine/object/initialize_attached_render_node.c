@@ -32,7 +32,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
     ((S_80035888_1 *)object)->unk_04 = 0;
     ((S_80035888_1 *)object)->unk_08 = draw_window_rects;
     copy_window_params(object, attached_node_default_parameters);
-    func_800350B0(owner, object);
+    prepend_embedded_object_node(owner, object);
 
     {
         s32 color;

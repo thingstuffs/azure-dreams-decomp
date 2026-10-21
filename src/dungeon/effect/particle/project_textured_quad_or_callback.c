@@ -17,7 +17,7 @@ extern M2C_UNK D_800E1C8A;
 
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
 extern void adjust_source_value_and_finalize(void *, void *);
 extern s32 try_trigger_target_record_effect(void *, s32);
@@ -26,7 +26,7 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 get_random_scaled_value(s16 input_value);
 
 /* Applies a directional effect and reports the result for flagged entities. */
-void func_80024098(void *entity, s32 direction, void *unused)
+void apply_random_duration_actor_status(void *entity, s32 direction, void *unused)
 {
     s32 message_start;
     s32 message_end;
@@ -45,7 +45,7 @@ void func_80024098(void *entity, s32 direction, void *unused)
             message_end = expand_text_control_codes(&D_80024004, message_end);
             message_end = append_entity_display_text(entity, message_end);
             message_end = expand_text_control_codes(&D_80024034, message_end);
-            func_80099290(message_end);
+            clear_byte_and_advance(message_end);
             display_text_with_fullwidth_adjustment(message_start);
         }
     }
@@ -718,7 +718,7 @@ s32 project_colored_point(u8 *render_data, u8 *source_vertex)
 #include "shared/object_flags.h"
 
 /* Adjust height conditionally and set flags when the countdown reaches zero or below. */
-void func_80025278(void *state, s16 *position)
+void advance_point_effect_toward_terrain(void *state, s16 *position)
 {
     s16 *state_words = state;
     s16 countdown;
@@ -784,7 +784,7 @@ static __inline__ S_func_81875B38_2 *effect_offset_32(void *p) {
 }
 
 /* Spawn and initialize an effect at a randomly offset position relative to the source. */
-void func_80025338(
+void create_terrain_seeking_point_effect(
     void *source,
     s32 property_34,
     s32 property_28,
@@ -801,7 +801,7 @@ void func_80025338(
 
     effect_ptr = allocate_list_node(0x211, source_obj);
     if (effect_ptr != NULL) {
-        effect_ptr->unk_10 = (s32)func_80025278;
+        effect_ptr->unk_10 = (s32)advance_point_effect_toward_terrain;
         jitter = rand() & 0x1F;
         effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_02 + jitter;
         effect_pos += x_offset - 0x10;
@@ -832,7 +832,7 @@ void func_80025338(
 #include "shared/object_flags.h"
 
 extern s32 func_80069EF8(void);
-extern void func_80025338(void *, s32, s32, s16, s16, s16, s16);
+extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 
 typedef struct {
     u8 bytes[12];
@@ -957,7 +957,7 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
             r2 = (s16)((func_80069EF8() & 0x7F) - 0x40);
             r3 = (s16)((func_80069EF8() & 0x3F) - 0x60);
             color = 0xE04040;
-            func_80025338(p - 0x20, 0, color, r0, r1, r2, r3);
+            create_terrain_seeking_point_effect(p - 0x20, 0, color, r0, r1, r2, r3);
         } while (i < 0x20);
         return;
 
@@ -1376,7 +1376,7 @@ extern Copy12 D_8002664C;
 extern s32 get_sprite_attachment_vector(void *, void *, Vec3s *, s32);
 extern s32 func_80069EF8(void);
 extern s32 check_adjacent_tile_height_clearance(u16, u16, s16, void *);
-extern void func_80025338(void *, s32, s32, s16, s16, s16, s16);
+extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16, s16);
 
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
@@ -1533,7 +1533,7 @@ L0_adjust_z:
         i = 0;
         do {
             void *spawn;
-            spawn = func_8003FC64(0x12);
+            spawn = allocate_flagged_object_node(0x12);
             if (spawn != 0) {
                 entry = (u8 *)spawn + 0x20;
                 {
@@ -1651,7 +1651,7 @@ L1_calc:
         }
         {
             void *spawn;
-            spawn = func_8003FC64(0x12);
+            spawn = allocate_flagged_object_node(0x12);
             if (spawn != 0) {
                 entry = (u8 *)spawn + 0x20;
                 ((S_800259D8_5 *)entry)->unk_00.at02.v = 0;
@@ -1712,7 +1712,7 @@ L1_calc:
             i = 0;
             while (1) {
                 value = func_80069EF8();
-                func_80025338((u8 *)effect - 0x20, ((S_800259D8_0 *)effect)->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0,
+                create_terrain_seeking_point_effect((u8 *)effect - 0x20, ((S_800259D8_0 *)effect)->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0,
                     0, 0);
                 i++;
                 if (i >= 4) {
@@ -1764,7 +1764,7 @@ L1_calc:
             ((S_800259D8_11 *)fade_entry)->unk_0E = 0x80;
             ((S_800259D8_11 *)fade_entry)->unk_0D = 0x80;
             ((S_800259D8_11 *)fade_entry)->unk_0C = 0x80;
-            func_80024098(((S_800259D8_3 *)obj)->unk_60, ((S_800259D8_0 *)effect)->unk_09, obj);
+            apply_random_duration_actor_status(((S_800259D8_3 *)obj)->unk_60, ((S_800259D8_0 *)effect)->unk_09, obj);
         }
         ((S_800259D8_0 *)effect)->unk_84.u = 13;
         ((S_800259D8_0 *)effect)->unk_0A.u++;

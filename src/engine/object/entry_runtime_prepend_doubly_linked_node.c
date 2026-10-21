@@ -7,7 +7,7 @@ typedef struct {
 } Struct800350B0;
 
 /* Store a self-reference and pass its address to runtime_prepend_doubly_linked_node. */
-void func_800350B0(void *context, Struct800350B0 *object) {
+void prepend_embedded_object_node(void *context, Struct800350B0 *object) {
     object->unk_54 = object;
     runtime_prepend_doubly_linked_node(context, &object->unk_54);
 }

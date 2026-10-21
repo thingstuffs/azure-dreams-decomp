@@ -73,7 +73,7 @@ void reserve_twch_load(s32 entry_id) {
     } while (entry_index < 15);
 }
 
-void func_8008B4B0(void) {
+void load_reserved_slot_resources(void) {
     s32 slot;
     u8 *entry_id;
 

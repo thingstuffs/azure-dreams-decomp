@@ -55,10 +55,10 @@ s32 audio_stop_effect_voice(s16 slot_id)
         *(u16 *)(busy_or_slot + 0x0A) = 0;
         sound_apply_indexed_voice_envelope(slot_index, (S_80085458 *)busy_or_slot);
         sound_reset_indexed_voice_envelope(slot_index);
-        func_8005E97C(0, audio_voice_masks[slot_index]);
+        set_spu_voice_keys(0, audio_voice_masks[slot_index]);
         do {
-            func_8005E97C(0, slot_handle);
-            status = func_8005EB78(slot_handle);
+            set_spu_voice_keys(0, slot_handle);
+            status = read_selected_voice_key_state(slot_handle);
             if (status == 2) {
                 break;
             }

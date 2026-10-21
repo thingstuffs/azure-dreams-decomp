@@ -11,7 +11,7 @@ s32 find_flagged_record_by_id(s32, s32);
 void begin_deferred_player_item_effect(void *, s32, void *, void *);
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(u8 *src, u8 *dst);
-void func_80099290(s8 *byte_ptr);
+void clear_byte_and_advance(s8 *byte_ptr);
 s32 write_text_byte_and_advance(s8 value, s8 *dest);
 s32 append_typed_formatted_value(s32, s32);
 s32 process_eligible_object_value(s32, s32);
@@ -135,7 +135,7 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
             text_cursor = expand_text_control_codes(D_800E06EB, text_cursor);
             text_cursor = process_eligible_object_value(
                 ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, text_cursor);
-            func_80099290(text_cursor);
+            clear_byte_and_advance(text_cursor);
             display_text_with_fullwidth_adjustment(text_start);
             play_sound_if_enabled(0x509);
         }

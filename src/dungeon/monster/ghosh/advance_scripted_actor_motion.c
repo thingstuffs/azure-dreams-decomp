@@ -11,10 +11,10 @@ typedef struct {
 typedef struct {
     InitPair pair[8];
 } __attribute__((packed)) InitBlock;
-void func_800419EC();            /* extern */
+void initialize_timed_motion_step();            /* extern */
 void select_indirect_table_entry();              /* extern */
 void select_sprite_entry();         /* extern */
-void func_800478B8();  /* extern */
+void advance_sprite_animation_and_textures();  /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80069EF8();                                /* extern */
 s32 play_sound_if_enabled();                     /* extern */
@@ -131,7 +131,7 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
 
     direction_vectors = D_8016A894;
     beldo = (S_func_8132B8AC_3 *)(D_80174CE0 + 0x20);
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     state = actor->unk_9A;
     switch (state) {
     case 0:
@@ -379,14 +379,14 @@ void advance_scripted_actor_motion(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *
             create_boss_display_variant(motion, -0x50, 0, -0x10, 0);
             create_boss_display_variant(motion, -0x28, 0, -8, 0);
             create_boss_display_variant(motion, -0x1C, 0, -0x1E, 0);
-            func_800419EC(6, 0xC);
+            initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x601);
         }
         if ((s16) actor->unk_96 == 8) {
             create_boss_display_variant(motion, -0x30, 0, -0xA, 1);
             create_boss_display_variant(motion, -0x18, 0, -0x18, 1);
             create_boss_display_variant(motion, 0, 0, -0x10, 1);
-            func_800419EC(6, 0xC);
+            initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x601);
         }
         motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);

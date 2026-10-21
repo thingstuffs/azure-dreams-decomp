@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *target);
+extern void advance_sprite_animation_and_textures(void *target);
 
 /* Marks the record when target flags are set, then processes the target. */
 void process_effect_on_target_flags(u16 *record, void *unused, u16 *target) {
@@ -10,5 +10,5 @@ void process_effect_on_target_flags(u16 *record, void *unused, u16 *target) {
         *record_flags = (u16)(*record_flags | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;
     }
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
 }

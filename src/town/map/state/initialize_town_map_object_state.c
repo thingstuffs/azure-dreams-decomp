@@ -5,7 +5,7 @@
 struct Rec_D_80081FDC; void runtime_initialize_state_value(struct Rec_D_80081FDC *, s32);
 void unlink_node_if_registered();
 struct Container; struct Source; void copy_window_params(struct Container *, struct Source *);
-void func_8003DB94(void *, void *, s16);
+void select_record_entry_and_value(void *, void *, s16);
 s32 register_node();
 extern u8 town_map_tag;
 extern u8 D_80037714;
@@ -59,7 +59,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, void *ob
     *((s16 *) (((s8 *) state) + 0x60)) = 0;
     render_data->color.word = 0x808080;
     if (((u32) (type_id - 9)) < 2U) {
-        func_8003DB94(render_data, &D_800794AC, 0);
+        select_record_entry_and_value(render_data, &D_800794AC, 0);
     }
     else {
         render_data->source = 0;

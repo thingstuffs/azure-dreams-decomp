@@ -4,7 +4,7 @@
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
 
-extern s32 func_80053EF0(s32 a0);
+extern s32 read_sound_mode_blocking_status(s32 a0);
 extern s16 SD_Call(s32 a0);
 extern void update_vsync_frame_id(s32 a0);
 extern void func_80044618(s32 a0);

@@ -1,7 +1,7 @@
 #include "dungeon/effect/sprite/advance_timed_visual_effect.h"
 
 
-void func_800246F8(void *state_data, s32 unused, void *scale_data)
+void expire_effect_at_unit_scale(void *state_data, s32 unused, void *scale_data)
 {
     u8 *state = state_data;
     s32 remaining_ticks;
@@ -23,7 +23,7 @@ void func_800246F8(void *state_data, s32 unused, void *scale_data)
    Hold the signed halfword reload in a pinned s32 $a0 local: this selects
    retail's direct lh/bgtz and avoids the s16 pin's extra lhu/sll pair. */
 
-void func_80024750(void *object) {
+void finish_timed_visual_effect(void *object) {
     u16 *flags = (u16 *)object - 1;
 
     (*(s16 *)D_80025E80) = 1;
@@ -197,13 +197,13 @@ void update_tiled_fade_effect(void *effect, void *offset_state, void *render_sta
     }
 }
 
-void func_80024DB8(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance) {
+void create_owner_linked_mirrored_sprite(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance) {
     Row_818FF5B8_S_818FF5B8_2 *sprite;
     void *object;
     Row_818FF5B8_S_818FF5B8_0 *state;
     Row_818FF5B8_S_818FF5B8_3 *position;
 
-    object = func_8003FC64(0x212);
+    object = allocate_flagged_object_node(0x212);
     state = object + 0x20;
     if (object != 0) {
         state->unk_2C = (void *) *owner_ref;

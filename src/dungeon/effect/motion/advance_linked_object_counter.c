@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *target);
+extern void advance_sprite_animation_and_textures(void *target);
 
 /* Increment the linked object's counter, process the target, and propagate its status flags. */
 void advance_linked_object_counter(void *entry, s32 unused, void *target) {
@@ -9,7 +9,7 @@ void advance_linked_object_counter(void *entry, s32 unused, void *target) {
 
     linked_obj = *(u8 **)((u8 *)entry + 0xC);
     *(u16 *)(linked_obj + 0x16) += 1;
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         *(u16 *)((u8 *)entry - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;

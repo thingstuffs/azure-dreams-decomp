@@ -74,7 +74,7 @@ u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_in
 }
 
 /* Turns selected SPU voices on or off, queuing register writes when enabled. */
-void func_8005E97C(s32 key_on, u32 voices)
+void set_spu_voice_keys(s32 key_on, u32 voices)
 {
     u16 voices_lo;
     u16 voices_hi;

@@ -70,7 +70,7 @@ extern void get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, 
 extern void spawn_opposite_offset_effect(DungeonEffect *, s16);
 /* sub in spawn_randomized_radial_burst */
 extern void register_node(void *, void *);
-extern void func_8003DB94(void *, void *, s16);
+extern void select_record_entry_and_value(void *, void *, s16);
 extern s32 D_800B63A8;
 extern s32 D_800DEC00;
 

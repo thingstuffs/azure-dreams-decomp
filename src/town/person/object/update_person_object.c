@@ -6,8 +6,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
 void unlink_node_if_registered(void *block_data);
-void func_8003DB94();
-void func_800478B8();
+void select_record_entry_and_value();
+void advance_sprite_animation_and_textures();
 #include "town/scene/object/unlink_scene_list_node_api.h"
 s32 update_state_when_active();
 struct func_8009F880_S_8009CFE0_0; s32 classify_object_against_bounds(struct func_8009F880_S_8009CFE0_0 *, void *);
@@ -37,7 +37,7 @@ void update_person_object(void *object, s32 update_ctx, SpriteFrameState *displa
     if (!(((ObjectRetirementFlags *)object)[-1].unk_00 & 0x8000)) {
         frame_index = quantize_heading_to_sector(((Rec_D_80082D58 *)object)->unk_72, ((Rec_D_80082D58 *)object)->unk_64);
         if (((Rec_D_80082D58 *)object)->unk_74 != frame_index) {
-            func_8003DB94(display, ((Rec_D_80082D58 *)object)->unk_78[frame_index], display->unk_04);
+            select_record_entry_and_value(display, ((Rec_D_80082D58 *)object)->unk_78[frame_index], display->unk_04);
             ((Rec_D_80082D58 *)object)->unk_74 = frame_index;
         }
         {
@@ -50,6 +50,6 @@ void update_person_object(void *object, s32 update_ctx, SpriteFrameState *displa
             }
             display->flags = (u16) display_flags;
         }
-        func_800478B8(display);
+        advance_sprite_animation_and_textures(display);
     }
 }

@@ -68,7 +68,7 @@ void scene_initialize_orbit_motion_sprite(void *object_ptr, void *slot)
 
     render_state = object->fc;
     render_state->fc = 0x808080;
-    func_8003DB94(render_state, (SpriteSourceEntry *)orbit_motion_sprite_source, 0);
+    select_record_entry_and_value(render_state, (SpriteSourceEntry *)orbit_motion_sprite_source, 0);
 
     render_state->f1e = 0x1000;
     render_state->f1c = 0x1000;

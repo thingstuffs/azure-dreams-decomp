@@ -11,7 +11,7 @@ extern s32 D_80175F38;
 
 s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s32);
 void select_sprite_entry(void *, s32, s32);
-void func_800478B8(void *);
+void advance_sprite_animation_and_textures(void *);
 
 typedef struct S_80174D24_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -80,7 +80,7 @@ void advance_timed_target_flags(void *state, void *output, void *target)
 
     switch (phase) {
     case 0:
-        func_800478B8(target);
+        advance_sprite_animation_and_textures(target);
         target_flags = ((SpriteFrameState *)target)->flags;
         if ((target_flags & 0x6000) == 0) {
             return;

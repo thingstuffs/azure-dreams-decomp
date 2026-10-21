@@ -21,7 +21,7 @@ typedef struct S_800236BC_3 {
     u16 unk_62;
 } S_800236BC_3;   /* ((S_800236BC_1 *)arg0)->unk_00 in update_bouncing_pickup_after_hit */
 
-extern void func_800478B8(void *);
+extern void advance_sprite_animation_and_textures(void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
 extern void unlink_scene_list_node(void *);
@@ -53,7 +53,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
     state = ((S_800236BC_1 *)object)->unk_04.s;
     switch (state) {
     case 0:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x40000;
         ((S_800236BC_1 *)object)->unk_1D = 0;
         if (((Rec_func_800206D0_arg1 *)motion)->unk_08 < 0) {
@@ -69,7 +69,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
         return;
 
     case 1:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x40000;
         ((S_800236BC_1 *)object)->unk_06.u--;
         if (((Rec_func_800206D0_arg1 *)motion)->unk_08 < 0) {
@@ -90,7 +90,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
         return;
 
     case 2:
-        func_800478B8(sprite);
+        advance_sprite_animation_and_textures(sprite);
         ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
         ((S_800236BC_1 *)object)->unk_06.u--;
         collision_addr = 0x80020000;

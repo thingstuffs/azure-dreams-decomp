@@ -18,10 +18,10 @@ typedef struct {
 extern s32 entity_level_thresholds[];
 extern void func_8003E188(s32 field_index, s32 flag);
 extern void func_80042640(void *obj, s16 monsterId);
-void func_800424E0(); /* extern */
+void apply_actor_template_and_class(); /* extern */
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
-void *func_80099290();
+void *clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
 void display_formatted_context_message(); /* extern */
@@ -140,7 +140,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
             func_8003E188(((S_800B7774_2 *)monster)->unk_13, 0);
             clear_selected_item_flag_400(egg_bomb);
             func_80042640(monster, ((S_800B7774_2 *)monster)->unk_13);
-            func_800424E0(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
+            apply_actor_template_and_class(monster, ((S_800B7774_2 *)monster)->unk_13, 0);
             ((S_800B7774_2 *)monster)->unk_43 = 0xFE;
             set_or_clear_actor_status_slot(monster, 0x1B, 0);
             {
@@ -155,6 +155,12 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 }
                 {
                     s32 *scan_arg = entity_level_thresholds;
+                    /*
+                     * Original bug: level-99 EXP still satisfies the loop test, but raise_entity_level stops changing
+                     * the level at 99. Stop at the cap to avoid an infinite spawn loop.
+                     * Found and documented by the Azure Dreams community
+                     * (adrando.com/guide/bugs.html).
+                     */
                     target_experience = entity_level_thresholds[egg_bomb_level];
                     ((S_800B7774_2 *)monster)->unk_18 = target_experience;
                     if ((u32) target_experience >= (u32) entity_level_thresholds[((S_800B7774_2 *)monster)->unk_11]) {
@@ -171,7 +177,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 first_call_arg = raw_first_result;
                 message_id = first_call_arg;
                 raw_first_result = write_text_byte_and_advance(first_call_mode, first_call_arg);
-                func_80099290(expand_text_control_codes(&D_800E0A6A, write_text_byte_and_advance(0xA, append_entity_display_text(monster,
+                clear_byte_and_advance(expand_text_control_codes(&D_800E0A6A, write_text_byte_and_advance(0xA, append_entity_display_text(monster,
                     expand_text_control_codes(&D_800E0A56, raw_first_result)))));
             }
             display_text_with_fullwidth_adjustment(message_id);

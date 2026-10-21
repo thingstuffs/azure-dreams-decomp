@@ -50,7 +50,7 @@ loop:
                 request.field_0 = *entry_id;
                 request.field_8 = 0;
                 request.field_A = 0;
-                func_8005F134(&request);
+                apply_spu_voice_attributes(&request);
             }
         }
         entry_id++;

@@ -14,5 +14,5 @@ extern s32 gpu_scratch_buffer_base;
 void set_next_scene_phase(void)
 {
     gpu_scratch_write_pointer = gpu_scratch_buffer_base;
-    set_scene_phase_callback(func_80043D04);
+    set_scene_phase_callback(load_object_scene_dispatch_resources);
 }

@@ -82,7 +82,7 @@ extern u8 D_80176490[8];
 extern ActorCallback cyclone_callbacks[];
 
 extern void select_indirect_table_entry(Entity *, u8, s8);
-extern void func_800478B8(Entity *);
+extern void advance_sprite_animation_and_textures(Entity *);
 extern s32 func_800644B8(s32);
 extern void apply_monster_koyaw_data(s32, void *);
 extern s32 refresh_actor_facing_and_lifecycle(Actor *, Motion *, Entity *, Actor *);
@@ -146,7 +146,7 @@ void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion,
         apply_monster_koyaw_data(subject->flags, input_entity->position0C);
         if (!(subject->flags & 0x20)) {
             if (!(input_entity->flags14 & 0x40)) {
-                func_800478B8(input_entity);
+                advance_sprite_animation_and_textures(input_entity);
             }
         } else {
             input_entity->flags14 |= 0x7000;

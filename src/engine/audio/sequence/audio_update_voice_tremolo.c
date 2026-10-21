@@ -123,7 +123,7 @@ void audio_update_voice_tremolo(S_80055E84 *voice)
             audio_voice_request.fieldA = volume;
             audio_voice_request.fieldC = 0;
             audio_voice_request.fieldE = 0;
-            func_8005F134(&audio_voice_request);
+            apply_spu_voice_attributes(&audio_voice_request);
         }
     }
 }

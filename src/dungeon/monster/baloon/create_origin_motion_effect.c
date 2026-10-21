@@ -35,7 +35,7 @@ typedef struct S_80D65810_3 {
 
    /* input in create_origin_motion_effect */
 
-M2C_UNK func_8003DB94();
+M2C_UNK select_record_entry_and_value();
 s32 register_node();
 s32 rand();
 extern void project_sprite_chain(void);
@@ -61,7 +61,7 @@ void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2
     x = offset_x;
     y = offset_y;
     z = offset_z;
-    effect = func_8003FC64(0x212);
+    effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         motion = effect + 0x20;
         motion->unk_0C = 0x1E;
@@ -100,7 +100,7 @@ void create_origin_motion_effect(s32 unused_0, void *origin_ptr_in, s32 unused_2
         sprite->color.c.r = 0x80;
         sprite->clut = 0x7DCF;
         sprite->flags = (u16)(sprite->flags | 0x100);
-        func_8003DB94(sprite, effect_sprite_sources, 0);
+        select_record_entry_and_value(sprite, effect_sprite_sources, 0);
     }
 }
 

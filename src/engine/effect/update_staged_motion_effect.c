@@ -48,7 +48,7 @@ void update_staged_motion_effect(S_80051548_Obj *obj, IntVector3 *position, S_80
     u16 *status_word;
 
     obj->field6 = obj->field6 + 1;
-    func_800478B8(flags);
+    advance_sprite_animation_and_textures(flags);
     state = obj->state;
     switch (state) {
     case 1:

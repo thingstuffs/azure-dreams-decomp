@@ -194,8 +194,8 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
                                 stopped_voices = pending_voices;
                             }
                             do {
-                                func_8005E97C(0, audio_voice_masks[voice_idx]);
-                                voice_status = func_8005EB78(audio_voice_masks[voice_idx]);
+                                set_spu_voice_keys(0, audio_voice_masks[voice_idx]);
+                                voice_status = read_selected_voice_key_state(audio_voice_masks[voice_idx]);
                             }
                             while ((voice_status != 2) && (voice_status != 0));
                             audio_voice_records[voice_idx].f1d = 0;
@@ -257,7 +257,7 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
     {
         s32 stop_mask = stopped_voices;
         if (stop_mask) {
-            func_8005E97C(0, stop_mask);
+            set_spu_voice_keys(0, stop_mask);
         }
     }
     {

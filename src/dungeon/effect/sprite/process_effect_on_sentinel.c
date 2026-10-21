@@ -13,7 +13,7 @@ typedef struct {
     u8 pad[0x9B + 1];
 } S_800D2200_a0;
 
-extern void func_800478B8(void *target);
+extern void advance_sprite_animation_and_textures(void *target);
 
 /* Marks the record and global flags for a sentinel byte, then processes the target. */
 void process_effect_on_sentinel(S_800D2200_a0 *record, s32 unused, void *target)
@@ -22,5 +22,5 @@ void process_effect_on_sentinel(S_800D2200_a0 *record, s32 unused, void *target)
         *(u16 *)((u8 *)record - 2) |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
-    func_800478B8(target);
+    advance_sprite_animation_and_textures(target);
 }

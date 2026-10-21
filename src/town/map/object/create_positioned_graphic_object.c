@@ -18,7 +18,7 @@ void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_
     S_800BDB20_0 *object;
     IntVector3 *object_pos;
 
-    object = func_8003FC64(0x132);
+    object = allocate_flagged_object_node(0x132);
     if (object != 0) {
         register_node(object, project_sprite_chain);
         render_data = object->unk_0C;
@@ -30,7 +30,7 @@ void *create_positioned_graphic_object_2(TownPropPosition *position, s32 object_
         render_data->color.word = 0x808080;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
-        func_8003DB94(render_data, graphics_id, 0);
+        select_record_entry_and_value(render_data, graphics_id, 0);
     }
     return object;
 }

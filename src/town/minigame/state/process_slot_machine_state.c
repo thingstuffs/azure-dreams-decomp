@@ -387,7 +387,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             }
 
             if ((state->flags & 1) != 0) {
-                coin = func_8003FC64(0x100);
+                coin = allocate_flagged_object_node(0x100);
                 if (coin != NULL) {
                     ((SlotObject *)coin)->unk_10 = D_80023BCC;
                 }
@@ -469,7 +469,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
                 u8 *primitive;
                 u8 *sprite;
                 u8 *payout_state;
-                coin = func_8003FC64(0x136);
+                coin = allocate_flagged_object_node(0x136);
                 if (coin == NULL) {
                     return;
                 }

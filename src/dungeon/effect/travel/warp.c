@@ -287,7 +287,7 @@ void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base)
     SpriteFrameState *sprite;
     void *result;
 
-    object = func_8003FC64(0x12);
+    object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         init_data[0] = 0x01000340;
         init_data[1] = 0x00200020;
@@ -561,7 +561,7 @@ void *move_effect_toward_target(MovingPosition *src)
     sub_handler = &D_80027460;
     last_index = 8;
     do {
-        obj = func_8003FC64(18);
+        obj = allocate_flagged_object_node(18);
         if (obj != NULL) {
             ((S_819AD1DC_0 *)obj)->unk_10 = handler;
             register_node(obj, process_linked_mesh_states_mode_0);
@@ -909,7 +909,7 @@ void func_800649A0();
 void func_80064A40();
 void func_80065450();
 void apply_attack_power_and_element_effects();
-s32 forward_monster_coordinate_delta();
+s32 calculate_planar_heading();
 s32 check_left_tile_and_center_height();
 void spawn_opposite_offset_effect();
 extern s8 D_8002758C[];
@@ -1009,7 +1009,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         ((S_819AD81C_2 *)motion)->unk_08.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_08.at00.v
             + ((S_819AD81C_2 *)motion)->unk_14);
         ((S_819AD81C_1 *)gfx)->unk_16 = 0x400U;
-        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (forward_monster_coordinate_delta(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
+        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (calculate_planar_heading(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
             ((S_819AD81C_2 *)motion)->unk_10.at02.v) - 0x400);
         advance_animation_index_within_bounds(gfx, entity + 0x32, ((S_819AD81C_0 *)entity)->unk_38, ((S_819AD81C_0 *)entity)->unk_36);
         update_traveling(entity, ((S_819AD81C_1 *)gfx)->unk_00);
@@ -1043,6 +1043,12 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                                     dz = 0 - dz;
                                 }
                                 if (dz < 0x40) {
+                                    /*
+                                     * Original bug: Gaia Shoot passes water flags 0xA instead of wind flags 0xC, so
+                                     * damage affinity and the impact effect use water.
+                                     * Found and documented by the Azure Dreams community
+                                     * (adrando.com/guide/bugs.html).
+                                     */
                                     apply_attack_power_and_element_effects(node, 0xC, D_800287A2, 0xA,
                                         (s32) (s16) (((S_819AD81C_0 *)entity)->unk_44 << 9), D_800287A4, 2);
                                 }
@@ -1064,7 +1070,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                 }
             }
         }
-        func_80025FCC(((S_819AD81C_2 *)motion)->unk_00.at02.v, ((S_819AD81C_2 *)motion)->unk_04.at02.v,
+        create_positioned_linked_mesh_effect(((S_819AD81C_2 *)motion)->unk_00.at02.v, ((S_819AD81C_2 *)motion)->unk_04.at02.v,
             ((S_819AD81C_2 *)motion)->unk_08.at02.v, ((S_819AD81C_0 *)entity)->unk_34);
         create_copied_effect_object(entity, motion, gfx);
         return;
@@ -1539,7 +1545,7 @@ void *create_copied_effect_object(void *source_data, MovingPosition *source_trip
     MovingPosition *triplet;
     SpriteFrameState *state;
 
-    object = func_8003FC64(0x202);
+    object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
         ((S_80025B78_0 *)object)->unk_10 = fade_color_to_black;
         register_node(object, process_effect_buffer_chain);
@@ -1699,13 +1705,13 @@ typedef struct S_80025FCC_3 {
 } S_80025FCC_3;
 
 /* Creates an effect at the supplied position and initializes its rendering and state. */
-void *func_80025FCC(s16 x, s16 y, s16 z, s16 effect_param) {
+void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param) {
     S_80025FCC_3 *effect_state;
     void *effect;
     S_80025FCC_1 *position;
     SpriteFrameState *render_state;
 
-    effect = func_8003FC64(0x202);
+    effect = allocate_flagged_object_node(0x202);
     if (effect != NULL) {
         ((S_80025FCC_0 *)effect)->unk_10 = initialize_inventory_packet;
         register_node(effect, process_linked_mesh_states_mode_0);
@@ -1831,7 +1837,7 @@ void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle,
 
     actor = NULL;
     if (spawn_actor != 0) {
-        actor = func_8003FC64(530);
+        actor = allocate_flagged_object_node(530);
         if (actor != NULL) {
             actor->update = fade_effect_color_to_black;
             register_node(actor, project_sprite_chain);

@@ -21,7 +21,7 @@ s32 func_8001876C();                         /* extern */
 extern s32 D_80018FE0;
 
 /* Processes active entries for the selected variant and updates 2x2 cells for the first group. */
-void func_806D85A0(void) {
+void update_enabled_event_cells(void) {
     s32 cell_x;
     s32 cell_y;
     s32 cell_value;

@@ -47,11 +47,11 @@ typedef struct EffectSpriteView {
     s16 scaleY;
 } EffectSpriteView;
 
-void func_8003DB94();
+void select_record_entry_and_value();
 s32 Control_CD();
 #include "slus/sound_set_cd_cue_parameters_api.h"
 #include "engine/graphics/run_cd_image_commands_api.h"
-int func_800445E0(void);
+int read_stream_cue_start_offset(void);
 s32 register_node();
 s32 lookup_masked_byte_table();
 s32 func_80069EF8();
@@ -122,7 +122,7 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
         }
         run_cd_image_commands(&D_801622CC, (u8 *)(&D_801622E4), 1);
         sound_set_cd_cue_parameters(0, cd_cue_base, 0x04000AD4, 0x05000CC4);
-        Control_CD(0x15, func_800445E0(), NULL);
+        Control_CD(0x15, read_stream_cue_start_offset(), NULL);
         D_801622E5 = 0;
         Control_CD(0xFF, set_byte_one, &D_801622E5);
         select_nearby_target_and_initialize_slot((s32)(model - 0x20), position, 8, 0x300);
@@ -151,7 +151,7 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
             - scene_color->view.tint.parts.tint_b) / (s16) state->unk_96));
         return;
     case 4:
-        effect = func_8003FC64(0x12);
+        effect = allocate_flagged_object_node(0x12);
         if (effect == NULL) {
             return;
         }
@@ -175,7 +175,7 @@ void update_actor_sequence_variant(Rec_func_801732A4_arg0 *state, EntityRec *pos
         if ((variant_index << 0x10) < 0) {
             effect_variant = func_80069EF8() % 3;
         }
-        func_8003DB94(effect_sprite, D_801622D4[(s16) effect_variant] + (s8 *) &D_8014A000, 0);
+        select_record_entry_and_value(effect_sprite, D_801622D4[(s16) effect_variant] + (s8 *) &D_8014A000, 0);
         actor->flags = (u16) (actor->flags | 0x80);
         spawn_count = 0;
         state->unk_96 = 0U;

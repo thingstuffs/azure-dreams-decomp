@@ -3,7 +3,7 @@
 extern s32 runtime_find_unused_pool_slot(void);
 extern void runtime_initialize_state_value(s32, s32);
 extern void runtime_clear_value(s32);
-extern s32 func_8003FC64(s32);
+extern s32 allocate_flagged_object_node(s32);
 extern void unlink_active_node(s32);
 extern void push_node_onto_free_list(s32);
 extern void initialize_town_map_object_state(s32, s32, s32, s32);
@@ -25,7 +25,7 @@ s32 town_map_set(s32 value_7c, s32 value_78)
     s8 *object_data;
 
     do {
-        new_object = func_8003FC64(0x11);
+        new_object = allocate_flagged_object_node(0x11);
         if (new_object == 0) {
             break;
         }

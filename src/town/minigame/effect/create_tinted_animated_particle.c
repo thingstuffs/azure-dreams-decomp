@@ -20,7 +20,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
     void *sprite;
     SpriteFrameState *sprite_alias;
     void *object;
-    object = func_8003FC64(0x136);
+    object = allocate_flagged_object_node(0x136);
     if (object != 0) {
         *((s32 **) (((s8 *) object) + 0x10)) = &D_8002609C;
         register_node(object, project_sprite_chain);

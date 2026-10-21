@@ -83,7 +83,7 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
         actor->unk_9B = 1;
     case 1:
         if (((S_8017390C_1 *)actor_data)->unk_49 != 0) {
-            spawned_obj = func_8003FC64(0x12);
+            spawned_obj = allocate_flagged_object_node(0x12);
             if (spawned_obj != 0) {
                 init_obj = spawned_obj;
                 spawned_transform = ((S_8017390C_2 *)spawned_obj)->unk_08;

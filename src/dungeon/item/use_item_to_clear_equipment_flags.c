@@ -11,11 +11,11 @@ extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
-extern void func_80099290(s8 *byte_ptr);
+extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_typed_formatted_value(void *, s32);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_view_color_flash(s32, s16);
@@ -46,12 +46,18 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
         if (feed_actor_restore_mp(target,
                           entity_action_selectors[((u8 *)target)[0x13]] & 3,
                           item) == 0) {
-            apply_item_effect_at_entity_position(target, item);
+            place_actor_item(target, item);
             return 1;
         }
     } else {
         create_view_color_flash(0xC0C0C0, 0);
         play_sound_if_enabled(0x702);
+        /*
+         * Original bug: cursed equipment sets the curse effect without a status slot. Clearing slot 8 leaves that
+         * effect active; clear the effect flag too.
+         * Found and documented by the Azure Dreams community
+         * (adrando.com/guide/bugs.html).
+         */
         clear_slots_of_type(target, 8);
 
         uncursed = 0;
@@ -59,7 +65,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
         if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
             equipment[3] &= 0xBF;
             message_buf = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(D_800E1756,
+            clear_byte_and_advance(expand_text_control_codes(D_800E1756,
                                         append_typed_formatted_value(equipment, message_buf)));
             display_text_with_fullwidth_adjustment(message_buf);
             uncursed = 1;
@@ -69,7 +75,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
         if (equipment[1] != 0 && (equipment[3] & 0x40) != 0) {
             equipment[3] &= 0xBF;
             message_buf = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(D_800E176F,
+            clear_byte_and_advance(expand_text_control_codes(D_800E176F,
                                         append_typed_formatted_value(equipment, message_buf)));
             display_text_with_fullwidth_adjustment(message_buf);
             uncursed = 1;
@@ -77,7 +83,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
 
         if (uncursed == 0) {
             message_buf = get_unused_text_buffer();
-            func_80099290(expand_text_control_codes(D_800E1788, message_buf));
+            clear_byte_and_advance(expand_text_control_codes(D_800E1788, message_buf));
             display_text_with_fullwidth_adjustment(message_buf);
         }
     }

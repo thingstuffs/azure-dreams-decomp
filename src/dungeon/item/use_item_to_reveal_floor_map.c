@@ -16,7 +16,7 @@ extern void clear_slot_and_update_linked_state(s32);
 extern void display_formatted_context_message(void *, s32, s16);
 extern void pack_and_submit_cell_height_levels(void);
 extern void play_sound_if_enabled(s32);
-extern void apply_item_effect_at_entity_position(void *, s32);
+extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 
@@ -38,7 +38,7 @@ s32 use_item_to_reveal_floor_map(EntityRec *target, s32 item, s16 target_kind, s
         if (feed_actor_restore_mp(target,
                           entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
                           item) == 0) {
-            apply_item_effect_at_entity_position(target, item);
+            place_actor_item(target, item);
             return 1;
         }
     } else {

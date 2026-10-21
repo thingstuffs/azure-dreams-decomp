@@ -10,9 +10,9 @@ extern void begin_deferred_item_action();
 extern void clear_slot_and_update_linked_state();
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes();
-extern void func_80099290();
+extern void clear_byte_and_advance();
 extern void display_text_with_fullwidth_adjustment();
-extern void apply_item_effect_at_entity_position();
+extern void place_actor_item();
 extern void display_item_status_message();
 extern s32 feed_actor_restore_mp();
 extern void create_timed_paired_particle_emitter();
@@ -44,7 +44,7 @@ s32 use_item_to_restore_eyesight(void *entity_arg, s32 amount_arg, s16 effect_ar
         if (feed_actor_restore_mp(lookup_entity,
                           (type_table[entity_type] >> 6) & 3,
                           0) == 0) {
-            apply_item_effect_at_entity_position(entity_arg, amount);
+            place_actor_item(entity_arg, amount);
             return 1;
         }
     }
@@ -56,7 +56,7 @@ s32 use_item_to_restore_eyesight(void *entity_arg, s32 amount_arg, s16 effect_ar
         if (!(*(s32 *)((u8 *)entity_arg + 0x1C) & 0x10)) {
             selected_id = expand_text_control_codes(D_800E188B, initial_id);
         }
-        func_80099290(selected_id);
+        clear_byte_and_advance(selected_id);
         display_text_with_fullwidth_adjustment(initial_id);
     }
     clear_slots_of_type(entity_arg, 3);

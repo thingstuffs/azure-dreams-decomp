@@ -8,7 +8,7 @@ struct S_8004D45C_Src;
 struct S_8004D75C;
 
 /* advance_three_component_interpolation.c */
-void func_8004D1EC(void *state_data, u16 *target, s32 duration, u16 *values);
+void initialize_three_component_interpolation(void *state_data, u16 *target, s32 duration, u16 *values);
 
 /* copy_camera_rotation.c */
 void copy_camera_rotation(void);

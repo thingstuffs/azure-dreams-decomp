@@ -37,7 +37,7 @@ extern s32 func_8009FD40(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 generate_random_value(void);
 extern void func_800A9A04(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void func_800AA258(void *, void *, void *, void *);
 extern void func_800AA79C(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
@@ -124,7 +124,7 @@ void func_8016157C(void *controller, EntityRec *motion, void *sprite, EntityRec 
                 return;
             }
         }
-        update_actor_status_and_food(actor);
+        update_actor_status_and_mp(actor);
         func_800A9A04(actor);
         if ((func_80042900(actor, 1) << 16) != 0) {
             TileObject *origin = &reference_tile_object;

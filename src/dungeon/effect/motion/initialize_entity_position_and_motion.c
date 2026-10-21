@@ -114,7 +114,7 @@ void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, 
     state = entity->state;
 
     if (state == 0) {
-        actor = entity->inner->actor;
+        actor = entity->inner->sprite;
         if (entity->active == 0) {
             if (resolve_record_orientation_or_fallback(*(s32 *)((u8 *)actor + 8), actor,
                               &entity->x, 0) != 0) {
@@ -166,7 +166,7 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
     ovl_19a332c_81982CEC_S_800244EC_1 *part;
     void *result;
 
-    obj = func_8003FC64(2);
+    obj = allocate_flagged_object_node(2);
     if (obj != NULL) {
         rect[0] = 0x01000340;
         rect_size = 0x200020;
@@ -213,7 +213,7 @@ void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *spr
     motion->f4 = motion->f4 + motion->f10;
     motion->f8 = motion->f8 + motion->f14;
     motion->f14 = motion->f14 + 0xC000;
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     brightness = sprite->c;
     faded_brightness = brightness - (((s32) brightness) / ((s16) (*((s16 *) (((s8 *) effect) + 0x30)))));
     sprite->c = faded_brightness;
@@ -238,7 +238,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
     s32 remaining = count;
 
     while (remaining > 0) {
-        particle = (ovl_19a332c_81982F0C_Object *)func_8003FC64(0x202);
+        particle = (ovl_19a332c_81982F0C_Object *)allocate_flagged_object_node(0x202);
         if (particle != 0) {
             s32 angle_offset;
             s32 move_angle;
@@ -265,7 +265,7 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->color.word = 0x808080;
-            func_8003DB94(sprite, D_80026AB0, rand() & 7);
+            select_record_entry_and_value(sprite, D_80026AB0, rand() & 7);
 
             extra = (u8 *)particle + 0x20;
             ((ovl_19a332c_81982F0C_S_8002470C_2 *)extra)->unk_30 = (s16)((rand() & 7) + 0x10);
@@ -320,7 +320,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     particle_index = 0;
     direction_angle = angle + 0x400;
     do {
-        particle = func_8003FC64(0x202);
+        particle = allocate_flagged_object_node(0x202);
         if (particle != NULL) {
             ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_10 = (void *)advance_effect_motion_and_color_fade;
             register_node(particle, project_sprite_chain);
@@ -388,7 +388,7 @@ void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spa
 
     actor = NULL;
     if (spawn_actor != 0) {
-        actor = func_8003FC64(514);
+        actor = allocate_flagged_object_node(514);
         if (actor != NULL) {
             actor->update = (void *)fade_effect_color_by_quarter;
             register_node(actor, project_sprite_chain);
@@ -586,7 +586,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             motion->unk_14.word = height_numerator_2 / height_frames;
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
         case 1:
-            aim_angle = (s16)forward_monster_coordinate_delta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+            aim_angle = (s16)calculate_planar_heading((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                 (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
             approach_heading = effect->unk_38;
             if (approach_heading & 0x800) {
@@ -681,7 +681,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
             break;
         case 2:
-            aim_angle = (s16)forward_monster_coordinate_delta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+            aim_angle = (s16)calculate_planar_heading((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                 (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
             travel_heading = effect->unk_38;
             if (travel_heading & 0x800) {
@@ -884,7 +884,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             target = effect->unk_9C;
             if (target != 0) {
                 related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) target - 0x20))->unk_08;
-                aim_angle = (s16)forward_monster_coordinate_delta((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
+                aim_angle = (s16)calculate_planar_heading((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                     related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16);
                 homing_heading = effect->unk_38;
                 if (homing_heading & 0x800) {
@@ -1038,7 +1038,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             D_80027C94 = 0;
             goto block_139;
         }
-        visual->unk_1A = (u16) ((s16)forward_monster_coordinate_delta(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
+        visual->unk_1A = (u16) ((s16)calculate_planar_heading(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
         boost_speed_x = motion->unk_14.half.unk_16;
         step_y = (*(u16 *)((u8 *)visual + 0x1C));
         coord_delta = visual->unk_0C.half.unk_0C;
@@ -1090,7 +1090,7 @@ block_139:
     related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_08;
     if (owner_ref & 0x80000000) {
         owner_state = owner_ptr + 0x20;
-        visual->unk_1A = (u16) ((s16)forward_monster_coordinate_delta((s16) motion->unk_00.half.unk_02.u16,
+        visual->unk_1A = (u16) ((s16)calculate_planar_heading((s16) motion->unk_00.half.unk_02.u16,
             (s16) motion->unk_04.half.unk_06.u16, related_motion->unk_00.half.unk_02.s16,
             related_motion->unk_04.half.unk_06.s16) - 0x400);
         alternate_delta = related_motion->unk_08.half.unk_0A.s16;
@@ -1213,7 +1213,7 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
             prev_entity->next = *object_slot;
         }
 
-        target_angle = forward_monster_coordinate_delta(pos->x, pos->y,
+        target_angle = calculate_planar_heading(pos->x, pos->y,
                               target_pos->x.w.i,
                               target_pos->y.w.i);
 

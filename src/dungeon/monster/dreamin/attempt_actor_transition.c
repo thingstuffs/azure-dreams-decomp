@@ -9,7 +9,7 @@
 extern s32 select_sprite_entry();
 extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
-extern s32 place_actor_at_directional_neighbor();
+extern s32 probe_directional_neighbor();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target();
@@ -28,7 +28,7 @@ s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, ActorReco
     if (((u16 *)status)[1] & 0x2000) {
         return -1;
     }
-    target = place_actor_at_directional_neighbor(actor, ((SpriteFrameState *)sprite)->unk_24,
+    target = probe_directional_neighbor(actor, ((SpriteFrameState *)sprite)->unk_24,
                            ((SpriteFrameState *)sprite)->unk_25, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target) << 16) == 0) {
         return transitioned;

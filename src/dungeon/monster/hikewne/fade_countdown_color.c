@@ -18,7 +18,7 @@ typedef struct S_8014C8E8_2 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern void func_800478B8(void *color);
+extern void advance_sprite_animation_and_textures(void *color);
 /* Scale the color by the remaining countdown, then decrement it and flag completion. */
 void fade_countdown_color(void *record_data, void *unused, SpriteFrameState *color)
 {
@@ -30,7 +30,7 @@ void fade_countdown_color(void *record_data, void *unused, SpriteFrameState *col
     color->color.c.b = (s8) intensity;
     color->color.c.g = (s8) intensity;
     color->color.c.r = (s8) intensity;
-    func_800478B8(color);
+    advance_sprite_animation_and_textures(color);
     ticks_left = (u16) ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
     ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

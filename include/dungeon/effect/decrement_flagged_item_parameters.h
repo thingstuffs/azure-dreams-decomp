@@ -20,7 +20,7 @@ void register_node(void *, void *);
 void func_8004491C(void *, void *);
 void select_sprite_entry(void *, u8, s32);
 void func_80047784(void *, u8, s32);
-s32 func_80053EF0(s32);
+s32 read_sound_mode_blocking_status(s32);
 void play_sound_if_enabled(s32);
 extern s32 D_80024374;
 void decrement_flagged_item_parameters(void *action, void *saved_position);

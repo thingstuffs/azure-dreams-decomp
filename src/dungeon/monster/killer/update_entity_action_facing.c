@@ -10,10 +10,10 @@
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 find_active_rect_containing_point(s32, s32);
-extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
+extern s32 test_neighbor_position_relation(s32, s32, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
 extern s32 can_entity_gain_level(void *);
-extern void update_actor_status_and_food(void *);
+extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, void *);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
@@ -141,7 +141,7 @@ void update_entity_action_facing(void *actor, void *context, void *sprite, Actor
 
     if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & 0x20) {
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         }
         if (((S_80170EA8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
@@ -200,7 +200,7 @@ void update_entity_action_facing(void *actor, void *context, void *sprite, Actor
             }
             /* fallthrough */
         case 12:
-            update_actor_status_and_food(entity);
+            update_actor_status_and_mp(entity);
             return;
         case 1:
         case 2:
@@ -217,7 +217,7 @@ void update_entity_action_facing(void *actor, void *context, void *sprite, Actor
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(((u32)entity->flags1C) & 0x430)) {
 
-                if ((s16)compare_monster_neighbor_values(((S_80170EA8_2 *)sprite)->unk_24.at00.v,
+                if ((s16)test_neighbor_position_relation(((S_80170EA8_2 *)sprite)->unk_24.at00.v,
                         ((S_80170EA8_2 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x,
                         reference_tile_object.tile_position.parts.tile_y) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(

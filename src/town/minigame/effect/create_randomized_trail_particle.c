@@ -58,7 +58,7 @@ void create_randomized_trail_particle(S_800267DC_2 *source) {
     S_800267DC_1 *motion;
     ProjectileObject *effect;
 
-    effect = func_8003FC64(0x136);
+    effect = allocate_flagged_object_node(0x136);
     if (effect != NULL) {
         effect->unk_10 = D_800268DC;
         register_node(effect, project_sprite_chain);

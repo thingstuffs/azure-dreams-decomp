@@ -8,7 +8,7 @@
 
 /* Advance the object's callback once the channel 4 blocking status clears. */
 void wait_message_voice_idle(s32 object) {
-    if (func_80053EF0(4) != 0x100) {
+    if (read_sound_mode_blocking_status(4) != 0x100) {
         play_message_advance_sound(object);
     }
 }

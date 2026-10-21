@@ -24,11 +24,11 @@ extern s32 get_entity_effect_value();
 extern s32 select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation();
 extern s32 find_active_rect_containing_point();
-extern s32 compare_monster_neighbor_values();
+extern s32 test_neighbor_position_relation();
 extern s32 get_rounded_facing_and_rounding_flag();
 extern s32 can_entity_gain_level();
 extern s32 generate_random_value();
-extern s32 update_actor_status_and_food();
+extern s32 update_actor_status_and_mp();
 extern s32 begin_pushed_actor_move();
 extern s32 begin_ready_actor_directional_action();
 extern s32 advance_actor_pending_action();
@@ -152,7 +152,7 @@ void update_dungeon_actor_actions(void *actor, void *context, void *sprite, void
 
     if (F(stats, s8, 0x6D) > 0) {
         if (F(stats, u32, 0x1C) & 0x20) {
-            update_actor_status_and_food(stats);
+            update_actor_status_and_mp(stats);
             return;
         }
         if ((F(sprite, u16, 0x24) == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) &&
@@ -188,13 +188,13 @@ void update_dungeon_actor_actions(void *actor, void *context, void *sprite, void
         switch (action_index) {
         case 11:
             if (require_object_flag(actor, stats) == 0) {
-                update_actor_status_and_food(stats);
+                update_actor_status_and_mp(stats);
                 return;
             }
             F(sprite, void *, 0x2C) = D_80175F10;
             select_sprite_entry(sprite,
                 D_80175F10[((g_game_work.view.camera_rotation.parts.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
-            update_actor_status_and_food(stats);
+            update_actor_status_and_mp(stats);
             return;
 
         case 10:
@@ -239,7 +239,7 @@ void update_dungeon_actor_actions(void *actor, void *context, void *sprite, void
             leader = primary_actor_record;
             F(stats, s16, 0x2A) = heading;
             if (F(leader, u8, 0x9A) != 17) {
-                update_actor_status_and_food(stats);
+                update_actor_status_and_mp(stats);
                 return;
             }
         }
@@ -263,7 +263,7 @@ void update_dungeon_actor_actions(void *actor, void *context, void *sprite, void
             u32 flags = F(stats, u32, 0x1C);
             if (!(flags & 0x2000)) {
                 if (!((s8)tile_index >= 0 && (dungeon_rooms[(s8)tile_index].flags & 2)) && !(flags & 0x430)) {
-                    if ((s16)compare_monster_neighbor_values(F(sprite, u8, 0x24), F(sprite, u8, 0x25),
+                    if ((s16)test_neighbor_position_relation(F(sprite, u8, 0x24), F(sprite, u8, 0x25),
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         F(stats, s16, 0x2A) = get_rounded_facing_and_rounding_flag(
                             F(sprite, u8, 0x24), F(sprite, u8, 0x25),

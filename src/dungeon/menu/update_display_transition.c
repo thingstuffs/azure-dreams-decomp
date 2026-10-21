@@ -151,7 +151,7 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
         }
         if (transition->unk_20 != 0) {
             if (transition->unk_24 != 0) {
-                func_8004E99C(((S_800DC1F8_11 *)(transition->unk_3C))->unk_80);
+                flag_optional_object_for_removal(((S_800DC1F8_11 *)(transition->unk_3C))->unk_80);
                 copy_cached_hud_rectangle_to_fixed_position();
                 layout = transition->unk_40;
                 layout->unk_88 = (s16) (((3 - (func_80069E98(transition->unk_2C) >> 1)) * 6) + 0xA4);
@@ -161,7 +161,7 @@ void update_display_transition(S_800DC1F8_0 *transition, void *anim_data) {
                 }
                 transition->unk_20 = 0;
             } else {
-                func_8004E99C(((S_800DC1F8_11 *)(transition->unk_3C))->unk_80);
+                flag_optional_object_for_removal(((S_800DC1F8_11 *)(transition->unk_3C))->unk_80);
                 ((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 = 0;
                 transition->unk_10 = 0;
                 transition->unk_14 = 0;

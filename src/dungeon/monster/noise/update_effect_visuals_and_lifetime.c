@@ -77,7 +77,7 @@ void update_effect_visuals_and_lifetime(void *state, void *position, void *effec
     } else {
         ((T_80170AD0_S_80170AD0_1 *)effect)->unk_06 = 4;
     }
-    func_800478B8(effect);
+    advance_sprite_animation_and_textures(effect);
     next_ticks = ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.u - 1;
     ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.u = next_ticks;
     if ((next_ticks << 16) <= 0) {

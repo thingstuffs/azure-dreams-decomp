@@ -69,7 +69,7 @@ void create_brief_randomized_particle(S_80026978_1 *origin)
     S_80026978_3 *effect_state;
     void *effect;
 
-    effect = func_8003FC64(0x136);
+    effect = allocate_flagged_object_node(0x136);
     if (effect != NULL) {
         ((ProjectileObject *)effect)->unk_10 = D_80026B00;
         register_node(effect, project_sprite_chain);

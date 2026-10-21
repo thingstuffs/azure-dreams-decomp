@@ -52,8 +52,8 @@ extern u8 D_800F2AC4[0x40];
 extern u8 D_800F2B04[0x28];
 extern u8 D_800F2B2C[0x28];
 
-extern void func_8003DB94(SpriteRecord *, void *, s32);
-extern void func_800478B8(SpriteRecord *);
+extern void select_record_entry_and_value(SpriteRecord *, void *, s32);
+extern void advance_sprite_animation_and_textures(SpriteRecord *);
 extern s32 rand(void);
 extern void add_motion_deltas_to_position(MotionRecord *);
 extern s32 query_lowered_transform_position(MotionRecord *);
@@ -71,7 +71,7 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteReco
     root = state->root00;
     motion_source = root->mid04->deep08;
     sprite_choices = D_80020048;
-    func_800478B8(sprite);
+    advance_sprite_animation_and_textures(sprite);
     add_motion_deltas_to_position(motion);
     choices_ptr = &sprite_choices;
 
@@ -206,7 +206,7 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteReco
     }
 
     if (next_sprite != 0) {
-        func_8003DB94(sprite, next_sprite, 0);
+        select_record_entry_and_value(sprite, next_sprite, 0);
         sprite->flags14 &= 0x9fff;
     }
 }

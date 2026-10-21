@@ -7,6 +7,6 @@ struct Actor;
 struct Vec3;
 struct Sprite;
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(struct Actor *, struct Vec3 *, struct Sprite *);
-void func_80024BB8(void *, void *, void *);
+void move_sprite_until_animation_ends(void *, void *, void *);
 void update_rising_landing_effect(void *, void *, void *);
 #endif

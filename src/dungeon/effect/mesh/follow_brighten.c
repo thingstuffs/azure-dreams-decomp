@@ -46,7 +46,7 @@ void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2) {
 
 void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, ovl_18d0850_818B097C_EffectCounter *state) {
     owner->parent->flags++;
-    func_800478B8(state);
+    advance_sprite_animation_and_textures(state);
     if (state->flags & 0x6000) {
         *(u16 *)((u8 *)owner - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
@@ -54,7 +54,7 @@ void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void 
 }
 
 ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
-    ovl_18d0850_818B09F8_MainObj *obj = (ovl_18d0850_818B09F8_MainObj *)func_8003FC64(530);
+    ovl_18d0850_818B09F8_MainObj *obj = (ovl_18d0850_818B09F8_MainObj *)allocate_flagged_object_node(530);
     SpriteFrameState *sub;
     ovl_18d0850_818B09F8_VecObj *vec;
     ovl_18d0850_818B09F8_MainObj *result;
@@ -66,7 +66,7 @@ ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32
         sub->color.c.b = 128;
         sub->color.c.g = 128;
         sub->color.c.r = 128;
-        func_8003DB94(sub, D_800DEC70, 0);
+        select_record_entry_and_value(sub, D_800DEC70, 0);
 
         sub->scale_y = 4096;
         sub->scale_x = 4096;
@@ -104,9 +104,9 @@ void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *stat
         state->unk_06 = (u16)(-6 - (rand() % 5));
     }
     position->unk_0A = (s16)(state->unk_0C + state->unk_04);
-    func_800478B8(object);
+    advance_sprite_animation_and_textures(object);
     if (object->unk_14.at00_u16.v & 0x6000) {
-        func_8003DB94(object, D_800DEC70, 0);
+        select_record_entry_and_value(object, D_800DEC70, 0);
     }
 }
 
@@ -121,7 +121,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
     s16 frame_index = frame;
     s32 sprite_mode;
 
-    node = func_8003FC64(0x212);
+    node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         node_type = (void *)advance_height_offset_and_placement;
         ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_20 = owner;
@@ -142,7 +142,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
         sprite->flags = (u16) (sprite->flags | 0xC);
         sprite->tpage_abr = (u16) (sprite->tpage_abr | 0x20);
         sprite->flags = (u16) (sprite->flags | 0x100);
-        func_8003DB94(sprite, &D_800DEC70, (s16)frame_index % 16, (s16)frame_index);
+        select_record_entry_and_value(sprite, &D_800DEC70, (s16)frame_index % 16, (s16)frame_index);
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         register_node(node, project_sprite_chain);

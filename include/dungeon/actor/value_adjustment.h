@@ -23,7 +23,7 @@ typedef struct Row_818FE800_Target {
 /* Roll the target's 0x3 resistance against the attack level: on a hit, halve its 0x26 counter and run effect 0x53 with that amount, otherwise apply the miss record and run 0x53 with -1. */
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(void *src, void *dst);
-s32 func_80099290(void *byte_ptr);
+s32 clear_byte_and_advance(void *byte_ptr);
 s32 write_text_byte_and_advance(s8 value, void *dest);
 s32 append_entity_display_text(void *record, void *out);
 s32 adjust_source_value_and_finalize(void *, void *);
@@ -33,7 +33,7 @@ s32 generate_random_value(void);
 s32 create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 callback_mode);
 void update_effect_particles_and_cleanup(void);
 void func_80024658(void);
-void func_80024674(void);
+void randomize_counted_sprite_angle(void);
 void func_8002469C(void);
 void card_boot_refresh_five_slot_selection(void);
 void func_800250A4(void);
