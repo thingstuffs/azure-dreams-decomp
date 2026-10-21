@@ -22,7 +22,7 @@ extern u8 D_80170E94;
 extern u8 D_80174ABC[];
 
 /* Updates directional motion and returns the entity to its tile when the timer expires. */
-void update_motion_and_return_to_tile(S_8017345C_1 *action, EntityRec *motion, SpriteFrameState *tile, EntityRec *entity)
+void update_motion_and_return_to_tile(S_8017345C_1 *action, ObjectPosition *motion, SpriteFrameState *tile, EntityRec *entity)
 {
     s16 timer;
     s32 tracked_entity;
@@ -33,14 +33,14 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, EntityRec *motion, S
     switch (action->unk_9B) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->unk_0C = ((s16 *)((s8 *)dir_step_x))[direction] << 17;
-        motion->unk_10 = ((s16 *)((s8 *)dir_step_y))[direction] << 17;
+        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 17;
+        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 17;
         action->unk_9B++;
 
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, tile, D_80174ABC);
             return;
         }
@@ -55,14 +55,14 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, EntityRec *motion, S
             timer = -1;
         }
         action->unk_96.s = timer;
-        motion->unk_0C -= motion->unk_0C / 4;
-        motion->unk_10 -= motion->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
 
     case 1:
-        motion->unk_0C -=
+        motion->velocity_x -=
             ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->unk_10 -=
+        motion->velocity_y -=
             ((s16 *)((s8 *)dir_step_y))[direction] << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
@@ -73,9 +73,9 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, EntityRec *motion, S
             return;
         }
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, tile, D_80174ABC);
             return;
         }
@@ -89,13 +89,13 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, EntityRec *motion, S
             {
                 s32 target_x = tile->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
-                motion->unk_0C =
+                motion->velocity_x =
                     ((target_x - current_x) << 15) / timer;
             }
             {
                 s32 target_y = tile->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
-                motion->unk_10 =
+                motion->velocity_y =
                     ((target_y - current_y) << 15) /
                     action->unk_96.s;
             }
@@ -105,9 +105,9 @@ void update_motion_and_return_to_tile(S_8017345C_1 *action, EntityRec *motion, S
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, tile->unk_24,
                       tile->unk_25);
 

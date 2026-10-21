@@ -24,7 +24,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern Node *D_800E3DE8[];
 extern u8 D_801710F4[];
@@ -39,7 +39,7 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
     s32 direction_y;
     u16 frames_left;
 
-    direction_offset = ((u16)((EntityRec *)actor)->facing >> 8) & 0xE;
+    direction_offset = ((u16)((ActorRecord *)actor)->facing >> 8) & 0xE;
     direction_x = *(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset);
     direction_y = *(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset);
     state = ((S_80172908_1 *)action)->unk_9B;
@@ -48,14 +48,14 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             ((S_80172908_1 *)action)->unk_9B = 0xFF;
             ((SpriteFrameState *)sprite)->flags |= 0x6000;
-            resolve_attack_damage_and_effects(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
             return;
         }
 
         ((SpriteFrameState *)sprite)->frameTable = &D_80174F30;
         select_sprite_entry(sprite,
             *(&D_80174F30 +
-              (((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)),
+              (((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7)),
             0);
         ((S_80172908_1 *)action)->unk_9B++;
         return;
@@ -77,7 +77,7 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         frames_left = ((S_80172908_1 *)action)->unk_96.s - 1;
         ((S_80172908_1 *)action)->unk_96.s = frames_left;
         if ((s16)frames_left == 3) {
-            resolve_attack_damage_and_effects(actor, sprite, ((EntityRec *)actor)->facing, 1);
+            resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
         }
 
         ((EntityRec *)motion)->flags14 += (5 - ((S_80172908_1 *)action)->unk_96.u) << 16;
@@ -112,12 +112,12 @@ void update_movement_animation_settles_actor_target_tile(void *action, void *mot
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_80172908_1 *)action)->unk_8C = D_801710F4;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        if (((EntityRec *)actor)->unk_6D == 0) {
-            ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        if (((ActorRecord *)actor)->pending_turn_updates == 0) {
+            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
         } else {
             D_800E3DE8[0] = (Node *)((u8 *)actor - 0x20);
         }

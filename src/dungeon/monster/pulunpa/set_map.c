@@ -42,12 +42,12 @@ s32 compare_monster_neighbor_values(u8 source_x, u8 source_y, u8 target_x, u8 ta
 s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
 s32 can_entity_gain_level(void *creature);
 void update_actor_status_and_food(void *creature);
-extern void begin_pushed_actor_move(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, EntityRec *actor);
+extern void begin_pushed_actor_move(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, ActorRecord *actor);
 extern s32 begin_ready_actor_directional_action(void *entity, s32 context, Rec_func_800AA258_arg2 *sprite, s32 direction_frames);
 extern s32 advance_actor_pending_action(void *actor_state, s32 action, void *status, void *actor);
-extern void begin_actor_move_to_target_facing(Rec_func_800A9E70_arg0 *state, void *unused, Rec_func_800AA258_arg2 *position, EntityRec *entity);
+extern void begin_actor_move_to_target_facing(Rec_func_800A9E70_arg0 *state, void *unused, Rec_func_800AA258_arg2 *position, ActorRecord *entity);
 s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
-extern s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, EntityRec *record);
+extern s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, ActorRecord *record);
 extern void update_object_or_select_directional_data(void *object_arg, void *context, void *source_arg, void *target_arg);
 extern void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *actor, void *movement);
 void func_80174924(void);
@@ -66,7 +66,7 @@ static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) 
 }
 
 /* Updates dungeon creature actions, facing direction, and animation. */
-void update_creature_actions_and_animation(void *actor, s32 context, void *sprite, EntityRec *creature) {
+void update_creature_actions_and_animation(void *actor, s32 context, void *sprite, ActorRecord *creature) {
     s32 direction_aux;
     s32 status_flags;
     s8 tile_index;
@@ -77,7 +77,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
         func_80174924();
         return;
     }
-    if (creature->tileY == 0) {
+    if (creature->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, creature);
         if (((S_80173B98_2 *)sprite)->unk_2C == &D_80176360) {
             return;
@@ -125,7 +125,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
     }
     tile_index = find_active_rect_containing_point(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v);
     ((S_80173B98_2 *)sprite)->unk_26 = tile_index;
-    if (creature->unk_6D > 0) {
+    if (creature->pending_turn_updates > 0) {
         if (creature->flags1C & 0x20) {
             update_actor_status_and_food(creature);
             return;
@@ -134,7 +134,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
             choose_heading_and_advance_actor(actor, context, sprite, creature);
             return;
         }
-        if (!(creature->unk_46 & 0x8000)) {
+        if (!(creature->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(creature, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
                     return;
@@ -143,14 +143,14 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
             if ((check_object_action_and_clear_flags(actor, context, sprite, 0) << 0x10) == 0) {
                 return;
             }
-            action_flags = creature->unk_46 | 0x4000;
-            creature->unk_46 = action_flags;
+            action_flags = creature->action_flags | 0x4000;
+            creature->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
                 choose_heading_and_advance_actor(actor, context, sprite, creature);
                 return;
             }
         }
-        switch (creature->unk_46 & 0x3FFF) {
+        switch (creature->action_flags & 0x3FFF) {
         case 9:
             if (select_nearby_target_and_start_action(actor, context, sprite, creature) != 0) {
                 return;

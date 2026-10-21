@@ -408,7 +408,7 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
 }
 #include "modules/dungeon_resource17_slot0.h"
 
-void update_entity_movement_and_ground_height(void *actor, void *context, void *sprite, EntityRec *status)
+void update_entity_movement_and_ground_height(void *actor, void *context, void *sprite, ActorRecord *status)
 {
     s32 distance;
     u32 flags;
@@ -423,7 +423,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
         return;
     }
 
-    if (status->tileY == 0) {
+    if (status->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
         if (((R17_801713A8_S_801713A8_2 *)sprite)->unk_2C == ((u8 *)D_801744FC)) {
             return;
@@ -491,7 +491,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
     tile_index = ((s8)find_active_rect_containing_point((u8)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at00.v),(u8)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at01.v)));
     ((R17_801713A8_S_801713A8_2 *)sprite)->unk_26 = tile_index;
 
-    if (status->unk_6D > 0) {
+    if (status->pending_turn_updates > 0) {
         if (((u32)status->flags1C) & 0x20) {
             update_actor_status_and_food(status);
             return;
@@ -500,7 +500,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
             func_80171A98(actor, context, sprite, status);
             return;
         }
-        action_flags = status->unk_46;
+        action_flags = status->action_flags;
         if ((action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
@@ -511,15 +511,15 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
             if ((s16)func_801724C4(actor, context, sprite, 0) == 0) {
                 return;
             }
-            action_flags = status->unk_46 | 0x4000;
-            status->unk_46 = action_flags;
+            action_flags = status->action_flags | 0x4000;
+            status->action_flags = action_flags;
             if ((action_flags & 0x8000) == 0) {
                 func_80171A98(actor, context, sprite, status);
                 return;
             }
         }
 
-        action_index = (status->unk_46 & 0x3FFF) - 1;
+        action_index = (status->action_flags & 0x3FFF) - 1;
         switch (action_index) {
 
         case 7:
@@ -535,7 +535,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
         case 6:
         {
             s16 target_angle;
-            EntityRec *active_actor;
+            ActorRecord *active_actor;
 
             target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at00.v),(s16)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at01.v),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y), &distance));
             active_actor = D_800814A8;
@@ -876,16 +876,16 @@ void func_80171A98(void *move_data, void *context, void *position_data, void *ac
 }
 #include "modules/dungeon_resource17_slot0.h"
 
-s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, EntityRec *actor)
+s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;
     u8 actor_flags;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
 
-    actor_flags = actor->unk_71;
+    actor_flags = actor->movement_queue_state;
     actor_flags &= 0x7F;
-    actor->unk_71 = actor_flags;
+    actor->movement_queue_state = actor_flags;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
@@ -900,7 +900,7 @@ s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -919,7 +919,7 @@ s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
         actor->unk_85 = 0;
         ((SpriteTableView *)sprite_arg)->unk_2C = ((u8 *)D_80174494);
         select_sprite_entry(sprite_arg, (((u8 *)D_80174494))[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
         prepare_directional_attack(actor, sprite_arg, actor->facing, 1, 0);
         return 1;
     }
@@ -928,8 +928,8 @@ s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
 #include "modules/dungeon_resource17_slot0.h"
 
 void func_801723A4(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80082E80 *animation,
-    EntityRec *entity) {
-    entity->unk_71 = (s8) (entity->unk_71 & 0x7F);
+    ActorRecord *entity) {
+    entity->movement_queue_state = (s8) (entity->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)entity - 0x20, context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
@@ -938,7 +938,7 @@ void func_801723A4(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80
             action_state->unk_9B.as_s8 = 0;
             select_sprite_entry(animation, *(animation->unk_2C.as_pu8 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
                 + 0x100) >> 9) & 7)), 0);
-            entity->unk_6D = (u8) (((u8)entity->unk_6D) - 1);
+            entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
             prepare_directional_attack(entity, animation, entity->facing, 1, 0);
             action_state->unk_98 = (u16) (action_state->unk_98 | 8);
             entity->unk_84 = 0x7C;
@@ -992,7 +992,7 @@ s32 func_801724C4(void *entity_arg, void *primary_context_arg, void *secondary_c
 
 void finish_actor_tile_move_then_resume_ground_movement(void *state, s32 unused, s32 source, s32 target) {
     if (update_actor_movement_to_tile() != 0) {
-        reduce_actor_food_meter(target, 4);
+        spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
             *(s32 **)((u8 *)state + 0x8C) = ((s32 *)update_entity_movement_and_ground_height);
@@ -1145,7 +1145,7 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
         F32(motion, 0xC) = 0;
         F32(actor, 0x1C) |= 0x40000;
         set_record_integer_tile_center(motion, F8(sprite, 0x24), F8(sprite, 0x25));
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         FPTR(action, 0x8C) = ((u8 *)update_entity_movement_and_ground_height);
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);

@@ -13,11 +13,11 @@ typedef struct S_800A48B0_0 {
 
 
 /* Copy six fields from the source record to the destination. */
-void copy_entity_record_fields(S_800A48B0_0 *destination, EntityRec *source) {
+void copy_entity_record_fields(S_800A48B0_0 *destination, ObjectPosition *source) {
     destination->unk_00 = (s32) source->x.v;
     destination->unk_04 = (s32) source->y.v;
     destination->unk_08 = (s32) source->z.v;
-    destination->unk_0C = (s32) source->unk_0C;
-    destination->unk_10 = (s32) source->unk_10;
-    destination->unk_14 = (s32) source->flags14;
+    destination->unk_0C = (s32) source->velocity_x;
+    destination->unk_10 = (s32) source->velocity_y;
+    destination->unk_14 = (s32) source->velocity_z;
 }

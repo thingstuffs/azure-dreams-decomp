@@ -27,7 +27,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_8014D728;
@@ -36,7 +36,7 @@ extern u8 D_80150E0C[];
 extern u8 D_80150E14[];
 
 /* Updates the actor's hop toward its tile and completes the timed action. */
-void advance_actor_hop_and_complete(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void advance_actor_hop_and_complete(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 hop_ticks;
@@ -77,11 +77,11 @@ void advance_actor_hop_and_complete(void *action, EntityRec *motion, void *sprit
             target_x <<= 6;
             pos_x -= 0x20;
 
-            motion->unk_0C = ((target_x - pos_x) << 16) / hop_ticks;
+            motion->velocity_x = ((target_x - pos_x) << 16) / hop_ticks;
 
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
-            motion->unk_10 =
+            motion->velocity_y =
                 (((((SpriteFrameState *)sprite)->unk_25 << 6) - pos_y) << 16) /
                 ((S_8014EBAC_0 *)action)->unk_9E.s;
 
@@ -106,9 +106,9 @@ void advance_actor_hop_and_complete(void *action, EntityRec *motion, void *sprit
     case 2:
         if (actor->flags1C & 0x08000000) {
             ((S_8014EBAC_0 *)action)->unk_98 &= 0xFFF7;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             ((SpriteFrameState *)sprite)->frameTable = D_80150E14;
             select_sprite_entry(
@@ -138,11 +138,11 @@ void advance_actor_hop_and_complete(void *action, EntityRec *motion, void *sprit
         return;
     }
 
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-    reduce_actor_food_meter(actor, 4);
+    spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
     global_base = &g_dungeon_status;
@@ -152,8 +152,8 @@ void advance_actor_hop_and_complete(void *action, EntityRec *motion, void *sprit
 
     actor_flags = actor->flags1C;
     if (actor_flags & 0x2000) {
-        if (actor->unk_46 & 0x8000) {
-            actor->unk_46 &= 0x7FFF;
+        if (actor->action_flags & 0x8000) {
+            actor->action_flags &= 0x7FFF;
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {

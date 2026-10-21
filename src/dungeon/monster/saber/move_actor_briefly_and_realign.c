@@ -26,7 +26,7 @@ extern u8 D_80174DFC[];
 extern u8 D_80174E24[];
 
 /* Applies a brief directional movement, then returns the actor to its grid position. */
-void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor, EntityRec *entity)
+void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, void *actor, EntityRec *entity)
 {
     s32 state;
     s16 timer;
@@ -45,9 +45,9 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
         ((S_80173964_0 *)action)->unk_96.s = 12;
         ((S_80173964_0 *)action)->unk_9B++;
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, actor, D_80174E24);
             return;
         }
@@ -62,23 +62,23 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
         ((S_80173964_0 *)action)->unk_96.u = timer_bits;
         timer = timer_bits;
         if (timer >= 11) {
-            motion->unk_0C =
+            motion->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
                          ((entity->unk_6A >> 8) & 0xE)) << 20;
-            motion->unk_10 =
+            motion->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
                          ((entity->unk_6A >> 8) & 0xE)) << 20;
             ((SpriteFrameState *)actor)->flags |= 0x800;
             return;
         }
         if (timer >= 7) {
-            motion->unk_0C /= 4;
-            motion->unk_10 /= 4;
+            motion->velocity_x /= 4;
+            motion->velocity_y /= 4;
             return;
         }
         if (timer >= 2) {
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             return;
         }
         if (timer == state) {
@@ -96,9 +96,9 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
 
     case 2:
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, actor, D_80174E24);
             return;
         }
@@ -106,10 +106,10 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
         if (timer != 0) {
             target_x = ((SpriteFrameState *)actor)->unk_24 << 6;
             current_x = motion->x.w.i - 0x20;
-            motion->unk_0C = ((target_x - current_x) << 16) / timer;
+            motion->velocity_x = ((target_x - current_x) << 16) / timer;
             target_y = ((SpriteFrameState *)actor)->unk_25 << 6;
             current_y = motion->y.w.i - 0x20;
-            motion->unk_10 =
+            motion->velocity_y =
                 ((target_y - current_y) << 16) / ((S_80173964_0 *)action)->unk_96.s;
         }
         timer_bits = ((S_80173964_0 *)action)->unk_96.u;
@@ -117,16 +117,16 @@ void move_actor_briefly_and_realign(void *action, EntityRec *motion, void *actor
         if ((s32)(timer_bits << 16) > 0) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         next_state = ((S_80173964_0 *)action)->unk_9B;
         ((S_80173964_0 *)action)->unk_9B = next_state + 1;
         return;
     case 3:
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
         if (((SpriteFrameState *)actor)->frameTable == D_80174DFC) {
             ((SpriteFrameState *)actor)->frameTable = D_80174DEC;

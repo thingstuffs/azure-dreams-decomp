@@ -41,7 +41,7 @@ extern u8 D_80175EA0[];
 extern u8 D_80175EC0[];
 
 /* Advances the actor action state, updating its directional animation and callback. */
-void advance_actor_action_and_refresh_animation(void *actor, void *context, void *render_record, EntityRec *actor_state)
+void advance_actor_action_and_refresh_animation(void *actor, void *context, void *render_record, ActorRecord *actor_state)
 {
     s32 actor_flags;
     u16 value;
@@ -76,7 +76,7 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, void
                     return;
                 }
             }
-            if (actor_state->tileY == 0) {
+            if (actor_state->mp == 0) {
                 if (global_base->flags & 0x2008) {
                     return;
                 }
@@ -101,11 +101,11 @@ void advance_actor_action_and_refresh_animation(void *actor, void *context, void
                 update_actor_state_after_map_check(actor, context, render_record, actor_state);
                 return;
             }
-            if (actor_state->unk_6D == 0) {
+            if (actor_state->pending_turn_updates == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_state) << 16) != 0) {
-                EntityRec *owner = D_800814A8;
+                ActorRecord *owner = D_800814A8;
 
                 if ((check_entity_relation(actor_state,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {

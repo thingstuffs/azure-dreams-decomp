@@ -25,7 +25,7 @@ extern u8 D_80173D0C[];
 extern s32 D_80173D24;
 
 /* Apply directional movement, slow it down, and return the actor to its tile center. */
-void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, void *sprite, EntityRec *actor)
 {
     s16 timer;
     s16 *x_steps;
@@ -50,16 +50,16 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
         apply_clamped_actor_value_delta(actor);
         x_steps = (s16 *)((s8 *)dir_step_x);
         initial_step_offset = direction * 2;
-        motion->unk_0C =
+        motion->velocity_x =
             *(s16 *)((u8 *)x_steps + initial_step_offset) << 0x12;
-        motion->unk_10 =
+        motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + initial_step_offset) << 0x12;
         ((S_80172EF4_1 *)action)->unk_9B++;
 
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, &D_80173D24);
             return;
         }
@@ -75,24 +75,24 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
         }
         ((S_80172EF4_1 *)action)->unk_96.s = timer;
 
-        velocity_x = motion->unk_0C;
+        velocity_x = motion->velocity_x;
         biased_velocity_x = velocity_x;
         if (velocity_x < 0) {
             biased_velocity_x = velocity_x + 3;
         }
-        velocity_y = motion->unk_10;
-        motion->unk_0C = velocity_x - (biased_velocity_x >> 2);
+        velocity_y = motion->velocity_y;
+        motion->velocity_x = velocity_x - (biased_velocity_x >> 2);
         biased_velocity_y = velocity_y;
-        motion->unk_10 = velocity_y - (biased_velocity_y / 4);
+        motion->velocity_y = velocity_y - (biased_velocity_y / 4);
                         /* fall through */
 
     case 1:
         x_steps = (s16 *)((s8 *)dir_step_x);
         brake_step_offset = direction * 2;
         y_step = (s16 *)((u8 *)((s8 *)dir_step_y) + brake_step_offset);
-        motion->unk_0C -=
+        motion->velocity_x -=
             *(s16 *)((u8 *)x_steps + brake_step_offset) << 0xF;
-        motion->unk_10 -= *y_step << 0xF;
+        motion->velocity_y -= *y_step << 0xF;
 
         if (((S_80172EF4_1 *)action)->unk_96.s > 0) {
             ((S_80172EF4_1 *)action)->unk_96.s = ((S_80172EF4_1 *)action)->unk_96.u - 1;
@@ -103,9 +103,9 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
             return;
         }
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, &D_80173D24);
             return;
         }
@@ -117,10 +117,10 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
         if (((S_80172EF4_1 *)action)->unk_96.s != 0) {
             target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
             offset_x = motion->x.w.i - 0x20;
-            motion->unk_0C = (target_x - offset_x) << 0x10 >> 1;
+            motion->velocity_x = (target_x - offset_x) << 0x10 >> 1;
             target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
             offset_y = motion->y.w.i - 0x20;
-            motion->unk_10 = (target_y - offset_y) << 0x10 >> 1;
+            motion->velocity_y = (target_y - offset_y) << 0x10 >> 1;
         }
 
         timer = ((S_80172EF4_1 *)action)->unk_96.u - 1;
@@ -129,9 +129,9 @@ void decelerate_and_center_actor_on_tile(void *action, EntityRec *motion, void *
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
         ((SpriteFrameState *)sprite)->frameTable = D_80173D0C;

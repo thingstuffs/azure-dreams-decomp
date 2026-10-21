@@ -79,7 +79,7 @@ typedef struct DungeonActionStatusView {
     s32 actionBusy;
 } DungeonActionStatusView;
 
-void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void func_80175480(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     s32 special;
     u8 *item_slot;
@@ -92,7 +92,7 @@ void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *act
     switch (phase) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch ((actor->unk_46 & 0x3FFF)) {
+            switch ((actor->action_flags & 0x3FFF)) {
             case 7:
                 special = 1;
                 /* fallthrough */
@@ -116,7 +116,7 @@ void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *act
                 break;
             }
         } else {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 item_slot = ((ActorItemSlotsView *)actor)->slots[2];
                 break;
@@ -160,8 +160,8 @@ void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *act
                         actor->target = scan_monster_along_heading(
                             actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                             actor->facing, 0x10);
-                        actor->unk_72 = abs(actor->unk_72);
-                        actor->unk_73 = abs(actor->unk_73);
+                        actor->target_tile_x = abs(actor->target_tile_x);
+                        actor->target_tile_y = abs(actor->target_tile_y);
                     }
                 }
             }
@@ -174,9 +174,9 @@ void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *act
             ((ItemActionState *)action)->phase++;
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         ((PlayerActionCountView *)D_800814A8)->remainingActions--;
@@ -185,7 +185,7 @@ void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *act
         ((ItemActionState *)action)->nextBehavior = D_80173B98;
         ((ActorActionBytesView *)actor)->targetY = 0;
         ((ActorActionBytesView *)actor)->targetX = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -217,9 +217,9 @@ void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *act
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80176320) {
             u8 *anim_table;
@@ -241,7 +241,7 @@ void func_80175480(void *action, EntityRec *motion, void *sprite, EntityRec *act
             ((ActorActionBytesView *)actor)->targetY = 0;
             ((ActorActionBytesView *)actor)->targetX = 0;
             ((ActorActionBytesView *)actor)->remainingActions--;
-            actor->unk_46 &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(0xB4);
         }
 

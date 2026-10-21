@@ -14,7 +14,7 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 
 /* Advances timed movement toward a destination and handles completion. */
-void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, EntityRec *motion, SpriteFrameState *destination, EntityRec *actor) {
+void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, ObjectPosition *motion, SpriteFrameState *destination, EntityRec *actor) {
     u16 delay;
     u8 state;
     s32 vertical_speed;
@@ -36,7 +36,7 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, EntityRec 
         } else {
             vertical_speed = 0xFFEC0000;
         }
-        motion->flags14 = vertical_speed;
+        motion->velocity_z = vertical_speed;
         process_unflagged_linked_entries_alt(actor->unk_5C);
         process_unflagged_linked_entries(actor->unk_5C);
         g_dungeon_status.flags |= 0x812;
@@ -51,16 +51,16 @@ void advance_timed_destination_motion(Rec_func_8008ACDC_arg0 *action, EntityRec 
             s32 target_x, current_x, current_y;
             target_x = destination->unk_24 << 6;
             current_x = motion->x.w.i - 0x20;
-            motion->unk_0C = ((target_x - current_x) << 16) / g_dungeon_status.movement_frames_left;
+            motion->velocity_x = ((target_x - current_x) << 16) / g_dungeon_status.movement_frames_left;
             current_y = motion->y.w.i - 0x20;
-            motion->unk_10 = (((destination->unk_25 << 6) - current_y) << 16) / g_dungeon_status.movement_frames_left;
+            motion->velocity_y = (((destination->unk_25 << 6) - current_y) << 16) / g_dungeon_status.movement_frames_left;
         }
         g_dungeon_status.movement_frames_left--;
         if (g_dungeon_status.movement_frames_left > 0)
             return;
         g_dungeon_status.movement_frames_left = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
         if (action->unk_9B.as_u8 >= 10) {
             g_dungeon_status.movement_frames_left = 1;

@@ -27,7 +27,7 @@ s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();
 s32 select_response_for_source_and_target();
 void dispatch_actor_action(void *actor, s32 position, s32 context);
 #include "records/Rec_func_8009B828_arg0.h"
-void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, EntityRec *motion, s32 transition_arg);
+void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, ObjectPosition *motion, s32 transition_arg);
 void update_motion_toward_town_target(void *state, s32 context, void *motion, s32 next_arg);
 extern u8 D_8009B9BC[];
 extern s32 D_800CFCB4;

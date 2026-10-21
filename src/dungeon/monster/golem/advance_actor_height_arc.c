@@ -43,14 +43,14 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern s16 check_layer_offset_height(u16 x, u16 y, s16 height, u32 flags);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 sample_terrain_surface_height(s32, s32, s16);
 extern void create_primitive_state_object(void *, void *, void *);
 
 extern u8 D_80170E94;
 
 /* Advances the actor's movement state, height arc, and return to its tile. */
-void advance_actor_height_arc(void *action, void *motion, void *record, EntityRec *actor)
+void advance_actor_height_arc(void *action, void *motion, void *record, ActorRecord *actor)
 {
     u8 state;
     s32 terrain_height;
@@ -73,15 +73,15 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
             direction = (((u16)actor->facing) >> 9) & 7;
             if ((s16)check_layer_offset_height(((SpriteFrameState *)record)->unk_24 << 6,
                                    ((SpriteFrameState *)record)->unk_25 << 6,
-                                   actor->unk_88,
+                                   actor->ground_height,
                                    direction << 9) == 0) {
                 terrain_height = sample_terrain_surface_height(
                     (((((SpriteFrameState *)record)->unk_24 +
                        ((s16 *)((s8 *)dir_step_x))[direction]) << 6) + 0x20) & 0xFFE0,
                     (((((SpriteFrameState *)record)->unk_25 +
                        ((s16 *)((s8 *)dir_step_y))[direction]) << 6) + 0x20) & 0xFFE0,
-                    (s16)(((u16)actor->unk_88) - 0x20));
-                if ((u16)(terrain_height - ((u16)actor->unk_88) + 0x3F) >= 0x7F) {
+                    (s16)(((u16)actor->ground_height) - 0x20));
+                if ((u16)(terrain_height - ((u16)actor->ground_height) + 0x3F) >= 0x7F) {
                     ((S_80172D08_0 *)action)->unk_AF = 1;
                 }
             } else {
@@ -144,7 +144,7 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
                 fall_step = D_800DDC40[
                     ((S_80172D08_5 *)(actor->target))->unk_13] + 0x20;
                 scaled_arc = arc_sample * fall_step;
-                height_delta = (((S_80172D08_4 *)owner)->unk_0A - actor->unk_88) << 13;
+                height_delta = (((S_80172D08_4 *)owner)->unk_0A - actor->ground_height) << 13;
                 height_delta *= 0x11 - ((S_80172D08_0 *)action)->unk_96.s;
                 arc_sample = scaled_arc << 8;
                 next_height = height_delta - arc_sample;
@@ -167,11 +167,11 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (((((SpriteFrameState *)record)->unk_25 +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                    (s16)(((u16)actor->unk_88) - 0x20));
+                    (s16)(((u16)actor->ground_height) - 0x20));
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
-                height_delta = (signed_terrain_height - actor->unk_88) << 13;
+                height_delta = (signed_terrain_height - actor->ground_height) << 13;
                 scaled_arc = ((S_80172D08_0 *)action)->unk_96.s;
                 height_offset = height_delta * (0x11 - scaled_arc);
                 arc_sample = ((arc_sample >> 4) * 3) << 13;
@@ -244,7 +244,7 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
                 height_delta = ((S_80172D08_4 *)owner)->unk_0A -
                            D_800DDC40[((S_80172D08_5 *)(actor->target))->unk_13] -
-                           actor->unk_88;
+                           actor->ground_height;
                 height_delta <<= 13;
                 height_offset = height_delta * ((S_80172D08_0 *)action)->unk_96.s;
                 arc_sample = (arc_sample >> 4) << 13;
@@ -269,11 +269,11 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
                        ((s16 *)((s8 *)dir_step_x))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
                     (((((SpriteFrameState *)record)->unk_25 +
                        ((s16 *)((s8 *)dir_step_y))[direction >> 1]) << 6) + 0x20) & 0xFFE0,
-                    (s16)(((u16)actor->unk_88) - 0x20));
+                    (s16)(((u16)actor->ground_height) - 0x20));
                 arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 8);
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
-                base_height = actor->unk_88;
+                base_height = actor->ground_height;
                 base_height += 0x40;
                 height_delta = signed_terrain_height - base_height;
                 height_delta <<= 13;
@@ -295,10 +295,10 @@ void advance_actor_height_arc(void *action, void *motion, void *record, EntityRe
             ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)record)->unk_24,
                           ((SpriteFrameState *)record)->unk_25);
-            reduce_actor_food_meter(actor, 0x200);
+            spend_actor_mp(actor, 0x200);
             ((S_80172D08_0 *)action)->unk_8C = &D_80170E94;
             g_dungeon_status.active_actor = 0;
-            (actor->unk_46) &= 0x7FFF;
+            (actor->action_flags) &= 0x7FFF;
             ((S_80172D08_0 *)action)->unk_98 &= 0xFFF3;
             (*(u32 *)&actor->flags1C) |= 0x08000000;
             advance_status_timers(actor);

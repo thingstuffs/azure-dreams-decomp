@@ -34,7 +34,7 @@ typedef struct S_8014D3A8_2 {
 } S_8014D3A8_2;   /* base in update_entity_movement_animation_and_ground */
 
 /* Update entity callbacks, movement, animation, and ground height. */
-void update_entity_movement_animation_and_ground(void *entity, EntityRec *motion, void *sprite)
+void update_entity_movement_animation_and_ground(void *entity, ObjectPosition *motion, void *sprite)
 {
     void *entity_base = entity;
     s16 old_state;
@@ -87,22 +87,22 @@ void update_entity_movement_animation_and_ground(void *entity, EntityRec *motion
         state_compare >>= 16;
         if (state_compare != (*(s8 *)((u8 *)entity + 0x6D))) {
             try_move_actor_to_valid_position(entity, motion, sprite, entity);
-            motion->x.v += motion->unk_0C;
-            motion->y.v += motion->unk_10;
+            motion->x.v += motion->velocity_x;
+            motion->y.v += motion->velocity_y;
         } else {
-            motion->x.v += motion->unk_0C;
-            motion->y.v += motion->unk_10;
+            motion->x.v += motion->velocity_x;
+            motion->y.v += motion->velocity_y;
         }
     }
 
     if (!((*(s32 *)((u8 *)entity + 0x1C)) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-        motion->flags14 += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
+        motion->velocity_z += (*(s8 *)((u8 *)entity + 0x9D)) * 0x14000;
         (*(u8 *)((u8 *)entity + 0x9D))++;
     } else {
         (*(u8 *)((u8 *)entity + 0x9D)) = 0;
     }
-    (*(s32 *)((u8 *)entity + 0x90)) += motion->flags14;
+    (*(s32 *)((u8 *)entity + 0x90)) += motion->velocity_z;
     initial_sprite_flags = ((SpriteFrameState *)sprite)->flags;
 
     if (!(initial_sprite_flags & 0x8000)) {
@@ -188,7 +188,7 @@ void update_entity_movement_animation_and_ground(void *entity, EntityRec *motion
                 if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
                     (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-                    motion->flags14 = 0;
+                    motion->velocity_z = 0;
                     ((S_8014D3A8_2 *)entity_base)->unk_1C |= 0x08000000;
                 }
             }
@@ -219,7 +219,7 @@ void update_entity_movement_animation_and_ground(void *entity, EntityRec *motion
                 if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
                     (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-                    motion->flags14 = 0;
+                    motion->velocity_z = 0;
                     ((S_8014D3A8_2 *)entity_base)->unk_1C |= 0x08000000;
                 }
             }

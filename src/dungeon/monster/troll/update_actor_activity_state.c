@@ -205,12 +205,12 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
         }
         {
 
-            switch (((EntityRec *)actor)->unk_48) {
+            switch (((ActorRecord *)actor)->unk_48) {
             default:
                 break;
             case 13:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E54;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E54;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -218,7 +218,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 break;
             case 14:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E5C;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E5C;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -226,7 +226,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 break;
             case 15:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E64;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E64;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -242,7 +242,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
         u8 *dir_table;
         void *current_table;
 
-        switch (((EntityRec *)actor)->unk_48) {
+        switch (((ActorRecord *)actor)->unk_48) {
         default:
             break;
         case 13:
@@ -250,7 +250,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             dir_table = D_80175E54;
             if (current_table != dir_table) {
                 (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -262,7 +262,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             dir_table = D_80175E5C;
             if (current_table != dir_table) {
                 (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -274,7 +274,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             dir_table = D_80175E64;
             if (current_table != dir_table) {
                 (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -284,11 +284,11 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
         }
     }
 
-        if (((EntityRec *)actor)->tileY != 0) {
-            switch (((EntityRec *)actor)->unk_48) {
+        if (((ActorRecord *)actor)->mp != 0) {
+            switch (((ActorRecord *)actor)->unk_48) {
             case 13:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E6C;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -296,7 +296,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 break;
             case 14:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E74;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -304,7 +304,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 break;
             case 15:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E7C;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -315,7 +315,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
-            if (((EntityRec *)actor)->unk_64 != 0) {
+            if (((ActorRecord *)actor)->unk_64 != 0) {
                 if (begin_ready_actor_directional_action(controller, context, animation, 0) != 0) {
                     return;
                 }
@@ -324,7 +324,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 return;
             }
             {
-                s32 actor_flags = ((EntityRec *)actor)->flags1C;
+                s32 actor_flags = ((ActorRecord *)actor)->flags1C;
 
                 if (actor_flags & 0x100) {
                     begin_pushed_actor_move(controller, context, animation, actor);
@@ -336,7 +336,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                     return;
                 }
             }
-            if (((EntityRec *)actor)->unk_6D == 0) {
+            if (((ActorRecord *)actor)->pending_turn_updates == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
@@ -347,13 +347,13 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             }
             update_actor_status_and_food(actor);
             on_actor_status_updated(actor);
-            if (((EntityRec *)actor)->tileY == 0) {
+            if (((ActorRecord *)actor)->mp == 0) {
                 return;
             }
-            switch (((EntityRec *)actor)->unk_48) {
+            switch (((ActorRecord *)actor)->unk_48) {
             case 13:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E6C;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -361,7 +361,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 break;
             case 14:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E74;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,
@@ -369,7 +369,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                 break;
             case 15:
                 (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
-                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E7C;
                 select_sprite_entry(animation,
                     *(u8 *)table_entry,

@@ -5,7 +5,7 @@
 /* Fill eight records with the selected values from the two global arrays. */
 void fill_person_records(void) {
     s32 record_index;
-    EntityRec *primary_values;
+    ObjectPosition *primary_values;
     u16 *secondary_values;
 
     record_index = 0;
@@ -42,7 +42,7 @@ void shift_history_and_store_current_values(void)
     }
 
     {
-        EntityRec *current_values;
+        ObjectPosition *current_values;
         TownRecord *newest_record;
 
         current_values = &D_80083780;

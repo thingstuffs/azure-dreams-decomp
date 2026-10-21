@@ -1,13 +1,13 @@
 #include "dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.h"
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
-s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *action_state, s32 action_id, void *sprite, EntityRec *actor) {
+s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *action_state, s32 action_id, void *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
     u16 status_flags;
     u16 state_flag;
 
-    actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
+    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
@@ -25,7 +25,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->unk_46 & 0x8000)) {
+    if (!(actor->action_flags & 0x8000)) {
         if (status_flags & 8) {
             return -1;
         }
@@ -56,7 +56,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
     select_sprite_entry(sprite,
         D_80173FB8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);
-    actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+    actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
     prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
     return 1;
 }

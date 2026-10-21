@@ -77,7 +77,7 @@ typedef struct S_800B348C_7 {
 } S_800B348C_7;   /* ((S_800B348C_4_pre *)attack_target)[-1].unk_00 in advance_actor_attack_sequence */
 
 /* Advances the attack and mixing sequence, resetting element flags at its start and finish. */
-void advance_actor_attack_sequence(void *action_state, void *motion, void *animation, EntityRec *actor) {
+void advance_actor_attack_sequence(void *action_state, void *motion, void *animation, ActorRecord *actor) {
     u8 *windup_animations;
     u8 *attack_animations;
     u8 *mix_animations;
@@ -128,9 +128,9 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
     case 3:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             launch_direction_offset = ((u16) actor->facing >> 8) & 0xE;
-            ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_x) + launch_direction_offset) << 0x11);
-            ((EntityRec *)motion)->unk_10 = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_y) + launch_direction_offset) << 0x11);
-            ((EntityRec *)motion)->flags14 = 0xFFEBC000;
+            ((ObjectPosition *)motion)->velocity_x = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_x) + launch_direction_offset) << 0x11);
+            ((ObjectPosition *)motion)->velocity_y = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_y) + launch_direction_offset) << 0x11);
+            ((ObjectPosition *)motion)->velocity_z = 0xFFEBC000;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD070;
             set_sprite_animation_frame(animation, D_800DD070[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
@@ -204,18 +204,18 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
         ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v
             | 0x800);
         ((S_800B348C_0 *)action_state)->unk_98 = (u16) (((S_800B348C_0 *)action_state)->unk_98 | 8);
-        vertical_velocity = ((EntityRec *)motion)->flags14;
-        ((EntityRec *)motion)->unk_0C = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->flags14 = 0;
+        vertical_velocity = ((ObjectPosition *)motion)->velocity_z;
+        ((ObjectPosition *)motion)->velocity_x = 0;
+        ((ObjectPosition *)motion)->velocity_y = 0;
+        ((ObjectPosition *)motion)->velocity_z = 0;
         mix_delay = ((S_800B348C_0 *)action_state)->unk_96.u - 1;
         ((S_800B348C_0 *)action_state)->unk_96.u = mix_delay;
         D_800DF244[0] = vertical_velocity;
         if ((s16)mix_delay < 0) {
             resume_direction_offset = ((u16) actor->facing >> 8) & 0xE;
-            ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_x) + resume_direction_offset) << 0x11);
-            ((EntityRec *)motion)->unk_10 = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_y) + resume_direction_offset) << 0x11);
-            ((EntityRec *)motion)->flags14 = vertical_velocity;
+            ((ObjectPosition *)motion)->velocity_x = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_x) + resume_direction_offset) << 0x11);
+            ((ObjectPosition *)motion)->velocity_y = (s32) (*(s16 *)((u8 *)((s8 *)dir_step_y) + resume_direction_offset) << 0x11);
+            ((ObjectPosition *)motion)->velocity_z = vertical_velocity;
             ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v =
                 (u16) (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xF7FF);
             ((S_800B348C_0 *)action_state)->unk_96.u = 4U;
@@ -254,7 +254,7 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
                         }
                 }
             } else {
-                EntityRec *attached_object;
+                ActorRecord *attached_object;
 
                 attached_object = actor->target;
                 if (attached_object != 0) {
@@ -273,9 +273,9 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
                 /* fallthrough */
     case 8:
         if (((S_800B348C_0 *)action_state)->unk_A2 & 0x10) {
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            ((ObjectPosition *)motion)->velocity_z = 0;
+            ((ObjectPosition *)motion)->velocity_y = 0;
+            ((ObjectPosition *)motion)->velocity_x = 0;
             if (((S_800B348C_0 *)action_state)->unk_A8 != 0) {
                 ((S_800B348C_0 *)action_state)->unk_A8 = 0U;
             }
@@ -295,18 +295,18 @@ void advance_actor_attack_sequence(void *action_state, void *motion, void *anima
         s32 delta_y;
 
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
-            ((EntityRec *)motion)->flags14 = 0;
+            ((ObjectPosition *)motion)->velocity_z = 0;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD098;
             set_sprite_animation_frame(animation, D_800DD098[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_96.u = 2U;
             delta_x = ((Rec_D_80082E80 *)animation)->unk_24 << 6;
-            delta_y = ((EntityRec *)motion)->x.w.i;
+            delta_y = ((ObjectPosition *)motion)->x.w.i;
             delta_y -= 0x20;
             delta_x -= delta_y;
-            ((EntityRec *)motion)->unk_0C = (s32) ((delta_x << 0x10) / (s16) ((S_800B348C_0 *)action_state)->unk_96.u);
-            delta_y = ((EntityRec *)motion)->y.w.i - 0x20;
-            ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((((Rec_D_80082E80 *)animation)->unk_25 << 6) - delta_y)
+            ((ObjectPosition *)motion)->velocity_x = (s32) ((delta_x << 0x10) / (s16) ((S_800B348C_0 *)action_state)->unk_96.u);
+            delta_y = ((ObjectPosition *)motion)->y.w.i - 0x20;
+            ((ObjectPosition *)motion)->velocity_y = (s32) ((s32) (((((Rec_D_80082E80 *)animation)->unk_25 << 6) - delta_y)
                 << 0x10) / (s16) ((S_800B348C_0 *)action_state)->unk_96.u);
 load_state_9b:
 bump_state_9b:
@@ -323,9 +323,9 @@ bump_state_9b:
         return_delay = ((S_800B348C_0 *)action_state)->unk_96.u - 1;
         ((S_800B348C_0 *)action_state)->unk_96.u = return_delay;
         if (((return_delay << 0x10) <= 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            ((ObjectPosition *)motion)->velocity_z = 0;
+            ((ObjectPosition *)motion)->velocity_y = 0;
+            ((ObjectPosition *)motion)->velocity_x = 0;
             set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
             {
                 void *case10_animation;
@@ -334,7 +334,7 @@ bump_state_9b:
                 set_sprite_animation_frame(case10_animation, D_800DD0A0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
             }
-            process_unflagged_linked_entries(actor->unk_5C);
+            process_unflagged_linked_entries(actor->next_actor_header);
             end_base = (s32 *)((u32)&g_dungeon_status.turn_scale);
             end_mask = -8;
             ((S_800B348C_6 *)end_base)->unk_02 = (u16) (((S_800B348C_6 *)end_base)->unk_02 | 0x412);

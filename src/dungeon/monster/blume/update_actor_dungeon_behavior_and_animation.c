@@ -84,7 +84,7 @@ void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_dat
     s16 facing;
     u16 action_flags;
     u8 *anim_table;
-    EntityRec *player;
+    ActorRecord *player;
 
     if (initial_flags & 0x1000) {
         ((S_80171E20_0 *)actor_in)->unk_9A = 14;

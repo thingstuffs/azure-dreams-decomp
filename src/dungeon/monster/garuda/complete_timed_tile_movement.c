@@ -27,7 +27,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern u8 D_80171058[];
 extern u8 D_801748A0[];
@@ -35,7 +35,7 @@ extern u8 D_801748A8[];
 extern u8 D_801748B0[];
 
 /* Advance a timed movement animation, snap the entity to its tile, and finish the action. */
-void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite, EntityRec *entity)
+void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sprite, ActorRecord *entity)
 {
     s32 direction_work[2];
     s32 state;
@@ -91,11 +91,11 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
             world_x = motion->x.w.i;
             target_x <<= 6;
             world_x -= 0x20;
-            motion->unk_0C = ((target_x - world_x) << 16) / move_ticks;
+            motion->velocity_x = ((target_x - world_x) << 16) / move_ticks;
 
             world_y = motion->y.w.i;
             world_y -= 0x20;
-            motion->unk_10 =
+            motion->velocity_y =
                 (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - world_y) << 16) /
                 ((S_80173A08_0 *)action)->unk_B0.s;
 
@@ -127,9 +127,9 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
             break;
         }
         ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
@@ -147,11 +147,11 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
         return;
     }
 
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    reduce_actor_food_meter(entity, 4);
+    spend_actor_mp(entity, 4);
     advance_status_timers(entity);
 
     global_base = &g_dungeon_status;
@@ -161,8 +161,8 @@ void complete_timed_tile_movement(void *action, EntityRec *motion, void *sprite,
 
     entity_flags = entity->flags1C;
     if (entity_flags & 0x2000) {
-        if (entity->unk_46 & 0x8000) {
-            entity->unk_46 &= 0x7FFF;
+        if (entity->action_flags & 0x8000) {
+            entity->action_flags &= 0x7FFF;
         }
     } else if (!(entity_flags & 0x410)) {
         if (entity_flags & 0x20000) {

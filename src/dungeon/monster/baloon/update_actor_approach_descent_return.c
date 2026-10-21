@@ -95,7 +95,7 @@ extern s32 append_entity_display_text(void *record, u8 *out);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void check_action_boundary_and_set_flag(void);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 /* Updates the actor's approach, descent, and return sequence. */
@@ -142,7 +142,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             tile_dy = __builtin_abs(tile_dy);
             ((S_80175CD8_0 *)action)->unk_96.s = ((tile_dx + tile_dy) * 4) + 9;
             ((S_80175CD8_0 *)action)->unk_9B++;
-            reduce_actor_food_meter(effect_actor, effect_flags);
+            spend_actor_mp(effect_actor, effect_flags);
         }
 
             if (D_80082E80.tile_position.parts.tile_x == ((SpriteFrameState *)sprite)->unk_24) {

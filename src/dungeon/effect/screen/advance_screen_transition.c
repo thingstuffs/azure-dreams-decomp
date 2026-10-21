@@ -66,7 +66,7 @@ void advance_screen_transition(State *ctx)
     s32 phase;
     s32 fade_duration;
     void *parent;
-    EntityRec *object;
+    ActorRecord *object;
     void *child;
     s16 previous_state;
     switch (ctx->state) {
@@ -81,10 +81,10 @@ void advance_screen_transition(State *ctx)
     D_80029670[0] = (s32)ctx->field_0;
 
     object = D_800814A8;
-    object->unk_F4 = D_800281FC;
+    ((PlayerRecord *)object)->unk_F4 = D_800281FC;
     object->unk_96 = 0x14;
     object->unk_A8 = ctx->field_8;
-    D_800814A8->unk_102 = 1;
+    ((PlayerRecord *)D_800814A8)->unk_102 = 1;
 
     ctx->state++;
 case 1:

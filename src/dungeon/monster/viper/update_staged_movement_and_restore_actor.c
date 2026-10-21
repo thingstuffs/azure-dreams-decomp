@@ -77,7 +77,7 @@ typedef struct S_801727B4_4 {
 } S_801727B4_4;
 
 /* Updates a staged movement animation, emits effects, and restores the actor at its starting position. */
-void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, SpriteFrameState *animation, EntityRec *actor) {
+void update_staged_movement_and_restore_actor(void *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor) {
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;
     s32 reverse_facing;
@@ -119,8 +119,8 @@ void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, S
             wrapped_facing = facing + 0xB;
         }
         direction_index = reverse_facing - (wrapped_facing & 0x18);
-        motion->unk_0C = (s32) ((s16) dir_step_x[direction_index] * 0x30000);
-        motion->unk_10 = (s32) ((s16) dir_step_y[direction_index] * 0x30000);
+        motion->velocity_x = (s32) ((s16) dir_step_x[direction_index] * 0x30000);
+        motion->velocity_y = (s32) ((s16) dir_step_y[direction_index] * 0x30000);
         animation->frameTable = &D_80174A8C;
         select_sprite_entry(animation, (&D_80174A8C)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         previous_state = ((S_801727B4_0 *)action)->unk_9B;
@@ -134,19 +134,19 @@ void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, S
         select_sprite_entry(animation, (&D_80174A94)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_90 = 0;
         ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 | 8);
-        motion->flags14 = 0xFFF40000;
+        motion->velocity_z = 0xFFF40000;
         previous_state = ((S_801727B4_0 *)action)->unk_9B;
         ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
         return;
     case 2:
-        vertical_speed = motion->flags14 + 0x20000;
-        motion->flags14 = vertical_speed;
+        vertical_speed = motion->velocity_z + 0x20000;
+        motion->velocity_z = vertical_speed;
         ((S_801727B4_0 *)action)->unk_90 = (s32) (((S_801727B4_0 *)action)->unk_90 + vertical_speed);
         if (!(animation->flags & 0xE000)) {
             return;
         }
-        motion->unk_0C = (s32) ((s32) (0 - motion->unk_0C) >> 1);
-        motion->unk_10 = (s32) ((s32) (0 - motion->unk_10) >> 1);
+        motion->velocity_x = (s32) ((s32) (0 - motion->velocity_x) >> 1);
+        motion->velocity_y = (s32) ((s32) (0 - motion->velocity_y) >> 1);
         animation->frameTable = D_80174AA4;
         select_sprite_entry(animation, D_80174AA4[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((S_801727B4_0 *)action)->unk_96 = 7;
@@ -261,15 +261,15 @@ void update_staged_movement_and_restore_actor(void *action, EntityRec *motion, S
         if ((s16) ((u16)motion->y.w.i) != (s16) ((S_801727B4_0 *)action)->unk_AA) {
             return;
         }
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_801727B4_0 *)action)->unk_8C = D_80170E94;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        if (actor->unk_6D == 0) {
-            actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+        if (actor->pending_turn_updates == 0) {
+            actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         } else {
             *D_800E3DE8 = (u8 *)actor - 0x20;
         }

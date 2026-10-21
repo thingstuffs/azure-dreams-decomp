@@ -372,7 +372,7 @@ typedef struct S_800DAE44_2 {
 } S_800DAE44_2;
 
 /* Create an object at the source position and initialize its data. */
-void create_source_positioned_object(EntityRec *source_pos, s16 initial_value) {
+void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value) {
     S_800DAE44_2 *object_data;
     void *object;
 

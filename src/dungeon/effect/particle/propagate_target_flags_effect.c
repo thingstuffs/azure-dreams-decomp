@@ -25,7 +25,7 @@ extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s32 rand(void);
-extern s32 func_80024124(PointRecord *, EntityRec *);
+extern s32 func_80024124(PointRecord *, ObjectPosition *);
 extern void advance_counter_and_propagate_target_flags(void *);
 extern u8 D_800DEC70[];
 extern u8 D_800DECF8[];
@@ -70,10 +70,10 @@ void apply_random_actor_value_adjustment(void *state, void *unused, void *visual
 
 /* Retail 8196A924 (func_80024124): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
-s32 func_80024124(PointRecord *first_point, EntityRec *first_position)
+s32 func_80024124(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
-    EntityRec *position = first_position;
+    ObjectPosition *position = first_position;
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
     GpuContext *render_ctx = g_game_work.draw_buffer;
@@ -170,7 +170,7 @@ void advance_counter_and_propagate_target_flags(void *object)
 void func_800243C4(ObjectNodeHeader *parent, s32 state_14_value, s32 state_08_value, s32 state_32_value,
                    s16 x_offset, s16 y_offset, s16 z_offset) {
     ObjectNodeHeader *spawned;
-    EntityRec *position;
+    ObjectPosition *position;
     PointRecord *state;
     s32 jitter;
 
@@ -181,18 +181,18 @@ void func_800243C4(ObjectNodeHeader *parent, s32 state_14_value, s32 state_08_va
         /* Retail uses unsigned high-half arithmetic; the u16 store also
          * preserves CDK combine/scheduling before the next rand call. */
         jitter = rand();
-        *(u16 *)&((EntityRec *)spawned->unk_08)->x.w.i =
-            *(u16 *)&((EntityRec *)parent->unk_08)->x.w.i +
+        *(u16 *)&((ObjectPosition *)spawned->unk_08)->x.w.i =
+            *(u16 *)&((ObjectPosition *)parent->unk_08)->x.w.i +
             (jitter & 0xF) + (x_offset - 8);
         jitter = rand();
-        *(u16 *)&((EntityRec *)spawned->unk_08)->y.w.i =
-            *(u16 *)&((EntityRec *)parent->unk_08)->y.w.i +
+        *(u16 *)&((ObjectPosition *)spawned->unk_08)->y.w.i =
+            *(u16 *)&((ObjectPosition *)parent->unk_08)->y.w.i +
             (jitter & 0xF) + (y_offset - 8);
         state = (PointRecord *)(spawned + 1);
         jitter = rand();
         position = spawned->unk_08;
         *(u16 *)&position->z.w.i =
-            *(u16 *)&((EntityRec *)parent->unk_08)->z.w.i +
+            *(u16 *)&((ObjectPosition *)parent->unk_08)->z.w.i +
             (jitter & 0x1F) + (z_offset - 0x10);
         state->unk_14 = state_14_value;
         state->brightness = state_32_value;

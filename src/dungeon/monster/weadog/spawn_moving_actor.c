@@ -27,7 +27,7 @@ extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 /* Spawns a moving actor and advances the action through animation and recovery. */
 void spawn_moving_actor(void *action_work, void *position, void *sprite, void *actor) {
@@ -150,7 +150,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
         return;
     case 3:
         if (S16_AT(action_work, 0xA4) != 0x4D) {
-            reduce_actor_food_meter(actor, 0x2000);
+            spend_actor_mp(actor, 0x2000);
             PTR_AT(action_work, 0x8C) = &D_80171CE8;
             g_dungeon_status.active_actor = 0;
             U16_AT(actor, 0x46) &= 0x7FFF;

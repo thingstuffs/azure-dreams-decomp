@@ -89,7 +89,7 @@ void update_actor_controller(void *actor_state_in, void *update_context_in, void
     s16 facing_angle;
     u16 action_flags;
     u8 *animation_table;
-    EntityRec *target_actor;
+    ActorRecord *target_actor;
 
     if (dungeon_flags & 0x1000) {
         ((S_80170EE4_0 *)actor_state_in)->unk_9A = 14;

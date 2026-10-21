@@ -197,7 +197,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor, void *context, vo
         case 5:
         case 6:
             {
-                EntityRec *global_actor;
+                ActorRecord *global_actor;
                 s32 direction;
 
                 direction = get_rounded_facing_and_rounding_flag(

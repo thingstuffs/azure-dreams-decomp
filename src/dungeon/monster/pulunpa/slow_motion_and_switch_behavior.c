@@ -28,7 +28,7 @@ extern u8 D_80176318[];
 extern u8 D_80176378[];
 
 /* Slows directional motion, returns the entity to its tile, and switches behavior. */
-void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, SpriteFrameState *tile, void *entity)
+void slow_motion_and_switch_behavior(S_80172C10_0 *state, ObjectPosition *motion, SpriteFrameState *tile, void *entity)
 {
     s32 mark_value;
     s32 tracked_entity;
@@ -37,18 +37,18 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Spr
     switch (state->unk_9B) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->unk_0C =
+        motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) +
                      ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
-        motion->unk_10 =
+        motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) +
                      ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 19;
         state->unk_9B++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             if (state->unk_A7 != 0) {
                 begin_actor_display_action(state, motion, tile, D_80176378);
                 if (state->unk_A8 != 0) {
@@ -74,8 +74,8 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Spr
                         /* fall through */
 
     case 1:
-        motion->unk_0C -= motion->unk_0C / 4;
-        motion->unk_10 -= motion->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
 
         if (state->unk_96.s > 0) {
             state->unk_96.s = state->unk_96.u - 1;
@@ -87,9 +87,9 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Spr
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             if (state->unk_A7 != 0) {
                 begin_actor_display_action(state, motion, tile, D_80176378);
                 if (state->unk_A8 != 0) {
@@ -123,9 +123,9 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Spr
             x_step = (x_step - position_offset) << 16;
             x_step = x_step / frames_left;
             position_offset = motion->y.w.i - 0x20;
-            motion->unk_0C = x_step;
+            motion->velocity_x = x_step;
             y_distance = (tile->unk_25 << 6) - position_offset;
-            motion->unk_10 =
+            motion->velocity_y =
                 (y_distance << 16) / state->unk_96.s;
         }
 
@@ -135,9 +135,9 @@ void slow_motion_and_switch_behavior(S_80172C10_0 *state, EntityRec *motion, Spr
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);

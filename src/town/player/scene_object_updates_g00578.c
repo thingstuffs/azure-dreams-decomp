@@ -144,7 +144,7 @@ void update_actor_position_and_heading(void *actor, s32 update_context, void *po
     u32 heading;
     u8 *state;
     s32 *saved_position;
-    EntityRec *fixed_position;
+    ObjectPosition *fixed_position;
 
     state = ((u8 *)(&D_80083498));
     if (((S_800A6994_0 *)state)->unk_10 != &D_800A5638) {

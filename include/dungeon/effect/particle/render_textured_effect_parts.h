@@ -343,7 +343,7 @@ s32 draw_linked_sprites_clipped(u8 *, s32, S_80045C34 *);
 s32 func_80045C34(u8 *, s32, S_80045C34 *);
 void render_textured_effect_parts(void *record_data, void *unused, void *update_data);
 void func_800240C0(void *unused_context, void *origin, s32 unused_id, s16 offset_x, s16 offset_y, s16 offset_z);
-s32 func_800241EC(PointRecord *first_point, EntityRec *first_position);
+s32 func_800241EC(PointRecord *first_point, ObjectPosition *first_position);
 void create_radial_height_offset_effect(MotionState *state, s32 *sum, UpdateFlags *flags);
 void func_80024604(void *object_data, s16 *position);
 void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);

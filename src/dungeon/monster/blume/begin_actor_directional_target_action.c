@@ -41,10 +41,10 @@ s32 apply_camera_offset_and_select_target();
 extern u8 D_80175414;
 
 /* Starts an actor action and selects its directional sprite and adjacent target. */
-void begin_actor_directional_target_action(void *action_state, s32 action_context, void *sprite, EntityRec *actor) {
+void begin_actor_directional_target_action(void *action_state, s32 action_context, void *sprite, ActorRecord *actor) {
     s32 direction;
 
-    actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
+    actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -56,13 +56,13 @@ void begin_actor_directional_target_action(void *action_state, s32 action_contex
                           *(&D_80175414 + (((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                           0);
             advance_status_timers(actor);
-            actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
+            actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
             direction = ((u16)actor->facing >> 9) & 7;
             actor->target =
                 find_eligible_actor_at_tile_and_height(actor,
                               (((S_80174A9C_2 *)sprite)->unk_24 + ((u16 *)dir_step_x)[direction]) & 0xFFFF,
                               (((S_80174A9C_2 *)sprite)->unk_25 + ((u16 *)dir_step_y)[direction]) & 0xFFFF,
-                              actor->unk_88);
+                              actor->ground_height);
         }
     }
 }

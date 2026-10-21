@@ -45,7 +45,7 @@ s32 check_and_prepare_actor_move(); /* extern */
 void prepare_actor_path_movement(); /* extern */
 s32 func_80173EAC(); /* extern */
 void update_directional_action_display(); /* extern */
-void update_actor_behavior(void *actor, s32 context, void *sprite, EntityRec *state);
+void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *state);
 extern M2C_UNK D_80175DF4;
 extern M2C_UNK D_80175DFC;
 extern M2C_UNK D_80175E04;
@@ -63,14 +63,14 @@ extern M2C_UNK D_80175E8C;
 extern M2C_UNK D_80175E94;
 
 /* Updates actor animation, facing, and actions from its dungeon state. */
-void update_actor_behavior(void *actor, s32 context, void *sprite, EntityRec *state) {
+void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *state) {
     s32 path_info;
     u8 *next_row;
     s32 *current_row;
     s32 state_flags;
     s32 action_id;
     s32 heading;
-    EntityRec *player;
+    ActorRecord *player;
     s8 room_id;
     u16 *flags_page;
     u16 action_flags;
@@ -86,7 +86,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, EntityRec *st
         advance_actor_stored_path_2(actor, context, sprite, state);
         return;
     }
-    if (state->tileY == 0) {
+    if (state->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, state);
         anim_mode = state->unk_48;
         switch (anim_mode) {
@@ -222,7 +222,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, EntityRec *st
     }
     room_id = find_active_rect_containing_point(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v);
     ((S_801724BC_2 *)sprite)->unk_26 = room_id;
-    if (state->unk_6D > 0) {
+    if (state->pending_turn_updates > 0) {
         if (state->flags1C & 0x20) {
             update_actor_status_and_food(state);
             return;
@@ -231,7 +231,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, EntityRec *st
             select_and_advance_actor_move(actor, context, sprite, state);
             return;
         }
-        if (!(state->unk_46 & 0x8000)) {
+        if (!(state->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
                     return;
@@ -240,14 +240,14 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, EntityRec *st
             if ((func_80173EAC(actor, context, sprite, 0) << 0x10) == 0) {
                 return;
             }
-            action_flags = state->unk_46 | 0x4000;
-            state->unk_46 = action_flags;
+            action_flags = state->action_flags | 0x4000;
+            state->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
                 select_and_advance_actor_move(actor, context, sprite, state);
                 return;
             }
         }
-        action_id = state->unk_46 & 0x3FFF;
+        action_id = state->action_flags & 0x3FFF;
         switch (action_id) {
         case 8:
         case 9:

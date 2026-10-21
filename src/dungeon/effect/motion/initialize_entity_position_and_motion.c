@@ -503,7 +503,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     ovl_19a332c_819835AC_S_819835AC_6 *target;
     ovl_19a332c_819835AC_S_819835AC_4 *history;
     ovl_19a332c_819835AC_S_819835AC_6 *hit_actor;
-    EntityRec *state0_move;
+    ObjectPosition *state0_move;
     ovl_19a332c_819835AC_S_819835AC_5 *state0_actor;
     ovl_19a332c_819835AC_S_819835AC_5 *state0_height_actor;
     s32 state0_delta_x;
@@ -512,7 +512,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     s32 step_z;
     ovl_19a332c_819835AC_S_819835AC_6 *state1_global;
     s32 target_coord;
-    EntityRec *state1_move;
+    ObjectPosition *state1_move;
     ovl_19a332c_819835AC_S_819835AC_6 *state1_actor;
     ovl_19a332c_819835AC_S_819835AC_6 *state2_stage;
     u8 tile_x;
@@ -520,8 +520,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     u8 tile_y;
     s32 tile_div;
     TileObject *state34_base;
-    EntityRec *state34_move;
-    EntityRec *state34_emit;
+    ObjectPosition *state34_move;
+    ObjectPosition *state34_emit;
     ovl_19a332c_819835AC_S_819835AC_5 *state2_actor;
     u32 state2_angle;
     TileObject *tile_base;
@@ -1133,7 +1133,7 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
     u16 spawn_y;
     u16 spawn_z;
     s32 spawn_angle;
-    EntityRec *target_pos;
+    ObjectPosition *target_pos;
     ovl_19a332c_81984754_Object **object_base;
     ovl_19a332c_81984754_Object **object_slot;
     ovl_19a332c_81984754_Pos *pos;

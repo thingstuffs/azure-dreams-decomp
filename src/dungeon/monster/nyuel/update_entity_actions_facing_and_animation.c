@@ -98,7 +98,7 @@ extern M2C_UNK D_80174F10;
 void update_entity_actions_facing_and_animation(void *entity, s32 context, void *sprite, void *state) {
     s32 direction_aux;
     s32 *resume_handler;
-    EntityRec *reference_entity;
+    ActorRecord *reference_entity;
     s16 target_angle;
     s32 idle_flags;
     s32 action_id;

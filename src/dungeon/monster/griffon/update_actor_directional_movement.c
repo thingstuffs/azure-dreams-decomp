@@ -25,7 +25,7 @@ extern u8 D_80156C44[];
 extern u8 D_80156C74[];
 
 /* Update directional actor motion and settle at the destination tile center. */
-void update_actor_directional_movement(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void update_actor_directional_movement(void *action, ObjectPosition *motion, void *sprite, EntityRec *actor)
 {
     s16 timer;
     s32 tracked_actor;
@@ -33,16 +33,16 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
     switch (((S_80155234_0 *)action)->unk_9B) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        motion->unk_0C =
+        motion->velocity_x =
             -((s16 *)((s8 *)dir_step_x))[(actor->unk_6A >> 9) & 7] << 15;
-        motion->unk_10 =
+        motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[(actor->unk_6A >> 9) & 7] << 15;
         ((S_80155234_0 *)action)->unk_9B++;
 
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, D_80156C74);
             return;
         }
@@ -59,13 +59,13 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
         }
         ((S_80155234_0 *)action)->unk_96.s = timer;
 
-        motion->unk_0C -= motion->unk_0C / 4;
-        motion->unk_10 -= motion->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
 
     case 1:
-        motion->unk_0C +=
+        motion->velocity_x +=
             ((s16 *)((s8 *)dir_step_x))[(actor->unk_6A >> 9) & 7] << 14;
-        motion->unk_10 +=
+        motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(actor->unk_6A >> 9) & 7] << 14;
 
         if (((S_80155234_0 *)action)->unk_96.s > 0) {
@@ -78,9 +78,9 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
             return;
         }
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, sprite, D_80156C74);
         } else {
             ((SpriteFrameState *)sprite)->frameTable = D_80156C44;
@@ -93,9 +93,9 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
         return;
 
     case 2:
-        motion->unk_0C +=
+        motion->velocity_x +=
             ((s16 *)((s8 *)dir_step_x))[(actor->unk_6A >> 9) & 7] << 14;
-        motion->unk_10 +=
+        motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[(actor->unk_6A >> 9) & 7] << 14;
         if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             return;
@@ -116,12 +116,12 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
             {
                 s32 target_x = ((SpriteFrameState *)sprite)->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
-                motion->unk_0C = ((target_x - current_x) << 15) / timer;
+                motion->velocity_x = ((target_x - current_x) << 15) / timer;
             }
             {
                 s32 target_y = ((SpriteFrameState *)sprite)->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
-                motion->unk_10 =
+                motion->velocity_y =
                     ((target_y - current_y) << 15) / ((S_80155234_0 *)action)->unk_96.s;
             }
         }
@@ -132,9 +132,9 @@ void update_actor_directional_movement(void *action, EntityRec *motion, void *sp
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         motion->x.v = ((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 16;
         motion->y.v = ((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);

@@ -65,7 +65,7 @@ typedef struct S_80092E90_9 {
 } S_80092E90_9;   /* ((S_80092E90_7_pre *)node)[-1].unk_00 in update_wake_nearby_monsters */
 
 /* Move toward the target tile, process matching list entries, and advance the effect state. */
-void update_wake_nearby_monsters(void *controller, EntityRec *motion, void *actor, void *entry)
+void update_wake_nearby_monsters(void *controller, ObjectPosition *motion, void *actor, void *entry)
 {
     s32 found_match;
     s32 tile_origin;
@@ -82,16 +82,16 @@ void update_wake_nearby_monsters(void *controller, EntityRec *motion, void *acto
     if (move_frames != 0) {
         target_pos = ((S_80092E90_1 *)actor)->unk_24 << 6;
         tile_origin = motion->x.w.i - 0x20;
-        motion->unk_0C =
+        motion->velocity_x =
             ((target_pos - tile_origin) << 16) / move_frames;
         tile_origin = motion->y.w.i;
         tile_origin -= 0x20;
         target_pos = ((S_80092E90_1 *)actor)->unk_25 << 6;
-        motion->unk_10 =
+        motion->velocity_y =
             ((target_pos - tile_origin) << 16) / g_dungeon_status.movement_frames_left;
     } else {
-        motion->unk_0C = 0;
-        motion->unk_10 = 0;
+        motion->velocity_x = 0;
+        motion->velocity_y = 0;
     }
     count_state = &D_80083460;
     frames_left = ((S_80092E90_3 *)count_state)->unk_04.n;
@@ -146,9 +146,9 @@ void update_wake_nearby_monsters(void *controller, EntityRec *motion, void *acto
             }
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((S_80092E90_1 *)actor)->unk_24, ((S_80092E90_1 *)actor)->unk_25);
         ((S_80092E90_4 *)controller)->unk_8C = handle_player_input;
         g_dungeon_status.activity_counts.parts.pending_action_count--;

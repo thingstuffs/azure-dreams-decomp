@@ -38,7 +38,7 @@ extern void apply_item_effect_at_entity_position(DungeonObject *, u8 *);
 extern void display_item_status_message(DungeonObject *, u8 *, s16);
 extern s32 generate_random_value(void);
 extern s32 cap_pending_actor_value_delta(DungeonObject *);
-extern s32 apply_actor_food_preference(DungeonObject *, u32, s32);
+extern s32 feed_actor_restore_mp(DungeonObject *, u32, s32);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern void create_timed_paired_particle_emitter(s32, s32, DungeonObject *);
 
@@ -62,7 +62,7 @@ s32 use_random_healing_item(DungeonObject *obj, u8 *payload, s16 effect_arg) {
     if ((u32)obj <= 0x9FFFFFFFU) {
         display_item_status_message(obj, payload, effect_arg);
         kind_flags = entity_action_selectors;
-        if (apply_actor_food_preference(obj, ((u32)kind_flags[obj->kind] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(obj, ((u32)kind_flags[obj->kind] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(obj, payload);
             return 1;
         }

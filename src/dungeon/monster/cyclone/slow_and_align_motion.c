@@ -22,7 +22,7 @@ extern u8 D_80171094;
 extern u8 D_801764B0;
 
 /* Slows directional motion, then aligns the entity to its tile and finishes the motion state. */
-void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, SpriteFrameState *tile, EntityRec *entity)
+void slow_and_align_motion(S_80173770_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile, EntityRec *entity)
 {
     s16 frames_left;
     s32 velocity_or_entity;
@@ -35,18 +35,18 @@ void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, Sprite
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->unk_0C =
+        motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) +
                 ((entity->unk_6A >> 8) & 0xE)) << 19;
-        motion->unk_10 =
+        motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) +
                 ((entity->unk_6A >> 8) & 0xE)) << 19;
         motion_state->unk_9B++;
 
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(motion_state, motion, tile, &D_801764B0);
             return;
         }
@@ -61,16 +61,16 @@ void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, Sprite
         }
         motion_state->unk_96.s = frames_left;
     case 1:
-        velocity_or_entity = motion->unk_0C;
+        velocity_or_entity = motion->velocity_x;
         division_bias = velocity_or_entity;
         if (velocity_or_entity < 0) {
             division_bias = velocity_or_entity + 3;
         }
-        y_velocity = motion->unk_10;
-        motion->unk_0C = velocity_or_entity - (division_bias >> 2);
+        y_velocity = motion->velocity_y;
+        motion->velocity_x = velocity_or_entity - (division_bias >> 2);
 
         division_bias = y_velocity;
-        motion->unk_10 = y_velocity - (division_bias / 4);
+        motion->velocity_y = y_velocity - (division_bias / 4);
 
         if (motion_state->unk_96.s > 0) {
             motion_state->unk_96.u = motion_state->unk_96.u - 1;
@@ -82,9 +82,9 @@ void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, Sprite
             return;
         }
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(motion_state, motion, tile, &D_801764B0);
             return;
         } else {
@@ -101,12 +101,12 @@ void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, Sprite
             tile_coord = tile->unk_24 << 6;
             coord_offset = motion->x.w.i;
             coord_offset -= 0x20;
-            motion->unk_0C = ((tile_coord - coord_offset) << 16) / frames_left;
+            motion->velocity_x = ((tile_coord - coord_offset) << 16) / frames_left;
 
             coord_offset = motion->y.w.i;
             coord_offset -= 0x20;
             tile_coord = tile->unk_25 << 6;
-            motion->unk_10 =
+            motion->velocity_y =
                 ((tile_coord - coord_offset) << 16) / motion_state->unk_96.s;
         }
 
@@ -116,9 +116,9 @@ void slow_and_align_motion(S_80173770_0 *motion_state, EntityRec *motion, Sprite
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, tile->unk_24,
             tile->unk_25);
         {

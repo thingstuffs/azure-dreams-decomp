@@ -26,7 +26,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void create_action_sprite_effect(void *);
 
 extern u8 D_80170EE4[];
@@ -34,7 +34,7 @@ extern u8 D_80176600[];
 extern u8 D_80176668[];
 
 /* Advances an actor's animation sequence and handles its completion. */
-void advance_actor_sprite_action(void *action, void *motion, void *sprite, EntityRec *actor)
+void advance_actor_sprite_action(void *action, void *motion, void *sprite, ActorRecord *actor)
 {
     u16 sprite_flags;
     u16 frame_count;
@@ -91,10 +91,10 @@ void advance_actor_sprite_action(void *action, void *motion, void *sprite, Entit
         break;
     case 3:
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             ((S_801726A4_0 *)action)->unk_8C = D_80170EE4;
             g_dungeon_status.active_actor = 0;
-            (actor->unk_46) &= 0x7FFF;
+            (actor->action_flags) &= 0x7FFF;
             advance_status_timers(actor);
         }
     }

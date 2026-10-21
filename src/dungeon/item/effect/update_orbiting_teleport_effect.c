@@ -118,7 +118,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
     S_800C4F20_8 *owner;
     S_800C4F20_2 *grow_target;
     S_800C4F20_7 *shrink_target;
-    EntityRec *orbit_center;
+    ObjectPosition *orbit_center;
 
     state_or_mode = ((S_800C4F20_0 *)anim)->unk_28.s;
     switch (state_or_mode) {

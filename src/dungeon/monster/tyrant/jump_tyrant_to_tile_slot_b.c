@@ -32,7 +32,7 @@ s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
 s32 on_actor_status_updated();
-void reduce_actor_food_meter();
+void spend_actor_mp();
 s32 check_actor_floor_trap();
 
 extern u8 D_80152F68;
@@ -117,7 +117,7 @@ void jump_tyrant_to_tile_slot_b(void *jump, void *motion, void *sprite, void *ac
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        reduce_actor_food_meter(actor, 4);
+        spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
 

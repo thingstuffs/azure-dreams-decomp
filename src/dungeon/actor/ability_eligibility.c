@@ -391,7 +391,7 @@ void *choose_best_eligible_entry(void *owner_arg, void *start, s32 score_limit)
         if (special_cmp == best_cmp) {
             if (((S_800A3D18_5 *)best)->unk_1C & 8) {
                 best = special;
-            } else if (!((((EntityRec *)((u8 *)D_800E3D7C))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3)) {
+            } else if (!((((PlayerRecord *)((u8 *)D_800E3D7C))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3)) {
                 best = special;
             }
         } else if (special_cmp < best_cmp) {
@@ -592,7 +592,7 @@ s32 find_type_13_slot_index(DungeonSlot *targetSlot) {
 }
 
 /* Selects data at the entity's position and updates the owner's map or floor entry. */
-void select_position_data_and_update_owner(Rec_D_80082E80 *entity, EntityRec *search_state) {
+void select_position_data_and_update_owner(Rec_D_80082E80 *entity, ActorRecord *search_state) {
     s32 lookup_code;
     void *owner;
     u32 map_index_bits, floor_index_bits;
@@ -603,34 +603,34 @@ void select_position_data_and_update_owner(Rec_D_80082E80 *entity, EntityRec *se
     lookup_code = lookup_definition_pair_value(((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
     if ((lookup_code << 16) != 0) {
         *(s16 *)D_80081470 = (s16)(lookup_code | 0x1400);
-        D_800814A8->unk_F0 = 0;
+        ((PlayerRecord *)D_800814A8)->selected_floor_entry = 0;
         return;
     } else {
         map_index_bits = (u32)find_entry_at_tile_coordinates(((SpriteFrameState *)entity)->unk_24,
                                             ((SpriteFrameState *)entity)->unk_25,
-                                            search_state->unk_88) << 16;
+                                            search_state->ground_height) << 16;
         map_index = (s16)((s32)map_index_bits >> 16);
         if (map_index >= 0) {
             map_base = D_800E3648;
             map_entry = map_base + map_index * 4;
             if (!(map_entry[3] & 0x40)) {
                 *(void **)D_80081470 = *(void **)map_entry;
-                D_800814A8->unk_F0 = map_entry;
+                ((PlayerRecord *)D_800814A8)->selected_floor_entry = map_entry;
                 return;
             }
-            D_800814A8->unk_F0 = 0;
+            ((PlayerRecord *)D_800814A8)->selected_floor_entry = 0;
             return;
         }
 
         floor_index_bits = (u32)find_floor_item_at_world_position(((SpriteFrameState *)entity)->unk_24,
                                               ((SpriteFrameState *)entity)->unk_25,
-                                              search_state->unk_88) << 16;
+                                              search_state->ground_height) << 16;
         floor_index = (s16)((s32)floor_index_bits >> 16);
         if (floor_index >= 0) {
             floor_base = ((u8 *)D_800E3548);
             floor_entry = floor_base + floor_index * 4;
             *(void **)D_80081470 = *(void **)floor_entry;
-            D_800814A8->unk_F0 = floor_entry;
+            ((PlayerRecord *)D_800814A8)->selected_floor_entry = floor_entry;
             return;
         }
 

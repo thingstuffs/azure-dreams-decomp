@@ -162,7 +162,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
 }
 
 /* Updates actor state, facing, and directional animation. */
-void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, EntityRec *status)
+void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status)
 {
     void **anim_table;
     s32 cell_record;
@@ -174,7 +174,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
         return;
     }
 
-    if (status->tileY == 0) {
+    if (status->mp == 0) {
         void *current_anim;
 
         advance_actor_pending_action(actor, motion, sprite, status);
@@ -243,7 +243,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
             ((Rec_func_800AA258_arg2 *)sprite)->unk_25);
         ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_u8 = cell_record;
 
-        if (status->unk_6D > 0) {
+        if (status->pending_turn_updates > 0) {
             if (((u32)status->flags1C) & 0x20) {
                 update_actor_status_and_food(status);
                 return;

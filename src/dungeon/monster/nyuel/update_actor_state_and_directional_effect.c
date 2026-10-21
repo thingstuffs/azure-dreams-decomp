@@ -28,7 +28,7 @@ extern u8 D_80174EE0[];
 extern u8 D_80174F00[];
 
 /* Updates the actor state and selects its directional effect. */
-void update_actor_state_and_directional_effect(void *controller, void *context, void *sprite, EntityRec *actor)
+void update_actor_state_and_directional_effect(void *controller, void *context, void *sprite, ActorRecord *actor)
 {
     u8 state;
     u8 *effect_table;
@@ -53,7 +53,7 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
         return;
     }
     case 1:
-        if (actor->tileY == 0) {
+        if (actor->mp == 0) {
             if (g_dungeon_status.flags & 0x1000) {
                 return;
             }
@@ -78,12 +78,12 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
                 return;
             }
 
-            if (actor->unk_6D == 0) {
+            if (actor->pending_turn_updates == 0) {
                 return;
             }
 
             if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
-                EntityRec *owner;
+                ActorRecord *owner;
 
                 owner = D_800814A8;
                 if ((s16)check_entity_relation(actor, (u8 *)owner->unk_58 + 0x20) != 0) {
@@ -93,7 +93,7 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
 
             update_actor_status_and_food(actor);
             on_actor_status_updated(actor);
-            if (actor->tileY == 0) {
+            if (actor->mp == 0) {
                 return;
             }
         }

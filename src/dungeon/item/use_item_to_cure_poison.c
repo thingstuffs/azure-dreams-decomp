@@ -24,7 +24,7 @@ void *func_80099290();                         /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 void apply_item_effect_at_entity_position();                 /* extern */
 void display_item_status_message();            /* extern */
-s32 apply_actor_food_preference();            /* extern */
+s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
 extern extern M2C_UNK D_80083460[3];
 extern M2C_UNK D_800E0E69;
@@ -58,7 +58,7 @@ s32 use_item_to_cure_poison(void *entity, s32 item, s16 action) {
         display_item_status_message(entity, item, action);
         call_entity = entity;
         type_id = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
-        if (apply_actor_food_preference(call_entity, (entity_action_selectors[type_id] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(call_entity, (entity_action_selectors[type_id] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, item);
             return 1;
         }

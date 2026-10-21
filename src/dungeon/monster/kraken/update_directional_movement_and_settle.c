@@ -20,7 +20,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern void *D_800E3DE8;
 extern s32 D_801711A4;
@@ -28,7 +28,7 @@ extern u8 D_8017419C[];
 extern u8 D_801741A4[];
 
 /* Updates directional movement and animation, then settles the actor on its destination tile. */
-void update_directional_movement_and_settle(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void update_directional_movement_and_settle(void *action, EntityRec *motion, void *sprite, ActorRecord *actor)
 {
     s32 dir_x;
     s32 dir_y;
@@ -92,12 +92,12 @@ void update_directional_movement_and_settle(void *action, EntityRec *motion, voi
             motion->unk_0C = 0;
             (*(u32 *)&actor->flags1C) |= 0x40000;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             ((S_801724F4_1 *)action)->unk_8C = &D_801711A4;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            if (actor->unk_6D == 0) {
-                actor->unk_46 &= 0x7FFF;
+            if (actor->pending_turn_updates == 0) {
+                actor->action_flags &= 0x7FFF;
             } else {
                 D_800E3DE8 = (u8 *)actor - 0x20;
             }

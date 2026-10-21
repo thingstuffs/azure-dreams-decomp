@@ -27,7 +27,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
     s32 action_flags;
     u8 *anim_table;
 
-    ((EntityRec *)actor)->unk_71 &= 0x7F;
+    ((ActorRecord *)actor)->movement_queue_state &= 0x7F;
     action_ready = 0;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
@@ -35,7 +35,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
 
     direction = place_actor_at_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                          ((Rec_D_80082E80 *)sprite)->unk_25,
-                         ((EntityRec *)actor)->facing);
+                         ((ActorRecord *)actor)->facing);
     result = 0;
     if ((check_entity_interaction_compatibility(actor, direction) << 16) == 0) {
         return 0;
@@ -46,7 +46,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
     if (action_flags & 0x2000) {
         return result;
     }
-    if (!(((EntityRec *)actor)->unk_46 & 0x8000)) {
+    if (!(((ActorRecord *)actor)->action_flags & 0x8000)) {
         if (action_flags & 8) {
             return result;
         }
@@ -57,7 +57,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
     }
 
     action_ready = 1;
-    if (!(((EntityRec *)actor)->unk_46 & 0x8000)) {
+    if (!(((ActorRecord *)actor)->action_flags & 0x8000)) {
         if (g_dungeon_status.flags & 8) {
             return -1;
         }
@@ -76,17 +76,17 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
     if (result != 0) {
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_u8 = 0x11;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
-        ((EntityRec *)actor)->unk_84 = 0x7C;
-        ((EntityRec *)actor)->unk_85 = 0;
+        ((ActorRecord *)actor)->unk_84 = 0x7C;
+        ((ActorRecord *)actor)->unk_85 = 0;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 &= 0xFFF7;
-        ((EntityRec *)actor)->flags1C &= 0xFFFBFFFF;
+        ((ActorRecord *)actor)->flags1C &= 0xFFFBFFFF;
         anim_table = &D_800E2378;
         ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = anim_table;
         select_sprite_entry(sprite,
-                      anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                      anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                       0);
-        ((EntityRec *)actor)->unk_6D--;
-        prepare_directional_attack(actor, sprite, ((EntityRec *)actor)->facing, 1, 0);
+        ((ActorRecord *)actor)->pending_turn_updates--;
+        prepare_directional_attack(actor, sprite, ((ActorRecord *)actor)->facing, 1, 0);
     }
     return result;
 }

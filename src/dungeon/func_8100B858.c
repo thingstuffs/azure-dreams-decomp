@@ -235,7 +235,7 @@ void dispatch_creature_action(ActionState *actor, void *context, ActorSprite *sp
                 player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, &direction_aux);
             player = D_800814A8;
             creature->facing = facing_angle;
-            if ((((EntityRec *)player)->unk_9A) == 0x11) {
+            if ((((ActorRecord *)player)->unk_9A) == 0x11) {
                 begin_actor_spell_action(actor, context, sprite, &D_8016E8C8, dispatch_creature_action);
                 return;
             }

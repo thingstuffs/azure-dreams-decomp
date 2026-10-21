@@ -13,7 +13,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
     SpriteFrameState *offset_part;
     SpriteFrameState *source_part;
     void *position;
-    EntityRec *shared_data;
+    ActorRecord *shared_data;
     u8 *effect_work;
     DungeonGlobalStatus *shared_state;
     s16 offsets[3];

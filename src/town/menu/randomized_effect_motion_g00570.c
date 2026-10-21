@@ -66,35 +66,35 @@ void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *re
     ((S_800A3508_1 *)obj)->unk_24 = 0x18;
     ((S_800A3508_1 *)obj)->unk_00 = D_800A378C;
 
-    add_motion_deltas_to_position((EntityRec *)vec);
-    add_motion_deltas_to_position((EntityRec *)vec);
+    add_motion_deltas_to_position((ObjectPosition *)vec);
+    add_motion_deltas_to_position((ObjectPosition *)vec);
 }
 
 /* Updates the transform until the countdown expires, then resets appearance and advances state. */
-void advance_motion_and_reset_appearance(S_800A378C_0 *state, EntityRec *transform, SpriteFrameState *appearance) {
+void advance_motion_and_reset_appearance(S_800A378C_0 *state, ObjectPosition *transform, SpriteFrameState *appearance) {
     s32 ticks_left;
 
     ticks_left = state->unk_24 - 1;
     state->unk_24 = ticks_left;
     if (ticks_left < 0) {
-        transform->unk_0C = 0;
-        transform->unk_10 = 0;
-        transform->flags14 = 0;
+        transform->velocity_x = 0;
+        transform->velocity_y = 0;
+        transform->velocity_z = 0;
         appearance->color.c.b = 0x40;
         appearance->color.c.g = 0x40;
         appearance->color.c.r = 0x40;
         appearance->tpage_abr = 0x20;
         appearance->flags = (u16) (appearance->flags | 0x1C);
         state->unk_00 = &D_800A38A8;
-        transform->unk_0C = 0;
-        transform->unk_10 = 0;
-        transform->flags14 =
+        transform->velocity_x = 0;
+        transform->velocity_y = 0;
+        transform->velocity_z =
             ((((u16) scale_random_to_unsigned_halfword_limit(0x1000)) << 1) + 0x2000) << 4;
         return;
     }
-    transform->unk_0C = (s32) (transform->unk_0C - state->unk_2C);
-    transform->unk_10 = (s32) (transform->unk_10 - state->unk_30);
-    transform->flags14 = (s32) (transform->flags14 - state->unk_34);
+    transform->velocity_x = (s32) (transform->velocity_x - state->unk_2C);
+    transform->velocity_y = (s32) (transform->velocity_y - state->unk_30);
+    transform->velocity_z = (s32) (transform->velocity_z - state->unk_34);
     add_motion_deltas_to_position(transform);
     if (*((s32 *)&D_800D0B20 + state->unk_22) != 0) {
         func_800478B8(appearance);

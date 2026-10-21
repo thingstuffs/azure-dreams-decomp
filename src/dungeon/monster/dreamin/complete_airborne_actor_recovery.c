@@ -34,7 +34,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern u8 D_80170E68[];
@@ -71,7 +71,7 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
             0);
         ((S_801722BC_0 *)anim)->unk_98 |= 8;
         ((S_801722BC_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
-        ((EntityRec *)motion)->flags14 = 0xFFF00000;
+        ((ObjectPosition *)motion)->velocity_z = 0xFFF00000;
         ((S_801722BC_0 *)anim)->unk_A0 = 0;
         ((S_801722BC_0 *)anim)->unk_9B++;
     case 1:
@@ -80,17 +80,17 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
             ((S_801722BC_0 *)anim)->unk_90 - ((S_801722BC_0 *)anim)->unk_A0;
         if (move_ticks != 0) {
             target_x = ((SpriteFrameState *)entity)->unk_24 << 6;
-            origin_x = ((EntityRec *)motion)->x.w.i - 0x20;
-            origin_y = ((EntityRec *)motion)->y.w.i - 0x20;
-            ((EntityRec *)motion)->unk_0C =
+            origin_x = ((ObjectPosition *)motion)->x.w.i - 0x20;
+            origin_y = ((ObjectPosition *)motion)->y.w.i - 0x20;
+            ((ObjectPosition *)motion)->velocity_x =
                 ((target_x - origin_x) << 16) /
                 move_ticks;
-            ((EntityRec *)motion)->unk_10 =
+            ((ObjectPosition *)motion)->velocity_y =
                 (((((SpriteFrameState *)entity)->unk_25 << 6) - origin_y) << 16) /
                 (s16)((S_801722BC_0 *)anim)->unk_A4.s;
             arc_ticks = ((S_801722BC_0 *)anim)->unk_A4.s;
-            ((EntityRec *)motion)->flags14 += (arc_ticks << 15) + (arc_ticks << 13);
-            ((S_801722BC_0 *)anim)->unk_A0 += ((EntityRec *)motion)->flags14;
+            ((ObjectPosition *)motion)->velocity_z += (arc_ticks << 15) + (arc_ticks << 13);
+            ((S_801722BC_0 *)anim)->unk_A0 += ((ObjectPosition *)motion)->velocity_z;
         }
         height = ((S_801722BC_0 *)anim)->unk_90;
         height_offset = ((S_801722BC_0 *)anim)->unk_A0;
@@ -107,9 +107,9 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
     case 2:
         if (((S_801722BC_2 *)actor)->unk_1C.s & 0x08000000) {
             ((S_801722BC_0 *)anim)->unk_98 &= 0xFFF7;
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            ((ObjectPosition *)motion)->velocity_z = 0;
+            ((ObjectPosition *)motion)->velocity_y = 0;
+            ((ObjectPosition *)motion)->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
             ((SpriteFrameState *)entity)->frameTable = D_8017388C;
             select_sprite_entry(
@@ -123,11 +123,11 @@ void complete_airborne_actor_recovery(void *anim, void *motion, void *entity, vo
     remaining_ticks = ((S_801722BC_0 *)anim)->unk_96 - 1;
     ((S_801722BC_0 *)anim)->unk_96 = remaining_ticks;
     if ((remaining_ticks << 16) <= 0) {
-        ((EntityRec *)motion)->flags14 = 0;
-        ((EntityRec *)motion)->unk_10 = 0;
-        ((EntityRec *)motion)->unk_0C = 0;
+        ((ObjectPosition *)motion)->velocity_z = 0;
+        ((ObjectPosition *)motion)->velocity_y = 0;
+        ((ObjectPosition *)motion)->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25);
-        reduce_actor_food_meter(actor, 4);
+        spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
         counter_base = &g_dungeon_status;

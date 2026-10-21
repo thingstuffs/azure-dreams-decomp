@@ -93,7 +93,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern u8 D_800DEC28[];
 extern void *D_800E3DE8;
@@ -302,7 +302,7 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
         ((S_80172790_4 *)motion)->unk_0C = 0;
         ((S_80172790_0 *)actor)->unk_1C |= 0x40000;
         set_record_integer_tile_center(motion, ((S_80172790_6 *)tile)->unk_24, ((S_80172790_6 *)tile)->unk_25);
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_80172790_1 *)action)->unk_8C = D_80171400;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);

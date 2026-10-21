@@ -87,7 +87,7 @@ extern void select_sprite_entry(void *, u8, s32);
 extern s32 func_80069EF8(void);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void toggle_attacker_target_status_pair(void *, void *);
 
 extern u8 D_80170854[];
@@ -98,7 +98,7 @@ extern u8 D_801753BC[];
 extern u8 D_8017541C[];
 
 /* Spawns directional particles, advances the actor animation, and resets its state after a delay. */
-void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_pos, void *source_render, EntityRec *actor)
+void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *source_pos, void *source_render, ActorRecord *actor)
 {
     Vec3u map_offset;
     PackedTable velocity_table;
@@ -109,9 +109,9 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
 
     switch (((S_80174BEC_0 *)state)->unk_9B) {
     case 0:
-        source_pos->flags14 = 0;
-        source_pos->unk_10 = 0;
-        source_pos->unk_0C = 0;
+        source_pos->velocity_z = 0;
+        source_pos->velocity_y = 0;
+        source_pos->velocity_x = 0;
         ((S_80174BEC_0 *)state)->unk_96.s = 0;
         ((S_80174BEC_0 *)state)->unk_9B++;
         ((SpriteFrameState *)source_render)->flags &= 0x9FFF;
@@ -322,9 +322,9 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
         if (((SpriteFrameState *)source_render)->flags & 0xE000) {
             s32 direction_index;
 
-            source_pos->flags14 = 0;
-            source_pos->unk_10 = 0;
-            source_pos->unk_0C = 0;
+            source_pos->velocity_z = 0;
+            source_pos->velocity_y = 0;
+            source_pos->velocity_x = 0;
             set_record_integer_tile_center(source_pos, ((SpriteFrameState *)source_render)->unk_24, ((SpriteFrameState *)source_render)->unk_25);
             if (*(u8 * *)&((SpriteFrameState *)source_render)->frameTable != D_801753BC) {
                 ((SpriteFrameState *)source_render)->frameTable = D_801753BC;
@@ -344,10 +344,10 @@ void spawn_directional_particles_and_reset_actor(void *state, EntityRec *source_
             timer = ((S_80174BEC_0 *)state)->unk_96.s;
             ((S_80174BEC_0 *)state)->unk_96.s = timer - 1;
             if ((s16)timer <= 0 || (((SpriteFrameState *)source_render)->flags & 0xE000)) {
-                reduce_actor_food_meter(actor, 0x1000);
+                spend_actor_mp(actor, 0x1000);
                 ((S_80174BEC_0 *)state)->unk_8C = D_80171E20;
                 g_dungeon_status.active_actor = 0;
-                (actor->unk_46) &= 0x7FFF;
+                (actor->action_flags) &= 0x7FFF;
             }
         }
 

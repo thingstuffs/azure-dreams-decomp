@@ -45,7 +45,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_80173B98;
@@ -66,10 +66,10 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
 
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             select_sprite_entry(unit,
-                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_98 |= 8;
-            ((EntityRec *)actor)->flags1C &= ~0x08000000;
+            ((ActorRecord *)actor)->flags1C &= ~0x08000000;
             ((S_80174F24_0 *)action)->unk_9E.s = 5;
             ((S_80174F24_0 *)action)->unk_A0 = 0;
             ((S_80174F24_0 *)action)->unk_9B++;
@@ -111,14 +111,14 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
         if (move_ticks < 0) {
             ((S_80174F24_0 *)action)->unk_90 = 0;
             ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
-            ((EntityRec *)actor)->flags1C |= 0x08000000;
+            ((ActorRecord *)actor)->flags1C |= 0x08000000;
             ((S_80174F24_0 *)action)->unk_9B++;
         }
     }
                         /* fall through */
 
     case 2:
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x08000000) {
+        if (((u32)((ActorRecord *)actor)->flags1C) & 0x08000000) {
             u8 *direction_table;
 
             ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
@@ -130,7 +130,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
             direction_table = D_80176340;
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
             select_sprite_entry(unit,
-                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80174F24_0 *)action)->unk_9B++;
         }
@@ -155,21 +155,21 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
         ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
         set_record_integer_tile_center(motion_arg,
             ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25);
-        reduce_actor_food_meter(actor, 4);
+        spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
             g_dungeon_status.activity_counts.parts.pending_movement_count--;
         }
 
-        actor_flags = ((u32)((EntityRec *)actor)->flags1C);
+        actor_flags = ((u32)((ActorRecord *)actor)->flags1C);
         if (actor_flags & 0x2000) {
-            if (((EntityRec *)actor)->unk_46 & 0x8000) {
-                ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+            if (((ActorRecord *)actor)->action_flags & 0x8000) {
+                ((ActorRecord *)actor)->action_flags &= 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
+                ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25,
                     D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &direction_aux);
             }

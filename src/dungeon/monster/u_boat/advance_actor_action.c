@@ -40,7 +40,7 @@ extern u8 D_800E2430[];
 extern u8 D_80171A80[];
 
 /* Advances the entity action through animation, behavior, and callback transitions. */
-void advance_actor_action(void *action, void *context, void *sprite, EntityRec *entity)
+void advance_actor_action(void *action, void *context, void *sprite, ActorRecord *entity)
 {
     s32 entity_flags;
     u16 action_value;
@@ -75,7 +75,7 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
                 return;
             }
         }
-        if (entity->tileY == 0) {
+        if (entity->mp == 0) {
             if (global_base->flags & 0x2008) {
                 return;
             }
@@ -100,11 +100,11 @@ void advance_actor_action(void *action, void *context, void *sprite, EntityRec *
             update_actor_action_transition(action, context, sprite, entity);
             return;
         }
-        if (entity->unk_6D == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-            EntityRec *owner = D_800814A8;
+            ActorRecord *owner = D_800814A8;
 
             if ((check_entity_relation(entity,
                     (u8 *)owner->unk_58 + 0x20) << 16) != 0) {

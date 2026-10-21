@@ -30,8 +30,8 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
 extern void func_800A9A04(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
-void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, SpriteFrameState *tile, EntityRec *actor);
+void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor);
 extern void update_actor_behavior();
 #endif

@@ -51,7 +51,7 @@ extern u8 D_80170F74[];
 extern u8 D_80173D30[];
 
 /* Advances the actor's selected motion and handles completion and recovery. */
-void advance_selected_motion_and_recover(void *motion_state, void *transform, void *sprite, EntityRec *actor)
+void advance_selected_motion_and_recover(void *motion_state, void *transform, void *sprite, ActorRecord *actor)
 {
     u16 saved_position[4];
     u8 *motion;
@@ -64,7 +64,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, vo
     switch (((S_80172AA8_0 *)motion_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 7:
                 use_player_target = 1;
                 /* fallthrough */
@@ -88,7 +88,7 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, vo
                 break;
             }
         } else {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 motion = (u8 *)actor + 0xE;
                 break;
@@ -113,21 +113,21 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, vo
                     target = D_800814A8;
                     actor->target = target;
                     action_state = ((S_80172AA8_2_pre *)target)[-1].unk_00;
-                    actor->unk_72 = ((S_80172AA8_3 *)action_state)->unk_24;
-                    actor->unk_73 = ((S_80172AA8_3 *)action_state)->unk_25;
+                    actor->target_tile_x = ((S_80172AA8_3 *)action_state)->unk_24;
+                    actor->target_tile_y = ((S_80172AA8_3 *)action_state)->unk_25;
                 } else if (D_8006DE24[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
                         action_state = ((S_80172AA8_2_pre *)target)[-1].unk_00;
-                        actor->unk_72 = ((S_80172AA8_3 *)action_state)->unk_24;
-                        actor->unk_73 = ((S_80172AA8_3 *)action_state)->unk_25;
+                        actor->target_tile_x = ((S_80172AA8_3 *)action_state)->unk_24;
+                        actor->target_tile_y = ((S_80172AA8_3 *)action_state)->unk_25;
                     }
                 } else {
                     actor->target =
                         scan_monster_along_heading(actor, ((SpriteAnimationTableView *)sprite)->unk_24, ((SpriteAnimationTableView *)sprite)->unk_25,
                                       actor->facing, 0x10);
-                    actor->unk_72 = abs(actor->unk_72);
-                    actor->unk_73 = abs(actor->unk_73);
+                    actor->target_tile_x = abs(actor->target_tile_x);
+                    actor->target_tile_y = abs(actor->target_tile_y);
                 }
             }
             saved_position[0] = ((u16)((EntityRec *)transform)->x.w.i);
@@ -151,11 +151,11 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, vo
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
         advance_status_timers(actor);
-        actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         ((S_80172AA8_0 *)motion_state)->unk_8C = D_80170F74;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -204,12 +204,12 @@ void advance_selected_motion_and_recover(void *motion_state, void *transform, vo
         ((SpriteAnimationTableView *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172AA8_0 *)motion_state)->unk_8C = D_80170F74;
         advance_status_timers(actor);
-        if (actor->unk_6D > 0) {
-            actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        if (actor->pending_turn_updates > 0) {
+            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         }
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
         break;
     }

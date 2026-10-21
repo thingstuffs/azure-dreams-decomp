@@ -68,7 +68,7 @@ M2C_UNK create_owner_linked_directional_object();      /* extern */
 void update_actor_movement_history(); /* extern */
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */
-void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteFrameState *sprite, EntityRec *actor) {
+void update_actor_timed_effect_action(void *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 height_delta;
     s16 height;
     s16 view_dir;
@@ -106,12 +106,12 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
             sprite->flags = (u16) (sprite->flags | 0x6000);
             return;
         }
-        position->flags14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
-        height_delta = sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) (((u16)actor->unk_88)
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
+        height_delta = sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) (((u16)actor->ground_height)
             - 0x20));
-        height = ((u16)actor->unk_88);
+        height = ((u16)actor->ground_height);
         height_delta -= height;
         if (((S_8017558C_0 *)action)->unk_92.s >= height_delta) {
             ((S_8017558C_0 *)action)->unk_92.u = (u16) height_delta;
@@ -152,7 +152,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
         effect_position = ((S_8017558C_4 *)effect)->unk_08;
         effect_position->unk_02 = (u16) ((u16)position->x.w.i);
         effect_position->unk_06 = (u16) ((u16)position->y.w.i);
-        effect_position->unk_0A = (u16) ((u16)actor->unk_88);
+        effect_position->unk_0A = (u16) ((u16)actor->ground_height);
         effect_sprite = ((S_8017558C_4 *)effect)->unk_0C;
         effect_sprite->scale_y = 0xA00;
         effect_sprite->scale_x = 0xA00;
@@ -175,7 +175,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
         ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
         ((S_8017558C_0 *)action)->unk_B6 = (u16) ((u16)position->x.w.i);
         ((S_8017558C_0 *)action)->unk_B8 = (u16) ((u16)position->y.w.i);
-        ((S_8017558C_0 *)action)->unk_BA = (u16) ((u16)actor->unk_88);
+        ((S_8017558C_0 *)action)->unk_BA = (u16) ((u16)actor->ground_height);
         return;
     case 2:
         windup_timer = ((S_8017558C_0 *)action)->unk_96 - 1;
@@ -205,7 +205,7 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
             if ((s16) restore_timer == 1) {
                 position->x.w.i = (u16) ((S_8017558C_0 *)action)->unk_B6;
                 position->y.w.i = (u16) ((S_8017558C_0 *)action)->unk_B8;
-                actor->unk_88 = (u16) ((S_8017558C_0 *)action)->unk_BA;
+                actor->ground_height = (u16) ((S_8017558C_0 *)action)->unk_BA;
                 saved_angle = ((S_8017558C_0 *)action)->unk_A6;
                 actor->facing = (s16) saved_angle;
                 view_dir = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
@@ -236,9 +236,9 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
             if (!(sprite->flags & 0xE000)) {
                 return;
             }
-            position->flags14 = 0;
-            position->unk_10 = 0;
-            position->unk_0C = 0;
+            position->velocity_z = 0;
+            position->velocity_y = 0;
+            position->velocity_x = 0;
             set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
             actor->flags1C = (s32) (actor->flags1C | 0x40000);
             ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
@@ -263,10 +263,10 @@ void update_actor_timed_effect_action(void *action, EntityRec *position, SpriteF
             return;
         }
         sprite->unk_06 = 0;
-        reduce_actor_food_meter(actor, 0x1000);
+        spend_actor_mp(actor, 0x1000);
         ((S_8017558C_0 *)action)->unk_8C = D_80171A80;
         g_dungeon_status.active_actor = 0;
-        actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         return;
     }
 }

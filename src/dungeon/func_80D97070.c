@@ -69,7 +69,7 @@ extern void update_action_facing_animation(void *, void *, void *, void *);
 extern u8 D_8016D86C[];
 
 /* Advances actor ability, waits for completion, and resets the action state. */
-void advance_actor_ability(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void advance_actor_ability(ActorActionView *action, ObjectPosition *motion, ActorSpriteView *sprite, ActorRecord *actor)
 {
     u16 saved_position[3];
     u8 *ability;
@@ -83,7 +83,7 @@ void advance_actor_ability(ActorActionView *action, EntityRec *motion, ActorSpri
     switch (action->phase) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 7:
                 use_player_target = 1;
                 /* fallthrough */
@@ -107,7 +107,7 @@ void advance_actor_ability(ActorActionView *action, EntityRec *motion, ActorSpri
                 break;
             }
         } else {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 ability = ((ActorAbilityView *)actor)->slots[2];
                 break;
@@ -129,21 +129,21 @@ void advance_actor_ability(ActorActionView *action, EntityRec *motion, ActorSpri
                 target = D_800814A8;
                 actor->target = target;
                 target_sprite = ((ActorSpriteLink *)target)[-1].sprite;
-                actor->unk_72 = ((SpriteFrameState *)target_sprite)->unk_24;
-                actor->unk_73 = ((SpriteFrameState *)target_sprite)->unk_25;
+                actor->target_tile_x = ((SpriteFrameState *)target_sprite)->unk_24;
+                actor->target_tile_y = ((SpriteFrameState *)target_sprite)->unk_25;
             } else if (D_8006DE24[*ability].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
                     target_sprite = ((ActorSpriteLink *)target)[-1].sprite;
-                    actor->unk_72 = ((SpriteFrameState *)target_sprite)->unk_24;
-                    actor->unk_73 = ((SpriteFrameState *)target_sprite)->unk_25;
+                    actor->target_tile_x = ((SpriteFrameState *)target_sprite)->unk_24;
+                    actor->target_tile_y = ((SpriteFrameState *)target_sprite)->unk_25;
                 }
             } else {
                 actor->target =
                     scan_monster_along_heading(actor, sprite->tile.bytes.x, sprite->tile.bytes.y,
                                   actor->facing, 0x10);
-                actor->unk_72 = abs(actor->unk_72);
-                actor->unk_73 = abs(actor->unk_73);
+                actor->target_tile_x = abs(actor->target_tile_x);
+                actor->target_tile_y = abs(actor->target_tile_y);
             }
             saved_position[0] = ((u16)motion->x.w.i);
             saved_position[1] = ((u16)motion->y.w.i);
@@ -158,18 +158,18 @@ void advance_actor_ability(ActorActionView *action, EntityRec *motion, ActorSpri
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         g_dungeon_status.active_actor = 0;
         ((PlayerActionCounterView *)D_800814A8)->activeActions = ((PlayerActionCounterView *)D_800814A8)->activeActions - 1;
         advance_status_timers(actor);
-        actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         action->nextBehavior = update_action_facing_animation;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -196,9 +196,9 @@ void advance_actor_ability(ActorActionView *action, EntityRec *motion, ActorSpri
         if ((sprite->flags & 0xE000) == 0) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         {
             u8 *direction_anims = D_8016D86C;
@@ -218,12 +218,12 @@ void advance_actor_ability(ActorActionView *action, EntityRec *motion, ActorSpri
         sprite->flags &= 0xF7FF;
         action->nextBehavior = update_action_facing_animation;
         advance_status_timers(actor);
-        if (actor->unk_6D > 0) {
-            actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        if (actor->pending_turn_updates > 0) {
+            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         }
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
         break;
     }

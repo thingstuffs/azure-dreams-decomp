@@ -20,7 +20,7 @@ void adjust_source_value_and_finalize();
 s32 lower_entity_level();
 void apply_item_effect_at_entity_position();
 void display_item_status_message();
-s32 apply_actor_food_preference();
+s32 feed_actor_restore_mp();
 extern M2C_UNK D_800E173A;
 
 /* Processes an entity's item interaction and consumes the item when finished. */
@@ -32,7 +32,7 @@ s32 use_item_to_lower_level(EntityRec *entity, s32 item, s16 action) {
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, item, action);
-        if (apply_actor_food_preference(
+        if (feed_actor_restore_mp(
                 entity,
                 (entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
                 0) == 0) {

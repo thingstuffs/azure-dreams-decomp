@@ -86,11 +86,11 @@ s32 advance_status_timers();
 s32 play_sound_if_enabled();
 s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 extern M2C_UNK D_800D7960;
-extern void func_80170E54(void *controller, void *context, void *entity, EntityRec *actor_state);
+extern void func_80170E54(void *controller, void *context, void *entity, ActorRecord *actor_state);
 extern u8 D_80173C6C[];
 
 /* Updates an actor action, its visual effect, and completion cleanup. */
-void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, EntityRec *action) {
+void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, void *sprite, ActorRecord *action) {
     s32 action_id;
     s32 action_value;
     s32 effect_anim;
@@ -110,7 +110,7 @@ void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, E
     switch (state) {
     case 0:
         if (action->flags1C & 0x2000) {
-            action_id = action->unk_46 & 0x3FFF;
+            action_id = action->action_flags & 0x3FFF;
             switch (action_id - 1) {
             case 6:
                 use_player = 1;
@@ -132,7 +132,7 @@ void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, E
                 break;
             }
         } else {
-            switch (action->unk_46 & 0x3FFF) {
+            switch (action->action_flags & 0x3FFF) {
             case 3:
                 slot_or_effect = (u8 *)action + 0xE;
                 break;
@@ -153,20 +153,20 @@ void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, E
                 target = D_800814A8;
                 action->target = target;
                 action_value = ((S_801728B4_2_pre *)target)[-1].unk_00;
-                action->unk_72 = (s8) ((S_801728B4_3 *)action_value)->unk_24;
-                action->unk_73 = (s8) ((S_801728B4_3 *)action_value)->unk_25;
+                action->target_tile_x = (s8) ((S_801728B4_3 *)action_value)->unk_24;
+                action->target_tile_y = (s8) ((S_801728B4_3 *)action_value)->unk_25;
             } else if (D_8006DE24[*slot_or_effect].kind == 2) {
                 target = action->target;
                 if (target != NULL) {
                     action_value = ((S_801728B4_2_pre *)target)[-1].unk_00;
-                    action->unk_72 = (s8) ((S_801728B4_3 *)action_value)->unk_24;
-                    action->unk_73 = (s8) ((S_801728B4_3 *)action_value)->unk_25;
+                    action->target_tile_x = (s8) ((S_801728B4_3 *)action_value)->unk_24;
+                    action->target_tile_y = (s8) ((S_801728B4_3 *)action_value)->unk_25;
                 }
             } else {
                 action->target = scan_monster_along_heading(action, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                     action->facing, 0x10);
-                action->unk_72 = abs(action->unk_72);
-                action->unk_73 = abs(action->unk_73);
+                action->target_tile_x = abs(action->target_tile_x);
+                action->target_tile_y = abs(action->target_tile_y);
             }
             saved_pos[0] = ((u16)motion->x.w.i);
             saved_pos[1] = ((u16)motion->y.w.i);
@@ -205,18 +205,18 @@ void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, E
             select_sprite_entry(effect_sprite, effect_anim, 0);
             return;
         } else {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_810AF0B4 *)D_800814A8)->field_A6) - 1);
             advance_status_timers(action);
-            action->unk_6D = (u8) (((u8)action->unk_6D) - 1);
+            action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);
             ((S_801728B4_0 *)actor)->unk_8C = &func_80170E54;
-            action->unk_73 = 0;
-            action->unk_72 = 0;
-            action->unk_46 = (u16) (action->unk_46 & 0x7FFF);
+            action->target_tile_y = 0;
+            action->target_tile_x = 0;
+            action->action_flags = (u16) (action->action_flags & 0x7FFF);
             return;
         }
     case 1:
@@ -251,9 +251,9 @@ void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, E
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         if ((*(M2C_UNK * *)&((SpriteFrameState *)sprite)->frameTable) != &D_80173C6C) {
             ((SpriteFrameState *)sprite)->frameTable = &D_80173C6C;
@@ -266,12 +266,12 @@ void resolve_actor_attack_damage(void *actor, EntityRec *motion, void *sprite, E
         ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
         ((S_801728B4_0 *)actor)->unk_8C = &func_80170E54;
         advance_status_timers(action);
-        if ((s8) ((u8)action->unk_6D) > 0) {
-            action->unk_6D = (u8) (((u8)action->unk_6D) - 1);
+        if ((s8) ((u8)action->pending_turn_updates) > 0) {
+            action->pending_turn_updates = (u8) (((u8)action->pending_turn_updates) - 1);
         }
-        action->unk_73 = 0;
-        action->unk_72 = 0;
-        action->unk_46 = (u16) (action->unk_46 & 0x7FFF);
+        action->target_tile_y = 0;
+        action->target_tile_x = 0;
+        action->action_flags = (u16) (action->action_flags & 0x7FFF);
         play_sound_if_enabled(0xB4);
         return;
     default:

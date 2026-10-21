@@ -65,7 +65,7 @@ void fade_reshape_and_remove_entity(void *fade_state, void *position, void *spri
         ((S_80173A3C_1 *)sprite)->unk_10 = 0x20;
         ((S_80173A3C_1 *)sprite)->unk_12 -= 0x80;
         ((S_80173A3C_1 *)sprite)->unk_14 |= 0xC;
-        ((EntityRec *)entity)->flags1C |= 0x10000000;
+        ((ActorRecord *)entity)->flags1C |= 0x10000000;
         play_sound_if_enabled(0x805);
         ((S_80173A3C_1 *)sprite)->unk_0C.at00.v = 0x00808080;
         ((S_80173A3C_0 *)fade_state)->unk_96.s = 0xC;
@@ -92,23 +92,23 @@ void fade_reshape_and_remove_entity(void *fade_state, void *position, void *spri
         }
     }
 
-    if ((((u32)((EntityRec *)entity)->flags14) & 0x20000000) == 0) {
+    if ((((u32)((ActorRecord *)entity)->flags14) & 0x20000000) == 0) {
         DungeonGlobalStatus *entity_tracker = &g_dungeon_status;
         if (entity_tracker->pending_display_owner == (u8 *)entity - 0x20) {
             (*(u32 *)&entity_tracker->pending_display_owner) &= 0x7FFFFFFF;
         }
     }
 
-    if ((((u32)((EntityRec *)entity)->flags14) & 0x4000) == 0) {
+    if ((((u32)((ActorRecord *)entity)->flags14) & 0x4000) == 0) {
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);
-        if (((EntityRec *)entity)->unk_49 != 0 &&
-            (((EntityRec *)entity)->unk_4B & 0x20) == 0) {
+        if (((ActorRecord *)entity)->unk_49 != 0 &&
+            (((ActorRecord *)entity)->unk_4B & 0x20) == 0) {
             create_effect_or_fallback(((S_80173A3C_4 *)position)->unk_02, ((S_80173A3C_4 *)position)->unk_06,
-                          ((EntityRec *)entity)->unk_88, (u8 *)entity + 0x48);
+                          ((ActorRecord *)entity)->ground_height, (u8 *)entity + 0x48);
         }
         if ((get_entity_effect_value(entity, 0x1B) << 16) == 0) {
-            s32 entity_flags = ((u32)((EntityRec *)entity)->flags1C);
+            s32 entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
             s32 effect_color_0 = ((S_80173A3C_1 *)sprite)->unk_24;
             s32 effect_color_1 = ((S_80173A3C_1 *)sprite)->unk_25;
             s32 effect_mask = 0x3000;
@@ -123,13 +123,13 @@ void fade_reshape_and_remove_entity(void *fade_state, void *position, void *spri
         return;
     }
 
-    if ((((u32)((EntityRec *)entity)->flags14) & 0x20000000) == 0) {
+    if ((((u32)((ActorRecord *)entity)->flags14) & 0x20000000) == 0) {
         announce_familiar_defeat(entity);
     }
     distribute_experience_and_report_gains(entity);
     detach_record_and_update_slot_state(entity);
     if ((get_entity_effect_value(entity, 0x1B) << 16) == 0) {
-        s32 entity_flags = ((u32)((EntityRec *)entity)->flags1C);
+        s32 entity_flags = ((u32)((ActorRecord *)entity)->flags1C);
         s32 effect_color_0 = ((S_80173A3C_1 *)sprite)->unk_24;
         s32 effect_color_1 = ((S_80173A3C_1 *)sprite)->unk_25;
         s32 effect_mask = 0x3000;

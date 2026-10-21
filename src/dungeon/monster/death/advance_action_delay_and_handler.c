@@ -21,7 +21,7 @@ extern s32 D_801719DC;
 extern s32 D_8017466C;
 
 /* Advance the action delay, reset motion, and select the next handler. */
-void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, SpriteFrameState *action_info, EntityRec *actor_data)
+void advance_action_delay_and_handler(S_80173A14_0 *action, ObjectPosition *motion, SpriteFrameState *action_info, EntityRec *actor_data)
 {
     s16 delay;
     s32 tracked_actor;
@@ -29,14 +29,14 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, S
     switch (action->unk_9B) {
     case 0:
         apply_clamped_actor_value_delta(actor_data);
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         action->unk_9B++;
 
         if (actor_data->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, action_info, &D_8017466C);
             return;
         }
@@ -54,8 +54,8 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, S
                         /* fall through */
 
     case 1:
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
         } else if (action_info->flags & 0x6000) {
@@ -65,9 +65,9 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, S
             return;
         }
         if (actor_data->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, action_info, &D_8017466C);
             return;
         } else {
@@ -78,17 +78,17 @@ void advance_action_delay_and_handler(S_80173A14_0 *action, EntityRec *motion, S
 
     case 2:
         if (action->unk_96.s != 0) {
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
         }
         delay = action->unk_96.u - 1;
         action->unk_96.s = delay;
         if ((s32)(delay << 16) > 0) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, action_info->unk_24, action_info->unk_25);
 
         tracked_actor = ((s32)g_dungeon_status.pending_display_owner);

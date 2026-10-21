@@ -14539,7 +14539,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/reduce_actor_food_meter.c",
+      "source": "src/dungeon/actor/spend_actor_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -14549,7 +14549,7 @@
       ]
     },
     {
-      "source": "src/dungeon/actor/apply_actor_food_preference.c",
+      "source": "src/dungeon/actor/feed_actor_restore_mp.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""

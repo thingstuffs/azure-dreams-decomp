@@ -27,7 +27,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_8016B728;
@@ -58,10 +58,10 @@ void update_tile_movement_and_action_completion(void *action, void *motion, void
         ((SpriteFrameState *)sprite)->frameTable = D_8016EE0C;
         select_sprite_entry(
             sprite,
-            D_8016EE0C[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_8016EE0C[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_8016CBAC_0 *)action)->unk_98 |= 8;
-        ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
+        ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
         ((S_8016CBAC_0 *)action)->unk_9E.s = 5;
         ((S_8016CBAC_0 *)action)->unk_A4 = 0;
         ((S_8016CBAC_0 *)action)->unk_9B++;
@@ -98,13 +98,13 @@ void update_tile_movement_and_action_completion(void *action, void *motion, void
         if ((next_tick << 16) < 0) {
             ((S_8016CBAC_0 *)action)->unk_90 = 0;
             ((S_8016CBAC_0 *)action)->unk_98 &= 0xFFF7;
-            ((EntityRec *)actor)->flags1C |= 0x08000000;
+            ((ActorRecord *)actor)->flags1C |= 0x08000000;
             ((S_8016CBAC_0 *)action)->unk_9B++;
         }
                         /* fall through */
 
     case 2:
-        if (((EntityRec *)actor)->flags1C & 0x08000000) {
+        if (((ActorRecord *)actor)->flags1C & 0x08000000) {
             ((S_8016CBAC_0 *)action)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
@@ -113,7 +113,7 @@ void update_tile_movement_and_action_completion(void *action, void *motion, void
             ((SpriteFrameState *)sprite)->frameTable = D_8016EE14;
             select_sprite_entry(
                 sprite,
-                D_8016EE14[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_8016EE14[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_8016CBAC_0 *)action)->unk_9B++;
         }
@@ -124,7 +124,7 @@ void update_tile_movement_and_action_completion(void *action, void *motion, void
             ((SpriteFrameState *)sprite)->frameTable = D_8016EDEC;
             select_sprite_entry(
                 sprite,
-                D_8016EDEC[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_8016EDEC[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -144,7 +144,7 @@ decrement_timer:
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-    reduce_actor_food_meter(actor, 4);
+    spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
     global_state = &g_dungeon_status;
@@ -152,14 +152,14 @@ decrement_timer:
         (*(u16 *)&global_state->activity_counts.parts.pending_movement_count)--;
     }
 
-    actor_flags = ((EntityRec *)actor)->flags1C;
+    actor_flags = ((ActorRecord *)actor)->flags1C;
     if (actor_flags & 0x2000) {
-        if (((EntityRec *)actor)->unk_46 & 0x8000) {
-            ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+        if (((ActorRecord *)actor)->action_flags & 0x8000) {
+            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-            ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
+            ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
                 ((SpriteFrameState *)sprite)->unk_24,
                 ((SpriteFrameState *)sprite)->unk_25,
                 D_80082E80.tile_position.parts.tile_x,

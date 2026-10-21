@@ -3,10 +3,11 @@
 
 #include "shared/entity.h"
 
-/* Entity records that live at fixed addresses (SLUS .bss).  Names stay address-based until evidence names them.
- * D_80083780: the struct census rooted Rec_D_800E3D7C (the entity record) at it in 6 functions that take an entity;
- * its accesses fit the EntityRec layout (x/y/z Fixed32 read whole and as integer halves, words at 0x0C/0x10/0x14);
- * gameWork's view-state vector 2 is loaded from its fields (r78 phase 5). */
-extern EntityRec D_80083780;
+/* Object records that live at fixed addresses (SLUS .bss).  Names stay address-based until evidence names them.
+ * D_80083780: the static player's position record.  initialize_dungeon_actor (and the town scene initializer)
+ * clear it with six words and store it in the static node's position slot (ObjectNodeHeader +0x08), so it is an
+ * ObjectPosition (r121 opus_entity2): x/y/z 16.16 words read whole and as integer halves, velocities at
+ * 0x0C/0x10/0x14; gameWork's view-state vector 2 is loaded from its fields (r78 phase 5). */
+extern ObjectPosition D_80083780;
 
 #endif

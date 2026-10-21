@@ -16,7 +16,7 @@ extern s32 append_entity_display_text(void *record, u8 *out);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_timed_paired_particle_emitter(s32, s32, void *);
 extern M2C_UNK D_800E0EB4;
 extern M2C_UNK D_800E0EC9;
@@ -36,7 +36,7 @@ s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
     }
     if (((u32) actor) <= 0x9FFFFFFFU) {
         display_item_status_message(actor, cause, amount);
-        if (apply_actor_food_preference(actor, (entity_action_selectors[*((u8 *) (((s8 *) actor) + 0x13))] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(actor, (entity_action_selectors[*((u8 *) (((s8 *) actor) + 0x13))] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(actor, cause);
             return 1;
         }

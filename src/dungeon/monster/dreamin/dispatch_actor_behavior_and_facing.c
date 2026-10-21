@@ -39,7 +39,7 @@ typedef struct S_80170E68_4 {
 } S_80170E68_4;   /* entry in dispatch_actor_behavior_and_facing */
 
 /* Dispatch actor behavior and update its facing animation from dungeon state. */
-void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, EntityRec *state)
+void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, ActorRecord *state)
 {
     u16 *dungeon_status;
     s32 initial_flags;
@@ -49,7 +49,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
     s32 entry_index;
     u8 *entry_base;
     u8 *entry;
-    EntityRec *player;
+    ActorRecord *player;
     s16 distance;
     u16 status_flags;
 
@@ -60,7 +60,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
         return;
     }
 
-    if (state->tileY == 0) {
+    if (state->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, state);
     } else {
         initial_flags = ((u32)state->flags1C);
@@ -107,7 +107,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
         result = find_active_rect_containing_point(*(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
         *(u8 *)((u8 *)sprite + 0x26) = result;
 
-        if (state->unk_6D > 0) {
+        if (state->pending_turn_updates > 0) {
             if (((u32)state->flags1C) & 0x20) {
                 update_actor_status_and_food(state);
                 return;
@@ -118,7 +118,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 return;
             }
 
-            if ((state->unk_46 & 0x8000) == 0) {
+            if ((state->action_flags & 0x8000) == 0) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((s16)check_entity_relation(state, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                         return;
@@ -128,21 +128,21 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 if ((s16)func_801720E0(actor, context, sprite, 0) == 0) {
                     return;
                 }
-                state->unk_46 |= 0x4000;
-                if ((state->unk_46 & 0x8000) == 0) {
+                state->action_flags |= 0x4000;
+                if ((state->action_flags & 0x8000) == 0) {
                     func_801715CC(actor, context, sprite, state);
                     return;
                 }
             }
 
-            action_kind = state->unk_46 & 0x3FFF;
+            action_kind = state->action_flags & 0x3FFF;
             switch (action_kind) {
             case 9:
                 actor->unk_98 |= 0x8000;
                                         /* fallthrough */
             case 8:
                 if ((((u32)state->flags1C) & 0x2000) &&
-                    ((state->unk_46 & 0x3FFF) == 8)) {
+                    ((state->action_flags & 0x3FFF) == 8)) {
                     actor->unk_98 &= 0x7FFF;
                 }
                 if ((s16)attempt_actor_transition(actor, context, sprite, state) != 0) {

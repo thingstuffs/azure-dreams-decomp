@@ -56,7 +56,7 @@ void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite
     s32 anim_mode;
     u8 *anim_table;
     u8 *current_anim_table;
-    EntityRec *effect_actor;
+    ActorRecord *effect_actor;
     u16 timer;
     u16 next_timer;
     s16 old_timer;
@@ -92,8 +92,8 @@ void advance_timed_actor_effect_sequence(u8 *sequence, u8 *transform, u8 *sprite
         }
         if (((SequenceFieldView_81336BB4 *)sequence)->field_96.s16 == 2) {
             effect_actor = D_800814A8;
-            effect_actor->unk_10C |= 1;
-            effect_actor->unk_6A = ((u16)effect_actor->facing) + 0x800;
+            ((PlayerRecord *)effect_actor)->unk_10C |= 1;
+            effect_actor->movement_facing = ((u16)effect_actor->facing) + 0x800;
             func_800419EC(6, 0xC, effect_actor);
             play_sound_if_enabled(0x601);
             create_player_centered_sequence_effect(sequence, transform, sprite);

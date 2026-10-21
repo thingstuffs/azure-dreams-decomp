@@ -13,14 +13,14 @@ extern s32 D_800E3540;
 
 /* Clear the root and linked object flags, saving and resetting D_80081484 when the root flag is set. */
 void clear_player_linked_action_flags(void) {
-    EntityRec *root;
+    ActorRecord *root;
     S_80094E34_1 *linkedObject;
     s32 savedGlobalValue;
     s32 rootFlags;
 
     root = D_800E3D7C;
     if (root->flags1C & 0x100000) {
-        linkedObject = root->unk_124;
+        linkedObject = ((PlayerRecord *)root)->unk_124;
         if (linkedObject != 0) {
             linkedObject->unk_1C = (s32)(linkedObject->unk_1C & 0xFFF7FFFF);
         }

@@ -35,12 +35,12 @@ void process_unflagged_linked_entries(); /* extern */
 s32 resolve_attack_damage_and_effects();
 void set_record_integer_tile_center(); /* extern */
 s32 select_nearby_target_and_initialize_slot(); /* extern */
-void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, EntityRec *actor_data);
+void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data);
 extern void *D_800DD274[];
 extern u8 D_800DD294[8];
 
 /* Updates airborne movement, landing animation, and alignment to the actor's tile. */
-void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
+void update_airborne_actor_motion(void *action, ObjectPosition *motion, void *sprite, EntityRec *actor) {
     s32 dir_offset;
     u16 ticks_left;
     s32 dir_y;
@@ -55,10 +55,10 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
         func_8003DB94(sprite, *(s32 *)((u8 *)D_800DD294 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
             >> 7) & 0x1C)), 0);
         dir_offset = ((u16) actor->facing >> 8) & 0xE;
-        motion->unk_0C = (s32) (*(s16 *)((u8 *)dir_step_x + dir_offset) << 0x11);
+        motion->velocity_x = (s32) (*(s16 *)((u8 *)dir_step_x + dir_offset) << 0x11);
         dir_y = *(s16 *)((u8 *)dir_step_y + dir_offset);
-        motion->flags14 = 0xFFEBC000;
-        motion->unk_10 = (s32) (dir_y << 0x11);
+        motion->velocity_z = 0xFFEBC000;
+        motion->velocity_y = (s32) (dir_y << 0x11);
         ((S_800974DC_0 *)action)->unk_96.s = 3U;
         ((S_800974DC_0 *)action)->unk_98 = (u16) (((S_800974DC_0 *)action)->unk_98 & 0xFFF7);
         ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
@@ -94,9 +94,9 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
         if (!(((S_800974DC_0 *)action)->unk_A2 & 0x10)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         if ((s16) ((S_800974DC_0 *)action)->unk_96.s > 0) {
             return;
         }
@@ -112,15 +112,15 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
+        motion->velocity_z = 0;
         ((S_800974DC_0 *)action)->unk_96.s = 2U;
         delta = (u32)((SpriteFrameState *)sprite)->unk_24 << 6;
         coord = motion->x.w.i - 0x20;
         delta -= (u32)coord;
-        motion->unk_0C = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
+        motion->velocity_x = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
         coord = motion->y.w.i - 0x20;
         delta = ((u32)((SpriteFrameState *)sprite)->unk_25 << 6) - (u32)coord;
-        motion->unk_10 = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
+        motion->velocity_y = (s32)(delta * 0x10000U) / (s16) ((S_800974DC_0 *)action)->unk_96.s;
         ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
         return;
     }
@@ -130,9 +130,9 @@ void update_airborne_actor_motion(void *action, EntityRec *motion, void *sprite,
         if ((ticks_left << 0x10) > 0 && !(((SpriteFrameState *)sprite)->flags & 0x8000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         process_unflagged_linked_entries(actor->unk_5C);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x412);

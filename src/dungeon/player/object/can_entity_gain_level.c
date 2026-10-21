@@ -747,7 +747,7 @@ void clear_monster_event_and_decrement_count(void) {
 
 
 /* Store tile coordinates as centered positions in 64-unit tiles. */
-void set_record_integer_tile_center(EntityRec *record, s32 tile_x, s32 tile_y) {
+void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y) {
     record->x.w.i = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
     record->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
 }
@@ -868,18 +868,18 @@ u32 check_entity_interaction_compatibility(void *entity, S_800A2CB8_1 *other_ent
     if (other_entity == NULL) {
         return 0;
     }
-    if (((u32)((EntityRec *)entity)->flags1C) & 0x410) {
+    if (((u32)((ActorRecord *)entity)->flags1C) & 0x410) {
         return 1;
     }
-    if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0x2B &&
-        (((EntityRec *)entity)->unk_98 & 0x8000)) {
+    if ((*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3)) == 0x2B &&
+        (((ActorRecord *)entity)->unk_98 & 0x8000)) {
         return 1;
     }
     if ((other_entity->unk_14 & 0x4000) &&
-        (((u32)((EntityRec *)entity)->flags14) & 0x4000)) {
+        (((u32)((ActorRecord *)entity)->flags14) & 0x4000)) {
         return ((u16)get_entity_effect_value(entity, 0xC) << 16) != 0;
     }
-    return (((((u32)((EntityRec *)entity)->flags1C) ^
+    return (((((u32)((ActorRecord *)entity)->flags1C) ^
               other_entity->unk_1C) & 0x2000) << 16) >> 16;
 }
 #include "common.h"
@@ -1182,7 +1182,7 @@ extern u16 D_800DCE68[];
 /* Mark owned entities of kind 0x1E and increment the dungeon counters. */
 void func_800A31D0(Entity *owner_entity) {
     Entity *node;
-    EntityRec *sentinel;
+    ActorRecord *sentinel;
     u16 marked_count;
     u32 node_status;
     u32 incremented_count;
@@ -1191,7 +1191,7 @@ void func_800A31D0(Entity *owner_entity) {
         if (owner_entity->flags & 0x4000) {
             if (owner_entity->fieldAA != 0) {
                 sentinel = D_800E3D7C;
-                node = (Entity *)((u8 *)((Entity *)sentinel->unk_5C) + 0x20);
+                node = (Entity *)((u8 *)((Entity *)sentinel->next_actor_header) + 0x20);
                 if (node != sentinel) {
                     do {
                         if ((node->kind == 0x1E) &&

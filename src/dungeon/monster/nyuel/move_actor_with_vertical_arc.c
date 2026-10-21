@@ -26,14 +26,14 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
 
 /* Moves the actor to its tile with a vertical arc and completes the timed action. */
-void move_actor_with_vertical_arc(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void move_actor_with_vertical_arc(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     s32 facing_aux;
     s32 move_ticks;
@@ -71,9 +71,9 @@ void move_actor_with_vertical_arc(void *action, EntityRec *motion, void *sprite,
             axis_pos -= 0x20;
             x_delta -= axis_pos;
             x_delta <<= 16;
-            motion->unk_0C = x_delta / move_ticks;
+            motion->velocity_x = x_delta / move_ticks;
             axis_pos = motion->y.w.i - 0x20;
-            motion->unk_10 =
+            motion->velocity_y =
                 (((((SpriteFrameState *)sprite)->unk_25 << 6) - axis_pos) << 16) /
                 (s16)((S_80172158_0 *)action)->unk_9E;
             ((S_80172158_0 *)action)->unk_A0 =
@@ -92,9 +92,9 @@ void move_actor_with_vertical_arc(void *action, EntityRec *motion, void *sprite,
     case 2:
         if (((u32)actor->flags1C) & 0x08000000) {
             ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             ((SpriteFrameState *)sprite)->frameTable = D_80174EE0;
             select_sprite_entry(
@@ -111,11 +111,11 @@ void move_actor_with_vertical_arc(void *action, EntityRec *motion, void *sprite,
     action_ticks = ((S_80172158_0 *)action)->unk_96 - 1;
     ((S_80172158_0 *)action)->unk_96 = action_ticks;
     if ((action_ticks << 16) <= 0) {
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        reduce_actor_food_meter(actor, 3);
+        spend_actor_mp(actor, 3);
         advance_status_timers(actor);
 
         counter_base = &g_dungeon_status;
@@ -125,8 +125,8 @@ void move_actor_with_vertical_arc(void *action, EntityRec *motion, void *sprite,
 
         actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
-            if (actor->unk_46 & 0x8000) {
-                actor->unk_46 &= 0x7FFF;
+            if (actor->action_flags & 0x8000) {
+                actor->action_flags &= 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {

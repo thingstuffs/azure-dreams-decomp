@@ -41,7 +41,7 @@ typedef struct S_80096384_5 {
 } S_80096384_5;   /* temp_v0_2 in handle_actor_commands_and_facing */
 
 /* Handles actor commands, turns toward the requested direction, and updates the sprite. */
-void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, EntityRec *actor_data)
+void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data)
 {
     s16 status_value;
     s16 input_angle;

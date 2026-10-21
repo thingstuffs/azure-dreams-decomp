@@ -257,7 +257,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
             case 6:
             case 7:
             {
-                EntityRec *player;
+                ActorRecord *player;
                 s16 heading;
 
                 heading = get_rounded_facing_and_rounding_flag(

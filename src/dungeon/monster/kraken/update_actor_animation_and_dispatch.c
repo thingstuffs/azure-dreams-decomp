@@ -65,12 +65,12 @@ s32 reset_actor_action_state();
 s32 process_selected_actor_record();
 void begin_actor_spell_action();
 extern void func_801716CC(void *motion, s32 unused, void *actor, void *path_state);
-extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, EntityRec *actor_data);
+extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 s32 func_80171FCC();
-extern void func_80172190(void *action_state, void *context, void *sprite, EntityRec *actor);
+extern void func_80172190(void *action_state, void *context, void *sprite, ActorRecord *actor);
 s32 func_801722B8();
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
-extern void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, EntityRec *status);
+extern void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
 extern M2C_UNK D_8017418C;
 extern M2C_UNK D_80174194;
 extern M2C_UNK D_801741AC;
@@ -78,7 +78,7 @@ extern M2C_UNK D_801741C4;
 extern M2C_UNK D_801741CC;
 
 /* Updates the actor animation and dispatches dungeon actions based on status and position. */
-void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, EntityRec *status) {
+void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status) {
     s32 direction_aux;
     void *next_handler;
     s32 status_flags;
@@ -86,7 +86,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
     s8 room_id;
     s16 angle;
     u16 action_flags;
-    EntityRec *active_actor;
+    ActorRecord *active_actor;
     s32 *direction_aux_ptr;
     EmptyArg empty_arg;
 
@@ -95,7 +95,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
         func_801716CC(actor, context, sprite, status);
         return;
     }
-    if (status->tileY == 0) {
+    if (status->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
         if (((S_801711A4_2 *)sprite)->unk_2C == &D_801741CC) {
             return;
@@ -111,7 +111,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
             if (((S_801711A4_2 *)sprite)->unk_2C == &D_801741CC) {
                 {
                     void *reset_actor = actor;
-                    EntityRec *reset_status = status;
+                    ActorRecord *reset_status = status;
                     s32 clear_mask = (s32)0xFFFB0000;
                     s32 flags;
                     ((S_801711A4_3 *)reset_actor)->unk_9A = 0xDU;
@@ -164,13 +164,13 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
     }
     room_id = find_active_rect_containing_point(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v);
     ((S_801711A4_2 *)sprite)->unk_26 = room_id;
-    if (status->unk_6D > 0) {
+    if (status->pending_turn_updates > 0) {
         if (status->flags1C & 0x20) {
             update_actor_status_and_food(status);
             return;
         }
         if (((S_801711A4_2 *)sprite)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
-            if (!(status->unk_46 & 0x8000)) {
+            if (!(status->action_flags & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(status, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
                         return;
@@ -179,11 +179,11 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
                 if ((func_801722B8(actor, context, sprite, 0) << 0x10) == 0) {
                     return;
                 }
-                action_flags = status->unk_46 | 0x4000;
-                status->unk_46 = action_flags;
+                action_flags = status->action_flags | 0x4000;
+                status->action_flags = action_flags;
             }
-            if (status->unk_46 & 0x8000) {
-                action_id = status->unk_46 & 0x3FFF;
+            if (status->action_flags & 0x8000) {
+                action_id = status->action_flags & 0x3FFF;
                 switch (action_id) {
                 case 8:
                 case 9:

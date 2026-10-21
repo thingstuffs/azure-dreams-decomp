@@ -78,7 +78,7 @@ extern Spawned *create_item_render_object(s32 parent, s32 sprite_source, s16 x, 
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void select_sprite_entry(Effect *, u8, s32);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(Object *, s32);
+extern void spend_actor_mp(Object *, s32);
 extern void advance_status_timers(Object *);
 extern void update_timed_effect_size_and_position(void);
 extern void update_dungeon_actor_actions(void);
@@ -180,7 +180,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         motion->y.v = entity->saved_y << 16;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        reduce_actor_food_meter(object, 0x100);
+        spend_actor_mp(object, 0x100);
         entity->callback = update_dungeon_actor_actions;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         advance_status_timers(object);

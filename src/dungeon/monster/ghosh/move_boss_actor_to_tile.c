@@ -28,7 +28,7 @@ s16 get_rounded_facing_and_rounding_flag();
 #include "dungeon/player/object/set_record_integer_tile_center_api.h"
 #include "dungeon/actor/state/advance_status_timers_api.h"
 void on_actor_status_updated(void *actor);
-struct EntityRec; struct Rec_D_80082E80; s32 check_actor_floor_trap(struct Rec_D_80082E80 *, struct EntityRec *);
+struct ActorRecord; struct Rec_D_80082E80; s32 check_actor_floor_trap(struct Rec_D_80082E80 *, struct ActorRecord *);
 typedef struct {
     u8 pad[0x24];
     u8 x;
@@ -42,7 +42,7 @@ extern u8 D_8016F78C[];
 extern u8 D_80174A2C[];
 
 /* Updates movement toward a tile and completes the timed action. */
-void move_boss_actor_to_tile(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity) {
+void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Rec_D_80082E80 *tile, ActorRecord *entity) {
     s32 facing_aux;
     s32 frames_left;
     s32 next_frame;
@@ -74,8 +74,8 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8008
 
             x_step = (s32) ((x_step - x_offset) << 0x10) / frames_left;
             y_offset = motion->y.w.i - 0x20;
-            motion->unk_0C = x_step;
-            motion->unk_10 = (s32) ((s32) (((tile->unk_25 << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
+            motion->velocity_x = x_step;
+            motion->velocity_y = (s32) ((s32) (((tile->unk_25 << 6) - y_offset) << 0x10) / (s16) action->unk_9E.s);
             action->unk_A4 = (s32) ((0 - func_800644B8(action->unk_9E.s * 0x199)) << 0xA);
         }
         height = action->unk_90;
@@ -94,9 +94,9 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8008
     case 2:
         if (entity->flags1C & 0x08000000) {
             action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
             action->unk_9B = action->unk_9B + 1;
         }
@@ -111,9 +111,9 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8008
     action_timer = action->unk_96 - 1;
     action->unk_96 = action_timer;
     if ((action_timer << 0x10) <= 0) {
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
         advance_status_timers(entity);
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
@@ -121,9 +121,9 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, EntityRec *motion, Rec_D_8008
         }
         entity_flags = entity->flags1C;
         if (entity_flags & 0x2000) {
-            status_flags = entity->unk_46;
+            status_flags = entity->action_flags;
             if (status_flags & 0x8000) {
-                entity->unk_46 = status_flags & 0x7FFF;
+                entity->action_flags = status_flags & 0x7FFF;
             }
         } else {
             if (!(entity_flags & 0x410)) {

@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-struct EntityRec;
+struct ObjectPosition;
 
-void set_record_integer_tile_center(struct EntityRec *, s32, s32);
+void set_record_integer_tile_center(struct ObjectPosition *, s32, s32);
 
 #endif

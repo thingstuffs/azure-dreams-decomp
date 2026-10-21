@@ -367,7 +367,7 @@ loop_0:
             apply_global_scene_value(D_800D0138);
             D_800272CA = 0;
             D_800272C8 = 1;
-            D_80083780.unk_0C = 0;
+            D_80083780.velocity_x = 0;
             ((S_80022F60_0 *)state_obj)->unk_02.s = 0x40;
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
@@ -379,8 +379,8 @@ loop_0:
         s32 current;
 
         two = 0x03800000;
-        current = ((EntityRec *)(((MotionState *)&D_80083780)))->x.v;
-        ((EntityRec *)(((MotionState *)&D_80083780)))->x.v =
+        current = ((ObjectPosition *)(((MotionState *)&D_80083780)))->x.v;
+        ((ObjectPosition *)(((MotionState *)&D_80083780)))->x.v =
             current + ((two - current) >> 1);
         if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
             obj = func_8003FC64(0x136);

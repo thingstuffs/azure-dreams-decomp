@@ -75,7 +75,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
     u8 *entity_base;
 
     if (entity == ((u8 *)D_800E3D7C)) {
-        ((EntityRec *)entity)->unk_110 = source;
+        ((PlayerRecord *)entity)->pending_item_action = source;
         begin_deferred_item_action(entity, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), entity);
         return 0;
     }
@@ -84,9 +84,9 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
         display_item_status_message(entity, source, reason);
     }
 
-    if (((EntityRec *)entity)->flags14 & 0x4000) {
+    if (((ActorRecord *)entity)->flags14 & 0x4000) {
         text_buffer = get_unused_text_buffer();
-        if ((u32)((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) - 3) < 0x2B) {
+        if ((u32)((*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3)) - 3) < 0x2B) {
             text_end = append_entity_display_text(entity, text_buffer);
             text_end = expand_text_control_codes(D_800E1095, text_end);
         } else {
@@ -99,10 +99,10 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
         display_text_with_fullwidth_adjustment(text_buffer);
     }
 
-    entity_type = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
+    entity_type = (*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3));
     if ((u32)(entity_type - 3) < 0x2B) {
         spawn_data[0] = entity_type;
-        spawn_type = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
+        spawn_type = (*(u8 *)((u8 *)&((ActorRecord *)entity)->unk_10 + 3));
         if ((spawn_type == 3) || (spawn_type == 5) || (spawn_type == 7) ||
             (spawn_type == 9) || (spawn_type == 0xB) || (spawn_type == 0xD) ||
             (spawn_type == 0xF) || (spawn_type == 0x11) || (spawn_type == 0x13)) {
@@ -142,7 +142,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
             tile_x = map_position->unk_24;
             tile_y = map_position->unk_25;
             tile_mask = 0x3000;
-            if (((EntityRec *)entity)->flags1C & 0x2000) {
+            if (((ActorRecord *)entity)->flags1C & 0x2000) {
                 tile_mask = 0x300;
             }
             update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);

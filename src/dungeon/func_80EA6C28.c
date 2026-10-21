@@ -74,7 +74,7 @@ extern s32 advance_status_timers(void *);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern s32 play_sound_if_enabled(s32);
 extern void refresh_actor_proximity_state(u8 *context);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Updates movement, destination selection, and recovery animation for the entity. */
@@ -227,7 +227,7 @@ void update_movement_destination_selection_recovery_animation_entity(ActorAction
                 (s16)(motion->z.w.i - 0x80));
             entity->groundHeight = height;
             sprite->frameTable = D_8015CF00;
-            reduce_actor_food_meter(entity, 0x200);
+            spend_actor_mp(entity, 0x200);
             select_sprite_entry(sprite,
                 sprite->frameTable[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing.signedValue + 0x100)
                     >> 9) & 7], 0);

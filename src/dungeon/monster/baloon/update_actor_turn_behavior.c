@@ -226,7 +226,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, void *a
             case 6:
             case 7:
             {
-                EntityRec *player;
+                ActorRecord *player;
                 s16 heading;
 
                 heading = get_rounded_facing_and_rounding_flag(

@@ -88,7 +88,7 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
             ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_0C = ((Row_8194C8F0_S_800240F0_3 *)position)->unk_00.at00.v;
             ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_10 = ((Row_8194C8F0_S_800240F0_3 *)position)->unk_04.at00.v;
         }
-        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 = (D_800814A8->unk_88 - 0x50) << 16;
+        ((Row_8194C8F0_S_800240F0_2 *)motion)->unk_14 = (D_800814A8->ground_height - 0x50) << 16;
 
         {
             s32 angle_index;
@@ -405,7 +405,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
     s32 *target_pos;
     TileObject *tile_or_y_steps;
     s32 *effect_pool;
-    EntityRec *origin;
+    ObjectPosition *origin;
 
     s16 phase;
     s32 state_or_heading;
@@ -433,7 +433,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
     void *effect_data;
     s32 offset_mode;
     void *target;
-    EntityRec *actor_value;
+    ActorRecord *actor_value;
     void *actor_value_2;
 
     state_or_heading = ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s;
@@ -442,7 +442,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
     case 0:
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_10 = 0U;
         ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_0A.s++;
-        D_800814A8->unk_F4 = 0;
+        ((PlayerRecord *)D_800814A8)->unk_F4 = 0;
         allocate_effect_and_initialize_sprite(((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_00 - 0x20, ((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04, &D_800DE5DC);
     case 1:
         if (*((Row_8194D354_S_80024B54_0 *)effect_arg)->unk_04 & 0x80) {
@@ -480,7 +480,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
         (*(s32 *)((u8 *)position + 4)) = origin->y.v;
         actor_value = D_800814A8;
         tile_or_y_steps = &D_80082E80;
-        shifted_height = ((actor_value->unk_88) - 0x50) << 0x10;
+        shifted_height = ((actor_value->ground_height) - 0x50) << 0x10;
         effect_data = offset;
         (*(s32 *)((u8 *)position + 8)) = shifted_height;
         view_heading = g_game_work.view.camera_rotation.parts.viewAngle;
@@ -520,7 +520,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
                 ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
                 if ((s16)ground_height > 0x200) {
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u =
-                        (u16)((u16)D_800814A8->unk_88);
+                        (u16)((u16)D_800814A8->ground_height);
                 }
                 position_valid = check_left_tile_and_center_height(((Row_8194D354_S_80024B54_7 *)target_pos)->unk_02.u,
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_06.u, (s16)((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u);
@@ -537,7 +537,7 @@ void update_three_way_target_effect(void *effect_arg, void *position) {
                     ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u = near_height;
                     if ((s16)near_height > 0x200) {
                         ((Row_8194D354_S_80024B54_7 *)target_pos)->unk_0A.u =
-                            (u16)((u16)D_800814A8->unk_88);
+                            (u16)((u16)D_800814A8->ground_height);
                     }
                     break;
                 }

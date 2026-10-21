@@ -192,14 +192,14 @@ extern void func_8003DB94(struct Dst *, struct Elem *, s16);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 extern s32 compare_monster_neighbor_values(s32, s32, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, u16 *);
-extern void update_actor_status_and_food(EntityRec *);
+extern void update_actor_status_and_food(ActorRecord *);
 extern void cycle_map_cell_flags(s16, s16, u16);
 extern void update_map_cell_flags_with_item_limit(s32, s32, u16);
 extern s32 check_movement_clearance_and_height(u32, void *, void *, s16);
 
 /* Functions defined in this translation unit. */
 void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_800D8728_2 *monster);
-void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, EntityRec *status);
+void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
 void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *move_state);
 void advance_actor_traversable_heading(void *move_state, void *context, S_800D92C0_2 *position, void *actor);
 void initialize_actor_direction_table(void *object, void *unusedContext, void *tableTarget, void *headingSource);

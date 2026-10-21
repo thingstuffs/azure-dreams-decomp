@@ -116,8 +116,8 @@ void update_directional_actor_effect(void *state_data, void *position_data)
 
     switch (((S_81988800_0 *)state_data)->unk_0A.s) {
     case 0:
-        D_800814A8->unk_102 = 1;
-        D_800814A8->unk_F4 = 0;
+        ((PlayerRecord *)D_800814A8)->unk_102 = 1;
+        ((PlayerRecord *)D_800814A8)->unk_F4 = 0;
         ((S_81988800_2 *)position_data)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
         ((S_81988800_2 *)position_data)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
         ((S_81988800_2 *)position_data)->unk_08.at00.v =

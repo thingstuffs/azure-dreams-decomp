@@ -23,7 +23,7 @@ extern s32 append_value_seven_suffix();
 extern s32 display_text_with_fullwidth_adjustment();
 extern s32 apply_item_effect_at_entity_position();
 extern s32 display_actor_item_status_message();
-extern s32 apply_actor_food_preference();
+extern s32 feed_actor_restore_mp();
 
 extern u8 D_80089364[];
 extern u8 D_80089368[];
@@ -35,7 +35,7 @@ extern u8 D_800E116E[];
 
 /* Applies an action to a target or held item and updates the action counter. */
 s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 context) {
-    EntityRec *state;
+    ActorRecord *state;
     u8 *item;
     s32 action_value;
     register s32 value;
@@ -51,7 +51,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
 
     state = D_800E3D7C;
     if (target == (u32)state) {
-        state->unk_110 = action;
+        ((PlayerRecord *)state)->pending_item_action = action;
         begin_mode_selected_item_action(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), state);
         action[3] &= (u8)~0x20;
         return 0;
@@ -59,7 +59,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
 
     if (target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, action, action_kind);
-        if (apply_actor_food_preference(target, entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3, 0) == 0) {
+        if (feed_actor_restore_mp(target, entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3, 0) == 0) {
             apply_item_effect_at_entity_position(target, action);
             return 1;
         }
@@ -67,7 +67,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
         item = ((u8 *)state->unk_4C);
         if (item != 0) {
             if (!(action[3] & 0x20)) {
-                state->unk_114 = 0x202080;
+                ((PlayerRecord *)state)->unk_114 = 0x202080;
                 begin_parameterized_actor_action(state, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD148, 2);
                 action[3] |= 0x20;
                 return 0;

@@ -35,7 +35,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_8016BCE8;
@@ -82,14 +82,14 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
         ((S_8016D0E0_0 *)action)->unk_90 -= ((S_8016D0E0_0 *)action)->unk_A0;
         if (move_ticks != 0) {
             tile_x = ((SpriteFrameState *)sprite)->unk_24;
-            position_x = ((EntityRec *)motion)->x.w.i;
+            position_x = ((ObjectPosition *)motion)->x.w.i;
             tile_x <<= 6;
             position_x -= 0x20;
-            ((EntityRec *)motion)->unk_0C = ((tile_x - position_x) << 16) / move_ticks;
+            ((ObjectPosition *)motion)->velocity_x = ((tile_x - position_x) << 16) / move_ticks;
 
-            position_y = ((EntityRec *)motion)->y.w.i;
+            position_y = ((ObjectPosition *)motion)->y.w.i;
             position_y -= 0x20;
-            ((EntityRec *)motion)->unk_10 =
+            ((ObjectPosition *)motion)->velocity_y =
                 (((((SpriteFrameState *)sprite)->unk_25 << 6) - position_y) << 16) /
                 ((S_8016D0E0_0 *)action)->unk_9E.u;
             ((S_8016D0E0_0 *)action)->unk_A0 =
@@ -109,9 +109,9 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
     case 2:
         if (((S_8016D0E0_1 *)actor)->unk_1C.s & 0x08000000) {
             ((S_8016D0E0_0 *)action)->unk_98 &= 0xFFF7;
-            ((EntityRec *)motion)->flags14 = 0;
-            ((EntityRec *)motion)->unk_10 = 0;
-            ((EntityRec *)motion)->unk_0C = 0;
+            ((ObjectPosition *)motion)->velocity_z = 0;
+            ((ObjectPosition *)motion)->velocity_y = 0;
+            ((ObjectPosition *)motion)->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
             ((SpriteFrameState *)sprite)->frameTable = D_8016EED8;
@@ -143,11 +143,11 @@ void update_hop_to_tile_and_complete(void *action, void *motion, void *sprite, v
         return;
     }
 
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
+    ((ObjectPosition *)motion)->velocity_z = 0;
+    ((ObjectPosition *)motion)->velocity_y = 0;
+    ((ObjectPosition *)motion)->velocity_x = 0;
     set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-    reduce_actor_food_meter(actor, 4);
+    spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
     if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {

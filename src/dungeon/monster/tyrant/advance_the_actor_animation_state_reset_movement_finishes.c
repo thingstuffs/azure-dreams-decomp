@@ -54,7 +54,7 @@ typedef struct S_801729D4_4 {
 
 
 /* Advance the actor animation state and reset movement when it finishes. */
-void advance_the_actor_animation_state_reset_movement_finishes(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void advance_the_actor_animation_state_reset_movement_finishes(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     u16 position[3];
     u8 *animation;
@@ -75,7 +75,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Ent
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            anim_kind = (actor->unk_46 & 0x3FFF) - 1;
+            anim_kind = (actor->action_flags & 0x3FFF) - 1;
             switch (anim_kind) {
             case 6:
                 reuse_target = 1;
@@ -101,7 +101,7 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Ent
                 break;
             }
         } else {
-            anim_kind = actor->unk_46 & 0x3FFF;
+            anim_kind = actor->action_flags & 0x3FFF;
             switch (anim_kind) {
             case 3:
                 animation = (u8 *)actor + 0xE;
@@ -125,17 +125,17 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Ent
                 target_root = D_800814A8;
                 actor->target = target_root;
                 target_source = ((S_801729D4_2_pre *)target_root)[-1].unk_00;
-                actor->unk_72 = ((S_801729D4_3 *)target_source)->unk_24;
-                actor->unk_73 = ((S_801729D4_3 *)target_source)->unk_25;
+                actor->target_tile_x = ((S_801729D4_3 *)target_source)->unk_24;
+                actor->target_tile_y = ((S_801729D4_3 *)target_source)->unk_25;
             } else {
                 new_target = scan_monster_along_heading(
                     actor, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25,
                     actor->facing, 0x10);
                 actor->target = new_target;
-                abs_x = abs(actor->unk_72);
-                abs_y = abs(actor->unk_73);
-                actor->unk_72 = abs_x;
-                actor->unk_73 = abs_y;
+                abs_x = abs(actor->target_tile_x);
+                abs_y = abs(actor->target_tile_y);
+                actor->target_tile_x = abs_x;
+                actor->target_tile_y = abs_y;
             }
             position[0] = ((u16)motion->x.w.i);
             position[1] = ((u16)motion->y.w.i);
@@ -149,18 +149,18 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Ent
             }
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
         advance_status_timers(actor);
-        (*(u8 *)&actor->unk_6D)--;
+        (*(u8 *)&actor->pending_turn_updates)--;
         ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -186,9 +186,9 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Ent
             ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
         }
         if (((S_801729D4_4 *)sprite)->unk_14 & 0xE000) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
             if (((S_801729D4_4 *)sprite)->unk_2C != D_80173FB8) {
                 (*(void * *)((u8 *)sprite + (0x2C))) = D_80173FB8;
@@ -202,12 +202,12 @@ void advance_the_actor_animation_state_reset_movement_finishes(void *action, Ent
                 ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
                 ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
                 advance_status_timers(actor);
-                if (actor->unk_6D > 0) {
-                    (*(u8 *)&actor->unk_6D)--;
+                if (actor->pending_turn_updates > 0) {
+                    (*(u8 *)&actor->pending_turn_updates)--;
                 }
-                actor->unk_73 = 0;
-                actor->unk_72 = 0;
-                actor->unk_46 &= 0x7FFF;
+                actor->target_tile_y = 0;
+                actor->target_tile_x = 0;
+                actor->action_flags &= 0x7FFF;
                 play_sound_if_enabled(0xB4);
             }
         }

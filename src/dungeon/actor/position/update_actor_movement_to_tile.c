@@ -33,7 +33,7 @@ void set_record_integer_tile_center(Motion *, s32, s32);
 u16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
 /* Update motion toward the target tile and finalize movement when the countdown expires. */
-s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, EntityRec *actor) {
+s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ActorRecord *actor) {
     s16 frames_left;
     s16 next_frames;
     u16 new_height;
@@ -73,8 +73,8 @@ s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *ta
             g_dungeon_status.activity_counts.parts.pending_movement_count = (s16)((u16)g_dungeon_status.activity_counts.parts.pending_movement_count - 1);
         }
         if (actor->flags1C & 0x2000) {
-            actor->unk_46 =
-                (u16)(actor->unk_46 & 0x7FFF);
+            actor->action_flags =
+                (u16)(actor->action_flags & 0x7FFF);
         }
         if (g_dungeon_status.flags & 0x80) {
             actor->flags1C =
@@ -82,11 +82,11 @@ s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *ta
             new_height = sample_terrain_surface_height(
                 (((Rec_D_80082E80 *)target_tile)->unk_24 << 6) | 0x20,
                 (((Rec_D_80082E80 *)target_tile)->unk_25 << 6) | 0x20,
-                (s16)(((u16)actor->unk_88) - 0x20));
+                (s16)(((u16)actor->ground_height) - 0x20));
             ((S_800AB1C0_0 *)move_state)->unk_90.at02.v =
                 (u16)(((S_800AB1C0_0 *)move_state)->unk_90.at02.v +
-                      (((u16)actor->unk_88) - new_height));
-            actor->unk_88 = new_height;
+                      (((u16)actor->ground_height) - new_height));
+            actor->ground_height = new_height;
             if (!(actor->flags1C & 0x40000)) {
                 ((S_800AB1C0_0 *)move_state)->unk_90.at00.v = 0;
             }

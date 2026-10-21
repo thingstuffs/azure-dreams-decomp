@@ -16,13 +16,13 @@ extern s32 apply_camera_offset_and_select_target();
 extern u8 D_8017386C[];
 
 /* Attempt an actor transition and update its state and sprite on success. */
-s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, EntityRec *actor)
+s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, ActorRecord *actor)
 {
     u16 *status;
     s32 transitioned;
     s32 target;
 
-    actor->unk_71 &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
     status = ((u16 *)(&g_dungeon_status));
     transitioned = 0;
     if (((u16 *)status)[1] & 0x2000) {
@@ -39,7 +39,7 @@ s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, EntityRec
         if (status_flags & 0x2000) {
             return -1;
         }
-        if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
+        if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
             return -1;
         }
     }
@@ -77,7 +77,7 @@ s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, EntityRec
     select_sprite_entry(sprite,
                   D_8017386C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
-    actor->unk_6D--;
+    actor->pending_turn_updates--;
     if (((Rec_func_800A9E70_arg0 *)state)->unk_9A.as_u8 != 0x11) {
         return transitioned;
     }

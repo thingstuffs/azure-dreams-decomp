@@ -5,7 +5,7 @@
 
 s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
-void reduce_actor_food_meter();
+void spend_actor_mp();
 s32 check_actor_floor_trap();
 extern s32 D_80171514;
 
@@ -24,7 +24,7 @@ void run_actor_callbacks_and_adjust_global_flag(void *entity_ptr, s32 unused, s3
     s32 actor = actor_arg;
 
     if (update_actor_movement_to_tile() != 0) {
-        reduce_actor_food_meter(actor, 0);
+        spend_actor_mp(actor, 0);
         advance_status_timers(actor);
         if ((check_actor_floor_trap(check_value, actor) << 0x10) <= 0) {
             return;

@@ -14,7 +14,7 @@ typedef struct {
     u8 unk66;
 } DungeonState;
 
-extern s32 apply_actor_food_preference(DungeonState *state, s32 mode, u8 *item);
+extern s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item);
 extern void apply_item_effect_at_entity_position(void *object_context, s32 target);
 extern void clear_slot_and_update_linked_state(s32 slot);
 extern void display_formatted_context_message(void *context);
@@ -26,7 +26,7 @@ s32 feed_egg_to_monster(void *target, s32 item) {
     if ((u32) target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target);
         type_flags = entity_action_selectors[((u8 *) target)[0x13]];
-        if (apply_actor_food_preference(target, (type_flags >> 2) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(target, (type_flags >> 2) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(target, item);
             return 1;
         }

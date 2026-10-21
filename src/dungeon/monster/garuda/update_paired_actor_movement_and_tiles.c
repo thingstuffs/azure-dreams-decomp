@@ -104,7 +104,7 @@ s32 advance_status_timers();
 s32 select_dungeon_spawn_tile();
 s32 play_sound_if_enabled();
 void refresh_actor_proximity_state();
-void reduce_actor_food_meter();
+void spend_actor_mp();
 s16 sample_terrain_surface_height();
 extern s16 D_8008146E;
 extern s32 D_8014D058;
@@ -444,7 +444,7 @@ commit_tile_positions:
         motion->y = final_y;
         saved_handler = actor->savedHandler;
         partner_actor->handler = saved_handler;
-        reduce_actor_food_meter(reset_entity, 0x100);
+        spend_actor_mp(reset_entity, 0x100);
         next_handler = &D_8014D058;
         actor->handler = next_handler;
         active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);

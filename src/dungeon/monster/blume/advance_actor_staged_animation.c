@@ -9,7 +9,7 @@ extern u8 D_80171E20[];
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void select_sprite_entry(void *, u8, s32);
 extern u8 D_801753E4[];
 
@@ -30,7 +30,7 @@ typedef struct S_801735E8_3 {
 } S_801735E8_3;   /* arg1 in advance_actor_staged_animation */
 
 /* Advances the actor's staged animation sequence and handles completion. */
-void advance_actor_staged_animation(void *action_data, S_801735E8_3 *motion, SpriteFrameState *animation, EntityRec *actor) {
+void advance_actor_staged_animation(void *action_data, S_801735E8_3 *motion, SpriteFrameState *animation, ActorRecord *actor) {
     S_801735E8_0 *action;
     u16 phase_value;
     u16 elapsed_ticks;
@@ -82,11 +82,11 @@ void advance_actor_staged_animation(void *action_data, S_801735E8_3 *motion, Spr
 
     case 3:
         if (animation->flags & 0xE000) {
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             action->unk_8C = D_80171E20;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+            actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         }
     }
 }

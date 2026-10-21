@@ -12,8 +12,8 @@ extern s32 apply_camera_offset_and_select_target();
 extern s32 D_80174E3C;
 
 /* Clear the actor flag and apply an effect and animation change when allowed. */
-void clear_actor_flag_and_apply_effect(void *action_state, s32 effect_arg, void *anim_state, EntityRec *actor) {
-    actor->unk_71 = actor->unk_71 & 0x7F;
+void clear_actor_flag_and_apply_effect(void *action_state, s32 effect_arg, void *anim_state, ActorRecord *actor) {
+    actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, effect_arg, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -26,7 +26,7 @@ void clear_actor_flag_and_apply_effect(void *action_state, s32 effect_arg, void 
                             + (u8 *)&D_80174E3C),
                           0);
             advance_status_timers(actor);
-            actor->unk_6D = ((u8)actor->unk_6D) - 1;
+            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         }
     }
 }

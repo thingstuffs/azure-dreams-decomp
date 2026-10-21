@@ -120,7 +120,7 @@ typedef struct S_80094988_15 {
 } S_80094988_15;   /* save_page in restore_inventory_and_familiars */
 
 /* Rebuild the dungeon's slot tables from the 0x80010000 save page: relink each of the 0x14 entries with its 0x8C record, re-point the two dispatch slots, then spawn and register an actor for every flagged party member. */
-void restore_inventory_and_familiars(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base_y) {
+void restore_inventory_and_familiars(S_80094988_1 *dungeon, ActorRecord *actor, u16 base_x, u16 base_y) {
     s16 place_x;
     s16 place_y;
     u8 rand_x;
@@ -238,7 +238,7 @@ void restore_inventory_and_familiars(S_80094988_1 *dungeon, EntityRec *actor, u1
                         }
                         spawned = load_monster_resource_data(*slot_ptr, kind, 1)(
                             1, place_x, place_y,
-                            actor->unk_88);
+                            actor->ground_height);
                         sign_shift = scratch << 16;
                         slot_index = sign_shift >> 16;
                         slot_offset = slot_index * 4;

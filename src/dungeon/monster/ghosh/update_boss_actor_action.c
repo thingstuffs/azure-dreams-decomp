@@ -8,12 +8,12 @@
 #include "records/Rec_D_80082E80.h"
 
 #include "engine/graphics/select_sprite_entry_api.h"         /* extern */
-struct EntityRec; s32 check_entity_relation(struct EntityRec *, struct EntityRec *);                     /* extern */
+struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);                     /* extern */
 s8 find_active_rect_containing_point();                           /* extern */
-struct EntityRec; void update_actor_status_and_food(struct EntityRec *);                      /* extern */
+void update_actor_status_and_food(struct ActorRecord *);                      /* extern */
 void begin_pushed_actor_move(); /* extern */
 s32 begin_ready_actor_directional_action(); /* extern */
-struct EntityRec; struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct EntityRec *); /* extern */
+struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *); /* extern */
 void func_8016FA84(void *actor, void *action, void *entity, void *path_arg);                            /* extern */
 void advance_boss_actor_movement_state(void *, void *, void *, void *); /* extern */
 struct Rec_func_800A9E70_arg0; s32 update_boss_action_result(struct Rec_func_800A9E70_arg0 *, s32, s32, s16); /* extern */
@@ -31,7 +31,7 @@ typedef struct S_8016F78C_0 {
 } S_8016F78C_0;   /* arg0 in update_boss_actor_action */
 
 /* Updates actor state, directional animation, and action handling. */
-void update_boss_actor_action(void *actor, void *context, void *sprite, EntityRec *entity) {
+void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRecord *entity) {
     u8 stack_pad[8];
     u8 current_state;
     s32 next_state;
@@ -56,7 +56,7 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, EntityRe
             ((S_8016F78C_0 *)actor)->unk_9A = next_state;
         }
         ((S_8016F78C_0 *)actor)->unk_98 = (u16) (((S_8016F78C_0 *)actor)->unk_98 & 0xFFF3);
-        if (!((((EntityRec *)entity)->unk_64 == 0) || (begin_ready_actor_directional_action(actor, context, sprite, D_80174A64) == 0))) {
+        if (!((((ActorRecord *)entity)->unk_64 == 0) || (begin_ready_actor_directional_action(actor, context, sprite, D_80174A64) == 0))) {
             return;
         }
         if (entity->flags1C & 0x80000) {
@@ -70,31 +70,31 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, EntityRe
     }
     ((SpriteFrameState *)sprite)->unk_26 = find_active_rect_containing_point(((SpriteFrameState *)sprite)->unk_24,
         ((SpriteFrameState *)sprite)->unk_25);
-    if (entity->unk_6D > 0) {
+    if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & 0x20) {
             update_actor_status_and_food(entity);
             return;
         }
-        if (!(entity->unk_46 & 0x8000)) {
-            if (!(g_dungeon_status.flags & 0x2000) || ((check_entity_relation(entity, (struct EntityRec *)(((s32)D_800814A8->unk_58) + 0x20)) << 0x10)
+        if (!(entity->action_flags & 0x8000)) {
+            if (!(g_dungeon_status.flags & 0x2000) || ((check_entity_relation(entity, (struct ActorRecord *)(((s32)D_800814A8->unk_58) + 0x20)) << 0x10)
                 == 0)) {
                 if (D_80013714 & 8) {
                     advance_boss_command_stream(actor, context, sprite);
-                    entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+                    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
                     update_actor_status_and_food(entity);
-                    entity->unk_46 = (u16) (entity->unk_46 & 0x7FFF);
+                    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
                     return;
                 }
                 if ((update_boss_action_result(actor, (s32)(context), (s32)(sprite), 0) << 0x10) == 0) {
                     return;
                 }
-                entity->unk_46 = (u16) (entity->unk_46 | 0x4000);
+                entity->action_flags = (u16) (entity->action_flags | 0x4000);
             } else {
                 return;
             }
         }
-        entity->unk_46 = (u16) (entity->unk_46 & 0x7FFF);
-        entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+        entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+        entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         update_actor_status_and_food(entity);
         advance_boss_actor_movement_state(actor, context, sprite, entity);
     }

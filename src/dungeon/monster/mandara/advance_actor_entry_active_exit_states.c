@@ -71,7 +71,7 @@ extern u8 D_80174424[];
 extern u8 D_80175298[];
 
 /* Advances the actor action through its entry, active, and exit animation states. */
-void advance_actor_entry_active_exit_states(void *action, void *context, void *sprite, EntityRec *actor)
+void advance_actor_entry_active_exit_states(void *action, void *context, void *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 record_index;
@@ -238,7 +238,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
             }
         }
 
-        if (actor->tileY == 0) {
+        if (actor->mp == 0) {
             if (g_dungeon_status.flags & 0x2008) {
                 return;
             }
@@ -265,7 +265,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
             }
         }
 
-        if (actor->unk_6D == 0) {
+        if (actor->pending_turn_updates == 0) {
             return;
         }
         if ((s16)has_pending_actor_or_turn_action(actor) != 0) {

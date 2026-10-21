@@ -18,7 +18,7 @@ extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void try_apply_action_by_chance(void *, s32, s32);
 
 extern void *D_800E3DE8;
@@ -60,7 +60,7 @@ void advance_familiar_defeat_sequence(void *work, void *part_a, void *part_b, vo
         if (!(U16(part_b, 0x14) & 0xE000)) {
             return;
         }
-        reduce_actor_food_meter(actor, 0xC00);
+        spend_actor_mp(actor, 0xC00);
         PTR(work, 0x8C) = &D_80170E68;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);

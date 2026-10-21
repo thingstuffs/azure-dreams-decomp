@@ -17,7 +17,7 @@ void adjust_source_value_and_finalize();
 s32 display_text_with_fullwidth_adjustment();
 void apply_item_effect_at_entity_position();
 void display_item_status_message();
-s32 apply_actor_food_preference();
+s32 feed_actor_restore_mp();
 void create_colored_effect_with_event();
 
 extern u8 D_8008935C[];
@@ -70,7 +70,7 @@ s32 fix_monster_fusion_appearance(void *entity, S_800BE120_1 *data, s16 mode) {
         if (((S_800BE120_0 *)entity)->unk_13 >= 2) {
             if (!(((S_800BE120_0 *)entity)->unk_54 & 0x800000)) {
                 if (((S_800BE120_0 *)entity)->unk_48.at01.v == 0) {
-                    if (apply_actor_food_preference(entity,
+                    if (feed_actor_restore_mp(entity,
                             (entity_action_selectors[((S_800BE120_0 *)entity)->unk_13] >> 6) & 3,
                             0) == 0) {
                         apply_item_effect_at_entity_position(entity, data);

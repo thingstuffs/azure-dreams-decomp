@@ -27,7 +27,7 @@ s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
 extern void on_actor_status_updated(void *actor);
-void reduce_actor_food_meter();
+void spend_actor_mp();
 s32 check_actor_floor_trap();
 
 extern u8 D_80170F6C;
@@ -35,7 +35,7 @@ extern u8 D_80175278[];
 extern u8 D_80175280[];
 
 /* Updates jump motion and animation, then completes the landing. */
-void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec *actor) {
+void update_jump_motion_2(void *action, ObjectPosition *motion, void *unit, ActorRecord *actor) {
     s32 distance;
     s32 frames_left;
     s16 next_timer;
@@ -54,7 +54,7 @@ void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec
             D_80175278[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172834_0 *)action)->unk_98 |= 8;
-        motion->flags14 = 0xFFEE0000;
+        motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= 0xF7FFFFFF;
         ((S_80172834_0 *)action)->unk_A0 = 0;
         ((S_80172834_0 *)action)->unk_9B++;
@@ -67,17 +67,17 @@ void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec
                 s32 target_x = ((Rec_D_80082E80 *)unit)->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
-                motion->unk_0C = ((target_x - current_x) << 16) / frames_left;
+                motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
                 s32 target_y = ((Rec_D_80082E80 *)unit)->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
-                motion->unk_10 = ((target_y - current_y) << 16) /
+                motion->velocity_y = ((target_y - current_y) << 16) /
                     ((S_80172834_0 *)action)->unk_96.s;
             }
-            ((S_80172834_0 *)action)->unk_A0 += motion->flags14;
-            motion->flags14 += 0x40000;
+            ((S_80172834_0 *)action)->unk_A0 += motion->velocity_z;
+            motion->velocity_z += 0x40000;
         }
         ((S_80172834_0 *)action)->unk_90 += ((S_80172834_0 *)action)->unk_A0;
         if (((S_80172834_0 *)action)->unk_96.s < 2) {
@@ -90,9 +90,9 @@ void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec
     case 2:
         if (((u32)actor->flags1C) & 0x08000000) {
             ((S_80172834_0 *)action)->unk_98 &= 0xFFF7;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)unit)->unk_24, ((Rec_D_80082E80 *)unit)->unk_25);
             (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175280;
             select_sprite_entry(
@@ -108,11 +108,11 @@ void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec
     next_timer = ((S_80172834_0 *)action)->unk_96.u - 1;
     ((S_80172834_0 *)action)->unk_96.s = next_timer;
     if ((next_timer << 16) <= 0) {
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)unit)->unk_24, ((Rec_D_80082E80 *)unit)->unk_25);
-        reduce_actor_food_meter(actor, 4);
+        spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
 
@@ -123,8 +123,8 @@ void update_jump_motion_2(void *action, EntityRec *motion, void *unit, EntityRec
 
         actor_flags = ((u32)actor->flags1C);
         if (actor_flags & 0x2000) {
-            if (actor->unk_46 & 0x8000) {
-                actor->unk_46 &= 0x7FFF;
+            if (actor->action_flags & 0x8000) {
+                actor->action_flags &= 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {

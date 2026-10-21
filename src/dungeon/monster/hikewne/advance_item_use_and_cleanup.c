@@ -53,7 +53,7 @@ typedef struct S_80172A48_3 {
 } S_80172A48_3;   /* arg2 in advance_item_use_and_cleanup */
 
 /* Advance item use through effect activation, actor animation, and cleanup. */
-void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, void *item)
+void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *actor, void *item)
 {
     register u8 *effect_slot;
     s16 is_special;
@@ -156,9 +156,9 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
             }
             ((S_80172A48_0 *)action)->unk_96.u = 0;
             ((S_80172A48_0 *)action)->unk_9B++;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             if ((u32)(*effect_slot - 0x2E) >= 3) {
                 return;
             }
@@ -169,9 +169,9 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -275,9 +275,9 @@ void advance_item_use_and_cleanup(void *action, EntityRec *motion, void *actor, 
         if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
         ((S_80172A48_0 *)action)->unk_9B++;
         if (((S_80172A48_3 *)actor)->unk_2C == D_801740E0) {

@@ -19,7 +19,7 @@ extern u8 D_800DD040[];
 extern u8 D_800DD058[];
 
 /* Updates movement toward a target tile and advances the actor's animation state. */
-void update_player_height_step(void *actor, EntityRec *motion, SpriteFrameState *sprite, EntityRec *model) {
+void update_player_height_step(void *actor, ObjectPosition *motion, SpriteFrameState *sprite, EntityRec *model) {
     s16 ticks_left;
     s32 coord_or_ticks;
     s32 motion_value;
@@ -36,7 +36,7 @@ void update_player_height_step(void *actor, EntityRec *motion, SpriteFrameState 
         if (sprite->flags & 0x6000) {
             launch_state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8;
             if (launch_state == 0) {
-                motion->flags14 = 0xFFF00000;
+                motion->velocity_z = 0xFFF00000;
             } else {
                 motion_value = 8;
                 if (launch_state != motion_value) {
@@ -44,7 +44,7 @@ void update_player_height_step(void *actor, EntityRec *motion, SpriteFrameState 
                 } else {
                     motion_value = 0xFFF80000;
                 }
-                motion->flags14 = motion_value;
+                motion->velocity_z = motion_value;
             }
             process_unflagged_linked_entries_alt(model->unk_5C);
             process_unflagged_linked_entries(model->unk_5C);
@@ -73,7 +73,7 @@ void update_player_height_step(void *actor, EntityRec *motion, SpriteFrameState 
             coord_or_ticks = motion->x.w.i;
             coord_or_ticks -= 0x20;
             motion_value = (motion_value - coord_or_ticks) << 0x10;
-            motion->unk_0C = motion_value / g_dungeon_status.movement_frames_left;
+            motion->velocity_x = motion_value / g_dungeon_status.movement_frames_left;
             coord_or_ticks = motion->y.w.i;
             motion_value = sprite->unk_25;
             coord_or_ticks -= 0x20;
@@ -81,14 +81,14 @@ void update_player_height_step(void *actor, EntityRec *motion, SpriteFrameState 
             motion_value -= coord_or_ticks;
             coord_or_ticks = g_dungeon_status.movement_frames_left;
             motion_value <<= 0x10;
-            motion->unk_10 = motion_value / coord_or_ticks;
+            motion->velocity_y = motion_value / coord_or_ticks;
         }
         ticks_left = (u16) g_dungeon_status.movement_frames_left - 1;
         g_dungeon_status.movement_frames_left = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
             g_dungeon_status.movement_frames_left = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
             if ((u8) ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8 >= 0xAU) {
                 sprite->frameTable = D_800DD058;

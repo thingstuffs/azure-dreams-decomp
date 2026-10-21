@@ -100,7 +100,7 @@ typedef struct S_80173230_9 {
 } S_80173230_9;   /* source in advance_item_use_and_recovery */
 
 /* Advances item use, its visual effect, and the actor's recovery animation. */
-void advance_item_use_and_recovery(void *action_in, EntityRec *motion_in, void *sprite, void *actor)
+void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, void *sprite, void *actor)
 {
     u8 *effect_state;
     s32 effect_handle;
@@ -202,9 +202,9 @@ void advance_item_use_and_recovery(void *action_in, EntityRec *motion_in, void *
             return;
         }
 
-        motion_in->flags14 = 0;
-        motion_in->unk_10 = 0;
-        motion_in->unk_0C = 0;
+        motion_in->velocity_z = 0;
+        motion_in->velocity_y = 0;
+        motion_in->velocity_x = 0;
         set_record_integer_tile_center(motion_in, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -321,9 +321,9 @@ void advance_item_use_and_recovery(void *action_in, EntityRec *motion_in, void *
                 return;
             }
 
-            motion_in->flags14 = 0;
-            motion_in->unk_10 = 0;
-            motion_in->unk_0C = 0;
+            motion_in->velocity_z = 0;
+            motion_in->velocity_y = 0;
+            motion_in->velocity_x = 0;
             set_record_integer_tile_center(motion_in, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             ((SpriteFrameState *)sprite)->flags &= 0xFEFF;
             ((SpriteFrameState *)sprite)->clut = ((S_80173230_0 *)action_in)->unk_AC;

@@ -1777,7 +1777,7 @@ typedef struct S_800C81B0_a0 {
 
 /* Shared counter/flags block; only the 16-bit field at offset 0xA is
  * touched here. */
-extern s32 run_action_ten_if_eligible(EntityRec *entity, s8 action_arg);
+extern s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
 
 /* Ticks the object's countdown, releasing its handle and updating the shared counter and flags on expiry. */
 void tick_trap_effect_countdown(S_800C81B0_a0 *object)
@@ -1803,7 +1803,7 @@ extern s16 set_or_clear_actor_status_slot();
 extern u8 D_800E1C25[];
 
 /* Runs action 0xA when eligible, using the prior state for the flagged callback. */
-s32 run_action_ten_if_eligible(EntityRec *entity, s8 action_arg) {
+s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg) {
     u8 updated_state;
     u8 prior_state;
     u8 initial_state;
@@ -1837,7 +1837,7 @@ extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s1
 extern s32 play_sound_if_enabled();
 extern void display_fixed_item_action_message();
 extern s32 generate_random_value(void);
-extern s32 run_action_ten_if_eligible(EntityRec *entity, s8 action_arg);
+extern s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
 extern u8 D_800CD910[];
 extern u8 D_800DF820[];
 

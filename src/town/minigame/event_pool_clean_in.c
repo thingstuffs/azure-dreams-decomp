@@ -25,7 +25,7 @@ extern M2C_UNK D_800BEBA4;
 /* event_pool_clean_in: creates the pool cleaning object and initializes its motion and display. */
 s32 event_pool_clean_in(void)
 {
-    EntityRec *origin;
+    ObjectPosition *origin;
     s32 color;
     s32 *motion;
     s32 origin_z;

@@ -19,7 +19,7 @@ extern u8 D_80174DEC[];
 extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void process_nodes_at_target_tile(void *, s32, s32, s32);
 extern void create_randomly_rotated_offset_effect(void *, s32, s32, s32);
 
@@ -149,7 +149,7 @@ void advance_directional_effect_action(void *action, void *motion, void *sprite,
         break;
 
     case 3:
-        reduce_actor_food_meter(actor, 0x400);
+        spend_actor_mp(actor, 0x400);
         ((S_80174A28_0 *)action)->unk_8C = &D_80171728;
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;

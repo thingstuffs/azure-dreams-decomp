@@ -22,7 +22,7 @@ extern s32 D_80171058;
 extern s32 D_801748C0;
 
 /* Applies backward motion, then returns the actor to its tile center or starts the next action. */
-void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, SpriteFrameState *entity, EntityRec *actor)
+void return_actor_to_tile_center(S_80172CE0_0 *action, ObjectPosition *motion, SpriteFrameState *entity, EntityRec *actor)
 {
     s16 frames_left;
     s32 tracked_actor;
@@ -30,16 +30,16 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Sprite
     switch (action->unk_9B) {
     case 0:
         apply_clamped_actor_value_delta(actor);
-        motion->unk_0C =
+        motion->velocity_x =
             -((s16 *)((s8 *)dir_step_x))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 15;
-        motion->unk_10 =
+        motion->velocity_y =
             -((s16 *)((s8 *)dir_step_y))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 15;
         action->unk_9B++;
 
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, entity, &D_801748C0);
             return;
         }
@@ -54,13 +54,13 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Sprite
             frames_left = -1;
         }
         action->unk_96.s = frames_left;
-        motion->unk_0C -= motion->unk_0C / 4;
-        motion->unk_10 -= motion->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
 
     case 1:
-        motion->unk_0C +=
+        motion->velocity_x +=
             ((s16 *)((s8 *)dir_step_x))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 10;
-        motion->unk_10 +=
+        motion->velocity_y +=
             ((s16 *)((s8 *)dir_step_y))[((u16)((s16)actor->unk_6A) >> 9) & 7] << 10;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
@@ -71,9 +71,9 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Sprite
             return;
         }
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, entity, &D_801748C0);
             return;
         } else {
@@ -89,14 +89,14 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Sprite
                 s32 target_x = entity->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
-                motion->unk_0C =
+                motion->velocity_x =
                     ((target_x - current_x) << 15) / frames_left;
             }
             {
                 s32 target_y = entity->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
-                motion->unk_10 =
+                motion->velocity_y =
                     ((target_y - current_y) << 15) /
                     action->unk_96.s;
             }
@@ -106,9 +106,9 @@ void return_actor_to_tile_center(S_80172CE0_0 *action, EntityRec *motion, Sprite
         if ((s32)(frames_left << 16) > 0) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, entity->unk_24, entity->unk_25);
 
         tracked_actor = ((s32)g_dungeon_status.pending_display_owner);

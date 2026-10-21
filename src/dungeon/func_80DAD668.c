@@ -66,7 +66,7 @@ extern u8 D_80155874[];
 extern u8 D_8015589C[];
 
 /* Dispatch action behavior and update its facing animation from dungeon entity. */
-void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *sprite, EntityRec *entity)
+void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *sprite, ActorRecord *entity)
 {
     s32 initial_flags;
     s32 flags;
@@ -75,7 +75,7 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
     s32 room_index;
     u8 *room_table;
     u8 *room_entry;
-    EntityRec *player;
+    ActorRecord *player;
     s16 distance;
     u16 status_flags;
 
@@ -85,7 +85,7 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
         return;
     }
 
-    if (entity->tileY == 0) {
+    if (entity->mp == 0) {
         advance_actor_pending_action(action, context, sprite, entity);
     } else {
         initial_flags = ((u32)entity->flags1C);
@@ -132,7 +132,7 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
         room_or_facing = find_active_rect_containing_point(sprite->tile.bytes.x, sprite->tile.bytes.y);
         sprite->room.raw = room_or_facing;
 
-        if (entity->unk_6D > 0) {
+        if (entity->pending_turn_updates > 0) {
             if (((u32)entity->flags1C) & 0x20) {
                 update_actor_status_and_food(entity);
                 return;
@@ -143,7 +143,7 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
                 return;
             }
 
-            if ((entity->unk_46 & 0x8000) == 0) {
+            if ((entity->action_flags & 0x8000) == 0) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((s16)check_entity_relation(entity, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                         return;
@@ -153,21 +153,21 @@ void func_80152E68(ActorActionView *action, void *context, ActorSpriteView *spri
                 if ((s16)func_801540E0(action, context, sprite, 0) == 0) {
                     return;
                 }
-                entity->unk_46 |= 0x4000;
-                if ((entity->unk_46 & 0x8000) == 0) {
+                entity->action_flags |= 0x4000;
+                if ((entity->action_flags & 0x8000) == 0) {
                     func_801535CC(action, context, sprite, entity);
                     return;
                 }
             }
 
-            action_kind = entity->unk_46 & 0x3FFF;
+            action_kind = entity->action_flags & 0x3FFF;
             switch (action_kind) {
             case 9:
                 action->flags |= 0x8000;
         /* fallthrough */
             case 8:
                 if ((((u32)entity->flags1C) & 0x2000) &&
-                    ((entity->unk_46 & 0x3FFF) == 8)) {
+                    ((entity->action_flags & 0x3FFF) == 8)) {
                     action->flags &= 0x7FFF;
                 }
                 if ((s16)func_80153D80(action, context, sprite, entity) != 0) {

@@ -19,14 +19,14 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(s32, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern void *D_800E3DE8;
 extern u8 D_80170EA8;
 extern u8 D_80174060[];
 
 /* Advances a timed directional animation and updates the actor when it completes. */
-void advance_timed_directional_animation(void *action_state, s32 actor_id, void *animation, EntityRec *actor) {
+void advance_timed_directional_animation(void *action_state, s32 actor_id, void *animation, ActorRecord *actor) {
     u16 ticks_left;
     u8 phase;
 
@@ -56,12 +56,12 @@ void advance_timed_directional_animation(void *action_state, s32 actor_id, void 
         }
         if (((SpriteFrameState *)animation)->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, ((SpriteFrameState *)animation)->unk_24, ((SpriteFrameState *)animation)->unk_25);
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             ((S_801727EC_0 *)action_state)->unk_8C = &D_80170EA8;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            if (actor->unk_6D == 0) {
-                actor->unk_46 &= 0x7FFF;
+            if (actor->pending_turn_updates == 0) {
+                actor->action_flags &= 0x7FFF;
             } else {
                 D_800E3DE8 = (u8 *)actor - 0x20;
             }

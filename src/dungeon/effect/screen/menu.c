@@ -548,7 +548,7 @@ void create_timed_model_effect(void *owner, s32 value, void *child_data, void *t
     Object_800B34C0 *object;
     Child *child;
     void *descriptor;
-    EntityRec *header;
+    ActorRecord *header;
 
     {
         u8 *call_page;
@@ -583,7 +583,7 @@ void create_timed_model_effect(void *owner, s32 value, void *child_data, void *t
         header = D_800814A8;
         ((Tail *)object)->owner = owner;
         ((Tail *)object)->descriptor = descriptor;
-        ((Tail *)object)->value32 = ((u16)header->unk_88);
+        ((Tail *)object)->value32 = ((u16)header->ground_height);
         ((Tail *)object)->value8 = value;
     }
 }
@@ -1860,7 +1860,7 @@ typedef struct S_800BA074_2 {
 /* Creates three linked display objects for the selection and initializes their appearance. */
 void *create_item_target_selector(u8 *selection_data) {
     Obj_800B4914 *objects[3];
-    EntityRec *layout;
+    ObjectPosition *layout;
     Obj_800B4914 **object_slot;
     s32 part_index;
     u8 *global_page;

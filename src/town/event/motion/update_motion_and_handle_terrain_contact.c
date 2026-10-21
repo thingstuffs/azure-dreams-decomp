@@ -29,13 +29,13 @@ extern u8 D_8009B454[];
 extern s16 D_800D45AA[];
 
 /* Update object motion, handle contact, and play the tile height sound. */
-void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *collision, EntityRec *motion, s32 callback_arg) {
+void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *collision, ObjectPosition *motion, s32 callback_arg) {
     s16 contact_height;
     s32 contact_height_ext;
 
     add_hex_20000_s_signed_offset_hex_14(motion);
-    if (motion->flags14 > 0x200000) {
-        motion->flags14 = 0x200000;
+    if (motion->velocity_z > 0x200000) {
+        motion->velocity_z = 0x200000;
     }
     add_motion_deltas_to_position(motion);
     contact_height = get_smaller_query_result_capped_hex_80_writes_associated_output(motion, ((u8 *)&D_800FE488));
@@ -46,7 +46,7 @@ void update_motion_and_handle_terrain_contact(void *object, Rec_D_800CFCB4 *coll
         set_the_state_flag_initialize_s_fixed_point_clear_paired_field(collision, motion, contact_height_ext);
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     } else if (collision->unk_3B != 0) {
-        motion->flags14 = 0;
+        motion->velocity_z = 0;
         ((Callback *)(*(void **)((u8 *)object + 0x58)))[1](object, collision, motion, callback_arg);
     }
     if ((((ObjectRetirementFlags *)object)[-1].unk_00 & 0x8000) == 0 &&

@@ -46,7 +46,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
     s32 pitch;
     u16 ticks;
     GameWork *town;
-    EntityRec *coords;
+    ObjectPosition *coords;
 
          /* MATCH: Order the s2 parameter copy before the s0 copy. */
     object_ref = (s32) object;

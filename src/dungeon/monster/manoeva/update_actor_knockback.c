@@ -27,7 +27,7 @@ extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
 /* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
-void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, SpriteFrameState *tile, EntityRec *actor)
+void update_actor_knockback(S_80172D04_0 *script, ObjectPosition *motion, SpriteFrameState *tile, EntityRec *actor)
 {
     s16 timer;
     s32 value;
@@ -43,18 +43,18 @@ void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, SpriteFrame
     case 0:
         spawn_manoeva_particle_burst(motion, tile);
         apply_clamped_actor_value_delta(actor);
-        motion->unk_0C =
+        motion->velocity_x =
             -*(s16 *)((u8 *)((s8 *)dir_step_x) +
                 ((actor->unk_6A >> 8) & 0xE)) << 15;
-        motion->unk_10 =
+        motion->velocity_y =
             -*(s16 *)((u8 *)((s8 *)dir_step_y) +
                 ((actor->unk_6A >> 8) & 0xE)) << 15;
         script->unk_9B++;
 
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(script, motion, tile, D_80176640);
             return;
         }
@@ -80,16 +80,16 @@ void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, SpriteFrame
         }
                         /* fall through */
     case 1:
-        value = motion->unk_0C;
+        value = motion->velocity_x;
         adjusted = value;
         if (value < 0) {
             adjusted = value + 3;
         }
-        value2 = motion->unk_10;
-        motion->unk_0C = value - (adjusted >> 2);
+        value2 = motion->velocity_y;
+        motion->velocity_x = value - (adjusted >> 2);
 
         adjusted = value2;
-        motion->unk_10 = value2 - (adjusted / 4);
+        motion->velocity_y = value2 - (adjusted / 4);
 
         timer = script->unk_A8.u - 1;
         script->unk_A8.u = timer;
@@ -107,9 +107,9 @@ void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, SpriteFrame
             return;
         }
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(script, motion, tile, D_80176640);
         } else {
             script->unk_96.s = 8;
@@ -123,9 +123,9 @@ void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, SpriteFrame
             m = tile->unk_24;
             m <<= 6;
             sub = motion->x.w.i - 0x20;
-            motion->unk_0C = ((m - sub) << 15) / timer;
+            motion->velocity_x = ((m - sub) << 15) / timer;
             sub = motion->y.w.i - 0x20;
-            motion->unk_10 =
+            motion->velocity_y =
                 (((tile->unk_25 << 6) - sub) << 15) /
                 script->unk_96.s;
         }
@@ -142,9 +142,9 @@ void update_actor_knockback(S_80172D04_0 *script, EntityRec *motion, SpriteFrame
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, tile->unk_24,
             tile->unk_25);
         {

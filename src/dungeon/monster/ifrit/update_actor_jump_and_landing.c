@@ -33,7 +33,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern u8 D_80170838[16];
@@ -41,7 +41,7 @@ extern s32 D_80170E84;
 extern u8 D_80174820[];
 
 /* Updates an actor's jump motion, landing animation, and completion state. */
-void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, EntityRec *actor)
+void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *sprite, ActorRecord *actor)
 {
     PathTable frame_path;
     s32 facing_result;
@@ -60,7 +60,7 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
     case 0:
         if (((S_80172288_0 *)motion)->unk_96 < 8) {
             ((S_80172288_0 *)motion)->unk_98 |= 8;
-            position->flags14 = 0xFFEE0000;
+            position->velocity_z = 0xFFEE0000;
             actor->flags1C &= 0xF7FFFFFF;
             phase_value = ((S_80172288_0 *)motion)->unk_9B;
             ((S_80172288_0 *)motion)->unk_A0 = 0;
@@ -79,15 +79,15 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
                 current_x = position->x.w.i;
                 target_x <<= 6;
                 current_x -= 0x20;
-                position->unk_0C =
+                position->velocity_x =
                     ((target_x - current_x) << 16) / frames_left;
             }
             current_y = position->y.w.i - 0x20;
-            position->unk_10 =
+            position->velocity_y =
                 (((sprite[0x25] << 6) - current_y) << 16) /
                 ((S_80172288_0 *)motion)->unk_96;
-            ((S_80172288_0 *)motion)->unk_A0 += position->flags14;
-            position->flags14 += 0x40000;
+            ((S_80172288_0 *)motion)->unk_A0 += position->velocity_z;
+            position->velocity_z += 0x40000;
         }
         ((S_80172288_0 *)motion)->unk_90 += ((S_80172288_0 *)motion)->unk_A0;
         if (((S_80172288_0 *)motion)->unk_96 < 3) {
@@ -100,9 +100,9 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
     case 2:
         if (actor->flags1C & 0x08000000) {
             ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
-            position->flags14 = 0;
-            position->unk_10 = 0;
-            position->unk_0C = 0;
+            position->velocity_z = 0;
+            position->velocity_y = 0;
+            position->velocity_x = 0;
             set_record_integer_tile_center(position, sprite[0x24], sprite[0x25]);
             ((SpriteFrameState *)sprite)->frameTable = D_80174820;
             select_sprite_entry(
@@ -118,11 +118,11 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
     timer = ((S_80172288_0 *)motion)->unk_96 - 1;
     ((S_80172288_0 *)motion)->unk_96 = timer;
     if ((timer << 16) <= 0) {
-        position->flags14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, sprite[0x24], sprite[0x25]);
-        reduce_actor_food_meter(actor, 4);
+        spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
         global_counter = &g_dungeon_status;
@@ -132,8 +132,8 @@ void update_actor_jump_and_landing(u8 *motion, EntityRec *position, u8 *sprite, 
 
         actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
-            if (actor->unk_46 & 0x8000) {
-                actor->unk_46 &= 0x7FFF;
+            if (actor->action_flags & 0x8000) {
+                actor->action_flags &= 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {

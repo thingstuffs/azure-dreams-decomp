@@ -114,7 +114,7 @@ extern void create_two_row_object_group(void *payload, s16 value_scale);
 extern void tick_object_motion_and_expire(void);
 
 /* Updates actor action states, movement, and impact effects. */
-void update_actor_actions_and_impact_effects(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     u16 pos[3];
     u16 delta[3];
@@ -145,7 +145,7 @@ void update_actor_actions_and_impact_effects(void *action, EntityRec *motion, vo
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            action_kind = actor->unk_46 & 0x3FFF;
+            action_kind = actor->action_flags & 0x3FFF;
             dispatch_index = action_kind - 1;
             switch (dispatch_index) {
             case 6:
@@ -168,7 +168,7 @@ void update_actor_actions_and_impact_effects(void *action, EntityRec *motion, vo
                 break;
             }
         } else {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 anim = (u8 *)actor + 0xE;
                 break;
@@ -190,25 +190,25 @@ void update_actor_actions_and_impact_effects(void *action, EntityRec *motion, vo
                 special_target = ((u8 *)D_800814A8);
                 actor->target = special_target;
                 target_sprite = ((S_801728C4_2_pre *)special_target)[-1].unk_00;
-                actor->unk_72 = ((S_801728C4_3 *)target_sprite)->unk_24;
-                actor->unk_73 = ((S_801728C4_3 *)target_sprite)->unk_25;
+                actor->target_tile_x = ((S_801728C4_3 *)target_sprite)->unk_24;
+                actor->target_tile_y = ((S_801728C4_3 *)target_sprite)->unk_25;
             } else {
                 anim_id = *anim;
                 if (D_8006DE24[anim_id].kind == 2) {
                     target_sprite = actor->target;
                     if (target_sprite != 0) {
                         target_sprite = ((S_801728C4_3_pre *)target_sprite)[-1].unk_00;
-                        actor->unk_72 = ((S_801728C4_3 *)target_sprite)->unk_24;
-                        actor->unk_73 = ((S_801728C4_3 *)target_sprite)->unk_25;
+                        actor->target_tile_x = ((S_801728C4_3 *)target_sprite)->unk_24;
+                        actor->target_tile_y = ((S_801728C4_3 *)target_sprite)->unk_25;
                     }
                 } else {
                     actor->target = scan_monster_along_heading(
                         actor, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25,
                         actor->facing, 0x10);
-                    abs_x = abs(actor->unk_72);
-                    abs_y = abs(actor->unk_73);
-                    actor->unk_72 = abs_x;
-                    actor->unk_73 = abs_y;
+                    abs_x = abs(actor->target_tile_x);
+                    abs_y = abs(actor->target_tile_y);
+                    actor->target_tile_x = abs_x;
+                    actor->target_tile_y = abs_y;
                 }
             }
 
@@ -226,19 +226,19 @@ void update_actor_actions_and_impact_effects(void *action, EntityRec *motion, vo
             }
             return;
         } else {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
             player_state = ((u8 *)D_800814A8);
             g_dungeon_status.active_actor = 0;
             ((S_801728C4_6 *)player_state)->unk_A6--;
             advance_status_timers(actor);
-            (*(u8 *)&actor->unk_6D)--;
+            (*(u8 *)&actor->pending_turn_updates)--;
             ((S_801728C4_0 *)action)->unk_8C = D_80170E84;
-            actor->unk_73 = 0;
-            actor->unk_72 = 0;
-            actor->unk_46 &= 0x7FFF;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags &= 0x7FFF;
             return;
         }
     case 1:
@@ -345,9 +345,9 @@ void update_actor_actions_and_impact_effects(void *action, EntityRec *motion, vo
         if (!(((S_801728C4_4 *)sprite)->unk_14 & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
         if (((S_801728C4_4 *)sprite)->unk_2C != D_80174820) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_80174820;
@@ -361,12 +361,12 @@ void update_actor_actions_and_impact_effects(void *action, EntityRec *motion, vo
             ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
             ((S_801728C4_0 *)action)->unk_8C = D_80170E84;
             advance_status_timers(actor);
-            if (actor->unk_6D > 0) {
-                (*(u8 *)&actor->unk_6D)--;
+            if (actor->pending_turn_updates > 0) {
+                (*(u8 *)&actor->pending_turn_updates)--;
             }
-            actor->unk_73 = 0;
-            actor->unk_72 = 0;
-            actor->unk_46 &= 0x7FFF;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(0xB4);
         }
 

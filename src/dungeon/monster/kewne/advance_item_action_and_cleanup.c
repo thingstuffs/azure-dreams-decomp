@@ -83,7 +83,7 @@ typedef struct S_80173560_4 {
 
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
-void advance_item_action_and_cleanup(void *action, EntityRec *motion, void *sprite, void *actor_arg) {
+void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void *sprite, void *actor_arg) {
     void *actor = actor_arg;
     s32 state;
     s32 action_value;
@@ -242,9 +242,9 @@ void advance_item_action_and_cleanup(void *action, EntityRec *motion, void *spri
     if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, ((S_80173560_4 *)sprite)->unk_24, ((S_80173560_4 *)sprite)->unk_25);
     resource = D_80175E40;
     if (((S_80173560_4 *)sprite)->unk_2C != resource) {

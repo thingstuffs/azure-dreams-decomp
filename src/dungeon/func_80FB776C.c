@@ -116,7 +116,7 @@ extern u8 D_8016F290[];
 extern u8 D_8016F298[];
 extern u8 D_8016F2A0[];
 
-void update_complex_actor_action_state(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *entity)
+void update_complex_actor_action_state(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, ActorRecord *entity)
 {
     u16 initial_flags = g_dungeon_status.flags;
     void *current_frames;
@@ -130,7 +130,7 @@ void update_complex_actor_action_state(ActorActionView *action, EntityRec *motio
         return;
     }
 
-    if (entity->tileY == 0) {
+    if (entity->mp == 0) {
         advance_actor_pending_action(action, motion, sprite, entity);
         {
             void *current =
@@ -195,7 +195,7 @@ void update_complex_actor_action_state(ActorActionView *action, EntityRec *motio
                     g_dungeon_status.activity_counts.parts.pending_action_count++;
                     action->saved.facing = (u16)(entity->facing);
                     entity->facing =
-                        (entity->unk_6A + 0x800) & 0xFFF;
+                        (entity->movement_facing + 0x800) & 0xFFF;
                     sprite->flags &= 0x9FFF;
                     action->effectTicks = 300;
                 }
@@ -241,9 +241,9 @@ void update_complex_actor_action_state(ActorActionView *action, EntityRec *motio
                 u32 texture;
 
                 motion->unk_0C =
-                    dir_step_x[((s32)(entity->unk_6A << 16)) >> 25] << 16;
+                    dir_step_x[((s32)(entity->movement_facing << 16)) >> 25] << 16;
                 motion->unk_10 =
-                    dir_step_y[((s32)(entity->unk_6A << 16)) >> 25] << 16;
+                    dir_step_y[((s32)(entity->movement_facing << 16)) >> 25] << 16;
                 scale = func_800644B8((s16)action->effectTicks << 8);
                 motion->unk_0C = motion->unk_0C +
                     (motion->unk_0C * scale >> 9);
@@ -370,7 +370,7 @@ void update_complex_actor_action_state(ActorActionView *action, EntityRec *motio
     tile_index = find_active_rect_containing_point(sprite->position.tile.x, sprite->position.tile.y);
     sprite->tileIndex.signedIndex = tile_index;
 
-    if (entity->unk_6D > 0) {
+    if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & 0x20) {
             update_actor_status_and_food(entity);
             return;
@@ -379,28 +379,28 @@ void update_complex_actor_action_state(ActorActionView *action, EntityRec *motio
             func_8016BB68(action, motion, sprite, entity);
             return;
         }
-        if (!(entity->unk_46 & 0x8000)) {
+        if (!(entity->action_flags & 0x8000)) {
             if ((g_dungeon_status.flags & 0x2000) &&
                 ((s16)check_entity_relation(entity,
-                    (u8 *)((EntityRec *)(D_800814A8[0]))->unk_58 + 0x20) != 0)) {
+                    (u8 *)((ActorRecord *)(D_800814A8[0]))->unk_58 + 0x20) != 0)) {
                 return;
             }
             if ((s16)func_8016C658(action, motion, sprite, 0) == 0) {
                 return;
             }
-            entity->unk_46 |= 0x4000;
-            if (!(entity->unk_46 & 0x8000)) {
+            entity->action_flags |= 0x4000;
+            if (!(entity->action_flags & 0x8000)) {
                 func_8016BB68(action, motion, sprite, entity);
                 return;
             }
         }
 
-        switch (entity->unk_46 & 0x3FFF) {
+        switch (entity->action_flags & 0x3FFF) {
         case 8:
         case 9:
         {
             u32 case_flags;
-            if ((entity->unk_46 & 0x3FFF) == 9) {
+            if ((entity->action_flags & 0x3FFF) == 9) {
                 case_flags = action->flags | 0x8000;
             } else {
                 case_flags = action->flags & 0x7FFF;

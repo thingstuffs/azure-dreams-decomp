@@ -88,7 +88,7 @@ typedef struct S_801732C4_7 {
 } S_801732C4_7;   /* display in advance_actor_item_use_sequence_2 */
 
 /* Advances an actor's item-use sequence, animation, and particle effects. */
-void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     u8 *item_slot;
     s32 special;
@@ -104,7 +104,7 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
         if ((((u32)actor->flags1C)) & 0x2000) {
             u32 kind_index;
 
-            kind_index = ((actor->unk_46) & 0x3FFF) - 1;
+            kind_index = ((actor->action_flags) & 0x3FFF) - 1;
             switch (kind_index) {
             case 6:
                 special = 1;
@@ -128,7 +128,7 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
         } else {
             s32 action_kind;
 
-            action_kind = (actor->unk_46) & 0x3FFF;
+            action_kind = (actor->action_flags) & 0x3FFF;
             switch (action_kind) {
             case 3:
                 item_slot = (u8 *)actor + 0xE;
@@ -158,8 +158,8 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
                         u8 *item_id;
 
                         item_id = ((S_801732C4_1_pre *)target)[-1].unk_00;
-                        (((u8)actor->unk_72)) = ((S_801732C4_2 *)item_id)->unk_24;
-                        (((u8)actor->unk_73)) = ((S_801732C4_2 *)item_id)->unk_25;
+                        (((u8)actor->target_tile_x)) = ((S_801732C4_2 *)item_id)->unk_24;
+                        (((u8)actor->target_tile_y)) = ((S_801732C4_2 *)item_id)->unk_25;
                     }
                 } else {
                     u8 *item_id;
@@ -171,8 +171,8 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
                         target = (actor->target);
                         if (target != 0) {
                             item_id = ((S_801732C4_1_pre *)target)[-1].unk_00;
-                            (((u8)actor->unk_72)) = ((S_801732C4_2 *)item_id)->unk_24;
-                            (((u8)actor->unk_73)) = ((S_801732C4_2 *)item_id)->unk_25;
+                            (((u8)actor->target_tile_x)) = ((S_801732C4_2 *)item_id)->unk_24;
+                            (((u8)actor->target_tile_y)) = ((S_801732C4_2 *)item_id)->unk_25;
                         }
                     } else {
 
@@ -181,8 +181,8 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
                         (actor->target) = scan_monster_along_heading(
                             actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                             (actor->facing), 0x10);
-                        actor->unk_72 = abs(actor->unk_72);
-                        actor->unk_73 = abs(actor->unk_73);
+                        actor->target_tile_x = abs(actor->target_tile_x);
+                        actor->target_tile_y = abs(actor->target_tile_y);
                     }
                 }
             }
@@ -195,18 +195,18 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
             ((S_801732C4_0 *)action)->unk_9B = next_state;
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
-        (((u8)actor->unk_6D))--;
+        (((u8)actor->pending_turn_updates))--;
         ((S_801732C4_0 *)action)->unk_8C = &D_801719DC;
-        (((u8)actor->unk_73)) = 0;
-        (((u8)actor->unk_72)) = 0;
-        (actor->unk_46) &= 0x7FFF;
+        (((u8)actor->target_tile_y)) = 0;
+        (((u8)actor->target_tile_x)) = 0;
+        (actor->action_flags) &= 0x7FFF;
         return;
 
     case 1:
@@ -354,9 +354,9 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_80174634) {
             u8 *anim_table;
@@ -383,10 +383,10 @@ void advance_actor_item_use_sequence_2(void *action, EntityRec *motion, void *sp
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_801732C4_0 *)action)->unk_8C = &D_801719DC;
             advance_status_timers(actor);
-            (((u8)actor->unk_73)) = 0;
-            (((u8)actor->unk_72)) = 0;
-            (((u8)actor->unk_6D))--;
-            (actor->unk_46) &= 0x7FFF;
+            (((u8)actor->target_tile_y)) = 0;
+            (((u8)actor->target_tile_x)) = 0;
+            (((u8)actor->pending_turn_updates))--;
+            (actor->action_flags) &= 0x7FFF;
             play_sound_if_enabled(0xB4);
         }
 

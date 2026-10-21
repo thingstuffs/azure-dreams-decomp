@@ -26,7 +26,7 @@ extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern s32 apply_item_effect_at_entity_position(void *, s32);
 extern s32 display_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 
 /* Processes an object action, dispatching the player case and reporting failure. */
 s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type) {
@@ -40,7 +40,7 @@ s32 use_item_to_enrage_actor(DungeonObject *object, s32 action, s16 action_type)
     }
     if ((u32) object <= 0x9FFFFFFFU) {
         display_item_status_message(object, action, action_type);
-        if (apply_actor_food_preference(object, (entity_action_selectors[object->unk_13] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(object, (entity_action_selectors[object->unk_13] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(object, action);
             return 1;
         }

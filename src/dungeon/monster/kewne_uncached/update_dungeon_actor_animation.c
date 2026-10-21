@@ -71,7 +71,7 @@ extern u8 D_80169CA0[];
 extern u8 D_80169CA8[];
 
 /* Updates a dungeon actor's animation, behavior, and facing from its current state. */
-void update_dungeon_actor_animation(void *actor, void *actor_aux, void *sprite, EntityRec *actor_data)
+void update_dungeon_actor_animation(void *actor, void *actor_aux, void *sprite, ActorRecord *actor_data)
 {
     s32 distance;
     s8 room_id;
@@ -82,7 +82,7 @@ void update_dungeon_actor_animation(void *actor, void *actor_aux, void *sprite, 
         func_80166510(actor, actor_aux, sprite, actor_data);
         return;
     }
-    if (actor_data->tileY == 0) {
+    if (actor_data->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, actor_aux, sprite, actor_data);
@@ -179,7 +179,7 @@ state_done:
     room_id = find_active_rect_containing_point(((S_80165FA4_2 *)sprite)->unk_24.at00.v, ((S_80165FA4_2 *)sprite)->unk_24.at01.v);
     ((S_80165FA4_2 *)sprite)->unk_26 = room_id;
 
-    if (actor_data->unk_6D > 0) {
+    if (actor_data->pending_turn_updates > 0) {
         if (((u32)actor_data->flags1C) & 0x20) {
             update_actor_status_and_food(actor_data);
             return;
@@ -188,7 +188,7 @@ state_done:
             func_801666C8(actor, actor_aux, sprite, actor_data);
             return;
         }
-        if (!(actor_data->unk_46 & 0x8000)) {
+        if (!(actor_data->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor_data,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -198,15 +198,15 @@ state_done:
             if ((func_801671CC(actor, actor_aux, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_state = actor_data->unk_46 | 0x4000;
-            actor_data->unk_46 = action_state;
+            action_state = actor_data->action_flags | 0x4000;
+            actor_data->action_flags = action_state;
             if (!(action_state & 0x8000)) {
                 func_801666C8(actor, actor_aux, sprite, actor_data);
                 return;
             }
         }
 
-        action_state = actor_data->unk_46 & 0x3FFF;
+        action_state = actor_data->action_flags & 0x3FFF;
         switch (action_state) {
         case 8:
         case 9:
@@ -220,7 +220,7 @@ state_done:
         case 6:
         case 7:
         {
-            EntityRec *player;
+            ActorRecord *player;
             s16 facing;
 
             facing = get_rounded_facing_and_rounding_flag(

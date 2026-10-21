@@ -25,7 +25,7 @@ void *func_80099290();                         /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 void apply_item_effect_at_entity_position();                 /* extern */
 void display_item_status_message();            /* extern */
-s32 apply_actor_food_preference();            /* extern */
+s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
 typedef struct {
     u8 pad[0xA];
@@ -59,7 +59,7 @@ s32 use_item_to_cure_confusion(void *entity, s32 update_value, s16 mode) {
         call_arg = entity;
         type_index = (*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3));
         type_flags = (u16 *)&entity_action_selectors;
-        if (apply_actor_food_preference(call_arg, (type_flags[type_index] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(call_arg, (type_flags[type_index] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, update_value);
             return 1;
         }

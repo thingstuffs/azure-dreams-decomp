@@ -2,7 +2,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8009B828_arg0.h"
 #include "shared/position_views.h"
-void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, EntityRec *motion, s32 transition_arg);
+void update_motion_toward_shared_target(Rec_func_8009B828_arg0 *state, s32 context, ObjectPosition *motion, s32 transition_arg);
 
 typedef struct S_8009C120_0 {
     u8 pad_00[0x15];

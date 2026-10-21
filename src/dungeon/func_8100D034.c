@@ -57,7 +57,7 @@ extern u8 D_8016B058[];
 extern u8 D_8016E888[];
 
 /* Starts the selected actor action, waits for completion, and resets its state. */
-void start_selected_actor_action(ActionState *action_state, EntityRec *motion, SpriteAnimationTableView *sprite, EntityRec *actor)
+void start_selected_actor_action(ActionState *action_state, ObjectPosition *motion, SpriteAnimationTableView *sprite, ActorRecord *actor)
 {
     u8 *item_slot;
     s32 phase;
@@ -72,7 +72,7 @@ void start_selected_actor_action(ActionState *action_state, EntityRec *motion, S
     switch (phase) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 7:
                 use_player_target = 1;
                 /* fall through */
@@ -96,7 +96,7 @@ void start_selected_actor_action(ActionState *action_state, EntityRec *motion, S
                 break;
             }
         } else {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 item_slot = &((ItemSlots *)actor)->third;
                 break;
@@ -120,14 +120,14 @@ void start_selected_actor_action(ActionState *action_state, EntityRec *motion, S
                 target = D_800814A8;
                 actor->target = target;
                 target_sprite = ((ObjectHeaderTail *)target)[-1].sprite;
-                actor->unk_72 = target_sprite->tileX;
-                actor->unk_73 = target_sprite->tileY;
+                actor->target_tile_x = target_sprite->tileX;
+                actor->target_tile_y = target_sprite->tileY;
             } else if (D_8006DE24[*item_slot].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
                     target_sprite = ((ObjectHeaderTail *)target)[-1].sprite;
-                    actor->unk_72 = target_sprite->tileX;
-                    actor->unk_73 = target_sprite->tileY;
+                    actor->target_tile_x = target_sprite->tileX;
+                    actor->target_tile_y = target_sprite->tileY;
                 }
             } else {
                 actor->target =
@@ -136,10 +136,10 @@ void start_selected_actor_action(ActionState *action_state, EntityRec *motion, S
                                   sprite->unk_25,
                                   actor->facing, 0x10);
                 {
-                    s32 abs_x = abs(actor->unk_72);
-                    s32 abs_y = abs(actor->unk_73);
-                    actor->unk_72 = abs_x;
-                    actor->unk_73 = abs_y;
+                    s32 abs_x = abs(actor->target_tile_x);
+                    s32 abs_y = abs(actor->target_tile_y);
+                    actor->target_tile_x = abs_x;
+                    actor->target_tile_y = abs_y;
                 }
             }
 
@@ -157,18 +157,18 @@ void start_selected_actor_action(ActionState *action_state, EntityRec *motion, S
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         ((PlayerActionCounter *)D_800814A8)->pendingActions--;
         advance_status_timers(actor);
-        (*(u8 *)&actor->unk_6D)--;
+        (*(u8 *)&actor->pending_turn_updates)--;
         action_state->handler = D_8016B058;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -189,9 +189,9 @@ void start_selected_actor_action(ActionState *action_state, EntityRec *motion, S
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         if (sprite->unk_2C != D_8016E888) {
             sprite->unk_2C = D_8016E888;
@@ -210,12 +210,12 @@ void start_selected_actor_action(ActionState *action_state, EntityRec *motion, S
         sprite->unk_14 &= 0xF7FF;
         action_state->handler = D_8016B058;
         advance_status_timers(actor);
-        if (actor->unk_6D > 0) {
-            (*(u8 *)&actor->unk_6D)--;
+        if (actor->pending_turn_updates > 0) {
+            (*(u8 *)&actor->pending_turn_updates)--;
         }
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
 
         return;

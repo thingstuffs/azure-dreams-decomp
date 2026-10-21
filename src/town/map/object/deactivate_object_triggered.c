@@ -32,7 +32,7 @@ void deactivate_object_triggered(void *object, void *position, void *rotation) {
     u8 *position_data = position;
     u8 *rotation_data = rotation;
     s8 *active_flag;
-    EntityRec *town_state;
+    ObjectPosition *town_state;
     s32 dx;
     s32 dy;
     s32 near_x;
@@ -77,8 +77,8 @@ void deactivate_object_triggered(void *object, void *position, void *rotation) {
     dy = abs(dy);
 
     if (near_x && ((s16)dy < 0x81)) {
-        speed_sq = (((Fixed1616 *)&town_state->unk_0C)->w.i * ((Fixed1616 *)&town_state->unk_0C)->w.i) +
-              (((Fixed1616 *)&town_state->unk_10)->w.i * ((Fixed1616 *)&town_state->unk_10)->w.i);
+        speed_sq = (((Fixed1616 *)&town_state->velocity_x)->w.i * ((Fixed1616 *)&town_state->velocity_x)->w.i) +
+              (((Fixed1616 *)&town_state->velocity_y)->w.i * ((Fixed1616 *)&town_state->velocity_y)->w.i);
         ((S_800B9998_0 *)object)->unk_66.s =
             ((S_800B9998_0 *)object)->unk_66.s +
             ((s32)(speed_sq + ((u32)speed_sq >> 31)) >> 1);

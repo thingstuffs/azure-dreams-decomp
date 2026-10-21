@@ -72,7 +72,7 @@ extern u8 D_8016FEB0[];
 extern u8 D_8016FEB8[];
 
 /* Updates creature behavior, animation, and facing according to its current state. */
-void update_creature_behavior_animation_and_facing(void *actor, void *context, void *sprite, EntityRec *creature)
+void update_creature_behavior_animation_and_facing(void *actor, void *context, void *sprite, ActorRecord *creature)
 {
     s32 distance;
     s8 room_id;
@@ -84,7 +84,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
         return;
     }
 
-    if (creature->tileY == 0) {
+    if (creature->mp == 0) {
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, creature);
@@ -183,7 +183,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
     room_id = find_active_rect_containing_point(((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v);
     ((S_8016B0EC_2 *)sprite)->unk_26 = room_id;
 
-    if (creature->unk_6D > 0) {
+    if (creature->pending_turn_updates > 0) {
         if (((u32)creature->flags1C) & 0x20) {
             update_actor_status_and_food(creature);
             return;
@@ -192,7 +192,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
             func_8016B854(actor, context, sprite, creature);
             return;
         }
-        if (!(creature->unk_46 & 0x8000)) {
+        if (!(creature->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(creature,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -202,8 +202,8 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
             if ((func_8016C66C(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_flags = creature->unk_46 | 0x4000;
-            creature->unk_46 = action_flags;
+            action_flags = creature->action_flags | 0x4000;
+            creature->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
                 func_8016B854(actor, context, sprite, creature);
                 return;
@@ -211,7 +211,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
         }
 
         {
-            u32 action_index = (u32)((creature->unk_46 & 0x3FFF) - 1);
+            u32 action_index = (u32)((creature->action_flags & 0x3FFF) - 1);
 
             switch (action_index) {
             case 7:
@@ -226,7 +226,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
             case 5:
             case 6:
             {
-                EntityRec *player;
+                ActorRecord *player;
                 s16 facing_angle;
 
                 facing_angle = get_rounded_facing_and_rounding_flag(

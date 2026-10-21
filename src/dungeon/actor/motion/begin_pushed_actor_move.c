@@ -21,7 +21,7 @@ extern struct {
 } D_80083460;
 
 /* Move the position one step in the actor's direction and update movement state. */
-void begin_pushed_actor_move(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, EntityRec *actor) {
+void begin_pushed_actor_move(Rec_func_800A9E70_arg0 *state, void *unused, S_800AA258_2 *position, ActorRecord *actor) {
     s32 next_x;
     s32 direction_index;
     s32 tile_mask;
@@ -36,7 +36,7 @@ void begin_pushed_actor_move(Rec_func_800A9E70_arg0 *state, void *unused, S_800A
     }
     tile_mask = move_mask & 0xFFFF;
     update_map_cell_flags_with_item_limit(position->unk_24, position->unk_25.s, tile_mask);
-    direction_index = ((u16) actor->unk_6A >> 8) & 0xE;
+    direction_index = ((u16) actor->movement_facing >> 8) & 0xE;
     next_x = position->unk_24 + (u8) *(direction_index + ((s8 *)dir_step_x));
     next_x = (u8) next_x;
     position->unk_24 = next_x;

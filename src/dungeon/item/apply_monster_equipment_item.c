@@ -50,7 +50,7 @@ void apply_item_effect_at_entity_position(); /* extern */
 void display_actor_item_status_message(); /* extern */
 s32 generate_random_value(void);
 s32 place_item_at_valid_floor_position(); /* extern */
-s32 apply_actor_food_preference();
+s32 feed_actor_restore_mp();
 extern M2C_UNK D_80089378;
 extern M2C_UNK D_8008937C;
 extern M2C_UNK D_800E13DA;
@@ -81,7 +81,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
     if ((u32) entity <= (u32) compare_ptr) {
         if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) {
             display_actor_item_status_message(entity, target);
-            if (apply_actor_food_preference(entity, (entity_action_selectors[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
+            if (feed_actor_restore_mp(entity, (entity_action_selectors[((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B] >> 4) & 3, 0) == 0) {
                 apply_item_effect_at_entity_position(entity, target);
                 return 1;
             }

@@ -33,7 +33,7 @@ extern void advance_status_timers(void *);
 extern u8 D_801764A0[];
 
 /* Searches up to four tiles ahead for a target and starts the actor's action. */
-s32 search_ahead_and_start_action(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
+s32 search_ahead_and_start_action(void *action_state, void *action_context, void *sprite, ActorRecord *actor) {
     s32 attempt;
     s32 tile_x;
     s32 tile_y;
@@ -47,7 +47,7 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, void
     s16 floor_height;
     s32 target;
 
-    actor->unk_71 &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
@@ -70,7 +70,7 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, void
         ((S_80172438_2 *)action_state)->unk_B2++;
         if ((check_layer_offset_height((try_x << 6) & 0xFFC0,
                            (try_y << 6) & 0xFFC0,
-                           actor->unk_88, call_direction << 9)
+                           actor->ground_height, call_direction << 9)
              << 16) != 0) {
             ((S_80172438_2 *)action_state)->unk_B2--;
             return 2;
@@ -82,12 +82,12 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, void
         floor_y = (((try_y + *y_step) << 6) + 0x20) & 0xFFE0;
         floor_height = sample_terrain_surface_height(floor_x,
                               floor_y,
-                              (s16)(((u16)actor->unk_88) - 0x20));
+                              (s16)(((u16)actor->ground_height) - 0x20));
         if (floor_height >= 0x201) {
             ((S_80172438_2 *)action_state)->unk_B2--;
             return 3;
         }
-        if ((u16)(floor_height - ((u16)actor->unk_88) + 0x3F) >= 0x7F) {
+        if ((u16)(floor_height - ((u16)actor->ground_height) + 0x3F) >= 0x7F) {
             ((S_80172438_2 *)action_state)->unk_B2--;
             return 3;
         }
@@ -114,7 +114,7 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, void
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    if (!(actor->unk_46 & 0x8000) && (g_dungeon_status.flags & 8)) {
+    if (!(actor->action_flags & 0x8000) && (g_dungeon_status.flags & 8)) {
         return -1;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {
@@ -134,6 +134,6 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, void
                   D_801764A0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     advance_status_timers(actor);
-    (*(u8 *)&actor->unk_6D)--;
+    (*(u8 *)&actor->pending_turn_updates)--;
     return 1;
 }

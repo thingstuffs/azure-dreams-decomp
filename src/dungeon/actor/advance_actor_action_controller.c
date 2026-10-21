@@ -33,7 +33,7 @@ extern u8 D_800D8C64[];
 extern u8 D_800E262C[];
 
 /* Advances the actor action state and updates its directional animation. */
-void advance_actor_action_controller(void *controller, void *action_context, void *sprite, EntityRec *actor)
+void advance_actor_action_controller(void *controller, void *action_context, void *sprite, ActorRecord *actor)
 {
     s32 state;
 
@@ -69,7 +69,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             return;
         }
 
-        if (actor->tileY == 0) {
+        if (actor->mp == 0) {
             if (system_base->flags & 0x2008) {
                 return;
             }
@@ -93,7 +93,7 @@ void advance_actor_action_controller(void *controller, void *action_context, voi
             return;
         }
 
-        if (actor->unk_6D == 0) {
+        if (actor->pending_turn_updates == 0) {
             return;
         }
 

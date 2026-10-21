@@ -207,7 +207,7 @@ void func_8015F138(ActorActionView *action_input, EntityRec *motion_input, Actor
                 case 6:
                 case 7:
                 {
-                    EntityRec *player;
+                    ActorRecord *player;
                     s16 facing_angle;
 
                     facing_angle = get_rounded_facing_and_rounding_flag(

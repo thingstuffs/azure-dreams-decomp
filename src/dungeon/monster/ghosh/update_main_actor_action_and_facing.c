@@ -49,16 +49,16 @@ extern u8 D_8016B778[];
 s8 find_active_rect_containing_point();
 s32 compare_monster_neighbor_values(s32, s32, s32, s32);
 s32 can_entity_gain_level();
-struct EntityRec; void update_actor_status_and_food(struct EntityRec *);
+struct ActorRecord; void update_actor_status_and_food(struct ActorRecord *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 s32 begin_ready_actor_directional_action();
-struct EntityRec; struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct EntityRec *);
+struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
 s32 reset_actor_action_state(void *, s32, void *, u8 *);
 void begin_actor_spell_action(void *, s32, void *, u8 *, s32);
 void advance_entity_along_path(void *, void *, void *, void *);
 void advance_actor_path();
 s32 func_8016C720();
-struct EntityRec; struct Rec_func_800A9E70_arg0; void clear_actor_flag_and_advance_action(struct Rec_func_800A9E70_arg0 *, s32, void *, struct EntityRec *);
+struct Rec_func_800A9E70_arg0; void clear_actor_flag_and_advance_action(struct Rec_func_800A9E70_arg0 *, s32, void *, struct ActorRecord *);
 struct Rec_func_800A9E70_arg0; s32 dispatch_actor_action_phase(struct Rec_func_800A9E70_arg0 *, s32, s32, s32);
 extern void func_8016DAA4(CallbackOwner *owner, s32 unused, s32 first, s32 second);
 s32 execute_actor_script_command(u8 *, s32, u8 *);
@@ -66,7 +66,7 @@ extern M2C_UNK D_8017469C;
 extern M2C_UNK D_801746BC;
 
 /* Update the actor's dungeon action, animation, and facing direction. */
-void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 context, S_8016B778_2 *map_actor, EntityRec *entity) {
+void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 context, S_8016B778_2 *map_actor, ActorRecord *entity) {
     u16 target_distance;
     s32 entity_flags;
     s32 state_flags;
@@ -156,13 +156,13 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             return;
         }
         if ((can_entity_gain_level(entity) << 0x10) != 0) {
-            entity->unk_18 = 0;
+            entity->experience = 0;
             g_dungeon_status.active_actor = 0;
         }
     }
     tile_index = find_active_rect_containing_point(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v);
     map_actor->unk_26 = tile_index;
-    if (entity->unk_6D > 0) {
+    if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & 0x20) {
             update_actor_status_and_food(entity);
             return;
@@ -171,7 +171,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             advance_actor_path(actor, context, map_actor, entity);
             return;
         }
-        if (!(entity->unk_46 & 0x8000)) {
+        if (!(entity->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity, ((S_8016B778_3 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
                     return;
@@ -179,22 +179,22 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             }
             if ((u16) *((s16 *)&D_80013714) & 8) {
                 execute_actor_script_command((u8 *)(actor), context, (u8 *)(map_actor));
-                entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+                entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
                 update_actor_status_and_food(entity);
-                entity->unk_46 &= 0x7FFF;
+                entity->action_flags &= 0x7FFF;
                 return;
             }
             if ((dispatch_actor_action_phase(actor, context, (s32)(map_actor), 0) << 0x10) == 0) {
                 return;
             }
-            action_flags = entity->unk_46 | 0x4000;
-            entity->unk_46 = action_flags;
+            action_flags = entity->action_flags | 0x4000;
+            entity->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
                 advance_actor_path(actor, context, map_actor, entity);
                 return;
             }
         }
-        action_id = entity->unk_46 & 0x3FFF;
+        action_id = entity->action_flags & 0x3FFF;
         switch (action_id) {
         case 8:
         case 9:

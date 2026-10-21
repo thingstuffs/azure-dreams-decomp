@@ -28,7 +28,7 @@ void adjust_source_value_and_finalize();           /* extern */
 s32 set_or_clear_actor_status_slot();        /* extern */
 void apply_item_effect_at_entity_position();                 /* extern */
 void display_item_status_message(void *entity, s32 item, s16 action_type);   /* extern */
-s32 apply_actor_food_preference();            /* extern */
+s32 feed_actor_restore_mp();            /* extern */
 void *spawn_randomized_particle_burst(); /* extern */
 extern M2C_UNK D_800E1729;
 
@@ -43,7 +43,7 @@ s32 use_item_to_apply_poison(void *entity, s32 item, s16 action_type) {
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, item, action_type);
-        if (apply_actor_food_preference(entity, (*((u16 *)(((u8 *)entity_action_selectors) + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2))
+        if (feed_actor_restore_mp(entity, (*((u16 *)(((u8 *)entity_action_selectors) + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2))
             >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, item);
             return 1;

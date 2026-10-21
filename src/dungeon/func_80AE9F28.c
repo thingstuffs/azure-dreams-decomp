@@ -49,7 +49,7 @@ typedef struct ActorSpriteView {
     void * animationTable;
 } ActorSpriteView;
 
-void update_creature_action_behavior_variant(void *controller, void *context, void *sprite, EntityRec *creature)
+void update_creature_action_behavior_variant(void *controller, void *context, void *sprite, ActorRecord *creature)
 {
     u8 *anim_table;
     s32 direction_flags;
@@ -63,7 +63,7 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
         return;
     }
 
-    if (creature->tileY == 0) {
+    if (creature->mp == 0) {
         advance_actor_pending_action(controller, context, sprite, creature);
         if (((ActorSpriteView *)sprite)->animationTable == D_80150E4C) {
             return;
@@ -139,7 +139,7 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
     room_id = find_active_rect_containing_point(((ActorSpriteView *)sprite)->tile.bytes.x, ((ActorSpriteView *)sprite)->tile.bytes.y);
     ((ActorSpriteView *)sprite)->room = room_id;
 
-    if (creature->unk_6D > 0) {
+    if (creature->pending_turn_updates > 0) {
         if (((u32)creature->flags1C) & 0x20) {
             update_actor_status_and_food(creature);
             return;
@@ -148,7 +148,7 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
             func_8014DF40(controller, context, sprite, creature);
             return;
         }
-        if (!(creature->unk_46 & 0x8000)) {
+        if (!(creature->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(creature,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -158,15 +158,15 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
             if ((func_8014E9EC(controller, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_flags = creature->unk_46 | 0x4000;
-            creature->unk_46 = action_flags;
+            action_flags = creature->action_flags | 0x4000;
+            creature->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
                 func_8014DF40(controller, context, sprite, creature);
                 return;
             }
         }
 
-        action_flags = creature->unk_46 & 0x3FFF;
+        action_flags = creature->action_flags & 0x3FFF;
         switch (action_flags) {
         case 8:
             if ((func_8014E710(controller, context, sprite, creature) << 16) != 0) {
@@ -183,7 +183,7 @@ void update_creature_action_behavior_variant(void *controller, void *context, vo
         case 6:
         case 7:
             {
-                EntityRec *player;
+                ActorRecord *player;
                 s16 heading;
 
                 heading = get_rounded_facing_and_rounding_flag(

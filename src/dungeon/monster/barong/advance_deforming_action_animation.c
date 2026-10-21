@@ -33,7 +33,7 @@ typedef struct S_801750F8_2 {
 extern s32 func_801744E0(void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void create_randomized_item_object(void *, void *, void *, void *);
 
 extern u8 D_801716F4[];
@@ -190,7 +190,7 @@ void advance_deforming_action_animation(void *action_in, void *direction_data_in
         select_sprite_entry(sprite,
             D_8017555C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        reduce_actor_food_meter(actor, 0x1000);
+        spend_actor_mp(actor, 0x1000);
         ((S_801750F8_0 *)action_in)->unk_8C = D_801716F4;
         g_dungeon_status.active_actor = 0;
         ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;

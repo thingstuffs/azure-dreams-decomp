@@ -62,7 +62,7 @@ extern void advance_status_timers(void *);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern void play_sound_if_enabled(s32);
 extern void refresh_actor_proximity_state(u8 *context);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Updates movement, destination selection, and recovery animation for the object. */
@@ -214,7 +214,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
                 (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
             ((S_80174428_0 *)object)->unk_88 = height;
             ((S_80174428_2 *)actor)->unk_2C = D_80174F00;
-            reduce_actor_food_meter(object, 0x200);
+            spend_actor_mp(object, 0x200);
             select_sprite_entry(actor,
                 ((S_80174428_2 *)actor)->unk_2C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)
                     >> 9) & 7], 0);

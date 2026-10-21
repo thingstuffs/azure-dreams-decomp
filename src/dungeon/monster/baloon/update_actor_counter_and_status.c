@@ -24,8 +24,8 @@ typedef struct S_80175BE0_1 {
 
 
 /* Reset motion and transfer the pending amount after the entity checks pass. */
-void update_actor_counter_and_status(S_80175BE0_1 *state, EntityRec *motion, s32 unused, EntityRec *entity) {
-    entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+void update_actor_counter_and_status(S_80175BE0_1 *state, EntityRec *motion, s32 unused, ActorRecord *entity) {
+    entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)entity - 0x20, motion, 8, 0x300);
         if ((try_claim_dungeon_action_slot(entity) << 0x10) == 0) {
@@ -36,12 +36,12 @@ void update_actor_counter_and_status(S_80175BE0_1 *state, EntityRec *motion, s32
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
-            state->unk_92 = (u16) (state->unk_92 + ((u16)entity->unk_88));
-            state->unk_B4 = (u16) ((u16)entity->unk_88);
-            entity->unk_88 = 0U;
+            state->unk_92 = (u16) (state->unk_92 + ((u16)entity->ground_height));
+            state->unk_B4 = (u16) ((u16)entity->ground_height);
+            entity->ground_height = 0U;
             state->unk_98 = (u16) (state->unk_98 | 8);
             advance_status_timers(entity);
-            entity->unk_6D = (u8) (((u8)entity->unk_6D) - 1);
+            entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
         }
     }
 }

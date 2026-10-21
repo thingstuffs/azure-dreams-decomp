@@ -11,14 +11,14 @@ typedef struct S_801722DC_0 {
 
 s32 advance_status_timers();                     /* extern */
 s32 update_actor_movement_to_tile(move_state, motion, target_tile, actor);                                /* extern */
-void reduce_actor_food_meter();            /* extern */
+void spend_actor_mp();            /* extern */
 s32 check_actor_floor_trap();                /* extern */
-void func_80170E54(void *controller, void *context, void *entity, EntityRec *actor_state);
+void func_80170E54(void *controller, void *context, void *entity, ActorRecord *actor_state);
 
 /* Process an interaction and reset the object's state when the checks allow it. */
 void process_interaction_and_reset_state(S_801722DC_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
-        reduce_actor_food_meter(target, 5);
+        spend_actor_mp(target, 5);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
             return;

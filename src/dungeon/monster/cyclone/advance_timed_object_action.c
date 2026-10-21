@@ -42,7 +42,7 @@ typedef struct Obj3 {
     struct Obj3 *field60;
 } Obj3;
 
-extern void reduce_actor_food_meter(Obj3 *, s32);
+extern void spend_actor_mp(Obj3 *, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
 extern void select_sprite_entry(Obj2 *, u8, s32);
@@ -109,7 +109,7 @@ void advance_timed_object_action(Obj0 *controller, void *context, Obj2 *object, 
         if ((ticks_left << 0x10) != 0 && (object->field14 & 0xE000) == 0) {
             return;
         }
-        reduce_actor_food_meter(actor, 0x400);
+        spend_actor_mp(actor, 0x400);
         set_record_integer_tile_center(context, object->field24, object->field25);
         controller->field8c = D_80171094;
         g_dungeon_status.active_actor = 0;

@@ -12,7 +12,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void create_parent_attached_effect(void *, void *, void *);
 
 extern u8 D_80171FA4[9];
@@ -38,7 +38,7 @@ typedef struct S_80173930_0 {
 } S_80173930_0;   /* arg0 in update_staged_movement_height_and_animation */
 
 /* Updates the actor's staged movement, height, and directional animation. */
-void update_staged_movement_height_and_animation(void *motion, EntityRec *velocity, void *sprite, EntityRec *actor)
+void update_staged_movement_height_and_animation(void *motion, ObjectPosition *velocity, void *sprite, ActorRecord *actor)
 {
     u8 state;
 
@@ -62,9 +62,9 @@ void update_staged_movement_height_and_animation(void *motion, EntityRec *veloci
         ((SpriteFrameState *)sprite)->unk_05 -= 2;
         {
             u32 direction_offset = ((u16)actor->facing >> 8) & 0xE;
-            velocity->unk_0C -=
+            velocity->velocity_x -=
                 (s32)*(s16 *)((u8 *)((s8 *)dir_step_x) + direction_offset) << 16;
-            velocity->unk_10 -=
+            velocity->velocity_y -=
                 (s32)*(s16 *)((u8 *)((s8 *)dir_step_y) + direction_offset) << 16;
         }
         if (((SpriteFrameState *)sprite)->flags & 0x6000) {
@@ -83,16 +83,16 @@ void update_staged_movement_height_and_animation(void *motion, EntityRec *veloci
         ((S_80173930_0 *)motion)->unk_A0.at02.v = height;
         if ((s16)height >= 0x31) {
             ((S_80173930_0 *)motion)->unk_A0.at02.v = 0x30;
-            velocity->unk_10 = 0;
-            velocity->unk_0C = 0;
+            velocity->velocity_y = 0;
+            velocity->velocity_x = 0;
         }
     }
         if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             return;
         }
-        velocity->flags14 = 0;
-        velocity->unk_10 = 0;
-        velocity->unk_0C = 0;
+        velocity->velocity_z = 0;
+        velocity->velocity_y = 0;
+        velocity->velocity_x = 0;
         if (((S_80173930_0 *)motion)->unk_A0.at02u.v < 0x30) {
             return;
         }
@@ -116,11 +116,11 @@ void update_staged_movement_height_and_animation(void *motion, EntityRec *veloci
         u8 *direction_y = (u8 *)((s8 *)dir_step_y);
         u16 frame;
 
-        velocity->unk_0C +=
+        velocity->velocity_x +=
             (s32)*(s16 *)(direction_x +
                 (((u16)actor->facing >> 8) & 0xE)) << 17;
 
-        velocity->unk_10 +=
+        velocity->velocity_y +=
             (s32)*(s16 *)(direction_y +
                 (((u16)actor->facing >> 8) & 0xE)) << 17;
 
@@ -138,23 +138,23 @@ void update_staged_movement_height_and_animation(void *motion, EntityRec *veloci
             D_80175C70[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
-        velocity->unk_0C =
+        velocity->velocity_x =
             -*(s16 *)(direction_x +
                 (((u16)actor->facing >> 8) & 0xE)) << 20;
 
-        velocity->unk_10 =
+        velocity->velocity_y =
             -*(s16 *)(direction_y +
                 (((u16)actor->facing >> 8) & 0xE)) << 20;
-        ((S_80173930_0 *)motion)->unk_A8 = velocity->unk_0C / 6;
-        ((S_80173930_0 *)motion)->unk_AC = velocity->unk_10 / 6;
+        ((S_80173930_0 *)motion)->unk_A8 = velocity->velocity_x / 6;
+        ((S_80173930_0 *)motion)->unk_AC = velocity->velocity_y / 6;
         ((S_80173930_0 *)motion)->unk_96.u = 0;
         ((S_80173930_0 *)motion)->unk_9B++;
         return;
     }
 
     case 4:
-        velocity->unk_0C -= ((S_80173930_0 *)motion)->unk_A8;
-        velocity->unk_10 -= ((S_80173930_0 *)motion)->unk_AC;
+        velocity->velocity_x -= ((S_80173930_0 *)motion)->unk_A8;
+        velocity->velocity_y -= ((S_80173930_0 *)motion)->unk_AC;
         ((S_80173930_0 *)motion)->unk_A0.at00.v =
             func_800644B8(((S_80173930_0 *)motion)->unk_96.s * 146) * 160 + 0x100000;
 
@@ -167,15 +167,15 @@ void update_staged_movement_height_and_animation(void *motion, EntityRec *veloci
             return;
         }
     }
-        velocity->flags14 = 0;
-        velocity->unk_10 = 0;
-        velocity->unk_0C = 0;
+        velocity->velocity_z = 0;
+        velocity->velocity_y = 0;
+        velocity->velocity_x = 0;
         set_record_integer_tile_center(velocity, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_80173930_0 *)motion)->unk_8C = D_80171FA4;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        actor->unk_46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
         break;
     default:
         return;

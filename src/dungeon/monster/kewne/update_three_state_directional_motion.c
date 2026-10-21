@@ -15,7 +15,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern u8 D_801710EC[];
 extern u8 D_80175E88[];
@@ -140,7 +140,7 @@ advance_state:
         if ((U16(sprite, 0x14) & 0xE000) == 0) {
             return;
         }
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         PTR(action, 0x8C) = D_801710EC;
         S32(D_80080000, 0x346C) = 0;
         U16(actor, 0x46) &= 0x7FFF;

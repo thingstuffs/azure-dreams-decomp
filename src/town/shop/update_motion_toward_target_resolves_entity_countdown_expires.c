@@ -16,7 +16,7 @@ extern s32 D_800D09C8[];
 
 
 /* Updates motion toward the target and resolves the entity when its countdown expires. */
-void update_motion_toward_target_resolves_entity_countdown_expires(void *entity, s32 context, EntityRec *motion, s32 mode) {
+void update_motion_toward_target_resolves_entity_countdown_expires(void *entity, s32 context, ObjectPosition *motion, s32 mode) {
     s32 result[5];
     s8 *linked_flag;
     s8 *clear_flag;
@@ -25,11 +25,11 @@ void update_motion_toward_target_resolves_entity_countdown_expires(void *entity,
     s32 offset_z;
     u8 slot;
 
-    motion->unk_0C = (s32)((s32)(D_80083780.x.v - motion->x.v) / 2);
+    motion->velocity_x = (s32)((s32)(D_80083780.x.v - motion->x.v) / 2);
     delta_y = D_80083780.y.v - motion->y.v;
-    motion->unk_10 = (s32)((s32)(delta_y + (delta_y >> 31)) >> 1);
+    motion->velocity_y = (s32)((s32)(delta_y + (delta_y >> 31)) >> 1);
     offset_z = motion->z.v + 0x200000;
-    motion->flags14 = (s32)((s32)(D_80083780.z.v - offset_z) / 2);
+    motion->velocity_z = (s32)((s32)(D_80083780.z.v - offset_z) / 2);
     add_motion_deltas_to_position(motion);
     ticks_left = ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 - 1;
     ((Rec_D_800CFCB4 *)entity)->unk_6C.as_u16 = ticks_left;

@@ -34,7 +34,7 @@ typedef struct S_8009C4E8_2 {
 } S_8009C4E8_2;   /* arg2 in update_timed_object_to_height_limit */
 
 /* Updates a timed object, expiring it or stopping its motion at the height limit. */
-void update_timed_object_to_height_limit(void *object, EntityRec *motion, S_8009C4E8_2 *appearance) {
+void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, S_8009C4E8_2 *appearance) {
     s16 height_limit;
     u16 timer;
 
@@ -52,9 +52,9 @@ void update_timed_object_to_height_limit(void *object, EntityRec *motion, S_8009
     height_limit = query_lowered_transform_position(motion);
     if (motion->z.w.i > height_limit) {
         motion->z.w.i = height_limit;
-        motion->unk_0C = 0;
-        motion->unk_10 = 0;
-        motion->flags14 = 0;
+        motion->velocity_x = 0;
+        motion->velocity_y = 0;
+        motion->velocity_z = 0;
         appearance->unk_0E = 0x40;
         appearance->unk_0D = 0x40;
         appearance->unk_0C = 0x40;

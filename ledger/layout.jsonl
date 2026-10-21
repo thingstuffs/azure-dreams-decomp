@@ -3575,8 +3575,8 @@
 {"id":"dungeon/func_800A78F8","path":"src/dungeon/actor/update_actor_defeat_removal.c"}
 {"id":"dungeon/func_800A7D70","path":"src/dungeon/actor/apply_clamped_actor_value_delta.c"}
 {"id":"dungeon/func_800A7E08","path":"src/dungeon/actor/cap_pending_actor_value_delta.c"}
-{"id":"dungeon/func_800A7E34","path":"src/dungeon/actor/reduce_actor_food_meter.c"}
-{"id":"dungeon/func_800A7F9C","path":"src/dungeon/actor/apply_actor_food_preference.c"}
+{"id":"dungeon/func_800A7E34","path":"src/dungeon/actor/spend_actor_mp.c"}
+{"id":"dungeon/func_800A7F9C","path":"src/dungeon/actor/feed_actor_restore_mp.c"}
 {"id":"dungeon/func_800A8254","path":"src/dungeon/actor/check_actor_floor_trap.c"}
 {"id":"dungeon/func_800A8384","path":"src/dungeon/actor/trigger_actor_floor_trap.c"}
 {"id":"dungeon/func_800A842C","path":"src/dungeon/actor/state/retire_effect_when_status_set.c"}

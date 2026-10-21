@@ -27,7 +27,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void func_8015321C(void *, void *, void *, void *);
 extern void func_801534FC(void *, void *, void *, void *);
 
@@ -37,7 +37,7 @@ extern u8 D_80157DE4[8];
 extern u8 D_80157DEC[8];
 
 /* Advance the actor action animation and trigger its timed effects. */
-void advance_actor_action_effects(void *action, void *motion, void *sprite, EntityRec *actor)
+void advance_actor_action_effects(void *action, void *motion, void *sprite, ActorRecord *actor)
 {
     s16 timer;
     u8 state;
@@ -104,11 +104,11 @@ void advance_actor_action_effects(void *action, void *motion, void *sprite, Enti
 
     case 3:
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             ((S_801563C4_0 *)action)->unk_8C = D_801544BC;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            actor->unk_46 &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
         }
         return;
 

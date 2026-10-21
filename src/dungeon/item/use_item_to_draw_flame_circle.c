@@ -31,7 +31,7 @@ void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message();                   /* extern */
 void apply_item_effect_at_entity_position();                 /* extern */
 void display_actor_item_status_message();            /* extern */
-s32 apply_actor_food_preference();                /* extern */
+s32 feed_actor_restore_mp();                /* extern */
 s32 create_five_point_effect(); /* extern */
 extern M2C_UNK D_800C135C;
 extern u8 D_800DEAE0[];
@@ -52,7 +52,7 @@ s32 use_item_to_draw_flame_circle(void *object, s32 value, s16 operation, s32 co
     }
     if ((u32) object <= 0x9FFFFFFFU) {
         display_actor_item_status_message(object, value, operation);
-        if (apply_actor_food_preference(object, entity_action_selectors[((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_27] & 3, value) == 0) {
+        if (feed_actor_restore_mp(object, entity_action_selectors[((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_27] & 3, value) == 0) {
             apply_item_effect_at_entity_position(object, value);
             return 1;
         }

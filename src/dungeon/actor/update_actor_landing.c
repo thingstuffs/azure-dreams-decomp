@@ -24,13 +24,13 @@ s16 get_rounded_facing_and_rounding_flag();       /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 advance_status_timers();                      /* extern */
 void on_actor_status_updated(void *actor);                      /* extern */
-void reduce_actor_food_meter();             /* extern */
+void spend_actor_mp();             /* extern */
 s32 check_actor_floor_trap();                  /* extern */
-void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, EntityRec *status);
+void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
 extern void *D_800E262C[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
-void update_actor_landing(void *motion_state, EntityRec *transform, void *map_entity, EntityRec *actor) {
+void update_actor_landing(void *motion_state, ObjectPosition *transform, void *map_entity, ActorRecord *actor) {
     s32 direction_aux;
     void **animation_table;
     s32 frames_left;
@@ -47,7 +47,7 @@ void update_actor_landing(void *motion_state, EntityRec *transform, void *map_en
     switch (phase) {
     case 0:
         ((S_800D991C_0 *)motion_state)->unk_98 = (u16) (((S_800D991C_0 *)motion_state)->unk_98 | 8);
-        transform->flags14 = 0xFFF00000;
+        transform->velocity_z = 0xFFF00000;
         actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
         ((S_800D991C_0 *)motion_state)->unk_A4 = 0;
         ((S_800D991C_0 *)motion_state)->unk_9B = (u8) (((S_800D991C_0 *)motion_state)->unk_9B + 1);
@@ -60,13 +60,13 @@ void update_actor_landing(void *motion_state, EntityRec *transform, void *map_en
             current_x = transform->x.w.i - 0x20;
             velocity_x = (s32) ((target_x - current_x) << 0x10) / frames_left;
             current_y = transform->y.w.i - 0x20;
-            transform->unk_0C = velocity_x;
+            transform->velocity_x = velocity_x;
             target_y = ((SpriteFrameState *)map_entity)->unk_25 << 6;
-            transform->unk_10 = (s32) ((s32) ((target_y - current_y)
+            transform->velocity_y = (s32) ((s32) ((target_y - current_y)
                 << 0x10) / (s16) ((S_800D991C_0 *)motion_state)->unk_96);
             ((S_800D991C_0 *)motion_state)->unk_A4 = (s32) (((S_800D991C_0 *)motion_state)->unk_A4
-                + transform->flags14);
-            transform->flags14 = (s32) (transform->flags14 + 0x48000);
+                + transform->velocity_z);
+            transform->velocity_z = (s32) (transform->velocity_z + 0x48000);
         }
         ((S_800D991C_0 *)motion_state)->unk_90 = (s32) (((S_800D991C_0 *)motion_state)->unk_90
             + ((S_800D991C_0 *)motion_state)->unk_A4);
@@ -79,9 +79,9 @@ void update_actor_landing(void *motion_state, EntityRec *transform, void *map_en
     case 2:
         if (actor->flags1C & 0x08000000) {
             ((S_800D991C_0 *)motion_state)->unk_98 = (u16) (((S_800D991C_0 *)motion_state)->unk_98 & 0xFFF7);
-            transform->flags14 = 0;
-            transform->unk_10 = 0;
-            transform->unk_0C = 0;
+            transform->velocity_z = 0;
+            transform->velocity_y = 0;
+            transform->velocity_x = 0;
             set_record_integer_tile_center(transform, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
             animation_table = D_800E262C;
             ((SpriteFrameState *)map_entity)->frameTable = animation_table;
@@ -93,11 +93,11 @@ void update_actor_landing(void *motion_state, EntityRec *transform, void *map_en
         next_timer = (u16) ((S_800D991C_0 *)motion_state)->unk_96 - 1;
         ((S_800D991C_0 *)motion_state)->unk_96 = next_timer;
         if ((next_timer << 0x10) <= 0) {
-            transform->flags14 = 0;
-            transform->unk_10 = 0;
-            transform->unk_0C = 0;
+            transform->velocity_z = 0;
+            transform->velocity_y = 0;
+            transform->velocity_x = 0;
             set_record_integer_tile_center(transform, ((SpriteFrameState *)map_entity)->unk_24, ((SpriteFrameState *)map_entity)->unk_25);
-            reduce_actor_food_meter(actor, 4);
+            spend_actor_mp(actor, 4);
             advance_status_timers(actor);
             if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
                 g_dungeon_status.activity_counts.parts.pending_movement_count = (s16) ((u16) g_dungeon_status.activity_counts.parts.pending_movement_count - 1);

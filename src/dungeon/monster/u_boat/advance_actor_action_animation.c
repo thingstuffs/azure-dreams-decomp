@@ -34,7 +34,7 @@ extern u8 D_800E2430[];
 extern u8 D_80171A80[];
 
 /* Advance an actor action through animation completion and status checks. */
-void advance_actor_action_animation(void *action, s32 actor_index, void *sprite, EntityRec *actor)
+void advance_actor_action_animation(void *action, s32 actor_index, void *sprite, ActorRecord *actor)
 {
     s32 action_state;
     u16 reset_offset;
@@ -85,7 +85,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
             update_actor_action_transition(action, actor_index, sprite, actor);
             return;
         }
-        if (actor->unk_6D == 0) {
+        if (actor->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
@@ -95,7 +95,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
         }
         update_actor_status_and_food(actor);
         on_actor_status_updated(actor);
-        if (actor->tileY == 0) {
+        if (actor->mp == 0) {
             return;
         }
         (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;

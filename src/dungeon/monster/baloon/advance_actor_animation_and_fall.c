@@ -9,7 +9,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 extern u8 D_800E2380[8];
@@ -40,7 +40,7 @@ typedef struct S_801737F8_1 {
 } S_801737F8_1;   /* arg1 in advance_actor_animation_and_fall */
 
 /* Advance the actor animation state, timers, and downward movement. */
-void advance_actor_animation_and_fall(void *action, void *motion, void *sprite, EntityRec *actor)
+void advance_actor_animation_and_fall(void *action, void *motion, void *sprite, ActorRecord *actor)
 {
     u8 state;
 
@@ -62,8 +62,8 @@ void advance_actor_animation_and_fall(void *action, void *motion, void *sprite, 
         if (((S_801737F8_0 *)action)->unk_92.s !=
             (s16)(sample_terrain_surface_height(((S_801737F8_1 *)motion)->unk_02,
                                 ((S_801737F8_1 *)motion)->unk_06,
-                                (s16)(((u16)actor->unk_88) - 0x20)) -
-                  ((u16)actor->unk_88))) {
+                                (s16)(((u16)actor->ground_height) - 0x20)) -
+                  ((u16)actor->ground_height))) {
             return;
         }
         ((S_801737F8_0 *)action)->unk_9B++;
@@ -125,11 +125,11 @@ void advance_actor_animation_and_fall(void *action, void *motion, void *sprite, 
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_801737F8_0 *)action)->unk_8C = &D_80171F1C;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        actor->unk_46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
         actor->flags1C |= 0x40000;
         ((S_801737F8_0 *)action)->unk_98 |= 8;
         ((SpriteFrameState *)sprite)->flags = ((SpriteFrameState *)sprite)->flags & 0xFFF3;

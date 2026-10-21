@@ -82,7 +82,7 @@ extern u8 D_800E2428[];
 extern u8 D_80171A80[];
 
 /* Updates dungeon actor animation, status, and action dispatch. */
-void update_actor_turn_and_action(void *entity, void *context, void *sprite, EntityRec *actor)
+void update_actor_turn_and_action(void *entity, void *context, void *sprite, ActorRecord *actor)
 {
     s32 distance;
     s8 room_id;
@@ -94,7 +94,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Ent
         return;
     }
 
-    if (actor->tileY == 0) {
+    if (actor->mp == 0) {
         if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
             void *anim_table;
 
@@ -188,7 +188,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Ent
         ((S_80171A80_2 *)sprite)->unk_24.at01.v);
     ((S_80171A80_2 *)sprite)->unk_26 = room_id;
 
-    if (actor->unk_6D > 0) {
+    if (actor->pending_turn_updates > 0) {
         if (((u32)actor->flags1C) & 0x20) {
             update_actor_status_and_food(actor);
             return;
@@ -197,7 +197,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Ent
             choose_and_execute_actor_step(entity, context, sprite, actor);
             return;
         }
-        if (!(actor->unk_46 & 0x8000)) {
+        if (!(actor->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -207,15 +207,15 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Ent
             if ((func_80172EA8(entity, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_state = actor->unk_46 | 0x4000;
-            actor->unk_46 = action_state;
+            action_state = actor->action_flags | 0x4000;
+            actor->action_flags = action_state;
             if (!(action_state & 0x8000)) {
                 choose_and_execute_actor_step(entity, context, sprite, actor);
                 return;
             }
         }
 
-        action_state = actor->unk_46 & 0x3FFF;
+        action_state = actor->action_flags & 0x3FFF;
         switch (action_state) {
         case 8:
             if ((try_turn_actor_toward_target(entity, context, sprite, actor) << 16) != 0) {
@@ -248,7 +248,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Ent
         case 6:
         case 7:
             if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-                EntityRec *player;
+                ActorRecord *player;
                 s16 facing;
 
                 facing = get_rounded_facing_and_rounding_flag(

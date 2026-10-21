@@ -426,7 +426,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
     EntityRec *origin_second;
     Row_819A1654_Coord *origin_path;
     u8 *copy_page;
-    EntityRec *world;
+    ActorRecord *world;
     void *focus;
     Row_819A1654_Coord *focus_coord;
     s32 spawn_index;
@@ -435,7 +435,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
     s32 sound_id;
     s32 saved_timer;
     s16 rechecked_timer;
-    EntityRec *start_world;
+    ActorRecord *start_world;
     Row_819A1654_World *hit_world;
     void (*particle_callback)(void);
 
@@ -450,7 +450,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
         switch (dispatch_state) {
         case 0:
         start_world = D_800814A8;
-        start_world->unk_F4 = 0;
+        ((PlayerRecord *)start_world)->unk_F4 = 0;
         start_world->unk_96 = 20;
         D_80082E86[0] = 6;
         entity->state++;

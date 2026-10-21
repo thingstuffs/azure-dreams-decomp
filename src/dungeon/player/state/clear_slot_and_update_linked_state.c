@@ -32,19 +32,19 @@ void clear_slot_and_update_linked_state(s32 *slot) {
             return;
         }
         if ((u8 *)slot == D_80081484) {
-            EntityRec *state = D_800E3D7C;
-            state->unk_124 = 0;
+            ActorRecord *state = D_800E3D7C;
+            ((PlayerRecord *)state)->unk_124 = 0;
             state->flags1C &= 0xFFEFFFFF;
             return;
         }
-        if ((u8 *)slot == D_80081470 || slot == ((s32 *)D_800E3D7C->unk_F0)) {
+        if ((u8 *)slot == D_80081470 || slot == ((s32 *)((PlayerRecord *)D_800E3D7C)->selected_floor_entry)) {
             s16 record_index;
             *(s32 *)D_80081470 = 0;
-            record_index = get_bounded_stride_index(((s32 *)D_800E3D7C->unk_F0), ((u8 *)D_800E3548), 4, 0x40);
+            record_index = get_bounded_stride_index(((s32 *)((PlayerRecord *)D_800E3D7C)->selected_floor_entry), ((u8 *)D_800E3548), 4, 0x40);
             if (record_index >= 0) {
                 update_map_cell_flags_with_item_limit(D_800E36C8[record_index].first, D_800E36C8[record_index].second, 0x800);
             }
-            *(s32 *)D_800E3D7C->unk_F0 = 0;
+            *(s32 *)((PlayerRecord *)D_800E3D7C)->selected_floor_entry = 0;
         }
     }
 }

@@ -22,7 +22,7 @@ extern u8 D_80174158[];
 extern u8 D_80174160[];
 
 /* Advance actor states, select directional animations, and process entity actions. */
-void advance_actor_states_and_process_actions(void *actor, void *context, void *animation, EntityRec *entity)
+void advance_actor_states_and_process_actions(void *actor, void *context, void *animation, ActorRecord *entity)
 {
     s32 state;
 
@@ -49,7 +49,7 @@ void advance_actor_states_and_process_actions(void *actor, void *context, void *
     {
         u32 entity_flags;
 
-        if (entity->tileY != 0) {
+        if (entity->mp != 0) {
 
             (*(void * *)((u8 *)animation + 0x2C)) = D_80174160;
             select_sprite_entry(animation,
@@ -95,7 +95,7 @@ void advance_actor_states_and_process_actions(void *actor, void *context, void *
             return;
         }
 
-        if (entity->unk_6D == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
@@ -107,7 +107,7 @@ void advance_actor_states_and_process_actions(void *actor, void *context, void *
 
         update_actor_status_and_food(entity);
         on_actor_status_updated(entity);
-        if (entity->tileY == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

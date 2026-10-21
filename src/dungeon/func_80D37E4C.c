@@ -67,7 +67,7 @@ extern void update_actor_behavior_variant_h(void *, void *, void *, void *);
 extern u8 D_80150E88[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
-void update_actor_ability_action(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
+void update_actor_ability_action(ActorActionView *action, ObjectPosition *motion, ActorSpriteView *sprite, ActorRecord *actor) {
     s16 effect_count;
     s32 ability_id;
     s32 normal_ability;
@@ -84,7 +84,7 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
     switch (phase) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            ability_id = actor->unk_46 & 0x3FFF;
+            ability_id = actor->action_flags & 0x3FFF;
             switch (ability_id) {
             case 7:
                 use_player = 1;
@@ -109,7 +109,7 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
                 break;
             }
         } else {
-            normal_ability = actor->unk_46 & 0x3FFF;
+            normal_ability = actor->action_flags & 0x3FFF;
             switch (normal_ability) {
             case 3:
                 ability = ((ActorAbilityView *)actor)->slots[2];
@@ -135,8 +135,8 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
                     {
                         target_sprite =
                             ((ActorSpriteSlot *)((u8 *)target - 0x14))->sprite;
-                        actor->unk_72 = ((SpriteFrameState *)target_sprite)->unk_24;
-                        actor->unk_73 = ((SpriteFrameState *)target_sprite)->unk_25;
+                        actor->target_tile_x = ((SpriteFrameState *)target_sprite)->unk_24;
+                        actor->target_tile_y = ((SpriteFrameState *)target_sprite)->unk_25;
                     }
                 } else {
                     u8 ability_kind;
@@ -148,8 +148,8 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
                             {
                                 target_sprite =
                                     ((ActorSpriteSlot *)((u8 *)target - 0x14))->sprite;
-                                actor->unk_72 = ((SpriteFrameState *)target_sprite)->unk_24;
-                                actor->unk_73 = ((SpriteFrameState *)target_sprite)->unk_25;
+                                actor->target_tile_x = ((SpriteFrameState *)target_sprite)->unk_24;
+                                actor->target_tile_y = ((SpriteFrameState *)target_sprite)->unk_25;
                             }
                         }
                     } else {
@@ -160,16 +160,16 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
                             s32 y;
 
                             *(void * volatile *)&actor->target = (void *)x;
-                            x = actor->unk_72;
-                            y = actor->unk_73;
+                            x = actor->target_tile_x;
+                            y = actor->target_tile_y;
                             if (x < 0) {
                                 x = -x;
                             }
                             if (y < 0) {
                                 y = -y;
                             }
-                            actor->unk_72 = x;
-                            actor->unk_73 = y;
+                            actor->target_tile_x = x;
+                            actor->target_tile_y = y;
                         }
                     }
                 }
@@ -181,18 +181,18 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
             action->phase = (u8) (action->phase + 1);
             return;
         } else {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
             g_dungeon_status.active_actor = 0;
             ((PlayerActionCounterView *)D_800814A8)->activeActions = (u16) (((PlayerActionCounterView *)D_800814A8)->activeActions - 1);
             advance_status_timers(actor);
-            actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             action->nextBehavior = &update_actor_behavior_variant_h;
-            actor->unk_73 = 0;
-            actor->unk_72 = 0;
-            actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
             return;
         }
     case 1:
@@ -236,9 +236,9 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         if (sprite->frameTable != D_80150E88) {
             (sprite->frameTable) = D_80150E88;
@@ -252,10 +252,10 @@ void update_actor_ability_action(ActorActionView *action, EntityRec *motion, Act
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         action->nextBehavior = &update_actor_behavior_variant_h;
         advance_status_timers(actor);
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-        actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         play_sound_if_enabled(0xB4);
         return;
     }

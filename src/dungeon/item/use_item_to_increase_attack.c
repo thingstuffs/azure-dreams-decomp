@@ -13,7 +13,7 @@ extern void clear_slot_and_update_linked_state(s32);
 extern void adjust_source_value_and_finalize(void *, void *);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_colored_effect_with_sound(void *source, s32 color, unsigned short sound_id);
 
 extern u8 D_800E1350[];
@@ -34,7 +34,7 @@ s32 use_item_to_increase_attack(void *entity, s32 action_id, s16 action_param)
 
     if ((u32)entity <= 0x9FFFFFFF) {
         display_item_status_message(entity, action_id, action_param);
-        if (apply_actor_food_preference(
+        if (feed_actor_restore_mp(
                 entity, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, action_id);
             return 1;

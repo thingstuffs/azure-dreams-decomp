@@ -42,7 +42,7 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s32 rand(void);
 extern s16 D_80025308;
 extern s32 rand(void);
-extern s32 begin_view_parameter_transition(PointRecord *, EntityRec *);
+extern s32 begin_view_parameter_transition(PointRecord *, ObjectPosition *);
 extern void create_randomized_transform_effect();
 extern s16 D_80025308;
 s32 func_800644B8(s16);                          /* extern */
@@ -89,7 +89,7 @@ void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_p
 
 /* Retail 8186E96C (begin_view_parameter_transition): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
-s32 begin_view_parameter_transition(PointRecord *start_node, EntityRec *start_coords)
+s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *start_coords)
 {
     GpuContext **state_ptr;
     Scratch8002416C *scratch;
@@ -97,7 +97,7 @@ s32 begin_view_parameter_transition(PointRecord *start_node, EntityRec *start_co
     GpuContext *final_state;
     PointPacket *packet;
     PointRecord *node;
-    EntityRec *coords;
+    ObjectPosition *coords;
     ObjectNodeHeader *prev_entry;
     u32 depth_index;
     u16 coord_x;
@@ -214,16 +214,16 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
     s16 position_x;
     s16 position_y;
     s16 position_z;
-    EntityRec *dest_x;
-    EntityRec *dest_y;
-    EntityRec *dest_z;
+    ObjectPosition *dest_x;
+    ObjectPosition *dest_y;
+    ObjectPosition *dest_z;
 
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
         spawned->unk_10 = (void *)create_randomized_transform_effect;
         jitter_x = rand() & 0x1F;
-        position_x = ((EntityRec *)source_obj->unk_08)->x.w.i;
+        position_x = ((ObjectPosition *)source_obj->unk_08)->x.w.i;
         dest_x = spawned->unk_08;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
@@ -231,7 +231,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
         dest_x->x.w.i = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((EntityRec *)source_obj->unk_08)->y.w.i;
+        position_y = ((ObjectPosition *)source_obj->unk_08)->y.w.i;
         dest_y = spawned->unk_08;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
@@ -240,7 +240,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
 
         jitter_z = rand();
         jitter_z &= 0x1F;
-        position_z = ((EntityRec *)source_obj->unk_08)->z.w.i;
+        position_z = ((ObjectPosition *)source_obj->unk_08)->z.w.i;
         fields = (PointRecord *)(spawned + 1);
         dest_z = spawned->unk_08;
         position_z += jitter_z;

@@ -18,7 +18,7 @@ extern void display_formatted_context_message(void *);
 extern void raise_entity_level(void *, s32);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern void create_view_color_flash(s32, s16);
 
@@ -47,7 +47,7 @@ typedef struct S_800BF9EC_3 {
 /* Applies an action to the target or eligible list nodes and updates action state. */
 s32 use_item_to_level_up_eligible_actors(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
 {
-    EntityRec *head;
+    ActorRecord *head;
     void *node;
 
     if (action_type == 13) {
@@ -62,7 +62,7 @@ s32 use_item_to_level_up_eligible_actors(EntityRec *target, s32 action_id, s16 a
 
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, action_id, action_type);
-        if (apply_actor_food_preference(target, entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3, action_id) == 0) {
+        if (feed_actor_restore_mp(target, entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3, action_id) == 0) {
             apply_item_effect_at_entity_position(target, action_id);
             return 1;
         }
@@ -71,7 +71,7 @@ s32 use_item_to_level_up_eligible_actors(EntityRec *target, s32 action_id, s16 a
         display_formatted_context_message(D_800E131C);
 
         head = D_800814A8;
-        node = (u8 *)((void *)head->unk_5C) + 0x20;
+        node = (u8 *)((void *)head->next_actor_header) + 0x20;
         if (node != head) {
             do {
                 if (((((S_800BF9EC_2 *)node)->unk_1C & 0x2400) != 0x2000 ||

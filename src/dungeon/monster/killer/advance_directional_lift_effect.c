@@ -45,7 +45,7 @@ extern s32 append_entity_display_text(void *record, u8 *out);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern void *D_800E3DE8;
 extern u8 D_80170854[];
@@ -124,7 +124,7 @@ void advance_directional_lift_effect(void *action_record, void *motion_data, voi
         if (((SpriteFrameState *)status_record)->flags & 0xE000) {
             ((S_80173C20_3 *)motion_data)->unk_10 = 0;
             ((S_80173C20_3 *)motion_data)->unk_0C = 0;
-            reduce_actor_food_meter(entity_data, 0x1000);
+            spend_actor_mp(entity_data, 0x1000);
             ((S_80173C20_0 *)action_record)->unk_8C = &D_80170EA8;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(entity_data);

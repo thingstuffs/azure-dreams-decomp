@@ -71,7 +71,7 @@ extern u8 D_8015DCA0[];
 extern u8 D_8015DCA8[];
 
 /* Updates an actor's animation and dispatches its dungeon behavior. */
-void update_actor_animation_and_dungeon_behavior(void *actor, void *context, void *sprite, EntityRec *entity)
+void update_actor_animation_and_dungeon_behavior(void *actor, void *context, void *sprite, ActorRecord *entity)
 {
     s32 distance;
     s8 room_id;
@@ -82,7 +82,7 @@ void update_actor_animation_and_dungeon_behavior(void *actor, void *context, voi
         func_8015A510(actor, context, sprite, entity);
         return;
     }
-    if (entity->tileY == 0) {
+    if (entity->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
@@ -179,13 +179,13 @@ void update_actor_animation_and_dungeon_behavior(void *actor, void *context, voi
     room_id = find_active_rect_containing_point(((S_80159FA4_2 *)sprite)->unk_24.at00.v, ((S_80159FA4_2 *)sprite)->unk_24.at01.v);
     ((S_80159FA4_2 *)sprite)->unk_26 = room_id;
 
-    if (entity->unk_6D > 0) {
+    if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & 0x20) {
             update_actor_status_and_food(entity);
             return;
         }
         if (((S_80159FA4_2 *)sprite)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tile_position.parts.tile_x)) {
-            if (!(entity->unk_46 & 0x8000)) {
+            if (!(entity->action_flags & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(entity,
                             (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -195,12 +195,12 @@ void update_actor_animation_and_dungeon_behavior(void *actor, void *context, voi
                 if ((func_8015B1CC(actor, context, sprite, 0) << 16) == 0) {
                     return;
                 }
-                behavior = entity->unk_46 | 0x4000;
-                entity->unk_46 = behavior;
+                behavior = entity->action_flags | 0x4000;
+                entity->action_flags = behavior;
             }
 
-            if (entity->unk_46 & 0x8000) {
-                behavior = entity->unk_46 & 0x3FFF;
+            if (entity->action_flags & 0x8000) {
+                behavior = entity->action_flags & 0x3FFF;
                 switch (behavior) {
                 case 8:
                 case 9:
@@ -214,7 +214,7 @@ void update_actor_animation_and_dungeon_behavior(void *actor, void *context, voi
                 case 6:
                 case 7:
                 {
-                    EntityRec *player;
+                    ActorRecord *player;
                     s16 facing_angle;
 
                     facing_angle = get_rounded_facing_and_rounding_flag(

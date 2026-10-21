@@ -17,7 +17,7 @@ s32 set_or_clear_actor_status_slot();
 s32 display_text_with_fullwidth_adjustment();
 void apply_item_effect_at_entity_position();
 void display_item_status_message();
-s32 apply_actor_food_preference();
+s32 feed_actor_restore_mp();
 void create_colored_effect_with_event();
 
 extern u8 D_80089358[];
@@ -67,7 +67,7 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
     } else {
         if ((u32)entity <= 0x9FFFFFFF) {
             display_item_status_message(entity, action_id, mode);
-            if (apply_actor_food_preference(entity, (entity_action_selectors[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
+            if (feed_actor_restore_mp(entity, (entity_action_selectors[((S_800BDEB8_0 *)entity)->unk_13] >> 6) & 3, 0) == 0) {
                 apply_item_effect_at_entity_position(entity, action_id);
                 return 1;
             }

@@ -881,7 +881,7 @@ s32 has_pending_dungeon_activity();
 s32 relink_entity_and_clear_high_flag();
 s32 advance_status_timers();
 s32 update_actor_movement_to_tile();
-s32 reduce_actor_food_meter();
+s32 spend_actor_mp();
 s32 check_actor_floor_trap();
 s32 update_linked_actor_motion();
 s32 resolve_attack_damage_and_effects();
@@ -974,14 +974,14 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
 /* Compatible C89 declaration: the earlier retail call retains incoming a2/a3. The later definition documents all four pointer parameters. */
 void update_actor_object_motion();
 void func_80171B1C(void *move_data, void *context, void *position_data, void *actor_data);
-s32 func_80172264(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, EntityRec *actor);
+s32 func_80172264(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_action_and_direction(void *action_state, void *context, SpriteFrameState *sprite, EntityRec *actor);
 s32 func_80172550(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void finish_actor_tile_move_then_initialize_destination(void *state, s32 unused, s32 source, s32 target);
 void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(Resource06CallbackState *state, void *entity, void *position, void *graphic);
-void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, EntityRec *motion, SpriteFrameState *sprite, void *actor);
-void start_selected_move_and_reset_action(void *action, EntityRec *position, void *sprite, EntityRec *actor);
-void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, EntityRec *motion, SpriteFrameState *tile_state, EntityRec *entity);
+void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor);
+void start_selected_move_and_reset_action(void *action, ObjectPosition *position, void *sprite, ActorRecord *actor);
+void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, ObjectPosition *motion, SpriteFrameState *tile_state, EntityRec *entity);
 void fade_sprites_and_remove_entity(void *actor, s32 unused, void *sprite, void *entity);
 void reset_record_motion_field_b(Rec_func_800AB538_arg0 *record, void *motion, void *scale, void *render);
 void func_80173458(void *state, void *motion, void *position, void *actor);

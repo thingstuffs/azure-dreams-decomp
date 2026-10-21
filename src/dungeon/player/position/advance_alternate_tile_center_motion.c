@@ -15,16 +15,16 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
 extern u8 D_800DD0E0[];
 
 /* Updates movement toward the destination tile and handles arrival when the timer expires. */
-void advance_alternate_tile_center_motion(void *actor, EntityRec *motion, void *sprite, EntityRec *facing) {
+void advance_alternate_tile_center_motion(void *actor, ObjectPosition *motion, void *sprite, EntityRec *facing) {
     u16 ticks_left;
 
     if (g_dungeon_status.flags & 0x80) {
         g_dungeon_status.movement_frames_left = 0;
     }
     if (g_dungeon_status.movement_frames_left != 0) {
-        motion->unk_0C = (s32) ((s32) ((((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 0x10)
+        motion->velocity_x = (s32) ((s32) ((((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 0x10)
             - motion->x.v) / g_dungeon_status.movement_frames_left);
-        motion->unk_10 = (s32) ((s32) ((((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 0x10)
+        motion->velocity_y = (s32) ((s32) ((((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 0x10)
             - motion->y.v) / g_dungeon_status.movement_frames_left);
     }
     if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x100) && (g_dungeon_status.movement_frames_left == 6)) {
@@ -44,9 +44,9 @@ void advance_alternate_tile_center_motion(void *actor, EntityRec *motion, void *
     g_dungeon_status.movement_frames_left = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         g_dungeon_status.movement_frames_left = 0U;
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         if ((collect_ground_item(actor, motion, sprite, facing) << 0x10) > 0) {
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &handle_carrying_player_input;

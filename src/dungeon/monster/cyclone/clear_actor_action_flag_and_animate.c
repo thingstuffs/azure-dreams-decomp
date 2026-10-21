@@ -22,8 +22,8 @@ typedef struct S_8017283C_1 {
 
 
 /* Clear the actor flag and, when allowed, start a directional animation and update its action state. */
-void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_context, Rec_D_80082E80 *animation, EntityRec *actor) {
-    actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
+void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_context, Rec_D_80082E80 *animation, ActorRecord *actor) {
+    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -33,7 +33,7 @@ void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_
             animation->unk_2C.as_pu8 = D_801764A0;
             select_sprite_entry(animation, D_801764A0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             advance_status_timers(actor);
-            actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             action_state->unk_98 = (u16) (action_state->unk_98 | 8);
         }
     }

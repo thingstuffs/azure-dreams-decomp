@@ -56,7 +56,7 @@ extern s32 play_sound_if_enabled();
 extern s32 create_actor_spell_effect();
 extern s32 func_80159498();
 
-void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void update_actor_ability_action_2(ActorActionView *action, ObjectPosition *motion, ActorSpriteView *sprite, ActorRecord *actor)
 {
     s32 use_player_target;
     s32 particle_count;
@@ -80,7 +80,7 @@ void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, A
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            raw_kind = actor->unk_46 & 0x3FFF;
+            raw_kind = actor->action_flags & 0x3FFF;
             kind_index = raw_kind - 1;
             switch (kind_index) {
             case 6:
@@ -106,7 +106,7 @@ void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, A
                 break;
             }
         } else {
-            selected = actor->unk_46 & 0x3FFF;
+            selected = actor->action_flags & 0x3FFF;
             switch (selected) {
             case 3:
                 action_data = ((ActorActionSlotsView *)actor)->third;
@@ -136,9 +136,9 @@ void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, A
 
                     selected = (s32)(((ObjectNodeHeader *)((EntityRec *)selection))[-1].unk_0C);
                     target_coordinate = ((EntityRec *)selected)->tileX;
-                    actor->unk_72 = target_coordinate;
+                    actor->target_tile_x = target_coordinate;
                     target_coordinate = ((EntityRec *)selected)->tileY;
-                    actor->unk_73 = target_coordinate;
+                    actor->target_tile_y = target_coordinate;
                 }
             } else if (D_8006DE24[*action_data].kind == 2) {
                 selection = (s32)(actor->target);
@@ -148,9 +148,9 @@ void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, A
 
                         selected = (s32)(((ObjectNodeHeader *)((EntityRec *)selection))[-1].unk_0C);
                         target_coordinate = ((EntityRec *)selected)->tileX;
-                        actor->unk_72 = target_coordinate;
+                        actor->target_tile_x = target_coordinate;
                         target_coordinate = ((EntityRec *)selected)->tileY;
-                        actor->unk_73 = target_coordinate;
+                        actor->target_tile_y = target_coordinate;
                     }
                 }
             } else {
@@ -162,8 +162,8 @@ void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, A
                     actor->facing,
                     0x10);
 
-                actor->unk_72 = abs(actor->unk_72);
-                actor->unk_73 = abs(actor->unk_73);
+                actor->target_tile_x = abs(actor->target_tile_x);
+                actor->target_tile_y = abs(actor->target_tile_y);
             }
 
             if (create_actor_spell_effect(actor, action_data, use_player_target, &action->flags) == 0) {
@@ -173,18 +173,18 @@ void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, A
             return;
 
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
         g_dungeon_status.active_actor = 0;
         ((PlayerRemainingActionsView *)D_800814A8)->remaining--;
         advance_status_timers(actor);
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
         action->nextAction.record = D_80159CE8;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -266,9 +266,9 @@ void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, A
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
 
         if (sprite->directionFrames != D_8015CEB8) {
@@ -283,10 +283,10 @@ void update_actor_ability_action_2(ActorActionView *action, EntityRec *motion, A
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         action->nextAction.record = D_80159CE8;
         advance_status_timers(actor);
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_6D--;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->pending_turn_updates--;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
     }
 }

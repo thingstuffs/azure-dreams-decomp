@@ -21,7 +21,7 @@ extern void apply_clamped_actor_value_delta();
 extern u8 D_800D8C64[];
 
 /* Updates directional movement, decelerates it, and settles the entity at its tile. */
-void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *motion, SpriteFrameState *entity, EntityRec *source)
+void settle_actor_directional_movement(S_800D9C7C_1 *controller, ObjectPosition *motion, SpriteFrameState *entity, EntityRec *source)
 {
     s16 ticks_left;
     s32 direction;
@@ -31,16 +31,16 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *moti
     switch (controller->unk_9B) {
     case 0:
         apply_clamped_actor_value_delta(source);
-        motion->unk_0C =
+        motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 18;
-        motion->unk_10 =
+        motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
         controller->unk_9B++;
 
         if (source->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(controller, motion, entity, 0);
             return;
         }
@@ -55,14 +55,14 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *moti
             ticks_left = -1;
         }
         controller->unk_96.s = ticks_left;
-        motion->unk_0C -= motion->unk_0C / 4;
-        motion->unk_10 -= motion->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
                 /* fall through */
 
     case 1:
-        motion->unk_0C -=
+        motion->velocity_x -=
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
-        motion->unk_10 -=
+        motion->velocity_y -=
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
         if (controller->unk_96.s > 0) {
             controller->unk_96.s = controller->unk_96.u - 1;
@@ -73,9 +73,9 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *moti
             return;
         }
         if (source->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(controller, motion, entity, 0);
             return;
         }
@@ -89,13 +89,13 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *moti
                 s32 target_x = entity->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
-                motion->unk_0C = ((target_x - current_x) << 15) >> 1;
+                motion->velocity_x = ((target_x - current_x) << 15) >> 1;
             }
             {
                 s32 target_y = entity->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
-                motion->unk_10 = ((target_y - current_y) << 15) >> 1;
+                motion->velocity_y = ((target_y - current_y) << 15) >> 1;
             }
         }
         ticks_left = controller->unk_96.u - 1;
@@ -103,9 +103,9 @@ void settle_actor_directional_movement(S_800D9C7C_1 *controller, EntityRec *moti
         if ((s32)(ticks_left << 16) > 0) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, entity->unk_24, entity->unk_25);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);

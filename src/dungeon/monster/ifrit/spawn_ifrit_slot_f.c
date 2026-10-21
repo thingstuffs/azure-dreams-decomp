@@ -52,7 +52,7 @@ extern void try_move_actor_to_valid_position();
 extern u8 D_8016AA58[];
 extern u8 D_8016E820[];
 extern u8 D_8016E860[];
-void func_8016AE84(void *controller, void *context, void *entity, EntityRec *actor_state);
+void func_8016AE84(void *controller, void *context, void *entity, ActorRecord *actor_state);
 
 void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value_25_input, s16 value_0A_input)
 {

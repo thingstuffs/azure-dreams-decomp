@@ -71,7 +71,7 @@ extern u8 D_80150F40;
 extern u8 D_80150F48;
 
 /* Updates dungeon action behavior, facing, and animation from its current state. */
-void update_dungeon_action_behavior(ActorActionView *action, void *context, ActorSpriteView *sprite, EntityRec *entity)
+void update_dungeon_action_behavior(ActorActionView *action, void *context, ActorSpriteView *sprite, ActorRecord *entity)
 {
     u8 *anim_table;
     s32 direction_flags;
@@ -85,7 +85,7 @@ void update_dungeon_action_behavior(ActorActionView *action, void *context, Acto
         return;
     }
 
-    if (entity->tileY == 0) {
+    if (entity->mp == 0) {
         advance_actor_pending_action(action, context, sprite, entity);
         if (sprite->frameTable != &D_80150F48) {
             u8 *next_anim_table = &D_80150F40;
@@ -151,7 +151,7 @@ void update_dungeon_action_behavior(ActorActionView *action, void *context, Acto
     room_id = find_active_rect_containing_point(sprite->tile.bytes.x, sprite->tile.bytes.y);
     sprite->room.raw = room_id;
 
-    if (entity->unk_6D > 0) {
+    if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & 0x20) {
             update_actor_status_and_food(entity);
             return;
@@ -160,7 +160,7 @@ void update_dungeon_action_behavior(ActorActionView *action, void *context, Acto
             func_8014D8DC(action, context, sprite, entity);
             return;
         }
-        if (!(entity->unk_46 & 0x8000)) {
+        if (!(entity->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -170,15 +170,15 @@ void update_dungeon_action_behavior(ActorActionView *action, void *context, Acto
             if ((func_8014E364(action, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_state = entity->unk_46 | 0x4000;
-            entity->unk_46 = action_state;
+            action_state = entity->action_flags | 0x4000;
+            entity->action_flags = action_state;
             if (!(action_state & 0x8000)) {
                 func_8014D8DC(action, context, sprite, entity);
                 return;
             }
         }
 
-        action_state = entity->unk_46 & 0x3FFF;
+        action_state = entity->action_flags & 0x3FFF;
         switch (action_state) {
         case 8:
             if ((func_8014E088(action, context, sprite, entity) << 16) == 0) {
@@ -201,7 +201,7 @@ void update_dungeon_action_behavior(ActorActionView *action, void *context, Acto
         case 6:
         case 7:
         {
-            EntityRec *player;
+            ActorRecord *player;
             s16 facing_angle;
 
             facing_angle = get_rounded_facing_and_rounding_flag(

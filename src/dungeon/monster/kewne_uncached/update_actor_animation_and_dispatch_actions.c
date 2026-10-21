@@ -71,7 +71,7 @@ extern u8 D_80151CA0[];
 extern u8 D_80151CA8[];
 
 /* Update actor animation and dispatch dungeon actions based on status and position. */
-void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, void *sprite, EntityRec *entity)
+void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, void *sprite, ActorRecord *entity)
 {
     s32 direction_aux;
     s8 room_id;
@@ -82,7 +82,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, v
         func_8014E510(actor, actor_aux, sprite, entity);
         return;
     }
-    if (entity->tileY == 0) {
+    if (entity->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, actor_aux, sprite, entity);
@@ -182,7 +182,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, v
     room_id = find_active_rect_containing_point(((S_8014DFA4_2 *)sprite)->unk_24.at00.v, ((S_8014DFA4_2 *)sprite)->unk_24.at01.v);
     ((S_8014DFA4_2 *)sprite)->unk_26 = room_id;
 
-    if (entity->unk_6D > 0) {
+    if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & 0x20) {
             update_actor_status_and_food(entity);
             return;
@@ -191,7 +191,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, v
             func_8014E6C8(actor, actor_aux, sprite, entity);
             return;
         }
-        if (!(entity->unk_46 & 0x8000)) {
+        if (!(entity->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -201,12 +201,12 @@ void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, v
             if ((func_8014F1CC(actor, actor_aux, sprite, 0) << 16) == 0) {
                 return;
             }
-            action = entity->unk_46 | 0x4000;
-            entity->unk_46 = action;
+            action = entity->action_flags | 0x4000;
+            entity->action_flags = action;
         }
 
-        if (entity->unk_46 & 0x8000) {
-            action = entity->unk_46 & 0x3FFF;
+        if (entity->action_flags & 0x8000) {
+            action = entity->action_flags & 0x3FFF;
             switch (action) {
             case 8:
             case 9:
@@ -220,7 +220,7 @@ void update_actor_animation_and_dispatch_actions(void *actor, void *actor_aux, v
             case 6:
             case 7:
             {
-                EntityRec *player;
+                ActorRecord *player;
                 s16 heading;
 
                 heading = get_rounded_facing_and_rounding_flag(

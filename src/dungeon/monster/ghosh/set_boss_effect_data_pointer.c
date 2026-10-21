@@ -2,7 +2,7 @@
 
 #include "shared/entity.h"
 
-extern void update_boss_actor_action(void *actor, void *context, void *sprite, EntityRec *entity);
+extern void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRecord *entity);
 
 typedef struct S_801707D4_0 {
     u8 pad_00[0x8C];

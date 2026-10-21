@@ -80,7 +80,7 @@ typedef struct DdcbcEntry {
 } DdcbcEntry;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 func_8002534C(void *, s32, void *, EntityRec *); /* extern */
+s32 func_8002534C(void *, s32, void *, ActorRecord *); /* extern */
 void func_8003DB94();        /* extern */
 s32 get_entity_effect_value();                 /* extern */
 void set_sprite_animation_frame(); /* extern */
@@ -131,7 +131,7 @@ extern s32 D_800E3DF0[];
 extern s32 D_800E4938[];
 
 /* Wait for the menu to close, then dispatch the selected item or companion action. */
-void process_dungeon_menu_selection(void *state, s32 context, void *sprite, EntityRec *actor) {
+void process_dungeon_menu_selection(void *state, s32 context, void *sprite, ActorRecord *actor) {
     s16 tile_x;
     s16 tile_y;
     u8 *anim_table;

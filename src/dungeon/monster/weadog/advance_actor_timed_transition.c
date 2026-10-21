@@ -13,7 +13,7 @@ extern void apply_clamped_actor_value_delta(void *);
 extern s32 D_80171CE8;
 
 /* Advance a timed entity state transition, clearing motion and updating its handler. */
-void advance_actor_timed_transition(ActorActionTimerView *controller, EntityRec *motion, SpriteFrameState *actor, EntityRec *entity_data)
+void advance_actor_timed_transition(ActorActionTimerView *controller, ObjectPosition *motion, SpriteFrameState *actor, EntityRec *entity_data)
 {
     s32 state;
     s32 timer_signed;
@@ -25,14 +25,14 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, EntityRec 
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity_data);
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         controller->unk_9B++;
 
         if (entity_data->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(controller, motion, actor, 0);
             return;
         }
@@ -60,9 +60,9 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, EntityRec 
             return;
         }
         if (entity_data->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(controller, motion, actor, 0);
             return;
         }
@@ -76,9 +76,9 @@ void advance_actor_timed_transition(ActorActionTimerView *controller, EntityRec 
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
 
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)((u8 *)entity_data - 0x20)) {

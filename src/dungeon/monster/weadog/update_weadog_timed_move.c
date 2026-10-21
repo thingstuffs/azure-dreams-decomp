@@ -35,7 +35,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_80159CE8;
@@ -147,7 +147,7 @@ void update_weadog_timed_move(void *action, void *motion, void *sprite, void *ac
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-    reduce_actor_food_meter(actor, 4);
+    spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
     if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {

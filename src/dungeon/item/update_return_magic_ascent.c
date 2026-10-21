@@ -151,7 +151,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
         if (index_or_phase == 0) {
             if ((s16)frame_count >= 0x21) {
                 if (obj->handle[0x13] == 0) {
-                    EntityRec *dungeon_state;
+                    ActorRecord *dungeon_state;
                     begin_deferred_player_item_effect(obj->handle, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), 0);
                     D_800E3D7C->unk_9B = 0x11;
                     dungeon_state = D_800E3D7C;

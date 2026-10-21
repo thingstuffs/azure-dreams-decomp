@@ -219,7 +219,7 @@ void update_betting_effect(TownEffect *input)
 
     case 1:
     {
-        EntityRec *motion;
+        ObjectPosition *motion;
         s32 handle;
         s32 payout_scale;
         if (effect->phase == 3) {
@@ -232,9 +232,9 @@ void update_betting_effect(TownEffect *input)
         ((S_800211A4_3 *)effect)->unk_10 = payout_scale;
         if (service_script_controller() == 0) {
             motion = &D_80083780;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             ((S_800211A4_5 *)primitive)->unk_10 = 0;
             apply_global_scene_value(D_800D0078);
             ((S_800211A4_5 *)primitive)->unk_00 = D_80097D2C;
@@ -282,7 +282,7 @@ void update_betting_effect(TownEffect *input)
             if (effect->amount > 0) {
                 effect->state = 3;
                 effect->timer = 9;
-                ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = -0x240000;
+                ((ObjectPosition *)((u8 *)(&D_80083780)))->velocity_z = -0x240000;
                 break;
             }
             break;
@@ -299,10 +299,10 @@ void update_betting_effect(TownEffect *input)
 
     case 3:
     {
-        EntityRec *motion;
+        ObjectPosition *motion;
         u16 *prim_angle;
         s16 *timer_ptr;
-        EntityRec *motion_words;
+        ObjectPosition *motion_words;
         s32 x_speed;
         s32 current_y;
         s32 target_y;
@@ -316,8 +316,8 @@ void update_betting_effect(TownEffect *input)
             target_y = 0x02A00000;
             x_speed = (0x03600000 - motion_words->x.v) / effect->timer;
             current_y = motion_words->y.v;
-            motion_words->unk_0C = x_speed;
-            motion_words->unk_10 = (target_y - current_y) / effect->timer;
+            motion_words->velocity_x = x_speed;
+            motion_words->velocity_y = (target_y - current_y) / effect->timer;
             effect->state = 11;
         }
         break;
@@ -334,11 +334,11 @@ void update_betting_effect(TownEffect *input)
         timer_left = *timer_ptr - 1;
         *timer_ptr = (s16)timer_left;
         if ((s16)timer_left <= 0) {
-            ((EntityRec *)((u8 *)(&D_80083780)))->x.v = 0x03600000;
-            ((EntityRec *)((u8 *)(&D_80083780)))->y.v = 0x02A00000;
-            ((EntityRec *)((u8 *)(&D_80083780)))->unk_10 = 0;
-            ((EntityRec *)((u8 *)(&D_80083780)))->unk_0C = 0;
-            ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = 0x00180000;
+            ((ObjectPosition *)((u8 *)(&D_80083780)))->x.v = 0x03600000;
+            ((ObjectPosition *)((u8 *)(&D_80083780)))->y.v = 0x02A00000;
+            ((ObjectPosition *)((u8 *)(&D_80083780)))->velocity_y = 0;
+            ((ObjectPosition *)((u8 *)(&D_80083780)))->velocity_x = 0;
+            ((ObjectPosition *)((u8 *)(&D_80083780)))->velocity_z = 0x00180000;
             effect->state = 12;
         }
         break;
@@ -346,7 +346,7 @@ void update_betting_effect(TownEffect *input)
 
     case 12:
     {
-        EntityRec *motion;
+        ObjectPosition *motion;
         s32 angle;
         motion = &D_80083780;
         angle = (((S_800211A4_5 *)primitive)->unk_10 + 0x200) & 0xFFF;
@@ -363,7 +363,7 @@ void update_betting_effect(TownEffect *input)
 
     case 4:
     {
-        EntityRec *motion;
+        ObjectPosition *motion;
         if ((((s32)controls->pressed_buttons) & 0x40) == 0 ||
             ((S_800211A4_6 *)child)->unk_70 != 2) {
             break;
@@ -371,8 +371,8 @@ void update_betting_effect(TownEffect *input)
         SD_Call(0x50A);
         apply_global_scene_value(D_800D00A0);
         motion = &D_80083780;
-        motion->unk_10 = 0x48000;
-        motion->flags14 = (s32)0xFFF40000;
+        motion->velocity_y = 0x48000;
+        motion->velocity_z = (s32)0xFFF40000;
         effect->count = 0;
         effect->state = 5;
         break;
@@ -380,16 +380,16 @@ void update_betting_effect(TownEffect *input)
 
     case 5:
     {
-        EntityRec *motion;
+        ObjectPosition *motion;
         s32 old_count;
         s32 z_speed_limit;
         s32 frame_index;
         z_speed_limit = 0x9FFFF;
         motion = &D_80083780;
-        motion->y.v += motion->unk_10;
-        motion->z.v += motion->flags14;
-        if (motion->flags14 <= z_speed_limit) {
-            motion->flags14 += 0x20000;
+        motion->y.v += motion->velocity_y;
+        motion->z.v += motion->velocity_z;
+        if (motion->velocity_z <= z_speed_limit) {
+            motion->velocity_z += 0x20000;
         }
         old_count = (u16)effect->count;
         effect->count = (s16)(old_count + 1);
@@ -407,10 +407,10 @@ void update_betting_effect(TownEffect *input)
             {
                 s32 y_speed = 0x18000;
                 u8 *animation = D_800D0078;
-                EntityRec *motion;
+                ObjectPosition *motion;
                 motion = &D_80083780;
-                motion->flags14 = (s32)0xFFF40000;
-                motion->unk_10 = y_speed;
+                motion->velocity_z = (s32)0xFFF40000;
+                motion->velocity_y = y_speed;
                 apply_global_scene_value(animation);
             }
             break;
@@ -429,21 +429,21 @@ void update_betting_effect(TownEffect *input)
             SD_Call(0x508);
             {
                 u8 *animation = D_800D0078;
-                EntityRec *motion;
+                ObjectPosition *motion;
                 motion = &D_80083780;
-                motion->flags14 = (s32)0xFFF80000;
-                motion->unk_10 = 0x20000;
+                motion->velocity_z = (s32)0xFFF80000;
+                motion->velocity_y = 0x20000;
                 apply_global_scene_value(animation);
             }
             break;
         case 48:
             SD_Call(0x508);
-            ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC0000;
+            ((ObjectPosition *)((u8 *)(&D_80083780)))->velocity_z = (s32)0xFFFC0000;
             apply_global_scene_value(D_800D0078);
             break;
         case 61:
             SD_Call(0x508);
-            ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC8000;
+            ((ObjectPosition *)((u8 *)(&D_80083780)))->velocity_z = (s32)0xFFFC8000;
             apply_global_scene_value(D_800D0078);
 
         }
@@ -453,10 +453,10 @@ void update_betting_effect(TownEffect *input)
         }
         {
             u8 *animation = D_800D0078;
-            EntityRec *motion;
+            ObjectPosition *motion;
             motion = &D_80083780;
-            motion->flags14 = (s32)0xFFFB0000;
-            motion->unk_10 = 0;
+            motion->velocity_z = (s32)0xFFFB0000;
+            motion->velocity_y = 0;
             motion->z.v = (s32)0xFFC00000;
             apply_global_scene_value(animation);
         }
@@ -467,16 +467,16 @@ void update_betting_effect(TownEffect *input)
 
     case 6:
     {
-        EntityRec *motion;
-        EntityRec *motion_words;
+        ObjectPosition *motion;
+        ObjectPosition *motion_words;
         s32 old_count;
         s32 count_or_addr;
         s32 frame_index;
 
         motion = &D_80083780;
         motion_words = motion;
-        motion_words->z.v += motion_words->flags14;
-        motion_words->flags14 += 0x10000;
+        motion_words->z.v += motion_words->velocity_z;
+        motion_words->velocity_z += 0x10000;
         old_count = (u16)effect->count;
         count_or_addr = old_count + 1;
         effect->count = (s16)count_or_addr;
@@ -493,7 +493,7 @@ void update_betting_effect(TownEffect *input)
             break;
         case 10:
             SD_Call(0x508);
-            ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC0000;
+            ((ObjectPosition *)((u8 *)(&D_80083780)))->velocity_z = (s32)0xFFFC0000;
             apply_global_scene_value(D_800D0078);
             break;
         case 18:
@@ -514,10 +514,10 @@ void update_betting_effect(TownEffect *input)
         }
         {
             u8 *animation = D_800D0078;
-            EntityRec *motion;
+            ObjectPosition *motion;
             ((S_800211A4_6 *)child)->unk_70 = 4;
             motion = &D_80083780;
-            motion->flags14 = 0;
+            motion->velocity_z = 0;
             motion->z.v = (s32)0xFFC00000;
             apply_global_scene_value(animation);
         }
@@ -529,8 +529,8 @@ void update_betting_effect(TownEffect *input)
     case 7:
     {
         s32 orbit_component;
-        EntityRec *motion;
-        EntityRec *motion_words;
+        ObjectPosition *motion;
+        ObjectPosition *motion_words;
         s16 *timer_ptr;
         orbit_component = effect->timer;
         orbit_component = func_800644B8(0x1000 - orbit_component);

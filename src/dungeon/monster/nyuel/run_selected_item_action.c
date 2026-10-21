@@ -47,7 +47,7 @@ typedef struct S_8017293C_5 {
 } S_8017293C_5;   /* global in run_selected_item_action */
 
 /* Runs the actor's selected item action and handles its wait and completion phases. */
-void run_selected_item_action(void *action, EntityRec *motion, void *sprite, void *actor)
+void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite, void *actor)
 {
     s32 is_special;
     u8 *item_slot;
@@ -159,9 +159,9 @@ void run_selected_item_action(void *action, EntityRec *motion, void *sprite, voi
             return;
 
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -202,9 +202,9 @@ void run_selected_item_action(void *action, EntityRec *motion, void *sprite, voi
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80174EE0) {
             u8 *direction_frames;

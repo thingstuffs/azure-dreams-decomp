@@ -186,7 +186,7 @@ void update_directional_actor_effect(void *input, void *output)
     void *owner_data;
     void *owner;
     void *particle_script;
-    EntityRec *scene;
+    ActorRecord *scene;
     void *particle;
     SpriteFrameState *sprite;
     S_FUNC_8197C800_BODY_6 *src_position;
@@ -218,7 +218,7 @@ void update_directional_actor_effect(void *input, void *output)
 
     switch (state) {
     case 0:
-    ((EntityRec *)(D_800814A8))->unk_F4 = 0;
+    ((PlayerRecord *)(D_800814A8))->unk_F4 = 0;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 =
         ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_00;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 =
@@ -317,7 +317,7 @@ void update_directional_actor_effect(void *input, void *output)
                 sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
-                angle = ((EntityRec *)(D_800814A8))->facing;
+                angle = ((ActorRecord *)(D_800814A8))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -335,7 +335,7 @@ void update_directional_actor_effect(void *input, void *output)
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
                 random_value = func_80069EF8();
-                angle = ((EntityRec *)(D_800814A8))->facing;
+                angle = ((ActorRecord *)(D_800814A8))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -392,7 +392,7 @@ void update_directional_actor_effect(void *input, void *output)
                 sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
-                angle = ((EntityRec *)(D_800814A8))->facing;
+                angle = ((ActorRecord *)(D_800814A8))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -410,7 +410,7 @@ void update_directional_actor_effect(void *input, void *output)
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
                 random_value = func_80069EF8();
-                angle = ((EntityRec *)(D_800814A8))->facing;
+                angle = ((ActorRecord *)(D_800814A8))->facing;
                 step = angle;
                 step <<= 16;
                 step >>= 25;
@@ -479,7 +479,7 @@ store_state:
         ((S_FUNC_8197C800_BODY_0 *)input)->unk_52.u &= 0x7FFF;
         return;
     }
-    apply_attack_power_and_element_effects(((EntityRec *)(D_800814A8))->target, 8,
+    apply_attack_power_and_element_effects(((ActorRecord *)(D_800814A8))->target, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
                   ((EntityRec *)owner_data)->facing, owner_data, 2);
     g_dungeon_status.active_actor = 0;

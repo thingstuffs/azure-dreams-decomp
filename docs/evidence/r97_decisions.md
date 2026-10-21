@@ -540,3 +540,23 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     A proven literal span that straddles existing modules folds them into one file. Data ownership: a module may own
     and import data from its own image's proven .rdata/.data region (load region widened over it); 2.6.3-G0 is a
     module recipe (c_server.c proves it under genuine ASPSX).
+
+73. **(r121, OWNER 2026-10-21) EntityRec split into the records the object system allocates.** An object is a 0x20-byte
+    ObjectNodeHeader plus a callback-specific body; the node's +0x08 and +0x0C slots point at separate records. Shared
+    types in include/shared/entity.h: ObjectPosition (0x18: Fixed1616 x, y, z, int velocity_x/y/z; the record behind
+    node +0x08, D_80083780), ActorRecord (0xBC: the pooled actor body of a flags-0x112 node, also the player's prefix)
+    and PlayerRecord (0x12C: ActorRecord actor + the static player's tail). (a) Retyping is by type-flow component: a
+    variable, parameter (definition and every prototype), cast, global, struct field or function-pointer slot changes
+    together with everything it is assigned/passed/compared to, only when the component has an anchor, a node-slot
+    load or a proven entity kind and every member it touches fits; otherwise the component keeps EntityRec with a
+    recorded reason (lane opus_entity2: 852 components / 9,529 sites applied, 2,567 held). (b) D_800814A8 / D_800E3D7C
+    are ActorRecord *; player-only fields are spelled ((PlayerRecord *)p)->field (41 sites) - the cast marks "this is
+    the player specifically" (owner). (c) EntityRec remains only as the documented legacy view for held users; new code
+    must not use it. (d) Actor +0x24/+0x25 is MP, not a food meter: the stat panel prints it under HP with the next
+    icon glyph, spells spend a per-spell cost table, feeding refills it by the species' like/dislike, at 0 the monster
+    stops its special behaviour, the player has none. Names: mp_fraction, mp, max_mp (+0x66); spend_actor_mp,
+    feed_actor_restore_mp ("food meter" was a naming-lane guess). (e) Relinked copies keep their spellings only until
+    they become link-list placements (lane opus_place1 places them; that step clears the 22 implicit conversions and
+    renames unk_58 previous_actor_header). (f) Proof: complete-TU identity (raw, canonical assembly, canonical object)
+    for every consumer; two unedited SLUS TUs differ only in `.extern D_80083780, 300 -> 24` with objects equal (-G8);
+    SLUS SHA-1 and make check MATCH.

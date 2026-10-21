@@ -54,7 +54,7 @@ typedef struct S_80171728_2 {
 
 
 /* Updates creature behavior, facing, and animation from dungeon and action state. */
-void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, void *sprite, EntityRec *creature_in)
+void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, void *sprite, ActorRecord *creature_in)
 {
     u8 *anim_table;
     s32 distance;
@@ -68,7 +68,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         return;
     }
 
-    if (creature_in->tileY == 0) {
+    if (creature_in->mp == 0) {
         advance_actor_pending_action(actor_in, context_in, sprite, creature_in);
         if (((S_80171728_2 *)sprite)->unk_2C == D_80174E4C) {
             return;
@@ -144,7 +144,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
     room_id = find_active_rect_containing_point(((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v);
     ((S_80171728_2 *)sprite)->unk_26 = room_id;
 
-    if (creature_in->unk_6D > 0) {
+    if (creature_in->pending_turn_updates > 0) {
         if (((u32)creature_in->flags1C) & 0x20) {
             update_actor_status_and_food(creature_in);
             return;
@@ -153,7 +153,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
             func_80171F40(actor_in, context_in, sprite, creature_in);
             return;
         }
-        if (!(creature_in->unk_46 & 0x8000)) {
+        if (!(creature_in->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(creature_in,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -163,15 +163,15 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
             if ((func_801729EC(actor_in, context_in, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_flags = creature_in->unk_46 | 0x4000;
-            creature_in->unk_46 = action_flags;
+            action_flags = creature_in->action_flags | 0x4000;
+            creature_in->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
                 func_80171F40(actor_in, context_in, sprite, creature_in);
                 return;
             }
         }
 
-        action_flags = creature_in->unk_46 & 0x3FFF;
+        action_flags = creature_in->action_flags & 0x3FFF;
         switch (action_flags) {
         case 8:
             if ((func_80172710(actor_in, context_in, sprite, creature_in) << 16) != 0) {
@@ -188,7 +188,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         case 6:
         case 7:
             {
-                EntityRec *player;
+                ActorRecord *player;
                 s16 heading;
 
                 heading = get_rounded_facing_and_rounding_flag(

@@ -25,7 +25,7 @@ extern u8 D_800E0D1B[];
 extern u8 D_800E0D36[];
 
 /* Displays the mode-specific message and updates the state meter within its limit. */
-s32 apply_actor_food_preference(DungeonState *state, s32 mode, u8 *item) {
+s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
     s32 message;
     s32 meter;
     s32 base_message;

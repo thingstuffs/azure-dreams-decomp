@@ -57,7 +57,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(Motion *, u8, u8);
 extern void advance_status_timers(Entity *);
 extern void on_actor_status_updated(Entity *);
-extern void reduce_actor_food_meter(Entity *, s32);
+extern void spend_actor_mp(Entity *, s32);
 extern s32 check_actor_floor_trap(Actor *, Entity *);
 
 /* Advance movement to the actor's tile and finish the timed action. */
@@ -137,7 +137,7 @@ void finish_timed_actor_movement(State *action, Motion *motion, Actor *actor, En
     motion->dy10 = 0;
     motion->dxC = 0;
     set_record_integer_tile_center(motion, actor->x24, actor->y25);
-    reduce_actor_food_meter(entity, 4);
+    spend_actor_mp(entity, 4);
     advance_status_timers(entity);
 
     {

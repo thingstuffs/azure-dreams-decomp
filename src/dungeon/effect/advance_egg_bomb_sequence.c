@@ -148,7 +148,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 u32 first_call_arg;
                 s32 first_call_mode;
                 s32 raw_first_result;
-                clamp_value = (*(u8 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_10 + 1)) + 0x32;
+                clamp_value = (*(u8 *)((u8 *)&((ActorRecord *)((u8 *)D_800E3D7C))->unk_10 + 1)) + 0x32;
                 egg_bomb_level = clamp_value;
                 if (clamp_value >= 0x64) {
                     egg_bomb_level = 0x63;
@@ -213,7 +213,7 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 }
             }
         }
-        ((EntityRec *)((u8 *)D_800E3D7C))->unk_110 = 0;
+        ((PlayerRecord *)((u8 *)D_800E3D7C))->pending_item_action = 0;
         (*(s32 *)((u8 *)monster + (0x1C))) = (s32) (((S_800B7774_2 *)monster)->unk_1C | 0x400000);
         {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

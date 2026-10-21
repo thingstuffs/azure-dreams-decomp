@@ -84,7 +84,7 @@ s32 load_spell_effect_code();
 s32 select_nearby_target_and_initialize_slot();
 void setup_object_within_planar_range();
 void process_nearby_object_midpoint();
-void reduce_actor_food_meter();
+void spend_actor_mp();
 extern M2C_UNK D_80089080;
 extern u8 D_800DD880[];
 extern u8 D_800DD8B4[];
@@ -179,9 +179,9 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
         }
 set_effect_scale:
         if ((mode << 0x10) != 0) {
-            reduce_actor_food_meter(actor, D_800DD8B4[effect_id] << 6);
+            spend_actor_mp(actor, D_800DD8B4[effect_id] << 6);
         } else {
-            reduce_actor_food_meter(actor, D_800DD880[effect_id] << 8);
+            spend_actor_mp(actor, D_800DD880[effect_id] << 8);
         }
         if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
             new_text_context = get_unused_text_buffer();

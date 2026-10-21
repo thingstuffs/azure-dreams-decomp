@@ -95,7 +95,7 @@ void add_motion_deltas_to_position();                      /* extern */
 struct IntVector3; void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(struct IntVector3 *);                      /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
 struct Rec_D_800FE490; void update_the_s_field_10_using_callee_8008_fe_90(struct Rec_D_800FE490 *);                   /* extern */
-struct EntityRec; struct S_800A48B0_0; void copy_entity_record_fields(struct S_800A48B0_0 *, struct EntityRec *);           /* extern */
+struct ObjectPosition; struct S_800A48B0_0; void copy_entity_record_fields(struct S_800A48B0_0 *, struct ObjectPosition *);           /* extern */
 void spawn_person_radial_effects(void *);                      /* extern */
 s16 query_lowered_transform_position();                      /* extern */
 extern s32 D_800135B4;
@@ -355,6 +355,6 @@ void update_player_minigame_motion(void *actor, S_800C035C_1 *motion, SpriteFram
         sprite->flags &= 0xFFFE;
     }
     step_actor_animation(sprite, 0);
-    copy_entity_record_fields((struct S_800A48B0_0 *)(&D_80100D98), (struct EntityRec *)(motion));
+    copy_entity_record_fields((struct S_800A48B0_0 *)(&D_80100D98), (struct ObjectPosition *)(motion));
     ((Rec_D_80100D98 *)(&D_80100D98))->unk_08 = 0;
 }

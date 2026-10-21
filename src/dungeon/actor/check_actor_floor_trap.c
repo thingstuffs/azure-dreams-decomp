@@ -22,7 +22,7 @@ typedef struct S_800AD9B4_0_pre {
 } S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in check_actor_floor_trap, addressed as arg1[-1] */
 
 /* Process an eligible dungeon entry and apply its state updates. */
-s32 check_actor_floor_trap(Rec_D_80082E80 *actor, EntityRec *target)
+s32 check_actor_floor_trap(Rec_D_80082E80 *actor, ActorRecord *target)
 {
     TileObject *player;
     DungeonGlobalStatus *dungeon_state;
@@ -39,13 +39,13 @@ s32 check_actor_floor_trap(Rec_D_80082E80 *actor, EntityRec *target)
     if (player->room_index != *(s8 *)&((SpriteFrameState *)actor)->unk_26 && get_tile_chebyshev_distance(player, actor) >= 7) {
         return 1;
     }
-    if (target->tileY == 0) {
+    if (target->mp == 0) {
         return 1;
     }
 
     entry_index = find_entry_at_tile_coordinates(((SpriteFrameState *)actor)->unk_24,
                                   ((SpriteFrameState *)actor)->unk_25,
-                                  target->unk_88);
+                                  target->ground_height);
     result = 1;
     if (entry_index >= 0) {
         entries = D_800E3648;
@@ -55,13 +55,13 @@ s32 check_actor_floor_trap(Rec_D_80082E80 *actor, EntityRec *target)
 
         dungeon_state = &g_dungeon_status;
         if (dungeon_state->flags & 0x1000) {
-            adjustment = ((s8)target->unk_71);
+            adjustment = ((s8)target->movement_queue_state);
             if (adjustment > 0) {
                 cost = adjustment - (u16)target->unk_8A;
                 entry_index = (u16)dungeon_state->activity_counts.parts.pending_movement_count;
                 entry_index -= cost;
                 dungeon_state->activity_counts.parts.pending_movement_count = entry_index;
-                target->unk_71 = 0;
+                target->movement_queue_state = 0;
             }
         }
 

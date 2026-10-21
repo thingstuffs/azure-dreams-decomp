@@ -24,7 +24,7 @@ extern u8 D_80175E70[];
 extern u8 D_80175EA8[];
 
 /* Select and start an actor action based on the target delta. */
-s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *visual_data, EntityRec *actor) {
+s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *visual_data, ActorRecord *actor) {
     s32 target_delta;
     s16 action_mode;
     u16 pending_amount;
@@ -49,7 +49,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
         if (g_dungeon_status.flags & 0x2000) {
             return -1;
         }
-        if (!(actor->unk_46 & 0x8000) && (g_dungeon_status.flags & 8)) {
+        if (!(actor->action_flags & 0x8000) && (g_dungeon_status.flags & 8)) {
             return -1;
         }
 
@@ -108,7 +108,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
                     ((S_80171F9C_0 *)(visual_data))->unk_2C[((*(s16 *)(phase_page + 0x3228) + actor->facing + 0x100)
                     >> 9) & 7], 0);
             }
-            actor->unk_6D--;
+            actor->pending_turn_updates--;
             prepare_directional_attack(actor, ((S_80171F9C_0 *)(visual_data)), actor->facing, 1, 0);
             stored_amount = action_state->unk_90.at02_u16.v;
             pending_amount = action_state->unk_A0.at02_u16.v;

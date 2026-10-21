@@ -12,7 +12,7 @@ extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern void play_sound_if_enabled(s32);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 
 extern u8 D_800E1827[];
 
@@ -27,7 +27,7 @@ s32 use_item_to_apply_slow(void *target, s32 item, s16 use_kind)
 
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, item, use_kind);
-        if (apply_actor_food_preference(
+        if (feed_actor_restore_mp(
                 target, (entity_action_selectors[*((u8 *)target + 0x13)] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(target, item);
             return 1;

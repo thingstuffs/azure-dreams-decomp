@@ -2,10 +2,10 @@
 #include "shared/sprite_frame_state.h"
 
 /* Start the actor's directional action and record the adjacent tile result. */
-void start_directional_action_and_record_tile(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
+void start_directional_action_and_record_tile(void *action_state, void *action_context, void *sprite, ActorRecord *actor) {
     s32 direction;
 
-    actor->unk_71 = (u8)(actor->unk_71 & 0x7F);
+    actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -20,19 +20,19 @@ void start_directional_action_and_record_tile(void *action_state, void *action_c
                 0);
             ((Rec_func_800AA258_arg2 *)sprite)->unk_14 = (u16)(((Rec_func_800AA258_arg2 *)sprite)->unk_14 | 0x800);
             advance_status_timers(actor);
-            actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
+            actor->pending_turn_updates = (u8)(((u8)actor->pending_turn_updates) - 1);
             direction = ((u16)actor->facing >> 9) & 7;
             actor->target = find_eligible_actor_at_tile_and_height(
                 actor,
                 (((Rec_func_800AA258_arg2 *)sprite)->unk_24 + ((u16 *)dir_step_x)[direction]) & 0xFFFF,
                 (((Rec_func_800AA258_arg2 *)sprite)->unk_25 + ((u16 *)dir_step_y)[direction]) & 0xFFFF,
-                actor->unk_88);
+                actor->ground_height);
         }
     }
 }
 
 /* Advances a timed actor effect, spawning and positioning its visual object before cleanup. */
-void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, void *source_mesh, EntityRec *actor)
+void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *position, void *source_mesh, ActorRecord *actor)
 {
     T_801748D0_LocalFrame frame;
     void *effect_body;
@@ -58,9 +58,9 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
     phase = ((T_801748D0_S_801748D0_0 *)effect_state)->unk_9B;
     switch (phase) {
     case 0:
-        position->flags14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         timer = ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 - 1;
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_96 = timer;
         if (((s32)(timer << 16) <= 0) ||
@@ -164,9 +164,9 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
                 return;
             }
         }
-        position->flags14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_24, ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_25);
         if (((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C != D_80174E88) {
             ((T_801748D0_S_801748D0_2 *)source_mesh)->unk_2C = D_80174E88;
@@ -181,10 +181,10 @@ void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, 
         if (owner_link != 0) {
             check_action_six_eligibility(actor, owner_link);
         }
-        reduce_actor_food_meter(actor, 0x400);
+        spend_actor_mp(actor, 0x400);
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_8C = update_actor_behavior_and_direction;
         g_dungeon_status.active_actor = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
 
         return;
     }

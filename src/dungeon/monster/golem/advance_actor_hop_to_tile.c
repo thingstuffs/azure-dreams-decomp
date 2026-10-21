@@ -24,13 +24,13 @@ extern s32 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern M2C_UNK D_80170E94;
 
 /* Advance the actor's hop to its tile and finish the motion when its timer expires. */
-void advance_actor_hop_to_tile(S_80172998_0 *motion, EntityRec *transform, SpriteFrameState *tile, EntityRec *actor)
+void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, SpriteFrameState *tile, ActorRecord *actor)
 {
     s32 coord_result;
     s32 phase;
@@ -52,14 +52,14 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, EntityRec *transform, Sprit
                 s32 target_x = tile->unk_24 << 6;
                 s32 current_x = transform->x.w.i - 32;
 
-                transform->unk_0C =
+                transform->velocity_x =
                     ((target_x - current_x) << 16) / motion->unk_A4;
             }
             {
                 s32 target_y = tile->unk_25 << 6;
                 s32 current_y = transform->y.w.i - 32;
 
-                transform->unk_10 =
+                transform->velocity_y =
                     ((target_y - current_y) << 16) / motion->unk_A4;
             }
             motion->unk_A0 =
@@ -79,9 +79,9 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, EntityRec *transform, Sprit
     case 2:
         if (((u32)actor->flags1C) & 0x08000000) {
             motion->unk_98 &= 0xFFF7;
-            transform->flags14 = 0;
-            transform->unk_10 = 0;
-            transform->unk_0C = 0;
+            transform->velocity_z = 0;
+            transform->velocity_y = 0;
+            transform->velocity_x = 0;
             set_record_integer_tile_center(transform, tile->unk_24, tile->unk_25);
             motion->unk_9B++;
         }
@@ -95,11 +95,11 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, EntityRec *transform, Sprit
         return;
     }
 
-    transform->flags14 = 0;
-    transform->unk_10 = 0;
-    transform->unk_0C = 0;
+    transform->velocity_z = 0;
+    transform->velocity_y = 0;
+    transform->velocity_x = 0;
     set_record_integer_tile_center(transform, tile->unk_24, tile->unk_25);
-    reduce_actor_food_meter(actor, 5);
+    spend_actor_mp(actor, 5);
     advance_status_timers(actor);
 
     {
@@ -111,8 +111,8 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, EntityRec *transform, Sprit
 
     actor_flags = ((u32)actor->flags1C);
     if (actor_flags & 0x2000) {
-        if (actor->unk_46 & 0x8000) {
-            actor->unk_46 &= 0x7FFF;
+        if (actor->action_flags & 0x8000) {
+            actor->action_flags &= 0x7FFF;
         }
     } else {
         if (!(actor_flags & 0x410)) {

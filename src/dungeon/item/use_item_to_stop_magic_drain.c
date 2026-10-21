@@ -12,7 +12,7 @@ extern void adjust_source_value_and_finalize(void *, void *);
 extern s32 set_or_clear_actor_status_slot(void *, s32, s32);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_colored_effect_with_event(void *source, s32 color, unsigned short event_id);
 
 extern u8 D_800E104E[];
@@ -29,7 +29,7 @@ s32 use_item_to_stop_magic_drain(void *target, s32 item, s16 message_kind)
 
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, item, message_kind);
-        if (apply_actor_food_preference(
+        if (feed_actor_restore_mp(
                 target, (entity_action_selectors[*((u8 *)target + 0x13)] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(target, item);
             return 1;

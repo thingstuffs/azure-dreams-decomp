@@ -26,7 +26,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern u8 D_80170EE4[];
@@ -34,7 +34,7 @@ extern u8 D_801765F0[];
 extern u8 D_801765F8[];
 
 /* Advance movement toward the target tile and finish the action when its timer expires. */
-void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void complete_airborne_actor_recovery(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     s32 target_distance;
     s16 move_ticks;
@@ -74,13 +74,13 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
             axis_pos = motion->x.w.i;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
-            motion->unk_0C = (tile_delta << 16) / move_ticks;
+            motion->velocity_x = (tile_delta << 16) / move_ticks;
 
             axis_pos = motion->y.w.i;
             tile_delta = ((SpriteFrameState *)sprite)->unk_25 << 6;
             axis_pos -= 0x20;
             tile_delta -= axis_pos;
-            motion->unk_10 =
+            motion->velocity_y =
                 (tile_delta << 16) / ((S_801722BC_0 *)action)->unk_9E.u;
             ((S_801722BC_0 *)action)->unk_A0 =
                 (-func_800644B8(((S_801722BC_0 *)action)->unk_9E.u * 0x199)) << 9;
@@ -100,9 +100,9 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
     case 2:
         if (actor->flags1C & 0x08000000) {
             ((S_801722BC_0 *)action)->unk_98 &= 0xFFF7;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
                           ((SpriteFrameState *)sprite)->unk_25);
 
@@ -119,12 +119,12 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
     timer_next = ((S_801722BC_0 *)action)->unk_96 - 1;
     ((S_801722BC_0 *)action)->unk_96 = timer_next;
     if ((s16)timer_next <= 0) {
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24,
                       ((SpriteFrameState *)sprite)->unk_25);
-        reduce_actor_food_meter(actor, 4);
+        spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
         action_counter = &g_dungeon_status;
@@ -134,8 +134,8 @@ void complete_airborne_actor_recovery(void *action, EntityRec *motion, void *spr
 
         actor_flags = actor->flags1C;
         if (actor_flags & 0x2000) {
-            if (actor->unk_46 & 0x8000) {
-                actor->unk_46 &= 0x7FFF;
+            if (actor->action_flags & 0x8000) {
+                actor->action_flags &= 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {

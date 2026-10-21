@@ -45,7 +45,7 @@ extern u8 D_80174158[];
 extern u8 D_80174160[];
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
-void advance_actor_state_sequence(void *action, void *context, void *entity, EntityRec *actor)
+void advance_actor_state_sequence(void *action, void *context, void *entity, ActorRecord *actor)
 {
     s32 effect_entry;
     s32 next_state;
@@ -134,7 +134,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
                 return;
             }
 
-            if (actor->tileY == 0) {
+            if (actor->mp == 0) {
                 if ((dungeon_state->flags & 0x2008) != 0) {
                     return;
                 }
@@ -168,12 +168,12 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Ent
                 }
             }
 
-            if (actor->unk_6D == 0) {
+            if (actor->pending_turn_updates == 0) {
                 return;
             }
 
             if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
-                EntityRec *owner = D_800814A8;
+                ActorRecord *owner = D_800814A8;
 
                 if ((s16)check_entity_relation(actor,
                         (u8 *)owner->unk_58 + 0x20) != 0) {

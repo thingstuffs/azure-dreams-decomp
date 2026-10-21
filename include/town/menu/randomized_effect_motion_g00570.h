@@ -44,11 +44,11 @@ void func_800478B8(void *entity);
 extern M2C_UNK D_800A38A8;
 
 extern u32 scale_random_to_unsigned_halfword_limit(s32);
-extern void add_motion_deltas_to_position(EntityRec *);
+extern void add_motion_deltas_to_position(ObjectPosition *);
 extern s32 D_800D0B20[];
 
 /* Functions defined in this translation unit. */
 void initialize_randomized_motion_vector(u8 *obj, s32 *vec, SpriteFrameState *record);
-void advance_motion_and_reset_appearance(S_800A378C_0 *state, EntityRec *transform, SpriteFrameState *appearance);
+void advance_motion_and_reset_appearance(S_800A378C_0 *state, ObjectPosition *transform, SpriteFrameState *appearance);
 
 #endif

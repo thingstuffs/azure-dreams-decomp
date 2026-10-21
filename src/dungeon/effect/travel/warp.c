@@ -58,7 +58,7 @@ void func_80024020(EventState *event) {
     switch (state) {
     case 0:
     {
-        EntityRec *object;
+        ActorRecord *object;
         u8 event_option;
 
         setup[0] = 0x010003A0;
@@ -71,9 +71,9 @@ void func_80024020(EventState *event) {
         D_8002744C = 0;
         D_800287A2 = event_option;
         D_800287A4 = *(s32 *)event;
-        object->unk_F4 = 0;
+        ((PlayerRecord *)object)->unk_F4 = 0;
         object->unk_A8 = ((u8 *)event)[8];
-        D_800814A8->unk_102 = 1;
+        ((PlayerRecord *)D_800814A8)->unk_102 = 1;
         event->state++;
     }
     case 1:
@@ -283,7 +283,7 @@ extern u8 D_8002746C[9];
 void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base) {
     s32 init_data[2];
     ObjectNodeHeader *object;
-    EntityRec *pos;
+    ObjectPosition *pos;
     SpriteFrameState *sprite;
     void *result;
 
@@ -376,7 +376,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
 {
     Vec3u delta;
     Vec3u base;
-    register EntityRec *entity;
+    register ActorRecord *entity;
     TileObject *source;
     u16 final_state;
     s32 index;
@@ -388,7 +388,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
         base.x = D_80083780.x.w.i;
         base.y = D_80083780.y.w.i;
         entity = D_800E3D7C;
-        base.z = ((u16)entity->unk_88) - 0x50;
+        base.z = ((u16)entity->ground_height) - 0x50;
         index =
             ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 7) & 0x1C;
 
@@ -464,7 +464,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
                 D_80083780.x.w.i + base.x,
                 D_80083780.y.w.i + base.y,
                 D_80083780.z.w.i + base.z,
-                ((EntityRec *)((u8 *)D_800E3D7C))->facing, 0);
+                ((ActorRecord *)((u8 *)D_800E3D7C))->facing, 0);
         }
 
         motion->effect_timer--;
@@ -475,7 +475,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
             D_80083780.x.w.i,
             D_80083780.y.w.i,
             D_80083780.z.w.i - 0x20,
-            ((EntityRec *)((u8 *)D_800E3D7C))->facing);
+            ((ActorRecord *)((u8 *)D_800E3D7C))->facing);
 
         break;
     default:
@@ -665,9 +665,9 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
             effect->unk_10 = advance_effect_motion_and_speed;
             register_node(effect, (s32)project_sprite_chain);
             record = (MotionRecord *)(effect + 1);
-            ((EntityRec *)effect->unk_08)->x.w.i = (((EntityRec *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
-            ((EntityRec *)effect->unk_08)->y.w.i = (((EntityRec *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;
-            ((EntityRec *)effect->unk_08)->z.w.i = (((EntityRec *)source->unk_08)->z.w.i + (rand() & 0x3F)) - 0x20;
+            ((ObjectPosition *)effect->unk_08)->x.w.i = (((ObjectPosition *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
+            ((ObjectPosition *)effect->unk_08)->y.w.i = (((ObjectPosition *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;
+            ((ObjectPosition *)effect->unk_08)->z.w.i = (((ObjectPosition *)source->unk_08)->z.w.i + (rand() & 0x3F)) - 0x20;
             sprite = effect->unk_0C;
             sprite->source = D_80027484;
             sprite->scale_y = 0x1000;
@@ -687,9 +687,9 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
             effect->unk_10 = advance_effect_motion_and_speed;
             register_node(effect, (s32)queue_linked_visible_rectangle_copies);
             record = (MotionRecord *)(effect + 1);
-            ((EntityRec *)effect->unk_08)->x.w.i = (((EntityRec *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
-            ((EntityRec *)effect->unk_08)->y.w.i = (((EntityRec *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;
-            ((EntityRec *)effect->unk_08)->z.w.i = (((EntityRec *)source->unk_08)->z.w.i + (rand() & 0x3F)) - 0x20;
+            ((ObjectPosition *)effect->unk_08)->x.w.i = (((ObjectPosition *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
+            ((ObjectPosition *)effect->unk_08)->y.w.i = (((ObjectPosition *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;
+            ((ObjectPosition *)effect->unk_08)->z.w.i = (((ObjectPosition *)source->unk_08)->z.w.i + (rand() & 0x3F)) - 0x20;
             record->unk_00 = 0x20;
             record->unk_02 = 0x20;
             record->unk_04 = 1;
@@ -722,7 +722,7 @@ typedef struct RenderData {
 void copy_follower_owner_position_and_color(FollowerRecord *record, EntityRec *position, RenderData *render)
 {
     ObjectNodeHeader *owner;
-    EntityRec *owner_pos;
+    ObjectPosition *owner_pos;
     s32 owner_done;
 
     owner = record->owner;
@@ -773,9 +773,9 @@ void func_80024EF8(ObjectNodeHeader *owner, s16 angle) {
     if (spawned != 0) {
         spawned->unk_10 = copy_follower_owner_position_and_color;
         register_node(spawned, (s32)project_sprite_chain);
-        ((EntityRec *)spawned->unk_08)->x.w.i = (u16)((EntityRec *)owner->unk_08)->x.w.i;
-        ((EntityRec *)spawned->unk_08)->y.w.i = (u16)((EntityRec *)owner->unk_08)->y.w.i;
-        ((EntityRec *)spawned->unk_08)->z.w.i = (u16)((EntityRec *)owner->unk_08)->z.w.i;
+        ((ObjectPosition *)spawned->unk_08)->x.w.i = (u16)((ObjectPosition *)owner->unk_08)->x.w.i;
+        ((ObjectPosition *)spawned->unk_08)->y.w.i = (u16)((ObjectPosition *)owner->unk_08)->y.w.i;
+        ((ObjectPosition *)spawned->unk_08)->z.w.i = (u16)((ObjectPosition *)owner->unk_08)->z.w.i;
         sprite = spawned->unk_0C;
         sprite->source = D_80027454;
         sprite->scale_y = 0x2800;

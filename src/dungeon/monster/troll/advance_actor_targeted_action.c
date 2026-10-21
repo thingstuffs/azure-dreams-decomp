@@ -64,7 +64,7 @@ extern u8 D_80175E2C[];
 extern u8 D_80175E34[];
 
 /* Updates an actor's action state, target coordinates, animation, and completion. */
-void advance_actor_targeted_action(void *action, EntityRec *transform, void *sprite, EntityRec *actor)
+void advance_actor_targeted_action(void *action, ObjectPosition *transform, void *sprite, ActorRecord *actor)
 {
     s32 state;
     register s32 use_player_target;
@@ -85,7 +85,7 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
     switch (state) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            kind = (actor->unk_46 & 0x3FFF) - 1;
+            kind = (actor->action_flags & 0x3FFF) - 1;
             switch (kind) {
             case 6:
                 use_player_target = 1;
@@ -110,7 +110,7 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
                 break;
             }
         } else {
-            kind = actor->unk_46 & 0x3FFF;
+            kind = actor->action_flags & 0x3FFF;
             switch (kind) {
             case 3:
                 move = (u8 *)actor + 0xE;
@@ -132,14 +132,14 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
                 target = D_800814A8;
                 actor->target = target;
                 state = ((S_8017472C_2_pre *)target)[-1].unk_00;
-                actor->unk_72 = ((S_8017472C_3 *)state)->unk_24;
-                actor->unk_73 = ((S_8017472C_3 *)state)->unk_25;
+                actor->target_tile_x = ((S_8017472C_3 *)state)->unk_24;
+                actor->target_tile_y = ((S_8017472C_3 *)state)->unk_25;
             } else if (D_8006DE24[*move].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
                     state = ((S_8017472C_2_pre *)target)[-1].unk_00;
-                    actor->unk_72 = ((S_8017472C_3 *)state)->unk_24;
-                    actor->unk_73 = ((S_8017472C_3 *)state)->unk_25;
+                    actor->target_tile_x = ((S_8017472C_3 *)state)->unk_24;
+                    actor->target_tile_y = ((S_8017472C_3 *)state)->unk_25;
                 }
             } else {
                 target = scan_monster_along_heading(
@@ -149,10 +149,10 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
                     actor->facing,
                     0x10);
                 actor->target = target;
-                actor->unk_72 =
-                abs(actor->unk_72);
-                actor->unk_73 =
-                abs(actor->unk_73);
+                actor->target_tile_x =
+                abs(actor->target_tile_x);
+                actor->target_tile_y =
+                abs(actor->target_tile_y);
 
             }
 
@@ -166,18 +166,18 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
             return;
         }
 
-        transform->flags14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, ((S_8017472C_4 *)sprite)->unk_24, ((S_8017472C_4 *)sprite)->unk_25);
         D_8008346C = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
-        (*(u8 *)&actor->unk_6D)--;
+        (*(u8 *)&actor->pending_turn_updates)--;
         ((S_8017472C_0 *)action)->unk_8C = D_801724BC;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -220,9 +220,9 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
             return;
         }
 
-        transform->flags14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, ((S_8017472C_4 *)sprite)->unk_24, ((S_8017472C_4 *)sprite)->unk_25);
 
         kind = actor->unk_48;
@@ -271,10 +271,10 @@ void advance_actor_targeted_action(void *action, EntityRec *transform, void *spr
         ((S_8017472C_6 *)control)->unk_0A--;
         ((S_8017472C_0 *)action)->unk_8C = D_801724BC;
         advance_status_timers(actor);
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        (*(u8 *)&actor->unk_6D)--;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        (*(u8 *)&actor->pending_turn_updates)--;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
         break;
     default:

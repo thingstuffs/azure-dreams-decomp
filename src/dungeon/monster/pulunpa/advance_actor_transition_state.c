@@ -15,7 +15,7 @@ extern void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 extern u8 find_entity_slot_by_field_ac(void *);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void display_record_name_message(void *);
 
 extern u8 D_80173B98;
@@ -73,24 +73,24 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
     case 1:
         {
             u8 *saved_actor;
-            EntityRec *actor_map;
+            ActorRecord *actor_map;
             u16 saved_index;
             u8 actor_index;
-            EntityRec *primary_table;
+            ObjectPosition *primary_table;
             TileObject *secondary_table;
 
-            saved_index = ((u16)((EntityRec *)((u8 *)D_800E3D7C))->unk_8A);
-            saved_actor = ((EntityRec *)((u8 *)D_800E3D7C))->target;
+            saved_index = ((u16)((ActorRecord *)((u8 *)D_800E3D7C))->unk_8A);
+            saved_actor = ((ActorRecord *)((u8 *)D_800E3D7C))->target;
             actor_index = find_entity_slot_by_field_ac(actor);
             primary_table = &D_80083780;
             secondary_table = &D_80082E80;
             actor_map = D_800E3D7C;
             owner[0xA9] = actor_index;
             actor_map->unk_8A = actor_index;
-            ((EntityRec *)((u8 *)D_800E3D7C))->target = actor;
+            ((ActorRecord *)((u8 *)D_800E3D7C))->target = actor;
             store_recalled_familiar(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
             (*(u8 * *)((u8 *)((u8 *)D_800E3D7C) + (0x60))) = saved_actor;
-            ((EntityRec *)((u8 *)D_800E3D7C))->unk_8A = saved_index;
+            ((ActorRecord *)((u8 *)D_800E3D7C))->unk_8A = saved_index;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
 
@@ -136,7 +136,7 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
         {
             register u8 *entry = entry_data;
 
-            reduce_actor_food_meter(work, 0x800);
+            spend_actor_mp(work, 0x800);
             ((S_80176028_5 *)work)->unk_1C |= 0x2000;
             update_map_cell_flags_with_item_limit(entry[0x24], entry[0x25], 0x3000);
             cycle_map_cell_flags(entry[0x24], entry[0x25], 0x300);

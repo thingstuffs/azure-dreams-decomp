@@ -24,8 +24,8 @@ extern void SD_Call(s32);
 /* Update the effect position, spin phases, animated icons, and rotation sound. */
 void update_effect_position_spin_phases(void *state_arg, void *target_arg, void *effect_arg)
 {
-    EntityRec *world_pos = &D_80083780;
-    EntityRec *close_pos;
+    ObjectPosition *world_pos = &D_80083780;
+    ObjectPosition *close_pos;
     s32 dx = (world_pos->x.v + (s32)0xFCA00000) >> 16;
     s32 dy = (world_pos->y.v + (s32)0xFCA00000) >> 16;
     void *spin_data;
@@ -71,7 +71,7 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
             U16(state_arg, 0x62) = U16(state_arg, 0x62) - value_close;
         }
     } else if (distance < 209) {
-        EntityRec *mid_pos;
+        ObjectPosition *mid_pos;
         mid_pos = &D_80083780;
         if (S16(mid_pos, 0xA) >= S16(target_arg, 0xA)) {
             mid_pos->x.v = S32(state_arg, 4);

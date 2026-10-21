@@ -2,7 +2,7 @@
 #include "shared/dungeon_status.h"
 
 extern u32 update_actor_movement_to_tile(void);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void advance_status_timers(void *);
 extern s32 check_actor_floor_trap(void *, void *);
 
@@ -16,13 +16,13 @@ void update_actor_movement_state(void *state, s32 unused, void *action_arg, void
 
     if (update_actor_movement_to_tile() != 0) {
         if (*(u8 *)((u8 *)state + 0xB5) == 0) {
-            reduce_actor_food_meter(actor, 4);
+            spend_actor_mp(actor, 4);
             advance_status_timers(actor);
             if ((check_actor_floor_trap(action_data, actor) << 16) <= 0) {
                 return;
             }
         } else {
-            reduce_actor_food_meter(actor, 0x10);
+            spend_actor_mp(actor, 0x10);
             advance_status_timers(actor);
         }
         *(void **)((u8 *)state + 0x8C) = D_80171A80;

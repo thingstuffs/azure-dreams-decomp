@@ -22,7 +22,7 @@ typedef struct S_80173730_0 {
 } S_80173730_0;   /* arg0 in update_staged_item_movement */
 
 /* Updates staged movement toward a target tile and finalizes the action. */
-void update_staged_item_movement(void *action, EntityRec *motion, void *target, EntityRec *actor)
+void update_staged_item_movement(void *action, ObjectPosition *motion, void *target, EntityRec *actor)
 {
     u8 state;
     s16 timer;
@@ -34,9 +34,9 @@ void update_staged_item_movement(void *action, EntityRec *motion, void *target, 
         ((S_80173730_0 *)action)->unk_96.u = 4;
         ((S_80173730_0 *)action)->unk_9B++;
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, target, &D_801760D4);
             return;
         }
@@ -51,10 +51,10 @@ void update_staged_item_movement(void *action, EntityRec *motion, void *target, 
         timer = ((S_80173730_0 *)action)->unk_96.u - 1;
         ((S_80173730_0 *)action)->unk_96.u = timer;
         if (timer > 0) {
-            motion->unk_0C =
+            motion->velocity_x =
                 *(s16 *)(((s8 *)dir_step_x) +
                     ((actor->unk_6A >> 8) & 0xE)) << 19;
-            motion->unk_10 =
+            motion->velocity_y =
                 *(s16 *)(((s8 *)dir_step_y) +
                     ((actor->unk_6A >> 8) & 0xE)) << 19;
             return;
@@ -62,10 +62,10 @@ void update_staged_item_movement(void *action, EntityRec *motion, void *target, 
         if (timer != 0) {
             return;
         }
-        motion->unk_0C =
+        motion->velocity_x =
             *(s16 *)(((s8 *)dir_step_x) +
                 ((actor->unk_6A >> 8) & 0xE)) << 18;
-        motion->unk_10 =
+        motion->velocity_y =
             *(s16 *)(((s8 *)dir_step_y) +
                 ((actor->unk_6A >> 8) & 0xE)) << 18;
         ((S_80173730_0 *)action)->unk_96.u = 12;
@@ -74,9 +74,9 @@ void update_staged_item_movement(void *action, EntityRec *motion, void *target, 
 
     case 2:
         if (actor->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, target, &D_801760D4);
             return;
         }
@@ -88,14 +88,14 @@ void update_staged_item_movement(void *action, EntityRec *motion, void *target, 
                     s32 target_x = ((SpriteFrameState *)target)->unk_24 << 6;
                     s32 current_x = motion->x.w.i - 0x20;
 
-                    motion->unk_0C =
+                    motion->velocity_x =
                         ((target_x - current_x) << 16) / motion_timer;
                 }
                 {
                     s32 target_y = ((SpriteFrameState *)target)->unk_25 << 6;
                     s32 current_y = motion->y.w.i - 0x20;
 
-                    motion->unk_10 = ((target_y - current_y) << 16)
+                    motion->velocity_y = ((target_y - current_y) << 16)
                     / ((S_80173730_0 *)action)->unk_96.s;
                 }
             }
@@ -108,9 +108,9 @@ void update_staged_item_movement(void *action, EntityRec *motion, void *target, 
                 return;
             }
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         ((S_80173730_0 *)action)->unk_9B++;
         return;
 
@@ -118,9 +118,9 @@ void update_staged_item_movement(void *action, EntityRec *motion, void *target, 
     {
         s32 entity_addr;
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)target)->unk_24,
             ((SpriteFrameState *)target)->unk_25);
         entity_addr = ((s32)g_dungeon_status.pending_display_owner);

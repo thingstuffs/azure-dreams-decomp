@@ -122,7 +122,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
     payout_callback = D_80020224;
 
     if ((u32)((u16)state->mode.u - 2) < 5U) {
-        EntityRec *angles = &D_80083780;
+        ObjectPosition *angles = &D_80083780;
 
         angle = query_lowered_transform_position(angles);
         if (angle > 0) {

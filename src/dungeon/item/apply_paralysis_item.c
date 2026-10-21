@@ -10,20 +10,20 @@ void clear_slot_and_update_linked_state();
 s32 play_sound_if_enabled();
 void apply_item_effect_at_entity_position();
 void display_item_status_message();
-s32 apply_actor_food_preference();
+s32 feed_actor_restore_mp();
 s32 try_apply_effect_four_by_chance();
 extern u16 entity_action_selectors[];
 
 /* Handle item use on a target, deferring the player action or consuming the item. */
-s32 apply_paralysis_item(EntityRec *target, s32 item, s16 use_type) {
+s32 apply_paralysis_item(ActorRecord *target, s32 item, s16 use_type) {
     if (target == D_800E3D7C) {
-        target->unk_110 = item;
+        ((PlayerRecord *)target)->pending_item_action = item;
         begin_deferred_item_action(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((s32)target <= 0x9FFFFFFFU) {
         display_item_status_message(target, item, use_type);
-        if (apply_actor_food_preference(target,
+        if (feed_actor_restore_mp(target,
                           (entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] >> 6) & 3,
                           0) == 0) {
             apply_item_effect_at_entity_position(target, item);

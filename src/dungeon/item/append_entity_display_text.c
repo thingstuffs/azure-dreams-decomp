@@ -25,7 +25,7 @@ u8 *append_entity_display_text(void *record, u8 *out)
     u8 *table_page;
     u8 ch;
 
-    if ((((EntityRec *)((u8 *)D_800E3D7C))->flags1C & 0x10) &&
+    if ((((ActorRecord *)((u8 *)D_800E3D7C))->flags1C & 0x10) &&
         ((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)) != 0)) {
         src = (u8 *)D_800DD728;
     } else if (((EntityRec *)record)->flags14 & 0x4000) {

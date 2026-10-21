@@ -2,7 +2,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Animate movement to the target tile and finalize the actor when the timer expires. */
-void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, EntityRec *motion, SpriteFrameState *tile, EntityRec *actor)
+void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *animation, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor)
 {
     s32 state;
     s32 arc_ticks;
@@ -35,12 +35,12 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
             target_x <<= 6;
             world_x -= 0x20;
 
-            motion->unk_0C =
+            motion->velocity_x =
                 ((target_x - world_x) << 16) / arc_ticks;
 
             world_y = motion->y.w.i;
             world_y -= 0x20;
-            motion->unk_10 =
+            motion->velocity_y =
                 (((tile->unk_25 << 6) - world_y) << 16) /
                 animation->unk_9E.s;
 
@@ -65,9 +65,9 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
     case 2:
         if (actor->flags1C & 0x08000000) {
             animation->unk_98 &= 0xFFF7;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
             animation->unk_9B++;
         }
@@ -82,11 +82,11 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
         return;
     }
 
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
-    reduce_actor_food_meter(actor, 4);
+    spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
     global_base = &g_dungeon_status;
@@ -96,8 +96,8 @@ void create_tinted_sprite_effect_supplied_position(T_8017406C_S_8017406C_0 *anim
 
     actor_flags = actor->flags1C;
     if (actor_flags & 0x2000) {
-        if (actor->unk_46 & 0x8000) {
-            actor->unk_46 &= 0x7FFF;
+        if (actor->action_flags & 0x8000) {
+            actor->action_flags &= 0x7FFF;
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {

@@ -82,7 +82,7 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 /* Advances an actor's action phase, updating its target, animation, and completion. */
-void advance_an_actor_s_action_phase_updating_target_animation_completion(ActorActionWork *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void advance_an_actor_s_action_phase_updating_target_animation_completion(ActorActionWork *action, ObjectPosition *motion, ActorSpriteView *sprite, ActorRecord *actor)
 {
     s32 usePlayerTarget = 0;
     u8 *actionEntry;
@@ -99,7 +99,7 @@ void advance_an_actor_s_action_phase_updating_target_animation_completion(ActorA
     switch (phase) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            actionKind = actor->unk_46 & 0x3FFF;
+            actionKind = actor->action_flags & 0x3FFF;
             switch (actionKind) {
             case 7:
                 usePlayerTarget = 1;
@@ -124,7 +124,7 @@ void advance_an_actor_s_action_phase_updating_target_animation_completion(ActorA
                 break;
             }
         } else {
-            actionKindOrTargetAddress = actor->unk_46 & 0x3FFF;
+            actionKindOrTargetAddress = actor->action_flags & 0x3FFF;
             switch (actionKindOrTargetAddress) {
             case 3:
                 actionEntry = ((ActorActionSlots *)actor)->third;
@@ -151,16 +151,16 @@ void advance_an_actor_s_action_phase_updating_target_animation_completion(ActorA
                     /* Both target paths read the link in the object prefix. */
                     actionKindOrTargetAddress = (s32)((TargetLinkHeader *)target_link)[-1].positionRecord;
 
-                    actor->unk_72 = ((TargetPositionView *)actionKindOrTargetAddress)->tileX;
-                    actor->unk_73 = ((TargetPositionView *)actionKindOrTargetAddress)->tileY;
+                    actor->target_tile_x = ((TargetPositionView *)actionKindOrTargetAddress)->tileX;
+                    actor->target_tile_y = ((TargetPositionView *)actionKindOrTargetAddress)->tileY;
                 } else if (D_8006CC74[*actionEntry].kind == 2) {
                     target_link = actor->target;
                     if (target_link != 0) {
                         /* Both target paths read the link in the object prefix. */
                         actionKindOrTargetAddress = (s32)((TargetLinkHeader *)target_link)[-1].positionRecord;
 
-                        actor->unk_72 = ((TargetPositionView *)actionKindOrTargetAddress)->tileX;
-                        actor->unk_73 = ((TargetPositionView *)actionKindOrTargetAddress)->tileY;
+                        actor->target_tile_x = ((TargetPositionView *)actionKindOrTargetAddress)->tileX;
+                        actor->target_tile_y = ((TargetPositionView *)actionKindOrTargetAddress)->tileY;
                     }
                 } else {
                     s32 abs_x;
@@ -172,10 +172,10 @@ void advance_an_actor_s_action_phase_updating_target_animation_completion(ActorA
                         sprite->position.tile.y,
                         actor->facing,
                         0x10);
-                    abs_x = abs(actor->unk_72);
-                    abs_y = abs(actor->unk_73);
-                    actor->unk_72 = abs_x;
-                    actor->unk_73 = abs_y;
+                    abs_x = abs(actor->target_tile_x);
+                    abs_y = abs(actor->target_tile_y);
+                    actor->target_tile_x = abs_x;
+                    actor->target_tile_y = abs_y;
                 }
             }
             if (func_800A8158(actor, actionEntry, usePlayerTarget, &action->actionFlags) == 0) {
@@ -183,23 +183,23 @@ void advance_an_actor_s_action_phase_updating_target_animation_completion(ActorA
             }
             action->phaseTicks = 0;
             action->phase++;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         func_800A17D4(motion, sprite->position.tile.x, sprite->position.tile.y);
         D_80085990.active_actor = 0;
         ((ActorCounterView *)D_800803DC)->pendingCount--;
         func_800A3784(actor);
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
         action->handler = &D_80170514;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -279,9 +279,9 @@ void advance_an_actor_s_action_phase_updating_target_animation_completion(ActorA
         if (!(sprite->animationFlags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         func_800A17D4(motion, sprite->position.tile.x, sprite->position.tile.y);
         action->phase++;
         if (sprite->directionFrames == D_80172E8C) {
@@ -305,10 +305,10 @@ void advance_an_actor_s_action_phase_updating_target_animation_completion(ActorA
             D_80085990.activity_counts.parts.pending_action_count--;
             action->handler = &D_80170514;
             func_800A3784(actor);
-            actor->unk_6D--;
-            actor->unk_73 = 0;
-            actor->unk_72 = 0;
-            actor->unk_46 &= 0x7FFF;
+            actor->pending_turn_updates--;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags &= 0x7FFF;
             func_800A4398(0xB4);
         }
         return;

@@ -573,7 +573,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             state->y = D_80082E80.tile_position.parts.tile_y + dir_step_y[state->direction];
         }
         {
-            EntityRec *height_node;
+            ActorRecord *height_node;
             s32 tile_coord;
 
             tile_coord = state->x;
@@ -581,7 +581,7 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             tile_coord = state->y;
             height_node = D_800814A8;
             S16_AT(target_pos, 6) = tile_coord * 64 + 0x20;
-            S16_AT(target_pos, 0xA) = height_node->unk_88 - 0x20;
+            S16_AT(target_pos, 0xA) = height_node->ground_height - 0x20;
         }
         S16_AT(target_pos, 0xA) = get_surface_height_at_record(target_pos);
         state->z = S16_AT(target_pos, 0xA);

@@ -51,7 +51,7 @@ typedef struct {
 /* Services pending redraw flags, then draws map markers for nearby monsters, dropped items, and large map entries. */
 void draw_nearby_map_markers(s32 draw_param) {
     u8 colour[4];
-    EntityRec *head;
+    ActorRecord *head;
     u8 *entry;
     long playerAndIndex;
     u8 *player;
@@ -102,7 +102,7 @@ void draw_nearby_map_markers(s32 draw_param) {
     colour[0] = brightness;
     append_adjusted_type_two_entry(player[0x24], player[0x25], firstColour, firstContext);
 
-    entry = ((u8 *)head->unk_5C) + 0x20;
+    entry = ((u8 *)head->next_actor_header) + 0x20;
     colour[1] = 0;
     if (entry != head) {
         for (; entry != head; entry = *(u8 **)(entry + 0x5c) + 0x20) {

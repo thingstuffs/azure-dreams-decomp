@@ -25,28 +25,28 @@ void update_gym_lane_selection(void *unused, EntityRec *object)
     height_limit = (s16)query_lowered_transform_position(object);
     if (D_800272CA > 0) {
         D_800272CA--;
-        D_80083780.unk_0C -= D_80083780.unk_0C >> 1;
+        D_80083780.velocity_x -= D_80083780.velocity_x >> 1;
     } else {
         s16 choice_index;
         u16 choice_id;
         s32 buttons;
-        EntityRec *record_base;
+        ObjectPosition *record_base;
 
         record_base = &D_80083780;
         choice_index = D_800272C8;
         choice_id = D_80026F24[choice_index];
         buttons = ((s32)button_base->pressed_buttons);
 
-        record_base->unk_0C = 0;
+        record_base->velocity_x = 0;
         record_base->x.w.i = choice_id;
         if ((buttons & 0x8000) && choice_index != 0) {
             D_800272C8--;
-            record_base->unk_0C = (s32)0xFFD00000;
+            record_base->velocity_x = (s32)0xFFD00000;
             D_800272CA = 3;
             apply_global_scene_value(D_800D00C0);
         } else if ((((s32)button_base->pressed_buttons) & 0x2000) && D_800272C8 < 2) {
             D_800272C8++;
-            D_80083780.unk_0C = 0x300000;
+            D_80083780.velocity_x = 0x300000;
             D_800272CA = 3;
             apply_global_scene_value(D_800D00C0);
         } else if (D_80082E80.sprite_flags & 0x6000) {

@@ -42,7 +42,7 @@ void update_directional_actor_effect(void *object)
     s32 cell_value;
     s32 cell_size;
     s32 direction_offset;
-    EntityRec *map_data;
+    ActorRecord *map_data;
     u8 config_byte;
     void *created_obj;
     void *display;
@@ -62,8 +62,8 @@ void update_directional_actor_effect(void *object)
         D_800273C0 = ((S_8002401C_0 *)object_bytes)->unk_00.s;
         D_8002732C = source_obj;
 
-        D_800814A8->unk_F4 = 0;
-        D_800814A8->unk_102 = 1;
+        ((PlayerRecord *)D_800814A8)->unk_F4 = 0;
+        ((PlayerRecord *)D_800814A8)->unk_102 = 1;
         D_800814A8->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
 
         clear_row = D_800274DC[0];

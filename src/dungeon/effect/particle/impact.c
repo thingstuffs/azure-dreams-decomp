@@ -729,29 +729,29 @@ void create_shrinking_entry_particle_effect(s32 effect_value, S_80024AE8_3 *posi
 /* Clears flag 0x2000 on every object in the circular list. */
 void clear_circular_list_flags(void)
 {
-    EntityRec *link;
+    ActorRecord *link;
     ObjectNodeHeader *object;
-    EntityRec *head;
+    ActorRecord *head;
     s32 link_value;
     s32 next;
 
     link = D_800814A8;
     /* unk_5C links to the next object's header; its record follows the header */
-    next = link->unk_5C;
+    next = link->next_actor_header;
     link_value = (u32)link;
     next += 0x20;
-    link = (EntityRec *)next;
-    if (link == (EntityRec *)(u32)link_value) {
+    link = (ActorRecord *)next;
+    if (link == (ActorRecord *)(u32)link_value) {
         return;
     }
-    head = (EntityRec *)(u32)link_value;
+    head = (ActorRecord *)(u32)link_value;
     do {
         object = (ObjectNodeHeader *)link - 1;
         next = object->flags;
         next &= 0xDFFF;
         object->flags = next;
-        link_value = link->unk_5C;
-        link = (EntityRec *)(link_value + 0x20);
+        link_value = link->next_actor_header;
+        link = (ActorRecord *)(link_value + 0x20);
     } while (link != head);
 }
 
@@ -2175,7 +2175,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         select_nearby_target_and_initialize_slot((u8 *)((GlobalObj *)D_800814A8) - 0x20, ((Position *)&D_80083780), 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
-        D_800814A8->unk_102 = 1;
+        ((PlayerRecord *)D_800814A8)->unk_102 = 1;
         rect[0] = rect_xy;
         rect[1] = rect_size;
         decode_and_upload_image(D_8006E8A0, rect);
@@ -2204,7 +2204,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
     {
         u16 timer = effect->unk_28.u;
         GlobalObj *owner;
-        EntityRec *position;
+        ObjectPosition *position;
         OffsetPair *offset_base;
         u16 next_state;
         u16 direction;
@@ -2225,7 +2225,7 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
 
         particle_index = 0;
         if (effect->unk_28.s == 0x4A) {
-            EntityRec *effect_position = &D_80083780;
+            ObjectPosition *effect_position = &D_80083780;
 
             func_80025CE8((s16)((u16)effect_position->x.w.i),
                           (s16)((u16)effect_position->y.w.i),

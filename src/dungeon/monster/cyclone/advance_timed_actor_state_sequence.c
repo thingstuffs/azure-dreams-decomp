@@ -45,7 +45,7 @@ extern u8 D_80176460[8];
 
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(D3 *, s32);
+extern void spend_actor_mp(D3 *, s32);
 extern void select_sprite_entry(D2 *, u8, s32);
 extern void create_directional_target_object(D0 *, void *, D2 *);
 extern void format_entity_message(s32, D3 *);
@@ -97,7 +97,7 @@ void advance_timed_actor_state_sequence(D0 *action, void *context, D2 *sprite, D
                 return;
             }
         }
-        reduce_actor_food_meter(actor, 0x400);
+        spend_actor_mp(actor, 0x400);
         set_record_integer_tile_center(context, sprite->value_24, sprite->value_25);
         action->field_8C = D_80171094;
         g_dungeon_status.active_actor = 0;

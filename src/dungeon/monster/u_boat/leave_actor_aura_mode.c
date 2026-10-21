@@ -33,7 +33,7 @@ extern u8 D_800E2448[];
 extern u8 D_80171A80[];
 
 /* Advance a two-phase animation transition and finalize the entity state. */
-void leave_actor_aura_mode(void *state, EntityRec *motion, void *sprite, EntityRec *entity) {
+void leave_actor_aura_mode(void *state, ObjectPosition *motion, void *sprite, ActorRecord *entity) {
     u16 start_ticks;
     u16 finish_ticks;
     u8 phase;
@@ -65,9 +65,9 @@ void leave_actor_aura_mode(void *state, EntityRec *motion, void *sprite, EntityR
             start_ticks = ((S_80176084_0 *)state)->unk_96;
             ((S_80176084_0 *)state)->unk_96 = (u16)(start_ticks - 1);
             if (((start_ticks << 0x10) <= 0) || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
-                motion->flags14 = 0;
-                motion->unk_10 = 0;
-                motion->unk_0C = 0;
+                motion->velocity_z = 0;
+                motion->velocity_y = 0;
+                motion->velocity_x = 0;
                 set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
                 entity->flags1C |= 0x40000;
                 ((S_80176084_0 *)state)->unk_B5 = 0;
@@ -96,7 +96,7 @@ void leave_actor_aura_mode(void *state, EntityRec *motion, void *sprite, EntityR
         if (((S_80176084_0 *)state)->unk_B4 == 0) {
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            entity->unk_46 &= 0x7FFF;
+            entity->action_flags &= 0x7FFF;
         }
         try_move_actor_to_valid_position(state, motion, sprite, entity);
     }

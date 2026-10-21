@@ -54,7 +54,7 @@ extern Rec_D_80100D98 D_80100D98;
 
 /* Initialize object resources and display state, then copy its position to shared state. */
 void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6C_2 *display_state) {
-    EntityRec *shared_position;
+    ObjectPosition *shared_position;
 
     initialize_object_and_register_slot(object, 0x1D, &D_800D5120, &D_800D5124,
                   &D_800D50F0, &D_800D50F8);
@@ -69,7 +69,7 @@ void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6
     display_state->unk_1E = 0x800;
     display_state->unk_1C = 0x800;
     position->y = 0x04300000;
-    ((EntityRec *)((u8 *)(&D_80083780)))->x.v = position->x;
+    ((ObjectPosition *)((u8 *)(&D_80083780)))->x.v = position->x;
     shared_position = &D_80083780;
     shared_position->y.v = (s32) position->y;
     shared_position->z.v = (s32) position->z;

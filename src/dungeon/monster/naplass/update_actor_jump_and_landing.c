@@ -27,7 +27,7 @@ s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
 void on_actor_status_updated(void *actor);
-void reduce_actor_food_meter();
+void spend_actor_mp();
 s32 check_actor_floor_trap();
 
 extern u8 D_80170E68;
@@ -35,7 +35,7 @@ extern u8 D_801741B4[];
 extern u8 D_801741BC[];
 
 /* Updates an actor's jump toward its target tile and completes the landing. */
-void update_actor_jump_and_landing(void *jump, EntityRec *motion, void *map_entity, EntityRec *actor) {
+void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, void *map_entity, ActorRecord *actor) {
     s32 facing_aux;
     s32 jump_ticks;
     s16 ticks_left;
@@ -52,7 +52,7 @@ void update_actor_jump_and_landing(void *jump, EntityRec *motion, void *map_enti
             D_801741B4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172288_0 *)jump)->unk_98 |= 8;
-        motion->flags14 = 0xFFEE0000;
+        motion->velocity_z = 0xFFEE0000;
         actor->flags1C &= 0xF7FFFFFF;
         ((S_80172288_0 *)jump)->unk_A4 = 0;
         ((S_80172288_0 *)jump)->unk_9B++;
@@ -65,17 +65,17 @@ void update_actor_jump_and_landing(void *jump, EntityRec *motion, void *map_enti
                 s32 target_x = ((Rec_D_80082E80 *)map_entity)->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
-                motion->unk_0C = ((target_x - current_x) << 16) / jump_ticks;
+                motion->velocity_x = ((target_x - current_x) << 16) / jump_ticks;
             }
             {
                 s32 target_y = ((Rec_D_80082E80 *)map_entity)->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
-                motion->unk_10 = ((target_y - current_y) << 16) /
+                motion->velocity_y = ((target_y - current_y) << 16) /
                     ((S_80172288_0 *)jump)->unk_96.s;
             }
-            ((S_80172288_0 *)jump)->unk_A4 += motion->flags14;
-            motion->flags14 += 0x40000;
+            ((S_80172288_0 *)jump)->unk_A4 += motion->velocity_z;
+            motion->velocity_z += 0x40000;
         }
         ((S_80172288_0 *)jump)->unk_90 += ((S_80172288_0 *)jump)->unk_A4;
         if (((S_80172288_0 *)jump)->unk_96.s < 2) {
@@ -88,9 +88,9 @@ void update_actor_jump_and_landing(void *jump, EntityRec *motion, void *map_enti
     case 2:
         if (((u32)actor->flags1C) & 0x08000000) {
             ((S_80172288_0 *)jump)->unk_98 &= 0xFFF7;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
             (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_801741BC;
             select_sprite_entry(
@@ -107,11 +107,11 @@ void update_actor_jump_and_landing(void *jump, EntityRec *motion, void *map_enti
     ticks_left = ((S_80172288_0 *)jump)->unk_96.u - 1;
     ((S_80172288_0 *)jump)->unk_96.s = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-        reduce_actor_food_meter(actor, 4);
+        spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
 
@@ -122,8 +122,8 @@ void update_actor_jump_and_landing(void *jump, EntityRec *motion, void *map_enti
 
         actor_flags = ((u32)actor->flags1C);
         if (actor_flags & 0x2000) {
-            if (actor->unk_46 & 0x8000) {
-                actor->unk_46 &= 0x7FFF;
+            if (actor->action_flags & 0x8000) {
+                actor->action_flags &= 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {

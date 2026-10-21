@@ -126,7 +126,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
     s32 end_frame;
     TileObject *resident_sprite;
     void *source_data;
-    EntityRec *source_data_2;
+    ActorRecord *source_data_2;
     s16 *update_ptr;
     s16 *update_y_base;
     s16 *update_y_ptr;
@@ -183,7 +183,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
                 ((S_80025C80_0 *)effect_in)->unk_38 = end_frame;
                 ((S_80025C80_0 *)effect_in)->unk_36 = 0xF;
                 ((S_80025C80_0 *)effect_in)->unk_32 = 1;
-                ((S_80025C80_0 *)effect_in)->unk_3A = (u16) ((u16)source_data_2->unk_88);
+                ((S_80025C80_0 *)effect_in)->unk_3A = (u16) ((u16)source_data_2->ground_height);
                 ((S_80025C80_0 *)effect_in)->unk_40.u = (u16) (((u16) ((u16)source_data_2->facing) >> 9) & 7);
                 resident_sprite = &D_80082E80;
                 ((S_80025C80_0 *)effect_in)->unk_3C = resident_sprite->tile_position.parts.tile_x;

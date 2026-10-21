@@ -99,7 +99,7 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
         ((S_8008D470_0 *)effect)->unk_A2.s = ((S_8008D470_0 *)effect)->unk_A2.u + 1;
     case 1:
         target = ((S_8008D470_0 *)effect)->unk_90;
-        if (resolve_record_orientation_or_fallback(target->unk_08, target, offsets, 0) != 0 &&D_800E3D7C->unk_124 != 0) {
+        if (resolve_record_orientation_or_fallback(target->unk_08, target, offsets, 0) != 0 &&((PlayerRecord *)D_800E3D7C)->unk_124 != 0) {
             visual->unk_1C = 0x1000;
             steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
             ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;

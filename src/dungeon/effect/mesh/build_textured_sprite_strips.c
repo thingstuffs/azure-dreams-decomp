@@ -564,10 +564,10 @@ void decrement_effect_counter_by_twelve(s32 draw_data, ScreenRect *clip_rect, vo
 
 /* Retail 81905564 (draw_brightness_scaled_linked_tiles): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
-s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, EntityRec *first_position)
+s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
-    EntityRec *position = first_position;
+    ObjectPosition *position = first_position;
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
     GpuContext *render_ctx = g_game_work.draw_buffer;
@@ -700,16 +700,16 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
     s16 position_x;
     s16 position_y;
     s16 position_z;
-    EntityRec *dest_x;
-    EntityRec *dest_y;
-    EntityRec *dest_z;
+    ObjectPosition *dest_x;
+    ObjectPosition *dest_y;
+    ObjectPosition *dest_z;
 
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
         spawned->unk_10 = (void *)raise_effect_to_height_limit;
         jitter_x = rand() & 0x1F;
-        position_x = ((EntityRec *)source_obj->unk_08)->x.w.i;
+        position_x = ((ObjectPosition *)source_obj->unk_08)->x.w.i;
         dest_x = spawned->unk_08;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
@@ -717,7 +717,7 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
         dest_x->x.w.i = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((EntityRec *)source_obj->unk_08)->y.w.i;
+        position_y = ((ObjectPosition *)source_obj->unk_08)->y.w.i;
         dest_y = spawned->unk_08;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
@@ -726,7 +726,7 @@ void get_half_byte_length(ObjectNodeHeader *parent, s16 field_34, s32 field_28, 
 
         jitter_z = rand();
         jitter_z &= 0x1F;
-        position_z = ((EntityRec *)source_obj->unk_08)->z.w.i;
+        position_z = ((ObjectPosition *)source_obj->unk_08)->z.w.i;
         fields = (PointRecord *)(spawned + 1);
         dest_z = spawned->unk_08;
         position_z += jitter_z;

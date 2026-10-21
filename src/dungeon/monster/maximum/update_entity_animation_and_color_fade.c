@@ -45,7 +45,7 @@ extern u8 D_80173C9C[];
 extern u8 D_80173CA4[];
 
 /* Updates entity state, directional animation, and color fading. */
-void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, s32 update_mode, S_80173204_1 *sprite, EntityRec *entity)
+void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, s32 update_mode, S_80173204_1 *sprite, ActorRecord *entity)
 {
     s32 state;
     s32 flags;
@@ -106,7 +106,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
                 return;
             }
         }
-        if (entity->tileY == 0) {
+        if (entity->mp == 0) {
             if (g_dungeon_status.flags & 0x2008) {
                 return;
             }
@@ -127,7 +127,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
             advance_actor_state_with_child(controller, update_mode, sprite, entity);
             return;
         }
-        if (entity->unk_6D == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {

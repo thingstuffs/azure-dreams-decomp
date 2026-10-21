@@ -22,7 +22,7 @@ extern void get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, 
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern s16 check_left_tile_and_center_height(u16, u16, s16);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern s32 find_first_entry_matching_keys(void *, u16, u16, s16);
 extern void create_facing_offset_object(void *, void *, void *);
@@ -100,7 +100,7 @@ typedef struct S_801757E0_6 {
    /* transform in update_action_and_check_forward_tile */
 
 /* Update the action sequence, spawning particles and checking the tile ahead. */
-void update_action_and_check_forward_tile(void *actor, void *motion, void *animation, EntityRec *entity)
+void update_action_and_check_forward_tile(void *actor, void *motion, void *animation, ActorRecord *entity)
 {
     u16 offsets[3];
     u16 collision_flags;
@@ -372,10 +372,10 @@ void update_action_and_check_forward_tile(void *actor, void *motion, void *anima
         return;
 
     case 9:
-        reduce_actor_food_meter(entity, 0x800);
+        spend_actor_mp(entity, 0x800);
         ((S_801757E0_0 *)actor)->unk_8C = &D_801714B8;
         g_dungeon_status.active_actor = 0;
-        (entity->unk_46) &= 0x7FFF;
+        (entity->action_flags) &= 0x7FFF;
 
     case 16:
         timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;

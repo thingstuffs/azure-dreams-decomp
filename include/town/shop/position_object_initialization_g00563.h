@@ -71,7 +71,7 @@ extern u8 D_800D0754[];
 extern u8 D_800D076C[];
 
 /* Functions defined in this translation unit. */
-void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C_0 *state, EntityRec *record, void *unused_render);
+void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render);
 void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, MovingPosition *position);
 
 #endif

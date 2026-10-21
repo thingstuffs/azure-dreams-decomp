@@ -554,7 +554,7 @@ typedef struct Scratch80024EDC {
 
 /* Retail 818F96DC (draw_linked_brightness_points): projects each linked point and queues a brightness-scaled shaded point
  * followed by a draw-mode packet for it. */
-s32 draw_linked_brightness_points(PointRecord *start_node, EntityRec *start_coords)
+s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start_coords)
 {
     GpuContext **state_ptr;
     Scratch80024EDC *scratch;
@@ -562,7 +562,7 @@ s32 draw_linked_brightness_points(PointRecord *start_node, EntityRec *start_coor
     GpuContext *final_state;
     PointPacket *packet;
     PointRecord *node;
-    EntityRec *coords;
+    ObjectPosition *coords;
     ObjectNodeHeader *prev_entry;
     u32 depth_index;
     u16 coord_x;
@@ -714,16 +714,16 @@ void create_random_jitter_child(
     s16 position_y;
     s16 position_z;
     void *init_data;
-    EntityRec *dest_x;
-    EntityRec *dest_y;
-    EntityRec *dest_z;
+    ObjectPosition *dest_x;
+    ObjectPosition *dest_y;
+    ObjectPosition *dest_z;
 
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)source_obj);
     if (spawned != 0) {
         spawned->unk_10 = (void *)raise_entity_to_ground;
         jitter_x = rand() & 0x1F;
-        position_x = ((EntityRec *)source_obj->unk_08)->x.w.i;
+        position_x = ((ObjectPosition *)source_obj->unk_08)->x.w.i;
         dest_x = spawned->unk_08;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
@@ -731,7 +731,7 @@ void create_random_jitter_child(
         dest_x->x.w.i = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((EntityRec *)source_obj->unk_08)->y.w.i;
+        position_y = ((ObjectPosition *)source_obj->unk_08)->y.w.i;
         dest_y = spawned->unk_08;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
@@ -741,7 +741,7 @@ void create_random_jitter_child(
         jitter_z = rand();
         init_data = draw_linked_brightness_points;
         jitter_z &= 0x1F;
-        position_z = ((EntityRec *)source_obj->unk_08)->z.w.i;
+        position_z = ((ObjectPosition *)source_obj->unk_08)->z.w.i;
         fields = (PointRecord *)(spawned + 1);
         dest_z = spawned->unk_08;
         position_z += jitter_z;

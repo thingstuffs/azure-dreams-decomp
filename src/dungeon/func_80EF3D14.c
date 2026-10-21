@@ -31,15 +31,15 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern s32 D_8015FCE8;
 extern u8 D_80162EE0[];
 
-void advance_actor_action_variant_a(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void advance_actor_action_variant_a(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, ActorRecord *actor)
 {
     u8 state;
-    EntityRec *call_actor;
+    ActorRecord *call_actor;
     void *call_sprite;
 
     state = action->phase;
@@ -111,11 +111,11 @@ void advance_actor_action_variant_a(ActorActionView *action, EntityRec *motion, 
 
     case 4:
         if (sprite->flags & 0xE000) {
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             action->nextAction.word = &D_8015FCE8;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            actor->unk_46 &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
         }
     }
 }

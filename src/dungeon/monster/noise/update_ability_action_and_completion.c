@@ -36,7 +36,7 @@ extern M2C_UNK D_80171760;
 extern u8 D_80174E88[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
-void update_ability_action_and_completion(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
+void update_ability_action_and_completion(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor) {
     s16 next_effect;
     s16 effect_count;
     s32 ability_id;
@@ -54,7 +54,7 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
     switch (phase) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            ability_id = actor->unk_46 & 0x3FFF;
+            ability_id = actor->action_flags & 0x3FFF;
             switch (ability_id) {
             case 7:
                 use_player = 1;
@@ -76,7 +76,7 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
                 break;
             }
         } else {
-            normal_ability = actor->unk_46 & 0x3FFF;
+            normal_ability = actor->action_flags & 0x3FFF;
             switch (normal_ability) {
             case 3:
                 ability = (u8 *)actor + 0xE;
@@ -102,8 +102,8 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
                     {
                         target_sprite =
                             ((S_8017364C_2 *)((u8 *)target - 0x14))->unk_00;
-                        actor->unk_72 = target_sprite[0x24];
-                        actor->unk_73 = target_sprite[0x25];
+                        actor->target_tile_x = target_sprite[0x24];
+                        actor->target_tile_y = target_sprite[0x25];
                     }
                 } else {
                     u8 *ability_table;
@@ -120,8 +120,8 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
                             {
                                 target_sprite =
                                     ((S_8017364C_2 *)((u8 *)target - 0x14))->unk_00;
-                                actor->unk_72 = target_sprite[0x24];
-                                actor->unk_73 = target_sprite[0x25];
+                                actor->target_tile_x = target_sprite[0x24];
+                                actor->target_tile_y = target_sprite[0x25];
                             }
                         }
                     } else {
@@ -132,16 +132,16 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
                             s32 y;
 
                             *(void * volatile *)((u8 *)actor + 0x60) = (void *)x;
-                            x = actor->unk_72;
-                            y = actor->unk_73;
+                            x = actor->target_tile_x;
+                            y = actor->target_tile_y;
                             if (x < 0) {
                                 x = -x;
                             }
                             if (y < 0) {
                                 y = -y;
                             }
-                            actor->unk_72 = x;
-                            actor->unk_73 = y;
+                            actor->target_tile_x = x;
+                            actor->target_tile_y = y;
                         }
                     }
                 }
@@ -153,18 +153,18 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
             ((S_8017364C_0 *)action)->unk_9B = (u8) (((S_8017364C_0 *)action)->unk_9B + 1);
             return;
         } else {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (u16) ((*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1);
             advance_status_timers(actor);
-            actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             ((S_8017364C_0 *)action)->unk_8C = &D_80171760;
-            actor->unk_73 = 0;
-            actor->unk_72 = 0;
-            actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
             return;
         }
     case 1:
@@ -210,9 +210,9 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         if ((*(M2C_UNK * *)&((SpriteFrameState *)sprite)->frameTable) != D_80174E88) {
             ((SpriteFrameState *)sprite)->frameTable = D_80174E88;
@@ -226,10 +226,10 @@ void update_ability_action_and_completion(void *action, EntityRec *motion, void 
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((S_8017364C_0 *)action)->unk_8C = &D_80171760;
         advance_status_timers(actor);
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-        actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
+        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         play_sound_if_enabled(0xB4);
         return;
     }

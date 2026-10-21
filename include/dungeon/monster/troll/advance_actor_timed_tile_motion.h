@@ -31,6 +31,6 @@ extern void apply_clamped_actor_value_delta(void *);
 extern u8 D_80175E3C[];
 extern u8 D_80175E44[];
 extern u8 D_80175E4C[];
-void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, SpriteFrameState *entity, void *actor);
+void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, ObjectPosition *transform, SpriteFrameState *entity, void *actor);
 extern void update_actor_behavior();
 #endif

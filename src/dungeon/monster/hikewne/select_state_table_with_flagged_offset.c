@@ -3,7 +3,7 @@
 
 extern s32 advance_status_timers();
 extern s32 update_actor_movement_to_tile();
-extern s32 reduce_actor_food_meter();
+extern s32 spend_actor_mp();
 extern s32 check_actor_floor_trap();
 
 extern s32 D_801714D4[];
@@ -11,7 +11,7 @@ extern s32 D_801714D4[];
 /* Selects the state table after a successful target check and applies the flagged offset. */
 void select_state_table_with_flagged_offset(void *state, s32 unused, s32 source, s32 target) {
     if (update_actor_movement_to_tile() != 0) {
-        reduce_actor_food_meter(target, 4);
+        spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 16) > 0) {
             *(s32 **)((u8 *)state + 0x8C) = D_801714D4;

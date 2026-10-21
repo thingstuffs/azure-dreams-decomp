@@ -899,7 +899,7 @@ s32 clamp_adjusted_value_0_to_99();
 s32 func_8009CFB4();
 s32 func_8009CFF4();
 s32 func_8009D034();
-extern s32 try_trigger_target_record_effect(EntityRec *entity, s32 flags, Rec_D_800287A4 *record);
+extern s32 try_trigger_target_record_effect(ActorRecord *entity, s32 flags, Rec_D_800287A4 *record);
 s32 play_sound_if_enabled(s32);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 
@@ -1055,7 +1055,7 @@ typedef struct S_8009D218_1_pre {
 
 /* extern */
 
-s32 try_trigger_target_record_effect(EntityRec *entity, s32 flags, Rec_D_800287A4 *record) {
+s32 try_trigger_target_record_effect(ActorRecord *entity, s32 flags, Rec_D_800287A4 *record) {
     u8 *value_ptr;
 
     if (!(flags & 8) && (record != NULL)) {

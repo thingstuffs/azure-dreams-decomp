@@ -24,7 +24,7 @@ s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
 void on_actor_status_updated(void *actor);
-void reduce_actor_food_meter();
+void spend_actor_mp();
 s32 check_actor_floor_trap();
 
 extern u8 D_80170E54;
@@ -48,11 +48,11 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
         ((SpriteFrameState *)sprite)->frameTable = D_801739E0;
         select_sprite_entry(
             sprite,
-            D_801739E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            D_801739E0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
         ((S_80172258_0 *)jump)->unk_98 |= 8;
         ((EntityRec *)motion)->flags14 = 0xFFEE0000;
-        ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
+        ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
         ((S_80172258_0 *)jump)->unk_A8 = 0;
         ((S_80172258_0 *)jump)->unk_9B++;
 
@@ -80,12 +80,12 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
         if (((S_80172258_0 *)jump)->unk_96.s < 2) {
             ((S_80172258_0 *)jump)->unk_90 = 0;
             ((S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
-            ((EntityRec *)actor)->flags1C |= 0x08000000;
+            ((ActorRecord *)actor)->flags1C |= 0x08000000;
             ((S_80172258_0 *)jump)->unk_9B++;
         }
 
     case 2:
-        if (((u32)((EntityRec *)actor)->flags1C) & 0x08000000) {
+        if (((u32)((ActorRecord *)actor)->flags1C) & 0x08000000) {
             ((S_80172258_0 *)jump)->unk_98 &= 0xFFF7;
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
@@ -94,7 +94,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
             ((SpriteFrameState *)sprite)->frameTable = D_801739E8;
             select_sprite_entry(
                 sprite,
-                D_801739E8[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                D_801739E8[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
             ((S_80172258_0 *)jump)->unk_9B++;
         }
@@ -109,7 +109,7 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        reduce_actor_food_meter(actor, 4);
+        spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
 
@@ -118,15 +118,15 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *sprite, 
             }
         }
 
-        actor_flags = ((u32)((EntityRec *)actor)->flags1C);
+        actor_flags = ((u32)((ActorRecord *)actor)->flags1C);
         if (actor_flags & 0x2000) {
-            if (((EntityRec *)actor)->unk_46 & 0x8000) {
-                ((EntityRec *)actor)->unk_46 &= 0x7FFF;
+            if (((ActorRecord *)actor)->action_flags & 0x8000) {
+                ((ActorRecord *)actor)->action_flags &= 0x7FFF;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
 
-                ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(
+                ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
                     ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                     D_80082E80.tile_position.parts.tile_x, D_80082E80.tile_position.parts.tile_y, &facing_aux);
             }

@@ -153,7 +153,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-                EntityRec *owner = D_800814A8;
+                ActorRecord *owner = D_800814A8;
 
                 if ((check_entity_relation(actor,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {

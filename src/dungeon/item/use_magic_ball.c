@@ -61,7 +61,7 @@ extern s32 find_slot_by_item_group();
 extern void apply_item_effect_at_entity_position();
 extern void display_actor_item_status_message();
 extern s32 create_actor_spell_effect();
-extern s32 apply_actor_food_preference();
+extern s32 feed_actor_restore_mp();
 
 extern u8 *D_80073470[];
 extern u16 D_800DF4B0[];
@@ -76,10 +76,10 @@ s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
     u8 *slot_scan;
     u8 *object_record;
     DungeonGlobalStatus *status;
-    EntityRec *current_object;
+    ActorRecord *current_object;
     u8 *tail_status;
-    EntityRec *active_object;
-    EntityRec *callback;
+    ActorRecord *active_object;
+    ObjectPosition *callback;
     u8 *message_table;
     s32 message_start;
     s32 slot;
@@ -99,7 +99,7 @@ s32 use_magic_ball(u8 *object, u8 *data, s16 action, void *context)
         callback = &D_80083780;
         data[3] |= 0x20;
         active_object = D_800E3D7C;
-        active_object->unk_110 = data;
+        ((PlayerRecord *)active_object)->pending_item_action = data;
         begin_mode_selected_item_action(active_object, callback, ((u8 *)(&D_80082E80)), active_object);
         return 0;
     }
@@ -154,7 +154,7 @@ scan_next:
                 tail_status = (u8 *)0x80080000;
             }
         } else {
-            if (apply_actor_food_preference(object,
+            if (feed_actor_restore_mp(object,
                               entity_action_selectors[object[0x13]] & 3, 0) == 0) {
                 apply_item_effect_at_entity_position(object, data);
                 return 1;

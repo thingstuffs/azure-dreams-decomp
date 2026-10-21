@@ -10,7 +10,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern s32 D_801719DC;
 extern u8 D_8017464C[8];
@@ -44,7 +44,7 @@ typedef struct S_80172DB0_3 {
 } S_80172DB0_3;   /* arg1 in finish_staged_jump_at_tile_center */
 
 /* Updates a staged jump animation and returns the actor to its tile center. */
-void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite, EntityRec *actor)
+void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite, ActorRecord *actor)
 {
     u8 state;
 
@@ -186,7 +186,7 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_80172DB0_0 *)action)->unk_8C = &D_801719DC;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
@@ -194,6 +194,6 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         ((S_80172DB0_3 *)motion)->unk_0C = 0;
         ((S_80172DB0_3 *)motion)->unk_02 = (((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20;
         ((S_80172DB0_3 *)motion)->unk_06 = (((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20;
-        actor->unk_46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
     }
 }

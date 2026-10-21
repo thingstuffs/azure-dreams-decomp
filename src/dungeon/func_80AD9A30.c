@@ -130,7 +130,7 @@ typedef struct AnimationObjectView {
     void * animation;
 } AnimationObjectView;
 
-void func_80161230(void *action, EntityRec *motion, void *sprite, void *actor)
+void func_80161230(void *action, ObjectPosition *motion, void *sprite, void *actor)
 {
     u8 *effect_state;
     s32 effect_handle;
@@ -217,8 +217,8 @@ void func_80161230(void *action, EntityRec *motion, void *sprite, void *actor)
                         actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                         ((ActorActionBytesView *)actor)->facing, 0x10);
                     ((ActorActionBytesView *)actor)->target = (void *)dx;
-                    dx = abs(((EntityRec *)actor)->unk_72);
-                    dy = abs(((EntityRec *)actor)->unk_73);
+                    dx = abs(((ActorRecord *)actor)->target_tile_x);
+                    dy = abs(((ActorRecord *)actor)->target_tile_y);
                     ((ActorActionBytesView *)actor)->targetX = dx;
                     ((ActorActionBytesView *)actor)->targetY = dy;
                 }
@@ -232,9 +232,9 @@ void func_80161230(void *action, EntityRec *motion, void *sprite, void *actor)
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         ((PlayerActionCountView *)D_800814A8)->remainingActions--;
@@ -351,9 +351,9 @@ void func_80161230(void *action, EntityRec *motion, void *sprite, void *actor)
                 return;
             }
 
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             ((SpriteFrameState *)sprite)->flags &= 0xFEFF;
             ((SpriteFrameState *)sprite)->clut = ((ItemEffectActionState *)action)->savedDrawAttributes;

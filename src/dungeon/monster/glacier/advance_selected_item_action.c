@@ -128,7 +128,7 @@ typedef struct S_801730E4_9 {
 } S_801730E4_9;   /* source in advance_selected_item_action_2 */
 
 /* Advances the selected item's action, visual effect, and cleanup states. */
-void advance_selected_item_action_2(void *action, EntityRec *position, void *sprite, void *actor)
+void advance_selected_item_action_2(void *action, ObjectPosition *position, void *sprite, void *actor)
 {
     u16 position_delta[3];
     s16 is_special;
@@ -238,9 +238,9 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
             play_sound_if_enabled(0x703);
             return;
         }
-        position->flags14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
+        position->velocity_z = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         set_record_integer_tile_center(position, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         {
             void *active;
@@ -345,9 +345,9 @@ void advance_selected_item_action_2(void *action, EntityRec *position, void *spr
                 return;
             }
 
-            position->flags14 = 0;
-            position->unk_10 = 0;
-            position->unk_0C = 0;
+            position->velocity_z = 0;
+            position->velocity_y = 0;
+            position->velocity_x = 0;
             set_record_integer_tile_center(position, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_8017609C) {
                 s32 direction_index;

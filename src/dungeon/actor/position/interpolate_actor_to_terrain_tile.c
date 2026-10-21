@@ -28,7 +28,7 @@ typedef struct S_800AC480_4 {
 } S_800AC480_4;   /* global_base in interpolate_actor_to_terrain_tile */
 
 /* Update movement toward the target tile and finalize position and height when the timer expires. */
-s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, EntityRec *motion, MovingTile *target_tile, S_800AC480_3 *height_state) {
+s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, ObjectPosition *motion, MovingTile *target_tile, S_800AC480_3 *height_state) {
     s32 delta;
     s32 coord;
     s32 x_step;
@@ -44,18 +44,18 @@ s32 interpolate_actor_to_terrain_tile(S_800AC480_0 *move_state, EntityRec *motio
         delta -= coord;
         x_step = (delta << 0x10) / ticks_left;
         coord = motion->y.w.i;
-        motion->unk_0C = x_step;
+        motion->velocity_x = x_step;
         delta = target_tile->unk_25 << 6;
         coord -= 0x20;
         delta -= coord;
-        motion->unk_10 = (delta << 0x10) / (s16) move_state->unk_96;
+        motion->velocity_y = (delta << 0x10) / (s16) move_state->unk_96;
     }
     next_ticks = (u16) move_state->unk_96 - 1;
     move_state->unk_96 = next_ticks;
     if ((next_ticks << 0x10) <= 0) {
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, target_tile->unk_24, target_tile->unk_25);
         target_height = sample_terrain_surface_height((target_tile->unk_24 << 6) | 0x20, (target_tile->unk_25 << 6) | 0x20,
             (s16) (height_state->unk_88 - 0x20));

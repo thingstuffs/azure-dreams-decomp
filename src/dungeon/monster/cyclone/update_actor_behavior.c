@@ -34,7 +34,7 @@ extern u8 D_80176470[];
 extern u8 D_80176478[];
 
 /* Updates actor behavior and directional animation through three states, then sets its next callback. */
-void update_actor_behavior_2(void *controller, void *context_in, void *object, EntityRec *actor)
+void update_actor_behavior_2(void *controller, void *context_in, void *object, ActorRecord *actor)
 {
     
     s32 actor_flags;
@@ -92,7 +92,7 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
                     break;
                 }
             }
-            if (actor->tileY == 0) {
+            if (actor->mp == 0) {
                 if (global_base->flags & 0x2008) {
                     break;
                 }
@@ -117,11 +117,11 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, E
                 func_80174520(controller, context_in, object, actor);
                 break;
             }
-            if (actor->unk_6D == 0) {
+            if (actor->pending_turn_updates == 0) {
                 break;
             }
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-                EntityRec *owner = D_800814A8;
+                ActorRecord *owner = D_800814A8;
 
                 if ((check_entity_relation(actor,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {

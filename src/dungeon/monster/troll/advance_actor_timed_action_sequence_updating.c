@@ -27,7 +27,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void func_8015921C(void *, void *, void *, void *);
 extern void func_801594FC(void *, void *, void *, void *);
 
@@ -37,7 +37,7 @@ extern u8 D_8015DDE4[8];
 extern u8 D_8015DDEC[8];
 
 /* Advances the actor's timed action sequence, updating animation and sound effects. */
-void advance_actor_timed_action_sequence_updating(void *action, void *motion, void *sprite, EntityRec *actor)
+void advance_actor_timed_action_sequence_updating(void *action, void *motion, void *sprite, ActorRecord *actor)
 {
     s16 timer;
     u8 state;
@@ -104,11 +104,11 @@ void advance_actor_timed_action_sequence_updating(void *action, void *motion, vo
 
     case 3:
         if (((SpriteFrameState *)sprite)->flags & 0xE000) {
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             ((S_8015C3C4_0 *)action)->unk_8C = D_8015A4BC;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            actor->unk_46 &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
         }
         return;
 

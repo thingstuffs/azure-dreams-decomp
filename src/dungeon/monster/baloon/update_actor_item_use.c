@@ -49,7 +49,7 @@ typedef struct S_80173B08_2 {
 } S_80173B08_2;   /* linked in update_actor_item_use */
 
 /* Updates the actor's item-use state, animation, and effects. */
-void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *actor)
+void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, void *actor)
 {
     u8 *item_slot;
     u32 stage;
@@ -158,9 +158,9 @@ void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *
             ((S_80173B08_0 *)action)->unk_9B++;
             return;
         } else {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -186,9 +186,9 @@ void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *
         ((S_80173B08_0 *)action)->unk_9B++;
         ((S_80173B08_0 *)action)->unk_98 &= 0xFFF7;
         (*(u32 *)((u8 *)actor + 0x1C)) &= 0xFFFBFFFF;
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         ((SpriteFrameState *)sprite)->tpage_abr = 0x20;
         ((SpriteFrameState *)sprite)->flags |= 0xC;
 
@@ -297,9 +297,9 @@ void update_actor_item_use(void *action, EntityRec *motion, void *sprite, void *
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_800E2348) {
             ((SpriteFrameState *)sprite)->frameTable = D_800E2348;

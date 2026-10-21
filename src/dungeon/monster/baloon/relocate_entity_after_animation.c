@@ -60,7 +60,7 @@ extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern s16 select_dungeon_spawn_tile(u8 *, u8 *);
 extern void play_sound_if_enabled(s32);
 extern void refresh_actor_proximity_state(u8 *context);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 extern void create_radial_effect_segments(void *, void *, void *, void *);
 extern void create_directional_template_effect(void *, void *, void *, void *);
@@ -248,7 +248,7 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         cycle_map_cell_flags(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
             (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
         refresh_actor_proximity_state(object);
-        reduce_actor_food_meter(object, 0x1000);
+        spend_actor_mp(object, 0x1000);
         ((S_80175594_0 *)motion)->unk_8C = &D_80171F1C;
         g_dungeon_status.active_actor = 0;
         ((S_80175594_1 *)position)->unk_14 = 0;

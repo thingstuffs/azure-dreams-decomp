@@ -1189,7 +1189,7 @@ void update_dropped_object_motion(void *object, register void *motion, void *til
     s32 target_height;
     s32 height_delta;
     u8 *world_page;
-    EntityRec *height_source;
+    ActorRecord *height_source;
     s32 source_height;
     s32 dungeon_flags;
     s32 height;
@@ -1264,7 +1264,7 @@ void update_dropped_object_motion(void *object, register void *motion, void *til
             source_height = ((MovingPosition *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2];
             height_source = D_800814A8;
             ((S_800A871C_3 *)motion)->unk_08.at02.v = (s16) (source_height + 8);
-            (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->unk_88);
+            (*(u16 *)((u8 *)object_data + (0x88))) = ((u16)height_source->ground_height);
         } else if (((S_800A871C_1 *)object)->unk_A2 != 0) {
             if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000) {
                 world_page = (u8 *)0x800E0000;

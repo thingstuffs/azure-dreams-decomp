@@ -104,14 +104,14 @@ extern void func_8004491C(void *, void *);
 extern s32 func_80065420(void *, void *, void *, void *);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void check_action_six_eligibility(void *, void *);
 extern u8 D_80174EC8;
 extern s8 D_800DCECC[];
 extern u8 D_80174E88[];
 extern u8 D_80174ED0[];
-void start_directional_action_and_record_tile(void *action_state, void *action_context, void *sprite, EntityRec *actor);
-void advance_timed_actor_visual_effect(void *effect_state, EntityRec *position, void *source_mesh, EntityRec *actor);
+void start_directional_action_and_record_tile(void *action_state, void *action_context, void *sprite, ActorRecord *actor);
+void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *position, void *source_mesh, ActorRecord *actor);
 extern void update_effect_visuals_and_lifetime();
 extern void update_actor_behavior_and_direction();
 #endif

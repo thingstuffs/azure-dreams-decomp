@@ -82,7 +82,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
     s16 angle;
     u16 action_flags;
     void *callback;
-    EntityRec *owner;
+    ActorRecord *owner;
     void *actor_tail;
 #define actor_arg actor_head
 #define context_arg context

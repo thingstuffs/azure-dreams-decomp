@@ -31,7 +31,7 @@ s32 attempt_target_action(S_80172920_3 *action_state, s32 effect_arg, Rec_D_8008
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 
-    ((EntityRec *)actor)->unk_71 &= 0x7F;
+    ((ActorRecord *)actor)->movement_queue_state &= 0x7F;
 
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
@@ -41,7 +41,7 @@ s32 attempt_target_action(S_80172920_3 *action_state, s32 effect_arg, Rec_D_8008
         actor,
         target->unk_24,
         target->unk_25,
-        ((EntityRec *)actor)->facing);
+        ((ActorRecord *)actor)->facing);
 
     if ((check_entity_interaction_compatibility(actor, target_direction) << 16) == 0) {
         return 0;
@@ -51,7 +51,7 @@ s32 attempt_target_action(S_80172920_3 *action_state, s32 effect_arg, Rec_D_8008
         return -1;
     }
 
-    if (!(((EntityRec *)actor)->unk_46 & 0x8000) &&
+    if (!(((ActorRecord *)actor)->action_flags & 0x8000) &&
         (g_dungeon_status.flags & 8)) {
         return -1;
     }
@@ -70,11 +70,11 @@ s32 attempt_target_action(S_80172920_3 *action_state, s32 effect_arg, Rec_D_8008
         action_state->unk_9A = 0x11;
         action_state->unk_9B = 0;
         action_state->unk_8C = 0;
-        ((EntityRec *)actor)->unk_84 = 0x7C;
-        ((EntityRec *)actor)->unk_85 = 4;
-        ((EntityRec *)actor)->unk_6D--;
+        ((ActorRecord *)actor)->unk_84 = 0x7C;
+        ((ActorRecord *)actor)->unk_85 = 4;
+        ((ActorRecord *)actor)->pending_turn_updates--;
 
-        prepare_directional_attack(actor, target, ((EntityRec *)actor)->facing, 1, 0);
+        prepare_directional_attack(actor, target, ((ActorRecord *)actor)->facing, 1, 0);
         return 1;
     }
 

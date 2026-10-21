@@ -19,14 +19,14 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(s32, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern void *D_800E3DE8;
 extern s32 D_80170F6C;
 extern u8 D_80175288[];
 
 /* Advances the actor action animation and handles completion. */
-void advance_actor_action_animation_to_completion(void *action, s32 actor_id, void *animation, EntityRec *actor) {
+void advance_actor_action_animation_to_completion(void *action, s32 actor_id, void *animation, ActorRecord *actor) {
     s32 state;
 
     state = ((S_80172BFC_0 *)action)->unk_9B;
@@ -59,12 +59,12 @@ void advance_actor_action_animation_to_completion(void *action, s32 actor_id, vo
     case 0xFF:
         if (((SpriteFrameState *)animation)->flags & 0xE000) {
             set_record_integer_tile_center(actor_id, ((SpriteFrameState *)animation)->unk_24, ((SpriteFrameState *)animation)->unk_25);
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             ((S_80172BFC_0 *)action)->unk_8C = &D_80170F6C;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            if (actor->unk_6D == 0) {
-                actor->unk_46 &= 0x7FFF;
+            if (actor->pending_turn_updates == 0) {
+                actor->action_flags &= 0x7FFF;
                 return;
             }
             D_800E3DE8 = (u8 *)actor - 0x20;

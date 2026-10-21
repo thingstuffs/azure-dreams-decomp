@@ -17,7 +17,7 @@ extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, u16, s32);
+extern s32 feed_actor_restore_mp(void *, u16, s32);
 extern void teleport_familiar_near_player(s32, s16);
 extern s32 has_enough_available_runtime_nodes(s32);
 
@@ -42,7 +42,7 @@ s32 apply_familiar_call_item(void *target, s32 action, s16 action_type, s32 acti
 
     if ((u32)target <= 0x9FFFFFFFU) {
         display_actor_item_status_message(target, action, action_type);
-        if (apply_actor_food_preference(target, entity_action_selectors[((u8 *)target)[0x13]] & 3, action) == 0) {
+        if (feed_actor_restore_mp(target, entity_action_selectors[((u8 *)target)[0x13]] & 3, action) == 0) {
             apply_item_effect_at_entity_position(target, action);
             return 1;
         }

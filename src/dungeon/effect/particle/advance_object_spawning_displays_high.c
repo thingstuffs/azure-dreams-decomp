@@ -184,10 +184,10 @@ void advance_object_spawning_displays_high(void *source, void *unused_position, 
 /* Shaded tile primitive (code 0x6A, 3 words). */
 
 /* Projects linked points and queues shaded tiles with draw-mode packets. */
-s32 func_800244E4(PointRecord *first_point, EntityRec *first_position)
+s32 func_800244E4(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
-    EntityRec *position = first_position;
+    ObjectPosition *position = first_position;
     GameWork *render_state = &g_game_work;
     GpuContext *render_ctx = (GpuContext *)render_state->draw_buffer;
     u8 *packet_start;
@@ -425,7 +425,7 @@ void func_80024B38(void *effect, void *effect_pos, void *effect_data)
     s32 enabled;
     void *sprite;
     void *particle;
-    EntityRec *world_offset;
+    ObjectPosition *world_offset;
     u8 *spawn_data;
     u8 *particle_script;
     s32 particle_index;

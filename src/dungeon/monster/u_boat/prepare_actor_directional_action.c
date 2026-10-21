@@ -79,7 +79,7 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_s
 
     if ((((S_801717D0_0 *)self)->unk_1C & 0x2000) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
         special_action = 1;
-        if ((*(u16 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_A4 + 2)) == 2) {
+        if ((*(u16 *)((u8 *)&((ActorRecord *)((u8 *)D_800E3D7C))->unk_A4 + 2)) == 2) {
             counter = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             counter--;
             g_dungeon_status.activity_counts.parts.pending_action_count = counter;

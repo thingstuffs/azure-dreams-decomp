@@ -56,7 +56,7 @@ typedef struct S_800AC82C_7 {
 } S_800AC82C_7;   /* (*(void **)((u8 *)arg3 + 0x60)) in update_actor_transform_from_parent */
 
 /* Updates the actor's position and facing relative to its parent. */
-s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, EntityRec *position, Rec_D_80082E80 *tile, void *actor) {
+s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor) {
     u16 offset[3];
     u16 dest_x;
     u16 dest_y;
@@ -106,8 +106,8 @@ s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, EntityRec 
     ((SpriteFrameState *)tile)->unk_24 = (u8) parent_data->unk_24;
     ((SpriteFrameState *)tile)->unk_25 = (u8) parent_data->unk_25;
     if (!((*(s32 *)((u8 *)actor + 0x1C)) & 0x80000)) {
-        position->unk_10 = 0;
-        position->unk_0C = 0;
+        position->velocity_y = 0;
+        position->velocity_x = 0;
         state->unk_98 = (u16) (state->unk_98 & 0xFFF7);
         facing = ((S_800AC82C_7 *)((*(void **)((u8 *)actor + 0x60))))->unk_2A;
         (*(u16 *)((u8 *)actor + 0x6A)) = facing;

@@ -75,7 +75,7 @@ extern void create_two_effect_groups(void *, void *, void *, s32);
 extern u8 D_8016AF6C[];
 extern u8 D_8016F258[];
 
-void advance_action_and_restore_actor(ActorActionView *action, EntityRec *transform, ActorSpriteView *sprite, EntityRec *actor)
+void advance_action_and_restore_actor(ActorActionView *action, ObjectPosition *transform, ActorSpriteView *sprite, ActorRecord *actor)
 {
     /* Retail keeps these position saves in the action-start path. */
     u16 saved_position[3];
@@ -91,7 +91,7 @@ void advance_action_and_restore_actor(ActorActionView *action, EntityRec *transf
     switch (action->phase) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 7:
                 use_player_target = 1;
                 /* fall through */
@@ -115,7 +115,7 @@ void advance_action_and_restore_actor(ActorActionView *action, EntityRec *transf
                 break;
             }
         } else {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 action_slot = ((ActorActionSlotsView *)actor)->third;
                 break;
@@ -139,23 +139,23 @@ void advance_action_and_restore_actor(ActorActionView *action, EntityRec *transf
                     target = D_800814A8;
                     actor->target = target;
                     target_position = ((ObjectNodeHeader *)target)[-1].unk_0C;
-                    actor->unk_72 = target_position->tileX;
-                    actor->unk_73 = target_position->tileY;
+                    actor->target_tile_x = target_position->tileX;
+                    actor->target_tile_y = target_position->tileY;
                 } else if (D_8006DE24[*action_slot].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
                         target_position = ((ObjectNodeHeader *)target)[-1].unk_0C;
-                        actor->unk_72 = target_position->tileX;
-                        actor->unk_73 = target_position->tileY;
+                        actor->target_tile_x = target_position->tileX;
+                        actor->target_tile_y = target_position->tileY;
                     }
                 } else {
                     actor->target =
                         scan_monster_along_heading(actor, sprite->position.tile.x, sprite->position.tile.y,
                                       actor->facing, 0x10);
-                    abs_x = abs(actor->unk_72);
-                    abs_y = abs(actor->unk_73);
-                    actor->unk_72 = abs_x;
-                    actor->unk_73 = abs_y;
+                    abs_x = abs(actor->target_tile_x);
+                    abs_y = abs(actor->target_tile_y);
+                    actor->target_tile_x = abs_x;
+                    actor->target_tile_y = abs_y;
                 }
             }
             saved_position[0] = ((u16)transform->x.w.i);
@@ -171,18 +171,18 @@ void advance_action_and_restore_actor(ActorActionView *action, EntityRec *transf
             return;
         }
 
-        transform->flags14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->position.tile.x, sprite->position.tile.y);
         g_dungeon_status.active_actor = 0;
         ((PlayerActionCountView *)D_800814A8)->remaining = ((PlayerActionCountView *)D_800814A8)->remaining - 1;
         advance_status_timers(actor);
-        actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         action->nextAction.record = D_8016AF6C;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -210,9 +210,9 @@ void advance_action_and_restore_actor(ActorActionView *action, EntityRec *transf
         if ((sprite->flags & 0xE000) == 0) {
             return;
         }
-        transform->flags14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->position.tile.x, sprite->position.tile.y);
         {
             u8 *direction_table = D_8016F258;
@@ -231,12 +231,12 @@ void advance_action_and_restore_actor(ActorActionView *action, EntityRec *transf
         sprite->flags &= 0xF7FF;
         action->nextAction.record = D_8016AF6C;
         advance_status_timers(actor);
-        if (actor->unk_6D > 0) {
-            actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        if (actor->pending_turn_updates > 0) {
+            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         }
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
         break;
     }

@@ -18,7 +18,7 @@ extern void display_text_with_fullwidth_adjustment();
 extern void apply_item_effect_at_entity_position();
 extern void display_item_status_message();
 extern s32 generate_random_value();
-extern s16 apply_actor_food_preference();
+extern s16 feed_actor_restore_mp();
 extern void create_timed_paired_particle_emitter();
 
 extern s32 D_800893E0;
@@ -46,7 +46,7 @@ s32 use_item_to_heal_small_random_amount(void *target, s32 source, s16 effect_mo
 
     if ((u32)target <= 0x9FFFFFFF) {
         display_item_status_message(target, source, effect_mode);
-        if (apply_actor_food_preference(target,
+        if (feed_actor_restore_mp(target,
                           (*(u16 *)(((u8 *)entity_action_selectors) +
                                     (*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3)) * 2) >> 6) & 3,
                           source) == 0) {

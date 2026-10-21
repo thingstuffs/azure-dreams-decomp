@@ -16,7 +16,7 @@ extern u8 D_801710F4[];
 extern u8 D_80174F10[];
 
 /* Update directional motion, then settle the entity at its grid position. */
-void update_directional_motion_settle_entity_grid_position(ActorActionTimerView *action, EntityRec *motion, SpriteFrameState *grid_pos, EntityRec *entity)
+void update_directional_motion_settle_entity_grid_position(ActorActionTimerView *action, ObjectPosition *motion, SpriteFrameState *grid_pos, EntityRec *entity)
 {
     s16 *direction_y;
     s32 velocity_y;
@@ -45,16 +45,16 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
         apply_clamped_actor_value_delta(entity);
         directions_x = (s16 *)((s8 *)dir_step_x);
         launch_offset = direction * 2;
-        motion->unk_0C =
+        motion->velocity_x =
             *(s16 *)((u8 *)directions_x + launch_offset) << 0x12;
-        motion->unk_10 =
+        motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + launch_offset) << 0x12;
         action->unk_9B++;
 
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, grid_pos, D_80174F10);
             return;
         }
@@ -70,31 +70,31 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
         }
         action->unk_96.u = duration;
 
-        velocity_x = motion->unk_0C;
+        velocity_x = motion->velocity_x;
         biased_velocity_x = velocity_x;
         if (velocity_x < 0) {
             biased_velocity_x = velocity_x + 3;
         }
-        velocity_y = motion->unk_10;
-        motion->unk_0C = velocity_x - (biased_velocity_x >> 2);
+        velocity_y = motion->velocity_y;
+        motion->velocity_x = velocity_x - (biased_velocity_x >> 2);
         biased_velocity_y = velocity_y;
-        motion->unk_10 = velocity_y - (biased_velocity_y / 4);
+        motion->velocity_y = velocity_y - (biased_velocity_y / 4);
                         /* fall through */
     case 1:
         directions_x = (s16 *)((s8 *)dir_step_x);
         decel_offset = direction * 2;
         direction_y = (s16 *)((u8 *)((s8 *)dir_step_y) + decel_offset);
-        motion->unk_0C -=
+        motion->velocity_x -=
             *(s16 *)((u8 *)directions_x + decel_offset) << 0xE;
-        motion->unk_10 -= *direction_y << 0xE;
+        motion->velocity_y -= *direction_y << 0xE;
 
         if (action->unk_96.s != 0) {
             return;
         }
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, grid_pos, D_80174F10);
         } else {
             action->unk_96.u = 6;
@@ -105,19 +105,19 @@ void update_directional_motion_settle_entity_grid_position(ActorActionTimerView 
         if ((ticks_left << 0x10) != 0) {
             target_x = grid_pos->unk_24 << 6;
             current_x = motion->x.w.i - 0x20;
-            motion->unk_0C = (target_x - current_x) << 0x10 >> 1;
+            motion->velocity_x = (target_x - current_x) << 0x10 >> 1;
             target_y = grid_pos->unk_25 << 6;
             current_y = motion->y.w.i - 0x20;
-            motion->unk_10 = (target_y - current_y) << 0x10 >> 1;
+            motion->velocity_y = (target_y - current_y) << 0x10 >> 1;
 
             if (action->unk_96.s > 0) {
                 return;
             }
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, grid_pos->unk_24, grid_pos->unk_25);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);

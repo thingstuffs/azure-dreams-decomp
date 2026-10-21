@@ -21,7 +21,7 @@ typedef struct S_8008DBE8_5 {
 } S_8008DBE8_5;   /* late_status in advance_normal_tile_center_motion */
 
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
-void advance_normal_tile_center_motion(void *entity, EntityRec *motion, void *sprite, EntityRec *facing) {
+void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, void *sprite, EntityRec *facing) {
     void *late_status;
     u32 status_page;
     s32 frames_left;
@@ -42,9 +42,9 @@ void advance_normal_tile_center_motion(void *entity, EntityRec *motion, void *sp
              motion->x.v) /
             timer;
         y_position = motion->y.v;
-        motion->unk_0C = x_velocity;
+        motion->velocity_x = x_velocity;
         move_frames = g_dungeon_status.movement_frames_left;
-        motion->unk_10 =
+        motion->velocity_y =
             ((((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16) -
              y_position) /
             move_frames;
@@ -82,9 +82,9 @@ continue_update:
     }
 
     ((S_8008DBE8_5 *)late_status)->unk_04 = 0;
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
     ((SpriteFrameState *)sprite)->flags |= 0x4000;

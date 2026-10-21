@@ -60,7 +60,7 @@ extern s32 func_800644B8(s32 value);
 extern void select_sprite_entry(T_80172B6C_Sprite *sprite, u8 value, s32 zero);
 extern void func_80047784(T_80172B6C_Sprite *sprite, u8 value, s32 zero);
 extern void set_record_integer_tile_center(T_80172B6C_Motion *motion, u8 x, u8 y);
-extern void reduce_actor_food_meter(T_80172B6C_Actor *actor, s32 value);
+extern void spend_actor_mp(T_80172B6C_Actor *actor, s32 value);
 extern void advance_status_timers(T_80172B6C_Actor *actor);
 extern s16 get_rounded_facing_and_rounding_flag(u8 x0, u8 y0, u8 x1, u8 y1, s16 *scratch);
 extern s32 check_actor_floor_trap(T_80172B6C_Sprite *sprite, T_80172B6C_Actor *actor);

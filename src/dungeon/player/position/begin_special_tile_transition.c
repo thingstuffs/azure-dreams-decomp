@@ -16,7 +16,7 @@ extern void mark_category_items_flag_400(s32);
 
 extern void clear_player_linked_action_flags(void);
 /* Initializes action state and animation, then handles the current tile type. */
-void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, SpriteFrameState *entity, EntityRec *actor) {
+void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, SpriteFrameState *entity, ActorRecord *actor) {
     s16 tile_type;
     s16 slot_index;
 

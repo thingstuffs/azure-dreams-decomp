@@ -46,7 +46,7 @@ void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 dir
 void set_record_integer_tile_center(void *, u8, u8);
 void advance_status_timers(void *);
 void play_sound_if_enabled(s32);
-void reduce_actor_food_meter(void *, s32);
+void spend_actor_mp(void *, s32);
 
 /* Advance the actor action through animation setup, delay, and completion. */
 void update_actor_actions_and_impact_effects(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_801728C4_2 *animation,
@@ -90,7 +90,7 @@ void update_actor_actions_and_impact_effects(S_func_801728C4_0 *action, S_func_8
             return;
         }
         set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         action->unk_8C = D_80170F74;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);

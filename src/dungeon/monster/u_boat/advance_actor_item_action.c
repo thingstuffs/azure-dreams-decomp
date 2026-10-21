@@ -77,7 +77,7 @@ typedef struct S_80173A60_9 {
 } S_80173A60_9;   /* global in advance_actor_item_action */
 
 /* Advances an actor's item action, spawning its visual effect and restoring idle state. */
-void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprite, void *actor)
+void advance_actor_item_action(void *actor_state, ObjectPosition *motion, void *sprite, void *actor)
 {
     s16 use_player;
     u8 *item_id;
@@ -176,9 +176,9 @@ void advance_actor_item_action(void *actor_state, EntityRec *motion, void *sprit
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;

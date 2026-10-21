@@ -31,7 +31,7 @@ typedef struct S_800AAB10_2_pre {
 
 
 /* Processes the selected record, checks eligibility, and clears completed state. */
-s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, EntityRec *record) {
+s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, ActorRecord *record) {
     s32 eligible;
     u8 type_id;
 
@@ -48,7 +48,7 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Entit
                             D_80080AA0 = 1;
                             D_80080A88 = 0;
                         }
-                        if (!(record->unk_54 & 0x800000) && (record->flags14 & 0x4000)) {
+                        if (!(record->status_flags & 0x800000) && (record->flags14 & 0x4000)) {
                             type_id = (*(u8 *)((u8 *)&record->unk_10 + 3));
                             if ((((S_800AAB10_2_pre *)(((type_id * 0x14) + D_8007359C)))[-1].unk_00 & 0x80)
                                 && (type_id >= 2U) && ((u8) (*(u8 *)((u8 *)&record->unk_10 + 1)) >= 0x14U)

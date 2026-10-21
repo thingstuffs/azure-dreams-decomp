@@ -90,7 +90,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, Arg2 *anima
         break;
     case 3:
         if (animation->flags & 0xE000) {
-            if (D_800E3D7C->unk_28 < 2) {
+            if (D_800E3D7C->hp < 2) {
                 s32 entry_index;
                 s32 resource_flag;
                 void *effect;

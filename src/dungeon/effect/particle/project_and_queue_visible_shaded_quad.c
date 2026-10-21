@@ -307,7 +307,7 @@ typedef struct Bank1990800_1990d98_Scratch80024598 {
 /* Shaded point primitive (code 0x6A, 3 words). */
 
 /* Projects a colored point and links its drawing packets into the ordering table. */
-s32 project_scaled_colored_point(ScaledPointRecord *record, EntityRec *position)
+s32 project_scaled_colored_point(ScaledPointRecord *record, ObjectPosition *position)
 {
     GpuContext **state_ptr;
     Bank1990800_1990d98_Scratch80024598 *scratch;
@@ -443,20 +443,20 @@ void spawn_random_offset_effect_record(
     if (effect != NULL) {
         effect->unk_10 = func_800247E8;
         jitter = rand() & 0x1F;
-        effect_pos = (u16)((EntityRec *)source->unk_08)->x.w.i + jitter;
+        effect_pos = (u16)((ObjectPosition *)source->unk_08)->x.w.i + jitter;
         effect_pos += x_offset - 0x10;
-        ((EntityRec *)effect->unk_08)->x.w.i = effect_pos;
+        ((ObjectPosition *)effect->unk_08)->x.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
-        effect_pos = (u16)((EntityRec *)source->unk_08)->y.w.i + jitter;
+        effect_pos = (u16)((ObjectPosition *)source->unk_08)->y.w.i + jitter;
         effect_pos += y_offset - 0x10;
-        ((EntityRec *)effect->unk_08)->y.w.i = effect_pos;
+        ((ObjectPosition *)effect->unk_08)->y.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
         record = (Bank1990800_19910a8_EffectRecord *)(effect + 1);
-        effect_pos = (u16)((EntityRec *)source->unk_08)->z.w.i + jitter;
+        effect_pos = (u16)((ObjectPosition *)source->unk_08)->z.w.i + jitter;
         effect_pos += z_offset - 0x10;
-        ((EntityRec *)effect->unk_08)->z.w.i = effect_pos;
+        ((ObjectPosition *)effect->unk_08)->z.w.i = effect_pos;
         record->unk_14 = property_34;
         record->size = property_52;
         record->size_max = property_52;
@@ -1125,7 +1125,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     u32 light_color;
     u32 light_color_2;
     u32 dark_color;
-    EntityRec *player;
+    ActorRecord *player;
     void *player_2;
     u16 coord_z;
     u16 heading;
@@ -1136,7 +1136,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
     switch (state) {
     case 0:
         player = D_800814A8;
-        player->unk_F4 = 0;
+        ((PlayerRecord *)player)->unk_F4 = 0;
         player->unk_96 = 20;
         ((S_8197192C_2 *)((u16 *)(&D_80082E80.unk_006)))->unk_00 = 6;
         state_2 = ((u8 *)(&D_80083780));
@@ -1203,7 +1203,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
                 if (get_sprite_attachment_vector(((S_8197192C_5 *)map_base)->unk_08, map_base,
                                   (u8 *)effect + 0x2E, 0) != 0) {
                     u8 *sprite;
-                    EntityRec *world_pos;
+                    ObjectPosition *world_pos;
 
                     effect_obj = func_8003FC64(0x212);
                     if (effect_obj != 0) {
@@ -1240,7 +1240,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             s32 segment;
             s32 point_index;
             s32 step;
-            EntityRec *world_pos;
+            ObjectPosition *world_pos;
             u8 *outer_point;
             if (((S_8197192C_0 *)effect)->unk_2C.u >= 10) {
                 return;

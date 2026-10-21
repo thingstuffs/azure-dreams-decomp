@@ -33,7 +33,7 @@ extern u8 D_80176360[];
 extern u8 D_80176368[];
 
 /* Advance the actor state, select directional sprite data, and dispatch entity actions. */
-void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *sprite, EntityRec *entity)
+void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *sprite, ActorRecord *entity)
 {
     u8 state;
 
@@ -61,7 +61,7 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
     }
 
     case 1:
-        if (entity->tileY != 0) {
+        if (entity->mp != 0) {
             if (actor->unk_A7 != 0) {
                 sprite->unk_2C.as_pv = D_80176368;
             } else {
@@ -92,12 +92,12 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
                 return;
             }
 
-            if (entity->unk_6D == 0) {
+            if (entity->pending_turn_updates == 0) {
                 return;
             }
 
             if ((s16)has_pending_actor_or_turn_action(entity) != 0) {
-                EntityRec *owner;
+                ActorRecord *owner;
 
                 owner = D_800814A8;
                 if ((s16)check_entity_relation(
@@ -108,7 +108,7 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
 
             update_actor_status_and_food(entity);
             on_actor_status_updated(entity);
-            if (entity->tileY == 0) {
+            if (entity->mp == 0) {
                 return;
             }
 

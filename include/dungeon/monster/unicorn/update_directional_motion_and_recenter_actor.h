@@ -54,6 +54,6 @@ extern void play_sound_if_enabled(s32);
 extern void announce_familiar_defeat(void *);
 extern u8 D_80170E7C;
 extern u8 D_80174D5C;
-void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, EntityRec *motion, SpriteFrameState *actor, void *source);
+void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, ObjectPosition *motion, SpriteFrameState *actor, void *source);
 void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, void *entity);
 #endif

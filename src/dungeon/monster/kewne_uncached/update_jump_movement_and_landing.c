@@ -12,7 +12,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void func_801753DC(void *, void *);
 
 extern s32 D_80171FA4;
@@ -51,7 +51,7 @@ typedef struct S_80173408_4 {
 } S_80173408_4;   /* arg3 in update_jump_movement_and_landing */
 
 /* Updates jump movement, animation, and landing across five states. */
-void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprite, void *actor)
+void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, void *sprite, void *actor)
 {
     u32 step_x;
     s32 step_y;
@@ -72,10 +72,10 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
             }
         }
 
-        motion->unk_0C -=
+        motion->velocity_x -=
             *(s16 *)((u8 *)((s8 *)dir_step_x) +
                      (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
-        motion->unk_10 -=
+        motion->velocity_y -=
             *(s16 *)((u8 *)((s8 *)dir_step_y) +
                      (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
         ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
@@ -85,9 +85,9 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
         if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         if (((S_80173408_0 *)jump)->unk_A0.at02.v < 0x30) {
             return;
         }
@@ -119,8 +119,8 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
             y_entry = (s16 *)(*y_entry);
             step_x = arc << 16;
             step_y = (s32)y_entry << 16;
-            motion->unk_0C += step_x;
-            motion->unk_10 += step_y;
+            motion->velocity_x += step_x;
+            motion->velocity_y += step_y;
             arc = -func_800644B8(((S_80173408_0 *)jump)->unk_96.s * 170);
             ((S_80173408_0 *)jump)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
             timer = ((S_80173408_0 *)jump)->unk_96.u + 1;
@@ -163,8 +163,8 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
             arc = *y_entry;
             step_x = direction_x << 16;
             step_y = arc << 16;
-            motion->unk_0C += step_x;
-            motion->unk_10 += step_y;
+            motion->velocity_x += step_x;
+            motion->velocity_y += step_y;
             arc = -func_800644B8(((S_80173408_0 *)jump)->unk_96.s * 170);
             ((S_80173408_0 *)jump)->unk_A0.at00.v = ((arc * 5) << 8) + 0x300000;
             timer = ((S_80173408_0 *)jump)->unk_96.u + 1;
@@ -180,22 +180,22 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
             velocity_x = -*(s16 *)((u8 *)x_table +
                 (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
             velocity_x += velocity_x >> 2;
-            motion->unk_0C = velocity_x;
+            motion->velocity_x = velocity_x;
 
             velocity_y = -*(s16 *)((u8 *)y_table +
                 (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 18;
             velocity_y += velocity_y >> 2;
-            motion->unk_10 = velocity_y;
-            ((S_80173408_0 *)jump)->unk_A8 = motion->unk_0C / 24;
-            ((S_80173408_0 *)jump)->unk_AC = motion->unk_10 / 24;
+            motion->velocity_y = velocity_y;
+            ((S_80173408_0 *)jump)->unk_A8 = motion->velocity_x / 24;
+            ((S_80173408_0 *)jump)->unk_AC = motion->velocity_y / 24;
         }
         ((S_80173408_0 *)jump)->unk_96.s = 12;
         ((S_80173408_0 *)jump)->unk_9B.n++;
         return;
 
     case 3:
-        motion->unk_0C -= ((S_80173408_0 *)jump)->unk_A8;
-        motion->unk_10 -= ((S_80173408_0 *)jump)->unk_AC;
+        motion->velocity_x -= ((S_80173408_0 *)jump)->unk_A8;
+        motion->velocity_y -= ((S_80173408_0 *)jump)->unk_AC;
         if (((S_80173408_0 *)jump)->unk_A0.at02.v > 0) {
             ((S_80173408_0 *)jump)->unk_A0.at02u.v -= 0x10;
         } else {
@@ -205,11 +205,11 @@ void update_jump_movement_and_landing(void *jump, EntityRec *motion, void *sprit
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);

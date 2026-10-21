@@ -38,7 +38,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 extern void *D_800E3DE8;
@@ -47,7 +47,7 @@ extern u8 D_80173D04[];
 extern u8 D_80173D34[];
 
 /* Advances the actor's movement sequence and resets motion and animation on landing. */
-void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     s32 direction_offset;
     s32 x_step;
@@ -87,7 +87,7 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
                 sample_terrain_surface_height(
                     ((((SpriteFrameState *)sprite)->unk_24 + x_step) << 6) & 0xFFC0,
                     ((((SpriteFrameState *)sprite)->unk_25 + y_step) << 6) & 0xFFC0,
-                    (s16)(((u16)actor->unk_88) - 0xA0)) - 0x34;
+                    (s16)(((u16)actor->ground_height) - 0xA0)) - 0x34;
         }
         ((S_801725D0_1 *)action)->unk_96.s = 2;
         ((S_801725D0_1 *)action)->unk_9B++;
@@ -104,9 +104,9 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
         actor->flags1C &= 0xF7FFFFFF;
         ((S_801725D0_1 *)action)->unk_90.at02u.v = -0x18;
         ((S_801725D0_1 *)action)->unk_96.s = 4;
-        motion->unk_0C =
+        motion->velocity_x =
             (x_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
-        motion->unk_10 = (y_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
+        motion->velocity_y = (y_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
         ((S_801725D0_1 *)action)->unk_9B++;
         return;
 
@@ -116,8 +116,8 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
         if (((S_801725D0_1 *)action)->unk_96.u > 0) {
             return;
         }
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         ((S_801725D0_1 *)action)->unk_96.s = 10;
         ((S_801725D0_1 *)action)->unk_9B++;
         return;
@@ -134,20 +134,20 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
         if (((S_801725D0_1 *)action)->unk_96.u > 0) {
             return;
         }
-        motion->unk_0C = (0 - x_step) << 19;
-        motion->unk_10 = (0 - y_step) << 19;
-        motion->flags14 = 0xFFF80000;
+        motion->velocity_x = (0 - x_step) << 19;
+        motion->velocity_y = (0 - y_step) << 19;
+        motion->velocity_z = 0xFFF80000;
         ((S_801725D0_1 *)action)->unk_9B = 0xFF;
         return;
 
     case 0xFF:
-        motion->flags14 += 0x18000;
+        motion->velocity_z += 0x18000;
         if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         ((S_801725D0_1 *)action)->unk_98 &= 0xFFF7;
         actor->flags1C |= 0x08000000;
         ((S_801725D0_1 *)action)->unk_90.at00.v = 0;
@@ -157,12 +157,12 @@ void advance_actor_movement_sequence_and_resets(void *action, EntityRec *motion,
             D_80173D04[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_801725D0_1 *)action)->unk_8C = &D_80170E5C;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        if (actor->unk_6D == 0) {
-            actor->unk_46 &= 0x7FFF;
+        if (actor->pending_turn_updates == 0) {
+            actor->action_flags &= 0x7FFF;
         } else {
             D_800E3DE8 = (u8 *)actor - 0x20;
         }

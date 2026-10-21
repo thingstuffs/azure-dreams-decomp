@@ -103,7 +103,7 @@ extern u8 D_80176490[];
 extern u8 D_80176498[];
 
 /* Updates an actor effect through shrinking, fading, and restoring its sprite. */
-void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprite, EntityRec *actor)
+void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprite, ActorRecord *actor)
 {
     u16 offset[3];
     s32 is_special;
@@ -120,7 +120,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
         if (((u32)actor->flags1C) & 0x2000) {
             s32 effect_kind;
 
-            effect_kind = actor->unk_46 & 0x3FFF;
+            effect_kind = actor->action_flags & 0x3FFF;
             switch (effect_kind) {
             case 7:
                 is_special = 1;
@@ -144,7 +144,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
         } else {
             s32 effect_kind;
 
-            effect_kind = actor->unk_46 & 0x3FFF;
+            effect_kind = actor->action_flags & 0x3FFF;
             switch (effect_kind) {
             case 3:
                 effect_id = (u8 *)actor + 0xE;
@@ -168,14 +168,14 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
                 effect = D_800814A8;
                 actor->target = effect;
                 main_actor = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
-                actor->unk_72 = ((S_80172FC0_3 *)main_actor)->unk_24;
-                actor->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;
+                actor->target_tile_x = ((S_80172FC0_3 *)main_actor)->unk_24;
+                actor->target_tile_y = ((S_80172FC0_3 *)main_actor)->unk_25;
             } else if (D_8006DE24[*effect_id].kind == 2) {
                 effect = actor->target;
                 if (effect != 0) {
                     main_actor = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
-                    actor->unk_72 = ((S_80172FC0_3 *)main_actor)->unk_24;
-                    actor->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;
+                    actor->target_tile_x = ((S_80172FC0_3 *)main_actor)->unk_24;
+                    actor->target_tile_y = ((S_80172FC0_3 *)main_actor)->unk_25;
                 }
             } else {
                 actor->target = scan_monster_along_heading(
@@ -184,10 +184,10 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
                     ((S_80172FC0_4 *)sprite)->unk_25,
                     actor->facing,
                     0x10);
-                actor->unk_72 =
-                    abs(actor->unk_72);
-                actor->unk_73 =
-                    abs(actor->unk_73);
+                actor->target_tile_x =
+                    abs(actor->target_tile_x);
+                actor->target_tile_y =
+                    abs(actor->target_tile_y);
             }
             if (create_actor_spell_effect(actor, effect_id, is_special, (u8 *)anim + 0x98) == 0) {
                 return;
@@ -211,11 +211,11 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)main_actor + 0xA6))--;
         advance_status_timers(actor);
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
         ((S_80172FC0_0 *)anim)->unk_8C = D_80171094;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -283,7 +283,7 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
                         height_offset = offset[2];
                         ((S_80172FC0_0 *)anim)->unk_B2 = height_offset;
                         ((S_80172FC0_0 *)anim)->unk_90.at02.v =
-                            ((S_80172FC0_5 *)transform_arg)->unk_0A - ((u16)actor->unk_88) +
+                            ((S_80172FC0_5 *)transform_arg)->unk_0A - ((u16)actor->ground_height) +
                             (s16)height_offset / 2;
                     }
                 }
@@ -426,10 +426,10 @@ void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprit
         ((S_80172FC0_4 *)sprite)->unk_1E = 0x1000;
         ((S_80172FC0_4 *)sprite)->unk_1C = 0x1000;
         advance_status_timers(actor);
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_6D--;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->pending_turn_updates--;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
     default:
         return;

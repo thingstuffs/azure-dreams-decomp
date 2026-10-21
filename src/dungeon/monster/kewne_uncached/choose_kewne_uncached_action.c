@@ -71,7 +71,7 @@ extern u8 D_8016FCA0[];
 extern u8 D_8016FCA8[];
 
 /* Updates actor animation, facing, and action handling from dungeon state. */
-void choose_kewne_uncached_action(void *actor, void *context, void *sprite, EntityRec *entity)
+void choose_kewne_uncached_action(void *actor, void *context, void *sprite, ActorRecord *entity)
 {
     s32 direction_flags;
     s8 area_id;
@@ -82,7 +82,7 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Enti
         func_8016C510(actor, context, sprite, entity);
         return;
     }
-    if (entity->tileY == 0) {
+    if (entity->mp == 0) {
         void *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
@@ -182,7 +182,7 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Enti
     area_id = find_active_rect_containing_point(((S_8016BFA4_2 *)sprite)->unk_24.at00.v, ((S_8016BFA4_2 *)sprite)->unk_24.at01.v);
     ((S_8016BFA4_2 *)sprite)->unk_26 = area_id;
 
-    if (entity->unk_6D > 0) {
+    if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & 0x20) {
             update_actor_status_and_food(entity);
             return;
@@ -191,7 +191,7 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Enti
             func_8016C6C8(actor, context, sprite, entity);
             return;
         }
-        if (!(entity->unk_46 & 0x8000)) {
+        if (!(entity->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -201,12 +201,12 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Enti
             if ((complete_actor_motion_and_clear_action(actor, context, sprite, 0) << 16) == 0) {
                 return;
             }
-            action = entity->unk_46 | 0x4000;
-            entity->unk_46 = action;
+            action = entity->action_flags | 0x4000;
+            entity->action_flags = action;
         }
 
-        if (entity->unk_46 & 0x8000) {
-            action = entity->unk_46 & 0x3FFF;
+        if (entity->action_flags & 0x8000) {
+            action = entity->action_flags & 0x3FFF;
             switch (action) {
             case 8:
             case 9:
@@ -220,7 +220,7 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Enti
             case 6:
             case 7:
             {
-                EntityRec *player;
+                ActorRecord *player;
                 s16 facing;
 
                 facing = get_rounded_facing_and_rounding_flag(

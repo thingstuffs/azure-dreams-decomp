@@ -41,7 +41,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_80170CC8[];
-extern void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, EntityRec *entity);
+extern void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity);
 extern u8 D_80174F00[];
 extern u8 D_80174F48[];
 

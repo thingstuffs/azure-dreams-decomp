@@ -58,7 +58,7 @@ extern u8 D_8014CF6C[];
 extern u8 D_80151258[];
 
 /* Advances an actor action through item_slot selection, execution, and recovery. */
-void advance_actor_item_action_and_recovery(ActionState *action_state, EntityRec *transform, SpriteAnimationTableView *sprite, EntityRec *actor)
+void advance_actor_item_action_and_recovery(ActionState *action_state, ObjectPosition *transform, SpriteAnimationTableView *sprite, ActorRecord *actor)
 {
     u16 saved_position[3];
     u8 *item_slot;
@@ -73,7 +73,7 @@ void advance_actor_item_action_and_recovery(ActionState *action_state, EntityRec
     switch (action_state->phase) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 7:
                 use_global_target = 1;
                 /* fall through */
@@ -97,7 +97,7 @@ void advance_actor_item_action_and_recovery(ActionState *action_state, EntityRec
                 break;
             }
         } else {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 item_slot = &((ItemSlots *)actor)->third;
                 break;
@@ -121,23 +121,23 @@ void advance_actor_item_action_and_recovery(ActionState *action_state, EntityRec
                     target = D_800814A8;
                     actor->target = target;
                     target_sprite = ((ObjectHeaderTail *)target)[-1].sprite;
-                    actor->unk_72 = target_sprite->tileX;
-                    actor->unk_73 = target_sprite->tileY;
+                    actor->target_tile_x = target_sprite->tileX;
+                    actor->target_tile_y = target_sprite->tileY;
                 } else if (D_8006DE24[*item_slot].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
                         target_sprite = ((ObjectHeaderTail *)target)[-1].sprite;
-                        actor->unk_72 = target_sprite->tileX;
-                        actor->unk_73 = target_sprite->tileY;
+                        actor->target_tile_x = target_sprite->tileX;
+                        actor->target_tile_y = target_sprite->tileY;
                     }
                 } else {
                     actor->target =
                         scan_monster_along_heading(actor, sprite->unk_24, sprite->unk_25,
                                       actor->facing, 0x10);
-                    abs_x = abs(actor->unk_72);
-                    abs_y = abs(actor->unk_73);
-                    actor->unk_72 = abs_x;
-                    actor->unk_73 = abs_y;
+                    abs_x = abs(actor->target_tile_x);
+                    abs_y = abs(actor->target_tile_y);
+                    actor->target_tile_x = abs_x;
+                    actor->target_tile_y = abs_y;
                 }
             }
             saved_position[0] = ((u16)transform->x.w.i);
@@ -153,18 +153,18 @@ void advance_actor_item_action_and_recovery(ActionState *action_state, EntityRec
             return;
         }
 
-        transform->flags14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         ((PlayerActionCounter *)D_800814A8)->pendingActions = ((PlayerActionCounter *)D_800814A8)->pendingActions - 1;
         advance_status_timers(actor);
-        actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         action_state->handler = D_8014CF6C;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -192,9 +192,9 @@ void advance_actor_item_action_and_recovery(ActionState *action_state, EntityRec
         if ((sprite->unk_14 & 0xE000) == 0) {
             return;
         }
-        transform->flags14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
         {
             u8 *direction_table = D_80151258;
@@ -213,12 +213,12 @@ void advance_actor_item_action_and_recovery(ActionState *action_state, EntityRec
         sprite->unk_14 &= 0xF7FF;
         action_state->handler = D_8014CF6C;
         advance_status_timers(actor);
-        if (actor->unk_6D > 0) {
-            actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        if (actor->pending_turn_updates > 0) {
+            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         }
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
         break;
     }

@@ -33,7 +33,7 @@ extern u8 D_80161FD8[];
 extern u8 D_80161FE0[];
 
 /* Run the actor's eight-step sink animation, advancing its phase and swapping the sprite each step. */
-void advance_actor_sink_animation(SinkActionWork *work, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor) {
+void advance_actor_sink_animation(SinkActionWork *work, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 sinkStep;
     u16 flags;
     s32 phase;
@@ -58,7 +58,7 @@ void advance_actor_sink_animation(SinkActionWork *work, EntityRec *motion, Sprit
         select_sprite_entry(sprite, D_80161FD8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->actionFlags = (u16) (work->actionFlags | 8);
         /* This motion word supplies the sink acceleration. */
-        motion->flags14 = 0xFFF00000;
+        motion->velocity_z = 0xFFF00000;
         actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
         work->sinkOffset = 0;
         work->phaseTicks.value = 10;
@@ -72,9 +72,9 @@ void advance_actor_sink_animation(SinkActionWork *work, EntityRec *motion, Sprit
         work->heightOffset = height - sinkStep;
         if (ticksLeft != 0) {
             height = sinkStep;
-            sinkStep = motion->flags14;
+            sinkStep = motion->velocity_z;
             work->sinkOffset = (s32) (height + sinkStep);
-            motion->flags14 = (s32) (motion->flags14 + 0x30000);
+            motion->velocity_z = (s32) (motion->velocity_z + 0x30000);
         }
         height = work->heightOffset;
         sinkStep = work->sinkOffset;
@@ -91,9 +91,9 @@ void advance_actor_sink_animation(SinkActionWork *work, EntityRec *motion, Sprit
     case 2:
     case 6:
         work->actionFlags = (u16) (work->actionFlags & 0xFFF7);
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         sprite->frameTable = D_80161FE0;
         select_sprite_entry(sprite, D_80161FE0[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -115,8 +115,8 @@ void advance_actor_sink_animation(SinkActionWork *work, EntityRec *motion, Sprit
         select_sprite_entry(sprite, D_80161FB8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         advance_status_timers(actor);
-        actor->unk_6D = 0;
-        actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+        actor->pending_turn_updates = 0;
+        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         work->handler = &D_8015EF68;
         work->actionFlags = (u16) (work->actionFlags | 0x8000);
         work->recoveryTicks = (s16) ((generate_random_value() & 7) + 8);

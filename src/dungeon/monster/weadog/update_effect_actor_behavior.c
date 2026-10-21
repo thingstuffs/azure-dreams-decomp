@@ -69,7 +69,7 @@ extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
 
 /* Updates an actor's dungeon behavior, facing, and animation. */
-void update_effect_actor_behavior(ActorActionView *action, void *context, ActorSpriteView *sprite, EntityRec *entity)
+void update_effect_actor_behavior(ActorActionView *action, void *context, ActorSpriteView *sprite, ActorRecord *entity)
 {
     u32 initial_flags = g_dungeon_status.flags;
     s16 distance;
@@ -78,7 +78,7 @@ void update_effect_actor_behavior(ActorActionView *action, void *context, ActorS
     s16 facing;
     u16 action_flags;
     u8 *anim_table;
-    EntityRec *player;
+    ActorRecord *player;
 
     if (initial_flags & 0x1000) {
         action->behavior = 14;
@@ -86,7 +86,7 @@ void update_effect_actor_behavior(ActorActionView *action, void *context, ActorS
         return;
     }
 
-    if (entity->tileY == 0) {
+    if (entity->mp == 0) {
         advance_actor_pending_action(action, context, sprite, entity);
         if (sprite->frameTable == D_80174F00) {
             return;
@@ -160,7 +160,7 @@ void update_effect_actor_behavior(ActorActionView *action, void *context, ActorS
     room_id = find_active_rect_containing_point(sprite->tile.bytes.x, sprite->tile.bytes.y);
     sprite->room.signedValue = room_id;
 
-    if (entity->unk_6D > 0) {
+    if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & 0x20) {
             update_actor_status_and_food(entity);
             return;
@@ -169,7 +169,7 @@ void update_effect_actor_behavior(ActorActionView *action, void *context, ActorS
             func_80172490(action, context, sprite, entity);
             return;
         }
-        action_flags = entity->unk_46;
+        action_flags = entity->action_flags;
         if ((action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
@@ -180,15 +180,15 @@ void update_effect_actor_behavior(ActorActionView *action, void *context, ActorS
             if ((s16)func_80172F20(action, context, sprite, 0) == 0) {
                     return;
             }
-            action_flags = entity->unk_46 | 0x4000;
-            entity->unk_46 = action_flags;
+            action_flags = entity->action_flags | 0x4000;
+            entity->action_flags = action_flags;
             if ((action_flags & 0x8000) == 0) {
                 func_80172490(action, context, sprite, entity);
                 return;
             }
         }
 
-        switch (entity->unk_46 & 0x3FFF) {
+        switch (entity->action_flags & 0x3FFF) {
         case 8:
             if ((s16)func_80172C44(action, context, sprite, entity) != 0) {
                     return;

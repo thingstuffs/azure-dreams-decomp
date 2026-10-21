@@ -22,7 +22,7 @@ extern s32 D_80170E84;
 extern s32 D_80174838;
 
 /* Updates directional motion and settles the entity at its grid position. */
-void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motion, SpriteFrameState *entity, void *source)
+void update_directional_motion_and_settle(S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, void *source)
 {
     s16 timer;
     s32 direction;
@@ -32,16 +32,16 @@ void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motio
     switch (action->unk_9B) {
     case 0:
         apply_clamped_actor_value_delta(source);
-        motion->unk_0C =
+        motion->velocity_x =
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 18;
-        motion->unk_10 =
+        motion->velocity_y =
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 18;
         action->unk_9B++;
 
         if (((EntityRec *)source)->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, entity, &D_80174838);
             return;
         }
@@ -56,14 +56,14 @@ void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motio
             timer = -1;
         }
         action->unk_96.s = timer;
-        motion->unk_0C -= motion->unk_0C / 4;
-        motion->unk_10 -= motion->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
 
     case 1:
-        motion->unk_0C -=
+        motion->velocity_x -=
             *(s16 *)((u8 *)((s8 *)dir_step_x) + (direction * 2)) << 14;
-        motion->unk_10 -=
+        motion->velocity_y -=
             *(s16 *)((u8 *)((s8 *)dir_step_y) + (direction * 2)) << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
@@ -74,9 +74,9 @@ void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motio
             return;
         }
         if (((EntityRec *)source)->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, entity, &D_80174838);
             return;
         } else {
@@ -91,13 +91,13 @@ void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motio
                 s32 target_x = entity->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
-                motion->unk_0C = ((target_x - current_x) << 15) >> 1;
+                motion->velocity_x = ((target_x - current_x) << 15) >> 1;
             }
             {
                 s32 target_y = entity->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
-                motion->unk_10 = ((target_y - current_y) << 15) >> 1;
+                motion->velocity_y = ((target_y - current_y) << 15) >> 1;
             }
         }
         timer = action->unk_96.u - 1;
@@ -105,9 +105,9 @@ void update_directional_motion_and_settle(S_801730B8_1 *action, EntityRec *motio
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, entity->unk_24, entity->unk_25);
 
         tracked_addr = ((s32)g_dungeon_status.pending_display_owner);

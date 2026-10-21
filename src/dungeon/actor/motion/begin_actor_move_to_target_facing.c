@@ -17,7 +17,7 @@ extern void update_map_cell_flags_with_item_limit();
 
 
 /* Reset action state, update the tile, and refresh entity flags and data. */
-void begin_actor_move_to_target_facing(Rec_func_800A9E70_arg0 *state, void *unused, Rec_func_800AA258_arg2 *position, EntityRec *entity) {
+void begin_actor_move_to_target_facing(Rec_func_800A9E70_arg0 *state, void *unused, Rec_func_800AA258_arg2 *position, ActorRecord *entity) {
     u8 tile_x;
     u8 tile_y;
     s32 update_mask;
@@ -35,5 +35,5 @@ void begin_actor_move_to_target_facing(Rec_func_800A9E70_arg0 *state, void *unus
     state->unk_98 = (u16)(state->unk_98 | 8);
     entity->flags1C = (s32)(entity->flags1C & 0xFFFBFFFF);
     state->unk_96.as_s16 = 0;
-    entity->unk_6A = (u16)((S_800AA888_4 *)(((EntityRec *)entity)->target))->unk_2A;
+    entity->movement_facing = (u16)((S_800AA888_4 *)(((EntityRec *)entity)->target))->unk_2A;
 }

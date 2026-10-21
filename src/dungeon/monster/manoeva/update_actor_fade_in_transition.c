@@ -54,7 +54,7 @@ extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
 /* Advances an actor's fade-in sequence and applies its completion updates. */
-void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427C_1 *sprite, EntityRec *actor_data) {
+void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427C_1 *sprite, ActorRecord *actor_data) {
     void *actor_base;
     s32 actor_flags;
     s32 entry_index;
@@ -126,7 +126,7 @@ void update_actor_fade_in_transition(void *actor_state, void *context, S_8017427
             cycle_map_cell_flags(tile_x, tile_y, tile_mask);
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        if (actor_data->unk_28 == 0) {
+        if (actor_data->hp == 0) {
             g_dungeon_status.pending_display_owner = (u8 *)actor_data - 0x20;
             begin_actor_display_action(actor_state, context, sprite, D_80176640);
             break;

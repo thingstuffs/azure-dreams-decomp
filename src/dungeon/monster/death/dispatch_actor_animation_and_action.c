@@ -245,7 +245,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
         case 5:
         case 6:
         {
-            EntityRec *player;
+            ActorRecord *player;
             s16 heading;
 
             heading = get_rounded_facing_and_rounding_flag(

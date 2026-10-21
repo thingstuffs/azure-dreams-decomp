@@ -16,7 +16,7 @@ extern void clear_slot_and_update_linked_state(s32);
 extern void display_formatted_context_message(void *, s32, s16);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 
 /* Dispatch an action by type and target, updating the shared action state. */
 s32 use_item_to_reveal_elevator(EntityRec *target, s32 action_id, s16 action_type, s32 action_param)
@@ -33,7 +33,7 @@ s32 use_item_to_reveal_elevator(EntityRec *target, s32 action_id, s16 action_typ
 
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, action_id, action_type);
-        if (apply_actor_food_preference(target,
+        if (feed_actor_restore_mp(target,
                           entity_action_selectors[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
                           action_id) == 0) {
             apply_item_effect_at_entity_position(target, action_id);

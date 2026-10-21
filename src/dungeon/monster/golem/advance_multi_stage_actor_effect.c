@@ -15,7 +15,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 create_randomized_offset_object(void *, void *, void *);
 
 extern void D_80170E94;
@@ -131,7 +131,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         entity->unk_10 = 0;
         entity->unk_0C = 0;
         set_record_integer_tile_center(entity, ((SpriteFrameState *)object)->unk_24, ((SpriteFrameState *)object)->unk_25);
-        reduce_actor_food_meter(actor, 0x800);
+        spend_actor_mp(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
         (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;
         g_dungeon_status.active_actor = 0;
@@ -151,7 +151,7 @@ void advance_multi_stage_actor_effect(void *incoming_state_work, void *incoming_
         entity->unk_10 = 0;
         entity->unk_0C = 0;
         set_record_integer_tile_center(entity, ((SpriteFrameState *)object)->unk_24, ((SpriteFrameState *)object)->unk_25);
-        reduce_actor_food_meter(actor, 0x800);
+        spend_actor_mp(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
         (((StateWorkFieldView_81085DBC *)state_work)->field_8C) = &D_80170E94;
         g_dungeon_status.active_actor = 0;

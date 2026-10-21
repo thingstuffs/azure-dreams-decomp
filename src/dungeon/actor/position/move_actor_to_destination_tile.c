@@ -11,7 +11,7 @@ void set_record_integer_tile_center();              /* extern */
 extern M2C_UNK D_80096384;
 
 /* Move the actor toward the destination tile and finish movement when the timer expires. */
-void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, EntityRec *motion, SpriteFrameState *destination, s32 context) {
+void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, ObjectPosition *motion, SpriteFrameState *destination, s32 context) {
     s16 frames_left;
     u16 actor_flags;
     s32 saved_context;
@@ -21,9 +21,9 @@ void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, EntityRec *mo
         g_dungeon_status.movement_frames_left = 0;
     }
     if (g_dungeon_status.movement_frames_left != 0) {
-        motion->unk_0C = (s32) ((s32) ((((destination->unk_24 << 6) + 0x20) << 0x10)
+        motion->velocity_x = (s32) ((s32) ((((destination->unk_24 << 6) + 0x20) << 0x10)
             - motion->x.v) / (s16) g_dungeon_status.movement_frames_left);
-        motion->unk_10 = (s32) ((s32) ((((destination->unk_25 << 6) + 0x20) << 0x10)
+        motion->velocity_y = (s32) ((s32) ((((destination->unk_25 << 6) + 0x20) << 0x10)
             - motion->y.v) / (s16) g_dungeon_status.movement_frames_left);
     }
     actor_flags = actor->unk_A2;
@@ -34,9 +34,9 @@ void move_actor_to_destination_tile(Rec_func_8008ACDC_arg0 *actor, EntityRec *mo
     g_dungeon_status.movement_frames_left = frames_left;
     if ((frames_left << 0x10) <= 0) {
         g_dungeon_status.movement_frames_left = 0;
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, destination->unk_24, destination->unk_25);
         destination->flags = (u16) (destination->flags | 0x4000);
         if (actor->unk_100 >= 0) {

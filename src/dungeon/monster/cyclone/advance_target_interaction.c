@@ -28,7 +28,7 @@ typedef struct S_80174764_4 {
 extern void select_sprite_entry(void *, s16, s16);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void spawn_312_effect_object(void *, void *, void *);
 extern s32 request_random_slot_effect(void *);
 extern s32 check_object_code_19(void *);
@@ -51,20 +51,20 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
         sprite_flags = ((SpriteFrameState *)sprite)->flags;
         if (sprite_flags & 0x8000) {
             ((SpriteFrameState *)sprite)->flags = sprite_flags | 0x6000;
-            if (((EntityRec *)actor)->flags14 & 0x4000) {
-                target = ((EntityRec *)actor)->target;
+            if (((ActorRecord *)actor)->flags14 & 0x4000) {
+                target = ((ActorRecord *)actor)->target;
                 if (check_object_code_19(target)) {
-                    func_801763CC(1, ((EntityRec *)actor)->target);
+                    func_801763CC(1, ((ActorRecord *)actor)->target);
                 } else {
-                    func_801763CC(0, ((EntityRec *)actor)->target);
+                    func_801763CC(0, ((ActorRecord *)actor)->target);
                 }
             } else {
-                target = ((EntityRec *)actor)->target;
+                target = ((ActorRecord *)actor)->target;
                 if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
-                        func_80176330(1, ((EntityRec *)actor)->target);
+                        func_80176330(1, ((ActorRecord *)actor)->target);
                     } else {
-                        func_80176330(0, ((EntityRec *)actor)->target);
+                        func_80176330(0, ((ActorRecord *)actor)->target);
                     }
                 } else {
                     request_random_slot_effect(target);
@@ -85,9 +85,9 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
         }
 
         spawn_312_effect_object(action, scene, sprite);
-        if (((EntityRec *)actor)->flags14 & 0x4000) {
+        if (((ActorRecord *)actor)->flags14 & 0x4000) {
             format_entity_message(1, actor);
-        } else if (((S_80174764_4 *)(((EntityRec *)actor)->target))->unk_14 & 0x4000) {
+        } else if (((S_80174764_4 *)(((ActorRecord *)actor)->target))->unk_14 & 0x4000) {
             format_entity_message(0, actor);
         }
         play_sound_if_enabled(0x708);
@@ -100,20 +100,20 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
         timer = ((S_80174764_0 *)action)->unk_96 - 1;
         ((S_80174764_0 *)action)->unk_96 = timer;
         if ((timer << 16) == 0 || (((SpriteFrameState *)sprite)->flags & 0x8000)) {
-            if (((EntityRec *)actor)->flags14 & 0x4000) {
-                target = ((EntityRec *)actor)->target;
+            if (((ActorRecord *)actor)->flags14 & 0x4000) {
+                target = ((ActorRecord *)actor)->target;
                 if (check_object_code_19(target)) {
-                    func_801763CC(1, ((EntityRec *)actor)->target);
+                    func_801763CC(1, ((ActorRecord *)actor)->target);
                 } else {
-                    func_801763CC(0, ((EntityRec *)actor)->target);
+                    func_801763CC(0, ((ActorRecord *)actor)->target);
                 }
             } else {
-                target = ((EntityRec *)actor)->target;
+                target = ((ActorRecord *)actor)->target;
                 if (((S_80174764_3 *)target)->unk_14 & 0x4000) {
                     if (request_random_slot_effect(target)) {
-                        func_80176330(1, ((EntityRec *)actor)->target);
+                        func_80176330(1, ((ActorRecord *)actor)->target);
                     } else {
-                        func_80176330(0, ((EntityRec *)actor)->target);
+                        func_80176330(0, ((ActorRecord *)actor)->target);
                     }
                 } else {
                     request_random_slot_effect(target);
@@ -128,7 +128,7 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
         timer = ((S_80174764_0 *)action)->unk_96 - 1;
         ((S_80174764_0 *)action)->unk_96 = timer;
         if ((timer << 16) == 0 || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
-            reduce_actor_food_meter(actor, 0x400);
+            spend_actor_mp(actor, 0x400);
             set_record_integer_tile_center(scene, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             ((S_80174764_0 *)action)->unk_8C = &D_80171094;
             g_dungeon_status.active_actor = 0;
@@ -141,7 +141,7 @@ void advance_target_interaction(void *action, void *scene, void *sprite, void *a
         s32 direction;
 
         ((SpriteFrameState *)sprite)->frameTable = D_80176460;
-        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
+        direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_80176460[direction & 7], 0);
         ((S_80174764_0 *)action)->unk_98 &= 0xFFF7;
     }

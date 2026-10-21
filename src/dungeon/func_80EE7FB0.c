@@ -67,7 +67,7 @@ extern void *create_actor_spell_effect();
 extern s32 func_8016B498();
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
-void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor) {
+void advance_targeted_actor_action(ActorActionView *action, ObjectPosition *motion, ActorSpriteView *sprite, ActorRecord *actor) {
     s32 use_player_target;
     s32 particle_count;
     s32 offset_z;
@@ -92,7 +92,7 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            raw_kind = actor->unk_46 & 0x3FFF;
+            raw_kind = actor->action_flags & 0x3FFF;
             kind_index = raw_kind - 1;
             switch (kind_index) {
             case 6:
@@ -118,7 +118,7 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
                 break;
             }
         } else {
-            action_kind = actor->unk_46 & 0x3FFF;
+            action_kind = actor->action_flags & 0x3FFF;
             switch (action_kind) {
             case 3:
                 action_data = ((ActorAbilityView *)actor)->slots[2];
@@ -148,9 +148,9 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
 
                     target_sprite = ((SpriteLinkPrefixView *)target)[-1].unk_00;
                     tile_coord = target_sprite->unk_24;
-                    actor->unk_72 = tile_coord;
+                    actor->target_tile_x = tile_coord;
                     tile_coord = target_sprite->unk_25;
-                    actor->unk_73 = tile_coord;
+                    actor->target_tile_y = tile_coord;
                 }
             } else if (D_8006DE24[*action_data].kind == 2) {
                 target = actor->target;
@@ -160,9 +160,9 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
 
                         target_sprite = ((SpriteLinkPrefixView *)target)[-1].unk_00;
                         tile_coord = target_sprite->unk_24;
-                        actor->unk_72 = tile_coord;
+                        actor->target_tile_x = tile_coord;
                         tile_coord = target_sprite->unk_25;
-                        actor->unk_73 = tile_coord;
+                        actor->target_tile_y = tile_coord;
                     }
                 }
             } else {
@@ -174,8 +174,8 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
                     actor->facing,
                     0x10);
 
-                actor->unk_72 = abs(actor->unk_72);
-                actor->unk_73 = abs(actor->unk_73);
+                actor->target_tile_x = abs(actor->target_tile_x);
+                actor->target_tile_y = abs(actor->target_tile_y);
             }
 
             if (create_actor_spell_effect(actor, action_data, use_player_target, &action->flags) == 0) {
@@ -185,18 +185,18 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
             return;
 
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         g_dungeon_status.active_actor = 0;
         ((PlayerRemainingActionsView *)D_800814A8)->remaining--;
         advance_status_timers(actor);
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
         action->nextBehavior = update_actor_dungeon_behavior;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -279,9 +279,9 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
 
         if (sprite->frameTable != D_8016EEB8) {
@@ -296,10 +296,10 @@ void advance_targeted_actor_action(ActorActionView *action, EntityRec *motion, A
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         action->nextBehavior = update_actor_dungeon_behavior;
         advance_status_timers(actor);
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_6D--;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->pending_turn_updates--;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
     }
 }

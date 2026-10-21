@@ -57,7 +57,7 @@ typedef struct S_8016D6F0_9 {
 } S_8016D6F0_9;   /* ((S_8016D6F0_2 *)base8008)->unk_14A8 in advance_actor_action_and_animation */
 
 /* Advance the actor's action state, directional animation, and completion callback. */
-void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, SpriteFrameState *sprite, EntityRec *entity)
+void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *entity)
 {
     TileObject *reference_pos;
     DungeonGlobalStatus *counter_base;
@@ -122,7 +122,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
                 func_8016DAA4(actor, actor_id, sprite, entity);
                 return;
             }
-            if (entity->unk_6D == 0) {
+            if (entity->pending_turn_updates == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(entity) << 0x10) != 0) {

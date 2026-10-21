@@ -25,7 +25,7 @@ typedef struct S_800A5638_0_pre {
 
 
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
-void update_effect_record_and_dispatch(void *handler, EntityRec *record, s32 context) {
+void update_effect_record_and_dispatch(void *handler, ObjectPosition *record, s32 context) {
     apply_the_enabled_movement_offsets_adding_z_offset_only_positive((struct IntVector3 *)(record));
     update_the_s_field_10_using_callee_8008_fe_90(&D_800FE490);
     add_motion_deltas_to_position(record);
@@ -36,7 +36,7 @@ void update_effect_record_and_dispatch(void *handler, EntityRec *record, s32 con
     if (!(((S_800A5638_0_pre *)handler)[-1].unk_0E & 0x8000)) {
         if (record->y.v <= 0x06500000) {
             record->y.v = 0x06500000;
-            record->unk_10 = 0x180000;
+            record->velocity_y = 0x180000;
             if (record->z.v > 0) {
                 record->z.v = 0;
             }

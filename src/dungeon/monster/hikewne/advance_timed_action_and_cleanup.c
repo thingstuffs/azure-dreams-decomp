@@ -8,7 +8,7 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern u8 D_801714D4[];
 extern u8 D_80174108[];
@@ -96,7 +96,7 @@ void advance_timed_action_and_cleanup(void *action_data, void *unused, SpriteFra
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_80172864_0 *)action)->unk_8C = D_801714D4;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);

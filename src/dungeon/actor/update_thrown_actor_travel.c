@@ -19,7 +19,7 @@ void begin_actor_random_warp(); /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 
 /* Advance tile movement, handle object contact, and finalize the stopping position. */
-s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, SpriteFrameState *tile_pos, EntityRec *actor) {
+s32 update_thrown_actor_travel(void *move_state, ObjectPosition *motion, SpriteFrameState *tile_pos, ActorRecord *actor) {
     u16 resolved_x;
     u16 resolved_y;
     s32 contact_tile_mask;
@@ -43,23 +43,23 @@ s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, SpriteFrameS
         axis_pos = motion->x.w.i;
         target_x <<= 6;
         axis_pos -= 0x20;
-        motion->unk_0C = (s32) ((s32) ((target_x - axis_pos) << 0x10) / move_ticks);
+        motion->velocity_x = (s32) ((s32) ((target_x - axis_pos) << 0x10) / move_ticks);
         axis_pos = motion->y.w.i - 0x20;
-        motion->unk_10 = (s32) ((s32) (((tile_pos->unk_25 << 6) - axis_pos)
+        motion->velocity_y = (s32) ((s32) (((tile_pos->unk_25 << 6) - axis_pos)
             << 0x10) / (s16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16);
     }
     ticks_left = (u16) ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 - 1;
     ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        hit_object = prepare_directional_attack(actor, tile_pos, ((s16)actor->unk_6A), 0, 0);
+        hit_object = prepare_directional_attack(actor, tile_pos, ((s16)actor->movement_facing), 0, 0);
         if (hit_object != NULL) {
-            apply_attack_power_and_element_effects(actor, 4, 1, 8, (s32) (s16) ((u16) ((s16)actor->unk_6A) + 0x800), 0, 1);
-            apply_attack_power_and_element_effects(hit_object, 8, 1, 8, (s32) ((s16)actor->unk_6A), 0, 1);
+            apply_attack_power_and_element_effects(actor, 4, 1, 8, (s32) (s16) ((u16) ((s16)actor->movement_facing) + 0x800), 0, 1);
+            apply_attack_power_and_element_effects(hit_object, 8, 1, 8, (s32) ((s16)actor->movement_facing), 0, 1);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
                 (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             actor->flags1C = (s32) (actor->flags1C | 0x40000000);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26;
             tile_pos->unk_26 = find_active_rect_containing_point(tile_pos->unk_24, tile_pos->unk_25);
@@ -83,18 +83,18 @@ s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, SpriteFrameS
                 actor->flags1C = (s32) (actor->flags1C & 0xFFDFFFFF);
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
-                actor->unk_71 = 0;
+                actor->movement_queue_state = 0;
                 return 1;
             }
         }
-        if ((check_neighbor_tile_blocking(((s16)actor->unk_6A), motion, tile_pos) << 0x10) != 0 && --actor->unk_8A > 0) {
-            tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dir_step_x));
-            tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dir_step_y));
+        if ((check_neighbor_tile_blocking(((s16)actor->movement_facing), motion, tile_pos) << 0x10) != 0 && --actor->unk_8A > 0) {
+            tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) ((s16)actor->movement_facing) >> 9 & 7) + dir_step_x));
+            tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) ((s16)actor->movement_facing) >> 9 & 7) + dir_step_y));
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 2;
         } else {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 =
                 (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26;
@@ -104,7 +104,7 @@ s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, SpriteFrameS
                 (s16) (((u16)motion->z.w.i) - 0x20));
             if (ground_height < 0x200) {
                 ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
-                actor->unk_88 = ground_height;
+                actor->ground_height = ground_height;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
@@ -125,7 +125,7 @@ s32 update_thrown_actor_travel(void *move_state, EntityRec *motion, SpriteFrameS
                     stop_tile_mask = 0x300;
                 }
                 cycle_map_cell_flags(stop_x, stop_y, stop_tile_mask);
-                actor->unk_71 = 0;
+                actor->movement_queue_state = 0;
                 return 1;
             }
         }

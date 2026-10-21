@@ -69,7 +69,7 @@ void update_actor_fade_state(void *state, void *unused, void *data, void *entity
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             break;
         }
-        ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x10000000);
+        ((ActorRecord *)entity)->flags1C = (s32) (((ActorRecord *)entity)->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
         ((S_800D34CC_2 *)data)->unk_0C.at00.v = 0x808080;
         ((S_800D34CC_0 *)state)->unk_96 = 0x10;
@@ -101,7 +101,7 @@ void update_actor_fade_state(void *state, void *unused, void *data, void *entity
                 value24 = ((S_800D34CC_2 *)data)->unk_24;
                 value25 = ((S_800D34CC_2 *)data)->unk_25;
                 selectedValue = 0x3000;
-                if (((EntityRec *)entity)->flags1C & 0x2000) {
+                if (((ActorRecord *)entity)->flags1C & 0x2000) {
                     selectedValue = 0x300;
                 }
                 update_map_cell_flags_with_item_limit(value24, value25, selectedValue);

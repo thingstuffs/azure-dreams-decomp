@@ -16,13 +16,13 @@ extern u8 D_80080000[];
 
 /* Turn toward the target and start an action once aligned. */
 s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, s32 action_context, Rec_D_80082E80 *target,
-    EntityRec *actor) {
+    ActorRecord *actor) {
     s32 target_angle;
     u16 result;
     u16 *global_flags;
 
-    result = actor->unk_71 & 0x7F;
-    actor->unk_71 = result;
+    result = actor->movement_queue_state & 0x7F;
+    actor->movement_queue_state = result;
     {
 
         global_flags = (u16 *)(D_80080000 + 0x3460);
@@ -41,7 +41,7 @@ s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, s32 actio
     if (global_flags[1] & 0x2000) {
         return -1;
     }
-    if (!(actor->unk_46 & 0x8000) && (global_flags[1] & 8)) {
+    if (!(actor->action_flags & 0x8000) && (global_flags[1] & 8)) {
         return -1;
     }
     if ((u32)(((0 - get_actor_height_difference(target_angle, actor)) + 0x40) & 0xFFFF) <
@@ -64,7 +64,7 @@ s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, s32 actio
             action_state->unk_98 =
                 (u16)(action_state->unk_98 | 8);
             prepare_directional_attack(actor, target, actor->facing, 1, 0);
-            actor->unk_6D--;
+            actor->pending_turn_updates--;
         } else {
             begin_actor_exclusive_action(action_state, action_context, target, 1, 1);
         }

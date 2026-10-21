@@ -35,7 +35,7 @@ typedef struct S_8017346C_3 {
 } S_8017346C_3;   /* arg3 in initialize_actor_motion_transition */
 
 /* Initialize actor motion and transition its handler when action flags are set. */
-void initialize_actor_motion_transition(S_8017346C_0 *actor, EntityRec *motion, S_8017346C_1 *action, S_8017346C_3 *status) {
+void initialize_actor_motion_transition(S_8017346C_0 *actor, ObjectPosition *motion, S_8017346C_1 *action, S_8017346C_3 *status) {
     u8 phase;
 
     phase = actor->unk_9B;
@@ -49,9 +49,9 @@ void initialize_actor_motion_transition(S_8017346C_0 *actor, EntityRec *motion, 
             action->unk_14 |= 0x6000;
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         actor->unk_9B = (u8) (actor->unk_9B + 1);
     }
     if (((action->unk_04 == 5) && (action->unk_14 & 0x1000)) || (action->unk_14 & 0x8000)) {
@@ -60,9 +60,9 @@ void initialize_actor_motion_transition(S_8017346C_0 *actor, EntityRec *motion, 
     if (action->unk_14 & 0xE000) {
         actor->unk_AE = 1;
         status->unk_14 = (s32) (status->unk_14 | 0x40000000);
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, action->unk_24, action->unk_25);
         actor->unk_8C = &func_80170E94;
         g_dungeon_status.active_actor = 0;

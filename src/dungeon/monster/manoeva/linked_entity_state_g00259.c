@@ -10,7 +10,7 @@ void transfer_linked_object_state(u8 *owner, s32 object_id, u8 *dest_object, u8 
     u8 *linked_state;
     u8 *source_object;
     u8 *state_slot;
-    EntityRec *state_table;
+    ActorRecord *state_table;
     u8 *kind_entry;
     s32 call_result;
     u8 kind_unlisted;

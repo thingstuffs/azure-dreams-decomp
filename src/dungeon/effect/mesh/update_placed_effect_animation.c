@@ -115,7 +115,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
     switch (state_index) {
     case 0:
         {
-            EntityRec *init_page;
+            ActorRecord *init_page;
             u16 next_state;
 
             next_state = self->state;
@@ -123,7 +123,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             self->counter = 0;
             next_state++;
             self->state = next_state;
-            init_page->unk_F4 = 0;
+            ((PlayerRecord *)init_page)->unk_F4 = 0;
             func_800243C0((u8 *)self->part0 - 0x20, self->part4);
         }
     case 1:
@@ -161,14 +161,14 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
         }
 
         {
-            EntityRec *player;
+            ActorRecord *player;
             s32 spawn_angle;
             s32 player_x;
             player_x = D_80083780.x.v;
             player = D_800814A8;
             position[0] = player_x;
             position[1] = D_80083780.y.v;
-            position[2] = (s32)player->unk_88 << 16;
+            position[2] = (s32)player->ground_height << 16;
             spawn_angle = player->facing;
             tile_map = &D_80082E80;
             spawned_object = scan_monster_along_heading(player, tile_map->tile_position.parts.tile_x, tile_map->tile_position.parts.tile_y, spawn_angle, 8);
@@ -190,37 +190,37 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
 
             for (step_count = 0; step_count < 8; step_count++) {
                 {
-                    EntityRec *player;
+                    ActorRecord *player;
 
                     player = D_800814A8;
                     tile_step = dir_step_x[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
                     tile_step_2 = dir_step_y[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_06.u += tile_step_2 << 6;
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->ground_height);
                 }
                 ((S_81978428_6 *)target_pos)->unk_0A.s = get_surface_height_at_record(target_pos);
                 if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
-                    EntityRec *player;
+                    ActorRecord *player;
                     player = D_800814A8;
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->ground_height);
                 }
 
                 if ((check_left_tile_and_center_height(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
                                     ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
-                    EntityRec *player;
+                    ActorRecord *player;
 
                     player = D_800814A8;
                     tile_step_3 = dir_step_x[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step_3 << 6;
                     tile_step_4 = dir_step_y[(((u16)player->facing) >> 9) & 7];
                     ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step_4 << 6;
-                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->unk_88);
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)player->ground_height);
                     ((S_81978428_6 *)target_pos)->unk_0A.s = get_surface_height_at_record(target_pos);
                     if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
-                        EntityRec *height_player;
+                        ActorRecord *height_player;
                         height_player = D_800814A8;
-                        ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)height_player->unk_88);
+                        ((S_81978428_6 *)target_pos)->unk_0A.s = ((u16)height_player->ground_height);
                     }
                     break;
                 }

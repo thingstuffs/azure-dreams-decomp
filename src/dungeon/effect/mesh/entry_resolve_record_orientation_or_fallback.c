@@ -87,7 +87,7 @@ void func_81976850(void *effect, void *motion, void *visual)
     void *source;
     MovingPosition *source_pos;
     void *target_pos;
-    EntityRec *scene;
+    ActorRecord *scene;
     void *object;
     s32 z_offset;
     s32 table_entry;
@@ -141,7 +141,7 @@ void func_81976850(void *effect, void *motion, void *visual)
 
         scene = D_800814A8;
         ((S_81976850_2 *)motion)->unk_14 =
-            (scene->unk_88 - 0x50) << 16;
+            (scene->ground_height - 0x50) << 16;
 
         table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
         table_entry += (s32)D_800E3D18;

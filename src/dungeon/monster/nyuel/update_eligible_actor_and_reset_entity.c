@@ -5,8 +5,8 @@ typedef struct Motion Motion;
 typedef struct TilePos TilePos;
 #include "shared/entity.h"
 
-extern s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, EntityRec *actor);
-extern void reduce_actor_food_meter(s32, s32);
+extern s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *target_tile, ActorRecord *actor);
+extern void spend_actor_mp(s32, s32);
 extern void advance_status_timers(s32);
 extern s32 check_actor_floor_trap(s32, s32);
 extern s32 D_80170E9C;
@@ -18,7 +18,7 @@ void update_eligible_actor_and_reset_entity(void *entity_arg, s32 check_context,
     s32 actor = actor_arg;
 
     if (update_actor_movement_to_tile(entity_arg, check_context, value_arg, actor_arg) != 0) {
-        reduce_actor_food_meter(actor, 3);
+        spend_actor_mp(actor, 3);
         advance_status_timers(actor);
         if ((check_actor_floor_trap(check_value, actor) << 16) > 0) {
             *(s32 **)((u8 *)entity + 0x8C) = &D_80170E9C;

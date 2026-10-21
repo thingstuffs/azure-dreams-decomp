@@ -46,7 +46,7 @@ s32 generate_random_value();
 void initialize_actor_sprite_and_animation(); /* extern */
 s32 try_move_actor_to_valid_position(); /* extern */
 void func_8015EA3C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
-void func_8015EE68(ActorActionView *action, void *context, ActorSpriteView *sprite, EntityRec *entity);
+void func_8015EE68(ActorActionView *action, void *context, ActorSpriteView *sprite, ActorRecord *entity);
 extern M2C_UNK D_8016186C;
 
 void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) ;

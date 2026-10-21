@@ -45,7 +45,7 @@ static s32 uses_direct_actor_sprite_frames(void *record) {
     }
 }
 
-s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, EntityRec *entity) {
+s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, ActorRecord *entity) {
     void *active_entity;
     s32 entity_flags;
     s32 direction;
@@ -75,12 +75,12 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
     }
 
     if (entity->flags1C & 0x400) {
-        action_flags = entity->unk_46;
+        action_flags = entity->action_flags;
         if (action_flags & 0x8000) {
             if (!(action_flags & 0x4000)) {
                 action_type = action_flags & 0x3FFF;
                 if (((u32)(action_type - 5) < 3U) || (action_type == 0xC)) {
-                    entity->unk_46 = action_flags & 0x7FFF;
+                    entity->action_flags = action_flags & 0x7FFF;
                 }
             }
         }
@@ -105,7 +105,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
     if ((entity->flags1C & 0x2000) ||
         (entity->flags14 & 0x4000)) {
         if ((u32)(anim->unk_9A.as_u8 - 0x13) >= 2U) {
-            if (entity->unk_6D == 0) {
+            if (entity->pending_turn_updates == 0) {
                 if (D_800DCE68 == 0) {
                     if ((has_pending_dungeon_activity(entity) << 0x10) != 0) {
                         return 0;
@@ -148,7 +148,7 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
                     anim->unk_9B.as_u8 = 0;
                 } else if (entity->flags1C & 0x02000000) {
                     anim->unk_8C = 0;
-                    entity->unk_71 = 0;
+                    entity->movement_queue_state = 0;
                     entity->flags1C &= 0xFDFFFFFF;
                     if (entity->flags14 & 0x20000000) {
                         initialize_actor_object_action(anim, action_arg, sprite, entity);

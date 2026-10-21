@@ -7,15 +7,18 @@
  * rows' `void *X[3]` / `u8 *X[]` array spellings only ever used element 0.  Names stay address-based: what the
  * records are (an entity/actor record for D_800E3D7C: familiar owner slot +0x124, facing angle +0x2A) is not yet
  * proven well enough for a name.
- * Phase 6: D_800E3D7C and D_800814A8 point at EntityRec (include/shared/entity.h, phase 5 showed the two generated
- * Rec_D_800E3D7C / Rec_D_800814A8 views are one 0x12C-byte record); D_80016000 keeps its generated record.
+ * Phase 6: D_800E3D7C and D_800814A8 point at one 0x12C-byte record (phase 5 showed the two generated
+ * Rec_D_800E3D7C / Rec_D_800814A8 views are one record); D_80016000 keeps its generated record.
+ * r121 opus_entity2: that record is the dungeon player's body (initialize_dungeon_actor: D_800814A8 = node + 0x20,
+ * D_800E3D7C = D_800814A8), a PlayerRecord; both are typed as its ActorRecord prefix (include/shared/entity.h)
+ * because nearly every use is actor-generic.  Player-only fields: ((PlayerRecord *)D_800814A8)->field.
  *   D_800814A8: 230 rows (dungeon, slus, town) - SLUS .bss, the word after objectFlagBlock's reserved bytes.
  *   D_800E3D7C: 190 rows (dungeon, slus)        - DUNGEON overlay .bss.
  *   D_80016000: 298 rows (dungeon, slus, town)  - below the SLUS image (0x80016000). */
-struct EntityRec;                /* include/shared/entity.h (include it to dereference) */
+struct ActorRecord;              /* include/shared/entity.h (include it to dereference) */
 struct Rec_D_80016000;
-extern struct EntityRec *D_800814A8;
-extern struct EntityRec *D_800E3D7C;
+extern struct ActorRecord *D_800814A8;
+extern struct ActorRecord *D_800E3D7C;
 extern struct Rec_D_80016000 *D_80016000;
 
 #endif

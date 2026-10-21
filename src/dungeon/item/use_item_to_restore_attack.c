@@ -13,7 +13,7 @@ void clear_slot_and_update_linked_state();                         /* extern */
 void adjust_source_value_and_finalize();           /* extern */
 void apply_item_effect_at_entity_position();                 /* extern */
 void display_item_status_message();            /* extern */
-s32 apply_actor_food_preference();            /* extern */
+s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
 extern M2C_UNK D_800E0EE1;
 
@@ -33,7 +33,7 @@ s32 use_item_to_restore_attack(void *target, s32 item, s16 use_type) {
     }
     if ((u32) target <= 0x9FFFFFFFU) {
         display_item_status_message(target, item, use_type);
-        if (apply_actor_food_preference(target, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
+        if (feed_actor_restore_mp(target, (entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] >> 6) & 3, 0) == 0) {
             apply_item_effect_at_entity_position(target, item);
             return 1;
         }

@@ -13,11 +13,11 @@ extern s32 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *, s32, s32, s32);
 
 /* Attempts an action toward the target and initializes the action state on success. */
-s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, SpriteFrameState *target, EntityRec *actor) {
+s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, SpriteFrameState *target, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
 
-    actor->unk_71 &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
 
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
@@ -37,7 +37,7 @@ s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Sprite
         return -1;
     }
 
-    if (!(actor->unk_46 & 0x8000) &&
+    if (!(actor->action_flags & 0x8000) &&
         (g_dungeon_status.flags & 8)) {
         return -1;
     }
@@ -58,7 +58,7 @@ s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Sprite
         action_state->unk_8C = 0;
         *(unsigned char *)&actor->unk_84 = 0x80;
         actor->unk_85 = 32;
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
 
         prepare_directional_attack(actor, target, actor->facing, 1, 0);
         return 1;

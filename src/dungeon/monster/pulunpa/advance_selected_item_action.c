@@ -50,7 +50,7 @@ typedef struct S_80172798_5 {
 } S_80172798_5;   /* global in advance_selected_item_action */
 
 /* Advances the selected item action and resets movement when it ends. */
-void advance_selected_item_action(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void advance_selected_item_action(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     s32 special;
     u8 *selection;
@@ -62,7 +62,7 @@ void advance_selected_item_action(void *action, EntityRec *motion, void *sprite,
     switch ((u8)selection) {
     case 0:
         if ((((u32)actor->flags1C)) & 0x2000) {
-            switch (((actor->unk_46) & 0x3FFF)) {
+            switch (((actor->action_flags) & 0x3FFF)) {
             case 7:
                 special = 1;
                 /* fallthrough */
@@ -86,7 +86,7 @@ void advance_selected_item_action(void *action, EntityRec *motion, void *sprite,
                 break;
             }
         } else {
-            switch ((actor->unk_46) & 0x3FFF) {
+            switch ((actor->action_flags) & 0x3FFF) {
             case 3:
                 selection = (u8 *)actor + 0xE;
                 break;
@@ -112,8 +112,8 @@ void advance_selected_item_action(void *action, EntityRec *motion, void *sprite,
                     active = D_800814A8;
                     (actor->target) = active;
                     scratch_pointer = ((S_80172798_1_pre *)active)[-1].unk_00;
-                    (((u8)actor->unk_72)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
-                    (((u8)actor->unk_73)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
+                    (((u8)actor->target_tile_x)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
+                    (((u8)actor->target_tile_y)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
                 } else {
                     u8 item_id;
 
@@ -122,8 +122,8 @@ void advance_selected_item_action(void *action, EntityRec *motion, void *sprite,
                         active = (actor->target);
                         if (active != 0) {
                             scratch_pointer = ((S_80172798_1_pre *)active)[-1].unk_00;
-                            (((u8)actor->unk_72)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
-                            (((u8)actor->unk_73)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
+                            (((u8)actor->target_tile_x)) = ((S_80172798_2 *)scratch_pointer)->unk_24;
+                            (((u8)actor->target_tile_y)) = ((S_80172798_2 *)scratch_pointer)->unk_25;
                         }
                     } else {
 
@@ -132,8 +132,8 @@ void advance_selected_item_action(void *action, EntityRec *motion, void *sprite,
                         (actor->target) = scan_monster_along_heading(
                             actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                             (actor->facing), 0x10);
-                        actor->unk_72 = abs(actor->unk_72);
-                        actor->unk_73 = abs(actor->unk_73);
+                        actor->target_tile_x = abs(actor->target_tile_x);
+                        actor->target_tile_y = abs(actor->target_tile_y);
                     }
                 }
             }
@@ -146,18 +146,18 @@ void advance_selected_item_action(void *action, EntityRec *motion, void *sprite,
             ((S_80172798_0 *)action)->unk_9B++;
             return;
         }
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
             advance_status_timers(actor);
-            (((u8)actor->unk_6D))--;
+            (((u8)actor->pending_turn_updates))--;
             ((S_80172798_0 *)action)->unk_8C = D_80170F20;
-            (((u8)actor->unk_73)) = 0;
-            (((u8)actor->unk_72)) = 0;
-            (actor->unk_46) &= 0x7FFF;
+            (((u8)actor->target_tile_y)) = 0;
+            (((u8)actor->target_tile_x)) = 0;
+            (actor->action_flags) &= 0x7FFF;
             return;
 
     case 1:
@@ -189,9 +189,9 @@ void advance_selected_item_action(void *action, EntityRec *motion, void *sprite,
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_801762C0) {
             u8 *anim_table;
@@ -210,10 +210,10 @@ void advance_selected_item_action(void *action, EntityRec *motion, void *sprite,
             ((S_80172798_5 *)scratch_pointer)->unk_0A--;
             ((S_80172798_0 *)action)->unk_8C = D_80170F20;
             advance_status_timers(actor);
-            (((u8)actor->unk_73)) = 0;
-            (((u8)actor->unk_72)) = 0;
-            (((u8)actor->unk_6D))--;
-            (actor->unk_46) &= 0x7FFF;
+            (((u8)actor->target_tile_y)) = 0;
+            (((u8)actor->target_tile_x)) = 0;
+            (((u8)actor->pending_turn_updates))--;
+            (actor->action_flags) &= 0x7FFF;
             play_sound_if_enabled(0xB4);
         }
 

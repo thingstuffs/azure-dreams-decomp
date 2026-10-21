@@ -22,7 +22,7 @@ extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_colored_effect_with_event(void *source, s32 color, unsigned short event_id);
 
 /* Applies an entity action, updates its state, and displays the result. */
@@ -47,7 +47,7 @@ s32 apply_item_and_update_matching_actor_state(void *entity, s32 action_id, s16 
         }
 
         type_flags = entity_action_selectors[((u8 *)entity)[0x13]];
-        if ((apply_actor_food_preference(entity, ((u32)type_flags >> 8) & 3, action_id) << 16) == 0) {
+        if ((feed_actor_restore_mp(entity, ((u32)type_flags >> 8) & 3, action_id) << 16) == 0) {
             apply_item_effect_at_entity_position(entity, action_id);
             return 1;
         }

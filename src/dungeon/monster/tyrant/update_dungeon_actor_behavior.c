@@ -197,7 +197,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
         case 6:
         case 7:
             {
-                EntityRec *player;
+                ActorRecord *player;
                 s32 direction;
 
                 direction = get_rounded_facing_and_rounding_flag(

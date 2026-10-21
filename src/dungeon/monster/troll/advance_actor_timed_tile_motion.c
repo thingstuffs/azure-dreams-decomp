@@ -2,7 +2,7 @@
 #include "shared/sprite_frame_state.h"
 
 /* Updates timed movement toward the entity's tile and selects the next behavior. */
-void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, EntityRec *transform, SpriteFrameState *entity, void *actor)
+void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, ObjectPosition *transform, SpriteFrameState *entity, void *actor)
 {
     s32 actor_kind;
     s16 timer;
@@ -16,9 +16,9 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Entity
         controller->unk_96.s = 6;
         controller->unk_9B = controller->unk_9B + 1;
         if (((EntityRec *)actor)->unk_28 == 0) {
-            transform->flags14 = 0;
-            transform->unk_10 = 0;
-            transform->unk_0C = 0;
+            transform->velocity_z = 0;
+            transform->velocity_y = 0;
+            transform->velocity_x = 0;
             actor_kind = ((EntityRec *)actor)->unk_48;
             switch (actor_kind) {
             case 13:
@@ -43,17 +43,17 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Entity
         timer = (u16)controller->unk_96.u - 1;
         controller->unk_96.s = timer;
         if (timer > 0) {
-            transform->unk_0C =
+            transform->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
                     ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
-            transform->unk_10 =
+            transform->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
                     ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
         } else if (timer == 0) {
-            transform->unk_0C =
+            transform->velocity_x =
                 *(s16 *)((u8 *)((s8 *)dir_step_x) +
                     ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
-            transform->unk_10 =
+            transform->velocity_y =
                 *(s16 *)((u8 *)((s8 *)dir_step_y) +
                     ((((EntityRec *)actor)->unk_6A >> 8) & 0xE)) << 18;
             controller->unk_96.s = 12;
@@ -62,9 +62,9 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Entity
         break;
     case 2:
         if (((EntityRec *)actor)->unk_28 == 0) {
-            transform->flags14 = 0;
-            transform->unk_10 = 0;
-            transform->unk_0C = 0;
+            transform->velocity_z = 0;
+            transform->velocity_y = 0;
+            transform->velocity_x = 0;
             actor_kind = ((EntityRec *)actor)->unk_48;
             switch (actor_kind) {
             case 13:
@@ -87,27 +87,27 @@ void advance_actor_timed_tile_motion(T_80174C44_S_80174C44_0 *controller, Entity
                 axis_step -= axis_pos;
                 axis_step = (axis_step << 16) / timer;
                 axis_pos = transform->y.w.i;
-                transform->unk_0C = axis_step;
+                transform->velocity_x = axis_step;
                 axis_pos -= 0x20;
                 axis_step = (entity->unk_25 << 6) - axis_pos;
                 axis_step = (axis_step << 16) / controller->unk_96.s;
-                transform->unk_10 = axis_step;
+                transform->velocity_y = axis_step;
             }
 
             old_timer = controller->unk_96.u;
             controller->unk_96.s = old_timer - 1;
             if ((s32)(old_timer << 16) <= 0) {
-                transform->flags14 = 0;
-                transform->unk_10 = 0;
-                transform->unk_0C = 0;
+                transform->velocity_z = 0;
+                transform->velocity_y = 0;
+                transform->velocity_x = 0;
                 controller->unk_9B = controller->unk_9B + 1;
             }
         }
         break;
     case 3:
-        transform->flags14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, entity->unk_24, entity->unk_25);
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)actor - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;

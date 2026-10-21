@@ -41,16 +41,16 @@ extern void select_sprite_entry();
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern s32 advance_status_timers(void *);
 extern s32 play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern void update_actor_dungeon_behavior(void *, void *, void *, void *);
 extern u8 D_8016EEE0[];
 
 /* Advance a timed sprite flashing sequence and clean up the actor when it finishes. */
-void advance_flashing_sprite_sequence(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void advance_flashing_sprite_sequence(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, ActorRecord *actor)
 {
     u8 state;
-    EntityRec *call_actor;
+    ActorRecord *call_actor;
     void *call_sprite;
 
     state = action->phase;
@@ -122,11 +122,11 @@ void advance_flashing_sprite_sequence(ActorActionView *action, EntityRec *motion
 
     case 4:
         if (sprite->flags & 0xE000) {
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             action->nextBehavior = &update_actor_dungeon_behavior;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            actor->unk_46 &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
         }
     }
 }

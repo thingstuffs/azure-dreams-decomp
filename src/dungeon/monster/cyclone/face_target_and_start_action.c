@@ -45,14 +45,14 @@ typedef struct S_801722E4_3 {
 } S_801722E4_3;   /* arg0 in face_target_and_start_action */
 
 /* Face the target and initialize the actor action when status checks allow it. */
-void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context, S_801722E4_1 *sprite, EntityRec *actor) {
+void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context, S_801722E4_1 *sprite, ActorRecord *actor) {
     s32 distance;
     void *actor_base;
     S_801722E4_2 *target;
     u8 *direction_frames;
 
-    actor->unk_71 =
-        (u8)(actor->unk_71 & 0x7F);
+    actor->movement_queue_state =
+        (u8)(actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2008)) {
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
             actor_base = (s8 *)actor - 0x20;
@@ -77,8 +77,8 @@ void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context,
                              7],
                     0);
                 advance_status_timers(actor);
-                actor->unk_6D =
-                    (u8)(((u8)actor->unk_6D) - 1);
+                actor->pending_turn_updates =
+                    (u8)(((u8)actor->pending_turn_updates) - 1);
                 action_state->unk_98 =
                     (u16)(action_state->unk_98 | 8);
                 select_nearby_target_and_initialize_slot(actor_base, event_context, 8, 0x300);

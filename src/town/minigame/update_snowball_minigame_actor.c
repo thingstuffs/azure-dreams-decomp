@@ -212,7 +212,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
 
     case 6:
     {
-        EntityRec *target;
+        ObjectPosition *target;
         s32 target_height;
         s32 base_height;
 
@@ -241,7 +241,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
     case 8:
     case 9:
     {
-        EntityRec *target;
+        ObjectPosition *target;
 
         target = &D_80083780;
         (*(s32 *)((u8 *)motion + 0)) = target->x.v;

@@ -22,7 +22,7 @@ extern u8 D_80170F74[];
 extern u8 D_80173D60[];
 
 /* Updates directional movement and returns the entity to its target tile. */
-void update_directional_motion_and_target_tile(S_80172F98_0 *action, EntityRec *motion, SpriteFrameState *target, void *entity)
+void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosition *motion, SpriteFrameState *target, void *entity)
 {
     s16 return_timer;
     s16 next_timer;
@@ -44,16 +44,16 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, EntityRec *
     switch (state) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->unk_0C =
+        motion->velocity_x =
             ((s16 *)((s8 *)dir_step_x))[direction] << 16;
-        motion->unk_10 =
+        motion->velocity_y =
             ((s16 *)((s8 *)dir_step_y))[direction] << 16;
         action->unk_9B++;
 
         if (((EntityRec *)entity)->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, target, D_80173D60);
             return;
         }
@@ -69,18 +69,18 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, EntityRec *
         }
         action->unk_96.s = initial_timer;
 
-        velocity_x = motion->unk_0C;
+        velocity_x = motion->velocity_x;
         biased_x = velocity_x;
-        motion->unk_0C = velocity_x - (biased_x / 4);
+        motion->velocity_x = velocity_x - (biased_x / 4);
 
-        velocity_y = motion->unk_10;
+        velocity_y = motion->velocity_y;
         biased_y = velocity_y;
-        motion->unk_10 = velocity_y - (biased_y / 4);
+        motion->velocity_y = velocity_y - (biased_y / 4);
 
     case 1:
-        motion->unk_0C -=
+        motion->velocity_x -=
             ((s16 *)((s8 *)dir_step_x))[direction] << 13;
-        motion->unk_10 -=
+        motion->velocity_y -=
             ((s16 *)((s8 *)dir_step_y))[direction] << 13;
 
         if (action->unk_96.s > 0) {
@@ -93,9 +93,9 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, EntityRec *
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, target, D_80173D60);
         } else {
             action->unk_96.s = 8;
@@ -108,11 +108,11 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, EntityRec *
         if (return_timer != 0) {
             target_x = target->unk_24 << 6;
             origin_x = motion->x.w.i - 0x20;
-            motion->unk_0C =
+            motion->velocity_x =
                 ((target_x - origin_x) << 15) / return_timer;
             target_y = target->unk_25 << 6;
             origin_y = motion->y.w.i - 0x20;
-            motion->unk_10 =
+            motion->velocity_y =
                 ((target_y - origin_y) << 15) /
                 action->unk_96.s;
         }
@@ -123,9 +123,9 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, EntityRec *
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, target->unk_24, target->unk_25);
 
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)entity - 0x20) {

@@ -16,7 +16,7 @@ void display_formatted_context_message();                   /* extern */
 void adjust_source_value_and_finalize();           /* extern */
 void apply_item_effect_at_entity_position();                 /* extern */
 void display_item_status_message();            /* extern */
-s32 apply_actor_food_preference();            /* extern */
+s32 feed_actor_restore_mp();            /* extern */
 extern M2C_UNK D_800E1580;
 extern M2C_UNK D_800E15A2;
 extern void *D_800E3DF0[];
@@ -61,7 +61,7 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         display_item_status_message(entity, action, action_type);
-        if (apply_actor_food_preference(entity, entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
+        if (feed_actor_restore_mp(entity, entity_action_selectors[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
             apply_item_effect_at_entity_position(entity, action);
             return 1;
         }

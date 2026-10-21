@@ -23,13 +23,13 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern u8 D_80170F20;
 extern u8 D_801762E8[];
 
 /* Advances the actor's directional animation and resets its action state on completion. */
-void advance_directional_action_and_reset(void *action, void *motion, void *anim, EntityRec *actor)
+void advance_directional_action_and_reset(void *action, void *motion, void *anim, ActorRecord *actor)
 {
     switch (((S_801725B8_0 *)action)->unk_9B) {
     case 0:
@@ -69,10 +69,10 @@ void advance_directional_action_and_reset(void *action, void *motion, void *anim
         if (!(((SpriteFrameState *)anim)->flags & 0xE000)) {
             return;
         }
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_801725B8_0 *)action)->unk_8C = &D_80170F20;
         g_dungeon_status.active_actor = 0;
-        (actor->unk_46) &= 0x7FFF;
+        (actor->action_flags) &= 0x7FFF;
         advance_status_timers(actor);
         return;
     }

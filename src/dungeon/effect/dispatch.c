@@ -703,7 +703,7 @@ void dispatch_action_callback_by_opcode(u8 *w) {
     u8 *ep;
     u8 *o;
     u8 *q;
-    EntityRec *p;
+    ActorRecord *p;
     s16 *tbl;
     s32 phase0;
     s32 phase;
@@ -907,7 +907,7 @@ L_zero:
                         create_orbiting_teleport_effect(q, tbl[get_entity_class(q)], 0, 0);
                     }
                     {
-                        EntityRec *p2 = D_800E3D7C;
+                        ActorRecord *p2 = D_800E3D7C;
                         q = ((u8 *)p2->unk_B0);
                     }
                     if (q != 0) {
@@ -1831,7 +1831,7 @@ s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32
     u16 y_offset;
     u16 source_x;
     S_800C7930_2 *work;
-    register EntityRec *camera;
+    register ObjectPosition *camera;
     u8 *destination;
     register u8 *x_offsets;
     register u8 *y_offsets;

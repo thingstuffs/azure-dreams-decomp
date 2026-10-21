@@ -207,7 +207,7 @@ void update_actor_behavior_variant_e(ActorActionView *action_input, EntityRec *m
                 case 6:
                 case 7:
                 {
-                    EntityRec *player;
+                    ActorRecord *player;
                     s16 facing_angle;
 
                     facing_angle = get_rounded_facing_and_rounding_flag(

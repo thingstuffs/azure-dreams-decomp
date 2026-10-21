@@ -21,7 +21,7 @@ extern s32 append_value_seven_suffix();
 extern s32 display_text_with_fullwidth_adjustment();
 extern s32 apply_item_effect_at_entity_position();
 extern s32 display_actor_item_status_message();
-extern s32 apply_actor_food_preference();
+extern s32 feed_actor_restore_mp();
 
 extern u8 D_8008936C[];
 extern u8 D_80089370[];
@@ -58,7 +58,7 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
 
     if (target_addr <= 0x9FFFFFFF) {
         display_actor_item_status_message(target_addr, item, effect_type);
-        if (apply_actor_food_preference(target_addr, entity_action_selectors[*(u8 *)(target_addr + 0x13)] & 3, 0) == 0) {
+        if (feed_actor_restore_mp(target_addr, entity_action_selectors[*(u8 *)(target_addr + 0x13)] & 3, 0) == 0) {
             apply_item_effect_at_entity_position(target_addr, item);
             return 1;
         }
@@ -73,7 +73,7 @@ s32 apply_equipped_item_upgrade(u32 target_addr, u8 *item, s16 effect_type, s32 
             u8 item_flags;
             register s32 result;
 
-            ((EntityRec *)actor)->unk_114 = 0x802020;
+            ((PlayerRecord *)actor)->unk_114 = 0x802020;
             begin_parameterized_actor_action(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), D_800DD158, 0);
             item_flags = item[3];
             result = 0;

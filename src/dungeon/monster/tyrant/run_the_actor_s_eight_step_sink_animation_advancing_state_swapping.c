@@ -33,7 +33,7 @@ extern u8 D_80173FD8;
 extern M2C_UNK D_80173FE0;
 
 /* Run the actor's eight-step sink animation, advancing its state and swapping the sprite each step. */
-void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C5C_0 *work, EntityRec *part_a, SpriteFrameState *part_b, EntityRec *actor) {
+void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C5C_0 *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor) {
     u8 *unused_ptr;
     s32 value;
     u16 flags;
@@ -58,7 +58,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         part_b->frameTable = &D_80173FD8;
         select_sprite_entry(part_b, (&D_80173FD8)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         work->unk_98 = (u16) (work->unk_98 | 8);
-        part_a->flags14 = 0xFFF00000;
+        part_a->velocity_z = 0xFFF00000;
         actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
         work->unk_A0 = 0;
         work->unk_96.s = 10;
@@ -72,9 +72,9 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         work->unk_90 = accum - value;
         if (timer != 0) {
             accum = value;
-            value = part_a->flags14;
+            value = part_a->velocity_z;
             work->unk_A0 = (s32) (accum + value);
-            part_a->flags14 = (s32) (part_a->flags14 + 0x30000);
+            part_a->velocity_z = (s32) (part_a->velocity_z + 0x30000);
         }
         accum = work->unk_90;
         value = work->unk_A0;
@@ -91,9 +91,9 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
     case 2:
     case 6:
         work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
-        part_a->flags14 = 0;
-        part_a->unk_10 = 0;
-        part_a->unk_0C = 0;
+        part_a->velocity_z = 0;
+        part_a->velocity_y = 0;
+        part_a->velocity_x = 0;
         set_record_integer_tile_center(part_a, part_b->unk_24, part_b->unk_25);
         part_b->frameTable = &D_80173FE0;
         select_sprite_entry(part_b, ((u8 *) ((u32) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
@@ -116,8 +116,8 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         select_sprite_entry(part_b, D_80173FB8[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         advance_status_timers(actor);
-        actor->unk_6D = 0;
-        actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+        actor->pending_turn_updates = 0;
+        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
         work->unk_8C = &D_80170F68;
         work->unk_98 = (u16) (work->unk_98 | 0x8000);
         work->unk_AE = (s16) ((generate_random_value() & 7) + 8);

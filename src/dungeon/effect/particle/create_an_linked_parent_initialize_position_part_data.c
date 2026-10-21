@@ -441,18 +441,18 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
     s32 target_tint;
     u32 upload_value;
     TransitionPosition *position;
-    EntityRec *target;
+    ActorRecord *target;
     TransitionRenderPart *render_part;
     TransitionParticlePayload * particle_scratch;
     TransitionParticle *particle;
-    EntityRec *actor;
-    EntityRec *player;
+    ActorRecord *actor;
+    ActorRecord *player;
     TransitionRenderPart *tint_part;
 
     state->ticks++;
     switch (state->phase) {
     case PHASE_SETUP: /* initialise palette/tint state, then fall into the wait */
-        D_800814A8->unk_F4 = (s32)&D_80025330;
+        ((PlayerRecord *)D_800814A8)->unk_F4 = (s32)&D_80025330;
         D_80082E80.phase = 6;
         D_8002536C.low_r = 0;
         D_8002536C.low_g = 0;

@@ -68,7 +68,7 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 /* Advance the actor animation state and reset movement when it finishes. */
-void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(AnimationActionWork *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(AnimationActionWork *action, ObjectPosition *motion, ActorSpriteView *sprite, ActorRecord *actor)
 {
     u16 position[3];
     u8 *animation;
@@ -87,7 +87,7 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            anim_kind = (actor->unk_46 & 0x3FFF) - 1;
+            anim_kind = (actor->action_flags & 0x3FFF) - 1;
             switch (anim_kind) {
             case 6:
                 reuse_target = 1;
@@ -113,7 +113,7 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
                 break;
             }
         } else {
-            anim_kind = actor->unk_46 & 0x3FFF;
+            anim_kind = actor->action_flags & 0x3FFF;
             switch (anim_kind) {
             case 3:
                 animation = ((ActorActionSlots *)actor)->third;
@@ -137,17 +137,17 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
                 target_root = D_800814A8;
                 actor->target = target_root;
                 target_source = ((TargetLinkHeader *)target_root)[-1].positionRecord;
-                actor->unk_72 = ((TargetPositionView *)target_source)->tileX;
-                actor->unk_73 = ((TargetPositionView *)target_source)->tileY;
+                actor->target_tile_x = ((TargetPositionView *)target_source)->tileX;
+                actor->target_tile_y = ((TargetPositionView *)target_source)->tileY;
             } else {
                 new_target = scan_monster_along_heading(
                     actor, sprite->position.tile.x, sprite->position.tile.y,
                     actor->facing, 0x10);
                 actor->target = new_target;
-                abs_x = abs(actor->unk_72);
-                abs_y = abs(actor->unk_73);
-                actor->unk_72 = abs_x;
-                actor->unk_73 = abs_y;
+                abs_x = abs(actor->target_tile_x);
+                abs_y = abs(actor->target_tile_y);
+                actor->target_tile_x = abs_x;
+                actor->target_tile_y = abs_y;
             }
             position[0] = ((u16)motion->x.w.i);
             position[1] = ((u16)motion->y.w.i);
@@ -161,18 +161,18 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
             }
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
         g_dungeon_status.active_actor = 0;
         ((ActorCounterView *)D_800814A8)->pendingCount--;
         advance_status_timers(actor);
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
         action->handler = &D_80158F68;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -198,9 +198,9 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
             sprite->animationFlags &= 0xF7FF;
         }
         if (sprite->animationFlags & 0xE000) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->position.tile.x, sprite->position.tile.y);
             if (sprite->directionFrames != D_8015BFB8) {
                 sprite->directionFrames = D_8015BFB8;
@@ -214,12 +214,12 @@ void advance_the_actor_animation_state_reset_movement_finishes_at_8015_a_9_d_4(A
                 sprite->animationFlags &= 0xF7FF;
                 action->handler = &D_80158F68;
                 advance_status_timers(actor);
-                if (actor->unk_6D > 0) {
-                    actor->unk_6D--;
+                if (actor->pending_turn_updates > 0) {
+                    actor->pending_turn_updates--;
                 }
-                actor->unk_73 = 0;
-                actor->unk_72 = 0;
-                actor->unk_46 &= 0x7FFF;
+                actor->target_tile_y = 0;
+                actor->target_tile_x = 0;
+                actor->action_flags &= 0x7FFF;
                 play_sound_if_enabled(0xB4);
             }
         }

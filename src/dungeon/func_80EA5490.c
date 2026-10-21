@@ -68,7 +68,7 @@ extern u8 D_8015CEF8[];
 extern u8 D_8015CF00[];
 
 /* Updates the actor action sequence, including movement, landing, and recovery. */
-void update_the_actor_action_sequence_including_movement_landing_recovery_at_8015_ac_90(ActorActionView *action, EntityRec *motion, ActorSpriteView *sprite, EntityRec *actor)
+void update_the_actor_action_sequence_including_movement_landing_recovery_at_8015_ac_90(ActorActionView *action, ObjectPosition *motion, ActorSpriteView *sprite, ActorRecord *actor)
 {
     u32 direction_byte_offset;
     u16 angle;
@@ -101,7 +101,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
         if (((u32)actor->flags1C) & 0x2000) {
             u16 action_kind;
 
-            action_kind = actor->unk_46 & 0x3FFF;
+            action_kind = actor->action_flags & 0x3FFF;
             action_index = action_kind - 1;
             switch (action_index) {
             case 6:
@@ -129,7 +129,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
         } else {
             u16 action_kind;
 
-            action_kind = actor->unk_46 & 0x3FFF;
+            action_kind = actor->action_flags & 0x3FFF;
             switch (action_kind) {
             case 3:
                 selector = ((ActorAbilityView *)actor)->slots[2];
@@ -156,24 +156,24 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
                 owner = D_800814A8;
                 actor->target = owner;
                 target_sprite_or_effect = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
-                actor->unk_72 = ((SpriteFrameState *)target_sprite_or_effect)->unk_24;
-                actor->unk_73 = ((SpriteFrameState *)target_sprite_or_effect)->unk_25;
+                actor->target_tile_x = ((SpriteFrameState *)target_sprite_or_effect)->unk_24;
+                actor->target_tile_y = ((SpriteFrameState *)target_sprite_or_effect)->unk_25;
             } else {
                 direction_byte_offset = *selector;
                 if (D_8006DE24[direction_byte_offset].kind == 2) {
                     owner = actor->target;
                     if (owner != 0) {
                         target_sprite_or_effect = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
-                        actor->unk_72 = ((SpriteFrameState *)target_sprite_or_effect)->unk_24;
-                        actor->unk_73 = ((SpriteFrameState *)target_sprite_or_effect)->unk_25;
+                        actor->target_tile_x = ((SpriteFrameState *)target_sprite_or_effect)->unk_24;
+                        actor->target_tile_y = ((SpriteFrameState *)target_sprite_or_effect)->unk_25;
                     }
                 } else {
                     actor->target = scan_monster_along_heading(actor,
                         sprite->tile.bytes.x,
                         sprite->tile.bytes.y,
                         actor->facing, 16);
-                    actor->unk_72 = abs(actor->unk_72);
-                    actor->unk_73 = abs(actor->unk_73);
+                    actor->target_tile_x = abs(actor->target_tile_x);
+                    actor->target_tile_y = abs(actor->target_tile_y);
                 }
             }
 
@@ -202,12 +202,12 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
 
                 back_x = -dir_x;
                 back_y = -dir_y;
-                motion->unk_0C =
+                motion->velocity_x =
                     (back_x << 18) + (back_x << 19);
-                motion->unk_10 =
+                motion->velocity_y =
                     (back_y << 18) + (back_y << 19);
             }
-            motion->flags14 = (s32)0xFFF30000;
+            motion->velocity_z = (s32)0xFFF30000;
             {
                 next_phase = action->phase;
                 next_phase++;
@@ -216,9 +216,9 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
             }
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         {
             void *owner;
@@ -228,11 +228,11 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
             ((PlayerRemainingActionsView *)owner)->remaining--;
         }
         advance_status_timers(actor);
-        (*(u8 *)&actor->unk_6D)--;
+        (*(u8 *)&actor->pending_turn_updates)--;
         action->nextBehavior = update_dungeon_action_behavior_facing_animation_state;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -242,19 +242,19 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
             return;
         }
         if (action->timer.signedValue <= 0) {
-            motion->unk_0C = 0;
-            motion->unk_10 = 0;
-            motion->flags14 = 0;
-            motion->unk_0C = dir_x << 18;
-            motion->unk_10 = dir_y << 18;
-            motion->flags14 = (s32)0xFFF30000;
+            motion->velocity_x = 0;
+            motion->velocity_y = 0;
+            motion->velocity_z = 0;
+            motion->velocity_x = dir_x << 18;
+            motion->velocity_y = dir_y << 18;
+            motion->velocity_z = (s32)0xFFF30000;
             {
                 action->phase = action->phase + 1;
                 return;
             }
         }
-        motion->unk_0C *= 2;
-        motion->unk_10 *= 2;
+        motion->velocity_x *= 2;
+        motion->velocity_y *= 2;
         return;
 
     case 2:
@@ -266,21 +266,21 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
         action->phase++;
         /* fallthrough */
     case 3:
-        motion->flags14 += 0x30000;
+        motion->velocity_z += 0x30000;
         if (!((sprite->framePhase == 4 && (sprite->flags & 0x1000)) ||
               (sprite->flags & 0xE000))) {
             return;
         }
         {
-            motion->unk_0C = dir_x << 19;
-            motion->unk_10 = dir_y << 19;
+            motion->velocity_x = dir_x << 19;
+            motion->velocity_y = dir_y << 19;
             action->flags |= 0x80;
             action->phase++;
             return;
         }
 
     case 4:
-        motion->flags14 += 0x20000;
+        motion->velocity_z += 0x20000;
         if (!((((u32)actor->flags1C) & 0x08000000) && (motion->z.w.i <= action->startHeight.signedValue))) {
             if (motion->z.w.i <= action->startHeight.signedValue) {
                 return;
@@ -289,9 +289,9 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
         {
             u8 *effect;
 
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             action->timer.raw = 4;
             sprite->scaleX = 0x1400;
             sprite->scaleY = 0x0C00;
@@ -337,7 +337,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
             current_coord = motion->x.w.i;
             tile_coord = tile_coord << 6;
             current_coord -= 0x20;
-            motion->unk_0C =
+            motion->velocity_x =
                 (tile_coord - current_coord) << 14;
         }
         {
@@ -349,16 +349,16 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
             tile_coord <<= 6;
             target_coord = tile_coord;
             current_coord -= 0x20;
-            motion->unk_10 =
+            motion->velocity_y =
                 (target_coord - current_coord) << 14;
         }
     }
         if (action->timer.signedValue > 0) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         sprite->flags |= 0x6000;
         action->phase = 16;
         return;
@@ -369,9 +369,9 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile.bytes.x, sprite->tile.bytes.y);
         if (sprite->frameTable != D_8015CF00) {
             sprite->frameTable = D_8015CF00;
@@ -386,12 +386,12 @@ void update_the_actor_action_sequence_including_movement_landing_recovery_at_801
         sprite->flags &= 0xF7FF;
         action->nextBehavior = update_dungeon_action_behavior_facing_animation_state;
         advance_status_timers(actor);
-        if (actor->unk_6D > 0) {
-            (*(u8 *)&actor->unk_6D)--;
+        if (actor->pending_turn_updates > 0) {
+            (*(u8 *)&actor->pending_turn_updates)--;
         }
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
     }
     default:

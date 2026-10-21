@@ -141,7 +141,7 @@ extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 extern s32 sample_terrain_surface_height(u16, u16, s16);
 extern void try_apply_confusion_status(void *, s32, s32);
@@ -301,7 +301,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         }
         ((S_80174668_2 *)actor)->unk_73.s = 0;
         ((S_80174668_2 *)actor)->unk_72.s = 0;
-        reduce_actor_food_meter(actor, 0x800);
+        spend_actor_mp(actor, 0x800);
         {
             void *actor_to_reset;
             actor_to_reset = actor;

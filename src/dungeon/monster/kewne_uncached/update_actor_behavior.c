@@ -15,7 +15,7 @@ extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, 
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern u8 D_80171FA4[];
 extern u8 D_80175C78[];
@@ -139,7 +139,7 @@ void update_actor_behavior_2(void *action, void *motion, void *object, void *act
         if ((U16(object, 0x14) & 0xE000) == 0) {
             return;
         }
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         actor_arg = actor;
         PTR(action, 0x8C) = D_80171FA4;
         S32(D_80080000, 0x346C) = 0;

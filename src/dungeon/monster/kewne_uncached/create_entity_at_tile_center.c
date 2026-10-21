@@ -138,17 +138,17 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
         ((S_812A524C_0 *)(&D_800FBE22))->unk_00.u = (u16) ((S_812A524C_1 *)(&D_800FBE20))->unk_00.u;
     }
     if (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s
-        != ((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A) {
+        != ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A) {
         ((S_812A524C_1 *)(&D_800FBE20))->unk_00.u =
-            (u16) ((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A;
+            (u16) ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A;
     }
     action_state = ((S_812A524C_3 *)actor_in)->unk_B8;
     if (action_state == 2) {
         direction = get_direction_toward_target_position(motion_in);
         ((S_812A524C_3 *)actor_in)->unk_2A = (s16) (direction << 9);
         if ((((S_812A524C_3 *)actor_in)->unk_B8 == action_state)
-            && (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A == 0xE)) {
-            ((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_2A =
+            && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A == 0xE)) {
+            ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_2A =
                 (s16) (facing_lookup[direction & 7] << 9);
         }
     }
@@ -182,7 +182,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                 && (event_0 = (u8 *)((u8 *)(&D_80082E80)), position_0 = (u8 *)((u8 *)(&D_80083780)),
                     (((((S_812A524C_7 *)event_0)->unk_24 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_02))
                 && (((((S_812A524C_7 *)event_0)->unk_25 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_06)) {
-                actor_kind = ((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A;
+                actor_kind = ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A;
                 if ((actor_kind != 0x19) && (actor_kind != 0x1B) && !(((S_812A524C_4 *)entity)->unk_1C & 0x80000)) {
                     if ((((S_812A524C_3 *)actor_in)->unk_B9 == 0) && !(D_80013714[0] & 1)) {
                         ((S_812A524C_3 *)actor_in)->unk_B9 = 1U;
@@ -191,7 +191,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
                         ((S_812A524C_3 *)actor_in)->unk_B8 = 2U;
                         start_direction = get_direction_toward_target_position(motion_in);
-                        facing_actor = (*(void * *)&((EntityRec *)D_800E3D7C)->x);
+                        facing_actor = (*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00);
                         ((S_812A524C_4 *)entity)->unk_2A = (s16) (start_direction << 9);
                         if (facing_actor->unk_9A == 0xE) {
                             facing_actor->unk_2A = (s16) (((u16 *)&facing_map)[start_direction & 7] << 9);
@@ -215,7 +215,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                     }
                                 }
                             }
-                            current_kind = ((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A;
+                            current_kind = ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A;
                             if ((current_kind != 0x19) && (current_kind != 0x1B)
                                 && ((((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1B)
                                     || (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1F)
@@ -248,7 +248,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                         }
                                     }
                                 }
-                                if (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A == 0x1C) {
+                                if (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A == 0x1C) {
                                     func_800353F4(&D_800FB8DF);
                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -306,7 +306,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                     }
                                                 }
                                             }
-                                            if ((((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
+                                            if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
                                                  != 0x19) && (((s32)flag_base->pressed_buttons) & 0x20)) {
                                                 func_800353F4(&D_8006F47A);
                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
@@ -333,7 +333,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                         }
                                                     }
                                                 }
-                                                if ((((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
+                                                if ((((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
                                                      != 0x19) && (flag_base->buttons & 0x10)) {
                                                     func_800353F4(&D_8006F50D);
                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
@@ -345,7 +345,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                             }
                                             if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                 if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x10)
-                                                    && (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
+                                                    && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
                                                         != 0x23)) {
                                                     scan_index_10 = 0;
                                                     scan_kind = 0xF;
@@ -365,7 +365,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                 }
                                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x80)
-                                                        && (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
+                                                        && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
                                                             != 0x23)) {
                                                         scan_index_80 = 0;
                                                         scan_kind = 0x12;
@@ -385,7 +385,7 @@ void func_80170A4C(void *actor_in, void *motion_in, void *sprite_in) {
                                                     }
                                                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                         if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x100)
-                                                            && (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
+                                                            && (((S_812A524C_39 *)((*(void * *)&((ActorRecord *)D_800E3D7C)->unk_00)))->unk_9A
                                                                 != 0x23)) {
                                                             scan_index_100 = 0;
                                                             scan_kind = 4;

@@ -14,7 +14,7 @@ void apply_monster_koyaw_data();
 s32 refresh_actor_facing_and_lifecycle();
 s32 try_move_actor_to_valid_position();
 s32 sample_terrain_surface_height();
-void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, EntityRec *status);
+void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status);
 extern M2C_UNK D_80174174[];
 extern M2C_UNK D_8017418C[];
 extern u8 D_801741D4[];

@@ -11,14 +11,14 @@ typedef struct S_801724A8_0 {
 
 s32 advance_status_timers();                     /* extern */
 s32 update_actor_movement_to_tile(move_state, motion, target_tile, actor);                                /* extern */
-void reduce_actor_food_meter();            /* extern */
+void spend_actor_mp();            /* extern */
 s32 check_actor_floor_trap();                /* extern */
-void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, EntityRec *entity);
+void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity);
 
 /* Updates the target and conditionally resets the caller state. */
 void update_the_target_conditionally_resets_caller_state(S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
-        reduce_actor_food_meter(target, 3);
+        spend_actor_mp(target, 3);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
             return;

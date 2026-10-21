@@ -28,14 +28,14 @@ extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern s8 random_dungeon_range_16(s32, s32);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 
 extern u8 D_800893DC[];
 extern u8 D_800E187C[];
 extern u8 D_800E36C8[];
 
 /* Handles a target or active-slot update and decrements the shared count on completion. */
-s32 convert_ground_items_to_gold(EntityRec *target, s32 action, s16 action_type, s32 action_param)
+s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_type, s32 action_param)
 {
     s32 result;
     s32 slot_index;
@@ -54,7 +54,7 @@ s32 convert_ground_items_to_gold(EntityRec *target, s32 action, s16 action_type,
     }
 
     if (target == D_800E3D7C) {
-        target->unk_110 = action;
+        ((PlayerRecord *)target)->pending_item_action = action;
         begin_mode_selected_item_action(target, &D_80083780.x.v, &D_80082E80.unk_000, target);
         return 0;
     }
@@ -77,7 +77,7 @@ s32 convert_ground_items_to_gold(EntityRec *target, s32 action, s16 action_type,
         table_base_2 = (u8 *)entity_action_selectors;
         second_arg = ((u16 *)table_base_2)[scratch_value];
         first_arg = second_arg & 3;
-        if (apply_actor_food_preference(target, first_arg, action) == 0) {
+        if (feed_actor_restore_mp(target, first_arg, action) == 0) {
             apply_item_effect_at_entity_position(target, action);
             return 1;
         }

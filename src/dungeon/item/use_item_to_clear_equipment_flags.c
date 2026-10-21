@@ -17,7 +17,7 @@ extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_actor_item_status_message(void *, s32);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_view_color_flash(s32, s16);
 
 extern u8 D_800E1756[];
@@ -43,7 +43,7 @@ s32 use_item_to_clear_equipment_flags(void *target, s32 item, s16 use_mode, s32 
 
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, item);
-        if (apply_actor_food_preference(target,
+        if (feed_actor_restore_mp(target,
                           entity_action_selectors[((u8 *)target)[0x13]] & 3,
                           item) == 0) {
             apply_item_effect_at_entity_position(target, item);

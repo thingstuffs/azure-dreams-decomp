@@ -106,7 +106,7 @@ void clear_entry_flag_and_link_owner(void *entry)
 {
     S_80099FDC_2 *entry_links;
     S_80099FDC_3 *neighbor_links;
-    EntityRec *owner;
+    ActorRecord *owner;
 
     owner = D_800814A8;
     ((S_80099FDC_0 *)entry)->unk_10 = ((S_80099FDC_0 *)entry)->unk_10 & 0x7FFFFFFF;
@@ -213,7 +213,7 @@ typedef struct S_8009A180_2 {
     void * unk_58;
 } S_8009A180_2;
 
-s32 check_entity_relation(EntityRec *entry, EntityRec *anchor) {
+s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     u32 link_bits;
     u32 link_bits_2;
     s32 state_flags;
@@ -238,14 +238,14 @@ s32 check_entity_relation(EntityRec *entry, EntityRec *anchor) {
     link_bits_2 = (u32)entry;
     unlink_entity_node((void *)link_bits_2);
 
-    prev_link = anchor->unk_5C;
-    entry->unk_5C = prev_link;
+    prev_link = anchor->next_actor_header;
+    entry->next_actor_header = prev_link;
     prev_node = (void *)(prev_link + 0x20);
     link_bits = (u32)prev_node->unk_58;
     entry->unk_58 = (void *)link_bits;
     link_bits = (u32)((u8 *)entry - 0x20);
     prev_node->unk_58 = (void *)link_bits;
-    anchor->unk_5C = (void *)link_bits;
+    anchor->next_actor_header = (void *)link_bits;
     return 1;
 }
 #include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
@@ -969,10 +969,10 @@ s32 measure_directional_stopping_distance(u32 direction_flags, PositionHeightVie
                 tile_y += (u16)dir_step_y[direction];
                 if (tile_flags & 0x3300) {
                     {
-                        EntityRec *world;
+                        ActorRecord *world;
 
                         world = D_800E3D7C;
-                        occupant = tile_finder_words(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
+                        occupant = tile_finder_words(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->ground_height);
                     }
                     if (occupant != NULL) {
                         if (occupant->unk_13 == 0x1F) {

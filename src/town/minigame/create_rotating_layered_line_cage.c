@@ -29,7 +29,7 @@ void create_rotating_layered_line_cage(u8 *effect)
     color[1] = 0x00FFFFFF;
 
     {
-        EntityRec *origin;
+        ObjectPosition *origin;
 
         for (index = 3, origin = &D_80083780; index >= 0; index--) {
             s32 angle_offset = index << 10;
@@ -41,7 +41,7 @@ void create_rotating_layered_line_cage(u8 *effect)
     }
 
     {
-        EntityRec *origin = &D_80083780;
+        ObjectPosition *origin = &D_80083780;
 
         center.x = ((u16)origin->x.w.i);
         center.y = ((u16)origin->y.w.i);

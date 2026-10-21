@@ -256,8 +256,8 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
         ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = phase_tick;
         if (phase_tick == 0xC) {
             create_ribbon_head_sprite(effect_data, origin, color);
-            D_800814A8->unk_10C = (u16) (D_800814A8->unk_10C | 1);
-            D_800814A8->unk_6A = (s16) (((u16)D_800814A8->facing) + 0x800);
+            ((PlayerRecord *)D_800814A8)->unk_10C = (u16) (((PlayerRecord *)D_800814A8)->unk_10C | 1);
+            D_800814A8->movement_facing = (s16) (((u16)D_800814A8->facing) + 0x800);
             func_800419EC(6, 0xC, ((EntityRec *)D_800814A8));
             play_sound_if_enabled(0x601);
         }

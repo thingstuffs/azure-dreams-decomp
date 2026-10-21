@@ -25,12 +25,12 @@ extern s32 apply_camera_offset_and_select_target();
 extern u8 D_80175258[];
 
 /* Validate an actor transition and update its state and directional animation on success. */
-s32 validate_transition_and_update_action(void *state, s32 transition_id, void *sprite, EntityRec *actor)
+s32 validate_transition_and_update_action(void *state, s32 transition_id, void *sprite, ActorRecord *actor)
 {
     s16 transitioned;
     s32 target_heading;
 
-    actor->unk_71 &= 0x7F;
+    actor->movement_queue_state &= 0x7F;
     transitioned = 0;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
@@ -43,7 +43,7 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, void *
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    if (!(actor->unk_46 & 0x8000) && (g_dungeon_status.flags & 8)) {
+    if (!(actor->action_flags & 0x8000) && (g_dungeon_status.flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_heading, actor) + 0x40) >= 0x81U) {
@@ -79,7 +79,7 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, void *
     select_sprite_entry(sprite,
                   D_80175258[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
-    actor->unk_6D--;
+    actor->pending_turn_updates--;
     prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
     return transitioned;
 }

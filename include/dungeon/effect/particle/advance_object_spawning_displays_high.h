@@ -200,7 +200,7 @@ extern PackedVec3 D_800256E0;
 void func_8002405C(void *effect, void *unused, void *primitive);
 void func_80024104(void *owner);
 void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite);
-s32 func_800244E4(PointRecord *first_point, EntityRec *first_position);
+s32 func_800244E4(PointRecord *first_point, ObjectPosition *first_position);
 void func_80024734(Entity *entity, State *state);
 void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 void advance_animation_values_set_completion_flags_countdown_expires(void *countdownState, s32 unused, void *animationState);

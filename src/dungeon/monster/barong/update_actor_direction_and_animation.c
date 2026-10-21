@@ -56,7 +56,7 @@ typedef struct S_801716F4_2 {
 
 
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
-void update_actor_direction_and_animation(void *actor_arg, void *context_arg, void *sprite, EntityRec *entity_arg)
+void update_actor_direction_and_animation(void *actor_arg, void *context_arg, void *sprite, ActorRecord *entity_arg)
 {
     u8 *anim_table;
     s32 room_id;
@@ -71,7 +71,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
     }
 
 
-    if (entity_arg->tileY == 0) {
+    if (entity_arg->mp == 0) {
         advance_actor_pending_action(actor_arg, context_arg, sprite, entity_arg);
         {
         void *current_anim = ((S_801716F4_2 *)sprite)->unk_2C;
@@ -154,7 +154,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
     room_id = find_active_rect_containing_point(((S_801716F4_2 *)sprite)->unk_24.at00.v, ((S_801716F4_2 *)sprite)->unk_24.at01.v);
     ((S_801716F4_2 *)sprite)->unk_26 = room_id;
 
-    if (entity_arg->unk_6D > 0) {
+    if (entity_arg->pending_turn_updates > 0) {
         u16 action_flags;
 
         if (((u32)entity_arg->flags1C) & 0x20) {
@@ -165,7 +165,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
             func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
             return;
         }
-        if (!(entity_arg->unk_46 & 0x8000)) {
+        if (!(entity_arg->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity_arg,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -175,15 +175,15 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
             if ((func_8017298C(actor_arg, context_arg, sprite, 0) << 16) == 0) {
                 return;
             }
-            action_flags = entity_arg->unk_46 | 0x4000;
-            entity_arg->unk_46 = action_flags;
+            action_flags = entity_arg->action_flags | 0x4000;
+            entity_arg->action_flags = action_flags;
             if (!(action_flags & 0x8000)) {
                 func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
                 return;
             }
         }
 
-        action_flags = entity_arg->unk_46 & 0x3FFF;
+        action_flags = entity_arg->action_flags & 0x3FFF;
         switch (action_flags) {
         case 8:
             if ((func_801726B0(actor_arg, context_arg, sprite, entity_arg) << 16) != 0) {
@@ -200,7 +200,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
         case 6:
         case 7:
         {
-            EntityRec *player;
+            ActorRecord *player;
             s16 heading;
 
             heading = get_rounded_facing_and_rounding_flag(

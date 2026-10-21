@@ -113,7 +113,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             set_record_integer_tile_center(motion, sprite->value_24, sprite->value_25);
             sprite->value_1c = 0x1000;
             sprite->value_1e = 0x1000;
-            reduce_actor_food_meter(actor, 4);
+            spend_actor_mp(actor, 4);
             advance_status_timers(actor);
             if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0)
                 g_dungeon_status.activity_counts.parts.pending_movement_count = (u16)g_dungeon_status.activity_counts.parts.pending_movement_count - 1;

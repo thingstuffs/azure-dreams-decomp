@@ -185,7 +185,7 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
                 S16(state, 0x3A) = 0xA0;
                 U16(state, 0x30)--;
                 if (S16(state, 0x30) <= 0) {
-                    EntityRec *base = &D_80083780;
+                    ObjectPosition *base = &D_80083780;
                     s32 tableAddress;
                     color.x = U16(base, 2);
                     color.y = U16(base, 6);

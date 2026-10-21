@@ -22,7 +22,7 @@ extern s32 D_80170F6C;
 extern s32 D_80175268;
 
 /* Updates directional motion, then recenters the entity on its tile and finishes the action. */
-void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, SpriteFrameState *tile, EntityRec *entity)
+void update_motion_and_recenter_entity(S_801732B4_1 *action, ObjectPosition *motion, SpriteFrameState *tile, EntityRec *entity)
 {
     s16 timer;
     s32 tracked_entity;
@@ -33,14 +33,14 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, 
     switch (action->unk_9B) {
     case 0:
         apply_clamped_actor_value_delta(entity);
-        motion->unk_0C = ((s16 *)((s8 *)dir_step_x))[direction] << 17;
-        motion->unk_10 = ((s16 *)((s8 *)dir_step_y))[direction] << 17;
+        motion->velocity_x = ((s16 *)((s8 *)dir_step_x))[direction] << 17;
+        motion->velocity_y = ((s16 *)((s8 *)dir_step_y))[direction] << 17;
         action->unk_9B++;
 
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, tile, &D_80175268);
             return;
         }
@@ -56,13 +56,13 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, 
         }
         action->unk_96.s = timer;
 
-        motion->unk_0C -= motion->unk_0C / 4;
-        motion->unk_10 -= motion->unk_10 / 4;
+        motion->velocity_x -= motion->velocity_x / 4;
+        motion->velocity_y -= motion->velocity_y / 4;
                         /* fall through */
 
     case 1:
-        motion->unk_0C -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
-        motion->unk_10 -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
+        motion->velocity_x -= ((s16 *)((s8 *)dir_step_x))[direction] << 14;
+        motion->velocity_y -= ((s16 *)((s8 *)dir_step_y))[direction] << 14;
         if (action->unk_96.s > 0) {
             action->unk_96.s = action->unk_96.u - 1;
         } else if (tile->flags & 0x6000) {
@@ -72,9 +72,9 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, 
             return;
         }
         if (entity->unk_28 == 0) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             begin_actor_display_action(action, motion, tile, &D_80175268);
             return;
         }
@@ -90,7 +90,7 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, 
 
                 target_x = tile->unk_24 << 6;
                 current_x = motion->x.w.i - 0x20;
-                motion->unk_0C =
+                motion->velocity_x =
                     ((target_x - current_x) << 15) >> 1;
             }
             {
@@ -99,7 +99,7 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, 
 
                 target_z = tile->unk_25 << 6;
                 current_z = motion->y.w.i - 0x20;
-                motion->unk_10 =
+                motion->velocity_y =
                     ((target_z - current_z) << 15) >> 1;
             }
         }
@@ -108,9 +108,9 @@ void update_motion_and_recenter_entity(S_801732B4_1 *action, EntityRec *motion, 
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
 
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);

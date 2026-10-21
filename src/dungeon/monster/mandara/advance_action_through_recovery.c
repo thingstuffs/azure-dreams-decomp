@@ -42,7 +42,7 @@ extern u8 D_80170F6C[];
 extern u8 D_80175258[];
 
 /* Advances an actor action through motion selection, execution, and recovery. */
-void advance_action_through_recovery(void *action_state, EntityRec *transform, void *sprite, EntityRec *actor)
+void advance_action_through_recovery(void *action_state, ObjectPosition *transform, void *sprite, ActorRecord *actor)
 {
     u16 saved_position[3];
     u8 *motion;
@@ -58,7 +58,7 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
     switch (((S_80172DEC_0 *)action_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 7:
                 use_global_target = 1;
                 /* fall through */
@@ -82,7 +82,7 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
                 break;
             }
         } else {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 motion = (u8 *)actor + 0xE;
                 break;
@@ -106,23 +106,23 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
                     target = D_800814A8;
                     actor->target = target;
                     target_y = ((S_80172DEC_2_pre *)target)[-1].unk_00;
-                    actor->unk_72 = ((S_80172DEC_3 *)target_y)->unk_24;
-                    actor->unk_73 = ((S_80172DEC_3 *)target_y)->unk_25;
+                    actor->target_tile_x = ((S_80172DEC_3 *)target_y)->unk_24;
+                    actor->target_tile_y = ((S_80172DEC_3 *)target_y)->unk_25;
                 } else if (D_8006DE24[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
                         target_y = ((S_80172DEC_2_pre *)target)[-1].unk_00;
-                        actor->unk_72 = ((S_80172DEC_3 *)target_y)->unk_24;
-                        actor->unk_73 = ((S_80172DEC_3 *)target_y)->unk_25;
+                        actor->target_tile_x = ((S_80172DEC_3 *)target_y)->unk_24;
+                        actor->target_tile_y = ((S_80172DEC_3 *)target_y)->unk_25;
                     }
                 } else {
                     actor->target =
                         scan_monster_along_heading(actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
                                       actor->facing, 0x10);
-                    abs_x = abs(actor->unk_72);
-                    abs_y = abs(actor->unk_73);
-                    actor->unk_72 = abs_x;
-                    actor->unk_73 = abs_y;
+                    abs_x = abs(actor->target_tile_x);
+                    abs_y = abs(actor->target_tile_y);
+                    actor->target_tile_x = abs_x;
+                    actor->target_tile_y = abs_y;
                 }
             }
             saved_position[0] = ((u16)transform->x.w.i);
@@ -138,18 +138,18 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
             return;
         }
 
-        transform->flags14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2)) = (*(u16 *)((u8 *)D_800814A8 + 0xA6)) - 1;
         advance_status_timers(actor);
-        actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         ((S_80172DEC_0 *)action_state)->unk_8C = D_80170F6C;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -177,9 +177,9 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
         if ((((SpriteFrameState *)sprite)->flags & 0xE000) == 0) {
             return;
         }
-        transform->flags14 = 0;
-        transform->unk_10 = 0;
-        transform->unk_0C = 0;
+        transform->velocity_z = 0;
+        transform->velocity_y = 0;
+        transform->velocity_x = 0;
         set_record_integer_tile_center(transform, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         {
             u8 *direction_table = D_80175258;
@@ -198,12 +198,12 @@ void advance_action_through_recovery(void *action_state, EntityRec *transform, v
         ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
         ((S_80172DEC_0 *)action_state)->unk_8C = D_80170F6C;
         advance_status_timers(actor);
-        if (actor->unk_6D > 0) {
-            actor->unk_6D = ((u8)actor->unk_6D) - 1;
+        if (actor->pending_turn_updates > 0) {
+            actor->pending_turn_updates = ((u8)actor->pending_turn_updates) - 1;
         }
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
         break;
     }

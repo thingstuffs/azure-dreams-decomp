@@ -34,7 +34,7 @@ typedef struct S_800B3D10_4 {
 } S_800B3D10_4;
 
 /* Apply effect flags and value bonuses based on the effect and attached record data. */
-void apply_effect_bonuses(s16 effect_id, s32 unused_arg, EntityRec *record) {
+void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record) {
     s32 effect_offset;
     s32 effect_index;
     s16 unused_value;
@@ -95,7 +95,7 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, EntityRec *record) {
         if (bonus_base < 0) {
             bonus_base = 0;
         }
-        if (((S_800B3D10_6 *)(((EntityRec *)record)->unk_4C))->unk_00 == 5) {
+        if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == 5) {
             record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
                 + (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
                 + 1)));
@@ -123,7 +123,7 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, EntityRec *record) {
         if (bonus_base < 0) {
             bonus_base = 0;
         }
-        if (((S_800B3D10_6 *)(((EntityRec *)record)->unk_4C))->unk_00 == 6) {
+        if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == 6) {
             record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
                 + (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
                 + 1)));
@@ -151,7 +151,7 @@ void apply_effect_bonuses(s16 effect_id, s32 unused_arg, EntityRec *record) {
         if (bonus_base < 0) {
             bonus_base = 0;
         }
-        if (((S_800B3D10_6 *)(((EntityRec *)record)->unk_4C))->unk_00 == 7) {
+        if (((S_800B3D10_6 *)(((ActorRecord *)record)->unk_4C))->unk_00 == 7) {
             record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
                 + (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 >> 1))) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00
                 + 1)));

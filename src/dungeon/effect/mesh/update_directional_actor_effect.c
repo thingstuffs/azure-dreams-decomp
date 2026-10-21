@@ -435,7 +435,7 @@ void func_800246F4(ObjectNodeHeader *node_value, void *child_value)
 {
     Node *node;
     Child *child;
-    EntityRec *source;
+    ActorRecord *source;
     void *callback;
     u16 source_value;
 
@@ -448,7 +448,7 @@ void func_800246F4(ObjectNodeHeader *node_value, void *child_value)
         child->field10 = callback;
         node->field20 = node_value;
         child->field04 = &D_80083498.next;
-        source_value = ((u16)source->unk_88);
+        source_value = ((u16)source->ground_height);
         child->field0C = child_value;
         child->field08 = node;
         child->field38 = source_value;

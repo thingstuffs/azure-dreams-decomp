@@ -64,7 +64,7 @@ s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visua
         visual->unk_10 = 0x20;
         visual->unk_12 = (u16) (visual->unk_12 - 0x80);
         visual->unk_14 = (u16) (visual->unk_14 | 0xC);
-        ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x10000000);
+        ((ActorRecord *)entity)->flags1C = (s32) (((ActorRecord *)entity)->flags1C | 0x10000000);
         play_sound_if_enabled(0x805);
         visual->unk_0C.at00.v = 0x808080;
         state->unk_96 = 0x10;
@@ -94,7 +94,7 @@ s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visua
             tile_x = visual->unk_24;
             tile_y = visual->unk_25;
             tile_flags = 0x3000;
-            if (((EntityRec *)entity)->flags1C & 0x2000) {
+            if (((ActorRecord *)entity)->flags1C & 0x2000) {
                 tile_flags = 0x300;
             }
             update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);

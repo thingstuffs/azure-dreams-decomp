@@ -470,21 +470,21 @@ typedef struct S_800A5DFC_2 {
 /* extern */
 
 /* Applies damage capped to leave one HP and displays the hit effect when applicable. */
-void apply_capped_damage_and_hit_effect(EntityRec *entity, Rec_func_800A5DFC_arg1 *effect_pos) {
+void apply_capped_damage_and_hit_effect(ActorRecord *entity, Rec_func_800A5DFC_arg1 *effect_pos) {
     s32 current_hp;
     s32 rounded_hp;
     s32 damage;
     u8 max_hp;
 
-    if ((entity->flags1C & 0x40) && ((entity->unk_28 + entity->unk_64) >= 2)) {
-        max_hp = entity->unk_29;
+    if ((entity->flags1C & 0x40) && ((entity->hp + entity->unk_64) >= 2)) {
+        max_hp = entity->max_hp;
         rounded_hp = max_hp + 0xF;
-        entity->unk_6A = (s16) (((u16)entity->facing) + 0x800);
+        entity->movement_facing = (s16) (((u16)entity->facing) + 0x800);
         if (rounded_hp < 0) {
             rounded_hp = max_hp + 0x1E;
         }
         damage = rounded_hp >> 4;
-        current_hp = entity->unk_28 + entity->unk_64;
+        current_hp = entity->hp + entity->unk_64;
         if ((current_hp - damage) <= 0) {
             damage = current_hp - 1;
         }
@@ -497,7 +497,7 @@ void apply_capped_damage_and_hit_effect(EntityRec *entity, Rec_func_800A5DFC_arg
                     1);
                 return;
             }
-            entity->unk_28 = (u8) (entity->unk_28 - damage);
+            entity->hp = (u8) (entity->hp - damage);
         }
     }
 }

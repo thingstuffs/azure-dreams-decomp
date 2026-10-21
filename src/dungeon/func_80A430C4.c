@@ -110,7 +110,7 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 extern void create_two_row_object_group(void *payload, s16 value_scale);
 extern void func_801500FC(void);
 
-void advance_actor_ability_action_and_effects(void *action, EntityRec *motion, void *sprite, EntityRec *actor)
+void advance_actor_ability_action_and_effects(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     u16 position[3];
     u16 effect_offset[3];
@@ -139,7 +139,7 @@ void advance_actor_ability_action_and_effects(void *action, EntityRec *motion, v
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            action_id = actor->unk_46 & 0x3FFF;
+            action_id = actor->action_flags & 0x3FFF;
             dispatch_index = action_id - 1;
             switch (dispatch_index) {
             case 6:
@@ -162,7 +162,7 @@ void advance_actor_ability_action_and_effects(void *action, EntityRec *motion, v
                 break;
             }
         } else {
-            switch (actor->unk_46 & 0x3FFF) {
+            switch (actor->action_flags & 0x3FFF) {
             case 3:
                 item_slot = ((ActorItemSlotsView *)actor)->slots[2];
                 break;
@@ -184,25 +184,25 @@ void advance_actor_ability_action_and_effects(void *action, EntityRec *motion, v
                 special_target = ((u8 *)D_800814A8);
                 actor->target = special_target;
                 target_sprite = ((ObjectNodeHeader *)((u8 *)special_target - 0x20))->unk_0C;
-                actor->unk_72 = ((ImpactSpriteView *)target_sprite)->tileX;
-                actor->unk_73 = ((ImpactSpriteView *)target_sprite)->tileY;
+                actor->target_tile_x = ((ImpactSpriteView *)target_sprite)->tileX;
+                actor->target_tile_y = ((ImpactSpriteView *)target_sprite)->tileY;
             } else {
                 item_id = *item_slot;
                 if (D_8006DE24[item_id].kind == 2) {
                     target_sprite = actor->target;
                     if (target_sprite != 0) {
                         target_sprite = ((ObjectNodeHeader *)((u8 *)target_sprite - 0x20))->unk_0C;
-                        actor->unk_72 = ((ImpactSpriteView *)target_sprite)->tileX;
-                        actor->unk_73 = ((ImpactSpriteView *)target_sprite)->tileY;
+                        actor->target_tile_x = ((ImpactSpriteView *)target_sprite)->tileX;
+                        actor->target_tile_y = ((ImpactSpriteView *)target_sprite)->tileY;
                     }
                 } else {
                     actor->target = scan_monster_along_heading(
                         actor, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY,
                         actor->facing, 0x10);
-                    abs_x = abs(actor->unk_72);
-                    abs_y = abs(actor->unk_73);
-                    actor->unk_72 = abs_x;
-                    actor->unk_73 = abs_y;
+                    abs_x = abs(actor->target_tile_x);
+                    abs_y = abs(actor->target_tile_y);
+                    actor->target_tile_x = abs_x;
+                    actor->target_tile_y = abs_y;
                 }
             }
 
@@ -220,19 +220,19 @@ void advance_actor_ability_action_and_effects(void *action, EntityRec *motion, v
             }
             return;
         } else {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY);
             player_state = ((u8 *)D_800814A8);
             g_dungeon_status.active_actor = 0;
             ((PlayerActionCountView *)player_state)->remainingActions--;
             advance_status_timers(actor);
-            (*(u8 *)&actor->unk_6D)--;
+            (*(u8 *)&actor->pending_turn_updates)--;
             ((ItemActionState *)action)->nextBehavior = D_8014CE84;
-            actor->unk_73 = 0;
-            actor->unk_72 = 0;
-            actor->unk_46 &= 0x7FFF;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags &= 0x7FFF;
             return;
         }
     case 1:
@@ -339,9 +339,9 @@ void advance_actor_ability_action_and_effects(void *action, EntityRec *motion, v
         if (!(((ActionSpriteView *)sprite)->flags & 0xE000)) {
             return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((ActionSpriteView *)sprite)->tileX, ((ActionSpriteView *)sprite)->tileY);
         if (((ActionSpriteView *)sprite)->animationTable != D_80150820) {
             ((ActionSpriteView *)sprite)->animationTable = D_80150820;
@@ -355,12 +355,12 @@ void advance_actor_ability_action_and_effects(void *action, EntityRec *motion, v
             ((ActionSpriteView *)sprite)->flags &= 0xF7FF;
             ((ItemActionState *)action)->nextBehavior = D_8014CE84;
             advance_status_timers(actor);
-            if (actor->unk_6D > 0) {
-                (*(u8 *)&actor->unk_6D)--;
+            if (actor->pending_turn_updates > 0) {
+                (*(u8 *)&actor->pending_turn_updates)--;
             }
-            actor->unk_73 = 0;
-            actor->unk_72 = 0;
-            actor->unk_46 &= 0x7FFF;
+            actor->target_tile_y = 0;
+            actor->target_tile_x = 0;
+            actor->action_flags &= 0x7FFF;
             play_sound_if_enabled(0xB4);
         }
 

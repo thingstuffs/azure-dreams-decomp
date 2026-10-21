@@ -11,7 +11,7 @@ extern s32 rand(void);
 extern void resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern void spawn_randomized_directional_effect(void *, s16, s32, s32);
 extern void create_owner_linked_directional_object(void *, void *, void *);
 
@@ -45,7 +45,7 @@ typedef struct S_80173510_3 {
 } S_80173510_3;   /* arg1 in advance_staged_actor_movement */
 
 /* Updates a staged movement animation and returns the entity to its tile center. */
-void advance_staged_actor_movement(void *action, void *motion, void *record, EntityRec *actor)
+void advance_staged_actor_movement(void *action, void *motion, void *record, ActorRecord *actor)
 {
     u8 state;
 
@@ -246,7 +246,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
             return;
         }
 
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((S_80173510_0 *)action)->unk_8C = D_80171A80;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
@@ -254,7 +254,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Ent
         ((S_80173510_3 *)motion)->unk_10 = 0;
         ((S_80173510_3 *)motion)->unk_02 = ((SpriteFrameState *)record)->unk_24 * 0x40 + 0x20;
         ((S_80173510_3 *)motion)->unk_06 = ((SpriteFrameState *)record)->unk_25 * 0x40 + 0x20;
-        actor->unk_46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
     }
     }
 }

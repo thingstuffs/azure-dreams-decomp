@@ -27,7 +27,7 @@ extern void display_formatted_context_message(void *);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void apply_item_effect_at_entity_position(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
-extern s32 apply_actor_food_preference(void *, s32, s32);
+extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_view_color_flash(s32, s16);
 extern s32 create_timed_region_flag_expiry(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC);
 
@@ -66,7 +66,7 @@ s32 apply_room_holy_beam_item(void *target, u8 *item, s16 action, s32 action_par
 
     if ((u32)target <= 0x9FFFFFFF) {
         display_actor_item_status_message(target, (s32)item, action);
-        if (apply_actor_food_preference(target,
+        if (feed_actor_restore_mp(target,
                           entity_action_selectors[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
                           (s32)item) == 0) {
             apply_item_effect_at_entity_position(target, (s32)item);

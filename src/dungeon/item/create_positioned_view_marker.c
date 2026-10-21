@@ -1565,7 +1565,7 @@ s32 update_special_actor_transition(void) {
     u8 tile_y;
     s16 *direction_offset;
     TileObject *room;
-    EntityRec *collision;
+    ObjectPosition *collision;
     s32 distance_y;
 
     switch (state) {

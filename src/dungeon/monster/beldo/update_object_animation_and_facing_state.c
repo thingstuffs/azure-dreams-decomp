@@ -66,7 +66,7 @@ typedef struct ActorSpriteView {
 } ActorSpriteView;
 
 /* Updates object animation, dispatches its action, and adjusts its facing. */
-void update_object_animation_and_facing_state(ActorActionWork *action, void *context, ActorSpriteView *sprite, EntityRec *actor)
+void update_object_animation_and_facing_state(ActorActionWork *action, void *context, ActorSpriteView *sprite, ActorRecord *actor)
 {
     u32 entry_status = g_dungeon_status.flags;
     s32 state_flags;
@@ -149,7 +149,7 @@ void update_object_animation_and_facing_state(ActorActionWork *action, void *con
     roomOrDirection = find_active_rect_containing_point(sprite->position.tile.x, sprite->position.tile.y);
     sprite->roomId.value = roomOrDirection;
 
-    if (actor->unk_6D > 0) {
+    if (actor->pending_turn_updates > 0) {
         if (actor->flags1C & 0x20) {
             update_actor_status_and_food(actor);
             return;
@@ -160,7 +160,7 @@ void update_object_animation_and_facing_state(ActorActionWork *action, void *con
             return;
         }
 
-        if ((actor->unk_46 & 0x8000) == 0) {
+        if ((actor->action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
                         actor, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
@@ -172,26 +172,26 @@ void update_object_animation_and_facing_state(ActorActionWork *action, void *con
                 u8 callback_flags;
 
                 func_8016DD6C(action, context, sprite);
-                callback_flags = actor->unk_71;
+                callback_flags = actor->movement_queue_state;
                 callback_state = actor;
                 callback_flags &= 0x7F;
-                actor->unk_71 = callback_flags;
+                actor->movement_queue_state = callback_flags;
                 update_actor_status_and_food(callback_state);
-                actor->unk_46 &= 0x7FFF;
+                actor->action_flags &= 0x7FFF;
                 return;
             }
 
             if ((s16)func_8016C330(action, context, sprite, 0) == 0) {
                 return;
             }
-            actor->unk_46 |= 0x4000;
-            if ((actor->unk_46 & 0x8000) == 0) {
+            actor->action_flags |= 0x4000;
+            if ((actor->action_flags & 0x8000) == 0) {
                 func_8016BBE0(action, context, sprite, actor);
                 return;
             }
         }
 
-        action_kind = actor->unk_46 & 0x3FFF;
+        action_kind = actor->action_flags & 0x3FFF;
         jump_index = action_kind - 1;
         switch (jump_index) {
         case 11:
@@ -206,7 +206,7 @@ void update_object_animation_and_facing_state(ActorActionWork *action, void *con
             callback_state = actor;
             action->handler = &D_8016B514;
             update_actor_status_and_food(callback_state);
-            actor->unk_46 &= 0x7FFF;
+            actor->action_flags &= 0x7FFF;
             return;
 
         case 0:

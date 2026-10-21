@@ -40,7 +40,7 @@ extern s32 create_actor_spell_effect();
 extern Any create_random_color_offset_effect();
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
-void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
+void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor) {
     s32 use_player_target;
     s32 particle_count;
     s32 offset_z;
@@ -63,7 +63,7 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            raw_kind = actor->unk_46 & 0x3FFF;
+            raw_kind = actor->action_flags & 0x3FFF;
             kind_index = raw_kind - 1;
             switch (kind_index) {
             case 6:
@@ -89,7 +89,7 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
                 break;
             }
         } else {
-            action_kind = actor->unk_46 & 0x3FFF;
+            action_kind = actor->action_flags & 0x3FFF;
             switch (action_kind) {
             case 3:
                 action_data = (u8 *)actor + 0xE;
@@ -119,9 +119,9 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
 
                     action_kind = (s32)(((ActorLinkPrefixView *)((void *)direction))[-1].unk_00);
                     facing = ((MovingTile *)((u8 *)action_kind))->unk_24;
-                    actor->unk_72 = facing;
+                    actor->target_tile_x = facing;
                     facing = ((MovingTile *)((u8 *)action_kind))->unk_25;
-                    actor->unk_73 = facing;
+                    actor->target_tile_y = facing;
                 }
             } else if (D_8006DE24[*action_data].kind == 2) {
                 direction = (s32)(actor->target);
@@ -131,9 +131,9 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
 
                         action_kind = (s32)(((ActorLinkPrefixView *)((void *)direction))[-1].unk_00);
                         facing = ((MovingTile *)((u8 *)action_kind))->unk_24;
-                        actor->unk_72 = facing;
+                        actor->target_tile_x = facing;
                         facing = ((MovingTile *)((u8 *)action_kind))->unk_25;
-                        actor->unk_73 = facing;
+                        actor->target_tile_y = facing;
                     }
                 }
             } else {
@@ -145,8 +145,8 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
                     actor->facing,
                     0x10);
 
-                actor->unk_72 = abs(actor->unk_72);
-                actor->unk_73 = abs(actor->unk_73);
+                actor->target_tile_x = abs(actor->target_tile_x);
+                actor->target_tile_y = abs(actor->target_tile_y);
             }
 
             if (create_actor_spell_effect(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
@@ -156,18 +156,18 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
             return;
 
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
         advance_status_timers(actor);
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
         ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->action_flags &= 0x7FFF;
         return;
 
     case 1:
@@ -250,9 +250,9 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
         if (((SpriteFrameState *)sprite)->frameTable != D_80174EB8) {
@@ -267,10 +267,10 @@ void update_actor_targeted_action(void *action, EntityRec *motion, void *sprite,
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
         advance_status_timers(actor);
-        actor->unk_73 = 0;
-        actor->unk_72 = 0;
-        actor->unk_6D--;
-        actor->unk_46 &= 0x7FFF;
+        actor->target_tile_y = 0;
+        actor->target_tile_x = 0;
+        actor->pending_turn_updates--;
+        actor->action_flags &= 0x7FFF;
         play_sound_if_enabled(0xB4);
     }
 }

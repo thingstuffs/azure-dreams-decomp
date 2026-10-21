@@ -6,7 +6,7 @@
 /* Initialize the town scene and configure its object for the current mode. */
 void initialize_scene_for_mode(void)
 {
-    EntityRec *scene;
+    ObjectPosition *scene;
     TileObject *render;
     func_80092868_TownState *state;
     func_80092868_TownObject *object;
@@ -167,7 +167,7 @@ void initialize_scene_render_object(void) {
 }
 
 /* Rebuild the town menu's node list for the current mode and hand it to the drawing pass. */
-void rebuild_menu_node_list(void *owner, EntityRec *node_in, s32 mode) {
+void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
     func_80092C9C_S_800903FC_3 *node;
     void *handler;
     u8 *base;

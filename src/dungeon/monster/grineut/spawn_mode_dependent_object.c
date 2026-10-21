@@ -218,7 +218,7 @@ void update_entity_facing_motion_and_ground(void *entity, R07_80170A28_S_80170A2
     return;
 }
 
-void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *other_entity)
+void func_80170E54(void *record, EntityRec *entity, void *object, ActorRecord *other_entity)
 {
     s32 scratch;
     s16 offset[3];
@@ -233,7 +233,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
         return;
     }
 
-    if (other_entity->tileY == 0) {
+    if (other_entity->mp == 0) {
         advance_actor_pending_action(record, entity, object, other_entity);
         if (((R07_80170E54_S_80170E54_2 *)object)->unk_2C.p == ((u8 *)D_80174190)) {
             return;
@@ -306,7 +306,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
     result = ((s8)find_active_rect_containing_point(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v, ((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v));
     ((R07_80170E54_S_80170E54_2 *)object)->unk_26 = result;
 
-    if (other_entity->unk_6D > 0) {
+    if (other_entity->pending_turn_updates > 0) {
         if (((u32)other_entity->flags1C) & 0x20) {
             update_actor_status_and_food(other_entity);
             return;
@@ -315,7 +315,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             func_801717B4(record, entity, object, other_entity);
             return;
         }
-        if (!(other_entity->unk_46 & 0x8000)) {
+        if (!(other_entity->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(other_entity,
                         (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
@@ -325,15 +325,15 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
             if ((func_8017229C(record, entity, object, 0) << 16) == 0) {
                 return;
             }
-            state = other_entity->unk_46 | 0x4000;
-            other_entity->unk_46 = state;
+            state = other_entity->action_flags | 0x4000;
+            other_entity->action_flags = state;
             if (!(state & 0x8000)) {
                 func_801717B4(record, entity, object, other_entity);
                 return;
             }
         }
 
-        state = other_entity->unk_46 & 0x3FFF;
+        state = other_entity->action_flags & 0x3FFF;
         switch (state) {
         case 8:
         case 9:
@@ -347,7 +347,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, EntityRec *oth
         case 6:
         case 7:
         {
-            EntityRec *player;
+            ActorRecord *player;
             s16 coordinate;
 
             coordinate = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00.v),(s16)(((R07_80170E54_S_80170E54_2 *)object)->unk_24.at01.v),(s16)(D_80082E80.tile_position.parts.tile_x),(s16)(D_80082E80.tile_position.parts.tile_y),
@@ -775,16 +775,16 @@ void initialize_opposite_facing_effect(void *effect, s32 *position, SpriteFrameS
     position[1] -= *(s16 *)((u8 *)dir_step_y + direction) << 19;
 }
 
-s32 func_80171FC0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, EntityRec *actor)
+s32 func_80171FC0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;
     u8 actor_flags;
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
 
-    actor_flags = actor->unk_71;
+    actor_flags = actor->movement_queue_state;
     actor_flags &= 0x7F;
-    actor->unk_71 = actor_flags;
+    actor->movement_queue_state = actor_flags;
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
@@ -798,7 +798,7 @@ s32 func_80171FC0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -817,7 +817,7 @@ s32 func_80171FC0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
         actor->unk_85 = 0;
         sprite->frameTable = D_80174148;
         select_sprite_entry(sprite, (D_80174148)[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        actor->unk_6D--;
+        actor->pending_turn_updates--;
         prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
         return 1;
     }
@@ -825,8 +825,8 @@ s32 func_80171FC0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
 }
 
 
-void func_80172184(void *action_state, void *action_context, SpriteFrameState *sprite, EntityRec *actor) {
-    actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
+void func_80172184(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+    actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
         if ((try_claim_dungeon_action_slot(actor) << 0x10) == 0) {
@@ -836,7 +836,7 @@ void func_80172184(void *action_state, void *action_context, SpriteFrameState *s
             sprite->frameTable = ((u8 *)D_80174148);
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + ((u8 *)D_80174148)), 0);
-            actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+            actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
             prepare_directional_attack(actor, sprite, actor->facing, 1, 0);
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
@@ -887,7 +887,7 @@ s32 func_8017229C(void *entity_arg, void *primary_context_arg, void *secondary_c
 
 void func_801723E0(R07_801723E0_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
-        reduce_actor_food_meter(target, 4);
+        spend_actor_mp(target, 4);
         advance_status_timers(target);
         if ((check_actor_floor_trap(source, target) << 0x10) <= 0) {
             return;
@@ -996,7 +996,7 @@ void advance_target_hop(void *action, void *motion, void *sprite, void *actor)
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-    reduce_actor_food_meter(actor, 4);
+    spend_actor_mp(actor, 4);
     advance_status_timers(actor);
 
     global_base = &g_dungeon_status;
@@ -1031,7 +1031,7 @@ void func_801727E8(Resource07CallbackState *state, void *entity, void *position,
     }
 }
 
-void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, EntityRec *motion, SpriteFrameState *sprite, EntityRec *actor)
+void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s16 timer;
     s32 direction_y;
@@ -1062,11 +1062,11 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
             wrap_base = facing + 11;
         }
         direction -= wrap_base & 0x18;
-        motion->unk_0C =
+        motion->velocity_x =
             (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + (direction * 2))) * 0x60000;
         direction_y = (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + (direction * 2)));
-        motion->flags14 = 0;
-        motion->unk_10 = direction_y * 0x60000;
+        motion->velocity_z = 0;
+        motion->velocity_y = direction_y * 0x60000;
         sprite->frameTable = ((u8 *)D_80174140);
         select_sprite_entry(sprite,
             (*(u8 *)((u8 *)(((u8 *)D_80174140)) + (((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7))),
@@ -1076,10 +1076,10 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
         return;
 
     case 1:
-        x_velocity = motion->unk_0C;
-        y_velocity = motion->unk_10;
-        motion->unk_0C = x_velocity - (x_velocity >> 2);
-        motion->unk_10 = y_velocity - (y_velocity >> 2);
+        x_velocity = motion->velocity_x;
+        y_velocity = motion->velocity_y;
+        motion->velocity_x = x_velocity - (x_velocity >> 2);
+        motion->velocity_y = y_velocity - (y_velocity >> 2);
         if (sprite->flags & 0xE000) {
             sprite->frameTable = ((u8 *)D_80174170);
             select_sprite_entry(sprite,
@@ -1093,23 +1093,23 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
 
     case 2:
         timer = action->unk_96.u - 1;
-        z_velocity = motion->flags14;
+        z_velocity = motion->velocity_z;
         action->unk_96.s = timer;
         if (timer < 12) {
             z_velocity += 0x1400;
         } else {
             z_velocity += 0x20000;
         }
-        motion->flags14 = z_velocity;
+        motion->velocity_z = z_velocity;
         action->unk_90 += z_velocity;
 
         if (action->unk_96.s == 0x11) {
             play_sound_if_enabled(0x808);
             direction = ((u16)actor->facing >> 9) & 7;
             speed_component = (*(s16 *)((u8 *)(((s8 *)dir_step_x)) + (direction * 2))) * 0x30000;
-            motion->unk_0C = speed_component + (speed_component >> 2);
+            motion->velocity_x = speed_component + (speed_component >> 2);
             speed_component = (*(s16 *)((u8 *)(((s8 *)dir_step_y)) + (direction * 2))) * 0x30000;
-            motion->unk_10 = speed_component + (speed_component >> 2);
+            motion->velocity_y = speed_component + (speed_component >> 2);
         }
 
         if (((sprite->unk_04 == 3) &&
@@ -1121,10 +1121,10 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
         if (((sprite->unk_04 == 5) &&
              (sprite->flags & 0x1000)) ||
             (sprite->flags & 0x8000)) {
-            motion->unk_0C =
+            motion->velocity_x =
                 ((((sprite->unk_24 << 6) + 0x20) << 16) -
                  motion->x.v) / action->unk_96.s;
-            motion->unk_10 =
+            motion->velocity_y =
                 ((((sprite->unk_25 << 6) + 0x20) << 16) -
                  motion->y.v) / action->unk_96.s;
         }
@@ -1139,17 +1139,17 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
     case 3:
         if ((action->unk_96.s <= 0) ||
             (sprite->flags & 0x8000)) {
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-            reduce_actor_food_meter(actor, 0x100);
+            spend_actor_mp(actor, 0x100);
             action->unk_8C = ((void *)func_80170E54);
             g_dungeon_status.active_actor = 0;
             action->unk_98 &= 0xFFF7;
             advance_status_timers(actor);
-            if (actor->unk_6D == 0) {
-                actor->unk_46 &= 0x7FFF;
+            if (actor->pending_turn_updates == 0) {
+                actor->action_flags &= 0x7FFF;
                 return;
             }
             ((void * *)D_800E3DE8)[0] = (u8 *)actor - 0x20;
@@ -1157,7 +1157,7 @@ void complete_staged_destination_movement(R07_8017284C_S_8017284C_0 *action, Ent
     }
 }
 
-void advance_actor_stored_path_2(void *action, EntityRec *motion, void *sprite, void *actor) {
+void advance_actor_stored_path_2(void *action, ObjectPosition *motion, void *sprite, void *actor) {
     u16 pos[3];
     s16 is_special;
     u8 *item;
@@ -1244,18 +1244,18 @@ copy_existing:
                     s8 x;
                     s8 y;
 
-                    ((EntityRec *)actor)->target = (void *)scan_monster_along_heading(
+                    ((ActorRecord *)actor)->target = (void *)scan_monster_along_heading(
                         actor,
                         ((SpriteFrameState *)sprite)->unk_24,
                         ((SpriteFrameState *)sprite)->unk_25,
-                        ((EntityRec *)actor)->facing,
+                        ((ActorRecord *)actor)->facing,
                         0x10);
-                    x = ((EntityRec *)actor)->unk_72;
-                    y = ((EntityRec *)actor)->unk_73;
+                    x = ((ActorRecord *)actor)->target_tile_x;
+                    y = ((ActorRecord *)actor)->target_tile_y;
                     x = abs(x);
                     y = abs(y);
-                    ((EntityRec *)actor)->unk_72 = x;
-                    ((EntityRec *)actor)->unk_73 = y;
+                    ((ActorRecord *)actor)->target_tile_x = x;
+                    ((ActorRecord *)actor)->target_tile_y = y;
                 }
             }
 
@@ -1272,9 +1272,9 @@ copy_existing:
             return;
 
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         {
@@ -1341,9 +1341,9 @@ copy_existing:
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
         if (((SpriteFrameState *)sprite)->frameTable != ((u8 *)D_80174148)) {
@@ -1524,7 +1524,7 @@ void func_801736BC(Resource07CallbackState *state, void *motion, void *position,
     }
 }
 
-void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *actor)
+void func_801736F4(void *controller, s32 actor_index, void *sprite, ActorRecord *actor)
 {
     DungeonGlobalStatus *dungeon_status;
     s32 actor_flags;
@@ -1592,7 +1592,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                 && ((actor->unk_64 == 0)
                     || (begin_ready_actor_directional_action(controller, actor_index, sprite, 0) == 0))) {
 
-                if (actor->tileY == 0) {
+                if (actor->mp == 0) {
                     if (dungeon_status->flags & 0x2008) {
                         return;
                     }
@@ -1613,7 +1613,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
                     func_80173EF4(controller, actor_index, sprite, actor);
                     return;
                 }
-                if (actor->unk_6D == 0) {
+                if (actor->pending_turn_updates == 0) {
                     return;
                 }
                 if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
@@ -1688,7 +1688,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, EntityRec *a
     }
 }
 
-void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite, EntityRec *entity)
+void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite, ActorRecord *entity)
 {
     s32 state;
 
@@ -1715,7 +1715,7 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
     {
         u32 entity_flags;
 
-        if (entity->tileY != 0) {
+        if (entity->mp != 0) {
 
             (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_80174188);
             select_sprite_entry(sprite,
@@ -1753,7 +1753,7 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
             return;
         }
 
-        if (entity->unk_6D == 0) {
+        if (entity->pending_turn_updates == 0) {
             return;
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
@@ -1765,7 +1765,7 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
 
         update_actor_status_and_food(entity);
         on_actor_status_updated(entity);
-        if (entity->tileY == 0) {
+        if (entity->mp == 0) {
             return;
         }
 

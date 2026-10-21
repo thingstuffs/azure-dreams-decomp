@@ -86,7 +86,7 @@ typedef struct S_801731C8_6 {
 } S_801731C8_6;   /* part in update_item_use_action */
 
 /* Updates an item-use action, its animation, and its particle effects. */
-void update_item_use_action(void *action, EntityRec *motion, void *sprite, void *actor)
+void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, void *actor)
 {
     u8 *item_slot;
     s16 is_special;
@@ -192,9 +192,9 @@ void update_item_use_action(void *action, EntityRec *motion, void *sprite, void 
             return;
         }
 
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
@@ -351,9 +351,9 @@ void update_item_use_action(void *action, EntityRec *motion, void *sprite, void 
             if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
                 return;
             }
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80175554) {
                 u8 *animations;

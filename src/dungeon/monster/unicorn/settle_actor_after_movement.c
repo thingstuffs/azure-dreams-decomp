@@ -134,7 +134,7 @@ void settle_actor_after_movement(void *animation, void *motion, void *sprite, vo
         ((T_80172664_S_80172664_3 *)motion)->unk_10 = 0;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C = 0;
         set_record_integer_tile_center(motion, ((T_80172664_S_80172664_2 *)sprite)->unk_24, ((T_80172664_S_80172664_2 *)sprite)->unk_25);
-        reduce_actor_food_meter(actor, 0x100);
+        spend_actor_mp(actor, 0x100);
         ((T_80172664_S_80172664_1 *)animation)->unk_8C = &D_80170E7C;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);

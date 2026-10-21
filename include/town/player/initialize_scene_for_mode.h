@@ -116,7 +116,7 @@ void initialize_global_scene_record(void);
 void plt_init_sleep_set(void);
 void initialize_scene_render_state(void);
 void initialize_scene_render_object(void);
-void rebuild_menu_node_list(void *owner, EntityRec *node_in, s32 mode);
+void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode);
 void process_scene_record_update(void *context, void *input, void *record);
 s32 func_800909A0();
 void clear_record_state_or_update(void *record);

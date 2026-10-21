@@ -3,7 +3,7 @@
 
 extern void unlink_node(void *);
 extern void retire_tracked_effect_by_id(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 
 extern u8 D_80170F74[];
 
@@ -22,7 +22,7 @@ void dim_and_clear_flagged_effect(void *effect, s32 unused, void *primitive, voi
             effect_object = (u8 *)effect - 0x20;
             unlink_node(effect_object);
             retire_tracked_effect_by_id(effect_object);
-            reduce_actor_food_meter(owner, 0x800);
+            spend_actor_mp(owner, 0x800);
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             *(u32 *)((u8 *)primitive + 0xC) = 0;
             *(u8 *)((u8 *)owner + 0x6D) = 0;

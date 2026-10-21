@@ -43,7 +43,7 @@ void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 
         volume = 0x100;
         if (action->field98 & 0x8000)
             volume = 0x800;
-        reduce_actor_food_meter(actor, volume);
+        spend_actor_mp(actor, volume);
         action->field8C = &update_dungeon_actor_behavior;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);

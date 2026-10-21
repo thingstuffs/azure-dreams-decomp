@@ -64,7 +64,7 @@ void update_random_particle_field(void *self, void *output)
             return;
         }
         {
-            EntityRec *copy_page;
+            ObjectPosition *copy_page;
             *(Copy24 *)output_data = *(Copy24 *)&D_80083780;
             copy_page = &D_80083780;
             ((S_81934928_0 *)self)->unk_10.s = ((u16)copy_page->x.w.i);

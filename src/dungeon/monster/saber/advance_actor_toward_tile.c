@@ -27,7 +27,7 @@ extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 en
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void on_actor_status_updated(void *);
-extern void reduce_actor_food_meter(void *, s32);
+extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern s32 D_80159728;
@@ -36,7 +36,7 @@ extern u8 D_8015CE0C[];
 extern u8 D_8015CE14[];
 
 /* Updates movement toward a tile, its animation phases, and action completion. */
-void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *entity)
+void func_80ADF3AC(void *action, ObjectPosition *motion, void *sprite, ActorRecord *entity)
 {
     s32 phase;
     s32 frames_left;
@@ -74,10 +74,10 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
             pos_x = motion->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
-            motion->unk_0C = ((target_x - pos_x) << 16) / frames_left;
+            motion->velocity_x = ((target_x - pos_x) << 16) / frames_left;
             pos_y = motion->y.w.i;
             pos_y -= 0x20;
-            motion->unk_10 =
+            motion->velocity_y =
                 (((((SpriteFrameState *)sprite)->unk_25 << 6) - pos_y) << 16) /
                 ((S_80ADF3AC_0 *)action)->unk_9E.s;
             ((S_80ADF3AC_0 *)action)->unk_A4 =
@@ -99,9 +99,9 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
     case 2:
         if (entity->flags1C & 0x08000000) {
             ((S_80ADF3AC_0 *)action)->unk_98 &= 0xFFF7;
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
             ((SpriteFrameState *)sprite)->frameTable = D_8015CE14;
             select_sprite_entry(
@@ -126,11 +126,11 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
     if ((action_timer << 16) > 0) {
         return;
     }
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
+    motion->velocity_z = 0;
+    motion->velocity_y = 0;
+    motion->velocity_x = 0;
     set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-    reduce_actor_food_meter(entity, 4);
+    spend_actor_mp(entity, 4);
     advance_status_timers(entity);
     shared_state = &g_dungeon_status;
     if (shared_state->activity_counts.parts.pending_movement_count != 0) {
@@ -138,8 +138,8 @@ void func_80ADF3AC(void *action, EntityRec *motion, void *sprite, EntityRec *ent
     }
     entity_flags = entity->flags1C;
     if (entity_flags & 0x2000) {
-        if (entity->unk_46 & 0x8000) {
-            entity->unk_46 &= 0x7FFF;
+        if (entity->action_flags & 0x8000) {
+            entity->action_flags &= 0x7FFF;
         }
     } else if (!(entity_flags & 0x410)) {
         if (entity_flags & 0x20000) {

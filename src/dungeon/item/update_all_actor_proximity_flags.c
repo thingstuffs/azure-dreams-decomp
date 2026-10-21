@@ -17,7 +17,7 @@ s32 update_actor_proximity_flag(); /* extern */
 void update_all_actor_proximity_flags(s16 near_limit, s16 far_limit) {
     void *actor;
 
-    actor = (void *) (D_800E3D7C->unk_5C + 0x20);
+    actor = (void *) (D_800E3D7C->next_actor_header + 0x20);
     if (actor != ((EntityRec *)D_800E3D7C)) {
         do {
             update_actor_proximity_flag(((S_800A1B44_1 *)((u8 *)actor - 0x14))->unk_00, actor, near_limit, far_limit,

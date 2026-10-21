@@ -47,7 +47,7 @@ extern u8 D_80170E9C[];
 extern u8 D_80174F00[];
 
 /* Updates entity dimming, status behavior, and brightness recovery. */
-void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite, EntityRec *entity)
+void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite, ActorRecord *entity)
 {
     s32 entity_flags;
     u16 fade_ticks;
@@ -105,7 +105,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                     return;
                 }
             }
-            if (entity->tileY == 0) {
+            if (entity->mp == 0) {
                 if (g_dungeon_status.flags & 0x2008) {
                     return;
                 }
@@ -125,11 +125,11 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                 func_801737C4(controller, context, sprite, entity);
                 return;
             }
-            if (entity->unk_6D == 0) {
+            if (entity->pending_turn_updates == 0) {
                 return;
             }
             if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
-                EntityRec *owner = D_800814A8;
+                ActorRecord *owner = D_800814A8;
 
                 if ((check_entity_relation(entity,
                         (u8 *)owner->unk_58 + 0x20) << 16) != 0) {

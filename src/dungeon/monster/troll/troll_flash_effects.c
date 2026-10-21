@@ -610,7 +610,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
 void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
 {
     s32 record_addr;
-    EntityRec *result;
+    ActorRecord *result;
     s16 saved_y;
     s16 saved_x;
     SpriteFrameState *sprite;
@@ -640,7 +640,7 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
     object = allocate_list_node(call_object, (void *)call_position);
     init_flags = spawn_flags;
     if (object != 0) {
-        result = (EntityRec *)((u8 *)object + 0x20);
+        result = (ActorRecord *)((u8 *)object + 0x20);
         object->unk_10 = D_801720B4;
         *(s8 *)((u8 *)result + 0x13) = 0x16;
         register_node(object, project_sprite_chain);

@@ -326,7 +326,7 @@ s8 *find_first_ended_record(s8 *record) {
 
 /* Returns whether the global record's unk_104 field is zero. */
 s32 check_global_record_field_zero(void) {
-    return D_800E3D7C->unk_104 == 0;
+    return ((PlayerRecord *)D_800E3D7C)->unk_104 == 0;
 }
 #include "common.h"
 

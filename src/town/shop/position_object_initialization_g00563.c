@@ -3,11 +3,11 @@
 #include "town/shop/position_object_initialization_g00563.h"
 
 /* Initialize the record and active flag, then install the object handler. */
-void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C_0 *state, EntityRec *record, void *unused_render) {
+void initialize_the_active_flag_install_handler(S_800A022C_2 *object, S_800A022C_0 *state, ObjectPosition *record, void *unused_render) {
     state->unk_15 = 1;
-    record->unk_0C = 0;
-    record->unk_10 = 0;
-    record->flags14 = 0xFFF20000;
+    record->velocity_x = 0;
+    record->velocity_y = 0;
+    record->velocity_z = 0xFFF20000;
     add_motion_deltas_to_position(record);
     object->unk_50 = &D_8009BC44;
 }
@@ -52,7 +52,7 @@ void *create_an_position_initializes_graphics_state(S_800A027C_5 *config, Moving
         render->unk_08 = lookup_item_category_mapped_value(state->unk_4D, state->unk_4C);
     }
     ((ProjectileObject *)object)->unk_10 = &dispatch_object_or_switch_alternate_state;
-    initialize_the_active_flag_install_handler((S_800A022C_2 *)state, (S_800A022C_0 *)state, (EntityRec *)coords, render);
+    initialize_the_active_flag_install_handler((S_800A022C_2 *)state, (S_800A022C_0 *)state, (ObjectPosition *)coords, render);
 
     return object;
 }

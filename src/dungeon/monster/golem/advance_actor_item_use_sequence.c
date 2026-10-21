@@ -48,7 +48,7 @@ typedef struct S_801738B4_4 {
 } S_801738B4_4;   /* global in advance_actor_item_use_sequence */
 
 /* Advances an actor's item-use sequence and resets its state when the action ends. */
-void advance_actor_item_use_sequence(void *action_ctx, EntityRec *scene_object, void *entity, void *actor)
+void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_object, void *entity, void *actor)
 {
     u8 *item;
     s32 special_mode;
@@ -144,9 +144,9 @@ void advance_actor_item_use_sequence(void *action_ctx, EntityRec *scene_object, 
             }
             break;
         } else {
-            scene_object->flags14 = 0;
-            scene_object->unk_10 = 0;
-            scene_object->unk_0C = 0;
+            scene_object->velocity_z = 0;
+            scene_object->velocity_y = 0;
+            scene_object->velocity_x = 0;
             set_record_integer_tile_center(scene_object, ((SpriteAnimationTableView *)entity)->unk_24, ((SpriteAnimationTableView *)entity)->unk_25);
             active_object = D_800814A8;
             g_dungeon_status.active_actor = 0;
@@ -195,9 +195,9 @@ void advance_actor_item_use_sequence(void *action_ctx, EntityRec *scene_object, 
             break;
         }
 
-        scene_object->flags14 = 0;
-        scene_object->unk_10 = 0;
-        scene_object->unk_0C = 0;
+        scene_object->velocity_z = 0;
+        scene_object->velocity_y = 0;
+        scene_object->velocity_x = 0;
         set_record_integer_tile_center(scene_object, ((SpriteAnimationTableView *)entity)->unk_24, ((SpriteAnimationTableView *)entity)->unk_25);
         if (((SpriteAnimationTableView *)entity)->unk_2C != D_80175F10) {
             (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;
