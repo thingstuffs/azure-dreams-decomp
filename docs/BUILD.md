@@ -87,10 +87,35 @@ Adding or removing files needs `make configure`.
 `make configure` verifies content snapshots of the input trees and generated
 files before reusing the build views and make projection. A changed input or a
 missing/edited generated file runs the corresponding generator again. These
-snapshots are private build caches, never gate receipts. Include scans are
-shared only during one generation, with all file and resolution probes checked
-again before it completes; inline-member provenance is indexed by file identity
-and every projected source span is still checked against the current TU bytes.
+snapshots are private build caches, never gate receipts. Edits to existing
+source/header files reuse unaffected selection records, native recipes, include
+closures and image layouts. Each record binds its source reads by content,
+including inline owners and reviewed storage sources. The shared guard binds
+all authority/configuration inputs, the complete input name/presence set,
+environment and symlink destinations. Adding a local header that shadows an
+include therefore forces fresh resolution. Metadata/tool changes or missing or
+edited generated files discard the checkpoints. Live graph source hashes are
+refreshed on every changed-input configuration.
+
+Bootstrap also reuses verified views for body edits outside its conservative
+module/partition source read set. Include scans share reads within one generation;
+file and resolution probes are checked again before it completes. Projected
+source spans retain the production inline provenance checks. Configuration reuse
+does not replace the compiler, image or `make check` proofs.
+
+For a fresh enumeration without deleting the build, run
+`python3 tools/build/mkbuild.py generate full`. To assert that the current scoped
+projection emits the same generated files and `build.mk` bytes, run:
+
+```sh
+AZURE_MAKE_SCOPED_EQUIVALENCE=1 PYTHONPATH=tools:tools/tests:. \
+  python3 -m unittest -v tools.tests.test_recipe_cache.ProductionEqualityTests
+```
+
+The comparison excludes only the private configure checkpoint and its receipt.
+The regular make unit suite also exercises same-mtime edits, changed include
+closures/cycles, local header shadowing, source symlinks, owner/review reads,
+authority/environment changes, corrupt outputs and inputs changing mid-generation.
 
 Regression tests for these properties: `tools/tests/test_make_negative.py`
 (synthetic parts always run; `AZURE_MAKE_NEGATIVE=1` mutates a built checkout:

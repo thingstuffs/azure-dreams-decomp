@@ -26,9 +26,11 @@ from tools.link.graph import Graph, number
 from tools.link.combined import selected_images, object_metadata, slus_origins
 from tools.link.prepare import load_gate, linklist_snapshot
 from tools.build import content_cache
+from tools.build.recipe_cache import RecipeCache, load as load_recipe_cache
 
 STATE = ROOT / 'build/.state'
 GENERATION_WRITES = None
+RECIPE_CACHE = None
 CONTAINERS = {'main': 'MAIN_MAIN.BIN', 'town': 'TOWN_TOWN.BIN',
               'dungeon': 'DUNGEON_DUNGEON.BIN', 'ovmovie': 'OVMOVIE.BIN'}
 
@@ -86,19 +88,25 @@ def run(argv, **kw):
     return result.stdout
 
 
-def configure_inputs(extra=()):
+def configure_inputs(extra=(), inventory_receipt=None):
     # Landing/accounting code and ordinary documentation cannot alter a recipe.
     # Review inputs are added explicitly below, including reviews outside docs/.
     irrelevant = {'tools/build/land_make.py', 'tools/build/make_evidence.py'}
     names = content_cache.inventory(ROOT, ('src', 'include', 'config', 'tools/build',
                                           'tools/gate', 'tools/link', 'tools/fidelity'), irrelevant)
+    if inventory_receipt is not None:
+        inventory_receipt.update(names)
     names.update(['tools/common.py', 'tools/source_layout.py', 'tools/row_db.py',
                   'tools/overlay_module_evidence.py'])
     manifest = content_cache.load(ROOT/'config/overlays/modules.json')
     names.update(n for m in manifest.get('modules', ()) for n in m.get('review_inputs', ()))
-    names.update(content_cache.inventory(ROOT, ('ledger',)))
+    ledgers = content_cache.inventory(ROOT, ('ledger',))
+    names.update(ledgers)
+    if inventory_receipt is not None:
+        inventory_receipt.update(ledgers)
     names.update('work/disc/containers/' + name for name in CONTAINERS.values())
     names.update(['work/disc/extract/SLUS_006.14', 'baserom/slus_006.14'])
+    names.update(['toolchain/genuine/bin/wibo', 'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE'])
     names.update(['ledger/rows.jsonl', 'ledger/layout.jsonl', 'ledger/layout_inline.jsonl',
                   'ledger/tu_layout.jsonl', 'ledger/modules.jsonl', 'ledger/containers.jsonl',
                   'ledger/instance_load_regions.jsonl'])
@@ -117,22 +125,82 @@ def configure_environment():
     return {k:v for k,v in os.environ.items() if k.startswith(('AZURE_', 'MASPSX_')) or k in ('RAW', 'EXP', 'SRCROOT')}
 
 
+def bootstrap_source_inputs():
+    """Conservative source read set for the registered bootstrap producers.
+
+    View projection/export depends on names and layout, not ordinary TU bytes.
+    Native validation may read reviewed storage sources; SLUS module/partition
+    producers may inspect their declared sources. Keep those edits on the full
+    bootstrap path. Unknown/missing manifests also keep the full path.
+    """
+    overlay = ROOT/'config/overlays/modules.json'
+    slus = ROOT/'config/slus_modules.json'
+    if not overlay.is_file() or not slus.is_file():
+        return None
+    from tools.gate.source_layout import slus_source
+    def strings(value):
+        if isinstance(value, str):
+            yield value
+        elif isinstance(value, dict):
+            for v in value.values():
+                yield from strings(v)
+        elif isinstance(value, list):
+            for v in value:
+                yield from strings(v)
+    names = set()
+    for manifest in ('config/overlays/modules.json', 'config/overlays/module_placements.json',
+                     'config/slus_modules.json', 'config/slus_partitions.json'):
+        path = ROOT/manifest
+        if not path.is_file():
+            continue
+        for name in strings(read(path)):
+            if not name.startswith(('src/', 'include/')):
+                continue
+            names.add(name)
+            resolved = (ROOT/name).resolve()
+            if resolved.is_relative_to(ROOT):
+                names.add(rel(resolved))
+            if manifest.startswith('config/slus_') and name.startswith('src/'):
+                names.add(rel(slus_source(name, ROOT)))
+    return sorted(names)
+
+
 def bootstrap():
+    snapshot = content_cache.Snapshot(ROOT)
     marker = STATE/'bootstrap.json'
-    before = content_cache.hashes(ROOT, configure_inputs())
+    before = snapshot.hashes(configure_inputs())
     input_links = configure_links(views=False)
+    all_links = configure_links()
     previous = content_cache.load(marker)
-    if (previous.get('root') == str(ROOT) and previous.get('environment') == configure_environment()
-            and previous.get('links') == configure_links()
-            and previous.get('inputs') == before and previous.get('outputs')
+    valid = (previous.get('root') == str(ROOT) and previous.get('environment') == configure_environment()
+            and previous.get('links') == all_links and previous.get('outputs')
             and all(v is not None for v in previous['outputs'].values())
-            and content_cache.hashes(ROOT, previous['outputs']) == previous['outputs']):
+            and snapshot.hashes(previous['outputs']) == previous['outputs'])
+    if valid and previous.get('inputs') == before:
         print('Build views unchanged (content verified)', flush=True)
+        return
+    old = previous.get('inputs', {})
+    changed = {n for n in set(old) | set(before) if old.get(n) != before.get(n)}
+    sensitive = previous.get('source_sensitive')
+    if (valid and sensitive is not None and set(old) == set(before)
+            and all(old[n] is not None and before[n] is not None
+                    and n.startswith(('src/', 'include/')) and n not in sensitive for n in changed)):
+        # Every view output is current. The name/authority/link guards prove
+        # that these particular body edits cannot change bootstrap's outputs.
+        # Generate independently checks production recipe/module read sets.
+        if before != snapshot.hashes(before) or all_links != configure_links():
+            raise ValueError('bootstrap inputs changed during generation')
+        put(STATE/'setup.ok', dict(inputs_sha256=sha(json.dumps(before, sort_keys=True).encode())))
+        outputs = dict(previous['outputs'])
+        outputs['build/.state/setup.ok'] = sha((STATE/'setup.ok').read_bytes())
+        content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=all_links,
+                                       inputs=before, outputs=outputs, source_sensitive=sensitive))
+        print('Build views unchanged (source-only edit; content verified)', flush=True)
         return
     _bootstrap()
     outputs = content_cache.inventory(ROOT, ('build_ovl/tools', 'build_slus/config/generated', 'build_slus/asm', 'build_slus/assets'))
     outputs.update(['build_slus/build.ninja', 'build_slus/build/slus_006.14.ld', 'build/.state/setup.ok'])
-    after = content_cache.hashes(ROOT, configure_inputs())
+    after = snapshot.hashes(configure_inputs())
     # The module graph is a bootstrap output, included in the next input snapshot.
     graph_output = 'ledger/splits/overlay_modules.build.json'
     if {k:v for k,v in before.items() if k != graph_output} != {k:v for k,v in after.items() if k != graph_output}:
@@ -141,7 +209,8 @@ def bootstrap():
         raise ValueError('bootstrap input links changed during generation')
     put(STATE/'setup.ok', dict(inputs_sha256=sha(json.dumps(after, sort_keys=True).encode())))
     content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=configure_links(),
-                                    inputs=after, outputs=content_cache.hashes(ROOT, outputs)))
+                                    inputs=after, outputs=snapshot.hashes(outputs),
+                                    source_sensitive=bootstrap_source_inputs()))
 
 
 def _bootstrap():
@@ -266,7 +335,7 @@ def slus_rules(headers):
             deps += ['build/.state/compiletools.ok']
             import overlay_module_gate as M
             starts = [d for d in edge['explicit'] if d.endswith(('.c', '.s'))]
-            deps += ['build_slus/' + d for d in M.closure(ROOT/'build_slus', starts)]
+            deps += ['build_slus/' + d for d in include_closure(M, ROOT/'build_slus', starts)]
         if edge['rule'] == 'cc':
             cc += 1
         targets = ['build_slus/' + t for t in edge['outputs']]
@@ -545,55 +614,125 @@ def extend_placement_checks(images, recipes, row_plans, registry, modules, modul
     return checks
 
 
-def generate():
-    global GENERATION_WRITES
+def include_closure(module, root, starts):
+    return RECIPE_CACHE.closure(module, root, starts) if RECIPE_CACHE is not None else module.closure(root, starts)
+
+
+def checkpoint(key, produce, dependencies=None, copy_value=True):
+    return RECIPE_CACHE.memo(key, produce, dependencies, copy_value) if RECIPE_CACHE is not None else produce()
+
+
+@contextmanager
+def cached_selection(gate):
+    """Retain authoritative module validation until one of its reads changes."""
+    import overlay_module_gate as M
+    import overlay_module_placements as P
+    module_load, placement_load = M.load_modules, P.load
+    M.load_modules = lambda root=M.ROOT: checkpoint('modules', lambda: module_load(root)) if Path(root) == gate.ROOT else module_load(root)
+    P.load = lambda root, modules=None: checkpoint('placements', lambda: placement_load(root, modules)) if Path(root) == gate.ROOT else placement_load(root, modules)
+    try:
+        with linklist_snapshot(gate):
+            yield
+    finally:
+        M.load_modules, P.load = module_load, placement_load
+
+
+def generate(full=False):
+    global GENERATION_WRITES, RECIPE_CACHE
+    # Lazy producer imports must not create bytecode directories inside the
+    # observed read set. Source/configuration bytes remain the authority.
+    sys.dont_write_bytecode = True
+    snapshot = content_cache.Snapshot(ROOT)
     marker = STATE/'configure.json'
     previous = content_cache.load(marker)
-    names = configure_inputs(previous.get('inputs', ()))
+    before_inventory = set()
+    names = configure_inputs(previous.get('inputs', ()), before_inventory)
     names.add('build_slus/build.ninja')
-    before = content_cache.hashes(ROOT, names)
+    before = snapshot.hashes(names)
     input_links = configure_links()
-    if (previous.get('root') == str(ROOT) and previous.get('environment') == configure_environment()
-            and previous.get('links') == configure_links()
-            and previous.get('inputs') == before and previous.get('outputs')
-            and all(v is not None for v in previous['outputs'].values())
-            and content_cache.hashes(ROOT, previous['outputs']) == previous['outputs']):
+    observed_now = {n: RecipeCache.hash_at(ROOT, n) for n in previous.get('observed', {})}
+    context = dict(schema=1, root=str(ROOT), environment=configure_environment(), links=input_links)
+    compatible = (previous.get('root') == str(ROOT) and previous.get('environment') == context['environment']
+                  and previous.get('links') == input_links)
+    outputs_valid = (compatible and previous.get('outputs')
+                     and all(v is not None for v in previous['outputs'].values())
+                     and snapshot.hashes(previous['outputs']) == previous['outputs'])
+    if (not full and outputs_valid and previous.get('inputs') == before
+            and observed_now == previous.get('observed', {})):
         print('Make projection unchanged (inputs and generated bytes verified)', flush=True)
         return
     load_gate(ROOT)
     import overlay_module_gate as M
+    cache_path = STATE/'configure-cache.json.gz'
+    saved = load_recipe_cache(cache_path) if not full and outputs_valid and rel(cache_path) in previous['outputs'] else {}
+    RECIPE_CACHE = RecipeCache(ROOT, before, context, saved)
+    RECIPE_CACHE.digests.update(observed_now)
+    cache = RECIPE_CACHE
     GENERATION_WRITES = set()
     try:
         with M.closure_snapshot():
             _generate()
         outputs = GENERATION_WRITES
+        outputs.add(rel(cache_path))
+        print(f'Configure checkpoints: {RECIPE_CACHE.hits} reused, {RECIPE_CACHE.misses} regenerated', flush=True)
     finally:
         GENERATION_WRITES = None
-    if before != content_cache.hashes(ROOT, names) or input_links != configure_links():
+        RECIPE_CACHE = None
+    after_links = configure_links()
+    if before != snapshot.hashes(names) or input_links != after_links or not cache.extra_unchanged():
         raise ValueError('configure inputs changed during generation')
     index = read(STATE/'index.json')
-    for path in (STATE/'recipes').glob('*.json'):
-        source = read(path)['source']
-        if source.startswith('build/.state/'):
-            outputs.add(source)
-    names = configure_inputs(index['inputs']) | {'build_slus/build.ninja'}
-    content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=configure_links(),
-                                   inputs=content_cache.hashes(ROOT, names), outputs=content_cache.hashes(ROOT, outputs)))
+    # Projected sources and frozen evidence are replayed with write(), even on
+    # checkpoint hits. They are already in outputs; do not parse 8,859 recipes.
+    after_inventory = set()
+    names = configure_inputs(index['inputs'], after_inventory) | {'build_slus/build.ninja'}
+    if before_inventory != after_inventory:
+        raise ValueError('configure input inventory changed during generation')
+    final_inputs = {n: before[n] for n in names if n in before}
+    final_inputs.update(snapshot.hashes(names - set(before)))
+    # A cold tree discovers compiler/recipe inputs while enumerating. Bind the
+    # completed inventory now so its first later source edit can reuse it.
+    cache.guard = cache.guard_for(final_inputs, context)
+    write(cache_path, cache.blob())
+    content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=after_links,
+                                   inputs=final_inputs, outputs=snapshot.hashes(outputs),
+                                   observed={n:cache.digests[n] for n in cache.used if n not in final_inputs and n not in outputs}))
 
 
 def _generate():
     print('Reading link graph and live registry', flush=True)
-    graph = Graph(ROOT / 'config/link_graph')
+    def graph_model():
+        g = Graph(ROOT / 'config/link_graph')
+        return dict(manifest=g.manifest, files=g.files, tus=g.tus, entries=g.entries,
+                    docs=g.documents(validate=True))
+    from types import SimpleNamespace
+    model = checkpoint('graph', graph_model, copy_value=False)
+    graph = SimpleNamespace(**{k:v for k,v in model.items() if k != 'docs'})
     registry = {r['id']: r for r in map(json.loads, (ROOT/'ledger/rows.jsonl').read_text().splitlines())}
-    attestation = attest_graph(graph, registry)
+    # Source bytes do not choose a graph recipe/placement. Reuse the validated
+    # structure, then refresh EVERY live source/input digest from this snapshot.
+    attestation = checkpoint('attestation-model', lambda: attest_graph(graph, registry), lambda value: [])
+    if RECIPE_CACHE is not None:
+        attestation['inputs'] = {n: RECIPE_CACHE.digest(n) for n in graph.manifest.get('inputs', {})}
+        for tu in attestation['tus'].values():
+            tu['source_sha256'] = RECIPE_CACHE.digest(tu['source'])
     put(STATE/'graph_attestation.json', attestation)
-    docs = graph.documents(validate=True)
+    docs = model['docs']
     gate = load_gate(ROOT)
     import linklist
     import overlay_module_gate as M
     import overlay_module_placements as P
     import overlay_evidence as E
     recipes, row_plans, images = {}, {}, {}
+    capture = {}
+    replayed = {}
+    def replay(name, text):
+        if name in replayed:
+            if replayed[name] != text:
+                raise ValueError('conflicting configure artifact: '+name)
+            return
+        write(ROOT/name, text)
+        replayed[name] = text
     registered_extents = {(r['container'], r.get('foff'), r['size']): r for r in registry.values()}
     phase_cache = {}
     sdk = genuine_status()
@@ -635,7 +774,7 @@ def _generate():
         return {}
 
     print('Validating immutable home/module recipe tables', flush=True)
-    with immutable_selection(gate), linklist_snapshot(gate), E._gen_noreturn().scoped_census_snapshot():
+    with immutable_selection(gate), cached_selection(gate), E._gen_noreturn().scoped_census_snapshot():
         print('Selecting registered source rows', flush=True)
         modules = {m['key']: m for m in M.load_modules(gate.ROOT)}
         placements = P.load(gate.ROOT, list(modules.values()))
@@ -645,7 +784,12 @@ def _generate():
         for family, filename in CONTAINERS.items():
             sb = dict(matched_sources=[dict(name=family, results=f'overlays/{family}/overlay_first_pass_results.json',
                        source_dir=f'overlays/{family}/first_pass_matched', skip_rerun=True)])
-            matches[family], _ = gate.load_matches(sb, 0, graph.files[family]['size'], family=family)
+            def select():
+                import dataclasses
+                table, _ = gate.load_matches(sb, 0, graph.files[family]['size'], family=family)
+                return [dict(dataclasses.asdict(m), source=str(m.source)) for m in table.values()]
+            values = checkpoint('matches:'+family, select, copy_value=False)
+            matches[family] = {(v['start'], v['size']): gate.MatchEntry(**dict(v, source=Path(v['source']))) for v in values}
         old_run, old_rebind = gate.run, linklist.rebind_object
         gate.run, linklist.rebind_object = record, rebound
         try:
@@ -655,23 +799,36 @@ def _generate():
                 for (off, size), match in table.items():
                     if (family, off, size) in module_rows:
                         continue
-                    place = linklist.placement(gate.ROOT, family, off, row=family+'/'+match.source.stem) if match.source_kind == 'c' else None
-                    evidence_offset = linklist.evidence_foff(gate.ROOT, place) if place and place['row'] != place['home'] else off
-                    base_names = E._gen_noreturn().scoped_census(family, evidence_offset)['names'] if family in {'town','dungeon'} else E.load_noreturn_file(E.evidence_env(family).get('MASPSX_NORETURN_FILE', E.DEFAULT_NORETURN_FILE))
-                    capture = dict(live=dict(base_names=sorted(base_names))) if match.source_kind == 'c' else {}
-                    segment = gate.Segment(0, match.source_kind, off, off+size,
-                        match.link_vram or off, '.text.*', name=match.func, match=match)
-                    if match.source_kind == 'c':
-                        gate.compile_c_segments([segment], STATE / 'enumerate', env=E.evidence_env(family), overlay=family)
-                    else:
-                        gate.compile_asm_segments([segment], STATE / 'enumerate')
-                    row_plans[(family, off, size)] = dict(recipe=capture['key'], rebind=capture.get('rebind'),
-                        func=match.func, source_stem=match.source.stem,
-                        recipe_vma=match.link_vram, kind=match.source_kind)
+                    def enumerate_row():
+                        nonlocal capture
+                        place = linklist.placement(gate.ROOT, family, off, row=family+'/'+match.source.stem) if match.source_kind == 'c' else None
+                        evidence_offset = linklist.evidence_foff(gate.ROOT, place) if place and place['row'] != place['home'] else off
+                        base_names = E._gen_noreturn().scoped_census(family, evidence_offset)['names'] if family in {'town','dungeon'} else E.load_noreturn_file(E.evidence_env(family).get('MASPSX_NORETURN_FILE', E.DEFAULT_NORETURN_FILE))
+                        capture = dict(live=dict(base_names=sorted(base_names))) if match.source_kind == 'c' else {}
+                        segment = gate.Segment(0, match.source_kind, off, off+size,
+                            match.link_vram or off, '.text.*', name=match.func, match=match)
+                        if match.source_kind == 'c':
+                            gate.compile_c_segments([segment], STATE / 'enumerate', env=E.evidence_env(family), overlay=family)
+                        else:
+                            gate.compile_asm_segments([segment], STATE / 'enumerate')
+                        key = capture['key']
+                        spec = recipes[key]
+                        artifacts = {n: (ROOT/n).read_text() for n in spec['env'].values()}
+                        if spec.get('projection'):
+                            artifacts[spec['source']] = (ROOT/spec['source']).read_text()
+                        plan = dict(recipe=key, rebind=capture.get('rebind'), func=match.func,
+                                    source_stem=match.source.stem, recipe_vma=match.link_vram, kind=match.source_kind)
+                        return dict(key=key, spec=spec, plan=plan, artifacts=artifacts)
+                    cached = checkpoint(f'row:{family}:{off}:{size}', enumerate_row, copy_value=False)
+                    recipes.setdefault(cached['key'], dict(cached['spec']))
+                    for name, text in cached['artifacts'].items():
+                        replay(name, text)
+                    row_plans[(family, off, size)] = cached['plan']
         finally:
             gate.run, linklist.rebind_object = old_run, old_rebind
         module_jobs = {}
-        for key, m in modules.items():
+        def enumerate_module(key, m):
+            nonlocal capture
             capture = {}
             source = gate.ROOT / m['source']
             text = source.read_text() + '\n' + '\n'.join((gate.ROOT / a['source']).read_text() for a in m['members'])
@@ -690,61 +847,73 @@ def _generate():
             recipes[job]['module'] = m
             recipes[job]['assembler'] = sdk['mode']
             recipes[job]['declaration_context_sha256'] = sha(text.encode())
-            module_jobs[key] = job
-        for image in selected_images(docs) + ['main/main_bin', 'ovmovie/ovmovie_bin']:
-            family = image.split('/')[0]
-            doc = docs.get(image, dict(foff=0, size=graph.files[family]['size'], vma=None, entries=[]))
-            start, size = number(doc['foff']), number(doc['size'])
-            end = start + size
-            units, consumed = [], set()
-            # Native complete TUs supersede their row members, including separated allocations.
-            candidates = [(m, M.all_members(m), module_allocations(m, M), m['imports'])
-                          for m in modules.values() if m['container'] == family]
-            candidates += [(modules[p['module']], p['projected'],
-                p.get('allocations') or [dict(a, foff=a['foff'] + p['projected'][0]['foff'] - M.module_first(modules[p['module']])['foff'],
-                    vma=a['vma'] + p['projected'][0]['vma'] - M.module_first(modules[p['module']])['vma'])
-                    for a in module_allocations(modules[p['module']], M)], p['imports'])
-                for p in placements if p['container'] == family]
-            for m, members, allocations, imports in candidates:
-                if not all(start <= a['foff'] and a['foff'] + a['size'] <= end for a in allocations):
-                    continue
-                consumed.update((a['foff'], a['size']) for a in members)
-                units.append(dict(recipe=module_jobs[m['key']], allocations=allocations,
-                                  imports={a['symbol']: a['vma'] for a in imports}, module=m['key']))
-            # Follow the production MATCH selector inside each graph load extent.
-            for (off, nbytes), match in matches[family].items():
-                if not (start <= off and off+nbytes <= end) or (off, nbytes) in consumed:
-                    continue
-                plan = row_plans.get((family, off, nbytes))
-                if plan is None:
-                    raise ValueError('partial native TU in image: ' + image)
-                vma = plan['recipe_vma']
-                if vma is None:
-                    # MAIN has several file-to-RAM phases: use its registered window.
-                    registered = registered_extents.get((family, off, nbytes), {})
-                    phase = registered.get('gate_config')
-                    if not phase and family in {'main', 'ovmovie'}:
-                        phase = 'config/overlays/' + ('main_boot' if family == 'main' else 'ovmovie') + '.overlay.yaml'
-                    if doc['vma'] is not None:
-                        vma = number(doc['vma']) + off - start
-                    elif phase:
-                        if phase not in phase_cache:
-                            phase_cache[phase] = gate.load_yaml(ROOT/phase)['standalone_build']['window']
-                        w = phase_cache[phase]
-                        vma = number(w['vram_start']) + off - number(w['file_start'])
-                    elif doc['vma'] is not None:
-                        vma = number(doc['vma']) + off - start
-                    else:
-                        raise ValueError('source row has no registered load phase')
-                units.append(dict(plan, off=off, size=nbytes, vma=vma))
-            tag = image.replace('/', '_')
-            spec = dict(image=image, tag=tag, container='work/disc/containers/' + CONTAINERS[family],
-                        start=start, size=size, vma=None if doc['vma'] is None else number(doc['vma']),
-                        units=units, output='build/' + tag + '.bin', document=doc)
-            images[tag] = spec
-    outside = extend_checks(images, recipes, row_plans, registry, modules, module_jobs, docs, gate)
+            return dict(key=job, spec=recipes[job], artifacts={n:(ROOT/n).read_text() for n in recipes[job]['env'].values()})
+        for key, m in modules.items():
+            cached = checkpoint('module:'+key, lambda: enumerate_module(key, m), copy_value=False)
+            recipes[cached['key']] = dict(cached['spec'])
+            for name, text in cached['artifacts'].items():
+                replay(name, text)
+            module_jobs[key] = cached['key']
+        def compose_images():
+            images = {}
+            for image in selected_images(docs) + ['main/main_bin', 'ovmovie/ovmovie_bin']:
+                family = image.split('/')[0]
+                doc = docs.get(image, dict(foff=0, size=graph.files[family]['size'], vma=None, entries=[]))
+                start, size = number(doc['foff']), number(doc['size'])
+                end = start + size
+                units, consumed = [], set()
+                # Native complete TUs supersede their row members, including separated allocations.
+                candidates = [(m, M.all_members(m), module_allocations(m, M), m['imports'])
+                              for m in modules.values() if m['container'] == family]
+                candidates += [(modules[p['module']], p['projected'],
+                    p.get('allocations') or [dict(a, foff=a['foff'] + p['projected'][0]['foff'] - M.module_first(modules[p['module']])['foff'],
+                        vma=a['vma'] + p['projected'][0]['vma'] - M.module_first(modules[p['module']])['vma'])
+                        for a in module_allocations(modules[p['module']], M)], p['imports'])
+                    for p in placements if p['container'] == family]
+                for m, members, allocations, imports in candidates:
+                    if not all(start <= a['foff'] and a['foff'] + a['size'] <= end for a in allocations):
+                        continue
+                    consumed.update((a['foff'], a['size']) for a in members)
+                    units.append(dict(recipe=module_jobs[m['key']], allocations=allocations,
+                                      imports={a['symbol']: a['vma'] for a in imports}, module=m['key']))
+                # Follow the production MATCH selector inside each graph load extent.
+                for (off, nbytes), match in matches[family].items():
+                    if not (start <= off and off+nbytes <= end) or (off, nbytes) in consumed:
+                        continue
+                    plan = row_plans.get((family, off, nbytes))
+                    if plan is None:
+                        raise ValueError('partial native TU in image: ' + image)
+                    vma = plan['recipe_vma']
+                    if vma is None:
+                        # MAIN has several file-to-RAM phases: use its registered window.
+                        registered = registered_extents.get((family, off, nbytes), {})
+                        phase = registered.get('gate_config')
+                        if not phase and family in {'main', 'ovmovie'}:
+                            phase = 'config/overlays/' + ('main_boot' if family == 'main' else 'ovmovie') + '.overlay.yaml'
+                        if doc['vma'] is not None:
+                            vma = number(doc['vma']) + off - start
+                        elif phase:
+                            if phase not in phase_cache:
+                                phase_cache[phase] = gate.load_yaml(ROOT/phase)['standalone_build']['window']
+                            w = phase_cache[phase]
+                            vma = number(w['vram_start']) + off - number(w['file_start'])
+                        elif doc['vma'] is not None:
+                            vma = number(doc['vma']) + off - start
+                        else:
+                            raise ValueError('source row has no registered load phase')
+                    units.append(dict(plan, off=off, size=nbytes, vma=vma))
+                tag = image.replace('/', '_')
+                spec = dict(image=image, tag=tag, container='work/disc/containers/' + CONTAINERS[family],
+                            start=start, size=size, vma=None if doc['vma'] is None else number(doc['vma']),
+                            units=units, output='build/' + tag + '.bin', document=doc)
+                images[tag] = spec
+            outside = extend_checks(images, recipes, row_plans, registry, modules, module_jobs, docs, gate)
+            placement_checks = extend_placement_checks(images, recipes, row_plans, registry, modules, module_jobs, placements, gate)
+            return dict(images=list(images.items()), outside=outside, placement_checks=placement_checks)
+        layout_key = sha(json.dumps([[list(k),v] for k,v in row_plans.items()] + [module_jobs], sort_keys=True).encode())
+        layout = checkpoint('images:'+layout_key, compose_images, lambda value: [], copy_value=False)
+        images, outside, placement_checks = dict(layout['images']), layout['outside'], layout['placement_checks']
     put(STATE/'outside_recipes.json', outside)
-    placement_checks = extend_placement_checks(images, recipes, row_plans, registry, modules, module_jobs, placements, gate)
     put(STATE/'placement_checks.json', placement_checks)
     put(STATE/'row_plans.json', [dict(container=f, off=o, size=n, **v) for (f,o,n),v in row_plans.items()])
     # Keep the full header/pipeline stamps as independently checked witnesses;
@@ -774,8 +943,7 @@ def _generate():
                         'python3 tools/build/mkbuild.py stamp '+kind))
     sr, slus_cc = slus_rules(headers)
     out += sr
-    for key, spec in recipes.items():
-        path = STATE/'recipes'/(key+'.json')
+    def emit_recipe(key, spec, path):
         # A projected unit is rewritten by every configure; its real inputs are the owner TU and the
         # inline ledger (added below), and compile_one re-derives it, so it is not a make prerequisite.
         unit = [] if spec.get('projection') else [spec['source']]
@@ -789,17 +957,30 @@ def _generate():
         if spec.get('projection'):
             deps += [spec['projection']['owner'], 'ledger/layout_inline.jsonl']
         starts = [spec['source']] + ([a['source'] for a in spec['module']['members']] if 'module' in spec else [])
-        deps += [n for n in M.closure(ROOT, starts) if (ROOT/n).is_file() and n not in unit_exclude]
+        deps += [n for n in include_closure(M, ROOT, starts) if (ROOT/n).is_file() and n not in unit_exclude]
         if spec['args']:
             deps += ['toolchain/compilers/gcc-' + spec['args'][0] + '/' + tool for tool in ('gcc','cc1','cpp')]
         spec['dependencies'] = sorted(set(deps))
         put(path, spec)
-        out.append(rule([spec['output']], deps, f'python3 tools/build/mkbuild.py compile {rel(path)}'))
-    for tag, spec in images.items():
-        path = STATE/'images'/(tag+'.json')
+        return dict(dependencies=spec['dependencies'], rule=rule([spec['output']], deps, f'python3 tools/build/mkbuild.py compile {rel(path)}'))
+    for key, spec in recipes.items():
+        path = STATE/'recipes'/(key+'.json')
+        emitted = checkpoint('emit-recipe:'+key+':'+spec['declaration_context_sha256'],
+                             lambda: emit_recipe(key, spec, path),
+                             lambda value: [ROOT/n for n in value['dependencies'] if n != rel(path) and not n.startswith('build/.state/')],
+                             copy_value=False)
+        spec['dependencies'] = emitted['dependencies']
+        GENERATION_WRITES.add(rel(path))
+        out.append(emitted['rule'])
+    def emit_image(tag, spec, path):
         put(path, spec)
         deps = [rel(path), spec['container'], 'build/.state/linktools.ok', 'build/.state/linkinputs.ok'] + [recipes[u['recipe']]['output'] for u in spec['units']]
-        out.append(rule([spec['output']], deps, f'python3 tools/build/mkbuild.py image {rel(path)}'))
+        return rule([spec['output']], deps, f'python3 tools/build/mkbuild.py image {rel(path)}')
+    for tag, spec in images.items():
+        path = STATE/'images'/(tag+'.json')
+        fragment = checkpoint('emit-image:'+layout_key+':'+tag, lambda: emit_image(tag, spec, path), lambda value: [], copy_value=False)
+        GENERATION_WRITES.add(rel(path))
+        out.append(fragment)
     outputs = ['build/slus_slus_bin.bin'] + [s['output'] for s in images.values()]
     out += ['.PHONY: images\nimages: ' + ' '.join(outputs + [r['output'] for r in recipes.values()] +
             ['build/.state/'+kind+'.ok' for kind, _ in stamp_inputs]) + '\n']
@@ -1234,7 +1415,12 @@ def main():
     if args.action in ('compile', 'image', 'stamp'):
         {'compile': compile_one, 'image': image_one, 'stamp': write_stamp}[args.action](args.spec)
     else:
-        {'bootstrap': bootstrap, 'generate': generate, 'check': check, 'slus': slus_copy, 'slus_script': slus_script}[args.action]()
+        if args.action == 'generate':
+            if args.spec not in (None, 'full'):
+                parser.error('generate accepts only the optional full selector')
+            generate(full=args.spec == 'full')
+        else:
+            {'bootstrap': bootstrap, 'check': check, 'slus': slus_copy, 'slus_script': slus_script}[args.action]()
 
 
 if __name__ == '__main__':

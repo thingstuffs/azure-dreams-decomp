@@ -13,6 +13,9 @@ from unittest.mock import patch
 
 from tools.build import mkbuild as B
 
+# Keep scoped configure's guards in the existing lander's required unit suite.
+from tools.tests.test_recipe_cache import ScopedConfigureTests, ScopedBootstrapTests, InputSnapshotTests
+
 
 class NinjaProjectionTests(unittest.TestCase):
     def test_pinned_recipe_commands_are_ninjas_commands(self):
