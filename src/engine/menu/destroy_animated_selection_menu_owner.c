@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "engine/menu.h"
 #include "engine/runtime.h"
 
@@ -18,5 +19,5 @@ void destroy_animated_selection_menu_owner(void *object)
 
     destroy_animated_selection_menu(data_slot->field_04);
     *flags |= 0x8000;
-    D_800814A0 |= 0x8000;
+    D_800814A0 |= OBJECT_REMOVE_PENDING;
 }

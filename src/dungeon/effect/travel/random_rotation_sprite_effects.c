@@ -1,5 +1,6 @@
 /* Launched tile effects, randomized rotating particles, and actor creation at the destination. */
 #include "dungeon/effect/travel/random_rotation_sprite_effects.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_18b8824_entry)(void) = (void (*)(void))advance_launched_effect;
 
@@ -24,8 +25,8 @@ void interpolate_view_parameters(void *state, void *motion, void *transform)
     *(u16 *)((s8 *)state + 0x10) = tick_count;
     if (*(s16 *)((s8 *)state + 0x12) < (s16)tick_count) {
         *(u16 *)((s8 *)state - 2) =
-            (u16)(*(u16 *)((s8 *)state - 2) | 0x8000);
-        object_flag_block.flags |= 0x8000;
+            (u16)(*(u16 *)((s8 *)state - 2) | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -74,8 +75,8 @@ void handle_increment_entry_counters_process_target_propagate_status_flags(void 
     *(u16 *)((u8 *)entry + 4) += 1;
     advance_sprite_animation_and_textures(target);
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)entry - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)entry - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -190,8 +191,8 @@ void mark_owner_on_target_completion(void *object_ref, s32 unused, void *target)
     *(u16 *)(object + 0x14) += 1;
     advance_sprite_animation_and_textures(target);
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)object_ref - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)object_ref - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -480,7 +481,7 @@ void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b882
         }
         g_dungeon_status.active_actor = 0;
         ovl_18b8824_81898EBC_U16_AT(state, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     case 6:

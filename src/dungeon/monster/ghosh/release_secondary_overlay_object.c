@@ -14,6 +14,6 @@ void release_secondary_overlay_object(void) {
         detach_record_and_update_slot_state(entryData);
         *(u16 *)((u8 *)entryData - 2) |= 0x8000;
         D_80174CE0[0] = 0;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

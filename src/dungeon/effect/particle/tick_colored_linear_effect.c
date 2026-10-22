@@ -47,6 +47,6 @@ void tick_colored_linear_effect(void *effect, S_801654F0_0 *motion)
     ((S_801654F0_1 *)effect)->unk_08 = ((S_801654F0_1 *)effect)->unk_04.at00u.v;
     if ((life_left << 0x10) <= 0) {
         ((S_801654F0_1_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
@@ -86,7 +87,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80FB7000_0 *)obj)->unk_10 = D_8016AB40;
-        ((S_80FB7000_1 *)work)->unk_13 = 0x27;
+        ((S_80FB7000_1 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);
 
         pin_part_a = ((S_80FB7000_0 *)obj)->unk_08;

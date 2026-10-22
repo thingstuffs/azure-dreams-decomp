@@ -380,8 +380,8 @@ void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *pr
             (((S_800C5A64_1 *)effect)->unk_1C == 0)) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "shared/object_node.h"
@@ -528,7 +528,7 @@ void advance_effect_motion_and_fade(void *effect_data, S_800C5D80_0 *motion, Spr
         }
         ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800C5D80_2 *)((u8 *)effect_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -937,8 +937,8 @@ L_zero:
                     }
                     detach_record_and_update_slot_state(o);
                     unlink_entity_node(o);
-                    *(u16 *)(o - 2) |= 0x8000;
-                    object_flag_block.flags |= 0x8000;
+                    *(u16 *)(o - 2) |= NODE_REMOVE;
+                    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 }
             }
             e = *(u8 **)(e + 92) + 32;
@@ -1043,8 +1043,8 @@ L_zero:
     current_dungeon_floor = *(u16 *)(o + 0x234);
     request_scene_dispatch_state(ch);
     mark_sprite_resources_for_purge();
-    *(u16 *)(w - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)(w - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 #include "common.h"
 #include "shared/object_node.h"

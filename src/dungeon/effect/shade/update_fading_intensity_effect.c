@@ -25,8 +25,8 @@ void update_fading_intensity_effect(Obj *obj)
     timer = obj->timer;
 
     if (timer >= 0x30) {
-        *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)obj - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

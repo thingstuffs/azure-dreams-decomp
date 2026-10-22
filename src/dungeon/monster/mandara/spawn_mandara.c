@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
@@ -86,7 +87,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80FC9000_0 *)obj)->unk_10 = D_80158B40;
-        ((S_80FC9000_1 *)work)->unk_13 = 0x27;
+        ((S_80FC9000_1 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);
 
         pin_part_a = ((S_80FC9000_0 *)obj)->unk_08;

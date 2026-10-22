@@ -199,8 +199,8 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteReco
         break;
 
     case 0xfff:
-        ((u16 *)state)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)state)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     }

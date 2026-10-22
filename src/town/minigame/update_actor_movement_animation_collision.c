@@ -281,8 +281,8 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
                 *actor->ptr98 = 0;
             }
             unlink_node_if_registered(actor);
-            *(u16 *)((u8 *)actor - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
 

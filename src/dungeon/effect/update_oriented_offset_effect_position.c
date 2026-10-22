@@ -73,13 +73,13 @@ void update_oriented_offset_effect_position(void *state, MovingPosition *positio
             ((S_800B328C_0 *)state)->unk_8C = 1;
         }
     } else if (((S_800B328C_0 *)state)->unk_8C != 0) {
-        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     if (ticks_left = ((S_800B328C_0 *)state)->unk_8E - 1, ((S_800B328C_0 *)state)->unk_8E = ticks_left,
         ((s16) ticks_left < 0)) {
-        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "m2c_compat.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -288,7 +289,7 @@ block_37:
             advance_actor_movement_step(actor, context, sprite, (u8 *)(entity));
             return;
         }
-        if (!(entity->action_flags & 0x8000)) {
+        if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity, (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) << 0x10) != 0) {
                     return;
@@ -298,7 +299,7 @@ block_37:
                 advance_actor_effect_sequence_2(actor, context, sprite);
                 entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
                 update_actor_status_and_mp(entity);
-                entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+                entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
                 return;
             }
             if ((resolve_actor_movement_action(actor, (s32)(context), (s32)(sprite), 0) << 0x10) == 0) {
@@ -311,7 +312,7 @@ block_37:
                 return;
             }
         }
-        action_id = entity->action_flags & 0x3FFF;
+        action_id = entity->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_id) {
         case 8:
             if ((try_actor_attack(actor, (s32)(context), sprite, entity) << 0x10) != 0) {

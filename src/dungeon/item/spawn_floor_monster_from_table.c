@@ -117,8 +117,8 @@ void spawn_floor_monster_from_table(s32 spawn_mode) {
             update_map_cell_flags_with_item_limit(owner[0x24], owner[0x25], 0x3000);
             detach_record_and_update_slot_state(monster);
             unlink_entity_node(monster);
-            *(u16 *)((u8 *)monster - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)monster - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
 

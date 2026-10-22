@@ -44,7 +44,7 @@ void update_reverse_rotating_clipped_sprite(void *effect, s32 unused, void *rota
     ticks_left = *(u16 *)((u8 *)effect + 0x18) - 1;
     *(u16 *)((u8 *)effect + 0x18) = ticks_left;
     if ((s16)ticks_left <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

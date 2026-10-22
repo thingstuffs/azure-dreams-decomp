@@ -51,6 +51,6 @@ void advance_effect_counters_motion_rotation_flag_expiry_timer_exceeds_limit(voi
 
     if (((S_818BDCE0_0 *)effect)->unk_10.u > ((S_818BDCE0_0 *)effect)->unk_14) {
         ((S_818BDCE0_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

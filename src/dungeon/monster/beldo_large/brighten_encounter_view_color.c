@@ -16,5 +16,5 @@ s32 brighten_encounter_view_color(u16 *dataCursor)
     }
 
     dataCursor[-1] |= 0x8000;
-    return object_flag_block.flags |= 0x8000;
+    return object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

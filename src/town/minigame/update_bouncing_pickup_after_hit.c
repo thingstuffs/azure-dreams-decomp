@@ -180,7 +180,7 @@ void update_bouncing_pickup_after_hit(void *object, void *motion, void *sprite)
 
     case 255:
         unlink_scene_list_node((u8 *)object + 8);
-        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

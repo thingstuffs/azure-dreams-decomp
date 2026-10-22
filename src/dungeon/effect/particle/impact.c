@@ -325,7 +325,7 @@ void scale_effect_by_phase(void *effect)
         node->unk_1E = 0x1000U;
         node->unk_1C = 0x1000U;
         ((S_80024398_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -474,8 +474,8 @@ void advance_effect_motion_and_animation(void *effect, void *position, void *vis
     frames_left = *(u16 *)((u8 *)effect + 0x28) - 1;
     *(u16 *)((u8 *)effect + 0x28) = frames_left;
     if ((frames_left << 0x10) <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -658,8 +658,8 @@ void shrink_effect_and_spawn_particles(void *effect, void *origin)
         completion_state = ((s32)dungeon_actor_ring_anchor);
         ((S_800247C0_7 *)effect_state)->unk_64 = -1;
         ((S_800247C0_7 *)effect_state)->unk_60 = completion_state;
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -1072,8 +1072,8 @@ void advance_rotating_ballistic_particle_and_expire(void *state, void *position,
     if ((end_flag != 0) || (ticks_left = *(u16 *)((u8 *)state + 0x28) - 1,
                             *(u16 *)((u8 *)state + 0x28) = ticks_left,
                             ((ticks_left << 16) <= 0))) {
-        *(u16 *)((u8 *)state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -1607,16 +1607,16 @@ void update_owner_following_effect(void *effect_in, void *position_in, void *vis
             if (next_tick >= 0x28) {
                 D_8002992C = 0;
                 D_80028630 = 0;
-                U16_AT(effect_in, -2) |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                U16_AT(effect_in, -2) |= NODE_REMOVE;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }
             break;
         }
     } else {
         if (U16_AT(owner, 0x1E) & 0x8000) {
-            U16_AT(effect_in, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            U16_AT(effect_in, -2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         owner_pos = PTR_AT(owner, 8);
@@ -1994,8 +1994,8 @@ void update_effect_motion_and_visual(void *effect, void *position, void *visual)
     ticks_left = *(u16 *)((u8 *)effect + 0x28) - 1;
     *(u16 *)((u8 *)effect + 0x28) = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -2337,8 +2337,8 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
                 ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
         }
         reference_tile_object.unk_006 = 0;
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

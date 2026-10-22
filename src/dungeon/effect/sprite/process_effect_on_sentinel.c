@@ -19,8 +19,8 @@ extern void advance_sprite_animation_and_textures(void *target);
 void process_effect_on_sentinel(S_800D2200_a0 *record, s32 unused, void *target)
 {
     if (record->pad[0x9B] == 0xFF) {
-        *(u16 *)((u8 *)record - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)record - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     advance_sprite_animation_and_textures(target);
 }

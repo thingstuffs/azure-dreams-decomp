@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -77,7 +78,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
     switch (action_state) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            flagged_action = actor->action_flags & 0x3FFF;
+            flagged_action = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (flagged_action) {
             case 7:
                 target_mode = 1;
@@ -102,7 +103,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
                 break;
             }
         } else {
-            action_kind = actor->action_flags & 0x3FFF;
+            action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_kind) {
             case 3:
                 action_slot = (u8 *)actor + 0xE;
@@ -171,7 +172,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
         ((S_8016C190_0 *)action)->unk_8C = D_8016A36C;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -254,7 +255,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
         (*(u8 *)&actor->pending_turn_updates)--;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
         return;
 

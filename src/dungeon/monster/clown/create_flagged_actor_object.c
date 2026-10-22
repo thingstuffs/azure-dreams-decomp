@@ -1,4 +1,5 @@
 #include "dungeon/monster/clown/create_flagged_actor_object.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 
 /* Creates a Clown actor at the supplied tile and height, then initializes mode flags, status, and
@@ -25,7 +26,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
     if (object != 0) {
         state = object + 0x20;
         ((S_8016A878_0 *)object)->unk_10 = D_8016AA58;
-        state->unk_13 = 0x10;
+        state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         object_data = ((S_8016A878_0 *)object)->unk_08;
         object_data->unk_0A = saved_id;

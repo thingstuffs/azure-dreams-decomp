@@ -64,8 +64,8 @@ void update_timed_color_transition_effect(u8 *effect_state, s32 unused, u8 *rend
             U8_AT(render_data, 0xC) = U8_AT(render_data, 0xD) =
                 U8_AT(render_data, 0xE) += -U8_AT(render_data, 0xE) / U8_AT(render_data, 0xF);
         } else {
-            U16_AT(effect_state, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            U16_AT(effect_state, -2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             retire_tracked_effect_by_id(effect_state - 0x20);
         }
         break;

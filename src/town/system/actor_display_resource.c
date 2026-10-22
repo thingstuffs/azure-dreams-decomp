@@ -57,7 +57,7 @@ void *create_item_menu_child_object(s32 init_value)
         release_null_terminated_entries((u16 **)((u8 *)object + 0xCC));
         *(u16 *)((u8 *)object + 0x1E) |= 0x8000;
         object = 0;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     return object;
 }

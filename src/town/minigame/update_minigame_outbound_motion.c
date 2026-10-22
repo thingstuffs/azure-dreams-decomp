@@ -51,8 +51,8 @@ void update_minigame_outbound_motion(void *object)
     ((S_800232F4_0 *)obj)->unk_16 += ((S_800232F4_0 *)obj)->unk_02.s;
     ((S_800232F4_0 *)obj)->unk_16 += ((S_800232F4_0 *)obj)->unk_02.s >> 2;
     if ((u16)(((S_800232F4_0 *)obj)->unk_16 + 8) >= 249) {
-        (*(u16 *)((u8 *)obj + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)obj + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
         break;
     }

@@ -171,8 +171,8 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
     }
     case 2:
     if ((s16)timer < 0) {
-        (*(u16 *)((u8 *)self + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)self + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     return;

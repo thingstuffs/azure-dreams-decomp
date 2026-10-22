@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -161,8 +162,8 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
 
     actor_flags = ((ActorRecord *)actor)->flags1C;
     if (actor_flags & 0x2000) {
-        if (((ActorRecord *)actor)->action_flags & 0x8000) {
-            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+        if (((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) {
+            ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
     } else {
         if (!(actor_flags & 0x410)) {

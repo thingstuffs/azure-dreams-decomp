@@ -52,7 +52,7 @@ void update_ramping_color_effect(void *effect) {
     phase = ((S_818BC888_0 *)effect)->unk_04.s16;
     if (phase >= 0x40) {
         ((S_818BC888_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     if (phase < 0x10) {

@@ -29,7 +29,7 @@ void render_textured_effect_parts(void *record_data, void *unused, void *update_
     if (((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 <= 0) {
         ((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 =
             (u16)(((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -209,11 +209,11 @@ void create_radial_height_offset_effect(MotionState *state, s32 *sum, UpdateFlag
 
     if ((s16) state->frames_left <= 0) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (flags->flags & 0x8000) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -242,8 +242,8 @@ void advance_scattered_directional_particle(void *object_data, s16 *position)
     speed = (u16)object[25] - 8;
     object[25] = speed;
     if ((speed << 16) <= 0) {
-        ((u16 *)object)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)object)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -339,12 +339,12 @@ void cycle_moving_effect_phase(void *object, S_8181B078_1 *position, S_8181B078_
 
     if (((S_8181B078_0 *)object)->unk_02.u <= 0) {
         ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (source->unk_14 & 0x8000) {
         ((S_8181B078_0_pre *)object)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -396,12 +396,12 @@ void grow_timed_sprite_effect(void *state_data, s32 unused, void *target) {
             (s16)*(u16 *)(state + 2) * 204;
     }
     if ((s16)*(u16 *)(state + 2) >= 120) {
-        *(u16 *)(state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (*(u16 *)((u8 *)target + 0x14) & 0x8000) {
-        *(u16 *)(state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

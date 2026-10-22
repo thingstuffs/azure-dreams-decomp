@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
@@ -100,7 +101,7 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
 
         work = (u8 *)created + 0x20;
         (*(Callback *)((u8 *)created + 0x10)) = func_80170B40;
-        ((S_80FB1000_0 *)work)->unk_13 = 0x27;
+        ((S_80FB1000_0 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
         position = (*(u8 * *)((u8 *)created + 8));

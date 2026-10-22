@@ -111,7 +111,7 @@ void update_rotating_effect_fade(void *effect, void *motion, void *rotation)
 
 
     if (frames_test <= 0) {
-        U16_AT(effect, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        U16_AT(effect, -2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

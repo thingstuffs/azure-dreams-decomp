@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -75,7 +76,7 @@ void *create_masked_effect_node(s16 mask, s16 value_24, s16 value_25, s16 value_
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80F9F000_0 *)obj)->unk_10 = D_80158A70;
-        ((S_80F9F000_1 *)work)->unk_13 = 0x26;
+        ((S_80F9F000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80F9F000_0 *)obj)->unk_08;

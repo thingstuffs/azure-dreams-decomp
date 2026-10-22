@@ -136,8 +136,8 @@ void func_80024020(EventState *event) {
                 g_dungeon_status.active_actor = 0;
                 g_dungeon_status.activity_counts.parts.pending_action_count--;
             }
-            *(u16 *)((u8 *)event - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)event - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
     if (event->mode20 < 0) {
@@ -255,7 +255,7 @@ void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819AC
         packed_value->unk_0C.u32 += 0xFFEFEFF0;
         if (packed_value->unk_0C.u8 == 0) {
             ((S_819ACB28_0_pre *)object)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -485,8 +485,8 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
         return;
     }
 
-    (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
 #include "modules/dungeon_ovl_19cc800.h"
@@ -636,7 +636,7 @@ void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *posit
     motion->speed = next_speed;
     if ((next_speed << 16) <= 0) {
         ((ObjectNodeHeader *)motion - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -733,7 +733,7 @@ void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPositi
     D_80027452[0]++;
     if (owner_done != 0) {
         ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     render->color = ((SpriteFrameState *)owner->unk_0C)->color.word;
@@ -986,8 +986,8 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
             ((S_819AD81C_0 *)entity)->unk_30 = fade_left_out;
             if ((fade_left_out << 0x10) <= 0) {
                 ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = 0;
-                (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | 0x8000);
-                object_flag_block.flags |= 0x8000;
+                (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | NODE_REMOVE);
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
             if (((S_819AD81C_0 *)entity)->unk_2C.s >= 3) {
@@ -1080,8 +1080,8 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
     } else {
         attached = (void *) ((s32) link | 0x80000000);
         if (((S_819AD81C_5 *)attached)->unk_1E & 0x8000) {
-            (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         link = ((S_819AD81C_5 *)attached)->unk_08;
@@ -1657,8 +1657,8 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
     ticks_left = ((Rec_func_80025D28_arg0 *)state)->unk_30 - 1;
     ((Rec_func_80025D28_arg0 *)state)->unk_30 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     ((Rec_func_80025D28_arg0 *)state)->unk_34 = ((Rec_func_80025D28_arg0 *)state)->unk_34 + 1;
 }
@@ -1775,7 +1775,7 @@ void fade_effect_color_to_black(void *record, s32 unused, EffectColor *color) {
 
     if (color->red < 4) {
         ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

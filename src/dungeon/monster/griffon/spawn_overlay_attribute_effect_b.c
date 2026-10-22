@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -69,7 +70,7 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015887C_0 *)obj)->unk_10 = D_80158A50;
-        work->unk_13 = 0x8;
+        work->unk_13 = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_8015887C_0 *)obj)->unk_08;

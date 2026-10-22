@@ -247,7 +247,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         removed_object = ((S_8009345C_2 *)context)->unk_60;
         ((S_8009345C_5_pre *)removed_object)[-1].unk_00 = (u16) (((S_8009345C_5_pre *)removed_object)[-1].unk_00
             | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         if (selected_item_record_alias[0] == NULL) {
             ((S_8009345C_0 *)actor)->wait_ticks = 0U;
             next_state = ((S_8009345C_0 *)actor)->phase + 4;

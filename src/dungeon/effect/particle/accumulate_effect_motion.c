@@ -74,10 +74,10 @@ void accumulate_effect_motion(State *state, s32 *sum, Flags *flags) {
 
     if ((s16) state->unk02 <= 0) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
     if (flags->unk14 & 0x8000) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

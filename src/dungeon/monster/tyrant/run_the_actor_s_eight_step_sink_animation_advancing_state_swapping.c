@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -117,7 +118,7 @@ void run_the_actor_s_eight_step_sink_animation_advancing_state_swapping(S_80173C
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         advance_status_timers(actor);
         actor->pending_turn_updates = 0;
-        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
+        actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         work->unk_8C = &D_80170F68;
         work->unk_98 = (u16) (work->unk_98 | 0x8000);
         work->unk_AE = (s16) ((generate_random_value() & 7) + 8);

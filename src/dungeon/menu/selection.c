@@ -1,5 +1,6 @@
 /* Selection menu input, widget descriptors, child allocation, and text-content checks. */
 #include "dungeon/menu/selection.h"
+#include "shared/object_flags.h"
 
 
 void set_indexed_object_field(ovl_1831370_81811370_S_80026370_0 *object, s32 index) {
@@ -243,7 +244,7 @@ void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 co
             flag_object_for_removal(*(s32 *)(state + 0x74));
             *(u16 *)(object + 0x1E) |= 0x8000;
             object = 0;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
     return object;
@@ -268,7 +269,7 @@ void cleanup_object_resources(ovl_1831370_81811B94_CleanupObject *object)
         release_object_handle(cleanup->field_70);
         flag_object_for_removal(cleanup->field_74);
         object->flags |= 0x8000;
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }
 

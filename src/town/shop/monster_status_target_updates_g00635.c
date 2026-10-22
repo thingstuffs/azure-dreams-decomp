@@ -1,6 +1,7 @@
 /* Release handled entries and change the monster status target (G00635). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B93B0, CL:town/func_800B97F4. */
 #include "town/shop/monster_status_target_updates_g00635.h"
+#include "shared/object_flags.h"
 
 /* Processes 24 entries by type and clears the handle and type of handled entries. */
 void process_handled_entry_types(void **entries) {
@@ -35,7 +36,7 @@ void process_object_pointer_array(S_800B9464_a0 *object)
         process_handled_entry_types((void **)objectState->unk98);
         release_monster_status_request_handles(objectState);
         object->field_1E |= 0x8000;
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }
 

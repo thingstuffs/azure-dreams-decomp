@@ -1,4 +1,5 @@
 #include "shared/dungeon_item_entries.h"
+#include "shared/item_ids.h"
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -90,9 +91,9 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
         for (; slot_index < 0x40; slot_index++) {
             slot_state = (u8 *)dungeon_ground_items + slot_index * 4;
             if (slot_state[1] != 0) {
-                slot_state[1] = 0xE;
-                slot_state[0] = 3;
-                *(s32 *)(slot_data + 8) = lookup_item_category_mapped_value(0xE, 3);
+                slot_state[1] = ITEM_KIND_COIN;
+                slot_state[0] = ITEM_GOLD_COIN;
+                *(s32 *)(slot_data + 8) = lookup_item_category_mapped_value(ITEM_KIND_COIN, ITEM_GOLD_COIN);
                 slot_state[2] = random_dungeon_range_16(0x10, 0x18);
                 slot_state[3] = 1;
             }

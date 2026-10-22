@@ -33,8 +33,8 @@ void blend_effect_channels_to_gray(u8 *task, void *context, u8 *input)
         frames_left = *(u16 *)(task + 0x96) - 1;
         *(s16 *)(task + 0x96) = frames_left;
         if (frames_left <= 0) {
-            *(u16 *)(task - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)(task - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

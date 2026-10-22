@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
@@ -99,8 +100,8 @@ void complete_actor_arc_movement(S_80172290_0 *animation, ObjectPosition *motion
 
         entity_flags = entity->flags1C;
         if (entity_flags & 0x2000) {
-            if (entity->action_flags & 0x8000) {
-                entity->action_flags &= 0x7FFF;
+            if (entity->action_flags & ACTOR_ACTION_PENDING) {
+                entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             }
         } else if (!(entity_flags & 0x410)) {
             if (entity_flags & 0x20000) {

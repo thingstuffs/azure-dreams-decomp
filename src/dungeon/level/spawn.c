@@ -1,5 +1,6 @@
 /* Floor item selection and placement, saved monster restoration, traps, and floor label sprites. */
 #include "dungeon/level/spawn.h"
+#include "shared/item_ids.h"
 #include "shared/sprite_frame_state.h"
 
 s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)
@@ -8,7 +9,7 @@ s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)
 
     for (slot = 0; slot < 64; slot++) {
         if ((excluded_slot != slot) &&
-            (dungeon_ground_items[slot].kind != 0) &&
+            (dungeon_ground_items[slot].kind != ITEM_KIND_NONE) &&
             (((floor_spawns_isolated_8028B110_DungeonPosition *)dungeon_ground_item_positions)[slot].x == x) &&
             (((floor_spawns_isolated_8028B110_DungeonPosition *)dungeon_ground_item_positions)[slot].y == y)) {
             return 1;
@@ -115,7 +116,7 @@ void populate_floor_item_records(void)
     item_state = (DungeonItemEntry *)((u8 *)dungeon_ground_items);
     item_record = (floor_spawns_isolated_8028B18C_DungeonRecord *)((u8 *)dungeon_ground_item_positions);
 main_loop:
-    if (item_state->kind == 0) {
+    if (item_state->kind == ITEM_KIND_NONE) {
         if (count >= slot_limit) {
             goto cleanup;
         }
@@ -161,7 +162,7 @@ main_loop:
             } while ((s16)select_dungeon_spawn_tile(&tile_x, &tile_y) < 0);
 
             if (is_floor_item_tile_occupied(count, tile_x, tile_y) != 0) {
-                item_state->kind = 0;
+                item_state->kind = ITEM_KIND_NONE;
             } else {
                 item_record->x = tile_x;
                 item_record->y = tile_y;
@@ -198,7 +199,7 @@ cleanup:
         cleanup_base = (DungeonItemEntry *)((u8 *)dungeon_ground_items);
         cleanup_state = cleanup_base + count;
 cleanup_loop:
-            cleanup_state->kind = 0;
+            cleanup_state->kind = ITEM_KIND_NONE;
             (cleanup_state++)->unk_00 = 0;
             count++;
         if (count < 0x40) {
@@ -539,18 +540,18 @@ void generate_random_dungeon_item_drops(void)
         if (budget >= 301) {
             decrement = (u16)random_dungeon_range_16(160, 240);
             flag = 1;
-            type = 3;
+            type = ITEM_GOLD_COIN;
             amount = (decrement / 10 + (decrement >> 31)) & 0x3FFFFFFF;
         } else if (budget >= 151) {
             decrement = (u16)random_dungeon_range_16(80, 120);
             amount = decrement;
             flag = 0;
-            type = 2;
+            type = ITEM_SILVER_COIN;
         } else {
             decrement = (u16)random_dungeon_range_16(16, 24);
             amount = decrement;
             flag = 0;
-            type = 1;
+            type = ITEM_COPPER_COIN;
         }
 
         do {
@@ -561,7 +562,7 @@ void generate_random_dungeon_item_drops(void)
         for (index = 0, cell_scan = (floor_spawns_isolated_8028BC54_DungeonCell *)((u8 *)dungeon_ground_item_positions), entry_scan = entry_base;
              index < 64;
              cell_scan++, index++, entry_scan++) {
-            if (!(entry_scan->kind == 0 || cell_scan->x != scan_x || cell_scan->y != scan_y)) {
+            if (!(entry_scan->kind == ITEM_KIND_NONE || cell_scan->x != scan_x || cell_scan->y != scan_y)) {
                 break;
             }
         }
@@ -570,7 +571,7 @@ void generate_random_dungeon_item_drops(void)
             entry = (DungeonItemEntry *)((cell_index << 2) + (unsigned long)entry_base);
             cell_base = (floor_spawns_isolated_8028BC54_DungeonCell *)(cell_page + 0x36C8);
             entry->unk_00 = type;
-            entry->kind = 14;
+            entry->kind = ITEM_KIND_COIN;
             entry->unk_03 = flag;
             entry->unk_02 = amount;
             cell = (floor_spawns_isolated_8028BC54_DungeonCell *)((cell_index * 12) +

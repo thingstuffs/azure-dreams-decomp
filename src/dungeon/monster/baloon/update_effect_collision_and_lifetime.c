@@ -128,6 +128,6 @@ void update_effect_collision_and_lifetime(void *effect, S_80D65534_0 *position, 
     ((S_80D65534_1 *)effect)->unk_0C.u = life_left;
     if ((life_left << 16) <= 0) {
         ((S_80D65534_1_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

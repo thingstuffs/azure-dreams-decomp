@@ -174,8 +174,8 @@ void follow_source_then_seek_target(void *effect, void *motion, void *visual)
             ((S_81976850_2 *)motion)->unk_00.at00.v = ((S_81976850_2 *)motion)->unk_0C;
             ((S_81976850_2 *)motion)->unk_04.at00.v = ((S_81976850_2 *)motion)->unk_10;
             ((S_81976850_2 *)motion)->unk_08.at00.v = ((S_81976850_2 *)motion)->unk_14;
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
 

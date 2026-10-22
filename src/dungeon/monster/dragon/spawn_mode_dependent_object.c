@@ -1,5 +1,7 @@
 /* Dragon actor spawning, movement, attacks, and status animation callbacks. */
 #include "modules/dungeon_resource03_slot0.h"
+#include "shared/actor_action_flags.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource03_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_mode_dependent_112_object;
@@ -29,7 +31,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((R03_80170854_S_8016A854_0 *)obj)->unk_10 = ((u8 *)update_entity_facing_motion_and_ground);
-        work->unk_13 = 0x3;
+        work->unk_13 = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
         part_a = ((R03_80170854_S_8016A854_0 *)obj)->unk_08;
@@ -313,7 +315,7 @@ void func_80170E54(void *controller, void *context, void *entity, ActorRecord *a
             advance_actor_path_with_item_search(controller, context, entity, actor_state);
             return;
         }
-        if (!(actor_state->action_flags & 0x8000)) {
+        if (!(actor_state->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(actor_state,
                     (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
@@ -324,13 +326,13 @@ void func_80170E54(void *controller, void *context, void *entity, ActorRecord *a
                 return;
             }
             actor_state->action_flags |= 0x4000;
-            if (!(actor_state->action_flags & 0x8000)) {
+            if (!(actor_state->action_flags & ACTOR_ACTION_PENDING)) {
                 advance_actor_path_with_item_search(controller, context, entity, actor_state);
                 return;
             }
         }
 
-        switch (actor_state->action_flags & 0x3FFF) {
+        switch (actor_state->action_flags & ACTOR_ACTION_CODE_MASK) {
         case 8:
         case 9:
             if ((s16)check_actor_transition_and_start_effect(controller, context, entity, actor_state) == 0) {
@@ -747,7 +749,7 @@ s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -949,8 +951,8 @@ void complete_actor_jump_to_destination(void *jump, void *motion, void *map_enti
 
         actor_flags = ((u32)((ActorRecord *)actor)->flags1C);
         if (actor_flags & 0x2000) {
-            if (((ActorRecord *)actor)->action_flags & 0x8000) {
-                ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+            if (((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) {
+                ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
@@ -1095,7 +1097,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->pending_turn_updates == 0) {
-            actor->action_flags &= 0x7FFF;
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         } else {
             (*(void * *)actor_update_node_cursor) = (u8 *)actor - 0x20;
         }
@@ -1118,7 +1120,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
     switch (((R03_80172A24_S_80172A24_0 *)action_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 use_player_target = 1;
                 /* fallthrough */
@@ -1142,7 +1144,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
                 break;
             }
         } else {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
                 motion = (u8 *)actor + 0xE;
                 break;
@@ -1207,7 +1209,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
         ((R03_80172A24_S_80172A24_0 *)action_state)->unk_8C = ((u8 *)func_80170E54);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -1262,7 +1264,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
         break;
     }

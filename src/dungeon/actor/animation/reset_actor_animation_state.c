@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -75,11 +76,11 @@ void *reset_actor_animation_state(void *entity)
         ((S_800D8590_3 *)child)->unk_14 &= 0xFFF3;
         return entity;
     } else {
-        if (((S_800D8590_1 *)entity)->unk_13 == 0x2B) {
+        if (((S_800D8590_1 *)entity)->unk_13 == MONSTER_TYRANT) {
             clear_slots_of_type(entity, 0x1A);
         }
 
-        if ((((S_800D8590_1 *)entity)->unk_13 == 0x15) &&
+        if ((((S_800D8590_1 *)entity)->unk_13 == MONSTER_PULUNPA) &&
             (((S_800D8590_1 *)entity)->unk_A7 != 0) &&
             (((S_800D8590_1 *)entity)->unk_A8 != 0)) {
             map = *(u8 * *)&dungeon_actor_ring_anchor;
@@ -93,7 +94,7 @@ void *reset_actor_animation_state(void *entity)
         ((S_800D8590_2 *)object)->unk_AC = ((S_800D8590_0 *)parent)->unk_10;
         ((S_800D8590_0 *)parent)->unk_10 = (s32)D_800D8728 & 0x7FFFFFFF;
         ((S_800D8590_2 *)object)->unk_A8 = ((S_800D8590_1 *)entity)->unk_13;
-        ((S_800D8590_1 *)entity)->unk_13 = 0x2E;
+        ((S_800D8590_1 *)entity)->unk_13 = MONSTER_FROG;
         ((S_800D8590_2 *)object)->unk_9A = 0xFF;
         ((S_800D8590_2 *)object)->unk_9C = -1;
         ((S_800D8590_2 *)object)->unk_8C = D_800D8C64;

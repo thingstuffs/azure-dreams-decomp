@@ -42,7 +42,7 @@ void advance_inner_value_and_complete(Obj_800B45A0 *obj)
         func_8004E994(*obj->field54, inner);
         flag_object_for_removal(obj->field8);
         flag_object_for_removal(obj->fieldC);
-        *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)obj - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

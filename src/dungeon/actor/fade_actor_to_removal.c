@@ -101,7 +101,7 @@ s32 fade_actor_to_removal(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visua
         }
         unlink_entity_node(entity);
         ((S_800D1A80_2_pre *)entity)[-1].unk_00 = (u16) (((S_800D1A80_2_pre *)entity)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return 1;
     }
     return 0;

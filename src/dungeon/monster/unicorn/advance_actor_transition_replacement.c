@@ -321,7 +321,7 @@ void advance_actor_transition_replacement(void *action, EntityRec *position, Spr
 
             ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_8A;
             ((S_80174704_0_pre *)action)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((S_80174704_1 *)actor)->unk_6D = 0;
         }

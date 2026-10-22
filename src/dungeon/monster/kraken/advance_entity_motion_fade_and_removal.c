@@ -159,7 +159,7 @@ void advance_entity_motion_fade_and_removal(S_801731FC_0 *state, S_801731FC_2 *m
         update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_flags);
         unlink_entity_node(entity);
         ((ObjectRetirementFlags *)entity)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 }

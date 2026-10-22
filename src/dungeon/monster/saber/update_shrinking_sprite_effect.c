@@ -46,8 +46,8 @@ void update_shrinking_sprite_effect(Actor *actor, Vec3 *vec, Sprite *sprite)
     if (distance_x < 0x10) {
         distance_y = __builtin_abs(actor->y - *(s16 *)((u8 *)vec + 6));
         if (distance_y < 0x10) {
-            *(u16 *)((u8 *)actor - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 
@@ -65,7 +65,7 @@ void update_shrinking_sprite_effect(Actor *actor, Vec3 *vec, Sprite *sprite)
     actor->scale = (u16)actor->scale - 8;
     advance_sprite_animation_and_textures(sprite);
     if (actor->scale <= 0) {
-        *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

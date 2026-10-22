@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -197,7 +198,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
             choose_and_execute_actor_step(entity, context, sprite, actor);
             return;
         }
-        if (!(actor->action_flags & 0x8000)) {
+        if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
@@ -215,7 +216,7 @@ void update_actor_turn_and_action(void *entity, void *context, void *sprite, Act
             }
         }
 
-        action_state = actor->action_flags & 0x3FFF;
+        action_state = actor->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_state) {
         case 8:
             if ((try_turn_actor_toward_target(entity, context, sprite, actor) << 16) != 0) {

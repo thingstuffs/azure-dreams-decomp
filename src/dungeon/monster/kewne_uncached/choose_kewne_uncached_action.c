@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -191,7 +192,7 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Acto
             func_8016C6C8(actor, context, sprite, entity);
             return;
         }
-        if (!(entity->action_flags & 0x8000)) {
+        if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
@@ -205,8 +206,8 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Acto
             entity->action_flags = action;
         }
 
-        if (entity->action_flags & 0x8000) {
-            action = entity->action_flags & 0x3FFF;
+        if (entity->action_flags & ACTOR_ACTION_PENDING) {
+            action = entity->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action) {
             case 8:
             case 9:

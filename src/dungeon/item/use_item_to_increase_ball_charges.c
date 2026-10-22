@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/item_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -63,7 +64,7 @@ s32 use_item_to_increase_ball_charges(EntityRec *target, s32 action, s16 action_
     } else {
         message = get_unused_text_buffer();
         item_state = ((s32 *)(&reference_tile_object.selected_item));
-        if (((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_01 == 4) {
+        if (((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_01 == ITEM_KIND_BALL) {
             message_end = expand_text_control_codes(
                 D_800E14EB,
                 copy_selected_text_without_terminator(

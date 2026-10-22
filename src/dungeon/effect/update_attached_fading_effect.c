@@ -153,7 +153,7 @@ void update_attached_fading_effect(void *effect, S_800B490C_2 *motion, S_800B490
             motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v + 6);
         } else {
             ((S_800B490C_0_pre *)effect)[-1].unk_00 = (u16) (((S_800B490C_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     case 2:

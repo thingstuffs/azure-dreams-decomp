@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/dungeon_effect_views.h"
 #include "engine/effect.h"
 #include "engine/item.h"
@@ -46,7 +47,7 @@ void fade_effect_parts(void *effect, void *unused, void *parts)
     ((EffectCountdownView *)effect)->unk_08 = ticks_left;
     if (ticks_left == -1) {
         release_null_terminated_entries((u8 *)effect + 0x6C);
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

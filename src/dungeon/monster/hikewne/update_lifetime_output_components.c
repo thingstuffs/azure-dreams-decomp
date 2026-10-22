@@ -27,6 +27,6 @@ void update_lifetime_output_components(void *record_data, void *unused, SpriteFr
     if ((ticks_left << 0x10) <= 0) {
         ((S_8016A8E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_8016A8E8_0 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

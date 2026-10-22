@@ -202,7 +202,7 @@ check_falling:
         ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
 mark_removed:
         ((S_8016E528_0_pre *)motion)[-1].unk_00 = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);
     do {

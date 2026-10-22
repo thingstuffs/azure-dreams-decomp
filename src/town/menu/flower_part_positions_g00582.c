@@ -2,6 +2,7 @@
 /* inferred-strong G00582: flower_part_positions_g00582; joins CL:town/func_800AA910; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AA910. */
 #include "town/menu/flower_part_positions_g00582.h"
+#include "shared/object_flags.h"
 
 /* present_flower_set: create a flower gift object and initialize its state and callback data. */
 void present_flower_set(s32 initial_value) {
@@ -33,7 +34,7 @@ void update_linked_part_position(u16 *part, u16 *out_coords, void *unused)
     if (service_script_controller() == 0) {
         unlink_node_if_registered(part);
         part[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

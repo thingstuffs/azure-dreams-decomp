@@ -112,7 +112,7 @@ void damp_effect_motion_and_fade_sprite(void *effect, void *motion, void *sprite
     next_life = ((S_80D29000_2 *)effect)->unk_96.u - 1;
     ((S_80D29000_2 *)effect)->unk_96.u = next_life;
     if ((next_life << 16) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

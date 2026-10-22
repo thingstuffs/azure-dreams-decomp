@@ -450,8 +450,8 @@ void count_entries_matching_search_path(void *scene)
 
     case 0x100:
         clear_resident_bit(0xA5);
-        (*(u16 *)((u8 *)scene + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)scene + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     }

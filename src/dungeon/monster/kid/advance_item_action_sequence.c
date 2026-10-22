@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -99,7 +100,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, void *sp
     switch (((S_80172D74_1 *)action)->unk_9B) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            s32 kind_index = (actor->action_flags & 0x3FFF) - 1;
+            s32 kind_index = (actor->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
 
             switch (kind_index) {
             case 6:
@@ -122,7 +123,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, void *sp
                 break;
             }
         } else {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
                 item_slot = (u8 *)actor + 0xE;
                 break;
@@ -203,7 +204,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, void *sp
         ((S_80172D74_1 *)action)->unk_8C = D_80171400;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -299,7 +300,7 @@ void advance_item_action_sequence(void *action, ObjectPosition *motion, void *sp
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
     }
 }

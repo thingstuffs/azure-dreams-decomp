@@ -12,7 +12,7 @@ s32 card_boot_close_message_dialog(s32 flagLinkedRecord) {
         *(u16 *)((u8 *) linkedRecord + 0x1E) |= 0x2000;
     }
     card_boot_release_five_message_entries(record);
-    *(u16 *)((u8 *) record - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((u8 *) record - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     return D_80028808[0];
 }

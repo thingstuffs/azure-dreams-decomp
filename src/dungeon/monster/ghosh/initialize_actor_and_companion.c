@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -104,7 +105,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
         work = object + 0x20;
         ghosh_actor_node = object;
         ((S_8016AEDC_0 *)object)->unk_10 = D_8016B0E8;
-        ((S_8016AEDC_1 *)work)->unk_13 = 0x31;
+        ((S_8016AEDC_1 *)work)->unk_13 = MONSTER_GHOSH;
         register_node(object, project_sprite_chain);
 
         callback = D_8017467C;

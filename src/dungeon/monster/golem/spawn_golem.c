@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -67,7 +68,7 @@ void *func_801708BC(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     if (object != 0) {
         result = (u8 *)object + 0x20;
         object->unk_10 = D_80170A84;
-        ((S_801708BC_1 *)result)->unk_13 = 44;
+        ((S_801708BC_1 *)result)->unk_13 = MONSTER_GOLEM;
         register_node(object, project_sprite_chain);
 
         part0 = object->unk_08;

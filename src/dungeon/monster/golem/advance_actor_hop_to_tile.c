@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
@@ -111,8 +112,8 @@ void advance_actor_hop_to_tile(S_80172998_0 *motion, ObjectPosition *transform, 
 
     actor_flags = ((u32)actor->flags1C);
     if (actor_flags & 0x2000) {
-        if (actor->action_flags & 0x8000) {
-            actor->action_flags &= 0x7FFF;
+        if (actor->action_flags & ACTOR_ACTION_PENDING) {
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
     } else {
         if (!(actor_flags & 0x410)) {

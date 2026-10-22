@@ -22,7 +22,7 @@ void func_80024028(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22
     entity->timer = timer;
     if (entity->limit < timer) {
         entity[-1].limit |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "shared/object_node.h"
@@ -102,8 +102,8 @@ void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, 
     advance_sprite_animation_and_textures(target);
 
     if (*(s16 *)((u8 *)step_state + 4) > *(s16 *)((u8 *)step_state + 6)) {
-        *(u16 *)((u8 *)step_state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)step_state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "shared/object_node.h"
@@ -167,7 +167,7 @@ void expire_counted_child_effect(void *counterState) {
     ((B22_81892BF8_S_81892BF8_0 *)counterState)->unk_04 = incrementedCount;
     if ((s16) incrementedCount >= ((B22_81892BF8_S_81892BF8_0 *)counterState)->unk_06) {
         ((B22_81892BF8_S_81892BF8_0_pre *)counterState)[-1].unk_00 = (u16) (((B22_81892BF8_S_81892BF8_0_pre *)counterState)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
@@ -372,7 +372,7 @@ void func_800248F8(void *state, s32 draw_context, s32 update_context) {
     }
     if ((s16) ((B22_818930F8_S_818930F8_0 *)state)->unk_04 > ((B22_818930F8_S_818930F8_0 *)state)->unk_06) {
         ((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 = (u16) (((B22_818930F8_S_818930F8_0_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
@@ -397,7 +397,7 @@ void step_sprite_height_and_animation(void *entry, B22_818931B8_S_818931B8_2 *so
     advance_sprite_animation_and_textures(target);
     if (target->flags & 0x6000) {
         ((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 = (u16) (((B22_818931B8_S_818931B8_0_pre *)entry)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 #include "shared/object_node.h"
@@ -696,8 +696,8 @@ void update_effect_launch_travel_impact_cleanup(B22_81893474_EffectState *effect
             break;
         }
         g_dungeon_status.active_actor = 0;
-        U16_AT(state, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        U16_AT(state, -2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     case 7:

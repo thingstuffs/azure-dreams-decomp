@@ -62,8 +62,8 @@ void update_randomized_motion_and_completion(void *state, void *position, void *
     speed = (u16)((S_81814C48_1 *)state)->unk_32 - 8;
     ((S_81814C48_1 *)state)->unk_32 = speed;
     if (((speed << 16) <= 0) || (((S_81814C48_2 *)linked_state)->unk_14 & 0x8000)) {
-        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

@@ -15,5 +15,5 @@ s32 advance_three_state_bytes(u16 *words)
     }
 
     words[-1] |= 0x8000;
-    return object_flag_block.flags |= 0x8000;
+    return object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

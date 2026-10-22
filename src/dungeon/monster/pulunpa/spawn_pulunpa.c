@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -79,7 +80,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     arg0_copy = flags;
     if (part != 0) {
         work = (u8 *)part + 0x20;
-        ((S_80CBD000_0 *)work)->unk_13 = 0x15;
+        ((S_80CBD000_0 *)work)->unk_13 = MONSTER_PULUNPA;
         register_node(part, project_sprite_chain);
         coord = ((S_80CBD000_1 *)part)->unk_08;
         kind = flags & 3;

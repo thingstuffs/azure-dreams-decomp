@@ -96,8 +96,8 @@ void draw_fading_flickering_triangle(void *effect)
     phase_y = base_phase_y + ((S_800A2690_0 *)effect)->unk_0C;
 
     if ((ticks_left << 16) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
         render_state = *(u8 **)((u8 *)(&g_game_work));
         triangle = ((GpuContext *)render_state)->packetCursor;

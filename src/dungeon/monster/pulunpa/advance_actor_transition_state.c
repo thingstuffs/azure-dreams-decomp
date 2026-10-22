@@ -119,8 +119,8 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
             tile_mask = (((S_80176028_4 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000;
             update_map_cell_flags_with_item_limit(x, y, tile_mask);
             unlink_entity_node(actor);
-            (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)actor + (-2))) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             {
                 u8 *actor_slot;
 

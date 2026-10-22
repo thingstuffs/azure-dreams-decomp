@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -75,7 +76,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
         actor_state = object + 0x20;
         actor = actor_state;
         ((S_80BFD000_0 *)object)->unk_10 = D_8015EA58;
-        actor_state->unk_13 = 0x10;
+        actor_state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         attributes = ((S_80BFD000_0 *)object)->unk_08;
         attributes->unk_0A = saved_value;

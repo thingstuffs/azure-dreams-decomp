@@ -11,7 +11,7 @@ void handle_increment_s_counter_update_state_propagate_status_flags(void *object
     *(u16 *)(object + 0x1A) += 1;
     advance_sprite_animation_and_textures(state);
     if (*(u16 *)((u8 *)state + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)object_slot - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)object_slot - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

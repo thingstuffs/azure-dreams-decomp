@@ -41,6 +41,6 @@ void apply_boss_direction_table_state(void *record_data) {
             4, 1);
         ((S_80170A54_2 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80170A54_2 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

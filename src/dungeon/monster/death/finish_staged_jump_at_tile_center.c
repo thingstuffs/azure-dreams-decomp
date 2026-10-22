@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -194,6 +195,6 @@ void finish_staged_jump_at_tile_center(void *action, void *motion, void *sprite,
         ((S_80172DB0_3 *)motion)->unk_0C = 0;
         ((S_80172DB0_3 *)motion)->unk_02 = (((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20;
         ((S_80172DB0_3 *)motion)->unk_06 = (((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     }
 }

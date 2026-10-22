@@ -18,6 +18,6 @@ void update_the_data_set_local_global_flags(void *object, void *update_data)
     copy_a_pointer_table_initializes_extra_data_tag_hex_13(update_data, (u8 *)object + 0x4C);
     unlink_scene_list_node(object);
     unlink_node_if_registered(object);
-    *(u16 *)((u8 *)object - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

@@ -1,5 +1,7 @@
 /* Object removal flags, resource decode-buffer sizing and scene texture loading. */
 #include "common.h"
+#include "engine/node.h"
+#include "shared/object_flags.h"
 #include "engine/resource.h"
 #include "engine/scene.h"
 #include "slus/data.h"
@@ -14,8 +16,8 @@ void mark_object_removal_for_inner_release(unsigned short *object)
     unsigned short *flags;
     if (object != 0) {
         flags = object - 1;
-        *flags |= 0x8000;
-        D_800814A0 |= 0x8000;
+        *flags |= NODE_REMOVE;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -46,7 +48,7 @@ void flag_object_for_removal(unsigned short *object)
     unsigned short *flags;
     if (object != 0) {
         flags = object - 1;
-        *flags |= 0x8000;
-        D_800814A0 |= 0x8000;
+        *flags |= NODE_REMOVE;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

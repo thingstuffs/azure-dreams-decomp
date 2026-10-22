@@ -46,6 +46,6 @@ void update_person_effect_fade(void *effect_record, S_800ABB20_0 *motion, Sprite
     if ((ticks_left << 0x10) <= 0) {
         ((S_800ABB20_1 *)((u8 *)effect_record - 0x2))->unk_00 = (u16) (((S_800ABB20_1 *)((u8 *)effect_record
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -415,8 +415,8 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         }
         g_dungeon_status.active_actor = 0;
         ((u16 *) ((u8 *) effect - 2))[0] = (u16) (((u16 *) ((u8 *) effect - 2))[0]
-            | 0x8000);
-        object_flag_block.flags |= 0x8000;
+            | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -478,8 +478,8 @@ void update_shrinking_effect_sprite(StructA0 *owner, void *unused, StructA2 *sta
     owner->inner->unk52 |= 0x8000;
     advance_sprite_animation_and_textures(state);
     if (state->unk14 & 0x6000) {
-        ((u16 *)owner)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)owner)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -517,7 +517,7 @@ void update_homing_brightening_effect(void *effect, void *position, SpriteFrameS
     ((S_818330F0_3 *)owner)->unk_52 = (u16) (((S_818330F0_3 *)owner)->unk_52 | 0x8000);
     advance_sprite_animation_and_textures(primitive);
     if ((u8) primitive->color.word >= 0x91U) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((u16 *)effect)[-1] | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((u16 *)effect)[-1] | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

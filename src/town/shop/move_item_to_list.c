@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/item_ids.h"
 #include "records/Rec_func_800B1DCC_arg0.h"
 
 typedef struct S_800B2400_8 {
@@ -99,7 +100,7 @@ s32 move_item_to_list(void *state) {
         } else {
             selected_item = ((S_800B2400_11 *)((source_list->unk_24 * 4) + ((S_800B2400_8 *)(((source_index * 4)
                 + state)))->unk_3C))->unk_00;
-            if (((Rec_func_800B1DCC_arg0 *)state)->unk_0C == 0 && selected_item->unk_01 == 0x13) {
+            if (((Rec_func_800B1DCC_arg0 *)state)->unk_0C == 0 && selected_item->unk_01 == ITEM_KIND_FAMILIAR) {
                 result = 3;
             } else {
                 dest_slot = ((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C

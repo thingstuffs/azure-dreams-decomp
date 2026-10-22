@@ -69,8 +69,8 @@ void animate_object_motion_and_scale(void *object, void *motion, void *display)
                       (s16)(((S_800B80D8_2 *)motion)->unk_08.at02.v - 0x20),
                       &D_8006E240,
                       (u8 *)object + 0x98);
-        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 }

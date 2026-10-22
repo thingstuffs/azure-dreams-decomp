@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_edb06c.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_edb06c.h"
 
@@ -37,7 +38,7 @@ void *spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8016A86C_0 *)obj)->unk_10 = func_8016AB64;
-        ((S_8016A86C_1 *)work)->unk_13 = 0x21;
+        ((S_8016A86C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 

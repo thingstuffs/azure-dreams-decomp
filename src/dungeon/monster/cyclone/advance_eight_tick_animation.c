@@ -16,7 +16,7 @@ void advance_eight_tick_animation(u16 *anim, u32 *motion, u16 *sprite) {
     frame_index = frame_bits >> 16;
     if (frame_index >= 8) {
         anim[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     if (frame_index >= 6) {

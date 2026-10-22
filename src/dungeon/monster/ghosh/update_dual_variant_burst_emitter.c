@@ -40,6 +40,6 @@ void update_dual_variant_burst_emitter(void *record_data, S_801723D0_0 *offset_r
     if ((remaining << 0x10) <= 0) {
         ((S_801723D0_2 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_801723D0_2 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

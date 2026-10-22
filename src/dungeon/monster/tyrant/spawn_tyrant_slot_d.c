@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -73,7 +74,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
     if (allocation != NULL) {
         record = allocation + 0x20;
         ((S_8106B000_0 *)allocation)->unk_10 = &D_8015EAA4;
-        record->unk_13 = 0x2B;
+        record->unk_13 = MONSTER_TYRANT;
         register_node(allocation, project_sprite_chain);
         child_08 = ((S_8106B000_0 *)allocation)->unk_08;
         child_08->unk_0A = saved_input3;

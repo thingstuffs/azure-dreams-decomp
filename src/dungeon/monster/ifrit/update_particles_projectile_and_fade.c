@@ -257,8 +257,8 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         update_map_cell_flags_with_item_limit(((S_801733BC_0 *)render_part)->unk_24, ((S_801733BC_0 *)render_part)->unk_25,
             (((Rec_D_80082E80 *)entity)->unk_1C.at00_u32.v & 0x2000) ? 0x300 : 0x3000);
         unlink_entity_node(entity);
-        (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)entity + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
 }

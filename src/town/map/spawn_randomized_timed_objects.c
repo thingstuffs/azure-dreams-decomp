@@ -120,8 +120,8 @@ void spawn_randomized_timed_objects(void *source)
     ((S_800BFB8C_0 *)source)->unk_0E = next_value;
     if ((next_value << 0x10) <= 0) {
         (*(u16 *)((u8 *)source + -2)) =
-            (u16)(((ObjectStatusPrefix16 *)source)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+            (u16)(((ObjectStatusPrefix16 *)source)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 
     return;

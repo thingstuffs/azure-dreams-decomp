@@ -1,4 +1,5 @@
 #include "dungeon/monster/clown/allocate_object_state.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/clown/allocate_object_state.h"
 
@@ -26,7 +27,7 @@ void *allocate_object_state_and_callbacks(s16 init_flags, s16 grid_x, s16 grid_y
     if (object != 0) {
         state = object + 0x20;
         ((S_8014C878_0 *)object)->unk_10 = &D_8014CA58;
-        state->unk_13 = 0x10;
+        state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         config = ((S_8014C878_0 *)object)->unk_08;
         config->unk_0A = saved_type;

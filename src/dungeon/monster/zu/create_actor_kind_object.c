@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -74,7 +75,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80FAB000_0 *)obj)->unk_10 = D_8014CA70;
-        work->unk_13 = 0x26;
+        work->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80FAB000_0 *)obj)->unk_08;

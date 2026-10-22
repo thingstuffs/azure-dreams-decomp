@@ -1,4 +1,5 @@
 #include "dungeon/monster/volcano/create_mode_configured_actor_object.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/volcano/create_mode_configured_actor_object.h"
 
@@ -26,7 +27,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
         held_flags = spawn_flags;
         if (root != NULL) {
             result = (u8 *)root + 0x20;
-            ((S_8016A800_0 *)result)->unk_13 = 0x1C;
+            ((S_8016A800_0 *)result)->unk_13 = MONSTER_VOLCANO;
             register_node(root, project_sprite_chain);
 
             position = ((S_8016A800_1 *)root)->unk_08;

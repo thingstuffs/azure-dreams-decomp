@@ -1,4 +1,5 @@
 #include "dungeon/monster/dragon/create_tracked_effect_object.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/dragon/create_tracked_effect_object.h"
 
@@ -28,7 +29,7 @@ void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015E854_0 *)obj)->unk_10 = D_8015EA28;
-        work->unk_13 = 0x3;
+        work->unk_13 = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_8015E854_0 *)obj)->unk_08;

@@ -24,7 +24,7 @@ void update_linear_motion_effect(EffectState *effect, VecState *motion, void *up
     motion->z += motion->vz;
     advance_sprite_animation_and_textures(update_data);
     if ((s16)--effect->timer <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

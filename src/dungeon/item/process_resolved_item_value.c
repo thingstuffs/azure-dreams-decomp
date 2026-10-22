@@ -260,7 +260,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
             if (done_flag == 0) {
                 g_dungeon_status.active_actor = 0;
                 (((ObjectNodeHeader *)(effect_state))[-1].flags) = (u16) ((((ObjectNodeHeader *)(effect_state))[-1].flags) | 0x8000);
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
             D_80025B60 = 0;

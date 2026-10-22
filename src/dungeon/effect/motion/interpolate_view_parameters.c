@@ -1,5 +1,6 @@
 /* Moving attack visuals, linked particle creation, and timed view parameter updates. */
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
 /* Selector entry invokes this complete native state machine. */
@@ -178,8 +179,8 @@ void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg819
     remaining = (u8)countdown->count - 1;
     countdown->count = remaining;
     if ((remaining << 24) == 0) {
-        *(u16 *)((u8 *)context - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)context - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -597,8 +598,8 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
             ((Row_81917894_S_80025094_0 *)effect)->unk_08) {
             create_an_oriented_effect_between_position_owner(effect, transform);
             (*(u16 *)((u8 *)effect + (-2))) =
-                (u16) (((Row_81917894_S_80025094_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+                (u16) (((Row_81917894_S_80025094_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         break;
@@ -818,7 +819,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         if (!action->pending) {
             D_8008346C.value = 0;
             ((ObjectNodeHeader *)action)[-1].flags |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

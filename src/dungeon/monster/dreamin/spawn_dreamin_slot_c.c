@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -71,7 +72,7 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
     if (object != NULL) {
         state = object + 0x20;
         ((S_80DA7000_0 *)object)->unk_10 = &D_80158A3C;
-        state->unk_13 = 0x1A;
+        state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         data_08 = ((S_80DA7000_0 *)object)->unk_08;
         data_08->unk_0A = saved_value_0a;

@@ -89,7 +89,7 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
         } else {
             for (i--; i >= 0; i--) {
                 obj = objects[i];
-                D_800814A0 |= 0x8000;
+                D_800814A0 |= OBJECT_REMOVE_PENDING;
                 obj->flags |= 0x8000;
             }
             return NULL;

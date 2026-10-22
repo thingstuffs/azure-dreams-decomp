@@ -13,7 +13,7 @@ void update_derived_angle_and_offset(void *angle_source, void *offset_state, voi
     *(u16 *)((u8 *)offset_state + 0xA) = *(u16 *)((u8 *)offset_state + 0xA) - 8;
     advance_sprite_animation_and_textures(angle_state);
     if (*(u16 *)((u8 *)angle_state + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)angle_source - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)angle_source - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

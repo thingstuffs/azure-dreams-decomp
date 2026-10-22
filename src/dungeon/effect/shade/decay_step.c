@@ -54,7 +54,7 @@ void advance_decaying_effect_state(void *effect, void *state_data)
     ((S_800D6804_1 *)effect)->unk_32.s = frames_left;
     ((S_800D6804_1 *)effect)->unk_08 = ((S_800D6804_1 *)effect)->unk_04.at00u.v;
     if ((frames_left << 16) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

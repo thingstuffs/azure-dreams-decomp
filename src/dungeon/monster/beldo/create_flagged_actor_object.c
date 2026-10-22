@@ -161,7 +161,7 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
     advance_sprite_animation_and_textures(target_part);
     if (owner->unk_1E & 0x8000) {
         ((S_81263000_0_pre *)root)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

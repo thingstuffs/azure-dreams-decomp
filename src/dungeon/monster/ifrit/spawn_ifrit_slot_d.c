@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -72,7 +73,7 @@ void *queue_linked_render_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 a
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80A2F000_0 *)obj)->unk_10 = D_8015EA58;
-        work->unk_13 = 5;
+        work->unk_13 = MONSTER_IFRIT;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80A2F000_0 *)obj)->unk_08;

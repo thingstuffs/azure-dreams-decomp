@@ -15,5 +15,5 @@ void darken_encounter_view_color(u16 *entry)
     }
 
     entry[-1] |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     u8 before_flags[0x1C];
@@ -24,7 +25,7 @@ extern void queue_framebuffer_strip_quads(void);
 void update_active_nodes_and_render_frame(void) {
     u8 *work = D_80083160;
     run_active_node_callbacks();
-    if (D_800814A0 & 0x8000) {
+    if (D_800814A0 & OBJECT_REMOVE_PENDING) {
         remove_marked_active_nodes();
     }
     D_800814A0 = 0;

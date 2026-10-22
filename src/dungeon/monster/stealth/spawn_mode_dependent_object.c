@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -74,7 +75,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
     if (object != 0) {
         result = (u8 *)object + 0x20;
         ((S_80170854_0 *)object)->unk_10 = D_80170A8C;
-        result->unk_13 = 0x23;
+        result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part0 = ((S_80170854_0 *)object)->unk_08;
         part0->unk_0A = spawn_value;

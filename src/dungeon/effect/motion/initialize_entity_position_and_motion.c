@@ -1,5 +1,6 @@
 /* Homing attack movement, linked visual copies, and particle creation. */
 #include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_19a332c_entry)(void) = (void (*)(void))func_80024064;
 
@@ -86,7 +87,7 @@ void func_80024064(void *transition) {
         g_dungeon_status.active_actor = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((ovl_19a332c_81982864_S_80024064_0_pre *)transition)[-1].unk_00 = (u16) (((ovl_19a332c_81982864_S_80024064_0_pre *)transition)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     default:
         break;
     }
@@ -155,8 +156,8 @@ void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, 
     if (state == 2) {
         motion->value += 0xFFFBFBFC;
         if ((u8)motion->value == 0) {
-            *(u16 *)((u8 *)entity - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)entity - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -233,8 +234,8 @@ void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *spr
     frames_left = ((u16) (*((s16 *) (((s8 *) effect) + 0x30)))) - 1;
     *((s16 *) (((s8 *) effect) + 0x30)) = frames_left;
     if ((frames_left << 0x10) <= zero) {
-        *((u16 *) (((s8 *) effect) + (-2))) = (u16) ((*((u16 *) (((s8 *) effect) + (-2)))) | 0x8000);
-        ((s32 *)(&object_flag_block))[zero] = (s32) (object_flag_block.flags | 0x8000);
+        *((u16 *) (((s8 *) effect) + (-2))) = (u16) ((*((u16 *) (((s8 *) effect) + (-2)))) | NODE_REMOVE);
+        ((s32 *)(&object_flag_block))[zero] = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -311,7 +312,7 @@ void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_8
     ((ovl_19a332c_81983088_S_80024888_2 *)effect)->unk_30 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((ovl_19a332c_81983088_S_80024888_2_pre *)effect)[-1].unk_00 = ((ovl_19a332c_81983088_S_80024888_2_pre *)effect)[-1].unk_00 | 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -383,7 +384,7 @@ void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_8198
 
     if (color->red < 4) {
         effect_data[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -1105,7 +1106,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
 
         ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
             | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     }
     actor_data = ((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_0C;

@@ -1,5 +1,6 @@
 /* Actor-targeted effect movement, rotating particles, and target lift and spin animation. */
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
 
@@ -13,7 +14,7 @@ void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *po
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 = (u16) (((Row_8191C848_S_8191C848_0_pre *)motion)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
     position->unk_02 = (u16) (position->unk_02 + ((s32) ((func_800644B8(((Row_8191C848_S_8191C848_0 *)motion)->unk_08)
         >> 4) * ((Row_8191C848_S_8191C848_0 *)motion)->unk_0A) >> 8));
@@ -586,7 +587,7 @@ void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_81
         }
         g_dungeon_status.active_actor = 0;
         ((Row_8191CD78_S_func_80024578_12 *)((u8 *)(effect) - 2))->unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     case 2:

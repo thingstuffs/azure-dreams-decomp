@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_7f535800.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 
 /* Creates a Clown actor at the supplied tile and height, then initializes mode flags, status, and
@@ -25,7 +26,7 @@ void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
     if (object != 0) {
         state = object + 0x20;
         ((S_80158878_0 *)object)->unk_10 = &D_80158A58;
-        state->unk_13 = 0x10;
+        state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
         config_data = ((S_80158878_0 *)object)->unk_08;
         config_data->unk_0A = saved_value;

@@ -29,7 +29,7 @@ void run_active_node_callbacks(void)
         do {
             callback_address = node->field_10;
             next_node = node->next;
-            if (callback_address >= 0 || (node->field_1E & 0x400)) {
+            if (callback_address >= 0 || (node->field_1E & NODE_SKIP_CALLBACK)) {
                 ;
             } else {
                 ((void (*)(void *, void *, void *))callback_address)((u8 *)node + 0x20, node->field_08, node->field_0C);

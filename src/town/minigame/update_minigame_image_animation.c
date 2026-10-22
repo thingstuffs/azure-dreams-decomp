@@ -95,6 +95,6 @@ void update_minigame_image_animation(void *anim)
     ((S_80023BCC_0 *)anim)->unk_5E = timer;
     if ((s16)timer <= 0) {
         ((ObjectStatusPrefix16 *)anim)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

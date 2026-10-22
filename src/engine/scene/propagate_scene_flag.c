@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "engine/graphics.h"
 
 /* generic sub-entity type: only offset 0x1E (a "used"/flags halfword) is
@@ -27,7 +28,7 @@ void propagate_scene_flag(S_800510DC *record)
         scene_load_variant_texture_set();
         entity = record->field0;
         entity->flags |= 0x2000;
-        *(u16 *)((u8 *)record - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        *(u16 *)((u8 *)record - 2) |= NODE_REMOVE;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

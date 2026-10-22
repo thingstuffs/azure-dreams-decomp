@@ -1,4 +1,5 @@
 #include "slus/jtbl_800517CC.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 
@@ -198,6 +199,6 @@ void update_sine_motion_effect(
 
     ((ParentState800517CC *)effect->parent)->child10 = 0;
     ((ParentState800517CC *)effect->parent)->timer++;
-    *(u16 *)((u8 *)effect - 2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+    D_800814A0 |= OBJECT_REMOVE_PENDING;
 }

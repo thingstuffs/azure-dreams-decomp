@@ -149,7 +149,7 @@ void advance_fading_directional_entity(void *anim_state, void *motion, void *spr
         update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_flags);
         unlink_entity_node(entity);
         ((S_80173724_1_pre *)entity)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:
         return;

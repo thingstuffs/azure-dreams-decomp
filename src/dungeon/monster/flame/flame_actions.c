@@ -1,5 +1,8 @@
 /* Flame actor spawning, child displays, action updates, and textured effects. */
 #include "modules/dungeon_resource06_slot0.h"
+#include "shared/actor_action_flags.h"
+#include "shared/monster_ids.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource06_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = func_8017087C;
@@ -37,7 +40,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((R06_8017087C_S_8017087C_0 *)obj)->unk_10 = create_anchored_directional_object;
-        ((R06_8017087C_S_8017087C_1 *)work)->unk_13 = 6;
+        ((R06_8017087C_S_8017087C_1 *)work)->unk_13 = MONSTER_FLAME;
         register_node(obj, project_sprite_chain);
 
         part_a = ((R06_8017087C_S_8017087C_0 *)obj)->unk_08;
@@ -966,7 +969,7 @@ s32 func_80172264(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -1128,7 +1131,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectP
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (((ActorRecord *)actor)->pending_turn_updates == 0) {
-                ((ActorRecord *)actor)->action_flags = (u16) (((ActorRecord *)actor)->action_flags & 0x7FFF);
+                ((ActorRecord *)actor)->action_flags = (u16) (((ActorRecord *)actor)->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
             } else {
                 *((void * *)actor_update_node_cursor) = actor - 0x20;
             }
@@ -1156,7 +1159,7 @@ void start_selected_move_and_reset_action(void *action, ObjectPosition *position
     switch (phase) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            move_kind = (actor->action_flags & 0x3FFF) - 1;
+            move_kind = (actor->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
             switch (move_kind) {
             case 6:
                 is_special = 1;
@@ -1181,7 +1184,7 @@ void start_selected_move_and_reset_action(void *action, ObjectPosition *position
                 break;
             }
         } else {
-            move_kind = actor->action_flags & 0x3FFF;
+            move_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (move_kind) {
             case 3:
                 move_data = (u8 *)actor + 0xE;
@@ -1250,7 +1253,7 @@ void start_selected_move_and_reset_action(void *action, ObjectPosition *position
         ((R06_80172970_S_80172970_0 *)action)->unk_8C = ((u8 *)initialize_destination_state);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -1299,7 +1302,7 @@ void start_selected_move_and_reset_action(void *action, ObjectPosition *position
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
 
         return;
@@ -1542,7 +1545,7 @@ void fade_sprites_and_remove_entity(void *actor, s32 unused, void *sprite, void 
         update_map_cell_flags_with_item_limit((u8)(tile_x),(u8)(tile_y), effect_id);
         unlink_entity_node(entity);
         U16(entity, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
     }
@@ -2044,7 +2047,7 @@ void advance_randomized_motion_and_complete(void *object_data, R06_801740E4_S_80
     if (((next_speed << 0x10) <= 0) || (state->unk_14 & 0x8000)) {
         ((R06_801740E4_S_801740E4_1 *)((u8 *)object_data - 0x2))->unk_00 = (u16) (((R06_801740E4_S_801740E4_1 *)((u8 *)object_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -2294,7 +2297,7 @@ void advance_record_countdown(void *record_data) {
     if ((remaining_count << 0x10) <= 0) {
         ((R06_801748F0_S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((R06_801748F0_S_801748F0_0 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -2451,8 +2454,8 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 
     frames_left = ((R06_80174934_S_80174934_0 *)effect)->unk_1A.u - 1;
     ((R06_80174934_S_80174934_0 *)effect)->unk_1A.s = frames_left;
     if (frames_left <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     return;
 }
@@ -2791,7 +2794,7 @@ void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *p
             }
             ((R06_80175270_S_80175270_9 *)(((R06_80175270_S_80175270_1 *)actor)->unk_60))->unk_2A = ((R06_80175270_S_80175270_1 *)actor)->unk_8A;
             ((R06_80175270_S_80175270_0_pre *)action)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((R06_80175270_S_80175270_1 *)actor)->unk_6D = 0;
         }

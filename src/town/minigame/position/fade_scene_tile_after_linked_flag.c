@@ -38,7 +38,7 @@ void fade_scene_tile_after_linked_flag(void *effect) {
         ((S_80026C54_0 *)effect)->unk_08 = fade_value;
         if (fade_value <= 0x80808) {
             ((ObjectStatusPrefix16 *)effect)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

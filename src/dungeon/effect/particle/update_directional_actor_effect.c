@@ -1,5 +1,6 @@
 /* Directional particle travel, target impact geometry, and timed status effects. */
 #include "modules/dungeon_ovl_190681c.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_190681c.h"
 
@@ -281,7 +282,7 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
             if (S16(effect, 80) < 0) {
                 g_dungeon_status.active_actor = 0;
                 U16(effect, -2) = (u16)(U16(effect, -2) | 0x8000);
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
             break;
         default:

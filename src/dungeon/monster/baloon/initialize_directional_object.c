@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -46,7 +47,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
     if (action_flags & 0x2000) {
         return result;
     }
-    if (!(((ActorRecord *)actor)->action_flags & 0x8000)) {
+    if (!(((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING)) {
         if (action_flags & 8) {
             return result;
         }
@@ -57,7 +58,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
     }
 
     action_ready = 1;
-    if (!(((ActorRecord *)actor)->action_flags & 0x8000)) {
+    if (!(((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING)) {
         if (g_dungeon_status.flags & 8) {
             return -1;
         }

@@ -1,5 +1,6 @@
 /* Death effect projection, motion, fading, and object creation. */
 #include "modules/dungeon_ovl_be1084.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
@@ -98,8 +99,8 @@ void advance_effect_toward_target(void *effect, void *position) {
     if (x_distance < 0x10) {
         y_distance = abs(((S_80BC1264_1 *)effect)->unk_38 - ((S_80BC1264_0 *)position)->unk_04.at02.v);
         if (y_distance < 0x10) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
     }
     scaled_red = ((S_80BC1264_1 *)effect)->unk_00 * ((S_80BC1264_1 *)effect)->unk_32;
@@ -112,8 +113,8 @@ void advance_effect_toward_target(void *effect, void *position) {
     ((S_80BC1264_1 *)effect)->unk_32 = fade_level;
     ((S_80BC1264_1 *)effect)->unk_08 = (s32) ((S_80BC1264_1 *)effect)->unk_04.at00u.v;
     if ((fade_level << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectRetirementFlags *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -138,8 +139,8 @@ void advance_damped_motion_and_fade_effect(FadeEffect *effect,EffectMotion *moti
  effect->remaining=remaining;
  effect->output=effect->current.packed;
  if(remaining<=0) {
-  *(u16 *)((u8 *)effect-2)|=0x8000;
-  object_flag_block.flags|=0x8000;
+  *(u16 *)((u8 *)effect-2)|=NODE_REMOVE;
+  object_flag_block.flags|=OBJECT_REMOVE_PENDING;
  }
 }
 
@@ -278,6 +279,6 @@ void spawn_configured_overlay_object_b(void *effect, MovingPosition *position, S
     ((S_80BC1880_1 *)effect)->unk_1A.u = ticks_left;
     if ((ticks_left << 16) <= 0) {
         ((ObjectRetirementFlags *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

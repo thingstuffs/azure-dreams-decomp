@@ -109,7 +109,7 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
         }
         if (((SpriteFrameState *)sprite)->flags & 0x8000) {
             (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
     phase = ((S_8017142C_0 *)effect)->unk_00;
@@ -154,7 +154,7 @@ void update_growing_colliding_effect(void *effect, void *position, void *sprite)
         ((S_8017142C_0 *)effect)->unk_24 = fade_ticks_left;
         if ((fade_ticks_left << 0x10) <= 0) {
             (((EffectFieldView_80DB9C2CPrefix *)effect)[-1].flags) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

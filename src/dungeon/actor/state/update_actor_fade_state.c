@@ -109,8 +109,8 @@ void update_actor_fade_state(void *state, void *unused, void *data, void *entity
                 update_map_cell_flags_with_item_limit(value24, value25, selectedValue);
             }
             unlink_entity_node(entity);
-            (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_800D34CC_1_pre *)entity)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_800D34CC_1_pre *)entity)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             decrement_bounded_counter();
         }
     }

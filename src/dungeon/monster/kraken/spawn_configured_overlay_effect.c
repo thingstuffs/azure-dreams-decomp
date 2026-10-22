@@ -1,4 +1,5 @@
 #include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
 
@@ -37,7 +38,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8014C86C_0 *)obj)->unk_10 = func_8014CB64;
-        ((S_8014C86C_1 *)work)->unk_13 = 0x21;
+        ((S_8014C86C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 

@@ -1,5 +1,6 @@
 /* Linked line travel, expanding spiral particles, sprite fades, and nearby status effects. */
 #include "dungeon/effect/shade/fading_effect_set.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))move_linked_effect_along_path;
 
@@ -42,14 +43,14 @@ void advance_fading_effect(void *effect, void *position, void *render_data)
     *(u8 *)((u8 *)render_data + 0xD) = intensity;
     *(u8 *)((u8 *)render_data + 0xC) = intensity;
     if (intensity == 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     *(u16 *)((u8 *)position + 0xA) -= 8;
     advance_sprite_animation_and_textures(render_data);
     if (*(u16 *)((u8 *)render_data + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -260,8 +261,8 @@ void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect) {
     advance_sprite_animation_and_textures(effect);
     if (*(u16 *)((u8 *)effect + 0x14) & 0x6000) {
         *(s8 *)((u8 *)*(void **)state_ref + 0x16) = 1;
-        *(u16 *)((u8 *)state_ref - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)state_ref - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -733,8 +734,8 @@ advance:
     case 5:
         if (input_ctrl->active == 0) {
             g_dungeon_status.active_actor = 0;
-            *(u16 *)((u8 *)input_ctrl - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)input_ctrl - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
 
     default:

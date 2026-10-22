@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01008 - CL:dungeon/func_800A3C30, CL:dungeon/func_800A40CC, PD:dungeon/engine:800DD8E7.
  */
 #include "dungeon/actor/spell_resource_ids_g01008.h"
+#include "shared/object_flags.h"
 
 s32 resolve_spell_effect_resource_id(s16 index) {
     s32 compare;
@@ -94,7 +95,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
         }
         if (effect_data == 0) {
             effect_flags = ((S_800A94A0_2 *)effect)->unk_1E | 0x8000;
-            global_flags = object_flag_block.flags | 0x8000;
+            global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             ((S_800A94A0_2 *)effect)->unk_1E = effect_flags;
             object_flag_block.flags = global_flags;
             return NULL;

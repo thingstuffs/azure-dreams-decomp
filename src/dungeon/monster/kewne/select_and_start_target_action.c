@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
@@ -51,7 +52,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
         if (g_dungeon_status.flags & 0x2000) {
             return -1;
         }
-        if (!(actor->action_flags & 0x8000) && (g_dungeon_status.flags & 8)) {
+        if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (g_dungeon_status.flags & 8)) {
             return -1;
         }
 

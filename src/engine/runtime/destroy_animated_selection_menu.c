@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "engine/runtime.h"
 
 /* Canonical global flags word shared by several sibling functions in this
@@ -37,6 +38,6 @@ void destroy_animated_selection_menu(S_8004FE78_a0 *entity)
             handle_cursor++;
         }
         entity->field_1E |= 0x8000;
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

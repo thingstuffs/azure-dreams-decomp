@@ -30,7 +30,7 @@ void dispatch_object_event_or_retire(void *object, s32 event, s32 event_data)
         unlink_node_if_registered(object);
         ((ObjectRetirementFlags *)object)[-1].unk_00 =
             (u16)(((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
     ((Rec_D_80082D58 *)object)->unk_50.as_x151a23(

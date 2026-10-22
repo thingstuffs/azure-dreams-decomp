@@ -233,7 +233,7 @@ next_target:
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00
             | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 }
@@ -562,8 +562,8 @@ void update_animated_target_effect(void *effect)
     case 3:
         last_particle = 5;
         if (((S_8002466C_0 *)effect)->unk_48.u == 0xF) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
@@ -651,7 +651,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(Ef
     advance_sprite_animation_and_textures(sprite);
     if (sprite->status & 0x6000) {
         ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_native_abi.h"
@@ -710,8 +710,8 @@ void update_actor_movement_animation_collision(void *object) {
         ((S_80024B48_0 *)object)->unk_4C = (s16) ((u16) ((S_80024B48_0 *)object)->unk_4C + 1);
     }
     if ((s16) ((S_80024B48_0 *)object)->unk_48 >= 0x20) {
-        (*(u16 *)((u8 *)object + (-2))) = (u16) (((S_80024B48_0_pre *)object)[-1].unk_00 | 0x8000);
-        (object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        (*(u16 *)((u8 *)object + (-2))) = (u16) (((S_80024B48_0_pre *)object)[-1].unk_00 | NODE_REMOVE);
+        (object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 #include "modules/dungeon_native_abi.h"

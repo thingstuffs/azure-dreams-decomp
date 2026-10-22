@@ -157,8 +157,8 @@ void update_staged_particle_emitter(void *effect_data)
         within_duration = (s16)frame < 0xA;
         *(u16 *)(effect + 0x18) = next_frame;
         if (!within_duration) {
-            *(u16 *)(effect - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)(effect - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 

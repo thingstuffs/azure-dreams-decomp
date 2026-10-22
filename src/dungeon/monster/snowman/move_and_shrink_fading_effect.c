@@ -1,5 +1,8 @@
 /* Snowman actor spawning, movement, spell and attack sequences, and particle effects. */
 #include "modules/dungeon_resource10_slot0.h"
+#include "shared/actor_action_flags.h"
+#include "shared/monster_ids.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = create_actor_with_optional_status;
@@ -100,8 +103,8 @@ void move_and_shrink_fading_effect(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 
     if (distance_x < 0x10) {
         distance_y = __builtin_abs(actor->y - *(s16 *)((u8 *)vec + 6));
         if (distance_y < 0x10) {
-            *(u16 *)((u8 *)actor - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 
@@ -119,8 +122,8 @@ void move_and_shrink_fading_effect(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 
     actor->scale = (u16)actor->scale - 8;
     advance_sprite_animation_and_textures(sprite);
     if (actor->scale <= 0) {
-        *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -208,7 +211,7 @@ void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32
         result = (u8 *)object;
         result += 0x20;
         ((R10_80170F3C_S_80170F3C_0 *)object)->unk_10 = ((u8 *)update_actor_callbacks_animation_and_ground);
-        ((R10_80170F3C_S_80170F3C_1 *)result)->unk_13 = 10;
+        ((R10_80170F3C_S_80170F3C_1 *)result)->unk_13 = MONSTER_SNOWMAN;
         register_node(object, project_sprite_chain);
 
         {
@@ -576,7 +579,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, ActorRe
             func_80171FE8(actor_arg, context_arg, sprite_arg, entity_arg);
             return;
         }
-        if (!(entity_arg->action_flags & 0x8000)) {
+        if (!(entity_arg->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(entity_arg,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
@@ -594,7 +597,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, ActorRe
             }
         }
 
-        switch (entity_arg->action_flags & 0x3FFF) {
+        switch (entity_arg->action_flags & ACTOR_ACTION_CODE_MASK) {
         case 8:
             if ((s16)func_801727B8(actor_arg, context_arg, sprite_arg, entity_arg) != 0) {
                 return;
@@ -998,7 +1001,7 @@ s32 func_801727B8(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -1219,8 +1222,8 @@ void func_80172C54(void *action, ObjectPosition *motion, void *sprite, ActorReco
 
     actor_flags = actor->flags1C;
     if (actor_flags & 0x2000) {
-        if (actor->action_flags & 0x8000) {
-            actor->action_flags &= 0x7FFF;
+        if (actor->action_flags & ACTOR_ACTION_PENDING) {
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
@@ -1299,7 +1302,7 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, void 
             ((R10_80173080_S_80173080_0 *)action)->unk_8C = ((u8 *)func_801717F4);
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            actor->action_flags &= 0x7FFF;
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
         return;
     }
@@ -1323,7 +1326,7 @@ void advance_actor_spell_effect_sequence(void *actor, ObjectPosition *motion, vo
     switch (state) {
     case 0:
     if (action->flags1C & 0x2000) {
-        u32 kind = (action->action_flags & 0x3FFF) - 1;
+        u32 kind = (action->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
 
         switch (kind) {
         case 6:
@@ -1343,7 +1346,7 @@ void advance_actor_spell_effect_sequence(void *actor, ObjectPosition *motion, vo
             goto kind_default;
         }
     } else {
-        switch (action->action_flags & 0x3FFF) {
+        switch (action->action_flags & ACTOR_ACTION_CODE_MASK) {
         case 2:
             goto kind_2;
         case 1:
@@ -1430,7 +1433,7 @@ use_kind:
     ((R10_80173280_S_80173280_0 *)actor)->unk_8C = ((u8 *)func_801717F4);
     action->target_tile_y = 0;
     action->target_tile_x = 0;
-    action->action_flags &= 0x7FFF;
+    action->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     return;
 
 case 1:
@@ -1506,7 +1509,7 @@ case 3:
     action->target_tile_y = 0;
     action->target_tile_x = 0;
     (*(u8 *)&action->pending_turn_updates)--;
-    action->action_flags &= 0x7FFF;
+    action->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     play_sound_if_enabled(0xB4);
         return;
     default:
@@ -2256,8 +2259,8 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
         break;
 
     case 26:
-        (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + (-2))) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
@@ -2446,8 +2449,8 @@ void func_8017526C(u8 *task, void *context, u8 *input)
         frames_left = *(u16 *)(task + 0x96) - 1;
         *(s16 *)(task + 0x96) = frames_left;
         if (frames_left <= 0) {
-            *(u16 *)(task - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)(task - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -2631,7 +2634,7 @@ void advance_actor_transition_and_restore_facing(void *transition, void *positio
 
             ((R10_80175398_S_80175398_7 *)(((R10_80175398_S_80175398_1 *)actor)->unk_60))->unk_2A = ((R10_80175398_S_80175398_1 *)actor)->unk_8A;
             ((R10_80175398_S_80175398_0_pre *)transition)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
     }

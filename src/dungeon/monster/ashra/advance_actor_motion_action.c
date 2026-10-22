@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -66,7 +67,7 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
     switch (((S_80172810_0 *)action_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 use_player = 1;
                 /* fallthrough */
@@ -90,7 +91,7 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
                 break;
             }
         } else {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
                 motion = (u8 *)actor + 0xE;
                 break;
@@ -158,7 +159,7 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
         ((S_80172810_0 *)action_state)->unk_8C = D_80170E54;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -212,7 +213,7 @@ void advance_actor_motion_action(void *action_state, void *position, void *sprit
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
         break;
     }

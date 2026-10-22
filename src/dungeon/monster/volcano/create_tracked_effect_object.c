@@ -1,4 +1,5 @@
 #include "dungeon/monster/volcano/create_tracked_effect_object.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/volcano/create_tracked_effect_object.h"
 
@@ -26,7 +27,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8015E854_0 *)work)->unk_13 = 0x1C;
+        ((S_8015E854_0 *)work)->unk_13 = MONSTER_VOLCANO;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_8015E854_1 *)obj)->unk_08;

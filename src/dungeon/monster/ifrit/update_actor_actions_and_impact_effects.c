@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
@@ -147,7 +148,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            action_kind = actor->action_flags & 0x3FFF;
+            action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             dispatch_index = action_kind - 1;
             switch (dispatch_index) {
             case 6:
@@ -170,7 +171,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                 break;
             }
         } else {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
                 anim = (u8 *)actor + 0xE;
                 break;
@@ -240,7 +241,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             ((S_801728C4_0 *)action)->unk_8C = D_80170E84;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
-            actor->action_flags &= 0x7FFF;
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             return;
         }
     case 1:
@@ -368,7 +369,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             }
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
-            actor->action_flags &= 0x7FFF;
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             play_sound_if_enabled(0xB4);
         }
 

@@ -171,7 +171,7 @@ void accelerate_particle_toward_source(void *motion, void *position_data)
     D_80025118[0] = 1;
     if (updated_value) {
         ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     countdown = ((S_818D4A94_1 *)motion)->unk_32;
@@ -180,7 +180,7 @@ void accelerate_particle_toward_source(void *motion, void *position_data)
     countdown <<= 16;
     if (countdown <= 0) {
         ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -320,12 +320,12 @@ void fade_and_rotate_timed_effect(void *record_data, s32 unused, RenderFade33 *e
 
     if ((s16)((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_04 <= 0) {
         ((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 = (u16)(((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 
     if (effect->unk_14 & 0x8000) {
         ((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 = (u16)(((S_818D4D48_0 *)((u8 *)record_cursor - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -735,8 +735,8 @@ state1_cleanup:
                 actor->timer82 = old_timer;
                 if (active_flag == 0) {
                     g_dungeon_status.active_actor = 0;
-                    *(u16 *)((u8 *)actor - 2) |= 0x8000;
-                    object_flag_block.flags |= 0x8000;
+                    *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+                    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                     return;
                 }
                 D_80025118[0] = 0;

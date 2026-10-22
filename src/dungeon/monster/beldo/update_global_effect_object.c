@@ -32,6 +32,6 @@ void update_global_effect_object(void) {
         unlink_entity_node(obj_state);
         *(u16 *)(obj_state - 2) |= 0x8000;
         *active_slot = 0;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

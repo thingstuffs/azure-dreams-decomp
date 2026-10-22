@@ -32,12 +32,12 @@ void advance_timed_action_counter(Obj0 *countdown, s32 unused, Obj2 *state)
     state->value1C = next_value;
 
     if ((s16)countdown->count <= 0) {
-        ((u16 *)countdown)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)countdown)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (state->flags14 & 0x8000) {
-        ((u16 *)countdown)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)countdown)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -38,7 +38,7 @@ void fade_linked_object_color(void *fade) {
         ((S_800203D8_0 *)fade)->unk_08 = color;
         if (color <= 0x80808) {
             ((ObjectStatusPrefix16 *)fade)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

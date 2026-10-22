@@ -153,8 +153,8 @@ void update_pulsing_effect_brightness(void *effect, s32 unused, void *render_sta
             U8_AT(linked_prim, 0xC) = 0x80;
             U8_AT(linked_prim, 0xD) = 0x80;
             U8_AT(linked_prim, 0xE) = 0x80;
-            U16_AT(effect, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            U16_AT(effect, -2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }
@@ -323,7 +323,7 @@ void update_effect_position_and_scale_transition(void *transition, S_800A5AF0_1 
         ((S_800A5AF0_0 *)transition)->unk_06 = timer;
         if ((timer << 16) <= 0) {
             ((S_800A5AF0_0_pre *)transition)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -430,8 +430,8 @@ void advance_timed_object_and_retire(void *counter) {
     *(u16 *)counter = tick_count;
     if ((s16)tick_count >= 0x10) {
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        *(u16 *)((u8 *)counter - 2) |= 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        *(u16 *)((u8 *)counter - 2) |= NODE_REMOVE;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 #include "shared/object_node.h"
@@ -691,7 +691,7 @@ void advance_timed_intensity_ramp(void *ramp) {
     if (!(current_flags & 0x01000000)) {
         dungeon_floor_flags = current_flags & 0xFDFFFFFF;
         *(s16 *)((s8 *)ramp - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "shared/gpu_packets.h"
@@ -985,8 +985,8 @@ s16 release_entity_slot_and_update_flags(void *handle, s32 extra_cleanup)
             detach_record_and_update_slot_state(object);
         }
         unlink_entity_node(object);
-        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     clear_slot_and_update_linked_state(handle);

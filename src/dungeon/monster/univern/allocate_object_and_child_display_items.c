@@ -1,4 +1,5 @@
 #include "dungeon/monster/univern/allocate_object_and_child_display_items.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/univern/allocate_object_and_child_display_items.h"
 
@@ -40,7 +41,7 @@ void *allocate_object_and_child_display_items(s32 kind, s32 part_x, s32 part_y, 
             init_root = allocated;
             setup = project_sprite_chain;
             ((S_8016A89C_0 *)init_root)->unk_10 = D_8016ABB8;
-            ((S_8016A89C_1 *)object)->unk_13 = 17;
+            ((S_8016A89C_1 *)object)->unk_13 = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
 

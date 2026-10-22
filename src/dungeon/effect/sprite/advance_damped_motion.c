@@ -45,8 +45,8 @@ void advance_damped_motion(void *actor, Motion *motion) {
         }
     }
 
-    *(u16 *)((u8 *)actor - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
 /* MECHANISM: Frameless leaf keeps actor/motion in $a3/$a2; the volatile y reload preserves damping

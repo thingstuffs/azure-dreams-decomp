@@ -1,5 +1,6 @@
 /* Moving radial effects, their line geometry, and timed brightness changes. */
 #include "dungeon/effect/mesh/follow_brighten.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_18d0850_entry)(void) = (void (*)(void))update_movement_toward_child_terrain_target_animates_associated_effects;
 
@@ -52,8 +53,8 @@ void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void 
     owner->parent->flags++;
     advance_sprite_animation_and_textures(state);
     if (state->flags & 0x6000) {
-        *(u16 *)((u8 *)owner - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        *(u16 *)((u8 *)owner - 2) |= NODE_REMOVE;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -860,8 +861,8 @@ create_loop:
             break;
         }
         g_dungeon_status.active_actor = 0;
-        *(u16 *)((u8 *)state_arg - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)state_arg - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     case 8:

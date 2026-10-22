@@ -23,8 +23,8 @@ void run_callbacks_unless_suppressed(void *object, void *check_data)
         if (status_byte != 0) {
             *status_byte = 0;
         }
-        *(u16 *)((u8 *)object - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

@@ -1,5 +1,8 @@
 /* Block actor spawning, movement, attacks, and radial visual effects. */
 #include "modules/dungeon_ovl_cb3000.h"
+#include "shared/actor_action_flags.h"
+#include "shared/monster_ids.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 void *(*const cb3000_spawn_entry)(s16,s16,s16,s32) = create_linked_object_position;
@@ -75,8 +78,8 @@ void expand_then_shrink_effect(void *effect, void *unused, void *visual)
 
     ((CB_80170920_S_80170920_1 *)visual)->unk_1A += 0x190;
     if (((CB_80170920_S_80170920_0 *)effect)->unk_24.u <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -99,7 +102,7 @@ void *create_linked_object_position(s16 spawn_flags, s16 attr_a, s16 attr_b, s32
         result = (u8 *)object;
         result += 0x20;
         ((CB_80170A5C_S_80170A5C_0 *)object)->unk_10 = set_boss_effect_flag;
-        ((CB_80170A5C_S_80170A5C_1 *)result)->unk_13 = 20;
+        ((CB_80170A5C_S_80170A5C_1 *)result)->unk_13 = MONSTER_BLOCK;
         register_node(object, project_sprite_chain);
 
         {
@@ -549,7 +552,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, void *context
             }
         }
     } else if (actor_flags & 0x2000) {
-        if (!(actor_data->action_flags & 0x8000)) {
+        if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
             if (actor_flags & 0x20000) {
                 s16 target_angle;
                 s32 target_x;
@@ -596,7 +599,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, void *context
                dungeon_rooms[position_data->room_index].flags & 2) {
         rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
-    } else if (!(actor_data->action_flags & 0x8000)) {
+    } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
         blocker = (EntityRec *)current_angle;
         if (blocker != 0 &&
@@ -695,13 +698,13 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, void *context
 
     if (turn_index >= 8) {
         actor_data->movement_queue_state &= 0x7F;
-        actor_data->action_flags &= 0x7FFF;
+        actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         update_actor_status_and_mp(actor_data);
         return;
     }
 
     {
-        actor_data->action_flags &= 0x7FFF;
+        actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         move_data->unk_9C.as_u8 = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
@@ -753,7 +756,7 @@ s32 try_begin_adjacent_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 mo
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -1064,7 +1067,7 @@ void complete_timed_actor_animation(void *action, void *motion, void *sprite, vo
             ((CB_801729A8_S_801729A8_0 *)action)->unk_8C = dispatch_actor_turn_and_motion;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+            ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
         return;
     default:
@@ -1940,7 +1943,7 @@ void create_angular_offset_effect(u8 *effect, s32 *position, s32 effect_param)
     F16(effect, 0x24) = life_left;
     if ((life_left << 16) <= 0) {
         FU16(effect, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -2199,8 +2202,8 @@ void finish_sprite_and_restore_tint(u8 *task, void *context, u8 *input)
         frames_left = *(u16 *)(task + 0x96) - 1;
         *(s16 *)(task + 0x96) = frames_left;
         if (frames_left <= 0) {
-            *(u16 *)(task - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)(task - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -2349,7 +2352,7 @@ void replace_actor_with_faded_effect(void *state, EntityRec *position, SpriteFra
         }
         ((CB_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
         ((CB_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((CB_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((Rec_D_80082E80 *)actor)->unk_6D = 0;
         return;

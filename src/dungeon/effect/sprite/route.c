@@ -178,8 +178,8 @@ void advance_jittered_effect_toward_terrain(void *object_data, void *source_data
 
     *(s16 *)(object + 0x32) -= 8;
     if (*(s16 *)(object + 0x32) <= 0) {
-        *(u16 *)(object - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(object - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/sprite/route.h"
@@ -295,13 +295,13 @@ void move_and_grow_timed_sprite(void *state, void *position, void *object)
     ticks_left = *(u16 *)((u8 *)state + 2) - 1;
     *(u16 *)((u8 *)state + 2) = ticks_left;
     if ((s16)ticks_left <= 0) {
-        *(u16 *)((u8 *)state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (*(u16 *)((u8 *)object + 0x14) & 0x8000) {
-        *(u16 *)((u8 *)state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/sprite/route.h"
@@ -319,8 +319,8 @@ void update_actor_effect_sequence(void *record)
     counter--;
     *(u16 *)(record_bytes + 2) = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)(record_bytes - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(record_bytes - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -402,11 +402,11 @@ void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_02 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (sprite->flags & 0x8000) {
         ((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 = (u16) (((B32_818CEDC8_S_818CEDC8_1_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "shared/object_node.h"
@@ -479,7 +479,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                            pos->unk_08.at02.v, ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30) << 0x10) != 0) {
             ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_08 != 0) {
@@ -639,7 +639,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_04.u <= 0) {
                 ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
                 ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
         }
@@ -781,7 +781,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
         if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_02.s >= 0x15) {
             ((B32_818CF0E8_S_818CF0E8_9 *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
             ((B32_818CF0E8_S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }
@@ -1040,8 +1040,8 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
             state->counter84 = ticks;
             if (pending == 0) {
                 g_dungeon_status.active_actor = 0;
-                ((u16 *)state)[-1] |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                ((u16 *)state)[-1] |= NODE_REMOVE;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             } else {
                 D_80025924[0] = 0;
             }

@@ -25,6 +25,6 @@ void finalize_object_after_check_or_expiry(void *object, s32 check_value)
     }
 
     unlink_node_if_registered(object);
-    *(u16 *)((u8 *)object - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

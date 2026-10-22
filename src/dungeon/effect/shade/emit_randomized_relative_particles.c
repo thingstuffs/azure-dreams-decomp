@@ -104,7 +104,7 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_1E = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_800D5294_0_pre *)emitter)[-1].unk_00 = (u16) (((S_800D5294_0_pre *)emitter)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     }
 }

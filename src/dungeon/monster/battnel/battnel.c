@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -72,7 +73,7 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80B85054_0 *)obj)->unk_10 = D_80158A30;
-        work->unk_13 = 0xD;
+        work->unk_13 = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80B85054_0 *)obj)->unk_08;

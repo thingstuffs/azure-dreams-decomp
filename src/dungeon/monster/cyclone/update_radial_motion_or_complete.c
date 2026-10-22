@@ -14,7 +14,7 @@ void update_radial_motion_or_complete(u16 *motion, s32 *position, u8 *object)
     advance_sprite_animation_and_textures(object);
     if (*(u16 *)(object + 0x14) & 0x6000) {
         motion[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

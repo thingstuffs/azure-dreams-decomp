@@ -1,5 +1,6 @@
 /* Rotating linked particles and their travel toward an actor or terrain endpoint. */
 #include "dungeon/effect/travel/update_rotating_fading_effect.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_18ca83c_entry)(void) = (void (*)(void))advance_target_travel_effect;
 
@@ -114,8 +115,8 @@ void update_rotating_fading_effect(void *effect, void *position, void *sprite)
 
     case 4:
     default:
-        *(u16 *)((u8 *) effect + (-2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *) effect + (-2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
 }
@@ -413,8 +414,8 @@ void advance_target_travel_effect(void *effect, void *motion, void *appearance) 
             break;
         }
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | NODE_REMOVE);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         break;
     case 2:
         ((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at00.v = (s32) (((ovl_18ca83c_818AAE60_S_80024660_5 *)motion)->unk_00.at00.v

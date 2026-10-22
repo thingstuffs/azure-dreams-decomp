@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/monster_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -74,8 +75,8 @@ s32 apply_frog_transformation_item(void *entity, s32 action_id, s16 mode) {
         }
 
         entity_id = ((S_800BDEB8_0 *)entity)->unk_13;
-        if (entity_id < 0x2E) {
-            if (entity_id == 0x1E) {
+        if (entity_id < MONSTER_FROG) {
+            if (entity_id == MONSTER_MANOEVA) {
                 if ((((S_800BDEB8_0 *)entity)->unk_A4 != 0) || (((S_800BDEB8_0 *)entity)->unk_AA != 0)) {
                     special_case = 1;
                 }

@@ -1,6 +1,7 @@
 /* Display fade (G00643). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BEA7C, PD:town/engine:80111FB0. */
 #include "town/map/display_fade_g00643.h"
+#include "shared/object_flags.h"
 
 /* Advances a timed color fade and sets completion flags when it finishes. */
 void advance_color_fade_and_set_completion(void *fade_state, s32 unused, void *visual)
@@ -39,8 +40,8 @@ void advance_color_fade_and_set_completion(void *fade_state, s32 unused, void *v
     }
 
     case 2:
-        (*(u16 *)((u8 *)fade_state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)fade_state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
 }
@@ -79,8 +80,8 @@ void advance_timed_state_and_set_completion(void *object)
         return;
 
     case 2:
-        U16_AT(object, -2) = U16_AT(object, -2) | 0x8000;
-        object_flag_block.flags |= 0x8000;
+        U16_AT(object, -2) = U16_AT(object, -2) | NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 }

@@ -331,8 +331,8 @@ void update_spiraling_effect_growth_and_fade(void *effect, void *position, void 
         ((S_81952B4C_2 *)sprite)->unk_0C.at01.v = brightness;
         ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
         if ((s8)brightness <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            global_flags = object_flag_block.flags | 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             ((S_81952B4C_0 *)effect)->unk_24.u++;
             object_flag_block.flags = global_flags;
             return;
@@ -466,8 +466,8 @@ void process_effect_modes_and_completion(void *state)
     countdown = (*((u16 *) (((u8 *) state) + 0x2C))) - 1;
     *((u16 *) (((u8 *) state) + 0x2C)) = countdown;
     if ((((s16) countdown) < 0) || (D_800249A4 != 0)) {
-        *((u16 *) (((u8 *) state) - 2)) = (*((u16 *) (((u8 *) state) - 2))) | 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        *((u16 *) (((u8 *) state) - 2)) = (*((u16 *) (((u8 *) state) - 2))) | NODE_REMOVE;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 

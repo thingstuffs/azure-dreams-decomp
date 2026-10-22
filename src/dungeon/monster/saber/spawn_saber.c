@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -63,7 +64,7 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         result = object;
         result = (u8 *)result + 0x20;
         ((S_80171158_0 *)object)->unk_10 = D_80171320;
-        result->unk_13 = 9;
+        result->unk_13 = MONSTER_SABER;
         register_node(object, project_sprite_chain);
 
         {

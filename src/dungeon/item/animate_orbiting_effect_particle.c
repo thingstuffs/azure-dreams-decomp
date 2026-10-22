@@ -116,7 +116,7 @@ void animate_orbiting_effect_particle(EffectState *state, EffectWork *work, Effe
 
             flags = ((u16 *)state) - 1;
             *flags |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

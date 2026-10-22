@@ -193,8 +193,8 @@ void create_randomized_transform_effect(u8 *state, UnkArg1 *position)
     countdown = *(u16 *)(state + 0x32) - 8;
     *(u16 *)(state + 0x32) = countdown;
     if ((s32)(countdown << 16) <= 0) {
-        *(u16 *)(state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -363,13 +363,13 @@ void advance_rotating_fading_effect(DungeonState *anim, S_8186EDA8_0 *position, 
         if ((finish_timer << 0x10) <= 0) {
             ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00
                 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
     if (effect->flags14 & 0x8000) {
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     return;
 
@@ -784,8 +784,8 @@ void update_moving_effect_particles_and_cleanup(u8 *effect_data, u8 *effect_pos,
                 U16_AT(effect_data, 0x82) = old_frame;
                 if (effect_active == 0) {
                     g_dungeon_status.active_actor = 0;
-                    U16_AT(effect_data, -2) |= 0x8000;
-                    object_flag_block.flags |= 0x8000;
+                    U16_AT(effect_data, -2) |= NODE_REMOVE;
+                    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 } else {
                     D_80025308 = 0;
                 }

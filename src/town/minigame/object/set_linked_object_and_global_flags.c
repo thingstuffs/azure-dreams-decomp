@@ -8,7 +8,7 @@ void set_linked_object_and_global_flags(void *destination, s32 unused, void *sou
 {
     advance_sprite_animation_and_textures(source);
     if (*(u16 *)((u8 *)source + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)destination - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)destination - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

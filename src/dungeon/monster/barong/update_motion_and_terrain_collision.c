@@ -170,7 +170,7 @@ settle:
             place_item_at_valid_floor_position(((S_801747F0_1 *)position)->unk_0E, ((S_801747F0_1 *)position)->unk_12,
                           ((S_801747F0_1 *)position)->unk_16, ((S_801747F0_2 *)object)->unk_08, colors);
             (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         if (((S_801747F0_2 *)object)->unk_14 & 0x8000) {
@@ -200,7 +200,7 @@ fall:
                     (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20));
                 ((S_801747F0_1 *)position)->unk_08.at00u.v = 0;
                 (((MotionFieldView_80E64FF0Prefix *)motion)[-1].flags) |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
         }

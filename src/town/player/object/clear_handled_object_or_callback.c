@@ -27,7 +27,7 @@ void clear_handled_object_or_callback(S_func_800A6C4C_0 *object, s32 input, s32 
         unlink_node_if_registered(object);
         ((ObjectRetirementFlags *)((u8 *)object - 2))->unk_00 = (u16) (((ObjectRetirementFlags *)((u8 *)object - 2))->unk_00
             | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     }
 

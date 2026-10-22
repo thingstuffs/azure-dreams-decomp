@@ -54,7 +54,7 @@ void update_linked_position_or_flag_object(S_func_800AA760_0 *object, SignedPosi
         }
         unlink_node_if_registered(object);
         ((ObjectRetirementFlags *)((u8 *)object - 2))->unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

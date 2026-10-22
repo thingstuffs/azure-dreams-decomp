@@ -1,5 +1,6 @@
 /* Kewne actor rendering, moving sprite effects, and projected ellipse geometry. */
 #include "modules/dungeon_ovl_9c32d4.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Prepares an ellipse render region, follows the linked position, emits particles, and fades out the
@@ -88,8 +89,8 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
             decay_level -= 8;
             ((ovl_9c32d4_809A32D4_S_80174AD4_4 *)effect_data)->unk_0C = decay_level;
             if (decay_level == 0) {
-                (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }
     } else {
@@ -175,8 +176,8 @@ void advance_directional_effect_motion(ovl_9c32d4_809A3698_MotionState *state, o
     speed = state->speed - 8;
     state->speed = speed;
     if (speed <= 0) {
-        *(u16 *)((u8 *)state - 2) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -70,7 +71,7 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
     if (object != 0) {
         work = (u8 *)object + 0x20;
         ((S_80170884_0 *)object)->unk_10 = D_80170A58;
-        work->unk_13 = 5;
+        work->unk_13 = MONSTER_IFRIT;
         register_node(object, project_sprite_chain);
 
         part_a = ((S_80170884_0 *)object)->unk_08;

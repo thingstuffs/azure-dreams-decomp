@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -172,7 +173,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
             return;
         }
         if (((S_801711A4_2 *)sprite)->unk_24.at00u.v != *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
-            if (!(status->action_flags & 0x8000)) {
+            if (!(status->action_flags & ACTOR_ACTION_PENDING)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(status, ((s32)primary_actor_record->previous_actor_header) + 0x20) << 0x10) != 0) {
                         return;
@@ -184,8 +185,8 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
                 action_flags = status->action_flags | 0x4000;
                 status->action_flags = action_flags;
             }
-            if (status->action_flags & 0x8000) {
-                action_id = status->action_flags & 0x3FFF;
+            if (status->action_flags & ACTOR_ACTION_PENDING) {
+                action_id = status->action_flags & ACTOR_ACTION_CODE_MASK;
                 switch (action_id) {
                 case 8:
                 case 9:

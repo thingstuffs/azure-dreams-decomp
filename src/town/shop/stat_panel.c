@@ -4,6 +4,7 @@
  * B2@0x8008929c; B2@0x80089ae8; partial span, complete TU edges unknown.
  */
 #include "town/shop/stat_panel.h"
+#include "shared/monster_ids.h"
 
 /* Transfer pending texture and palette data, then clear the transfer state. */
 void complete_display_transfer(void *texture_state) {
@@ -92,7 +93,7 @@ void draw_formatted_monster_status_text(void *entry, void *display) {
 s32 normalize_monster_status_species_code(s32 value) {
     s32 mapped_value;
 
-    mapped_value = 2;
+    mapped_value = MONSTER_KEWNE;
     if (value != 0x39) {
         mapped_value = value;
     }

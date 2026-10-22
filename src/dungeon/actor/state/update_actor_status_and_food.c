@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -29,7 +30,7 @@ void update_actor_status_and_mp(ActorRecord *entity) {
                 entity->pending_turn_updates = updates_left;
             } while ((updates_left << 0x18) != 0);
         }
-        entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+        entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         refresh_actor_proximity_state(entity);
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -56,7 +57,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
     switch (phase) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            ability_id = actor->action_flags & 0x3FFF;
+            ability_id = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (ability_id) {
             case 7:
                 use_player = 1;
@@ -78,7 +79,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
                 break;
             }
         } else {
-            normal_ability = actor->action_flags & 0x3FFF;
+            normal_ability = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (normal_ability) {
             case 3:
                 ability = (u8 *)actor + 0xE;
@@ -166,7 +167,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
             ((S_8017364C_0 *)action)->unk_8C = &D_80171760;
             actor->target_tile_y = 0;
             actor->target_tile_x = 0;
-            actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
+            actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
             return;
         }
     case 1:
@@ -231,7 +232,7 @@ void update_ability_action_and_completion(void *action, ObjectPosition *motion, 
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
-        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
+        actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         play_sound_if_enabled(0xB4);
         return;
     }

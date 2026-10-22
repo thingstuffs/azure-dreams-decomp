@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -64,7 +65,7 @@ void *spawn_configured_overlay_object_alt(s16 flags, s16 kind_id, s16 variant, s
         result = object;
         result = (S_80170E74_1 *)((u8 *)result + 0x20);
         ((S_80170E74_0 *)object)->unk_10 = D_8017103C;
-        result->unk_13 = 42;
+        result->unk_13 = MONSTER_GLACIER;
         register_node(object, project_sprite_chain);
 
         {

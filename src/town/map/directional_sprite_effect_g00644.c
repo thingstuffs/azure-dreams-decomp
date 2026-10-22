@@ -1,6 +1,7 @@
 /* Directional sprite effect (G00644). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800F15E4. */
 #include "town/map/directional_sprite_effect_g00644.h"
+#include "shared/object_flags.h"
 
 /* Creates an effect at the supplied position with directional motion and initializes its sprite. */
 s32 create_directional_sprite_effect(void *position, s16 angle) {
@@ -66,8 +67,8 @@ void advance_coordinates_and_propagate_flags(void *object_data, void *motion, vo
     ((S_800BC6CC_0 *)motion)->unk_00 = (s32) (((S_800BC6CC_0 *)motion)->unk_00 + ((S_800BC6CC_0 *)motion)->unk_0C);
     ((S_800BC6CC_0 *)motion)->unk_04 = (s32) (((S_800BC6CC_0 *)motion)->unk_04 + ((S_800BC6CC_0 *)motion)->unk_10);
     if (((SpriteFrameState *)status)->flags & 0x6000) {
-        (*(u16 *)((u8 *)object_data + -2)) = (u16) (((ObjectStatusPrefix16 *)object_data)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object_data + -2)) = (u16) (((ObjectStatusPrefix16 *)object_data)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

@@ -15,8 +15,8 @@ void update_object_link_or_angle_state(void *object, void *context)
             *linked_flag = 0;
         }
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

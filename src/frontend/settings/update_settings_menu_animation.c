@@ -206,8 +206,8 @@ void update_settings_menu_animation(Obj *obj, s32 *position) {
 
     case 253:
         animation_tick_scale[0] = 2;
-        ((u16 *) obj)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *) obj)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
 
     case 254:

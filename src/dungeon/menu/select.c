@@ -1,5 +1,6 @@
 /* Direction-selection menu animation, preview objects, and terrain rendering. */
 #include "dungeon/menu/select.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/menu/select.h"
 
@@ -789,8 +790,8 @@ void initialize_children_or_shutdown(void *owner)
     stop_state = 2;
     if (state == stop_state) {
         if ((*(s16 *)D_8002715C) == 0) {
-            (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         (*(s16 *)D_8002715C) = 0;
         return;
@@ -1041,8 +1042,8 @@ void initialize_fading_effect(void *effect, void *control)
         if ((dark_frames_left << 0x10) > 0) {
             return;
         }
-        U16_AT(effect, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        U16_AT(effect, -2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     default:
         return;

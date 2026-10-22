@@ -234,7 +234,7 @@ void func_80024020(u8 *self, u8 *motion)
             return;
         g_dungeon_status.active_actor = 0;
         F(self, u16, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
         return;
     }
@@ -279,8 +279,8 @@ void advance_delayed_fading_sprite(void *effect, DelayPosition *motion, void *sp
 
         if ((s32)*(u8 *)((u8 *)sprite + 0xC) <= *(s16 *)((u8 *)effect + 0x4A)) {
             *(s32 *)((u8 *)sprite + 0xC) = 0;
-            *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
 
@@ -389,7 +389,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, DelayMotion *motion, 
         if (count_or_step >= (s32) sprite->unk_0C.at00.v) {
             sprite->unk_0C.at00u.v = 0;
             ((DelayStatusPrefix *)effect_arg)[-1].unk_00 = (u16) (((DelayStatusPrefix *)effect_arg)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         fade_level = sprite->unk_0C.at02.v - 0x10;

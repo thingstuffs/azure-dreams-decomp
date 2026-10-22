@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "engine/util.h"
 
 typedef struct S_8004B298_a1 {
@@ -14,6 +15,6 @@ void mark_record_if_indirect_value_zero(u16 *record_data, S_8004B298_a1 *value_r
 
     if (*value_ref->unk04 == 0) {
         *flags |= 0x8000;
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

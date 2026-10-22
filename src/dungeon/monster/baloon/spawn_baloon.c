@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -72,7 +73,7 @@ void *spawn_baloon(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80171780_0 *)obj)->unk_10 = D_80171964;
-        work->unk_13 = 0x19;
+        work->unk_13 = MONSTER_BALOON;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80171780_0 *)obj)->unk_08;

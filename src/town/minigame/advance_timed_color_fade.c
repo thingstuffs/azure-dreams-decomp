@@ -37,8 +37,8 @@ void advance_timed_color_fade(void *effect) {
         color = ((S_80022514_0 *)effect)->unk_08 + 0xFFF7F7F8;
         ((S_80022514_0 *)effect)->unk_08 = color;
         if (color <= 0x80808) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

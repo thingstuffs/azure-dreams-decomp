@@ -157,7 +157,7 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
 
     case 5:
         (((AnimationFieldView_813374E8Prefix *)animation)[-1].flags) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

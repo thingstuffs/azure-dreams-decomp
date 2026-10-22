@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -69,7 +70,7 @@ void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, 
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80FE1000_0 *)obj)->unk_10 = D_8016AA7C;
-        ((S_80FE1000_1 *)work)->unk_13 = 0x28;
+        ((S_80FE1000_1 *)work)->unk_13 = MONSTER_KILLER;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80FE1000_0 *)obj)->unk_08;

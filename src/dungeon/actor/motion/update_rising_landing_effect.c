@@ -486,7 +486,7 @@ store_state:
     g_dungeon_status.active_actor = 0;
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
     ((S_FUNC_8197C800_BODY_0_pre *)input)[-1].unk_00 |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -743,7 +743,7 @@ void move_sprite_until_animation_ends(void *render_entry, void *motion_data, voi
     advance_sprite_animation_and_textures(status);
     if (((SpriteFrameState *)status)->flags & 0x6000) {
         ((S_8197D3B8_1_pre *)render_entry)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -942,8 +942,8 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
                 }
                 particle_index -= 1;
             } while (particle_index >= 0);
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8197D468_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8197D468_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

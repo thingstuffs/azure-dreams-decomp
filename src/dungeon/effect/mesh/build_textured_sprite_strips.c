@@ -1,5 +1,6 @@
 /* Textured strip rendering, shaded particles, timed fades, and a traveling effect sequence. */
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
+#include "shared/object_flags.h"
 void (*const dungeon_1924800_entry)(S_func_81905FD0_1 *, S_func_81905FD0_2 *, S_func_81905FD0_3 *) = update_traveling;
 const u16 D_80024004[4] = {832,256,96,84};
 const u16 D_8002400C[4] = {832,340,4,4};
@@ -677,7 +678,7 @@ void raise_effect_to_height_limit(EffectRecord *object, ObjectPosition *source)
     object->timer -= 8;
     if (object->timer <= 0) {
         ((ObjectNodeHeader *)object - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "shared/entity.h"
@@ -788,7 +789,7 @@ void update_effect_animation_slots(void *anim_state)
     if ((s16)((S_800251A0_0 *)anim_state)->unk_02 <= 0) {
         ((S_800251A0_0_pre *)anim_state)[-1].unk_00 =
             (u16)(((S_800251A0_0_pre *)anim_state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
@@ -806,7 +807,7 @@ void tick_effect_record(CountdownRecord *record)
     record->counter = counter;
     if ((counter << 16) <= 0) {
         ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
@@ -825,8 +826,8 @@ void update_effect_brightness_pulse(u8 *effect, void *unused, u8 *target)
     object = *(u8 **)(effect + 0x3C);
     D_800267B8[0] = 1;
     if ((u32)(object[0x13] - 0x33) < 4U) {
-        *(u16 *)(effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
@@ -961,8 +962,8 @@ void build_inverted(void *context, void *unused, void *effect_data) {
             *(s16 *)((u8 *)context + 2) = 0;
             *(s16 *)context = (u16)*(s16 *)context + 1;
             *(s16 *)(*(u8 **)((u8 *)context + 0x40) + 0x9c) = one;
-            *(u16 *)((u8 *)context - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)context - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
@@ -1565,8 +1566,8 @@ update_coords:
             effect->unk_82.u16 = previous_timer;
             if (active_flag == 0) {
                 g_dungeon_status.active_actor = 0;
-                *(u16 *)((u8 *)effect - 2) |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             } else {
                 ((S_func_81905FD0_10 *)D_800267B8)->unk_00.u16 = 0;
             }

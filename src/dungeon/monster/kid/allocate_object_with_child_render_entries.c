@@ -1,4 +1,5 @@
 #include "dungeon/monster/kid/allocate_object_with_child_render_entries.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kid/allocate_object_with_child_render_entries.h"
 
@@ -42,7 +43,7 @@ void *allocate_object_with_child_render_entries(s32 kind, s32 part_x, s32 part_y
             init_root = allocated;
             setup = project_sprite_chain;
             ((S_8014C8DC_0 *)init_root)->unk_10 = D_8014CBF8;
-            ((S_8014C8DC_1 *)object)->unk_13 = 4;
+            ((S_8014C8DC_1 *)object)->unk_13 = MONSTER_KID;
             register_node(init_root, setup);
         }
 

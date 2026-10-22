@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -47,7 +48,7 @@ s32 check_movement_and_initialize_action(void *action_state, void *action_ctx, v
     if (flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
         if (flags & 8) {
             return -1;
         }

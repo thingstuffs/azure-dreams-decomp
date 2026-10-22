@@ -52,7 +52,7 @@ void advance_damped_effect_motion(void *effect, void *motion, void *color) {
     ticks_left = (u16) ((S_800D4CB0_2 *)effect)->unk_1E - 1;
     ((S_800D4CB0_2 *)effect)->unk_1E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800D4CB0_2_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800D4CB0_2_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

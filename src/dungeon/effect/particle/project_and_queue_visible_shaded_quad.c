@@ -395,7 +395,7 @@ void func_800247E8(Bank1990800_1990fe8_EffectState *state, ObjectPosition *posit
     state->countdown = countdown;
     if ((countdown << 16) <= 0) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -521,7 +521,7 @@ void follow_origin_and_fade_sprite(void *state, MovingPosition *position, S_8197
 
     if (((S_819711E0_0 *)state)->unk_38.u <= 0) {
         ((S_819711E0_0_pre *)state)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -564,8 +564,8 @@ void fade_effect_color_by_quarter(Obj *effect, Motion *motion, s8 *render_data)
     render_data[12] = intensity;
     motion->value += motion->delta;
     if (effect->timer <= 0) {
-        ((u16 *)effect)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)effect)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -623,8 +623,8 @@ void func_80024B98(void *fade_data)
             ((S_81971398_0 *)fade)->unk_3A;
     }
     if (((S_81971398_0 *)fade)->unk_38.u <= 0) {
-        (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)fade + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -648,8 +648,8 @@ void render_linked_jittered_effect_strips(void *effect, s32 unused, void *packet
     *(u8 *)((u8 *)effect + 0x84) -= 1;
     *(u16 *)((u8 *)packet + 0x1A) += *(u16 *)((u8 *)effect + 0x44);
     if (*(s16 *)((u8 *)effect + 0x38) <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -1571,7 +1571,7 @@ void advance_effect_sequence(void *effect, void *owner, void *context_arg)
             reference_tile_object.unk_006 = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count = cleanup_count - 1;
             ((S_8197192C_0_pre *)effect)[-1].unk_00 = ((S_8197192C_0_pre *)effect)[-1].unk_00 | 0x8000;
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
         }
         D_80025FF4 = 0;

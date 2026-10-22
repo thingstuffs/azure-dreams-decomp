@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/game_work.h"
 
 #include "common.h"
@@ -25,7 +26,7 @@ void update_active_nodes(void)
         copy_and_scale_screen_outline_points();
     }
     run_active_node_callbacks();
-    if (D_800814A0 & 0x8000) {
+    if (D_800814A0 & OBJECT_REMOVE_PENDING) {
         remove_marked_active_nodes();
     }
     mode = node_update_mode;

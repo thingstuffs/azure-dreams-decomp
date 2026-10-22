@@ -13,7 +13,7 @@ void run_node_callback_and_set_marker(void *entry, void *output, void *context) 
     runtime_state = &g_game_work;
     if (callback != 0) {
         callback();
-        if ((*(u16 *)((u8 *)entry - 2) & 0x8000) != 0) {
+        if ((*(u16 *)((u8 *)entry - 2) & NODE_REMOVE) != 0) {
             return;
         }
     }

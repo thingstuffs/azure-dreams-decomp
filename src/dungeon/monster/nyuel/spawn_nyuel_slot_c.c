@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_bcf094.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_bcf094.h"
 
@@ -24,7 +25,7 @@ void *func_80158894(s16 flags, s16 kind_id, s32 variant, s32 spawn_value)
     original_flags = saved_flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;
-        ((S_80158894_0 *)result)->unk_13 = 0xE;
+        ((S_80158894_0 *)result)->unk_13 = MONSTER_NYUEL;
         register_node(created, project_sprite_chain);
 
         position = ((S_80158894_1 *)created)->unk_08;

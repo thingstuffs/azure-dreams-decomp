@@ -78,7 +78,7 @@ s32 update_effect_motion_size_and_brightness(void *effect_fields, SignedPosition
     case 0xFF:
         ((S_800BC00C_0 *)((u8 *)effect_fields - 0x2))->unk_00 = (u16) (((S_800BC00C_0 *)((u8 *)effect_fields
             - 0x2))->unk_00 | 0x8000);
-        global_flags = object_flag_block.flags | 0x8000;
+        global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         object_flag_block.flags = global_flags;
         return global_flags;
     default:

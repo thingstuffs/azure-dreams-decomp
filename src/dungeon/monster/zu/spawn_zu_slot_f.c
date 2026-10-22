@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -76,7 +77,7 @@ void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80F8D000_0 *)obj)->unk_10 = D_8016AA70;
-        ((S_80F8D000_1 *)work)->unk_13 = 0x26;
+        ((S_80F8D000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80F8D000_0 *)obj)->unk_08;

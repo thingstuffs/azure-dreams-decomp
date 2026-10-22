@@ -146,8 +146,8 @@ void update_attached_effect_position(void *object, MovingPosition *position, voi
                     entry_cursor = (u8 *)entry_cursor + 4;
                 } while (entry_index < 4);
             }
-            (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)object + (-2))) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }

@@ -367,7 +367,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         if (effect_state->unk_50.as_s16 <= 0) {
             g_dungeon_status.active_actor = 0;
             ((S_func_818DA800_11 *)((u8 *)effect_state - 4))->unk_02 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             break;
         }
     }
@@ -435,8 +435,8 @@ void advance_target_growth_and_fade(Unk818DAD38Owner *owner, s32 unused,
     case 1:
         if ((u8)target->unkC < 9) {
             target->unkC = 0;
-            ((u16 *)owner)[-1] |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            ((u16 *)owner)[-1] |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {
             target->unkC += 0xFFEFEFF0;
         }
@@ -491,7 +491,7 @@ void create_coordinate_sprite_object(void *state) {
     next_remaining = (u16)((S_818DAE84_0 *)state)->unk_10 - 1;
     ((S_818DAE84_0 *)state)->unk_10 = next_remaining;
     if ((next_remaining << 16) <= 0) {
-        ((u16 *)state)[-1] = (u16)(((u16 *)state)[-1] | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        ((u16 *)state)[-1] = (u16)(((u16 *)state)[-1] | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

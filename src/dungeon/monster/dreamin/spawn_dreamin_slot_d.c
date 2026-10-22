@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -78,7 +79,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
     if (object != NULL) {
         entity = object + 0x20;
         ((S_80DA1000_0 *)object)->unk_10 = &func_8015EA3C;
-        entity->unk_13 = 0x1A;
+        entity->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         type_data = ((S_80DA1000_0 *)object)->unk_08;
         type_data->unk_0A = saved_type;

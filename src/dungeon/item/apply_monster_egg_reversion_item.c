@@ -156,7 +156,7 @@ s32 apply_monster_egg_reversion_item(void *entity, s32 source, s16 reason)
 
         unlink_entity_node(entity);
         ((S_800BE6F0_0_pre *)entity)[-1].unk_16 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
         place_actor_item(entity, source);
         return 1;

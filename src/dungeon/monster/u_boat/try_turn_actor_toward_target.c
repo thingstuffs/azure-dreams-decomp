@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
@@ -43,7 +44,7 @@ s32 try_turn_actor_toward_target(Rec_func_800A9E70_arg0 *action_state, s32 actio
     if (global_flags[1] & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (global_flags[1] & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (global_flags[1] & 8)) {
         return -1;
     }
     if ((u32)(((0 - get_actor_height_difference(target_angle, actor)) + 0x40) & 0xFFFF) <

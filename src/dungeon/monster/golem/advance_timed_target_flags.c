@@ -55,8 +55,8 @@ void advance_timed_target_flags(void *state, void *output, void *target)
     u16 target_flags;
 
     if (((S_80174D24_4 *)(((S_80174D24_0 *)state)->unk_08))->unk_2C != &D_80175F38) {
-        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

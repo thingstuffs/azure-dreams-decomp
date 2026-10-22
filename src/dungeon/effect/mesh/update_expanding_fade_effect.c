@@ -59,8 +59,8 @@ void update_expanding_fade_effect(void *effect, void *position, void *sprite) {
     }
     advance_sprite_animation_and_textures(sprite);
     if (((SpriteFrameState *)sprite)->flags & 0x6000) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81977E0C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81977E0C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     ((S_81977E0C_2 *)position)->unk_00 = (s32) (*D_80026208 + (((func_800644B8((s16) ((S_81977E0C_0 *)effect)->unk_08)

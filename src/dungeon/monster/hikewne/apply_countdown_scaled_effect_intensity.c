@@ -1,5 +1,6 @@
 /* Hikewne effect intensity, transformed effect animation, and directional effect creation. */
 #include "dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Sets sprite brightness from the remaining lifetime, advances animation, and flags the expired effect. */
@@ -18,7 +19,7 @@ void apply_countdown_scaled_effect_intensity(void *record_data, void *unused, Sp
     if ((remaining_ticks << 0x10) <= 0) {
         ((S_809750E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_809750E8_0 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -49,7 +50,7 @@ void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform
 
     if (((S_80975170_0 *)effect)->unk_96.u <= 0) {
         ((ObjectRetirementFlags *)effect)[-1].unk_00 = (u16)(((ObjectRetirementFlags *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 

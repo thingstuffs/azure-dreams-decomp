@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 #include "engine/effect.h"
@@ -40,12 +41,12 @@ void reset_group_and_flag_children(Main *main)
     child_cursor = (Child **)group_slot;
     do {
         child = child_cursor[4];
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
         child->flags |= 0x8000;
         child_cursor++;
         child_index++;
     } while (child_index < 16);
 
-    (*(u16 *)((u8 *)group_slot - 2)) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    (*(u16 *)((u8 *)group_slot - 2)) |= NODE_REMOVE;
+    D_800814A0 |= OBJECT_REMOVE_PENDING;
 }

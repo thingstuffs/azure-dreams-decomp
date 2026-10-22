@@ -1,5 +1,6 @@
 /* Noise directional action setup and timed actor visual effects. */
 #include "dungeon/monster/noise/start_directional_action_and_record_tile.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Start the actor's directional action and record the adjacent tile result. */
@@ -187,7 +188,7 @@ void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *posit
         spend_actor_mp(actor, 0x400);
         ((T_801748D0_S_801748D0_0 *)effect_state)->unk_8C = update_actor_behavior_and_direction;
         g_dungeon_status.active_actor = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
 
         return;
     }

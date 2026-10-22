@@ -50,10 +50,10 @@ void update_accelerating_growing_particle(void *effect, S_80172DFC_1 *position, 
     ((S_80172DFC_0 *)effect)->unk_16 = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
     if (animation->flags & 0x8000) {
         ((S_80172DFC_0_pre *)effect)[-1].unk_00 = ((S_80172DFC_0_pre *)effect)[-1].unk_00 | 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

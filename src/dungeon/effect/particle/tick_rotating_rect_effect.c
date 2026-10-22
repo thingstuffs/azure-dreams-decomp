@@ -32,7 +32,7 @@ void tick_rotating_rect_effect(void *effect, s32 unused, void *phase_state)
     timer = *(u16 *)((u8 *)effect + 0x18) - 1;
     *(u16 *)((u8 *)effect + 0x18) = timer;
     if ((s16)timer <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

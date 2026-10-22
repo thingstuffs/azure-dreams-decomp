@@ -139,7 +139,7 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
             } else if (state == 1) {
                 if (((S_8008D470_0 *)effect)->unk_AE == 0) {
                     ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
-                    object_flag_block.flags |= 0x8000;
+                    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 }
             }
         }
@@ -171,16 +171,16 @@ void update_held_item_attachment(void *effect, S_8008D470_4 *position, S_8008D47
                 ((S_8008D470_7 *)(target->unk_124))->unk_60 = target;
                 target->unk_1C |= 0x100000;
                 ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         } else if (expiry_mode == 2) {
             ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else if (expiry_mode == 0) {
             update_result = position_updated;
             if (update_result == 0) {
                 ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }
     }

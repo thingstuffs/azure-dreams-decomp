@@ -1,5 +1,7 @@
 /* Inventory action menu input, item text editing, and widget allocation and layout. */
 #include "dungeon/item/itemwin.h"
+#include "shared/item_ids.h"
+#include "shared/object_flags.h"
 
 
 void inventory_dispatch_indexed_handler(void *context, s32 handler_index) {
@@ -32,7 +34,7 @@ void restore_item_text_before_edit(void *item_object)
     subobject_base = ((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_14;
     category = ((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_0C;
     subobject = (void *)(subobject_base + 0x20);
-    if (category != 0x13) {
+    if (category != ITEM_KIND_FAMILIAR) {
         if (subobject->unk_08 != 0) {
             free_item_data_slot(category, subobject->unk_1C);
             item_category_groups[((ovl_1830850_818108B8_S_800258B8_0 *)object)->unk_0C]
@@ -337,7 +339,7 @@ ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child
             release_null_terminated_entries((u8 *)obj + 0x78);
             obj->flags1E |= 0x8000;
             obj = 0;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
     return obj;

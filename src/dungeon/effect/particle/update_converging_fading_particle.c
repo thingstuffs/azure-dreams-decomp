@@ -60,8 +60,8 @@ void update_converging_fading_particle(void *effect, void *position) {
     if (target_dx < 0x10) {
         target_dy = abs(((S_80165164_1 *)effect)->unk_44 - ((S_80165164_0 *)position)->unk_04.at02.v);
         if (target_dy < 0x10) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
     }
     scaled_red = ((S_80165164_1 *)effect)->unk_00 * ((S_80165164_1 *)effect)->unk_32;
@@ -74,7 +74,7 @@ void update_converging_fading_particle(void *effect, void *position) {
     ((S_80165164_1 *)effect)->unk_32 = fade_level;
     ((S_80165164_1 *)effect)->unk_08 = (s32) ((S_80165164_1 *)effect)->unk_04.at00u.v;
     if ((fade_level << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80165164_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

@@ -44,7 +44,7 @@ void *allocate_object_and_mark_failed_setup_for_cleanup(s32 resource_id, s32 slo
         release_null_terminated_entries(object + 0xBC);
         ((S_800B6A0C_0 *)object)->unk_1E = (u16) (((S_800B6A0C_0 *)object)->unk_1E | 0x8000);
         object = 0;
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
     return object;
 }

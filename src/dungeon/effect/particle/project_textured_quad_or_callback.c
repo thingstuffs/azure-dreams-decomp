@@ -732,8 +732,8 @@ void advance_point_effect_toward_terrain(void *state, s16 *position)
     countdown = (u16)state_words[25] - 4;
     state_words[25] = countdown;
     if ((countdown << 16) <= 0) {
-        ((u16 *)state_words)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)state_words)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_native_abi.h"
@@ -993,8 +993,8 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
         if ((s32)(temp << 16) > 0) {
             return;
         }
-        *(u16 *)(p - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(p - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:
         return;
@@ -1112,8 +1112,8 @@ void update_effect_quad_and_completion(void *effect, void *position_out, void *c
             return;
         }
     }
-    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 #include "modules/dungeon_native_abi.h"
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
@@ -1786,7 +1786,7 @@ L1_calc:
             if (seen == 0) {
                 g_dungeon_status.active_actor = 0;
                 ((S_800259D8_0_pre *)effect)[-1].unk_00 |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
         }

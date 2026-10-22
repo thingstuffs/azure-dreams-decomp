@@ -93,8 +93,8 @@ void update_settings_phase_motion(State *state, Motion *motion, void *update_dat
         return;
 
     case 255:
-        *(u16 *)((unsigned char *)state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((unsigned char *)state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
 
     default:

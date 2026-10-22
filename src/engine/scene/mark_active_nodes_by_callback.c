@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "engine/scene.h"
 
 /* Singly-linked list node headed by D_80081498 (shared shape with
@@ -24,7 +25,7 @@ void mark_active_nodes_by_callback(s32 target_id)
     while (node != 0) {
         if (node->field_10 == target_id) {
             node->field_1E |= 0x8000;
-            D_800814A0 |= 0x8000;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
         }
         node = node->next;
     }

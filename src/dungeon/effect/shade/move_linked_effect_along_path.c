@@ -110,7 +110,7 @@ void move_linked_effect_along_path(void *effect, S_80024CD4_2 *transform, S_8002
         visual->unk_06.s = final_ramp;
         if ((s16) final_ramp >= 0) {
             ((S_80024CD4_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     default:

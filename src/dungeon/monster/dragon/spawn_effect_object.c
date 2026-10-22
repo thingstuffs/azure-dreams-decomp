@@ -1,4 +1,5 @@
 #include "dungeon/monster/dragon/spawn_effect_object.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/dragon/spawn_effect_object.h"
 
@@ -26,7 +27,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8014C854_0 *)obj)->unk_10 = D_8014CA28;
-        work->unk_13 = 0x3;
+        work->unk_13 = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_8014C854_0 *)obj)->unk_08;

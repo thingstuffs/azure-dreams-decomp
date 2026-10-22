@@ -43,7 +43,7 @@ void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head)
             node->next->pprev = (ObjectNodeHeader **)node;
         }
 
-        node->flags = (u16)(flags | 0x4000);
+        node->flags = (u16)(flags | NODE_ACTIVE);
 
         payload_cursor = (u8 *)node + 0x124;
         if (flags & 0x100) {

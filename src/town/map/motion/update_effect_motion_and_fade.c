@@ -72,7 +72,7 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
         ((Arg2State *)display)->fc += (s32)fade_step;
         if ((u8) ((Arg2State *)display)->fc < 0x11U) {
             ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

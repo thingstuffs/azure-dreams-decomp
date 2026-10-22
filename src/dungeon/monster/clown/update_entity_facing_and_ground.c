@@ -1,5 +1,8 @@
 /* Clown actor spawning, action updates, movement, and transition effects. */
 #include "modules/dungeon_resource16_slot0.h"
+#include "shared/actor_action_flags.h"
+#include "shared/monster_ids.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -31,7 +34,7 @@ void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 
         result = (u8 *)created + 0x20;
         ((R16_80170878_S_80170878_0 *)created)->unk_10 = update_entity_facing_and_ground;
-        ((R16_80170878_S_80170878_1 *)result)->unk_13 = 0x10;
+        ((R16_80170878_S_80170878_1 *)result)->unk_13 = MONSTER_CLOWN;
         register_node(created, project_sprite_chain);
 
         position = ((R16_80170878_S_80170878_0 *)created)->unk_08;
@@ -359,7 +362,7 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
             return;
         }
         if (((R16_80171014_S_80171014_2 *)map_object)->unk_24.at00u.v != *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
-            if (!(creature->action_flags & 0x8000)) {
+            if (!(creature->action_flags & ACTOR_ACTION_PENDING)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(creature,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
@@ -373,8 +376,8 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
                 creature->action_flags = action_state;
             }
 
-            if (creature->action_flags & 0x8000) {
-                action_state = creature->action_flags & 0x3FFF;
+            if (creature->action_flags & ACTOR_ACTION_PENDING) {
+                action_state = creature->action_flags & ACTOR_ACTION_CODE_MASK;
                 switch (action_state - 1) {
 
                 case 7:
@@ -757,7 +760,7 @@ s32 initialize_transition_action(void *action_state, s32 action_id, void *source
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (g_dungeon_status.flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (g_dungeon_status.flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -1688,8 +1691,8 @@ void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source
         fade_left = *(u16 *)(entity + 0x96) - 1;
         *(u16 *)(entity + 0x96) = fade_left;
         if ((fade_left << 16) <= 0) {
-            *(u16 *)(entity - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)(entity - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

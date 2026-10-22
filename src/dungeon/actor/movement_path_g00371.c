@@ -1,6 +1,7 @@
 /* Movement path (G00371). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D38EC, CL:dungeon/func_800D3B60, CL:dungeon/func_800D40C0, PD:dungeon/engine:800E260C. */
 #include "dungeon/actor/movement_path_g00371.h"
+#include "dungeon/actor/state_ids.h"
 
 /* Update entity callbacks, facing, movement, and floor contact. */
 void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_800D8728_2 *monster)
@@ -85,7 +86,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
     motion->unk_00.s32 += motion->unk_0C;
     motion->unk_04.s32 += motion->unk_10;
 
-    if (entity->unk_9A == 14) {
+    if (entity->unk_9A == ACTOR_STATE_NO_OP) {
         s16 hop_timer;
         hop_timer = (s16)(--entity->unk_A0.u16);
         if (hop_timer == 2) {

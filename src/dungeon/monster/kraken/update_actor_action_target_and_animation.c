@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -85,7 +86,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            special_slot = actor->action_flags & 0x3FFF;
+            special_slot = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (special_slot) {
             case 7:
                 is_special = 1;
@@ -110,7 +111,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
                 break;
             }
         } else {
-            slot = actor->action_flags & 0x3FFF;
+            slot = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (slot) {
             case 3:
                 entry = (u8 *)actor + 0xE;
@@ -194,7 +195,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
         ((S_801727C8_0 *)action)->unk_8C = &update_actor_animation_and_dispatch;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
+        actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         return;
 
     case 1:
@@ -252,7 +253,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
+        actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         play_sound_if_enabled(0xB4);
         return;
     default:

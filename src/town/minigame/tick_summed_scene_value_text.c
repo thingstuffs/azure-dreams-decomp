@@ -61,7 +61,7 @@ void tick_summed_scene_value_text(void *entry) {
             flags = &((ObjectStatusPrefix16 *)entry)[-1].unk_00;
             *flags =
                 (u16) (((ObjectStatusPrefix16 *)entry)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

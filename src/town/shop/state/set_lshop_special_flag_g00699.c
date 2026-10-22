@@ -2,10 +2,11 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00699 - CL:town/func_8032E634, CL:town/func_8032E6A8, CL:town/func_8032E9EC.
  */
 #include "town/shop/state/set_lshop_special_flag_g00699.h"
+#include "shared/item_ids.h"
 
 /* Set flag 0x11F8 when the record bytes are 2 and 0xD. */
 void set_lshop_special_flag(S_800191EC_0 *record) {
-    if ((record->unk_01 == 0xD) && (record->unk_00 == 2)) {
+    if ((record->unk_01 == 0xD) && (record->unk_00 == ITEM_WATER_MEDAL)) {
         set_script_flag_bit(F_sell_mizu_medaru);
     }
 }

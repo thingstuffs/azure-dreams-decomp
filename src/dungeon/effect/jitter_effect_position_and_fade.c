@@ -79,6 +79,6 @@ void jitter_effect_position_and_fade(void *effect, void *position, void *sprite)
     (((JitterSprite *)sprite)->red) = brightness;
     if ((s16) (((JitterEffect *)effect)->fade.bits) <= 0) {
         (((JitterHeader *)effect)[-1].flags) = (u16) ((((JitterHeader *)effect)[-1].flags) | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -1,5 +1,8 @@
 /* Griffon actor spawning, movement, attacks, and sprite transition effects. */
 #include "modules/dungeon_resource08_slot0.h"
+#include "shared/actor_action_flags.h"
+#include "shared/monster_ids.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource08_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = func_8017087C;
@@ -29,7 +32,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((R08_8017087C_S_8017087C_0 *)obj)->unk_10 = ((u8 *)func_80170A50);
-        work->unk_13 = 0x8;
+        work->unk_13 = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
 
         part_a = ((R08_8017087C_S_8017087C_0 *)obj)->unk_08;
@@ -323,7 +326,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
             func_801717F8(actor, position, object, actor_data);
             return;
         }
-        if (!(actor_data->action_flags & 0x8000)) {
+        if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor_data,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
@@ -341,7 +344,7 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
             }
         }
 
-        action_state = actor_data->action_flags & 0x3FFF;
+        action_state = actor_data->action_flags & ACTOR_ACTION_CODE_MASK;
         {
             u32 idx = action_state - 1;
             switch (idx) {
@@ -810,7 +813,7 @@ s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_st
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -1192,7 +1195,7 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
         (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
         advance_status_timers(actor);
         if (actor->pending_turn_updates == 0) {
-            actor->action_flags &= 0x7FFF;
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             return;
         }
         ((void * *)actor_update_node_cursor)[0] = (u8 *)actor - 0x20;
@@ -1887,7 +1890,7 @@ void advance_object_angle_and_height(u16 *record_data, s32 unused, R08_80174180_
     object->field_1C = height;
     if (height >= 0x2000) {
         record_data[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -1949,8 +1952,8 @@ void update_timed_effect_and_expire(void *effect, s32 x, s32 y)
         next_ticks = (u16)*(s16 *)((u8 *)effect + 0x1A) - 1;
         *(s16 *)((u8 *)effect + 0x1A) = next_ticks;
         if ((next_ticks << 16) <= 0) {
-            *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -2028,8 +2031,8 @@ void func_8017451C(u8 *task, void *context, u8 *input)
         frames_left = *(u16 *)(task + 0x96) - 1;
         *(s16 *)(task + 0x96) = frames_left;
         if (frames_left <= 0) {
-            *(u16 *)(task - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)(task - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -2208,7 +2211,7 @@ void advance_effect_and_child_animation(void *effect_state, EntityRec *position,
             }
             ((R08_80174648_S_80174648_10 *)(((R08_80174648_S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((R08_80174648_S_80174648_1 *)actor)->unk_8A;
             ((R08_80174648_S_80174648_0_pre *)effect_state)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((R08_80174648_S_80174648_1 *)actor)->unk_6D = 0;
         }

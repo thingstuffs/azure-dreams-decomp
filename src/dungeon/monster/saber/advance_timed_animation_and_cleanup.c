@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -96,7 +97,7 @@ void advance_timed_animation_and_cleanup(void *sequence, void *motion, void *spr
             ((S_80172FD8_0 *)sequence)->unk_8C = &D_80171728;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            actor->action_flags &= 0x7FFF;
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
     default:
         return;

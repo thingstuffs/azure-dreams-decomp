@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_a01054.h"
+#include "shared/monster_ids.h"
 
 /* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -24,7 +25,7 @@ void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attr
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->unk_10 = D_80158A28;
-        work->unk_13 = 0x3;
+        work->unk_13 = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->unk_08;

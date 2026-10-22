@@ -16,8 +16,8 @@ void flag_inactive_object_or_run_callback(TownObject *object, s32 unused, u8 *ou
     active_flag = object->field_40;
     if (active_flag != 0) {
         if (*active_flag == 0) {
-            ((u16 *)object)[-1] |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            ((u16 *)object)[-1] |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }

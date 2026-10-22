@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 extern int abs(int);
 #include "shared/def_table.h"
@@ -56,7 +57,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, void *spri
     switch (phase) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 is_special = 1;
             case 3:
@@ -77,7 +78,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, void *spri
                 break;
             }
         } else {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
                 action_data = (u8 *)actor + 0xE;
                 break;
@@ -149,7 +150,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, void *spri
         ((S_80172834_0 *)action_state)->unk_8C = D_80171058;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -196,7 +197,7 @@ void update_jump_motion_2(void *action_state, ObjectPosition *motion, void *spri
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
 
         return;

@@ -1,5 +1,7 @@
 /* Actor creation and behavior, directional actions, and staged actor replacement effects. */
 #include "modules/dungeon_ovl_ccb000.h"
+#include "shared/actor_action_flags.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 void *(*const ccb000_spawn_entry)(s16,s16,s16,s32) = func_80158A5C;
@@ -75,8 +77,8 @@ void func_80158920(void *effect, void *unused, void *visual)
 
     ((CL_CCB000_80170920_S_80170920_1 *)visual)->unk_1A += 0x190;
     if (((CL_CCB000_80170920_S_80170920_0 *)effect)->unk_24.u <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -547,7 +549,7 @@ void func_80159810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
             }
         }
     } else if (actor_flags & 0x2000) {
-        if (!(actor_data->action_flags & 0x8000)) {
+        if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
             if (actor_flags & 0x20000) {
                 s16 target_angle;
                 s32 target_x;
@@ -594,7 +596,7 @@ void func_80159810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
                dungeon_rooms[position_data->room_index].flags & 2) {
         rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
-    } else if (!(actor_data->action_flags & 0x8000)) {
+    } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
         blocker = (EntityRec *)current_angle;
         if (blocker != 0 &&
@@ -693,13 +695,13 @@ void func_80159810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
 
     if (turn_index >= 8) {
         actor_data->movement_queue_state &= 0x7F;
-        actor_data->action_flags &= 0x7FFF;
+        actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         update_actor_status_and_mp(actor_data);
         return;
     }
 
     {
-        actor_data->action_flags &= 0x7FFF;
+        actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         move_data->unk_9C.as_u8 = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
@@ -751,7 +753,7 @@ s32 func_80159FBC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -1060,7 +1062,7 @@ void func_8015A9A8(void *action, void *motion, void *sprite, void *actor)
             ((CL_CCB000_801729A8_S_801729A8_0 *)action)->unk_8C = func_8015902C;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+            ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
         return;
     default:
@@ -1937,7 +1939,7 @@ void func_8015C374(u8 *effect, s32 *position, s32 effect_param)
     F16(effect, 0x24) = life_left;
     if ((life_left << 16) <= 0) {
         FU16(effect, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -2196,8 +2198,8 @@ void func_8015CBE8(u8 *task, void *context, u8 *input)
         frames_left = *(u16 *)(task + 0x96) - 1;
         *(s16 *)(task + 0x96) = frames_left;
         if (frames_left <= 0) {
-            *(u16 *)(task - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)(task - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -2346,7 +2348,7 @@ void func_8015CD14(void *state, EntityRec *position, SpriteFrameState *entity, v
         }
         ((CL_CCB000_80174D14_S_80C97514_15 *)(((Rec_D_80082E80 *)actor)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)actor)->unk_8A;
         ((CL_CCB000_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 = (u16) (((CL_CCB000_80174D14_S_80C97514_0_pre *)state)[-1].unk_00 | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((Rec_D_80082E80 *)actor)->unk_6D = 0;
         return;

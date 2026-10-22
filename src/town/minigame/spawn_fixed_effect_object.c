@@ -73,5 +73,5 @@ void spawn_fixed_effect_object(void *caller_data)
         configure_the_set_mode_n_1(transform, position, D_800D232C);
     }
     ((ObjectStatusPrefix16 *)caller_data)[-1].unk_00 |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

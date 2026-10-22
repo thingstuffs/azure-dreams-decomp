@@ -22,7 +22,7 @@ void tick_region_flag_expiry(void *state)
                 dungeon_rooms[entry_index].unk0C = dungeon_rooms[entry_index].unk0C & 0xFFFD;
             }
             ((Pre *)state)[-1].unk00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

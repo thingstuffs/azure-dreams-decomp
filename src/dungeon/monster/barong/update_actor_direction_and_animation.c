@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -165,7 +166,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
             func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
             return;
         }
-        if (!(entity_arg->action_flags & 0x8000)) {
+        if (!(entity_arg->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity_arg,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
@@ -183,7 +184,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
             }
         }
 
-        action_flags = entity_arg->action_flags & 0x3FFF;
+        action_flags = entity_arg->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_flags) {
         case 8:
             if ((func_801726B0(actor_arg, context_arg, sprite, entity_arg) << 16) != 0) {

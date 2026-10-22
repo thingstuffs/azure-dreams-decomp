@@ -1,5 +1,6 @@
 /* Projectile launch and impact sequencing, damped motion, and delayed sprite fading. */
 #include "dungeon/effect/particle/fade_effect_sprite_to_black.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 /* Loader entry pointer; gcc emits the five-state switch table after alignment. */
 void (*const dungeon_184c800_entry)(void *, void *, void *) = update_directional_actor_effect;
@@ -513,7 +514,7 @@ void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544
         if (fade_step >= sprite->unk_0C.at00.v) {
             sprite->unk_0C.at00u.v = 0;
             ((S_8182D544_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
 
@@ -561,8 +562,8 @@ void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object 
             s32 fade_step = (func_80069EF8() & 0xF) + 4;
             if (fade_step >= effect->limit) {
                 *(s32 *)((u8 *)effect + 0xC) = 0;
-                *((u16 *)((u8 *)object - 2)) |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                *((u16 *)((u8 *)object - 2)) |= NODE_REMOVE;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             } else {
                 u8 fade_value = effect->value_e - fade_step;

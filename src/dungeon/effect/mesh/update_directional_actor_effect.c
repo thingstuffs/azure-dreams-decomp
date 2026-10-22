@@ -123,8 +123,8 @@ void update_directional_actor_effect(void *state_data)
                 U16_AT(sequence_state, 0x0A)--;
                 U32_AT(sequence_state, 0x0C) = 0;
             }
-            U16_AT(state, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            U16_AT(state, -2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
     if (S16_AT(state, 0x0A) >= 2) {

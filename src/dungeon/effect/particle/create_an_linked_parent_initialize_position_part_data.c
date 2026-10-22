@@ -51,8 +51,8 @@ void func_8002405C(void *effect, void *unused_context, void *effect_params) {
     }
     if ((s16)((u16)((EntityRec *)effect)->facing) <= 0) {
         ((S_81994800_2 *)(((((EntityRec *)effect)->unk_32 * 2) + ((s32)((EntityRec *)effect)->target))))->unk_46 = 0;
-        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81994800_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81994800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
@@ -199,8 +199,8 @@ void func_80024104(void *owner) {
     timer = (*(u16 *)((u8 *)owner + 0x2A)) - 1;
     (*(u16 *)((u8 *)owner + 0x2A)) = timer;
     if ((s16)timer <= 0) {
-        (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
@@ -314,8 +314,8 @@ void fade_the_primitive_flag_effect_countdown_expires(void *effect, void *unused
     }
 
     if (*(s16 *)((u8 *)effect + 0x2A) <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
@@ -782,7 +782,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             primary_actor_record->unk_98 = primary_actor_record->unk_98; /* +0x98 write-back: retail reads the field, the unchanged store compiles away */
             tint_part->color.rgb = TINT_NEUTRAL;
             ((ObjectNodeHeader *)state)[-1].flags = (u16) (((ObjectNodeHeader *)state)[-1].flags | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {
             D_80025384 = 0;
         }

@@ -33,8 +33,8 @@ void process_effect_record(void *ptr, Inner *fields_target, Inner *field_c_targe
     flags1E = outer->flags1E & 0x8000;
     sprite_effect_update_count[0]++;
     if (flags1E != 0) {
-        ((u16 *)ptr)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)ptr)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     field_c_target->fieldC = outer->innerC->fieldC;

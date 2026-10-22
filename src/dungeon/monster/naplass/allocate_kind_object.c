@@ -1,4 +1,5 @@
 #include "dungeon/monster/naplass/allocate_kind_object.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/naplass/allocate_kind_object.h"
 
@@ -29,7 +30,7 @@ void *allocate_kind_object(s16 spawn_flags, s16 value_24, s16 value_25, s16 valu
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015E870_0 *)obj)->unk_10 = func_8015EA3C;
-        work->unk_13 = 0x25;
+        work->unk_13 = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_8015E870_0 *)obj)->unk_08;

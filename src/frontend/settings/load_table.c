@@ -18,7 +18,7 @@ void load_table(EntA *entry)
     unsigned short *scaled_value = (unsigned short *)((char *)entry + 0x10);
     *(short *)scaled_value = (s16)(volume_slider_levels[entry->unk18] >> 2);
     if (*(short *)((char *)entry->unk04 + 0x16) & 0x8000) {
-        *(unsigned short *)((char *)entry - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(unsigned short *)((char *)entry - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

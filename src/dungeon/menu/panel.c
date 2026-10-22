@@ -504,8 +504,8 @@ void update_fading_effect_scale(void *effect, s32 unused, void *render_arg)
                     }
                 }
             }
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }

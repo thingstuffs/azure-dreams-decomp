@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -75,7 +76,7 @@ void *create_flagged_dungeon_object(s16 mask, s16 value_24, s16 value_25, s16 va
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80FA5000_0 *)obj)->unk_10 = D_80152A70;
-        ((S_80FA5000_1 *)work)->unk_13 = 0x26;
+        ((S_80FA5000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80FA5000_0 *)obj)->unk_08;

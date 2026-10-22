@@ -159,7 +159,7 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
     advance_sprite_animation_and_textures(render_part);
     if (owner->unk_1E & 0x8000) {
         ((S_81275000_0_pre *)root_data)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

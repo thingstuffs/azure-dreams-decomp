@@ -93,8 +93,8 @@ void fade_out_and_remove_actor(void *actor_data, s32 unused, void *visual, void 
         ((S_800ACBE4_2 *)actor)->unk_1C |= 0x400000;
     }
     unlink_entity_node(actor);
-    (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
     return;
 }

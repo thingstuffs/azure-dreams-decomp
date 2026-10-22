@@ -375,8 +375,8 @@ void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, voi
     {
         S_81087818_1 *actor = motion->unk_48;
         if (actor->unk_2C != &D_80175F68) {
-            (*(u16 *)((u8 *)motion - 2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)motion - 2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         actor->unk_14 &= 0xF7FF;

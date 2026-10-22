@@ -165,8 +165,8 @@ void update_settings_effect(void *effect) {
         ((S_80089608_0 *)effect)->unk_0E.s -= 12;
         break;
     case 0xFF:
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80089608_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80089608_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:
         break;

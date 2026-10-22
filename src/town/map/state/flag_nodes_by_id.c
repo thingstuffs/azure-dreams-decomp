@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct ListNode {
     struct ListNode *next;
@@ -25,7 +26,7 @@ void flag_nodes_by_id(s32 id)
         do {
             if (node->id == id) {
                 node->flags |= 0x8000;
-                D_800814A0 |= 0x8000;
+                D_800814A0 |= OBJECT_REMOVE_PENDING;
             }
             node = node->next;
         } while (node != 0);

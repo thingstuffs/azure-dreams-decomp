@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_7f1ed800.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_7f1ed800.h"
 
@@ -26,7 +27,7 @@ void *func_80158894(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80158894_0 *)obj)->unk_10 = func_80158A68;
-        work->unk_13 = 0x24;
+        work->unk_13 = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80158894_0 *)obj)->unk_08;

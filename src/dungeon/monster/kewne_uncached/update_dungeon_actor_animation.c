@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -188,7 +189,7 @@ state_done:
             func_801666C8(actor, actor_aux, sprite, actor_data);
             return;
         }
-        if (!(actor_data->action_flags & 0x8000)) {
+        if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor_data,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
@@ -206,7 +207,7 @@ state_done:
             }
         }
 
-        action_state = actor_data->action_flags & 0x3FFF;
+        action_state = actor_data->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_state) {
         case 8:
         case 9:

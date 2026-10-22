@@ -1,5 +1,6 @@
 /* Troll color flashes, moving effects, attachments, and actor creation. */
 #include "dungeon/monster/troll/troll_flash_effects.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Fade the primitive color by one step and flag completion when the counter reaches zero. */
@@ -19,7 +20,7 @@ void update_stepped_rgb_flash(void *fade_state, void *unused, T_80170D40_S_80170
     ((T_80170D40_S_80170D40_0 *)fade_state)->unk_18 = steps_left;
     if ((steps_left << 0x10) <= 0) {
         ((T_80170D40_S_80170D40_0_pre *)fade_state)[-1].unk_00 = (u16)(((T_80170D40_S_80170D40_0_pre *)fade_state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -36,7 +37,7 @@ void update_normalized_gray_fade(void *countdownState, s32 unused, T_80170DC4_S_
     output->unk_0D = (s8) scaledRemaining;
     if ((s16) ((T_80170DC4_S_80170DC4_0 *)countdownState)->unk_96 <= 0) {
         ((T_80170DC4_S_80170DC4_0_pre *)countdownState)[-1].unk_00 = ((T_80170DC4_S_80170DC4_0_pre *)countdownState)[-1].unk_00 | 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -52,8 +53,8 @@ void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_Fa
     output->blue = (fade->blue * (s16)fade->remaining) / fade->divisor;
 
     if ((s16)fade->remaining <= 0) {
-        *(u16 *)((u8 *)fade - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)fade - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -78,8 +79,8 @@ void update_growing_rotating_flash(void *effect, s32 unused, void *visual) {
     }
 
     if (*(s16 *)((u8 *)effect + 0x18) <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -150,13 +151,13 @@ void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
     ticks_left = ((T_80170F94_S_80170F94_1 *)effect)->unk_18.u - 1;
     ((T_80170F94_S_80170F94_1 *)effect)->unk_18.u = ticks_left;
     if ((s16)ticks_left <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (((SpriteFrameState *)sprite)->flags & 0x8000) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -562,7 +563,7 @@ void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *pos
     }
 
     ((T_80171A38_S_80171A38_0_pre *)object)[-1].unk_00 |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
 /* Creates a render object at the supplied position with an optional owner offset. */

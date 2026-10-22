@@ -44,6 +44,6 @@ void update_fading_effect_motion(void *effect, S_800A86BC_0 *motion, SpriteFrame
     ((S_800A86BC_1 *)effect)->unk_02 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((ObjectRetirementFlags *)effect)[-1].unk_00 = ((ObjectRetirementFlags *)effect)[-1].unk_00 | 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

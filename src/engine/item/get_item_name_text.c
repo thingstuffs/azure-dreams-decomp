@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/item_ids.h"
 
 #include "common.h"
 #include "sdk/libc.h"
@@ -39,7 +40,7 @@ s32 get_item_name_text(Item *item, StrPair *fallbacks) {
     CatEnt *category_table;
     s32 category_id;
 
-    if ((item == 0) || (item->unk1 == 0)) {
+    if ((item == 0) || (item->unk1 == ITEM_KIND_NONE)) {
         item_text = fallbacks->unk4;
     } else if (read_item_category_flag_ten(item) != 0) {
         item_text = fallbacks->unk0;
@@ -60,7 +61,7 @@ s32 get_item_name_text(Item *item, StrPair *fallbacks) {
         record_words = record_words + (s32)category->records;
         item_text = *(char **)(record_words + 8);
         record_words = item->unk1;
-        if ((record_words == 0x13) && (record_has_type_twenty(item) != 0)) {
+        if ((record_words == ITEM_KIND_FAMILIAR) && (record_has_type_twenty(item) != 0)) {
             strcpy(item_name_suffix_buffer, item_text);
             strcpy(rindex(item_name_suffix_buffer, 0) - 0x12, item_name_suffix_texts[0]);
             item_text = item_name_suffix_buffer;

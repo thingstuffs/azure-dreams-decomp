@@ -102,7 +102,7 @@ void update_a_timed_rectangle_effect_fading_color_in_out_marking_completion(void
         ((S_80025360_0 *)effect_arg)->unk_02 = 0;
         ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
         ((S_80025360_2 *)(((S_80025360_0 *)effect_arg)->unk_40))->unk_9C = one;
-        (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((S_80025360_0_pre *)effect_arg)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((S_80025360_0_pre *)effect_arg)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

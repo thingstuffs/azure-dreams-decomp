@@ -51,7 +51,7 @@ void update_orbital_motion_effect(S_818BD3B0_0 *motion, S_818BD3B0_2 *position, 
     motion->elapsed_ticks = tick;
     if (motion->lifetime < (s16) tick) {
         ((S_818BD3B0_0_pre *)motion)[-1].flags = (u16) (((S_818BD3B0_0_pre *)motion)[-1].flags | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
     height_offset = (s32) ((func_80064584((s16) tick << 7) >> 4) * motion->orbit_scale) >> 8;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -64,7 +65,7 @@ void advance_actor_animation_and_restore(void *action, s32 actor_id, void *sprit
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
             if (actor->pending_turn_updates == 0) {
-                actor->action_flags &= 0x7FFF;
+                actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
                 return;
             }
             actor_update_node_cursor = (u8 *)actor - 0x20;

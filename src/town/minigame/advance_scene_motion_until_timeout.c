@@ -30,6 +30,6 @@ void advance_scene_motion_until_timeout(void *record_data, S_80026B00_0 *motion)
     if ((ticks_left << 0x10) <= 0) {
         ((S_80026B00_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80026B00_1 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

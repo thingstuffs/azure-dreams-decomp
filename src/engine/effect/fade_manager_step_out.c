@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 #include "engine/node.h"
@@ -34,6 +35,6 @@ void fade_manager_step_out(void *object, void *unused, Func8003C520Data *data) {
     }
 
     unlink_node_if_registered(object);
-    *(u16 *)((u8 *)object - 2) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+    D_800814A0 |= OBJECT_REMOVE_PENDING;
 }

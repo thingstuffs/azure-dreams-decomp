@@ -54,6 +54,6 @@ void spawn_effect_object_with_packet(void *caller_data)
         ((S_800BF654_2 *)setup)->unk_48 = D_800D2360;
         configure_the_set_mode_n_1(setup, packet, D_800D2348);
     }
-    (*(u16 *)((u8 *)caller_data + -2)) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    (*(u16 *)((u8 *)caller_data + -2)) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

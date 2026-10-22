@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_e1b054.h"
+#include "shared/monster_ids.h"
 
 
 /* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
@@ -26,7 +27,7 @@ void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_
     final_arg0 = value;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80158854_0 *)work)->unk_13 = 0x1C;
+        ((S_80158854_0 *)work)->unk_13 = MONSTER_VOLCANO;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->unk_08;

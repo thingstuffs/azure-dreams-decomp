@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 
 typedef struct {
     s8 pad00[0xA8];
@@ -25,6 +26,6 @@ void reset_item_menu_object_state(Object *object)
         release_null_terminated_entries((u8 *)object + 0xCC);
         clear_item_menu_entry_groups(inner->field_A8);
         object->flags |= 0x8000;
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -256,7 +257,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Act
         ((S_80173510_3 *)motion)->unk_10 = 0;
         ((S_80173510_3 *)motion)->unk_02 = ((SpriteFrameState *)record)->unk_24 * 0x40 + 0x20;
         ((S_80173510_3 *)motion)->unk_06 = ((SpriteFrameState *)record)->unk_25 * 0x40 + 0x20;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     }
     }
 }

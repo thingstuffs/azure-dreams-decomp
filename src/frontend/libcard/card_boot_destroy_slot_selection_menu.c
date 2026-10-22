@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "engine/menu.h"
 #include "frontend/libcard.h"
 
@@ -32,6 +33,6 @@ void card_boot_destroy_slot_selection_menu(UnkStruct1E *object)
             func_80024184(handle);
         } while (handle_count < 5);
         object->flags |= 0x8000;
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

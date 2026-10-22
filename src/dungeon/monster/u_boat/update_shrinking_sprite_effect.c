@@ -148,7 +148,7 @@ void update_shrinking_sprite_effect(void *effect, void *output, S_80170A84_2 *re
             break;
         }
         ((S_80170A84_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     case 4:

@@ -1,4 +1,5 @@
 #include "slus/jtbl_80042BDC.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 
@@ -185,8 +186,8 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
             ent->x14 |= 0x20000000;
             detach_record_and_update_slot_state(ent);
             unlink_entity_node(ent);
-            *(u16 *)((u8 *)ent - 2) |= 0x8000;
-            D_800814A0 |= 0x8000;
+            *(u16 *)((u8 *)ent - 2) |= NODE_REMOVE;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
             ent = spawn_result_2;
         }
         }

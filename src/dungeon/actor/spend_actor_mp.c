@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/dungeon_status.h"
 
 typedef struct S_800AD594_0 {
@@ -66,7 +67,7 @@ void spend_actor_mp(S_800AD594_0 *entity, s32 base_reduction) {
 
             dungeon_mode = *(s32 *)0x80012090;
             if ((dungeon_mode == one) &&
-                ((entity->unk_13.u == 2) ||
+                ((entity->unk_13.u == MONSTER_KEWNE) ||
                  (entity->unk_13.u == 0x39))) {
                 entity->unk_24.at01.v = dungeon_mode;
                 return;

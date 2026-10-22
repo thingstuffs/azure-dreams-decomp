@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01041 - CL:main/func_80014C60.
  */
 #include "frontend/libcard/card_boot_stop_timer_and_init_server_g01041.h"
+#include "shared/object_flags.h"
 
 /* Run setup callbacks and set the active flag. */
 void card_boot_stop_timer_and_init_server(void) {
@@ -20,7 +21,7 @@ void card_boot_destroy_card_chooser(Struct80014C90 *entry) {
         configure_shared_fade_primitive();
     }
     entry->unk1E |= 0x8000;
-    D_800814A0 |= 0x8000;
+    D_800814A0 |= OBJECT_REMOVE_PENDING;
 }
 
 /* Run setup and dispatch the request in mode 1. */

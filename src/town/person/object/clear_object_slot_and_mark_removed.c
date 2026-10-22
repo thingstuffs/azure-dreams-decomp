@@ -16,6 +16,6 @@ void clear_object_slot_and_mark_removed(void *object) {
     slots = object_index_slots;
     slot_offset = ((Rec_func_80094268_arg0 *)object)->unk_60 * 8;
     (*(s32 *)((u8 *)(slots + slot_offset) + 4)) = 0;
-    (*(u16 *)((u8 *)object + -2)) = (u16) (((ObjectStatusPrefix16 *)object)[-1].unk_00 | 0x8000);
-    object_flag_block.flags |= 0x8000;
+    (*(u16 *)((u8 *)object + -2)) = (u16) (((ObjectStatusPrefix16 *)object)[-1].unk_00 | NODE_REMOVE);
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

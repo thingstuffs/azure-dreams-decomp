@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -68,7 +69,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
         actor = object;
         actor = (S_80170BB0_1 *)((u8 *)actor + 0x20);
         ((S_80170BB0_0 *)object)->unk_10 = D_80170DA8;
-        actor->unk_13 = 1;
+        actor->unk_13 = MONSTER_HIKEWNE;
         register_node(object, project_sprite_chain);
 
         part_a = ((S_80170BB0_0 *)object)->unk_08;

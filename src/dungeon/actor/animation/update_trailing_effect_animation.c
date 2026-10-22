@@ -94,8 +94,8 @@ void update_trailing_effect_animation(void *effect, void *transform, void *rende
             U8_AT(render_data, 0xC) = fade_out_brightness;
 
             if (S16_AT(effect, 0x6A) < 0x11) {
-                U16_AT(effect, -2) |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                U16_AT(effect, -2) |= NODE_REMOVE;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }
     } else {
@@ -117,8 +117,8 @@ void update_trailing_effect_animation(void *effect, void *transform, void *rende
         frames_left = U16_AT(effect, 0x66) - 1;
         S16_AT(effect, 0x66) = frames_left;
         if ((frames_left <= 0) && ((s16)brightness == 0)) {
-            U16_AT(effect, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            U16_AT(effect, -2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         U8_AT(render_data, 0xE) = brightness;
         U8_AT(render_data, 0xD) = brightness;

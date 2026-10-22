@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -70,7 +71,7 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
     if (entity != 0) {
         entity_data = (u8 *)entity + 0x20;
         ((S_801708B4_0 *)entity)->unk_10 = update_actor_callbacks_and_ground;
-        ((S_801708B4_1 *)entity_data)->unk_13 = 2;
+        ((S_801708B4_1 *)entity_data)->unk_13 = MONSTER_KEWNE;
         register_node(entity, project_sprite_chain);
 
         position = ((S_801708B4_0 *)entity)->unk_08;

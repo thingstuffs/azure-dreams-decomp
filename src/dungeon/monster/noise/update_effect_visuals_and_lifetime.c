@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_7f43f800_p01.h"
+#include "shared/object_flags.h"
 
 /* Update effect brightness, size and position, then decrement its lifetime. */
 void update_effect_visuals_and_lifetime(void *state, void *position, void *effect_arg)
@@ -81,7 +82,7 @@ void update_effect_visuals_and_lifetime(void *state, void *position, void *effec
     next_ticks = ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.u - 1;
     ((T_80170AD0_S_80170AD0_0 *)state)->unk_96.u = next_ticks;
     if ((next_ticks << 16) <= 0) {
-        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

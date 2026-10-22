@@ -149,8 +149,8 @@ void update_boss_actor_direction_state(void *actor_data, void *output_data, void
     ((S_80172610_4 *)context)->unk_12 = ((S_80172610_3 *)linked)->unk_12;
 
     if (((S_80172610_1 *)owner)->unk_1E & 0x8000) {
-        (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (((S_80172610_8 *)saved_base)->unk_9A == 0x13) {

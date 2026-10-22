@@ -452,7 +452,7 @@ void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
         }
         if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
             ((S_800244BC_0_pre *)object)[-1].unk_00 = (u16) (((S_800244BC_0_pre *)object)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+            object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
     }
@@ -563,7 +563,7 @@ void update_jittered_effect_points(void *effect) {
     case 2:
         if ((s16) ((S_80024810_0 *)effect)->unk_3E >= 8) {
             ((S_80024810_0_pre *)effect)[-1].unk_00 = (u16) (((S_80024810_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+            object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
     }
@@ -801,7 +801,7 @@ void update_randomized_intermediate_points(void *self)
         return;
     case 2:
         ((S_819A764C_0_pre *)self)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
 }

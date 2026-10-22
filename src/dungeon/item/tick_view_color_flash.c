@@ -53,8 +53,8 @@ void tick_view_color_flash(void *fade)
             color_state->tint.parts.tint_g = 0x80;
             color_state->tint.parts.tint_b = 0x80;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)fade + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

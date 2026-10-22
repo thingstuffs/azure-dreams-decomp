@@ -50,8 +50,8 @@ void fade_scene_tile_across_terminal_phase(void *effect) {
         faded_color = ((S_80020260_0 *)effect)->unk_08 + (s32)0xFFF7F7F8;
         ((S_80020260_0 *)effect)->unk_08 = faded_color;
         if (faded_color <= 0x80808) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

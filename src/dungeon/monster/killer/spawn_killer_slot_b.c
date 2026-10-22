@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -87,7 +88,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
     if (obj != NULL) {
         work = obj + 0x20;
         ((S_80FF9000_0 *)obj)->unk_10 = &D_80152A7C;
-        work->unk_13 = 0x28;
+        work->unk_13 = MONSTER_KILLER;
         register_node(obj, project_sprite_chain);
         part_a = ((S_80FF9000_0 *)obj)->unk_08;
         part_a->unk_0A = part_value;

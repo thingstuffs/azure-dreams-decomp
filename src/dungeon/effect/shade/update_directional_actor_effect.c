@@ -1,5 +1,6 @@
 /* Three-way target effects, arcing sprites, orbiting particles, and target tint and damage. */
 #include "dungeon/effect/shade/update_directional_actor_effect.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/shade/update_directional_actor_effect.h"
 
@@ -153,8 +154,8 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
             }
         }
 
-        (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + (-2))) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
@@ -230,8 +231,8 @@ void update_rotating_effect_and_fade(void *effect, void *position, void *sprite)
         ((SpriteFrameState *)sprite)->scale_y = scale, ((SpriteFrameState *)sprite)->scale_x = scale,
         ((SpriteFrameState *)sprite)->angle_z = (u16) ((Row_8194CD5C_S_8002455C_0 *)effect)->unk_2E, advance_sprite_animation_and_textures(sprite),
         ((((SpriteFrameState *)sprite)->flags & 0x6000) != 0))) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_8194CD5C_S_8002455C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_8194CD5C_S_8002455C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 /* MECHANISM: Two six-byte vector aggregates force stack slots sp+0x10..0x14 and sp+0x18..0x1C,
@@ -342,8 +343,8 @@ void advance_object_motion_and_animation(void *object) {
     next_tick = (s16)((Row_8194D118_S_80024918_0 *)object)->unk_74 + 1;
     ((Row_8194D118_S_80024918_0 *)object)->unk_74 = next_tick;
     if (next_tick >= 9) {
-        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

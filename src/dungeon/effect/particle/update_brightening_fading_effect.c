@@ -128,8 +128,8 @@ void update_directional_actor_effect(void *object)
         if ((s16)terrain_effect_update_count == 0) {
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)object_bytes + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
@@ -222,7 +222,7 @@ void update_brightening_fading_effect(void *effect, S_8195EB88_2 *position, S_81
         primitive->unk_0C.u32 += 0xFFEFEFF0;
         if (primitive->unk_0C.u8 == 0) {
             ((S_8195EB88_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -361,7 +361,7 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
         work->source = cell;
         if (cell == 0) {
             u16 obj_flags = *(u16 *)((u8 *)obj + 0x1E) | 0x8000;
-            s32 global_flags = object_flag_block.flags | 0x8000;
+            s32 global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             *(u16 *)((u8 *)obj + 0x1E) = obj_flags;
             object_flag_block.flags = global_flags;
             return NULL;
@@ -482,7 +482,7 @@ void animate_tile_heights_and_transition(DungeonState *state, DungeonOrigin *ori
         state->timer = timer;
         if ((timer << 16) <= 0) {
             *((u16 *)state - 1) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -876,7 +876,7 @@ void advance_ballistic_fading_effect(u16 *state, Motion *motion, Effect *effect)
     state[0x26] = ticks_left;
     if ((ticks_left << 16) <= 0) {
         state[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_ovl_197e800.h"
@@ -1667,7 +1667,7 @@ void create_linked_objects(void *quad, S_81960CD4_2 *motion, S_81960CD4_3 *effec
                 }
             }
             ((S_81960CD4_1_pre *)quad)[-1].unk_00 = (u16)(((S_81960CD4_1_pre *)quad)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -2009,8 +2009,8 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
         state->state = phase_value + 1;
         return;
     }
-    *(u16 *)((u8 *)state - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     return;
 
     case 3:
@@ -2032,8 +2032,8 @@ void interpolate_target_and_finish_transition(State *state, Target *target, S_fu
             (s16)(((table->tile_position.parts.tile_y +
                     (((S_func_819615E4_6 *)((u8 *)((s8 *)dir_step_y) + direction_offset))->unk_00 * 4)) << 6) + 0x20),
             ((S_func_819615E4_2 *)((u8 *)dungeon_actor_ring_anchor))->unk_88.s16_value);
-        *(u16 *)((u8 *)state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     }

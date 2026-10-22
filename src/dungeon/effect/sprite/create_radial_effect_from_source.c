@@ -762,8 +762,8 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
                 D_80026324[0] = effect_count;
                 flags &= clear_effect_mask;
                 fade_object->flags = flags;
-                ((u16 *)effect)[-1] |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                ((u16 *)effect)[-1] |= NODE_REMOVE;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
             break;
         }
@@ -836,7 +836,7 @@ void handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mar
 
     if (color->red < 8) {
         ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
@@ -1485,8 +1485,8 @@ void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Mo
     timer = actor->timer - 1;
     actor->timer = timer;
     if ((s16)timer <= 0) {
-        *(u16 *)((u8 *)actor - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
@@ -1648,8 +1648,8 @@ void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(void *effect,
     ticks_test = ticks_left << 16;
 
     if (ticks_test <= 0) {
-        U16_AT(effect, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        U16_AT(effect, -2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"

@@ -19,8 +19,8 @@ void tick_menu_motion_fade(Obj800A5BC0 *obj, void *ctx)
 {
     obj->timer--;
     if (obj->timer < 0) {
-        *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)obj - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

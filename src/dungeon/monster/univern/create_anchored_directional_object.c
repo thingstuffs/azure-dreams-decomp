@@ -1,5 +1,8 @@
 /* Univern actor spawning, linked displays, movement, attacks, and spell effects. */
 #include "modules/dungeon_resource17_slot0.h"
+#include "shared/actor_action_flags.h"
+#include "shared/monster_ids.h"
+#include "shared/object_flags.h"
 void * (*const resource17_slot0_entry0)(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value) = func_8017089C;
 void (*const resource17_slot0_entry1)(void *actor, void *motion, void *object) = create_anchored_directional_object;
 #include "modules/dungeon_resource17_slot0.h"
@@ -44,7 +47,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             init_root = allocated;
             setup = project_sprite_chain;
             ((R17_8017089C_S_8017089C_0 *)init_root)->unk_10 = ((u8 *)create_anchored_directional_object);
-            ((R17_8017089C_S_8017089C_1 *)object)->unk_13 = 17;
+            ((R17_8017089C_S_8017089C_1 *)object)->unk_13 = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
 
@@ -523,7 +526,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
             }
         }
 
-        action_index = (status->action_flags & 0x3FFF) - 1;
+        action_index = (status->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
         switch (action_index) {
 
         case 7:
@@ -908,7 +911,7 @@ s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -1633,8 +1636,8 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
         }
         update_map_cell_flags_with_item_limit(sound_x, sound_y, sound_kind);
         unlink_entity_node(entity);
-        *(u16 *)((u8 *)entity - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)entity - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
         break;
     }

@@ -1,5 +1,7 @@
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/actor/effect/effect.h"
+#include "shared/item_ids.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_engine_entity_effects_storage.h"
 #include "shared/dungeon_item_entries.h"
@@ -149,7 +151,7 @@ s32 find_floor_item_at_world_position(s32 input_x, s32 input_y, s32 input_z) {
     for (; entry_index < 0x40; entry_index++) {
         active_entry = &((DungeonItemEntry *)dungeon_ground_items)[entry_index];
         position = &((PositionEntry *)dungeon_ground_item_positions)[entry_index];
-        if ((active_entry->kind != 0) && (position->x == x) && (position->y == y)) {
+        if ((active_entry->kind != ITEM_KIND_NONE) && (position->x == x) && (position->y == y)) {
             height_delta = z - position->value;
             if (height_delta < 0) {
                 height_delta = 0 - height_delta;
@@ -313,8 +315,8 @@ void update_effect_bounce_and_fade(FuncState *effect, FuncArg1 *motion, FuncArg2
         visual->value_d = updated_value;
         visual->value_c = updated_value;
         if ((s16)visual->value_1c <= 0) {
-            ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | NODE_REMOVE;
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
         break;
     }
@@ -447,8 +449,8 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
                 /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing
            pass (tools/xform/t4_fields.py) refuses to fold into a struct; a `_pre` struct
            spelling was tried here and costs 9 words (const-remat), so it stays an explicit cast */
-        *(u16 *)((u8 *)obj - 2) |= 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        *(u16 *)((u8 *)obj - 2) |= NODE_REMOVE;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -1340,18 +1342,18 @@ check_completion:
         hit_object = find_eligible_actor_at_tile_and_height(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n,
             (*(s16 *)((u8 *)object_data + (0x88))));
         if (hit_object != NULL) {
-            if ((hit_object->unk_13 == 0x1F) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
+            if ((hit_object->unk_13 == MONSTER_BARONG) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
                 hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
                 hit_object->unk_48 = ((S_800A871C_23 *)(((S_800A871C_1 *)object)->unk_9C))->unk_00;
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-                object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+                object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
                 unlink_entity_node(object_data);
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 return;
             }
             if (dispatch_dungeon_category_action(hit_object, ((S_800A871C_1 *)object)->unk_9C, 0xD, object_data) != 0) {
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-                object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+                object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
                 unlink_entity_node(object_data);
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 return;
@@ -1381,7 +1383,7 @@ check_completion:
         place_item_at_valid_floor_position(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height,
             ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
         ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         unlink_entity_node(object_data);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
     default:

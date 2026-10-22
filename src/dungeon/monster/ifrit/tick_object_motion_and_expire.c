@@ -19,8 +19,8 @@ void tick_object_motion_and_expire(void *object_data, void *motion_data, void *w
     timer = *(u16 *)(object + 0x96) - 1;
     *(u16 *)(object + 0x96) = timer;
     if (timer <= 0) {
-        *(u16 *)(object - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(object - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     advance_sprite_animation_and_textures(work);

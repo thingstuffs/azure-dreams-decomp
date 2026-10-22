@@ -200,7 +200,7 @@ void handle_raise_position_toward_queried_height_set_flags_countdown_expires(Eff
     state->timer = countdown;
     if ((s32)(countdown << 16) <= 0) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -505,8 +505,8 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
             return;
         }
         ((S_8190AEB4_2 *)(((S_8190AEB4_0 *)effect)->unk_34))->unk_90 = 1;
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
     }
@@ -1085,8 +1085,8 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         case 0:
         {
             g_dungeon_status.active_actor = 0;
-            *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             break;
         }
         default:

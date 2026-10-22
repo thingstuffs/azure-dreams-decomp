@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -72,7 +73,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     if (object != 0) {
         work = (u8 *)object + 0x20;
         ((S_80170F9C_0 *)object)->unk_10 = D_801711B0;
-        work->unk_13 = 0x18;
+        work->unk_13 = MONSTER_U_BOAT;
         register_node(object, project_sprite_chain);
 
         part_a = ((S_80170F9C_0 *)object)->unk_08;

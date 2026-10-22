@@ -1,5 +1,6 @@
 /* Pulunpa map selection and actor action and animation updates. */
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -137,7 +138,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
             choose_heading_and_advance_actor(actor, context, sprite, creature);
             return;
         }
-        if (!(creature->action_flags & 0x8000)) {
+        if (!(creature->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(creature, ((s32)primary_actor_record->previous_actor_header) + 0x20) << 0x10) != 0) {
                     return;
@@ -153,7 +154,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
                 return;
             }
         }
-        switch (creature->action_flags & 0x3FFF) {
+        switch (creature->action_flags & ACTOR_ACTION_CODE_MASK) {
         case 9:
             if (select_nearby_target_and_start_action(actor, context, sprite, creature) != 0) {
                 return;

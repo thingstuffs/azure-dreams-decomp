@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/item_ids.h"
 
 #include "common.h"
 #include "engine/item.h"
@@ -10,7 +11,7 @@ extern void del_t_item_w_ptr(u8 *entry);
 void remove_monster_items_with_negative_status(void)
 {
     if (town_item_list[0] != 0) {
-        u32 target_type = 0x13;
+        u32 target_type = ITEM_KIND_FAMILIAR;
         u32 data_base = 0x80010000;
         u32 *entry_slot = (u32 *)(data_base + 0x29C);
 

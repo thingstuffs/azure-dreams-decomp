@@ -82,8 +82,8 @@ void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite)
             return;
         }
 
-        (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + (-2))) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
 
     case 1:
@@ -130,8 +130,8 @@ void update_landing_particle_fade(u8 *object, u8 *motion, u8 *sprite)
             return;
         }
 
-        (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + (-2))) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
         return;
     default:

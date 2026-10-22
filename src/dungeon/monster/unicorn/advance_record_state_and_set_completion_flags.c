@@ -1,5 +1,6 @@
 /* Unicorn effect completion, tinted sprite creation, orbiting, and fading. */
 #include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Advance state and decrement the record count, setting record and global flags at completion. */
@@ -13,7 +14,7 @@ void advance_record_state_and_set_completion_flags(void *record_data, DelayMotio
     if ((remaining_count << 0x10) <= 0) {
         ((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -81,7 +82,7 @@ void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position,
     ((T_801741A0_S_801741A0_0 *)effect)->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((T_801741A0_S_801741A0_0_pre *)effect)[-1].unk_00 = (u16) (((T_801741A0_S_801741A0_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 

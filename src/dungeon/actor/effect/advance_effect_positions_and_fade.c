@@ -49,7 +49,7 @@ void advance_effect_positions_and_fade(void *effect, void *positions, void *colo
     ticks_left = (u16)((S_8002744C_1 *)effect)->unk_66 - 1;
     ((S_8002744C_1 *)effect)->unk_66 = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

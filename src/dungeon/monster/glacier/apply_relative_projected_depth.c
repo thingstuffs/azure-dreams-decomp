@@ -65,6 +65,6 @@ void apply_relative_projected_depth(void *entity, MovingPosition *position, void
     advance_sprite_animation_and_textures(result);
     if (result->unk_14 & 0x6000) {
         ((S_8102F20C_1_pre *)entity)[-1].unk_00 = (u16) (((S_8102F20C_1_pre *)entity)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

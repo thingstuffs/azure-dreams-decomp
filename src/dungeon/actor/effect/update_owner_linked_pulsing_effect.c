@@ -151,5 +151,5 @@ void update_owner_linked_pulsing_effect(void *effect, S_800CB600_2 *position, S_
 
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     ((S_800CB600_0_pre *)effect)[-1].unk_00 |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

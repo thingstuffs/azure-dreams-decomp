@@ -1,5 +1,6 @@
 /* Tinted actor sprite copies and their timed effect completion. */
 #include "dungeon/effect/decrement_flagged_item_parameters.h"
+#include "shared/object_flags.h"
 
 void (*const dungeon_1966800_entry)(void *, void *) = decrement_flagged_item_parameters;
 #include "dungeon/effect/decrement_flagged_item_parameters.h"
@@ -132,7 +133,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
         shared_state = &g_dungeon_status;
         *((s32 *) (((u8 *) shared_state) + 0xC)) = 0;
         (*((u16 *) (((u8 *) shared_state) + 0xA)))--;
-        *((u16 *) (((u8 *) action) + (-2))) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *((u16 *) (((u8 *) action) + (-2))) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

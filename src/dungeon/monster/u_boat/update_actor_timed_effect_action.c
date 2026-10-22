@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -268,7 +269,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         spend_actor_mp(actor, 0x1000);
         ((S_8017558C_0 *)action)->unk_8C = D_80171A80;
         g_dungeon_status.active_actor = 0;
-        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
+        actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         return;
     }
 }

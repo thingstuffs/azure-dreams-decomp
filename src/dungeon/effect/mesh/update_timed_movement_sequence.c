@@ -97,7 +97,7 @@ void update_timed_movement_sequence(S_81978140 *entity)
 
     case 4:
         entity[-1].timer |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
 }

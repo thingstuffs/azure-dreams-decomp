@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01137 - CL:town/func_800A48A0.
  */
 #include "town/menu/object/allocate_and_initialize_display_object_g01137.h"
+#include "shared/object_flags.h"
 
 /* Allocate an object and initialize its payload, display transform, and color. */
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,
@@ -55,8 +56,8 @@ void update_menu_node_or_retire_on_zero_state(Func800A4A20Object *object)
 
     state = object->state;
     if (state != 0 && *state == 0) {
-        *(u16 *)((u8 *)object - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     object->callback();

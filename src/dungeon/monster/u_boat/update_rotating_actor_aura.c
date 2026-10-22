@@ -171,8 +171,8 @@ void update_rotating_actor_aura(void *effect, void *position, void *visual) {
         ((S_80170CEC_3 *)visual)->unk_0D = intensity;
         ((S_80170CEC_3 *)visual)->unk_0E = intensity;
         if (((S_80170CEC_0 *)effect)->unk_36.u <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }
@@ -183,6 +183,6 @@ void update_rotating_actor_aura(void *effect, void *position, void *visual) {
         return;
     }
 
-    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

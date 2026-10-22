@@ -74,8 +74,8 @@ void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
     }
 
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
-        *(u16 *)((u8 *)owner - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)owner - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

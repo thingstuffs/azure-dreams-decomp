@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "records/Rec_D_80082E80.h"
@@ -22,6 +23,6 @@ void fade_and_scale_sprite(void *actor, void *unused, void *packet) {
     if (((SpriteFrameState *)packet)->color.c.r == 0) {
         flags = &((ObjectNodeHeader *)actor)[-1].flags;
         *flags |= 0x8000;
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

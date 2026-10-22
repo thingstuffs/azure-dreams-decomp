@@ -55,8 +55,8 @@ void update_pulsing_actor_color(void *state_data, s32 unused, void *actor_data) 
         fade_ticks = (u16) ((S_800F62BC_0 *)state)->unk_02 - 1;
         ((S_800F62BC_0 *)state)->unk_02 = fade_ticks;
         if ((fade_ticks << 0x10) <= 0) {
-            (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800F62BC_0_pre *)state)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800F62BC_0_pre *)state)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
     ((S_800F62BC_1 *)actor)->unk_1A = (u16) (((S_800F62BC_1 *)actor)->unk_1A + 0x40);

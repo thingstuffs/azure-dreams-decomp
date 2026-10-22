@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -171,7 +172,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
             advance_actor_path(actor, context, map_actor, entity);
             return;
         }
-        if (!(entity->action_flags & 0x8000)) {
+        if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity, ((S_8016B778_3 *)(((int)primary_actor_record)))->unk_58 + 0x20) << 0x10) != 0) {
                     return;
@@ -181,7 +182,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
                 execute_actor_script_command((u8 *)(actor), context, (u8 *)(map_actor));
                 entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
                 update_actor_status_and_mp(entity);
-                entity->action_flags &= 0x7FFF;
+                entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
                 return;
             }
             if ((dispatch_actor_action_phase(actor, context, (s32)(map_actor), 0) << 0x10) == 0) {
@@ -194,7 +195,7 @@ void update_main_actor_action_and_facing(Rec_func_800A9E70_arg0 *actor, s32 cont
                 return;
             }
         }
-        action_id = entity->action_flags & 0x3FFF;
+        action_id = entity->action_flags & ACTOR_ACTION_CODE_MASK;
         switch (action_id) {
         case 8:
         case 9:

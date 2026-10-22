@@ -68,7 +68,7 @@ void func_800251E8(void *object_data)
         break;
     case 4:
         ((S_800251E8_0_pre *)object)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

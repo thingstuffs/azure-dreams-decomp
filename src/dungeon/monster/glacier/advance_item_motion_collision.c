@@ -66,7 +66,7 @@ void advance_item_motion_collision(void *motion, void *position, s32 update_arg)
         ((S_80174300_0 *)motion)->unk_1E = 0;
     }
     if ((s16)((S_80174300_0 *)motion)->unk_1E <= 0) {
-        (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

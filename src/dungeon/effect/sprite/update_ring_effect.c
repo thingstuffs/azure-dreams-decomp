@@ -129,7 +129,7 @@ void update_ring_effect(void *state, S_819598B4_2 *values, S_819598B4_1 *paramet
         ((S_819598B4_0 *)state)->unk_30 = timerNextSecond;
         if ((timerNextSecond << 0x10) <= 0) {
             ((S_819598B4_0_pre *)state)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

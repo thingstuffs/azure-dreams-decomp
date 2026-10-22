@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -175,7 +176,7 @@ void update_staged_movement_height_and_animation(void *motion, ObjectPosition *v
         ((S_80173930_0 *)motion)->unk_8C = D_80171FA4;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         break;
     default:
         return;

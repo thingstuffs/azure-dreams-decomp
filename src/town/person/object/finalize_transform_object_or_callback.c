@@ -21,7 +21,7 @@ void finalize_transform_object_or_callback(void *object, s32 check_value, s32 ca
         unlink_node_if_registered(object);
         object_flags = (u16 *)object - 1;
         *object_flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
         (*(Callback *)((u8 *)object + 0x50))(object, check_value, callback_value);
     }

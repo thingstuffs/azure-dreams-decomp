@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
@@ -51,7 +52,7 @@ s32 attempt_target_action(S_80172920_3 *action_state, s32 effect_arg, Rec_D_8008
         return -1;
     }
 
-    if (!(((ActorRecord *)actor)->action_flags & 0x8000) &&
+    if (!(((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) &&
         (g_dungeon_status.flags & 8)) {
         return -1;
     }

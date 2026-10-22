@@ -1,4 +1,5 @@
 #include "dungeon/monster/noise/advance_action_and_spawn_random_effects.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Advance the action animation and spawn pairs of effects with randomized velocities. */
@@ -165,7 +166,7 @@ void advance_action_and_spawn_random_effects(void *action, void *motion, void *s
         ((T_80172FFC_S_80172FFC_0 *)action)->unk_8C = &update_actor_behavior_and_direction;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
+        actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
     }
     return;
     default:

@@ -1,4 +1,5 @@
 #include "shared/dungeon_item_entries.h"
+#include "shared/item_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/sys_flags.h"
@@ -138,11 +139,11 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
     }
     ground_items = dungeon_ground_items;
     ground_item = &ground_items[(s16) item_lookup];
-    if ((ground_item->kind == 14) || ((ground_item->kind == 12) && (ground_item->unk_00 == 4))
-        || ((ground_item->kind == 18) && (ground_item->unk_00 == 1))) {
+    if ((ground_item->kind == ITEM_KIND_COIN) || ((ground_item->kind == 12) && (ground_item->unk_00 == ITEM_BLUE_COLLAR))
+        || ((ground_item->kind == ITEM_KIND_EGG) && (ground_item->unk_00 == 1))) {
         named_item = &dungeon_ground_items[(s16) item_lookup];
         message = append_typed_formatted_value(named_item, message);
-        if (named_item->kind == 14) {
+        if (named_item->kind == ITEM_KIND_COIN) {
             message = expand_text_control_codes(D_80088A84, message);
         } else {
             message = expand_text_control_codes(D_800E0A90, message);
@@ -162,7 +163,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
                 state_page[0x104B] = 5;
             }
             *(u16 *) 0x8001209A = 0;
-        } else if (item_kind == 14) {
+        } else if (item_kind == ITEM_KIND_COIN) {
             pickup_value = get_scaled_byte_value(special_item);
             ctx->total += pickup_value;
             create_actor_value_popup(151, unit, (s16) pickup_value, 1);
@@ -173,7 +174,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
         consumed_item = &consumed_items[consumed_id];
         *pickup_slot = *(u32 *) consumed_item;
         consumed_item->unk_00 = 0;
-        consumed_item->kind = 0;
+        consumed_item->kind = ITEM_KIND_NONE;
         update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[consumed_id].a, dungeon_ground_item_positions[consumed_id].b, 0x800);
         ctx->link = pickup_slot;
     } else {
@@ -192,7 +193,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, Item *item, Unit *unit) {
             *(void ***) (inventory_page + (entry_index * 4) + 0x29C) = inventory_slot;
             ctx->flags |= 0x80;
             stored_item->unk_00 = 0;
-            stored_item->kind = 0;
+            stored_item->kind = ITEM_KIND_NONE;
             update_map_cell_flags_with_item_limit(dungeon_ground_item_positions[stored_id].a, dungeon_ground_item_positions[stored_id].b, 0x800);
             ctx->link = inventory_slot;
         }

@@ -27,6 +27,6 @@ void apply_countdown_based_fade_three_output(void *record_data, void *unused, Sp
     if ((ticks_left << 0x10) <= 0) {
         ((S_8015E8E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_8015E8E8_0 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

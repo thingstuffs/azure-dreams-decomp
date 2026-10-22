@@ -15,6 +15,6 @@ typedef struct S_800ADB8C_0 {
 void retire_effect_when_status_set(void *record) {
     if (*((S_800ADB8C_0 *)record)->unk_00 != 0) {
         ((S_800ADB8C_0_pre *)record)[-1].unk_00 = (u16) (((S_800ADB8C_0_pre *)record)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

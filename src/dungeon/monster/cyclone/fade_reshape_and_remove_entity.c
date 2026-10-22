@@ -118,8 +118,8 @@ void fade_reshape_and_remove_entity(void *fade_state, void *position, void *spri
             update_map_cell_flags_with_item_limit(effect_color_0, effect_color_1, effect_mask);
         }
         unlink_entity_node(entity);
-        (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)entity + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
@@ -139,7 +139,7 @@ void fade_reshape_and_remove_entity(void *fade_state, void *position, void *spri
         update_map_cell_flags_with_item_limit(effect_color_0, effect_color_1, effect_mask);
     }
     unlink_entity_node(entity);
-    (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    (*(u16 *)((u8 *)entity + -2)) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     play_sound_if_enabled(0x609);
 }

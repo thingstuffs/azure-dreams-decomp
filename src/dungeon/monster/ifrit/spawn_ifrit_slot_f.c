@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -74,7 +75,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
     if (object != 0) {
         work = (u8 *)object + 0x20;
         ((S_FUNC_80A23000_BODY_0 *)object)->unk_10 = D_8016AA58;
-        work->unk_13 = 5;
+        work->unk_13 = MONSTER_IFRIT;
         register_node(object, project_sprite_chain);
 
         part_a = ((S_FUNC_80A23000_BODY_0 *)object)->unk_08;

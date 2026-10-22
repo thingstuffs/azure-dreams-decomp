@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -89,7 +90,7 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     if (created != 0) {
         result = (u8 *)created + 0x20;
         ((S_80FDB000_0 *)created)->unk_10 = D_80170A7C;
-        ((S_80FDB000_1 *)result)->unk_13 = 0x28;
+        ((S_80FDB000_1 *)result)->unk_13 = MONSTER_KILLER;
         register_node(created, project_sprite_chain);
 
         position = ((S_80FDB000_0 *)created)->unk_08;

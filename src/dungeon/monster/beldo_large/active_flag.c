@@ -1,5 +1,6 @@
 /* Encounter activity checks and scripted object creation. */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -73,7 +74,7 @@ void create_scripted_encounter_object(void) {
         state = object + 0x20;
         st = (S_80173140_1 *)state;
         ((S_80173140_0 *)object)->unk_10 = &advance_linked_actor_motion_script;
-        st->unk_13 = 2;
+        st->unk_13 = MONSTER_KEWNE;
         register_node(object, project_sprite_chain);
         object_attrs = ((S_80173140_0 *)object)->unk_08;
         ((S_80173140_2 *)object_attrs)->unk_0A =

@@ -23,7 +23,7 @@ void process_object_resources_and_high_flag(u8 *object)
         flag_object_for_removal(*(void **)(resourceFields + 0x20));
         func_800B5020(*(void **)(resourceFields + 0x5C));
         objectFlags = *(u16 *)(object + 0x1E) | 0x8000;
-        globalFlags = object_flag_block.flags | 0x8000;
+        globalFlags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         *(u16 *)(object + 0x1E) = objectFlags;
         object_flag_block.flags = globalFlags;
     }

@@ -25,7 +25,7 @@ void advance_damped_effect_and_expire(u8 *effect, s32 *motion)
     *(s16 *)(effect + 0x32) = ticks_left;
     *(s32 *)(effect + 8) = *(s32 *)(effect + 4);
     if (ticks_left <= 0) {
-        *(u16 *)(effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

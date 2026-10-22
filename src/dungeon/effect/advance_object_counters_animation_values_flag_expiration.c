@@ -82,7 +82,7 @@ void advance_object_counters_animation_values_flag_expiration(void *object_ptr)
     }
 
     if (((S_800251F0_0 *)object_bytes)->unk_02.u <= 0) {
-        (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object_bytes + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

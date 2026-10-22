@@ -78,7 +78,7 @@ void func_7FDD3F8C(ColorEffect *effect)
     }
 
     if ((owner->flags & 0x8000) != 0) {
-        ((u16 *)effect)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)effect)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -104,7 +104,7 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
         ((S_800CB82C_4 *)object_state)->unk_90 = (s32) ((S_800CB82C_2 *)spawn_pos)->unk_08.at00.v;
         if (create_actor_spell_effect(object_state, object + 0x28, 0, object + 0xB8) == 0) {
             object_flags = ((S_800CB82C_0 *)object)->unk_1E | 0x8000;
-            global_flags = object_flag_block.flags | 0x8000;
+            global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             ((S_800CB82C_0 *)object)->unk_1E = object_flags;
             object_flag_block.flags = global_flags;
             return NULL;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_projectile_views.h"
@@ -126,7 +127,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((ProjectileObject *)obj)->unk_10 = D_80170B64;
-        ((S_8017086C_1 *)work)->unk_13 = 0x21;
+        ((S_8017086C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 

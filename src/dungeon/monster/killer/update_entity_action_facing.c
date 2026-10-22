@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -150,7 +151,7 @@ void update_entity_action_facing(void *actor, void *context, void *sprite, Actor
             func_8017167C(actor, context, sprite, entity);
             return;
         }
-        if (!(entity->action_flags & 0x8000)) {
+        if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(entity,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
@@ -161,19 +162,19 @@ void update_entity_action_facing(void *actor, void *context, void *sprite, Actor
                 return;
             }
             entity->action_flags |= 0x4000;
-            if (!(entity->action_flags & 0x8000)) {
+            if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
                 func_8017167C(actor, context, sprite, entity);
             return;
             }
         }
 
-        switch (entity->action_flags & 0x3FFF) {
+        switch (entity->action_flags & ACTOR_ACTION_CODE_MASK) {
         case 9:
             ((S_80170EA8_0 *)actor)->unk_98.v |= 0x8000;
             /* fallthrough */
         case 8:
             if (((u32)entity->flags1C) & 0x2000) {
-                if ((entity->action_flags & 0x3FFF) == 8) {
+                if ((entity->action_flags & ACTOR_ACTION_CODE_MASK) == 8) {
                     ((S_80170EA8_0 *)actor)->unk_98.v &= 0x7FFF;
                 }
             }

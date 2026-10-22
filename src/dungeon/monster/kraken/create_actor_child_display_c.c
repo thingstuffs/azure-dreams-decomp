@@ -1,4 +1,5 @@
 #include "dungeon/monster/kraken/create_actor_child_display_c.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kraken/create_actor_child_display_c.h"
 
@@ -37,7 +38,7 @@ void *create_actor_child_display_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015E86C_0 *)obj)->unk_10 = func_8015EB64;
-        ((S_8015E86C_1 *)work)->unk_13 = 0x21;
+        ((S_8015E86C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 

@@ -28,8 +28,8 @@ void update_person_view_and_record(void *ptr, s32 value, SpriteFrameState *recor
 
     if (D_800834A8 == 0) {
         unlink_node_if_registered(ptr, value);
-        (*(u16 *)((u8 *)ptr + (-2))) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)ptr + (-2))) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

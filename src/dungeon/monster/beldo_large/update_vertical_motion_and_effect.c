@@ -107,7 +107,7 @@ void update_vertical_motion_and_effect(void *motion, void *position, void *effec
         place_item_at_valid_floor_position(((S_8017085C_0 *)motion)->unk_58, (s8)tile_z,
             ((S_8017085C_1 *)position)->unk_08.at02.v, ((S_8017085C_2 *)effect)->unk_08, effect_args);
 
-        (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

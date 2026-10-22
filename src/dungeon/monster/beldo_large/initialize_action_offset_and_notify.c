@@ -37,7 +37,7 @@ void initialize_action_offset_and_notify(void *action, void *position)
         message[2] = 0;
         message[3] = 0;
         equip_item_and_update_status(((u8 *)dungeon_actor_ring_anchor), message);
-        ((u16 *)action)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)action)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

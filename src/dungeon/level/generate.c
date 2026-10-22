@@ -1,5 +1,6 @@
 /* Floor layout loading, random room and corridor generation, and special room placement. */
 #include "dungeon/level/generate.h"
+#include "shared/item_ids.h"
 #include "shared/sprite_frame_state.h"
 
 /* Clears all three halfwords in each of the 4,096 generation cells. */
@@ -728,7 +729,7 @@ void load_dungeon_layout(s16 layout_number)
         entry_index++;
     }
     while (entry_index < 64) {
-        dungeon_ground_items[entry_index].kind = 0;
+        dungeon_ground_items[entry_index].kind = ITEM_KIND_NONE;
         dungeon_ground_items[entry_index].unk_00 = 0;
         entry_index++;
     }
@@ -772,7 +773,7 @@ void load_dungeon_layout(s16 layout_number)
     }
 
     decompress_lz(data, ((u8 *)D_800EA000));
-    for (entry_index = 0; dungeon_ground_items[entry_index].kind != 0; entry_index++) {
+    for (entry_index = 0; dungeon_ground_items[entry_index].kind != ITEM_KIND_NONE; entry_index++) {
         placed_record = &((floor_generate_isolated_80285464_RecB *)dungeon_ground_item_positions)[entry_index];
         map_value = get_surface_height_at_coordinates(placed_record->f0 << 6, placed_record->f1 << 6);
         placed_record->f4 = map_value;

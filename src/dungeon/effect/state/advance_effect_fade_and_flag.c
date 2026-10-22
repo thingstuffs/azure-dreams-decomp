@@ -84,7 +84,7 @@ void advance_effect_fade_and_flag(void *effect, void *motion, void *primitive) {
     life_left = ((S_800B63A8_1 *)effect)->unk_0E - 1;
     ((S_800B63A8_1 *)effect)->unk_0E = life_left;
     if ((life_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800B63A8_1_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800B63A8_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

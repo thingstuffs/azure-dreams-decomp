@@ -1,5 +1,6 @@
 /* Timed visual effects, linked sprite copies, and tile fade animation. */
 #include "dungeon/effect/sprite/advance_timed_visual_effect.h"
+#include "shared/object_flags.h"
 
 
 /* Keeps both sprite scales at normal size and removes the effect when its countdown ends. */
@@ -16,8 +17,8 @@ void expire_effect_at_unit_scale(void *state_data, s32 unused, void *scale_data)
     remaining_ticks = *(s16 *)(state + 2);
     ((s16 *)D_80025E80)[0] = 1;
     if (remaining_ticks <= 0) {
-        *(u16 *)(state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -30,7 +31,7 @@ void finish_timed_visual_effect(void *object) {
 
     (*(s16 *)D_80025E80) = 1;
     *flags |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
 /* Bobs and pulses a substitute sprite while hiding the linked sprite, restoring the linked sprite when
@@ -43,8 +44,8 @@ void advance_timed_visual_effect(void *state, void *position, void *visual) {
     object = ((Row_818FEF80_S_818FEF80_0 *)state)->unk_30;
     (*(s16 *)D_80025E80) = 1;
     if ((u32)(((Row_818FEF80_S_818FEF80_1 *)object)->unk_13 - 0x33) < 4U) {
-        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
@@ -77,7 +78,7 @@ void advance_timed_visual_effect(void *state, void *position, void *visual) {
 
         ((Row_818FEF80_S_818FEF80_0_pre *)state)[-1].unk_00 |= 0x8000;
         linked_flags = ((Row_818FEF80_S_818FEF80_4 *)linked_visual)->unk_14;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         ((Row_818FEF80_S_818FEF80_4 *)linked_visual)->unk_14 = linked_flags & 0xFF7F;
     }
 }
@@ -191,8 +192,8 @@ void update_tiled_fade_effect(void *effect, void *offset_state, void *render_sta
             ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_02 = 0;
             ((Row_818FF19C_S_818FF19C_0 *)effect)->unk_00.u++;
             ((Row_818FF19C_S_818FF19C_3 *)(((Row_818FF19C_S_818FF19C_0 *)effect)->unk_34))->unk_90 = 1;
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

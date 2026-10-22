@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -149,8 +150,8 @@ void update_actor_centering_hop(void *action, void *motion, void *sprite, void *
 
     entity_flags = ((ActorRecord *)entity)->flags1C;
     if (entity_flags & 0x2000) {
-        if (((ActorRecord *)entity)->action_flags & 0x8000) {
-            ((ActorRecord *)entity)->action_flags &= 0x7FFF;
+        if (((ActorRecord *)entity)->action_flags & ACTOR_ACTION_PENDING) {
+            ((ActorRecord *)entity)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
     } else {
         if (!(entity_flags & 0x410)) {

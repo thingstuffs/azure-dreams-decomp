@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00278 - CL:dungeon/func_80EDF8B8@dungeon/bank_eff000, CL:dungeon/func_80EDF8B8@dungeon/bank_f05000, CL:dungeon/func_80EDF8B8@dungeon/bank_f0b000, CL:dungeon/func_80EDF8B8@dungeon/bank_f11000, CL:dungeon/func_80EDF8B8@dungeon/bank_f17000, CL:dungeon/func_80EDF8B8@dungeon/bank_f1d000.
  */
 #include "dungeon/monster/weadog/steer_effect_toward_target_g00278.h"
+#include "shared/object_flags.h"
 
 /* Advance position, clamp velocity, and steer acceleration toward the target. */
 /* Clamps the effect's speed on all three axes and steers it toward stored coordinates, reducing
@@ -126,8 +127,8 @@ void initialize_shared_state_active_entries(void *effect, void *position, s32 up
         ((S_801712C4_0 *)effect)->unk_08 = ((S_801712C4_0 *)effect)->unk_04.at00u.v;
 
         if (((S_801712C4_0 *)effect)->unk_32.s <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

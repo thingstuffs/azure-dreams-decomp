@@ -32,7 +32,7 @@ void update_four_phase_animation(void *entity, void *context) {
             *activity_flag = 0;
         }
         ((ObjectRetirementFlags *)entity)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
 

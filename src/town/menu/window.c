@@ -1,5 +1,6 @@
 /* Builds town display entries, checks their bounds, dispatches object updates, and opens menu windows. */
 #include "town/menu/window.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 
@@ -626,7 +627,7 @@ void cleanup_or_dispatch_object(void *object, s32 source, s32 context) {
         }
         unlink_node_if_registered(object);
         ((func_800A05E0_S_8009DD40_0_pre *)object)[-1].unk_00 = (u16) (((func_800A05E0_S_8009DD40_0_pre *)object)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
     ((Rec_D_80082D58 *)object)->unk_50.as_x151a23(object, object, source, context);
@@ -924,7 +925,7 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
         }
         unlink_node_if_registered(object);
         ((func_800A0FB4_S_func_8009E714_2 *)object)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     if (status_match == 2) {

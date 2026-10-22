@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -74,7 +75,7 @@ void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 
         work = (u8 *)created + 0x20;
         (*(Callback *)((u8 *)created + 0x10)) = D_8015EB40;
-        ((S_80FB1000_0 *)work)->unk_13 = 0x27;
+        ((S_80FB1000_0 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
         position = (*(u8 * *)((u8 *)created + 8));

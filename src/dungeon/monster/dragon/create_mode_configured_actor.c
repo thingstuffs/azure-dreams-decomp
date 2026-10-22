@@ -1,4 +1,5 @@
 #include "dungeon/monster/dragon/create_mode_configured_actor.h"
+#include "shared/monster_ids.h"
 
 /* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -24,7 +25,7 @@ void *create_mode_configured_actor_object(s16 kind_flags, s16 byte_24, s16 byte_
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->unk_10 = D_8016AA28;
-        work->unk_13 = 0x3;
+        work->unk_13 = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->unk_08;

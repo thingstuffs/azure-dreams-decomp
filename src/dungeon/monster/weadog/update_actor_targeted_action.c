@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -65,7 +66,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
     switch (state) {
     case 0:
         if (actor->flags1C & 0x2000) {
-            raw_kind = actor->action_flags & 0x3FFF;
+            raw_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             kind_index = raw_kind - 1;
             switch (kind_index) {
             case 6:
@@ -91,7 +92,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
                 break;
             }
         } else {
-            action_kind = actor->action_flags & 0x3FFF;
+            action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_kind) {
             case 3:
                 action_data = (u8 *)actor + 0xE;
@@ -169,7 +170,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
         ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -272,7 +273,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
         actor->pending_turn_updates--;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
     }
 }

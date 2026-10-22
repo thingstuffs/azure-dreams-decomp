@@ -1,5 +1,6 @@
 /* Directional actor effects and their spiraling particle animation. */
 #include "dungeon/effect/directional_actor.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/directional_actor.h"
 
@@ -204,7 +205,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         }
         g_dungeon_status.active_actor = 0;
         ((Row_818E0800_S_818E0800_0_pre *)effect_arg)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 }

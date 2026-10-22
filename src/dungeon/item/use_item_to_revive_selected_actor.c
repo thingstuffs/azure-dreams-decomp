@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/item_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -73,7 +74,7 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
         return 1;
     }
     selection = *(void **)((u8 *)&reference_tile_object.unk_000 + 0x34);
-    if (selection->unk_01 == 0x13) {
+    if (selection->unk_01 == ITEM_KIND_FAMILIAR) {
         target_index = selection->unk_03 & 0x1F;
         if (target_index < 0x14) {
             target = familiar_record_slots[target_index];

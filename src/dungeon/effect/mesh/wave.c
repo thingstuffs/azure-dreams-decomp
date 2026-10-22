@@ -678,7 +678,7 @@ void raise_entity_to_ground(PointRecord *state, ObjectPosition *position)
     state->brightness = countdown;
     if ((s32)(countdown << 16) <= 0) {
         ((ObjectNodeHeader *)state - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -779,7 +779,7 @@ void advance_record_counter(CountdownRecord *record)
     record->counter = counter;
     if ((counter << 16) <= 0) {
         ((ObjectNodeHeader *)record - 1)->flags |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -921,8 +921,8 @@ void process_five_context_entries_or_fallback(void *effect, void *unused, void *
     next_frame = ((S_80025398_0 *)effect)->unk_04.u + 1;
     ((S_80025398_0 *)effect)->unk_04.u = next_frame;
     if (next_frame == ((S_80025398_0 *)effect)->unk_02) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -966,8 +966,8 @@ void advance_grayscale_fade(Func818F9D8CState *state, s32 unused, u8 *out)
     next_step = (u16)state->current + 1;
     state->current = next_step;
     if (next_step >= state->limit) {
-        ((u16 *)state)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)state)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -1143,8 +1143,8 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
         ((S_818F9E48_0 *)state)->unk_00.u++;
         ((S_818F9E48_5 *)motion)->unk_14 &= 0xFF7F;
         ((S_818F9E48_6 *)(((S_818F9E48_0 *)state)->unk_30))->unk_9C = one;
-        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -1879,8 +1879,8 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         self->timer = ticks;
         if (effect_active == 0) {
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)self + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)self + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         D_800266BC = 0;

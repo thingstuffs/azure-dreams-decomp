@@ -101,12 +101,12 @@ void update_motion_and_grow_sprite(void *motion, void *position, void *sprite)
     life_ticks = ((S_80170D58_1 *)motion)->unk_26.u - 1;
     ((S_80170D58_1 *)motion)->unk_26.u = life_ticks;
     if ((s16)life_ticks <= 0) {
-        (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (((SpriteFrameState *)sprite)->flags & 0x8000) {
-        (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

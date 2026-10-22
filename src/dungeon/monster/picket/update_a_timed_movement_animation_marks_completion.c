@@ -93,8 +93,8 @@ void update_a_timed_movement_animation_marks_completion(void *actor, void *motio
                       ((S_80174978_0 *)actor)->unk_AA,
                       (s16)(((S_80174978_2 *)motion)->unk_08.at02.v - 0x20),
                       ((S_80174978_1 *)visual)->unk_08, actor + 0x48);
-        (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)actor + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
         return;
     }

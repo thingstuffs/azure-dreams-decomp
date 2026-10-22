@@ -808,8 +808,8 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         (*(u16 *)((u8 *)effect + 0x82)) = old_cleanup_tick;
         if (effect_active == 0) {
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-            (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | NODE_REMOVE);
+            (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
             return;
         }
         D_80025E80 = 0;

@@ -1,4 +1,5 @@
 #include "dungeon/effect/shade/update_oscillating_fading_effect.h"
+#include "shared/object_flags.h"
 
 
 /* Bobs a linked object above terrain, grows and fades its sprite, and restores the camera target on
@@ -86,8 +87,8 @@ void update_oscillating_fading_effect(void *effect, Row_818F34E4_S_80024CE4_2 *p
         if ((*(s16 *)((u8 *)effect + 0xA)) == 9) {
             view_state->unk_20 = ((u8 *)(&view_reference_entity));
         }
-        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 /* Warning: struct S_80083178 is not defined (only forward-declared) */

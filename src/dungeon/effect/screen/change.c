@@ -90,7 +90,7 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     fade->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
         ((S_8009BE2C_4_pre *)effect)[-1].unk_00 = (u16) (((S_8009BE2C_4_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 #include "common.h"

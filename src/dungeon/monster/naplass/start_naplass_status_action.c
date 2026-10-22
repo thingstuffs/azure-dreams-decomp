@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -31,7 +32,7 @@ void start_naplass_status_action(S_80F60808_1 *action_state, void *unused, Sprit
         select_sprite_entry(sprite, D_801741D4[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
         actor->flags1C = (s32) (actor->flags1C | 0x200);
         set_or_clear_actor_status_slot(actor, 1, 4);
-        actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
+        actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         advance_status_timers(actor);
         actor->pending_turn_updates = (u8) (((u8)actor->pending_turn_updates) - 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);

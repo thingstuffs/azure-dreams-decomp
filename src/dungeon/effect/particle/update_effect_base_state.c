@@ -1,5 +1,6 @@
 /* Staged target motion, layered sprite-chain drawing, and delayed sprite fading. */
 #include "dungeon/effect/particle/update_effect_base_state.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */
 void (*const dungeon_1864800_entry)(void *, void *, void *) = func_80024020;
@@ -290,7 +291,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
         }
         g_dungeon_status.active_actor = 0;
         ((S_81844800_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
         return;
@@ -571,8 +572,8 @@ void fade_effect_sprite_to_black(void *effect, VecState *motion, void *sprite) {
         }
         if (*(u8 *)((s8 *)sprite + 0xC) <= *(s16 *)((s8 *)effect + 0x4A)) {
             *(u32 *)((s8 *)sprite + 0xC) = 0;
-            *(u16 *)((s8 *)effect - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((s8 *)effect - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         {

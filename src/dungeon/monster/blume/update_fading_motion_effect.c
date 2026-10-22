@@ -68,7 +68,7 @@ void update_fading_motion_effect(void *effect, void *transform, void *color) {
     }
 
     if (((S_80171284_0 *)effect)->unk_24.u <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

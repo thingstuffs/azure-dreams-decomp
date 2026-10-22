@@ -254,7 +254,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
         ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A =
             (u16) ((Rec_D_80082E80 *)target)->unk_8A;
         ((S_801749A8_0_pre *)sequence)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)sequence)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((Rec_D_80082E80 *)target)->unk_6D = 0;
         return;

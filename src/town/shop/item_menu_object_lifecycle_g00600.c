@@ -1,6 +1,7 @@
 /* Item menu object lifecycle (G00600). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B0CB4. */
 #include "town/shop/item_menu_object_lifecycle_g00600.h"
+#include "shared/object_flags.h"
 
 /* Create an object and initialize its state, releasing the state if setup fails. */
 s32 create_item_menu_object(s32 selector) {
@@ -45,8 +46,8 @@ s32 create_item_menu_object(s32 selector) {
 /* Marks the menu object for removal, schedules child cleanup, and resumes message and selection handling. */
 void start_item_menu_object_processing(ItemMenuParameters *parameters) {
     s32 firstParameter = parameters->field0;
-    ((u16 *)parameters)[-1] |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    ((u16 *)parameters)[-1] |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     reset_item_menu_object_state(firstParameter);
     schedule_item_menu_child_release(parameters->field4);
     set_object_data_pointer_2(parameters->field8);

@@ -65,7 +65,7 @@ void animate_effect_colors(void *effect_state, s32 unused, void *primitive)
     frames_left = ((S_80174600_1 *)state)->unk_1A.u - 1;
     ((S_80174600_1 *)state)->unk_1A.s = frames_left;
     if ((frames_left << 16) <= 0) {
-        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

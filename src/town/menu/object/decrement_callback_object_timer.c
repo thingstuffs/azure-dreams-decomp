@@ -23,8 +23,8 @@ s32 decrement_callback_object_timer(S_func_800A9F90 *self, s32 expiry_arg)
     if ((counter << 16) <= 0) {
         unlink_node_if_registered(self);
         *(u16 *)((u8 *)self - 2) =
-            (u16)(*(u16 *)((u8 *)self - 2) | 0x8000);
-        return (object_flag_block.flags |= 0x8000);
+            (u16)(*(u16 *)((u8 *)self - 2) | NODE_REMOVE);
+        return (object_flag_block.flags |= OBJECT_REMOVE_PENDING);
     }
 
     callback = self->callback;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
@@ -75,7 +76,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80170890_0 *)obj)->unk_10 = D_80170AE8;
-        ((S_80170890_1 *)work)->unk_13 = 29;
+        ((S_80170890_1 *)work)->unk_13 = MONSTER_CYCLONE;
         register_node(obj, &D_80045340);
 
         part_a = ((S_80170890_0 *)obj)->unk_08;

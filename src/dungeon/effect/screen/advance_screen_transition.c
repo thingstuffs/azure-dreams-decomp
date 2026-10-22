@@ -154,8 +154,8 @@ case 1:
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        (*(u16 *)((u8 *)ctx + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)ctx + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     default:

@@ -298,7 +298,7 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
         U16(state, 0x30)--;
         if (S16(state, 0x30) <= 0) {
             U16(state, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

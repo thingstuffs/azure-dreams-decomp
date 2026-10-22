@@ -1,6 +1,7 @@
 /* Refresh paired object components and their high flags (G00626). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B6EE8. */
 #include "town/shop/object_component_refresh_g00626.h"
+#include "shared/object_flags.h"
 
 /* Passes each of five paired entry values to func_8004E99C. */
 void submit_five_paired_entry_values(S_800B4648_0 *owner) {
@@ -28,7 +29,7 @@ void refresh_object_components_and_high_flag(u8 *object)
         submit_five_paired_entry_values((S_800B4648_0 *)(object + 0x20));
         release_null_terminated_entries(object + 0x80);
         object_flags = *(u16 *)(object + 0x1E) | 0x8000;
-        global_flags = object_flag_block.flags | 0x8000;
+        global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         *(u16 *)(object + 0x1E) = object_flags;
         object_flag_block.flags = global_flags;
     }

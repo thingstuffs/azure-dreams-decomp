@@ -479,6 +479,6 @@ copy_pairs:
     ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 = life_left;
     if ((life_left << 0x10) <= 0) {
         ((S_80167C74_0_pre *)effect_data)[-1].unk_00 = (u16) (((S_80167C74_0_pre *)effect_data)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

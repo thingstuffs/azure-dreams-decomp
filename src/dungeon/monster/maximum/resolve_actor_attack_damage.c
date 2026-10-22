@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
@@ -112,7 +113,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, void *spri
     switch (state) {
     case 0:
         if (action->flags1C & 0x2000) {
-            action_id = action->action_flags & 0x3FFF;
+            action_id = action->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_id - 1) {
             case 6:
                 use_player = 1;
@@ -134,7 +135,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, void *spri
                 break;
             }
         } else {
-            switch (action->action_flags & 0x3FFF) {
+            switch (action->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
                 slot_or_effect = (u8 *)action + 0xE;
                 break;
@@ -218,7 +219,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, void *spri
             ((S_801728B4_0 *)actor)->unk_8C = &func_80170E54;
             action->target_tile_y = 0;
             action->target_tile_x = 0;
-            action->action_flags = (u16) (action->action_flags & 0x7FFF);
+            action->action_flags = (u16) (action->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
             return;
         }
     case 1:
@@ -273,7 +274,7 @@ void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, void *spri
         }
         action->target_tile_y = 0;
         action->target_tile_x = 0;
-        action->action_flags = (u16) (action->action_flags & 0x7FFF);
+        action->action_flags = (u16) (action->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         play_sound_if_enabled(0xB4);
         return;
     default:

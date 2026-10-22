@@ -211,7 +211,7 @@ common_countdown:
     case 0xFF:
         U16(object, 0x58) &= 0xFFFE;
         U16(state, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
 }

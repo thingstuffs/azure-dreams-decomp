@@ -65,8 +65,8 @@ void apply_random_actor_value_adjustment(void *state, void *unused, void *visual
         owner_addr = *(s32 *)((u8 *)state + 0x7C);
         owner_slot = (s16 *)(slot_offset + owner_addr + 0x64);
         *owner_slot = 0;
-        *(u16 *)((u8 *)state - 2) |= 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -162,8 +162,8 @@ void advance_counter_and_propagate_target_flags(void *object)
     counter -= 8;
     *(u16 *)(object_bytes + 50) = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)(object_bytes - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(object_bytes - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -351,8 +351,8 @@ void advance_terrain_colliding_sprite(void *motion, void *position, s32 update_i
         ((S_8196B074_0 *)motion)->unk_2C = 0;
     }
     if ((s16)((S_8196B074_0 *)motion)->unk_2C <= 0) {
-        (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)motion + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -379,8 +379,8 @@ void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
     }
 
     if (*(s16 *)((u8 *)effect + 0x2C) <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -704,8 +704,8 @@ void create_timed_rectangle_effect(void *owner) {
     ticks_left = (*(u16 *)((u8 *)owner + 0x2C)) - 1;
     (*(u16 *)((u8 *)owner + 0x2C)) = ticks_left;
     if ((s16)ticks_left <= 0) {
-        (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -792,8 +792,8 @@ void update_timed(void *effect_data, s32 unused, void *sprite) {
         }
     }
     if ((s16)((S_8196BE48_0 *)effect)->unk_2C <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_8196BE48_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_8196BE48_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -818,7 +818,7 @@ void shrink_effect_and_step_texture(void *effect, s32 unused, S_8196BF24_1 *tran
     }
     if (((S_8196BF24_0 *)effect)->unk_2C.u <= 0) {
         ((S_8196BF24_0_pre *)effect)[-1].unk_00 = (u16)(((S_8196BF24_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -901,13 +901,13 @@ void advance_particle_emitting_projectile(void *object, void *position, void *re
                   (s16)(((S_8196BFB0_0 *)position)->unk_08.at02p.v - ((u16)view_reference_entity.z.w.i)));
 
     if (--((S_8196BFB0_1 *)object)->unk_2C <= 0) {
-        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (((S_8196BFB0_2 *)render_state)->unk_14 & 0x8000) {
-        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -997,12 +997,12 @@ void shrink_particle_emitting_projectile(void *effect, void *position, void *spr
     life_left = ((S_8196C280_1 *)effect)->unk_2C - 1;
     ((S_8196C280_1 *)effect)->unk_2C = life_left;
     if ((life_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (((S_8196C280_2 *)sprite)->unk_14 & 0x8000) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -1297,8 +1297,8 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
             g_dungeon_status.active_actor = 0;
             reference_tile_object.unk_006 = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            ((u16 *)work)[-1] |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            ((u16 *)work)[-1] |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         D_800269B4 = 0;

@@ -76,8 +76,8 @@ void update_object_state_and_size(void *object) {
     }
     case 2:
         (*(u16 *)((u8 *)obj + -2)) =
-            (u16) (((ObjectStatusPrefix16 *)obj)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+            (u16) (((ObjectStatusPrefix16 *)obj)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
 }

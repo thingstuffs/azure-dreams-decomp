@@ -254,7 +254,7 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 
     case 5:
         *((u16 *)controller - 1) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     default:
         break;
     }

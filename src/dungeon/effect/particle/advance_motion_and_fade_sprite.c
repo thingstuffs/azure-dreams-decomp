@@ -627,8 +627,8 @@ case2_spawn_loop:
             return;
         }
         g_dungeon_status.active_actor = 0;
-        ((u16 *)((u8 *)action - 2))[0] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)((u8 *)action - 2))[0] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     }
 }
@@ -680,7 +680,7 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, EffectMotion *motion, 
         if (sprite->red <= effect->fade_step) {
             *(u32 *)&sprite->red = 0;
             ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         brightness = sprite->blue - effect->fade_step;
@@ -1044,8 +1044,8 @@ void fade_packed_object_color_to_zero(void *object) {
         break;
     case 1:
         (*(u16 *)((u8 *)object + -2)) =
-            (u16)(((u16 *)object)[-1] | 0x8000);
-        object_flag_block.flags |= 0x8000;
+            (u16)(((u16 *)object)[-1] | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
 }

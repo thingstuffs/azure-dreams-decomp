@@ -53,7 +53,7 @@ void advance_motion_output_animation(FuncState *motion, void *position, FuncOutp
             break;
         }
         *((u16 *)motion - 1) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     object = (void *)((s8 *)motion - 0x20);

@@ -1,5 +1,6 @@
 /* Projected effect quads, linked trails, particle animation, and a timed attack sequence. */
 #include "dungeon/effect/particle/draw_linked_effect_chain.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
@@ -195,8 +196,8 @@ void update_effect_countdown_fields(void *object_data)
         u16 remaining_steps = object->unk_3A - 1;
         object->unk_3A = remaining_steps;
         if ((s16)remaining_steps <= 0) {
-            *(u16 *)((u8 *)object - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -251,8 +252,8 @@ void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState
     primitive->unk_0C = (s8)brightness;
     if ((s16)fadeState->unk_3A <= 0) {
         *(u16 *)((u8 *)fadeState - 2) =
-            (u16)(((Row_819A0FC0_S_func_819A0FC0_2 *)((u8 *)fadeState - 2))->unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+            (u16)(((Row_819A0FC0_S_func_819A0FC0_2 *)((u8 *)fadeState - 2))->unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -281,8 +282,8 @@ void fade_quad_vertex_colors(void *fade_data)
             ((Row_819A1034_S_819A1034_0 *)fade)->unk_3C;
     }
     if (((Row_819A1034_S_819A1034_0 *)fade)->unk_3A.u <= 0) {
-        (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)fade + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -328,8 +329,8 @@ void advance_object_motion_and_animation(void *effect) {
             (s8) ((s32) (((Row_819A1118_S_819A1118_1 *)color_ptr)->unk_1E * (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A) / (s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3C);
     }
     if ((s16) ((Row_819A1118_S_819A1118_0 *)effect)->unk_3A <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_819A1118_S_819A1118_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((Row_819A1118_S_819A1118_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -351,8 +352,8 @@ void choose_random_sign(void *effect, s32 unused, void *primitive)
     *(u8 *)((u8 *)effect + 0x8C) -= 1;
     *(u16 *)((u8 *)primitive + 0x1A) += *(u16 *)((u8 *)effect + 0x40);
     if (*(s16 *)((u8 *)effect + 0x3A) <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -374,8 +375,8 @@ void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, s32 unused, Row_819A1
     if ((s16)work->count > 0) {
         return;
     }
-    *(u16 *)((u8 *)work - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((u8 *)work - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
 /* Creates a randomly rotated gray sprite at an actor-relative offset with velocity from its direction

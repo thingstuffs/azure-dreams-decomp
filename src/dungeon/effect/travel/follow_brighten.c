@@ -292,7 +292,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         }
         g_dungeon_status.active_actor = 0;
         ((MovingEffectState_pre *)self)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 
     case 16:
@@ -319,7 +319,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         }
         g_dungeon_status.active_actor = 0;
         ((MovingEffectState_pre *)self)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     {
         u16 frame = ((MovingEffectState *)self)->unk_18.u;
@@ -345,6 +345,6 @@ void advance_object_and_global_counters(u16 *object)
     D_80026472.value.u = counter;
     if ((s16)object_count >= 0x101) {
         object[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

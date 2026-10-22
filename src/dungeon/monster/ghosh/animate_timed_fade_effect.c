@@ -90,8 +90,8 @@ void animate_timed_fade_effect(void *effect) {
         fade_colors->view.tint.parts.tint_g = 0x80;
         fade_colors->view.tint.parts.tint_r = 0x80;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + (-2))) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
 
     default:

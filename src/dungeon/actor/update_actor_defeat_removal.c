@@ -152,7 +152,7 @@ s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity
             }
             unlink_entity_node(entity);
             ((S_800AD058_2_pre *)entity)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)entity)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             play_sound_if_enabled(0x609);
             return 1;
         }
@@ -213,6 +213,6 @@ s32 update_actor_defeat_removal(u8 *state, s32 *position, u8 *sprite, u8 *entity
     unlink_entity_node(entity);
     ((S_800AD058_2_pre *)entity)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)entity)[-1].unk_00 | 0x8000);
     finished = 1;
-    object_flag_block.flags |= 0x8000;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     return finished;
 }

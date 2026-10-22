@@ -100,7 +100,7 @@ void advance_timed_blink_effect(void *state_data, void *unused, void *color_data
         break;
     case 4:
         ((S_80170534_0_pre *)state_data)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     case 0:
     case 3:
     default:

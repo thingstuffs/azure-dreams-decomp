@@ -37,6 +37,6 @@ void update_flag_masked_entity(void *unused_0, void *unused_1, MovingTile *sourc
     }
     update_map_cell_flags_with_item_limit(source_24, source_25, update_mask);
     unlink_entity_node(entity);
-    *(u16 *)((u8 *)entity - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((u8 *)entity - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

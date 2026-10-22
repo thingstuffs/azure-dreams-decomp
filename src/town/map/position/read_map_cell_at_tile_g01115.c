@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01115 - CL:town/func_8008E9D4, CL:town/func_8008EA64, CL:town/func_8008EAB4, CL:town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428.
  */
 #include "town/map/position/read_map_cell_at_tile_g01115.h"
+#include "shared/object_flags.h"
 
 /* Read the low 14 bits of the map entry at masked tile coordinates. */
 s32 read_map_cell_at_tile(s32 tile_x, s32 tile_y) {
@@ -71,7 +72,7 @@ void advance_index_and_mark_completion(s32 *currentIndex)
     if (nextIndex >= 0x80) {
         *(u16 *)((u8 *)currentIndex - 2) |= 0x8000;
         town_map_processor[0] = 0;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

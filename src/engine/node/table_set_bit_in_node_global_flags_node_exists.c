@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "engine/node.h"
 
 /* --- gcc 2.7.2 -O2 -G0 TU --- */
@@ -19,7 +20,7 @@ typedef struct Node {
 void table_set_bit_hex_8000_in_node_global_flags_node_exists(Node *node)
 {
     if (node != 0) {
-        node->field_1E |= 0x8000;
-        D_800814A0 |= 0x8000;
+        node->field_1E |= NODE_REMOVE;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

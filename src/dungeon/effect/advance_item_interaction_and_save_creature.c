@@ -559,7 +559,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         release_value = actor->unk_60;
         ((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 =
             (u16) (((S_func_800B1364_19 *)((u8 *)release_value - 2))->unk_00 | 0x8000);
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
         sprite->unk_2C = D_800DD140;
         direction_anim = D_800DD140 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
         set_sprite_animation_frame(sprite, *direction_anim, 0, 1);

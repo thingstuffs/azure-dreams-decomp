@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -129,7 +130,7 @@ void advance_actor_animation_and_fall(void *action, void *motion, void *sprite, 
         ((S_801737F8_0 *)action)->unk_8C = &D_80171F1C;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         actor->flags1C |= 0x40000;
         ((S_801737F8_0 *)action)->unk_98 |= 8;
         ((SpriteFrameState *)sprite)->flags = ((SpriteFrameState *)sprite)->flags & 0xFFF3;

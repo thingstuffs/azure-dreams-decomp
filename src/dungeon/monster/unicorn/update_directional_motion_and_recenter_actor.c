@@ -1,5 +1,6 @@
 /* Unicorn directional movement, tile recentering, and sprite removal. */
 #include "dungeon/monster/unicorn/update_directional_motion_and_recenter_actor.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 /* Updates directional movement, decelerates it, and recenters the actor on its tile. */
@@ -179,8 +180,8 @@ void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, voi
     }
     update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
     unlink_entity_node(entity);
-    (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    (*(u16 *)((u8 *)entity + -2)) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
     return;
 }

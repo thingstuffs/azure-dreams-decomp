@@ -52,8 +52,8 @@ void update_effect_fade_and_history(void *effect, MovingPosition *position, S_80
     } else if (primitive->unk_0C.u8 != 0) {
         primitive->unk_0C.s32 += -0x80808;
     } else {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     position->unk_02 = (*(u16 *)((u8 *)effect + 0x20));

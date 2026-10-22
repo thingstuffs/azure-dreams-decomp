@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/entity_objects.h"
@@ -67,7 +68,7 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
         entity_state = entity + 0x20;
         D_80174710 = entity;
         ((S_80170F84_0 *)entity)->unk_10 = &update_actor_movement_and_height;
-        entity_state->unk_13 = 0x37;
+        entity_state->unk_13 = MONSTER_BELDO;
         register_node(entity, project_sprite_chain);
         world_state = ((S_80170F84_0 *)entity)->unk_08;
         world_state->unk_0A = saved_height;

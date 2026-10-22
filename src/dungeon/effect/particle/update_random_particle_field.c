@@ -1,5 +1,6 @@
 /* Falling particle fields, terrain impacts, nearby attacks, and linked item amount reduction. */
 #include "dungeon/effect/particle/update_random_particle_field.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/particle/update_random_particle_field.h"
 
@@ -166,8 +167,8 @@ void update_random_particle_field(void *self, void *output)
         }
     }
     g_dungeon_status.active_actor = 0;
-    (*(u16 *)((u8 *)self + -2)) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    (*(u16 *)((u8 *)self + -2)) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
         return;
     default:
@@ -264,7 +265,7 @@ void draw_red(void *effect) {
         return;
     case 0xFF:
         ((S_81934C5C_0_pre *)effect)[-1].unk_00 = (u16) (((S_81934C5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     default:
         return;

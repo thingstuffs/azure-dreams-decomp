@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -39,7 +40,7 @@ s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, ActorReco
         if (status_flags & 0x2000) {
             return -1;
         }
-        if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+        if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
             return -1;
         }
     }

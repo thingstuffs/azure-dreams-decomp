@@ -55,8 +55,8 @@ void fade_delayed_scene_tile_on_completion(void *effect) {
         fade_rgb = ((S_8002017C_0 *)effect)->unk_08 + 0xFFF7F7F8;
         ((S_8002017C_0 *)effect)->unk_08 = fade_rgb;
         if (fade_rgb <= 0x80808) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((ObjectStatusPrefix16 *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

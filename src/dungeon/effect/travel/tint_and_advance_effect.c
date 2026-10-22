@@ -320,7 +320,7 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
         if (*(s16 *)D_800257CE == 0) {
             g_dungeon_status.active_actor = 0;
             F(self, u16, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
     D_800257CE[0] = 0;
@@ -424,8 +424,8 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
 
         if (D_800257CC[0] == 0) {
             ((S_81880F28_1 *)((S_81880F28_0 *)effect)->unk_00)->unk_1C &= ~0x10000000;
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
@@ -490,8 +490,8 @@ void advance_sprite_on_alternate_ticks_until_complete(void *record, s32 unused, 
     if (flags & 1) {
         advance_sprite_animation_and_textures(target);
         if (*(u16 *)((u8 *)target + 0x14) & 0x4000) {
-            *(u16 *)((u8 *)record - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)record - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
     *(u16 *)((u8 *)record + 0x1C) += 1;
@@ -608,8 +608,8 @@ void func_80024B98(void *effect, void *motion, void *primitive) {
         ((S_80024B98_1 *)primitive)->unk_0C.s32 += 0xFFFBFBFC;
         if (((S_80024B98_1 *)primitive)->unk_0C.u8 < 4) {
             D_800257CC[0]--;
-            (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + (-2))) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }
@@ -759,8 +759,8 @@ void move_and_fade_effect(void *effect_data, void *position_data, void *visual_d
     visual->field0C = brightness;
     if ((u32)(brightness & 0xFF) < 0x20U) {
         D_800257CC[0] = (s16)((u16)D_800257CC[0] - 1);
-        ((u16 *)effect_data)[-1] = (u16)(((u16 *)effect_data)[-1] | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        ((u16 *)effect_data)[-1] = (u16)(((u16 *)effect_data)[-1] | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
     decay_value = visual->field1E;
     visual->field1E = (u16)(decay_value - (decay_value >> 7));
@@ -928,7 +928,7 @@ void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
     if ((life_left << 16) <= 0 ||
         (((S_800250E8_2 *)owner_state)->unk_14 & 0x8000)) {
         ((S_800250E8_1_pre *)effect)[-1].unk_00 = (u16)(((S_800250E8_1_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_ovl_18a0800.h"
@@ -1158,7 +1158,7 @@ void fade_effect_color_below_eight(u16 *effect_data, s32 unused, EffectColor *co
 
     if (color->red < 8) {
         effect_data[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_ovl_18a0800.h"

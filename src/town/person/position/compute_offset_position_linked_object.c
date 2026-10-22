@@ -18,8 +18,8 @@ void compute_offset_position_linked_object(void *object, IntVector3 *out_pos)
 
     if (check_actor_data_references_match(linked_object) == 0) {
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     out_pos->x = base_pos->x + func_800644B8(*(s16 *)((u8 *)*(void **)((u8 *)object + 0x9C) + 0x72)) * 0x140;

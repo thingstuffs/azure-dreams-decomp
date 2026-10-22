@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -75,7 +76,7 @@ void *spawn_garuda_slot_c(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
     if (obj != NULL) {
         work = obj + 0x20;
         ((S_8101D000_0 *)obj)->unk_10 = &D_80158A78;
-        work->unk_13 = 0x29;
+        work->unk_13 = MONSTER_GARUDA;
         register_node(obj, project_sprite_chain);
         part_a = ((S_8101D000_0 *)obj)->unk_08;
         part_a->unk_0A = saved_spawn;

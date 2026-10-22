@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -118,7 +119,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 return;
             }
 
-            if ((state->action_flags & 0x8000) == 0) {
+            if ((state->action_flags & ACTOR_ACTION_PENDING) == 0) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((s16)check_entity_relation(state, (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                         return;
@@ -129,20 +130,20 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                     return;
                 }
                 state->action_flags |= 0x4000;
-                if ((state->action_flags & 0x8000) == 0) {
+                if ((state->action_flags & ACTOR_ACTION_PENDING) == 0) {
                     func_801715CC(actor, context, sprite, state);
                     return;
                 }
             }
 
-            action_kind = state->action_flags & 0x3FFF;
+            action_kind = state->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_kind) {
             case 9:
                 actor->unk_98 |= 0x8000;
                                         /* fallthrough */
             case 8:
                 if ((((u32)state->flags1C) & 0x2000) &&
-                    ((state->action_flags & 0x3FFF) == 8)) {
+                    ((state->action_flags & ACTOR_ACTION_CODE_MASK) == 8)) {
                     actor->unk_98 &= 0x7FFF;
                 }
                 if ((s16)attempt_actor_transition(actor, context, sprite, state) != 0) {

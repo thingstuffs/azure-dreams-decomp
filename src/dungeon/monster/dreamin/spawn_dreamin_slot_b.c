@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -79,7 +80,7 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     if (object != NULL) {
         state = object + 0x20;
         ((S_80DAD000_0 *)object)->unk_10 = &func_80152A3C;
-        state->unk_13 = 0x1A;
+        state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
         base_data = ((S_80DAD000_0 *)object)->unk_08;
         base_data->unk_0A = saved_value;

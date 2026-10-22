@@ -34,4 +34,10 @@ typedef struct FlagTestTargetPair16 {
     short unk_02;
 } FlagTestTargetPair16;
 
+
+#include "shared/object_node_flags.h"
+
+/* update_active_nodes tests this summary bit before removing marked nodes. */
+#define OBJECT_REMOVE_PENDING 0x8000
+
 #endif

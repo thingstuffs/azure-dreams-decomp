@@ -1,6 +1,7 @@
 /* Town map entry processor (G00214). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/bank_d0a0:800CFCA8. */
 #include "dungeon/system/town_map_entry_processor_g00214.h"
+#include "shared/object_flags.h"
 
 void advance_index_and_mark_completion(void *counterPtr) {
     s32 nextCounter;
@@ -11,7 +12,7 @@ void advance_index_and_mark_completion(void *counterPtr) {
     if (nextCounter >= 0x80) {
         ((u16 *)counterPtr)[-1] |= 0x8000;
         town_map_processor = 0;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

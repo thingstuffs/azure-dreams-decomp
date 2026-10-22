@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
@@ -57,7 +58,7 @@ void *copy_part_state(s16 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
     if (object != 0) {
         result = (u8 *)object + 0x20;
         (*(Callback *)((u8 *)object + 0x10)) = D_8016AAA4;
-        ((S_8016A898_0 *)result)->unk_13 = 0x2B;
+        ((S_8016A898_0 *)result)->unk_13 = MONSTER_TYRANT;
         register_node(object, project_sprite_chain);
 
         motion = (*(void * *)((u8 *)object + 8));

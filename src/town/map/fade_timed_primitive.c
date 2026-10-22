@@ -29,6 +29,6 @@ void fade_timed_primitive(void *record_fields, void *unused, SpriteFrameState *p
     if ((ticks_left << 0x10) <= 0) {
         ((S_800A8440_1 *)((u8 *)record_fields - 0x2))->unk_00 = (u16) (((S_800A8440_1 *)((u8 *)record_fields
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

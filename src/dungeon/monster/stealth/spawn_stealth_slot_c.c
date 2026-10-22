@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_7f217800.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_7f217800.h"
 
@@ -22,7 +23,7 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     if (object != 0) {
         result = (u8 *)object + 0x20;
         ((S_80158854_0 *)object)->unk_10 = func_80158A8C;
-        result->unk_13 = 0x23;
+        result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part0 = ((S_80158854_0 *)object)->unk_08;
         part0->unk_0A = spawn_value;

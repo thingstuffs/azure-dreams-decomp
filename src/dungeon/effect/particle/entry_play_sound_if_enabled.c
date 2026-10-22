@@ -392,7 +392,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                 if (global_state == 0) {
                     g_dungeon_status.active_actor = 0;
                     ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
-                    object_flag_block.flags |= 0x8000;
+                    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 } else {
                     D_80025338[0] = 0;
                 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
@@ -70,7 +71,7 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80ABF07C_0 *)obj)->unk_10 = D_8014CA50;
-        work->unk_13 = 0x8;
+        work->unk_13 = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80ABF07C_0 *)obj)->unk_08;

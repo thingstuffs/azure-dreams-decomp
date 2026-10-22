@@ -289,7 +289,7 @@ void update_actor_animation_movement_and_terrain(void *entity, void *motion, voi
             g_dungeon_status.activity_counts.parts.pending_action_count = (s16) ((u16) g_dungeon_status.activity_counts.parts.pending_action_count - 1);
             status_record = ((S_8016B0E8_0 *)entity)->unk_A4;
             ((S_8016B0E8_12 *)status_record)->unk_1E = (u16) (((S_8016B0E8_12 *)status_record)->unk_1E | 0x8000);
-            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+            object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
     }
     if (((S_8016B0E8_13 *)resident_globals_page)->unk_3462 & 0x2000) {

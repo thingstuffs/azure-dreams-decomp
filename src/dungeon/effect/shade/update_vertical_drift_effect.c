@@ -35,6 +35,6 @@ void update_vertical_drift_effect(void *entry, S_818C2F10_2 *value_state, Sprite
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((S_818C2F10_0_pre *)entry)[-1].unk_00 = (u16) (((S_818C2F10_0_pre *)entry)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

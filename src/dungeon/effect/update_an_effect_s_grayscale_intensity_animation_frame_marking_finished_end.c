@@ -76,6 +76,6 @@ check_lifetime:
         return;
     }
     ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_00 = (u16) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_00 | 0x8000);
-    object_flag_block.flags = object_flag_block.flags | 0x8000;
+    object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     return;
 }

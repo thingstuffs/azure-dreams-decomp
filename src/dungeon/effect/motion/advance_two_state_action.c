@@ -58,7 +58,7 @@ void advance_two_state_action(void *state_data, void *unused, SpriteFrameState *
         }
         if (target->flags & 0x6000) {
             ((S_8182718C_0_pre *)state_data)[-1].unk_00 = (u16) (((S_8182718C_0_pre *)state_data)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+            object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
     }

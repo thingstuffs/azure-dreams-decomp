@@ -33,8 +33,8 @@ void retire_scene_text_after_terminal_phase(void *context) {
         break;
     case 1:
         if (((S_80020488_1 *)entity)->unk_2A & 1) {
-            (*(u16 *)((u8 *)context + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)context + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

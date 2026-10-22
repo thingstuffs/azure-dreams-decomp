@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/item_ids.h"
 
 #include "common.h"
 #include "engine/item.h"
@@ -55,14 +56,14 @@ s32 select_item_data(S_8004AC3C_Item *item, s32 *out_mode)
     u8 kind;
     *out_mode = 0;
     if (runtime_dispatch_mode_alias.f0 != 1) {
-        if (item->unk1 == 0x13) {
+        if (item->unk1 == ITEM_KIND_FAMILIAR) {
             data_addr = resolve_record_value(item) + 0x34;
         }
         else {
             item_flags = get_item_category_flags(item);
             if (item_flags != 0) {
                 kind = item->unk1;
-                if ((((u32) (kind - 0xF)) < 3U) || ((kind == 4) && ((item_flags & 0x400) == 0))) {
+                if ((((u32) (kind - ITEM_KIND_SWORD)) < 3U) || ((kind == ITEM_KIND_BALL) && ((item_flags & 0x400) == 0))) {
                     data_addr =
                         ((S_8004AC3C_Rec20 *) itemCategoryTable[item->unk1].records)[item->unk0].f4;
                 }
@@ -81,7 +82,7 @@ s32 select_item_data(S_8004AC3C_Item *item, s32 *out_mode)
         }
     }
     else
-        if (item->unk1 == 0x13) {
+        if (item->unk1 == ITEM_KIND_FAMILIAR) {
             data_addr = 0x80010324 + ((item->unk3 & 0x1F) * 0x54);
         }
     else {

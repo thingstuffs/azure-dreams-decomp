@@ -291,6 +291,6 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
     ((S_80168C88_0 *)effect)->unk_18.s = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (((EffectFieldView_81331C88Prefix *)effect)[-1].flags) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

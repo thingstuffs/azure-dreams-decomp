@@ -127,8 +127,8 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             }
             display_formatted_context_message(&D_800E0A42);
-            (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
         }
         held_x = spawn_x;
@@ -224,8 +224,8 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
         {
             g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         }
-        (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        (*(u16 *)((u8 *)egg_bomb + (-2))) = (u16) (((S_800B7774_0_pre *)egg_bomb)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         break;
     }
     tracked_monster = ((S_800B7774_0 *)egg_bomb)->unk_04;

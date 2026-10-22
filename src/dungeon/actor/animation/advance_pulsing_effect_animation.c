@@ -75,8 +75,8 @@ void advance_pulsing_effect_animation(State *state, Position *position, Motion *
             g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             detach_record_and_update_slot_state(object);
             unlink_entity_node(object);
-            ((u16 *)object)[-1] = ((u16 *)object)[-1] | 0x8000;
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            ((u16 *)object)[-1] = ((u16 *)object)[-1] | NODE_REMOVE;
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
         return;
     }

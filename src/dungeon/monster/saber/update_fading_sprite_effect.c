@@ -34,8 +34,8 @@ void update_fading_sprite_effect(Effect *effect, Vec3 *position) {
     effect->pos[2] += effect->vel[2];
 
     if (__builtin_abs(effect->x - *(s16 *)((u8 *)position + 2)) < 0x10) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     effect->out.shade[0] = effect->color[0] * effect->scale / 256;
@@ -45,7 +45,7 @@ void update_fading_sprite_effect(Effect *effect, Vec3 *position) {
     effect->scale = next_scale;
     effect->saved_out = effect->out.word;
     if (next_scale <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

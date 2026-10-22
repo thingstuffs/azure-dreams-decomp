@@ -81,10 +81,10 @@ void update_attached_effect(void *effect, S_800D4954_2 *position, S_800D4954_4 *
     }
     if ((get_entity_effect_value(source, 0x1D) << 0x10) == 0) {
         ((S_800D4954_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (source_header->unk_1E & 0x8000) {
         ((S_800D4954_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

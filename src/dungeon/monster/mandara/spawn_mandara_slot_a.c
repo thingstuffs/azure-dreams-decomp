@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -98,7 +99,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
     if (created != 0) {
         actor_state = (S_80FD5000_1 *)((u8 *)created + 0x20);
         created->unk_10 = &D_8014CB40;
-        actor_state->unk_13 = 0x27;
+        actor_state->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
         position = created->unk_08;

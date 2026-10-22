@@ -20,7 +20,7 @@ void copy_scene_effect_until_timer_expires(u8 *entry, CopyRecord *out_record, s3
     remaining = *(u16 *)(entry + 2) - 1;
     *(u16 *)(entry + 2) = remaining;
     if ((remaining << 16) <= 0) {
-        *(u16 *)(entry - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(entry - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

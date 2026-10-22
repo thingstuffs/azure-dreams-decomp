@@ -25,7 +25,7 @@ void update_speed_damped_effect(void *motion_data, s16 *position)
     next_speed = (u16)motion[24] - 8;
     motion[24] = next_speed;
     if ((next_speed << 16) <= 0) {
-        ((u16 *)motion)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)motion)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

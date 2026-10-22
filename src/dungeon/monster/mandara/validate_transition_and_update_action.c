@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -43,7 +44,7 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, void *
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (g_dungeon_status.flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (g_dungeon_status.flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_heading, actor) + 0x40) >= 0x81U) {

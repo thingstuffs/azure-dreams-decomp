@@ -21,7 +21,7 @@ void remove_marked_active_nodes(void)
     if (node != 0) {
         do {
             next = node->next;
-            if (node->field_1E & 0x8000) {
+            if (node->field_1E & NODE_REMOVE) {
                 unlink_node(node);
                 unlink_active_node(node);
                 if (!(node->field_1E & 0x80)) {

@@ -48,7 +48,7 @@ void func_800240B8(void *counter_state, B28_818B68B8_S_818B68B8_2 *value_state, 
     advance_sprite_animation_and_textures(status);
     if (status->flags & 0x6000) {
         ((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 = (u16) (((B28_818B68B8_S_818B68B8_0_pre *)counter_state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 #include "shared/object_node.h"
@@ -241,7 +241,7 @@ void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, s32 render_arg, B28_8
         } else {
             effect->target->flags &= 0xEFFFFFFF;
             ((B28_818B6AFC_FxEffectPre *)effect)[-1].flags |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -712,7 +712,7 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
     case 3:
         if (gfx->flags & 0x6000) {
             *((u16 *)obj - 1) = (u16) (*((u16 *)obj - 1) | 0x8000);
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -796,8 +796,8 @@ void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, B
     vec->z += vec->dz;
 
     if ((s16)owner->counter > owner->limit) {
-        ((u16 *)owner)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)owner)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "shared/object_node.h"
@@ -1084,8 +1084,8 @@ advance_phase:
             break;
         }
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | NODE_REMOVE);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         break;
     case 6:
         ((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v = (s32) (((B28_818B7F38_S_80025738_5 *)motion_in)->unk_00.at00.v

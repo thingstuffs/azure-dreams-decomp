@@ -326,7 +326,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
         g_dungeon_status.active_actor = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
 
     case 5:
@@ -337,7 +337,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
         g_dungeon_status.active_actor = 0;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     self->flag = 0;

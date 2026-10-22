@@ -22,7 +22,7 @@ void advance_particle_motion_with_floor_collision(void *object, void *motion) {
     lifetime = ((u16 *)object)[0x4B] - 8;
     ((u16 *)object)[0x4B] = lifetime;
     if ((lifetime << 16) <= 0) {
-        ((u16 *)object)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)object)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

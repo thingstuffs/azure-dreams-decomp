@@ -1,4 +1,5 @@
 #include "dungeon/monster/univern/create_actor_child_display.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/univern/create_actor_child_display.h"
 
@@ -42,7 +43,7 @@ void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s
             init_root = allocated;
             setup = project_sprite_chain;
             ((S_8014C89C_0 *)init_root)->unk_10 = func_8014CBB8;
-            ((S_8014C89C_1 *)object)->unk_13 = 17;
+            ((S_8014C89C_1 *)object)->unk_13 = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
 

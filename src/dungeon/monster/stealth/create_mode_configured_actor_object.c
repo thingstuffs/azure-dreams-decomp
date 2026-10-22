@@ -1,4 +1,5 @@
 #include "dungeon/monster/stealth/create_mode_configured_actor_object.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/stealth/create_mode_configured_actor_object.h"
 
@@ -22,7 +23,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
     if (object != 0) {
         work = (u8 *)object + 0x20;
         ((S_8016A854_0 *)object)->unk_10 = func_8016AA8C;
-        work->unk_13 = 0x23;
+        work->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part_a = ((S_8016A854_0 *)object)->unk_08;
         part_a->unk_0A = attr_c;

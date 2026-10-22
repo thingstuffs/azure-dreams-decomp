@@ -69,7 +69,7 @@ s32 update_spinning_actor_fall(S_800AC5C8_0 *animation, EntityRec *position, Mov
             detach_record_and_update_slot_state(object);
             unlink_entity_node(object);
             ((S_800AC5C8_1_pre *)object)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {
             ((Rec_D_80082E80 *)object)->unk_88.as_u16 = sample_terrain_surface_height(
                 (tile->unk_24 << 6) | 0x20,

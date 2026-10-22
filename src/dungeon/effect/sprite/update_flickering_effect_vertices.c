@@ -214,8 +214,8 @@ start_hit:
         return;
     }
     g_dungeon_status.active_actor = 0;
-    *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | 0x8000);
-    object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+    *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | NODE_REMOVE);
+    object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     return;
     }
 }
@@ -276,7 +276,7 @@ void update_flickering_effect_vertices(DungeonObj *obj)
 
     if (obj->z < (s32)0xFFD00000 || obj->state == 3) {
         *((u16 *)obj - 1) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (obj->state == 0) {

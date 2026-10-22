@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_projectile_views.h"
@@ -66,7 +67,7 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
         result = (u8 *)object;
         result += 0x20;
         ((ProjectileObject *)object)->unk_10 = D_801718E0;
-        ((S_80171718_1 *)result)->unk_13 = 34;
+        ((S_80171718_1 *)result)->unk_13 = MONSTER_WEADOG;
         register_node(object, project_sprite_chain);
 
         {

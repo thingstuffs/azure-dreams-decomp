@@ -29,6 +29,6 @@ void copy_linked_position_and_check_status(void *object, MovingPosition *dest, S
     if (status->flags & 0x6000) {
         ((S_801745F0_2 *)((u8 *)object - 0x2))->unk_00 = (u16) (((S_801745F0_2 *)((u8 *)object - 0x2))->unk_00
             | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

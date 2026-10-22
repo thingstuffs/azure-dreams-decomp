@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -39,7 +40,7 @@ s32 try_actor_attack(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Sprite
         return -1;
     }
 
-    if (!(actor->action_flags & 0x8000) &&
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) &&
         (g_dungeon_status.flags & 8)) {
         return -1;
     }

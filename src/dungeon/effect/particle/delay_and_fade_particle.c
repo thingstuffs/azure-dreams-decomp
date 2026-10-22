@@ -499,8 +499,8 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             return;
         }
         g_dungeon_status.active_actor = 0;
-        (*(u16 *)((u8 *)owner - 2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)owner - 2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     default:
         return;
     }
@@ -570,7 +570,7 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
                 sprite->red = sprite->green = sprite->blue -= p->fade_step;
             } else {
                 ((ObjectNodeHeader *)p - 1)->flags |= 0x8000; /* header precedes the record */
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }
         break;

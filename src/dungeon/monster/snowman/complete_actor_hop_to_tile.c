@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -149,8 +150,8 @@ void func_80B09454(void *action, ObjectPosition *motion, void *sprite, ActorReco
 
     actor_flags = actor->flags1C;
     if (actor_flags & 0x2000) {
-        if (actor->action_flags & 0x8000) {
-            actor->action_flags &= 0x7FFF;
+        if (actor->action_flags & ACTOR_ACTION_PENDING) {
+            actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {

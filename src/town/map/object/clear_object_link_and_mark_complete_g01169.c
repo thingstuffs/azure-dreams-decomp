@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01169 - CL:town/func_800BDDA8, CL:town/func_800BDE1C.
  */
 #include "town/map/object/clear_object_link_and_mark_complete_g01169.h"
+#include "shared/object_flags.h"
 
 /* On a successful object check, clear its linked byte and set object and global flags. */
 void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *context) {
@@ -11,8 +12,8 @@ void clear_object_link_and_mark_complete(S_func_800BB508_0 *object, void *contex
             *(s8 *)object->unk_98 = 0;
         }
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

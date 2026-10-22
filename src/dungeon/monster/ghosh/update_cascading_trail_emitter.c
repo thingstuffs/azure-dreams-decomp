@@ -23,6 +23,6 @@ void update_cascading_trail_emitter(void *record_data) {
     if ((remaining << 0x10) <= 0) {
         ((S_80172274_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80172274_0 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -70,7 +71,7 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80F45000_0 *)obj)->unk_10 = D_8015EA68;
-        ((S_80F45000_1 *)work)->unk_13 = 0x24;
+        ((S_80F45000_1 *)work)->unk_13 = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80F45000_0 *)obj)->unk_08;

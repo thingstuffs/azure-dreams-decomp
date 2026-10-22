@@ -38,7 +38,7 @@ void fade_scene_tile_after_completion_flag(void *state) {
         ((S_80024A30_0 *)state)->unk_08 = level;
         if (level <= 0x80808) {
             ((ObjectStatusPrefix16 *)state)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

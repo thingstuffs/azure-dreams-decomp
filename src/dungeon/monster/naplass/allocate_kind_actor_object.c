@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -68,7 +69,7 @@ void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8016A870_0 *)obj)->unk_10 = D_8016AA3C;
-        work->unk_13 = 0x25;
+        work->unk_13 = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_8016A870_0 *)obj)->unk_08;

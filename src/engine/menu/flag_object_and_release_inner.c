@@ -27,7 +27,7 @@ void flag_object_and_release_inner(ObjA464 *obj)
     if (obj != 0) {
         obj->flags |= 0x8000;
         inner = &obj->inner;
-        D_800814A0_store = object_flag_block.flags | 0x8000;
+        D_800814A0_store = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         mark_object_removal_for_inner_release(inner->field_8);
         mark_object_removal_for_inner_release(inner->field_18);
     }

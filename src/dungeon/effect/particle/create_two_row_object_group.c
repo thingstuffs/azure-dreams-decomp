@@ -322,7 +322,7 @@ void update_rotating_effect_vertices(void *effect_data) {
         if (((S_800DAB50_0 *)effect_data)->unk_10.at00.v < 0) {
             ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
             ((S_800DAB50_0_pre *)effect_data)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect_data)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
@@ -527,7 +527,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
     ((S_800DAEF4_3 *)source_owner)->unk_48 = timer;
     if ((timer << 16) <= 0) {
         ((S_800DAEF4_3_pre *)source_owner)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
 }
@@ -596,8 +596,8 @@ void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState 
 
     case 2:
         if ((ticks_left << 0x10) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800DB164_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_800DB164_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
@@ -770,8 +770,8 @@ void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *pos
             u16 remaining = state->count - 1;
             state->count = remaining;
             if ((remaining << 0x10) <= 0) {
-                *(u16 *)((u8 *)state - 2) |= 0x8000;
-                object_flag_block.flags = object_flag_block.flags | 0x8000;
+                *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+                object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             }
         }
     default:
@@ -792,8 +792,8 @@ void subtract_limit_or_flag_record(void *record) {
         *(s32 *)((s8 *)record + 0x18) = current - limit;
         return;
     }
-    *(u16 *)((s8 *)record - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((s8 *)record - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 #include "common.h"
 #include "shared/game_work.h"

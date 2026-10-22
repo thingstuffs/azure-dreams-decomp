@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -63,7 +64,7 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
         result = (u8 *)object;
         result += 0x20;
         ((S_80171850_0 *)object)->unk_10 = D_80171A18;
-        ((S_80171850_1 *)result)->unk_13 = 27;
+        ((S_80171850_1 *)result)->unk_13 = MONSTER_BLUME;
         register_node(object, project_sprite_chain);
 
         {

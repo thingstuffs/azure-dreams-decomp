@@ -1,5 +1,7 @@
 /* Zu actor spawning, action dispatch, movement, and cylindrical effects. */
 #include "common.h"
+#include "shared/actor_action_flags.h"
+#include "shared/monster_ids.h"
 #include "modules/dungeon_ovl_fa7000.h"
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = func_80170880;
 void (*const dungeon_fa7000_update)(void *,void *,void *) = update_bank_actor_movement;
@@ -85,7 +87,7 @@ void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80F87000_0 *)obj)->unk_10 = update_bank_actor_movement;
-        ((S_80F87000_1 *)work)->unk_13 = 0x26;
+        ((S_80F87000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80F87000_0 *)obj)->unk_08;
@@ -790,7 +792,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
             }
         }
     } else if (actor_flags & 0x2000) {
-        if (!(actor_data->action_flags & 0x8000)) {
+        if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
             if (actor_flags & 0x20000) {
                 s16 target_angle;
                 s32 target_x;
@@ -837,7 +839,7 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
                dungeon_rooms[position_data->room_index].flags & 2) {
         rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
-    } else if (!(actor_data->action_flags & 0x8000)) {
+    } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
         blocker = (EntityRec *)current_angle;
         if (blocker != 0 &&
@@ -936,13 +938,13 @@ void select_bank_actor_movement(Rec_func_800A9E70_arg0 *move_data, void *context
 
     if (turn_index >= 8) {
         actor_data->movement_queue_state &= 0x7F;
-        actor_data->action_flags &= 0x7FFF;
+        actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         update_actor_status_and_mp(actor_data);
         return;
     }
 
     {
-        actor_data->action_flags &= 0x7FFF;
+        actor_data->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         move_data->unk_9C.as_u8 = position_data->room_index;
         actor_data->pending_turn_updates--;
         g_dungeon_status.activity_counts.parts.pending_movement_count++;
@@ -997,7 +999,7 @@ s32 begin_bank_directional_effect(Rec_func_800A9E70_arg0 *action_state, s32 moti
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -1102,7 +1104,7 @@ s32 complete_actor_jump_to_destination(ActorRecord *actor, void *primary_context
         break;
     }
     result = 0;
-    entity->action_flags &= 0x7FFF;
+    entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
     return result;
 }
 
@@ -1523,7 +1525,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
     switch (state) {
     case 0:
         if (((u32)object->flags1C) & 0x2000) {
-            slot_index = (object->action_flags & 0x3FFF) - 1;
+            slot_index = (object->action_flags & ACTOR_ACTION_CODE_MASK) - 1;
             switch (slot_index) {
             case 6:
                 special = 1;
@@ -1548,7 +1550,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
                 break;
             }
         } else {
-            slot_kind = object->action_flags & 0x3FFF;
+            slot_kind = object->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (slot_kind) {
             case 3:
                 item_slot = (u8 *)object + 0xE;
@@ -1624,7 +1626,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
         ((S_80172A40_0 *)owner_input)->unk_8C = update_bank_actor_state;
         object->target_tile_y = 0;
         object->target_tile_x = 0;
-        object->action_flags &= 0x7FFF;
+        object->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -1678,7 +1680,7 @@ void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion
         }
         object->target_tile_y = 0;
         object->target_tile_x = 0;
-        object->action_flags &= 0x7FFF;
+        object->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
         break;
     default:
@@ -2007,8 +2009,8 @@ void slow_directional_motion(void *effect_data, void *motion_data, void *sprite_
             tile_mask = 0x300;
         update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
         unlink_entity_node(object_data);
-        (*(u16 *)((u8 *)object_data + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object_data + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
         return;
     default:
@@ -2562,8 +2564,8 @@ void update_bank_effect_fade(void *effect, MovingPosition *position, SpriteFrame
         ((S_80173F0C_0 *)effect)->unk_48--;
         break;
     case 1:
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     }
 }
@@ -2830,6 +2832,6 @@ void create_cylindrical_effect(void *state) {
     }
     if (((S_80F8ADE0_0 *)state)->unk_4C == 0xF) {
         ((ObjectStatusPrefix16 *)state)[-1].unk_00 = (u16) (((ObjectStatusPrefix16 *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -64,7 +65,7 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
         result = (u8 *)object;
         result += 0x20;
         ((S_801710E0_0 *)object)->unk_10 = D_801712A8;
-        ((S_801710E0_1 *)result)->unk_13 = 31;
+        ((S_801710E0_1 *)result)->unk_13 = MONSTER_BARONG;
         register_node(object, project_sprite_chain);
 
         {

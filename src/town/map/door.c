@@ -1,5 +1,6 @@
 /* Handles door collision, opening and closing, entrance interactions, and map changes. */
 #include "script_symbols.h"
+#include "shared/object_flags.h"
 #include "town/map/door.h"
 
 
@@ -58,7 +59,7 @@ void handle_door_check_result(S_func_800A0708_0 *object, void *callback_arg, s32
             unlink_node_if_registered(object);
             ((S_func_800A0708_1 *)((u8 *)object - 2))->unk_00 =
                 (u16)(((S_func_800A0708_1 *)((u8 *)object - 2))->unk_00 | 0x8000);
-            object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
+            object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
             return;
         } else {
             register void *object_arg = callback_object;

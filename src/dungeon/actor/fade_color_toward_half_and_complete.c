@@ -45,8 +45,8 @@ void fade_color_toward_half_and_complete(void *effect, s32 unused, void *color)
         frames_left = (u16)((S_80026FB0_0 *)effect)->unk_66 - 1;
         ((S_80026FB0_0 *)effect)->unk_66 = frames_left;
         if ((frames_left << 16) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
 

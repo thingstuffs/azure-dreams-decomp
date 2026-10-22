@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01156 - CL:town/func_800B5204, CL:town/func_800B5270, CL:town/func_800B52D8, CL:town/func_800B5400, CL:town/func_800B550C.
  */
 #include "town/shop/resource_entry_initialization_g01156.h"
+#include "shared/object_flags.h"
 
 /* Collect pointers to enabled entries and terminate the list with 0. */
 void collect_enabled_entry_pointers(s32 *entries, s32 entry_count) {
@@ -135,8 +136,8 @@ void apply_record_values_and_process_record(void *record)
     func_800B3A80(*(s32 *)((s8 *)record + 0));
     process_object_resources_and_high_flag(*(s32 *)((s8 *)record + 4));
     refresh_object_components_and_high_flag(*(s32 *)((s8 *)record + 8));
-    *(u16 *)((s8 *)record - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((s8 *)record - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     came_bright_set(3);
     obj_disp23_cancel_sw_set(0);
     fill_item_value_buffer(record);

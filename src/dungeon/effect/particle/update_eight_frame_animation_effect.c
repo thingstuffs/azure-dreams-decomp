@@ -83,7 +83,7 @@ void update_eight_frame_animation_effect(void *anim_state, s32 unused_arg, void 
     if ((s16) ((S_818FEDEC_0 *)anim_state)->unk_02 > 0) {
         return;
     }
-    (*(u16 *)((u8 *)anim_state + -2)) = (u16) (((S_818FEDEC_0_pre *)anim_state)[-1].unk_00 | 0x8000);
-    object_flag_block.flags = object_flag_block.flags | 0x8000;
+    (*(u16 *)((u8 *)anim_state + -2)) = (u16) (((S_818FEDEC_0_pre *)anim_state)[-1].unk_00 | NODE_REMOVE);
+    object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     return;
 }

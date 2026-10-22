@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -87,7 +88,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         if (((u32)actor->flags1C) & 0x2000) {
             u16 action_kind;
 
-            action_kind = actor->action_flags & 0x3FFF;
+            action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             action_index = action_kind - 1;
             switch (action_index) {
             case 6:
@@ -112,7 +113,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         } else {
             u16 action_kind;
 
-            action_kind = actor->action_flags & 0x3FFF;
+            action_kind = actor->action_flags & ACTOR_ACTION_CODE_MASK;
             switch (action_kind) {
             case 3:
                 selector = (u8 *)actor + 0xE;
@@ -215,7 +216,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         ((S_80172C90_1 *)action)->unk_8C = D_801710F4;
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -374,7 +375,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
     }
     default:

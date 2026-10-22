@@ -1,5 +1,6 @@
 /* Paged menu records, cursor input, widget setup, resource lifetime, and drawing packets. */
 #include "dungeon/menu/entries.h"
+#include "shared/object_flags.h"
 
 
 void clear_menu_state_values(ovl_1831cd8_81811CD8_S_80026CD8_0 *state) {
@@ -822,7 +823,7 @@ void *create_menu_child_object(s32 parent_obj, s32 descriptor_value)
             release_null_terminated_entries((u8 *)obj + 0xAC);
             obj->flags |= 0x8000;
             obj = 0;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
     return obj;

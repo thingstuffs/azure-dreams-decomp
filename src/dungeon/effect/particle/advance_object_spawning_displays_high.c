@@ -51,8 +51,8 @@ void func_8002405C(void *effect, void *unused, void *primitive) {
     }
     if ((s16)((u16)((EntityRec *)effect)->facing) <= 0) {
         ((S_81940800_2 *)(((((EntityRec *)effect)->unk_32 * 2) + ((s32)((EntityRec *)effect)->target))))->unk_46 = 0;
-        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81940800_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_81940800_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -142,8 +142,8 @@ void func_80024104(void *owner) {
     timer = (*(u16 *)((u8 *)owner + 0x2A)) - 1;
     (*(u16 *)((u8 *)owner + 0x2A)) = timer;
     if ((s16)timer <= 0) {
-        (*(u16 *)((u8 *)owner + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)owner + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -272,8 +272,8 @@ void lower_timed_effect_position(Entity *entity, State *state)
     remainingTimer = entity->timer - 8;
     entity->timer = remainingTimer;
     if (remainingTimer <= 0) {
-        ((u16 *)entity)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)entity)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -331,8 +331,8 @@ void func_800248B8(void *countdownState, s32 unused, void *animationState)
     D_8002571C = 1;
     if (remainingTicks <= 0) {
         *(u16 *)((u8 *)countdownState - 2) =
-            (u16)(*(u16 *)((u8 *)countdownState - 2) | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+            (u16)(*(u16 *)((u8 *)countdownState - 2) | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -343,8 +343,8 @@ void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *han
     object->timer--;
     advance_sprite_animation_and_textures(handlerContext);
     if (object->timer <= 0) {
-        ((u16 *)object)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)object)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -359,8 +359,8 @@ void decrement_object_counter(void *object)
     counter--;
     *(u16 *)(object_bytes + 42) = counter;
     if ((counter << 16) <= 0) {
-        *(u16 *)(object_bytes - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(object_bytes - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -867,7 +867,7 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
                 dungeon_state->activity_counts.parts.pending_action_count = (u16)(bits_2 - 1);
             }
             F(effect, u16, -2) = (u16)(F(effect, u16, -2) | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         F(&D_8002571C, s16, 0) = 0;

@@ -40,6 +40,6 @@ void decay_shop_state_and_cleanup(void *object) {
         release_null_terminated_entries(object + 0xD0);
         reset_five_shop_slots(object);
         ((ObjectRetirementFlags *)object)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

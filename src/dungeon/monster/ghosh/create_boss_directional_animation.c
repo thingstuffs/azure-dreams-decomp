@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
@@ -66,7 +67,7 @@ void create_boss_directional_animation(void) {
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         object_state = object + 0x20;
-        object_state->unk_13 = 0x18;
+        object_state->unk_13 = MONSTER_U_BOAT;
         object_state->unk_9A = 0;
         object_state->unk_96 = 0;
         ((S_80173F6C_1 *)object)->unk_10 = &func_801730AC;

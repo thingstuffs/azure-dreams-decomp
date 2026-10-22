@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/item_ids.h"
 
 #include "common.h"
 #include "engine/item.h"
@@ -40,14 +41,14 @@ s32 get_item_category_flags(S_80042A80_Item *item)
         return 0;
     }
     kind = item->f1;
-    if (kind == 4) {
+    if (kind == ITEM_KIND_BALL) {
         item_flags = ((item_category_tables[0][item->f0].f0 & 0x400) != 0) << 10;
         if (item->f3 & 0x80) {
             item_flags |= 0x80;
         }
         return item_flags;
     }
-    if (3 > ((u32) (kind - 15))) {
+    if (3 > ((u32) (kind - ITEM_KIND_SWORD))) {
         return item->f3 & 0x80;
     }
     {

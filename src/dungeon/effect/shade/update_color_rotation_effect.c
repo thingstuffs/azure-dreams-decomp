@@ -131,7 +131,7 @@ void animate_color_cycling_sprite_burst(void *effect, void *motion, SpriteFrameS
     case 3:
         if (visual->flags & 0x6000) {
             ((S_818C3448_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3448_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         return;
     }

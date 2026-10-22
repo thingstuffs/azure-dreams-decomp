@@ -2,6 +2,7 @@
 /* inferred-strong G00584: washed_dish_effects_g00584; joins PD:town/engine:800D0E44,PD:town/engine:800F8A70; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0E44, PD:town/engine:800F8A70. */
 #include "town/menu/washed_dish_effects_g00584.h"
+#include "shared/object_flags.h"
 
 /* Initialize the object state, shared counter, context resource, and callback. */
 void initialize_timed_resource_object(void *object, s32 unused, void *context) {
@@ -25,8 +26,8 @@ void finalize_object_or_select_town_record(void *object, void *check_context, vo
             *state_byte = 0;
         }
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

@@ -41,11 +41,11 @@ void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position,
     state->life = life;
     if ((life << 16) <= 0) {
         ((B31_818C8824_S_818C8824_0_pre *)state)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (object->flags & 0x8000) {
         ((B31_818C8824_S_818C8824_0_pre *)state)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -85,11 +85,11 @@ void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924
     effect->life = life;
     if ((life << 16) <= 0) {
         ((B31_818C8924_S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (object->flags & 0x8000) {
         ((B31_818C8924_S_818C8924_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -179,7 +179,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
                 play_sound_if_enabled(0x300);
             } else {
                 ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-                object_flag_block.flags = object_flag_block.flags | 0x8000;
+                object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             }
         }
         if ((check_adjacent_tile_height_clearance(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30) << 0x10) == 0) {
@@ -188,7 +188,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_60);
         } else {
             ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
         }
     }
@@ -306,7 +306,7 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
         ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = fade_ticks;
         if ((s16) fade_ticks >= 0x15) {
             ((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((B31_818C8A70_S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -559,7 +559,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
             if (active_flag == 0) {
                 g_dungeon_status.active_actor = 0;
                 ((B31_818C8FD0_S_func_818C8FD0_10 *)((u8 *)state - 2))->unk_00 |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             } else {
                 D_80024D04 = 0;

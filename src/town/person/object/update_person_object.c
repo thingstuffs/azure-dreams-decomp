@@ -29,7 +29,7 @@ void update_person_object(void *object, s32 update_ctx, SpriteFrameState *displa
         }
         unlink_node_if_registered(object);
         ((ObjectRetirementFlags *)object)[-1].unk_00 = (u16) (((ObjectRetirementFlags *)object)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
     update_state_when_active(update_ctx);

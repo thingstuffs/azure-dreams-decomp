@@ -35,6 +35,6 @@ void update_effect_countdown(void *object, MovingPosition *output, M2C_UNK updat
     ((S_800D6FEC_0 *)object)->unk_96 = remaining;
     if ((remaining << 0x10) <= 0) {
         ((S_800D6FEC_0_pre *)object)[-1].unk_00 = (u16) (((S_800D6FEC_0_pre *)object)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }

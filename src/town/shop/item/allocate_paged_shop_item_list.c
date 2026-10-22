@@ -47,7 +47,7 @@ void *allocate_paged_shop_item_list(s32 parent, s32 selected_index, s32 item_cou
         release_null_terminated_entries((u16 **)((u8 *)node + 0xF0));
         node->flags |= 0x8000;
         node = 0;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     return node;
 }

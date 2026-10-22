@@ -234,8 +234,8 @@ loop:
             } else {
                 g_dungeon_status.active_actor = 0;
                 g_dungeon_status.activity_counts.parts.pending_action_count--;
-                (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                (*(u16 *)((u8 *)state_data + -2)) |= NODE_REMOVE;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             }
         }
         break;
@@ -577,8 +577,8 @@ void update_effect_and_spawn_fragments(MainObject *obj)
     case 3:
         state_count = 5;
         if (obj->age == 15) {
-            ((u16 *)obj)[-1] |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            ((u16 *)obj)[-1] |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
@@ -636,8 +636,8 @@ void mark_referenced_object_and_update_flags(void *entry, void *unused, void *ta
     advance_sprite_animation_and_textures(target);
     if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
         *(u16 *)((u8 *)entry - 2) =
-            (u16)(*(u16 *)((u8 *)entry - 2) | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+            (u16)(*(u16 *)((u8 *)entry - 2) | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"

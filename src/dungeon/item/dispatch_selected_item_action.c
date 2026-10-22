@@ -1,4 +1,5 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/item_ids.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -76,7 +77,7 @@ s32 dispatch_selected_item_action(u32 target, u8 *action, s16 action_kind, s32 c
             action_value = get_unused_text_buffer();
             value = action_value;
             item_type = item[1];
-            if (item_type == 0xF || (item_type == 0x10 && item[0] == 2)) {
+            if (item_type == ITEM_KIND_SWORD || (item_type == ITEM_KIND_WAND && item[0] == ITEM_TRAINED_WAND)) {
                 if (!(item[3] & 0x40)) {
                     value = apply_type_based_entry_adjustments(item, action_value);
                     if ((s8)item[2] < 0x63) {

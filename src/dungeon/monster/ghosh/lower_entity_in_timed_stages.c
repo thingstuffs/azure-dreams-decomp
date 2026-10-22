@@ -54,7 +54,7 @@ void lower_entity_in_timed_stages(Entity *entity, Position *pos)
             u8 *active_context = D_80174CC8[0] + 0x20;
             *(u16 *)(active_context - 2) |= 0x8000;
             D_80174CC8[0] = 0;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
 
         return;

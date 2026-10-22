@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -71,7 +72,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     if (object != NULL) {
         work = object + 0x20;
         ((S_80F2D000_0 *)object)->unk_10 = &D_8014CA8C;
-        work->unk_13 = 0x23;
+        work->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
         part_a = ((S_80F2D000_0 *)object)->unk_08;
         part_a->unk_0A = attr_c;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
@@ -75,14 +76,14 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
             update_actor_status_and_mp(entity);
             return;
         }
-        if (!(entity->action_flags & 0x8000)) {
+        if (!(entity->action_flags & ACTOR_ACTION_PENDING)) {
             if (!(g_dungeon_status.flags & 0x2000) || ((check_entity_relation(entity, (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) << 0x10)
                 == 0)) {
                 if (system_update_flags & 8) {
                     advance_boss_command_stream(actor, context, sprite);
                     entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
                     update_actor_status_and_mp(entity);
-                    entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+                    entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
                     return;
                 }
                 if ((update_boss_action_result(actor, (s32)(context), (s32)(sprite), 0) << 0x10) == 0) {
@@ -93,7 +94,7 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
                 return;
             }
         }
-        entity->action_flags = (u16) (entity->action_flags & 0x7FFF);
+        entity->action_flags = (u16) (entity->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         entity->movement_queue_state = (u8) (entity->movement_queue_state & 0x7F);
         update_actor_status_and_mp(entity);
         advance_boss_actor_movement_state(actor, context, sprite, entity);

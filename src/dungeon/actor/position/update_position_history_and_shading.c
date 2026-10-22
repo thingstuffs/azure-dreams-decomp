@@ -114,8 +114,8 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
                 previous_z = S16_AT(obj, 0x22);
                 current_z = S16_AT(obj, 0x16);
                 if (previous_z == current_z) {
-                    U16_AT(obj, -2) |= 0x8000;
-                    object_flag_block.flags |= 0x8000;
+                    U16_AT(obj, -2) |= NODE_REMOVE;
+                    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                     return;
                 }
             }
@@ -147,8 +147,8 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
             previous_z = S16_AT(obj, 0x22);
             current_z = (s16)z;
             if (previous_z == current_z) {
-                U16_AT(obj, -2) |= 0x8000;
-                object_flag_block.flags |= 0x8000;
+                U16_AT(obj, -2) |= NODE_REMOVE;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
         }

@@ -66,4 +66,11 @@ void update_active_nodes(void);
 /* update_node_registration.c */
 void update_node_registration(void *state, void *context);
 
+
+#include "shared/object_node_flags.h"
+
+/* ObjectNodeHeader.flags (+0x1E); see allocation and callback loops. */
+#define NODE_SKIP_CALLBACK 0x400
+#define NODE_ACTIVE 0x4000
+
 #endif

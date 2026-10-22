@@ -1,5 +1,6 @@
 /* Dungeon tile actions, map boundary updates, actor transitions, and linked particle effects. */
 #include "modules/dungeon_ovl_7ce800.h"
+#include "shared/monster_ids.h"
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 /* Forwards the third argument to func_800478B8. */
@@ -348,8 +349,8 @@ void update_overlay_state_and_retire(void *data)
             slot_index -= 1;
             state_slot -= 1;
         } while (slot_index >= 0);
-        ((u16 *)data)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)data)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -482,7 +483,7 @@ void mark_special_actors_and_set_player_tile(void) {
     entity = dungeon_actor_ring_anchor;
     first_entity = entity;
     do {
-        if (entity->unk_13 == 0x32) {
+        if (entity->unk_13 == MONSTER_SELFI) {
             entity->unk_14 = (s32) (entity->unk_14 | 0x800000);
         }
         entity = entity->unk_5C + 0x20;
@@ -605,8 +606,8 @@ void update_dungeon_tile_boundary_state(void *owner) {
 
     clear_scaled_cell_flags_8000();
     i = 0;
-    *(u16 *)((u8 *)owner - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((u8 *)owner - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     objects = primary_actor_record;
     do {
         object = *(u8 **)(objects + 0xAC);
@@ -965,8 +966,8 @@ void advance_linked_particle_effect_state(S807AF9A4 *data)
     }
 
     if (data->flag_f == 0) {
-        *(u16 *)((u8 *)data - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)data - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_ovl_7ce800.h"
@@ -1083,7 +1084,7 @@ void converge_particle_position_and_color(void *transition, S_807AFB48_0 *positi
     if ((steps_left << 0x10) <= 0) {
         ((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00 = (u16) (((S_807AFB48_1 *)((u8 *)transition - 0x2))->unk_00
             | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 #include "modules/dungeon_ovl_7ce800.h"
@@ -1281,8 +1282,8 @@ void update_owner_attached_color_effect(void *effect, Position3 *position, Color
         ticks_left = ((S_807AFDEC_0 *)effect)->unk_0C.u - 1;
         ((S_807AFDEC_0 *)effect)->unk_0C.u = ticks_left;
         if ((ticks_left << 16) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -1369,8 +1370,8 @@ void advance_reverse_direction_particle(void *motion_data, s16 *position) {
     next_speed = (u16) motion[25] - 8;
     motion[25] = next_speed;
     if ((next_speed << 16) <= 0) {
-        ((u16 *) motion)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *) motion)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_ovl_7ce800.h"

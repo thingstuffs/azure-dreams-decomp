@@ -1,5 +1,6 @@
 /* Shaded effect quad rendering and randomized radial effect creation. */
 #include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
@@ -156,8 +157,8 @@ void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work)
     }
 
     if (work->remaining <= 0) {
-        *(u16 *)((u8 *)work - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)work - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -271,7 +272,7 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
     ((Row_819231FC_S_800249FC_1 *)object)->unk_5A.s = next_ticks;
     if (next_ticks <= 0) {
         ((Row_819231FC_S_800249FC_1_pre *)object)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -343,12 +344,12 @@ void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_Dun
     effect_data->unk_C = fade_level;
 
     if (*(s16 *)(entity_data + 0x5A) <= 0) {
-        *(u16 *)(entity_data - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(entity_data - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (effect_data->flags_14 & 0x8000) {
-        *(u16 *)(entity_data - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(entity_data - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -576,8 +577,8 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
                     + ((Row_8192365C_S_80024E5C_0 *)effect)->unk_A0);
                 if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5C <= 0) {
                     ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
-                    (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-                    object_flag_block.flags |= 0x8000;
+                    (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+                    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                     return;
                 }
             }
@@ -591,8 +592,8 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
             }
         } else {
             ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
-            (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }
@@ -677,8 +678,8 @@ update_impact:
         }
         if (end_frame >= 0x1B) {
             ((Row_8192365C_S_80024E5C_5 *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
-            (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + (-2))) = (u16) (((Row_8192365C_S_80024E5C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
     }

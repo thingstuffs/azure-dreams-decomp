@@ -278,8 +278,8 @@ void update_directed_movement_sequence(State *action, Motion *motion, Motion *au
     case 5:
         if (action->fieldC == 0) {
             g_dungeon_status.active_actor = 0;
-            *(u16 *)((u8 *)action - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)action - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
 

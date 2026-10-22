@@ -67,7 +67,7 @@ void update_color_cycling_pulse(void *state_data, void *unused, void *color) {
         ((S_801671AC_0 *)color)->unk_0E = (s8) ((blue * (0x1E - (s16) ((S_801671AC_1 *)state)->unk_18)) / 10);
     }
     if ((s16) ((S_801671AC_1 *)state)->unk_18 <= 0) {
-        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_801671AC_1_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_801671AC_1_pre *)state)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

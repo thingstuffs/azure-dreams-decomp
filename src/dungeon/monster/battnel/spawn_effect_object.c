@@ -1,4 +1,5 @@
 #include "dungeon/monster/battnel/spawn_effect_object.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/battnel/spawn_effect_object.h"
 
@@ -28,7 +29,7 @@ void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
         work = (u8 *)work + 0x20;
         actor = work;
         ((S_8014C854_0 *)obj)->unk_10 = D_8014CA30;
-        work->unk_13 = 0xD;
+        work->unk_13 = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_8014C854_0 *)obj)->unk_08;

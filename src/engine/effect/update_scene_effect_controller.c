@@ -1,4 +1,5 @@
 #include "slus/jtbl_80052144.h"
+#include "shared/object_flags.h"
 
 #include "common.h"
 
@@ -22,25 +23,25 @@ void update_scene_effect_controller(Controller *controller)
         if (controller->child0 != 0) {
             controller->child0->flags |= 0x8000;
             controller->child0 = 0;
-            D_800814A0 |= 0x8000;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;
         }
         if (controller->child1 != 0) {
             controller->child1->flags |= 0x8000;
             controller->child1 = 0;
-            D_800814A0 |= 0x8000;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;
         }
         if (controller->child2 != 0) {
             controller->child2->flags |= 0x8000;
             controller->child2 = 0;
-            D_800814A0 |= 0x8000;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;
         }
         if (controller->child3 != 0) {
             controller->child3->flags |= 0x8000;
             controller->child3 = 0;
-            D_800814A0 |= 0x8000;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;
         }
         if (controller->group != 0) {
@@ -104,31 +105,31 @@ void update_scene_effect_controller(Controller *controller)
         runtime_dispatch_state.flags16 |= 0x8000;
         request_scene_state_with_parameters(notify_id, zero, third_zero, zero, runtime_dispatch_state.flags16 ^ 1);
         *((u16 *)controller - 1) |= 0x8000;
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
         return;
     default:
         if (controller->child0 != 0) {
             controller->child0->flags |= 0x8000;
             controller->child0 = 0;
-            D_800814A0 |= 0x8000;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;
         }
         if (controller->child1 != 0) {
             controller->child1->flags |= 0x8000;
             controller->child1 = 0;
-            D_800814A0 |= 0x8000;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;
         }
         if (controller->child2 != 0) {
             controller->child2->flags |= 0x8000;
             controller->child2 = 0;
-            D_800814A0 |= 0x8000;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;
         }
         if (controller->child3 != 0) {
             controller->child3->flags |= 0x8000;
             controller->child3 = 0;
-            D_800814A0 |= 0x8000;
+            D_800814A0 |= OBJECT_REMOVE_PENDING;
             controller->finished++;
         }
         if (controller->group != 0) {
@@ -145,5 +146,5 @@ void update_scene_effect_controller(Controller *controller)
     runtime_dispatch_state.flags16 |= 0x8000;
     request_scene_state_with_parameters(notify_id, zero, third_zero, zero, runtime_dispatch_state.flags16 ^ 1);
     *((u16 *)controller - 1) |= 0x8000;
-    D_800814A0 |= 0x8000;
+    D_800814A0 |= OBJECT_REMOVE_PENDING;
 }

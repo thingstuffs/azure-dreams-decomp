@@ -59,6 +59,6 @@ void update_flickering_layer_sprite(void *effect_data, void *unused, SpriteFrame
     if (((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A <= 0) {
         ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_80167540_0 *)((u8 *)effect_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

@@ -162,7 +162,7 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
     advance_sprite_animation_and_textures(output_part);
     if (owner->unk_1E & 0x8000) {
         ((S_81251000_0_pre *)root_data)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

@@ -107,8 +107,8 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
             (((S_8017474C_2 *)owner_base)->unk_1E & 0x8000) ||
             (((S_8017474C_1 *)owner)->unk_8C == (void *)D_8017398C) ||
             ((get_entity_effect_value(owner, 0xA) << 16) != 0)) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
 
@@ -208,8 +208,8 @@ void update_terrain_scaled_actor_effect(void *effect, MovingPosition *out_positi
         scale_value = ((S_8017474C_6 *)out_render)->unk_1C + 0x100;
         ((S_8017474C_6 *)out_render)->unk_1C = scale_value;
         if (scale_value > 0x2000U) {
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         ((S_8017474C_6 *)out_render)->unk_1E += 0x100;

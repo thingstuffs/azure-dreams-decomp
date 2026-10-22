@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -96,7 +97,7 @@ void leave_actor_aura_mode(void *state, ObjectPosition *motion, void *sprite, Ac
         if (((S_80176084_0 *)state)->unk_B4 == 0) {
             g_dungeon_status.active_actor = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            entity->action_flags &= 0x7FFF;
+            entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
         try_move_actor_to_valid_position(state, motion, sprite, entity);
     }

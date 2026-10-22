@@ -50,8 +50,8 @@ void update_offset_motion_object(void *object, void *motion_data, void *rotation
     ticks_left = ((S_80175C60_1 *)object)->unk_20 - 1;
     ((S_80175C60_1 *)object)->unk_20 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     ((S_80175C60_2 *)rotation)->unk_1C += 0x80;

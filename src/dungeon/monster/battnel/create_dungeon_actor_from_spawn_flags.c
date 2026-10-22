@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
@@ -72,7 +73,7 @@ void *create_dungeon_actor_from_spawn_flags(s16 spawn_flags, s16 tile_x, s16 til
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80B73054_0 *)obj)->unk_10 = D_8016AA30;
-        work->unk_13 = 0xD;
+        work->unk_13 = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80B73054_0 *)obj)->unk_08;

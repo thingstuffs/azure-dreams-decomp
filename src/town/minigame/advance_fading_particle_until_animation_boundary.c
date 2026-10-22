@@ -22,7 +22,7 @@ void advance_fading_particle_until_animation_boundary(u8 *effect, u8 *motion, u8
 
     advance_sprite_animation_and_textures(visual);
     if (*(u16 *)(visual + 0x14) & 0x6000) {
-        *(u16 *)(effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)(effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

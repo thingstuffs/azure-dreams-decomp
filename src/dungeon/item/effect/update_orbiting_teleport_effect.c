@@ -258,7 +258,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
         owner = ((S_800C4F20_0 *)anim)->unk_24;
         owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
         ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     case 17:
         rise_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
@@ -273,7 +273,7 @@ void update_orbiting_teleport_effect(void *anim, S_800C4F20_5 *position, S_800C4
         owner = ((S_800C4F20_0 *)anim)->unk_24;
         owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
         ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
-        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+        (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     }
     if (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_14 & 0x100000) {

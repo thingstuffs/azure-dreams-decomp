@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -73,7 +74,7 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
         work = (u8 *)obj + 0x20;
         ghosh_boss_node = obj;
         ((S_8016F160_0 *)obj)->unk_10 = D_8016F2E0;
-        ((S_8016F160_1 *)work)->unk_13 = 0x32;
+        ((S_8016F160_1 *)work)->unk_13 = MONSTER_SELFI;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_8016F160_0 *)obj)->unk_08;

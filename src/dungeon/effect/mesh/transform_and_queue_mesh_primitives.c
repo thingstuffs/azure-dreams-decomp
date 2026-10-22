@@ -735,8 +735,8 @@ void rotate_point_cloud_until_expired(void *object, s32 unused, void *target) {
     *(s16 *)(global_base + 0x694C) = 1;
     ((S_8187B540_1 *)object_data)->unk_10 = remaining;
     if ((s16)remaining <= 0) {
-        (*(u16 *)((u8 *)object_data + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)object_data + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_native_abi.h"
@@ -853,8 +853,8 @@ void advance_colored_point_toward_terrain(void *object, s16 *position)
     counter = (u16)object_fields[8] - 4;
     object_fields[8] = counter;
     if ((counter << 16) <= 0) {
-        ((u16 *)object_fields)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)object_fields)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_native_abi.h"
@@ -1208,8 +1208,8 @@ void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *co
     }
 
     if (((S_8187BB80_0 *)effect_data)->unk_02.s <= 0) {
-        (*(u16 *)((u8 *)effect_data + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect_data + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_native_abi.h"
@@ -1271,13 +1271,13 @@ void create_object_offset(void *effect, s32 unused, S_8187BE9C_1 *primitive)
         ((S_8187BE9C_0 *)effect)->unk_04;
 
     if (((S_8187BE9C_0 *)effect)->unk_02.u <= 0) {
-        ((u16 *)effect)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)effect)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
     if (primitive->unk_14 & 0x8000) {
-        ((u16 *)effect)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)effect)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/dungeon_ovl_189a800.h"
@@ -1544,8 +1544,8 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
                 ((S_8187BFE0_0 *)state_data)->unk_02.s = 0;
                 ((S_8187BFE0_0 *)state_data)->unk_1C.u++;
                 if (((S_8187BFE0_0 *)state_data)->unk_1C.s >= 5) {
-                    (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
-                    object_flag_block.flags |= 0x8000;
+                    (*(u16 *)((u8 *)state_data + -2)) |= NODE_REMOVE;
+                    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 }
             }
             break;
@@ -1994,7 +1994,7 @@ finish_fade:
         if (effect_busy == 0) {
             S32(D_8007CCD8 + 13096, 0x346C) = 0;
             U16(effect, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -68,5 +69,5 @@ void initialize_a_timed_action_restore_animation_clear_entity_flags(S_80174BF8_0
     action->unk_8C = D_801710F4;
     advance_status_timers(entity);
     entity->pending_turn_updates = 0;
-    entity->action_flags &= 0x7FFF;
+    entity->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
 }

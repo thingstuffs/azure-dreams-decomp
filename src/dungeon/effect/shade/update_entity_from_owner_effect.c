@@ -108,7 +108,7 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
             appearance_type == uboat_aura_later_frames ||
             appearance_type == uboat_aura_start_frames) {
             U16(((u8 *)(owner_data)), -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             U8(saved_effect, 0xB0)--;
             return;
         }
@@ -118,5 +118,5 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
     }
 
     U16(((u8 *)(owner_data)), -2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }

@@ -1,5 +1,6 @@
 /* Five-point effect geometry, orbiting animation, and movement toward an attack target. */
 #include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_1930844_entry)(void) = (void (*)(void))update_movement_toward_target_along_direction_advances_action_phases;
 
@@ -46,7 +47,7 @@ void func_80024044(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1
     if (elapsed > duration) {
         ((ovl_1930844_81910844_S_81910844_0_pre *)state)[-1].unk_00 =
             ((ovl_1930844_81910844_S_81910844_0_pre *)state)[-1].unk_00 | 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -624,8 +625,8 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
     frames_left = (u8) ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 - 1;
     ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ovl_1930844_81911A8C_S_81911A8C_0_pre *)effect)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) (((ovl_1930844_81911A8C_S_81911A8C_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
@@ -780,8 +781,8 @@ void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911B
         return;
 
     case 6:
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 }
@@ -1053,8 +1054,8 @@ void update_movement_toward_target_along_direction_advances_action_phases(void *
     case 5:
         if (((Rec_func_80024170_arg0 *)state)->unk_14 == 0) {
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
-            (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+            (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | NODE_REMOVE);
+            (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
     case 6:

@@ -617,8 +617,8 @@ void update_blinking_sprite_flash(void *state, s32 unused, void *primitive) {
     ticks_left = ((S_800B8CF0_0 *)state)->unk_02 - 1;
     ((S_800B8CF0_0 *)state)->unk_02 = (u16) ticks_left;
     if (((ticks_left << 16) >> 16) <= 0) {
-        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B8CF0_0_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B8CF0_0_pre *)state)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     if (ticks_left & 1) {
@@ -1364,7 +1364,7 @@ void update_familiar_selection_marker(void *state, void *position_arg, void *mar
                 } else {
                     F(state, u16, -2) = F(state, u16, -2) | 0x8000;
                     g_dungeon_status.active_actor = 0;
-                    object_flag_block.flags = object_flag_block.flags | 0x8000;
+                    object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
                 }
             }
         }
@@ -2259,8 +2259,8 @@ void update_pulsing_sprite_color(void *channel_config, void *unused, void *outpu
     s8 channel_value;
 
     if (D_800DF37C != 0) {
-        (*(u16 *)((u8 *)channel_config + -2)) = (u16) (((S_800BA6B8_0_pre *)channel_config)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)channel_config + -2)) = (u16) (((S_800BA6B8_0_pre *)channel_config)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     channel_value = (func_800644B8(g_game_work.unk_004 << 8) >> 7) - 0x80;
     if (((S_800BA6B8_0 *)channel_config)->unk_30 != 0) {
@@ -2729,7 +2729,7 @@ void advance_particle_effect_state(void *object) {
     }
     if (((S_800BAF04_0 *)object)->unk_11 == 0) {
         ((S_800BAF04_0_pre *)object)[-1].unk_00 = (u16) (((S_800BAF04_0_pre *)object)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "common.h"
@@ -2866,8 +2866,8 @@ void update_pulsing_color_fade(void *effect_data, register S_800BB14C *effect, S
             effect->count = fade_ticks;
             if (fade_ticks < 0) {
                 u16 header_flags = ((u16 *) effect)[-1];
-                ((u16 *) effect)[-1] = header_flags | 0x8000;
-                object_flag_block.flags = object_flag_block.flags | 0x8000;
+                ((u16 *) effect)[-1] = header_flags | NODE_REMOVE;
+                object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
                 return;
             }
         }
@@ -3220,7 +3220,7 @@ void update_five_point_effect(void *effect, S_800BB55C_2 *position, s32 restore_
             if ((fade_ticks << 0x10) <= 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 ((S_800BB55C_0_pre *)effect)[-1].unk_12 = (u16) (((S_800BB55C_0_pre *)effect)[-1].unk_12 | 0x8000);
-                object_flag_block.flags = object_flag_block.flags | 0x8000;
+                object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             }
         }
     }
@@ -3407,7 +3407,7 @@ void update_orbiting_color_particle(State *state, Output *output, Interp *interp
         state->count = state->count - 1;
         if (state->count <= 0) {
             *((u16 *)state - 1) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -3844,7 +3844,7 @@ void retire_effect_when_owner_or_value_ends(void *context)
 {
     void *object = *(void **)context;
     if ((*(u16 *)((u8 *)object + 0x1E) & 0x8000) || (*(*(s32 **)((u8 *)context + 4)) == 0)) {
-        *(u16 *)((u8 *)context - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)context - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

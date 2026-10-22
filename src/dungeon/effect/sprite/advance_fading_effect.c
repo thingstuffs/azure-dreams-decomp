@@ -1,5 +1,6 @@
 /* Linked line travel, directional sprite rings, timed fades, and nearby status effects. */
 #include "dungeon/effect/sprite/advance_fading_effect.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_188298c_entry)(void) = (void (*)(void))move_to_linked_object_and_apply_arrival_effects;
 
@@ -42,8 +43,8 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
 
     if (effect->unk14 & 0x6000) {
         if (state->unk04 != 0) {
-            *(u16 *)((u8 *)state - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         } else {
             select_record_entry_and_value(effect, D_800DEDB0, 4);
@@ -101,7 +102,7 @@ void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_
     }
     if (((SpriteFrameState *)target)->flags & 0x6000) {
         ((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 = (u16) (((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -622,8 +623,8 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
     case 5:
         if (ctrl->active == 0) {
             g_dungeon_status.active_actor = 0;
-            *(u16 *)((u8 *)ctrl - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)ctrl - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
 
     default:

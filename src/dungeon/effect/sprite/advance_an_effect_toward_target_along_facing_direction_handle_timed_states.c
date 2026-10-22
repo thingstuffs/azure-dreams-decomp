@@ -290,8 +290,8 @@ s32 advance_an_effect_toward_target_along_facing_direction_handle_timed_states(E
         break;
     }
     g_dungeon_status.active_actor = 0;
-    U16_AT(state, -2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    U16_AT(state, -2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     break;
 
     case 6:

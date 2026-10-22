@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01128 - CL:town/func_8009ED0C, CL:town/func_8009EEE8.
  */
 #include "town/event/state/spawn_and_flag_object_parts_g01128.h"
+#include "shared/object_flags.h"
 
 /* Process an object action and set the object and global 0x8000 flags. */
 void spawn_and_flag_object_parts(unsigned short *object, s32 unused, s32 action_id)
@@ -86,7 +87,7 @@ void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, S
     if ((s16)(timer) < 0) {
         unlink_node_if_registered(object);
         ((ObjectRetirementFlags *)object)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 
@@ -123,8 +124,8 @@ void fade_object_primitive(void *object, void *unusedContext, u8 *primitive)
         return;
     }
     unlink_node_if_registered(object);
-    *(u16 *)((u8 *)object - 2) |= 0x8000;
-    object_flag_block.flags |= 0x8000;
+    *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
 /* Spawns up to six parts with source-selected data and randomized motion. */

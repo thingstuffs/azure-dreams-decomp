@@ -1,4 +1,5 @@
 #include "dungeon/monster/kid/create_kid_actor_with_animation.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kid/create_kid_actor_with_animation.h"
 
@@ -41,7 +42,7 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
             init_root = allocated;
             setup = project_sprite_chain;
             ((S_801708DC_0 *)init_root)->unk_10 = D_80170BF8;
-            ((S_801708DC_1 *)object)->unk_13 = 4;
+            ((S_801708DC_1 *)object)->unk_13 = MONSTER_KID;
             register_node(init_root, setup);
         }
 

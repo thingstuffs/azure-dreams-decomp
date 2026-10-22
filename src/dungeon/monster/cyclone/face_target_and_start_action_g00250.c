@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00250 - CL:dungeon/func_80E0EC38@dungeon/bank_e2d000, CL:dungeon/func_80E0EC38@dungeon/bank_e33000, CL:dungeon/func_80E0EC38@dungeon/bank_e39000, CL:dungeon/func_80E0EC38@dungeon/bank_e3f000, CL:dungeon/func_80E0EC38@dungeon/bank_e45000, CL:dungeon/func_80E0EC38@dungeon/bank_e4b000, CL:dungeon/func_80E0EF2C@dungeon/bank_e2d000, CL:dungeon/func_80E0EF2C@dungeon/bank_e33000 (+4 more).
  */
 #include "dungeon/monster/cyclone/face_target_and_start_action_g00250.h"
+#include "shared/actor_action_flags.h"
 
 /* Face the target and initialize the actor action when status checks allow it. */
 void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context, S_801722E4_1 *sprite, ActorRecord *actor) {
@@ -128,7 +129,7 @@ s32 search_ahead_and_start_action(void *action_state, void *action_context, void
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (g_dungeon_status.flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (g_dungeon_status.flags & 8)) {
         return -1;
     }
     if ((try_claim_dungeon_action_slot(actor) << 16) != 0) {

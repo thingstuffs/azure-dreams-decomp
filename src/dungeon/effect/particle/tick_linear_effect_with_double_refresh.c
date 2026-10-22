@@ -29,7 +29,7 @@ void tick_linear_effect_with_double_refresh(void *state, Position *pos, s32 hand
     timer = *(u16 *)((u8 *)state + 0x32) - 1;
     *(u16 *)((u8 *)state + 0x32) = timer;
     if ((timer << 16) <= 0) {
-        *(u16 *)((u8 *)state - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -86,7 +87,7 @@ void advance_actor_staged_animation(void *action_data, S_801735E8_3 *motion, Spr
             action->unk_8C = D_80171E20;
             g_dungeon_status.active_actor = 0;
             advance_status_timers(actor);
-            actor->action_flags = (u16) (actor->action_flags & 0x7FFF);
+            actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         }
     }
 }

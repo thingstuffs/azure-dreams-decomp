@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/item_ids.h"
 
 typedef struct {
     u8 pad00[0x1C];
@@ -42,9 +43,9 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
     }
 
     if ((mode == 3) && (item != 0)) {
-        if ((item[1] == 2) && (item[0] == 1)) {
+        if ((item[1] == ITEM_KIND_FRUIT) && (item[0] == ITEM_PITA_FRUIT)) {
             mode = 2;
-        } else if ((item[1] == 0xC) && (item[0] == 6)) {
+        } else if ((item[1] == 0xC) && (item[0] == ITEM_MEAT)) {
             mode = 2;
         }
     }
@@ -64,7 +65,7 @@ s32 feed_actor_restore_mp(DungeonState *state, s32 mode, u8 *item) {
         break;
     case 2:
         message = expand_text_control_codes(D_800E0D1B, append_entity_display_text(state, message));
-        if ((item != 0) && (item[1] == 0xC) && (item[0] == 6)) {
+        if ((item != 0) && (item[1] == 0xC) && (item[0] == ITEM_MEAT)) {
             meter += 0xA00;
         } else {
             meter += 0x3200;

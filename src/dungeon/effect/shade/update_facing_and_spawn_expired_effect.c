@@ -99,8 +99,8 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
             }
             select_record_entry_and_value(((S_800D58D8_2 *)effect)->unk_0C, effect_sprite_sources, 0);
         }
-        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800D58D8_0_pre *)state)[-1].unk_12 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800D58D8_0_pre *)state)[-1].unk_12 | NODE_REMOVE);
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

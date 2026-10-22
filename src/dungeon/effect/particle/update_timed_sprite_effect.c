@@ -275,7 +275,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
         }
         g_dungeon_status.active_actor = 0;
         ((ObjectStatusPrefix *)((u8 *)effect - 0x20))->unk_1E |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 }
@@ -461,8 +461,8 @@ void update_timed_sprite_effect(void *effect, void *motion, void *sprite) {
     case 2:
         advance_sprite_animation_and_textures(sprite);
         if (((ProjectileSprite *)sprite)->unk_14 & 0x6000) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((EffectStatusPrefix *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((EffectStatusPrefix *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
         break;
     default:

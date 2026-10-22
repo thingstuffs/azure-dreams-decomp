@@ -2,6 +2,7 @@
 /* inferred-strong G00583: indexed_effect_vectors_g00583; joins CL:town/func_800AAAE8; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AAAE8. */
 #include "town/menu/indexed_effect_vectors_g00583.h"
+#include "shared/object_flags.h"
 
 /* Creates an object, selects its data, and initializes its state. */
 void create_indexed_effect_object(s32 index, s32 kind) {
@@ -41,8 +42,8 @@ void copy_adjusted_vector_or_flag_object(void *object, s32 *out_vector, void *un
     if ((state_refs[0] != (s32)&D_80097D2C) ||
         (state_refs[1] != (s32)&D_80097EA0)) {
         unlink_node_if_registered(object);
-        *(u16 *)((u8 *)object - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

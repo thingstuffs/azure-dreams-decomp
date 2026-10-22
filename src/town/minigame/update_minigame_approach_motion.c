@@ -71,8 +71,8 @@ void update_minigame_approach_motion(void *motion_state, void *motion) {
         if ((s32)0xFE000000 < position) {
             return;
         }
-        (*(u16 *)((u8 *)motion_state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)motion_state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     }

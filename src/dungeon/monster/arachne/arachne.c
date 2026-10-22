@@ -1,5 +1,7 @@
 /* Arachne actor spawning, action updates, movement, and wireframe effects. */
 #include "modules/dungeon_resource12_slot0.h"
+#include "shared/actor_action_flags.h"
+#include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = func_8017087C;
@@ -766,7 +768,7 @@ s32 func_80171DD8(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000) && (status_flags & 8)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING) && (status_flags & 8)) {
         return -1;
     }
     if ((u16)(-get_actor_height_difference(target_angle, actor) + 0x40) >= 0x81U) {
@@ -964,8 +966,8 @@ void complete_actor_arc_movement(void *action, void *motion, void *map_actor, vo
 
         actor_flags = ((u32)((ActorRecord *)actor)->flags1C);
         if (actor_flags & 0x2000) {
-            if (((ActorRecord *)actor)->action_flags & 0x8000) {
-                ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+            if (((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) {
+                ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
@@ -1145,7 +1147,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
     switch (((R12_80172AF8_S_80172AF8_0 *)action)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 7:
                 special_motion = 1;
                 /* fallthrough */
@@ -1169,7 +1171,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
                 break;
             }
         } else {
-            switch (actor->action_flags & 0x3FFF) {
+            switch (actor->action_flags & ACTOR_ACTION_CODE_MASK) {
             case 3:
                 motion = (u8 *)actor + 0xE;
                 break;
@@ -1234,7 +1236,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
         ((R12_80172AF8_S_80172AF8_0 *)action)->unk_8C = ((u8 *)update_actor_state_and_select_target);
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         return;
 
     case 1:
@@ -1288,7 +1290,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
         }
         actor->target_tile_y = 0;
         actor->target_tile_x = 0;
-        actor->action_flags &= 0x7FFF;
+        actor->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         play_sound_if_enabled(0xB4);
         break;
     }
@@ -1481,8 +1483,8 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
             }
             update_map_cell_flags_with_item_limit((u8)(x),(u8)(y), strength);
             unlink_entity_node(object);
-            *(u16 *)((u8 *)object - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)object - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         return;
     default:
@@ -2213,7 +2215,7 @@ void update_turning_fade_effect_and_model(void *record_data) {
     if ((remaining_count << 0x10) <= 0) {
         ((R12_801749A8_S_801748F0_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((R12_801749A8_S_801748F0_0 *)((u8 *)record_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 
@@ -2463,8 +2465,8 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
         remaining_ticks = (u16) ((R12_801749EC_S_801749EC_1 *)effect)->unk_08 - 1;
         ((R12_801749EC_S_801749EC_1 *)effect)->unk_08 = remaining_ticks;
         if ((remaining_ticks << 0x10) <= 0) {
-            (*(u16 *)((u8 *)effect + -2)) = (u16) (((R12_801749EC_S_801749EC_1_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((R12_801749EC_S_801749EC_1_pre *)effect)[-1].unk_00 | NODE_REMOVE);
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
         return;
     }
@@ -2729,7 +2731,7 @@ store_next_state:
         }
         ((R12_80175470_S_80175470_5 *)(((R12_80175470_S_80175470_1 *)actor)->unk_60))->unk_2A = ((R12_80175470_S_80175470_1 *)actor)->unk_8A;
         ((R12_80175470_S_80175470_0_pre *)sequence)[-1].unk_00 |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         ((R12_80175470_S_80175470_1 *)actor)->unk_6D = 0;
     default:

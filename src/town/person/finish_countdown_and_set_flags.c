@@ -12,7 +12,7 @@ void finish_countdown_and_set_flags(void *object, s32 *position) {
     FIELD_U16(object, 0x6C) = countdown;
     if ((s16)countdown < 0) {
         FIELD_U16(object, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
         *position += 0xFFEAAAAB;
     }

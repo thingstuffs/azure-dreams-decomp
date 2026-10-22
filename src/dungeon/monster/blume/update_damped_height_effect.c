@@ -79,11 +79,11 @@ void update_damped_height_effect(void *state, void *position, void *object)
     ticks_left = ((S_80171040_1 *)state)->unk_96 - 1;
     ((S_80171040_1 *)state)->unk_96 = ticks_left;
     if ((s16)ticks_left <= 0) {
-        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
     if (((SpriteFrameState *)object)->flags & 0x8000) {
-        (*(u16 *)((u8 *)state + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)state + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

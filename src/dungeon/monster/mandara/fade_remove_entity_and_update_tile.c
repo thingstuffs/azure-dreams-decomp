@@ -106,8 +106,8 @@ void fade_remove_entity_and_update_tile(void *fade_state, void *unused, void *vi
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
         unlink_entity_node(entity);
-        (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)entity + -2)) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
     default:
         return;

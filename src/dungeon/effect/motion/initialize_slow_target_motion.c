@@ -84,8 +84,8 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
             }
             shared_state->activity_counts.parts.pending_action_count++;
             unlink_entity_node(entity);
-            ((u16 *)motion_state)[-1] |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            ((u16 *)motion_state)[-1] |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         return;
         }
@@ -125,8 +125,8 @@ void initialize_slow_target_motion(StateObj *motion_state, Motion *motion, Param
             }
             shared_state->activity_counts.parts.pending_action_count++;
             unlink_entity_node(entity);
-            ((u16 *)motion_state)[-1] |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            ((u16 *)motion_state)[-1] |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         return;
         }

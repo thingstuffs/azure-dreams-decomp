@@ -32,7 +32,7 @@ void advance_damped_fading_effect(void *effect, Motion *motion, void *primitive)
     ticks_left = *(u16 *)((u8 *)effect + 0xC) - 1;
     *(s16 *)((u8 *)effect + 0xC) = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

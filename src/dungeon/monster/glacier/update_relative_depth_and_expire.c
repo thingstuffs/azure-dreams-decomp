@@ -53,6 +53,6 @@ void update_relative_depth_and_expire(void *state, MovingPosition *position, Spr
     ((S_8102F0D4_1 *)state)->ticks_left = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_8102F0D4_1_pre *)state)[-1].unk_00 = (u16) (((S_8102F0D4_1_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

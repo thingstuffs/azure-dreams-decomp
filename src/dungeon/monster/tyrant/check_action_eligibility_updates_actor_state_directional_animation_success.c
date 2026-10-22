@@ -1,4 +1,5 @@
 #include "dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.h"
+#include "shared/actor_action_flags.h"
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
 s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *action_state, s32 action_id, void *sprite, ActorRecord *actor) {
@@ -25,7 +26,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
     if (status_flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
         if (status_flags & 8) {
             return -1;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -78,7 +79,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
 
         work = (u8 *)obj;
         work += 0x20;
-        ((S_80170894_0 *)work)->unk_13 = 0xE;
+        ((S_80170894_0 *)work)->unk_13 = MONSTER_NYUEL;
         register_node(obj, project_sprite_chain);
 
         part_a = ((S_80170894_1 *)obj)->unk_08;

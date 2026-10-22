@@ -55,8 +55,8 @@ void advance_action_phase_and_process_actor(u8 *action, s32 unused, u8 *tile, u8
             update_map_cell_flags_with_item_limit(x, y, strength);
             unlink_entity_node(actor);
 
-            *(u16 *)(actor - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)(actor - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

@@ -30,7 +30,7 @@ void pack_three_capped_components_and_flag(void *dest) {
     } while (byte_index >= 0);
     *(u16 *) ((s8 *) dest + 0x14) = *(u16 *) ((s8 *) source + 0x14);
     if (*(s16 *) ((s8 *) source + 0x16) & 0x8000) {
-        *(u16 *) ((s8 *) dest - 2) = *(u16 *) ((s8 *) dest - 2) | 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        *(u16 *) ((s8 *) dest - 2) = *(u16 *) ((s8 *) dest - 2) | NODE_REMOVE;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

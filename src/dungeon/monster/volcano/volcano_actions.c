@@ -1,5 +1,7 @@
 /* Volcano actor spawning, movement, attacks, spell sequences, and sprite effects. */
 #include "modules/dungeon_ovl_e0365c.h"
+#include "shared/actor_action_flags.h"
+#include "shared/object_flags.h"
 void *(*const e0365c_spawn_entry)(s16,s16,s16,s16) = spawn_mode_dependent_112_object;
 #include "modules/dungeon_ovl_e0365c.h"
 #include "shared/sprite_frame_state.h"
@@ -756,7 +758,7 @@ s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *s
     if (flags & 0x2000) {
         return -1;
     }
-    if (!(actor->action_flags & 0x8000)) {
+    if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
         if (flags & 8) {
             return -1;
         }
@@ -1036,8 +1038,8 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
 
         actor_flags = actor_state->flags1C;
         if (actor_flags & 0x2000) {
-            if (actor_state->action_flags & 0x8000) {
-                actor_state->action_flags &= 0x7FFF;
+            if (actor_state->action_flags & ACTOR_ACTION_PENDING) {
+                actor_state->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
             }
         } else {
             if (!(actor_flags & 0x410)) {
@@ -1811,8 +1813,8 @@ s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, voi
 void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object) {
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
-        *(u16 *)((u8 *)state_data - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)state_data - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

@@ -1,4 +1,5 @@
 #include "shared/dungeon_item_entries.h"
+#include "shared/monster_ids.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -124,7 +125,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
     }
     if ((has_low_actor_mp(creature) << 16) != 0) {
         if ((find_nearest_floor_item_in_room(position, 0x60C, &tile_x, &tile_y) << 16) != 0) {
-            if (creature[0x13] != 0x22) {
+            if (creature[0x13] != MONSTER_WEADOG) {
                 if ((has_pending_actor_or_turn_action(creature) << 16) != 0) {
                     return -1;
                 }

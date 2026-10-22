@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -79,7 +80,7 @@ extern M2C_UNK D_8015C000;
     if (object != NULL) {
         object_state = object + 0x20;
         ((S_func_80158898_0 *)object)->unk_10 = &func_80158AA4;
-        object_state->unk_13 = 0x2B;
+        object_state->unk_13 = MONSTER_TYRANT;
         register_node(object, project_sprite_chain);
         config = ((S_func_80158898_0 *)object)->unk_08;
         config->unk_0A = saved_config_value;

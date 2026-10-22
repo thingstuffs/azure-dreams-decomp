@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
@@ -74,7 +75,7 @@ s32 update_actor_movement_to_tile(ObjA0 *move_state, Motion *motion, TilePos *ta
         }
         if (actor->flags1C & 0x2000) {
             actor->action_flags =
-                (u16)(actor->action_flags & 0x7FFF);
+                (u16)(actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         }
         if (g_dungeon_status.flags & 0x80) {
             actor->flags1C =

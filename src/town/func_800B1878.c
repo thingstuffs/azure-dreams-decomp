@@ -45,7 +45,7 @@ void *create_item_menu_child_at_position(void *parent, s32 x, s32 y, s32 resourc
         } else {
             release_null_terminated_entries((u8 *)object + 0xFC);
             ((S_800AEFD8_0 *)object)->unk_1E |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             object = 0;
         }
     }

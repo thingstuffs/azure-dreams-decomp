@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01015 - CL:dungeon/func_800BC2E4.
  */
 #include "dungeon/item/begin_familiar_restoration_effects_g01015.h"
+#include "shared/object_flags.h"
 
 /* Processes the two object slots if has_enough_available_runtime_nodes(2) succeeds. */
 s32 begin_familiar_restoration_effects(void)
@@ -156,7 +157,7 @@ void update_familiar_restoration_effect(DungeonState *state, RenderSource *rende
         if ((frames_left << 16) > 0)
             return;
         *((u16 *)state - 1) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 
         return;
     }

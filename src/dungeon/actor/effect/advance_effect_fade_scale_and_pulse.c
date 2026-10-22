@@ -87,8 +87,8 @@ void advance_effect_fade_scale_and_pulse(Effect *effect, void *unused, Output *o
         tick = effect->count - 1;
         effect->count = tick;
         if ((tick << 0x10) <= 0) {
-            ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
-            object_flag_block.flags = object_flag_block.flags | 0x8000;
+            ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | NODE_REMOVE;
+            object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         }
     }
 

@@ -34,7 +34,7 @@ void advance_or_block_fading_record(void *state, S_80099B18_2 *motion, SpriteFra
     if (record->flags & 0xE000) {
         ((S_80099B18_1_pre *)state)[-1].unk_00 =
             (s16)(((S_80099B18_1_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     update_count = ((S_80099B18_1 *)state)->unk_10 + 1;

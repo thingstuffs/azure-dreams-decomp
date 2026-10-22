@@ -18,7 +18,7 @@ void func_80175480(u16 *anim_state, u32 *motion, u16 *sprite) {
     frame = step_bits >> 16;
     if (frame >= 8) {
         anim_state[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     if (frame >= 6) {

@@ -1,5 +1,6 @@
 /* Target-following sprite motion, timed texture changes, and jittered strip rendering. */
 #include "dungeon/effect/motion/target.h"
+#include "shared/object_flags.h"
 
 
 /* Eases a sprite toward its moving target, advances its animation, and removes it after brightening. */
@@ -51,7 +52,7 @@ void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position
     if ((u8)visual->unk_0C.u8 >= 0x60U) {
         ((Row_818E71DC_S_800249DC_0_pre *)motion)[-1].unk_00 =
             (u16)(((Row_818E71DC_S_800249DC_0_pre *)motion)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = (s32)(object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     }
 
@@ -93,8 +94,8 @@ void advance_effect_state_and_frame(void *effect)
         break;
     case 2:
         if ((s16)timer >= 0xF) {
-            U16_AT(effect, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            U16_AT(effect, -2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

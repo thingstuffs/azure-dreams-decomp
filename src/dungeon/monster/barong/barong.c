@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
@@ -159,8 +160,8 @@ void hop_actor_and_restore_scale(void *action, void *motion, void *sprite, void 
 
     actor_flags = ((ActorRecord *)actor)->flags1C;
     if (actor_flags & 0x2000) {
-        if (((ActorRecord *)actor)->action_flags & 0x8000) {
-            ((ActorRecord *)actor)->action_flags &= 0x7FFF;
+        if (((ActorRecord *)actor)->action_flags & ACTOR_ACTION_PENDING) {
+            ((ActorRecord *)actor)->action_flags &= ACTOR_ACTION_CLEAR_PENDING_MASK;
         }
     } else {
         if (!(actor_flags & 0x410)) {

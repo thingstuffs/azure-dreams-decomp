@@ -347,7 +347,7 @@ void update_monster_staged_motion(void *state, void *motion, void *monster, void
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_flags);
         unlink_entity_node((void *)actor);
-        (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        (*(u16 *)((u8 *)actor + (-2))) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }

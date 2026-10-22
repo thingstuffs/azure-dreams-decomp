@@ -208,7 +208,7 @@ settle:
                           position->unk_16, display->unk_08, command);
             ((S_80F03000_3 *)motion->unk_40)->unk_A4 = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         if (display->unk_14 & 0x8000)
@@ -233,7 +233,7 @@ fall:
             position->unk_08.parts.unk_08 = 0;
             ((S_80F03000_3 *)motion->unk_40)->unk_A4 = 0;
             ((ObjectRetirementFlags *)((u8 *)motion - 2))->unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         if (display->unk_14 & 0x8000)

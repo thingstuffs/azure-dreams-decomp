@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_flags.h"
 #include "engine/util.h"
 
 extern int D_800814A0;
@@ -10,6 +11,6 @@ void table_handle_decrements_counter_sets_preceding_halfword_global_flag_bit_hex
 
     if (--(*counter) != 0) {
         *flags |= 0x8000;
-        D_800814A0 |= 0x8000;
+        D_800814A0 |= OBJECT_REMOVE_PENDING;
     }
 }

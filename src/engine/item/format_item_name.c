@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/item_ids.h"
 #include "engine/text.h"
 #include "engine/util.h"
 #include "sdk/libc.h"
@@ -69,7 +70,7 @@ s32 format_item_name(s32 text_target, S_8004951C_Item *item)
         }
     }
     else {
-        if (item->unk1 == 18) {
+        if (item->unk1 == ITEM_KIND_EGG) {
             if (runtime_dispatch_mode_alias.unk0 != 1) {
                 func_8004E5A0(0x64 - item->unk2, 3, &text[9]);
                 remap_flagged_string_bytes(&text[9]);
@@ -79,11 +80,11 @@ s32 format_item_name(s32 text_target, S_8004951C_Item *item)
                 text[0x12] = 0x25;
             }
         }
-        else if (item->unk1 == 4) {
+        else if (item->unk1 == ITEM_KIND_BALL) {
             func_8004E5A0(item->unk2, 2, &text[0xB]);
             remap_flagged_string_bytes(&text[0xB]);
         }
-        else if (item->unk1 == 14) {
+        else if (item->unk1 == ITEM_KIND_COIN) {
             func_8004E5A0(get_scaled_byte_value(item), 5, &text[6]);
             remap_flagged_string_bytes(&text[6]);
             text[0xB] = 0xA;

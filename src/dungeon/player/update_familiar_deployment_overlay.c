@@ -61,8 +61,8 @@ void update_familiar_deployment_overlay(void *object_data, void *unused, void *s
             *(u16 *)(obj + 4) = mode_next;
             return;
         }
-        *(u16 *)(obj - 2) |= 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        *(u16 *)(obj - 2) |= NODE_REMOVE;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     case 2:
         scale_or_ticks = *(u16 *)(state + 0x1C);
@@ -77,8 +77,8 @@ void update_familiar_deployment_overlay(void *object_data, void *unused, void *s
         }
         return;
     case 3:
-        *(u16 *)(obj - 2) |= 0x8000;
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        *(u16 *)(obj - 2) |= NODE_REMOVE;
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
 }

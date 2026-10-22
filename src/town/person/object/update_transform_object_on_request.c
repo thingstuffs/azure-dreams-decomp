@@ -21,8 +21,8 @@ void update_transform_object_on_request(void *object, s32 request_data, s32 requ
         current_object = D_800FE4A0.value;
         if (current_object == object && scene_object_payload_alias.value == D_80097D2C) {
             unlink_scene_list_node(current_object);
-            ((u16 *) current_object)[-1] |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            ((u16 *) current_object)[-1] |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

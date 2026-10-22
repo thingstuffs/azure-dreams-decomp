@@ -493,7 +493,7 @@ void advance_trap_effect_and_process_collisions(void *effect)
     U8(effect, 7)--;
     if (!U8(effect, 7)) {
         U16(effect, -2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/trap_effects_candidate.h"
@@ -546,7 +546,7 @@ void update_directional_trap_effect(void *effect_data, S_800CC4F0_0 *position) {
     if ((ticks_left << 0x10) <= 0) {
         ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800CC4F0_1 *)((u8 *)effect_data
             - 0x2))->unk_00 | 0x8000);
-        object_flag_block.flags = (s32) (object_flag_block.flags | 0x8000);
+        object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
 }
 #include "modules/trap_effects_candidate.h"
@@ -691,7 +691,7 @@ void fade_trap_color_to_black(void *fade, void *unused, void *color) {
         S16(fade, 2) = darken_left;
         if ((darken_left << 16) <= 0) {
             U16(fade, -2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }
@@ -785,8 +785,8 @@ void tick_byte_timed_trap_effect(void *record) {
     if (!(countdown & 0xFF)) {
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         *(u16 *)((u8 *)record - 2) =
-            (u16)(*(u16 *)((u8 *)record - 2) | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+            (u16)(*(u16 *)((u8 *)record - 2) | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/trap_effects_candidate.h"
@@ -1098,8 +1098,8 @@ void update_bouncing_trap_effect(void *effect, void *motion, void *sprite)
         ((S_800CCDA0_0 *)effect)->unk_06.s = ticks_or_angle;
         if ((ticks_or_angle << 16) == 0) {
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 
@@ -1548,7 +1548,7 @@ void advance_falling_trap_effect(void *effect, S_800CD474_1 *motion, S_800CD474_
         ((S_800CD474_0 *)effect)->unk_06 = fade_timer;
         if ((fade_timer << 16) <= 0) {
             ((S_800CD474_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
         }
     }
@@ -1788,8 +1788,8 @@ void tick_trap_effect_countdown(S_800C81B0_a0 *object)
     if (countdown <= 0) {
         run_action_ten_if_eligible(object->field_0, 0x10);
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        ((u16 *)object)[-1] |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        ((u16 *)object)[-1] |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 #include "modules/trap_effects_candidate.h"
@@ -2336,8 +2336,8 @@ snap_target_tile:
             }
             x_or_mask |= 0xFFFF;
             dungeon_floor_flags &= x_or_mask;
-            *(u16 *)((u8 *)effect - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         mark_all_actors_with_high_flag();
     }
@@ -2866,8 +2866,8 @@ void advance_monster_den_sequence(void *den_event) {
 
                 g_dungeon_status.activity_counts.parts.pending_action_count -= 1;
             }
-            *(u16 *)(den_event - 2) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            *(u16 *)(den_event - 2) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

@@ -11,8 +11,8 @@ void fade_and_grow_effect(void *record, s32 unused, void *effect) {
     intensity = *(u8 *)((u8 *)effect + 0xE);
     intensity -= 0x10;
     if (intensity < 0) {
-        *(u16 *)((u8 *)record - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)record - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
 

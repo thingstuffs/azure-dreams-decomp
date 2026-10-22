@@ -44,7 +44,7 @@ void update_flagged_target_tile(void *unused_0, void *unused_1, void *source, vo
         }
         update_map_cell_flags_with_item_limit(tile_x, tile_y, update_mask);
         unlink_entity_node(target);
-        (*(u16 *)((u8 *)target + -2)) = (u16) (((S_800B2FAC_1_pre *)target)[-1].unk_00 | 0x8000);
-        object_flag_block.flags = object_flag_block.flags | 0x8000;
+        (*(u16 *)((u8 *)target + -2)) = (u16) (((S_800B2FAC_1_pre *)target)[-1].unk_00 | NODE_REMOVE);
+        object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }

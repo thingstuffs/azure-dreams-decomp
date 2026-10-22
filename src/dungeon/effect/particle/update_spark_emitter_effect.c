@@ -293,12 +293,12 @@ loop_effects:
                     } else {
                         ((S_81814EDC_0_pre *)effect)[-1].unk_00 =
                             (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-                        object_flag_block.flags |= 0x8000;
+                        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                         return;
                     }
                 } else {
                     ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-                    object_flag_block.flags |= 0x8000;
+                    object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                     return;
                 }
             } else {
@@ -320,7 +320,7 @@ loop_effects:
                     + ((S_81814EDC_0 *)effect)->unk_60);
             } else {
                 ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-                object_flag_block.flags |= 0x8000;
+                object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }
         }
@@ -339,7 +339,7 @@ loop_effects:
                 owner_sprite->unk_0C.u = 0x80;
             }
             ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

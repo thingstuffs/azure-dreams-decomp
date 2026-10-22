@@ -46,8 +46,8 @@ void tick_scene_value_text(void *message)
 
     case 1:
         if (((S_80020618_1 *)owner)->unk_2A & 1) {
-            (*(u16 *)((u8 *)message + -2)) |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            (*(u16 *)((u8 *)message + -2)) |= NODE_REMOVE;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }

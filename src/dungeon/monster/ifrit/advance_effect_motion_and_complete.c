@@ -23,8 +23,8 @@ void advance_effect_motion_and_complete(Func80A209A4Data *motion) {
     ticks_left = data->field18 - 1;
     data->field18 = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        *(u16 *)((u8 *)data - 2) |= 0x8000;
-        object_flag_block.flags |= 0x8000;
+        *(u16 *)((u8 *)data - 2) |= NODE_REMOVE;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 

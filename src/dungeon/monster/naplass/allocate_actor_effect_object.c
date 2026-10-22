@@ -1,4 +1,5 @@
 #include "dungeon/monster/naplass/allocate_actor_effect_object.h"
+#include "shared/monster_ids.h"
 
 /* Allocates an object, initializes its parts and actor state, and returns its work area. */
 /* Creates Naplass with default frames at D_80174194, applies spawn flags, and attempts valid tile
@@ -25,7 +26,7 @@ void *allocate_actor_effect_object(s16 kind_flags, s16 x, s16 y, s16 part_value)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         obj->unk_10 = D_80170A3C;
-        work->unk_13 = 0x25;
+        work->unk_13 = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);
 
         part_a = obj->unk_08;

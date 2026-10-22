@@ -107,7 +107,7 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
         self->timer = timer;
         if ((s16)timer <= 0) {
             ((ObjectRetirementFlags *)self)[-1].unk_00 |= 0x8000;
-            object_flag_block.flags |= 0x8000;
+            object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }
 }

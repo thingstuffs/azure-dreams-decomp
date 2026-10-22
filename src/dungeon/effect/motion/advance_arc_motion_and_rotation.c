@@ -1,4 +1,5 @@
 #include "dungeon/effect/motion/advance_arc_motion_and_rotation.h"
+#include "shared/object_flags.h"
 
 
 /* Advances a rotating sprite along its velocity with a sinusoidal height offset and removes it after
@@ -35,6 +36,6 @@ void func_80024020(void *state, Row_8189E820_S_8189E820_2 *motion, Row_8189E820_
     if (((Row_8189E820_S_8189E820_0 *)state)->unk_02 < next_frame) {
         ((Row_8189E820_S_8189E820_0_pre *)state)[-1].unk_00 =
             (u16)(((Row_8189E820_S_8189E820_0_pre *)state)[-1].unk_00 | 0x8000);
-        object_flag_block.flags |= 0x8000;
+        object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
