@@ -1,0 +1,216 @@
+{
+  "schema": "azure-clean.module-placement-review.v2",
+  "module": "town_group_history_g01209",
+  "placement": "town_group_history_g01209_ll3a_40050c_401200",
+  "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+  },
+  "basis": "tu7 computational candidate: the merged home object town_group_history_g01209 is linked whole into town/ll3a_40050c_401200 (all 2 members, contiguous, one displacement; link lists). Destination types/storage/ownership review pending.",
+  "views": {
+    "D_80016000": {
+      "symbol": "D_80016000",
+      "kind": "data",
+      "vma": 2147573760,
+      "foff": 4194304,
+      "view_bytes": 4,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "image_ll34_400000_80016000",
+      "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+    },
+    "D_8001902C": {
+      "symbol": "D_8001902C",
+      "kind": "data",
+      "vma": 2147585604,
+      "foff": 4206148,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "image_ll34_400000_80016000",
+      "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+    },
+    "D_8001916C": {
+      "symbol": "D_8001916C",
+      "kind": "data",
+      "vma": 2147573792,
+      "foff": 4194336,
+      "view_bytes": 9,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "image_ll34_400000_80016000",
+      "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+    },
+    "D_80019178": {
+      "symbol": "D_80019178",
+      "kind": "data",
+      "vma": 2147573804,
+      "foff": 4194348,
+      "view_bytes": 2,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "image_ll34_400000_80016000",
+      "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+    },
+    "D_8001917C": {
+      "symbol": "D_8001917C",
+      "kind": "data",
+      "vma": 2147573808,
+      "foff": 4194352,
+      "view_bytes": 5,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "image_ll34_400000_80016000",
+      "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+    },
+    "D_80019184": {
+      "symbol": "D_80019184",
+      "kind": "data",
+      "vma": 2147573816,
+      "foff": 4194360,
+      "view_bytes": 10,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "image_ll34_400000_80016000",
+      "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+    },
+    "D_80019190": {
+      "symbol": "D_80019190",
+      "kind": "data",
+      "vma": 2147573828,
+      "foff": 4194372,
+      "view_bytes": 10,
+      "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "map": "image_ll34_400000_80016000",
+      "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+    }
+  },
+  "maps": {
+    "image_ll34_400000_80016000": {
+      "kind": "link_image",
+      "image": "town/ll34_400000_80016000",
+      "link_list": "config/link/town/ll34_400000_80016000.json",
+      "asset": "work/disc/containers/TOWN_TOWN.BIN",
+      "file_start": 4194304,
+      "file_end": 4208640,
+      "delta": 2143379456,
+      "basis": "ledger/instance_load_regions.jsonl; validated packed-CD loader record"
+    }
+  },
+  "placement_descriptor": {
+    "key": "town_group_history_g01209_ll3a_40050c_401200",
+    "module": "town_group_history_g01209",
+    "image": "town/ll3a_40050c_401200",
+    "home_image": "town/image_3e8000",
+    "recipe": {
+      "cfg": "2.7.2-cdk-G0 -O1",
+      "row_asflags": ""
+    },
+    "members": [
+      {
+        "home": "town/func_8046C188",
+        "row": "town/func_80480680"
+      },
+      {
+        "home": "town/func_8046C280",
+        "row": "town/func_80480778"
+      }
+    ],
+    "imports": [
+      {
+        "symbol": "D_80016000",
+        "kind": "data",
+        "vma": 2147573760,
+        "foff": 4194304,
+        "view_bytes": 4,
+        "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+        "asset": "work/disc/containers/TOWN_TOWN.BIN",
+        "map": "image_ll34_400000_80016000",
+        "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+      },
+      {
+        "symbol": "D_8001902C",
+        "kind": "data",
+        "vma": 2147585604,
+        "foff": 4206148,
+        "view_bytes": 2,
+        "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+        "asset": "work/disc/containers/TOWN_TOWN.BIN",
+        "map": "image_ll34_400000_80016000",
+        "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+      },
+      {
+        "symbol": "D_8001916C",
+        "kind": "data",
+        "vma": 2147573792,
+        "foff": 4194336,
+        "view_bytes": 9,
+        "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+        "asset": "work/disc/containers/TOWN_TOWN.BIN",
+        "map": "image_ll34_400000_80016000",
+        "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+      },
+      {
+        "symbol": "D_80019178",
+        "kind": "data",
+        "vma": 2147573804,
+        "foff": 4194348,
+        "view_bytes": 2,
+        "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+        "asset": "work/disc/containers/TOWN_TOWN.BIN",
+        "map": "image_ll34_400000_80016000",
+        "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+      },
+      {
+        "symbol": "D_8001917C",
+        "kind": "data",
+        "vma": 2147573808,
+        "foff": 4194352,
+        "view_bytes": 5,
+        "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+        "asset": "work/disc/containers/TOWN_TOWN.BIN",
+        "map": "image_ll34_400000_80016000",
+        "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+      },
+      {
+        "symbol": "D_80019184",
+        "kind": "data",
+        "vma": 2147573816,
+        "foff": 4194360,
+        "view_bytes": 10,
+        "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+        "asset": "work/disc/containers/TOWN_TOWN.BIN",
+        "map": "image_ll34_400000_80016000",
+        "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+      },
+      {
+        "symbol": "D_80019190",
+        "kind": "data",
+        "vma": 2147573828,
+        "foff": 4194372,
+        "view_bytes": 10,
+        "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+        "asset": "work/disc/containers/TOWN_TOWN.BIN",
+        "map": "image_ll34_400000_80016000",
+        "evidence": "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+      },
+      {
+        "symbol": "func_8001D414",
+        "kind": "function",
+        "vma": 2147576076
+      }
+    ],
+    "review": {
+      "membership": "pending",
+      "types": "pending",
+      "ownership": "pending",
+      "reviewer": "pending"
+    },
+    "review_inputs": [
+      "docs/evidence/town_group_history_g01209_ll3a_40050c_401200.placement.json"
+    ]
+  }
+}

@@ -112,8 +112,17 @@
       "size": 104
     },
     {
+      "row": "town/func_8046C188",
+      "home": "town/func_8046C188",
+      "tu": "src/town/scene/history/group_history.c",
+      "foff": "0x003EC188",
+      "vma": "0x8001D188",
+      "size": 248,
+      "evidence": "TU view gather: moved from town/region_3e8280_3ed488 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_8046C280",
-      "tu": "src/town/scene/get_indexed_vertex_and_trace.c",
+      "tu": "src/town/scene/history/group_history.c",
       "home": "town/func_8046C280",
       "foff": "0x3EC280",
       "vma": "0x8001D280",

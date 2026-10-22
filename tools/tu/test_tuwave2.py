@@ -247,7 +247,9 @@ class DestinationTests(unittest.TestCase):
         entries['town/a_again']=dict(entries['town/a_copy'],row='town/a_again',foff=0x300)
         groups,placements=self.status(g,images,entries,reg)
         self.assertEqual(groups[0]['mergeable_now'],'no')
-        self.assertEqual(placements[0]['state'],'duplicate_home_placements')
+        self.assertEqual([p['state'] for p in placements],['complete','in_image_copy'])
+        self.assertIn('town/b',placements[1]['detail'])
+        self.assertNotEqual(placements[0]['cohort_foff'],placements[1]['cohort_foff'])
 
 
 class GraphAttestationTests(unittest.TestCase):

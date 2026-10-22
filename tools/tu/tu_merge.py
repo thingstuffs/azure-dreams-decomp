@@ -62,6 +62,9 @@ import hashlib
 import json
 import os
 import re
+import shlex
+
+
 import shutil
 import struct
 import subprocess
@@ -85,6 +88,16 @@ MEMBER_CELLS = dict(RECIPES, **{
     '2.6.3': ('2.6.3', ('-O2',)),
     '2.7.2-cdk': ('2.7.2-cdk', ('-O2',)),
 })
+MEMBER_ASFLAGS = {'--preserve-return-delay', '--expand-div'}
+
+
+def member_asflags(value):
+    flags = shlex.split(value or '')
+    if len(flags) != len(set(flags)) or set(flags) - MEMBER_ASFLAGS:
+        raise Refused('unsupported registered assembler flags: ' + repr(value))
+    return flags
+
+
 SLUS_RESIDENT = (0x8002D000, 0x80088760)
 # SLUS-managed runtime storage below the overlay window: the fixed game-state region that SLUS
 # func_8003D468 clears and restores (precedent import: module dungeon_floor_spawns, 8340 B view)
@@ -289,7 +302,8 @@ def evidence_line(spec):
 
 # --------------------------------------------------------------- compiling
 
-def compile_obj(root, src, cfg, work, name, includes=()):
+def compile_obj(root, src, cfg, work, name, includes=(), row_asflags=""):
+    asflags = member_asflags(row_asflags)
     cell, flags = MEMBER_CELLS[cfg]
     cc = root / 'toolchain/compilers' / ('gcc-' + cell)
     s = work / (name + '.s')
@@ -303,7 +317,7 @@ def compile_obj(root, src, cfg, work, name, includes=()):
                           capture_output=True).stdout
     o = work / (name + '.o')
     r = subprocess.run([str(root / '.venv/bin/python'), str(root / 'toolchain/maspsx/maspsx.py'),
-                        '--aspsx-version=2.79', '--run-assembler', '--gnu-as-path=mipsel-linux-gnu-as',
+                        '--aspsx-version=2.79', *asflags, '--run-assembler', '--gnu-as-path=mipsel-linux-gnu-as',
                         '-I' + str(root), '-I' + str(root / 'include'), '-EL', '-march=r3000', '-G0', '-o', str(o)],
                        input=proc, capture_output=True)
     if r.returncode:
@@ -431,6 +445,30 @@ def absorbed_preamble(root, text, headers, new_header):
     return re.sub(r'#\s*include\s*"([^"]+)"', expand, text)
 
 
+def rename_private_types(source, names):
+    """Explicitly distinguish unrelated private typedefs before reconciliation.
+
+    Only names declared as typedefs in this source preamble may be changed.
+    Function/global identifiers, strings and comments are never rewritten.
+    The frozen original remains the independent complete-object reference.
+    """
+    if not names:return source
+    found,_,_=definitions(source)
+    if not found:raise Refused('private type rename needs a definition')
+    declared=set()
+    for _,text in split_statements(source[:found[0][1]]):
+        kind,keys=classify(text)
+        if kind=='type' and strip_comments(text).startswith('typedef '):declared.update(keys)
+    masked,_=mask(source)
+    tokens=set(re.findall(r'[A-Za-z_]\w*',masked))
+    if (not isinstance(names,dict) or set(names)-declared or len(set(names.values()))!=len(names)
+            or any(not re.fullmatch(r'[A-Za-z_]\w*',v) or v in tokens for v in names.values())):
+        raise Refused('private type rename needs distinct new names of local typedefs')
+    edits=[(m.start(),m.end(),names[m[0]]) for m in re.finditer(r'[A-Za-z_]\w*',masked) if m[0] in names]
+    for lo,hi,value in reversed(edits):source=source[:lo]+value+source[hi:]
+    return source
+
+
 def draft(root, spec, work, evidence=None, force=False):
     rows, layout = load_repo(root)
     absorbed = absorption_plan(root, spec)
@@ -470,7 +508,9 @@ def draft(root, spec, work, evidence=None, force=False):
             # the members compiled at their registered cells
             if override not in RECIPES:
                 raise Refused('recipe override %r not supported by the module gate' % override)
-            if any(asf for _, asf in cfgs) or any(c not in MEMBER_CELLS for c, _ in cfgs):
+            for _, asf in cfgs:
+                member_asflags(asf)
+            if any(c not in MEMBER_CELLS for c, _ in cfgs):
                 raise Refused('member cells %s cannot be compiled for the 72(c) proof' % sorted(cfgs))
             for m in members:
                 if m['module'] == key:
@@ -514,6 +554,7 @@ def draft(root, spec, work, evidence=None, force=False):
         dst = work / 'pre' / m['path']
         dst.parent.mkdir(parents=True, exist_ok=True)
         dst.write_text(src)
+        src = rename_private_types(src, spec.get('member_type_names', {}).get(m['id'], {}))
         found, masked, directives = definitions(src)
         if not found:
             raise Refused('%s: no function definition' % m['path'])
@@ -873,7 +914,8 @@ def prove(root, work):
                 # every member at its own registered cell (byte-exact rows); the merged file at the
                 # module recipe - equal objects prove the one-recipe attribution of 72(c)
                 o, err = compile_obj(root, work / 'pre' / m['path'], m.get('registered_cfg', m['cfg']), tdp,
-                                     '%s_m%02d' % (mod['key'], i), includes=[work / 'pre/include'])
+                                     '%s_m%02d' % (mod['key'], i), includes=[work / 'pre/include'],
+                                     row_asflags=m.get('row_asflags', ''))
                 if o is None:
                     raise Refused('member %s does not compile: %s' % (m['id'], err[-400:]))
                 t, r, sec = text_and_relocs(o)
@@ -909,6 +951,8 @@ def prove(root, work):
                        switch_rodata_sha256=sha256(rodata) if switches else None,
                        switch_relocations=[list(x) for x in rodata_rel],
                        member_cells=sorted({m.get('registered_cfg', m['cfg']) for m in ms}),
+                       member_recipes=[dict(id=m['id'], cfg=m.get('registered_cfg', m['cfg']),
+                                            row_asflags=m.get('row_asflags', '')) for m in ms],
                        merged_text_bytes=len(t), text_equal=t == concat, relocations_equal=r == crel,
                        relocations=len(r), merged_other_sections=sec,
                        member_other_sections=[p for p in per if p['other_sections']],
@@ -959,7 +1003,16 @@ class Freezer:
         if lst.exists():
             self.touched = json.loads(lst.read_text())['touched']
 
+    def sync(self):
+        """A nested transaction may have frozen more paths through another handle."""
+        path = self.base / 'touched.json'
+        if path.exists():
+            journal = json.loads(path.read_text())
+            self.touched = journal['touched']
+            self.absent = set(journal['absent'])
+
     def freeze(self, rel):
+        self.sync()
         if rel in self.touched:
             return
         self.touched.append(rel)
@@ -987,6 +1040,7 @@ class Freezer:
         (self.root / rel).unlink()
 
     def patch(self):
+        self.sync()
         out = []
         for rel in sorted(self.touched):
             old = '' if rel in self.absent else (self.base / 'files' / rel).read_text()
@@ -1569,7 +1623,8 @@ def switch_row(root, work, spec, members, key, res, rows):
 def reattribute(root, fr, container, members, recipe, why):
     """72(c): members whose registered cell differs take the file's one recipe, in the split ledger
     (authoritative; config_was/config_note keep the history) and in the derived registry rows."""
-    changed = {m['id'] for m in members if m.get('registered_cfg', m['cfg']) != recipe}
+    changed = {m['id'] for m in members if m.get('registered_cfg', m['cfg']) != recipe
+               or m.get('row_asflags')}
     if not changed:
         return []
     cell = RECIPES[recipe][0]
@@ -1580,13 +1635,32 @@ def reattribute(root, fr, container, members, recipe, why):
     recs = jl(root / rel)
     for r in recs:
         if '%s/%s' % (container, r.get('func_vram')) in changed and not r.get('rerun') and r.get('result') == 'MATCH':
+            r.setdefault('tu_recipe_history', []).append({k: r[k] for k in
+                ('config', 'config_was', 'config_note', 'row_asflags') if k in r})
             r['config_was'], r['config'], r['config_note'] = r.get('config'), recipe, note
+            if r.get('row_asflags'):
+                r['row_asflags_was'] = r.pop('row_asflags')
     fr.freeze(rel)
     (root / rel).write_text(''.join(json.dumps(r, separators=(',', ':')) + '\n' for r in recs))
+    # The registry is derived from this authoritative assembler-treatment
+    # table. Retire the treatment there too, preserving its original proof.
+    flag_rel = 'config/overlays/%s.as_flags.jsonl' % container
+    flag_values = {}
+    if (root / flag_rel).exists():
+        records = jl(root / flag_rel)
+        for record in records:
+            if container + '/' + record['func'] in changed and record.get('as_flags'):
+                record['as_flags_was'] = record['as_flags']
+                record['as_flags'] = ''
+                record['tu_recipe_note'] = note
+        flag_values = {r['func']: r.get('as_flags', '') for r in records}
+        fr.freeze(flag_rel)
+        wjl(root / flag_rel, records)
     rows = jl(root / 'ledger/rows.jsonl')
     for r in rows:
         if r['id'] in changed:
             r['cfg'], r['cell'], r['flags'] = recipe, cell, flags
+            r['row_asflags'] = flag_values.get(r.get('func') or r['id'].split('/', 1)[1])
     fr.freeze('ledger/rows.jsonl')
     wjl(root / 'ledger/rows.jsonl', rows)
     return sorted(changed)

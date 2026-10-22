@@ -1,0 +1,23 @@
+{
+  "module": "town_group_history_g01209",
+  "ledger_group": {
+    "container": "town",
+    "module": "group_history.c",
+    "module_index": 134228
+  },
+  "members": [
+    "town/func_8046C188",
+    "town/func_8046C280"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01209 - CL:town/func_8046C280, CL:town/func_8046C414, CL:town/func_80477674, CL:town/func_8047BE74, PD:town/image_3ef000:8001B0D0, PD:town/ll34_400000_80016000:80018E44. Grouping by tools/tu/infer_groups.py (group G01209); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Fresh tuple G01086; canonical homes resolved from byte-bound sites.",
+    "Canonical homes and every destination slot close after same-delta view gathering; all old bindings preserved globally.",
+    "The history base uses an integer local before pointer conversion, preserving the two original operand roles at cdk O1.",
+    "Members are the contiguous registered home rows 0x3EC188..0x3EC414 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

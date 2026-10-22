@@ -63,26 +63,10 @@ def plan(root, key):
         home_image = unindexed_home_image(m, images, rows)
         return m, home_image, images, tables, [], []
     home_image = by_row[homes[0]]['image']
-    # every placement row of each home, by image
-    per_image, duplicates = {}, {}
-    for rid, e in by_row.items():
-        if e['home'] in homes and rid not in homes:
-            if e['home'] in per_image.get(e['image'], {}):
-                duplicates.setdefault(e['image'], []).append(e['home'])
-            per_image.setdefault(e['image'], {})[e['home']] = e
     out, partial = [], []
-    for img, hits in sorted(per_image.items()):
-        if img in duplicates:
-            partial.append(dict(image=img, reason='multiple placements of the same home need explicit cohorts: ' +
-                                ', '.join(sorted(set(duplicates[img])))))
-            continue
-        es = [hits.get(h) for h in homes]
-        if None in es:
-            partial.append(dict(image=img, reason='places %d of %d members' % (len(hits), len(homes))))
-            continue
-        disp = {(e['foff'] - by_row[h]['foff'], e['vma'] - by_row[h]['vma']) for e, h in zip(es, homes)}
-        if len(disp) != 1:
-            partial.append(dict(image=img, reason='members not at one displacement (reordered/non-contiguous)'))
+    for img, es, missing in placement_cohorts(homes, by_row):
+        if missing:
+            partial.append(dict(image=img, reason='incomplete cohort: missing ' + ', '.join(missing)))
             continue
         if any(rows[e['row']].get('source_row') != h for e, h in zip(es, homes)):
             partial.append(dict(image=img, reason='registry source_row differs'))
@@ -95,6 +79,29 @@ def plan(root, key):
             continue
         out.append((img, es))
     return m, home_image, images, tables, out, partial
+
+
+def placement_cohorts(homes, by_row):
+    """Every displacement is a separate whole-object instance, even in one image.
+
+    Never combine a sibling from one copy with another copy at a different
+    displacement. Multiple complete cohorts are representable by the existing
+    placement validator; a partial extra use still blocks a whole-file merge.
+    """
+    if len(set(homes)) != len(homes):
+        raise ValueError('duplicate home in module cohort')
+    uses = {}
+    for rid, entry in by_row.items():
+        if entry['home'] not in homes or rid in homes:
+            continue
+        home = by_row[entry['home']]
+        key = (entry['image'], entry['foff'] - home['foff'], entry['vma'] - home['vma'])
+        hits = uses.setdefault(key, {})
+        if entry['home'] in hits:
+            raise ValueError('duplicate home at the same cohort displacement')
+        hits[entry['home']] = entry
+    return [(img, [hits[h] for h in homes if h in hits], [h for h in homes if h not in hits])
+            for (img, _, _), hits in sorted(uses.items())]
 
 
 def covered(root, container, extents, delta):
@@ -160,10 +167,12 @@ def storage_image(images, code, foff, size):
     return min(cands, key=lambda i: i['size'])
 
 
-def descriptor(root, m, home_image, images, tables, img, es):
+def descriptor(root, m, home_image, images, tables, img, es, *, distinguish_cohort=False):
     import linklist
     tail = re.sub(r'[^a-z0-9_]', '_', img.split('/', 1)[1].lower())
     pkey = '%s_%s' % (m['key'], tail)
+    if distinguish_cohort:
+        pkey += '_at_%x' % es[0]['foff']
     ev = 'docs/evidence/%s.placement.json' % pkey
     dimg = images[img]
     delta = dimg['vma'] - dimg['foff']
@@ -241,11 +250,13 @@ def main(argv=None):
         m, home_image, images, tables, ok, partial = plan(root, args.module)   # reload the link lists
     for img, es in ok:
         try:
-            desc, ev, evidence = descriptor(root, m, home_image, images, tables, img, es)
+            desc, ev, evidence = descriptor(root, m, home_image, images, tables, img, es,
+                distinguish_cohort=sum(other == img for other, _ in ok) > 1)
         except ValueError as exc:
             partial.append(dict(image=img, reason='destination import view unavailable: %s' % exc))
             continue
-        if any(p['key'] == desc['key'] for p in doc['placements']):
+        if any(p['key'] == desc['key'] or (p['module'] == desc['module'] and
+               p['image'] == desc['image'] and p['members'] == desc['members']) for p in doc['placements']):
             continue
         doc['placements'].append(desc)
         made.append(desc['key'])

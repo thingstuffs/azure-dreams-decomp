@@ -94,7 +94,15 @@ def assess(root, image, images, splits, rowbase, gate, wm):
             bad.append("%s links at %s" % (s_["func_vram"], hex(v or 0)))
         inside.append(s_)
     if bad:
-        return dict(out, reason="L3: " + "; ".join(bad[:6]))
+        # L3 can conceal an independent L4 conflict. Report both witnesses so
+        # repairing a row attribution cannot silently discard a proven map.
+        conflicts = [dict(region=x['region'], delta=x['delta'],
+                          base_confidence=x.get('base_confidence'),
+                          foff_start=x['foff_start'], foff_end=x['foff_end']) for x in rowbase
+                     if int(x['foff_start'], 0) < hi and lo < int(x['foff_end'], 0)
+                     and int(x['delta'], 0) != delta]
+        return dict(out, reason="L3: " + "; ".join(bad[:6]),
+                    registered_base_conflicts=bad, overlapping_base_conflicts=conflicts)
     # L4: existing records stay untouched; new records fill only the gaps between same-delta PROVEN records
     over = sorted((int(x["foff_start"], 0), int(x["foff_end"], 0), x) for x in rowbase
                   if int(x["foff_start"], 0) < hi and lo < int(x["foff_end"], 0))

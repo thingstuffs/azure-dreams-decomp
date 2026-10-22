@@ -27,6 +27,9 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / "tools"), str(ROOT / "tools/gate"), str(ROOT / "tools/tu")]
 import linklist as L  # noqa: E402
 
+from tu_placements import placement_cohorts
+
+
 SOFT = {"mixed_registered_cells", "needs_module_placements", "member_is_placement", "image_data_outside_region",
         "cross_image_partial", "none", ""}
 
@@ -122,22 +125,19 @@ def status(root, groups):
         members = [m for m in g["member_rows"].split(";") if m]
         cont = g["container"]
         hom = [by_row.get(m) for m in members]
-        per_image, duplicates = {}, {}
-        for rid, e in by_row.items():
-            if e["home"] in members and rid not in members:
-                previous = per_image.get(e['image'], {}).get(e['home'])
-                if previous is not None:
-                    duplicates.setdefault(e['image'], []).append(previous['row'] + ',' + e['row'])
-                per_image.setdefault(e["image"], {})[e["home"]] = e
         states = []
-        for img, hits in sorted(per_image.items()):
+        for img, es, absent in placement_cohorts(members, by_row):
+            hits = {e['home']: e for e in es}
             dimg = images[img]
             delta = dimg["vma"] - dimg["foff"]
             disp = {(e["foff"] - reg[h]["foff"]) for h, e in hits.items() if h in reg}
-            row = dict(group=g["group_id"], image=img, placed=len(hits), members=len(members), delta=hex(delta))
-            if img in duplicates:
-                row.update(state='duplicate_home_placements', detail='multiple copies of one home: ' + ';'.join(duplicates[img]))
-            elif img == g["image"] and len(hits) < len(members):
+            first_home = next(iter(hits))
+            first_offset = reg.get(members[0], {}).get('foff')
+            cohort_start = (hits[first_home]['foff'] - reg[first_home]['foff'] + first_offset
+                            if first_offset is not None else None)
+            row = dict(group=g["group_id"], image=img, cohort_foff=hex(cohort_start) if cohort_start is not None else '',
+                       placed=len(hits), members=len(members), delta=hex(delta))
+            if img == g["image"] and len(hits) < len(members):
                 row.update(state="in_image_copy", detail="decision 75: merged home needs all members; missing " +
                            ';'.join(m for m in members if m not in hits))
             elif len(disp) != 1:

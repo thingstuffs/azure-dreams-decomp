@@ -8,12 +8,32 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7FC27000: r121nd_3F37B0, town_func_804735BC_true_0x8001A5BC, town_func_80473634_true_0x8001A634, town_func_80473670_true_0x8001A670, w4t2_bank_3ef1c8; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "town/func_8047144C",
+      "home": "town/func_8046C188",
+      "tu": "src/town/scene/history/group_history.c",
+      "foff": "0x003F144C",
+      "vma": "0x8001844C",
+      "size": 248,
+      "bindings": {
+        "0x8001D414": "0x800186D8",
+        "0x8001902C": "0x8001B0D0",
+        "0x8001D188": "0x8001844C",
+        "0x8001D280": "0x8001D280"
+      },
+      "evidence": "LL3a attestation sha256:8dc179a55df783d52d30fd5a547328e0ead2936fe2cbd4cdab95f0edfeb8862b; current-TU paired HI16/LO16 relocation screen; scoped window gate; TU view gather: moved from town/region_3ef1c8_3f33d0 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_803D1544",
-      "tu": "src/town/scene/get_indexed_vertex_and_trace.c",
+      "tu": "src/town/scene/history/group_history.c",
       "home": "town/func_8046C280",
       "foff": "0x3F1544",
       "vma": "0x80018544",
-      "size": 404
+      "size": 404,
+      "bindings": {
+        "0x8001D188": "0x8001D188",
+        "0x8001D414": "0x800186D8"
+      },
+      "evidence": "tu7: bindings unified for merged module town_group_history_g01209"
     },
     {
       "row": "town/func_803D1824",
@@ -111,7 +131,8 @@
       "vma": "0x80018f9c",
       "size": 64,
       "bindings": {
-        "0x8001ace8": "0x8001a418"
+        "0x8001ace8": "0x8001a418",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80471F9C; opus_place1 view_merge: moved from town/region_3ef1c8_3f33d0 (same load delta) so the merged file's members share one view"
     },
@@ -194,7 +215,8 @@
         "0x8001dc10": "0x8001b5f0",
         "0x800196e4": "0x800193a4",
         "0x8001976c": "0x8001942c",
-        "0x80019f94": "0x80019c54"
+        "0x80019f94": "0x80019c54",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_80472D04; opus_place1 view_merge: moved from town/region_3ef1c8_3f33d0 (same load delta) so the merged file's members share one view"
     },
@@ -263,7 +285,8 @@
       "size": 120,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001ACE8": "0x8001A418"
+        "0x8001ACE8": "0x8001A418",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -276,7 +299,8 @@
       "size": 128,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001AD60": "0x8001A490"
+        "0x8001AD60": "0x8001A490",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -289,7 +313,8 @@
       "size": 112,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001ADE0": "0x8001A510"
+        "0x8001ADE0": "0x8001A510",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -327,7 +352,8 @@
       "bindings": {
         "0x80016000": "0x80016000",
         "0x80016164": "0x8001615C",
-        "0x8001AF7C": "0x8001A6AC"
+        "0x8001AF7C": "0x8001A6AC",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -340,7 +366,8 @@
       "size": 72,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001B038": "0x8001A768"
+        "0x8001B038": "0x8001A768",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -353,7 +380,8 @@
       "size": 32,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001B0C8": "0x8001A7F8"
+        "0x8001B0C8": "0x8001A7F8",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -366,7 +394,8 @@
       "size": 128,
       "bindings": {
         "0x8001ADE0": "0x8001A510",
-        "0x8001B0E8": "0x8001A818"
+        "0x8001B0E8": "0x8001A818",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -380,7 +409,8 @@
       "bindings": {
         "0x8001ACE8": "0x8001A418",
         "0x8001AD60": "0x8001A490",
-        "0x8001B168": "0x8001A898"
+        "0x8001B168": "0x8001A898",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     }

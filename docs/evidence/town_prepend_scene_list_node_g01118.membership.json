@@ -1,0 +1,22 @@
+{
+  "module": "town_prepend_scene_list_node_g01118",
+  "ledger_group": {
+    "container": "town",
+    "module": "prepend_scene_list_node_g01118.c",
+    "module_index": 134227
+  },
+  "members": [
+    "town/func_80091840",
+    "town/func_80091880",
+    "town/func_800918BC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01118 - CL:town/func_80091840. Grouping by tools/tu/infer_groups.py (group G01118); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Fresh byte inference G00995; wave-2 hold G01118 matched by named definition, not numeric ID. Ordered members retained in replay map.",
+    "Members are the contiguous registered home rows 0x11840..0x11914 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

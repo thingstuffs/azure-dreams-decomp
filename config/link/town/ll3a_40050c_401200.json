@@ -19,28 +19,35 @@
         "0x8001E7E4": "0x800187DC",
         "0x8001902C": "0x80018E44",
         "0x8001D280": "0x80016778",
-        "0x8001D048": "0x80016540"
+        "0x8001D048": "0x80016540",
+        "0x8001D188": "0x80016680"
       },
       "evidence": "LL3a attestation sha256:b34da372009202750c2358963c3556dd34eb38ef70e7cc84b2c9a2c07bea23af; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
       "row": "town/func_80480680",
       "home": "town/func_8046C188",
-      "tu": "src/town/scene/prepend_entry_to_group_history.c",
+      "tu": "src/town/scene/history/group_history.c",
       "foff": "0x00400680",
       "vma": "0x80016680",
       "size": 248,
       "bindings": {
         "0x8001D414": "0x8001690C",
         "0x8001902C": "0x80018E44",
-        "0x8001D188": "0x80016680"
+        "0x8001D188": "0x80016680",
+        "0x8001D280": "0x8001D280",
+        "0x8001916C": "0x80016020",
+        "0x80019178": "0x8001602C",
+        "0x8001917C": "0x80016030",
+        "0x80019184": "0x80016038",
+        "0x80019190": "0x80016044"
       },
       "evidence": "LL3a attestation sha256:1d40273f7b698532737cc4a7cfa2168e7aa6489d7a1accd7d3a3c98f2e7fab14; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
       "row": "town/func_80480778",
       "home": "town/func_8046C280",
-      "tu": "src/town/scene/get_indexed_vertex_and_trace.c",
+      "tu": "src/town/scene/history/group_history.c",
       "foff": "0x00400778",
       "vma": "0x80016778",
       "size": 404,
@@ -52,7 +59,9 @@
         "0x8001917C": "0x80016030",
         "0x80019184": "0x80016038",
         "0x80019190": "0x80016044",
-        "0x8001D280": "0x80016778"
+        "0x8001D280": "0x80016778",
+        "0x8001D188": "0x8001D188",
+        "0x8001D414": "0x8001690C"
       },
       "evidence": "LL3a attestation sha256:1e6190e080b1ae0c3a804f7daee4f8c8fc7f63dcfe13b30e3471fe6a486491a1; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
@@ -65,7 +74,8 @@
       "size": 60,
       "bindings": {
         "0x8001E7E4": "0x800187DC",
-        "0x8001D414": "0x8001690C"
+        "0x8001D414": "0x8001690C",
+        "0x8001D188": "0x80016680"
       },
       "evidence": "LL3a attestation sha256:0149aae004edd15fa72722a51ff5efe4beb0a7e56398388a6038703cc5315da1; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },

@@ -6741,6 +6741,31 @@
       ]
     },
     {
+      "module": "town_prepend_scene_list_node_g01118",
+      "source": "src/town/scene/object/prepend_scene_list_node_g01118.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80091840",
+        "town/func_80091880",
+        "town/func_800918BC"
+      ]
+    },
+    {
+      "module": "town_group_history_g01209",
+      "source": "src/town/scene/history/group_history.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8046C188",
+        "town/func_8046C280"
+      ]
+    },
+    {
       "module": "dungeon_ovl_7f0f7800_p01",
       "placement": "dungeon_ovl_7f0f7800_p01_bank_107f000",
       "image": "dungeon/bank_107f000",
@@ -8830,6 +8855,76 @@
       "rows": [
         "town/func_807770D0",
         "town/func_80777128"
+      ]
+    },
+    {
+      "module": "town_group_history_g01209",
+      "placement": "town_group_history_g01209_image_3ef000",
+      "image": "town/image_3ef000",
+      "source": "src/town/scene/history/group_history.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8047144C",
+        "town/func_803D1544"
+      ]
+    },
+    {
+      "module": "town_group_history_g01209",
+      "placement": "town_group_history_g01209_image_3fa800",
+      "image": "town/image_3fa800",
+      "source": "src/town/scene/history/group_history.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8047BBE8",
+        "town/func_803DBCE0"
+      ]
+    },
+    {
+      "module": "town_group_history_g01209",
+      "placement": "town_group_history_g01209_ll34_3f5000_80016000",
+      "image": "town/ll34_3f5000_80016000",
+      "source": "src/town/scene/history/group_history.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_804773E8",
+        "town/func_803D74E0"
+      ]
+    },
+    {
+      "module": "town_group_history_g01209",
+      "placement": "town_group_history_g01209_ll34_657800_80016000",
+      "image": "town/ll34_657800_80016000",
+      "source": "src/town/scene/history/group_history.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_806D872C",
+        "town/func_806D8824"
+      ]
+    },
+    {
+      "module": "town_group_history_g01209",
+      "placement": "town_group_history_g01209_ll3a_40050c_401200",
+      "image": "town/ll3a_40050c_401200",
+      "source": "src/town/scene/history/group_history.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80480680",
+        "town/func_80480778"
       ]
     },
     {
@@ -136683,36 +136778,6 @@
       ]
     },
     {
-      "source": "src/town/scene/object/prepend_scene_list_node.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": "--preserve-return-delay"
-      },
-      "rows": [
-        "town/func_80091840"
-      ]
-    },
-    {
-      "source": "src/town/scene/object/append_scene_list_node.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": "--preserve-return-delay"
-      },
-      "rows": [
-        "town/func_80091880"
-      ]
-    },
-    {
-      "source": "src/town/scene/flags/handle_insert_initialize_two_values_status_flags.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800918BC"
-      ]
-    },
-    {
       "source": "src/town/scene/configure_set_mode_n.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -149513,16 +149578,6 @@
       ]
     },
     {
-      "source": "src/town/scene/get_indexed_vertex_and_trace.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_803D1544"
-      ]
-    },
-    {
       "source": "src/town/shop/clear_bytes.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
@@ -149793,16 +149848,6 @@
       ]
     },
     {
-      "source": "src/town/scene/get_indexed_vertex_and_trace.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_803D74E0"
-      ]
-    },
-    {
       "source": "src/town/scene/find_entry_index_assert.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
@@ -150070,16 +150115,6 @@
       },
       "rows": [
         "town/func_803DB7AC"
-      ]
-    },
-    {
-      "source": "src/town/scene/get_indexed_vertex_and_trace.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_803DBCE0"
       ]
     },
     {
@@ -151373,26 +151408,6 @@
       ]
     },
     {
-      "source": "src/town/scene/prepend_entry_to_group_history.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8046C188"
-      ]
-    },
-    {
-      "source": "src/town/scene/get_indexed_vertex_and_trace.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8046C280"
-      ]
-    },
-    {
       "source": "src/town/scene/event/query_priority_event_state.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -152483,16 +152498,6 @@
       ]
     },
     {
-      "source": "src/town/scene/prepend_entry_to_group_history.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8047144C"
-      ]
-    },
-    {
       "source": "src/town/scene/get_record_value_tier.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -153473,16 +153478,6 @@
       ]
     },
     {
-      "source": "src/town/scene/prepend_entry_to_group_history.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_804773E8"
-      ]
-    },
-    {
       "source": "src/town/scene/select_data_pointer_based_result_second.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -154240,16 +154235,6 @@
       },
       "rows": [
         "town/func_8047BAA8"
-      ]
-    },
-    {
-      "source": "src/town/scene/prepend_entry_to_group_history.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8047BBE8"
       ]
     },
     {
@@ -155270,26 +155255,6 @@
       },
       "rows": [
         "town/func_80480540"
-      ]
-    },
-    {
-      "source": "src/town/scene/prepend_entry_to_group_history.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80480680"
-      ]
-    },
-    {
-      "source": "src/town/scene/get_indexed_vertex_and_trace.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80480778"
       ]
     },
     {
@@ -174560,26 +174525,6 @@
       },
       "rows": [
         "town/func_806D85A0"
-      ]
-    },
-    {
-      "source": "src/town/scene/prepend_entry_to_group_history.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_806D872C"
-      ]
-    },
-    {
-      "source": "src/town/scene/get_indexed_vertex_and_trace.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_806D8824"
       ]
     },
     {

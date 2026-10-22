@@ -16,7 +16,8 @@
       "vma": "0x800172B8",
       "size": 128,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -27,7 +28,8 @@
       "vma": "0x80017358",
       "size": 96,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -38,7 +40,8 @@
       "vma": "0x800173E4",
       "size": 56,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -49,7 +52,8 @@
       "vma": "0x8001741C",
       "size": 68,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -60,7 +64,8 @@
       "vma": "0x80017620",
       "size": 44,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -71,7 +76,8 @@
       "vma": "0x800177B0",
       "size": 36,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -82,7 +88,8 @@
       "vma": "0x80017890",
       "size": 36,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -93,7 +100,8 @@
       "vma": "0x800178B4",
       "size": 148,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -104,7 +112,8 @@
       "vma": "0x80017BE8",
       "size": 120,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -115,7 +124,8 @@
       "vma": "0x80017C60",
       "size": 96,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -126,7 +136,8 @@
       "vma": "0x80017CC0",
       "size": 100,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -137,7 +148,8 @@
       "vma": "0x80017D24",
       "size": 100,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -148,7 +160,8 @@
       "vma": "0x80017D88",
       "size": 16,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -159,7 +172,8 @@
       "vma": "0x80017D98",
       "size": 36,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -172,7 +186,8 @@
       "bindings": {
         "0x800167B4": "0x800167B4",
         "0x80016818": "0x80016818",
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
@@ -185,7 +200,8 @@
       "size": 108,
       "bindings": {
         "0x80017EA0": "0x80017EA0",
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
     },
@@ -197,7 +213,8 @@
       "vma": "0x80017F5C",
       "size": 80,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
@@ -208,19 +225,38 @@
       "vma": "0x80017FAC",
       "size": 108,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188"
       }
     },
     {
+      "row": "town/func_8047BBE8",
+      "home": "town/func_8046C188",
+      "tu": "src/town/scene/history/group_history.c",
+      "foff": "0x003FBBE8",
+      "vma": "0x800183E8",
+      "size": 248,
+      "bindings": {
+        "0x8001D414": "0x80018674",
+        "0x8001902C": "0x80016FA8",
+        "0x8001D188": "0x800183E8",
+        "0x8001D280": "0x8001D280"
+      },
+      "evidence": "LL3a attestation sha256:7778a1a61063e6c2c09ef5b0d97e6459086879bec681166f6fd7070617d7a587; current-TU paired HI16/LO16 relocation screen; scoped window gate; TU view gather: moved from town/region_3faa98_3fcee8 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_803DBCE0",
-      "tu": "src/town/scene/get_indexed_vertex_and_trace.c",
+      "tu": "src/town/scene/history/group_history.c",
       "home": "town/func_8046C280",
       "foff": "0x3FBCE0",
       "vma": "0x800184E0",
       "size": 404,
       "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
-      }
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001D188": "0x8001D188",
+        "0x8001D414": "0x80018674"
+      },
+      "evidence": "tu7: bindings unified for merged module town_group_history_g01209"
     },
     {
       "row": "town/func_803DBEB0",
@@ -303,7 +339,8 @@
         "0x8001dc10": "0x8001a008",
         "0x800196e4": "0x800188b0",
         "0x8001976c": "0x80018938",
-        "0x80019f94": "0x80019160"
+        "0x80019f94": "0x80019160",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_8047CA10; opus_place1 view_merge: moved from town/region_3faa98_3fcee8 (same load delta) so the merged file's members share one view"
     },
@@ -338,7 +375,8 @@
       "size": 72,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001E7E4": "0x80019A44"
+        "0x8001E7E4": "0x80019A44",
+        "0x8001D188": "0x8001D188"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     }

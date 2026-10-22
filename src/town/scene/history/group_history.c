@@ -1,33 +1,11 @@
-#include "shared/town_root.h"
-#include "common.h"
-#include "shared/record_ptrs.h"
-
-typedef struct S_8001D188_3 {
-    u8 pad_00[0x6000];
-    Rec_D_80016000 *unk_6000;
-} S_8001D188_3;   /* page in prepend_entry_to_group_history */
-
-
-typedef struct S_8001D188_0 {
-    u8 pad_00[0x6000];
-    Rec_D_80016000 *unk_6000;
-} S_8001D188_0;   /* page in prepend_entry_to_group_history */
-
-typedef struct S_8001D188_1 {
-    u8 pad_00[0x24];
-    void * unk_24;
-    u8 pad_28[0x44];
-    void * unk_6C;
-    u8 pad_70[0x17C];
-    s16 * unk_1EC;
-} S_8001D188_1;   /* cursor in prepend_entry_to_group_history */
-
-
-extern s32 query_priority_event_state(void);
-extern s8 D_8001902C[];
+/* Group history
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01209 - CL:town/func_8046C280, CL:town/func_8046C414, CL:town/func_80477674, CL:town/func_8047BE74, PD:town/image_3ef000:8001B0D0, PD:town/ll34_400000_80016000:80018E44.
+ */
+#include "town/scene/history.h"
 
 /* Advance the group counter and prepend the entry to its twelve-entry history. */
 void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup_arg3) {
+    extern s8 D_8001902C[];
     s32 group_id;
     s32 state_base;
     s32 variant;
@@ -43,6 +21,7 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
     s16 *entries;
     s32 next_count;
     s32 count;
+    s32 history_base;
 
     do {
         page = (u8 *)0x80010000;
@@ -67,7 +46,8 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
         group_state->headIndices[0] = 0U;
     }
     slot_index = 0;
-    history = (u8 *)((s16)group_id * 0xC) + state_base + 0x3640;
+    history_base = ((s16)group_id * 0xC) + state_base;
+    history = (u8 *)(history_base + 0x3640);
     do {
         slot = history + slot_index;
         old_entry = *slot;
@@ -77,4 +57,35 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
         } while (0);
         entry_id = old_entry;
     } while (slot_index < 0xC);
+}
+
+/* Select a vertex relative to the list head, print its coordinates, and return its address. */
+void *get_indexed_vertex_and_trace(s32 group, s32 n, s32 lookup_variant) {
+    extern Lookup D_8001902C[][3];
+    s32 lookup_flag;
+    s32 head;
+    Entry *ptr;
+    s32 delta;
+
+    if (group >= 10) {
+        return 0;
+    }
+    lookup_flag = D_8001902C[group][lookup_variant].flag;
+    head = D_80016000->unk_38->headIndices[group];
+    ptr = D_8001902C[group][lookup_variant].entries;
+    D_80016000->unk_20->callback_168(D_8001916C, D_80019178, n);
+    D_80016000->unk_20->callback_168(D_8001916C, D_8001917C, head);
+    delta = n - head;
+    if (lookup_flag != 0) {
+        if (delta >= 0) {
+            delta++;
+            n = lookup_flag - delta;
+        } else {
+            n = head - n - 1;
+        }
+    }
+    D_80016000->unk_20->callback_168(D_8001916C, D_80019178, n);
+    D_80016000->unk_20->callback_168(D_8001916C, D_80019184, ptr[n].vx);
+    D_80016000->unk_20->callback_168(D_8001916C, D_80019190, ptr[n].vy);
+    return &ptr[n];
 }

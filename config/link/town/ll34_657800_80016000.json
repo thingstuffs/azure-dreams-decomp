@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_806D872C",
-      "tu": "src/town/scene/prepend_entry_to_group_history.c",
+      "tu": "src/town/scene/history/group_history.c",
       "home": "town/func_8046C188",
       "foff": "0x65872C",
       "vma": "0x80016F2C",
@@ -17,13 +17,19 @@
       "bindings": {
         "0x8001D414": "0x800171B8",
         "0x8001902C": "0x80018FE0",
-        "0x8001D188": "0x80016F2C"
+        "0x8001D188": "0x80016F2C",
+        "0x8001D280": "0x8001D280",
+        "0x8001916C": "0x8001603C",
+        "0x80019178": "0x80016048",
+        "0x8001917C": "0x8001604C",
+        "0x80019184": "0x80016054",
+        "0x80019190": "0x80016060"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
       "row": "town/func_806D8824",
-      "tu": "src/town/scene/get_indexed_vertex_and_trace.c",
+      "tu": "src/town/scene/history/group_history.c",
       "home": "town/func_8046C280",
       "foff": "0x658824",
       "vma": "0x80017024",
@@ -36,7 +42,9 @@
         "0x8001917C": "0x8001604C",
         "0x80019184": "0x80016054",
         "0x80019190": "0x80016060",
-        "0x8001D280": "0x80017024"
+        "0x8001D280": "0x80017024",
+        "0x8001D188": "0x8001D188",
+        "0x8001D414": "0x800171B8"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -49,7 +57,8 @@
       "size": 60,
       "bindings": {
         "0x8001E7E4": "0x800187B4",
-        "0x8001D414": "0x800171B8"
+        "0x8001D414": "0x800171B8",
+        "0x8001D188": "0x80016F2C"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },

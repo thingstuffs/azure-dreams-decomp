@@ -488,9 +488,9 @@
 {"id":"town/func_80090D8C","path":"src/town/map/forward_surface_query_with_argument_g01117.c"}
 {"id":"town/func_800912C0","path":"src/town/map/forward_surface_query_with_argument_g01117.c"}
 {"id":"town/func_800917F8","path":"src/town/scene/initialize_circular_list_head.c"}
-{"id":"town/func_80091840","path":"src/town/scene/object/prepend_scene_list_node.c"}
-{"id":"town/func_80091880","path":"src/town/scene/object/append_scene_list_node.c"}
-{"id":"town/func_800918BC","path":"src/town/scene/flags/handle_insert_initialize_two_values_status_flags.c"}
+{"id":"town/func_80091840","path":"src/town/scene/object/prepend_scene_list_node_g01118.c"}
+{"id":"town/func_80091880","path":"src/town/scene/object/prepend_scene_list_node_g01118.c"}
+{"id":"town/func_800918BC","path":"src/town/scene/object/prepend_scene_list_node_g01118.c"}
 {"id":"town/func_80091914","path":"src/town/scene/configure_set_mode_n.c"}
 {"id":"town/func_80091944","path":"src/town/scene/configure_set_mode_n_b.c"}
 {"id":"town/func_80091974","path":"src/town/scene/configure_set_mode_n_c.c"}
@@ -2149,8 +2149,8 @@
 {"id":"town/func_8046BF9C","path":"src/town/scene/store_state_selected_entry_pointer.c"}
 {"id":"town/func_8046BFF0","path":"src/town/scene/event/ignore_inputs_and_run_event_reset.c"}
 {"id":"town/func_8046C048","path":"src/town/scene/process_history_entries_by_mode.c"}
-{"id":"town/func_8046C188","path":"src/town/scene/prepend_entry_to_group_history.c"}
-{"id":"town/func_8046C280","path":"src/town/scene/get_indexed_vertex_and_trace.c"}
+{"id":"town/func_8046C188","path":"src/town/scene/history/group_history.c"}
+{"id":"town/func_8046C280","path":"src/town/scene/history/group_history.c"}
 {"id":"town/func_8046C414","path":"src/town/scene/event/query_priority_event_state.c"}
 {"id":"town/func_8046C8C4","path":"src/town/scene/pass_indexed_entry.c"}
 {"id":"town/func_8046CA24","path":"src/town/scene/hooks/is_pair_result_valid.c"}

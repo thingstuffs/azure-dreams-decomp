@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-22T17:27:45Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-22T17:46:25Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,7 +13,7 @@ Generated 2026-10-22T17:27:45Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 21,432 of 21,432 rows (100.0%), 8,028,304 bytes; 0 unverified |
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.6%, L4 14.9%, L5 14.6% of bytes (levels below) |
+| **Readability** | L3 90.6%, L4 15.0%, L5 14.6% of bytes (levels below) |
 
 
 ## Not yet C
@@ -65,14 +65,14 @@ Baseline NOT exact: 0 rows
 | L1 | 8,028,304 | 100.0% |
 | L2 | 8,028,304 | 100.0% |
 | L3 | 7,273,888 | 90.6% |
-| L4 | 1,198,180 | 14.9% |
-| L5 | 1,168,848 | 14.6% |
+| L4 | 1,200,256 | 15.0% |
+| L5 | 1,170,924 | 14.6% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3716 rows, 2,288,092 bytes (28.5%); records used: 98.
+On shared record headers (T7, `include/records/`): 3718 rows, 2,288,216 bytes (28.5%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,656 rows (6,826,324 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,641 rows (6,822,200 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -119,7 +119,7 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,918; REG 12,816, KEEP 6,9
 
 ## Image proof
 
-`make check`: 1490/1490 images exact; 8556 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
+`make check`: 1490/1490 images exact; 8553 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
 
 
 
@@ -181,7 +181,7 @@ Choices the tree keeps on purpose and tracks; none is an assembler pin. The comp
 | load-bearing one-trip rows | 85 | `ledger/onetrip_loadbearing.jsonl` |
 | carve debt: composite rows | 0 statements in 0 rows | `tools/pin_census.py composite_asm_spans` |
 | hidden scaffolding (not pins) | 8 sites (6 symbol aliases) | `pin_census.hidden_asm` |
-| per-row optimization flags | 2,010 rows with one, 0 with two or more | `ledger/rows.jsonl` |
+| per-row optimization flags | 2,016 rows with one, 0 with two or more | `ledger/rows.jsonl` |
 | site-for-pin trades | 27 | `ledger/recipe_trades.jsonl` |
 | dead-initializer trades | 24 | `ledger/recipe_trades.jsonl` |
 | union trades (tracked, plausibility unproven) | 41 open of 52 sites | `ledger/union_trades.jsonl` |
@@ -197,7 +197,7 @@ Tracked, not pins (owner 2026-10-06): oddities 0 (ledger/oddities.jsonl - zero-b
 Carve debt - composite rows (r95 decisions item 8 kept the spelling for bytes; r99: it is an artifact of one-row-per-function carving, owned by module placement): the `asm("func_X")` data prefix (another function's jump table / overlay data that retail places before this row's code) and its `.globl/.type/.size func_X` stamp (`pin_census.composite_asm_spans`), 0 statements in 0 rows - counted here, not in the inline-asm row above; still L5 `inline_asm` residue in levels.py until the module TU owns the data.
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 0, calls of local asm wrappers 0, hand-written asm in function bodies 0 (C that is missing); symbol aliases 6 (a second typed name for one symbol: a missing type); file-scope asm directives 2; file-scope global register variables 0 (`register T g asm("$R")`).
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 2,010 rows carry one flag, 0 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 2,016 rows carry one flag, 0 carry two or more.
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 

@@ -8,6 +8,46 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_804773E8",
+      "home": "town/func_8046C188",
+      "tu": "src/town/scene/history/group_history.c",
+      "foff": "0x003F73E8",
+      "vma": "0x800183E8",
+      "size": 248,
+      "bindings": {
+        "0x8001D414": "0x80018674",
+        "0x8001902C": "0x80016FA8",
+        "0x8001D188": "0x800183E8",
+        "0x8001D280": "0x8001D280",
+        "0x8001916C": "0x8001713C",
+        "0x80019178": "0x80017148",
+        "0x8001917C": "0x8001714C",
+        "0x80019184": "0x80017154",
+        "0x80019190": "0x80017160"
+      },
+      "evidence": "LL3a attestation sha256:b692c62acd69ab6f92504bff83b606f1034f2fd4ff471da2eaa0cab50ed16659; current-TU paired HI16/LO16 relocation screen; scoped window gate; TU view gather: moved from town/region_3f6298_3f86e8 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "town/func_803D74E0",
+      "tu": "src/town/scene/history/group_history.c",
+      "home": "town/func_8046C280",
+      "foff": "0x3F74E0",
+      "vma": "0x800184E0",
+      "size": 404,
+      "bindings": {
+        "0x8001E7E4": "0x8001E7E4",
+        "0x8001902C": "0x80016FA8",
+        "0x8001916C": "0x8001713C",
+        "0x80019178": "0x80017148",
+        "0x8001917C": "0x8001714C",
+        "0x80019184": "0x80017154",
+        "0x80019190": "0x80017160",
+        "0x8001D188": "0x8001D188",
+        "0x8001D414": "0x80018674"
+      },
+      "evidence": "TU view gather: moved from town/image_3f6000 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_804786E8",
       "tu": "src/town/shop/clear_bytes.c",
       "home": "town/func_8032EBF4",
@@ -64,7 +104,9 @@
       "size": 120,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001ACE8": "0x800197D8"
+        "0x8001ACE8": "0x800197D8",
+        "0x8001D188": "0x8001D188",
+        "0x8001D280": "0x8001D280"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -77,7 +119,9 @@
       "size": 128,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001AD60": "0x80019850"
+        "0x8001AD60": "0x80019850",
+        "0x8001D188": "0x8001D188",
+        "0x8001D280": "0x8001D280"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -90,7 +134,9 @@
       "size": 112,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001ADE0": "0x800198D0"
+        "0x8001ADE0": "0x800198D0",
+        "0x8001D188": "0x8001D188",
+        "0x8001D280": "0x8001D280"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -104,7 +150,9 @@
       "bindings": {
         "0x80016000": "0x80016000",
         "0x80016164": "0x80017210",
-        "0x8001AF7C": "0x80019940"
+        "0x8001AF7C": "0x80019940",
+        "0x8001D188": "0x8001D188",
+        "0x8001D280": "0x8001D280"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -117,7 +165,9 @@
       "size": 72,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001B038": "0x800199FC"
+        "0x8001B038": "0x800199FC",
+        "0x8001D188": "0x8001D188",
+        "0x8001D280": "0x8001D280"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -130,7 +180,9 @@
       "size": 32,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001B0C8": "0x80019A8C"
+        "0x8001B0C8": "0x80019A8C",
+        "0x8001D188": "0x8001D188",
+        "0x8001D280": "0x8001D280"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -143,7 +195,9 @@
       "size": 128,
       "bindings": {
         "0x8001ADE0": "0x800198D0",
-        "0x8001B0E8": "0x80019AAC"
+        "0x8001B0E8": "0x80019AAC",
+        "0x8001D188": "0x8001D188",
+        "0x8001D280": "0x8001D280"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
@@ -157,7 +211,9 @@
       "bindings": {
         "0x8001ACE8": "0x800197D8",
         "0x8001AD60": "0x80019850",
-        "0x8001B168": "0x80019B2C"
+        "0x8001B168": "0x80019B2C",
+        "0x8001D188": "0x8001D188",
+        "0x8001D280": "0x8001D280"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     }

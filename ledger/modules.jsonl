@@ -426,9 +426,6 @@
 {"id": "town/func_8008F530", "container": "town", "module": "map_queries.c", "module_index": 2, "confidence": "strong"}
 {"id": "town/func_8008F6A8", "container": "town", "module": "map_queries.c", "module_index": 2, "confidence": "strong"}
 {"id": "town/func_800917F8", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
-{"id": "town/func_80091840", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
-{"id": "town/func_80091880", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
-{"id": "town/func_800918BC", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
 {"id": "town/func_80091914", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
 {"id": "town/func_80091944", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
 {"id": "town/func_80091974", "container": "town", "module": "scene_state.c", "module_index": 3, "confidence": "weak"}
@@ -1701,8 +1698,6 @@
 {"id": "town/func_8046BF9C", "container": "town", "module": "ovl_3eb288.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_8046BFF0", "container": "town", "module": "ovl_3eb288.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_8046C048", "container": "town", "module": "ovl_3eb288.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_8046C188", "container": "town", "module": "ovl_3eb288.c", "module_index": 14, "confidence": "weak"}
-{"id": "town/func_8046C280", "container": "town", "module": "town_o1_misc.c", "module_index": 98, "confidence": "weak"}
 {"id": "town/func_8046C414", "container": "town", "module": "ovl_3eb288.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_8046C8C4", "container": "town", "module": "ovl_3eb288.c", "module_index": 14, "confidence": "weak"}
 {"id": "town/func_8046CA24", "container": "town", "module": "ovl_3eb288.c", "module_index": 14, "confidence": "weak"}
@@ -8083,3 +8078,8 @@
 {"id": "dungeon/func_800A3CA0", "container": "dungeon", "module": "spell_resource_ids_g01008.c", "module_index": 134226, "confidence": "strong"}
 {"id": "dungeon/func_800A3D40", "container": "dungeon", "module": "spell_resource_ids_g01008.c", "module_index": 134226, "confidence": "strong"}
 {"id": "dungeon/func_800A40CC", "container": "dungeon", "module": "spell_resource_ids_g01008.c", "module_index": 134226, "confidence": "strong"}
+{"id": "town/func_80091840", "container": "town", "module": "prepend_scene_list_node_g01118.c", "module_index": 134227, "confidence": "strong"}
+{"id": "town/func_80091880", "container": "town", "module": "prepend_scene_list_node_g01118.c", "module_index": 134227, "confidence": "strong"}
+{"id": "town/func_800918BC", "container": "town", "module": "prepend_scene_list_node_g01118.c", "module_index": 134227, "confidence": "strong"}
+{"id": "town/func_8046C188", "container": "town", "module": "group_history.c", "module_index": 134228, "confidence": "strong"}
+{"id": "town/func_8046C280", "container": "town", "module": "group_history.c", "module_index": 134228, "confidence": "strong"}

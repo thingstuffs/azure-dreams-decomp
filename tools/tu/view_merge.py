@@ -110,50 +110,81 @@ def plan(root, groups, status, work):
 
 
 def preserve(root, moves, work):
-    """Explicit bindings that keep every entry of every touched view resolving exactly as before the moves.
-    Name-keyed: `moves` is {row id: target image}; rows already in their target are skipped."""
+    """Preserve resolution globally, including canonical-home namespace changes.
+
+    Moving a code entry changes local lookup only at its home's address. Moving
+    an own-home entry also changes the home-image rules for all of its copies.
+    Check those critical addresses for every placement; check the full symbol
+    inventory of each moved entry or changed-home copy. No other binding input
+    changes. Unused ambiguous critical addresses do not create fake refusals.
+    """
     images, by_place, by_row, local = L.load(root)
-    moves = {r: t for r, t in moves.items() if r in by_row and by_row[r]["image"] != t and t in images}
-    # resolution preservation over every entry of every touched view
-    touched = {by_row[x]["image"] for x in moves} | set(moves.values())
+    requested = dict(moves)
+    moves = {}
+    for rid, target in requested.items():
+        if rid not in by_row or target not in images:
+            raise ValueError('unknown gather row/image: ' + rid)
+        entry = by_row[rid]
+        old, new = images[entry['image']], images[target]
+        if entry['image'] == target:
+            continue
+        if (old['schema'] != L.SCHEMA or new['schema'] != L.SCHEMA
+                or old['container'] != new['container'] or new.get('vma') is None
+                or new['vma'] - new['foff'] != entry['vma'] - entry['foff']
+                or not (new['foff'] <= entry['foff']
+                        and entry['foff'] + entry['size'] <= new['foff'] + new['size'])):
+            raise ValueError('gather requires enclosing same-delta legacy views: ' + rid)
+        moves[rid] = target
+    touched = {by_row[x]['image'] for x in moves} | set(moves.values())
+    changed_homes = {rid for rid in moves if by_row[rid]['home'] == rid}
+    critical = {by_row[by_row[rid]['home']]['vma'] for rid in moves}
     new_by_row = dict(by_row)
-    for x, t in moves.items():
-        new_by_row[x] = dict(by_row[x], image=t)
+    for rid, target in moves.items():
+        new_by_row[rid] = dict(by_row[rid], image=target)
     new_local = {}
-    for e in new_by_row.values():
-        h = new_by_row[e["home"]]
-        if e is not h and e["row"] != e["home"]:
-            new_local.setdefault(e["image"], {}).setdefault(h["vma"], []).append((h["image"], e["vma"]))
-    old_t = (images, by_place, by_row, local)
-    new_t = (images, by_place, new_by_row, new_local)
+    for entry in new_by_row.values():
+        home = new_by_row[entry['home']]
+        if entry['row'] != entry['home']:
+            new_local.setdefault(entry['image'], {}).setdefault(home['vma'], []).append(
+                (home['image'], entry['vma']))
+    old_tables = (images, by_place, by_row, local)
+    new_tables = (images, by_place, new_by_row, new_local)
     cache, extra, refused = {}, {}, []
-    for e in list(new_by_row.values()):
-        if e["image"] not in touched and by_row[e["row"]]["image"] not in touched:
+    for entry in new_by_row.values():
+        if entry['row'] == entry['home']:
             continue
-        if e["row"] == e["home"]:
-            continue
+        old_entry = by_row[entry['row']]
+        needs_inventory = entry['row'] in moves or entry['home'] in changed_homes
+        symbols = None
         try:
-            syms = home_symbols(root, e["home"], work, cache)
-        except Exception as exc:  # noqa: BLE001
-            refused.append((e["row"], "home compile: %s" % exc))
-            continue
-        old_e = by_row[e["row"]]
-        for a in syms:
-            try:
-                ov = L._binding(old_t, old_e, a)
-            except ValueError as exc:
-                refused.append((e["row"], "old resolution ambiguous: %s" % exc))
-                continue
-            try:
-                nv = L._binding(new_t, e, a)
-            except ValueError:
-                nv = None
-            if nv != ov:
-                extra.setdefault(e["row"], {})["0x%08X" % a] = "0x%08X" % ov
-    return dict(moves=moves, bindings=extra, refused=refused, touched=sorted(touched))
+            if needs_inventory:
+                symbols = set(home_symbols(root, entry['home'], work, cache))
+            addresses = critical | (symbols or set())
+            for address in sorted(addresses):
+                try:
+                    before = L._binding(old_tables, old_entry, address)
+                except ValueError as exc:
+                    if symbols is None:
+                        symbols = set(home_symbols(root, entry['home'], work, cache))
+                    if address in symbols:
+                        refused.append((entry['row'], 'old resolution ambiguous: ' + str(exc)))
+                    continue
+                try:
+                    after = L._binding(new_tables, entry, address)
+                except ValueError:
+                    after = None
+                if before != after:
+                    extra.setdefault(entry['row'], {})['0x%08X' % address] = '0x%08X' % before
+        except Exception as exc:
+            refused.append((entry['row'], 'home compile: ' + str(exc)))
+    touched.update(by_row[rid]['image'] for rid in extra)
+    return dict(moves=moves, bindings=extra, refused=refused, touched=sorted(touched),
+                changed_homes=sorted(changed_homes), critical_addresses=sorted(critical))
 
 
 def apply(root, p, check=False):
+    if p.get("refused"):
+        raise ValueError("binding-preservation plan has unresolved refusals")
     moves, extra = p["moves"], p["bindings"]
     docs = {}
     for path in L.files(root):
@@ -174,7 +205,7 @@ def apply(root, p, check=False):
             if row in moves and d["image"] != moves[row]:
                 d["entries"].remove(e)
                 e["evidence"] = (e.get("evidence", "") + "; " if e.get("evidence") else "") + \
-                    "opus_place1 view_merge: moved from %s (same load delta) so the merged file's members share one view" % d["image"]
+                    "TU view gather: moved from %s (same load delta) so the merged file's members share one view" % d["image"]
                 taken[row] = e
     for row, e in taken.items():
         d = docs[byimg[moves[row]]]

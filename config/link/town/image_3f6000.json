@@ -137,17 +137,6 @@
       "size": 108
     },
     {
-      "row": "town/func_803D74E0",
-      "tu": "src/town/scene/get_indexed_vertex_and_trace.c",
-      "home": "town/func_8046C280",
-      "foff": "0x3F74E0",
-      "vma": "0x800184E0",
-      "size": 404,
-      "bindings": {
-        "0x8001E7E4": "0x8001E7E4"
-      }
-    },
-    {
       "row": "town/func_803D76B0",
       "tu": "src/town/scene/find_entry_index_assert.c",
       "home": "town/func_8032ECE4",
@@ -228,7 +217,8 @@
         "0x8001dc10": "0x8001a008",
         "0x800196e4": "0x800188b0",
         "0x8001976c": "0x80018938",
-        "0x80019f94": "0x80019160"
+        "0x80019f94": "0x80019160",
+        "0x8001D280": "0x800184E0"
       },
       "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_80478210; opus_place1 view_merge: moved from town/region_3f6298_3f86e8 (same load delta) so the merged file's members share one view"
     },
@@ -263,7 +253,8 @@
       "size": 72,
       "bindings": {
         "0x80016000": "0x80016000",
-        "0x8001E7E4": "0x80019A44"
+        "0x8001E7E4": "0x80019A44",
+        "0x8001D280": "0x800184E0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     }
