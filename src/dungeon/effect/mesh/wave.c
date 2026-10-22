@@ -585,7 +585,7 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
         scratch->z = (u16)coords->z.w.i;
         scratch->cursor = (u8 *)packet + 0xC;
 
-        depth_index = func_80065420(scratch, (u8 *)packet + 8, &scratch->xy, &scratch->depth);
+        depth_index = func_80065420(scratch, &packet->data, &scratch->xy, &scratch->depth);
         scratch->index = depth_index;
 
         if (depth_index < 0x1E0) {
@@ -1585,8 +1585,8 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         hit_result = check_adjacent_tile_height_clearance(position->unk_00.at02.v, position->unk_04.at02.v,
             position->unk_08.at02u.v, parent->unk_60.p2);
         if (hit_result << 16) {
-            (*(u16 *)((u8 *)self + 0x0A)) = 8;
-            (*(u16 *)((u8 *)self + 0x82)) = 0;
+            (self->state.u) = 8;
+            (self->timer) = 0;
             render_data->unk_0C.at02u.v = 0;
             render_data->unk_0C.at01u.v = 0;
             render_data->unk_0C.at00p.v = 0;

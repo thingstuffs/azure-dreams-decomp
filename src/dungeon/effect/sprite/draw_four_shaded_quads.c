@@ -278,14 +278,14 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
         }
 
         {
-            void *vertex0 = (u8 *)scratch + 0x64;
-            void *vertex1 = (u8 *)scratch + 0x6C;
-            void *vertex2 = (u8 *)scratch + 0x74;
-            void *vertex3 = (u8 *)scratch + 0x7C;
+            void *vertex0 = &scratch->unk_64;
+            void *vertex1 = &scratch->unk_6C;
+            void *vertex2 = &scratch->unk_74;
+            void *vertex3 = &scratch->unk_7C;
 
             depth = func_80065590(vertex0, vertex1, vertex2, vertex3,
-                              (u8 *)scratch + 0xD8, (u8 *)scratch + 0xDC,
-                              (u8 *)scratch + 0xE0, (u8 *)scratch + 0xE4,
+                              &scratch->unk_D8, &scratch->unk_DC,
+                              &scratch->unk_E0, &scratch->unk_E4,
                               (u8 *)scratch + 0x84, (u8 *)scratch + 0x88);
         }
         ((S_func_818BC9CC_2 *)scratch)->unk_B4 = depth;

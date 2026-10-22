@@ -317,7 +317,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             break;
         }
     } else {
-        if ((*(u16 *)((u8 *)linked_monster + 0x1E)) & 0x8000) {
+        if ((linked_monster->unk_1E) & 0x8000) {
             linked_flags = ((S_80025C80_0_pre *)effect_in)[-1].unk_00;
             linked_global = &object_flag_block;
             linked_flags |= 0x8000;

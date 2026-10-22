@@ -785,7 +785,7 @@ void initialize_random_effect_position(dungeon_setup_802842A0_S_800172A0_0 *sour
 
     state = &g_game_work.view;
     bounds = (u8 *)state + 0x1C4;
-    effect = (u8 *)state + 0xB8;
+    effect = &state->slot[0].unk_04;
     random_angle = (rand() & 0x1FFF) - 0x1000;
     if (!((u16) *((s16 *)&system_update_flags) & 2)) {
         position_x = source->unk_02 + (func_80064584(random_angle) * 2);

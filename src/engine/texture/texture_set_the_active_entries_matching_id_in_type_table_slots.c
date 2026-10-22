@@ -44,7 +44,7 @@ void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(S_800478
         do {
             if (((S_800478E8_2 *)((u8 *)slot_entries - 4))->unk_02 == list_type) {
                 entry = ((S_800478E8_2 *)((u8 *)slot_entries - 4))->unk_04;
-                entry_value = (s8 *)entry + 8;
+                entry_value = &entry->unk_08;
                 do {
                     if ((entry->flags & 0x20) && (((S_Entry *)((u8 *)entry_value - 8))->unk_06 == entry_id)) {
                         ((S_Entry *)((u8 *)entry_value - 8))->unk_08 = value;

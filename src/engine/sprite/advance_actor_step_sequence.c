@@ -47,7 +47,7 @@ void advance_actor_step_sequence(S_800477F4_Actor *actor)
                 s16 step_type;
                 node = (u8 *)node + 8;
                 step = (S_800477F4_Sub *)node;
-                step_type = *(s16 *)((char *)step + 2);
+                step_type = step->typeB;
                 if (step_type == 0) {
                     flags |= 0x5000;
                 } else {

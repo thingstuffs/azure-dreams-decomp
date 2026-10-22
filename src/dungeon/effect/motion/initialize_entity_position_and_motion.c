@@ -1062,7 +1062,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         }
         visual->unk_1A = (u16) ((s16)calculate_planar_heading(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
         boost_speed_x = motion->unk_14.half.unk_16;
-        step_y = (*(u16 *)((u8 *)visual + 0x1C));
+        step_y = (visual->unk_1C);
         coord_delta = visual->unk_0C.half.unk_0C;
         aim_angle = boost_speed_x * 4;
         boost_speed_x = aim_angle + 0x400;

@@ -647,11 +647,11 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
                 count = 1;
                 cursor = (u8 *)obj + 0x5C;
                 slot_x = (s32)buf;
-                *(void **)((u8 *)obj + 0x70) = (void *)slot_x;
+                obj->sub.slots[0] = (void *)slot_x;
                 value_a = count;
                 buf = D_80073618[icon_held];
                 buf = copy_records_through_end((void *)slot_x, buf);
-                *(u32 *)((u8 *)obj + 0x58) = 0x808080;
+                obj->sub.field38 = 0x808080;
             } else {
                 value_a = 0;
             }

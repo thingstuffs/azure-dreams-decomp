@@ -47,7 +47,7 @@ void initialize_person_projection(void) {
     view_state->color_matrix_02 = 0;
     view_state->color_matrix_12 = 0;
     view_state->color_matrix_22 = 0;
-    func_80064D50((u8 *)render_data + 0x70);
+    func_80064D50(&render_data->view.color_matrix_00);
     scene_state = (u8 *)render_data + 0x50;
     light_negative = -0x800;
     view_state->light_matrix_00 = light_negative;

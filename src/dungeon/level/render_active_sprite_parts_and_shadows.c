@@ -412,8 +412,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                     sprite_pair_visible = 0;
                     *((u16 *) (((s8 *) quad) + 0x20)) = (u16) (((s32) (scr->unk_0FC))
                         + ((s32) (scr->unk_0B8)));
-                    corner_y_or_height = (u16) (((s32) (scr->unk_0FE)) + ((s32) (*((u16 *) ((u8 *)scr
-                        + 0x0ba)))));
+                    corner_y_or_height = (u16) (((s32) (scr->unk_0FE)) + ((s32) (scr->unk_0BA)));
                     *((u16 *) (((s8 *) quad) + 0x22)) = corner_y_or_height;
                     if (((u32) (((*((u16 *) (((s8 *) quad) + 8))) + 0x20) & 0xFFFF)) < 0x181U) {
                         u16 visibility_y = (u16) ((*((u16 *) (((s8 *) quad) + 0xA))) + 0x20);
@@ -460,8 +459,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                         *((u16 *) (((s8 *) quad) + 0x16)) = part_header->unk_04;
                         *((s16 *) (((s8 *) quad) + 0x1C)) = (s16) (((u16) (scr->unk_014.u16))
                             + ((u16) (scr->unk_008.u16)));
-                        bottom_right_uv = ((u16) (scr->unk_014.u16)) + ((u16) (*((u16 *) ((u8 *)scr
-                            + 0x010))));
+                        bottom_right_uv = ((u16) (scr->unk_014.u16)) + ((u16) (scr->unk_010.u16));
                         *((s16 *) (((s8 *) quad) + 0x24)) = (s16) bottom_right_uv;
                         if (((s16) (*((u16 *) (((s8 *) quad) + 8)))) > ((s16) (*((u16 *) (((s8 *) quad) + 0x20))))) {
                             *((u8 *) (((s8 *) quad) + 0x14)) = (u8) ((*((u8 *) (((s8 *) quad) + 0x14))) - 1);

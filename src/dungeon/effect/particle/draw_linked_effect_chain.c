@@ -581,7 +581,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                         sprite->g = 0x80;
                         sprite->r = 0x80;
                         *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
-                        (*(void **)((u8 *)sprite + 8)) = task->data;
+                        (sprite->data) = task->data;
                     }
                 }
             }
@@ -653,7 +653,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     sprite->g = 0x80;
                                     sprite->r = 0x80;
                                     *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
-                                    (*(void **)((u8 *)sprite + 8)) = task->data;
+                                    (sprite->data) = task->data;
                                 }
                             }
 
@@ -702,7 +702,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     sprite->g = 0x80;
                                     sprite->r = 0x80;
                                     *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
-                                    (*(void **)((u8 *)sprite + 8)) = task->data;
+                                    (sprite->data) = task->data;
                                 }
                             }
 
@@ -752,7 +752,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     sprite->g = 0x80;
                                     sprite->r = 0x80;
                                     *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
-                                    (*(void **)((u8 *)sprite + 8)) = task->data;
+                                    (sprite->data) = task->data;
                                 }
 
                                 rechecked_timer = entity->timer;
@@ -805,7 +805,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                         sprite->g = 0x80;
                                         sprite->r = 0x80;
                                         *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
-                                        (*(void **)((u8 *)sprite + 8)) = task->data;
+                                        (sprite->data) = task->data;
                                     }
 
                                     saved_timer = entity->timer;
@@ -858,7 +858,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                             sprite->g = 0x80;
                                             sprite->r = 0x80;
                                             *(Row_819A1654_Blob12 *)(task->data) = D_8002618C[0];
-                                            (*(void **)((u8 *)sprite + 8)) = task->data;
+                                            (sprite->data) = task->data;
                                         }
 
                                         if (entity->timer == saved_timer) {

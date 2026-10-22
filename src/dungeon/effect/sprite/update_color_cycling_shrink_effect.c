@@ -149,10 +149,10 @@ void update_color_cycling_shrink_effect(void *effect_arg, S_func_818BD74C_1 *mot
         }
         effect->unk_10.s = 0;
         *(u16 *)((u8 *)effect - 2) = (u16)(*(u16 *)((u8 *)effect - 2) | 0x8000);
-        final_state = *(u16 *)((u8 *)effect + 0xE);
+        final_state = effect->unk_0E.u;
         {
             s32 global_flags = object_flag_block.flags;
-            *(u16 *)((u8 *)effect + 0xE) = (u16)(final_state + 1);
+            effect->unk_0E.u = (u16)(final_state + 1);
             object_flag_block.flags = global_flags | 0x8000;
         }
     }

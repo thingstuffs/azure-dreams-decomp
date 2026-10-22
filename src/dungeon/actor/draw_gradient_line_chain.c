@@ -64,8 +64,8 @@ s32 draw_gradient_line_chain(u8 *node)
         endpoint[0] = ((S_80024740_0 *)node)->unk_1E;
         endpoint[1] = ((S_80024740_0 *)node)->unk_22;
         endpoint[2] = ((S_80024740_0 *)node)->unk_26;
-        start_depth = func_80065420(endpoint, (u8 *)line + 8, &projection_param, &projection_flags);
-        mean_depth = (start_depth + func_80065420(node + 0xC, (u8 *)line + 0x10, &projection_param, &projection_flags)) >> 1;
+        start_depth = func_80065420(endpoint, &line->x0, &projection_param, &projection_flags);
+        mean_depth = (start_depth + func_80065420(node + 0xC, &line->x1, &projection_param, &projection_flags)) >> 1;
         zero = 0;
         if ((u16)mean_depth < 0x1E0U) {
             ot_offset = (s16)mean_depth * 4;

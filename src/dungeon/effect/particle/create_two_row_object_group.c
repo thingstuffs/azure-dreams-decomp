@@ -767,8 +767,8 @@ void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *pos
     case 2:
         advance_sprite_animation_and_textures(effect);
         {
-            u16 remaining = *(u16 *)((u8 *)state + 6) - 1;
-            *(u16 *)((u8 *)state + 6) = remaining;
+            u16 remaining = state->count - 1;
+            state->count = remaining;
             if ((remaining << 0x10) <= 0) {
                 *(u16 *)((u8 *)state - 2) |= 0x8000;
                 object_flag_block.flags = object_flag_block.flags | 0x8000;
@@ -1110,7 +1110,7 @@ void transform_rotated_vertices(Struct_800D6330 *transform) {
     scratch.s.input_2 = transform->unk14;
     func_80064D80(scratch.rotation_matrix);
     if (transform->unk1A == 0) {
-        func_80065820((s8 *) transform + 8, scratch.rotation_matrix);
+        func_80065820(&transform->unk08, scratch.rotation_matrix);
     } else {
         index = 2;
         if (transform->unk1A != 0x8000) {

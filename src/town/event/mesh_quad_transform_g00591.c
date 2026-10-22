@@ -96,8 +96,8 @@ void transform_and_queue_mesh_quads(S_func_800AC9AC_0 *mesh, void *transform)
 
             scratch->unk_C4 = func_800654B0(
                 vertex_0, vertex_1, vertex_2, vertex_3,
-                (u8 *)scratch + 0xE8, (u8 *)scratch + 0xEC,
-                (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
+                &scratch->unk_E8, &scratch->unk_EC,
+                &scratch->unk_F0, &scratch->unk_F4,
                 (u8 *)scratch + 0x94, (u8 *)scratch + 0x98) - 0x30;
 
             quad->unk_08 = scratch->unk_E8;

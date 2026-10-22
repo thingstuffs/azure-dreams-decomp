@@ -88,7 +88,7 @@ s32 func_80024044(void *object_data, void *position_data)
         scratch->next = tile_prim + 0xC;
 
         scratch->index = func_80065420(scratch, tile_prim + 8,
-            (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+            &scratch->unk90, &scratch->unk94);
 
         if (scratch->index < 0x1E0U) {
             *(u32 *)(tile_prim + 4) = *(u32 *)(object + 8);
@@ -106,7 +106,7 @@ s32 func_80024044(void *object_data, void *position_data)
 
             prim = scratch->next;
             next_prim = prim + 0xC;
-            *(u8 **)((u8 *)scratch + 0x18) = next_prim;
+            scratch->next = next_prim;
             draw_mode = func_80066460(0, 1, 0, 0);
             func_80067F20(prim, 0, 0, draw_mode & 0xFFFF, 0);
 

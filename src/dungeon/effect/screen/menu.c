@@ -166,7 +166,7 @@ void draw_textured_ellipse_segments(DungeonPosition *position, DungeonParameters
     scratchpad->tex_w = parameters->x1;
     scratchpad->tex_h = parameters->y1;
     segment = 0;
-    if (segment < (*(u16 *)((u8 *)parameters + 0xE))) {
+    if (segment < (parameters->count)) {
         blend_setting = blend_mode & 0xFFFF;
         packet_code = cursor + 7;
         angle_step = segment;
@@ -207,7 +207,7 @@ loop_0:
                 offset = scratch >> 12;
                 scratchpad->cur.v.x = position->x + offset;
             }
-            trig_value = func_800644B8(angle_step / (*(u16 *)((u8 *)parameters + 0xE)));
+            trig_value = func_800644B8(angle_step / (parameters->count));
             {
                 offset = parameters->y2;
                 scratch = offset * trig_value;
@@ -1572,7 +1572,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
         if (work->timer != 0) {
             work->cur_x += (target_pos[0] - work->cur_x) / work->timer;
             work->cur_y += (target_pos[1] - work->cur_y) / work->timer;
-            if ((*(s16 *)((u8 *)work + 0x12)) != 2) {
+            if ((work->mode) != 2) {
                 u8 *height_base;
                 s32 current_height;
                 trig_value = func_800644B8(work->timer << 8);
@@ -1581,8 +1581,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 entity = ((Node *)height_base)->entity;
                 entity = (Entity *)(u32)entity->kind;
                 entity = (Entity *)((u8 *)entity + (u32)entity_height_offsets);
-                height_step = (target_pos[2] - ((s32)*(u8 *)entity << 16) - current_height) / (*(s16 *)((u8 *)work
-                    + 0xE));
+                height_step = (target_pos[2] - ((s32)*(u8 *)entity << 16) - current_height) / (work->timer);
                 height_step -= (trig_value * work->timer) << 6;
                 work->y.whole += height_step;
                 if (work->node->entity->flags & 0x80000) {
@@ -1693,7 +1692,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
                 } else {
                     s32 amount;
                     GlobalObj *object;
-                    result = get_special_table_data_index((*(s32 *)((u8 *)work + 0x2C)));
+                    result = get_special_table_data_index((work->handle));
                     amount = (s16)result;
                     object = *(GlobalObj **)((GlobalObj * *)(&dungeon_actor_ring_anchor));
                     append_packed_action_record(object, 0x50,
@@ -1750,7 +1749,7 @@ void update_item_target_marker(Work *work, Out *out, Render *render_arg)
         advance_sprite_animation_and_textures(render);
     }
     trig_value = func_80064584(controls->view.camera_rotation.parts.viewAngle);
-    *(s16 *)((u8 *)out + 2) = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
+    out->x = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
     trig_value = func_800644B8(controls->view.camera_rotation.parts.viewAngle);
     out->y = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_y + 2);
     out->z = work->x + work->y.whole + (work->bias << 15);

@@ -122,7 +122,7 @@ s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *sta
         scratch->z = (u16)coords->z.w.i;
         scratch->cursor = (u8 *)packet + 0xC;
 
-        depth_index = func_80065420(scratch, (u8 *)packet + 8, &scratch->xy, &scratch->depth);
+        depth_index = func_80065420(scratch, &packet->data, &scratch->xy, &scratch->depth);
         scratch->index = depth_index;
 
         if (depth_index < 0x1E0) {

@@ -96,7 +96,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
                 sub_data->unk_05 = 0;
                 sub_data->color.word = 0;
                 sub_data->source = resource_word;
-                __builtin_memcpy((u8 *)entry + 0x2C, (u8 *)controller + 4, 8);
+                __builtin_memcpy((u8 *)entry + 0x2C, &controller->unk_04, 8);
                 entry_data->unk_4A = (spawn_index & 1) ? 1 : -1;
                 ((MovingPosition *)entry->child)->unk_0A = controller->unk_08;
             }

@@ -39,5 +39,5 @@ void *func_8004EFF4(S_8004EFF4 *record)
     ((S_8004EFF4_sub *)record)->unk18_04 = 0x20;
     ((S_8004EFF4_sub *)record)->unk18_06 = 1;
     ((S_8004EFF4_sub *)record)->unk18_00 = ((S_8004EFF4_sub *)record)->unk18_00 | 0x80;
-    return (u8 *)record + 0xC;
+    return &record->unk0C;
 }

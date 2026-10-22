@@ -212,7 +212,7 @@ s32 func_800244E4(PointRecord *first_point, ObjectPosition *first_position)
         scratch->y = position->y.w.i;
         scratch->z = position->z.w.i;
         scratch->cursor = (u8 *)tile + 0xC;
-        scratch->index = func_80065420(scratch, (u8 *)tile + 8,
+        scratch->index = func_80065420(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {

@@ -31,7 +31,7 @@ void build_record_pointer_table(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
     u32 *outputSlot;
     u32 *firstSlot;
 
-    recordCount = (*(s32 *)((u8 *)recordBlock + 0x10));
+    recordCount = (recordBlock->count);
     slotIndex = 0;
     tableByteOffset &= 0xFFFF;
     tableBase = (u8 *)audio_selection_record_pointers;

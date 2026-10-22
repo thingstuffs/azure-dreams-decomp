@@ -119,7 +119,7 @@ void build_visible_tile_quads(u8 *tiles)
 
                 if ((u32)depth < 0x1E0) {
                     gte_stsxy(prim + 0x20);
-                    func_80065034(scratch + 0x28, (u8 *)globals + 0xA8, prim + 4);
+                    func_80065034(scratch + 0x28, &globals->view.tint.word, prim + 4);
                     *(u32 *)(prim + 0xC) = ((S_800D1824_4 *)style)->unk_08;
                     *(u32 *)(prim + 0x14) = ((S_800D1824_4 *)style)->unk_0C;
                     *(u16 *)(prim + 0x1C) = ((S_800D1824_4 *)style)->unk_12;

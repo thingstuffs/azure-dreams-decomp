@@ -55,25 +55,25 @@ s32 select_next_event_state(void) {
     if ((func_8001E670(F_sero_end) != 0) && (func_8001E670(F_niko_selro_asa) == 0)) {
         func_8001E578(F_niko_selro_asa);
         func_8001E5F0(Fp_niko_kenkatyu);
-        *((u8 *)town_event_state + 5) = 9;
+        town_event_state->unk_05 = 9;
         return;
     }
     if ((func_8001E670(F_s04_niko_step) != 0) && (func_8001E670(F_sbs01_pad18) == 0)) {
         func_8001E578(F_sbs01_pad18);
-        *((u8 *)town_event_state + 5) = 10;
+        town_event_state->unk_05 = 10;
         return;
     }
     if (func_8001E670(F_end_ending) == 0) {
         if ((func_8001E670(F_veldil_dungeon_deatta) != 0) && (func_8001E670(F_sbs01_pad16) == 0)) {
             func_8001E578(F_sbs01_pad16);
-            *((u8 *)town_event_state + 3) = find_first_enabled_entry_id();
+            town_event_state->unk_03 = find_first_enabled_entry_id();
         }
         if ((func_8001E670(F_sbs01_pad09) != 0) && (func_8001E670(sn_return_successful) == 0)) {
             state = town_event_state;
             value = *((u8 *)state + 3);
             if (value != 0) {
                 *((u8 *)state + 4) = value;
-                *((u8 *)town_event_state + 5) = 7;
+                town_event_state->unk_05 = 7;
             } else {
                 *((u8 *)state + 5) = 8;
             }
@@ -84,7 +84,7 @@ s32 select_next_event_state(void) {
             value = *((u8 *)state + 3);
             if (value != 0) {
                 *((u8 *)state + 4) = value;
-                *((u8 *)town_event_state + 5) = 5;
+                town_event_state->unk_05 = 5;
             } else {
                 *((u8 *)state + 5) = 6;
             }
@@ -96,7 +96,7 @@ s32 select_next_event_state(void) {
             value = *((u8 *)state + 3);
             if (value != 0) {
                 *((u8 *)state + 4) = value;
-                *((u8 *)town_event_state + 5) = 3;
+                town_event_state->unk_05 = 3;
             } else {
                 *((u8 *)state + 5) = 4;
             }
@@ -108,8 +108,8 @@ s32 select_next_event_state(void) {
         if (result == 0) {
             result = advance_to_next_enabled_entry();
         }
-        *((u8 *)town_event_state + 4) = result;
-        *((u8 *)town_event_state + 5) = 2;
+        town_event_state->unk_04 = result;
+        town_event_state->unk_05 = 2;
         return;
     }
     if ((func_8001E670(F_selfy_get_tamago) == 0) || (func_8001E670(Ft_niko_love) != 0)) {

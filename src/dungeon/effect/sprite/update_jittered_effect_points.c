@@ -659,8 +659,8 @@ s32 update_segment(void *node)
         prim.f0C = *((u16 *) (((s8 *) base) + 0xC8));
         transform_rotated_vertices(&prim, (s16) sxy[5].y);
         for (i = 0; i < 4; i++) {
-            poly = *((void **) (((s8 *) (*((void **) (((s8 *) base) + 0)))) + 0x8D0));
-            *((void **) (((s8 *) (*((void **) (((s8 *) base) + 0)))) + 0x8D0)) = (void *) (((u8 *) poly) + 0x28);
+            poly = *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0));
+            *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0)) = (void *) (((u8 *) poly) + 0x28);
             *((s32 *) (((s8 *) poly) + 4)) = *((s32 *) (((s8 *) obj) + 0x38));
             func_800666F4(poly);
             func_80066640(poly, 1);
@@ -693,10 +693,10 @@ s32 update_segment(void *node)
                 u32 high_mask = 0xFF000000;
                 slot_offset = mid_otz * 4;
                 *((s32 *) (((s8 *) poly) + 0)) = (s32) (((*((s32 *) (((s8 *) poly) + 0))) & high_mask)
-                    | ((*((s32 *) (((s8 *) (((u8 *) slot_offset) + ((u32) (*((void **) (((s8 *) base) + 0))))))
+                    | ((*((s32 *) (((s8 *) (((u8 *) slot_offset) + ((u32) (base->draw_buffer))))
                     + 0xB0))) & low_mask));
-                *((s32 *) (((s8 *) (((u8 *) slot_offset) + ((u32) (*((void **) (((s8 *) base) + 0)))))) + 0xB0)) =
-                    (s32) (((*((s32 *) (((s8 *) (((u8 *) slot_offset) + ((u32) (*((void **) (((s8 *) base) + 0))))))
+                *((s32 *) (((s8 *) (((u8 *) slot_offset) + ((u32) (base->draw_buffer)))) + 0xB0)) =
+                    (s32) (((*((s32 *) (((s8 *) (((u8 *) slot_offset) + ((u32) (base->draw_buffer))))
                     + 0xB0))) & high_mask) | (((s32) poly) & low_mask));
             }
         }

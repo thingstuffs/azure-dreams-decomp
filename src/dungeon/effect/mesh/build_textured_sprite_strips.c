@@ -250,8 +250,8 @@ void build_textured_sprite_strips(void *screen_pos, void *sprite, s32 *ordering_
                     scratch->unk_82 = edge;
                 }
             }
-            func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
-                (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
+            func_800654B0(&scratch->unk_70, &scratch->unk_78, &scratch->unk_80, &scratch->unk_88,
+                &scratch->unk_F0, &scratch->unk_F4, &scratch->unk_F8, &scratch->unk_FC,
                 (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
             packet->unk_08.as_s16_08 = (s16) (scratch->unk_F0 + scratch->unk_B8);
             packet->unk_0A = (s16) (scratch->unk_F2 + scratch->unk_BA);
@@ -593,7 +593,7 @@ s32 draw_brightness_scaled_linked_tiles(PointRecord *first_point, ObjectPosition
         scratch->y = (u16)position->y.w.i;
         scratch->z = (u16)position->z.w.i;
         scratch->cursor = (u8 *)tile + 0xC;
-        scratch->index = func_80065420(scratch, (u8 *)tile + 8,
+        scratch->index = func_80065420(scratch, &tile->data,
                                        &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {

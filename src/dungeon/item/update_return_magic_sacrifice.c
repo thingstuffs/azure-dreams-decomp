@@ -251,7 +251,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         object_coords = ((u8 *)(&reference_tile_object));
         effect_object = dungeon_actor_ring_anchor;
         D_800DF55C = effect_object;
-        if (create_five_point_effect(((u8 *)object_coords)[0x24], ((u8 *)object_coords)[0x25],
+        if (create_five_point_effect(object_coords->unk_24, object_coords->unk_25,
             ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, 0x208020, &D_800C0180) == 0) {
             return;
         }

@@ -817,7 +817,7 @@ s32 kewn_namewin_close_check(void) {
     s32 close_flag;
     void *matched_item;
 
-    close_flag = *(u16 *)((u8 *)active_item_view + 0x1E) & 0x8000 & 0xFFFF;
+    close_flag = active_item_view->unk_1E & 0x8000 & 0xFFFF;
     if (close_flag != 0) {
         strcpy((void *)0x80010238, (void *)0x80010AB4);
         matched_item = find_item_by_kind_and_type(2, 0x13);

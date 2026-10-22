@@ -162,10 +162,10 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     scratch->unk_A4 = object->unk_16;
     scratch->unk_A8 = object->unk_1A;
     scratch->unk_A6 = object->unk_18;
-    func_80065820((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
+    func_80065820(&scratch->unk_A4, (u8 *)scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    func_80064BC0((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
+    func_80064BC0((u8 *)scratch + 0x54, &scratch->unk_34);
     func_80064D80((u8 *)scratch + 0x54);
     func_80064CF0((u8 *)scratch + 0x54);
 
@@ -175,7 +175,7 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     packet = (S_func_81970800_5 *)((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_8D0;
     ((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_8D0 = (u8 *)packet + 0xC;
     func_80067F20(packet, 0, 0, func_80066460(0, 0, 0, 0) & 0xFFFF, 0);
-    (*(u32 *)((u8 *)packet + 0)) = (packet->unk_00.unk_00 & 0xFF000000) |
+    (packet->unk_00.unk_00) = (packet->unk_00.unk_00 & 0xFF000000) |
         (((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_B0 & 0x00FFFFFF);
     (*(u32 *)((u8 *)g_game_work.draw_buffer + 0xB0)) =
         (((S_func_81970800_6 *)g_game_work.draw_buffer)->unk_B0 & 0xFF000000) |
@@ -202,10 +202,10 @@ void project_and_queue_visible_shaded_quad(S_func_81970800_4 *quad, S_func_81970
     scratch->unk_C4 = quad->unk_5C;
     scratch->unk_CC = quad->unk_62;
 
-    depth = func_80065590((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
-                          (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
-                          (u8 *)packet + 8, (u8 *)packet + 0x10,
-                          (u8 *)packet + 0x18, (u8 *)packet + 0x20,
+    depth = func_80065590(&scratch->unk_B0, &scratch->unk_B8,
+                          &scratch->unk_C0, &scratch->unk_C8,
+                          &packet->unk_08, &packet->unk_10,
+                          &packet->unk_18, &packet->unk_20,
                           (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4) - depth_bias - 6;
     scratch->unk_100 = depth;
 

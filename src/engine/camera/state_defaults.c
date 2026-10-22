@@ -11,17 +11,17 @@ s32 camera_default_origin_tail = 0x400;
 /* Clears camera transition fields, restores the default origin and rotation, and binds the view reference. */
 void reset_camera_transition_fields(void)
 {
-    u8 *state = (u8 *)(&g_game_work.view);
+    GameView *state = &g_game_work.view;
 
-    bzero(state + 0x9C, 8);
-    *(s32 *)(state + 0x94) = camera_default_origin_xy;
-    *(s32 *)(state + 0x98) = camera_default_origin_tail;
-    *(s32 *)(state + 0xAC) = camera_default_rotation_xy;
-    *(s32 *)(state + 0xB0) = camera_default_rotation_tail;
-    bzero(state + 0xA4, 8);
-    *(s32 *)(state + 0x13C) = 0;
-    *(s32 *)(state + 0x180) = 0;
-    *(s32 *)(state + 0xB4) = 0;
-    *(s32 *)(state + 0xF8) = 0;
+    bzero(&state->view_rotation_offset, 8);
+    state->view_offset.words[0] = camera_default_origin_xy;
+    state->view_offset.words[1] = camera_default_origin_tail;
+    state->camera_rotation.words[0] = camera_default_rotation_xy;
+    state->camera_rotation.words[1] = camera_default_rotation_tail;
+    bzero(&state->camera_position, 8);
+    state->slot[2].callback = 0;
+    state->slot[3].callback = 0;
+    state->slot[0].callback = 0;
+    state->slot[1].callback = 0;
     bind_view_triplet_source(((u8 *)(&view_reference_entity)));
 }

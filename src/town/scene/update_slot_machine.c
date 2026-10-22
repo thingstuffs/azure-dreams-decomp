@@ -562,7 +562,7 @@ matrix_outer:
             sprite->unk_0C = tint;
             position_or_effect->unk_00.p = self;
             position_or_effect->unk_50 = effect_config;
-            func_8023FA58((u8 *)position_or_effect + 8, effect_obj->unk_08, D_8053016C);
+            func_8023FA58(&position_or_effect->unk_08, effect_obj->unk_08, D_8053016C);
         }
     }
 

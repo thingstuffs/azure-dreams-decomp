@@ -226,7 +226,7 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
         {
             u16 screen_x;
             s32 rotation_z;
-            screen_x = *(u16 *)((u8 *)scratch + 0xB8);
+            screen_x = scratch->h[92];
             SP16(scratch, 0xB8) = screen_x - 0xA0;
             SP16(scratch, 0xBA) -= 0x78;
             SP32(scratch, 0x30) = *(s16 *)((u8 *)render_state + 0xC4);
@@ -247,17 +247,17 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
             SP32(scratch, 0xE8) = sprite_extent;
             SP16(scratch, 0x10A) = sprite_extent;
 
-            RotMatrix((u8 *)scratch + 0x100, (u8 *)scratch + 0xD0);
+            RotMatrix(&scratch->w[64], &scratch->w[52]);
         }
         scale_x = E16(entry, 0x1C);
         SP32(scratch, 0x30) = scale_x;
         scale_y = E16(entry, 0x1E);
         SP32(scratch, 0x38) = 0x1000;
         SP32(scratch, 0x34) = scale_y;
-        ScaleMatrix((u8 *)scratch + 0xD0, (u8 *)scratch + 0x30);
-        CompMatrix(sprite_projection_matrix, (u8 *)scratch + 0xD0, (u8 *)scratch + 0x50);
-        SetTransMatrix((u8 *)scratch + 0x50);
-        SetRotMatrix((u8 *)scratch + 0x50);
+        ScaleMatrix(&scratch->w[52], &scratch->h[24]);
+        CompMatrix(sprite_projection_matrix, &scratch->w[52], &scratch->h[40]);
+        SetTransMatrix(&scratch->h[40]);
+        SetRotMatrix(&scratch->h[40]);
 
         command = *(Command **)((u8 *)entry + 8);
         SP16(scratch, 0x24) = E16(entry, 0x14);
@@ -312,20 +312,20 @@ void project_sprite_commands(void *context, void *position, Entry *entry, s16 de
                     SP16(scratch, 0x82) = coord;
                 }
 
-                RotTransPers4((u8 *)scratch + 0x70, (u8 *)scratch + 0x78,
-                    (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
+                RotTransPers4(&scratch->h[56], &scratch->h[60],
+                    &scratch->h[64], &scratch->h[68],
                     (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
                     (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
                     (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
 
-                *(u16 *)((u8 *)packet + 0x08) = SP16(scratch, 0xF0) + SP16(scratch, 0xB8);
-                *(u16 *)((u8 *)packet + 0x0A) = SP16(scratch, 0xF2) + SP16(scratch, 0xBA);
-                *(u16 *)((u8 *)packet + 0x10) = SP16(scratch, 0xF4) + SP16(scratch, 0xB8);
-                *(u16 *)((u8 *)packet + 0x12) = SP16(scratch, 0xF6) + SP16(scratch, 0xBA);
-                *(u16 *)((u8 *)packet + 0x18) = SP16(scratch, 0xF8) + SP16(scratch, 0xB8);
-                *(u16 *)((u8 *)packet + 0x1A) = SP16(scratch, 0xFA) + SP16(scratch, 0xBA);
+                packet->x0 = SP16(scratch, 0xF0) + SP16(scratch, 0xB8);
+                packet->y0 = SP16(scratch, 0xF2) + SP16(scratch, 0xBA);
+                packet->x1 = SP16(scratch, 0xF4) + SP16(scratch, 0xB8);
+                packet->y1 = SP16(scratch, 0xF6) + SP16(scratch, 0xBA);
+                packet->x2 = SP16(scratch, 0xF8) + SP16(scratch, 0xB8);
+                packet->y2 = SP16(scratch, 0xFA) + SP16(scratch, 0xBA);
                 vertex_0_visible = 0;
-                *(u16 *)((u8 *)packet + 0x20) = SP16(scratch, 0xFC) + SP16(scratch, 0xB8);
+                packet->x3 = SP16(scratch, 0xFC) + SP16(scratch, 0xB8);
                 coord = SP16(scratch, 0xFE) + SP16(scratch, 0xBA);
                 P16(packet, 0x22) = coord;
 

@@ -271,10 +271,10 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
     scratch->unk_A4 = ((SpriteFrameState *)object)->angle_x;
     scratch->unk_A8 = ((SpriteFrameState *)object)->angle_z;
     scratch->unk_A6 = ((SpriteFrameState *)object)->angle_y;
-    func_80065820((u8 *)scratch + 0xA4, (u8 *)scratch + 0x74);
+    func_80065820(&scratch->unk_A4, (u8 *)scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
-    func_80064BC0((u8 *)scratch + 0x54, (u8 *)scratch + 0x34);
+    func_80064BC0((u8 *)scratch + 0x54, &scratch->unk_34);
     func_80064D80((u8 *)scratch + 0x54);
     func_80064CF0((u8 *)scratch + 0x54);
 
@@ -312,10 +312,10 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
             scratch->unk_C4.as_u16_C4 = mesh->unk_6C.as_u16_6C;
             scratch->unk_CC.as_u16_CC = mesh->unk_6E.as_u16_6E;
 
-            ot_index = func_80065590((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
-                                     (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
-                                     (u8 *)packet + 8, (u8 *)packet + 0x10,
-                                     (u8 *)packet + 0x18, (u8 *)packet + 0x20,
+            ot_index = func_80065590(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
+                                     &scratch->unk_C0.as_s16_C0, &scratch->unk_C8.as_s16_C8,
+                                     &packet->unk_08.as_s16_08, &packet->unk_10,
+                                     &packet->unk_18, &packet->unk_20.as_s16_20,
                                      (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
                                      ({ EmptyArg empty; empty; })) - depth_offset - 6;
             scratch->unk_100 = ot_index;
@@ -415,7 +415,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
 
             render_state = game_work->draw_buffer;
             line = render_state->unk_8D0;
-            render_state->unk_8D0 = (u8 *)line + 0x10;
+            render_state->unk_8D0 = &line->unk_10;
 
             coord_a = mesh->unk_58.as_s16_58;
             coord_b = mesh->unk_5C.as_s16_5C;
@@ -448,10 +448,10 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
             scratch->unk_CC.as_s16_CC = midpoint_z;
             scratch->unk_BC.as_s16_BC = midpoint_z;
 
-            ot_index = func_80065590((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
-                                     (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
-                                     (u8 *)line + 8, (u8 *)line + 0x0C,
-                                     (u8 *)line + 8, (u8 *)line + 0x0C,
+            ot_index = func_80065590(&scratch->unk_B0.as_s16_B0, &scratch->unk_B8.as_s16_B8,
+                                     &scratch->unk_C0.as_s16_C0, &scratch->unk_C8.as_s16_C8,
+                                     &line->unk_08.as_s16_08, &line->unk_0C,
+                                     &line->unk_08.as_s16_08, &line->unk_0C,
                                      (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
                                      ({ EmptyArg empty; empty; })) - depth_offset - 6;
             scratch->unk_100 = ot_index;
@@ -474,7 +474,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
 
             tpage_state = game_work->draw_buffer;
             tpage = tpage_state->unk_8D0;
-            tpage_state->unk_8D0 = (u8 *)tpage + 0x0C;
+            tpage_state->unk_8D0 = &tpage->unk_0C;
             func_80067F20(tpage, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
             setaddr(tpage, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
             setaddr((u32 *)scratch->unk_24 + scratch->unk_100, tpage);

@@ -49,18 +49,18 @@ s32 update_sound_settings_from_pad(void *actor)
     }
     if (stopped == 0) {
         if (g_game_work.view.slot[2].callback == 0) {
-            if (((*((s32 *) (((s8 *) base) + 8))) & 0x10) == 0) {
-                if ((*((s32 *) (((s8 *) base) + 8))) & 8) {
+            if (((base->buttons) & 0x10) == 0) {
+                if ((base->buttons) & 8) {
                     changed = 1;
                     dungeon_camera_targets[2] = dungeon_camera_targets[2] - 0x200;
                 }
                 else
-                    if ((*((s32 *) (((s8 *) base) + 8))) & 4) {
+                    if ((base->buttons) & 4) {
                         changed = 1;
                         dungeon_camera_targets[2] = dungeon_camera_targets[2] + 0x200;
                     }
             }
-            if ((*((s32 *) (((s8 *) base) + 8))) & 0x10) {
+            if ((base->buttons) & 0x10) {
                 if ((*((s32 *) (((s8 *) base) + 0x10))) & 1) {
                     changed = 1;
                     value = (u16) ((camera_pitch_index[0] + 1) & 3);
@@ -74,7 +74,7 @@ s32 update_sound_settings_from_pad(void *actor)
                 set_camera_targets(0, dungeon_camera_targets, 1);
             }
         }
-        if ((*((s32 *) (((s8 *) base) + 8))) & 0x10) {
+        if ((base->buttons) & 0x10) {
             if ((*((s32 *) (((s8 *) base) + 0x10))) & 4) {
                 value = (s16) ((camera_depth_index[0] + 1) & 3);
                 camera_depth_index[0] = value;
@@ -82,7 +82,7 @@ s32 update_sound_settings_from_pad(void *actor)
                 camera_depth_target[0] = camera_depth_presets[(u16) value];
             }
         }
-        if ((*((s32 *) (((s8 *) base) + 8))) & 0x10) {
+        if ((base->buttons) & 0x10) {
             if ((*((s32 *) (((s8 *) base) + 0x10))) & 2) {
                 advance_wrapped_cycle_index();
             }
@@ -92,7 +92,7 @@ s32 update_sound_settings_from_pad(void *actor)
                 animation_tick_scale[0] = 1;
             }
             else
-                if ((*((s32 *) (((s8 *) base) + 8))) & 0x30000) {
+                if ((base->buttons) & 0x30000) {
                     animation_tick_scale[0] = 2;
                 }
         }

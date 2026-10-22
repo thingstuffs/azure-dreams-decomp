@@ -541,7 +541,7 @@ void update_dungeon_tile_boundary_state(void *owner) {
     if (!(g_dungeon_status.flags & 2)) {
         return;
     }
-    if (*(s32 *)((u8 *)dungeon_actor_ring_anchor + 0x14) & 0x100000) {
+    if (dungeon_actor_ring_anchor->flags14 & 0x100000) {
         return;
     }
     if (reference_tile_object.tile_position.parts.tile_y != 0x24) {

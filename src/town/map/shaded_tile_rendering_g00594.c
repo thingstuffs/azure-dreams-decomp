@@ -134,7 +134,7 @@ void render_shaded_map_tiles(void) {
     scratch.ptr->unk_0C = (s16) runtime_initialize_polygon_edges((s32) work_ptr, (s32 *) coord_offset, (u16 *) edge_count);
     if (scratch.ptr->unk_174 != 0) {
         one = 1;
-        vertex_input = (u8 *)scratch.ptr + 0xE0;
+        vertex_input = &scratch.ptr->unk_E0;
         tile_uvs = (S_func_800AED64_10 *)map_tile_uvs;
         tag_low_mask = 0xFFFFFF;
         tag_high_mask = 0xFF000000;

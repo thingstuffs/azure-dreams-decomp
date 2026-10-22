@@ -216,7 +216,7 @@ void update_gym_minigame(u8 *state_obj) {
                 ((S_80022F60_2 *)motion)->unk_04 = 0x03800000;
                 (*(s32 *)((u8 *)motion + 0x10)) = 0;
                 D_800272CA = 0;
-                *(s32 *)(&view_reference_entity) = D_80026F26 << 16;
+                view_reference_entity.x.v = D_80026F26 << 16;
 
                 obj = allocate_list_node(one, alloc_page);
                 if (obj != NULL) {

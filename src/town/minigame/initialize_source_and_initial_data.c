@@ -23,7 +23,7 @@ void initialize_source_and_initial_data(minigame_pickup_source *source_data, min
         part = object->render;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
-        part->source = D_8002445C[*(s16 *)((u8 *)source_data + 0x54)];
+        part->source = D_8002445C[source_data->x];
         part->unk_04 = 0;
         part->unk_05 = 0;
         part->color.word = 0x808080;

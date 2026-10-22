@@ -76,7 +76,7 @@ s8 *select_next_dialogue_line(void) {
 
             root = D_80016000;
             if ((u32)*(s32 *)((u8 *)root->unk_38 + 0x2D68) >= 20000U) {
-                if ((*(StateQuery *)((u8 *)root->unk_20 + 0x2D4))(0) == 0) {
+                if ((root->unk_20->callback_2D4)(0) == 0) {
                     return D_8001688A;
                 }
             }

@@ -26,9 +26,9 @@ void init_dungeon_view(void)
     ((S_804FE87C_0 *)render_state)->unk_5C = 0;
     ((S_804FE87C_0 *)render_state)->unk_62 = 0;
     ((S_804FE87C_0 *)render_state)->unk_68 = 0;
-    func_80064D50((u8 *)render_data + 0x70);
+    func_80064D50(&render_data->view.color_matrix_00);
 
-    light_matrix = (u8 *)render_data + 0x50;
+    light_matrix = &render_data->view.light_matrix_00;
     set_light_vectors((S_804FE87C_0 *)render_state, -0x800, 0x800);
     func_80064D20(light_matrix);
 

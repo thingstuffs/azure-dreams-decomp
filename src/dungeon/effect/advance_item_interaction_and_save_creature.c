@@ -283,7 +283,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        *(u8 **)((u8 *)sprite + 0x2C) = D_800DD110;
+        sprite->unk_2C = D_800DD110;
         set_sprite_animation_frame(sprite, D_800DD110[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
         if (!(((S_func_800B1364_14 *)&system_update_flags)->unk_00 & 1)) {
@@ -326,7 +326,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             active_actor_command_code = command;
             if (command != 0x60) {
                 read_monster_script_entry();
-                *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
+                sprite->unk_2C = D_800DD118;
                 set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                     0, 1);
                 sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
@@ -350,7 +350,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             worn_item = (S_func_800B1364_12 *)action->unk_BC;
             if ((s8) worn_item->unk_02 <= 0) {
                 worn_item->unk_02 = 0U;
-                *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
+                sprite->unk_2C = D_800DD118;
                 set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
                     0, 1);
                 sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
@@ -372,7 +372,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             }
         }
         append_packed_action_record(actor, 0xA8, 0, 0);
-        *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
+        sprite->unk_2C = D_800DD118;
         set_sprite_animation_frame(sprite, D_800DD118[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
         play_sound_if_enabled(0x515);
@@ -517,7 +517,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
                 }
             }
         }
-        *(u8 **)((u8 *)sprite + 0x2C) = D_800DD130;
+        sprite->unk_2C = D_800DD130;
         direction_anim = D_800DD130 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7);
         set_sprite_animation_frame(sprite, *direction_anim, 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
@@ -526,7 +526,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
         if (!(sprite->unk_14 & 0xE000)) {
             return;
         }
-        *(u8 **)((u8 *)sprite + 0x2C) = D_800DD138;
+        sprite->unk_2C = D_800DD138;
         set_sprite_animation_frame(sprite, D_800DD138[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x200);
         create_familiar_deployment_effect_with_owner_state(action, position, sprite);

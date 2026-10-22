@@ -538,7 +538,7 @@ u16 query_z;
     scan_z = query_y;
     map = &global->map;
 
-    (*(s32 *)((u8 *)scratch + 0x34)) = ((s16)query_x - block) + 0x14;
+    (scratch->limit) = ((s16)query_x - block) + 0x14;
     scratch->best = 0;
     scratch->block = block;
     query_y &= 0x3F;

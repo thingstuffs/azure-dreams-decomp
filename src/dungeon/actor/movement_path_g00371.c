@@ -15,7 +15,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
     u16 model_flags;
 
     actor = entity;
-    *(u16 *)((u8 *)monster + 0x12) = 0;
+    monster->unk_12 = 0;
 
     if (g_dungeon_status.flags & 0x2000) {
         Callback special_callback = entity->unk_8C;
@@ -91,7 +91,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
         if (hop_timer == 2) {
             s32 hop_direction_offset;
             entity->unk_98 |= 1;
-            *(u8 **)((u8 *)monster + 0x2C) = actor_movement_frames;
+            monster->unk_2C = actor_movement_frames;
             hop_direction_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 7) & 0x1C;
             select_record_entry_and_value(monster, *(void **)(actor_movement_frames + hop_direction_offset), 0);
         }

@@ -70,16 +70,16 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     render_state = (u8 *) (((struct S_8003E2D8 *)&g_game_work));
     frame = *((void **) (((s8 *) sprite) + 8));
     scratch = (ScratchPad *)0x1F800000;
-    *((s32 *) (((s8 *) scratch) + 0xEC)) = 0;
-    *((u16 *) (((s8 *) scratch) + 0x8C)) = 0;
-    *((u16 *) (((s8 *) scratch) + 0x84)) = 0;
-    *((u16 *) (((s8 *) scratch) + 0x7C)) = 0;
-    *((u16 *) (((s8 *) scratch) + 0x74)) = 0;
+    scratch->sw[59] = 0;
+    scratch->h[70] = 0;
+    scratch->h[66] = 0;
+    scratch->h[62] = 0;
+    scratch->h[58] = 0;
     packet = *((u8 **) (((s8 *) render_context) + 0x8D0));
-    *((s32 *) (((s8 *) scratch) + 0x20)) = (s32) ordering_tag;
-    *((s32 *) (((s8 *) scratch) + 0xC0)) = 0;
-    *((u16 *) (((s8 *) scratch) + 0xB8)) = (u16) ((*((u16 *) (((s8 *) setup_arg) + 0))) - 0xA0);
-    *((u16 *) (((s8 *) scratch) + 0xBA)) = (u16) ((*((u16 *) (((s8 *) setup_arg) + 2))) - 0x78);
+    scratch->sw[8] = (s32) ordering_tag;
+    scratch->sw[48] = 0;
+    scratch->h[92] = (u16) ((*((u16 *) (((s8 *) setup_arg) + 0))) - 0xA0);
+    scratch->h[93] = (u16) ((*((u16 *) (((s8 *) setup_arg) + 2))) - 0x78);
     saved_draw_mode = (u16) draw_mode;
     shifted_mode = draw_mode << 0x10;
     draw_arg = 0;
@@ -87,9 +87,8 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         func_80067EF4(packet, draw_arg, draw_arg, shifted_mode);
         packet_mask = 0xFFFFFF;
         draw_arg = 0xFF000000;
-        *((s32 *) packet) = ((*((s32 *) packet)) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((s8 *) scratch)
-            + 0x20))))) & packet_mask);
-        start_tag = (s32 *) (*((s32 *) (((s8 *) scratch) + 0x20)));
+        *((s32 *) packet) = ((*((s32 *) packet)) & 0xFF000000) | ((*((s32 *) (scratch->sw[8]))) & packet_mask);
+        start_tag = (s32 *) (scratch->sw[8]);
         setup_arg = (void *) (((s32) packet) & packet_mask);
         packet += 0xC;
         *start_tag = ((*start_tag) & 0xFF000000) | ((s32) setup_arg);
@@ -102,110 +101,108 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     view_axis_x = *((s16 *) (((s8 *) render_state) + 0xC4));
     view_axis_y = *((s16 *) (((s8 *) render_state) + 0xC6));
     view_axis_z = *((s16 *) (((s8 *) render_state) + 0xC8));
-    *((s32 *) (((s8 *) scratch) + 0x30)) = view_axis_x;
-    *((s32 *) (((s8 *) scratch) + 0x34)) = view_axis_y;
-    *((s32 *) (((s8 *) scratch) + 0x38)) = view_axis_z;
-    *((u16 *) (((s8 *) scratch) + 0x100)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x16)));
-    *((u16 *) (((s8 *) scratch) + 0x104)) = (s16) ((*((u16 *) (((s8 *) sprite) + 0x1A))) - (*((u16 *) (((s8 *) scratch)
-        + 0x34))));
+    scratch->sw[12] = view_axis_x;
+    scratch->sw[13] = view_axis_y;
+    scratch->sw[14] = view_axis_z;
+    scratch->h[128] = (u16) (*((u16 *) (((s8 *) sprite) + 0x16)));
+    scratch->h[130] = (s16) ((*((u16 *) (((s8 *) sprite) + 0x1A))) - (scratch->h[26]));
     base_rotation = *((u16 *) (((s8 *) sprite) + 0x18));
-    *((u16 *) (((s8 *) scratch) + 0x102)) = (s16) (((((*((u16 *) (((s8 *) scratch) + 0x38))) + 0x100) & 0x1FF) - 0x100)
+    scratch->h[129] = (s16) (((((scratch->h[28]) + 0x100) & 0x1FF) - 0x100)
         + base_rotation);
     pivot_x = *((u16 *) (((s8 *) sprite) + 0x20));
-    *((s32 *) (((s8 *) scratch) + 0xE4)) = pivot_x;
-    *((u16 *) (((s8 *) scratch) + 0x108)) = pivot_x;
+    scratch->sw[57] = pivot_x;
+    scratch->h[132] = pivot_x;
     pivot_y = *((u16 *) (((s8 *) sprite) + 0x22));
-    *((s32 *) (((s8 *) scratch) + 0xE8)) = pivot_y;
-    *((u16 *) (((s8 *) scratch) + 0x10A)) = pivot_y;
+    scratch->sw[58] = pivot_y;
+    scratch->h[133] = pivot_y;
     func_80065820(0x1F800100, 0x1F8000D0);
-    *((s32 *) (((s8 *) scratch) + 0x30)) = (s32) (*((u16 *) (((s8 *) sprite) + 0x1C)));
-    *((s32 *) (((s8 *) scratch) + 0x34)) = (s32) (*((u16 *) (((s8 *) sprite) + 0x1E)));
-    *((s32 *) (((s8 *) scratch) + 0x38)) = 0x1000;
+    scratch->sw[12] = (s32) (*((u16 *) (((s8 *) sprite) + 0x1C)));
+    scratch->sw[13] = (s32) (*((u16 *) (((s8 *) sprite) + 0x1E)));
+    scratch->sw[14] = 0x1000;
     func_80064BC0(0x1F8000D0, 0x1F800030);
     func_80064840(view_matrix, 0x1F8000D0, 0x1F800050);
     func_80064D80(0x1F800050);
     func_80064CF0(0x1F800050);
-    *((u16 *) (((s8 *) scratch) + 0x24)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
+    scratch->h[18] = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
     do {
     frame_data = frame + 8;
     if (!((*((u8 *) (((s8 *) frame) + 0))) & 0x20)) {
-        *((s32 *) (((s8 *) scratch) + 0x08)) = (s32) (*((u8 *) (((s8 *) frame_data) + 0)));
-        *((s32 *) (((s8 *) scratch) + 0x0C)) = (s32) (*((u8 *) (((s8 *) frame_data) + 1)));
-        *((s32 *) (((s8 *) scratch) + 0x10)) = (s32) (*((u8 *) (((s8 *) frame_data) + 2)));
-        *((s32 *) (((s8 *) scratch) + 0x14)) = (s32) (*((u8 *) (((s8 *) frame_data) + 3)));
-        if (((*((u8 *) (((s8 *) frame) + 0))) ^ (*((u16 *) (((s8 *) scratch) + 0x24)))) & 1) {
+        scratch->sw[2] = (s32) (*((u8 *) (((s8 *) frame_data) + 0)));
+        scratch->sw[3] = (s32) (*((u8 *) (((s8 *) frame_data) + 1)));
+        scratch->sw[4] = (s32) (*((u8 *) (((s8 *) frame_data) + 2)));
+        scratch->sw[5] = (s32) (*((u8 *) (((s8 *) frame_data) + 3)));
+        if (((*((u8 *) (((s8 *) frame) + 0))) ^ (scratch->h[18])) & 1) {
             flipped_x = *((u8 *) (((s8 *) frame_data) + (-6)));
-            mirrored_x = (0 - ((s8) flipped_x)) - (*((u16 *) (((s8 *) scratch) + 0x108)));
-            *((u16 *) (((s8 *) scratch) + 0x80)) = mirrored_x;
-            *((u16 *) (((s8 *) scratch) + 0x70)) = mirrored_x;
-            mirrored_x = mirrored_x - (*((u16 *) (((s8 *) scratch) + 0x10)));
-            *((u16 *) (((s8 *) scratch) + 0x88)) = mirrored_x;
-            *((u16 *) (((s8 *) scratch) + 0x78)) = mirrored_x;
+            mirrored_x = (0 - ((s8) flipped_x)) - (scratch->h[132]);
+            scratch->h[64] = mirrored_x;
+            scratch->h[56] = mirrored_x;
+            mirrored_x = mirrored_x - (scratch->h[8]);
+            scratch->h[68] = mirrored_x;
+            scratch->h[60] = mirrored_x;
         }
         else {
             origin_x = *((u8 *) (((s8 *) frame_data) + (-6)));
-            quad_x = ((s8) origin_x) - (*((u16 *) (((s8 *) scratch) + 0x108)));
-            *((u16 *) (((s8 *) scratch) + 0x80)) = quad_x;
-            *((u16 *) (((s8 *) scratch) + 0x70)) = quad_x;
-            quad_x = quad_x + (*((u16 *) (((s8 *) scratch) + 0x10)));
-            *((u16 *) (((s8 *) scratch) + 0x88)) = quad_x;
-            *((u16 *) (((s8 *) scratch) + 0x78)) = quad_x;
+            quad_x = ((s8) origin_x) - (scratch->h[132]);
+            scratch->h[64] = quad_x;
+            scratch->h[56] = quad_x;
+            quad_x = quad_x + (scratch->h[8]);
+            scratch->h[68] = quad_x;
+            scratch->h[60] = quad_x;
         }
-        if (((*((u8 *) (((s8 *) frame) + 0))) ^ (*((u16 *) (((s8 *) scratch) + 0x24)))) & 2) {
+        if (((*((u8 *) (((s8 *) frame) + 0))) ^ (scratch->h[18])) & 2) {
             flipped_y = *((u8 *) (((s8 *) frame_data) + (-5)));
-            mirrored_y = (0 - ((s8) flipped_y)) - (*((u16 *) (((s8 *) scratch) + 0x10A)));
-            *((u16 *) (((s8 *) scratch) + 0x7A)) = mirrored_y;
-            *((u16 *) (((s8 *) scratch) + 0x72)) = mirrored_y;
-            mirrored_y = mirrored_y - (*((u16 *) (((s8 *) scratch) + 0x14)));
-            *((u16 *) (((s8 *) scratch) + 0x8A)) = mirrored_y;
-            *((u16 *) (((s8 *) scratch) + 0x82)) = mirrored_y;
+            mirrored_y = (0 - ((s8) flipped_y)) - (scratch->h[133]);
+            scratch->h[61] = mirrored_y;
+            scratch->h[57] = mirrored_y;
+            mirrored_y = mirrored_y - (scratch->h[10]);
+            scratch->h[69] = mirrored_y;
+            scratch->h[65] = mirrored_y;
         }
         else {
             origin_y = *((u8 *) (((s8 *) frame_data) + (-5)));
-            quad_y = ((s8) origin_y) - (*((u16 *) (((s8 *) scratch) + 0x10A)));
-            *((u16 *) (((s8 *) scratch) + 0x7A)) = quad_y;
-            *((u16 *) (((s8 *) scratch) + 0x72)) = quad_y;
-            quad_y = quad_y + (*((u16 *) (((s8 *) scratch) + 0x14)));
-            *((u16 *) (((s8 *) scratch) + 0x8A)) = quad_y;
-            *((u16 *) (((s8 *) scratch) + 0x82)) = quad_y;
+            quad_y = ((s8) origin_y) - (scratch->h[133]);
+            scratch->h[61] = quad_y;
+            scratch->h[57] = quad_y;
+            quad_y = quad_y + (scratch->h[10]);
+            scratch->h[69] = quad_y;
+            scratch->h[65] = quad_y;
         }
         func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4,
             (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
-        *((s16 *) (((s8 *) packet) + 8)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xF0))) + (*((u16 *) (((s8 *) scratch)
-            + 0xB8))));
-        *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xF2)))
-            + (*((u16 *) (((s8 *) scratch) + 0xBA))));
-        *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xF4)))
-            + (*((u16 *) (((s8 *) scratch) + 0xB8))));
-        *((s16 *) (((s8 *) packet) + 0x12)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xF6)))
-            + (*((u16 *) (((s8 *) scratch) + 0xBA))));
-        *((s16 *) (((s8 *) packet) + 0x18)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xF8)))
-            + (*((u16 *) (((s8 *) scratch) + 0xB8))));
-        *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xFA)))
-            + (*((u16 *) (((s8 *) scratch) + 0xBA))));
-        *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xFC)))
-            + (*((u16 *) (((s8 *) scratch) + 0xB8))));
-        projected_y = *((u16 *) (((s8 *) scratch) + 0xFE));
-        screen_y = *((u16 *) (((s8 *) scratch) + 0xBA));
+        *((s16 *) (((s8 *) packet) + 8)) = (s16) ((scratch->h[120]) + (scratch->h[92]));
+        *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((scratch->h[121])
+            + (scratch->h[93]));
+        *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((scratch->h[122])
+            + (scratch->h[92]));
+        *((s16 *) (((s8 *) packet) + 0x12)) = (s16) ((scratch->h[123])
+            + (scratch->h[93]));
+        *((s16 *) (((s8 *) packet) + 0x18)) = (s16) ((scratch->h[124])
+            + (scratch->h[92]));
+        *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((scratch->h[125])
+            + (scratch->h[93]));
+        *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((scratch->h[126])
+            + (scratch->h[92]));
+        projected_y = scratch->h[127];
+        screen_y = scratch->h[93];
         *((s8 *) (((s8 *) packet) + 3)) = 9;
         *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (projected_y + screen_y);
-        width_minus_one = (*((s32 *) (((s8 *) scratch) + 0x10))) - 1;
-        edge_value = width_minus_one + (*((s32 *) (((s8 *) scratch) + 0x08)));
-        *((s32 *) (((s8 *) scratch) + 0x10)) = edge_value;
+        width_minus_one = (scratch->sw[4]) - 1;
+        edge_value = width_minus_one + (scratch->sw[2]);
+        scratch->sw[4] = edge_value;
         if (edge_value & 0x100) {
-            *((s32 *) (((s8 *) scratch) + 0x10)) = edge_value - 1;
+            scratch->sw[4] = edge_value - 1;
         }
-        height_minus_one = (*((s32 *) (((s8 *) scratch) + 0x14))) - 1;
-        bottom_v = height_minus_one + (*((s32 *) (((s8 *) scratch) + 0x0C)));
-        *((s32 *) (((s8 *) scratch) + 0x14)) = bottom_v;
+        height_minus_one = (scratch->sw[5]) - 1;
+        bottom_v = height_minus_one + (scratch->sw[3]);
+        scratch->sw[5] = bottom_v;
         if (bottom_v & 0x100) {
-            *((s32 *) (((s8 *) scratch) + 0x14)) = bottom_v - 1;
+            scratch->sw[5] = bottom_v - 1;
         }
-        *((s32 *) (((s8 *) scratch) + 0x14)) <<= 8;
-        *((s32 *) (((s8 *) scratch) + 0x0C)) <<= 8;
+        scratch->sw[5] <<= 8;
+        scratch->sw[3] <<= 8;
         clut_offset = *((u16 *) (((s8 *) sprite) + 0x12));
         if (clut_offset != 0) {
-            if ((*((u16 *) (((s8 *) scratch) + 0x24))) & 0x100) {
+            if ((scratch->h[18]) & 0x100) {
                 *((u16 *) (((s8 *) packet) + 0xE)) = (u16) clut_offset;
             } else {
             texture_word = clut_offset + (*((u16 *) (((s8 *) frame_data) + (-2))));
@@ -215,10 +212,10 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         else {
             *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-2))));
         }
-        *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C))))
-            + ((u16) (*((u16 *) (((s8 *) scratch) + 0x08)))));
-        *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C))))
-            + ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
+        *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (scratch->h[6]))
+            + ((u16) (scratch->h[4])));
+        *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (scratch->h[6]))
+            + ((u16) (scratch->h[8])));
         ;
         ;
         tpage_offset = *((u16 *) (((s8 *) sprite) + 0x10));
@@ -229,10 +226,10 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         else {
             *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-4))));
         }
-        *((s16 *) (((s8 *) packet) + 0x1C)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x14))))
-            | ((u16) (*((u16 *) (((s8 *) scratch) + 0x08)))));
-        *((s16 *) (((s8 *) packet) + 0x24)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x14))))
-            | ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
+        *((s16 *) (((s8 *) packet) + 0x1C)) = (s16) (((u16) (scratch->h[10]))
+            | ((u16) (scratch->h[4])));
+        *((s16 *) (((s8 *) packet) + 0x24)) = (s16) (((u16) (scratch->h[10]))
+            | ((u16) (scratch->h[8])));
         left_x = *((s16 *) (((s8 *) packet) + 8));
         if ((*((s16 *) (((s8 *) packet) + 0x20))) < left_x) {
             right_u = *((u8 *) (((s8 *) packet) + 0x24));
@@ -247,7 +244,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
         }
         prim_code = *((u8 *) (((s8 *) frame_data) + (-7)));
         *((u8 *) (((s8 *) sprite) + 0xF)) = prim_code;
-        draw_flags = *((u16 *) (((s8 *) scratch) + 0x24));
+        draw_flags = scratch->h[18];
         if (draw_flags & 8) {
             if (draw_flags & 4) {
                 *((u8 *) (((s8 *) sprite) + 0xF)) = prim_code | 2;
@@ -308,10 +305,10 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
                 s32 link_lower;
                 s32 tag_high;
                 tag_high = (*((s32 *)packet) & 0xFF000000);
-                link_lower = (*((s32 *)(*((s32 *)((u8 *)scratch + 0x20))))) & addr_mask;
+                link_lower = (*((s32 *)(scratch->sw[8]))) & addr_mask;
                 *((s32 *)packet) = tag_high | link_lower;
             }
-            row_tag = (s32 *) (*((s32 *) (((s8 *) scratch) + 0x20)));
+            row_tag = (s32 *) (scratch->sw[8]);
             {
                 s32 link_lower;
                 s32 tag_high;
@@ -344,9 +341,8 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     restore_arg = packet;
     if ((saved_draw_mode << 0x10) != 0) {
         func_80067EF4(restore_arg, 0, 1);
-        *((s32 *) packet) = ((*((s32 *) packet)) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((s8 *) scratch)
-            + 0x20))))) & 0xFFFFFF);
-        end_tag = (s32 *) (*((s32 *) (((s8 *) scratch) + 0x20)));
+        *((s32 *) packet) = ((*((s32 *) packet)) & 0xFF000000) | ((*((s32 *) (scratch->sw[8]))) & 0xFFFFFF);
+        end_tag = (s32 *) (scratch->sw[8]);
         restore_arg = (u8 *) (((s32) packet) & 0xFFFFFF);
         packet += 0xC;
         *end_tag = ((*end_tag) & 0xFF000000) | ((s32) restore_arg);
