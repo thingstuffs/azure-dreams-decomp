@@ -1,3 +1,4 @@
+/* Unicorn directional movement, tile recentering, and sprite removal. */
 #include "dungeon/monster/unicorn/update_directional_motion_and_recenter_actor.h"
 #include "shared/sprite_frame_state.h"
 

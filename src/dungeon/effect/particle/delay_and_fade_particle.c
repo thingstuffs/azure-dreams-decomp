@@ -1,3 +1,4 @@
+/* Ground-following attack particles, delayed fades, and target impact bursts. */
 #include "modules/dungeon_ovl_1870800.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
@@ -183,6 +184,8 @@ extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);
 extern void advance_sprite_animation_and_textures(void *);
 extern s32 func_80069EF8(void);
 
+/* Emits a ground-following particle trail and target burst, applies the attack, and waits for effect
+   cleanup. */
 void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion, SpriteFlagsView *sprite)
 {
     s32 step_x;

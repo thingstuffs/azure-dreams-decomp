@@ -17,6 +17,7 @@ typedef struct {
 
 extern s16 evaluate_surface_components_b(S_8008ECC0_Vec *record);
 
+/* Queries the lowest surface at an indexed offset and removes its Y offset, preserving sentinel 0x7FFF. */
 s16 evaluate_summed_position_minus_y_offset(S_8008ECC0 *position, S_8008ECC0 *offsets, s32 offset_index)
 {
     S_8008ECC0_Vec query_position;

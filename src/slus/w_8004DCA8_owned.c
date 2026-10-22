@@ -1,3 +1,4 @@
+/* Message command-slot registration, command-buffer construction and script submission. */
 #include "slus/command_slots_81554.h"
 
 s32 message_command_write_index = 0;

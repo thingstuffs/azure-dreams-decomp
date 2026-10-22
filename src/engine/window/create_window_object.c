@@ -2,6 +2,7 @@
 
 #include "slus/owned_80035484.h"
 
+/* Registers a window node, attaches it to its owner, and initializes its model, transform and appearance. */
 void create_window_object(s32 object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config) {
     S_func_80035484_1 *state;
     S_func_80035484_2 *transform;

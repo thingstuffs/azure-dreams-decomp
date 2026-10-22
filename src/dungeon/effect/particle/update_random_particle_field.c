@@ -1,9 +1,11 @@
+/* Falling particle fields, terrain impacts, nearby attacks, and linked item amount reduction. */
 #include "dungeon/effect/particle/update_random_particle_field.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/particle/update_random_particle_field.h"
 
 /* Selector bank entry calls the complete native initialization member. */
 void (*const D_80024000)(void *, void *) = update_random_particle_field;
+/* Decrements the amounts of flagged entries in the object's two item slots and returns how many changed. */
 s32 decrement_flagged_item_parameters(DungeonObject *object) {
     s32 changed_count;
     DungeonObjectEntry *entry;
@@ -37,6 +39,8 @@ s32 decrement_flagged_item_parameters(DungeonObject *object) {
     }
     return changed_count;
 }
+/* Emits a field of falling particles, attacks nearby eligible actors, and reduces their flagged item
+   amounts. */
 void update_random_particle_field(void *self, void *output)
 {
     Copy24 *copy_src;
@@ -170,6 +174,7 @@ void update_random_particle_field(void *self, void *output)
         return;
     }
 }
+/* Moves a particle toward the terrain, spawns a random impact sprite on contact, and retires it afterward. */
 void draw_red(void *effect) {
     s32 ticks_left;
     s32 surface_height;

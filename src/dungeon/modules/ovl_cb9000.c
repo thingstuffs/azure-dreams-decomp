@@ -1,9 +1,11 @@
+/* Actor creation and behavior, directional actions, and staged actor replacement effects. */
 #include "modules/dungeon_ovl_cb9000.h"
 #include "shared/sprite_frame_state.h"
 
 void *(*const cb9000_spawn_entry)(s16,s16,s16,s32) = func_8016AA5C;
 void (*const cb9000_update_entry)(void *,CL_CB9000_80170C24_S_80170C24_2 *,void *) = func_8016AC24;
 
+/* Links a sprite effect, stores its owner value, copies its position, and sets neutral color and scale. */
 void func_8016A87C(CL_CB9000_8017087C_Object *object, s32 field60_value, CL_CB9000_8017087C_CopyFields *source_coords)
 {
     CL_CB9000_8017087C_Part *part;
@@ -30,6 +32,7 @@ void func_8016A87C(CL_CB9000_8017087C_Object *object, s32 field60_value, CL_CB90
 }
 
 
+/* Grows and brightens a rotating effect, then shrinks and fades it until its lifetime expires. */
 void func_8016A920(void *effect, void *unused, void *visual)
 {
     s16 state;
@@ -77,6 +80,7 @@ void func_8016A920(void *effect, void *unused, void *visual)
     }
 }
 
+/* Creates an actor at the supplied tile and height, selects its initial status, and installs its behavior. */
 void *func_8016AA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     s32 kind;
@@ -145,6 +149,8 @@ void *func_8016AA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
    The two byte parameters arrive as s16: their narrowing copies survive cse, combine folds the a1/a2
    temps into them, so sched1 schedules the parameter copies and the entry order is retail's. */
 
+/* Runs actor behavior callbacks, updates facing and sprite tint, and advances motion with terrain
+   landing checks. */
 void func_8016AC24(void *entity, CL_CB9000_80170C24_S_80170C24_2 *motion, void *monster)
 {
     void *actor = entity;
@@ -278,6 +284,7 @@ void func_8016AC24(void *entity, CL_CB9000_80170C24_S_80170C24_2 *motion, void *
 }
 
 
+/* Dispatches actor movement, attacks, spells, and status handling from dungeon flags and queued actions. */
 void func_8016B02C(CL_CB9000_8017102C_S_8017102C_0 *state, void *motion, CL_CB9000_8017102C_S_8017102C_2 *sprite, CL_CB9000_8017102C_S_8017102C_1 *actor) {
  u16 terrain_flags;
  u8 *frames;
@@ -387,6 +394,7 @@ void func_8016B02C(CL_CB9000_8017102C_S_8017102C_0 *state, void *motion, CL_CB90
  select_sprite_entry(sprite,*((((g_game_work.view.camera_rotation.parts.viewAngle+actor->unk_2A+0x100)>>9)&7)+frames),0);
 }
 
+/* Advances an actor along stored path tiles, updates tile occupancy, and selects walk or hop animation. */
 void func_8016B590(void *motion, s32 update_param, void *entity, void *state) {
     s32 tile_mask;
     s32 old_x;
@@ -482,6 +490,7 @@ void func_8016B590(void *motion, s32 update_param, void *entity, void *state) {
     return;
 }
 
+/* Chooses a clear movement direction, records the previous tile, and updates occupancy and turn counters. */
 void func_8016B810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
@@ -717,6 +726,7 @@ void func_8016BF58(CL_CB9000_80171F58_S_80171F58_0 *state, void *unused_position
     select_sprite_entry(render_state, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9) & 7) + D_8016F2C4), 0);
 }
 
+/* Starts a directional attack on a compatible nearby actor when height and dungeon activity allow it. */
 s32 func_8016BFBC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor)
 {
     s32 target_angle;
@@ -767,6 +777,7 @@ s32 func_8016BFBC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     return -1;
 }
 
+/* Claims the actor action slot and starts a directional attack when dungeon activity allows it. */
 void func_8016C180(CL_CB9000_80172180_S_80172180_1 *state, s32 position, CL_CB9000_80172180_S_80172180_2 *render_state, void *entity) {
     ((CL_CB9000_80172180_S_80172180_0 *)entity)->unk_71 = (u8) (((CL_CB9000_80172180_S_80172180_0 *)entity)->unk_71 & 0x7F);
     if (!(dungeon_status_flags_alias & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
@@ -785,6 +796,7 @@ void func_8016C180(CL_CB9000_80172180_S_80172180_1 *state, s32 position, CL_CB90
     }
 }
 
+/* Checks actor proximity and dungeon activity, dispatching movement or reporting readiness for an action. */
 s32 func_8016C298(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
@@ -838,6 +850,7 @@ void func_8016C3DC(void *state_arg,void *position,void *render_state,void *entit
     }
 }
 
+/* Animates a hop to the actor tile, spends MP, advances status timers, and checks for floor traps. */
 void func_8016C458(void *action, ObjectPosition *motion, void *map_entry, ActorRecord *actor) {
     u16 facing_output;
     s32 move_frames;
@@ -987,6 +1000,7 @@ void func_8016C944(S_80172944_0 *state,void *position,void *render_state,void *e
     }
 }
 
+/* Times an attack animation and sound, resolves its hit, then spends MP and advances status timers. */
 void func_8016C9A8(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
@@ -1054,6 +1068,7 @@ void func_8016C9A8(void *action, void *motion, void *sprite, void *actor)
     }
 }
 
+/* Selects a queued spell and target, creates its visual effect, and waits for animation and CD completion. */
 void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BCC_S_func_80C953CC_2 *position, CL_CB9000_80172BCC_S_func_80C953CC_3 *entity,
     CL_CB9000_80172BCC_S_func_80C953CC_4 *actor)
 {
@@ -1238,6 +1253,8 @@ void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BC
     }
 }
 
+/* Applies the actor value change, emits impact visuals, and returns to normal behavior after the timed
+   reaction. */
 void update_hop_to_tile_and_complete(CL_CB9000_801730E0_S_801730E0_0 *state, ObjectPosition *motion, Rec_D_80082E80 *action, EntityRec *entity) {
     s16 phase;
     u16 ticks_left;
@@ -1330,6 +1347,8 @@ void func_8016D364(S_80173364_0 *state,void *position,void *render_state,void *e
     }
 }
 
+/* Maintains the status-slot-1 animation, services pending actions, and restores behavior when the
+   status clears. */
 void func_8016D39C(void *action, void *context, void *sprite_in, void *actor_in)
 {
     s32 state;
@@ -1466,6 +1485,8 @@ void func_8016D39C(void *action, void *context, void *sprite_in, void *actor_in)
     }
 }
 
+/* Waits for actor MP to recover while servicing forced actions, then restores its regular animation
+   and behavior. */
 void func_8016D72C(void *actor_in, s32 actor_index, void *target, void *entity_in)
 {
     EntityRec *entity = entity_in;
@@ -1602,6 +1623,7 @@ void func_8016DBD4(S_80173BD4_0 *state,void *position,void *render_state,void *e
     }
 }
 
+/* Spins a sprite and scales its RGB values by the remaining lifetime, removing it when the timer expires. */
 void func_8016DC0C(void *effect, s32 unused, void *primitive)
 {
     u16 ticks_left;
@@ -1624,6 +1646,7 @@ void func_8016DC0C(void *effect, s32 unused, void *primitive)
     }
 }
 
+/* Creates a randomly rotated gray sprite with the requested scale and a five-update fade. */
 void func_8016DCFC(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale)
 {
     void *effect;
@@ -1664,6 +1687,7 @@ void func_8016DCFC(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32
    effect+0x20 occupy s2/s1/s0, producing retail's 0x28 frame and full save set.
    One packed 12-byte assignment emits the retail lwl/lwr and swl/swr copy. */
 
+/* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void func_8016DE40(void *quad, void *position, void *render_info, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
@@ -1783,6 +1807,7 @@ void func_8016DE40(void *quad, void *position, void *render_info, s16 depth_bias
     func_80064A40();
 }
 
+/* Draws each effect in the linked list using its position and color records. */
 s32 func_8016E320(void *point, void *position, void *color) {
  void *next;
  for (;;) {
@@ -1796,6 +1821,7 @@ s32 func_8016E320(void *point, void *position, void *color) {
  return 0;
 }
 
+/* Brightens and flashes a segmented effect, emits a sprite burst, then moves and fades the segments. */
 void func_8016E374(u8 *effect, s32 *position, s32 effect_param)
 {
     s16 state;
@@ -1915,6 +1941,7 @@ void func_8016E374(u8 *effect, s32 *position, s32 effect_param)
     }
 }
 
+/* Creates three rings of eight shaded effect segments with staggered brightness timing. */
 void func_8016E724(CL_CB9000_80174724_S_80C96F24_0 *owner, void *origin, void *entity) {
     u16 band;
     register s32 shade_offset;
@@ -2126,6 +2153,7 @@ void func_8016E724(CL_CB9000_80174724_S_80C96F24_0 *owner, void *origin, void *e
     } while (1);
 }
 
+/* Starts action 23 once pending dungeon activity allows it, clearing the actor movement and turn state. */
 void func_8016EB3C(S_80174B3C_1 *state, void *unused_position, void *unused_render_state, CL_CB9000_80174B3C_S_80174B3C_0 *entity) {
     entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
     state->CL_CB9000_80174B3C_handler = func_8016EB3C;
@@ -2141,6 +2169,8 @@ void func_8016EB3C(S_80174B3C_1 *state, void *unused_position, void *unused_rend
     }
 }
 
+/* Waits for sprite animation to finish, then restores the scene tint over 16 updates and removes the
+   effect. */
 void func_8016EBE8(u8 *task, void *context, u8 *input)
 {
     s16 frames_left;
@@ -2172,6 +2202,7 @@ void func_8016EBE8(u8 *task, void *context, u8 *input)
     }
 }
 
+/* Coordinates actor replacement with CD loads, scene tint, segmented visuals, and actor-list updates. */
 void func_8016ED14(void *state, EntityRec *position, SpriteFrameState *entity, void *actor) {
     s16 direction;
     u16 fade_ticks;

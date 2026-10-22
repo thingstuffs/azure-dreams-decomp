@@ -1,8 +1,11 @@
+/* Volcano actor spawning, movement, attacks, spell sequences, and sprite effects. */
 #include "modules/dungeon_ovl_e0365c.h"
 void *(*const e0365c_spawn_entry)(s16,s16,s16,s16) = spawn_mode_dependent_112_object;
 #include "modules/dungeon_ovl_e0365c.h"
 #include "shared/sprite_frame_state.h"
 
+/* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_height) {
  E_80170854_SpawnActor *actor=0;
  E_80170854_SpawnObject *object;
@@ -58,6 +61,7 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
 void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster)
 {
     void *actor = entity;
@@ -191,6 +195,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_in, void *sprite_in, void *status_in)
 {
     void *status;
@@ -402,6 +407,8 @@ update_table:
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
+ * counts. */
 void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *tile, u8 *actor)
 {
     DungeonGlobalStatus *state = &g_dungeon_status;
@@ -634,6 +641,8 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
 #include "modules/dungeon_ovl_e0365c.h"
 #include "shared/sprite_frame_state.h"
 
+/* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
+ * delay. */
 void advance_actor_path_step(void *action, s32 action_id, void *entity, void *move_state) {
     void *state = move_state;
     s32 tile_mask;
@@ -727,6 +736,7 @@ void set_actor_directional_animation(void *object, void *unused, SpriteFrameStat
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;
@@ -775,6 +785,8 @@ s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *s
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Claims an action slot, starts the directional attack animation, and prepares its target and damage
+ * state. */
 void begin_actor_attack_after_status_check(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
@@ -802,6 +814,7 @@ typedef struct {
 } SpriteFieldView_80DE48EC;
 
 
+/* Checks action availability, occupancy, and terrain ahead, then starts the directional action if allowed. */
 s32 check_actor_ahead_height(void *action_state, void *source_pos, void *sprite, void *actor)
 {
     void *output;
@@ -906,6 +919,7 @@ return_tail:
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Claims an action slot, starts the directional action animation, and advances status and turn counters. */
 void start_actor_directional_animation(void *actor_state, s32 action_param, void *sprite, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
@@ -939,6 +953,7 @@ void move_actor_to_tile_and_check_trap(E_8017246C_ActionState *state,void *motio
 #include "modules/dungeon_ovl_e0365c.h"
 #include "shared/sprite_frame_state.h"
 
+/* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
 void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, ActorRecord *actor_state)
 {
     s32 facing_aux;
@@ -1048,6 +1063,7 @@ void update_linked_actor_motion_and_trap(E_80172850_ActionState *state,void *mot
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Times the attack animation and damage, spends MP, and restores normal actor movement and status. */
 void resolve_actor_attack_damage(void *obj, ObjectPosition *record, void *entity, void *actor) {
     s32 state;
 
@@ -1102,6 +1118,8 @@ void resolve_actor_attack_damage(void *obj, ObjectPosition *record, void *entity
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Starts a targeted spell and linked effect, then restores movement and status after loading and
+ * animation. */
 void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E_80172A58_S_80172A58_5 *sprite, void *actor) {
     s32 result;
     s32 next_ticks;
@@ -1221,6 +1239,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
 #include "modules/dungeon_ovl_e0365c.h"
 #include "shared/sprite_frame_state.h"
 
+/* Applies a value change and damped motion, then returns the actor to its tile and restores movement. */
 void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity)
 {
     s16 timer;
@@ -1354,6 +1373,8 @@ void finish_actor_hop_and_grow_then_resume_facing_animation(E_8017321C_ActionSta
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Processes actor status while waiting for an effect to clear, then restores the normal animation and
+ * movement. */
 void handle_actor_pending_action(void *action, void *context, void *sprite, ActorRecord *entity)
 {
     void *saved_context;
@@ -1470,6 +1491,7 @@ typedef struct {
 } SpriteFieldView_80DE5D7C;
 
 
+/* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
 void handle_actor_action_effects(void *controller, void *context, void *sprite, ActorRecord *actor)
 {
     u8 state;
@@ -1597,6 +1619,7 @@ void finish_actor_action_flag_propagation_then_resume_facing_animation(E_801739E
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Displays directional effects, creates an actor on the tile ahead, initializes its stats, and spends MP. */
 void advance_actor_state_with_child(void *actor, void *context, void *entity, void *creature)
 {
     switch (((Rec_func_80173204_arg0 *)actor)->unk_9B) {
@@ -1696,6 +1719,8 @@ void advance_actor_state_with_child(void *actor, void *context, void *entity, vo
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Displays the action message and directional effects, then spends MP and restores movement after
+ * animation. */
 void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *action, void *entity)
 {
     s32 state;
@@ -1738,6 +1763,7 @@ void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *acti
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
 s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
@@ -1780,6 +1806,8 @@ s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, voi
 }
 #include "modules/dungeon_ovl_e0365c.h"
 
+/* Grows and animates the sprite, damps horizontal motion, accelerates vertically, and removes finished
+ * effects. */
 void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_Obj *object) {
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
@@ -1800,6 +1828,7 @@ void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_
 #include "modules/dungeon_ovl_e0365c.h"
 #include "shared/sprite_frame_state.h"
 
+/* Creates four gray sprite effects with randomized rotation and motion along the actor's facing. */
 void create_four_directional_effects(void *owner_arg, void *motion_arg, void *origin_arg) {
     u16 offsets[3];
     s32 effect_index;
@@ -1871,6 +1900,7 @@ void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *
 #include "modules/dungeon_ovl_e0365c.h"
 #include "shared/sprite_frame_state.h"
 
+/* Creates a growing gray sprite on the tile ahead and limits its height to the terrain surface. */
 s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *initial_position, E_801742AC_S_80DE6AAC_4 *tile_origin) {
     SpriteFrameState *sprite;
     E_801742AC_S_80DE6AAC_5 *position;

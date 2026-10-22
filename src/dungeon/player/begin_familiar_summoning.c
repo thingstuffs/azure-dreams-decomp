@@ -34,6 +34,7 @@ void update_map_cell_flags_with_item_limit();           /* extern */
 s32 find_valid_nearby_position();   /* extern */
 extern u8 D_800DD130;
 
+/* Starts the summoning animation and finds a nearby tile, reserving space for an existing linked familiar. */
 s32 begin_familiar_summoning(void *record, s32 input1, void *pointer_input, s32 value_input) {
     s16 candidate_x;
     s16 candidate_y;

@@ -7,6 +7,7 @@
 
 #include "slus/jtbl_80041344.h"
 
+/* Runs image commands to decompress, upload or copy data, adjust palettes and relocate pointers. */
 void run_image_load_commands(s32 data_base, void *scratch)
 {
     S_80041344 *entry = (S_80041344 *)data_base;

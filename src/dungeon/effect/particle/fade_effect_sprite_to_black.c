@@ -1,3 +1,4 @@
+/* Projectile launch and impact sequencing, damped motion, and delayed sprite fading. */
 #include "dungeon/effect/particle/fade_effect_sprite_to_black.h"
 #include "shared/sprite_frame_state.h"
 /* Loader entry pointer; gcc emits the five-state switch table after alignment. */

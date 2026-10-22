@@ -46,6 +46,8 @@ extern u8 D_80174860[];
 extern M2C_UNK D_80170E84;
 
 extern void *build_projected_tile_packets(s16, s16, s16, s16);
+/* Creates a Ifrit actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_input, s16 value_0A_input)
 {
     s32 kind;

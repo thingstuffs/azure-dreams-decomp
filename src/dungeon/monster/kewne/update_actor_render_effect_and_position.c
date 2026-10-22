@@ -1,6 +1,9 @@
+/* Kewne actor rendering, moving sprite effects, and projected ellipse geometry. */
 #include "modules/dungeon_ovl_9c32d4.h"
 #include "shared/sprite_frame_state.h"
 
+/* Prepares an ellipse render region, follows the linked position, emits particles, and fades out the
+ * effect. */
 void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8 *effect_data)
 {
     ovl_9c32d4_809A32D4_LocalArgs draw_region;
@@ -112,6 +115,8 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
     }
 }
 
+/* Creates an ellipse effect linked to the parent's position and watches the supplied state byte for a
+ * change. */
 void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data)
 {
     void *effect;
@@ -156,6 +161,8 @@ void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effe
     }
 }
 
+/* Moves the effect along its direction while below the terrain height, reduces speed, and removes it when
+ * stopped. */
 void advance_directional_effect_motion(ovl_9c32d4_809A3698_MotionState *state, ovl_9c32d4_809A3698_MotionPosition *position) {
     s16 height;
     s16 speed;
@@ -173,6 +180,7 @@ void advance_directional_effect_motion(ovl_9c32d4_809A3698_MotionState *state, o
     }
 }
 
+/* Creates a sprite near its parent with randomized position and speed along the supplied direction. */
 void spawn_randomized_directional_motion_object(ovl_9c32d4_809A37C0_MotionObject *parent, s16 direction, s32 value) {
     ovl_9c32d4_809A37C0_MotionObject *object;
     SpriteFrameState *draw;

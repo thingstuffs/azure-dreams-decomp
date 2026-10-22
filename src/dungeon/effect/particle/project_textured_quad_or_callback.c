@@ -1,3 +1,4 @@
+/* Effect quad projection, child particle updates, and a moving status-effect sequence. */
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
 #include "shared/sprite_frame_state.h"
 struct S_800259D8_2;
@@ -13,7 +14,7 @@ typedef s32 M2C_UNK;
 
 extern const u8 D_80024004[48];
 extern const u8 D_80024034[4];
-extern M2C_UNK D_800E1C8A;
+extern u8 D_800E1C8A[];
 
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
@@ -36,7 +37,7 @@ void apply_random_duration_actor_status(void *entity, s32 direction, void *unuse
                 entity, 0x13,
                 ((get_random_scaled_value(direction & 0xFF) + 4) << 24) >> 24) << 16) {
             if (*(s32 *)((u8 *)entity + 0x14) & 0x4000) {
-                adjust_source_value_and_finalize(entity, &D_800E1C8A);
+                adjust_source_value_and_finalize(entity, D_800E1C8A);
                 return;
             }
         } else if (*(s32 *)((u8 *)entity + 0x14) & 0x4000) {
@@ -1381,6 +1382,7 @@ extern void create_terrain_seeking_point_effect(void *, s32, s32, s16, s16, s16,
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 
+/* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */
 void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *sprite)
 {
     Vec3s delta;

@@ -5,7 +5,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-M2C_UNK select_record_entry_and_value();      /* extern */
+void select_record_entry_and_value();      /* extern */
 s32 register_node();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */

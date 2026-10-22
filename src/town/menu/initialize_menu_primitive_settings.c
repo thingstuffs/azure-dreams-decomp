@@ -11,6 +11,7 @@ extern DefaultWord D_8002D6A4;
 extern DefaultWord D_8002D6A8;
 typedef struct { u8 pad[8]; s16 x, y, width; u8 padE; u8 kind; } Primitive;
 typedef struct { s32 active; Primitive *primitive; s32 *settings; } Work;
+/* Copies default primitive settings and configures a 512-wide menu primitive at (-160, -120). */
 void initialize_menu_primitive_settings(Work *work, s32 *primitive, s32 *settings) {
     s32 setting;
     primitive[0] = D_8002D690.value;

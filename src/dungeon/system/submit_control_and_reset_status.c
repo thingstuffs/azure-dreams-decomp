@@ -1,3 +1,4 @@
+/* CD control command submission and spell-effect selector cache reset. */
 #include "dungeon/system/submit_control_and_reset_status.h"
 
 

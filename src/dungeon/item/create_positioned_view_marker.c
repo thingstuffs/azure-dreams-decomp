@@ -1,3 +1,4 @@
+/* Dungeon tile actions, map boundary updates, actor transitions, and linked particle effects. */
 #include "modules/dungeon_ovl_7ce800.h"
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"

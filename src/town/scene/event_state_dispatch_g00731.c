@@ -20,6 +20,7 @@ s32 check_town_event_flags_clear(void) {
     return return_value;
 }
 
+/* Passes seven table-selected event IDs and three fixed event flags to func_800188E4. */
 void reset_town_event_state(void) {
     s16 *tableEntry;
     s32 entryCount;

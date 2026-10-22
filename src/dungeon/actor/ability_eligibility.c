@@ -567,6 +567,7 @@ s32 check_entity_eligibility(void *entity) {
     return 0;
 }
 
+/* Finds the familiar slot referenced by a type-19 inventory record, or returns -1. */
 s32 find_type_13_slot_index(DungeonSlot *targetSlot) {
     s32 recordIndex;
     s32 requiredRecordType;

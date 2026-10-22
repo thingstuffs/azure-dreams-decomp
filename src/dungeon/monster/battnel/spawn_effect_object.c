@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/battnel/spawn_effect_object.h"
 
+/* Creates a Battnel actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;

@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
 
+/* Selects dialogue data from progress thresholds and lookup overrides, setting the associated flags. */
 s32 *select_state_result_with_lookup_overrides(s32 first_value, s32 second_value, s32 unused_context) {
     s32 *result;
     s32 value;

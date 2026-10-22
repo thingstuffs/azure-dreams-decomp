@@ -32,16 +32,16 @@ s32 append_entity_display_text();                        /* extern */
 void display_formatted_context_message();                   /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
-extern M2C_UNK D_800E05E1;
-extern M2C_UNK D_800E05F0;
+extern u8 D_800E05E1[];
+extern u8 D_800E05F0[];
 extern M2C_UNK D_800E0633;
-extern M2C_UNK D_800E0726;
-extern M2C_UNK D_800E0739;
-extern M2C_UNK D_800E0747;
-extern M2C_UNK D_800E0766;
-extern M2C_UNK D_800E0769;
-extern M2C_UNK D_800E077C;
-extern M2C_UNK D_800E078A;
+extern u8 D_800E0726[];
+extern u8 D_800E0739[];
+extern u8 D_800E0747[];
+extern u8 D_800E0766[];
+extern u8 D_800E0769[];
+extern u8 D_800E077C[];
+extern u8 D_800E078A[];
 
 
 typedef struct S_80094270_1 {
@@ -78,14 +78,14 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
             if (!(((S_80094270_5 *)(((S_80094270_4 *)entry)->unk_AC))->unk_1C & 0x20000)) {
                 /* Format the selected outcome, then terminate the message. */
                 msg = get_unused_text_buffer();
-                text = expand_text_control_codes(&D_800E0726, msg);
+                text = expand_text_control_codes(D_800E0726, msg);
                 if (((Rec_func_8008ACDC_arg0 *)actor)->unk_8A != 0) {
-                    hdr = &D_800E05F0;
+                    hdr = D_800E05F0;
                 } else {
-                    hdr = &D_800E05E1;
+                    hdr = D_800E05E1;
                 }
                 text = expand_text_control_codes(hdr, text);
-                call_result = expand_text_control_codes(&D_800E0739, text - 3);
+                call_result = expand_text_control_codes(D_800E0739, text - 3);
                 clear_byte_and_advance(call_result);
                 goto finish;
             } else {
@@ -101,22 +101,22 @@ s32 request_familiar_deployment_change(void *actor, s32 param_a, void *param_b, 
                 msg = get_unused_text_buffer();
                 if (kind == 1) {
                     kind = item->unk_03 & 0x1F;
-                    text = expand_text_control_codes(&D_800E0747, msg);
+                    text = expand_text_control_codes(D_800E0747, msg);
                     text = write_text_byte_and_advance(0xA, text);
                     call_result = append_entity_display_text(familiar_record_slots[kind], text);
-                    text = expand_text_control_codes(&D_800E0766, call_result);
+                    text = expand_text_control_codes(D_800E0766, call_result);
                 } else if (kind == 2) {
-                    text = expand_text_control_codes(&D_800E0769, msg);
+                    text = expand_text_control_codes(D_800E0769, msg);
                     if ((s16)slot != 0)
-                        hdr = &D_800E05F0;
+                        hdr = D_800E05F0;
                     else
-                        hdr = &D_800E05E1;
+                        hdr = D_800E05E1;
                     text = expand_text_control_codes(hdr, text);
-                    text = expand_text_control_codes(&D_800E077C, text - 3);
+                    text = expand_text_control_codes(D_800E077C, text - 3);
                 } else {
                     bits = item->unk_03 & 0x1F;
                     call_result = append_entity_display_text(familiar_record_slots[bits], msg);
-                    text = expand_text_control_codes(&D_800E078A, call_result);
+                    text = expand_text_control_codes(D_800E078A, call_result);
                 }
 
                 /* The three outcomes share the termination and display tail. */

@@ -11,6 +11,7 @@ typedef struct S_800BDFA0_0 {
 
 
 
+/* Advances sprite animation and cycles two animation entries as the script and object checks change. */
 void initialize_record_visual_state(S_800BDFA0_0 *record, s32 unused, s32 value) {
     s16 state;
 

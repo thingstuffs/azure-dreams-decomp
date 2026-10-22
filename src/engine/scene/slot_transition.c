@@ -1,3 +1,4 @@
+/* Scene resource loading, confirmation waits and dispatch while a runtime slot remains active. */
 #include "engine/scene/slot_transition.h"
 #include "shared/runtime_dispatch.h"
 

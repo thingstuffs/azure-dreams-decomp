@@ -1,5 +1,7 @@
 #include "modules/dungeon_ovl_a01054.h"
 
+/* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attribute_0a)
 {
     s32 kind;

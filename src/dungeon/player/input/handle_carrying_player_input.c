@@ -50,7 +50,7 @@ extern void submit_enabled_saved_display_value(void);
 extern u8 player_wait_frames[];
 extern u8 player_carry_frames[];
 extern s32 (*actor_command_handlers[])(s32, u16);
-extern M2C_UNK active_actor_command_code;
+extern u8 active_actor_command_code;
 extern s32 menu_action_argument;
 
 typedef struct S_8008EAC8_1 {
@@ -91,6 +91,8 @@ typedef struct S_8008EAC8_10 {
     s8 unk_00;
 } S_8008EAC8_10;   /* &D_800E3544 in handle_carrying_player_input */
 
+/* Handles commands while carrying an object, including movement, menus, familiar actions, putting it
+   down, and throwing. */
 void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, void *entity) {
     GameWork *held_D_80083160 = &g_game_work;
     s16 new_facing;
@@ -247,8 +249,8 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                             + (s16) ((S_8008EAC8_1 *)entity)->unk_2A.u + 0x100) >> 9) & 7) + (u32) player_carry_frames), 0, 1);
                         return;
                     }
-                    ((S_8008EAC8_10 *)(&active_actor_command_code))->unk_00 = (s8) (((S_8008EAC8_6 *)record)->unk_01 & 0xF8);
-                    code = *(u8 *) &active_actor_command_code;
+                    active_actor_command_code = (s8) (((S_8008EAC8_6 *)record)->unk_01 & 0xF8);
+                    code = active_actor_command_code;
                     switch (code) {
                     case 0x10:
                         begin_player_wait_turn(object, aux_entity, sprite, entity);
@@ -337,7 +339,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                 s32 flag_200;
 
                 flag_200 = ((Rec_func_8008ACDC_arg0 *)object)->unk_A2 & 0x200;
-                ((S_8008EAC8_10 *)(&active_actor_command_code))->unk_00 = 0;
+                active_actor_command_code = 0;
                 if (flag_200 && ((has_pending_actor_or_turn_action(entity) << 0x10) == 0) && !(g_dungeon_status.flags & 4)) {
                     ((Rec_func_8008ACDC_arg0 *)object)->unk_A2 =
                         (u16) (((Rec_func_8008ACDC_arg0 *)object)->unk_A2 & 0xFDFF);

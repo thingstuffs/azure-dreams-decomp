@@ -133,6 +133,7 @@ void update_state_activity_flags(S_800DC82C_0 *record) {
     record->unk_54 = state_or_flags;
 }
 
+/* Advances the menu's referenced cycle index modulo three and updates its activity flags. */
 void advance_wrapped_cycle_index(void) {
     s32 *cycleIndexToWrap;
     s32 *cycleIndexToIncrement;

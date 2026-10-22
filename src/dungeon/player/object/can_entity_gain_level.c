@@ -443,10 +443,10 @@ extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u1
 extern u8 species_base_stats[];
 extern s32 entity_level_thresholds[];
 extern u8 species_growth_table[];
-extern M2C_UNK D_800E098B;
-extern M2C_UNK D_800E099A;
-extern M2C_UNK D_800E09B2;
-extern M2C_UNK D_800E09BB;
+extern u8 D_800E098B[];
+extern u8 D_800E099A[];
+extern u8 D_800E09B2[];
+extern u8 D_800E09BB[];
 
 /* Lower an entity by one level, adjust its stats and spells, and optionally show a message. */
 s32 lower_entity_level(void *entity_data, s32 show_message) {
@@ -723,10 +723,10 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
         play_sound_if_enabled(0x615);
 
         message_start = get_unused_text_buffer();
-        message_end = expand_text_control_codes(&D_800E098B, message_start);
+        message_end = expand_text_control_codes(D_800E098B, message_start);
         message_end = write_text_byte_and_advance(0xA, message_end);
         message_end = append_entity_display_text(entity, message_end);
-        message_end = expand_text_control_codes(&D_800E099A, message_end);
+        message_end = expand_text_control_codes(D_800E099A, message_end);
         message_end = format_unsigned_double_byte_decimal(entity[0x11], message_end);
         message_end = expand_text_control_codes(fullwidth_period, message_end);
 
@@ -736,8 +736,8 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
                 if (spell_lowered[spell_index] != 0) {
                     message_end = write_text_byte_and_advance(0xA, message_end);
                     message_end = expand_text_control_codes(*(s32 *)(((u8 *)item_action_definitions) + entity[8] * 0x14), message_end);
-                    message_end = expand_text_control_codes(&D_800E09B2, message_end);
-                    message_end = expand_text_control_codes(&D_800E09BB, message_end);
+                    message_end = expand_text_control_codes(D_800E09B2, message_end);
+                    message_end = expand_text_control_codes(D_800E09BB, message_end);
                 }
                 entity += 3;
             } while (++spell_index < 3);
@@ -1113,11 +1113,11 @@ s32 distribute_experience_awards();                          /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 extern void *monster_species_table;
 
-extern M2C_UNK D_800E09CD;
-extern M2C_UNK D_800E09D9;
-extern M2C_UNK D_800E09E6;
-extern M2C_UNK D_800E09EE;
-extern M2C_UNK D_800E09FB;
+extern u8 D_800E09CD[];
+extern u8 D_800E09D9[];
+extern u8 D_800E09E6[];
+extern u8 D_800E09EE[];
+extern u8 D_800E09FB[];
 
 
 typedef struct S_800A2FE0_2 {
@@ -1136,6 +1136,8 @@ typedef struct S_800A2FE0_4 {
     s32 * unk_04;
 } S_800A2FE0_4;   /* globalData in distribute_experience_and_report_gains */
 
+/* Awards experience when source and target flags permit it and displays the defeat and experience
+   messages. */
 void distribute_experience_and_report_gains(EntityRec *entity) {
     s32 selectionInputSecond;
     s32 currentValue;
@@ -1165,7 +1167,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
             targetState = entity->target;
             if ((targetState != NULL) && (targetState->unk_13 >= 0)) {
                 currentValue = get_unused_text_buffer();
-                clear_byte_and_advance(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, expand_text_control_codes(&D_800E09CD, currentValue))));
+                clear_byte_and_advance(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, expand_text_control_codes(D_800E09CD, currentValue))));
                 display_text_with_fullwidth_adjustment(currentValue);
             }
         }
@@ -1175,7 +1177,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                     selectionInputThird = get_unused_text_buffer();
                     globalData = monster_species_table;
                     currentValue = selectionInputThird;
-                    clear_byte_and_advance(expand_text_control_codes(&D_800E09E6, format_unsigned_double_byte_decimal(result, expand_text_control_codes(&D_800E09D9,
+                    clear_byte_and_advance(expand_text_control_codes(D_800E09E6, format_unsigned_double_byte_decimal(result, expand_text_control_codes(D_800E09D9,
                         expand_text_control_codes(globalData->unk_04, currentValue)))));
                 } else {
                     return;
@@ -1186,7 +1188,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                 }
                 selectionInputSecond = get_unused_text_buffer();
                 currentValue = selectionInputSecond;
-                clear_byte_and_advance(expand_text_control_codes(&D_800E09FB, format_unsigned_double_byte_decimal(result, expand_text_control_codes(&D_800E09EE,
+                clear_byte_and_advance(expand_text_control_codes(D_800E09FB, format_unsigned_double_byte_decimal(result, expand_text_control_codes(D_800E09EE,
                     append_entity_display_text(entity->target, currentValue)))));
             }
             display_text_with_fullwidth_adjustment(currentValue);

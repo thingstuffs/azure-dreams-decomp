@@ -3,6 +3,7 @@
 
 extern s16 adjust_summed_vector_by_entry_component(s32, s32, s32);
 
+/* Returns the greatest adjusted surface sample, retaining zero when no sample is greater. */
 s16 get_maximum_sampled_offset_value(s32 lookup_a, s32 lookup_b, s32 count) {
     s16 value;
     s16 max_value;

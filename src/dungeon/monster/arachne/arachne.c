@@ -1,9 +1,12 @@
+/* Arachne actor spawning, action updates, movement, and wireframe effects. */
 #include "modules/dungeon_resource12_slot0.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = func_8017087C;
 void (*const resource12_slot0_entry1)(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part) = create_directional_template_effect;
 
+/* Creates an Arachne actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *func_8017087C(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
@@ -76,6 +79,7 @@ void *func_8017087C(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     return work;
 }
 
+/* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
 void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part)
 {
     void *entity_base = entity;
@@ -227,6 +231,7 @@ void create_directional_template_effect(void *entity, R12_80170A44_S_80170A28_2 
     return;
 }
 
+/* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void update_actor_state_and_select_target(void *entity, void *context, void *sprite, void *actor)
 {
     u8 *effect_table;
@@ -418,6 +423,8 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
     }
 }
 
+/* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
+ * delay. */
 void advance_actor_path_script_step(void *controller, void *context, void *entity, void *path_state)
 {
     void *state = path_state;
@@ -506,6 +513,8 @@ void advance_actor_path_script_step(void *controller, void *context, void *entit
     }
 }
 
+/* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
+ * counts. */
 void func_8017162C(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
@@ -733,6 +742,7 @@ void advance_linked_actor_motion_script(void *object, void *unused, void *displa
     select_sprite_entry(display, directionTable[directionIndex], 0);
 }
 
+/* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 func_80171DD8(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_angle;
@@ -783,6 +793,8 @@ s32 func_80171DD8(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
 }
 
 
+/* Claims an action slot, starts the directional attack animation, and prepares its target and damage
+ * state. */
 void select_and_start_target_action(void *action_state, void *action_context, void *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
@@ -802,6 +814,7 @@ void select_and_start_target_action(void *action_state, void *action_context, vo
     }
 }
 
+/* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
 s32 func_801720B4(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
@@ -858,6 +871,7 @@ void finish_actor_tile_move_then_select_target(R12_801721F8_S_801724A8_0 *state,
     }
 }
 
+/* Arcs to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
 void complete_actor_arc_movement(void *action, void *motion, void *map_actor, void *actor) {
     s32 target_distance;
     s32 frames_left;
@@ -978,6 +992,7 @@ void check_boss_effect_threshold(Resource12CallbackState *state, void *entity, v
     }
 }
 
+/* Animates a backward step and wireframe attack, applies damage, then recenters the actor and spends MP. */
 void advance_action_and_spawn_effect(void *action, void *motion, void *entity, void *actor) {
     s16 effect_offset[3];
     s32 dir_x;
@@ -1116,6 +1131,7 @@ void advance_action_and_spawn_effect(void *action, void *motion, void *entity, v
     }
 }
 
+/* Starts a targeted spell with a two-row effect, then restores movement and status after the animation. */
 void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, ActorRecord *actor)
 {
     u16 saved_pos[4];
@@ -1278,6 +1294,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
     }
 }
 
+/* Applies a value change and knockback, decelerates the actor, then recenters it and restores movement. */
 void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *action, ObjectPosition *motion, SpriteFrameState *entity, void *source)
 {
     s16 timer;
@@ -1378,6 +1395,7 @@ void apply_knockback_then_restore_target_selection(R12_80172FE8_S_801730B8_1 *ac
     }
 }
 
+/* Fades and flashes the defeated actor, awards experience, clears tile occupancy, and unlinks it. */
 void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, R12_801732EC_Entity *entity, R12_801732EC_Object *object) {
     s32 state;
     s32 object_status;
@@ -1489,6 +1507,7 @@ void finish_actor_hop_and_grow_then_select_target(Resource12CallbackState *state
     }
 }
 
+/* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
 void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in_actor)
 {
     void *context = in_context;
@@ -1623,6 +1642,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
     *(void **)in_controller = ((u8 *)update_actor_state_and_select_target);
 }
 
+/* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
 void resume_actor_target_selection_after_status_animation(void *controller, void *context, void *sprite, ActorRecord *entity)
 {
     s32 state;
@@ -1769,6 +1789,7 @@ void finish_actor_fade_in_then_select_target(Resource12CallbackState *state, voi
     }
 }
 
+/* Waits for the effect delay, then dims its color until it can be removed. */
 void dim_effect_after_delay(void *effect) {
     s16 state;
     u16 timer;
@@ -1798,6 +1819,7 @@ void dim_effect_after_delay(void *effect) {
     }
 }
 
+/* Projects curved grids for linked effects and queues their visible line segments by depth. */
 s32 build_linked_curved_wireframe_grid(u8 *node, s32 next_node, s32 callback_arg2)
 {
     R12_80173FDC_Frame frame;
@@ -2014,6 +2036,7 @@ grid_loop:
     return 0;
 }
 
+/* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
 s32 func_8017458C(void *initial_payload, s32 entry_data, R12_8017458C_Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
@@ -2039,6 +2062,7 @@ s32 func_8017458C(void *initial_payload, s32 entry_data, R12_8017458C_Entry *ent
 
 /* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
 
+/* Transforms line endpoints and queues their colored line and drawing-mode packets at the adjusted depth. */
 void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_80174618_S_80174618_1 *position, void *render_params, s16 depth_bias)
 {
     u8 *line_packet;
@@ -2164,6 +2188,7 @@ void transform_and_queue_line_packets(R12_80174618_S_80174618_4 *endpoints, R12_
     }
 }
 
+/* Traverses linked effect nodes and projects each node's line endpoints into render packets. */
 s32 queue_line_packets_for_node_chain(void *initial_state, void *context, void *data) {
     void *state = initial_state;
     void *next_node;
@@ -2192,6 +2217,7 @@ void update_turning_fade_effect_and_model(void *record_data) {
     }
 }
 
+/* Builds opening and closing spherical wireframe segments and expires the effect when its timer runs out. */
 void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) {
     s16 ring_angles[10];
     s32 coordinate;
@@ -2444,6 +2470,7 @@ void build_animated_spherical_wireframe(void *effect, void *origin, void *tint) 
     }
 }
 
+/* Creates a gray spherical wireframe effect offset vertically from the supplied position. */
 void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_context)
 {
     void *spawn_pos = spawn_pos_arg;
@@ -2482,6 +2509,8 @@ void create_offset_effect(void *source_arg, void *spawn_pos_arg, void *unused_co
     }
 }
 
+/* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
+ * action. */
 void func_8017526C(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
@@ -2502,6 +2531,7 @@ void func_8017526C(void *entity_data, s32 unused_1, s32 unused_2, void *other_da
     }
 }
 
+/* Advances the transition sprite, then restores the view tint to neutral and removes the effect. */
 void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data)
 {
     u8 *entity = entity_data;
@@ -2540,6 +2570,7 @@ void fade_effect_to_neutral(void *entity_data, void *unused, void *source_data)
     }
 }
 
+/* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
 void advance_effect_sequence_and_restore_actor(void *sequence, void *position, SpriteFrameState *record, void *actor) {
     GameWork *scene_color = &g_game_work;
     R12_80175470_S_80175470_2 *node;

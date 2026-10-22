@@ -19,6 +19,7 @@ typedef struct S_808B2B98_0 {
     u8 unk_0E;
 } S_808B2B98_0;   /* record in func_808B2B98 */
 
+/* Sets an indexed flag on a successful check; otherwise updates or restores the saved selection index. */
 s32 update_flagged_selection_index(s32 initial_index, s32 input1, s32 input2, s32 input3) {
     s32 value;
     s32 offset;

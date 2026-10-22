@@ -1,3 +1,4 @@
+/* Message-mode selection and dispatch of strings containing embedded control-word addresses. */
 #include "slus/message_mode_81550.h"
 
 s32 message_output_control_word = 0;

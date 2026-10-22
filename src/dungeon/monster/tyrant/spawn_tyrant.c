@@ -49,6 +49,8 @@ extern M2C_UNK D_8014CF68;
 extern M2C_UNK D_8014FFB8;
 extern M2C_UNK D_80150000;
 
+/* Creates a Tyrant actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *func_8014C898(s16 input0, s16 input1, s16 input2, s16 input3) {
     S_8107D000_1 *record;
     s32 value;

@@ -1,3 +1,4 @@
+/* Ifrit texture division and linked textured-strip rendering. */
 #include "common.h"
 #include "shared/game_work.h"
 

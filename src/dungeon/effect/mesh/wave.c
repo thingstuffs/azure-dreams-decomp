@@ -1,3 +1,4 @@
+/* Wave-displaced sprite strips, shaded particles, timed fades, and projectile impact effects. */
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = set_record_pair_to_one;

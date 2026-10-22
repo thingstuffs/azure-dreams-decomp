@@ -16,6 +16,7 @@ extern s32 D_8001A8BC;
 extern s32 D_8001A91D;
 
 
+/* Selects a response table for four selectors, choosing alternate data for statuses -0x30 and -0x38. */
 s32 *select_record_pointer_by_status_b(s32 value, s32 unused, s32 selector) {
     s32 *result;
     s32 status;

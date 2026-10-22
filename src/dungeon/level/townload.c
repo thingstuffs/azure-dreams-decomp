@@ -1,3 +1,4 @@
+/* Resource descriptor queueing, slot reuse, and deferred loading. */
 #include "dungeon/level/townload.h"
 
 
@@ -13,6 +14,7 @@ s32 resource_value_table_contains(s32 value) {
     return 0;
 }
 
+/* Checks whether any of the 15 queued descriptors appears in the resource value table. */
 s32 has_listed_resource_in_slots(void) {
     s32 slot;
     u8 *entry_indices;
@@ -48,6 +50,7 @@ s32 find_slot_for_resource_entry(void) {
     return -1;
 }
 
+/* Queues a resource in a reusable slot or the first empty slot, maintaining a zero terminator on append. */
 void reserve_twch_load(s32 entry_id) {
     s32 entry_index;
     s32 found;
@@ -73,6 +76,7 @@ void reserve_twch_load(s32 entry_id) {
     } while (entry_index < 15);
 }
 
+/* Loads the queued resources, then resets the queue to entry 1 or empty based on the resource value table. */
 void load_reserved_slot_resources(void) {
     s32 slot;
     u8 *entry_id;

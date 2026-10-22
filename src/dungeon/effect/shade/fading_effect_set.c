@@ -1,7 +1,9 @@
+/* Linked line travel, expanding spiral particles, sprite fades, and nearby status effects. */
 #include "dungeon/effect/shade/fading_effect_set.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))move_linked_effect_along_path;
 
+/* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
 void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
     u8 *actor = dungeon_actor_ring_anchor;
     x = (s16)x;
@@ -21,6 +23,8 @@ void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
     } while (actor != dungeon_actor_ring_anchor);
 }
 
+/* Expands and fades a sprite while stepping its height by -8, removing it at zero intensity or
+   animation completion. */
 void advance_fading_effect(void *effect, void *position, void *render_data)
 {
     u8 *effect_state = *(u8 **)effect;
@@ -49,6 +53,8 @@ void advance_fading_effect(void *effect, void *position, void *render_data)
     }
 }
 
+/* Creates a gray sprite with the supplied intensity at the source coordinates and a small randomized
+   height offset. */
 void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity) {
     SpriteFrameState *render_state;
     ovl_188898c_81868A64_S_81868A64_2 *effect_pos;
@@ -76,6 +82,8 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
     }
 }
 
+/* Emits grayscale particles along three expanding spirals, fades the emission color, and signals
+   completion. */
 void animate_spiral_grayscale_effect(void *effect, void *position) {
     s32 radial_product;
     s32 fade_angle;
@@ -193,6 +201,8 @@ void animate_spiral_grayscale_effect(void *effect, void *position) {
     }
 }
 
+/* Creates a controller for three expanding particle spirals, saving the owner and a copy of the origin
+   coordinates. */
 void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords) {
     u32 owner_value;
     u16 x;
@@ -232,6 +242,7 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
    Its live range claims $a0, leaving the allocator result in $a1; u32 avoids
    the redundant andi and collapses the +1-word branch-displacement cascade. */
 
+/* Shrinks and brightens a sprite, then signals its owner and removes it when the animation finishes. */
 void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect) {
     u16 scale;
     u8 brightness;
@@ -254,6 +265,7 @@ void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect) {
     }
 }
 
+/* Creates a large gray sprite at the supplied coordinates with a shrinking and brightening callback. */
 void delay_and_fade_particle(s32 value, void *source_data) {
     ovl_188898c_81868FDC_Object *obj;
     SpriteFrameState *sprite;
@@ -512,6 +524,8 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
    (single-lifetime quantities for local-alloc), while coord_delta and line stay function-wide;
    the masked step_x read gives the mask the extra reference that orders it ahead of y0. */
 
+/* Moves a line effect to a linked actor or forward tile, runs two arrival effects, and applies a
+   nearby status effect. */
 void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data)
 {
     u8 *root;

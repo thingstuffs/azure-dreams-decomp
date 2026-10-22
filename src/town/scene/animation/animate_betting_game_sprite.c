@@ -22,6 +22,7 @@ typedef struct S_80810454_2 {
 extern s32 func_8006A3A4();
 extern s32 D_80084D5C;
 
+/* Moves the sprite into place, bobs it, and marks it for removal after it moves out. */
 void animate_betting_game_sprite(void *state_data, S_80810454_1 *motion_data) {
     s16 state;
 

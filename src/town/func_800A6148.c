@@ -4,6 +4,7 @@
 
 extern void unlink_node_if_registered(void *object);
 
+/* Dims the primitive by six per tick, then unlinks and marks the object for removal at zero brightness. */
 void decrease_primitive_brightness_and_mark_cleanup(void *object, void *unusedContext, u8 *primitive)
 {
     s32 brightness;

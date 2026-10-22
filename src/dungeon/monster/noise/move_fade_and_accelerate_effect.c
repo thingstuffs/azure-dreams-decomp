@@ -1,3 +1,4 @@
+/* Noise actor creation and randomized moving, fading effects. */
 #include "dungeon/monster/noise/move_fade_and_accelerate_effect.h"
 
 /* Move and fade the effect, apply vertical acceleration, and flag it when its lifetime ends. */

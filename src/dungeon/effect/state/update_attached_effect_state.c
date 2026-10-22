@@ -47,6 +47,7 @@ extern s16 resolve_alternate_spell_id(s16);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern s32 roll_chance_and_apply_effect_four(Entity800B4194 *, s32, s32);
 extern s32 roll_threshold_effect_variant_b(Entity800B4194 *, s32, s32);
+/* Applies secondary spell and event-record effects, updating actor status, values, and displayed messages. */
 s32 update_attached_effect_state(s16 tile_index, Entity800B4194 *entityp, Context800B4194 *contextp)
 {
     s16 blocked;

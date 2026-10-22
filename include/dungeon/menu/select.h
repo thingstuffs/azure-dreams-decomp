@@ -720,7 +720,7 @@ void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mo
 s32 queue_four_shaded_quadrants(void *rect_arg, void *owner_arg);
 
 extern void advance_sprite_animation_and_textures(void *, s16, void *, void *);
-M2C_UNK select_record_entry_and_value();  /* extern */
+void select_record_entry_and_value();  /* extern */
 extern M2C_UNK D_80079444;
 s32 func_800644B8();                        /* extern */
 s32 resolve_player_input_facing();               /* extern */
@@ -751,9 +751,9 @@ extern s32 find_or_retain_sprite_resource_slot(s32, s32);
 extern void unlink_entity_node(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void retire_tracked_effect_by_id(void *);
-M2C_UNK set_message_mode();                     /* extern */
+void set_message_mode();                     /* extern */
 void runtime_call_selected_mode_handler();                            /* extern */
-M2C_UNK submit_script_with_registered_context();                   /* extern */
+void submit_script_with_registered_context();                   /* extern */
 extern M2C_UNK D_80027160;
 extern Cell menu_mesh_cells[];
 extern s16 D_8002713A[];

@@ -3,6 +3,7 @@
 
 extern void release_town_map_record(void **);
 
+/* Raises field +8 by 0x200; clamps and releases the town map record once it exceeds 0x800. */
 void advance_record_value_and_reset_when_capped(void **record_ref) {
     void *record;
     void *first_record;

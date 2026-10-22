@@ -213,6 +213,7 @@ typedef struct S_8009A180_2 {
     void * unk_58;
 } S_8009A180_2;
 
+/* Marks an actor processed and moves it beside the anchor in the actor ring unless already marked. */
 s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     u32 link_bits;
     u32 link_bits_2;

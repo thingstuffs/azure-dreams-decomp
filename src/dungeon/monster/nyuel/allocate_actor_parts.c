@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/nyuel/allocate_actor_parts.h"
 
+/* Creates a Nyuel actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 Body *allocate_actor_parts(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
     s16 held_flags;
     s16 held_a;

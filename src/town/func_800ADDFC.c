@@ -15,6 +15,7 @@ typedef struct {
 extern u8 D_800AB408[];
 extern u8 D_800AB708[];
 
+/* Changes the handler below value 100 and on timer expiry; otherwise turns field +0x72 by -0x400. */
 void update_timed_state_transition(State *state) {
     u16 timer;
 

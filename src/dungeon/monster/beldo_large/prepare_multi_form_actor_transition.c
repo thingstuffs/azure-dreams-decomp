@@ -8,6 +8,7 @@ extern void set_or_clear_actor_status_slot(void *, s32, s32);
 
 extern u8 *beldo_actor_nodes[3];
 
+/* Resets the encounter actor action, sets its transition status, and relinks up to two attached objects. */
 void prepare_multi_form_actor_transition(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     s32 i;
     u8 *p;

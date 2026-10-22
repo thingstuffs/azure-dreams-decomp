@@ -16,6 +16,7 @@ typedef struct S_80810F98_1 {
     u16 unk_0C;
 } S_80810F98_1;   /* object in fade_scene_color_after_linked_flag */
 
+/* After linked flag 2 is set, subtracts 0x080808 per update and retires the node at <= 0x080808. */
 void fade_scene_color_after_linked_flag(S_80810F98_0 *ptr)
 {
     s16 state;

@@ -1,7 +1,10 @@
+/* Three-way target effects, arcing sprites, orbiting particles, and target tint and damage. */
 #include "dungeon/effect/shade/update_directional_actor_effect.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/shade/update_directional_actor_effect.h"
 
+/* Computes two orientation angles from the difference between the supplied positions and sets the
+   third angle to zero. */
 void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles)
 {
@@ -26,6 +29,8 @@ void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 
     angles[2] = 0;
 }
 
+/* Follows the source sprite until released, arcs toward the actor, then expands and brightens before
+   removal. */
 void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *sprite)
 {
     u16 offset[3];
@@ -156,6 +161,8 @@ void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *spr
     ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_12 = ((Row_8194C8F0_S_800240F0_0 *)effect)->unk_12 + 1;
 }
 
+/* Creates a gray sprite with the supplied image and installs the callback that follows its source and
+   arcs to the actor. */
 void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s32 render_param)
 {
     int color;
@@ -185,6 +192,8 @@ void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s3
     }
 }
 
+/* Orbits a sprite around its saved position through a transform while rotating, shrinking, and fading
+   it to removal. */
 void update_rotating_effect_and_fade(void *effect, void *position, void *sprite) {
     Row_8194CD5C_InputVector local_offset;
     Row_8194CD5C_OutputVector rotated_offset;
@@ -229,6 +238,7 @@ void update_rotating_effect_and_fade(void *effect, void *position, void *sprite)
    restoring the 0x30 frame and the s0/s1/s2-only save set.
    cdk -G0 plus a direct scalar D_800814A0 RMW removes the extra address addiu and closes the residue. */
 
+/* Creates a gray sprite at a rotated radial offset using the source's saved position and transform. */
 void create_textured_offset_object(void *source_object)
 {
     s16 local_offset[3];
@@ -310,6 +320,8 @@ void create_textured_offset_object(void *source_object)
     }
 }
 
+/* Advances an effect along its saved travel steps and emits textured orbiting sprites until its step
+   counter reaches nine. */
 void advance_object_motion_and_animation(void *object) {
     s16 next_tick;
     s32 velocity_y;
@@ -335,6 +347,8 @@ void advance_object_motion_and_animation(void *object) {
     }
 }
 
+/* Creates an effect with saved endpoints, one-eighth travel steps, a phase setting, and copied
+   transform data. */
 void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,
     Row_8194D1E4_FourWords params_b, Row_8194D1E4_Packed8 packed_params) {
     s32 start_x;
@@ -397,6 +411,8 @@ void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end
    A derived sp base with ASM_KEEP prevents packed tail loads folding from lwl/lwr pairs into lw;
    the paired tail source reads then also eliminate both downstream branch-displacement drifts. */
 
+/* Sends three effects toward a monster or forward tile, tints and attacks the target, then waits for
+   cleanup. */
 void update_three_way_target_effect(void *effect_arg, void *position) {
     s32 fallback_pos[6];
     Row_8194D1E4_Packed8 direction;

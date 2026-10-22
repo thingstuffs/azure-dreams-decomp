@@ -10,6 +10,7 @@ extern u8 D_8001AAEC[];
 extern u8 D_8001DE58[];
 extern u8 D_80020C9C[];
 
+/* Selects mode-specific data for selectors 1 and 3, or runs the selector-8 check and event. */
 s32 select_data_by_mode_and_index(s32 unused0, s32 unused1, s32 selector) {
     s32 result = 0;
 

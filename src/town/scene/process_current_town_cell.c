@@ -20,6 +20,7 @@ s32 func_80018504();                    /* extern */
 s32 func_800194D8();                         /* extern */
 extern M2C_UNK scene_cell_dispatch_code;
 
+/* Dispatches the current cell's action and clears its status after completion or a status-1 fallback. */
 s32 process_current_town_cell(s32 input_value, s32 input) {
     s32 result;
     u8 field_value;

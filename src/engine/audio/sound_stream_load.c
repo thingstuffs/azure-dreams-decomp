@@ -1,3 +1,4 @@
+/* Double-buffered sound stream selection and loading of sound-set resources from CD. */
 #include "slus/gp_af3_pair.h"
 #include "common.h"
 
@@ -5,6 +6,7 @@
 s8 sound_stream_state_index = -1;
 
 static s16 sound_stream_buffer_index;
+/* Selects a buffered sound stream, loading it and its sound set from CD when needed, then starts playback. */
 s32 select_sound_stream(s16 entry_index, s16 mode)
 {
     if (sound_stream_resource_entries[entry_index] == sound_stream_buffer_entries[sound_stream_buffer_index]) {
@@ -36,6 +38,7 @@ s32 select_sound_stream(s16 entry_index, s16 mode)
     return 0;
 }
 
+/* Loads a changed sound set and its payload from CD, submits it to the driver and waits for readiness. */
 s32 load_sound_set(s16 state_index)
 {
     if (sound_stream_state_index != state_index) {

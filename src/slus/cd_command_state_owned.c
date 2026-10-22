@@ -1,3 +1,4 @@
+/* CD command queue state, event results, retry counters and read completion. */
 #include "engine/scene/cd_cohort_types.h"
 u8 cd_command_read_index = 0;
 u8 cd_command_mode_byte = 0;

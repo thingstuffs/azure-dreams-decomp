@@ -9,6 +9,7 @@ extern void *create_town_effect_object(s32, s32, void *, s32);
 extern void *initialize_object_transform_and_state(void *, void *, s32);
 extern s32 D_800A6BEC;
 
+/* Creates a white effect with scale 0x1800 and installs its fade-and-shrink callback. */
 void update_sine_pulse_color(s32 object_id) {
     s8 *model;
     s8 *object;

@@ -43,10 +43,10 @@ extern u8 D_800DD138[];
 extern u8 D_800DD140[];
 extern u8 D_800DD260;
 extern M2C_UNK D_800DD262;
-extern M2C_UNK D_800E05E1;
-extern M2C_UNK D_800E05F0;
-extern M2C_UNK D_800E06FA;
-extern M2C_UNK D_800E0714;
+extern u8 D_800E05E1[];
+extern u8 D_800E05F0[];
+extern u8 D_800E06FA[];
+extern u8 D_800E0714[];
 extern s32 familiar_turn_counters_alias[];
 extern void *familiar_record_slots[];
 extern s8 entity_resource_read_complete;
@@ -164,8 +164,8 @@ typedef struct S_8009345C_16 {
 /* Advances the object replacement sequence, including animation, messages, and cleanup. */
 void update_familiar_deployment_change(void *actor, MovingPosition *map, void *entity, void *context) {
 
-    M2C_UNK *remove_text;
-    M2C_UNK *create_text;
+    u8 *remove_text;
+    u8 *create_text;
     s32 remove_message;
     s32 load_id;
     s32 create_id;
@@ -230,11 +230,11 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         message_or_list.value = get_unused_text_buffer();
         remove_message = write_text_byte_and_advance(8, message_or_list.value);
         if (((S_8009345C_4 *)(&D_800DD262))->unk_00.s != 0) {
-            remove_text = &D_800E05F0;
+            remove_text = D_800E05F0;
         } else {
-            remove_text = &D_800E05E1;
+            remove_text = D_800E05E1;
         }
-        clear_byte_and_advance(expand_text_control_codes(&D_800E06FA, append_entity_display_text(((S_8009345C_2 *)context)->unk_60,
+        clear_byte_and_advance(expand_text_control_codes(D_800E06FA, append_entity_display_text(((S_8009345C_2 *)context)->unk_60,
             expand_text_control_codes(remove_text, remove_message))));
         display_text_with_fullwidth_adjustment(message_or_list.value);
         old_object = ((S_8009345C_2 *)context)->unk_60;
@@ -308,11 +308,11 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                     create_message = write_text_byte_and_advance(8, create_message);
                 }
                 if (((S_8009345C_4 *)(&D_800DD262))->unk_00.s != 0) {
-                    create_text = &D_800E05F0;
+                    create_text = D_800E05F0;
                 } else {
-                    create_text = &D_800E05E1;
+                    create_text = D_800E05E1;
                 }
-                clear_byte_and_advance(expand_text_control_codes(&D_800E0714, append_entity_display_text(new_object, expand_text_control_codes(create_text,
+                clear_byte_and_advance(expand_text_control_codes(D_800E0714, append_entity_display_text(new_object, expand_text_control_codes(create_text,
                     create_message))));
                 display_text_with_fullwidth_adjustment(message_or_list.value);
                 cleanup_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;

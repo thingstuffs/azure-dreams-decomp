@@ -98,6 +98,7 @@ extern u8 D_8028954C[12];
 extern s32 D_8029070C[3];
 extern u8 D_80529080[12];
 extern s16 D_80530658[];
+/* Advances the object's motion sequence, switches animations, spawns effects, and handles its exit. */
 void update_sequenced_object(void *in0, void *motion, void *in2) {
     s16 *count_cursor;
     s16 raw_s1;

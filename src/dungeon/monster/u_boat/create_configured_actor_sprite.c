@@ -49,6 +49,8 @@ extern u8 uboat_action_frames[];
 extern u8 D_801711B0[];
 extern u8 D_80171A80[];
 
+/* Creates a U-Boat actor, initializes its status and tile placement, and creates a linked directional
+ * display. */
 void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
 {
     s8 held_value_24 = value_24;

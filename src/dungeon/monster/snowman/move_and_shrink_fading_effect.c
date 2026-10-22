@@ -1,9 +1,11 @@
+/* Snowman actor spawning, movement, spell and attack sequences, and particle effects. */
 #include "modules/dungeon_resource10_slot0.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource10_slot0_entry0)(s16 flags, s16 kind_id, s16 variant, s32 spawn_value) = create_actor_with_optional_status;
 void (*const resource10_slot0_entry1)(u8 *actor, u8 *motion, u8 *object) = update_actor_callbacks_animation_and_ground;
 
+/* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
 s32 func_8017092C(u8 *node_data, u16 *position)
 {
     R10_8017092C_Scratch *scratch = (R10_8017092C_Scratch *)0x1F800000;
@@ -79,6 +81,7 @@ s32 func_8017092C(u8 *node_data, u16 *position)
 }
 
 
+/* Moves and accelerates the sprite, shrinks and fades it, and expires it near the target or on timeout. */
 void move_and_shrink_fading_effect(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 *vec, R10_80170B0C_Sprite *sprite)
 {
     s32 distance_x;
@@ -121,6 +124,7 @@ void move_and_shrink_fading_effect(R10_80170B0C_Actor *actor, R10_80170B0C_Vec3 
     }
 }
 
+/* Creates a timed sprite offset from its owner with motion that converges toward the source position. */
 void create_converging_fading_sprite(
     R10_80170CF8_S_80AC55DC_1 *origin, s16 effect_id, s32 effect_value, s16 duration,
     s32 offset_x, s32 offset_y, s32 offset_z)
@@ -185,6 +189,8 @@ void create_converging_fading_sprite(
 }
 
 
+/* Creates a Snowman actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32 spawn_value)
 {
     s32 kind;
@@ -254,6 +260,7 @@ void *create_actor_with_optional_status(s16 flags, s16 kind_id, s16 variant, s32
    kind_id and variant arrive as s16: their narrowing copies survive cse, combine folds the a1/a2 temps
    into them, so sched1 schedules the parameter copies and the entry order is retail's. */
 
+/* Runs actor callbacks, cycles its idle hop animation, and updates facing, motion, and ground contact. */
 void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *object)
 {
     u8 *actor_copy;
@@ -462,6 +469,7 @@ void update_actor_callbacks_animation_and_ground(u8 *actor, u8 *motion, u8 *obje
     return;
 }
 
+/* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, ActorRecord *entity_arg)
 {
     s32 direction_aux;
@@ -645,6 +653,8 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, ActorRe
     }
 }
 
+/* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
+ * delay. */
 void func_80171D7C(void *movement, void *motion, SpriteFrameState *entity, void *path_state) {
     void *state = path_state;
     s32 move_flags;
@@ -736,6 +746,8 @@ void func_80171D7C(void *movement, void *motion, SpriteFrameState *entity, void 
     }
 }
 
+/* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
+ * counts. */
 void func_80171FE8(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
@@ -962,6 +974,7 @@ void func_80172730(void *actor_state, void *action_state, SpriteFrameState *spri
     ((Rec_func_80171CD4_arg0 *)actor_state)->unk_9D = 0;
 }
 
+/* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 func_801727B8(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_angle;
@@ -1012,6 +1025,8 @@ s32 func_801727B8(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
 }
 
 
+/* Claims an action slot, starts the directional attack animation, and prepares its target and damage
+ * state. */
 void func_8017297C(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
@@ -1031,6 +1046,7 @@ void func_8017297C(void *action_state, void *action_context, SpriteFrameState *s
     }
 }
 
+/* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
 s32 func_80172A94(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
@@ -1089,6 +1105,7 @@ void func_80172BD8(void *entity_arg, s32 unused, s32 check_arg, s32 actor_arg) {
     }
 }
 
+/* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
 void func_80172C54(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     s32 state;
@@ -1227,6 +1244,7 @@ void func_8017301C(Resource10CallbackState *state, void *entity, void *position,
     }
 }
 
+/* Times an attack animation and sound, applies damage, spends MP, and restores actor movement. */
 void advance_timed_attack_animation_and_damage(void *action, void *motion, void *sprite, ActorRecord *actor)
 {
     u16 timer;
@@ -1287,6 +1305,8 @@ void advance_timed_attack_animation_and_damage(void *action, void *motion, void 
     }
 }
 
+/* Starts a targeted spell effect, emits converging particles, and restores actor status after the
+ * animation. */
 void advance_actor_spell_effect_sequence(void *actor, ObjectPosition *motion, void *tile_arg, ActorRecord *action)
 {
     s16 particle_index;
@@ -1514,6 +1534,8 @@ const Resource10DirectionOffset D_80170874[8] = {
     { 13, 65523 }
 };
 
+/* Applies a value change and directional displacement, then returns the actor to its tile and restores
+ * movement. */
 void displace_actor_then_recenter(void *action, ObjectPosition *motion, void *entity, EntityRec *actor)
 {
     s32 state;
@@ -1650,6 +1672,7 @@ void func_80173B84(Resource10CallbackState *state, void *motion, void *position,
     }
 }
 
+/* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
 void func_80173BBC(void *action, void *context, void *sprite_in, void *actor_in)
 {
     s32 state;
@@ -1784,6 +1807,7 @@ void func_80173BBC(void *action, void *context, void *sprite_in, void *actor_in)
     }
 }
 
+/* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
 void func_80173F4C(void *actor_in, s32 actor_index, void *target, void *entity_in)
 {
     EntityRec *entity = entity_in;
@@ -1929,6 +1953,8 @@ void func_801743F4(Resource10CallbackState *state, void *motion, void *position,
     }
 }
 
+/* Finds actors at the target tile and height, resolves attack damage, and bursts particles for kinds
+ * 0x33-0x36. */
 void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s32 target_y, s32 target_height)
 {
     R10_8017442C_OffsetTable offsets = (*(R10_8017442C_OffsetTable *)&D_80170854);
@@ -1988,6 +2014,7 @@ void resolve_linked_attack_hits_and_particle_bursts(void *node, s32 target_x, s3
 
 }
 
+/* Prepares the owner's attack for actors at the target tile and height, excluding kinds 0x33-0x36. */
 void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s32 tile_y, s16 target_height)
 {
     s32 match_x = tile_x;
@@ -2018,6 +2045,7 @@ void prepare_directional_attacks_for_neighbor_entities(void *node, s32 tile_x, s
     }
 }
 
+/* Claims an action slot, starts the directional action animation, and advances status and turn counters. */
 void select_actor_target_and_advance_status(void *action_state, s32 effect_arg, SpriteFrameState *anim_state, ActorRecord *actor) {
     actor->movement_queue_state = actor->movement_queue_state & 0x7F;
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
@@ -2037,6 +2065,8 @@ void select_actor_target_and_advance_status(void *action_state, s32 effect_arg, 
     }
 }
 
+/* Prepares attacks near the tile ahead, resolves hits with particle bursts, then spends MP and ends the
+ * action. */
 void advance_directional_attack_sequence(void *action, void *position, void *sprite, ActorRecord *entity)
 {
     R10_80174898_OffsetTable direction_offsets = (*(R10_80174898_OffsetTable *)&D_80170854);
@@ -2136,6 +2166,7 @@ void advance_directional_attack_sequence(void *action, void *position, void *spr
 }
 
 
+/* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
 s32 func_80174BE4(void *initial_payload, s32 entry_data, R10_80174BE4_Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
@@ -2161,6 +2192,8 @@ s32 func_80174BE4(void *initial_payload, s32 entry_data, R10_80174BE4_Entry *ent
 
 /* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
 
+/* Moves the effect along an oscillating directional path, changes its brightness, and expires it at frame
+ * 26. */
 void update_effect_motion_and_brightness(void *effect, void *motion, void *render)
 {
     R10_80174C70_LocalVector direction;
@@ -2291,6 +2324,7 @@ void update_effect_motion_and_brightness(void *effect, void *motion, void *rende
     return;
 }
 
+/* Spawns a small gray oscillating sprite near the source, oriented relative to the camera. */
 void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF3724_0 *origin, void *unused_record, void *unused_actor)
 {
     R10_80174F24_LocalVector direction;
@@ -2364,6 +2398,8 @@ void spawn_randomized_oscillating_effect(s32 unused, R10_80174F24_S_func_80AF372
     }
 }
 
+/* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
+ * action. */
 void func_801751C0(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
@@ -2384,6 +2420,7 @@ void func_801751C0(void *entity_data, s32 unused_1, s32 unused_2, void *other_da
     }
 }
 
+/* Advances the transition sprite, then restores the view tint to neutral and removes the effect. */
 void func_8017526C(u8 *task, void *context, u8 *input)
 {
     s16 frames_left;
@@ -2415,6 +2452,7 @@ void func_8017526C(u8 *task, void *context, u8 *input)
     }
 }
 
+/* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
 void advance_actor_transition_and_restore_facing(void *transition, void *position, Rec_D_80082E80 *record, void *actor) {
     u8 *object_data = ((u8 *)(&g_game_work));
     u8 state;

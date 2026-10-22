@@ -3,6 +3,7 @@
 s32 get_player_homerank(void);
 extern u8 D_8008910C[];
 
+/* Finds the first item with both key bytes within the player's home rank limit, or returns NULL. */
 u8 *find_item_by_key_pair(s32 first_key, s32 second_key) {
     u8 last_indices[4];
     u8 *scan_base;

@@ -30,7 +30,7 @@ void place_actor_item();                 /* extern */
 void display_item_status_message(void *entity, s32 item, s16 action_type);   /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void *spawn_randomized_particle_burst(); /* extern */
-extern M2C_UNK D_800E1729;
+extern u8 D_800E1729[];
 
 /* Handles an item action for an entity, including its effect and item cleanup. */
 s32 use_item_to_apply_poison(void *entity, s32 item, s16 action_type) {
@@ -53,7 +53,7 @@ s32 use_item_to_apply_poison(void *entity, s32 item, s16 action_type) {
     spawn_randomized_particle_burst((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20,
         ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_9C, 0x802080, 0x20, 1);
     if (((set_or_clear_actor_status_slot(entity, 5, 8) << 0x10) != 0) && (((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_28 & 0x4000)) {
-        adjust_source_value_and_finalize(entity, &D_800E1729);
+        adjust_source_value_and_finalize(entity, D_800E1729);
     }
     clear_slot_and_update_linked_state(item);
     {

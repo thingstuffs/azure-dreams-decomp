@@ -1,3 +1,4 @@
+/* Moving target effects, tint changes, radial sprite emission, and shaded point rendering. */
 #include "modules/dungeon_ovl_18a0800.h"
 void (*const dungeon_18a0800_entry)(u8 *,u8 *,u8 *) = follow_brighten;
 #include "modules/dungeon_ovl_18a0800.h"

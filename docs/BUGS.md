@@ -1,8 +1,8 @@
 # Original Azure Dreams bugs and their causes
 
-Most bugs here were found by players and documented in the [adrando randomizer guide](https://adrando.com/guide/bugs.html); this page maps each one to the code that causes it. Credit belongs to the Azure Dreams community. The guide uses bullet entries; the labels below identify them.
+Most bugs here were found by players and documented in the [adrando randomizer guide](https://adrando.com/guide/bugs.html); this page maps reports to their causes in the code. Credit belongs to the Azure Dreams community. The guide uses bullet entries; the labels below identify them.
 
-The retail logic is preserved. These are static code checks; no emulator replay is claimed.
+The retail logic is preserved. These are static code and stock-data checks; the Golem button and movement branches also have host executions of their C definitions. No emulator replay is claimed.
 
 ## Community bugs
 
@@ -49,7 +49,9 @@ The Oleem route reserves one completion, but the pentagram and the returning Man
 
 [adrando entry: Golem idle animation and Select](https://adrando.com/guide/bugs.html).
 
-The community report is credited here, but its complete cause still needs verification.
+- **B028**: Select keeps the Golem's idle reservation and null callback armed. After watchdog recovery, Koh's movement check admits a ready familiar's tile even though this Golem cannot move away, allowing both actors onto the same tile. Source: [update_directional_transition_state](../src/dungeon/monster/golem/update_directional_transition_state.c#L66), [classify_adjacent_tile_height](../src/dungeon/level/tile.c#L739), [update_shrinking_sprite_effect](../src/dungeon/monster/golem/update_shrinking_sprite_effect.c#L44).
+
+The collared Golem starts idle state 23 after 61 eligible idle updates. Completion requires nonzero input with Select clear, so Select keeps its normal callback null. After Koh leaves idle, 901 unchanged busy updates let the watchdog clear the pending count. With ordinary turn scale 0x100 and Golem scale 0x100, the movement classifier permits Koh to enter a healthy familiar's occupied tile because it expects the familiar to move away. The Golem's ready-pass wrapper instead skips its null callback, and Select still blocks idle completion. This proves a sufficient overlap route after watchdog recovery without clearing occupancy. Separate host executions check the actual button handler and the actual movement classifier; no emulator replay is claimed.
 
 ### The Strength increased talent
 
@@ -95,6 +97,8 @@ The Salamander attacks a monster sharing its tile with distance zero. When facin
 
 The community report is credited here, but its complete cause still needs verification.
 
+Theft stores the item word at actor +0x48. The transformed actor and hidden native Manoeva have separate live pointers, while recall snapshots a separate familiar registry. Recall dispatches the transformed Picket through fade removal, not its death-time item-drop callback. A copied item word alone does not establish two usable items; the second owner and the precise reported input sequence remain unverified.
+
 ### De-curse leaves the curse effect
 
 [adrando entry: De-curse leaves the curse effect](https://adrando.com/guide/bugs.html).
@@ -109,8 +113,9 @@ The community report is credited here, but its complete cause still needs verifi
 - **B015F**: When a lifted familiar stops being a frog, reattaching the replacement clears Koh's tile occupancy after its constructor set it. Source: [end_status_effect_message](../src/engine/message/end_status_effect_message.c#L173).
 - **B015T**: Feeding Tumna to an already lifted familiar restarts lift setup on Koh's shared tile, clearing Koh's occupancy. Source: [update_actor_facing_animation](../src/dungeon/actor/movement_path_g00371.c#L238).
 - **B015E**: Feeding Roche to a lifted familiar turns it into an egg and clears occupancy at Koh's tile. Source: [apply_monster_egg_reversion_item](../src/dungeon/item/apply_monster_egg_reversion_item.c#L154).
+- **B015V**: Freeing a lifted familiar clears actor occupancy at its cached sprite tile, which still names Koh's tile after the carry flag is cleared. Source: [advance_actor_removal](../src/dungeon/actor/advance_actor_removal.c#L330), [advance_actor_removal](../src/dungeon/actor/advance_actor_removal.c#L394).
 
-Recall, Tumna, Roche and frog-expiry routes are mapped. The separate Free command still needs its full removal path checked.
+Recall, Free, Tumna, Roche and frog expiry are mapped. Free selects removal state 2. Its phase 3 clears the carried flag; the departure effect moves world coordinates but retains the cached sprite tile on Koh. The final removal clear therefore empties Koh’s occupancy.
 
 ### Luck dodge and evasion
 
@@ -125,7 +130,7 @@ Recall, Tumna, Roche and frog-expiry routes are mapped. The separate Free comman
 - **B026**: Fusing a frogged donor leaks its native familiar resource slot; a different third species cannot be deployed while both slots stay occupied. Source: [merge_creature_abilities_and_state](../src/dungeon/actor/state/merge_creature_abilities_and_state.c#L603).
 - **B026H**: A frogged Hikewne can accept Ovum and survive a fusion that normally absorbs it. Source: [fix_monster_fusion_appearance](../src/dungeon/item/fix_monster_fusion_appearance.c#L76).
 
-The verified parts are Hikewne survival through the frog/Ovum restriction bypass and a leaked native sprite slot that blocks another species from being deployed. Recalling the survivor restores its own species. The additional report of a different monster receiving a parent’s appearance still needs a complete sprite-resource trace.
+The verified parts are Hikewne survival through the frog/Ovum restriction bypass and a leaked native sprite slot that blocks another species from being deployed. Recalling the survivor restores its own species. The additional report of a different monster receiving a parent’s appearance still needs a complete sprite-resource trace. The failed-allocation path also leaves the earlier load-completion fields untouched before the upload phase; the later constructor still requires a nonnull allocation. This is a trace point, not proof that a third species gets another sprite.
 
 ### Items and traps on regenerated floors
 
@@ -138,8 +143,9 @@ The verified parts are Hikewne survival through the frog/Ovum restriction bypass
 [adrando entry: Special encounter and item records overwritten](https://adrando.com/guide/bugs.html).
 
 - **B020**: A trap room on floor 31 can replace the reserved Beldo vision in slot 0 with a trap, preventing that vision from spawning. Source: [place_room_trap_records](../src/dungeon/level/generate.c#L2613).
+- **B029**: An item room that fills every slot below the ordinary item limit suppresses Blue Collar or Healing Herb selection: ordinary population reaches its limit without calling the special selector. Source: [mark_random_eligible_region_tiles](../src/dungeon/level/generate.c#L2685).
 
-The Beldo vision and trap-room collision is mapped. The blue-collar/healing-herb variants still need generation/population ordering checked.
+Scene 17’s callback list runs room generation at index 7 and ordinary item population at index 17. Item rooms fill a low slot prefix with special selection disabled. If this covers every slot below the ordinary limit, population skips the occupied prefix and exits at its first empty slot without invoking special selection. This suppresses selection rather than overwriting a previously reserved item. Blue Collar requires floor 12 and the collar flag clear. Healing Herb requires floor 28, event bit 0xFC3 set, bit 0xFAD clear, and no category-1/index-8 item owned. Beldo’s trap-room collision is a separate mechanism.
 
 ### Invisible Salamander particles
 
@@ -166,6 +172,8 @@ The sprite command has width and height 1. At unit scale the perspective rendere
 [adrando entry: Agility without a known use](https://adrando.com/guide/bugs.html).
 
 The community report is credited here, but its complete cause still needs verification.
+
+Byte 2 is initialized, copied, grown and lowered. The reviewed turn updater’s HP-regeneration block uses current/max HP at +0x28/+0x29 rather than byte 2. An exhaustive alias-aware consumer audit and a specified intended agility mechanic are still missing; no unused-stat defect is asserted.
 
 ## Other bugs seen while reading the code
 

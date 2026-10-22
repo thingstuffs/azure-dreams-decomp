@@ -1,3 +1,4 @@
+/* Coordinate interpolation and creation of seven colored ribbon segments. */
 #include "shared/object_node.h"
 #include "common.h"
 #include "shared/object_flags.h"

@@ -21,6 +21,7 @@ extern Entity scene_object_payload_alias;
 extern s32 D_80097D2C[3];
 extern s32 D_8009A81C;
 
+/* Initializes the scene entity's handlers, masked ID, position, and 16-tick timer. */
 void initialize_entity_handlers_and_position(s32 entity_id, s32 x, s32 y) {
     Entity *entity = &scene_object_payload_alias;
     s32 *context = (s32 *)((u8 *)entity - 0x20);

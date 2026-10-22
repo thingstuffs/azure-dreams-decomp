@@ -1,3 +1,4 @@
+/* Timed target effects, jittered intermediate points, and linked trail quad rendering. */
 #include "modules/dungeon_ovl_19c6800.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"

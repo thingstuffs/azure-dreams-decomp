@@ -1,3 +1,4 @@
+/* SPU common volume and input attributes, plus guarded reverb enabling. */
 #include "slus/jtbl_8005EDA0.h"
 #include "common.h"
 #include "engine/audio/spu.h"
@@ -39,6 +40,7 @@ s32 set_spu_reverb_enabled_if_available(s32 enable)
     return spu_reverb_enabled;
 }
 
+/* Applies masked SPU master volumes and CD/external input volume, reverb and mixing settings. */
 void apply_spu_common_attributes(SpuCommonAttr *attr)
 {
     u32 mask;

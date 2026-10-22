@@ -25,9 +25,11 @@ extern short g_volume_scale[8];
  * pending words +10/+14 into +08/+0C and test/set the two leading flag words.
  * The byte tail has both signed and unsigned readers; minority reads retain
  * their explicit cast. Extent 0x34 is the observed layout, not a boundary. */
+/* Resident sound playback request/status block.
+ * reset_audio_status clears flags and request words before playback service resumes. */
 typedef struct SoundPlaybackState {
-    /* 0x00 */ unsigned int flags00;
-    /* 0x04 */ unsigned int flags04;
+    /* 0x00 */ unsigned int flags00; /* primary playback status bits; audio reset initializes this word to 0x10 */
+    /* 0x04 */ unsigned int flags04; /* secondary playback status bits; audio reset clears this word */
     /* 0x08 */ unsigned int unk_08;
     /* 0x0C */ unsigned int unk_0C;
     /* 0x10 */ unsigned int unk_10;
@@ -54,23 +56,27 @@ typedef struct SoundPlaybackState {
  * +00 callback is installed by sound init, then called by the update routine.
  * +08 is scaled by volumeScale before playback; its other role differs by
  * instance, so no universal volume/note name is asserted. */
+/* Audio parameter update called with no arguments and no return value.
+ * Active fade/ramp updates invoke it after changing the task values. */
 typedef void (*sound_task_callback_fn)(void);
 
 /* Installed SoundTask completion functions; both take no arguments. */
 void apply_scaled_sound_slot_volume(void);
 void apply_scaled_cd_stream_volume(void);
 
+/* Audio fade and parameter-ramp state for the sequence and CD stream tasks.
+ * reset_audio_status calls initialize_audio_ramp_defaults, installs callbacks and sets task-specific limits. */
 typedef struct SoundTask {
-    /* 0x00 */ sound_task_callback_fn callback;
-    /* 0x04 */ int unk_04;
-    /* 0x08 */ short unk_08;
-    /* 0x0A */ short unk_0A;
-    /* 0x0C */ int unk_0C;
-    /* 0x10 */ short unk_10;
-    /* 0x12 */ short unk_12;
-    /* 0x14 */ short unk_14;
-    /* 0x16 */ short unk_16;
-    /* 0x18 */ short unk_18;
+    /* 0x00 */ sound_task_callback_fn callback; /* applies changed audio values; invoked after each active fade/ramp update */
+    /* 0x04 */ int unk_04; /* primary fade mode: 1 increases, 2 decreases, 3 means upper target reached */
+    /* 0x08 */ short unk_08; /* current primary fade value */
+    /* 0x0A */ short unk_0A; /* upper target for the increasing primary fade */
+    /* 0x0C */ int unk_0C; /* secondary ramp mode: 1 increases, 2 decreases, 3 means clamped */
+    /* 0x10 */ short unk_10; /* current secondary ramp value; increasing updates clamp it at 127 */
+    /* 0x12 */ short unk_12; /* lower target for the decreasing secondary ramp */
+    /* 0x14 */ short unk_14; /* secondary ramp step per active update */
+    /* 0x16 */ short unk_16; /* primary fade increase per active update */
+    /* 0x18 */ short unk_18; /* primary fade decrease per active update */
 } SoundTask;
 
 #endif

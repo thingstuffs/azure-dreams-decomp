@@ -193,7 +193,7 @@ extern void func_8004491C();
 extern void flag_object_for_removal();
 extern int draw_tinted_node_sprites_scratch(void *object, int unused, void *data);
 extern int func_8004CAA0(void *object, int unused, void *data);
-M2C_UNK flag_optional_object_for_removal();
+void flag_optional_object_for_removal();
 extern int D_800814A0;
 extern u8 D_80029510[12];
 void set_indexed_object_field(ovl_1831370_81811370_S_80026370_0 *object, s32 index);

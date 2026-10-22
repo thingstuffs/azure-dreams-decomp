@@ -8,6 +8,7 @@
 #include "slus/jtbl_8004CECC.h"
 #include "engine/graphics.h"
 
+/* Converts hue in six 256-step sectors and byte saturation/value to three RGB bytes; returns the output. */
 u8 *convert_hsv_to_rgb(u32 hue, s32 saturation, s32 value, u8 *out)
 {
     u8 *rgb = out;

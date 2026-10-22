@@ -57,7 +57,7 @@ extern M2C_UNK D_80173EB4;
 extern s32 resolve_record_orientation_or_fallback();
 extern void *allocate_list_node();
 extern s32 register_node();
-extern M2C_UNK select_sprite_entry();
+extern void select_sprite_entry();
 
 /* Creates an attached sprite object with copied appearance and an optional position offset. */
 void create_attached_sprite_with_offset(void *owner_data, MovingPosition *base_position, void *sprite_template, s16 offset_id) {

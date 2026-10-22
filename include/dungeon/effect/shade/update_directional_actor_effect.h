@@ -321,13 +321,13 @@ void *allocate_list_node();
 void *func_8003FD64();
 M2C_UNK advance_sprite_animation_and_textures();
 s32 func_80064584();
-M2C_UNK func_800649A0();
-M2C_UNK func_80064A40();
-M2C_UNK func_80064B30();
-M2C_UNK select_record_entry_and_value();
+void func_800649A0();
+void func_80064A40();
+void * func_80064B30();
+void select_record_entry_and_value();
 
 s32 read_sound_mode_blocking_status();
-M2C_UNK func_80065820();
+void * func_80065820();
 s32 func_80069EF8();
 void apply_attack_power_and_element_effects();
 void *scan_monster_along_heading();

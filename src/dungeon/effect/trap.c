@@ -1355,7 +1355,7 @@ extern void display_fixed_item_action_message();
 extern void * spawn_randomized_particle_burst();
 s32 roll_threshold_effect_variant_b();        /* extern */
 void wrap_position_and_set_state_value();                         /* extern */
-extern M2C_UNK D_800E1C03;
+extern u8 D_800E1C03[];
 
 /* Checks the record and triggers the associated visual and sound effects on success. */
 s32 check_trap_record_and_trigger_effects(void *record_data) {
@@ -1375,7 +1375,7 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
         }
         return 1;
     }
-    adjust_source_value_and_finalize(record_data, &D_800E1C03);
+    adjust_source_value_and_finalize(record_data, D_800E1C03);
     if (((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_27 == 0) {
         wrap_position_and_set_state_value(D_800DCF14);
     }
@@ -1399,7 +1399,7 @@ extern void * spawn_randomized_particle_burst();
 extern s32 roll_threshold_effect_variant_a();
 extern void wrap_position_and_set_state_value();
 extern s32 D_800DCF1C;
-extern M2C_UNK D_800E1C14;
+extern u8 D_800E1C14[];
 
 
 
@@ -1433,7 +1433,7 @@ s32 attempt_trap_request_eight_slots(void *object) {
         }
         return 1;
     }
-    adjust_source_value_and_finalize(object, &D_800E1C14);
+    adjust_source_value_and_finalize(object, D_800E1C14);
     if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) == 0) {
         wrap_position_and_set_state_value(D_800DCF1C);
     }
@@ -1912,6 +1912,8 @@ extern s32 generate_random_value(void);
 
 
 
+/* Rolls an actor effect chance, queues a pending action on success, and displays the failure message
+   otherwise. */
 s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
 {
     s32 source_value;
@@ -2550,6 +2552,8 @@ extern u8 D_800E1B87[18];
 extern u8 D_800E1B99[18];
 extern u8 D_800E1BAA[18];
 
+/* Rolls against two linked item slots, reduces eligible amounts, reports outcomes, and emits a burst
+   on success. */
 s32 update_trap_effect_grid(void *record, s32 unused1, s32 unused2, s32 unused3) {
     s32 randomValueSecond;
     s32 randomValueFirst;

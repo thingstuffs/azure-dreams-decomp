@@ -12,18 +12,22 @@
 /* The slot serializer reads bytes 0/1 as x/y indices into the grid. A slot
  * is four bytes: the allocator scales by four and the serializer copies four.
  * Only bit 7 of the last byte is identified here (set for a zero grid field). */
+/* Four-byte town grid entry stored in TownStateRecord and serialized through its active-entry list.
+ * The town list owner supplies the backing slots. */
 typedef struct TownListEntry {
-    /* 0x00 */ unsigned char gridX;
-    /* 0x01 */ unsigned char gridY;
+    /* 0x00 */ unsigned char gridX; /* town grid column index used to select a cell record */
+    /* 0x01 */ unsigned char gridY; /* town grid row index used to select a row directory entry */
     /* 0x02 */ unsigned char unk_02;
-    /* 0x03 */ unsigned char flags;
+    /* 0x03 */ unsigned char flags; /* entry flags; serialized output sets bit 7 when the selected grid field is zero */
 } TownListEntry;
 
+/* Town list and per-group history storage owned through the scene root at +0x38.
+ * clear_state_history_and_head_indices clears the history regions; allocation initialization is untraced. */
 typedef struct TownStateRecord {
     /* 0x0000 */ unsigned char pad_0000[0x248];
-    /* 0x0248 */ TownListEntry slots[20];
+    /* 0x0248 */ TownListEntry slots[20]; /* twenty four-byte backing slots for town grid entries */
     /* 0x0298 */ unsigned char pad_0298[4];
-    /* 0x029C */ void *entries[21];
+    /* 0x029C */ void *entries[21]; /* active entry pointers; twenty entries plus a null terminator */
     /* 0x02F0 */ unsigned char pad_02F0[0x2A6C];
     /* 0x2D5C */ unsigned int unk_2D5C;
     /* 0x2D60 */ int unk_2D60;
@@ -36,8 +40,8 @@ typedef struct TownStateRecord {
     /* 0x35BE */ short unk_35BE;
     /* 0x35C0 */ short unk_35C0;
     /* 0x35C2 */ unsigned char pad_35C2[0x7E];
-    /* 0x3640 */ unsigned char history[16][12];
-    /* 0x3700 */ unsigned char headIndices[16];
+    /* 0x3640 */ unsigned char history[16][12]; /* sixteen groups of twelve recent entry ids; newest is prepended at index 0 */
+    /* 0x3700 */ unsigned char headIndices[16]; /* per-group counters incremented and wrapped at table-selected limits */
 } TownStateRecord;
 
 

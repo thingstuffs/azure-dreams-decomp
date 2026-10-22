@@ -16,6 +16,7 @@ typedef struct TownPropAnimationDestination {
 } S1;
 
 
+/* Cycles a town prop's animations as its script-controlled trigger becomes active or inactive. */
 void copy_record_state_to_destination(S0 *self, s32 unused_value, S1 *destination) {
     S0 *obj = self;
     S1 *dst = destination;

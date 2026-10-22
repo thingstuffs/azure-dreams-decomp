@@ -5,6 +5,7 @@
 #define NULL 0
 #endif
 
+/* Returns the first carried item matching both kind and type, or NULL when no item matches. */
 void *find_item_by_kind_and_type(s32 item_kind, s32 item_type) {
     void **slots;
     void *item;

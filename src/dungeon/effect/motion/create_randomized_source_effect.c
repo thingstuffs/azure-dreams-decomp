@@ -1,7 +1,10 @@
+/* Actor-targeted effect movement, rotating particles, and target lift and spin animation. */
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
 
+/* Moves an animated sprite outward along its saved angle with a fixed vertical step and removes it
+   when animation ends. */
 void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *position, SpriteFrameState *status) {
     s32 y_step_scaled;
     Row_8191C848_S_8191C848_1 *counter_state;
@@ -19,6 +22,7 @@ void move_sprite_in_radial_direction(void *motion, Row_8191C848_S_8191C848_3 *po
     position->unk_06 = (u16) (position->unk_06 + (y_step_scaled >> 8));
 }
 
+/* Creates a yellow sprite with a random radial angle, copied source motion, and an overridden height. */
 void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
 {
     s32 random_value;
@@ -64,6 +68,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
     return result;
 }
 
+/* Rotates a sprite through timed movement, a pause, and accelerating vertical motion before removal. */
 void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion, Row_8191CA88_S_8191CA88_2 *effect) {
     s32 state;
     u16 state_unsigned;
@@ -145,6 +150,8 @@ void advance_timed_effect_motion(void *object, Row_8191CA88_S_8191CA88_3 *motion
     }
 }
 
+/* Creates a rotating sprite with size and timing from the source, copies its motion, and adjusts
+   vertical velocity. */
 s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
     Row_8191CBCC_S_8191CBCC_2 *params = params_input;
     void *source_transform = transform_input;
@@ -203,6 +210,7 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
     return 0;
 }
 
+/* Moves an effect to its target, spins and lifts the target, restores its pose, and applies the attack. */
 void update_actor_effect_sequence(Row_8191CD78_S_func_80024578_1 *effect, Row_8191CD78_S_func_80024578_2 *position, void *render_data)
 {
     register Row_8191CD78_S_func_80024578_3 *actor;

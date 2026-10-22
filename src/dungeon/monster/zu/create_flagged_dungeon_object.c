@@ -53,6 +53,7 @@ void *create_flagged_dungeon_object(s16, s16, s16, s16)
 #endif
 ;
 
+/* Creates a Zu actor at the supplied tile and height, then initializes mode flags, status, and callbacks. */
 void *create_flagged_dungeon_object(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;

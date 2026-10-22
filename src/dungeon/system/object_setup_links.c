@@ -16,6 +16,8 @@ void set_attached_object_position(s32 *, s32);
 /* extern */
 static void initialize_nine_entry_links();
 
+/* Links nine widget records to their data, vectors, and resources, then sets layout values and the
+   enabled scale. */
 static void initialize_nine_entry_links(void *entry_data, s32 enable_flag) {
     s32 entry_index;
     s32 record_offset;

@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/univern/allocate_object_and_child_display_items.h"
 
+/* Creates a Univern actor and its linked directional display, then initializes status and tile placement. */
 void *allocate_object_and_child_display_items(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
 {
     void *root;

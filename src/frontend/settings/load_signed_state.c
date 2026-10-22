@@ -1,3 +1,4 @@
+/* Timed settings-screen color fading and cleanup when the owning object is removed. */
 #include "common.h"
 #include "shared/object_flags.h"
 #include "frontend/settings.h"
@@ -29,6 +30,7 @@ static __inline__ s16 load_signed_state(ColorEffect *effect)
     return value;
 }
 
+/* Cycles a timed color fade and marks the effect for removal when its owner is flagged. */
 void func_7FDD3F8C(ColorEffect *effect)
 {
     s16 state;

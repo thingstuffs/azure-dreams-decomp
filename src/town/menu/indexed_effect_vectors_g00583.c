@@ -1,3 +1,4 @@
+/* Creates indexed effect objects and copies adjusted vectors while their state references match. */
 /* inferred-strong G00583: indexed_effect_vectors_g00583; joins CL:town/func_800AAAE8; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AAAE8. */
 #include "town/menu/indexed_effect_vectors_g00583.h"

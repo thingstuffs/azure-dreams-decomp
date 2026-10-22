@@ -1,6 +1,8 @@
+/* Rotated sprite scanline rendering and clipping rectangle setup. */
 #include "dungeon/effect/sprite/render_rotated_effect_quads.h"
 
 
+/* Projects rotated sprite parts as waving scanline quads and links their packets into the ordering table. */
 void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode)
 {
     s32 quad_copies[20];
@@ -356,6 +358,7 @@ void render_rotated_effect_quads(void *screen_pos, void *effect, s32 *ordering_t
     *((s32 **) (((s8 *) final_context) + 0x8D0)) = packet;
 }
 
+/* Queues clipping packets around the effect draw and optionally clears the supplied rectangle. */
 void draw_effect_and_restore_clip(s32 draw_data, Row_818ED25C_S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];

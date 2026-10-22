@@ -1,5 +1,6 @@
 #include "common.h"
 extern s32 *D_80701968;
+/* Sets a bit in the shared flag bitmap, leaving flag ID 0 unchanged. */
 void set_indexed_flag_bit(s32 flag_id) {
     s32 *flag_word;
     s32 word_index;

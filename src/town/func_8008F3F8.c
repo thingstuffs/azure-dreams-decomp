@@ -4,6 +4,7 @@
 
 s16 evaluate_summed_position_minus_y_offset();               
 
+/* Returns the lowest surface sample after removing each Y offset, or 0x7FFF when no lower sample is found. */
 s16 find_minimum_sampled_position(s32 context, s32 data, s32 count) {
     s16 value;
     s16 minimum;

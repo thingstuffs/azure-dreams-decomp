@@ -15,7 +15,7 @@ void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_colored_effect_with_sound();    /* extern */
-extern M2C_UNK D_800E206A;
+extern u8 D_800E206A[];
 
 
 /* Update entity state and counters, with special handling for the primary entity. */
@@ -40,7 +40,7 @@ s32 use_item_to_apply_speed_boost(void *entity, s32 event_id, s16 event_param) {
     }
     set_or_clear_actor_status_slot(entity, 7, 8);
     if (((ActorRecord *)entity)->flags14 & 0x4000) {
-        adjust_source_value_and_finalize(entity, &D_800E206A);
+        adjust_source_value_and_finalize(entity, D_800E206A);
     }
     create_colored_effect_with_sound(entity - 0x20, 0xF02020, 0x616);
     clear_slot_and_update_linked_state(event_id);

@@ -45,6 +45,7 @@ static s32 uses_direct_actor_sprite_frames(void *record) {
     }
 }
 
+/* Updates directional sprite frames and starts pending actor actions when dungeon activity allows. */
 s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, ActorRecord *entity) {
     void *active_entity;
     s32 entity_flags;

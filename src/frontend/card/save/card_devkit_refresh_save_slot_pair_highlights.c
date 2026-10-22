@@ -6,6 +6,7 @@ extern void func_80404618(void *, s32);
 extern void func_80404668(void *);
 extern void func_80405A00(s32, s32);
 
+/* Marks two save slots with distinct highlight callbacks and updates the displayed selection index. */
 void card_devkit_refresh_save_slot_pair_highlights(void *ptr) {
     s32 i;
 

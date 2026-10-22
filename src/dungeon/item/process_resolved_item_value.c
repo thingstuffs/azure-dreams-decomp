@@ -1,3 +1,4 @@
+/* Directional item effects, moving sprite copies, and target completion messages. */
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -111,6 +112,8 @@ typedef union {
 } ResolvedCoordinate;
 typedef struct { ResolvedCoordinate axes[3]; } ResolvedMotion;
 
+/* Creates and follows a directional sprite copy, sets target status slot 29, and displays its
+   completion message. */
 void process_resolved_item_value(void *effect_state, void *motion, void *sprite) {
     DirectionTable directions;
     s16 phase;

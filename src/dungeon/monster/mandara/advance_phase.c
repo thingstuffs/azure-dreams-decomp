@@ -1,3 +1,4 @@
+/* Mandara effect phase updates and layered wavy-strip rendering. */
 #include "common.h"
 #include "shared/game_work.h"
 

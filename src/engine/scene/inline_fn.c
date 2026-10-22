@@ -1,3 +1,4 @@
+/* Scene-node initialization in caller storage, active-list linking and optional tail allocation. */
 #include "common.h"
 #include "engine/scene.h"
 #include "slus.h"

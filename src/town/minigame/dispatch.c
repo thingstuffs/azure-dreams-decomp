@@ -1,3 +1,4 @@
+/* Starts town minigames, runs their resource setup, and dispatches table-selected map operations. */
 #include "town/minigame/dispatch.h"
 #include "town/minigame/dispatch.h"
 #include "common.h"

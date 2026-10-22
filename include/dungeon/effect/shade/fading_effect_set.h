@@ -247,7 +247,7 @@ extern s32 generate_random_value(void);
 extern void try_apply_status_effect(void *actor, s32 mode, s32 amount);
 extern s32 abs(s32);
 extern void advance_sprite_animation_and_textures(void *render_data);
-M2C_UNK select_record_entry_and_value();
+void select_record_entry_and_value();
 s32 register_node();
 s32 func_8004491C();
 s32 rand();

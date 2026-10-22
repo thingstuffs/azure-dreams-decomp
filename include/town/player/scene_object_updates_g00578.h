@@ -17,35 +17,43 @@
 #define NULL 0
 #endif
 
+/* Stack position supplied to the bicycle crossing-effect spawners by update_entity_sprite_and_effects. */
 typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
+    s32 unk0; /* effect X in 16.16 world units, copied from the bicycle position */
+    s32 unk4; /* effect Y in 16.16 world units, placed on one side of the crossing */
+    s32 unk8; /* effect height in 16.16 world units, bicycle height minus 40 world units */
     s32 padC;
     s32 pad10;
 } StackRecord;
 
+/* Bicycle work callback invoked with (entity, entity, position, sprite) by update_entity_sprite_and_effects. */
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
+/* Sprite-part slice of the town bicycle object created by initialize_enabled_scene_object.
+ * update_entity_sprite_and_effects selects its directional source and fades its crossing flash. */
 typedef struct S_800A6684_0 {
     u8 pad_00[0x4];
-    s8 unk_04;
+    s8 unk_04; /* current sprite-source entry index retained when the directional source changes */
     u8 pad_05[0x7];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
+    u8 unk_0C; /* red modulation byte; crossing flashes set 255, then fade toward 128 */
+    u8 unk_0D; /* green modulation byte; crossing flashes set 255, then fade toward 128 */
+    u8 unk_0E; /* blue modulation byte, kept equal to green during the flash fade */
     u8 pad_0F[0x5];
-    u16 unk_14;
+    u16 unk_14; /* sprite status/render flags; heading selection sets or clears bit 0 */
 } S_800A6684_0;
 
+/* Bicycle work callback slice initialized by save_and_clear_entity_flag_ten.
+ * initialize_enabled_scene_object owns the node through create_town_effect_object. */
 typedef struct {
     s8 pad00[0x50];
-    void (*callback)(void *, s32, void *, s32);
+    void (*callback)(void *, s32, void *, s32); /* movement/heading callback installed as update_actor_position_and_heading */
 } Obj;
 
 typedef struct { u8 pad00[0x15]; u8 flag15; } State;
 
-typedef struct { s32 x, y, z, dx, dy, dz; } VecState;
+/* Bicycle position/motion part initialized by save_and_clear_entity_flag_ten.
+ * The initializer copies view_reference_entity and clears the three motion increments. */
+typedef struct { s32 x /* world X in 16.16 units */, y /* world Y in 16.16 units */, z /* world height in 16.16 units */, dx /* X motion increment in 16.16 units per position update; initially zero */, dy /* Y motion increment in 16.16 units per position update; initially zero */, dz; /* height increment in 16.16 units per position update; initially zero */ } VecState;
 
 typedef struct S_800A6994_0 {
     u8 pad_00[0x10];

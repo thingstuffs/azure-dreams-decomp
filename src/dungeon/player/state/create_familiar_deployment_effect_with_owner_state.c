@@ -24,7 +24,7 @@ typedef struct S_80093C70_5 {
 
 void *allocate_list_node();                  /* extern */
 s32 register_node();           /* extern */
-M2C_UNK set_sprite_animation_frame(); /* extern */
+void set_sprite_animation_frame(); /* extern */
 extern M2C_UNK D_80093A94;
 
 /* Creates a sprite effect at the supplied position and links it to its owner. */

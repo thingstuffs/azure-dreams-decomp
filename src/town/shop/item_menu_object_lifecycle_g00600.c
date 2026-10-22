@@ -42,6 +42,7 @@ s32 create_item_menu_object(s32 selector) {
     return 0;
 }
 
+/* Marks the menu object for removal, schedules child cleanup, and resumes message and selection handling. */
 void start_item_menu_object_processing(ItemMenuParameters *parameters) {
     s32 firstParameter = parameters->field0;
     ((u16 *)parameters)[-1] |= 0x8000;

@@ -1,6 +1,8 @@
+/* Hikewne effect intensity, transformed effect animation, and directional effect creation. */
 #include "dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.h"
 #include "shared/sprite_frame_state.h"
 
+/* Sets sprite brightness from the remaining lifetime, advances animation, and flags the expired effect. */
 void apply_countdown_scaled_effect_intensity(void *record_data, void *unused, SpriteFrameState *color_target) {
     s16 remaining_ticks;
     s32 intensity;
@@ -20,6 +22,7 @@ void apply_countdown_scaled_effect_intensity(void *record_data, void *unused, Sp
     }
 }
 
+/* Follows the source position while growing and fading the sprite, then removes it when the timer expires. */
 void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform, SpriteFrameState *render_state)
 {
     s16 ticks_left;
@@ -50,6 +53,7 @@ void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform
     }
 }
 
+/* Copies a sprite template into a gray directional effect linked to the source position. */
 void create_directional_template_effect(void *unused, MovingPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
     SpriteFrameState *sprite;
     void *effect;

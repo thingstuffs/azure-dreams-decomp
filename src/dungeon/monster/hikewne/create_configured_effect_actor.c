@@ -48,6 +48,8 @@ extern u8 D_801714D4[16];
 extern u8 D_801740E0[16];
 extern u8 D_80174158[16];
 
+/* Creates a Hikewne actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25, s32 value_at_0A)
 {
     s32 kind;

@@ -10,6 +10,7 @@ s32 lookup_signed_index_value(s32 index) {
     return *(s32 *)index;
 }
 
+/* Walks active records and writes the supplied value to +8 of each entry carrying flag 0x20. */
 void set_flagged_record_values(TownRecord *record, s32 entryValue)
 {
     s32 entryOffset;

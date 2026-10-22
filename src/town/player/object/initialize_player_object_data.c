@@ -8,6 +8,7 @@ extern u8 scene_object_payload_alias[];
 extern u8 town_scene_record_handlers[];
 
 // Processes D_800834B8 using the parameters stored in its preceding header.
+/* Clears the player's entity fields, selects its scene handlers, and initializes its action record. */
 void initialize_player_object_data(void) {
     void *dataBuffer;
     void *bufferHeader;

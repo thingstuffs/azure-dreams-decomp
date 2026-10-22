@@ -1,3 +1,4 @@
+/* Creation of half-scale sprites at offsets from a supplied position. */
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"

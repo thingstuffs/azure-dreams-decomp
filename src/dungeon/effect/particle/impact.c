@@ -1,3 +1,4 @@
+/* Map surface queries, particle bursts, owner-following effects, and linked mesh rendering. */
 #include "dungeon/effect/particle/impact.h"
 #include "shared/sprite_frame_state.h"
 void (* const dungeon_19de800_entry)(void *, void *, void *) = advance_particle_fade_and_cleanup;

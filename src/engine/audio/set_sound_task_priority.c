@@ -8,6 +8,7 @@
 #include "slus/jtbl_80054F9C.h"
 #include "engine/audio.h"
 
+/* Sets a sound task to state 2 and chooses its priority from the event byte. */
 void set_sound_task_priority(s32 pad_event, SoundTask *task) {
     u32 event_index;
     s32 priority;

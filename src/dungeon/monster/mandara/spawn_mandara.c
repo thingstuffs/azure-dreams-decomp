@@ -52,6 +52,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
 
 ;
 
+/* Creates a Mandara actor, initializes status and tile placement, and prepares sprite image rectangles. */
 void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
 {
     void *work;

@@ -1,3 +1,4 @@
+/* Status application, shaded particles, terrain-seeking motion, and rotating target effects. */
 #include "dungeon/effect/particle/view_parameter_transition.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
@@ -62,6 +63,8 @@ extern u8 D_800252FC[12];
 extern s16 D_80025308;
 extern u8 D_800DEAE0[];
 
+/* Attempts status slot 0x12 with a randomized value and displays the result when the target's message
+   flag is set. */
 void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_param, void *context)
 {
     s32 message_end;

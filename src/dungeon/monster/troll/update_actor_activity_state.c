@@ -1,3 +1,4 @@
+/* Troll activity state, action animation, and directional display updates. */
 #include "dungeon/monster/troll/update_actor_activity_state.h"
 
 /* Updates actor state, directional animations, and the shared activity count. */

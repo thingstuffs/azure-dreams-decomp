@@ -1,3 +1,4 @@
+/* Ghosh direction-step lookup and queued path movement. */
 #include "common.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"

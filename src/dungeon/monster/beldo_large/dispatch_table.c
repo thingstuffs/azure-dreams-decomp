@@ -1,3 +1,4 @@
+/* Encounter action dispatch and directional animation setup. */
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"

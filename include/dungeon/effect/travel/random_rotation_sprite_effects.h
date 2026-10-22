@@ -159,7 +159,7 @@ extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
 extern u8 D_80024E88[];
 extern void advance_sprite_animation_and_textures(void *target);
-M2C_UNK select_record_entry_and_value();
+void select_record_entry_and_value();
 extern M2C_UNK D_80024EF4;
 extern M2C_UNK D_80024E40;
 extern u8 D_80024FC4[];

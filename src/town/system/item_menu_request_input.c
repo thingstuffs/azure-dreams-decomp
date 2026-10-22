@@ -18,6 +18,7 @@ extern void SD_Call();
 extern void change_item_menu_selection();
 static void dispatch_item_menu_request_result();
 
+/* Routes a menu request result of 1 to its secondary handler and 2 to its data pointer. */
 static void dispatch_item_menu_request_result(void *request) {
     s32 result_code;
 
@@ -32,6 +33,7 @@ static void dispatch_item_menu_request_result(void *request) {
     }
 }
 
+/* Handles menu confirmation, cancellation, and repeated horizontal cursor movement with sound effects. */
 void handle_item_menu_input(S_800B0490_1 *menu)
 {
     s32 direction;

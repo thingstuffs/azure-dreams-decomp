@@ -1,3 +1,4 @@
+/* Warp sequencing, camera effects, linked sprite pieces, particle trails, and color fades. */
 #include "modules/dungeon_ovl_19cc800.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -206,6 +207,8 @@ typedef struct FlagsView {
     s32 pad[2];
 } FlagsView;
 
+/* Follows the source sprite's offset, waits for target movement to finish, then brightens and fades
+   the effect. */
 void advance_effect_phases(void *object, Rec_func_800249DC_arg0 *record, S_819ACB28_4 *packed_value)
 {
     s16 mode;

@@ -1,3 +1,4 @@
+/* Mesh and point rendering, star effects, and projectile trails with target hit animation. */
 #include "modules/dungeon_native_abi.h"
 #include "shared/sprite_frame_state.h"
 

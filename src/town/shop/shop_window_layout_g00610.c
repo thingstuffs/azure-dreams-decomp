@@ -55,6 +55,7 @@ void initialize_shop_window_layout(void *ui) {
     populate_shop_item_rows(ui);
 }
 
+/* Stores the supplied shop subrecord values, enables it, and installs its update callback. */
 void initialize_shop_subrecord(void *record_data, s32 value_20, s32 value_08, s32 value_0c, s32 value_10,
                    s32 value_14, s32 value_24, s32 value_18) {
     S_800B1390_1 *r = record_data;

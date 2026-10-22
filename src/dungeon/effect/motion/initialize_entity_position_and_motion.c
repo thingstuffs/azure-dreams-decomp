@@ -1,7 +1,10 @@
+/* Homing attack movement, linked visual copies, and particle creation. */
 #include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_19a332c_entry)(void) = (void (*)(void))func_80024064;
 
+/* Loads effect graphics, starts a paired object effect, dims and restores the scene tint, and waits
+   for cleanup. */
 void func_80024064(void *transition) {
     ovl_19a332c_81982864_StackPair setup_args;
     s16 restore_frames;
@@ -158,6 +161,8 @@ void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, 
     }
 }
 
+/* Loads two effect textures and creates an object with copied coordinates, fixed sprite scales, and an
+   owner link. */
 void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s32 offset)
 {
     s32 rect[2];
@@ -193,6 +198,8 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
     return result;
 }
 
+/* Advances an accelerating particle, fades its color, and eases its scale toward 0x400 until its
+   countdown ends. */
 void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *sprite_data)
 {
     ovl_19a332c_81982DF8_Arg2 *sprite = (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
@@ -231,6 +238,7 @@ void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *spr
     }
 }
 
+/* Creates the requested number of gray particles with random velocities, animation frames, and lifetimes. */
 void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
 {
     ovl_19a332c_81982F0C_Object *particle = 0;
@@ -276,6 +284,8 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
     return particle;
 }
 
+/* Moves a particle with vertical acceleration, fades its grayscale color, and removes it when its
+   lifetime expires. */
 void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_80024888_0 *motion, ovl_19a332c_81983088_S_80024888_1 *color) {
     s32 velocity_x;
     s32 velocity_y;
@@ -305,6 +315,8 @@ void advance_effect_motion_and_color_fade(void *effect, ovl_19a332c_81983088_S_8
     }
 }
 
+/* Creates up to 32 gray particles with velocities distributed around a ring oriented by the supplied
+   angle. */
 void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unused_context) {
     s32 direction_x;
     s32 direction_y;
@@ -354,6 +366,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     return particle;
 }
 
+/* Reduces each sprite color channel by a quarter and removes the effect when red falls below 4. */
 void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_819832B4_EffectColor *color) {
     u8 red;
     u8 green;
@@ -374,6 +387,8 @@ void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_8198
     }
 }
 
+/* Creates a fading sprite or samples positions and emits 16 sprites along a curved trail on the fourth
+   call. */
 void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     ovl_19a332c_8198332C_Actor *actor;
     ovl_19a332c_8198332C_Coord *coord;
@@ -432,6 +447,8 @@ void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spa
     return actor;
 }
 
+/* Moves a homing attack through launch, target hits, and fade-out, or follows its owner as an attached
+   copy. */
 void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 *effect, ovl_19a332c_819835AC_S_819835AC_2 *motion, ovl_19a332c_819835AC_S_819835AC_3 *visual) {
     struct { s16 x, y, z; } emit_offset;
     s32 aim_angle;
@@ -1126,6 +1143,8 @@ block_139:
     return;
 }
 
+/* Creates nine linked homing-effect parts with shared parent links, animation frames, and position
+   histories. */
 void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
 {
     ovl_19a332c_81984754_Object *objects[9];
@@ -1285,6 +1304,8 @@ void inventory_select_entry_and_reset_object(ovl_19a332c_81984AB0_S_81984AB0_0 *
     object->unk_00 = (s32) (entry_base + (entry_index * 0x16));
 }
 
+/* Points to the current 22-byte entry, steps its index, and clamps the new index while recording
+   whether it hit a limit. */
 void step_and_clamp_entry_index(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;
     s32 shifted_index;
@@ -1324,6 +1345,7 @@ void inventory_set_object_entry_address(ovl_19a332c_81984BC0_S_81984BC0_0 *objec
     object->unk_00 = (s32) (((ovl_19a332c_81984BC0_S_81984BC0_2 *)(((ovl_19a332c_81984BC0_S_81984BC0_1 *)object)->unk_08))->unk_0C + (entry_index * 0x16));
 }
 
+/* Clears flag 0x2000 in every object header in the circular actor list except the primary actor's header. */
 void inventory_clear_circular_list_flag_2000(void *unused_actor)
 {
     void *link;
@@ -1351,6 +1373,8 @@ void inventory_clear_circular_list_flag_2000(void *unused_actor)
     } while (link != head);
 }
 
+/* Finds an eligible linked actor by matching its owner's +0x26 to the source, or by a four-tile
+   distance limit. */
 void *find_eligible_nearby_entity(void *source_entity)
 {
     void *node;
@@ -1393,6 +1417,8 @@ void *find_eligible_nearby_entity(void *source_entity)
     return 0;
 }
 
+/* Eases the camera toward its tracked object, blends the vertical view offset, and damps horizontal
+   view offsets. */
 void clear_object_buffer_and_state(void *tracker) {
     s16 blend_ticks;
     s16 next_ticks;
@@ -1437,6 +1463,8 @@ void clear_object_buffer_and_state(void *tracker) {
    tracker+4: the u16 store invalidates the earlier read (cse invalidate_memory), giving retail's
    paired lw v0/v1 and keeping v1 live for offsets 6/0xA. */
 
+/* Sets camera tracking mode 13, its target and timing, installs the tracking callback, and returns
+   change flags. */
 s32 inventory_reset_shared_state_mode_13(s32 unused, s32 state_key, s32 value, s16 secondary_value) {
     GameView *state = &g_game_work.view;
     ovl_19a332c_81984E94_S_8191696C_state *substate = (ovl_19a332c_81984E94_S_8191696C_state *)&state->slot[0].unk_04;

@@ -3,6 +3,7 @@
 #include "slus/owned_8004713C.h"
 #include "engine/graphics.h"
 
+/* Uploads consecutive 0x2000-byte image blocks at offsets derived from the selected VRAM tile. */
 void runtime_upload_image_blocks_vram_offsets_selected_tile_block_indices(s32 image_addr, s32 tile_id, s32 num_blocks) {
     s32 image_data;
     s32 block_index;

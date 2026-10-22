@@ -22,6 +22,7 @@ s32 func_80071424();                             /* extern */
 extern s32 D_80084D5C;
 extern s16 D_80530000[];
 
+/* Waits for a delay, passes the eight-entry sum to func_80058588, and handles a linked cleanup flag. */
 void update_panel_aggregate_value(void *entry) {
     s16 *value_ptr;
     s16 current_state;

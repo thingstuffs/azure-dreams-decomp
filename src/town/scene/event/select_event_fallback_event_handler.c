@@ -1,5 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
+/* Selects event response data, using progress-based dialogue overrides when the object's flag is set. */
 s32 select_event_fallback_event_handler(s32 object, s32 request, s32 context) {
     s32 default_result;
     s32 result;

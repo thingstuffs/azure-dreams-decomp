@@ -50,6 +50,8 @@ typedef struct S_800956B8_4 {
     u8 unk_9B;
 } S_800956B8_4;   /* st in resolve_familiar_deployment_request */
 
+/* Reports unavailable familiar requests or resets the selected action state and saves the familiar
+   selection. */
 void resolve_familiar_deployment_request(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr)
 {
     void *object;

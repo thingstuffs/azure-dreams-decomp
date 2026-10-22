@@ -16,7 +16,7 @@ typedef struct S_800243E0_0 {
 
    /* arg0 in create_type_212_effect_object */
 
-extern M2C_UNK select_record_entry_and_value();
+extern void select_record_entry_and_value();
 extern s32 register_node();
 extern s32 D_80024374;
 

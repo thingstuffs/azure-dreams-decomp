@@ -1,7 +1,10 @@
+/* Directional actor effects and their spiraling particle animation. */
 #include "dungeon/effect/directional_actor.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/directional_actor.h"
 
+/* Moves to a directional target, emits spiraling particles, and attempts a timed target effect before
+   cleanup. */
 void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Row_818E0800_S_818E0800_10 *actor_state)
 {
     void *actor;
@@ -206,6 +209,8 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
     }
 }
 
+/* Shrinks and recolors a sprite along a rotated, jittered path, looping its animation until its
+   lifetime ends. */
 void shrink_spiraling_sprite_effect(void *effect, Row_818E0D94_S_818E0D94_3 *position, Rec_D_80082E80 *sprite)
 {
     Row_818E0D94_CallRecord transform;

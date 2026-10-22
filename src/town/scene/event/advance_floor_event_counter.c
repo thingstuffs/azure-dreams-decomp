@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3fe0d0_p00.h"
 
+/* Installs scene state and a cell handler, invokes town callback 0x3B0/0x100, and updates F_gy_mon_sw. */
 void advance_floor_event_counter(void) {
     void *state_data;
     s32 call_code;

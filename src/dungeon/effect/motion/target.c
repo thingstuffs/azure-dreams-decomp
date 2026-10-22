@@ -1,6 +1,8 @@
+/* Target-following sprite motion, timed texture changes, and jittered strip rendering. */
 #include "dungeon/effect/motion/target.h"
 
 
+/* Eases a sprite toward its moving target, advances its animation, and removes it after brightening. */
 void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71DC_S_800249DC_3 *visual) {
     s32 current_x;
     s32 current_y;
@@ -56,6 +58,8 @@ void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position
     visual->unk_0C.s32 += 0xC0C0C;
 }
 
+/* Grows a timed effect for four updates, cycles texture coordinates, and marks it for removal after 15
+   ticks. */
 void advance_effect_state_and_frame(void *effect)
 {
     s32 state;
@@ -99,6 +103,7 @@ void advance_effect_state_and_frame(void *effect)
     S16_AT(effect, 0x42) = ((s16)U16_AT(effect, 0x4E) >> 2) << 5;
 }
 
+/* Projects linked effects as four jittered strips of textured quads and queues them by depth. */
 s32 render_linked_jittered_effect_strips(void *node_data) {
     for (;;) {
         Row_818E747C_Point3 world_points[5];
@@ -275,6 +280,7 @@ s32 render_linked_jittered_effect_strips(void *node_data) {
     }
 }
 
+/* Copies one of six table pairs into the linked record's scale fields, defaulting to pair zero. */
 void copy_selected_table_pair(void *record_field, s32 pair_index) {
     u16 value_pairs[12];
     s32 shifted_index;

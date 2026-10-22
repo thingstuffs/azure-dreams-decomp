@@ -1,3 +1,4 @@
+/* Sprite display cancellation flags and per-node transform, draw and update dispatch. */
 #include "slus/gp_shared_8099c.h"
 #include "engine/object.h"
 #include "sdk/libgpu.h"

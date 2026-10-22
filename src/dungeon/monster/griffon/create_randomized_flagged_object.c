@@ -45,6 +45,8 @@ extern M2C_UNK D_8015EE7C;
 extern u8 D_80162C3C[];
 extern u8 D_80162C8C[];
 
+/* Creates a Griffon actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *create_randomized_flagged_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;

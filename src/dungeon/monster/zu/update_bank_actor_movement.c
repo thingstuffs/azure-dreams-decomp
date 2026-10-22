@@ -1,3 +1,4 @@
+/* Zu actor spawning, action dispatch, movement, and cylindrical effects. */
 #include "common.h"
 #include "modules/dungeon_ovl_fa7000.h"
 void *(*const dungeon_fa7000_entry)(s16,s16,s16,s16) = func_80170880;

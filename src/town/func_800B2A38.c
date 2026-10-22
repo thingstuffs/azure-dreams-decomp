@@ -6,6 +6,7 @@ extern void texture_set_the_field_offset_hex_8_in_each_entry_pointer_array(void 
 extern s32 display_vector_defaults[];
 
 
+/* Allocates actor display entries, shares a default vector across 40 entries, and reports success. */
 s32 load_actor_display_resource(void *object, s32 entry_count) {
     s32 success = 0;
     s32 *handle = realloc_field_0_buffer((s32 *)((u8 *)object + 0xAC), entry_count, 12);

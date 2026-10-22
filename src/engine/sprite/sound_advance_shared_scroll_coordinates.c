@@ -7,6 +7,7 @@ static u16 shared_scroll_frame_id;
 u16 sprite_pack_row_cursor = 0;
 u16 sprite_pack_column_cursor = 0;
 u16 sprite_pack_max_row_step = 0;
+/* Assigns sprite packing coordinates and advances shared cursors, wrapping at 32 and 256. */
 void sound_advance_shared_scroll_coordinates(struct S_80048660 *state)
 {
     s32 row_step;

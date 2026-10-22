@@ -16,7 +16,7 @@ s32 play_sound_if_enabled();                     /* extern */
 void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
-extern M2C_UNK D_800E17C6;
+extern u8 D_800E17C6[];
 extern M2C_UNK D_800E17EF;
 extern M2C_UNK D_800E180E;
 
@@ -64,7 +64,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
         }
         play_sound_if_enabled(0x51E);
         if (entity->flags14 & 0x4000) {
-            adjust_source_value_and_finalize(entity, &D_800E17C6);
+            adjust_source_value_and_finalize(entity, D_800E17C6);
         }
         clear_slot_and_update_linked_state(action);
     } else if ((*(u8 *)((u8 *)&entity->unk_10 + 3)) == 0) {

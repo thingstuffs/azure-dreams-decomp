@@ -51,6 +51,7 @@ extern u8 D_80150AFC[];
 
 void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
 ;
+/* Creates a Zu actor at the supplied tile and height, then initializes mode flags, status, and callbacks. */
 void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
 {
     s32 kind;

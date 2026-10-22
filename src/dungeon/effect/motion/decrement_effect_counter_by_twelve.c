@@ -1,3 +1,4 @@
+/* Jittered shaded particle creation and countdown-based removal. */
 #include "dungeon/effect/motion/decrement_effect_counter_by_twelve.h"
 
 
@@ -16,6 +17,8 @@ void decrement_effect_counter_by_twelve(void *object)
     }
 }
 
+/* Creates a shaded particle at a jittered source offset and stores the supplied countdown and
+   rendering values. */
 void create_random_offset_effect_object(
     EntityRec *source, s16 field_14_value, void *payload, s16 field_32_value,
     s16 x_offset, s16 y_offset, s16 z_offset)

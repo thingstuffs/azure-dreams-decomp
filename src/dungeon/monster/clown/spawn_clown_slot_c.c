@@ -1,6 +1,8 @@
 #include "modules/dungeon_ovl_7f535800.h"
 #include "shared/sprite_frame_state.h"
 
+/* Creates a Clown actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
 {
     s32 init_mode;

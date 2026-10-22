@@ -1,5 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
+/* Checks the input, then selects the mode-9 response with a state fallback or a fixed response. */
 s32 select_mode_nine_lookup(s32 input, s32 context, s32 mode) {
     s32 result;
 

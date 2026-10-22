@@ -1,3 +1,4 @@
+/* Initializes neutral-colored primitives and updates timed scale effects. */
 /* inferred-strong G00581: primitive_scale_effect_g00581; joins CL:town/func_800AA1AC,CL:town/func_800AA268; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AA1AC, CL:town/func_800AA268. */
 #include "town/menu/primitive_scale_effect_g00581.h"

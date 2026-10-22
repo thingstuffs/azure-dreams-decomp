@@ -55,6 +55,7 @@ extern void func_8003EA54(Actor *);
 extern s32 func_80240810(void *, Motion *, void *, void *);
 extern void func_8023FB18(void *);
 
+/* Bounces a pickup, applies its reward on a successful position test, and handles blinking and removal. */
 void animate_bouncing_score_object(State *st, Motion *mot, Actor *actor)
 {
     Actor *act = actor;

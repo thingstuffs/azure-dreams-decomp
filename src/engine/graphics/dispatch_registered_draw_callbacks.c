@@ -17,6 +17,7 @@ typedef struct Entry {
 extern Callback registered_draw_callbacks[0x20];
 extern Entry *registered_draw_objects[0x20];
 
+/* Runs active draw callbacks, clearing orphaned slots and stopping when the frame packet arena overflows. */
 void dispatch_registered_draw_callbacks(void)
 {
     s32 i;

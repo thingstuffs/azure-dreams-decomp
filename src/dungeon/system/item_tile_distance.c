@@ -6,6 +6,7 @@ extern int abs(int);
 #include "records/Rec_D_80082E80.h"
 static s16 set_item_w0();
 
+/* Returns the larger absolute difference between the low-byte X and Y tile coordinates. */
 static s16 set_item_w0(s32 start_x, s32 start_y, s32 end_x, s32 end_y) {
     end_x &= 0xFF;
     start_x &= 0xFF;

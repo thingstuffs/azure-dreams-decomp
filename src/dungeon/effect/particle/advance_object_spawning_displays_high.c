@@ -1,3 +1,4 @@
+/* Particle rendering, timed display slots, and an actor tint and particle sequence. */
 #include "dungeon/effect/particle/advance_object_spawning_displays_high.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -32,6 +33,8 @@ extern s32 func_8003DF74(void *, void *, void *, s32);
 extern s32 func_80069EF8(void);
 extern s32 read_sound_mode_blocking_status(s32);
 
+/* Fades a red-tinted sprite, adjusts its offset, and clears the owner's indexed slot when the
+   countdown ends. */
 void func_8002405C(void *effect, void *unused, void *primitive) {
     s32 shade;
     u16 frames_left;

@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 static s32 directional_buttons_to_angle(s32);
 
+/* Converts directional button bits to an eight-way angle, returning -1 when no direction is held. */
 static s32 directional_buttons_to_angle(s32 buttons) {
     if (buttons & 0x1000) {
         s32 left_flag;

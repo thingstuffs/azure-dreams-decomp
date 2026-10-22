@@ -21,6 +21,7 @@ static void clear_indexed_table_flag(void *record) {
     page[((((u8 *)record)[3] & 0x1F) * 0x54) + 0x303] = 0;
 }
 
+/* Clears the selected item, releases its type-0x13 table flag, and compacts the pointer list. */
 void remove_selected_entry_from_list(s32 list_addr, s32 index) {
     s32 slot_offset;
     void **slot;

@@ -1,7 +1,9 @@
+/* Linked line travel, directional sprite rings, timed fades, and nearby status effects. */
 #include "dungeon/effect/sprite/advance_fading_effect.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_188298c_entry)(void) = (void (*)(void))move_to_linked_object_and_apply_arrival_effects;
 
+/* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
 void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
     u8 *actor = dungeon_actor_ring_anchor;
     x = (s16)x;
@@ -21,6 +23,8 @@ void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
     } while (actor != dungeon_actor_ring_anchor);
 }
 
+/* Expands and fades a sprite, restarts at frame 4 after its first completed animation, and removes it
+   after the second. */
 void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect)
 {
     u16 size;
@@ -48,6 +52,7 @@ void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ov
     }
 }
 
+/* Creates a gray sprite at the source's horizontal coordinates with a randomized vertical offset. */
 void spawn_jittered_type_212_effect(s32 owner, void *source)
 {
     s32 roll;
@@ -80,6 +85,8 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
     }
 }
 
+/* Advances sprite animation, spawns a child at update 10, and removes the effect when its animation
+   finishes. */
 void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_80082E80 *target) {
     u16 update_count;
     ovl_188298c_81862B74_S_81862B74_1 *linked_object;
@@ -98,6 +105,8 @@ void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_
     }
 }
 
+/* Creates a center sprite or sprites along eight radial tile directions, stopping each direction at
+   blocked terrain. */
 void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *blocked_dirs) {
     s16 target_y;
     s16 target_x;
@@ -398,6 +407,8 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
    (single-lifetime quantities for local-alloc), while delta and line_or_red stay function-wide;
    the masked step_x read gives the mask the extra reference that orders it ahead of y0. */
 
+/* Moves a line effect to a linked actor or forward tile, emits radial sprites, and applies a nearby
+   status effect. */
 void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data)
 {
     u8 *root;

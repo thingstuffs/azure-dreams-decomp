@@ -8,6 +8,7 @@
 #include "slus/jtbl_80042BDC.h"
 #include "engine/message.h"
 
+/* Applies status-ending changes to actor flags, form and tile occupancy, with messages when enabled. */
 void end_status_effect_message(S_80042BDC *ent, s16 action) {
     S_80042BDC *spawn_result;
     S_80042BDC *spawn_result_2;

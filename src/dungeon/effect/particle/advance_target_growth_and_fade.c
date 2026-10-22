@@ -1,3 +1,4 @@
+/* Targeted effect movement, particle spawning, sprite growth, and fading. */
 #include "modules/dungeon_ovl_18fa800.h"
 #include "common.h"
 #include "shared/object_node.h"

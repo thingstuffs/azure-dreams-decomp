@@ -1,7 +1,9 @@
+/* Accumulates an effect value and creates a pair of objects with offset positions. */
 /* inferred-strong G00579: paired_offset_effects_g00579; joins CL:town/func_800A97E8; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A97E8. */
 #include "town/menu/paired_offset_effects_g00579.h"
 
+/* Increases the step by four, adds it to a capped value, and creates paired effects when it reaches 0x400. */
 void accumulate_effect_step(void *updateState, s32 unused1, s32 unused2, void *accumulatorState) {
     u16 step;
     u16 accumulatedValue;

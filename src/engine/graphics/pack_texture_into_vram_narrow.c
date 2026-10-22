@@ -3,6 +3,7 @@
 #include "slus/owned_80047468.h"
 #include "engine/graphics.h"
 
+/* Packs and uploads a texture in a 32-word by 128-row VRAM area, resetting on a generation change. */
 void pack_texture_into_vram_narrow(S_80047468_arg0 *image, S_80047468_arg1 *source, s32 data_offset)
 {
     int vram_x;

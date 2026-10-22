@@ -18,34 +18,37 @@
 #define ONE 4096                  /* libgte fixed-point 1.0 */
 #endif
 
+/* GPU color/command word embedded in SpriteFrameState; sprite constructors initialize it. */
 typedef union SpriteColor {
-    int word;                     /* whole rgb+code word (lw/sw) */
-    struct { unsigned char r, g, b, code; } c;
+    int word; /* packed little-endian R/G/B/command word copied into the primitive */
+    struct { unsigned char r /* red modulation byte; 0x80 is neutral */, g /* green modulation byte; 0x80 is neutral */, b /* blue modulation byte; 0x80 is neutral */, code; /* GPU primitive command byte */ } c;
 } SpriteColor;
 
+/* Sprite selection, transform and map-location state referenced by an object header.
+ * allocate_list_node reserves it; sprite constructors and set_sprite_animation_frame initialize its contents. */
 typedef struct SpriteFrameState {
-    /* 0x00 */ void *unk_00;       /* frame entry pointer (select_sprite_entry reads ->value) */
-    /* 0x04 */ signed char unk_04;
-    /* 0x05 */ unsigned char unk_05; /* select_sprite_entry: frame value / D_80080A84 */
-    /* 0x06 */ short unk_06;
-    /* 0x08 */ void *source;       /* func_8003DE58 attachment-point source */
-    /* 0x0C */ SpriteColor color;
-    /* 0x10 */ unsigned short tpage_abr;
-    /* 0x12 */ unsigned short clut;
-    /* 0x14 */ unsigned short flags;
-    /* 0x16 */ unsigned short angle_x;
-    /* 0x18 */ unsigned short angle_y;
-    /* 0x1A */ unsigned short angle_z;
-    /* 0x1C */ unsigned short scale_x;
-    /* 0x1E */ unsigned short scale_y;
-    /* 0x20 */ unsigned short unk_20;
-    /* 0x22 */ unsigned short unk_22;
-    /* 0x24 */ unsigned char unk_24;
-    /* 0x25 */ unsigned char unk_25;
-    /* 0x26 */ unsigned char unk_26; /* func_8009FB34 room result */
+    /* 0x00 */ void *unk_00; /* selected frame/source entry; set_sprite_animation_frame reads its leading halfword for the rate */
+    /* 0x04 */ signed char unk_04; /* current source/frame entry index, stored by the selection helpers */
+    /* 0x05 */ unsigned char unk_05; /* animation rate byte; frame selection divides by animation_tick_scale, source selection copies the table-base byte */
+    /* 0x06 */ short unk_06; /* signed depth-sort bias subtracted from projected depth before ordering-table selection */
+    /* 0x08 */ void *source; /* sprite command/attachment source referenced by the renderer */
+    /* 0x0C */ SpriteColor color; /* packed red, green, blue and GPU command byte; 0x80 is neutral per color channel */
+    /* 0x10 */ unsigned short tpage_abr; /* texture-page blend override; nonzero values replace tpage bits 5..6 */
+    /* 0x12 */ unsigned short clut; /* GPU CLUT identifier copied into textured primitive packets */
+    /* 0x14 */ unsigned short flags; /* sprite status/render bits; frame selection clears 0x6000, projection sets 0x8000 */
+    /* 0x16 */ unsigned short angle_x; /* X rotation supplied to RotMatrix; 0x1000 units per turn */
+    /* 0x18 */ unsigned short angle_y; /* Y rotation supplied to RotMatrix; 0x1000 units per turn */
+    /* 0x1A */ unsigned short angle_z; /* Z rotation supplied to RotMatrix; 0x1000 units per turn */
+    /* 0x1C */ unsigned short scale_x; /* horizontal scale supplied to ScaleMatrix; 0x1000 = 1.0 */
+    /* 0x1E */ unsigned short scale_y; /* vertical scale supplied to ScaleMatrix; 0x1000 = 1.0 */
+    /* 0x20 */ unsigned short unk_20; /* sprite width/extent consumed by sprite projection */
+    /* 0x22 */ unsigned short unk_22; /* sprite height/extent consumed by sprite projection */
+    /* 0x24 */ unsigned char unk_24; /* current map column, in tiles; distinct from ActorRecord MP at +0x24 */
+    /* 0x25 */ unsigned char unk_25; /* current map row, in tiles; distinct from ActorRecord MP at +0x25 */
+    /* 0x26 */ unsigned char unk_26; /* room lookup result for the sprite tile */
     /* 0x27 */ unsigned char pad_27;
-    /* 0x28 */ int unk_28;
-    /* 0x2C */ void *frameTable;
+    /* 0x28 */ int unk_28; /* animation/resource table handle; frame selection follows it to the frame-group tables */
+    /* 0x2C */ void *frameTable; /* direction-indexed animation table installed by actor state handlers */
 } SpriteFrameState;
 
 /* Exact partial view used by the actor callback/facing handlers. The table
@@ -53,14 +56,14 @@ typedef struct SpriteFrameState {
  * Size 0x30 and alignment 4 describe this view, not an allocation extent. */
 typedef struct SpriteAnimationTableView {
     unsigned char pad_00[0x4];
-    signed char unk_04;
+    signed char unk_04; /* current source/frame entry index retained when selecting a facing-dependent source */
     unsigned char pad_05[0xF];
-    unsigned short unk_14;
+    unsigned short unk_14; /* sprite animation/render flags */
     unsigned char pad_16[0xE];
-    unsigned char unk_24;
-    unsigned char unk_25;
+    unsigned char unk_24; /* map column, in tiles */
+    unsigned char unk_25; /* map row, in tiles */
     unsigned char pad_26[0x6];
-    unsigned char *unk_2C;
+    unsigned char *unk_2C; /* direction-indexed animation table */
 } SpriteAnimationTableView;
 
 
@@ -68,24 +71,24 @@ typedef struct SpriteAnimationTableView {
 /* Unsigned flags at +0x14 in the town action dispatcher argument, with 0x16 extent. */
 typedef struct SpriteFlagsView {
     unsigned char pad_00[0x14];
-    unsigned short unk_14;
+    unsigned short unk_14; /* sprite animation/render flag word */
 } SpriteFlagsView;
 
 /* Sprite tile bytes and byte-addressed animation table, preserving pointer type. */
 typedef struct SpriteTableView {
     unsigned char pad_00[0x24];
-    unsigned char unk_24;
-    unsigned char unk_25;
+    unsigned char unk_24; /* map column, in tiles */
+    unsigned char unk_25; /* map row, in tiles */
     unsigned char pad_26[6];
-    unsigned char *unk_2C;
+    unsigned char *unk_2C; /* direction-indexed animation table */
 } SpriteTableView;
 
 /* Sprite status flags and signed map index; sparse 0x28 view. */
 typedef struct SpriteStatusIndexView {
     unsigned char pad_00[0x14];
-    unsigned short unk_14;
+    unsigned short unk_14; /* sprite status/render flag word */
     unsigned char pad_16[0x10];
-    signed char unk_26;
+    signed char unk_26; /* signed room/map index */
 } SpriteStatusIndexView;
 
 #endif

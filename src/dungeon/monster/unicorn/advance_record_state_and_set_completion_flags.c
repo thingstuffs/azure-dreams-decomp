@@ -1,3 +1,4 @@
+/* Unicorn effect completion, tinted sprite creation, orbiting, and fading. */
 #include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
 #include "shared/sprite_frame_state.h"
 

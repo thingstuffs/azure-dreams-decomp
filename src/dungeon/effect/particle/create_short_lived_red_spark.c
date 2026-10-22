@@ -48,7 +48,7 @@ typedef struct S_80166204_1 {
     u16 unk_46;
 } S_80166204_1;
 
-M2C_UNK select_record_entry_and_value();  /* extern */
+void select_record_entry_and_value();  /* extern */
 s32 register_node();           /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_80165A0C;

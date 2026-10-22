@@ -1,6 +1,7 @@
 #include "dungeon/effect/sprite/offset_parent.h"
 
 
+/* Projects two vertical points per linked node and queues a textured quad using the node's tile index. */
 s32 handle_spawn_initialize_randomized_offset_parent(void *sprite_data, void *position)
 {
     u16 world_pos[4];

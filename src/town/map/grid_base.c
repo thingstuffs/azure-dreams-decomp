@@ -1,3 +1,4 @@
+/* Copies nonzero cells from a size-prefixed block into the shared map grid. */
 #include "common.h"
 
 extern u16 D_80162004[];

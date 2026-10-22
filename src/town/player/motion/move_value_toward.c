@@ -7,6 +7,7 @@ typedef struct S_800981D4_0 {
 
 extern s32 func_80098DC0(s32 value, S_800981D4_0 *field_ptr, s32 other_value);
 
+/* Moves the halfword at +6 toward 0x300 by four and calls the next handler when it reaches that value. */
 s32 move_value_toward_300(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
 {
     s16 current;

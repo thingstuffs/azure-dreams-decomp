@@ -1,3 +1,4 @@
+/* Timed target effects, textured quad rendering, scattered fragments, and segment animation. */
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
@@ -513,6 +514,7 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern s32 func_8006649C(s32, s32);
 extern s32 func_80069EF8(void);
 
+/* Moves an animated effect toward the actor's sprite offset and emits randomized fragments until it ends. */
 void update_effect_and_spawn_fragments(MainObject *obj)
 {
     s16 hit[3];

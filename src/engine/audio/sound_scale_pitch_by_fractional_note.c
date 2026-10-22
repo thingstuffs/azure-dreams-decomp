@@ -1,3 +1,4 @@
+/* Conversions between sample-relative notes, fine tuning and SPU pitch values. */
 #include "engine/audio/sound_pitch_conversions.h"
 #include "engine/audio.h"
 
@@ -31,6 +32,7 @@ u32 sound_scale_pitch_by_fractional_note(s32 pitch, u32 note_offset)
     return (u32)(pitch_low + (((u32)(pitch_high - pitch_low) >> 5) * note_offset)) >> 12;
 }
 
+/* Converts a note and fine offset relative to sample tuning into an SPU pitch, capped at 0x3FFF. */
 u32 calculate_pitch_from_note(u16 center_note, u16 center_fine, u16 note, u16 fine)
 {
     s32 center_tuning;
@@ -92,6 +94,7 @@ u32 calculate_pitch_from_note(u16 center_note, u16 center_fine, u16 note, u16 fi
     return pitch & 0xFFFF;
 }
 
+/* Converts an SPU pitch to a packed note and fine offset relative to the sample's center tuning. */
 u32 sound_convert_pitch_to_packed_note(u16 center_note, u16 center_fine, u16 pitch)
 {
     u16 inverted_pitch;

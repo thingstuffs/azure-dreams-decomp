@@ -1,3 +1,4 @@
+/* Dispatches town actor scripts and updates actor surface motion, slot state, and output values. */
 /* inferred-strong G00549: actor_script_motion_g00549; joins CL:town/func_8009DB64; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009DB64. */
 #include "town/event/actor_script_motion_g00549.h"

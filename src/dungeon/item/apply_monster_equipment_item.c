@@ -53,8 +53,8 @@ s32 place_item_at_valid_floor_position(); /* extern */
 s32 feed_actor_restore_mp();
 extern M2C_UNK D_80089378;
 extern M2C_UNK D_8008937C;
-extern M2C_UNK D_800E13DA;
-extern M2C_UNK D_800E13E9;
+extern u8 D_800E13DA[];
+extern u8 D_800E13E9[];
 
 /* Applies an entity action to a target and updates the pending count. */
 s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *context) {
@@ -99,7 +99,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 | 0x20);
         script = get_unused_text_buffer();
         entity_value = append_entity_display_text(entity, script);
-        event_value = expand_text_control_codes(&D_800E13DA, entity_value);
+        event_value = expand_text_control_codes(D_800E13DA, entity_value);
         {
             s32 node_offset;
             s32 result;
@@ -122,7 +122,7 @@ s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *conte
     } else {
         script = get_unused_text_buffer();
         external_entity_value = append_entity_display_text(entity, script);
-        external_event_value = expand_text_control_codes(&D_800E13E9, external_entity_value);
+        external_event_value = expand_text_control_codes(D_800E13E9, external_entity_value);
         {
             s32 node_offset;
             s32 result;

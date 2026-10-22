@@ -1,3 +1,4 @@
+/* Updates effect state from shared view values and allocates objects with randomized state. */
 /* inferred-strong G00567: view_effect_state_g00567; joins CL:town/func_800A4E6C; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A4E6C. */
 #include "town/menu/view_effect_state_g00567.h"

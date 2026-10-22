@@ -6,6 +6,7 @@ void mark_progress_state_ready(void) {
     ((TownProgressState *)D_80016000->unk_40)->unk_B0 = 1;
 }
 
+/* Installs an indexed interaction handler and data once, sets its flag, and marks the state ready. */
 s32 initialize_indexed_entry_on_first_479(S_80017824_0 *obj, s32 index) {
     s32 offset;
     S_80017824_1 *entry;
@@ -21,6 +22,7 @@ s32 initialize_indexed_entry_on_first_479(S_80017824_0 *obj, s32 index) {
     return 0;
 }
 
+/* Installs the first interaction handler once, then selects the follow-up handler and dispatches it. */
 s32 start_interaction_on_code_0x479(S_800178B4_0 *menu, s32 index) {
     s32 offset;
     s32 offset2;

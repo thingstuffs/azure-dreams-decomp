@@ -4,6 +4,7 @@
 
 extern void advance_linked_object_counter(void *object, s32 value);
 
+/* Updates source and selected slot markers across five card entries, then refreshes the slot details. */
 void update_spark_effect(void *menu)
 {
     s32 index;

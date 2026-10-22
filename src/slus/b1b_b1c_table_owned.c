@@ -1,3 +1,4 @@
+/* Display-spacing table selection and cached byte-count offsets. */
 #include "common.h"
 
 extern u8 indexed_count_byte_table[];

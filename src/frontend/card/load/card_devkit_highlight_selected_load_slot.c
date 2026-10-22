@@ -5,6 +5,7 @@
 extern void func_80404668(void *);
 extern void func_80405A00(s32, s32);
 
+/* Highlights one of five load-slot windows and updates the object displaying its index. */
 void card_devkit_highlight_selected_load_slot(void *ptr) {
     s32 i;
 

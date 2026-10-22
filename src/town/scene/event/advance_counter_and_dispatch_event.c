@@ -6,6 +6,7 @@ extern s16 D_80017614;
 extern void func_80017380(s32);
 extern void func_800173F8(s32);
 
+/* Advances a counter, wraps values above 20 to 9, and chooses the event handler for values 8 and 20. */
 void advance_counter_and_dispatch_event(void)
 {
     s16 temp;

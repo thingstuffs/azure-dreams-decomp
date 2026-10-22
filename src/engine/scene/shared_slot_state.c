@@ -1,8 +1,10 @@
+/* CD-wait glyph animation, saved trail positions and video-field draw-buffer updates. */
 #include "engine/scene/gp_shared_slots.h"
 #include "engine/scene.h"
 
 
 
+/* Swaps draw buffers on a new video field, advances the CD-wait path and draws four trail layers. */
 void render_cd_wait_animation_on_new_field(void)
 {
     void **draw_buffer = &D_80083160[0];
@@ -85,6 +87,7 @@ void render_cd_wait_animation_on_new_field(void)
     }
 }
 
+/* Draws fourteen pulsing glyphs along the saved CD-wait path, interpolated for the requested trail layer. */
 void draw_cd_wait_sprite_trail(s32 blend_step)
 {
     u8 *scratch;

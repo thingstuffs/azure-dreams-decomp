@@ -1,3 +1,4 @@
+/* Staged target effects, moving sprite fades, linked quad rendering, and five-point animation. */
 #include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"
 #include "modules/dungeon_native_abi.h"
 #include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"

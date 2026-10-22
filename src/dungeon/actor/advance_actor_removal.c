@@ -152,7 +152,7 @@ void *create_orbiting_teleport_effect();
 extern s32 D_800814A0;
 extern s16 pending_marked_actor_count;
 extern s16 D_800DCED4[];
-extern M2C_UNK D_800E0C34;
+extern u8 D_800E0C34[];
 extern M2C_UNK D_800E0C58;
 extern M2C_UNK D_800E0C67;
 extern void *familiar_record_slots[];
@@ -321,6 +321,12 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;
             }
+            /*
+             * Original bug: freeing a lifted familiar clears Koh's occupancy here. Phase 3 drops the carried flag, but
+             * the cached sprite tile still names Koh's tile; the departure effect changes world position without
+             * moving that tile. Preserve Koh's occupancy at removal. Found and documented by the Azure Dreams
+             * community (adrando.com/guide/bugs.html).
+             */
             update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_flags);
         }
         unlink_entity_node(actor);
@@ -339,7 +345,7 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
     case 16:
         ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v = actor_flags | 0x4000;
         flags_mask = actor_flags & 0x4000;
-        adjust_source_value_and_finalize(actor, &D_800E0C34);
+        adjust_source_value_and_finalize(actor, D_800E0C34);
         if (flags_mask == 0) {
             ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v &= ~0x4000;
         }
@@ -379,6 +385,12 @@ s32 advance_actor_removal(S_800AB778_1 *state, void *unused_context, S_800AB778_
             if (effect_actor_flags & 0x2000) {
                 effect_flags = 0x300;
             }
+            /*
+             * Original bug: freeing a lifted familiar clears Koh's occupancy here. Phase 3 drops the carried flag, but
+             * the cached sprite tile still names Koh's tile; the departure effect changes world position without
+             * moving that tile. Preserve Koh's occupancy at removal. Found and documented by the Azure Dreams
+             * community (adrando.com/guide/bugs.html).
+             */
             update_map_cell_flags_with_item_limit(effect_x, effect_y, effect_flags);
         }
         unlink_entity_node(actor);

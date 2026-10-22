@@ -1,3 +1,4 @@
+/* Expanding moving sprites and staged attachment, particle emission, and cleanup effects. */
 #include "dungeon/effect/particle/interpolate_view_parameters.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -24,6 +25,7 @@ extern u8 D_800DEC00[];
 extern u8 current_spell_effect_variant;
 extern u8 D_800DEC00[];
 
+/* Moves and animates an expanding sprite, removing it when its lifetime ends or its hidden flag is set. */
 void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object)
 {
     u16 life;

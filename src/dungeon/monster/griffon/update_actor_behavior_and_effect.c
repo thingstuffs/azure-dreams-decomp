@@ -1,9 +1,12 @@
+/* Griffon actor spawning, movement, attacks, and sprite transition effects. */
 #include "modules/dungeon_resource08_slot0.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource08_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = func_8017087C;
 void (*const resource08_slot0_entry1)(void *entity, R08_80170A50_S_80170A28_2 *motion, void *part) = func_80170A50;
 
+/* Creates a Griffon actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
@@ -67,6 +70,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     return work;
 }
 
+/* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
 void func_80170A50(void *entity, R08_80170A50_S_80170A28_2 *motion, void *part)
 {
     void *entity_base = entity;
@@ -218,6 +222,8 @@ void func_80170A50(void *entity, R08_80170A50_S_80170A28_2 *motion, void *part)
     return;
 }
 
+/* Selects movement, attacks, and spells from actor status and creates sprite effects during idle
+ * animation. */
 void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFrameState *object, ActorRecord *actor_data)
 {
     s32 distance;
@@ -477,6 +483,8 @@ void update_actor_behavior_and_effect(void *actor, EntityRec *position, SpriteFr
 }
 
 
+/* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
+ * delay. */
 void func_801715B4(void *action, s32 action_id, SpriteFrameState *entity, void *move_state) {
     void *state = move_state;
     s32 tile_mask;
@@ -549,6 +557,8 @@ void func_801715B4(void *action, s32 action_id, SpriteFrameState *entity, void *
     }
 }
 
+/* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
+ * counts. */
 void func_801717F8(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
@@ -776,6 +786,7 @@ void func_80171F40(void *object, void *unused, void *display, void *orientation)
     select_sprite_entry(display, directionTable[directionIndex], 0);
 }
 
+/* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_angle;
@@ -826,6 +837,8 @@ s32 update_actor_animation_behavior_and_facing(Rec_func_800A9E70_arg0 *action_st
 }
 
 
+/* Claims an action slot, starts the directional attack animation, and prepares its target and damage
+ * state. */
 void func_80172168(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
@@ -845,6 +858,7 @@ void func_80172168(void *action_state, void *action_context, SpriteFrameState *s
     }
 }
 
+/* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
 s32 func_80172280(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
@@ -901,6 +915,7 @@ void finish_actor_tile_move_then_resume_effect_behavior(R08_801723C4_S_801724A8_
     }
 }
 
+/* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
 void func_8017245C(void *action, void *motion, void *sprite, void *actor)
 {
     s32 state;
@@ -1032,6 +1047,7 @@ void advance_a_timed_actor_animation_applies_completion_effects(Resource08Callba
     }
 }
 
+/* Animates a backward step and forward attack, applies damage, then recenters the actor and spends MP. */
 void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     s32 state;
@@ -1185,6 +1201,7 @@ void update_staged_movement_and_return_to_tile(void *action, ObjectPosition *mot
     }
 }
 
+/* Starts a targeted spell with a two-row effect, then restores movement and status after the animation. */
 void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, void *actor, ActorRecord *object) {
     u16 position[3];
     s16 is_special;
@@ -1375,6 +1392,7 @@ void update_item_activation_and_cleanup(void *action, ObjectPosition *motion, vo
     return;
 }
 
+/* Applies a value change and knockback, then returns the actor to its tile and restores movement. */
 void advance_action_phase_and_process_actor(void *action, void *motion, void *sprite, void *entity)
 {
     s32 state;
@@ -1522,6 +1540,7 @@ void finish_actor_hop_and_grow_then_resume_effect_behavior(Resource08CallbackSta
     }
 }
 
+/* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
 void update_object_or_select_directional_data(void *controller, s32 actor_index, void *sprite, ActorRecord *actor)
 {
     DungeonGlobalStatus *dungeon_status;
@@ -1686,6 +1705,7 @@ void update_object_or_select_directional_data(void *controller, s32 actor_index,
     }
 }
 
+/* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
 void resume_actor_effect_behavior_after_status_animation(void *controller, void *context, void *sprite, ActorRecord *entity)
 {
     s32 state;
@@ -1832,6 +1852,7 @@ void finish_actor_fade_in_then_resume_effect_behavior(Resource08CallbackState *s
     }
 }
 
+/* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
 s32 start_bank_actor_hit_reaction(void *initial_payload, s32 entry_data, R08_801740F4_Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
@@ -1870,6 +1891,8 @@ void advance_object_angle_and_height(u16 *record_data, s32 unused, R08_80174180_
     }
 }
 
+/* Creates a tinted sprite above the source with randomized rotation and an angle-and-height update
+ * callback. */
 void create_tinted_rotated_sprite(s32 unused_0, R08_801741D0_S_801741D0_3 *source_pos, s32 unused_2, s8 green, u8 red_blue)
 {
     void *node;
@@ -1932,6 +1955,7 @@ void update_timed_effect_and_expire(void *effect, s32 x, s32 y)
     }
 }
 
+/* Creates a black sprite effect at the supplied position with a 45-tick lifetime. */
 void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void *unused_context) {
     R08_801743BC_S_801743BC_0 *effect;
     SpriteFrameState *sprite;
@@ -1956,6 +1980,8 @@ void create_positioned_sprite_effect(M2C_UNK unused, EntityRec *source_pos, void
     }
 }
 
+/* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
+ * action. */
 void func_80174470(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
@@ -1976,6 +2002,7 @@ void func_80174470(void *entity_data, s32 unused_1, s32 unused_2, void *other_da
     }
 }
 
+/* Advances the transition sprite, then restores the view tint to neutral and removes the effect. */
 void func_8017451C(u8 *task, void *context, u8 *input)
 {
     s16 frames_left;
@@ -2007,6 +2034,7 @@ void func_8017451C(u8 *task, void *context, u8 *input)
     }
 }
 
+/* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
 void advance_effect_and_child_animation(void *effect_state, EntityRec *position, SpriteFrameState *entity, void *actor)
 {
     u8 state;

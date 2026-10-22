@@ -1,3 +1,4 @@
+/* Color-cycling radial bands, rotating spark effects, and movement toward reachable tiles. */
 #include "dungeon/effect/travel/cycle_seven_color_fade.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_18d6800_entry)(B28_818B7F38_S_80025738_0 *, B28_818B7F38_S_80025738_5 *, B28_818B7F38_S_80025738_2 *) = advance_movement_toward_reachable_tile;

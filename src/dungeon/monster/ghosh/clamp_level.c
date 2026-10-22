@@ -1,3 +1,4 @@
+/* Ghosh level clamping and actor animation, movement, and terrain updates. */
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/dir_step.h"

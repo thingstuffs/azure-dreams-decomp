@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/dragon/spawn_effect_object.h"
 
+/* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;

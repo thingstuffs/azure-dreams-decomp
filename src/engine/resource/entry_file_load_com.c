@@ -1,3 +1,4 @@
+/* Object removal flags, resource decode-buffer sizing and scene texture loading. */
 #include "common.h"
 #include "engine/resource.h"
 #include "engine/scene.h"

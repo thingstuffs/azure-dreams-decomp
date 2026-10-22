@@ -9,6 +9,7 @@ s32 primitive_pair_primary_color = 0x00586868;
 #include "engine/menu/entry_words.h"
 #include "engine/graphics.h"
 
+/* Fills two line primitives from a coordinate template using their separate colors; returns the next slot. */
 void *fill_primitive_pair(S_800508F0 *entry, u8 *template)
 {
     entry->field4 = primitive_pair_primary_color;

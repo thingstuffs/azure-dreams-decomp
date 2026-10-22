@@ -15,7 +15,7 @@ void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
-extern M2C_UNK D_800E0EE1;
+extern u8 D_800E0EE1[];
 
 
 typedef struct S_800BDA44_0_pre {
@@ -42,7 +42,7 @@ s32 use_item_to_restore_attack(void *target, s32 item, s16 use_type) {
     ((EntityRec *)target)->unk_26 = (u8) ((EntityRec *)target)->unk_68;
     apply_entity_effects(target);
     if (((EntityRec *)target)->flags14 & 0x4000) {
-        adjust_source_value_and_finalize(target, &D_800E0EE1);
+        adjust_source_value_and_finalize(target, D_800E0EE1);
     }
     clear_slot_and_update_linked_state(item);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

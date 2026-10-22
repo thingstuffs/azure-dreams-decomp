@@ -18,7 +18,7 @@ typedef struct S_801745F0_2 {
     u16 unk_00;
 } S_801745F0_2;   /* arg0 in copy_linked_position_and_check_status; pointer addresses record offset 0x2 */
 
-M2C_UNK advance_sprite_animation_and_textures();                      /* extern */
+void advance_sprite_animation_and_textures();                      /* extern */
 
 /* Copy three object fields and set object and global flags from the processed status. */
 void copy_linked_position_and_check_status(void *object, MovingPosition *dest, SpriteFrameState *status) {

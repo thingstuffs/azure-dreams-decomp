@@ -28,6 +28,7 @@ extern void func_80405C44(s32);
 extern void handle_object_menu_input(void);
 extern void func_80405A3C(void);
 
+/* Runs two card checks and processes five object entries; installs menu and message callbacks on failure. */
 void process_object_entry_batch(void *ptr) {
     s32 value;
     s32 index;

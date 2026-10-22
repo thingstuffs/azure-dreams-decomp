@@ -1,3 +1,4 @@
+/* Ghosh tile stepping and staged actor movement. */
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"

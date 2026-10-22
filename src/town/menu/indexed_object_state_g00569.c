@@ -1,7 +1,9 @@
+/* Creates a sequence of indexed objects from copied position data and preset state references. */
 /* inferred-strong G00569: indexed_object_state_g00569; joins CL:town/func_800A5CF0; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A5CF0. */
 #include "town/menu/indexed_object_state_g00569.h"
 
+/* Lowers the third coordinate by 0x240000 and creates up to twelve indexed objects, stopping on failure. */
 void check_adjusted_input_indices(Unk800A5C88 *input) {
     Unk800A5C88 adjustedInput;
     s32 checkIndex;

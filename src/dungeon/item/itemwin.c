@@ -1,3 +1,4 @@
+/* Inventory action menu input, item text editing, and widget allocation and layout. */
 #include "dungeon/item/itemwin.h"
 
 
@@ -20,6 +21,7 @@ void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, 
 
 s32 func_800258B0(void *menu) { return 0; }
 
+/* Restores the saved item category record when present, otherwise copies the original text back. */
 void restore_item_text_before_edit(void *item_object)
 {
     s32 category;
@@ -62,6 +64,7 @@ s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
     return check_passed;
 }
 
+/* Handles inventory cancel and activation buttons and moves among five actions with held-button repeat. */
 void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *menu) {
     ovl_1830850_81810A0C_DungeonState *input = D_80083160;
     s32 selection_step;
@@ -119,6 +122,7 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
 
 void update_inventory_menu(void *menu) { inventory_handle_menu_actions_and_repeat(menu); }
 
+/* Steps the inventory opening transform for five updates, then installs its regular menu callback. */
 void inventory_apply_step_and_reset_after_five(ovl_1830850_81810BF4_Entity *entity) {
     s32 next_state;
     s32 t;
@@ -142,6 +146,8 @@ void set_destination_byte_pointer(ovl_1830850_81810C58_S_80025C58_0 *dest) {
     *dest->unk_04 = D_800789B8;
 }
 
+/* Initializes five 12-byte sprite entries at 16-pixel intervals and marks the last entry as the
+   terminator. */
 void *inventory_initialize_five_shared_entries(void *entryBuffer) {
     s32 entryIndex;
     s32 sharedEntryValue;
@@ -163,6 +169,7 @@ void *inventory_initialize_five_shared_entries(void *entryBuffer) {
     return entryBuffer;
 }
 
+/* Initializes the large inventory sprite descriptor with a zero payload and sets its end bit. */
 void inventory_initialize_packet_and_set_flag(ovl_1830850_81810CD8_S_80025CD8_0 *packet) {
     s32 zero;
     s32 payload;
@@ -178,6 +185,7 @@ void inventory_initialize_packet_and_set_flag(ovl_1830850_81810CD8_S_80025CD8_0 
     packet->unk_00 |= 0x80;
 }
 
+/* Initializes the small inventory sprite descriptor with payload 0xB8C8 and sets its end bit. */
 void initialize_inventory_packet(Rec_func_80025D28_arg0 *packet) {
     s32 initial_payload;
     s32 payload;
@@ -199,6 +207,7 @@ S_800491F4 *inventory_create_context_entry_13(S_800491F4 **context) {
     return build_reverse_indexed_chain(context, item_window_chain_indices, 13);
 }
 
+/* Copies default display records into the inventory widget and sets its position, depth, and flags. */
 void inventory_initialize_owner_patch_and_state(void *unused, ovl_1830850_81810D9C_Owner *owner, ovl_1830850_81810D9C_S_8002E5D8 *patch,
                    ovl_1830850_81810D9C_S_8002E5E8 *state) {
     ovl_1830850_81810D9C_S_8002E5D8 *patch_defaults = &display_block_defaults;
@@ -226,6 +235,7 @@ void inventory_initialize_owner_patch_and_state(void *unused, ovl_1830850_81810D
     owner->unk4->unkF = 4;
 }
 
+/* Assigns inventory widget resources, text buffers, action rows, and their display offsets. */
 void inventory_initialize_owner_pointers_and_offsets(ovl_1830850_81810E3C_Source *source, ovl_1830850_81810E3C_Owner **owners)
 {
     s32 owner_idx;
@@ -263,6 +273,8 @@ void inventory_initialize_owner_pointers_and_offsets(ovl_1830850_81810E3C_Source
     owners[12]->unk4->unkA = 23;
 }
 
+/* Initializes editor sprite descriptors, stores the edit range, backs up the text, and starts its
+   opening update. */
 void initialize_text_editor_context(void *object, s32 range_start, s32 initial_value, s32 text_addr)
 {
     u8 *data = object;
@@ -283,6 +295,7 @@ void inventory_initialize_object_from_embedded_data(void *object, s32 init_value
     inventory_initialize_owner_pointers_and_offsets(object, ((Rec_func_80025850_arg0 *)object)->unk_54);
 }
 
+/* Allocates inventory widget buffers, copies the default vector, and shares it among 13 entries. */
 s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *state, s32 input)
 {
     s32 success = 0;
@@ -305,6 +318,7 @@ s32 inventory_copy_state_vector_after_buffers(ovl_1830850_818110CC_Unk818110CC *
     return success;
 }
 
+/* Creates an inventory editor child with buffers and drawing, retiring the object if buffer setup fails. */
 ovl_1830850_81811168_DungeonObj81811168 *inventory_allocate_and_initialize_child(s32 parent_obj, s32 initial_value, s32 text_addr)
 {
     ovl_1830850_81811168_DungeonObj81811168 *obj;

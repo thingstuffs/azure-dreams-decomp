@@ -1,3 +1,4 @@
+/* Rotating sprites, vertical motion, ring rendering, and staged particle bursts and impacts. */
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, B22_81893474_Motion *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;

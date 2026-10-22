@@ -45,6 +45,7 @@ typedef struct S_8009FB2C_2 {
 extern s32 func_8009F6E4(void);
 static void *copy_an_entry_slot_creating_associated_type_hex_13();
 
+/* Copies an item into a slot and creates a saved actor record for type 0x13 entries. */
 static void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, S_8009FB2C_1 *source_entry) {
     u8 *copy_dst;
     u8 *copy_src;
@@ -85,6 +86,7 @@ static void *copy_an_entry_slot_creating_associated_type_hex_13(s32 slot_index, 
     return entry;
 }
 
+/* Creates an item from four parameter bytes in a free slot, returning NULL when no slot is available. */
 void *set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3) {
     s8 item_bytes[4];
     s32 slot;

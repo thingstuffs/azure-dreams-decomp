@@ -24,6 +24,8 @@ typedef struct S_80097898_1 {
     s16 unk_2A;
 } S_80097898_1;   /* saved in run_saved_actor_action */
 
+/* Resets the actor action state, sometimes clears flags 0x620, and selects the alternate animation for
+   its facing. */
 void run_saved_actor_action(void *object, s32 unused, void *animation, void *actor) {
         /* MATCH: retain retail's a0 table base after the explicit argument call. */
     u8 *table;

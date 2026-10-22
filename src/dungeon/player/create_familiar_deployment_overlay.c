@@ -8,7 +8,7 @@
 
 void *allocate_list_node();                  /* extern */
 s32 register_node();           /* extern */
-M2C_UNK set_sprite_animation_frame(); /* extern */
+void set_sprite_animation_frame(); /* extern */
 extern M2C_UNK D_80093A94;
 
 typedef struct S_80093D8C_0 {

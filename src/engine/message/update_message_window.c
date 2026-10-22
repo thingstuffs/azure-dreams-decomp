@@ -3,6 +3,7 @@
 #include "slus/owned_80038A10.h"
 #include "engine/message.h"
 
+/* Latches the message button and runs script actions until the window handler changes or execution stops. */
 void update_message_window(Func80038A10State *input_state) {
     Func80038A10State *state = input_state;
     GameWork *global = &g_game_work;

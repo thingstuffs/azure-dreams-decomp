@@ -1,3 +1,4 @@
+/* Runtime resource directory initialization, key lookup and loading of missing entries. */
 #include "slus/runtime_directory.h"
 #include "shared/runtime_dispatch.h"
 #include "slus.h"

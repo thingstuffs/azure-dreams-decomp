@@ -1,9 +1,12 @@
+/* Moving attack visuals, linked particle creation, and timed view parameter updates. */
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
 /* Selector entry invokes this complete native state machine. */
 void (*const D_80024000)(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual) = build_inverted;
 
+/* Eases the camera toward its tracked object, blends the vertical view offset, and damps horizontal
+   view offsets. */
 void interpolate_view_parameters(void *tracker) {
     s16 blend_ticks;
     s16 next_ticks;
@@ -45,6 +48,8 @@ void interpolate_view_parameters(void *tracker) {
     blend_state->view_offset.parts.view_offset_y = (u16) ((s32) (((u16)blend_state->view_offset.parts.view_offset_y) << 0x10) >> 0x12);
 }
 
+/* Sets camera tracking mode 12, its target and timing, installs the tracking callback, and returns
+   change flags. */
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param) {
     GameView *state = &g_game_work.view;
     Row_8191696C_S_8191696C_state *dispatch = (Row_8191696C_S_8191696C_state *)&state->slot[0].unk_04;
@@ -73,6 +78,8 @@ s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_valu
     return change_flags;
 }
 
+/* Moves an animated sprite along its heading with decreasing speed and a fixed vertical step until its
+   duration ends. */
 void advance_motion_counters_position_set_completion_flags_past_lifetime(void *motion, void *position, s32 update_context)
 {
     s32 y_step;
@@ -101,6 +108,8 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
    A literal 0x80080000 page local held by ASM_KEEP emits the branch-delay lui in v1.
    Both flag RMW accesses use +0x14A0 from that base, closing all three addressing words. */
 
+/* Creates a blue-tinted sprite with copied motion, two eight-step counters, and facing copied from the
+   source. */
 void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source)
 {
     SpriteFrameState *visual;
@@ -138,6 +147,8 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
     return NULL;
 }
 
+/* Queues a translucent screen polygon with a countdown-dependent edge and removes the controller when
+   the count ends. */
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown)
 {
     Row_81916C1C_Inner81916C1C *tick_state;
@@ -183,6 +194,8 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
     }
 }
 
+/* Advances sprite animation and, when it finishes, removes the child and increments the owner's
+   completion counter. */
 void update_the_target_records_counts_flags_status(void *object_slot, void *unused, void *target)
 {
     void *post_object;
@@ -206,6 +219,7 @@ void update_the_target_records_counts_flags_status(void *object_slot, void *unus
     }
 }
 
+/* Creates a gray animated sprite with copied motion and the owner's link for completion bookkeeping. */
 void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data) {
     s32 owner_value;
     SpriteFrameState *render_state;
@@ -236,6 +250,8 @@ void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, 
     }
 }
 
+/* Advances a point along the radial direction given by two angles and increments the owner's update
+   counter. */
 void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position) {
     s32 angle_scale_x;
     s32 angle_scale_y;
@@ -250,6 +266,8 @@ void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_8002471
     position->unk_08 = (s32) (position->unk_08 + ((func_80064584(object->unk_0E) >> 4) * 0x1C00));
 }
 
+/* Creates a randomly rotated sprite behind the source along its radial direction, with size and color
+   set by step. */
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step)
 {
     s16 saved_step = size_step;
@@ -317,6 +335,8 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
     return NULL;
 }
 
+/* Retires three child nodes, resets the sprite, scatters its position on a sphere, and creates a new
+   child. */
 void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, SpriteFrameState *visual) {
     s16 azimuth;
     s16 polar_angle;
@@ -380,6 +400,8 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
     create_an_default_rendering_settings_copies_initial_data(object, position);
 }
 
+/* Moves a rotating sprite along its radial direction, then scatters, expands, and fades it at its
+   travel limit. */
 void advance_radial_effect_state(void *motion, void *position, void *effect) {
     s32 direction_scale;
     s32 sin_a;
@@ -458,6 +480,8 @@ void advance_radial_effect_state(void *motion, void *position, void *effect) {
     }
 }
 
+/* Creates a sprite aimed from the supplied position toward the owner's saved coordinates and adds
+   three trail sprites. */
 void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
     void *effect;
     Row_81917680_S_80024E80_2 *state;
@@ -525,6 +549,8 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
     return 0;
 }
 
+/* Grows and brightens an orbiting sprite, waits for its indexed delay, then replaces it with a
+   directed effect. */
 void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform, void *visual) {
     s32 scale;
     s16 phase;
@@ -586,6 +612,8 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
            >> 8));
 }
 
+/* Creates a randomly rotated attached sprite with copied motion and staggered phase and timing from
+   its index. */
 s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index) {
     s32 first_word;
     s32 second_word;
@@ -638,6 +666,8 @@ s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *objec
     return 0;
 }
 
+/* Stages an effect's launch and particle burst, moves it to the target, and applies damage after child
+   completion. */
 void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual)
 {
     EntityRec *actor;

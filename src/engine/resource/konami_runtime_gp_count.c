@@ -3,6 +3,7 @@
 #include "engine/resource/konami_runtime_gp_count.h"
 #include "engine/resource.h"
 
+/* Binds data and its paired pointer from the resource directory, then loads the indexed record. */
 void bind_and_load_indexed_resource_record(void *data, s32 entry_index)
 {
     Func8003C6F8Entry *entry;

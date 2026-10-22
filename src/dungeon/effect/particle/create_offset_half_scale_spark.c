@@ -31,6 +31,7 @@ extern void select_record_entry_and_value(Sprite *, void *, s16);
 extern void register_node(Object *, void *);
 extern u8 D_80165580;
 
+/* Creates a gray half-scale spark at the source position plus the supplied offsets. */
 void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {
     Object *obj;
     SpriteFrameState *sprite;

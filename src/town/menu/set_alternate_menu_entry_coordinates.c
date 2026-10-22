@@ -83,6 +83,7 @@ typedef struct S_800AF36C_15 {
 
 
 
+/* Positions a menu entry from the last decimal digit of its index and places its companion beside it. */
 void set_alternate_menu_entry_coordinates(MenuDisplay *object) {
     s32 digit;
     s32 row;

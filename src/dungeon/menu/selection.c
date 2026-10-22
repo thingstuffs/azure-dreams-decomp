@@ -1,3 +1,4 @@
+/* Selection menu input, widget descriptors, child allocation, and text-content checks. */
 #include "dungeon/menu/selection.h"
 
 
@@ -15,6 +16,7 @@ void inventory_set_object_entry_address(ovl_1831370_818113C0_S_800263C0_0 *objec
     *object->unk_0C = func_8004DC14(source, 0);
 }
 
+/* Moves menu selection with left or right buttons and held-button repeat, then updates the cursor object. */
 void update_menu_selection_from_input(ovl_1831370_8181140C_MenuState *menu) {
     s32 direction = 0;
     s32 buttons;
@@ -111,6 +113,7 @@ void apply_step_and_reset_after_five(s32 *step) {
     update_menu_selection_from_input((ovl_1831370_8181140C_MenuState *)step);
 }
 
+/* Initializes a selection sprite descriptor, choosing its width from the variant and setting its end bit. */
 void *initialize_variant_packet(ovl_1831370_81811708_Packet *packet, s32 variant) {
     s32 payload;
 
@@ -125,6 +128,8 @@ void *initialize_variant_packet(ovl_1831370_81811708_Packet *packet, s32 variant
     return packet;
 }
 
+/* Sets the selection marker descriptor's geometry and payload 0x8040F0, preserving flags and setting
+   its end bit. */
 void set_descriptor_fields_and_flag(void *descriptor)
 {
     s32 saved_settings;
@@ -145,6 +150,7 @@ S_800491F4 *forward_value_to_shared_helper(S_800491F4 **value) {
     return build_reverse_indexed_chain(value, menu_selection_chain_indices, 4);
 }
 
+/* Copies default display records into a selection widget and sets its position, depth, and flags. */
 void initialize_owner_defaults(void *unused, ovl_1831370_818117D8_Owner *owner, ovl_1831370_818117D8_S_8002E5D8 *patch_data,
                    ovl_1831370_818117D8_S_8002E5E8 *aux_data) {
     ovl_1831370_818117D8_S_8002E5D8 *patch_defaults = &display_block_defaults;
@@ -183,6 +189,7 @@ void initialize_object_destination_fields(ovl_1831370_81811878_Source *src, ovl_
     dst->dstC->unk4->unkA = 0x88;
 }
 
+/* Stores the selected type and values, initializes both descriptors, and starts the opening animation. */
 void initialize_object_phase_data(void *recordFields, s32 recordValue2C, s32 typeCode, s32 recordValue24) {
     s32 isType13;
 
@@ -202,6 +209,7 @@ void initialize_embedded_object_state(void *state, s32 parent, s32 type, s32 con
     initialize_object_destination_fields(state, ((ovl_1831370_818119A0_S_800269A0_0 *)state)->unk_70);
 }
 
+/* Allocates four widget entries and links each to the object's copied default display vector. */
 s32 get_and_position_object_handle(void *object)
 {
     ovl_1831370_818119E8_Vec3 *initial_pos;
@@ -218,6 +226,7 @@ s32 get_and_position_object_handle(void *object)
     return success;
 }
 
+/* Creates a selection menu child with widget data and drawing, marking failed allocations for removal. */
 void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 config_value) {
     u8 *object;
     u8 *state;
@@ -272,6 +281,7 @@ u32 has_available_object(void *object) {
     return 0;
 }
 
+/* Checks whether six or nine byte pairs contain text other than the default pair or two spaces. */
 s32 check_object_byte_pairs_content(s32 object_addr) {
     s32 byte_count;
     s32 loop_bound;

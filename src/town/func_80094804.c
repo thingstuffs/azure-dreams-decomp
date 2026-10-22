@@ -11,6 +11,7 @@ extern void initialize_action_object(void *state, void *object, s32 context);
 extern void initialize_actor_action_state(void *state, void *object, s32 context);
 
 
+/* Resolves and slows movement, adjusts to a surface, and restores actor action state on timer expiry. */
 void update_movement_and_expire_state(void *state, void *object, s32 context) {
     s16 target_value;
     u16 countdown;

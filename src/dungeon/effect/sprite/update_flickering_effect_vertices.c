@@ -1,3 +1,4 @@
+/* Targeted attack motion, flickering effect vertices, and jittered triangle trails. */
 #include "modules/dungeon_ovl_1840800.h"
 #include "common.h"
 #include "shared/object_node.h"

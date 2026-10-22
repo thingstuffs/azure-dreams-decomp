@@ -9,6 +9,7 @@ extern void func_80406C2C(void);
 extern void func_80406B9C(void);
 extern u8 card_slot_header_cache[];
 
+/* Chooses a card-load callback from the selected slot header, table state and nonzero-entry count. */
 void reset_menu_object_state(void *ptr) {
     s32 idx;
 

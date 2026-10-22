@@ -1,6 +1,7 @@
 #include "dungeon/system/project_and_queue_visible_shaded_quad.h"
 
 
+/* Draws random bit fields until the value is below the positive limit; returns 0 for a nonpositive limit. */
 s32 project_and_queue_visible_shaded_quad(s32 limit) {
     s16 result;
     s32 sample;

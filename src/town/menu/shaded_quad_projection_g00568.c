@@ -1,3 +1,4 @@
+/* Builds a menu ring from sixteen segments between two radii around a shared center. */
 /* inferred-strong G00568: shaded_quad_projection_g00568; joins CL:town/func_800A56D0; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A56D0. */
 #include "town/menu/shaded_quad_projection_g00568.h"

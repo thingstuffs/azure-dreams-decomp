@@ -1,3 +1,4 @@
+/* Shared sound payload pointer storage and accessors. */
 #include "common.h"
 
 int sound_payload_buffer = 0;

@@ -10,21 +10,24 @@
 /* Four x,y,z,pad short vectors: the layout of gameWork.view.unk_094..0x0B3 (include/shared/game_work.h,
  * GameView); D_80083CE8 (globals.h) is a saved copy of them (slus/w_80044724 compares and copies them).
  * The old struct S_80083178 (the whole gameWork+0x18 block) is shared/game_work.h's GameView since r78 phase 8. */
+/* One integer camera vector in a saved copy of GameView; camera state comparison copies these vectors. */
 struct S_80083178Vector {
-    short x;
-    short y;
-    short z;
+    short x; /* first signed vector component */
+    short y; /* second signed vector component */
+    short z; /* third signed vector component */
     short pad;
 };
 
+/* Saved four-vector camera state compared and refreshed by the camera matrix update. */
 struct S_80083178State {
-    struct S_80083178Vector v[4];
+    struct S_80083178Vector v[4]; /* copies of view offset, rotation offset, camera position and camera rotation, in that order */
 };
 
 /* Monster initial-stats table  = D_8006D168  (adrando initialStatsTable, 24B/record).
  * Fields (adrando): attack, def, agi, luck, mp, hp, xp, spell1, spell2, spell3,
  * level, id, element, pushable, flying — exact offsets TBD (ref/adrando/monsters.js). */
-typedef struct { unsigned char data[24]; } MonsterInitialStats;  /* g_MonsterInitialStats */
+/* Read-only monster template record selected by species id in init_monster_from_stats. */
+typedef struct { unsigned char data[24]; /* 24-byte template copied into the actor; individual offsets are decoded by init_monster_from_stats */ } MonsterInitialStats;  /* g_MonsterInitialStats */
 
 /* Trap table = D_80072CD0 (adrando trapTable, 12B/record). */
 typedef struct { unsigned char data[12]; } Trap;                 /* g_TrapTable */

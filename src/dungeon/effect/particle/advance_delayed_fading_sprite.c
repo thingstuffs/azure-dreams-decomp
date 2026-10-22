@@ -1,3 +1,4 @@
+/* Targeted effect movement, delayed sprite fading, and accelerating particle emission. */
 #include "modules/dungeon_ovl_185e800.h"
 #include "common.h"
 #include "shared/object_node.h"

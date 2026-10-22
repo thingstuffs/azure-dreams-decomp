@@ -16,6 +16,7 @@ typedef struct S_80813294_2 {
     s16 unk_5C;
 } S_80813294_2;   /* ((S_80813294_0 *)arg0)->unk_00 in animate_hud_gauge */
 
+/* Waits for parent state 4, raises the gauge value for ten updates, then lowers it to zero. */
 void animate_hud_gauge(S_80813294_0 *record, s32 unused, S_80813294_1 *value_record) {
     s32 state;
 

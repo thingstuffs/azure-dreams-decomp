@@ -107,6 +107,7 @@ void update_timed_object_to_height_limit(void *object, ObjectPosition *motion, S
     }
 }
 
+/* Dims the primitive by six per tick, then unlinks and marks the object for removal at zero brightness. */
 void fade_object_primitive(void *object, void *unusedContext, u8 *primitive)
 {
     s32 brightness;

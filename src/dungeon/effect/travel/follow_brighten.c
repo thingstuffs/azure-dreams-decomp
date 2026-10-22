@@ -1,3 +1,4 @@
+/* Staged effect travel and impact with timed fading and owner completion tracking. */
 #include "modules/dungeon_ovl_18ac800.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"

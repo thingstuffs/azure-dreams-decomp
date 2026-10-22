@@ -123,7 +123,7 @@ extern M2C_UNK D_800DF45C;
 extern M2C_UNK D_800DF4A4;
 extern void *D_800DF55C;
 extern void *D_800DF560;
-extern M2C_UNK D_800E1640;
+extern u8 D_800E1640[];
 
 typedef struct {
     s32 clip_origin_xy;
@@ -242,7 +242,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
             update_map_cell_flags_with_item_limit(release_x, release_coord, release_flags);
         }
         unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
-        adjust_source_value_and_finalize(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
+        adjust_source_value_and_finalize(((S_800C2824_0 *)effect)->unk_00, D_800E1640);
         ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
         return;
     case 3:

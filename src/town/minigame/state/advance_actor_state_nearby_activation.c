@@ -1,3 +1,4 @@
+/* Advances actor activation states from proximity checks and plays activation sounds. */
 #include "common.h"
 
 #include "shared/entity_objects.h"

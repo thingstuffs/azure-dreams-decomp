@@ -1,3 +1,4 @@
+/* Linked sprite quad rendering, nearby target effects, and fading radial grids. */
 #include "dungeon/effect/particle/draw_linked_sprite_effect_quads.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"

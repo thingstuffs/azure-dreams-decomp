@@ -6,6 +6,7 @@
  * register_node writes that link; dispatch_registered_draw_callbacks supplies payload and +8/+C. */
 extern void transform_sprite_parts_to_quads(s32, void *, void *, s16);
 
+/* Transforms and draws sprite parts as quads for every linked node using each sprite's depth offset. */
 s32 draw_linked_sprite_parts_as_quads(void *payload, void *position, SpriteFrameState *render_state)
 {
     ObjectNodeHeader *next;

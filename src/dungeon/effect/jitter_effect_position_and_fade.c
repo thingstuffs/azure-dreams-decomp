@@ -30,6 +30,8 @@ typedef struct {
 } JitterSprite;
 typedef struct { u16 flags; } JitterHeader;
 
+/* Jitters the sprite around its base coordinates, cycles its packets, and shrinks and fades it until
+   removal. */
 void jitter_effect_position_and_fade(void *effect, void *position, void *sprite) {
     s32 axes_left;
     u16 *base_coord;

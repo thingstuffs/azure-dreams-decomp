@@ -8,6 +8,7 @@ s32 camera_default_origin_tail = 0x400;
 #include "engine/util/state_defaults.h"
 #include "engine/camera.h"
 
+/* Clears camera transition fields, restores the default origin and rotation, and binds the view reference. */
 void reset_camera_transition_fields(void)
 {
     u8 *state = (u8 *)(&g_game_work.view);

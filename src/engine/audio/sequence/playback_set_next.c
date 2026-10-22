@@ -1,3 +1,4 @@
+/* Sequence tag lookup and scheduling of the next playback step. */
 #include "common.h"
 #include "engine/audio/sequence.h"
 

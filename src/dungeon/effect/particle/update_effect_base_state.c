@@ -1,3 +1,4 @@
+/* Staged target motion, layered sprite-chain drawing, and delayed sprite fading. */
 #include "dungeon/effect/particle/update_effect_base_state.h"
 #include "shared/sprite_frame_state.h"
 /* Normal selector 9: ordinary typed entry pointer; gcc emits the state table. */

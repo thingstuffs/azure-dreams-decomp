@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/dragon/create_tracked_effect_object.h"
 
+/* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *create_tracked_effect_object(s16 flags, s16 x, s16 y, s16 part_id)
 {
     s32 kind;

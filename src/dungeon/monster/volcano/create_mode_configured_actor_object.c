@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/volcano/create_mode_configured_actor_object.h"
 
+/* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     void *result = NULL;

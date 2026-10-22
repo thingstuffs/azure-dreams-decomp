@@ -1,3 +1,4 @@
+/* Shaded particle drawing, accelerating return particles, and staged actor effect cleanup. */
 #include "modules/dungeon_ovl_18f4800.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -58,6 +59,7 @@ extern s32 try_trigger_target_record_effect(void *, s32, void *);
 extern s32 generate_random_value(void);
 extern void try_apply_threshold_effect_variant_b(void *entity, s16 chance, s16 effect_value);
 
+/* Projects linked points and queues visible square particles with color scaled by each point's intensity. */
 s32 func_80024044(void *object_data, void *position_data)
 {
     u8 *object = object_data;

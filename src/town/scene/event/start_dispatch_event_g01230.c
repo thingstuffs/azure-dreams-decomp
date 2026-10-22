@@ -46,6 +46,7 @@ s32 is_dispatch_state_two(void) {
     return town_event_state->dispatchState == 2;
 }
 
+/* Chooses the next town event and entry from progress flags, updating one-time event flags. */
 s32 select_next_event_state(void) {
     u8 value;
     s32 result;

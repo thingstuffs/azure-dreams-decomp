@@ -14,6 +14,7 @@ typedef struct S_800BDE7C_0 {
 
 
 
+/* Alternates output +0x08 between two stored values as the script and object checks turn on and off. */
 void update_record_output_grid(S_800BDE7C_0 *record, s32 unused_value, TownGridOutputView *output, s32 unused_value2)
 {
     s16 state;

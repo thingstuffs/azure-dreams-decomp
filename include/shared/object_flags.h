@@ -13,8 +13,10 @@
  *     turns their direct `lw D`/`sw D` into `la` + 0($r).  They keep `extern int D_800814A0;` (REPORT phase 2).
  *   - 0x08..0x0B are the bytes of D_800814A8, a pointer (228 rows) that retail declares SEPARATELY: as a field
  *     here, 23 of 38 functions using both hold a shared base register and miss.  unk_08 only reserves the bytes. */
+/* Resident object-system aggregate with a shared object-completion marker.
+ * Completion callbacks set its 0x8000 bit when marking an individual object finished. */
 typedef struct ObjectFlagBlock {
-    /* 0x00 */ int flags;               /* lw 725 / sw 723 sites (677 rows); |= 0x8000 at almost every one */
+    /* 0x00 */ int flags; /* global object flags; 0x8000 records that an object was marked complete */
     /* 0x04 */ unsigned char unk_04;    /* lbu/sb: slus + main only (D_800814A4) */
     /* 0x05 */ unsigned char pad_05[3]; /* never accessed */
     /* 0x08 */ unsigned char unk_08[4]; /* = D_800814A8, declared separately in retail (a pointer; not migrated) */

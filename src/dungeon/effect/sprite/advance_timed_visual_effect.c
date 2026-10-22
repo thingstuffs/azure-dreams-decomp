@@ -1,6 +1,8 @@
+/* Timed visual effects, linked sprite copies, and tile fade animation. */
 #include "dungeon/effect/sprite/advance_timed_visual_effect.h"
 
 
+/* Keeps both sprite scales at normal size and removes the effect when its countdown ends. */
 void expire_effect_at_unit_scale(void *state_data, s32 unused, void *scale_data)
 {
     u8 *state = state_data;
@@ -31,6 +33,8 @@ void finish_timed_visual_effect(void *object) {
     object_flag_block.flags |= 0x8000;
 }
 
+/* Bobs and pulses a substitute sprite while hiding the linked sprite, restoring the linked sprite when
+   time expires. */
 void advance_timed_visual_effect(void *state, void *position, void *visual) {
     void *object;
     void *linked_visual;
@@ -78,6 +82,7 @@ void advance_timed_visual_effect(void *state, void *position, void *visual) {
     }
 }
 
+/* Inverts a tiled texture mask, draws clipped moving sprites, and fades them in and out before completion. */
 void update_tiled_fade_effect(void *effect, void *offset_state, void *render_state) {
     Row_818FF19C_Rect8 moving_rect;
     Row_818FF19C_Rect8 tile_rect;
@@ -197,6 +202,8 @@ void update_tiled_fade_effect(void *effect, void *offset_state, void *render_sta
     }
 }
 
+/* Creates a half-scale sprite linked to the owner and target, copying its color and mirroring its
+   rotation. */
 void create_owner_linked_mirrored_sprite(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance) {
     Row_818FF5B8_S_818FF5B8_2 *sprite;
     void *object;

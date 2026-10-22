@@ -1,3 +1,4 @@
+/* Pulunpa map selection and actor action and animation updates. */
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"

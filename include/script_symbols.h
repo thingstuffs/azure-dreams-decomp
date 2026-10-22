@@ -162,7 +162,7 @@
 #define F_viv_engei_ok 154
 #define F_sakaba_close 155
 #define F_quest_no_virgin 156
-#define F_player_mizugi_old 157
+#define F_player_mizugi_old 157 /* saved alternate-sprite flag; compared with F_player_mizugi before reloading */
 #define F_ie_huusya_no_sasoi_once 158
 #define F_ie_pool_no_sasoi_once 159
 #define Ft_home01_rees_once 160
@@ -3365,7 +3365,7 @@
 #define Fp_mia_pool 4607
 #define Fp_bibian_pool_event 4608
 #define Fp_mia_pool_event 4609
-#define F_player_mizugi 4610
+#define F_player_mizugi 4610 /* resident flag selecting the alternate town player sprite bundle */
 #define F_hal_build 4800
 #define F_hal_cansel 4801
 #define F_engei_build 4802

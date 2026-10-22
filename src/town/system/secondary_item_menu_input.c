@@ -33,6 +33,7 @@ static void sort_selected_record_entries(void *record) {
     sort_entries_by_category(((S_800B25D8_0 *)((((*(s32 *)((u8 *)record + 0x14)) * 4) + record)))->unk_3C);
 }
 
+/* Handles item moves, sorting, page changes, and repeated cursor input, then updates menu transitions. */
 void handle_item_menu_input_2(u8 *menu) {
     GameWork *pad_state = &g_game_work;
     s32 held_buttons = pad_state->buttons;

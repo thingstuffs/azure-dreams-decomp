@@ -1,3 +1,4 @@
+/* Level reduction attempts, terrain-seeking particles, randomized drawing, and target effects. */
 #include "modules/dungeon_ovl_192a800.h"
 #include "common.h"
 #include "shared/dungeon_effect_views.h"
@@ -47,6 +48,8 @@ extern s32 func_80069EF8(void);
 extern s32 check_adjacent_tile_height_clearance(u16 x, u16 y, s32 z, void *skip_check);
 extern u16 GetTPage(s32, s32, s32, s32);
 
+/* Attempts to lower the target's level after a random threshold check and displays the fallback result
+   on failure. */
 void try_lower_actor_level(void *target, s32 threshold_arg, void *owner_context) {
     s32 value_index;
     s32 threshold;

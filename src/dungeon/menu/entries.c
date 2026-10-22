@@ -1,3 +1,4 @@
+/* Paged menu records, cursor input, widget setup, resource lifetime, and drawing packets. */
 #include "dungeon/menu/entries.h"
 
 
@@ -11,6 +12,7 @@ void set_entry_destination_and_value(Rec_func_80026CF0_arg0 *record, s32 value) 
     *record->unk_10 = value;
 }
 
+/* Positions the menu cursor and its decoration at the selected cell in a nine-column page. */
 void position_menu_grid_entries(ovl_1831cd8_81811D0C_S_80026D0C_0 *display, s32 cell_index) {
     s32 row_y;
     s32 x_offset;
@@ -45,6 +47,7 @@ s32 configure_menu_resource(s32 setup_value, s32 setup_data) {
     return resource;
 }
 
+/* Counts matching entry values in the 64-record menu list, stopping at the first zero value. */
 s32 count_menu_entry_matches(s32 target_value) {
     s32 index;
     s32 count;
@@ -64,6 +67,7 @@ s32 count_menu_entry_matches(s32 target_value) {
     return count;
 }
 
+/* Counts matching value pairs in the menu list, stopping at the first zero entry value. */
 s32 count_menu_entry_pair_matches(s32 target_value, s32 prefix_value) {
     s32 index;
     s32 count;
@@ -83,6 +87,7 @@ s32 count_menu_entry_pair_matches(s32 target_value, s32 prefix_value) {
     return count;
 }
 
+/* Returns the index of the requested occurrence of a value among 64 menu entries, or -1. */
 s32 find_menu_entry_occurrence(s32 target_value, s32 target_occurrence) {
     s32 occurrence;
     s32 index;
@@ -112,6 +117,7 @@ s32 find_menu_entry_from_index(s32 target_value, s32 start_index)
     return -1;
 }
 
+/* Returns the requested occurrence of a value pair among 64 menu entries, or -1. */
 s32 find_menu_entry_pair_occurrence(s32 target_value, s32 prefix_value, s32 target_occurrence)
 {
     s32 occurrence;
@@ -146,6 +152,7 @@ s32 find_menu_entry_by_pair_from_index(s32 match_byte_2, s32 match_byte_1, s32 s
     return -1;
 }
 
+/* Allocates a page buffer and copies up to eight matching 18-byte menu records into it. */
 s32 pack_selected_menu_entries(s32 held_entry_set, s32 position, s32 entry_count) {
     s32 start_entry;
     s32 buffer;
@@ -198,6 +205,7 @@ void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index)
     return D_800287EC + (row * 0x41) + (entry_index * 0xD);
 }
 
+/* Builds a page of matching menu records, including five fixed entries on the first page. */
 s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_type) {
     s32 slot;
     s32 dest;
@@ -299,6 +307,7 @@ void reset_menu_object_state_2(void *record) {
     clear_menu_embedded_state(record - 0x20);
 }
 
+/* Handles grid movement with button repeat, selection and cancel actions, and page changes. */
 void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     GameWork *input;
     s32 held_buttons;
@@ -395,6 +404,7 @@ void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu) {
     return;
 }
 
+/* Handles vertical menu movement with button repeat, text selection, and close or cancel actions. */
 void handle_menu_button_input(void *menu) {
     GameWork *input = &g_game_work;
     s32 held_buttons;
@@ -517,6 +527,7 @@ void store_scaled_menu_ratio(ovl_1831cd8_81812B44_S_80027B44_0 *object, s32 nume
         (s16) ((s32) (numerator * 0x90) / denominator);
 }
 
+/* Positions eight menu row objects using a shared scaled vertical offset and 16-pixel spacing. */
 void position_scaled_entries(s32 object_table, s32 scale_numerator, s32 scale_denominator) {
     s32 scaled_value;
     s32 entry_index;
@@ -539,6 +550,7 @@ void position_scaled_entries(s32 object_table, s32 scale_numerator, s32 scale_de
     } while (entry_index < 0xE);
 }
 
+/* Loads row text resources as their objects enter the display range and retires them when they leave. */
 void refresh_menu_entry_resources(void *entry_table, void *resource_names)
 {
     ovl_1831cd8_81812BBC_Work name_buffer;
@@ -653,6 +665,7 @@ void *initialize_menu_mode_one_fields(ovl_1831cd8_81812FF4_S_80027FF4_0 *object,
     return object;
 }
 
+/* Copies default header records, links their buffers, and sets menu position and display fields. */
 void initialize_menu_header_records(void *unused, ovl_1831cd8_81813050_Header *header, ovl_1831cd8_81813050_Template0 *record_a, ovl_1831cd8_81813050_Record1 *record_b) {
     ovl_1831cd8_81813050_Template0 *defaults_a = &display_block_defaults;
     ovl_1831cd8_81813050_Template1 *defaults_b = &display_vector_defaults;
@@ -680,6 +693,7 @@ void initialize_menu_header_records(void *unused, ovl_1831cd8_81813050_Header *h
     header->unk4->unkF = 4;
 }
 
+/* Assigns panel widgets, initializes the progress bar, and positions eight text rows. */
 void initialize_menu_panel_rows(void *panel, void *widgets) {
     s16 row_y;
     s16 row_x;
@@ -728,6 +742,7 @@ void initialize_menu_object_from_data(void *object, s32 init_value, s32 init_val
     initialize_menu_panel_rows(object, ((Rec_func_80027AD0_arg0 *)object)->unk_88);
 }
 
+/* Allocates menu entries and their shared data buffer, returning 1 when both allocations succeed. */
 s32 allocate_menu_object_buffers(ovl_1831cd8_81813284_Unk818110CC *object, s32 buffer_param)
 {
     s32 success = 0;
@@ -750,6 +765,7 @@ s32 allocate_menu_object_buffers(ovl_1831cd8_81813284_Unk818110CC *object, s32 b
     return success;
 }
 
+/* Resets menu selection, builds its entry links, clears row resources, and installs the update callback. */
 void initialize_menu_object_state(s32 object_addr, s32 initial_value) {
     void *state;
 
@@ -767,6 +783,7 @@ void initialize_menu_object_state(s32 object_addr, s32 initial_value) {
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_00 = (void *)dispatch_menu_update_callback;
 }
 
+/* Initializes menu mode 1, builds its entry links, clears row resources, and installs the update callback. */
 void install_menu_object_handler(s32 object_addr) {
     void *object_state;
 
@@ -785,6 +802,8 @@ void install_menu_object_handler(s32 object_addr) {
     ((ovl_1831cd8_818133B4_S_800283B4_0_pre *)object_state)[-1].unk_00 = (void *)dispatch_menu_update_callback;
 }
 
+/* Allocates a menu child and its buffers, initializes its data and drawing, and retires failed
+   allocations. */
 void *create_menu_child_object(s32 parent_obj, s32 descriptor_value)
 {
     ovl_1831cd8_8181345C_Obj8181345C *obj;
@@ -809,6 +828,7 @@ void *create_menu_child_object(s32 parent_obj, s32 descriptor_value)
     return obj;
 }
 
+/* Marks the eight row resources and final widget resource for removal, clearing the row pointers. */
 void format_menu_referenced_values(void *state) {
     s32 **value_slot;
     s32 slot_index;
@@ -824,6 +844,7 @@ void format_menu_referenced_values(void *state) {
     flag_optional_object_for_removal(**(s32 **)((u8 *)state + 0x38));
 }
 
+/* Retires menu resources and its linked object, releases buffers, and marks the menu itself for removal. */
 void retire_menu_object(void *object)
 {
     u8 *objectData;
@@ -852,6 +873,7 @@ void clear_menu_embedded_state(s32 object_addr) {
 
 void mark_menu_object_ready(ovl_1831cd8_81813648_ReadyState *state) { state->ready = 1; }
 
+/* Writes four 12-byte packets from two templates and the supplied coordinates, including offset copies. */
 void *build_menu_draw_packets(void *packet, void *coords) {
     u32 packet_type;
     u8 *coord_bytes = (u8 *)coords;

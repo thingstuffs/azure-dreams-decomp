@@ -1,6 +1,9 @@
+/* Map resource loading, linked display objects, marker updates, and building selection input. */
 #include "dungeon/level/townmap.h"
 
 
+/* Loads the requested map resource, then schedules resource 1 or clears the request after resource 1
+   loads. */
 void process_pending_resource_load(void)
 {
     s32 entry_result;
@@ -32,6 +35,7 @@ void send_resource_command_23(s32 entry_index) {
     write_resource_command(D_800CFBA0[entry_index], 0x23);
 }
 
+/* Allocates and links 11 map objects with runtime slots, returning 0 when setup cannot complete. */
 s32 town_map_set(s32 value_7c, s32 value_78) {
     register s32 count;
     void *objects[11];
@@ -122,6 +126,7 @@ s32 clear_town_map_status(void) {
     return 1;
 }
 
+/* Sets up a map object's runtime state, mode-specific sprite, callbacks, and selection data. */
 void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 *target_object) {
     u8 *context = init_context;
     u8 *object = target_object;
@@ -193,6 +198,7 @@ void advance_town_map_countdown_callback(town_map_7FFEE2A0_Struct_7FFEE2A0 *stat
     }
 }
 
+/* Reduces the map object's field at 0x0A by 256 until zero, then installs its input handler. */
 void decrease_town_map_object_field_0a_and_transition(town_map_7FFEE2E4_S_8008BA44_0 *state) {
     town_map_7FFEE2E4_S_8008BA44_1 *object;
     town_map_7FFEE2E4_S_8008BA44_2 *checked_object;
@@ -243,6 +249,8 @@ void decrease_substructure_value_and_reset(town_map_7FFEE474_MainStruct *object)
     }
 }
 
+/* Handles map confirm and cancel actions, zoom changes, player marker updates, and wrapped building
+   selection. */
 void handle_town_map_input(u8 *object, town_map_7FFEE4F8_S_8008BC58_2 *view_params, void *update_context)
 {
     GameWork *input = &g_game_work;

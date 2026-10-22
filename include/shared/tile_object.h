@@ -11,42 +11,44 @@
  * passes it with count 0x80, w_8003F80C stores (addr & 0xFFFFFF) | (width << 24) into it) - a separate SLUS
  * object with its own D_ declaration, not a TileObject member (phase 5's unk_040 / unk_140 were that table's
  * stores seen through the census address range).  No TileObject row reaches past 0x38. */
+/* Static reference sprite/map-location record used for the player view in town and dungeon.
+ * initialize_dungeon_actor and initialize_scene_for_mode clear and attach this record to the scene node. */
 typedef struct TileObject {
     /* 0x000 */ int unk_000;              /* lw 1 (1 rows) */
     /* 0x004 */ signed char unk_004;      /* lb 1, lbu 1 (2 rows) */
     /* 0x005 */ unsigned char pad_005[0x1];
     /* 0x006 */ unsigned short unk_006;   /* lhu 1, sh 8 (6 rows) */
-    /* 0x008 */ int sprite_source;              /* lw 29 (16 rows) */
+    /* 0x008 */ int sprite_source; /* sprite command/attachment source consumed by rendering */
     /* 0x00C */ union {
         unsigned int word;
         struct {
-            unsigned char color_r;    /* lbu 4, lw 1, sb 5, sw 5 (6 rows) */
-            unsigned char color_g;    /* lbu 1, sb 5 (3 rows) */
-            unsigned char color_b;    /* lbu 4, sb 5 (3 rows) */
+            unsigned char color_r; /* red modulation; initialized to 0x80 for neutral color */
+            unsigned char color_g; /* green modulation; initialized to 0x80 for neutral color */
+            unsigned char color_b; /* blue modulation; initialized to 0x80 for neutral color */
             unsigned char code;
         } parts;
-    } primitive_color;
+    } primitive_color; /* packed RGB modulation and GPU command byte */
     /* 0x010 */ unsigned short tpage_offset;   /* lhu 1, sh 3 (1 rows) */
     /* 0x012 */ unsigned char pad_012[0x2];
-    /* 0x014 */ unsigned short sprite_flags;   /* lhu 25, sh 4 (20 rows) */
-    /* 0x016 */ short angle_x;            /* sh 1 (1 rows) */
-    /* 0x018 */ short angle_y;            /* sh 1 (1 rows) */
-    /* 0x01A */ short angle_z;            /* sh 1 (1 rows) */
-    /* 0x01C */ short scale_x;            /* sh 3 (3 rows) */
-    /* 0x01E */ short scale_y;            /* sh 3 (3 rows) */
+    /* 0x014 */ unsigned short sprite_flags; /* sprite render/animation flags */
+    /* 0x016 */ short angle_x; /* sprite X rotation, in GTE angle units (0x1000 per turn) */
+    /* 0x018 */ short angle_y; /* sprite Y rotation, in GTE angle units (0x1000 per turn) */
+    /* 0x01A */ short angle_z; /* sprite Z rotation, in GTE angle units (0x1000 per turn) */
+    /* 0x01C */ short scale_x; /* horizontal sprite scale; 0x1000 = 1.0 */
+    /* 0x01E */ short scale_y; /* vertical sprite scale; 0x1000 = 1.0 */
     /* 0x020 */ short unk_020;            /* sh 1 (1 rows) */
     /* 0x022 */ unsigned char pad_022[0x2];
     /* 0x024 */ union {
         unsigned short word;
         struct {
-            unsigned char tile_x;      /* lbu 351, lhu 77, sb 2 (164 rows) */
-            unsigned char tile_y;      /* lbu 353, sb 1 (163 rows) */
+            unsigned char tile_x; /* current map column, in tiles */
+            unsigned char tile_y; /* current map row, in tiles */
         } parts;
     } tile_position;
-    /* 0x026 */ signed char room_index;      /* lb 32, lbu 1, sb 2 (35 rows) */
+    /* 0x026 */ signed char room_index; /* signed room index for tile_position; -1 denotes no room */
     /* 0x027 */ unsigned char pad_027[0x1];
-    /* 0x028 */ int render_attributes;              /* lw 4, sw 4 (6 rows) */
-    /* 0x02C */ int frame_table;              /* lw 1, sw 4 (4 rows) */
+    /* 0x028 */ int render_attributes; /* loaded sprite-bundle attributes installed by town scene setup */
+    /* 0x02C */ int frame_table; /* animation-frame table address, retained in an integer leaf */
     /* 0x030 */ int selected_item;              /* lh 1, lw 42, sw 12 (14 rows) */
     /* 0x034 */ int secondary_item;              /* lw 10, sw 3 (6 rows) */
     /* 0x038 */ int unk_038;              /* lhu 1, lw 1, sw 9 (5 rows) */

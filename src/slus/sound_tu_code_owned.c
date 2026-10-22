@@ -1,3 +1,4 @@
+/* SPU DMA callbacks, transfer direction flags, register pairs and voice key-on submission. */
 #include "common.h"
 
 /* Partition owner: the seven slus/code functions that live inside the stock-2.7.2

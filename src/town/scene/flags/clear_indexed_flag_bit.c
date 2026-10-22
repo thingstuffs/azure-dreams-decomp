@@ -1,5 +1,6 @@
 #include "common.h"
 extern s32 *D_80701968;
+/* Clears a bit in the shared flag bitmap, leaving flag ID 1 unchanged. */
 void clear_indexed_flag_bit(s32 flag_id) {
     s32 *flag_word;
     s32 word_index;

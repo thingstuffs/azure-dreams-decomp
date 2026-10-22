@@ -1,3 +1,4 @@
+/* Empty script operations and idle callbacks for completed window, menu and runtime actions. */
 #include "common.h"
 #include "engine/script/vm.h"
 

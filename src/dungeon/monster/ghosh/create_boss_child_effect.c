@@ -39,7 +39,7 @@ typedef struct S_80172B00_7 {
 
 void *allocate_list_node();                  /* extern */
 s32 register_node(); /* extern */
-M2C_UNK select_sprite_entry();         /* extern */
+void select_sprite_entry();         /* extern */
 void * create_tracked_effect(); /* extern */
 extern s8 view_direction_depth_biases[];
 extern M2C_UNK D_80172610;

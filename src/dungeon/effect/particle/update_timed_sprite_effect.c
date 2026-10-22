@@ -1,3 +1,4 @@
+/* Projectile movement and impact sequencing with projected textured sprite animation. */
 #include "modules/dungeon_ovl_1858800.h"
 #include "common.h"
 #include "shared/object_node.h"

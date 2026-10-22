@@ -1,3 +1,4 @@
+/* Handles door collision, opening and closing, entrance interactions, and map changes. */
 #include "script_symbols.h"
 #include "town/map/door.h"
 
@@ -271,6 +272,7 @@ void advance_door_step(void *entity) {
     }
 }
 
+/* Selects the door's entrance or waiting handler according to whether the entry count is below six. */
 void select_tower_entry_handler_by_item_count(S_800A0C30_0 *script_state, void *unused_context, S_800A0C30_1 *event_params) {
     if (check_door_input_and_angle(script_state, unused_context) != 0) {
         if (count_consecutive_nonzero_entries_up_twenty() < 6) {

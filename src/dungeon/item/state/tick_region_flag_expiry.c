@@ -7,6 +7,7 @@ extern void display_formatted_context_message(void *);
 extern u16 dungeon_status_flags_alias;
 extern s32 D_800E18C8;
 extern Entry dungeon_rooms[];
+/* Counts active dungeon ticks, optionally reports expiry and clears room flag 2, then removes the timer. */
 void tick_region_flag_expiry(void *state)
 {
     s32 countdown;

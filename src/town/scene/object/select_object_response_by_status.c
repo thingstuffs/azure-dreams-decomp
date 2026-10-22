@@ -1,5 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
+/* Selects an object's response from a lookup table, its checked status, and its stored flag ID. */
 s32 select_object_response_by_status(void *object, s32 check_mode, s32 context) {
     s32 *data_table;
     s32 result;

@@ -1,9 +1,11 @@
+/* Univern actor spawning, linked displays, movement, attacks, and spell effects. */
 #include "modules/dungeon_resource17_slot0.h"
 void * (*const resource17_slot0_entry0)(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value) = func_8017089C;
 void (*const resource17_slot0_entry1)(void *actor, void *motion, void *object) = create_anchored_directional_object;
 #include "modules/dungeon_resource17_slot0.h"
 #include "shared/sprite_frame_state.h"
 
+/* Creates a Univern actor and its linked directional display, then initializes status and tile placement. */
 void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 {
     void *root;
@@ -166,6 +168,7 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Runs actor callbacks and updates facing, animation, bobbing height, movement, and terrain contact. */
 void create_anchored_directional_object(void *actor, void *motion, void *object)
 {
     u16 initial_flags = g_dungeon_status.flags;
@@ -408,6 +411,7 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void update_entity_movement_and_ground_height(void *actor, void *context, void *sprite, ActorRecord *status)
 {
     s32 distance;
@@ -590,6 +594,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Advances one stored path step, updates occupied tiles and facing, and sets the movement delay. */
 void advance_entity_along_path_2(void *motion, s32 unused, void *entity, void *path_state)
 {
     u8 *direction_table;
@@ -660,6 +665,8 @@ void advance_entity_along_path_2(void *motion, s32 unused, void *entity, void *p
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
+ * counts. */
 void func_80171A98(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
@@ -876,6 +883,7 @@ void func_80171A98(void *move_data, void *context, void *position_data, void *ac
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor)
 {
     s32 target_angle;
@@ -927,6 +935,8 @@ s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Claims an action slot, starts the directional attack animation, and prepares its target and damage
+ * state. */
 void func_801723A4(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80082E80 *animation,
     ActorRecord *entity) {
     entity->movement_queue_state = (s8) (entity->movement_queue_state & 0x7F);
@@ -948,6 +958,7 @@ void func_801723A4(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
 s32 func_801724C4(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
@@ -1016,6 +1027,7 @@ void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(Resou
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Animates a backward hop and forward attack, applies damage, then recenters the actor and spends MP. */
 void update_staged_movement_and_direction(void *action, void *motion, void *sprite, void *actor)
 {
     s32 step_x;
@@ -1164,6 +1176,7 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Targets and starts a spell effect, waits for loading and animation, then restores movement and status. */
 void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80172C18_Actor *actor, R17_80172C18_Entity *ent)
 {
     u8 *item_slot;
@@ -1387,6 +1400,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
 #include "modules/dungeon_resource17_slot0.h"
 #include "shared/sprite_frame_state.h"
 
+/* Applies a value change and knockback, then returns the actor to its tile and restores movement. */
 void func_80173244(void *action, void *motion, void *sprite, void *actor)
 {
     s16 flight_timer;
@@ -1524,6 +1538,7 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Moves and fades the defeated actor, awards experience, clears tile occupancy, and unlinks the actor. */
 void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, MotionDeltaView *motion, R17_80173614_S_func_80C17E14_2 *sprite,
     R17_80173614_S_func_80C17E14_3 *entity) {
     s32 direction_offset;
@@ -1646,6 +1661,7 @@ void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackSta
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Animates status entry and recovery, updates status timers and activity counts, then restores movement. */
 void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity_arg)
 {
     void *actor = actor_arg;
@@ -1872,6 +1888,7 @@ advance_state:
 }
 #include "modules/dungeon_resource17_slot0.h"
 
+/* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
 void func_80173F10(void *action, void *context, void *sprite, void *entity)
 {
     void *saved_context;

@@ -10,6 +10,7 @@ extern void func_80405A64(void);
 
 extern u8 card_slot_header_cache[];
 
+/* Chooses the next card operation and message callbacks from the selected slot header and table result. */
 void advance_indexed_object_operation(void *inputPtr)
 {
     u8 *base;

@@ -1,3 +1,4 @@
+/* Targeted ribbon motion, interpolated trail particles, and fading trail segments. */
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */

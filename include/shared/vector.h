@@ -11,10 +11,12 @@ typedef struct ScreenPoint16 {
 } ScreenPoint16;
 
 /* Three-word translation passed by address to the GTE helpers; retains the local 12-byte extent. */
+/* Three-word GTE translation result, stored in caller-local work.
+ * compose_and_install_camera_transform fills it through RotTrans and passes it to TransMatrix. */
 typedef struct GteTranslationVector {
-    int vx;
-    int vy;
-    int vz;
+    int vx; /* transformed X translation component */
+    int vy; /* transformed Y translation component */
+    int vz; /* transformed Z translation component */
 } GteTranslationVector;
 
 /* Three signed coordinate/vector words; units remain defined by the caller. */

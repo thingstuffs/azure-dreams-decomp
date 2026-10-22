@@ -1,3 +1,4 @@
+/* Clears six selected development bitmap bits using signed index rounding helpers. */
 #include "common.h"
 #include "m2c_compat.h"
 
@@ -9,6 +10,7 @@ static __inline__ s32 rounded_bit_index(s32 bit_index) {
     return rounded_index;
 }
 
+/* Clears the selected bitmap bit using the supplied rounded word index. */
 static __inline__ void clear_indexed_bit(s32 bitmap, s32 bit_index, s32 rounded_index, s32 one_bit) {
     s32 word_addr;
     s32 bit_value;

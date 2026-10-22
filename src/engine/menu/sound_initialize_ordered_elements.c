@@ -7,6 +7,7 @@ u8 menu_element_order[4] = { 1, 3, 2, 4 };
 #include "engine/menu/gp_order_bytes_owner.h"
 #include "engine/menu.h"
 
+/* Initializes four menu elements and links them in the order listed by menu_element_order. */
 void sound_initialize_ordered_elements(S_80049F68_Obj *obj)
 {
     s32 i;

@@ -1,3 +1,4 @@
+/* Resource descriptor queuing and creation of callback pairs with default arguments. */
 #include "common.h"
 #include "engine/resource.h"
 #include "engine/texture.h"

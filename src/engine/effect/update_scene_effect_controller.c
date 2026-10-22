@@ -7,6 +7,7 @@
 
 #include "slus/jtbl_80052144.h"
 
+/* Times child effects, cancels them on a skip flag, and requests the next scene after all children finish. */
 void update_scene_effect_controller(Controller *controller)
 {
     s32 notify_id;

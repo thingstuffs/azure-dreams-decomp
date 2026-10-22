@@ -1,3 +1,4 @@
+/* Builds town display entries, checks their bounds, dispatches object updates, and opens menu windows. */
 #include "town/menu/window.h"
 #include "shared/sprite_frame_state.h"
 

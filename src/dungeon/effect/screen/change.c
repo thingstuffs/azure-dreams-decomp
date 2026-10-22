@@ -215,12 +215,12 @@ extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u1
 s16 find_directional_entry_and_clear_flag();
 s32 prepare_quarter_damage_return();
 s32 count_occupied_entity_slots();
-extern M2C_UNK D_800E0D7B;
-extern M2C_UNK D_800E0D92;
-extern M2C_UNK D_800E0D9E;
-extern M2C_UNK D_800E0DB8;
-extern M2C_UNK D_800E0DDD;
-extern M2C_UNK D_800E0DEA;
+extern u8 D_800E0D7B[];
+extern u8 D_800E0D92[];
+extern u8 D_800E0D9E[];
+extern u8 D_800E0DB8[];
+extern u8 D_800E0DDD[];
+extern u8 D_800E0DEA[];
 extern ActiveEntry floor_objects[32];
 
 typedef struct S_8009C12C_0 {
@@ -346,7 +346,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 tile_text_base = (s32)&floor_objects;
                 tile_text += tile_text_base;
                 message_cursor = apply_type_based_entry_adjustments(tile_text, message_cursor);
-                message_cursor = expand_text_control_codes(&D_800E0D7B, message_cursor);
+                message_cursor = expand_text_control_codes(D_800E0D7B, message_cursor);
                 clear_byte_and_advance(message_cursor);
                 display_text_with_fullwidth_adjustment(message_start);
                 play_sound_if_enabled(0x700);
@@ -366,7 +366,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & target_traits & 0x8000)
             || ((kind_check == 0x23) && (((S_8009C12C_0 *)attacker_in)->unk_A6 != 0) && !(target_traits & 0x8000))) {
             message_cursor = append_entity_display_text(attacker_in, message_start);
-            message_cursor = expand_text_control_codes(&D_800E0D92, message_cursor);
+            message_cursor = expand_text_control_codes(D_800E0D92, message_cursor);
             message_cursor = write_text_byte_and_advance(0xA, message_cursor);
         } else {
             attacker_blocked = ((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x4000;
@@ -376,7 +376,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                     blocked_actor = attacker_in;
                 }
                 message_cursor = append_entity_display_text(blocked_actor, message_cursor);
-                message_cursor = expand_text_control_codes(&D_800E0D9E, message_cursor);
+                message_cursor = expand_text_control_codes(D_800E0D9E, message_cursor);
                 message_state = 1;
             }
         }
@@ -391,7 +391,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             modifier = signed_value >> 16;
             if (modifier == 0) {
                 message_cursor = append_entity_display_text(target, message_cursor);
-                message_cursor = expand_text_control_codes(&D_800E0DB8, message_cursor);
+                message_cursor = expand_text_control_codes(D_800E0DB8, message_cursor);
             }
             null_result = NULL;
             if (modifier >= 0) {
@@ -517,7 +517,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             if (((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x2000) {
                 message_cursor = expand_text_control_codes(D_800E0000 + 0xDD0, message_cursor);
             } else {
-                message_cursor = expand_text_control_codes(&D_800E0DDD, message_cursor);
+                message_cursor = expand_text_control_codes(D_800E0DDD, message_cursor);
             }
         }
         {
@@ -531,7 +531,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 message_cursor = format_unsigned_double_byte_decimal(display_damage, message_cursor);
             }
         }
-        message_cursor = expand_text_control_codes(&D_800E0DEA, message_cursor);
+        message_cursor = expand_text_control_codes(D_800E0DEA, message_cursor);
         signed_value = message_state << 0x10;
     }
     if (signed_value >= 0) {
@@ -644,6 +644,7 @@ extern Ent *find_eligible_actor_at_tile_and_height(Ent *, s32, s32, s32);
 extern s32 get_clamped_adjusted_value(Ent *);
 extern void func_8003E188(s32, s32);
 
+/* Finds a directional attack target, updates facing and hit flags, and rolls attack and evasion values. */
 Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     s32 zero = 0;
     u16 coord;
@@ -1071,6 +1072,8 @@ typedef struct S_8009D218_1_pre {
 
 /* extern */
 
+/* Tests actor effects and a linked item chance, creating a pulsing effect and returning 1 when an
+   effect is triggered. */
 s32 try_trigger_target_record_effect(ActorRecord *entity, s32 flags, Rec_D_800287A4 *record) {
     u8 *value_ptr;
 

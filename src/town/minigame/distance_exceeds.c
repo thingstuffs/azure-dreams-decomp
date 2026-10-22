@@ -1,3 +1,4 @@
+/* Updates object motion states and timed target adjustments using distance checks. */
 #include "common.h"
 
 #include "shared/entity_objects.h"

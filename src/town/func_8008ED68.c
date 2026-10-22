@@ -17,6 +17,7 @@ typedef struct {
 
 extern s16 forward_smallest_surface_x_query(S_8008ECC0_Vec *record);
 
+/* Queries a surface X bound at an indexed offset, subtracting that offset's X unless the result is 0x7FFF. */
 s16 evaluate_summed_vector_minus_base(S_8008ECC0 *position, S_8008ECC0 *offsets, s32 offset_index)
 {
     S_8008ECC0_Vec query_position;

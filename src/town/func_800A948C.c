@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
+/* Dims all three color channels and shrinks the effect, marking it for removal when brightness runs out. */
 void fade_effect_and_mark_cleanup(void *record, s32 unused, void *effect) {
     s32 intensity;
     u16 size;

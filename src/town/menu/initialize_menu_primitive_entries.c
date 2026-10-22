@@ -7,6 +7,7 @@ typedef struct { u8 pad[0xAEC]; Settings settings; u8 padAF8[0x10]; Primitive *p
 extern Primitive D_8002D690;
 typedef struct { s32 value; } DefaultWord;
 extern DefaultWord D_8002D6A0, D_8002D6A4, D_8002D6A8;
+/* Links menu entries to their primitive storage and copies the default primitive and shared settings. */
 void initialize_menu_primitive_entries(Work *work, s32 count) {
     s32 i;
     for (i = 0; i < count; i++) {

@@ -1,3 +1,4 @@
+/* Initializes building scene state and loads the scene's graphics resources. */
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"

@@ -1,3 +1,4 @@
+/* Troll color flashes, moving effects, attachments, and actor creation. */
 #include "dungeon/monster/troll/troll_flash_effects.h"
 #include "shared/sprite_frame_state.h"
 

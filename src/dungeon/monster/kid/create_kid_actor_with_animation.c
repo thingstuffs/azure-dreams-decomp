@@ -2,6 +2,7 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kid/create_kid_actor_with_animation.h"
 
+/* Creates a Kid actor and its linked directional display, then initializes status and tile placement. */
 void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
 {
     void *root;

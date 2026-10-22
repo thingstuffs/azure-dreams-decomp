@@ -35,6 +35,7 @@ extern u32 D_80012BCC[4];
 extern u8 D_805300C4[0x100];
 extern u32 D_80530100[];
 
+/* Slides panel choices and records a hit choice when the shared value is at least 1000. */
 void update_item_panel_selection(S_80810220_0 *control_data, TownPanelSelectionView *value_data, S_80810220_2 *output_data) {
     S_80810220_1 *child;
     s16 called;

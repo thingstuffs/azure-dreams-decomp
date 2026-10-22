@@ -22,6 +22,7 @@ extern CallbackOwner *D_80701984[4];
 extern s32 func_80700D84(s32 index, s32 input_a, s32 input_b, s32 input_c);
 extern s32 func_80701060(s32 *word, s32 old_value);
 
+/* Sets a selected bitmap bit for accepted input, or updates flag 0x40000000 from the status callback. */
 s32 update_selection_mask_and_status(s32 index, s32 input_a, s32 input_b, s32 input_c) {
     s32 old_value;
     s32 shift;

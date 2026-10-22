@@ -5,22 +5,26 @@
 
 #include "common.h"
 
+/* Timed movement phase state supplied by the town actor caller.
+ * move_flag_object_until_timer_expiry initializes the timer and advances the outer phase on expiry. */
 typedef struct {
     u8 pad0[0x68];
-    u16 unk68;
-    s16 unk6A;
-    u16 unk6C;
+    u16 unk68; /* outer movement phase; incremented when the timer expires */
+    s16 unk6A; /* movement subphase: 0 initializes the timer/steps, 1 continues them */
+    u16 unk6C; /* remaining movement callback ticks; decremented before each movement step */
 } TownCf814State;
 
+/* Integer-half position/step view of the town object moved by the phase helper.
+ * move_flag_object_until_timer_expiry installs per-tick steps and advances these coordinates. */
 typedef struct {
     u8 pad0[2];
-    u16 unk2;
+    u16 unk2; /* integer X coordinate, increased by unkE each active movement tick */
     u8 pad4[2];
-    u16 unk6;
+    u16 unk6; /* integer Y coordinate, increased by unk12 each active movement tick */
     u8 pad8[6];
-    u16 unkE;
+    u16 unkE; /* X step per movement tick, copied from the step_x argument */
     u8 pad10[2];
-    u16 unk12;
+    u16 unk12; /* Y step per movement tick, copied from the step_y argument */
 } TownCf814Obj;
 
 /* Functions defined in this translation unit. */

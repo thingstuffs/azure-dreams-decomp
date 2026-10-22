@@ -19,6 +19,8 @@ extern void dispatch_object_renderers(void);
 extern void append_draw_mode_primitive(void);
 extern void queue_framebuffer_strip_quads(void);
 
+/* Updates and cleans active nodes, advances motion and the view, then dispatches object and
+   framebuffer rendering. */
 void update_active_nodes_and_render_frame(void) {
     u8 *work = D_80083160;
     run_active_node_callbacks();

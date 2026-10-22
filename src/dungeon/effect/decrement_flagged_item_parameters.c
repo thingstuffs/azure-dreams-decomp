@@ -1,9 +1,12 @@
+/* Tinted actor sprite copies and their timed effect completion. */
 #include "dungeon/effect/decrement_flagged_item_parameters.h"
 
 void (*const dungeon_1966800_entry)(void *, void *) = decrement_flagged_item_parameters;
 #include "dungeon/effect/decrement_flagged_item_parameters.h"
 #include "shared/sprite_frame_state.h"
 
+/* Creates a tinted sprite copy at the actor's attachment offset, plays its sound, and waits for
+   completion. */
 void decrement_flagged_item_parameters(void *action, void *saved_position)
 {
     void *owner_work;

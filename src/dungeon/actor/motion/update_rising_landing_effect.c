@@ -1,3 +1,4 @@
+/* Actor-relative motion effects, trailing particles, and rising and landing sprite sequences. */
 #include "modules/dungeon_ovl_199c800.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"

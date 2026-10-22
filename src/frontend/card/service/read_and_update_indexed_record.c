@@ -9,6 +9,7 @@ extern s32 func_80401FEC(void *data_ptr);
 extern void func_8007BF18(void *data_ptr);
 extern u8 card_slot_header_cache[];
 
+/* Reads a selected card file and, after a successful data check, writes its cached slot header. */
 s32 read_and_update_indexed_record(s32 index, void *data_ptr) {
     u8 buffer[32];
     s32 result;

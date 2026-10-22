@@ -19,6 +19,7 @@ extern s32 check_heading_past_half_sector(s16, s16);
 
 extern s32 D_800834A8;
 
+/* Tracks idle time, runs the person's callback, and updates the sprite for its heading and mirror flag. */
 void update_person_view_and_record(void *ptr, s32 value, SpriteFrameState *record) {
     GameWork *work = &g_game_work;
     s16 buf[12];

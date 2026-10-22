@@ -7,6 +7,7 @@ extern void initialize_card_message_object_with_code_0xb(void *ptr);
 extern void func_80406590(void);
 extern void func_80405A3C(void);
 
+/* Builds one of five save-slot windows per call, switching callbacks on a failed lookup or completion. */
 void card_devkit_build_save_slot_windows(void *ptr) {
     void *base;
     s32 idx;

@@ -1,3 +1,4 @@
+/* Effect motion with a decaying delta and a timed color fade. */
 #include "common.h"
 #include "shared/object_flags.h"
 

@@ -1,6 +1,8 @@
+/* Projected effect quads, linked trails, particle animation, and a timed attack sequence. */
 #include "dungeon/effect/particle/draw_linked_effect_chain.h"
 #include "shared/sprite_frame_state.h"
 
+/* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
@@ -122,6 +124,7 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
     func_80064A40();
 }
 
+/* Draws a shaded quad for each node in the linked effect chain using that node's position and appearance. */
 s32 draw_linked_effect_chain(void *state, void *position, void *appearance) {
     Row_819A0D64_GapNode *node;
     for (;;) {
@@ -135,6 +138,8 @@ s32 draw_linked_effect_chain(void *state, void *position, void *appearance) {
     return 0;
 }
 
+/* Changes paired byte fields at selected countdown stages and marks the effect for removal when the
+   counter ends. */
 void update_effect_countdown_fields(void *object_data)
 {
     s32 phase_index;
@@ -199,6 +204,7 @@ void update_effect_countdown_fields(void *object_data)
 const Row_819A1450_LocalTable D_80024034 = {{{1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, 65535}, {0, 65535}, {1, 65535}}};
 const Row_819A1654_PointTable D_80024054[1] = {{{{5, 0}, {5, 5}, {0, 5}, {-5, 5}, {-5, 0}, {-5, 65531}, {0, 65531}, {5, 65531}}}};
 
+/* Moves and animates a sprite while fading its grayscale color in proportion to its remaining lifetime. */
 void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteFrameState *primitive)
 {
     s32 brightness;
@@ -229,6 +235,7 @@ void fade_moving_effect(void *effect, Row_819A0EF0_S_800246F0_2 *motion, SpriteF
     }
 }
 
+/* Fades the sprite's grayscale color in proportion to its remaining lifetime and removes it at zero. */
 void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState, void *unused, Row_819A0FC0_S_func_819A0FC0_1 *primitive)
 {
     s32 brightness;
@@ -249,6 +256,8 @@ void shrink_effect_and_spawn_particles(Row_819A0FC0_S_func_819A0FC0_0 *fadeState
     }
 }
 
+/* Scales four saved vertex colors by the remaining lifetime and removes the effect when the countdown
+   ends. */
 void fade_quad_vertex_colors(void *fade_data)
 {
     void *fade;
@@ -277,6 +286,7 @@ void fade_quad_vertex_colors(void *fade_data)
     }
 }
 
+/* Interpolates six saved geometry values and fades four vertex colors over the effect's countdown. */
 void advance_object_motion_and_animation(void *effect) {
     s32 blend_ticks;
     s32 elapsed_ticks;
@@ -323,6 +333,8 @@ void advance_object_motion_and_animation(void *effect) {
     }
 }
 
+/* Fades and rotates a sprite while decrementing an extra byte field, then removes it when its
+   countdown ends. */
 void choose_random_sign(void *effect, s32 unused, void *primitive)
 {
     s32 intensity;
@@ -344,6 +356,7 @@ void choose_random_sign(void *effect, s32 unused, void *primitive)
     }
 }
 
+/* Rotates the sprite and fades its grayscale color in proportion to the countdown, then removes it. */
 void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, s32 unused, Row_819A13D0_Obj *obj) {
     s32 scaled_count;
     u16 count;
@@ -365,6 +378,8 @@ void rotate_and_fade_timed_sprite(Row_819A13D0_Work *work, s32 unused, Row_819A1
     object_flag_block.flags |= 0x8000;
 }
 
+/* Creates a randomly rotated gray sprite at an actor-relative offset with velocity from its direction
+   table. */
 void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z)
 {
@@ -415,6 +430,7 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 u
     }
 }
 
+/* Runs a timed attack visual sequence with particle bursts, linked trails, sound, and completion cleanup. */
 void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_context, void *saved_data) {
     Row_819A1654_PointTable points;
     Row_819A1654_Task *task;

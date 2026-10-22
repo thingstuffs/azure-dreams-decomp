@@ -1,3 +1,4 @@
+/* Sprite-group traversal, projection and visible textured-quad submission. */
 #include "slus/gp_shared_81510.h"
 #include "common.h"
 #include "shared/scratchpad.h"
@@ -47,6 +48,7 @@ typedef struct {
 extern void *D_80083160[3];
 extern u32 sprite_projection_matrix[8];
 
+/* Projects unhidden sprite groups until the chain ends or the frame packet arena overflows. */
 s32 project_sprite_chain(void *group_data, s32 context, S_80045340_Entry *entry, s32 unused)
 {
     void *current_data = group_data;

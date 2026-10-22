@@ -22,6 +22,7 @@ typedef struct S_808127A4_1 {
 s32 func_80058588(s32, s32, s32);
 extern s32 D_80084D5C;
 
+/* Passes the linked value times 1000 to func_80058588, then moves field +0x16 until removal. */
 void animate_linked_value_threshold(void *record_ptr) {
     u16 *flags;
     s16 state;

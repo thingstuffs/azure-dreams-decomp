@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/stealth/create_tracked_effect_object.h"
 
+/* Creates a Stealth actor, initializes its status and tile, and optionally unlinks its translucent render
+ * node. */
 void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value0A)
 {
     s32 modeBits;

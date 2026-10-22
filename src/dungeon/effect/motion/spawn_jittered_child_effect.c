@@ -1,6 +1,7 @@
 #include "dungeon/effect/motion/spawn_jittered_child_effect.h"
 
 
+/* Creates a child effect at a random offset from its source and stores the supplied control values. */
 void spawn_jittered_child_effect(
     void *source,
     s16 field_34,

@@ -1,3 +1,4 @@
+/* Collects callback-approved IDs into four-byte entries and appends a zero terminator. */
 #include "shared/town_root.h"
 #include "common.h"
 #include "shared/record_ptrs.h"

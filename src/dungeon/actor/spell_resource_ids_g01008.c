@@ -154,7 +154,7 @@ set_effect_scale:
         if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
             new_text_context = get_unused_text_buffer();
             message = append_entity_display_text(actor, new_text_context);
-            message = expand_text_control_codes(&D_800E1C58, message);
+            message = expand_text_control_codes(D_800E1C58, message);
             if (((u32)(u16)mode << 0x10) != 0) {
                 effect_id = resolve_alternate_spell_id(effect_id);
                 name_text = item_action_definitions[effect_id].unk_08;
@@ -172,6 +172,7 @@ set_effect_scale:
 }
 
 /* Updates selection data and starts a message when the selection changes. */
+/* Requests changed spell-effect code from CD, sets its sound cue, and returns the loaded entry when ready. */
 s32 load_spell_effect_code(selection_id, alternate_table, unused)
     s16 selection_id, alternate_table;
     s32 unused; {

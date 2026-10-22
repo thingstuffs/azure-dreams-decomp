@@ -8,6 +8,7 @@ typedef struct EffectScaleState {
     s16 scale_enabled;
 } EffectScaleState;
 extern s32 D_800814A0;
+/* Fades the sprite, optionally enlarges it, and marks it for removal when the red channel reaches zero. */
 void fade_and_scale_sprite(void *actor, void *unused, void *packet) {
     u16 depth;
     u16 *flags;

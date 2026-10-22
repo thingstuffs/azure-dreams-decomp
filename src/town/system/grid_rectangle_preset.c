@@ -22,6 +22,7 @@ extern void points_within_squared_threshold();
 #include "m2c_compat.h"
 static void apply_target_grid_rectangle();
 
+/* Scales a tile target by 64, adds the grid origin and 32, then tests it against the current position. */
 static void apply_target_grid_rectangle(s32 target_x, s32 target_y)
 {
     Rect current_rect;

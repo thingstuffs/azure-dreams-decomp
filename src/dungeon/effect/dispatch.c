@@ -687,6 +687,7 @@ void create_orbiting_teleport_effect();
 
 #define CELL(xx, yy) (cells + 6 * ((xx) + ((yy) << *(s16 *)(fld + 20))))
 
+/* Displays timed messages, clears and lowers a selected room, and handles the player's floor transition. */
 void dispatch_action_callback_by_opcode(u8 *w) {
     GameWork *ctx;
     u8 *cells;

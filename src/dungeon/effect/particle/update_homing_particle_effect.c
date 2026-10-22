@@ -1,3 +1,4 @@
+/* Directional attack trails, target sprite distortion, and homing particles. */
 #include "modules/dungeon_ovl_1852800.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_1852800.h"
@@ -113,6 +114,8 @@ s32 rand();                             /* extern */
 s16 set_or_clear_actor_status_slot();        /* extern */
 extern void advance_sprite_animation_and_textures(void *state);
 
+/* Moves a particle trail to a directional target, distorts its sprite, applies the attack, and
+   restores its scale. */
 void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) {
     S_func_81832800_3 *source_object;
     s32 step_x;

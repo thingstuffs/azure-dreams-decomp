@@ -32,6 +32,7 @@ typedef struct S_800CA0DC_0 {
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_800CA0DC_0;
 
+/* Routes actor updates through path movement, defeat or level checks, and pending action selection. */
 void dispatch_actor_behavior_state(Rec_func_800C9F34_arg0 *actor_state, s32 context, S_800C9F34_3 *position, ActorRecord *entity) {
 
     if (g_dungeon_status.flags & 0x1000) {
@@ -68,6 +69,7 @@ void dispatch_actor_behavior_state(Rec_func_800C9F34_arg0 *actor_state, s32 cont
     }
 }
 
+/* Advances to the next stored path tile, updates facing, and sets the movement animation duration. */
 static void advance_actor_along_path_points(void *motion, s32 unused, void *position, void *path)
 {
     s32 step_count;

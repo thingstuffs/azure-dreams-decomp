@@ -1,6 +1,8 @@
+/* Floor layout loading, random room and corridor generation, and special room placement. */
 #include "dungeon/level/generate.h"
 #include "shared/sprite_frame_state.h"
 
+/* Clears all three halfwords in each of the 4,096 generation cells. */
 void clear_generation_cell_grid(void) {
     s8 *entry_start;
     s8 *entry_tail;
@@ -19,6 +21,7 @@ void clear_generation_cell_grid(void) {
     } while (entries_left > 0);
 }
 
+/* Keeps only the requested flag bits in each generation cell within the rectangle. */
 void mask_generation_cell_rect(s16 start_x, s16 start_y, s16 rect_width, s16 rect_height, u16 mask)
 {
     s32 x;
@@ -52,6 +55,7 @@ void clear_thirty_six_table_fields(void) {
     } while (remaining > 0);
 }
 
+/* Returns the first nonzero generation mark in the rectangle, or -1 for invalid bounds. */
 s16 find_first_nonzero_rectangle_field(s16 start_x, s16 start_y, s16 width, s16 height) {
     MapGrid *config;
     s32 shifted_x;
@@ -99,6 +103,7 @@ ret_err:
     return 0;
 }
 
+/* Writes the given mark into every generation cell in the rectangle. */
 void fill_generation_cell_marks(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
     s16 rows_left;
     s32 span_left;
@@ -137,6 +142,7 @@ void fill_generation_cell_marks(s16 start_x, s16 y, s16 width, s32 height, u16 f
 }
 
 
+/* Packs active room records together, clears unused slots, and updates the room count. */
 void compact_generation_regions(void) {
     s8 *read_entry;
     s8 *write_entry;
@@ -180,6 +186,7 @@ void clear_generation_region_entries(void) {
     }
 }
 
+/* Appends coordinates and a value to an active room's cell list. */
 void append_generation_region_entry(s16 row_index, s16 first_byte, s16 second_byte, s16 value) {
     s32 row_offset;
     u16 entry_count;
@@ -203,6 +210,7 @@ void append_generation_region_entry(s16 row_index, s16 first_byte, s16 second_by
     }
 }
 
+/* Places up to four elevator markers on free spawn tiles and lowers their terrain by 32. */
 void place_random_floor_elevators(void) {
     s32 state;
     u8 x;
@@ -321,6 +329,7 @@ retry:
     }
 }
 
+/* Writes blocked border tiles around the generation grid. */
 void initialize_grid_border_cells(void)
 {
     s32 edge_index;
@@ -359,6 +368,7 @@ void initialize_grid_border_cells(void)
     }
 }
 
+/* Marks reachable room tiles, returning 0 when traversal cannot cover the eligible cells. */
 s32 mark_path_through_neighboring_tiles(s16 region_id) {
     s16 *dx = dir_step_x;
     s16 *dy = dir_step_y;
@@ -429,6 +439,7 @@ s32 mark_path_through_neighboring_tiles(s16 region_id) {
     return 1;
 }
 
+/* Counts room cells whose flags have none of the bits in 0x8500 set. */
 s16 count_unblocked_cells_in_generation_region(s16 entry_index) {
     s16 count = 0;
     u8 *entry_base = (u8 *)dungeon_rooms;
@@ -460,6 +471,7 @@ s16 count_unblocked_cells_in_generation_region(s16 entry_index) {
     return count;
 }
 
+/* Finds the highest eligible surface in a room, returning 0x200 when none is found. */
 s16 find_highest_eligible_sample(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
 {
     s16 best_value;
@@ -519,6 +531,7 @@ s16 find_highest_eligible_sample(s16 rect_index, s16 *out_x, s16 *out_y, s16 che
 }
 
 
+/* Returns the first unvisited frontier tile's surface height and coordinates, or 0x200. */
 s16 find_first_qualifying_cell(s16 record_id, s16 *out_x, s16 *out_y, s32 search_mode)
 {
     s16 rows_left;
@@ -567,6 +580,7 @@ s16 find_first_qualifying_cell(s16 record_id, s16 *out_x, s16 *out_y, s32 search
     return 0x200;
 }
 
+/* Checks a neighboring tile and returns 2 for level or downhill movement, 1 for a small climb, or 0. */
 s32 classify_directional_movement(s16 input_x, s16 input_y, s32 current_height, s16 direction)
 {
     u16 tile_flags;
@@ -610,6 +624,7 @@ s32 classify_directional_movement(s16 input_x, s16 input_y, s32 current_height, 
 }
 
 
+/* Loads a fixed floor's rooms, elevators, items, objects, and compressed terrain from CD. */
 void load_dungeon_layout(s16 layout_number)
 {
     MapGrid *cfg;
@@ -765,6 +780,7 @@ void load_dungeon_layout(s16 layout_number)
     }
 }
 
+/* Seeds floor generation, loads a fixed or random layout, and places elevators and border tiles. */
 void setup_run_and_load_track(void) {
     floor_generate_isolated_80285A70_State13710 *state;
     floor_generate_isolated_80285A70_Page8001 *page1;
@@ -897,6 +913,7 @@ void setup_run_and_load_track(void) {
 }
 
 
+/* Selects floor events and sound resources, loads spawn tables, and sets special encounter records. */
 s32 setup_dungeon_floor_encounters(void)
 {
     s32 floor_event;
@@ -1134,6 +1151,7 @@ s32 setup_dungeon_floor_encounters(void)
     return floor_event;
 }
 
+/* Loads the floor's monster spawn tables and terrain resource variant from CD. */
 void load_floor_spawn_tables(s16 resource_index)
 {
     s32 load_result;
@@ -1176,6 +1194,7 @@ void convert_valid_entry_code_2_to_39(void)
 /* MECHANISM: Frameless leaf; the absolute base selects lui/ori; in-place index *= 4 preserves index-
    first addu order. */
 
+/* Loads a sound resource into the alternate buffer and optionally starts its sound set. */
 s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) {
     s16 activate_flag = activate;
     u16 saved_index = 0;
@@ -1267,6 +1286,7 @@ s32 load_object_into_alternate_buffer(s16 object_index, s16 mode, s16 activate) 
     return 0;
 }
 
+/* Loads a sound bank when its slot is stale and waits for its channel to become available. */
 s32 load_generation_resource_slot(s16 resource_index) {
     s16 slot_index;
     s32 resource_id;
@@ -1299,6 +1319,7 @@ s32 load_generation_resource_slot(s16 resource_index) {
     return 1;
 }
 
+/* Adds the marker at tile (8, 8) on floor 2 when the saved flag and matching entry allow it. */
 s32 try_add_second_tower_entry(s16 entry_index) {
     u8 *entry;
     u8 *entries;
@@ -1327,6 +1348,7 @@ void set_first_table_entry_active(void) {
     g_dungeon_status.active_actor = 1;
 }
 
+/* Assigns the given value to inactive cells inside the 64-by-64 generation grid. */
 void fill_inactive_interior_cells(s16 value) {
     MapGrid *state;
     floor_generate_isolated_80286A84_DungeonCell *cells;
@@ -1354,6 +1376,7 @@ void fill_inactive_interior_cells(s16 value) {
     } while (row < 0x3F);
 }
 
+/* Builds random rooms and connecting corridors, returning 1 when a corridor requires a retry. */
 s32 generate_floor_layout(void)
 {
     s8 flags[16];
@@ -1649,6 +1672,8 @@ void reset_generation_link_scratch(void) {
 
 /* C89 default promotions keep the public final argument a word while this
  * definition gives the filter its original signed-halfword view. */
+/* Searches outward for an eligible unlinked room, updating direction and blocked-search limits, or
+   returns -1. */
 s16 search_outward_for_eligible_tile(facing, origin_x, origin_y, tiles, search_arg, radius, filter_arg)
 u16 *facing;
 s32 origin_x, origin_y;
@@ -1786,6 +1811,7 @@ s16 filter_arg;
     return -1;
 }
 
+/* Reports whether the two room indices already appear together in the generation link list. */
 s32 has_generation_link_within_pair(s16 value_a, s16 value_b)
 {
     s32 pair_index;
@@ -1815,6 +1841,7 @@ s32 has_generation_link_within_pair(s16 value_a, s16 value_b)
     return 0;
 }
 
+/* Connects two rooms with a two-cell-wide corridor, returning 1 when the height changes cannot fit. */
 s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room_marks) {
     floor_generate_isolated_80287C4C_Pos start;
     floor_generate_isolated_80287C4C_Pos end;
@@ -2105,6 +2132,7 @@ failed:
     return 0;
 }
 
+/* Chooses or reuses corridor bends, marks its route, and returns the number of steps. */
 s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *start, floor_generate_isolated_8028906C_Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     s16 count;
     s16 cx;
@@ -2237,6 +2265,7 @@ s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *st
     return count;
 }
 
+/* Writes stepped corridor heights along the route, returning -1 for a height mismatch over 32. */
 s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *start, floor_generate_isolated_802895E4_Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
                   floor_generate_isolated_802895E4_Walker *walker, s32 *cost) {
     s16 count;
@@ -2407,6 +2436,7 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
     return count;
 }
 
+/* Tries perpendicular directions when the next cell is flagged; otherwise keeps the direction. */
 s16 choose_unblocked_cardinal_direction(s16 x, s16 y, s16 dir)
 {
     s32 turn;
@@ -2430,6 +2460,7 @@ s16 choose_unblocked_cardinal_direction(s16 x, s16 y, s16 dir)
     return dir;
 }
 
+/* Chooses a random point just outside the requested room edge, or (0, 0) for an inactive room. */
 void pick_relative_room_edge_point(s16 side, s16 *out_x, s16 *out_y, floor_generate_isolated_80289CEC_Entry *room) {
     if (room->fieldA == 0) {
         *out_x = 0;
@@ -2476,6 +2507,7 @@ s32 is_value_within_inclusive_bounds(s16 value, s32 lower_bound, s16 upper_bound
     return in_range;
 }
 
+/* Regenerates a room's terrain and features until its eligible tiles pass the traversal check. */
 void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id) {
     do {
         fill_region_with_random_patches(region, update_id);
@@ -2490,6 +2522,7 @@ void update_region_until_complete(Rec_func_8001CE44_arg0 *region, s16 update_id)
     mask_generation_cell_rect(region->unk_00, region->unk_02, region->unk_04, region->unk_06, 0xF);
 }
 
+/* Changes tile kind, height, and flags at a randomly chosen coordinate parity within the room. */
 void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *rect, s32 rng_input_1)
 {
     MapGrid *dungeon = &g_game_work.map;
@@ -2535,6 +2568,7 @@ void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *re
     }
 }
 
+/* Adds a room-sized special object in a free floor slot unless floor flags disable it. */
 void initialize_random_room_slot(void *room, s32 rng_arg1)
 {
     u8 *slot_data;
@@ -2576,6 +2610,7 @@ void initialize_random_room_slot(void *room, s32 rng_arg1)
     }
 }
 
+/* Places randomly chosen traps on eligible room tiles and marks those tiles occupied. */
 void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect, s32 update_id)
 {
     u16 tile_flags;
@@ -2640,6 +2675,7 @@ void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect,
     }
 }
 
+/* Places random floor items in the room and marks eligible item tiles. */
 void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D328_0 *region, s32 setup_arg1) {
     s32 random_bits;
     u16 tile_flags;
@@ -2676,6 +2712,12 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
             coords->unk_01 = region->unk_02 + y_offset;
             if (((get_offset_map_cell_value_and_flags(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
                 cycle_map_cell_flags(coords->unk_00, coords->unk_01, 0x800);
+                /*
+                 * Original bug: item rooms fill the low item slots before ordinary population and skip special
+                 * selection here. If every slot below the ordinary item limit is filled, population never calls the
+                 * special selector, suppressing the Blue Collar or Healing Herb instead of reserving a slot for it.
+                 * Found and documented by the Azure Dreams community (adrando.com/guide/bugs.html).
+                 */
                 select_floor_item_with_special_overrides(state, state_prefix, 0, 1);
             }
             state_prefix -= 4;
@@ -2685,6 +2727,7 @@ void mark_random_eligible_region_tiles(floor_generate_isolated_8028A328_S_8001D3
     }
 }
 
+/* Rolls for a special room feature or changes tile heights, allowing only one special feature. */
 void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id) {
     u32 feature_roll;
     s16 saved_update_id = update_id;
@@ -2732,6 +2775,7 @@ void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id)
     return;
 }
 
+/* Fills room terrain, adds random raised or lowered patches, and writes its border. */
 void fill_region_with_random_patches(floor_generate_isolated_8028A5D8_DungeonRect *rect, s32 update_id) {
     register u32 value = rect->value;
     s16 left;
@@ -2885,6 +2929,7 @@ void fill_region_with_random_patches(floor_generate_isolated_8028A5D8_DungeonRec
     write_rectangular_border((s16)left, (s16)top, (s16)right, (s16)bottom, (s16)value);
 }
 
+/* Writes corner and edge tile kinds, heights, and flags around a rectangle. */
 void write_rectangular_border(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base) {
     s16 *tile;
     s16 *opposite_tile;
@@ -2953,6 +2998,7 @@ void write_rectangular_border(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, 
     }
 }
 
+/* Deactivates the room and clears its generation cells, including the surrounding margin. */
 void clear_region_grid_rectangle(floor_generate_isolated_8028AC34_S_8001DC34_0 *region)
 {
     s16 row;
@@ -3018,6 +3064,7 @@ void retreat_generation_step_pair(void *step_state, s32 update_id)
     }
 }
 
+/* Returns the lowest signed cell value along a sequence of grid coordinates. */
 s16 get_minimum_stepped_cell_value(s32 x, s32 y, s32 count, s16 x_step, s16 y_step) {
     s32 remaining = count - 1;
     s16 row_shift = g_game_work.map.shiftX;
@@ -3045,6 +3092,7 @@ s16 get_minimum_stepped_cell_value(s32 x, s32 y, s32 count, s16 x_step, s16 y_st
     return (s16) min_value;
 }
 
+/* Adjusts supported terrain tile variants within each active room. */
 void update_active_area_tiles(void) {
     floor_generate_isolated_8028AE2C_DungeonArea *area;
     MapGrid *map_config = &g_game_work.map;

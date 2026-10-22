@@ -1,3 +1,4 @@
+/* SPU reverb configuration, parameter-table copying and work-area checks. */
 
 typedef unsigned char u8;
 typedef signed char s8;

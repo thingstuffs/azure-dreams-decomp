@@ -1,7 +1,10 @@
+/* Directional particle travel, target impact geometry, and timed status effects. */
 #include "modules/dungeon_ovl_190681c.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_190681c.h"
 
+/* Moves a particle effect to a directional target, animates its impact, and attempts the target status
+   effect. */
 void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) {
     u8 *actor;
     u8 *actor_data;

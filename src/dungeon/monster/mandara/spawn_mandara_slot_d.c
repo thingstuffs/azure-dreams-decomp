@@ -42,6 +42,7 @@ typedef struct S_80FB1000_2 {
     u16 unk_06;
 } S_80FB1000_2;   
 
+/* Creates a Mandara actor, initializes status and tile placement, and prepares sprite image rectangles. */
 void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s16 saved_flags;

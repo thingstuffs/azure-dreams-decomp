@@ -35,7 +35,7 @@ typedef struct S_80D65810_3 {
 
    /* input in create_origin_motion_effect */
 
-M2C_UNK select_record_entry_and_value();
+void select_record_entry_and_value();
 s32 register_node();
 s32 rand();
 extern void project_sprite_chain(void);

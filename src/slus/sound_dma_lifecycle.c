@@ -1,3 +1,4 @@
+/* SPU register and voice initialization, FIFO and DMA transfers, and completion signaling. */
 #include "slus/sound_dma_lifecycle.h"
 
 #include "slus/sound_dma_lifecycle.h"

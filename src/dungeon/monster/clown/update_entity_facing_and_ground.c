@@ -1,9 +1,12 @@
+/* Clown actor spawning, action updates, movement, and transition effects. */
 #include "modules/dungeon_resource16_slot0.h"
 #include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 
 void * (*const resource16_slot0_entry0)(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) = func_80170878;
 
+/* Creates a Clown actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = 0;
@@ -71,6 +74,7 @@ void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     return result;
 }
 
+/* Runs actor callbacks and updates facing, animation, bobbing height, movement, and terrain contact. */
 void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, void *sprite)
 {
     R16_80170A58_S_80170A58_2 *state = entity;
@@ -249,6 +253,7 @@ void update_entity_facing_and_ground(void *entity, ObjectPosition *motion, void 
     ((SpriteFrameState *)sprite)->flags |= 0x40;
 }
 
+/* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void update_actor_state_and_dispatch_transition(void *actor, void *actor_context, void *map_object, ActorRecord *creature)
 {
     s32 distance;
@@ -437,6 +442,8 @@ void update_actor_state_and_dispatch_transition(void *actor, void *actor_context
     }
 }
 
+/* Advances a stored path step or adjusts height in place, then updates occupied tiles, facing, and
+ * movement delay. */
 void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused, void *entity, void *path_state)
 {
     s32 distance;
@@ -515,6 +522,8 @@ void advance_actor_path_step_and_update_counters(void *motion_state, s32 unused,
     return;
 }
 
+/* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
+ * counts. */
 void func_80171784(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
@@ -730,6 +739,7 @@ void func_80171784(void *move_data, void *context, void *position_data, void *ac
     }
 }
 
+/* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 initialize_transition_action(void *action_state, s32 action_id, void *source_obj, ActorRecord *actor)
 {
     s32 target_angle;
@@ -779,6 +789,8 @@ s32 initialize_transition_action(void *action_state, s32 action_id, void *source
    An unused 8-byte local (unused[2]) raises the otherwise exact 0x38 frame to retail's 0x40
    without emitting body code; source-based byte indexing preserves the final call operands. */
 
+/* Claims an action slot, starts the directional attack animation, and prepares its target and damage
+ * state. */
 void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 context, Rec_D_80082E80 *animation, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((((s16)try_claim_dungeon_action_slot(actor)) << 0x10) == 0)) {
@@ -798,6 +810,7 @@ void begin_eligible_actor_action(Rec_func_800A9E70_arg0 *action_state, s32 conte
     }
 }
 
+/* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
 s32 func_801721B4(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
@@ -863,6 +876,7 @@ void finish_linked_actor_motion_and_floor_trap_then_dispatch_transition(Resource
     }
 }
 
+/* Times the attack animation and damage, spends MP, and restores normal actor movement and status. */
 void finish_actor_action_animation(void *action, void *motion, void *anim, void *actor) {
     s32 state;
     u16 ticks;
@@ -907,6 +921,8 @@ void finish_actor_action_animation(void *action, void *motion, void *anim, void 
     }
 }
 
+/* Starts a targeted spell and linked effect, waits for its animation, and restores actor movement and
+ * status. */
 void update_overlay_object_action(void *owner, void *motion, void *actor, void *object_in)
 {
     void *object = object_in;
@@ -1082,6 +1098,7 @@ void update_overlay_object_action(void *owner, void *motion, void *actor, void *
     }
 }
 
+/* Applies a value change and damped motion, then returns the actor to its tile and restores movement. */
 void damp_actor_motion_then_recenter(R16_801729D8_S_80173294_0 *motion_state, ObjectPosition *motion, SpriteFrameState *tile_state, void *entity)
 {
     s16 timer;
@@ -1218,6 +1235,7 @@ void finish_actor_hop_and_grow_then_dispatch_transition(Resource16CallbackState 
     }
 }
 
+/* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
 void func_80172D50(void *actor, void *context, void *render_record, ActorRecord *actor_state)
 {
     s32 actor_flags;
@@ -1328,6 +1346,7 @@ void func_80172D50(void *actor, void *context, void *render_record, ActorRecord 
     }
 }
 
+/* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
 void func_80173114(void *actor, void *context, void *animation, ActorRecord *entity)
 {
     s32 state;
@@ -1496,6 +1515,7 @@ void finish_actor_floor_trap_then_dispatch_transition(Resource16CallbackState *s
     }
 }
 
+/* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
 s32 func_801736AC(void *initial_payload, s32 entry_data, R16_801736AC_Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
@@ -1521,6 +1541,8 @@ s32 func_801736AC(void *initial_payload, s32 entry_data, R16_801736AC_Entry *ent
 
 /* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
 
+/* Moves the effect in an expanding spiral, advances its sprite, fades its color, and expires it on
+ * timeout. */
 void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *position, Rec_D_80082E80 *primitive) {
     s16 life;
     s16 next_life;
@@ -1558,6 +1580,7 @@ void update_expanding_spiral_effect(void *effect, R16_80173738_FuncArg1 *positio
     }
 }
 
+/* Creates a green sprite at an angular offset from the source and installs its expanding spiral animation. */
 void create_angled_source_effect(
     s32 unused_0, R16_80173904_S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset)
 {
@@ -1610,6 +1633,8 @@ void create_angled_source_effect(
     }
 }
 
+/* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
+ * action. */
 void func_80173AE8(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
@@ -1630,6 +1655,7 @@ void func_80173AE8(void *entity_data, s32 unused_1, s32 unused_2, void *other_da
     }
 }
 
+/* Advances the transition sprite, then restores the view tint to neutral and removes the effect. */
 void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source_data)
 {
     u8 *entity = entity_data;
@@ -1668,6 +1694,8 @@ void fade_entity_colors_to_neutral(void *entity_data, void *unused, void *source
     }
 }
 
+/* Loads transition effects, fades the view tint, emits particles, and starts loading the replacement
+ * actor. */
 void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_80082E80 *actor, void *model) {
     s16 next_spawn;
     s16 next_trail;

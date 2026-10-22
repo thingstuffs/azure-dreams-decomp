@@ -20,6 +20,7 @@ typedef struct WorkVec {
 
 extern s32 evaluate_surface_components_c(WorkVec *);
 
+/* Queries the highest valid surface at an indexed offset and removes its Y offset, preserving zero. */
 s16 adjust_summed_vector_by_entry_component(Vec4 *vector, Vec4 *entries, s32 entry_index)
 {
     WorkVec sum;

@@ -1,3 +1,4 @@
+/* Alternate scene resource loading, confirmation waits and runtime-slot completion. */
 #include "engine/scene/slot_transition.h"
 #include "shared/runtime_dispatch.h"
 

@@ -1,6 +1,8 @@
 #include "modules/dungeon_ovl_e1b054.h"
 
 
+/* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_a_value)
 {
     s32 kind;

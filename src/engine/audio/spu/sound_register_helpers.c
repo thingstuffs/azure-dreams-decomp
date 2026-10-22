@@ -1,3 +1,4 @@
+/* SPU register access with address-unit scaling and DMA priority-bit updates. */
 #include "engine/audio/spu/sound_register_helpers.h"
 #include "engine/audio/spu.h"
 

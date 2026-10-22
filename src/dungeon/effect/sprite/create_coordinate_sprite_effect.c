@@ -1,7 +1,10 @@
+/* Positioned sprite creation, radial height cycling, randomized rotation, and actor value changes. */
 #include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
+/* Adds a random actor value delta with an optional half bonus, clamps it, displays a popup, and
+   applies it. */
 void func_80024028(void *target, s32 effect_param) {
     s32 base_gain;
     register s32 stat_gain;
@@ -36,6 +39,7 @@ void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_re
     }
 }
 
+/* Creates a gray half-scale animated sprite at the supplied coordinates and stores the user data. */
 void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords) {
     Row_818A4948_S_func_818A4948_0 *obj;
     SpriteFrameState *render_data;
@@ -76,6 +80,8 @@ void advance_counted_sprite_animation(void **object_ref, long long value) {
     advance_sprite_animation_and_textures(low_value);
 }
 
+/* Creates an initially black, full-scale animated sprite at the supplied coordinates and links it to
+   its context. */
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position) {
     SpriteFrameState *render_state;
     Row_818A4A64_S_818A4A64_0 *object;
@@ -103,6 +109,8 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
     return NULL;
 }
 
+/* Steps a sprite's height, resets its radial position at the height limit, and restarts its completed
+   animation. */
 void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818A4B40_S_818A4B40_2 *position, SpriteFrameState *object) {
     s16 angle;
     s32 random_value;
@@ -130,6 +138,7 @@ void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, Row_818
     }
 }
 
+/* Creates a gray animated sprite around the origin at a random angle, with a randomized vertical step. */
 s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A4CA0_S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index) {
     s32 result;
     s16 angle;
@@ -193,6 +202,7 @@ void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_
     target->unk_1A = (s16)(random_value - (random_quotient << 12));
 }
 
+/* Creates an initially black, zero-scale sprite at the supplied coordinates with a random rotation. */
 s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position) {
     s32 rotation_rng;
     SpriteFrameState *render_state;

@@ -1,7 +1,10 @@
+/* Direction-selection menu animation, preview objects, and terrain rendering. */
 #include "dungeon/menu/select.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/menu/select.h"
 
+/* Eases the selection sprite toward the selected entry, advances its animation, and toggles visibility
+   while blinking. */
 void follow_selection_and_blink_sprite(void *motion_state, void *position, void *draw_state) {
     s16 move_ticks;
     s32 target_y;
@@ -57,6 +60,8 @@ void follow_selection_and_blink_sprite(void *motion_state, void *position, void 
 }
 #include "dungeon/menu/select.h"
 
+/* Creates the menu selection sprite with its image, normal scale, owner data, and movement and
+   blinking callback. */
 void *allocate_sprite_data_object(s32 user_data) {
     SpriteFrameState *sprite;
     S_80025170_0 *object;
@@ -77,6 +82,8 @@ void *allocate_sprite_data_object(s32 user_data) {
 }
 #include "dungeon/menu/select.h"
 
+/* Animates the direction-selection menu, handles familiar direction changes, and retires its child
+   objects. */
 void update_selection_menu_animation(void *menu_in, void *motion_in, void *appearance_in) {
     s32 *side_ptr;
     u16 target_y;
@@ -440,6 +447,7 @@ void update_selection_menu_animation(void *menu_in, void *motion_in, void *appea
 }
 #include "dungeon/menu/select.h"
 
+/* Fades a directional actor sprite in and out with the selection menu while updating its facing animation. */
 void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg)
 {
     void *state;
@@ -546,6 +554,7 @@ void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj
 }
 #include "dungeon/menu/select.h"
 
+/* Moves and fades a familiar preview, draws it with the menu rotation, and dims the unselected familiar. */
 void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *sprite_arg) {
     s16 move_ticks;
     s32 start_y;
@@ -700,6 +709,8 @@ void draw_and_restore_fading_object(void *object_arg, void *position_arg, void *
 }
 #include "dungeon/menu/select.h"
 
+/* Restores the previous menu entry's directional tile offsets and updates the selection index in both
+   linked states. */
 void switch_active_object_index(void *object, s16 new_index) {
     s16 old_index;
     s32 entry_index;
@@ -733,6 +744,8 @@ void switch_active_object_index(void *object, s16 new_index) {
 }
 #include "dungeon/menu/select.h"
 
+/* Creates familiar direction-preview objects, or closes the menu and waits for its children to stop
+   updating. */
 void initialize_children_or_shutdown(void *owner)
 {
     u32 state;
@@ -964,6 +977,8 @@ void initialize_children_or_shutdown(void *owner)
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define U8_AT(p, o) (*(u8 *)((u8 *)(p) + (o)))
+/* Sets up a shaded rectangle, fades its center to gray over eight updates, and fades it out when state
+   3 is set. */
 void initialize_fading_effect(void *effect, void *control)
 {
     s16 state;
@@ -1038,6 +1053,7 @@ void initialize_fading_effect(void *effect, void *control)
 #undef U8_AT
 #include "dungeon/menu/select.h"
 
+/* Creates a selection menu controller, sets the initial value, and starts its message mode and script. */
 void *initialize_available_object(s16 initialValue) {
     S_800267F0_0 *object;
 
@@ -1056,6 +1072,7 @@ void *initialize_available_object(s16 initialValue) {
 #define S16(b, o) (*(s16 *)((u8 *)(b) + (o)))
 #define U16(b, o) (*(u16 *)((u8 *)(b) + (o)))
 #define S32(b, o) (*(s32 *)((u8 *)(b) + (o)))
+/* Projects a three-by-three terrain preview and its actor sprites, then restores the view transform. */
 s32 render_three_by_three_terrain_grid(Objects *objects, ViewPosition *view_position, RenderParams *render_params)
 {
     s16 saved_rotation[4];
@@ -1329,6 +1346,7 @@ void set_negated_coordinate_scratch(s32 call_value, s32 call_option, s16 call_mo
 #define U16(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
 #define S32(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
 #define PTR(base, offset) (*(u8 **)((u8 *)(base) + (offset)))
+/* Queues four shaded quads fading from each linked rectangle's center color to black at its edges. */
 s32 queue_four_shaded_quadrants(void *rect_arg, void *owner_arg)
 {
     u8 *rect_data;

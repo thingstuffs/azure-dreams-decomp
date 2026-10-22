@@ -1,3 +1,4 @@
+/* Noise directional action setup and timed actor visual effects. */
 #include "dungeon/monster/noise/start_directional_action_and_record_tile.h"
 #include "shared/sprite_frame_state.h"
 

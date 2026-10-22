@@ -13,16 +13,18 @@
  * declared the record separately there.  Script variable slot 26 is V_pobj and points at 0x80083498, consistent
  * with an object-list head (docs/SYMBOLS.md; the earlier V_item_type_data reading was the symbol-dump misparse fixed
  * 2026-09-28).  Name stays D_ until V_pobj's meaning is proven.  Other fields stay unk_. */
+/* Object-list header preceding a callback-specific body.
+ * runtime_reset_object_pool seeds free nodes; allocate_list_node clears and links each allocated node. */
 typedef struct ObjectNodeHeader {
-    /* 0x00 */ struct ObjectNodeHeader *next;    /* list link (func_8003FD64) */
-    /* 0x04 */ struct ObjectNodeHeader **pprev;  /* the slot that points at this node (func_8003FD64) */
-    /* 0x08 */ void *unk_08;                     /* func_8003FD64: payload cursor - 0x18 */
-    /* 0x0C */ void *unk_0C;                     /* func_8003FD64: payload cursor */
-    /* 0x10 */ void *unk_10;                     /* town/func_800A7BE0 compares it with code addresses */
-    /* 0x14 */ int unk_14;
-    /* 0x18 */ struct ObjectNodeHeader *chain_next; /* second link followed by point/mesh walkers; no writer of +0x18 has been found yet */
+    /* 0x00 */ struct ObjectNodeHeader *next; /* next object in this list, or null at the end */
+    /* 0x04 */ struct ObjectNodeHeader **pprev; /* address of the list slot that points to this node; supports constant-time unlinking */
+    /* 0x08 */ void *unk_08; /* separate position/motion record; allocator reserves 0x18 bytes before the sprite payload */
+    /* 0x0C */ void *unk_0C; /* sprite/render payload selected by the allocation flags */
+    /* 0x10 */ void *unk_10; /* update callback address; active-node dispatch passes body, position and sprite pointers */
+    /* 0x14 */ int unk_14; /* draw-registration backlink, stored as an integer address */
+    /* 0x18 */ struct ObjectNodeHeader *chain_next; /* next object registered for the same draw callback, or null */
     /* 0x1C */ unsigned char pad_1C[2];
-    /* 0x1E */ unsigned short flags;             /* flags | 0x4000 at allocation; & 0x200 / & 0x80 tests (func_8003FB98) */
+    /* 0x1E */ unsigned short flags; /* allocation flags with 0x4000 set; bit 0x8000 marks completed/retired objects */
 } ObjectNodeHeader;
 
 extern ObjectNodeHeader scene_object_list_anchor;

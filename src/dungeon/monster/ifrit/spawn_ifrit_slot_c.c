@@ -47,6 +47,8 @@ extern u8 D_8015C860[];
 void func_80158E84(void *controller, void *context, void *entity, EntityRec *actor_state);
 
 extern void *queue_linked_object_draw_packets(s16, s16, s16, s16);
+/* Creates a Ifrit actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *queue_linked_object_draw_packets(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;

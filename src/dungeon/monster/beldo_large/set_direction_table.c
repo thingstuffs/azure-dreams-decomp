@@ -1,3 +1,4 @@
+/* Encounter direction tables and timed effect sequences. */
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"

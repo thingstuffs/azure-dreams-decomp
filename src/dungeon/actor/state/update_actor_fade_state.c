@@ -48,6 +48,8 @@ void detach_record_and_update_slot_state(void *);                 /* extern */
 void decrement_bounded_counter();                            /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 
+/* Waits for pending actions, shrinks and darkens the actor sprite, then detaches the actor and clears
+   its map occupancy. */
 void update_actor_fade_state(void *state, void *unused, void *data, void *entity) {
     s32 selectedValue;
     s16 countdown;

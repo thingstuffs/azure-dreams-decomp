@@ -1,3 +1,4 @@
+/* Frame packet limits, audio command helpers, icon and experience lookups, and signed-word sorting. */
 #include "common.h"
 #include "shared/game_work.h"
 #include "engine/entity.h"

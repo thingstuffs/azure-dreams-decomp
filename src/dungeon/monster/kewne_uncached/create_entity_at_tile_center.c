@@ -1,7 +1,9 @@
+/* Kewne actor creation, script triggers, movement, and animation. */
 #include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
 
+/* Creates the actor at a tile center and installs its script, movement, and animation callbacks. */
 void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
     Func812A5000Parent *parent;
     SpriteFrameState *tile_state;
@@ -42,6 +44,8 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
     return entity;
 }
 
+/* Queues scripts for player actions and tile triggers, then updates actor callbacks, motion, and
+ * animation. */
 void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *sprite_in) {
     Packed16 facing_map;
     Packed16 *facing_map_src;

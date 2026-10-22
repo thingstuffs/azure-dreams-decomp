@@ -1,3 +1,4 @@
+/* Resident helpers for scene callbacks, shared resource pointers, item state and sound controls. */
 #include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"

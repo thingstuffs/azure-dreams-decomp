@@ -1,3 +1,4 @@
+/* Movie decoder table setup, DMA transfers, completion waits, callbacks and timeout recovery. */
 #include "../../ovmovie/modules/ovmovie_libpress.h"
 #include "../../ovmovie/modules/ovmovie_libpress.h"
 /* Distinct SDK table objects preserve their independent C addresses. */
@@ -284,6 +285,7 @@ static void start_decoder_output_dma(s32 dest_addr, u32 word_count) {
 #include "../../ovmovie/modules/ovmovie_libpress.h"
 
 
+/* Waits for decoder status bit 0x20000000 to clear; reports and resets the decoder on timeout. */
 static s32 wait_for_decoder_input_dma(void) {
     volatile s32 polls_left = 0x100000;
     if (*movie_mdec_status_register & 0x20000000) {

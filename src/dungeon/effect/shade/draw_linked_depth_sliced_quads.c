@@ -5,6 +5,7 @@
  * register_node writes that link; dispatch_registered_draw_callbacks supplies payload and +8/+C. */
 extern void project_depth_sliced_quads(void *, void *, void *, s16);
 
+/* Projects depth-sliced quads for each linked node using its position and rendering state. */
 s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_state)
 {
     ObjectNodeHeader *next;

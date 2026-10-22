@@ -1,6 +1,8 @@
+/* Death effect projection, motion, fading, and object creation. */
 #include "modules/dungeon_ovl_be1084.h"
 #include "shared/sprite_frame_state.h"
 
+/* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
 s32 build_projected_tile_packets(u8 *point_data, u16 *position)
 {
     Scratch *scratch = (Scratch *)0x1F800000;
@@ -75,6 +77,7 @@ s32 build_projected_tile_packets(u8 *point_data, u16 *position)
     return 0;
 }
 
+/* Accelerates the effect toward its target, fades its color, and expires it near the target or on timeout. */
 void advance_effect_toward_target(void *effect, void *position) {
     s16 fade_level;
     s32 scaled_red;
@@ -114,6 +117,8 @@ void advance_effect_toward_target(void *effect, void *position) {
     }
 }
 
+/* Moves the effect with halved velocity each frame, fades its color, and removes it when its timer
+ * expires. */
 void advance_damped_motion_and_fade_effect(FadeEffect *effect,EffectMotion *motion) {
  s32 red,green,blue;
  s16 remaining;
@@ -138,6 +143,8 @@ void advance_damped_motion_and_fade_effect(FadeEffect *effect,EffectMotion *moti
  }
 }
 
+/* Creates a timed point effect offset from its owner with motion that converges toward the source
+ * position. */
 void create_parent_return_effect(
     void *parent_obj, s16 effect_param, s32 initial_value, s16 duration,
     s16 offset_x, s16 offset_y, s16 offset_z)
@@ -199,6 +206,7 @@ void create_parent_return_effect(
 
 }
 
+/* Creates a short-lived colored point effect offset from its owner with randomized velocity. */
 void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 effect_param_arg, register s32 state_value_arg,
     register s32 unused_arg, register s32 offset_x_arg, register s32 offset_y_arg, register s32 offset_z_arg) {
     register void *parent = parent_arg;
@@ -236,6 +244,8 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
     }
 }
 
+/* Shrinks and rotates the effect, updates its color and projected depth, and removes it when its timer
+ * expires. */
 void spawn_configured_overlay_object_b(void *effect, MovingPosition *position, S_80BC1880_0 *render_state)
 {
     StackWork projection;

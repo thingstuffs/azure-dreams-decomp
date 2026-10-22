@@ -8,6 +8,8 @@
  * values are unused; int preserves the existing M2C_UNK word-return convention.
  * +0x74 returns a record pointer. Per-use casts may retain stricter prototypes
  * or a noreturn attribute where the caller needs it. See phase-12 DESIGN.md. */
+/* Town-scene engine service table reached through the scene root at +0x20.
+ * Scene and event callbacks borrow these slots; the table initializer remains untraced. */
 typedef struct TownServiceTable {
     /* 0x000 */ unsigned char pad_000[0x44];
     /* 0x044 */ int (*callback_044)();
@@ -25,9 +27,9 @@ typedef struct TownServiceTable {
     /* 0x084 */ int (*callback_084)();
     /* 0x088 */ int (*callback_088)();
     /* 0x08C */ unsigned char pad_08C[0xDC];
-    /* 0x168 */ int (*callback_168)();
+    /* 0x168 */ int (*callback_168)(); /* diagnostic/count-report service; scene builders pass their resulting record counts */
     /* 0x16C */ unsigned char pad_16C[0x8];
-    /* 0x174 */ int (*callback_174)();
+    /* 0x174 */ int (*callback_174)(); /* lookup-failure service, called with 1 after a missing-entry diagnostic */
     /* 0x178 */ unsigned char pad_178[0x18];
     /* 0x190 */ int (*callback_190)();
     /* 0x194 */ unsigned char pad_194[0x54];
@@ -73,7 +75,7 @@ typedef struct TownServiceTable {
     /* 0x2EC */ int (*callback_2EC)();
     /* 0x2F0 */ unsigned char pad_2F0[4];
     /* 0x2F4 */ int (*callback_2F4)();
-    /* 0x2F8 */ int (*callback_2F8)();
+    /* 0x2F8 */ int (*callback_2F8)(); /* event service receiving the selected pair of signed town-event arguments */
     /* 0x2FC */ unsigned char pad_2FC[0x10];
     /* 0x30C */ int (*callback_30C)();
     /* 0x310 */ int (*callback_310)();

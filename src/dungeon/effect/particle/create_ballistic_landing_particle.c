@@ -13,7 +13,7 @@ typedef struct {
 
 
 typedef struct Copy12 {
-    M2C_UNK word[3];
+    s32 word[3];
 } __attribute__((packed)) Copy12;
 
 s32 register_node();           /* extern */

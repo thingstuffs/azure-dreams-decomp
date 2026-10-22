@@ -1,3 +1,4 @@
+/* Builds colored gradient lines from linked nodes and inserts them in depth order. */
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"

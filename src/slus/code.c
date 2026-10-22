@@ -1,3 +1,4 @@
+/* Resident helpers for rendering, resource loading, text, menu state and sound command dispatch. */
 #include "script_symbols.h"
 #include "shared/sound_state.h"
 #include "common.h"

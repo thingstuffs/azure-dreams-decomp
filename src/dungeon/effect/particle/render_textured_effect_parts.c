@@ -1,3 +1,4 @@
+/* Shaded particle rendering, scattered sprite motion, and projectile burst and impact effects. */
 #include "dungeon/effect/particle/render_textured_effect_parts.h"
 #include "common.h"
 #include "shared/object_flags.h"

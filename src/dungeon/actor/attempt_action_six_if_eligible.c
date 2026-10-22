@@ -19,8 +19,8 @@ s32 set_or_clear_actor_status_slot();
 s32 generate_random_value();
 void wrap_position_and_set_state_value();
 extern s32 D_800DCF20;
-extern M2C_UNK D_800E1937;
-extern M2C_UNK D_800E1A6D;
+extern u8 D_800E1937[];
+extern u8 D_800E1A6D[];
 
 /* Attempts action 6 when the entity passes its state and threshold checks. */
 s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 action_arg) {
@@ -38,7 +38,7 @@ s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 actio
                 remainder = 0;
             }
             if ((remainder < threshold || threshold == 0xFF) && (s16)set_or_clear_actor_status_slot(entity, 6, action_arg) >= 0) {
-                adjust_source_value_and_finalize(entity, &D_800E1937);
+                adjust_source_value_and_finalize(entity, D_800E1937);
                 if (entity->unk_13 == 0) {
                     wrap_position_and_set_state_value(D_800DCF20);
                 }
@@ -47,7 +47,7 @@ s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 actio
         }
     }
     if (entity->unk_14 & 0x4000) {
-        adjust_source_value_and_finalize(entity, &D_800E1A6D);
+        adjust_source_value_and_finalize(entity, D_800E1A6D);
     }
     return 0;
 }

@@ -11,6 +11,7 @@ extern void initialize_action_object(void *state, void *object, s32 context);
 extern void initialize_scene_action_record(void *state, void *object, s32 context);
 
 
+/* Resolves and slows movement, adjusts to a surface, and selects the next action when the timer expires. */
 void update_movement_and_dispatch_action(void *state, void *object, s32 context) {
     s16 target_value;
     u16 countdown;

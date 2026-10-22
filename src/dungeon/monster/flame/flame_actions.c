@@ -1,9 +1,11 @@
+/* Flame actor spawning, child displays, action updates, and textured effects. */
 #include "modules/dungeon_resource06_slot0.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource06_slot0_entry0)(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id) = func_8017087C;
 void (*const resource06_slot0_entry1)(u8 *actor, u8 *motion, u8 *entity) = create_anchored_directional_object;
 
+/* Creates a Flame actor with three child display objects and initializes its status and tile placement. */
 void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
@@ -138,6 +140,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     return work;
 }
 
+/* Runs actor callbacks and updates child sprite colors, facing, animation, motion, and ground contact. */
 void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
 {
     u8 *subject = actor;
@@ -465,6 +468,7 @@ void create_anchored_directional_object(u8 *actor, u8 *motion, u8 *entity)
 
 }
 
+/* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void initialize_destination_state(void *actor, void *actor_context, void *sprite, void *creature)
 {
     s32 distance;
@@ -652,6 +656,7 @@ void initialize_destination_state(void *actor, void *actor_context, void *sprite
     }
 }
 
+/* Advances one stored path step, updates occupied tiles and facing, and sets the movement delay. */
 void update_actor_object_motion(void *motion, void *unused, void *actor, void *path_state)
 {
     u8 *direction_table;
@@ -720,6 +725,8 @@ void update_actor_object_motion(void *motion, void *unused, void *actor, void *p
     }
 }
 
+/* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
+ * counts. */
 void func_80171B1C(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
@@ -935,6 +942,7 @@ void func_80171B1C(void *move_data, void *context, void *position_data, void *ac
     }
 }
 
+/* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 func_80172264(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_angle;
@@ -985,6 +993,8 @@ s32 func_80172264(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
 }
 
 
+/* Claims an action slot, starts the directional attack animation, and prepares its target and damage
+ * state. */
 void update_actor_action_and_direction(void *action_state, void *context, SpriteFrameState *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
@@ -1005,6 +1015,7 @@ void update_actor_action_and_direction(void *action_state, void *context, Sprite
     }
 }
 
+/* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
 s32 func_80172550(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
@@ -1070,6 +1081,7 @@ void finish_linked_actor_motion_and_floor_trap_then_initialize_destination(Resou
     }
 }
 
+/* Times an attack animation and sound, applies damage, spends MP, and restores actor movement. */
 void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor) {
     u16 ticks_left;
     s32 initial_state;
@@ -1127,6 +1139,7 @@ void advance_action_through_animation(R06_8017278C_S_8017278C_0 *action, ObjectP
     }
 }
 
+/* Starts a targeted spell, waits for loading and animation, then restores actor movement and status. */
 void start_selected_move_and_reset_action(void *action, ObjectPosition *position, void *sprite, ActorRecord *actor)
 {
     s32 phase;
@@ -1300,6 +1313,7 @@ void start_selected_move_and_reset_action(void *action, ObjectPosition *position
    restores move v0,s5; holding the copied record in v1 closes the final four register-field
    substitutions. */
 
+/* Applies a value change and knockback, decelerates the actor, then recenters it and restores movement. */
 void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, ObjectPosition *motion, SpriteFrameState *tile_state, EntityRec *entity)
 {
     s16 timer;
@@ -1402,6 +1416,8 @@ void update_directional_motion_and_tile(R06_80172DD0_S_80172DD0_1 *action, Objec
     }
 }
 
+/* Fades the actor and its child sprites after defeat, awards experience, clears tile occupancy, and
+ * unlinks it. */
 void fade_sprites_and_remove_entity(void *actor, s32 unused, void *sprite, void *entity)
 {
     u8 state;
@@ -1549,6 +1565,7 @@ void func_80173478(Resource06CallbackState *state, void *motion, void *position,
     }
 }
 
+/* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
 void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_sprite, void *in_entity)
 {
     void *context = in_context;
@@ -1704,6 +1721,7 @@ void update_actor_state_by_flags(void *in_actor, void *in_context, void *in_spri
     }
 }
 
+/* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
 void func_801738E0(void *entity, void *context, void *anim, void *actor)
 {
     s32 state;
@@ -1868,6 +1886,7 @@ void finish_actor_fade_in_then_initialize_destination(Resource06CallbackState *s
     }
 }
 
+/* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
 s32 func_80173E08(void *initial_payload, s32 entry_data, R06_80173E08_Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
@@ -1893,6 +1912,7 @@ s32 func_80173E08(void *initial_payload, s32 entry_data, R06_80173E08_Entry *ent
 
 /* MECHANISM: Typed page and scratch fields preserve the signed lh/sw widths and offsets. */
 
+/* Projects linked effect positions and queues brightness-scaled pixel and drawing-mode packets by depth. */
 s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
 {
     u8 **state_ptr;
@@ -2005,6 +2025,8 @@ s32 append_linked_shaded_point_packets(u8 *node, void *vertex_arg)
     return 0;
 }
 
+/* Moves the effect with directional jitter and a vertical offset, reduces its speed, and removes it on
+ * timeout. */
 void advance_randomized_motion_and_complete(void *object_data, R06_801740E4_S_801740E4_0 *position, R06_801740E4_S_801740E4_2 *state) {
     s16 next_speed;
     s32 random_value;
@@ -2026,6 +2048,8 @@ void advance_randomized_motion_and_complete(void *object_data, R06_801740E4_S_80
     }
 }
 
+/* Creates a shaded point effect at a randomized offset from its owner with the supplied color and
+ * brightness. */
 void advance_actor_action_and_update_status(
     void *source,
     s16 value_34,
@@ -2094,6 +2118,7 @@ void advance_actor_action_and_update_status(
 /* MECHANISM: a splitting cell (2.8.0-G0) emits ((u8 *)advance_randomized_motion_and_complete) / ((u8 *)append_linked_shaded_point_packets) as HIGH/LO pairs itself (the lui in the beqz delay slot).
    The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */
 
+/* Projects an effect quad, clips it by depth and screen bounds, then queues a colored textured polygon. */
 void project_and_queue_textured_quad(void *quad, void *position, void *draw_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
@@ -2244,6 +2269,7 @@ void project_and_queue_textured_quad(void *quad, void *position, void *draw_stat
 }
 
 
+/* Traverses linked effect nodes and projects each node's textured quad into render packets. */
 s32 project_textured_quad_chain(void *initial_state, void *context, void *data) {
     void *state = initial_state;
     void *next_node;
@@ -2272,6 +2298,7 @@ void advance_record_countdown(void *record_data) {
     }
 }
 
+/* Fades a four-strip textured effect, emits randomized particles, and flags it for removal on timeout. */
 void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 *render_data)
 {
     s16 phase;
@@ -2430,6 +2457,7 @@ void update_fading_four_strip_effect(u8 *effect, R06_80174934_Vec3w *origin, u8 
     return;
 }
 
+/* Creates sixteen colored ring segments around the supplied position, each with a fading strip callback. */
 void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i *center, void *unused_context)
 {
     s16 segment_index;
@@ -2525,6 +2553,8 @@ void create_sixteen_segment_ring(R06_80174E78_Source *source, R06_80174E78_Vec3i
     }
 }
 
+/* Stops movement and waits for dungeon activity to finish, then clears the callback and counts the new
+ * action. */
 void func_80175068(void *entity_data, s32 unused_1, s32 unused_2, void *other_data)
 {
     u8 *entity = entity_data;
@@ -2545,6 +2575,7 @@ void func_80175068(void *entity_data, s32 unused_1, s32 unused_2, void *other_da
     }
 }
 
+/* Advances the transition sprite, then restores the view tint to neutral and removes the effect. */
 void fade_effect_to_neutral_and_finish(void *entity_data, void *unused, void *source_data)
 {
     u8 *entity = entity_data;
@@ -2583,6 +2614,7 @@ void fade_effect_to_neutral_and_finish(void *entity_data, void *unused, void *so
     }
 }
 
+/* Loads transition effects, fades the view tint, replaces the actor, and restores the new actor's facing. */
 void advance_actor_transition_and_restore_child_angle(void *action, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
 {
     R06_80175270_S_80175270_2 *work = ((u8 *)(&g_game_work));

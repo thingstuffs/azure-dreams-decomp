@@ -1,3 +1,4 @@
+/* SPU RAM block-list initialization and address-range checks. */
 #include "engine/audio/spu/sound_range_records.h"
 #include "engine/audio/spu.h"
 

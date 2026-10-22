@@ -1,3 +1,4 @@
+/* Floor item selection and placement, saved monster restoration, traps, and floor label sprites. */
 #include "dungeon/level/spawn.h"
 #include "shared/sprite_frame_state.h"
 
@@ -16,6 +17,7 @@ s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)
     return 0;
 }
 
+/* Restores loaded item tiles or places random floor items, applies special drops, and sets their heights. */
 void populate_floor_item_records(void)
 {
     u8 tile_x;
@@ -208,6 +210,7 @@ cleanup_loop:
     return;
 }
 
+/* Selects a floor-specific special item once when eligible, otherwise uses the weighted item table. */
 s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special) {
     u8 special_selected;
     special_selected = ((u8 *)D_8001F6F0)[0];
@@ -251,6 +254,7 @@ s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 u
     }
 }
 
+/* Sets an item's parameter and flags from category-specific random rolls. */
 void init_random_floor_item_parameters(void *entity_data) {
     u8 *entity = entity_data;
     s16 output_flags;
@@ -312,6 +316,7 @@ void clear_dungeon_cell_entries(void) {
     }
 }
 
+/* Builds cumulative category weights from eligible item definitions and their rarity flags. */
 void build_cumulative_item_weights(void)
 {
     s32 total_weight;
@@ -351,6 +356,7 @@ void build_cumulative_item_weights(void)
     D_8001F6F8[category_index] = total_weight;
 }
 
+/* Selects an eligible category and item by rarity weight, writing zeros if the scan finds none. */
 s32 select_weighted_floor_item(s8 *category_out, s8 *item_out) {
     s32 category_index;
     s32 selected_category;
@@ -475,6 +481,7 @@ loop_6:
     return 0;
 }
 
+/* Spends a floor-dependent random budget on category-14 drops at unoccupied item tiles. */
 void generate_random_dungeon_item_drops(void)
 {
     u8 x;
@@ -582,6 +589,7 @@ void generate_random_dungeon_item_drops(void)
     return;
 }
 
+/* Restores recorded monsters, then places and initializes saved or randomly selected floor traps. */
 void restore_spawns_and_place_floor_traps(void) {
     u8 x;
     u8 y;
@@ -737,6 +745,7 @@ void clear_dungeon_object_entries(void) {
     }
 }
 
+/* Creates a label sprite at the requested screen position with a normal or alternate tint. */
 void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
 {
     u16 flags;
@@ -771,6 +780,7 @@ void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
     }
 }
 
+/* Creates the floor label and number sprites, or the special label used on floor 40. */
 void draw_dungeon_value_and_label(void)
 {
     u8 digits[2];

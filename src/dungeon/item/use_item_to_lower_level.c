@@ -21,7 +21,7 @@ s32 lower_entity_level();
 void place_actor_item();
 void display_item_status_message();
 s32 feed_actor_restore_mp();
-extern M2C_UNK D_800E173A;
+extern u8 D_800E173A[];
 
 /* Processes an entity's item interaction and consumes the item when finished. */
 s32 use_item_to_lower_level(EntityRec *entity, s32 item, s16 action) {
@@ -41,7 +41,7 @@ s32 use_item_to_lower_level(EntityRec *entity, s32 item, s16 action) {
         }
     }
     if (lower_entity_level(entity, 1) == 0) {
-        adjust_source_value_and_finalize(entity, &D_800E173A);
+        adjust_source_value_and_finalize(entity, D_800E173A);
     }
     clear_slot_and_update_linked_state(item);
     {

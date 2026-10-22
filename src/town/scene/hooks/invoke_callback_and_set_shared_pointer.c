@@ -1,7 +1,9 @@
+/* Installs shared scene state, updates scene flags, and reads the scene's clamped state value. */
 #include "script_symbols.h"
 #include "town/scene/hooks/invoke_callback_and_set_shared_pointer.h"
 
 
+/* Installs shared buffers, clamps field +0x35BC to at least 20, and updates two scene flags. */
 void invoke_callback_and_set_shared_pointer(void) {
     Rec_D_80016000 *town_state;
     void *field_base;

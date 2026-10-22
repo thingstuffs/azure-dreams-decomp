@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/u_boat/create_owner_linked_directional_object.h"
 
+/* Copies the owner's sprite and position into a tracked directional display with a view-dependent depth
+ * offset. */
 void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
     u8 *object;
     u8 *object_data;

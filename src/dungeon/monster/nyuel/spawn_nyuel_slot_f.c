@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_bbd094.h"
 
+/* Creates a Nyuel actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
 {
     u8 byte_kind_id = kind_id;

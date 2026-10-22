@@ -36,8 +36,8 @@ s32 display_text_with_fullwidth_adjustment(); /* extern */
 void clear_selected_item_flag_400();
 void check_entity_relation(s32 *, u8 *);
 extern M2C_UNK D_800E0A42;
-extern M2C_UNK D_800E0A56;
-extern M2C_UNK D_800E0A6A;
+extern u8 D_800E0A56[];
+extern u8 D_800E0A6A[];
 
 
 typedef struct S_800B7774_0_pre {
@@ -177,8 +177,8 @@ void advance_egg_bomb_sequence(void *egg_bomb, Coord *position, void *effect) {
                 first_call_arg = raw_first_result;
                 message_id = first_call_arg;
                 raw_first_result = write_text_byte_and_advance(first_call_mode, first_call_arg);
-                clear_byte_and_advance(expand_text_control_codes(&D_800E0A6A, write_text_byte_and_advance(0xA, append_entity_display_text(monster,
-                    expand_text_control_codes(&D_800E0A56, raw_first_result)))));
+                clear_byte_and_advance(expand_text_control_codes(D_800E0A6A, write_text_byte_and_advance(0xA, append_entity_display_text(monster,
+                    expand_text_control_codes(D_800E0A56, raw_first_result)))));
             }
             display_text_with_fullwidth_adjustment(message_id);
             {

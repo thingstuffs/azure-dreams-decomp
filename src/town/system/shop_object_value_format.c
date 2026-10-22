@@ -22,6 +22,7 @@ s32 func_8004B404();
 /* extern */
 static s32 format_item_value_and_flag_marker();
 
+/* Builds text glyphs for an item's numeric value and flag marker, returning 0 for unsupported categories. */
 static s32 format_item_value_and_flag_marker(void *output, Item *item) {
     u8 text[0x20];
     u8 category;
@@ -54,6 +55,7 @@ static s32 format_item_value_and_flag_marker(void *output, Item *item) {
     return build_positioned_text_glyphs(output, text, 0);
 }
 
+/* Allocates an item text object and marks it for removal if value formatting fails. */
 s32 allocate_and_initialize_shop_object(s32 initializationArg) {
     s32 allocatedObject;
     s32 resultObject;

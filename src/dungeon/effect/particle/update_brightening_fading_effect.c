@@ -1,3 +1,4 @@
+/* Animated terrain grids, tile-region restoration, projected quads, and fading particle transitions. */
 #include "modules/dungeon_ovl_197e800.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -1904,6 +1905,7 @@ extern void **actor_direction_sprites;
    case 1 ends with the same `state->state = value + 1; return` tail as case 2 (written out
    in both arms), and case 2's step != 0 path repeats case 3's flag-setting tail.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
    which is what frees the $2 pin; one u16 carrying the 5 and the 4 keeps the join value in v0. */
+/* Moves a point toward the actor's sprite offset, flashes and fades it, then may create a tile grid ahead. */
 void interpolate_target_and_finish_transition(State *state, Target *target, S_func_819615E4_0 *color)
 {
     Vec3s position_offset;

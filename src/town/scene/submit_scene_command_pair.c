@@ -1,3 +1,4 @@
+/* Submits a two-byte scene command and compares a stored value with the returned threshold. */
 #include "town/scene/submit_scene_command_pair.h"
 
 

@@ -1,3 +1,4 @@
+/* Buffered SPU voice key changes and paired register-bit updates. */
 #include "slus/sound_key_buffer.h"
 #include "slus.h"
 

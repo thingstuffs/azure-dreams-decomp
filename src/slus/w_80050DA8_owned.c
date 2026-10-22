@@ -1,3 +1,4 @@
+/* Selection-menu teardown and saved-value submission through shared output state. */
 #include "slus/saved_value_b98.h"
 
 s32 saved_value_output_enabled = 1;

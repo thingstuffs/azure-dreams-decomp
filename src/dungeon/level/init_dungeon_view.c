@@ -1,6 +1,8 @@
 #include "dungeon/level/init_dungeon_view.h"
 
 
+/* Initializes dungeon projection, lighting, draw colors, screen clipping, and the default monster
+   spawn table. */
 void init_dungeon_view(void)
 {
     GameWork *render_data = &g_game_work;

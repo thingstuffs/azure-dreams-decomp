@@ -1,7 +1,9 @@
+/* Shaded effect quad rendering and randomized radial effect creation. */
 #include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 
+/* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void project_and_queue_shaded_quad(void *quad, void *position, void *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
@@ -123,6 +125,7 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
     func_80064A40();
 }
 
+/* Draws a shaded quad for each linked effect node using that node's position and appearance. */
 s32 draw_linked_shaded_quads(void *state, void *position, void *appearance) {
     Row_81922E70_GapNode *node;
     for (;;) {
@@ -136,6 +139,7 @@ s32 draw_linked_shaded_quads(void *state, void *position, void *appearance) {
     return 0;
 }
 
+/* Fades four saved vertex colors in proportion to the remaining lifetime and removes the effect at zero. */
 void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work)
 {
     s16 color_index;
@@ -157,6 +161,7 @@ void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work)
     }
 }
 
+/* Creates a short-lived shaded effect with random color channels and endpoints around the source radius. */
 void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origin, void *unused_sprite)
 {
     s32 elevation;
@@ -229,6 +234,8 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
     }
 }
 
+/* Rotates, grows, and shrinks a sprite, updates its visibility flag, and removes it when the countdown
+   ends. */
 void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_800249FC_0 *effect) {
     s32 ticks_left;
     s16 next_ticks;
@@ -268,6 +275,8 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
     }
 }
 
+/* Creates an initially zero-scale gray effect at the supplied position with copied sprite data and a
+   60-step counter. */
 void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite) {
     Row_819232EC_S_80024AEC_3 *render_state;
     void *effect;
@@ -301,6 +310,8 @@ void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func
     }
 }
 
+/* Grows a sprite toward twice normal scale, advances animation every fourth update, and fades it to
+   removal. */
 void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_DungeonEffect *effect_data) {
     u16 ticks_left;
     u16 updated_value;
@@ -341,6 +352,8 @@ void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_Dun
     }
 }
 
+/* Creates a gray animated sprite at a random offset within 16 units of the origin and gives it a
+   14-update lifetime. */
 void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite)
 {
     s32 flags;
@@ -388,6 +401,7 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
    Unsigned byte fields keep the shared 0x80 store value as +128, matching
    retail's addiu before the three sb operations. */
 
+/* Cycles sprite colors, moves toward a target or along a path, then spawns impact and radial bursts. */
 void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
     s32 delta_x;
     s16 reduced_scale;

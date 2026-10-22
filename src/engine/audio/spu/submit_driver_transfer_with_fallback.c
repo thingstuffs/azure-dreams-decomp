@@ -1,3 +1,4 @@
+/* SPU buffer transfers using DMA commands or the transfer-FIFO fallback. */
 #include "engine/audio/spu/sound_transfer_frontends.h"
 #include "engine/audio/spu.h"
 

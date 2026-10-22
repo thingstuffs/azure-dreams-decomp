@@ -1,3 +1,4 @@
+/* Initializes the town player scene and updates movement, camera rotation, and facing animations. */
 #include "script_symbols.h"
 #include "town/player/initialize_scene_for_mode.h"
 
@@ -239,6 +240,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
    A block-local update_work separates D_800FE488 from the earlier work lifetime.
    GCC coalesces both to s0 and emits the two-edge lui/addiu held base. */
 
+/* Updates camera rotation and facing after collision adjustment, then saves the reference position. */
 void process_scene_record_update(void *context, void *input, void *record) {
     GameWork *work = &g_game_work;
     void *callback;

@@ -1,3 +1,4 @@
+/* Settings-screen object creation and initialization, with a helper for copying two words. */
 #include "modules/main_title_callbacks.h"
 #include "shared/object_node.h"
 /* cfail-repair: tf7-phase1-cache-v3 */

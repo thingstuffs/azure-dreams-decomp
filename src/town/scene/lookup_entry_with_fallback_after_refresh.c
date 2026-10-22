@@ -1,5 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
+/* Looks up a response, calls func_80019880, and uses the state fallback when the table check passes. */
 s32 lookup_entry_with_fallback_after_refresh(s32 input, s32 check_value, s32 context) {
     s32 result;
 

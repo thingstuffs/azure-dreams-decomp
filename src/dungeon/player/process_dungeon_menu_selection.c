@@ -123,10 +123,10 @@ extern M2C_UNK D_800E0462;
 extern M2C_UNK D_800E0472;
 extern M2C_UNK D_800E0542;
 extern M2C_UNK D_800E0571;
-extern M2C_UNK D_800E069D;
-extern M2C_UNK D_800E06BD;
-extern M2C_UNK D_800E06C0;
-extern M2C_UNK D_800E06E0;
+extern u8 D_800E069D[];
+extern u8 D_800E06BD[];
+extern u8 D_800E06C0[];
+extern u8 D_800E06E0[];
 extern s32 familiar_record_slots[];
 extern s32 dungeon_menu_action_state[];
 
@@ -271,8 +271,8 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
             (s16) (((SpriteFrameState *)sprite)->unk_25 + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
             text_buffer = get_unused_text_buffer();
             text_end = append_entity_display_text(familiar_record_slots[((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_03 & 0x1F],
-                expand_text_control_codes(&D_800E069D, text_buffer));
-            clear_byte_and_advance(expand_text_control_codes(&D_800E06BD, text_end));
+                expand_text_control_codes(D_800E069D, text_buffer));
+            clear_byte_and_advance(expand_text_control_codes(D_800E06BD, text_end));
             display_text_with_fullwidth_adjustment(text_buffer);
             selected_item_action_alias = 0;
             break;
@@ -282,8 +282,8 @@ void process_dungeon_menu_selection(void *state, s32 context, void *sprite, Acto
         }
         text_buffer = get_unused_text_buffer();
         text_end = append_entity_display_text(familiar_record_slots[((S_80090C10_6 *)((*(void **)&selected_item_record_alias)))->unk_03 & 0x1F],
-            expand_text_control_codes(&D_800E06C0, text_buffer));
-        clear_byte_and_advance(expand_text_control_codes(&D_800E06E0, text_end));
+            expand_text_control_codes(D_800E06C0, text_buffer));
+        clear_byte_and_advance(expand_text_control_codes(D_800E06E0, text_end));
         display_text_with_fullwidth_adjustment(text_buffer);
         goto block_64;
     case 10:

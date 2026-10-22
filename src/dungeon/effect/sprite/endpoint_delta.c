@@ -1,3 +1,4 @@
+/* Animated endpoints and depth-sorted shaded line rendering. */
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"

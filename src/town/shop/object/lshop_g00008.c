@@ -53,6 +53,7 @@ void clear_shop_object_and_link(u8 *object_ref)
     entry[0xA93] = 0;
 }
 
+/* Clears a shop slot, releases the associated actor data for type 0x13, and marks the slot unused with -1. */
 void release_lshop_entry(s32 slotIndex) {
     TownStateRecord *objectTableBase;
     void **objectSlot;

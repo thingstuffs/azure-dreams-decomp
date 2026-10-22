@@ -130,6 +130,8 @@ extern u8 D_80175290[];
 extern u8 D_80175298[];
 extern u8 D_801752A0[];
 
+/* Selects movement, attacks, and spells from actor status, including a timed directional particle
+ * sequence. */
 void update_long_actor_action(void *self_object, void *aux_entity, void *sprite, void *entity)
 {
     u16 initial_flags = g_dungeon_status.flags;

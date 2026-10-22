@@ -1,3 +1,4 @@
+/* Troll path movement, move eligibility checks, and directional animation setup. */
 #include "dungeon/monster/troll/advance_actor_stored_path.h"
 #include "shared/sprite_frame_state.h"
 

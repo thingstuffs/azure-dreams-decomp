@@ -10,6 +10,7 @@ void func_804040C8();                       /* extern */
  * are 8 bytes apart and sit just BEFORE this anchor address (negative offsets). */
 extern s32 D_800A0000[];
 
+/* Sizes two display regions and updates their content according to two fields in the selected slot record. */
 void complete_pending_object_state(s32 *ptr) {
     s32 offset;
 

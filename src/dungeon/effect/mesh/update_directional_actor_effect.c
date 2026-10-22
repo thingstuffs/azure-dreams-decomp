@@ -1,3 +1,4 @@
+/* Timed target tinting, source-relative arcing motion, and linked effect setup. */
 #include "modules/dungeon_ovl_19ba800.h"
 #include "common.h"
 #include "shared/tile_object.h"

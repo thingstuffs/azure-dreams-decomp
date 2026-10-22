@@ -1,3 +1,4 @@
+/* SPU runtime reset, DMA event startup and reverb work-area availability. */
 #include "engine/audio/spu/sound_reset_state.h"
 #include "engine/audio/spu.h"
 

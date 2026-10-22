@@ -20,6 +20,7 @@ extern void *held_item_record;
 extern u8 D_800E07EF[];
 extern u8 dungeon_ground_item_positions[];
 
+/* Moves a held or selected ground item into free inventory slots, or displays a failure message when full. */
 void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s16 flag)
 {
     s16 held_flag = flag;

@@ -1,6 +1,8 @@
+/* Packed resource lookup, cache reordering and loading, and object script submission. */
 #include "dungeon/system/resource.h"
 
 
+/* Copies byte_count / 4 words backward, starting at source + byte_count and destination + byte_count. */
 void copy_words_backward_from_offset(s32 dest_addr, s32 src_addr, s32 byte_count) {
     s32 *dest_word;
     s32 *src_word;
@@ -34,6 +36,7 @@ s32 sum_resource_bytes(s32 entry_count) {
     return sum;
 }
 
+/* Finds the cache entry matching a three-part key, or returns the end index with bit 31 set. */
 s32 find_resource_index_by_key(s32 first_byte, s32 second_byte, s32 halfword_value) {
     s32 entry_index;
     s8 *entry_table;
@@ -49,6 +52,7 @@ s32 find_resource_index_by_key(s32 first_byte, s32 second_byte, s32 halfword_val
     return entry_index - 0x80000000;
 }
 
+/* Shifts cache records back one slot and moves their data backward by the requested byte offset. */
 void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
     s32 data_addr;
     s32 record_value;
@@ -79,6 +83,7 @@ void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
     }
 }
 
+/* Saves a cached resource in scratch space, shifts earlier entries, and restores it at the cache front. */
 void move_resource_to_front(s32 entry_index) {
     ovl_d54c_7FFED6EC_DungeonEntry *entries;
     ovl_d54c_7FFED6EC_DungeonEntry *entry;
@@ -106,6 +111,7 @@ void move_resource_to_front(s32 entry_index) {
     entries->field_4 = data_size;
 }
 
+/* Returns the resource descriptor matching three packed key fields, or NULL at the table terminator. */
 u32 *find_packed_resource_descriptor(s32 key_flag, s32 key_high, s32 key_low) {
     u32 *value_ptr;
     u32 *entry;
@@ -131,6 +137,7 @@ u32 *find_packed_resource_descriptor(s32 key_flag, s32 key_high, s32 key_low) {
     return NULL;
 }
 
+/* Makes room at the front of the resource cache, records the descriptor, and starts its CD read. */
 s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, s32 resource_id, s32 entry_index) {
     s32 entry = entry_index;
     u32 *resource;
@@ -189,6 +196,8 @@ void ensure_resource_at_front(s32 resource_flag, s32 resource_group, s32 resourc
     }
 }
 
+/* Resolves tagged object resource data through the cache, or uses the direct data pointer, then runs
+   its script. */
 void submit_object_resource_data(ovl_d54c_7FFED9F8_Object *object) {
     ovl_d54c_7FFED9F8_Item *item;
     u32 tag_mask;

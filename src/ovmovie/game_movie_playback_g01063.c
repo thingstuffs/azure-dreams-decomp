@@ -87,6 +87,7 @@ void play_selected_movie_and_restore_display(void) {
     clear_movie_display_area(*(s32 *) (movie_globals_hi - 0x7E1C));
 }
 
+/* Clears a 480-pixel-wide movie display area to black, using a height of 480 or 448. */
 void clear_movie_display_area(s32 useFullHeight) {
     s16 clearRect[4];
     s16 extent;
@@ -165,6 +166,7 @@ void initialize_movie_frame_buffers(MovieBuffer *movie, s32 frame_x, s32 frame_y
     }
 }
 
+/* Uploads a decoded movie strip, then requests the next strip or marks the frame ready and swaps screens. */
 void upload_movie_strip_and_advance_buffer(void) {
     MovieRect rectangle;
     MovieState *movie;
@@ -222,6 +224,7 @@ s32 decode_next_movie_frame(void *buffer_state) {
     return 1;
 }
 
+/* Polls the next movie frame, records its number and stop flag, and updates display dimensions. */
 s32 poll_movie_frame_and_update_dimensions(u8 *display) {
     s32 data;
     FrameInfo *info;
@@ -296,6 +299,7 @@ static inline s32 movie_skip_requested(s32 buttons,s32 previous) {
     return requested;
 }
 
+/* Streams and displays movie frames, fading the audio when skipped or near the frame limit. */
 s32 play_movie_frames_with_skip_fade(s32 unused,s32 frame_limit,s32 stream,s32 mode) {
     MovieDisplayEnv display;
     MovieDrawEnv draw;

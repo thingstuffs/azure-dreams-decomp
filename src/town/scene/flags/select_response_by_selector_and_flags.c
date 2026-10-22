@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "modules/town_ovl_3ef1c8.h"
 
+/* Chooses response data using the selector, checked status, and progress flags, with an alternate handler. */
 s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 selector) {
     s32 *response;
 

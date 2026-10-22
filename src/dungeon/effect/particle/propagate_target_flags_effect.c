@@ -1,3 +1,4 @@
+/* Terrain-colliding sprites, shaded particles, timed display slots, and staged projectile effects. */
 #include "dungeon/effect/particle/propagate_target_flags_effect.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -38,6 +39,8 @@ extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
 extern void drain_audio_commands_and_service_channels(void);
 extern u32 func_80069EF8(void);
 
+/* Shifts the sprite color toward blue, adjusts its offset, and clears its owner's indexed slot when
+   the timer ends. */
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual) {
     s32 remaining_ratio;
     u16 ticks_left;

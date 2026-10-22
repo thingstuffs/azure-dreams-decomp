@@ -1,3 +1,4 @@
+/* Pulunpa target scanning and nearby directional action selection. */
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"

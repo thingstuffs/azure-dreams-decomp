@@ -1,3 +1,4 @@
+/* Targeted moving effects, radial color animation, shaded lines, and fragment creation. */
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "modules/dungeon_native_abi.h"

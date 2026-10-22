@@ -21,6 +21,8 @@ typedef struct Outer {
 
 extern u16 sprite_effect_update_count[];
 
+/* Copies a linked object's coordinates and color, or removes the effect when the linked object is
+   marked for deletion. */
 void process_effect_record(void *ptr, Inner *fields_target, Inner *field_c_target)
 {
     Outer *outer;

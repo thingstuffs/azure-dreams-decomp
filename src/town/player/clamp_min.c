@@ -1,3 +1,4 @@
+/* Slows two movement components with direction-dependent steps and clamps them at zero. */
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"

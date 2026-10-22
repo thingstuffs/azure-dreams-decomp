@@ -15,9 +15,9 @@ typedef struct S_8102F0D4_1_pre {
 typedef struct S_8102F0D4_1 {
     u8 pad_00[0x94];
     s16 unk_94;
-    u16 unk_96;
+    u16 ticks_left; /* 0x96 */
     u8 pad_98[0x10];
-    void * unk_A8;
+    MovingPosition * reference_position; /* 0xA8 */
 } S_8102F0D4_1;   /* arg0 in update_relative_depth_and_expire */
 
 extern s8 view_direction_depth_biases[];
@@ -29,7 +29,7 @@ void update_relative_depth_and_expire(void *state, MovingPosition *position, Spr
     u16 coords[3];
     M2C_S64 transform_result;
     s16 transform_aux;
-    M2C_UNK transform_flags;
+    s32 transform_flags;
     s32 position_depth;
     s32 reference_depth;
     s8 *direction_offset;
@@ -40,7 +40,7 @@ void update_relative_depth_and_expire(void *state, MovingPosition *position, Spr
     coords[1] = position->unk_06;
     coords[2] = position->unk_0A;
     position_depth = func_80065420(coords, &transform_result, &transform_aux, &transform_flags);
-    reference_pos = ((S_8102F0D4_1 *)state)->unk_A8;
+    reference_pos = ((S_8102F0D4_1 *)state)->reference_position;
     coords[0] = reference_pos->unk_02;
     coords[1] = reference_pos->unk_06;
     coords[2] = reference_pos->unk_0A;
@@ -49,8 +49,8 @@ void update_relative_depth_and_expire(void *state, MovingPosition *position, Spr
         >> 9) & 7];
     entity->unk_06 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
     advance_sprite_animation_and_textures(entity);
-    ticks_left = ((S_8102F0D4_1 *)state)->unk_96 - 1;
-    ((S_8102F0D4_1 *)state)->unk_96 = ticks_left;
+    ticks_left = ((S_8102F0D4_1 *)state)->ticks_left - 1;
+    ((S_8102F0D4_1 *)state)->ticks_left = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         ((S_8102F0D4_1_pre *)state)[-1].unk_00 = (u16) (((S_8102F0D4_1_pre *)state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | 0x8000;

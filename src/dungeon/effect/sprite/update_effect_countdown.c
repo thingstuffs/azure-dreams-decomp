@@ -19,7 +19,7 @@ typedef struct S_800D6FEC_0 {
 
 
 
-M2C_UNK advance_sprite_animation_and_textures();                     /* extern */
+void advance_sprite_animation_and_textures();                     /* extern */
 
 /* Copy stored values, run the update, and flag completion when the count reaches zero. */
 void update_effect_countdown(void *object, MovingPosition *output, M2C_UNK update_arg) {

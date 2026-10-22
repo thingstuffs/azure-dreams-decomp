@@ -1,3 +1,4 @@
+/* Textured strip rendering, shaded particles, timed fades, and a traveling effect sequence. */
 #include "dungeon/effect/mesh/build_textured_sprite_strips.h"
 void (*const dungeon_1924800_entry)(S_func_81905FD0_1 *, S_func_81905FD0_2 *, S_func_81905FD0_3 *) = update_traveling;
 const u16 D_80024004[4] = {832,256,96,84};

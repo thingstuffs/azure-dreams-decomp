@@ -1,7 +1,9 @@
+/* Launched tile effects, randomized rotating particles, and actor creation at the destination. */
 #include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_18b8824_entry)(void) = (void (*)(void))advance_launched_effect;
 
+/* Advances and spins a particle, increments its owner's counter, and removes it after its lifetime. */
 void interpolate_view_parameters(void *state, void *motion, void *transform)
 {
     u16 tick_count;
@@ -27,6 +29,8 @@ void interpolate_view_parameters(void *state, void *motion, void *transform)
     }
 }
 
+/* Creates a randomly rotated half-scale gray sprite with copied motion, an owner link, and a saved
+   setting. */
 void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
 {
     ovl_18b8824_818988CC_Object *obj;
@@ -75,6 +79,7 @@ void handle_increment_entry_counters_process_target_propagate_status_flags(void 
     }
 }
 
+/* Creates a gray sprite with copied motion, a fixed rotation, and a starting height offset of 80 units. */
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
 {
     ovl_18b8824_81898A64_S_80024264_2 *state;
@@ -108,6 +113,7 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
     }
 }
 
+/* Advances sprite animation, creates a gray child at count 8, and removes the effect at count 16. */
 void advance_the_entry_counters_trigger_count_milestones_update_target(void *entry, s32 unused, void *target)
 {
     ovl_18b8824_81898B70_S_80024370_1 *object;
@@ -136,6 +142,8 @@ void advance_the_entry_counters_trigger_count_milestones_update_target(void *ent
     advance_sprite_animation_and_textures(target);
 }
 
+/* Creates a blue-tinted sprite with copied motion and installs the callback that advances its timed
+   target effect. */
 void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state) {
     SpriteFrameState *display;
     ovl_18b8824_81898C1C_S_8002441C_0 *object;
@@ -187,6 +195,8 @@ void mark_owner_on_target_completion(void *object_ref, s32 unused, void *target)
     }
 }
 
+/* Creates a gray sprite with copied motion and a 160-unit height offset, signaling its owner when the
+   target finishes. */
 ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32 *initial_data) {
     ovl_18b8824_81898DCC_Object *obj;
     u8 *sprite;
@@ -218,6 +228,7 @@ ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32
     return 0;
 }
 
+/* Launches an effect toward a checked tile, emits timed visuals, and creates an actor there when allowed. */
 void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part)
 {
     void *owner;

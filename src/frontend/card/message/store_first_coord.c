@@ -1,3 +1,4 @@
+/* Card-grid entry positioning and selected-row updates. */
 #include "common.h"
 #include "frontend/card/message.h"
 

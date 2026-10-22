@@ -1,9 +1,12 @@
+/* Dragon actor spawning, movement, attacks, and status animation callbacks. */
 #include "modules/dungeon_resource03_slot0.h"
 #include "shared/sprite_frame_state.h"
 
 void * (*const resource03_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_mode_dependent_112_object;
 void (*const resource03_slot0_entry1)(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part) = update_entity_facing_motion_and_ground;
 
+/* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
 {
     s32 kind;
@@ -67,6 +70,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     return work;
 }
 
+/* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
 void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part)
 {
     void *entity_base = entity;
@@ -218,6 +222,7 @@ void update_entity_facing_motion_and_ground(void *entity, R03_80170A28_S_80170A2
     return;
 }
 
+/* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void func_80170E54(void *controller, void *context, void *entity, ActorRecord *actor_state)
 {
     u8 *anim_table;
@@ -398,6 +403,8 @@ void func_80170E54(void *controller, void *context, void *entity, ActorRecord *a
         0);
 }
 
+/* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
+ * delay. */
 void advance_stored_entity_path(void *controller, void *context, void *entity, void *path_state)
 {
     void *state = path_state;
@@ -486,6 +493,8 @@ void advance_stored_entity_path(void *controller, void *context, void *entity, v
     }
 }
 
+/* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
+ * counts. */
 void advance_actor_path_with_item_search(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
@@ -713,6 +722,7 @@ void copy_display_orientation_state(void *object, void *unused, void *display, v
     select_sprite_entry(display, directionTable[directionIndex], 0);
 }
 
+/* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor)
 {
     s32 target_angle;
@@ -763,6 +773,8 @@ s32 check_actor_transition_and_start_effect(Rec_func_800A9E70_arg0 *action_state
     return -1;
 }
 
+/* Claims an action slot, starts the directional attack animation, and prepares its target and damage
+ * state. */
 void start_directional_actor_effect(void *action_state, void *action_context, void *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
@@ -782,6 +794,7 @@ void start_directional_actor_effect(void *action_state, void *action_context, vo
     }
 }
 
+/* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
 s32 dispatch_actor_path_state_and_relink_entity(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
@@ -842,6 +855,7 @@ void finish_actor_tile_move_and_check_trap(R03_801721C0_S_801721C0_0 *object, vo
     }
 }
 
+/* Jumps to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
 void complete_actor_jump_to_destination(void *jump, void *motion, void *map_entity, void *actor) {
     s32 facing_distance;
     s32 frames_left;
@@ -964,6 +978,8 @@ void func_801725BC(Resource03CallbackState *state, void *entity, void *position,
     }
 }
 
+/* Chooses an attack animation with an optional sprite effect, applies damage, spends MP, and restores
+ * movement. */
 void advance_actor_attack_and_resolve_damage(void *action, void *transform, void *sprite, ActorRecord *actor)
 {
     s32 state;
@@ -1088,6 +1104,7 @@ void advance_actor_attack_and_resolve_damage(void *action, void *transform, void
     }
 }
 
+/* Starts a targeted spell with a two-row effect, then restores movement and status after the animation. */
 void finish_timed_actor_movement(void *action_state, void *transform, void *sprite, ActorRecord *actor)
 {
     u16 position[4];
@@ -1251,6 +1268,7 @@ void finish_timed_actor_movement(void *action_state, void *transform, void *spri
     }
 }
 
+/* Applies a value change and knockback, decelerates the actor, then recenters it and restores movement. */
 void slow_directional_movement_to_tile(R03_80172F14_S_80172F14_1 *controller, ObjectPosition *motion, SpriteFrameState *entity, void *source)
 {
     s16 timer;
@@ -1421,6 +1439,7 @@ void func_80173320(Resource03CallbackState *state, void *motion, void *position,
     }
 }
 
+/* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
 void update_actor_status_and_restore_handler(void *in_controller, void *in_context, void *sprite, void *in_actor)
 {
     void *context = in_context;
@@ -1555,6 +1574,7 @@ void update_actor_status_and_restore_handler(void *in_controller, void *in_conte
     *(void **)in_controller = ((u8 *)func_80170E54);
 }
 
+/* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
 void func_801736F4(void *controller, void *context, void *sprite, ActorRecord *entity)
 {
     s32 state;

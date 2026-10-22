@@ -3,6 +3,7 @@
 #include "slus/owned_80047338.h"
 #include "engine/graphics.h"
 
+/* Packs and uploads a texture in a 64-word by 256-row VRAM area, resetting on a generation change. */
 void pack_texture_into_vram_wide(S_80047338_hdr *texture, S_80047338_rec *record, s32 data_offset)
 {
     S_80047270_hdr rect;

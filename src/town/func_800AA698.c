@@ -6,6 +6,7 @@ extern s32 classify_object_against_bounds(void *, void *);
 extern void unlink_node_if_registered(void *object);
 extern void advance_sprite_animation_and_textures(void *fallback_data);
 
+/* Unlinks and marks an object on a nonzero bounds classification; otherwise advances its sprite animation. */
 void handle_object_bounds_and_cleanup(void *object, void *check_data, void *fallback_data)
 {
     u8 *status_byte;

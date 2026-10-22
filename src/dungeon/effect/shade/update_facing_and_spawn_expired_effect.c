@@ -43,11 +43,11 @@ typedef struct {
     u16 z;
 } Vec3u16;
 
-M2C_UNK select_record_entry_and_value();  /* extern */
+void select_record_entry_and_value();  /* extern */
 s32 resolve_record_orientation_or_fallback(void *, void *, Vec3u16 *, s32);     /* extern */
 s32 register_node();           /* extern */
 void select_indirect_table_entry();              /* extern */
-M2C_UNK advance_sprite_animation_and_textures();                      /* extern */
+void advance_sprite_animation_and_textures();                      /* extern */
 extern s32 D_800D586C[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */

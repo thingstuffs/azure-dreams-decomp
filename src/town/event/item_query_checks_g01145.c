@@ -54,6 +54,7 @@ s32 check_slot_threshold_or_fallback(s32 slot) {
     return 0;
 }
 
+/* Returns 3 for the selected flag, 0 for the query check, otherwise 2 or 1 from the slot check. */
 s32 classify_item_check_result(s32 input) {
     s32 result;
 

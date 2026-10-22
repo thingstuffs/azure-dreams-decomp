@@ -29,7 +29,7 @@ typedef struct S_80174B90_7 {
 
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
-M2C_UNK select_sprite_entry();    /* extern */
+void select_sprite_entry();    /* extern */
 extern M2C_UNK D_8017474C;
 extern M2C_UNK D_80175540;
 

@@ -1,3 +1,4 @@
+/* Timed display slots, parent-linked sprites, and a palette and particle transition. */
 #include "dungeon/effect/particle/create_an_linked_parent_initialize_position_part_data.h"
 void (*const dungeon_19b4800_entry)(struct TransitionState *, void *, void *) = update_palette_particle_transition;
 const RectTable D_80024004 = {{

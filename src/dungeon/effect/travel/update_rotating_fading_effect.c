@@ -1,7 +1,10 @@
+/* Rotating linked particles and their travel toward an actor or terrain endpoint. */
 #include "dungeon/effect/travel/update_rotating_fading_effect.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_ovl_18ca83c_entry)(void) = (void (*)(void))advance_target_travel_effect;
 
+/* Adds a random actor value delta with an optional eighth bonus, clamps it, displays a popup, and
+   applies it. */
 void func_8002403C(void *target, s32 amount_input, void *owner) {
     s32 base_amount;
     register s32 adjusted_amount;
@@ -21,6 +24,8 @@ void func_8002403C(void *target, s32 amount_input, void *owner) {
 }
 
 
+/* Delays a rotating sprite, eases it to its destination, expands and fades it, then plays its final
+   animation. */
 void update_rotating_fading_effect(void *effect, void *position, void *sprite)
 {
     s32 quarter_turn;
@@ -115,6 +120,7 @@ void update_rotating_fading_effect(void *effect, void *position, void *sprite)
     }
 }
 
+/* Creates a small white sprite with a random rotation and a destination scattered around the given center. */
 void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83c_818AABB8_S_800243B8_3 *start, ovl_18ca83c_818AABB8_S_800243B8_4 *center, s16 index)
 {
     s16 amplitude;
@@ -205,6 +211,8 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
     return NULL;
 }
 
+/* Moves an effect toward an actor or terrain endpoint, creates 32 linked particles, and handles
+   completion. */
 void advance_target_travel_effect(void *effect, void *motion, void *appearance) {
     ovl_18ca83c_818AAE60_Func818AAE60Scratch scratch;
     s16 *target_dist_cursor;

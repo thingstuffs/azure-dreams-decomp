@@ -1,3 +1,4 @@
+/* Initializes timed resource objects, finalizes them, and updates the washed dish counter. */
 /* inferred-strong G00584: washed_dish_effects_g00584; joins PD:town/engine:800D0E44,PD:town/engine:800F8A70; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D0E44, PD:town/engine:800F8A70. */
 #include "town/menu/washed_dish_effects_g00584.h"

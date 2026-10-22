@@ -11,6 +11,8 @@ extern void clear_entry_flag_and_link_owner();
 extern u8 *ghosh_actor_node;
 extern u8 D_80174684[];
 
+/* Resets the Ghosh actor action and animation, updates system flags, and relinks up to two attached
+ * objects. */
 void dispatch_map_exit_callback(s32 unused0, s32 unused1, s32 unused2, s32 unused3)
 {
     s32 i;

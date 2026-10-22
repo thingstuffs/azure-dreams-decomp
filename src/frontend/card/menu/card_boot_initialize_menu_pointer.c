@@ -22,6 +22,7 @@ extern void forward_target_value_initcardmessageobject_parameters(void *first_pt
  * store compiles to the same %hi/%lo(addiu) address computation. */
 extern void *D_804081AC;
 
+/* Chooses the next menu callback and, when needed, initializes its message and active-state flags. */
 void card_boot_initialize_menu_pointer(void *ptr) {
     if (((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_4C != 0) {
         ((S_80020F68_0 *)((u8 *)ptr - 0x10))->unk_00 = &D_804081AC;

@@ -367,7 +367,7 @@ typedef struct Row_81917C08_ActionSlot { s32 value; } Row_81917C08_ActionSlot;
  * Every finished stage clears the tick counter and steps to the next phase in place
  * (the compiler merges the identical stage tails into one copy). */
 void D_80024024(void);
-M2C_UNK advance_sprite_animation_and_textures();
+void advance_sprite_animation_and_textures();
 s32 func_800644B8();
 s32 func_80064584();
 void select_record_entry_and_value(void *, void *, s32);

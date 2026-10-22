@@ -1,6 +1,8 @@
 #include "dungeon/monster/clown/create_flagged_actor_object.h"
 #include "shared/sprite_frame_state.h"
 
+/* Creates a Clown actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
 {
     s32 mode;

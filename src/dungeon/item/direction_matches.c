@@ -1,3 +1,4 @@
+/* Room waypoint selection and terrain-checked actor movement directions. */
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"

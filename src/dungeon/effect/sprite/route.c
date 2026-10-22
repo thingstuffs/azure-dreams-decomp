@@ -1,3 +1,4 @@
+/* Shaded particles, terrain collisions, chasing-star trails, and owner-following effects. */
 #include "dungeon/effect/sprite/route.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;

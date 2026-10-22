@@ -1,6 +1,7 @@
 #include "dungeon/monster/death/queue_linked_object_draw_packets.h"
 
 
+/* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
 s32 queue_linked_object_draw_packets(u8 *item, u16 *coords)
 {
     Scratch *scratch = (Scratch *)0x1F800000;

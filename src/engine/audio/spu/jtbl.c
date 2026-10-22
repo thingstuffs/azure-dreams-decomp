@@ -1,3 +1,4 @@
+/* SPU voice attribute writes, attribute reads and selected voice key-state queries. */
 #include "slus/jtbl_8005F134.h"
 #include "common.h"
 #include "engine/audio/spu.h"
@@ -50,6 +51,7 @@ s32 read_selected_voice_key_state(s32 voice_mask)
     return active != 0 ? 2 : 0;
 }
 
+/* Applies masked pitch, volume, sample-address and envelope settings to the selected SPU voices. */
 void apply_spu_voice_attributes(SpuVoiceAttr_ *attr)
 {
     s32 voice;

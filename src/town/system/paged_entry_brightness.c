@@ -43,6 +43,7 @@ typedef struct S_800B32D4_1 {
     s32 unk_3C;
 } S_800B32D4_1;
 
+/* Loads up to ten item displays for the current page, dimming entries of type 0x13. */
 static void populate_paged_entries_with_brightness(void **entries, S_800B3178_0 *page_info, s32 source_table) {
     s32 lookup_param;
     s32 page_index;

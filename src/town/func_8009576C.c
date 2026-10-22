@@ -17,6 +17,7 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 void spawn_person_radial_effects(void *);
 
+/* Resolves actor movement, handles button 0x40, and starts an action with radial effects at a surface. */
 void update_actor_movement_with_radial_effects(s32 object_id, EntityRec *object, s32 update_context) {
     s16 update_threshold;
     GameWork *town_state;

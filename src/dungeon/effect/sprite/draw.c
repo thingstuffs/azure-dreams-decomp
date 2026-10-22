@@ -1,6 +1,8 @@
+/* Waving textured sprite strips and linked shaded particle rendering. */
 #include "dungeon/effect/sprite/draw.h"
 
 
+/* Projects waving sprite strips, queues visible textured quads, and invokes custom part callbacks. */
 void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset)
 {
     u8 *scratch;
@@ -399,6 +401,8 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     ((GpuContext *)(globals[0]))->packetCursor = packet;
 }
 
+/* Draws textured parts for every linked effect node using each node's position, appearance, and depth
+   bias. */
 s32 draw_linked_gap_effects(void *state, void *position, void *appearance) {
     Row_818F3098_GapNode *node;
     for (;;) {
@@ -412,6 +416,7 @@ s32 draw_linked_gap_effects(void *state, void *position, void *appearance) {
     return 0;
 }
 
+/* Projects linked points and queues visible square particles with color scaled by each point's intensity. */
 s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
 {
     void *point = first_point;

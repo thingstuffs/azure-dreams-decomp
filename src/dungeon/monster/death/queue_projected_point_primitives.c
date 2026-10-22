@@ -1,6 +1,7 @@
 #include "dungeon/monster/death/queue_projected_point_primitives.h"
 
 
+/* Projects linked effect positions and queues their colored pixel and drawing-mode packets by depth. */
 s32 queue_projected_point_primitives_2(u8 *entry_data, u16 *coords)
 {
     Scratch *scratch = (Scratch *)0x1F800000;

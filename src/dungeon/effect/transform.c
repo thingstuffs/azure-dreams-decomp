@@ -1,7 +1,10 @@
+/* Copied-motion sprite creation with random rotation and timed grayscale growth. */
 #include "dungeon/effect/transform.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/transform.h"
 
+/* Creates a gray, randomly rotated sprite with copied motion, a saved starting height, and the
+   supplied tag. */
 s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 stored_tag) {
     s32 random_or_w2;
     s32 rounded_random;
@@ -39,6 +42,8 @@ s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 st
     return 0;
 }
 
+/* Advances sprite animation and three timed stages of grayscale brightening and horizontal or vertical
+   growth. */
 void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
 {
     s16 word_or_frame;
@@ -125,6 +130,7 @@ void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32
     }
 }
 
+/* Creates an initially black, zero-scale sprite with copied motion and a random starting animation frame. */
 s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *transform)
 {
     s32 random_value;

@@ -9,6 +9,7 @@ s32 cd_read_command_second_word = 0;
 #include "engine/scene/command_words.h"
 #include "engine/cd.h"
 
+/* Copies a CD descriptor, packs its size with the low 23 argument bits, and waits for the read command. */
 void start_cd_read(S_80053CFC *source, s32 packed_value)
 {
     s32 saved_value;

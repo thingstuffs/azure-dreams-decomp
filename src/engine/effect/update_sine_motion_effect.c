@@ -8,6 +8,7 @@
 #include "slus/jtbl_800517CC.h"
 #include "engine/effect.h"
 
+/* Advances a triggered sprite through curved and oscillating motion, then detaches it from its parent. */
 void update_sine_motion_effect(
     EffectState800517CC *effect,
     VecState800517CC *motion,

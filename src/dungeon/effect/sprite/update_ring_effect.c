@@ -59,6 +59,8 @@ extern s32 func_80026384();
 extern u16 sprite_effect_update_count[];
 extern u8 D_80028220[];
 
+/* Eases a sprite into position and brightness, optionally spawns a ring, then fades and removes the
+   sprite. */
 void update_ring_effect(void *state, S_819598B4_2 *values, S_819598B4_1 *parameters) {
     s16 value0A;
     s16 value3C;

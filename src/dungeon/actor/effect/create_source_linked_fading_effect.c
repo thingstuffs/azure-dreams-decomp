@@ -11,7 +11,7 @@ typedef struct S_800CB4C0_6 {
 
    /* ((S_800CB4C0_6 *)arg0)->unk_08 in create_source_linked_fading_effect */
 
-M2C_UNK select_record_entry_and_value();  /* extern */
+void select_record_entry_and_value();  /* extern */
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
 extern M2C_UNK D_800CB374;

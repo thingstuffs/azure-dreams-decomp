@@ -10,6 +10,7 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
 void bind_default_data_and_clear_record();        
 
+/* Resolves movement and height, adjusts and resets the record at the threshold, or adds 0x20000 at +0x14. */
 void adjust_object_motion_at_threshold(s32 context, EntityRec *record, s32 action_data) {
     s16 threshold;
 

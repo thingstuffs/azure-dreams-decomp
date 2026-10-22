@@ -5,6 +5,7 @@ extern u8 D_800841DC[], D_8008423C[], D_8008429C[];
 typedef struct { u8 tag[8]; s16 x,y; } Primitive;
 typedef struct { void *active; Primitive *primitive; } Entry;
 typedef struct { s32 flags; u8 storage[0xB04]; Entry *item[4]; } Work;
+/* Builds the menu drawing and assigns screen positions and sources to its four entries. */
 void initialize_menu_item_positions(Work *work) {
     void *storage = work->storage;
     Entry *item;

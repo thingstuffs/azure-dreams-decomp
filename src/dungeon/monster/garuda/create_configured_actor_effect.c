@@ -45,6 +45,8 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
 extern u8 D_80174880[];
 extern u8 D_801748E0[];
 
+/* Creates a Garuda actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *create_configured_actor_effect(s16 mask, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;

@@ -1,3 +1,4 @@
+/* Dungeon entry state, floor setup, player initialization, and opening camera movement. */
 #include "modules/dungeon_dungeon_setup.h"
 
 static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)
@@ -61,6 +62,7 @@ void init_dungeon_view(void) {
     g_dungeon_status.monster_spawn_table = &D_800DDC7C;
 }
 
+/* Sets map dimensions and cell storage, generates the floor, and resets camera transition state. */
 void initialize_floor_generation_state(void) {
     u32 color_command = 0x2C808080;
     dungeon_setup_802831D8_GlobalState *state = ((dungeon_setup_802831D8_GlobalState *)&g_game_work);
@@ -91,6 +93,7 @@ void initialize_floor_generation_state(void) {
 }
 
 
+/* Clears floor items and dungeon activity state, records floor progress, and loads shared sprite assets. */
 void reset_dungeon_runtime_state(void) {
     u8 *init_flag_page;
     s16 *progress_stats;
@@ -146,6 +149,7 @@ void reset_dungeon_runtime_state(void) {
    D_800E3D70 and D_80012D60 use their symbol addresses without duplicated byte displacements.
    Holding the 0x800E0000 page in s0 removes one addiu and closes the branch-displacement cascade. */
 
+/* Initializes a dungeon entry or restored run, including familiars, resource slots, and scene state. */
 void initialize_dungeon_floor_state(void) {
     s32 floor_data;
     s32 floor_index;
@@ -202,6 +206,7 @@ void initialize_dungeon_floor_state(void) {
     dungeon_button_latch = 0;
 }
 
+/* Creates the player at a chosen tile, restores inventory and familiars, and sets up sprites and camera. */
 void initialize_dungeon_actor(void) {
     u8 pos_x;
     u8 pos_y;
@@ -452,6 +457,7 @@ initialize_position:
     }
 }
 
+/* Applies tile-kind flags to a map rectangle, marking adjacent cells for kinds that require it. */
 void apply_tile_flags_to_rectangle(s16 start_x, s16 start_y, s16 width, s16 height)
 {
     s32 tile_y;
@@ -550,6 +556,8 @@ void apply_state_index_tile_masks(void)
 
 /* MECHANISM: Keep the natural 24-byte call frame with only $ra saved at 0x10. */
 
+/* Initializes seven resource cache slots with four kind-1 entries, two kind-3 entries, and one kind-2
+   entry. */
 void initialize_dungeon_record_kinds(void)
 {
     s16 next_type1_count;
@@ -602,6 +610,7 @@ void initialize_dungeon_record_kinds(void)
     *((s32 *) type2_payload) = 0;
 }
 
+/* Initializes resource cache slot kinds and sequential IDs, then clears the trailing record. */
 void initialize_dungeon_region_records(void) {
     s16 next_count;
     s16 count;
@@ -656,6 +665,7 @@ void clear_dungeon_state_bytes(void) {
     } while (byte_index >= 0);
 }
 
+/* Clears the eight words of saved view vectors. */
 void clear_shared_state_values(void) {
     u8 *state;
 
@@ -670,6 +680,7 @@ void clear_shared_state_values(void) {
     ((dungeon_setup_8028403C_S_8001703C_1 *)state)->unk_1C = 0;
 }
 
+/* Sets initial player properties and restores familiar records, inventory links, and saved entry tables. */
 void init_koh_properties_and_entry_tables(void)
 {
     s32 slot_index;
@@ -760,6 +771,7 @@ void clear_dungeon_progress_state(void) {
     random_pickup_enabled = 0;
 }
 
+/* Starts a camera approach from a random offset around the player unless updates are disabled. */
 void initialize_random_effect_position(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset) {
     s16 state_offset;
     s16 position_x;

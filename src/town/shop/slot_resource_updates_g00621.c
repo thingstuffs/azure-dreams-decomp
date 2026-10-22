@@ -56,6 +56,7 @@ void move_color_channels_toward_neutral(u8 *channels)
     }
 }
 
+/* Maps pressed buttons to choices 2, 3, or 4, marks the choice slot, and returns -1 when none is pressed. */
 s32 select_choice_from_input_flags(s32 *choice_values)
 {
     s32 choice;

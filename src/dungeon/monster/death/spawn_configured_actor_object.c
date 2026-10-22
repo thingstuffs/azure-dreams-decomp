@@ -43,6 +43,8 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
 extern u8 D_80174634[];
 extern u8 D_80174684[];
 
+/* Creates a Death actor at the supplied tile and height, then initializes mode flags, status, and
+ * callbacks. */
 void *spawn_configured_actor_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;

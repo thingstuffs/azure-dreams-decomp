@@ -93,6 +93,7 @@ extern u8 D_801711A4[];
 extern u8 D_8017418C[];
 extern u8 D_801741CC[];
 
+/* Creates a Kraken actor with a linked display object and initializes its status and tile placement. */
 void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;

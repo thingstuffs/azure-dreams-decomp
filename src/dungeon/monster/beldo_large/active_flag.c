@@ -1,3 +1,4 @@
+/* Encounter activity checks and scripted object creation. */
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"

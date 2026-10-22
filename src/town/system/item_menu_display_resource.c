@@ -34,6 +34,7 @@ extern void draw_tinted_node_sprites_scratch(void);
 extern void func_8004CAA0(void);
 extern void advance_item_menu_object_animation(void);
 
+/* Allocates menu display entries, copies the default vector, and shares it among the entries on success. */
 static s32 load_item_menu_display_resource(void *object, s32 resource_id) {
     s32 success = 0;
     s32 handle = func_80049004((s32 *)((s8 *)object + 0xDC), resource_id, 8);
@@ -49,6 +50,7 @@ static s32 load_item_menu_display_resource(void *object, s32 resource_id) {
     return success;
 }
 
+/* Creates a linked item menu display at the requested position and cleans up if resource loading fails. */
 void *create_item_menu_child_at_position(void *parent, s32 x, s32 y, s32 resource_id,
                     s32 resource_data, s32 context)
 {

@@ -2,6 +2,7 @@
 s32 func_80058588(s32, s32, s32);
 s32 func_80071424();
 extern s32 D_80084D5C;
+/* Submits the linked value each tick, clears flag 2 after a delay, and handles linked cleanup. */
 void tick_timed_object_and_mark_complete(void *ptr)
 {
     s16 selector;

@@ -2,6 +2,7 @@
 #include "town/scene/hooks/invoke_callback_and_set_shared_pointer_second.h"
 #include "town/scene/hooks/invoke_callback_and_set_shared_pointer_second.h"
 
+/* Installs shared buffers, clamps field +0x35C0 to at least 30, resets a counter, and updates three flags. */
 void invoke_callback_and_set_shared_pointer(void) {
     TownStateRecord *activeState;
     s32 valueBeforeClamp;

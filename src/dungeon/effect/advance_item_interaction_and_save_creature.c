@@ -204,8 +204,8 @@ extern u8 D_800DD138[];
 extern s32 D_800814A0;
 extern u8 D_800DD140[];
 extern M2C_UNK D_800E0458;
-extern M2C_UNK D_800E0A2A;
-extern M2C_UNK D_800E0A33;
+extern u8 D_800E0A2A[];
+extern u8 D_800E0A33[];
 extern s8 entity_spawn_variant_code;
 extern u8 active_actor_command_code;
 extern void *familiar_record_slots[];
@@ -480,7 +480,7 @@ void advance_item_interaction_and_save_creature(S_func_800B1364_1 *action, S_fun
             summon_control->activity_counts.parts.pending_action_count = (u16) (summon_count + 1);
         }
         message_start = get_unused_text_buffer();
-        message_end = expand_text_control_codes(&D_800E0A33, append_entity_display_text(creature, expand_text_control_codes(&D_800E0A2A,
+        message_end = expand_text_control_codes(D_800E0A33, append_entity_display_text(creature, expand_text_control_codes(D_800E0A2A,
             expand_text_control_codes(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + monster_species_table))->unk_04,
             write_text_byte_and_advance(8, message_start)))));
         if (!((*(u16 *)(&system_update_flags)) & 1)) {

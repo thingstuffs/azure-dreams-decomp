@@ -242,6 +242,7 @@ s32 count_flagged_tiles_along_direction(s16 direction, s16 start_x, s16 start_y)
     return flagged_count;
 }
 
+/* Clears bit 0x4000 on every listed map cell and empties the coordinate list. */
 void clear_flagged_cells_and_reset_list(void) {
     u8 *coordinateEntry;
     u16 *cell;
@@ -265,6 +266,7 @@ void clear_flagged_cells_and_reset_list(void) {
     *(u8 *)D_80081508[0] = 0;
 }
 
+/* Clears visited tile flags, then scans from the camera's tile in a direction selected by the view angle. */
 void refresh_state_and_dispatch_angles(void) {
     GameView *state = &g_game_work.view;
     u32 firstScaledAngle;

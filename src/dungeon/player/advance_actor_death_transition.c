@@ -11,7 +11,7 @@ extern u8 dungeon_button_latch[9];
 void snapshot_inventory_and_familiars();
 void snapshot_inventory_familiar_records();
 void adjust_source_value_and_finalize();
-extern M2C_UNK D_800E0672;
+extern u8 D_800E0672[];
 
 
 typedef struct S_8008E0C4_0 {
@@ -33,6 +33,7 @@ typedef struct S_8008E0C4_2 {
 } S_8008E0C4_2;   /* D_800E3CD0 in advance_actor_death_transition */
 
 
+/* Waits for the death animation and delay, then changes scenes or restores player input in state 0x10. */
 void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, S_8008E0C4_1 *input, EntityRec *entity) {
     GameWork *work;
     u16 remaining;
@@ -43,7 +44,7 @@ void advance_actor_death_transition(S_8008E0C4_0 *context, void *unused, S_8008E
     switch (state) {
     case 0:
         if (input->unk_14 & 0xE000) {
-            adjust_source_value_and_finalize(entity, &D_800E0672);
+            adjust_source_value_and_finalize(entity, D_800E0672);
             context->unk_96 = 0x80;
             context->unk_9B++;
         }

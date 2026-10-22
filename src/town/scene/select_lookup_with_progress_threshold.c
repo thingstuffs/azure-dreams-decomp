@@ -1,5 +1,6 @@
 #include "modules/town_ovl_3ef1c8.h"
 
+/* Looks up a response, applies the helper-result >= 5 override, then checks for a state fallback. */
 void *select_lookup_with_progress_threshold(s32 selector, s32 check_value, s32 lookup_value) {
     void *result;
 

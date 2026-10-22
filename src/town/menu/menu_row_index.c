@@ -1,3 +1,4 @@
+/* Refreshes catalog grid entries and positions the selection sprite using row and column indices. */
 #include "common.h"
 
 typedef struct SpriteFields {

@@ -24,7 +24,7 @@ extern u8 D_800D00B8[16];
 M2C_UNK store_the_valid_shared_angle_in_offset_hex_10();
 extern void update_actor_movement_actions(void);
 extern M2C_UNK D_800D0108;
-M2C_UNK SD_Call();
+s16 SD_Call();
 extern void update_actor_input_actions(void);
 extern M2C_UNK D_800D0110;
 extern u8 D_800D0118[];

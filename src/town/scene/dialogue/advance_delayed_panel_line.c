@@ -17,6 +17,7 @@ typedef struct S_8080BCD4_1 {
 
 extern s32 D_80084D5C;
 
+/* Clears panel flag 2 after a delay, then marks the panel for removal when the linked flag is set. */
 void advance_delayed_panel_line(void *ptr) {
     s16 state;
     u16 remaining;

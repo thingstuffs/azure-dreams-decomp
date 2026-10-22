@@ -1,3 +1,4 @@
+/* Effect texture loading, target tinting, and spiraling model effects with completion tracking. */
 #include "dungeon/effect/motion/update_directional_actor_effect.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/update_directional_actor_effect.h"
@@ -91,6 +92,8 @@ void (*const dungeon_1972800_entry)(void *, void *) = update_directional_actor_e
 /* Advances a timed effect sequence, fading model colors and marking completion. */
 extern void process_effect_modes_and_completion(void *state);
 
+/* Loads effect textures, launches a model effect, darkens and restores its target, and waits for
+   completion. */
 void update_directional_actor_effect(void *effect, void *color_data) {
     s32 upload_rect[2];
     s16 delay_left;

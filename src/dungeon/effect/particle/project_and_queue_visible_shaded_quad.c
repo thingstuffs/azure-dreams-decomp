@@ -1,3 +1,4 @@
+/* Visible shaded quad and point rendering, jittered sprites, and timed emission sequences. */
 #include "dungeon/effect/particle/project_and_queue_visible_shaded_quad.h"
 #include "shared/sprite_frame_state.h"
 void (* const dungeon_1990800_entry)(void *, void *, void *) = advance_effect_sequence;

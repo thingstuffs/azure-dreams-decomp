@@ -55,6 +55,8 @@ extern u8 D_80174090[];
 extern u8 D_80174098[];
 extern u8 D_801740A0[];
 
+/* Displays a directional message, animates a rising attack, applies damage, spends MP, and restores actor
+ * state. */
 void advance_directional_lift_effect(void *action_record, void *motion_data, void *status_record, void *entity_data)
 {
     s32 state;

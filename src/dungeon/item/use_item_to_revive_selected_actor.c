@@ -17,7 +17,7 @@ void adjust_source_value_and_finalize();           /* extern */
 void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
-extern M2C_UNK D_800E1580;
+extern u8 D_800E1580[];
 extern M2C_UNK D_800E15A2;
 extern void *familiar_record_slots[];
 
@@ -86,7 +86,7 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
                 target->unk_1C = (s32) (target->unk_1C & flags_mask);
                 apply_entity_effects(update_target);
                 target_updated = 1;
-                adjust_source_value_and_finalize(target, &D_800E1580);
+                adjust_source_value_and_finalize(target, D_800E1580);
             }
         }
     }

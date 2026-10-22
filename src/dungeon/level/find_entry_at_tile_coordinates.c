@@ -20,6 +20,7 @@ extern Slot floor_objects[];
 extern Status dungeon_floor_object_positions[];
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 
+/* Finds an active floor object at the tile within 64 height units, or returns -1. */
 s32 find_entry_at_tile_coordinates(s16 x, s16 y, s16 z) {
     s32 rv;
     u16 flags;
