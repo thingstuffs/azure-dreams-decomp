@@ -1252,6 +1252,12 @@ void apply_indexed_effect_condition(s32 target, u8 packedValue, void *owner_cont
     if (try_trigger_target_record_effect(target, 1) == 0) {
         s32 valueGroupIndex = packedValue >> 2;
         valueGroupIndex += 2;
+        /*
+         * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
+         * Slot-0 success loses its message; rejected insertion prints success.
+         * try_apply_confusion_status uses the nonnegative success test.
+         */
         if ((set_or_clear_actor_status_slot(target, 0x15, valueGroupIndex) << 16) != 0) {
             adjust_source_value_and_finalize(target, D_800E1CD5);
         }

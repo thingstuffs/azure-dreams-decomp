@@ -32,6 +32,12 @@ void func_800240B8(S_func_8187A800_0 *target, s32 effect_arg, SpriteFrameState *
     s32 message_start;
 
     if (try_trigger_target_record_effect(target, 4) == 0) {
+        /*
+         * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
+         * Slot-0 success instead prints the no-effect message; rejected insertion prints success.
+         * try_apply_confusion_status uses the nonnegative success test.
+         */
         if ((set_or_clear_actor_status_slot(target, 0x14,
                            (s8)(get_random_scaled_value(effect_arg & 0xFF) + 2)) << 16) != 0) {
             if (target->unk_14 & 0x4000) {

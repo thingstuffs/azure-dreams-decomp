@@ -1938,6 +1938,12 @@ void check_the_target_using_scaled_low_byte_conditionally_applies_global_800_e_1
     if (try_trigger_target_record_effect(target, 2) == 0) {
         u32 scaledLowByte = pinnedValue;
         scaledLowByte >>= 2;
+        /*
+         * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
+         * Slot-0 success loses its message; rejected insertion prints success.
+         * try_apply_confusion_status uses the nonnegative success test.
+         */
         if ((set_or_clear_actor_status_slot(target, 0x16, scaledLowByte + 4) << 16) != 0) {
             adjust_source_value_and_finalize(target, D_800E1D01);
         }

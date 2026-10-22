@@ -52,6 +52,12 @@ s32 use_item_to_apply_poison(void *entity, s32 item, s16 action_type) {
     tile = ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_00;
     spawn_randomized_particle_burst((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20,
         ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_9C, 0x802080, 0x20, 1);
+    /*
+     * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 when
+     * insertion fails. This nonzero test suppresses feedback for success in slot 0 and gives
+     * it for failure (-1). try_apply_confusion_status uses the correct nonnegative success
+     * test.
+     */
     if (((set_or_clear_actor_status_slot(entity, 5, 8) << 0x10) != 0) && (((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_28 & 0x4000)) {
         adjust_source_value_and_finalize(entity, D_800E1729);
     }

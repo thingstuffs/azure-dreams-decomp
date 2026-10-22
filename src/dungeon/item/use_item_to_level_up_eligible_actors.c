@@ -74,6 +74,12 @@ s32 use_item_to_level_up_eligible_actors(EntityRec *target, s32 action_id, s16 a
         node = (u8 *)((void *)head->next_actor_header) + 0x20;
         if (node != head) {
             do {
+                /*
+                 * Original bug: the level cap below tests target, the original item user, instead of
+                 * node. When Koh is level 99, this skips every otherwise eligible lower-level actor and
+                 * still consumes the item. raise_entity_level tests the individual actor's level; this
+                 * guard should do the same.
+                 */
                 if (((((S_800BF9EC_2 *)node)->unk_1C & 0x2400) != 0x2000 ||
                      (get_entity_effect_value(node, 12) << 16) != 0) &&
                     (*(u8 *)((u8 *)&target->unk_10 + 1)) < 99) {

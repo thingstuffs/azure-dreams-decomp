@@ -239,3 +239,51 @@ Fusing two frogged familiars masks both saved talent words with the frog's zero 
 
 Source: [merge_creature_abilities_and_state](../src/dungeon/actor/state/merge_creature_abilities_and_state.c#L554).
 
+### Dungeon audit DB001-DB007
+
+These entries are not on the adrando list (may be known elsewhere). IDs identify comment sites;
+DB003-DB006 share one return-value defect. DB001 and DB007 occur in the same food path.
+
+- **DB001 — low-MP creatures eat recovery food without recovering MP.** When a creature with
+  nonzero MP below 64 reaches category-12, subtype-6 food, the selector deletes the item but
+  writes the original fixed-point MP value back unchanged. For example, 1 MP stays 1 MP;
+  the ordinary feeding path adds 10 MP for that food.
+  Source: [select_creature_action_and_target](../src/dungeon/actor/select_creature_action_and_target.c).
+- **DB002 — a level-99 user blocks the area level-up item.** The actor-list loop tests the
+  original user's level instead of each recipient's level. With Koh at 99, otherwise eligible
+  lower-level actors receive no level, and the item is still consumed.
+  Source: [use_item_to_level_up_eligible_actors](../src/dungeon/item/use_item_to_level_up_eligible_actors.c).
+- **DB003-DB006 — four status items test a slot index as a Boolean.** Inserting a status in
+  slot 0 succeeds without the associated feedback. A rejected insertion returns -1 and
+  produces that feedback despite no change. Poison, slow, MP-drain-stop, and enrage handlers
+  have this error; the slow handler also reverses its sound feedback in these cases.
+  Sources: [poison](../src/dungeon/item/use_item_to_apply_poison.c),
+  [slow](../src/dungeon/item/use_item_to_apply_slow.c),
+  [MP-drain-stop](../src/dungeon/item/use_item_to_stop_magic_drain.c),
+  [enrage](../src/dungeon/item/use_item_to_enrage_actor.c).
+- **DB007 — creature-eaten food leaves its tile marked as holding an item.** When the food is
+  not the player's selected floor entry, the generic clear helper deletes its record without
+  clearing tile flag `0x800`. The floor-item placement search then rejects the empty tile
+  and moves a subsequent drop to a neighboring tile.
+  Source: [select_creature_action_and_target](../src/dungeon/actor/select_creature_action_and_target.c).
+
+### Dungeon spell feedback DB008-DB013
+
+These entries are not on the adrando list (may be known elsewhere). They are six more
+sites of the slot-index return-value defect described in DB003-DB006.
+
+- **DB008-DB010 — successful spells can report no effect.** With three status slots
+  occupied, inserting into free slot 0 applies the status but prints the no-effect
+  message for a visible target. Updating an existing status in slot 0 does the same.
+  With all four slots holding IDs 1-4, insertion of status 18, 19 or 20 fails and
+  instead prints the success message. Insertion into slot 3 reports success normally.
+  Sources: [status 18](../src/dungeon/effect/particle/view_parameter_transition.c),
+  [status 19](../src/dungeon/effect/particle/project_textured_quad_or_callback.c),
+  [status 20](../src/dungeon/effect/mesh/transform_and_queue_mesh_primitives.c).
+- **DB011-DB013 — three more spells suppress success and announce rejected statuses.**
+  The handlers for status IDs 21, 22 and 23 also treat the returned slot index as a
+  Boolean: success in slot 0 loses its message, and rejected insertion returns -1
+  and announces success. The status operation itself still follows the allocator's result.
+  Sources: [status 21](../src/dungeon/effect/travel/tint_and_advance_effect.c),
+  [status 22](../src/dungeon/effect/sprite/create_radial_effect_from_source.c),
+  [status 23](../src/dungeon/effect/shade/apply_conditional_target_effect.c).

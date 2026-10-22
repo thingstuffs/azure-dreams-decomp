@@ -71,6 +71,12 @@ void apply_random_actor_value_adjustment(S_func_8186E800_0 *entity, s32 effect_p
     s32 message_start;
 
     if (try_trigger_target_record_effect(entity, 1) == 0) {
+        /*
+         * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
+         * Slot-0 success instead prints the no-effect message; rejected insertion prints success.
+         * try_apply_confusion_status uses the nonnegative success test.
+         */
         if ((set_or_clear_actor_status_slot(entity, 0x12,
                            (s8)(get_random_scaled_value(effect_param & 0xFF) + 2)) << 16) != 0) {
             if (entity->unk_14 & 0x4000) {

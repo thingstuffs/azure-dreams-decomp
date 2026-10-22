@@ -33,6 +33,12 @@ void apply_random_duration_actor_status(void *entity, s32 direction, void *unuse
     s32 message_end;
 
     if (try_trigger_target_record_effect(entity, 2) == 0) {
+        /*
+         * Original bug: set_or_clear_actor_status_slot returns a slot index (0..3), or -1 on
+         * failure. Testing it as nonzero misreports slot 0 as failure and -1 as success.
+         * Slot-0 success instead prints the no-effect message; rejected insertion prints success.
+         * try_apply_confusion_status uses the nonnegative success test.
+         */
         if (set_or_clear_actor_status_slot(
                 entity, 0x13,
                 ((get_random_scaled_value(direction & 0xFF) + 4) << 24) >> 24) << 16) {
