@@ -1,0 +1,25 @@
+{
+  "module": "town_update_item_menu_record_g01150",
+  "ledger_group": {
+    "container": "town",
+    "module": "update_item_menu_record_g01150.c",
+    "module_index": 134222
+  },
+  "members": [
+    "town/func_800B2100",
+    "town/func_800B2150",
+    "town/func_800B220C",
+    "town/func_800B2264",
+    "town/func_800B25A0",
+    "town/func_800B25FC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01150 - CL:town/func_800B2100, CL:town/func_800B2150, CL:town/func_800B2264. Grouping by tools/tu/infer_groups.py (group G01150); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Original ordered group G01150 reconciled to fresh G01027 by exact members or supplied wave-1 mapping.",
+    "Members are the contiguous registered home rows 0x32100..0x32670 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

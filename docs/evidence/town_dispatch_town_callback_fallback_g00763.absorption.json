@@ -1,0 +1,130 @@
+{
+  "module": "town_dispatch_town_callback_fallback_g00763",
+  "retired_modules": [
+    {
+      "key": "town_ovl_6f48d0",
+      "container": "town",
+      "name": "ovl_6f48d0.c",
+      "source": "src/town/scene/dispatch_town_callback_fallback.c",
+      "region": "row_6f48d0_800160d0_lacepi",
+      "headers": [
+        "include/modules/town_ovl_6f48d0.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_807748D0",
+          "source": "src/town/scene/dispatch_town_callback_fallback.c",
+          "function": "func_800160D0",
+          "foff": 7293136,
+          "vma": 2147573968,
+          "size": 88
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80016000",
+          "kind": "runtime_data",
+          "vma": 2147573760,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_ovl_6f48d0.imports.json",
+          "declaration": "include/shared/record_ptrs.h"
+        },
+        {
+          "symbol": "func_80016128",
+          "kind": "function",
+          "vma": 2147574056
+        }
+      ],
+      "membership_evidence": "docs/evidence/town_ovl_6f48d0.membership.json",
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "orchestrator-r120"
+      },
+      "review_inputs": [
+        "docs/evidence/town_ovl_6f48d0.membership.json",
+        "docs/evidence/town_ovl_6f48d0.imports.json",
+        "docs/evidence/town_ovl_6f48d0.md"
+      ]
+    }
+  ],
+  "frozen_inputs": {
+    "docs/evidence/town_ovl_6f48d0.imports.json": "69a0a19e50344521f9e66d36a0f3a7aebca8d61464f649501ee2be6e900e95ca",
+    "include/shared/town_state.h": "a09e6bbb54eb6dff79381ce8e15fb7fc4a8073642cb999d04467490a0e81727a",
+    "include/modules/town_ovl_6f48d0.h": "0b22733db2a2e10076bc9d96bd8a9f03bbf0aa5548d748a4686601af2dba4312",
+    "include/shared/record_ptrs.h": "217c0f7dd6f2d196310deb6465b673a2ce8f1ce2cdde483fb8dbfce408fa5ba3",
+    "src/town/scene/dispatch_town_callback_fallback.c": "fc4ab1b69bf738a6d373df68bb16d0190246cb42585b2ccc49d5650a153635eb",
+    "docs/evidence/town_ovl_6f48d0.md": "9a68865ce7b18a634fcfb0207b9cbfe27d1616b89f7588d936cf6bcd45608556",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "docs/evidence/town_ovl_6f48d0.membership.json": "8dda4ae2bc532c5ff6c33714f7a242ab7ce95d12b7dd09af28c979168944e20d",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/shared/town_services.h": "c402bcf42079d6be18549cf750a086cf8b4ec8fa9b05d41dd9bea60cdad6fb46",
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "include/shared/town_root.h": "632e1b2dcc4e3f6dd9b2bf7749552f6aad937756ccfdd67ad4ba58130ede863c",
+    "include/shared/town_pointees.h": "aa630f22046234471631f54923a752f0e8ae055bf6a93bcdf9af937d560d611b"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/town/scene/dispatch_town_callback_fallback.c",
+      "tu_new": "src/town/scene/dispatch_town_callback_fallback.c",
+      "member": "src/town/func_807748D0.c",
+      "member_id": "town/func_807748D0",
+      "manifest_key": "town_ovl_6f48d0",
+      "order": 1,
+      "offset": 37,
+      "source_sha256": "09b1b891a60d5ef307cfcdd438635907ed28c8e85461fc947ab96d9a73061c57",
+      "bytes": 431,
+      "inlined_bytes": 431,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "town_dispatch_town_callback_fallback_g00763",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 2,
+    "member_text_bytes": 132,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 132,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 12,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "town/func_807748D0",
+        "members": [
+          "town/func_807748D0"
+        ],
+        "text": 88,
+        "source": "src/town/scene/dispatch_town_callback_fallback.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_80774928",
+        "members": [
+          "town/func_80774928"
+        ],
+        "text": 44,
+        "source": "src/town/scene/hooks/set_shared_buffer_pointers.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "f8270da1662432edcc3d5f794017dcec19f121e3e2554da3752ca9aa6e67057b",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

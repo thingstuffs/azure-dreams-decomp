@@ -1,0 +1,28 @@
+/* Dispatch town callback fallback g00763.
+ * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00763 - CL:town/func_80774928.
+ */
+#include "town/scene/dispatch_town_callback_fallback_g00763.h"
+
+void dispatch_town_callback_or_fallback(s32 value0, s32 value1)
+{
+    void *ptr;
+    s32 callbackIndex;
+
+    ptr = D_80016000;
+
+    callbackIndex = ((Rec_D_80016000 *)ptr)->unk_08;
+    ptr = ((Rec_D_80016000 *)ptr)->unk_40;
+    ptr = (u8 *)ptr + callbackIndex * sizeof(CallbackEntry);
+    ptr = *(void **)ptr;
+
+    if (ptr == 0) {
+        set_shared_buffer_pointers(value0, value1);
+        return;
+    }
+    ((Callback)ptr)();
+}
+
+void set_shared_buffer_pointers(s32 unused0, s32 unused1) {
+    D_800174D8 = D_80017404;
+    ((State *)D_80016000)->child->value = D_8001770A;
+}

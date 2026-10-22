@@ -468,10 +468,13 @@ def attest_graph(graph, registry):
     for key, entry in graph.entries.items():
         if entry['kind'] != 'tu':
             continue
-        a, witness = entry['attributes'], graph.tus[entry['tu']]['recipe_witness']
+        a = entry['attributes']
+        witness = entry.get('recipe_witness', graph.tus[entry['tu']]['recipe_witness'])
         row = registry[a['row']]
         if (row['foff'], row['size'], row['cfg']) != (number(a['foff']), number(a['size']), witness['cfg']):
             raise ValueError('live registry differs from graph placement: ' + a['row'])
+        if row.get('row_asflags') != witness.get('row_asflags'):
+            raise ValueError('live assembler flags differ from graph placement: ' + a['row'])
         placements[key] = dict(row=row['id'], home=row.get('source_row') or row['id'],
                                cfg=row['cfg'], row_asflags=row.get('row_asflags'))
     return dict(schema='azure-clean.live-graph.v1', inputs=inputs, tus=tus, placements=placements)

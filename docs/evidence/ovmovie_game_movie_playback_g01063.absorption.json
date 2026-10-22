@@ -1,0 +1,816 @@
+{
+  "module": "ovmovie_game_movie_playback_g01063",
+  "retired_modules": [
+    {
+      "key": "ovmovie_movie_display_setup_g00426",
+      "container": "ovmovie",
+      "name": "movie_display_setup_g00426.c",
+      "region": "ovmovie_resident",
+      "source": "src/ovmovie/movie_display_setup_g00426.c",
+      "headers": [
+        "include/ovmovie/movie_display_setup_g00426.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "ovmovie/func_800400AC",
+          "source": "src/ovmovie/movie_display_setup_g00426.c",
+          "function": "func_801768AC",
+          "foff": 172,
+          "vma": 2149017772,
+          "size": 556
+        },
+        {
+          "id": "ovmovie/func_800402D8",
+          "source": "src/ovmovie/movie_display_setup_g00426.c",
+          "function": "func_80176AD8",
+          "foff": 728,
+          "vma": 2149018328,
+          "size": 100
+        },
+        {
+          "id": "ovmovie/func_8004033C",
+          "source": "src/ovmovie/movie_display_setup_g00426.c",
+          "function": "func_80176B3C",
+          "foff": 828,
+          "vma": 2149018428,
+          "size": 36
+        },
+        {
+          "id": "ovmovie/func_80040360",
+          "source": "src/ovmovie/movie_display_setup_g00426.c",
+          "function": "func_80176B60",
+          "foff": 864,
+          "vma": 2149018464,
+          "size": 140
+        },
+        {
+          "id": "ovmovie/func_800403EC",
+          "source": "src/ovmovie/movie_display_setup_g00426.c",
+          "function": "func_80176BEC",
+          "foff": 1004,
+          "vma": 2149018604,
+          "size": 188
+        },
+        {
+          "id": "ovmovie/func_800404A8",
+          "source": "src/ovmovie/movie_display_setup_g00426.c",
+          "function": "func_80176CA8",
+          "foff": 1192,
+          "vma": 2149018792,
+          "size": 488
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80080A88",
+          "kind": "runtime_data",
+          "vma": 2148010632,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+          "declaration": "src/ovmovie/modules/ovmovie_game.h"
+        },
+        {
+          "symbol": "D_80082E60",
+          "kind": "runtime_data",
+          "vma": 2148019808,
+          "view_bytes": 28,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+          "declaration": "include/shared/runtime_dispatch.h"
+        },
+        {
+          "symbol": "D_80086D8C",
+          "kind": "runtime_data",
+          "vma": 2148035980,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+          "declaration": "src/ovmovie/modules/ovmovie_game.h"
+        },
+        {
+          "symbol": "D_801781D8",
+          "kind": "data",
+          "vma": 2149024216,
+          "foff": 6616,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_801781DC",
+          "kind": "data",
+          "vma": 2149024220,
+          "foff": 6620,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_801781E0",
+          "kind": "data",
+          "vma": 2149024224,
+          "foff": 6624,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_80189390",
+          "kind": "runtime_data",
+          "vma": 2149094288,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "D_80189394",
+          "kind": "runtime_data",
+          "vma": 2149094292,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "D_801B8EB8",
+          "kind": "runtime_data",
+          "vma": 2149289656,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "D_801B8EBC",
+          "kind": "runtime_data",
+          "vma": 2149289660,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "D_801C9E40",
+          "kind": "runtime_data",
+          "vma": 2149359168,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "func_8003E4FC",
+          "kind": "function",
+          "vma": 2147738876
+        },
+        {
+          "symbol": "func_8003F320",
+          "kind": "function",
+          "vma": 2147742496
+        },
+        {
+          "symbol": "func_80053DA8",
+          "kind": "function",
+          "vma": 2147827112
+        },
+        {
+          "symbol": "func_800542BC",
+          "kind": "function",
+          "vma": 2147828412
+        },
+        {
+          "symbol": "func_8005A4E8",
+          "kind": "function",
+          "vma": 2147853544
+        },
+        {
+          "symbol": "func_8005A56C",
+          "kind": "function",
+          "vma": 2147853676
+        },
+        {
+          "symbol": "func_8005FE18",
+          "kind": "function",
+          "vma": 2147876376
+        },
+        {
+          "symbol": "func_80060B04",
+          "kind": "function",
+          "vma": 2147879684
+        },
+        {
+          "symbol": "func_80060DE8",
+          "kind": "function",
+          "vma": 2147880424
+        },
+        {
+          "symbol": "func_80061208",
+          "kind": "function",
+          "vma": 2147881480
+        },
+        {
+          "symbol": "func_800636AC",
+          "kind": "function",
+          "vma": 2147890860
+        },
+        {
+          "symbol": "func_8006390C",
+          "kind": "function",
+          "vma": 2147891468
+        },
+        {
+          "symbol": "func_80066F78",
+          "kind": "function",
+          "vma": 2147905400
+        },
+        {
+          "symbol": "func_80067014",
+          "kind": "function",
+          "vma": 2147905556
+        },
+        {
+          "symbol": "func_800671A8",
+          "kind": "function",
+          "vma": 2147905960
+        },
+        {
+          "symbol": "func_800672D8",
+          "kind": "function",
+          "vma": 2147906264
+        },
+        {
+          "symbol": "func_8006751C",
+          "kind": "function",
+          "vma": 2147906844
+        },
+        {
+          "symbol": "func_80067688",
+          "kind": "function",
+          "vma": 2147907208
+        },
+        {
+          "symbol": "func_800678E0",
+          "kind": "function",
+          "vma": 2147907808
+        },
+        {
+          "symbol": "func_80177154",
+          "kind": "function",
+          "vma": 2149019988
+        },
+        {
+          "symbol": "func_8017719C",
+          "kind": "function",
+          "vma": 2149020060
+        },
+        {
+          "symbol": "func_801776D8",
+          "kind": "function",
+          "vma": 2149021400
+        },
+        {
+          "symbol": "func_801778C0",
+          "kind": "function",
+          "vma": 2149021888
+        },
+        {
+          "symbol": "func_8017797C",
+          "kind": "function",
+          "vma": 2149022076
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tub11"
+      },
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_display_setup_g00426.md",
+        "docs/evidence/ovmovie_movie_display_setup_g00426.membership.json",
+        "docs/evidence/ovmovie_movie_display_setup_g00426.recipe.json",
+        "docs/evidence/ovmovie_game.imports.pending.json",
+        "docs/evidence/ovmovie_game_w1o1.md",
+        "src/ovmovie/modules/ovmovie_game.h",
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.recipe.json"
+      }
+    },
+    {
+      "key": "ovmovie_movie_frame_playback_g00427",
+      "container": "ovmovie",
+      "name": "movie_frame_playback_g00427.c",
+      "region": "ovmovie_resident",
+      "source": "src/ovmovie/movie_frame_playback_g00427.c",
+      "headers": [
+        "include/ovmovie/movie_frame_playback_g00427.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "ovmovie/func_80040690",
+          "source": "src/ovmovie/movie_frame_playback_g00427.c",
+          "function": "func_80176E90",
+          "foff": 1680,
+          "vma": 2149019280,
+          "size": 156
+        },
+        {
+          "id": "ovmovie/func_8004072C",
+          "source": "src/ovmovie/movie_frame_playback_g00427.c",
+          "function": "func_80176F2C",
+          "foff": 1836,
+          "vma": 2149019436,
+          "size": 400
+        },
+        {
+          "id": "ovmovie/func_800408BC",
+          "source": "src/ovmovie/movie_frame_playback_g00427.c",
+          "function": "func_801770BC",
+          "foff": 2236,
+          "vma": 2149019836,
+          "size": 152
+        },
+        {
+          "id": "ovmovie/func_80040954",
+          "source": "src/ovmovie/movie_frame_playback_g00427.c",
+          "function": "func_80177154",
+          "foff": 2388,
+          "vma": 2149019988,
+          "size": 72
+        },
+        {
+          "id": "ovmovie/func_8004099C",
+          "source": "src/ovmovie/movie_frame_playback_g00427.c",
+          "function": "func_8017719C",
+          "foff": 2460,
+          "vma": 2149020060,
+          "size": 1340
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80082E6B",
+          "kind": "runtime_data",
+          "vma": 2148019819,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
+          "declaration": "src/ovmovie/modules/ovmovie_game.h"
+        },
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
+          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+        },
+        {
+          "symbol": "D_801781D0",
+          "kind": "data",
+          "vma": 2149024208,
+          "foff": 6608,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_801781D4",
+          "kind": "data",
+          "vma": 2149024212,
+          "foff": 6612,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_801781E0",
+          "kind": "data",
+          "vma": 2149024224,
+          "foff": 6624,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_80189388",
+          "kind": "runtime_data",
+          "vma": 2149094280,
+          "view_bytes": 8,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
+          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+        },
+        {
+          "symbol": "D_80189390",
+          "kind": "runtime_data",
+          "vma": 2149094288,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
+          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+        },
+        {
+          "symbol": "D_80189398",
+          "kind": "runtime_data",
+          "vma": 2149094296,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
+          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+        },
+        {
+          "symbol": "D_801B8EBC",
+          "kind": "runtime_data",
+          "vma": 2149289660,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
+          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+        },
+        {
+          "symbol": "D_801C9E40",
+          "kind": "runtime_data",
+          "vma": 2149359168,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
+          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+        },
+        {
+          "symbol": "func_8003E240",
+          "kind": "function",
+          "vma": 2147738176
+        },
+        {
+          "symbol": "func_8003E4FC",
+          "kind": "function",
+          "vma": 2147738876
+        },
+        {
+          "symbol": "func_8003F320",
+          "kind": "function",
+          "vma": 2147742496
+        },
+        {
+          "symbol": "func_8005A4E8",
+          "kind": "function",
+          "vma": 2147853544
+        },
+        {
+          "symbol": "func_8005A56C",
+          "kind": "function",
+          "vma": 2147853676
+        },
+        {
+          "symbol": "func_8005FE18",
+          "kind": "function",
+          "vma": 2147876376
+        },
+        {
+          "symbol": "func_80060D90",
+          "kind": "function",
+          "vma": 2147880336
+        },
+        {
+          "symbol": "func_8006124C",
+          "kind": "function",
+          "vma": 2147881548
+        },
+        {
+          "symbol": "func_80061350",
+          "kind": "function",
+          "vma": 2147881808
+        },
+        {
+          "symbol": "func_80063424",
+          "kind": "function",
+          "vma": 2147890212
+        },
+        {
+          "symbol": "func_80063538",
+          "kind": "function",
+          "vma": 2147890488
+        },
+        {
+          "symbol": "func_80063734",
+          "kind": "function",
+          "vma": 2147890996
+        },
+        {
+          "symbol": "func_80063828",
+          "kind": "function",
+          "vma": 2147891240
+        },
+        {
+          "symbol": "func_8006636C",
+          "kind": "function",
+          "vma": 2147902316
+        },
+        {
+          "symbol": "func_80066424",
+          "kind": "function",
+          "vma": 2147902500
+        },
+        {
+          "symbol": "func_80066F78",
+          "kind": "function",
+          "vma": 2147905400
+        },
+        {
+          "symbol": "func_80067688",
+          "kind": "function",
+          "vma": 2147907208
+        },
+        {
+          "symbol": "func_800678E0",
+          "kind": "function",
+          "vma": 2147907808
+        },
+        {
+          "symbol": "func_80176B60",
+          "kind": "function",
+          "vma": 2149018464
+        },
+        {
+          "symbol": "func_80176BEC",
+          "kind": "function",
+          "vma": 2149018604
+        },
+        {
+          "symbol": "func_80176CA8",
+          "kind": "function",
+          "vma": 2149018792
+        },
+        {
+          "symbol": "func_80177844",
+          "kind": "function",
+          "vma": 2149021764
+        },
+        {
+          "symbol": "func_801778C0",
+          "kind": "function",
+          "vma": 2149021888
+        },
+        {
+          "symbol": "func_80177E6C",
+          "kind": "function",
+          "vma": 2149023340
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tub11"
+      },
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.md",
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.membership.json",
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.recipe.json",
+        "docs/evidence/ovmovie_game.imports.pending.json",
+        "docs/evidence/ovmovie_game_w1o1.md",
+        "src/ovmovie/modules/ovmovie_game.h",
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "docs/evidence/ovmovie_movie_display_setup_g00426.membership.json": "0321897e26d7f1d188d0065b03a52bc8d463445a5ac27078a0f24b4e834ee04d",
+    "docs/evidence/ovmovie_movie_display_setup_g00426.md": "5cf5f68374c7a932fc1ec1bf86e3291bb22640abecd107f5e3158dc55f3ebfc0",
+    "docs/evidence/ovmovie_movie_display_setup_g00426.recipe.json": "bc27cf07bf8157548c40049dfae01853b82aeb7e45ca081bd26db09f4e39921a",
+    "include/shared/runtime_dispatch.h": "f266fe224136905553878956b1c48e8f8a3b687ed3294d30a27ed2d4a87729b7",
+    "src/ovmovie/movie_display_setup_g00426.c": "25bc6464318bb336d127b300373786b3797b8af1f0636b777d81f1077f2f5b08",
+    "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json": "eea1ec0d9ac0a38fccf3d12976abf95822e9b6a300a3e1ac541984889e40d8c0",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "src/ovmovie/modules/ovmovie_game.h": "707bd37e160d1a66a401c969572987c3fd36c99c4dfde98e416394077827ff92",
+    "docs/evidence/ovmovie_game.imports.pending.json": "8e6bf8acfc58bbb7515c296510608d81f2c8d32227462bbd8b06660c0cd64f53",
+    "include/shared/game_work.h": "b3689954b360c96c8787131e22aa24034210b1a0b2a715a3273e1f660105e292",
+    "docs/evidence/ovmovie_game_w1o1.md": "dff241b487b806818d7746a98d89f57723ecbdc47e4d15752905c67a4a59c05a",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/ovmovie/movie_display_setup_g00426.h": "32a7705a14c7b82dd7509f7196f5d3fb1f64e6964a107c9c7ef91a618541b183",
+    "include/ovmovie/movie_frame_playback_g00427.h": "aec35b12955fae6f93947e34cdd5d3bceecb593b540675795fbedf0258110a83",
+    "docs/evidence/ovmovie_movie_frame_playback_g00427.membership.json": "896122719639ec7662301a89e45615845fd60e64142c6fa31f1a77a5e4125894",
+    "src/ovmovie/movie_frame_playback_g00427.c": "f419d67b35bad8abf9ac92b3261f5698830d63350d54a0ac7803f605ede3441f",
+    "docs/evidence/ovmovie_movie_frame_playback_g00427.recipe.json": "44e54f197c23e8a79c4e0527ba7adecd953d19022bf93cbdfc145f8a042b4203",
+    "docs/evidence/ovmovie_movie_frame_playback_g00427.md": "3dcf43b2e8911c4351611ded6f884ccfb39dc25229308153a707481d842bf470",
+    "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json": "564552fb6d35d6e4968b998671867dbab1ebd525d7df003f1330e235c138b8f7"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/ovmovie/movie_display_setup_g00426.c",
+      "tu_new": "src/ovmovie/movie_display_setup_g00426.c",
+      "member": "src/ovmovie/func_800400AC.c",
+      "member_id": "ovmovie/func_800400AC",
+      "manifest_key": "ovmovie_movie_display_setup_g00426",
+      "order": 1,
+      "offset": 406,
+      "source_sha256": "012f716ff20734cd56237681a50b42adbc059eee78ec768bdca097b9c67636b6",
+      "bytes": 2775,
+      "inlined_bytes": 2775,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_display_setup_g00426.c",
+      "tu_new": "src/ovmovie/movie_display_setup_g00426.c",
+      "member": "src/ovmovie/func_800402D8.c",
+      "member_id": "ovmovie/func_800402D8",
+      "manifest_key": "ovmovie_movie_display_setup_g00426",
+      "order": 2,
+      "offset": 3182,
+      "source_sha256": "668759956f95cb692acf3cc696c99e61b6504f99d21f73048fe9519999b5473d",
+      "bytes": 440,
+      "inlined_bytes": 440,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_display_setup_g00426.c",
+      "tu_new": "src/ovmovie/movie_display_setup_g00426.c",
+      "member": "src/ovmovie/func_8004033C.c",
+      "member_id": "ovmovie/func_8004033C",
+      "manifest_key": "ovmovie_movie_display_setup_g00426",
+      "order": 3,
+      "offset": 3623,
+      "source_sha256": "eaa5c91d5f298ceebd7ff5ad7707e0053ba86fe24fbfe4fa62d71d83c951b674",
+      "bytes": 206,
+      "inlined_bytes": 206,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_display_setup_g00426.c",
+      "tu_new": "src/ovmovie/movie_display_setup_g00426.c",
+      "member": "src/ovmovie/func_80040360.c",
+      "member_id": "ovmovie/func_80040360",
+      "manifest_key": "ovmovie_movie_display_setup_g00426",
+      "order": 4,
+      "offset": 3830,
+      "source_sha256": "39fe44a9fd9778980d4d6e9bb75c0ebc6e4ddbbb28215cd4419945dc9438c60e",
+      "bytes": 459,
+      "inlined_bytes": 459,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_display_setup_g00426.c",
+      "tu_new": "src/ovmovie/movie_display_setup_g00426.c",
+      "member": "src/ovmovie/func_800403EC.c",
+      "member_id": "ovmovie/func_800403EC",
+      "manifest_key": "ovmovie_movie_display_setup_g00426",
+      "order": 5,
+      "offset": 4290,
+      "source_sha256": "1ca81bbc0633c668df629b0674ff173a0aa18624cd7dcece160ac6cbfc840570",
+      "bytes": 1541,
+      "inlined_bytes": 1541,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_display_setup_g00426.c",
+      "tu_new": "src/ovmovie/movie_display_setup_g00426.c",
+      "member": "src/ovmovie/func_800404A8.c",
+      "member_id": "ovmovie/func_800404A8",
+      "manifest_key": "ovmovie_movie_display_setup_g00426",
+      "order": 6,
+      "offset": 5832,
+      "source_sha256": "576b6dd5a53fc050a456fd6ad26efaab6f4d469343d21a631edeb2532aa0e986",
+      "bytes": 1081,
+      "inlined_bytes": 1081,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_frame_playback_g00427.c",
+      "tu_new": "src/ovmovie/movie_frame_playback_g00427.c",
+      "member": "src/ovmovie/func_80040690.c",
+      "member_id": "ovmovie/func_80040690",
+      "manifest_key": "ovmovie_movie_frame_playback_g00427",
+      "order": 1,
+      "offset": 401,
+      "source_sha256": "e33bb16683739f962aeb74be9c9458b3ba9b9dfed07861a15c82df285dcaec6a",
+      "bytes": 681,
+      "inlined_bytes": 681,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_frame_playback_g00427.c",
+      "tu_new": "src/ovmovie/movie_frame_playback_g00427.c",
+      "member": "src/ovmovie/func_8004072C.c",
+      "member_id": "ovmovie/func_8004072C",
+      "manifest_key": "ovmovie_movie_frame_playback_g00427",
+      "order": 2,
+      "offset": 1083,
+      "source_sha256": "02ceb694837370760a11f300ee8ce3fb15e2872e4394dc50d149cbd7f8c38bfb",
+      "bytes": 1149,
+      "inlined_bytes": 1149,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_frame_playback_g00427.c",
+      "tu_new": "src/ovmovie/movie_frame_playback_g00427.c",
+      "member": "src/ovmovie/func_800408BC.c",
+      "member_id": "ovmovie/func_800408BC",
+      "manifest_key": "ovmovie_movie_frame_playback_g00427",
+      "order": 3,
+      "offset": 2233,
+      "source_sha256": "3e9c5f43ace2168f14414a18329ddd182f6fb2243a920a3fbbd35549140f45ea",
+      "bytes": 838,
+      "inlined_bytes": 838,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_frame_playback_g00427.c",
+      "tu_new": "src/ovmovie/movie_frame_playback_g00427.c",
+      "member": "src/ovmovie/func_80040954.c",
+      "member_id": "ovmovie/func_80040954",
+      "manifest_key": "ovmovie_movie_frame_playback_g00427",
+      "order": 4,
+      "offset": 3072,
+      "source_sha256": "a8179d575a85f453d0587e3350cb3f8d7ba86ad6046d9408696b77849f113202",
+      "bytes": 259,
+      "inlined_bytes": 259,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/ovmovie/movie_frame_playback_g00427.c",
+      "tu_new": "src/ovmovie/movie_frame_playback_g00427.c",
+      "member": "src/ovmovie/func_8004099C.c",
+      "member_id": "ovmovie/func_8004099C",
+      "manifest_key": "ovmovie_movie_frame_playback_g00427",
+      "order": 5,
+      "offset": 3332,
+      "source_sha256": "d6c9bbf94b0f381b3dd82e6625105b01774f644b217d10e0a827b1fa4f1b98f6",
+      "bytes": 5024,
+      "inlined_bytes": 5024,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "ovmovie_game_movie_playback_g01063",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 11,
+    "member_text_bytes": 3628,
+    "switch_tables": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 3628,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 214,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "ovmovie/func_800400AC",
+        "members": [
+          "ovmovie/func_800400AC",
+          "ovmovie/func_800402D8",
+          "ovmovie/func_8004033C",
+          "ovmovie/func_80040360",
+          "ovmovie/func_800403EC",
+          "ovmovie/func_800404A8"
+        ],
+        "text": 1508,
+        "source": "src/ovmovie/movie_display_setup_g00426.c",
+        "other_sections": {}
+      },
+      {
+        "id": "ovmovie/func_80040690",
+        "members": [
+          "ovmovie/func_80040690",
+          "ovmovie/func_8004072C",
+          "ovmovie/func_800408BC",
+          "ovmovie/func_80040954",
+          "ovmovie/func_8004099C"
+        ],
+        "text": 2120,
+        "source": "src/ovmovie/movie_frame_playback_g00427.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "d9245a4068f7677e421b2add227e4802e4609e6c6a1c351440fb22072ba6d168",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

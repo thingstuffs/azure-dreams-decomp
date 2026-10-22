@@ -21,7 +21,7 @@
     },
     {
       "row": "town/func_807770D0",
-      "tu": "src/town/scene/dispatch_town_callback_fallback.c",
+      "tu": "src/town/scene/dispatch_town_callback_fallback_g00763.c",
       "home": "town/func_807748D0",
       "foff": "0x6F70D0",
       "vma": "0x800160D0",
@@ -29,13 +29,15 @@
       "bindings": {
         "0x80016000": "0x80016000",
         "0x80016128": "0x80016128",
-        "0x800160D0": "0x800160D0"
+        "0x800160D0": "0x800160D0",
+        "0x800174D8": "0x800174D0",
+        "0x8001770A": "0x800176F5"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
       "row": "town/func_80777128",
-      "tu": "src/town/scene/hooks/set_shared_buffer_pointers.c",
+      "tu": "src/town/scene/dispatch_town_callback_fallback_g00763.c",
       "home": "town/func_80774928",
       "foff": "0x6F7128",
       "vma": "0x80016128",

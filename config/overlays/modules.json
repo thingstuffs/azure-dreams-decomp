@@ -70413,59 +70413,6 @@
       }
     },
     {
-      "key": "town_ovl_6f48d0",
-      "container": "town",
-      "name": "ovl_6f48d0.c",
-      "source": "src/town/scene/dispatch_town_callback_fallback.c",
-      "region": "row_6f48d0_800160d0_lacepi",
-      "headers": [
-        "include/modules/town_ovl_6f48d0.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_807748D0",
-          "source": "src/town/scene/dispatch_town_callback_fallback.c",
-          "function": "func_800160D0",
-          "foff": 7293136,
-          "vma": 2147573968,
-          "size": 88
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_80016000",
-          "kind": "runtime_data",
-          "vma": 2147573760,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_ovl_6f48d0.imports.json",
-          "declaration": "include/shared/record_ptrs.h"
-        },
-        {
-          "symbol": "func_80016128",
-          "kind": "function",
-          "vma": 2147574056
-        }
-      ],
-      "membership_evidence": "docs/evidence/town_ovl_6f48d0.membership.json",
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "orchestrator-r120"
-      },
-      "review_inputs": [
-        "docs/evidence/town_ovl_6f48d0.membership.json",
-        "docs/evidence/town_ovl_6f48d0.imports.json",
-        "docs/evidence/town_ovl_6f48d0.md"
-      ]
-    },
-    {
       "key": "dungeon_item_slot_search",
       "container": "dungeon",
       "name": "item_slot_search.c",
@@ -74465,232 +74412,6 @@
       }
     },
     {
-      "key": "town_shop_position_object_initialization_g00563",
-      "container": "town",
-      "name": "position_object_initialization_g00563.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/shop/position_object_initialization_g00563.c",
-      "headers": [
-        "include/town/shop/position_object_initialization_g00563.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_800A2ACC",
-          "source": "src/town/shop/position_object_initialization_g00563.c",
-          "function": "func_800A022C",
-          "foff": 142028,
-          "vma": 2148139564,
-          "size": 80
-        },
-        {
-          "id": "town/func_800A2B1C",
-          "source": "src/town/shop/position_object_initialization_g00563.c",
-          "function": "func_800A027C",
-          "foff": 142108,
-          "vma": 2148139644,
-          "size": 352
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_8006E240",
-          "kind": "runtime_data",
-          "vma": 2147934784,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_shop_position_object_initialization_g00563.imports.json",
-          "declaration": "include/town/shop/position_object_initialization_g00563.h"
-        },
-        {
-          "symbol": "D_80083498",
-          "kind": "runtime_data",
-          "vma": 2148021400,
-          "view_bytes": 32,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_shop_position_object_initialization_g00563.imports.json",
-          "declaration": "include/shared/object_node.h"
-        },
-        {
-          "symbol": "D_8009BC44",
-          "kind": "data",
-          "vma": 2148121668,
-          "foff": 124132,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800D073C",
-          "kind": "data",
-          "vma": 2148337468,
-          "foff": 339932,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800D0754",
-          "kind": "data",
-          "vma": 2148337492,
-          "foff": 339956,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800D076C",
-          "kind": "data",
-          "vma": 2148337516,
-          "foff": 339980,
-          "view_bytes": 33,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "func_8003FD64",
-          "kind": "function",
-          "vma": 2147745124
-        },
-        {
-          "symbol": "func_8004A658",
-          "kind": "function",
-          "vma": 2147788376
-        },
-        {
-          "symbol": "func_8008F0D4",
-          "kind": "function",
-          "vma": 2148069588
-        },
-        {
-          "symbol": "func_8009539C",
-          "kind": "function",
-          "vma": 2148094876
-        },
-        {
-          "symbol": "func_8009B218",
-          "kind": "function",
-          "vma": 2148119064
-        },
-        {
-          "symbol": "func_8009DEBC",
-          "kind": "function",
-          "vma": 2148130492
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w_tub1"
-      },
-      "review_inputs": [
-        "docs/evidence/town_shop_position_object_initialization_g00563.md",
-        "docs/evidence/town_shop_position_object_initialization_g00563.membership.json",
-        "docs/evidence/town_shop_position_object_initialization_g00563.recipe.json",
-        "docs/evidence/town_shop_position_object_initialization_g00563.imports.json"
-      ],
-      "membership_evidence": "docs/evidence/town_shop_position_object_initialization_g00563.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_shop_position_object_initialization_g00563.recipe.json"
-      }
-    },
-    {
-      "key": "town_shop_entry_queue_g00564",
-      "container": "town",
-      "name": "entry_queue_g00564.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/shop/entry_queue_g00564.c",
-      "headers": [
-        "include/town/shop/entry_queue_g00564.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_800A2C7C",
-          "source": "src/town/shop/entry_queue_g00564.c",
-          "function": "func_800A03DC",
-          "foff": 142460,
-          "vma": 2148139996,
-          "size": 40
-        },
-        {
-          "id": "town/func_800A2CA4",
-          "source": "src/town/shop/entry_queue_g00564.c",
-          "function": "func_800A0404",
-          "foff": 142500,
-          "vma": 2148140036,
-          "size": 164
-        },
-        {
-          "id": "town/func_800A2D48",
-          "source": "src/town/shop/entry_queue_g00564.c",
-          "function": "func_800A04A8",
-          "foff": 142664,
-          "vma": 2148140200,
-          "size": 12
-        },
-        {
-          "id": "town/func_800A2D54",
-          "source": "src/town/shop/entry_queue_g00564.c",
-          "function": "func_800A04B4",
-          "foff": 142676,
-          "vma": 2148140212,
-          "size": 80
-        },
-        {
-          "id": "town/func_800A2DA4",
-          "source": "src/town/shop/entry_queue_g00564.c",
-          "function": "func_800A0504",
-          "foff": 142756,
-          "vma": 2148140292,
-          "size": 92
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_80100AA0",
-          "kind": "data",
-          "vma": 2148534944,
-          "foff": 537408,
-          "view_bytes": 80,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "func_800A027C",
-          "kind": "function",
-          "vma": 2148139644
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w_tub1"
-      },
-      "review_inputs": [
-        "docs/evidence/town_shop_entry_queue_g00564.md",
-        "docs/evidence/town_shop_entry_queue_g00564.membership.json",
-        "docs/evidence/town_shop_entry_queue_g00564.recipe.json"
-      ],
-      "membership_evidence": "docs/evidence/town_shop_entry_queue_g00564.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_shop_entry_queue_g00564.recipe.json"
-      }
-    },
-    {
       "key": "town_shop_twin_shop_input_g00597",
       "container": "town",
       "name": "twin_shop_input_g00597.c",
@@ -75180,168 +74901,6 @@
       }
     },
     {
-      "key": "town_shop_item_menu_selection_steps_g00604",
-      "container": "town",
-      "name": "item_menu_selection_steps_g00604.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/shop/item_menu_selection_steps_g00604.c",
-      "headers": [
-        "include/town/shop/item_menu_selection_steps_g00604.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_800B2150",
-          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
-          "function": "func_800AF8B0",
-          "foff": 205136,
-          "vma": 2148202672,
-          "size": 188
-        },
-        {
-          "id": "town/func_800B220C",
-          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
-          "function": "func_800AF96C",
-          "foff": 205324,
-          "vma": 2148202860,
-          "size": 88
-        },
-        {
-          "id": "town/func_800B2264",
-          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
-          "function": "func_800AF9C4",
-          "foff": 205412,
-          "vma": 2148202948,
-          "size": 828
-        },
-        {
-          "id": "town/func_800B25A0",
-          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
-          "function": "func_800AFD00",
-          "foff": 206240,
-          "vma": 2148203776,
-          "size": 92
-        },
-        {
-          "id": "town/func_800B25FC",
-          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
-          "function": "func_800AFD5C",
-          "foff": 206332,
-          "vma": 2148203868,
-          "size": 116
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_80083160",
-          "kind": "runtime_data",
-          "vma": 2148020576,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_shop_item_menu_selection_steps_g00604.imports.json",
-          "declaration": "include/town/shop/item_menu_selection_steps_g00604.h"
-        },
-        {
-          "symbol": "D_800891F4",
-          "kind": "data",
-          "vma": 2148045300,
-          "foff": 47764,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800AF96C",
-          "kind": "data",
-          "vma": 2148202860,
-          "foff": 205324,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800AFD00",
-          "kind": "data",
-          "vma": 2148203776,
-          "foff": 206240,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "func_80049490",
-          "kind": "function",
-          "vma": 2147783824
-        },
-        {
-          "symbol": "func_800497F4",
-          "kind": "function",
-          "vma": 2147784692
-        },
-        {
-          "symbol": "func_80049E1C",
-          "kind": "function",
-          "vma": 2147786268
-        },
-        {
-          "symbol": "func_8004B08C",
-          "kind": "function",
-          "vma": 2147790988
-        },
-        {
-          "symbol": "func_8004CB2C",
-          "kind": "function",
-          "vma": 2147797804
-        },
-        {
-          "symbol": "func_80053DA8",
-          "kind": "function",
-          "vma": 2147827112
-        },
-        {
-          "symbol": "func_800AE484",
-          "kind": "function",
-          "vma": 2148197508
-        },
-        {
-          "symbol": "func_800AF36C",
-          "kind": "function",
-          "vma": 2148201324
-        },
-        {
-          "symbol": "func_800AF860",
-          "kind": "function",
-          "vma": 2148202592
-        },
-        {
-          "symbol": "func_800B05DC",
-          "kind": "function",
-          "vma": 2148206044
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w_tub1"
-      },
-      "review_inputs": [
-        "docs/evidence/town_shop_item_menu_selection_steps_g00604.md",
-        "docs/evidence/town_shop_item_menu_selection_steps_g00604.membership.json",
-        "docs/evidence/town_shop_item_menu_selection_steps_g00604.recipe.json",
-        "docs/evidence/town_shop_item_menu_selection_steps_g00604.imports.json"
-      ],
-      "membership_evidence": "docs/evidence/town_shop_item_menu_selection_steps_g00604.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_shop_item_menu_selection_steps_g00604.recipe.json"
-      }
-    },
-    {
       "key": "town_shop_item_menu_display_lifecycle_g00607",
       "container": "town",
       "name": "item_menu_display_lifecycle_g00607.c",
@@ -75633,86 +75192,6 @@
       }
     },
     {
-      "key": "town_shop_entry_handler_notifications_g00613",
-      "container": "town",
-      "name": "entry_handler_notifications_g00613.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/shop/entry_handler_notifications_g00613.c",
-      "headers": [
-        "include/town/shop/entry_handler_notifications_g00613.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_800B47E8",
-          "source": "src/town/shop/entry_handler_notifications_g00613.c",
-          "function": "func_800B1F48",
-          "foff": 215016,
-          "vma": 2148212552,
-          "size": 56
-        },
-        {
-          "id": "town/func_800B4820",
-          "source": "src/town/shop/entry_handler_notifications_g00613.c",
-          "function": "func_800B1F80",
-          "foff": 215072,
-          "vma": 2148212608,
-          "size": 232
-        },
-        {
-          "id": "town/func_800B4908",
-          "source": "src/town/shop/entry_handler_notifications_g00613.c",
-          "function": "func_800B2068",
-          "foff": 215304,
-          "vma": 2148212840,
-          "size": 200
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_800D1640",
-          "kind": "data",
-          "vma": 2148341312,
-          "foff": 343776,
-          "view_bytes": 18,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "func_80049E1C",
-          "kind": "function",
-          "vma": 2147786268
-        },
-        {
-          "symbol": "func_800B1F10",
-          "kind": "function",
-          "vma": 2148212496
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w_tub1"
-      },
-      "review_inputs": [
-        "docs/evidence/town_shop_entry_handler_notifications_g00613.md",
-        "docs/evidence/town_shop_entry_handler_notifications_g00613.membership.json",
-        "docs/evidence/town_shop_entry_handler_notifications_g00613.recipe.json"
-      ],
-      "membership_evidence": "docs/evidence/town_shop_entry_handler_notifications_g00613.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_shop_entry_handler_notifications_g00613.recipe.json"
-      }
-    },
-    {
       "key": "town_shop_item_pointer_removal_g00615",
       "container": "town",
       "name": "item_pointer_removal_g00615.c",
@@ -75769,230 +75248,6 @@
           "-0"
         ],
         "evidence": "docs/evidence/town_shop_item_pointer_removal_g00615.recipe.json"
-      }
-    },
-    {
-      "key": "town_shop_resource_entry_initialization_g00617",
-      "container": "town",
-      "name": "resource_entry_initialization_g00617.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/shop/resource_entry_initialization_g00617.c",
-      "headers": [
-        "include/town/shop/resource_entry_initialization_g00617.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_800B5204",
-          "source": "src/town/shop/resource_entry_initialization_g00617.c",
-          "function": "func_800B2964",
-          "foff": 217604,
-          "vma": 2148215140,
-          "size": 64
-        },
-        {
-          "id": "town/func_800B5244",
-          "source": "src/town/shop/resource_entry_initialization_g00617.c",
-          "function": "func_800B29A4",
-          "foff": 217668,
-          "vma": 2148215204,
-          "size": 44
-        },
-        {
-          "id": "town/func_800B5270",
-          "source": "src/town/shop/resource_entry_initialization_g00617.c",
-          "function": "func_800B29D0",
-          "foff": 217712,
-          "vma": 2148215248,
-          "size": 104
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "func_8004B404",
-          "kind": "function",
-          "vma": 2147791876
-        },
-        {
-          "symbol": "func_800B23C0",
-          "kind": "function",
-          "vma": 2148213696
-        },
-        {
-          "symbol": "func_800B2918",
-          "kind": "function",
-          "vma": 2148215064
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w_tub1"
-      },
-      "review_inputs": [
-        "docs/evidence/town_shop_resource_entry_initialization_g00617.md",
-        "docs/evidence/town_shop_resource_entry_initialization_g00617.membership.json",
-        "docs/evidence/town_shop_resource_entry_initialization_g00617.recipe.json"
-      ],
-      "membership_evidence": "docs/evidence/town_shop_resource_entry_initialization_g00617.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_shop_resource_entry_initialization_g00617.recipe.json"
-      }
-    },
-    {
-      "key": "town_shop_twin_storage_initialization_g00618",
-      "container": "town",
-      "name": "twin_storage_initialization_g00618.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/shop/twin_storage_initialization_g00618.c",
-      "headers": [
-        "include/town/shop/twin_storage_initialization_g00618.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_800B5400",
-          "source": "src/town/shop/twin_storage_initialization_g00618.c",
-          "function": "func_800B2B60",
-          "foff": 218112,
-          "vma": 2148215648,
-          "size": 64
-        },
-        {
-          "id": "town/func_800B5440",
-          "source": "src/town/shop/twin_storage_initialization_g00618.c",
-          "function": "func_800B2BA0",
-          "foff": 218176,
-          "vma": 2148215712,
-          "size": 204
-        },
-        {
-          "id": "town/func_800B550C",
-          "source": "src/town/shop/twin_storage_initialization_g00618.c",
-          "function": "func_800B2C6C",
-          "foff": 218380,
-          "vma": 2148215916,
-          "size": 124
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_800814A0",
-          "kind": "runtime_data",
-          "vma": 2148013216,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_shop_twin_storage_initialization_g00618.imports.json",
-          "declaration": "include/town/shop/twin_storage_initialization_g00618.h"
-        },
-        {
-          "symbol": "func_80033D44",
-          "kind": "function",
-          "vma": 2147695940
-        },
-        {
-          "symbol": "func_8003FC64",
-          "kind": "function",
-          "vma": 2147744868
-        },
-        {
-          "symbol": "func_800A48A4",
-          "kind": "function",
-          "vma": 2148157604
-        },
-        {
-          "symbol": "func_800B0718",
-          "kind": "function",
-          "vma": 2148206360
-        },
-        {
-          "symbol": "func_800B2394",
-          "kind": "function",
-          "vma": 2148213652
-        },
-        {
-          "symbol": "func_800B23C0",
-          "kind": "function",
-          "vma": 2148213696
-        },
-        {
-          "symbol": "func_800B260C",
-          "kind": "function",
-          "vma": 2148214284
-        },
-        {
-          "symbol": "func_800B29D0",
-          "kind": "function",
-          "vma": 2148215248
-        },
-        {
-          "symbol": "func_800B2A38",
-          "kind": "function",
-          "vma": 2148215352
-        },
-        {
-          "symbol": "func_800B3924",
-          "kind": "function",
-          "vma": 2148219172
-        },
-        {
-          "symbol": "func_800B3A80",
-          "kind": "function",
-          "vma": 2148219520
-        },
-        {
-          "symbol": "func_800B4588",
-          "kind": "function",
-          "vma": 2148222344
-        },
-        {
-          "symbol": "func_800B46CC",
-          "kind": "function",
-          "vma": 2148222668
-        },
-        {
-          "symbol": "func_800B4F60",
-          "kind": "function",
-          "vma": 2148224864
-        },
-        {
-          "symbol": "func_800B50BC",
-          "kind": "function",
-          "vma": 2148225212
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w_tub1"
-      },
-      "review_inputs": [
-        "docs/evidence/town_shop_twin_storage_initialization_g00618.md",
-        "docs/evidence/town_shop_twin_storage_initialization_g00618.membership.json",
-        "docs/evidence/town_shop_twin_storage_initialization_g00618.recipe.json",
-        "docs/evidence/town_shop_twin_storage_initialization_g00618.imports.json"
-      ],
-      "membership_evidence": "docs/evidence/town_shop_twin_storage_initialization_g00618.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_shop_twin_storage_initialization_g00618.recipe.json"
       }
     },
     {
@@ -76138,112 +75393,6 @@
           "-0"
         ],
         "evidence": "docs/evidence/town_resource_install_g00520.recipe.json"
-      }
-    },
-    {
-      "key": "town_resource_slots_g00521",
-      "container": "town",
-      "name": "resource_slots_g00521.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/scene/resource/resource_slots_g00521.c",
-      "headers": [
-        "include/town/scene/resource/resource_slots_g00521.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_8008DBC8",
-          "source": "src/town/scene/resource/resource_slots_g00521.c",
-          "function": "func_8008B328",
-          "foff": 56264,
-          "vma": 2148053800,
-          "size": 132
-        },
-        {
-          "id": "town/func_8008DC4C",
-          "source": "src/town/scene/resource/resource_slots_g00521.c",
-          "function": "func_8008B3AC",
-          "foff": 56396,
-          "vma": 2148053932,
-          "size": 92
-        },
-        {
-          "id": "town/func_8008DCA8",
-          "source": "src/town/scene/resource/resource_slots_g00521.c",
-          "function": "func_8008B408",
-          "foff": 56488,
-          "vma": 2148054024,
-          "size": 168
-        },
-        {
-          "id": "town/func_8008DD50",
-          "source": "src/town/scene/resource/resource_slots_g00521.c",
-          "function": "func_8008B4B0",
-          "foff": 56656,
-          "vma": 2148054192,
-          "size": 160
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_80080EA8",
-          "kind": "runtime_data",
-          "vma": 2148011688,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_resource_slots_g00521.imports.json",
-          "declaration": "include/town/scene/resource/resource_slots_g00521.h"
-        },
-        {
-          "symbol": "D_800CF828",
-          "kind": "data",
-          "vma": 2148333608,
-          "foff": 336072,
-          "view_bytes": 15,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800CF838",
-          "kind": "data",
-          "vma": 2148333624,
-          "foff": 336088,
-          "view_bytes": 64,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "func_80041284",
-          "kind": "function",
-          "vma": 2147750532
-        },
-        {
-          "symbol": "func_8008B2E4",
-          "kind": "function",
-          "vma": 2148053732
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w_tub2"
-      },
-      "review_inputs": [
-        "docs/evidence/town_resource_slots_g00521.md",
-        "docs/evidence/town_resource_slots_g00521.membership.json",
-        "docs/evidence/town_resource_slots_g00521.recipe.json",
-        "docs/evidence/town_resource_slots_g00521.imports.json"
-      ],
-      "membership_evidence": "docs/evidence/town_resource_slots_g00521.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_resource_slots_g00521.recipe.json"
       }
     },
     {
@@ -77125,155 +76274,6 @@
           "-0"
         ],
         "evidence": "docs/evidence/town_paired_value_dispatch_g00647.recipe.json"
-      }
-    },
-    {
-      "key": "town_town_map_entry_processor_g00524",
-      "container": "town",
-      "name": "town_map_entry_processor_g00524.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/map/town_map_entry_processor_g00524.c",
-      "headers": [
-        "include/town/map/town_map_entry_processor_g00524.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_8008EA64",
-          "source": "src/town/map/town_map_entry_processor_g00524.c",
-          "function": "func_8008C1C4",
-          "foff": 60004,
-          "vma": 2148057540,
-          "size": 80
-        },
-        {
-          "id": "town/func_8008EAB4",
-          "source": "src/town/map/town_map_entry_processor_g00524.c",
-          "function": "func_8008C214",
-          "foff": 60084,
-          "vma": 2148057620,
-          "size": 120
-        },
-        {
-          "id": "town/func_8008EB2C",
-          "source": "src/town/map/town_map_entry_processor_g00524.c",
-          "function": "func_8008C28C",
-          "foff": 60204,
-          "vma": 2148057740,
-          "size": 44
-        },
-        {
-          "id": "town/func_8008EB58",
-          "source": "src/town/map/town_map_entry_processor_g00524.c",
-          "function": "func_8008C2B8",
-          "foff": 60248,
-          "vma": 2148057784,
-          "size": 76
-        },
-        {
-          "id": "town/func_8008EBA4",
-          "source": "src/town/map/town_map_entry_processor_g00524.c",
-          "function": "func_8008C304",
-          "foff": 60324,
-          "vma": 2148057860,
-          "size": 112
-        },
-        {
-          "id": "town/func_8008EC14",
-          "source": "src/town/map/town_map_entry_processor_g00524.c",
-          "function": "func_8008C374",
-          "foff": 60436,
-          "vma": 2148057972,
-          "size": 68
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_8006ADD4",
-          "kind": "runtime_data",
-          "vma": 2147921364,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_town_map_entry_processor_g00524.imports.json",
-          "declaration": "include/town/map/town_map_entry_processor_g00524.h"
-        },
-        {
-          "symbol": "D_800814A0",
-          "kind": "runtime_data",
-          "vma": 2148013216,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_town_map_entry_processor_g00524.imports.json",
-          "declaration": "include/town/map/town_map_entry_processor_g00524.h"
-        },
-        {
-          "symbol": "D_8008C304",
-          "kind": "data",
-          "vma": 2148057860,
-          "foff": 60324,
-          "view_bytes": 6,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800CFCA8",
-          "kind": "data",
-          "vma": 2148334760,
-          "foff": 337224,
-          "view_bytes": 4,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800FC428",
-          "kind": "data",
-          "vma": 2148516904,
-          "foff": 519368,
-          "view_bytes": 1,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "func_8003ADF4",
-          "kind": "function",
-          "vma": 2147724788
-        },
-        {
-          "symbol": "func_8003FC64",
-          "kind": "function",
-          "vma": 2147744868
-        },
-        {
-          "symbol": "func_8008C134",
-          "kind": "function",
-          "vma": 2148057396
-        },
-        {
-          "symbol": "func_800C1D20",
-          "kind": "function",
-          "vma": 2148277536
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w_tub2"
-      },
-      "review_inputs": [
-        "docs/evidence/town_town_map_entry_processor_g00524.md",
-        "docs/evidence/town_town_map_entry_processor_g00524.membership.json",
-        "docs/evidence/town_town_map_entry_processor_g00524.recipe.json",
-        "docs/evidence/town_town_map_entry_processor_g00524.imports.json"
-      ],
-      "membership_evidence": "docs/evidence/town_town_map_entry_processor_g00524.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_town_map_entry_processor_g00524.recipe.json"
       }
     },
     {
@@ -79666,76 +78666,6 @@
           "-0"
         ],
         "evidence": "docs/evidence/dungeon_item_monster_koyaw_g00324.recipe.json"
-      }
-    },
-    {
-      "key": "dungeon_actor_spell_resource_ids_g00331",
-      "container": "dungeon",
-      "name": "spell_resource_ids_g00331.c",
-      "region": "xfer_dungeon_A3000",
-      "source": "src/dungeon/actor/spell_resource_ids_g00331.c",
-      "headers": [
-        "include/dungeon/actor/spell_resource_ids_g00331.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "dungeon/func_800A3C30",
-          "source": "src/dungeon/actor/spell_resource_ids_g00331.c",
-          "function": "func_800A9390",
-          "foff": 801840,
-          "vma": 2148176784,
-          "size": 112
-        },
-        {
-          "id": "dungeon/func_800A3CA0",
-          "source": "src/dungeon/actor/spell_resource_ids_g00331.c",
-          "function": "func_800A9400",
-          "foff": 801952,
-          "vma": 2148176896,
-          "size": 160
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_800DD8E7",
-          "kind": "data",
-          "vma": 2148391143,
-          "foff": 1016199,
-          "view_bytes": 9,
-          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
-        },
-        {
-          "symbol": "D_800E3D7C",
-          "kind": "data",
-          "vma": 2148416892,
-          "foff": 1041948,
-          "view_bytes": 4,
-          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "r121w_tub4"
-      },
-      "review_inputs": [
-        "docs/evidence/dungeon_actor_spell_resource_ids_g00331.md",
-        "docs/evidence/dungeon_actor_spell_resource_ids_g00331.membership.json",
-        "docs/evidence/dungeon_actor_spell_resource_ids_g00331.recipe.json"
-      ],
-      "membership_evidence": "docs/evidence/dungeon_actor_spell_resource_ids_g00331.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/dungeon_actor_spell_resource_ids_g00331.recipe.json"
       }
     },
     {
@@ -83431,80 +82361,6 @@
       }
     },
     {
-      "key": "town_player_source_byte_forwarding_g00536",
-      "container": "town",
-      "name": "source_byte_forwarding_g00536.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/player/source_byte_forwarding_g00536.c",
-      "headers": [
-        "include/town/player/source_byte_forwarding_g00536.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_80097264",
-          "source": "src/town/player/source_byte_forwarding_g00536.c",
-          "function": "func_800949C4",
-          "foff": 94820,
-          "vma": 2148092356,
-          "size": 116
-        },
-        {
-          "id": "town/func_800972D8",
-          "source": "src/town/player/source_byte_forwarding_g00536.c",
-          "function": "func_80094A38",
-          "foff": 94936,
-          "vma": 2148092472,
-          "size": 40
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_80080A84",
-          "kind": "runtime_data",
-          "vma": 2148010628,
-          "view_bytes": 1,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_player_source_byte_forwarding_g00536.imports.json",
-          "declaration": "include/town/player/source_byte_forwarding_g00536.h"
-        },
-        {
-          "symbol": "func_80048A44",
-          "kind": "function",
-          "vma": 2147781188
-        },
-        {
-          "symbol": "func_80095360",
-          "kind": "function",
-          "vma": 2148094816
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub5"
-      },
-      "review_inputs": [
-        "docs/evidence/town_player_source_byte_forwarding_g00536.md",
-        "docs/evidence/town_player_source_byte_forwarding_g00536.membership.json",
-        "docs/evidence/town_player_source_byte_forwarding_g00536.recipe.json",
-        "docs/evidence/town_player_source_byte_forwarding_g00536.imports.json"
-      ],
-      "membership_evidence": "docs/evidence/town_player_source_byte_forwarding_g00536.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_player_source_byte_forwarding_g00536.recipe.json"
-      }
-    },
-    {
       "key": "town_player_direction_entry_status_g00538",
       "container": "town",
       "name": "direction_entry_status_g00538.c",
@@ -85848,221 +84704,6 @@
           "-0"
         ],
         "evidence": "docs/evidence/town_actor_script_motion_g00549.recipe.json"
-      }
-    },
-    {
-      "key": "town_item_query_checks_g00588",
-      "container": "town",
-      "name": "item_query_checks_g00588.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/event/item_query_checks_g00588.c",
-      "headers": [
-        "include/town/event/item_query_checks_g00588.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_800AC118",
-          "source": "src/town/event/item_query_checks_g00588.c",
-          "function": "func_800A9878",
-          "foff": 180504,
-          "vma": 2148178040,
-          "size": 76
-        },
-        {
-          "id": "town/func_800AC164",
-          "source": "src/town/event/item_query_checks_g00588.c",
-          "function": "func_800A98C4",
-          "foff": 180580,
-          "vma": 2148178116,
-          "size": 52
-        },
-        {
-          "id": "town/func_800AC198",
-          "source": "src/town/event/item_query_checks_g00588.c",
-          "function": "func_800A98F8",
-          "foff": 180632,
-          "vma": 2148178168,
-          "size": 120
-        },
-        {
-          "id": "town/func_800AC210",
-          "source": "src/town/event/item_query_checks_g00588.c",
-          "function": "func_800A9970",
-          "foff": 180752,
-          "vma": 2148178288,
-          "size": 104
-        },
-        {
-          "id": "town/func_800AC278",
-          "source": "src/town/event/item_query_checks_g00588.c",
-          "function": "func_800A99D8",
-          "foff": 180856,
-          "vma": 2148178392,
-          "size": 96
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_800D1054",
-          "kind": "data",
-          "vma": 2148339796,
-          "foff": 342260,
-          "view_bytes": 2,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800D1064",
-          "kind": "data",
-          "vma": 2148339812,
-          "foff": 342276,
-          "view_bytes": 15,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "func_80033B2C",
-          "kind": "function",
-          "vma": 2147695404
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "r121w_tub6"
-      },
-      "review_inputs": [
-        "docs/evidence/town_item_query_checks_g00588.md",
-        "docs/evidence/town_item_query_checks_g00588.membership.json",
-        "docs/evidence/town_item_query_checks_g00588.recipe.json"
-      ],
-      "membership_evidence": "docs/evidence/town_item_query_checks_g00588.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_item_query_checks_g00588.recipe.json"
-      }
-    },
-    {
-      "key": "town_entry_kind_filters_g00589",
-      "container": "town",
-      "name": "entry_kind_filters_g00589.c",
-      "region": "xfer_town_B000",
-      "source": "src/town/event/entry_kind_filters_g00589.c",
-      "headers": [
-        "include/town/event/entry_kind_filters_g00589.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "town/func_800AC2D8",
-          "source": "src/town/event/entry_kind_filters_g00589.c",
-          "function": "func_800A9A38",
-          "foff": 180952,
-          "vma": 2148178488,
-          "size": 164
-        },
-        {
-          "id": "town/func_800AC37C",
-          "source": "src/town/event/entry_kind_filters_g00589.c",
-          "function": "func_800A9ADC",
-          "foff": 181116,
-          "vma": 2148178652,
-          "size": 80
-        },
-        {
-          "id": "town/func_800AC3CC",
-          "source": "src/town/event/entry_kind_filters_g00589.c",
-          "function": "func_800A9B2C",
-          "foff": 181196,
-          "vma": 2148178732,
-          "size": 236
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_8006BC7A",
-          "kind": "runtime_data",
-          "vma": 2147925114,
-          "view_bytes": 1,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/town_entry_kind_filters_g00589.imports.json",
-          "declaration": "include/town/event/entry_kind_filters_g00589.h"
-        },
-        {
-          "symbol": "D_800D1038",
-          "kind": "data",
-          "vma": 2148339768,
-          "foff": 342232,
-          "view_bytes": 30,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800D1074",
-          "kind": "data",
-          "vma": 2148339828,
-          "foff": 342292,
-          "view_bytes": 10,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "D_800D1080",
-          "kind": "data",
-          "vma": 2148339840,
-          "foff": 342304,
-          "view_bytes": 2,
-          "owner": "retail_asset:town:xfer_town_B000"
-        },
-        {
-          "symbol": "func_80033B2C",
-          "kind": "function",
-          "vma": 2147695404
-        },
-        {
-          "symbol": "func_8004A618",
-          "kind": "function",
-          "vma": 2147788312
-        },
-        {
-          "symbol": "func_800A9878",
-          "kind": "function",
-          "vma": 2148178040
-        },
-        {
-          "symbol": "func_800A99D8",
-          "kind": "function",
-          "vma": 2148178392
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "r121w_tub6"
-      },
-      "review_inputs": [
-        "docs/evidence/town_entry_kind_filters_g00589.md",
-        "docs/evidence/town_entry_kind_filters_g00589.membership.json",
-        "docs/evidence/town_entry_kind_filters_g00589.recipe.json",
-        "docs/evidence/town_entry_kind_filters_g00589.imports.json"
-      ],
-      "membership_evidence": "docs/evidence/town_entry_kind_filters_g00589.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/town_entry_kind_filters_g00589.recipe.json"
       }
     },
     {
@@ -90870,99 +89511,6 @@
       }
     },
     {
-      "key": "main_dialog_selection_highlight_g00379",
-      "container": "main",
-      "name": "dialog_selection_highlight_g00379.c",
-      "region": "xfer_main_25CA6C",
-      "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
-      "headers": [
-        "include/frontend/libcard/dialog_selection_highlight_g00379.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "main/func_8000F300",
-          "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
-          "function": "func_80022300",
-          "foff": 2487040,
-          "vma": 2147623680,
-          "size": 60
-        },
-        {
-          "id": "main/func_8000F33C",
-          "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
-          "function": "func_8002233C",
-          "foff": 2487100,
-          "vma": 2147623740,
-          "size": 120
-        },
-        {
-          "id": "main/func_8000F3B4",
-          "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
-          "function": "func_800223B4",
-          "foff": 2487220,
-          "vma": 2147623860,
-          "size": 212
-        },
-        {
-          "id": "main/func_8000F488",
-          "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
-          "function": "func_80022488",
-          "foff": 2487432,
-          "vma": 2147624072,
-          "size": 156
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_800280B4",
-          "kind": "data",
-          "vma": 2147647668,
-          "foff": 2511028,
-          "view_bytes": 12,
-          "owner": "retail_asset:main:xfer_main_25CA6C"
-        },
-        {
-          "symbol": "func_8002225C",
-          "kind": "function",
-          "vma": 2147623516
-        },
-        {
-          "symbol": "func_8004E264",
-          "kind": "function",
-          "vma": 2147803748
-        },
-        {
-          "symbol": "func_8004E884",
-          "kind": "function",
-          "vma": 2147805316
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "codex-r121w-tub10"
-      },
-      "review_inputs": [
-        "docs/evidence/main_dialog_selection_highlight_g00379.md",
-        "docs/evidence/main_dialog_selection_highlight_g00379.membership.json",
-        "docs/evidence/main_dialog_selection_highlight_g00379.recipe.json"
-      ],
-      "membership_evidence": "docs/evidence/main_dialog_selection_highlight_g00379.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/main_dialog_selection_highlight_g00379.recipe.json"
-      }
-    },
-    {
       "key": "main_dialog_packet_setup_g00380",
       "container": "main",
       "name": "dialog_packet_setup_g00380.c",
@@ -91608,601 +90156,6 @@
           "-0"
         ],
         "evidence": "docs/evidence/main_save_copy_completion_g00392.recipe.json"
-      }
-    },
-    {
-      "key": "ovmovie_movie_display_setup_g00426",
-      "container": "ovmovie",
-      "name": "movie_display_setup_g00426.c",
-      "region": "ovmovie_resident",
-      "source": "src/ovmovie/movie_display_setup_g00426.c",
-      "headers": [
-        "include/ovmovie/movie_display_setup_g00426.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "ovmovie/func_800400AC",
-          "source": "src/ovmovie/movie_display_setup_g00426.c",
-          "function": "func_801768AC",
-          "foff": 172,
-          "vma": 2149017772,
-          "size": 556
-        },
-        {
-          "id": "ovmovie/func_800402D8",
-          "source": "src/ovmovie/movie_display_setup_g00426.c",
-          "function": "func_80176AD8",
-          "foff": 728,
-          "vma": 2149018328,
-          "size": 100
-        },
-        {
-          "id": "ovmovie/func_8004033C",
-          "source": "src/ovmovie/movie_display_setup_g00426.c",
-          "function": "func_80176B3C",
-          "foff": 828,
-          "vma": 2149018428,
-          "size": 36
-        },
-        {
-          "id": "ovmovie/func_80040360",
-          "source": "src/ovmovie/movie_display_setup_g00426.c",
-          "function": "func_80176B60",
-          "foff": 864,
-          "vma": 2149018464,
-          "size": 140
-        },
-        {
-          "id": "ovmovie/func_800403EC",
-          "source": "src/ovmovie/movie_display_setup_g00426.c",
-          "function": "func_80176BEC",
-          "foff": 1004,
-          "vma": 2149018604,
-          "size": 188
-        },
-        {
-          "id": "ovmovie/func_800404A8",
-          "source": "src/ovmovie/movie_display_setup_g00426.c",
-          "function": "func_80176CA8",
-          "foff": 1192,
-          "vma": 2149018792,
-          "size": 488
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_80080A88",
-          "kind": "runtime_data",
-          "vma": 2148010632,
-          "view_bytes": 1,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
-          "declaration": "src/ovmovie/modules/ovmovie_game.h"
-        },
-        {
-          "symbol": "D_80082E60",
-          "kind": "runtime_data",
-          "vma": 2148019808,
-          "view_bytes": 28,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
-          "declaration": "include/shared/runtime_dispatch.h"
-        },
-        {
-          "symbol": "D_80086D8C",
-          "kind": "runtime_data",
-          "vma": 2148035980,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
-          "declaration": "src/ovmovie/modules/ovmovie_game.h"
-        },
-        {
-          "symbol": "D_801781D8",
-          "kind": "data",
-          "vma": 2149024216,
-          "foff": 6616,
-          "view_bytes": 4,
-          "owner": "retail_asset:ovmovie:ovmovie_resident"
-        },
-        {
-          "symbol": "D_801781DC",
-          "kind": "data",
-          "vma": 2149024220,
-          "foff": 6620,
-          "view_bytes": 4,
-          "owner": "retail_asset:ovmovie:ovmovie_resident"
-        },
-        {
-          "symbol": "D_801781E0",
-          "kind": "data",
-          "vma": 2149024224,
-          "foff": 6624,
-          "view_bytes": 4,
-          "owner": "retail_asset:ovmovie:ovmovie_resident"
-        },
-        {
-          "symbol": "D_80189390",
-          "kind": "runtime_data",
-          "vma": 2149094288,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
-          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
-        },
-        {
-          "symbol": "D_80189394",
-          "kind": "runtime_data",
-          "vma": 2149094292,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
-          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
-        },
-        {
-          "symbol": "D_801B8EB8",
-          "kind": "runtime_data",
-          "vma": 2149289656,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
-          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
-        },
-        {
-          "symbol": "D_801B8EBC",
-          "kind": "runtime_data",
-          "vma": 2149289660,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
-          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
-        },
-        {
-          "symbol": "D_801C9E40",
-          "kind": "runtime_data",
-          "vma": 2149359168,
-          "view_bytes": 1,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
-          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
-        },
-        {
-          "symbol": "func_8003E4FC",
-          "kind": "function",
-          "vma": 2147738876
-        },
-        {
-          "symbol": "func_8003F320",
-          "kind": "function",
-          "vma": 2147742496
-        },
-        {
-          "symbol": "func_80053DA8",
-          "kind": "function",
-          "vma": 2147827112
-        },
-        {
-          "symbol": "func_800542BC",
-          "kind": "function",
-          "vma": 2147828412
-        },
-        {
-          "symbol": "func_8005A4E8",
-          "kind": "function",
-          "vma": 2147853544
-        },
-        {
-          "symbol": "func_8005A56C",
-          "kind": "function",
-          "vma": 2147853676
-        },
-        {
-          "symbol": "func_8005FE18",
-          "kind": "function",
-          "vma": 2147876376
-        },
-        {
-          "symbol": "func_80060B04",
-          "kind": "function",
-          "vma": 2147879684
-        },
-        {
-          "symbol": "func_80060DE8",
-          "kind": "function",
-          "vma": 2147880424
-        },
-        {
-          "symbol": "func_80061208",
-          "kind": "function",
-          "vma": 2147881480
-        },
-        {
-          "symbol": "func_800636AC",
-          "kind": "function",
-          "vma": 2147890860
-        },
-        {
-          "symbol": "func_8006390C",
-          "kind": "function",
-          "vma": 2147891468
-        },
-        {
-          "symbol": "func_80066F78",
-          "kind": "function",
-          "vma": 2147905400
-        },
-        {
-          "symbol": "func_80067014",
-          "kind": "function",
-          "vma": 2147905556
-        },
-        {
-          "symbol": "func_800671A8",
-          "kind": "function",
-          "vma": 2147905960
-        },
-        {
-          "symbol": "func_800672D8",
-          "kind": "function",
-          "vma": 2147906264
-        },
-        {
-          "symbol": "func_8006751C",
-          "kind": "function",
-          "vma": 2147906844
-        },
-        {
-          "symbol": "func_80067688",
-          "kind": "function",
-          "vma": 2147907208
-        },
-        {
-          "symbol": "func_800678E0",
-          "kind": "function",
-          "vma": 2147907808
-        },
-        {
-          "symbol": "func_80177154",
-          "kind": "function",
-          "vma": 2149019988
-        },
-        {
-          "symbol": "func_8017719C",
-          "kind": "function",
-          "vma": 2149020060
-        },
-        {
-          "symbol": "func_801776D8",
-          "kind": "function",
-          "vma": 2149021400
-        },
-        {
-          "symbol": "func_801778C0",
-          "kind": "function",
-          "vma": 2149021888
-        },
-        {
-          "symbol": "func_8017797C",
-          "kind": "function",
-          "vma": 2149022076
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "r121w_tub11"
-      },
-      "review_inputs": [
-        "docs/evidence/ovmovie_movie_display_setup_g00426.md",
-        "docs/evidence/ovmovie_movie_display_setup_g00426.membership.json",
-        "docs/evidence/ovmovie_movie_display_setup_g00426.recipe.json",
-        "docs/evidence/ovmovie_game.imports.pending.json",
-        "docs/evidence/ovmovie_game_w1o1.md",
-        "src/ovmovie/modules/ovmovie_game.h",
-        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
-      ],
-      "membership_evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/ovmovie_movie_display_setup_g00426.recipe.json"
-      }
-    },
-    {
-      "key": "ovmovie_movie_frame_playback_g00427",
-      "container": "ovmovie",
-      "name": "movie_frame_playback_g00427.c",
-      "region": "ovmovie_resident",
-      "source": "src/ovmovie/movie_frame_playback_g00427.c",
-      "headers": [
-        "include/ovmovie/movie_frame_playback_g00427.h",
-        "include/common.h"
-      ],
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "members": [
-        {
-          "id": "ovmovie/func_80040690",
-          "source": "src/ovmovie/movie_frame_playback_g00427.c",
-          "function": "func_80176E90",
-          "foff": 1680,
-          "vma": 2149019280,
-          "size": 156
-        },
-        {
-          "id": "ovmovie/func_8004072C",
-          "source": "src/ovmovie/movie_frame_playback_g00427.c",
-          "function": "func_80176F2C",
-          "foff": 1836,
-          "vma": 2149019436,
-          "size": 400
-        },
-        {
-          "id": "ovmovie/func_800408BC",
-          "source": "src/ovmovie/movie_frame_playback_g00427.c",
-          "function": "func_801770BC",
-          "foff": 2236,
-          "vma": 2149019836,
-          "size": 152
-        },
-        {
-          "id": "ovmovie/func_80040954",
-          "source": "src/ovmovie/movie_frame_playback_g00427.c",
-          "function": "func_80177154",
-          "foff": 2388,
-          "vma": 2149019988,
-          "size": 72
-        },
-        {
-          "id": "ovmovie/func_8004099C",
-          "source": "src/ovmovie/movie_frame_playback_g00427.c",
-          "function": "func_8017719C",
-          "foff": 2460,
-          "vma": 2149020060,
-          "size": 1340
-        }
-      ],
-      "owned_data": [],
-      "imports": [
-        {
-          "symbol": "D_80082E6B",
-          "kind": "runtime_data",
-          "vma": 2148019819,
-          "view_bytes": 1,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
-          "declaration": "src/ovmovie/modules/ovmovie_game.h"
-        },
-        {
-          "symbol": "D_80083160",
-          "kind": "runtime_data",
-          "vma": 2148020576,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
-          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
-        },
-        {
-          "symbol": "D_801781D0",
-          "kind": "data",
-          "vma": 2149024208,
-          "foff": 6608,
-          "view_bytes": 4,
-          "owner": "retail_asset:ovmovie:ovmovie_resident"
-        },
-        {
-          "symbol": "D_801781D4",
-          "kind": "data",
-          "vma": 2149024212,
-          "foff": 6612,
-          "view_bytes": 4,
-          "owner": "retail_asset:ovmovie:ovmovie_resident"
-        },
-        {
-          "symbol": "D_801781E0",
-          "kind": "data",
-          "vma": 2149024224,
-          "foff": 6624,
-          "view_bytes": 4,
-          "owner": "retail_asset:ovmovie:ovmovie_resident"
-        },
-        {
-          "symbol": "D_80189388",
-          "kind": "runtime_data",
-          "vma": 2149094280,
-          "view_bytes": 8,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
-          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
-        },
-        {
-          "symbol": "D_80189390",
-          "kind": "runtime_data",
-          "vma": 2149094288,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
-          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
-        },
-        {
-          "symbol": "D_80189398",
-          "kind": "runtime_data",
-          "vma": 2149094296,
-          "view_bytes": 1,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
-          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
-        },
-        {
-          "symbol": "D_801B8EBC",
-          "kind": "runtime_data",
-          "vma": 2149289660,
-          "view_bytes": 4,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
-          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
-        },
-        {
-          "symbol": "D_801C9E40",
-          "kind": "runtime_data",
-          "vma": 2149359168,
-          "view_bytes": 1,
-          "owner": "resident_runtime:slus",
-          "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
-          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
-        },
-        {
-          "symbol": "func_8003E240",
-          "kind": "function",
-          "vma": 2147738176
-        },
-        {
-          "symbol": "func_8003E4FC",
-          "kind": "function",
-          "vma": 2147738876
-        },
-        {
-          "symbol": "func_8003F320",
-          "kind": "function",
-          "vma": 2147742496
-        },
-        {
-          "symbol": "func_8005A4E8",
-          "kind": "function",
-          "vma": 2147853544
-        },
-        {
-          "symbol": "func_8005A56C",
-          "kind": "function",
-          "vma": 2147853676
-        },
-        {
-          "symbol": "func_8005FE18",
-          "kind": "function",
-          "vma": 2147876376
-        },
-        {
-          "symbol": "func_80060D90",
-          "kind": "function",
-          "vma": 2147880336
-        },
-        {
-          "symbol": "func_8006124C",
-          "kind": "function",
-          "vma": 2147881548
-        },
-        {
-          "symbol": "func_80061350",
-          "kind": "function",
-          "vma": 2147881808
-        },
-        {
-          "symbol": "func_80063424",
-          "kind": "function",
-          "vma": 2147890212
-        },
-        {
-          "symbol": "func_80063538",
-          "kind": "function",
-          "vma": 2147890488
-        },
-        {
-          "symbol": "func_80063734",
-          "kind": "function",
-          "vma": 2147890996
-        },
-        {
-          "symbol": "func_80063828",
-          "kind": "function",
-          "vma": 2147891240
-        },
-        {
-          "symbol": "func_8006636C",
-          "kind": "function",
-          "vma": 2147902316
-        },
-        {
-          "symbol": "func_80066424",
-          "kind": "function",
-          "vma": 2147902500
-        },
-        {
-          "symbol": "func_80066F78",
-          "kind": "function",
-          "vma": 2147905400
-        },
-        {
-          "symbol": "func_80067688",
-          "kind": "function",
-          "vma": 2147907208
-        },
-        {
-          "symbol": "func_800678E0",
-          "kind": "function",
-          "vma": 2147907808
-        },
-        {
-          "symbol": "func_80176B60",
-          "kind": "function",
-          "vma": 2149018464
-        },
-        {
-          "symbol": "func_80176BEC",
-          "kind": "function",
-          "vma": 2149018604
-        },
-        {
-          "symbol": "func_80176CA8",
-          "kind": "function",
-          "vma": 2149018792
-        },
-        {
-          "symbol": "func_80177844",
-          "kind": "function",
-          "vma": 2149021764
-        },
-        {
-          "symbol": "func_801778C0",
-          "kind": "function",
-          "vma": 2149021888
-        },
-        {
-          "symbol": "func_80177E6C",
-          "kind": "function",
-          "vma": 2149023340
-        }
-      ],
-      "review": {
-        "membership": "reviewed",
-        "types": "reviewed",
-        "ownership": "reviewed",
-        "reviewer": "r121w_tub11"
-      },
-      "review_inputs": [
-        "docs/evidence/ovmovie_movie_frame_playback_g00427.md",
-        "docs/evidence/ovmovie_movie_frame_playback_g00427.membership.json",
-        "docs/evidence/ovmovie_movie_frame_playback_g00427.recipe.json",
-        "docs/evidence/ovmovie_game.imports.pending.json",
-        "docs/evidence/ovmovie_game_w1o1.md",
-        "src/ovmovie/modules/ovmovie_game.h",
-        "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json"
-      ],
-      "membership_evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.membership.json",
-      "genuine_aspsx": {
-        "flags": [
-          "-0"
-        ],
-        "evidence": "docs/evidence/ovmovie_movie_frame_playback_g00427.recipe.json"
       }
     },
     {
@@ -96747,6 +94700,2419 @@
           "-0"
         ],
         "evidence": "docs/evidence/dungeon_face_target_and_start_action_g00250.recipe.json"
+      }
+    },
+    {
+      "key": "ovmovie_game_movie_playback_g01063",
+      "container": "ovmovie",
+      "name": "game_movie_playback_g01063.c",
+      "region": "ovmovie_resident",
+      "source": "src/ovmovie/game_movie_playback_g01063.c",
+      "headers": [
+        "include/ovmovie/game_movie_playback_g01063.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "ovmovie/func_800400AC",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_801768AC",
+          "foff": 172,
+          "vma": 2149017772,
+          "size": 556
+        },
+        {
+          "id": "ovmovie/func_800402D8",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_80176AD8",
+          "foff": 728,
+          "vma": 2149018328,
+          "size": 100
+        },
+        {
+          "id": "ovmovie/func_8004033C",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_80176B3C",
+          "foff": 828,
+          "vma": 2149018428,
+          "size": 36
+        },
+        {
+          "id": "ovmovie/func_80040360",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_80176B60",
+          "foff": 864,
+          "vma": 2149018464,
+          "size": 140
+        },
+        {
+          "id": "ovmovie/func_800403EC",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_80176BEC",
+          "foff": 1004,
+          "vma": 2149018604,
+          "size": 188
+        },
+        {
+          "id": "ovmovie/func_800404A8",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_80176CA8",
+          "foff": 1192,
+          "vma": 2149018792,
+          "size": 488
+        },
+        {
+          "id": "ovmovie/func_80040690",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_80176E90",
+          "foff": 1680,
+          "vma": 2149019280,
+          "size": 156
+        },
+        {
+          "id": "ovmovie/func_8004072C",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_80176F2C",
+          "foff": 1836,
+          "vma": 2149019436,
+          "size": 400
+        },
+        {
+          "id": "ovmovie/func_800408BC",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_801770BC",
+          "foff": 2236,
+          "vma": 2149019836,
+          "size": 152
+        },
+        {
+          "id": "ovmovie/func_80040954",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_80177154",
+          "foff": 2388,
+          "vma": 2149019988,
+          "size": 72
+        },
+        {
+          "id": "ovmovie/func_8004099C",
+          "source": "src/ovmovie/game_movie_playback_g01063.c",
+          "function": "func_8017719C",
+          "foff": 2460,
+          "vma": 2149020060,
+          "size": 1340
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80080A88",
+          "kind": "runtime_data",
+          "vma": 2148010632,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "src/ovmovie/modules/ovmovie_game.h"
+        },
+        {
+          "symbol": "D_80082E60",
+          "kind": "runtime_data",
+          "vma": 2148019808,
+          "view_bytes": 28,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "include/shared/runtime_dispatch.h"
+        },
+        {
+          "symbol": "D_80082E6B",
+          "kind": "runtime_data",
+          "vma": 2148019819,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "src/ovmovie/modules/ovmovie_game.h"
+        },
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+        },
+        {
+          "symbol": "D_80086D8C",
+          "kind": "runtime_data",
+          "vma": 2148035980,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "src/ovmovie/modules/ovmovie_game.h"
+        },
+        {
+          "symbol": "D_801781D0",
+          "kind": "data",
+          "vma": 2149024208,
+          "foff": 6608,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_801781D4",
+          "kind": "data",
+          "vma": 2149024212,
+          "foff": 6612,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_801781D8",
+          "kind": "data",
+          "vma": 2149024216,
+          "foff": 6616,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_801781DC",
+          "kind": "data",
+          "vma": 2149024220,
+          "foff": 6620,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_801781E0",
+          "kind": "data",
+          "vma": 2149024224,
+          "foff": 6624,
+          "view_bytes": 4,
+          "owner": "retail_asset:ovmovie:ovmovie_resident"
+        },
+        {
+          "symbol": "D_80189388",
+          "kind": "runtime_data",
+          "vma": 2149094280,
+          "view_bytes": 8,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+        },
+        {
+          "symbol": "D_80189390",
+          "kind": "runtime_data",
+          "vma": 2149094288,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "D_80189394",
+          "kind": "runtime_data",
+          "vma": 2149094292,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "D_80189398",
+          "kind": "runtime_data",
+          "vma": 2149094296,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+        },
+        {
+          "symbol": "D_801B8EB8",
+          "kind": "runtime_data",
+          "vma": 2149289656,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "D_801B8EBC",
+          "kind": "runtime_data",
+          "vma": 2149289660,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "D_801C9E40",
+          "kind": "runtime_data",
+          "vma": 2149359168,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+          "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+        },
+        {
+          "symbol": "func_8003E240",
+          "kind": "function",
+          "vma": 2147738176
+        },
+        {
+          "symbol": "func_8003E4FC",
+          "kind": "function",
+          "vma": 2147738876
+        },
+        {
+          "symbol": "func_8003F320",
+          "kind": "function",
+          "vma": 2147742496
+        },
+        {
+          "symbol": "func_80053DA8",
+          "kind": "function",
+          "vma": 2147827112
+        },
+        {
+          "symbol": "func_800542BC",
+          "kind": "function",
+          "vma": 2147828412
+        },
+        {
+          "symbol": "func_8005A4E8",
+          "kind": "function",
+          "vma": 2147853544
+        },
+        {
+          "symbol": "func_8005A56C",
+          "kind": "function",
+          "vma": 2147853676
+        },
+        {
+          "symbol": "func_8005FE18",
+          "kind": "function",
+          "vma": 2147876376
+        },
+        {
+          "symbol": "func_80060B04",
+          "kind": "function",
+          "vma": 2147879684
+        },
+        {
+          "symbol": "func_80060D90",
+          "kind": "function",
+          "vma": 2147880336
+        },
+        {
+          "symbol": "func_80060DE8",
+          "kind": "function",
+          "vma": 2147880424
+        },
+        {
+          "symbol": "func_80061208",
+          "kind": "function",
+          "vma": 2147881480
+        },
+        {
+          "symbol": "func_8006124C",
+          "kind": "function",
+          "vma": 2147881548
+        },
+        {
+          "symbol": "func_80061350",
+          "kind": "function",
+          "vma": 2147881808
+        },
+        {
+          "symbol": "func_80063424",
+          "kind": "function",
+          "vma": 2147890212
+        },
+        {
+          "symbol": "func_80063538",
+          "kind": "function",
+          "vma": 2147890488
+        },
+        {
+          "symbol": "func_800636AC",
+          "kind": "function",
+          "vma": 2147890860
+        },
+        {
+          "symbol": "func_80063734",
+          "kind": "function",
+          "vma": 2147890996
+        },
+        {
+          "symbol": "func_80063828",
+          "kind": "function",
+          "vma": 2147891240
+        },
+        {
+          "symbol": "func_8006390C",
+          "kind": "function",
+          "vma": 2147891468
+        },
+        {
+          "symbol": "func_8006636C",
+          "kind": "function",
+          "vma": 2147902316
+        },
+        {
+          "symbol": "func_80066424",
+          "kind": "function",
+          "vma": 2147902500
+        },
+        {
+          "symbol": "func_80066F78",
+          "kind": "function",
+          "vma": 2147905400
+        },
+        {
+          "symbol": "func_80067014",
+          "kind": "function",
+          "vma": 2147905556
+        },
+        {
+          "symbol": "func_800671A8",
+          "kind": "function",
+          "vma": 2147905960
+        },
+        {
+          "symbol": "func_800672D8",
+          "kind": "function",
+          "vma": 2147906264
+        },
+        {
+          "symbol": "func_8006751C",
+          "kind": "function",
+          "vma": 2147906844
+        },
+        {
+          "symbol": "func_80067688",
+          "kind": "function",
+          "vma": 2147907208
+        },
+        {
+          "symbol": "func_800678E0",
+          "kind": "function",
+          "vma": 2147907808
+        },
+        {
+          "symbol": "func_801776D8",
+          "kind": "function",
+          "vma": 2149021400
+        },
+        {
+          "symbol": "func_80177844",
+          "kind": "function",
+          "vma": 2149021764
+        },
+        {
+          "symbol": "func_801778C0",
+          "kind": "function",
+          "vma": 2149021888
+        },
+        {
+          "symbol": "func_8017797C",
+          "kind": "function",
+          "vma": 2149022076
+        },
+        {
+          "symbol": "func_80177E6C",
+          "kind": "function",
+          "vma": 2149023340
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/ovmovie_game_movie_playback_g01063.md",
+        "docs/evidence/ovmovie_game_movie_playback_g01063.membership.json",
+        "docs/evidence/ovmovie_game_movie_playback_g01063.recipe.json",
+        "docs/evidence/ovmovie_game_movie_playback_g01063.absorption.json",
+        "docs/evidence/ovmovie_movie_display_setup_g00426.md",
+        "docs/evidence/ovmovie_movie_display_setup_g00426.membership.json",
+        "docs/evidence/ovmovie_movie_display_setup_g00426.recipe.json",
+        "docs/evidence/ovmovie_game.imports.pending.json",
+        "docs/evidence/ovmovie_game_w1o1.md",
+        "src/ovmovie/modules/ovmovie_game.h",
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.md",
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.membership.json",
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.recipe.json",
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json",
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json",
+        "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.recipe.json"
+      }
+    },
+    {
+      "key": "main_card_boot_measure_dialog_choice_word_g01029",
+      "container": "main",
+      "name": "card_boot_measure_dialog_choice_word_g01029.c",
+      "region": "xfer_main_25CA6C",
+      "source": "src/frontend/libcard/message/card_boot_measure_dialog_choice_word_g01029.c",
+      "headers": [
+        "include/frontend/libcard/message/card_boot_measure_dialog_choice_word_g01029.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "main/func_8000F25C",
+          "source": "src/frontend/libcard/message/card_boot_measure_dialog_choice_word_g01029.c",
+          "function": "func_8002225C",
+          "foff": 2486876,
+          "vma": 2147623516,
+          "size": 164
+        },
+        {
+          "id": "main/func_8000F300",
+          "source": "src/frontend/libcard/message/card_boot_measure_dialog_choice_word_g01029.c",
+          "function": "func_80022300",
+          "foff": 2487040,
+          "vma": 2147623680,
+          "size": 60
+        },
+        {
+          "id": "main/func_8000F33C",
+          "source": "src/frontend/libcard/message/card_boot_measure_dialog_choice_word_g01029.c",
+          "function": "func_8002233C",
+          "foff": 2487100,
+          "vma": 2147623740,
+          "size": 120
+        },
+        {
+          "id": "main/func_8000F3B4",
+          "source": "src/frontend/libcard/message/card_boot_measure_dialog_choice_word_g01029.c",
+          "function": "func_800223B4",
+          "foff": 2487220,
+          "vma": 2147623860,
+          "size": 212
+        },
+        {
+          "id": "main/func_8000F488",
+          "source": "src/frontend/libcard/message/card_boot_measure_dialog_choice_word_g01029.c",
+          "function": "func_80022488",
+          "foff": 2487432,
+          "vma": 2147624072,
+          "size": 156
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800280B4",
+          "kind": "data",
+          "vma": 2147647668,
+          "foff": 2511028,
+          "view_bytes": 12,
+          "owner": "retail_asset:main:xfer_main_25CA6C"
+        },
+        {
+          "symbol": "func_8004E264",
+          "kind": "function",
+          "vma": 2147803748
+        },
+        {
+          "symbol": "func_8004E884",
+          "kind": "function",
+          "vma": 2147805316
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/main_card_boot_measure_dialog_choice_word_g01029.md",
+        "docs/evidence/main_card_boot_measure_dialog_choice_word_g01029.membership.json",
+        "docs/evidence/main_card_boot_measure_dialog_choice_word_g01029.recipe.json",
+        "docs/evidence/main_card_boot_measure_dialog_choice_word_g01029.absorption.json",
+        "docs/evidence/main_dialog_selection_highlight_g00379.md",
+        "docs/evidence/main_dialog_selection_highlight_g00379.membership.json",
+        "docs/evidence/main_dialog_selection_highlight_g00379.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/main_card_boot_measure_dialog_choice_word_g01029.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/main_card_boot_measure_dialog_choice_word_g01029.recipe.json"
+      }
+    },
+    {
+      "key": "town_resource_value_table_contains_g01112",
+      "container": "town",
+      "name": "resource_value_table_contains_g01112.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/scene/resource/resource_value_table_contains_g01112.c",
+      "headers": [
+        "include/town/scene/resource/resource_value_table_contains_g01112.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_8008DB84",
+          "source": "src/town/scene/resource/resource_value_table_contains_g01112.c",
+          "function": "func_8008B2E4",
+          "foff": 56196,
+          "vma": 2148053732,
+          "size": 68
+        },
+        {
+          "id": "town/func_8008DBC8",
+          "source": "src/town/scene/resource/resource_value_table_contains_g01112.c",
+          "function": "func_8008B328",
+          "foff": 56264,
+          "vma": 2148053800,
+          "size": 132
+        },
+        {
+          "id": "town/func_8008DC4C",
+          "source": "src/town/scene/resource/resource_value_table_contains_g01112.c",
+          "function": "func_8008B3AC",
+          "foff": 56396,
+          "vma": 2148053932,
+          "size": 92
+        },
+        {
+          "id": "town/func_8008DCA8",
+          "source": "src/town/scene/resource/resource_value_table_contains_g01112.c",
+          "function": "func_8008B408",
+          "foff": 56488,
+          "vma": 2148054024,
+          "size": 168
+        },
+        {
+          "id": "town/func_8008DD50",
+          "source": "src/town/scene/resource/resource_value_table_contains_g01112.c",
+          "function": "func_8008B4B0",
+          "foff": 56656,
+          "vma": 2148054192,
+          "size": 160
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80080EA8",
+          "kind": "runtime_data",
+          "vma": 2148011688,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_resource_value_table_contains_g01112.imports.json",
+          "declaration": "include/town/scene/resource/resource_slots_g00521.h"
+        },
+        {
+          "symbol": "D_800CF828",
+          "kind": "data",
+          "vma": 2148333608,
+          "foff": 336072,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800CF838",
+          "kind": "data",
+          "vma": 2148333624,
+          "foff": 336088,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800CF85C",
+          "kind": "data",
+          "vma": 2148333660,
+          "foff": 336124,
+          "view_bytes": 21,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_80041284",
+          "kind": "function",
+          "vma": 2147750532
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_resource_value_table_contains_g01112.md",
+        "docs/evidence/town_resource_value_table_contains_g01112.membership.json",
+        "docs/evidence/town_resource_value_table_contains_g01112.recipe.json",
+        "docs/evidence/town_resource_value_table_contains_g01112.absorption.json",
+        "docs/evidence/town_resource_slots_g00521.md",
+        "docs/evidence/town_resource_slots_g00521.membership.json",
+        "docs/evidence/town_resource_slots_g00521.recipe.json",
+        "docs/evidence/town_resource_slots_g00521.imports.json",
+        "docs/evidence/town_resource_slots_g00521.imports.json",
+        "docs/evidence/town_resource_value_table_contains_g01112.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_resource_value_table_contains_g01112.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_resource_value_table_contains_g01112.recipe.json"
+      }
+    },
+    {
+      "key": "town_read_map_cell_at_tile_g01115",
+      "container": "town",
+      "name": "read_map_cell_at_tile_g01115.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/map/position/read_map_cell_at_tile_g01115.c",
+      "headers": [
+        "include/town/map/position/read_map_cell_at_tile_g01115.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_8008E9D4",
+          "source": "src/town/map/position/read_map_cell_at_tile_g01115.c",
+          "function": "func_8008C134",
+          "foff": 59860,
+          "vma": 2148057396,
+          "size": 76
+        },
+        {
+          "id": "town/func_8008EA20",
+          "source": "src/town/map/position/read_map_cell_at_tile_g01115.c",
+          "function": "func_8008C180",
+          "foff": 59936,
+          "vma": 2148057472,
+          "size": 68
+        },
+        {
+          "id": "town/func_8008EA64",
+          "source": "src/town/map/position/read_map_cell_at_tile_g01115.c",
+          "function": "func_8008C1C4",
+          "foff": 60004,
+          "vma": 2148057540,
+          "size": 80
+        },
+        {
+          "id": "town/func_8008EAB4",
+          "source": "src/town/map/position/read_map_cell_at_tile_g01115.c",
+          "function": "func_8008C214",
+          "foff": 60084,
+          "vma": 2148057620,
+          "size": 120
+        },
+        {
+          "id": "town/func_8008EB2C",
+          "source": "src/town/map/position/read_map_cell_at_tile_g01115.c",
+          "function": "func_8008C28C",
+          "foff": 60204,
+          "vma": 2148057740,
+          "size": 44
+        },
+        {
+          "id": "town/func_8008EB58",
+          "source": "src/town/map/position/read_map_cell_at_tile_g01115.c",
+          "function": "func_8008C2B8",
+          "foff": 60248,
+          "vma": 2148057784,
+          "size": 76
+        },
+        {
+          "id": "town/func_8008EBA4",
+          "source": "src/town/map/position/read_map_cell_at_tile_g01115.c",
+          "function": "func_8008C304",
+          "foff": 60324,
+          "vma": 2148057860,
+          "size": 112
+        },
+        {
+          "id": "town/func_8008EC14",
+          "source": "src/town/map/position/read_map_cell_at_tile_g01115.c",
+          "function": "func_8008C374",
+          "foff": 60436,
+          "vma": 2148057972,
+          "size": 68
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_8006ADD4",
+          "kind": "runtime_data",
+          "vma": 2147921364,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_read_map_cell_at_tile_g01115.imports.json",
+          "declaration": "include/town/map/town_map_entry_processor_g00524.h"
+        },
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_read_map_cell_at_tile_g01115.imports.json",
+          "declaration": "include/town/map/town_map_entry_processor_g00524.h"
+        },
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_read_map_cell_at_tile_g01115.imports.json",
+          "declaration": "include/town/map/position/read_map_cell_at_tile_g01115.h"
+        },
+        {
+          "symbol": "D_8008C304",
+          "kind": "data",
+          "vma": 2148057860,
+          "foff": 60324,
+          "view_bytes": 6,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800CFCA8",
+          "kind": "data",
+          "vma": 2148334760,
+          "foff": 337224,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800FC428",
+          "kind": "data",
+          "vma": 2148516904,
+          "foff": 519368,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_8003ADF4",
+          "kind": "function",
+          "vma": 2147724788
+        },
+        {
+          "symbol": "func_8003FC64",
+          "kind": "function",
+          "vma": 2147744868
+        },
+        {
+          "symbol": "func_800C1D20",
+          "kind": "function",
+          "vma": 2148277536
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_read_map_cell_at_tile_g01115.md",
+        "docs/evidence/town_read_map_cell_at_tile_g01115.membership.json",
+        "docs/evidence/town_read_map_cell_at_tile_g01115.recipe.json",
+        "docs/evidence/town_read_map_cell_at_tile_g01115.absorption.json",
+        "docs/evidence/town_town_map_entry_processor_g00524.md",
+        "docs/evidence/town_town_map_entry_processor_g00524.membership.json",
+        "docs/evidence/town_town_map_entry_processor_g00524.recipe.json",
+        "docs/evidence/town_town_map_entry_processor_g00524.imports.json",
+        "docs/evidence/town_town_map_entry_processor_g00524.imports.json",
+        "docs/evidence/town_read_map_cell_at_tile_g01115.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_read_map_cell_at_tile_g01115.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_read_map_cell_at_tile_g01115.recipe.json"
+      }
+    },
+    {
+      "key": "town_call_the_handler_selects_nonzero_entry_g01123",
+      "container": "town",
+      "name": "call_the_handler_selects_nonzero_entry_g01123.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/player/call_the_handler_selects_nonzero_entry_g01123.c",
+      "headers": [
+        "include/town/player/call_the_handler_selects_nonzero_entry_g01123.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_80097224",
+          "source": "src/town/player/call_the_handler_selects_nonzero_entry_g01123.c",
+          "function": "func_80094984",
+          "foff": 94756,
+          "vma": 2148092292,
+          "size": 64
+        },
+        {
+          "id": "town/func_80097264",
+          "source": "src/town/player/call_the_handler_selects_nonzero_entry_g01123.c",
+          "function": "func_800949C4",
+          "foff": 94820,
+          "vma": 2148092356,
+          "size": 116
+        },
+        {
+          "id": "town/func_800972D8",
+          "source": "src/town/player/call_the_handler_selects_nonzero_entry_g01123.c",
+          "function": "func_80094A38",
+          "foff": 94936,
+          "vma": 2148092472,
+          "size": 40
+        },
+        {
+          "id": "town/func_80097300",
+          "source": "src/town/player/call_the_handler_selects_nonzero_entry_g01123.c",
+          "function": "func_80094A60",
+          "foff": 94976,
+          "vma": 2148092512,
+          "size": 64
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80080A84",
+          "kind": "runtime_data",
+          "vma": 2148010628,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_call_the_handler_selects_nonzero_entry_g01123.imports.json",
+          "declaration": "include/town/player/source_byte_forwarding_g00536.h"
+        },
+        {
+          "symbol": "func_80048A44",
+          "kind": "function",
+          "vma": 2147781188
+        },
+        {
+          "symbol": "func_80095360",
+          "kind": "function",
+          "vma": 2148094816
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_call_the_handler_selects_nonzero_entry_g01123.md",
+        "docs/evidence/town_call_the_handler_selects_nonzero_entry_g01123.membership.json",
+        "docs/evidence/town_call_the_handler_selects_nonzero_entry_g01123.recipe.json",
+        "docs/evidence/town_call_the_handler_selects_nonzero_entry_g01123.absorption.json",
+        "docs/evidence/town_player_source_byte_forwarding_g00536.md",
+        "docs/evidence/town_player_source_byte_forwarding_g00536.membership.json",
+        "docs/evidence/town_player_source_byte_forwarding_g00536.recipe.json",
+        "docs/evidence/town_player_source_byte_forwarding_g00536.imports.json",
+        "docs/evidence/town_player_source_byte_forwarding_g00536.imports.json",
+        "docs/evidence/town_call_the_handler_selects_nonzero_entry_g01123.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_call_the_handler_selects_nonzero_entry_g01123.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_call_the_handler_selects_nonzero_entry_g01123.recipe.json"
+      }
+    },
+    {
+      "key": "town_position_object_initialization_g01134",
+      "container": "town",
+      "name": "position_object_initialization_g01134.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/shop/position_object_initialization_g01134.c",
+      "headers": [
+        "include/town/shop/position_object_initialization_g01134.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800A2ACC",
+          "source": "src/town/shop/position_object_initialization_g01134.c",
+          "function": "func_800A022C",
+          "foff": 142028,
+          "vma": 2148139564,
+          "size": 80
+        },
+        {
+          "id": "town/func_800A2B1C",
+          "source": "src/town/shop/position_object_initialization_g01134.c",
+          "function": "func_800A027C",
+          "foff": 142108,
+          "vma": 2148139644,
+          "size": 352
+        },
+        {
+          "id": "town/func_800A2C7C",
+          "source": "src/town/shop/position_object_initialization_g01134.c",
+          "function": "func_800A03DC",
+          "foff": 142460,
+          "vma": 2148139996,
+          "size": 40
+        },
+        {
+          "id": "town/func_800A2CA4",
+          "source": "src/town/shop/position_object_initialization_g01134.c",
+          "function": "func_800A0404",
+          "foff": 142500,
+          "vma": 2148140036,
+          "size": 164
+        },
+        {
+          "id": "town/func_800A2D48",
+          "source": "src/town/shop/position_object_initialization_g01134.c",
+          "function": "func_800A04A8",
+          "foff": 142664,
+          "vma": 2148140200,
+          "size": 12
+        },
+        {
+          "id": "town/func_800A2D54",
+          "source": "src/town/shop/position_object_initialization_g01134.c",
+          "function": "func_800A04B4",
+          "foff": 142676,
+          "vma": 2148140212,
+          "size": 80
+        },
+        {
+          "id": "town/func_800A2DA4",
+          "source": "src/town/shop/position_object_initialization_g01134.c",
+          "function": "func_800A0504",
+          "foff": 142756,
+          "vma": 2148140292,
+          "size": 92
+        },
+        {
+          "id": "town/func_800A2E00",
+          "source": "src/town/shop/position_object_initialization_g01134.c",
+          "function": "func_800A0560",
+          "foff": 142848,
+          "vma": 2148140384,
+          "size": 168
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_8006E240",
+          "kind": "runtime_data",
+          "vma": 2147934784,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_position_object_initialization_g01134.imports.json",
+          "declaration": "include/town/shop/position_object_initialization_g00563.h"
+        },
+        {
+          "symbol": "D_80083498",
+          "kind": "runtime_data",
+          "vma": 2148021400,
+          "view_bytes": 32,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_position_object_initialization_g01134.imports.json",
+          "declaration": "include/shared/object_node.h"
+        },
+        {
+          "symbol": "D_8009BC44",
+          "kind": "data",
+          "vma": 2148121668,
+          "foff": 124132,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800CFCB4",
+          "kind": "data",
+          "vma": 2148334772,
+          "foff": 337236,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D073C",
+          "kind": "data",
+          "vma": 2148337468,
+          "foff": 339932,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D0754",
+          "kind": "data",
+          "vma": 2148337492,
+          "foff": 339956,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D076C",
+          "kind": "data",
+          "vma": 2148337516,
+          "foff": 339980,
+          "view_bytes": 33,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_80100AA0",
+          "kind": "data",
+          "vma": 2148534944,
+          "foff": 537408,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_8003FD64",
+          "kind": "function",
+          "vma": 2147745124
+        },
+        {
+          "symbol": "func_8004A658",
+          "kind": "function",
+          "vma": 2147788376
+        },
+        {
+          "symbol": "func_8008F0D4",
+          "kind": "function",
+          "vma": 2148069588
+        },
+        {
+          "symbol": "func_8009539C",
+          "kind": "function",
+          "vma": 2148094876
+        },
+        {
+          "symbol": "func_8009B218",
+          "kind": "function",
+          "vma": 2148119064
+        },
+        {
+          "symbol": "func_8009DEBC",
+          "kind": "function",
+          "vma": 2148130492
+        },
+        {
+          "symbol": "func_8009FF50",
+          "kind": "function",
+          "vma": 2148138832
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_position_object_initialization_g01134.md",
+        "docs/evidence/town_position_object_initialization_g01134.membership.json",
+        "docs/evidence/town_position_object_initialization_g01134.recipe.json",
+        "docs/evidence/town_position_object_initialization_g01134.absorption.json",
+        "docs/evidence/town_shop_entry_queue_g00564.md",
+        "docs/evidence/town_shop_entry_queue_g00564.membership.json",
+        "docs/evidence/town_shop_entry_queue_g00564.recipe.json",
+        "docs/evidence/town_shop_position_object_initialization_g00563.md",
+        "docs/evidence/town_shop_position_object_initialization_g00563.membership.json",
+        "docs/evidence/town_shop_position_object_initialization_g00563.recipe.json",
+        "docs/evidence/town_shop_position_object_initialization_g00563.imports.json",
+        "docs/evidence/town_shop_position_object_initialization_g00563.imports.json",
+        "docs/evidence/town_position_object_initialization_g01134.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_position_object_initialization_g01134.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_position_object_initialization_g01134.recipe.json"
+      }
+    },
+    {
+      "key": "town_item_query_checks_g01145",
+      "container": "town",
+      "name": "item_query_checks_g01145.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/event/item_query_checks_g01145.c",
+      "headers": [
+        "include/town/event/item_query_checks_g01145.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800AC118",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9878",
+          "foff": 180504,
+          "vma": 2148178040,
+          "size": 76
+        },
+        {
+          "id": "town/func_800AC164",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A98C4",
+          "foff": 180580,
+          "vma": 2148178116,
+          "size": 52
+        },
+        {
+          "id": "town/func_800AC198",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A98F8",
+          "foff": 180632,
+          "vma": 2148178168,
+          "size": 120
+        },
+        {
+          "id": "town/func_800AC210",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9970",
+          "foff": 180752,
+          "vma": 2148178288,
+          "size": 104
+        },
+        {
+          "id": "town/func_800AC278",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A99D8",
+          "foff": 180856,
+          "vma": 2148178392,
+          "size": 96
+        },
+        {
+          "id": "town/func_800AC2D8",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9A38",
+          "foff": 180952,
+          "vma": 2148178488,
+          "size": 164
+        },
+        {
+          "id": "town/func_800AC37C",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9ADC",
+          "foff": 181116,
+          "vma": 2148178652,
+          "size": 80
+        },
+        {
+          "id": "town/func_800AC3CC",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9B2C",
+          "foff": 181196,
+          "vma": 2148178732,
+          "size": 236
+        },
+        {
+          "id": "town/func_800AC4B8",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9C18",
+          "foff": 181432,
+          "vma": 2148178968,
+          "size": 56
+        },
+        {
+          "id": "town/func_800AC4F0",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9C50",
+          "foff": 181488,
+          "vma": 2148179024,
+          "size": 28
+        },
+        {
+          "id": "town/func_800AC50C",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9C6C",
+          "foff": 181516,
+          "vma": 2148179052,
+          "size": 32
+        },
+        {
+          "id": "town/func_800AC52C",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9C8C",
+          "foff": 181548,
+          "vma": 2148179084,
+          "size": 32
+        },
+        {
+          "id": "town/func_800AC54C",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9CAC",
+          "foff": 181580,
+          "vma": 2148179116,
+          "size": 84
+        },
+        {
+          "id": "town/func_800AC5A0",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9D00",
+          "foff": 181664,
+          "vma": 2148179200,
+          "size": 116
+        },
+        {
+          "id": "town/func_800AC614",
+          "source": "src/town/event/item_query_checks_g01145.c",
+          "function": "func_800A9D74",
+          "foff": 181780,
+          "vma": 2148179316,
+          "size": 244
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_8006ADD4",
+          "kind": "runtime_data",
+          "vma": 2147921364,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+          "declaration": "include/town/event/item_query_checks_g01145.h"
+        },
+        {
+          "symbol": "D_8006BC7A",
+          "kind": "runtime_data",
+          "vma": 2147925114,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+          "declaration": "include/town/event/entry_kind_filters_g00589.h"
+        },
+        {
+          "symbol": "D_8006C894",
+          "kind": "runtime_data",
+          "vma": 2147928212,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+          "declaration": "include/town/event/item_query_checks_g01145.h"
+        },
+        {
+          "symbol": "D_8006C8F7",
+          "kind": "runtime_data",
+          "vma": 2147928311,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+          "declaration": "include/town/event/item_query_checks_g01145.h"
+        },
+        {
+          "symbol": "D_8006C982",
+          "kind": "runtime_data",
+          "vma": 2147928450,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+          "declaration": "include/town/event/item_query_checks_g01145.h"
+        },
+        {
+          "symbol": "D_8006C9E4",
+          "kind": "runtime_data",
+          "vma": 2147928548,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+          "declaration": "include/town/event/item_query_checks_g01145.h"
+        },
+        {
+          "symbol": "D_80081498",
+          "kind": "runtime_data",
+          "vma": 2148013208,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+          "declaration": "include/town/event/item_query_checks_g01145.h"
+        },
+        {
+          "symbol": "D_800834B8",
+          "kind": "runtime_data",
+          "vma": 2148021432,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+          "declaration": "include/town/event/item_query_checks_g01145.h"
+        },
+        {
+          "symbol": "D_800C25C0",
+          "kind": "data",
+          "vma": 2148279744,
+          "foff": 282208,
+          "view_bytes": 6,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800C3174",
+          "kind": "data",
+          "vma": 2148282740,
+          "foff": 285204,
+          "view_bytes": 6,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800C321C",
+          "kind": "data",
+          "vma": 2148282908,
+          "foff": 285372,
+          "view_bytes": 6,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D1038",
+          "kind": "data",
+          "vma": 2148339768,
+          "foff": 342232,
+          "view_bytes": 28,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D1054",
+          "kind": "data",
+          "vma": 2148339796,
+          "foff": 342260,
+          "view_bytes": 2,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D1064",
+          "kind": "data",
+          "vma": 2148339812,
+          "foff": 342276,
+          "view_bytes": 15,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D1074",
+          "kind": "data",
+          "vma": 2148339828,
+          "foff": 342292,
+          "view_bytes": 10,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D1080",
+          "kind": "data",
+          "vma": 2148339840,
+          "foff": 342304,
+          "view_bytes": 2,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_80100E38",
+          "kind": "data",
+          "vma": 2148535864,
+          "foff": 538328,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_80033B2C",
+          "kind": "function",
+          "vma": 2147695404
+        },
+        {
+          "symbol": "func_8004A618",
+          "kind": "function",
+          "vma": 2147788312
+        },
+        {
+          "symbol": "func_8009368C",
+          "kind": "function",
+          "vma": 2148087436
+        },
+        {
+          "symbol": "func_80093744",
+          "kind": "function",
+          "vma": 2148087620
+        },
+        {
+          "symbol": "func_800C172C",
+          "kind": "function",
+          "vma": 2148276012
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_item_query_checks_g01145.md",
+        "docs/evidence/town_item_query_checks_g01145.membership.json",
+        "docs/evidence/town_item_query_checks_g01145.recipe.json",
+        "docs/evidence/town_item_query_checks_g01145.absorption.json",
+        "docs/evidence/town_entry_kind_filters_g00589.md",
+        "docs/evidence/town_entry_kind_filters_g00589.membership.json",
+        "docs/evidence/town_entry_kind_filters_g00589.recipe.json",
+        "docs/evidence/town_entry_kind_filters_g00589.imports.json",
+        "docs/evidence/town_item_query_checks_g00588.md",
+        "docs/evidence/town_item_query_checks_g00588.membership.json",
+        "docs/evidence/town_item_query_checks_g00588.recipe.json",
+        "docs/evidence/town_entry_kind_filters_g00589.imports.json",
+        "docs/evidence/town_item_query_checks_g01145.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_item_query_checks_g01145.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_item_query_checks_g01145.recipe.json"
+      }
+    },
+    {
+      "key": "town_update_item_menu_record_g01150",
+      "container": "town",
+      "name": "update_item_menu_record_g01150.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/shop/item/update_item_menu_record_g01150.c",
+      "headers": [
+        "include/town/shop/item/update_item_menu_record_g01150.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B2100",
+          "source": "src/town/shop/item/update_item_menu_record_g01150.c",
+          "function": "func_800AF860",
+          "foff": 205056,
+          "vma": 2148202592,
+          "size": 80
+        },
+        {
+          "id": "town/func_800B2150",
+          "source": "src/town/shop/item/update_item_menu_record_g01150.c",
+          "function": "func_800AF8B0",
+          "foff": 205136,
+          "vma": 2148202672,
+          "size": 188
+        },
+        {
+          "id": "town/func_800B220C",
+          "source": "src/town/shop/item/update_item_menu_record_g01150.c",
+          "function": "func_800AF96C",
+          "foff": 205324,
+          "vma": 2148202860,
+          "size": 88
+        },
+        {
+          "id": "town/func_800B2264",
+          "source": "src/town/shop/item/update_item_menu_record_g01150.c",
+          "function": "func_800AF9C4",
+          "foff": 205412,
+          "vma": 2148202948,
+          "size": 828
+        },
+        {
+          "id": "town/func_800B25A0",
+          "source": "src/town/shop/item/update_item_menu_record_g01150.c",
+          "function": "func_800AFD00",
+          "foff": 206240,
+          "vma": 2148203776,
+          "size": 92
+        },
+        {
+          "id": "town/func_800B25FC",
+          "source": "src/town/shop/item/update_item_menu_record_g01150.c",
+          "function": "func_800AFD5C",
+          "foff": 206332,
+          "vma": 2148203868,
+          "size": 116
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_update_item_menu_record_g01150.imports.json",
+          "declaration": "include/town/shop/item_menu_selection_steps_g00604.h"
+        },
+        {
+          "symbol": "D_800891F4",
+          "kind": "data",
+          "vma": 2148045300,
+          "foff": 47764,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800AF96C",
+          "kind": "data",
+          "vma": 2148202860,
+          "foff": 205324,
+          "view_bytes": 6,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800AFD00",
+          "kind": "data",
+          "vma": 2148203776,
+          "foff": 206240,
+          "view_bytes": 6,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_80049490",
+          "kind": "function",
+          "vma": 2147783824
+        },
+        {
+          "symbol": "func_800497F4",
+          "kind": "function",
+          "vma": 2147784692
+        },
+        {
+          "symbol": "func_80049E1C",
+          "kind": "function",
+          "vma": 2147786268
+        },
+        {
+          "symbol": "func_8004B08C",
+          "kind": "function",
+          "vma": 2147790988
+        },
+        {
+          "symbol": "func_8004CB2C",
+          "kind": "function",
+          "vma": 2147797804
+        },
+        {
+          "symbol": "func_80053DA8",
+          "kind": "function",
+          "vma": 2147827112
+        },
+        {
+          "symbol": "func_800AE484",
+          "kind": "function",
+          "vma": 2148197508
+        },
+        {
+          "symbol": "func_800AF254",
+          "kind": "function",
+          "vma": 2148201044
+        },
+        {
+          "symbol": "func_800AF36C",
+          "kind": "function",
+          "vma": 2148201324
+        },
+        {
+          "symbol": "func_800AF520",
+          "kind": "function",
+          "vma": 2148201760
+        },
+        {
+          "symbol": "func_800AF674",
+          "kind": "function",
+          "vma": 2148202100
+        },
+        {
+          "symbol": "func_800AF784",
+          "kind": "function",
+          "vma": 2148202372
+        },
+        {
+          "symbol": "func_800AF858",
+          "kind": "function",
+          "vma": 2148202584
+        },
+        {
+          "symbol": "func_800B05DC",
+          "kind": "function",
+          "vma": 2148206044
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_update_item_menu_record_g01150.md",
+        "docs/evidence/town_update_item_menu_record_g01150.membership.json",
+        "docs/evidence/town_update_item_menu_record_g01150.recipe.json",
+        "docs/evidence/town_update_item_menu_record_g01150.absorption.json",
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.md",
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.membership.json",
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.recipe.json",
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.imports.json",
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.imports.json",
+        "docs/evidence/town_update_item_menu_record_g01150.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_update_item_menu_record_g01150.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_update_item_menu_record_g01150.recipe.json"
+      }
+    },
+    {
+      "key": "town_dispatch_indexed_handler_g01154",
+      "container": "town",
+      "name": "dispatch_indexed_handler_g01154.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/shop/dispatch_indexed_handler_g01154.c",
+      "headers": [
+        "include/town/shop/dispatch_indexed_handler_g01154.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B47B0",
+          "source": "src/town/shop/dispatch_indexed_handler_g01154.c",
+          "function": "func_800B1F10",
+          "foff": 214960,
+          "vma": 2148212496,
+          "size": 56
+        },
+        {
+          "id": "town/func_800B47E8",
+          "source": "src/town/shop/dispatch_indexed_handler_g01154.c",
+          "function": "func_800B1F48",
+          "foff": 215016,
+          "vma": 2148212552,
+          "size": 56
+        },
+        {
+          "id": "town/func_800B4820",
+          "source": "src/town/shop/dispatch_indexed_handler_g01154.c",
+          "function": "func_800B1F80",
+          "foff": 215072,
+          "vma": 2148212608,
+          "size": 232
+        },
+        {
+          "id": "town/func_800B4908",
+          "source": "src/town/shop/dispatch_indexed_handler_g01154.c",
+          "function": "func_800B2068",
+          "foff": 215304,
+          "vma": 2148212840,
+          "size": 200
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800D1638",
+          "kind": "data",
+          "vma": 2148341304,
+          "foff": 343768,
+          "view_bytes": 8,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D1640",
+          "kind": "data",
+          "vma": 2148341312,
+          "foff": 343776,
+          "view_bytes": 18,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_80049E1C",
+          "kind": "function",
+          "vma": 2147786268
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_dispatch_indexed_handler_g01154.md",
+        "docs/evidence/town_dispatch_indexed_handler_g01154.membership.json",
+        "docs/evidence/town_dispatch_indexed_handler_g01154.recipe.json",
+        "docs/evidence/town_dispatch_indexed_handler_g01154.absorption.json",
+        "docs/evidence/town_shop_entry_handler_notifications_g00613.md",
+        "docs/evidence/town_shop_entry_handler_notifications_g00613.membership.json",
+        "docs/evidence/town_shop_entry_handler_notifications_g00613.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_dispatch_indexed_handler_g01154.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_dispatch_indexed_handler_g01154.recipe.json"
+      }
+    },
+    {
+      "key": "town_resource_entry_initialization_g01156",
+      "container": "town",
+      "name": "resource_entry_initialization_g01156.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/shop/resource_entry_initialization_g01156.c",
+      "headers": [
+        "include/town/shop/resource_entry_initialization_g01156.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B5204",
+          "source": "src/town/shop/resource_entry_initialization_g01156.c",
+          "function": "func_800B2964",
+          "foff": 217604,
+          "vma": 2148215140,
+          "size": 64
+        },
+        {
+          "id": "town/func_800B5244",
+          "source": "src/town/shop/resource_entry_initialization_g01156.c",
+          "function": "func_800B29A4",
+          "foff": 217668,
+          "vma": 2148215204,
+          "size": 44
+        },
+        {
+          "id": "town/func_800B5270",
+          "source": "src/town/shop/resource_entry_initialization_g01156.c",
+          "function": "func_800B29D0",
+          "foff": 217712,
+          "vma": 2148215248,
+          "size": 104
+        },
+        {
+          "id": "town/func_800B52D8",
+          "source": "src/town/shop/resource_entry_initialization_g01156.c",
+          "function": "func_800B2A38",
+          "foff": 217816,
+          "vma": 2148215352,
+          "size": 296
+        },
+        {
+          "id": "town/func_800B5400",
+          "source": "src/town/shop/resource_entry_initialization_g01156.c",
+          "function": "func_800B2B60",
+          "foff": 218112,
+          "vma": 2148215648,
+          "size": 64
+        },
+        {
+          "id": "town/func_800B5440",
+          "source": "src/town/shop/resource_entry_initialization_g01156.c",
+          "function": "func_800B2BA0",
+          "foff": 218176,
+          "vma": 2148215712,
+          "size": 204
+        },
+        {
+          "id": "town/func_800B550C",
+          "source": "src/town/shop/resource_entry_initialization_g01156.c",
+          "function": "func_800B2C6C",
+          "foff": 218380,
+          "vma": 2148215916,
+          "size": 124
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_resource_entry_initialization_g01156.imports.json",
+          "declaration": "include/town/shop/twin_storage_initialization_g00618.h"
+        },
+        {
+          "symbol": "func_80033D44",
+          "kind": "function",
+          "vma": 2147695940
+        },
+        {
+          "symbol": "func_8003FC64",
+          "kind": "function",
+          "vma": 2147744868
+        },
+        {
+          "symbol": "func_8004B1A4",
+          "kind": "function",
+          "vma": 2147791268
+        },
+        {
+          "symbol": "func_8004B404",
+          "kind": "function",
+          "vma": 2147791876
+        },
+        {
+          "symbol": "func_800A48A4",
+          "kind": "function",
+          "vma": 2148157604
+        },
+        {
+          "symbol": "func_800B0718",
+          "kind": "function",
+          "vma": 2148206360
+        },
+        {
+          "symbol": "func_800B2394",
+          "kind": "function",
+          "vma": 2148213652
+        },
+        {
+          "symbol": "func_800B23C0",
+          "kind": "function",
+          "vma": 2148213696
+        },
+        {
+          "symbol": "func_800B260C",
+          "kind": "function",
+          "vma": 2148214284
+        },
+        {
+          "symbol": "func_800B2918",
+          "kind": "function",
+          "vma": 2148215064
+        },
+        {
+          "symbol": "func_800B3924",
+          "kind": "function",
+          "vma": 2148219172
+        },
+        {
+          "symbol": "func_800B3A80",
+          "kind": "function",
+          "vma": 2148219520
+        },
+        {
+          "symbol": "func_800B4588",
+          "kind": "function",
+          "vma": 2148222344
+        },
+        {
+          "symbol": "func_800B46CC",
+          "kind": "function",
+          "vma": 2148222668
+        },
+        {
+          "symbol": "func_800B4F60",
+          "kind": "function",
+          "vma": 2148224864
+        },
+        {
+          "symbol": "func_800B50BC",
+          "kind": "function",
+          "vma": 2148225212
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_resource_entry_initialization_g01156.md",
+        "docs/evidence/town_resource_entry_initialization_g01156.membership.json",
+        "docs/evidence/town_resource_entry_initialization_g01156.recipe.json",
+        "docs/evidence/town_resource_entry_initialization_g01156.absorption.json",
+        "docs/evidence/town_shop_resource_entry_initialization_g00617.md",
+        "docs/evidence/town_shop_resource_entry_initialization_g00617.membership.json",
+        "docs/evidence/town_shop_resource_entry_initialization_g00617.recipe.json",
+        "docs/evidence/town_shop_twin_storage_initialization_g00618.md",
+        "docs/evidence/town_shop_twin_storage_initialization_g00618.membership.json",
+        "docs/evidence/town_shop_twin_storage_initialization_g00618.recipe.json",
+        "docs/evidence/town_shop_twin_storage_initialization_g00618.imports.json",
+        "docs/evidence/town_shop_twin_storage_initialization_g00618.imports.json",
+        "docs/evidence/town_resource_entry_initialization_g01156.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_resource_entry_initialization_g01156.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_resource_entry_initialization_g01156.recipe.json"
+      }
+    },
+    {
+      "key": "town_dispatch_town_callback_fallback_g00763",
+      "container": "town",
+      "name": "dispatch_town_callback_fallback_g00763.c",
+      "region": "row_6f48d0_800160d0_lacepi",
+      "source": "src/town/scene/dispatch_town_callback_fallback_g00763.c",
+      "headers": [
+        "include/town/scene/dispatch_town_callback_fallback_g00763.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_807748D0",
+          "source": "src/town/scene/dispatch_town_callback_fallback_g00763.c",
+          "function": "func_800160D0",
+          "foff": 7293136,
+          "vma": 2147573968,
+          "size": 88
+        },
+        {
+          "id": "town/func_80774928",
+          "source": "src/town/scene/dispatch_town_callback_fallback_g00763.c",
+          "function": "func_80016128",
+          "foff": 7293224,
+          "vma": 2147574056,
+          "size": 44
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80016000",
+          "kind": "data",
+          "vma": 2147573760,
+          "foff": 7292928,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:row_6f48d0_800160d0_lacepi"
+        },
+        {
+          "symbol": "D_80017404",
+          "kind": "data",
+          "vma": 2147578884,
+          "foff": 7298052,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:row_6f48d0_800160d0_lacepi"
+        },
+        {
+          "symbol": "D_800174D8",
+          "kind": "data",
+          "vma": 2147579096,
+          "foff": 7298264,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:row_6f48d0_800160d0_lacepi"
+        },
+        {
+          "symbol": "D_8001770A",
+          "kind": "data",
+          "vma": 2147579658,
+          "foff": 7298826,
+          "view_bytes": 2,
+          "owner": "retail_asset:town:row_6f48d0_800160d0_lacepi"
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_dispatch_town_callback_fallback_g00763.md",
+        "docs/evidence/town_dispatch_town_callback_fallback_g00763.membership.json",
+        "docs/evidence/town_dispatch_town_callback_fallback_g00763.recipe.json",
+        "docs/evidence/town_dispatch_town_callback_fallback_g00763.absorption.json",
+        "docs/evidence/town_ovl_6f48d0.membership.json",
+        "docs/evidence/town_ovl_6f48d0.imports.json",
+        "docs/evidence/town_ovl_6f48d0.md"
+      ],
+      "membership_evidence": "docs/evidence/town_dispatch_town_callback_fallback_g00763.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_dispatch_town_callback_fallback_g00763.recipe.json"
+      }
+    },
+    {
+      "key": "dungeon_spell_resource_ids_g01008",
+      "container": "dungeon",
+      "name": "spell_resource_ids_g01008.c",
+      "region": "xfer_dungeon_A3000",
+      "source": "src/dungeon/actor/spell_resource_ids_g01008.c",
+      "headers": [
+        "include/dungeon/actor/spell_resource_ids_g01008.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "dungeon/func_800A3C30",
+          "source": "src/dungeon/actor/spell_resource_ids_g01008.c",
+          "function": "func_800A9390",
+          "foff": 801840,
+          "vma": 2148176784,
+          "size": 112
+        },
+        {
+          "id": "dungeon/func_800A3CA0",
+          "source": "src/dungeon/actor/spell_resource_ids_g01008.c",
+          "function": "func_800A9400",
+          "foff": 801952,
+          "vma": 2148176896,
+          "size": 160
+        },
+        {
+          "id": "dungeon/func_800A3D40",
+          "source": "src/dungeon/actor/spell_resource_ids_g01008.c",
+          "function": "func_800A94A0",
+          "foff": 802112,
+          "vma": 2148177056,
+          "size": 908
+        },
+        {
+          "id": "dungeon/func_800A40CC",
+          "source": "src/dungeon/actor/spell_resource_ids_g01008.c",
+          "function": "func_800A982C",
+          "foff": 803020,
+          "vma": 2148177964,
+          "size": 472
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80013714",
+          "kind": "runtime_data",
+          "vma": 2147563284,
+          "view_bytes": 2,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+          "declaration": "include/shared/sys_flags.h"
+        },
+        {
+          "symbol": "D_8006CD58",
+          "kind": "runtime_data",
+          "vma": 2147929432,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+          "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+        },
+        {
+          "symbol": "D_8006DE24",
+          "kind": "runtime_data",
+          "vma": 2147933732,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+          "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+        },
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+          "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+        },
+        {
+          "symbol": "D_80082E80",
+          "kind": "runtime_data",
+          "vma": 2148019840,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+          "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+        },
+        {
+          "symbol": "D_80083498",
+          "kind": "runtime_data",
+          "vma": 2148021400,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+          "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+        },
+        {
+          "symbol": "D_80089080",
+          "kind": "data",
+          "vma": 2148044928,
+          "foff": 669984,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800DCEAC",
+          "kind": "data",
+          "vma": 2148388524,
+          "foff": 1013580,
+          "view_bytes": 2,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800DCEBC",
+          "kind": "data",
+          "vma": 2148388540,
+          "foff": 1013596,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800DCF4D",
+          "kind": "data",
+          "vma": 2148388685,
+          "foff": 1013741,
+          "view_bytes": 2,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800DCF59",
+          "kind": "data",
+          "vma": 2148388697,
+          "foff": 1013753,
+          "view_bytes": 1,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800DD880",
+          "kind": "data",
+          "vma": 2148391040,
+          "foff": 1016096,
+          "view_bytes": 52,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800DD8B4",
+          "kind": "data",
+          "vma": 2148391092,
+          "foff": 1016148,
+          "view_bytes": 50,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800DD8E7",
+          "kind": "data",
+          "vma": 2148391143,
+          "foff": 1016199,
+          "view_bytes": 9,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800DD918",
+          "kind": "data",
+          "vma": 2148391192,
+          "foff": 1016248,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800DDAB8",
+          "kind": "data",
+          "vma": 2148391608,
+          "foff": 1016664,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800E1C58",
+          "kind": "data",
+          "vma": 2148408408,
+          "foff": 1033464,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800E3CC8",
+          "kind": "data",
+          "vma": 2148416712,
+          "foff": 1041768,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800E3D68",
+          "kind": "data",
+          "vma": 2148416872,
+          "foff": 1041928,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800E3D7C",
+          "kind": "data",
+          "vma": 2148416892,
+          "foff": 1041948,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800E58B0",
+          "kind": "data",
+          "vma": 2148423856,
+          "foff": 1048912,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "func_8003E140",
+          "kind": "function",
+          "vma": 2147737920
+        },
+        {
+          "symbol": "func_8003E4FC",
+          "kind": "function",
+          "vma": 2147738876
+        },
+        {
+          "symbol": "func_8003F540",
+          "kind": "function",
+          "vma": 2147743040
+        },
+        {
+          "symbol": "func_8003F6D4",
+          "kind": "function",
+          "vma": 2147743444
+        },
+        {
+          "symbol": "func_8003FD64",
+          "kind": "function",
+          "vma": 2147745124
+        },
+        {
+          "symbol": "func_800445E0",
+          "kind": "function",
+          "vma": 2147763680
+        },
+        {
+          "symbol": "func_80069EF8",
+          "kind": "function",
+          "vma": 2147917560
+        },
+        {
+          "symbol": "func_800990FC",
+          "kind": "function",
+          "vma": 2148110588
+        },
+        {
+          "symbol": "func_80099194",
+          "kind": "function",
+          "vma": 2148110740
+        },
+        {
+          "symbol": "func_80099290",
+          "kind": "function",
+          "vma": 2148110992
+        },
+        {
+          "symbol": "func_80099734",
+          "kind": "function",
+          "vma": 2148112180
+        },
+        {
+          "symbol": "func_8009FD40",
+          "kind": "function",
+          "vma": 2148138304
+        },
+        {
+          "symbol": "func_800A5720",
+          "kind": "function",
+          "vma": 2148161312
+        },
+        {
+          "symbol": "func_800AD594",
+          "kind": "function",
+          "vma": 2148193684
+        },
+        {
+          "symbol": "func_800C77D0",
+          "kind": "function",
+          "vma": 2148300752
+        },
+        {
+          "symbol": "func_800C78A0",
+          "kind": "function",
+          "vma": 2148300960
+        },
+        {
+          "symbol": "func_800C7A3C",
+          "kind": "function",
+          "vma": 2148301372
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tuwave2"
+      },
+      "review_inputs": [
+        "docs/evidence/dungeon_spell_resource_ids_g01008.md",
+        "docs/evidence/dungeon_spell_resource_ids_g01008.membership.json",
+        "docs/evidence/dungeon_spell_resource_ids_g01008.recipe.json",
+        "docs/evidence/dungeon_spell_resource_ids_g01008.absorption.json",
+        "docs/evidence/dungeon_actor_spell_resource_ids_g00331.md",
+        "docs/evidence/dungeon_actor_spell_resource_ids_g00331.membership.json",
+        "docs/evidence/dungeon_actor_spell_resource_ids_g00331.recipe.json",
+        "docs/evidence/dungeon_engine_experience.imports.json",
+        "include/shared/sys_flags.h",
+        "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.recipe.json"
       }
     }
   ]

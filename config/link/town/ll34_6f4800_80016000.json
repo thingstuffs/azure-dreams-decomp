@@ -21,7 +21,7 @@
     },
     {
       "row": "town/func_807748D0",
-      "tu": "src/town/scene/dispatch_town_callback_fallback.c",
+      "tu": "src/town/scene/dispatch_town_callback_fallback_g00763.c",
       "home": "town/func_807748D0",
       "foff": "0x6F48D0",
       "vma": "0x800160D0",
@@ -29,7 +29,7 @@
     },
     {
       "row": "town/func_80774928",
-      "tu": "src/town/scene/hooks/set_shared_buffer_pointers.c",
+      "tu": "src/town/scene/dispatch_town_callback_fallback_g00763.c",
       "home": "town/func_80774928",
       "foff": "0x6F4928",
       "vma": "0x80016128",

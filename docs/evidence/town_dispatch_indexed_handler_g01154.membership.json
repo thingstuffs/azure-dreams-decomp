@@ -1,0 +1,23 @@
+{
+  "module": "town_dispatch_indexed_handler_g01154",
+  "ledger_group": {
+    "container": "town",
+    "module": "dispatch_indexed_handler_g01154.c",
+    "module_index": 134223
+  },
+  "members": [
+    "town/func_800B47B0",
+    "town/func_800B47E8",
+    "town/func_800B4820",
+    "town/func_800B4908"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01154 - CL:town/func_800B47B0, CL:town/func_800B47E8. Grouping by tools/tu/infer_groups.py (group G01154); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Original ordered group G01154 reconciled to fresh G01031 by exact members or supplied wave-1 mapping.",
+    "Members are the contiguous registered home rows 0x347B0..0x349D0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

@@ -1,0 +1,211 @@
+{
+  "module": "main_card_boot_measure_dialog_choice_word_g01029",
+  "retired_modules": [
+    {
+      "key": "main_dialog_selection_highlight_g00379",
+      "container": "main",
+      "name": "dialog_selection_highlight_g00379.c",
+      "region": "xfer_main_25CA6C",
+      "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+      "headers": [
+        "include/frontend/libcard/dialog_selection_highlight_g00379.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "main/func_8000F300",
+          "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+          "function": "func_80022300",
+          "foff": 2487040,
+          "vma": 2147623680,
+          "size": 60
+        },
+        {
+          "id": "main/func_8000F33C",
+          "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+          "function": "func_8002233C",
+          "foff": 2487100,
+          "vma": 2147623740,
+          "size": 120
+        },
+        {
+          "id": "main/func_8000F3B4",
+          "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+          "function": "func_800223B4",
+          "foff": 2487220,
+          "vma": 2147623860,
+          "size": 212
+        },
+        {
+          "id": "main/func_8000F488",
+          "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+          "function": "func_80022488",
+          "foff": 2487432,
+          "vma": 2147624072,
+          "size": 156
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800280B4",
+          "kind": "data",
+          "vma": 2147647668,
+          "foff": 2511028,
+          "view_bytes": 12,
+          "owner": "retail_asset:main:xfer_main_25CA6C"
+        },
+        {
+          "symbol": "func_8002225C",
+          "kind": "function",
+          "vma": 2147623516
+        },
+        {
+          "symbol": "func_8004E264",
+          "kind": "function",
+          "vma": 2147803748
+        },
+        {
+          "symbol": "func_8004E884",
+          "kind": "function",
+          "vma": 2147805316
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tub10"
+      },
+      "review_inputs": [
+        "docs/evidence/main_dialog_selection_highlight_g00379.md",
+        "docs/evidence/main_dialog_selection_highlight_g00379.membership.json",
+        "docs/evidence/main_dialog_selection_highlight_g00379.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/main_dialog_selection_highlight_g00379.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/main_dialog_selection_highlight_g00379.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "docs/evidence/main_dialog_selection_highlight_g00379.recipe.json": "28e8a25ab0ce1d1e718041e1cd8e03590a31b0789c6e092132194319dedb8a31",
+    "include/frontend/libcard/interfaces.h": "ce5ad06414a9b7c8ef1d2b6fa1cad52e65015aee771cdd7e9cd85a5f4bfd4b80",
+    "docs/evidence/main_dialog_selection_highlight_g00379.membership.json": "8bc7e828bfcee8078ce987576adc2f4bb7c9bf8e395bdd1ba9f1f8d9cf3fdb9c",
+    "include/records/Rec_func_80025030_arg0.h": "0c08e1d68e28a277f8d5591213f35efa4efd5122da55a491d2789afd7c9bc167",
+    "docs/evidence/main_dialog_selection_highlight_g00379.md": "7ec12f63e36df25754e392a3de5889b663266aef90b067f4f0cb59ec7a4aeea0",
+    "include/records/Rec_func_8002290C_arg0.h": "d69868e008e270fd0d5ee4ed73f59f3db7f7c2ab72b7949035115dc2d03d8c4b",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "include/frontend/libcard/dialog_selection_highlight_g00379.h": "4a8cb14fe3f63b44148c1d2568d21942bd5d91f46d581911b89fe593f5447a37",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "src/frontend/libcard/dialog_selection_highlight_g00379.c": "f15df1f295abebc11dd992ece8d6f6feed5542e2f5c635724ab868c74133226f",
+    "include/frontend/libcard.h": "dae3e43f8c184f0ca0f6897bf6f22a30aeed6abc522ef3e3da29102dff489dff",
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+      "tu_new": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+      "member": "src/frontend/libcard/card_boot_build_slot_marker_packet.c",
+      "member_id": "main/func_8000F300",
+      "manifest_key": "main_dialog_selection_highlight_g00379",
+      "order": 1,
+      "offset": 391,
+      "source_sha256": "6f1ac465fa46703a484c1b6afcba157564da5c874aebcceb4bff8c8ed0667636",
+      "bytes": 479,
+      "inlined_bytes": 479,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+      "tu_new": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+      "member": "src/frontend/libcard/message/card_boot_highlight_dialog_text_range.c",
+      "member_id": "main/func_8000F33C",
+      "manifest_key": "main_dialog_selection_highlight_g00379",
+      "order": 2,
+      "offset": 871,
+      "source_sha256": "7bb132cfedf5cbeb8eae5ca6064ac26110d18368f5d98ecfdc3fd5aae89a5204",
+      "bytes": 545,
+      "inlined_bytes": 545,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+      "tu_new": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+      "member": "src/frontend/libcard/calculate_x.c",
+      "member_id": "main/func_8000F3B4",
+      "manifest_key": "main_dialog_selection_highlight_g00379",
+      "order": 3,
+      "offset": 1417,
+      "source_sha256": "9a8501bb2ab378d4aa0523b8b5195899402adb31a4f1ee5b631efa3837f7c14e",
+      "bytes": 1096,
+      "inlined_bytes": 1096,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+      "tu_new": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+      "member": "src/frontend/libcard/message/card_boot_update_message_choice_highlight.c",
+      "member_id": "main/func_8000F488",
+      "manifest_key": "main_dialog_selection_highlight_g00379",
+      "order": 4,
+      "offset": 2514,
+      "source_sha256": "e8c597afb347939663f8b6b805b25e9e36e0b9317d2d0db6ae041f8c8a30e8c7",
+      "bytes": 761,
+      "inlined_bytes": 761,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "main_card_boot_measure_dialog_choice_word_g01029",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 5,
+    "member_text_bytes": 712,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 712,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 8,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "main/func_8000F25C",
+        "members": [
+          "main/func_8000F25C"
+        ],
+        "text": 164,
+        "source": "src/frontend/libcard/message/card_boot_measure_dialog_choice_word.c",
+        "other_sections": {}
+      },
+      {
+        "id": "main/func_8000F300",
+        "members": [
+          "main/func_8000F300",
+          "main/func_8000F33C",
+          "main/func_8000F3B4",
+          "main/func_8000F488"
+        ],
+        "text": 548,
+        "source": "src/frontend/libcard/dialog_selection_highlight_g00379.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "2368f357ed4b1482ae532d5920076dea9d5f0c439764e9bd4331912c19b780cf",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

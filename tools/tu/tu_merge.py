@@ -13,8 +13,9 @@ by boundary_map.py.  Three steps, each re-runnable:
            conflicts.json; resolve them by editing DRAFT/tree/ by hand.
   prove    complete-TU object identity per module: the module object's code
            bytes and relocations must equal the in-order concatenation of the
-           members compiled one by one from their frozen sources, at the
-           registered recipe; neither side may emit data sections.
+           frozen compilation units at their registered recipes. An explicitly
+           absorbed native module is compiled once as a complete TU. Switch
+           table bytes and relocations must also match exactly.
   install  re-prove, then apply to the root: sources/header, member removal,
            ledger/layout.jsonl, ledger/layout_inline.jsonl, ledger/modules.jsonl,
            config/overlays/modules.json (imports classified from the module
@@ -41,6 +42,11 @@ SPEC.json:
    "evidence": ["CL:town/func_8008D988", ...],
    "modules": [{"key": "town_shop_stat_display", "source": "src/town/shop/stat_display.c",
                 "title": "...", "members": ["town/func_800B7CEC", ...]}, ...]}
+A destination module may list absorb_modules: [existing_key, ...]. It must
+include each complete old cohort. The old descriptors, declaration/evidence
+hashes and inline records survive in the new absorption proof; allocated-data
+modules and modules with existing placement descriptors require a separate
+allocation/placement consolidation and are refused.
 Optional evidence_level/evidence_ids fields are emitted in each source's opening
 comment. runtime_anchors maps individually evidenced D_XXXXXXXX imports to a
 declaration, basis and review_inputs (or evidence). Address-only views default
@@ -360,8 +366,75 @@ def load_repo(root):
     return rows, layout
 
 
+def absorption_plan(root, spec):
+    """Explicit, whole-module absorption. Never silently split an installed TU.
+
+    The caller lists absorb_modules on the destination module. Its members must
+    already include the complete old cohort, so the original-file evidence still
+    describes the whole requested span. Allocated data and module placements need
+    their own allocation/placement proof and are refused here.
+    """
+    path = root / 'config/overlays/modules.json'
+    modules = json.loads(path.read_text())['modules'] if path.exists() else []
+    old = {m['key']: m for m in modules}
+    requested = {}
+    all_ids = set()
+    for mod in spec['modules']:
+        ids = set(mod['members'])
+        if len(ids) != len(mod['members']) or ids & all_ids:
+            raise Refused('duplicate member in merge specification')
+        all_ids |= ids
+        keys = mod.get('absorb_modules', [])
+        for key in keys:
+            if key not in old or key in requested:
+                raise Refused('unknown or repeated absorbed module: ' + key)
+            entry = old[key]
+            cohort = {a['id'] for a in entry['members']}
+            if not cohort <= ids or entry['container'] != spec['container']:
+                raise Refused('absorption must include the complete module: ' + key)
+            if entry.get('owned_data') or entry.get('allocations') or entry.get('data_members'):
+                raise Refused('absorbed module owns allocated data: ' + key)
+            requested[key] = entry
+        overlaps = {m['key'] for m in modules if ids & {a['id'] for a in m['members']}}
+        if overlaps != set(keys):
+            raise Refused('existing module overlap needs explicit absorb_modules: ' + ', '.join(sorted(overlaps)))
+    placements = root / 'config/overlays/module_placements.json'
+    if placements.exists():
+        doc = json.loads(placements.read_text())
+        for placement in doc.get('placements', []):
+            if placement['module'] in requested:
+                raise Refused('absorbed module has existing placements: ' + placement['module'])
+    return requested
+
+
+def absorbed_preamble(root, text, headers, new_header):
+    """Move private native contracts through the normal declaration reconciler.
+
+    Leaving an absorbed header as an opaque include would retain the obsolete
+    function prototypes alongside their freshly reconciled definitions. Shared
+    contracts remain includes; relative includes retain their original target.
+    """
+    def expand(match):
+        token = match[1]
+        rel = 'include/' + token
+        if rel not in headers:
+            return match[0]
+        source = (root / rel).read_text()
+        source = re.sub(r'\A\s*#ifndef\s+(\w+)\s*\n\s*#define\s+\1\s*\n', '', source)
+        source = re.sub(r'\n\s*#endif\s*(?:/\*[^\n]*\*/)?\s*\Z', '\n', source)
+        def include(m):
+            local = Path(os.path.normpath(Path(rel).parent / m[1]))
+            target = local if (root / local).is_file() else Path('include') / m[1]
+            token = str(target.relative_to('include')) if target.parts[0] == 'include' else os.path.relpath(target, Path(new_header).parent)
+            return '#include "%s"' % token
+        return re.sub(r'#\s*include\s*"([^"]+)"', include, source)
+    return re.sub(r'#\s*include\s*"([^"]+)"', expand, text)
+
+
 def draft(root, spec, work, evidence=None, force=False):
     rows, layout = load_repo(root)
+    absorbed = absorption_plan(root, spec)
+    by_member = {a['id']: old for old in absorbed.values() for a in old['members']}
     container = spec['container']
     members = []
     for m in spec['modules']:
@@ -374,14 +447,21 @@ def draft(root, spec, work, evidence=None, force=False):
             members.append(dict(id=rid, path=layout.get(rid) or r['c_path'], cfg=r['cfg'],
                                 row_asflags=r.get('row_asflags') or '', foff=r['foff'], size=r['size'],
                                 function=r.get('true_name') or r['func'], module=m['key']))
+            if rid in by_member:
+                old = by_member[rid]
+                if members[-1]['path'] != old['source'] or r['cfg'] != old['recipe']['cfg']:
+                    raise Refused('absorbed source/recipe disagrees with registry: ' + rid)
+                members[-1]['absorbed_module'] = old['key']
     order = sorted(members, key=lambda x: x['foff'])
     if order != members:
         raise Refused('members must be listed in retail order')
     for a, b in zip(members, members[1:]):
         if a['module'] == b['module'] and a['foff'] + a['size'] != b['foff']:
             raise Refused('module members are not contiguous: %s -> %s' % (a['id'], b['id']))
-    if len({m['path'] for m in members}) != len(members):
-        raise Refused('a member file holds several members (existing multi-function source)')
+    for path in {m['path'] for m in members}:
+        same = [m for m in members if m['path'] == path]
+        if len(same) > 1 and any('absorbed_module' not in m for m in same):
+            raise Refused('a member file holds several members without registered absorption: ' + path)
     for key in {m['module'] for m in members}:
         cfgs = {(m['cfg'], m['row_asflags']) for m in members if m['module'] == key}
         override = spec.get('recipe')
@@ -409,6 +489,23 @@ def draft(root, spec, work, evidence=None, force=False):
     (work / 'pre').mkdir(parents=True)
     (work / 'tree').mkdir()
     (work / 'spec.json').write_text(json.dumps(spec, indent=1) + '\n')
+    # Freeze the old descriptor and every declaration/evidence input. The proof
+    # compiles the complete old source once, rather than recompiling extracted
+    # functions as if they had been independent TUs.
+    frozen = {}
+    for old in absorbed.values():
+        for rel in set(old['headers'] + old['review_inputs'] + header_closure(root, old['source'])):
+            if (root / rel).is_file():
+                frozen[rel] = sha256((root / rel).read_bytes())
+                dst = work / 'pre' / rel
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(root / rel, dst)
+                # Rebased private headers may include source-relative contracts.
+                # Make the draft tree self-contained under the same paths too.
+                target = work / 'tree' / rel
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(root / rel, target)
+    (work / 'absorption.json').write_text(json.dumps(dict(modules=list(absorbed.values()), inputs=frozen), indent=1) + '\n')
     groups = []  # (kind, keys, comment, text, member index)
     bodies, defs, used = [], [], []
     conflicts = []
@@ -421,6 +518,25 @@ def draft(root, spec, work, evidence=None, force=False):
         if not found:
             raise Refused('%s: no function definition' % m['path'])
         public = [f for f in found if not re.match(r'\s*static\b', src[f[1]:f[2]])]
+        all_found = found
+        all_public = public
+        if 'absorbed_module' in m:
+            # Names in native manifests are canonical assembler symbols; C may
+            # use the readable spelling registered for the same address.
+            aliases = {}
+            for line in (root / 'config/names.tsv').read_text().splitlines():
+                f = line.split('\t')
+                if len(f) >= 3:
+                    aliases[f[2]] = f[1]
+            expected = [a['function'] for a in absorbed[m['absorbed_module']]['members']]
+            if [aliases.get(f[0], f[0]) for f in public] != expected:
+                raise Refused('absorbed complete definition inventory differs: ' + m['path'])
+            public = [f for f in public if aliases.get(f[0], f[0]) == m['function']]
+            # Helpers preceding this public definition stay with it. Deduplication
+            # and complete-object identity still reject changed emission/locality.
+            pidx = all_found.index(public[0])
+            prev = max((all_found.index(f) for f in all_public if all_found.index(f) < pidx), default=-1)
+            found = all_found[prev + 1:pidx + 1]
         if len(public) != 1:
             raise Refused('%s: expected one non-static definition, found %s' % (m['path'], [f[0] for f in public]))
         start, end = found[0][1], found[-1][3]
@@ -454,9 +570,14 @@ def draft(root, spec, work, evidence=None, force=False):
         defs.append((name, proto, m))
         m['name'] = name
         m['first'] = found[0][0]
-        if src[end:].strip() and mask(src[end:])[0].strip():
+        tail = all_found[-1][3] if 'absorbed_module' in m else end
+        if src[tail:].strip() and mask(src[tail:])[0].strip():
             raise Refused('%s: code after the definitions' % m['path'])
-        for comment, text in split_statements(head[:cut]):
+        preamble = src[:all_found[0][1]] if 'absorbed_module' in m else head[:cut]
+        private_headers = {h for old in absorbed.values() for h in old['headers']
+                           if h.startswith('include/') and h != 'include/common.h'}
+        preamble = absorbed_preamble(root, preamble, private_headers, spec['header'])
+        for comment, text in split_statements(preamble):
             kind, keys = classify(text)
             groups.append((kind, keys, comment, text, mi))
     defined = {n for n, _, _ in defs}
@@ -583,7 +704,7 @@ def draft(root, spec, work, evidence=None, force=False):
         ms = [b for b, m in zip(bodies, members) if m['module'] == mod['key']]
         comment = '/* %s' % mod.get('title', mod['key'])
         if spec.get('evidence_level'):
-            comment += '\n * Evidence: %s.' % spec['evidence_level']
+            comment += '\n * ' + evidence_line(spec)
             for eid in spec.get('evidence_ids', []):
                 comment += '\n * %s' % eid
         elif evidence_line(spec):
@@ -721,6 +842,16 @@ def own_literals(root, work):
 
 # ------------------------------------------------------------------ prove
 
+def switch_payload_bytes(data, relocations):
+    """Separate only zero GNU end alignment after a complete R_MIPS_32 table."""
+    size = 4 * len(relocations)
+    if (size and [(off, typ) for off, typ, _ in relocations] ==
+            [(off, 'R_MIPS_32') for off in range(0, size, 4)]
+            and size <= len(data) < size + 16 and not any(data[size:])):
+        return size
+    return len(data)
+
+
 def prove(root, work):
     spec = json.loads((work / 'spec.json').read_text())
     members = json.loads((work / 'members.json').read_text())
@@ -733,16 +864,22 @@ def prove(root, work):
             cfg = spec.get('recipe') or ms[0]['cfg']
             concat, crel, per = b'', [], []
             rodata, rodata_rel, switches = b'', [], []
+            compiled_paths = set()
             for i, m in enumerate(ms):
+                if m['path'] in compiled_paths:
+                    continue
+                compiled_paths.add(m['path'])
+                unit = [x for x in ms if x['path'] == m['path']]
                 # every member at its own registered cell (byte-exact rows); the merged file at the
                 # module recipe - equal objects prove the one-recipe attribution of 72(c)
                 o, err = compile_obj(root, work / 'pre' / m['path'], m.get('registered_cfg', m['cfg']), tdp,
-                                     '%s_m%02d' % (mod['key'], i))
+                                     '%s_m%02d' % (mod['key'], i), includes=[work / 'pre/include'])
                 if o is None:
                     raise Refused('member %s does not compile: %s' % (m['id'], err[-400:]))
                 t, r, sec = text_and_relocs(o)
-                if len(t) != m['size']:
-                    raise Refused('member %s object text %d != registered size %d' % (m['id'], len(t), m['size']))
+                size = sum(x['size'] for x in unit)
+                if len(t) != size:
+                    raise Refused('member %s complete object text %d != registered size %d' % (m['id'], len(t), size))
                 crel += [(off + len(concat), typ, sym) for off, typ, sym in r]
                 concat += t
                 if set(sec) == {'.rodata'}:
@@ -750,9 +887,12 @@ def prove(root, work):
                     rb, rr = section_data(o, '.rodata')
                     rodata_rel += [(off + len(rodata), typ, sym) for off, typ, sym in rr]
                     rodata += rb
-                    switches.append(dict(id=m['id'], bytes=len(rb)))
+                    payload = switch_payload_bytes(rb, rr)
+                    switches.append(dict(id=m['id'], bytes=len(rb), payload_bytes=payload,
+                                         end_padding=len(rb) - payload))
                     sec = {}
-                per.append(dict(id=m['id'], text=len(t), other_sections=sec))
+                per.append(dict(id=m['id'], members=[x['id'] for x in unit], text=len(t),
+                                source=m['path'], other_sections=sec))
             tree = work / ('tree_imports' if (work / 'literals.json').exists() else 'tree')
             o, err = compile_obj(root, tree / mod['source'], cfg, tdp, mod['key'], includes=[tree / 'include'])
             if o is None:
@@ -766,10 +906,13 @@ def prove(root, work):
                     sec = dict(sec, rodata_differs=True)
             res = dict(module=mod['key'], recipe=cfg, members=len(ms), member_text_bytes=len(concat),
                        switch_tables=switches,
+                       switch_rodata_sha256=sha256(rodata) if switches else None,
+                       switch_relocations=[list(x) for x in rodata_rel],
                        member_cells=sorted({m.get('registered_cfg', m['cfg']) for m in ms}),
                        merged_text_bytes=len(t), text_equal=t == concat, relocations_equal=r == crel,
                        relocations=len(r), merged_other_sections=sec,
                        member_other_sections=[p for p in per if p['other_sections']],
+                       proof_units=per,
                        text_sha256=sha256(t))
             if r != crel:
                 res['first_reloc_diff'] = next(([list(a), list(b)] for a, b in zip(r, crel) if a != b),
@@ -906,6 +1049,35 @@ def rewrite_include_facade(text, facade, old_paths):
     return ''.join(lines)
 
 
+def rewrite_tu_aliases(records, retired):
+    """Keep historical physical-TU aliases pointed at the surviving source."""
+    out = [dict(r, new=retired.get(r['new'], r['new'])) for r in records]
+    if len({r['new'] for r in out}) != len(out):
+        raise Refused('absorption would combine multiple physical TU aliases; alias consolidation proof required')
+    return out
+
+
+def refresh_link_graph(root, work, fr):
+    """Capture the physical graph through its producer, never edit its shards."""
+    if not (root / 'config/link_graph/graph.json').exists():
+        return None
+    with tempfile.TemporaryDirectory(prefix='link-graph-', dir=work) as td:
+        directory = Path(td)
+        r = subprocess.run([sys.executable, str(root / 'tools/link/graph.py'), '--root', str(root),
+                            '--graph', str(directory), 'capture'], capture_output=True, text=True)
+        if r.returncode:
+            raise Refused('physical link graph capture failed: ' + r.stderr[-1200:])
+        old = {p.name for p in (root / 'config/link_graph').iterdir() if p.is_file()}
+        new = {p.name for p in directory.iterdir() if p.is_file()}
+        for name in sorted(old - new):
+            fr.remove('config/link_graph/' + name)
+        for name in sorted(new):
+            fr.write('config/link_graph/' + name, (directory / name).read_text())
+        receipt = json.loads(r.stdout)
+        (work / 'link_graph_refresh.json').write_text(json.dumps(receipt, indent=1) + '\n')
+        return receipt
+
+
 def view_bytes(root, sym, header, cfg, blob, foff, limit, includes):
     """sizeof(sym) through the shared header; else retail string length; else 4."""
     with tempfile.TemporaryDirectory(prefix='tu-sizeof-') as td:
@@ -936,7 +1108,7 @@ def install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate_
     snap = {rel: ((root / rel).read_bytes() if (root / rel).exists() else None) for rel in before}
     try:
         return _install(root, work, base, gate, reviewer, evidence_dir, gate_out)
-    except Refused:
+    except Exception:
         for rel, data in snap.items():
             p = root / rel
             if data is None:
@@ -972,9 +1144,15 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
     if not ok:
         raise Refused('identity differs: ' + json.dumps({k: v['equal'] for k, v in results.items()}))
     rows, layout = load_repo(root)
-    for key, res in results.items():
-        if res.get('switch_tables'):
-            raise Refused(switch_proposal(root, work, spec, members, key, res, rows))
+    switch_rows = {key: switch_row(root, work, spec, members, key, res, rows)
+                   for key, res in results.items() if res.get('switch_tables')}
+    absorbed = absorption_plan(root, spec)
+    absorption = json.loads((work / 'absorption.json').read_text()) if (work / 'absorption.json').exists() else {}
+    if list(absorbed.values()) != absorption.get('modules', []):
+        raise Refused('absorbed descriptor changed since draft; re-draft')
+    for rel, expected in absorption.get('inputs', {}).items():
+        if not (root / rel).is_file() or sha256((root / rel).read_bytes()) != expected:
+            raise Refused('absorbed proof input changed since draft: ' + rel)
     container = spec['container']
     sys.path[:0] = [str(root / 'tools'), str(root / 'tools/gate')]
     # levels screen (the module gate repeats it)
@@ -985,9 +1163,12 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
             raise Refused('L3/placement screen fails for %s: %s' % (m['id'], lv and {k: lv[k] for k in (
                 'level', 'pins_left', 'tail_jumps', 'l4_residue')}))
     mods_doc = json.loads((root / 'config/overlays/modules.json').read_text())
+    mods_doc['modules'] = [x for x in mods_doc['modules'] if x['key'] not in absorbed]
     taken = {a['id'] for x in mods_doc['modules'] for a in x['members'] + x.get('data_members', [])}
     if taken & {m['id'] for m in members}:
         raise Refused('a member already belongs to a module')
+    if taken & {r['id'] for r in switch_rows.values()}:
+        raise Refused('a switch data row already belongs to a module')
     regions = [r for r in jl(root / ('config/overlays/%s.rowbase.jsonl' % container)) if r['base_confidence'] == 'proven']
     lo, hi = members[0]['foff'], members[-1]['foff'] + members[-1]['size']
     reg = [r for r in regions if int(r['foff_start'], 0) <= lo and hi <= int(r['foff_end'], 0)]
@@ -1024,6 +1205,12 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
     anchors = {sym: dict(anchor, declaration=anchor.get('declaration', hdr),
                         review_inputs=anchor.get('review_inputs', anchor.get('evidence', [])))
                for sym, anchor in spec.get('runtime_anchors', {}).items()}
+    for old in absorbed.values():
+        for d in old['imports']:
+            if d['kind'] == 'runtime_data':
+                anchors.setdefault(d['symbol'], dict(declaration=d['declaration'], view_bytes=d['view_bytes'],
+                    basis='Reviewed runtime view retained from absorbed module ' + old['key'],
+                    review_inputs=[d['evidence']]))
     for sym, anchor in anchors.items():
         if (not re.fullmatch(r'D_[0-9A-F]{8}', sym) or not anchor.get('basis')
                 or not isinstance(anchor.get('view_bytes', 1), int) or anchor.get('view_bytes', 1) <= 0):
@@ -1044,10 +1231,13 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
         raise Refused('header exists with different content: ' + hdr)
     assign = jl(root / 'ledger/modules.jsonl')
     inline = jl(root / 'ledger/layout_inline.jsonl')
+    previous_inline = [r for r in inline if r['tu_new'] in {m['source'] for m in absorbed.values()}]
+    inline = [r for r in inline if r not in previous_inline]
     lay = jl(root / 'ledger/layout.jsonl')
     index = max(r['module_index'] for r in assign) + 1
     span_ev = span_evidence(evidence_dir, spec, members) if evidence_dir else None
     receipts = {}
+    retired_data = {}
     for mod in spec['modules']:
         key, srcp = mod['key'], mod['source']
         ms = [m for m in members if m['module'] == key]
@@ -1078,8 +1268,8 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
         for r in lay:
             if r['id'] in ids:
                 r['path'] = srcp
-        for m in ms:
-            fr.remove(m['path'])
+        for path in dict.fromkeys(m['path'] for m in ms):
+            fr.remove(path)
         # 4. imports from the module object
         with tempfile.TemporaryDirectory(prefix='tu-imports-') as td:
             o, err = compile_obj(root, root / srcp, cfg, Path(td), key)
@@ -1148,6 +1338,16 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
             if sizes.get(d['symbol']) != 'sizeof' and v < v2 < v + d['view_bytes']:
                 d['view_bytes'] = v2 - v
         evidence_files = [ev + '.md', ev + '.membership.json', ev + '.recipe.json']
+        old_modules = [absorbed[k] for k in mod.get('absorb_modules', [])]
+        if old_modules:
+            evidence_files.append(ev + '.absorption.json')
+            evidence_files += [p for old in old_modules for p in old['review_inputs'] if p != old['source']]
+            evidence_files = list(dict.fromkeys(evidence_files))
+            fr.write(ev + '.absorption.json', json.dumps(dict(
+                module=key, retired_modules=old_modules, frozen_inputs=absorption.get('inputs', {}),
+                previous_inline=[r for r in previous_inline if r['tu_new'] in {x['source'] for x in old_modules}],
+                identity=results[key], basis='Complete old TUs compiled once and compared to the merged TU; '
+                'old descriptors and their evidence retained as the retirement proof chain.'), indent=2) + '\n')
         anchor_claims = {sym: anchors[sym] for sym in runtime if sym in anchors}
         evidence_files += sorted({p for a in anchor_claims.values() for p in a.get('review_inputs', [])})
         if runtime or xviews:
@@ -1171,6 +1371,24 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
             review=dict(membership='reviewed', types='reviewed', ownership='reviewed', reviewer=reviewer),
             review_inputs=evidence_files, membership_evidence=ev + '.membership.json',
             genuine_aspsx=dict(flags=['-0'], evidence=ev + '.recipe.json'))
+        if key in switch_rows:
+            data = switch_rows[key]
+            dpath = layout.get(data['id']) or data['c_path']
+            entry.update(switch_allocation(data, ms, srcp, delta))
+            entry['review_inputs'].append(srcp)
+            for row in lay:
+                if row['id'] == data['id']:
+                    row['path'] = srcp
+            if dpath != srcp:
+                fr.remove(dpath)
+                retired_data[dpath] = srcp
+            assign = [r for r in assign if r['id'] != data['id']] + [dict(id=data['id'], **group, confidence='strong')]
+            if not rlo <= data['foff'] < data['foff'] + data['size'] <= rhi:
+                raise Refused('switch allocation outside the module load region: ' + data['id'])
+            evidence_files.append(ev + '.switch.json')
+            fr.write(ev + '.switch.json', json.dumps(dict(module=key, data_row=data['id'], owner=data['owner'],
+                identity=results[key], basis='Compiler-emitted table bytes and relocations identical to '
+                'frozen members; evidenced registered table retained with its owner.'), indent=2) + '\n')
         if (work / 'literals.json').exists():
             # 72(f): the file's string pool is its own .rodata allocation (separated-literal-allocations-v1)
             pool = json.loads((work / 'literals.json').read_text())
@@ -1198,7 +1416,8 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
                      'members compiled one by one (code bytes and relocations).' % (ms[0]['foff'],
                                                                                      ms[-1]['foff'] + ms[-1]['size']))
         fr.write(ev + '.membership.json', json.dumps(dict(
-            module=key, ledger_group=group, members=[m['id'] for m in ms], confidence='strong',
+            module=key, ledger_group=group,
+            members=([switch_rows[key]['id']] if key in switch_rows else []) + [m['id'] for m in ms], confidence='strong',
             coverage_complete=True, basis=basis, private_functions=[],
             source_facades='Members are inlined; no standalone member files remain.'), indent=2) + '\n')
         fr.write(ev + '.recipe.json', json.dumps(dict(module=key, scope='whole_tu', flags=['-q', '-G0', '-0'],
@@ -1222,6 +1441,13 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
     # Other modules may list a retired member file as review evidence; point them at the merged file (the
     # make build depends on every review input, so a dangling path breaks the build).
     retired = {m['path']: next(x['source'] for x in spec['modules'] if x['key'] == m['module']) for m in members}
+    retired.update(retired_data)
+    alias_path = 'ledger/tu_layout.jsonl'
+    if (root / alias_path).exists():
+        aliases = jl(root / alias_path)
+        rewritten = rewrite_tu_aliases(aliases, retired)
+        if rewritten != aliases:
+            fr.write(alias_path, ''.join(json.dumps(r, separators=(',', ':')) + '\n' for r in rewritten))
     for entry in mods_doc['modules']:
         ri = entry.get('review_inputs')
         if ri and any(p in retired for p in ri):
@@ -1233,6 +1459,7 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
         reattribute(root, fr, container, members, spec['recipe'], spec.get('group') or spec.get('span') or '?')
     # 5. path rewrites in the link catalogues (TU paths of homes and placements)
     old_paths = {m['path']: next(x['source'] for x in spec['modules'] if x['key'] == m['module']) for m in members}
+    old_paths.update(retired_data)
     for rel in spec.get('include_facades', []):
         p = Path(rel)
         if p.is_absolute() or '..' in p.parts or not (root / p).is_file():
@@ -1254,6 +1481,7 @@ def _install(root, work, base, gate=True, reviewer=None, evidence_dir=None, gate
                         '--graph'], capture_output=True, text=True)
     if r.returncode:
         raise Refused('build graph regeneration failed: ' + r.stderr[-800:])
+    refresh_link_graph(root, work, fr)
     gate_results = {}
     if gate:
         for mod in spec['modules']:
@@ -1285,9 +1513,10 @@ def switch_proposal(root, work, spec, members, key, res, rows):
     ms = [m for m in members if m['module'] == key]
     tables = []
     for sw in res['switch_tables']:
+        payload = sw.get('payload_bytes', sw['bytes'])
         owned = [r for r in rows.values() if r.get('row_kind') == 'data' and r.get('data_kind') in
                  ('jump_table', 'compiler_switch_table') and r.get('owner') == sw['id']]
-        tables.append(dict(owner=sw['id'], bytes=sw['bytes'], rows=[dict(id=r['id'], foff=r['foff'], size=r['size'],
+        tables.append(dict(owner=sw['id'], bytes=payload, compiled_bytes=sw['bytes'], rows=[dict(id=r['id'], foff=r['foff'], size=r['size'],
                                                                         status=r.get('ownership_status'))
                                                                    for r in owned]))
     frag = dict(module=key, allocation_model='separated-switch-allocations-v1', switch_tables=tables,
@@ -1304,6 +1533,37 @@ def switch_proposal(root, work, spec, members, key, res, rows):
     return ('switch tables proven identical; install needs the separated switch allocation: ' +
             ('; '.join(why) or 'eligible - descriptor fragment written, install by a lane (tu7 did not automate it)')
             + ' [%s]' % (work / ('switch_%s.json' % key)))
+
+
+
+def switch_allocation(data, members, source, delta):
+    """Descriptor for the existing single compiler-switch allocation model."""
+    owner = next(m for m in members if m['id'] == data['owner'])
+    cut = members.index(owner) + 1
+    sections = ['.text.' + m['function'] for m in members]
+    return dict(
+        data_members=[dict(id=data['id'], source=source, symbol=data.get('true_name') or data['func'],
+                           foff=data['foff'], vma=data['foff'] + delta, size=data['size'])],
+        allocation_model='separated-switch-allocations-v1',
+        allocations=[
+            dict(section='.rodata', foff=data['foff'], vma=data['foff'] + delta, size=data['size'],
+                 link_alignment=4, slots=[dict(kind='switch_table', offset=0, size=data['size'],
+                                              owner=owner['function'], source=source)]),
+            dict(section='.text.*', foff=members[0]['foff'], vma=members[0]['foff'] + delta,
+                 size=sum(m['size'] for m in members), link_alignment=4)],
+        section_order=sections[:cut] + ['.rodata'] + sections[cut:])
+
+
+def switch_row(root, work, spec, members, key, res, rows):
+    """Only the existing, evidenced single-table model is admitted automatically."""
+    switches = res['switch_tables']
+    candidates = [r for r in rows.values() if len(switches) == 1 and r.get('row_kind') == 'data'
+                  and r.get('data_kind') == 'jump_table' and r.get('ownership_status') == 'evidenced'
+                  and r.get('owner') == switches[0]['id']
+                  and r['size'] == switches[0].get('payload_bytes', switches[0]['bytes'])]
+    if len(candidates) != 1:
+        raise Refused(switch_proposal(root, work, spec, members, key, res, rows))
+    return candidates[0]
 
 
 def reattribute(root, fr, container, members, recipe, why):

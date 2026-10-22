@@ -1,0 +1,304 @@
+{
+  "module": "town_read_map_cell_at_tile_g01115",
+  "retired_modules": [
+    {
+      "key": "town_town_map_entry_processor_g00524",
+      "container": "town",
+      "name": "town_map_entry_processor_g00524.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/map/town_map_entry_processor_g00524.c",
+      "headers": [
+        "include/town/map/town_map_entry_processor_g00524.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_8008EA64",
+          "source": "src/town/map/town_map_entry_processor_g00524.c",
+          "function": "func_8008C1C4",
+          "foff": 60004,
+          "vma": 2148057540,
+          "size": 80
+        },
+        {
+          "id": "town/func_8008EAB4",
+          "source": "src/town/map/town_map_entry_processor_g00524.c",
+          "function": "func_8008C214",
+          "foff": 60084,
+          "vma": 2148057620,
+          "size": 120
+        },
+        {
+          "id": "town/func_8008EB2C",
+          "source": "src/town/map/town_map_entry_processor_g00524.c",
+          "function": "func_8008C28C",
+          "foff": 60204,
+          "vma": 2148057740,
+          "size": 44
+        },
+        {
+          "id": "town/func_8008EB58",
+          "source": "src/town/map/town_map_entry_processor_g00524.c",
+          "function": "func_8008C2B8",
+          "foff": 60248,
+          "vma": 2148057784,
+          "size": 76
+        },
+        {
+          "id": "town/func_8008EBA4",
+          "source": "src/town/map/town_map_entry_processor_g00524.c",
+          "function": "func_8008C304",
+          "foff": 60324,
+          "vma": 2148057860,
+          "size": 112
+        },
+        {
+          "id": "town/func_8008EC14",
+          "source": "src/town/map/town_map_entry_processor_g00524.c",
+          "function": "func_8008C374",
+          "foff": 60436,
+          "vma": 2148057972,
+          "size": 68
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_8006ADD4",
+          "kind": "runtime_data",
+          "vma": 2147921364,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_town_map_entry_processor_g00524.imports.json",
+          "declaration": "include/town/map/town_map_entry_processor_g00524.h"
+        },
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_town_map_entry_processor_g00524.imports.json",
+          "declaration": "include/town/map/town_map_entry_processor_g00524.h"
+        },
+        {
+          "symbol": "D_8008C304",
+          "kind": "data",
+          "vma": 2148057860,
+          "foff": 60324,
+          "view_bytes": 6,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800CFCA8",
+          "kind": "data",
+          "vma": 2148334760,
+          "foff": 337224,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800FC428",
+          "kind": "data",
+          "vma": 2148516904,
+          "foff": 519368,
+          "view_bytes": 1,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_8003ADF4",
+          "kind": "function",
+          "vma": 2147724788
+        },
+        {
+          "symbol": "func_8003FC64",
+          "kind": "function",
+          "vma": 2147744868
+        },
+        {
+          "symbol": "func_8008C134",
+          "kind": "function",
+          "vma": 2148057396
+        },
+        {
+          "symbol": "func_800C1D20",
+          "kind": "function",
+          "vma": 2148277536
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w_tub2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_town_map_entry_processor_g00524.md",
+        "docs/evidence/town_town_map_entry_processor_g00524.membership.json",
+        "docs/evidence/town_town_map_entry_processor_g00524.recipe.json",
+        "docs/evidence/town_town_map_entry_processor_g00524.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_town_map_entry_processor_g00524.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_town_map_entry_processor_g00524.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "include/town/map/town_map_entry_processor_g00524.h": "effcaa35884293cbe6756237f742d166ddac09da6630b7b3d39347fb524dd127",
+    "src/town/map/town_map_entry_processor_g00524.c": "3600a54c062e92d415b73fe07e5e77c538a067b98d24f1f9e741e95e48415797",
+    "include/shared/object_flags.h": "2a6442842de6d7b7f945c9585ea2a85e9c395cc8d415920d35778f19af5f667b",
+    "docs/evidence/town_town_map_entry_processor_g00524.membership.json": "b0df71045e520f0ab2949f8b17a31d2ac2152589f379b4d1ac0efe5cb29571ce",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "docs/evidence/town_town_map_entry_processor_g00524.imports.json": "3ad5b7787868a4543f672f49201cfeaeecb48dc2c927b5735fa4cddc162d9eb7",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "docs/evidence/town_town_map_entry_processor_g00524.recipe.json": "2e1e37789a9ebdca92f02eacf10a8074c12010bede52216b872fd1bbc2d2a617",
+    "docs/evidence/town_town_map_entry_processor_g00524.md": "ded2ef81fff4b819ee0fc5cd1a3a21c23af53a02b18c9d084155ed0d3029c060",
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "include/shared/object_node.h": "786d8dc257f39debfb5622f5805c8db966ac4d1e75c277c2d9a3052fbccd4cd7"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/town/map/town_map_entry_processor_g00524.c",
+      "tu_new": "src/town/map/town_map_entry_processor_g00524.c",
+      "member": "src/town/map/write_wrapped_packed_nibble.c",
+      "member_id": "town/func_8008EA64",
+      "manifest_key": "town_town_map_entry_processor_g00524",
+      "order": 1,
+      "offset": 322,
+      "source_sha256": "3e7dd9704347a1a0d0ad4db8c9bccec7454b8f0066b99f7a11ff7273e4e71ba7",
+      "bytes": 496,
+      "inlined_bytes": 496,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/map/town_map_entry_processor_g00524.c",
+      "tu_new": "src/town/map/town_map_entry_processor_g00524.c",
+      "member": "src/town/map/process_all_lookup_entries.c",
+      "member_id": "town/func_8008EAB4",
+      "manifest_key": "town_town_map_entry_processor_g00524",
+      "order": 2,
+      "offset": 819,
+      "source_sha256": "048cc238d0379365fb43e10501b2419fcb00b78c973bee17a790e280939bb523",
+      "bytes": 390,
+      "inlined_bytes": 390,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/map/town_map_entry_processor_g00524.c",
+      "tu_new": "src/town/map/town_map_entry_processor_g00524.c",
+      "member": "src/town/map/process_indexed_entry_record.c",
+      "member_id": "town/func_8008EB2C",
+      "manifest_key": "town_town_map_entry_processor_g00524",
+      "order": 3,
+      "offset": 1210,
+      "source_sha256": "124b1959f0efc5bfcc3e0c1489e11bd59f093b5fdcd5db2717d70a29b596cc1c",
+      "bytes": 215,
+      "inlined_bytes": 215,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/map/town_map_entry_processor_g00524.c",
+      "tu_new": "src/town/map/town_map_entry_processor_g00524.c",
+      "member": "src/town/map/upload_town_movie_pixel_data.c",
+      "member_id": "town/func_8008EB58",
+      "manifest_key": "town_town_map_entry_processor_g00524",
+      "order": 4,
+      "offset": 1426,
+      "source_sha256": "fc272d4d1fe3e3b81af2044b1a19ca8a1080de5fc948f94c9580ae9c2f241df1",
+      "bytes": 266,
+      "inlined_bytes": 266,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/map/town_map_entry_processor_g00524.c",
+      "tu_new": "src/town/map/town_map_entry_processor_g00524.c",
+      "member": "src/town/map/advance_index_and_mark_completion.c",
+      "member_id": "town/func_8008EBA4",
+      "manifest_key": "town_town_map_entry_processor_g00524",
+      "order": 5,
+      "offset": 1693,
+      "source_sha256": "835c3bca1821b40a5dd9709a04382bff4c54189a306761a8f697033350259d7e",
+      "bytes": 439,
+      "inlined_bytes": 439,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/map/town_map_entry_processor_g00524.c",
+      "tu_new": "src/town/map/town_map_entry_processor_g00524.c",
+      "member": "src/town/map/create_town_map_entry_processor.c",
+      "member_id": "town/func_8008EC14",
+      "manifest_key": "town_town_map_entry_processor_g00524",
+      "order": 6,
+      "offset": 2133,
+      "source_sha256": "8966ddfe655d9e04f28832172a6deac7ff8ecd71aefa6e39abdc7df153324635",
+      "bytes": 375,
+      "inlined_bytes": 375,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "town_read_map_cell_at_tile_g01115",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 8,
+    "member_text_bytes": 644,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 644,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 26,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "town/func_8008E9D4",
+        "members": [
+          "town/func_8008E9D4"
+        ],
+        "text": 76,
+        "source": "src/town/map/position/read_map_cell_at_tile.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_8008EA20",
+        "members": [
+          "town/func_8008EA20"
+        ],
+        "text": 68,
+        "source": "src/town/map/position/read_map_cell_at_world_position.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_8008EA64",
+        "members": [
+          "town/func_8008EA64",
+          "town/func_8008EAB4",
+          "town/func_8008EB2C",
+          "town/func_8008EB58",
+          "town/func_8008EBA4",
+          "town/func_8008EC14"
+        ],
+        "text": 500,
+        "source": "src/town/map/town_map_entry_processor_g00524.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "4be1d6e47eb820df31ce9401aaadce7310ecba625229c03f153b191c3f6efde5",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

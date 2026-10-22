@@ -64,12 +64,18 @@ def plan(root, key):
         return m, home_image, images, tables, [], []
     home_image = by_row[homes[0]]['image']
     # every placement row of each home, by image
-    per_image = {}
+    per_image, duplicates = {}, {}
     for rid, e in by_row.items():
         if e['home'] in homes and rid not in homes:
+            if e['home'] in per_image.get(e['image'], {}):
+                duplicates.setdefault(e['image'], []).append(e['home'])
             per_image.setdefault(e['image'], {})[e['home']] = e
     out, partial = [], []
     for img, hits in sorted(per_image.items()):
+        if img in duplicates:
+            partial.append(dict(image=img, reason='multiple placements of the same home need explicit cohorts: ' +
+                                ', '.join(sorted(set(duplicates[img])))))
+            continue
         es = [hits.get(h) for h in homes]
         if None in es:
             partial.append(dict(image=img, reason='places %d of %d members' % (len(hits), len(homes))))
@@ -258,6 +264,8 @@ def main(argv=None):
                 len(loaded), sum(1 for p in loaded if p['module'] == args.module))
         except Exception as e:  # the validator's reason is the result
             report['validator'] = 'REFUSED: %s' % e
+        if made or unified:
+            M.refresh_link_graph(root, args.base.resolve(), fr)
     print(json.dumps(report, indent=1))
     return 0
 

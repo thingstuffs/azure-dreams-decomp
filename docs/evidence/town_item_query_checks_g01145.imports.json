@@ -1,0 +1,112 @@
+{
+  "module": "town_item_query_checks_g01145",
+  "runtime_views": {
+    "D_8006ADD4": {
+      "symbol": "D_8006ADD4",
+      "kind": "runtime_data",
+      "vma": 2147921364,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+      "declaration": "include/town/event/item_query_checks_g01145.h"
+    },
+    "D_8006BC7A": {
+      "symbol": "D_8006BC7A",
+      "kind": "runtime_data",
+      "vma": 2147925114,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+      "declaration": "include/town/event/entry_kind_filters_g00589.h"
+    },
+    "D_8006C894": {
+      "symbol": "D_8006C894",
+      "kind": "runtime_data",
+      "vma": 2147928212,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+      "declaration": "include/town/event/item_query_checks_g01145.h"
+    },
+    "D_8006C8F7": {
+      "symbol": "D_8006C8F7",
+      "kind": "runtime_data",
+      "vma": 2147928311,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+      "declaration": "include/town/event/item_query_checks_g01145.h"
+    },
+    "D_8006C982": {
+      "symbol": "D_8006C982",
+      "kind": "runtime_data",
+      "vma": 2147928450,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+      "declaration": "include/town/event/item_query_checks_g01145.h"
+    },
+    "D_8006C9E4": {
+      "symbol": "D_8006C9E4",
+      "kind": "runtime_data",
+      "vma": 2147928548,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+      "declaration": "include/town/event/item_query_checks_g01145.h"
+    },
+    "D_80081498": {
+      "symbol": "D_80081498",
+      "kind": "runtime_data",
+      "vma": 2148013208,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+      "declaration": "include/town/event/item_query_checks_g01145.h"
+    },
+    "D_800834B8": {
+      "symbol": "D_800834B8",
+      "kind": "runtime_data",
+      "vma": 2148021432,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_item_query_checks_g01145.imports.json",
+      "declaration": "include/town/event/item_query_checks_g01145.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006ADD4": "word_default",
+    "D_8006BC7A": "address_only_runtime_anchor",
+    "D_8006C894": "word_default",
+    "D_8006C8F7": "word_default",
+    "D_8006C982": "word_default",
+    "D_8006C9E4": "word_default",
+    "D_80081498": "word_default",
+    "D_800834B8": "word_default",
+    "D_800C25C0": "retail_string",
+    "D_800C3174": "retail_string",
+    "D_800C321C": "retail_string",
+    "D_800D1038": "retail_string",
+    "D_800D1054": "retail_string",
+    "D_800D1064": "retail_string",
+    "D_800D1074": "retail_string",
+    "D_800D1080": "retail_string",
+    "D_80100E38": "word_default"
+  },
+  "address_only_anchors": {
+    "D_8006BC7A": {
+      "declaration": "include/town/event/entry_kind_filters_g00589.h",
+      "view_bytes": 1,
+      "basis": "Reviewed runtime view retained from absorbed module town_entry_kind_filters_g00589",
+      "review_inputs": [
+        "docs/evidence/town_entry_kind_filters_g00589.imports.json"
+      ]
+    }
+  }
+}

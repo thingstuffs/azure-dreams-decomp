@@ -1,0 +1,27 @@
+{
+  "module": "town_read_map_cell_at_tile_g01115",
+  "ledger_group": {
+    "container": "town",
+    "module": "read_map_cell_at_tile_g01115.c",
+    "module_index": 134218
+  },
+  "members": [
+    "town/func_8008E9D4",
+    "town/func_8008EA20",
+    "town/func_8008EA64",
+    "town/func_8008EAB4",
+    "town/func_8008EB2C",
+    "town/func_8008EB58",
+    "town/func_8008EBA4",
+    "town/func_8008EC14"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01115 - CL:town/func_8008E9D4, CL:town/func_8008EA64, CL:town/func_8008EAB4, CL:town/func_8008EB2C, PD:town/engine:800CFCA8, PD:town/engine:800FC428. Grouping by tools/tu/infer_groups.py (group G01115); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Original ordered group G01115 reconciled to fresh G00992 by exact members or supplied wave-1 mapping.",
+    "Members are the contiguous registered home rows 0xE9D4..0xEC58 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

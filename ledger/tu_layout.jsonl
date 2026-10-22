@@ -270,7 +270,7 @@
 {"old":"src/town/modules/ovl_64f118.c","new":"src/town/scene/lookup_code_special_results.c"}
 {"old":"src/town/modules/ovl_6510c0.c","new":"src/town/scene/event/forward_value_with_fixed_tables_c.c"}
 {"old":"src/town/modules/ovl_65b134.c","new":"src/town/scene/submit_scene_command_pair.c"}
-{"old":"src/town/modules/ovl_6f48d0.c","new":"src/town/scene/dispatch_town_callback_fallback.c"}
+{"old":"src/town/modules/ovl_6f48d0.c","new":"src/town/scene/dispatch_town_callback_fallback_g00763.c"}
 {"old":"src/town/modules/ovl_71a1ec.c","new":"src/town/scene/attach_global_data_and_invoke_callback.c"}
 {"old":"src/town/modules/ovl_79dd70.c","new":"src/town/minigame/initialize_source_and_initial_data.c"}
 {"old":"src/town/modules/ovl_8d2114.c","new":"src/town/scene/get_base_address.c"}

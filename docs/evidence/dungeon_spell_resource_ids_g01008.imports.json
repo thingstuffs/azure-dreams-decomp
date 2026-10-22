@@ -1,0 +1,99 @@
+{
+  "module": "dungeon_spell_resource_ids_g01008",
+  "runtime_views": {
+    "D_80013714": {
+      "symbol": "D_80013714",
+      "kind": "runtime_data",
+      "vma": 2147563284,
+      "view_bytes": 2,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+      "declaration": "include/shared/sys_flags.h"
+    },
+    "D_8006CD58": {
+      "symbol": "D_8006CD58",
+      "kind": "runtime_data",
+      "vma": 2147929432,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+      "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+    },
+    "D_8006DE24": {
+      "symbol": "D_8006DE24",
+      "kind": "runtime_data",
+      "vma": 2147933732,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+      "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+    },
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+      "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+    },
+    "D_80082E80": {
+      "symbol": "D_80082E80",
+      "kind": "runtime_data",
+      "vma": 2148019840,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+      "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+    },
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_spell_resource_ids_g01008.imports.json",
+      "declaration": "include/dungeon/actor/spell_resource_ids_g01008.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80013714": "address_only_runtime_anchor",
+    "D_8006CD58": "word_default",
+    "D_8006DE24": "word_default",
+    "D_800814A0": "word_default",
+    "D_80082E80": "word_default",
+    "D_80083498": "word_default",
+    "D_80089080": "sizeof",
+    "D_800DCEAC": "retail_string",
+    "D_800DCEBC": "word_default",
+    "D_800DCF4D": "retail_string",
+    "D_800DCF59": "sizeof",
+    "D_800DD880": "retail_string",
+    "D_800DD8B4": "retail_string",
+    "D_800DD8E7": "sizeof",
+    "D_800DD918": "word_default",
+    "D_800DDAB8": "word_default",
+    "D_800E1C58": "sizeof",
+    "D_800E3CC8": "word_default",
+    "D_800E3D68": "word_default",
+    "D_800E3D7C": "word_default",
+    "D_800E58B0": "word_default"
+  },
+  "address_only_anchors": {
+    "D_80013714": {
+      "declaration": "include/shared/sys_flags.h",
+      "view_bytes": 2,
+      "basis": "Existing reviewed SLUS runtime u16 system_update_flags view, retained from dungeon_engine_experience; identical VMA, declaration and two-byte extent.",
+      "review_inputs": [
+        "docs/evidence/dungeon_engine_experience.imports.json",
+        "include/shared/sys_flags.h"
+      ]
+    }
+  }
+}

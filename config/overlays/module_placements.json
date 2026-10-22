@@ -17810,6 +17810,81 @@
    "review_inputs": [
     "docs/evidence/dungeon_monster_manoeva_knockback_travel_g00260_bank_e7b000.placement.json"
    ]
+  },
+  {
+   "key": "town_dispatch_town_callback_fallback_g00763_ll34_6f7000_80016000",
+   "module": "town_dispatch_town_callback_fallback_g00763",
+   "image": "town/ll34_6f7000_80016000",
+   "home_image": "town/ll34_6f4800_80016000",
+   "recipe": {
+    "cfg": "2.7.2-cdk-G0",
+    "row_asflags": ""
+   },
+   "members": [
+    {
+     "home": "town/func_807748D0",
+     "row": "town/func_807770D0"
+    },
+    {
+     "home": "town/func_80774928",
+     "row": "town/func_80777128"
+    }
+   ],
+   "imports": [
+    {
+     "symbol": "D_80016000",
+     "kind": "data",
+     "vma": 2147573760,
+     "foff": 7303168,
+     "view_bytes": 4,
+     "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+     "asset": "work/disc/containers/TOWN_TOWN.BIN",
+     "map": "destination_image",
+     "evidence": "docs/evidence/town_dispatch_town_callback_fallback_g00763_ll34_6f7000_80016000.placement.json"
+    },
+    {
+     "symbol": "D_80017404",
+     "kind": "data",
+     "vma": 2147578884,
+     "foff": 7308292,
+     "view_bytes": 4,
+     "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+     "asset": "work/disc/containers/TOWN_TOWN.BIN",
+     "map": "destination_image",
+     "evidence": "docs/evidence/town_dispatch_town_callback_fallback_g00763_ll34_6f7000_80016000.placement.json"
+    },
+    {
+     "symbol": "D_800174D8",
+     "kind": "data",
+     "vma": 2147579088,
+     "foff": 7308496,
+     "view_bytes": 4,
+     "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+     "asset": "work/disc/containers/TOWN_TOWN.BIN",
+     "map": "destination_image",
+     "evidence": "docs/evidence/town_dispatch_town_callback_fallback_g00763_ll34_6f7000_80016000.placement.json"
+    },
+    {
+     "symbol": "D_8001770A",
+     "kind": "data",
+     "vma": 2147579637,
+     "foff": 7309045,
+     "view_bytes": 2,
+     "owner": "retail_asset:work/disc/containers/TOWN_TOWN.BIN",
+     "asset": "work/disc/containers/TOWN_TOWN.BIN",
+     "map": "destination_image",
+     "evidence": "docs/evidence/town_dispatch_town_callback_fallback_g00763_ll34_6f7000_80016000.placement.json"
+    }
+   ],
+   "review": {
+    "membership": "pending",
+    "types": "pending",
+    "ownership": "pending",
+    "reviewer": "pending"
+   },
+   "review_inputs": [
+    "docs/evidence/town_dispatch_town_callback_fallback_g00763_ll34_6f7000_80016000.placement.json"
+   ]
   }
  ]
 }

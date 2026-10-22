@@ -1,0 +1,21 @@
+{
+  "module": "town_dispatch_town_callback_fallback_g00763",
+  "ledger_group": {
+    "container": "town",
+    "module": "dispatch_town_callback_fallback_g00763.c",
+    "module_index": 134225
+  },
+  "members": [
+    "town/func_807748D0",
+    "town/func_80774928"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00763 - CL:town/func_80774928. Grouping by tools/tu/infer_groups.py (group G00763); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Original ordered group G00763 reconciled to fresh G00695 by exact members or supplied wave-1 mapping.",
+    "Members are the contiguous registered home rows 0x6F48D0..0x6F4954 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

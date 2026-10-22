@@ -1,0 +1,24 @@
+{
+  "module": "town_resource_value_table_contains_g01112",
+  "ledger_group": {
+    "container": "town",
+    "module": "resource_value_table_contains_g01112.c",
+    "module_index": 134217
+  },
+  "members": [
+    "town/func_8008DB84",
+    "town/func_8008DBC8",
+    "town/func_8008DC4C",
+    "town/func_8008DCA8",
+    "town/func_8008DD50"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01112 - CL:town/func_8008DB84, CL:town/func_8008DBC8, CL:town/func_8008DC4C, PD:town/engine:800CF828, PD:town/engine:800CF838. Grouping by tools/tu/infer_groups.py (group G01112); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Original ordered group G01112 reconciled to fresh G00989 by exact members or supplied wave-1 mapping.",
+    "Members are the contiguous registered home rows 0xDB84..0xDDF0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

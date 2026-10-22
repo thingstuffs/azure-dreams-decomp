@@ -1,0 +1,221 @@
+{
+  "module": "town_resource_value_table_contains_g01112",
+  "retired_modules": [
+    {
+      "key": "town_resource_slots_g00521",
+      "container": "town",
+      "name": "resource_slots_g00521.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/scene/resource/resource_slots_g00521.c",
+      "headers": [
+        "include/town/scene/resource/resource_slots_g00521.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_8008DBC8",
+          "source": "src/town/scene/resource/resource_slots_g00521.c",
+          "function": "func_8008B328",
+          "foff": 56264,
+          "vma": 2148053800,
+          "size": 132
+        },
+        {
+          "id": "town/func_8008DC4C",
+          "source": "src/town/scene/resource/resource_slots_g00521.c",
+          "function": "func_8008B3AC",
+          "foff": 56396,
+          "vma": 2148053932,
+          "size": 92
+        },
+        {
+          "id": "town/func_8008DCA8",
+          "source": "src/town/scene/resource/resource_slots_g00521.c",
+          "function": "func_8008B408",
+          "foff": 56488,
+          "vma": 2148054024,
+          "size": 168
+        },
+        {
+          "id": "town/func_8008DD50",
+          "source": "src/town/scene/resource/resource_slots_g00521.c",
+          "function": "func_8008B4B0",
+          "foff": 56656,
+          "vma": 2148054192,
+          "size": 160
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80080EA8",
+          "kind": "runtime_data",
+          "vma": 2148011688,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_resource_slots_g00521.imports.json",
+          "declaration": "include/town/scene/resource/resource_slots_g00521.h"
+        },
+        {
+          "symbol": "D_800CF828",
+          "kind": "data",
+          "vma": 2148333608,
+          "foff": 336072,
+          "view_bytes": 15,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800CF838",
+          "kind": "data",
+          "vma": 2148333624,
+          "foff": 336088,
+          "view_bytes": 64,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_80041284",
+          "kind": "function",
+          "vma": 2147750532
+        },
+        {
+          "symbol": "func_8008B2E4",
+          "kind": "function",
+          "vma": 2148053732
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w_tub2"
+      },
+      "review_inputs": [
+        "docs/evidence/town_resource_slots_g00521.md",
+        "docs/evidence/town_resource_slots_g00521.membership.json",
+        "docs/evidence/town_resource_slots_g00521.recipe.json",
+        "docs/evidence/town_resource_slots_g00521.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_resource_slots_g00521.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_resource_slots_g00521.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "include/town/scene/resource/resource_slots_g00521.h": "ef58f28d17ed27a89fbd2dcb4fd4a71e984a319366136a5d402ecc7428c6edc7",
+    "docs/evidence/town_resource_slots_g00521.recipe.json": "d513ff01e28689878ac0a326d8f374b73bc8e417f7f9fc08c9c850ddb4039c5e",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "src/town/scene/resource/resource_slots_g00521.c": "1fb6783fae45274433d16d85058d221187a99ce15e16b9beb393f861003cd8c2",
+    "docs/evidence/town_resource_slots_g00521.membership.json": "6e78bed3dffd1798decc5520fe1d806e4ec1a8d757c7049eda77491dce397657",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "docs/evidence/town_resource_slots_g00521.md": "9f27bc6df39b819d0f7489ed61dd327a24e2d80f2843ea6a561910247c92b9eb",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "docs/evidence/town_resource_slots_g00521.imports.json": "edc7546a1208c6a9395a55e76cf81adb529f49e3ae5f54eae19174808442199f"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/town/scene/resource/resource_slots_g00521.c",
+      "tu_new": "src/town/scene/resource/resource_slots_g00521.c",
+      "member": "src/town/scene/resource/has_listed_resource_in_slots.c",
+      "member_id": "town/func_8008DBC8",
+      "manifest_key": "town_resource_slots_g00521",
+      "order": 1,
+      "offset": 290,
+      "source_sha256": "d3602dbd013d4dbd7fce4b9807c30316f34c04dbf03565a454ac9c6c87479318",
+      "bytes": 389,
+      "inlined_bytes": 389,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/scene/resource/resource_slots_g00521.c",
+      "tu_new": "src/town/scene/resource/resource_slots_g00521.c",
+      "member": "src/town/scene/resource/find_slot_for_resource_entry.c",
+      "member_id": "town/func_8008DC4C",
+      "manifest_key": "town_resource_slots_g00521",
+      "order": 2,
+      "offset": 680,
+      "source_sha256": "0ec122b6636dbce20ee3c4338ab24decacbeb1ae8c450c22c684804cff25ba66",
+      "bytes": 345,
+      "inlined_bytes": 345,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/scene/resource/resource_slots_g00521.c",
+      "tu_new": "src/town/scene/resource/resource_slots_g00521.c",
+      "member": "src/town/scene/resource/reserve_twch_load.c",
+      "member_id": "town/func_8008DCA8",
+      "manifest_key": "town_resource_slots_g00521",
+      "order": 3,
+      "offset": 1026,
+      "source_sha256": "23033db95da83134b2f473c992cc6d871f47d4873cc4179f4665cff8939f10fb",
+      "bytes": 690,
+      "inlined_bytes": 690,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/scene/resource/resource_slots_g00521.c",
+      "tu_new": "src/town/scene/resource/resource_slots_g00521.c",
+      "member": "src/town/scene/resource/resource.c",
+      "member_id": "town/func_8008DD50",
+      "manifest_key": "town_resource_slots_g00521",
+      "order": 4,
+      "offset": 1717,
+      "source_sha256": "4c98c1c04b9ea5229735cb73a60f4e1fb3a924b4d7553b70d5b700f622cea539",
+      "bytes": 675,
+      "inlined_bytes": 675,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "town_resource_value_table_contains_g01112",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 5,
+    "member_text_bytes": 620,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 620,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 36,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "town/func_8008DB84",
+        "members": [
+          "town/func_8008DB84"
+        ],
+        "text": 68,
+        "source": "src/town/scene/resource/resource_value_table_contains.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_8008DBC8",
+        "members": [
+          "town/func_8008DBC8",
+          "town/func_8008DC4C",
+          "town/func_8008DCA8",
+          "town/func_8008DD50"
+        ],
+        "text": 552,
+        "source": "src/town/scene/resource/resource_slots_g00521.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "533e538517131be5cef7393eb47fa69e27e0528770da80e67f94ce3e949f800a",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

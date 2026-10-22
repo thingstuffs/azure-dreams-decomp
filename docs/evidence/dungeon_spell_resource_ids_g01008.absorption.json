@@ -1,0 +1,167 @@
+{
+  "module": "dungeon_spell_resource_ids_g01008",
+  "retired_modules": [
+    {
+      "key": "dungeon_actor_spell_resource_ids_g00331",
+      "container": "dungeon",
+      "name": "spell_resource_ids_g00331.c",
+      "region": "xfer_dungeon_A3000",
+      "source": "src/dungeon/actor/spell_resource_ids_g00331.c",
+      "headers": [
+        "include/dungeon/actor/spell_resource_ids_g00331.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "dungeon/func_800A3C30",
+          "source": "src/dungeon/actor/spell_resource_ids_g00331.c",
+          "function": "func_800A9390",
+          "foff": 801840,
+          "vma": 2148176784,
+          "size": 112
+        },
+        {
+          "id": "dungeon/func_800A3CA0",
+          "source": "src/dungeon/actor/spell_resource_ids_g00331.c",
+          "function": "func_800A9400",
+          "foff": 801952,
+          "vma": 2148176896,
+          "size": 160
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800DD8E7",
+          "kind": "data",
+          "vma": 2148391143,
+          "foff": 1016199,
+          "view_bytes": 9,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        },
+        {
+          "symbol": "D_800E3D7C",
+          "kind": "data",
+          "vma": 2148416892,
+          "foff": 1041948,
+          "view_bytes": 4,
+          "owner": "retail_asset:dungeon:xfer_dungeon_A3000"
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tub4"
+      },
+      "review_inputs": [
+        "docs/evidence/dungeon_actor_spell_resource_ids_g00331.md",
+        "docs/evidence/dungeon_actor_spell_resource_ids_g00331.membership.json",
+        "docs/evidence/dungeon_actor_spell_resource_ids_g00331.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/dungeon_actor_spell_resource_ids_g00331.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/dungeon_actor_spell_resource_ids_g00331.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "include/shared/record_ptrs.h": "217c0f7dd6f2d196310deb6465b673a2ce8f1ce2cdde483fb8dbfce408fa5ba3",
+    "docs/evidence/dungeon_actor_spell_resource_ids_g00331.md": "cbf4c8d875bc72ea8011f49a49b5c1afca96c48c3323ae4e8b623b2b86a5cde3",
+    "docs/evidence/dungeon_actor_spell_resource_ids_g00331.recipe.json": "2eea43d823cd8ad09eff5dc66be0795a6d465a5fbb7ba9604db2369ce333aa87",
+    "include/shared/entity.h": "f84e6424ee50c61921d262d1aa31084af8753627058ddbccb5f813b959f16ce1",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "docs/evidence/dungeon_actor_spell_resource_ids_g00331.membership.json": "1481bf5fc5237496f347db56786cdfcf3241644be5d6b4c2c5736860e14d3b57",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "src/dungeon/actor/spell_resource_ids_g00331.c": "a86ffe6fa51d1a10d3267df464e225467b231c0fc0ed9a0ccc4613e5065bb93e",
+    "include/dungeon/actor/spell_resource_ids_g00331.h": "d89cd0924b6f44f8cf5e179b93f27602ce4b30fecb69e8c9e00a7de0d67f98d7"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/dungeon/actor/spell_resource_ids_g00331.c",
+      "tu_new": "src/dungeon/actor/spell_resource_ids_g00331.c",
+      "member": "src/dungeon/actor/resolve_spell_effect_resource_id.c",
+      "member_id": "dungeon/func_800A3C30",
+      "manifest_key": "dungeon_actor_spell_resource_ids_g00331",
+      "order": 1,
+      "offset": 229,
+      "source_sha256": "d746d81fce552453764b12b5ebcbc8eb1b6329cd3977c8483b0714129e76b1b8",
+      "bytes": 415,
+      "inlined_bytes": 415,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/dungeon/actor/spell_resource_ids_g00331.c",
+      "tu_new": "src/dungeon/actor/spell_resource_ids_g00331.c",
+      "member": "src/dungeon/actor/resolve_alternate_spell_id.c",
+      "member_id": "dungeon/func_800A3CA0",
+      "manifest_key": "dungeon_actor_spell_resource_ids_g00331",
+      "order": 2,
+      "offset": 645,
+      "source_sha256": "d19c0dca08ba0202460e879c0a8eb0cb20102e14855c6113f37a7a55953e4a77",
+      "bytes": 784,
+      "inlined_bytes": 784,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "dungeon_spell_resource_ids_g01008",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 4,
+    "member_text_bytes": 1652,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 1652,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 104,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "dungeon/func_800A3C30",
+        "members": [
+          "dungeon/func_800A3C30",
+          "dungeon/func_800A3CA0"
+        ],
+        "text": 272,
+        "source": "src/dungeon/actor/spell_resource_ids_g00331.c",
+        "other_sections": {}
+      },
+      {
+        "id": "dungeon/func_800A3D40",
+        "members": [
+          "dungeon/func_800A3D40"
+        ],
+        "text": 908,
+        "source": "src/dungeon/actor/effect/create_actor_spell_effect.c",
+        "other_sections": {}
+      },
+      {
+        "id": "dungeon/func_800A40CC",
+        "members": [
+          "dungeon/func_800A40CC"
+        ],
+        "text": 472,
+        "source": "src/dungeon/actor/load_spell_effect_code.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "dfb85f8a3917d309489a0f13a940d0943a5fb78b50b05093776ba6409241c60a",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

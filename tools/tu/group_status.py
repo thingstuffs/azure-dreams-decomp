@@ -72,6 +72,44 @@ def copy_homes(root):
     return {k: CP.ultimate_home(v["home"], homes) for k, v in c.items()}
 
 
+def destination_facts(group, images, by_row, reg, regions=()):
+    """Account for unindexed homes and registry-only copies before saying none.
+
+    A span containing placements cannot be mistaken for independent home
+    definitions. Numeric group IDs never substitute for ordered memberships.
+    """
+    members = [m for m in group['member_rows'].split(';') if m]
+    homes, missing, placed, home_regions = {}, [], [], []
+    for rid in members:
+        row = reg.get(rid)
+        if row is None:
+            missing.append('unregistered member ' + rid)
+            continue
+        home = row.get('source_row') or rid
+        homes[rid] = home
+        if home != rid:
+            placed.append(rid + '->' + home)
+        if rid in by_row:
+            continue
+        image = images.get(group['image'])
+        mapped = [(lo, hi, delta, name) for lo, hi, delta, confidence, name in regions
+                  if confidence == 'proven' and row.get('foff') is not None
+                  and lo <= row['foff'] < row['foff'] + row['size'] <= hi]
+        if len(mapped) == 1:
+            home_regions.append(rid + '@' + mapped[0][3] + ':delta=' + hex(mapped[0][2]))
+        elif not image or image.get('vma') is None or row.get('foff') is None or not (
+                image['foff'] <= row['foff'] < row['foff'] + row['size'] <= image['foff'] + image['size']):
+            missing.append('no indexed entry or enclosing load image for ' + rid)
+    ultimate = set(homes.values())
+    for rid, row in reg.items():
+        if row.get('source_row') in ultimate and rid not in by_row:
+            missing.append('registry copy lacks link-list entry ' + rid + '->' + row['source_row'])
+    destinations = sorted({e['image'] for rid, e in by_row.items()
+                           if e['home'] in ultimate and rid not in members})
+    return dict(home_rows=';'.join(dict.fromkeys(homes.values())), home_regions=';'.join(home_regions), linked_images=';'.join(destinations),
+                placed_members=';'.join(placed), missing_facts=';'.join(missing))
+
+
 def status(root, groups):
     root = Path(root)
     copies = copy_homes(root)
@@ -80,12 +118,16 @@ def status(root, groups):
     regs = {c: rowbase(root, c) for c in ("main", "town", "dungeon", "ovmovie")}
     out_groups, out_images = [], []
     for g in groups:
+        facts = destination_facts(g, images, by_row, reg, regs.get(L.family(g['container']), ()))
         members = [m for m in g["member_rows"].split(";") if m]
         cont = g["container"]
         hom = [by_row.get(m) for m in members]
-        per_image = {}
+        per_image, duplicates = {}, {}
         for rid, e in by_row.items():
             if e["home"] in members and rid not in members:
+                previous = per_image.get(e['image'], {}).get(e['home'])
+                if previous is not None:
+                    duplicates.setdefault(e['image'], []).append(previous['row'] + ',' + e['row'])
                 per_image.setdefault(e["image"], {})[e["home"]] = e
         states = []
         for img, hits in sorted(per_image.items()):
@@ -93,8 +135,11 @@ def status(root, groups):
             delta = dimg["vma"] - dimg["foff"]
             disp = {(e["foff"] - reg[h]["foff"]) for h, e in hits.items() if h in reg}
             row = dict(group=g["group_id"], image=img, placed=len(hits), members=len(members), delta=hex(delta))
-            if img == g["image"]:
-                row.update(state="in_image_copy", detail="the group's own image places a member copy (72(g))")
+            if img in duplicates:
+                row.update(state='duplicate_home_placements', detail='multiple copies of one home: ' + ';'.join(duplicates[img]))
+            elif img == g["image"] and len(hits) < len(members):
+                row.update(state="in_image_copy", detail="decision 75: merged home needs all members; missing " +
+                           ';'.join(m for m in members if m not in hits))
             elif len(disp) != 1:
                 row.update(state="displaced", detail="members at %d displacements" % len(disp))
             elif len(hits) < len(members):
@@ -125,17 +170,23 @@ def status(root, groups):
         for s in states:
             counts[s["state"]] = counts.get(s["state"], 0) + 1
         hard = sorted(blockers - SOFT)
+        if counts and set(counts) == {'complete'}:
+            hard = [b for b in hard if b != 'member_has_in_image_placement_copy']
         if not states:
-            dest = "no_destination_images"
+            dest = 'member_sites_are_placements' if facts['placed_members'] else 'no_destination_images'
         elif set(counts) == {"complete"}:
             dest = "all_complete"
         else:
             dest = ",".join("%s:%d" % kv for kv in sorted(counts.items()))
+        if facts['missing_facts']:
+            hard.append('destination_membership_unresolved')
+        if facts['placed_members']:
+            hard.append('group_contains_placement_members')
         mergeable = not hard and dest in ("no_destination_images", "all_complete")
         out_groups.append(dict(group=g["group_id"], image=g["image"], level=g.get("level", ""), container=cont,
                                members=len(members), tu7_blockers=",".join(sorted(blockers)) or "none",
                                hard_blockers=",".join(hard) or "none", destinations=dest,
-                               mergeable_now="yes" if mergeable else "no"))
+                               mergeable_now="yes" if mergeable else "no", **facts))
     return out_groups, out_images
 
 

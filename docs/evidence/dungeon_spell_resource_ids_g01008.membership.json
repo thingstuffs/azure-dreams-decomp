@@ -1,0 +1,23 @@
+{
+  "module": "dungeon_spell_resource_ids_g01008",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "spell_resource_ids_g01008.c",
+    "module_index": 134226
+  },
+  "members": [
+    "dungeon/func_800A3C30",
+    "dungeon/func_800A3CA0",
+    "dungeon/func_800A3D40",
+    "dungeon/func_800A40CC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01008 - CL:dungeon/func_800A3C30, CL:dungeon/func_800A40CC, PD:dungeon/engine:800DD8E7. Grouping by tools/tu/infer_groups.py (group G01008); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Original ordered group G01008 reconciled to fresh G00885 by exact members or supplied wave-1 mapping.",
+    "Members are the contiguous registered home rows 0xC3C30..0xC42A4 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

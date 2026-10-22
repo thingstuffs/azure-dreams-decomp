@@ -1,0 +1,26 @@
+{
+  "module": "town_resource_entry_initialization_g01156",
+  "ledger_group": {
+    "container": "town",
+    "module": "resource_entry_initialization_g01156.c",
+    "module_index": 134224
+  },
+  "members": [
+    "town/func_800B5204",
+    "town/func_800B5244",
+    "town/func_800B5270",
+    "town/func_800B52D8",
+    "town/func_800B5400",
+    "town/func_800B5440",
+    "town/func_800B550C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01156 - CL:town/func_800B5204, CL:town/func_800B5270, CL:town/func_800B52D8, CL:town/func_800B5400, CL:town/func_800B550C. Grouping by tools/tu/infer_groups.py (group G01156); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Original ordered group G01156 reconciled to fresh G01033 by exact members or supplied wave-1 mapping.",
+    "Members are the contiguous registered home rows 0x35204..0x35588 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

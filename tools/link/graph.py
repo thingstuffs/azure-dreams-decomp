@@ -173,6 +173,12 @@ def capture(root, directory):
                 recipe = {k: registry[home][k] for k in ('cfg', 'row_asflags', 'gate_config') if k in registry[home]}
                 tus[home] = {'id': home, 'source': source, 'source_sha256': sources[source], 'recipe_witness': recipe}
                 entry['tu'] = home
+                # A registered placement can compile the shared source under a
+                # different existing cell from its home (for example an O2
+                # copy of an O1 return-zero helper). Preserve both witnesses.
+                placed = registry[raw['row']]
+                if any(placed.get(k) != registry[home].get(k) for k in ('cfg', 'row_asflags')):
+                    entry['recipe_witness'] = {k: placed[k] for k in ('cfg', 'row_asflags', 'gate_config') if k in placed}
             if 'symbols' in raw:
                 entry['symbol_owners'] = owners(eid, raw['symbols'], 'linker_word')
             tables['entries'].append(entry)

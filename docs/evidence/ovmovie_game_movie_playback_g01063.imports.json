@@ -1,0 +1,236 @@
+{
+  "module": "ovmovie_game_movie_playback_g01063",
+  "runtime_views": {
+    "D_80080A88": {
+      "symbol": "D_80080A88",
+      "kind": "runtime_data",
+      "vma": 2148010632,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "src/ovmovie/modules/ovmovie_game.h"
+    },
+    "D_80082E60": {
+      "symbol": "D_80082E60",
+      "kind": "runtime_data",
+      "vma": 2148019808,
+      "view_bytes": 28,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "include/shared/runtime_dispatch.h"
+    },
+    "D_80082E6B": {
+      "symbol": "D_80082E6B",
+      "kind": "runtime_data",
+      "vma": 2148019819,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "src/ovmovie/modules/ovmovie_game.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+    },
+    "D_80086D8C": {
+      "symbol": "D_80086D8C",
+      "kind": "runtime_data",
+      "vma": 2148035980,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "src/ovmovie/modules/ovmovie_game.h"
+    },
+    "D_80189388": {
+      "symbol": "D_80189388",
+      "kind": "runtime_data",
+      "vma": 2149094280,
+      "view_bytes": 8,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+    },
+    "D_80189390": {
+      "symbol": "D_80189390",
+      "kind": "runtime_data",
+      "vma": 2149094288,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+    },
+    "D_80189394": {
+      "symbol": "D_80189394",
+      "kind": "runtime_data",
+      "vma": 2149094292,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+    },
+    "D_80189398": {
+      "symbol": "D_80189398",
+      "kind": "runtime_data",
+      "vma": 2149094296,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "include/ovmovie/movie_frame_playback_g00427.h"
+    },
+    "D_801B8EB8": {
+      "symbol": "D_801B8EB8",
+      "kind": "runtime_data",
+      "vma": 2149289656,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+    },
+    "D_801B8EBC": {
+      "symbol": "D_801B8EBC",
+      "kind": "runtime_data",
+      "vma": 2149289660,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+    },
+    "D_801C9E40": {
+      "symbol": "D_801C9E40",
+      "kind": "runtime_data",
+      "vma": 2149359168,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/ovmovie_game_movie_playback_g01063.imports.json",
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80080A88": "address_only_runtime_anchor",
+    "D_80082E60": "address_only_runtime_anchor",
+    "D_80082E6B": "address_only_runtime_anchor",
+    "D_80083160": "address_only_runtime_anchor",
+    "D_80086D8C": "address_only_runtime_anchor",
+    "D_801781D0": "word_default",
+    "D_801781D4": "word_default",
+    "D_801781D8": "word_default",
+    "D_801781DC": "word_default",
+    "D_801781E0": "word_default",
+    "D_80189388": "address_only_runtime_anchor",
+    "D_80189390": "address_only_runtime_anchor",
+    "D_80189394": "address_only_runtime_anchor",
+    "D_80189398": "address_only_runtime_anchor",
+    "D_801B8EB8": "address_only_runtime_anchor",
+    "D_801B8EBC": "address_only_runtime_anchor",
+    "D_801C9E40": "address_only_runtime_anchor"
+  },
+  "address_only_anchors": {
+    "D_80080A88": {
+      "declaration": "src/ovmovie/modules/ovmovie_game.h",
+      "view_bytes": 1,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_display_setup_g00426",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
+      ]
+    },
+    "D_80082E60": {
+      "declaration": "include/shared/runtime_dispatch.h",
+      "view_bytes": 28,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_display_setup_g00426",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
+      ]
+    },
+    "D_80082E6B": {
+      "declaration": "src/ovmovie/modules/ovmovie_game.h",
+      "view_bytes": 1,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_frame_playback_g00427",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json"
+      ]
+    },
+    "D_80083160": {
+      "declaration": "include/ovmovie/movie_frame_playback_g00427.h",
+      "view_bytes": 4,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_frame_playback_g00427",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json"
+      ]
+    },
+    "D_80086D8C": {
+      "declaration": "src/ovmovie/modules/ovmovie_game.h",
+      "view_bytes": 4,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_display_setup_g00426",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
+      ]
+    },
+    "D_80189388": {
+      "declaration": "include/ovmovie/movie_frame_playback_g00427.h",
+      "view_bytes": 8,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_frame_playback_g00427",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json"
+      ]
+    },
+    "D_80189390": {
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h",
+      "view_bytes": 4,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_display_setup_g00426",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
+      ]
+    },
+    "D_80189394": {
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h",
+      "view_bytes": 4,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_display_setup_g00426",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
+      ]
+    },
+    "D_80189398": {
+      "declaration": "include/ovmovie/movie_frame_playback_g00427.h",
+      "view_bytes": 1,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_frame_playback_g00427",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_frame_playback_g00427.imports.json"
+      ]
+    },
+    "D_801B8EB8": {
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h",
+      "view_bytes": 4,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_display_setup_g00426",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
+      ]
+    },
+    "D_801B8EBC": {
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h",
+      "view_bytes": 4,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_display_setup_g00426",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
+      ]
+    },
+    "D_801C9E40": {
+      "declaration": "include/ovmovie/movie_display_setup_g00426.h",
+      "view_bytes": 1,
+      "basis": "Reviewed runtime view retained from absorbed module ovmovie_movie_display_setup_g00426",
+      "review_inputs": [
+        "docs/evidence/ovmovie_movie_display_setup_g00426.imports.json"
+      ]
+    }
+  }
+}

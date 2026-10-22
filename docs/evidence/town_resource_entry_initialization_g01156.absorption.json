@@ -1,0 +1,383 @@
+{
+  "module": "town_resource_entry_initialization_g01156",
+  "retired_modules": [
+    {
+      "key": "town_shop_resource_entry_initialization_g00617",
+      "container": "town",
+      "name": "resource_entry_initialization_g00617.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/shop/resource_entry_initialization_g00617.c",
+      "headers": [
+        "include/town/shop/resource_entry_initialization_g00617.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B5204",
+          "source": "src/town/shop/resource_entry_initialization_g00617.c",
+          "function": "func_800B2964",
+          "foff": 217604,
+          "vma": 2148215140,
+          "size": 64
+        },
+        {
+          "id": "town/func_800B5244",
+          "source": "src/town/shop/resource_entry_initialization_g00617.c",
+          "function": "func_800B29A4",
+          "foff": 217668,
+          "vma": 2148215204,
+          "size": 44
+        },
+        {
+          "id": "town/func_800B5270",
+          "source": "src/town/shop/resource_entry_initialization_g00617.c",
+          "function": "func_800B29D0",
+          "foff": 217712,
+          "vma": 2148215248,
+          "size": 104
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "func_8004B404",
+          "kind": "function",
+          "vma": 2147791876
+        },
+        {
+          "symbol": "func_800B23C0",
+          "kind": "function",
+          "vma": 2148213696
+        },
+        {
+          "symbol": "func_800B2918",
+          "kind": "function",
+          "vma": 2148215064
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w_tub1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_shop_resource_entry_initialization_g00617.md",
+        "docs/evidence/town_shop_resource_entry_initialization_g00617.membership.json",
+        "docs/evidence/town_shop_resource_entry_initialization_g00617.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_shop_resource_entry_initialization_g00617.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_shop_resource_entry_initialization_g00617.recipe.json"
+      }
+    },
+    {
+      "key": "town_shop_twin_storage_initialization_g00618",
+      "container": "town",
+      "name": "twin_storage_initialization_g00618.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/shop/twin_storage_initialization_g00618.c",
+      "headers": [
+        "include/town/shop/twin_storage_initialization_g00618.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B5400",
+          "source": "src/town/shop/twin_storage_initialization_g00618.c",
+          "function": "func_800B2B60",
+          "foff": 218112,
+          "vma": 2148215648,
+          "size": 64
+        },
+        {
+          "id": "town/func_800B5440",
+          "source": "src/town/shop/twin_storage_initialization_g00618.c",
+          "function": "func_800B2BA0",
+          "foff": 218176,
+          "vma": 2148215712,
+          "size": 204
+        },
+        {
+          "id": "town/func_800B550C",
+          "source": "src/town/shop/twin_storage_initialization_g00618.c",
+          "function": "func_800B2C6C",
+          "foff": 218380,
+          "vma": 2148215916,
+          "size": 124
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800814A0",
+          "kind": "runtime_data",
+          "vma": 2148013216,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_shop_twin_storage_initialization_g00618.imports.json",
+          "declaration": "include/town/shop/twin_storage_initialization_g00618.h"
+        },
+        {
+          "symbol": "func_80033D44",
+          "kind": "function",
+          "vma": 2147695940
+        },
+        {
+          "symbol": "func_8003FC64",
+          "kind": "function",
+          "vma": 2147744868
+        },
+        {
+          "symbol": "func_800A48A4",
+          "kind": "function",
+          "vma": 2148157604
+        },
+        {
+          "symbol": "func_800B0718",
+          "kind": "function",
+          "vma": 2148206360
+        },
+        {
+          "symbol": "func_800B2394",
+          "kind": "function",
+          "vma": 2148213652
+        },
+        {
+          "symbol": "func_800B23C0",
+          "kind": "function",
+          "vma": 2148213696
+        },
+        {
+          "symbol": "func_800B260C",
+          "kind": "function",
+          "vma": 2148214284
+        },
+        {
+          "symbol": "func_800B29D0",
+          "kind": "function",
+          "vma": 2148215248
+        },
+        {
+          "symbol": "func_800B2A38",
+          "kind": "function",
+          "vma": 2148215352
+        },
+        {
+          "symbol": "func_800B3924",
+          "kind": "function",
+          "vma": 2148219172
+        },
+        {
+          "symbol": "func_800B3A80",
+          "kind": "function",
+          "vma": 2148219520
+        },
+        {
+          "symbol": "func_800B4588",
+          "kind": "function",
+          "vma": 2148222344
+        },
+        {
+          "symbol": "func_800B46CC",
+          "kind": "function",
+          "vma": 2148222668
+        },
+        {
+          "symbol": "func_800B4F60",
+          "kind": "function",
+          "vma": 2148224864
+        },
+        {
+          "symbol": "func_800B50BC",
+          "kind": "function",
+          "vma": 2148225212
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w_tub1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_shop_twin_storage_initialization_g00618.md",
+        "docs/evidence/town_shop_twin_storage_initialization_g00618.membership.json",
+        "docs/evidence/town_shop_twin_storage_initialization_g00618.recipe.json",
+        "docs/evidence/town_shop_twin_storage_initialization_g00618.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_shop_twin_storage_initialization_g00618.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_shop_twin_storage_initialization_g00618.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "include/town/shop/resource_entry_initialization_g00617.h": "fa96b8f348e8030963a154b16f5c5163b8331374b658469ddde79032e1db2baa",
+    "docs/evidence/town_shop_resource_entry_initialization_g00617.membership.json": "e5dd9f76fa37f90ed331cff1e4dc899b66c95f13a2eeb7dee92443017bab4f93",
+    "docs/evidence/town_shop_resource_entry_initialization_g00617.md": "2102258eca70ea44f6323510a062d60dbde19c624d52bb437a644a0dd38bc6cf",
+    "docs/evidence/town_shop_resource_entry_initialization_g00617.recipe.json": "a1eb5b6ae95cbfbfeb586df585ffa7197159ce8820e0dbe1ee35c7cb70967883",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "src/town/shop/resource_entry_initialization_g00617.c": "9571fe4bb32d7e23f10dfcbde1ff0e19e62c992fa340345aea851472aa548e60",
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "src/town/shop/twin_storage_initialization_g00618.c": "d9a662f7dbd9c488c21fd638fe72b16d314caadb9cd9a2478a2eb2d7e6773ef1",
+    "include/shared/object_flags.h": "2a6442842de6d7b7f945c9585ea2a85e9c395cc8d415920d35778f19af5f667b",
+    "docs/evidence/town_shop_twin_storage_initialization_g00618.md": "ea2a7f287329b9d5e3bb352c77e5a2f58f3d48b388ac01add97264133ea38b2e",
+    "docs/evidence/town_shop_twin_storage_initialization_g00618.recipe.json": "f7a9365a08db69241a8891fb9c3176f187bdd55e1a73003699400e853eafcb6e",
+    "include/town/shop/twin_storage_initialization_g00618.h": "3899b21caf83e5abf9b742db632f10d99fb2cbfa3ba200c71d46b48f5056f661",
+    "docs/evidence/town_shop_twin_storage_initialization_g00618.imports.json": "1d521c8a8ea221ef6905dc3bbf7dbce5ff35fdc1014955ee0780d6f84774844a",
+    "docs/evidence/town_shop_twin_storage_initialization_g00618.membership.json": "0942c7073bc393ca9b69c9fc38d36f528c3d4707c19f7c5928ab12bae3480709",
+    "include/shared/object_node.h": "786d8dc257f39debfb5622f5805c8db966ac4d1e75c277c2d9a3052fbccd4cd7"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/town/shop/resource_entry_initialization_g00617.c",
+      "tu_new": "src/town/shop/resource_entry_initialization_g00617.c",
+      "member": "src/town/shop/collect_enabled_entry_pointers.c",
+      "member_id": "town/func_800B5204",
+      "manifest_key": "town_shop_resource_entry_initialization_g00617",
+      "order": 1,
+      "offset": 216,
+      "source_sha256": "fc1c11a136618f0b9fe432f99b39236f2ee6cb00ff6002d513785cad9f23a287",
+      "bytes": 575,
+      "inlined_bytes": 575,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/resource_entry_initialization_g00617.c",
+      "tu_new": "src/town/shop/resource_entry_initialization_g00617.c",
+      "member": "src/town/shop/count_nonzero_entries.c",
+      "member_id": "town/func_800B5244",
+      "manifest_key": "town_shop_resource_entry_initialization_g00617",
+      "order": 2,
+      "offset": 792,
+      "source_sha256": "8c7a00969910b8141980c7b2197ded4c1ae5116044f60d091ca28712f2bfdb3e",
+      "bytes": 308,
+      "inlined_bytes": 308,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/resource_entry_initialization_g00617.c",
+      "tu_new": "src/town/shop/resource_entry_initialization_g00617.c",
+      "member": "src/town/shop/acquire_resource_and_initialize_state.c",
+      "member_id": "town/func_800B5270",
+      "manifest_key": "town_shop_resource_entry_initialization_g00617",
+      "order": 3,
+      "offset": 1101,
+      "source_sha256": "47000b979d62205173dbbdc880acb45dbd9799a20e2920f4bee57df7234d4730",
+      "bytes": 741,
+      "inlined_bytes": 741,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/twin_storage_initialization_g00618.c",
+      "tu_new": "src/town/shop/twin_storage_initialization_g00618.c",
+      "member": "src/town/shop/initialize_record_table_and_group.c",
+      "member_id": "town/func_800B5400",
+      "manifest_key": "town_shop_twin_storage_initialization_g00618",
+      "order": 1,
+      "offset": 281,
+      "source_sha256": "1ec2d523f759fa823a34e152226d2de344fbf31aae9aefa0e613afa8f13e8b75",
+      "bytes": 292,
+      "inlined_bytes": 292,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/twin_storage_initialization_g00618.c",
+      "tu_new": "src/town/shop/twin_storage_initialization_g00618.c",
+      "member": "src/town/shop/open_twin_souko.c",
+      "member_id": "town/func_800B5440",
+      "manifest_key": "town_shop_twin_storage_initialization_g00618",
+      "order": 2,
+      "offset": 574,
+      "source_sha256": "25caa45740ed9571fa69e813adfa5a1d827fc4947c967900b4bf8df9e1d30ba8",
+      "bytes": 1191,
+      "inlined_bytes": 1191,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/twin_storage_initialization_g00618.c",
+      "tu_new": "src/town/shop/twin_storage_initialization_g00618.c",
+      "member": "src/town/shop/apply_record_values_and_process_record.c",
+      "member_id": "town/func_800B550C",
+      "manifest_key": "town_shop_twin_storage_initialization_g00618",
+      "order": 3,
+      "offset": 1766,
+      "source_sha256": "aa0582bd2926bca5b4aff49217615ff8f29459710d636a3131ed61a33d09db6f",
+      "bytes": 503,
+      "inlined_bytes": 503,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "town_resource_entry_initialization_g01156",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 7,
+    "member_text_bytes": 900,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 900,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 30,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "town/func_800B5204",
+        "members": [
+          "town/func_800B5204",
+          "town/func_800B5244",
+          "town/func_800B5270"
+        ],
+        "text": 212,
+        "source": "src/town/shop/resource_entry_initialization_g00617.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800B52D8",
+        "members": [
+          "town/func_800B52D8"
+        ],
+        "text": 296,
+        "source": "src/town/shop/fill_item_value_buffer.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800B5400",
+        "members": [
+          "town/func_800B5400",
+          "town/func_800B5440",
+          "town/func_800B550C"
+        ],
+        "text": 392,
+        "source": "src/town/shop/twin_storage_initialization_g00618.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "53c70c33eef127f1a40a960a61c3d853e325f01c92edd3ceeb914babfa0ade9e",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

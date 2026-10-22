@@ -13,7 +13,7 @@ extern u32 D_80017FB8;
 extern s32 func_800168BC();
 
 /* Functions defined in this translation unit. */
-u32 func_8001627C(void);
-void func_800162DC(void);
+u32 invoke_state_callback(void);
+void pass_four_byte_request_1(void);
 
 #endif

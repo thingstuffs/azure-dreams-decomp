@@ -1,0 +1,182 @@
+{
+  "module": "town_dispatch_indexed_handler_g01154",
+  "retired_modules": [
+    {
+      "key": "town_shop_entry_handler_notifications_g00613",
+      "container": "town",
+      "name": "entry_handler_notifications_g00613.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/shop/entry_handler_notifications_g00613.c",
+      "headers": [
+        "include/town/shop/entry_handler_notifications_g00613.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B47E8",
+          "source": "src/town/shop/entry_handler_notifications_g00613.c",
+          "function": "func_800B1F48",
+          "foff": 215016,
+          "vma": 2148212552,
+          "size": 56
+        },
+        {
+          "id": "town/func_800B4820",
+          "source": "src/town/shop/entry_handler_notifications_g00613.c",
+          "function": "func_800B1F80",
+          "foff": 215072,
+          "vma": 2148212608,
+          "size": 232
+        },
+        {
+          "id": "town/func_800B4908",
+          "source": "src/town/shop/entry_handler_notifications_g00613.c",
+          "function": "func_800B2068",
+          "foff": 215304,
+          "vma": 2148212840,
+          "size": 200
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800D1640",
+          "kind": "data",
+          "vma": 2148341312,
+          "foff": 343776,
+          "view_bytes": 18,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_80049E1C",
+          "kind": "function",
+          "vma": 2147786268
+        },
+        {
+          "symbol": "func_800B1F10",
+          "kind": "function",
+          "vma": 2148212496
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w_tub1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_shop_entry_handler_notifications_g00613.md",
+        "docs/evidence/town_shop_entry_handler_notifications_g00613.membership.json",
+        "docs/evidence/town_shop_entry_handler_notifications_g00613.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_shop_entry_handler_notifications_g00613.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_shop_entry_handler_notifications_g00613.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "docs/evidence/town_shop_entry_handler_notifications_g00613.recipe.json": "0b4fd34cd646b9c357776c4c89e8b42111686470d7ad7d4184d672cd9e20b824",
+    "include/town/shop/entry_handler_notifications_g00613.h": "b61bda8280b4f621d3afa6add58ea4f9f2104416b48f0f9121a7dc7c37bfd88f",
+    "docs/evidence/town_shop_entry_handler_notifications_g00613.membership.json": "2c029fc2589de61266c85125d6fc502a670a013aec80d7dd9eb960192331baac",
+    "include/records/Rec_func_800B1DCC_arg0.h": "5f91891dbf34cda6be0b3e8066bba7aad8f5064400055dd6f9a775d51729c0d0",
+    "docs/evidence/town_shop_entry_handler_notifications_g00613.md": "72a64873d03ac796982334f59ade37d1a39db3a8130f1cbbf97b42f4b2a0970c",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "src/town/shop/entry_handler_notifications_g00613.c": "a8090908faf459fa9eca79dda98b4651e248753523d9ea3a8dca8e278df0ce8c",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/town/shop/entry_handler_notifications_g00613.c",
+      "tu_new": "src/town/shop/entry_handler_notifications_g00613.c",
+      "member": "src/town/shop/dispatch_indexed_handler_alt.c",
+      "member_id": "town/func_800B47E8",
+      "manifest_key": "town_shop_entry_handler_notifications_g00613",
+      "order": 1,
+      "offset": 235,
+      "source_sha256": "8bf893355916c1499c97773a96497d4d3466840ef0790813485d79a645a70ca9",
+      "bytes": 341,
+      "inlined_bytes": 341,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/entry_handler_notifications_g00613.c",
+      "tu_new": "src/town/shop/entry_handler_notifications_g00613.c",
+      "member": "src/town/shop/update_active_entry_and_notify_handlers.c",
+      "member_id": "town/func_800B4820",
+      "manifest_key": "town_shop_entry_handler_notifications_g00613",
+      "order": 2,
+      "offset": 577,
+      "source_sha256": "c55e1f5e2218795eec23b1129892984f548e67ddfdbc43d20f95eb6372eed190",
+      "bytes": 1146,
+      "inlined_bytes": 1146,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/entry_handler_notifications_g00613.c",
+      "tu_new": "src/town/shop/entry_handler_notifications_g00613.c",
+      "member": "src/town/shop/decrement_entry_and_notify_handlers.c",
+      "member_id": "town/func_800B4908",
+      "manifest_key": "town_shop_entry_handler_notifications_g00613",
+      "order": 3,
+      "offset": 1724,
+      "source_sha256": "d2e8e36ef7d9b2ef0dfa04d06b253f1cf40ddde55f65891e387a8477a99c504f",
+      "bytes": 987,
+      "inlined_bytes": 987,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "town_dispatch_indexed_handler_g01154",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 4,
+    "member_text_bytes": 544,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 544,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 12,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "town/func_800B47B0",
+        "members": [
+          "town/func_800B47B0"
+        ],
+        "text": 56,
+        "source": "src/town/shop/dispatch_indexed_handler.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800B47E8",
+        "members": [
+          "town/func_800B47E8",
+          "town/func_800B4820",
+          "town/func_800B4908"
+        ],
+        "text": 488,
+        "source": "src/town/shop/entry_handler_notifications_g00613.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "d0272fbe3d7e60844c767df930633efe3e14fe2d405e83971d3be63d0db363a1",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

@@ -1,0 +1,456 @@
+{
+  "module": "town_item_query_checks_g01145",
+  "retired_modules": [
+    {
+      "key": "town_entry_kind_filters_g00589",
+      "container": "town",
+      "name": "entry_kind_filters_g00589.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/event/entry_kind_filters_g00589.c",
+      "headers": [
+        "include/town/event/entry_kind_filters_g00589.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800AC2D8",
+          "source": "src/town/event/entry_kind_filters_g00589.c",
+          "function": "func_800A9A38",
+          "foff": 180952,
+          "vma": 2148178488,
+          "size": 164
+        },
+        {
+          "id": "town/func_800AC37C",
+          "source": "src/town/event/entry_kind_filters_g00589.c",
+          "function": "func_800A9ADC",
+          "foff": 181116,
+          "vma": 2148178652,
+          "size": 80
+        },
+        {
+          "id": "town/func_800AC3CC",
+          "source": "src/town/event/entry_kind_filters_g00589.c",
+          "function": "func_800A9B2C",
+          "foff": 181196,
+          "vma": 2148178732,
+          "size": 236
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_8006BC7A",
+          "kind": "runtime_data",
+          "vma": 2147925114,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_entry_kind_filters_g00589.imports.json",
+          "declaration": "include/town/event/entry_kind_filters_g00589.h"
+        },
+        {
+          "symbol": "D_800D1038",
+          "kind": "data",
+          "vma": 2148339768,
+          "foff": 342232,
+          "view_bytes": 30,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D1074",
+          "kind": "data",
+          "vma": 2148339828,
+          "foff": 342292,
+          "view_bytes": 10,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D1080",
+          "kind": "data",
+          "vma": 2148339840,
+          "foff": 342304,
+          "view_bytes": 2,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_80033B2C",
+          "kind": "function",
+          "vma": 2147695404
+        },
+        {
+          "symbol": "func_8004A618",
+          "kind": "function",
+          "vma": 2147788312
+        },
+        {
+          "symbol": "func_800A9878",
+          "kind": "function",
+          "vma": 2148178040
+        },
+        {
+          "symbol": "func_800A99D8",
+          "kind": "function",
+          "vma": 2148178392
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tub6"
+      },
+      "review_inputs": [
+        "docs/evidence/town_entry_kind_filters_g00589.md",
+        "docs/evidence/town_entry_kind_filters_g00589.membership.json",
+        "docs/evidence/town_entry_kind_filters_g00589.recipe.json",
+        "docs/evidence/town_entry_kind_filters_g00589.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_entry_kind_filters_g00589.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_entry_kind_filters_g00589.recipe.json"
+      }
+    },
+    {
+      "key": "town_item_query_checks_g00588",
+      "container": "town",
+      "name": "item_query_checks_g00588.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/event/item_query_checks_g00588.c",
+      "headers": [
+        "include/town/event/item_query_checks_g00588.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800AC118",
+          "source": "src/town/event/item_query_checks_g00588.c",
+          "function": "func_800A9878",
+          "foff": 180504,
+          "vma": 2148178040,
+          "size": 76
+        },
+        {
+          "id": "town/func_800AC164",
+          "source": "src/town/event/item_query_checks_g00588.c",
+          "function": "func_800A98C4",
+          "foff": 180580,
+          "vma": 2148178116,
+          "size": 52
+        },
+        {
+          "id": "town/func_800AC198",
+          "source": "src/town/event/item_query_checks_g00588.c",
+          "function": "func_800A98F8",
+          "foff": 180632,
+          "vma": 2148178168,
+          "size": 120
+        },
+        {
+          "id": "town/func_800AC210",
+          "source": "src/town/event/item_query_checks_g00588.c",
+          "function": "func_800A9970",
+          "foff": 180752,
+          "vma": 2148178288,
+          "size": 104
+        },
+        {
+          "id": "town/func_800AC278",
+          "source": "src/town/event/item_query_checks_g00588.c",
+          "function": "func_800A99D8",
+          "foff": 180856,
+          "vma": 2148178392,
+          "size": 96
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_800D1054",
+          "kind": "data",
+          "vma": 2148339796,
+          "foff": 342260,
+          "view_bytes": 2,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800D1064",
+          "kind": "data",
+          "vma": 2148339812,
+          "foff": 342276,
+          "view_bytes": 15,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_80033B2C",
+          "kind": "function",
+          "vma": 2147695404
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "r121w_tub6"
+      },
+      "review_inputs": [
+        "docs/evidence/town_item_query_checks_g00588.md",
+        "docs/evidence/town_item_query_checks_g00588.membership.json",
+        "docs/evidence/town_item_query_checks_g00588.recipe.json"
+      ],
+      "membership_evidence": "docs/evidence/town_item_query_checks_g00588.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_item_query_checks_g00588.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "include/script_symbols.h": "4fdec4dbb870a537d9fb823676f1a3733039281ebbea8e9416afc5557faba556",
+    "include/town/event/entry_kind_filters_g00589.h": "298778ad970234c9b6594662cf972eba65a623ea62c3ca2df7ddb928736bb2f6",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "include/engine/object/test_resident_bitmap_bit_api.h": "890a96cb9db778a03f7e8c3a5c2e0aaa647d0193fe41494d3b0af355be844d83",
+    "docs/evidence/town_entry_kind_filters_g00589.imports.json": "10078d4551f22057fe21044367f9ba85902f0f257f3830af5fb69b7bde9abcf5",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "docs/evidence/town_entry_kind_filters_g00589.md": "7a3148132b5621f12a7adc1c45335afee3b74a48ef47266ef9dbefe015cb6ad1",
+    "docs/evidence/town_entry_kind_filters_g00589.recipe.json": "1050264891e6b0e926a0a8bb751746f30b700bdcbb97a6538466aed554aa8064",
+    "docs/evidence/town_entry_kind_filters_g00589.membership.json": "7077768e84712cc52ebbd4385e584a02c81ae8cc729bd1ab048274d68e4ea2ec",
+    "src/town/event/entry_kind_filters_g00589.c": "e2ff129e01a1dd30364b33e54232c5c820896ff0f8ae9d4cb75ab67120c417f8",
+    "docs/evidence/town_item_query_checks_g00588.recipe.json": "7e495a3230d9d86665e00c95a133f5454ffa8ab3744af2c82ff7098d039383ea",
+    "docs/evidence/town_item_query_checks_g00588.membership.json": "22b10ba4875b822c04d0a47c4c739b7f48d5a9b369ca8ad15b03f04eec3f3c10",
+    "docs/evidence/town_item_query_checks_g00588.md": "bb8b9e94869649f2f74a867a016389fd4148256bc282128cb77ef9b9e3a84e68",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "src/town/event/item_query_checks_g00588.c": "5b627848abc3db09d3ba4ea30437154761594a26a15fd173ee57b8db23a22307",
+    "include/town/event/item_query_checks_g00588.h": "a8d94868a2db966cdeb9fd14d03ab2b8107acae3be53d508b29e378b0dfa13bb"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/town/event/item_query_checks_g00588.c",
+      "tu_new": "src/town/event/item_query_checks_g00588.c",
+      "member": "src/town/event/find_sentinel_table_value_index.c",
+      "member_id": "town/func_800AC118",
+      "manifest_key": "town_item_query_checks_g00588",
+      "order": 1,
+      "offset": 446,
+      "source_sha256": "3dc519cb5553a311d322c16de811650dcc88ca8240217c0ed0538c32edc23c7a",
+      "bytes": 293,
+      "inlined_bytes": 293,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/event/item_query_checks_g00588.c",
+      "tu_new": "src/town/event/item_query_checks_g00588.c",
+      "member": "src/town/event/state/test_selected_resident_flag.c",
+      "member_id": "town/func_800AC164",
+      "manifest_key": "town_item_query_checks_g00588",
+      "order": 2,
+      "offset": 740,
+      "source_sha256": "5f70f7b3f40fe28bf764f49ef10d472476458e1352a5f97049d4ab4097899131",
+      "bytes": 175,
+      "inlined_bytes": 175,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/event/item_query_checks_g00588.c",
+      "tu_new": "src/town/event/item_query_checks_g00588.c",
+      "member": "src/town/event/get_query_result_for_check_type.c",
+      "member_id": "town/func_800AC198",
+      "manifest_key": "town_item_query_checks_g00588",
+      "order": 3,
+      "offset": 916,
+      "source_sha256": "a2e8b685ee8e4ef62cb5171374c47e7328366009c50851e2aa2d1b149f7fbb21",
+      "bytes": 409,
+      "inlined_bytes": 409,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/event/item_query_checks_g00588.c",
+      "tu_new": "src/town/event/item_query_checks_g00588.c",
+      "member": "src/town/event/check_slot_threshold_or_fallback.c",
+      "member_id": "town/func_800AC210",
+      "manifest_key": "town_item_query_checks_g00588",
+      "order": 4,
+      "offset": 1326,
+      "source_sha256": "a07ee54075f3d9aa605ae522af0102f542e5d7b5c6a7e765b47270f1b93a1220",
+      "bytes": 504,
+      "inlined_bytes": 504,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/event/item_query_checks_g00588.c",
+      "tu_new": "src/town/event/item_query_checks_g00588.c",
+      "member": "src/town/event/classify_item_check_result.c",
+      "member_id": "town/func_800AC278",
+      "manifest_key": "town_item_query_checks_g00588",
+      "order": 5,
+      "offset": 1831,
+      "source_sha256": "9aba79bc1a30f8dea3e72833e14c074408ff922cc78dc1484e5bd474fde51e54",
+      "bytes": 349,
+      "inlined_bytes": 349,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/event/entry_kind_filters_g00589.c",
+      "tu_new": "src/town/event/entry_kind_filters_g00589.c",
+      "member": "src/town/event/classify_listed_entry_type.c",
+      "member_id": "town/func_800AC2D8",
+      "manifest_key": "town_entry_kind_filters_g00589",
+      "order": 1,
+      "offset": 399,
+      "source_sha256": "75cca49abd1822e75e72809ba2ac75432e97a99509e23cbd283109523ea3aded",
+      "bytes": 694,
+      "inlined_bytes": 694,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/event/entry_kind_filters_g00589.c",
+      "tu_new": "src/town/event/entry_kind_filters_g00589.c",
+      "member": "src/town/event/filter_entry_by_kind.c",
+      "member_id": "town/func_800AC37C",
+      "manifest_key": "town_entry_kind_filters_g00589",
+      "order": 2,
+      "offset": 1094,
+      "source_sha256": "e5486fe4a4f68e7bb2f7e01cf1e28ab32bfdefee4250f9f1269357ddcf697a8f",
+      "bytes": 377,
+      "inlined_bytes": 377,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/event/entry_kind_filters_g00589.c",
+      "tu_new": "src/town/event/entry_kind_filters_g00589.c",
+      "member": "src/town/event/get_group_record_table_entry.c",
+      "member_id": "town/func_800AC3CC",
+      "manifest_key": "town_entry_kind_filters_g00589",
+      "order": 3,
+      "offset": 1472,
+      "source_sha256": "1a97d33ee9b5ea0bbb70d5636f63948f1562df3cff77b49607f0aac9b9d6443e",
+      "bytes": 1182,
+      "inlined_bytes": 1182,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "town_item_query_checks_g01145",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 15,
+    "member_text_bytes": 1520,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 1520,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 74,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "town/func_800AC118",
+        "members": [
+          "town/func_800AC118",
+          "town/func_800AC164",
+          "town/func_800AC198",
+          "town/func_800AC210",
+          "town/func_800AC278"
+        ],
+        "text": 448,
+        "source": "src/town/event/item_query_checks_g00588.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800AC2D8",
+        "members": [
+          "town/func_800AC2D8",
+          "town/func_800AC37C",
+          "town/func_800AC3CC"
+        ],
+        "text": 480,
+        "source": "src/town/event/entry_kind_filters_g00589.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800AC4B8",
+        "members": [
+          "town/func_800AC4B8"
+        ],
+        "text": 56,
+        "source": "src/town/event/initialize_actor_sprite_and_animation.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800AC4F0",
+        "members": [
+          "town/func_800AC4F0"
+        ],
+        "text": 28,
+        "source": "src/town/event/state/is_expected_movie_state.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800AC50C",
+        "members": [
+          "town/func_800AC50C"
+        ],
+        "text": 32,
+        "source": "src/town/event/test_resident_bit_11fa.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800AC52C",
+        "members": [
+          "town/func_800AC52C"
+        ],
+        "text": 32,
+        "source": "src/town/event/test_resident_bit_11fb.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800AC54C",
+        "members": [
+          "town/func_800AC54C"
+        ],
+        "text": 84,
+        "source": "src/town/event/object/find_unflagged_node_by_key.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800AC5A0",
+        "members": [
+          "town/func_800AC5A0"
+        ],
+        "text": 116,
+        "source": "src/town/event/retry_sound_for_linked_item_and_remove_carry_item.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800AC614",
+        "members": [
+          "town/func_800AC614"
+        ],
+        "text": 244,
+        "source": "src/town/event/select_response_for_source_and_target.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "d6e1a13d6c1b12aa3365a73b96f95f0e206732579186b36007ce8be483cb770d",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

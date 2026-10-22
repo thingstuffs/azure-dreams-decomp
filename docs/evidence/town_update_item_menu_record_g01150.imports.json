@@ -1,0 +1,36 @@
+{
+  "module": "town_update_item_menu_record_g01150",
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_update_item_menu_record_g01150.imports.json",
+      "declaration": "include/town/shop/item_menu_selection_steps_g00604.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083160": "address_only_runtime_anchor",
+    "D_800891F4": "sizeof",
+    "D_800AF96C": "retail_string",
+    "D_800AFD00": "retail_string"
+  },
+  "address_only_anchors": {
+    "D_80083160": {
+      "declaration": "include/town/shop/item_menu_selection_steps_g00604.h",
+      "view_bytes": 4,
+      "basis": "Reviewed runtime view retained from absorbed module town_shop_item_menu_selection_steps_g00604",
+      "review_inputs": [
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.imports.json"
+      ]
+    }
+  }
+}

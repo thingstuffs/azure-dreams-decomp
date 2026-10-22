@@ -1,0 +1,294 @@
+{
+  "module": "town_update_item_menu_record_g01150",
+  "retired_modules": [
+    {
+      "key": "town_shop_item_menu_selection_steps_g00604",
+      "container": "town",
+      "name": "item_menu_selection_steps_g00604.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "headers": [
+        "include/town/shop/item_menu_selection_steps_g00604.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_800B2150",
+          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
+          "function": "func_800AF8B0",
+          "foff": 205136,
+          "vma": 2148202672,
+          "size": 188
+        },
+        {
+          "id": "town/func_800B220C",
+          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
+          "function": "func_800AF96C",
+          "foff": 205324,
+          "vma": 2148202860,
+          "size": 88
+        },
+        {
+          "id": "town/func_800B2264",
+          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
+          "function": "func_800AF9C4",
+          "foff": 205412,
+          "vma": 2148202948,
+          "size": 828
+        },
+        {
+          "id": "town/func_800B25A0",
+          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
+          "function": "func_800AFD00",
+          "foff": 206240,
+          "vma": 2148203776,
+          "size": 92
+        },
+        {
+          "id": "town/func_800B25FC",
+          "source": "src/town/shop/item_menu_selection_steps_g00604.c",
+          "function": "func_800AFD5C",
+          "foff": 206332,
+          "vma": 2148203868,
+          "size": 116
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80083160",
+          "kind": "runtime_data",
+          "vma": 2148020576,
+          "view_bytes": 4,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_shop_item_menu_selection_steps_g00604.imports.json",
+          "declaration": "include/town/shop/item_menu_selection_steps_g00604.h"
+        },
+        {
+          "symbol": "D_800891F4",
+          "kind": "data",
+          "vma": 2148045300,
+          "foff": 47764,
+          "view_bytes": 4,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800AF96C",
+          "kind": "data",
+          "vma": 2148202860,
+          "foff": 205324,
+          "view_bytes": 6,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "D_800AFD00",
+          "kind": "data",
+          "vma": 2148203776,
+          "foff": 206240,
+          "view_bytes": 6,
+          "owner": "retail_asset:town:xfer_town_B000"
+        },
+        {
+          "symbol": "func_80049490",
+          "kind": "function",
+          "vma": 2147783824
+        },
+        {
+          "symbol": "func_800497F4",
+          "kind": "function",
+          "vma": 2147784692
+        },
+        {
+          "symbol": "func_80049E1C",
+          "kind": "function",
+          "vma": 2147786268
+        },
+        {
+          "symbol": "func_8004B08C",
+          "kind": "function",
+          "vma": 2147790988
+        },
+        {
+          "symbol": "func_8004CB2C",
+          "kind": "function",
+          "vma": 2147797804
+        },
+        {
+          "symbol": "func_80053DA8",
+          "kind": "function",
+          "vma": 2147827112
+        },
+        {
+          "symbol": "func_800AE484",
+          "kind": "function",
+          "vma": 2148197508
+        },
+        {
+          "symbol": "func_800AF36C",
+          "kind": "function",
+          "vma": 2148201324
+        },
+        {
+          "symbol": "func_800AF860",
+          "kind": "function",
+          "vma": 2148202592
+        },
+        {
+          "symbol": "func_800B05DC",
+          "kind": "function",
+          "vma": 2148206044
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w_tub1"
+      },
+      "review_inputs": [
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.md",
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.membership.json",
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.recipe.json",
+        "docs/evidence/town_shop_item_menu_selection_steps_g00604.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_shop_item_menu_selection_steps_g00604.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_shop_item_menu_selection_steps_g00604.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "include/town/shop/item_menu_selection_steps_g00604.h": "2680b9c43fd27f9a04c2b96b354a5a237cdc909f0321f08d15a9d767d3b039d0",
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "docs/evidence/town_shop_item_menu_selection_steps_g00604.membership.json": "88c26cfb3fe01eb1cf3007a316c774ae3309de97854b18eb2770e153b3089a1c",
+    "docs/evidence/town_shop_item_menu_selection_steps_g00604.imports.json": "62fe5a867c6a3b0fbba497bdfe146e177dbac5302c4c66513419f2ed6aa51b56",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83",
+    "docs/evidence/town_shop_item_menu_selection_steps_g00604.md": "8e97a6db25d1f40d7f25ba4e1811ec4e21097c4c72a0211dbc3e2dddc42c1623",
+    "src/town/shop/item_menu_selection_steps_g00604.c": "c8016c3caf4997d8a7c5fc9d69701be58ecf3d8f4b6f04b237d5fe71a3d9c9b8",
+    "include/shared/game_work.h": "b3689954b360c96c8787131e22aa24034210b1a0b2a715a3273e1f660105e292",
+    "docs/evidence/town_shop_item_menu_selection_steps_g00604.recipe.json": "f30be3fede67df46f74c620b871a76dd0b0d71ccc14ae0a716838ccadcdf6058",
+    "include/records/Rec_func_800AF254_arg1.h": "6b360401ddc5389cc5218cf4ecf77a71a71e86830be0095646f59b8a42dc9029"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "tu_new": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "member": "src/town/shop/item/place_selected_item_menu_entry.c",
+      "member_id": "town/func_800B2150",
+      "manifest_key": "town_shop_item_menu_selection_steps_g00604",
+      "order": 1,
+      "offset": 254,
+      "source_sha256": "dc89b1096c819377d364557223c1891e1aafc1955254077016277337871f8308",
+      "bytes": 700,
+      "inlined_bytes": 700,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "tu_new": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "member": "src/town/shop/item/store_item_menu_check_result.c",
+      "member_id": "town/func_800B220C",
+      "manifest_key": "town_shop_item_menu_selection_steps_g00604",
+      "order": 2,
+      "offset": 955,
+      "source_sha256": "7b5855f593979ce7eb16474b28a1b4ea0da761ca7d295f282f9f83cbffb20f8b",
+      "bytes": 510,
+      "inlined_bytes": 510,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "tu_new": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "member": "src/town/shop/item/update_item_menu_selection.c",
+      "member_id": "town/func_800B2264",
+      "manifest_key": "town_shop_item_menu_selection_steps_g00604",
+      "order": 3,
+      "offset": 1466,
+      "source_sha256": "958dbf8f2c2cce5d4c9d13f36f23e946c9cc67f3ac88defdca909de589b15b71",
+      "bytes": 3442,
+      "inlined_bytes": 3442,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "tu_new": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "member": "src/town/shop/state/reset_item_menu_entity_state.c",
+      "member_id": "town/func_800B25A0",
+      "manifest_key": "town_shop_item_menu_selection_steps_g00604",
+      "order": 4,
+      "offset": 4909,
+      "source_sha256": "72636b4e71bc24c113b5866d940ae8863a2185a78a6c51db3c5fe2990def2242",
+      "bytes": 438,
+      "inlined_bytes": 438,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "tu_new": "src/town/shop/item_menu_selection_steps_g00604.c",
+      "member": "src/town/shop/item/advance_item_menu_step.c",
+      "member_id": "town/func_800B25FC",
+      "manifest_key": "town_shop_item_menu_selection_steps_g00604",
+      "order": 5,
+      "offset": 5348,
+      "source_sha256": "9f76f6b8fbd7647afa969ef07a165bfa6939f712535b29a590003c3f083887e6",
+      "bytes": 620,
+      "inlined_bytes": 620,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "town_update_item_menu_record_g01150",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 6,
+    "member_text_bytes": 1392,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 1392,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 48,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "town/func_800B2100",
+        "members": [
+          "town/func_800B2100"
+        ],
+        "text": 80,
+        "source": "src/town/shop/item/update_item_menu_record.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_800B2150",
+        "members": [
+          "town/func_800B2150",
+          "town/func_800B220C",
+          "town/func_800B2264",
+          "town/func_800B25A0",
+          "town/func_800B25FC"
+        ],
+        "text": 1312,
+        "source": "src/town/shop/item_menu_selection_steps_g00604.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "16675cfd9ea0dd29d851ef2836d4b5e333219d8e1f700e135631e62d1f2cf450",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

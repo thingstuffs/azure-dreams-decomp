@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-22T03:25:30Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-22T06:46:40Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,7 +13,7 @@ Generated 2026-10-22T03:25:30Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 21,432 of 21,432 rows (100.0%), 8,028,304 bytes; 0 unverified |
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.6%, L4 14.9%, L5 14.5% of bytes (levels below) |
+| **Readability** | L3 90.6%, L4 14.9%, L5 14.6% of bytes (levels below) |
 
 
 ## Not yet C
@@ -65,14 +65,14 @@ Baseline NOT exact: 0 rows
 | L1 | 8,028,304 | 100.0% |
 | L2 | 8,028,304 | 100.0% |
 | L3 | 7,273,888 | 90.6% |
-| L4 | 1,195,016 | 14.9% |
-| L5 | 1,165,684 | 14.5% |
+| L4 | 1,198,180 | 14.9% |
+| L5 | 1,168,848 | 14.6% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3707 rows, 2,287,252 bytes (28.5%); records used: 98.
+On shared record headers (T7, `include/records/`): 3716 rows, 2,288,092 bytes (28.5%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,678 rows (6,829,576 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,656 rows (6,826,324 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -88,7 +88,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | any live audit site, unnarrowed | 1,643 | 2,611,008 | 32.5% |
 | do{}while(0) scheduling barrier | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 2,658 | 3,923,620 | 48.9% |
+| local address-named struct | 2,659 | 3,923,684 | 48.9% |
 | clean shape | 8,128 | 7,618,176 | 94.9% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
@@ -109,7 +109,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 2658 | 3,923,620 | 48.9% |
+| local address-named struct | 633 | 346,824 | 4.3% | 2659 | 3,923,684 | 48.9% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8128 | 7,618,176 | 94.9% |
 
 </details>
@@ -119,7 +119,7 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,918; REG 12,816, KEEP 6,9
 
 ## Image proof
 
-`make check`: 1490/1490 images exact; 8581 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
+`make check`: 1490/1490 images exact; 8556 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
 
 
 

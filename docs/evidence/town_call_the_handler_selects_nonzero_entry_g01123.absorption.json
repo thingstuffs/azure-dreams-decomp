@@ -1,0 +1,174 @@
+{
+  "module": "town_call_the_handler_selects_nonzero_entry_g01123",
+  "retired_modules": [
+    {
+      "key": "town_player_source_byte_forwarding_g00536",
+      "container": "town",
+      "name": "source_byte_forwarding_g00536.c",
+      "region": "xfer_town_B000",
+      "source": "src/town/player/source_byte_forwarding_g00536.c",
+      "headers": [
+        "include/town/player/source_byte_forwarding_g00536.h",
+        "include/common.h"
+      ],
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "members": [
+        {
+          "id": "town/func_80097264",
+          "source": "src/town/player/source_byte_forwarding_g00536.c",
+          "function": "func_800949C4",
+          "foff": 94820,
+          "vma": 2148092356,
+          "size": 116
+        },
+        {
+          "id": "town/func_800972D8",
+          "source": "src/town/player/source_byte_forwarding_g00536.c",
+          "function": "func_80094A38",
+          "foff": 94936,
+          "vma": 2148092472,
+          "size": 40
+        }
+      ],
+      "owned_data": [],
+      "imports": [
+        {
+          "symbol": "D_80080A84",
+          "kind": "runtime_data",
+          "vma": 2148010628,
+          "view_bytes": 1,
+          "owner": "resident_runtime:slus",
+          "evidence": "docs/evidence/town_player_source_byte_forwarding_g00536.imports.json",
+          "declaration": "include/town/player/source_byte_forwarding_g00536.h"
+        },
+        {
+          "symbol": "func_80048A44",
+          "kind": "function",
+          "vma": 2147781188
+        },
+        {
+          "symbol": "func_80095360",
+          "kind": "function",
+          "vma": 2148094816
+        }
+      ],
+      "review": {
+        "membership": "reviewed",
+        "types": "reviewed",
+        "ownership": "reviewed",
+        "reviewer": "codex-r121w-tub5"
+      },
+      "review_inputs": [
+        "docs/evidence/town_player_source_byte_forwarding_g00536.md",
+        "docs/evidence/town_player_source_byte_forwarding_g00536.membership.json",
+        "docs/evidence/town_player_source_byte_forwarding_g00536.recipe.json",
+        "docs/evidence/town_player_source_byte_forwarding_g00536.imports.json"
+      ],
+      "membership_evidence": "docs/evidence/town_player_source_byte_forwarding_g00536.membership.json",
+      "genuine_aspsx": {
+        "flags": [
+          "-0"
+        ],
+        "evidence": "docs/evidence/town_player_source_byte_forwarding_g00536.recipe.json"
+      }
+    }
+  ],
+  "frozen_inputs": {
+    "src/town/player/source_byte_forwarding_g00536.c": "d4cecb72b18b1181ce1fc9daa9ab68ee21ac377e9a81718c005fa647587681a7",
+    "docs/evidence/town_player_source_byte_forwarding_g00536.membership.json": "54fc542994e15a820f24a422b63596413035e359c268c3548a26ca21fffaf1f2",
+    "include/common.h": "d763f61591c42a6125035b9645dffe30d81be82d4ecb95187813c3da5ea9d8f6",
+    "include/m2c_compat.h": "7a7d49f368d8ef4ba8bf66a24b522cc4d0ae9b5b706b5a2149a11d0dccb2fa03",
+    "include/include_asm.h": "b07191b5b52fe5a0cc20e2114349a7ccfb537bba948ba277f375d9de2559a16e",
+    "docs/evidence/town_player_source_byte_forwarding_g00536.recipe.json": "fa4172d63da0bb5e8080e9448d8eb67a4e618e10d89697d867320c745c805d5d",
+    "docs/evidence/town_player_source_byte_forwarding_g00536.imports.json": "c8f9b86e77a0d466872ad559d1dc1f8ec8f973038fd03678af92b8ea64960b42",
+    "include/shared/town_handler.h": "efb2047bd71878fb9bbd349cf282ffcbf2b9507cad51c6d0a7fcd96a036969e9",
+    "include/records/Rec_D_80082D58.h": "826edce6dbcd48147bb3044cdd6ab3a21799b8ac8cd9ed4a63eb3b0ca0a5978a",
+    "include/records/Rec_func_80094268_arg0.h": "615b0480fbcd0af57efbf9cbe435c1ff3ef7f8ffd1cdac872b83c519ffedacf4",
+    "docs/evidence/town_player_source_byte_forwarding_g00536.md": "50bcf0758be1b6116dee4806642b2fbf8d0127616d7147a1ae7962681a665967",
+    "include/town/player/source_byte_forwarding_g00536.h": "635f48377e9a9e1457dc427011ba248d6f13b8d26862333a8c796a0ce5f35d11",
+    "include/globals.h": "67b5785cdda33fe17445c8501a1491af1811aa4646d95259cc948039a5bd6bdf",
+    "include/game.h": "b80e856a3c4f4c4586c312a28336781390d102ba6f7af599d094bfa6900e7c83"
+  },
+  "previous_inline": [
+    {
+      "tu_old": "src/town/player/source_byte_forwarding_g00536.c",
+      "tu_new": "src/town/player/source_byte_forwarding_g00536.c",
+      "member": "src/town/player/apply_a_selected_source_byte_destination_adjusts_sixth_byte.c",
+      "member_id": "town/func_80097264",
+      "manifest_key": "town_player_source_byte_forwarding_g00536",
+      "order": 1,
+      "offset": 235,
+      "source_sha256": "80d14aba22b79f508d1f16013dc6a019832395554b56ef82274bfab8440e9043",
+      "bytes": 418,
+      "inlined_bytes": 418,
+      "original_includes": []
+    },
+    {
+      "tu_old": "src/town/player/source_byte_forwarding_g00536.c",
+      "tu_new": "src/town/player/source_byte_forwarding_g00536.c",
+      "member": "src/town/player/store_the_in_forwards_field_callee_c.c",
+      "member_id": "town/func_800972D8",
+      "manifest_key": "town_player_source_byte_forwarding_g00536",
+      "order": 2,
+      "offset": 654,
+      "source_sha256": "1761285bb70b689702e3b512e5880925e156dec0aad20d523fc4f93ed48aaa56",
+      "bytes": 376,
+      "inlined_bytes": 376,
+      "original_includes": []
+    }
+  ],
+  "identity": {
+    "module": "town_call_the_handler_selects_nonzero_entry_g01123",
+    "recipe": "2.7.2-cdk-G0",
+    "members": 4,
+    "member_text_bytes": 284,
+    "switch_tables": [],
+    "switch_rodata_sha256": null,
+    "switch_relocations": [],
+    "member_cells": [
+      "2.7.2-cdk-G0"
+    ],
+    "merged_text_bytes": 284,
+    "text_equal": true,
+    "relocations_equal": true,
+    "relocations": 7,
+    "merged_other_sections": {},
+    "member_other_sections": [],
+    "proof_units": [
+      {
+        "id": "town/func_80097224",
+        "members": [
+          "town/func_80097224"
+        ],
+        "text": 64,
+        "source": "src/town/player/call_the_handler_selects_nonzero_entry.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_80097264",
+        "members": [
+          "town/func_80097264",
+          "town/func_800972D8"
+        ],
+        "text": 156,
+        "source": "src/town/player/source_byte_forwarding_g00536.c",
+        "other_sections": {}
+      },
+      {
+        "id": "town/func_80097300",
+        "members": [
+          "town/func_80097300"
+        ],
+        "text": 64,
+        "source": "src/town/player/call_the_selected_nonzero_table_callee_a.c",
+        "other_sections": {}
+      }
+    ],
+    "text_sha256": "165de06fcb20af9e46f27c060de2200013d8113dd36477c8131bd140858b8e4c",
+    "equal": true
+  },
+  "basis": "Complete old TUs compiled once and compared to the merged TU; old descriptors and their evidence retained as the retirement proof chain."
+}

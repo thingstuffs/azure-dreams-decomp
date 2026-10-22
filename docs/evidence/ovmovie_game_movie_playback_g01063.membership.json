@@ -1,0 +1,30 @@
+{
+  "module": "ovmovie_game_movie_playback_g01063",
+  "ledger_group": {
+    "container": "ovmovie",
+    "module": "game_movie_playback_g01063.c",
+    "module_index": 134215
+  },
+  "members": [
+    "ovmovie/func_800400AC",
+    "ovmovie/func_800402D8",
+    "ovmovie/func_8004033C",
+    "ovmovie/func_80040360",
+    "ovmovie/func_800403EC",
+    "ovmovie/func_800404A8",
+    "ovmovie/func_80040690",
+    "ovmovie/func_8004072C",
+    "ovmovie/func_800408BC",
+    "ovmovie/func_80040954",
+    "ovmovie/func_8004099C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01063 - refs/tuweak1/split_plan.tsv:game_movie_playback. Grouping by tools/tu/infer_groups.py (group G01063); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Reviewed 11/17 game versus original LIBPRESS partition; SDK object preserved.",
+    "Members are the contiguous registered home rows 0xAC..0xED8 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

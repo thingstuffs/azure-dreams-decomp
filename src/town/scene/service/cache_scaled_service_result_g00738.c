@@ -4,7 +4,7 @@
 #include "town/scene/service/cache_scaled_service_result_g00738.h"
 
 /* Call the callback with fixed arguments and cache three quarters of its result. */
-u32 func_8001627C(void) {
+u32 invoke_state_callback(void) {
     s8 callback_args[4];
     u32 scaled_result;
 
@@ -18,7 +18,7 @@ u32 func_8001627C(void) {
 }
 
 /* Pass the four-byte request 1, 1, 0, 0 to func_800168BC. */
-void func_800162DC(void) {
+void pass_four_byte_request_1(void) {
     s8 request[4];
 
     request[1] = 1;
