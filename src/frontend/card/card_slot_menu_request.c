@@ -8,7 +8,6 @@ typedef struct S_80025B38_0 {
     s32 unk_20;
 } S_80025B38_0;
 /* cfail-repair: tf7-phase1-cache-v3 */
-static void card_boot_set_slot_menu_request();
 
 static void card_boot_set_slot_menu_request(S_80025B38_0 *object, s32 value) {
     object->unk_20 = value;

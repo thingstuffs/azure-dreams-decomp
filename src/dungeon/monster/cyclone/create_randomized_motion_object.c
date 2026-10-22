@@ -46,6 +46,8 @@ s32 rand();                                /* extern */
 extern void update_radial_motion_or_complete(u16 *motion, s32 *position, u8 *object);
 
 /* Creates an object with randomized phase and rotation and copies its initial state. */
+/* Creates a gray effect at the owner's height with randomized rotation and phase, preserving the initial
+ * motion origin. */
 s32 create_randomized_motion_object(Rec_func_80173DD4_arg0 *owner, EntityRec *initial_state) {
     s32 color;
     s32 four;

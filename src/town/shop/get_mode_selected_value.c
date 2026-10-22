@@ -1,7 +1,7 @@
 #include "common.h"
+#include "town/shop.h"
 
 extern s8 D_80089268[];
-extern s32 get_player_homerank();
 
 /* Return the selected value from the three global entries. */
 u8 get_mode_selected_value(void) {

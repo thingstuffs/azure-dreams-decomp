@@ -38,6 +38,8 @@ extern u8 D_8006CCE8[16];
 extern s16 actor_turn_angle_offsets[];
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
+/* Chooses U-Boat's next clear step, records its path, and updates tile occupancy unless status slot 27
+ * suppresses that update. */
 void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *position, u8 *actor) {
     DungeonGlobalStatus *turn_state;
     u16 turn_flags;
@@ -58,7 +60,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
     void *parent;
 
     turn_state = &g_dungeon_status;
-    turn_flags = U16_AT(turn_state, 2);
+    turn_flags = turn_state->flags;
     limit_turn = turn_flags & 0;
 
     if ((turn_flags & 0x4000) || (S8_AT(actor, 0x71) >= 0)) {
@@ -67,7 +69,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             update_actor_status_and_mp(actor);
             return;
         }
-        if (PTR_AT(turn_state, 0xC) == actor) {
+        if (turn_state->active_actor == actor) {
             U16_AT(actor, 0x46) = 0xC008;
         }
         return;
@@ -123,9 +125,9 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
 
             path_center = &reference_tile_object;
             direction = (U8_AT(actor, 0x45) + (S16_AT(primary_actor_record, 0x2A) >> 9)) & 7;
-            target_x = U8_AT(path_center, 0x24) +
+            target_x = path_center->tile_position.parts.tile_x +
                        *(u16 *)(D_8006CCD8 + (direction * 2));
-            target_y = U8_AT(path_center, 0x25) +
+            target_y = path_center->tile_position.parts.tile_y +
                        *(u16 *)(D_8006CCE8 + (direction * 2));
 
             if ((U8_AT(position, 0x24) == (u16)target_x) &&
@@ -186,12 +188,12 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
                 move_center = &reference_tile_object;
                 U16_AT(actor, 0x2A) = get_rounded_facing_and_rounding_flag(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
-                    U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
+                    move_center->tile_position.parts.tile_x, move_center->tile_position.parts.tile_y,
                     (u8 *)work_data + 0x98);
 
                 if ((test_neighbor_position_relation(
                         U8_AT(position, 0x24), U8_AT(position, 0x25),
-                        U8_AT(move_center, 0x24), U8_AT(move_center, 0x25)) << 16) != 0) {
+                        move_center->tile_position.parts.tile_x, move_center->tile_position.parts.tile_y) << 16) != 0) {
                     if (get_actor_height_difference(primary_actor_record, actor) < 0x81) {
                         if ((check_diagonal_side_height(
                                 ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),

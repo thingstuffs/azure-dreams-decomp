@@ -15,6 +15,8 @@ from tools.build import mkbuild as B
 
 # Keep scoped configure's guards in the existing lander's required unit suite.
 from tools.tests.test_recipe_cache import ScopedConfigureTests, ScopedBootstrapTests, InputSnapshotTests
+from tools.tests.test_compile_inputs import (NameInputsTests, CcprocTraceTests,
+    CompileToolClosureTests, NameMakeTests, GeneratedContentTests, SlusManifestInputsTests, GateToolExportTests)
 
 
 class NinjaProjectionTests(unittest.TestCase):

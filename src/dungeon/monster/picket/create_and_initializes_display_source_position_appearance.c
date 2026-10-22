@@ -59,6 +59,8 @@ typedef struct S_80174D48_3 {
 
 
 /* Creates and initializes a display object from the source position and appearance. */
+/* Creates a moving display for the held item, selecting its texture by item category and preserving its
+ * item data. */
 void create_and_initializes_display_source_position_appearance(void *source, Rec_func_800AD058_arg2 *record, void *appearance)
 {
     s32 coord_z;

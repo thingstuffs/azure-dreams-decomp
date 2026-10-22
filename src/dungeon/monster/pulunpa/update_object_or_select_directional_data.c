@@ -13,6 +13,8 @@ extern u8 D_80176328[];
 extern u8 D_80176360[];
 
 /* Updates object state or selects a source table entry from the target direction. */
+/* Updates Pulunpa's parent-relative motion and floor traps, then restores the idle frames for its normal
+ * or alternate form. */
 void update_object_or_select_directional_data(void *object_arg, void *context, void *source_arg, void *target_arg) {
     void *object = object_arg;
     void *source = source_arg;

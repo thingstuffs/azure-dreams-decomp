@@ -42,6 +42,8 @@ typedef struct S_801711B0_2 {
 } S_801711B0_2;   /* base in update_actor_visual_motion */
 
 /* Update object callbacks, motion, facing, and ground-relative height. */
+/* Runs U-Boat's callbacks, facing, and motion, adds idle bobbing, and resolves falling and
+ * terrain-relative height. */
 void update_actor_visual_motion(void *object_arg, void *motion_arg, void *part_arg)
 {
     void *base = object_arg;

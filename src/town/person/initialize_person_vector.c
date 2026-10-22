@@ -1,9 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/position_views.h"
+#include "sdk/libgte.h"
 
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
 extern M2C_UNK D_800AADB0;
 
    /* arg2 in initialize_person_vector */

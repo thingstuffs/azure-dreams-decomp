@@ -64,6 +64,8 @@ typedef struct S_80170BF8_3 {
 } S_80170BF8_3;   /* actor2 in update_actor_callbacks_and_terrain */
 
 /* Updates actor callbacks, movement, animation, and terrain-relative height. */
+/* Runs Kid's callbacks and directional animation, alternates idle sprite tables, and adjusts bobbing
+ * height to the terrain. */
 void update_actor_callbacks_and_terrain(void *actor_arg, void *motion_arg, void *object_arg) {
     u16 initial_flags = g_dungeon_status.flags;
     s32 bob_offset = 0;

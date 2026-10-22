@@ -443,7 +443,9 @@ def materialize_flat(destination, root=ROOT, source_root=None):
                 if not entry.is_symlink():
                     raise ValueError("unmanaged projection entry: " + str(entry))
     destination.mkdir(parents=True, exist_ok=True)
-    marker.write_text("source_layout v1 live symlinks\n")
+    text = "source_layout v1 live symlinks\n"
+    if not marker.exists() or marker.read_text() != text:
+        marker.write_text(text)
     for folder in destination.iterdir():
         if folder == marker:
             continue

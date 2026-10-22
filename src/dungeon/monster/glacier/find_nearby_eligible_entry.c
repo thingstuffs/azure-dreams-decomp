@@ -24,6 +24,8 @@ typedef struct S_801748FC_1 {
 extern s32 check_entity_eligibility(void *);
 
 /* Find the first eligible entry matching both object filters within 32 units of the target height. */
+/* Finds an eligible actor on the target tile within 32 height units, excluding classes 0x33-0x36; returns
+ * its object node. */
 void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center)
 {
     u8 *entry;

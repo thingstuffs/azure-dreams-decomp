@@ -61,6 +61,7 @@ extern u8 D_80174AFC[];
 
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+/* Creates Zu with default frames at D_80174AD4, applies spawn flags, and attempts valid tile placement. */
 void *func_80170880(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
@@ -414,6 +415,8 @@ extern u8 D_80174AF4[];
 extern u8 D_80174AFC[];
 
 /* Updates actor behavior, animation, and facing from its status and dungeon state. */
+/* Selects Zu's movement, attacks, spells, and turn processing, then maintains its idle frames and facing
+ * near the player. */
 void update_bank_actor_state(void *actor_in, void *context_in, void *sprite_in, void *stats_in)
 {
     void *actor;
@@ -1060,6 +1063,8 @@ s32 has_pending_dungeon_activity();
 void update_actor_status_and_mp();
 s32 relink_entity_and_clear_high_flag();
 /* Update entity state and flags according to the state query result. */
+/* Relinks Zu's state, updates movement or status as needed, and returns 1 only when dungeon activity
+ * allows a new action. */
 s32 complete_actor_jump_to_destination(ActorRecord *actor, void *primary_context, void *secondary_context, s32 force_move) {
     s16 state_type;
     s32 result;
@@ -1229,6 +1234,8 @@ extern void *actor_update_node_cursor;
 extern u8 D_80174AE4[];
 
 /* Updates a staged movement action, spawns particles, and restores the actor when finished. */
+/* Animates Zu's backward windup and forward strike, emits particles while returning, then recenters and
+ * spends MP. */
 void update_bank_staged_movement(void *action, void *motion, void *map_actor, void *actor_arg) {
     s32 direction_x;
     s32 direction_y;
@@ -1490,6 +1497,8 @@ typedef struct S_80172A40_4 {
 
 
 /* Updates the selected action's targeting, motion, and completion state. */
+/* Starts a targeted Zu spell and source effect, eases its vertical offset toward -48, then restores idle
+ * and status. */
 void update_bank_actor_targeted_action(void *owner_input, ObjectPosition *motion_input, void *actor_input, ActorRecord *object)
 {
     s16 special;
@@ -2586,6 +2595,8 @@ const u8 D_80170854[20] = {129,64,130,146,130,143,130,129,130,146,130,133,130,13
 extern u8 D_80174B0C[];
 
 /* Start the actor's hit reaction, then build and post the damage message for it. */
+/* Starts Zu's targeted action when activity permits, randomizes flagged facing, and displays an
+ * actor-specific message. */
 void start_bank_actor_hit_reaction(void *work, void *part_a, void *part_b, EntityRec *actor) {
     s32 flags;
     void *call_arg;
@@ -2797,6 +2808,8 @@ typedef struct S_80F8ADE0_0 {
 
 
 /* Advances a timed state sequence and sets flags when it reaches stage 15. */
+/* Advances timed effect stages, toggles a stored value, pauses at stage 7, and removes the object at stage
+ * 15. */
 void create_cylindrical_effect(void *state) {
     u16 ticks_left;
     u16 next_delay;

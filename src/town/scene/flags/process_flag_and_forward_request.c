@@ -2,8 +2,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800165F4_arg0.h"
+#include "town/scene.h"
 
-s32 check_progress_against_callback();                                /* extern */
 s32 process_checked_entry();             /* extern */
 void set_script_flag_bit();                         /* extern */
 void clear_script_flag_bit();                     /* extern */

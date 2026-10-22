@@ -1,6 +1,7 @@
 #include "script_symbols.h"
 #include "shared/town_pointees.h"
 #include "shared/town_root.h"
+#include "town/scene/event_state_dispatch_g00731.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
@@ -10,7 +11,6 @@ typedef struct S_8059E540_2 {
     void * unk_6000;
 } S_8059E540_2;   /* page in func_8059E540 */
 
-void reset_town_event_state();
 s32 func_80018964();
 extern u8 D_80010000[];
 extern M2C_UNK D_80018EE4;

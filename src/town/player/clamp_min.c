@@ -2,10 +2,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "sdk/libgte.h"
 extern int abs(int);
 
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
 s32 func_80065F90(s32, s32);             /* extern */
 
 

@@ -283,7 +283,7 @@ s32 func_80069EF8();
 extern unsigned char resident_globals_page[];
 s32 func_80065420();
 s32 func_80066460();
-M2C_UNK func_80067F20();
+void func_80067F20();
 extern M2C_UNK D_8002588C;
 extern int abs(int);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);

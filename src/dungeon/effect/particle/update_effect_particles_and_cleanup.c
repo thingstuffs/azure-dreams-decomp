@@ -46,7 +46,7 @@ extern Packed12 D_80025E34;
 extern Packed12 D_80025E40;
 extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
-extern M2C_UNK D_80025E80;
+extern s16 D_80025E80;
 extern u8 current_spell_effect_variant;
 
 
@@ -392,7 +392,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         (*(Packed12 *)((u8 *)effect + 0x96)) = D_80025E70;
         ((S_818FF710_1 *)sprite)->unk_08 = (void *) (effect + 0x96);
         parent_flags = ((S_818FF710_2 *)parent)->unk_2A;
-        ((S_818FF710_3 *)(&D_80025E80))->unk_00 = 1;
+        D_80025E80 = 1;
         (*(s16 *)((u8 *)effect + 0x7E)) = (s16) ((parent_flags >> 9) & 7);
         (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
     case 1:
@@ -804,7 +804,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
         if ((s16) cleanup_tick < 0x1F) {
             return;
         }
-        effect_active = (s32) ((S_818FF710_3 *)(&D_80025E80))->unk_00;
+        effect_active = (s32) D_80025E80;
         (*(u16 *)((u8 *)effect + 0x82)) = old_cleanup_tick;
         if (effect_active == 0) {
             g_dungeon_status.active_actor = 0;
@@ -812,7 +812,7 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
             return;
         }
-        (*(s16 *)&D_80025E80) = 0;
+        D_80025E80 = 0;
         return;
     default:
         return;

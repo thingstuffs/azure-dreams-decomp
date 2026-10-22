@@ -26,6 +26,8 @@ s32 apply_camera_offset_and_select_target(); /* extern */
 extern u8 D_80174F28;
 
 /* Check movement conditions and initialize the actor action and directional animation. */
+/* Starts Nyuel's attack against a compatible neighbor within 63 height units; returns 1, 0 if unsuitable,
+ * or -1 if busy. */
 s32 check_movement_and_initialize_action(void *action_state, void *action_ctx, void *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     u8 *direction_table;

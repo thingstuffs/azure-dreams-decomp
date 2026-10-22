@@ -21,7 +21,7 @@ s32 lower_entity_level();
 void place_actor_item();
 void display_item_status_message();
 s32 feed_actor_restore_mp();
-extern u8 D_800E173A[];
+extern u8 D_800E173A[28];
 
 /* Processes an entity's item interaction and consumes the item when finished. */
 s32 use_item_to_lower_level(EntityRec *entity, s32 item, s16 action) {

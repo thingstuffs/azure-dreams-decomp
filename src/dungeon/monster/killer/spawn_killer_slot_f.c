@@ -45,6 +45,8 @@ extern u8 D_8016E088[];
 extern u8 D_8016AEA8[];
 
 /* Creates a dungeon object and initializes its kind flags and part parameters. */
+/* Creates Killer with default frames at D_8016E038, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_killer_slot_f(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_value_0a)
 {
     s32 kind;

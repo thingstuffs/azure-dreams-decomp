@@ -6,6 +6,15 @@
 # toolchain, venv and disc from this tree (tools/setup.sh, tools/disc.py extract).
 # Gate build outputs land in build_ovl/work/.
 set -euo pipefail
+
+# A content-identical view link keeps its inode and timestamp.
+link_if_changed() {
+  local link_target="$1" link_destination="$2"
+  if [ -L "$link_destination" ] && [ "$(readlink "$link_destination")" = "$link_target" ]; then
+    return
+  fi
+  ln -sfn "$link_target" "$link_destination"
+}
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 if [ "${RAW:-0}" = "1" ]; then
   echo "raw overlay view retired; use the release archive in an isolated historical checkout" >&2
@@ -23,7 +32,8 @@ mkdir -p "$B/overlays" "$B/config" "$B/work/s3_splat" "$B/work/overlay_recon" "$
 # run tools/build/build_slus.sh first
 # MAIN-only SDK twin is absent from the SLUS split.
 python3 "$ROOT/tools/build/main_sdk_asm.py" --root "$ROOT"
-rm -rf "$B/asm"; ln -sfn "$ROOT/build_slus/asm" "$B/asm"
+if [ ! -L "$B/asm" ] && [ -e "$B/asm" ]; then rm -rf "$B/asm"; fi
+link_if_changed "$ROOT/build_slus/asm" "$B/asm"
 GATE_SRCROOT="$(python3 "$ROOT/tools/source_layout.py" --root "$ROOT" project "$B/layout_flat" --source-root "$SRCROOT")"
 for o in main town dungeon dungeon_engine ovmovie; do
   mkdir -p "$B/overlays/$o"
@@ -31,45 +41,38 @@ for o in main town dungeon dungeon_engine ovmovie; do
   # the engine window is a second proof over the dungeon rows in file 0xA0000-0x100000 at the
   # synthetic 0x80080000 base; its roster is folded into the dungeon rows, so it reads src/dungeon
   [ "$o" = dungeon_engine ] && src="$GATE_SRCROOT/dungeon"
-  ln -sfn "$src" "$B/overlays/$o/first_pass_matched"
+  link_if_changed "$src" "$B/overlays/$o/first_pass_matched"
 done
 python3 "$ROOT/tools/row_db.py" export "$B" >/dev/null
-ln -sfn "$ROOT/config/overlays"   "$B/config/overlays"
+link_if_changed "$ROOT/config/overlays"   "$B/config/overlays"
 # link lists (docs/LINK_LISTS.md); a dangling link when the tree has none (proof_receipts.validate_view checks it)
-ln -sfn "$ROOT/config/link" "$B/config/link"
-ln -sfn "$ROOT/include"           "$B/include"
-rm -rf "$B/tools"; mkdir -p "$B/tools"; cp -rL "$ROOT/tools/gate/." "$B/tools/"   # real files: the gate resolves __file__
-ln -sfn "$ROOT/toolchain"         "$B/toolchain"
-ln -sfn "$ROOT/.venv"             "$B/.venv"
-ln -sfn "$ROOT/bin"               "$B/bin"
-ln -sfn "$ROOT/baserom"           "$B/baserom"
-ln -sfn "$ROOT/work/disc/containers" "$B/work/s3_splat/extract"
-ln -sfn "$ROOT/work/disc/extract" "$B/work/roundtrip/extract"     # main_7fdd and the scorer's residue classes read the disc layout
-ln -sfn "$ROOT/tools/gate/extract_bins.py" "$B/work/overlay_recon/extract_bins.py"
+link_if_changed "$ROOT/config/link" "$B/config/link"
+link_if_changed "$ROOT/include"           "$B/include"
+python3 "$ROOT/tools/build/export_gate_tools.py" "$ROOT" "$B"   # real files: the gate resolves __file__
+link_if_changed "$ROOT/toolchain"         "$B/toolchain"
+link_if_changed "$ROOT/.venv"             "$B/.venv"
+link_if_changed "$ROOT/bin"               "$B/bin"
+link_if_changed "$ROOT/baserom"           "$B/baserom"
+link_if_changed "$ROOT/work/disc/containers" "$B/work/s3_splat/extract"
+link_if_changed "$ROOT/work/disc/extract" "$B/work/roundtrip/extract"     # main_7fdd and the scorer's residue classes read the disc layout
+link_if_changed "$ROOT/tools/gate/extract_bins.py" "$B/work/overlay_recon/extract_bins.py"
 # residue_class loads it from work/g3.  A REAL FILE, like $B/tools: it finds match.py as
 # Path(__file__).resolve().parents[2]/tools, and through a symlink that resolves to the repo root
 # (no tools/match.py there), so every scorer run failed with a HARNESS-ERROR after a rebuild.
-rm -f "$B/work/g3/overlay_func_compare.py"; cp -L "$B/tools/overlay_func_compare.py" "$B/work/g3/overlay_func_compare.py"
+# export_gate_tools.py synchronizes this real-file helper too.
 for f in overlay_fingerprint_schema names.tsv slus_006.14.yaml slus_006.14.symbols.txt slus_006.14.c_syms.txt noreturn_evidence.main.c noreturn_syms.txt noreturn_syms.dungeon.txt noreturn_syms.town.txt noreturn_syms.ovmovie.txt sibcall_syms.txt sibcall_syms.dungeon.txt sibcall_syms.town.txt sibcall_syms.ovmovie.txt noreturn_false_members.jsonl; do
-  [ -f "$ROOT/config/$f" ] && ln -sfn "$ROOT/config/$f" "$B/config/$f"
+  [ -f "$ROOT/config/$f" ] && link_if_changed "$ROOT/config/$f" "$B/config/$f"
 done
-ln -sfn "$ROOT/build_slus/config/generated" "$B/config/generated"
-ln -sfn "$ROOT/build_slus/build" "$B/build"
+link_if_changed "$ROOT/build_slus/config/generated" "$B/config/generated"
+link_if_changed "$ROOT/build_slus/build" "$B/build"
 # Complete overlay-module context. RAW views retain independent row baselines.
-ln -sfn "$SRCROOT" "$B/src"
-ln -sfn "$ROOT/ledger" "$B/ledger"
-ln -sfn "$ROOT/docs" "$B/docs"
+link_if_changed "$SRCROOT" "$B/src"
+link_if_changed "$ROOT/ledger" "$B/ledger"
+link_if_changed "$ROOT/docs" "$B/docs"
 rm -f "$B/raw"   # stale view link from before raw retirement
-mkdir -p "$B/tools/fidelity" "$B/tools/build" "$B/work/disc"
-cp "$ROOT/tools/build/slus_rodata_trim.py" "$B/tools/build/slus_rodata_trim.py"
-ln -sfn "$ROOT/work/disc/containers" "$B/work/disc/containers"
-cp "$ROOT/tools/overlay_module_evidence.py" "$B/tools/overlay_module_evidence.py"
-# Native review inputs can include compiler ABI learning notes. Preserve the
-# same bytes in the exported proof view as in its source authority.
-if [ -d "$ROOT/tools/learnings" ]; then cp -rL "$ROOT/tools/learnings" "$B/tools/"; fi
-for f in aspsx_diff.py objread.py certify_overlay_module.py; do
-  cp "$ROOT/tools/fidelity/$f" "$B/tools/fidelity/$f"
-done
+mkdir -p "$B/work/disc"
+link_if_changed "$ROOT/work/disc/containers" "$B/work/disc/containers"
+# Fidelity helpers and native review inputs are synchronized with the base tools.
 rm -f "$B/config/overlay_modules_disabled"
 PYTHONDONTWRITEBYTECODE=1 python3 "$ROOT/tools/gate/overlay_module_gate.py" --root "$ROOT" --graph
 echo "gate root: $B"

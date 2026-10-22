@@ -37,7 +37,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
     u16 flags;
     u8 *animations;
     s32 direction_index;
-    void *spawned_actor;
+    ObjectNodeHeader * spawned_actor;
     SpriteFrameState *spawned_sprite;
     void *spawned_work;
     void *spawned_pos;
@@ -69,13 +69,13 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
             }
             spawned_actor = allocate_flagged_object_node(0x12);
             if (spawned_actor != 0) {
-                PTR_AT(spawned_actor, 0x10) = D_801708BC;
+                spawned_actor->unk_10 = D_801708BC;
                 spawned_work = (u8 *)spawned_actor + 0x20;
                 register_node(spawned_actor, project_sprite_chain);
-                spawned_sprite = PTR_AT(spawned_actor, 0x0C);
+                spawned_sprite = spawned_actor->unk_0C;
                 spawned_sprite->flags &= 0xFFF3;
                 PTR_AT(spawned_work, 0x40) = action_work;
-                spawned_pos = PTR_AT(spawned_actor, 8);
+                spawned_pos = spawned_actor->unk_08;
                 S16_AT(spawned_pos, 2) = U16_AT(position, 2);
                 S16_AT(spawned_pos, 6) = U16_AT(position, 6);
                 S16_AT(spawned_pos, 0x0A) = U16_AT(position, 0x0A) - 0x20;
@@ -88,7 +88,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
                 S32_AT(spawned_work, 0x74) = 0xFFF20000;
                 S32_AT(spawned_work, 0x80) = 0x14900;
                 S16_AT(spawned_work, 0x34) = ((u16)S16_AT(actor, 0x2A) >> 9) & 7;
-                spawned_sprite = PTR_AT(spawned_actor, 0x0C);
+                spawned_sprite = spawned_actor->unk_0C;
                 spawned_sprite->scale_y = 0x1000;
                 spawned_sprite->scale_x = 0x1000;
                 direction_index = ((u16)S16_AT(actor, 0x2A) >> 7) & 0x1C;

@@ -46,6 +46,8 @@ extern M2C_UNK D_8014F86C;
 
 void *move_expand_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 property_value) ;
 /* Allocates and initializes a dungeon object with the supplied flags and placement. */
+/* Creates Dreamin with default frames at D_8014F86C, applies spawn flags, and attempts valid tile
+ * placement. */
 void *move_expand_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 property_value) {
     s32 global_byte;
     s32 unused_slot;

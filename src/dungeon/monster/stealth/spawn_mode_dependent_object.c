@@ -55,6 +55,8 @@ extern void retire_tracked_effect_by_id();
 BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) BODY_ATTR;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select, then finish through the mode branch that either zeroes or arms the actor's 0xA6 state. */
+/* Creates Stealth with frames at D_80173D30; a random display variant changes sprite flags and unlinks the
+ * node. */
 BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;

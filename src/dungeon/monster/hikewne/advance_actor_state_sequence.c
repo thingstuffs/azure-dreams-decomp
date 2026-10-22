@@ -45,6 +45,8 @@ extern u8 D_80174158[];
 extern u8 D_80174160[];
 
 /* Advances the actor state sequence and selects effects for its facing direction. */
+/* Animates Hikewne's status-slot-1 entry and recovery, updates MP and turns while active, then restores
+ * its normal callback. */
 void advance_actor_state_sequence(void *action, void *context, void *entity, ActorRecord *actor)
 {
     s32 effect_entry;

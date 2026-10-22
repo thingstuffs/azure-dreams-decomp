@@ -95,6 +95,8 @@ extern M2C_UNK D_80174F08;
 extern M2C_UNK D_80174F10;
 
 /* Updates entity actions, facing, and animation from state and terrain. */
+/* Selects Nyuel's movement, attacks, spells, and turn processing, dimming its status sprite when its
+ * callback is cleared. */
 void update_entity_actions_facing_and_animation(void *entity, s32 context, void *sprite, void *state) {
     s32 direction_aux;
     s32 *resume_handler;

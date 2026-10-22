@@ -105,6 +105,8 @@ static __inline__ u8 get_y_step(s16 byte_offset) {
 }
 
 /* Selects a movement direction and advances the actor path through available tiles. */
+/* Chooses a clear path step toward a player-relative tile or nearby actor, records the path, and updates
+ * occupancy. */
 void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, void *actor) {
     s32 turn_index;
     s32 near_target;

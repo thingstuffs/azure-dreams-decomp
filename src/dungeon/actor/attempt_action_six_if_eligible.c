@@ -19,8 +19,8 @@ s32 set_or_clear_actor_status_slot();
 s32 generate_random_value();
 void wrap_position_and_set_state_value();
 extern s32 D_800DCF20;
-extern u8 D_800E1937[];
-extern u8 D_800E1A6D[];
+extern u8 D_800E1937[37];
+extern u8 D_800E1A6D[27];
 
 /* Attempts action 6 when the entity passes its state and threshold checks. */
 s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 action_arg) {

@@ -103,6 +103,8 @@ extern u8 D_80175148[];
 extern u8 D_80175160[];
 
 /* Updates an actor's staged movement, particle effects, and return to its tile. */
+/* Animates a backward leap and forward strike with particle trails, resolves damage, then recenters and
+ * spends MP. */
 void update_staged_actor_movement(void *action, void *motion, void *tile, void *actor)
 {
     s32 particle_x_offset;

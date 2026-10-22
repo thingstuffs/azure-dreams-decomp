@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800AB030_arg0.h"
+#include "sdk/libgte.h"
 
-s32 func_800644B8();                             /* extern */
 
 
 /* Advances the stored value by 0xCC and returns the helper result divided by 384. */

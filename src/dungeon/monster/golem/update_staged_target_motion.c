@@ -105,6 +105,8 @@ extern void draw_randomized_shaded_polylines(Vec3Work *, Vec3Work *);
 extern u8 D_80175F68;
 
 /* Updates staged movement to a target and back to the actor's base position. */
+/* Moves a line effect to a tile or actor, applies damage at an actor target, then draws its accelerating
+ * return. */
 void update_staged_target_motion(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
 {
     LocalWork work;

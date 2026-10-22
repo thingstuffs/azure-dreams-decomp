@@ -110,7 +110,11 @@ def cmd_export(a):
         rows = read_jsonl(SPLITS / f"{ovl}.jsonl")
         d = root / "overlays" / ovl; d.mkdir(parents=True, exist_ok=True)
         tmp = d / ".overlay_first_pass_results.json.tmp"
-        tmp.write_text(json.dumps(rows, indent=0) + "\n"); os.replace(tmp, d / "overlay_first_pass_results.json")   # atomic: a running gate never sees a torn table
+        target = d / "overlay_first_pass_results.json"
+        text = json.dumps(rows, indent=0) + "\n"
+        if not target.exists() or target.read_text() != text:
+            tmp.write_text(text)
+            os.replace(tmp, target)   # atomic: a running gate never sees a torn table
         print(f"{ovl:15} {len(rows):5} rows -> {d.relative_to(root)}/overlay_first_pass_results.json")
 
 

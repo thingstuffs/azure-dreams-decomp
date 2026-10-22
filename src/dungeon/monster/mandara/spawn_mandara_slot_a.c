@@ -72,6 +72,8 @@ typedef struct {
 } Rect;
 
 /* Creates a monster actor and initializes its state, placement, and palette. */
+/* Creates Mandara with frames at D_80151258, copies its palette row and four strips, and attempts tile
+ * placement. */
 void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
 {
     s32 kind;

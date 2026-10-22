@@ -70,6 +70,8 @@ void *spawn_killer_slot_e(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     ;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Killer with default frames at D_80168038, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_killer_slot_e(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = 0;

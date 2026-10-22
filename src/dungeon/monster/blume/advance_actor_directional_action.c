@@ -141,25 +141,28 @@ void advance_actor_directional_action(void *controller, void *context, void *spr
 
         update_actor_status_and_mp(actor);
         on_actor_status_updated(actor);
-        if ((s16)get_entity_effect_value(actor, 1) != 0) {
-            check_target = ((u8 *)(&reference_tile_object));
-            tile = ((S_801741D8_1 *)sprite)->unk_26;
-            if (tile != ((Rec_D_80082E80 *)((u8 *)(&reference_tile_object)))->unk_26.as_s8 || tile < 0) {
-                s16 distance;
+        do {
+            if ((s16)get_entity_effect_value(actor, 1) != 0) {
+                check_target = ((u8 *)(&reference_tile_object));
+                tile = ((S_801741D8_1 *)sprite)->unk_26;
+                if (tile != ((Rec_D_80082E80 *)((u8 *)(&reference_tile_object)))->unk_26.as_s8 || tile < 0) {
+                    s16 distance;
 
-                distance = get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), sprite);
-                active_actor = actor;
-                if (distance >= 2) {
-                    goto final_call;
+                    distance = get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), sprite);
+                    active_actor = actor;
+                    if (distance >= 2) {
+                        break;
+                    }
+                    check_target = active_actor;
                 }
-                check_target = active_actor;
+                if ((generate_random_value(check_target) & 7) == 0) {
+                    clear_slots_of_type(actor, 1);
+                }
             }
-            if ((generate_random_value(check_target) & 7) == 0) {
-                clear_slots_of_type(actor, 1);
-            }
-        }
-        active_actor = actor;
-final_call:
+            active_actor = actor;
+
+        } while (0);
+
         if ((s16)get_entity_effect_value(active_actor, 1) != 0) {
             break;
         }
@@ -177,7 +180,7 @@ final_call:
             counter_m->activity_counts.parts.pending_action_count++;
         }
 
-increment_state:
+
         ((S_801741D8_0 *)controller)->unk_9B++;
         break;
 
@@ -185,7 +188,7 @@ increment_state:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
             DungeonGlobalStatus *counter_m = &g_dungeon_status;
             counter_m->activity_counts.parts.pending_action_count--;
-set_owner:
+
             ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
         }
         break;

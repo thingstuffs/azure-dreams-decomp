@@ -78,11 +78,58 @@ Incremental rebuilds: a source edit rebuilds its recipe and consuming images;
 a header edit rebuilds recipes whose include closures consume it, including
 SLUS assembly includes. The complete header and pipeline digests are still
 checked independently. Compiler tools invalidate objects; linker tools
-invalidate images. Changes to landing/accounting tools or ordinary documentation
+invalidate images. The compiler stamp follows imports reachable from the compile
+entry points, plus the shell and file-loaded compiler/assembler helpers. It binds both source authorities and the executed gate-view copies, refusing
+a stale exported copy. It does
+not enumerate maspsx tests or unrelated fidelity commands. Local Python imports
+observed by a real compile must belong to this closure; an unregistered import
+fails the compile. GCC driver/cc1/cpp inputs are bound to each TU's compiler cell,
+including SLUS TUs. Changes to landing/accounting tools or ordinary documentation
 do not invalidate either. A content-identical regenerated ledger or stamp keeps
 its mtime. An edit under `config/overlays` or `config/link` regenerates the
 projection and relinks images when the link-input content digest changes.
 Adding or removing files needs `make configure`.
+
+Build-view tool exports and source-view symlinks also preserve identical bytes
+and targets. The flat gate tool view copies `name_inputs.py` from its build
+authority; the source tree needs no gate symlink or duplicate helper. Retired
+exports are removed. The configure CLI verifies bootstrap
+inputs on every run; configure and check independently compare exported tools
+with their source authorities, including their expected file/directory inventory.
+
+Name-table changes use per-product witnesses in `build/.state/name-inputs/`.
+`ccproc` records identifiers from GCC's actual assembly before canonicalization,
+including unsuccessful lookups; this handles identifiers created by macros and
+token pasting. String directives remain opaque, as in canonicalization itself.
+Configure projects the effective name table onto that vocabulary and writes the
+witness only when its content changes. Thus adding a formerly absent mapping
+invalidates its consumers, while changing an unused row or an evidence comment
+does not invalidate their objects. Both ordinary and native `--names-only`
+compiles record witnesses. SLUS explicitly selects this checkout's default
+noreturn/sibcall tables and binds only their rows whose canonical symbols occur
+in the assembly vocabulary, including membership misses.
+Link witnesses record the alias lookups actually made
+by `symbol_addr`, including misses. The whole name table stays in the independent
+pipeline witness, but is not an object/link tool prerequisite.
+
+These are compile/link products, separate from configure checkpoints. Object
+proofs hash the exact name witness; image origins bind their link witness. SLUS
+C commands now also write content-bound object proofs. `make check` independently
+reprojects every name witness against the current table, then checks the product
+proofs. Refreshing a witness cannot refresh a stale object proof.
+
+SLUS object rules consume a manifest containing only their selected module row;
+retail spans are materialized from the authority root before writing the slice.
+The registered full manifest remains validated during configuration. Inline
+member projections bind their own provenance record instead of the entire inline
+ledger, and still rederive/validate the member from its owner at compile time.
+
+Recipes, frozen evidence, projected source, image JSON and make fragments preserve
+their mtimes when their bytes are unchanged. The makefile includes a digest of its
+remake inputs, so a real metadata change acknowledges itself through changed
+content rather than an unconditional timestamp touch. A successful compile/link
+acknowledges the publication time of its own new witness on its object/image;
+this is separate from configure's content-preserving output writes.
 
 `make configure` verifies content snapshots of the input trees and generated
 files before reusing the build views and make projection. A changed input or a

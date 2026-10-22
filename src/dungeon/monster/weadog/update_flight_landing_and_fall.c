@@ -108,8 +108,11 @@ extern FlagBlock D_800814A0;
 void update_flight_landing_and_fall(S_func_80EF1000_1 *motion, S_func_80EF1000_2 *position, S_func_80EF1000_3 *sprite);
 
 /* Update flight, landing interpolation, and falling motion until completion. */
+/* Animates a moving item with directions from D_8015E808; places it on the floor or shrinks its falling
+ * sprite. */
 void update_flight_landing_and_fall(S_func_80EF1000_1 *motion, S_func_80EF1000_2 *position, S_func_80EF1000_3 *sprite)
 {
+    s32 first_pass;
     s8 command[4];
     GridPoint grid[8];
     GridPoint *grid_base;
@@ -247,88 +250,87 @@ update_fall:
         if (sprite->unk_14 & 0x8000)
             goto update_fall;
     }
-update_flight:
-    grid_base = grid;
-    if (motion->unk_2C != 0)
-        return;
-    position->unk_00.unk_00 += motion->unk_6C;
-    motion->unk_6C += motion->unk_78;
-    position->unk_04.unk_04 += motion->unk_70;
-    {
-        s32 coord;
-        s32 rounded;
-        GridPoint *point;
+    for (first_pass = 1; first_pass || (sprite->unk_14 & 0x8000); first_pass = 0) {
+        grid_base = grid;
+        if (motion->unk_2C != 0)
+            return;
+        position->unk_00.unk_00 += motion->unk_6C;
+        motion->unk_6C += motion->unk_78;
+        position->unk_04.unk_04 += motion->unk_70;
+        {
+            s32 coord;
+            s32 rounded;
+            GridPoint *point;
 
-        coord = motion->unk_70;
-        rounded = motion->unk_7C;
-        interp_goal = motion->unk_34;
-        interp_goal <<= 2;
-        point = (GridPoint *)((u8 *)grid_base + interp_goal);
-        interp_goal = motion->unk_5C;
-        coord += rounded;
-        motion->unk_70 = coord;
+            coord = motion->unk_70;
+            rounded = motion->unk_7C;
+            interp_goal = motion->unk_34;
+            interp_goal <<= 2;
+            point = (GridPoint *)((u8 *)grid_base + interp_goal);
+            interp_goal = motion->unk_5C;
+            coord += rounded;
+            motion->unk_70 = coord;
 
-        coord = point->unk_00.x;
-        rounded = position->unk_00.half.unk_02.s;
-        interp_goal += coord;
-        if (rounded < 0)
-            rounded += 0x3F;
-        coord = rounded >> 6;
-        if (interp_goal == coord) {
-            coord = point->unk_02.unk_02;
-            rounded = position->unk_04.half.unk_06.s;
-            interp_goal = motion->unk_5D;
-            coord = (s16)coord;
+            coord = point->unk_00.x;
+            rounded = position->unk_00.half.unk_02.s;
             interp_goal += coord;
             if (rounded < 0)
                 rounded += 0x3F;
             coord = rounded >> 6;
             if (interp_goal == coord) {
-                if ((check_left_tile_and_center_height(position->unk_00.half.unk_02.u, position->unk_04.half.unk_06.u, position->unk_08.half.unk_0A) << 16) != 0 ||
-                    sample_terrain_surface_height(position->unk_00.half.unk_02.u, position->unk_04.half.unk_06.u,
-                                      position->unk_08.half.unk_0A) >= 0x200) {
-                    position->unk_00.unk_00 -= motion->unk_6C;
-                    motion->unk_6C = 0;
-                    motion->unk_78 = 0;
-                    position->unk_04.unk_04 -= motion->unk_70;
-                    motion->unk_70 = 0;
-                    motion->unk_7C = 0;
-                } else {
-                    motion->unk_5C +=
-                        ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_00.unk_00;
-                    motion->unk_5D +=
-                        ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_02.unk_00;
+                coord = point->unk_02.unk_02;
+                rounded = position->unk_04.half.unk_06.s;
+                interp_goal = motion->unk_5D;
+                coord = (s16)coord;
+                interp_goal += coord;
+                if (rounded < 0)
+                    rounded += 0x3F;
+                coord = rounded >> 6;
+                if (interp_goal == coord) {
+                    if ((check_left_tile_and_center_height(position->unk_00.half.unk_02.u, position->unk_04.half.unk_06.u, position->unk_08.half.unk_0A) << 16) != 0 ||
+                        sample_terrain_surface_height(position->unk_00.half.unk_02.u, position->unk_04.half.unk_06.u,
+                                          position->unk_08.half.unk_0A) >= 0x200) {
+                        position->unk_00.unk_00 -= motion->unk_6C;
+                        motion->unk_6C = 0;
+                        motion->unk_78 = 0;
+                        position->unk_04.unk_04 -= motion->unk_70;
+                        motion->unk_70 = 0;
+                        motion->unk_7C = 0;
+                    } else {
+                        motion->unk_5C +=
+                            ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_00.unk_00;
+                        motion->unk_5D +=
+                            ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_02.unk_00;
+                    }
+                    sprite->unk_06 = 0;
                 }
-                sprite->unk_06 = 0;
             }
         }
+        position->unk_08.unk_08 += motion->unk_74;
+        motion->unk_74 += motion->unk_80;
+        flight_height = position->unk_08.half.unk_0A;
+        if (sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0,
+            (s16)((u16)position->unk_08.half.unk_0A - 0x20)) - 0x10 < flight_height) {
+            position->unk_08.half.unk_0A = sample_terrain_surface_height(
+                (motion->unk_5C << 6) & 0xFFC0,
+                (motion->unk_5D << 6) & 0xFFC0,
+                (s16)((u16)position->unk_08.half.unk_0A - 0x20));
+            position->unk_08.half.unk_08 = 0;
+            motion->unk_7C = 0;
+            motion->unk_70 = 0;
+            motion->unk_78 = 0;
+            motion->unk_6C = 0;
+            motion->unk_2C = (s16)((u16)motion->unk_2C + 1);
+            if ((find_valid_floor_item_position(motion->unk_5C, motion->unk_5D,
+                               (s16)((u16)position->unk_08.half.unk_0A - 0x20),
+                               &position->unk_0E, &position->unk_12,
+                               &position->unk_16) << 16) != 0)
+            return;
+            motion->unk_2C = 2;
+            motion->unk_74 = (s32)0xFFF80000;
+            return;
+        }
     }
-    position->unk_08.unk_08 += motion->unk_74;
-    motion->unk_74 += motion->unk_80;
-    flight_height = position->unk_08.half.unk_0A;
-    if (sample_terrain_surface_height((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0,
-        (s16)((u16)position->unk_08.half.unk_0A - 0x20)) - 0x10 < flight_height) {
-        position->unk_08.half.unk_0A = sample_terrain_surface_height(
-            (motion->unk_5C << 6) & 0xFFC0,
-            (motion->unk_5D << 6) & 0xFFC0,
-            (s16)((u16)position->unk_08.half.unk_0A - 0x20));
-        position->unk_08.half.unk_08 = 0;
-        motion->unk_7C = 0;
-        motion->unk_70 = 0;
-        motion->unk_78 = 0;
-        motion->unk_6C = 0;
-        motion->unk_2C = (s16)((u16)motion->unk_2C + 1);
-        if ((find_valid_floor_item_position(motion->unk_5C, motion->unk_5D,
-                           (s16)((u16)position->unk_08.half.unk_0A - 0x20),
-                           &position->unk_0E, &position->unk_12,
-                           &position->unk_16) << 16) != 0)
-        return;
-        motion->unk_2C = 2;
-        motion->unk_74 = (s32)0xFFF80000;
-        return;
-    }
-    if (sprite->unk_14 & 0x8000)
-        goto update_flight;
     return;
 }
 

@@ -2739,7 +2739,7 @@ void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id)
         region->unk_0A = 2;
         return;
     case 1:
-        if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&generation_special_feature_placed))->unk_00 != 0) {
+        if (generation_special_feature_placed != 0) {
             break;
         }
         region->unk_0A = 3;
@@ -2747,7 +2747,7 @@ void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id)
         initialize_random_room_slot(region, saved_update_id);
         return;
     case 2:
-        if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&generation_special_feature_placed))->unk_00 != 0) {
+        if (generation_special_feature_placed != 0) {
             break;
         }
         generation_special_feature_placed = 1;
@@ -2755,7 +2755,7 @@ void choose_random_region_feature(Rec_func_8001CE44_arg0 *region, s32 update_id)
         mark_random_eligible_region_tiles(region, saved_update_id);
         return;
     case 4:
-        if (((floor_generate_isolated_8028A4AC_S_8001D4AC_1 *)(&generation_special_feature_placed))->unk_00 != 0) {
+        if (generation_special_feature_placed != 0) {
             break;
         }
         generation_special_feature_placed = 1;

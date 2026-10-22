@@ -148,7 +148,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             if (sprite->unk_2C == anim_table) {
                 return;
             }
-            *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
+            sprite->unk_2C = anim_table;
             select_sprite_entry(
                 sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
@@ -160,7 +160,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             if (current_anim == anim_table) {
                 return;
             }
-            *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
+            sprite->unk_2C = anim_table;
             select_sprite_entry(
                 sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
@@ -172,7 +172,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             if (current_anim == anim_table) {
                 return;
             }
-            *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
+            sprite->unk_2C = anim_table;
             select_sprite_entry(
                 sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
@@ -183,7 +183,7 @@ void advance_actor_recovery_sequence(S_func_8016C64C_0 *action, S_func_8016C64C_
             if (sprite->unk_2C == anim_table) {
                 return;
             }
-            *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
+            sprite->unk_2C = anim_table;
             select_sprite_entry(
                 sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],

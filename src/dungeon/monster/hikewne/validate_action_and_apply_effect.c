@@ -42,6 +42,8 @@ extern s16 check_entity_interaction_compatibility(void *, s32);
 extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Validates an actor action, applies its effect, and updates the action state and remaining count. */
+/* Starts Hikewne's attack against a compatible neighbor within 64 height units; returns 1, 0 if
+ * unsuitable, or -1 if busy. */
 s32 validate_action_and_apply_effect(S_8017237C_2 *action, void *effect, MovingTile *target, void *actor_data)
 {
     void *actor = actor_data;

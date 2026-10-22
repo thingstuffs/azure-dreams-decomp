@@ -53,6 +53,8 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
 ;
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
+/* Creates Mandara with frames at D_8016F258, copies its palette row and four strips, and attempts tile
+ * placement. */
 void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 {
     void *work;

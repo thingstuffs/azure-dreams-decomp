@@ -86,6 +86,8 @@ typedef struct S_801731C8_6 {
 } S_801731C8_6;   /* part in update_item_use_action */
 
 /* Updates an item-use action, its animation, and its particle effects. */
+/* Starts a targeted spell, emits randomly colored particles during its animation, then restores movement
+ * and status. */
 void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, void *actor)
 {
     u8 *item_slot;

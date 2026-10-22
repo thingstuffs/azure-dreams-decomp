@@ -7,6 +7,7 @@
 #include "m2c_compat.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
+#include "town/shop/resource_entry_initialization_g01156.h"
 
 /* extern */
 struct TownB4C60;
@@ -42,7 +43,6 @@ void get_zero_based_group_index(struct TownB4C60 *);
 /* extern */
 void store_table_index_and_entry_bytes();
 /* extern */
-s32 acquire_resource_and_initialize_state();
 /* extern */
 s32 func_800B3924();
 /* extern */

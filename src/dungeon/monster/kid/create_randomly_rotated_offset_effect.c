@@ -51,9 +51,11 @@ typedef struct S_80174800_2 {
 
 
 /* Creates an effect at an offset from the source position with a random rotation. */
+/* Creates a randomly rotated Kid sprite 40 units above the source, with the supplied scale and a copied
+ * texture entry. */
 void create_randomly_rotated_offset_effect(void *unused_ptr, EntityRec *source_pos, s32 unused_value, s16 scale)
 {
-    void *node;
+    ObjectNodeHeader * node;
     S_80174800_0 *part;
     S_80174800_1 *data;
     S_80174800_2 *pos;
@@ -62,16 +64,16 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, EntityRec *source_p
     if (node != 0) {
         part = (u8 *)node + 0x20;
         part->unk_1A = 65;
-        (*(void * *)((u8 *)node + 0x10)) = &D_80174600;
+        (node->unk_10) = &D_80174600;
         register_node(node, project_sprite_chain);
-        data = (*(void * *)((u8 *)node + 0xC));
+        data = (node->unk_0C);
         data->unk_10 = 0x60;
         data->unk_14 |= 0xC;
-        pos = (*(void * *)((u8 *)node + 8));
+        pos = (node->unk_08);
         pos->unk_02 = ((u16)source_pos->x.w.i);
         pos->unk_06 = ((u16)source_pos->y.w.i);
         pos->unk_0A = ((u16)source_pos->z.w.i) - 0x28;
-        data = (*(void * *)((u8 *)node + 0xC));
+        data = (node->unk_0C);
         data->unk_06 = 6;
         data->unk_1E = scale;
         data->unk_1C = scale;

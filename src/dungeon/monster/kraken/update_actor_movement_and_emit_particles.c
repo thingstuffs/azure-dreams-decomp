@@ -70,6 +70,8 @@ extern u8 D_8017418C[];
 extern u8 D_80174194[];
 
 /* Updates actor movement, emits particles, and settles the actor onto its tile. */
+/* Applies Kraken's pending HP change, emits seven particles while recoiling, then returns it to its tile
+ * and idle frames. */
 void update_actor_movement_and_emit_particles(void *actor, void *motion, void *sprite, void *entity) {
     void *particle;
     void *particle_sprite;

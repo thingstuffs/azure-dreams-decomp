@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
+#include "town/shop/state.h"
 
 
 typedef struct S_800B683C_2 {
@@ -9,7 +10,6 @@ typedef struct S_800B683C_2 {
 } S_800B683C_2;   /* ((Rec_func_800B683C_arg0 *)arg0)->unk_98 in clear_linked_entry_state */
 
 
-void set_monster_status_panel_height();
 
 
 /* Clears two linked values and initializes the object's embedded data. */

@@ -120,6 +120,8 @@ extern u8 D_80174038[];
 extern u8 D_80174078[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */
+/* Starts a targeted spell with two effect rows, keeps its child at the actor's position, and releases it
+ * on completion. */
 void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 *sprite, S_func_80FDD1A0_3 *actor_data)
 {
     s16 use_player = 0;

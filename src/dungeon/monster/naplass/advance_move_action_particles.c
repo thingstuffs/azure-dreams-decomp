@@ -127,6 +127,8 @@ extern u8 D_80173EC0[0x10];
 extern u8 D_80174194[0x10];
 
 /* Updates a move action, spawning particles and resetting state when it ends. */
+/* Starts a targeted spell, emits batches of ten particles ahead during casting, then restores movement and
+ * status. */
 void advance_move_action_particles(void *action, void *position, void *sprite, void *actor)
 {
     void *particle_callback = D_80173EC0;

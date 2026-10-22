@@ -3,6 +3,8 @@
 #include "dungeon/monster/volcano/spawn_effect_object.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Volcano with default frames at D_80150510, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     u8 *work = 0;

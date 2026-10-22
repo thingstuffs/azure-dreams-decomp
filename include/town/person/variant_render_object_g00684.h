@@ -12,6 +12,7 @@
 #include "shared/vector.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800CB9B8_2 S_800CB9B8_2;
 
@@ -94,9 +95,7 @@ void *allocate_list_node();
 /* extern */
 s32 register_node();
 void unlink_node_if_registered(void *block_data);
-s32 func_800644B8();
 /* extern */
-s32 func_80064584();
 /* extern */
 void clear_object_slot_and_mark_removed(void *);
 s32 is_default_object_data(struct S_800CB7D0_0 *);

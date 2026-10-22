@@ -75,6 +75,8 @@ typedef struct S_8016E528_4 {
 } S_8016E528_4;   /* ((((S_8016E528_0 *)arg0)->unk_18 * 4) + table_base) in update_object_motion_and_landing */
 
 /* Updates object motion, landing interpolation, and removal. */
+/* Waits before moving Ghosh's item, checks terrain, then places it using saved item bytes or shrinks its
+ * falling sprite. */
 void update_object_motion_and_landing(void *motion, void *position, void *object) {
     u8 item_data[4];
     s32 fall_height;

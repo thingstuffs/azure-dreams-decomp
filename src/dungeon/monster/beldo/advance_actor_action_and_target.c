@@ -94,6 +94,8 @@ typedef struct S_8017256C_6 {
 } S_8017256C_6;   /* global in advance_actor_action_and_target */
 
 /* Advances an actor's action state, updating its target, animation, and completion. */
+/* Starts a targeted Beldo spell, emits a sprite effect during its casting sequence, then recenters and
+ * updates status. */
 void advance_actor_action_and_target(void *action, void *motion, void *sprite, void *actor)
 {
     register s32 is_special = 0;

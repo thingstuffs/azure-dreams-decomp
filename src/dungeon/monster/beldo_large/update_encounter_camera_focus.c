@@ -35,6 +35,8 @@ extern void queue_view_slot(s32);
 extern s16 get_player_relative_point_octant(void *);
 
 /* Update camera focus and height through timed entity states and phases. */
+/* Moves the encounter camera between Beldo and the player, selecting view angles by relative octant and
+ * timed phases. */
 void update_encounter_camera_focus(Entity *entity) {
     PhaseHeights heights = D_80164A54;
     Actor *actor = *(Actor **)(beldo_actor_nodes + 8);

@@ -2,10 +2,9 @@
 #include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "sdk/libgte.h"
 
 void *allocate_list_node();            /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
 extern M2C_UNK D_800BB894;
 
 typedef struct Copy24 {

@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "m2c_compat.h"
+#include "sdk/libgte.h"
 
 typedef struct S_8009A724_0 {
     u8 pad_00[0x4];
@@ -44,8 +45,6 @@ typedef struct S_8009A81C_1 {
     s16 unk_06;
 } S_8009A81C_1;
 
-extern s32 func_800644B8();
-extern s32 func_80064584();
 extern M2C_UNK D_8009A81C;
 
 /* Shared import declarations; data casts preserve each measured view. */

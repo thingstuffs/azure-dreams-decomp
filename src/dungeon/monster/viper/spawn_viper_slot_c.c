@@ -3,6 +3,7 @@
 #include "modules/dungeon_ovl_7f1ed800.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Viper with default frames at D_8015CA7C, applies spawn flags, and attempts valid tile placement. */
 void *func_80158894(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;

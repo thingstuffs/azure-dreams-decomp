@@ -44,7 +44,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
 
             return;
         }
-        if ((*((void **) ((u8 *)state + 0xC))) == actor) {
+        if ((state->active_actor) == actor) {
             *(u16 *)(actor + 0x46) = 0xC008;
         }
 

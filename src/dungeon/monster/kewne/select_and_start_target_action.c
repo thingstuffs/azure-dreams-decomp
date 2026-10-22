@@ -24,6 +24,8 @@ extern u8 D_80175E70[];
 extern u8 D_80175EA8[];
 
 /* Select and start an actor action based on the target delta. */
+/* Chooses one of three Kewne attacks by target height; returns its mode, 0 for no valid target, or -1
+ * while busy. */
 s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *visual_data, ActorRecord *actor) {
     s32 target_delta;
     s16 action_mode;
@@ -31,11 +33,11 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
     u8 status;
     u16 stored_amount;
 
-    status = *((u8 *)actor + 0x71);
+    status = actor->movement_queue_state;
     {
         s32 target;
 
-        ((u8 *)actor)[113] = status & 0x7F;
+        actor->movement_queue_state = status & 0x7F;
         action_mode = 0;
         if (g_dungeon_status.flags & 0x2000) {
             return -1;

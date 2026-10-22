@@ -63,7 +63,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
     s32 direction_offset;
     s16 axis_step;
     Copy24 *motion;
-    void *object;
+    ObjectNodeHeader * object;
     MovingPosition *child_pos;
     SpriteFrameState *render;
 
@@ -83,10 +83,10 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
 
     object = allocate_flagged_object_node(0x312);
     if (object != 0) {
-        (*(void * *)((u8 *)object + 0x10)) = &D_80175978;
+        (object->unk_10) = &D_80175978;
         register_node(object, project_sprite_chain);
 
-        render = (*(void * *)((u8 *)object + 0xC));
+        render = (object->unk_0C);
         render->unk_28 = source->unk_28;
         render->scale_y = 0x800;
         render->scale_x = 0x800;
@@ -95,7 +95,7 @@ void *create_source_adjusted_motion_object(S_80175D04_0 *actor, Copy24 *start_po
         render->tpage_abr |= 0x20;
         select_sprite_entry(render, 0x47, 0);
 
-        child_pos = (*(void * *)((u8 *)object + 8));
+        child_pos = (object->unk_08);
         (*(Copy24 *)((u8 *)object + 0x24)) = *start_pos;
         motion = (Copy24 *)((u8 *)object + 0x20);
 

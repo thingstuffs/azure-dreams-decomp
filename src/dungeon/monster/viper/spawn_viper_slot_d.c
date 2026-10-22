@@ -47,6 +47,7 @@ extern u8 D_80162A7C[];
 extern u8 D_80162AD4[];
 
 /* Allocate an actor and initialize its parts and behavior from the spawn flags. */
+/* Creates Viper with default frames at D_80162A7C, applies spawn flags, and attempts valid tile placement. */
 void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
 {
     void *work = 0;

@@ -70,6 +70,8 @@ extern s32 random_below_limit(s32);
 extern int abs(int);
 
 /* Advances the entity animation sequence and relocates it to a distant tile. */
+/* Animates Baloon's rising effect, tries to relocate at least 33 tile steps from the player, then spends
+ * MP and restores idle. */
 void relocate_entity_after_animation(void *motion, void *position, void *entity, void *object)
 {
     s32 particle_index;

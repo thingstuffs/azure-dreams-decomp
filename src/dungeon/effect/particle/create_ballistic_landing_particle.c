@@ -19,7 +19,7 @@ typedef struct Copy12 {
 s32 register_node();           /* extern */
 s32 rand();                                /* extern */
 s32 func_80167088();                         /* extern */
-extern M2C_UNK D_80165AB8;
+extern void D_80165AB8(u8 *, u8 *, u8 *);
 
 
 typedef struct S_80165D0C_0 {

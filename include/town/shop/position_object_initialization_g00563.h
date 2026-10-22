@@ -9,6 +9,7 @@
 #include "town/menu/window.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/dungeon_projectile_views.h"
+#include "engine/menu.h"
 
 typedef struct S_800A022C_0 {
     u8 pad_00[0x15];
@@ -58,7 +59,6 @@ void add_motion_deltas_to_position();
 extern void *D_8009BC44;
 void *allocate_list_node();
 /* extern */
-s32 lookup_item_category_mapped_value();
 /* extern */
 void configure_the_set_mode_n_4();
 /* extern */

@@ -57,6 +57,8 @@ extern M2C_UNK D_80156088;
 void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) ;
 
 /* Allocates an actor and initializes its parts, position, and spawn flags. */
+/* Creates Killer with default frames at D_80156038, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
     s16 saved_x;
     s16 saved_y;

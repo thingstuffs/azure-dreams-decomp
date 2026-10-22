@@ -114,6 +114,8 @@ extern void create_two_row_object_group(void *payload, s16 value_scale);
 extern void tick_object_motion_and_expire(void);
 
 /* Updates actor action states, movement, and impact effects. */
+/* Starts a targeted spell with two rows of effects, emits impact particles at the sprite attachment, then
+ * restores idle. */
 void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     u16 pos[3];

@@ -123,10 +123,10 @@ extern M2C_UNK D_800E0462;
 extern M2C_UNK D_800E0472;
 extern M2C_UNK D_800E0542;
 extern M2C_UNK D_800E0571;
-extern u8 D_800E069D[];
-extern u8 D_800E06BD[];
-extern u8 D_800E06C0[];
-extern u8 D_800E06E0[];
+extern u8 D_800E069D[32];
+extern u8 D_800E06BD[3];
+extern u8 D_800E06C0[32];
+extern u8 D_800E06E0[3];
 extern s32 familiar_record_slots[];
 extern s32 dungeon_menu_action_state[];
 

@@ -64,6 +64,8 @@ extern u8 D_80175E2C[];
 extern u8 D_80175E34[];
 
 /* Updates an actor's action state, target coordinates, animation, and completion. */
+/* Starts a targeted Troll spell, emits ten particles per casting tick and a flash, then restores the
+ * current item's idle frames. */
 void advance_actor_targeted_action(void *action, ObjectPosition *transform, void *sprite, ActorRecord *actor)
 {
     s32 state;

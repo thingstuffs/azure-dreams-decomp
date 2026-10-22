@@ -71,6 +71,8 @@ extern u8 D_80174424[];
 extern u8 D_80175298[];
 
 /* Advances the actor action through its entry, active, and exit animation states. */
+/* Animates entry and exit palette changes for status slot 1, processes turns while active, and restores
+ * the callback. */
 void advance_actor_entry_active_exit_states(void *action, void *context, void *sprite, ActorRecord *actor)
 {
     s32 state;

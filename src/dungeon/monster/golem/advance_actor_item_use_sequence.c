@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/actor/callback.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -19,18 +20,18 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 extern void create_actor_linked_effect(void *);
 extern void create_offset_actor_object(void *, void *, void *);
 
-extern M2C_UNK D_80170E94;
+extern void D_80170E94(void *, void *, void *, void *);
 extern u8 D_80175F10[8];
 
 
 typedef struct S_801738B4_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    ActorCallback action_callback; /* 0x8C */
     u8 pad_90[0x6];
-    u16 unk_96;
-    u16 unk_98;
+    u16 wait_ticks; /* 0x96 */
+    u16 action_flags; /* 0x98 */
     u8 pad_9A[0x1];
-    u8 unk_9B;
+    u8 phase; /* 0x9B */
 } S_801738B4_0;   /* arg0 in advance_actor_item_use_sequence */
 
 typedef struct S_801738B4_1_pre {
@@ -63,7 +64,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
     s32 use_shared_object;
 
     special_mode = 0;
-    action_state = ((S_801738B4_0 *)action_ctx)->unk_9B;
+    action_state = ((S_801738B4_0 *)action_ctx)->phase;
     switch (action_state) {
     case 0:
         if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
@@ -112,7 +113,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
 
         if (*item != 0) {
 
-            ((S_801738B4_0 *)action_ctx)->unk_98 &= 0xFF7F;
+            ((S_801738B4_0 *)action_ctx)->action_flags &= 0xFF7F;
             use_shared_object = (special_mode == 1);
             if (use_shared_object) {
                 copy_object = primary_actor_record;
@@ -138,9 +139,9 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
                 (*(s8 *)((u8 *)actor + 0x72)) = target_x;
                 (*(s8 *)((u8 *)actor + 0x73)) = target_y;
             }
-            if (create_actor_spell_effect(actor, item, special_mode, &((S_801738B4_0 *)action_ctx)->unk_98)) {
+            if (create_actor_spell_effect(actor, item, special_mode, &((S_801738B4_0 *)action_ctx)->action_flags)) {
                 create_actor_linked_effect(actor);
-                ((S_801738B4_0 *)action_ctx)->unk_9B++;
+                ((S_801738B4_0 *)action_ctx)->phase++;
             }
             break;
         } else {
@@ -153,7 +154,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             (*(u16 *)((u8 *)active_object + 0xA6))--;
             advance_status_timers(actor);
             (*(u8 *)((u8 *)actor + 0x6D))--;
-            ((S_801738B4_0 *)action_ctx)->unk_8C = &D_80170E94;
+            ((S_801738B4_0 *)action_ctx)->action_callback = &D_80170E94;
             (*(u8 *)((u8 *)actor + 0x73)) = 0;
             (*(u8 *)((u8 *)actor + 0x72)) = 0;
             (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
@@ -166,14 +167,14 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             break;
         }
         ((SpriteAnimationTableView *)entity)->unk_14 &= 0xF7FF;
-        ((S_801738B4_0 *)action_ctx)->unk_9B++;
+        ((S_801738B4_0 *)action_ctx)->phase++;
 
     case 2:
         if ((((SpriteAnimationTableView *)entity)->unk_04 == 3 &&
              (((SpriteAnimationTableView *)entity)->unk_14 & 0x1000)) ||
             (((SpriteAnimationTableView *)entity)->unk_14 & 0xE000)) {
             create_offset_actor_object(action_ctx, scene_object, entity);
-            ((S_801738B4_0 *)action_ctx)->unk_9B++;
+            ((S_801738B4_0 *)action_ctx)->phase++;
         }
 
     case 3:
@@ -181,14 +182,14 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
              (((SpriteAnimationTableView *)entity)->unk_14 & 0x1000)) ||
             (((SpriteAnimationTableView *)entity)->unk_14 & 0xE000)) {
             ((SpriteAnimationTableView *)entity)->unk_14 |= 0x0800;
-            ((S_801738B4_0 *)action_ctx)->unk_96 = 1;
-            ((S_801738B4_0 *)action_ctx)->unk_98 |= 0x0080;
+            ((S_801738B4_0 *)action_ctx)->wait_ticks = 1;
+            ((S_801738B4_0 *)action_ctx)->action_flags |= 0x0080;
         }
 
-        remaining_ticks = ((S_801738B4_0 *)action_ctx)->unk_96 - 1;
-        ((S_801738B4_0 *)action_ctx)->unk_96 = remaining_ticks;
+        remaining_ticks = ((S_801738B4_0 *)action_ctx)->wait_ticks - 1;
+        ((S_801738B4_0 *)action_ctx)->wait_ticks = remaining_ticks;
         if ((s16)remaining_ticks <= 0) {
-            ((S_801738B4_0 *)action_ctx)->unk_96 = 0;
+            ((S_801738B4_0 *)action_ctx)->wait_ticks = 0;
             ((SpriteAnimationTableView *)entity)->unk_14 &= 0xF7FF;
         }
         if (!(((SpriteAnimationTableView *)entity)->unk_14 & 0xE000)) {
@@ -211,7 +212,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             break;
         }
         ((S_801738B4_4 *)action_status)->unk_0A--;
-        ((S_801738B4_0 *)action_ctx)->unk_8C = &D_80170E94;
+        ((S_801738B4_0 *)action_ctx)->action_callback = &D_80170E94;
         advance_status_timers(actor);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;
         (*(u8 *)((u8 *)actor + 0x72)) = 0;

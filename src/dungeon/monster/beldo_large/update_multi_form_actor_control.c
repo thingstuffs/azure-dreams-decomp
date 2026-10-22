@@ -69,6 +69,8 @@ extern M2C_UNK D_80173AC0;
 extern M2C_UNK D_80173AC8;
 
 /* Updates dungeon actor actions, facing, and idle animations. */
+/* Dispatches movement, attacks, and spells for four actor forms, with separate idle frames and timed idle
+ * gestures. */
 void update_multi_form_actor_control(void *actor, void *context, void *sprite, ActorRecord *entity) {
     void *pose_actor;
     s32 distance;

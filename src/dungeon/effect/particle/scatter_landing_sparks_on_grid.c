@@ -4,11 +4,13 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
+typedef void (*LandingParticleCallback)(u8 *, u8 *, u8 *);
+
 void register_node(void *, void *);
 s32 rand(void);
 s32 func_80167088(s32);
 extern u8 D_80045C34[];
-extern M2C_UNK D_80165AB8;
+extern void D_80165AB8(u8 *, u8 *, u8 *);
 
 
 typedef struct S_8016604C_0 {
@@ -57,7 +59,7 @@ void scatter_landing_sparks_on_grid(S_8016604C_0 *source) {
     s32 grid_y;
     s32 grid_x;
     S_8016604C_2 *sprite;
-    M2C_UNK *effect_data;
+    LandingParticleCallback effect_data;
     void *particle;
     S_8016604C_1 *motion;
 

@@ -57,6 +57,8 @@ extern u8 D_801741B4;
 extern u8 D_801741BC;
 
 /* Updates an actor's action state, target selection, and animation. */
+/* Starts a targeted Kraken spell with two effect groups, waits for loading and animation, then restores
+ * vertical idle state. */
 void update_actor_action_target_and_animation(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor) {
     u8 *anim_table;
     s32 visual_base;

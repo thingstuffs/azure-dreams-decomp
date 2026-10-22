@@ -100,7 +100,7 @@ void update_object_movement_facing_terrain(void *obj, void *input_motion, void *
     u8 direction_flag;
     s16 saved_mode;
 
-    if (*(u16 *)(((u8 *)(&g_dungeon_status)) + 2) & 0x2000) {
+    if (g_dungeon_status.flags & 0x2000) {
         callback = (*(Callback *)((u8 *)obj + 0x8C));
         if (callback == (Callback)D_80171058) {
             void *entry_obj = obj;

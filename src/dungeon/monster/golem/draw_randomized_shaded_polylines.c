@@ -68,6 +68,8 @@ extern s32 rand(void);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
 /* Draw seven shaded polylines with randomized offsets between two positions. */
+/* Projects six jittered red three-point lines plus a center line between two positions, and queues them by
+ * depth. */
 void draw_randomized_shaded_polylines(S_80175A90_3 *start_pos, EntityRec *end_pos)
 {
     void **context_ptr = (void **)((u8 *)(&g_game_work));

@@ -69,6 +69,8 @@ extern u8 D_800D6FEC[];
 extern u8 baloon_anchored_frames[];
 
 /* Creates an object from a template, selects its direction, and positions it at the anchor. */
+/* Copies a sprite template into a timed Baloon effect, selects anchored directional frames, and links it
+ * to the origin. */
 void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80D653B8_2 *object_template,
                    S_80D653B8_3 *facing_source, s32 initial_value)
 {

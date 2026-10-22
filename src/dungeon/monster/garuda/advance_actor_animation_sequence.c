@@ -66,7 +66,7 @@ void advance_actor_animation_sequence(S_func_81006E50_0 *action, S_func_81006E50
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        *(void **)((u8 *)animation + 0x2C) = D_801748B8;
+        animation->unk_2C = D_801748B8;
         select_sprite_entry(animation,
             D_801748B8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);

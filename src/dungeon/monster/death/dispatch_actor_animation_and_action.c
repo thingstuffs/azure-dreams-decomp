@@ -91,6 +91,8 @@ typedef struct S_801719DC_2 {
 
 
 /* Update actor animation, facing, and action dispatch from dungeon state. */
+/* Dispatches Death's movement, attacks, spells, and turn processing, resetting its vertical animation
+ * offsets on return to idle. */
 void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void *entity_in, void *actor_in)
 {
     s32 direction_aux;

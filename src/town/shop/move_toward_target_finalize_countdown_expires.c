@@ -4,6 +4,7 @@
 #include "records/Rec_D_80082D58.h"
 #include "shared/object_links.h"
 #include "shared/vector.h"
+#include "town/scene/paired_value_dispatch_g00647.h"
 
 typedef struct { s32 words[21]; } TownRecord;
 
@@ -17,7 +18,6 @@ void call_the_same_context_both_processing_routines();             /* extern */
 void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis();             /* extern */
 void add_motion_deltas_to_position();                      /* extern */
 void itm_mon_koyaw_set(s32 slot, u8 *entry_flags, TownRecord *record, s8 record_byte);
-void dispatch_paired_table_values();                            /* extern */
 typedef struct {
     s32 words[0x15];
 } Record84;

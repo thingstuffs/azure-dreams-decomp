@@ -1,10 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "sdk/libgte.h"
 
 
 s32 runtime_estimate_vector_length(s32, s32);                        /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
 
 typedef struct {
     s32 pad[3];

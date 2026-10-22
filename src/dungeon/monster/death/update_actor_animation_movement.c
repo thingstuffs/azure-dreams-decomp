@@ -34,6 +34,8 @@ typedef struct S_801533A8_2 {
 } S_801533A8_2;   /* base in update_actor_animation_movement */
 
 /* Updates entity callbacks, animation, movement, and floor height. */
+/* Runs Death state callbacks from D_801566A0, updates sprite facing and height offsets, and resolves
+ * ground contact. */
 void update_actor_animation_movement(void *entity, ObjectPosition *motion, void *sprite)
 {
     void *entity_base = entity;

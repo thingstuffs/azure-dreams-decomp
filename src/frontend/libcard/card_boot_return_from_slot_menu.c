@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "frontend/libcard.h"
 
 struct UnkStruct1E; void card_boot_destroy_slot_selection_menu(struct UnkStruct1E *);                         /* extern */
 typedef struct Node8002BB08 Node8002BB08;
-Node8002BB08 *init_card_boot_request_object();                /* extern */
 
 typedef struct S_80025B9C_0 {
     u8 pad_00[0x20];

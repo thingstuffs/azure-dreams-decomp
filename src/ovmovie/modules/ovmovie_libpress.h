@@ -2,6 +2,7 @@
 #define OVMOVIE_LIBPRESS_H
 #include "common.h"
 #include "m2c_compat.h"
+#include "sdk/libc.h"
 extern u8 movie_iq_table_header;
 extern u8 movie_iq_luma_bytes[];
 extern u8 movie_iq_chroma_bytes[];
@@ -25,7 +26,6 @@ static u32 *movie_mdec_status_register;
 static s32 *movie_dma_priority_register;
 extern s32 func_8005FFFC(void);
 extern s32 func_8006005C(s32, void (*)(void));
-extern s32 printf();
 void set_movie_decode_mode(s32);
 s32 *copy_decoder_tables_to_buffer(s8 *);
 s8 *copy_decoder_blocks_to_globals(s8 *);

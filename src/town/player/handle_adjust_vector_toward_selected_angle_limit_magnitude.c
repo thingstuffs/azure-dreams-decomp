@@ -1,10 +1,9 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "engine/resource.h"
+#include "sdk/libgte.h"
 
-s32 runtime_estimate_vector_length();                        /* extern */
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
 s16 input_angle_with_offset();                        /* extern */
 
 typedef struct {

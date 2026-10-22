@@ -86,6 +86,8 @@ void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position,
 }
 
 /* Creates a yellow effect at an angular offset from the supplied position. */
+/* Creates a yellow Unicorn effect on a circular offset, with supplied height, random texture variant, and
+ * orbit callback. */
 void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3,
     s16 angle, u16 height_offset) {
     void *effect;

@@ -35,21 +35,21 @@ typedef struct S_8016AC30_1 {
 
 /* Allocate and initialize a dungeon object, then increment the object count. */
 void allocate_and_initialize_object(void) {
-    void *object;
+    ObjectNodeHeader * object;
     S_8016AC30_0 *position;
     S_8016AC30_1 *primitive;
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
-        (*(void * *)((u8 *)object + 0x10)) = D_8016A9FC;
+        (object->unk_10) = D_8016A9FC;
         register_node(object, D_80044BB0);
 
-        position = (*(void * *)((u8 *)object + 8));
+        position = (object->unk_08);
         position->unk_0A = 0;
         position->unk_06 = 0;
         position->unk_02 = 0;
 
-        primitive = (*(void * *)((u8 *)object + 0xC));
+        primitive = (object->unk_0C);
         primitive->unk_1E = 0;
         primitive->unk_1C = 0;
         primitive->unk_0E = 0;

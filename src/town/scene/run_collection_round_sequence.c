@@ -2,6 +2,8 @@
 #include "shared/dungeon_trail_views.h"
 #include "shared/object_links.h"
 #include "shared/object_payload.h"
+#include "town/scene/animation.h"
+#include "town/scene/object.h"
 
 s32 func_80052374();                             /* extern */
 void func_80058F88();        /* extern */
@@ -15,7 +17,6 @@ s32 func_8025E01C();                     /* extern */
 void allocate_record_and_store_three_blocks();              /* extern */
 void create_initialize_eight_objects_table();                      /* extern */
 void create_object_pair_word(); /* extern */
-void draw_rotating_collection_frame();                      /* extern */
 extern s32 D_80084D5C;
 extern u8 D_80095AA0[8];
 extern u8 D_801328E8[0x14];
@@ -27,7 +28,6 @@ void advance_accumulator_reset_lowering_stored();                      /* extern
 s32 func_80290318();
 void set_record_global_flags_object();                      /* extern */
 void set_bit_preceding_flags_global();                      /* extern */
-void tick_timed_object_and_mark_complete();                      /* extern */
 s32 func_80243A38();
    /* the 0x2 bytes before arg0 in run_collection_round_sequence, addressed as arg0[-1] */
 

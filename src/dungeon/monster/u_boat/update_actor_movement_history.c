@@ -48,6 +48,8 @@ typedef struct S_80174C64_3 {
 } S_80174C64_3;   /* (u8 *)((unsigned long)base + ((i - 1) << 2)) in update_actor_movement_history */
 
 /* Updates movement, turning, position history, and timed stop states. */
+/* Steers around obstacles while recording positions; stops on repeated positions, timeout, or the sprite
+ * flag. */
 void update_actor_movement_history(S_80174C64_0 *motion, void *position, SpriteFrameState *record, void *object)
 {
     u16 angle;

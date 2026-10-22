@@ -88,6 +88,8 @@ typedef struct S_801732C4_7 {
 } S_801732C4_7;   /* display in advance_actor_item_use_sequence_2 */
 
 /* Advances an actor's item-use sequence, animation, and particle effects. */
+/* Starts a targeted spell, emits returning particles and a 20-particle burst, then restores the actor's
+ * idle state. */
 void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     u8 *item_slot;
@@ -265,7 +267,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
     }
 
         {
-            void *object;
+            ObjectNodeHeader * object;
             u8 *object_base;
             MovingPosition *transform;
             void *display;
@@ -283,13 +285,13 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
             object_base = (u8 *)object + 0x20;
             ((S_801732C4_5 *)object_base)->unk_1A = 0x19;
             ((S_801732C4_5 *)object_base)->unk_1C = 0x19;
-            (*(void * *)((u8 *)object + 0x10)) = D_80171080;
+            (object->unk_10) = D_80171080;
             register_node(object, project_sprite_chain);
-            transform = (*(void * *)((u8 *)object + 8));
+            transform = (object->unk_08);
             transform->unk_02 = ((u16)motion->x.w.i);
             transform->unk_06 = ((u16)motion->y.w.i);
             transform->unk_0A = ((u16)motion->z.w.i) - 0x60;
-            display = (*(void * *)((u8 *)object + 0xC));
+            display = (object->unk_0C);
             (*(Packet12 *)((u8 *)object + 0x48)) = D_80174694;
             ((S_801732C4_7 *)display)->unk_08 = (u8 *)object + 0x48;
             ((S_801732C4_7 *)display)->unk_10 = 0x40;

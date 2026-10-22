@@ -54,6 +54,8 @@ typedef struct S_8014CDA8_2 {
 } S_8014CDA8_2;   /* state in update_actor_movement_facing */
 
 /* Updates entity callbacks, movement, directional animation, and ground height. */
+/* Runs Hikewne state callbacks from D_80150168, alternates its bobbing idle frames, and resolves ground
+ * contact. */
 void update_actor_movement_facing(void *entity, void *motion, void *sprite)
 {
     void *entity_state = entity;

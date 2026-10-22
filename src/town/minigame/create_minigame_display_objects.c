@@ -2,6 +2,9 @@
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/vector.h"
+#include "town/minigame.h"
+#include "engine/runtime.h"
+#include "slus.h"
 
 #ifndef NULL
 #define NULL 0
@@ -48,10 +51,7 @@ extern u8 D_80024680[];
 extern u8 D_800246E0[];
 extern u8 D_80046398[];
 
-extern void initialize_minigame_display();
-extern void set_resident_bit();
 extern void register_node();
-extern void func_8004E9E4();
 extern void func_8006733C();
 extern void configure_the_set_mode_n_3();
 

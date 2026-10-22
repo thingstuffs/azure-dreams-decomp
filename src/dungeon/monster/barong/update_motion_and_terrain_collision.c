@@ -80,6 +80,8 @@ extern void place_item_at_valid_floor_position(s16, s16, s16, s32, u8 *);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Update motion and terrain collisions, then settle at a target or finish falling. */
+/* Moves an item through terrain checks, settles it using four saved item bytes, or shrinks its falling
+ * sprite. */
 void update_motion_and_terrain_collision(void *motion, void *position, void *object)
 {
     u8 colors[4];

@@ -83,6 +83,8 @@ void spawn_offset_motion_object();
 void *spawn_manoeva_from_record();
 
 /* Updates target selection, effect creation, and the sprite fade-out sequence. */
+/* Selects an actor or item on the tile ahead, creates Manoeva's replacement, then fades the old sprite and
+ * transfers state. */
 void update_actor_target_effect_action(void *action, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
 {
     S_80173D78_3 *target;

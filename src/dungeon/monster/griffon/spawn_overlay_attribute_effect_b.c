@@ -44,6 +44,8 @@ extern u8 D_8015CC3C[];
 extern u8 D_8015CC8C[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Griffon with default frames at D_8015CC3C, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;

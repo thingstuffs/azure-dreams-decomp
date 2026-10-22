@@ -105,7 +105,7 @@ void start_the_actor_s_attack_step_clear_hex_71_busy_bit_latch(S_80174234_0 *own
         owner->unk_9A = 0x17;
         owner->unk_8C = 0;
         owner->unk_9B = 0;
-        *(u8 **)((s8 *)part + 0x2C) = D_80174F58;   /* the struct-member form `part->unk_2C = ...` is NOT byte-exact here: reorder-only 4 (same-multiset, one addiu+sw pair drifts) */
+        part->unk_2C = D_80174F58;   /* the struct-member form `part->unk_2C = ...` is NOT byte-exact here: reorder-only 4 (same-multiset, one addiu+sw pair drifts) */
         select_sprite_entry(part, D_80174F58[((g_game_work.view.camera_rotation.parts.viewAngle + (s16) actor->unk_2A + 0x100) >> 9) & 7], 0);
         actor->unk_6D = (u8) (actor->unk_6D - 1);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1);

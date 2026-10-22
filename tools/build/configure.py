@@ -1232,6 +1232,13 @@ else:
     out.append(f"build build/{BASE}.ok: sha1 config/{BASE}.sha1 | build/{BASE}\n")
     out.append(f"default build/{BASE}.ok\n")
 
-with open(OUTFILE, "w") as f:
-    f.write("\n".join(out))
+text = "\n".join(out)
+try:
+    with open(OUTFILE) as f:
+        previous = f.read()
+except FileNotFoundError:
+    previous = None
+if previous != text:
+    with open(OUTFILE, "w") as f:
+        f.write(text)
 print(f"wrote {OUTFILE} ({len(objs)} objects)")

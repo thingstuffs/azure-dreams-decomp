@@ -52,6 +52,8 @@ extern M2C_UNK D_8015586C;
 
 void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) ;
 /* Allocates and initializes a dungeon object with the requested flags and placement. */
+/* Creates Dreamin with default frames at D_8015586C, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) {
     s32 global_byte;
     s32 unused_slot;

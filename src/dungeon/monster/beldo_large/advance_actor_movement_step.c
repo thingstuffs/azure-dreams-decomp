@@ -96,6 +96,8 @@ struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struc
 extern s16 actor_turn_angle_offsets[];
 
 /* Select a movement direction, record the previous tile, and update the actor position and height. */
+/* Chooses Beldo's next clear step from actor or player-relative targets, records the path, and updates
+ * tile occupancy and height. */
 void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor) {
     u16 near_target;
     u8 target_nearby = 0;

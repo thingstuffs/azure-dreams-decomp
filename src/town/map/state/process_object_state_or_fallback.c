@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "engine/node.h"
 
 
 typedef struct S_func_800A9624_1 {
@@ -10,7 +11,6 @@ typedef struct S_func_800A9624_1 {
 } S_func_800A9624_1;
 
 void register_node_if_unregistered(void *, s32);
-extern void unlink_node_if_registered();
 extern s32 classify_record_by_state_and_position(void *, s32);
 struct S_800A8BBC_0; void write_square_position_offsets(s16, s16, s16, s16, struct S_800A8BBC_0 *);
 extern s32 D_800A9528;

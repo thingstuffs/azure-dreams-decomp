@@ -560,9 +560,9 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         history->unk_50 = history->unk_48;
     }
     owner_ref = effect->unk_20;
-    effect->unk_48 = (u16) motion->unk_00.half.unk_02.u16;
-    effect->unk_4A = (u16) motion->unk_04.half.unk_06.u16;
-    effect->unk_4C = (u16) motion->unk_08.half.unk_0A.u16;
+    effect->unk_48 = motion->unk_00.half.unk_02.u16;
+    effect->unk_4A = motion->unk_04.half.unk_06.u16;
+    effect->unk_4C = motion->unk_08.half.unk_0A.u16;
     if (owner_ref == 0) {
         state = effect->unk_30;
         switch (state) {
@@ -646,7 +646,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             approach_ticks = effect->unk_34.u16 - 1;
             effect->unk_34.u16 = approach_ticks;
             if ((approach_ticks << 0x10) <= 0) {
-                motion->unk_08.half.unk_0A.u16 = (u16) effect->unk_2C.u16;
+                motion->unk_08.half.unk_0A.u16 = effect->unk_2C.u16;
                 effect->unk_34.u16 = 0U;
                 motion->unk_14.word = 0;
             }
@@ -741,7 +741,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             travel_ticks = effect->unk_34.u16 - 1;
             effect->unk_34.u16 = travel_ticks;
             if ((travel_ticks << 0x10) <= 0) {
-                motion->unk_08.half.unk_0A.u16 = (u16) effect->unk_2C.u16;
+                motion->unk_08.half.unk_0A.u16 = effect->unk_2C.u16;
                 effect->unk_34.u16 = 0U;
                 motion->unk_14.word = 0;
             }
@@ -1053,7 +1053,12 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                 return;
             }
             D_80027C94 = 0;
-            goto block_139;
+            do {
+                ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
+                    | 0x8000);
+                (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
+                return;
+            } while (0);
         }
         visual->unk_1A = (u16) ((s16)calculate_planar_heading(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
         boost_speed_x = motion->unk_14.half.unk_16;
@@ -1097,7 +1102,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     }
     owner_ptr = owner_ref | 0x80000000;
     if (((ovl_19a332c_819835AC_S_819835AC_8 *) owner_ptr)->unk_1E & 0x8000) {
-block_139:
+
         ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
             | 0x8000);
         (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
@@ -1131,8 +1136,8 @@ block_139:
         visual->unk_1A = (u16) actor_data->unk_1A;
         visual->unk_14 = (u16) actor_data->unk_14;
     }
-    visual->unk_1C = (u16) actor_data->unk_1C;
-    visual->unk_1E = (u16) actor_data->unk_1E;
+    visual->unk_1C = actor_data->unk_1C;
+    visual->unk_1E = actor_data->unk_1E;
     visual->unk_20 = (u16) actor_data->unk_20;
     visual->unk_0C.word = actor_data->unk_0C;
     if (D_80026BC8[effect->unk_88] != 0) {

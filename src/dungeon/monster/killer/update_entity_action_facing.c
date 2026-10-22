@@ -62,6 +62,8 @@ typedef struct S_80170EA8_2 {
 
 
 /* Updates the entity action, facing direction, and animation from dungeon state. */
+/* Selects Killer's movement, two attack modes, spells, and turn processing, then restores its directional
+ * idle frames. */
 void update_entity_action_facing(void *actor, void *context, void *sprite, ActorRecord *entity)
 {
     u8 *anim_table;

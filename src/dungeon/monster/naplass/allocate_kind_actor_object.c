@@ -44,6 +44,8 @@ extern u8 D_8016E194[];
 extern u8 D_8016E1DC[];
 
 /* Allocate an actor object and initialize its parts and flags for the requested kind. */
+/* Creates Naplass with default frames at D_8016E194, applies spawn flags, and attempts valid tile
+ * placement. */
 void *allocate_kind_actor_object(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
 {
     s32 kind;

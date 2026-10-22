@@ -24,7 +24,7 @@ typedef struct S_80174910_9 {
 
 void *allocate_list_node();               /* extern */
 s32 register_node();           /* extern */
-M2C_UNK func_800672D8();              /* extern */
+s32 func_800672D8();              /* extern */
 extern M2C_UNK D_801747B8;
 extern u8 D_80175F70[];
 

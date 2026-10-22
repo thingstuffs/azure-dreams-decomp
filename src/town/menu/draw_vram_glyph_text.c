@@ -1,6 +1,6 @@
 #include "common.h"
+#include "engine/camera.h"
 
-s32 map_fullwidth_character_to_glyph_byte();                             /* extern */
 void get_glyph_vram_rectangle(s32 rect_id, s16 *vram_rect);              /* extern */
 void func_800673A0(void *, s32, s32);         /* extern */
 

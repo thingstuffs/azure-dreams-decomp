@@ -113,6 +113,7 @@ extern u8 D_801508F0[];
 extern u8 D_801508F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
+/* Moves Garuda and its partner to matching-height neighboring tiles, restores both actors, and spends MP. */
 void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *motion, ActorSprite *sprite, void *entity) {
     ActorMotion *partner_motion;
     s16 saved_x;

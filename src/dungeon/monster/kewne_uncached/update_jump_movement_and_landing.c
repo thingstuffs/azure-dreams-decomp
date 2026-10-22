@@ -51,6 +51,8 @@ typedef struct S_80173408_4 {
 } S_80173408_4;   /* arg3 in update_jump_movement_and_landing */
 
 /* Updates jump movement, animation, and landing across five states. */
+/* Animates Kewne's backward windup and arcing strike, applies damage at tick 10, then returns to its tile
+ * and spends MP. */
 void update_jump_movement_and_landing(void *jump, ObjectPosition *motion, void *sprite, void *actor)
 {
     u32 step_x;

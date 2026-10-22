@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/menu.h"
 
 typedef struct {
     s16 x;
@@ -23,8 +24,6 @@ typedef struct {
 extern void func_80067014();
 extern void func_800671A8();
 extern void strcat();
-extern void draw_vram_glyph_text();
-extern void draw_cached_catalog_text();
 
 extern u8 catalog_habitat_label[16];
 extern u8 catalog_number_prefix[16];

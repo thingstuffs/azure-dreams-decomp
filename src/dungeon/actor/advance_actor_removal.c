@@ -152,7 +152,7 @@ void *create_orbiting_teleport_effect();
 extern s32 D_800814A0;
 extern s16 pending_marked_actor_count;
 extern s16 D_800DCED4[];
-extern u8 D_800E0C34[];
+extern u8 D_800E0C34[36];
 extern M2C_UNK D_800E0C58;
 extern M2C_UNK D_800E0C67;
 extern void *familiar_record_slots[];

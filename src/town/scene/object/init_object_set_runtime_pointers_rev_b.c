@@ -2,10 +2,10 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 #include "m2c_compat.h"
+#include "town/scene/flags.h"
 
 
 void func_80016098();                            /* extern */
-void update_flag_test_target();                    /* extern */
 void build_object_set_and_select_lists_rev_b();   /* extern */
 extern s16 D_800160B0;
 extern s16 D_800160B2;

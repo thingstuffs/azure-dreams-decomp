@@ -43,6 +43,8 @@ typedef struct S_80173078_2 {
 } S_80173078_2;   /* linked in update_item_action_animation_and_effects */
 
 /* Updates an item action, its animation, particle effects, and completion state. */
+/* Starts a targeted spell with returning particles and a 20-particle burst, then restores idle after a
+ * 32-tick wait. */
 void update_item_action_animation_and_effects(void *action, ObjectPosition *movement, void *sprite, void *actor)
 {
     u8 *item_slot;

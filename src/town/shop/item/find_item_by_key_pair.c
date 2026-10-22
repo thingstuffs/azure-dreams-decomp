@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/shop.h"
 
-s32 get_player_homerank(void);
 extern u8 D_8008910C[];
 
 /* Finds the first item with both key bytes within the player's home rank limit, or returns NULL. */

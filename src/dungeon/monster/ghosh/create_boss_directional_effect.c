@@ -14,6 +14,8 @@ extern DungeonTable D_8016A894;
 extern void func_801718E4(u8 *effect, s32 *motion);
 
 /* Creates an effect with direction-based position offsets and randomized velocity. */
+/* Creates a directional Ghosh particle with forward-biased velocity and wide or narrow random spread
+ * selected by mode. */
 void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, s32 unused, s16 spread_mode)
 {
     u16 saved_angle = angle;

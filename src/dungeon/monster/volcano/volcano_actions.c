@@ -429,7 +429,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
 
             return;
         }
-        if ((*((void **) ((u8 *)state + 0xC))) == actor) {
+        if ((state->active_actor) == actor) {
             *(u16 *)(actor + 0x46) = 0xC008;
         }
 
@@ -481,7 +481,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
             else {
                 {
                     s32 direction = *(u8 *)(actor + 0x45);
-                    s32 base_angle = *((s16 *) (((u8 *) primary_actor_record) + 0x2A));
+                    s32 base_angle = primary_actor_record->facing;
                     s32 direction_offset;
                     s32 target_x;
                     s32 target_y;

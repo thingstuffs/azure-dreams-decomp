@@ -54,6 +54,8 @@ typedef struct S_8015EDA8_2 {
 } S_8015EDA8_2;   /* state in update_actor_movement_and_ground_height */
 
 /* Update actor callbacks, movement, directional animation, and ground height. */
+/* Runs Hikewne state callbacks from D_80162168, alternates its bobbing idle frames, and resolves ground
+ * contact. */
 void update_actor_movement_and_ground_height(void *actor, void *motion, void *sprite)
 {
     void *actor_state = actor;

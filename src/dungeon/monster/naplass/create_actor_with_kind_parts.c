@@ -3,6 +3,8 @@
 #include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
 
 /* Creates an actor and initializes its parts and flags for the requested kind. */
+/* Creates Naplass with default frames at D_80150194, applies spawn flags, and attempts valid tile
+ * placement. */
 void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)
 {
     s32 kind;

@@ -18,6 +18,8 @@ Both are byte-neutral: section names and the symbol table are stripped by objcop
 so the final binary is unaffected. When names.tsv is absent or a function is not
 listed, behaviour is byte-identical to the original per-`.ent` sectioning."""
 import argparse, sys, re, os
+import json
+from name_inputs import table, witness, evidence_at, write as write_witness
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if os.path.basename(ROOT) == "tools" and os.path.basename(os.path.dirname(__file__)) == "build":
@@ -36,19 +38,7 @@ if args.names_tsv:
 
 # new_name -> original section base (func_<addr>). Only renamed funcs appear here;
 # everything else falls through to the unchanged `.text.<name>` default.
-_rename = {}
-if os.path.exists(NAMES_TSV):
-    with open(NAMES_TSV) as fh:
-        for raw in fh:
-            raw = raw.split("#", 1)[0].rstrip("\n")
-            if not raw.strip():
-                continue
-            cols = raw.split("\t")
-            if len(cols) < 3:
-                continue
-            old, new = cols[1].strip(), cols[2].strip()
-            if old and new and new != old:
-                _rename[new] = old
+_rename = table(NAMES_TSV)
 
 # Names are a C-level alias layer.  The assembly is spelled back to the original func_<addr>
 # symbols before anything else sees it - the definition, every call, every address reference -
@@ -56,6 +46,10 @@ if os.path.exists(NAMES_TSV):
 # linker scripts, the per-row scorer and the SLUS link all work on exactly the pre-rename
 # symbols and the bytes cannot move.  String data (.ascii/.asciz) is left alone.
 _lines = sys.stdin.readlines()
+if os.environ.get('CCPROC_NAMES_TRACE'):
+    paths = json.loads(os.environ.get('CCPROC_CONFIG_TABLES', '[]'))
+    evidence = evidence_at(os.environ.get('CCPROC_CONFIG_ROOT'), paths)
+    write_witness(os.environ['CCPROC_NAMES_TRACE'], witness(_lines, _rename, evidence, sections=not args.names_only))
 if _rename:
     _text = "".join(_lines)
     _present = [n for n in _rename if n in _text]

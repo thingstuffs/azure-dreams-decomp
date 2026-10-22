@@ -51,6 +51,8 @@ extern M2C_UNK D_8016186C;
 
 void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) ;
 /* Allocates an entity and initializes its type, placement, flags, and callbacks. */
+/* Creates Dreamin with default frames at D_8016186C, applies spawn flags, and attempts valid tile
+ * placement. */
 void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
     s32 global_byte;
     s32 unused_slot;

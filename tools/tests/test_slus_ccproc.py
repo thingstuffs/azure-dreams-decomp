@@ -13,7 +13,10 @@ import verify
 
 class CanonicalInputTests(unittest.TestCase):
     def test_source_and_exported_entry_points_agree(self):
-        asm = '\t.ent setPacked2bitFlag\nsetPacked2bitFlag:\n\tjal setPacked2bitFlag\n\tla $2,setPacked2bitFlag\n\t.ascii "setPacked2bitFlag"\n\t.end setPacked2bitFlag\n'
+        # The C alias can change in a naming landing; the canonical symbol is fixed.
+        name = next(fields[2] for line in (ROOT / "config/names.tsv").read_text().splitlines()
+                    if len(fields := line.split('\t')) >= 3 and fields[1] == 'func_8003E188')
+        asm = '\t.ent setPacked2bitFlag\nsetPacked2bitFlag:\n\tjal setPacked2bitFlag\n\tla $2,setPacked2bitFlag\n\t.ascii "setPacked2bitFlag"\n\t.end setPacked2bitFlag\n'.replace("setPacked2bitFlag", name)
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             (root / "tools").mkdir()
@@ -31,7 +34,7 @@ class CanonicalInputTests(unittest.TestCase):
         for text in (processed, genuine):
             self.assertIn('jal func_8003E188', text)
             self.assertIn('la $2,func_8003E188', text)
-            self.assertIn('.ascii "setPacked2bitFlag"', text)
+            self.assertIn(f'.ascii "{name}"', text)
             self.assertIn('.ent func_8003E188', text)
 
     def test_missing_explicit_table_is_an_error(self):

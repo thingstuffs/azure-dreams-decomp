@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "sdk/libgte.h"
 
-s32 func_800644B8();                             /* extern */
 typedef struct S_800A70EC_0 {
     u8 pad_00[0x50];
     s32 unk_50;

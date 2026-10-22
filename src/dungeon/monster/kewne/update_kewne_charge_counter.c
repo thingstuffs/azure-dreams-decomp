@@ -68,7 +68,7 @@ void update_kewne_charge_counter(S_func_809A0B58_0 *actor_state, void *unused, S
             actor_state->unk_8C = 0;
             actor_state->unk_9B = 0;
             direction_frames = D_80175EA8;
-            *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
+            sprite->unk_2C = direction_frames;
             select_sprite_entry(sprite,
                           direction_frames[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A.unk_00_s + 0x100) >> 9) & 7],
                           0);

@@ -32,16 +32,16 @@ s32 append_entity_display_text();                        /* extern */
 void display_formatted_context_message();                   /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
-extern u8 D_800E05E1[];
-extern u8 D_800E05F0[];
+extern u8 D_800E05E1[15];
+extern u8 D_800E05F0[16];
 extern M2C_UNK D_800E0633;
-extern u8 D_800E0726[];
-extern u8 D_800E0739[];
-extern u8 D_800E0747[];
-extern u8 D_800E0766[];
-extern u8 D_800E0769[];
-extern u8 D_800E077C[];
-extern u8 D_800E078A[];
+extern u8 D_800E0726[19];
+extern u8 D_800E0739[14];
+extern u8 D_800E0747[31];
+extern u8 D_800E0766[3];
+extern u8 D_800E0769[19];
+extern u8 D_800E077C[14];
+extern u8 D_800E078A[54];
 
 
 typedef struct S_80094270_1 {

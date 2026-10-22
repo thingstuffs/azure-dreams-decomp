@@ -14,6 +14,7 @@
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
+#include "sdk/libgte.h"
 
 typedef struct S_800BC574_7 {
     u8 pad_00[0xC];
@@ -69,9 +70,7 @@ void *allocate_list_node();
 /* extern */
 s32 register_node();
 /* extern */
-s32 func_800644B8();
 /* extern */
-s32 func_80064584();
 /* extern */
 extern M2C_UNK D_800BC6CC;
 extern M2C_UNK D_800F15E4;

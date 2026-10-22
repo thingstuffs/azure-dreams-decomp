@@ -2,8 +2,8 @@
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/menu.h"
 
-s32 lookup_item_category_mapped_value();                /* extern */
 void configure_the_set_mode_n_3();     /* extern */
 void initialize_optional_object_state(); /* extern */
 extern s32 D_800D0678[];

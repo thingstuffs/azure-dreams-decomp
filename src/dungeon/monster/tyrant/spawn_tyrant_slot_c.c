@@ -56,6 +56,8 @@ extern M2C_UNK D_8015BFB8;
 extern M2C_UNK D_8015C000;
 
 /* Allocate a dungeon object and initialize its placement, flags, and behavior. */
+/* Creates Tyrant with default frames at D_8015BFB8, applies spawn flags, and attempts valid tile
+ * placement. */
  void *update_variant_part_brightness(s16 spawn_flags, s16 x, s16 y, s16 config_value) {
     S_func_80158898_1 *object_state;
     s32 mode_or_roll;

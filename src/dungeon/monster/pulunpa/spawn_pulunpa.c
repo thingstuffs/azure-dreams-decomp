@@ -53,6 +53,8 @@ extern u8 D_80176300[];
 extern u8 D_80176320[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+/* Creates Pulunpa, selecting its normal or alternate callback and sprite table from the global spawn
+ * variant. */
 void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn)
 {
     s8 kind_id;

@@ -77,6 +77,8 @@ typedef struct S_801727B4_4 {
 } S_801727B4_4;
 
 /* Updates a staged movement animation, emits effects, and restores the actor at its starting position. */
+/* Animates Viper's backward leap and forward strike, draws its attack trail, then returns, spends MP, and
+ * rolls a split. */
 void update_staged_movement_and_restore_actor(void *action, ObjectPosition *motion, SpriteFrameState *animation, ActorRecord *actor) {
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;

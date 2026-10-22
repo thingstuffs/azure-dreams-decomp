@@ -90,6 +90,8 @@ extern void func_80170E54(void *controller, void *context, void *entity, ActorRe
 extern u8 D_80173C6C[];
 
 /* Updates an actor action, its visual effect, and completion cleanup. */
+/* Starts a targeted spell with a child sprite on frame 45, releases the child after animation, and
+ * restores movement. */
 void resolve_actor_attack_damage(void *actor, ObjectPosition *motion, void *sprite, ActorRecord *action) {
     s32 action_id;
     s32 action_value;

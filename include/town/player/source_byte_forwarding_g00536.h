@@ -7,8 +7,8 @@
 #include "shared/town_handler.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
+#include "engine/graphics.h"
 
-void set_sprite_animation_frame();
 s32 view_relative_angle_sector();
 extern u8 animation_tick_scale;
 

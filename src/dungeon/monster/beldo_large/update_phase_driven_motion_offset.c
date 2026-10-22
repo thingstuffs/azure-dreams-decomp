@@ -29,6 +29,8 @@ extern M2C_UNK D_80173DB4;
 extern u8 *beldo_script_node;
 
 /* Advances the phase-driven offset and writes the adjusted output value. */
+/* Updates Beldo's vertical bob from the current sprite table, with different phase speeds and amplitudes
+ * by frame. */
 void update_phase_driven_motion_offset(S_8016F5D8_1 *state, S_8016F5D8_2 *output, S_8016F5D8_0 *command) {
     s32 command_table;
     s32 phase;

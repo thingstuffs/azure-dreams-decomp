@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/minigame_body.h"
 #include "shared/vector.h"
+#include "town/scene/effect.h"
 extern int abs(int);
 
 #ifndef NULL
@@ -79,7 +80,6 @@ extern void func_8003BC18();
 extern void func_80058F88();
 extern s32 func_80071494();
 extern void create_object_position_configures_color();
-extern void advance_effect_and_reduce_scale();
 extern void func_8052F960();
 extern void func_8052FB08();
 extern u8 D_8003C558[12];

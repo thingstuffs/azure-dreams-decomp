@@ -14,7 +14,6 @@ typedef struct S_800AF148_0 {
 void release_null_terminated_entries(u16 **entries);
 void func_8004B248(u16 **entries);
 /* extern */
-static void send_item_menu_page_entries_to_formatter();
 
 /* Marks the objects referenced by the requested entries, starting at index 20, for removal. */
 static void send_item_menu_page_entries_to_formatter(s32 entryTableAddress, s32 entryCount) {

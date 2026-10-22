@@ -75,6 +75,8 @@ extern u8 D_801753FC[];
 extern u8 D_80175404[];
 
 /* Updates an actor's dungeon behavior, facing, and animation. */
+/* Selects Blume's movement, target actions, spells, and turn processing, restoring directional idle frames
+ * when ready. */
 void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_data_in, void *sprite_in, void *status_in)
 {
     u32 initial_flags = g_dungeon_status.flags;

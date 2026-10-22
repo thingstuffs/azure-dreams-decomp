@@ -45,6 +45,8 @@ extern u8 D_80150C3C[];
 extern u8 D_80150C8C[];
 
 /* Creates an actor and initializes its parts and flags for the selected kind. */
+/* Creates Griffon with default frames at D_80150C3C, applies spawn flags, and attempts valid tile
+ * placement. */
 void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
 {
     s32 kind;

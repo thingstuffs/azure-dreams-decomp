@@ -47,6 +47,8 @@ typedef struct S_8016F160_4 {
 } S_8016F160_4;   /* tail_ptr in allocate_boss_actor */
 
 /* Allocate an actor, initialize its parts and mode flags, and return its work area. */
+/* Creates the Ghosh boss node with frames at D_80174A2C, applies spawn flags, and initializes its hidden
+ * sprite. */
 void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
 {
     s16 mode_kind;

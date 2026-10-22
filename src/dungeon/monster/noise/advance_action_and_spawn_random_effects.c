@@ -2,6 +2,8 @@
 #include "shared/sprite_frame_state.h"
 
 /* Advance the action animation and spawn pairs of effects with randomized velocities. */
+/* Times Noise's attack, emits particle pairs on ticks 9-13, resolves damage at tick 11, and spends MP on
+ * completion. */
 void advance_action_and_spawn_random_effects(void *action, void *motion, void *sprite, ActorRecord *actor) {
     u16 spawn_offset[3];
     u16 position[3];

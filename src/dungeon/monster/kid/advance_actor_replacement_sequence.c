@@ -137,6 +137,8 @@ extern M2C_UNK D_8017521D;
 extern s32 D_80175220;
 
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */
+/* Loads Kid's transition effects, fades the view tint and emits seven rotated sprites, then replaces the
+ * actor and restores facing. */
 void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
     s32 tint;
     S_80174B20_7 *globals_base;

@@ -51,6 +51,8 @@ typedef struct S_80171964_2 {
 } S_80171964_2;   /* base in update_actor_object_motion */
 
 /* Updates object callbacks, motion, sprite direction, and ground-relative height. */
+/* Runs Baloon's callbacks, facing, and motion, adds its idle bob, and uses a separate height rule for
+ * action state 24. */
 void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_arg)
 {
     void *base = object_arg;

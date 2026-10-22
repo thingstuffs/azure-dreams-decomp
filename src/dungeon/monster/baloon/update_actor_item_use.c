@@ -49,6 +49,8 @@ typedef struct S_80173B08_2 {
 } S_80173B08_2;   /* linked in update_actor_item_use */
 
 /* Updates the actor's item-use state, animation, and effects. */
+/* Starts a targeted spell, settles to ground height, emits forward and surrounding particles, then
+ * restores its hover. */
 void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, void *actor)
 {
     u8 *item_slot;

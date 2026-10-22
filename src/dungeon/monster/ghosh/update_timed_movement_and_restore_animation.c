@@ -60,6 +60,8 @@ extern s32 apply_clamped_actor_value_delta();
 extern s32 select_sprite_entry();
 
 /* Updates timed movement, returns the entity to its tile, and restores its animation. */
+/* Applies Ghosh's pending HP change, animates damped recoil, then recenters it and updates its action
+ * state. */
 void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_81325A04_2 *entity,
     S_func_81325A04_3 *actor) {
     s32 state;

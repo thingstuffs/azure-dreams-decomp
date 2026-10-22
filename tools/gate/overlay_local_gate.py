@@ -950,7 +950,8 @@ def compile_c_segments(
                 unit_dir = obj_dir / (segment_obj_key(seg, dup_funcs) + ".member")
                 unit_dir.mkdir(exist_ok=True)
                 compile_source = unit_dir / (_place["home"].split("/", 1)[1] + ".c")
-                compile_source.write_bytes(unit)
+                if not compile_source.exists() or compile_source.read_bytes() != unit:
+                    compile_source.write_bytes(unit)
                 source_text = unit.decode("utf-8", "replace")
         # The compile evidence is the HOME's: its family and its frozen bank scope (decision 75 (A): a
         # placement's home may live in another container; same-container placements are unchanged).
@@ -973,10 +974,12 @@ def compile_c_segments(
             own = candidate_noreturn_syms(source_text)
         if own - seg_base_noreturn:
             merged = obj_dir / f"{segment_obj_key(seg, dup_funcs)}.noreturn.txt"
-            merged.write_text(
+            merged_text = (
                 "# AUTO-MERGED (overlay_local_gate per-segment evidence): window "
                 "census + this segment's own zero-arg noreturn decls\n"
                 + "".join(f"{s}\n" for s in sorted(seg_base_noreturn | own)))
+            if not merged.exists() or merged.read_text() != merged_text:
+                merged.write_text(merged_text)
             seg_env = dict(seg_env or {})
             seg_env["MASPSX_NORETURN_FILE"] = str(merged)
         run(

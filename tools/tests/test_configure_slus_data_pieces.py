@@ -43,7 +43,7 @@ class ConfigureSlusDataPiecesTest(unittest.TestCase):
         for directory in ("tools", "src", "assets", "config", "input"):
             (self.root / directory).mkdir()
         for tool in ("configure.py", "slus_modules.py", "slus_partitions.py",
-                     "slus_data_pieces.py"):
+                     "slus_data_pieces.py", "retail_spans.py"):
             shutil.copy2(BUILD_TOOLS / tool, self.root / "tools" / tool)
         (self.root / "tools/ccproc.py").touch()
         # The graph uses its normal cc edge. The fixture's cc driver supplies a

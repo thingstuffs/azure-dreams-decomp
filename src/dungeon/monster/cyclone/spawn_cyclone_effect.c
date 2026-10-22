@@ -66,7 +66,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
 {
     Vec3u16 offset;
     S_80E122F4_5 *reference;
-    void *obj;
+    ObjectNodeHeader * obj;
     S_80E122F4_2 *source_obj;
     MovingPosition *coords;
     SpriteFrameState *child;
@@ -80,7 +80,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         (*(s32 * *)((u8 *)obj + 0x10)) = &D_80175978;
         register_node(obj, project_sprite_chain);
 
-        child = (*(void * *)((u8 *)obj + 0xC));
+        child = (obj->unk_0C);
         child->unk_28 = source_obj->unk_28;
         child->scale_y = 0x800;
         child->scale_x = 0x800;
@@ -89,7 +89,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         child->tpage_abr |= 0x20;
         select_sprite_entry(child, 0x47, 0);
 
-        coords = (*(void * *)((u8 *)obj + 8));
+        coords = (obj->unk_08);
         (*(Copy24 *)((u8 *)obj + 0x24)) = *(Copy24 *)transform;
 
         offset.z = 0;

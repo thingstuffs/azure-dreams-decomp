@@ -99,7 +99,7 @@ void spend_actor_mp();
 extern M2C_UNK D_80089080;
 extern u8 D_800DD880[];
 extern u8 D_800DD8B4[];
-extern u8 D_800E1C58[];
+extern u8 D_800E1C58[12];
 extern u8 current_spell_effect_variant;
 extern void Control_CD(s32, void *, void *);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);

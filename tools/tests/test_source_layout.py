@@ -63,7 +63,10 @@ class LayoutTest(unittest.TestCase):
         self.assertEqual(facade.read_bytes(), new.read_bytes())
         new.write_text("updated candidate\n")
         self.assertEqual(facade.read_text(), "updated candidate\n")
+        marker = projection / ".source_layout_projection"
+        marker_mtime = marker.stat().st_mtime_ns
         self.assertEqual(L.materialize_flat(projection, self.root), projection)
+        self.assertEqual(marker.stat().st_mtime_ns, marker_mtime)
         with patch("common.ROOT", self.root):
             from common import clean_path
             self.assertEqual(clean_path(self.rows[0]), new)

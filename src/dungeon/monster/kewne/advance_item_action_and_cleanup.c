@@ -83,6 +83,8 @@ typedef struct S_80173560_4 {
 
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
+/* Starts Kewne's targeted spell and linked effects, times optional CD audio playback, then restores
+ * movement and status. */
 void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void *sprite, void *actor_arg) {
     void *actor = actor_arg;
     s32 state;

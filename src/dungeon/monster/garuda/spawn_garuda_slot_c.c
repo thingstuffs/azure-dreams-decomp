@@ -52,6 +52,8 @@ void *spawn_garuda_slot_c(s16, s16, s16, s16)
 ;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+/* Creates Garuda with default frames at D_8015C880, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_garuda_slot_c(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) {
     s32 kind;
     s16 final_arg0;

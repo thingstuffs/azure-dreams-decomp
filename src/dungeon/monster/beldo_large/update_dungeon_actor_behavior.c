@@ -33,13 +33,15 @@ extern Copy8 D_80164A4C;
 extern u8 *beldo_actor_nodes;
 
 /* Update a staged particle effect, ramping emission and brightness before fading out. */
+/* Brightens the player sprite while ramping particle emission, then emits projectile bursts, restores
+ * gray, and ends the action. */
 void update_dungeon_actor_behavior(void *effect) {
     u16 blit_data[8];
     u8 *burst_context;
     u8 *render_state;
     Particle *particle;
     s32 timer_snapshot;
-    void *actor;
+    ActorRecord * actor;
     s16 state;
     u16 old_timer;
     u16 next_state;
@@ -70,10 +72,10 @@ void update_dungeon_actor_behavior(void *effect) {
     switch (state) {
     case 0:
         actor = dungeon_actor_ring_anchor;
-        if (U8_AT(actor, 0x9A) != 0x11) {
+        if (actor->unk_9A != 0x11) {
             return;
         }
-        U16_AT(actor, 0x96) += 0x3C;
+        actor->unk_96 += 0x3C;
         U16_AT(effect, 0x18) = 0;
         U16_AT(effect, 0x12)++;
         S8_AT(actor, 0xA8) = enabled;

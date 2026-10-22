@@ -1,7 +1,6 @@
 /* Indexed entry remove and its file-private helper. */
 #include "common.h"
 #include "m2c_compat.h"
-static void clear_indexed_table_flag();
 /* extern */
 
 typedef struct S_800B2190_0 {

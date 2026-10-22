@@ -47,6 +47,8 @@ typedef struct S_8017293C_5 {
 } S_8017293C_5;   /* global in run_selected_item_action */
 
 /* Runs the actor's selected item action and handles its wait and completion phases. */
+/* Starts a targeted Nyuel spell and linked effect, waits for loading and casting animation, then restores
+ * idle and status. */
 void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite, void *actor)
 {
     s32 is_special;

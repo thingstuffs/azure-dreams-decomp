@@ -78,6 +78,8 @@ extern M2C_UNK D_801741C4;
 extern M2C_UNK D_801741CC;
 
 /* Updates the actor animation and dispatches dungeon actions based on status and position. */
+/* Selects Kraken's movement, attacks, spells, and turn processing, resetting its vertical animation state
+ * on return to idle. */
 void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite, ActorRecord *status) {
     s32 direction_aux;
     void *next_handler;

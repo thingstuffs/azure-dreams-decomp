@@ -67,6 +67,8 @@ typedef struct S_80FB1000_2 {
     u16 unk_06;
 } S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in create_actor_grid_object */
 
+/* Creates Mandara with frames at func_80175258, copies its palette row and four strips, and attempts tile
+ * placement. */
 void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
 {
     s16 mode_copy;

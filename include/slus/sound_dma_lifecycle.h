@@ -2,6 +2,7 @@
 #define SLUS_SOUND_DMA_LIFECYCLE_H
 
 #include "common.h"
+#include "sdk/libc.h"
 
 typedef volatile u16 SoundTransferRegister16;
 typedef union SoundHalfwordCell {
@@ -73,7 +74,6 @@ extern u16 spu_transfer_address_units;
 extern char spu_timeout_format[];
 extern char spu_fifo_busy_timeout_label[];
 extern char spu_fifo_status_timeout_label[];
-extern s32 printf();
 
 void DeliverEvent(u32 event_class, u32 event_spec);
 void select_spu_dma_write_channel_flags(void);

@@ -81,7 +81,7 @@ void shift_resource_entries_and_data(s32 record_count, s32 data_offset);
 void move_resource_to_front(s32 entry_index);
 u32 *find_packed_resource_descriptor(s32 key_flag, s32 key_high, s32 key_low);
 s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, s32 resource_id, s32 entry_index);
-void ensure_resource_at_front(s32 resource_flag, M2C_UNK resource_group, M2C_UNK resource_id);
+void ensure_resource_at_front(s32 resource_flag, s32 resource_group, s32 resource_id);
 void submit_object_resource_data(ovl_d54c_7FFED9F8_Object *object);
 void ensure_packed_resource_list(u8 *entries_in);
 #endif

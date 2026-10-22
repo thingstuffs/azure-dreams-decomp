@@ -47,6 +47,8 @@ extern u8 D_80161D4C[];
 extern M2C_UNK D_8015EE5C;
 
 /* Creates a dungeon actor with the supplied placement and spawn flags. */
+/* Creates Battnel with default frames at D_80161D0C, applies spawn flags, and attempts valid tile
+ * placement. */
 void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 rotation)
 {
     s32 kind;

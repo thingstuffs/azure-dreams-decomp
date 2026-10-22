@@ -40,6 +40,8 @@ extern s32 create_actor_spell_effect();
 extern Any create_random_color_offset_effect();
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
+/* Starts a targeted spell, emits three randomly colored offset effects per casting tick, then restores
+ * idle and status. */
 void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor) {
     s32 use_player_target;
     s32 particle_count;

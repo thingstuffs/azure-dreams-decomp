@@ -45,6 +45,8 @@ typedef struct S_80173510_3 {
 } S_80173510_3;   /* arg1 in advance_staged_actor_movement */
 
 /* Updates a staged movement animation and returns the entity to its tile center. */
+/* Animates U-Boat's backward windup and forward strike, emits directional particles, applies damage, and
+ * spends MP after returning. */
 void advance_staged_actor_movement(void *action, void *motion, void *record, ActorRecord *actor)
 {
     u8 state;

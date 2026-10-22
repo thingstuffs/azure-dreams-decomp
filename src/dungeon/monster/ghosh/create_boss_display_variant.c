@@ -50,6 +50,8 @@ extern s32 D_800DEDB0[3];
 extern M2C_UNK D_80170D60[3];
 
 /* Creates a node at an offset from the origin and configures its display variant. */
+/* Creates an offset gray sprite at scale 0x1400, choosing effect_sprite_sources or D_800DEDB0 from the
+ * variant. */
 void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offset, s16 z_offset, s16 variant) {
     SpriteFrameState *setup_sub;
     SpriteFrameState *display_sub;

@@ -180,9 +180,11 @@ def evidence_env_with_candidate(name: str, c_text: str,
         return env
     merged = base | candidate
     out = Path(scratch_dir) / "noreturn_syms.selfserve.txt"
-    out.write_text(
+    text = (
         "# AUTO-MERGED: selected frozen bank evidence + this TU's "
         "own zero-arg noreturn declarations\n"
         + "".join(f"{s}\n" for s in sorted(merged)))
+    if not out.exists() or out.read_text() != text:
+        out.write_text(text)
     env["MASPSX_NORETURN_FILE"] = str(out)
     return env

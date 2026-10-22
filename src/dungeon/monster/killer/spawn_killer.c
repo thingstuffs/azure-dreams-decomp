@@ -62,6 +62,8 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 ;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+/* Creates Killer with default frames at D_80174038, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 {
     void *result = 0;

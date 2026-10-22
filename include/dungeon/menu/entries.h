@@ -435,10 +435,10 @@ s32 find_menu_entry_pair_occurrence(s32 target_value, s32 prefix_value, s32 targ
 s32 find_menu_entry_by_pair_from_index(s32 match_byte_2, s32 match_byte_1, s32 start_index);
 s32 pack_selected_menu_entries(s32 held_entry_set, s32 position, s32 entry_count);
 void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index);
-s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, M2C_UNK list_type);
+s32 build_menu_text_page(s32 context, s32 scroll_y, s32 entry_count, s32 list_type);
 void *refresh_menu_record_resource(Rec_func_80027328_arg0 *record, M2C_UNK resource_arg);
 void *rebuild_menu_resource(Rec_func_80027328_arg0 *record, M2C_UNK resource_arg);
-void *refresh_menu_derived_value(ovl_1831cd8_818123E4_S_800273E4_0 *state, M2C_UNK replacementInput, M2C_UNK calculationInput);
+void *refresh_menu_derived_value(ovl_1831cd8_818123E4_S_800273E4_0 *state, s32 replacementInput, s32 calculationInput);
 void dispatch_menu_state_update(s32 *state, s32 mode, s32 value, s32 extra_value);
 void reset_menu_object_state_2(void *record);
 void handle_menu_grid_input(ovl_1831cd8_818124F0_S_800274F0_Arg *menu);

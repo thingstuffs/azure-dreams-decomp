@@ -57,6 +57,8 @@ typedef struct StackWork {
 
 
 /* Advance and damp effect motion, expand and fade its sprite, and mark expiration. */
+/* Moves, damps, expands, and fades the effect sprite, adjusting its draw depth against the stored anchor
+ * and facing. */
 void damp_effect_motion_and_fade_sprite(void *effect, void *motion, void *sprite)
 {
     StackWork projection;

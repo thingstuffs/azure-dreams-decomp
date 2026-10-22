@@ -32,7 +32,6 @@ typedef struct S_800B3178_2 {
     u8 unk_01;
 } S_800B3178_2;
 #include "records/Rec_func_800B2DA0_arg1.h"
-static void populate_paged_entries_with_brightness();
 /* extern */
 void func_800B39E4(void *);
 /* extern */

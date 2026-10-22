@@ -425,7 +425,9 @@ def materialize_asset_chunks(plans, root=Path.cwd(), assemble=False) -> list[dic
             if slot["kind"] != "chunk":
                 continue
             dest = _prepare_output(root, slot["input"])
-            dest.write_bytes(raw[slot["start"]:slot["end"]])
+            content = raw[slot["start"]:slot["end"]]
+            if not dest.exists() or dest.read_bytes() != content:
+                dest.write_bytes(content)
             if assemble:
                 object_path = _prepare_output(root, slot["object"])
                 subprocess.run(("mipsel-linux-gnu-ld", "--relocatable", "--format=binary",
@@ -524,7 +526,8 @@ def main(argv=None):
     else:
         output = filter_owned_symbols(source, modules)
     dest = _prepare_output(root, args.output)
-    dest.write_text(output)
+    if not dest.exists() or dest.read_text() != output:
+        dest.write_text(output)
 
 
 if __name__ == "__main__":

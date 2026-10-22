@@ -55,6 +55,8 @@ typedef struct S_801710F4_2 {
 
 
 /* Updates dungeon actor behavior, facing, and animation from its current state. */
+/* Selects Picket's movement, attacks, spells, and turn processing; suppresses its special action while
+ * D_800DCF5B is set. */
 void update_dungeon_actor_behavior_facing_animation_state(void *actor, void *context, void *sprite, ActorRecord *entity)
 {
     u8 *anim_table;

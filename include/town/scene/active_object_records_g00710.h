@@ -11,6 +11,7 @@
 #include "m2c_compat.h"
 #include "script_symbols.h"
 #include "shared/town_event_buffer.h"
+#include "town/scene.h"
 
 typedef struct S_80017EB8_3 {
     u8 pad_00[0xC];
@@ -36,7 +37,6 @@ typedef struct S_80018174_0 {
     s32 unk_24;
 } S_80018174_0;
 
-extern s32 get_record_value_tier();
 extern s32 func_8001A510(s32 flag_id);
 extern u8 D_8001B1C0[];
 /* extern */

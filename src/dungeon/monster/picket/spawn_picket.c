@@ -46,6 +46,8 @@ extern u8 D_80174F00[];
 extern u8 D_80174F48[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+/* Creates Picket with default frames at D_80174F00, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_picket(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;

@@ -30,7 +30,7 @@ void place_actor_item();                 /* extern */
 void display_item_status_message(void *entity, s32 item, s16 action_type);   /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void *spawn_randomized_particle_burst(); /* extern */
-extern u8 D_800E1729[];
+extern u8 D_800E1729[17];
 
 /* Handles an item action for an entity, including its effect and item cleanup. */
 s32 use_item_to_apply_poison(void *entity, s32 item, s16 action_type) {

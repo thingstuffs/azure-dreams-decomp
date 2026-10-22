@@ -72,6 +72,8 @@ extern u8 D_80175EB0[];
 extern u8 D_80175EB8[];
 
 /* Updates actor animation and dispatches dungeon behavior based on status and position. */
+/* Selects Kewne's movement, attacks, spells, and turn processing while resetting its idle animation and
+ * vertical offsets. */
 void update_actor_animation_and_behavior(void *actor, void *context, void *sprite, ActorRecord *entity)
 {
     s32 distance;

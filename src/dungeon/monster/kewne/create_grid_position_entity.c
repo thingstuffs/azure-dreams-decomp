@@ -47,6 +47,7 @@ typedef struct S_801708B4_4 {
 } S_801708B4_4;   /* result in create_grid_position_entity */
 
 /* Create an entity at the given grid position and initialize its behavior and spawn flags. */
+/* Creates Kewne with default frames at D_80175E40, applies spawn flags, and attempts valid tile placement. */
 void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
 {
     void *entity;

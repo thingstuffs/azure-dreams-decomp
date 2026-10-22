@@ -45,6 +45,7 @@ extern u8 D_80175F10[];
 extern u8 D_80175F28[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Golem with default frames at D_80175F10, applies spawn flags, and attempts valid tile placement. */
 void *func_801708BC(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = 0;

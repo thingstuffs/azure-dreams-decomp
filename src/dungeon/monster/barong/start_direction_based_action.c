@@ -11,6 +11,8 @@ extern u8 D_801755B4[];
 extern u8 D_80175660[];
 
 /* Starts a direction-based action when the object's state and global flags allow it. */
+/* Copies Barong's turn counts into shared state and starts a directional action when the scaled count and
+ * dungeon flags allow. */
 void start_direction_based_action(void *action_state, void *unused, void *animation, void *object)
 {
     u8 *state_data;

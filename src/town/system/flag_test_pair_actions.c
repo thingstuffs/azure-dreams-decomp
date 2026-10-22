@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "shared/object_flags.h"
+#include "town/scene/flags.h"
 
 typedef struct S_8001670C_0 {
     u8 pad_00[0x2];
@@ -19,7 +20,6 @@ typedef struct S_8001670C_1 {
 
 
 extern s32 attach_global_data_and_invoke_callback(u32, s32);
-extern void update_flag_test_target(s16 sourceId, s16 targetId);
 extern s32 check_all_flag_test_bits(s16 *flag_ids);
 extern void set_flag_test_indexed_bit(s32);
 

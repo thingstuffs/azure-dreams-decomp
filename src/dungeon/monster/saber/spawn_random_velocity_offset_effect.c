@@ -36,6 +36,8 @@ typedef struct StackWork {
 } StackWork;
 
 /* Updates the relative position value with an angle bias and flags countdown completion. */
+/* Adjusts a Saber effect's draw depth relative to its stored origin and facing, advances animation, and
+ * expires its timer. */
 void spawn_random_velocity_offset_effect(void *state, MovingPosition *position, Rec_D_80082E80 *result)
 {
     StackWork work;

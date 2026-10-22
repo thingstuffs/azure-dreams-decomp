@@ -1,6 +1,8 @@
 #include "dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
 
 /* Updates actor movement, choosing a direction and recording its path. */
+/* Chooses Tyrant's next clear step, with a flagged nearby-target shortcut, then records the path and
+ * updates tile occupancy. */
 void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
 {
     s32 limit_turn;
@@ -16,7 +18,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     s32 turn_flags;
 
     state = &g_dungeon_status;
-    state_flags = U16_AT(state, 2);
+    state_flags = state->flags;
     limit_turn = 0;
 
     if ((state_flags & 0x4000) || S8_AT(actor, 0x71) >= 0) {
@@ -25,7 +27,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
             update_actor_status_and_mp(actor);
             return;
         }
-        if (PTR_AT(state, 0xC) == actor) {
+        if (state->active_actor == actor) {
             U16_AT(actor, 0x46) = 0xC008;
         }
         return;

@@ -90,6 +90,8 @@ extern void try_move_actor_to_valid_position(Actor *, Motion *, Entity *, Actor 
 extern s32 sample_terrain_surface_height(s32, s32, s16);
 
 /* Updates actor direction, callbacks, motion, and ground height. */
+/* Runs Cyclone's callbacks, updates table-dependent sprite mirroring and idle bobbing, and resolves ground
+ * contact. */
 void update_actor_direction_and_ground(Actor *input_actor, Motion *input_motion, Entity *input_entity)
 {
     Actor *subject = input_actor;

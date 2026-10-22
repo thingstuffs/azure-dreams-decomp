@@ -15,7 +15,7 @@
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-typedef void (*ActorCallback)(void *, void *, void *, void *);
+#include "dungeon/actor/callback.h"
 
 extern s32 has_pending_dungeon_activity(void *entity);
 extern void begin_actor_flagged_action(void *entity, s32 unused, s32 status, void *event_state);

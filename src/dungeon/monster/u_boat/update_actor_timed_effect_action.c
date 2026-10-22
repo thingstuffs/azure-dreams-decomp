@@ -64,10 +64,12 @@ void pack_and_submit_cell_height_levels();                            /* extern 
 void set_record_integer_tile_center();              /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 sample_terrain_surface_height();                   /* extern */
-M2C_UNK create_owner_linked_directional_object();      /* extern */
+void create_owner_linked_directional_object();      /* extern */
 void update_actor_movement_history(); /* extern */
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */
+/* Starts U-Boat's terrain effect, runs its obstacle-following movement, restores its saved position, and
+ * spends MP. */
 void update_actor_timed_effect_action(void *action, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     s16 height_delta;
     s16 height;

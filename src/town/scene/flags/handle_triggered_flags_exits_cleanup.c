@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/scene.h"
 
-s32 is_next_entry_zero_after_skipping();                             /* extern */
 void func_80000858(s32, s32);                /* extern */
 void dispatch_first_rejected_entry_b(void);                            /* extern */
 void func_80000BC8(s32);                         /* extern */

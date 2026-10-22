@@ -15,7 +15,7 @@ void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
-extern u8 D_800E0EE1[];
+extern u8 D_800E0EE1[38];
 
 
 typedef struct S_800BDA44_0_pre {

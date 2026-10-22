@@ -46,6 +46,8 @@ typedef struct S_80170F84_2 {
 } S_80170F84_2;
 
 /* Create a dungeon entity and initialize its state and placement. */
+/* Creates Beldo and two attached sprites above the player's height, restores sprite scale, and starts its
+ * effect. */
 void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile_y, u16 initial_height) {
     S_80170F84_1 *entity_state = NULL;
     s16 saved_tile_x;

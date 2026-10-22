@@ -129,6 +129,8 @@ typedef struct S_80174704_11 {
 } S_80174704_11;   /* ((S_80174704_1 *)arg3)->unk_60 in advance_actor_transition_replacement */
 
 /* Updates an actor transition through turning, color fading, effects, and replacement. */
+/* Loads Unicorn's transition effects, fades the view tint and emits angular sparks, then replaces the
+ * actor and restores facing. */
 void advance_actor_transition_replacement(void *action, EntityRec *position, SpriteFrameState *entity, void *actor) {
     u8 *object = ((u8 *)(&g_game_work));
     u32 color;

@@ -100,6 +100,8 @@ typedef struct S_80173230_9 {
 } S_80173230_9;   /* source in advance_item_use_and_recovery */
 
 /* Advances item use, its visual effect, and the actor's recovery animation. */
+/* Starts a targeted spell, creates an attached sprite effect and briefly changes the actor's palette, then
+ * restores idle. */
 void advance_item_use_and_recovery(void *action_in, ObjectPosition *motion_in, void *sprite, void *actor)
 {
     u8 *effect_state;

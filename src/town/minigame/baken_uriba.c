@@ -1,5 +1,7 @@
 #include "common.h"
 #include "shared/object_node.h"
+#include "engine/text.h"
+#include "sdk/libc.h"
 
 typedef struct {
     s16 unk0;       /* 0x00 */
@@ -59,8 +61,6 @@ extern s16 D_8002430A[];
 extern void func_800201C8();
 extern void func_8002025C();
 extern void *allocate_list_node();
-extern void format_decimal_field_space_padded();
-extern s32 strlen();
 
 /* baken_uriba: Draw a labeled grid with triangular entries of row and column products. */
 void baken_uriba(void)

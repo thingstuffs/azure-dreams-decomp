@@ -157,6 +157,8 @@ extern u8 D_80175174[];
 extern u8 D_80175258[];
 
 /* Spawns and rotates an object, emits particles, then restores the actor state. */
+/* Targets a monster ahead, rotates it amid green particles, attempts confusion, and spends Mandara's MP
+ * before restoring movement. */
 void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *sprite, void *actor)
 {
     SpawnOffset spawn = *(SpawnOffset *)D_8017086C;

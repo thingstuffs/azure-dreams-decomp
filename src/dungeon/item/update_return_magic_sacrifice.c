@@ -123,7 +123,7 @@ extern M2C_UNK D_800DF45C;
 extern M2C_UNK D_800DF4A4;
 extern void *D_800DF55C;
 extern void *D_800DF560;
-extern u8 D_800E1640[];
+extern u8 D_800E1640[55];
 
 typedef struct {
     s32 clip_origin_xy;

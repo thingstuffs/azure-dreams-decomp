@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/flags.h"
 
-void clear_referenced_object_active_flag();                            /* extern */
 s32 get_script_flag_mask();                             /* extern */
 extern s16 D_8001B8AA;
 

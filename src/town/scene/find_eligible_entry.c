@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene.h"
 
 typedef s32 (*TownEntryPredicate)(void *, s32);
 
@@ -8,7 +9,6 @@ typedef struct S_80019F94_1 {
 } S_80019F94_1;
 
 
-void process_town_records();
 s32 get_script_flag_mask();
 
 typedef struct S_80019F94_0 {

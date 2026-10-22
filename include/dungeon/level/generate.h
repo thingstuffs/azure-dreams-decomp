@@ -492,7 +492,7 @@ extern u32 calculate_planar_heading(s16, s16, s16, s16);
 extern floor_generate_isolated_8028A0F4_DungeonGroup item_category_groups[];
 s32 select_floor_item_with_special_overrides();
 extern u8 D_800E3549[];
-extern M2C_UNK generation_special_feature_placed;
+extern s32 generation_special_feature_placed;
 extern u8 resident_globals_page[];
 extern u8 generation_border_cell_base_alias[];
 void clear_generation_cell_grid(void);

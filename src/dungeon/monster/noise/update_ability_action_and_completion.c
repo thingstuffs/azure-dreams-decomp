@@ -36,6 +36,8 @@ extern M2C_UNK D_80171760;
 extern u8 D_80174E88[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
+/* Starts a targeted Noise spell, emits batches of ten offset particles during casting, then restores idle
+ * and status. */
 void update_ability_action_and_completion(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor) {
     s16 next_effect;
     s16 effect_count;

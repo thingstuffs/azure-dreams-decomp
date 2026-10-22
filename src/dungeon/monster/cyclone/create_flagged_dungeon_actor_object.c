@@ -55,6 +55,8 @@ extern u8 D_80171094[];
 extern u8 D_801764B8[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+/* Creates Cyclone with frames at D_80176460, loads a palette row from D_801764B8, and attempts tile
+ * placement. */
 void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     void *obj;

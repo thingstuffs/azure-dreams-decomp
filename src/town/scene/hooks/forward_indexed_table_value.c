@@ -1,7 +1,7 @@
 /* Relinked copy of town/func_80874D24 (func_80874D24.c); retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene/flags.h"
 
-void clear_indexed_flag_bit_unless_index_one();                         /* extern */
 extern u8 D_A0700F2C[];
 
 /* Pass the indexed table value to clear_indexed_flag_bit_unless_index_one. */

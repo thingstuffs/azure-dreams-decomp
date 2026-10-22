@@ -76,6 +76,8 @@ extern u8 D_80173D44[];
 extern u8 D_80173D4C[];
 
 /* Update actor behavior, facing, and animation from dungeon state. */
+/* Selects Battnel's movement, attacks, spells, and turn processing, with a ten-tick transition back to its
+ * idle frames. */
 void update_actor_behavior_facing_and_animation_2(void *actor, void *context, void *sprite, void *status)
 {
     u8 *anim_table;

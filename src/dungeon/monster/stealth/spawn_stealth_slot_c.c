@@ -3,6 +3,8 @@
 #include "modules/dungeon_ovl_7f217800.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select, then finish through the mode branch that either zeroes or arms the actor's 0xA6 state. */
+/* Creates Stealth with frames at D_8015BD30; a random display variant changes sprite flags and unlinks the
+ * node. */
 void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;

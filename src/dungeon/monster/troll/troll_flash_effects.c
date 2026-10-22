@@ -161,6 +161,8 @@ void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
 }
 
 /* Creates an effect and sets its movement toward a tracked target or grid position. */
+/* Creates a flashing Troll effect with position offsets toward a tracked actor or the stored target tile
+ * coordinates. */
 void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target)
 {
     T_8017121C_Vec3u16 offset;
@@ -608,6 +610,7 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
 
 
 /* Creates an object and initializes its position, flags, and directional frame table. */
+/* Creates Troll, selecting item values and directional sprite tables from the global spawn variant. */
 void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
 {
     s32 record_addr;

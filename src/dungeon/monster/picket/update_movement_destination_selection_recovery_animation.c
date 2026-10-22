@@ -66,6 +66,8 @@ extern void spend_actor_mp(void *, s32);
 extern s16 sample_terrain_surface_height(s32, s32, s16);
 
 /* Updates movement, destination selection, and recovery animation for the object. */
+/* Animates Picket's dash and retreat, selects a new valid tile when allowed, then restores sprite scale
+ * and spends MP. */
 void update_movement_destination_selection_recovery_animation(void *state, void *motion, void *actor, void *object)
 {
     s32 y_step;

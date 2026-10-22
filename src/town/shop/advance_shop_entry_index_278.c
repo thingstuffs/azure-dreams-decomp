@@ -1,5 +1,6 @@
 /* Relinked copy of town/func_808781C8 (func_808781C8.c); its step flag is 0x278 (twin 0x1F9), otherwise retail differs only at relocation sites. */
 #include "common.h"
+#include "town/scene.h"
 
 typedef struct {
     u16 field_0;
@@ -9,7 +10,6 @@ typedef struct {
 extern u16 D_00000F12[];
 extern TownPair D_00000F28[];
 
-extern s32 is_next_entry_zero_after_skipping(s32 index);
 extern void func_80000858(s32 index, s32 value);
 extern s32 dispatch_first_rejected_entry_b(void);
 extern void func_80000BC8(u16 value);

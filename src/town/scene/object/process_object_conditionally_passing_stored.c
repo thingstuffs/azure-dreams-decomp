@@ -1,11 +1,11 @@
 #include "script_symbols.h"
 #include "common.h"
+#include "town.h"
 
 s32 func_800177CC(s32, s32);
 s32 initialize_state_two_entries_pointer();                         /* extern */
 s32 func_8001860C(s32);
 s32 call_points();                         /* extern */
-s32 func_80018800();                         /* extern */
 
 typedef struct S_806D435C_0 {
     u8 pad_00[0x18];

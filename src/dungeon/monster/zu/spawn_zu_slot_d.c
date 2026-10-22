@@ -54,6 +54,7 @@ void *spawn_zu_slot_d(s16, s16, s16, s16)
 ;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Zu with default frames at D_80162AD4, applies spawn flags, and attempts valid tile placement. */
 void *spawn_zu_slot_d(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;

@@ -111,6 +111,8 @@ extern u8 D_80174FCD[];
 extern s32 D_80174FD0[];
 
 /* Updates the turning, color fade, effect, and model replacement sequence. */
+/* Loads Nyuel's transition effects, fades the view tint and creates a cylinder, then replaces the actor
+ * and restores facing. */
 void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, SpriteFrameState *actor, void *target) {
     u8 *target_color;
     s16 direction;

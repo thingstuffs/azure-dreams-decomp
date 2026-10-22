@@ -1411,7 +1411,7 @@ void advance_entity_fade_effect(R12_801732EC_EffectState *effect, void *unused, 
     state = effect->state;
     switch (state) {
     case 0:
-        if (*(s16 *)(((u8 *)(&g_dungeon_status)) + 0xA) != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         effect->state = 1;

@@ -92,6 +92,8 @@ extern void announce_familiar_defeat(void *);
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates an entity's particles, projectile, and fade-out sequence before removing it. */
+/* Animates Ifrit's defeat with particles and a projectile, fades the sprite, awards experience, and
+ * removes the actor. */
 void update_particles_projectile_and_fade(void *effect_state, MovingPosition *position, void *render_part, void *entity)
 {
     Rect rect;

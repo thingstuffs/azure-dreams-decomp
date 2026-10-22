@@ -49,6 +49,8 @@ extern s32 create_copied_render_object();
 extern s32 require_object_flag();
 
 /* Update an actor's dungeon actions, status, facing, and animation. */
+/* Dispatches Golem's movement, attacks, spells, and turn processing, creating a sprite copy for its
+ * alternate mode. */
 void update_dungeon_actor_actions(void *actor, void *context, void *sprite, void *stats) {
     s16 heading_flags;
     s32 tile_index;

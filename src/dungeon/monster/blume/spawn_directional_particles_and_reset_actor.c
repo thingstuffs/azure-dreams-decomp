@@ -98,6 +98,8 @@ extern u8 D_801753BC[];
 extern u8 D_8017541C[];
 
 /* Spawns directional particles, advances the actor animation, and resets its state after a delay. */
+/* Emits two directional particle bursts, toggles the target's paired status, and spends MP before
+ * restoring movement. */
 void spawn_directional_particles_and_reset_actor(void *state, ObjectPosition *source_pos, void *source_render, ActorRecord *actor)
 {
     Vec3u map_offset;

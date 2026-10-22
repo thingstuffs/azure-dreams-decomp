@@ -1553,9 +1553,9 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
 
     switch (state) {
     case 0:
-        *(s32 *)((u8 *)motion + 0xC) = offset_x << 16;
-        *(s32 *)((u8 *)motion + 0x10) = offset_y << 16;
-        *(s32 *)((u8 *)motion + 0x14) = 0x8000;
+        motion->unk_0C = offset_x << 16;
+        motion->unk_10 = offset_y << 16;
+        motion->unk_14 = 0x8000;
         if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }

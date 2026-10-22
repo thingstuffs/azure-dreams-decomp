@@ -49,6 +49,7 @@ extern M2C_UNK D_8015EE84;
 /* The row begins with a 132-byte data bank; the executable body follows it. */
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Ifrit with default frames at D_80162820, applies spawn flags, and attempts valid tile placement. */
 void *queue_linked_render_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;

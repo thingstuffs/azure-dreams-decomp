@@ -34,6 +34,8 @@ typedef struct S_8016B3A8_2 {
 } S_8016B3A8_2;   /* base in run_actor_callbacks_and_update_grounding */
 
 /* Runs actor callbacks and updates animation, movement, and ground height. */
+/* Runs Death state callbacks from D_8016E6A0, updates sprite facing and height offsets, and resolves
+ * ground contact. */
 void run_actor_callbacks_and_update_grounding(void *self, ObjectPosition *motion, void *sprite)
 {
     void *actor_base = self;

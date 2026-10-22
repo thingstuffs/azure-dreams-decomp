@@ -14,7 +14,7 @@ typedef s32 M2C_UNK;
 
 extern const u8 D_80024004[48];
 extern const u8 D_80024034[4];
-extern u8 D_800E1C8A[];
+extern u8 D_800E1C8A[38];
 
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);

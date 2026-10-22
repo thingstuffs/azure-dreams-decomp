@@ -38,6 +38,8 @@ extern void project_sprite_chain(void);
 extern void update_accelerating_growing_particle(void);
 
 /* Creates a visual effect at an offset position with randomized state. */
+/* Creates an offset dark-gray Ghosh particle with randomized velocity, scale 0x400, and the
+ * growing-particle callback. */
 void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_offset, s32 z_offset)
 {
     void *object;

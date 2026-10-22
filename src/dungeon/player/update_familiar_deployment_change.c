@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "dungeon/actor/callback.h"
 #include "common.h"
 #include "shared/slus_cd_callback.h"
 #include "shared/slus_callbacks.h"
@@ -12,9 +13,9 @@
 s32 Control_CD(); /* extern */
 void apply_actor_template_and_class();          /* extern */
 void replay_actor_status_slots();                      /* extern */
-M2C_UNK func_80042640();                  /* extern */
+void func_80042640();                  /* extern */
 void runtime_map_type_16_entry_code();                      /* extern */
-M2C_UNK register_and_upload_sprite_resource();                     /* extern */
+void * register_and_upload_sprite_resource();                     /* extern */
 s32 begin_sprite_resource_load_with_completion_flag();                   /* extern */
 void set_sprite_animation_frame(); /* extern */
 void create_familiar_deployment_effect_with_owner_state();      /* extern */
@@ -37,16 +38,16 @@ void mark_owned_linked_actor_actions();                      /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 extern s32 loaded_entity_sprite_resource;
-extern M2C_UNK sprite_resource_completion_flag;
+extern s32 sprite_resource_completion_flag;
 extern void *selected_item_record_alias[];
 extern u8 D_800DD138[];
 extern u8 D_800DD140[];
 extern u8 D_800DD260;
-extern M2C_UNK D_800DD262;
-extern u8 D_800E05E1[];
-extern u8 D_800E05F0[];
-extern u8 D_800E06FA[];
-extern u8 D_800E0714[];
+extern struct S_8009345C_4 D_800DD262;
+extern u8 D_800E05E1[15];
+extern u8 D_800E05F0[16];
+extern u8 D_800E06FA[26];
+extern u8 D_800E0714[18];
 extern s32 familiar_turn_counters_alias[];
 extern void *familiar_record_slots[];
 extern s8 entity_resource_read_complete;
@@ -59,11 +60,11 @@ typedef union ScratchS1 {
 
 typedef struct S_8009345C_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    ActorCallback action_callback; /* 0x8C */
     u8 pad_90[0x6];
-    u16 unk_96;
+    u16 wait_ticks; /* 0x96 */
     u8 pad_98[0x3];
-    u8 unk_9B;
+    u8 phase; /* 0x9B */
 } S_8009345C_0;   /* actor in update_familiar_deployment_change */
 
 typedef struct S_8009345C_1 {
@@ -91,7 +92,7 @@ typedef struct S_8009345C_3 {
 } S_8009345C_3;
 
 typedef struct S_8009345C_4 {
-    union { u16 u; s16 s; } unk_00;   /* accessed as both */
+    union { u16 u; s16 s; } slot; /* 0x00 */   /* accessed as both */
 } S_8009345C_4;   /* &D_800DD262 in update_familiar_deployment_change */
 
 typedef struct S_8009345C_5_pre {
@@ -159,7 +160,7 @@ typedef struct S_8009345C_15 {
 typedef struct S_8009345C_16 {
     u8 pad_00[0xAC];
     s32 unk_AC;
-} S_8009345C_16;   /* ((((S_8009345C_4 *)(&D_800DD262))->unk_00.s * 4) + actor) in update_familiar_deployment_change */
+} S_8009345C_16;   /* slot selects the owner's familiar record */
 
 /* Advances the object replacement sequence, including animation, messages, and cleanup. */
 void update_familiar_deployment_change(void *actor, MovingPosition *map, void *entity, void *context) {
@@ -188,7 +189,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
     void *object_position;
     ScratchS1 message_or_list;
 
-    state = ((S_8009345C_0 *)actor)->unk_9B;
+    state = ((S_8009345C_0 *)actor)->phase;
     switch (state) {
     case 0:
         if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
@@ -202,26 +203,26 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         entity_flags = ((S_8009345C_1 *)entity)->unk_14;
         D_800DD260 = 0;
         ((S_8009345C_1 *)entity)->unk_14 = (u16) (entity_flags | 0x200);
-        ((S_8009345C_0 *)actor)->unk_96 = 0x10U;
+        ((S_8009345C_0 *)actor)->wait_ticks = 0x10U;
         selected_slot = ((S_8009345C_2 *)context)->unk_8A.s;
         slot_bits = ((S_8009345C_2 *)context)->unk_8A.u;
         selected_object = (void *) ((S_8009345C_3 *)(((selected_slot * 4) + actor)))->unk_AC;
-        ((S_8009345C_4 *)(&D_800DD262))->unk_00.u = slot_bits;
+        D_800DD262.slot.u = slot_bits;
         ((S_8009345C_2 *)context)->unk_60 = selected_object;
-        ((S_8009345C_0 *)actor)->unk_9B++;
+        ((S_8009345C_0 *)actor)->phase++;
         return;
     case 1:
-        start_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;
-        ((S_8009345C_0 *)actor)->unk_96 = start_ticks;
+        start_ticks = ((S_8009345C_0 *)actor)->wait_ticks - 1;
+        ((S_8009345C_0 *)actor)->wait_ticks = start_ticks;
         if ((start_ticks << 0x10) > 0) {
             return;
         }
         if (((S_8009345C_2 *)context)->unk_60 != NULL) {
             store_recalled_familiar(actor, map, entity, context);
-            ((S_8009345C_0 *)actor)->unk_9B++;
+            ((S_8009345C_0 *)actor)->phase++;
             return;
         }
-        next_state = ((S_8009345C_0 *)actor)->unk_9B + 2;
+        next_state = ((S_8009345C_0 *)actor)->phase + 2;
         break;
     case 2:
         if (!(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_1C & 0x800000)) {
@@ -229,7 +230,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         }
         message_or_list.value = get_unused_text_buffer();
         remove_message = write_text_byte_and_advance(8, message_or_list.value);
-        if (((S_8009345C_4 *)(&D_800DD262))->unk_00.s != 0) {
+        if (D_800DD262.slot.s != 0) {
             remove_text = D_800E05F0;
         } else {
             remove_text = D_800E05E1;
@@ -240,7 +241,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         old_object = ((S_8009345C_2 *)context)->unk_60;
         D_800DD260 = 1;
         mark_owned_linked_actor_actions(old_object);
-        ((S_8009345C_16 *)(((((S_8009345C_4 *)(&D_800DD262))->unk_00.s * 4) + actor)))->unk_AC = 0;
+        ((S_8009345C_16 *)(((D_800DD262.slot.s * 4) + actor)))->unk_AC = 0;
         decrement_monster_entry_count(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_13, 3);
         unlink_entity_node(((S_8009345C_2 *)context)->unk_60);
         removed_object = ((S_8009345C_2 *)context)->unk_60;
@@ -248,11 +249,11 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
             | 0x8000);
         (*(s32 *)&object_flag_block.flags) = (s32) (object_flag_block.flags | 0x8000);
         if (selected_item_record_alias[0] == NULL) {
-            ((S_8009345C_0 *)actor)->unk_96 = 0U;
-            next_state = ((S_8009345C_0 *)actor)->unk_9B + 4;
+            ((S_8009345C_0 *)actor)->wait_ticks = 0U;
+            next_state = ((S_8009345C_0 *)actor)->phase + 4;
             break;
         }
-        ((S_8009345C_0 *)actor)->unk_9B++;
+        ((S_8009345C_0 *)actor)->phase++;
         return;
     case 3:
         if ((has_pending_dungeon_activity(0) << 0x10) != 0) {
@@ -266,7 +267,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
             (*(s8 *)&entity_resource_read_complete) = 0;
             Control_CD(0xFF, set_byte_one, &entity_resource_read_complete);
         }
-        ((S_8009345C_0 *)actor)->unk_9B++;
+        ((S_8009345C_0 *)actor)->phase++;
         return;
     case 4:
         if (((S_8009345C_8 *)(&entity_resource_read_complete))->unk_00 == 0) {
@@ -275,7 +276,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
         if (loaded_entity_sprite_resource != 0) {
             register_and_upload_sprite_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, loaded_entity_sprite_resource);
         }
-        ((S_8009345C_0 *)actor)->unk_9B++;
+        ((S_8009345C_0 *)actor)->phase++;
         return;
     case 5:
         message_or_list.base = selected_item_record_alias;
@@ -286,7 +287,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 ((S_8009345C_2 *)context)->unk_72, ((S_8009345C_2 *)context)->unk_73,
                 (s16) (((S_8009345C_2 *)context)->unk_88 - 0x20));
             if (new_object != NULL) {
-                (*(void **)((u8 *)(((((S_8009345C_4 *)(&D_800DD262))->unk_00.s * 4) + actor)) + (0xAC))) = new_object;
+                (*(void **)((u8 *)(((D_800DD262.slot.s * 4) + actor)) + (0xAC))) = new_object;
                 familiar_record_slots[((S_8009345C_7 *)(*message_or_list.base))->unk_03 & 0x1F] = new_object;
                 object_scale = ((S_8009345C_10_pre *)new_object)[-1].unk_04;
                 ((S_8009345C_11 *)object_scale)->unk_1E = 0x800;
@@ -298,7 +299,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 func_80042640(new_object, ((S_8009345C_10 *)new_object)->unk_13);
                 apply_actor_template_and_class(new_object, ((S_8009345C_10 *)new_object)->unk_13, *message_or_list.base);
                 object_flags = ((S_8009345C_10 *)new_object)->unk_1C;
-                object_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
+                object_slot = D_800DD262.slot.s;
                 ((S_8009345C_10 *)new_object)->unk_1C = object_flags | 0x02000000;
                 ((S_8009345C_14 *)(((object_slot * 4) + actor)))->unk_D0 = selected_item_record_alias[0];
                 ((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 = (u8) (((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_03 | 0x20);
@@ -307,7 +308,7 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 if (D_800DD260 == 0) {
                     create_message = write_text_byte_and_advance(8, create_message);
                 }
-                if (((S_8009345C_4 *)(&D_800DD262))->unk_00.s != 0) {
+                if (D_800DD262.slot.s != 0) {
                     create_text = D_800E05F0;
                 } else {
                     create_text = D_800E05E1;
@@ -315,44 +316,44 @@ void update_familiar_deployment_change(void *actor, MovingPosition *map, void *e
                 clear_byte_and_advance(expand_text_control_codes(D_800E0714, append_entity_display_text(new_object, expand_text_control_codes(create_text,
                     create_message))));
                 display_text_with_fullwidth_adjustment(message_or_list.value);
-                cleanup_slot = ((S_8009345C_4 *)(&D_800DD262))->unk_00.s;
+                cleanup_slot = D_800DD262.slot.s;
                 familiar_turn_counters_alias[cleanup_slot] = 0;
                 retain_spawn_resource(((S_8009345C_9 *)(selected_item_record_alias[0]))->unk_00, 3);
                 replay_actor_status_slots(new_object);
                 play_sound_if_enabled(0x704);
             }
         }
-        next_state = ((S_8009345C_0 *)actor)->unk_9B;
+        next_state = ((S_8009345C_0 *)actor)->phase;
         start_ticks = 0x10U;
-        ((S_8009345C_0 *)actor)->unk_96 = start_ticks;
+        ((S_8009345C_0 *)actor)->wait_ticks = start_ticks;
         next_state = next_state + 1;
         break;
     case 7:
-        end_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;
-        ((S_8009345C_0 *)actor)->unk_96 = end_ticks;
+        end_ticks = ((S_8009345C_0 *)actor)->wait_ticks - 1;
+        ((S_8009345C_0 *)actor)->wait_ticks = end_ticks;
         if ((end_ticks << 0x10) > 0) {
             return;
         }
         (*(void **)((u8 *)entity + (0x2C))) = D_800DD140;
         set_sprite_animation_frame(entity, D_800DD140[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100)
             >> 9) & 7], 0, 1);
-        ((S_8009345C_0 *)actor)->unk_9B++;
+        ((S_8009345C_0 *)actor)->phase++;
         return;
     case 8:
         if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
             return;
         }
-        ((S_8009345C_0 *)actor)->unk_8C = handle_player_input;
+        ((S_8009345C_0 *)actor)->action_callback = handle_player_input;
         process_unflagged_linked_entries_alt(((S_8009345C_2 *)context)->unk_5C);
         process_unflagged_linked_entries(((S_8009345C_2 *)context)->unk_5C);
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x812);
         ((S_8009345C_1 *)entity)->unk_14 = (u16) (((S_8009345C_1 *)entity)->unk_14 & 0xFDFF);
     case 6:
-        ((S_8009345C_0 *)actor)->unk_9B++;
+        ((S_8009345C_0 *)actor)->phase++;
         return;
     case 9:
     default:
         return;
     }
-    ((S_8009345C_0 *)actor)->unk_9B = next_state;
+    ((S_8009345C_0 *)actor)->phase = next_state;
 }

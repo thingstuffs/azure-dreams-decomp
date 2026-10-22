@@ -71,6 +71,8 @@ typedef struct S_80171514_3 {
 } S_80171514_3;   /* entry in update_object_animation */
 
 /* Updates object animation, dispatches its action, and adjusts its facing. */
+/* Dispatches Beldo's movement and spells, replays stored commands in scripted mode, and maintains idle
+ * animation and facing. */
 void update_object_animation(void *obj, void *motion, void *part, void *state)
 {
     u32 entry_status = g_dungeon_status.flags;

@@ -15,7 +15,7 @@ void place_actor_item();                 /* extern */
 void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_colored_effect_with_sound();    /* extern */
-extern u8 D_800E206A[];
+extern u8 D_800E206A[24];
 
 
 /* Update entity state and counters, with special handling for the primary entity. */

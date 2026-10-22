@@ -1,8 +1,8 @@
 #include "script_symbols.h"
 #include "common.h"
 #include "m2c_compat.h"
+#include "town/scene/flags.h"
 
-void set_referenced_object_active_flag();                            /* extern */
 void set_script_flag_bit();                     /* extern */
 
 /* Runs set_script_flag_bit with code 0x1452 and its set_referenced_object_active_flag follow-up. */

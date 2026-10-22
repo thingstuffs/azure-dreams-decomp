@@ -69,6 +69,8 @@ extern u8 D_80175168[];
 extern u8 D_80175170[];
 
 /* Advances an item action through setup, animation, movement, and cleanup. */
+/* Starts a targeted spell and source effect, animates a backward step, then returns to its tile and
+ * restores idle. */
 void advance_item_action_sequence(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     void *owner;

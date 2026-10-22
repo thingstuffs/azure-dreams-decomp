@@ -112,6 +112,8 @@ extern s16 actor_turn_angle_offsets[];
 extern DungeonModeRecord dungeon_rooms[];
 
 /* Chooses a movement heading, advances the actor, and updates its path state and height. */
+/* Steers Pulunpa toward the nearer companion or a player-relative tile, tries clear headings, and updates
+ * its path and occupancy. */
 void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *actor, void *movement)
 {
     s16 move_index;

@@ -79,6 +79,8 @@ extern s16 D_80173AFC[16];
 extern void *beldo_actor_nodes[3];
 
 /* Updates the effect phases, particle bursts, movement, and directional sprite. */
+/* Shrinks Beldo while emitting particles, sustains spark bursts, then turns, moves, and hides the
+ * encounter sprite. */
 void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
     s32 distance;
     s32 burst_y;

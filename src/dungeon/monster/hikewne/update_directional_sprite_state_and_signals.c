@@ -15,6 +15,8 @@ extern u8 D_801740E8[];
 extern u8 D_80174158[];
 
 /* Updates the directional sprite state and signals the controller after the actor update. */
+/* Alternates Hikewne's idle frames, updates its parent-relative motion, and restores its callback after a
+ * floor trap. */
 void update_directional_sprite_state_and_signals(s32 controller, s32 update_arg, void *sprite, ActorRecord *actor)
 {
     u8 *direction_table;

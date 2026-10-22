@@ -407,6 +407,8 @@ increment_state:
 }
 
 /* Updates the display table and directional entry for kinds 13 through 15. */
+/* Selects Troll's normal or status frames for item kinds 13-15 and current MP, then updates movement and
+ * floor traps. */
 void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
 {
     T_801759A0_Obj2 *display = display_arg;

@@ -45,6 +45,7 @@ extern u8 D_80174DEC[];
 extern u8 D_80174E4C[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Saber with default frames at D_80174DEC, applies spawn flags, and attempts valid tile placement. */
 void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     s32 kind;

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "town/player.h"
 
-extern s32 get_linked_record_field_2_d_60(void);
 extern s32 set_current_entry_script_flag();
 extern s32 apply_selected_entry_values();
 

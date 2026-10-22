@@ -46,6 +46,8 @@ extern M2C_UNK D_8015B86C;
 
 void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) ;
 /* Allocates an object and initializes its state and attached data from the supplied flags and values. */
+/* Creates Dreamin with default frames at D_8015B86C, applies spawn flags, and attempts valid tile
+ * placement. */
 void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value_25, s16 value_0a) {
     s32 global_byte;
     s32 unused_stack;

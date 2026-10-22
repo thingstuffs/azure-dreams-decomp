@@ -25,12 +25,13 @@ sys.path.insert(0, str(ROOT))
 from tools.link.graph import Graph, number
 from tools.link.combined import selected_images, object_metadata, slus_origins
 from tools.link.prepare import load_gate, linklist_snapshot
-from tools.build import content_cache
+from tools.build import content_cache, compile_tools, name_inputs
 from tools.build.recipe_cache import RecipeCache, load as load_recipe_cache
 
 STATE = ROOT / 'build/.state'
 GENERATION_WRITES = None
 RECIPE_CACHE = None
+COMPILE_IMPORTS = None
 CONTAINERS = {'main': 'MAIN_MAIN.BIN', 'town': 'TOWN_TOWN.BIN',
               'dungeon': 'DUNGEON_DUNGEON.BIN', 'ovmovie': 'OVMOVIE.BIN'}
 
@@ -65,6 +66,8 @@ def write(path, blob):
 def stamp(kind):
     """Content digest of a stamp's inputs: a stamp only changes when its inputs' bytes do."""
     names = read(STATE/(kind+'.list'))
+    if kind == 'compiletools':
+        compile_tools.verify(ROOT, names)
     return json.dumps(dict(kind=kind, inputs=hash_inputs(names)), sort_keys=True, indent=1) + '\n'
 
 
@@ -165,14 +168,30 @@ def bootstrap_source_inputs():
     return sorted(names)
 
 
+def bootstrap_inputs():
+    # Native review notes are mirrored wholesale into the proof view. Keep
+    # their export inventory in bootstrap, rather than the recipe guard.
+    return configure_inputs() | content_cache.inventory(ROOT, ('tools/learnings',))
+
+
+def export_layout():
+    if not (ROOT/'tools/build/export_gate_tools.py').is_file():
+        return {}
+    from tools.build.export_gate_tools import inputs
+    files, directories = inputs(ROOT)
+    return dict(files=sorted(map(str, files)), directories=sorted(map(str, directories)))
+
+
 def bootstrap():
     snapshot = content_cache.Snapshot(ROOT)
     marker = STATE/'bootstrap.json'
-    before = snapshot.hashes(configure_inputs())
+    before = snapshot.hashes(bootstrap_inputs())
+    tool_layout = export_layout()
     input_links = configure_links(views=False)
     all_links = configure_links()
     previous = content_cache.load(marker)
     valid = (previous.get('root') == str(ROOT) and previous.get('environment') == configure_environment()
+            and previous.get('export_layout') == tool_layout
             and previous.get('links') == all_links and previous.get('outputs')
             and all(v is not None for v in previous['outputs'].values())
             and snapshot.hashes(previous['outputs']) == previous['outputs'])
@@ -188,29 +207,30 @@ def bootstrap():
         # Every view output is current. The name/authority/link guards prove
         # that these particular body edits cannot change bootstrap's outputs.
         # Generate independently checks production recipe/module read sets.
-        if before != snapshot.hashes(before) or all_links != configure_links():
+        if (before != snapshot.hashes(before) or all_links != configure_links()
+                or tool_layout != export_layout()):
             raise ValueError('bootstrap inputs changed during generation')
         put(STATE/'setup.ok', dict(inputs_sha256=sha(json.dumps(before, sort_keys=True).encode())))
         outputs = dict(previous['outputs'])
         outputs['build/.state/setup.ok'] = sha((STATE/'setup.ok').read_bytes())
         content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=all_links,
-                                       inputs=before, outputs=outputs, source_sensitive=sensitive))
+                                       inputs=before, outputs=outputs, source_sensitive=sensitive, export_layout=tool_layout))
         print('Build views unchanged (source-only edit; content verified)', flush=True)
         return
     _bootstrap()
     outputs = content_cache.inventory(ROOT, ('build_ovl/tools', 'build_slus/config/generated', 'build_slus/asm', 'build_slus/assets'))
     outputs.update(['build_slus/build.ninja', 'build_slus/build/slus_006.14.ld', 'build/.state/setup.ok'])
-    after = snapshot.hashes(configure_inputs())
+    after = snapshot.hashes(bootstrap_inputs())
     # The module graph is a bootstrap output, included in the next input snapshot.
     graph_output = 'ledger/splits/overlay_modules.build.json'
     if {k:v for k,v in before.items() if k != graph_output} != {k:v for k,v in after.items() if k != graph_output}:
         raise ValueError('bootstrap inputs changed during generation')
-    if input_links != configure_links(views=False):
+    if input_links != configure_links(views=False) or tool_layout != export_layout():
         raise ValueError('bootstrap input links changed during generation')
     put(STATE/'setup.ok', dict(inputs_sha256=sha(json.dumps(after, sort_keys=True).encode())))
     content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=configure_links(),
                                     inputs=after, outputs=snapshot.hashes(outputs),
-                                    source_sensitive=bootstrap_source_inputs()))
+                                    source_sensitive=bootstrap_source_inputs(), export_layout=tool_layout))
 
 
 def _bootstrap():
@@ -316,6 +336,51 @@ def slus_script():
     write(STATE/'link/slus_slus_bin/image.ld', '\n'.join(text)+'\n')
 
 
+def name_dependency(output, names):
+    # Compile/link products own these witnesses. They are not configure outputs:
+    # the first real compile discovers its assembly vocabulary after configure.
+    path = STATE/'name-inputs'/(sha(output.encode())[:24]+'.json')
+    name_inputs.refresh(path, names, ROOT)
+    return rel(path)
+
+
+@contextmanager
+def name_trace(path, config_tables=()):
+    trace = Path(path).with_name(Path(path).name + '.trace')
+    trace.unlink(missing_ok=True)
+    keys = ('CCPROC_NAMES_TRACE', 'CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES')
+    previous = {k: os.environ.pop(k, None) for k in keys}
+    os.environ.update(CCPROC_NAMES_TRACE=str(trace), CCPROC_CONFIG_ROOT=str(ROOT),
+                      CCPROC_CONFIG_TABLES=json.dumps(list(config_tables)))
+    try:
+        yield str(trace)
+        value = name_inputs.verify(trace, name_inputs.table(ROOT/'config/names.tsv'), ROOT)
+        name_inputs.write(path, value)
+    finally:
+        trace.unlink(missing_ok=True)
+        for key, value in previous.items():
+            os.environ.pop(key, None)
+            if value is not None:
+                os.environ[key] = value
+
+
+def slus_compile_one(path):
+    spec = read(path)
+    (ROOT/spec['output']).parent.mkdir(parents=True, exist_ok=True)
+    with name_trace(ROOT/spec['name_input'], spec['config_tables'].values()) as trace:
+        env = dict(os.environ, CCPROC_NAMES_TRACE=trace)
+        for key in ('AZURE_MASPSX', 'AZURE_MASPSX_COMPANION', 'MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE'):
+            env.pop(key, None)
+        env.update({k: str(ROOT/v) for k, v in spec['config_tables'].items()})
+        run(['bash', '-c', spec['command']], cwd=ROOT/'build_slus', env=env)
+    target = ROOT/spec['output']
+    target.touch()  # Acknowledge the witness published by this compile.
+    put(target.with_suffix('.proof.json'), dict(object_sha256=sha(target.read_bytes()),
+        recipe_sha256=sha(Path(path).read_bytes()), inputs=hash_inputs(spec['dependencies']),
+        compiler_imports=compiler_imports()))
+    print('CC', spec['output'], flush=True)
+
+
 def slus_rules(headers):
     edges = ninja_edges((ROOT / 'build_slus/build.ninja').read_text())
     # A cold checkout has not rendered partition bodies yet. Use the registered
@@ -327,6 +392,7 @@ def slus_rules(headers):
             if GENERATION_WRITES is not None:
                 GENERATION_WRITES.update('build_slus/' + n for n in edge['outputs'])
     output, cc = [], 0
+    names = name_inputs.table(ROOT/'config/names.tsv')
     for edge in edges:
         if edge['rule'] == 'sha1':
             continue
@@ -350,6 +416,34 @@ def slus_rules(headers):
             output.append(rule([script], fragments + ['config/link_graph/graph.json'], 'python3 tools/build/mkbuild.py slus_script'))
             deps.append(script)
             edge['command'] = shlex.join(argv + ['-Map', 'build/slus_006.14.map'])
+        if edge['rule'] == 'cc':
+            # Ninja's module manifest dependency covers every module. Bind the
+            # selected row and run the postprocessor against that same slice.
+            manifest = 'build_slus/config/slus_modules.json'
+            if manifest in deps:
+                from tools.build.retail_spans import load_json
+                doc = load_json(ROOT/manifest, ROOT)
+                selected = [m for m in doc['modules'] if m['source'] in edge['explicit']]
+                if len(selected) != 1:
+                    raise ValueError('SLUS compile has no unique manifest row')
+                module_path = ROOT/'build_slus/config/generated'/('make_module_'+sha(targets[0].encode())[:24]+'.json')
+                put(module_path, dict(doc, modules=selected))
+                deps = [n for n in deps if n != manifest] + [rel(module_path)]
+                edge['command'] = edge['command'].replace('config/slus_modules.json',
+                    module_path.relative_to(ROOT/'build_slus').as_posix())
+            ccver = edge['vars']['ccver']
+            deps += ['toolchain/compilers/gcc-' + ccver + '/' + tool for tool in ('gcc', 'cc1', 'cpp')]
+            name_input = name_dependency(targets[0], names)
+            deps.append(name_input)
+            recipe_path = STATE/'slus-recipes'/(sha(targets[0].encode())[:24]+'.json')
+            put(recipe_path, dict(command=edge['command'], name_input=name_input,
+                                 config_tables=dict(MASPSX_NORETURN_FILE='config/noreturn_syms.txt',
+                                                    MASPSX_SIBCALL_FILE='config/sibcall_syms.txt'),
+                                 output=targets[0], dependencies=sorted(set(deps))))
+            deps.append(rel(recipe_path))
+            output.append(rule(targets, deps,
+                               f'python3 tools/build/mkbuild.py slus_compile {rel(recipe_path)}'))
+            continue
         clean_env = 'env -u AZURE_MASPSX -u AZURE_MASPSX_COMPANION -u MASPSX_NORETURN_FILE -u MASPSX_SIBCALL_FILE '
         command = 'mkdir -p ' + shlex.join(directories) + '; cd build_slus && ' + clean_env + 'bash -c ' + shlex.quote(edge['command'])
         output.append(rule(targets, deps, command))
@@ -650,17 +744,28 @@ def generate(full=False):
     previous = content_cache.load(marker)
     before_inventory = set()
     names = configure_inputs(previous.get('inputs', ()), before_inventory)
+    # The CLI verifies/synchronizes views before generation. Bind the actual
+    # executed copies before any producer can import them, including a cold run.
+    if (ROOT/'tools/build/mkbuild.py').is_file():
+        names.update(compile_tools.inputs(ROOT))
     names.add('build_slus/build.ninja')
     before = snapshot.hashes(names)
     input_links = configure_links()
     observed_now = {n: RecipeCache.hash_at(ROOT, n) for n in previous.get('observed', {})}
     context = dict(schema=1, root=str(ROOT), environment=configure_environment(), links=input_links)
+    try:
+        current_names = name_inputs.table(ROOT/'config/names.tsv')
+        for n in previous.get('name_inputs', ()):
+            name_inputs.verify(ROOT/n, current_names, ROOT)
+        runtime_valid = True
+    except (FileNotFoundError, ValueError, KeyError, TypeError):
+        runtime_valid = False
     compatible = (previous.get('root') == str(ROOT) and previous.get('environment') == context['environment']
                   and previous.get('links') == input_links)
     outputs_valid = (compatible and previous.get('outputs')
                      and all(v is not None for v in previous['outputs'].values())
                      and snapshot.hashes(previous['outputs']) == previous['outputs'])
-    if (not full and outputs_valid and previous.get('inputs') == before
+    if (not full and outputs_valid and runtime_valid and previous.get('inputs') == before
             and observed_now == previous.get('observed', {})):
         print('Make projection unchanged (inputs and generated bytes verified)', flush=True)
         return
@@ -698,7 +803,7 @@ def generate(full=False):
     cache.guard = cache.guard_for(final_inputs, context)
     write(cache_path, cache.blob())
     content_cache.save(marker, dict(root=str(ROOT), environment=configure_environment(), links=after_links,
-                                   inputs=final_inputs, outputs=snapshot.hashes(outputs),
+                                   inputs=final_inputs, outputs=snapshot.hashes(outputs), name_inputs=index.get('name_inputs', []),
                                    observed={n:cache.digests[n] for n in cache.used if n not in final_inputs and n not in outputs}))
 
 
@@ -935,10 +1040,9 @@ def _generate():
     pipeline += sorted(rel(p) for p in (ROOT/'tools/fidelity').glob('*.py'))
     pipeline += ['tools/overlay_module_evidence.py']
     pipeline += sorted(rel(p) for p in (ROOT/'toolchain/maspsx').rglob('*.py') if p.is_file())
-    compile_build = {'mkbuild.py', 'cc.sh', 'ccproc.py', 'as.sh', 'asproc.py', 'slus_rodata_trim.py'}
-    compiletools = [n for n in pipeline if not n.startswith(('tools/build/', 'tools/link/'))
-                    or n.rsplit('/', 1)[-1] in compile_build]
-    linktools = [n for n in pipeline if not n.startswith('tools/build/') or n == 'tools/build/mkbuild.py']
+    compiletools = compile_tools.inputs(ROOT)
+    linktools = [n for n in pipeline if n != 'config/names.tsv'
+                 and (not n.startswith('tools/build/') or n == 'tools/build/mkbuild.py')]
     out = ['# Generated by tools/build/mkbuild.py; private, no authority switch.\n']
     # Link inputs read by image_one (symbol catalogs, rowbase/rodata-owner/link-list/graph tables).
     linkinputs = sorted(rel(p) for d in ('config/overlays', 'config/link', 'config/link_graph')
@@ -964,7 +1068,9 @@ def _generate():
             if spec['assembler'] == 'genuine_aspsx_verified':
                 deps += ['toolchain/genuine/bin/wibo', 'toolchain/genuine/psyq/psyq4.4/ASPSX.EXE']
         if spec.get('projection'):
-            deps += [spec['projection']['owner'], 'ledger/layout_inline.jsonl']
+            deps += [spec['projection']['owner'], spec['projection_input']]
+        if spec.get('name_input'):
+            deps.append(spec['name_input'])
         starts = [spec['source']] + ([a['source'] for a in spec['module']['members']] if 'module' in spec else [])
         deps += [n for n in include_closure(M, ROOT, starts) if (ROOT/n).is_file() and n not in unit_exclude]
         if spec['args']:
@@ -972,7 +1078,17 @@ def _generate():
         spec['dependencies'] = sorted(set(deps))
         put(path, spec)
         return dict(dependencies=spec['dependencies'], rule=rule([spec['output']], deps, f'python3 tools/build/mkbuild.py compile {rel(path)}'))
+    names = name_inputs.table(ROOT/'config/names.tsv')
+    inline_records = None
     for key, spec in recipes.items():
+        if spec['wrapper'].endswith('cc.sh'):
+            spec['name_input'] = name_dependency(spec['output'], names)
+        if spec.get('projection'):
+            if inline_records is None:
+                inline_records = {}
+                for row in read_json_lines(ROOT/'ledger/layout_inline.jsonl'):
+                    inline_records.setdefault(row['member_id'], []).append(row)
+            spec['projection_input'] = projection_dependency(spec['projection']['home'], key, inline_records)
         path = STATE/'recipes'/(key+'.json')
         emitted = checkpoint('emit-recipe:'+key+':'+spec['declaration_context_sha256'],
                              lambda: emit_recipe(key, spec, path),
@@ -983,9 +1099,10 @@ def _generate():
         out.append(emitted['rule'])
     def emit_image(tag, spec, path):
         put(path, spec)
-        deps = [rel(path), spec['container'], 'build/.state/linktools.ok', 'build/.state/linkinputs.ok'] + [recipes[u['recipe']]['output'] for u in spec['units']]
+        deps = [rel(path), spec['container'], spec['name_input'], 'build/.state/linktools.ok', 'build/.state/linkinputs.ok'] + [recipes[u['recipe']]['output'] for u in spec['units']]
         return rule([spec['output']], deps, f'python3 tools/build/mkbuild.py image {rel(path)}')
     for tag, spec in images.items():
+        spec['name_input'] = name_dependency(spec['output'], names)
         path = STATE/'images'/(tag+'.json')
         fragment = checkpoint('emit-image:'+layout_key+':'+tag, lambda: emit_image(tag, spec, path), lambda value: [], copy_value=False)
         GENERATION_WRITES.add(rel(path))
@@ -999,7 +1116,13 @@ def _generate():
                  overlay_recipes=len(recipes), slus_c_recipes=slus_cc, ordinary_rows=len(row_plans),
                  native_modules=len(module_jobs), graph_attestation_sha256=sha(json.dumps(attestation, sort_keys=True).encode()), assembler=sdk, check_images=len(outside), placement_check_images=len(placement_checks), physical_overlay_sources=len({r['source'] for r in recipes.values()}))
     index['stamp_kinds'] = [kind for kind, _ in stamp_inputs]
-    put(STATE/'index.json', index)
+    slus_recipes = [n for n in GENERATION_WRITES if n.startswith('build/.state/slus-recipes/')]
+    index['slus_recipes'] = sorted(slus_recipes)
+    index['name_inputs'] = sorted({s['name_input'] for s in images.values()} |
+        {s['name_input'] for s in recipes.values() if s.get('name_input')} |
+        {read(ROOT/n)['name_input'] for n in slus_recipes})
+    # Publish the completed index once. An intermediate index would rewrite
+    # identical final bytes on every full enumeration.
     source_deps = []
     metadata = sorted(rel(p) for d in ('config/link_graph', 'config/link', 'config/overlays')
                       for p in (ROOT/d).rglob('*') if p.is_file() and p.suffix in ('.json', '.jsonl', '.yaml', '.txt'))
@@ -1008,18 +1131,46 @@ def _generate():
     metadata += ['ledger/modules.jsonl']
     metadata += ['config/frozen_raw.jsonl', 'ledger/rows.jsonl', 'ledger/layout.jsonl', 'ledger/layout_inline.jsonl', 'config/names.tsv']
     metadata += sorted(rel(p) for p in (ROOT/'ledger/splits').glob('*.jsonl'))
-    out += ['build/build.mk: ' + ' '.join(sorted(set(source_deps + metadata + pipeline))) + '\n']
+    # Bind the remake inputs into the file's bytes. A real metadata change then
+    # acknowledges itself without an unconditional mtime-only touch.
+    remake_inputs = sorted(set(source_deps + metadata + pipeline))
+    out += ['# Remake inputs SHA-256: ' + sha(json.dumps(hash_inputs(remake_inputs), sort_keys=True).encode()) + '\n']
+    out += ['build/build.mk: ' + ' '.join(remake_inputs) + '\n']
     from tools.gate.source_layout import slus_source
     slus_sources = [rel(slus_source(source, ROOT)) for m in read(ROOT/'config/slus_modules.json')['modules']
                     for source in [m['source']]+[a['source'] for a in m['members']]]
     index['inputs'] = sorted(set(slus_sources + metadata + pipeline + headers + ['config/slus_modules.json', 'config/slus_partitions.json', 'ledger/tu_layout.jsonl', 'ledger/layout_inline.jsonl', 'ledger/splits/slus.build.ninja'] + [r['source'] for r in recipes.values()] + [d for r in recipes.values() for d in r['dependencies'] if d.startswith('src/')] + [t['source'] for t in attestation['tus'].values()] + [a['source'] for m in modules.values() for a in M.all_members(m)]))
     index['inputs'] = sorted(set(index['inputs']) | set(graph.manifest.get('inputs', {})) |
-                             {d for r in recipes.values() for d in r['dependencies'] if d.startswith('toolchain/')})
+                             {d for r in recipes.values() for d in r['dependencies'] if d.startswith('toolchain/')} |
+                             {d for n in slus_recipes for d in read(ROOT/n)['dependencies'] if d.startswith('toolchain/')} |
+                             set(index['name_inputs']) | set(compiletools))
     put(STATE/'index.json', index)
-    # Always refresh the makefile timestamp after regeneration, even if its text is stable.
     write(ROOT/'build/build.mk', ''.join(out))
-    (ROOT/'build/build.mk').touch()
     print(f'Generated {len(outputs)} images, {len(recipes)} overlay recipes, {slus_cc} SLUS C recipes', flush=True)
+
+
+def compiler_imports():
+    if COMPILE_IMPORTS is None:
+        return []  # Library callers/tests do not run a compile subcommand.
+    candidates = set(COMPILE_IMPORTS)
+    candidates.update(getattr(m, '__file__', '') or '' for m in list(sys.modules.values()))
+    expected = {str((ROOT/n).resolve()): n for n in read(STATE/'compiletools.list')}
+    actual = set()
+    for filename in candidates:
+        if not filename or not filename.endswith('.py'):
+            continue
+        path = Path(filename).resolve()
+        if path.is_relative_to(ROOT/'build_ovl/tools'):
+            if str(path) not in expected:
+                raise ValueError('compile import missing from compiletools: ' + rel(path))
+            suffix = path.relative_to(ROOT/'build_ovl/tools')
+            options = [ROOT/'tools/gate'/suffix, ROOT/'tools'/suffix]
+            path = next((p.resolve() for p in options if p.is_file()), path)
+        if path.is_relative_to(ROOT/'tools'):
+            if str(path) not in expected:
+                raise ValueError('compile import missing from compiletools: ' + rel(path))
+            actual.add(expected[str(path)])
+    return sorted(actual)
 
 
 def compile_one(path):
@@ -1028,7 +1179,8 @@ def compile_one(path):
     target.parent.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, TMPDIR=str(STATE/'tmp'))
     (STATE/'tmp').mkdir(exist_ok=True)
-    for key in ('AZURE_MASPSX', 'AZURE_MASPSX_COMPANION', 'MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE'):
+    for key in ('AZURE_MASPSX', 'AZURE_MASPSX_COMPANION', 'MASPSX_NORETURN_FILE', 'MASPSX_SIBCALL_FILE',
+                'CCPROC_CONFIG_ROOT', 'CCPROC_CONFIG_TABLES'):
         env.pop(key, None)
     env.update({k: str(ROOT/v) for k, v in spec['env'].items()})
     temporary = target.with_suffix('.tmp.o')
@@ -1054,8 +1206,13 @@ def compile_one(path):
             live_path = target.with_suffix('.noreturn.txt')
             write(live_path, '\n'.join(sorted(names)) + '\n')
             env['MASPSX_NORETURN_FILE'] = str(live_path)
-    if spec.get('assembler') == 'genuine_aspsx_verified':
-        build_native(spec, temporary)
+    if spec.get('name_input'):
+        with name_trace(ROOT/spec['name_input']) as trace:
+            env['CCPROC_NAMES_TRACE'] = trace
+            if spec.get('assembler') == 'genuine_aspsx_verified':
+                build_native(spec, temporary)
+            else:
+                run([ROOT/spec['wrapper'], ROOT/spec['source'], temporary, *spec['args']], env=env)
     else:
         run([ROOT/spec['wrapper'], ROOT/spec['source'], temporary, *spec['args']], env=env)
     if 'module' in spec and spec.get('assembler') != 'genuine_aspsx_verified':
@@ -1071,11 +1228,15 @@ def compile_one(path):
         actual = [(s['name'], s['size']) for s in M.sections(temporary) if s['flags'] & 2 and s['size'] and s['name'] not in M.META]
         if actual != expected:
             raise ValueError('native payload differs: ' + m['key'])
+    # The successful compile publishes its witness after the assembler exits.
+    # Its product must acknowledge that dependency's publication time.
+    temporary.touch()
     temporary.replace(target)
     deps = [p for p in spec.get('dependencies', []) if p != rel(path)]
     put(target.with_suffix('.proof.json'), dict(object_sha256=sha(target.read_bytes()),
         recipe_sha256=sha(Path(path).read_bytes()), inputs=hash_inputs(deps),
-        assembler=spec.get('assembler', 'maspsx' if spec['wrapper'].endswith('cc.sh') else 'gnu_as')))
+        assembler=spec.get('assembler', 'maspsx' if spec['wrapper'].endswith('cc.sh') else 'gnu_as'),
+        compiler_imports=compiler_imports()))
     print('CC' if spec['wrapper'].endswith('cc.sh') else 'AS', spec['output'], spec['source'], flush=True)
 
 
@@ -1107,7 +1268,45 @@ def frozen_lists(gate):
         linklist.load = original
 
 
+def projection_dependency(home, key, records):
+    selected = records.get(home, [])
+    if len(selected) != 1:
+        raise ValueError('projection has no unique inline provenance')
+    path = STATE/'projections'/(key+'.json')
+    put(path, selected)
+    return rel(path)
+
+
+def read_json_lines(path):
+    return [json.loads(line) for line in Path(path).read_text().splitlines() if line.strip()]
+
+
 def image_one(path):
+    spec = read(path)
+    gate = load_gate(ROOT)
+    original = gate.renamed_symbols
+    names = name_inputs.table(ROOT/'config/names.tsv')
+    tokens = set()
+    class Lookups(dict):
+        def get(self, key, default=None):
+            tokens.add(key)
+            return super().get(key, default)
+    lookups = Lookups(names)
+    gate.renamed_symbols = lambda: lookups
+    try:
+        _image_one(path)
+    finally:
+        gate.renamed_symbols = original
+    name_inputs.write(ROOT/spec['name_input'], dict(schema=1, tokens=sorted(tokens),
+                                                   rows=name_inputs.project(tokens, names), sets={}))
+    origin_path = STATE/'origins'/(spec['tag']+'.json')
+    origin = read(origin_path)
+    origin['name_input_sha256'] = sha((ROOT/spec['name_input']).read_bytes())
+    put(origin_path, origin)
+    (ROOT/spec['output']).touch()  # Acknowledge this link's name witness.
+
+
+def _image_one(path):
     spec = read(path)
     gate = load_gate(ROOT)
     import linklist
@@ -1321,6 +1520,18 @@ def check():
     for kind in index.get('stamp_kinds', ('headers', 'pipeline', 'linkinputs')) if 'graph_attestation_sha256' in index else ():
         if (STATE/(kind+'.ok')).read_text() != stamp(kind):
             raise ValueError('stale ' + kind + ' stamp: inputs changed since the build; run make')
+    current_names = name_inputs.table(ROOT/'config/names.tsv')
+    for name in index.get('name_inputs', ()):
+        name_inputs.verify(ROOT/name, current_names, ROOT)
+    for name in index.get('slus_recipes', ()):
+        spec_path = ROOT/name
+        recipe = read(spec_path)
+        obj = ROOT/recipe['output']
+        proof = read(obj.with_suffix('.proof.json'))
+        if (proof['object_sha256'] != sha(obj.read_bytes())
+                or proof['recipe_sha256'] != sha(spec_path.read_bytes())
+                or proof['inputs'] != hash_inputs(recipe['dependencies'])):
+            raise ValueError('stale SLUS compile proof: ' + name)
     inputs_before = hash_inputs(index.get('inputs', []))
     blobs = {}
     for family, spec in graph.files.items():
@@ -1369,7 +1580,8 @@ def check():
                     proof_cache[key] = proof
                 modes[proof_cache[key]['assembler']] += 1
             origin = read(STATE/'origins'/(spec['image'].replace('/', '_')+'.json'))
-            if (origin['recipes'] != {u['recipe']: proof_cache[u['recipe']]['object_sha256'] for u in read(image_path)['units']}
+            if ((recipe_name_input := read(image_path).get('name_input')) and origin.get('name_input_sha256') != sha((ROOT/recipe_name_input).read_bytes())
+                    or origin['recipes'] != {u['recipe']: proof_cache[u['recipe']]['object_sha256'] for u in read(image_path)['units']}
                     or origin['link_inputs_sha256'] != sha((STATE/'linkinputs.ok').read_bytes())):
                 raise ValueError('stale image: ' + spec['image'] + ' was not linked from the current objects/link inputs; run make')
         else:
@@ -1408,8 +1620,9 @@ def check():
 
 
 def main():
+    global COMPILE_IMPORTS
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['bootstrap', 'generate', 'compile', 'image', 'check', 'slus', 'slus_script', 'stamp'])
+    parser.add_argument('action', choices=['bootstrap', 'generate', 'compile', 'image', 'check', 'slus', 'slus_script', 'stamp', 'slus_compile'])
     parser.add_argument('spec', nargs='?')
     args = parser.parse_args()
     if os.environ.get('MKBUILD_TRACE'):
@@ -1421,14 +1634,26 @@ def main():
     temporary_directory.mkdir(parents=True, exist_ok=True)
     os.environ['TMPDIR'] = str(temporary_directory)
     tempfile.tempdir = str(temporary_directory)
-    if args.action in ('compile', 'image', 'stamp'):
-        {'compile': compile_one, 'image': image_one, 'stamp': write_stamp}[args.action](args.spec)
+    if args.action in ('compile', 'slus_compile'):
+        COMPILE_IMPORTS = set()
+        def observe_exec(event, args):
+            if event == 'exec':
+                COMPILE_IMPORTS.add(args[0].co_filename)
+        sys.addaudithook(observe_exec)
+    if args.action in ('compile', 'image', 'stamp', 'slus_compile'):
+        {'compile': compile_one, 'image': image_one, 'stamp': write_stamp, 'slus_compile': slus_compile_one}[args.action](args.spec)
     else:
         if args.action == 'generate':
             if args.spec not in (None, 'full'):
                 parser.error('generate accepts only the optional full selector')
+            bootstrap()
+            from tools.build.export_gate_tools import verify
+            verify(ROOT, ROOT/'build_ovl')
             generate(full=args.spec == 'full')
         else:
+            if args.action == 'check':
+                from tools.build.export_gate_tools import verify
+                verify(ROOT, ROOT/'build_ovl')
             {'bootstrap': bootstrap, 'check': check, 'slus': slus_copy, 'slus_script': slus_script}[args.action]()
 
 

@@ -4,6 +4,15 @@
 # (tools/setup.sh provisions them).  Everything generated (asm/, assets/, build/, build.ninja,
 # config/generated) stays inside build_slus/ (gitignored).
 set -euo pipefail
+
+# A content-identical view link keeps its inode and timestamp.
+link_if_changed() {
+  local link_target="$1" link_destination="$2"
+  if [ -L "$link_destination" ] && [ "$(readlink "$link_destination")" = "$link_target" ]; then
+    return
+  fi
+  ln -sfn "$link_target" "$link_destination"
+}
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 B="$ROOT/build_slus"; mkdir -p "$B/config"
 if [ -L "$B/raw" ]; then echo "unsafe symlink: $B/raw" >&2; exit 1; fi
@@ -12,7 +21,7 @@ if [ -d "$B/raw" ]; then rmdir "$B/raw" 2>/dev/null || true; fi
 for need in toolchain/compilers/gcc-2.7.2/cc1 .venv/bin/splat baserom/slus_006.14 tools/maspsx/maspsx.py; do
   [ -e "$ROOT/$need" ] || { echo "missing $need: run tools/setup.sh" >&2; exit 1; }
 done
-ln -sfn "$ROOT/config/frozen_raw.jsonl" "$B/config/frozen_raw.jsonl"
+link_if_changed "$ROOT/config/frozen_raw.jsonl" "$B/config/frozen_raw.jsonl"
 # A directory symlink makes src/../build resolve outside this build root.
 # Active partition aggregators include generated bodies there, so expose their
 # canonical files through a managed real directory (as SlusView already does).
@@ -49,7 +58,9 @@ if active:
         entry = view / name
         if not entry.is_symlink():
             entry.symlink_to(canonical / name)
-    marker.write_text("canonical per-file symlinks for SLUS partitions\n")
+    text = "canonical per-file symlinks for SLUS partitions\n"
+    if not marker.exists() or marker.read_text() != text:
+        marker.write_text(text)
 else:
     if view.is_dir() and not view.is_symlink():
         for entry in view.iterdir():
@@ -59,18 +70,18 @@ else:
         view.symlink_to(canonical)
     marker.unlink(missing_ok=True)
 PY_SRC_VIEW
-ln -sfn "$ROOT/include"       "$B/include"
-ln -sfn "$ROOT/tools/build"   "$B/tools"
-ln -sfn "$ROOT/toolchain"     "$B/toolchain"
-ln -sfn "$ROOT/.venv"         "$B/.venv"
-ln -sfn "$ROOT/baserom"       "$B/baserom"
-for f in slus_006.14.yaml slus_006.14.symbols.txt slus_006.14.sha1 names.tsv slus_modules.json slus_006.14.c_syms.txt; do ln -sfn "$ROOT/config/$f" "$B/config/$f"; done
+link_if_changed "$ROOT/include"       "$B/include"
+link_if_changed "$ROOT/tools/build"   "$B/tools"
+link_if_changed "$ROOT/toolchain"     "$B/toolchain"
+link_if_changed "$ROOT/.venv"         "$B/.venv"
+link_if_changed "$ROOT/baserom"       "$B/baserom"
+for f in slus_006.14.yaml slus_006.14.symbols.txt slus_006.14.sha1 names.tsv slus_modules.json slus_006.14.c_syms.txt; do link_if_changed "$ROOT/config/$f" "$B/config/$f"; done
 plan="$B/config/slus_partitions.json"
 if [ -f "$ROOT/config/slus_partitions.json" ]; then
   if [ -e "$plan" ] && [ ! -L "$plan" ]; then
     echo "refusing to replace $plan" >&2; exit 1
   fi
-  ln -sfn "$ROOT/config/slus_partitions.json" "$plan"
+  link_if_changed "$ROOT/config/slus_partitions.json" "$plan"
 elif [ -L "$plan" ]; then
   rm "$plan"
 elif [ -e "$plan" ]; then

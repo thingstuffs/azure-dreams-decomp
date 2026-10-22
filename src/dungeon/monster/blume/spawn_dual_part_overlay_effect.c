@@ -45,6 +45,7 @@ extern u8 D_801753BC[];
 extern u8 D_80175404[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Blume with default frames at D_801753BC, applies spawn flags, and attempts valid tile placement. */
 void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     s32 kind;

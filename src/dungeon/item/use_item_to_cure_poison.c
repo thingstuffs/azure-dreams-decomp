@@ -27,7 +27,7 @@ void display_item_status_message();            /* extern */
 s32 feed_actor_restore_mp();            /* extern */
 void create_timed_paired_particle_emitter();            /* extern */
 extern extern M2C_UNK D_80083460[3];
-extern M2C_UNK poison_cure_text;
+extern u8 poison_cure_text[25];
 
 
 typedef struct S_800BD45C_0_pre {

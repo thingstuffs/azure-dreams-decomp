@@ -50,6 +50,8 @@ extern void create_primitive_state_object(void *, void *, void *);
 extern u8 D_80170E94;
 
 /* Advances the actor's movement state, height arc, and return to its tile. */
+/* Checks terrain ahead, arcs Golem toward a target or tile, resolves damage, then returns to its tile and
+ * spends MP. */
 void advance_actor_height_arc(void *action, void *motion, void *record, ActorRecord *actor)
 {
     u8 state;

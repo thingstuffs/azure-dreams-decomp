@@ -5,6 +5,8 @@ extern void advance_sprite_animation_and_textures(void *object);
 extern void select_sprite_entry(void *object, s32 kind, s32 value);
 
 /* Advances animation and motion, updates the sprite frame, and marks completion at step eight. */
+/* Animates an eight-step effect, moves it during the first five steps, switches palette rows, and removes
+ * it at step eight. */
 void func_80175480(u16 *anim_state, u32 *motion, u16 *sprite) {
     s32 step_bits;
     s32 frame;

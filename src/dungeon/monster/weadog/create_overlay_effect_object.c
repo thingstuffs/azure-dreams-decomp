@@ -47,6 +47,8 @@ extern u8 D_80174EB8[];
 extern u8 D_80174F00[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Weadog with default frames at D_80174EB8, applies spawn flags, and attempts valid tile
+ * placement. */
 void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     s32 kind;

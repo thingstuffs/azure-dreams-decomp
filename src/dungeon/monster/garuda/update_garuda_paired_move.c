@@ -130,6 +130,7 @@ extern u8 D_801748F0[];
 extern u8 D_801748F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
+/* Relocates Garuda and its partner to adjacent tiles of equal height, restores occupancy, and spends MP. */
 void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_81008664_4 *sprite, void *entity) {
     u8 **direction_slot;
     S_func_81008664_5 *partner_motion;

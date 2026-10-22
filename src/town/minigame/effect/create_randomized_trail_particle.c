@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_projectile_views.h"
+#include "sdk/libc.h"
 
 #ifndef NULL
 #define NULL 0
@@ -47,7 +48,6 @@ typedef struct S_800267DC_4 {
 
 
 void register_node();
-s32 rand();
 
 extern u8 D_800268DC[];
 extern u8 D_800F1564[];

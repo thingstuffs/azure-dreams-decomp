@@ -87,6 +87,8 @@ extern u8 D_8016E4A4[];
 extern Data12 D_80173B4C;
 
 /* Advances the color fade and creates two rows of animated textured geometry. */
+/* Fades the effect color while creating two textured rows with copied vertices and cycling texture
+ * coordinates. */
 void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
 {
     s32 bottom_y;

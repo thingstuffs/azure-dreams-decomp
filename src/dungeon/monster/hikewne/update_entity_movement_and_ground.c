@@ -54,6 +54,8 @@ typedef struct S_80170DA8_2 {
 } S_80170DA8_2;   /* state in update_entity_movement_and_ground */
 
 /* Update entity behavior, movement, directional animation, and ground height. */
+/* Runs Hikewne state callbacks from D_80174168, alternates its bobbing idle frames, and resolves ground
+ * contact. */
 void update_entity_movement_and_ground(void *entity, void *motion, void *sprite)
 {
     void *entity_state = entity;

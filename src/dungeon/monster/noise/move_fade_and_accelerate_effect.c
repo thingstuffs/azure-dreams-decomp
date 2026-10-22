@@ -43,6 +43,8 @@ void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVe
    the shared scale/divisor loads before scheduling; the stores then schedule late. */
 
 /* Spawns an effect at an offset from its parent with randomized velocity. */
+/* Creates an offset Noise particle with randomized velocity, a two-step X/Y displacement, and copied
+ * effect parameters. */
 void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unused, s16 x_offset,
     s16 y_offset, s16 z_offset) {
     register s16 saved_effect_id = effect_id;
@@ -81,6 +83,7 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
 }
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+/* Creates Noise with default frames at D_80174E88, applies spawn flags, and attempts valid tile placement. */
 void *create_actor_with_direction_behavior(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;

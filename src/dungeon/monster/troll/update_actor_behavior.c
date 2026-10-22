@@ -63,6 +63,8 @@ extern M2C_UNK D_80175E8C;
 extern M2C_UNK D_80175E94;
 
 /* Updates actor animation, facing, and actions from its dungeon state. */
+/* Selects Troll's movement, attacks, spells, and turn processing using separate sprite tables for item
+ * kinds 13 through 15. */
 void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *state) {
     s32 path_info;
     u8 *next_row;

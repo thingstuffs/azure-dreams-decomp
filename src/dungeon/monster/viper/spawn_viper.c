@@ -44,6 +44,7 @@ extern u8 D_80174A7C[];
 extern u8 D_80174AD4[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Viper with default frames at D_80174A7C, applies spawn flags, and attempts valid tile placement. */
 void *func_80170894(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;

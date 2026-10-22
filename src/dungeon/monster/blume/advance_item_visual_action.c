@@ -71,6 +71,8 @@ typedef struct S_801737C8_5 {
    /* coords in advance_item_visual_action */
 
 /* Process item use, spawn its visual effect, and finish the action when ready. */
+/* Starts a targeted spell, emits randomly colored sprite particles during casting, then restores movement
+ * and status. */
 void advance_item_visual_action(void *controller, ObjectPosition *motion, void *actor, void *object)
 {
     u8 *item_slot;

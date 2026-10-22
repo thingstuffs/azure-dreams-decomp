@@ -99,6 +99,8 @@ extern void spend_actor_mp(void *, s32);
 extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 
 /* Updates the actor's approach, descent, and return sequence. */
+/* Spends MP to descend with the player, then saves party state for a scene change or returns with a
+ * message. */
 void update_actor_approach_descent_return(void *action, void *motion, void *sprite, void *actor)
 {
     s32 slot;

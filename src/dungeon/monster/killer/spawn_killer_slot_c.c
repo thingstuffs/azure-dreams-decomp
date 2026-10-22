@@ -57,6 +57,8 @@ void *spawn_killer_slot_c(s16, s32, s32, s16)
 ;
 
 /* Allocates and initializes a dungeon object with flags and placement parameters. */
+/* Creates Killer with default frames at D_8015C038, applies spawn flags, and attempts valid tile
+ * placement. */
 void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
     S_80FF3000_1 *object_state;
     void *object;

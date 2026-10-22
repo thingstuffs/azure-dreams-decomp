@@ -215,12 +215,12 @@ extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u1
 s16 find_directional_entry_and_clear_flag();
 s32 prepare_quarter_damage_return();
 s32 count_occupied_entity_slots();
-extern u8 D_800E0D7B[];
-extern u8 D_800E0D92[];
-extern u8 D_800E0D9E[];
-extern u8 D_800E0DB8[];
-extern u8 D_800E0DDD[];
-extern u8 D_800E0DEA[];
+extern u8 D_800E0D7B[23];
+extern u8 D_800E0D92[12];
+extern u8 D_800E0D9E[26];
+extern u8 D_800E0DB8[24];
+extern u8 D_800E0DDD[13];
+extern u8 D_800E0DEA[11];
 extern ActiveEntry floor_objects[32];
 
 typedef struct S_8009C12C_0 {

@@ -443,10 +443,10 @@ extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u1
 extern u8 species_base_stats[];
 extern s32 entity_level_thresholds[];
 extern u8 species_growth_table[];
-extern u8 D_800E098B[];
-extern u8 D_800E099A[];
-extern u8 D_800E09B2[];
-extern u8 D_800E09BB[];
+extern u8 D_800E098B[15];
+extern u8 D_800E099A[24];
+extern u8 D_800E09B2[9];
+extern u8 D_800E09BB[18];
 
 /* Lower an entity by one level, adjust its stats and spells, and optionally show a message. */
 s32 lower_entity_level(void *entity_data, s32 show_message) {
@@ -1113,11 +1113,11 @@ s32 distribute_experience_awards();                          /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 extern void *monster_species_table;
 
-extern u8 D_800E09CD[];
-extern u8 D_800E09D9[];
-extern u8 D_800E09E6[];
-extern u8 D_800E09EE[];
-extern u8 D_800E09FB[];
+extern u8 D_800E09CD[12];
+extern u8 D_800E09D9[13];
+extern u8 D_800E09E6[8];
+extern u8 D_800E09EE[13];
+extern u8 D_800E09FB[8];
 
 
 typedef struct S_800A2FE0_2 {

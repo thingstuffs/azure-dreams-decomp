@@ -64,6 +64,7 @@ extern u8 D_8014E98C[];
 /* These text-local table entries have no catalog symbols. */
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+/* Creates Ifrit with default frames at D_80150820, applies spawn flags, and attempts valid tile placement. */
 void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;

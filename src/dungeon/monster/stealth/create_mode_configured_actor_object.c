@@ -3,6 +3,8 @@
 #include "dungeon/monster/stealth/create_mode_configured_actor_object.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Stealth with frames at D_8016DD30; a random display variant changes sprite flags and unlinks the
+ * node. */
 void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;

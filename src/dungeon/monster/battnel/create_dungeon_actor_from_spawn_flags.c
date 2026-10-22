@@ -47,6 +47,8 @@ extern u8 D_8016DD0C[];
 extern u8 D_8016DD4C[];
 
 /* Creates a dungeon actor and initializes its parts and state from the spawn flags. */
+/* Creates Battnel with default frames at D_8016DD0C, applies spawn flags, and attempts valid tile
+ * placement. */
 void *create_dungeon_actor_from_spawn_flags(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
 {
     s32 kind;

@@ -96,6 +96,8 @@ typedef struct S_8017450C_5 {
 } S_8017450C_5;   /* cleanup_base in update_monster_staged_motion */
 
 /* Update the monster's staged motion, choose a nearby destination, and clean up its actor. */
+/* Animates Baloon's spinning defeat and fall, searches nearby tiles, awards experience, and removes the
+ * actor. */
 void update_monster_staged_motion(void *state, void *motion, void *monster, void *actor_ptr)
 {
     LocalVector direction;

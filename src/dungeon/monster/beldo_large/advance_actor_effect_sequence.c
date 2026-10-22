@@ -60,6 +60,8 @@ extern u8 *D_80175DC4;
 extern s16 beldo_script_timer;
 
 /* Advances the entity action script and updates its animation, facing, and timed events. */
+/* Interprets timed direction commands, relative script jumps, and form changes while updating actor status
+ * and MP. */
 s32 advance_actor_effect_sequence_2(Entity *entity, s32 action_value, Aux *aux)
 {
     s32 angle_out[2];

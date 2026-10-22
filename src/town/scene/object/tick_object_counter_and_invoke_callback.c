@@ -1,9 +1,9 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene.h"
 
 
-extern s32 check_progress_against_callback(void);
 extern u32 D_8001C368[];
 
 /* Decrements the object's counter and invokes a callback if the object check succeeds. */

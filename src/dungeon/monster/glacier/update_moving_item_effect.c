@@ -99,6 +99,8 @@ extern s32 find_first_entry_matching_keys(void *, s32, s32, s16);
 extern Pair16 D_8017610C[];
 
 /* Update a moving effect, its pushed objects, and its collision and end animations. */
+/* Moves an effect and pushed actors along tiles, checks terrain and occupants, and applies damage when
+ * blocked. */
 void update_moving_item_effect(S_func_810332A4_1 *effect, S_func_810332A4_2 *motion, S_func_810332A4_3 *sprite)
 {
     u16 collision_flags;

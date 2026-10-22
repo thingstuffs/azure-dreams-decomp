@@ -45,6 +45,8 @@ extern void register_node(void *, void *);
 extern s32 rand(void);
 
 /* Creates an object at a randomized offset from its parent and initializes its mode and state. */
+/* Creates a parent-linked trail particle with mode-specific callbacks and jitter ranges, copying the
+ * supplied state values. */
 void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16 mode_in)
 {
     void *object;

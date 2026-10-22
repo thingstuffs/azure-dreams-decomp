@@ -103,6 +103,8 @@ extern u8 D_80176490[];
 extern u8 D_80176498[];
 
 /* Updates an actor effect through shrinking, fading, and restoring its sprite. */
+/* Starts the selected spell, shrinks and swaps the sprite, fades it out, then restores its appearance and
+ * movement. */
 void update_shrinking_fading_effect(void *anim, void *transform_arg, void *sprite, ActorRecord *actor)
 {
     u16 offset[3];

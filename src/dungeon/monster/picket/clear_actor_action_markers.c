@@ -50,6 +50,8 @@ extern s32 D_8016EFE4[];
 
  s32 clear_actor_action_markers(void *, void *) ;
 /* Selects an item from the adjacent tile or target inventory and transfers it for processing. */
+/* Attempts to take an item from the tile ahead or a neighboring actor's inventory, rejecting protected
+ * items and slots. */
  s32 clear_actor_action_markers(void *origin, void *actor)
 {
     u8 *origin_bytes = (u8 *)origin;

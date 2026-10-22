@@ -3,6 +3,8 @@
 #include "dungeon/monster/univern/create_actor_child_display.h"
 
 /* Allocates and initializes an object and its child display items. */
+/* Creates Univern with frames at D_80150494 and a directional child display linked to the actor's sprite
+ * resources. */
 void *create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword)
 {
     void *root;

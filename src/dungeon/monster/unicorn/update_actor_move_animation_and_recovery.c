@@ -80,6 +80,8 @@ extern u8 D_80174D9C[];
 extern u8 D_80174DA4[];
 
 /* Updates the actor's move, animation, and recovery state. */
+/* Animates Unicorn's vertical hop while casting a targeted spell with two effect rows, then restores idle
+ * and status. */
 void update_actor_move_animation_and_recovery(void *action, void *motion, void *sprite, void *actor)
 {
     u8 *move_id;

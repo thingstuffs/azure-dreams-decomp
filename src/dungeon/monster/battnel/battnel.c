@@ -48,6 +48,8 @@ extern u8 D_8015BD0C[];
 extern u8 D_8015BD4C[];
 
 /* Allocates a dungeon object and initializes its flags, parts, and actor state. */
+/* Creates Battnel with default frames at D_8015BD0C, applies spawn flags, and attempts valid tile
+ * placement. */
 void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, s16 part_value)
 {
     s32 kind;

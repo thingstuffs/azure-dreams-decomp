@@ -1126,7 +1126,7 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
             void *target_actor;
             CB_80172BCC_S_func_80C953CC_3 *target_entity;
 
-            (*(u16 *)((u8 *)work + 0x98)) &= 0xFF7F;
+            (work->unk_98) &= 0xFF7F;
             if ((s8)alternate) {
                 actor->unk_60 = target_actor = primary_actor_record;
                 target_entity = *(CB_80172BCC_S_func_80C953CC_3 **)((u8 *)target_actor - 0x14);
@@ -1165,7 +1165,7 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
                           entity->unk_25);
             active_actor = primary_actor_record;
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)active_actor + 0xA6))--;
+            (active_actor->unk_A6)--;
             advance_status_timers(actor);
             actor->unk_6D--;
             work->unk_8C = dispatch_actor_turn_and_motion;
@@ -1237,7 +1237,7 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
         if (entity->unk_2C != D_801752B4) {
             s32 direction;
 
-            (*(void **)((u8 *)entity + 0x2C)) = D_801752B4;
+            (entity->unk_2C) = D_801752B4;
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9;
             select_sprite_entry(entity, D_801752B4[direction & 7], 0);
         }
@@ -1652,7 +1652,7 @@ void fade_timed_primitive_effect(void *effect, s32 unused, void *primitive)
  * rotation. */
 void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale)
 {
-    void *effect;
+    ObjectNodeHeader * effect;
     CB_80173CFC_S_80173CFC_0 *effect_part;
     CB_80173CFC_S_80173CFC_1 *effect_data;
     CB_80173CFC_S_80173CFC_2 *effect_pos;
@@ -1661,16 +1661,16 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
     if (effect != 0) {
         effect_part = (u8 *)effect + 0x20;
         effect_part->unk_24 = 5;
-        (*(void * *)((u8 *)effect + 0x10)) = fade_timed_primitive_effect;
+        (effect->unk_10) = fade_timed_primitive_effect;
         register_node(effect, project_sprite_chain);
-        effect_data = (*(void * *)((u8 *)effect + 0xC));
+        effect_data = (effect->unk_0C);
         effect_data->unk_10 = 0x60;
         effect_data->unk_14 |= 0xC;
-        effect_pos = (*(void * *)((u8 *)effect + 8));
+        effect_pos = (effect->unk_08);
         effect_pos->unk_02 = source_pos->unk_00.at02_u16.v;
         effect_pos->unk_06 = source_pos->unk_04.at02_u16.v;
         effect_pos->unk_0A = source_pos->unk_0A - 0x28;
-        effect_data = (*(void * *)((u8 *)effect + 0xC));
+        effect_data = (effect->unk_0C);
         effect_data->unk_06 = 6;
         effect_data->unk_1E = scale;
         effect_data->unk_1C = scale;

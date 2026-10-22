@@ -38,21 +38,21 @@ typedef struct S_80170298_1 {
 /* Allocate a type 0x12 object, clear its state, and attach a copy of the default data. */
 void create_encounter_view_darkener(void)
 {
-    void *object;
+    ObjectNodeHeader * object;
     S_80170298_0 *axis_state;
     S_80170298_1 *data_state;
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
-        (*(void * *)((u8 *)object + 0x10)) = D_801701CC;
+        (object->unk_10) = D_801701CC;
         register_node(object, D_80044BB0);
 
-        axis_state = (*(void * *)((u8 *)object + 8));
+        axis_state = (object->unk_08);
         axis_state->unk_0A = 0;
         axis_state->unk_06 = 0;
         axis_state->unk_02 = 0;
 
-        data_state = (*(void * *)((u8 *)object + 0xC));
+        data_state = (object->unk_0C);
         data_state->unk_1E = 0;
         data_state->unk_1C = 0;
         data_state->unk_0E = 0;

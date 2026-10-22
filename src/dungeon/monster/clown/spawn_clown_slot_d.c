@@ -47,6 +47,7 @@ extern M2C_UNK D_8016220C;
 extern M2C_UNK D_8016225C;
 
 /* Create a dungeon actor and initialize its placement, flags, and behavior. */
+/* Creates Clown with default frames at D_8016220C, applies spawn flags, and attempts valid tile placement. */
 void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
     s32 unused_byte_neg_ba0;
     s32 unused_byte_21d8;

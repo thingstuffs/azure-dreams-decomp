@@ -172,6 +172,8 @@ extern void *beldo_script_node[3];
 extern void *D_80175DB8[16];
 
 /* Advances a scripted movement sequence and updates the sprite facing. */
+/* Runs Beldo's timed leaps, turns, and sprite effects, changes map flags, and saves party state for a
+ * scene change. */
 void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *sprite_in) {
     Table32 offset_table;
     Table32 direction_table;

@@ -13,7 +13,6 @@ typedef struct S_80083160_View {
     u8 pad0[0x1DC];
     S_8008E94C_Sub sub;
 } S_80083160_View;
-static s32 map_cell_address_at_tile();
 
 static s32 map_cell_address_at_tile(s32 tile_x, s32 tile_y)
 {

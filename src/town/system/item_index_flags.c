@@ -12,7 +12,6 @@ extern void copy_a_pointer_table_initializes_extra_data_tag_hex_13(void *a0, voi
 extern void unlink_scene_list_node(void *a0);
 extern void unlink_node_if_registered(void *a0);
 extern void func_80033D08(void *a0);
-static void update_the_data_set_local_global_flags();
 extern s32 get_item_chk();
 
 static void update_the_data_set_local_global_flags(void *object, void *update_data)

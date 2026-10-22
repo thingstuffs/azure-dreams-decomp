@@ -67,6 +67,8 @@ static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) 
 }
 
 /* Updates dungeon creature actions, facing direction, and animation. */
+/* Dispatches alternate Pulunpa's movement and target actions, handles turn processing, and restores its
+ * idle frames. */
 void update_creature_actions_and_animation(void *actor, s32 context, void *sprite, ActorRecord *creature) {
     s32 direction_aux;
     s32 status_flags;

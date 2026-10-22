@@ -1,10 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "sdk/libgte.h"
+#include "sdk/libc.h"
 
-s32 func_800644B8();                             /* extern */
-s32 func_80064584();                             /* extern */
-s32 rand();                                /* extern */
 void spawn_person_offset_effect(void *, s16);              /* extern */
 
 typedef struct {

@@ -55,6 +55,7 @@ static __inline__ s32 advance_phase(s32 phase, s32 layer)
 }
 
 /* Draw layered, wavy textured strips over the projected bounds of linked objects. */
+/* Projects linked objects into four layers of wavy textured strips and queues them at their average depth. */
 s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appearance)
 {
     s16 bounds[4];

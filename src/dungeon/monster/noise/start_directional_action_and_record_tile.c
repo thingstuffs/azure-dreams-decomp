@@ -33,6 +33,8 @@ void start_directional_action_and_record_tile(void *action_state, void *action_c
 }
 
 /* Advances a timed actor effect, spawning and positioning its visual object before cleanup. */
+/* Creates a timed Noise sprite at its target or source, waits 45 ticks, checks the target action, then
+ * spends MP. */
 void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *position, void *source_mesh, ActorRecord *actor)
 {
     T_801748D0_LocalFrame frame;

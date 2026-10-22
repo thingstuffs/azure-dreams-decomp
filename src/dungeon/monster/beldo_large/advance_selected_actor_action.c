@@ -54,6 +54,8 @@ extern u8 D_801739B0[];
 extern u8 D_801739B8[];
 
 /* Advances the selected actor action through targeting, animation, and cleanup. */
+/* Starts Beldo's targeted spell with an eight-tick casting wait, then restores the current form's idle
+ * frames and status. */
 void advance_selected_actor_action(void *action, ObjectPosition *transform, void *sprite, ActorRecord *actor)
 {
     u8 action_state;

@@ -1,11 +1,11 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
+#include "town/scene/resource.h"
 
 
 
 s32 func_80016CC4(void);
-void initialize_resources_assigns_pointer_lookup();                            /* extern */
 
 
 /* Run both setup routines and invoke the state callback with 0xE and 0x200. */

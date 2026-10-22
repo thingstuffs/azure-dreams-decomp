@@ -77,6 +77,8 @@ typedef struct S_80173A60_9 {
 } S_80173A60_9;   /* global in advance_actor_item_action */
 
 /* Advances an actor's item action, spawning its visual effect and restoring idle state. */
+/* Starts a targeted spell, creates a directional sprite copy at frame 3, signals it at frame 19, then
+ * updates status. */
 void advance_actor_item_action(void *actor_state, ObjectPosition *motion, void *sprite, void *actor)
 {
     s16 use_player;

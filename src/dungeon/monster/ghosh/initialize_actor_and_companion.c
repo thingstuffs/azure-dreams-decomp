@@ -78,6 +78,8 @@ extern u8 D_8017467C[];
 extern u8 *ghosh_actor_node;
 
 /* Initialize an actor and its companion, then return the actor work area. */
+/* Creates Ghosh and its companion one tile to the right, stores both nodes, and retains the companion's
+ * resources. */
 void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
 {
     u8 *work_copy;

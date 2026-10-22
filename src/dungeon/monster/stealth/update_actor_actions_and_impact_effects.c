@@ -49,6 +49,8 @@ void play_sound_if_enabled(s32);
 void spend_actor_mp(void *, s32);
 
 /* Advance the actor action through animation setup, delay, and completion. */
+/* Starts Stealth's directional attack, resolves damage after two ticks, then recenters, spends MP, and
+ * updates status. */
 void update_actor_actions_and_impact_effects(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_801728C4_2 *animation,
     S_func_801728C4_3 *actor) {
     u16 delay_ticks;
@@ -68,7 +70,7 @@ void update_actor_actions_and_impact_effects(S_func_801728C4_0 *action, S_func_8
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        *(void **)((u8 *)animation + 0x2C) = D_80173D58;
+        animation->unk_2C = D_80173D58;
         select_sprite_entry(animation,
             D_80173D58[((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7],
             0);

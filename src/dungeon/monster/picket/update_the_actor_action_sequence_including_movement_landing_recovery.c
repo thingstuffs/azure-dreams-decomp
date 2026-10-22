@@ -52,6 +52,8 @@ extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
 
 /* Updates the actor action sequence, including movement, landing, and recovery. */
+/* Starts a targeted spell with two effect groups, animates a backward leap and landing squash, then
+ * returns to its tile. */
 void update_the_actor_action_sequence_including_movement_landing_recovery(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u32 dir_offset;

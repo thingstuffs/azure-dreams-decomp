@@ -53,6 +53,8 @@ typedef struct S_80172A48_3 {
 } S_80172A48_3;   /* arg2 in advance_item_use_and_cleanup */
 
 /* Advance item use through effect activation, actor animation, and cleanup. */
+/* Starts a targeted spell, waits for loading, emits directional effects, and restores the actor after
+ * either sequence. */
 void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *actor, void *item)
 {
     register u8 *effect_slot;

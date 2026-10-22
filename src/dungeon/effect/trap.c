@@ -1355,7 +1355,7 @@ extern void display_fixed_item_action_message();
 extern void * spawn_randomized_particle_burst();
 s32 roll_threshold_effect_variant_b();        /* extern */
 void wrap_position_and_set_state_value();                         /* extern */
-extern u8 D_800E1C03[];
+extern u8 D_800E1C03[17];
 
 /* Checks the record and triggers the associated visual and sound effects on success. */
 s32 check_trap_record_and_trigger_effects(void *record_data) {
@@ -1399,7 +1399,7 @@ extern void * spawn_randomized_particle_burst();
 extern s32 roll_threshold_effect_variant_a();
 extern void wrap_position_and_set_state_value();
 extern s32 D_800DCF1C;
-extern u8 D_800E1C14[];
+extern u8 D_800E1C14[17];
 
 
 

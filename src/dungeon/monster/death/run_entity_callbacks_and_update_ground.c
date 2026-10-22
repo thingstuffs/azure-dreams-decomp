@@ -34,6 +34,8 @@ typedef struct S_801653A8_2 {
 } S_801653A8_2;   /* base in run_entity_callbacks_and_update_ground */
 
 /* Runs entity callbacks and updates motion, directional animation, and ground height. */
+/* Runs Death state callbacks from D_801686A0, updates sprite facing and height offsets, and resolves
+ * ground contact. */
 void run_entity_callbacks_and_update_ground(void *entity, ObjectPosition *motion, void *sprite)
 {
     void *entity_base = entity;

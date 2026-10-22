@@ -3,6 +3,8 @@
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
+#include "engine/runtime.h"
+#include "engine/util.h"
 
 typedef struct {
     s32 v[5];
@@ -72,9 +74,7 @@ extern void func_8002108C();
 extern void func_80021120();
 extern u8 D_80022FD8[];
 extern void func_80023DA0();
-extern void set_resident_bit();
 extern void select_record_entry_and_value();
-extern void func_8003E188();
 extern u8 *allocate_list_node();
 extern void register_node();
 extern s16 query_lowered_transform_position();
@@ -96,7 +96,7 @@ s32 initialize_keima_interface(void) {
 
     set_resident_bit(0x58D);
     set_resident_bit(0x58E);
-    func_8003E188(0xE, 0);
+    set_packed_2bit_flag(0xE, 0);
 
     obj = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {

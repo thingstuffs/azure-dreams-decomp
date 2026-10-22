@@ -27,6 +27,8 @@ typedef struct S_80173514_0 {
    /* arg1 in advance_timed_sprite_flashing_sequence */
 
 /* Advance a timed sprite flashing sequence and clean up the actor when it finishes. */
+/* Times Weadog's attack animation and damage around sprite pauses, then spends MP and restores the action
+ * callback. */
 void advance_timed_sprite_flashing_sequence(void *action, void *motion, void *sprite, ActorRecord *actor)
 {
     u8 state;

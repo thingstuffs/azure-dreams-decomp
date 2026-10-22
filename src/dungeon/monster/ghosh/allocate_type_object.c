@@ -36,23 +36,25 @@ typedef struct S_8016AD00_1 {
 } S_8016AD00_1;   /* part2 in allocate_type_12_object */
 
 /* Allocate a type 0x12 object and initialize its state and default data. */
+/* Creates a zero-sized black sprite at the origin with a copied 12-byte entry from D_80077818 and its
+ * update callbacks. */
 void allocate_type_12_object(void)
 {
-    void *object;
+    ObjectNodeHeader * object;
     S_8016AD00_0 *primary_state;
     S_8016AD00_1 *secondary_state;
 
     object = allocate_flagged_object_node(0x12);
     if (object != 0) {
-        (*(void * *)((u8 *)object + 0x10)) = D_8016ABC8;
+        (object->unk_10) = D_8016ABC8;
         register_node(object, D_80044BB0);
 
-        primary_state = (*(void * *)((u8 *)object + 8));
+        primary_state = (object->unk_08);
         primary_state->unk_0A = 0;
         primary_state->unk_06 = 0;
         primary_state->unk_02 = 0;
 
-        secondary_state = (*(void * *)((u8 *)object + 0xC));
+        secondary_state = (object->unk_0C);
         secondary_state->unk_1E = 0;
         secondary_state->unk_1C = 0;
         secondary_state->unk_0E = 0;

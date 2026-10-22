@@ -62,6 +62,8 @@ extern u8 D_801741F4[];
 extern u8 D_801741FC[];
 
 /* Advances the actor effect sequence, updating directional animation and its attached effect. */
+/* Animates status slot 1, processes MP and turn updates while active, and releases its linked sprite
+ * before restoring movement. */
 void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite, void *actor_state) {
     s32 actor_flags;
     s32 action_flags;

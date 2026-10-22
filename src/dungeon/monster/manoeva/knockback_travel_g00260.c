@@ -25,6 +25,8 @@ s32 check_adjacent_tile_height(s16 tile_x, s16 tile_y, s32 height, s16 direction
 }
 
 /* Find a reachable target tile and create an object with the source display and context. */
+/* Checks monster and resource limits, finds a reachable nearby tile, and creates a copied-sprite travel
+ * effect. */
 void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Source *source_arg, Context *context_arg) {
     Vec3s world_offset;
     Vec3s local_offset;

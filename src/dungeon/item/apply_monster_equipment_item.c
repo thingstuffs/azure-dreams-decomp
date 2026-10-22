@@ -53,8 +53,8 @@ s32 place_item_at_valid_floor_position(); /* extern */
 s32 feed_actor_restore_mp();
 extern M2C_UNK D_80089378;
 extern M2C_UNK D_8008937C;
-extern u8 D_800E13DA[];
-extern u8 D_800E13E9[];
+extern u8 D_800E13DA[15];
+extern u8 D_800E13E9[18];
 
 /* Applies an entity action to a target and updates the pending count. */
 s32 apply_monster_equipment_item(u8 *entity, u8 *target, s16 action, void *context) {

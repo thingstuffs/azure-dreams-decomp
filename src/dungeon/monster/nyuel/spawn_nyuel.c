@@ -47,6 +47,8 @@ extern void func_80174ED8(void);
 extern void func_80174F00(void);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+/* Creates Nyuel with spawn-mode flags and frames at func_80174ED8, then initializes its callbacks and tile
+ * placement. */
 void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;

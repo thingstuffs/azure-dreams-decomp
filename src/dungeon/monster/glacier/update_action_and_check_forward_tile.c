@@ -100,6 +100,8 @@ typedef struct S_801757E0_6 {
    /* transform in update_action_and_check_forward_tile */
 
 /* Update the action sequence, spawning particles and checking the tile ahead. */
+/* Emits particles, checks the tile ahead before creating a moving effect, spins while it runs, then spends
+ * MP. */
 void update_action_and_check_forward_tile(void *actor, void *motion, void *animation, ActorRecord *entity)
 {
     u16 offsets[3];

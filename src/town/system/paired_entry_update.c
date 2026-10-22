@@ -4,7 +4,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 void process_valid_entry_lookup(s32);
 /* extern */
-static void set_paired_entry_brightness();
 
 /* Sets one of two linked entries to RGB 0x80 and the other to 0x40 according to the source state. */
 static void set_paired_entry_brightness(void *object) {

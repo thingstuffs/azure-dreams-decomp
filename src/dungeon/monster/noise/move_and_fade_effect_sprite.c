@@ -57,6 +57,8 @@ typedef struct StackWork {
 
 
 /* Move, expand, and fade an effect sprite, marking it expired when its lifetime ends. */
+/* Moves, damps, expands, and fades the effect sprite, adjusting its draw depth against the stored origin
+ * and facing. */
 void move_and_fade_effect_sprite(void *effect, void *motion, void *sprite)
 {
     StackWork projection;

@@ -2,10 +2,9 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800AAE98_arg0.h"
 #include "records/Rec_func_800AB014_arg0.h"
+#include "town/person/person_record_history_g00592.h"
 
 s32 get_person_lookup_step();                          /* extern */
-void load_record_halfwords_3();          /* extern */
-void copy_person_table_value();             /* extern */
 s32 advance_person_lookup_value();                          /* extern */
 extern M2C_UNK D_800AB5C0;
 

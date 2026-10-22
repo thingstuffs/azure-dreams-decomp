@@ -1,11 +1,9 @@
 #include "common.h"
+#include "sdk/libgte.h"
 
 
 
 
-extern s32 func_800644B8();
-extern s32 func_80064584();
-extern s32 func_80065420();
 extern s32 copy_low_halfword_coordinates();
 
 typedef struct S_800A8CA8_0 {

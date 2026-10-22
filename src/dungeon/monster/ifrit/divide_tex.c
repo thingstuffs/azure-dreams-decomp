@@ -114,6 +114,8 @@ extern void transform_rotated_vertices();
 extern u8 D_8017087C[];
 
 /* Render linked items as shaded textured strips using projected bounds and a mirrored height profile. */
+/* Draws each linked effect as 23 shaded texture strips with a mirrored height profile and center
+ * displacement. */
 s32 render_linked_items_as_textured_strips(u8 *item_data)
 {
     u8 storage[0x80];

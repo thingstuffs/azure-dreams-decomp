@@ -70,17 +70,17 @@ typedef struct S_80169C1C_0 {
 /* Create and initialize an object at the global position. */
 void create_player_centered_sequence_effect(void)
 {
-    void *object;
+    ObjectNodeHeader * object;
     S_80169C1C_0 *sub_object;
     Vec3i *position;
 
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
         (*(s16 *)((u8 *)object + 0x38)) = 0;
-        (*(void * *)((u8 *)object + 0x10)) = D_80169754;
+        (object->unk_10) = D_80169754;
         register_node(object, project_sprite_chain);
 
-        sub_object = (*(void * *)((u8 *)object + 0xC));
+        sub_object = (object->unk_0C);
         sub_object->unk_10 = 0x20;
         sub_object->unk_06 = 0;
         sub_object->unk_14 |= 0xC;
@@ -90,7 +90,7 @@ void create_player_centered_sequence_effect(void)
         position->y = view_reference_entity.y.v;
         position->z = view_reference_entity.z.v;
 
-        sub_object = (*(void * *)((u8 *)object + 0xC));
+        sub_object = (object->unk_0C);
         sub_object->unk_1E = 0x1000;
         sub_object->unk_1C = 0x1000;
         sub_object->unk_0E = 0x80;
