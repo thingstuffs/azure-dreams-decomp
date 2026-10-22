@@ -153,7 +153,7 @@ s32 update_keima_minigame(MinigameState *game) {
         game->angle[0] = (s16 *)&base_object->unk_10;
         for (; object_index >= 0; object_index--) {
             init_object = game->node[object_index];
-            game->rec[object_index + 1] = init_object->unk_08;
+            game->rec[object_index + 1] = init_object->position;
             init_object_base = game->node[object_index];
             object_motion = (MinigameBody *)(init_object_base + 1);
             object_motion->unk_18 = motion_mode;

@@ -5,7 +5,7 @@
 extern void func_80016CC4(void);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
-extern s32 func_8001A8EC(s32);
+extern s32 town_table_contains_first_byte(s32);
 
 typedef void (*TownCallback)(s32, s32);
 
@@ -15,7 +15,7 @@ s32 update_indexed_entry_unless_current(void) {
     s32 status;
 
     func_80016CC4();
-    if (func_8001A8EC(0xB) != 0) {
+    if (town_table_contains_first_byte(0xB) != 0) {
         func_8001A554(F_sbs32_pad17);
     }
 

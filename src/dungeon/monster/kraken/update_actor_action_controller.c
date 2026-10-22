@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/object_node.h"
@@ -58,25 +59,10 @@ typedef struct S_8017086C_6 {
     u32 unk_98;
 } S_8017086C_6;   /* child in update_actor_action_controller */
 
-typedef struct S_8017086C_7 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    u16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x12];
-    u32 unk_28;
-} S_8017086C_7;   /* elem in update_actor_action_controller */
-
 typedef struct S_8017086C_8 {
     u8 pad_00[0xA4];
     void * unk_A4;
 } S_8017086C_8;   /* base in update_actor_action_controller */
-
-typedef struct S_8017086C_9 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8017086C_9;   /* ((S_8017086C_8 *)base)->unk_A4 in update_actor_action_controller */
 
 extern void *allocate_list_node();
 extern void register_node();
@@ -111,7 +97,7 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
     void *current;
     S_8017086C_8 *base;
     void *child_obj;
-    S_8017086C_7 *elem;
+    SpriteFrameState *elem;
     s32 count;
     register s32 i;
     u32 elem_offset;
@@ -194,14 +180,14 @@ void *update_actor_action_controller(s16 mode, s16 value_24, s16 value_25, s16 v
                     child_flags = ((S_8017086C_6 *)child)->unk_04;
                     ((S_8017086C_6 *)child)->unk_04 = child_flags | 0x8000;
                     child_arg = part_b->unk_28;
-                    elem_flags = elem->unk_14;
-                    elem->unk_10 = 96;
+                    elem_flags = elem->flags;
+                    elem->tpage_abr = 96;
                     elem->unk_28 = child_arg;
-                    elem->unk_14 = elem_flags | 0xC;
+                    elem->flags = elem_flags | 0xC;
 
-                    elem->unk_12 = part_b->unk_12 - 128;
-                    elem->unk_0C = ((u32)(0x00C0C0C0));
-                    ((S_8017086C_9 *)(base->unk_A4))->unk_10 = D_800D78C0;
+                    elem->clut = part_b->unk_12 - 128;
+                    elem->color.word = ((u32)(0x00C0C0C0));
+                    ((ObjectNodeHeader *)base->unk_A4)->unk_10 = D_800D78C0;
 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;

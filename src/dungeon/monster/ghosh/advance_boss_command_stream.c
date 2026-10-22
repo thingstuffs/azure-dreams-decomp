@@ -1,15 +1,6 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
-
-typedef struct S_80174320_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    union { void * s; u8 * u; } unk_2C;   /* accessed as both */
-} S_80174320_0;   /* entity in advance_boss_command_stream */
 
 typedef struct S_80174320_1 {
     u8 pad_00[0x1C];
@@ -29,7 +20,6 @@ typedef struct S_80174320_2 {
     s16 unk_0A;
 } S_80174320_2;   /* ctx in advance_boss_command_stream */
 
-
 extern void select_sprite_entry(void *, u8, s32);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void retain_spawn_resource(s16 entry_type, s16 entry_key);
@@ -37,9 +27,9 @@ extern void update_actor_status_and_mp(void *);
 extern void advance_boss_actor_movement_state(void *, void *, void *, void *);
 extern void create_linked_facing_sprite(u8, u8, s16);
 extern void create_boss_offset_effect(void);
-extern void update_boss_timed_animation(void *, void *, void *, void *);
+extern void update_boss_timed_animation(void *, void *, SpriteFrameState *, void *);
 
-extern u8 D_80174A2C[];
+#include "dungeon/monster/ghosh.h"
 extern u8 D_80174A9C[];
 extern u8 D_80174AA4[];
 extern u8 D_80174AAC[];
@@ -58,7 +48,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
     u8 *stream;
     void *call_obj;
     void *obj;
-    void *entity;
+    SpriteFrameState *entity;
     register s32 result;
     void *old_anim;
     u8 *anim;
@@ -70,7 +60,7 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
     call_obj = object_arg;
     entity = entity_arg;
     obj = object_arg;
-    if (((S_80174320_0 *)entity)->unk_14 & 0x40) {
+    if (entity->flags & 0x40) {
         return 0;
     }
 
@@ -118,76 +108,76 @@ s32 advance_boss_command_stream(void *object_arg, void *context_arg, void *entit
         update_boss_timed_animation(call_obj, context_arg, entity, obj);
         break;
     case 0x10:
-        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-        anim = D_80174A2C;
+        old_anim = entity->frameTable;
+        anim = ghosh_direction_frames;
         if (old_anim != anim) {
-            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            (entity->frameTable) = anim;
             select_sprite_entry(entity,
                 *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
         }
         break;
     case 0xF8:
-        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
+        old_anim = entity->frameTable;
         anim = D_80174AA4;
         if (old_anim != anim) {
-            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            (entity->frameTable) = anim;
             select_sprite_entry(entity,
                 *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
         }
         break;
     case 0xF0:
-        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
+        old_anim = entity->frameTable;
         anim = D_80174AAC;
         if (old_anim != anim) {
-            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            (entity->frameTable) = anim;
             select_sprite_entry(entity,
                 *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
                 0);
         }
         break;
     case 0xE8:
-        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
+        old_anim = entity->frameTable;
         anim = D_80174A9C;
         if (old_anim != anim) {
-            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            (entity->frameTable) = anim;
             select_sprite_entry(entity,
                 anim[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            create_linked_facing_sprite(((S_80174320_0 *)entity)->unk_24, ((S_80174320_0 *)entity)->unk_25,
+            create_linked_facing_sprite(entity->unk_24, entity->unk_25,
                 ((S_80174320_2 *)context_arg)->unk_0A);
             retain_spawn_resource(0x15, 1);
         }
         break;
     case 0xD8:
-        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
+        old_anim = entity->frameTable;
         anim = D_80174A9C;
         if (old_anim != anim) {
-            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            (entity->frameTable) = anim;
             select_sprite_entry(entity,
                 anim[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            ((S_80174320_0 *)entity)->unk_14 |= 0x800;
+            entity->flags |= 0x800;
         }
         break;
     case 0xD0:
-        entity_flag = ((S_80174320_0 *)entity)->unk_14 & 0x800;
-        ((S_80174320_0 *)entity)->unk_14 = entity_flag;
+        entity_flag = entity->flags & 0x800;
+        entity->flags = entity_flag;
         if (entity_flag != 0) {
-            ((S_80174320_0 *)entity)->unk_14 = 0;
+            entity->flags = 0;
         }
         break;
     case 0xE0:
-        anim = D_80174A2C + 0x50;
-        if (((S_80174320_0 *)entity)->unk_2C.u != anim) {
-            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+        anim = ghosh_direction_frames + 0x50;
+        if (*(u8 **)&entity->frameTable != anim) {
+            (entity->frameTable) = anim;
             select_sprite_entry(entity,
                 anim[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
                 0);
             create_boss_offset_effect();
-            audio_x = ((S_80174320_0 *)entity)->unk_24;
-            audio_y = ((S_80174320_0 *)entity)->unk_25;
+            audio_x = entity->unk_24;
+            audio_y = entity->unk_25;
             audio_param = 0x3000;
             if (((S_80174320_1 *)obj)->unk_1C & 0x2000) {
                 audio_param = 0x300;

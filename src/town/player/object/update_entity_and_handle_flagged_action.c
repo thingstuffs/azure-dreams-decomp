@@ -6,7 +6,7 @@
 
 extern void dispatch_actor_interaction_actions(void *, s32, s32);
 extern void initialize_shared_scene_data();
-extern s32 func_80093DD8();
+extern s32 init_button_transition_action();
 extern s32 run_the_action_sequence_context_unless_flag_hex_a_5_set();
 extern void run_the_three_update_routines_context();
 extern void clear_entity_record_fields();
@@ -31,7 +31,7 @@ void update_entity_and_handle_flagged_action(void *record, s32 context, s32 upda
             ticks_left = ((Rec_func_80090C68_arg0 *)record)->unk_0A - 1;
             ((Rec_func_80090C68_arg0 *)record)->unk_0A = ticks_left;
             if ((ticks_left << 0x10) <= 0) {
-                func_80093DD8(record, context, update_arg);
+                init_button_transition_action(record, context, update_arg);
             }
         }
     }

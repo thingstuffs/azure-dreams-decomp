@@ -1,4 +1,4 @@
 #include "common.h"
 
 extern s32 func_80016990(s32, s32);
-s32 func_8001696C(s32 arg0, s32 arg1) { return (func_80016990(arg0, arg1) != -1); }
+s32 has_grid_entry_e(s32 grid_y, s32 grid_x) { return (func_80016990(grid_y, grid_x) != -1); }

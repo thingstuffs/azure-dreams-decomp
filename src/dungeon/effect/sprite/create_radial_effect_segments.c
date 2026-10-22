@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/game_work.h"
@@ -53,16 +54,6 @@ typedef struct S_800D6DC0_0 {
     s16 unk_5A;
 } S_800D6DC0_0;
 
-typedef struct S_800D6DC0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0xA];
-    s16 unk_16;
-} S_800D6DC0_2;
 
 typedef struct S_800D6DC0_4 {
     u8 pad_00[0x2A];
@@ -80,10 +71,10 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
     s32 end_y;
     s32 end_angle;
     s32 segment;
-    S_800D6DC0_2 *position;
+    ObjectPosition *position;
     S_800D6DC0_0 *effect_state;
     SpriteFrameState *render_data;
-    void *effect;
+    ObjectNodeHeader *effect;
     void *copy_dst;
     void *copy_src;
     u8 *direction_table;
@@ -94,15 +85,15 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
     end_angle = 0x200;
     do {
         effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         if (effect != NULL) {
             copy_src = render_template;
             effect_state->unk_0C = 0x1E;
             effect_state->unk_0E = 0x1E;
             effect_state->unk_14 = origin;
             effect_state->unk_10 = segment;
-            render_data = ((AllocBlock *)effect)->fieldc;
-            ((AllocBlock *)effect)->field10 = &update_expiring_sprite_effect;
+            render_data = effect->sprite;
+            effect->unk_10 = &update_expiring_sprite_effect;
             copy_end = (s32)((u8 *)copy_src + 0x30);
             copy_dst = render_data;
             do {
@@ -113,11 +104,11 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
             render_data->tpage_abr = 0x20;
             render_data->flags = (u16) (render_data->flags | 0xC);
             register_node(effect, &draw_linked_depth_sliced_quads);
-            position = ((AllocBlock *)effect)->field8;
-            position->unk_02 = (u16) origin->unk_02;
+            position = effect->position;
+            position->x.w.i = (u16) origin->unk_02;
             start_angle = segment << 9;
-            position->unk_06 = (u16) origin->unk_06;
-            position->unk_0A = (s16) (origin->unk_0A + 0x28);
+            position->y.w.i = (u16) origin->unk_06;
+            position->z.w.i = (s16) (origin->unk_0A + 0x28);
             render_data->scale_y = 0x1000;
             render_data->scale_x = 0x1000;
             render_data->color.c.b = 0xFA;
@@ -140,7 +131,7 @@ void create_radial_effect_segments(void *unused, Rec_func_800D6DC0_arg1 *origin,
             end_y = end_y_scaled >> 0xC;
             effect_state->unk_52 = (s16) end_y;
             effect_state->unk_4E = (s16) end_y;
-            position->unk_16 = 0;
+            *((s16 *)&position->velocity_z + 1) = 0;
             render_data->frameTable = direction_table;
             select_sprite_entry(render_data, *((u8 *) (((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + orientation->unk_2A + 0x100)
                 >> 9) & 7) + (s32) direction_table))), 0);

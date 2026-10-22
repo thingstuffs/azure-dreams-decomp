@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 extern int abs(int);
 
@@ -25,7 +26,7 @@ extern u8 D_800E9DD4[];
 extern u8 D_800E9DEC[];
 
 /* Updates random idle actions, bounded wandering, and sprite animation. */
-void update_random_idle_wander(void *actor, void *motion, void *sprite, s32 update_context) {
+void update_random_idle_wander(void *actor, void *motion, SpriteFrameState *sprite, s32 update_context) {
     void *anim_script;
     s16 *x_steps;
     s16 *y_steps;
@@ -112,7 +113,7 @@ void update_random_idle_wander(void *actor, void *motion, void *sprite, s32 upda
         F_U16(actor, 0xA4) = F_U16(actor, 0x68);
         break;
     case 0x40:
-        if (F_U16(sprite, 0x14) & 0x6000) {
+        if (sprite->flags & 0x6000) {
             anim_script = D_800E9CFC;
         }
         if ((s16)timer > 0) {
@@ -129,14 +130,14 @@ void update_random_idle_wander(void *actor, void *motion, void *sprite, s32 upda
         F_S16(actor, 0x68) = 0x61;
         break;
     case 0x61:
-        if (!(F_U16(sprite, 0x14) & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
         anim_script = D_800E9D8C;
         F_S16(actor, 0x68) = 0xF0;
         break;
     case 0x80:
-        if (F_U16(sprite, 0x14) & 0x6000) {
+        if (sprite->flags & 0x6000) {
             anim_script = D_800E9DD4;
         }
         if ((s16)timer > 0) {
@@ -154,7 +155,7 @@ void update_random_idle_wander(void *actor, void *motion, void *sprite, s32 upda
         F_S16(actor, 0x68) = 0;
         break;
     case 0xF0:
-        if (!(F_U16(sprite, 0x14) & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
         F_S16(actor, 0x68) = 0;
@@ -162,9 +163,9 @@ void update_random_idle_wander(void *actor, void *motion, void *sprite, s32 upda
     }
 
     if (F_S16(actor, 0xA6) != 0) {
-        F_U16(sprite, 0x14) &= 0xFFFE;
+        sprite->flags &= 0xFFFE;
     } else {
-        F_U16(sprite, 0x14) |= 1;
+        sprite->flags |= 1;
     }
     if (anim_script != 0) {
         select_record_entry_and_value(sprite, anim_script, 0);

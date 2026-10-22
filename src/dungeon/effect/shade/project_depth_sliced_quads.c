@@ -1,4 +1,5 @@
 #include "shared/gpu_packets.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -57,24 +58,7 @@ typedef struct S_800D6170_0 {
     s32 unk_100;
 } S_800D6170_0;   /* scratch in project_depth_sliced_quads */
 
-typedef struct S_800D6170_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800D6170_1;   /* arg1 in project_depth_sliced_quads */
 
-typedef struct S_800D6170_2 {
-    u8 pad_00[0xC];
-    u32 unk_0C;
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_800D6170_2;   /* arg2 in project_depth_sliced_quads */
 
    /* *global in project_depth_sliced_quads */
 
@@ -92,7 +76,7 @@ typedef struct S_800D6170_4 {
 } S_800D6170_4;   /* packet in project_depth_sliced_quads */
 
 /* Project depth-sliced quads and link visible packets into the ordering table. */
-void project_depth_sliced_quads(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_state, s16 depth_bias)
+void project_depth_sliced_quads(void *geometry, ObjectPosition *position, SpriteFrameState *render_state, s16 depth_bias)
 {
     u8 *scratch = (u8 *)0x1F800000;
     u8 **render_context = (u8 **)((u8 *)(&g_game_work));
@@ -108,19 +92,19 @@ void project_depth_sliced_quads(void *geometry, S_800D6170_1 *position, S_800D61
     MATRIX matrix;
 
     ((S_800D6170_0 *)scratch)->unk_24.p = *render_context + 0xB0;
-    ((S_800D6170_0 *)scratch)->unk_88 = position->unk_02;
-    ((S_800D6170_0 *)scratch)->unk_8C = position->unk_06;
-    ((S_800D6170_0 *)scratch)->unk_90 = position->unk_0A;
-    ((SpriteFrameState *)render_state)->flags |= 0x8000;
+    ((S_800D6170_0 *)scratch)->unk_88 = position->x.w.i;
+    ((S_800D6170_0 *)scratch)->unk_8C = position->y.w.i;
+    ((S_800D6170_0 *)scratch)->unk_90 = position->z.w.i;
+    render_state->flags |= 0x8000;
 
     func_800649A0();
 
     ((S_800D6170_0 *)scratch)->unk_3C = 0x2000;
     ((S_800D6170_0 *)scratch)->unk_38 = 0x2000;
     ((S_800D6170_0 *)scratch)->unk_34 = 0x2000;
-    ((S_800D6170_0 *)scratch)->unk_A4 = ((SpriteFrameState *)render_state)->angle_x;
-    ((S_800D6170_0 *)scratch)->unk_A8 = ((SpriteFrameState *)render_state)->angle_z;
-    ((S_800D6170_0 *)scratch)->unk_A6 = ((SpriteFrameState *)render_state)->angle_y;
+    ((S_800D6170_0 *)scratch)->unk_A4 = render_state->angle_x;
+    ((S_800D6170_0 *)scratch)->unk_A8 = render_state->angle_z;
+    ((S_800D6170_0 *)scratch)->unk_A6 = render_state->angle_y;
     func_80065820(scratch + 0xA4, scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, scratch + 0x74, scratch + 0x54);
@@ -128,7 +112,7 @@ void project_depth_sliced_quads(void *geometry, S_800D6170_1 *position, S_800D61
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    ((S_800D6170_0 *)scratch)->unk_28 = ((SpriteFrameState *)render_state)->flags;
+    ((S_800D6170_0 *)scratch)->unk_28 = render_state->flags;
     for (coord_index = 0; coord_index < 4; coord_index++) {
         depth_edges[coord_index] = (*(u16 *)((u8 *)geometry + 0x54 + coord_index * 2));
     }
@@ -171,8 +155,8 @@ void project_depth_sliced_quads(void *geometry, S_800D6170_1 *position, S_800D61
                      ((u16)(((S_800D6170_4 *)packet)->unk_12 + 0x20) < 0x121)) |
                     (((u16)(((S_800D6170_4 *)packet)->unk_14 + 0x20) < 0x181) &&
                      ((u16)(((S_800D6170_4 *)packet)->unk_16 + 0x20) < 0x121))) {
-                    ((SpriteFrameState *)render_state)->flags &= 0x7FFF;
-                    ((S_800D6170_4 *)packet)->unk_04 = *(u32 *)&((SpriteFrameState *)render_state)->color.word;
+                    render_state->flags &= 0x7FFF;
+                    ((S_800D6170_4 *)packet)->unk_04 = *(u32 *)&render_state->color.word;
                     func_800666E0(packet);
 
                     ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & length_mask) |
@@ -220,8 +204,8 @@ void project_depth_sliced_quads(void *geometry, S_800D6170_1 *position, S_800D61
                  ((u16)(((S_800D6170_4 *)packet)->unk_12 + 0x20) < 0x121)) |
                 (((u16)(((S_800D6170_4 *)packet)->unk_14 + 0x20) < 0x181) &&
                  ((u16)(((S_800D6170_4 *)packet)->unk_16 + 0x20) < 0x121))) {
-                ((SpriteFrameState *)render_state)->flags &= 0x7FFF;
-                ((S_800D6170_4 *)packet)->unk_04 = *(u32 *)&((SpriteFrameState *)render_state)->color.word;
+                render_state->flags &= 0x7FFF;
+                ((S_800D6170_4 *)packet)->unk_04 = *(u32 *)&render_state->color.word;
                 func_800666E0(packet);
 
                 ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & 0xFF000000) |

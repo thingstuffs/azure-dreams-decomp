@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -48,20 +49,6 @@ typedef struct S_80175BA8_2 {
     u16 unk_88;
 } S_80175BA8_2;   /* arg3 in enter_actor_aura_mode */
 
-typedef struct S_80175BA8_3 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0xC];
-    u16 unk_14;
-} S_80175BA8_3;   /* arg2 in enter_actor_aura_mode */
-
-typedef struct S_80175BA8_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80175BA8_4;
-
 typedef struct S_80175BA8_5 {
     u8 pad_00[0x38];
     s16 unk_38;
@@ -81,10 +68,10 @@ extern u8 uboat_aura_start_frames[];
 extern u8 uboat_aura_later_frames[];
 extern u8 D_800E2488[];
 extern u8 D_80170CEC[];
-extern u8 D_80171A80[];
+#include "dungeon/monster/u_boat.h"
 
 /* Updates the actor's height offset, spawns an effect, and advances its animation phases. */
-void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void *actor_info) {
+void enter_actor_aura_mode(void *actor_state, void *position, SpriteFrameState *sprite, void *actor_info) {
     s16 target_offset;
     u16 next_offset;
     u16 phase_ticks;
@@ -92,7 +79,7 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
     u16 second_delay;
     s32 phase;
     SpriteFrameState *effect_sprite;
-    void *effect;
+    ObjectNodeHeader *effect;
     void *effect_state;
     MovingPosition *effect_position;
 
@@ -114,30 +101,30 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
         } else {
             ((S_80175BA8_0 *)actor_state)->unk_92.s = target_offset;
         }
-        if (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_80175BA8_0 *)actor_state)->unk_92.u = 0;
         }
         phase_ticks = ((S_80175BA8_0 *)actor_state)->unk_96 + 1;
         ((S_80175BA8_0 *)actor_state)->unk_96 = phase_ticks;
-        if (((s16)phase_ticks == 1) || (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+        if (((s16)phase_ticks == 1) || (sprite->flags & 0x8000)) {
             ((S_80175BA8_0 *)actor_state)->unk_B5 = 1;
             effect = allocate_list_node(0x12, (u8 *)actor_state - 0x20);
             if (effect != NULL) {
                 ((S_80175BA8_0 *)actor_state)->unk_AC = effect;
-                ((S_80175BA8_4 *)effect)->unk_10 = D_80170CEC;
+                effect->unk_10 = D_80170CEC;
                 register_node(effect, D_80045C34);
                 effect_state = (u8 *)effect + 0x20;
                 ((S_80175BA8_5 *)effect_state)->unk_38 = 5;
                 ((S_80175BA8_5 *)effect_state)->unk_40 = actor_state;
                 ((S_80175BA8_5 *)effect_state)->unk_44 = position;
-                effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
+                effect_sprite = effect->sprite;
                 effect_sprite->tpage_abr = 0x40;
                 effect_sprite->flags |= 0xC;
-                effect_position = ((S_80175BA8_4 *)effect)->unk_08;
+                effect_position = effect->position;
                 effect_position->unk_02 = ((S_80175BA8_1 *)position)->unk_02;
                 effect_position->unk_06 = ((S_80175BA8_1 *)position)->unk_06;
                 effect_position->unk_0A = ((S_80175BA8_2 *)actor_info)->unk_88;
-                effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
+                effect_sprite = effect->sprite;
                 effect_sprite->scale_y = 0xA00;
                 effect_sprite->scale_x = 0xA00;
                 effect_sprite->color.c.b = 0;
@@ -147,26 +134,26 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
             }
         }
         if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = uboat_aura_start_frames;
+            (sprite->frameTable) = uboat_aura_start_frames;
             select_sprite_entry(sprite,
                           uboat_aura_start_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
                               >> 9) & 7],
                           0);
             ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
             ((S_80175BA8_0 *)actor_state)->unk_9B++;
-            if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+            if (!(sprite->flags & 0x8000)) {
                 play_sound_if_enabled(0x800);
             }
         }
-        if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+        if (!(sprite->flags & 0x8000)) {
             return;
         }
 
     case 1:
         first_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
         ((S_80175BA8_0 *)actor_state)->unk_96 = first_delay;
-        if (((first_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0xE000)) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = uboat_aura_later_frames;
+        if (((first_delay << 0x10) <= 0) || (sprite->flags & 0xE000)) {
+            (sprite->frameTable) = uboat_aura_later_frames;
             select_sprite_entry(sprite,
                           uboat_aura_later_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
                               >> 9) & 7],
@@ -174,13 +161,13 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
             ((S_80175BA8_0 *)actor_state)->unk_96 = 3;
             ((S_80175BA8_0 *)actor_state)->unk_9B++;
         }
-        if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+        if (!(sprite->flags & 0x8000)) {
             return;
         }
     case 2:
         second_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
         ((S_80175BA8_0 *)actor_state)->unk_96 = second_delay;
-        if (((second_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+        if (((second_delay << 0x10) <= 0) || (sprite->flags & 0x8000)) {
             ((S_80175BA8_0 *)actor_state)->unk_96 = 0x1E;
             ((S_80175BA8_0 *)actor_state)->unk_A8 = 0;
             ((S_80175BA8_0 *)actor_state)->unk_B1 = 0;
@@ -189,8 +176,8 @@ void enter_actor_aura_mode(void *actor_state, void *position, void *sprite, void
             ((S_80175BA8_0 *)actor_state)->unk_B3 = 0;
             ((S_80175BA8_0 *)actor_state)->unk_9B++;
             ((S_80175BA8_0 *)actor_state)->unk_98 &= 0xFFF7;
-            ((S_80175BA8_3 *)sprite)->unk_06 = 0;
-            ((S_80175BA8_0 *)actor_state)->unk_8C = D_80171A80;
+            sprite->unk_06 = 0;
+            ((S_80175BA8_0 *)actor_state)->unk_8C = uboat_behavior_entry;
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;
         }

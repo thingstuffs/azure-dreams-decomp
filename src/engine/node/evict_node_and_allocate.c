@@ -14,15 +14,15 @@ extern Node *active_node_list_head;
 /* Removes the first eligible active node other than excluded_node, then retries allocation. */
 void *evict_node_and_allocate(void *flags, void *excluded_node)
 {
-    Node *node;
+    ObjectNodeHeader *node;
 
     node = active_node_list_head;
     if (node != 0) {
         do {
-            if ((node->field_1E & 0x200) && excluded_node != (void *)node) {
+            if ((node->flags & 0x200) && excluded_node != (void *)node) {
                 unlink_node(node);
                 unlink_active_node(node);
-                if (!(node->field_1E & 0x80)) {
+                if (!(node->flags & 0x80)) {
                     push_node_onto_free_list(node);
                 }
                 if (excluded_node != 0) {
@@ -32,7 +32,7 @@ void *evict_node_and_allocate(void *flags, void *excluded_node)
                 }
                 return node;
             }
-            node = node->next;
+            node = *(struct Node * *)&node->next;
         } while (node != 0);
     }
     return 0;

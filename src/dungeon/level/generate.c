@@ -1,7 +1,13 @@
 /* Floor layout loading, random room and corridor generation, and special room placement. */
+#include "shared/dungeon_status.h"
 #include "dungeon/level/generate.h"
 #include "shared/item_ids.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor/state.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/screen.h"
+#include "dungeon/level.h"
+#include "dungeon/system.h"
 
 /* Clears all three halfwords in each of the 4,096 generation cells. */
 void clear_generation_cell_grid(void) {
@@ -9,7 +15,7 @@ void clear_generation_cell_grid(void) {
     s8 *entry_tail;
     s32 entries_left;
 
-    entry_start = ((u8 *)D_800EA000);
+    entry_start = ((u8 *)generation_cells);
     entries_left = 0x1000;
     entry_tail = entry_start + 2;
     do {
@@ -31,7 +37,7 @@ void mask_generation_cell_rect(s16 start_x, s16 start_y, s16 rect_width, s16 rec
     floor_generate_isolated_80284480_DungeonCell *cells;
 
     config = &g_game_work.map;
-    cells = ((floor_generate_isolated_80284480_DungeonCell *)D_800EA000);
+    cells = ((floor_generate_isolated_80284480_DungeonCell *)generation_cells);
     for (y = start_y; y < start_y + rect_height; y++) {
         for (x = start_x; x < start_x + rect_width; x++) {
             cells[x + (y << config->shiftX)].field_4 &= mask;
@@ -91,7 +97,7 @@ ret_err:
         while (cols_left > 0) {
             floor_generate_isolated_80284584_DungeonCell *cell;
 
-            cell = &((floor_generate_isolated_80284584_DungeonCell *)D_800EA000)[(row << config->shiftX) + x];
+            cell = &((floor_generate_isolated_80284584_DungeonCell *)generation_cells)[(row << config->shiftX) + x];
             if (cell->field_4 != 0) {
                 return (s16)cell->field_4;
             }
@@ -132,7 +138,7 @@ void fill_generation_cell_marks(s16 start_x, s16 y, s16 width, s32 height, u16 f
                     cell_index = row_y << cell_index;
                     cell_index += x;
                     x++;
-                    cell = (u16 *)(((u8 *)D_800EA000) + cell_index * 6);
+                    cell = (u16 *)(((u8 *)generation_cells) + cell_index * 6);
                     cell[2] = fill_value;
                 } while (span_left > 0);
             }
@@ -344,12 +350,12 @@ void initialize_grid_border_cells(void)
         s32 step = 1;
 
         do {
-            cell = &((floor_generate_isolated_80284A9C_Cell *)D_800EA000)[edge_index << grid_config->shiftX];
+            cell = &((floor_generate_isolated_80284A9C_Cell *)generation_cells)[edge_index << grid_config->shiftX];
             cell->field_0 = border_type;
             cell->field_2 = border_attr;
             cell->field_4 |= 0x8001;
 
-            cell = &((floor_generate_isolated_80284A9C_Cell *)D_800EA000)[((step + edge_index) << grid_config->shiftX) - 1];
+            cell = &((floor_generate_isolated_80284A9C_Cell *)generation_cells)[((step + edge_index) << grid_config->shiftX) - 1];
             cell->field_0 = border_type;
             cell->field_2 = border_attr;
             cell->field_4 |= 0x8001;
@@ -357,12 +363,12 @@ void initialize_grid_border_cells(void)
     }
 
     for (edge_index = 0; edge_index < (1 << grid_config->shiftY); edge_index++) {
-        cell = &((floor_generate_isolated_80284A9C_Cell *)D_800EA000)[edge_index];
+        cell = &((floor_generate_isolated_80284A9C_Cell *)generation_cells)[edge_index];
         cell->field_0 = 3;
         cell->field_2 = 0x400;
         cell->field_4 |= 0x8001;
 
-        cell = &((floor_generate_isolated_80284A9C_Cell *)D_800EA000)[(((1 << grid_config->shiftY) - 1) << grid_config->shiftX) + edge_index - 1];
+        cell = &((floor_generate_isolated_80284A9C_Cell *)generation_cells)[(((1 << grid_config->shiftY) - 1) << grid_config->shiftX) + edge_index - 1];
         cell->field_0 = 3;
         cell->field_2 = 0x400;
         cell->field_4 |= 0x8001;
@@ -643,8 +649,8 @@ void load_dungeon_layout(s16 layout_number)
     u16 shift_y;
 
     layout_index = layout_number - 1;
-    data_2 = *(u8 * *)&((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00;
-    (*(u8 * *)gpu_scratch_write_pointer) = data_2;
+    data_2 = *(u8 **)&((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00;
+    (*(u8 **)gpu_scratch_write_pointer) = data_2;
     layout_id = floor_layout_resource_descriptors[layout_index];
     cfg = &g_game_work.map;
     map = ((floor_generate_isolated_80285464_MapCell *)cfg->cells);
@@ -749,7 +755,7 @@ void load_dungeon_layout(s16 layout_number)
         ((floor_generate_isolated_80285464_RecD *)floor_objects)[entry_index].f1 = *data++;
         ((floor_generate_isolated_80285464_RecD *)floor_objects)[entry_index].f3 = *data++;
         ((floor_generate_isolated_80285464_RecD *)floor_objects)[entry_index].f2 = *data++;
-        ((floor_generate_isolated_80285464_RecC *)dungeon_floor_object_positions)[entry_index].f8 = D_800DF258[((floor_generate_isolated_80285464_RecD *)floor_objects)[entry_index].f0];
+        ((floor_generate_isolated_80285464_RecC *)dungeon_floor_object_positions)[entry_index].f8 = floor_object_sprite_sources[((floor_generate_isolated_80285464_RecD *)floor_objects)[entry_index].f0];
         cycle_map_cell_flags(((floor_generate_isolated_80285464_RecC *)dungeon_floor_object_positions)[entry_index].f6, ((floor_generate_isolated_80285464_RecC *)dungeon_floor_object_positions)[entry_index].f7, 32);
         entry_index++;
     }
@@ -772,7 +778,7 @@ void load_dungeon_layout(s16 layout_number)
         entry_index++;
     }
 
-    decompress_lz(data, ((u8 *)D_800EA000));
+    decompress_lz(data, ((u8 *)generation_cells));
     for (entry_index = 0; dungeon_ground_items[entry_index].kind != ITEM_KIND_NONE; entry_index++) {
         placed_record = &((floor_generate_isolated_80285464_RecB *)dungeon_ground_item_positions)[entry_index];
         map_value = get_surface_height_at_coordinates(placed_record->f0 << 6, placed_record->f1 << 6);
@@ -1033,7 +1039,7 @@ s32 setup_dungeon_floor_encounters(void)
 
                         u8 *even_ids;
                         u8 *odd_ids;
-                        floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
+                        DungeonGlobalStatus *ds;
 
                         monster_id = random_dungeon_range_16(3, 0x2D) & 0xFFFF;
                         level = floor_data[2] + (generate_random_value() & 1);
@@ -1041,13 +1047,13 @@ s32 setup_dungeon_floor_encounters(void)
                             level = 99;
                         }
                         i = 0;
-                        ds = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&g_dungeon_status);
-                        base = ((u8 (*)[8])D_800DDC9C)[0];
+                        ds = &g_dungeon_status;
+                        base = ((u8 (*)[8])floor_species_pool)[0];
                         even_ids = base;
                         odd_ids = even_ids + 1;
                         do {
-                            ds->records[i].value = monster_id;
-                            ds->records[i].level = level;
+                            (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i].value = monster_id;
+                            (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i].level = level;
                             i++;
                             *odd_ids = monster_id;
                             *even_ids = monster_id;
@@ -1060,7 +1066,7 @@ s32 setup_dungeon_floor_encounters(void)
 
                         u8 *even_ids;
                         u8 *odd_ids;
-                        floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
+                        DungeonGlobalStatus *ds;
 
                         monster_id = random_dungeon_range_16(3, 0x2D) & 0xFFFF;
                         level = ((s16 *)current_dungeon_floor)[0] + (generate_random_value() & 1);
@@ -1068,13 +1074,13 @@ s32 setup_dungeon_floor_encounters(void)
                             level = 99;
                         }
                         i = 0;
-                        ds = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&g_dungeon_status);
-                        base = ((u8 (*)[8])D_800DDC9C)[1];
+                        ds = &g_dungeon_status;
+                        base = ((u8 (*)[8])floor_species_pool)[1];
                         even_ids = base;
                         odd_ids = even_ids + 1;
                         do {
-                            ds->records[i + 4].value = monster_id;
-                            ds->records[i + 4].level = level;
+                            (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i + 4].value = monster_id;
+                            (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i + 4].level = level;
                             i++;
                             *odd_ids = monster_id;
                             *even_ids = monster_id;
@@ -1083,10 +1089,10 @@ s32 setup_dungeon_floor_encounters(void)
                         } while (i < 4);
                     }
                 } else {
-                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)g_dungeon_status.monster_spawn_table =
-                        *(floor_generate_isolated_80285E80_Packed16_80285E80 *)(g_dungeon_status.monster_spawn_table + 0x10);
-                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])D_800DDC9C)[0] =
-                        *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])D_800DDC9C)[2];
+                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)*(unsigned char **)&g_dungeon_status.monster_spawn_table =
+                        *(floor_generate_isolated_80285E80_Packed16_80285E80 *)(*(unsigned char **)&g_dungeon_status.monster_spawn_table + 0x10);
+                    *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])floor_species_pool)[0] =
+                        *(floor_generate_isolated_80285E80_Packed16_80285E80 *)((u8 (*)[8])floor_species_pool)[2];
                 }
 
                 {
@@ -1094,21 +1100,21 @@ s32 setup_dungeon_floor_encounters(void)
                     s32 level_bonus;
                     u8 *even_ids;
                     u8 *odd_ids;
-                    floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
+                    DungeonGlobalStatus *ds;
 
                     monster_id = random_dungeon_range_16(3, 0x2D) & 0xFFFF;
                     level_bonus = generate_random_value() & 1;
                     i_m = 0;
                     base = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&g_dungeon_status);
                     ds = base;
-                    final_floor = (s32)((u8 (*)[8])D_800DDC9C)[2];
+                    final_floor = (s32)((u8 (*)[8])floor_species_pool)[2];
                     even_ids = (u8 *)final_floor;
                     odd_ids = even_ids + 1;
                     final_floor = ((s16 *)current_dungeon_floor)[0];
                     level = final_floor + level_bonus;
                     do {
-                        ds->records[i_m + 8].value = monster_id;
-                        ds->records[i_m + 8].level = level;
+                        (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i_m + 8].value = monster_id;
+                        (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i_m + 8].level = level;
                         i_m++;
                         *odd_ids = monster_id;
                         *even_ids = monster_id;
@@ -1122,20 +1128,20 @@ s32 setup_dungeon_floor_encounters(void)
                     s32 level_bonus;
                     u8 *even_ids;
                     u8 *odd_ids;
-                    floor_generate_isolated_80285E80_DungeonState80285E80 *ds;
+                    DungeonGlobalStatus *ds;
 
                     monster_id = random_dungeon_range_16(3, 0x2D) & 0xFFFF;
                     level_bonus = generate_random_value() & 1;
                     i_m = 0;
-                    ds = ((floor_generate_isolated_80285E80_DungeonState80285E80 *)&g_dungeon_status);
-                    final_floor = (s32)((u8 (*)[8])D_800DDC9C)[3];
+                    ds = &g_dungeon_status;
+                    final_floor = (s32)((u8 (*)[8])floor_species_pool)[3];
                     even_ids = (u8 *)final_floor;
                     odd_ids = even_ids + 1;
                     final_floor = ((s16 *)current_dungeon_floor)[0];
                     level = final_floor + level_bonus;
                     do {
-                        ds->records[i_m + 12].value = monster_id;
-                        ds->records[i_m + 12].level = level;
+                        (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i_m + 12].value = monster_id;
+                        (*(floor_generate_isolated_80285E80_DungeonRecord80285E80 **)&ds->monster_spawn_table)[i_m + 12].level = level;
                         i_m++;
                         *odd_ids = monster_id;
                         *even_ids = monster_id;
@@ -1162,8 +1168,8 @@ void load_floor_spawn_tables(s16 resource_index)
     pack_tagged_resource_descriptor(1, resource_data, &load_result, resource_index + 0x3F5E);
     Control_CD(6, &load_result, 0);
     drain_cd_command_queue();
-    *(floor_generate_isolated_802864C4_Copy32 *)g_dungeon_status.monster_spawn_table = D_8014A000;
-    (*(floor_generate_isolated_802864C4_Copy32 *)D_800DDC9C) = *(floor_generate_isolated_802864C4_Copy32 *)(resource_data + 0x20);
+    *(floor_generate_isolated_802864C4_Copy32 *)*(unsigned char **)&g_dungeon_status.monster_spawn_table = D_8014A000;
+    (*(floor_generate_isolated_802864C4_Copy32 *)floor_species_pool) = *(floor_generate_isolated_802864C4_Copy32 *)(resource_data + 0x20);
     floor_generation_track_variant = resource_data[0x40];
 }
 
@@ -1357,7 +1363,7 @@ void fill_inactive_interior_cells(s16 value) {
     s32 column;
 
     state = &g_game_work.map;
-    cells = ((floor_generate_isolated_80286A84_DungeonCell *)D_800EA000);
+    cells = ((floor_generate_isolated_80286A84_DungeonCell *)generation_cells);
     row = 1;
     do {
         column = 1;
@@ -1493,7 +1499,7 @@ s32 generate_floor_layout(void)
                         sy = sy + 6;
                         dungeon_rooms[k].x = sx;
                         dungeon_rooms[k].y = sy;
-                        D_800EA000[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
+                        generation_cells[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
                             generate_random_value() & 0x60;
                     }
                 }
@@ -1505,7 +1511,7 @@ s32 generate_floor_layout(void)
                     sy = sy + 6;
                     dungeon_rooms[k].x = sx;
                     dungeon_rooms[k].y = sy;
-                    D_800EA000[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
+                    generation_cells[(((s16) sy) << ((floor_generate_isolated_80286AF8_DungeonCfg *) dc)->shift_x) + ((s16) sx)].value =
                         generate_random_value() & 0x60;
                 }
             }
@@ -1958,8 +1964,8 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
     back_dir = (travel_dir + 4) & 7;
     src_x = src_room->x + src_offset_x;
     src_y = src_room->y + src_offset_y;
-    edge_cell = &D_800EA000[(src_y << dungeon->shiftX) + src_x];
-    inner_cell = &D_800EA000[((src_y + dir_step_y[back_dir]) << dungeon->shiftX) + src_x + dir_step_x[back_dir]];
+    edge_cell = &generation_cells[(src_y << dungeon->shiftX) + src_x];
+    inner_cell = &generation_cells[((src_y + dir_step_y[back_dir]) << dungeon->shiftX) + src_x + dir_step_x[back_dir]];
     dest_x = dest_room->x + dest_offset_x;
     dest_y = dest_room->y + dest_offset_y;
     if (is_value_within_inclusive_bounds(edge_cell->kind, 15, 18)) {
@@ -1978,8 +1984,8 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
 
     cursor_x = src_x + dir_step_x[(travel_dir + 2) & 7];
     cursor_y = src_y + dir_step_y[(travel_dir + 2) & 7];
-    edge_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
-    inner_cell = &D_800EA000[((cursor_y + dir_step_y[back_dir]) << dungeon->shiftX) + cursor_x + dir_step_x[back_dir]];
+    edge_cell = &generation_cells[(cursor_y << dungeon->shiftX) + cursor_x];
+    inner_cell = &generation_cells[((cursor_y + dir_step_y[back_dir]) << dungeon->shiftX) + cursor_x + dir_step_x[back_dir]];
     if (is_value_within_inclusive_bounds(edge_cell->kind, 15, 18)) {
         edge_cell->kind = (inner_cell->flags >> 1) + (travel_dir / 2) * 5 + 79;
         edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
@@ -1998,10 +2004,10 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
         back_dir = dest_dir;
         cursor_x = dest_x;
         cursor_y = dest_y;
-        edge_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
+        edge_cell = &generation_cells[(cursor_y << dungeon->shiftX) + cursor_x];
         cursor_x = cursor_x + dir_step_x[dest_dir];
         cursor_y = cursor_y + dir_step_y[dest_dir];
-        inner_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
+        inner_cell = &generation_cells[(cursor_y << dungeon->shiftX) + cursor_x];
         entry_dir = (dest_dir + 4) & 6;
         if (is_value_within_inclusive_bounds(edge_cell->kind, 15, 18)) {
             edge_cell->kind = (inner_cell->flags >> 1) + (entry_dir / 2) * 5 + 79;
@@ -2019,8 +2025,8 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
 
         cursor_x = dest_x + dir_step_x[(entry_dir - 2) & 7];
         cursor_y = dest_y + dir_step_y[(entry_dir - 2) & 7];
-        edge_cell = &D_800EA000[(cursor_y << dungeon->shiftX) + cursor_x];
-        inner_cell = &D_800EA000[((cursor_y + dir_step_y[back_dir]) << dungeon->shiftX) + cursor_x + dir_step_x[back_dir]];
+        edge_cell = &generation_cells[(cursor_y << dungeon->shiftX) + cursor_x];
+        inner_cell = &generation_cells[((cursor_y + dir_step_y[back_dir]) << dungeon->shiftX) + cursor_x + dir_step_x[back_dir]];
         if (is_value_within_inclusive_bounds(edge_cell->kind, 15, 18)) {
             edge_cell->kind = (inner_cell->flags >> 1) + (entry_dir / 2) * 5 + 79;
             edge_cell->value = inner_cell->value - ((inner_cell->flags & 1) << 5);
@@ -2039,15 +2045,15 @@ s16 connect_rooms_with_corridor(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest
     save_or_restore_random_seed(0);
     travel_dir = saved_dir;
     if (dungeon_rooms[src_idx].unk_0A) {
-        src_height = D_800EA000[((src_room->y + src_offset_y) << dungeon->shiftX) + src_room->x + src_offset_x].value;
+        src_height = generation_cells[((src_room->y + src_offset_y) << dungeon->shiftX) + src_room->x + src_offset_x].value;
     } else {
-        src_height = D_800EA000[(src_room->y << dungeon->shiftX) + src_room->x].value;
+        src_height = generation_cells[(src_room->y << dungeon->shiftX) + src_room->x].value;
     }
     if (dungeon_rooms[dest_idx].unk_0A) {
-        dest_height = D_800EA000[((dest_room->y + dest_offset_y) << dungeon->shiftX) + dest_room->x
+        dest_height = generation_cells[((dest_room->y + dest_offset_y) << dungeon->shiftX) + dest_room->x
             + dest_offset_x].value;
     } else {
-        dest_height = D_800EA000[(dest_room->y << dungeon->shiftX) + dest_room->x].value;
+        dest_height = generation_cells[(dest_room->y << dungeon->shiftX) + dest_room->x].value;
     }
     if (path_length == 0) {
         path_length = 1;
@@ -2211,8 +2217,8 @@ s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *st
 
         iy = cy;
         ix = cx;
-        ((floor_generate_isolated_8028906C_DungeonCell *)D_800EA000)[(iy << st->stride) + ix].kind = 104;
-        ((floor_generate_isolated_8028906C_DungeonCell *)D_800EA000)[(iy << st->stride) + ix].flags = 1;
+        ((floor_generate_isolated_8028906C_DungeonCell *)generation_cells)[(iy << st->stride) + ix].kind = 104;
+        ((floor_generate_isolated_8028906C_DungeonCell *)generation_cells)[(iy << st->stride) + ix].flags = 1;
         if (ix == wx && iy == wy) {
             break;
         }
@@ -2234,8 +2240,8 @@ s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *st
 
             iy = cy;
             ix = cx;
-            ((floor_generate_isolated_8028906C_DungeonCell *)D_800EA000)[(iy << st->stride) + ix].kind = 104;
-            ((floor_generate_isolated_8028906C_DungeonCell *)D_800EA000)[(iy << st->stride) + ix].flags = 1;
+            ((floor_generate_isolated_8028906C_DungeonCell *)generation_cells)[(iy << st->stride) + ix].kind = 104;
+            ((floor_generate_isolated_8028906C_DungeonCell *)generation_cells)[(iy << st->stride) + ix].flags = 1;
             if (ix == wx && iy == wy) {
                 break;
             }
@@ -2253,8 +2259,8 @@ s32 choose_next_step_toward_destination(floor_generate_isolated_8028906C_Pos *st
 
             iy = cy;
             ix = cx;
-            ((floor_generate_isolated_8028906C_DungeonCell *)D_800EA000)[(iy << st->stride) + ix].kind = 104;
-            ((floor_generate_isolated_8028906C_DungeonCell *)D_800EA000)[(iy << st->stride) + ix].flags = 1;
+            ((floor_generate_isolated_8028906C_DungeonCell *)generation_cells)[(iy << st->stride) + ix].kind = 104;
+            ((floor_generate_isolated_8028906C_DungeonCell *)generation_cells)[(iy << st->stride) + ix].flags = 1;
             if (ix == dstX && iy == dstY) {
                 break;
             }
@@ -2353,7 +2359,7 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
 
         tile = walker->tile & 0xFFE0;
         iy = cy;
-        cell = &((floor_generate_isolated_802895E4_DungeonCell *)D_800EA000)[(iy << st->shiftX) + (ix = cx)];
+        cell = &((floor_generate_isolated_802895E4_DungeonCell *)generation_cells)[(iy << st->shiftX) + (ix = cx)];
         if (cell->value != 16384) {
             d = abs(cell->value - (s16)tile);
             if (d >= 33) {
@@ -2387,7 +2393,7 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
 
             tile = walker->tile & 0xFFE0;
             iy = cy;
-            cell = &((floor_generate_isolated_802895E4_DungeonCell *)D_800EA000)[(iy << st->shiftX) + (ix = cx)];
+            cell = &((floor_generate_isolated_802895E4_DungeonCell *)generation_cells)[(iy << st->shiftX) + (ix = cx)];
             if (cell->value != 16384) {
                 d = abs(cell->value - (s16)tile);
                 if (d >= 33) {
@@ -2417,7 +2423,7 @@ s16 carve_corridor_toward_destination(floor_generate_isolated_802895E4_Pos *star
 
             tile = walker->tile & 0xFFE0;
             iy = cy;
-            cell = &((floor_generate_isolated_802895E4_DungeonCell *)D_800EA000)[(iy << st->shiftX) + (ix = cx)];
+            cell = &((floor_generate_isolated_802895E4_DungeonCell *)generation_cells)[(iy << st->shiftX) + (ix = cx)];
             if (cell->value != 16384) {
                 d = abs(cell->value - (s16)tile);
                 if (d >= 33) {
@@ -2448,12 +2454,12 @@ s16 choose_unblocked_cardinal_direction(s16 x, s16 y, s16 dir)
 
     nx = x + dir_step_x[dir];
     ny = y + dir_step_y[dir];
-    if (D_800EA000[(ny << map->shiftX) + nx].flags != 0) {
+    if (generation_cells[(ny << map->shiftX) + nx].flags != 0) {
         for (turn = 2; turn < 7; turn += 4) {
             d = (dir + turn) & 6;
             nx = x + dir_step_x[d];
             ny = y + dir_step_y[d];
-            if (D_800EA000[(ny << map->shiftX) + nx].flags == 0) {
+            if (generation_cells[(ny << map->shiftX) + nx].flags == 0) {
                 return (dir + turn) & 6;
             }
         }
@@ -2555,7 +2561,7 @@ void adjust_random_parity_tile_heights(floor_generate_isolated_80289EC0_Rect *re
                 y_parity = y & 1;
                 do {
                     if (((x & 1) == parity) && (y_parity == parity)) {
-                        tile = (floor_generate_isolated_80289EC0_Tile *) (((u8 *)D_800EA000) +
+                        tile = (floor_generate_isolated_80289EC0_Tile *) (((u8 *)generation_cells) +
                             (((y << dungeon->shiftX) + x) * 6));
                         tile->height = (tile->flags >> 1) + 0x63;
                         tile->y -= 0x60;
@@ -2638,7 +2644,6 @@ void place_room_trap_records(floor_generate_isolated_8028A0F4_DungeonRect *rect,
 
     if (slot_index >= 0) {
         item_category_table = item_category_groups;
-
 
         /*
          * Original bug: trap rooms overwrite spawn slots, including zero, without checking for existing entries. On
@@ -2835,7 +2840,7 @@ void fill_region_with_random_patches(floor_generate_isolated_8028A5D8_DungeonRec
                     col_hi = (u32)(u16)scan_x << 16;
                     next_x = scan_x + 1;
                     scan_x = next_x;
-                    cell = &((floor_generate_isolated_8028A5D8_DungeonCell *)D_800EA000)[
+                    cell = &((floor_generate_isolated_8028A5D8_DungeonCell *)generation_cells)[
                         (fill_row << state->stride) +
                         ((s32)col_hi >> 16)];
                     cell->kind = 25;
@@ -2895,7 +2900,7 @@ void fill_region_with_random_patches(floor_generate_isolated_8028A5D8_DungeonRec
                                 coord_hi = (s32)cell_x << 16;
                                 coord = coord_hi >> 16;
                                 if (coord < (s16)right) {
-                                    cell = &((floor_generate_isolated_8028A5D8_DungeonCell *)D_800EA000)[(patch_row << state->stride) + coord];
+                                    cell = &((floor_generate_isolated_8028A5D8_DungeonCell *)generation_cells)[(patch_row << state->stride) + coord];
                                     coord = swap_styles;
                                     if (coord != 0) {
                                         patch_cell = cell;
@@ -3073,7 +3078,7 @@ s16 get_minimum_stepped_cell_value(s32 x, s32 y, s32 count, s16 x_step, s16 y_st
     u16 min_value;
     floor_generate_isolated_8028AD84_D_800EA000_Record *record;
 
-    record = &((floor_generate_isolated_8028AD84_D_800EA000_Record *)D_800EA000)[((y << row_shift) + x)];
+    record = &((floor_generate_isolated_8028AD84_D_800EA000_Record *)generation_cells)[((y << row_shift) + x)];
     x += x_step;
     row_step = y_step;
     y += row_step;
@@ -3081,7 +3086,7 @@ s16 get_minimum_stepped_cell_value(s32 x, s32 y, s32 count, s16 x_step, s16 y_st
     if (remaining > 0) {
         s16 loop_shift = row_shift;
         do {
-            record = &((floor_generate_isolated_8028AD84_D_800EA000_Record *)D_800EA000)[((y << loop_shift) + x)];
+            record = &((floor_generate_isolated_8028AD84_D_800EA000_Record *)generation_cells)[((y << loop_shift) + x)];
             if ((s16) record->value < (s16) min_value) {
                 min_value = record->value;
             }
@@ -3126,7 +3131,7 @@ outer_loop:
             x = area->x;
             if (x < x_end) {
 x_loop_done:
-                tile_id = (s16 *)&((u8 *)D_800EA000)[((y << map_config->shiftX) + x) * 6];
+                tile_id = (s16 *)&((u8 *)generation_cells)[((y << map_config->shiftX) + x) * 6];
                 if (is_value_within_inclusive_bounds(*tile_id, 0x13, 0x1C) != 0) {
                     func_8001E108(x, y, tile_id, 0x13, amount_small);
                     if ((y & 1) ? (x & 1) : !(x & 1)) {

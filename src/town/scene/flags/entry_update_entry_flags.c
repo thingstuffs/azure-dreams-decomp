@@ -14,7 +14,7 @@ extern s32 func_8001A5CC();
 extern s32 func_8001A64C();
 
 /* Advance the town scene: clear flag 0x943 when it is set and the step check passes, otherwise hand back to the scene callback. */
-s32 func_80017940(s32 kind, s32 value) {
+s32 update_and_test_pending_entry_flags(s32 kind, s32 value) {
     Rec_D_80016000 *root;
 
     func_80016CC4();

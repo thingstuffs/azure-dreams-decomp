@@ -20,11 +20,6 @@ typedef struct S_800B2B60_0 {
     u32 unk_3C;
 } S_800B2B60_0;
 
-typedef struct S_800B2BA0_0_pre {
-    s32 * unk_00;
-    u8 pad_04[0xC];
-} S_800B2BA0_0_pre;
-
 typedef struct S_800B2BA0_0 {
     u8 pad_00[0x4];
     s32 unk_04;

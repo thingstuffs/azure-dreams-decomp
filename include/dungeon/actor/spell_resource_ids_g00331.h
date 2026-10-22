@@ -12,7 +12,7 @@ typedef struct Inner {
     u8 flag;
 } Inner;
 
-extern u8 D_800DD8E7[9];
+extern u8 spell_resource_ids[9];
 
 /* Functions defined in this translation unit. */
 s32 resolve_spell_effect_resource_id(s16 index);

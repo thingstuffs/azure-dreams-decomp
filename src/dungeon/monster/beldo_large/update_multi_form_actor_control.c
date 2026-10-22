@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "m2c_compat.h"
@@ -9,24 +10,6 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
-
-
-
-typedef struct S_8016A36C_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    s8 unk_26;
-    u8 pad_27[0x5];
-    union { s32 * p; u8 * p2; } unk_2C;   /* accessed as both */
-} S_8016A36C_3;   /* arg2 in update_multi_form_actor_control */
-
-
 
 #include "engine/graphics/select_sprite_entry_api.h"
 void advance_sprite_animation_and_textures();
@@ -43,7 +26,7 @@ s32 advance_actor_pending_action(void *, s32, void *, void *);
 struct Rec_func_800A9E70_arg0; struct Rec_func_800AA258_arg2; void begin_actor_move_to_target_facing(struct Rec_func_800A9E70_arg0 *, void *, struct Rec_func_800AA258_arg2 *, struct ActorRecord *);
 s32 reset_actor_action_state(void *, s32, void *, u8 *);
 void begin_actor_spell_action(void *, s32, void *, u8 *, s32);
-void advance_multi_form_turn_path(void *, void *, void *, void *);
+void advance_multi_form_turn_path(void *, void *, SpriteFrameState *, void *);
 void advance_actor_movement_step(u8 *, void *, u8 *, u8 *);
 struct Rec_D_80082E80; struct Rec_func_800A9E70_arg0; s32 try_actor_attack(struct Rec_func_800A9E70_arg0 *, s32, struct Rec_D_80082E80 *, struct ActorRecord *);
 void start_actor_attack(void *, s32, s32, void *);
@@ -72,7 +55,7 @@ extern M2C_UNK D_80173AC8;
 /* Updates dungeon actor actions, facing, and idle animations. */
 /* Dispatches movement, attacks, and spells for four actor forms, with separate idle frames and timed idle
  * gestures. */
-void update_multi_form_actor_control(void *actor, void *context, void *sprite, ActorRecord *entity) {
+void update_multi_form_actor_control(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity) {
     void *pose_actor;
     s32 distance;
     u8 *idle_table;
@@ -119,28 +102,28 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, A
         inactive_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
         switch (inactive_pose) {
         case 0xD:
-            if (((S_8016A36C_3 *)sprite)->unk_2C.p == (s32 *)((u8 *)&D_80173AC0 + 8)) {
+            if (*(s32 **)&sprite->frameTable == (s32 *)((u8 *)&D_80173AC0 + 8)) {
                 return;
             }
-            (((S_8016A36C_3 *)sprite)->unk_2C.p) = (s32 *)((u8 *)&D_80173A58 + 0x68);
+            (sprite->frameTable) = (s32 *)((u8 *)&D_80173A58 + 0x68);
             table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             table_index += (unsigned long)(s32 *)((u8 *)&D_80173A58 + 0x68);
             select_sprite_entry(sprite, *(u8 *)table_index, 0);
             return;
         case 0xE:
-            if (((S_8016A36C_3 *)sprite)->unk_2C.p == (s32 *)((u8 *)&D_80173A58 + 0x70)) {
+            if (*(s32 **)&sprite->frameTable == (s32 *)((u8 *)&D_80173A58 + 0x70)) {
                 return;
             }
-            (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_80173AC0;
+            (sprite->frameTable) = &D_80173AC0;
             table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             table_index += (unsigned long)&D_80173AC0;
             select_sprite_entry(sprite, *(u8 *)table_index, 0);
             return;
         case 0xF:
-            if (((S_8016A36C_3 *)sprite)->unk_2C.p == &D_80173AC8) {
+            if (*(s32 **)&sprite->frameTable == &D_80173AC8) {
                 return;
             }
-            (((S_8016A36C_3 *)sprite)->unk_2C.p) = (s32 *)((u8 *)&D_80173A00 + 0xC0);
+            (sprite->frameTable) = (s32 *)((u8 *)&D_80173A00 + 0xC0);
             table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             table_index += (unsigned long)(s32 *)((u8 *)&D_80173A00 + 0xC0);
             select_sprite_entry(sprite, *(u8 *)table_index, 0);
@@ -152,7 +135,7 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, A
         flagged_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
         switch (flagged_pose) {
         case 0xD:
-            if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173AC8) {
+            if (*(s32 **)&sprite->frameTable != &D_80173AC8) {
                 break;
             }
             clear_mask = 0xFFFB0000U;
@@ -160,12 +143,12 @@ void update_multi_form_actor_control(void *actor, void *context, void *sprite, A
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = flagged_pose;
             goto block_32;
         case 0xE:
-            if (((S_8016A36C_3 *)sprite)->unk_2C.p == &D_80173AC8) {
+            if (*(s32 **)&sprite->frameTable == &D_80173AC8) {
                 goto block_31;
             }
             break;
         case 0xF:
-            if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173AC8) {
+            if (*(s32 **)&sprite->frameTable != &D_80173AC8) {
                 break;
             }
 block_31:
@@ -197,29 +180,29 @@ block_37:
                 anim_state = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
                 switch (anim_state) {
                 case 0:
-                    if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A0) {
-                        (((S_8016A36C_3 *)sprite)->unk_2C.p2) = &D_801739A0;
+                    if (*(u8 **)&sprite->frameTable != &D_801739A0) {
+                        (sprite->frameTable) = &D_801739A0;
                         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                             + &D_801739A0), 0);
                     }
                     break;
                 case 1:
-                    if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A8) {
-                        (((S_8016A36C_3 *)sprite)->unk_2C.p2) = &D_801739A8;
+                    if (*(u8 **)&sprite->frameTable != &D_801739A8) {
+                        (sprite->frameTable) = &D_801739A8;
                         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                             + &D_801739A8), 0);
                     }
                     break;
                 case 2:
-                    if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B0) {
-                        (((S_8016A36C_3 *)sprite)->unk_2C.p2) = &D_801739B0;
+                    if (*(u8 **)&sprite->frameTable != &D_801739B0) {
+                        (sprite->frameTable) = &D_801739B0;
                         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                             + &D_801739B0), 0);
                     }
                     break;
                 case 3:
-                    if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B8) {
-                        (((S_8016A36C_3 *)sprite)->unk_2C.p2) = &D_801739B8;
+                    if (*(u8 **)&sprite->frameTable != &D_801739B8) {
+                        (sprite->frameTable) = &D_801739B8;
                         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                             + &D_801739B8), 0);
                     }
@@ -278,14 +261,14 @@ block_37:
             g_dungeon_status.active_actor = 0;
         }
     }
-    room_id = find_active_rect_containing_point(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v);
-    ((S_8016A36C_3 *)sprite)->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = room_id;
     if (entity->pending_turn_updates > 0) {
         if (entity->flags1C & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (((S_8016A36C_3 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
             advance_actor_movement_step(actor, context, sprite, (u8 *)(entity));
             return;
         }
@@ -333,7 +316,7 @@ block_37:
         case 6:
         case 7:
         {
-            s32 angle = get_rounded_facing_and_rounding_flag(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v,
+            s32 angle = get_rounded_facing_and_rounding_flag(sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             ActorRecord *owner = primary_actor_record;
             entity->facing = (s16)angle;
@@ -372,10 +355,10 @@ block_37:
         if (!(system_update_flags & 8)) {
             if (room_id < 0 || !(dungeon_rooms[room_id].flags & 2)) {
                 if (!(entity_flags & 0x430)) {
-                    if ((test_neighbor_position_relation(((S_8016A36C_3 *)sprite)->unk_24.at00.v,
-                        ((S_8016A36C_3 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
-                        entity->facing = get_rounded_facing_and_rounding_flag(((S_8016A36C_3 *)sprite)->unk_24.at00.v,
-                            ((S_8016A36C_3 *)sprite)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
+                    if ((test_neighbor_position_relation(sprite->unk_24,
+                        sprite->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
+                        entity->facing = get_rounded_facing_and_rounding_flag(sprite->unk_24,
+                            sprite->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                     }
                 }
             }
@@ -384,7 +367,7 @@ block_37:
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((S_8016A36C_3 *)sprite)->unk_14 & 0x40) {
+    if (sprite->flags & 0x40) {
         return;
     }
     if (entity->flags1C & 0x20) {
@@ -397,47 +380,47 @@ block_37:
     switch (idle_pose) {
     case 0:
         next_table = &D_801739A0;
-        current_table = ((S_8016A36C_3 *)sprite)->unk_2C.p2;
+        current_table = *(u8 **)&sprite->frameTable;
         if (current_table == next_table) {
             return;
         }
-        (((S_8016A36C_3 *)sprite)->unk_2C.p) = next_table;
+        (sprite->frameTable) = next_table;
         table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)next_table;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
         return;
     case 1:
-        current_table = ((S_8016A36C_3 *)sprite)->unk_2C.p2;
+        current_table = *(u8 **)&sprite->frameTable;
         next_table = &D_801739A8;
         if (current_table == next_table) {
             return;
         }
-        (((S_8016A36C_3 *)sprite)->unk_2C.p) = next_table;
+        (sprite->frameTable) = next_table;
         table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)next_table;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
         return;
     case 2:
-        pose2_table = ((S_8016A36C_3 *)sprite)->unk_2C.p;
+        pose2_table = *(s32 **)&sprite->frameTable;
         if (pose2_table != &D_801739B0 && pose2_table != &D_80173A50) {
-            (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_801739B0;
+            (sprite->frameTable) = &D_801739B0;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + &D_801739B0), 0);
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
         }
-        if (pose2_table == &D_801739B0 || ((S_8016A36C_3 *)sprite)->unk_2C.p == &D_801739B0) {
+        if (pose2_table == &D_801739B0 || *(s32 **)&sprite->frameTable == &D_801739B0) {
             pose2_idle_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose2_idle_ticks + 1);
             if ((s16) pose2_idle_ticks >= ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v) {
-                (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_80173A50;
+                (sprite->frameTable) = &D_80173A50;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &D_80173A50), 0);
                 advance_sprite_animation_and_textures(sprite);
                 ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             }
         }
-        if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173A50) {
+        if (*(s32 **)&sprite->frameTable != &D_80173A50) {
             return;
         }
         pose2_anim_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
@@ -445,7 +428,7 @@ block_37:
         if ((s16) pose2_anim_ticks < 0x12) {
             return;
         }
-        (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_801739B0;
+        (sprite->frameTable) = &D_801739B0;
         table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)&D_801739B0;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);
@@ -453,27 +436,27 @@ block_37:
         ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
         return;
     case 3:
-        pose3_table = ((S_8016A36C_3 *)sprite)->unk_2C.p;
+        pose3_table = *(s32 **)&sprite->frameTable;
         idle_table = &D_801739B8;
         if (pose3_table != idle_table && pose3_table != &D_80173A58) {
-            (((S_8016A36C_3 *)sprite)->unk_2C.p) = idle_table;
+            (sprite->frameTable) = idle_table;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                 + idle_table), 0);
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
         }
-        if (pose3_table == idle_table || ((S_8016A36C_3 *)sprite)->unk_2C.p == idle_table) {
+        if (pose3_table == idle_table || *(s32 **)&sprite->frameTable == idle_table) {
             pose3_idle_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
             ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = (u16) (pose3_idle_ticks + 1);
             if ((s16) pose3_idle_ticks >= ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_A0.at00_s16.v) {
-                (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_80173A58;
+                (sprite->frameTable) = &D_80173A58;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7)
                     + &D_80173A58), 0);
                 advance_sprite_animation_and_textures(sprite);
                 ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16 = 0U;
             }
         }
-        if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173A58) {
+        if (*(s32 **)&sprite->frameTable != &D_80173A58) {
             return;
         }
         pose3_anim_ticks = ((Rec_func_800A9E70_arg0 *)pose_actor)->unk_9E.as_u16;
@@ -481,7 +464,7 @@ block_37:
         if ((s16) pose3_anim_ticks < 0x12) {
             return;
         }
-        (((S_8016A36C_3 *)sprite)->unk_2C.p) = &D_801739B8;
+        (sprite->frameTable) = &D_801739B8;
         table_index = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         table_index += (unsigned long)&D_801739B8;
         select_sprite_entry(sprite, *(u8 *)table_index, 0);

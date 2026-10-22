@@ -2,6 +2,7 @@
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/ghosh.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct {
@@ -18,10 +19,7 @@ void advance_sprite_animation_and_textures();  /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80069EF8();                                /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-void release_secondary_overlay_object();                            /* extern */
-void create_boss_directional_effect(); /* extern */
 void create_boss_linked_effect();      /* extern */
-void create_boss_child_effect();      /* extern */
 void create_boss_display_variant(); /* extern */
 void create_boss_randomized_effect(); /* extern */
 extern InitBlock D_8016A894;

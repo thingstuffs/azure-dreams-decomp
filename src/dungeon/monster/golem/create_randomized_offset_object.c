@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_D_80082E80.h"
@@ -18,13 +19,6 @@ extern s32 rand(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern u8 D_80175018;
-
-typedef struct S_8017589C_0 {
-    u8 pad_00[0x8];
-    Copy24 * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8017589C_0;   /* object in create_randomized_offset_object */
 
 typedef struct S_8017589C_1 {
     u8 pad_00[0x6];
@@ -52,7 +46,7 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
 {
     u16 delta[3];
     s32 random_value;
-    void *object;
+    ObjectNodeHeader *object;
     S_8017589C_1 *work;
     SpriteFrameState *node;
     S_8017589C_4 *source;
@@ -60,7 +54,7 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
 
     object = allocate_list_node(0x312, allocation_param - 0x20);
     if (object != NULL) {
-        ((S_8017589C_0 *)object)->unk_10 = &D_80175018;
+        object->unk_10 = &D_80175018;
         register_node(object, project_sprite_chain);
         work = (u8 *)object + 0x20;
 
@@ -75,7 +69,7 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
         work->unk_48 = source_node;
         work->unk_4C = allocation_param;
 
-        node = ((S_8017589C_0 *)object)->unk_0C;
+        node = object->sprite;
         node->unk_28 = source_node->unk_28.at00_s32.v;
         node->color.c.b = 0x80;
         node->color.c.g = 0x80;
@@ -86,7 +80,7 @@ void *create_randomized_offset_object(s32 allocation_param, Copy24 *initial_data
         node->tpage_abr |= 0x20;
         select_sprite_entry(node, 0x3F, 0);
 
-        copy = ((S_8017589C_0 *)object)->unk_08;
+        copy = *(Copy24 * *)&object->position;
         *copy = *initial_data;
 
         delta[2] = 0;

@@ -8,11 +8,11 @@ extern s32 D_800A5340;
 
 /* Set the record parameters and handler when the global handlers do not match. */
 void set_fallback_record_handler(void *record) {
-    u8 *base = ((u8 *)(&scene_object_list_anchor));
+    ObjectNodeHeader *base = ((u8 *)(&scene_object_list_anchor));
 
-    if ((*(s32 **) (base + 0x10) != &D_800A5638) ||
-        ((*(s32 **) (base + 0x20) != &D_800A5A98) &&
-         (*(s32 **) (base + 0x20) != &D_800A58CC))) {
+    if ((*(s32 * *)&base->unk_10 != &D_800A5638) ||
+        ((*(s32 **) (((u8 *)base) + 0x20) != &D_800A5A98) &&
+         (*(s32 **) (((u8 *)base) + 0x20) != &D_800A58CC))) {
         *(s16 *) ((u8 *) record + 2) = 0x20;
         *(s16 *) ((u8 *) record + 4) = 0x400;
         *(void **) ((u8 *) record + 0x1C) = &D_800A5340;

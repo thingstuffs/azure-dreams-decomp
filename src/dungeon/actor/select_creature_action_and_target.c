@@ -8,6 +8,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
+#include "dungeon/actor.h"
+#include "dungeon/effect/screen.h"
 extern int abs(int);
 #ifndef NULL
 #define NULL 0
@@ -20,14 +22,13 @@ extern s32 get_entity_effect_value();
 extern s32 clear_slot_and_update_linked_state();
 extern s32 get_offset_map_cell_value_and_flags();
 extern u8 *find_eligible_actor_at_tile_and_height();
-extern s32 get_masked_record_flags();
 extern s32 get_tile_chebyshev_distance();
 extern s32 get_actor_height_difference();
-extern u8 *find_valid_monster_neighbor();
+extern u8 *find_adjacent_actor();
 extern u8 *find_monster_neighbor_candidate();
-extern u8 *scan_monster_along_heading();
+extern u8 *scan_actor_along_heading();
 extern s32 get_rounded_facing_and_rounding_flag();
-extern s32 rebuild_monster_reachable_tiles();
+extern s32 select_actor_route_target();
 extern s32 update_actor_proximity_flag();
 extern s32 has_pending_actor_or_turn_action();
 extern s32 has_low_actor_mp();
@@ -35,13 +36,9 @@ extern s32 check_entity_interaction_compatibility();
 extern s32 check_scaled_value_threshold();
 extern s32 find_slot_by_definition_kind();
 extern s32 get_definition_field_from_triple();
-extern s32 check_row_column_or_diagonal_alignment();
-extern s32 check_tile_path_clear();
 extern s32 choose_usable_ability_or_attack();
 extern u8 *choose_best_eligible_entry();
-extern s32 check_active_object_state_567();
 extern u16 select_highest_value_item();
-extern s32 check_entity_eligibility();
 extern s32 check_left_tile_and_center_height();
 extern s32 find_nearest_floor_item_in_room();
 extern s32 find_floor_item_at_world_position();
@@ -581,7 +578,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
             break;
         }
     }
-    target = scan_monster_along_heading(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, ((ActorRecord *)creature)->facing, (s16)ranged_distance);
+    target = scan_actor_along_heading(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y, ((ActorRecord *)creature)->facing, (s16)ranged_distance);
     if ((check_entity_interaction_compatibility(creature, target) << 16) == 0) {
         break;
     }
@@ -794,7 +791,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
         return 2;
     }
     if ((s8)position[0x26] >= 0) {
-        rebuild_monster_reachable_tiles(position, *(s8 *)(creature + 0x9C), creature, creature + 0x98);
+        select_actor_route_target(position, *(s8 *)(creature + 0x9C), creature, creature + 0x98);
     } else {
         flee_player_pos = &reference_tile_object;
         if ((s16)get_tile_chebyshev_distance(position, flee_player_pos) == 1) {
@@ -986,7 +983,7 @@ s32 select_creature_action_and_target(s32 unused, u8 *position, u8 *creature, s3
 
     case 9:
     case 10:
-    target = find_valid_monster_neighbor(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y);
+    target = find_adjacent_actor(creature, ((TileObject *)position)->tile_position.parts.tile_x, ((TileObject *)position)->tile_position.parts.tile_y);
     if (target == NULL) {
         break;
     }

@@ -4,10 +4,9 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/player.h"
 
-void begin_player_damage_reaction(); /* extern */
 void apply_pending_byte_increase(); /* extern */
-void begin_player_sleep_action(); /* extern */
 
 /* Dispatch state handlers according to the signed state value and actor flags. */
 void dispatch_actor_state_handler(Rec_func_8008ACDC_arg0 *actor, s32 context, Rec_D_80082E80 *object, EntityRec *state) {

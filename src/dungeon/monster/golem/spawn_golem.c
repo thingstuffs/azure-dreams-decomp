@@ -1,15 +1,11 @@
 #include "common.h"
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_801708BC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_801708BC_0;   /* object in func_801708BC */
+
 
 typedef struct S_801708BC_1 {
     u8 pad_00[0x13];
@@ -18,11 +14,6 @@ typedef struct S_801708BC_1 {
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_801708BC_1;   /* result in func_801708BC */
-
-typedef struct S_801708BC_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_801708BC_2;   /* part0 in func_801708BC */
 
 typedef struct S_801708BC_4 {
     u8 pad_00[0x8C];
@@ -50,8 +41,8 @@ extern u8 D_80175F28[];
 void *func_801708BC(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = 0;
-    S_801708BC_0 *object;
-    void *part0;
+    ObjectNodeHeader *object;
+    ObjectPosition *part0;
     SpriteFrameState *part1;
     S_801708BC_4 *result_copy;
     s16 held_a;
@@ -71,9 +62,9 @@ void *func_801708BC(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
         ((S_801708BC_1 *)result)->unk_13 = MONSTER_GOLEM;
         register_node(object, project_sprite_chain);
 
-        part0 = object->unk_08;
-        ((S_801708BC_2 *)part0)->unk_0A = held_c;
-        part1 = object->unk_0C;
+        part0 = object->position;
+        part0->z.w.i = held_c;
+        part1 = object->sprite;
         kind = spawn_flags & 3;
         part1->unk_25 = held_b;
         result_copy = result;

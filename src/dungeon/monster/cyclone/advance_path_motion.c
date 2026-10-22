@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -14,7 +15,6 @@ typedef struct S_801716D8_0 {
     u8 pad_72[0x18];
     s16 unk_8A;
 } S_801716D8_0;   /* state in advance_path_motion */
-
 
 typedef struct S_801716D8_2 {
     u8 pad_00[0x74];
@@ -39,7 +39,6 @@ typedef struct S_801716D8_4 {
     u8 unk_7C;
 } S_801716D8_4;   /* (state + ((S_801716D8_0 *)state)->unk_8A) in advance_path_motion */
 
-
 void select_sprite_entry();         /* extern */
 void cycle_map_cell_flags();             /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
@@ -48,7 +47,7 @@ s16 get_rounded_facing_and_rounding_flag();             /* extern */
 extern u8 D_80176460[8];
 
 /* Advance the entity along its stored path and update its heading and movement timing. */
-void advance_path_motion(void *motion, void *unused, void *entity, void *path_state) {
+void advance_path_motion(void *motion, void *unused, SpriteFrameState *entity, void *path_state) {
     s32 old_cell_mask;
     s32 new_cell_mask;
     s16 heading;
@@ -63,13 +62,13 @@ void advance_path_motion(void *motion, void *unused, void *entity, void *path_st
 
     if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71
         > ((S_801716D8_0 *)state)->unk_8A)) {
-        if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv != D_80176460) {
-            (((Rec_D_80082E80 *)entity)->unk_2C.as_pv) = D_80176460;
+        if (entity->frameTable != D_80176460) {
+            (entity->frameTable) = D_80176460;
             select_sprite_entry(entity, D_80176460[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
         }
-        old_x = ((Rec_D_80082E80 *)entity)->unk_24;
-        old_y = ((Rec_D_80082E80 *)entity)->unk_25;
+        old_x = entity->unk_24;
+        old_y = entity->unk_25;
         old_cell_mask = 0x3000;
         if (((S_801716D8_0 *)state)->unk_1C & 0x2000) {
             old_cell_mask = 0x300;
@@ -79,12 +78,12 @@ void advance_path_motion(void *motion, void *unused, void *entity, void *path_st
         heading = get_rounded_facing_and_rounding_flag(old_x, old_y, ((S_801716D8_2 *)path_step)->unk_74, ((S_801716D8_2 *)path_step)->unk_7C,
             motion + 0x98);
         check_movement_clearance_and_height(heading, entity, state, 0x20);
-        ((Rec_D_80082E80 *)entity)->unk_24 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_74;
-        ((Rec_D_80082E80 *)entity)->unk_25 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_7C;
+        entity->unk_24 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_74;
+        entity->unk_25 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_7C;
         ((S_801716D8_0 *)state)->unk_8A = (s16) ((u16) ((S_801716D8_0 *)state)->unk_8A + 1);
         move_flag = ((S_801716D8_0 *)state)->unk_1C & 0x2000;
-        next_x = ((Rec_D_80082E80 *)entity)->unk_24;
-        next_y = ((Rec_D_80082E80 *)entity)->unk_25;
+        next_x = entity->unk_24;
+        next_y = entity->unk_25;
         new_cell_mask = 0x3000;
         if (move_flag) {
             new_cell_mask = 0x300;

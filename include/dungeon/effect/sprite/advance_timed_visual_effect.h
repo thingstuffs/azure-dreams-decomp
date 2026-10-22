@@ -136,12 +136,6 @@ typedef struct Row_818FF5B8_S_818FF5B8_2 {
     s16 unk_1E;
 } Row_818FF5B8_S_818FF5B8_2;   /* temp_a3 in func_80024DB8 */
 
-typedef struct Row_818FF5B8_S_818FF5B8_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} Row_818FF5B8_S_818FF5B8_3;   /* temp_v1_2 in func_80024DB8 */
-
 typedef struct Row_818FF5B8_S_818FF5B8_4 {
     s32 unk_00;
     s32 unk_04;

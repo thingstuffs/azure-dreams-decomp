@@ -1,6 +1,7 @@
 /* Floating number widget (G00612). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B41D8, CL:town/func_800B4200, CL:town/func_800B4298, CL:town/func_800B43B0, CL:town/func_800B4410. */
 #include "town/shop/floating_number_widget_g00612.h"
+#include "shared/object_node.h"
 
 /* Initialize panel content and element positions. */
 void initialize_panel_content_and_positions(S_800B19F8_0 *panel)
@@ -74,7 +75,7 @@ void initialize_four_anchored_nodes(void *state)
 /* Create an object with two buffers and initialize its state and position. */
 void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
 {
-    void *object;
+    ObjectNodeHeader *object;
     S_800B1BEC_0 *part;
     void *second_buffer;
     u16 object_flags;
@@ -88,18 +89,18 @@ void *create_dual_buffer_object(s32 setup_value, s32 x, s32 y)
         part->unk_0C = second_buffer;
 
         if (part->unk_08 != 0 && second_buffer != 0) {
-            ((S_800B1BEC_1 *)object)->unk_0C = (u8 *)object + 0x58;
+            object->sprite = (u8 *)object + 0x58;
             initialize_four_anchored_nodes(part);
             part->unk_44 = process_context_with_selector_4((u8 *)object + 0x68);
             build_owned_floating_number_widget((s32)part, setup_value, x, y);
             register_node(object, dungeon_menu_tag);
-            ((S_800B1BEC_1 *)object)->unk_10 = lower_value_toward_target;
+            object->unk_10 = lower_value_toward_target;
         } else {
             flag_object_for_removal(part->unk_08);
             flag_object_for_removal(part->unk_0C);
-            object_flags = ((S_800B1BEC_1 *)object)->unk_1E | 0x8000;
+            object_flags = object->flags | 0x8000;
             global_flags = ((u32)object_flag_block.flags) | 0x8000;
-            ((S_800B1BEC_1 *)object)->unk_1E = object_flags;
+            object->flags = object_flags;
             object_flag_block.flags = global_flags;
         }
     }

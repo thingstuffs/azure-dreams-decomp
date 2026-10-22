@@ -1,4 +1,5 @@
 /* Timed target tinting, source-relative arcing motion, and linked effect setup. */
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_19ba800.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -15,7 +16,6 @@
 
 extern u8 D_80024A64[];
 extern u16 D_80024A70[];
-
 
 extern s32 read_sound_mode_blocking_status(s32);
 extern void draw_textured_ellipse(void *, void *, s32, s32);
@@ -38,7 +38,7 @@ void update_directional_actor_effect(void *state_data)
     s32 phase;
     s32 result;
     void *entry;
-    void *child;
+    ObjectNodeHeader *child;
 
     U16_AT(state, 0x16)++;
     phase = S16_AT(state, 0x0A);
@@ -90,13 +90,13 @@ void update_directional_actor_effect(void *state_data)
             u32 tint = 0;
 
             U32_AT(entry, 0x1C) = entry_flags;
-            child = PTR_AT(entry, -0x14);
-            if ((U16_AT(effect_flags, 4) & 1) != 0) {
+            child = ((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
+            if ((effect_flags->unk_004 & 1) != 0) {
                 tint = 0x0080FF80;
             }
-            U32_AT(child, 0x0C) = tint;
+            child->sprite = tint;
         }
-        if ((U16_AT(((u16 *)(&reference_tile_object.sprite_flags)), 0) & 0x8000) == 0) {
+        if ((reference_tile_object.sprite_flags & 0x8000) == 0) {
             U16_AT(state, 0x18)--;
             if ((s16)U16_AT(state, 0x18) >= 0) {
                 break;
@@ -108,10 +108,10 @@ void update_directional_actor_effect(void *state_data)
             u32 tint = 0x00808080;
             s32 entry_flags;
 
-            child = PTR_AT(entry, -0x14);
+            child = ((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
             entry_flags = (s32)U32_AT(entry, 0x1C) & clear_effect_mask;
             U32_AT(entry, 0x1C) = entry_flags;
-            U32_AT(child, 0x0C) = tint;
+            child->sprite = tint;
         }
         U16_AT(state, 0x0A)++;
         break;
@@ -120,8 +120,8 @@ void update_directional_actor_effect(void *state_data)
         if (S16_AT(D_80024A70, 0) == 0) {
             {
                 DungeonGlobalStatus *sequence_state = &g_dungeon_status;
-                U16_AT(sequence_state, 0x0A)--;
-                U32_AT(sequence_state, 0x0C) = 0;
+                (*(u16 *)&sequence_state->activity_counts.parts.pending_action_count)--;
+                sequence_state->active_actor = 0;
             }
             U16_AT(state, -2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -151,8 +151,6 @@ void update_directional_actor_effect(void *state_data)
 #ifndef NULL
 #define NULL 0
 #endif
-
-
 
 typedef struct S_8199AAD4_0 {
     void * unk_00;
@@ -213,22 +211,16 @@ typedef struct S_8199AAD4_6 {
     s32 unk_04;
 } S_8199AAD4_6;   /* target_node in update_source_relative_position_delays_movement_advances_arc_toward_target */
 
-
 typedef struct S_8199AAD4_8 {
     u8 pad_00[0xC];
     void * unk_0C;
 } S_8199AAD4_8;   /* call_node in update_source_relative_position_delays_movement_advances_arc_toward_target */
-
-
 
 typedef struct S_8199AAD4_10 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
 } S_8199AAD4_10;   /* ((S_8199AAD4_0 *)self)->unk_00 in update_source_relative_position_delays_movement_advances_arc_toward_target */
-
-
-
 
 #define source source_or_step
 
@@ -248,7 +240,6 @@ extern void *create_positioned(void *, s32, s32, s32, void *, s32, s32, s32, voi
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
 extern void spawn_blinking_sprite_flash(s16, s16, s16);
-
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
 void update_source_relative_position_delays_movement_advances_arc_toward_target(void *self, void *coords)
@@ -426,7 +417,6 @@ typedef struct Child {
     char pad14[0x24];
     u16 field38;
 } Child;
-
 
 #define D_800242D4 ((char *)update_source_relative_position_delays_movement_advances_arc_toward_target)
 extern char D_80024A8C[];

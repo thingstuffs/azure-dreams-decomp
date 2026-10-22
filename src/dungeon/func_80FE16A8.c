@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -58,7 +59,7 @@ typedef struct ActorSprite {
 } ActorSprite;
 
 /* Updates the entity action, facing direction, and animation from dungeon state. */
-void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, ActorSprite *sprite, ActorRecord *entity)
+void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
     u8 *anim_table;
     s32 tile_record;
@@ -73,8 +74,8 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
 
     if (entity->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (sprite->directionFrames != D_8016E088) {
-            sprite->directionFrames = D_8016E080;
+        if (sprite->frameTable != D_8016E088) {
+            sprite->frameTable = D_8016E080;
             select_sprite_entry(sprite,
                 D_8016E080[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
@@ -83,7 +84,7 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
     }
 
     if (((u32)entity->flags1C) & 0x200) {
-        if (sprite->directionFrames == D_8016E088) {
+        if (sprite->frameTable == D_8016E088) {
             actor->action = 0xD;
             actor->phase = 1;
             actor->handler = 0;
@@ -105,8 +106,8 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
             u8 next_state = 0xE;
 
             anim_table = D_8016E038;
-            if (sprite->directionFrames != anim_table) {
-                sprite->directionFrames = anim_table;
+            if (sprite->frameTable != anim_table) {
+                sprite->frameTable = anim_table;
                 select_sprite_entry(sprite,
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
@@ -132,15 +133,15 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
         }
     }
 
-    tile_record = find_active_rect_containing_point(sprite->position.tile.x, sprite->position.tile.y);
-    sprite->room = tile_record;
+    tile_record = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = tile_record;
 
     if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (sprite->position.packed == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
             func_8016B67C(actor, context, sprite, entity);
             return;
         }
@@ -184,7 +185,7 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
                 s32 direction;
 
                 direction = get_rounded_facing_and_rounding_flag(
-                    sprite->position.tile.x, sprite->position.tile.y,
+                    sprite->unk_24, sprite->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_aux);
                 global_actor = primary_actor_record;
@@ -213,11 +214,11 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(((u32)entity->flags1C) & 0x430)) {
 
-                if ((s16)test_neighbor_position_relation(sprite->position.tile.x,
-                        sprite->position.tile.y, reference_tile_object.tile_position.parts.tile_x,
+                if ((s16)test_neighbor_position_relation(sprite->unk_24,
+                        sprite->unk_25, reference_tile_object.tile_position.parts.tile_x,
                         reference_tile_object.tile_position.parts.tile_y) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
-                        sprite->position.tile.x, sprite->position.tile.y,
+                        sprite->unk_24, sprite->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
                 }
@@ -232,10 +233,10 @@ void update_dungeon_entity_action_and_facing(ActionState *actor, void *context, 
         return;
     }
     anim_table = D_8016E038;
-    if (sprite->directionFrames == anim_table) {
+    if (sprite->frameTable == anim_table) {
         return;
     }
-    sprite->directionFrames = anim_table;
+    sprite->frameTable = anim_table;
     select_sprite_entry(sprite,
         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
         0);

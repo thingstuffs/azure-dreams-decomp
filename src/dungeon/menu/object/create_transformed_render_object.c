@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -38,8 +39,8 @@ extern M2C_UNK D_800DD824;
 /* Creates an object at transformed coordinates and initializes its rendering and state. */
 void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode) {
     s32 alloc_flags;
-    void *position;
-    void *object;
+    ObjectPosition *position;
+    ObjectNodeHeader *object;
     SpriteFrameState *render_data;
     void *state;
     u8 *scratchpad;
@@ -56,7 +57,7 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
     object = allocate_flagged_object_node(alloc_flags);
     if (object != NULL) {
         position = *(void **)((u8 *)object + 8);
-        *(void **)((u8 *)object + 0x10) = &interpolate_delayed_target_values;
+        object->unk_10 = &interpolate_delayed_target_values;
         *(u16 *)(scratchpad + 0x98) = 0;
         *(u16 *)(scratchpad + 0x9A) = 0;
         *(u32 *)(scratchpad + 0x34) = 0x1800;
@@ -76,8 +77,8 @@ void *create_transformed_render_object(s32 x, s32 y, s32 initial_value, s32 upda
         func_80065420((void *)0x1F800070, (void *)0x1F8000F0,
                       (void *)0x1F800090, (void *)0x1F800094);
         *(u16 *)((u8 *)position + 2) = *(u16 *)(scratchpad + 0xF0);
-        *(u16 *)((u8 *)position + 6) = *(u16 *)(scratchpad + 0xF2);
-        render_data = *(void **)((u8 *)object + 0xC);
+        position->y.w.i = *(u16 *)(scratchpad + 0xF2);
+        render_data = object->sprite;
         render_data->flags = 0xC;
         render_data->source = &D_800DD824;
         render_data->scale_y = 0x2000;

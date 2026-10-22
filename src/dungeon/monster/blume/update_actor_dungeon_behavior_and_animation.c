@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -30,21 +31,6 @@ typedef struct S_80171E20_1 {
     s8 unk_6D;
 } S_80171E20_1;   /* arg3 in update_actor_dungeon_behavior_and_animation */
 
-typedef struct S_80171E20_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    s8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} S_80171E20_2;   /* arg2 in update_actor_dungeon_behavior_and_animation */
-
-
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(u8, u8);
@@ -68,16 +54,16 @@ extern s32 func_80173050(void *, void *, void *, s32);
 extern void func_80174890(void *, void *, void *, void *);
 extern void begin_actor_directional_target_action(void *, void *, void *, void *);
 
-extern u8 D_801753BC[];
+#include "dungeon/monster/blume.h"
 extern u8 D_801753C4[];
 extern u8 D_801753F4[];
 extern u8 D_801753FC[];
-extern u8 D_80175404[];
+
 
 /* Updates an actor's dungeon behavior, facing, and animation. */
 /* Selects Blume's movement, target actions, spells, and turn processing, restoring directional idle frames
  * when ready. */
-void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_data_in, void *sprite_in, void *status_in)
+void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_data_in, SpriteFrameState *sprite_in, void *status_in)
 {
     u32 initial_flags = g_dungeon_status.flags;
     s16 distance;
@@ -94,15 +80,14 @@ void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_dat
         return;
     }
 
-
     if (((S_80171E20_1 *)status_in)->unk_25 == 0) {
         advance_actor_pending_action(actor_in, actor_data_in, sprite_in, status_in);
-        if (((S_80171E20_2 *)sprite_in)->unk_2C == D_80175404) {
+        if (*(u8 **)&sprite_in->frameTable == blume_direction_frames_2) {
             return;
         }
         {
             u8 *early_anim_table = D_801753FC;
-            (*(u8 * *)((u8 *)sprite_in + 0x2C)) = early_anim_table;
+            (sprite_in->frameTable) = early_anim_table;
             select_sprite_entry(
                 sprite_in,
                 early_anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171E20_1 *)status_in)->unk_2A + 0x100) >> 9) & 7],
@@ -112,7 +97,7 @@ void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_dat
     }
 
     if (((S_80171E20_1 *)status_in)->unk_1C & 0x200) {
-        if (((S_80171E20_2 *)sprite_in)->unk_2C == D_80175404) {
+        if (*(u8 **)&sprite_in->frameTable == blume_direction_frames_2) {
             ((S_80171E20_0 *)actor_in)->unk_9A = 13;
             ((S_80171E20_0 *)actor_in)->unk_9B = 1;
             ((S_80171E20_0 *)actor_in)->unk_8C = 0;
@@ -135,9 +120,9 @@ void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_dat
             u32 next_state = 14;
 
             if (current_state != next_state) {
-                anim_table = D_801753BC;
-                if (((S_80171E20_2 *)sprite_in)->unk_2C != anim_table) {
-                    (*(u8 * *)((u8 *)sprite_in + 0x2C)) = anim_table;
+                anim_table = blume_direction_frames;
+                if (*(u8 **)&sprite_in->frameTable != anim_table) {
+                    (sprite_in->frameTable) = anim_table;
                     select_sprite_entry(
                         sprite_in,
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171E20_1 *)status_in)->unk_2A + 0x100) >> 9) & 7],
@@ -166,15 +151,15 @@ void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_dat
         }
     }
 
-    tile_id = find_active_rect_containing_point(((S_80171E20_2 *)sprite_in)->unk_24.at00.v, ((S_80171E20_2 *)sprite_in)->unk_24.at01.v);
-    ((S_80171E20_2 *)sprite_in)->unk_26 = tile_id;
+    tile_id = find_active_rect_containing_point(sprite_in->unk_24, sprite_in->unk_25);
+    sprite_in->unk_26 = tile_id;
 
     if (((S_80171E20_1 *)status_in)->unk_6D > 0) {
         if (((S_80171E20_1 *)status_in)->unk_1C & 0x20) {
             update_actor_status_and_mp(status_in);
             return;
         }
-        if (((S_80171E20_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite_in->unk_24 == reference_tile_object.tile_position.word) {
             initialize_item_sprite_frame(actor_in, actor_data_in, sprite_in, status_in);
             return;
         }
@@ -211,7 +196,7 @@ void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_dat
         case 6:
         case 7:
             facing = get_rounded_facing_and_rounding_flag(
-                ((S_80171E20_2 *)sprite_in)->unk_24.at00.v, ((S_80171E20_2 *)sprite_in)->unk_24.at01.v,
+                sprite_in->unk_24, sprite_in->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             player = primary_actor_record;
             ((S_80171E20_1 *)status_in)->unk_2A = facing;
@@ -240,10 +225,10 @@ void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_dat
             !(dungeon_rooms[tile_id].flags & 2)) {
             if (!(status_flags & 0x430)) {
                 if ((s16)test_neighbor_position_relation(
-                        ((S_80171E20_2 *)sprite_in)->unk_24.at00.v, ((S_80171E20_2 *)sprite_in)->unk_24.at01.v,
+                        sprite_in->unk_24, sprite_in->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                     ((S_80171E20_1 *)status_in)->unk_2A = get_rounded_facing_and_rounding_flag(
-                        ((S_80171E20_2 *)sprite_in)->unk_24.at00.v, ((S_80171E20_2 *)sprite_in)->unk_24.at01.v,
+                        sprite_in->unk_24, sprite_in->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 }
             }
@@ -253,15 +238,15 @@ void update_actor_dungeon_behavior_and_animation(void *actor_in, void *actor_dat
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((S_80171E20_2 *)sprite_in)->unk_14 & 0x40) {
+    if (sprite_in->flags & 0x40) {
         return;
     }
-    anim_table = D_801753BC;
-    if (((S_80171E20_2 *)sprite_in)->unk_2C == anim_table) {
+    anim_table = blume_direction_frames;
+    if (*(u8 **)&sprite_in->frameTable == anim_table) {
         return;
     }
 
-    (*(u8 * *)((u8 *)sprite_in + 0x2C)) = anim_table;
+    (sprite_in->frameTable) = anim_table;
     select_sprite_entry(
         sprite_in,
         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171E20_1 *)status_in)->unk_2A + 0x100) >> 9) & 7],

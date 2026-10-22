@@ -1,10 +1,10 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
-
 
 extern s32 resolve_record_orientation_or_fallback();
 extern void set_sprite_animation_frame();
@@ -26,7 +26,6 @@ extern u8 player_carry_frames[8];
 extern u8 D_800E06EE[9];
 extern u8 D_800E06F7[9];
 
-
 typedef struct S_800927E4_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
@@ -44,28 +43,10 @@ typedef struct S_800927E4_1 {
     u8 * unk_2C;
 } S_800927E4_1;   /* callArg in func_800927E4 */
 
-
 typedef struct S_800927E4_5 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
 } S_800927E4_5;   /* (void *)coordUnsigned in func_800927E4 */
-
-
-typedef struct S_800927E4_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    u8 * unk_10;
-} S_800927E4_7;   /* obj in func_800927E4 */
-
-typedef struct S_800927E4_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800927E4_8;   /* prim in func_800927E4 */
 
 typedef struct S_800927E4_9 {
     u8 pad_00[0x8C];
@@ -89,8 +70,8 @@ typedef struct S_800927E4_10 {
 /* Advances a directional animation, spawns its effect and message, and handles completion. */
 void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {
     u16 offset[3];
-    void *effect_obj;
-    S_800927E4_8 *effect_prim;
+    ObjectNodeHeader *effect_obj;
+    ObjectPosition *effect_prim;
     S_800927E4_9 *effect;
     S_800927E4_10 *entity;
     s32 text;
@@ -163,20 +144,20 @@ void animate_and_display_item_use(void *action, s32 actor_id, Rec_D_80082E80 *sp
                 owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
             if (effect_obj != 0) {
 
-                ((S_800927E4_7 *)effect_obj)->unk_10 = D_8008D470;
-                effect_prim = ((S_800927E4_7 *)effect_obj)->unk_08;
-                effect_prim->unk_02 = (sprite->unk_24 << 6) + 0x20;
-                effect_prim->unk_06 = (sprite->unk_25 << 6) + 0x20;
+                effect_obj->unk_10 = D_8008D470;
+                effect_prim = effect_obj->position;
+                effect_prim->x.w.i = (sprite->unk_24 << 6) + 0x20;
+                effect_prim->y.w.i = (sprite->unk_25 << 6) + 0x20;
 
                 effect = (u8 *)effect_obj + 0x20;
                 if (sprite->unk_14.at00_u16.v & 0x8000) {
-                    effect_prim->unk_0A = ((u16)actor->unk_88) - 0x50;
+                    effect_prim->z.w.i = ((u16)actor->unk_88) - 0x50;
                 } else {
-                    effect_prim->unk_02 += offset[0];
-                    effect_prim->unk_06 += offset[1];
+                    *(u16 *)&effect_prim->x.w.i += offset[0];
+                    *(u16 *)&effect_prim->y.w.i += offset[1];
                     tail_value = offset[2];
                     tail_value += ((u16)actor->unk_88);
-                    effect_prim->unk_0A = tail_value;
+                    effect_prim->z.w.i = tail_value;
                 }
                 effect->unk_A8 = 0x1E;
                 effect->unk_AA = 2;

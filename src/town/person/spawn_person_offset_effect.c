@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -8,18 +9,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_800ABC00_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800ABC00_0;
 
 typedef struct S_800ABC00_1 {
     u8 pad_00[0x2];
@@ -72,7 +61,7 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
     s16 *x_steps;
     u32 direction;
     SpriteFrameState *sprite;
-    S_800ABC00_0 *motion;
+    ObjectPosition *motion;
     SubObject *effect_state;
     Object *effect;
 
@@ -88,19 +77,19 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
         register_node(effect, project_sprite_chain);
         x_steps = dir_step_x;
         y_step = &dir_step_y[direction];
-        motion->unk_02 =
+        motion->x.w.i =
             (s16)(source->unk_02 -
                   (x_steps[direction] * 0x10));
-        motion->unk_06 =
+        motion->y.w.i =
             (s16)(source->unk_06 - (*y_step * 0x10));
-        motion->unk_0A = source->unk_0A;
-        motion->unk_0C =
+        motion->z.w.i = source->unk_0A;
+        motion->velocity_x =
             0 - (source->unk_0C *
                  ((rand() & 1) + 2));
-        motion->unk_10 =
+        motion->velocity_y =
             0 - (source->unk_10 *
                  ((rand() & 1) + 2));
-        motion->unk_14 = (~rand() & 1) << 0xF;
+        motion->velocity_z = (~rand() & 1) << 0xF;
         select_record_entry_and_value(sprite, &D_800D1464, 0);
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;

@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/monster/saber.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
@@ -37,7 +37,7 @@ extern u8 D_8015CE0C[];
 extern u8 D_8015CE14[];
 
 /* Updates movement toward a tile, its animation phases, and action completion. */
-void func_80ADF3AC(void *action, ObjectPosition *motion, void *sprite, ActorRecord *entity)
+void finish_saber_tile_hop(void *action, ObjectPosition *motion, void *sprite, ActorRecord *entity)
 {
     s32 phase;
     s32 frames_left;

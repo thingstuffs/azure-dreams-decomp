@@ -32,7 +32,7 @@ s16 start_sequence_in_free_slot(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispat
     audio_update_guard[0] = 1;
 
     slot = 0;
-    while (read_selected_voice_key_state(audio_voice_masks[slot]) != 0) {
+    while (SpuGetKeyStatus(audio_voice_masks[slot]) != 0) {
         slot++;
         if (slot > audio_voice_count[0] - 1) {
             slot = -1;

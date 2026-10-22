@@ -43,7 +43,7 @@ s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 void compute_and_clamps_vector_based_adjustment_updates_town();
 /* extern */
 void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile();
-extern void func_80093E98(void *, void *, s32);
+extern void init_input_action_fallback(void *, void *, s32);
 
 extern void initialize_scene_action_record(Rec_func_80094268_arg0 *, void *, void *);
 

@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/effect/motion.h"
 #include "shared/dungeon_effect_source.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -61,7 +61,7 @@ extern u16 emitted_effect_counter[5];
 extern M2C_UNK D_8010B158;
 
 /* Create an effect at the source position with the supplied color. */
-void func_7FFE83DC(S_7FFE83DC_3 *source, s32 color) {
+void create_positioned_color_sprite(S_7FFE83DC_3 *source, s32 color) {
     s32 color_value;
     S_7FFE83DC_1 *render_state;
     S_7FFE83DC_4 *sprite;

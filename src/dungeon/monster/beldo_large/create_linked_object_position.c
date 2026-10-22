@@ -1,17 +1,11 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_func_81339A5C_0 {
-    u8 pad_00[8];
-    void *unk_08;
-    void *unk_0C;
-    void *unk_10;
-} S_func_81339A5C_0;
 
 typedef struct S_func_81339A5C_1 {
     u8 pad_00[2];
@@ -48,23 +42,23 @@ void create_linked_object_position(void)
     S_func_81339A5C_1 *source_pos;
     S_func_81339A5C_2 *object_data;
     void *source_data;
-    S_func_81339A5C_0 *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *render_flags;
     S_func_81339A5C_1 *object_pos;
     SpriteFrameState *render_state;
 
-    source_pos = ((S_func_81339A5C_0 *)beldo_actor_nodes)->unk_08;
+    source_pos = ((ObjectNodeHeader *)beldo_actor_nodes)->position;
     source_data = beldo_actor_nodes + 0x20;
     object = allocate_list_node(0x12, beldo_actor_nodes);
     if (object != NULL) {
         object->unk_10 = &D_8017085C;
         object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);
         register_node(object, project_sprite_chain);
-        render_flags = object->unk_0C;
+        render_flags = object->sprite;
         render_flags->flags =
             (u16)(render_flags->flags & 0xFFF3);
         object_data->unk_24 = source_data;
-        object_pos = object->unk_08;
+        object_pos = object->position;
         object_pos->unk_02.u = source_pos->unk_02.u;
         object_pos->unk_06.u = source_pos->unk_06.u;
         object_pos->unk_0A =
@@ -75,7 +69,7 @@ void create_linked_object_position(void)
         object_pos->unk_06.u = (u16)(object_y - 0x140);
         object_pos->unk_16 = source_z;
         object_pos->unk_0A = (u16)(object_z - 0x20);
-        render_state = object->unk_0C;
+        render_state = object->sprite;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->unk_06 = 6;

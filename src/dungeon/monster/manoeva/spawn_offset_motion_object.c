@@ -1,10 +1,13 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80173D78_arg0.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/monster/manoeva.h"
 
 #ifndef NULL
 #define NULL 0
@@ -21,18 +24,6 @@ typedef struct S_80175DD0_1 {
     s16 unk_40;
 } S_80175DD0_1;   /* object in spawn_offset_motion_object */
 
-typedef struct S_80175DD0_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-} S_80175DD0_3;   /* coords in spawn_offset_motion_object */
 
    /* arg1 in spawn_offset_motion_object */
 
@@ -49,7 +40,7 @@ void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D
     u16 position_offset[3];
     u16 angle;
     s32 direction_offset;
-    S_80175DD0_3 *coords;
+    ObjectPosition *coords;
     SpriteFrameState *object_data;
     S_80175DD0_1 *object;
 
@@ -63,12 +54,12 @@ void spawn_offset_motion_object(void *parent_data, MovingPosition *origin, Rec_D
               object_data->scale_x = 0x400,
               object_data->color.word = 0x808080,
               object_data->unk_28 = source_data->unk_28.at00_s32.v,
-              coords->unk_02 = origin->unk_02 + position_offset[0],
-              coords->unk_06 = origin->unk_06 + position_offset[1],
-              coords->unk_0A = origin->unk_0A + position_offset[2],
+              coords->x.w.i = origin->unk_02 + position_offset[0],
+              coords->y.w.i = origin->unk_06 + position_offset[1],
+              coords->z.w.i = origin->unk_0A + position_offset[2],
               direction_offset = (((Rec_func_80173D78_arg0 *)parent_data)->unk_2A >> 8) & 0xE,
-              coords->unk_0E = *(u16 *)(((s8 *)dir_step_x) + direction_offset),
-              coords->unk_12 = *(u16 *)(((s8 *)dir_step_y) + direction_offset),
+              *((u16 *)&coords->velocity_x + 1) = *(u16 *)(((s8 *)dir_step_x) + direction_offset),
+              *((u16 *)&coords->velocity_y + 1) = *(u16 *)(((s8 *)dir_step_y) + direction_offset),
               object->unk_40 = 0x10,
               object->unk_20 = (s16 *)((u8 *)parent_data + 0x2A),
               select_sprite_entry(object_data, 0x45, 0),

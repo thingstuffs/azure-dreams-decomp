@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -21,13 +22,6 @@ typedef struct S_8017390C_1 {
     u8 unk_49;
 } S_8017390C_1;   /* saved_arg3 in spawn_appearance_object_and_advance_actor */
 
-typedef struct S_8017390C_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8017390C_2;
-
 typedef struct S_8017390C_3 {
     s32 unk_00;
     s32 unk_04;
@@ -36,15 +30,6 @@ typedef struct S_8017390C_3 {
     s16 unk_A8;
     s16 unk_AA;
 } S_8017390C_3;   /* saved_arg1 in spawn_appearance_object_and_advance_actor */
-
-typedef struct S_8017390C_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8017390C_4;
 
 typedef struct {
     s32 value;
@@ -66,11 +51,11 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
     s32 pos_x;
     s32 state;
     void *work_data;
-    void *spawned_obj;
+    ObjectNodeHeader *spawned_obj;
     SpriteFrameState *spawned_render;
     void *spawned_data;
     void *render_asset;
-    S_8017390C_4 *spawned_transform;
+    ObjectPosition *spawned_transform;
     void *init_obj;
     s32 angle;
 
@@ -86,16 +71,16 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
             spawned_obj = allocate_flagged_object_node(0x12);
             if (spawned_obj != 0) {
                 init_obj = spawned_obj;
-                spawned_transform = ((S_8017390C_2 *)spawned_obj)->unk_08;
+                spawned_transform = spawned_obj->position;
                 pos_x = ((S_8017390C_3 *)transform)->unk_00;
-                spawned_render = ((S_8017390C_2 *)spawned_obj)->unk_0C;
-                spawned_transform->unk_00 = pos_x;
-                spawned_transform->unk_04 = ((S_8017390C_3 *)transform)->unk_04;
+                spawned_render = spawned_obj->sprite;
+                spawned_transform->x.v = pos_x;
+                spawned_transform->y.v = ((S_8017390C_3 *)transform)->unk_04;
                 pos_z = ((S_8017390C_3 *)transform)->unk_08;
-                spawned_transform->unk_10 = 0;
-                spawned_transform->unk_0C = 0;
-                spawned_transform->unk_14 = 0xFFEE0000;
-                spawned_transform->unk_08 = pos_z;
+                spawned_transform->velocity_y = 0;
+                spawned_transform->velocity_x = 0;
+                spawned_transform->velocity_z = 0xFFEE0000;
+                spawned_transform->z.v = pos_z;
                 angle = 0xC90;
                 register_node(init_obj, project_sprite_chain, pos_z);
                 spawned_render->color.word = 0x808080;
@@ -116,7 +101,7 @@ void spawn_appearance_object_and_advance_actor(S_8017390C_0 *actor, void *transf
                 *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
                     *(Unaligned32 *)((u8 *)actor_data + 0x48);
                 create_tracked_effect(spawned_obj, 0, 0, 0);
-                ((S_8017390C_2 *)spawned_obj)->unk_10 = &func_80173770;
+                spawned_obj->unk_10 = &func_80173770;
             }
             ((S_8017390C_1 *)actor_data)->unk_48 = 0;
             ((S_8017390C_1 *)actor_data)->unk_49 = 0;

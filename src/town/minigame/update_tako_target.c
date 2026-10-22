@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 extern u8 D_80026F80[];
@@ -57,7 +58,7 @@ typedef struct Local {
 } Local;
 
 /* Updates entity animation, vertical motion, particles, and timed removal. */
-void update_tako_target(A *entity, C *motion, D *sprite) {
+void update_tako_target(A *entity, C *motion, SpriteFrameState *sprite) {
     B *cell = entity->unk0;
     s32 cell_flags;
     s32 state;
@@ -66,8 +67,8 @@ void update_tako_target(A *entity, C *motion, D *sprite) {
     s32 particle_x;
 
     if (entity->flags & 2) {
-        if (sprite->f0c.b) {
-            sprite->f0c.w += 0xfffefeff;
+        if (sprite->color.c.r) {
+            sprite->color.word += 0xfffefeff;
         }
     }
 
@@ -79,11 +80,11 @@ void update_tako_target(A *entity, C *motion, D *sprite) {
 
     advance_sprite_animation_and_textures(sprite);
     if (entity->flags & 4) {
-        if (sprite->unk0 == (void *)tako_minigame_sprites) {
+        if (sprite->unk_00 == (void *)tako_minigame_sprites) {
             select_record_entry_and_value(sprite, D_800F79E8, 0);
         }
     }
-    if (sprite->h14 & 0x6000) {
+    if (sprite->flags & 0x6000) {
         select_record_entry_and_value(sprite, tako_minigame_sprites, 0);
     }
 

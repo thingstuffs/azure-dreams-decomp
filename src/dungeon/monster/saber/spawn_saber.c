@@ -4,13 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80171158_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80171158_0;   /* object in spawn_saber */
-
 typedef struct S_80171158_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -41,9 +34,9 @@ extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);
 extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_80171320[];
-extern s32 D_80171728;
-extern u8 D_80174DEC[];
-extern u8 D_80174E4C[];
+#include "dungeon/monster/saber.h"
+
+
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Saber with default frames at D_80174DEC, applies spawn flags, and attempts valid tile placement. */
@@ -53,7 +46,7 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     s32 flags0;
     s32 flags1;
     S_80171158_1 *result;
-    void *object;
+    ObjectNodeHeader *object;
     S_80171158_2 *part0;
     SpriteFrameState *part1;
     S_80171158_4 *result_copy;
@@ -63,17 +56,17 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     if (object != 0) {
         result = object;
         result = (u8 *)result + 0x20;
-        ((S_80171158_0 *)object)->unk_10 = D_80171320;
+        object->unk_10 = D_80171320;
         result->unk_13 = MONSTER_SABER;
         register_node(object, project_sprite_chain);
 
         {
             void *handler;
 
-            part0 = ((S_80171158_0 *)object)->unk_08;
-            handler = D_80174DEC;
+            part0 = object->position;
+            handler = saber_direction_frames;
             part0->unk_0A = attr_c;
-            part1 = ((S_80171158_0 *)object)->unk_0C;
+            part1 = object->sprite;
             kind = spawn_flags & 3;
             part1->unk_25 = attr_b;
             result_copy = result;
@@ -100,7 +93,7 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
                 if ((result->unk_14 & 0x200) == 0) {
                     if ((generate_random_value() & 1) != 0) {
                         set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-                        part1->frameTable = D_80174E4C;
+                        part1->frameTable = saber_direction_frames_2;
                     }
                 }
             }
@@ -109,7 +102,7 @@ void *spawn_saber(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         initialize_actor_sprite_and_animation(object, part0, part1, spawn_flags);
         result_copy->unk_9A = 0xFF;
         result_copy->unk_9C = -1;
-        result_copy->unk_8C = &D_80171728;
+        result_copy->unk_8C = &saber_behavior_entry;
         try_move_actor_to_valid_position(result_copy, part0, part1, result);
     }
     return result;

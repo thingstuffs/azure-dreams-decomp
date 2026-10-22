@@ -3,13 +3,13 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082EB0.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
+#include "dungeon/player.h"
 
 
 typedef struct S_80095538_4 {
     u8 pad_00[0x1];
     u8 unk_01;
 } S_80095538_4;   /* ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv in dispatch_selected_item_use */
-
 
 typedef struct S_80095538_0 {
     s32 unk_00;
@@ -24,12 +24,9 @@ typedef struct S_80095538_1 {
     s32 unk_04;
 } S_80095538_1;   /* &D_80082EB0 in dispatch_selected_item_use */
 
-
-s32 begin_target_flagged_action();    /* extern */
 void equip_item_and_update_status();              /* extern */
 void change_equipped_item_and_notify();              /* extern */
-s32 dispatch_dungeon_category_action(); /* extern */
-s32 select_monster_data_pointer();                             /* extern */
+s32 select_item_record_pointer();                             /* extern */
 
 /* Dispatches an item effect or equipment update according to the item type. */
 s32 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id) {
@@ -45,11 +42,11 @@ s32 dispatch_selected_item_use(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 o
     saved_x = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_00;
     saved_y = ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_04;
     result = 1;
-    ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.s = select_monster_data_pointer(item_id);
+    ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_00.s = select_item_record_pointer(item_id);
     if (other_item_id != 0) {
-        ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_04 = select_monster_data_pointer(other_item_id);
+        reference_tile_object.secondary_item = select_item_record_pointer(other_item_id);
     } else {
-        ((S_80095538_1 *)(&reference_tile_object.selected_item))->unk_04 = 0;
+        reference_tile_object.secondary_item = 0;
     }
     item_type = ((S_80095538_4 *)(((Rec_D_80082EB0 *)(&reference_tile_object.selected_item))->unk_00.as_pv))->unk_01;
     switch (item_type) {

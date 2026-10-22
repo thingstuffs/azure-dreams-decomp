@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -16,26 +17,25 @@ typedef struct S_800B2FAC_1_pre {
     u16 unk_00;
 } S_800B2FAC_1_pre;   /* the 0x2 bytes before arg3 in update_flagged_target_tile, addressed as arg3[-1] */
 
-
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 s32 distribute_experience_awards();                      /* extern */
 s32 detach_record_and_update_slot_state();                      /* extern */
 
 /* Update a flagged target and its tile state, then mark it dirty. */
-void update_flagged_target_tile(void *unused_0, void *unused_1, void *source, void *target) {
+void update_flagged_target_tile(void *unused_0, void *unused_1, void *source, SpriteFrameState *target) {
     s32 update_mask;
     s32 target_flags;
     u8 tile_x;
     u8 tile_y;
 
     if (((S_800B2FAC_0 *)source)->unk_14 & 0xE000) {
-        if (((s32)g_dungeon_status.pending_display_owner) == (target - 0x20)) {
+        if (((s32)g_dungeon_status.pending_display_owner) == (((void *)target) - 0x20)) {
             g_dungeon_status.pending_display_owner = ((s32)g_dungeon_status.pending_display_owner) & 0x7FFFFFFF;
         }
         distribute_experience_awards(target);
         detach_record_and_update_slot_state(target);
-        target_flags = ((Rec_D_80082E80 *)target)->unk_1C.at00_s32.v;
+        target_flags = *(s32 *)&target->scale_x;
         tile_x = ((S_800B2FAC_0 *)source)->unk_24;
         tile_y = ((S_800B2FAC_0 *)source)->unk_25;
         update_mask = 0x3000;

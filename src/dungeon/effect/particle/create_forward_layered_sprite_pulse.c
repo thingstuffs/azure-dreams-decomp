@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -40,19 +41,6 @@ typedef struct S_801677FC_1 {
     s16 unk_1A;
 } S_801677FC_1;
 
-typedef struct S_801677FC_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_801677FC_2;
-
-typedef struct S_801677FC_4 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-} S_801677FC_4;
-
 typedef struct S_801677FC_5 {
     s32 unk_00;
     s32 unk_04;
@@ -72,11 +60,11 @@ void create_forward_layered_sprite_pulse(void)
     s32 effect_index;
     u8 *direction_entry;
     SpriteFrameState *render_flags;
-    S_801677FC_4 *effect_pos;
+    ObjectPosition *effect_pos;
     SpriteFrameState *sprite;
     S_801677FC_5 *source_pos;
     S_801677FC_6 *source_state;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_801677FC_1 *effect_state;
 
     direction_offsets = D_8016482C;
@@ -86,29 +74,29 @@ void create_forward_layered_sprite_pulse(void)
     do {
         effect = allocate_flagged_object_node(0x212);
         if (effect != NULL) {
-            effect_state = effect + 0x20;
+            effect_state = ((void *)effect) + 0x20;
             effect_state->unk_18 = 0xE;
             effect_state->unk_1A = 0xE;
-            ((S_801677FC_2 *)effect)->unk_10 = update_flickering_layer_sprite;
+            effect->unk_10 = update_flickering_layer_sprite;
             register_node(effect, project_sprite_chain);
-            render_flags = ((S_801677FC_2 *)effect)->unk_0C;
+            render_flags = effect->sprite;
             render_flags->tpage_abr = 0x60;
             render_flags->flags =
                 (u16)(render_flags->flags | 0xC);
-            effect_pos = ((S_801677FC_2 *)effect)->unk_08;
-            effect_pos->unk_00.at00.v = source_pos->unk_00;
-            effect_pos->unk_04.at00.v = source_pos->unk_04;
-            effect_pos->unk_08 =
+            effect_pos = effect->position;
+            effect_pos->x.v = source_pos->unk_00;
+            effect_pos->y.v = source_pos->unk_04;
+            effect_pos->z.v =
                 source_pos->unk_08 + (s32)0xFFCE0000;
-            effect_pos->unk_00.at02.v =
-                (u16)(effect_pos->unk_00.at02.v +
+            effect_pos->x.w.i =
+                (u16)(*(u16 *)&effect_pos->x.w.i +
                 ((*(s16 *)((u8 *)(&direction_offsets) + ((source_state->unk_2A >> 7) & 0x1C))) * 0x14));
             size_step = effect_index << 9;
             direction_entry = (u8 *)&direction_offsets + ((source_state->unk_2A >> 7) & 0x1C);
-            effect_pos->unk_04.at02.v =
-                (u16)(effect_pos->unk_04.at02.v +
+            effect_pos->y.w.i =
+                (u16)(*(u16 *)&effect_pos->y.w.i +
                 ((s16)((DirectionEntryFieldView_813307FC *)direction_entry)->field_02 * 0x14));
-            sprite = ((S_801677FC_2 *)effect)->unk_0C;
+            sprite = effect->sprite;
             sprite->scale_x = (s16)(size_step + 0x1C00);
             sprite->scale_y = (s16)(size_step + 0x1400);
             sprite->color.c.b = 0;

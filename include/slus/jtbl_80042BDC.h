@@ -1,6 +1,8 @@
 #ifndef SLUS_JTBL_80042BDC_H
 #define SLUS_JTBL_80042BDC_H
 
+
+struct ObjectNodeHeader;
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
 #include "shared/record_ptrs.h"
@@ -65,7 +67,7 @@ extern int            expand_text_control_codes(char *str, int arg);
 extern int            clear_byte_and_advance(int arg);
 extern void           display_text_with_fullwidth_adjustment(void *ctx);
 extern void           refresh_actor_proximity_state(S_80042BDC *ent);
-extern void           create_colored_effect_with_event(void *p, int a1, int a2);
+extern void           create_colored_effect_with_event(struct ObjectNodeHeader *p, int a1, int a2);
 extern void          *find_or_retain_sprite_resource_slot(int a0, s16 a1);
 extern void           update_map_cell_flags_with_item_limit(int a0, int a1, int a2);
 extern Ctor_80042BDC  load_monster_resource_data(int a0, void *a1, int a2);

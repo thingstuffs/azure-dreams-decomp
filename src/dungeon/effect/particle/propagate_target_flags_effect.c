@@ -48,7 +48,7 @@ void apply_random_actor_value_adjustment(void *state, void *unused, void *visual
     ticks_left = *(u16 *)((u8 *)state + 0x2C) - 1;
     remaining_ratio = (s32)((s32)(ticks_left << 16) >> 9) /
                (s16)*(u16 *)((u8 *)state + 0x2E);
-    D_800269B4 = 1;
+    particle_activity = 1;
     *(u16 *)((u8 *)state + 0x2C) = ticks_left;
     *(u8 *)((u8 *)visual + 0x0E) += 4;
     *(s8 *)((u8 *)visual + 0x0D) = (s8)remaining_ratio;
@@ -69,7 +69,6 @@ void apply_random_actor_value_adjustment(void *state, void *unused, void *visual
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
 }
-
 
 /* Retail 8196A924 (func_80024124): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
@@ -139,7 +138,7 @@ s32 func_80024124(PointRecord *first_point, ObjectPosition *first_position)
         next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
         if (next_node != 0) {
             point = (PointRecord *)(next_node + 1);
-            position = next_node->unk_08;
+            position = next_node->position;
             continue;
         }
 
@@ -158,7 +157,7 @@ void advance_counter_and_propagate_target_flags(void *object)
     u16 counter;
 
     counter = *(u16 *)(object_bytes + 50);
-    D_800269B4 = 1;
+    particle_activity = 1;
     counter -= 8;
     *(u16 *)(object_bytes + 50) = counter;
     if ((counter << 16) <= 0) {
@@ -167,10 +166,9 @@ void advance_counter_and_propagate_target_flags(void *object)
     }
 }
 
-
 /* Retail 8196ABC4 (func_800243C4): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..15 in x/y, 0..31 in z) and the given offsets (minus half the jitter range). */
-void func_800243C4(ObjectNodeHeader *parent, s32 state_14_value, s32 state_08_value, s32 state_32_value,
+void spawn_jittered_point_child(ObjectNodeHeader *parent, s32 state_14_value, s32 state_08_value, s32 state_32_value,
                    s16 x_offset, s16 y_offset, s16 z_offset) {
     ObjectNodeHeader *spawned;
     ObjectPosition *position;
@@ -184,18 +182,18 @@ void func_800243C4(ObjectNodeHeader *parent, s32 state_14_value, s32 state_08_va
         /* Retail uses unsigned high-half arithmetic; the u16 store also
          * preserves CDK combine/scheduling before the next rand call. */
         jitter = rand();
-        *(u16 *)&((ObjectPosition *)spawned->unk_08)->x.w.i =
-            *(u16 *)&((ObjectPosition *)parent->unk_08)->x.w.i +
+        *(u16 *)&spawned->position->x.w.i =
+            *(u16 *)&parent->position->x.w.i +
             (jitter & 0xF) + (x_offset - 8);
         jitter = rand();
-        *(u16 *)&((ObjectPosition *)spawned->unk_08)->y.w.i =
-            *(u16 *)&((ObjectPosition *)parent->unk_08)->y.w.i +
+        *(u16 *)&spawned->position->y.w.i =
+            *(u16 *)&parent->position->y.w.i +
             (jitter & 0xF) + (y_offset - 8);
         state = (PointRecord *)(spawned + 1);
         jitter = rand();
-        position = spawned->unk_08;
+        position = spawned->position;
         *(u16 *)&position->z.w.i =
-            *(u16 *)&((ObjectPosition *)parent->unk_08)->z.w.i +
+            *(u16 *)&parent->position->z.w.i +
             (jitter & 0x1F) + (z_offset - 0x10);
         state->unk_14 = state_14_value;
         state->brightness = state_32_value;
@@ -232,7 +230,7 @@ void func_800244E4(void *effect, S_8196ACE4_0 *position, SpriteFrameState *sprit
     collide_y = position->unk_04.at02.v;
     collide_z = position->unk_08.at02.v;
     {
-        u8 *collision_page = (u8 *)&D_800269B4 - 0x69B4;
+        u8 *collision_page = (u8 *)&particle_activity - 0x69B4;
         ((S_8196ACE4_2 *)collision_page)->unk_69B4 = 1;
     }
     if (((s16)sample_terrain_surface_height(collide_x, collide_y, collide_z) < 0x200) && ((check_left_tile_and_center_height(position->unk_00.at02.v,
@@ -317,7 +315,7 @@ void advance_terrain_colliding_sprite(void *motion, void *position, s32 update_i
     u16 remaining_ticks;
 
     remaining_ticks = ((S_8196B074_0 *)motion)->unk_2C;
-    D_800269B4 = 1;
+    particle_activity = 1;
     ((S_8196B074_0 *)motion)->unk_2C = remaining_ticks - 1;
     advance_sprite_animation_and_textures(update_id);
     ((S_8196B074_1 *)position)->unk_00.at00.v += ((S_8196B074_0 *)motion)->unk_8C;
@@ -360,7 +358,7 @@ void advance_terrain_colliding_sprite(void *motion, void *position, s32 update_i
 void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive) {
     u16 ticks_left = *(u16 *)((u8 *)effect + 0x2C);
 
-    D_800269B4 = 1;
+    particle_activity = 1;
     ticks_left -= 1;
     *(u16 *)((u8 *)effect + 0x2C) = ticks_left;
 
@@ -389,7 +387,7 @@ void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2,
     Effect *effect;
     EffectState *state;
     SpriteFrameState *render;
-    Vec3u16 *position;
+    ObjectPosition *position;
     s16 size;
     s32 jitter;
 
@@ -407,21 +405,21 @@ void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2,
         render->flags |= 2;
         render->unk_06 = 0;
         position = effect->coordinates.position;
-        position->x = x;
-        position->y = y;
-        position->z = z;
-        position->x += ((u16)view_reference_entity.x.w.i);
-        position->y += ((u16)view_reference_entity.y.w.i);
-        position->z += ((u16)view_reference_entity.z.w.i);
+        position->x.w.i = x;
+        position->y.w.i = y;
+        position->z.w.i = z;
+        *(u16 *)&position->x.w.i += ((u16)view_reference_entity.x.w.i);
+        *(u16 *)&position->y.w.i += ((u16)view_reference_entity.y.w.i);
+        *(u16 *)&position->z.w.i += ((u16)view_reference_entity.z.w.i);
         jitter = rand() & 0x1F;
-        position->x -= 0x10;
-        position->x += jitter;
+        *(u16 *)&position->x.w.i -= 0x10;
+        *(u16 *)&position->x.w.i += jitter;
         jitter = rand() & 0x1F;
-        position->y -= 0x10;
-        position->y += jitter;
+        *(u16 *)&position->y.w.i -= 0x10;
+        *(u16 *)&position->y.w.i += jitter;
         jitter = rand() & 0x1F;
-        position->z -= 0x10;
-        position->z += jitter;
+        *(u16 *)&position->z.w.i -= 0x10;
+        *(u16 *)&position->z.w.i += jitter;
         state->seed = rand();
         state->scale = 0x1000;
         render = effect->visual.render;
@@ -448,16 +446,15 @@ void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2,
 
    /* arg0 in func_8196B4A4 */
 
-
 /* Spawns a sprite effect with randomized position and motion based on the source direction. */
 void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s16 offset_x, s16 offset_y,
                    s16 offset_z)
 {
     LocalPoints direction_points;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_8196B4A4_0 *motion;
     SpriteFrameState *sprite;
-    S_8196B4A4_3 *position;
+    ObjectPosition *position;
     LocalPoint *directions;
     LocalPoint *direction;
     s32 direction_index;
@@ -470,26 +467,26 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
         motion->unk_2C = 0xF;
-        ((S_8196B4A4_1 *)effect)->unk_10 = advance_terrain_colliding_sprite;
+        effect->unk_10 = advance_terrain_colliding_sprite;
         register_node(effect, (s32)project_sprite_chain);
 
-        sprite = ((S_8196B4A4_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
         sprite->angle_z = (((s16)rand()) & 7) << 9;
         sprite->unk_06 = 0;
 
-        position = ((S_8196B4A4_1 *)effect)->unk_08;
-        position->unk_02 = offset_x;
-        position->unk_06 = spawn_y;
-        position->unk_0A = spawn_z;
-        position->unk_02 += ((u16)view_reference_entity.x.w.i);
-        position->unk_06 += ((u16)view_reference_entity.y.w.i);
-        position->unk_0A += ((u16)view_reference_entity.z.w.i);
+        position = effect->position;
+        position->x.w.i = offset_x;
+        position->y.w.i = spawn_y;
+        position->z.w.i = spawn_z;
+        position->x.w.i += ((u16)view_reference_entity.x.w.i);
+        position->y.w.i += ((u16)view_reference_entity.y.w.i);
+        position->z.w.i += ((u16)view_reference_entity.z.w.i);
 
-        position->unk_02 += (((s16)rand()) & 0x3F) - 0x20;
-        position->unk_06 += (((s16)rand()) & 0x3F) - 0x20;
-        position->unk_0A += (((s16)rand()) & 0x3F) - 0x40;
+        position->x.w.i += (((s16)rand()) & 0x3F) - 0x20;
+        position->y.w.i += (((s16)rand()) & 0x3F) - 0x20;
+        position->z.w.i += (((s16)rand()) & 0x3F) - 0x40;
 
         motion->unk_94 = -0x60000;
         motion->unk_A0 = 0x20000;
@@ -509,7 +506,7 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
         motion->unk_94 +=
             -0x80000 + ((((s16)rand()) & 0x3FFF) << 6);
 
-        sprite = ((S_8196B4A4_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->scale_x = sprite->scale_y = 0x800;
         sprite->color.c.r = sprite->color.c.g =
             sprite->color.c.b = 0x80;
@@ -535,16 +532,15 @@ void create_lingering_ballistic_sprite(S_8196B4A4_5 *source, s32 unused_1, s32 u
 
    /* arg0 in func_8196B780 */
 
-
 /* Spawns an effect with randomized position and direction-based motion. */
 void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s16 x, s16 y,
                    s16 z)
 {
     LocalPoints points;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_8196B780_0 *motion;
     SpriteFrameState *sprite;
-    S_8196B780_3 *position;
+    ObjectPosition *position;
     LocalPoint *point_base;
     LocalPoint *point;
     s32 point_index;
@@ -557,26 +553,26 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
         motion->unk_2C = 0x4;
-        ((S_8196B780_1 *)effect)->unk_10 = advance_terrain_colliding_sprite;
+        effect->unk_10 = advance_terrain_colliding_sprite;
         register_node(effect, (s32)project_sprite_chain);
 
-        sprite = ((S_8196B780_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
         sprite->angle_z = (((s16)rand()) & 7) << 9;
         sprite->unk_06 = 0;
 
-        position = ((S_8196B780_1 *)effect)->unk_08;
-        position->unk_02 = x;
-        position->unk_06 = offset_y;
-        position->unk_0A = offset_z;
-        position->unk_02 += ((u16)view_reference_entity.x.w.i);
-        position->unk_06 += ((u16)view_reference_entity.y.w.i);
-        position->unk_0A += ((u16)view_reference_entity.z.w.i);
+        position = effect->position;
+        position->x.w.i = x;
+        position->y.w.i = offset_y;
+        position->z.w.i = offset_z;
+        position->x.w.i += ((u16)view_reference_entity.x.w.i);
+        position->y.w.i += ((u16)view_reference_entity.y.w.i);
+        position->z.w.i += ((u16)view_reference_entity.z.w.i);
 
-        position->unk_02 += (((s16)rand()) & 0x3F) - 0x20;
-        position->unk_06 += (((s16)rand()) & 0x3F) - 0x20;
-        position->unk_0A += (((s16)rand()) & 0x3F) - 0x40;
+        position->x.w.i += (((s16)rand()) & 0x3F) - 0x20;
+        position->y.w.i += (((s16)rand()) & 0x3F) - 0x20;
+        position->z.w.i += (((s16)rand()) & 0x3F) - 0x40;
 
         motion->unk_94 = -0x60000;
         motion->unk_A0 = 0x20000;
@@ -596,7 +592,7 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
         motion->unk_94 +=
             -0x80000 + ((((s16)rand()) & 0x3FFF) << 6);
 
-        sprite = ((S_8196B780_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->scale_x = sprite->scale_y = 0x1000;
         sprite->color.c.r = sprite->color.c.g =
             sprite->color.c.b = 0x80;
@@ -616,7 +612,6 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
 
    /* the 0x18 bytes before D_800814A8 in func_8196BA5C, addressed as D_800814A8[-1] */
 
-
 /* Creates an object in the first free rectangle slot and marks completion when the timer expires. */
 void create_timed_rectangle_effect(void *owner) {
     s16 center[2];
@@ -627,11 +622,11 @@ void create_timed_rectangle_effect(void *owner) {
     s16 slot;
     s32 rect_offset;
     Rect16 *rect;
-    void *child;
+    ObjectNodeHeader *child;
     u8 *child_work;
     Display *display;
     void *source_vector;
-    void *child_vector;
+    ObjectPosition *child_vector;
     u16 ticks_left;
 
     copy_dst = (u8 *)&slot_rects;
@@ -652,7 +647,7 @@ void create_timed_rectangle_effect(void *owner) {
         } while (copy_src != copy_end);
     }
 
-    D_800269B4 = 1;
+    particle_activity = 1;
 
     slot = 0;
     while (slot < 8 && (*(s16 *)((u8 *)owner + 0x64 + (((s32)slot << 16) >> 15))) != 0) {
@@ -674,27 +669,27 @@ void create_timed_rectangle_effect(void *owner) {
             ((S_8196BA5C_0 *)child_work)->unk_2E = 7;
             ((S_8196BA5C_0 *)child_work)->unk_50 = slot;
             ((S_8196BA5C_0 *)child_work)->unk_7C = owner;
-            ((S_8196BA5C_1 *)child)->unk_10 = apply_random_actor_value_adjustment;
+            child->unk_10 = apply_random_actor_value_adjustment;
             register_node(child, (s32)project_sprite_chain);
 
-            display = ((S_8196BA5C_1 *)child)->unk_0C;
+            display = child->sprite;
             display->field6 = 4;
             display->flags &= 0xFFF3;
 
-            source_vector = ((S_8196BA5C_2_pre *)primary_actor_record)[-1].unk_00;
-            child_vector = ((S_8196BA5C_1 *)child)->unk_08;
-            ((s32 *)child_vector)[0] = ((s32 *)source_vector)[0];
-            ((s32 *)child_vector)[1] = ((s32 *)source_vector)[1];
-            ((s32 *)child_vector)[2] = ((s32 *)source_vector)[2];
+            source_vector = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
+            child_vector = child->position;
+            child_vector->x.v = ((s32 *)source_vector)[0];
+            child_vector->y.v = ((s32 *)source_vector)[1];
+            child_vector->z.v = ((s32 *)source_vector)[2];
 
-            display = ((S_8196BA5C_1 *)child)->unk_0C;
+            display = child->sprite;
             display->scaleX = 0x1000;
             display->scaleY = 0x1000;
             display->blue = 0x80;
             display->green = 0x80;
             display->red = 0x80;
 
-            *(PackedVec3 *)((u8 *)child + 0x58) = D_80026978;
+            *(PackedVec3 *)((u8 *)child + 0x58) = staged_particle_sprite_data;
             display->vector = (u8 *)child + 0x58;
             ((S_8196BA5C_0 *)child_work)->unk_40 = (u8)rect->x - 0x40;
             ((S_8196BA5C_0 *)child_work)->unk_41 = (u8)rect->y;
@@ -721,39 +716,39 @@ void create_timed_rectangle_effect(void *owner) {
 
 /* Creates a display object at the source position with zero scale and color. */
 void func_8002553C(void *source, s32 unused_position, s32 unused_render) {
-    void *object;
+    ObjectNodeHeader *object;
     u8 *object_state;
     Display *display;
     void *source_pos;
-    void *object_pos;
+    ObjectPosition *object_pos;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         object_state = (u8 *)object + 0x20;
         ((S_8196BD3C_0 *)object_state)->unk_2C = 0xB;
         ((S_8196BD3C_0 *)object_state)->unk_7C = source;
-        ((S_8196BD3C_1 *)object)->unk_10 = create_timed_rectangle_effect;
+        object->unk_10 = create_timed_rectangle_effect;
         register_node(object, (s32)project_sprite_chain);
 
-        display = ((S_8196BD3C_1 *)object)->unk_0C;
+        display = object->sprite;
         display->field10 = 0x20;
         display->field6 = 0;
         display->flags |= 0xC;
 
         source_pos = ((S_8196BD3C_2_pre *)source)[-1].unk_00;
-        object_pos = ((S_8196BD3C_1 *)object)->unk_08;
-        ((s32 *)object_pos)[0] = ((s32 *)source_pos)[0];
-        ((s32 *)object_pos)[1] = ((s32 *)source_pos)[1];
-        ((s32 *)object_pos)[2] = ((s32 *)source_pos)[2];
+        object_pos = object->position;
+        object_pos->x.v = ((s32 *)source_pos)[0];
+        object_pos->y.v = ((s32 *)source_pos)[1];
+        object_pos->z.v = ((s32 *)source_pos)[2];
 
-        display = ((S_8196BD3C_1 *)object)->unk_0C;
+        display = object->sprite;
         display->scaleX = 0;
         display->scaleY = 0;
         display->blue = 0;
         display->green = 0;
         display->red = 0;
 
-        *(PackedVec3 *)((u8 *)object + 0x58) = D_80026978;
+        *(PackedVec3 *)((u8 *)object + 0x58) = staged_particle_sprite_data;
         display->vector = (u8 *)object + 0x58;
     }
 }
@@ -767,7 +762,7 @@ void func_8002553C(void *source, s32 unused_position, s32 unused_render) {
 /* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */
 void update_timed(void *effect_data, s32 unused, void *sprite) {
     u8 *effect = effect_data;
-    u8 *global_page = (u8 *)&D_800269B4 - 0x69B4;
+    u8 *global_page = (u8 *)&particle_activity - 0x69B4;
     u16 frame_ticks;
     u16 frame_index;
     u8 texture_u;
@@ -845,7 +840,7 @@ void advance_particle_emitting_projectile(void *object, void *position, void *re
     collide_x = ((S_8196BFB0_0 *)position)->unk_00.at02.v;
     collide_y = ((S_8196BFB0_0 *)position)->unk_04.at02.v;
     collide_z = ((S_8196BFB0_0 *)position)->unk_08.at02.v;
-    D_800269B4 = 1;
+    particle_activity = 1;
     if ((s16)check_left_tile_and_center_height(collide_x, collide_y, collide_z) != 0) {
         ((S_8196BFB0_0 *)position)->unk_00.at00.v -= ((S_8196BFB0_1 *)object)->unk_8C;
         ((S_8196BFB0_1 *)object)->unk_8C = 0;
@@ -936,7 +931,7 @@ void shrink_particle_emitting_projectile(void *effect, void *position, void *spr
         check_x = ((S_8196C280_0 *)position)->unk_00.at02.v;
         check_y = ((S_8196C280_0 *)position)->unk_04.at02.v;
         check_z = ((S_8196C280_0 *)position)->unk_08.at02.v;
-        D_800269B4 = 1;
+        particle_activity = 1;
         if ((check_left_tile_and_center_height(check_x, check_y, check_z) << 0x10) != 0) {
             ((S_8196C280_0 *)position)->unk_00.at00.v -= ((S_8196C280_1 *)effect)->unk_8C;
             ((S_8196C280_1 *)effect)->unk_8C = 0;
@@ -1006,8 +1001,6 @@ void shrink_particle_emitting_projectile(void *effect, void *position, void *spr
     }
 }
 
-
-
 /* Update the staged particle effect and clear its actor state when it finishes. */
 void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
 {
@@ -1016,7 +1009,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
     Sprite *sprite;
     Motion *motion;
     register s32 particle_index;
-    Position *pos;
+    ObjectPosition *pos;
     DungeonState *dungeon;
     DungeonState *dungeon_2;
     u8 *effect_page;
@@ -1044,7 +1037,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
         *(s16 *)&dungeon->pad0[0x96] = init_timer;
         D_80082E86[0] = 6;
         next_state = (u16)work->state + 1;
-        D_800269B4 = 1;
+        particle_activity = 1;
         work->state = next_state;
     case 1:
         object = work->object;
@@ -1083,13 +1076,13 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->flags |= 0xC;
                         sprite->unk6 = -4;
                         pos = effect->coordinates.pos;
-                        pos->x = work->x;
+                        pos->x.w.i = work->x;
                         local_y = work->y;
-                        pos->y = local_y;
-                        pos->z = work->z;
-                        pos->x += (((Position *)&view_reference_entity))->x;
-                        pos->y += (((Position *)&view_reference_entity))->y;
-                        pos->z += (((Position *)&view_reference_entity))->z;
+                        pos->y.w.i = local_y;
+                        pos->z.w.i = work->z;
+                        *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
+                        *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
+                        *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
                         sprite->scale_x = 0x900;
                         sprite->scale_y = 0x604;
                         sprite->b = 0x80;
@@ -1111,13 +1104,13 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->flags |= 0xC;
                         sprite->unk6 = -4;
                         pos = effect->coordinates.pos;
-                        pos->x = work->x;
+                        pos->x.w.i = work->x;
                         local_y = work->y;
-                        pos->y = local_y;
-                        pos->z = work->z;
-                        pos->x += (((Position *)&view_reference_entity))->x;
-                        pos->y += (((Position *)&view_reference_entity))->y;
-                        pos->z += (((Position *)&view_reference_entity))->z;
+                        pos->y.w.i = local_y;
+                        pos->z.w.i = work->z;
+                        *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
+                        *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
+                        *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
                         sprite->scale_x = 0x1800;
                         sprite->scale_y = 0x1000;
                         sprite->b = 0x80;
@@ -1190,13 +1183,13 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             random = func_80069EF8();
                             motion->vel_z += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
                             pos = effect->coordinates.pos;
-                            pos->x = work->x;
+                            pos->x.w.i = work->x;
                             local_y = work->y;
-                            pos->y = local_y;
-                            pos->z = work->z - 16;
-                            pos->x += (((Position *)&view_reference_entity))->x;
-                            pos->y += (((Position *)&view_reference_entity))->y;
-                            pos->z += (((Position *)&view_reference_entity))->z;
+                            pos->y.w.i = local_y;
+                            pos->z.w.i = work->z - 16;
+                            *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
+                            *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
+                            *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
                             sprite->scale_y = 0x1000;
                             sprite->scale_x = 0x1000;
                             sprite->b = 0x80;
@@ -1227,13 +1220,13 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 random = func_80069EF8();
                                 motion->vel_z += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
                                 pos = effect->coordinates.pos;
-                                pos->x = work->x;
+                                pos->x.w.i = work->x;
                                 local_y = work->y;
-                                pos->y = local_y;
-                                pos->z = work->z - 16;
-                                pos->x += (((Position *)&view_reference_entity))->x;
-                                pos->y += (((Position *)&view_reference_entity))->y;
-                                pos->z += (((Position *)&view_reference_entity))->z;
+                                pos->y.w.i = local_y;
+                                pos->z.w.i = work->z - 16;
+                                *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
+                                *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
+                                *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
                                 sprite->scale_y = 0x1000;
                                 sprite->scale_x = 0x1000;
                                 sprite->b = 0x80;
@@ -1259,13 +1252,13 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     sprite->unk10 = 32;
                     sprite->flags |= 0xC;
                     pos = effect->coordinates.pos;
-                    pos->x = work->x;
+                    pos->x.w.i = work->x;
                     local_y = work->y;
-                    pos->y = local_y;
-                    pos->z = work->z;
-                    pos->x += (((Position *)&view_reference_entity))->x;
-                    pos->y += (((Position *)&view_reference_entity))->y;
-                    pos->z += (((Position *)&view_reference_entity))->z;
+                    pos->y.w.i = local_y;
+                    pos->z.w.i = work->z;
+                    *(u16 *)&pos->x.w.i += (((Position *)&view_reference_entity))->x;
+                    *(u16 *)&pos->y.w.i += (((Position *)&view_reference_entity))->y;
+                    *(u16 *)&pos->z.w.i += (((Position *)&view_reference_entity))->z;
                     sprite->scale_x = 0x1800;
                     sprite->scale_y = 0x1000;
                     sprite->b = 0x80;
@@ -1293,7 +1286,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
         return;
 
     case 4:
-        if (D_800269B4 == 0) {
+        if (particle_activity == 0) {
             g_dungeon_status.active_actor = 0;
             reference_tile_object.unk_006 = 0;
             g_dungeon_status.activity_counts.parts.pending_action_count--;
@@ -1301,6 +1294,6 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        D_800269B4 = 0;
+        particle_activity = 0;
     }
 }

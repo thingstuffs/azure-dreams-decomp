@@ -12,8 +12,8 @@ typedef struct S_80099CE0_2 {
 
 extern s32 D_800999AC;
 
-void func_8009A060(Rec_func_80094268_arg0 *object, void *ptr, void *ptr2) {
-    call_the_handler_selects_nonzero_entry((s32 *) ((S_80099CE0_2 *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_08, object, ptr2);
+void init_negative_x_step_action(Rec_func_80094268_arg0 *object, void *unused, void *handler_context) {
+    call_the_handler_selects_nonzero_entry((s32 *) ((S_80099CE0_2 *)(((Rec_func_80094268_arg0 *)object)->unk_44))->unk_08, object, handler_context);
     object_index_slots[object->unk_40].unk_00 = 0;
     object->unk_04.as_pm = &D_800999AC;
     object->unk_0A.as_s16 = 0x20;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/sprite.h"
 
 extern void advance_sprite_animation_and_textures(void *entry);
 

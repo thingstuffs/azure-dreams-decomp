@@ -1,11 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 typedef struct S_81814A80_0 {
     u16 unk_00;
 } S_81814A80_0;   /* state in accumulate_effect_motion; pointer addresses record offset 0x2 */
-
-
 
 typedef struct {
     unsigned char pad00[2];
@@ -32,7 +31,7 @@ extern s16 D_80025338;
 extern void advance_sprite_animation_and_textures(void *flags);
 
 /* Accumulate motion, process the update mode, and mark expired or flagged state. */
-void accumulate_effect_motion(State *state, s32 *sum, Flags *flags) {
+void accumulate_effect_motion(State *state, s32 *sum, SpriteFrameState *flags) {
     s32 update_count;
     s32 more_updates;
     u16 next_tick;
@@ -76,7 +75,7 @@ void accumulate_effect_motion(State *state, s32 *sum, Flags *flags) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }
-    if (flags->unk14 & 0x8000) {
+    if (flags->flags & 0x8000) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }

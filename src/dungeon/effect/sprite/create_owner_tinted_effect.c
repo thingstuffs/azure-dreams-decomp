@@ -62,18 +62,18 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
     s32 draw_flags;
     s16 render_flags;
     SpriteFrameState *render;
-    void *object;
+    ObjectNodeHeader *object;
     S_818BDD8C_1 *state;
     S_818BDD8C_5 *object_data;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = object + 0x20;
-        ((S_818BDD8C_0 *)object)->unk_10 = &D_800254E0;
+        state = ((void *)object) + 0x20;
+        object->unk_10 = &D_800254E0;
         ((S_818BDD8C_0 *)object)->unk_20 = owner;
         state->unk_10 = 0;
         state->unk_14 = (u16)owner->unk_12;
-        render = ((S_818BDD8C_0 *)object)->unk_0C;
+        render = object->sprite;
         render->color.c.b = 0x80;
         render->color.c.g = 0x80;
         render->color.c.r = 0x80;
@@ -93,7 +93,7 @@ void *create_owner_tinted_effect(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data
             render->scale_x = scale;
             register_node(call_obj, project_sprite_chain);
         }
-        object_data = ((S_818BDD8C_0 *)object)->unk_08;
+        object_data = object->position;
         *object_data = *(S_818BDD8C_5 *)initial_data;
         return object;
     }

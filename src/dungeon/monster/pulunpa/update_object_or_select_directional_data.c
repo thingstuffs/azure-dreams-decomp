@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
@@ -8,7 +9,7 @@ extern void select_sprite_entry(void *, u8, s32);
 extern u8 D_80170F20[];
 extern u8 D_80173B98[];
 extern u8 D_801762C8[];
-extern u8 D_80176300[];
+#include "dungeon/monster/pulunpa.h"
 extern u8 D_80176328[];
 extern u8 D_80176360[];
 
@@ -17,7 +18,7 @@ extern u8 D_80176360[];
  * or alternate form. */
 void update_object_or_select_directional_data(void *object_arg, void *context, void *source_arg, void *target_arg) {
     void *object = object_arg;
-    void *source = source_arg;
+    SpriteFrameState *source= source_arg;
     void *target = target_arg;
     void *state_table;
 
@@ -32,19 +33,19 @@ void update_object_or_select_directional_data(void *object_arg, void *context, v
         return;
     }
 
-    state_table = *(void **)((u8 *)source + 0x2C);
-    if (state_table == D_80176300) {
+    state_table = source->frameTable;
+    if (state_table == pulunpa_direction_frames) {
         if (*(s32 *)((u8 *)target + 0x1C) & 0x208) {
             return;
         }
-        *(void **)((u8 *)source + 0x2C) = D_801762C8;
+        source->frameTable = D_801762C8;
         select_sprite_entry(source, D_801762C8[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else if (state_table == D_80176360) {
         if (*(s32 *)((u8 *)target + 0x1C) & 0x208) {
             return;
         }
-        *(void **)((u8 *)source + 0x2C) = D_80176328;
+        source->frameTable = D_80176328;
         select_sprite_entry(source, D_80176328[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else {

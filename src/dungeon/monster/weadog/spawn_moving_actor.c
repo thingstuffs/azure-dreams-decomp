@@ -30,7 +30,7 @@ extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
 
 /* Spawns a moving actor and advances the action through animation and recovery. */
-void spawn_moving_actor(void *action_work, void *position, void *sprite, void *actor) {
+void spawn_moving_actor(void *action_work, void *position, SpriteFrameState *sprite, void *actor) {
     Copy32 direction_vectors = D_80170808;
     s32 state;
     u16 timer;
@@ -53,7 +53,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
         S32_AT(position, 0x0C) = 0;
         timer = U16_AT(action_work, 0x96) + 1;
         U16_AT(action_work, 0x96) = timer;
-        if (((s16)timer < 0x14) && !(U16_AT(sprite, 0x14) & 0x8000)) {
+        if (((s16)timer < 0x14) && !(sprite->flags & 0x8000)) {
             return;
         }
         animations = D_80174F18;
@@ -63,8 +63,8 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
         U16_AT(action_work, 0x96) = 0x14;
         U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
     case 1:
-        if ((S16_AT(action_work, 0x96) == 0x13) || (U16_AT(sprite, 0x14) & 0x8000)) {
-            if (!(U16_AT(sprite, 0x14) & 0x8000)) {
+        if ((S16_AT(action_work, 0x96) == 0x13) || (sprite->flags & 0x8000)) {
+            if (!(sprite->flags & 0x8000)) {
                 play_sound_if_enabled(0x707);
             }
             spawned_actor = allocate_flagged_object_node(0x12);
@@ -72,10 +72,10 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
                 spawned_actor->unk_10 = D_801708BC;
                 spawned_work = (u8 *)spawned_actor + 0x20;
                 register_node(spawned_actor, project_sprite_chain);
-                spawned_sprite = spawned_actor->unk_0C;
+                spawned_sprite = spawned_actor->sprite;
                 spawned_sprite->flags &= 0xFFF3;
                 PTR_AT(spawned_work, 0x40) = action_work;
-                spawned_pos = spawned_actor->unk_08;
+                spawned_pos = spawned_actor->position;
                 S16_AT(spawned_pos, 2) = U16_AT(position, 2);
                 S16_AT(spawned_pos, 6) = U16_AT(position, 6);
                 S16_AT(spawned_pos, 0x0A) = U16_AT(position, 0x0A) - 0x20;
@@ -88,7 +88,7 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
                 S32_AT(spawned_work, 0x74) = 0xFFF20000;
                 S32_AT(spawned_work, 0x80) = 0x14900;
                 S16_AT(spawned_work, 0x34) = ((u16)S16_AT(actor, 0x2A) >> 9) & 7;
-                spawned_sprite = spawned_actor->unk_0C;
+                spawned_sprite = spawned_actor->sprite;
                 spawned_sprite->scale_y = 0x1000;
                 spawned_sprite->scale_x = 0x1000;
                 direction_index = ((u16)S16_AT(actor, 0x2A) >> 7) & 0x1C;
@@ -109,41 +109,41 @@ void spawn_moving_actor(void *action_work, void *position, void *sprite, void *a
                 spawned_sprite->source = D_80077C50;
             }
         }
-        if ((S16_AT(action_work, 0x96) == 0x12) || (U16_AT(sprite, 0x14) & 0x8000)) {
-            U16_AT(sprite, 0x14) |= 0x800;
+        if ((S16_AT(action_work, 0x96) == 0x12) || (sprite->flags & 0x8000)) {
+            sprite->flags |= 0x800;
         }
         timer = U16_AT(action_work, 0x96) - 1;
         U16_AT(action_work, 0x96) = timer;
-        if (((s32)(timer << 16) <= 0) || (U16_AT(sprite, 0x14) & 0x8000)) {
+        if (((s32)(timer << 16) <= 0) || (sprite->flags & 0x8000)) {
             U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
-            U16_AT(sprite, 0x14) &= 0xF7FF;
+            sprite->flags &= 0xF7FF;
             return;
         }
         return;
     case 2:
-        if (((S8_AT(sprite, 4) == state) && (U16_AT(sprite, 0x14) & 0x1000)) ||
-            (U16_AT(sprite, 0x14) & 0x8000)) {
-            U16_AT(sprite, 0x14) |= 0x800;
+        if (((sprite->unk_04 == state) && (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0x8000)) {
+            sprite->flags |= 0x800;
             U16_AT(action_work, 0x96) = 0x23;
         }
         timer = U16_AT(action_work, 0x96) - 1;
         U16_AT(action_work, 0x96) = timer;
-        if (((s32)(timer << 16) <= 0) || (U16_AT(sprite, 0x14) & 0x8000)) {
+        if (((s32)(timer << 16) <= 0) || (sprite->flags & 0x8000)) {
             U16_AT(action_work, 0x96) = 0;
-            U16_AT(sprite, 0x14) &= 0xF7FF;
+            sprite->flags &= 0xF7FF;
         }
-        if (!(U16_AT(sprite, 0x14) & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         S32_AT(position, 0x14) = 0;
         S32_AT(position, 0x10) = 0;
         S32_AT(position, 0x0C) = 0;
-        set_record_integer_tile_center(position, U8_AT(sprite, 0x24), U8_AT(sprite, 0x25));
+        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
         if (PTR_AT(sprite, 0x2C) == D_80174EB8) {
             return;
         }
         PTR_AT(sprite, 0x2C) = D_80174EB8;
-        U16_AT(sprite, 0x14) &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
         select_sprite_entry(sprite, U8_AT(PTR_AT(sprite, 0x2C), direction_index), 0);
         U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;

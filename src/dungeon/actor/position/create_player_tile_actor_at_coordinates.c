@@ -1,4 +1,7 @@
+
+struct ObjectNodeHeader;
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -25,8 +28,8 @@ extern u8 find_active_rect_containing_point(u8 a0, u8 a1);
 extern void set_record_integer_tile_center(void *a0, u8 a1, u8 a2);
 extern s16 sample_terrain_surface_height(u16 a0, u16 a1, s16 a2);
 extern void select_record_entry_and_value(void *a0, s32 a1, s32 a2);
-extern void clear_entry_flag_and_link_owner(void *a0);
-extern void create_source_linked_fading_effect(void *, s16);
+extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *a0);
+extern void create_source_linked_fading_effect(struct ObjectNodeHeader *, s16);
 extern void register_node(void *a0, void *a1);
 extern void set_or_clear_actor_status_slot(void *a0, s32 a1, s32 a2);
 
@@ -34,9 +37,9 @@ extern void set_or_clear_actor_status_slot(void *a0, s32 a1, s32 a2);
 void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height) {
     u8 saved_tile_x = tile_x;
     u8 saved_tile_z = tile_z;
-    void *entity;
+    ObjectNodeHeader *entity;
     void *state;
-    void *sprite;
+    SpriteFrameState *sprite;
     GameWork *camera;
     void *state_tail;
     s32 direction_entry;
@@ -49,24 +52,24 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
     entity = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (entity != 0) {
         state = (u8 *)entity + 0x20;
-        FLD(entity, void *, 0x10) = &D_800C9AAC;
+        entity->unk_10 = &D_800C9AAC;
         FLD(state, s8, 0x13) = 0x2f;
-        state_tail = FLD(entity, void *, 8);
+        state_tail = entity->position;
         FLD(state_tail, u16, 0xA) = height;
-        sprite = FLD(entity, void *, 0xC);
-        FLD(sprite, u8, 0x24) = saved_tile_x;
-        FLD(sprite, u8, 0x25) = saved_tile_z;
-        FLD(sprite, u8, 0x26) = find_active_rect_containing_point(FLD(sprite, u8, 0x24), FLD(sprite, u8, 0x25));
-        set_record_integer_tile_center(state_tail, FLD(sprite, u8, 0x24), FLD(sprite, u8, 0x25));
+        sprite = entity->sprite;
+        sprite->unk_24 = saved_tile_x;
+        sprite->unk_25 = saved_tile_z;
+        sprite->unk_26 = find_active_rect_containing_point(FLD(sprite, u8, 0x24), sprite->unk_25);
+        set_record_integer_tile_center(state_tail, FLD(sprite, u8, 0x24), sprite->unk_25);
         FLD(state, s16, 0x88) =
             sample_terrain_surface_height(FLD(state_tail, u16, 2), FLD(state_tail, u16, 6), (s16)(FLD(state_tail, u16, 0xA) - 0x20));
-        FLD(sprite, s16, 0x1E) = 0x1000;
-        FLD(sprite, s16, 0x1C) = 0x1000;
-        FLD(sprite, s32, 0xC) = 0x2c808080;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->color.word = 0x2c808080;
         FLD(state, void *, 0xA4) = D_800E0334;
-        FLD(sprite, void *, 0x2C) = D_800E0334;
+        sprite->frameTable = D_800E0334;
         camera = &g_game_work;
-        direction_entry = ((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 7) & 0x1C;
+        direction_entry = ((camera->view.camera_rotation.parts.viewAngle + FLD(state, s16, 0x2A) + 0x100) >> 7) & 0x1C;
         direction_entry += (s32)FLD(state, void *, 0xA4);
         select_record_entry_and_value(sprite, FLD((void *)direction_entry, s32, 0), 0);
         clear_entry_flag_and_link_owner(entity);
@@ -75,10 +78,10 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         FLD(state, s8, 0x71) = 0;
         state_tail = state;
         {
-            if (dir_sprite_flag[((FLD(camera, s16, 0xC8) + FLD(state, s16, 0x2A) + 0x100) >> 9) & 7] != 0) {
-                FLD(sprite, u16, 0x14) |= 1;
+            if (dir_sprite_flag[((camera->view.camera_rotation.parts.viewAngle + FLD(state, s16, 0x2A) + 0x100) >> 9) & 7] != 0) {
+                sprite->flags |= 1;
             } else {
-                FLD(sprite, u16, 0x14) &= 0xFFFE;
+                sprite->flags &= 0xFFFE;
             }
         }
         tint = 0x404040;

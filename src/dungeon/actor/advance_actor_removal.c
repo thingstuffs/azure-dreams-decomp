@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/player.h"
 
 typedef struct S_800AB778_19 {
     u8 pad_00[0x3D7C];
@@ -132,7 +133,6 @@ typedef struct {
 void build_entity_slot_snapshot();
 s32 get_entity_effect_value();
 s32 get_entity_class();
-void clear_player_linked_action_flags();
 void clear_slot_and_update_linked_state();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();

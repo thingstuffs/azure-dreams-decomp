@@ -1,12 +1,15 @@
 /* Homing attack movement, linked visual copies, and particle creation. */
+#include "shared/object_node.h"
+#include "shared/entity.h"
 #include "dungeon/effect/motion/initialize_entity_position_and_motion.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
-void (*const dungeon_ovl_19a332c_entry)(void) = (void (*)(void))func_80024064;
+#include "dungeon/actor.h"
+void (*const dungeon_ovl_19a332c_entry)(void) = (void (*)(void))advance_image_tint_transition;
 
 /* Loads effect graphics, starts a paired object effect, dims and restores the scene tint, and waits
    for cleanup. */
-void func_80024064(void *transition) {
+void advance_image_tint_transition(void *transition) {
     ovl_19a332c_81982864_StackPair setup_args;
     s16 restore_frames;
     s16 restore_left;
@@ -25,20 +28,20 @@ void func_80024064(void *transition) {
     case 0:
         setup_args.first = 0x010003A0;
         setup_args.second = 0x400020;
-        decode_and_upload_image(&D_80027750, &setup_args);
-        upload_vram_row_and_cache(&D_80027C74, 0x7AC0, 1, 2);
-        D_80027C94 = 1;
+        decode_and_upload_image(&tint_transition_image, &setup_args);
+        upload_vram_row_and_cache(&tint_transition_vram_row, 0x7AC0, 1, 2);
+        tint_transition_image_pending = 1;
         transition_kind = ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_09;
-        active_state = (*(void * *)&((EntityRec *)((int *)(&primary_actor_record)))->x);
+        active_state = (*(void **)&((EntityRec *)((int *)(&primary_actor_record)))->x);
         D_800269D0 = 0;
-        D_80027C96 = transition_kind;
+        tint_transition_kind = transition_kind;
         source_data = (*(void **)((u8 *)transition + 0));
         ((ovl_19a332c_81982864_S_80024064_2 *)active_state)->unk_F4 = 0;
-        D_80027C98 = source_data;
+        tint_transition_source = source_data;
         ((ovl_19a332c_81982864_S_80024064_2 *)active_state)->unk_A8 = (u8) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_08;
         inventory_clear_circular_list_flag_2000(active_state);
         ((ovl_19a332c_81982864_S_80024064_6 *)((*(void **)((u8 *)((int *)(&primary_actor_record)) + 0))))->unk_96 = 0x14;
-        ((ovl_19a332c_81982864_S_80024064_7 *)((*(void * *)&((EntityRec *)((int *)(&primary_actor_record)))->x)))->unk_102 = 1;
+        ((ovl_19a332c_81982864_S_80024064_7 *)((*(void **)&((EntityRec *)((int *)(&primary_actor_record)))->x)))->unk_102 = 1;
         ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.s = (s16) ((u16) ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_0A.s + 1);
     case 1:
         if (!(*((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_04 & 0x80)) {
@@ -58,7 +61,7 @@ void func_80024064(void *transition) {
         break;
     case 2:
         state_or_frames = 0x10;
-        if (D_80027C94 != 0) {
+        if (tint_transition_image_pending != 0) {
             break;
         }
         ((ovl_19a332c_81982864_S_80024064_0 *)transition)->unk_1A = (s16) state_or_frames;
@@ -147,7 +150,7 @@ void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, 
             return;
         }
         if (create_nine_linked_effects(position->x, position->y, position->z,
-                          *(s16 *)(((u8 **)&D_80027C98)[0] + 0x2A)) != 0) {
+                          *(s16 *)(((u8 **)&tint_transition_source)[0] + 0x2A)) != 0) {
             entity->state++;
         }
         return;
@@ -168,7 +171,7 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
 {
     s32 rect[2];
     s32 rect_size;
-    void *obj;
+    ObjectNodeHeader *obj;
     ovl_19a332c_81982CEC_S_800244EC_1 *part;
     void *result;
 
@@ -181,12 +184,12 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
         rect[0] = 0x01200340;
         rect[1] = rect_size;
         draw_textured_ellipse(&D_800269D4, rect, 1, 0);
-        part = ((ovl_19a332c_81982CEC_S_800244EC_0 *)obj)->unk_08;
-        ((ovl_19a332c_81982CEC_S_800244EC_0 *)obj)->unk_10 = (void *)initialize_entity_position_and_motion;
+        part = obj->position;
+        obj->unk_10 = (void *)initialize_entity_position_and_motion;
         part->unk_02 = source_part->unk_02;
         part->unk_06 = source_part->unk_06;
         part->unk_08.at02.v = source_part->unk_0A;
-        part = ((ovl_19a332c_81982CEC_S_800244EC_0 *)obj)->unk_0C;
+        part = obj->sprite;
         part->unk_08.at00.v = &D_800269FC;
         part->unk_1E = 0xC00;
         part->unk_1C = 0xC00;
@@ -203,7 +206,7 @@ void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s
    countdown ends. */
 void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *sprite_data)
 {
-    ovl_19a332c_81982DF8_Arg2 *sprite = (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
+    SpriteFrameState *sprite= (ovl_19a332c_81982DF8_Arg2 *) sprite_data;
     void *effect = effect_data;
     ovl_19a332c_81982DF8_Arg1 *motion = (ovl_19a332c_81982DF8_Arg1 *) motion_data;
     s16 frames_left;
@@ -222,15 +225,15 @@ void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *spr
     motion->f8 = motion->f8 + motion->f14;
     motion->f14 = motion->f14 + 0xC000;
     advance_sprite_animation_and_textures(sprite);
-    brightness = sprite->c;
+    brightness = sprite->color.c.r;
     faded_brightness = brightness - (((s32) brightness) / ((s16) (*((s16 *) (((s8 *) effect) + 0x30)))));
-    sprite->c = faded_brightness;
-    sprite->d = faded_brightness;
-    sprite->e = faded_brightness;
-    scale = sprite->f1c;
+    sprite->color.c.r = faded_brightness;
+    sprite->color.c.g = faded_brightness;
+    sprite->color.c.b = faded_brightness;
+    scale = sprite->scale_x;
     count_or_scale = scale + (((s32) (0x400 - scale)) / ((s16) (*((s16 *) (((s8 *) effect) + 0x30)))));
-    sprite->f1c = count_or_scale;
-    sprite->f1e = count_or_scale;
+    sprite->scale_x = count_or_scale;
+    sprite->scale_y = count_or_scale;
     frames_left = ((u16) (*((s16 *) (((s8 *) effect) + 0x30)))) - 1;
     *((s16 *) (((s8 *) effect) + 0x30)) = frames_left;
     if ((frames_left << 0x10) <= zero) {
@@ -242,7 +245,7 @@ void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *spr
 /* Creates the requested number of gray particles with random velocities, animation frames, and lifetimes. */
 void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
 {
-    ovl_19a332c_81982F0C_Object *particle = 0;
+    ObjectNodeHeader *particle = 0;
     s16 base_angle = (s16)heading;
     s32 remaining = count;
 
@@ -251,23 +254,23 @@ void *spawn_random_motion_particles(s16 x, s16 y, s16 z, s16 heading, s16 count)
         if (particle != 0) {
             s32 angle_offset;
             s32 move_angle;
-            ovl_19a332c_81982F0C_S_8002470C_0 *motion;
+            ObjectPosition *motion;
             SpriteFrameState *sprite;
             u8 *extra;
 
-            particle->callback = move_fade_and_expand_effect;
+            particle->unk_10 = move_fade_and_expand_effect;
             register_node(particle, project_sprite_chain);
-            motion = particle->dst;
-            motion->unk_02 = (s16)x;
-            motion->unk_06 = (s16)y;
-            motion->unk_0A = (s16)(z + 0x10);
+            motion = particle->position;
+            motion->x.w.i = (s16)x;
+            motion->y.w.i = (s16)y;
+            motion->z.w.i = (s16)(z + 0x10);
 
             angle_offset = (s16)((rand() & 0x7FF) - 0x400);
             angle_offset -= 0x800;
             move_angle = base_angle + angle_offset;
-            motion->unk_0C = func_80064584(move_angle) << 6;
-            motion->unk_10 = func_800644B8(move_angle) << 6;
-            motion->unk_14 =
+            motion->velocity_x = func_80064584(move_angle) << 6;
+            motion->velocity_y = func_800644B8(move_angle) << 6;
+            motion->velocity_z =
                 (rand() & 0x1FFFF) - 0x10000;
 
             sprite = particle->sprite;
@@ -325,8 +328,8 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     s32 direction_angle;
     s32 particle_index;
     SpriteFrameState *sprite;
-    ovl_19a332c_81983138_S_80024938_1 *motion;
-    void *particle;
+    ObjectPosition *motion;
+    ObjectNodeHeader *particle;
     union { ovl_19a332c_81983138_S_80024938_3 * pointer; s32 value; } effect_state;
     union { s32 value; s32 *pointer; } size_texture;
 
@@ -335,20 +338,20 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
     do {
         particle = allocate_flagged_object_node(0x202);
         if (particle != NULL) {
-            ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_10 = (void *)advance_effect_motion_and_color_fade;
+            particle->unk_10 = (void *)advance_effect_motion_and_color_fade;
             register_node(particle, project_sprite_chain);
-            motion = ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_08;
-            motion->unk_02 = x;
-            motion->unk_06 = y;
-            motion->unk_0A = z;
+            motion = particle->position;
+            motion->x.w.i = x;
+            motion->y.w.i = y;
+            motion->z.w.i = z;
             ring_angle = particle_index << 7;
             direction_x = func_80064584(direction_angle);
-            motion->unk_0C = (s32) ((s32) (direction_x * func_80064584(ring_angle)) >> 6);
+            motion->velocity_x = (s32) ((s32) (direction_x * func_80064584(ring_angle)) >> 6);
             direction_y = func_800644B8(direction_angle);
-            motion->unk_10 = (s32) ((s32) (direction_y * func_80064584(ring_angle)) >> 6);
-            motion->unk_14 = (s32) (func_800644B8(ring_angle) << 6);
+            motion->velocity_y = (s32) ((s32) (direction_y * func_80064584(ring_angle)) >> 6);
+            motion->velocity_z = (s32) (func_800644B8(ring_angle) << 6);
             effect_state.value = 0x808080;
-            sprite = ((ovl_19a332c_81983138_S_80024938_0 *)particle)->unk_0C;
+            sprite = particle->sprite;
             size_texture.value = 0x400;
             sprite->scale_y = size_texture.value;
             sprite->scale_x = size_texture.value;
@@ -358,7 +361,7 @@ void *spawn_thirty_two_angled_particles(s16 x, s16 y, s16 z, s16 angle, s32 unus
             sprite->source = size_texture.pointer;
             sprite->tpage_abr = 0x20;
             sprite->flags = (u16) (effect_state.value | 0xC);
-            effect_state.pointer = particle + 0x20;
+            effect_state.pointer = ((void *)particle) + 0x20;
             effect_state.pointer->unk_30 = 0xC;
             effect_state.pointer->unk_36 = (u16) angle;
         }
@@ -392,7 +395,7 @@ void fade_effect_color_by_quarter(u16 *effect_data, s32 unused, ovl_19a332c_8198
    call. */
 void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     ovl_19a332c_8198332C_Actor *actor;
-    ovl_19a332c_8198332C_Coord *coord;
+    ObjectPosition *coord;
     SpriteFrameState *prim;
     s16 step_x;
     s16 step_y;
@@ -409,9 +412,9 @@ void *spawn_effect_actor_or_curved_trail(s16 x, s16 y, s16 z, s16 angle, s16 spa
             actor->update = (void *)fade_effect_color_by_quarter;
             register_node(actor, project_sprite_chain);
             coord = actor->pos;
-            coord->x = x;
-            coord->y = y;
-            coord->z = z;
+            coord->x.w.i = x;
+            coord->y.w.i = y;
+            coord->z.w.i = z;
             prim = actor->prim;
             prim->scale_y = 2048;
             prim->scale_x = 2048;
@@ -860,7 +863,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             hit_actor = coord_delta + 0x20;
             if (hit_actor != (void *)hit_origin) {
                 do {
-                    actor_data = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) hit_actor - 0x20))->unk_0C;
+                    actor_data = ((ObjectNodeHeader *)((u8 *)hit_actor - 0x20))->sprite;
                     if ((actor_data->unk_24 == effect->unk_40) &&
                         (actor_data->unk_25 == effect->unk_42)) {
                         hit_height_gap = hit_actor->unk_88;
@@ -871,9 +874,9 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         }
                         actor_data = (u8 *) hit_actor - 0x20;
                         if ((hit_height_gap < 0x80) && !(actor_data->unk_1E & 0x2000)) {
-                            apply_attack_power_and_element_effects(hit_actor, 0xC, D_80027C96, 0xA, (s32) (s16) (effect->unk_44 << 9),
-                                D_80027C98, 2);
-                            related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) hit_actor - 0x20))->unk_08;
+                            apply_attack_power_and_element_effects(hit_actor, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->unk_44 << 9),
+                                tint_transition_source, 2);
+                            related_motion = ((ObjectNodeHeader *)((u8 *)hit_actor - 0x20))->position;
                             spawn_thirty_two_angled_particles(related_motion->unk_00.half.unk_02.s16,
                                 related_motion->unk_04.half.unk_06.s16, related_motion->unk_08.half.unk_0A.s16,
                                 (s16) effect->unk_38, (func_80069EF8() & 3) | 4);
@@ -901,7 +904,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         case 6:
             target = effect->unk_9C;
             if (target != 0) {
-                related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) target - 0x20))->unk_08;
+                related_motion = ((ObjectNodeHeader *)((u8 *)target - 0x20))->position;
                 aim_angle = (s16)calculate_planar_heading((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16,
                     related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16);
                 homing_heading = effect->unk_38;
@@ -982,8 +985,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                     }
                     if (target_gap_y < 0x20) {
                         actor_data = effect->unk_9C - 0x20;
-                        apply_attack_power_and_element_effects(effect->unk_9C, 0xC, D_80027C96, 0xA, (s32) (s16) (effect->unk_44 << 9),
-                            D_80027C98, 2);
+                        apply_attack_power_and_element_effects(effect->unk_9C, 0xC, tint_transition_kind, 0xA, (s32) (s16) (effect->unk_44 << 9),
+                            tint_transition_source, 2);
                         play_sound_if_enabled(0x300);
                         spawn_thirty_two_angled_particles(related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16,
                             (s16) related_motion->unk_08.half.unk_0A.u16, (s16) effect->unk_38,
@@ -1011,7 +1014,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
                         effect->unk_30 = 0x10;
                         effect->unk_8A = 8U;
                     } else {
-                        related_motion = ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) new_target - 0x20))->unk_08;
+                        related_motion = ((ObjectNodeHeader *)((u8 *)new_target - 0x20))->position;
                         effect->unk_34.u16 = 0x10U;
                         state6_target_base = motion->unk_08.half.unk_0A.s16;
                         height_value = related_motion->unk_08.half.unk_0A.s16;
@@ -1053,7 +1056,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
             if ((fade_ticks << 0x10) > 0) {
                 return;
             }
-            D_80027C94 = 0;
+            tint_transition_image_pending = 0;
             do {
                 ((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E = (u16) (((ovl_19a332c_819835AC_S_819835AC_8 *) ((u8 *) effect - 0x20))->unk_1E
                     | 0x8000);
@@ -1161,8 +1164,8 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
     ObjectPosition *target_pos;
     ovl_19a332c_81984754_Object **object_base;
     ovl_19a332c_81984754_Object **object_slot;
-    ovl_19a332c_81984754_Pos *pos;
-    ovl_19a332c_81984754_Part *part;
+    ObjectPosition *pos;
+    SpriteFrameState *part;
     ovl_19a332c_81984754_Entity *entity;
     ovl_19a332c_81984754_Entity *prev_entity;
     s32 object_index;
@@ -1200,16 +1203,16 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
         register_node(*object_slot, draw_linked_model_chain);
 
         pos = (*object_slot)->pos;
-        pos->x = spawn_x;
-        pos->y = spawn_y;
-        pos->z = spawn_z;
+        pos->x.w.i = spawn_x;
+        pos->y.w.i = spawn_y;
+        pos->z.w.i = spawn_z;
 
         part = (*object_slot)->part;
-        ((SpriteFrameState *)part)->angle_x = 0x400;
-        ((SpriteFrameState *)part)->angle_z = spawn_angle - 0x400;
-        ((SpriteFrameState *)part)->source = D_80026B2C + (object_index * 0x10);
-        ((SpriteFrameState *)part)->tpage_abr = 0x60;
-        ((SpriteFrameState *)part)->flags |= 0xC;
+        part->angle_x = 0x400;
+        part->angle_z = spawn_angle - 0x400;
+        part->source = D_80026B2C + (object_index * 0x10);
+        part->tpage_abr = 0x60;
+        part->flags |= 0xC;
 
         entity = &(*object_slot)->entity;
         if (object_index != 0) {
@@ -1238,7 +1241,7 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
             prev_entity->next = *object_slot;
         }
 
-        target_angle = calculate_planar_heading(pos->x, pos->y,
+        target_angle = calculate_planar_heading(pos->x.w.i, pos->y.w.i,
                               target_pos->x.w.i,
                               target_pos->y.w.i);
 
@@ -1272,14 +1275,14 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
 
         history_index = 7;
         do {
-            entity->history[history_index].x = pos->x;
-            entity->history[history_index].y = pos->y;
-            entity->history[history_index].z = pos->z;
+            entity->history[history_index].x = pos->x.w.i;
+            entity->history[history_index].y = pos->y.w.i;
+            entity->history[history_index].z = pos->z.w.i;
             history_index--;
         } while (history_index >= 0);
 
         inventory_select_entry_and_reset_object(part, 0);
-        inventory_copy_and_sign_extend_record_fields(entity, ((SpriteFrameState *)part)->unk_00);
+        inventory_copy_and_sign_extend_record_fields(entity, part->unk_00);
         prev_entity = entity;
         object_slot++;
         object_index++;
@@ -1355,7 +1358,7 @@ void inventory_set_object_entry_address(ovl_19a332c_81984BC0_S_81984BC0_0 *objec
 void inventory_clear_circular_list_flag_2000(void *unused_actor)
 {
     void *link;
-    void *object;
+    ObjectNodeHeader *object;
     void *head;
     s32 link_value;
     s32 next;
@@ -1371,9 +1374,9 @@ void inventory_clear_circular_list_flag_2000(void *unused_actor)
     head = (void *)(u32)link_value;
     do {
         object = link - 0x20;
-        next = ((ovl_19a332c_81984BF0_S_81984BF0_1 *)object)->unk_1E;
+        next = object->flags;
         next &= 0xDFFF;
-        ((ovl_19a332c_81984BF0_S_81984BF0_1 *)object)->unk_1E = next;
+        object->flags = next;
         link_value = ((ovl_19a332c_81984BF0_S_81984BF0_0 *)link)->unk_5C;
         link = (void *)(link_value + 0x20);
     } while (link != head);
@@ -1402,9 +1405,9 @@ void *find_eligible_nearby_entity(void *source_entity)
             void *next_link;
             if (((check_entity_interaction_compatibility(primary_actor_record, node) << 16) != 0) &&
                 ((check_entity_eligibility(node) << 16) != 0) &&
-                !(((ovl_19a332c_81984C44_S_81984C44_2_pre *)node)[-1].unk_12 & 0x2000)) {
+                !(((ObjectNodeHeader *)((u8 *)node - 0x20))->flags & 0x2000)) {
                 entity_floor = ((ovl_19a332c_81984C44_S_81984C44_1 *)source_entity)->unk_26;
-                owner = ((ovl_19a332c_81984C44_S_81984C44_2_pre *)node)[-1].unk_00;
+                owner = ((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite;
                 if (entity_floor >= 0) {
                     if (entity_floor == owner->unk_26) {
                         return node;

@@ -2,6 +2,8 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00260 - CL:dungeon/func_80E3B86C@dungeon/bank_e56c58, CL:dungeon/func_80E3B86C@dungeon/bank_e5d000, CL:dungeon/func_80E3B86C@dungeon/bank_e63000, CL:dungeon/func_80E3B86C@dungeon/bank_e69000, CL:dungeon/func_80E3B86C@dungeon/bank_e6f000, CL:dungeon/func_80E3B86C@dungeon/bank_e75000.
  */
 #include "dungeon/monster/manoeva/knockback_travel_g00260.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 
 /* Checks the adjacent tile's flags and whether its sampled value is below 0x200. */
 s32 check_adjacent_tile_height(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out) {
@@ -27,7 +29,7 @@ s32 check_adjacent_tile_height(s16 tile_x, s16 tile_y, s32 height, s16 direction
 /* Find a reachable target tile and create an object with the source display and context. */
 /* Checks monster and resource limits, finds a reachable nearby tile, and creates a copied-sprite travel
  * effect. */
-void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Source *source_arg, Context *context_arg) {
+void create_knockback_travel_object(u8 *owner_data, ObjectPosition *position_arg, Source *source_arg, Context *context_arg) {
     Vec3s world_offset;
     Vec3s local_offset;
     u16 hit;
@@ -62,12 +64,12 @@ void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Sour
     }
 
     direction = (((s16)context_arg->f2A >> 9) + 4) & 7;
-    initial_result = (u16)check_adjacent_tile_height(source_arg->x, source_arg->y, position_arg->z, direction, &hit) << 16;
+    initial_result = (u16)check_adjacent_tile_height(source_arg->x, source_arg->y, position_arg->z.w.i, direction, &hit) << 16;
     if (initial_result == 0) {
         for (trial_dir = 0; trial_dir < 8; trial_dir++) {
             if ((s16)check_adjacent_tile_height((s16)(source_arg->x + dir_step_x[direction]),
                                    (s16)(source_arg->y + dir_step_y[direction]),
-                                   position_arg->z, (s16)trial_dir, &hit) != 0) {
+                                   position_arg->z.w.i, (s16)trial_dir, &hit) != 0) {
                 target_x = ((u16 *)dir_step_x)[trial_dir] + (source_arg->x + ((u16 *)dir_step_x)[direction]);
                 target_y = ((u16 *)dir_step_y)[trial_dir] + (source_arg->y + ((u16 *)dir_step_y)[direction]);
                 break;
@@ -105,9 +107,9 @@ void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Sour
     local_offset.z = 0;
     project_vector_by_view_angle(&local_offset, &world_offset);
 
-    object->position->x = position_arg->x + world_offset.x;
-    object->position->y = position_arg->y + world_offset.y;
-    object->position->z = position_arg->z + world_offset.z;
+    object->position->x = position_arg->x.w.i + world_offset.x;
+    object->position->y = position_arg->y.w.i + world_offset.y;
+    object->position->z = position_arg->z.w.i + world_offset.z;
     select_sprite_entry(display, 0x41, 0);
     register_node(object, project_sprite_chain);
 

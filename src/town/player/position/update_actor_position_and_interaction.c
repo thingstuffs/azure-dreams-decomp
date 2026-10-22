@@ -22,7 +22,7 @@ s32 get_status_active_entry_matching_direction(void *);
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"
-void func_800988C8(s32 record, s32 setup_value, s32 init_value);
+void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();
 s32 select_response_for_source_and_target();
 void dispatch_actor_action(void *actor, s32 position, s32 context);
@@ -93,7 +93,7 @@ void update_actor_position_and_interaction(Rec_func_80094268_arg0 *actor, Entity
         select_an_available_entry_matching_direction_returns_status(interaction_ctrl);
         store_the_valid_shared_angle_in_offset_hex_10(actor);
         call_the_handler_selects_nonzero_entry(D_800D0128, actor, (void *)(context));
-        func_800988C8(actor, body, context);
+        init_motion_action_callback(actor, body, context);
 
         entity = actor->unk_2C;
         handler = entity->unk_50;

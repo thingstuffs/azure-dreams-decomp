@@ -1,0 +1,18 @@
+#ifndef DUNGEON_EFFECT_H
+#define DUNGEON_EFFECT_H
+
+/* Function contracts owned by src/dungeon/effect/ (decision 74; maintained by tools/headers). */
+#include "common.h"
+#include "shared/entity.h"
+void apply_effect_bonuses(s16 effect_id, s32 unused_arg, ActorRecord *record);
+void *create_mode_configured_object(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value, s32 part_b_value);
+void create_record_with_effect_callback(void);
+void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *target);
+void emit_scattered_effects_unless_blocked(void *source);
+void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg);
+void run_indexed_callback_list(s16 list_index);
+void spawn_directed_and_scattered_particles(s32 x, s32 y, s32 z);
+void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 sprite_id, s16 play_sound);
+
+
+#endif

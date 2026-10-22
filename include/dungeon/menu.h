@@ -1,0 +1,22 @@
+#ifndef DUNGEON_MENU_H
+#define DUNGEON_MENU_H
+#include "common.h"
+#include "records/Rec_func_801237A4_arg0.h"
+void hud_dispatch_no_op(void *object, s32 slot_data);
+void advance_wrapped_cycle_index(void);
+void apply_record_flags_through_end(void *record, s32 flag_mask);
+void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
+void *copy_records_through_end(void *dest, void *src);
+void copy_string_to_object_buffer(s8 *object, s32 sourceString);
+void draw_cached_catalog_text(u8 *text, s16 start_x, s16 y);
+void draw_filler_first_number(s32 first_number, s32 second_number, u16 width, s16 y, u16 x, s16 mode);
+void draw_vram_glyph_text(u8 *text, s16 x, s16 y);
+void initialize_menu_object_state(s32 object_addr, s32 initial_value);
+void offset_record_coordinates(u8 *record, s32 x_offset, s32 y_offset);
+void pass_global_data_with_fixed_args(void);
+void queue_black_draw_buffer_rectangle(s32 draw_param);
+void retire_menu_object(void *object);
+void select_paired_value_tables(Rec_func_801237A4_arg0 *record);
+void set_record_byte_flags_through_end(u8 *record, s32 flags);
+void set_record_flags_and_negate_x(u8 *record, s32 flags);
+#endif

@@ -1,3 +1,5 @@
+
+struct ObjectPosition;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -34,7 +36,7 @@ void select_record_entry_and_value();
 void process_unflagged_linked_entries(); /* extern */
 s32 resolve_attack_damage_and_effects();
 void set_record_integer_tile_center(); /* extern */
-s32 select_nearby_target_and_initialize_slot(); /* extern */
+s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value); /* extern */
 void handle_actor_commands_and_facing(void *actor, s32 actor_id, SpriteFrameState *sprite, ActorRecord *actor_data);
 extern void *actor_default_frames[];
 extern u8 actor_alternate_frames[8];

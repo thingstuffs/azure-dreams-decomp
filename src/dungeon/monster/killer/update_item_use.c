@@ -1,10 +1,12 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "engine/cd.h"
 extern int abs(int);
 
 typedef struct {
@@ -92,21 +94,10 @@ typedef struct S_func_80FDD1A0_4 {
     u8 unk_BB;
 } S_func_80FDD1A0_4;
 
-typedef struct S_func_80FDD1A0_5 {
-    void *unk_00;
-} S_func_80FDD1A0_5;
-
-typedef struct S_func_80FDD1A0_6 {
-    u8 pad_00[0x0A];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_func_80FDD1A0_6;
-
-extern s32 get_cd_command_queue_depth(void);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -116,13 +107,13 @@ extern void create_two_row_object_group(void *, s16);
 extern u8 effect_update_tag[];
 extern u8 D_80170838[16];
 extern u8 D_80170EA8;
-extern u8 D_80174038[];
+#include "dungeon/monster/killer.h"
 extern u8 D_80174078[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */
 /* Starts a targeted spell with two effect rows, keeps its child at the actor's position, and releases it
  * on completion. */
-void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 *sprite, S_func_80FDD1A0_3 *actor_data)
+void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState *sprite, S_func_80FDD1A0_3 *actor_data)
 {
     s16 use_player = 0;
     S_func_80FDD1A0_4 *effect = 0;
@@ -189,7 +180,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
                     {
                         S_func_80FDD1A0_2 *item_id;
 
-                        item_id = ((S_func_80FDD1A0_5 *)((u8 *)target - 0x14))->unk_00;
+                        item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                         actor_data->unk_72.u = item_id->unk_24;
                         actor_data->unk_73.u = item_id->unk_25;
                     }
@@ -200,7 +191,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
                     if (item_action_definitions[((u8)item_id)].kind == 2) {
                         target = actor_data->unk_60;
                         if (target != 0) {
-                            item_id = ((S_func_80FDD1A0_5 *)((u8 *)target - 0x14))->unk_00;
+                            item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                             actor_data->unk_72.u = item_id->unk_24;
                             actor_data->unk_73.u = item_id->unk_25;
                         }
@@ -210,7 +201,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
                         s32 abs_y;
                         s32 target_y;
 
-                        target = scan_monster_along_heading(
+                        target = scan_actor_along_heading(
                             actor_data,
                             sprite->unk_24,
                             sprite->unk_25,
@@ -251,10 +242,10 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
                         effect_sprite->unk_1E = 0x1000;
                         effect_sprite->unk_1C = 0x1000;
                         effect_sprite->unk_28 = sprite_flags;
-                        effect_sprite->unk_14 = sprite->unk_14;
-                        effect_sprite->unk_12 = sprite->unk_12;
+                        effect_sprite->unk_14 = sprite->flags;
+                        effect_sprite->unk_12 = sprite->clut;
                         {
-                            s32 sprite_link = sprite->unk_0C;
+                            s32 sprite_link = sprite->color.word;
 
                             effect_sprite->unk_2C = D_80174078;
                             effect_sprite->unk_0C = sprite_link;
@@ -279,7 +270,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
                 return;
             }
             actor->unk_98 &= 0xDFFF;
-            sprite->unk_14 &= 0xF7FF;
+            sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_row_object_group(&sound_pos, (*item_slot - 1) % 3);
             actor->unk_9B++;
@@ -301,10 +292,10 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            sprite->unk_14 |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        sprite->unk_14 &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         actor->unk_9B++;
                         /* fallthrough */
 
@@ -314,22 +305,22 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
             *effect->unk_08 = *motion;
         }
         if ((sprite->unk_04 != 4 ||
-             !(sprite->unk_14 & 0x1000)) &&
-            !(sprite->unk_14 & 0xE000)) {
+             !(sprite->flags & 0x1000)) &&
+            !(sprite->flags & 0xE000)) {
             return;
         }
         actor->unk_98 |= 0x80;
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         if (actor->unk_A8 != 0) {
             effect->unk_BB = 0xFF;
             actor->unk_A8 = 0;
         }
-        *(void **)((u8 *)sprite + 0x2C) = D_80174038;
+        sprite->frameTable = killer_direction_frames;
         select_sprite_entry(
             sprite,
-            D_80174038[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7],
+            killer_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7],
             0);
         motion->dz = 0;
         motion->dy = 0;
@@ -339,7 +330,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        sprite->unk_14 &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         actor->unk_8C = &D_80170EA8;
         advance_status_timers(actor_data);
         if (actor_data->unk_6D.s > 0) {

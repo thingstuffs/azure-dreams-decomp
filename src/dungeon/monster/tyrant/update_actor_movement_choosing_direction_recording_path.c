@@ -1,4 +1,6 @@
+#include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/update_actor_movement_choosing_direction_recording_path.h"
+#include "shared/dungeon_status.h"
 
 /* Updates actor movement, choosing a direction and recording its path. */
 /* Chooses Tyrant's next clear step, with a flagged nearby-target shortcut, then records the path and
@@ -41,7 +43,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     actor_flags = S32_AT(actor, 0x1C);
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            target_link = find_valid_monster_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+            target_link = find_adjacent_actor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
             if (target_link != 0) {
                 turn_flags = (s32)PTR_AT(target_link, -0x14);
 
@@ -71,7 +73,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     } else if (actor_flags & 0x2000) {
         if (U16_AT(actor, 0x46) & 0x8000) {
         } else if (!(actor_flags & 0x20000)) {
-            rebuild_monster_reachable_tiles(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+            select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
         } else {
             {
                 s32 direction;
@@ -129,11 +131,11 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
             offset += (s32)tile_table;
         }
         if (tile_kind >= 0 && (U16_AT((u8 *)offset, 0xC) & 2)) {
-            rebuild_monster_reachable_tiles(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+            select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
         } else
             if (U16_AT(actor, 0x46) & 0x8000) {
             } else {
-                target_link = find_valid_monster_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+                target_link = find_adjacent_actor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
                 if (!(U16_AT(move_work, 0x98) & 0x8000)) {
                 } else if (target_link == 0) {
                 } else if ((check_diagonal_side_height(
@@ -159,7 +161,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
                         }
                     }
                     if (!(S32_AT(actor, 0x1C) & 0x20000)) {
-                        rebuild_monster_reachable_tiles(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+                        select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
                     } else {
                         u8 *goal = (u8 *)&reference_tile_position_alias - 0x24;
                         u8 *angle_work = move_work + 0x98;
@@ -253,7 +255,7 @@ void update_actor_movement_choosing_direction_recording_path(u8 *move_work, void
     {
         DungeonGlobalStatus *move_state = &g_dungeon_status;
 
-        U16_AT(move_state, 8)++;
+        (*(u16 *)&move_state->activity_counts.parts.pending_movement_count)++;
     }
     if (S8_AT(actor, 0x6D) == 0) {
         U8_AT(actor, 0x71) &= 0x7F;

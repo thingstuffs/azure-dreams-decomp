@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 typedef signed char s8;
@@ -29,8 +30,8 @@ extern u8 D_800F7944[];
 void create_tako_projectile(Copy20 *init_data, s32 pos_y)
 {
     Object136 *obj;
-    u8 *data;
-    u8 *entity;
+    ObjectPosition *data;
+    SpriteFrameState *entity;
 
     obj = allocate_flagged_object_node(0x136);
     if (obj != 0) {
@@ -40,15 +41,15 @@ void create_tako_projectile(Copy20 *init_data, s32 pos_y)
 
         data = obj->data;
         entity = obj->entity;
-        *(s32 *)(data + 0) = 0x05380000;
-        *(s32 *)(data + 8) = 0xFFE00000;
-        *(s32 *)(data + 4) = pos_y;
-        ((SpriteFrameState *)entity)->scale_y = 0x1000;
-        ((SpriteFrameState *)entity)->scale_x = 0x1000;
-        ((SpriteFrameState *)entity)->source = (s32)D_800F7944;
-        ((SpriteFrameState *)entity)->unk_04 = 0;
-        ((SpriteFrameState *)entity)->unk_05 = 0;
-        ((SpriteFrameState *)entity)->color.word = 0x00808080;
-        ((SpriteFrameState *)entity)->flags |= 0x80;
+        data->x.v = 0x05380000;
+        data->z.v = 0xFFE00000;
+        data->y.v = pos_y;
+        entity->scale_y = 0x1000;
+        entity->scale_x = 0x1000;
+        entity->source = (s32)D_800F7944;
+        entity->unk_04 = 0;
+        entity->unk_05 = 0;
+        entity->color.word = 0x00808080;
+        entity->flags |= 0x80;
     }
 }

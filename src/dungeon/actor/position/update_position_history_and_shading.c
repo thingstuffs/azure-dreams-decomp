@@ -18,7 +18,6 @@ typedef struct {
 
 extern s32 func_800644B8(s32, s32);
 
-
 /* Updates position history, motion and shading, and flags objects whose positions have settled. */
 void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
 {
@@ -64,7 +63,7 @@ void update_position_history_and_shading(u8 *obj, u8 *coords_out, u8 *rgb)
     if (linked_obj == 0) {
         switch (S16_AT(obj, 0x64)) {
         case 0:
-            direction_offset = ((-S16_AT(((u8 *)(&g_game_work.view.camera_rotation.parts.viewAngle)), 0) + 0x500) >> 8) & 0xE;
+            direction_offset = ((-g_game_work.view.camera_rotation.parts.viewAngle + 0x500) >> 8) & 0xE;
             room = &reference_tile_object;
             x_adjust = (s16 *)(((u8 *)dir_step_x) + direction_offset);
             {

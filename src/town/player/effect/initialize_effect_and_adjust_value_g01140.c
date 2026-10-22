@@ -1,7 +1,9 @@
+#include "shared/sprite_frame_state.h"
 /* Initialize effect and adjust value.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01140 - CL:town/func_800A7E6C, CL:town/func_800A8134.
  */
 #include "town/player/effect/initialize_effect_and_adjust_value_g01140.h"
+#include "shared/game_work.h"
 
 /* Initialize the object and adjust its record value before final setup. */
 void initialize_effect_and_adjust_value(void *object, EntityRec *record, s32 init_value) {
@@ -126,7 +128,7 @@ void update_object_view_transition(S_800A58CC_2 *state_arg, void *object) {
     handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile((void *) object_ref);
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated((void *) object_ref, &position_query_scratch);
     if (((S_800A58CC_0 *)((void *) object_ref))->unk_0A >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((void *) object_ref, threshold, (struct TownVec * *)(&position_query_scratch));
+        compute_and_clamps_vector_based_adjustment_updates_town((void *) object_ref, threshold, (struct TownVec **)(&position_query_scratch));
     } else {
         if (D_800D0000[-0x311] != 0) {
             ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = 0;
@@ -208,7 +210,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
     }
     height_limit = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, ((u8 *)&position_query_scratch));
     if (actor->height >= height_limit) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), height_limit, (struct TownVec * *)(((u8 *)&position_query_scratch)));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), height_limit, (struct TownVec **)(((u8 *)&position_query_scratch)));
     } else if ((&(*((u8 *)town_blocked_directions)))[1] != 0) {
         actor->value = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(actor));
@@ -254,7 +256,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
         speed = rounded_speed >> 16;
     }
 
-    if ((*(u32 *)((u8 *)input + 8)) & 0x2000) {
+    if ((*(u32 *)&input->buttons) & 0x2000) {
         {
             s32 angle;
             angle = ((u16)input->view.camera_rotation.parts.viewAngle);
@@ -265,7 +267,7 @@ void update_actor_movement_and_actions(State *state, Actor *actor) {
         spawn_directional_effects(actor, (u16)scale_random_to_unsigned_halfword_limit(1));
     }
 
-    if ((*(u32 *)((u8 *)input + 8)) & 0x8000) {
+    if ((*(u32 *)&input->buttons) & 0x8000) {
         {
             s32 angle;
             angle = ((u16)input->view.camera_rotation.parts.viewAngle);
@@ -305,7 +307,7 @@ void update_actor_effect_transition(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s3
     effect_data = ((u8 *)&position_query_scratch);
     threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(actor, effect_data);
     if (actor->unk_0A >= threshold) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), threshold, (struct TownVec * *)(effect_data));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(actor), threshold, (struct TownVec **)(effect_data));
     } else if (((S_800A5DF8_1 *)(&town_action_state_flag))->unk_00 != 0) {
         actor->unk_14 = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(actor));
@@ -399,7 +401,7 @@ void update_town_movement_and_actions(u8 *state, EntityRec *table, void *action_
 
     ground_height = select_the_smaller_position_query_result_capped_n_64_writes_associated(table, ((u8 *)&position_query_scratch));
     if (table->z.w.i >= ground_height) {
-        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(table), ground_height, (struct TownVec * *)(((u8 *)&position_query_scratch)));
+        compute_and_clamps_vector_based_adjustment_updates_town((struct TownObj *)(table), ground_height, (struct TownVec **)(((u8 *)&position_query_scratch)));
     } else if (((u8 *)town_blocked_directions)[1] != 0) {
         table->flags14 = 0;
         clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2((s32 *)(table));

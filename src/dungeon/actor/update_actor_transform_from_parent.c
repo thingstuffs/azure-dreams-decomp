@@ -6,6 +6,8 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/level.h"
+#include "dungeon/player.h"
 
 typedef struct EarlyCallData {
     u8 pad0[8];
@@ -15,8 +17,6 @@ typedef struct EarlyCallData {
 extern s16 lift_jitter_offsets[2];
 s32 resolve_record_orientation_or_fallback();
 s32 find_flagged_record_by_id(s32, s32);
-void clear_player_linked_action_flags();
-s32 find_valid_nearby_position();
 void set_record_integer_tile_center();
 void update_actor_status_and_mp();
 void begin_actor_throw_from_attachment();

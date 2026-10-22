@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/libcard.h"
 
-extern void func_8004E994();
+extern void noop_release_notification();
 
 /* Clear words referenced by three pointer arrays, notifying func_8004E994 for the first array. */
 void draw_cylindrical(void *object) {
@@ -10,7 +10,7 @@ void draw_cylindrical(void *object) {
     void *ten_slot_base;
 
     for (slot_index = 0; slot_index < 3; slot_index++) {
-        func_8004E994(*(*(s32 **) ((u8 *) object + slot_index * 4 + 0xB4C)));
+        noop_release_notification(*(*(s32 **) ((u8 *) object + slot_index * 4 + 0xB4C)));
         *(*(s32 **) ((u8 *) object + slot_index * 4 + 0xB4C)) = 0;
     }
 

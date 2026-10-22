@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 typedef struct PtrSet {
@@ -59,7 +60,7 @@ extern void add_motion_deltas_to_position(MotionRecord *);
 extern s32 query_lowered_transform_position(MotionRecord *);
 
 /* Updates a sprite's launch, bounce, and fade states. */
-void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteRecord *sprite)
+void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteFrameState *sprite)
 {
     RootRecord *root;
     DeepRecord *motion_source;
@@ -77,17 +78,17 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteReco
 
     switch (state->mode04) {
     case 0:
-        sprite->color0c += 0x101010;
-        if ((u8)sprite->color0c < 0xa0) {
+        sprite->color.word += 0x101010;
+        if ((u8)sprite->color.word < 0xa0) {
             break;
         }
-        sprite->color0c = 0x808080;
+        sprite->color.word = 0x808080;
         {
-            u16 sprite_flags = sprite->flags14;
+            u16 sprite_flags = sprite->flags;
 
             sprite_flags &= 0xfff3;
 
-            sprite->flags14 = sprite_flags;
+            sprite->flags = sprite_flags;
         }
         state->mode04++;
         break;
@@ -98,7 +99,7 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteReco
             motion->value0c = ((rand() & 0x7f) - 0x40) << 15;
             motion->value14 = (0 - ((rand() & 0xf) + 8)) << 16;
             if (motion->value0c > 0) {
-                sprite->flags14 |= 1;
+                sprite->flags |= 1;
             }
             motion->value10 = motion_source->value10;
             state->mode04 = 0x20;
@@ -124,11 +125,11 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteReco
             motion->value08 = floor_y;
             motion->value14 = (-motion->value14) >> 3;
         }
-        if (sprite->flags14 & 0x6000) {
+        if (sprite->flags & 0x6000) {
             state->timer06 = 10;
-            if (sprite->kind00 == D_800F2AC4) {
-                sprite->color0c = 0xa0a0a0;
-                sprite->flags14 |= 0xc;
+            if (sprite->unk_00 == D_800F2AC4) {
+                sprite->color.word = 0xa0a0a0;
+                sprite->flags |= 0xc;
                 state->mode04 = 0x22;
                 break;
             }
@@ -157,24 +158,24 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteReco
         }
         motion->value0c -= motion->value0c >> 3;
         motion->value10 -= motion->value10 >> 3;
-        sprite_flags = sprite->flags14;
+        sprite_flags = sprite->flags;
         if (!(sprite_flags & 0x6000)) {
             break;
         }
-        sprite->flags14 = sprite_flags | 0xc;
-        sprite->color0c = 0xa0a0a0;
+        sprite->flags = sprite_flags | 0xc;
+        sprite->color.word = 0xa0a0a0;
         state->mode04++;
         break;
     }
 
     case 0x22:
-        sprite->color0c += (s32)0xffdfdfe0;
+        sprite->color.word += (s32)0xffdfdfe0;
         if (motion->value08 > 0) {
             motion->value14 = 0;
             motion->value08 = 0;
         }
-        if ((u8)sprite->color0c < 0x20) {
-            sprite->color0c = 0;
+        if ((u8)sprite->color.word < 0x20) {
+            sprite->color.word = 0;
         }
         if (root->state36 != 9) {
             state->timer06--;
@@ -186,14 +187,14 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteReco
         break;
 
     case 0x100:
-        sprite->color0c = 0xa0a0a0;
-        sprite->flags14 |= 0xc;
+        sprite->color.word = 0xa0a0a0;
+        sprite->flags |= 0xc;
         state->mode04++;
                         /* fallthrough */
     case 0x101:
-        sprite->color0c += (s32)0xffdfdfe0;
-        if ((u8)sprite->color0c < 0x20) {
-            sprite->color0c = 0;
+        sprite->color.word += (s32)0xffdfdfe0;
+        if ((u8)sprite->color.word < 0x20) {
+            sprite->color.word = 0;
             state->mode04 = 0xfff;
         }
         break;
@@ -207,6 +208,6 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteReco
 
     if (next_sprite != 0) {
         select_record_entry_and_value(sprite, next_sprite, 0);
-        sprite->flags14 &= 0x9fff;
+        sprite->flags &= 0x9fff;
     }
 }

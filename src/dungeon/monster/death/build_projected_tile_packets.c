@@ -1,4 +1,5 @@
 /* Death effect projection, motion, fading, and object creation. */
+#include "shared/object_node.h"
 #include "modules/dungeon_ovl_be1084.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -151,7 +152,7 @@ void create_parent_return_effect(
     s16 offset_x, s16 offset_y, s16 offset_z)
 {
     ObjectPayloadView *parent = parent_obj;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_80BC1528_2 *effect_data;
     s32 step_x;
     s32 step_y;
@@ -161,13 +162,13 @@ void create_parent_return_effect(
 
     effect = allocate_list_node(0x211, parent);
     if (effect != 0) {
-        ((S_80BC1528_0 *)effect)->unk_10 = advance_effect_toward_target;
+        effect->unk_10 = advance_effect_toward_target;
 
-        ((SignedPositionView *)(((S_80BC1528_0 *)effect)->unk_08))->unk_02 =
+        ((SignedPositionView *)(effect->position))->unk_02 =
             ((MovingPosition *)(parent->unk_08))->unk_02 + offset_x;
-        ((SignedPositionView *)(((S_80BC1528_0 *)effect)->unk_08))->unk_06 =
+        ((SignedPositionView *)(effect->position))->unk_06 =
             ((MovingPosition *)(parent->unk_08))->unk_06 + offset_y;
-        ((SignedPositionView *)(((S_80BC1528_0 *)effect)->unk_08))->unk_0A =
+        ((SignedPositionView *)(effect->position))->unk_0A =
             ((MovingPosition *)(parent->unk_08))->unk_0A + offset_z - 100;
 
         effect_data = (u8 *)effect + 0x20;
@@ -217,25 +218,25 @@ void spawn_parent_offset_random_motion_effect(void *parent_arg, register s16 eff
     register s32 offset_y = offset_y_arg;
     register s32 offset_z = offset_z_arg;
     S_80BC172C_1 *effect_data;
-    void *effect;
+    ObjectNodeHeader *effect;
     u16 parent_x;
 
     effect = allocate_list_node(0x211, parent);
     if (effect != NULL) {
-        ((S_80BC172C_0 *)effect)->unk_10 = advance_damped_motion_and_fade_effect;
+        effect->unk_10 = advance_damped_motion_and_fade_effect;
         do {
             parent_x = ((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_02;
-            ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_02 = (s16) (parent_x + offset_x);
-            ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_06 =
+            ((S_80BC172C_5 *)(effect->position))->unk_02 = (s16) (parent_x + offset_x);
+            ((S_80BC172C_5 *)(effect->position))->unk_06 =
                 (s16) (((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_06 + offset_y);
-            ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_0A =
+            ((S_80BC172C_5 *)(effect->position))->unk_0A =
                 (s16) ((((MovingPosition *)(((ObjectPayloadView *)parent)->unk_08))->unk_0A + offset_z) - 0x64);
         } while (0);
-        ((SpriteFrameState *)((S_80BC172C_3 *)effect)->unk_0C)->unk_06 = 6;
-        ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
-        ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
-        effect_data = effect + 0x20;
-        ((S_80BC172C_5 *)(((S_80BC172C_3 *)effect)->unk_08))->unk_14 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+        effect->sprite->unk_06 = 6;
+        ((S_80BC172C_5 *)(effect->position))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+        ((S_80BC172C_5 *)(effect->position))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
+        effect_data = ((void *)effect) + 0x20;
+        ((S_80BC172C_5 *)(effect->position))->unk_14 = (s32) (((rand() & 0x7FFF) - 0x4000) << 7);
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = 5;
         effect_data->unk_34 = 5;

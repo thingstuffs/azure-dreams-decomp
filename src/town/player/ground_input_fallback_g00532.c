@@ -47,7 +47,7 @@ void update_and_fallback_on_input(s32 *value, S_80091114_1 *context, s32 update_
 
         if ((context->unk_0C == 0) &&
             (context->unk_10 == 0)) {
-            func_80093E98(value, context, saved_update_arg);
+            init_input_action_fallback(value, context, saved_update_arg);
         }
     }
 }

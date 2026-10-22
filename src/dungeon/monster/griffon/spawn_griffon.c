@@ -4,13 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_8016A87C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8016A87C_0;   /* obj in func_8016A87C */
-
 typedef struct S_8016A87C_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -47,10 +40,10 @@ extern u8 D_8016EC8C[];
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Griffon with default frames at D_8016EC3C, applies spawn flags, and attempts valid tile
  * placement. */
-void *func_8016A87C(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *spawn_griffon_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8016A87C_2 *part_a;
     SpriteFrameState *part_b;
     S_8016A87C_1 *work;
@@ -69,13 +62,13 @@ void *func_8016A87C(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8016A87C_0 *)obj)->unk_10 = D_8016AA50;
+        obj->unk_10 = D_8016AA50;
         work->unk_13 = MONSTER_GRIFFON;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_8016A87C_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_spawn;
-        part_b = ((S_8016A87C_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;

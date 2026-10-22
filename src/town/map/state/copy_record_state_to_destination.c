@@ -1,4 +1,5 @@
 #include "modules/town_map_props.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 
 typedef struct TownPropAnimationActor {
@@ -19,7 +20,7 @@ typedef struct TownPropAnimationDestination {
 /* Cycles a town prop's animations as its script-controlled trigger becomes active or inactive. */
 void copy_record_state_to_destination(S0 *self, s32 unused_value, S1 *destination) {
     S0 *obj = self;
-    S1 *dst = destination;
+    SpriteFrameState *dst= destination;
     s32 state;
     s32 callValue;
 
@@ -35,7 +36,7 @@ void copy_record_state_to_destination(S0 *self, s32 unused_value, S1 *destinatio
         }
         return;
     case 1:
-        if (dst->field14 & 0x6000) {
+        if (dst->flags & 0x6000) {
             callValue = obj->fieldA8;
             select_record_entry_and_value(dst, callValue, 0);
             obj->state = (u16)obj->state + 1;

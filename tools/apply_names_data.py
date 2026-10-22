@@ -27,13 +27,19 @@ def rewrite(text, pattern, mapping):
     parts.append(pattern.sub(lambda h: mapping[h[0]], text[offset:]))
     return ''.join(parts)
 
-def inline_plan(root, texts, changed, pattern, mapping):
+def inline_plan(root, texts, changed, pattern, mapping, file_rules=None, path_mappings=None, file_mappings=None):
     """Rebind reviewed inline fragments to the same lines after a spelling edit.
 
     Original include spellings and the optional inlining newline are restored
     before hashing. A stale original fragment or any edit beyond this map
     refuses; ownership, member order and include provenance stay fixed.
     """
+    if file_mappings is not None:
+        if path_mappings is not None:raise ValueError("choose one inline scope representation")
+        path_mappings=file_mappings
+    if path_mappings is not None:
+        if file_rules is not None:raise ValueError('choose one inline scope representation')
+        file_rules = {p.relative_to(root).as_posix():(re.compile(r'\b(?:'+'|'.join(map(re.escape,local))+r')\b'),local) for p,local in path_mappings.items()}
     path = root / 'ledger/layout_inline.jsonl'
     if not path.exists() or not changed:
         return {}, []
@@ -74,7 +80,8 @@ def inline_plan(root, texts, changed, pattern, mapping):
             raise ValueError('stale inline original hash: ' + rec['member_id'])
         new_start, new_end = offsets[name][start], offsets[name][end]
         current = restore(new[new_start:new_end], rec['original_includes'])
-        expected = rewrite(original.decode(), pattern, mapping).encode()
+        local_pattern, local_mapping = (file_rules or {}).get(name, (pattern, mapping))
+        expected = rewrite(original.decode(), local_pattern, local_mapping).encode()
         if current != expected:
             raise ValueError('inline fragment differs beyond the spelling map: ' + rec['member_id'])
         size = len(current) - len(suffix)
@@ -143,7 +150,9 @@ def main(a, N):
         mapping[old] = new
         taken.add(new)
     pattern = re.compile(r'\b(?:' + '|'.join(map(re.escape, mapping)) + r')\b')
-    changed = {p: rewrite(t, pattern, mapping) for p, t in texts.items() if pattern.search(t)}
+    prefixes = getattr(a, 'path_prefix', [])
+    scoped = N.scoped_texts(texts, prefixes, root) if prefixes else texts
+    changed = {p: rewrite(t, pattern, mapping) for p, t in scoped.items() if pattern.search(t)}
     changed = {p: t for p, t in changed.items() if t != texts[p]}
     guards = [{'path': p.relative_to(root).as_posix(),
                'before_sha256': hashlib.sha256(texts[p].encode()).hexdigest(),
@@ -159,6 +168,10 @@ def main(a, N):
             'map': mapping, 'required': 'complete-TU object and dependency proof, row verification, final scoped gate and SLUS SHA-1'}
     print(f'data batch: {len(additions)} new aliases; {len(changed)} physical files; UNVERIFIED staging', flush=True)
     if a.dry_run:
+        return plan
+    if not additions and not changed and not metadata:
+        if a.proof_log:
+            Path(a.proof_log).write_text(json.dumps(plan, indent=2) + '\n')
         return plan
     names_before = N.NAMES.read_bytes()
     journal_before = N.JOURNAL.read_bytes() if N.JOURNAL.exists() else None

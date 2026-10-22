@@ -1,17 +1,12 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
+#include "dungeon/monster/golem.h"
 
 typedef struct { s32 word[6]; } Copy24;
-
-typedef struct S_80174EB4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80174EB4_0;   /* obj in create_copied_render_object */
 
 typedef struct S_80174EB4_1 {
     u8 pad_00[0x4];
@@ -43,21 +38,21 @@ extern u8 D_80174D24[9];
 /* Create a render object, copy its source state, and apply queried position offsets. */
 s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_800AA258_arg2 *render_data) {
     u16 offsets[3];
-    void *object;
+    ObjectNodeHeader *object;
     S_80174EB4_5 *state;
     SpriteFrameState *primitive;
     S_80174EB4_1 *context;
 
     object = allocate_list_node(0x312, priority - 0x20);
     if (object != 0) {
-        ((S_80174EB4_0 *)object)->unk_10 = D_80174D24;
+        object->unk_10 = D_80174D24;
         register_node(object, project_sprite_chain);
 
         context = (u8 *)object + 0x20;
         context->unk_04 = source_state;
         context->unk_08 = render_data;
 
-        primitive = ((S_80174EB4_0 *)object)->unk_0C;
+        primitive = object->sprite;
         primitive->unk_28 = render_data->unk_28;
         primitive->color.c.b = 0x80;
         primitive->color.c.g = 0x80;
@@ -72,7 +67,7 @@ s32 create_copied_render_object(s32 priority, EntityRec *source_state, Rec_func_
             S_80174EB4_6 *query_data = render_data;
             u16 *offset_out;
 
-            render_data = ((S_80174EB4_0 *)object)->unk_08;
+            render_data = object->position;
             state = (void *)render_data;
             *(Copy24 *)state = *(Copy24 *)source_state;
             offset_out = offsets;

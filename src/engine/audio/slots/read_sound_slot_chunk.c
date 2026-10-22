@@ -37,7 +37,7 @@ s32 read_sound_slot_chunk(s32 dest, u32 read_size, s16 entry_id)
         return -1;
     }
 
-    lookup_and_scale_driver_address(entry->unk10 + sound_slot_transfer_cursor.value);
+    SpuSetTransferStartAddr(entry->unk10 + sound_slot_transfer_cursor.value);
 
     remaining = entry->unk14 - sound_slot_transfer_cursor.value;
     if (remaining < read_size) {

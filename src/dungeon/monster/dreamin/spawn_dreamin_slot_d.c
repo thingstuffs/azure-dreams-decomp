@@ -11,13 +11,6 @@ typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
 typedef struct ActorActionView ActorActionView;
 typedef struct ActorSpriteView ActorSpriteView;
 
-typedef struct S_80DA1000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80DA1000_0;
-
 typedef struct S_80DA1000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -62,7 +55,7 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
     s32 flags_1c;
     SpriteFrameState *placement;
     S_80DA1000_2 *type_data;
-    void *object;
+    ObjectNodeHeader *object;
     S_80DA1000_4 *entity_data;
     S_80DA1000_1 *entity = NULL;
     s8 saved_x;
@@ -77,13 +70,13 @@ void *move_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 t
     global_byte = (s32) *(s8 *)-0x56D4;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        entity = object + 0x20;
-        ((S_80DA1000_0 *)object)->unk_10 = &func_8015EA3C;
+        entity = ((void *)object) + 0x20;
+        object->unk_10 = &func_8015EA3C;
         entity->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
-        type_data = ((S_80DA1000_0 *)object)->unk_08;
+        type_data = object->position;
         type_data->unk_0A = saved_type;
-        placement = ((S_80DA1000_0 *)object)->unk_0C;
+        placement = object->sprite;
         spawn_mode = spawn_flags & 3;
         placement->unk_25 = saved_y;
         entity_data = entity;

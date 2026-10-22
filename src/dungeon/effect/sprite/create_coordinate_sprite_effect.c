@@ -1,5 +1,7 @@
 /* Positioned sprite creation, radial height cycling, randomized rotation, and actor value changes. */
 #include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/create_coordinate_sprite_effect.h"
 
@@ -23,9 +25,8 @@ void func_80024028(void *target, s32 effect_param) {
     }
 }
 
-
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
-                   Row_818A48C4_Func818A48C4Object *target) {
+                   SpriteFrameState *target) {
     Row_818A48C4_Func818A48C4Object *source;
     s32 random_value;
 
@@ -33,7 +34,7 @@ void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_re
     source->flags += 1;
     advance_sprite_animation_and_textures(target);
     random_value = rand();
-    target->value = (s16)(random_value % 0x1000);
+    target->angle_z = (s16)(random_value % 0x1000);
     if (target->flags & 0x6000) {
         select_record_entry_and_value(target, D_80025238, 0);
     }
@@ -43,7 +44,7 @@ void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_re
 void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords) {
     Row_818A4948_S_func_818A4948_0 *obj;
     SpriteFrameState *render_data;
-    Row_818A4948_S_func_818A4948_2 *coords;
+    ObjectPosition *coords;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
@@ -60,9 +61,9 @@ void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A494
         render_data->flags |= 0x100;
         register_node(obj, (s32) project_sprite_chain);
         coords = obj->unk_08;
-        coords->unk_02 = source_coords->unk_02;
-        coords->unk_06 = source_coords->unk_06;
-        coords->unk_0A = source_coords->unk_0A;
+        coords->x.w.i = source_coords->unk_02;
+        coords->y.w.i = source_coords->unk_06;
+        coords->z.w.i = source_coords->unk_0A;
         return obj;
     }
     return 0;
@@ -85,7 +86,7 @@ void advance_counted_sprite_animation(void **object_ref, long long value) {
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position) {
     SpriteFrameState *render_state;
     Row_818A4A64_S_818A4A64_0 *object;
-    Row_818A4A64_S_818A4A64_3 *position;
+    ObjectPosition *position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
@@ -101,9 +102,9 @@ void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4
         render_state->flags |= 0xC;
         register_node(object, (s32) project_sprite_chain);
         position = object->unk_08;
-        position->unk_02 = initial_position->unk_02;
-        position->unk_06 = initial_position->unk_06;
-        position->unk_0A = initial_position->unk_0A;
+        position->x.w.i = initial_position->unk_02;
+        position->y.w.i = initial_position->unk_06;
+        position->z.w.i = initial_position->unk_0A;
         return object;
     }
     return NULL;
@@ -148,21 +149,21 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
     s32 biased_random;
 
     SpriteFrameState *sprite;
-    Row_818A4CA0_S_818A4CA0_4 *position;
-    void *effect;
+    ObjectPosition *position;
+    ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         random_value = (s32)cycle_sprite_height_and_position;
         ((Row_818A4CA0_S_818A4CA0_0 *)effect)->unk_20 = effect_data;
-        effect_data = effect + 0x20;
-        ((Row_818A4CA0_S_818A4CA0_0 *)effect)->unk_10 = (void *)random_value;
+        effect_data = ((void *)effect) + 0x20;
+        effect->unk_10 = (void *)random_value;
         effect_data->unk_04 = effect_param;
         effect_data->unk_06 = (s16) (-6 - (rand() % 5));
         effect_data->unk_08 = (u16) origin->unk_02;
         effect_data->unk_0A = (u16) origin->unk_06;
         effect_data->unk_0C = (u16) (origin->unk_0A + 0x20);
-        sprite = ((Row_818A4CA0_S_818A4CA0_0 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->color.c.b = 0x60;
         sprite->color.c.g = 0x60;
         sprite->color.c.r = 0x60;
@@ -174,21 +175,20 @@ s32 create_random_radial_effect(Row_818A4CA0_S_818A4CA0_1 *effect_data, Row_818A
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         register_node(effect, project_sprite_chain);
-        position = ((Row_818A4CA0_S_818A4CA0_0 *)effect)->unk_08;
+        position = effect->position;
         random_value = rand();
         biased_random = random_value;
         angle = (random_value % 4096);
-        position->unk_02 = (s16) (effect_data->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
-        position->unk_06 = (s16) (effect_data->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
+        position->x.w.i = (s16) (effect_data->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
+        position->y.w.i = (s16) (effect_data->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
         height = effect_data->unk_0C;
         result = (s32)effect;
-        position->unk_0A = (s16)height;
+        position->z.w.i = (s16)height;
         return result;
     }
     result = 0;
     return result;
 }
-
 
 void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_S_func_818A4E74_1 *target) {
     s32 random_value;
@@ -206,7 +206,7 @@ void randomize_counted_sprite_angle(void **object_ref, s32 unused, Row_818A4E74_
 s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *spawn_position) {
     s32 rotation_rng;
     SpriteFrameState *render_state;
-    Row_818A4ED0_S_818A4ED0_2 *position;
+    ObjectPosition *position;
     Row_818A4ED0_S_818A4ED0_0 *object;
 
     object = allocate_flagged_object_node(0x212);
@@ -231,11 +231,11 @@ s32 create_randomly_rotated_effect(s32 object_param, Row_818A4ED0_S_818A4ED0_3 *
             s32 unused_rng;
             unused_rng = rand();
         }
-        position->unk_02 = (u16) spawn_position->unk_02;
-        position->unk_06 = (u16) spawn_position->unk_06;
+        position->x.w.i = (u16) spawn_position->unk_02;
+        position->y.w.i = (u16) spawn_position->unk_06;
         {
             u16 final_z = spawn_position->unk_0A;
-            position->unk_0A = final_z;
+            position->z.w.i = final_z;
             return (s32)object;
         }
     }

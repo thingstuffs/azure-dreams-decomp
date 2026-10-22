@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/menu.h"
 
-void pass_global_data_with_fixed_args();                            /* extern */
 s32 link_indexed_entry_chain();                    /* extern */
 void set_attached_object_position(s32 *, s32);                            /* extern */
 void initialize_nine_entry_links();              /* extern */

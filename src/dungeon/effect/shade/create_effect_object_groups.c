@@ -1,28 +1,8 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 
-typedef struct S_800262AC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800262AC_0;   /* object in create_effect_object_groups */
-
-typedef struct S_800262AC_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-    u8 pad_14[0x2];
-    s16 unk_16;
-} S_800262AC_1;   /* coords in create_effect_object_groups */
 
 typedef struct S_800262AC_3 {
     u8 pad_00[0x1A];
@@ -53,8 +33,8 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
     s32 object_flags;
     s32 init_value = 0;
     u16 render_flags;
-    void *object;
-    S_800262AC_1 *coords;
+    ObjectNodeHeader *object;
+    ObjectPosition *coords;
     SpriteFrameState *render;
     S_800262AC_3 *state;
     void *callback;
@@ -77,16 +57,16 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
             }
             object = allocate_flagged_object_node(object_flags);
             if (object != 0) {
-                ((S_800262AC_0 *)object)->unk_10 = callback;
+                object->unk_10 = callback;
                 register_node(object, &D_800CEEFC);
-                coords = ((S_800262AC_0 *)object)->unk_08;
-                coords->unk_0E = x;
-                coords->unk_02 = x;
-                coords->unk_12 = y;
-                coords->unk_06 = y;
-                coords->unk_16 = z;
-                coords->unk_0A = z;
-                render = ((S_800262AC_0 *)object)->unk_0C;
+                coords = object->position;
+                *((s16 *)&coords->velocity_x + 1) = x;
+                coords->x.w.i = x;
+                *((s16 *)&coords->velocity_y + 1) = y;
+                coords->y.w.i = y;
+                *((s16 *)&coords->velocity_z + 1) = z;
+                coords->z.w.i = z;
+                render = object->sprite;
                 render->unk_06 = 0x10;
                 if (group_index != 0) {
                     render->scale_y = 0x100;

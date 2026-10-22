@@ -1,6 +1,9 @@
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/entity.h"
+#include "dungeon/level.h"
+#include "dungeon/system.h"
+#include "engine/entity.h"
 
 typedef struct S_80041E28_Dst S_80041E28_Dst;
 typedef struct S_80041E28_Src S_80041E28_Src;
@@ -30,7 +33,6 @@ extern void apply_actor_template_and_class(void *, s32, void *);
 extern void call_script(s32 value);
 extern void replay_actor_status_slots(CallbackObject *object);
 extern void func_80042640(void *obj, s16 monsterId);
-extern void update_owner_class_bits(void *entity);
 extern s32 get_entity_class();
 
 
@@ -39,12 +41,10 @@ extern s32 get_entity_class();
 
 extern void equip_item_and_update_status();
 extern void change_equipped_item_and_notify();
-extern s32 find_valid_nearby_position();
 extern void *(*load_monster_resource_data(s32 resource_id, s32 resource_slot, s32 wait_for_read))(s32, s16, s16, s16);
 extern s32 retain_spawn_resource();
 extern s32 find_or_retain_sprite_resource_slot();
 extern s32 select_dungeon_spawn_tile();
-extern void restore_item_flag_400_bitmap();
 extern void *create_orbiting_teleport_effect();
 
 typedef struct S_80094988_0 {

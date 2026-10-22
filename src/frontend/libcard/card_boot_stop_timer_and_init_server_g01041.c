@@ -1,3 +1,5 @@
+
+struct ObjectNodeHeader;
 /* Card boot stop timer and init server.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01041 - CL:main/func_80014C60.
  */
@@ -16,7 +18,7 @@ void card_boot_destroy_card_chooser(Struct80014C90 *entry) {
     Struct80014C90 *entry_data = (Struct80014C90 *)((s8 *)entry + 0x20);
 
     set_object_cleanup_flag(entry_data->unk20);
-    card_boot_mark_object_complete(entry_data->unk24);
+    card_boot_mark_object_complete((struct ObjectNodeHeader *)entry_data->unk24);
     if (entry->unk20 == 2) {
         configure_shared_fade_primitive();
     }

@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/tile_object.h"
@@ -7,7 +8,6 @@
 #include "shared/entity.h"
 
 typedef struct S_80047784 S_80047784;
-
 
 typedef struct S_80172288_0 {
     u8 pad_00[0x8C];
@@ -22,7 +22,6 @@ typedef struct S_80172288_0 {
     s32 unk_A4;
 } S_80172288_0;   /* arg0 in update_actor_jump_and_landing */
 
-
 void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
 s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
@@ -36,7 +35,7 @@ extern u8 D_801741B4[];
 extern u8 D_801741BC[];
 
 /* Updates an actor's jump toward its target tile and completes the landing. */
-void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, void *map_entity, ActorRecord *actor) {
+void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
     s32 facing_aux;
     s32 jump_ticks;
     s16 ticks_left;
@@ -44,10 +43,10 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, void *map
 
     switch (((S_80172288_0 *)jump)->unk_9B) {
     case 0:
-        if (!(((Rec_D_80082E80 *)map_entity)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_801741B4;
+        (map_entity->frameTable) = D_801741B4;
         select_sprite_entry(
             map_entity,
             D_801741B4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -63,13 +62,13 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, void *map
         ((S_80172288_0 *)jump)->unk_90 -= ((S_80172288_0 *)jump)->unk_A4;
         if (jump_ticks != 0) {
             {
-                s32 target_x = ((Rec_D_80082E80 *)map_entity)->unk_24 << 6;
+                s32 target_x = map_entity->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / jump_ticks;
             }
             {
-                s32 target_y = ((Rec_D_80082E80 *)map_entity)->unk_25 << 6;
+                s32 target_y = map_entity->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
@@ -92,8 +91,8 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, void *map
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-            (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_801741BC;
+            set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
+            (map_entity->frameTable) = D_801741BC;
             select_sprite_entry(
                 map_entity,
                 D_801741BC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -111,7 +110,7 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, void *map
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+        set_record_integer_tile_center(motion, map_entity->unk_24, map_entity->unk_25);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
@@ -130,7 +129,7 @@ void update_actor_jump_and_landing(void *jump, ObjectPosition *motion, void *map
             if (actor_flags & 0x20000) {
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25,
+                    map_entity->unk_24, map_entity->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_aux);
             }
         }

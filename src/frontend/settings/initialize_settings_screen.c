@@ -10,13 +10,6 @@
 #include "sdk/libgpu.h"
 #include "slus.h"
 
-typedef struct S_80089C24_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    s32 * unk_10;
-} S_80089C24_0;
-
 typedef struct S_80089C24_1 {
     u8 pad_00[0x12];
     s16 unk_12;
@@ -28,7 +21,6 @@ typedef struct S_80089C24_2 {
     u8 pad_00[0x6];
     s16 unk_06;
 } S_80089C24_2;
-
 
 typedef struct Sol9Copy8 {
     u8 bytes[8];
@@ -45,7 +37,7 @@ extern s8 animation_tick_scale;
 extern s32 saved_cd_playback_volume_scale;
 extern s32 saved_sequence_volume_scale;
 extern s32 saved_voice_gain_scale;
-extern M2C_UNK volume_slider_levels;
+extern s32 volume_slider_levels[3];
 
 /* Initializes the settings screen palette, labels, panels, and sliders. */
 void initialize_settings_screen(void) {
@@ -71,7 +63,7 @@ void initialize_settings_screen(void) {
     register s32 index;
     s32 item_index;
     s32 third_level;
-    register void *screen_object;
+    register ObjectNodeHeader *screen_object;
     void *settings;
 #define panel_flags (*(s16 *)(frame + 0x18 + 0))
 #define panel_owner (*(void **)(frame + 0x18 + 4))
@@ -100,7 +92,7 @@ void initialize_settings_screen(void) {
     sol9_copy8(frame + 0x270, &settings_palette_rect, 8);
     first_level = 0x100;
     animation_tick_scale = 1;
-    levels = (s32 *)&volume_slider_levels;
+    levels = volume_slider_levels;
     if (saved_sequence_volume_scale != 0x7FFF) {
         first_level = (s32) saved_sequence_volume_scale >> 7;
     }
@@ -127,10 +119,10 @@ void initialize_settings_screen(void) {
     func_800672D8(frame + 0x270, frame + 0x70);
     screen_object = allocate_flagged_object_node(0x11);
     if (screen_object != NULL) {
-        ((S_80089C24_0 *)screen_object)->unk_10 = (void *)handle_settings_menu_input;
+        screen_object->unk_10 = (void *)handle_settings_menu_input;
         register_node(screen_object, build_settings_sprite_tiles);
-        settings = screen_object + 0x20;
-        ((S_80089C24_2 *)(((S_80089C24_0 *)screen_object)->unk_08))->unk_06 = 0xF0;
+        settings = ((void *)screen_object) + 0x20;
+        ((S_80089C24_2 *)(screen_object->position))->unk_06 = 0xF0;
         (*(s16 *)((u8 *)settings + 4)) = 0x20;
         (*(s16 *)((u8 *)settings + 0x14)) = (s16) ((u8) D_80013184 >> 5);
         index = 2;
@@ -170,7 +162,7 @@ void initialize_settings_screen(void) {
     label_flags = 0;
     do {
         label_x = index * 8 + 48;
-        footer_text = ((s32 *)&D_8008B2FC)[index];
+        footer_text = D_8008B2FC[index];
         label_order = index * 2 + 30;
         label_text = footer_text;
         initialize_and_submit_record((u8 *)cycle_owner_effect_color, &label_flags);
@@ -204,7 +196,7 @@ void initialize_settings_screen(void) {
     item_index = 3;
     do {
         label_y = item_index * 0xC + 0x40;
-        middle_text = ((s32 *)&D_8008B2C4)[item_index];
+        middle_text = D_8008B2C4[item_index];
         label_text = middle_text;
         initialize_and_submit_record((u8 *)&D_8008B030, &label_flags);
         item_index -= 1;
@@ -212,7 +204,7 @@ void initialize_settings_screen(void) {
     item_index = 1;
     do {
         label_x = item_index * 0x40 + 0xBE;
-        choice_heading = ((s32 *)&D_8008B2D4)[item_index];
+        choice_heading = D_8008B2D4[item_index];
         label_text = choice_heading;
         initialize_and_submit_record((u8 *)&D_8008B030, &label_flags);
         item_index -= 1;
@@ -230,7 +222,7 @@ void initialize_settings_screen(void) {
     item_index = 2;
     do {
         label_y = item_index * 0xC + 0x7E;
-        channel_text = ((s32 *)&D_8008B2E4)[item_index];
+        channel_text = D_8008B2E4[item_index];
         label_text = channel_text;
         initialize_and_submit_record((u8 *)&D_8008B030, &label_flags);
         item_index -= 1;

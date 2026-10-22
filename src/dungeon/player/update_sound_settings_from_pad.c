@@ -2,6 +2,7 @@
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
+#include "dungeon/menu.h"
 
 extern u16 dungeon_camera_targets[];
 extern u16 camera_pitch_index[5];
@@ -13,7 +14,6 @@ s32 func_80096190();
 s32 func_80096200();
 s32 func_8009635C();
 s32 has_pending_dungeon_activity();
-void advance_wrapped_cycle_index();
 extern u16 camera_depth_index[5];
 extern s16 camera_depth_presets[];
 s32 queue_view_slot(s32 enable);
@@ -61,7 +61,7 @@ s32 update_sound_settings_from_pad(void *actor)
                     }
             }
             if ((base->buttons) & 0x10) {
-                if ((*((s32 *) (((s8 *) base) + 0x10))) & 1) {
+                if ((*(s32 *) & base->pressed_buttons) & 1) {
                     changed = 1;
                     value = (u16) ((camera_pitch_index[0] + 1) & 3);
                     camera_pitch_index[0] = value;
@@ -75,7 +75,7 @@ s32 update_sound_settings_from_pad(void *actor)
             }
         }
         if ((base->buttons) & 0x10) {
-            if ((*((s32 *) (((s8 *) base) + 0x10))) & 4) {
+            if ((*(s32 *) & base->pressed_buttons) & 4) {
                 value = (s16) ((camera_depth_index[0] + 1) & 3);
                 camera_depth_index[0] = value;
                 dungeon_floor_flags |= 0x40;
@@ -83,12 +83,12 @@ s32 update_sound_settings_from_pad(void *actor)
             }
         }
         if ((base->buttons) & 0x10) {
-            if ((*((s32 *) (((s8 *) base) + 0x10))) & 2) {
+            if ((*(s32 *) & base->pressed_buttons) & 2) {
                 advance_wrapped_cycle_index();
             }
         }
         if (test_resident_bit(0xA2) != 0) {
-            if ((*((s32 *) (((s8 *) base) + 0x10))) & 0xC0000) {
+            if ((*(s32 *) & base->pressed_buttons) & 0xC0000) {
                 animation_tick_scale[0] = 1;
             }
             else

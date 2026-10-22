@@ -14,12 +14,12 @@ extern s32 scale_random_to_unsigned_halfword_limit(s32 value);
 extern s32 runtime_estimate_vector_length(s32 value, s32 other_value);
 extern void submit_object_resource_data(s32 value);
 extern void initialize_scene_action_record(void *action_state, void *actor, s32 context);
-extern void func_80093E18(void *action_state, void *actor, s32 context);
+extern void init_unchanged_action_fallback(void *action_state, void *actor, s32 context);
 extern void initialize_motion_action(void *action_state, void *actor, s32 context);
-extern void func_80094088(void *action_state, void *actor, s32 context);
+extern void init_threshold_countdown_action(void *action_state, void *actor, s32 context);
 extern void initialize_actor_action_state(void *action_state, void *actor, s32 context);
 extern void initialize_action_object(void *action_state, void *actor, s32 context);
-extern void func_800943B8(void *action_state, void *actor, s32 context);
+extern void init_movement_action(void *action_state, void *actor, s32 context);
 extern void initialize_action_object_with_counter(void *action_state, void *actor, s32 context);
 extern void initialize_actor_movement_interaction_action(void *action_state, void *actor, s32 context);
 extern void play_periodic_sound(s16 timer, s32 limit);
@@ -37,7 +37,7 @@ extern s32 D_800CFCB4;
 /* Updates the actor and dispatches town actions from input and interaction state. */
 void update_actor_input_and_interaction(void *action_state, void *actor, s32 context)
 {
-    u8 *input_state = ((u8 *)(&g_game_work));
+    GameWork *input_state = &g_game_work;
     register s32 saved_context;
     u8 *map_work;
     u8 *menu_state;
@@ -66,7 +66,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
         *((u16 *) (((u8 *) action_state) + 0xA)) = timer;
         spawn_directional_effects(actor, ((u16) scale_random_to_unsigned_halfword_limit(2)) + 2);
     }
-    buttons = *((s32 *) (input_state + 0x10));
+    buttons = *(s32 *)&input_state->pressed_buttons;
     if (buttons & 0x10) {
         initialize_actor_action_state(action_state, actor, context);
         return;
@@ -82,7 +82,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
             return;
         }
         if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            func_80094088(action_state, actor, context);
+            init_threshold_countdown_action(action_state, actor, context);
             return;
         }
         return;
@@ -97,10 +97,10 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
             submit_object_resource_data(*((s32 *) (menu_state + 0x10)));
             return;
         }
-        func_800943B8(action_state, actor, context);
+        init_movement_action(action_state, actor, context);
         return;
     }
-    buttons = *((s32 *) (input_state + 8));
+    buttons = input_state->buttons;
     if (!(buttons & 0x20)) {
         initialize_motion_action(action_state, actor, context);
         store_the_valid_shared_angle_in_offset_hex_10(action_state);
@@ -117,7 +117,7 @@ void update_actor_input_and_interaction(void *action_state, void *actor, s32 con
     }
     action_result = runtime_estimate_vector_length(*((s32 *) (((u8 *) actor) + 0xC)), *((s32 *) (((u8 *) actor) + 0x10)));
     if (action_result > 0xFFFFF) {
-        func_80093E18(action_state, actor, context);
+        init_unchanged_action_fallback(action_state, actor, context);
         return;
     }
     initialize_scene_action_record(action_state, actor, context);

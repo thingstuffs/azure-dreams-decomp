@@ -12,6 +12,53 @@ def rewrite(text,pattern,mapping,code_only=False):
  # Function file stems stay stable, including module-wrapper include strings.
  return ''.join(line if re.match(r'\s*#\s*include\b',line) else pattern.sub(lambda m:mapping[m[0]],line) for line in text.splitlines(keepends=True))
 
+def scoped_rewrites(root,texts,mapping,scope_map):
+ """Restrict reused overlay spellings without changing their canonical assembly names."""
+ if not isinstance(scope_map,dict) or set(scope_map)!=set(mapping):raise ValueError('scope map must cover exactly the proposed symbols')
+ per_path={}
+ for old,paths in scope_map.items():
+  if not isinstance(paths,list) or not paths:raise ValueError('empty scope: '+old)
+  for rel in paths:
+   p=Path(rel)
+   if p.is_absolute() or not p.parts or '..' in p.parts or p.parts[0] not in ('src','include'):
+    raise ValueError('scope must be a repository source/header path: '+str(rel))
+   p=root/p
+   if p not in texts:raise ValueError('scope path is not a loaded source/header: '+str(rel))
+   per_path.setdefault(p,{})[old]=mapping[old]
+ changed={}
+ for p,local in per_path.items():
+  pat=re.compile(r'\b(?:'+'|'.join(map(re.escape,local))+r')\b')
+  fresh=rewrite(texts[p],pat,local,True)
+  if fresh!=texts[p]:changed[p]=fresh
+ return changed,per_path
+
+def validate_renamed_alias_consumers(root,texts,renames,scopes):
+ """A global alias replacement must retain every existing readable consumer."""
+ for old,(previous,name) in renames.items():
+  allowed={root/rel for rel in scopes.get(old,[])}
+  pat=re.compile(r'\b'+re.escape(previous)+r'\b')
+  outside=[p.relative_to(root).as_posix() for p,t in texts.items()
+           if p not in allowed and pat.search(t) and rewrite(t,pat,{previous:name},True)!=t]
+  if outside:raise ValueError('scoped alias rename leaves existing readable consumers outside scope: '+previous+': '+','.join(sorted(outside)))
+
+def reference_mappings(root, texts, mapping, path):
+ """Bind explicit sites without conflating symbols in separately linked overlays."""
+ sites=json.loads(Path(path).read_text())
+ if not isinstance(sites,dict) or set(sites)!=set(mapping):
+  raise ValueError('reference map must cover exactly the proposed symbols')
+ per_file={}
+ for old,paths in sites.items():
+  if not isinstance(paths,list) or not paths or any(not isinstance(p,str) for p in paths):
+   raise ValueError('reference map needs nonempty path lists: '+old)
+  for rel in paths:
+   p=Path(rel)
+   if not p.parts or p.is_absolute() or '..' in p.parts or p.as_posix()!=rel or p.parts[0] not in ('src','include'):
+    raise ValueError('invalid reference path: '+rel)
+   p=root/p
+   if p not in texts or p.is_symlink():raise ValueError('unknown reference source: '+rel)
+   per_file.setdefault(p,{})[old]=mapping[old]
+ return per_file
+
 def main(a,N):
  if a.data or a.rewrite:raise ValueError('--batch currently supports function aliases only')
  identities=json.loads(a.identity_map.read_text()) if a.identity_map else {}
@@ -19,6 +66,12 @@ def main(a,N):
  for raw in Path(a.tsv).read_text().splitlines():
   cols=[c.strip() for c in raw.split('#',1)[0].rstrip().split('\t')]
   if len(cols)>=4 and cols[1]:proposed.append(cols[:4])
+ scope_path=getattr(a,'scope_map',None) or getattr(a,'symbol_scope_map',None)
+ scopes=json.loads(scope_path.read_text()) if scope_path else {}
+ if not isinstance(scopes,dict) or set(scopes)-{r[1] for r in proposed}:raise ValueError('symbol scope does not name a proposal')
+ for paths in scopes.values():
+  if not isinstance(paths,list) or not paths or not all(isinstance(p,str) for p in paths):raise ValueError('symbol scope must contain relative rewrite paths')
+  N.scoped_texts({},paths,N.ROOT)
  if a.only:proposed=[p for p in proposed if p[1] in set(a.only.split(','))]
  if a.limit:proposed=proposed[:a.limit]
  rs=N.rows();by_id={r['id']:r for r in rs};by_file={row_path(r,N.ROOT):r for r in rs}
@@ -31,17 +84,26 @@ def main(a,N):
  for p in sorted((N.ROOT/'src').rglob('*')):
   if p.suffix in('.c','.h') and p not in texts and p.is_file():texts[p]=p.read_text()
  if any(p.is_symlink() or p.stat().st_size>4*1024*1024 for p in texts):raise ValueError('source symlink or oversized source')
- applied={r[1]:r[2] for r in N.read_names()};taken=set(applied.values());plan=[];mapping={};new=[];renames={}
+ texts=N.scoped_texts(texts,getattr(a,'path_prefix',[]),N.ROOT)
+ applied={r[1]:r[2] for r in N.read_names()};taken=set(applied.values());plan=[];mapping={};new=[];renames={};rewrite_scopes={}
  for addr,old,name,evidence in proposed:
+  proposal_old=old;paths=scopes.get(proposal_old)
   rec=dict(addr=addr,old=old,new=name,at=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
   identity=identities.get(name) or identities.get(old)
   if identity:
    r=by_id.get(identity.get('row'));symbol=identity.get('symbol','');p=row_path(r,N.ROOT) if r else None
    pat=r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t*]*?\b'+re.escape(symbol)+r'\s*\([^;{]*\)[^{;]*\{'
    if not re.fullmatch(r'func_[0-9A-Fa-f]{8}',symbol) or p not in texts:raise ValueError('invalid explicit identity: '+old)
+   if paths and p not in N.scoped_texts({p:texts[p]},paths,N.ROOT):raise ValueError('symbol scope excludes its definition: '+old)
    # An already-renamed definition is valid only under that exact configured alias.
    current=applied.get(symbol,symbol)
-   if not re.search(pat.replace(re.escape(symbol),re.escape(current)),own_source(r,N.ROOT)[0],re.M):raise ValueError('identity does not name a current definition: '+old)
+   source=own_source(r,N.ROOT)[0]
+   current_definition=re.search(pat.replace(re.escape(symbol),re.escape(current)),source,re.M)
+   # Merged exports can retain the address spelling after the alias was configured.
+   # Only replaying that exact existing alias may normalize such a definition.
+   legacy_definition=(applied.get(symbol)==name or getattr(a,'scope_map',None)) and re.search(pat,source,re.M)
+   if not (current_definition or legacy_definition):raise ValueError('identity does not name a current definition: '+old)
+   if getattr(a,'scope_map',None) and (not paths or p.relative_to(N.ROOT).as_posix() not in paths):raise ValueError('scope omits the defining source: '+old)
    old=symbol;rec['identity_row']=r['id']
   elif old in defined and old not in applied:
    r=defined[old];old=r.get('true_name') or r.get('func') or old
@@ -51,6 +113,7 @@ def main(a,N):
     if not getattr(a,'rename_existing',False):raise ValueError('alias identity conflict: '+old+' -> '+applied[old]+' vs '+name)
     if not N.IDENT.fullmatch(name) or name.startswith('func_') or name in idents or name in taken:raise ValueError('name collision or invalid identifier: '+name)
     renames[old]=(applied[old],name);mapping[applied[old]]=name;taken.discard(applied[old]);taken.add(name)
+    if getattr(a,'scope_map',None):mapping[old]=name;rewrite_scopes[old]=paths
     rec.update(renamed_from=applied[old],rename=True);applied[old]=name
    rec['existing']=True
   else:
@@ -60,7 +123,15 @@ def main(a,N):
   if not rec.get('rename'):
    if old in mapping and mapping[old]!=name:raise ValueError('conflicting aliases: '+old)
    mapping[old]=name
+  if paths:
+   key=rec.get('renamed_from',old)
+   if key in rewrite_scopes and rewrite_scopes[key]!=paths:raise ValueError('conflicting symbol scopes: '+old)
+   rewrite_scopes[key]=paths;rec['rewrite_paths']=paths
   plan.append(rec)
+ if getattr(a,'scope_map',None):
+  for rec in plan:
+   if not (identities.get(rec['new']) or identities.get(rec['old'])):raise ValueError('scoped alias requires an explicit definition identity: '+rec['old'])
+  validate_renamed_alias_consumers(N.ROOT,texts,renames,scopes)
  pattern=re.compile(r'\b(?:'+'|'.join(map(re.escape,mapping))+r')\b')
  held={row_path(r,N.ROOT):r for r in rs if a.hold_unproven_references and r.get('placement')=='unproven'}
  holds=[dict(row=r['id'],path=str(p.relative_to(N.ROOT)),aliases=sorted(set(pattern.findall(texts[p]))),reason='pre-existing placement-unproven source; preserve legacy alias references') for p,r in held.items() if p in texts and pattern.search(texts[p])]
@@ -69,8 +140,32 @@ def main(a,N):
    for old in set(pattern.findall(texts[p])):
     if re.search(r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t*]*?\b'+re.escape(old)+r'\s*\([^;{]*\)[^{;]*\{',texts[p],re.M):raise ValueError('cannot alias an excluded definition: '+old)
  if a.holds_log:Path(a.holds_log).write_text(json.dumps(holds,indent=1)+'\n')
- changed={p:rewrite(t,pattern,mapping,True) for p,t in texts.items() if p not in held and pattern.search(t)}
- changed={p:t for p,t in changed.items() if t!=texts[p]}
+ sites=getattr(a,'reference_map',None)
+ if sites:
+  per_file=reference_mappings(N.ROOT,texts,mapping,sites)
+  ref_scopes=json.loads(Path(sites).read_text())
+  for rec in plan:
+   symbol=rec.get('renamed_from') or rec['old']
+   if not rec['existing'] and not any(p in per_file and symbol in per_file[p] and re.search(r'^[ \t]*[A-Za-z_][A-Za-z0-9_ \t*]*?\b'+re.escape(symbol)+r'\s*\([^;{]*\)\s*\{',t,re.M) for p,t in texts.items()):raise ValueError('reference map omits the definition: '+symbol)
+  rewrite_scopes.update(ref_scopes)
+ allowed_paths={old:set(N.scoped_texts(texts,paths,N.ROOT)) for old,paths in rewrite_scopes.items()}
+ changed={};file_rules={};rule_cache={}
+ for p,t in texts.items():
+  if p in held:continue
+  keys=tuple(old for old in mapping if old not in allowed_paths or p in allowed_paths[old])
+  if not keys:continue
+  if keys not in rule_cache:
+   local={old:mapping[old] for old in keys};rule_cache[keys]=(re.compile(r'\b(?:'+'|'.join(map(re.escape,keys))+r')\b'),local)
+  local_pattern,local_mapping=rule_cache[keys]
+  if local_pattern.search(t):
+   current=rewrite(t,local_pattern,local_mapping,True)
+   if current!=t:changed[p]=current;file_rules[p.relative_to(N.ROOT).as_posix()]=(local_pattern,local_mapping)
+ if not changed and not new and not renames:
+  deferred=getattr(a,'defer_verification',False)
+  print('batch: 0 new aliases, 0 files, 0 rows'+('; UNVERIFIED staging' if deferred else ''),flush=True)
+  receipt=dict(status='UNVERIFIED' if deferred else 'UNCHANGED',new_aliases=0,files=[],rows=[],map=mapping,inline_rebases=[])
+  if not a.dry_run and a.proof_log:Path(a.proof_log).write_text(json.dumps(receipt,indent=2)+'\n')
+  return receipt
  # Include transitive users of rewritten headers; all per-row C keeps its own declarations.
  inc=re.compile(r'^\s*#\s*include\s*["<]([^">]+)[">]',re.M);headers={p for p in texts if p.suffix=='.h' or p not in by_file}
  def closure(p,seen=None):
@@ -85,7 +180,7 @@ def main(a,N):
  touched_rows={r['id'] for p,r in by_file.items() if p in changed or dependencies.get(p,set())&changed_headers}
  affected=consumer_paths(N.ROOT,{p.relative_to(N.ROOT).as_posix() for p in changed})
  touched_rows.update(row_ids_for_paths(affected,N.ROOT))
- metadata,rebases=inline_plan(N.ROOT,texts,changed,pattern,mapping)
+ metadata,rebases=inline_plan(N.ROOT,texts,changed,pattern,mapping,file_rules=file_rules) if rewrite_scopes else inline_plan(N.ROOT,texts,changed,pattern,mapping)
  # A changed wrapper affects every registered member in that physical TU.
  module_file=N.ROOT/'config/overlays/modules.json'
  if module_file.exists():

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -33,19 +34,6 @@ typedef struct S_81263000_2 {
     u16 unk_1E;
 } S_81263000_2;   /* part in create_flagged_actor_object_2 */
 
-typedef struct S_81263000_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_81263000_3;   /* dst in create_flagged_actor_object_2 */
-
    /* out in create_flagged_actor_object_2 */
 
 typedef struct S_81263000_5 {
@@ -67,9 +55,6 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
 
-
-
-
 void create_flagged_actor_object_2(void *root, void *output_pos, void *target_data)
 ;
 /* Update part position, shading, and flags from its owner. */
@@ -77,7 +62,7 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
 {
     s16 offset[3];
     void *position_data;
-    S_81263000_3 *target_part = target_data;
+    SpriteFrameState *target_part= target_data;
     S_81263000_1 *owner;
     S_81263000_5 *pos_data;
     S_81263000_6 *motion_part;
@@ -90,7 +75,7 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
     pos_data = owner->unk_08;
 
     if (!(((S_81263000_2 *)position_data)->unk_14 & 0x80)) {
-        target_part->unk_14 &= 0xFF7F;
+        target_part->flags &= 0xFF7F;
     }
 
     ((MovingPosition *)output_pos)->unk_02 = pos_data->unk_02;
@@ -111,24 +96,24 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
         ((S_81263000_0 *)root)->unk_B4 = offset[2];
     }
 
-    pos_data = target_part->unk_08;
-    target_part->unk_1C = ((S_81263000_2 *)position_data)->unk_1C;
-    target_part->unk_1E = ((S_81263000_2 *)position_data)->unk_1E;
-    target_part->unk_14 = ((S_81263000_2 *)position_data)->unk_14;
+    pos_data = target_part->source;
+    target_part->scale_x = ((S_81263000_2 *)position_data)->unk_1C;
+    target_part->scale_y = ((S_81263000_2 *)position_data)->unk_1E;
+    target_part->flags = ((S_81263000_2 *)position_data)->unk_14;
     pos_data->unk_01 &= 0xFE;
 
     if (((S_81263000_0 *)root)->unk_B6 == 1) {
         phase = ((S_81263000_2 *)position_data)->unk_04.s8;
         if (phase < 8) {
             shade_a = (phase * 14) + 0x20;
-            target_part->unk_0E = shade_a;
-            target_part->unk_0D = shade_a;
-            target_part->unk_0C = shade_a;
+            target_part->color.c.b = shade_a;
+            target_part->color.c.g = shade_a;
+            target_part->color.c.r = shade_a;
         } else {
             shade_a = ((15 - phase) * 14) + 0x20;
-            target_part->unk_0E = shade_a;
-            target_part->unk_0D = shade_a;
-            target_part->unk_0C = shade_a;
+            target_part->color.c.b = shade_a;
+            target_part->color.c.g = shade_a;
+            target_part->color.c.r = shade_a;
         }
         if (!(((S_81263000_2 *)position_data)->unk_14 & 0x8000) &&
             ((S_81263000_2 *)position_data)->unk_04.u16 == 0x10C) {
@@ -148,9 +133,9 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
             s32 shade =
                 ((reverse_phase * 7) * 2) + 0x20;
 
-            target_part->unk_0E = shade;
-            target_part->unk_0D = shade;
-            target_part->unk_0C = shade;
+            target_part->color.c.b = shade;
+            target_part->color.c.g = shade;
+            target_part->color.c.r = shade;
         }
         if (!(((S_81263000_2 *)position_data)->unk_14 & 0x8000) &&
             ((S_81263000_2 *)position_data)->unk_04.u16 == 0x104) {
@@ -164,5 +149,4 @@ void create_flagged_actor_object_2(void *root, void *output_pos, void *target_da
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-
 

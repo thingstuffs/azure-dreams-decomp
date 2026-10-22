@@ -1,5 +1,6 @@
 /* Object setup links and its file-private helper. */
 #include "common.h"
+#include "dungeon/menu.h"
 typedef struct Entry {
     s32 field0;
     s32 field4;
@@ -8,7 +9,6 @@ typedef struct Entry {
 } Entry;
 extern void set_object_value_and_negation(void *object, s32 value);
 #include "m2c_compat.h"
-void pass_global_data_with_fixed_args();
 /* extern */
 s32 link_indexed_entry_chain();
 /* extern */

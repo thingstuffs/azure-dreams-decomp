@@ -17,13 +17,6 @@ typedef struct S_80D653B8_0 {
     void * unk_B0;
 } S_80D653B8_0;   /* work in create_anchored_directional_object */
 
-typedef struct S_80D653B8_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80D653B8_1;   /* linked in create_anchored_directional_object */
-
 typedef struct S_80D653B8_2 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -74,8 +67,8 @@ extern u8 baloon_anchored_frames[];
 void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80D653B8_2 *object_template,
                    S_80D653B8_3 *facing_source, s32 initial_value)
 {
-    void *object;
-    S_80D653B8_2 *object_data;
+    ObjectNodeHeader *object;
+    SpriteFrameState *object_data;
     MovingPosition *position;
     S_80D653B8_0 *object_work;
 
@@ -85,32 +78,32 @@ void create_anchored_directional_object(void *unused, S_80D653B8_5 *anchor, S_80
         object_work = (u8 *)object + 0x20;
         object_work->unk_96 = initial_value;
         object_work->unk_AA = initial_value;
-        ((S_80D653B8_1 *)object)->unk_10 = D_800D6FEC;
+        object->unk_10 = D_800D6FEC;
         object_work->unk_B0 = anchor;
-        object_data = ((S_80D653B8_1 *)object)->unk_0C;
-        *object_data = *object_template;
+        object_data = object->sprite;
+        *(S_80D653B8_2 *)object_data = *object_template;
 
-        ((SpriteFrameState *)object_data)->scale_y = 0x1000;
-        ((SpriteFrameState *)object_data)->scale_x = 0x1000;
-        ((SpriteFrameState *)object_data)->color.c.b = 0x80;
-        ((SpriteFrameState *)object_data)->color.c.g = 0x80;
-        ((SpriteFrameState *)object_data)->color.c.r = 0x80;
-        ((SpriteFrameState *)object_data)->tpage_abr = 0x20;
-        ((SpriteFrameState *)object_data)->clut = 0xFF80;
-        ((SpriteFrameState *)object_data)->unk_06 = -6;
-        ((SpriteFrameState *)object_data)->flags |= 0xC;
+        object_data->scale_y = 0x1000;
+        object_data->scale_x = 0x1000;
+        object_data->color.c.b = 0x80;
+        object_data->color.c.g = 0x80;
+        object_data->color.c.r = 0x80;
+        object_data->tpage_abr = 0x20;
+        object_data->clut = 0xFF80;
+        object_data->unk_06 = -6;
+        object_data->flags |= 0xC;
         register_node(object, project_sprite_chain);
 
         {
             u8 *direction_table = baloon_anchored_frames;
 
-            ((SpriteFrameState *)object_data)->frameTable = direction_table;
+            object_data->frameTable = direction_table;
             select_sprite_entry(object_data,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
-        position = ((S_80D653B8_1 *)object)->unk_08;
+        position = object->position;
         position->unk_02 = anchor->unk_02;
         position->unk_06 = anchor->unk_06;
         position->unk_0A =

@@ -1,6 +1,6 @@
 #include "common.h"
+#include "dungeon/effect.h"
 /* extern */
-void dispatch_target_action(u8 *actor, s32 action_context, u8 *destination, u8 *target);
 
 typedef struct S_800B2C68_0 {
     u8 pad_00[0x8C];

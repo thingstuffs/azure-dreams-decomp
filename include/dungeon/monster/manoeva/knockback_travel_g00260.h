@@ -1,5 +1,7 @@
 #ifndef DUNGEON_MONSTER_MANOEVA_KNOCKBACK_TRAVEL_G00260_H
 #define DUNGEON_MONSTER_MANOEVA_KNOCKBACK_TRAVEL_G00260_H
+
+struct ObjectPosition;
 /* Knockback travel shared declarations (G00260). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00260 - CL:dungeon/func_80E3B86C@dungeon/bank_e56c58, CL:dungeon/func_80E3B86C@dungeon/bank_e5d000, CL:dungeon/func_80E3B86C@dungeon/bank_e63000, CL:dungeon/func_80E3B86C@dungeon/bank_e69000, CL:dungeon/func_80E3B86C@dungeon/bank_e6f000, CL:dungeon/func_80E3B86C@dungeon/bank_e75000. */
 
@@ -98,6 +100,6 @@ extern void register_node(Object *, void *);
 
 /* Functions defined in this translation unit. */
 s32 check_adjacent_tile_height(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample_out);
-void create_knockback_travel_object(u8 *owner_data, Position *position_arg, Source *source_arg, Context *context_arg);
+void create_knockback_travel_object(u8 *owner_data,struct ObjectPosition *position_arg, Source *source_arg, Context *context_arg);
 
 #endif

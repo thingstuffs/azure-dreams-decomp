@@ -166,7 +166,7 @@ void start_sound_effect_program_voices(s32 bank_program, s32 note_pitch, s16 lef
         if ((note >= ((s32) tone->unk06)) && (((s32) tone->unk07) >= note)) {
             voice_slot = 0;
             while (1) {
-                if (read_selected_voice_key_state(audio_voice_masks[voice_slot]) == 0) {
+                if (SpuGetKeyStatus(audio_voice_masks[voice_slot]) == 0) {
                     break;
                 }
                 voice_slot += 1;
@@ -193,8 +193,8 @@ void start_sound_effect_program_voices(s32 bank_program, s32 note_pitch, s16 lef
             if (voice_slot != (-1)) {
                 sound_reset_indexed_voice_envelope(voice_slot);
                 do {
-                    set_spu_voice_keys(0, audio_voice_masks[voice_slot]);
-                    voice_status = read_selected_voice_key_state(audio_voice_masks[voice_slot]);
+                    SpuSetKey(0, audio_voice_masks[voice_slot]);
+                    voice_status = SpuGetKeyStatus(audio_voice_masks[voice_slot]);
                 }
                 while ((voice_status != 2) && (voice_status != 0));
                 entry_index = 0;

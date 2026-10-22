@@ -37,28 +37,7 @@ typedef struct T_80170F0C_S_func_80D1170C_1 {
     s32 unk_54;
 } T_80170F0C_S_func_80D1170C_1;
 
-
-
-
-
-
-
 #include "shared/entity.h"
-
-typedef struct T_80171020_S_80171020_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} T_80171020_S_80171020_4;   /* temp_v0 in func_80171020 */
-
-
-typedef struct T_80171020_S_80171020_6 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} T_80171020_S_80171020_6;   /* ((T_80171020_S_80171020_4 *)temp_v0)->unk_08 in func_80171020 */
 
 typedef struct T_80171020_S_80171020_7 {
     u8 pad_00[0x2];
@@ -68,7 +47,6 @@ typedef struct T_80171020_S_80171020_7 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } T_80171020_S_80171020_7;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80171020 */
-
 
 s32 rand();
 
@@ -106,15 +84,12 @@ typedef struct T_80171020_S_80171020_3 {
     s32 unk_04;
 } T_80171020_S_80171020_3;   /* temp_a2_2 in func_80171020 */
 
-
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/vector.h"
 #include "shared/object_links.h"
 #include "shared/dungeon_projectile_views.h"
 #include "shared/position_views.h"
-
-
 
    /* obj in func_80171190 */
 
@@ -127,7 +102,6 @@ typedef struct T_80171190_S_80171190_2 {
     u8 pad_26[0x6];
     void * unk_2C;
 } T_80171190_S_80171190_2;   /* part_b in func_80171190 */
-
 
 typedef struct T_80171190_Work {
     u8 pad0[0x13];
@@ -142,7 +116,6 @@ typedef struct T_80171190_Work {
     u8 pad9b;
     s8 byte9c;
 } T_80171190_Work;
-
 
 extern void * allocate_list_node();
 extern void * func_8003FD64();

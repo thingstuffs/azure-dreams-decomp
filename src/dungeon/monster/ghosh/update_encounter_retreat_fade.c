@@ -1,4 +1,7 @@
+
+struct ObjectPosition;
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
@@ -48,7 +51,7 @@ extern u8 D_80174B30[9];
 extern Node *D_80174CDC;
 
 extern void initialize_timed_motion_step(s32, s32);
-extern void create_offset_animation_sprite(void *, Vec3 *, Sub *);
+extern void create_offset_animation_sprite(void *,struct ObjectPosition *, Sub *);
 extern void play_sound_if_enabled(s32);
 extern void select_sprite_entry(Sub *, u8, s32);
 extern void func_80170CE0(void);
@@ -60,7 +63,7 @@ void update_encounter_retreat_fade(void) {
     Vec3 *position;
     SpriteFrameState *sprite;
     Extra *direction_data;
-    Node *node;
+    ObjectNodeHeader *node;
     s32 intensity;
     u16 elapsed;
     s32 state;
@@ -68,9 +71,9 @@ void update_encounter_retreat_fade(void) {
 
     node = D_80174CDC;
     effect = (Extra *)((u8 *)node + 0x20);
-    position = node->position;
+    position = *(Vec3 * *)&node->position;
     state = effect->field_9A;
-    sprite = node->sub;
+    sprite = *(Sub * *)&node->sprite;
     direction_data = effect;
 
     switch (state) {

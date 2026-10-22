@@ -5,13 +5,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80B7F054_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80B7F054_0;   /* obj in create_placed_dungeon_actor */
-
 typedef struct S_80B7F054_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -54,7 +47,7 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
 {
     s32 kind;
     void *work;
-    S_80B7F054_0 *obj;
+    ObjectNodeHeader *obj;
     S_80B7F054_2 *part_a;
     SpriteFrameState *part_b;
     S_80B7F054_4 *actor;
@@ -77,9 +70,9 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
         ((S_80B7F054_1 *)work)->unk_13 = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
-        part_a = obj->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_rotation;
-        part_b = obj->unk_0C;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;
@@ -88,25 +81,25 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
         do {
 
             if (kind == 1) {
-                flags_or_roll = ((S_80B7F054_1 *)work)->unk_14 | 0x6000;
-                pending_flags = ((S_80B7F054_1 *)work)->unk_1C | 0x6000;
-                ((S_80B7F054_1 *)work)->unk_14 = flags_or_roll;
-                ((S_80B7F054_1 *)work)->unk_1C = pending_flags;
+                flags_or_roll = ((ObjectNodeHeader *)work)->unk_14 | 0x6000;
+            pending_flags = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x6000;
+            ((ObjectNodeHeader *)work)->unk_14 = flags_or_roll;
+            *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = pending_flags;
             } else if (kind >= 2) {
-                flags_or_roll = ((S_80B7F054_1 *)work)->unk_14 | 0x2000;
-                pending_flags = ((S_80B7F054_1 *)work)->unk_1C | 0x2000;
-                ((S_80B7F054_1 *)work)->unk_14 = flags_or_roll;
-                ((S_80B7F054_1 *)work)->unk_1C = pending_flags;
+                flags_or_roll = ((ObjectNodeHeader *)work)->unk_14 | 0x2000;
+            pending_flags = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x2000;
+            ((ObjectNodeHeader *)work)->unk_14 = flags_or_roll;
+            *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = pending_flags;
             } else {
                 saved_part_a = obj;
-                if (((spawn_flags & ~3) << 16) == 0 && !(((S_80B7F054_1 *)work)->unk_14 & 0x200)) {
+                if (((spawn_flags & ~3) << 16) == 0 && !(((ObjectNodeHeader *)work)->unk_14 & 0x200)) {
                     saved_part_a = part_a;
                     flags_or_roll = generate_random_value();
                     saved_part_a = obj;
                     if (!(flags_or_roll & 1)) {
                         break;
                     }
-                    ((S_80B7F054_1 *)work)->unk_1C |= 0x200;
+                    *(s32 *)&((ObjectNodeHeader *)work)->pad_1C |= 0x200;
                     set_or_clear_actor_status_slot(work, 1,
                                   (generate_random_value(obj) & 0x3F) | 0x20);
                     part_b->frameTable = D_80161D4C;

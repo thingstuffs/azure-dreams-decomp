@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/player/item.h"
 
 typedef struct DungeonSlot {
     s8 pad_00[0x13];

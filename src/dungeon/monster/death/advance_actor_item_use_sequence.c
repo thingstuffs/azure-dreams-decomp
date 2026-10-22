@@ -8,6 +8,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/cd.h"
 
 
 typedef struct {
@@ -15,11 +16,10 @@ typedef struct {
 } __attribute__((packed)) Packet12;
 
 extern int abs(int);
-extern s32 get_cd_command_queue_depth(void);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_80069EF8(void);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -180,7 +180,7 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
 
 
 
-                        (actor->target) = scan_monster_along_heading(
+                        (actor->target) = scan_actor_along_heading(
                             actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                             (actor->facing), 0x10);
                         actor->target_tile_x = abs(actor->target_tile_x);
@@ -287,11 +287,11 @@ void advance_actor_item_use_sequence_2(void *action, ObjectPosition *motion, voi
             ((S_801732C4_5 *)object_base)->unk_1C = 0x19;
             (object->unk_10) = D_80171080;
             register_node(object, project_sprite_chain);
-            transform = (object->unk_08);
+            transform = (object->position);
             transform->unk_02 = ((u16)motion->x.w.i);
             transform->unk_06 = ((u16)motion->y.w.i);
             transform->unk_0A = ((u16)motion->z.w.i) - 0x60;
-            display = (object->unk_0C);
+            display = (object->sprite);
             (*(Packet12 *)((u8 *)object + 0x48)) = D_80174694;
             ((S_801732C4_7 *)display)->unk_08 = (u8 *)object + 0x48;
             ((S_801732C4_7 *)display)->unk_10 = 0x40;

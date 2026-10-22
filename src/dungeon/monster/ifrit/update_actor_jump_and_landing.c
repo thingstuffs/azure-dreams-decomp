@@ -39,7 +39,7 @@ extern s32 check_actor_floor_trap(void *, void *);
 
 extern u8 D_80170838[16];
 extern s32 D_80170E84;
-extern u8 D_80174820[];
+#include "dungeon/monster/ifrit.h"
 
 /* Updates an actor's jump motion, landing animation, and completion state. */
 void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *sprite, ActorRecord *actor)
@@ -105,10 +105,10 @@ void update_actor_jump_and_landing(u8 *motion, ObjectPosition *position, u8 *spr
             position->velocity_y = 0;
             position->velocity_x = 0;
             set_record_integer_tile_center(position, sprite[0x24], sprite[0x25]);
-            ((SpriteFrameState *)sprite)->frameTable = D_80174820;
+            ((SpriteFrameState *)sprite)->frameTable = ifrit_direction_frames;
             select_sprite_entry(
                 sprite,
-                D_80174820[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ifrit_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             phase_value = ((S_80172288_0 *)motion)->unk_9B;
             ((S_80172288_0 *)motion)->unk_9B = phase_value + 1;

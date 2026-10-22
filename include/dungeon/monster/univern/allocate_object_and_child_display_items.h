@@ -6,11 +6,6 @@
 
 typedef unsigned long uptr;
 
-typedef struct S_8016A89C_0 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8016A89C_0;   /* init_root in func_8016A89C */
-
 typedef struct S_8016A89C_1 {
     u8 pad_00[0x13];
     u8 unk_13;
@@ -69,11 +64,6 @@ typedef struct S_8016A89C_8 {
     u8 pad_00[0xA4];
     void * unk_A4;
 } S_8016A89C_8;   /* outer_base in func_8016A89C */
-
-typedef struct S_8016A89C_9 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8016A89C_9;   /* outer_child in func_8016A89C */
 
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);

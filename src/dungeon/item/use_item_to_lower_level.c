@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player/object.h"
 
 
 typedef struct {
@@ -17,7 +18,6 @@ typedef struct {
 void begin_deferred_item_action();
 void clear_slot_and_update_linked_state();
 void adjust_source_value_and_finalize();
-s32 lower_entity_level();
 void place_actor_item();
 void display_item_status_message();
 s32 feed_actor_restore_mp();

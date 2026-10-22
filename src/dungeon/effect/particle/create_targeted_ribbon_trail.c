@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -77,7 +78,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
     EffectObject *object;
     EffectPayload *payload;
     SpriteFrameState *render;
-    Vec3 *effect_position;
+    ObjectPosition *effect_position;
     register EffectSource *held_source;
     s32 mode;
     s32 vertex_sentinel;
@@ -106,9 +107,9 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
         render->flags |= 0x8C;
 
         effect_position = object->position;
-        effect_position->x = origin->x;
-        effect_position->y = origin->y;
-        effect_position->z = origin->z;
+        effect_position->x.v = origin->x;
+        effect_position->y.v = origin->y;
+        effect_position->z.v = origin->z;
 
         vertex_sentinel = -1;
         payload->vertices[0][0] = vertex_sentinel;
@@ -120,7 +121,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
         payload->vertices[2][2] = -0x14;
         payload->vertices[3][2] = -0x14;
 
-        render = (RenderState *)PTR_AT(object, 0xC);
+        render = (RenderState *)((ObjectNodeHeader *)object)->sprite;
         render->scale_y = 0x1000;
         render->scale_x = 0x1000;
         render->color.c.b = intensity;

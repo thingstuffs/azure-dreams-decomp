@@ -32,11 +32,6 @@ typedef struct Row_818FECCC_S_818FECCC_3 {
     s16 unk_06;
 } Row_818FECCC_S_818FECCC_3;   /* dest2 in func_800244CC */
 
-typedef struct Row_818FECCC_S_818FECCC_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} Row_818FECCC_S_818FECCC_4;   /* call_obj in func_800244CC */
-
 typedef struct Row_818FECCC_S_818FECCC_5 {
     u8 pad_00[0xA];
     s16 unk_0A;
@@ -59,12 +54,4 @@ void register_node(void *, void *);
 void func_8004491C(void *, void *);
 extern u8 D_800241B0[];
 extern u8 D_80024400[];
-void spawn_jittered_child_effect(
-    void *source,
-    s16 field_34,
-    s32 field_28,
-    s16 field_52,
-    s16 offset_x,
-    s16 offset_y,
-    s16 offset_z);
 #endif

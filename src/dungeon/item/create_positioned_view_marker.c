@@ -1,8 +1,12 @@
 /* Dungeon tile actions, map boundary updates, actor transitions, and linked particle effects. */
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_7ce800.h"
 #include "shared/monster_ids.h"
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
+#include "dungeon/item.h"
+#include "dungeon/player.h"
+#include "engine/cd.h"
 /* Forwards the third argument to func_800478B8. */
 void update_sprite_from_third_argument(s32 unused_first, s32 unused_second, s32 value) {
     advance_sprite_animation_and_textures(value);
@@ -16,45 +20,29 @@ void update_sprite_from_third_argument(s32 unused_first, s32 unused_second, s32 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_800DEAE0[];
 
-typedef struct S_800F6090_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800F6090_0;
-
-typedef struct S_800F6090_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800F6090_2;
-
 /* Creates and initializes an object at the given coordinates with adjusted height. */
 void create_positioned_view_marker(s16 x, s16 y) {
     SpriteFrameState *render_state;
-    S_800F6090_2 *position;
-    S_800F6090_0 *object;
+    ObjectPosition *position;
+    ObjectNodeHeader *object;
     u32 render_config;
 
     object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
         object->unk_10 = (void *)update_sprite_from_third_argument;
         register_node(object, project_sprite_chain);
-        render_state = object->unk_0C;
-        render_config = (u32) *((u32 *)(&g_game_work.view.tint.parts.tint_r));
+        render_state = object->sprite;
+        render_config = (u32) g_game_work.view.tint.word;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->color.word = render_config;
         select_record_entry_and_value(render_state, D_800DEAE0, 0);
         render_state->tpage_abr = 0x20;
         render_state->flags = 0xC;
-        position = object->unk_08;
-        position->unk_02 = x;
-        position->unk_06 = y;
-        position->unk_0A = (s16) (sample_terrain_surface_height(x & 0xFFFF, y & 0xFFFF, -0x400) - 8);
+        position = object->position;
+        position->x.w.i = x;
+        position->y.w.i = y;
+        position->z.w.i = (s16) (sample_terrain_surface_height(x & 0xFFFF, y & 0xFFFF, -0x400) - 8);
     }
 }
 #include "modules/dungeon_ovl_7ce800.h"
@@ -102,10 +90,8 @@ typedef struct S_807AE960_6 {
     u16 unk_04;
 } S_807AE960_6;   /* entry in advance_dungeon_tile_action_state */
 
-
 extern void *D_800F6000[];
 s32 Control_CD(s32 event_code, void *event_data, s32 payload);
-s32 get_cd_command_queue_depth();
 void sound_set_cd_cue_parameters();
 int read_stream_cue_start_offset();
 s32 read_sound_mode_blocking_status();
@@ -230,33 +216,6 @@ const DirectionOffsets dungeon_7ce800_directions = {1,0,1,1,0,1,-1,1,-1,0,-1,-1,
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 
-typedef struct S_800F643C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800F643C_0;
-
-typedef struct S_800F643C_1 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    s32 unk_08;
-    s32 unk_0C;
-    u8 pad_10[0xA];
-    s16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} S_800F643C_1;
-
-typedef struct S_800F643C_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800F643C_2;
-
 typedef struct S_800F643C_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -267,7 +226,6 @@ typedef struct S_800F643C_3 {
     s16 unk_10;
 } S_800F643C_3;
 
-
 s32 draw_linked_lit_meshes(void *,s32,void *);
 extern s32 default_textured_quad_color;
 extern s16 *D_800F8A44[];
@@ -277,35 +235,35 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
     s16 height;
     s32 render_config;
     void *object_data;
-    void *position;
-    void *model;
-    void *object;
+    ObjectPosition *position;
+    SpriteFrameState *model;
+    ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(0x16);
     if (object != NULL) {
-        ((S_800F643C_0 *)object)->unk_10 = (void *)advance_dungeon_tile_action_state;
+        object->unk_10 = (void *)advance_dungeon_tile_action_state;
         register_node(object, (s32)draw_linked_lit_meshes);
         render_config = default_textured_quad_color;
-        model = ((S_800F643C_0 *)object)->unk_0C;
+        model = object->sprite;
         (*(s16 *)((u8 *)model + 0x20)) = 0x1000;
-        ((S_800F643C_1 *)model)->unk_1E = 0x1000;
-        ((S_800F643C_1 *)model)->unk_1C = 0x1000;
-        ((S_800F643C_1 *)model)->unk_06 = 4;
-        ((S_800F643C_1 *)model)->unk_0C = render_config;
-        ((S_800F643C_1 *)model)->unk_08 = 0x70;
-        position = ((S_800F643C_0 *)object)->unk_08;
-        ((S_800F643C_2 *)position)->unk_02 = x;
-        ((S_800F643C_2 *)position)->unk_06 = y;
+        model->scale_y = 0x1000;
+        model->scale_x = 0x1000;
+        model->unk_06 = 4;
+        model->color.word = render_config;
+        model->source = 0x70;
+        position = object->position;
+        position->x.w.i = x;
+        position->y.w.i = y;
         height = sample_terrain_surface_height(x & 0xFFFF, y & 0xFFFF, -0x400) - 0xC0;
-        object_data = object + 0x20;
-        ((S_800F643C_2 *)position)->unk_0A = height;
+        object_data = ((void *)object) + 0x20;
+        position->z.w.i = height;
         ((S_800F643C_3 *)object_data)->unk_0E = height;
         do {
             ((S_800F643C_3 *)object_data)->unk_08 = slot;
         } while (0);
         if (slot != 0) {
             ((S_800F643C_3 *)object_data)->unk_02 = 0x800;
-            ((S_800F643C_1 *)model)->unk_1A = 0x800;
+            model->angle_z = 0x800;
         }
         D_800F8A44[slot] = object_data;
         ((S_800F643C_3 *)object_data)->unk_10 = slot;
@@ -379,7 +337,6 @@ typedef struct S_800F65CC_2 {
     u8 pad_00[0x4];
     union { u16 s; s16 u; } unk_04;   /* accessed as both */
 } S_800F65CC_2;
-
 
 struct S_8003E2D8 {
     u8 pad0[0x1DC];
@@ -466,7 +423,6 @@ void initialize_overlay_effect_state(void) {
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-
 typedef struct S_800F6738_0 {
     u8 pad_00[0x13];
     u8 unk_13;
@@ -510,7 +466,6 @@ extern DungeonState scene_geometry;
 extern Packed8 D_800F8B24;
 
 extern void clear_scaled_cell_flags_8000(void);
-extern void clear_player_linked_action_flags(void);
 
 #define CLEAR_HIGH_BIT(ptr) \
 (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
@@ -617,11 +572,10 @@ void update_dungeon_tile_boundary_state(void *owner) {
         i++;
         objects += 4;
     } while (i < 2);
-    D_800DCF5B.first = 0;
+    scripted_boundary_active.first = 0;
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
-
 
 typedef struct S_807AF2CC_0 {
     u8 pad_00[0x10];
@@ -642,8 +596,6 @@ typedef struct {
     s32 field0;
     u16 flags;
 } DungeonCell;
-
-
 
 extern void set_scaled_cell_flags_8000(void);
 
@@ -692,14 +644,13 @@ void mark_scripted_map_boundary(void)
     global_state = &runtime_dispatch_state;
     global_state->unk_10 = 0x1F;
     global_state->unk_12 = 0x39;
-    D_800DCF5B.bytes[0] = 1;
+    scripted_boundary_active.bytes[0] = 1;
     global_state->flags16 |= 1;
     dungeon_floor_flags |= 0x10000000;
 }
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/entity_objects.h"
-
 
 /* Returns the direction to the target position, or 9 for a coincident position. */
 s32 get_direction_toward_target_position(s16 *target_pos)
@@ -823,7 +774,7 @@ typedef struct {
 
 /* Advances particle levels and queues colored quads in the dungeon ordering table. */
 s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
-    DungeonRoot *dungeon = *(DungeonRoot **)((u8 *)(&g_game_work));
+    DungeonRoot *dungeon = *(u8 **)&g_game_work.draw_buffer;
     s32 packet_cursor = dungeon->cursor;
     GameWork *root_slot = &g_game_work;
     Scratch *scratch;
@@ -833,7 +784,7 @@ s32 draw_linked_particle_effect_primitives(DungeonObject *object, u16 *origin) {
 
     object->count = 0;
     scratch = (Scratch *)0x1F800000;
-    scratch->base = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
+    scratch->base = *(u8 **)&g_game_work.draw_buffer + 0xB0;
     scratch->values[0] = origin[1];
     projection_flags = (u8 *)scratch;
     scratch->values[1] = origin[3];
@@ -989,7 +940,6 @@ typedef struct S_807AFAE4_1 {
     u16 unk_42;
 } S_807AFAE4_1;   /* arg0 in func_800F72E4; pointer addresses record offset 0x18 */
 
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Initializes a linked object from the source record and invokes play_sound_if_enabled on success. */
@@ -1029,7 +979,6 @@ typedef struct S_807AFB48_5 {
     s32 unk_14;
 } S_807AFB48_5;   /* ((S_807AFB48_3 *)arg0)->unk_00 in func_800F7348 */
 
-
 typedef struct S_807AFB48_0 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -1051,7 +1000,6 @@ typedef struct S_807AFB48_2 {
     u8 unk_0D;
     u8 unk_0E;
 } S_807AFB48_2;   /* arg2 in func_800F7348 */
-
 
 /* Advances position and selected color channels toward their targets and flags completion. */
 void converge_particle_position_and_color(void *transition, S_807AFB48_0 *position, S_807AFB48_2 *color) {
@@ -1106,15 +1054,6 @@ typedef struct S_807AFC9C_0 {
     void * unk_20;
 } S_807AFC9C_0;
 
-typedef struct S_807AFC9C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_807AFC9C_1;
-
    /* arg1 in func_800F749C */
 
 typedef struct S_807AFC9C_4 {
@@ -1132,19 +1071,19 @@ typedef struct S_807AFC9C_5 {
 /* Spawns an effect near the origin with color channels selected by the source flags. */
 void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_807AFC9C_4 *source) {
     SpriteFrameState *sprite;
-    S_807AFC9C_1 *position;
-    void *effect;
+    ObjectPosition *position;
+    ObjectNodeHeader *effect;
     S_807AFC9C_5 *effect_state;
 
     effect = allocate_list_node(0x212, spawn_arg);
     if (effect != NULL) {
-        ((S_807AFC9C_0 *)effect)->unk_10 = (void *)converge_particle_position_and_color;
+        effect->unk_10 = (void *)converge_particle_position_and_color;
         register_node(effect, project_sprite_chain);
-        position = ((S_807AFC9C_0 *)effect)->unk_08;
-        position->unk_02 = (s16) ((origin->unk_02 + (rand() & 0x3F)) - 0x20);
-        position->unk_06 = (s16) ((origin->unk_06 + (rand() & 0x3F)) - 0x20);
-        position->unk_0A = (s16) ((origin->unk_0A + (rand() & 0x3F)) - 0x20);
-        sprite = ((S_807AFC9C_0 *)effect)->unk_0C;
+        position = effect->position;
+        position->x.w.i = (s16) ((origin->unk_02 + (rand() & 0x3F)) - 0x20);
+        position->y.w.i = (s16) ((origin->unk_06 + (rand() & 0x3F)) - 0x20);
+        position->z.w.i = (s16) ((origin->unk_0A + (rand() & 0x3F)) - 0x20);
+        sprite = effect->sprite;
         sprite->source = &D_800FBE24;
         if (source->unk_14 & 1) {
             sprite->color.c.r = 0x20;
@@ -1158,7 +1097,7 @@ void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_8
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->unk_06 = 8;
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         sprite->flags = (u16) (sprite->flags | 0xC);
         effect_state->unk_0C = 0x10;
         ((S_807AFC9C_0 *)effect)->unk_20 = source;
@@ -1168,7 +1107,6 @@ void create_converging_color_particle(s32 spawn_arg, MovingPosition *origin, S_8
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
 
 typedef struct {
     s16 x;
@@ -1193,8 +1131,6 @@ typedef struct ColorPart {
 } ColorPart;
 
 extern u8 D_800DDC42;
-
-
 
 typedef struct S_807AFDEC_0 {
     void * unk_00;
@@ -1326,18 +1262,18 @@ void create_owner_attached_color_effect(void *parent_data) {
     s32 rect_origin;
     s32 rect_size;
     Bank7ce_18_Pair *rect_ptr;
-    void *child;
+    ObjectNodeHeader *child;
     SpriteFrameState *render_state;
     S_807B004C_2 *child_data;
 
     child = allocate_list_node(2, (u8 *)parent_data - 0x20);
     if (child != 0) {
-        ((S_807B004C_0 *)child)->unk_10 = update_owner_attached_color_effect;
+        child->unk_10 = update_owner_attached_color_effect;
         register_node(child, project_sprite_chain);
         rect_origin = 0x01000340;
         rect_size = 0x200020;
         rect_ptr = &texture_rect;
-        render_state = ((S_807B004C_0 *)child)->unk_0C;
+        render_state = child->sprite;
         render_state->source = D_800FBE30;
         render_state->scale_x = 0x1000;
         render_state->scale_y = 0x800;
@@ -1354,7 +1290,6 @@ void create_owner_attached_color_effect(void *parent_data) {
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dir_step.h"
-
 
 /* Updates position using decaying speed and sets completion flags when speed expires. */
 void advance_reverse_direction_particle(void *motion_data, s16 *position) {
@@ -1382,30 +1317,10 @@ void advance_reverse_direction_particle(void *motion_data, s16 *position) {
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_807B0238_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_807B0238_3;
-
-typedef struct S_807B0238_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_807B0238_5;
-
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800F7A38 */
 
 s32 rand();                                /* extern */
 extern M2C_UNK D_800FBE24;
-
-typedef struct S_807B0238_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    s32 * unk_10;
-} S_807B0238_0;
 
 typedef struct S_807B0238_2 {
     u8 pad_00[0x14];
@@ -1417,21 +1332,21 @@ typedef struct S_807B0238_2 {
 /* Creates an effect at a randomized offset from the source and initializes its state. */
 void create_reverse_direction_particle(EntityRec *source, s16 state_value, s32 render_value) {
     S_807B0238_2 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
     SpriteFrameState *render_data;
 
     effect = allocate_list_node(0x212, source);
     if (effect != NULL) {
-        ((S_807B0238_0 *)effect)->unk_10 = (void *)advance_reverse_direction_particle;
+        effect->unk_10 = (void *)advance_reverse_direction_particle;
         register_node(effect, project_sprite_chain);
-        ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_02 =
-            (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
-        ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_06 =
-            (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
-        ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_0A =
-            (s16) ((((MovingPosition *)((*(void * *)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
-        render_data = ((S_807B0238_0 *)effect)->unk_0C;
-        effect_state = effect + 0x20;
+        (effect->position)->x.w.i =
+            (s16) ((((MovingPosition *)((*(void **)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
+        (effect->position)->y.w.i =
+            (s16) ((((MovingPosition *)((*(void **)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
+        (effect->position)->z.w.i =
+            (s16) ((((MovingPosition *)((*(void **)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
+        render_data = effect->sprite;
+        effect_state = ((void *)effect) + 0x20;
         render_data->source = &D_800FBE24;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
@@ -1477,7 +1392,6 @@ typedef struct {
     u8 state;
 } Entity;
 
-
 /* Set the current entity state to three, decrement the counter, and clear the global and entity flags. */
 void finish_active_object_action(void) {
     Entity *entity;
@@ -1494,12 +1408,6 @@ void finish_active_object_action(void) {
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 extern int abs(int);
-
-typedef struct S_807B040C_0 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 * unk_0C;
-} S_807B040C_0;   /* root in update_special_actor_transition */
 
 typedef struct S_807B040C_1 {
     u8 pad_00[0x1C];
@@ -1546,12 +1454,12 @@ extern s32 check_left_tile_and_center_height(s32, s32, s16);
 s32 update_special_actor_transition(void) {
     DirectionOffsets offsets = dungeon_7ce800_directions;
     u16 collision_flags;
-    u8 *root = (u8 *)D_800FBE1C;
-    u8 *entity = root + 0x20;
-    s32 *motion = ((S_807B040C_0 *)root)->unk_08;
+    ObjectNodeHeader *root = (u8 *)D_800FBE1C;
+    u8 *entity = ((u8 *)root) + 0x20;
+    s32 *motion = *(s32 * *)&root->position;
     s32 entity_flags;
     s32 state = ((S_807B040C_1 *)entity)->unk_9B;
-    u8 *target = ((S_807B040C_0 *)root)->unk_0C;
+    SpriteFrameState *target = *(u8 * *)&root->sprite;
     u8 *entity_aux = entity;
     s32 direction;
     s32 dx;
@@ -1581,12 +1489,12 @@ s32 update_special_actor_transition(void) {
             room_page = (u8 *)0x80080000;
             nearby_room = &reference_tile_object;
             dx = nearby_room->tile_position.parts.tile_x;
-            target_coord = ((SpriteFrameState *)target)->unk_24;
+            target_coord = target->unk_24;
             dx -= target_coord;
             dx = abs(dx);
             if (dx < 3) {
                 room_distance_y = nearby_room->tile_position.parts.tile_y;
-                target_coord = ((SpriteFrameState *)target)->unk_25;
+                target_coord = target->unk_25;
                 room_distance_y -= target_coord;
                 room_distance_y = abs(room_distance_y);
                 if (room_distance_y < 3) {
@@ -1635,8 +1543,8 @@ s32 update_special_actor_transition(void) {
             s32 y_is_farther;
 
             distance_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
-            delta_y = ((SpriteFrameState *)target)->unk_24;
-            target_y = ((SpriteFrameState *)target)->unk_25;
+            delta_y = target->unk_24;
+            target_y = target->unk_25;
             distance_x -= delta_y;
             delta_y = ((S_807B040C_1 *)entity)->unk_AE.s16;
             if (distance_x < 0) {
@@ -1654,8 +1562,8 @@ s32 update_special_actor_transition(void) {
             ((S_807B040C_1 *)entity)->unk_96.s = move_ticks;
 
             entity_flags = ((S_807B040C_6 *)entity_aux)->unk_1C;
-            tile_x = ((SpriteFrameState *)target)->unk_24;
-            tile_y = ((SpriteFrameState *)target)->unk_25;
+            tile_x = target->unk_24;
+            tile_y = target->unk_25;
             tile_flags = 0x3000;
             if (entity_flags & 0x2000) {
                 tile_flags = 0x300;
@@ -1723,21 +1631,21 @@ s32 update_special_actor_transition(void) {
         break;
 
     case 2:
-        ((SpriteFrameState *)target)->unk_24 = ((S_807B040C_1 *)entity)->unk_AA.u8;
-        ((SpriteFrameState *)target)->unk_25 = ((S_807B040C_1 *)entity)->unk_AE.u8;
-        motion[0] = ((((SpriteFrameState *)target)->unk_24 << 6) + 0x20) << 16;
-        motion[1] = ((((SpriteFrameState *)target)->unk_25 << 6) + 0x20) << 16;
+        target->unk_24 = ((S_807B040C_1 *)entity)->unk_AA.u8;
+        target->unk_25 = ((S_807B040C_1 *)entity)->unk_AE.u8;
+        motion[0] = ((target->unk_24 << 6) + 0x20) << 16;
+        motion[1] = ((target->unk_25 << 6) + 0x20) << 16;
         motion[5] = 0;
         motion[4] = 0;
         motion[3] = 0;
-        ((S_807B040C_1 *)entity)->unk_88 = (s16)sample_terrain_surface_height(((S_807B040C_7 *)motion)->unk_02,
-                                                 ((S_807B040C_7 *)motion)->unk_06, -0x400);
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)target)->unk_24, ((SpriteFrameState *)target)->unk_25);
+        ((S_807B040C_1 *)entity)->unk_88 = (s16)sample_terrain_surface_height(*(u16 *)&((ObjectPosition *)motion)->x.w.i,
+                                                 *(u16 *)&((ObjectPosition *)motion)->y.w.i, -0x400);
+        set_record_integer_tile_center(motion, target->unk_24, target->unk_25);
         {
 
             entity_flags = ((S_807B040C_1 *)entity)->unk_1C;
-            tile_x = ((SpriteFrameState *)target)->unk_24;
-            tile_y = ((SpriteFrameState *)target)->unk_25;
+            tile_x = target->unk_24;
+            tile_y = target->unk_25;
             tile_flags = 0x3000;
             if (entity_flags & 0x2000) {
                 tile_flags = 0x300;
@@ -1754,7 +1662,6 @@ s32 update_special_actor_transition(void) {
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 #include "m2c_compat.h"
-
 
 typedef struct S_807B08D4_0 {
     u8 pad_00[0x96];
@@ -1774,7 +1681,6 @@ void reset_active_object_action(void) {
 #include "modules/dungeon_ovl_7ce800.h"
 #include "common.h"
 
-
 typedef struct S_807B08F0_0 {
     u8 pad_00[0x10];
     s32 * unk_10;
@@ -1793,13 +1699,13 @@ typedef struct S_807B08F0_1 {
 /* Allocate and initialize an object at the center of the specified tile. */
 void func_800F80F0(s16 tile_x, s16 tile_y, s16 initial_value) {
     S_807B08F0_1 *state;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(2);
     if (object != NULL) {
-        ((S_807B08F0_0 *)object)->unk_10 = (void *)emit_scattered_animated_particles;
+        object->unk_10 = (void *)emit_scattered_animated_particles;
         register_node(object, (void *)render_particle_effect_object);
-        state = object + 0x20;
+        state = ((void *)object) + 0x20;
         ((S_807B08F0_0 *)object)->unk_20 = (u16) (tile_x * 0x40 + 0x20);
         state->unk_02 = (u16) (tile_y * 0x40 + 0x20);
         state->unk_04 = (s16)sample_terrain_surface_height(((S_807B08F0_0 *)object)->unk_20, state->unk_02, -0x400);
@@ -1818,22 +1724,6 @@ void func_800F80F0(s16 tile_x, s16 tile_y, s16 initial_value) {
 #define NULL 0
 #endif
 
-typedef struct S_807B09A0_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_807B09A0_4;
-
-typedef struct S_807B09A0_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} S_807B09A0_5;
-
 s32 rand();
 extern M2C_UNK D_800DEED0;
 
@@ -1844,12 +1734,6 @@ typedef struct S_807B09A0_0 {
     u8 pad_06[0x2];
     u16 unk_08;
 } S_807B09A0_0;   /* arg0 in func_800F81A0 */
-
-typedef struct S_807B09A0_1 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    s32 * unk_10;
-} S_807B09A0_1;
 
 typedef struct S_807B09A0_3 {
     u8 pad_00[0x4];
@@ -1863,7 +1747,7 @@ void emit_scattered_animated_particles(S_807B09A0_0 *emitter) {
     s32 sprite_config;
     u16 tick_count;
     SpriteFrameState *sprite;
-    S_807B09A0_1 *particle;
+    ObjectNodeHeader *particle;
 
     tick_count = emitter->unk_08 + 1;
     emitter->unk_08 = tick_count;
@@ -1872,14 +1756,14 @@ void emit_scattered_animated_particles(S_807B09A0_0 *emitter) {
         if (particle != NULL) {
             particle->unk_10 = (void *)move_sprite_until_animation_finishes;
             register_node(particle, project_sprite_chain);
-            sprite = particle->unk_0C;
+            sprite = particle->sprite;
             spawn_x = (emitter->unk_00 + (rand() % 48)) - 0x18;
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_02 = spawn_x;
+            particle->position->x.w.i = spawn_x;
             spawn_y = (emitter->unk_02 + (rand() % 48)) - 0x18;
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_06 = spawn_y;
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_0A = (u16) (emitter->unk_04 - (rand() & 7));
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_0C = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
-            ((S_807B09A0_5 *)(((S_807B09A0_4 *)particle)->unk_08))->unk_10 = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
+            particle->position->y.w.i = spawn_y;
+            particle->position->z.w.i = (u16) (emitter->unk_04 - (rand() & 7));
+            particle->position->velocity_x = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
+            particle->position->velocity_y = (s32) (((rand() & 0xFF) - 0x7F) << 0xA);
             sprite->scale_y = 0xC00;
             sprite->scale_x = 0xC00;
             sprite->tpage_abr = 0x60;
@@ -2432,11 +2316,11 @@ typedef struct UnkStruct807B11B8 {
 } UnkStruct807B11B8;
 
 /* Advance motion and propagate update flags to the object and global state. */
-void move_sprite_until_animation_finishes(u16 *object_data, UnkStruct807B11B8 *motion, u16 *update_state) {
+void move_sprite_until_animation_finishes(u16 *object_data, UnkStruct807B11B8 *motion, SpriteFrameState *update_state) {
     motion->unk0 += motion->unkC;
     motion->unk4 += motion->unk10;
     advance_sprite_animation_and_textures(update_state);
-    if (*(u16 *)((u8 *)update_state + 0x14) & 0x6000) {
+    if (update_state->flags & 0x6000) {
         u16 *object_flags = (u16 *)((u8 *)object_data - 2);
         *object_flags = (u16)(*object_flags | 0x8000);
         D_800814A0.v = D_800814A0.v | 0x8000;

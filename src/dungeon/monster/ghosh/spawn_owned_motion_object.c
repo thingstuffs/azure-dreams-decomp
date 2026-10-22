@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -7,13 +8,6 @@ typedef struct S_8016EB14_0 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_8016EB14_0;   /* root in spawn_owned_motion_object */
-
-typedef struct S_8016EB14_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8016EB14_1;   /* object in spawn_owned_motion_object */
 
 typedef struct S_8016EB14_3 {
     u8 pad_00[0x18];
@@ -34,15 +28,6 @@ typedef struct S_8016EB14_3 {
     u8 pad_58[0x8];
     s32 unk_60;
 } S_8016EB14_3;   /* body in spawn_owned_motion_object */
-
-typedef struct S_8016EB14_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8016EB14_4;   /* target in spawn_owned_motion_object */
 
 typedef struct S_8016EB14_5 {
     u8 pad_00[0x2];
@@ -76,9 +61,9 @@ void spawn_owned_motion_object(void)
     S_8016EB14_5 *source_pos;
     S_8016EB14_6 *owner_state;
     void *object_state;
-    void *spawned_object;
+    ObjectNodeHeader *spawned_object;
     SpriteFrameState *render_part;
-    S_8016EB14_4 *spawn_pos;
+    ObjectPosition *spawn_pos;
     u8 *direction_table;
     u8 *direction_entry;
 
@@ -87,16 +72,16 @@ void spawn_owned_motion_object(void)
     owner_state = (u8 *)owner_object + 0x20;
     spawned_object = allocate_flagged_object_node(0x12);
     if (spawned_object != 0) {
-        ((S_8016EB14_1 *)spawned_object)->unk_10 = &D_8016E528;
+        spawned_object->unk_10 = &D_8016E528;
         object_state = (u8 *)spawned_object + 0x20;
         register_node(spawned_object, project_sprite_chain);
-        render_part = ((S_8016EB14_1 *)spawned_object)->unk_0C;
+        render_part = spawned_object->sprite;
         render_part->flags &= 0xFFF3;
         ((S_8016EB14_3 *)object_state)->unk_24 = owner_state;
-        spawn_pos = ((S_8016EB14_1 *)spawned_object)->unk_08;
-        spawn_pos->unk_02 = source_pos->unk_02.s;
-        spawn_pos->unk_06 = source_pos->unk_06.s;
-        spawn_pos->unk_0A = source_pos->unk_0A - 0x20;
+        spawn_pos = spawned_object->position;
+        spawn_pos->x.w.i = source_pos->unk_02.s;
+        spawn_pos->y.w.i = source_pos->unk_06.s;
+        spawn_pos->z.w.i = source_pos->unk_0A - 0x20;
         direction_table = (u8 *)&D_80174708;
         x = *(s16 *)(u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
                            (u32)direction_table);
@@ -108,7 +93,7 @@ void spawn_owned_motion_object(void)
         ((S_8016EB14_3 *)object_state)->unk_50 = direction_y << 18;
 
         ((S_8016EB14_3 *)object_state)->unk_18 = (owner_state->unk_2A >> 9) & 7;
-        render_part = ((S_8016EB14_1 *)spawned_object)->unk_0C;
+        render_part = spawned_object->sprite;
         render_part->scale_y = 0x1000;
         render_part->scale_x = 0x1000;
         direction_entry = (u8 *)(((owner_state->unk_2A >> 7) & 0x1C) + (u32)direction_table);

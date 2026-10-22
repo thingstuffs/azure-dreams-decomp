@@ -4,18 +4,18 @@
 #include "town/menu/flower_part_positions_g00582.h"
 #include "shared/object_flags.h"
 
-/* present_flower_set: create a flower gift object and initialize its state and callback data. */
+#include "shared/object_node.h"/* present_flower_set: create a flower gift object and initialize its state and callback data. */
 void present_flower_set(s32 initial_value) {
     s32 callback_arg;
     S_800A7FD8_1 *state;
     SpriteFrameState *callback_data;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = create_town_effect_object(0, 0, (s32)(&update_linked_part_position), 0);
     if (object != 0) {
-        callback_arg = ((S_800A7FD8_0 *)object)->unk_08;
-        callback_data = ((S_800A7FD8_0 *)object)->unk_0C;
-        state = object + 0x20;
+        callback_arg = *(s32 *)&object->position;
+        callback_data = object->sprite;
+        state =((void *)object) + 0x20;
         state->unk_60 = initial_value;
         callback_data->source = lookup_item_category_mapped_value(0xB, 2);
         register_node_if_unregistered(state, project_sprite_chain);

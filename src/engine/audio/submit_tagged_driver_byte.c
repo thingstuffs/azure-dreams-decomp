@@ -14,7 +14,7 @@ typedef struct S_8005A4E8 {
     s32 unk24;
 } S_8005A4E8;
 
-extern void apply_spu_common_attributes(S_8005A4E8 *s);
+extern void SpuSetCommonAttr(S_8005A4E8 *s);
 
 /* Selects a tagged value type from two flags and passes its byte payload to func_8005EDA0. */
 void submit_tagged_driver_byte(u8 type_group, u8 type_variant, u8 value) {
@@ -36,5 +36,5 @@ void submit_tagged_driver_byte(u8 type_group, u8 type_variant, u8 value) {
             tagged_value.unk20 = value;
         }
     }
-    apply_spu_common_attributes(&tagged_value);
+    SpuSetCommonAttr(&tagged_value);
 }

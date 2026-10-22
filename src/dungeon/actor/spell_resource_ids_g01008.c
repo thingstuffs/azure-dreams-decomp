@@ -1,13 +1,16 @@
 /* Spell resource ids g01008.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01008 - CL:dungeon/func_800A3C30, CL:dungeon/func_800A40CC, PD:dungeon/engine:800DD8E7.
  */
+struct ObjectPosition;
+#include "shared/object_node.h"
+#include "dungeon/effect.h"
 #include "dungeon/actor/spell_resource_ids_g01008.h"
 #include "shared/object_flags.h"
 
 s32 resolve_spell_effect_resource_id(s16 index) {
     s32 compare;
 
-    index = D_800DD8E7[index];
+    index = spell_resource_ids[index];
     if (((Inner *)dungeon_actor_ring_anchor->unk_4C)->flag != 0) {
         compare = index;
         if (compare == 0x32) {
@@ -32,7 +35,7 @@ s16 resolve_alternate_spell_id(s32 tile_index)
     s32 tile_code;
 
     index = tile_index;
-    tile = D_800DD8E7 + (s16)tile_index;
+    tile = spell_resource_ids + (s16)tile_index;
     tile_code = *tile;
 
     if (*(*(u8 **)(((u8 *)dungeon_actor_ring_anchor) + 0x4C) + 1) != 0) {
@@ -75,7 +78,7 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
     s16 effect_id;
     MovingPosition *effect_position;
     S_800A94A0_7 *actor_state;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_800A94A0_3 *effect_state;
     void *linked_object;
     MovingPosition *actor_position;
@@ -94,24 +97,24 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
             effect_data = load_spell_effect_code((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
         }
         if (effect_data == 0) {
-            effect_flags = ((S_800A94A0_2 *)effect)->unk_1E | 0x8000;
+            effect_flags = effect->flags | 0x8000;
             global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
-            ((S_800A94A0_2 *)effect)->unk_1E = effect_flags;
+            effect->flags = effect_flags;
             object_flag_block.flags = global_flags;
             return NULL;
         }
-        ((S_800A94A0_2 *)effect)->unk_10 = effect_data;
-        effect_state = effect + 0x20;
+        effect->unk_10 = effect_data;
+        effect_state = ((void *)effect )+ 0x20;
         ((S_800A94A0_2 *)effect)->unk_20 = actor;
         effect_state->unk_04 = context;
         effect_state->unk_08 = effect_id;
-        D_800E3CC8[0] = effect_id;
+        active_spell_parameters[0] = effect_id;
         variant = (*(u8 *)((u8 *)&effect_record->x + 1));
         effect_state->unk_09 = variant;
-        D_800E3CC8[1] = variant;
+        active_spell_parameters[1] = variant;
         if (mode == 0) {
             actor_position = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_00;
-            effect_position = ((S_800A94A0_2 *)effect)->unk_08;
+            effect_position = effect->position;
             effect_position->unk_02 = (u16) actor_position->unk_02;
             effect_position->unk_06 = (u16) actor_position->unk_06;
             effect_position->unk_0A = (u16) actor_position->unk_0A;
@@ -148,9 +151,9 @@ void *create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode,
         }
 set_effect_scale:
         if ((mode << 0x10) != 0) {
-            spend_actor_mp(actor, D_800DD8B4[effect_id] << 6);
+            spend_actor_mp(actor, alternate_spell_mp_costs[effect_id] << 6);
         } else {
-            spend_actor_mp(actor, D_800DD880[effect_id] << 8);
+            spend_actor_mp(actor, spell_mp_costs[effect_id] << 8);
         }
         if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
             new_text_context = get_unused_text_buffer();
@@ -190,7 +193,7 @@ s32 load_spell_effect_code(selection_id, alternate_table, unused)
     s32 state_value;
 
     resource_data = (s32 *)0x80024000;
-    if (D_800DCF59 == 0) {
+    if (spell_resource_load_state == 0) {
         changed = 0;
         if ((selection_id != (spell_effect_selector_cache & 0x3F)) ||
             ((((u8)spell_effect_selector_cache >> 6) & 1) != alternate_table)) {
@@ -206,7 +209,7 @@ s32 load_spell_effect_code(selection_id, alternate_table, unused)
             message_data = D_800E58B0;
             pack_tagged_resource_descriptor(0xC, resource_data, message_data, message_offset);
             Control_CD(6, message_data, 0);
-            Control_CD(0xFF, set_byte_one, &D_800DCF59);
+            Control_CD(0xFF, set_byte_one, &spell_resource_load_state);
             spell_effect_selector_cache = selection_id | (alternate_table << 6);
         }
 
@@ -216,7 +219,7 @@ s32 load_spell_effect_code(selection_id, alternate_table, unused)
             doubled_index = index_hi >> 15;
             state_value = cd_cue_base[0];
         } else {
-            selection_table = D_800DD918;
+            selection_table = spell_audio_cues;
             index_hi = selection_id << 16;
             doubled_index = index_hi >> 15;
             state_value = cd_cue_base[0];
@@ -228,14 +231,14 @@ s32 load_spell_effect_code(selection_id, alternate_table, unused)
 
         change_result = changed;
         if (change_result != 0) {
-            D_800DCF59 = 2;
+            spell_resource_load_state = 2;
             return 0;
         }
     } else {
-        if (D_800DCF59 != 1) {
+        if (spell_resource_load_state != 1) {
             return 0;
         }
-        D_800DCF59 = 0;
+        spell_resource_load_state = 0;
     }
     return resource_data[0];
 }

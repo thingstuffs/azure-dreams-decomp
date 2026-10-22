@@ -1,8 +1,8 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
+#include "dungeon/menu.h"
 
-void draw_filler_first_number(); /* extern */
 
 typedef struct S_800DC5B4_0 {
     u8 pad_00[0x11];

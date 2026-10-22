@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -43,9 +44,9 @@ void update_object_movement_proximity_reactions(void *state_data, void *position
     s32 x_jitter;
     s32 burst_velocity;
     u16 type_index;
-    u8 *effect;
+    ObjectNodeHeader *effect;
     u8 *effect_state;
-    u8 *effect_position;
+    ObjectPosition *effect_position;
     SpriteFrameState *effect_sprite;
     TileObject *color_state;
 
@@ -105,8 +106,8 @@ loop_0:
         if (next_x <= 0x427FFFF) {
             S16(state, 0xE) = 6;
             color_state = &reference_tile_object;
-            if (U8(color_state, 0xC) >= 9) {
-                S32(color_state, 0xC) -= 0x80808;
+            if (color_state->primitive_color.parts.color_r >= 9) {
+                *(s32 *)&color_state->primitive_color.word -= 0x80808;
             }
             U16(sprite, 0x14) |= 0x80;
             SD_Call(0x506);
@@ -142,24 +143,24 @@ loop_0:
         do {
             effect = allocate_flagged_object_node(0x136);
             if (effect != 0) {
-                effect_state = effect + 0x20;
-                PTR(effect, 0x10) = D_80026748;
+                effect_state = ((u8 *)effect) + 0x20;
+                effect->unk_10 = D_80026748;
                 register_node(effect, project_sprite_chain);
-                effect_position = PTR(effect, 8);
-                effect_sprite = PTR(effect, 0xC);
-                S32(effect_position, 0) = position[0];
-                S32(effect_position, 4) = position[1];
-                S32(effect_position, 8) = position[2];
+                effect_position = *(u8 * *)&effect->position;
+                effect_sprite = *(u8 * *)&effect->sprite;
+                effect_position->x.v = position[0];
+                effect_position->y.v = position[1];
+                effect_position->z.v = position[2];
                 S32(effect_state, 4) = S32(state, 4);
                 PTR(effect, 0x20) = object;
                 effect_sprite->scale_y = 0x1000;
                 effect_sprite->scale_x = 0x1000;
                 if (remaining != 0) {
                     effect_sprite->source = D_800F795C;
-                    S32(effect_position, 0x10) = 0x80000;
+                    effect_position->velocity_y = 0x80000;
                 } else {
                     effect_sprite->source = D_800F7950;
-                    S32(effect_position, 0x10) = 0xFFF80000;
+                    effect_position->velocity_y = 0xFFF80000;
                 }
                 effect_sprite->unk_04 = 0;
                 effect_sprite->unk_05 = 0;

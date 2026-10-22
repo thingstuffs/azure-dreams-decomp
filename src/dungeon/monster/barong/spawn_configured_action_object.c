@@ -4,13 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_801710E0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_801710E0_0;   /* object in spawn_configured_action_object */
-
 typedef struct S_801710E0_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -42,7 +35,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_801712A8[];
 extern s32 D_801716F4;
-extern u8 D_80175554[];
+#include "dungeon/monster/barong.h"
 extern u8 D_801755A4[];
 
 /* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
@@ -54,7 +47,7 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
     s32 flags0;
     s32 flags1;
     void *result;
-    void *object;
+    ObjectNodeHeader *object;
     S_801710E0_2 *part0;
     SpriteFrameState *part1;
     S_801710E0_4 *result_copy;
@@ -64,17 +57,17 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        ((S_801710E0_0 *)object)->unk_10 = D_801712A8;
+        object->unk_10 = D_801712A8;
         ((S_801710E0_1 *)result)->unk_13 = MONSTER_BARONG;
         register_node(object, project_sprite_chain);
 
         {
             void *handler;
 
-            part0 = ((S_801710E0_0 *)object)->unk_08;
-            handler = D_80175554;
+            part0 = object->position;
+            handler = barong_direction_frames;
             part0->unk_0A = spawn_value;
-            part1 = ((S_801710E0_0 *)object)->unk_0C;
+            part1 = object->sprite;
             kind = flags & 3;
             part1->unk_25 = variant;
             result_copy = result;
@@ -83,21 +76,21 @@ void *spawn_configured_action_object(s16 flags, s16 kind_id, s16 variant, s32 sp
         part1->unk_24 = kind_id;
 
         if (kind == 1) {
-            flags0 = ((S_801710E0_1 *)result)->unk_14;
-            flags1 = ((S_801710E0_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x6000;
             flags1 |= 0x6000;
-            ((S_801710E0_1 *)result)->unk_14 = flags0;
-            ((S_801710E0_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((S_801710E0_1 *)result)->unk_14;
-            flags1 = ((S_801710E0_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x2000;
             flags1 |= 0x2000;
-            ((S_801710E0_1 *)result)->unk_14 = flags0;
-            ((S_801710E0_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (((flags & -4) << 16) == 0) {
-            if ((((S_801710E0_1 *)result)->unk_14 & 0x200) == 0) {
+            if ((((ObjectNodeHeader *)result)->unk_14 & 0x200) == 0) {
                 if ((generate_random_value() & 1) != 0) {
                     set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
                     part1->frameTable = D_801755A4;

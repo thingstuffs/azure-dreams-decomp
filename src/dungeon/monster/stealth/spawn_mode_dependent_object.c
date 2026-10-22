@@ -4,13 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80170854_0 {
-    u8 pad_00[0x8];
-    void ** unk_08;
-    void ** unk_0C;
-    void * unk_10;
-} S_80170854_0;   /* object in spawn_mode_dependent_112_object */
-
 typedef struct S_80170854_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -39,7 +32,7 @@ typedef struct S_80170854_4 {
 extern u8 D_80170A8C[];
 extern u8 D_80173D30[];
 extern u8 D_80173D78[];
-extern u8 D_80170F74[];
+#include "dungeon/monster/stealth.h"
 
 extern void *allocate_list_node();
 extern s32 register_node();
@@ -66,7 +59,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
     SpriteFrameState *part1;
     S_80170854_2 *part0;
     void *actor;
-    void *object;
+    ObjectNodeHeader *object;
     S_80170854_1 *result;
 
     result = 0;
@@ -74,12 +67,12 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
     object = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         result = (u8 *)object + 0x20;
-        ((S_80170854_0 *)object)->unk_10 = D_80170A8C;
+        object->unk_10 = D_80170A8C;
         result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
-        part0 = ((S_80170854_0 *)object)->unk_08;
+        part0 = *(void ** *)&object->position;
         part0->unk_0A = spawn_value;
-        part1 = ((S_80170854_0 *)object)->unk_0C;
+        part1 = *(void ** *)&object->sprite;
         part1->unk_25 = variant;
         actor = result;
         part1->frameTable = D_80173D30;
@@ -104,7 +97,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
         initialize_actor_sprite_and_animation(object, part0, part1, flags);
         ((S_80170854_4 *)actor)->unk_9A = 0xFF;
         ((S_80170854_4 *)actor)->unk_9C = -1;
-        ((S_80170854_4 *)actor)->unk_8C = D_80170F74;
+        ((S_80170854_4 *)actor)->unk_8C = stealth_behavior_entry;
         ((S_80170854_4 *)actor)->unk_A4 = -1;
         if (mode != 0) {
             ((S_80170854_4 *)actor)->unk_A6 = 0;

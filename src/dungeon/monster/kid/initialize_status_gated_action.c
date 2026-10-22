@@ -1,11 +1,11 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
-
 
 void select_sprite_entry();
 typedef struct Ent Ent;
@@ -13,9 +13,8 @@ Ent *prepare_directional_attack();
 s32 try_claim_dungeon_action_slot();
 s32 apply_camera_offset_and_select_target();
 
-
 /* Initialize action state and directional animation when the entity status permits. */
-void initialize_status_gated_action(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80082E80 *animation,
+void initialize_status_gated_action(Rec_func_800A9E70_arg0 *action_state, void *context, SpriteFrameState *animation,
     EntityRec *entity) {
     entity->unk_71 = (s8) (entity->unk_71 & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
@@ -24,7 +23,7 @@ void initialize_status_gated_action(Rec_func_800A9E70_arg0 *action_state, void *
             action_state->unk_9A.as_s8 = 0x11;
             action_state->unk_8C = 0;
             action_state->unk_9B.as_s8 = 0;
-            select_sprite_entry(animation, *(animation->unk_2C.as_pu8 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
+            select_sprite_entry(animation, *(*(u8 **)&animation->frameTable + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
                 + 0x100) >> 9) & 7)), 0);
             entity->unk_6D = (u8) (((u8)entity->unk_6D) - 1);
             prepare_directional_attack(entity, animation, entity->facing, 1, 0);

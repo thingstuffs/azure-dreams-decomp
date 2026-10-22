@@ -1,30 +1,32 @@
 /* G00684: variant render object. */
 /* Original-file evidence (G00684): inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800CE070, CL:town/func_800CE380, CL:town/func_800CE408, PD:town/engine:800D68B0. */
 #include "town/person/variant_render_object_g00684.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 
 /* Creates an object, initializes its render data, and invokes its callback. */
 s32 create_and_invoke_render_object(s32 initial_value, s32 resource_index) {
     s32 callback_arg;
     SpriteFrameState *render_data;
     S_800CB8CC_1 *state;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = allocate_list_node(0x136, ((s32 *)&scene_object_list_anchor.next));
     if (object == 0) {
         return 0;
     }
-    state = object + 0x20;
-    callback_arg = ((S_800CB8CC_0 *)object)->unk_08;
-    render_data = ((S_800CB8CC_0 *)object)->unk_0C;
+    state = ((void *)object) + 0x20;
+    callback_arg = *(s32 *)&object->position;
+    render_data = object->sprite;
     state->unk_9C = initial_value;
-    ((S_800CB8CC_0 *)object)->unk_10 = update_entity_relative_position;
+    object->unk_10 = update_entity_relative_position;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = 0x808080;
     state->unk_60 = resource_index;
     render_data->source = D_800D68B0[resource_index];
     register_node(object, project_sprite_chain);
-    ((S_800CB8CC_0 *)object)->unk_10(state, callback_arg, render_data);
+    ((s32 (*)(void *, s32, void *))object->unk_10)(state, callback_arg, render_data);
     return (s32)object;
 }
 
@@ -69,19 +71,19 @@ void initialize_record_from_table_index(void *record_data, s32 context, Rec_D_80
 /* Allocate and initialize an object with the given coordinates and variant. */
 void allocate_variant_object(s32 variant, s32 x, s32 y) {
     s32 setup_arg;
-    S_800CBB68_1 *position;
+    ObjectPosition *position;
     S_800CBB68_2 *state;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = create_town_effect_object(0, 0, 0, 0);
     if (object != NULL) {
-        position = ((S_800CBB68_0 *)object)->unk_08;
-        setup_arg = ((S_800CBB68_0 *)object)->unk_0C;
+        position = object->position;
+        setup_arg = *(s32 *)&object->sprite;
         state = (s8 *)object + 0x20;
-        position->unk_00 = (s32)(x << 0x10);
-        position->unk_04 = (s32)(y << 0x10);
-        position->unk_08.at00.v = 0xFF000000;
-        position->unk_08.at02.v = query_lowered_transform_position(position);
+        position->x.v = (s32)(x << 0x10);
+        position->y.v = (s32)(y << 0x10);
+        position->z.v = 0xFF000000;
+        position->z.w.i = query_lowered_transform_position(position);
         state->unk_96 = variant;
         initialize_record_from_table_index(state, (s32)(position), (struct Rec_D_80082E80 *)(setup_arg));
     }

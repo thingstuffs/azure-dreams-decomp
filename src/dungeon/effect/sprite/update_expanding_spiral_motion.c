@@ -1,11 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "records/Rec_D_80082E80.h"
 
 struct Dst;
 struct Elem;
-
-
 
 extern void func_8002421C();
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
@@ -40,9 +39,8 @@ typedef struct S_8185CB30_2 {
     s16 unk_06;
 } S_8185CB30_2;   /* arg1 in update_expanding_spiral_motion */
 
-
 /* Advance expanding spiral motion and update the moving object. */
-void update_expanding_spiral_motion(S_8185CB30_0 *motion, S_8185CB30_2 *position, Rec_D_80082E80 *object)
+void update_expanding_spiral_motion(S_8185CB30_0 *motion, S_8185CB30_2 *position, SpriteFrameState *object)
 {
     s16 next_angle;
     u16 cycle_tick;
@@ -77,11 +75,11 @@ void update_expanding_spiral_motion(S_8185CB30_0 *motion, S_8185CB30_2 *position
         (s16)(motion->unk_0A +
               ((s32)((func_80064584((s16)motion->unk_1C) >> 4) *
                      (s16)motion->unk_20) >> 8));
-    object->unk_1A.as_s16 =
+    object->angle_z =
         (s16)((s32)(0 - ((func_80064584((s16)motion->unk_1C -
                                         angle_table->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8);
     advance_sprite_animation_and_textures(object);
-    if (object->unk_14.at00_u16.v & 0x6000) {
+    if (object->flags & 0x6000) {
         select_record_entry_and_value(object, D_800DEAE0, 0);
     }
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -31,7 +32,7 @@ extern s32 check_actor_floor_trap(void *, void *);
 /* Selects the mode table and updates the dungeon object state. */
 /* Selects idle frames for Beldo's four forms, updates parent-relative movement, and handles the floor-trap
  * result. */
-void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, DungeonState *state, DungeonInput *input) {
+void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, SpriteFrameState *state, DungeonInput *input) {
     s32 mode;
     u8 *mode_table;
     u8 *current_table;
@@ -39,19 +40,19 @@ void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, D
     mode = object->mode;
     switch (mode) {
     case 0:
-        current_table = state->field_2C;
+        current_table = *(u8 **)&state->frameTable;
         mode_table = D_801739A0;
         break;
     case 1:
-        current_table = state->field_2C;
+        current_table = *(u8 **)&state->frameTable;
         mode_table = D_801739A8;
         break;
     case 2:
-        current_table = state->field_2C;
+        current_table = *(u8 **)&state->frameTable;
         mode_table = D_801739B0;
         break;
     case 3:
-        current_table = state->field_2C;
+        current_table = *(u8 **)&state->frameTable;
         mode_table = D_801739B8;
         break;
     default:
@@ -64,7 +65,7 @@ void update_multi_form_actor_movement(DungeonObject *object, s32 update_param, D
         return;
     }
     if (current_table != mode_table) {
-        state->field_2C = mode_table;
+        state->frameTable = mode_table;
         select_sprite_entry(state, *(u8 *)((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + input->field_2A + 0x100) >> 9) & 7)
             + (u32) mode_table), 0);
     }

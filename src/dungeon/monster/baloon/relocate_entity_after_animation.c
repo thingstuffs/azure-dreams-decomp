@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -35,7 +36,6 @@ typedef struct S_80175594_1 {
     s32 unk_14;
 } S_80175594_1;   /* arg1 in relocate_entity_after_animation */
 
-
 typedef struct S_80175594_3 {
     u8 pad_00[0x1C];
     u32 unk_1C;
@@ -46,7 +46,6 @@ typedef struct S_80175594_3 {
     u8 pad_48[0x40];
     s16 unk_88;
 } S_80175594_3;   /* object in relocate_entity_after_animation */
-
 
 extern u8 baloon_default_frames[];
 extern u8 D_800E23B8[];
@@ -72,7 +71,7 @@ extern int abs(int);
 /* Advances the entity animation sequence and relocates it to a distant tile. */
 /* Animates Baloon's rising effect, tries to relocate at least 33 tile steps from the player, then spends
  * MP and restores idle. */
-void relocate_entity_after_animation(void *motion, void *position, void *entity, void *object)
+void relocate_entity_after_animation(void *motion, void *position, SpriteFrameState *entity, void *object)
 {
     s32 particle_index;
     s32 tries_left;
@@ -88,15 +87,14 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
     u8 old_y;
     u8 *animations;
 
-
     switch (((S_80175594_0 *)motion)->unk_9B) {
     case 0:
         ((S_80175594_1 *)position)->unk_14 = 0;
         ((S_80175594_1 *)position)->unk_10 = 0;
         ((S_80175594_1 *)position)->unk_0C = 0;
-        if (((Rec_func_800D6DC0_arg2 *)entity)->unk_14 & 0x8000) {
+        if (entity->flags & 0x8000) {
             ((S_80175594_0 *)motion)->unk_9B = 7;
-            ((Rec_func_800D6DC0_arg2 *)entity)->unk_14 |= 0x6000;
+            entity->flags |= 0x6000;
             return;
         }
         if (((S_80175594_0 *)motion)->unk_A0.at00.v <= 0x6FFFF) {
@@ -112,7 +110,7 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         return;
 
     case 1:
-        (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23B8;
+        (entity->frameTable) = D_800E23B8;
         select_sprite_entry(entity,
             D_800E23B8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -124,7 +122,7 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         if (++((S_80175594_0 *)motion)->unk_96 < 9) {
             return;
         }
-        (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23C0;
+        (entity->frameTable) = D_800E23C0;
         select_sprite_entry(entity,
             D_800E23C0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -209,30 +207,30 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         return;
 
     case 7:
-        update_map_cell_flags_with_item_limit(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
+        update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25,
             (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
         tries_left = 0x20;
-        old_x = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
-        old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
+        old_x = entity->unk_24;
+        old_y = entity->unk_25;
         for (;;) {
             do {
                 tile_result = select_dungeon_spawn_tile((u8 *)entity + 0x24, (u8 *)entity + 0x25);
             } while (tile_result < 0);
 
-            dx = abs(reference_tile_object.tile_position.parts.tile_x - ((Rec_func_800D6DC0_arg2 *)entity)->unk_24);
-            dy = abs(reference_tile_object.tile_position.parts.tile_y - ((Rec_func_800D6DC0_arg2 *)entity)->unk_25);
+            dx = abs(reference_tile_object.tile_position.parts.tile_x - entity->unk_24);
+            dy = abs(reference_tile_object.tile_position.parts.tile_y - entity->unk_25);
             if (dx + dy >= 0x21) {
                 break;
             }
             if (--tries_left < 0) {
-                ((Rec_func_800D6DC0_arg2 *)entity)->unk_24 = old_x;
-                ((Rec_func_800D6DC0_arg2 *)entity)->unk_25 = old_y;
+                entity->unk_24 = old_x;
+                entity->unk_25 = old_y;
                 break;
             }
         }
 
-        ((S_80175594_1 *)position)->unk_02.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) + 0x20;
-        ((S_80175594_1 *)position)->unk_06.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) + 0x20;
+        ((S_80175594_1 *)position)->unk_02.s = (entity->unk_24 << 6) + 0x20;
+        ((S_80175594_1 *)position)->unk_06.s = (entity->unk_25 << 6) + 0x20;
         ground_z = sample_terrain_surface_height(((S_80175594_1 *)position)->unk_02.u, ((S_80175594_1 *)position)->unk_06.u,
             -0x200);
         ground_z -= 0x11;
@@ -242,12 +240,12 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         ((S_80175594_0 *)motion)->unk_A0.at00.v = 0;
         ((S_80175594_3 *)object)->unk_88 = -0x200;
         ground_z = sample_terrain_surface_height(
-            (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) | 0x20,
-            (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) | 0x20,
+            (entity->unk_24 << 6) | 0x20,
+            (entity->unk_25 << 6) | 0x20,
             -0x200);
         ((S_80175594_3 *)object)->unk_88 = ground_z;
 
-        cycle_map_cell_flags(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
+        cycle_map_cell_flags(entity->unk_24, entity->unk_25,
             (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
         refresh_actor_proximity_state(object);
         spend_actor_mp(object, 0x1000);
@@ -261,12 +259,12 @@ void relocate_entity_after_animation(void *motion, void *position, void *entity,
         (*(u16 *)((u8 *)motion + 0x98)) |= 8;
 
         animations = baloon_default_frames;
-        if (((Rec_func_800D6DC0_arg2 *)entity)->unk_2C != animations) {
-            (*(u8 * *)((u8 *)entity + 0x2C)) = animations;
+        if (*(u8 **)&entity->frameTable != animations) {
+            (entity->frameTable) = animations;
             select_sprite_entry(entity,
                 animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            ((Rec_func_800D6DC0_arg2 *)entity)->unk_05 = 1;
+            entity->unk_05 = 1;
             ((S_80175594_0 *)motion)->unk_A0.at02.v = 0;
             ((S_80175594_0 *)motion)->unk_9E = 0;
         }

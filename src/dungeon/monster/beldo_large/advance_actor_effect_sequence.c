@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 
@@ -62,7 +63,7 @@ extern s16 beldo_script_timer;
 /* Advances the entity action script and updates its animation, facing, and timed events. */
 /* Interprets timed direction commands, relative script jumps, and form changes while updating actor status
  * and MP. */
-s32 advance_actor_effect_sequence_2(Entity *entity, s32 action_value, Aux *aux)
+s32 advance_actor_effect_sequence_2(Entity *entity, s32 action_value, SpriteFrameState *aux)
 {
     s32 angle_out[2];
     Entity *actor;
@@ -85,7 +86,7 @@ s32 advance_actor_effect_sequence_2(Entity *entity, s32 action_value, Aux *aux)
 
     actor = entity;
 top:
-    if (aux->flags14 & 0x40) {
+    if (aux->flags & 0x40) {
         return 0;
     }
     script = D_80175DC4;
@@ -122,7 +123,7 @@ top:
             return 0;
 
         case 0xE8:
-            actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
+            actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
             complete_actor_facing_action(entity, action_value, aux, actor);
             return 0;
@@ -131,19 +132,19 @@ top:
             animation = entity->animation;
             switch (animation) {
             case 0:
-                old_sequence = aux->sequence;
+                old_sequence = aux->frameTable;
                 sequence = D_801739A0;
                 break;
             case 1:
-                old_sequence = aux->sequence;
+                old_sequence = aux->frameTable;
                 sequence = D_801739A8;
                 break;
             case 2:
-                old_sequence = aux->sequence;
+                old_sequence = aux->frameTable;
                 sequence = D_801739B0;
                 break;
             case 3:
-                old_sequence = aux->sequence;
+                old_sequence = aux->frameTable;
                 sequence = D_801739B8;
                 break;
             default:
@@ -164,7 +165,6 @@ top:
             }
             break;
 
-
         case 0xF8:
             state = entity->state;
             switch (state) {
@@ -175,7 +175,7 @@ top:
                 if (entity->animation != 0) {
                     break;
                 }
-                old_sequence = aux->sequence;
+                old_sequence = aux->frameTable;
                 start_sequence = D_80173A88;
                 if (old_sequence == start_sequence) {
                     break;
@@ -184,7 +184,7 @@ top:
                 (*(u8 **)((u8 *)aux + 0x2C)) = start_sequence;
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, start_sequence);
-                select_sprite_entry(aux, SEQUENCE_INDEX_BYTE(sequence_index, start_sequence), aux->field04);
+                select_sprite_entry(aux, SEQUENCE_INDEX_BYTE(sequence_index, start_sequence), aux->unk_04);
                 entity->state++;
                 entity->timer = 0;
                 break;
@@ -222,14 +222,14 @@ top:
                     break;
                 }
                 event_sequence = D_80173A60;
-                if (aux->sequence == event_sequence) {
+                if (aux->frameTable == event_sequence) {
                     break;
                 }
                 angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
                 (*(u8 **)((u8 *)aux + 0x2C)) = event_sequence;
                 sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
                 SEQUENCE_INDEX_ADVANCE(sequence_index, event_sequence);
-                select_sprite_entry(aux, SEQUENCE_INDEX_BYTE(sequence_index, event_sequence), aux->field04);
+                select_sprite_entry(aux, SEQUENCE_INDEX_BYTE(sequence_index, event_sequence), aux->unk_04);
                 entity->state++;
                 entity->timer = 0;
                 break;
@@ -273,7 +273,7 @@ top:
                 entity->timer = 0;
                 entity->direction = 0;
             case 1:
-                actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
+                actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                 timer = (u16)(entity->timer + 1);
                 entity->timer = timer;
@@ -286,12 +286,11 @@ top:
             }
             break;
 
-
         case 0xC8:
             state = entity->state;
             switch (state) {
             case 0:
-                actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
+                actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                 entity->state++;
                 entity->timer = 0;
@@ -308,7 +307,7 @@ top:
                 if ((s16)timer >= 4) {
                     entity->timer = 0;
                     entity->state = (u8)(entity->state + 1);
-                    actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
+                    actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                     idle_sequence = D_801739A0;
                     angle_base = &g_game_work.view.camera_rotation.parts.viewAngle;
@@ -320,7 +319,7 @@ top:
                 }
             }
             case 2:
-                actor->angle = get_rounded_facing_and_rounding_flag(aux->x24, aux->y25,
+                actor->angle = get_rounded_facing_and_rounding_flag(aux->unk_24, aux->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, angle_out);
                 break;
             }

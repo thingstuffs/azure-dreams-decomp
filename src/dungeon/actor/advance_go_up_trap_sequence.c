@@ -1,9 +1,12 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/player/item.h"
+#include "engine/texture.h"
 extern u8 resident_globals_page[];
 
 typedef struct S_800CB9DC_0_pre {
@@ -42,39 +45,24 @@ typedef struct S_800CB9DC_3 {
     s32 unk_08;
 } S_800CB9DC_3;
 
-typedef struct S_800CB9DC_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-} S_800CB9DC_4;   /* arg2 in advance_go_up_trap_sequence */
-
 typedef struct S_800CB9DC_5 {
     u8 pad_00[0x4];
     u16 unk_04;
 } S_800CB9DC_5;   /* counts in advance_go_up_trap_sequence */
-
-
 
 typedef struct S_800CB9DC_7 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
 } S_800CB9DC_7;   /* page14 in advance_go_up_trap_sequence */
 
-typedef struct S_800CB9DC_8 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800CB9DC_8;   /* base34 in advance_go_up_trap_sequence */
-
 typedef struct S_800CB9DC_9 {
     u8 pad_00[0x14A0];
     union { s32 s; s32 u; } unk_14A0;   /* accessed as both */
 } S_800CB9DC_9;   /* page14_again in advance_go_up_trap_sequence */
 
-
 extern void request_scene_dispatch_state(s16 requested_state);               /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
-void mark_sprite_resources_for_purge();                            /* extern */
 void snapshot_inventory_and_familiars();           /* extern */
-void snapshot_inventory_familiar_records();                            /* extern */
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 s32 detach_record_and_update_slot_state();                      /* extern */
@@ -86,7 +74,7 @@ extern u8 scene_mode_code;
 /* Updates go-up trap motion, then advances the player or removes the affected actor. */
 void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, void *animation_in) {
     S_800CB9DC_2 *motion_state = motion_state_in;
-    S_800CB9DC_4 *animation = animation_in;
+    SpriteFrameState *animation= animation_in;
     void *actor_data;
     s32 tile_mask;
     s32 vertical_speed;
@@ -103,7 +91,7 @@ void advance_go_up_trap_sequence(void *trap_state_in, void *motion_state_in, voi
     position->unk_08 = (s32) (position->unk_08 + vertical_speed);
     elapsed_frames = ((S_800CB9DC_0 *)trap_state_in)->unk_06 + 1;
     ((S_800CB9DC_0 *)trap_state_in)->unk_06 = elapsed_frames;
-    if (((s16) elapsed_frames >= 0x41) || ((animation_in = (void *)(u32)(animation->unk_14 & 0x8000), (u32)animation_in) != 0)) {
+    if (((s16) elapsed_frames >= 0x41) || ((animation_in = (void *)(u32)(animation->flags & 0x8000), (u32)animation_in) != 0)) {
         if (actor == ((u8 *)dungeon_actor_ring_anchor)) {
             s16 *trap_counts;
             u8 transition_id;

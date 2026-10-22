@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -23,11 +24,11 @@ extern u8 D_801765E8[9];
 extern void select_sprite_entry(Context *, s16, s16);
 
 // Initializes state and applies a table value selected by the combined indices.
-void initialize_directional_state_sprite(State *state, s32 unused, Context *context, IndexSource *indexSource)
+void initialize_directional_state_sprite(State *state, s32 unused, SpriteFrameState *context, IndexSource *indexSource)
 {
     state->unk9A = 0x10;
     state->unk9B = 0;
     state->unk9E = 3;
-    context->unk2C = D_801765E8;
+    context->frameTable = D_801765E8;
     select_sprite_entry(context, D_801765E8[((g_game_work.view.camera_rotation.parts.viewAngle + indexSource->unk2A + 0x100) >> 9) & 7], 0);
 }

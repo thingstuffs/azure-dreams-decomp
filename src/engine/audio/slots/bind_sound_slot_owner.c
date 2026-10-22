@@ -27,7 +27,7 @@ s16 bind_sound_slot_owner(s32 owner, s16 entry_id)
     entry = &entries[entry_id];
     marker = entry->marker;
     if (marker == entry_id) {
-        updated_value = lookup_and_scale_driver_address(entry->unk10);
+        updated_value = SpuSetTransferStartAddr(entry->unk10);
         if (clamp_and_submit_driver_parameter(owner, entry->unk14) == entry->unk14) {
             entry->owner = owner;
             entry->unk10 = updated_value;

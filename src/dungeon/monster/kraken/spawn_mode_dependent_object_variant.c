@@ -1,7 +1,9 @@
+#include "shared/object_node.h"
 #include "dungeon/monster/kraken/spawn_mode_dependent_object_variant.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kraken/spawn_mode_dependent_object_variant.h"
+#include "dungeon/effect/sprite.h"
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of spawn_flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Kraken with frames at D_8015C18C and a gray child display using frame 39 and an adjusted
@@ -12,7 +14,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
     void *work;
     s8 saved_kind_id;
     s8 saved_variant;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8015886C_2 *part_a;
     SpriteFrameState *part_b;
     S_8015886C_4 *actor;
@@ -22,7 +24,7 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
     void *current;
     S_8015886C_8 *base;
     void *child_obj;
-    S_8015886C_7 *elem;
+    SpriteFrameState *elem;
     s32 count;
     register s32 i;
     u32 elem_offset;
@@ -37,14 +39,14 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
     obj = allocate_list_node(0x112, (saved_kind_id = kind_id, ((u8 *)(&scene_object_list_anchor))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8015886C_0 *)obj)->unk_10 = func_80158B64;
+        obj->unk_10 = func_80158B64;
         ((S_8015886C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 
-        part_a = ((S_8015886C_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = spawn_value;
-        part_b = ((S_8015886C_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->frameTable = D_8015C18C;
         part_b->unk_24 = saved_kind_id;
@@ -103,14 +105,14 @@ void *spawn_mode_dependent_112_object_variant(s16 spawn_flags, s16 kind_id, s16 
                     child_flags = ((S_8015886C_6 *)child)->unk_04;
                     ((S_8015886C_6 *)child)->unk_04 = child_flags | 0x8000;
                     child_arg = part_b->unk_28;
-                    elem_flags = elem->unk_14;
-                    elem->unk_10 = 96;
+                    elem_flags = elem->flags;
+                    elem->tpage_abr = 96;
                     elem->unk_28 = child_arg;
-                    elem->unk_14 = elem_flags | 0xC;
+                    elem->flags = elem_flags | 0xC;
 
-                    elem->unk_12 = *(s16 *)&part_b->clut - 128;
-                    elem->unk_0C = ((u32)(0x00C0C0C0));
-                    ((S_8015886C_9 *)(base->unk_A4))->unk_10 = process_effect_block_entries;
+                    elem->clut = *(s16 *)&part_b->clut - 128;
+                    elem->color.word = ((u32)(0x00C0C0C0));
+                    ((ObjectNodeHeader *)base->unk_A4)->unk_10 = process_effect_block_entries;
 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;

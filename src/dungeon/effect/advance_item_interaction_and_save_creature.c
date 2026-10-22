@@ -12,6 +12,11 @@
 
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/effect.h"
+#include "dungeon/menu.h"
+#include "dungeon/player/item.h"
+#include "dungeon/player/object.h"
+#include "dungeon/player/state.h"
 
 typedef struct {
     u8 pad[0x29C];
@@ -161,12 +166,9 @@ void apply_actor_template_and_class();
 s32 func_80042640(void *, s32);
 void set_sprite_animation_frame();
 s32 func_80069E78(void *, s32);
-void create_familiar_deployment_effect_with_owner_state();
 void create_familiar_deployment_overlay();
 void clear_slot_and_update_linked_state();
-void *begin_holding_item();
 s16 find_table_value_index();
-s32 find_first_unused_entity_entry();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
 s32 copy_four_text_bytes();
@@ -187,9 +189,7 @@ s32 play_sound_if_enabled();
 s32 display_text_with_fullwidth_adjustment();
 s32 generate_random_value();
 void clear_selected_item_flag_400();
-void build_floating_number_widget();
 void *create_actor_value_popup();
-void spawn_directed_and_scattered_particles();
 #define D_80010000_PTR ((D_80010000_T *)0x80010000)
 extern s32 monster_species_table;
 extern s32 held_item_record;

@@ -1,30 +1,19 @@
 #include "common.h"
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80F45000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80F45000_0;   /* obj in allocate_actor_parts */
-
-typedef struct S_80F45000_1 {
+typedef struct  S_80F45000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_80F45000_1;   /* work in allocate_actor_parts */
-
-typedef struct S_80F45000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80F45000_2;   /* part_a in allocate_actor_parts */
 
 typedef struct S_80F45000_4 {
     u8 pad_00[0x8C];
@@ -52,8 +41,8 @@ extern u8 D_80162AD4[];
 void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
 {
     void *work = 0;
-    void *obj;
-    void *part_a;
+    ObjectNodeHeader *obj;
+    ObjectPosition *part_a;
     register SpriteFrameState *part_b;
     S_80F45000_4 *actor;
     register s32 kind;
@@ -70,13 +59,13 @@ void *allocate_actor_parts(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_val
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80F45000_0 *)obj)->unk_10 = D_8015EA68;
+        obj->unk_10 = D_8015EA68;
         ((S_80F45000_1 *)work)->unk_13 = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_80F45000_0 *)obj)->unk_08;
-        ((S_80F45000_2 *)part_a)->unk_0A = saved_part_value;
-        part_b = ((S_80F45000_0 *)obj)->unk_0C;
+        part_a = obj->position;
+        part_a->z.w.i = saved_part_value;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;

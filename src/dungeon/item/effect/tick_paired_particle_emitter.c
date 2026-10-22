@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
@@ -70,9 +71,9 @@ extern s32 register_node(void *, void *);
 void tick_paired_particle_emitter(FuncArg *source) {
     s32 effect_index;
     FuncSub *effect_state;
-    FuncItem *effect_item;
+    ObjectNodeHeader *effect_item;
     SpriteFrameState *effect_block;
-    FuncData *effect_pos;
+    ObjectPosition *effect_pos;
     FuncData *source_pos;
     FuncMeta *source_meta;
     u8 *effect_def;
@@ -92,24 +93,24 @@ void tick_paired_particle_emitter(FuncArg *source) {
     do {
         effect_item = allocate_flagged_object_node(0x202);
         if (effect_item != 0) {
-            effect_item->field10 = effect_def;
+            effect_item->unk_10 = effect_def;
             effect_state = (FuncSub *)((u8 *)effect_item + 0x20);
             register_node(effect_item, project_sprite_chain);
             effect_state->field12 = (random_values[0] & 0xF) + 0x10;
             effect_state->field16 = random_values[1];
             source_pos = (FuncData *)source->data;
-            effect_pos = effect_item->data_block;
+            effect_pos = *(FuncData * *)&effect_item->position;
             x = source_pos->x;
-            effect_pos->x = x;
+            effect_pos->x.w.i = x;
             effect_state->fieldC = x;
             y = ((FuncData *)source->data)->y;
-            effect_pos->y = y;
+            effect_pos->y.w.i = y;
             effect_state->fieldE = y;
             source_meta = (FuncMeta *)source->meta;
-            effect_pos->z = ((FuncData *)source->data)->z - *(u8 *)(source_meta->index + (s32)height_offsets)
+            effect_pos->z.w.i = ((FuncData *)source->data)->z - *(u8 *)(source_meta->index + (s32)height_offsets)
                 - (random_values[2] & 0xF);
             effect_state->field1C = source->data;
-            effect_block = effect_item->block;
+            effect_block = *(FuncBlock * *)&effect_item->sprite;
             effect_block->flags = 0xC;
             effect_block->source = tile_data;
             if (effect_index != 0) {

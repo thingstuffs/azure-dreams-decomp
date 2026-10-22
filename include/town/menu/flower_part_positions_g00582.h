@@ -14,11 +14,6 @@
 struct IntVector3;
 
 /* extern */
-typedef struct S_800A7FD8_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    void * unk_0C;
-} S_800A7FD8_0;
 
 typedef struct S_800A7FD8_1 {
     u8 pad_00[0x60];

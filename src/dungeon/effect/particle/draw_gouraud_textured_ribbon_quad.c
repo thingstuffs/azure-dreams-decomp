@@ -124,7 +124,6 @@ typedef struct S_801663AC_6 {
     u16 unk_06;
 } S_801663AC_6;   /* texture in draw_gouraud_textured_ribbon_quad */
 
-
 typedef struct {
     s16 m[3][3];
     s16 pad;
@@ -153,7 +152,7 @@ void draw_gouraud_textured_ribbon_quad(void *quad, void *position, void *render_
     u8 tex_flags;
     MATRIX view_matrix;
 
-    ((S_801663AC_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
+    ((S_801663AC_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
     ((S_801663AC_0 *)scratch)->unk_88 = ((S_801663AC_1 *)position)->unk_02;
     ((S_801663AC_0 *)scratch)->unk_8C = ((S_801663AC_1 *)position)->unk_06;
     ((S_801663AC_0 *)scratch)->unk_90 = ((S_801663AC_1 *)position)->unk_0A;
@@ -180,8 +179,8 @@ void draw_gouraud_textured_ribbon_quad(void *quad, void *position, void *render_
     ((S_801663AC_0 *)scratch)->unk_10.s32 = texture[9];
     (*(s32 *)((u8 *)scratch + 0x14)) = texture[0xA];
     ((S_801663AC_0 *)scratch)->unk_18.s32 = texture[0xB];
-    packet = ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor;
-    ((GpuContext *)(*(u8 **)((u8 *)(&g_game_work))))->packetCursor = packet + 0x34;
+    packet = ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor;
+    ((GpuContext *)(*(u8 **)&g_game_work.draw_buffer))->packetCursor = packet + 0x34;
 
     ((S_801663AC_0 *)scratch)->unk_B0 = ((S_801663AC_4 *)quad)->unk_74;
     ((S_801663AC_0 *)scratch)->unk_B8 = ((S_801663AC_4 *)quad)->unk_7A;

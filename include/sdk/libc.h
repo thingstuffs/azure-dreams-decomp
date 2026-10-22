@@ -6,7 +6,7 @@
 #include "common.h"
 
 s32 abs(s32);
-void bzero(void *, s32);
+#include "sdk/bzero.h"
 char * func_80069E38(char *, const char *);
 char * func_80069E78(char *, const char *);
 char * func_80069E88(char *, const char *, s32);

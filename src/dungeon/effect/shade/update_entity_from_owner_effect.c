@@ -71,7 +71,7 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
 
     angle_table = &g_game_work;
     angle_sector =
-        (S16(angle_table, 0xC8) + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9;
+        (angle_table->view.camera_rotation.parts.viewAngle + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9;
     {
         u8 sector_check;
         direction_index = angle_sector & 7;
@@ -90,7 +90,7 @@ void update_entity_from_owner_effect(void *owner_data, void *position_data, u8 *
     U16(position_data, 0xA) = U16(coords, 0xA);
 
     direction_index =
-        (S16(angle_table, 0xC8) + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9 & 7;
+        (angle_table->view.camera_rotation.parts.viewAngle + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9 & 7;
     S16(entity, 6) = (s32)view_direction_depth_biases[(u8)direction_index] * 4;
     U16(entity, 0x1C) = U16(appearance, 0x1C);
     U16(entity, 0x1E) = U16(appearance, 0x1E);

@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/effect/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/vector.h"
 
 struct ColorState800517CC;
@@ -124,10 +125,10 @@ void func_80052CE0(struct S_52CE0 *anim, struct S_52CE0_Pos *position, struct S_
 void update_shaded_line_effect(struct S_52CE0 *anim, struct S_52CE0_Pos *position, struct S_52CE0_Ent *entity);
 
 /* update_sine_motion_effect.c */
-void func_800517CC(struct EffectState800517CC *effect, struct VecState800517CC *motion, struct ColorState800517CC *color);
-void update_sine_motion_effect(struct EffectState800517CC *effect, struct VecState800517CC *motion, struct ColorState800517CC *color);
+void func_800517CC(struct EffectState800517CC *effect, struct VecState800517CC *motion, SpriteFrameState *color);
+void update_sine_motion_effect(struct EffectState800517CC *effect, struct VecState800517CC *motion, SpriteFrameState *color);
 
 /* update_staged_motion_effect.c */
-void update_staged_motion_effect(struct S_80051548_Obj *obj, IntVector3 *position, struct S_80051548_Flags *flags);
+void update_staged_motion_effect(struct S_80051548_Obj *obj, IntVector3 *position, SpriteFrameState *flags);
 
 #endif

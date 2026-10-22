@@ -47,12 +47,12 @@ void create_encounter_view_darkener(void)
         (object->unk_10) = D_801701CC;
         register_node(object, D_80044BB0);
 
-        axis_state = (object->unk_08);
+        axis_state = (object->position);
         axis_state->unk_0A = 0;
         axis_state->unk_06 = 0;
         axis_state->unk_02 = 0;
 
-        data_state = (object->unk_0C);
+        data_state = (object->sprite);
         data_state->unk_1E = 0;
         data_state->unk_1C = 0;
         data_state->unk_0E = 0;

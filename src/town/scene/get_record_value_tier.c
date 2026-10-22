@@ -1,11 +1,11 @@
 #include "common.h"
 
-s32 func_8001A7B0(s32);
+s32 town_table_contains_first_byte_b(s32);
 
 /* Return 2 if check 3 succeeds, otherwise return whether check 2 succeeds. */
 s32 get_record_value_tier(void) {
-    if (func_8001A7B0(3) != 0) {
+    if (town_table_contains_first_byte_b(3) != 0) {
         return 2;
     }
-    return func_8001A7B0(2) != 0;
+    return town_table_contains_first_byte_b(2) != 0;
 }

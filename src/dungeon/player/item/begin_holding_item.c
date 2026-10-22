@@ -1,6 +1,9 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/player/item.h"
 
 typedef struct S_80098CF8_0 {
     u8 pad_00[0x1];
@@ -18,15 +21,6 @@ typedef struct S_80098CF8_1 {
         struct { u8 pad[0x3]; u8 v; } at03;
     } unk_00;   /* overlapping accesses */
 } S_80098CF8_1;   /* s2 in begin_holding_item */
-
-typedef struct S_80098CF8_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80098CF8_2;   /* primitive in begin_holding_item */
 
    /* s5 in begin_holding_item */
 
@@ -64,12 +58,6 @@ typedef struct S_80098CF8_6 {
     s32 unk_124;
 } S_80098CF8_6;   /* s3 in begin_holding_item */
 
-typedef struct S_80098CF8_7 {
-    u8 pad_00[0x1484];
-    s32 unk_1484;
-} S_80098CF8_7;   /* (void *)a1 in begin_holding_item */
-
-
 extern void set_sprite_animation_frame();
 extern void equip_item_and_update_status();
 extern void change_equipped_item_and_notify();
@@ -98,9 +86,9 @@ void *begin_holding_item(void *actor, s32 action, void *target, void *item)
 
     void *target_arg;
     void *actor_state;
-    register void *result;
+    register ObjectNodeHeader *result;
     s32 message_id;
-    void *primitive;
+    ObjectPosition *primitive;
     void *state;
     s32 text_cursor;
 
@@ -153,13 +141,13 @@ print_message:
     {
         s32 height;
 
-        ((S_80098CF8_0 *)result)->unk_10 = D_8008D470;
-        primitive = ((S_80098CF8_0 *)result)->unk_08;
-        ((S_80098CF8_2 *)primitive)->unk_02 = (((MovingTile *)target)->unk_24 << 6) + 0x20;
-        ((S_80098CF8_2 *)primitive)->unk_06 = (((MovingTile *)target)->unk_25 << 6) + 0x20;
+        result->unk_10 = D_8008D470;
+        primitive = result->position;
+        primitive->x.w.i = (((MovingTile *)target)->unk_24 << 6) + 0x20;
+        primitive->y.w.i = (((MovingTile *)target)->unk_25 << 6) + 0x20;
         height = ((S_80098CF8_4 *)actor_state)->unk_88;
         message = target;
-        ((S_80098CF8_2 *)primitive)->unk_0A = height - 0x30;
+        primitive->z.w.i = height - 0x30;
 
         state = (u8 *)result + 0x20;
         {

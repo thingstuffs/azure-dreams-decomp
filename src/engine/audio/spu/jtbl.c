@@ -10,7 +10,7 @@
 
 
 /* Returns the active/key-on state of the first selected voice, or -1 if none is selected. */
-s32 read_selected_voice_key_state(s32 voice_mask)
+s32 SpuGetKeyStatus(s32 voice_mask)
 {
     s32 voice;
     s32 bit_base;
@@ -87,7 +87,7 @@ void apply_spu_voice_attributes(SpuVoiceAttr_ *attr)
                 sample_note = spu_voice_sample_notes[voice];
                 note = attr->note;
                 spu_registers[reg_base + 2] =
-                    calculate_pitch_from_note(sample_note >> 8, sample_note & 0xFF, note >> 8, note & 0xFF);
+                    _spu_note2pitch(sample_note >> 8, sample_note & 0xFF, note >> 8, note & 0xFF);
             }
             if (set_all || (mask & 0x1)) {
                 volume_mode = 0;
@@ -174,10 +174,10 @@ void apply_spu_voice_attributes(SpuVoiceAttr_ *attr)
                 spu_registers[reg_base + 1] = right_volume | volume_mode;
             }
             if (set_all || (mask & 0x80)) {
-                audio_handle_optionally_aligns_shifts_stores_returns_result(reg_base + 3, attr->addr);
+                _spu_FsetRXXa(reg_base + 3, attr->addr);
             }
             if (set_all || (mask & 0x10000)) {
-                audio_handle_optionally_aligns_shifts_stores_returns_result(reg_base + 7, attr->loop_addr);
+                _spu_FsetRXXa(reg_base + 7, attr->loop_addr);
             }
             if (set_all || (mask & 0x20000)) {
                 spu_registers[reg_base + 4] = attr->adsr1;
@@ -270,7 +270,7 @@ void apply_spu_voice_attributes(SpuVoiceAttr_ *attr)
 }
 
 /* Read volume, pitch, addresses, and envelope settings for the first selected voice. */
-void read_spu_voice_attributes(SpuVoiceAttr_ *voice_attr)
+void SpuGetVoiceAttr(SpuVoiceAttr_ *voice_attr)
 {
     s32 voice_index;
     s32 voice_bit;
@@ -404,7 +404,7 @@ void read_spu_voice_attributes(SpuVoiceAttr_ *voice_attr)
     pitch = pitch_regs[voice_word + 2];
     voice_attr->pitch = pitch;
     volume_or_note = spu_voice_sample_notes[voice_index];
-    note = sound_convert_pitch_to_packed_note(volume_or_note >> 8, volume_or_note & 0xFF, pitch);
+    note = _spu_pitch2note(volume_or_note >> 8, volume_or_note & 0xFF, pitch);
     if (note >= 0) {
         voice_attr->note = (u16) note;
     }

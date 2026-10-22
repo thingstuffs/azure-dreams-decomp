@@ -1,9 +1,12 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "engine/cd.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_8017472C_0 {
     u8 pad_00[0x8C];
@@ -17,28 +20,11 @@ typedef struct S_8017472C_0 {
     union { s16 s; u16 u; } unk_AE;   /* accessed as both */
 } S_8017472C_0;   /* arg0 in advance_actor_targeted_action */
 
-typedef struct S_8017472C_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8017472C_2_pre;   /* the 0x14 bytes before object in advance_actor_targeted_action, addressed as object[-1] */
-
 typedef struct S_8017472C_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
 } S_8017472C_3;   /* record in advance_actor_targeted_action */
-
-typedef struct S_8017472C_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8017472C_4;   /* arg2 in advance_actor_targeted_action */
-
-
 typedef struct S_8017472C_6 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -46,10 +32,9 @@ typedef struct S_8017472C_6 {
 } S_8017472C_6;   /* control in advance_actor_targeted_action */
 
 
-extern s32 get_cd_command_queue_depth();
 extern int abs(int);
 extern void select_sprite_entry();
-extern void *scan_monster_along_heading();
+extern void *scan_actor_along_heading();
 extern void set_record_integer_tile_center();
 extern void advance_status_timers();
 extern void play_sound_if_enabled();
@@ -67,7 +52,7 @@ extern u8 D_80175E34[];
 /* Updates an actor's action state, target coordinates, animation, and completion. */
 /* Starts a targeted Troll spell, emits ten particles per casting tick and a flash, then restores the
  * current item's idle frames. */
-void advance_actor_targeted_action(void *action, ObjectPosition *transform, void *sprite, ActorRecord *actor)
+void advance_actor_targeted_action(void *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     register s32 use_player_target;
@@ -134,21 +119,21 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, void
             if (use_player_target != 0) {
                 target = primary_actor_record;
                 actor->target = target;
-                state = ((S_8017472C_2_pre *)target)[-1].unk_00;
+                state = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                 actor->target_tile_x = ((S_8017472C_3 *)state)->unk_24;
                 actor->target_tile_y = ((S_8017472C_3 *)state)->unk_25;
             } else if (item_action_definitions[*move].kind == 2) {
                 target = actor->target;
                 if (target != 0) {
-                    state = ((S_8017472C_2_pre *)target)[-1].unk_00;
+                    state = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                     actor->target_tile_x = ((S_8017472C_3 *)state)->unk_24;
                     actor->target_tile_y = ((S_8017472C_3 *)state)->unk_25;
                 }
             } else {
-                target = scan_monster_along_heading(
+                target = scan_actor_along_heading(
                     actor,
-                    ((S_8017472C_4 *)sprite)->unk_24,
-                    ((S_8017472C_4 *)sprite)->unk_25,
+                    sprite->unk_24,
+                    sprite->unk_25,
                     actor->facing,
                     0x10);
                 actor->target = target;
@@ -172,7 +157,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, void
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, ((S_8017472C_4 *)sprite)->unk_24, ((S_8017472C_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
         D_8008346C = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -185,10 +170,10 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, void
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((S_8017472C_4 *)sprite)->unk_14 |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((S_8017472C_4 *)sprite)->unk_14 &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_8017472C_0 *)action)->unk_9B++;
         play_sound_if_enabled(0x703);
 
@@ -208,7 +193,7 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, void
         ticks_left = ((S_8017472C_0 *)action)->unk_96.s - 1;
         ((S_8017472C_0 *)action)->unk_96.s = ticks_left;
         if ((s32)(ticks_left << 16) > 0 &&
-            !(((S_8017472C_4 *)sprite)->unk_14 & 0xE000)) {
+            !(sprite->flags & 0xE000)) {
             return;
         }
         ((S_8017472C_0 *)action)->unk_98 |= 0x80;
@@ -219,22 +204,22 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, void
         if (D_8008346C == 0) {
             ((S_8017472C_0 *)action)->unk_96.s = 0;
         }
-        if (!(((S_8017472C_4 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
 
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, ((S_8017472C_4 *)sprite)->unk_24, ((S_8017472C_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
 
         kind = actor->unk_48;
         switch (kind) {
         case 0xD:
-            current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
+            current_anim = sprite->frameTable;
             anim_table = D_80175E24;
             if (current_anim != anim_table) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+                (sprite->frameTable) = anim_table;
                 select_sprite_entry(sprite,
                     *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
@@ -242,10 +227,10 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, void
             control = (u8 *)&D_80083460;
             break;
         case 0xE:
-            current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
+            current_anim = sprite->frameTable;
             anim_table = D_80175E2C;
             if (current_anim != anim_table) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+                (sprite->frameTable) = anim_table;
                 select_sprite_entry(sprite,
                     *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }
@@ -253,10 +238,10 @@ void advance_actor_targeted_action(void *action, ObjectPosition *transform, void
             control = (u8 *)&D_80083460;
             break;
         case 0xF:
-            current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
+            current_anim = sprite->frameTable;
             anim_table = D_80175E34;
             if (current_anim != anim_table) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+                (sprite->frameTable) = anim_table;
                 select_sprite_entry(sprite,
                     *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }

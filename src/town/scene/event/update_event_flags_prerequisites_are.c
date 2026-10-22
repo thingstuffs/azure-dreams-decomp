@@ -5,15 +5,15 @@
 extern void func_80016CC4(void);
 extern s32 func_8001A554(s32 flag_id);
 extern s32 func_8001A64C(s32 flag_id);
-extern s32 func_8001A8EC(s32 value);
+extern s32 town_table_contains_first_byte(s32 value);
 
 /* Update event flags when prerequisites are met, otherwise invoke the fallback callback. */
 s32 update_event_flags_prerequisites_are(void) {
     func_80016CC4();
-    if (func_8001A8EC(6) != 0) {
+    if (town_table_contains_first_byte(6) != 0) {
         func_8001A554(F_sbs32_pad16);
     }
-    if (func_8001A8EC(0xB) != 0) {
+    if (town_table_contains_first_byte(0xB) != 0) {
         func_8001A554(F_sbs32_pad17);
     }
     if (func_8001A64C(F_sbs32_pad16) != 0 && func_8001A64C(F_sbs32_pad32) != 0) {

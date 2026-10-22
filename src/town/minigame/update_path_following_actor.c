@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -22,15 +23,6 @@ typedef struct S_80023260_0 {
     s16 unk_2A;
 } S_80023260_0;   /* arg0 in update_path_following_actor */
 
-typedef struct S_80023260_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80023260_1;   /* arg1 in update_path_following_actor */
 
 typedef struct S_80023260_3 {
     s16 unk_00;
@@ -84,7 +76,7 @@ extern s32 loaded_town_resource_attributes[];
 extern u8 D_800D2388[];
 
 /* Updates path following, turning, sprite state, and ground movement. */
-void update_path_following_actor(void *actor, void *motion, void *sprite) {
+void update_path_following_actor(void *actor, ObjectPosition *motion, void *sprite) {
     s16 target_x;
     s16 steer_y;
     s16 target_y;
@@ -136,9 +128,9 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
     fill_eligible_negative_slots(model_base, position_ref, ((S_80023260_0 *)actor)->unk_24);
     add_motion_deltas_to_position(motion);
     reached_point = 0;
-    ((S_80023260_1 *)motion)->unk_00.at00.v = (s32) (((S_80023260_1 *)motion)->unk_00.at00.v
+    motion->x.v = (s32) (motion->x.v
         + ((S_80023260_0 *)actor)->unk_0C.s);
-    ((S_80023260_1 *)motion)->unk_04.at00.v = (s32) (((S_80023260_1 *)motion)->unk_04.at00.v
+    motion->y.v = (s32) (motion->y.v
         + ((S_80023260_0 *)actor)->unk_10.s);
     offset_x = ((S_80023260_0 *)actor)->unk_0C.u;
     offset_y = ((S_80023260_0 *)actor)->unk_10.u;
@@ -198,17 +190,17 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
             if (path_flag != 0) {
                 target_x = ((S_80023260_3 *)waypoint)->unk_00;
                 turn_limit = town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
-                if (((S_80023260_1 *)motion)->unk_00.at02.v >= target_x) {
+                if (motion->x.w.i >= target_x) {
                     reached_point = 1;
                 }
             } else {
                 turn_limit = 0 - town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
-                if (((S_80023260_1 *)motion)->unk_00.at02.v <= ((S_80023260_3 *)waypoint)->unk_00) {
+                if (motion->x.w.i <= ((S_80023260_3 *)waypoint)->unk_00) {
                     reached_point = 1;
                 }
             }
             steer_y = ((S_80023260_3 *)waypoint)->unk_02;
-            pos_y = ((S_80023260_1 *)motion)->unk_04.at02.v;
+            pos_y = motion->y.w.i;
             distance_y = steer_y - pos_y;
             if (distance_y < 0) {
                 distance_y = 0 - distance_y;
@@ -228,17 +220,17 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
             if (path_flag != 0) {
                 target_y = ((S_80023260_3 *)waypoint)->unk_02;
                 turn_limit = town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
-                if (((S_80023260_1 *)motion)->unk_04.at02.v >= target_y) {
+                if (motion->y.w.i >= target_y) {
                     reached_point = 1;
                 }
             } else {
                 turn_limit = 0 - town_minigame_path_records[((S_80023260_0 *)actor)->unk_22].field8;
-                if (((S_80023260_1 *)motion)->unk_04.at02.v <= ((S_80023260_3 *)waypoint)->unk_02) {
+                if (motion->y.w.i <= ((S_80023260_3 *)waypoint)->unk_02) {
                     reached_point = 1;
                 }
             }
             steer_x = ((S_80023260_3 *)waypoint)->unk_00;
-            pos_x = ((S_80023260_1 *)motion)->unk_00.at02.v;
+            pos_x = motion->x.w.i;
             distance_x = steer_x - pos_x;
             if (distance_x < 0) {
                 distance_x = 0 - distance_x;
@@ -255,7 +247,7 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
             }
         }
         if ((((S_80023260_3 *)waypoint)->unk_06 & 4) && (reached_point != 0)) {
-            ((S_80023260_1 *)motion)->unk_14 = -0x140000;
+            motion->velocity_z = -0x140000;
         }
         bias_step = turn_step >> 4;
         ((S_80023260_4 *)actor_ref)->unk_2A = (s16) ((u16) ((S_80023260_4 *)actor_ref)->unk_2A + turn_step);
@@ -308,14 +300,14 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
             ground_probe.field8 = 0xFE000000;
         }
         ground_height = query_lowered_transform_position(&ground_probe);
-        ((S_80023260_1 *)motion)->unk_0C =
+        motion->velocity_x =
             (s32) (func_80064584(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
-        ((S_80023260_1 *)motion)->unk_10 =
+        motion->velocity_y =
             (s32) (func_800644B8(((S_80023260_4 *)actor_ref)->unk_2A) * ((s32) ((S_80023260_0 *)actor)->unk_04 >> 0xC));
-        if (ground_height < ((S_80023260_1 *)motion)->unk_0A) {
-            ((S_80023260_1 *)motion)->unk_0A = ground_height;
-            if (((S_80023260_1 *)motion)->unk_14 >= 0) {
-                ((S_80023260_1 *)motion)->unk_14 = 0;
+        if (ground_height < motion->z.w.i) {
+            motion->z.w.i = ground_height;
+            if (motion->velocity_z >= 0) {
+                motion->velocity_z = 0;
             }
             if (((S_80023260_0 *)actor)->unk_08 & 1) {
                 spawn_person_radial_effects(motion);
@@ -332,7 +324,7 @@ void update_path_following_actor(void *actor, void *motion, void *sprite) {
         } else {
             ((S_80023260_0 *)actor)->unk_04 = 0;
         }
-        ((S_80023260_1 *)motion)->unk_14 = (s32) (((S_80023260_1 *)motion)->unk_14 + 0x20000);
+        motion->velocity_z = (s32) (motion->velocity_z + 0x20000);
         final_state = ((S_80023260_0 *)actor)->unk_18.u;
         if (final_state != 0) {
             update_directional_record(actor_ref, actor, sprite);

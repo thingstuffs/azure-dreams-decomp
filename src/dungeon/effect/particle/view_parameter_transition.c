@@ -173,7 +173,7 @@ s32 begin_view_parameter_transition(PointRecord *start_node, ObjectPosition *sta
         if (prev_entry == 0) {
             break;
         }
-        coords = prev_entry->unk_08;
+        coords = prev_entry->position;
     }
 
     final_state = *state_ptr;
@@ -232,16 +232,16 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
     if (spawned != 0) {
         spawned->unk_10 = (void *)create_randomized_transform_effect;
         jitter_x = rand() & 0x1F;
-        position_x = ((ObjectPosition *)source_obj->unk_08)->x.w.i;
-        dest_x = spawned->unk_08;
+        position_x = ((ObjectPosition *)source_obj->position)->x.w.i;
+        dest_x = spawned->position;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
         dest_x->x.w.i = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((ObjectPosition *)source_obj->unk_08)->y.w.i;
-        dest_y = spawned->unk_08;
+        position_y = ((ObjectPosition *)source_obj->position)->y.w.i;
+        dest_y = spawned->position;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
@@ -249,9 +249,9 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
 
         jitter_z = rand();
         jitter_z &= 0x1F;
-        position_z = ((ObjectPosition *)source_obj->unk_08)->z.w.i;
+        position_z = ((ObjectPosition *)source_obj->position)->z.w.i;
         fields = (PointRecord *)(spawned + 1);
-        dest_z = spawned->unk_08;
+        dest_z = spawned->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;

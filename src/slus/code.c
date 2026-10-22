@@ -1,8 +1,10 @@
 /* Resident helpers for rendering, resource loading, text, menu state and sound command dispatch. */
 #include "script_symbols.h"
+#include "shared/object_node.h"
 #include "shared/sound_state.h"
 #include "common.h"
 #include "shared/sound_volume.h"
+#include "shared/sprite_frame_state.h"
 
 extern int   card_server_initialized[3];
 extern short audio_voice_drain_suppressed[5];
@@ -125,13 +127,13 @@ void pack_tagged_resource_descriptor(int tag, int id, int *record, int value)
 extern void *free_node_list_head;
 
 /* Push a node onto the free list and clear its second word. */
-void push_node_onto_free_list(void *node)
+void push_node_onto_free_list(ObjectNodeHeader *node)
 {
     void *old_head;
     old_head = free_node_list_head;
     free_node_list_head = node;
-    *(int *)((char *)node + 4) = 0;
-    *(void **)node = old_head;
+    node->pprev = 0;
+    node->next = old_head;
 }
 
 typedef struct Node {
@@ -201,7 +203,7 @@ void apply_actor_template_and_class(void *entity, int value)
 }
 
 /* Return zero for any argument list. */
-s32 func_80043FB8(s32 unused, ...)
+s32 return_zero_variadic(s32 unused, ...)
 {
     return 0;
 }
@@ -257,12 +259,14 @@ int draw_linked_lit_meshes(void *object, int value, void *record)
     return 0;
 }
 
-extern int draw_linked_sprites(void);
+struct ObjectPosition;
+struct SpriteFrameState;
+extern int draw_linked_sprites(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 /* Return the query result as a signed halfword. */
-short draw_linked_sprites_and_narrow_result(void)
+short draw_linked_sprites_and_narrow_result(void *payload, struct ObjectPosition *coords, struct SpriteFrameState *record)
 {
-    return (short)draw_linked_sprites();
+    return (short)draw_linked_sprites(payload, coords, record);
 }
 
 extern void advance_actor_step_sequence(void *actor);
@@ -315,11 +319,11 @@ typedef struct {
     unsigned short unk14;
 } Struct_80048374;
 
-extern void select_sprite_entry(Struct_80048374 *a0, short a1, short a2);
+extern void select_sprite_entry(SpriteFrameState *a0, short a1, short a2);
 
 /* Set entity flag 0x400 and reselect its entry. */
-void select_sprite_entry_with_flag(Struct_80048374 *entity, short index, short offset) {
-    entity->unk14 |= 0x400;
+void select_sprite_entry_with_flag(SpriteFrameState *entity, short index, short offset) {
+    entity->flags |= 0x400;
     select_sprite_entry(entity, index, offset);
 }
 
@@ -435,13 +439,13 @@ int record_has_type_twenty(Struct8004928C *record)
     return is_type_twenty(record->unk3 & 0x1F);
 }
 
-extern int D_800713FC[4]; /* >8B forces hi/lo addressing (matches target's lui/addiu) */
+extern int item_name_text_table[4]; /* >8B forces hi/lo addressing (matches target's lui/addiu) */
 
 extern int get_item_name_text(void *a0, int *a1);
 
 /* Process an object using the fixed global table. */
 int get_item_name_with_shared_text_table(void *object) {
-    return get_item_name_text(object, D_800713FC);
+    return get_item_name_text(object, item_name_text_table);
 }
 
 extern int get_item_category_flags(void);
@@ -630,11 +634,11 @@ int count_tagged_records(Unk8004B4DC *record) {
     return count;
 }
 
-extern int D_80080B48;
+extern int global_cd_command_six_payload;
 /* Process the fixed global record with command six. */
 void submit_global_cd_command_six(void)
 {
-    Control_CD(6, &D_80080B48, 0);
+    Control_CD(6, &global_cd_command_six_payload, 0);
 }
 
 extern void submit_global_cd_command_six(void);
@@ -752,7 +756,7 @@ void format_reversed_decimal_space_padded(int value, unsigned short width, char 
 }
 
 /* Return without performing any work. */
-void func_8004E994(void) {
+void noop_release_notification(void) {
 }
 
 extern void flag_object_for_removal(void *a0);
@@ -768,14 +772,14 @@ void flag_optional_object_for_removal(void *object)
 extern void flag_object_for_removal(void *object);
 
 /* Update the object when its pointer is non-NULL. */
-void func_8004E9C0(void *object) {
+void flag_optional_object_for_removal_b(void *object) {
     if (object != 0) {
         flag_object_for_removal(object);
     }
 }
 
 /* Return without performing any work. */
-void func_8004E9E4(void) {
+void noop_display_setup_hook(void) {
 }
 
 /* Clear the first word of the global state. */
@@ -806,30 +810,30 @@ void *func_8004EE70(void *object)
     return scene_create_resource_transition(object, 2);
 }
 
-extern void func_8004EF90(void *a0);
-extern void func_8004EFF4(void *a0);
-extern void func_8004F068(void *a0);
+extern void init_object_header_a(void *a0);
+extern void init_object_header_b(void *a0);
+extern void init_object_header_c(void *a0);
 extern void init_tpage_prims(void *a0);
 extern void layout_menu_backdrop_display_entries(void *a0);
 
 /* Initialize four embedded records and then the containing object. */
 void build_menu_backdrop_display_buffers(void *object)
 {
-    func_8004EF90((char *)object + 0x8);
-    func_8004EFF4((char *)object + 0x80);
-    func_8004F068((char *)object + 0xF8);
+    init_object_header_a((char *)object + 0x8);
+    init_object_header_b((char *)object + 0x80);
+    init_object_header_c((char *)object + 0xF8);
     init_tpage_prims((char *)object + 0x170);
     layout_menu_backdrop_display_entries(object);
 }
 
-extern unsigned char D_80071684[16];
+extern unsigned char menu_backdrop_link_indices[16];
 
 extern void build_reverse_indexed_chain(void *a0, void *a1, int a2);
 
 /* Link entries using the fixed index table and limit seven. */
 void link_menu_backdrop_display_nodes(void *entries)
 {
-    build_reverse_indexed_chain(entries, D_80071684, 7);
+    build_reverse_indexed_chain(entries, menu_backdrop_link_indices, 7);
 }
 
 /* Store a word through the supplied pointer. */
@@ -915,14 +919,14 @@ void invoke_leading_object_callback(struct VtableObj *object)
     object->func(object);
 }
 
-extern unsigned char D_800717BC[16];
+extern unsigned char selection_menu_link_indices[16];
 
 extern void build_reverse_indexed_chain(void *a0, void *a1, int a2);
 
 /* Link entries using the fixed index table and limit 0x11. */
 void link_seventeen_indexed_entries(void *entries)
 {
-    build_reverse_indexed_chain(entries, D_800717BC, 0x11);
+    build_reverse_indexed_chain(entries, selection_menu_link_indices, 0x11);
 }
 
 extern int saved_value_output_enabled;
@@ -1068,7 +1072,6 @@ short SD_Call(int flags)
     return enqueue_audio_command((unsigned short)flags);
 }
 
-
 /* Sets volume scale [2] and re-applies it through func_80054D64. */
 void sound_set_cd_playback_volume_scale(short value)
 {
@@ -1118,7 +1121,6 @@ void clear_audio_command_queue(void) {
     audio_command_queue[0] = 0;
 }
 
-
 /* Initialize the state record's values and two counters. */
 void initialize_audio_ramp_defaults(SoundTask *state) {
     state->unk_10 = 0x80;
@@ -1137,11 +1139,11 @@ void func_80055E6C(void) {
 }
 
 /* Return without performing any work. */
-void func_80055E74(void) {
+void noop_voice_start_notification(void) {
 }
 
 /* Return without performing any work. */
-void func_80055E7C(void) {
+void noop_channel_control_notification(void) {
 }
 
 /* Return without performing any work. */
@@ -1149,11 +1151,11 @@ void func_80056D3C(void) {
 }
 
 /* Return without performing any work. */
-void func_80057A48(void) {
+void noop_midi_a0(void) {
 }
 
 /* Return without performing any work. */
-void func_8005848C(void) {
+void noop_midi_d0(void) {
 }
 
 extern int audio_sequence_active[4];
@@ -1199,7 +1201,7 @@ int add_to_sequence_counter(int *counter, int delta)
 }
 
 /* Return without performing any work (an empty hook: its one caller, w_8005947C, passes the masked status byte in $a0). */
-void func_80058E64(u8 status) {
+void noop_sequence_status_hook(u8 status) {
 }
 
 extern void service_audio_timer(void);
@@ -1235,7 +1237,7 @@ void clear_cd_audio_mix_mode(void) {
 }
 
 /* Return without performing any work. */
-void func_8005A420(void) {
+void noop_audio_init_hook(void) {
 }
 
 extern void audio_reset_all_voices(void);
@@ -1263,16 +1265,16 @@ void flush_pending_sound_voice_flags(void)
     drain_ready_sound_voice_flags();
 }
 
-extern void set_reverb_address_available(int a0);
-extern void set_spu_reverb_enabled_if_available(int a0);
+extern void SpuReserveReverbWorkArea(int a0);
+extern void SpuSetReverb(int a0);
 
 /* Run both setup routines with mode one. */
 void enable_available_spu_reverb(void) {
-    set_reverb_address_available(1);
-    set_spu_reverb_enabled_if_available(1);
+    SpuReserveReverbWorkArea(1);
+    SpuSetReverb(1);
 }
 
-extern int configure_spu_reverb(void *arg);
+extern int SpuSetReverbModeParam(void *arg);
 
 struct Msg8005B3D8 {
     int type;   /* 0x00 */
@@ -1295,14 +1297,14 @@ int submit_shifted_stereo_sound_parameters(short x, short y) {
     scaled_y = scaled_y << 8;
     msg.x = scaled_x;
     msg.y = scaled_y;
-    return configure_spu_reverb(&msg);
+    return SpuSetReverbModeParam(&msg);
 }
 
-extern int D_80085FCC[4];
+extern int sequence_tempo_step[4];
 
 /* Return the first word of the global state. */
 int read_sequence_tempo_step(void) {
-    return D_80085FCC[0];
+    return sequence_tempo_step[0];
 }
 
 extern void audio_apply_channel_control(short a0, int a1, int a2);
@@ -1372,7 +1374,7 @@ void submit_audio_driver_scaled_pair(unsigned char code, short first, short seco
     submit_scaled_driver_halfword_pair(code, first, second);
 }
 
-extern void dispatch_combined_driver_flags(s16 arg0);
+extern void dispatch_combined_driver_flags(s16 flags);
 
 /* Forward the value as a signed halfword to dispatch_combined_driver_flags. */
 void dispatch_audio_driver_halfword_flags(s32 value)
@@ -1380,18 +1382,18 @@ void dispatch_audio_driver_halfword_flags(s32 value)
     dispatch_combined_driver_flags((s16)value);
 }
 
-extern void reset_spu_runtime_and_start_event_service(int channel);
+extern void _SpuInit(int channel);
 
 /* Invoke func_8005CA90 with mode zero. */
 void reset_audio_sequence_state_default(void)
 {
-    reset_spu_runtime_and_start_event_service(0);
+    _SpuInit(0);
 }
 
 extern int *D_8007996C[4];
 
 /* Clear bits 0x0F000000 and set bit 0x20000000 in the global target word. */
-void select_spu_dma_write_channel_flags(void)
+void _spu_FsetDelayW(void)
 {
     volatile int *flags = D_8007996C[0];
 
@@ -1401,7 +1403,7 @@ void select_spu_dma_write_channel_flags(void)
 extern int *D_8007996C[4];
 
 /* Clear bits 0x0F000000 and set bits 0x22000000 in the global target word. */
-void select_spu_dma_read_channel_flags(void)
+void _spu_FsetDelayR(void)
 {
     volatile int *flags = D_8007996C[0];
 
@@ -1451,7 +1453,7 @@ void read_spu_register_pair_cc_cd(void)
 }
 
 extern void apply_spu_voice_attributes(void *a0);
-extern void set_spu_voice_keys(int a0, int a1);
+extern void SpuSetKey(int a0, int a1);
 
 /* Update an object and pass its first word to the mode-one handler. */
 void apply_voice_attributes_and_key_on(void *object)
@@ -1459,6 +1461,6 @@ void apply_voice_attributes_and_key_on(void *object)
     void *current = object;
 
     apply_spu_voice_attributes(object);
-    set_spu_voice_keys(1, *(int *)current);
+    SpuSetKey(1, *(int *)current);
 }
 

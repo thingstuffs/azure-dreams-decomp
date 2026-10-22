@@ -44,7 +44,7 @@ extern void create_owner_linked_directional_object(void *, void *, void *);
 extern u8 uboat_default_frames[];
 extern u8 D_800E2458[];
 extern u8 D_800E2460[];
-extern u8 D_80171A80[];
+#include "dungeon/monster/u_boat.h"
 
 /* Updates timed actor movement, landing animations, and the next action. */
 void update_actor_timed_tile_motion(void *action, void *motion, void *sprite, void *actor)
@@ -186,6 +186,6 @@ void update_actor_timed_tile_motion(void *action, void *motion, void *sprite, vo
     if ((check_actor_floor_trap(sprite, actor) << 16) <= 0) {
         return;
     }
-    ((S_801730C4_0 *)action)->unk_8C = D_80171A80;
+    ((S_801730C4_0 *)action)->unk_8C = uboat_behavior_entry;
     on_actor_status_updated(actor);
 }

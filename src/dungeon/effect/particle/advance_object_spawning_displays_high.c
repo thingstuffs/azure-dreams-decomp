@@ -13,7 +13,7 @@
 #include "shared/entity_objects.h"
 #include "shared/dungeon_status.h"
 
-void (*const dungeon_1960800_entry)(void *, void *, void *) = advance_actor_tint_particle_sequence;
+void (*const dungeon_1960800_entry)(void *, void *, void *) = (void (*)(void *, void *, void *))advance_actor_tint_particle_sequence;
 const RectTable D_80024004 = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
 void func_8002405C(void *effect, void *unused, void *primitive)
@@ -41,7 +41,7 @@ void func_8002405C(void *effect, void *unused, void *primitive) {
 
     frames_left = ((u16)((EntityRec *)effect)->facing) - 1;
     shade = (s32)((s32)(frames_left << 0x10) >> 9) / (s16)((EntityRec *)effect)->unk_2C;
-    D_8002571C = 1;
+    tint_particle_effect_updated = 1;
     ((EntityRec *)effect)->facing = frames_left;
     ((S_81940800_1 *)primitive)->unk_0E = (s8)shade;
     ((S_81940800_1 *)primitive)->unk_0D = (s8)shade;
@@ -57,7 +57,7 @@ void func_8002405C(void *effect, void *unused, void *primitive) {
 }
 
 /* Creates a display effect in a free slot and expires the owner when its timer ends. */
-void func_80024104(void *owner) {
+void spawn_free_slot_display_effect(void *owner) {
     s16 center[2];
     RectTable rect_table;
     u8 *copy_src;
@@ -66,11 +66,11 @@ void func_80024104(void *owner) {
     s16 slot;
     s32 rect_offset;
     Rect16 *rect;
-    void *effect;
+    ObjectNodeHeader *effect;
     u8 *effect_work;
     Display *display;
     void *vector_src;
-    void *vector_dst;
+    ObjectPosition *vector_dst;
     u16 timer;
 
     copy_dst = (u8 *)&rect_table;
@@ -112,27 +112,27 @@ void func_80024104(void *owner) {
             ((S_80024104_0 *)effect_work)->unk_2C = 7;
             ((S_80024104_0 *)effect_work)->unk_32 = slot;
             ((S_80024104_0 *)effect_work)->unk_60 = owner;
-            ((S_80024104_1 *)effect)->unk_10 = func_8002405C;
+            effect->unk_10 = func_8002405C;
             register_node(effect, (s32)project_sprite_chain);
 
-            display = ((S_80024104_1 *)effect)->unk_0C;
+            display = effect->sprite;
             display->field6 = 4;
             display->flags &= 0xFFF3;
 
-            vector_src = ((S_80024104_2_pre *)primary_actor_record)[-1].unk_00;
-            vector_dst = ((S_80024104_1 *)effect)->unk_08;
-            ((s32 *)vector_dst)[0] = ((s32 *)vector_src)[0];
-            ((s32 *)vector_dst)[1] = ((s32 *)vector_src)[1];
-            ((s32 *)vector_dst)[2] = ((s32 *)vector_src)[2];
+            vector_src = ((ObjectNodeHeader *)((u8 *)primary_actor_record - 0x20))->position;
+            vector_dst = effect->position;
+            vector_dst->x.v = ((s32 *)vector_src)[0];
+            vector_dst->y.v = ((s32 *)vector_src)[1];
+            vector_dst->z.v = ((s32 *)vector_src)[2];
 
-            display = ((S_80024104_1 *)effect)->unk_0C;
+            display = effect->sprite;
             display->scaleX = 0x1000;
             display->scaleY = 0x1000;
             display->blue = 0x80;
             display->green = 0x80;
             display->red = 0x80;
 
-            *(PackedVec3 *)((u8 *)effect + 0x92) = D_800256E0;
+            *(PackedVec3 *)((u8 *)effect + 0x92) = tint_particle_sprite_data;
             display->vector = (u8 *)effect + 0x92;
             ((S_80024104_0 *)effect_work)->unk_7A = (u8)rect->x - 0x40;
             ((S_80024104_0 *)effect_work)->unk_7B = (u8)rect->y;
@@ -151,43 +151,43 @@ void func_80024104(void *owner) {
 
 /* Creates an object linked to the source with its position and default part data. */
 void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite) {
-    S_800243D8_2 *position;
+    ObjectPosition *position;
     Part *part;
-    void *object;
+    ObjectNodeHeader *object;
     S_800243D8_0 *state;
     S_800243D8_3 *source_position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = object + 0x20;
+        state = ((void *)object) + 0x20;
         state->unk_2A = 0xB;
         state->unk_60 = source;
-        (*(void **)((u8 *)object + 0x10)) = &func_80024104;
+        (object->unk_10) = &spawn_free_slot_display_effect;
         register_node(object, (s32)project_sprite_chain);
-        part = (*(Part **)((u8 *)object + 0xC));
+        part = (*(Part * *)&object->sprite);
         part->field10 = 0x20;
         part->field6 = 0;
         part->flags14 = (u16) (part->flags14 | 0xC);
         source_position = ((S_800243D8_1_pre *)source)[-1].unk_00;
-        position = (*(void **)((u8 *)object + 8));
-        position->unk_00 = (s32) source_position->unk_00;
-        position->unk_04 = (s32) source_position->unk_04;
-        position->unk_08 = (s32) source_position->unk_08;
-        part = (*(Part **)((u8 *)object + 0xC));
+        position = (object->position);
+        position->x.v = (s32) source_position->unk_00;
+        position->y.v = (s32) source_position->unk_04;
+        position->z.v = (s32) source_position->unk_08;
+        part = (*(Part * *)&object->sprite);
         part->field1E = 0;
         part->field1C = 0;
         part->byteE = 0;
         part->byteD = 0;
         part->byteC = 0;
-        (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)&D_800256E0;
-        part->ptr8 = (void *) (object + 0x92);
+        (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)&tint_particle_sprite_data;
+        part->ptr8 = (void *) (((void *)object) + 0x92);
     }
 }
 
 /* Shaded tile primitive (code 0x6A, 3 words). */
 
 /* Projects linked points and queues shaded tiles with draw-mode packets. */
-s32 func_800244E4(PointRecord *first_point, ObjectPosition *first_position)
+s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition *first_position)
 {
     PointRecord *point = first_point;
     ObjectPosition *position = first_position;
@@ -251,7 +251,7 @@ s32 func_800244E4(PointRecord *first_point, ObjectPosition *first_position)
         next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
         if (next_node != 0) {
             point = (PointRecord *)(next_node + 1);
-            position = next_node->unk_08;
+            position = next_node->position;
             continue;
         }
 
@@ -268,7 +268,7 @@ void lower_timed_effect_position(Entity *entity, State *state)
     s16 remainingTimer;
 
     state->position -= 0x18000;
-    D_8002571C = 1;
+    tint_particle_effect_updated = 1;
     remainingTimer = entity->timer - 8;
     entity->timer = remainingTimer;
     if (remainingTimer <= 0) {
@@ -285,37 +285,37 @@ void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 s
     s16 held_y_offset = y_offset;
     s16 held_z_offset = z_offset;
     s32 state_14 = state_14_value;
-    Object *spawned;
+    ObjectNodeHeader *spawned;
     Data *position;
     u8 *state;
     s32 jitter;
 
     spawned = (Object *)allocate_list_node(0x211, (ObjectNodeHeader **)parent);
     if (spawned != 0) {
-        spawned->callback = lower_timed_effect_position;
+        spawned->unk_10 = lower_timed_effect_position;
         jitter = rand();
-        spawned->data->x =
-            parent->data->x +
+        (*(Data * *)&spawned->position)->x =
+            *(u16 *)&((ObjectPosition *)parent->data)->x.w.i +
             (jitter & 0xF) + (held_x_offset - 8);
         jitter = rand();
-        spawned->data->y =
-            parent->data->y +
+        (*(Data * *)&spawned->position)->y =
+            *(u16 *)&((ObjectPosition *)parent->data)->y.w.i +
             (jitter & 0xF) + (held_y_offset - 8);
         state = (u8 *)spawned + 0x20;
         jitter = rand();
-        position = spawned->data;
+        position = *(Data * *)&spawned->position;
         position->z =
-            parent->data->z +
+            *(u16 *)&((ObjectPosition *)parent->data)->z.w.i +
             (jitter & 0x1F) + (held_z_offset - 0x10);
         *(s16 *)(state + 0x14) = state_14;
         *(s16 *)(state + 0x32) = state_32_value;
-        register_node(spawned, (s32)func_800244E4);
+        register_node(spawned, (s32)draw_brightness_scaled_point_chain);
         *(s32 *)(state + 8) = state_08_value;
     }
 }
 
 /* Advance animation values and set completion flags when the countdown expires. */
-void func_800248B8(void *countdownState, s32 unused, void *animationState)
+void expand_rotating_countdown_sprite(void *countdownState, s32 unused, void *animationState)
 {
     s32 remainingTicks;
 
@@ -328,7 +328,7 @@ void func_800248B8(void *countdownState, s32 unused, void *animationState)
     *(u16 *)((u8 *)animationState + 0x1A) =
         (u16)(*(u16 *)((u8 *)animationState + 0x1A) + 0x190);
     remainingTicks = *(s16 *)((u8 *)countdownState + 0x2A);
-    D_8002571C = 1;
+    tint_particle_effect_updated = 1;
     if (remainingTicks <= 0) {
         *(u16 *)((u8 *)countdownState - 2) =
             (u16)(*(u16 *)((u8 *)countdownState - 2) | NODE_REMOVE);
@@ -339,7 +339,7 @@ void func_800248B8(void *countdownState, s32 unused, void *animationState)
 // Decrement the object's timer, call its handler, and set expiry flags when the timer runs out.
 void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext)
 {
-    D_8002571C = 1;
+    tint_particle_effect_updated = 1;
     object->timer--;
     advance_sprite_animation_and_textures(handlerContext);
     if (object->timer <= 0) {
@@ -355,7 +355,7 @@ void decrement_object_counter(void *object)
     u16 counter;
 
     counter = *(u16 *)(object_bytes + 42);
-    D_8002571C = 1;
+    tint_particle_effect_updated = 1;
     counter--;
     *(u16 *)(object_bytes + 42) = counter;
     if ((counter << 16) <= 0) {
@@ -369,39 +369,39 @@ void decrement_object_counter(void *object)
    and naturally yields the a1 pointer, a0 constant, and v1 counter roles. */
 
 /* Create an object with copied position and packed data, and initialize its rendering state. */
-void *func_800249F0(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x,
+void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x,
     s32 render_y, s32 render_mode) {
     s16 render_param_copy;
-    S_800249F0_3 *position;
+    ObjectPosition *position;
     void *render_state;
     S_800249F0_0 *state;
-    void *object;
+    ObjectNodeHeader *object;
     S_800249F0_4 *source_position;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = object + 0x20;
+        state = ((void *)object) + 0x20;
         state->unk_2A = 0x3C;
-        (*(void **)((u8 *)object + 0x10)) = &decrement_object_counter;
+        (object->unk_10) = &decrement_object_counter;
         register_node(object, (s32)project_sprite_chain);
-        render_state = (*(void **)((u8 *)object + 0xC));
+        render_state = (object->sprite);
         ((S_800249F0_1 *)render_state)->unk_14 |= 0xC;
         render_param_copy = render_param;
         ((S_800249F0_1 *)render_state)->unk_10 = (s16) (render_param_copy << 5);
         ((S_800249F0_1 *)render_state)->unk_14 |= 0x80;
         source_position = ((S_800249F0_2_pre *)source)[-1].unk_00;
-        position = (*(void **)((u8 *)object + 8));
-        position->unk_00 = (s32) source_position->unk_00;
-        position->unk_04 = (s32) source_position->unk_04;
-        position->unk_08 = (s32) source_position->unk_08;
-        render_state = (*(void **)((u8 *)object + 0xC));
+        position = (object->position);
+        position->x.v = (s32) source_position->unk_00;
+        position->y.v = (s32) source_position->unk_04;
+        position->z.v = (s32) source_position->unk_08;
+        render_state = (object->sprite);
         ((S_800249F0_5 *)render_state)->unk_1C = (s16) render_x;
         ((S_800249F0_5 *)render_state)->unk_1E = (s16) render_y;
         ((S_800249F0_5 *)render_state)->unk_0E = 0x80;
         ((S_800249F0_5 *)render_state)->unk_0D = 0x80;
         ((S_800249F0_5 *)render_state)->unk_0C = (s8) render_mode;
         (*(Packed12 *)((u8 *)object + 0x92)) = *(Packed12 *)packed_data;
-        ((S_800249F0_5 *)render_state)->unk_08 = (void *) (object + 0x92);
+        ((S_800249F0_5 *)render_state)->unk_08 = (void *) (((void *)object) + 0x92);
         return state;
     } else {
         return NULL;
@@ -416,18 +416,18 @@ static __inline__ u8 particle_alpha_from_random(s32 random_bits)
 }
 
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
-void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *effect_data)
+void advance_actor_tint_particle_sequence(ObjectNodeHeader *effect, void *effect_pos, void *effect_data)
 {
-    void *position = effect_pos;
+    ObjectPosition *position = effect_pos;
     void *effect_context = effect_data;
     void *burst_tail;
     u32 sprite_rgb;
     u32 neutral_color;
-    void *model_color;
+    ObjectNodeHeader *model_color;
     void *animation_m;
     s32 enabled;
     void *sprite;
-    void *particle;
+    ObjectNodeHeader *particle;
     ObjectPosition *world_offset;
     u8 *spawn_data;
     u8 *particle_script;
@@ -457,12 +457,12 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
         initial_color = 0x00808080;
         F(primary_actor_record, s32, 0xF4) = 0;
         F(((u8 *)(&reference_tile_object)), u16, 6) = 6;
-        F(effect, void *, 0x64) = func_800249F0(effect, position, effect_context, D_80025704,
+        F(effect, void *, 0x64) = create_packed_sprite_effect(effect, position, effect_context, D_80025704,
                                                      enabled, 0x1000, 0x1000, initial_color);
-        F(effect, void *, 0x68) = func_800249F0(effect, position, effect_context, D_80025710,
+        F(effect, void *, 0x68) = create_packed_sprite_effect(effect, position, effect_context, D_80025710,
                                                      2, 0xE00, 0xE00, 0x00E0E0E0);
         old_state = F(effect, u16, 0xA);
-        F(&D_8002571C, u16, 0) = (u16)enabled;
+        F(&tint_particle_effect_updated, u16, 0) = (u16)enabled;
         F(effect, u16, 0xA) = (u16)(old_state + 1);
 
     case 1:
@@ -546,38 +546,38 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
                     particle = allocate_flagged_object_node(0x212);
                     if (particle != 0) {
                         F(particle, s16, 0x4A) = 8;
-                        F(particle, void *, 0x10) = spawn_data;
+                        particle->unk_10 = spawn_data;
                         register_node(particle, (s32)project_sprite_chain);
-                        sprite = F(particle, void *, 0xC);
+                        sprite = particle->sprite;
                         F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
-                        position = F(particle, void *, 8);
+                        position = particle->position;
                         if ((func_80069EF8() & 1) == 0) {
                             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                         }
-                        F(position, u16, 2) = F(effect, u16, 0xC);
-                        F(position, u16, 6) = F(effect, u16, 0xE);
-                        F(position, u16, 0xA) = F(effect, u16, 0x10);
-                        F(position, u16, 2) = (u16)(F(position, u16, 2) + F(world_offset, u16, 2));
-                        F(position, u16, 6) = (u16)(F(position, u16, 6) + F(world_offset, u16, 6));
-                        F(position, u16, 0xA) = (u16)(F(position, u16, 0xA) + F(world_offset, u16, 0xA));
+                        position->x.w.i = F(effect, u16, 0xC);
+                        position->y.w.i = F(effect, u16, 0xE);
+                        position->z.w.i = F(effect, u16, 0x10);
+                        position->x.w.i = (u16)(*(u16 *)&position->x.w.i + *(u16 *)&world_offset->x.w.i);
+                        position->y.w.i = (u16)(*(u16 *)&position->y.w.i + *(u16 *)&world_offset->y.w.i);
+                        position->z.w.i = (u16)(*(u16 *)&position->z.w.i + *(u16 *)&world_offset->z.w.i);
                         if (particle_index != 0) {
                             bits = (u32)func_80069EF8() & 0x1F;
-                            component = F(position, u16, 2);
+                            component = *(u16 *)&position->x.w.i;
                             component -= 0x10;
                             component += bits;
-                            F(position, u16, 2) = (u16)component;
+                            position->x.w.i = (u16)component;
                             bits = (u32)func_80069EF8() & 0x1F;
-                            component = F(position, u16, 6);
+                            component = *(u16 *)&position->y.w.i;
                             component -= 0x10;
                             component += bits;
-                            F(position, u16, 6) = (u16)component;
+                            position->y.w.i = (u16)component;
                             bits = (u32)func_80069EF8() & 0x1F;
-                            component = F(position, u16, 0xA);
+                            component = *(u16 *)&position->z.w.i;
                             component -= 0x10;
                             component += bits;
-                            F(position, u16, 0xA) = (u16)component;
+                            position->z.w.i = (u16)component;
                         }
-                        sprite = F(particle, void *, 0xC);
+                        sprite = particle->sprite;
                         {
                             void *anim_sprite = sprite;
                             if (particle_index != 0) {
@@ -608,7 +608,7 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
                         (F(effect, s16, 0xC) + F(effect, s16, 0x12)) / 2;
                     F(effect, s16, 0x1A) =
                         (F(effect, s16, 0xE) + F(effect, s16, 0x14)) / 2;
-                    F(effect, s16, 0x1C) =
+                    *(s16 *)&effect->pad_1C =
                         (F(effect, s16, 0x10) + F(effect, s16, 0x16)) / 2;
                     particle_index = 0;
                     do {
@@ -622,7 +622,7 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
                                       particle_level, particle_color,
                                       sprite_rgb,
                                       particle_x, F(effect, s16, 0x1A),
-                                      F(effect, s16, 0x1C));
+                                      *(s16 *)&effect->pad_1C);
                         particle_index++;
                     } while (particle_index < 4);
                     particle_index = 0;
@@ -634,39 +634,39 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
                         particle = allocate_flagged_object_node(0x212);
                         if (particle != 0) {
                             F(particle, s16, 0x4A) = 8;
-                            F(particle, void *, 0x10) = spawn_data;
+                            particle->unk_10 = spawn_data;
                             register_node(particle, (s32)project_sprite_chain);
-                            sprite = F(particle, void *, 0xC);
+                            sprite = particle->sprite;
                             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
-                            position = F(particle, void *, 8);
+                            position = particle->position;
                             if ((func_80069EF8() & 1) == 0) {
                                 F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                             }
-                            F(position, u16, 2) = F(effect, u16, 0x18);
-                            F(position, u16, 6) = F(effect, u16, 0x1A);
-                            F(position, u16, 0xA) = F(effect, u16, 0x1C);
-                            F(position, u16, 2) = (u16)(F(position, u16, 2) + F(world_offset, u16, 2));
-                            F(position, u16, 6) = (u16)(F(position, u16, 6) + F(world_offset, u16, 6));
-                            F(position, u16, 0xA) = (u16)(F(position, u16, 0xA) + F(world_offset, u16, 0xA));
+                            position->x.w.i = F(effect, u16, 0x18);
+                            position->y.w.i = F(effect, u16, 0x1A);
+                            position->z.w.i = *(u16 *)&effect->pad_1C;
+                            position->x.w.i = (u16)(*(u16 *)&position->x.w.i + *(u16 *)&world_offset->x.w.i);
+                            position->y.w.i = (u16)(*(u16 *)&position->y.w.i + *(u16 *)&world_offset->y.w.i);
+                            position->z.w.i = (u16)(*(u16 *)&position->z.w.i + *(u16 *)&world_offset->z.w.i);
                             if (particle_index != 0) {
                                 bits = (u32)func_80069EF8() & 0xF;
-                                component = F(position, u16, 2);
+                                component = *(u16 *)&position->x.w.i;
                                 component -= 8;
                                 component += bits;
-                                F(position, u16, 2) = (u16)component;
+                                position->x.w.i = (u16)component;
                                 bits = (u32)func_80069EF8() & 0xF;
-                                component = F(position, u16, 6);
+                                component = *(u16 *)&position->y.w.i;
                                 component -= 8;
                                 component += bits;
-                                F(position, u16, 6) = (u16)component;
+                                position->y.w.i = (u16)component;
                                 bits = (u32)func_80069EF8() & 0x1F;
-                                component = F(position, u16, 0xA);
+                                component = *(u16 *)&position->z.w.i;
                                 component -= 0x10;
                                 component += bits;
-                                F(position, u16, 0xA) = (u16)component;
-                                sprite = F(particle, void *, 0xC);
+                                position->z.w.i = (u16)component;
+                                sprite = particle->sprite;
                             } else {
-                                sprite = F(particle, void *, 0xC);
+                                sprite = particle->sprite;
                             }
                             {
                                 neutral_color = (s32)(sprite);
@@ -720,32 +720,32 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
         init_object = particle;
         animation_m = project_sprite_chain;
         F(particle, s16, 0x4A) = 6;
-        F(particle, void *, 0x10) = (void *)((u32)&func_800248B8);
+        particle->unk_10 = (void *)((u32)&expand_rotating_countdown_sprite);
         register_node(init_object, (s32)animation_m);
         bits = 0x20;
-        sprite = F(particle, void *, 0xC);
+        sprite = particle->sprite;
         {
             void *actor_position;
             F(sprite, u16, 0x10) = (u16)bits;
             F(sprite, u16, 6) = 8;
             actor_position = primary_actor_record;
             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
-            position = F(particle, void *, 8);
-            actor_position = F(actor_position, void *, -24);
-            F(position, u32, 0) = F(actor_position, u32, 0);
-            F(position, u32, 4) = F(actor_position, u32, 4);
+            position = particle->position;
+            actor_position = ((ObjectNodeHeader *)((u8 *)actor_position - 0x20))->position;
+            position->x.v = F(actor_position, u32, 0);
+            position->y.v = F(actor_position, u32, 4);
             F(position, u32, 8) = F(actor_position, u32, 8);
         }
         {
             u8 *dungeon = ((u8 *)(&reference_tile_object));
             if (get_sprite_attachment_vector(F(dungeon, void *, 8), dungeon,
                               (u8 *)effect + 0xC, 0) != 0) {
-                F(position, u32, 0) += (u32)(F(effect, s16, 0xC) << 16);
-                F(position, u32, 4) += (u32)(F(effect, s16, 0xE) << 16);
-                F(position, u32, 8) += (u32)(F(effect, s16, 0x10) << 16);
+                *(u32 *)&position->x.v += (u32)(F(effect, s16, 0xC) << 16);
+                *(u32 *)&position->y.v += (u32)(F(effect, s16, 0xE) << 16);
+                *(u32 *)&position->z.v += (u32)(F(effect, s16, 0x10) << 16);
             }
         }
-        sprite = F(particle, void *, 0xC);
+        sprite = particle->sprite;
         F(sprite, u16, 0x1E) = 0x80;
         F(sprite, u16, 0x1C) = 0x80;
         F(sprite, u8, 0xE) = 0x80;
@@ -766,19 +766,19 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
                 if (particle != 0) {
                     burst_tail = (u8 *)particle + 0x20;
                     F(burst_tail, s16, 0x2A) = 12;
-                    F(particle, void *, 0x10) = particle_script;
+                    particle->unk_10 = particle_script;
                     register_node(particle, (s32)project_sprite_chain);
-                    sprite = F(particle, void *, 0xC);
+                    sprite = particle->sprite;
                     F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
                     F(sprite, u16, 0x10) = 0x60;
                     if ((func_80069EF8() & 1) == 0) {
                         F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                     }
-                    position = F(particle, void *, 8);
+                    position = particle->position;
                     if (get_sprite_attachment_vector(F(spawn_data, void *, 8), spawn_data, (u8 *)effect + 0xC, 0) != 0) {
-                        F(effect, u16, 0xC) = (u16)(F(effect, u16, 0xC) + F(world_offset, u16, 2));
-                        F(effect, u16, 0xE) = (u16)(F(effect, u16, 0xE) + F(world_offset, u16, 6));
-                        F(effect, u16, 0x10) = (u16)(F(effect, u16, 0x10) + F(world_offset, u16, 0xA));
+                        F(effect, u16, 0xC) = (u16)(F(effect, u16, 0xC) + *(u16 *)&world_offset->x.w.i);
+                        F(effect, u16, 0xE) = (u16)(F(effect, u16, 0xE) + *(u16 *)&world_offset->y.w.i);
+                        F(effect, u16, 0x10) = (u16)(F(effect, u16, 0x10) + *(u16 *)&world_offset->z.w.i);
                         if (particle_index != 0) {
                             F(burst_tail, s16, 0x2A) = 8;
                             F(sprite, u16, 0x10) = 0x20;
@@ -802,10 +802,10 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
                             F(effect, u16, 0x10) = (u16)component;
                         }
                     }
-                    F(position, u16, 2) = F(effect, u16, 0xC);
-                    F(position, u16, 6) = F(effect, u16, 0xE);
-                    F(position, u16, 0xA) = F(effect, u16, 0x10);
-                    sprite = F(particle, void *, 0xC);
+                    position->x.w.i = F(effect, u16, 0xC);
+                    position->y.w.i = F(effect, u16, 0xE);
+                    position->z.w.i = F(effect, u16, 0x10);
+                    sprite = particle->sprite;
                     F(sprite, u16, 0x1E) = 0x1000;
                     F(sprite, u16, 0x1C) = 0x1000;
                     F(sprite, u8, 0xE) = 0x80;
@@ -826,7 +826,7 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
             if (animation_m != 0) {
                 F(animation_m, u32, 0x1C) |= 0x10000000;
                 {
-                    model_color = F(animation_m, void *, -20);
+                    model_color = ((ObjectNodeHeader *)((u8 *)animation_m - 0x20))->sprite;
                     fade = F(effect, s16, 0x20) * 0x7F;
                     if (fade < 0) {
                         fade += 15;
@@ -848,16 +848,16 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
         return;
 
     case 4:
-        if (F(&D_8002571C, s16, 0) == 0) {
+        if (F(&tint_particle_effect_updated, s16, 0) == 0) {
             animation_m = F(primary_actor_record, void *, 0x60);
             if (animation_m != 0) {
                 bits = (u32)0xEFFFFFFF;
                 neutral_color = 0x00808080;
                 component = (s32)F(animation_m, u32, 0x1C);
-                model_color = F(animation_m, void *, -20);
+                model_color = ((ObjectNodeHeader *)((u8 *)animation_m - 0x20))->sprite;
                 component &= (s32)bits;
                 F(animation_m, u32, 0x1C) = (u32)component;
-                F(model_color, u32, 0xC) = (u32)neutral_color;
+                model_color->sprite = (u32)neutral_color;
             }
             {
                 DungeonGlobalStatus *dungeon_state = &g_dungeon_status;
@@ -870,6 +870,6 @@ void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        F(&D_8002571C, s16, 0) = 0;
+        F(&tint_particle_effect_updated, s16, 0) = 0;
     }
 }

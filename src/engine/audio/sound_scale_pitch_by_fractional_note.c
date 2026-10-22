@@ -5,7 +5,7 @@
 
 
 /* Scales a pitch by a fractional note offset, interpolating between adjacent steps. */
-u32 sound_scale_pitch_by_fractional_note(s32 pitch, u32 note_offset)
+u32 _spu_2pitch(s32 pitch, u32 note_offset)
 {
     s32 frame_pad[2];
     s32 step;
@@ -33,7 +33,7 @@ u32 sound_scale_pitch_by_fractional_note(s32 pitch, u32 note_offset)
 }
 
 /* Converts a note and fine offset relative to sample tuning into an SPU pitch, capped at 0x3FFF. */
-u32 calculate_pitch_from_note(u16 center_note, u16 center_fine, u16 note, u16 fine)
+u32 _spu_note2pitch(u16 center_note, u16 center_fine, u16 note, u16 fine)
 {
     s32 center_tuning;
             /* 8 bytes of frame below reload's spill slot: retail's product carrier
@@ -95,7 +95,7 @@ u32 calculate_pitch_from_note(u16 center_note, u16 center_fine, u16 note, u16 fi
 }
 
 /* Converts an SPU pitch to a packed note and fine offset relative to the sample's center tuning. */
-u32 sound_convert_pitch_to_packed_note(u16 center_note, u16 center_fine, u16 pitch)
+u32 _spu_pitch2note(u16 center_note, u16 center_fine, u16 pitch)
 {
     u16 inverted_pitch;
     s32 top_bit;

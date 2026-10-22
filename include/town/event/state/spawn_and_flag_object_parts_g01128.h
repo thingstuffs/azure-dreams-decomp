@@ -23,12 +23,6 @@ struct S_800814A0 {
     s32 pad[2];
 };
 
-typedef struct S_8009C390_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 unk_10;
-} S_8009C390_0;
 
 typedef struct S_8009C390_1 {
     u8 pad_00[0x50];
@@ -75,10 +69,6 @@ typedef struct S_8009C4E8_2 {
     u16 unk_14;
 } S_8009C4E8_2;
 
-typedef struct S_8009C648_6 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8009C648_6;
 
 typedef struct S_8009C390_3 S_8009C390_3;
 
@@ -87,11 +77,6 @@ typedef struct S_8009C648_0 {
     s32 unk_04;
 } S_8009C648_0;
 
-typedef struct S_8009C648_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_8009C648_1;
 
 typedef struct S_8009C648_2 {
     u8 pad_00[0x80];

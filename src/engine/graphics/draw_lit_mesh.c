@@ -7,7 +7,6 @@
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-
 typedef struct S_800463EC_1 {
     u16 unk_00;
     u16 unk_02;
@@ -44,11 +43,6 @@ typedef struct S_800463EC_4 {
     s32 unk_20;
     u16 unk_24;
 } S_800463EC_4;   /* prim in draw_lit_mesh */
-
-typedef struct S_800463EC_5 {
-    void * unk_00;
-} S_800463EC_5;   /* globalBase in draw_lit_mesh */
-
 
 typedef struct {
     s16 m[3][3];
@@ -101,7 +95,7 @@ extern void NormalColorCol(void *a0, void *a1, void *a2);
 void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_bias)
 {
     MATRIX view_matrix;
-    u8 *render_globals;
+    GameWork *render_globals;
     Vertex *vertex_table;
     u8 *normal_table;
     u8 *render_state;
@@ -124,9 +118,9 @@ void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_b
     u16 colour;
     u32 depth;
 
-    render_globals = (u8 *)((void * *)(&g_game_work));
-    vertex_table = *(Vertex **)(render_globals + 0x1E4);
-    normal_table = *(u8 **)(render_globals + 0x1E8);
+    render_globals = &g_game_work;
+    vertex_table = *(Vertex **)&render_globals->map.vertices;
+    normal_table = *(u8 **)&render_globals->map.surface_planes;
 
     PushMatrix();
 
@@ -169,7 +163,7 @@ void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_b
     prim = *(u8 **)(render_state + 0x8D0);
     object->flags |= 0x8000;
 
-    face = *(u8 **)(*(u8 **)(render_globals + 0x1E0) + object->meshIndex * 4);
+    face = *(u8 **)(*(u8 **)&render_globals->map.cell_faces + object->meshIndex * 4);
 
     for (;;) {
         vertex_data = ((S_800463EC_2 *)((u8 *)vertex_table + ((S_800463EC_1 *)face)->unk_00 * 8))->unk_00;
@@ -230,7 +224,6 @@ void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_b
             break;
         }
 
-        
         if (PPAD(scratch, RenderScratch, clip) > 0) {
             depth = PPAD(scratch, RenderScratch, depth) - depth_offset;
             PPAD(scratch, RenderScratch, depth) = depth;
@@ -273,5 +266,5 @@ void draw_lit_mesh(void *unused, u8 *position, RenderObject *object, s16 depth_b
     }
 
     PopMatrix();
-    *(u8 **)((u8 *)((S_800463EC_5 *)render_globals)->unk_00 + 0x8D0) = prim;
+    *(u8 **)((u8 *)((void *)render_globals->draw_buffer) + 0x8D0) = prim;
 }

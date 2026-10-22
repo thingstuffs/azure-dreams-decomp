@@ -4,7 +4,7 @@
 #include "engine/audio/spu.h"
 
 /* Optionally aligns a value, shifts it, and stores or returns the result. */
-s32 audio_handle_optionally_aligns_shifts_stores_returns_result(s32 index, u32 value)
+s32 _spu_FsetRXXa(s32 index, u32 value)
 {
     s32 store_index = index;
     u32 shifted_value;

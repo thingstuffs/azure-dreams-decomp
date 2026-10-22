@@ -1,8 +1,11 @@
 /* Shaded effect quad rendering and randomized radial effect creation. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/project_and_queue_shaded_quad.h"
+#include "shared/game_work.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void project_and_queue_shaded_quad(void *quad, void *position, void *render_state, s16 depth_bias)
@@ -16,7 +19,7 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
     u8 **render_context_ptr = (u8 **)((u8 *)(&g_game_work));
     Row_81922998_MATRIX current_matrix;
 
-    ((Row_81922998_S_80024198_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
+    ((Row_81922998_S_80024198_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
     ((Row_81922998_S_80024198_0 *)scratch)->unk_88 = ((Row_81922998_S_80024198_1 *)position)->unk_02;
     ((Row_81922998_S_80024198_0 *)scratch)->unk_8C = ((Row_81922998_S_80024198_1 *)position)->unk_06;
     ((Row_81922998_S_80024198_0 *)scratch)->unk_90 = ((Row_81922998_S_80024198_1 *)position)->unk_0A;
@@ -37,7 +40,7 @@ void project_and_queue_shaded_quad(void *quad, void *position, void *render_stat
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    texture = (*(u8 * *)((u8 *)render_state + 8));
+    texture = (*(u8 **)((u8 *)render_state + 8));
     ((Row_81922998_S_80024198_0 *)scratch)->unk_28 = ((Row_81922998_S_80024198_2 *)render_state)->unk_14;
 
     packet = ((Row_81922998_S_80024198_3 *)(g_game_work.draw_buffer))->unk_8D0;
@@ -169,14 +172,14 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
     s32 planar_radius;
     s32 azimuth;
     s32 random_value;
-    void *effect;
+    ObjectNodeHeader *effect;
     Row_81922FB8_S_800247B8_0 *state;
     SpriteFrameState *sprite;
-    Row_81922FB8_S_800247B8_4 *position;
+    ObjectPosition *position;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        state = effect + 0x20;
+        state = ((void *)effect) + 0x20;
         state->unk_5A = 10;
         state->unk_5C = 10;
         random_value = project_and_queue_visible_shaded_quad(8);
@@ -197,10 +200,10 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         state->unk_04 = state->unk_14;
         state->unk_08 = state->unk_18.at00.v;
         state->unk_0C = state->unk_1C;
-        ((Row_81922FB8_S_800247B8_1 *)effect)->unk_10 = D_800246C4;
+        effect->unk_10 = D_800246C4;
         register_node(effect, D_80024670);
 
-        sprite = ((Row_81922FB8_S_800247B8_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
         elevation = rand() & 0xFFF;
@@ -221,12 +224,12 @@ void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_80
         state->unk_2C = 0;
         state->unk_2A = state->unk_24.u + random_value - 8;
 
-        position = ((Row_81922FB8_S_800247B8_1 *)effect)->unk_08;
-        position->unk_02 = origin->unk_02;
-        position->unk_06 = origin->unk_06;
-        position->unk_0A = origin->unk_0A;
+        position = effect->position;
+        position->x.w.i = origin->unk_02;
+        position->y.w.i = origin->unk_06;
+        position->z.w.i = origin->unk_0A;
 
-        sprite = ((Row_81922FB8_S_800247B8_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.c.b = 0x80;
@@ -280,40 +283,40 @@ void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_80
    60-step counter. */
 void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite) {
     Row_819232EC_S_80024AEC_3 *render_state;
-    void *effect;
+    ObjectNodeHeader *effect;
     Row_819232EC_S_80024AEC_0 *effect_state;
-    Row_819232EC_S_80024AEC_4 *effect_position;
+    ObjectPosition *effect_position;
 
     effect = allocate_flagged_object_node(0x12);
-    effect_state = effect + 0x20;
+    effect_state = ((void *)effect) + 0x20;
     if (effect != NULL) {
         effect_state->unk_5A = 0x3C;
         effect_state->unk_5C = 0x3C;
         effect_state->unk_88 = (s32) source->unk_88;
-        ((Row_819232EC_S_80024AEC_2 *)effect)->unk_10 = &D_800249FC;
+        effect->unk_10 = &D_800249FC;
         register_node(effect, project_sprite_chain);
-        render_state = ((Row_819232EC_S_80024AEC_2 *)effect)->unk_0C;
+        render_state = effect->sprite;
         render_state->unk_10 = 0x40;
         render_state->unk_06 = 0xA;
         render_state->unk_14 = (u16) (render_state->unk_14 | 0xC);
-        effect_position = ((Row_819232EC_S_80024AEC_2 *)effect)->unk_08;
-        effect_position->unk_02 = (u16) position->unk_02;
-        effect_position->unk_06 = (u16) position->unk_06;
-        effect_position->unk_0A = (u16) position->unk_0A;
-        render_state = ((Row_819232EC_S_80024AEC_2 *)effect)->unk_0C;
+        effect_position = effect->position;
+        effect_position->x.w.i = (u16) position->unk_02;
+        effect_position->y.w.i = (u16) position->unk_06;
+        effect_position->z.w.i = (u16) position->unk_0A;
+        render_state = effect->sprite;
         render_state->unk_0E = 0x50;
         render_state->unk_0D = 0x50;
         render_state->unk_0C = 0x50;
         render_state->unk_1E = 0;
         render_state->unk_1C = 0;
         *(Row_819232EC_U12 *)((u8 *)effect + 0x96) = *(Row_819232EC_U12 *)&D_80025B48;
-        render_state->unk_08 = (void *) (effect + 0x96);
+        render_state->unk_08 = (void *) (((void *)effect) + 0x96);
     }
 }
 
 /* Grows a sprite toward twice normal scale, advances animation every fourth update, and fades it to
    removal. */
-void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_DungeonEffect *effect_data) {
+void advance_radial_effect_state(void *entity_data, s32 unused, SpriteFrameState *effect_data) {
     u16 ticks_left;
     u16 updated_value;
     s32 fade_level;
@@ -324,30 +327,30 @@ void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_Dun
         advance_sprite_animation_and_textures(effect_data);
     }
 
-    updated_value = effect_data->unk_1C + 0x32;
-    effect_data->unk_1C = updated_value;
+    updated_value = effect_data->scale_x + 0x32;
+    effect_data->scale_x = updated_value;
     if (updated_value >= 0x2001) {
-        effect_data->unk_1C = 0x2000;
+        effect_data->scale_x = 0x2000;
     }
 
-    updated_value = effect_data->unk_1E + 0x32;
-    effect_data->unk_1E = updated_value;
+    updated_value = effect_data->scale_y + 0x32;
+    effect_data->scale_y = updated_value;
     if (updated_value >= 0x2001) {
-        effect_data->unk_1E = 0x2000;
+        effect_data->scale_y = 0x2000;
     }
 
     updated_value = *(u16 *)(entity_data + 0x5A) - 1;
     fade_level = ((s32)(updated_value << 16) >> 9) / *(s16 *)(entity_data + 0x5C);
     *(u16 *)(entity_data + 0x5A) = updated_value;
-    effect_data->unk_E = fade_level;
-    effect_data->unk_D = fade_level;
-    effect_data->unk_C = fade_level;
+    effect_data->color.c.b = fade_level;
+    effect_data->color.c.g = fade_level;
+    effect_data->color.c.r = fade_level;
 
     if (*(s16 *)(entity_data + 0x5A) <= 0) {
         *(u16 *)(entity_data - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
-    if (effect_data->flags_14 & 0x8000) {
+    if (effect_data->flags & 0x8000) {
         *(u16 *)(entity_data - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -360,8 +363,8 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
     s32 flags;
     SpriteFrameState *render_control;
     SpriteFrameState *render_style;
-    Row_81923534_S_80024D34_3 *position;
-    void *effect;
+    ObjectPosition *position;
+    ObjectNodeHeader *effect;
     Row_81923534_S_80024D34_0 *effect_data;
     s32 random_value;
 
@@ -370,23 +373,23 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
         effect_data = (u8 *)effect + 0x20;
         effect_data->unk_5A = 0xE;
         effect_data->unk_5C = 0xE;
-        ((Row_81923534_S_80024D34_1 *)effect)->unk_10 = D_80024C0C;
+        effect->unk_10 = D_80024C0C;
         register_node(effect, project_sprite_chain);
 
-        render_control = ((Row_81923534_S_80024D34_1 *)effect)->unk_0C;
+        render_control = effect->sprite;
         render_control->flags |= 0xC;
         render_control->tpage_abr = 0x60;
         render_control->flags |= 2;
 
-        position = ((Row_81923534_S_80024D34_1 *)effect)->unk_08;
+        position = effect->position;
         random_value = rand();
-        position->unk_02 = origin->unk_02 + ((random_value & 0x1F) - 0x10);
+        position->x.w.i = origin->unk_02 + ((random_value & 0x1F) - 0x10);
         random_value = rand();
-        position->unk_06 = origin->unk_06 + ((random_value & 0x1F) - 0x10);
+        position->y.w.i = origin->unk_06 + ((random_value & 0x1F) - 0x10);
         random_value = rand();
-        position->unk_0A = origin->unk_0A + ((random_value & 0x1F) - 0x10);
+        position->z.w.i = origin->unk_0A + ((random_value & 0x1F) - 0x10);
 
-        render_style = ((Row_81923534_S_80024D34_1 *)effect)->unk_0C;
+        render_style = effect->sprite;
         render_style->scale_y = 0xC00;
         render_style->scale_x = 0xC00;
         render_style->color.c.b = 0x80;
@@ -403,7 +406,7 @@ void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, v
    retail's addiu before the three sb operations. */
 
 /* Cycles sprite colors, moves toward a target or along a path, then spawns impact and radial bursts. */
-void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
+void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState *sprite) {
     s32 delta_x;
     s16 reduced_scale;
     u8 *height_table;
@@ -445,9 +448,9 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
     initial_state = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u;
     (*(s16 *)D_80025B60) = 1;
     if (initial_state < 3U) {
-        ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_0E.s = 0x3C;
-        ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_0D.s = 0x3C;
-        ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_0C.s = 0x3C;
+        sprite->color.c.b = 0x3C;
+        sprite->color.c.g = 0x3C;
+        sprite->color.c.r = 0x3C;
         color_cycle = ((Row_8192365C_S_80024E5C_0 *)effect)->unk_72;
         next_color = color_cycle + 1;
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 = next_color;
@@ -455,13 +458,13 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 = (u16) (color_cycle + 2);
         }
         if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 & 1) {
-            ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_0C.u = 0x80;
+            sprite->color.c.r = 0x80;
         }
         if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 & 2) {
-            ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_0D.u = 0x80;
+            sprite->color.c.g = 0x80;
         }
         if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_72 & 4) {
-            ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_0E.u = 0x80;
+            sprite->color.c.b = 0x80;
         }
     }
     if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.s == 0) {
@@ -469,7 +472,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
         ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = (u16) (start_frame + 1);
         if ((s16) start_frame >= 6) {
             effect_id = D_80025B38[0];
-            ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_2C = D_80025B38;
+            sprite->frameTable = D_80025B38;
             select_sprite_entry(sprite, effect_id, 0);
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = 0U;
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u = (u16) (((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u + 1);
@@ -482,7 +485,7 @@ void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite) {
             (s16) ((Row_8192365C_S_80024E5C_2 *)motion)->unk_08.at02.v, ((Row_8192365C_S_80024E5C_0 *)effect)->unk_88) << 0x10) == 0) {
             if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_60 != 0) {
                 target_position = ((Row_8192365C_S_80024E5C_4_pre *)(((Row_8192365C_S_80024E5C_0 *)effect)->unk_88))[-1].unk_00;
-                ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_06 = 8;
+                sprite->unk_06 = 8;
                 if (((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.s == 0) {
                     delta_x = ((Row_8192365C_S_80024E5C_3 *)target_position)->unk_00.at02.v;
                     delta_x -= ((Row_8192365C_S_80024E5C_2 *)motion)->unk_00.at02u.v;
@@ -607,15 +610,15 @@ update_impact:
             play_sound_if_enabled(0x300);
         }
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0xA) {
-            scale = ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_1C;
+            scale = sprite->scale_x;
             if (scale != 0) {
                 reduced_scale = scale - 0xC8;
                 clamped_scale = reduced_scale;
                 if (reduced_scale < 0) {
                     clamped_scale = 0;
                 }
-                ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_1C = clamped_scale;
-                ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_1E = clamped_scale;
+                sprite->scale_x = clamped_scale;
+                sprite->scale_y = clamped_scale;
             }
         }
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x1E) {
@@ -631,7 +634,7 @@ update_impact:
         if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u >= 0x32) {
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u = 3U;
             ((Row_8192365C_S_80024E5C_0 *)effect)->unk_5A.u = 0U;
-            ((Row_8192365C_S_80024E5C_1 *)sprite)->unk_14 = (u16) (((Row_8192365C_S_80024E5C_1 *)sprite)->unk_14 | 0x80);
+            sprite->flags = (u16) (sprite->flags | 0x80);
         }
     }
     if ((s16) ((Row_8192365C_S_80024E5C_0 *)effect)->unk_58.u == 3) {

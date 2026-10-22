@@ -6,13 +6,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80FAB000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80FAB000_0;   /* obj in create_actor_kind_object */
-
 typedef struct S_80FAB000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -56,7 +49,7 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
 void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
 {
     s32 kind;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_80FAB000_2 *part_a;
     SpriteFrameState *part_b;
     S_80FAB000_1 *work;
@@ -74,13 +67,13 @@ void *create_actor_kind_object(s16 flags, s16 field24_input, s16 field25_input, 
     obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80FAB000_0 *)obj)->unk_10 = D_8014CA70;
+        obj->unk_10 = D_8014CA70;
         work->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_80FAB000_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = field0A_value;
-        part_b = ((S_80FAB000_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = flags & 3;
         part_b->unk_25 = field25_value;
         actor = work;

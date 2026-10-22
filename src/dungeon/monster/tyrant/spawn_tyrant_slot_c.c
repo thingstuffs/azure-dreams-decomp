@@ -12,13 +12,6 @@
 typedef struct T_80170AA4_S_80170AA4_2 T_80170AA4_S_80170AA4_2;
 typedef struct ActorSpriteView ActorSpriteView;
 
-typedef struct S_func_80158898_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_func_80158898_0;
-
 typedef struct S_func_80158898_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -66,7 +59,7 @@ extern M2C_UNK D_8015C000;
     SpriteFrameState *placement;
     S_func_80158898_2 *config;
     S_func_80158898_4 *behavior;
-    void *object;
+    ObjectNodeHeader *object;
     s8 saved_x;
     s16 saved_config_value;
     s8 saved_y;
@@ -78,13 +71,13 @@ extern M2C_UNK D_8015C000;
     saved_y = y;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        object_state = object + 0x20;
-        ((S_func_80158898_0 *)object)->unk_10 = &func_80158AA4;
+        object_state = ((void *)object) + 0x20;
+        object->unk_10 = &func_80158AA4;
         object_state->unk_13 = MONSTER_TYRANT;
         register_node(object, project_sprite_chain);
-        config = ((S_func_80158898_0 *)object)->unk_08;
+        config = object->position;
         config->unk_0A = saved_config_value;
-        placement = ((S_func_80158898_0 *)object)->unk_0C;
+        placement = object->sprite;
         mode_or_roll = spawn_flags & 3;
         placement->unk_25 = saved_y;
         behavior = object_state;

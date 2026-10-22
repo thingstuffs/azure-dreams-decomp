@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AAD70.
  */
 #include "town/map/randomized_position_effect_g00585.h"
+#include "shared/object_node.h"
 
 /* Creates an effect at the supplied position and initializes its sprite and random state. */
 void *create_randomized_position_effect(MovingPosition *source_position) {
@@ -9,14 +10,14 @@ void *create_randomized_position_effect(MovingPosition *source_position) {
     s32 random_offset;
     SpriteFrameState *sprite;
     MovingPosition *position;
-    void *object;
+    ObjectNodeHeader *object;
     S_800A84D0_4 *effect_state;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        position = ((S_800A84D0_0 *)object)->unk_08;
-        sprite = ((S_800A84D0_0 *)object)->unk_0C;
-        ((S_800A84D0_0 *)object)->unk_10 = &fade_timed_primitive;
+        position = object->position;
+        sprite = object->sprite;
+        object->unk_10 = &fade_timed_primitive;
         register_node(object, project_sprite_chain);
         position->unk_02 = (u16) source_position->unk_02;
         position->unk_06 = (u16) source_position->unk_06;
@@ -30,7 +31,7 @@ void *create_randomized_position_effect(MovingPosition *source_position) {
         sprite->tpage_abr = 0x60;
         sprite->flags = (u16) (sprite->flags | 0xC);
         random_offset = scale_random_to_unsigned_halfword_limit(7);
-        effect_state = object + 0x20;
+        effect_state = ((void *)object) + 0x20;
         effect_state->unk_02 = (s16) (random_offset + scale_random_to_unsigned_halfword_limit(7));
     }
     return object;

@@ -93,7 +93,7 @@ extern S_80073738 audio_master_level;
 extern s32 audio_voice_masks[64];
 extern S_80084960 audio_channel_controls[16];
 extern S_80085458 audio_voice_records[64];
-extern void func_80055E7C();
+extern void noop_channel_control_notification();
 extern void audio_refresh_sequence_voice_volumes();
 extern void audio_update_voice_pitch(S_80085458 *e, s32 value);
 extern void apply_tone_parameter_command(S_80084960 *e);
@@ -101,8 +101,8 @@ extern void func_80057A94(S_80084960 *e);
 extern void audio_compute_voice_stereo_volumes(S_80085458 *e, S_80084960 *rec);
 extern s32 sound_set_indexed_voice_volumes(s32 a0, u16 a1, u16 a2);
 extern void audio_reset_sequence_tracks_and_channels(void);
-extern void set_spu_voice_keys(s32 a0, s32 a1);
-extern s32 read_selected_voice_key_state(s32 a0);
+extern void SpuSetKey(s32 a0, s32 a1);
+extern s32 SpuGetKeyStatus(s32 a0);
 /* Applies a channel control change and updates affected voices. */
 void audio_apply_channel_control(u8 channel, u8 control, u32 value);
 

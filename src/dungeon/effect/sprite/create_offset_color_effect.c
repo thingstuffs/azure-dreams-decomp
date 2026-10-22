@@ -39,12 +39,12 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
 {
     s32 offset_numerator;
     S_818BCFB0_3 *object_data;
-    void *obj;
+    ObjectNodeHeader *obj;
     SpriteFrameState *scale_state;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        ((S_818BCFB0_0 *)obj)->unk_10 = D_80024088;
+        obj->unk_10 = D_80024088;
         register_node(obj, D_800241CC);
 
         {
@@ -62,11 +62,11 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
             init_state->unk_0E = 0;
         }
 
-        scale_state = ((S_818BCFB0_0 *)obj)->unk_0C;
+        scale_state = obj->sprite;
         scale_state->scale_y = 0x1000;
         scale_state->scale_x = 0x1000;
 
-        object_data = ((S_818BCFB0_0 *)obj)->unk_08;
+        object_data = obj->position;
         offset_numerator = offset * 3;
         *(Copy24 *)object_data = *(Copy24 *)source_data;
 

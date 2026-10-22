@@ -19,25 +19,6 @@ struct Dst;
 
 struct Elem;
 
-typedef struct S_8009792C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_8009792C_0;
-
-typedef struct S_8009792C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8009792C_1;
-
 typedef struct S_8009792C_2 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -58,10 +39,6 @@ typedef struct S_80097AD0_1 {
 
 /* arg1 in spawn_radial_objects */
 /* object in spawn_radial_objects */
-typedef struct S_80097AD0_3 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_80097AD0_3;
 
 typedef struct {
     s16 unk0;

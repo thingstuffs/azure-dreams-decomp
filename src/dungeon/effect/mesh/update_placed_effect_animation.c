@@ -83,7 +83,7 @@ typedef struct {
 extern void func_800243C0(void *, void *);
 extern s32 read_sound_mode_blocking_status(s32);
 extern void play_sound_if_enabled(s32);
-extern void *scan_monster_along_heading();
+extern void *scan_actor_along_heading();
 extern u16 get_surface_height_at_record(void *);
 extern s32 check_left_tile_and_center_height(u16, u16, s16);
 extern void func_80025A9C(void *, void *, void *);
@@ -171,7 +171,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             position[2] = (s32)player->ground_height << 16;
             spawn_angle = player->facing;
             tile_map = &reference_tile_object;
-            spawned_object = scan_monster_along_heading(player, tile_map->tile_position.parts.tile_x, tile_map->tile_position.parts.tile_y, spawn_angle, 8);
+            spawned_object = scan_actor_along_heading(player, tile_map->tile_position.parts.tile_x, tile_map->tile_position.parts.tile_y, spawn_angle, 8);
         }
         self->object = spawned_object;
         if (spawned_object != 0) {

@@ -1,5 +1,7 @@
 #ifndef DUNGEON_DUNGEON_SETUP_H
 #define DUNGEON_DUNGEON_SETUP_H
+
+struct ObjectPosition;
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -59,12 +61,6 @@ typedef struct dungeon_setup_8028325C_S_8001625C_2 {
 typedef struct dungeon_setup_8028325C_S_8001625C_3 {
     s8 unk_00;
 } dungeon_setup_8028325C_S_8001625C_3;
-typedef struct dungeon_setup_802835B8_S_800165B8_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} dungeon_setup_802835B8_S_800165B8_0;
 typedef struct dungeon_setup_802835B8_S_800165B8_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -103,14 +99,6 @@ typedef struct dungeon_setup_802835B8_S_800165B8_3 {
     s32 unk_28;
     void * unk_2C;
 } dungeon_setup_802835B8_S_800165B8_3;
-typedef struct dungeon_setup_802835B8_S_800165B8_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 dungeon_setup_802835B8_unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} dungeon_setup_802835B8_S_800165B8_4;
 typedef struct dungeon_setup_802835B8_S_800165B8_5 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -220,14 +208,6 @@ typedef union
     dungeon_setup_80284068_Cursor *entry;
 }
 dungeon_setup_80284068_CursorPtr;
-typedef struct dungeon_setup_802842A0_S_800172A0_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} dungeon_setup_802842A0_S_800172A0_0;
 typedef struct dungeon_setup_802842A0_S_800172A0_2 {
     u8 pad_00[0x1C];
     s16 unk_1C;
@@ -251,13 +231,12 @@ extern void func_80064EC0(s32, s32, s32);
 extern void func_80064EE0(s32, s32, s32);
 extern void func_80064F00(s32, s32);
 extern void func_80064F20(s32);
-extern u8 D_800DDC7C;
+extern u8 monster_spawn_records;
 extern dungeon_setup_80283000_ColorState upper_draw_context;
 extern dungeon_setup_80283000_ColorState lower_draw_context;
 extern u8 D_80080AA0[16];
-extern u8 D_800EA000[16];
+extern u8 generation_cells[16];
 extern u8 camera_transition_timer[];
-extern void setup_run_and_load_track();
 extern void set_continuation_value(void *);
 M2C_UNK file_load_com();
 s32 load_dungeon_sprite_bundle();
@@ -276,7 +255,7 @@ extern u8 scene_mode_code;
 extern s16 pending_marked_actor_count;
 extern s8 dungeon_event_pending_flag;
 extern s8 D_800DCF58;
-extern s8 D_800DCF5B;
+extern s8 scripted_boundary_active;
 extern M2C_UNK dungeon_ground_item_positions;
 extern s16 pickup_event_latch;
 extern s16 D_800E3CCE;
@@ -291,12 +270,11 @@ extern void request_scene_dispatch_state(s32);
 extern void pack_tagged_resource_descriptor(s32, void *, void *, s32);
 extern void Control_CD(s32, void *, s32);
 extern void drain_cd_command_queue(void);
-extern void set_monster_data_pointer(void);
 extern void invalidate_four_sprite_resource_slots(void);
 extern s32 D_8001022C;
 extern s8 scene_music_hold;
 extern s16 current_dungeon_floor;
-extern s8 D_800DCF4E;
+extern s8 sprite_bundle_loaded;
 extern u8 dungeon_button_latch;
 extern s32 D_800E3D1C;
 extern u8 familiar_record_storage[];
@@ -361,5 +339,5 @@ void clear_dungeon_state_bytes(void);
 void clear_shared_state_values(void);
 void init_koh_properties_and_entry_tables(void);
 void clear_dungeon_progress_state(void);
-void initialize_random_effect_position(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset);
+void initialize_random_effect_position(struct ObjectPosition *source, s16 base_offset);
 #endif

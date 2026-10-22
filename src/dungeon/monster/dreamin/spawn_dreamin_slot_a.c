@@ -6,13 +6,6 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-typedef struct S_80DB3000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80DB3000_0;
-
 typedef struct S_80DB3000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -57,7 +50,7 @@ void *move_expand_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y
     s32 flags_1c;
     SpriteFrameState *placement;
     S_80DB3000_2 *properties;
-    void *object;
+    ObjectNodeHeader *object;
     S_80DB3000_4 *extended_state;
     S_80DB3000_1 *state = NULL;
     s8 saved_x;
@@ -72,13 +65,13 @@ void *move_expand_and_fade_effect_sprite(s16 spawn_flags, s16 grid_x, s16 grid_y
     global_byte = (s32) *(s8 *)-0x56D4;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        state = object + 0x20;
-        ((S_80DB3000_0 *)object)->unk_10 = &D_8014CA3C;
+        state = ((void *)object) + 0x20;
+        object->unk_10 = &D_8014CA3C;
         state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
-        properties = ((S_80DB3000_0 *)object)->unk_08;
+        properties = object->position;
         properties->unk_0A = saved_property;
-        placement = ((S_80DB3000_0 *)object)->unk_0C;
+        placement = object->sprite;
         spawn_mode = spawn_flags & 3;
         placement->unk_25 = saved_y;
         extended_state = state;

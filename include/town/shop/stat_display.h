@@ -58,11 +58,11 @@ extern Text5 D_800892DC;
 extern u8 D_800892E8[];
 extern u8 D_800892EC[];
 /* extern */
-extern M2C_UNK D_800892D8;
+extern char D_800892D8[];
 extern Vec3s D_800892F0;
-extern M2C_UNK D_800892F4;
-extern M2C_UNK D_800892F8;
-extern M2C_UNK D_800892FC;
+extern char D_800892F4[];
+extern char D_800892F8[];
+extern char D_800892FC[];
 extern u8 *remap_flagged_string_bytes(u8 *text);
 extern s32 D_80089308[2];
 extern u8 D_80089310[];
@@ -71,7 +71,7 @@ extern u8 D_8008931C[];
 extern u8 D_80089324[];
 s32 lookup_item_category_mapped_value(s32, s32);
 s32 select_item_data();
-M2C_UNK bzero(void **, M2C_UNK);
+#include "sdk/bzero.h"
 void set_display_entry_text_and_position(struct S_800B5264_0 *, s32, s32, s16, s32);
 
 /* Unified declarations, checked against definitions and every merged caller. */
@@ -84,7 +84,7 @@ extern u8 D_80089304[];
 /* Functions defined in this translation unit. */
 void *format_object_value_marker(void *output, void *object);
 s32 compare_values_to_display_code(s32 left, s32 right);
-void *format_compared_stat_pairs(void *text, EntityRec *stats);
+void *format_compared_stat_pairs(void *text, ActorRecord *stats);
 void format_and_display_entity_stats(void *stats, void *panels);
 void collect_selected_record_values(s32 *output, EntityRec *record);
 u8 *format_optional_signed_value(Input *input, u8 *text);

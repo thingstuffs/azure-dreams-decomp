@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/effect.h"
 
 
 typedef struct S_800B3D10_6 {

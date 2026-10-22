@@ -43,7 +43,7 @@ extern void func_80064624(s32, s32);
 extern void func_80064EC0(s32, s32, s32);
 extern void func_80064F00(s32, s32);
 
-extern u8 D_800DDC7C[];
+extern u8 monster_spawn_records[];
 extern u8 upper_draw_context[0x1C];
 extern u8 lower_draw_context[0x1C];
 

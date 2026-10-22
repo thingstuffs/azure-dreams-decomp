@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_18D0850_H
 #define DUNGEON_OVL_18D0850_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -292,9 +293,9 @@ extern s32 sample_terrain_surface_height(s32, s32, s32);
 extern void play_sound_if_enabled(s32);
 void follow_brighten(EntityRec *entity, s32 value_id);
 void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2);
-void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, ovl_18d0850_818B097C_EffectCounter *state);
+void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, SpriteFrameState *state);
 ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec);
-void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, Rec_D_80082E80 *object);
+void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, SpriteFrameState *object);
 s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 frame);
 s32 draw_n_16_shaded_line_segments_link_them_ordering_table_depth(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase);
 s32 build_a_trigonometric_table_processes_up_eight_height_offset_segments(ovl_18d0850_818B11B4_S_818B11B4_0 *source, ovl_18d0850_818B11B4_S_818B11B4_2 *height_ref, void *context);

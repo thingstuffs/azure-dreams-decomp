@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_801237A4_arg0.h"
+#include "dungeon/menu.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void select_paired_value_tables();    /* extern */
 typedef struct HalfValue {
     s32 pad[2];
     u16 value;

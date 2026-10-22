@@ -1,7 +1,9 @@
+#include "shared/object_node.h"
 #include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kraken/spawn_configured_overlay_effect.h"
+#include "dungeon/effect/sprite.h"
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Kraken with frames at D_8015018C and a gray child display using frame 39 and an adjusted
@@ -12,7 +14,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
     void *work;
     s8 held_a;
     s8 held_b;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8014C86C_2 *part_a;
     SpriteFrameState *part_b;
     S_8014C86C_4 *actor;
@@ -22,7 +24,7 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
     void *current;
     S_8014C86C_8 *base;
     void *child_obj;
-    S_8014C86C_7 *elem;
+    SpriteFrameState *elem;
     s32 count;
     register s32 i;
     u32 elem_offset;
@@ -37,14 +39,14 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
     obj = allocate_list_node(0x112, (held_a = attr_a, ((u8 *)(&scene_object_list_anchor))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8014C86C_0 *)obj)->unk_10 = func_8014CB64;
+        obj->unk_10 = func_8014CB64;
         ((S_8014C86C_1 *)work)->unk_13 = MONSTER_KRAKEN;
         register_node(obj, project_sprite_chain);
         actor = work;
 
-        part_a = ((S_8014C86C_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = attr_c;
-        part_b = ((S_8014C86C_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->frameTable = D_8015018C;
         part_b->unk_24 = held_a;
@@ -105,14 +107,14 @@ void *spawn_configured_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s
                     child_flags = ((S_8014C86C_6 *)child)->unk_04;
                     ((S_8014C86C_6 *)child)->unk_04 = child_flags | 0x8000;
                     child_arg = part_b->unk_28;
-                    elem_flags = elem->unk_14;
-                    elem->unk_10 = 96;
+                    elem_flags = elem->flags;
+                    elem->tpage_abr = 96;
                     elem->unk_28 = child_arg;
-                    elem->unk_14 = elem_flags | 0xC;
+                    elem->flags = elem_flags | 0xC;
 
-                    elem->unk_12 = *(s16 *)&part_b->clut - 128;
-                    elem->unk_0C = ((u32)(0x00C0C0C0));
-                    ((S_8014C86C_9 *)(base->unk_A4))->unk_10 = process_effect_block_entries;
+                    elem->clut = *(s16 *)&part_b->clut - 128;
+                    elem->color.word = ((u32)(0x00C0C0C0));
+                    ((ObjectNodeHeader *)base->unk_A4)->unk_10 = process_effect_block_entries;
 
                     select_sprite_entry(elem, 39, 0);
                     elem_offset += 48;

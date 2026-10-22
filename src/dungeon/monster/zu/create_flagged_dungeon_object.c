@@ -1,15 +1,11 @@
 #include "common.h"
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80FA5000_0 {
-    u8 pad_00[0x8];
-    void ** unk_08;
-    void ** unk_0C;
-    void * unk_10;
-} S_80FA5000_0;   /* obj in create_flagged_dungeon_object */
+
 
 typedef struct S_80FA5000_1 {
     u8 pad_00[0x13];
@@ -18,11 +14,6 @@ typedef struct S_80FA5000_1 {
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_80FA5000_1;   /* work in create_flagged_dungeon_object */
-
-typedef struct S_80FA5000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80FA5000_2;   /* part_a in create_flagged_dungeon_object */
 
 typedef struct S_80FA5000_4 {
     u8 pad_00[0x8C];
@@ -59,8 +50,8 @@ void *create_flagged_dungeon_object(s16 mask, s16 value_24, s16 value_25, s16 va
 {
     s32 kind;
     void *work = 0;
-    void *obj;
-    void *part_a;
+    ObjectNodeHeader *obj;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80FA5000_4 *actor;
     s32 left;
@@ -75,13 +66,13 @@ void *create_flagged_dungeon_object(s16 mask, s16 value_24, s16 value_25, s16 va
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80FA5000_0 *)obj)->unk_10 = D_80152A70;
+        obj->unk_10 = D_80152A70;
         ((S_80FA5000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_80FA5000_0 *)obj)->unk_08;
-        ((S_80FA5000_2 *)part_a)->unk_0A = saved_arg3;
-        part_b = ((S_80FA5000_0 *)obj)->unk_0C;
+        part_a = *(void ** *)&obj->position;
+        part_a->z.w.i = saved_arg3;
+        part_b = *(void ** *)&obj->sprite;
         kind = mask & 3;
         part_b->unk_25 = saved_arg2;
         actor = work;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -12,13 +13,6 @@ typedef struct S_80173D4C_0 {
     u8 unk_9B;
 } S_80173D4C_0;   /* arg0 in advance_actor_action_and_direction */
 
-typedef struct S_80173D4C_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_80173D4C_1;   /* arg2 in advance_actor_action_and_direction */
-
 typedef struct S_80173D4C_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -31,7 +25,6 @@ typedef struct S_80173D4C_2 {
     u8 pad_66[0x7];
     s8 unk_6D;
 } S_80173D4C_2;   /* arg3 in advance_actor_action_and_direction */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -48,12 +41,12 @@ extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void update_timed_effect_size_and_position(void *, void *, void *, void *);
 
-extern s32 D_80171728;
-extern u8 D_80174E4C[];
+#include "dungeon/monster/saber.h"
+
 extern u8 D_80174E54[];
 
 /* Advances the actor_in action state and updates its directional animation. */
-void advance_actor_action_and_direction(void *action, void *context, void *sprite_in, void *actor_in)
+void advance_actor_action_and_direction(void *action, void *context, SpriteFrameState *sprite_in, void *actor_in)
 {
     s32 state;
     void *actor_to_check;
@@ -63,12 +56,12 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
     state = ((S_80173D4C_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((S_80173D4C_1 *)sprite_in)->unk_14 & 0xE000)) {
+        if (!(sprite_in->flags & 0xE000)) {
             return;
         }
-        (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174E4C;
+        (sprite_in->frameTable) = saber_direction_frames_2;
         select_sprite_entry(sprite_in,
-            D_80174E4C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+            saber_direction_frames_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
         {
             DungeonGlobalStatus *counter_base;
@@ -123,7 +116,7 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
             update_actor_status_and_mp(actor_in);
             on_actor_status_updated(actor_in);
             if ((get_entity_effect_value(actor_in, 1) << 16) != 0) {
-                s8 coordinate = ((S_80173D4C_1 *)sprite_in)->unk_26;
+                s8 coordinate = *(s8 *)&sprite_in->unk_26;
                 TileObject *origin = &reference_tile_object;
                 s32 probe_result;
 
@@ -149,12 +142,12 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
                 return;
             }
 
-            (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174E54;
+            (sprite_in->frameTable) = D_80174E54;
             select_sprite_entry(sprite_in,
                 D_80174E54[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            if (((S_80173D4C_1 *)sprite_in)->unk_14 & 0x8000) {
-                ((S_80173D4C_0 *)action)->unk_8C = &D_80171728;
+            if (sprite_in->flags & 0x8000) {
+                ((S_80173D4C_0 *)action)->unk_8C = &saber_behavior_entry;
                 return;
             }
             g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -162,12 +155,12 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
             ((S_80173D4C_0 *)action)->unk_9B++;
             return;
         }
-        (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174E54;
+        (sprite_in->frameTable) = D_80174E54;
         select_sprite_entry(sprite_in,
             D_80174E54[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173D4C_2 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
-        if (((S_80173D4C_1 *)sprite_in)->unk_14 & 0x8000) {
-            ((S_80173D4C_0 *)action)->unk_8C = &D_80171728;
+        if (sprite_in->flags & 0x8000) {
+            ((S_80173D4C_0 *)action)->unk_8C = &saber_behavior_entry;
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -176,12 +169,12 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
         return;
 
     case 2:
-        if (!(((S_80173D4C_1 *)sprite_in)->unk_14 & 0xE000)) {
+        if (!(sprite_in->flags & 0xE000)) {
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
 
-        ((S_80173D4C_0 *)action)->unk_8C = &D_80171728;
+        ((S_80173D4C_0 *)action)->unk_8C = &saber_behavior_entry;
 
         return;
     }

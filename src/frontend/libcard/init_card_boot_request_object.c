@@ -42,7 +42,7 @@ Node8002BB08 *init_card_boot_request_object(s32 request, s32 mode) {
         bzero(node_data, 0x44);
     }
     runtime_dispatch_state.flags0F |= 0x80;
-    func_80027A68(node_data, request, mode);
+    card_boot_init_channel_record(node_data, request, mode);
     node->field_10 = &D_80027A9C[0];
     return node;
 }

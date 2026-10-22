@@ -1,7 +1,9 @@
+#include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/update_entity_callbacks_directional_animation_movement_ground_contact.h"
+#include "engine/entity.h"
 
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
-void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, void *part)
+void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, SpriteFrameState *part)
 {
     void *entity = actor;
     s16 state_direction;
@@ -76,39 +78,39 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
             wobble = -wobble;
         }
         wobble_base += wobble;
-        ((T_80170AA4_S_80170AA4_0 *)part)->unk_12 = wobble_base;
+        part->clut = wobble_base;
     } else if (((*(s32 *)((u8 *)actor + 0x14)) & 7) != (*(s16 *)((u8 *)actor + 0xAA))) {
         update_owner_class_bits(actor);
         (*(s16 *)((u8 *)actor + 0xAA)) = (*(u16 *)((u8 *)actor + 0x14)) & 7;
     }
 
-    part_flags = ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n;
+    part_flags = part->flags;
     if (!(part_flags & 0x8000)) {
         view_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((T_80170AA4_S_80170AA4_1 *)entity)->unk_2A + 0x100;
         state_direction = (view_angle >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)actor + 0x94));
         direction_index = (u16)state_direction;
         if (previous_direction != state_direction) {
-            if (((T_80170AA4_S_80170AA4_0 *)part)->unk_2C != 0) {
+            if (*(u8 **)&part->frameTable != 0) {
                 select_indirect_table_entry(part,
-                              ((T_80170AA4_S_80170AA4_0 *)part)->unk_2C[state_direction],
-                              ((T_80170AA4_S_80170AA4_0 *)part)->unk_04);
+                              (*(u8 **)&part->frameTable)[state_direction],
+                              part->unk_04);
             }
             (*(s16 *)((u8 *)actor + 0x94)) = state_direction;
         }
 
         direction_flag = dir_sprite_flag[direction_index];
         if (direction_flag != 0) {
-            ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n |= 1;
+            part->flags |= 1;
         } else {
-            ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n &= 0xFFFE;
+            part->flags &= 0xFFFE;
         }
         if (!(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C & 0x20)) {
-            if (!(((T_80170AA4_S_80170AA4_0 *)part)->unk_14.v & 0x40)) {
+            if (!(part->flags & 0x40)) {
                 advance_sprite_animation_and_textures(part);
             }
         } else {
-            ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.v |= 0x7000;
+            part->flags |= 0x7000;
         }
         apply_monster_koyaw_data(((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C, (u8 *)part + 0xC);
     } else {
@@ -117,7 +119,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
         } else {
             new_part_flags = part_flags | 0x7000;
         }
-        ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n = new_part_flags;
+        part->flags = new_part_flags;
     }
     motion->unk_00.unk_00 += motion->unk_0C;
     motion->unk_04.unk_04 += motion->unk_10;
@@ -155,8 +157,8 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
             if (entity_flags & 0x40000000) {
                 ((T_80170AA4_S_80170AA4_1 *)entity)->unk_1C = entity_flags & 0xBFFFFFFF;
                 ground_height = sample_terrain_surface_height(
-                    (((T_80170AA4_S_80170AA4_0 *)part)->unk_24 << 6) | 0x20,
-                    (((T_80170AA4_S_80170AA4_0 *)part)->unk_25 << 6) | 0x20,
+                    (part->unk_24 << 6) | 0x20,
+                    (part->unk_25 << 6) | 0x20,
                     (s16)(((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - 0x20));
                 (*(s16 *)((u8 *)actor + 0x92)) +=
                     ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 - ground_height;
@@ -171,7 +173,7 @@ void update_entity_callbacks_directional_animation_movement_ground_contact(void 
 
     motion->unk_0A =
         ((T_80170AA4_S_80170AA4_1 *)entity)->unk_88 + (*(u16 *)((u8 *)actor + 0x92));
-    ((T_80170AA4_S_80170AA4_0 *)part)->unk_14.n |= 0x40;
+    part->flags |= 0x40;
 
     return;
 }

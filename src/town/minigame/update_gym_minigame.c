@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/minigame/gym.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/town_handler_entries.h"
 #include "shared/object_node.h"
@@ -7,7 +8,6 @@
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
 
-typedef s32 M2C_UNK;
 
 #ifndef NULL
 #define NULL 0
@@ -27,16 +27,6 @@ typedef struct S_80022F60_1 {
     u8 pad_08[0x8];
     union { s16 s; u16 u; } unk_10;   /* accessed as both */
 } S_80022F60_1;   /* main_state in update_gym_minigame */
-
-typedef struct S_80022F60_2 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80022F60_2;   /* motion in update_gym_minigame */
 
 typedef struct S_80022F60_3 {
     u8 pad_00[0x8];
@@ -92,12 +82,12 @@ extern u8 D_80023B14[];
 extern u8 D_80023F6C[];
 extern u8 D_80023FF8[];
 extern u8 D_80024070[];
-extern s16 D_80026F24[];
+
 extern s16 D_80026F26;
 extern s32 D_80026F2C[];
 extern s32 D_80026F34;
-extern s16 D_800272C8;
-extern s16 D_800272CA;
+
+
 extern s32 D_80053858[4];
 extern s32 display_registration_tag;
 extern u8 scene_object_payload_alias[];
@@ -118,7 +108,7 @@ void update_gym_minigame(u8 *state_obj) {
     s32 state;
     u16 timer;
     s32 two;
-    void *obj;
+    ObjectNodeHeader *obj;
     u8 *sprite;
     s32 *position;
     SpriteFrameState *image;
@@ -129,7 +119,7 @@ void update_gym_minigame(u8 *state_obj) {
     switch (state) {
     case 0:
         if (test_resident_bit(0x524) != 0) {
-            u8 *motion;
+            ObjectPosition *motion;
             s32 angle;
 
             angle = ((S_80022F60_1 *)main_state)->unk_10.s;
@@ -141,9 +131,9 @@ void update_gym_minigame(u8 *state_obj) {
             ((S_80022F60_0 *)state_obj)->unk_06 = 0;
             (*(u16 *)((u8 *)state_obj + 0))++;
             motion = (u8 *)(&view_reference_entity);
-            ((S_80022F60_2 *)motion)->unk_10 = 0;
-            ((S_80022F60_2 *)motion)->unk_0C = 0;
-            ((S_80022F60_2 *)motion)->unk_14 = 0xFFE00000;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
+            motion->velocity_z = 0xFFE00000;
             *(void **)scene_object_payload_alias = D_80097D2C;
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
             ((S_80022F60_0 *)state_obj)->unk_08 = 0;
@@ -154,16 +144,16 @@ void update_gym_minigame(u8 *state_obj) {
         ((S_80022F60_1 *)main_state)->unk_10.u =
             (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
         if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
-            u8 *motion = (u8 *)(&view_reference_entity);
+            ObjectPosition *motion = (u8 *)(&view_reference_entity);
             s32 value;
 
             (*(u16 *)((u8 *)state_obj + 2)) = 8;
-            ((S_80022F60_2 *)motion)->unk_0C =
-                (0x03800000 - ((S_80022F60_2 *)motion)->unk_00) / ((S_80022F60_0 *)state_obj)->unk_02.u;
-            value = (0x03800000 - ((S_80022F60_2 *)motion)->unk_04) /
+            motion->velocity_x =
+                (0x03800000 - motion->x.v) / ((S_80022F60_0 *)state_obj)->unk_02.u;
+            value = (0x03800000 - motion->y.v) /
                 ((S_80022F60_0 *)state_obj)->unk_02.u;
-            ((S_80022F60_2 *)motion)->unk_14 = 0xFFF40000;
-            ((S_80022F60_2 *)motion)->unk_10 = value;
+            motion->velocity_z = 0xFFF40000;
+            motion->velocity_y = value;
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
         }
         break;
@@ -177,10 +167,10 @@ void update_gym_minigame(u8 *state_obj) {
         masked_angle = raw & 0xFFF;
         ((S_80022F60_1 *)main_state)->unk_10.u = masked_angle;
         if (((S_80022F60_0 *)state_obj)->unk_02.u <= 0) {
-            u8 *motion = (u8 *)(&view_reference_entity);
+            ObjectPosition *motion = (u8 *)(&view_reference_entity);
 
-            ((S_80022F60_2 *)motion)->unk_10 = 0;
-            ((S_80022F60_2 *)motion)->unk_0C = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             if (masked_angle == 0) {
                 ((S_80022F60_0 *)state_obj)->unk_00.u++;
             }
@@ -190,7 +180,7 @@ void update_gym_minigame(u8 *state_obj) {
 
     case 3:
     {
-        u8 *motion = (u8 *)(&view_reference_entity);
+        ObjectPosition *motion = (u8 *)(&view_reference_entity);
         u8 *loop_asset;
         s32 *table_base;
         s32 *table_cursor;
@@ -200,27 +190,27 @@ void update_gym_minigame(u8 *state_obj) {
 
         ((S_80022F60_1 *)main_state)->unk_10.u =
             (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
-        if (((S_80022F60_2 *)motion)->unk_0A >= query_lowered_transform_position(motion)) {
+        if (motion->z.w.i >= query_lowered_transform_position(motion)) {
             s32 cur_angle = ((S_80022F60_1 *)main_state)->unk_10.s;
 
-            ((S_80022F60_2 *)motion)->unk_10 = 0;
-            ((S_80022F60_2 *)motion)->unk_0C = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             if ((cur_angle == 0) && (service_script_controller() == 0)) {
                 SD_Call(0x200);
                 one = 1;
                 alloc_page = main_state - 0x20;
-                flag_one = D_800272C8;
+                flag_one = gym_lane;
                 ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
                 flag_one = 1;
-                D_800272C8 = flag_one;
-                ((S_80022F60_2 *)motion)->unk_04 = 0x03800000;
+                gym_lane = flag_one;
+                motion->y.v = 0x03800000;
                 (*(s32 *)((u8 *)motion + 0x10)) = 0;
-                D_800272CA = 0;
+                gym_lane_delay = 0;
                 view_reference_entity.x.v = D_80026F26 << 16;
 
                 obj = allocate_list_node(one, alloc_page);
                 if (obj != NULL) {
-                    ((S_80022F60_3 *)obj)->unk_10 = D_80023F6C;
+                    obj->unk_10 = D_80023F6C;
                     register_node(obj, &display_registration_tag);
                     secondary = (u8 *)obj + 0x20;
                     ((S_80022F60_4 *)secondary)->unk_0C.s = 0xC8;
@@ -245,7 +235,7 @@ loop_0:
 
                         sprite = (u8 *)obj + 0x20;
 
-                        ((S_80022F60_3 *)obj)->unk_10 = loop_asset;
+                        obj->unk_10 = loop_asset;
                         register_node(obj, D_80053858);
                         ((S_80022F60_5 *)sprite)->unk_14 = 0xCC;
                         ((S_80022F60_5 *)sprite)->unk_18 = 3;
@@ -270,16 +260,16 @@ loop_0:
 
                     sprite = (u8 *)obj + 0x20;
 
-                    ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
+                    obj->unk_10 = D_80023B14;
                     register_node(obj, project_sprite_chain);
-                    image = ((S_80022F60_3 *)obj)->unk_0C;
+                    image = *(u8 * *)&obj->sprite;
                     image->scale_y = 0x1000;
                     image->scale_x = 0x1000;
                     image->source = &D_800F9B40;
                     image->unk_04 = 0;
                     image->unk_05 = 0;
                     image->color.word = 0x808080;
-                    position = ((S_80022F60_3 *)obj)->unk_08;
+                    position = *(s32 * *)&obj->position;
                     position[0] = 0x03800000;
                     position[1] = 0x03C00000;
                     position[2] = 0;
@@ -337,9 +327,9 @@ loop_0:
                 u8 *sprite;
 
                 sprite = (u8 *)obj + 0x20;
-                ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
+                obj->unk_10 = D_80023B14;
                 register_node(obj, project_sprite_chain);
-                image = ((S_80022F60_3 *)obj)->unk_0C;
+                image = *(u8 * *)&obj->sprite;
                 image->scale_y = 0x1000;
                 image->scale_x = 0x1000;
                 image->source = &D_800F9B40;
@@ -349,12 +339,12 @@ loop_0:
                 random = rand();
                 ((S_80022F60_5 *)sprite)->unk_54 = random % 3;
                 ((S_80022F60_5 *)sprite)->unk_52 = (rand() & 0x1F) + 0x20;
-                position = ((S_80022F60_3 *)obj)->unk_08;
+                position = *(s32 * *)&obj->position;
                 position[0] = 0x02A00000;
                 position[1] = 0x03800000;
                 position[2] = 0xFFC00000;
                 position[3] =
-                    (((D_80026F24[((S_80022F60_5 *)sprite)->unk_54] +
+                    (((gym_lane_positions[((S_80022F60_5 *)sprite)->unk_54] +
                        ((S_80022F60_5 *)sprite)->unk_54 * 8) << 16) - position[0]) /
                     ((S_80022F60_5 *)sprite)->unk_52;
                 position[5] = 0xFFF40000;
@@ -365,8 +355,8 @@ loop_0:
         if (((S_80022F60_0 *)state_obj)->unk_06 & 1) {
             ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
             apply_global_scene_value(D_800D0138);
-            D_800272CA = 0;
-            D_800272C8 = 1;
+            gym_lane_delay = 0;
+            gym_lane = 1;
             view_reference_entity.velocity_x = 0;
             ((S_80022F60_0 *)state_obj)->unk_02.s = 0x40;
             ((S_80022F60_0 *)state_obj)->unk_00.u++;
@@ -389,9 +379,9 @@ loop_0:
                 s32 *position;
 
                 sprite = (u8 *)obj + 0x20;
-                ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
+                obj->unk_10 = D_80023B14;
                 register_node(obj, project_sprite_chain);
-                image = ((S_80022F60_3 *)obj)->unk_0C;
+                image = *(u8 * *)&obj->sprite;
                 image->scale_y = 0x1000;
                 image->scale_x = 0x1000;
                 image->source = &D_800F9B40;
@@ -400,12 +390,12 @@ loop_0:
                 image->color.word = 0x808080;
                 ((S_80022F60_5 *)sprite)->unk_54 = 1;
                 ((S_80022F60_5 *)sprite)->unk_52 = 0x20;
-                position = ((S_80022F60_3 *)obj)->unk_08;
+                position = *(s32 * *)&obj->position;
                 position[0] = 0x02A00000;
                 position[1] = two;
                 position[2] = 0xFFC00000;
                 position[3] =
-                    (((D_80026F24[((S_80022F60_5 *)sprite)->unk_54] +
+                    (((gym_lane_positions[((S_80022F60_5 *)sprite)->unk_54] +
                        ((S_80022F60_5 *)sprite)->unk_54 * 8) << 16) - position[0]) /
                     ((S_80022F60_5 *)sprite)->unk_52;
                 position[5] = 0xFFF40000;
@@ -416,7 +406,7 @@ loop_0:
 
             obj = allocate_list_node(1, main_state - 0x20);
             if (obj != NULL) {
-                ((S_80022F60_3 *)obj)->unk_10 = D_80023F6C;
+                obj->unk_10 = D_80023F6C;
                 register_node(obj, &display_registration_tag);
                 secondary = (u8 *)obj + 0x20;
                 ((S_80022F60_4 *)secondary)->unk_0C.s = 0x78;
@@ -438,7 +428,7 @@ loop_0:
 
                 sprite = (u8 *)obj + 0x20;
 
-                ((S_80022F60_3 *)obj)->unk_10 = D_80024070;
+                obj->unk_10 = D_80024070;
                 register_node(obj, D_80053858);
                 first = ((S_80022F60_4 *)secondary)->unk_0C.u + 4;
                 ((S_80022F60_5 *)sprite)->unk_14 = first;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -61,7 +62,7 @@ extern void spend_actor_mp(Entity *, s32);
 extern s32 check_actor_floor_trap(Actor *, Entity *);
 
 /* Updates timed movement toward the actor's tile and finishes the action when its countdown expires. */
-void update_timed_tile_approach(State *action, Motion *motion, Actor *actor, Entity *entity)
+void update_timed_tile_approach(State *action, Motion *motion, SpriteFrameState *actor, Entity *entity)
 {
     s32 direction_work[2];
     s32 facing_index;
@@ -71,10 +72,10 @@ void update_timed_tile_approach(State *action, Motion *motion, Actor *actor, Ent
     phase = action->state9B;
     switch (phase) {
     case 0:
-        if ((actor->flags14 & 0x6000) == 0) {
+        if ((actor->flags & 0x6000) == 0) {
             break;
         }
-        *(u32 * )((u8 *)actor + 0x2C) = (u32)D_801753D4;
+        actor->frameTable = (u32)D_801753D4;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(actor, D_801753D4[facing_index & 7], 0);
         action->flags98 |= 8;
@@ -91,13 +92,13 @@ void update_timed_tile_approach(State *action, Motion *motion, Actor *actor, Ent
             s32 x_velocity;
             s32 y_origin;
 
-            target_x = actor->x24 << 6;
+            target_x = actor->unk_24 << 6;
             x_origin = motion->x2 - 0x20;
             x_velocity = ((target_x - x_origin) << 16) /
                          action->timer9E;
             y_origin = motion->y6 - 0x20;
             motion->dxC = x_velocity;
-            motion->dy10 = (((actor->y25 << 6) - y_origin) << 16) /
+            motion->dy10 = (((actor->unk_25 << 6) - y_origin) << 16) /
                          action->timer9E;
             action->velocityA0 = -func_800644B8(action->timer9E * 0x199) << 9;
         }
@@ -118,8 +119,8 @@ void update_timed_tile_approach(State *action, Motion *motion, Actor *actor, Ent
         motion->dz14 = 0;
         motion->dy10 = 0;
         motion->dxC = 0;
-        set_record_integer_tile_center(motion, actor->x24, actor->y25);
-        *(u32 * )((u8 *)actor + 0x2C) = (u32)D_801753DC;
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        actor->frameTable = (u32)D_801753DC;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
         select_sprite_entry(actor, D_801753DC[facing_index & 7], 0);
         action->state9B = 3;
@@ -137,7 +138,7 @@ end_state:
     motion->dz14 = 0;
     motion->dy10 = 0;
     motion->dxC = 0;
-    set_record_integer_tile_center(motion, actor->x24, actor->y25);
+    set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
     spend_actor_mp(entity, 4);
     advance_status_timers(entity);
 
@@ -156,7 +157,7 @@ end_state:
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {
             entity->direction2A = get_rounded_facing_and_rounding_flag(
-                actor->x24, actor->y25, reference_tile_object.tile_position.parts.tile_x,
+                actor->unk_24, actor->unk_25, reference_tile_object.tile_position.parts.tile_x,
                 reference_tile_object.tile_position.parts.tile_y, direction_work);
         }
     }

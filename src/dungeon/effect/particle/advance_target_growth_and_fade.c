@@ -1,5 +1,7 @@
 /* Targeted effect movement, particle spawning, sprite growth, and fading. */
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_18fa800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -74,8 +76,6 @@ typedef struct S_func_818DA800_3 {
     union { s8 as_s8; u8 as_u8; } unk_73;
 } S_func_818DA800_3;
 
-
-
 typedef struct S_func_818DA800_5 {
     u8 pad_00[8];
     void *unk_08;
@@ -84,8 +84,6 @@ typedef struct S_func_818DA800_5 {
     u8 pad_14[0xC];
     void *unk_20;
 } S_func_818DA800_5;
-
-
 
 typedef struct S_func_818DA800_7 {
     void *unk_00;
@@ -132,7 +130,7 @@ typedef struct S_func_818DA800_11 {
 } S_func_818DA800_11;
 
 extern s32 get_definition_entry_byte_13(s16 entry_index);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s16);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s16);
 extern s32 try_trigger_target_record_effect(void *, s32, void *);
 extern void try_apply_effect_four_by_chance(void *, s32, s32);
 
@@ -185,7 +183,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         s16 height;
 
         height = (s16)get_definition_entry_byte_13(0x22);
-        target_actor = scan_monster_along_heading(actor,
+        target_actor = scan_actor_along_heading(actor,
             actor_data->unk_24,
             actor_data->unk_25,
             actor->unk_2A, height);
@@ -239,7 +237,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
         image_base = D_80024538;
         resource_base = D_800DEAE0;
         do {
-            S_func_818DA800_5 *burst_obj;
+            ObjectNodeHeader *burst_obj;
             s32 center_coord;
             s32 corner_coord;
             s32 position_or_z_offset;
@@ -248,8 +246,8 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
             burst_obj = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (burst_obj != 0) {
                 register_node(burst_obj, (s32)project_sprite_chain);
-                prim = burst_obj->unk_0C;
-                position_or_z_offset = (s32)burst_obj->unk_08;
+                prim = burst_obj->sprite;
+                position_or_z_offset = (s32)burst_obj->position;
                 burst_obj->unk_10 = image_base;
                 center_coord = motion->unk_00.half.unk_02.as_s16;
                 child_state = (S_func_818DA800_8 *)((u8 *)burst_obj + 0x20);
@@ -259,7 +257,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
                     corner_coord = center_coord + 16;
                 }
                 ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_00.half.unk_02.as_s16 = corner_coord;
-                position_or_z_offset = (s32)burst_obj->unk_08;
+                position_or_z_offset = (s32)burst_obj->position;
                 center_coord = motion->unk_04.half.unk_06.as_s16;
                 if ((actor_or_corner & 1) == 0) {
                     ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06.as_s16 = center_coord + 16;
@@ -269,7 +267,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
                     prim_color = 0xC00000;
                 }
                 position_or_z_offset = -0x100000;
-                ((S_func_818DA800_2 *)burst_obj->unk_08)->unk_08.as_s32 =
+                ((S_func_818DA800_2 *)burst_obj->position)->unk_08.as_s32 =
                     motion->unk_08.as_s32 + position_or_z_offset;
                 prim->unk_1E = 0xC00;
                 prim->unk_10 = 0x60;
@@ -398,10 +396,9 @@ typedef struct Unk818DAD38Target {
     u16 unk1E;
 } Unk818DAD38Target;
 
-
 /* Advance the target's growth animation, then fade its color and mark completion. */
 void advance_target_growth_and_fade(Unk818DAD38Owner *owner, s32 unused,
-                   Unk818DAD38Target *target) {
+                   SpriteFrameState *target) {
     s16 state;
     u16 next_scale;
     u16 *owner_flags;
@@ -412,33 +409,33 @@ void advance_target_growth_and_fade(Unk818DAD38Owner *owner, s32 unused,
     advance_sprite_animation_and_textures(target);
 
     if (target->flags & 0x6000) {
-        target->unk4 = 0;
-        target->unk5 = 0;
+        target->unk_04 = 0;
+        target->unk_05 = 0;
     }
 
     state = owner->state;
     switch (state) {
     case 0:
-        target->unk1C += 0x200;
-        next_scale = target->unk1E + 0x200;
-        target->unk1E = next_scale;
+        target->scale_x += 0x200;
+        next_scale = target->scale_y + 0x200;
+        target->scale_y = next_scale;
         if (next_scale >= 0x1C00) {
-            target->unk1C = 0xC00;
-            target->unk1E = 0x1800;
+            target->scale_x = 0xC00;
+            target->scale_y = 0x1800;
             owner->unk4A = 0;
-            target->unkC = 0x808080;
+            target->color.word = 0x808080;
         }
         if ((s16)owner->timer <= 0) {
             owner->state++;
         }
         break;
     case 1:
-        if ((u8)target->unkC < 9) {
-            target->unkC = 0;
+        if ((u8)*(u32 *)&target->color.word < 9) {
+            target->color.word = 0;
             ((u16 *)owner)[-1] |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         } else {
-            target->unkC += 0xFFEFEFF0;
+            *(u32 *)&target->color.word += 0xFFEFEFF0;
         }
         break;
     }
@@ -449,8 +446,6 @@ void advance_target_growth_and_fade(Unk818DAD38Owner *owner, s32 unused,
 #include "modules/dungeon_ovl_18fa800.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
-
 
 typedef struct S_818DAE84_0 {
     void * unk_00;
@@ -463,9 +458,6 @@ typedef struct S_818DAE84_1 {
     u8 pad_00[0x52];
     u16 unk_52;
 } S_818DAE84_1;   /* inner in create_coordinate_sprite_object */
-
-
-
 
 /* Updates progress from a countdown and sets completion flags when it expires. */
 void create_coordinate_sprite_object(void *state) {

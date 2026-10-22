@@ -1,4 +1,7 @@
+
+struct ObjectNodeHeader;
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -20,25 +23,9 @@ typedef struct S_800D24A8_0 {
     s8 unk_9C;
 } S_800D24A8_0;
 
-typedef struct S_800D24A8_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800D24A8_1;
-
-typedef struct S_800D24A8_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800D24A8_2;
-
 void *allocate_list_node();            /* extern */
 s32 register_node();           /* extern */
-void clear_entry_flag_and_link_owner();                      /* extern */
+void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
 void cycle_map_cell_flags();             /* extern */
 s8 find_active_rect_containing_point();                           /* extern */
 void set_record_integer_tile_center();              /* extern */
@@ -52,8 +39,8 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
     s32 tile_flags;
     s16 saved_kind;
     SpriteFrameState *sprite;
-    S_800D24A8_2 *position;
-    void *object;
+    ObjectPosition *position;
+    ObjectNodeHeader *object;
     S_800D24A8_0 *state;
     u8 saved_tile_x;
     s16 saved_height;
@@ -69,7 +56,7 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
     saved_tile_y = tile_y;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        state = object + 0x20;
+        state = ((void *)object) + 0x20;
         state->unk_13 = 0x34;
         kind = (s16) saved_kind;
         if (kind == 1) {
@@ -77,9 +64,9 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
             state->unk_1C = (s32) (state->unk_1C | 0x2000);
         }
         register_node(object, project_sprite_chain);
-        position = ((S_800D24A8_1 *)object)->unk_08;
-        position->unk_0A = saved_height;
-        sprite = ((S_800D24A8_1 *)object)->unk_0C;
+        position = object->position;
+        position->z.w.i = saved_height;
+        sprite = object->sprite;
         sprite->source = &D_800E221C;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
@@ -88,11 +75,11 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
         sprite->scale_x = 0x1400;
         sprite->unk_24 = saved_tile_x;
         sprite->unk_25 = saved_tile_y;
-        ((S_800D24A8_1 *)object)->unk_10 = &update_actor_gravity;
+        object->unk_10 = &update_actor_gravity;
         state->unk_8C = &advance_actor_status_turn;
         sprite->unk_26 = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
         set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
-        state->unk_88 = sample_terrain_surface_height(position->unk_02, position->unk_06, position->unk_0A);
+        state->unk_88 = sample_terrain_surface_height(*(u16 *)&position->x.w.i, *(u16 *)&position->y.w.i, position->z.w.i);
         sprite->color.word = 0x2C808080;
         sprite->flags = (u16) (sprite->flags | 0x8000);
         clear_entry_flag_and_link_owner(object);

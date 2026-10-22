@@ -1,14 +1,17 @@
+
+struct ObjectPosition;
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player.h"
 
 extern u8  D_800DD0F8[];
 extern s8  D_80080AA0;
 extern s8  scene_music_hold;
 
-extern void select_nearby_target_and_initialize_slot();
+extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 extern void set_sprite_animation_frame();
 extern void play_sound_if_enabled();
 extern void raise_entity_level();

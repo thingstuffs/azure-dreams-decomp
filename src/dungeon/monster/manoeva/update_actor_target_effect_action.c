@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "records/Rec_func_80173D78_arg0.h"
+#include "dungeon/monster/manoeva.h"
 
 
 
@@ -79,7 +80,6 @@ void display_text_with_fullwidth_adjustment();
 s16 find_floor_item_at_world_position();
 void update_actor_status_and_mp();
 void retire_tracked_effect_by_id();
-void spawn_offset_motion_object();
 void *spawn_manoeva_from_record();
 
 /* Updates target selection, effect creation, and the sprite fade-out sequence. */

@@ -6,6 +6,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/dungeon_status.h"
+#include "engine/cd.h"
 extern int abs(int);
 
 typedef struct S_800C0E88_1 {
@@ -45,7 +46,6 @@ typedef struct S_800C0E88_4 {
 } S_800C0E88_4;   /* tail_status in use_magic_ball */
 
 
-extern s32 get_cd_command_queue_depth(void);
 extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
 extern s32 process_record_and_update_linked_state();
 extern void clear_slot_and_update_linked_state();
@@ -55,7 +55,7 @@ extern void clear_byte_and_advance();
 extern s32 copy_selected_text_without_terminator();
 extern s32 append_entity_display_text();
 extern void display_formatted_context_message();
-extern void *scan_monster_along_heading();
+extern void *scan_actor_along_heading();
 extern void display_text_with_fullwidth_adjustment();
 extern s32 find_slot_by_item_group();
 extern void place_actor_item();
@@ -184,7 +184,7 @@ scan_next:
 
         object_record = ((S_800C0E88_2_pre *)object)[-1].unk_00;
         object = (u8 *)((u32)object & 0xDFFFFFFF);
-        ((S_800C0E88_2 *)object)->unk_60 = scan_monster_along_heading(
+        ((S_800C0E88_2 *)object)->unk_60 = scan_actor_along_heading(
             object, object_record[0x24], object_record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
 
         ((S_800C0E88_2 *)object)->unk_72 = abs(((S_800C0E88_2 *)object)->unk_72);

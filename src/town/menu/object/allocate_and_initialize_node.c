@@ -11,7 +11,6 @@ typedef struct S_80126890_0 {
     void * unk_20;
 } S_80126890_0;   /* node in allocate_and_initialize_node_2 */
 
-
 extern void register_node(void *, void *);
 extern void release_null_terminated_entries(void *);
 extern void SD_Call(s32);
@@ -25,7 +24,7 @@ extern s32 D_80126704;
 
 /* Allocates and initializes a node for the supplied data, returning null on failure. */
 static void *allocate_and_initialize_node_2(void *data) {
-    void *node;
+    ObjectNodeHeader *node;
     void *payload;
 
     node = allocate_flagged_object_node(0);
@@ -35,14 +34,14 @@ static void *allocate_and_initialize_node_2(void *data) {
         if (initialize_catalog_display_nodes(payload) != 0) {
             animation_tick_scale = 1;
             initialize_catalog_glyph_cache();
-            ((S_80126890_0 *)node)->unk_0C = (u8 *)node + 0x68;
+            node->sprite = (u8 *)node + 0x68;
             initialize_catalog_state(payload);
             register_node(node, &dungeon_menu_tag);
-            ((S_80126890_0 *)node)->unk_10 = &D_80126704;
+            node->unk_10 = &D_80126704;
             SD_Call(0x701);
         } else {
             release_null_terminated_entries((u8 *)node + 0x7C);
-            ((S_80126890_0 *)node)->unk_1E |= 0x8000;
+            node->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             node = 0;
         }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
@@ -6,7 +7,7 @@ extern u8 *beldo_actor_nodes[3];
 
 /* Return the direction from the reference position to the node position. */
 s32 get_script_actor_player_octant(void) {
-    s16 *node_pos = *(s16 **)(beldo_actor_nodes[0] + 8);
+    s16 *node_pos = *(s16 * *)&((ObjectNodeHeader *)beldo_actor_nodes[0])->position;
     s16 ref_x = view_reference_entity.x.w.i;
     s16 node_x = node_pos[1];
 

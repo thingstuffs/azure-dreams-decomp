@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_index_slots.h"
 #include "shared/slus_callbacks.h"
@@ -11,12 +12,6 @@
 #endif
 
    /* entry in fukidasi_set */
-
-typedef struct S_800A75E4_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_800A75E4_1;   /* object in fukidasi_set */
 
    /* part_data in fukidasi_set */
 
@@ -51,7 +46,7 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     void *entry_data;
     void *object_template;
     ObjectPayloadView *entry;
-    void *object;
+    ObjectNodeHeader *object;
     u8 *body;
     TrailHeightView *part;
     s32 *value_slot;
@@ -71,8 +66,8 @@ void fukidasi_set(s32 entry_index, s32 part_index, s32 body_index, s32 body_valu
     object = create_town_effect_object(entry_or_body, entry_data, object_template, 0);
     if (object != NULL) {
         body = (u8 *)object + 0x20;
-        part = ((S_800A75E4_1 *)object)->unk_08;
-        part_data = ((S_800A75E4_1 *)object)->unk_0C;
+        part = object->position;
+        part_data = object->sprite;
         part_data->source = D_800D0E24[part_index];
         register_node_if_unregistered(body, project_sprite_chain);
         part->unk_0A = part->unk_0A - 0x62;

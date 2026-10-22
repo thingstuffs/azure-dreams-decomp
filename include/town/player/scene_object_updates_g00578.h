@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A8BC8, CL:town/func_800A9234, CL:town/func_800A9334, CL:town/func_800A9410, PD:town/engine:800D0C78, PD:town/engine:800D0D54, PD:town/engine:80100E24, PD:town/engine:80100E28. */
 
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "script_symbols.h"
 #include "shared/object_node.h"
 #include "shared/entity.h"
@@ -100,7 +101,7 @@ extern void *D_80100E28[1];
 
 /* Functions defined in this translation unit. */
 void initialize_enabled_scene_object(void);
-void update_entity_sprite_and_effects(void *entity, EntityRec *position, S_800A6684_0 *sprite);
+void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteFrameState *sprite);
 void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, s32 callback_arg);
 void update_actor_position_and_heading(void *actor, s32 update_context, void *position, s32 setup_context);
 

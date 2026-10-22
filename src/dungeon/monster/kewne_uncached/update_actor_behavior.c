@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -22,7 +23,7 @@ extern u8 D_80175C78[];
 extern u8 resident_globals_page[];
 
 /* Updates action movement and directional animation through three states. */
-void update_actor_behavior_2(void *action, void *motion, void *object, void *actor)
+void update_actor_behavior_2(void *action, void *motion, SpriteFrameState *object, void *actor)
 {
     s32 delta_x;
     s32 delta_y;
@@ -40,9 +41,9 @@ void update_actor_behavior_2(void *action, void *motion, void *object, void *act
     {
         u8 *facing_ptr;
 
-        flags = U16(object, 0x14);
+        flags = object->flags;
         if (flags & 0x8000) {
-            U16(object, 0x14) = flags | 0x6000;
+            object->flags = flags | 0x6000;
             U8(action, 0x9B) = 2;
             resolve_attack_damage_and_effects(actor, object, S16(actor, 0x2A), 1);
             return;
@@ -103,8 +104,8 @@ void update_actor_behavior_2(void *action, void *motion, void *object, void *act
                 S32(motion, 0xC) = 0;
             }
         }
-        object_type = S8(object, 4);
-        if (object_type == 5 && (U16(object, 0x14) & 0x9000)) {
+        object_type = object->unk_04;
+        if (object_type == 5 && (object->flags & 0x9000)) {
             resolve_attack_damage_and_effects(actor, object, S16(actor, 0x2A), 1);
             anim_table = 0x80170000;
         } else {
@@ -113,7 +114,7 @@ void update_actor_behavior_2(void *action, void *motion, void *object, void *act
         {
             u8 *facing_ptr;
 
-            if ((U16(object, 0x14) & 0x6000) == 0) {
+            if ((object->flags & 0x6000) == 0) {
                 return;
             }
             anim_table += 0x5CA8;
@@ -127,7 +128,7 @@ void update_actor_behavior_2(void *action, void *motion, void *object, void *act
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;
-        set_record_integer_tile_center(motion, U8(object, 0x24), U8(object, 0x25));
+        set_record_integer_tile_center(motion, object->unk_24, object->unk_25);
         U8(action, 0x9B)++;
         return;
     }
@@ -136,7 +137,7 @@ void update_actor_behavior_2(void *action, void *motion, void *object, void *act
     {
         void *actor_arg;
 
-        if ((U16(object, 0x14) & 0xE000) == 0) {
+        if ((object->flags & 0xE000) == 0) {
             return;
         }
         spend_actor_mp(actor, 0x100);

@@ -30,7 +30,7 @@ extern u8 D_800241D4[9];
 /* Allocate and initialize a node with the supplied value and 24 bytes of data. */
 void *create_motion_copy_sprite(s32 node_value, void *initial_data)
 {
-    void *node;
+    ObjectNodeHeader *node;
     S_818C2E40_1 *fields;
     SpriteFrameState *display;
     void *node_data;
@@ -38,7 +38,7 @@ void *create_motion_copy_sprite(s32 node_value, void *initial_data)
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
 
-        ((S_818C2E40_0 *)node)->unk_10 = D_800240C0;
+        node->unk_10 = D_800240C0;
         register_node(node, D_800241D4);
         fields = (u8 *)node + 0x20;
         ((S_818C2E40_0 *)node)->unk_20 = node_value;
@@ -47,11 +47,11 @@ void *create_motion_copy_sprite(s32 node_value, void *initial_data)
         fields->unk_08 = 0x7DCF;
         fields->unk_0A = 0;
 
-        display = ((S_818C2E40_0 *)node)->unk_0C;
+        display = node->sprite;
         display->scale_y = 0x1000;
         display->scale_x = 0x1000;
 
-        node_data = ((S_818C2E40_0 *)node)->unk_08;
+        node_data = node->position;
         *(Copy24 *)node_data = *(Copy24 *)initial_data;
         return node;
     }

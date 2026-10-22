@@ -3,6 +3,7 @@
 /* Imported data declarations for this image; maintained by tools/headers. */
 
 #include "common.h"
+#include "frontend/card/server_text.h"
 #include "m2c_compat.h"
 
 
@@ -38,8 +39,8 @@ extern u8 D_80028020[ ];
 extern u8 D_80028068[ ];
 extern s32 D_8002806C[ ];
 extern s32 D_80028074[ ];
-extern M2C_UNK D_8002807C;
-extern M2C_UNK D_80028084;
+extern s32 D_8002807C[2];
+extern s32 D_80028084[2];
 extern void *D_8002809C[ ];
 extern s32 D_80028294[ ];
 extern s32 D_800282A0;
@@ -78,22 +79,22 @@ extern M2C_UNK D_8008B270;
 extern s32 D_8008B2B0;
 extern s32 D_8008B2B4;
 extern s32 D_8008B2BC;
-extern M2C_UNK D_8008B2C4;
-extern M2C_UNK D_8008B2D4;
+extern s32 D_8008B2C4[4];
+extern s32 D_8008B2D4[2];
 extern s32 D_8008B2DC;
-extern M2C_UNK D_8008B2E4;
-extern M2C_UNK D_8008B2FC;
+extern s32 D_8008B2E4[3];
+extern s32 D_8008B2FC[27];
 extern u16 D_8008B368[ ];
 extern u16 D_8008B36A[ ];
 extern u16 D_8008B36C[ ];
 extern s32 D_8009E394;
 extern s32 D_8009EB54[ 4 ];
 extern s32 D_8009EB58[ ];
-extern s32 D_8013BB6C;
+
 extern u8 D_80400000[ ];
-extern s32 D_80400004[ ];
-extern s32 D_8040002C[ ];
-extern s32 D_80400044;
+
+
+
 extern u8 D_80400090[ ];
 extern u8 D_8040009C[ ];
 extern u8 D_804000A4[ ];
@@ -101,7 +102,7 @@ extern u8 D_804000B0[ ];
 extern u8 D_804000BC[ ];
 extern u8 D_804000D0[ ];
 extern s32 D_804000F4;
-extern u8 D_804000F8[ ];
+
 extern u8 D_80400138[ ];
 extern u8 D_80400544[ ];
 extern u8 D_80400548[ ];
@@ -215,7 +216,7 @@ extern s32 dev_card_directory_counts[ ];
 extern s32 dev_card_slot_names[ ];
 extern s32 display_registration_tag;
 extern u8 runtime_state_restore_requested;
-extern M2C_UNK save_heading_chain_indices;
+extern u8 save_heading_chain_indices[];
 extern u8 settings_palette_rect;
 
 #endif

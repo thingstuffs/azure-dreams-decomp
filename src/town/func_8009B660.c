@@ -7,7 +7,7 @@
 #include "town/player/object/entity_record_fields.h"
 extern s32 D_80098244;
 
-void func_80098DC0(Rec_func_80094268_arg0 *record, s32 setup_value, s32 init_context) {
+void init_record_target_approach(Rec_func_80094268_arg0 *record, s32 setup_value, s32 init_context) {
     clear_entity_record_fields((struct EntityRec *)(setup_value));
     call_the_handler_selects_nonzero_entry(D_800D0090, record, (void *)(init_context));
     record->unk_04.as_pm = &D_80098244;

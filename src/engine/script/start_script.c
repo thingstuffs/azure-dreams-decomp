@@ -5,7 +5,7 @@
 #include "engine/object.h"
 #include "engine/script.h"
 
-extern M2C_UNK runtime_script_state;
+extern Rec_D_80082A38 runtime_script_state;
 
 /* Start a script in the global runtime with mode 1. */
 void start_script(s32 script_addr) {

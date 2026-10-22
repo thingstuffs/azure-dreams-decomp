@@ -7,22 +7,17 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
+#include "dungeon/player.h"
 
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
-extern void begin_wake_nearby_monsters(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr);
 extern s32 collect_ground_item(void *, void *, void *, void *);
 extern void set_record_integer_tile_center(void *, u8, u8);
 
 extern u8 D_800DD050[];
 
-typedef struct S_8008DBE8_5 {
-    u8 pad_00[0x4];
-    s16 unk_04;
-} S_8008DBE8_5;   /* late_status in advance_normal_tile_center_motion */
-
 /* Move toward the target tile, update the animation, and finish when the timer expires. */
 void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, void *sprite, EntityRec *facing) {
-    void *late_status;
+    DungeonGlobalStatus *late_status;
     u32 status_page;
     s32 frames_left;
     s32 x_velocity;
@@ -62,7 +57,7 @@ void advance_normal_tile_center_motion(void *entity, ObjectPosition *motion, voi
 continue_update:
     flags = ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2;
     if (!(flags & 0x10)) {
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_800DD050) {
+        if (*(u8 **)&((SpriteFrameState *)sprite)->frameTable != D_800DD050) {
             ((Rec_func_8008ACDC_arg0 *)entity)->unk_A2 = flags | 1;
             ((SpriteFrameState *)sprite)->frameTable = D_800DD050;
             set_sprite_animation_frame(
@@ -75,13 +70,13 @@ continue_update:
 
     status_page = (u32)&g_dungeon_status.turn_scale;
     late_status = (void *)status_page;
-    timer = ((S_8008DBE8_5 *)late_status)->unk_04 - 1;
-    ((S_8008DBE8_5 *)late_status)->unk_04 = timer;
+    timer = late_status->movement_frames_left - 1;
+    late_status->movement_frames_left = timer;
     if (timer > 0) {
         return;
     }
 
-    ((S_8008DBE8_5 *)late_status)->unk_04 = 0;
+    late_status->movement_frames_left = 0;
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;

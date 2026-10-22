@@ -5,13 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_80174BC8_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80174BC8_0;   /* obj in create_offset_actor_object */
-
    /* dst in create_offset_actor_object */
 
 typedef struct {
@@ -28,7 +21,7 @@ extern u8 D_80174A00[9];
 s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *source_state)
 {
     u16 offsets[3];
-    S_80174BC8_0 *object;
+    ObjectNodeHeader *object;
     MovingPosition *object_data;
     SpriteFrameState *primitive;
 
@@ -37,7 +30,7 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
         object->unk_10 = D_80174A00;
         register_node(object, project_sprite_chain);
 
-        primitive = object->unk_0C;
+        primitive = object->sprite;
         primitive->unk_28 = source_state->unk_28.at00_s32.v;
         primitive->color.c.b = 0x80;
         primitive->color.c.g = 0x80;
@@ -49,7 +42,7 @@ s32 create_offset_actor_object(void *unused, void *source_data, Rec_D_80082E80 *
         primitive->tpage_abr |= 0x20;
         select_sprite_entry(primitive, 0x37, 0);
 
-        object_data = object->unk_08;
+        object_data = object->position;
         *(Block24 *)object_data = *(Block24 *)source_data;
 
         offsets[2] = 0;

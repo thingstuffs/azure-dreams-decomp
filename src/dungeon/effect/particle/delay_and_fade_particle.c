@@ -1,11 +1,13 @@
 /* Ground-following attack particles, delayed fades, and target impact bursts. */
 #include "modules/dungeon_ovl_1870800.h"
+#include "shared/entity.h"
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
 
 
 extern int abs(int);
@@ -13,7 +15,6 @@ extern int abs(int);
 extern void *allocate_list_node(s32, void *);
 extern s32 func_80069EF8(void);
 extern void apply_attack_power_and_element_effects();
-extern s32 check_enabled_neighbor_height();
 extern s32 play_sound_if_enabled(s32);
 extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 
@@ -543,7 +544,7 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
 {
     ParticleEffect *p = effect;
     ParticleMotion *motion = position;
-    ParticlePrimitive *sprite = primitive;
+    SpriteFrameState *sprite= primitive;
 
     p->owner->flags |= 0x8000;
     switch (p->state) {
@@ -556,8 +557,8 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
     case 1:
         advance_sprite_animation_and_textures(sprite);
         if (sprite->flags & 0x6000) {
-            sprite->frame_x = 0;
-            sprite->frame_y = 0;
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
         }
         motion->x += motion->vx;
         motion->y += motion->vy;
@@ -566,8 +567,8 @@ void delay_and_fade_particle(void *effect, void *position, void *primitive)
             motion->vz += 0x8000 + (func_80069EF8() & 0xFFF);
         }
         if (--p->lifetime <= 0) {
-            if (sprite->red >= p->fade_step) {
-                sprite->red = sprite->green = sprite->blue -= p->fade_step;
+            if (sprite->color.c.r >= p->fade_step) {
+                sprite->color.c.r = sprite->color.c.g = sprite->color.c.b -= p->fade_step;
             } else {
                 ((ObjectNodeHeader *)p - 1)->flags |= 0x8000; /* header precedes the record */
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;

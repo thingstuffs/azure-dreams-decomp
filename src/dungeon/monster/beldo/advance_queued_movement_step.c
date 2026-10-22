@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
 
 extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
@@ -9,7 +9,6 @@ extern s32 update_map_cell_flags_with_item_limit();
 extern s16 get_rounded_facing_and_rounding_flag();
 
 extern u8 D_80173E8C[8];
-
 
 typedef struct S_801719C0_0 {
     u8 pad_00[0x1C];
@@ -22,16 +21,6 @@ typedef struct S_801719C0_0 {
     u16 unk_88;
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_801719C0_0;   /* arg3 in advance_queued_movement_step */
-
-typedef struct S_801719C0_1 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0x1E];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_801719C0_1;   /* arg2 in advance_queued_movement_step */
 
 typedef struct S_801719C0_2 {
     u8 pad_00[0x8C];
@@ -63,7 +52,7 @@ typedef struct S_801719C0_4 {
 } S_801719C0_4;   /* (u8 *)arg3 + ((S_801719C0_0 *)arg3)->unk_8A.s in advance_queued_movement_step */
 
 /* Advances a queued movement step and updates position, direction, and timing. */
-void advance_queued_movement_step(void *motion, s32 unused, void *sprite, void *path)
+void advance_queued_movement_step(void *motion, s32 unused, SpriteFrameState *sprite, void *path)
 {
     s32 tile_mask;
     s32 step_count;
@@ -78,45 +67,45 @@ void advance_queued_movement_step(void *motion, s32 unused, void *sprite, void *
         return;
     }
 
-    if (((S_801719C0_1 *)sprite)->unk_2C != D_80173E8C) {
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80173E8C;
+    if (*(u8 **)&sprite->frameTable != D_80173E8C) {
+        (sprite->frameTable) = D_80173E8C;
         select_sprite_entry(
             sprite,
             D_80173E8C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719C0_0 *)path)->unk_2A + 0x100) >> 9) & 7],
             0);
-        ((S_801719C0_1 *)sprite)->unk_05 = 1;
+        sprite->unk_05 = 1;
         ((S_801719C0_2 *)motion)->unk_A2 = 0;
         ((S_801719C0_2 *)motion)->unk_9E = 0;
     }
 
     step = (u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s;
-    if (((S_801719C0_1 *)sprite)->unk_24 == ((S_801719C0_3 *)step)->unk_74 &&
-        ((S_801719C0_1 *)sprite)->unk_25 == ((S_801719C0_3 *)step)->unk_7C) {
+    if (sprite->unk_24 == ((S_801719C0_3 *)step)->unk_74 &&
+        sprite->unk_25 == ((S_801719C0_3 *)step)->unk_7C) {
         u16 remaining_offset = ((S_801719C0_0 *)path)->unk_88;
         ((S_801719C0_2 *)motion)->unk_92 += 0x20;
         ((S_801719C0_0 *)path)->unk_88 = remaining_offset - 0x20;
         ((S_801719C0_0 *)path)->unk_8A.u++;
     } else {
-        old_x = ((S_801719C0_1 *)sprite)->unk_24;
-        old_y = ((S_801719C0_1 *)sprite)->unk_25;
+        old_x = sprite->unk_24;
+        old_y = sprite->unk_25;
         tile_mask = 0x3000;
         if (((S_801719C0_0 *)path)->unk_1C & 0x2000) {
             tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-        ((S_801719C0_1 *)sprite)->unk_24 =
+        sprite->unk_24 =
             ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_74;
-        ((S_801719C0_1 *)sprite)->unk_25 =
+        sprite->unk_25 =
             ((S_801719C0_4 *)((u8 *)path + ((S_801719C0_0 *)path)->unk_8A.s))->unk_7C;
         ((S_801719C0_0 *)path)->unk_8A.u++;
 
-        cycle_map_cell_flags(((S_801719C0_1 *)sprite)->unk_24, ((S_801719C0_1 *)sprite)->unk_25,
+        cycle_map_cell_flags(sprite->unk_24, sprite->unk_25,
                       (((S_801719C0_0 *)path)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((S_801719C0_0 *)path)->unk_2A =
-            get_rounded_facing_and_rounding_flag(old_x, old_y, ((S_801719C0_1 *)sprite)->unk_24,
-                          ((S_801719C0_1 *)sprite)->unk_25, (u8 *)motion + 0x98);
+            get_rounded_facing_and_rounding_flag(old_x, old_y, sprite->unk_24,
+                          sprite->unk_25, (u8 *)motion + 0x98);
     }
     ((S_801719C0_2 *)motion)->unk_9A = 0xF;
     ((S_801719C0_2 *)motion)->unk_8C = 0;

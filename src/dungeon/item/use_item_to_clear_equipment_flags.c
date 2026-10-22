@@ -4,6 +4,7 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 extern void clear_slots_of_type(void *, s32);
 extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused_2, s32 mode);
@@ -18,7 +19,6 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
-extern void create_view_color_flash(s32, s16);
 
 extern u8 D_800E1756[];
 extern u8 D_800E176F[];

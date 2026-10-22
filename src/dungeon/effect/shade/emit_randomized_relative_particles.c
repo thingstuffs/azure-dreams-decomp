@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
@@ -12,38 +13,15 @@ typedef struct S_800D5294_5 {
     void * unk_08;
 } S_800D5294_5;
 
-
-
-
 typedef struct S_800D5294_0_pre {
     u16 unk_00;
 } S_800D5294_0_pre;   /* the 0x2 bytes before arg0 in emit_randomized_relative_particles, addressed as arg0[-1] */
-
 
 typedef struct S_800D5294_2 {
     u8 pad_00[0x1E];
     s16 unk_1E;
     s16 unk_20;
 } S_800D5294_2;
-
-typedef struct S_800D5294_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
-} S_800D5294_3;
-
-typedef struct S_800D5294_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800D5294_4;
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 rand();                                /* extern */
@@ -58,9 +36,9 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
     s16 coord;
     s16 particle_size;
     S_800D5294_5 *parent;
-    S_800D5294_4 *particle_motion;
+    ObjectPosition *particle_motion;
     M2C_UNK *particle_data;
-    void *particle;
+    ObjectNodeHeader *particle;
     S_800D5294_2 *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
@@ -80,22 +58,22 @@ void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *p
             particle = allocate_flagged_object_node(0x212);
             if (particle != NULL) {
                 initialize_effect_object_state(particle, emitter, position, spawn_context);
-                particle_state = particle + 0x20;
+                particle_state = ((void *)particle) + 0x20;
                 particle_state->unk_1E = particle_size;
                 particle_state->unk_20 = particle_size;
-                ((S_800D5294_3 *)particle)->unk_10 = particle_data;
-                particle_motion = ((S_800D5294_3 *)particle)->unk_08;
+                particle->unk_10 = particle_data;
+                particle_motion = particle->position;
                 tick_or_offset = rand() & 0x3F;
-                coord = particle_motion->unk_02;
+                coord = particle_motion->x.w.i;
                 coord = coord - 0x1F;
-                particle_motion->unk_02 = coord + tick_or_offset;
+                particle_motion->x.w.i = coord + tick_or_offset;
                 tick_or_offset = rand() & 0x3F;
-                coord = particle_motion->unk_06;
+                coord = particle_motion->y.w.i;
                 coord = coord - 0x1F;
-                particle_motion->unk_06 = coord + tick_or_offset;
+                particle_motion->y.w.i = coord + tick_or_offset;
                 tick_or_offset = rand() & 0x1F;
-                particle_motion->unk_0A = (s16) (particle_motion->unk_0A - tick_or_offset);
-                particle_motion->unk_14 = (s32) ((0 - ((rand() & 0xFFFF) + 0x10000)) * 2);
+                particle_motion->z.w.i = (s16) (particle_motion->z.w.i - tick_or_offset);
+                particle_motion->velocity_z = (s32) ((0 - ((rand() & 0xFFFF) + 0x10000)) * 2);
             }
             particle_index += 1;
         } while (particle_index < 4);

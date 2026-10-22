@@ -9,35 +9,22 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/item.h"
+#include "dungeon/player.h"
+#include "dungeon/player/motion.h"
+#include "dungeon/player/object.h"
 
 extern s32 func_8002534C(void *, void *, void *, void *); /* extern */
 void set_sprite_animation_frame(); /* extern */
-void try_move_carrying_player(); /* extern */
-void select_state_16_directional_animation(); /* extern */
-void begin_player_wait_turn(); /* extern */
-void begin_player_damage_reaction(); /* extern */
 void apply_pending_byte_increase(); /* extern */
 void begin_player_menu_action(); /* extern */
-s32 begin_familiar_command_selection(); /* extern */
-s32 begin_selected_target_level_up();  /* extern */
-void begin_wake_nearby_monsters();                            /* extern */
-void try_begin_put_down_carried_object(); /* extern */
-void begin_throw_carried_object(); /* extern */
-void begin_player_sleep_action(); /* extern */
 s16 resolve_player_input_facing();             /* extern */
 s32 request_familiar_deployment_change(void *, void *, void *, s32, u32); /* extern */
-void set_linked_actor_octant_facing();                    /* extern */
-void set_familiar_formation_offset();                    /* extern */
-void set_linked_actor_code_and_mirror();                    /* extern */
-void set_linked_actor_pending_halfword();                    /* extern */
 s16 dispatch_selected_item_use();                /* extern */
 void resolve_familiar_deployment_request(); /* extern */
-s32 begin_familiar_summoning(); /* extern */
-s32 dispatch_dungeon_category_action();   /* extern */
 void *advance_monster_timed_sequence();                        /* extern */
 s32 read_monster_script_entry();                    /* extern */
-void initialize_monster_script_counter();                            /* extern */
-void *select_monster_data_pointer();                      /* extern */
+void *select_item_record_pointer();                      /* extern */
 s32 can_entity_gain_level();                  /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 has_pending_actor_or_turn_action();                          /* extern */
@@ -266,7 +253,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                     case 0x50:
                         data_50 = ((S_8008EAC8_6 *)record)->unk_00;
                         record = (void *) ((u32) (data_50 & 0x60) >> 5);
-                        looked_up = select_monster_data_pointer(data_50 & 0x1F, facing);
+                        looked_up = select_item_record_pointer(data_50 & 0x1F, facing);
                         if (dispatch_dungeon_category_action(((S_8008EAC8_7 *)(((((u32) record) * 4) + object)))->unk_AC, looked_up, 0x15,
                             0) < 0) {
                             read_monster_script_entry();
@@ -274,7 +261,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                         }
                         return;
                     case 0x68:
-                        looked_up = select_monster_data_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F, facing);
+                        looked_up = select_item_record_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F, facing);
                         slot = ((S_8008EAC8_6 *)record)->unk_00;
                         slot &= 0x60;
                         slot >>= 5;
@@ -307,7 +294,7 @@ void handle_carrying_player_input(void *object, void *aux_entity, void *sprite, 
                         set_familiar_formation_offset((u32) (data_90 & 0x60) >> 5, data_90 & 7);
                         return;
                     case 0x98:
-                        looked_up = select_monster_data_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F, facing);
+                        looked_up = select_item_record_pointer(((S_8008EAC8_6 *)record)->unk_00 & 0x1F, facing);
                         if (((S_8008EAC8_9 *)looked_up)->unk_03 & 0x20) {
                             resolve_familiar_deployment_request(object, aux_entity, sprite, looked_up);
                             return;

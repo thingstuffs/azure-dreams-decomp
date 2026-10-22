@@ -4,19 +4,19 @@
 #include "town/menu/indexed_effect_vectors_g00583.h"
 #include "shared/object_flags.h"
 
-/* Creates an object, selects its data, and initializes its state. */
+#include "shared/object_node.h"/* Creates an object, selects its data, and initializes its state. */
 void create_indexed_effect_object(s32 index, s32 kind) {
     s32 object_id;
     S_800A8184_1 *state;
     SpriteFrameState *data;
-    void *object;
+    ObjectNodeHeader *object;
     s32 saved_kind = kind;
 
     object = create_town_effect_object(0, 0, &D_800A8248, 0);
-    state = object + 0x20;
+    state = ((void *)object )+ 0x20;
     if (object != NULL) {
-        object_id = ((S_800A8184_0 *)object)->unk_08;
-        data = ((S_800A8184_0 *)object)->unk_0C;
+        object_id = *(s32 *)&object->position;
+        data = object->sprite;
         state->unk_4C = index;
         state->unk_4D = saved_kind;
         {

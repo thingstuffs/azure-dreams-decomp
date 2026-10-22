@@ -1,5 +1,7 @@
 /* Moving target effects, tint changes, radial sprite emission, and shaded point rendering. */
 #include "modules/dungeon_ovl_18a0800.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 void (*const dungeon_18a0800_entry)(u8 *,u8 *,u8 *) = follow_brighten;
 #include "modules/dungeon_ovl_18a0800.h"
 #include "shared/entity_height_offsets.h"
@@ -19,9 +21,6 @@ extern u8 D_800257E8[];
 extern void draw_textured_ellipse(void *, s32 *, s32, s32);
 extern s16 set_item_w0(u8, u8, u8, u8);
 extern s32 check_left_tile_and_center_height(s32, s32, s16);
-
-
-
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
 void follow_brighten(u8 *self, u8 *motion, u8 *part)
@@ -208,7 +207,6 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
             }
         }
 
-
         z_delta = F(self, s16, 0x14) << 16;
         z_pos = F(motion, s32, 8);
         z_delta -= z_pos;
@@ -329,11 +327,6 @@ void follow_brighten(u8 *self, u8 *motion, u8 *part)
 #include "common.h"
 #include "shared/object_flags.h"
 
-
-
-
-
-
 typedef struct S_81880F28_0 {
     void * unk_00;
     u8 pad_04[0x6];
@@ -440,7 +433,6 @@ void tint_effect_and_advance_motion(void *effect, void *motion_data) {
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-
 typedef struct S_80024968_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -449,8 +441,6 @@ typedef struct S_80024968_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } S_80024968_0;
-
-
 
    /* arg1 in create_initialized_effect_object */
 
@@ -480,7 +470,6 @@ typedef struct {
     u8 pad[10];
 } Global16;
 
-
 /* Advances counters and conditionally processes the target, propagating its status flag. */
 void advance_sprite_on_alternate_ticks_until_complete(void *record, s32 unused, void *target)
 {
@@ -502,13 +491,6 @@ void advance_sprite_on_alternate_ticks_until_complete(void *record, s32 unused, 
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_80024A98_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80024A98_0;   /* node in create_radial_effect_node */
-
    /* coords in create_radial_effect_node */
 
    /* arg0 in create_radial_effect_node */
@@ -522,17 +504,17 @@ void *create_radial_effect_node(MovingPosition *source_coords)
     s32 effect_index;
     SpriteFrameState *part;
     MovingPosition *coords;
-    S_80024A98_0 *node;
+    ObjectNodeHeader *node;
 
     node = allocate_flagged_object_node(0x202);
     if (node != 0) {
         node->unk_10 = advance_sprite_on_alternate_ticks_until_complete;
         register_node(node, (s32)project_sprite_chain);
-        coords = node->unk_08;
+        coords = node->position;
         coords->unk_02 = source_coords->unk_02;
         coords->unk_06 = source_coords->unk_06;
         coords->unk_0A = source_coords->unk_0A;
-        part = node->unk_0C;
+        part = node->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
         part->color.word = 0x808080;
@@ -553,9 +535,6 @@ void *create_radial_effect_node(MovingPosition *source_coords)
 #include "common.h"
 #include "shared/object_flags.h"
 
-
-
-
 typedef struct S_80024B98_0 {
     u8 pad_00[0xA];
     union { s16 s; u16 u; } unk_0A;   /* accessed as both */
@@ -568,13 +547,6 @@ typedef struct S_80024B98_0 {
     s16 unk_24;
 } S_80024B98_0;   /* arg0 in func_80024B98 */
 
-typedef struct S_80024B98_1 {
-    u8 pad_00[0xC];
-    union { s32 s32; u8 u8; } unk_0C;   /* accessed as both */
-    u8 pad_10[0xE];
-    u16 unk_1E;
-} S_80024B98_1;   /* arg2 in func_80024B98 */
-
 typedef struct S_80024B98_2 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
@@ -583,7 +555,7 @@ typedef struct S_80024B98_2 {
 } S_80024B98_2;   /* arg1 in func_80024B98 */
 
 /* Advance an effect through its delay, motion, brightness changes, and periodic emissions. */
-void func_80024B98(void *effect, void *motion, void *primitive) {
+void func_80024B98(void *effect, void *motion, SpriteFrameState *primitive) {
     s16 state;
     s32 wave_value;
     u16 frame_count;
@@ -605,8 +577,8 @@ void func_80024B98(void *effect, void *motion, void *primitive) {
             ((S_80024B98_0 *)effect)->unk_0A.u = 2;
         }
     } else {
-        ((S_80024B98_1 *)primitive)->unk_0C.s32 += 0xFFFBFBFC;
-        if (((S_80024B98_1 *)primitive)->unk_0C.u8 < 4) {
+        primitive->color.word += 0xFFFBFBFC;
+        if (primitive->color.c.r < 4) {
             D_800257CC[0]--;
             (*(u16 *)((u8 *)effect + (-2))) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -618,10 +590,10 @@ void func_80024B98(void *effect, void *motion, void *primitive) {
     if (((S_80024B98_2 *)motion)->unk_08.at02.v > ((S_80024B98_0 *)effect)->unk_14)
         ((S_80024B98_2 *)motion)->unk_08.at02.v = ((S_80024B98_0 *)effect)->unk_14;
     wave_value = func_800644B8((s16)((S_80024B98_0 *)effect)->unk_1C << 6);
-    ((S_80024B98_1 *)primitive)->unk_0C.s32 += 0x20202;
-    ((S_80024B98_1 *)primitive)->unk_1E -= wave_value >> 5;
-    if (((S_80024B98_1 *)primitive)->unk_0C.u8 >= 0x41)
-        ((S_80024B98_1 *)primitive)->unk_0C.s32 = 0x404040;
+    primitive->color.word += 0x20202;
+    primitive->scale_y -= wave_value >> 5;
+    if (primitive->color.c.r >= 0x41)
+        primitive->color.word = 0x404040;
     advance_sprite_animation_and_textures(primitive);
     if (!(((S_80024B98_0 *)effect)->unk_1C & 0x1F))
         create_effect_render_object(motion, ((S_80024B98_0 *)effect)->unk_14, ((S_80024B98_0 *)effect)->unk_24);
@@ -637,23 +609,7 @@ void func_80024B98(void *effect, void *motion, void *primitive) {
 #define NULL 0
 #endif
 
-typedef struct S_80024D90_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80024D90_0;
-
    /* saved_arg0 in spawn_ring_effects */
-
-typedef struct S_80024D90_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80024D90_2;
 
 typedef struct S_80024D90_4 {
     u8 pad_00[0x14];
@@ -672,8 +628,8 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
     register s32 *callback = func_80024B98;
     register u16 *counter_page = (u16 *)0x80020000;
     register s32 component_offset = -0x400;
-    register void *effect;
-    S_80024D90_2 *position;
+    register ObjectNodeHeader *effect;
+    ObjectPosition *position;
     register s32 angle;
     s32 value;
     register SpriteFrameState *component;
@@ -681,17 +637,17 @@ void *spawn_ring_effects(void *source_pos, s16 effect_param) {
     do {
         effect = allocate_flagged_object_node(0x202);
         if (effect != NULL) {
-            ((S_80024D90_0 *)effect)->unk_10 = callback;
+            effect->unk_10 = callback;
             register_node(effect, (s32)draw_linked_sprites_clipped);
             angle = effect_index << 8;
-            position = ((S_80024D90_0 *)effect)->unk_08;
+            position = effect->position;
             value = origin->unk_02 + (func_80064584(angle) >> 7);
-            position->unk_02 = value;
+            position->x.w.i = value;
             value = origin->unk_06 + (func_800644B8(angle) >> 7);
-            position->unk_06 = value;
-            position->unk_0A =
+            position->y.w.i = value;
+            position->z.w.i =
                 (s16)(origin->unk_0A - 0x100);
-            component = ((S_80024D90_0 *)effect)->unk_0C;
+            component = effect->sprite;
             component->scale_x = 0x800;
             component->scale_y = 0x1CCC;
             component->color.word = 0;
@@ -736,7 +692,6 @@ typedef struct {
     u16 field1E;
 } Func818816E0Arg2;
 
-
 /* Moves and fades an effect, marking it inactive when its brightness falls below the cutoff. */
 void move_and_fade_effect(void *effect_data, void *position_data, void *visual_data) {
     Func818816E0Arg0 *effect;
@@ -771,13 +726,6 @@ void move_and_fade_effect(void *effect_data, void *position_data, void *visual_d
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_80024FD8_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80024FD8_0;
-
    /* arg0 in create_effect_render_object */
 
 typedef struct S_80024FD8_4 {
@@ -796,19 +744,19 @@ void *create_effect_render_object(MovingPosition *source_pos, s16 effect_param, 
     s32 render_code;
     u16 object_count;
     SpriteFrameState *render_state;
-    void *object;
+    ObjectNodeHeader *object;
     MovingPosition *position;
     S_80024FD8_4 *effect_state;
 
     object = allocate_flagged_object_node(0x202);
     if (object != 0) {
-        ((S_80024FD8_0 *)object)->unk_10 = move_and_fade_effect;
+        object->unk_10 = move_and_fade_effect;
         register_node(object, (s32)draw_linked_sprites_clipped);
-        position = ((S_80024FD8_0 *)object)->unk_08;
+        position = object->position;
         position->unk_02 = source_pos->unk_02;
         position->unk_06 = source_pos->unk_06;
         position->unk_0A = source_pos->unk_0A;
-        render_state = ((S_80024FD8_0 *)object)->unk_0C;
+        render_state = object->sprite;
         render_state->color.word = 0x808080;
         render_state->scale_x = 0x400;
         render_state->scale_y = 0x1CCC;
@@ -861,10 +809,7 @@ typedef struct S_800250E8_2 {
     u16 unk_14;
 } S_800250E8_2;   /* tail_arg in update_spark_effect */
 
-
 extern s32 func_80069EF8(void);
-
-
 
 /* Updates effect motion and marks it inactive when its lifetime or owner expires. */
 void update_spark_effect(void *effect, S_800250E8_0 *motion, void *owner)
@@ -989,7 +934,6 @@ typedef struct S_800252E0_8 {
     void * unk_8D0;
 } S_800252E0_8;   /* ((S_800252E0_6 *)global_slot)->unk_00 in queue_projected_point_primitives */
 
-
 extern s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list();
 extern u32 func_80065420();
 extern s32 func_80066460();
@@ -1008,7 +952,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
     union { s32 * pointer; u32 value; } ot_entry;
 
     {
-        void *render_state = (*(void * *)((u8 *)resident_globals_page + 0x3160));
+        void *render_state = (*(void **)((u8 *)resident_globals_page + 0x3160));
         void *packet_cursor = ((S_800252E0_0 *)render_state)->unk_8D0;
         ((S_800252E0_1 *)scratch)->unk_20 = (u8 *)render_state + 0xB0;
         ((S_800252E0_1 *)scratch)->unk_18 = packet_cursor;
@@ -1035,7 +979,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
                 u32 depth_index;
                 depth_index = *(u32 *)(scratch + 0xC0);
                 ot_entry.pointer = (s32 *)((depth_index << 2) +
-                              (u32)*(void * *)(scratch + 0x20));
+                              (u32)*(void **)(scratch + 0x20));
             }
             *ot_entry.pointer = (*ot_entry.pointer & length_mask) | ((u32)packet & addr_mask);
             packet = ((S_800252E0_1 *)scratch)->unk_18;
@@ -1047,7 +991,7 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
             {
                 ot_entry.value = *(u32 *)(scratch + 0xC0);
                 ot_entry.value = (ot_entry.value << 2) +
-                           (u32)*(void * *)(scratch + 0x20);
+                           (u32)*(void **)(scratch + 0x20);
                 packet = (void *)((u32)packet & addr_mask);
                 *(s32 *)ot_entry.value = (*(s32 *)ot_entry.value & length_mask) |
                                    (u32)packet;
@@ -1071,13 +1015,6 @@ s32 queue_projected_point_primitives(void *node_data, void *position_data, void 
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_800254C4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800254C4_0;   /* node in allocate_jittered_effect_node */
-
    /* payload in allocate_jittered_effect_node */
 
    /* source in allocate_jittered_effect_node */
@@ -1096,17 +1033,17 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
     register s16 field_1a = initial_1a;
     register s16 field_1c = initial_1c;
     register s16 mode = spawn_mode;
-    register void *node;
+    register ObjectNodeHeader *node;
 
     node = allocate_flagged_object_node(0x202);
     if (node != 0) {
         s32 mode_test;
 
-        ((S_800254C4_0 *)node)->unk_10 = update_spark_effect;
+        node->unk_10 = update_spark_effect;
         register_node(node, (s32)queue_projected_point_primitives);
         mode_test = mode << 0x10;
         {
-            MovingPosition *payload = ((S_800254C4_0 *)node)->unk_08;
+            MovingPosition *payload = node->position;
 
             s32 value_0a;
 
@@ -1123,9 +1060,9 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
             }
             payload->unk_0A = value_0a;
         }
-        ((SpriteFrameState *)((S_800254C4_0 *)node)->unk_0C)->color.c.r = 0xF0;
+        node->sprite->color.c.r = 0xF0;
         {
-            S_800254C4_3 *fields = node + 0x20;
+            S_800254C4_3 *fields = ((void *)node) + 0x20;
 
             fields->unk_1A = field_1a;
             fields->unk_1C = field_1c;
@@ -1137,9 +1074,6 @@ s32 allocate_jittered_effect_node(void *source_data, s16 initial_1a, s16 initial
 #include "modules/dungeon_ovl_18a0800.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
-
-
 
 /* Fade the effect color and set completion flags when red falls below eight. */
 void fade_effect_color_below_eight(u16 *effect_data, s32 unused, EffectColor *color) {
@@ -1165,27 +1099,6 @@ void fade_effect_color_below_eight(u16 *effect_data, s32 unused, EffectColor *co
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 
-typedef struct S_80025654_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80025654_0;
-
-typedef struct S_80025654_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-    u8 pad_14[0x2];
-    s16 unk_16;
-} S_80025654_1;
 
 typedef struct S_80025654_2 {
     u8 pad_00[0x2];
@@ -1215,22 +1128,22 @@ typedef struct S_80025654_4 {
 
 /* Creates an object with initial values, endpoint differences, and copied settings. */
 void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settings) {
-    S_80025654_1 *transition;
-    S_80025654_0 *object;
+    ObjectPosition *transition;
+    ObjectNodeHeader *object;
     SpriteFrameState *object_settings;
 
     object = allocate_flagged_object_node(0x202);
     if (object != 0) {
         object->unk_10 = fade_effect_color_below_eight;
         register_node(object, (s32)process_linked_mesh_states_mode_0);
-        transition = object->unk_08;
-        transition->unk_02 = (u16) endpoints->unk_02;
-        transition->unk_06 = (u16) endpoints->unk_06;
-        transition->unk_0A = (u16) endpoints->unk_0A;
-        transition->unk_0E = (s16) (endpoints->unk_02 - endpoints->unk_0E);
-        transition->unk_12 = (s16) (endpoints->unk_06 - endpoints->unk_12);
-        transition->unk_16 = (s16) (endpoints->unk_0A - endpoints->unk_16);
-        object_settings = object->unk_0C;
+        transition = object->position;
+        transition->x.w.i = (u16) endpoints->unk_02;
+        transition->y.w.i = (u16) endpoints->unk_06;
+        transition->z.w.i = (u16) endpoints->unk_0A;
+        *((s16 *)&transition->velocity_x + 1) = (s16) (endpoints->unk_02 - endpoints->unk_0E);
+        *((s16 *)&transition->velocity_y + 1) = (s16) (endpoints->unk_06 - endpoints->unk_12);
+        *((s16 *)&transition->velocity_z + 1) = (s16) (endpoints->unk_0A - endpoints->unk_16);
+        object_settings = object->sprite;
         object_settings->scale_x = (u16) settings->unk_1C;
         object_settings->scale_y = (u16) settings->unk_1E;
         object_settings->color.word = (s32) settings->unk_0C;

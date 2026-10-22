@@ -1,3 +1,5 @@
+
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
@@ -24,8 +26,8 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void spend_actor_mp(void *, s32);
-extern void create_directional_effect(void *, void *, void *);
-extern void create_offset_directional_effect(void *, void *, void *);
+extern void create_directional_effect(void *, void *,struct SpriteFrameState *);
+extern void create_offset_directional_effect(void *, void *,struct SpriteFrameState *);
 
 extern u8 D_80171094[];
 extern u8 cyclone_attack_frames[];

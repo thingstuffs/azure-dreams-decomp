@@ -76,13 +76,13 @@ extern char spu_fifo_busy_timeout_label[];
 extern char spu_fifo_status_timeout_label[];
 
 void DeliverEvent(u32 event_class, u32 event_spec);
-void select_spu_dma_write_channel_flags(void);
-void select_spu_dma_read_channel_flags(void);
-s32 initialize_spu_registers_and_voices(s32 warm);
-void write_spu_transfer_fifo_in_chunks(u16 *src, u32 bytes_left);
-void complete_spu_dma_and_signal_event(void);
-void submit_spu_dma_read_blocks(s32 ram_address, s16 spu_address, s32 block_count);
-s32 dispatch_spu_dma_transfer_command(s32 command, ...);
-void delay_multiply_loop(void);
+void _spu_FsetDelayW(void);
+void _spu_FsetDelayR(void);
+s32 _spu_init(s32 warm);
+void _spu_FwriteByIO(u16 *src, u32 bytes_left);
+void _spu_FiDMA(void);
+void _spu_Fr_(s32 ram_address, s16 spu_address, s32 block_count);
+s32 _spu_t(s32 command, ...);
+void _spu_Fw1ts(void);
 
 #endif

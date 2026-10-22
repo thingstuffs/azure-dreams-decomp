@@ -1,6 +1,7 @@
 /* Target action dispatch (G00342). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:dungeon/engine:800DF258. */
 #include "dungeon/level/target_action_dispatch_g00342.h"
+#include "dungeon/level.h"
 
 /* Selects and initializes an entry at the given position, returning its slot. */
 s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value) {
@@ -35,7 +36,7 @@ s32 select_and_initialize_entry_at_position(s16 x, s16 y, s16 z, s32 type_id, s3
     dungeon_floor_object_positions[slot].field10 = z;
     dungeon_floor_object_positions[slot].field14 = 0;
     dungeon_floor_object_positions[slot].fieldC = entry_value;
-    dungeon_floor_object_positions[slot].field8 = *(s32 *)(((s32) (entry_type << 0x10) >> 0xE) + (u8 *)D_800DF258);
+    dungeon_floor_object_positions[slot].field8 = *(s32 *)(((s32) (entry_type << 0x10) >> 0xE) + (u8 *)floor_object_sprite_sources);
     return slot;
 }
 
@@ -75,7 +76,7 @@ s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 sl
         slot_base = (u8 *) dungeon_floor_object_positions;
         status = (StatusEntry *) (slot_base + slot_index * 0x18);
         if (status->flags & 0x40) {
-            select_record_entry_and_value(status, D_800DF258[floor_objects[slot_index * 4]], 0);
+            select_record_entry_and_value(status, floor_object_sprite_sources[floor_objects[slot_index * 4]], 0);
             status->flags &= 0xF7FF;
         }
     }

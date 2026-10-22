@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/menu_default_words.h"
 #include "frontend/card.h"
 
 typedef struct S_8001CDA0_3 {
@@ -17,11 +18,11 @@ typedef struct S_8001CDA0_4 {
 
 
 
-extern s32 D_8002D690[];
+
 extern s32 D_8002D694[];
 extern s32 D_8002D698[];
 extern s32 D_8002D69C[];
-extern s32 D_8002D6A0[];
+
 extern s32 D_8002D6A4[];
 extern s32 D_8002D6A8[];
 
@@ -48,8 +49,8 @@ typedef struct S_8001CDA0_2 {
 void card_dev_init_row_view(S_8001CDA0_2 *entry, S_8001CDA0_0 *placement, S_8001CDA0_1 *settings, s32 row_index) {
     s32 settings_header;
 
-    placement->unk_00 = D_8002D690[0];
-    settings_header = D_8002D6A0[0];
+    placement->unk_00 = menu_primitive_defaults[0];
+    settings_header = menu_settings_defaults[0];
     placement->unk_04 = D_8002D694[0];
     placement->unk_08 = D_8002D698[0];
     placement->unk_0C = D_8002D69C[0];

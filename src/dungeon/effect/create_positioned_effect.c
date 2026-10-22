@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 
 typedef struct {
@@ -17,34 +19,34 @@ extern u8 D_800CEEFC[], D_80024784[];
 /* Create a positioned effect and set its animation and lifetime parameters. */
 Effect *create_positioned(void *source, s32 x, s32 y, s32 z, Position *position, s32 texture, s16 frame, s32 lifetime, s32 timer) {
     Effect *effect;
-    u8 *sprite;
+    ObjectPosition *sprite;
     u8 *work;
-    u8 *render;
+    SpriteFrameState *render;
     effect = allocate_list_node(0x212, source);
     if (effect != 0) {
         effect->callback = D_80024784;
         register_node(effect, D_800CEEFC);
         sprite = effect->sprite;
-        *(u16 *)(sprite + 2) = position->x;
-        *(u16 *)(sprite + 6) = position->y;
-        *(u16 *)(sprite + 0xA) = position->z;
+        sprite->x.w.i = position->x;
+        sprite->y.w.i = position->y;
+        sprite->z.w.i = position->z;
         work = effect->work;
-        *(s16 *)(sprite + 0xE) = x;
+        *(s16 *)(((u8 *)sprite) + 0xE) = x;
         *(s16 *)(work + 0x18) = x;
-        *(s16 *)(sprite + 0x12) = y;
+        *(s16 *)(((u8 *)sprite) + 0x12) = y;
         *(s16 *)(work + 0x1A) = y;
-        *(s16 *)(sprite + 0x16) = z;
+        *(s16 *)(((u8 *)sprite) + 0x16) = z;
         *(s16 *)(work + 0x1C) = z;
         render = effect->render;
-        ((SpriteFrameState *)render)->source = texture;
-        ((SpriteFrameState *)render)->scale_y = 0x1000;
-        ((SpriteFrameState *)render)->scale_x = 0x1000;
-        ((SpriteFrameState *)render)->color.word = 0x808080;
+        render->source = texture;
+        render->scale_y = 0x1000;
+        render->scale_x = 0x1000;
+        render->color.word = 0x808080;
         {
         s32 index = frame;
         if (index != 0) {
-            ((SpriteFrameState *)render)->tpage_abr = (index - 1) << 5;
-            ((SpriteFrameState *)render)->flags |= 0xC;
+            render->tpage_abr = (index - 1) << 5;
+            render->flags |= 0xC;
         }
         }
         *(s16 *)(work + 0x2E) = 8;

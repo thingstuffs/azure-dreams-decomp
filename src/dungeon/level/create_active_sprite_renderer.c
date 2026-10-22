@@ -26,7 +26,7 @@ void create_active_sprite_renderer(void)
 
     node = allocate_flagged_object_node(2);
     if (node != 0) {
-        render = (MapRenderPrefix *)node->unk_0C;
+        render = (MapRenderPrefix *)node->sprite;
         node->unk_10 = 0;
         register_node(node, render_active_sprite_parts_and_shadows);
         render->color.c.b = 0x80;

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -33,7 +34,7 @@ extern u8 D_80165580;
 
 /* Creates a gray half-scale spark at the source position plus the supplied offsets. */
 void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {
-    Object *obj;
+    ObjectNodeHeader *obj;
     SpriteFrameState *sprite;
     s32 z_fixed;
     u16 x;
@@ -41,28 +42,28 @@ void create_offset_half_scale_spark(void *source_position, s32 x_offset, s32 y_o
 
     obj = (Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->callback = &D_80165580;
+        obj->unk_10 = &D_80165580;
         register_node(obj, project_sprite_chain);
-        sprite = obj->sprite;
+        sprite = *(Sprite * *)&obj->sprite;
         sprite->tpage_abr = 0x20;
         sprite->unk_06 = 6;
         sprite->flags |= 0xC;
         {
-            void *position;
+            ObjectPosition *position;
 
             position = obj->position;
-            *(s32 *)((u8 *)position + 0) = *(s32 *)((u8 *)source_position + 0);
-            *(s32 *)((u8 *)position + 4) = *(s32 *)((u8 *)source_position + 4);
-            x = *(u16 *)((u8 *)position + 2);
+            position->x.v = *(s32 *)((u8 *)source_position + 0);
+            position->y.v = *(s32 *)((u8 *)source_position + 4);
+            x = *(u16 *)&position->x.w.i;
             z_fixed = *(s32 *)((u8 *)source_position + 8);
-            *(u16 *)((u8 *)position + 2) = (u16)(x + x_offset);
-            y = *(u16 *)((u8 *)position + 6);
-            *(s32 *)((u8 *)position + 8) = z_fixed;
-            z_fixed = *(u16 *)((u8 *)position + 0xA) + z_offset;
-            *(u16 *)((u8 *)position + 6) = (u16)(y + y_offset);
-            *(u16 *)((u8 *)position + 0xA) = (u16)z_fixed;
+            position->x.w.i = (u16)(x + x_offset);
+            y = *(u16 *)&position->y.w.i;
+            position->z.v = z_fixed;
+            z_fixed = *(u16 *)&position->z.w.i + z_offset;
+            position->y.w.i = (u16)(y + y_offset);
+            position->z.w.i = (u16)z_fixed;
         }
-        sprite = obj->sprite;
+        sprite = *(Sprite * *)&obj->sprite;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
         sprite->color.c.b = 0x80;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -39,10 +40,10 @@ typedef struct {
     s16 count;
 } Global83460;
 extern u8 D_8016F78C[];
-extern u8 D_80174A2C[];
+#include "dungeon/monster/ghosh.h"
 
 /* Updates movement toward a tile and completes the timed action. */
-void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Rec_D_80082E80 *tile, ActorRecord *entity) {
+void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {
     s32 facing_aux;
     s32 frames_left;
     s32 next_frame;
@@ -102,9 +103,9 @@ void move_boss_actor_to_tile(S_801704A0_0 *action, ObjectPosition *motion, Rec_D
         }
         break;
     case 3:
-        if (tile->unk_2C.as_pu8 != D_80174A2C) {
-            tile->unk_2C.as_pu8 = D_80174A2C;
-            select_sprite_entry(tile, D_80174A2C[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+        if (*(u8 **)&tile->frameTable != ghosh_direction_frames) {
+            tile->frameTable = ghosh_direction_frames;
+            select_sprite_entry(tile, ghosh_direction_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
         }
         break;
     }

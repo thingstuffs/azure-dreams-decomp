@@ -21,7 +21,7 @@ extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
 extern u8 D_80170E5C[];
-extern u8 D_80173D0C[];
+#include "dungeon/monster/battnel.h"
 extern s32 D_80173D24;
 
 /* Apply directional movement, slow it down, and return the actor to its tile center. */
@@ -134,9 +134,9 @@ void decelerate_and_center_actor_on_tile(void *action, ObjectPosition *motion, v
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
 
-        ((SpriteFrameState *)sprite)->frameTable = D_80173D0C;
+        ((SpriteFrameState *)sprite)->frameTable = battnel_direction_frames;
         select_sprite_entry(sprite,
-            D_80173D0C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            battnel_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         actor_ref = ((s32)g_dungeon_status.pending_display_owner);

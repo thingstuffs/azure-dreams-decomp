@@ -5,10 +5,10 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon/player/position.h"
 
 extern void select_record_entry_and_value(void *sprite, void *ptr, s32 value);
 extern void clear_slots_of_type(void *actor, s32 value);
-extern void reset_actor_motion_at_sprite_tile(void *state, void *motion, void *sprite, void *actor);
 extern void handle_actor_commands_and_facing(void);
 extern void apply_clamped_actor_value_delta(void *actor);
 

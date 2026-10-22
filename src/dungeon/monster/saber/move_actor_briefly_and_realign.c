@@ -20,8 +20,8 @@ extern void set_record_integer_tile_center(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
-extern s32 D_80171728;
-extern u8 D_80174DEC[];
+#include "dungeon/monster/saber.h"
+
 extern u8 D_80174DFC[];
 extern u8 D_80174E24[];
 
@@ -129,17 +129,17 @@ void move_actor_briefly_and_realign(void *action, ObjectPosition *motion, void *
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
         if (((SpriteFrameState *)actor)->frameTable == D_80174DFC) {
-            ((SpriteFrameState *)actor)->frameTable = D_80174DEC;
+            ((SpriteFrameState *)actor)->frameTable = saber_direction_frames;
             select_sprite_entry(
                 actor,
-                D_80174DEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                saber_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
         }
         tracked_entity = ((s32)g_dungeon_status.pending_display_owner);
         if (tracked_entity == (s32)((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = tracked_entity & 0x7FFFFFFF;
         }
-        ((S_80173964_0 *)action)->unk_8C = &D_80171728;
+        ((S_80173964_0 *)action)->unk_8C = &saber_behavior_entry;
 
         return;
     default:

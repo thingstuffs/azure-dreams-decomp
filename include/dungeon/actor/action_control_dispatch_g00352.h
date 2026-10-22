@@ -28,7 +28,7 @@ extern void func_8003E4FC(s32, char *, s32);
 extern void func_8003F320(void);
 
 extern u8 scene_mode_code;
-extern u8 D_800DCF4E;
+extern u8 sprite_bundle_loaded;
 
 /* Functions defined in this translation unit. */
 void invoke_action_21_or_default(void);

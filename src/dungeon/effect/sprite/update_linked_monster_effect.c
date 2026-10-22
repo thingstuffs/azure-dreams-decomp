@@ -24,7 +24,6 @@ extern u8 D_8002966E;
 extern s32 D_80029670;
 extern M2C_UNK D_800C9034;
 
-
 typedef struct S_80025C80_0_pre {
     u16 unk_00;
 } S_80025C80_0_pre;   /* the 0x2 bytes before arg0 in update_linked_monster_effect, addressed as arg0[-1] */
@@ -49,27 +48,6 @@ typedef struct S_80025C80_0 {
     union { u16 u; s16 s; } unk_40;   /* accessed as both */
     u16 unk_42;
 } S_80025C80_0;   /* arg0 in update_linked_monster_effect */
-
-typedef struct S_80025C80_1 {
-    s32 unk_00;
-    u8 unk_04;
-    u8 pad_05[0x3];
-    s32 unk_08;
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-    u16 unk_1C;
-    u16 unk_1E;
-    u16 unk_20;
-} S_80025C80_1;   /* arg2 in update_linked_monster_effect */
 
 typedef struct S_80025C80_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -121,7 +99,7 @@ typedef struct S_80025C80_8 {
 
 /* Updates effect movement and fading, or copies a linked monster's position and appearance. */
 void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite_in) {
-    void *sprite;
+    TileObject *sprite;
     s32 x_step;
     s32 end_frame;
     TileObject *resident_sprite;
@@ -162,22 +140,22 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
     if (linked_monster == NULL) {
         func_8002660C(sprite, effect_in + 0x32, ((S_80025C80_0 *)effect_in)->unk_38,
             ((S_80025C80_0 *)effect_in)->unk_36);
-        func_80026548(effect_in, ((S_80025C80_1 *)sprite)->unk_00);
+        func_80026548(effect_in, sprite->unk_000);
         phase = ((S_80025C80_0 *)effect_in)->unk_2C;
         switch (phase) {
         case 0:
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v =
                 (s32) (((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v + 0xFFFF0000);
-            brightness = ((S_80025C80_1 *)sprite)->unk_0C.at00.v;
+            brightness = sprite->primitive_color.parts.color_r;
             next_brightness = brightness + ((s32) (0x80 - brightness) / (s16) ((S_80025C80_0 *)effect_in)->unk_30.n);
-            ((S_80025C80_1 *)sprite)->unk_0C.at00.v = next_brightness;
-            ((S_80025C80_1 *)sprite)->unk_0C.at02.v = next_brightness;
-            ((S_80025C80_1 *)sprite)->unk_0C.at01.v = next_brightness;
+            sprite->primitive_color.parts.color_r = next_brightness;
+            sprite->primitive_color.parts.color_b = next_brightness;
+            sprite->primitive_color.parts.color_g = next_brightness;
             frame_toggle = ((u16) ((S_80025C80_0 *)effect_in)->unk_30.n ^ 1) & 1;
             ((S_80025C80_0 *)effect_in)->unk_32 = frame_toggle;
             rise_ticks = ((S_80025C80_0 *)effect_in)->unk_30.v - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = rise_ticks;
-            if (((rise_ticks << 0x10) <= 0) && (((S_80025C80_1 *)sprite)->unk_14 & 0x4000)) {
+            if (((rise_ticks << 0x10) <= 0) && (sprite->sprite_flags & 0x4000)) {
                 end_frame = 8;
                 source_data_2 = dungeon_actor_ring_anchor;
                 ((S_80025C80_0 *)effect_in)->unk_38 = end_frame;
@@ -196,11 +174,11 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
             break;
         case 1:
             sprite = (u8 *)&reference_tile_object.unk_000;
-            transform_result = resolve_record_orientation_or_fallback(((S_80025C80_1 *)sprite)->unk_08, sprite, effect_in + 0x24, 0);
+            transform_result = resolve_record_orientation_or_fallback(sprite->sprite_source, sprite, effect_in + 0x24, 0);
             follow_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = follow_ticks;
             if ((follow_ticks << 0x10) <= 0 || transform_result == 0
-                || (((S_80025C80_1 *)sprite)->unk_14 & 0x8000) != 0) {
+                || (sprite->sprite_flags & 0x8000) != 0) {
                 if (reference_tile_object.sprite_flags & 0x8000) {
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = ((u16)view_reference_entity.x.w.i);
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = ((u16)view_reference_entity.y.w.i);
@@ -290,12 +268,12 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
                 ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v =
                     (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
             }
-            ((S_80025C80_1 *)sprite)->unk_0C.at00.v = ((S_80025C80_1 *)sprite)->unk_0C.at00.v
-            - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at00.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
-            ((S_80025C80_1 *)sprite)->unk_0C.at01.v = ((S_80025C80_1 *)sprite)->unk_0C.at01.v
-            - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at01.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
-            ((S_80025C80_1 *)sprite)->unk_0C.at02.v = ((S_80025C80_1 *)sprite)->unk_0C.at02.v
-            - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at02.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            sprite->primitive_color.parts.color_r = sprite->primitive_color.parts.color_r
+            - ((s32) sprite->primitive_color.parts.color_r / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            sprite->primitive_color.parts.color_g = sprite->primitive_color.parts.color_g
+            - ((s32) sprite->primitive_color.parts.color_g / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            sprite->primitive_color.parts.color_b = sprite->primitive_color.parts.color_b
+            - ((s32) sprite->primitive_color.parts.color_b / ((S_80025C80_0 *)effect_in)->unk_30.n);
             fade_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
@@ -307,7 +285,7 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
                 linked_global->flags |= 0x8000;
                 return;
             }
-            frame = ((S_80025C80_1 *)sprite)->unk_04;
+            frame = *(u8 *)&sprite->unk_004;
             if ((s8) frame == ((S_80025C80_0 *)effect_in)->unk_36) {
                 ((S_80025C80_0 *)effect_in)->unk_32 = -1;
             } else if ((s8) frame == ((S_80025C80_0 *)effect_in)->unk_38) {
@@ -331,14 +309,14 @@ void update_linked_monster_effect(void *effect_in, void *motion_in, void *sprite
         ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) ((S_80025C80_3 *)source_data)->unk_0A;
         linked_sprite = ((S_80025C80_8 *)(((S_80025C80_0 *)effect_in)->unk_20))->unk_0C;
         func_800266D0(sprite, linked_sprite->unk_04);
-        func_80026548(effect_in, ((S_80025C80_1 *)sprite)->unk_00);
-        ((S_80025C80_1 *)sprite)->unk_1C = (u16) linked_sprite->unk_1C;
-        ((S_80025C80_1 *)sprite)->unk_1E = (u16) linked_sprite->unk_1E;
-        ((S_80025C80_1 *)sprite)->unk_20 = (u16) linked_sprite->unk_20;
-        ((S_80025C80_1 *)sprite)->unk_0C.at00u.v = linked_sprite->unk_0C;
-        ((S_80025C80_1 *)sprite)->unk_16 = (u16) linked_sprite->unk_16;
-        ((S_80025C80_1 *)sprite)->unk_18 = (u16) linked_sprite->unk_18;
-        ((S_80025C80_1 *)sprite)->unk_1A = (u16) linked_sprite->unk_1A;
+        func_80026548(effect_in, sprite->unk_000);
+        sprite->scale_x = (u16) linked_sprite->unk_1C;
+        sprite->scale_y = (u16) linked_sprite->unk_1E;
+        sprite->unk_020 = (u16) linked_sprite->unk_20;
+        sprite->primitive_color.word = linked_sprite->unk_0C;
+        sprite->angle_x = (u16) linked_sprite->unk_16;
+        sprite->angle_y = (u16) linked_sprite->unk_18;
+        sprite->angle_z = (u16) linked_sprite->unk_1A;
     }
     if (((S_80025C80_0 *)effect_in)->unk_2E == 0) {
         register_node(effect_in - 0x20, &D_800C9034);

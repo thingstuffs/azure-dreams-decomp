@@ -6,13 +6,14 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
+#include "engine/cd.h"
+#include "shared/object_node.h"
 
 
 typedef s32 M2C_UNK;
 
-extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -22,7 +23,6 @@ extern void create_offset_actor_object(void *, void *, void *);
 
 extern void D_80170E94(void *, void *, void *, void *);
 extern u8 D_80175F10[8];
-
 
 typedef struct S_801738B4_0 {
     u8 pad_00[0x8C];
@@ -34,13 +34,7 @@ typedef struct S_801738B4_0 {
     u8 phase; /* 0x9B */
 } S_801738B4_0;   /* arg0 in advance_actor_item_use_sequence */
 
-typedef struct S_801738B4_1_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_801738B4_1_pre;   /* the 0x14 bytes before copy_object in advance_actor_item_use_sequence, addressed as copy_object[-1] */
-
    /* entity in advance_actor_item_use_sequence */
-
 
 typedef struct S_801738B4_4 {
     u8 pad_00[0xA];
@@ -49,7 +43,7 @@ typedef struct S_801738B4_4 {
 } S_801738B4_4;   /* global in advance_actor_item_use_sequence */
 
 /* Advances an actor's item-use sequence and resets its state when the action ends. */
-void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_object, void *entity, void *actor)
+void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_object, SpriteFrameState *entity, void *actor)
 {
     u8 *item;
     s32 special_mode;
@@ -117,23 +111,23 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             use_shared_object = (special_mode == 1);
             if (use_shared_object) {
                 copy_object = primary_actor_record;
-                (*(void * *)((u8 *)actor + 0x60)) = copy_object;
-                action_status = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
+                (*(void **)((u8 *)actor + 0x60)) = copy_object;
+                action_status = *(u8 * *)&((ObjectNodeHeader *)((u8 *)copy_object - 0x20))->sprite;
                 (*(u8 *)((u8 *)actor + 0x72)) = action_status[0x24];
                 (*(u8 *)((u8 *)actor + 0x73)) = action_status[0x25];
             } else if (item_action_definitions[*item].kind == 2) {
-                copy_object = (*(void * *)((u8 *)actor + 0x60));
+                copy_object = (*(void **)((u8 *)actor + 0x60));
                 if (copy_object != 0) {
-                    action_status = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
+                    action_status = *(u8 * *)&((ObjectNodeHeader *)((u8 *)copy_object - 0x20))->sprite;
                     (*(u8 *)((u8 *)actor + 0x72)) = action_status[0x24];
                     (*(u8 *)((u8 *)actor + 0x73)) = action_status[0x25];
                 }
             } else {
-                target_x = (s32)scan_monster_along_heading(actor,
-                    ((SpriteAnimationTableView *)entity)->unk_24,
-                    ((SpriteAnimationTableView *)entity)->unk_25,
+                target_x = (s32)scan_actor_along_heading(actor,
+                    entity->unk_24,
+                    entity->unk_25,
                     (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                (*(void * *)((u8 *)actor + 0x60)) = (void *)target_x;
+                (*(void **)((u8 *)actor + 0x60)) = (void *)target_x;
                 target_x = __builtin_abs(*(s8 *)((u8 *)actor + 0x72));
                 target_y = __builtin_abs(*(s8 *)((u8 *)actor + 0x73));
                 (*(s8 *)((u8 *)actor + 0x72)) = target_x;
@@ -148,7 +142,7 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
             scene_object->velocity_z = 0;
             scene_object->velocity_y = 0;
             scene_object->velocity_x = 0;
-            set_record_integer_tile_center(scene_object, ((SpriteAnimationTableView *)entity)->unk_24, ((SpriteAnimationTableView *)entity)->unk_25);
+            set_record_integer_tile_center(scene_object, entity->unk_24, entity->unk_25);
             active_object = primary_actor_record;
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)active_object + 0xA6))--;
@@ -163,25 +157,25 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((SpriteAnimationTableView *)entity)->unk_14 |= 0x0800;
+            entity->flags |= 0x0800;
             break;
         }
-        ((SpriteAnimationTableView *)entity)->unk_14 &= 0xF7FF;
+        entity->flags &= 0xF7FF;
         ((S_801738B4_0 *)action_ctx)->phase++;
 
     case 2:
-        if ((((SpriteAnimationTableView *)entity)->unk_04 == 3 &&
-             (((SpriteAnimationTableView *)entity)->unk_14 & 0x1000)) ||
-            (((SpriteAnimationTableView *)entity)->unk_14 & 0xE000)) {
+        if ((entity->unk_04 == 3 &&
+             (entity->flags & 0x1000)) ||
+            (entity->flags & 0xE000)) {
             create_offset_actor_object(action_ctx, scene_object, entity);
             ((S_801738B4_0 *)action_ctx)->phase++;
         }
 
     case 3:
-        if ((((SpriteAnimationTableView *)entity)->unk_04 == 4 &&
-             (((SpriteAnimationTableView *)entity)->unk_14 & 0x1000)) ||
-            (((SpriteAnimationTableView *)entity)->unk_14 & 0xE000)) {
-            ((SpriteAnimationTableView *)entity)->unk_14 |= 0x0800;
+        if ((entity->unk_04 == 4 &&
+             (entity->flags & 0x1000)) ||
+            (entity->flags & 0xE000)) {
+            entity->flags |= 0x0800;
             ((S_801738B4_0 *)action_ctx)->wait_ticks = 1;
             ((S_801738B4_0 *)action_ctx)->action_flags |= 0x0080;
         }
@@ -190,25 +184,25 @@ void advance_actor_item_use_sequence(void *action_ctx, ObjectPosition *scene_obj
         ((S_801738B4_0 *)action_ctx)->wait_ticks = remaining_ticks;
         if ((s16)remaining_ticks <= 0) {
             ((S_801738B4_0 *)action_ctx)->wait_ticks = 0;
-            ((SpriteAnimationTableView *)entity)->unk_14 &= 0xF7FF;
+            entity->flags &= 0xF7FF;
         }
-        if (!(((SpriteAnimationTableView *)entity)->unk_14 & 0xE000)) {
+        if (!(entity->flags & 0xE000)) {
             break;
         }
 
         scene_object->velocity_z = 0;
         scene_object->velocity_y = 0;
         scene_object->velocity_x = 0;
-        set_record_integer_tile_center(scene_object, ((SpriteAnimationTableView *)entity)->unk_24, ((SpriteAnimationTableView *)entity)->unk_25);
-        if (((SpriteAnimationTableView *)entity)->unk_2C != D_80175F10) {
-            (*(u8 * *)((u8 *)entity + 0x2C)) = D_80175F10;
+        set_record_integer_tile_center(scene_object, entity->unk_24, entity->unk_25);
+        if (*(unsigned char **)&entity->frameTable != D_80175F10) {
+            (entity->frameTable) = D_80175F10;
             select_sprite_entry(entity,
                 D_80175F10[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
                 0);
         }
 
         action_status = (u8 *)&g_dungeon_status.turn_scale;
-        if (((S_801738B4_4 *)action_status)->unk_0C != 0) {
+        if (*(s32 *)&((ObjectNodeHeader *)action_status)->sprite != 0) {
             break;
         }
         ((S_801738B4_4 *)action_status)->unk_0A--;

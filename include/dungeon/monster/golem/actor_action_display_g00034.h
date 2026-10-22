@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00034 - CL:dungeon/func_81084A18@dungeon/bank_10a3000, CL:dungeon/func_81084A18@dungeon/bank_10a9000, CL:dungeon/func_81084A18@dungeon/bank_10af000, CL:dungeon/func_81084A18@dungeon/bank_10b5000, CL:dungeon/func_81084A18@dungeon/bank_10bb000, CL:dungeon/func_81084A18@dungeon/bank_10c1000. */
 
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
@@ -61,7 +62,6 @@ extern s16 try_claim_dungeon_action_slot(s32);
 extern s32 apply_camera_offset_and_select_target(s32, void *, s32, s32);
 
 /* Functions defined in this translation unit. */
-s32 attempt_actor_action_and_display(void *action_out, s32 action_param, void *actor_info, void *acting_actor);
-void update_eligible_actor_action(void *action_state, s32 action_context, void *sprite, EntityRec *actor);
+void update_eligible_actor_action(void *action_state, s32 action_context, SpriteFrameState *sprite, EntityRec *actor);
 
 #endif

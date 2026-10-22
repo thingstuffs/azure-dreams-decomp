@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -12,8 +13,8 @@ extern u8 D_800F15AC[9];
 void advance_object_animation_and_effect(void *object)
 {
     s32 state;
-    void *effect;
-    void *effect_sprite;
+    ObjectNodeHeader *effect;
+    SpriteFrameState *effect_sprite;
 
     state = *((s16 *) (((u8 *) object) + 0x4C));
     *((u16 *) (((u8 *) object) + 0x48)) = (u16) ((*((u16 *) (((u8 *) object) + 0x48))) - 1);
@@ -47,21 +48,21 @@ void advance_object_animation_and_effect(void *object)
         *((s16 *) (((u8 *) object) + 0x26)) = 0;
         effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != 0) {
-            *((void **) (((u8 *) effect) + 0x10)) = D_800BFF7C;
+            effect->unk_10 = D_800BFF7C;
             register_node(effect, project_sprite_chain);
-            effect_sprite = *((void **) (((u8 *) effect) + 0xC));
-            *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 0)) = *((s32 *) (((u8 *) object) + 0x1C));
-            *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 4)) = *((s32 *) (((u8 *) object) + 0x20));
-            *((s32 *) (((u8 *) (*((void **) (((u8 *) effect) + 8)))) + 8)) = *((s32 *) (((u8 *) object) + 0x24));
+            effect_sprite = effect->sprite;
+            *((s32 *) (((u8 *) (effect->position)) + 0)) = *((s32 *) (((u8 *) object) + 0x1C));
+            *((s32 *) (((u8 *) (effect->position)) + 4)) = *((s32 *) (((u8 *) object) + 0x20));
+            *((s32 *) (((u8 *) (effect->position)) + 8)) = *((s32 *) (((u8 *) object) + 0x24));
             *((s16 *) (((u8 *) effect_sprite) + 0x1E)) = 0xC00;
             *((s16 *) (((u8 *) effect_sprite) + 0x1C)) = 0xC00;
             *((s16 *) (((u8 *) effect_sprite) + 0x10)) = 0x60;
             *((s32 *) (((u8 *) effect_sprite) + 0xC)) = 0xA0A0A0;
             *((void **) (((u8 *) effect_sprite) + 0)) = D_800F15AC;
             *((u16 *) (((u8 *) effect_sprite) + 0x14)) |= 0xC;
-            *((s32 *) (((u8 *) effect_sprite) + 8)) = *((s32 *) (D_800F15AC + 4));
-            *((s8 *) (((u8 *) effect_sprite) + 4)) = 0;
-            *((s8 *) (((u8 *) effect_sprite) + 5)) = 0;
+            effect_sprite->source = *((s32 *) (D_800F15AC + 4));
+            effect_sprite->unk_04 = 0;
+            effect_sprite->unk_05 = 0;
         }
         *((u16 *) (((u8 *) object) + 0x48)) = 4;
         *((u16 *) (((u8 *) object) + 0x4C)) =

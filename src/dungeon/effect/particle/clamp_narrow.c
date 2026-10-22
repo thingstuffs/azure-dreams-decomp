@@ -92,19 +92,6 @@ typedef struct S_80167C74_13 {
     s16 unk_1A;
 } S_80167C74_13;
 
-typedef struct S_80167C74_14 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    u8 * unk_10;
-} S_80167C74_14;
-
-typedef struct S_80167C74_16 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80167C74_16;
-
 typedef struct S_80167C74_18 {
     s8 unk_00;
     s8 unk_01;
@@ -200,7 +187,7 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
     S_80167C74_1 *target_pos;
     u8 *copy_row;
     S_80167C74_9 *trail_row;
-    void *object;
+    ObjectNodeHeader *object;
     u8 *interp_row;
     u8 *head_pos;
     s32 table_base;
@@ -210,7 +197,7 @@ void update_targeted_ribbon_trail(void *effect_data, Rec_func_80167A98_arg1 *ori
     u8 *copy_src;
     u8 *object_table_base;
     u8 *object_base;
-    S_80167C74_16 *object_origin;
+    ObjectPosition *object_origin;
     s32 object_offset;
     s32 object_copy_index;
 
@@ -409,21 +396,21 @@ copy_pairs:
         do {
             object = allocate_flagged_object_node(0x212);
             if (object != NULL) {
-                object_data = object + 0x20;
+                object_data = ((void *)object) + 0x20;
                 ((S_80167C74_13 *)object_data)->unk_18 = 1;
                 ((S_80167C74_13 *)object_data)->unk_1A = 1;
-                ((S_80167C74_14 *)object)->unk_10 = D_80167C30;
+                object->unk_10 = D_80167C30;
                 register_node(object, &D_80166D14);
-                object_flags = ((S_80167C74_14 *)object)->unk_0C;
+                object_flags = object->sprite;
                 object_flags->tpage_abr = 0x20;
                 object_flags->flags = (u16) (object_flags->flags | 0xC);
-                object_origin = ((S_80167C74_14 *)object)->unk_08;
+                object_origin = object->position;
                 history_index = 0;
-                object_origin->unk_00 = (s32) origin->unk_00;
+                object_origin->x.v = (s32) origin->unk_00;
                 color_weight = object_limit - object_index;
-                object_origin->unk_04 = (s32) origin->unk_04;
-                object_origin->unk_08 = (s32) origin->unk_08;
-                object_render = ((S_80167C74_14 *)object)->unk_0C;
+                object_origin->y.v = (s32) origin->unk_04;
+                object_origin->z.v = (s32) origin->unk_08;
+                object_render = object->sprite;
                 object_render->scale_y = 0x1000;
                 object_render->scale_x = 0x1000;
                 object_render->color.c.b = 0x80;

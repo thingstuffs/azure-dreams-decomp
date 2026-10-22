@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "engine/node.h"
 
 /* Linked-list node with a next pointer at offset 0x0, two callback-argument
@@ -20,19 +21,19 @@ extern S_80081498_Node *active_node_list_head;
 /* Invokes negative-address callbacks on nodes in D_80081498 whose flags omit bit 0x400. */
 void run_active_node_callbacks(void)
 {
-    S_80081498_Node *node;
+    ObjectNodeHeader *node;
     S_80081498_Node *next_node;
     s32 callback_address;
 
     node = active_node_list_head;
     if (node != 0) {
         do {
-            callback_address = node->field_10;
-            next_node = node->next;
-            if (callback_address >= 0 || (node->field_1E & NODE_SKIP_CALLBACK)) {
+            callback_address = *(s32 *)&node->unk_10;
+            next_node = *(struct S_80081498_Node * *)&node->next;
+            if (callback_address >= 0 || (node->flags & NODE_SKIP_CALLBACK)) {
                 ;
             } else {
-                ((void (*)(void *, void *, void *))callback_address)((u8 *)node + 0x20, node->field_08, node->field_0C);
+                ((void (*)(void *, void *, void *))callback_address)((u8 *)node + 0x20, node->position, node->sprite);
             }
             node = next_node;
         } while (node != 0);

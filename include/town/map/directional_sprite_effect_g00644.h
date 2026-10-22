@@ -1,5 +1,7 @@
 #ifndef TOWN_MAP_DIRECTIONAL_SPRITE_EFFECT_G00644_H
 #define TOWN_MAP_DIRECTIONAL_SPRITE_EFFECT_G00644_H
+
+struct SpriteFrameState;
 /* Directional sprite effect (G00644). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800F15E4. */
 
@@ -21,13 +23,6 @@ typedef struct S_800BC574_7 {
     s32 unk_0C;
     s32 unk_10;
 } S_800BC574_7;
-
-typedef struct S_800BC574_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800BC574_0;
 
 /* copy_dst in create_directional_sprite_effect */
 /* held_arg0 in create_directional_sprite_effect */
@@ -84,8 +79,8 @@ extern s32 D_800D20E4;
 extern void advance_sprite_animation_and_textures(void *);
 /* Functions defined in this translation unit. */
 s32 create_directional_sprite_effect(void *position, s16 angle);
-void advance_coordinates_and_propagate_flags(void *object_data, void *motion, void *status);
-void wait_then_process_record(S_800BC764_0 *context, void *unused, Rec_D_80082E80 *record);
+void advance_coordinates_and_propagate_flags(void *object_data, void *motion,struct SpriteFrameState *status);
+void wait_then_process_record(S_800BC764_0 *context, void *unused, struct SpriteFrameState *record);
 void initialize_record_resources(void *record, s32 init_context, s32 resource_target);
 
 #endif

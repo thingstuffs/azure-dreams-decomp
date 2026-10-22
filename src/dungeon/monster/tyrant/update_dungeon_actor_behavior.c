@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -6,7 +7,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-
 
 extern void clear_slots_of_type(void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
@@ -38,7 +38,6 @@ extern u8 D_80173FF0[];
 extern u8 D_80173FF8[];
 extern u8 D_80174000[];
 
-
 typedef struct S_80170F68_1 {
     u8 pad_00[0x1C];
     u32 unk_1C;
@@ -54,29 +53,13 @@ typedef struct S_80170F68_1 {
     s8 unk_6D;
 } S_80170F68_1;   /* arg3 in update_dungeon_actor_behavior */
 
-typedef struct S_80170F68_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_80170F68_2;   /* arg2 in update_dungeon_actor_behavior */
-
-
 /* Updates a dungeon actor's behavior, facing, and animation from its current state. */
-void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map_object_arg, void *actor_state_arg)
+void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, SpriteFrameState *map_object_arg, void *actor_state_arg)
 {
     u8 *anim_table;
     s32 tile_id;
     s32 distance;
     u32 initial_flags = g_dungeon_status.flags;
-
 
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
@@ -84,14 +67,13 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
         return;
     }
 
-
     if (((S_80170F68_1 *)actor_state_arg)->unk_25 == 0) {
         u8 *inactive_anims;
 
         advance_actor_pending_action(actor_arg, context_arg, map_object_arg, actor_state_arg);
-        if (((S_80170F68_2 *)map_object_arg)->unk_2C != D_80174000) {
+        if (map_object_arg->frameTable != D_80174000) {
             inactive_anims = D_80173FF8;
-            (*(void * *)((u8 *)map_object_arg + (0x2C))) = inactive_anims;
+            (map_object_arg->frameTable) = inactive_anims;
             select_sprite_entry(map_object_arg,
                 inactive_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100)
                     >> 9) & 7],
@@ -103,7 +85,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
     }
 
     if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x200) {
-        if (((S_80170F68_2 *)map_object_arg)->unk_2C == D_80174000) {
+        if (map_object_arg->frameTable == D_80174000) {
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
@@ -125,8 +107,8 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
             u8 next_state = 0xE;
 
             anim_table = D_80173FB8;
-            if (((S_80170F68_2 *)map_object_arg)->unk_2C != anim_table) {
-                (*(void * *)((u8 *)map_object_arg + (0x2C))) = anim_table;
+            if (map_object_arg->frameTable != anim_table) {
+                (map_object_arg->frameTable) = anim_table;
                 select_sprite_entry(map_object_arg,
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100)
                         >> 9) & 7],
@@ -153,16 +135,16 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
         }
     }
 
-    tile_id = find_active_rect_containing_point(((S_80170F68_2 *)map_object_arg)->unk_24.at00.v,
-        ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v);
-    ((S_80170F68_2 *)map_object_arg)->unk_26 = tile_id;
+    tile_id = find_active_rect_containing_point(map_object_arg->unk_24,
+        map_object_arg->unk_25);
+    map_object_arg->unk_26 = tile_id;
 
     if (((S_80170F68_1 *)actor_state_arg)->unk_6D > 0) {
         if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x20) {
             update_actor_status_and_mp(actor_state_arg);
             return;
         }
-        if (((S_80170F68_2 *)map_object_arg)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&map_object_arg->unk_24 == reference_tile_object.tile_position.word) {
             update_actor_movement_choosing_direction_recording_path(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
@@ -201,7 +183,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
                 s32 direction;
 
                 direction = get_rounded_facing_and_rounding_flag(
-                    ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
+                    map_object_arg->unk_24, map_object_arg->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
                 player = primary_actor_record;
@@ -230,12 +212,12 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
         if ((record_index < 0) || !(dungeon_rooms[record_index].flags & 2)) {
             if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x430)) {
 
-                if ((s16)test_neighbor_position_relation(((S_80170F68_2 *)map_object_arg)->unk_24.at00.v,
-                        ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v, reference_tile_object.tile_position.parts.tile_x,
+                if ((s16)test_neighbor_position_relation(map_object_arg->unk_24,
+                        map_object_arg->unk_25, reference_tile_object.tile_position.parts.tile_x,
                         reference_tile_object.tile_position.parts.tile_y) != 0) {
                     ((S_80170F68_1 *)actor_state_arg)->unk_2A = get_rounded_facing_and_rounding_flag(
-                        ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v,
-                            ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
+                        map_object_arg->unk_24,
+                            map_object_arg->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }
@@ -246,14 +228,14 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((S_80170F68_2 *)map_object_arg)->unk_14 & 0x40) {
+    if (map_object_arg->flags & 0x40) {
         return;
     }
     anim_table = D_80173FB8;
-    if (((S_80170F68_2 *)map_object_arg)->unk_2C == anim_table) {
+    if (map_object_arg->frameTable == anim_table) {
         return;
     }
-    (*(void * *)((u8 *)map_object_arg + (0x2C))) = anim_table;
+    (map_object_arg->frameTable) = anim_table;
     select_sprite_entry(map_object_arg,
         ((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7) + anim_table)[0],
         0);

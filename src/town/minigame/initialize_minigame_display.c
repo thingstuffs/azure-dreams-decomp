@@ -5,11 +5,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_80022290_0 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_80022290_0;   /* obj1 in initialize_minigame_display */
-
 typedef struct S_80022290_1 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -21,11 +16,6 @@ typedef struct S_80022290_1 {
     s16 unk_16;
 } S_80022290_1;   /* data1 in initialize_minigame_display */
 
-typedef struct S_80022290_2 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_80022290_2;   /* obj2 in initialize_minigame_display */
-
 typedef struct S_80022290_3 {
     u8 pad_00[0x4];
     void * unk_04;
@@ -36,7 +26,6 @@ typedef struct S_80022290_3 {
     s16 unk_18;
     s16 unk_1A;
 } S_80022290_3;   /* data2 in initialize_minigame_display */
-
 
 typedef struct {
     s32 word[2];
@@ -60,9 +49,9 @@ extern u8 D_800782EC[8];
 void initialize_minigame_display(void *context)
 {
     Packed8 setup_words;
-    void *rect_obj;
+    ObjectNodeHeader *rect_obj;
     S_80022290_1 *rect_data;
-    void *image_obj;
+    ObjectNodeHeader *image_obj;
     S_80022290_3 *image_data;
     void *image_resource;
 
@@ -73,8 +62,8 @@ void initialize_minigame_display(void *context)
 
     rect_obj = allocate_flagged_object_node(1);
     if (rect_obj != NULL) {
-        rect_data = rect_obj + 0x20;
-        ((S_80022290_0 *)rect_obj)->unk_10 = D_800223E0;
+        rect_data = ((void *)rect_obj) + 0x20;
+        rect_obj->unk_10 = D_800223E0;
         register_node(rect_obj, &display_registration_tag);
         rect_data->unk_0C = 0xB8;
         rect_data->unk_0E = 0x14;
@@ -86,8 +75,8 @@ void initialize_minigame_display(void *context)
 
     image_obj = allocate_flagged_object_node(1);
     if (image_obj != NULL) {
-        image_data = image_obj + 0x20;
-        ((S_80022290_2 *)image_obj)->unk_10 = D_800223E8;
+        image_data = ((void *)image_obj) + 0x20;
+        image_obj->unk_10 = D_800223E8;
         register_node(image_obj, D_80053858);
         image_data->unk_14 = 0xF0;
         image_data->unk_16 = 0x20;

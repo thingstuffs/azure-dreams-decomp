@@ -1,4 +1,5 @@
 #include "shared/entity_height_offsets.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -34,20 +35,6 @@ typedef struct S_80026A84_1 {
 
    /* arg0 in create_six_offset_effects */
 
-typedef struct S_80026A84_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} S_80026A84_3;
 
 typedef struct S_80026A84_5 {
     u8 pad_00[0x4];
@@ -86,9 +73,9 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
     u16 coord_xz;
     u16 coord_y;
     SpriteFrameState *render_data;
-    S_80026A84_3 *effect_pos;
+    ObjectPosition *effect_pos;
     S_80026A84_5 *effect_data;
-    void *effect;
+    ObjectNodeHeader *effect;
     void *chain_head;
 
     chain_head = NULL;
@@ -102,21 +89,21 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
     do {
         effect = allocate_list_node(0x12, ((s32 *)(&scene_object_list_anchor)));
         if (effect != NULL) {
-            ((S_80026A84_1 *)effect)->unk_10 = callback;
+            effect->unk_10 = callback;
             register_node(effect, D_800CEEFC);
-            effect_pos = ((S_80026A84_1 *)effect)->unk_08;
+            effect_pos = effect->position;
             coord_xz = origin->unk_02 + offset[0];
-            effect_pos->unk_02 = coord_xz;
-            effect_pos->unk_0E = coord_xz;
+            effect_pos->x.w.i = coord_xz;
+            *((u16 *)&effect_pos->velocity_x + 1) = coord_xz;
             point_index = 0;
             coord_y = origin->unk_06 + offset[1];
-            effect_pos->unk_06 = coord_y;
-            effect_pos->unk_12 = coord_y;
-            effect_data = effect + 0x20;
+            effect_pos->y.w.i = coord_y;
+            *((u16 *)&effect_pos->velocity_y + 1) = coord_y;
+            effect_data = ((void *)effect) + 0x20;
             coord_xz = origin->unk_0A + offset[2];
-            effect_pos->unk_0A = coord_xz;
-            effect_pos->unk_16 = coord_xz;
-            render_data = ((S_80026A84_1 *)effect)->unk_0C;
+            effect_pos->z.w.i = coord_xz;
+            *((u16 *)&effect_pos->velocity_z + 1) = coord_xz;
+            render_data = effect->sprite;
             render_data->source = effect_entry;
             render_data->scale_y = 0x1000;
             render_data->scale_x = 0x1000;
@@ -126,9 +113,9 @@ void *create_six_offset_effects(MovingPosition *origin, S_80026A84_7 *target_pos
             effect_data->unk_66 = 0x20;
             effect_data->unk_6E = effect_index;
             do {
-                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_24 = effect_pos->unk_02;
-                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_26 = effect_pos->unk_06;
-                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_28 = effect_pos->unk_0A;
+                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_24 = *(u16 *)&effect_pos->x.w.i;
+                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_26 = *(u16 *)&effect_pos->y.w.i;
+                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_28 = *(u16 *)&effect_pos->z.w.i;
                 point_index += 1;
             } while (point_index < 8);
             effect_data->unk_08 = chain_head;

@@ -5,13 +5,6 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-typedef struct S_80BFD000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    u8 * unk_10;
-} S_80BFD000_0;
-
 typedef struct S_80BFD000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -54,7 +47,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
     s32 unused_byte_21d8;
     s32 kind_or_bits;
     S_80BFD000_1 *actor_state = NULL;
-    void *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *placement;
     S_80BFD000_2 *attributes;
     S_80BFD000_4 *actor;
@@ -73,14 +66,14 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
     unused_byte_neg_ba0 = (s32) *(s8 *)-0xBA0;
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
-        actor_state = object + 0x20;
+        actor_state = ((void *)object) + 0x20;
         actor = actor_state;
-        ((S_80BFD000_0 *)object)->unk_10 = D_8015EA58;
+        object->unk_10 = D_8015EA58;
         actor_state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
-        attributes = ((S_80BFD000_0 *)object)->unk_08;
+        attributes = object->position;
         attributes->unk_0A = saved_value;
-        placement = ((S_80BFD000_0 *)object)->unk_0C;
+        placement = object->sprite;
         kind_or_bits = spawn_flags & 3;
         placement->unk_25 = saved_y;
         placement->frameTable = &D_8016220C;

@@ -22,10 +22,10 @@ extern void clear_entity_record_fields(void *record);
 extern void *D_8009AFF4[3];
 extern u8 town_scene_record_handlers[3];
 extern s32 town_player_target_adjustment;
-extern M2C_UNK D_800D0640[3];
+extern s32 D_800D0640[3];
 
 /* Updates motion toward the target and advances the state when the countdown expires. */
-void advance_player_toward_target(void *state, EntityRec *motion, s32 context) {
+void advance_player_toward_target(void *state, ObjectPosition *motion, s32 context) {
     u16 ticks_left;
     s32 target_index;
     s32 *target_bases;
@@ -34,7 +34,7 @@ void advance_player_toward_target(void *state, EntityRec *motion, s32 context) {
     target_index = town_player_target_adjustment;
     target_bases = D_800D0640;
     target_base = target_bases + target_index;
-    motion->unk_10 = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base
+    motion->velocity_y = (s32) ((u32) (((S_8009B014_1 *)state)->unk_32 * 0x10000) + (u32) *target_base
         - (u32) motion->y.v) / ((S_8009B014_1 *)state)->unk_0A.s;
     ticks_left = (u16) ((S_8009B014_1 *)state)->unk_0A.s - 1;
     ((S_8009B014_1 *)state)->unk_0A.u = ticks_left;

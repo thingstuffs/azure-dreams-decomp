@@ -1,11 +1,14 @@
 /* Initialize and update enabled player scene objects (G00578). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A8BC8, CL:town/func_800A9234, CL:town/func_800A9334, CL:town/func_800A9410, PD:town/engine:800D0C78, PD:town/engine:800D0D54, PD:town/engine:80100E24, PD:town/engine:80100E28. */
 #include "town/player/scene_object_updates_g00578.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 
 /* Creates and initializes the enabled town object using its saved or default position. */
 void initialize_enabled_scene_object(void) {
-    s8 *object;
-    s8 *position;
+    ObjectNodeHeader *object;
+    ObjectPosition *position;
     s8 *state;
     s32 *saved_position;
     s32 object_resource;
@@ -26,42 +29,42 @@ void initialize_enabled_scene_object(void) {
         }
         object = create_town_effect_object(((s8 *)(&scene_object_list_anchor)), 0, D_800A6684, 0);
         if (object != NULL) {
-            position = *(s8 **)(object + 8);
-            object_resource = *(s32 *)(object + 0xC);
+            position = *(s8 * *)&object->position;
+            object_resource = *(s32 *)&object->sprite;
             saved_position = bike_saved_position;
-            *(s32 *)(position + 0) = bike_saved_position[0];
-            state = object + 0x20;
-            *(s32 *)(position + 4) = saved_position[1];
-            *(s32 *)(position + 8) = saved_position[2];
-            *(s16 *)(position + 0xA) = query_lowered_transform_position(position);
+            position->x.v = bike_saved_position[0];
+            state = ((s8 *)object) + 0x20;
+            position->y.v = saved_position[1];
+            position->z.v = saved_position[2];
+            position->z.w.i = query_lowered_transform_position(position);
 
-            if ((u32)(*(s32 *)(position + 8) + 0x300000) > 0x400000U) {
+            if ((u32)(position->z.v + 0x300000) > 0x400000U) {
                 default_position = bike_default_position;
                 coordinate = default_position[0];
                 bike_saved_position[0] = coordinate;
-                *(s32 *)(position + 0) = coordinate;
+                position->x.v = coordinate;
                 coordinate = default_position[1];
                 saved_position[1] = coordinate;
-                *(s32 *)(position + 4) = coordinate;
+                position->y.v = coordinate;
                 default_z = default_position[2];
                 saved_position[2] = default_z;
-                *(s32 *)(position + 8) = default_z;
+                position->z.v = default_z;
             }
 
-            position_y = *(s32 *)(position + 4);
+            position_y = position->y.v;
             *(s32 *)(state + 0xA4) = position_y;
             *(s32 *)(state + 0xA0) = position_y;
             handle_insert_initialize_two_values_status_flags(state, position, D_800D0CAC);
             initialize_optional_object_state(state, position, object_resource, D_800D0C90);
             initialize_object_entries((Struct800C5724 *)state, (s8 *)object_resource, (s32 *)D_80100E24_R);
-            *(s8 **)(state - 0x10) = D_800A6684;
+            ((ObjectNodeHeader *)((u8 *)state - 0x20))->unk_10 = D_800A6684;
             set_flagged_entry_values((u32 *)D_800D0D54, 0);
         }
     }
 }
 
 /* Update the entity sprite and trigger effects when it crosses the height threshold. */
-void update_entity_sprite_and_effects(void *entity, EntityRec *position, S_800A6684_0 *sprite)
+void update_entity_sprite_and_effects(void *entity, EntityRec *position, SpriteFrameState *sprite)
 {
     StackRecord effect_pos;
     s32 frame_index;
@@ -73,43 +76,43 @@ void update_entity_sprite_and_effects(void *entity, EntityRec *position, S_800A6
 
         frame_index = quantize_heading_to_sector((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64)));
         if ((*(s16 *)((u8 *)entity + 0x74)) != frame_index) {
-            select_record_entry_and_value(sprite, (*(void ** *)((u8 *)entity + 0x78))[frame_index], sprite->unk_04);
+            select_record_entry_and_value(sprite, (*(void ***)((u8 *)entity + 0x78))[frame_index], sprite->unk_04);
             (*(s16 *)((u8 *)entity + 0x74)) = frame_index;
         }
 
         if ((check_heading_past_half_sector((*(s16 *)((u8 *)entity + 0x72)), (*(s16 *)((u8 *)entity + 0x64))) << 0x10) != 0) {
-            sprite->unk_14 |= 1;
+            sprite->flags |= 1;
         } else {
-            sprite->unk_14 &= 0xFFFE;
+            sprite->flags &= 0xFFFE;
         }
                    /* MATCH: keep the flags store before call argument setup. */
         advance_sprite_animation_and_textures(sprite);
 
         if (position->y.v <= 0x06500000 && (*(s32 *)((u8 *)entity + 0xA0)) > 0x06500000) {
-            sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;
+            sprite->color.c.r = sprite->color.c.g = sprite->color.c.b = 0xFF;
             effect_pos.unk0 = position->x.v;
             effect_pos.unk4 = 0x06400000;
             effect_pos.unk8 = position->z.v - 0x00280000;
             create_colored_scaled_effect(&effect_pos);
         } else if (position->y.v > 0x06500000 && (*(s32 *)((u8 *)entity + 0xA0)) <= 0x06500000 &&
             (*(s32 *)((u8 *)entity + 0xA4)) <= 0x06500000) {
-            sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;
+            sprite->color.c.r = sprite->color.c.g = sprite->color.c.b = 0xFF;
             effect_pos.unk0 = position->x.v;
             effect_pos.unk4 = 0x06600000;
             effect_pos.unk8 = position->z.v - 0x00280000;
             update_sine_pulse_color(&effect_pos);
         } else {
-            height_or_shade = sprite->unk_0C - 8;
-            sprite->unk_0C = height_or_shade;
+            height_or_shade = sprite->color.c.r - 8;
+            sprite->color.c.r = height_or_shade;
             if ((u32)(height_or_shade & 0xFF) < 0x80U) {
-                sprite->unk_0C = 0x80;
+                sprite->color.c.r = 0x80;
             }
-            height_or_shade = sprite->unk_0D - 0x10;
-            sprite->unk_0D = height_or_shade;
+            height_or_shade = sprite->color.c.g - 0x10;
+            sprite->color.c.g = height_or_shade;
             if ((u32)(height_or_shade & 0xFF) < 0x80U) {
-                sprite->unk_0D = 0x80;
+                sprite->color.c.g = 0x80;
             }
-            sprite->unk_0E = sprite->unk_0D;
+            sprite->color.c.b = sprite->color.c.g;
         }
         (*(s32 *)((u8 *)entity + 0xA4)) = (*(s32 *)((u8 *)entity + 0xA0));
         (*(s32 *)((u8 *)entity + 0xA0)) = position->y.v;
@@ -142,12 +145,12 @@ void save_and_clear_entity_flag_ten(Obj *obj, State *state, VecState *motion, s3
 /* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
 void update_actor_position_and_heading(void *actor, s32 update_context, void *position, s32 setup_context) {
     u32 heading;
-    u8 *state;
+    ObjectNodeHeader *state;
     s32 *saved_position;
     ObjectPosition *fixed_position;
 
     state = ((u8 *)(&scene_object_list_anchor));
-    if (((S_800A6994_0 *)state)->unk_10 != &D_800A5638) {
+    if (*(s32 *)&state->unk_10 != &D_800A5638) {
         set_flagged_entry_values((u32 *)&D_800D0D54, 0);
         *(s32 *)bike_saved_position = ((EntityRec *)position)->x.v;
         saved_position = (s32 *)&bike_saved_position;

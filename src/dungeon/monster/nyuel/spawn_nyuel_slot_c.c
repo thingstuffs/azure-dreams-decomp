@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "modules/dungeon_ovl_bcf094.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -8,8 +10,8 @@
 void *func_80158894(s16 flags, s16 kind_id, s32 variant, s32 spawn_value)
 {
     void *result;
-    void *created;
-    void *position;
+    ObjectNodeHeader *created;
+    ObjectPosition *position;
     s32 part_ptr;
     s32 actor_ptr;
     s16 saved_flags;
@@ -28,10 +30,10 @@ void *func_80158894(s16 flags, s16 kind_id, s32 variant, s32 spawn_value)
         ((S_80158894_0 *)result)->unk_13 = MONSTER_NYUEL;
         register_node(created, project_sprite_chain);
 
-        position = ((S_80158894_1 *)created)->unk_08;
+        position = created->position;
         variant = saved_flags & 3;
-        ((S_80158894_2 *)position)->unk_0A = held_value;
-        part_ptr = (s32)((S_80158894_1 *)created)->unk_0C;
+        position->z.w.i = held_value;
+        part_ptr = (s32)created->sprite;
         ((SpriteFrameState *)part_ptr)->unk_24 = kind_id;
         ((SpriteFrameState *)part_ptr)->unk_25 = held_variant;
         actor_ptr = (s32)result;
@@ -59,7 +61,7 @@ void *func_80158894(s16 flags, s16 kind_id, s32 variant, s32 spawn_value)
             ((SpriteFrameState *)part_ptr)->frameTable = D_8015CED8;
             }
         }
-        ((S_80158894_1 *)created)->unk_10 = func_80158A98;
+        created->unk_10 = func_80158A98;
         initialize_actor_sprite_and_animation(created, position, (void *)part_ptr, (s16)original_flags);
         ((S_80158894_4 *)((void *)actor_ptr))->unk_9A = 0xFF;
         ((S_80158894_4 *)((void *)actor_ptr))->unk_9C = -1;

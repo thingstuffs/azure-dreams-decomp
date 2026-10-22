@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/cd.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -7,10 +8,11 @@ extern int abs(int);
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
+#include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 
-extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -42,20 +44,10 @@ typedef struct S_80172A48_0 {
 
    /* linked in advance_item_use_and_cleanup */
 
-typedef struct S_80172A48_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80172A48_3;   /* arg2 in advance_item_use_and_cleanup */
-
 /* Advance item use through effect activation, actor animation, and cleanup. */
 /* Starts a targeted spell, waits for loading, emits directional effects, and restores the actor after
  * either sequence. */
-void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *actor, void *item)
+void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, SpriteFrameState *actor, void *item)
 {
     register u8 *effect_slot;
     s16 is_special;
@@ -122,7 +114,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
                 if (special_target != 0) {
                     target = primary_actor_record;
                     (*(void * *)((u8 *)item + 0x60)) = target;
-                    linked = ((SpriteLinkPrefixView *)target)[-1].unk_00;
+                    linked = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                     (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->unk_24;
                     (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->unk_25;
                 } else {
@@ -130,9 +122,9 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
 
                     effect_id = *effect_slot;
                     if (item_action_definitions[effect_id].kind == 2) {
-                        target = (*(void * *)((u8 *)item + 0x60));
+                        target = (*(void **)((u8 *)item + 0x60));
                         if (target != 0) {
-                            linked = ((SpriteLinkPrefixView *)target)[-1].unk_00;
+                            linked = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                             (*(u8 *)((u8 *)item + 0x72)) = ((MovingTile *)linked)->unk_24;
                             (*(u8 *)((u8 *)item + 0x73)) = ((MovingTile *)linked)->unk_25;
                         }
@@ -140,10 +132,10 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
                         s32 dx;
                         s32 dy;
 
-                        target = scan_monster_along_heading(
-                            item, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25,
+                        target = scan_actor_along_heading(
+                            item, actor->unk_24, actor->unk_25,
                             (*(s16 *)((u8 *)item + 0x2A)), 0x10);
-                        (*(void * *)((u8 *)item + 0x60)) = target;
+                        (*(void **)((u8 *)item + 0x60)) = target;
                         dx = abs(*(s8 *)((u8 *)item + 0x72));
                         dy = abs(*(s8 *)((u8 *)item + 0x73));
                         (*(u8 *)((u8 *)item + 0x72)) = dx;
@@ -174,7 +166,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(item);
@@ -187,10 +179,10 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
+            actor->flags |= 0x800;
             return;
         }
-        ((S_80172A48_3 *)actor)->unk_14 &= 0xF7FF;
+        actor->flags &= 0xF7FF;
         ((S_80172A48_0 *)action)->unk_9B++;
 
     case 2:
@@ -200,7 +192,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
         timer = ((S_80172A48_0 *)action)->unk_96.u;
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 8) {
-            if (!(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
+            if (!(actor->flags & 0x8000)) {
                 return;
             }
         }
@@ -218,7 +210,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
             timer = ((S_80172A48_0 *)action)->unk_96.u;
             ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
             if ((s16)timer < 15) {
-                if (!(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
+                if (!(actor->flags & 0x8000)) {
                     return;
                 }
             }
@@ -226,7 +218,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
         ((S_80172A48_0 *)action)->unk_96.u = 0;
         ((S_80172A48_0 *)action)->unk_9B++;
         play_sound_if_enabled(0x703);
-        (*(void * *)((u8 *)actor + 0x2C)) = D_80174110;
+        (actor->frameTable) = D_80174110;
         select_sprite_entry(actor,
             *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
             0);
@@ -240,31 +232,31 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
             timer = ((S_80172A48_0 *)action)->unk_96.u;
             ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
             if ((s16)timer < 3) {
-                if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
+                if (!(actor->flags & 0xE000)) {
                     return;
                 }
             }
         }
-        ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
+        actor->flags |= 0x800;
         ((S_80172A48_0 *)action)->unk_9B++;
         return;
 
     case 5:
-        ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
+        actor->flags |= 0x800;
         {
             s16 timer;
 
             timer = ((S_80172A48_0 *)action)->unk_96.u;
             ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
             if ((s16)timer < 10) {
-                if (!(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
+                if (!(actor->flags & 0x8000)) {
                     return;
                 }
             }
         }
         ((S_80172A48_0 *)action)->unk_96.u = 0;
         ((S_80172A48_0 *)action)->unk_9B++;
-        ((S_80172A48_3 *)actor)->unk_14 &= 0xF7FF;
+        actor->flags &= 0xF7FF;
         return;
 
     case 6:
@@ -274,21 +266,21 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
         return;
 
     case 7:
-        if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
+        if (!(actor->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
         ((S_80172A48_0 *)action)->unk_9B++;
-        if (((S_80172A48_3 *)actor)->unk_2C == D_801740E0) {
+        if (*(u8 **)&actor->frameTable == D_801740E0) {
             return;
         }
         {
             u8 *model = D_801740E0;
 
-            (*(void * *)((u8 *)actor + 0x2C)) = model;
+            (actor->frameTable) = model;
             select_sprite_entry(actor,
                 model[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7],
                 0);
@@ -316,10 +308,10 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
 
     case 16:
         if (get_cd_command_queue_depth()) {
-            ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
+            actor->flags |= 0x800;
             return;
         }
-        ((S_80172A48_3 *)actor)->unk_14 &= 0xF7FF;
+        actor->flags &= 0xF7FF;
         ((S_80172A48_0 *)action)->unk_9B++;
 
     case 17:
@@ -329,7 +321,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
         timer = ((S_80172A48_0 *)action)->unk_96.u;
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 8 &&
-            !(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
+            !(actor->flags & 0x8000)) {
             return;
         }
     }
@@ -346,7 +338,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
             timer = ((S_80172A48_0 *)action)->unk_96.u;
             ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
             if ((s16)timer < 15 &&
-                !(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
+                !(actor->flags & 0x8000)) {
                 return;
             }
         }
@@ -354,7 +346,7 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
         ((S_80172A48_0 *)action)->unk_9B++;
         play_sound_if_enabled(0x703);
                     /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
-        (*(void * *)((u8 *)actor + 0x2C)) = (u8 *)((u32)D_80174118 - 8);
+        (actor->frameTable) = (u8 *)((u32)D_80174118 - 8);
         select_sprite_entry(actor,
             *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
                 + (u32)(u8 *)((u32)D_80174118 - 8))),
@@ -369,18 +361,18 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
             timer = ((S_80172A48_0 *)action)->unk_96.u;
             ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
             if ((s16)timer < 2 &&
-                !(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
+                !(actor->flags & 0xE000)) {
                 return;
             }
         }
-        ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
+        actor->flags |= 0x800;
         next_state = ((S_80172A48_0 *)action)->unk_9B;
         next_state++;
         ((S_80172A48_0 *)action)->unk_9B = next_state;
         return;
 
     case 20:
-        ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
+        actor->flags |= 0x800;
         if (((S_80172A48_0 *)action)->unk_96.s < 5) {
             create_directional_template_effect(action, motion, actor, item);
         }
@@ -390,25 +382,25 @@ void advance_item_use_and_cleanup(void *action, ObjectPosition *motion, void *ac
             timer = ((S_80172A48_0 *)action)->unk_96.u;
             ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
             if ((s16)timer < 10 &&
-                !(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
+                !(actor->flags & 0x8000)) {
                 return;
             }
         }
         ((S_80172A48_0 *)action)->unk_96.u = 0;
         ((S_80172A48_0 *)action)->unk_9B++;
-        ((S_80172A48_3 *)actor)->unk_14 &= 0xF7FF;
+        actor->flags &= 0xF7FF;
         ((S_80172A48_0 *)action)->unk_98 |= 0x80;
         return;
 
     case 21:
-        if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
+        if (!(actor->flags & 0xE000)) {
             return;
         }
         ((S_80172A48_0 *)action)->unk_96.u = 0;
         ((S_80172A48_0 *)action)->unk_9B++;
         {
 
-            (*(void * *)((u8 *)actor + 0x2C)) = D_80174118;
+            (actor->frameTable) = D_80174118;
             select_sprite_entry(actor,
                 *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)
                     + (u32)D_80174118)),

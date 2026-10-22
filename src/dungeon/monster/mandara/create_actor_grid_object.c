@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -58,11 +59,6 @@ typedef struct S_80FB1000_0 {
     s32 unk_1C;
 } S_80FB1000_0;   /* work in create_actor_grid_object */
 
-typedef struct S_80FB1000_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80FB1000_1;   /* position in create_actor_grid_object */
-
 typedef struct S_80FB1000_2 {
     u8 pad_00[0x6];
     u16 unk_06;
@@ -76,9 +72,9 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
     s32 value1_saved;
     s8 value2_byte;
     s16 value3_saved;
-    void *created;
+    ObjectNodeHeader *created;
     u8 *work = 0;
-    u8 *position;
+    ObjectPosition *position;
     SpriteFrameState *monster;
     u8 *actor;
     s32 kind;
@@ -100,13 +96,13 @@ void *create_actor_grid_object(s16 mode, s32 value1, s16 value2, s16 value3)
         s32 scale;
 
         work = (u8 *)created + 0x20;
-        (*(Callback *)((u8 *)created + 0x10)) = func_80170B40;
+        (created ->unk_10) = func_80170B40;
         ((S_80FB1000_0 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
-        position = (*(u8 * *)((u8 *)created + 8));
-        ((S_80FB1000_1 *)position)->unk_0A = value3_saved;
-        monster = (*(u8 * *)((u8 *)created + 0xC));
+        position = (*(u8 * *)&created ->position);
+        position->z.w.i = value3_saved;
+        monster = (*(u8 * *)&created ->sprite);
         monster->unk_25 = value2_byte;
         actor = work;
         monster->frameTable = func_80175258;

@@ -1,8 +1,15 @@
+
+struct ObjectPosition;
+#include "shared/sprite_frame_state.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/dispatch.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect.h"
+#include "dungeon/item.h"
+#include "dungeon/player/item.h"
+#include "engine/texture.h"
 
 typedef struct S_800C55F4_0 {
     u8 ** unk_00;
@@ -81,7 +88,6 @@ typedef struct S_800C55F4_8 {
 
    /* ((S_800C55F4_9 *)global_base)->unk_00 in transform_mesh_and_append_draw_packets */
 
-
 extern s32 convert_hsv_to_rgb();
 extern void *func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
@@ -137,11 +143,10 @@ void transform_mesh_and_append_draw_packets(u8 *params, u8 *record, void *mesh_d
     void *flags_arg;
     GameWork *global_base;
 
-
     global_base = &g_game_work;
     perspective_out = (void *)0x1F800090;
 
-    descriptor = (*(u8 ** *)((u8 *)mesh_data + 8));
+    descriptor = (*(u8 ***)((u8 *)mesh_data + 8));
     flags_out = (void *)0x1F800094;
 
     vertices = ((S_800C55F4_0 *)descriptor)->unk_00;
@@ -400,25 +405,6 @@ s32 rand();                                /* extern */
 extern s32 play_sound_if_enabled();
 extern void damp_effect_motion_and_fade(void *effect, s32 *motion, SpriteFrameState *primitive);
 
-typedef struct S_800C5BBC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800C5BBC_0;
-
-typedef struct S_800C5BBC_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800C5BBC_1;
-
 typedef struct S_800C5BBC_3 {
     u8 pad_00[0xC];
     s16 unk_0C;
@@ -431,9 +417,9 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
     s32 alloc_flags;
     s32 particle_index;
     s32 remaining;
-    S_800C5BBC_1 *position;
+    ObjectPosition *position;
     SpriteFrameState *sprite;
-    void *particle;
+    ObjectNodeHeader *particle;
     S_800C5BBC_3 *particle_state;
     void *first_particle;
 
@@ -451,16 +437,16 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
             }
             particle = allocate_flagged_object_node(alloc_flags);
             if (particle != 0) {
-                ((S_800C5BBC_0 *)particle)->unk_10 = damp_effect_motion_and_fade;
+                particle->unk_10 = damp_effect_motion_and_fade;
                 register_node(particle, project_sprite_chain);
-                position = ((S_800C5BBC_0 *)particle)->unk_08;
-                position->unk_02 = (u16) x;
-                position->unk_06 = y;
-                position->unk_0A = z;
-                position->unk_0C = (s32) (position->unk_0C + (((rand() & 0x1F) - 0x10) << 0xE));
-                position->unk_10 = (s32) (position->unk_10 + (((rand() & 0x1F) - 0x10) << 0xE));
-                position->unk_14 = (s32) ((0 - ((rand() & 0xF) + 0x18)) << 0xD);
-                sprite = ((S_800C5BBC_0 *)particle)->unk_0C;
+                position = particle->position;
+                position->x.w.i = (u16) x;
+                position->y.w.i = y;
+                position->z.w.i = z;
+                position->velocity_x = (s32) (position->velocity_x + (((rand() & 0x1F) - 0x10) << 0xE));
+                position->velocity_y = (s32) (position->velocity_y + (((rand() & 0x1F) - 0x10) << 0xE));
+                position->velocity_z = (s32) ((0 - ((rand() & 0xF) + 0x18)) << 0xD);
+                sprite = particle->sprite;
                 select_record_entry_and_value(sprite, &secondary_sprite, 0);
                 sprite->color.word = sprite_data;
                 sprite->scale_y = 0x1000;
@@ -468,7 +454,7 @@ void *spawn_randomized_particle_burst(s16 x, s16 y, s16 z, s32 sprite_data, u16 
                 sprite->tpage_abr = sprite_id;
                 sprite->clut = 3;
                 sprite->flags = (u16) (sprite->flags | 0xC);
-                particle_state = particle + 0x20;
+                particle_state = ((void *)particle) + 0x20;
                 particle_state->unk_10 = (s16) ((rand() & 0xF) | 0x10);
                 particle_state->unk_0C = particle_index;
                 if (particle_index == 0) {
@@ -553,24 +539,6 @@ extern s32 draw_linked_sprites_clipped();
 struct S_800C5D80_0;
 extern void advance_effect_motion_and_fade(void *effect_data, struct S_800C5D80_0 *motion, SpriteFrameState *primitive);
 
-typedef struct S_800C5E5C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800C5E5C_0;
-
-typedef struct S_800C5E5C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800C5E5C_1;
-
 typedef struct S_800C5E5C_3 {
     u8 pad_00[0xC];
     s16 unk_0C;
@@ -586,8 +554,8 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
     s32 size;
     SpriteFrameState *sprite;
     DungeonGlobalStatus *counter;
-    void *effect;
-    S_800C5E5C_1 *transform;
+    ObjectNodeHeader *effect;
+    ObjectPosition *transform;
     S_800C5E5C_3 *effect_state;
     u16 sprite_flags;
 
@@ -607,14 +575,14 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
             effect = allocate_flagged_object_node(object_type);
         }
         if (effect != 0) {
-            ((S_800C5E5C_0 *)effect)->unk_10 = advance_effect_motion_and_fade;
+            effect->unk_10 = advance_effect_motion_and_fade;
             register_node(effect, draw_linked_sprites_clipped);
-            transform = ((S_800C5E5C_0 *)effect)->unk_08;
-            transform->unk_02 = x;
-            transform->unk_06 = y;
-            transform->unk_0A = z;
-            transform->unk_14 = effect_offset;
-            sprite = ((S_800C5E5C_0 *)effect)->unk_0C;
+            transform = effect->position;
+            transform->x.w.i = x;
+            transform->y.w.i = y;
+            transform->z.w.i = z;
+            transform->velocity_z = effect_offset;
+            sprite = effect->sprite;
             select_record_entry_and_value(sprite, sprite_id, 0);
             sprite_flags = sprite->flags;
             {
@@ -628,7 +596,7 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
                 sprite->scale_y = scale;
                 sprite->scale_x = scale;
             }
-            effect_state = effect + 0x20;
+            effect_state = ((void *)effect) + 0x20;
             sprite->tpage_abr = size;
             sprite_flags |= 0xC;
             sprite->flags = sprite_flags;
@@ -663,9 +631,7 @@ extern u8 D_800E0BA1[];
 void initialize_timed_motion_step();
 void request_scene_dispatch_state();
 s32 get_entity_class();
-void mark_sprite_resources_for_purge();
 void snapshot_inventory_and_familiars();
-void snapshot_inventory_familiar_records();
 s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes();
 s32 copy_four_text_bytes();
@@ -674,7 +640,6 @@ s32 write_text_byte_and_advance();
 void unlink_entity_node();
 void update_map_cell_flags_with_item_limit();
 void refresh_packed_grid_nibbles();
-s32 find_padded_rectangle();
 void detach_record_and_update_slot_state();
 extern s32 play_sound_if_enabled();
 void display_text_with_fullwidth_adjustment();
@@ -897,7 +862,7 @@ L_zero:
         e = ((u8 *)dungeon_actor_ring_anchor);
         *(s16 *)(w + 18) = 0;
         do {
-            ep = *(u8 **)(e - 20);
+            ep = *(u8 * *)&((ObjectNodeHeader *)((u8 *)e - 0x20))->sprite;
             if (phase == (s16)find_padded_rectangle(*(u8 *)(ep + 36), *(u8 *)(ep + 37))) {
                 if (*(u8 *)(e + 19) == 0) {
                     dungeon_floor_flags |= 0x2000;
@@ -937,7 +902,7 @@ L_zero:
                     }
                     detach_record_and_update_slot_state(o);
                     unlink_entity_node(o);
-                    *(u16 *)(o - 2) |= NODE_REMOVE;
+                    ((ObjectNodeHeader *)((u8 *)o - 0x20) )->flags|= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 }
             }
@@ -1247,7 +1212,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
     void *part;
 
     render_globals = &g_game_work;
-    state = *(u8 **)((u8 *)(&g_game_work));
+    state = *(u8 **)&g_game_work.draw_buffer;
     *(u32 *)(scratch + 0x0EC) = NULL;
     *(u16 *)(scratch + 0x08C) = 0;
     *(u16 *)(scratch + 0x084) = 0;
@@ -1497,7 +1462,7 @@ void draw_sprite_parts_as_quad_grid(s32 context, void *position, void *sprite, s
         } while (part_flags >= 0);
         func_80064A40();
     }
-    *(s32 *)(*(u32 *)render_globals + 0x8D0) = packet_next;
+    *(s32 *)(*(u32 *)&render_globals->draw_buffer + 0x8D0) = packet_next;
 }
 #include "common.h"
 #include "shared/object_node.h"
@@ -1569,8 +1534,8 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
     DungeonObject *parent;
     DungeonObject *child;
     DungeonState *state;
-    DungeonCoord * center;
-    DungeonCoord *child_coord;
+    ObjectPosition * center;
+    ObjectPosition *child_coord;
     DungeonRender *render;
     void *image_data;
     s16 shade;
@@ -1589,10 +1554,10 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
         remaining = 0xB;
         shade = -0xAA7;
         center = parent->coord;
-        center->x = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
+        center->x.w.i = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         angle = 0xEA7;
-        center->y = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
-        center->z = z;
+        center->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
+        center->z.w.i = z;
         render = parent->render;
         render->image = D_800777E8;
         render->limit = 0x1800;
@@ -1620,9 +1585,9 @@ DungeonObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, u16 z, s
                 child->callback = callback_fn;
                 register_node(init_child, child_resource);
                 child_coord = child->coord;
-                child_coord->x = (s16) (center->x + (func_80064584(angle) >> 7));
-                child_coord->y = (s16) (center->y + (func_800644B8(angle) >> 7));
-                child_coord->z = center->z;
+                child_coord->x.w.i = (s16) (center->x.w.i + (func_80064584(angle) >> 7));
+                child_coord->y.w.i = (s16) (center->y.w.i + (func_800644B8(angle) >> 7));
+                child_coord->z.w.i = *(u16 *)&center->z.w.i;
                 render = child->render;
                 render->blend2 = 0xFC00;
                 render->shade = shade;
@@ -1711,7 +1676,7 @@ extern void update_target_tracking_and_transition(void *tracker);
 extern u8 camera_transition_timer[];
 
 /* Selects a nearby target, initializes its state slot, and returns change flags. */
-s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value) {
+s32 select_nearby_target_and_initialize_slot(s32 slot_id, ObjectPosition *target, s32 target_id, s32 slot_value) {
     s32 distance;
     s32 target_coord;
     s32 change_flags;
@@ -1721,7 +1686,7 @@ s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 targ
     s16 new_target_id;
 
     distance = view_reference_entity.x.w.i;
-    target_coord = *(s16 *)((u8 *)target + 2);
+    target_coord = target->x.w.i;
     distance -= target_coord;
     if (distance < 0)
         distance = -distance;
@@ -1730,7 +1695,7 @@ s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 targ
         return 0;
     }
     distance = view_reference_entity.y.w.i;
-    target_coord = *(s16 *)((u8 *)target + 6);
+    target_coord = target->y.w.i;
     distance -= target_coord;
     if (distance < 0)
         distance = -distance;
@@ -1761,7 +1726,7 @@ s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 targ
 #include "shared/entity_objects.h"
 
 extern u16 D_800E58F8[];
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Sets up the object at the supplied position if both planar distances are at most 192. */
 void setup_object_within_planar_range(s32 object, s32 x, s32 y, s32 height, s32 mode, s32 settings)
@@ -1815,11 +1780,10 @@ typedef struct S_800C7930_3 {
     u16 unk_0A;
 } S_800C7930_3;   /* destination in apply_camera_offset_and_select_target */
 
-
 extern u16 direction_x_offsets;
 extern u16 direction_y_offsets;
 extern u16 D_800E58F8[];
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Apply table offsets to a position near the camera and pass it to select_nearby_target_and_initialize_slot. */
 s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32 helper_arg, s32 slot_value)
@@ -1876,7 +1840,7 @@ s32 apply_camera_offset_and_select_target(s32 object_addr, void *source_pos, s32
 #include "shared/entity_objects.h"
 
 extern u16 D_800E58F8[];
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Process the midpoint of two objects when it is near the reference position. */
 void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg) {
@@ -1952,7 +1916,7 @@ extern s16 camera_pitch_index;
 extern s16 camera_pitch_presets[];
 extern s16 camera_depth_target[5];
 
-extern s32 select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s32 slot_value);
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Blend toward the entity target, then dispatch the next state. */
 void blend_entity_toward_target_state(void *entity_data) {
@@ -2112,7 +2076,7 @@ s32 prepare_quarter_damage_return(Object *object, Other *source) {
         *(u16 *)&object->value64 = adjustment;
         g_dungeon_status.pending_display_owner = (u8 *)object - 0x20;
         object->value60 = 0;
-        create_textured_ellipse_effect(*(void **)((u8 *)object - 0x18), object);
+        create_textured_ellipse_effect(((ObjectNodeHeader *)((u8 *)object - 0x20))->position, object);
         play_sound_if_enabled(0x60F);
         object->flags1C |= 0x20000000;
         if (object->value13 == 0) {

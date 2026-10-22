@@ -11,13 +11,6 @@ typedef struct S_8001EDE0_0 {
     s32 unk_40;
 } S_8001EDE0_0;   /* ptr in func_8001EDE0 */
 
-typedef struct S_8001EDE0_1 {
-    u8 pad_00[0x4];
-    s32 unk_04;
-} S_8001EDE0_1;   /* entry_ptr in func_8001EDE0 */
-
-
-
 extern s32 func_80400908(void);
 extern s32 process_entry_with_table_value(s32, s32);
 extern void func_80402214(void);
@@ -33,7 +26,7 @@ void process_object_entry_batch(void *ptr) {
     s32 value;
     s32 index;
     void *offset_ptr;
-    void *entry_ptr;
+    ObjectNodeHeader *entry_ptr;
 
     if (read_and_update_indexed_record(((S_8001EDE0_0 *)ptr)->unk_2C, 0x80010000) != 0) {
         *(s32 *)0x80010208 = 0;
@@ -43,7 +36,7 @@ void process_object_entry_batch(void *ptr) {
             func_80402214();
             entry_ptr = ptr;
             do {
-                value = ((S_8001EDE0_1 *)entry_ptr)->unk_04;
+                value = *(s32 *)&entry_ptr->pprev;
                 entry_ptr = (u8 *)entry_ptr + 4;
                 index += 1;
                 func_80404688(value);

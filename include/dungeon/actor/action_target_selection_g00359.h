@@ -115,7 +115,7 @@ s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *fla
 s32 check_diagonal_side_height(s32 direction, s16 tile_x, s16 tile_y, s16 height);
 s32 find_active_rect_containing_point(s32 point_x, s32 point_y);
 extern s16 actor_turn_angle_offsets[];
-s32 rebuild_monster_reachable_tiles();
+s32 select_actor_route_target();
 s32 update_actor_proximity_flag();
 void update_actor_status_and_mp();
 s32 check_entity_relation();
@@ -134,6 +134,5 @@ extern s16 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
 s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset);
 void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *tile, void *actor);
 s32 select_target_tile_for_actor_action(void *object_ptr, void *action_context, void *target_ptr, void *actor_ptr);
-s32 choose_best_eligible_entry_for_actor(void *actor_arg, s32 action_arg, MovingTile *origin);
 
 #endif

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -9,11 +10,6 @@ typedef struct S_80174910_6 {
     void * unk_08;
     void * unk_0C;
 } S_80174910_6;   /* arg0 in create_three_linked_palette_objects */
-
-typedef struct S_80174910_7 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_80174910_7;
 
    /* ((S_80174910_6 *)arg0)->unk_08 in create_three_linked_palette_objects */
 
@@ -27,12 +23,6 @@ s32 register_node();           /* extern */
 s32 func_800672D8();              /* extern */
 extern M2C_UNK D_801747B8;
 extern u8 D_80175F70[];
-
-typedef struct S_80174910_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    void * unk_10;
-} S_80174910_0;
 
 typedef struct S_80174910_1 {
     u8 pad_00[0xC];
@@ -75,7 +65,7 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
     u16 clut_id;
     u8 entry_flags;
     u8 *texture_entry;
-    void *object;
+    ObjectNodeHeader *object;
     S_80174910_1 *object_data;
     SpriteFrameState *scale_state;
     SpriteFrameState *render_state;
@@ -85,9 +75,9 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
     object_callback = &D_801747B8;
     do {
         object = allocate_list_node(0x12, source);
-        object_data = object + 0x20;
+        object_data = ((void *)object) + 0x20;
         if (object != NULL) {
-            ((S_80174910_0 *)object)->unk_10 = object_callback;
+            object->unk_10 = object_callback;
             object_data->unk_18 = (void *) source->unk_0C;
             object_data->unk_1C = (void *) source->unk_08;
             first_component = ((MovingPosition *)(((S_80174910_6 *)source)->unk_08))->unk_02;
@@ -104,7 +94,7 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
             object_data->unk_30 = third_component;
             object_data->unk_2E = third_component;
             object_data->unk_2C = third_component;
-            scale_state = ((S_80174910_0 *)object)->unk_0C;
+            scale_state = object->sprite;
             scale_state->scale_y = 0x1000;
             scale_state->scale_x = 0x1000;
             register_node(object, project_sprite_chain);
@@ -129,9 +119,9 @@ void create_three_linked_palette_objects(S_80174910_2 *source, s32 effect_param)
                     palette_rect[0] = next_palette_x;
                 } while (next_palette_x < 0x100);
             }
-            render_state = ((S_80174910_0 *)object)->unk_0C;
+            render_state = object->sprite;
             render_state->clut = (u16) (render_state->clut - 0x40);
-            ((SpriteFrameState *)((S_80174910_7 *)object)->unk_0C)->tpage_abr = 0x20;
+            object->sprite->tpage_abr = 0x20;
         }
         object_index += 1;
     } while (object_index < 3);

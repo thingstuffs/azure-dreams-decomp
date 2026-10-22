@@ -1,3 +1,4 @@
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -13,18 +14,6 @@ typedef struct S_80170894_0 {
     u8 pad_20[0x6C];
     void * unk_8C;
 } S_80170894_0;   /* work in func_80170894 */
-
-typedef struct S_80170894_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80170894_1;   /* obj in func_80170894 */
-
-typedef struct S_80170894_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80170894_2;   /* part_a in func_80170894 */
 
 typedef struct S_80170894_4 {
     u8 pad_00[0x8C];
@@ -56,10 +45,10 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
     void *work;
     s16 held_c;
     s32 held_flags;
-    void *obj;
+    ObjectNodeHeader *obj;
     s8 held_b;
     s8 held_a;
-    void *part_a;
+    ObjectPosition *part_a;
     s16 flags_copy;
     s32 call_id;
     ObjectNodeHeader *call_target;
@@ -82,9 +71,9 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
         ((S_80170894_0 *)work)->unk_13 = MONSTER_NYUEL;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_80170894_1 *)obj)->unk_08;
-        ((S_80170894_2 *)part_a)->unk_0A = held_c;
-        part_b = ((S_80170894_1 *)obj)->unk_0C;
+        part_a = obj->position;
+        part_a->z.w.i = held_c;
+        part_b = obj->sprite;
         kind = held_flags & 3;
         part_b->unk_25 = held_b;
         actor = work;
@@ -95,20 +84,20 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             s32 right_one;
 
             ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
-            left_one = ((S_80170894_0 *)work)->unk_14 | 0x6000;
-            right_one = ((S_80170894_0 *)work)->unk_1C | 0x6000;
-            ((S_80170894_0 *)work)->unk_14 = left_one;
-            ((S_80170894_0 *)work)->unk_1C = right_one;
+            left_one = ((ObjectNodeHeader *)work)->unk_14 | 0x6000;
+            right_one = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x6000;
+            ((ObjectNodeHeader *)work)->unk_14 = left_one;
+            *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = right_one;
             part_b->frameTable = func_80174ED8;
         } else if (kind >= 2) {
             s32 left_many;
             s32 right_many;
 
             ((S_80170894_0 *)work)->unk_8C = update_entity_actions_facing_and_animation;
-            left_many = ((S_80170894_0 *)work)->unk_14 | 0x2000;
-            right_many = ((S_80170894_0 *)work)->unk_1C | 0x2000;
-            ((S_80170894_0 *)work)->unk_14 = left_many;
-            ((S_80170894_0 *)work)->unk_1C = right_many;
+            left_many = ((ObjectNodeHeader *)work)->unk_14 | 0x2000;
+            right_many = *(s32 *)&((ObjectNodeHeader *)work)->pad_1C | 0x2000;
+            ((ObjectNodeHeader *)work)->unk_14 = left_many;
+            *(s32 *)&((ObjectNodeHeader *)work)->pad_1C = right_many;
             part_b->frameTable = func_80174ED8;
         } else {
             s32 test;
@@ -119,7 +108,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             if (test != 0) {
                 callback_page = (u8 *)0x80170000;
             } else {
-                if (((S_80170894_0 *)work)->unk_14 & 0x200) {
+                if (((ObjectNodeHeader *)work)->unk_14 & 0x200) {
                     callback_page = (u8 *)0x80170000;
                 } else if (!(generate_random_value() & 1)) {
                     callback_page = (u8 *)0x80170000;
@@ -137,7 +126,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             part_b->frameTable = func_80174ED8;
         }
 callback_done:
-        ((S_80170894_1 *)obj)->unk_10 = update_monster_facing_and_contact;
+        obj->unk_10 = update_monster_facing_and_contact;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, flags_copy);
         ((S_80170894_4 *)actor)->unk_9A = 0xFF;
         ((S_80170894_4 *)actor)->unk_9C = -1;

@@ -8,13 +8,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800C542C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800C542C_0;   /* object in create_orbiting_teleport_effect */
-
 typedef struct S_800C542C_2_pre {
     void * unk_00;
     s32 unk_04;
@@ -51,7 +44,7 @@ extern void play_sound_if_enabled(s32);
 /* Creates and initializes a display object linked to its owner. */
 void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode)
 {
-    void *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *display;
     MovingPosition *source;
     MovingPosition *target;
@@ -66,16 +59,16 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
     saved_mode = effect_mode;
     if (object != NULL) {
         callback = D_800C4F20;
-        ((S_800C542C_0 *)object)->unk_10 = callback;
+        object->unk_10 = callback;
         register_node(object, D_800C55A0);
 
-        display = ((S_800C542C_0 *)object)->unk_0C;
+        display = object->sprite;
         display->color.word = 0x808080;
         display->source = D_800DF630;
         display->unk_06 = 0xC;
 
         source = ((S_800C542C_2_pre *)owner)[-1].unk_00;
-        target = ((S_800C542C_0 *)object)->unk_08;
+        target = object->position;
         target->unk_02 = source->unk_02;
         target->unk_06 = source->unk_06;
         record = (u8 *)object + 0x20;

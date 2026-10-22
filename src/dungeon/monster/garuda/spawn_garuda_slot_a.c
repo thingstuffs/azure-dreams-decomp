@@ -10,13 +10,6 @@ typedef struct ActionState ActionState;
 typedef struct ActorSprite ActorSprite;
 typedef struct CreatureState CreatureState;
 
-typedef struct S_81029000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_81029000_0;   /* obj in spawn_garuda_slot_a */
-
 typedef struct S_81029000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -64,7 +57,7 @@ void *spawn_garuda_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s16 final_arg0;
     s32 left;
     S_81029000_1 *work = NULL;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_81029000_2 *part_a;
     SpriteFrameState *part_b;
     S_81029000_4 *actor;
@@ -78,13 +71,13 @@ void *spawn_garuda_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     obj = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     final_arg0 = spawn_flags;
     if (obj != NULL) {
-        work = obj + 0x20;
-        ((S_81029000_0 *)obj)->unk_10 = &func_8014CA78;
+        work = ((void *)obj) + 0x20;
+        obj->unk_10 = &func_8014CA78;
         work->unk_13 = MONSTER_GARUDA;
         register_node(obj, project_sprite_chain);
-        part_a = ((S_81029000_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = held_c;
-        part_b = ((S_81029000_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->unk_25 = held_b;
         actor = work;

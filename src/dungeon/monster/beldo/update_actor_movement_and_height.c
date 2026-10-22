@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -14,7 +15,6 @@ typedef union {
     struct { s32 high; u32 low; } word;
 } DivProduct;
 
-
 extern void enqueue_runtime_pool_script();
 extern void select_indirect_table_entry();
 extern void advance_sprite_animation_and_textures();
@@ -23,10 +23,9 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
-extern void update_object_animation(void *obj, void *motion, void *part, void *state);
+extern void update_object_animation(void *obj, void *motion, SpriteFrameState *part, void *state);
 extern Callback beldo_callbacks[];
 extern M2C_UNK D_80173FC8[];
-
 
 typedef struct S_8017112C_0 {
     u8 pad_00[0x1C];
@@ -73,20 +72,8 @@ typedef struct S_8017112C_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
 } S_8017112C_4;   /* motion in update_actor_movement_and_height */
 
-typedef struct S_8017112C_5 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8017112C_5;   /* monster in update_actor_movement_and_height */
-
 /* Updates actor behavior, movement, facing, and height. */
-void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *monster_arg)
+void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg)
 {
     void *actor = entity_arg;
     u16 state_direction;
@@ -174,20 +161,20 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
     state_direction = (view_angle >> 9) & 7;
     if ((*(s16 *)((u8 *)entity_arg + (0x94))) != state_direction) {
         select_indirect_table_entry(monster_arg,
-                      *((u8 *)((S_8017112C_5 *)monster_arg)->unk_2C + state_direction),
-                      ((S_8017112C_5 *)monster_arg)->unk_04);
+                      *((u8 *)monster_arg->frameTable + state_direction),
+                      monster_arg->unk_04);
         (*(s16 *)((u8 *)entity_arg + (0x94))) = state_direction;
     }
 
-    ((S_8017112C_5 *)monster_arg)->unk_14 &= 0xFFFE;
+    monster_arg->flags &= 0xFFFE;
     apply_monster_koyaw_data(((S_8017112C_0 *)actor)->unk_1C, (u8 *)monster_arg + 0xC);
 
     if (!(((S_8017112C_0 *)actor)->unk_1C & 0x20)) {
-        if (!(((S_8017112C_5 *)monster_arg)->unk_14 & 0x40)) {
+        if (!(monster_arg->flags & 0x40)) {
             advance_sprite_animation_and_textures(monster_arg);
         }
     } else {
-        ((S_8017112C_5 *)monster_arg)->unk_14 |= 0x7000;
+        monster_arg->flags |= 0x7000;
         ((S_8017112C_0 *)actor)->unk_1C &= 0xFFFBFFFF;
     }
 
@@ -222,8 +209,8 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
 
     if (((S_8017112C_0 *)actor)->unk_1C & 0x40000000) {
         ((S_8017112C_0 *)actor)->unk_1C &= 0xBFFFFFFF;
-        floor_height = sample_terrain_surface_height((((S_8017112C_5 *)monster_arg)->unk_24 << 6) | 0x20,
-                              (((S_8017112C_5 *)monster_arg)->unk_25 << 6) | 0x20,
+        floor_height = sample_terrain_surface_height((monster_arg->unk_24 << 6) | 0x20,
+                              (monster_arg->unk_25 << 6) | 0x20,
                               (s16)(((S_8017112C_0 *)actor)->unk_88 - 0x20));
         if (floor_height < 0x200) {
             (*(u16 *)((u8 *)entity_arg + (0x92))) += ((S_8017112C_0 *)actor)->unk_88 - floor_height;
@@ -231,5 +218,5 @@ void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *
         }
     }
 
-    ((S_8017112C_5 *)monster_arg)->unk_14 |= 0x40;
+    monster_arg->flags |= 0x40;
 }

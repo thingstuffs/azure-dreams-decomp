@@ -1,11 +1,11 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/manoeva.h"
 
 s32 has_pending_dungeon_activity();                          /* extern */
 void update_actor_status_and_mp();                      /* extern */
 s32 relink_entity_and_clear_high_flag(); /* extern */
-void advance_actor_turn_path(); /* extern */
 
 typedef struct S_80172114_0 {
     u8 pad_00[0x46];

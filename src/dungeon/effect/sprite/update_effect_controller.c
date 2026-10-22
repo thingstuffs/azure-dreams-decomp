@@ -67,7 +67,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
     u16 effect_timer;
     s32 resource_word;
     SpriteFrameState *sub_data;
-    Entry *entry;
+    ObjectNodeHeader *entry;
 
     state = controller->unk_00;
     switch (state) {
@@ -80,12 +80,12 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
             entry = allocate_list_node((void *)0x312, ((u8 *)(&scene_object_list_anchor)));
             if (entry != NULL) {
                 entry_data = (S_func_800D7FB8_1 *)((u8 *)entry + 0x20);
-                entry->d81d4 = (u8 *)&D_800D81D4;
+                entry->unk_10 = (u8 *)&D_800D81D4;
                 register_node(entry, project_sprite_chain);
-                sub_data = entry->sub;
-                ((MovingPosition *)entry->child)->unk_02 = controller->unk_04;
-                ((MovingPosition *)entry->child)->unk_06 = controller->unk_06;
-                ((MovingPosition *)entry->child)->unk_0A = controller->unk_08;
+                sub_data = entry->sprite;
+                ((MovingPosition *)entry->position)->unk_02 = controller->unk_04;
+                ((MovingPosition *)entry->position)->unk_06 = controller->unk_06;
+                ((MovingPosition *)entry->position)->unk_0A = controller->unk_08;
                 sub_data->scale_y = 0x400;
                 sub_data->scale_x = 0x400;
                 sub_data->tpage_abr = 0x20;
@@ -98,7 +98,7 @@ void update_effect_controller(S_func_800D7FB8_0 *controller) {
                 sub_data->source = resource_word;
                 __builtin_memcpy((u8 *)entry + 0x2C, &controller->unk_04, 8);
                 entry_data->unk_4A = (spawn_index & 1) ? 1 : -1;
-                ((MovingPosition *)entry->child)->unk_0A = controller->unk_08;
+                ((MovingPosition *)entry->position)->unk_0A = controller->unk_08;
             }
             spawn_index -= 1;
         } while (spawn_index >= 0);

@@ -11,5 +11,5 @@ typedef struct S_80039B84_0 {
 
 /* Set the event-script context's callback to func_80038A08. */
 void vm_op_35_install_action(S_80039B84_0 *script) {
-    script->unk_10 = &func_80038A08;
+    script->unk_10 = &noop_installed_script_action;
 }

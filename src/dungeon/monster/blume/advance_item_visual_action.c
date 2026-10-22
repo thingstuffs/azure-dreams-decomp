@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/cd.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -16,11 +17,10 @@ typedef struct {
     u32 word8;
 } __attribute__((packed)) Copy12;
 
-extern s32 get_cd_command_queue_depth(void);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -29,7 +29,7 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 extern u8 D_80170FD8[];
 extern u8 D_80171284[];
 extern u8 D_80171E20[];
-extern u8 D_801753BC[];
+#include "dungeon/monster/blume.h"
 extern u8 D_80175424[12];
 
 typedef struct S_801737C8_0 {
@@ -41,11 +41,6 @@ typedef struct S_801737C8_0 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_801737C8_0;   /* arg0 in advance_item_visual_action */
-
-typedef struct S_801737C8_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_801737C8_1_pre;   /* the 0x14 bytes before active in advance_item_visual_action, addressed as active[-1] */
 
 typedef struct S_801737C8_2 {
     u8 pad_00[0x24];
@@ -73,7 +68,7 @@ typedef struct S_801737C8_5 {
 /* Process item use, spawn its visual effect, and finish the action when ready. */
 /* Starts a targeted spell, emits randomly colored sprite particles during casting, then restores movement
  * and status. */
-void advance_item_visual_action(void *controller, ObjectPosition *motion, void *actor, void *object)
+void advance_item_visual_action(void *controller, ObjectPosition *motion, SpriteFrameState *actor, void *object)
 {
     u8 *item_slot;
     s16 use_player;
@@ -136,7 +131,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
 
                     target = primary_actor_record;
                     (*(void * *)((u8 *)object + 0x60)) = target;
-                    item_data = (u32)((S_801737C8_1_pre *)target)[-1].unk_00;
+                    item_data = (u32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                     (*(u8 *)((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
                     (*(u8 *)((u8 *)object + 0x73)) = ((S_801737C8_2 *)item_data)->unk_25;
                 } else {
@@ -150,7 +145,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
                     if (item_data == 2) {
                         target = (*(void * *)((u8 *)object + 0x60));
                         if (target != 0) {
-                            item_data = (u32)((S_801737C8_1_pre *)target)[-1].unk_00;
+                            item_data = (u32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                             (*(u8 *)((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
                             (*(u8 *)((u8 *)object + 0x73)) = ((S_801737C8_2 *)item_data)->unk_25;
                         }
@@ -158,8 +153,8 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
                         s32 dx;
                         s32 dy;
 
-                        dx = (s32)scan_monster_along_heading(
-                            object, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25,
+                        dx = (s32)scan_actor_along_heading(
+                            object, actor->unk_24, actor->unk_25,
                             (*(s16 *)((u8 *)object + 0x2A)), 0x10);
                         (*(void * *)((u8 *)object + 0x60)) = (void *)dx;
                         dx = abs(*(s8 *)((u8 *)object + 0x72));
@@ -180,7 +175,7 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(object);
@@ -193,10 +188,10 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((SpriteFrameState *)actor)->flags |= 0x800;
+            actor->flags |= 0x800;
             return;
         }
-        ((SpriteFrameState *)actor)->flags &= 0xF7FF;
+        actor->flags &= 0xF7FF;
         ((S_801737C8_0 *)controller)->unk_9B++;
         play_sound_if_enabled(0x703);
 
@@ -267,15 +262,15 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
             }
         }
 
-        if ((((SpriteFrameState *)actor)->unk_04 == 6 &&
-             (((SpriteFrameState *)actor)->flags & 0x1000)) ||
-            (((SpriteFrameState *)actor)->flags & 0xE000)) {
+        if ((actor->unk_04 == 6 &&
+             (actor->flags & 0x1000)) ||
+            (actor->flags & 0xE000)) {
             ((S_801737C8_0 *)controller)->unk_98 |= 0x80;
         }
-        if ((((SpriteFrameState *)actor)->unk_04 == 9 &&
-             (((SpriteFrameState *)actor)->flags & 0x1000)) ||
-            (((SpriteFrameState *)actor)->flags & 0xE000)) {
-            ((SpriteFrameState *)actor)->flags |= 0x800;
+        if ((actor->unk_04 == 9 &&
+             (actor->flags & 0x1000)) ||
+            (actor->flags & 0xE000)) {
+            actor->flags |= 0x800;
             ((S_801737C8_0 *)controller)->unk_96 = 0x14;
             ((S_801737C8_0 *)controller)->unk_9B = ((S_801737C8_0 *)controller)->unk_9B + 1;
             return;
@@ -293,24 +288,24 @@ void advance_item_visual_action(void *controller, ObjectPosition *motion, void *
             ((S_801737C8_0 *)controller)->unk_96 = timer;
             if (timer <= 0) {
                 ((S_801737C8_0 *)controller)->unk_96 = 0;
-                ((SpriteFrameState *)actor)->flags &= 0xF7FF;
+                actor->flags &= 0xF7FF;
             }
-            if (!(((SpriteFrameState *)actor)->flags & 0xE000)) {
+            if (!(actor->flags & 0xE000)) {
                 return;
             }
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25);
-            if (*(u8 * *)&((SpriteFrameState *)actor)->frameTable != D_801753BC) {
+            set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+            if (*(u8 * *)&actor->frameTable != blume_direction_frames) {
                 u8 *facing_frames;
                 s32 facing_index;
 
-                facing_frames = D_801753BC;
-                ((SpriteFrameState *)actor)->frameTable = facing_frames;
+                facing_frames = blume_direction_frames;
+                actor->frameTable = facing_frames;
                 facing_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7;
                 select_sprite_entry(actor, facing_frames[facing_index], 0);
-                ((SpriteFrameState *)actor)->flags &= 0xF7FF;
+                actor->flags &= 0xF7FF;
             }
             if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;

@@ -1,5 +1,6 @@
 /* Room waypoint selection and terrain-checked actor movement directions. */
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/dungeon_floor.h"
 #include "shared/dungeon_status.h"
 
@@ -30,8 +31,8 @@ static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
     return match;
 }
 
-/* Rebuild the actor's reachable-tile bitmap for its current move kind and hand back the chosen step. */
-s32 rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
+/* Select a different route point, store its coordinates and update the actor's facing. */
+s32 select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out) {
     Elem *s1;
     Elem *scan_entry;
     Elem *entry;

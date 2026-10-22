@@ -6,6 +6,12 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
+#include "dungeon/item.h"
+#include "dungeon/player.h"
+#include "dungeon/player/item.h"
+#include "dungeon/player/motion.h"
+#include "dungeon/player/position.h"
+#include "dungeon/player/state.h"
 
 typedef struct S_8008ACDC_1 {
     u8 pad_00[0x14];
@@ -59,38 +65,19 @@ void func_8002534C(); /* extern */
 void request_scene_dispatch_state();                     /* extern */
 void set_sprite_animation_frame(); /* extern */
 void try_move_player(); /* extern */
-void select_state_16_directional_animation(); /* extern */
 void begin_player_jump(); /* extern */
 s32 try_begin_lift_object();  /* extern */
-void begin_player_wait_turn(); /* extern */
-s32 begin_front_tile_attack();  /* extern */
-void begin_player_damage_reaction(); /* extern */
 void apply_pending_byte_increase(); /* extern */
-void enter_directional_state_17(); /* extern */
 void begin_player_menu_action(); /* extern */
-s32 begin_familiar_command_selection(); /* extern */
-s32 begin_selected_target_level_up();  /* extern */
 void begin_parameterized_actor_action(); /* extern */
-void begin_player_pickup_animation(); /* extern */
-void begin_wake_nearby_monsters(u8 *, s32, u8 *, u8 *);                      /* extern */
-void begin_player_sleep_action(); /* extern */
 s16 resolve_player_input_facing();             /* extern */
-void begin_actor_turn_toward_target(); /* extern */
 s32 request_familiar_deployment_change(); /* extern */
-void set_linked_actor_octant_facing();                    /* extern */
-void set_familiar_formation_offset();                    /* extern */
-void set_linked_actor_code_and_mirror();                    /* extern */
-void set_linked_actor_pending_halfword();                    /* extern */
 s32 has_action_input_without_modifier();                             /* extern */
 s32 dispatch_selected_item_use();                /* extern */
 void resolve_familiar_deployment_request(); /* extern */
-s32 begin_familiar_summoning(); /* extern */
-s32 dispatch_dungeon_category_action();   /* extern */
-void *begin_holding_item(); /* extern */
 void *advance_monster_timed_sequence();                           /* extern */
 s32 read_monster_script_entry();                    /* extern */
-void initialize_monster_script_counter();                            /* extern */
-void *select_monster_data_pointer();                      /* extern */
+void *select_item_record_pointer();                      /* extern */
 s32 can_entity_gain_level();                  /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 has_pending_actor_or_turn_action();                          /* extern */
@@ -315,18 +302,18 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         action_kind = 0x15;
 
                         if (dispatch_dungeon_category_action(((S_8008ACDC_7 *)((((s32)command << 2) + (s32)actor)))->unk_AC,
-                            select_monster_data_pointer(target_cmd & 0x1F, old_angle), action_kind, 0) >= 0) {
+                            select_item_record_pointer(target_cmd & 0x1F, old_angle), action_kind, 0) >= 0) {
                             return;
                         }
                     }
                         read_monster_script_entry();
                         return;
                     case 0x58:
-                        begin_holding_item(actor, motion, sprite, select_monster_data_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
+                        begin_holding_item(actor, motion, sprite, select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
                             old_angle));
                         return;
                     case 0x68:
-                        selected_target = select_monster_data_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
+                        selected_target = select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
                         call_actor = actor;
                         call_motion = motion;
                         call_sprite = sprite;
@@ -365,7 +352,7 @@ void handle_player_input(void *actor, void *motion, register void *sprite, void 
                         set_familiar_formation_offset((u32) (order_cmd & 0x60) >> 5, order_cmd & 7);
                         return;
                     case 0x98:
-                        target = select_monster_data_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
+                        target = select_item_record_pointer(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
                         if (((S_8008ACDC_9 *)target)->unk_03 & 0x20) {
                             resolve_familiar_deployment_request(actor, motion, sprite, target);
                         } else {

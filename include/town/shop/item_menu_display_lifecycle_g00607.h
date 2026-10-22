@@ -10,23 +10,18 @@
 
 typedef struct S_800B05DC_0 {
     u8 pad_00[0x4];
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
+    s32 child; /* 0x04 */
+    s32 owner; /* 0x08 */
+    s32 init_config; /* 0x0C */
     u8 pad_10[0x4];
-    s32 unk_14;
-    s32 unk_18;
+    s32 display_config; /* 0x14 */
+    s32 init_result; /* 0x18 */
 } S_800B05DC_0;
-
-typedef struct S_800B05DC_1 {
-    u8 pad_00[0x10];
-    s32 * unk_10;
-} S_800B05DC_1;
 
 /* the 0x2 bytes before arg0 in finish_item_menu_child_and_release_list, addressed as arg0[-1] */
 typedef struct S_800B06C4_0 {
     u8 pad_00[0x4];
-    s32 unk_04;
+    s32 child; /* 0x04 */
 } S_800B06C4_0;
 
 void bzero(void *, s32);

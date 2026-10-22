@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 
-extern s32 func_80094220(void *, void *, s32);
+extern s32 init_height_interpolation_action(void *, void *, s32);
 extern void call_the_handler_selects_nonzero_entry(void *, void *, s32);
 extern void handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile(void *);
 extern s32 D_800D00E8;
@@ -37,7 +37,7 @@ void update_actor_action_state(Rec_func_80094268_arg0 *state, EntityRec *motion,
         motion->unk_0C = 0;
         motion->unk_10 = 0;
         motion->flags14 = 0;
-        func_80094220(state, motion, callback_arg);
+        init_height_interpolation_action(state, motion, callback_arg);
         return;
     }
     motion->flags14 = target_position - motion->z.v;

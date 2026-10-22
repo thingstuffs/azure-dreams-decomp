@@ -54,13 +54,13 @@ void create_encounter_camera_controller(void) {
         (*(s16 *)((u8 *)object + 0x38)) = 0;
         (*(s32 * *)((u8 *)object + 0x10)) = &D_801717A8;
         register_node(object, project_sprite_chain);
-        render_state = (object->unk_0C);
+        render_state = (object->sprite);
         render_state->unk_06 = 0;
-        coords = (object->unk_08);
+        coords = (object->position);
         coords->unk_00 = view_reference_entity.x.v;
         coords->unk_04 = view_reference_entity.y.v;
         coords->unk_08 = view_reference_entity.z.v;
-        render_state = (object->unk_0C);
+        render_state = (object->sprite);
         render_state->unk_1E = 0x1000;
         render_state->unk_1C = 0x1000;
         render_state->unk_0E = 0x80;

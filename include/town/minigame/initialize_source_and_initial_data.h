@@ -1,6 +1,7 @@
 #ifndef TOWN_OVL_79DD70_H
 #define TOWN_OVL_79DD70_H
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "town/minigame/pickup_data.h"
 
@@ -40,7 +41,7 @@ extern void configure_the_set_mode_n_1(void *, void *, void *);
 extern u8 D_80020014[], D_80024420[];
 extern s32 project_sprite_chain(void *, s32, struct S_80045340_Entry *, s32);
 extern s32 func_80045340(void *, s32, struct S_80045340_Entry *, s32);
-extern void update_bouncing_pickup(void *, void *, void *);
+extern void update_bouncing_pickup(void *, void *, SpriteFrameState *);
 extern s32 D_8002445C[];
 
 

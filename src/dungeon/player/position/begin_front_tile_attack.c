@@ -3,6 +3,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/player/position.h"
+#include "dungeon/system.h"
 typedef struct Ent Ent;
 
 typedef long long s64;
@@ -16,7 +18,6 @@ s32 check_diagonal_side_height();
 s32 find_eligible_actor_at_tile_and_height();
 Ent *prepare_directional_attack();
 void append_packed_action_record();
-s32 check_action_available_without_nearby_actor();
 
 
 typedef struct S_8008C8BC_0 {

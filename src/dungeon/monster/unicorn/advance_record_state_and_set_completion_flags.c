@@ -1,4 +1,6 @@
 /* Unicorn effect completion, tinted sprite creation, orbiting, and fading. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/monster/unicorn/advance_record_state_and_set_completion_flags.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -22,26 +24,26 @@ void advance_record_state_and_set_completion_flags(void *record_data, DelayMotio
 void create_tinted_sprite_effect_supplied_position(void *unused, void *position_data, SpriteFrameState *unused_primitive) {
     T_8017406C_S_8017406C_0 *effect_state;
     SpriteFrameState *sprite;
-    void *effect;
+    ObjectNodeHeader *effect;
     T_8017406C_S_8017406C_3 *source_pos = position_data;
-    T_8017406C_S_8017406C_4 *effect_pos;
+    ObjectPosition *effect_pos;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         effect_state->unk_1A = 0xF;
-        ((T_8017406C_S_8017406C_1 *)effect)->unk_10 = &advance_record_state_and_set_completion_flags;
+        effect->unk_10 = &advance_record_state_and_set_completion_flags;
         register_node(effect, project_sprite_chain);
-        sprite = ((T_8017406C_S_8017406C_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
         sprite->flags = (u16)(sprite->flags | 0xC);
-        effect_pos = ((T_8017406C_S_8017406C_1 *)effect)->unk_08;
+        effect_pos = effect->position;
         effect_state->unk_40 = (s32)source_pos->unk_00.at00.v;
         effect_state->unk_44 = (s32)source_pos->unk_04.at00.v;
-        effect_pos->unk_02 = (u16)source_pos->unk_00.at02.v;
-        effect_pos->unk_06 = (u16)source_pos->unk_04.at02.v;
-        effect_pos->unk_0A = (u16)source_pos->unk_0A;
-        sprite = ((T_8017406C_S_8017406C_1 *)effect)->unk_0C;
+        effect_pos->x.w.i = (u16)source_pos->unk_00.at02.v;
+        effect_pos->y.w.i = (u16)source_pos->unk_04.at02.v;
+        effect_pos->z.w.i = (u16)source_pos->unk_0A;
+        sprite = effect->sprite;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
         sprite->color.c.b = 0x60U;
@@ -91,10 +93,10 @@ void update_orbit_height_and_fade_effect(void *effect, ObjectPosition *position,
  * orbit callback. */
 void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3,
     s16 angle, u16 height_offset) {
-    void *effect;
+    ObjectNodeHeader *effect;
     T_80174374_S_80174374_0 *effect_state;
     SpriteFrameState *sprite;
-    void *position;
+    ObjectPosition *position;
     s16 wrapped_angle;
 
     effect = allocate_flagged_object_node(0x212);
@@ -103,14 +105,14 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
         effect_state = (u8 *)effect + 0x20;
         effect_state->unk_1A = 0x14;
         effect_state->unk_1E = angle;
-        ((T_80174374_S_80174374_1 *)effect)->unk_10 = &update_orbit_height_and_fade_effect;
+        effect->unk_10 = &update_orbit_height_and_fade_effect;
         register_node(effect, project_sprite_chain);
 
-        sprite = ((T_80174374_S_80174374_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
 
-        position = ((T_80174374_S_80174374_1 *)effect)->unk_08;
+        position = effect->position;
         effect_state->unk_40 = origin->unk_00.at00_s32.v;
         effect_state->unk_44 = origin->unk_04.at00_s32.v;
 
@@ -118,11 +120,11 @@ void create_angular_offset_effect(void *unused_context, Rec_func_80173CFC_arg1 *
             wrapped_angle -= 0x1000;
         }
 
-        ((T_80174374_S_80174374_4 *)position)->unk_00 = effect_state->unk_40 + func_80064584(wrapped_angle) * 0x280;
-        ((T_80174374_S_80174374_4 *)position)->unk_04 = effect_state->unk_44 + func_800644B8(wrapped_angle) * 0x280;
-        ((T_80174374_S_80174374_4 *)position)->unk_0A = origin->unk_0A + height_offset;
+        position->x.v = effect_state->unk_40 + func_80064584(wrapped_angle) * 0x280;
+        position->y.v = effect_state->unk_44 + func_800644B8(wrapped_angle) * 0x280;
+        position->z.w.i = origin->unk_0A + height_offset;
 
-        sprite = ((T_80174374_S_80174374_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->scale_y = 0x400;
         sprite->scale_x = 0x400;
         sprite->color.c.b = 0x60;

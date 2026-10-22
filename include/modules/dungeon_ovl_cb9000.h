@@ -1,5 +1,9 @@
 #ifndef MODULE_DUNGEON_OVL_CB9000_H
 #define MODULE_DUNGEON_OVL_CB9000_H
+
+
+struct ObjectPosition;
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
@@ -71,13 +75,6 @@ typedef struct CL_CB9000_80170920_S_80170920_1 {
 } CL_CB9000_80170920_S_80170920_1;   /* arg2 in func_8016A920 */
 
 /* Expands and brightens the effect, then shrinks and fades it until expiration. */
-
-typedef struct CL_CB9000_80170A5C_S_80170A5C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} CL_CB9000_80170A5C_S_80170A5C_0;   /* object in func_8016AA5C */
 
 typedef struct CL_CB9000_80170A5C_S_80170A5C_1 {
     u8 pad_00[0x13];
@@ -670,15 +667,6 @@ typedef struct CL_CB9000_80173CFC_S_80173CFC_1 {
     s16 unk_1E;
 } CL_CB9000_80173CFC_S_80173CFC_1;   /* data in func_8016DCFC */
 
-typedef struct CL_CB9000_80173CFC_S_80173CFC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} CL_CB9000_80173CFC_S_80173CFC_2;   /* pos in func_8016DCFC */
-
 /* Creates an effect at an offset from the source position with randomized rotation. */
 
 typedef struct CL_CB9000_80173E40_S_80173E40_0 {
@@ -879,12 +867,6 @@ typedef struct CL_CB9000_80174724_S_80C96F24_4 {
     s16 unk_1E;
 } CL_CB9000_80174724_S_80C96F24_4;   /* state in func_8016E724 */
 
-typedef struct CL_CB9000_80174724_S_80C96F24_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} CL_CB9000_80174724_S_80C96F24_5;   /* position in func_8016E724 */
-
 typedef struct CL_CB9000_80174724_S_80C96F24_6 {
     s32 unk_00;
     s32 unk_04;
@@ -936,12 +918,6 @@ typedef struct CL_CB9000_80174D14_S_80C97514_12 {
     u8 pad_00[0x8];
     void * unk_08;
 } CL_CB9000_80174D14_S_80C97514_12;   /* temp_v0_2 in func_8016ED14 */
-
-typedef struct CL_CB9000_80174D14_S_80C97514_14 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} CL_CB9000_80174D14_S_80C97514_14;   /* ((CL_CB9000_80174D14_S_80C97514_12 *)temp_v0_2)->unk_08 in func_8016ED14 */
 
 typedef struct CL_CB9000_80174D14_S_80C97514_15 {
     u8 pad_00[0x2A];
@@ -1073,7 +1049,6 @@ extern u8 D_8016F3A9;
 extern s32 D_8016F3AC;
 extern int abs(int);
 extern void select_record_entry_and_value();
-extern s32 get_cd_command_queue_depth(void);
 extern void sound_set_cd_cue_parameters();
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);
@@ -1122,11 +1097,11 @@ extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 test_neighbor_position_relation(s32,s32,s32,s32);
 extern s16 get_actor_height_difference(void *,void *);
 extern void apply_monster_koyaw_data();
-extern void *find_valid_monster_neighbor(void *, u8, u8);
+extern void *find_adjacent_actor(void *, u8, u8);
 extern s32 probe_directional_neighbor();
-extern void *scan_monster_along_heading(void *, s32, s32, s32, s32);
+extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16,s16,s16,s16,u16 *);
-extern void rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
+extern void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern void decrement_monster_entry_count();
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 can_entity_gain_level(void *);
@@ -1158,10 +1133,10 @@ extern M2C_UNK begin_actor_spell_action(void *, M2C_UNK, void *, M2C_UNK *, void
 extern s32 update_actor_movement_to_tile(void *,void *,void *,void *);
 extern s32 update_linked_actor_motion(void *,void *,void *,void *);
 extern s32 resolve_actor_floor_trap_once(void *,void *,void *,void *);
-extern s32 update_actor_hop_and_shrink(void *,void *,void *,void *);
+extern s32 update_actor_hop_and_shrink(void *,void *,struct SpriteFrameState *,void *);
 extern s32 advance_actor_removal(void *,void *,void *,void *);
 extern s32 update_actor_hop_and_grow(void *,void *,void *,void *);
-extern s32 update_thrown_actor_travel(void *,void *,SpriteFrameState *,void *);
+extern s32 update_thrown_actor_travel(void *,void *,struct SpriteFrameState *,void *);
 extern s32 interpolate_actor_to_terrain_tile(void *,void *,void *,void *);
 extern s32 update_spinning_actor_fall(void *,void *,void *,void *);
 extern s32 propagate_actor_action_flag(void *,void *,void *,void *);
@@ -1173,11 +1148,10 @@ extern M2C_UNK spend_actor_mp(M2C_UNK, M2C_UNK);
 extern s32 check_actor_floor_trap(void *,void *);
 extern s32 create_status_linked_render_effect();
 extern s32 relink_entity_and_clear_high_flag();
-extern void emit_scattered_effects_unless_blocked(void *);
 /* Retail banks use the signed-halfword height-query return view; this
  * is the existing certified fa7000 contract, not a per-function flag. */
 extern s16 sample_terrain_surface_height(s32,s32,s16);
-extern s32 select_nearby_target_and_initialize_slot();
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 extern void apply_camera_offset_and_select_target(void *, M2C_UNK, M2C_UNK, M2C_UNK);
 extern s32 rand(void);
 
@@ -1190,15 +1164,15 @@ void func_8016B590(void *motion, s32 update_param, void *entity, void *state);
 void func_8016B810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 void func_8016BF58(CL_CB9000_80171F58_S_80171F58_0 *state, void *unused_position, CL_CB9000_80171F58_S_80171F58_1 *render_state, CL_CB9000_80171F58_S_80171F58_2 *entity);
 s32 func_8016BFBC(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor);
-void func_8016C180(CL_CB9000_80172180_S_80172180_1 *state, M2C_UNK position, CL_CB9000_80172180_S_80172180_2 *render_state, void *entity);
+void func_8016C180(CL_CB9000_80172180_S_80172180_1 *state, s32 position, CL_CB9000_80172180_S_80172180_2 *render_state, void *entity);
 s32 func_8016C298(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg);
 void func_8016C3DC(void *state_arg,void *position,void *render_state,void *entity);
-void func_8016C458(void *action, ObjectPosition *motion, void *map_entry, ActorRecord *actor);
+void func_8016C458(void *action, struct ObjectPosition *motion, struct SpriteFrameState *map_entry, ActorRecord *actor);
 void func_8016C944(S_80172944_0 *state,void *position,void *render_state,void *entity);
-void func_8016C9A8(void *action, void *motion, void *sprite, void *actor);
+void func_8016C9A8(void *action, void *motion, struct SpriteFrameState *sprite, void *actor);
 void func_8016CBCC(CL_CB9000_80172BCC_S_func_80C953CC_1 *work, CL_CB9000_80172BCC_S_func_80C953CC_2 *position, CL_CB9000_80172BCC_S_func_80C953CC_3 *entity,
     CL_CB9000_80172BCC_S_func_80C953CC_4 *actor);
-void update_hop_to_tile_and_complete(CL_CB9000_801730E0_S_801730E0_0 *state, ObjectPosition *motion, Rec_D_80082E80 *action, EntityRec *entity);
+void update_hop_to_tile_and_complete(CL_CB9000_801730E0_S_801730E0_0 *state, struct ObjectPosition *motion, struct SpriteFrameState *action, EntityRec *entity);
 void func_8016D304(void *state,void *position,void *render_state,void *entity);
 void func_8016D324(void *state,void *position,void *render_state,void *entity);
 void func_8016D344(void *state,void *position,void *render_state,void *entity);
@@ -1218,7 +1192,7 @@ void func_8016E374(u8 *effect, s32 *position, s32 effect_param);
 void func_8016E724(CL_CB9000_80174724_S_80C96F24_0 *owner, void *origin, void *entity);
 void func_8016EB3C(S_80174B3C_1 *state, void *unused_position, void *unused_render_state, CL_CB9000_80174B3C_S_80174B3C_0 *entity);
 void func_8016EBE8(u8 *task, void *context, u8 *input);
-void func_8016ED14(void *state, EntityRec *position, SpriteFrameState *entity, void *actor);
+void func_8016ED14(void *state, EntityRec *position, struct SpriteFrameState *entity, void *actor);
 void func_8016F23C(CL_CB9000_8017523C_CallbackState *state,void *position,void *sprite,void *entity);
 void func_8016F274(CL_CB9000_80175274_CallbackState *state,void *position,void *sprite,void *entity);
 #endif

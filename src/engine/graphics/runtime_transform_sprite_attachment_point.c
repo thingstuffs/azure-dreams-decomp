@@ -15,7 +15,7 @@ extern void RotTransSV(void *v0, void *out, void *flag);
 /* Transforms a flipped point using local scale, rotation, and offsets, then adjusts for view angles. */
 void runtime_transform_sprite_attachment_point(void *transform, void *point, void *result)
 {
-    u8 *render_state;
+    GameWork *render_state;
     u8 *scratch;
     s32 view_angle_x;
     s32 view_angle_y;
@@ -29,19 +29,19 @@ void runtime_transform_sprite_attachment_point(void *transform, void *point, voi
     s32 final_angle_z;
     s32 base_angle;
 
-    render_state = (u8 *)((void * *)(&g_game_work));
+    render_state = &g_game_work;
     PushMatrix();
     scratch = (u8 *)0x1F800000;
 
-    view_angle_x = S16_AT(render_state, 0xC4);
-    view_angle_y = S16_AT(render_state, 0xC6);
-    view_angle_z = S16_AT(render_state, 0xC8);
+    view_angle_x = render_state->view.camera_rotation.parts.camera_rotation_x;
+    view_angle_y = render_state->view.camera_rotation.parts.camera_rotation_y;
+    view_angle_z = render_state->view.camera_rotation.parts.viewAngle;
     U32_AT(scratch, 0x30) = view_angle_x;
     U32_AT(scratch, 0x34) = view_angle_y;
     U32_AT(scratch, 0x38) = view_angle_z;
     angle_x = U16_AT(transform, 0x16) - 0x400;
     U16_AT(scratch, 0x100) = angle_x - U16_AT(scratch, 0x30);
-    U16_AT(scratch, 0x104) = U16_AT(render_state, 0xB8) + (U16_AT(transform, 0x1A) - U16_AT(scratch, 0x34));
+    U16_AT(scratch, 0x104) = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z + (U16_AT(transform, 0x1A) - U16_AT(scratch, 0x34));
     U16_AT(scratch, 0x102) = U16_AT(transform, 0x18);
     offset_x = U16_AT(transform, 0x20);
     U32_AT(scratch, 0xE4) = offset_x;
@@ -77,11 +77,11 @@ void runtime_transform_sprite_attachment_point(void *transform, void *point, voi
 
     transformed_x = U16_AT(((u8 *)result), 0);
     U16_AT(scratch, 0x00) = transformed_x;
-    final_angle_x = S16_AT(render_state, 0xC4);
+    final_angle_x = render_state->view.camera_rotation.parts.camera_rotation_x;
     transformed_y = U16_AT(((u8 *)result), 2);
     U32_AT(scratch, 0x30) = -final_angle_x;
-    final_angle_z = S16_AT(render_state, 0xC8);
-    base_angle = S16_AT(render_state, 0xB8);
+    final_angle_z = render_state->view.camera_rotation.parts.viewAngle;
+    base_angle = render_state->view.view_rotation_offset.parts.view_rotation_offset_z;
     U16_AT(scratch, 0x02) = transformed_y;
     U32_AT(scratch, 0x38) = base_angle - final_angle_z;
     U16_AT(((u8 *)result), 4) += ((s32)(s16)U16_AT(scratch, 0x02) * rcos(U32_AT(scratch, 0x30))) >> 12;

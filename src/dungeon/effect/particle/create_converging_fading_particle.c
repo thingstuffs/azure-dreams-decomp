@@ -12,6 +12,7 @@
  *   - the two overlay data symbols are this image's
  */
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
 
 typedef struct S_801652FC_0 {
@@ -59,7 +60,6 @@ typedef struct S_801652FC_3 {
 
    /* ((S_801652FC_2 *)saved_arg0)->unk_08 in create_converging_fading_particle */
 
-
 extern void *allocate_list_node(s32, void *);
 extern void register_node();
 extern u8 D_80164BC4[];
@@ -74,7 +74,7 @@ void create_converging_fading_particle(
     s32 saved_offset_x = offset_x;
     s32 saved_offset_y = offset_y;
     s32 saved_offset_z = offset_z;
-    void *object;
+    ObjectNodeHeader *object;
     void *state;
     s32 calculation;
     s32 quotient_x;
@@ -85,13 +85,13 @@ void create_converging_fading_particle(
 
     object = allocate_list_node(0x211, source_obj);
     if (object != 0) {
-        ((S_801652FC_1 *)object)->unk_10 = D_80165164;
+        object->unk_10 = D_80165164;
 
-        ((S_801652FC_3 *)(((S_801652FC_1 *)object)->unk_08))->unk_02 =
+        ((S_801652FC_3 *)(object->position))->unk_02 =
             ((MovingPosition *)(source_obj->unk_08))->unk_02 + saved_offset_x;
-        ((S_801652FC_3 *)(((S_801652FC_1 *)object)->unk_08))->unk_06 =
+        ((S_801652FC_3 *)(object->position))->unk_06 =
             ((MovingPosition *)(source_obj->unk_08))->unk_06 + saved_offset_y;
-        ((S_801652FC_3 *)(((S_801652FC_1 *)object)->unk_08))->unk_0A =
+        ((S_801652FC_3 *)(object->position))->unk_0A =
             ((MovingPosition *)(source_obj->unk_08))->unk_0A + saved_offset_z - 40;
 
         state = (u8 *)object + 0x20;

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -23,10 +24,6 @@ typedef struct {
     s32 field14;
 } FuncArg1;
 
-typedef struct {
-    u8 pad00[0x28];
-    s32 field28;
-} FuncArg2;
 
 typedef struct {
     u8 pad00[6];
@@ -63,11 +60,11 @@ extern void register_node(FuncTemp *, u8 *);
 extern void select_sprite_entry(FuncInner *, s16, s16);
 
 /* Creates a directional effect and initializes its sprite and offset position. */
-s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, FuncArg2 *render_source) {
+s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, SpriteFrameState *render_source) {
     FuncTemp *effect;
     FuncTail *direction_state;
     SpriteFrameState *sprite;
-    FuncArg1 *motion;
+    ObjectPosition *motion;
     s16 angle;
     s32 biased_angle;
 
@@ -81,7 +78,7 @@ s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, FuncAr
         direction_state->field04 = (s16) (((angle % 4096) << 0x10) >> 0x19);
         direction_state->field06 = source->fieldB0;
         sprite = effect->inner;
-        sprite->unk_28 = ((SpriteFrameState *)render_source)->unk_28;
+        sprite->unk_28 = render_source->unk_28;
         sprite->flags |= 0x100;
         sprite->clut = direction_state->field06 + ((direction_state->field04 + 6) % 8);
         sprite->color.word = 0x808080;
@@ -92,9 +89,9 @@ s32 create_directional_effect(FuncArg0 *source, FuncArg1 *initial_motion, FuncAr
         sprite->tpage_abr |= 0x20;
         select_sprite_entry(sprite, 0x30, 0);
         motion = effect->buffer;
-        *motion = *initial_motion;
-        motion->field00 += motion->field0C;
-        motion->field04 += motion->field10;
+        *(FuncArg1 *)motion = *initial_motion;
+        motion->x.v += motion->velocity_x;
+        motion->y.v += motion->velocity_y;
         return (s32) effect;
     }
     return 0;

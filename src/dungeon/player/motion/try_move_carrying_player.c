@@ -1,3 +1,5 @@
+
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
@@ -6,6 +8,8 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/player/motion.h"
+#include "dungeon/system.h"
 
 typedef struct S_8008C13C_2 {
     u8 pad_00[0x8C];
@@ -26,10 +30,8 @@ extern void process_unflagged_linked_entries(s32);
 extern void process_unflagged_linked_entries_alt(s32);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
-extern s16 classify_adjacent_tile_height(s16, s32, void *, s16, s32);
+extern s16 classify_adjacent_tile_height(s16, s32,struct SpriteFrameState *, s16, s32);
 extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
-extern s32 check_action_available_without_nearby_actor(void);
-extern void clear_pending_item_action_state(void);
 
 /* Synthetic batch key: func_800869DC; true rowbase link symbol: try_move_carrying_player. */
 /* Attempts a move and updates the actor position, animation, and movement state. */

@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_1936800_H
 #define DUNGEON_OVL_1936800_H
+
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
@@ -116,10 +118,6 @@ typedef struct Row_81916C1C_Arg81916C1C {
 } Row_81916C1C_Arg81916C1C;
 
 /* Queue a full-screen primitive and mark completion when the countdown expires. */
-typedef struct Row_81916D2C_S_8002452C_1 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} Row_81916D2C_S_8002452C_1;   /* temp_v0 in func_8002452C */
 
 typedef struct Row_81916D2C_S_8002452C_0 {
     u8 pad_00[0x10];
@@ -326,14 +324,6 @@ typedef struct Row_81917A70_S_80025270_1 {
     s32 unk_28;
 } Row_81917A70_S_80025270_1;   /* temp_a0_2 in func_80025270 */
 
-typedef struct Row_81917A70_S_80025270_3 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-} Row_81917A70_S_80025270_3;   /* temp_v1 in func_80025270 */
-
 /* Creates an attached effect with copied transform data and a randomized angle. */
 /* Payload of the action object. The entity and motion data are separate objects. */
 typedef struct Row_81917C08_ActionState {
@@ -409,14 +399,14 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
 void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source);
 void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown);
 void create_a_type_hex_212_initializes_handler_mode(s32 initial_value);
-void update_the_target_records_counts_flags_status(void *object_slot, void *unused, void *target);
+void update_the_target_records_counts_flags_status(void *object_slot, void *unused, struct SpriteFrameState *target);
 void *create_an_default_rendering_settings_copies_initial_data(s32 *owner_data, Row_81916E00_Copy24 *initial_data);
 void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_80024710_0 *object, Row_81916F10_S_80024710_2 *position);
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step);
-void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, SpriteFrameState *visual);
-void advance_radial_effect_state(void *motion, void *position, void *effect);
+void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *object, Rec_func_80024600_arg1 *position, struct SpriteFrameState *visual);
+void advance_radial_effect_state(void *motion, void *position,struct SpriteFrameState *effect);
 void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos);
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform, void *visual);
+void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform,struct SpriteFrameState *visual);
 s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *object, Row_81917A70_Copy24 *src_transform, s16 effect_index);
 void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion *motion, Row_81917C08_EffectVisual *visual);
 extern u8 camera_transition_timer[];

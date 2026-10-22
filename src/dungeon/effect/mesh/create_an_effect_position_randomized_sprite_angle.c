@@ -1,4 +1,6 @@
 /* Five-point effect geometry, orbiting animation, and movement toward an attack target. */
+#include "shared/game_work.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/mesh/create_an_effect_position_randomized_sprite_angle.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -6,7 +8,7 @@ void (*const dungeon_ovl_1930844_entry)(void) = (void (*)(void))update_movement_
 
 /* Moves a rotating, shrinking sprite along its velocity with a sinusoidal height offset until its
    duration ends. */
-void func_80024044(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
+void advance_shrinking_arc_effect(void *state, ovl_1930844_81910844_S_81910844_2 *motion, ovl_1930844_81910844_S_81910844_3 *visual) {
     s32 pos_x;
     s32 pos_y;
     s32 velocity_x;
@@ -60,17 +62,17 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
     s32 rounded_random;
     SpriteFrameState *sprite;
     ovl_1930844_81910970_S_80024170_1 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
     ovl_1930844_81910970_S_80024170_4 *position;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        effect_state = effect + 0x20;
-        ((ovl_1930844_81910970_S_80024170_0 *)effect)->unk_10 = (void *)func_80024044;
+        effect_state = ((void *)effect) + 0x20;
+        effect->unk_10 = (void *)advance_shrinking_arc_effect;
         ((ovl_1930844_81910970_S_80024170_0 *)effect)->unk_20 = owner;
         effect_state->unk_06 = 0;
         effect_state->unk_08 = owner->unk_12.as_u16;
-        sprite = ((ovl_1930844_81910970_S_80024170_0 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -86,7 +88,7 @@ s32 create_an_effect_position_randomized_sprite_angle(Rec_func_80024170_arg0 *ow
         sprite->scale_y = 0x400;
         sprite->scale_x = 0x400;
         register_node(effect, project_sprite_chain);
-        position = ((ovl_1930844_81910970_S_80024170_0 *)effect)->unk_08;
+        position = effect->position;
         *(ovl_1930844_81910970_Copy6 *)position = *(ovl_1930844_81910970_Copy6 *)source_position;
         initial_z = position->unk_08;
         effect_state->unk_0C = initial_z;
@@ -122,7 +124,7 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
     addr_mask = 0x00FFFFFF;
     angle = 0;
     scratch = (u8 *) 0x1F800000;
-    *((void **) (((u8 *) scratch) + 0x18)) = (*((u8 **) ((u8 *)(&g_game_work)))) + 0xB0;
+    *((void **) (((u8 *) scratch) + 0x18)) = (*(u8 **)&g_game_work.draw_buffer) + 0xB0;
     do {
         void **render_ptr = (void **) render_global;
         void *render_ctx = *render_ptr;
@@ -217,8 +219,8 @@ void build_and_depth_sorts_five_radial_line_segments_effect(void *effect_data, v
    by depth. */
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(u8 *shape, void *position, s16 scale_num, s16 scale_den)
 {
-    u8 *gfx_slot = ovl_1930844_81910EC0_GFX_ROOT_SLOT;
-    u8 *gfx = *(u8 **)gfx_slot;
+    GameWork *gfx_slot= ovl_1930844_81910EC0_GFX_ROOT_SLOT;
+    u8 *gfx = *(u8 **)&gfx_slot->draw_buffer;
     s32 edge = 0;
     s32 scale = scale_num;
     s32 divisor = scale_den;
@@ -391,7 +393,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
     s32 ot_slot;
     s32 ot_slot2;
     ScratchPad *scratch;
-    u8 *context_slot;
+    GameWork *context_slot;
     u8 *v1;
     u8 *v2;
     u8 *v3;
@@ -402,7 +404,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
     u8 *depth;
     u8 *flag;
     ovl_1930844_819112CC_EmptyArg empty_arg;
-    u8 *render_context = *(u8 **)ovl_1930844_819112CC_GFX_ROOT_SLOT;
+    u8 *render_context = *(u8 **)&g_game_work.draw_buffer;
 
     context_slot = ovl_1930844_819112CC_GFX_ROOT_SLOT;
     point_index = 0;
@@ -499,7 +501,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
             link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
-                GpuContext *ctx = *(GpuContext **)context_slot;
+                GpuContext *ctx = *(GpuContext **)&context_slot->draw_buffer;
                 prim = ctx->packetCursor;
                 ctx->packetCursor = prim + 0xC;
             }
@@ -582,7 +584,7 @@ void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(vo
             link = (u32 *)((u8 *)link + ovl_1930844_819112CC_SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
-                GpuContext *ctx = *(GpuContext **)context_slot;
+                GpuContext *ctx = *(GpuContext **)&context_slot->draw_buffer;
                 prim = ctx->packetCursor;
                 ctx->packetCursor = prim + 0xC;
             }
@@ -608,8 +610,8 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
 
     effect_state = ((ovl_1930844_81911A8C_S_81911A8C_0 *)effect)->unk_00;
     ((ovl_1930844_81911A8C_S_81911A8C_1 *)effect_state)->unk_14 = (u16) (((ovl_1930844_81911A8C_S_81911A8C_1 *)effect_state)->unk_14 + 1);
-    overlay = ((ovl_1930844_81911A8C_S_81911A8C_5 *)(((ovl_1930844_81911A8C_S_81911A8C_2 *)(((s32 *)&g_game_work.draw_buffer)))->unk_00.s))->unk_8D0;
-    ((ovl_1930844_81911A8C_S_81911A8C_5 *)(((ovl_1930844_81911A8C_S_81911A8C_2 *)(((s32 *)&g_game_work.draw_buffer)))->unk_00.s))->unk_8D0 =
+    overlay = ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0;
+    ((ovl_1930844_81911A8C_S_81911A8C_5 *)(g_game_work.draw_buffer))->unk_8D0 =
         (void *) (overlay + 0x10);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0C = 0x140;
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_0E = 0xE0;
@@ -621,7 +623,7 @@ void draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends(void *
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_05 = green_blue;
     func_800667A8(overlay);
     ((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 = (u8) (((ovl_1930844_81911A8C_S_81911A8C_3 *)overlay)->unk_07 | 2);
-    func_8006658C(((ovl_1930844_81911A8C_S_81911A8C_2 *)(((s32 *)&g_game_work.draw_buffer)))->unk_00.u + 0xB0, overlay);
+    func_8006658C(*(s32 *)&g_game_work.draw_buffer + 0xB0, overlay);
     frames_left = (u8) ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 - 1;
     ((ovl_1930844_81911A8C_S_81911A8C_4 *)fade_state)->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
@@ -636,7 +638,7 @@ void create_object_hex_212_initialize_data_pointer_mode(s32 *initial_value) {
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = (void *)draw_a_full_screen_color_overlay_mark_effect_complete_countdown_ends;
-        ((SpriteFrameState *)((ovl_1930844_81911B9C_S_81911B9C_1 *)object)->unk_0C)->unk_05 = 0x10;
+        ((ObjectNodeHeader *)object)->sprite->unk_05 = 0x10;
         object->unk_20 = (s32) *initial_value;
     }
 }
@@ -790,14 +792,14 @@ void update_the_five_orbiting_points_advance_effect_animation(ovl_1930844_81911B
 /* Creates a controller for five orbiting points with copied motion, initial counters, and the supplied
    setting. */
 void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl_1930844_81912074_Copy24 *source_data, s16 initial_setting) {
-    void *obj;
+    ObjectNodeHeader *obj;
     ovl_1930844_81912074_S_80025874_1 *fields;
     void *object_data;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_10 = (void *)update_the_five_orbiting_points_advance_effect_animation;
-        fields = obj + 0x20;
+        obj->unk_10 = (void *)update_the_five_orbiting_points_advance_effect_animation;
+        fields = ((void *)obj) + 0x20;
         ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_20 = state_value;
         fields->unk_08 = 8;
         fields->unk_10 = 2;
@@ -811,7 +813,7 @@ void *create_and_initializes_copying_n_24_bytes_source_data(s32 state_value, ovl
         fields->unk_42 = 0;
         fields->unk_41 = 0;
         fields->unk_14 = initial_setting;
-        object_data = ((ovl_1930844_81912074_S_80025874_0 *)obj)->unk_08;
+        object_data = obj->position;
         *(ovl_1930844_81912074_Copy24 *)object_data = *source_data;
         return obj;
     }

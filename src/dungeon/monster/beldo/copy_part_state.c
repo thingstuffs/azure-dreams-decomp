@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -33,19 +34,6 @@ typedef struct S_81257000_2 {
     u16 unk_1E;
 } S_81257000_2;   /* part in copy_part_state */
 
-typedef struct S_81257000_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_81257000_3;   /* dst in copy_part_state */
-
    /* out in copy_part_state */
 
 typedef struct S_81257000_5 {
@@ -67,9 +55,6 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
 
-
-
-
 void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
 ;
 /* Copies part state, applies averaged position offsets, and updates phase-based shading. */
@@ -78,7 +63,7 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
     s16 pos_offset[3];
     void *root = root_arg;
     MovingPosition *out_pos = out_pos_arg;
-    S_81257000_3 *dst_part = dst_part_arg;
+    SpriteFrameState *dst_part= dst_part_arg;
     S_81257000_1 *owner;
     S_81257000_5 *part_data;
     S_81257000_6 *motion_part;
@@ -89,7 +74,7 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
     part_data = owner->unk_08;
 
     if (!(((S_81257000_2 *)out_pos_arg)->unk_14 & 0x80)) {
-        dst_part->unk_14 &= 0xFF7F;
+        dst_part->flags &= 0xFF7F;
     }
 
     out_pos->unk_02 = part_data->unk_02;
@@ -110,10 +95,10 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
         ((S_81257000_0 *)root)->unk_B4 = pos_offset[2];
     }
 
-    part_data = dst_part->unk_08;
-    dst_part->unk_1C = ((S_81257000_2 *)out_pos_arg)->unk_1C;
-    dst_part->unk_1E = ((S_81257000_2 *)out_pos_arg)->unk_1E;
-    dst_part->unk_14 = ((S_81257000_2 *)out_pos_arg)->unk_14;
+    part_data = dst_part->source;
+    dst_part->scale_x = ((S_81257000_2 *)out_pos_arg)->unk_1C;
+    dst_part->scale_y = ((S_81257000_2 *)out_pos_arg)->unk_1E;
+    dst_part->flags = ((S_81257000_2 *)out_pos_arg)->unk_14;
     part_data->unk_01 &= 0xFE;
 
     if (((S_81257000_0 *)root)->unk_B6 == 1) {
@@ -121,15 +106,15 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
         if (phase < 8) {
             s32 brightness = (phase * 14) + 0x20;
 
-            dst_part->unk_0E = brightness;
-            dst_part->unk_0D = brightness;
-            dst_part->unk_0C = brightness;
+            dst_part->color.c.b = brightness;
+            dst_part->color.c.g = brightness;
+            dst_part->color.c.r = brightness;
         } else {
             s32 brightness = ((15 - phase) * 14) + 0x20;
 
-            dst_part->unk_0E = brightness;
-            dst_part->unk_0D = brightness;
-            dst_part->unk_0C = brightness;
+            dst_part->color.c.b = brightness;
+            dst_part->color.c.g = brightness;
+            dst_part->color.c.r = brightness;
         }
         if (!(((S_81257000_2 *)out_pos_arg)->unk_14 & 0x8000) &&
             ((S_81257000_2 *)out_pos_arg)->unk_04.u16 == 0x10C) {
@@ -142,15 +127,15 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
         if (phase < 8) {
             s32 brightness = ((7 - phase) * 14) + 0x20;
 
-            dst_part->unk_0E = brightness;
-            dst_part->unk_0D = brightness;
-            dst_part->unk_0C = brightness;
+            dst_part->color.c.b = brightness;
+            dst_part->color.c.g = brightness;
+            dst_part->color.c.r = brightness;
         } else {
             s32 brightness = ((phase - 8) * 14) + 0x20;
 
-            dst_part->unk_0E = brightness;
-            dst_part->unk_0D = brightness;
-            dst_part->unk_0C = brightness;
+            dst_part->color.c.b = brightness;
+            dst_part->color.c.g = brightness;
+            dst_part->color.c.r = brightness;
         }
         if (!(((S_81257000_2 *)out_pos_arg)->unk_14 & 0x8000) &&
             ((S_81257000_2 *)out_pos_arg)->unk_04.u16 == 0x104) {
@@ -164,5 +149,4 @@ void copy_part_state(void *root_arg, void *out_pos_arg, void *dst_part_arg)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-
 

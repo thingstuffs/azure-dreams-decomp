@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1829800_H
 #define DUNGEON_OVL_1829800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/object_node.h"
@@ -451,14 +452,6 @@ typedef struct S_80026190_5 {
     u16 unk_26;
 } S_80026190_5;   /* container in func_80026190 */
 
-typedef struct S_80026190_6_pre {
-    u16 unk_00;
-} S_80026190_6_pre;   /* the 0x2 bytes before alloc_fail in func_80026190, addressed as alloc_fail[-1] */
-
-typedef struct S_80026190_7_pre {
-    u16 unk_00;
-} S_80026190_7_pre;   /* the 0x2 bytes before owner_fail in func_80026190, addressed as owner_fail[-1] */
-
 typedef struct S_80026190_8 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
@@ -489,19 +482,10 @@ typedef struct S_80026190_11 {
     s32 unk_2090;
 } S_80026190_11;   /* mode_page in func_80026190 */
 
-typedef struct S_80026190_12_pre {
-    u16 unk_00;
-} S_80026190_12_pre;   /* the 0x2 bytes before spawn_fail0 in func_80026190, addressed as spawn_fail0[-1] */
-
 typedef struct S_80026190_13 {
     u8 pad_00[0x1E];
     u16 unk_1E;
 } S_80026190_13;   /* spawn_fail1 in func_80026190 */
-
-typedef struct S_80026190_14 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_80026190_14;   /* spawn_fail2 in func_80026190 */
 
 typedef struct S_80026190_15 {
     u8 pad_00[0x14A0];
@@ -512,11 +496,6 @@ typedef struct S_80026190_16 {
     u8 pad_00[0x1E];
     u16 unk_1E;
 } S_80026190_16;   /* spawn_fail3 in func_80026190 */
-
-typedef struct S_80026190_17_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80026190_17_pre;   /* the 0x14 bytes before work in func_80026190, addressed as work[-1] */
 
 typedef struct S_80026190_17 {
     u8 pad_00[0x13];
@@ -706,7 +685,7 @@ typedef struct {
 
 /* Queues four shaded quadrants and a draw-mode packet for each linked rectangle. */
 
-void follow_selection_and_blink_sprite(void *motion_state, void *position, void *draw_state);
+void follow_selection_and_blink_sprite(void *motion_state, void *position, SpriteFrameState *draw_state);
 void *allocate_sprite_data_object(s32 user_data);
 void update_selection_menu_animation(void *menu_in, void *motion_in, void *appearance_in);
 void update_directional_object_fade(void *state_arg, void *buffer_arg, void *obj_arg);
@@ -772,7 +751,6 @@ extern void func_800453E0();
 extern void draw_sprite_clipped();
 extern void func_80045CC4();
 extern void func_80064A40();
-extern void render_projected_sprite_with_depth_bias();
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80066708(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);

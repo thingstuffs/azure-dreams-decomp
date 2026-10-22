@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -6,10 +7,10 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "engine/cd.h"
 
-extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -37,11 +38,6 @@ typedef struct S_80173B08_0 {
     u16 unk_9E;
 } S_80173B08_0;   /* arg0 in update_actor_item_use */
 
-typedef struct S_80173B08_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80173B08_1_pre;   /* the 0x14 bytes before active in update_actor_item_use, addressed as active[-1] */
-
 typedef struct S_80173B08_2 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -51,7 +47,7 @@ typedef struct S_80173B08_2 {
 /* Updates the actor's item-use state, animation, and effects. */
 /* Starts a targeted spell, settles to ground height, emits forward and surrounding particles, then
  * restores its hover. */
-void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, void *actor)
+void update_actor_item_use(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     u8 *item_slot;
     u32 stage;
@@ -119,7 +115,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
                 if (is_special != 0) {
                     target = primary_actor_record;
                     (*(void * *)((u8 *)actor + 0x60)) = target;
-                    item_id = ((S_80173B08_1_pre *)target)[-1].unk_00;
+                    item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                     (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173B08_2 *)item_id)->unk_24;
                     (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173B08_2 *)item_id)->unk_25;
                 } else {
@@ -127,7 +123,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
                     if (item_action_definitions[((u8)item_id)].kind == 2) {
                         target = (*(void * *)((u8 *)actor + 0x60));
                         if (target != 0) {
-                            item_id = ((S_80173B08_1_pre *)target)[-1].unk_00;
+                            item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                             (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173B08_2 *)item_id)->unk_24;
                             (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173B08_2 *)item_id)->unk_25;
                         }
@@ -135,8 +131,8 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
                         s32 dx;
                         s32 dy;
 
-                        dx = (s32)scan_monster_along_heading(
-                            actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                        dx = (s32)scan_actor_along_heading(
+                            actor, sprite->unk_24, sprite->unk_25,
                             (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                         (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
                         dx = (*(s8 *)((u8 *)actor + 0x72));
@@ -163,7 +159,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
             advance_status_timers(actor);
@@ -177,10 +173,10 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_80173B08_0 *)action)->unk_9B++;
         play_sound_if_enabled(0x703);
 
@@ -191,13 +187,13 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        ((SpriteFrameState *)sprite)->tpage_abr = 0x20;
-        ((SpriteFrameState *)sprite)->flags |= 0xC;
+        sprite->tpage_abr = 0x20;
+        sprite->flags |= 0xC;
 
     case 3:
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_80173B08_0 *)action)->unk_9B = 7;
-            ((SpriteFrameState *)sprite)->flags |= 0x6000;
+            sprite->flags |= 0x6000;
             ((S_80173B08_0 *)action)->unk_98 |= 0x80;
             return;
         }
@@ -216,7 +212,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
         stage = ((S_80173B08_0 *)action)->unk_9B;
         stage++;
         ((S_80173B08_0 *)action)->unk_9B = stage;
-        ((SpriteFrameState *)sprite)->frameTable = D_800E2398;
+        sprite->frameTable = D_800E2398;
         select_sprite_entry(sprite, D_800E2398[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
         return;
 
@@ -226,12 +222,12 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
 
         timer = ((S_80173B08_0 *)action)->unk_96.u;
         ((S_80173B08_0 *)action)->unk_96.u = timer + 1;
-        if (timer < 12 && !(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (timer < 12 && !(sprite->flags & 0xE000)) {
             return;
         }
     }
         ((S_80173B08_0 *)action)->unk_98 |= 0x80;
-        ((SpriteFrameState *)sprite)->flags |= 0x800;
+        sprite->flags |= 0x800;
         ((S_80173B08_0 *)action)->unk_96.u = 0x12;
         ((S_80173B08_0 *)action)->unk_9B++;
         effect_count = 0;
@@ -272,19 +268,19 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
 
             timer = ((S_80173B08_0 *)action)->unk_96.u - 1;
             ((S_80173B08_0 *)action)->unk_96.u = timer;
-            if (timer > 0 && !(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            if (timer > 0 && !(sprite->flags & 0xE000)) {
                 return;
             }
         }
         ((S_80173B08_0 *)action)->unk_96.u = 0;
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         state = ((S_80173B08_0 *)action)->unk_98;
         stage = ((S_80173B08_0 *)action)->unk_9B;
         stage++;
         state |= 8;
         ((S_80173B08_0 *)action)->unk_9B = stage;
         ((S_80173B08_0 *)action)->unk_98 = state;
-        ((SpriteFrameState *)sprite)->frameTable = baloon_fall_frames;
+        sprite->frameTable = baloon_fall_frames;
         select_sprite_entry(sprite, baloon_fall_frames[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
         return;
 
@@ -296,15 +292,15 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
         ((S_80173B08_0 *)action)->unk_9B++;
 
     case 7:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != baloon_default_frames) {
-            ((SpriteFrameState *)sprite)->frameTable = baloon_default_frames;
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        if (*(u8 * *)&sprite->frameTable != baloon_default_frames) {
+            sprite->frameTable = baloon_default_frames;
             select_sprite_entry(
                 sprite,
                 baloon_default_frames[((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7],
@@ -313,7 +309,7 @@ void update_actor_item_use(void *action, ObjectPosition *motion, void *sprite, v
             ((S_80173B08_0 *)action)->unk_98 |= 8;
             (*(u32 *)((u8 *)actor + 0x1C)) |= 0x40000;
             ((S_80173B08_0 *)action)->unk_92.s = -0x20;
-            ((SpriteFrameState *)sprite)->flags &= 0xFFF3;
+            sprite->flags &= 0xFFF3;
         }
         {
 

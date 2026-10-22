@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
@@ -15,7 +16,7 @@ extern u8 D_8015E360[];
 /* Update the owner state or select an animation frame from the facing direction. */
 void update_owner_state_or_facing_animation(void *owner_arg, void *context, void *anim_obj_arg, void *state_arg) {
     void *owner = owner_arg;
-    void *anim_obj = anim_obj_arg;
+    SpriteFrameState *anim_obj= anim_obj_arg;
     void *state = state_arg;
     void *current_table;
 
@@ -30,19 +31,19 @@ void update_owner_state_or_facing_animation(void *owner_arg, void *context, void
         return;
     }
 
-    current_table = *(void **)((u8 *)anim_obj + 0x2C);
+    current_table = anim_obj->frameTable;
     if (current_table == D_8015E300) {
         if (*(s32 *)((u8 *)state + 0x1C) & 0x208) {
             return;
         }
-        *(void **)((u8 *)anim_obj + 0x2C) = D_8015E2C8;
+        anim_obj->frameTable = D_8015E2C8;
         select_sprite_entry(anim_obj, D_8015E2C8[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)state + 0x2A) + 0x100)
             >> 9) & 7], 0);
     } else if (current_table == D_8015E360) {
         if (*(s32 *)((u8 *)state + 0x1C) & 0x208) {
             return;
         }
-        *(void **)((u8 *)anim_obj + 0x2C) = D_8015E328;
+        anim_obj->frameTable = D_8015E328;
         select_sprite_entry(anim_obj, D_8015E328[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)state + 0x2A) + 0x100)
             >> 9) & 7], 0);
     } else {

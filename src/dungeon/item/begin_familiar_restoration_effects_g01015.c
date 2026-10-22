@@ -1,6 +1,8 @@
 /* Begin familiar restoration effects.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01015 - CL:dungeon/func_800BC2E4.
  */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/item/begin_familiar_restoration_effects_g01015.h"
 #include "shared/object_flags.h"
 
@@ -165,24 +167,24 @@ void update_familiar_restoration_effect(DungeonState *state, RenderSource *rende
 
 /* Create an object at the tile center and initialize its rendering and state. */
 void *create_familiar_restoration_effect(s32 tile_x, s32 tile_y, s32 z) {
-    void *object;
-    S_800C1A44_1 *position;
+    ObjectNodeHeader *object;
+    ObjectPosition *position;
     SpriteFrameState *render_state;
     S_800C1A44_3 *object_state;
 
     object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
-        ((S_800C1A44_0 *)object)->unk_10 = &D_800C1718[0];
+        object->unk_10 = &D_800C1718[0];
         register_node(object, &D_80045C34[0]);
-        position = ((S_800C1A44_0 *)object)->unk_08;
-        position->unk_02 = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
-        position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
-        position->unk_0A = z;
-        render_state = ((S_800C1A44_0 *)object)->unk_0C;
+        position = object->position;
+        position->x.w.i = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
+        position->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
+        position->z.w.i = z;
+        render_state = object->sprite;
         render_state->source = &D_800DF3C0[0];
         render_state->color.word = 0x808080;
         render_state->unk_06 = 8;
-        object_state = object + 0x20;
+        object_state = ((void *)object) + 0x20;
         object_state->unk_4C = 8;
         object_state->unk_48 = 7;
     }

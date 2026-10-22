@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -12,7 +13,7 @@ typedef struct {
 extern void select_sprite_entry(void *, s32, s32);
 
 /* Resets actor action state and selects a sprite frame for its facing direction. */
-s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames)
+s32 reset_actor_action_state(void *actor, s32 unused, SpriteFrameState *sprite, u8 *direction_frames)
 {
 
     *(u8 *)((u8 *)actor + 0x71) &= 0x7F;
@@ -30,7 +31,7 @@ s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *directio
     *(s8 *)((u8 *)actor + 0x9B) = 0;
     *(s32 *)((u8 *)actor + 0x8C) = 0;
     if (direction_frames != 0) {
-        *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
+        sprite->frameTable = direction_frames;
         select_sprite_entry(sprite,
             direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);

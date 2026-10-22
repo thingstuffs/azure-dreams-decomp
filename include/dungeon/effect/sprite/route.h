@@ -265,10 +265,6 @@ typedef struct B32_818CEB58_S_818CEB58_3 {
     u8 pad_00[0x6];
     s16 unk_06;
 } B32_818CEB58_S_818CEB58_3;
-typedef struct B32_818CEB58_S_818CEB58_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} B32_818CEB58_S_818CEB58_4;
 typedef struct B32_818CEB58_S_818CEB58_5 {
     u8 pad_00[0xA];
     s16 unk_0A;
@@ -319,10 +315,10 @@ typedef struct B32_818CE83C_S_8002403C_5 {
     u8 * unk_08;
 } B32_818CE83C_S_8002403C_5;
 typedef struct { u32 addr:24; u32 length:8; } B32_818CE83C_PacketTag;
-s32 func_8002403C(void *start_node, void *start_coords);
+s32 project_linked_shaded_points(void *start_node, void *start_coords);
 void advance_jittered_effect_toward_terrain(void *object_data, void *source_data);
 void create_jittered_terrain_seeking_point( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
-void move_and_grow_timed_sprite(void *state, void *position, void *object);
+void move_and_grow_timed_sprite(void *state, void *position, SpriteFrameState *object);
 void update_actor_effect_sequence(void *record);
 void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0 *position, SpriteFrameState *sprite);
 void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
@@ -336,7 +332,7 @@ s32 play_sound_if_enabled(s32);
 s16 sample_terrain_surface_height(s32, s32, s16);
 void select_record_entry_and_value(void *, void *, s32);
 extern const B32_818CFB74_PackedOffsets D_80024004;
-extern s16 D_80025924[5];
+extern s16 linked_point_effect_updated[5];
 void *get_sprite_attachment_vector(void *, void *, void *, s32);
 void *func_8003DF74(void *, void *, void *, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);

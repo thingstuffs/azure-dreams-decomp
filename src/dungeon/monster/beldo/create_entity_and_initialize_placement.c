@@ -5,24 +5,17 @@
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/beldo.h"
 
 void *allocate_list_node();
 s32 register_node();
 void initialize_actor_sprite_and_animation();
 s32 try_move_actor_to_valid_position();
-void create_attached_sprite_with_offset();
 s32 func_80173C30(void);
-void update_actor_movement_and_height(void *entity_arg, void *motion_arg, void *monster_arg);
-void update_object_animation(void *obj, void *motion, void *part, void *state);
+void update_actor_movement_and_height(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg);
+void update_object_animation(void *obj, void *motion, SpriteFrameState *part, void *state);
 extern M2C_UNK D_80173E8C;
 extern void *D_80174710;
-
-typedef struct S_80170F84_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80170F84_0;
 
 typedef struct S_80170F84_1 {
     u8 pad_00[0x13];
@@ -58,21 +51,21 @@ void *create_entity_and_initialize_placement(s16 entity_id, s32 tile_x, s16 tile
     u16 saved_tile_1e;
     SpriteFrameState *tile_state;
     S_80170F84_2 *world_state;
-    void *entity;
+    ObjectNodeHeader *entity;
 
     saved_tile_x = tile_x;
     saved_height = initial_height;
     saved_tile_y = tile_y;
     entity = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (entity != NULL) {
-        entity_state = entity + 0x20;
+        entity_state = ((void *)entity) + 0x20;
         D_80174710 = entity;
-        ((S_80170F84_0 *)entity)->unk_10 = &update_actor_movement_and_height;
+        entity->unk_10 = &update_actor_movement_and_height;
         entity_state->unk_13 = MONSTER_BELDO;
         register_node(entity, project_sprite_chain);
-        world_state = ((S_80170F84_0 *)entity)->unk_08;
+        world_state = entity->position;
         world_state->unk_0A = saved_height;
-        tile_state = ((S_80170F84_0 *)entity)->unk_0C;
+        tile_state = entity->sprite;
         tile_state->unk_24 = saved_tile_x;
         tile_state->unk_25 = saved_tile_y;
         tile_state->frameTable = &D_80173E8C;

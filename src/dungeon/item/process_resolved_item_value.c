@@ -1,5 +1,6 @@
 /* Directional item effects, moving sprite copies, and target completion messages. */
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 /* Selector-image function at DUNGEON file [0x1943DD0, 0x1944338), true 0x800255D0
@@ -114,7 +115,7 @@ typedef struct { ResolvedCoordinate axes[3]; } ResolvedMotion;
 
 /* Creates and follows a directional sprite copy, sets target status slot 29, and displays its
    completion message. */
-void process_resolved_item_value(void *effect_state, void *motion, void *sprite) {
+void process_resolved_item_value(ObjectNodeHeader *effect_state, void *motion, void *sprite) {
     DirectionTable directions;
     s16 phase;
     s32 done_flag;
@@ -124,23 +125,23 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
     u16 frame;
     void *spawn_state;
     void *owner_sprite;
-    void *owner_motion;
+    ObjectPosition *owner_motion;
     SpriteFrameState *spawn_sprite;
     void *owner;
     void *source_sprite;
-    void *owner_header;
-    void *spawned;
-    void *spawn_motion;
-    void *follow_motion;
+    ObjectNodeHeader *owner_header;
+    ObjectNodeHeader *spawned;
+    ObjectPosition *spawn_motion;
+    ObjectPosition *follow_motion;
     void *packet_source;
     void *packet_destination;
 
-    owner = (((ResolvedEffect *)effect_state)->owner);
+    owner = (effect_state->next);
     directions = D_80024004;
     phase = (((ResolvedEffect *)effect_state)->phase);
     owner_header = owner - 0x20;
-    owner_motion = (((ObjectNodeHeader *)owner_header)->unk_08);
-    source_sprite = (((ObjectNodeHeader *)owner_header)->unk_0C);
+    owner_motion = (owner_header->position);
+    source_sprite = (owner_header->sprite);
     switch (phase) {
     case 0:
         (((ResolvedSprite *)sprite)->color) = 0x808080;
@@ -153,10 +154,10 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
         (((ResolvedEffect *)effect_state)->phase) = (s16) ((u16) (((ResolvedEffect *)effect_state)->phase) + 1);
         /* fallthrough */
     case 1:
-        (((ResolvedMotion *)motion)->axes[0].half.whole) = (u16) (((ResolvedMotion *)owner_motion)->axes[0].half.whole);
-        (((ResolvedMotion *)motion)->axes[1].half.whole) = (u16) (((ResolvedMotion *)owner_motion)->axes[1].half.whole);
-        (((ResolvedMotion *)motion)->axes[2].half.whole) = (u16) (((ResolvedMotion *)owner_motion)->axes[2].half.whole);
-        if (*(((ResolvedEffect *)effect_state)->animation_flags) & 0x80) {
+        (((ResolvedMotion *)motion)->axes[0].half.whole) = (u16) (*(u16 *)&owner_motion->x.w.i);
+        (((ResolvedMotion *)motion)->axes[1].half.whole) = (u16) (*(u16 *)&owner_motion->y.w.i);
+        (((ResolvedMotion *)motion)->axes[2].half.whole) = (u16) (*(u16 *)&owner_motion->z.w.i);
+        if (*(*(u16 * *)&effect_state->pprev) & 0x80) {
             (((ResolvedEffect *)effect_state)->frame) = 0U;
             (((ResolvedEffect *)effect_state)->phase) = (u16) (((ResolvedEffect *)effect_state)->phase) + 1;
             return;
@@ -166,7 +167,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
     case 2:
         spawned = allocate_list_node(0x112, ((u32)&scene_object_list_anchor));
         if (spawned != 0) {
-            spawn_state = spawned + 0x20;
+            spawn_state = ((void *)spawned) + 0x20;
             (((ResolvedSpawn *)spawn_state)->velocity_x) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].x << 0x10);
             (((ResolvedSpawn *)spawn_state)->velocity_y) = (s32) (directions.v[(((ResolvedEffect *)effect_state)->direction)].y << 0x10);
             (((ResolvedSpawn *)spawn_state)->phase) = 0;
@@ -175,7 +176,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
             (((ResolvedSpawn *)spawn_state)->controller) = effect_state;
             (((ResolvedSpawn *)spawn_state)->kind) = (u8) (((ResolvedEffect *)effect_state)->kind);
             (((ResolvedSpawn *)spawn_state)->direction) = (u16) (((ResolvedEffect *)effect_state)->direction);
-            owner_sprite = (((ObjectNodeHeader *)(owner))[-1].unk_0C);
+            owner_sprite = (((ObjectNodeHeader *)(owner))[-1].sprite);
             (((ResolvedEffect *)effect_state)->tile_x) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_x) + D_8006CCD8[((((ResolvedEffect *)effect_state)->direction) * 2)]);
             (((ResolvedEffect *)effect_state)->tile_y) = (s8) ((((ResolvedSprite *)owner_sprite)->tile_y) + D_8006CCE8[((((ResolvedEffect *)effect_state)->direction) * 2)]);
             if ((((ResolvedActor *)owner)->target) != 0) {
@@ -195,7 +196,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
             }
             source_packet_end = packet_source + 0x30;
             (((ResolvedEffect *)effect_state)->complete) = 0;
-            spawn_sprite = (((ObjectNodeHeader *)spawned)->unk_0C);
+            spawn_sprite = (spawned->sprite);
             packet_destination = spawn_sprite;
             spawn_sprite->color.c.b = 0x80;
             spawn_sprite->color.c.g = 0x80;
@@ -205,14 +206,14 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
             *(Packet48 *)spawn_sprite = *(Packet48 *)source_sprite;
             spawn_sprite->tpage_abr = 0x20;
             spawn_sprite->flags = (u16) (spawn_sprite->flags | 0xC);
-            (((ObjectNodeHeader *)spawned)->unk_10) = ((u32)D_80024E5C);
+            (spawned->unk_10) = ((u32)D_80024E5C);
             register_node(spawned, ((u32)D_80045340));
             spawn_sprite->frameTable = ((u32)D_80025B40);
             select_sprite_entry(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (((ResolvedActor *)owner)->facing) + 0x100) >> 9) & 7)], 0);
-            spawn_motion = (((ObjectNodeHeader *)spawned)->unk_08);
-            (((ResolvedMotion *)spawn_motion)->axes[0].fixed) = (s32) (((ResolvedMotion *)motion)->axes[0].fixed);
-            (((ResolvedMotion *)spawn_motion)->axes[1].fixed) = (s32) (((ResolvedMotion *)motion)->axes[1].fixed);
-            (((ResolvedMotion *)spawn_motion)->axes[2].fixed) = (s32) (((ResolvedMotion *)motion)->axes[2].fixed);
+            spawn_motion = (spawned->position);
+            (spawn_motion->x.v) = (s32) (((ResolvedMotion *)motion)->axes[0].fixed);
+            (spawn_motion->y.v) = (s32) (((ResolvedMotion *)motion)->axes[1].fixed);
+            (spawn_motion->z.v) = (s32) (((ResolvedMotion *)motion)->axes[2].fixed);
             (((ResolvedEffect *)effect_state)->spawned) = spawned;
             (((ResolvedEffect *)effect_state)->motion) = spawn_motion;
             (((ResolvedEffect *)effect_state)->value) = 0x63;
@@ -223,12 +224,12 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
         if ((((ResolvedEffect *)effect_state)->value) == 0x63) {
             spawned = (((ResolvedEffect *)effect_state)->spawned);
             follow_motion = (((ResolvedEffect *)effect_state)->motion);
-            if ((((ObjectNodeHeader *)spawned)->flags) & 0x8000) {
+            if ((spawned->flags) & 0x8000) {
                 (((ResolvedEffect *)effect_state)->value) = 0;
             } else {
-                (((ResolvedMotion *)motion)->axes[0].fixed) = (s32) (((ResolvedMotion *)follow_motion)->axes[0].fixed);
-                (((ResolvedMotion *)motion)->axes[1].fixed) = (s32) (((ResolvedMotion *)follow_motion)->axes[1].fixed);
-                (((ResolvedMotion *)motion)->axes[2].fixed) = (s32) (((ResolvedMotion *)follow_motion)->axes[2].fixed);
+                (((ResolvedMotion *)motion)->axes[0].fixed) = (s32) (follow_motion->x.v);
+                (((ResolvedMotion *)motion)->axes[1].fixed) = (s32) (follow_motion->y.v);
+                (((ResolvedMotion *)motion)->axes[2].fixed) = (s32) (follow_motion->z.v);
             }
         }
         if ((((ResolvedEffect *)effect_state)->complete) != 0) {
@@ -259,7 +260,7 @@ void process_resolved_item_value(void *effect_state, void *motion, void *sprite)
             (((ResolvedEffect *)effect_state)->frame) = frame;
             if (done_flag == 0) {
                 g_dungeon_status.active_actor = 0;
-                (((ObjectNodeHeader *)(effect_state))[-1].flags) = (u16) ((((ObjectNodeHeader *)(effect_state))[-1].flags) | 0x8000);
+                ((effect_state)[-1].flags) = (u16) (((effect_state)[-1].flags) | 0x8000);
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             }

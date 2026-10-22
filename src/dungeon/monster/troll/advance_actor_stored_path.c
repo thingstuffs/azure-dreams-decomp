@@ -1,6 +1,8 @@
 /* Troll path movement, move eligibility checks, and directional animation setup. */
 #include "dungeon/monster/troll/advance_actor_stored_path.h"
+#include "shared/tile_object.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/troll.h"
 
 /* Advances the actor along its stored path and updates its movement state. */
 void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, void *path_state)
@@ -29,7 +31,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     move_kind = ((T_80172CC0_S_80172CC0_0 *)state)->unk_48;
     switch (move_kind) {
     case 0xD:
-        current_table = *(u8 * *)&((SpriteFrameState *)actor)->frameTable;
+        current_table = *(u8 **)&((SpriteFrameState *)actor)->frameTable;
         direction_table = (u8 *)&D_80175DC4;
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
@@ -40,7 +42,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     }
         break;
     case 0xE:
-        current_table = *(u8 * *)&((SpriteFrameState *)actor)->frameTable;
+        current_table = *(u8 **)&((SpriteFrameState *)actor)->frameTable;
         direction_table = (u8 *)&D_80175DCC;
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
@@ -51,7 +53,7 @@ void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, v
     }
         break;
     case 0xF:
-        current_table = *(u8 * *)&((SpriteFrameState *)actor)->frameTable;
+        current_table = *(u8 **)&((SpriteFrameState *)actor)->frameTable;
         direction_table = (u8 *)&D_80175DD4;
     if (current_table != direction_table) {
         ((SpriteFrameState *)actor)->frameTable = direction_table;
@@ -165,7 +167,7 @@ void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *pos
     actor_flags = ((T_80172F58_S_80172F58_1 *)actor)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            found_target = find_valid_monster_neighbor(actor, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v,
+            found_target = find_adjacent_actor(actor, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v,
                 ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v);
             if (found_target != NULL) {
                 object = ((T_80172F58_S_80172F58_3_pre *)found_target)[-1].unk_00;
@@ -240,7 +242,7 @@ void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *pos
                     }
                 }
             } else {
-                rebuild_monster_reachable_tiles(position, ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
+                select_actor_route_target(position, ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
             }
         }
     } else {
@@ -248,7 +250,7 @@ void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *pos
 
         kind = ((T_80172F58_S_80172F58_2 *)position)->unk_26.s;
         if (kind >= 0 && (((T_80172F58_S_80172F58_9 *)((u8 *)dungeon_rooms + kind * 0x14))->unk_0C & 2)) {
-            rebuild_monster_reachable_tiles(position, ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
+            select_actor_route_target(position, ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
         } else if (!(((T_80172F58_S_80172F58_1 *)actor)->unk_46 & 0x8000)) {
             found_target = probe_directional_neighbor(actor, ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00.v,
                 ((T_80172F58_S_80172F58_2 *)position)->unk_24.at01.v,
@@ -280,7 +282,7 @@ void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *pos
                     }
                 }
             } else {
-                rebuild_monster_reachable_tiles(position, ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
+                select_actor_route_target(position, ((T_80172F58_S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
             }
         }
     }
@@ -333,7 +335,7 @@ void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *pos
             break;
         }
         if (attempt == 0) {
-            if ((((T_80172F58_S_80172F58_11 *)(((s8 *)&reference_tile_object.tile_position.parts.tile_x)))->unk_00 != ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00u.v)
+            if ((reference_tile_object.tile_position.word != ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00u.v)
                 &&
                 ((s16)check_entity_relation(actor, ((s32)primary_actor_record->previous_actor_header) + 0x20) != 0)) {
                 return;
@@ -378,7 +380,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
     switch (kind) {
     case 0xD:
         direction_table = D_80175E9C;
-        previous_table = *(u8 * *)&display->frameTable;
+        previous_table = *(u8 **)&display->frameTable;
         if (previous_table == direction_table) {
             return;
         }
@@ -389,7 +391,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
         return;
     case 0xE:
         direction_table = D_80175EA4;
-        previous_table = *(u8 * *)&display->frameTable;
+        previous_table = *(u8 **)&display->frameTable;
         if (previous_table == direction_table) {
             return;
         }
@@ -400,7 +402,7 @@ void reset_actor_directional_animation(Rec_func_80172CC0_arg0 *state, s32 unused
         return;
     case 0xF:
         direction_table = D_80175EAC;
-        previous_table = *(u8 * *)&display->frameTable;
+        previous_table = *(u8 **)&display->frameTable;
         if (previous_table == direction_table) {
             return;
         }
@@ -476,7 +478,7 @@ s32 check_and_prepare_actor_move(void *action_state, s32 facing, void *origin, v
     if (((T_80173734_S_80173734_0 *)actor)->unk_48 == 15) {
 
         ((T_80173734_S_80173734_0 *)actor)->unk_60 =
-            scan_monster_along_heading(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
+            scan_actor_along_heading(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
                           ((T_80173734_S_80173734_2 *)origin)->unk_25, ((T_80173734_S_80173734_0 *)actor)->unk_2A, 10);
         ((T_80173734_S_80173734_3 *)action_state)->unk_AC = 0;
         if (((T_80173734_S_80173734_0 *)actor)->unk_60 != 0) {
@@ -503,7 +505,7 @@ loop:
                     ((T_80173734_S_80173734_2 *)origin)->unk_24 = next_x;
                     ((T_80173734_S_80173734_2 *)origin)->unk_25 = next_y;
                     ((T_80173734_S_80173734_0 *)actor)->unk_60 =
-                        scan_monster_along_heading(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
+                        scan_actor_along_heading(actor, ((T_80173734_S_80173734_2 *)origin)->unk_24,
                                       ((T_80173734_S_80173734_2 *)origin)->unk_25,
                                       ((T_80173734_S_80173734_0 *)actor)->unk_2A, (s16)range_left);
                     if (((T_80173734_S_80173734_0 *)actor)->unk_60 != 0) {
@@ -562,7 +564,6 @@ void prepare_actor_path_movement(void *action_input, s32 x_offset_input, void *p
     s32 action_state;
     u8 state_param;
 
-
     ((T_80173B48_S_80173B48_0 *)actor)->unk_71 &= 0x7F;
     if (g_dungeon_status.flags & 0x2000) {
         return;
@@ -584,7 +585,7 @@ void prepare_actor_path_movement(void *action_input, s32 x_offset_input, void *p
 
     if (((T_80173B48_S_80173B48_0 *)actor)->unk_48 == 15) {
         ((T_80173B48_S_80173B48_0 *)actor)->unk_60 =
-            scan_monster_along_heading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
+            scan_actor_along_heading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
                           ((T_80173B48_S_80173B48_2 *)position_input)->unk_25, ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, 10);
         ((T_80173B48_S_80173B48_1 *)action_input)->unk_AC = 0;
         if (((T_80173B48_S_80173B48_0 *)actor)->unk_60 != 0) {
@@ -611,7 +612,7 @@ loop:
                     ((T_80173B48_S_80173B48_2 *)position_input)->unk_24 = next_x;
                     ((T_80173B48_S_80173B48_2 *)position_input)->unk_25 = next_y;
                     ((T_80173B48_S_80173B48_0 *)actor)->unk_60 =
-                        scan_monster_along_heading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
+                        scan_actor_along_heading(actor, ((T_80173B48_S_80173B48_2 *)position_input)->unk_24,
                                       ((T_80173B48_S_80173B48_2 *)position_input)->unk_25,
                                       ((T_80173B48_S_80173B48_0 *)actor)->unk_2A, (s16)remaining_steps);
                     if (((T_80173B48_S_80173B48_0 *)actor)->unk_60 != 0) {

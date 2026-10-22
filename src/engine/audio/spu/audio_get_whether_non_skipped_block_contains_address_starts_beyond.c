@@ -5,7 +5,7 @@
 
 
 /* Initializes and publishes the record-list head for a positive count, returning the count or zero. */
-s32 initialize_sound_transfer_range(s32 count, S_800799BC *record) {
+s32 SpuInitMalloc(s32 count, S_800799BC *record) {
     s32 result = count;
     if (result > 0) {
         s32 shift = spu_address_unit_shift;
@@ -22,7 +22,7 @@ s32 initialize_sound_transfer_range(s32 count, S_800799BC *record) {
 }
 
 /* Returns whether a non-skipped block contains the address or starts at or beyond it. */
-s32 audio_get_whether_non_skipped_block_contains_address_starts_beyond(u32 address) {
+s32 _SpuIsInAllocateArea(u32 address) {
     S_800799BC *entry;
     u32 block_start;
     u32 skip_mask;
@@ -58,7 +58,7 @@ s32 audio_get_whether_non_skipped_block_contains_address_starts_beyond(u32 addre
 }
 
 /* Returns whether the shifted value precedes or lies within an active list entry range. */
-s32 test_spu_blocks_beyond_address(u32 value)
+s32 _SpuIsInAllocateArea_(u32 value)
 {
     S_800799BC *list;
     S_800799BC *entry;

@@ -1,6 +1,10 @@
+
+struct ActorRecord;
+struct ObjectPosition;
+struct SpriteFrameState;
 #include "common.h"
 
-extern void advance_action_through_recovery(void);
+extern void advance_action_through_recovery(void *action_state, struct ObjectPosition *transform,struct SpriteFrameState *sprite, struct ActorRecord *actor);
 
 /* Exact jump_table span; dispatch consumer dungeon/func_80FB35EC. */
 const u32 D_80170850[7] __attribute__((aligned(4))) = {

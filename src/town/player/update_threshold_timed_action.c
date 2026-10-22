@@ -14,7 +14,7 @@ s32 select_the_smaller_position_query_result_capped_n_64_writes_associated(s32 *
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"
 #include "town/player/call_the_handler_selects_nonzero_entry_api.h"
-void func_800941D8(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
+void init_actor_action_state(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 
 
 
@@ -40,6 +40,6 @@ void update_threshold_timed_action(Rec_func_80094268_arg0 *state, EntityRec *ent
     ticks_left = (u16) state->unk_0A.as_s16 - 1;
     state->unk_0A.as_s16 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        func_800941D8(state, entity, context);
+        init_actor_action_state(state, entity, context);
     }
 }

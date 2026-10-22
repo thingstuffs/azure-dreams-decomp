@@ -6,7 +6,7 @@
 #include "common.h"
 
 extern void clear_entity_record_fields(void *record);
-extern s32 D_800D0608[];
+extern s32 player_target_position[];
 extern s32 D_8009AAB8;
 extern u32 D_8009AB74;
 

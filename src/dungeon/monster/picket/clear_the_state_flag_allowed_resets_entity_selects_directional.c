@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -29,7 +30,7 @@ extern void select_sprite_entry(Object *object, u8 value, s32 entry_index);
 extern u8 D_80174F08[];
 
 /* Clears the state flag and, when allowed, resets the entity and selects a directional object value. */
-void clear_the_state_flag_allowed_resets_entity_selects_directional(Entity *entity, s32 unused, Object *object, State *state) {
+void clear_the_state_flag_allowed_resets_entity_selects_directional(Entity *entity, s32 unused, SpriteFrameState *object, State *state) {
     DungeonGlobalStatus *flags = &g_dungeon_status;
 
     state->unk71 &= 0x7F;
@@ -37,7 +38,7 @@ void clear_the_state_flag_allowed_resets_entity_selects_directional(Entity *enti
         entity->unk9A = 0x18;
         entity->unk8C = 0;
         entity->unk9B = 0;
-        object->unk2C = D_80174F08;
+        object->frameTable = D_80174F08;
         select_sprite_entry(object,
                       D_80174F08[((g_game_work.view.camera_rotation.parts.viewAngle + state->unk2A + 0x100) >> 9) & 7],
                       0);

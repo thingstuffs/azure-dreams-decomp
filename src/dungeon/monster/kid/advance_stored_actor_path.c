@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/actor_status.h"
@@ -14,14 +15,6 @@ typedef struct S_80171960_0 {
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_80171960_0;   /* arg3 in advance_stored_actor_path */
 
-typedef struct S_80171960_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80171960_1;   /* arg2 in advance_stored_actor_path */
-
 typedef struct S_80171960_2 {
     u8 pad_00[0x96];
     u16 unk_96;
@@ -33,7 +26,6 @@ typedef struct S_80171960_2 {
 
    /* (u8 *)arg3 + ((S_80171960_0 *)arg3)->unk_8A.s in advance_stored_actor_path */
 
-
 extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
@@ -43,7 +35,7 @@ extern u8 D_80175140[];
 extern u8 D_80175148[];
 
 /* Advance the actor along its stored path and update movement direction and timing. */
-void advance_stored_actor_path(void *motion, s32 unused, void *actor, void *move_state)
+void advance_stored_actor_path(void *motion, s32 unused, SpriteFrameState *actor, void *move_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -59,9 +51,9 @@ void advance_stored_actor_path(void *motion, s32 unused, void *actor, void *move
         return;
     }
 
-    direction_table = ((S_80171960_1 *)actor)->unk_2C;
+    direction_table = *(u8 **)&actor->frameTable;
     if (direction_table != D_80175140 && direction_table != D_80175148) {
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80175140;
+        (actor->frameTable) = D_80175140;
         select_sprite_entry(
             actor,
             D_80175140[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171960_0 *)move_state)->unk_2A + 0x100) >> 9) & 7],
@@ -69,22 +61,22 @@ void advance_stored_actor_path(void *motion, s32 unused, void *actor, void *move
         ((S_80171960_2 *)motion)->unk_A8 = 0;
     }
 
-    old_x = ((S_80171960_1 *)actor)->unk_24;
-    old_y = ((S_80171960_1 *)actor)->unk_25;
+    old_x = actor->unk_24;
+    old_y = actor->unk_25;
     tile_mask = 0x3000;
     if (((S_80171960_0 *)move_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, tile_mask);
 
-    ((S_80171960_1 *)actor)->unk_24 =
+    actor->unk_24 =
         ((ActorStatusBytesView *)((u8 *)move_state + ((S_80171960_0 *)move_state)->unk_8A.s))->unk_74;
-    ((S_80171960_1 *)actor)->unk_25 =
+    actor->unk_25 =
         ((ActorStatusBytesView *)((u8 *)move_state + ((S_80171960_0 *)move_state)->unk_8A.s))->unk_7C;
     ((S_80171960_0 *)move_state)->unk_8A.u++;
 
-    new_x = ((S_80171960_1 *)actor)->unk_24;
-    new_y = ((S_80171960_1 *)actor)->unk_25;
+    new_x = actor->unk_24;
+    new_y = actor->unk_25;
     tile_mask = 0x3000;
     if (((S_80171960_0 *)move_state)->unk_1C.s & 0x2000) {
         tile_mask = 0x300;
@@ -92,7 +84,7 @@ void advance_stored_actor_path(void *motion, s32 unused, void *actor, void *move
     cycle_map_cell_flags(new_x, new_y, tile_mask);
 
     ((S_80171960_0 *)move_state)->unk_2A = get_rounded_facing_and_rounding_flag(
-        old_x, old_y, ((S_80171960_1 *)actor)->unk_24, ((S_80171960_1 *)actor)->unk_25,
+        old_x, old_y, actor->unk_24, actor->unk_25,
         (u8 *)motion + 0x98);
     ((S_80171960_0 *)move_state)->unk_1C.u |= 0x40000000;
     ((S_80171960_2 *)motion)->unk_9A = 0xF;

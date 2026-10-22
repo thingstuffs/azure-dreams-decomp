@@ -8,6 +8,6 @@ typedef struct S_8008B9D8_0 {
 
 
 /* Invoke the object's callback. */
-void func_8008B9D8(S_8008B9D8_0 *object) {
+void run_map_object_callback(S_8008B9D8_0 *object) {
     object->unk_68(object);
 }

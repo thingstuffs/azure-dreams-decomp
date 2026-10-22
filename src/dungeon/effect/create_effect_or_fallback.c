@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -7,23 +8,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800B8228_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800B8228_0;
-
-typedef struct S_800B8228_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0xA];
-    s16 unk_16;
-} S_800B8228_1;
 
 typedef struct S_800B8228_3 {
     u8 pad_00[0xB0];
@@ -47,20 +31,20 @@ extern u8 D_800B80D8[];
 /* Creates and initializes an effect, or invokes its fallback if allocation fails. */
 void *create_effect_or_fallback(u32 x, u32 y, s32 z, void *effect_data) {
     SpriteFrameState *appearance;
-    void *effect;
-    S_800B8228_1 *position;
+    ObjectNodeHeader *effect;
+    ObjectPosition *position;
     S_800B8228_3 *grid_position;
 
     effect = allocate_flagged_object_node(0x12);
     if (effect != NULL) {
         register_node(effect, project_sprite_chain);
-        ((S_800B8228_0 *)effect)->unk_10 = D_800B80D8;
-        position = ((S_800B8228_0 *)effect)->unk_08;
-        position->unk_02 = x;
-        position->unk_06 = y;
-        position->unk_0A = z;
-        position->unk_16 = -0x12;
-        appearance = ((S_800B8228_0 *)effect)->unk_0C;
+        effect->unk_10 = D_800B80D8;
+        position = effect->position;
+        position->x.w.i = x;
+        position->y.w.i = y;
+        position->z.w.i = z;
+        *((s16 *)&position->velocity_z + 1) = -0x12;
+        appearance = effect->sprite;
         appearance->color.word = 0x808080;
         appearance->scale_y = 0xC90;
         appearance->scale_x = 0xC90;

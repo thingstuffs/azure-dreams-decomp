@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
@@ -7,21 +8,6 @@ extern u8 D_800DEC70[];
 s32 register_node();
 extern u8 D_800F6000[];
 extern void advance_gravity_damped_effect_motion(void *entry, void *motion, void *object);
-
-typedef struct S_80921B2C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80921B2C_0;
-
-typedef struct S_80921B2C_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-} S_80921B2C_2;
 
 typedef struct S_80921B2C_3 {
     s32 unk_00;
@@ -46,9 +32,9 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
     s32 effect_type;
     u8 *global_state;
     u8 *direction_state;
-    S_80921B2C_2 *motion;
+    ObjectPosition *motion;
     SpriteFrameState *sprite;
-    S_80921B2C_0 *effect;
+    ObjectNodeHeader *effect;
 
     direction_source = D_800F6000;
     memcpy(direction_table, direction_source, 0x20);
@@ -64,24 +50,24 @@ void create_damped_directional_projectile(S_80921B2C_3 *position, s16 x_offset, 
         {
             SpriteFrameState *render_state;
 
-            render_state = effect->unk_0C;
+            render_state = effect->sprite;
             render_state->flags |= 0xC;
             render_state->tpage_abr = 0x20;
             render_state->unk_06 = 6;
             render_state->flags |= 2;
         }
-        motion = effect->unk_08;
-        motion->unk_00.at00.v = (s32) position->unk_00;
-        motion->unk_04.at00.v = (s32) position->unk_04;
-        motion->unk_08.at00.v = (s32) position->unk_08;
-        motion->unk_00.at02.v = (u16) (motion->unk_00.at02.v + x_offset);
-        motion->unk_04.at02.v = (u16) (motion->unk_04.at02.v + y_offset);
-        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v + z_offset);
-        motion->unk_0C = (s32) ((*(s16 *)((u8 *)directions + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A
+        motion = effect->position;
+        motion->x.v = (s32) position->unk_00;
+        motion->y.v = (s32) position->unk_04;
+        motion->z.v = (s32) position->unk_08;
+        motion->x.w.i = (u16) (*(u16 *)&motion->x.w.i + x_offset);
+        motion->y.w.i = (u16) (*(u16 *)&motion->y.w.i + y_offset);
+        motion->z.w.i = (u16) (*(u16 *)&motion->z.w.i + z_offset);
+        motion->velocity_x = (s32) ((*(s16 *)((u8 *)directions + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A
             >> 7) & 0x1C))) * 0x180000);
-        motion->unk_10 = (s32) ((s16) ((S_80921B2C_6 *)((s8 *)directions
+        motion->velocity_y = (s32) ((s16) ((S_80921B2C_6 *)((s8 *)directions
             + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A >> 7) & 0x1C)))->unk_02 * 0x180000);
-        sprite = effect->unk_0C;
+        sprite = effect->sprite;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
         sprite->color.c.b = 0x80;

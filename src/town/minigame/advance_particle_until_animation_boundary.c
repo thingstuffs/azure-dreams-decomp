@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -13,7 +14,7 @@ typedef struct {
 extern void advance_sprite_animation_and_textures(void *result);
 
 /* Advances the position and propagates flags from the processed result. */
-void advance_particle_until_animation_boundary(void *object_data, S_8081C8DC *motion, S_8081C8DC *result)
+void advance_particle_until_animation_boundary(void *object_data, S_8081C8DC *motion, SpriteFrameState *result)
 {
     s32 delta_y;
     s32 delta_z;
@@ -24,7 +25,7 @@ void advance_particle_until_animation_boundary(void *object_data, S_8081C8DC *mo
     motion->field4 += delta_y;
     motion->field8 += delta_z;
     advance_sprite_animation_and_textures(result);
-    if (*(u16 *)((u8 *)result + 0x14) & 0x6000) {
+    if (result->flags & 0x6000) {
         *(u16 *)((u8 *)object_data - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

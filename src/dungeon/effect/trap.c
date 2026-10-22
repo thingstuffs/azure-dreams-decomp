@@ -6,6 +6,10 @@
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/effect.h"
+#include "dungeon/item.h"
+#include "dungeon/player.h"
+#include "dungeon/system.h"
 struct Dst;
 struct Elem;
 
@@ -102,9 +106,7 @@ typedef struct S_800CBCA0_1 {
 } S_800CBCA0_1;   /* parent in check_entity_chance_and_trigger_parent_action */
 
 
-extern void clear_player_linked_action_flags(void);
 extern void adjust_source_value_and_finalize();
-extern void display_fixed_item_action_message();
 extern s32 generate_random_value(void);
 extern void * create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *owner);
 extern u8 D_800E1AE6[];
@@ -286,7 +288,6 @@ s32 create_active_entity_effect_or_message(s32 entity)
 #define P32(p,o) (*(void **)((u8 *)(p)+(o)))
 extern s32 generate_random_value(void);
 extern s16 set_or_clear_actor_status_slot();
-extern void * spawn_randomized_particle_burst();
 extern s32 play_sound_if_enabled();
 extern void adjust_source_value_and_finalize();
 
@@ -347,7 +348,6 @@ typedef struct S_800CC18C_0 {
 extern u8 D_800E1BDA[];
 extern void adjust_source_value_and_finalize();
 extern s32 play_sound_if_enabled();
-extern void display_fixed_item_action_message();
 extern s32 generate_random_value(void);
 extern s32 begin_actor_random_warp(void *, s32, s32, void *);
 
@@ -410,8 +410,6 @@ s32 resolve_random_trap_outcome(void *entity, s32 forwarded_1, s32 forwarded_2, 
 
 
 extern s32 try_apply_confusion_status(void *object, s32 amount, s32 slots);
-extern void display_fixed_item_action_message();
-extern void * spawn_randomized_particle_burst();
 extern s32 play_sound_if_enabled();
 
 typedef struct {
@@ -905,7 +903,6 @@ extern u8 D_800E5908;
 extern s32 D_800DCF78;
 
 extern s32 play_sound_if_enabled();
-extern void display_fixed_item_action_message();
 s32 generate_random_value(void);
 void draw_textured_ellipse(void *, void *, s32, s32);
 extern void create_five_part_target_effect(u16 x, u16 y, s16 z);
@@ -1182,7 +1179,6 @@ typedef struct S_800CD004_6 {
 extern s32 register_node();
 extern s32 func_80069EF8(void);
 extern s32 play_sound_if_enabled();
-extern void display_fixed_item_action_message();
 extern s32 generate_random_value(void);
 
 extern u8 D_800CCDA0;
@@ -1273,8 +1269,6 @@ s32 spawn_source_sprite_effect(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 r
 
 extern void adjust_source_value_and_finalize();
 extern s32 play_sound_if_enabled();
-extern void display_fixed_item_action_message();
-extern void * spawn_randomized_particle_burst();
 extern s32 roll_chance_and_run_action(void *record, s16 chance, s8 action);
 extern void wrap_position_and_set_state_value(s32);
 extern s32 D_800DCF0C;
@@ -1351,8 +1345,6 @@ typedef struct S_800CD294_1 {
 extern s32 D_800DCF14;
 extern void adjust_source_value_and_finalize();
 extern s32 play_sound_if_enabled();
-extern void display_fixed_item_action_message();
-extern void * spawn_randomized_particle_burst();
 s32 roll_threshold_effect_variant_b();        /* extern */
 void wrap_position_and_set_state_value();                         /* extern */
 extern u8 D_800E1C03[17];
@@ -1394,8 +1386,6 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
 
 
 extern void adjust_source_value_and_finalize();
-extern void display_fixed_item_action_message();
-extern void * spawn_randomized_particle_burst();
 extern s32 roll_threshold_effect_variant_a();
 extern void wrap_position_and_set_state_value();
 extern s32 D_800DCF1C;
@@ -1583,7 +1573,6 @@ s32 target;
 extern s32 has_enough_available_runtime_nodes();
 extern s32 register_node();
 extern s32 play_sound_if_enabled();
-extern void display_fixed_item_action_message();
 extern s32 generate_random_value(void);
 extern void apply_mode_selected_trap_mask();
 
@@ -1835,7 +1824,6 @@ extern s32 get_entity_effect_value();
 extern s32 has_enough_available_runtime_nodes(s32);
 extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
 extern s32 play_sound_if_enabled();
-extern void display_fixed_item_action_message();
 extern s32 generate_random_value(void);
 extern s32 run_action_ten_if_eligible(ActorRecord *entity, s8 action_arg);
 extern u8 D_800CD910[];
@@ -1907,7 +1895,6 @@ s32 trigger_step_trap_effect(void *object) {
 #include "shared/dungeon_status.h"
 
 extern s32 get_entity_effect_value();
-extern void display_fixed_item_action_message();
 extern s32 generate_random_value(void);
 
 
@@ -1954,7 +1941,6 @@ s32 roll_trap_trigger_chance(void *ptr, s32 unused1, s32 unused2, s32 unused3)
 extern u8 D_800DF870[];
 
 extern s32 generate_random_value(void);
-extern void display_fixed_item_action_message();
 extern s32 play_sound_if_enabled();
 extern void attempt_action_six_if_eligible(void *, s32, s32);
 extern void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_sound);
@@ -2539,12 +2525,9 @@ s32 get_unused_text_buffer(void);
 s32 expand_text_control_codes(u8 *src, u8 *dst);
 void clear_byte_and_advance(s8 *byte_ptr);
 s32 write_text_byte_and_advance(s8 value, s8 *dest);
-s32 apply_type_based_entry_adjustments(void *, s32);
 extern s32 play_sound_if_enabled();
 void display_text_with_fullwidth_adjustment(s8 *text);
-extern void display_fixed_item_action_message();
 s32 generate_random_value();
-extern void * spawn_randomized_particle_burst();
 s32 is_linked_object_flagged_10000(void *);
 
 extern u8 D_800E1B76[18];

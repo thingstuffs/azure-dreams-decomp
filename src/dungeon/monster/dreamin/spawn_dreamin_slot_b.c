@@ -12,13 +12,6 @@ typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
 typedef struct ActorActionView ActorActionView;
 typedef struct ActorSpriteView ActorSpriteView;
 
-typedef struct S_80DAD000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80DAD000_0;
-
 typedef struct S_80DAD000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -61,7 +54,7 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     s32 spawn_mode;
     SpriteFrameState *placement;
     S_80DAD000_2 *base_data;
-    void *object;
+    ObjectNodeHeader *object;
     S_80DAD000_4 *extended_state;
     S_80DAD000_1 *state = NULL;
     s8 saved_x;
@@ -78,13 +71,13 @@ void *spawn_dreamin_slot_b(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initia
     global_byte = (s32) *(s8 *)-0x56D4;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        state = object + 0x20;
-        ((S_80DAD000_0 *)object)->unk_10 = &func_80152A3C;
+        state = ((void *)object) + 0x20;
+        object->unk_10 = &func_80152A3C;
         state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
-        base_data = ((S_80DAD000_0 *)object)->unk_08;
+        base_data = object->position;
         base_data->unk_0A = saved_value;
-        placement = ((S_80DAD000_0 *)object)->unk_0C;
+        placement = object->sprite;
         spawn_mode = spawn_flags & 3;
         placement->unk_25 = saved_y;
         extended_state = state;

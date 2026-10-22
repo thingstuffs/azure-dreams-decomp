@@ -75,7 +75,7 @@ extern void func_800201C8(void *, void *);
 extern void func_8002025C(void *, void *);
 extern s32 set_resident_bit(s32);
 extern s32 test_resident_bit();
-extern void func_80043FB8(void *, s32);
+extern void return_zero_variadic(void *, s32);
 extern void SD_Call(s32);
 extern s32 create_dual_buffer_object(s32, s32, s32);
 extern void set_object_data_pointer_2(s32);
@@ -105,7 +105,7 @@ void update_keima_selection_menu(TownEntity *menu)
     if (test_resident_bit(0x590) != 0) {
         entity->state = 0x100;
     }
-    func_80043FB8(D_800200C4, entity->state);
+    return_zero_variadic(D_800200C4, entity->state);
 
     state = entity->state;
     switch (state) {

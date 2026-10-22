@@ -29,7 +29,7 @@ extern S_8004F068_word object_header_c_default_word_0c;
 extern S_8004F068_word object_header_c_default_word_04;
 
 /* Initializes two adjacent headers with flags and global values, then returns the next field. */
-void *func_8004F068(void *cursor)
+void *init_object_header_c(void *cursor)
 {
     S_8004F068_a *first_header = (S_8004F068_a *)cursor;
     S_8004F068_b *second_header;

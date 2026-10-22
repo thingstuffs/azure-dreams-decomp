@@ -1,6 +1,8 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/actor.h"
 
 typedef struct S_8185C860_0 {
     void * unk_00;
@@ -8,10 +10,7 @@ typedef struct S_8185C860_0 {
     s32 unk_70;
 } S_8185C860_0;
 
-
-
 s32 check_entity_interaction_compatibility();
-s32 check_entity_eligibility();
 s32 generate_random_value();
 s32 try_apply_status_effect();
 extern u8 current_spell_effect_variant;
@@ -30,7 +29,7 @@ void apply_randomized_effect_near_center(s16 center_x, s16 center_y, s32 source,
     base_value = (s16)(((u32)(power & 0xFF) >> 2) + 0x10);
     do {
         if ((check_entity_interaction_compatibility(source, target) << 0x10) != 0) {
-            position = ((S_8185C860_0 *)((u8 *)target - 0x14))->unk_00;
+            position = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
             distance_x = position->unk_24 - center_x;
             if (distance_x < 0) {
                 distance_x = 0 - distance_x;

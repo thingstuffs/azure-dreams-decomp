@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 
 extern s32 begin_mode_selected_item_action();
@@ -17,7 +18,6 @@ extern void display_text_with_fullwidth_adjustment();
 extern void place_actor_item();
 extern void display_actor_item_status_message();
 extern s32 feed_actor_restore_mp();
-extern void create_view_color_flash();
 
 extern u8 D_800E1567[];
 extern u8 floor_objects[];

@@ -38,7 +38,7 @@ typedef struct S_func_801728C4_3 {
 } S_func_801728C4_3;
 
 extern void *actor_update_node_cursor;
-extern u8 D_80170F74[];
+#include "dungeon/monster/stealth.h"
 extern u8 D_80173D58[];
 
 void select_sprite_entry(void *, u8, s32);
@@ -93,7 +93,7 @@ void update_actor_actions_and_impact_effects(S_func_801728C4_0 *action, S_func_8
         }
         set_record_integer_tile_center(motion, animation->unk_24, animation->unk_25);
         spend_actor_mp(actor, 0x100);
-        action->unk_8C = D_80170F74;
+        action->unk_8C = stealth_behavior_entry;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         if (actor->unk_6D == 0) {

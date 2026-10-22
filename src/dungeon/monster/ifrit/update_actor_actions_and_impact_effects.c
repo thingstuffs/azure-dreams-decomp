@@ -6,6 +6,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "engine/cd.h"
 extern u8 D_801740FC[];
 extern int abs(int);
 
@@ -18,11 +19,6 @@ typedef struct S_801728C4_0 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_801728C4_0;   /* arg0 in update_actor_actions_and_impact_effects */
-
-typedef struct S_801728C4_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_801728C4_2_pre;   /* the 0x14 bytes before mode_global in update_actor_actions_and_impact_effects, addressed as mode_global[-1] */
 
 typedef struct S_801728C4_3_pre {
     void * unk_00;
@@ -62,18 +58,10 @@ typedef struct S_801728C4_4 {
     void * unk_2C;
 } S_801728C4_4;   /* arg2 in update_actor_actions_and_impact_effects */
 
-
 typedef struct S_801728C4_6 {
     u8 pad_00[0xA6];
     u16 unk_A6;
 } S_801728C4_6;   /* global in update_actor_actions_and_impact_effects */
-
-typedef struct S_801728C4_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_801728C4_7;   /* entity in update_actor_actions_and_impact_effects */
 
 typedef struct S_801728C4_8 {
     u8 pad_00[0x96];
@@ -82,31 +70,17 @@ typedef struct S_801728C4_8 {
     s32 unk_A4;
 } S_801728C4_8;   /* part in update_actor_actions_and_impact_effects */
 
-typedef struct S_801728C4_10 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801728C4_10;   /* ((S_801728C4_7 *)entity)->unk_08 in update_actor_actions_and_impact_effects */
-
-
 extern u8 D_80170E84[];
-extern u8 D_80174820[];
+#include "dungeon/monster/ifrit.h"
 extern u8 D_80174850[];
 
-extern s32 get_cd_command_queue_depth();
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void project_sprite_chain(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_80069EF8(void);
-extern void *scan_monster_along_heading(void *, s32, s32, s32, s32);
+extern void *scan_actor_along_heading(void *, s32, s32, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -131,7 +105,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
     s32 current_state;
     u8 *anim;
     u16 timer;
-    void *effect;
+    ObjectNodeHeader *effect;
     void *effect_state;
     void *target_sprite;
     void (*callback)(void);
@@ -192,7 +166,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
             if (special_test != 0) {
                 special_target = ((u8 *)primary_actor_record);
                 actor->target = special_target;
-                target_sprite = ((S_801728C4_2_pre *)special_target)[-1].unk_00;
+                target_sprite = ((ObjectNodeHeader *)((u8 *)special_target - 0x20))->sprite;
                 actor->target_tile_x = ((S_801728C4_3 *)target_sprite)->unk_24;
                 actor->target_tile_y = ((S_801728C4_3 *)target_sprite)->unk_25;
             } else {
@@ -205,7 +179,7 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                         actor->target_tile_y = ((S_801728C4_3 *)target_sprite)->unk_25;
                     }
                 } else {
-                    actor->target = scan_monster_along_heading(
+                    actor->target = scan_actor_along_heading(
                         actor, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25,
                         actor->facing, 0x10);
                     abs_x = abs(actor->target_tile_x);
@@ -267,16 +241,16 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
                     effect_state = (u8 *)effect + 0x20;
-                    ((S_801728C4_7 *)effect)->unk_10 = tick_object_motion_and_expire;
-                    ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_02 =
+                    effect->unk_10 = tick_object_motion_and_expire;
+                    effect->position->x.w.i =
                         ((u16)motion->x.w.i) + delta[0];
-                    ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_06 =
+                    effect->position->y.w.i =
                         ((u16)motion->y.w.i) + delta[1];
-                    ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_0A =
+                    effect->position->z.w.i =
                         ((u16)motion->z.w.i) + delta[2];
                     ((S_801728C4_8 *)effect_state)->unk_A4 = 0;
                     ((S_801728C4_8 *)effect_state)->unk_96 = 4;
-                    target_sprite = ((S_801728C4_7 *)effect)->unk_0C;
+                    target_sprite = effect->sprite;
                     ((S_801728C4_3 *)target_sprite)->unk_28 = ((S_801728C4_4 *)sprite)->unk_28;
                     ((S_801728C4_3 *)target_sprite)->unk_1E = 0x1000;
                     ((S_801728C4_3 *)target_sprite)->unk_1C = 0x1000;
@@ -302,23 +276,23 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
                 effect = allocate_list_node(0x112, ((u8 *)&scene_object_list_anchor));
                 if (effect != 0) {
                     register_node(effect, project_sprite_chain);
-                    ((S_801728C4_7 *)effect)->unk_10 = callback;
-                    ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_02 =
+                    effect->unk_10 = callback;
+                    effect->position->x.w.i =
                         ((u16)motion->x.w.i) + delta[0] + (func_80069EF8() & 0xF) - 8;
-                    ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_06 =
+                    effect->position->y.w.i =
                         ((u16)motion->y.w.i) + delta[1] + (func_80069EF8() & 0xF) - 8;
-                    ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_0A =
+                    effect->position->z.w.i =
                         ((u16)motion->z.w.i) + delta[2] + (func_80069EF8() & 0xF) - 8;
-                    ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_0C =
+                    effect->position->velocity_x =
                         ((func_80069EF8() & 0xFF) - 0x80) << 11;
-                    ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_10 =
+                    effect->position->velocity_y =
                         ((func_80069EF8() & 0xFF) - 0x80) << 11;
-                    ((S_801728C4_10 *)(((S_801728C4_7 *)effect)->unk_08))->unk_14 =
+                    effect->position->velocity_z =
                         -(func_80069EF8() & 0xFF) << 12;
                     effect_state = (u8 *)effect + 0x20;
                     ((S_801728C4_8 *)effect_state)->unk_A4 = 0;
                     ((S_801728C4_8 *)effect_state)->unk_96 = 7;
-                    target_sprite = ((S_801728C4_7 *)effect)->unk_0C;
+                    target_sprite = effect->sprite;
                     ((S_801728C4_3 *)target_sprite)->unk_28 = ((S_801728C4_4 *)sprite)->unk_28;
                     ((S_801728C4_3 *)target_sprite)->unk_1E = 0x1000;
                     ((S_801728C4_3 *)target_sprite)->unk_1C = 0x1000;
@@ -352,11 +326,11 @@ void update_actor_actions_and_impact_effects(void *action, ObjectPosition *motio
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25);
-        if (((S_801728C4_4 *)sprite)->unk_2C != D_80174820) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174820;
+        if (((S_801728C4_4 *)sprite)->unk_2C != ifrit_direction_frames) {
+            (*(void * *)((u8 *)sprite + 0x2C)) = ifrit_direction_frames;
             select_sprite_entry(
                 sprite,
-                D_80174820[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ifrit_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
         }
         if (((s32)g_dungeon_status.active_actor) == 0) {

@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
+#include "dungeon/player.h"
 
 extern u8 D_800DD050[];
 extern u8 D_800DD0E0[];

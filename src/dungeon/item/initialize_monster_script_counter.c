@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item.h"
 
 
 /* Clears the value at 0x80013718 and increments the counter at 0x8001371A. */

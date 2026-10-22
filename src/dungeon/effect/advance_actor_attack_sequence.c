@@ -1,3 +1,5 @@
+
+struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -5,6 +7,8 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/object.h"
 
 typedef struct S_80048A44_Obj S_80048A44_Obj;
 
@@ -13,10 +17,8 @@ void process_unflagged_linked_entries();                         /* extern */
 s32 resolve_attack_damage_and_effects();    /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 play_sound_if_enabled();                     /* extern */
-void allocate_payload_object();        /* extern */
-void apply_effect_bonuses();          /* extern */
 s32 update_attached_effect_state();             /* extern */
-s32 select_nearby_target_and_initialize_slot(); /* extern */
+s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value); /* extern */
 extern u8 D_800DD030[];
 extern u8 D_800DD068[];
 extern u8 D_800DD070[];
@@ -30,7 +32,6 @@ extern u8 D_800DD0A8[];
 extern u8 D_800DD0B0[];
 extern s32 D_800DF244[];
 extern s16 D_800DF248[];
-
 
 typedef struct S_800B348C_0 {
     u8 pad_00[0x8C];
@@ -53,7 +54,6 @@ typedef struct S_800B348C_0 {
     u8 unk_102;
 } S_800B348C_0;   /* action_state in advance_actor_attack_sequence */
 
-
 typedef struct S_800B348C_4_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -63,13 +63,6 @@ typedef struct S_800B348C_4 {
     u8 pad_00[0x1C];
     s32 unk_1C;
 } S_800B348C_4;   /* attack_target in advance_actor_attack_sequence */
-
-typedef struct S_800B348C_6 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x8];
-    s32 unk_0C;
-} S_800B348C_6;   /* end_base in advance_actor_attack_sequence */
 
 typedef struct S_800B348C_7 {
     u8 pad_00[0xC];
@@ -317,7 +310,7 @@ bump_state_9b:
     }
     case 10:
     {
-        s32 *end_base;
+        DungeonGlobalStatus *end_base;
         s32 end_mask;
         s32 end_timer_state;
         return_delay = ((S_800B348C_0 *)action_state)->unk_96.u - 1;
@@ -337,12 +330,12 @@ bump_state_9b:
             process_unflagged_linked_entries(actor->next_actor_header);
             end_base = (s32 *)((u32)&g_dungeon_status.turn_scale);
             end_mask = -8;
-            ((S_800B348C_6 *)end_base)->unk_02 = (u16) (((S_800B348C_6 *)end_base)->unk_02 | 0x412);
+            end_base->flags = (u16) (end_base->flags | 0x412);
             ((S_800B348C_0 *)action_state)->unk_8C = handle_player_input;
             end_timer_state = D_800DF248[0];
             actor->flags14 &= end_mask;
             if (end_timer_state == 0) {
-                ((S_800B348C_6 *)end_base)->unk_0C = 0;
+                end_base->active_actor = 0;
             }
             ((S_800B348C_0 *)action_state)->unk_96.u = 0U;
         }

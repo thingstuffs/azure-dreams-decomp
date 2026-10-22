@@ -1,4 +1,7 @@
+
+struct ObjectPosition;
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -23,7 +26,6 @@ typedef struct S_801717D0_0 {
     u8 unk_71;
 } S_801717D0_0;   /* self in prepare_actor_directional_action */
 
-
 typedef struct S_801717D0_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -36,29 +38,21 @@ typedef struct S_801717D0_3 {
     u16 unk_A6;
 } S_801717D0_3;   /* player in prepare_actor_directional_action */
 
-
 typedef struct S_801717D0_5 {
     u8 pad_00[0x12];
     u8 unk_12;
     u8 unk_13;
 } S_801717D0_5;   /* entry in prepare_actor_directional_action */
 
-typedef struct S_801717D0_6 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801717D0_6;   /* call_arg2 in prepare_actor_directional_action */
-
-
 extern void select_sprite_entry(void *, u8, s32);
-extern s32 scan_monster_along_heading(void *, u8, u8, s16, u8);
+extern s32 scan_actor_along_heading(void *, u8, u8, s16, u8);
 extern s32 try_claim_dungeon_action_slot(void *);
 extern void advance_status_timers(void *);
 extern s32 generate_random_value(void);
-extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
-void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state)
+void prepare_actor_directional_action(u8 *entity, s32 action_param, SpriteFrameState *action_sprite, u8 *frame_table, s32 fallback_state)
 {
     u8 *self;
     u8 *player;
@@ -132,9 +126,9 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_s
             action_entry = action_table + entry_index * 20;
             if (((S_801717D0_5 *)action_entry)->unk_12 == 2) {
                 ((S_801717D0_0 *)self)->unk_60 =
-                    scan_monster_along_heading(self,
-                                  ((S_801717D0_6 *)action_sprite)->unk_24,
-                                  ((S_801717D0_6 *)action_sprite)->unk_25,
+                    scan_actor_along_heading(self,
+                                  action_sprite->unk_24,
+                                  action_sprite->unk_25,
                                   ((S_801717D0_0 *)self)->unk_2A.s,
                                   ((S_801717D0_5 *)action_entry)->unk_13);
             }
@@ -148,7 +142,7 @@ void prepare_actor_directional_action(u8 *entity, s32 action_param, u8 *action_s
     ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = 0;
 
     if (frame_table != 0) {
-        (*(u8 * *)((u8 *)action_sprite + 0x2C)) = frame_table;
+        (action_sprite->frameTable) = frame_table;
         selection_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
         select_sprite_entry(action_sprite, frame_table[selection_index & 7], 0);
     }

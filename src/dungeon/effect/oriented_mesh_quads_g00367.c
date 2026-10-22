@@ -1,6 +1,8 @@
+#include "shared/sprite_frame_state.h"
 /* Oriented mesh quads (G00367). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800C9858. */
 #include "dungeon/effect/oriented_mesh_quads_g00367.h"
+#include "shared/game_work.h"
 
 /* Process each linked state with draw_mesh_quads_with_orientation_mode in mode zero. */
 s32 process_linked_mesh_states_mode_0(void *initial_state, s32 value, void *data) {
@@ -77,7 +79,7 @@ void draw_mesh_quads_with_orientation_mode(void *unused, void *endpoints, void *
 
     S_SCRATCH *scratch;
     scratch = (S_SCRATCH *)0x1F800000;
-    global_base = *(void **)((s8 *)(&g_game_work));
+    global_base = g_game_work.draw_buffer;
 
 #define SPA(off) ((void *)((u8 *)scratch + (off)))
 

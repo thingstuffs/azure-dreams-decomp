@@ -296,13 +296,13 @@ void *allocate_initialized_effect_object(EntityRec *source_pos, s32 offset_base)
         init_data[1] = 0x00200020;
         draw_textured_ellipse(D_8002746C, init_data, 1, 0);
 
-        pos = object->unk_08;
+        pos = object->position;
         object->unk_10 = advance_effect_phases;
         pos->x.w.i = (u16)source_pos->x.w.i;
         pos->y.w.i = (u16)source_pos->y.w.i;
         pos->z.w.i = (u16)source_pos->z.w.i;
 
-        sprite = object->unk_0C;
+        sprite = object->sprite;
         sprite->source = D_80027460;
         sprite->scale_y = 0xC00;
         sprite->scale_x = 0xC00;
@@ -497,29 +497,8 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
 #define NULL 0
 #endif
 
-typedef struct S_819AD1DC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_819AD1DC_0;   /* obj in func_819AD1DC */
-
    /* src in func_819AD1DC */
 
-typedef struct S_819AD1DC_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} S_819AD1DC_2;   /* coords in func_819AD1DC */
 
 typedef struct S_819AD1DC_3 {
     u8 pad_00[0x1C];
@@ -532,15 +511,6 @@ typedef struct S_819AD1DC_3 {
     s16 unk_38;
 } S_819AD1DC_3;   /* part in func_819AD1DC */
 
-typedef struct S_819AD1DC_4 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    u8 pad_0C[0x1];
-    s8 unk_0D;
-    u8 pad_0E[0xE];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_819AD1DC_4;   /* render in func_819AD1DC */
 
 /* Spawn the nine trail sprites at the source position, the last one larger and all fading with distance. */
 void *move_effect_toward_target(MovingPosition *src)
@@ -549,15 +519,15 @@ void *move_effect_toward_target(MovingPosition *src)
     s32 *handler;
     s32 *sub_handler;
     register s32 last_index;
-    void *obj;
+    ObjectNodeHeader *obj;
     s32 shade;
     u16 scale;
     u16 x;
     u16 y;
     u16 z;
-    S_819AD1DC_4 *render;
+    SpriteFrameState *render;
     S_819AD1DC_3 *part;
-    S_819AD1DC_2 *coords;
+    ObjectPosition *coords;
 
     i = 0;
     handler = run_warp_cutscene;
@@ -566,33 +536,33 @@ void *move_effect_toward_target(MovingPosition *src)
     do {
         obj = allocate_flagged_object_node(18);
         if (obj != NULL) {
-            ((S_819AD1DC_0 *)obj)->unk_10 = handler;
+            obj->unk_10 = handler;
             register_node(obj, process_linked_mesh_states_mode_0);
-            coords = ((S_819AD1DC_0 *)obj)->unk_08;
+            coords = obj->position;
             x = src->unk_02;
-            part = obj + 0x20;
-            coords->unk_02 = x;
-            coords->unk_0E = x;
+            part = ((void *)obj) + 0x20;
+            coords->x.w.i = x;
+            *((u16 *)&coords->velocity_x + 1) = x;
             part->unk_1C = x;
             y = src->unk_06;
-            coords->unk_06 = y;
-            coords->unk_12 = y;
+            coords->y.w.i = y;
+            *((u16 *)&coords->velocity_y + 1) = y;
             part->unk_1E = y;
             z = src->unk_0A;
-            coords->unk_0A = z;
-            coords->unk_16 = z;
+            coords->z.w.i = z;
+            *((u16 *)&coords->velocity_z + 1) = z;
             part->unk_20 = z;
-            render = ((S_819AD1DC_0 *)obj)->unk_0C;
-            ((SpriteFrameState *)render)->source = sub_handler;
+            render = obj->sprite;
+            render->source = sub_handler;
             if (i != last_index) {
-                ((SpriteFrameState *)render)->scale_y = 0x200U;
+                render->scale_y = 0x200U;
             } else {
-                ((SpriteFrameState *)render)->scale_y = 0x800U;
+                render->scale_y = 0x800U;
             }
             shade = -0x80 - ((s32)((last_index - i) * 4));
-            scale = ((SpriteFrameState *)render)->scale_y;
-            ((SpriteFrameState *)render)->color.c.g = (u8)shade;
-            ((SpriteFrameState *)render)->scale_x = scale;
+            scale = render->scale_y;
+            render->color.c.g = (u8)shade;
+            render->scale_x = scale;
             part->unk_38 = i;
             if (i == last_index) {
                 part->unk_38 = 7;
@@ -668,10 +638,10 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
             effect->unk_10 = advance_effect_motion_and_speed;
             register_node(effect, (s32)project_sprite_chain);
             record = (MotionRecord *)(effect + 1);
-            ((ObjectPosition *)effect->unk_08)->x.w.i = (((ObjectPosition *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
-            ((ObjectPosition *)effect->unk_08)->y.w.i = (((ObjectPosition *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;
-            ((ObjectPosition *)effect->unk_08)->z.w.i = (((ObjectPosition *)source->unk_08)->z.w.i + (rand() & 0x3F)) - 0x20;
-            sprite = effect->unk_0C;
+            effect->position->x.w.i = (source->position->x.w.i + (rand() & 0x3F)) - 0x20;
+            effect->position->y.w.i = (source->position->y.w.i + (rand() & 0x3F)) - 0x20;
+            effect->position->z.w.i = (source->position->z.w.i + (rand() & 0x3F)) - 0x20;
+            sprite = effect->sprite;
             sprite->source = D_80027484;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
@@ -690,9 +660,9 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
             effect->unk_10 = advance_effect_motion_and_speed;
             register_node(effect, (s32)queue_linked_visible_rectangle_copies);
             record = (MotionRecord *)(effect + 1);
-            ((ObjectPosition *)effect->unk_08)->x.w.i = (((ObjectPosition *)source->unk_08)->x.w.i + (rand() & 0x3F)) - 0x20;
-            ((ObjectPosition *)effect->unk_08)->y.w.i = (((ObjectPosition *)source->unk_08)->y.w.i + (rand() & 0x3F)) - 0x20;
-            ((ObjectPosition *)effect->unk_08)->z.w.i = (((ObjectPosition *)source->unk_08)->z.w.i + (rand() & 0x3F)) - 0x20;
+            effect->position->x.w.i = (source->position->x.w.i + (rand() & 0x3F)) - 0x20;
+            effect->position->y.w.i = (source->position->y.w.i + (rand() & 0x3F)) - 0x20;
+            effect->position->z.w.i = (source->position->z.w.i + (rand() & 0x3F)) - 0x20;
             record->unk_00 = 0x20;
             record->unk_02 = 0x20;
             record->unk_04 = 1;
@@ -736,8 +706,8 @@ void copy_follower_owner_position_and_color(FollowerRecord *record, ObjectPositi
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    render->color = ((SpriteFrameState *)owner->unk_0C)->color.word;
-    owner_pos = record->owner->unk_08;
+    render->color = owner->sprite->color.word;
+    owner_pos = record->owner->position;
     position->x.w.i = (u16)owner_pos->x.w.i;
     position->y.w.i = (u16)owner_pos->y.w.i;
     position->z.w.i = (u16)owner_pos->z.w.i;
@@ -776,10 +746,10 @@ void func_80024EF8(ObjectNodeHeader *owner, s16 angle) {
     if (spawned != 0) {
         spawned->unk_10 = (follower_position_update_fn)copy_follower_owner_position_and_color;
         register_node(spawned, (s32)project_sprite_chain);
-        ((ObjectPosition *)spawned->unk_08)->x.w.i = (u16)((ObjectPosition *)owner->unk_08)->x.w.i;
-        ((ObjectPosition *)spawned->unk_08)->y.w.i = (u16)((ObjectPosition *)owner->unk_08)->y.w.i;
-        ((ObjectPosition *)spawned->unk_08)->z.w.i = (u16)((ObjectPosition *)owner->unk_08)->z.w.i;
-        sprite = spawned->unk_0C;
+        spawned->position->x.w.i = (u16)owner->position->x.w.i;
+        spawned->position->y.w.i = (u16)owner->position->y.w.i;
+        spawned->position->z.w.i = (u16)owner->position->z.w.i;
+        sprite = spawned->sprite;
         sprite->source = D_80027454;
         sprite->scale_y = 0x2800;
         sprite->scale_x = 0x2800;
@@ -865,11 +835,6 @@ typedef struct S_819AD81C_2 {
     s32 unk_14;
 } S_819AD81C_2;   /* motion in func_819AD81C */
 
-typedef struct S_819AD81C_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_819AD81C_3_pre;   /* the 0x14 bytes before node in func_819AD81C, addressed as node[-1] */
-
 typedef struct S_819AD81C_3 {
     u8 pad_00[0x34];
     s16 unk_34;
@@ -895,14 +860,6 @@ typedef struct S_819AD81C_4 {
     u8 unk_24;
     u8 unk_25;
 } S_819AD81C_4;   /* info in func_819AD81C */
-
-typedef struct S_819AD81C_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    u8 pad_10[0xE];
-    u16 unk_1E;
-} S_819AD81C_5;   /* attached in func_819AD81C */
 
    /* link in func_819AD81C */
 
@@ -956,7 +913,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
     u16 saved_x;
     u16 saved_y;
     void *node;
-    void *attached;
+    ObjectNodeHeader *attached;
     void *info;
     void *head;
     void *link;
@@ -1036,7 +993,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
                 node = link + 0x20;
                 if (node != head) {
                     do {
-                        info = ((S_819AD81C_3_pre *)node)[-1].unk_00;
+                        info = ((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite;
                         if (((S_819AD81C_4 *)info)->unk_24 == ((S_819AD81C_0 *)entity)->unk_3C.at00.v) {
                             if (((S_819AD81C_4 *)info)->unk_25 == ((S_819AD81C_0 *)entity)->unk_3C.at02.v) {
                                 dz = ((S_819AD81C_3 *)node)->unk_88;
@@ -1079,13 +1036,13 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         return;
     } else {
         attached = (void *) ((s32) link | 0x80000000);
-        if (((S_819AD81C_5 *)attached)->unk_1E & 0x8000) {
+        if (attached->flags & 0x8000) {
             (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_819AD81C_0_pre *)entity)[-1].unk_00 | NODE_REMOVE);
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
-        link = ((S_819AD81C_5 *)attached)->unk_08;
-        info = ((S_819AD81C_5 *)attached)->unk_0C;
+        link = attached->position;
+        info = attached->sprite;
         ((S_819AD81C_2 *)motion)->unk_00.at02.v = (s16) ((MovingPosition *)link)->unk_02;
         ((S_819AD81C_2 *)motion)->unk_04.at02.v = (s16) ((MovingPosition *)link)->unk_06;
         ((S_819AD81C_2 *)motion)->unk_08.at02.v = (s16) ((MovingPosition *)link)->unk_0A;
@@ -1097,7 +1054,7 @@ void update_warp_camera_and_effects(void *entity, void *motion, void *gfx) {
         ((S_819AD81C_1 *)gfx)->unk_20 = (u16) ((S_819AD81C_4 *)info)->unk_20;
         ((S_819AD81C_1 *)gfx)->unk_0C.at00u.v = ((S_819AD81C_4 *)info)->unk_0C;
         want_kind = D_8002758C[((S_819AD81C_0 *)entity)->unk_48];
-        node = attached + 0x20;
+        node = ((void *)attached) + 0x20;
         if ((want_kind >= 0) && (((S_819AD81C_4 *)info)->unk_04 == want_kind)) {
             func_800649A0(attached);
             build_install(entity, motion, gfx);
@@ -1511,13 +1468,6 @@ return 0;
 #define NULL 0
 #endif
 
-typedef struct S_80025B78_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_80025B78_0;
-
    /* arg1 in create_copied_effect_object */
 
 typedef struct S_80025B78_4 {
@@ -1544,19 +1494,19 @@ typedef struct Block32 {
 /* Creates an object and copies the supplied triplet, state fields, and 32-byte data block. */
 void *create_copied_effect_object(void *source_data, MovingPosition *source_triplet, S_80025B78_4 *source_state)
 {
-    void *object;
+    ObjectNodeHeader *object;
     MovingPosition *triplet;
     SpriteFrameState *state;
 
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
-        ((S_80025B78_0 *)object)->unk_10 = fade_color_to_black;
+        object->unk_10 = fade_color_to_black;
         register_node(object, process_effect_buffer_chain);
-        triplet = ((S_80025B78_0 *)object)->unk_08;
+        triplet = object->position;
         triplet->unk_02 = source_triplet->unk_02;
         triplet->unk_06 = source_triplet->unk_06;
         triplet->unk_0A = source_triplet->unk_0A;
-        state = ((S_80025B78_0 *)object)->unk_0C;
+        state = object->sprite;
         state->scale_x = source_state->unk_1C;
         state->scale_y = source_state->unk_1E;
         state->unk_20 = source_state->unk_20;
@@ -1670,27 +1620,6 @@ void initialize_inventory_packet(void *state, void *points, void *appearance) {
 #include "modules/dungeon_ovl_19cc800.h"
 #include "common.h"
 
-typedef struct S_80025FCC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80025FCC_0;
-
-typedef struct S_80025FCC_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-    u8 pad_14[0x2];
-    s16 unk_16;
-} S_80025FCC_1;
 
 typedef struct S_80025FCC_3 {
     u8 pad_00[0x1C];
@@ -1710,23 +1639,23 @@ typedef struct S_80025FCC_3 {
 /* Creates an effect at the supplied position and initializes its rendering and state. */
 void *create_positioned_linked_mesh_effect(s16 x, s16 y, s16 z, s16 effect_param) {
     S_80025FCC_3 *effect_state;
-    void *effect;
-    S_80025FCC_1 *position;
+    ObjectNodeHeader *effect;
+    ObjectPosition *position;
     SpriteFrameState *render_state;
 
     effect = allocate_flagged_object_node(0x202);
     if (effect != NULL) {
-        ((S_80025FCC_0 *)effect)->unk_10 = initialize_inventory_packet;
+        effect->unk_10 = initialize_inventory_packet;
         register_node(effect, process_linked_mesh_states_mode_0);
-        position = ((S_80025FCC_0 *)effect)->unk_08;
-        effect_state = effect + 0x20;
-        position->unk_0E = x;
-        position->unk_02 = x;
-        position->unk_12 = y;
-        position->unk_06 = y;
-        position->unk_16 = z;
-        position->unk_0A = z;
-        render_state = ((S_80025FCC_0 *)effect)->unk_0C;
+        position = effect->position;
+        effect_state = ((void *)effect) + 0x20;
+        *((s16 *)&position->velocity_x + 1) = x;
+        position->x.w.i = x;
+        *((s16 *)&position->velocity_y + 1) = y;
+        position->y.w.i = y;
+        *((s16 *)&position->velocity_z + 1) = z;
+        position->z.w.i = z;
+        render_state = effect->sprite;
         render_state->scale_y = 0x200;
         render_state->scale_x = 0x200;
         render_state->color.c.g = 0x20;
@@ -1828,7 +1757,7 @@ extern s32 func_80064584(s32);
 /* Spawns an effect actor or builds a curved trail toward the saved position. */
 void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) {
     Actor *actor;
-    Coord *coord;
+    ObjectPosition *coord;
     SpriteFrameState *prim;
     s16 step_x;
     s16 step_y;
@@ -1845,9 +1774,9 @@ void *update_object_movement_proximity_reactions(s16 x, s16 y, s16 z, s16 angle,
             actor->update = fade_effect_color_to_black;
             register_node(actor, project_sprite_chain);
             coord = actor->pos;
-            coord->x = x;
-            coord->y = y;
-            coord->z = z;
+            coord->x.w.i = x;
+            coord->y.w.i = y;
+            coord->z.w.i = z;
             prim = actor->prim;
             prim->scale_y = 1024;
             prim->scale_x = 1024;

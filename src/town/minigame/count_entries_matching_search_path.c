@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/town_handler_entries.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -68,7 +69,6 @@ typedef struct S_8002191C_9 {
     s16 unk_06;
 } S_8002191C_9;   /* compare in count_entries_matching_search_path */
 
-
 typedef struct TownDraw32 {
     s16 h00;
     s16 h02;
@@ -114,7 +114,7 @@ extern void create_paired_vector_color_effect(void *, TownPos *, s32 *, void *);
 extern void create_rotating_layered_line_cage(u8 *effect);
 extern void clear_resident_bit(s32);
 extern s32 service_script_controller(void);
-extern void func_80043FB8(void *, s32);
+extern void return_zero_variadic(void *, s32);
 extern void SD_Call(s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -150,12 +150,12 @@ void count_entries_matching_search_path(void *scene)
 
         SD_Call(0xB1);
         motion = ((u8 *)(&view_reference_entity));
-        ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
+        ((S_8002191C_0 *)scene)->unk_30.s = *(u16 *)&((ObjectPosition *)motion)->x.w.i;
         t6 = ((S_8002191C_2 *)motion)->unk_06;
         ((S_8002191C_0 *)scene)->unk_28.s = 4;
         ((S_8002191C_0 *)scene)->unk_36.s = 1;
         (*(u16 *)((u8 *)scene + 0x32)) = t6;
-        ((S_8002191C_2 *)motion)->unk_14 = (s32)0xFFE00000;
+        ((ObjectPosition *)motion)->velocity_z = (s32)0xFFE00000;
         (*(s32 *)((u8 *)motion + 0x10)) = 0;
         (*(s32 *)((u8 *)motion + 0x0C)) = 0;
         scene_object_payload_alias = (s32)D_80097D2C;
@@ -178,15 +178,15 @@ void count_entries_matching_search_path(void *scene)
         ((S_8002191C_0 *)scene)->unk_28.s = 0x10;
         ((S_8002191C_0 *)scene)->unk_36.s = 2;
         motion = ((u8 *)(&view_reference_entity));
-        ((S_8002191C_2 *)motion)->unk_0C =
+        ((ObjectPosition *)motion)->velocity_x =
             ((0x420 - ((S_8002191C_0 *)scene)->unk_30.u) << 16) /
             ((S_8002191C_0 *)scene)->unk_28.u;
         {
             s32 n2 = (0x460 - ((S_8002191C_0 *)scene)->unk_32.s) << 16;
             s32 d2 = ((S_8002191C_0 *)scene)->unk_28.u;
 
-            ((S_8002191C_2 *)motion)->unk_14 = (s32)0xFFF40000;
-            ((S_8002191C_2 *)motion)->unk_10 = n2 / d2;
+            ((ObjectPosition *)motion)->velocity_z = (s32)0xFFF40000;
+            ((ObjectPosition *)motion)->velocity_y = n2 / d2;
         }
         break;
     }
@@ -198,19 +198,19 @@ void count_entries_matching_search_path(void *scene)
         s32 rmw;
 
         rmw = ((S_8002191C_3 *)global)->unk_10.u;
-        h2 = ((S_8002191C_2 *)motion)->unk_02.u;
+        h2 = ((ObjectPosition *)motion)->x.w.i;
         rmw += 0x200;
         ((S_8002191C_3 *)global)->unk_10.s = rmw & 0xFFF;
         if (h2 < 0x420) {
-            ((S_8002191C_2 *)motion)->unk_02.s = 0x420;
+            ((ObjectPosition *)motion)->x.w.i = 0x420;
         }
         value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
         ((S_8002191C_0 *)scene)->unk_28.s = value;
         if ((s16)value > 0) {
             break;
         }
-        ((S_8002191C_2 *)motion)->unk_10 = 0;
-        ((S_8002191C_2 *)motion)->unk_0C = 0;
+        ((ObjectPosition *)motion)->velocity_y = 0;
+        ((ObjectPosition *)motion)->velocity_x = 0;
         ((S_8002191C_0 *)scene)->unk_36.s = 3;
         break;
     }
@@ -221,16 +221,16 @@ void count_entries_matching_search_path(void *scene)
         s32 m1;
 
         work = ((u8 *)(&view_reference_entity));
-        if (((s32 *)work)[1] <= lim) {
-            ((s32 *)work)[1] += (0x04500000 - ((s32 *)work)[1]) >> 1;
+        if (((ObjectPosition *)work)->y.v <= lim) {
+            ((ObjectPosition *)work)->y.v += (0x04500000 - ((ObjectPosition *)work)->y.v) >> 1;
         }
-        m1 = ((s32 *)work)[1];
+        m1 = ((ObjectPosition *)work)->y.v;
         if (m1 > 0x04700000) {
-            ((s32 *)work)[1] = m1 + ((0x04700000 - m1) >> 1);
+            ((ObjectPosition *)work)->y.v = m1 + ((0x04700000 - m1) >> 1);
         }
         ((S_8002191C_3 *)global)->unk_10.s = (((S_8002191C_3 *)global)->unk_10.u + 0x200) & 0xFFF;
         i = query_lowered_transform_position(work);
-        if (((TownSearchWorkView *)work)->unk_08.at02.v < i) {
+        if (((ObjectPosition *)work)->z.w.i < i) {
             break;
         }
     }
@@ -258,7 +258,7 @@ void count_entries_matching_search_path(void *scene)
         } else if (((S_8002191C_3 *)global)->unk_10.s < 0x601) {
             ((S_8002191C_3 *)global)->unk_10.s = ((S_8002191C_3 *)global)->unk_10.u + 0x200;
         }
-        func_80043FB8(D_8002003C, ((S_8002191C_3 *)global)->unk_10.s);
+        return_zero_variadic(D_8002003C, ((S_8002191C_3 *)global)->unk_10.s);
         if (service_script_controller() != 0) {
             break;
         }
@@ -269,7 +269,7 @@ void count_entries_matching_search_path(void *scene)
         create_familiar_deployment_effect_with_owner_state();
         apply_global_scene_value(D_800D0128);
         motion = ((u8 *)(&view_reference_entity));
-        ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
+        ((S_8002191C_0 *)scene)->unk_30.s = *(u16 *)&((ObjectPosition *)motion)->x.w.i;
         ((S_8002191C_0 *)scene)->unk_32.u = ((S_8002191C_2 *)motion)->unk_06;
         ((S_8002191C_0 *)scene)->unk_2C.s = 0;
         ((S_8002191C_0 *)scene)->unk_2A.s &= 0x7FFF;
@@ -381,7 +381,7 @@ void count_entries_matching_search_path(void *scene)
         global = (u8 *)D_800272A0;
         work = (u8 *)scene + 0x1C;
         do {
-            void *node = ((TownSearchWorkView *)work)->unk_08.at00.v;
+            void *node = ((ObjectPosition *)work)->z.v;
             u8 *node_part = (u8 *)node + 0x20;
             u16 node_flags = ((S_8002191C_6 *)node_part)->unk_08;
             void *node_pos = ((ObjectPayloadView *)node)->unk_08;

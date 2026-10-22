@@ -1,18 +1,22 @@
 /* Linked line travel, expanding spiral particles, sprite fades, and nearby status effects. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/shade/fading_effect_set.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
+#include "shared/game_work.h"
 void (*const dungeon_ovl_188898c_entry)(void) = (void (*)(void))move_linked_effect_along_path;
 
 /* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
-void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
+void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
     u8 *actor = dungeon_actor_ring_anchor;
     x = (s16)x;
     y = (s16)y;
     flags = ((u8)flags >> 2) + 0x10;
     do {
         if ((s16)check_entity_interaction_compatibility(kind, actor) != 0) {
-            u8 *header = *(u8 **)(actor - 0x14);
+            u8 *header = *(u8 * *)&((ObjectNodeHeader *)((u8 *)actor - 0x20))->sprite;
             if (abs(header[0x24] - x) < 3 && abs(header[0x25] - y) < 3 && (s16)check_entity_eligibility(actor) != 0) {
                 s32 amount = flags + (generate_random_value() & 3);
                 s32 mode = 0x10;
@@ -58,7 +62,7 @@ void advance_fading_effect(void *effect, void *position, void *render_data)
    height offset. */
 void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity) {
     SpriteFrameState *render_state;
-    ovl_188898c_81868A64_S_81868A64_2 *effect_pos;
+    ObjectPosition *effect_pos;
     ovl_188898c_81868A64_S_81868A64_0 *effect;
 
     effect = allocate_flagged_object_node(0x212);
@@ -77,9 +81,9 @@ void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81
         render_state->flags = (u16) (render_state->flags | 0x10C);
         register_node(effect, project_sprite_chain);
         effect_pos = effect->unk_08;
-        effect_pos->unk_02 = (u16) source_pos->unk_02;
-        effect_pos->unk_06 = (u16) source_pos->unk_06;
-        effect_pos->unk_0A = (s16) ((source_pos->unk_0A + (rand() % 17)) - 8);
+        effect_pos->x.w.i = (u16) source_pos->unk_02;
+        effect_pos->y.w.i = (u16) source_pos->unk_06;
+        effect_pos->z.w.i = (s16) ((source_pos->unk_0A + (rand() % 17)) - 8);
     }
 }
 
@@ -209,14 +213,14 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
     u16 x;
     u16 y;
     u16 z;
-    void *object;
+    ObjectNodeHeader *object;
     ovl_188898c_81868E84_S_81868E84_1 *state;
-    ovl_188898c_81868E84_S_81868E84_4 *coord_pairs;
+    ObjectPosition *coord_pairs;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_10 = (void *)animate_spiral_grayscale_effect;
-        state = object + 0x20;
+        object->unk_10 = (void *)animate_spiral_grayscale_effect;
+        state = ((void *)object) + 0x20;
         ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_20 = 0;
         state->unk_02 = 0;
         owner_value = ((ovl_188898c_81868E84_S_81868E84_2 *)owner)->unk_09;
@@ -226,16 +230,16 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
         state->unk_0C = owner;
         state->unk_10 = 0x40;
         state->unk_04 = owner_value;
-        coord_pairs = ((ovl_188898c_81868E84_S_81868E84_0 *)object)->unk_08;
+        coord_pairs = object->position;
         x = coords->unk_02;
-        coord_pairs->unk_0E = x;
-        coord_pairs->unk_02 = x;
+        *((u16 *)&coord_pairs->velocity_x + 1) = x;
+        coord_pairs->x.w.i = x;
         y = coords->unk_06;
-        coord_pairs->unk_12 = y;
-        coord_pairs->unk_06 = y;
+        *((u16 *)&coord_pairs->velocity_y + 1) = y;
+        coord_pairs->y.w.i = y;
         z = coords->unk_0A;
-        coord_pairs->unk_16 = z;
-        coord_pairs->unk_0A = z;
+        *((u16 *)&coord_pairs->velocity_z + 1) = z;
+        coord_pairs->z.w.i = z;
     }
 }
 
@@ -244,22 +248,22 @@ void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E8
    the redundant andi and collapses the +1-word branch-displacement cascade. */
 
 /* Shrinks and brightens a sprite, then signals its owner and removes it when the animation finishes. */
-void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect) {
+void shrink_and_brighten_effect(void *state_ref, void *unused, SpriteFrameState *effect) {
     u16 scale;
     u8 brightness;
     void *state;
 
     state = *(void **)state_ref;
     *(u16 *)((u8 *)state + 0x14) = *(u16 *)((u8 *)state + 0x14) + 1;
-    scale = *(u16 *)((u8 *)effect + 0x1E) - 0x400;
-    brightness = *(u8 *)((u8 *)effect + 0xE) + 4;
-    *(u16 *)((u8 *)effect + 0x1E) = scale;
-    *(u16 *)((u8 *)effect + 0x1C) = scale;
-    *(u8 *)((u8 *)effect + 0xE) = brightness;
-    *(u8 *)((u8 *)effect + 0xD) = brightness;
-    *(u8 *)((u8 *)effect + 0xC) = brightness;
+    scale = effect->scale_y - 0x400;
+    brightness = effect->color.c.b + 4;
+    effect->scale_y = scale;
+    effect->scale_x = scale;
+    effect->color.c.b = brightness;
+    effect->color.c.g = brightness;
+    effect->color.c.r = brightness;
     advance_sprite_animation_and_textures(effect);
-    if (*(u16 *)((u8 *)effect + 0x14) & 0x6000) {
+    if (effect->flags & 0x6000) {
         *(s8 *)((u8 *)*(void **)state_ref + 0x16) = 1;
         *(u16 *)((u8 *)state_ref - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -321,7 +325,7 @@ s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_contex
     s32 depth_sum;
     s32 result;
     u32 *ordering_table;
-    u8 *render_ctx = *(u8 **)((u8 *)(&g_game_work));
+    u8 *render_ctx = *(u8 **)&g_game_work.draw_buffer;
 
     ((ovl_188898c_818690C8_S_800248C8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;
@@ -724,7 +728,7 @@ void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, 
         if (input_ctrl->ready == 0) {
             break;
         }
-        func_80024060(input_ctrl->cell_x, input_ctrl->cell_y, root, input_ctrl->kind);
+        apply_status_to_nearby_actors(input_ctrl->cell_x, input_ctrl->cell_y, root, input_ctrl->kind);
 
 advance:
         input_ctrl->timer = 0;

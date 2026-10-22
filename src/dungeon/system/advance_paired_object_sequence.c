@@ -1,5 +1,8 @@
 #include "shared/runtime_dispatch.h"
 #include "common.h"
+#include "dungeon/item.h"
+#include "dungeon/menu.h"
+#include "dungeon/menu/state.h"
 
 typedef struct {
     s32 field_0;
@@ -18,11 +21,8 @@ typedef struct {
     s32 field_34;
 } Entity;
 
-extern void inventory_process_resources_and_set_flags();
-extern void retire_menu_object();
 extern void cleanup_object_resources();
 extern void flag_object_and_release_inner();
-extern void set_state_flag_when_clear();
 extern void strcpy();
 
 /* Processes entity fields and copies its string for selected type and state values. */

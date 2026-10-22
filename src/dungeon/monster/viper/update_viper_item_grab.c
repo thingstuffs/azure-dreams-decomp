@@ -1,11 +1,10 @@
 #include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-
-
 
 typedef struct {
     Fixed1616 x;
@@ -85,7 +84,7 @@ extern void update_dungeon_actor_actions(void);
 extern int abs(int);
 
 /* Moves the entity forward, then returns it to its saved position and restores its callback. */
-void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Object *object)
+void update_viper_item_grab(Entity *entity, Motion *motion, SpriteFrameState *effect, Object *object)
 {
     s32 direction;
     s32 index;
@@ -101,8 +100,8 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         direction = (object->angle >> 9) & 7;
         entity->saved_x = motion->x.w.i;
         entity->saved_y = motion->y.w.i;
-        index = (s16)find_floor_item_at_world_position(effect->x_tile + dir_step_x[direction],
-                                   effect->y_tile + dir_step_y[direction], object->height);
+        index = (s16)find_floor_item_at_world_position(effect->unk_24 + dir_step_x[direction],
+                                   effect->unk_25 + dir_step_y[direction], object->height);
         records = ((PackedRecord *)dungeon_ground_items);
         record = &records[index];
         if (record->bytes[1] == 0x12) {
@@ -126,7 +125,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         }
         motion->velocity_x = (dir_step_x[direction] << 16) + (dir_step_x[direction] << 15);
         motion->velocity_y = (dir_step_y[direction] << 16) + (dir_step_y[direction] << 15);
-        effect->callback = (void (*)(void))D_80174AE4;
+        effect->frameTable = (void (*)(void))D_80174AE4;
         select_sprite_entry(effect, D_80174AE4[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         play_sound_if_enabled(0x51E);
         entity->timer = 2000;
@@ -143,7 +142,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         if (entity->timer >= 0) {
             break;
         }
-        effect->callback = (void (*)(void))D_80174AEC;
+        effect->frameTable = (void (*)(void))D_80174AEC;
         select_sprite_entry(effect, D_80174AEC[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         entity->timer = 2000;
         entity->state++;
@@ -160,7 +159,7 @@ void update_viper_item_grab(Entity *entity, Motion *motion, Effect *effect, Obje
         index = (object->angle >> 9) & 7;
         motion->velocity_x = -dir_step_x[index] << 16;
         motion->velocity_y = -dir_step_y[index] << 16;
-        effect->callback = (void (*)(void))D_80174A74;
+        effect->frameTable = (void (*)(void))D_80174A74;
         select_sprite_entry(effect, D_80174A74[((g_game_work.view.camera_rotation.parts.viewAngle + (s16)object->angle + 0x100) >> 9) & 7], 0);
         direction = abs(entity->saved_y - motion->y.w.i);
         distance = abs(entity->saved_x - motion->x.w.i);

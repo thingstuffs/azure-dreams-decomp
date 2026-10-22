@@ -73,7 +73,7 @@ void create_minigame_display_objects(void)
 
     parent_state = NULL;
     callback = D_80020224;
-    func_8004E9E4();
+    noop_display_setup_hook();
     pickup_reward_total[0] = 0;
     initialize_minigame_display(D_800246E0);
     set_resident_bit(0xA4);
@@ -81,8 +81,8 @@ void create_minigame_display_objects(void)
     obj = allocate_flagged_object_node(0x32);
     if (obj != NULL) {
         parent_state = obj + 0x20;
-        prim = ((S_800224E0_0 *)obj)->unk_08;
-        ((S_800224E0_0 *)obj)->unk_10 = D_80022768;
+        prim = *(u8 * *)&((ObjectNodeHeader *)obj)->position;
+        ((ObjectNodeHeader *)obj)->unk_10 = D_80022768;
         prim->x = 0x04600000;
         prim->y = 0x03600000;
         ((S_800224E0_2 *)parent_state)->unk_48 = callback;
@@ -96,7 +96,7 @@ void create_minigame_display_objects(void)
         obj = allocate_flagged_object_node(2);
         ((S_800224E0_3 *)child_slot)->unk_4C = obj;
         if (obj != NULL) {
-            ((S_800224E0_0 *)obj)->unk_10 = child_script;
+            ((ObjectNodeHeader *)obj)->unk_10 = child_script;
             ((S_800224E0_0 *)obj)->unk_28 = child_index;
             ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
         }
@@ -109,9 +109,9 @@ void create_minigame_display_objects(void)
         render_state = obj + 0x28;
         register_node(obj, D_80046398);
         neutral_color = 0x00808080;
-        ((S_800224E0_0 *)obj)->unk_10 = D_80023DE0;
-        prim = ((S_800224E0_0 *)obj)->unk_08;
-        draw_state = ((S_800224E0_0 *)obj)->unk_0C;
+        ((ObjectNodeHeader *)obj)->unk_10 = D_80023DE0;
+        prim = *(u8 * *)&((ObjectNodeHeader *)obj)->position;
+        draw_state = *(u8 * *)&((ObjectNodeHeader *)obj)->sprite;
         ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
         draw_state->scale_x = 0x1000;
         draw_state->scale_y = 0x1000;
@@ -133,7 +133,7 @@ void create_minigame_display_objects(void)
         object_state = obj + 0x20;
         prim->z = 0;
         (*(void * volatile *)((u8 *)object_state + 0x50)) = callback;
-        configure_the_set_mode_n_3(render_state, ((S_800224E0_0 *)obj)->unk_08, D_800244A0);
+        configure_the_set_mode_n_3(render_state, *(u8 * *)&((ObjectNodeHeader *)obj)->position, D_800244A0);
     }
 
     child_index = 4;
@@ -142,7 +142,7 @@ void create_minigame_display_objects(void)
         if (obj != NULL) {
             register_node(obj, D_8002415C);
             ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;
-            ((S_800224E0_0 *)obj)->unk_10 = D_80023EB0;
+            ((ObjectNodeHeader *)obj)->unk_10 = D_80023EB0;
             obj += 0x20;
             ((S_800224E0_0 *)obj)->unk_20.at02.v = child_index;
             switch (child_index) {

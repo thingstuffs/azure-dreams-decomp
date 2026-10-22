@@ -2,10 +2,10 @@
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
+#include "dungeon/actor.h"
 
 extern void apply_pending_byte_increase(void *, s32, void *, void *);
 extern void begin_player_menu_action(void *, s32, void *, void *);
-extern void run_saved_actor_action(void *, s32, void *, void *);
 extern void func_80097C50(void *, s32, void *, void *);
 
 extern u8 D_8004F5F4[];

@@ -1,4 +1,7 @@
+
+struct ObjectPosition;
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
@@ -91,14 +94,14 @@ extern u8 D_8017612C[];
 extern void register_node(AllocationObject *allocation, void *callback);
 extern void update_map_cell_flags_with_item_limit(u8 x, u8 y, s32 mode);
 extern s32 sample_terrain_surface_height(u16 x, u16 y, s16 height);
-extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 extern void *find_nearby_eligible_entry(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center);
 
 /* Creates an object offset from the origin in the owner's facing direction and links its secondary object. */
 void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, Arg2Object *origin) {
-    AllocationObject *allocated;
+    ObjectNodeHeader *allocated;
     BlockObject *block;
-    PayloadObject *payload;
+    ObjectPosition *payload;
     ChildObject *child;
     s32 mode;
     u8 secondary_x;
@@ -113,9 +116,9 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
         block->owner = owner;
         block->field30 = 0;
         block->field2c = 0;
-        allocated->resource10 = D_80174AA4;
+        allocated->unk_10 = D_80174AA4;
         register_node(allocated, project_sprite_chain);
-        child = allocated->child;
+        child = *(ChildObject * *)&allocated->sprite;
         child->field10 = 0x20;
         child->flags14 |= 0xc;
         block->field4c = (s8)(origin->x24 + D_8017610C[(owner->angle >> 7) & 0x1c]);
@@ -126,14 +129,14 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
             block->field4d = (s8)(origin_y + direction_offset[2]);
         }
         child->field6 = 6;
-        payload = allocated->payload;
-        payload->value0 = (((block->field4c << 6) + 0x20) << 0x10);
-        payload->value4 = (((block->field4d << 6) + 0x20) << 0x10);
-        payload->value8 = sample_terrain_surface_height(*(u16 *)((u8 *)payload + 2), *(u16 *)((u8 *)payload + 6),
+        payload = *(PayloadObject * *)&allocated->position;
+        payload->x.v = (((block->field4c << 6) + 0x20) << 0x10);
+        payload->y.v = (((block->field4d << 6) + 0x20) << 0x10);
+        payload->z.v = sample_terrain_surface_height(*(u16 *)((u8 *)payload + 2), *(u16 *)&payload->y.w.i,
             (s16)(height_source->height - 0x20)) << 0x10;
         block->angle_copy = owner->angle;
         block->angle_index = (owner->angle >> 9) & 7;
-        child = allocated->child;
+        child = *(ChildObject * *)&allocated->sprite;
         child->field1c = 0x2400;
         child->field1e = 0x1c00;
         child->fielde = 0;
@@ -141,8 +144,7 @@ void create_facing_offset_object(Arg0Object *owner, Arg1Object *height_source, A
         child->fieldc = 0;
         *(Copy12 *)((u8 *)allocated + 0x54) = *(Copy12 *)D_8017612C;
         child->ptr8 = (u8 *)allocated + 0x54;
-        secondary = find_nearby_eligible_entry(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, *(s16 *)((u8 *)payload
-            + 0xa));
+        secondary = find_nearby_eligible_entry(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, payload->z.w.i);
         block->field30 = secondary;
         if (secondary != 0) {
             secondary_block = (SecondaryBlock *)((u8 *)secondary + 0x20);

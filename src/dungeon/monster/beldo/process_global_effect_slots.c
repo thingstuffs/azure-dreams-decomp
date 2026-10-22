@@ -1,8 +1,10 @@
+
+struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/record_ptrs.h"
 
 extern void func_80173A48(void);
-extern void clear_entry_flag_and_link_owner(void *);
+extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 
 extern u8 *D_80174710;
 

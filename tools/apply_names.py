@@ -37,6 +37,21 @@ IDENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 DATA_NAME = re.compile(r"^D_[0-9A-Fa-f]{8}$")
 CONTAINERS = ("slus", "main", "town", "dungeon", "ovmovie")
 
+def scoped_texts(texts, prefixes, root):
+    """Limit rewrites to named source/header paths; legacy aliases remain callable."""
+    if not prefixes:
+        return texts
+    normalized = []
+    for prefix in prefixes:
+        p = Path(prefix)
+        if p.is_absolute() or '..' in p.parts or not p.parts or p.parts[0] not in ('src', 'include'):
+            raise ValueError('rewrite prefix must be a relative source/header path: ' + prefix)
+        normalized.append(p.as_posix().rstrip('/'))
+    return {p: t for p, t in texts.items()
+            if any(p.relative_to(root).as_posix() == prefix or
+                   p.relative_to(root).as_posix().startswith(prefix + '/')
+                   for prefix in normalized)}
+
 def read_names():
     out = []
     for raw in NAMES.read_text().splitlines():
@@ -77,7 +92,23 @@ def main():
     ap.add_argument("--data", action="store_true", help="accept D_<addr> data aliases without a defining function row")
     ap.add_argument("--rewrite", action="store_true", help="with --data, rewrite and verify source references")
     ap.add_argument("--defer-verification", action="store_true", help="with --batch, stage explicitly unverified aliases for independent complete-TU before/after proof and final gates; data also requires --rewrite")
+    ap.add_argument("--path-prefix", action="append", default=[], help="with --batch, restrict source/header rewrites to these relative paths; retain legacy aliases elsewhere")
+    ap.add_argument("--symbol-scope-map", type=Path, help="with function --batch, JSON proposal symbol -> relative rewrite paths, intersected with --path-prefix")
+    ap.add_argument("--scope-map", type=Path, help="explicit definition-bound source/header scopes for deferred function aliases")
+    ap.add_argument("--reference-map", type=Path, help="explicit original-symbol reference sites for separately linked overlays")
     a = ap.parse_args()
+    if a.scope_map and (not a.batch or a.data or not a.defer_verification or not a.identity_map):
+        ap.error("--scope-map requires function --batch --defer-verification --identity-map and independent complete-TU proof")
+    if a.scope_map and a.symbol_scope_map:
+        ap.error("choose one scope map")
+    if a.reference_map and (not a.batch or a.data):
+        ap.error("--reference-map requires a function --batch")
+    if a.reference_map and (a.scope_map or a.symbol_scope_map):
+        ap.error("choose one scope map")
+    if a.path_prefix and not a.batch:
+        ap.error("--path-prefix requires --batch")
+    if a.symbol_scope_map and (not a.batch or a.data):
+        ap.error("--symbol-scope-map requires a function --batch")
     if a.rewrite and not a.data:
         ap.error("--rewrite requires --data (function renames always rewrite)")
     if a.defer_verification and not (a.batch and (not a.data or a.rewrite)):

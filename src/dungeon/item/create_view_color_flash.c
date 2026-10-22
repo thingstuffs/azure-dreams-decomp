@@ -1,12 +1,11 @@
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
-
+#include "dungeon/item.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 void *allocate_list_node();
 s32 play_sound_if_enabled();
@@ -20,11 +19,6 @@ typedef struct S_800C4D78_0 {
     u8 pad_24[0x2];
     s16 unk_26;
 } S_800C4D78_0;
-
-typedef struct S_800C4D78_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C4D78_1;   /* counter_base in create_view_color_flash */
 
 /* Creates an object with the supplied payload, optionally triggers an event, and increments the counter. */
 void create_view_color_flash(s32 payload, s16 trigger_event) {

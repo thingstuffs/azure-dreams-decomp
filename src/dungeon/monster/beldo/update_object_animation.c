@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -6,7 +7,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
@@ -22,7 +22,7 @@ extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *d
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 
-extern void advance_queued_movement_step(void *, s32, void *, void *);
+extern void advance_queued_movement_step(void *, s32, SpriteFrameState *, void *);
 extern void func_80171BE0(void *, void *, void *, void *);
 extern s32 func_80172330(void *, void *, void *, s32);
 extern void func_801736B8(void *, void *, void *, void *);
@@ -33,7 +33,6 @@ extern u8 D_80173E8C[8];
 extern u8 D_80173E94[];
 extern u8 D_80173EC4[];
 extern u8 D_80173EE4[];
-
 
 typedef struct S_80171514_0 {
     u8 pad_00[0x1C];
@@ -50,21 +49,6 @@ typedef struct S_80171514_0 {
     u8 unk_71;
 } S_80171514_0;   /* arg3 in update_object_animation */
 
-typedef struct S_80171514_1 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0x1E];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} S_80171514_1;   /* arg2 in update_object_animation */
-
-
 typedef struct S_80171514_3 {
     u8 pad_00[0xC];
     u16 unk_0C;
@@ -73,7 +57,7 @@ typedef struct S_80171514_3 {
 /* Updates object animation, dispatches its action, and adjusts its facing. */
 /* Dispatches Beldo's movement and spells, replays stored commands in scripted mode, and maintains idle
  * animation and facing. */
-void update_object_animation(void *obj, void *motion, void *part, void *state)
+void update_object_animation(void *obj, void *motion, SpriteFrameState *part, void *state)
 {
     u32 entry_status = g_dungeon_status.flags;
     s32 state_flags;
@@ -92,9 +76,8 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
         return;
     }
 
-
     if (((S_80171514_0 *)state)->unk_1C & 0x200) {
-        if (((S_80171514_1 *)part)->unk_2C == D_80173EC4) {
+        if (*(u8 **)&part->frameTable == D_80173EC4) {
             (*(u8 *)((u8 *)obj + (0x9A))) = 13;
             (*(u8 *)((u8 *)obj + (0x9B))) = 1;
             (*(u32 *)((u8 *)obj + (0x8C))) = 0;
@@ -115,13 +98,13 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
         if ((*(u8 *)((u8 *)obj + (0x9A))) != 14) {
             (*(u8 *)((u8 *)obj + (0x9A))) = 14;
         }
-        if (((S_80171514_1 *)part)->unk_2C != D_80173E8C) {
-            (*(u8 * *)((u8 *)part + (0x2C))) = D_80173E8C;
+        if (*(u8 **)&part->frameTable != D_80173E8C) {
+            (part->frameTable) = D_80173E8C;
             select_sprite_entry(
                 part,
                 D_80173E8C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171514_0 *)state)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            ((S_80171514_1 *)part)->unk_05 = 1;
+            part->unk_05 = 1;
             (*(s16 *)((u8 *)obj + (0xA2))) = 0;
             (*(s16 *)((u8 *)obj + (0x9E))) = 0;
         }
@@ -154,8 +137,8 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
         }
     }
 
-    query_result = find_active_rect_containing_point(((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v);
-    ((S_80171514_1 *)part)->unk_26 = query_result;
+    query_result = find_active_rect_containing_point(part->unk_24, part->unk_25);
+    part->unk_26 = query_result;
 
     if (((S_80171514_0 *)state)->unk_6D > 0) {
         if (((S_80171514_0 *)state)->unk_1C & 0x20) {
@@ -163,7 +146,7 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
             return;
         }
 
-        if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&part->unk_24 == reference_tile_object.tile_position.word) {
             func_80171BE0(obj, motion, part, state);
             return;
         }
@@ -212,7 +195,7 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
         case 7:
         case 8:
             callback_state = state;
-            (*(void * *)((u8 *)obj + (0x8C))) = &D_80171514;
+            (*(void **)((u8 *)obj + (0x8C))) = &D_80171514;
             update_actor_status_and_mp(callback_state);
             ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
             return;
@@ -244,10 +227,10 @@ void update_object_animation(void *obj, void *motion, void *part, void *state)
         }
         if ((state_flags & 0x430) == 0) {
             if ((s16)test_neighbor_position_relation(
-                    ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
+                    part->unk_24, part->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                 query_result = get_rounded_facing_and_rounding_flag(
-                    ((S_80171514_1 *)part)->unk_24.at00.v, ((S_80171514_1 *)part)->unk_24.at01.v,
+                    part->unk_24, part->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 ((S_80171514_0 *)state)->unk_2A = query_result;
             }

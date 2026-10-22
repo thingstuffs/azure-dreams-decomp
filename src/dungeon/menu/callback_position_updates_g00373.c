@@ -1,6 +1,7 @@
 /* Callback position updates (G00373). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D6EF0, CL:dungeon/func_800D6FC4, CL:dungeon/func_800D70CC, PD:dungeon/engine:800E2934. */
 #include "dungeon/menu/callback_position_updates_g00373.h"
+#include "dungeon/menu.h"
 
 /* Moves the current value toward its selected target and updates the object state. */
 void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {

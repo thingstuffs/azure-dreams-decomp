@@ -5,13 +5,13 @@
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "engine/entity.h"
 
 extern void begin_deferred_item_action();
 extern void display_item_status_message();
 extern s32 feed_actor_restore_mp();
 extern void place_actor_item();
 extern void create_colored_effect_with_sound();
-extern void update_owner_class_bits();
 extern void *get_unused_text_buffer(void);
 extern u8 *expand_text_control_codes();
 extern u8 *append_entity_display_text();

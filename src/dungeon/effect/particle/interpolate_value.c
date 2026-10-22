@@ -1,5 +1,6 @@
 /* Coordinate interpolation and creation of seven colored ribbon segments. */
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -59,25 +60,12 @@ typedef struct S_80168C88_4 {
     s16 unk_1A;
 } S_80168C88_4;
 
-typedef struct S_80168C88_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80168C88_5;
-
 typedef struct S_80168C88_6 {
     u8 pad_00[0x10];
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
 } S_80168C88_6;
-
-typedef struct S_80168C88_7 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80168C88_7;
 
 typedef struct S_80168C88_8 {
     s32 unk_00;
@@ -143,9 +131,9 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
     s32 scaled_delta;
     s32 segment;
     s32 segment_offset;
-    void *task;
+    ObjectNodeHeader *task;
     u8 *segment_data;
-    void *position;
+    ObjectPosition *position;
     void *render_data;
     u8 *vertex_base;
     u8 *texture_data;
@@ -210,20 +198,20 @@ void update_animated_textured_ribbon(u8 *effect, void *origin, void *color_in)
             init_fn = D_80167C30;
             ((S_80168C88_4 *)segment_data)->unk_18 = one;
             ((S_80168C88_4 *)segment_data)->unk_1A = one;
-            ((S_80168C88_5 *)task)->unk_10 = init_fn;
+            task->unk_10 = init_fn;
             register_node((void *)scaled_delta, callback);
 
-            render_data = ((S_80168C88_5 *)task)->unk_0C;
+            render_data = task->sprite;
             ((S_80168C88_6 *)render_data)->unk_10 = 0x20;
             ((S_80168C88_6 *)render_data)->unk_14 |= 0xC;
 
-            position = ((S_80168C88_5 *)task)->unk_08;
-            ((S_80168C88_7 *)position)->unk_00 = ((S_80168C88_8 *)origin)->unk_00;
+            position = task->position;
+            position->x.v = ((S_80168C88_8 *)origin)->unk_00;
             step = 0;
-            ((S_80168C88_7 *)position)->unk_04 = ((S_80168C88_8 *)origin)->unk_04;
-            ((S_80168C88_7 *)position)->unk_08 = ((S_80168C88_8 *)origin)->unk_08;
+            position->y.v = ((S_80168C88_8 *)origin)->unk_04;
+            position->z.v = ((S_80168C88_8 *)origin)->unk_08;
 
-            render_data = ((S_80168C88_5 *)task)->unk_0C;
+            render_data = task->sprite;
             ((S_80168C88_9 *)render_data)->unk_1E = 0x1000;
             ((S_80168C88_9 *)render_data)->unk_1C = 0x1000;
             ((S_80168C88_9 *)render_data)->unk_0E = 0x80;

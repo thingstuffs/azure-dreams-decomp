@@ -100,12 +100,6 @@ typedef struct {
 } floor_spawns_isolated_8028BF0C_SpawnTables;
 typedef void *(*SpawnFunc)(s32, s32, s32, s32);
 #define floor_spawns_isolated_8028BF0C_PAGE_8008 ((u8 *)0x80080000)
-typedef struct floor_spawns_isolated_8028C354_S_8001F354_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} floor_spawns_isolated_8028C354_S_8001F354_0;
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 extern s32 select_dungeon_spawn_tile(u8 *, u8 *);
 extern s16 count_matching_packed_entity_keys(s32, s32);
@@ -113,7 +107,7 @@ extern s32 generate_random_value(void);
 extern s32 find_first_empty_floor_item_slot(void);
 extern s32 get_item_category_value(u8 *item);
 extern s16 get_surface_height_at_coordinates(s32, s32);
-extern u8 D_800DDC9C[];
+extern u8 floor_species_pool[];
 extern s16 floor_generation_state[3];
 extern s32 floor_loaded_content_flags[];
 extern s32 test_resident_bit(s32);
@@ -126,7 +120,7 @@ extern floor_spawns_isolated_8028BF0C_SpawnTables level_experience_table[];
 extern s32 entity_level_thresholds[];
 extern floor_spawns_isolated_8028BF0C_SpawnPosition dungeon_floor_object_positions[];
 extern u8 *D_800735C4[];
-extern u8 D_800DF258[];
+extern u8 floor_object_sprite_sources[];
 extern void select_record_entry_and_value(void *, s32, s32);
 extern void func_80042640(void *, s32);
 extern SpawnFunc load_monster_resource_data(s32 resource_id, u8 *resource_entry, s32 wait_for_read);
@@ -144,7 +138,6 @@ extern u8 D_80077DE8[];
 extern u8 D_80077E00[];
 s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y);
 void populate_floor_item_records(void);
-s32 select_floor_item_with_special_overrides(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special);
 void clear_dungeon_cell_entries(void);
 void build_cumulative_item_weights(void);
 s32 select_weighted_floor_item(s8 *category_out, s8 *item_out);

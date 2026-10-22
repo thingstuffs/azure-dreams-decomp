@@ -1,11 +1,12 @@
 #include "common.h"
+#include "frontend/card/slot_assert_words.h"
 #include "frontend/card.h"
 
 extern void func_8007BEF0(s32 value) __attribute__((noreturn));
 extern void func_8007C040(void *ptr, void *ptr1, s32 value);
 
-extern s32 D_804007A4[];
-extern s32 D_804007CC[];
+
+
 
 extern s32 card_ui_dirty_flags;
 
@@ -14,7 +15,7 @@ void card_dev_flag_slot_dirty(s32 card_slot) {
     u16 slot_flags;
     s32 global_flags;
     if (card_slot == 0) {
-        func_8007C040(D_804007A4, D_804007CC, 0x14B);
+        func_8007C040(card_slot_assert_format, card_slot_filename, 0x14B);
         func_8007BEF0(1);
     }
     slot_flags = *(u16 *)(card_slot + 0x1E);

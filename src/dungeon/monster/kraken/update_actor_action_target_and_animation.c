@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -9,6 +10,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/cd.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -44,9 +46,8 @@ typedef struct S_801727C8_5 {
 } S_801727C8_5;
 
 extern void *D_80170838[];
-s32 get_cd_command_queue_depth();
 void select_sprite_entry();
-void *scan_monster_along_heading();
+void *scan_actor_along_heading();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
 s32 play_sound_if_enabled();
@@ -60,7 +61,7 @@ extern u8 D_801741BC;
 /* Updates an actor's action state, target selection, and animation. */
 /* Starts a targeted Kraken spell with two effect groups, waits for loading and animation, then restores
  * vertical idle state. */
-void update_actor_action_target_and_animation(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor) {
+void update_actor_action_target_and_animation(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u8 *anim_table;
     s32 visual_base;
     s32 special_slot;
@@ -75,7 +76,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
     s32 current_state;
     s32 state;
     void *visual_flags;
-    void *effect_sprite;
+    SpriteFrameState *effect_sprite;
     void *target_owner;
 
     is_special = 0;
@@ -139,7 +140,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
                     {
                         void *owner = target_owner;
 
-                        slot = (s32)(((SpriteLinkPrefixView *)owner)[-1].unk_00);
+                        slot = (s32)(((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite);
                         actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->unk_24;
                         actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->unk_25;
                     }
@@ -148,14 +149,14 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
                     if (target_owner != 0) {
                         void *owner = target_owner;
 
-                        slot = (s32)(((SpriteLinkPrefixView *)owner)[-1].unk_00);
+                        slot = (s32)(((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite);
                         actor->target_tile_x = (s8) ((MovingTile *)((void *)slot))->unk_24;
                         actor->target_tile_y = (s8) ((MovingTile *)((void *)slot))->unk_25;
                     }
                 } else {
                     void *spawned_owner;
 
-                    spawned_owner = scan_monster_along_heading(actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                    spawned_owner = scan_actor_along_heading(actor, sprite->unk_24, sprite->unk_25,
                         actor->facing, 0x10);
                     actor->target = spawned_owner;
                     abs_x = abs(actor->target_tile_x);
@@ -166,13 +167,13 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
             }
             anim_table = &D_801741B4;
             ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 & 0x7FFF);
-            (((EffectSpriteFieldView_80EB6FC8 *)effect_sprite)->field_2C) = anim_table;
+            (effect_sprite->frameTable) = anim_table;
             select_sprite_entry(effect_sprite, *((u8 *) ((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                 + (s32) anim_table)), 0);
             if (create_actor_spell_effect(actor, entry, is_special, action + 0x98) == 0) {
                 return;
             }
-            ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
+            sprite->flags = (u16) (sprite->flags & 0xF7FF);
             create_two_effect_groups(motion, sprite, actor, 0xA);
             play_sound_if_enabled(0x703);
             current_state = ((S_801727C8_0 *)action)->unk_9B;
@@ -187,7 +188,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (u16) ((((D800814A8FieldView_80EB6FC8 *)primary_actor_record)->field_A6) - 1);
         advance_status_timers(actor);
@@ -200,43 +201,43 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags | 0x800);
+            sprite->flags = (u16) (sprite->flags | 0x800);
             return;
         }
-        ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
+        sprite->flags = (u16) (sprite->flags & 0xF7FF);
         ((S_801727C8_0 *)action)->unk_9B = (u8) (((S_801727C8_0 *)action)->unk_9B + 1);
 
     case 2:
         ticks_left = ((S_801727C8_0 *)action)->unk_96 - 1;
         ((S_801727C8_0 *)action)->unk_96 = ticks_left;
         if ((ticks_left << 0x10) > 0) {
-            if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            if (!(sprite->flags & 0xE000)) {
                 return;
             }
         }
         ((S_801727C8_0 *)action)->unk_98 = (u16) (((S_801727C8_0 *)action)->unk_98 | 0x80);
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        ((SpriteFrameState *)sprite)->frameTable = &D_801741BC;
+        sprite->frameTable = &D_801741BC;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_801741BC), 0);
         current_state = ((S_801727C8_0 *)action)->unk_9B;
         ((S_801727C8_0 *)action)->unk_9B = (u8) (current_state + 1);
         return;
 
     case 3:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        if ((*(M2C_UNK * *)&((SpriteFrameState *)sprite)->frameTable) != &D_8017418C) {
-            if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        if ((*(M2C_UNK * *)&sprite->frameTable) != &D_8017418C) {
+            if (sprite->flags & 0x6000) {
                 ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
                 ((S_801727C8_0 *)action)->unk_A8 = 0;
-                ((SpriteFrameState *)sprite)->frameTable = &D_8017418C;
+                sprite->frameTable = &D_8017418C;
                 select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
                     + &D_8017418C), 0);
             }
@@ -245,7 +246,7 @@ void update_actor_action_target_and_animation(void *action, ObjectPosition *moti
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
-        ((SpriteFrameState *)sprite)->flags = (u16) (((SpriteFrameState *)sprite)->flags & 0xF7FF);
+        sprite->flags = (u16) (sprite->flags & 0xF7FF);
         ((S_801727C8_0 *)action)->unk_8C = &update_actor_animation_and_dispatch;
         advance_status_timers(actor);
         if ((s8) ((u8)actor->pending_turn_updates) > 0) {

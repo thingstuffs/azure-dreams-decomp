@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -6,13 +7,6 @@ typedef struct S_80172A14_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
 } S_80172A14_0;   /* arg0 in create_boss_linked_effect */
-
-typedef struct S_80172A14_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80172A14_1;
 
 typedef struct S_80172A14_2 {
     u8 pad_00[0x18];
@@ -35,27 +29,27 @@ extern u8 D_80174ABC[];
  * updates. */
 void create_boss_linked_effect(void *owner, MovingPosition *source_pos) {
     SpriteFrameState *render_flags;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_80172A14_2 *effect_state;
     MovingPosition *effect_pos;
 
     effect = allocate_list_node(0x12, (u8 *)owner - 0x20);
     if (effect != 0) {
         ((S_80172A14_0 *)owner)->unk_AC = effect;
-        ((S_80172A14_1 *)effect)->unk_10 = D_80172874;
+        effect->unk_10 = D_80172874;
         register_node(effect, D_80045C34);
         effect_state = (u8 *)effect + 0x20;
         effect_state->unk_18 = 5;
         effect_state->unk_20 = owner;
         effect_state->unk_24 = source_pos;
-        render_flags = ((S_80172A14_1 *)effect)->unk_0C;
+        render_flags = effect->sprite;
         render_flags->tpage_abr = 0x40;
         render_flags->flags |= 0xC;
-        effect_pos = ((S_80172A14_1 *)effect)->unk_08;
+        effect_pos = effect->position;
         effect_pos->unk_02 = source_pos->unk_02;
         effect_pos->unk_06 = source_pos->unk_06;
         effect_pos->unk_0A = source_pos->unk_0A;
-        render_flags = ((S_80172A14_1 *)effect)->unk_0C;
+        render_flags = effect->sprite;
         render_flags->scale_y = 0xA00;
         render_flags->scale_x = 0xA00;
         render_flags->color.c.b = 0;

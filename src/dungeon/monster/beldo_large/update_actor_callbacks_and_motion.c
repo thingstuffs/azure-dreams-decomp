@@ -10,7 +10,6 @@
 #define NULL ((void *)0)
 #endif
 
-
 typedef void (*Callback)(void *, void *, void *, void *);
 
 s32 enqueue_runtime_pool_script(void *);
@@ -26,7 +25,6 @@ extern void D_8016A36C();
 
 extern Callback beldo_large_callbacks[];
 extern u8 D_80173DDC[];
-
 
 typedef struct S_80169EC0_0 {
     u8 pad_00[0xAC];
@@ -66,7 +64,7 @@ typedef struct S_80169EC0_5 {
 } S_80169EC0_5;   /* motion in update_actor_callbacks_and_motion */
 
 /* Updates actor callbacks, facing, movement, and terrain height. */
-void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data)
+void update_actor_callbacks_and_motion(void *owner_arg, void *motion, SpriteFrameState *data)
 {
     void *actor = owner_arg;
     s16 initial_state;
@@ -92,7 +90,6 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         (*(u8 *)((u8 *)owner_arg + (0x6D))) = 0;
         (*(u8 *)((u8 *)owner_arg + (0x9B))) = 0;
     }
-
 
     if ((*(u16 *)0x80013714) & 8) {
         slot_index = 1;
@@ -144,7 +141,7 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         try_move_actor_to_valid_position(owner_arg, motion, data, actor);
     }
 
-    status = ((SpriteAnimationTableView *)data)->unk_14;
+    status = data->flags;
     if (!(status & 0x8000)) {
         u16 frame_status;
         u16 cleared_status;
@@ -152,26 +149,26 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         state_bits = (s32)state_bits >> 9;
         direction = state_bits & 7;
         if ((*(s16 *)((u8 *)owner_arg + (0x94))) != direction) {
-            u8 *facing_steps = ((SpriteAnimationTableView *)data)->unk_2C;
+            u8 *facing_steps = *(unsigned char **)&data->frameTable;
             if (facing_steps != NULL) {
-                select_indirect_table_entry(data, facing_steps[direction], ((SpriteAnimationTableView *)data)->unk_04);
+                select_indirect_table_entry(data, facing_steps[direction], data->unk_04);
             }
             (*(s16 *)((u8 *)owner_arg + (0x94))) = direction;
         }
 
-        frame_status = ((SpriteAnimationTableView *)data)->unk_14;
+        frame_status = data->flags;
         cleared_status = frame_status & 0xFFFE;
-        ((SpriteAnimationTableView *)data)->unk_14 = cleared_status;
+        data->flags = cleared_status;
         if (!(((S_80169EC0_3 *)actor)->unk_1C & 0x20)) {
             if (!(frame_status & 0x40)) {
                 advance_sprite_animation_and_textures(data);
             }
         } else {
-            ((SpriteAnimationTableView *)data)->unk_14 = cleared_status | 0x7000;
+            data->flags = cleared_status | 0x7000;
         }
         apply_monster_koyaw_data(((S_80169EC0_3 *)actor)->unk_1C, (u8 *)data + 0xC);
     } else {
-        ((SpriteAnimationTableView *)data)->unk_14 = (status & 0x800) ?
+        data->flags = (status & 0x800) ?
                                 (status & 0x8FFF) : (status | 0x7000);
     }
 
@@ -208,8 +205,8 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
         actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
         if (actor_flags & 0x40000000) {
             ((S_80169EC0_3 *)actor)->unk_1C = actor_flags & 0xBFFFFFFF;
-            terrain_height = sample_terrain_surface_height((((SpriteAnimationTableView *)data)->unk_24 << 6) | 0x20,
-                                   (((SpriteAnimationTableView *)data)->unk_25 << 6) | 0x20,
+            terrain_height = sample_terrain_surface_height((data->unk_24 << 6) | 0x20,
+                                   (data->unk_25 << 6) | 0x20,
                                    (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
             (*(s16 *)((u8 *)owner_arg + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;
             ((S_80169EC0_3 *)actor)->unk_88.u = terrain_height;
@@ -221,5 +218,5 @@ void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data
     ((S_80169EC0_5 *)motion)->unk_0A = (*(s8 *)((u8 *)owner_arg + (0xAA))) +
                               (((S_80169EC0_3 *)actor)->unk_88.u +
                                (*(u16 *)((u8 *)owner_arg + (0x92))));
-    ((SpriteAnimationTableView *)data)->unk_14 |= 0x40;
+    data->flags |= 0x40;
 }

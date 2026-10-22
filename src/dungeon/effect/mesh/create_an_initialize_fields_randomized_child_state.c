@@ -29,12 +29,12 @@ void create_an_initialize_fields_randomized_child_state(s32 object_value, s32 fi
 {
     s32 random_value;
     SpriteFrameState *child;
-    void *object;
+    ObjectNodeHeader *object;
     S_81976BC0_1 *fields;
 
     object = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
-        ((S_81976BC0_0 *)object)->unk_10 = D_80024050;
+        object->unk_10 = D_80024050;
         fields = (u8 *)object + 0x20;
         fields->unk_0C = 0;
         fields->unk_0E = 0;
@@ -42,7 +42,7 @@ void create_an_initialize_fields_randomized_child_state(s32 object_value, s32 fi
         ((S_81976BC0_0 *)object)->unk_20 = object_value;
         fields->unk_04 = ((u8 *)(&scene_object_list_anchor));
         fields->unk_08 = field_value;
-        child = ((S_81976BC0_0 *)object)->unk_0C;
+        child = object->sprite;
         child->source = D_800261E4[0];
         child->color.c.b = 0x40;
         child->color.c.g = 0x40;

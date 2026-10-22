@@ -8,6 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/player/state.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 Control_CD(); /* extern */
@@ -18,7 +19,6 @@ void runtime_map_type_16_entry_code();                      /* extern */
 void * register_and_upload_sprite_resource();                     /* extern */
 s32 begin_sprite_resource_load_with_completion_flag();                   /* extern */
 void set_sprite_animation_frame(); /* extern */
-void create_familiar_deployment_effect_with_owner_state();      /* extern */
 void create_familiar_deployment_overlay();      /* extern */
 void store_recalled_familiar(); /* extern */
 s32 get_unused_text_buffer();                         /* extern */

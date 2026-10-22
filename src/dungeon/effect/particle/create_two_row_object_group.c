@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/particle/create_two_row_object_group.h"
 #include "shared/sprite_frame_state.h"
@@ -19,16 +20,16 @@ void create_two_row_object_group(void *payload, s16 value_scale) {
     s32 column;
     do {
         for (column = 7; column >= 0; column--) {
-            u8 *object = allocate_flagged_object_node(2);
+            ObjectNodeHeader *object = allocate_flagged_object_node(2);
             if (object != 0) {
-                u8 *data = object + 0x20;
-                *(s16 *)(object + 0x20) = 0;
+                u8 *data = ((u8 *)object) + 0x20;
+                *(s16 *)(((u8 *)object) + 0x20) = 0;
                 *(s16 *)(data + 2) = 0x20;
                 *(s16 *)(data + 8) = row;
                 *(s16 *)(data + 0xA) = (column << 9) + (row == 0 ? 0x100 : 0);
-                *(Copy8 *)(object + 0x40) = *(Copy8 *)payload;
+                *(Copy8 *)(((u8 *)object) + 0x40) = *(Copy8 *)payload;
                 *(s16 *)(data + 6) = func_8006649C(value_scale << 4, 0x1F8);
-                *(s32 **)(object + 0x10) = update_rotating_effect_vertices;
+                object->unk_10 = update_rotating_effect_vertices;
                 register_node(object, draw_linked_textured_quads);
             }
         }
@@ -350,19 +351,9 @@ void update_rotating_effect_vertices(void *effect_data) {
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_800DAE44_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800DAE44_3;
-
 void *allocate_list_node();            /* extern */
 s16 sample_terrain_surface_height();                   /* extern */
 extern void spawn_scattered_timed_objects(void *source_owner, void *spawn_params);
-
-typedef struct S_800DAE44_0 {
-    u8 pad_00[0x10];
-    M2C_UNK * unk_10;
-} S_800DAE44_0;
 
 typedef struct S_800DAE44_2 {
     u8 pad_00[0x10];
@@ -374,15 +365,15 @@ typedef struct S_800DAE44_2 {
 /* Create an object at the source position and initialize its data. */
 void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_value) {
     S_800DAE44_2 *object_data;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = allocate_list_node(0x312, ((M2C_UNK *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        ((S_800DAE44_0 *)object)->unk_10 = spawn_scattered_timed_objects;
-        ((MovingPosition *)(((S_800DAE44_3 *)object)->unk_08))->unk_02 = (u16) ((u16)source_pos->x.w.i);
-        ((MovingPosition *)(((S_800DAE44_3 *)object)->unk_08))->unk_06 = (u16) ((u16)source_pos->y.w.i);
-        object_data = object + 0x20;
-        ((MovingPosition *)(((S_800DAE44_3 *)object)->unk_08))->unk_0A = (u16) ((u16)source_pos->z.w.i);
+        object->unk_10 = spawn_scattered_timed_objects;
+        ((MovingPosition *)(object->position))->unk_02 = (u16) ((u16)source_pos->x.w.i);
+        ((MovingPosition *)(object->position))->unk_06 = (u16) ((u16)source_pos->y.w.i);
+        object_data = ((void *)object) + 0x20;
+        ((MovingPosition *)(object->position))->unk_0A = (u16) ((u16)source_pos->z.w.i);
         object_data->unk_10 = sample_terrain_surface_height(((u16)source_pos->x.w.i), ((u16)source_pos->y.w.i),
             (s16) (((u16)source_pos->z.w.i) - 0x80));
         object_data->unk_48 = initial_value;
@@ -392,18 +383,6 @@ void create_source_positioned_object(ObjectPosition *source_pos, s16 initial_val
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
-
-typedef struct S_800DAEF4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800DAEF4_0;   /* object in spawn_scattered_timed_objects */
-
-typedef struct S_800DAEF4_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-} S_800DAEF4_1;   /* part in spawn_scattered_timed_objects */
 
 typedef struct S_800DAEF4_2 {
     u8 pad_00[0x2];
@@ -436,15 +415,6 @@ typedef struct S_800DAEF4_6 {
     s32 unk_04;
 } S_800DAEF4_6;   /* link in spawn_scattered_timed_objects */
 
-typedef struct S_800DAEF4_7 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800DAEF4_7;   /* ((S_800DAEF4_0 *)object)->unk_08 in spawn_scattered_timed_objects */
-
 extern void *allocate_list_node();
 extern void register_node();
 extern s32 func_80069EF8(void);
@@ -456,7 +426,7 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
 {
     s32 remaining;
     u8 *link;
-    void *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *node;
     u8 *work;
     s32 offset_roll_a;
@@ -467,16 +437,16 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
     s32 link_value;
     u16 timer;
     u16 target_height;
-    void *part;
+    ObjectPosition *part;
 
     remaining = 12;
     link = (u8 *)&secondary_sprite;
     do {
         object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (object != 0) {
-            ((S_800DAEF4_0 *)object)->unk_10 = update_timed_effect_animation;
+            object->unk_10 = update_timed_effect_animation;
             register_node(object, project_sprite_chain);
-            node = ((S_800DAEF4_0 *)object)->unk_0C;
+            node = object->sprite;
             work = (u8 *)object;
             work += 0x20;
 
@@ -484,24 +454,24 @@ void spawn_scattered_timed_objects(void *source_owner, void *spawn_params)
             {
                 const s32 offset_roll_b = func_80069EF8();
                 s32 offset_sum;
-                part = ((S_800DAEF4_0 *)object)->unk_08;
+                part = object->position;
                 offset_sum = offset_roll_a % 64 + offset_roll_b % 64 - 64;
-                ((S_800DAEF4_1 *)part)->unk_02 =
+                part->x.w.i =
                     ((S_800DAEF4_2 *)spawn_params)->unk_02 + offset_sum / 2;
             }
 
             spread_roll_a = func_80069EF8();
             spread_roll_b = func_80069EF8();
-            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_06 =
+            object->position->y.w.i =
                 ((S_800DAEF4_2 *)spawn_params)->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
 
-            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_0A = ((S_800DAEF4_3 *)source_owner)->unk_10.s;
+            object->position->z.w.i = ((S_800DAEF4_3 *)source_owner)->unk_10.s;
             ((S_800DAEF4_4 *)work)->unk_10 = ((S_800DAEF4_2 *)spawn_params)->unk_08.at02.v;
 
             divisor = (func_80069EF8() & 3) + 4;
             height_delta = ((S_800DAEF4_2 *)spawn_params)->unk_08.at00.v;
             height_delta -= ((S_800DAEF4_3 *)source_owner)->unk_10.u << 16;
-            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_14 = height_delta / divisor;
+            object->position->velocity_z = height_delta / divisor;
 
             node->flags |= 0xC;
             node->scale_x = 0x1000;
@@ -613,16 +583,11 @@ void update_timed_effect_animation(void *effect, void *motion, SpriteFrameState 
 #include "shared/object_node.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_800DB2DC_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800DB2DC_6;
-
 extern void *allocate_list_node();
 struct D_800DB420_Obj;
 struct D_800DB420_RngOut;
 struct D_800DB420_Effect;
-extern void advance_jittered_effect_modes(struct D_800DB420_Obj *state, struct D_800DB420_RngOut *position, struct D_800DB420_Effect *effect);
+extern void advance_jittered_effect_modes(struct D_800DB420_Obj *state, struct D_800DB420_RngOut *position, SpriteFrameState *effect);
 
 typedef struct S_800DB2DC_0 {
     u8 pad_00[0xC];
@@ -668,7 +633,7 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
     s32 visual_word;
     SpriteFrameState *visual;
     S_800DB2DC_5 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     saved_param = effect_param;
     group_step = 3;
@@ -679,8 +644,8 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
         do {
             effect = allocate_list_node(0x312, ((M2C_UNK *)&scene_object_list_anchor.next));
             if (effect != 0) {
-                ((S_800DB2DC_0 *)effect)->unk_10 = callback;
-                visual = ((S_800DB2DC_0 *)effect)->unk_0C;
+                effect->unk_10 = callback;
+                visual = effect->sprite;
                 ((S_800DB2DC_0 *)effect)->unk_4A =
                     (u16)source_arg->unk_2A;
                 visual_word = source_visual->unk_28;
@@ -695,13 +660,13 @@ void create_two_effect_groups(MovingPosition *position, S_800DB2DC_2 *source_vis
                 visual->clut =
                     (s16)(source_offset - 0x80);
                 ((S_800DB2DC_0 *)effect)->unk_20 = position;
-                ((MovingPosition *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_02 =
+                ((MovingPosition *)(effect->position))->unk_02 =
                     (u16)position->unk_02;
-                ((MovingPosition *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_06 =
+                ((MovingPosition *)(effect->position))->unk_06 =
                     (u16)position->unk_06;
-                ((MovingPosition *)(((S_800DB2DC_6 *)effect)->unk_08))->unk_0A =
+                ((MovingPosition *)(effect->position))->unk_0A =
                     (u16)position->unk_0A;
-                effect_state = effect + 0x20;
+                effect_state = ((void *)effect) + 0x20;
                 effect_state->unk_06 = saved_param;
                 effect_state->unk_04 = (s16)(group_step != 0);
                 visual->frameTable =
@@ -748,20 +713,20 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void advance_sprite_animation_and_textures();
 
 /* Jitter the position and advance the effect through its modes and countdown. */
-void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *position, D_800DB420_Effect *effect) {
+void advance_jittered_effect_modes(D_800DB420_Obj *state, D_800DB420_RngOut *position, SpriteFrameState *effect) {
     position->x = state->random_data[1] + (rand() % 11) - 5;
     position->y = state->random_data[3] + (rand() % 11) - 5;
     position->z = state->random_data[5] + (rand() % 11) - 5;
 
     switch (state->mode) {
     case 0:
-        effect->half10 = 0x60;
-        effect->wordC = 0x00303030;
+        effect->tpage_abr = 0x60;
+        effect->color.word = 0x00303030;
         *(u16 *)((u8 *)state + 4) += 1;
         return;
     case 1:
         register_node((u8 *)state - 0x20, project_sprite_chain);
-        select_sprite_entry(effect, effect->data2c[((g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(effect, (*(u8 **)&effect->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9) & 7], 0);
         *(u16 *)((u8 *)state + 4) += 1;
         return;
     case 2:

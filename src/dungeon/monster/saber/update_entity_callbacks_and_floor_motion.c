@@ -6,7 +6,6 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-
 extern void select_indirect_table_entry();
 extern void advance_sprite_animation_and_textures();
 extern void apply_monster_koyaw_data();
@@ -14,9 +13,8 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s16 sample_terrain_surface_height();
 
-extern s32 D_80171728;
+#include "dungeon/monster/saber.h"
 extern Callback saber_callbacks[];
-
 
    /* monster in update_entity_callbacks_and_floor_motion */
 
@@ -38,7 +36,7 @@ typedef struct S_80171320_2 {
 } S_80171320_2;   /* motion in update_entity_callbacks_and_floor_motion */
 
 /* Runs entity callbacks, updates monster facing, and applies motion and floor collision. */
-void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion, void *monster)
+void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion, SpriteFrameState *monster)
 {
     void *actor = entity;
     s32 direction;
@@ -55,14 +53,13 @@ void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion
         Callback early_callback;
 
         early_callback = (*(Callback *)((u8 *)entity + 0x8C));
-        if (early_callback == (Callback)&D_80171728) {
+        if (early_callback == (Callback)&saber_behavior_entry) {
             early_callback(entity, motion, monster, entity);
         } else {
             (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         }
         return;
     }
-
 
     old_direction = (s8)(*(u8 *)((u8 *)entity + 0x6D));
     if (refresh_actor_facing_and_lifecycle(entity, motion, monster, entity) != 0) {
@@ -80,7 +77,7 @@ void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion
         try_move_actor_to_valid_position(entity, motion, monster, entity);
     }
 
-    monster_flags = ((SpriteAnimationTableView *)monster)->unk_14;
+    monster_flags = monster->flags;
     if (!(monster_flags & 0x8000)) {
         direction_value = g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (direction_value >> 9) & 7;
@@ -88,33 +85,33 @@ void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion
         direction_copy = direction;
 
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
-            u8 *tile_map = ((SpriteAnimationTableView *)monster)->unk_2C;
+            u8 *tile_map = *(unsigned char **)&monster->frameTable;
             if (tile_map != 0) {
-                select_indirect_table_entry(monster, tile_map[direction_index], ((SpriteAnimationTableView *)monster)->unk_04);
+                select_indirect_table_entry(monster, tile_map[direction_index], monster->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
-            ((SpriteAnimationTableView *)monster)->unk_14 |= 1;
+            monster->flags |= 1;
         } else {
-            ((SpriteAnimationTableView *)monster)->unk_14 &= 0xFFFE;
+            monster->flags &= 0xFFFE;
         }
 
         if (!(((S_80171320_1 *)actor)->unk_1C & 0x20)) {
-            if (!(((SpriteAnimationTableView *)monster)->unk_14 & 0x40)) {
+            if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
         } else {
-            ((SpriteAnimationTableView *)monster)->unk_14 |= 0x7000;
+            monster->flags |= 0x7000;
         }
 
         apply_monster_koyaw_data(((S_80171320_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
     } else {
         if (monster_flags & 0x0800) {
-            ((SpriteAnimationTableView *)monster)->unk_14 = monster_flags & 0x8FFF;
+            monster->flags = monster_flags & 0x8FFF;
         } else {
-            ((SpriteAnimationTableView *)monster)->unk_14 = monster_flags | 0x7000;
+            monster->flags = monster_flags | 0x7000;
         }
     }
 
@@ -151,8 +148,8 @@ void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion
             }
             if (((S_80171320_1 *)actor)->unk_1C & 0x40000000) {
                 ((S_80171320_1 *)actor)->unk_1C &= 0xBFFFFFFF;
-                floor_height = sample_terrain_surface_height((((SpriteAnimationTableView *)monster)->unk_24 << 6) | 0x20,
-                                      (((SpriteAnimationTableView *)monster)->unk_25 << 6) | 0x20,
+                floor_height = sample_terrain_surface_height((monster->unk_24 << 6) | 0x20,
+                                      (monster->unk_25 << 6) | 0x20,
                                       (s16)(((S_80171320_1 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + 0x92)) += ((S_80171320_1 *)actor)->unk_88.u - floor_height;
                 ((S_80171320_1 *)actor)->unk_88.u = floor_height;
@@ -166,7 +163,7 @@ void update_entity_callbacks_and_floor_motion(void *entity, S_80171320_2 *motion
 
     motion->unk_0A =
         ((S_80171320_1 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
-    ((SpriteAnimationTableView *)monster)->unk_14 |= 0x40;
+    monster->flags |= 0x40;
 
 }
 

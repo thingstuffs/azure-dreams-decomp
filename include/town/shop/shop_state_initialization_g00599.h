@@ -52,11 +52,6 @@ typedef struct S_800AE1AC_0 {
     s32 unk_2C;
 } S_800AE1AC_0;
 
-typedef struct S_800AE1AC_1 {
-    u8 pad_00[0x10];
-    s32 * unk_10;
-} S_800AE1AC_1;
-
 typedef struct FuncArg {
     u8 pad0[4];
     s32 field4;

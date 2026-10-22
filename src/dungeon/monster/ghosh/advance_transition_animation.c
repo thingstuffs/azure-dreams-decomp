@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
@@ -58,7 +59,7 @@ extern void allocate_type_12_object(void);
 extern void func_8016D11C(void) __attribute__((noreturn));
 
 /* Advances the dungeon transition animation and resets entry resources when it completes. */
-void advance_transition_animation(DungeonState *state, Arg1 *motion, Arg2 *animation, Arg3 *actor) {
+void advance_transition_animation(DungeonState *state, Arg1 *motion, SpriteFrameState *animation, Arg3 *actor) {
     s32 stage;
 
     stage = state->unk9b;
@@ -75,7 +76,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, Arg2 *anima
     case 1:
         state->unk96 = 0;
         state->unk9b = state->unk9b + 1;
-        animation->unk2c = D_801746B4;
+        animation->frameTable = D_801746B4;
         select_sprite_entry(animation, D_801746B4[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + actor->unk2a + 0x100) >> 9) & 7], 0);
     case 2:
         state->unk96 = state->unk96 + 1;

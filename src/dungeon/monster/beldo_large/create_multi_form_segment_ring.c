@@ -3,6 +3,7 @@
 #include "common.h"
 #include "shared/slus_callbacks.h"
 #include "shared/entity.h"
+#include "dungeon/monster/beldo_large.h"
 
 typedef struct S_8016E998_0 {
     u8 pad_00[0x1];
@@ -35,12 +36,6 @@ typedef struct S_8016E998_1 {
     s8 unk_20;
 } S_8016E998_1;
 
-typedef struct S_8016E998_3 {
-    s32 unk_00;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-} S_8016E998_3;
-
 s32 register_node();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                        /* extern */
@@ -63,8 +58,8 @@ void create_multi_form_segment_ring(EntityRec *origin) {
     void **effect_slot;
     SpriteFrameState *appearance;
     S_8016E998_0 *effect_data;
-    void *effect;
-    S_8016E998_3 *position;
+    ObjectNodeHeader *effect;
+    ObjectPosition *position;
 
     segment_index = 0;
     effect_handler = &emit_multi_form_ring_geometry;
@@ -73,22 +68,22 @@ void create_multi_form_segment_ring(EntityRec *origin) {
     do {
         effect = allocate_flagged_object_node(0x12);
         if (effect != 0) {
-            effect_data = effect + 0x20;
+            effect_data = ((void *)effect) + 0x20;
             initial_count = 0x32;
             effect_data->unk_18 = (s16) initial_count;
             effect_data->unk_1A = (s16) initial_count;
-            ((S_8016E998_1 *)effect)->unk_10 = effect_handler;
+            effect->unk_10 = effect_handler;
             register_node(effect, project_sprite_chain);
-            appearance = ((S_8016E998_1 *)effect)->unk_0C;
+            appearance = effect->sprite;
             appearance->flags |= 0xC;
             appearance->tpage_abr = 0x20;
             appearance->flags |= 0x80;
-            position = ((S_8016E998_1 *)effect)->unk_08;
-            position->unk_00 = (s32) origin->x.v;
-            position->unk_04.at00.v = (s32) origin->y.v;
+            position = effect->position;
+            position->x.v = (s32) origin->x.v;
+            position->y.v = (s32) origin->y.v;
             origin_z = origin->z.v;
-            position->unk_04.at02.v = (u16) (position->unk_04.at02.v - 0x440);
-            position->unk_08 = origin_z;
+            position->y.w.i = (u16) (*(u16 *)&position->y.w.i - 0x440);
+            position->z.v = origin_z;
             effect_data->unk_7E = -0x40;
             effect_data->unk_78 = -0x40;
             effect_data->unk_8A = 0;
@@ -106,7 +101,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
             unit_scale = (s32) (func_800644B8(start_angle) << 5) >> 0xC;
             effect_data->unk_88 = (s16) unit_scale;
             effect_data->unk_7C = (s16) unit_scale;
-            appearance = ((S_8016E998_1 *)effect)->unk_0C;
+            appearance = effect->sprite;
             color_level = 0x40;
             appearance->color.c.r = color_level;
             appearance->scale_y = 0x1000;

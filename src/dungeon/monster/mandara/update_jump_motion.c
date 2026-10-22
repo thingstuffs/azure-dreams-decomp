@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/tile_object.h"
@@ -7,7 +8,6 @@
 #include "shared/entity.h"
 
 typedef struct S_80047784 S_80047784;
-
 
 typedef struct S_80172834_0 {
     u8 pad_00[0x8C];
@@ -22,7 +22,6 @@ typedef struct S_80172834_0 {
     s32 unk_A0;
 } S_80172834_0;   /* arg0 in update_jump_motion_2 */
 
-
 extern void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
 s16 get_rounded_facing_and_rounding_flag();
 void set_record_integer_tile_center();
@@ -36,7 +35,7 @@ extern u8 D_80175278[];
 extern u8 D_80175280[];
 
 /* Updates jump motion and animation, then completes the landing. */
-void update_jump_motion_2(void *action, ObjectPosition *motion, void *unit, ActorRecord *actor) {
+void update_jump_motion_2(void *action, ObjectPosition *motion, SpriteFrameState *unit, ActorRecord *actor) {
     s32 distance;
     s32 frames_left;
     s16 next_timer;
@@ -46,10 +45,10 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, void *unit, Acto
     state = ((S_80172834_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((Rec_D_80082E80 *)unit)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(unit->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175278;
+        (unit->frameTable) = D_80175278;
         select_sprite_entry(
             unit,
             D_80175278[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -65,13 +64,13 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, void *unit, Acto
         ((S_80172834_0 *)action)->unk_90 -= ((S_80172834_0 *)action)->unk_A0;
         if (frames_left != 0) {
             {
-                s32 target_x = ((Rec_D_80082E80 *)unit)->unk_24 << 6;
+                s32 target_x = unit->unk_24 << 6;
                 s32 current_x = motion->x.w.i - 0x20;
 
                 motion->velocity_x = ((target_x - current_x) << 16) / frames_left;
             }
             {
-                s32 target_y = ((Rec_D_80082E80 *)unit)->unk_25 << 6;
+                s32 target_y = unit->unk_25 << 6;
                 s32 current_y = motion->y.w.i - 0x20;
 
                 motion->velocity_y = ((target_y - current_y) << 16) /
@@ -94,8 +93,8 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, void *unit, Acto
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)unit)->unk_24, ((Rec_D_80082E80 *)unit)->unk_25);
-            (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175280;
+            set_record_integer_tile_center(motion, unit->unk_24, unit->unk_25);
+            (unit->frameTable) = D_80175280;
             select_sprite_entry(
                 unit,
                 D_80175280[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -112,7 +111,7 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, void *unit, Acto
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)unit)->unk_24, ((Rec_D_80082E80 *)unit)->unk_25);
+        set_record_integer_tile_center(motion, unit->unk_24, unit->unk_25);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         {
@@ -131,7 +130,7 @@ void update_jump_motion_2(void *action, ObjectPosition *motion, void *unit, Acto
             if (actor_flags & 0x20000) {
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
-                    ((Rec_D_80082E80 *)unit)->unk_24, ((Rec_D_80082E80 *)unit)->unk_25,
+                    unit->unk_24, unit->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             }
         }

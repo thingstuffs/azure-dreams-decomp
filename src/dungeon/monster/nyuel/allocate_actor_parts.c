@@ -1,4 +1,5 @@
 #include "dungeon/monster/nyuel/allocate_actor_parts.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/nyuel/allocate_actor_parts.h"
 

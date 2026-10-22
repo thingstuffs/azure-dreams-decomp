@@ -1,5 +1,7 @@
 /* Level reduction attempts, terrain-seeking particles, randomized drawing, and target effects. */
 #include "modules/dungeon_ovl_192a800.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_effect_views.h"
 #include "shared/gpu_packets.h"
@@ -11,21 +13,18 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/player/object.h"
 
 void (*const dungeon_192a800_entry)(struct S_func_8190B2D0_0 *,void *,void *) = update_a_moving_effect_target_animation_cleanup_state;
 const u8 D_80024004[52] = {0x81,0x66,0x82,0x93,0x81,0x40,0x82,0x8c,0x82,0x85,0x82,0x96,0x82,0x85,0x82,0x8c,0x81,0x40,0x82,0x84,0x82,0x89,0x82,0x84,0x82,0x8e,0x81,0x66,0x82,0x94,0x81,0x40,0x82,0x84,0x82,0x85,0x82,0x83,0x82,0x92,0x82,0x85,0x82,0x81,0x82,0x93,0x82,0x85,0x81,0x44,0x0,0x0};
 const Rect D_80024038 = {832,256,96,88};
 const Rect D_80024040 = {832,256,2,2};
 
-
-
 extern s32 try_trigger_target_record_effect(void *entity, s32 flags);
 extern s32 random_dungeon_range_16(s32 bound_a, s32 bound_b);
-extern s32 lower_entity_level(void *entity_data, s32 show_message);
 extern void adjust_source_value_and_finalize(void *context, void *source);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 extern const u8 D_80024004[];
-
 
 /* Runs action 0x53 on the target after state and threshold checks. */
 extern u32 func_80065420(void *, void *, void *, void *);
@@ -89,7 +88,6 @@ typedef struct Scratch80024154 {
     u8 pad98[0x28];
     u32 index;
 } Scratch80024154;
-
 
 /* Retail 8190A954 (func_80024154): projects each linked point and queues a brightness-scaled shaded tile
  * followed by a draw-mode packet for it. */
@@ -162,7 +160,7 @@ s32 func_80024154(PointRecord *first_point, ObjectPosition *first_position)
         next_node = ((ObjectNodeHeader *)point - 1)->chain_next;
         if (next_node != 0) {
             point = (PointRecord *)(next_node + 1);
-            position = next_node->unk_08;
+            position = next_node->position;
             continue;
         }
 
@@ -173,7 +171,6 @@ s32 func_80024154(PointRecord *first_point, ObjectPosition *first_position)
     final_render_ctx->packetCursor = scratch->cursor;
     return 0;
 }
-
 
 /* Position slots: three 4-byte slots with only the second halfword used (x +2, y +6, z +0xA);
  * the z slot's word is also bumped as one s32 (+0x20000 raises z by 2). */
@@ -204,7 +201,6 @@ void handle_raise_position_toward_queried_height_set_flags_countdown_expires(Eff
     }
 }
 
-
 /* Retail 8190AC70 (handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent): spawn an effect object under the parent node, placed at the parent's
  * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range). */
 void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x,
@@ -232,16 +228,16 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
     if (spawned != 0) {
         spawned->unk_10 = (void *)handle_raise_position_toward_queried_height_set_flags_countdown_expires;
         jitter_x = rand() & 0x1F;
-        position_x = ((ObjectPosition *)source_obj->unk_08)->x.w.i;
-        dest_x = spawned->unk_08;
+        position_x = source_obj->position->x.w.i;
+        dest_x = spawned->position;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
         dest_x->x.w.i = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((ObjectPosition *)source_obj->unk_08)->y.w.i;
-        dest_y = spawned->unk_08;
+        position_y = source_obj->position->y.w.i;
+        dest_y = spawned->position;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
@@ -249,9 +245,9 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
 
         jitter_z = rand();
         jitter_z &= 0x1F;
-        position_z = ((ObjectPosition *)source_obj->unk_08)->z.w.i;
+        position_z = source_obj->position->z.w.i;
         fields = (PointRecord *)(spawned + 1);
-        dest_z = spawned->unk_08;
+        dest_z = spawned->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;
@@ -262,7 +258,6 @@ void handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_p
         fields->color = saved_field_28;
     }
 }
-
 
 /* Returns a random value in [0, limit), or zero when limit is zero. Rejection sampling: the rand() bits are masked
  * to the smallest bit range that covers limit (2, 4, 6, 8, 12 or 16 bits) and redrawn until below limit. */
@@ -327,11 +322,6 @@ typedef struct S_8190AEB4_2 {
     u8 pad_00[0x90];
     s16 unk_90;
 } S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in advance_the_animation_draws_rectangles_in_randomized_order */
-
-
-
-
-
 
 /* Advances the object animation and draws rectangles in randomized order. */
 void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s32 *position, void *transform)
@@ -512,13 +502,7 @@ void advance_the_animation_draws_rectangles_in_randomized_order(void *effect, s3
     }
 }
 
-
 const CoordTable D_80024064 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
-
-
-
-
-
 
 typedef struct S_func_8190B2D0_0 {
     void * unk_0;
@@ -693,8 +677,6 @@ typedef struct S_func_8190B2D0_7 {
     void * unk_34;
 } S_func_8190B2D0_7;
 
-
-
 typedef struct S_func_8190B2D0_9 {
     u8 pad_0[0x4];
     u16 unk_4;
@@ -713,7 +695,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     s32 state;
     S_func_8190B2D0_3 *target_pos;
     S_func_8190B2D0_4 *motion_or_child = motion_arg;
-    S_func_8190B2D0_5 *sprite = sprite_arg;
+    SpriteFrameState *sprite = sprite_arg;
 
     owner = effect->unk_0;
     capture_rect = D_80024038;
@@ -727,9 +709,9 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
     {
         s16 owner_flags;
         u16 next_state;
-        sprite->unk_C.u32 = 0x00808080;
+        sprite->color.word = 0x00808080;
         effect->unk_96 = D_80025624;
-        sprite->unk_8 = (u8 *)effect + 0x96;
+        sprite->source = (u8 *)effect + 0x96;
         owner_flags = owner->unk_2A;
         D_80025630 = 1;
         next_state = effect->unk_A.u16;
@@ -772,13 +754,13 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         if (((u16 *)effect->unk_4)[0] & 0x80) {
             if (!(effect->unk_7A & 4)) {
                 register_node((u8 *)effect - 32, (s32)project_sprite_chain);
-                sprite->unk_C.at_E_u8.unk_E = 20;
-                sprite->unk_C.at_D_u8.unk_D = 20;
-                sprite->unk_C.u8 = 20;
-                sprite->unk_14 |= 0xC;
-                sprite->unk_10 = 0;
-                sprite->unk_1E = 0x800;
-                sprite->unk_1C = 0x800;
+                sprite->color.c.b = 20;
+                sprite->color.c.g = 20;
+                sprite->color.c.r = 20;
+                sprite->flags |= 0xC;
+                sprite->tpage_abr = 0;
+                sprite->scale_y = 0x800;
+                sprite->scale_x = 0x800;
                 effect->unk_7A |= 4;
             }
         } else {
@@ -851,32 +833,32 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             particle_index++;
         } while ((s32)particle_index < 4);
         {
-            u16 angle = sprite->unk_1A + 400;
-            sprite->unk_1A = angle;
+            u16 angle = sprite->angle_z + 400;
+            sprite->angle_z = angle;
             if ((u16)angle >= 0x1001) {
-                sprite->unk_1A =
+                sprite->angle_z =
                     (u16)(angle - 4096);
             }
         }
         elapsed_frames = effect->unk_88 - effect->unk_7B.s8 + 1;
-        sprite->unk_C.u8 = (u8)((elapsed_frames * elapsed_frames * 108) /
+        sprite->color.c.r = (u8)((elapsed_frames * elapsed_frames * 108) /
                                 effect->unk_8A + 20);
         elapsed_frames_2 = effect->unk_88 - effect->unk_7B.s8 + 1;
-        sprite->unk_C.at_D_u8.unk_D = (u8)((elapsed_frames_2 * elapsed_frames_2 * 108) /
+        sprite->color.c.g = (u8)((elapsed_frames_2 * elapsed_frames_2 * 108) /
                                     effect->unk_8A + 20);
         elapsed_frames_3 = effect->unk_88 - effect->unk_7B.s8 + 1;
-        sprite->unk_C.at_E_u8.unk_E = (u8)((elapsed_frames_3 * elapsed_frames_3 * 108) /
+        sprite->color.c.b = (u8)((elapsed_frames_3 * elapsed_frames_3 * 108) /
                                     effect->unk_8A + 20);
         collision = check_adjacent_tile_height_clearance(motion_or_child->unk_0.at_2_u16.unk_2, motion_or_child->unk_4.at_6_u16.unk_6,
                                   motion_or_child->unk_8.at_A_s16.unk_A, owner->unk_60);
         if ((collision << 16) != 0) {
             effect->unk_A.u16 = 8;
             effect->unk_82.u16 = 0;
-            sprite->unk_C.at_E_u8.unk_E = 0;
-            sprite->unk_C.at_D_u8.unk_D = 0;
-            sprite->unk_C.u8 = 0;
-            sprite->unk_1E = 0;
-            sprite->unk_1C = 0;
+            sprite->color.c.b = 0;
+            sprite->color.c.g = 0;
+            sprite->color.c.r = 0;
+            sprite->scale_y = 0;
+            sprite->scale_x = 0;
             return;
         }
         frames_left = effect->unk_7B.u8 - 1;
@@ -895,11 +877,11 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             }
             effect->unk_A.u16 = 8;
             effect->unk_82.u16 = 0;
-            sprite->unk_C.at_E_u8.unk_E = 0;
-            sprite->unk_C.at_D_u8.unk_D = 0;
-            sprite->unk_C.u8 = 0;
-            sprite->unk_1E = 0;
-            sprite->unk_1C = 0;
+            sprite->color.c.b = 0;
+            sprite->color.c.g = 0;
+            sprite->color.c.r = 0;
+            sprite->scale_y = 0;
+            sprite->scale_x = 0;
             return;
         }
         motion_or_child->unk_0.s32 += motion_or_child->unk_C.s32;
@@ -910,7 +892,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
 
     case 3:
     {
-        S_func_8190B2D0_3 *child_pos;
+        ObjectPosition *child_pos;
         u32 child_data;
         s32 frame;
         void *child_object;
@@ -918,10 +900,10 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         s32 current_frame;
         u32 spawn_frame;
         {
-            u16 angle = sprite->unk_1A + 400;
-            sprite->unk_1A = angle;
+            u16 angle = sprite->angle_z + 400;
+            sprite->angle_z = angle;
             if ((u16)angle >= 0x1001) {
-                sprite->unk_1A =
+                sprite->angle_z =
                     (u16)(angle - 4096);
             }
         }
@@ -948,26 +930,26 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
                 motion_or_child->unk_10.ptr = advance_the_animation_draws_rectangles_in_randomized_order;
                 register_node(child_object, (s32)project_sprite_chain);
                 sprite = motion_or_child->unk_C.ptr;
-                sprite->unk_10 = 32;
-                sprite->unk_6 = 6;
-                sprite->unk_14 |= 0xC;
+                sprite->tpage_abr = 32;
+                sprite->unk_06 = 6;
+                sprite->flags |= 0xC;
                 child_pos = motion_or_child->unk_8.ptr;
                 ((S_func_8190B2D0_7 *)child_data)->unk_A = 0;
                 ((S_func_8190B2D0_7 *)child_data)->unk_C = 0;
                 target = owner->unk_60;
                 target_pos = ((S_func_8190B2D0_2 *)((u8 *)target - 32))->unk_8;
-                child_pos->unk_0.u32 = target_pos->unk_0.u32;
-                child_pos->unk_4.u32 = target_pos->unk_4.u32;
-                child_pos->unk_8.u32 = target_pos->unk_8.u32;
+                child_pos->x.v = target_pos->unk_0.u32;
+                child_pos->y.v = target_pos->unk_4.u32;
+                child_pos->z.v = target_pos->unk_8.u32;
                 sprite = motion_or_child->unk_C.ptr;
-                sprite->unk_1E = 0x1000;
-                sprite->unk_1C = 0x1000;
-                sprite->unk_C.at_E_u8.unk_E = 0x80;
-                sprite->unk_C.at_D_u8.unk_D = 0x80;
-                sprite->unk_C.u8 = 0x80;
+                sprite->scale_y = 0x1000;
+                sprite->scale_x = 0x1000;
+                sprite->color.c.b = 0x80;
+                sprite->color.c.g = 0x80;
+                sprite->color.c.r = 0x80;
                 motion_or_child->unk_40 = D_80025618;
-                sprite->unk_8 = (u8 *)motion_or_child + 64;
-                ((S_func_8190B2D0_9 *)sprite->unk_8)->unk_4 =
+                sprite->source = (u8 *)motion_or_child + 64;
+                ((S_func_8190B2D0_9 *)sprite->source)->unk_4 =
                     GetTPage(2, 1, 0x340, 0x100);
             }
         }
@@ -989,10 +971,10 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         S_func_8190B2D0_5 *target_sprite;
         effect->unk_82.u16 = effect->unk_82.u16 + 1;
         {
-            u16 angle = sprite->unk_1A + 400;
-            sprite->unk_1A = angle;
+            u16 angle = sprite->angle_z + 400;
+            sprite->angle_z = angle;
             if ((u16)angle >= 0x1001) {
-                sprite->unk_1A =
+                sprite->angle_z =
                     (u16)(angle - 4096);
             }
         }
@@ -1000,18 +982,18 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
             motion_or_child->unk_8.s32 -= 0x20000;
         }
         if (effect->unk_82.s16 == 81) {
-            sprite->unk_10 = 32;
-            sprite->unk_C.u8 = 54;
-            sprite->unk_C.at_D_u8.unk_D = 54;
-            sprite->unk_C.at_E_u8.unk_E = 54;
+            sprite->tpage_abr = 32;
+            sprite->color.c.r = 54;
+            sprite->color.c.g = 54;
+            sprite->color.c.b = 54;
         }
         if (effect->unk_82.s16 >= 81) {
             fade_frame = effect->unk_82.s16;
-            sprite->unk_C.u8 = (u8)(((100 - fade_frame) * 54) / 20);
+            sprite->color.c.r = (u8)(((100 - fade_frame) * 54) / 20);
             green_frame = effect->unk_82.s16;
-            sprite->unk_C.at_D_u8.unk_D = (u8)(((100 - green_frame) * 54) / 20);
+            sprite->color.c.g = (u8)(((100 - green_frame) * 54) / 20);
             fade_frame = effect->unk_82.s16;
-            sprite->unk_C.at_E_u8.unk_E = (u8)(((100 - fade_frame) * 54) / 20);
+            sprite->color.c.b = (u8)(((100 - fade_frame) * 54) / 20);
         }
         if (effect->unk_82.s16 >= 0) {
             target = owner->unk_60;
@@ -1085,7 +1067,7 @@ void update_a_moving_effect_target_animation_cleanup_state(S_func_8190B2D0_0 *ef
         case 0:
         {
             g_dungeon_status.active_actor = 0;
-            *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
+            ((ObjectNodeHeader *)((u8 *)effect - 0x20) )->flags|= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             break;
         }

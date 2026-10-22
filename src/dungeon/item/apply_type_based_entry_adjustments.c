@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/item.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s32 expand_text_control_codes();
 extern s32 copy_selected_text_without_terminator();

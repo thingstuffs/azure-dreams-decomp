@@ -7,7 +7,6 @@
 #include "shared/position_views.h"
 
 
-typedef s32 M2C_UNK;
 
    /* obj in func_80158854 */
 

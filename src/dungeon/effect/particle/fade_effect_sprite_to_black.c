@@ -1,4 +1,6 @@
 /* Projectile launch and impact sequencing, damped motion, and delayed sprite fading. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/particle/fade_effect_sprite_to_black.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -109,16 +111,16 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     s32 sprite_work;
     SpriteFrameState *burst_sprite;
     S_8182C800_15 *particle;
-    void *object;
+    ObjectNodeHeader *object;
     void *owner;
     s16 *direction_x_table;
 
     sprite_or_step_x = (s32) sprite;
 
     direction_x_table = dir_step_x;
-    owner = (*(void * *)&((EntityRec *)effect)->x);
+    owner = (*(void **)&((EntityRec *)effect)->x);
     state = ((EntityRec *)effect)->z.w.i;
-    owner_sprite = ((S_8182C800_1_pre *)owner)[-1].unk_00;
+    owner_sprite = ((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite;
 
     motion_extent = (u16) ((S_8182C800_1 *)owner)->unk_2A.s >> 8;
     direction_offset = motion_extent & 0xE;
@@ -128,7 +130,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
     direction_y = (s32) ((s16)sprite_work);
     switch (state) {
     case 0:
-        if (*(*(u16 * *)&((EntityRec *)effect)->y) & 0x80) {
+        if (*(*(u16 **)&((EntityRec *)effect)->y) & 0x80) {
             target_x = owner_object->unk_0C;
             if (resolve_record_orientation_or_fallback(*(s32 *)&target_x->source, target_x, &frame.launch_x, 0) == 0) {
                 frame.launch_y = 0;
@@ -139,11 +141,11 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                 }
                 frame.launch_z = height_offset;
             }
-            ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_00
+            ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((ObjectPosition *)owner_object->unk_08)->x.v
                 + (frame.launch_x << 0x10));
-            ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_04
+            ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((ObjectPosition *)owner_object->unk_08)->y.v
                 + (frame.launch_y << 0x10));
-            ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at00.v
+            ((S_8182C800_5 *)motion)->unk_08 = (s32) (((ObjectPosition *)owner_object->unk_08)->z.v
                 + (frame.launch_z << 0x10));
             object = effect - 0x20;
             register_node(object, project_sprite_chain);
@@ -160,7 +162,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
             ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = launch_tpage;
             sprite_color = ((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = sprite_color;
-            target = scan_monster_along_heading(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u,
+            target = scan_actor_along_heading(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u,
                 (s16) (sprite_work = get_definition_entry_byte_13(5, launch_tpage)));
             ((S_8182C800_1 *)owner)->unk_60 = target;
             if (target == 0) {
@@ -186,7 +188,7 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
                 ((S_8182C800_1 *)owner)->unk_73.s = (u8) (owner_sprite->unk_25 + (direction_y * distance_sum));
             } else {
                 object = target - 0x20;
-                sprite_work = (s32)((S_8182C800_8 *)object)->unk_0C;
+                sprite_work = (s32)object->sprite;
                 if ((((SpriteFrameState *)sprite_work)->flags & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
                     apply_attack_power_and_element_effects(((S_8182C800_1 *)owner)->unk_60, 8, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
                         (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
@@ -204,14 +206,14 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
             frame.target_y = (target_tile << 6) + 0x20;
             if (((S_8182C800_1 *)owner)->unk_60 == 0) {
                 floor_height = (s16)sample_terrain_surface_height((u16) frame.target_x, (u16) frame.target_y,
-                    (s16) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v - 0x30));
+                    (s16) (*(u16 *)&((ObjectPosition *)owner_object->unk_08)->z.w.i - 0x30));
                 frame.target_z.half.z = floor_height;
                 if (floor_height >= 0x200) {
-                    frame.target_z.half.z = ((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v;
+                    frame.target_z.half.z = *(u16 *)&((ObjectPosition *)owner_object->unk_08)->z.w.i;
                 }
                 frame.target_z.half.z -= 0x30;
             } else {
-                frame.target_z.half.z = ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at02.v - 0x28;
+                frame.target_z.half.z = *(u16 *)&(object->position)->z.w.i - 0x28;
             }
             target_x = (S_8182C800_3 *)frame.target_x;
             start_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
@@ -269,8 +271,8 @@ void update_directional_actor_effect(void *effect, void *motion, void *sprite) {
 spawn_trail:
         object = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
         if (object != 0) {
-            sprite_work = (s32)(((S_8182C800_8 *)object)->unk_0C);
-            ((S_8182C800_8 *)object)->unk_10 = (void *)move_the_effect_count_down_timer_fade_sprite_black;
+            sprite_work = (s32)(object->sprite);
+            object->unk_10 = (void *)move_the_effect_count_down_timer_fade_sprite_black;
             frame.vel_x = 0 - ((motion_extent = func_80069EF8()) & 0x1FF);
             frame.vel_z = 0;
             frame.vel_y = 0;
@@ -280,7 +282,7 @@ spawn_trail:
             spread_decay = elapsed_steps * 8;
             spread_base = 0x300 - spread_decay;
             motion_extent = spread_base - (elapsed_steps << 5);
-            particle = object + 0x20;
+            particle = ((void *)object) + 0x20;
             if (motion_extent < 0x40) {
                 motion_extent = 0x40;
             }
@@ -308,23 +310,23 @@ spawn_trail:
             frame.spec.flag = 1;
             frame.spec.zero = 0;
             transform_rotated_vertices(&frame.spec);
-            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
+            (object->position)->x.v =
                 (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
-            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
+            (object->position)->y.v =
                 (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
-            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at00.v =
+            (object->position)->z.v =
                 (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((motion_extent = func_80069EF8()) & 0x1FF) - 0xFF) << 9));
-            trail_pos_x = ((S_8182C800_8 *)object)->unk_08;
+            trail_pos_x = object->position;
             trail_pos_x->unk_00 = (s32) (trail_pos_x->unk_00 + ((frame.vel_x << 0xC) + (direction_x << 0x15)));
-            trail_pos_y = ((S_8182C800_8 *)object)->unk_08;
+            trail_pos_y = object->position;
             trail_pos_y->unk_04 = (s32) (trail_pos_y->unk_04 + ((frame.vel_y << 0xC) + (direction_y << 0x15)));
-            trail_pos_z = ((S_8182C800_8 *)object)->unk_08;
+            trail_pos_z = object->position;
             trail_pos_z->unk_08 = (s32) (trail_pos_z->unk_08 + (frame.vel_z << 0xC));
-            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_0C =
+            (object->position)->velocity_x =
                 (s32) ((s32) ((S_8182C800_5 *)motion)->unk_0C >> 3);
-            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_10 =
+            (object->position)->velocity_y =
                 (s32) ((s32) ((S_8182C800_5 *)motion)->unk_10 >> 3);
-            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
+            (object->position)->velocity_z =
                 (s32) ((s32) ((S_8182C800_5 *)motion)->unk_14 >> 3);
             ((SpriteFrameState *)sprite_work)->scale_y = 0x800;
             ((SpriteFrameState *)sprite_work)->scale_x = 0x800;
@@ -411,23 +413,23 @@ spawn_trail:
                 do {
                     object = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
                     if (object != 0) {
-                        burst_sprite = ((S_8182C800_8 *)object)->unk_0C;
-                        ((S_8182C800_8 *)object)->unk_10 = (void *)advance_motion_damping_downward_acceleration_count_down_fade_effect;
-                        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
+                        burst_sprite = object->sprite;
+                        object->unk_10 = (void *)advance_motion_damping_downward_acceleration_count_down_fade_effect;
+                        (object->position)->x.v =
                             (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
                                 + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xD));
-                        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
+                        (object->position)->y.v =
                             (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
                                 + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xD));
-                        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at00.v =
+                        (object->position)->z.v =
                             (s32) (((S_8182C800_5 *)motion)->unk_08 + ((((sprite_work = func_80069EF8()) & 0x3FF) - 0x1FF) << 0xC));
-                        burst_motion_x = ((S_8182C800_8 *)object)->unk_08;
+                        burst_motion_x = object->position;
                         burst_motion_x->unk_0C = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
                             - burst_motion_x->unk_00) >> 3);
-                        burst_motion_y = ((S_8182C800_8 *)object)->unk_08;
+                        burst_motion_y = object->position;
                         burst_motion_y->unk_10 = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
                             - burst_motion_y->unk_04) >> 3);
-                        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
+                        (object->position)->velocity_z =
                             (s32) (0 - (((sprite_work = func_80069EF8()) & 0x3FF) << 9));
                         burst_sprite->scale_y = 0x800;
                         burst_sprite->scale_x = 0x800;
@@ -441,7 +443,7 @@ spawn_trail:
                         burst_sprite->color.word = 0x808080;
                         burst_sprite->source = burst_tpage;
                         ((S_8182C800_8 *)object)->unk_20 = effect;
-                        particle = object + 0x20;
+                        particle = ((void *)object) + 0x20;
                         particle->unk_48 = (s16) ((motion_extent = func_80069EF8()) & 3);
                     }
                     distance_x -= 1;
@@ -465,7 +467,7 @@ spawn_trail:
             return;
         }
         g_dungeon_status.active_actor = 0;
-        ((S_8182C800_0_pre *)effect)[-1].unk_00 = (u16) (((S_8182C800_0_pre *)effect)[-1].unk_00 | 0x8000);
+        ((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags = (u16) (((ObjectNodeHeader *)((u8 *)effect - 0x20))->flags | 0x8000);
         ((S_8182C800_22 *)((s32 *)(&object_flag_block)))->unk_00 =
             (s32) (((S_8182C800_22 *)((s32 *)(&object_flag_block)))->unk_00 | 0x8000);
         return;
@@ -473,7 +475,7 @@ spawn_trail:
 }
 
 /* Move the effect, count down its timer, then fade its sprite to black. */
-void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
+void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544_2 *motion, SpriteFrameState *sprite)
 {
     s16 state;
     s32 delta_y;
@@ -505,23 +507,23 @@ void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544
 
     case 1:
         advance_sprite_animation_and_textures(sprite);
-        if (sprite->unk_14 & 0x6000) {
+        if (sprite->flags & 0x6000) {
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
         }
 
         fade_step = (rand() & 0xF) + 9;
-        if (fade_step >= sprite->unk_0C.at00.v) {
-            sprite->unk_0C.at00u.v = 0;
+        if (fade_step >= sprite->color.c.r) {
+            sprite->color.word = 0;
             ((S_8182D544_0_pre *)effect)[-1].unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
 
-        brightness = sprite->unk_0C.at02.v - fade_step;
-        sprite->unk_0C.at02.v = brightness;
-        sprite->unk_0C.at01.v = brightness;
-        sprite->unk_0C.at00.v = brightness;
+        brightness = sprite->color.c.b - fade_step;
+        sprite->color.c.b = brightness;
+        sprite->color.c.g = brightness;
+        sprite->color.c.r = brightness;
         break;
     }
 }
@@ -531,7 +533,7 @@ void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Advance motion with damping and downward acceleration, then count down or fade the effect. */
-void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, Effect *effect) {
+void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, SpriteFrameState *effect) {
     s16 state;
     ((s32 *)object->child)[3] |= 0x8000;
     motion->x += motion->dx;
@@ -555,21 +557,21 @@ void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object 
     case 1:
         advance_sprite_animation_and_textures(effect);
         if (effect->flags & 0x6000) {
-            effect->pad[4] = 0;
-            effect->pad[5] = 0;
+            effect->unk_04 = 0;
+            effect->unk_05 = 0;
         }
         {
             s32 fade_step = (func_80069EF8() & 0xF) + 4;
-            if (fade_step >= effect->limit) {
-                *(s32 *)((u8 *)effect + 0xC) = 0;
+            if (fade_step >= effect->color.c.r) {
+                effect->color.word = 0;
                 *((u16 *)((u8 *)object - 2)) |= NODE_REMOVE;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             } else {
-                u8 fade_value = effect->value_e - fade_step;
-                effect->value_e = fade_value;
-                effect->value_d = fade_value;
-                effect->limit = fade_value;
+                u8 fade_value = effect->color.c.b - fade_step;
+                effect->color.c.b = fade_value;
+                effect->color.c.g = fade_value;
+                effect->color.c.r = fade_value;
             }
         }
         break;

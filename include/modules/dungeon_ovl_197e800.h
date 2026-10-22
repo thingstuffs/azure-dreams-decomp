@@ -12,12 +12,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/slus_callbacks.h"
-typedef struct S_81961A04_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_81961A04_0;
 typedef struct S_81961A04_1 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -26,20 +20,6 @@ typedef struct S_81961A04_1 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_81961A04_1;
-typedef struct S_81961A04_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} S_81961A04_2;
 typedef struct S_81961A04_3 {
     u8 pad_00[0x38];
     u16 unk_38;
@@ -50,14 +30,6 @@ typedef struct S_81961A04_3 {
     u8 pad_4E[0x6];
     s16 unk_54;
 } S_81961A04_3;
-typedef struct S_81961A04_4 {
-    u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    s8 unk_0C;
-    u8 pad_0D[0xF];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_81961A04_4;
 typedef struct {
     u16 x;
     u16 y;
@@ -495,20 +467,6 @@ typedef struct S_8196012C_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } S_8196012C_0;
-typedef struct S_8196012C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-    u8 pad_14[0x2];
-    s16 unk_16;
-} S_8196012C_1;
 typedef struct S_8196012C_2 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -658,14 +616,6 @@ typedef struct S_8195FB34_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } S_8195FB34_0;
-typedef struct S_8195FB34_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195FB34_1;
 typedef struct S_8195FB34_2 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -792,14 +742,6 @@ typedef struct {
     u8 green;
     u8 blue;
 } FadeColor;
-typedef struct S_8195EF44_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8195EF44_4;
 typedef struct S_8195EF44_5 {
     u8 pad_00[0x38];
     s16 unk_38;

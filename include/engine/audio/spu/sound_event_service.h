@@ -12,7 +12,7 @@ s32 OpenEvent(u32 class, s32 spec, s32 mode, void (*callback)(void));
 s32 EnableEvent(s32 event);
 s32 CloseEvent(s32 event);
 s32 DisableEvent(s32 event);
-void start_spu_dma_event_service(void);
+void SpuStart(void);
 void stop_spu_dma_event_service(void);
 
 #endif

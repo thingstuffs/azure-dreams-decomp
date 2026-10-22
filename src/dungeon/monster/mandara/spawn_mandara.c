@@ -1,30 +1,19 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80FC9000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80FC9000_0;   /* obj in func_801588A4 */
-
-typedef struct S_80FC9000_1 {
+typedef struct  S_80FC9000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_80FC9000_1;   /* work in func_801588A4 */
-
-typedef struct S_80FC9000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80FC9000_2;   /* pin_part_a in func_801588A4 */
 
 typedef struct S_80FC9000_4 {
     u8 pad_00[0x8C];
@@ -57,7 +46,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
 void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
 {
     void *work;
-    void *obj;
+    ObjectNodeHeader *obj;
     s32 call_id;
     ObjectNodeHeader *call_target;
     SpriteFrameState *part_b;
@@ -74,7 +63,7 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
     u8 *entry;
     s16 pin_arg1;
     s16 pin_arg3;
-    void *pin_part_a;
+    ObjectPosition *pin_part_a;
     void *pin_actor;
 
     work = 0;
@@ -86,13 +75,13 @@ void *func_801588A4(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 pa
     saved_arg0 = (s16)input_value;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80FC9000_0 *)obj)->unk_10 = D_80158B40;
+        obj->unk_10 = D_80158B40;
         ((S_80FC9000_1 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);
 
-        pin_part_a = ((S_80FC9000_0 *)obj)->unk_08;
-        ((S_80FC9000_2 *)pin_part_a)->unk_0A = pin_arg3;
-        part_b = ((S_80FC9000_0 *)obj)->unk_0C;
+        pin_part_a = obj->position;
+        pin_part_a->z.w.i = pin_arg3;
+        part_b = obj->sprite;
         kind = input_value & 3;
         part_b->unk_25 = part_b_value2;
         pin_actor = work;

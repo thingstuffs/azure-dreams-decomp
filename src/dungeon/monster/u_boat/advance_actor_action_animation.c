@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,6 @@ typedef struct S_80174788_0 {
     u16 unk_A2;
 } S_80174788_0;   /* arg0 in advance_actor_action_animation */
 
-
 extern void select_sprite_entry();
 extern s32 check_entity_relation();
 extern s32 has_pending_actor_or_turn_action();
@@ -31,10 +31,10 @@ extern void update_actor_action_transition();
 
 extern u8 uboat_action_frames[];
 extern u8 D_800E2430[];
-extern u8 D_80171A80[];
+#include "dungeon/monster/u_boat.h"
 
 /* Advance an actor action through animation completion and status checks. */
-void advance_actor_action_animation(void *action, s32 actor_index, void *sprite, ActorRecord *actor)
+void advance_actor_action_animation(void *action, s32 actor_index, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 action_state;
     u16 reset_offset;
@@ -44,14 +44,14 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
     action_state = ((S_80174788_0 *)action)->unk_9B;
     switch (action_state) {
     case 0:
-        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = uboat_action_frames;
+        (sprite->frameTable) = uboat_action_frames;
         select_sprite_entry(sprite,
                       uboat_action_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
@@ -104,7 +104,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
         if (actor->mp == 0) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
+        (sprite->frameTable) = D_800E2430;
         select_sprite_entry(sprite,
                       D_800E2430[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
@@ -115,7 +115,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
         return;
 
     case 2:
-        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         {
@@ -123,7 +123,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
         actor->flags1C &= ~8;
-        ((S_80174788_0 *)action)->unk_8C = D_80171A80;
+        ((S_80174788_0 *)action)->unk_8C = uboat_behavior_entry;
 
         return;
     }

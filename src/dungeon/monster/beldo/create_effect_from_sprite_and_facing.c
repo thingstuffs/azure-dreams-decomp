@@ -28,13 +28,6 @@ typedef struct S_80170E18_0 {
     void * unk_AC;
 } S_80170E18_0;
 
-typedef struct S_80170E18_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_80170E18_1;
-
 typedef struct S_80170E18_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
@@ -45,7 +38,7 @@ typedef struct S_80170E18_3 {
 /* Creates an effect using the supplied sprite data, transform, and facing. */
 void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_transform, void *sprite_template, S_80170E18_3 *facing_source) {
     SpriteFrameState *sprite;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_80170E18_0 *effect_state;
     MovingPosition *transform;
     void *sprite_data;
@@ -56,12 +49,12 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
     effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     sprite_data = sprite_template;
     if (effect != NULL) {
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         effect_state->unk_96 = 7;
         effect_state->unk_A8 = 7;
-        ((S_80170E18_1 *)effect)->unk_10 = &D_80170D44;
+        effect->unk_10 = &D_80170D44;
         effect_state->unk_AC = source_transform;
-        sprite = ((S_80170E18_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         src = (Block16 *)sprite_data;
         dst = (Block16 *)sprite;
         end = src + 3;
@@ -83,7 +76,7 @@ void create_effect_from_sprite_and_facing(void *unused, MovingPosition *source_t
         sprite->frameTable = &D_80173EB4;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80173EB4), 0);
-        transform = ((S_80170E18_1 *)effect)->unk_08;
+        transform = effect->position;
         transform->unk_02 = (u16) source_transform->unk_02;
         transform->unk_06 = (u16) source_transform->unk_06;
         transform->unk_0A = (u16) source_transform->unk_0A;

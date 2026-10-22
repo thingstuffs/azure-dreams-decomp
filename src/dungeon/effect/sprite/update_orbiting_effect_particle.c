@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 typedef struct S_800D81D4_0_pre {
@@ -31,13 +32,6 @@ typedef struct S_800D81D4_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
 } S_800D81D4_1;   /* p1 in update_orbiting_effect_particle */
 
-typedef struct S_800D81D4_2 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-} S_800D81D4_2;   /* p2 in update_orbiting_effect_particle */
-
-
 void advance_sprite_animation_and_textures(void *);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
@@ -48,7 +42,7 @@ s32 func_80069EF8(void);
 void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_data) {
     s32 phase_index;
     s32 height_offset;
-    S_800D81D4_2 *primitive = primitive_data;
+    SpriteFrameState *primitive= primitive_data;
 
     effect->unk_48.s = (s16) (effect->unk_48.s - 1);
     advance_sprite_animation_and_textures(primitive);
@@ -82,7 +76,7 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
         color_step = 0x40000;
         effect->unk_1C.at00.v = motion_value_2 + motion_step_2;
         color_step |= 0x404;
-        primitive->unk_0C = primitive->unk_0C + color_step;
+        primitive->color.word = primitive->color.word + color_step;
         motion_step = effect->unk_48.u;
         motion_value = 0x20 - motion_step;
         motion_step = effect->unk_4A;
@@ -106,7 +100,7 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
     case 3:
         motion->unk_08 = (s32) (motion->unk_08 - ((s32) motion->unk_14.at00.v >> 1));
         effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - ((s32) effect->unk_28 >> 1));
-        primitive->unk_0C = (s32) (primitive->unk_0C + 0x30303);
+        primitive->color.word = (s32) (primitive->color.word + 0x30303);
         effect->unk_18 = (u16) (effect->unk_18 + ((((0x1C - (s16) effect->unk_48.s) * 8) + 0x140) * effect->unk_4A));
         if ((s16) effect->unk_48.s > 0) {
             break;
@@ -116,11 +110,11 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
         break;
     case 4:
         effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
-        primitive->unk_0C = (s32) (primitive->unk_0C + 0x40404);
-        if ((u8) primitive->unk_0C < 0xF1U) {
+        primitive->color.word = (s32) (primitive->color.word + 0x40404);
+        if ((u8) primitive->color.word < 0xF1U) {
             break;
         }
-        primitive->unk_10 = 0x60;
+        primitive->tpage_abr = 0x60;
         motion->unk_14.at02.v = (s16) (0 - (func_80069EF8() & 3));
         effect->unk_4C.s++;
         break;
@@ -129,8 +123,8 @@ void update_orbiting_effect_particle(S_800D81D4_0 *effect, S_800D81D4_1 *motion,
         motion->unk_14.at00.v = (s32) (motion->unk_14.at00.v - ((func_80069EF8() & 0xFFF) << 6));
         effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - 0x8000);
         effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
-        primitive->unk_0C = (s32) (primitive->unk_0C + 0xFFE7E7E8);
-        if ((u8) primitive->unk_0C >= 0x18U) {
+        primitive->color.word = (s32) (primitive->color.word + 0xFFE7E7E8);
+        if ((u8) primitive->color.word >= 0x18U) {
             break;
         }
         effect->unk_4C.s++;

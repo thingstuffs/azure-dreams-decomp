@@ -1,13 +1,16 @@
 /* Kewne actor creation, script triggers, movement, and animation. */
 #include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kewne_uncached/create_entity_at_tile_center.h"
+#include "dungeon/item.h"
 
 /* Creates the actor at a tile center and installs its script, movement, and animation callbacks. */
 void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 tile_x, u16 tile_y, u16 height) {
-    Func812A5000Parent *parent;
+    ObjectNodeHeader *parent;
     SpriteFrameState *tile_state;
-    Func812A5000Child *position;
+    ObjectPosition *position;
     Func812A5000Entity *entity;
 
     entity = NULL;
@@ -17,17 +20,17 @@ void *create_and_initializes_entity_center_specified_tile(s16 entity_id, s16 til
             D_800FBE1C[0] = parent;
         }
         entity = (Func812A5000Entity *)((u8 *)parent + 0x20);
-        parent->field10 = update_actor_scripts_and_motion;
+        parent->unk_10 = update_actor_scripts_and_motion;
         entity->field13 = 0x39;
         register_node(parent, project_sprite_chain);
-        tile_state = parent->child0;
-        position = parent->child1;
+        tile_state = *(Func812A5000Child * *)&parent->sprite;
+        position = *(Func812A5000Child * *)&parent->position;
         tile_state->unk_24 = tile_x;
         tile_state->unk_25 = tile_y;
         tile_state->frameTable = D_80175C30;
-        position->field2 = (s16)((tile_state->unk_24 << 6) + 0x20);
-        position->field6 = (s16)((tile_state->unk_25 << 6) + 0x20);
-        position->fieldA = height;
+        position->x.w.i = (s16)((tile_state->unk_24 << 6) + 0x20);
+        position->y.w.i = (s16)((tile_state->unk_25 << 6) + 0x20);
+        position->z.w.i = height;
         entity->field2A = (s16)(get_direction_toward_target_position(position) << 9);
         entity->field13 = 2;
         entity->field14 |= 0x6000;
@@ -56,24 +59,24 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
     s32 tail_acc;
     GameWork *flag_base;
     u8 *event_0;
-    u8 *position_0;
+    ObjectPosition *position_0;
     u8 *event_1;
     u8 *event_2;
     u8 *event_3;
-    u8 *position_3;
+    ObjectPosition *position_3;
     u8 *event_4;
-    u8 *position_4;
+    ObjectPosition *position_4;
     u8 *event_5;
     u8 *event_6;
     u8 *event_7;
-    u8 *position_7;
+    ObjectPosition *position_7;
     u8 *event_8;
-    u8 *position_8;
+    ObjectPosition *position_8;
     u8 *event_9;
-    u8 *position_9;
+    ObjectPosition *position_9;
     u8 *event_10;
     u8 *event_11;
-    u8 *position_11;
+    ObjectPosition *position_11;
     void (*update_actor)(void *, void *, void *, void *);
     void (*update_special)(void *, void *, void *, void *);
     TileObject *nearby_event;
@@ -184,8 +187,8 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
             if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_actor_or_turn_action(entity) << 0x10) == 0)
                 && (event_0 = (u8 *)((u8 *)(&reference_tile_object)), position_0 = (u8 *)((u8 *)(&view_reference_entity)),
-                    (((((S_812A524C_7 *)event_0)->unk_24 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_02))
-                && (((((S_812A524C_7 *)event_0)->unk_25 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_06)) {
+                    (((((S_812A524C_7 *)event_0)->unk_24 << 6) + 0x20) == position_0->x.w.i))
+                && (((((S_812A524C_7 *)event_0)->unk_25 << 6) + 0x20) == position_0->y.w.i)) {
                 actor_kind = ((S_812A524C_39 *)((*(void * *)&((ActorRecord *)dungeon_actor_ring_anchor)->unk_00)))->unk_9A;
                 if ((actor_kind != 0x19) && (actor_kind != 0x1B) && !(((S_812A524C_4 *)entity)->unk_1C & 0x80000)) {
                     if ((((S_812A524C_3 *)actor_in)->unk_B9 == 0) && !(system_update_flags[0] & 1)) {
@@ -267,9 +270,9 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
                                         ((u32) (((S_812A524C_14 *)event_3)->unk_24.at00.v - 0xB36) < 2U))
                                     && (position_3 = (u8 *)((u8 *)(&view_reference_entity)),
                                         event_x_3 = ((S_812A524C_14 *)event_3)->unk_24.at00u.v,
-                                        (((event_x_3 <<= 6) + 0x20) == ((S_812A524C_15 *)position_3)->unk_02))
+                                        (((event_x_3 <<= 6) + 0x20) == position_3->x.w.i))
                                     && (((((S_812A524C_14 *)event_3)->unk_24.at01.v << 6) + 0x20)
-                                        == ((S_812A524C_15 *)position_3)->unk_06)) {
+                                        == position_3->y.w.i)) {
                                     enqueue_runtime_pool_script(&D_80070684);
                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -283,9 +286,9 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
                                             ((u32) (((S_812A524C_16 *)event_4)->unk_24.at00.v - 0x1236) < 2U))
                                         && (position_4 = (u8 *)((u8 *)(&view_reference_entity)),
                                             event_x_4 = ((S_812A524C_16 *)event_4)->unk_24.at00u.v,
-                                            (((event_x_4 <<= 6) + 0x20) == ((S_812A524C_17 *)position_4)->unk_02))
+                                            (((event_x_4 <<= 6) + 0x20) == position_4->x.w.i))
                                         && (((((S_812A524C_16 *)event_4)->unk_24.at01.v << 6) + 0x20)
-                                            == ((S_812A524C_17 *)position_4)->unk_06)) {
+                                            == position_4->y.w.i)) {
                                         enqueue_runtime_pool_script(&D_800FBAD7);
                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -416,9 +419,9 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
                                                                     event_x_7 =
                                                                     ((S_812A524C_23 *)event_7)->unk_24.at00u.v,
                                                                     (((event_x_7 <<= 6) + 0x20)
-                                                                == ((S_812A524C_24 *)position_7)->unk_02))
+                                                                == position_7->x.w.i))
                                                                 && (((((S_812A524C_23 *)event_7)->unk_24.at01.v << 6)
-                                                                + 0x20) == ((S_812A524C_24 *)position_7)->unk_06)) {
+                                                                + 0x20) == position_7->y.w.i)) {
                                                                 enqueue_runtime_pool_script(&D_8006FD01);
                                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -435,10 +438,10 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
                                                                         event_x_8 =
                                                                         ((S_812A524C_25 *)event_8)->unk_24.at00u.v,
                                                                         (((event_x_8 <<= 6) + 0x20)
-                                                                    == ((S_812A524C_26 *)position_8)->unk_02))
+                                                                    == position_8->x.w.i))
                                                                     && (((((S_812A524C_25 *)event_8)->unk_24.at01.v
                                                                     << 6) + 0x20)
-                                                                        == ((S_812A524C_26 *)position_8)->unk_06)) {
+                                                                        == position_8->y.w.i)) {
                                                                     enqueue_runtime_pool_script(&D_80070AF8);
                                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -458,9 +461,9 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
                                                                         && (event_9 = (u8 *)((u8 *)(&reference_tile_object)),
                                                                             position_9 = (u8 *)((u8 *)(&view_reference_entity)),
                                                                             (((((S_812A524C_27 *)event_9)->unk_24 << 6)
-                                                                        + 0x20) == ((S_812A524C_28 *)position_9)->unk_02))
+                                                                        + 0x20) == position_9->x.w.i))
                                                                         && (((((S_812A524C_27 *)event_9)->unk_25 << 6)
-                                                                        + 0x20) == ((S_812A524C_28 *)position_9)->unk_06)) {
+                                                                        + 0x20) == position_9->y.w.i)) {
                                                                         enqueue_runtime_pool_script(&D_80070C11);
                                                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -508,10 +511,10 @@ void update_actor_scripts_and_motion(void *actor_in, void *motion_in, void *spri
                                                                                     event_x_9 =
                                                                                     ((S_812A524C_31 *)event_11)->unk_24.at00u.v,
                                                                                     (((event_x_9 <<= 6) + 0x20)
-                                                                                == ((S_812A524C_32 *)position_11)->unk_02))
+                                                                                == position_11->x.w.i))
                                                                                 && (((((S_812A524C_31 *)event_11)->unk_24.at01.v
                                                                                 << 6) + 0x20)
-                                                                                    == ((S_812A524C_32 *)position_11)->unk_06)) {
+                                                                                    == position_11->y.w.i)) {
                                                                                 enqueue_runtime_pool_script(&D_800FB3C8);
                                                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;

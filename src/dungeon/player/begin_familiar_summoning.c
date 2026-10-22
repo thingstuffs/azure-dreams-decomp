@@ -3,6 +3,8 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/level.h"
+#include "dungeon/player.h"
 
 typedef struct S_80095854_0 {
     u8 pad_00[0x2A];
@@ -28,10 +30,8 @@ typedef struct S_80095854_1 {
 
 
 void set_sprite_animation_frame(); /* extern */
-void clear_player_linked_action_flags(void);                            /* extern */
 void cycle_map_cell_flags();           /* extern */
 void update_map_cell_flags_with_item_limit();           /* extern */
-s32 find_valid_nearby_position();   /* extern */
 extern u8 D_800DD130;
 
 /* Starts the summoning animation and finds a nearby tile, reserving space for an existing linked familiar. */

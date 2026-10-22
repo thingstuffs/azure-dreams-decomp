@@ -21,7 +21,7 @@ s32 query_driver_pair_shifted_seven(s16 flags_index, s16 *out_first, s16 *out_se
 
     request.unk4 = 0;
     request.unk0 = audio_voice_masks[flags_index];
-    read_spu_voice_attributes(&request);
+    SpuGetVoiceAttr(&request);
     *out_first = request.unk8 >> 7;
     *out_second = request.unkA >> 7;
     return 0;

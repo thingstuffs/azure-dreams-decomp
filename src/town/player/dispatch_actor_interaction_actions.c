@@ -10,10 +10,10 @@
 void submit_object_resource_data();                         /* extern */
 struct Rec_func_80094268_arg0; void initialize_motion_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
 #include "records/Rec_func_80094268_arg0.h"
-void func_80094088(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);     /* extern */
+void init_threshold_countdown_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);     /* extern */
 struct Rec_func_80094268_arg0; struct S_800942B0_0; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct S_800942B0_0 *, s32);     /* extern */
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);     /* extern */
-struct Rec_func_80094268_arg0; void func_800943B8(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
+struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, s32, s32);     /* extern */
 void initialize_action_object_with_counter(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);     /* extern */
 void initialize_actor_movement_interaction_action(s32 **record, void *ptr, void *ptr2);     /* extern */
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
@@ -85,7 +85,7 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
             return;
         }
         if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            func_80094088(actor, record, context);
+            init_threshold_countdown_action(actor, record, context);
             return;
         }
     } else {
@@ -99,7 +99,7 @@ void dispatch_actor_interaction_actions(Rec_func_8009431C_arg0 *actor, EntityRec
                 submit_object_resource_data(((S_80090A74_4 *)shared_data)->unk_10);
                 return;
             }
-            func_800943B8((struct Rec_func_80094268_arg0 *)(actor), (s32)(record), context);
+            init_movement_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(record), context);
             return;
         }
         page_base = (u8 *)(u32)(input_state->buttons & 0xF000);

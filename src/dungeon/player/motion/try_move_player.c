@@ -5,6 +5,8 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/player.h"
+#include "dungeon/system.h"
 
 
 typedef struct S_8008B9FC_1 {
@@ -48,7 +50,6 @@ extern u8 active_actor_command_code[];
 
 extern void set_sprite_animation_frame();
 extern void begin_player_push();
-extern void update_player_height_step();
 extern void check_tile_entry_at_adjusted_height();
 extern void process_unflagged_linked_entries();
 extern void process_unflagged_linked_entries_alt();
@@ -56,8 +57,6 @@ extern void cycle_map_cell_flags();
 extern void update_map_cell_flags_with_item_limit();
 extern s16 classify_adjacent_tile_height();
 extern void append_packed_action_record();
-extern s32 check_action_available_without_nearby_actor();
-extern void clear_pending_item_action_state();
 
 /* Update movement state, position, and animation from the movement result. */
 void try_move_player(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec *actor) {

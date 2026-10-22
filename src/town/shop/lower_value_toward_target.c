@@ -1,11 +1,9 @@
 #include "common.h"
 #include "shared/object_node.h"
 
-
 typedef void (*Callback)(void *, s32);
 
 extern void refresh_formatted_global_display(void *);
-
 
 typedef struct S_800B1890_0 {
     u8 pad_00[0x8];
@@ -20,7 +18,7 @@ typedef struct ValueTransition {
 } ValueTransition;
 
 /* Lowers the state's value toward the target, or snaps to it and switches callbacks. */
-void lower_value_toward_target(void *object) {
+void lower_value_toward_target(ObjectNodeHeader *object) {
     S_800B1890_0 *state;
     s32 target_value;
     s32 current_value;
@@ -28,7 +26,7 @@ void lower_value_toward_target(void *object) {
     s32 adjustment;
 
     state = ((ValueTransition *)object)->state;
-    target_value = ((ValueTransition *)object)->target.word;
+    target_value = *(s32 *)&object->pprev;
     current_value = state->unk_08.s;
     current_bits = state->unk_08.u;
     if (target_value < current_value) {
@@ -38,7 +36,7 @@ void lower_value_toward_target(void *object) {
         state->unk_08.s = current_bits + adjustment;
     } else {
         state->unk_08.u = ((ValueTransition *)object)->target.low_half;
-        ((ObjectNodeHeader *)object)[-1].unk_10 = refresh_formatted_global_display;
+        (object)[-1].unk_10 = refresh_formatted_global_display;
     }
 
     refresh_formatted_global_display(object);

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/system.h"
 #ifndef NULL
 #define NULL 0
 #endif
@@ -42,7 +43,6 @@ extern void set_sprite_animation_frame(void *obj, s32 frame_group, s32 frame_ind
 extern void process_unflagged_linked_entries(s32 firstEntryBase);
 extern void process_unflagged_linked_entries_alt(s32 firstNodeBase);
 extern void play_sound_if_enabled(s32 query_value);
-extern s32 check_action_available_without_nearby_actor(void);
 
 /* Advances actor animation states, periodic events, and handler transitions. */
 void update_player_sleep_action(Arg0Struct *controller, void *unused, Arg2Struct *animation, Arg3Struct *actor) {

@@ -1,5 +1,6 @@
 /* Staged target effects, moving sprite fades, linked quad rendering, and five-point animation. */
 #include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"
+#include "shared/entity.h"
 #include "modules/dungeon_native_abi.h"
 #include "dungeon/effect/particle/advance_motion_and_fade_sprite.h"
 #include "common.h"
@@ -101,8 +102,6 @@ typedef struct S_func_81856800_4 {
     void * unk_20;
 } S_func_81856800_4;
 
-
-
 typedef struct S_func_81856800_6 {
     void * unk_00;
     union {
@@ -152,17 +151,12 @@ typedef struct S_func_81856800_8 {
     void * unk_04;
 } S_func_81856800_8;
 
-
-
-
-
 typedef struct S_func_81856800_11 {
     u8 pad_00[0x4];
     u16 unk_04;
     u16 unk_06;
     u16 unk_08;
 } S_func_81856800_11;
-
 
 #ifdef __mips__
 typedef union {
@@ -180,7 +174,6 @@ extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
 
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
-
 
 extern u8 D_800DEE38[];
 extern u8 D_800DEC50[];
@@ -256,13 +249,13 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
 
                         effect->unk_10 = effect_type;
                     }
-                    ((S_func_81856800_2 *)effect->unk_08)->unk_00.s32_00 =
+                    (((ObjectPosition *)effect->unk_08))->x.v =
                         motion_arg->unk_00.s32_00 +
                         (((func_80069EF8() & 0x1FF) - 255) << 13);
-                    ((S_func_81856800_2 *)effect->unk_08)->unk_04.s32_04 =
+                    (((ObjectPosition *)effect->unk_08))->y.v =
                         motion_arg->unk_04.s32_04 +
                         (((func_80069EF8() & 0x1FF) - 255) << 13);
-                    ((S_func_81856800_2 *)effect->unk_08)->unk_08.s32_08 =
+                    (((ObjectPosition *)effect->unk_08))->z.v =
                         motion_arg->unk_08.s32_08 -
                         (((func_80069EF8() & 0x1FF) - 255) << 14) +
                         (s32)0xFFE00000;
@@ -332,7 +325,6 @@ void func_80024020(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
             object->unk_72.u8_72 = owner->unk_24;
             object->unk_73.u8_73 = owner->unk_25;
         } else {
-
 
             part = ((S_func_81856800_4 *)((u8 *)object->unk_60 - 32))->unk_0C;
             object->unk_72.u8_72 = ((MovingTile *)part)->unk_24;
@@ -570,19 +562,18 @@ case2_spawn_loop:
         S_func_81856800_7 *particle_data;
 #endif
 
-
         effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != 0) {
             particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
             part = effect->unk_0C;
             effect->unk_10 = advance_motion_and_fade_sprite;
-            ((S_func_81856800_2 *)effect->unk_08)->unk_00.s32_00 =
+            (((ObjectPosition *)effect->unk_08))->x.v =
                 motion_arg->unk_00.s32_00 +
                 (((func_80069EF8() & 0x1FF) - 255) << 13);
-            ((S_func_81856800_2 *)effect->unk_08)->unk_04.s32_04 =
+            (((ObjectPosition *)effect->unk_08))->y.v =
                 motion_arg->unk_04.s32_04 +
                 (((func_80069EF8() & 0x1FF) - 255) << 13);
-            ((S_func_81856800_2 *)effect->unk_08)->unk_08.s32_08 =
+            (((ObjectPosition *)effect->unk_08))->z.v =
                 motion_arg->unk_08.s32_08 -
                 ((func_80069EF8() & 0x1FF) << 12) + (s32)0xFFE00000;
             part->unk_1E = 3072;
@@ -615,7 +606,6 @@ case2_spawn_loop:
         action->unk_0A.u16_0A = next_state;
         return;
     }
-
 
     case 5:
     {
@@ -715,7 +705,6 @@ typedef struct DungeonShape {
     u8 pad44[2];
     s16 unk46;
 } DungeonShape;
-
 
 extern DungeonDrawState *D_80083160[];
 extern s32 func_80065420(void *world_vertex, void *screen_point, void *ptr2, void *ptr3);
@@ -899,7 +888,6 @@ extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
 extern s32 rand();
 
-
 /* Initializes, animates, and retires a jittering five-point effect. */
 void animate_jittering_five_point_effect(Entity *entity)
 {
@@ -1001,8 +989,6 @@ void animate_jittering_five_point_effect(Entity *entity)
 #include "common.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-
-
 
 typedef struct S_80024F40_0 {
     void * unk_00;

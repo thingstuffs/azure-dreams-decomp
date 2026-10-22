@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
 typedef struct {
@@ -39,7 +40,7 @@ extern void register_node(void *, void (*)(void));
 void initialize_object_rendering_and_params(Obj *object, s32 state_value, Sub2 *source_params)
 {
     SpriteFrameState *render_state;
-    Sub2 *dest_params;
+    ObjectPosition *dest_params;
 
     object->field48 = state_value;
     register_node(object, D_80045340);
@@ -47,9 +48,9 @@ void initialize_object_rendering_and_params(Obj *object, s32 state_value, Sub2 *
     render_state->tpage_abr = 0x20;
     render_state->flags |= 0xC;
     dest_params = object->sub2;
-    dest_params->field2 = source_params->field2;
-    dest_params->field6 = source_params->field6;
-    dest_params->fieldA = source_params->fieldA;
+    dest_params->x.w.i = source_params->field2;
+    dest_params->y.w.i = source_params->field6;
+    dest_params->z.w.i = source_params->fieldA;
     render_state = object->sub1;
     render_state->scale_y = 0x1000;
     render_state->scale_x = 0x1000;

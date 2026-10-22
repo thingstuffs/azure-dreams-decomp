@@ -86,6 +86,6 @@ s32 dispatch_sequence_event(S_80085FA8 *stream)
         skip_vlq_payload_until_f_7(stream);
         return 0;
     }
-    func_80058E64(event_byte);
+    noop_sequence_status_hook(event_byte);
     return 0;
 }

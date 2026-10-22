@@ -33,7 +33,7 @@ short enqueue_audio_command(int value);
 s32 clamp_sound_value_to_seven_bits(s16 value);
 s32 lookup_patterned_display_icon(s32 index);
 s32 lookup_unpatterned_display_icon(s32 index);
-void func_80053CD0(void);
+void load_primary_optional_resource_descriptor(void);
 s32 is_frame_packet_arena_overflowed(u32 limit);
 void set_audio_channel_program(unsigned char entry_index, unsigned char value);
 void sort_signed_word_array(int count, void *base);

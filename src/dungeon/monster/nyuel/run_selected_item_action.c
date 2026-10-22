@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -6,10 +7,10 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "engine/cd.h"
 
-extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -29,11 +30,6 @@ typedef struct S_8017293C_0 {
     u8 unk_9B;
 } S_8017293C_0;   /* arg0 in run_selected_item_action */
 
-typedef struct S_8017293C_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8017293C_1_pre;   /* the 0x14 bytes before active in run_selected_item_action, addressed as active[-1] */
-
 typedef struct S_8017293C_2 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -49,12 +45,12 @@ typedef struct S_8017293C_5 {
 /* Runs the actor's selected item action and handles its wait and completion phases. */
 /* Starts a targeted Nyuel spell and linked effect, waits for loading and casting animation, then restores
  * idle and status. */
-void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite, void *actor)
+void run_selected_item_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 is_special;
     u8 *item_slot;
     void *target;
-    u8 *scratch_pointer;
+    ObjectNodeHeader *scratch_pointer;
 
     is_special = 0;
     item_slot = (u8 *)(((S_8017293C_0 *)action)->unk_9B);
@@ -114,7 +110,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite
                 if (use_special != 0) {
                     target = primary_actor_record;
                     (*(void * *)((u8 *)actor + 0x60)) = target;
-                    scratch_pointer = ((S_8017293C_1_pre *)target)[-1].unk_00;
+                    scratch_pointer = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                     (*(u8 *)((u8 *)actor + 0x72)) = ((S_8017293C_2 *)scratch_pointer)->unk_24;
                     (*(u8 *)((u8 *)actor + 0x73)) = ((S_8017293C_2 *)scratch_pointer)->unk_25;
                 } else {
@@ -124,7 +120,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite
                     if (item_action_definitions[item_id].kind == 2) {
                         target = (*(void * *)((u8 *)actor + 0x60));
                         if (target != 0) {
-                            scratch_pointer = ((S_8017293C_1_pre *)target)[-1].unk_00;
+                            scratch_pointer = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                             (*(u8 *)((u8 *)actor + 0x72)) = ((S_8017293C_2 *)scratch_pointer)->unk_24;
                             (*(u8 *)((u8 *)actor + 0x73)) = ((S_8017293C_2 *)scratch_pointer)->unk_25;
 
@@ -133,8 +129,8 @@ void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite
                         s32 dx;
                         s32 dy;
 
-                        dx = (s32)scan_monster_along_heading(
-                            actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                        dx = (s32)scan_actor_along_heading(
+                            actor, sprite->unk_24, sprite->unk_25,
                             (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                         (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
                         dx = (*(s8 *)((u8 *)actor + 0x72));
@@ -164,7 +160,7 @@ void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -177,17 +173,17 @@ void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_8017293C_0 *)action)->unk_9B++;
 
     case 2:
-        if ((((SpriteFrameState *)sprite)->unk_04 == 3 &&
-            (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
-            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+        if ((sprite->unk_04 == 3 &&
+            (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x800;
             ((S_8017293C_0 *)action)->unk_96 = 1;
             ((S_8017293C_0 *)action)->unk_98 |= 0x80;
         }
@@ -198,28 +194,28 @@ void run_selected_item_action(void *action, ObjectPosition *motion, void *sprite
             ((S_8017293C_0 *)action)->unk_96 = wait_ticks;
             if (wait_ticks <= 0) {
                 ((S_8017293C_0 *)action)->unk_96 = 0;
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                sprite->flags &= 0xF7FF;
             }
         }
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-        if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80174EE0) {
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        if (*(u8 * *)&sprite->frameTable != D_80174EE0) {
             u8 *direction_frames;
             s32 direction;
 
             direction_frames = D_80174EE0;
-            ((SpriteFrameState *)sprite)->frameTable = direction_frames;
+            sprite->frameTable = direction_frames;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, direction_frames[direction], 0);
         }
         {
             scratch_pointer = (u8 *)&g_dungeon_status.turn_scale;
-            if (((S_8017293C_5 *)scratch_pointer)->unk_0C != 0) {
+            if (*(s32 *)&scratch_pointer->sprite != 0) {
                 return;
             }
             ((S_8017293C_5 *)scratch_pointer)->unk_0A--;

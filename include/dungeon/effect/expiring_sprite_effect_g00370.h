@@ -11,22 +11,6 @@
 
 /* M2C_UNK comes from m2c_compat.h. */
 
-typedef struct S_800D6AD4_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800D6AD4_6;
-
-typedef struct S_800D6AD4_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800D6AD4_8;
-
 typedef struct S_800D6AD4_0 {
     u8 pad_00[0x8];
     void * unk_08;

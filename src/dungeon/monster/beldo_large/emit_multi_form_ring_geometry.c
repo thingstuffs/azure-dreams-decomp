@@ -43,13 +43,6 @@ typedef struct S_8016E4E8_2 {
     s16 unk_8A;
 } S_8016E4E8_2;   /* part in emit_multi_form_ring_geometry */
 
-typedef struct S_8016E4E8_3 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8016E4E8_3;   /* object in emit_multi_form_ring_geometry */
-
 typedef struct S_8016E4E8_4 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -100,7 +93,7 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
     s32 row;
     s32 one;
     s32 top_y;
-    void *object;
+    ObjectNodeHeader *object;
     u8 *part;
     void *effect;
     s32 *position;
@@ -171,21 +164,21 @@ void emit_multi_form_ring_geometry(void *animation, s32 *origin, void *color)
         if (object != NULL) {
             ((S_8016E4E8_2 *)part)->unk_18 = one;
             ((S_8016E4E8_2 *)part)->unk_1A = one;
-            ((S_8016E4E8_3 *)object)->unk_10 = D_8016E4A4;
+            object->unk_10 = D_8016E4A4;
             register_node(object, D_8016E450);
 
-            effect = ((S_8016E4E8_3 *)object)->unk_0C;
+            effect = object->sprite;
             state = ((S_8016E4E8_4 *)effect)->unk_14;
             ((S_8016E4E8_4 *)effect)->unk_10 = 0x20;
             state |= 0xC;
             ((S_8016E4E8_4 *)effect)->unk_14 = state;
 
-            position = ((S_8016E4E8_3 *)object)->unk_08;
+            position = *(s32 * *)&object->position;
             position[0] = origin[0];
             position[1] = origin[1];
             color_index = 0;
             position[2] = origin[2];
-            effect = ((S_8016E4E8_3 *)object)->unk_0C;
+            effect = object->sprite;
             ((S_8016E4E8_4 *)effect)->unk_1E = 0x1000;
             ((S_8016E4E8_4 *)effect)->unk_1C = 0x1000;
             ((S_8016E4E8_4 *)effect)->unk_0E = 0x80;

@@ -1,4 +1,6 @@
 #include "modules/dungeon_ovl_bbd094.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_bbd094.h"
 
@@ -10,8 +12,8 @@ u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
     s16 half_spawn = spawn_value;
     u8 byte_variant = variant;
     u8 *result;
-    u8 *allocation;
-    u8 *part_a;
+    ObjectNodeHeader *allocation;
+    ObjectPosition *part_a;
     u8 *part_b;
     u8 *secondary;
     s16 saved_flags;
@@ -20,13 +22,13 @@ u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
     result = 0;
     allocation = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (allocation != 0) {
-        result = allocation + 0x20;
+        result = ((u8 *)allocation) + 0x20;
         result[0x13] = 14;
         register_node(allocation, project_sprite_chain);
 
-        part_a = *(u8 **)(allocation + 8);
-        *(s16 *)(part_a + 10) = half_spawn;
-        part_b = *(u8 **)(allocation + 12);
+        part_a = *(u8 * *)&allocation->position;
+        part_a->z.w.i = half_spawn;
+        part_b = *(u8 * *)&allocation->sprite;
         part_b[36] = byte_kind_id;
         part_b[37] = byte_variant;
         secondary = result;
@@ -59,7 +61,7 @@ u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
                 }
             }
         }
-        *(void (**)(void))(allocation + 16) = func_8016AA98;
+        allocation->unk_10 = func_8016AA98;
         initialize_actor_sprite_and_animation(allocation, part_a, part_b, saved_flags);
 
         secondary[154] = 0xFF;

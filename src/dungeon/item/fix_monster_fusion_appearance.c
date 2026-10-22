@@ -1,3 +1,5 @@
+
+struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -18,7 +20,7 @@ s32 display_text_with_fullwidth_adjustment();
 void place_actor_item();
 void display_item_status_message();
 s32 feed_actor_restore_mp();
-void create_colored_effect_with_event();
+void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
 extern u8 D_8008935C[];
 extern u8 D_800E0FF4[];

@@ -3,8 +3,9 @@
 #include "town/map/paired_actor_motion_g00645.h"
 #include "shared/object_flags.h"
 
-/* Updates randomized movement, animation, and landing states for a town actor. */
-void update_randomized_actor_movement(void *actor, void *motion, void *sprite, s32 update_mode)
+#include "shared/entity.h"
+#include "shared/object_node.h"/* Updates randomized movement, animation, and landing states for a town actor. */
+void update_randomized_actor_movement(void *actor, void *motion, SpriteFrameState *sprite, s32 update_mode)
 {
     register s32 *sequence;
     register s32 state;
@@ -34,7 +35,7 @@ case 0:
         register s32 vx;
 
         ((S_800BCE78_1 *)motion)->unk_08.at02.v = query_lowered_transform_position(motion);
-        if (!(((SpriteFrameState *)sprite)->flags & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
         action_choice = rand();
@@ -53,7 +54,7 @@ case 0:
             s32 hop_vx;
 
             ((Rec_D_80082D58 *)actor)->unk_68 = 0x20;
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() & 1) + 2;
             limit = 0x1FFFFF;
             ((S_800BCE78_1 *)motion)->unk_14 = -0x30000;
@@ -75,9 +76,9 @@ case 0:
                 ((S_800BCE78_1 *)motion)->unk_0C = hop_vx;
             }
             if (((S_800BCE78_1 *)motion)->unk_0C > 0) {
-                ((SpriteFrameState *)sprite)->flags |= 1;
+                sprite->flags |= 1;
             } else {
-                ((SpriteFrameState *)sprite)->flags &= 0xFFFE;
+                sprite->flags &= 0xFFFE;
             }
             break;
         }
@@ -111,9 +112,9 @@ case 0:
                 ((S_800BCE78_1 *)motion)->unk_0C = -vx;
             }
             if (((S_800BCE78_1 *)motion)->unk_0C > 0) {
-                ((SpriteFrameState *)sprite)->flags |= 1;
+                sprite->flags |= 1;
             } else {
-                ((SpriteFrameState *)sprite)->flags &= 0xFFFE;
+                sprite->flags &= 0xFFFE;
             }
             ((S_800BCE78_1 *)motion)->unk_14 = -0x20000;
             break;
@@ -122,7 +123,7 @@ case 0:
         case 4:
             ((Rec_D_80082D58 *)actor)->unk_68 = 0x40;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 0x14;
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
         }
         break;
     }
@@ -131,7 +132,7 @@ case 0x10:
     {
         register u16 timer;
 
-        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        if (sprite->flags & 0x6000) {
             timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
@@ -166,7 +167,7 @@ case 0x20:
             if ((s16)timer <= 0) {
                 ((S_800BCE78_1 *)motion)->unk_14 = 0;
                 ((S_800BCE78_1 *)motion)->unk_0C = 0;
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                sprite->flags &= 0xF7FF;
                 ((Rec_D_80082D58 *)actor)->unk_68 = 0;
             } else {
                 ((S_800BCE78_1 *)motion)->unk_14 = -0x30000;
@@ -189,7 +190,7 @@ case 0x30:
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
         ((S_800BCE78_1 *)motion)->unk_14 -= 0x4000;
-        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        if (sprite->flags & 0x6000) {
             sequence = D_800E9E34;
             ((Rec_D_80082D58 *)actor)->unk_68 = glide_state;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 3;
@@ -211,7 +212,7 @@ case 0x31:
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
-        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        if (sprite->flags & 0x6000) {
             timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
@@ -243,7 +244,7 @@ case 0x32:
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
-        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        if (sprite->flags & 0x6000) {
             timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
@@ -251,9 +252,9 @@ case 0x32:
                 new_vx = -((S_800BCE78_1 *)motion)->unk_0C;
                 ((S_800BCE78_1 *)motion)->unk_0C = new_vx;
                 if (new_vx > 0) {
-                    ((SpriteFrameState *)sprite)->flags |= 1;
+                    sprite->flags |= 1;
                 } else {
-                    ((SpriteFrameState *)sprite)->flags &= 0xFFFE;
+                    sprite->flags &= 0xFFFE;
                 }
                 floor = query_lowered_transform_position(motion);
                 floor_fixed = (s32)floor << 16;
@@ -282,7 +283,7 @@ case 0x33:
         vy = ((S_800BCE78_1 *)motion)->unk_14;
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
-        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        if (sprite->flags & 0x6000) {
             sequence = D_800E9E14;
         }
         timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
@@ -304,7 +305,7 @@ case 0x34:
         floor = query_lowered_transform_position(motion);
         ((S_800BCE78_1 *)motion)->unk_08.at02.v =
             (u16)((S_800BCE78_1 *)motion)->unk_08.at02.v + ((floor - ((S_800BCE78_1 *)motion)->unk_08.at02.v) >> 1);
-        if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        if (sprite->flags & 0x6000) {
             sequence = (s32 *)D_800E9E7C;
             ((Rec_D_80082D58 *)actor)->unk_68 = 0;
         }
@@ -319,7 +320,7 @@ case 0x40:
         ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
         if ((s16)timer <= 0) {
             ((Rec_D_80082D58 *)actor)->unk_68 = 0;
-            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+            sprite->flags &= 0xF7FF;
         }
         break;
     }
@@ -494,8 +495,8 @@ s32 event_tori_in(void *source) {
     s32 child_index;
     s32 x_step;
     SpriteFrameState *render_state;
-    S_800BD980_1 *transform;
-    void *object;
+    ObjectPosition *transform;
+    ObjectNodeHeader *object;
     S_800BD980_0 *origin;
     void *child_slot;
     void (*child_handler)(void *, void *, s32);
@@ -504,8 +505,8 @@ s32 event_tori_in(void *source) {
     child_slot = NULL;
     object = allocate_list_node(0x202, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        child_slot = object + 0x20;
-        ((LinkedMotionObject *)object)->update.parent = randomize_paired_object_motion;
+        child_slot = ((void *)object) + 0x20;
+        object->unk_10 = randomize_paired_object_motion;
         ((LinkedMotionObject *)object)->position = ((MotionSource *)source_data)->position;
         ((LinkedMotionObject *)object)->motion = ((MotionSource *)source_data)->motion;
     }
@@ -527,28 +528,28 @@ s32 event_tori_in(void *source) {
             register_node((struct RegistrationNode *)object, (s32)project_sprite_chain);
             motion_base = 0xFFF88000;
             color = 0x800000;
-            transform = ((ObjectNodeHeader *)object)->unk_08;
+            transform = object->position;
             color |= 0x8080;
-            ((LinkedMotionObject *)object)->update.child = child_handler;
+            object->unk_10 = child_handler;
             *(void **)child_slot = transform;
-            render_state = ((ObjectNodeHeader *)object)->unk_0C;
+            render_state = object->sprite;
             source_x_hi = (u16)((EntityRec *)source_data)->x.w.i;
-            origin = object + 0x20;
+            origin = ((void *)object) + 0x20;
             origin->unk_0C = source_x_hi;
             source_y_hi = (u16)((EntityRec *)source_data)->y.w.i;
             origin->unk_0E = source_y_hi;
             origin->unk_10 = (u16)((EntityRec *)source_data)->z.w.i;
             x_offset = x_step + 0x01400000;
-            transform->unk_00 = (s32) (((EntityRec *)source_data)->x.v + x_offset);
+            transform->x.v = (s32) (((EntityRec *)source_data)->x.v + x_offset);
             {
                 s32 source_y;
                 source_y = ((EntityRec *)source_data)->y.v;
                 y_offset = child_index << 0x15;
-                transform->unk_04 = (s32) (source_y + y_offset);
+                transform->y.v = (s32) (source_y + y_offset);
             }
             z_offset = (child_index << 0x13) + 0xFF800000;
-            transform->unk_08 = (s32) (((EntityRec *)source_data)->z.v + z_offset);
-            transform->unk_0C = (s32) (motion_base - (child_index << 0x10));
+            transform->z.v = (s32) (((EntityRec *)source_data)->z.v + z_offset);
+            transform->velocity_x = (s32) (motion_base - (child_index << 0x10));
             render_state->scale_y = 0x1000;
             render_state->scale_x = 0x1000;
             render_state->color.word = color;

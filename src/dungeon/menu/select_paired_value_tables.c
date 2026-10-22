@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_801237A4_arg0.h"
+#include "dungeon/menu.h"
 
 extern s32 D_80126A10[];
 extern s32 D_80126A60;

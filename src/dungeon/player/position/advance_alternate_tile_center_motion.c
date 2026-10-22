@@ -5,9 +5,9 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
+#include "dungeon/player.h"
 
 extern void set_sprite_animation_frame(void *, s16, s16, s32);
-extern void begin_wake_nearby_monsters(u8 *state_ptr, s32 value, u8 *target_ptr, u8 *angle_ptr);
 extern s32 collect_ground_item(void *, void *, void *, void *);
 extern void set_record_integer_tile_center(void *, u8, u8);
 

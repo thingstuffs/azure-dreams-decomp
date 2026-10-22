@@ -50,21 +50,7 @@ typedef struct {
     s16 z;
 } RenderSource;
 
-typedef struct S_800C1A44_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800C1A44_0;
 
-typedef struct S_800C1A44_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800C1A44_1;
 
 typedef struct S_800C1A44_3 {
     u8 pad_00[0x48];

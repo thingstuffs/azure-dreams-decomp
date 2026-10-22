@@ -1,6 +1,7 @@
 /* Spawn and flag object parts.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01128 - CL:town/func_8009ED0C, CL:town/func_8009EEE8.
  */
+#include "shared/object_node.h"
 #include "town/event/state/spawn_and_flag_object_parts_g01128.h"
 #include "shared/object_flags.h"
 
@@ -32,21 +33,21 @@ void *create_town_effect_object(s32 parent, IntVector3 *position, s32 object_val
     S_8009C390_1 *state;
     IntVector3 *object_position;
     SpriteFrameState *render;
-    void *object;
+    ObjectNodeHeader *object;
 
     if (parent != 0) {
         object = (void *)allocate_list_node(0x116, parent);
-        state = object + 0x20;
+        state = ((void *)object) + 0x20;
     } else {
         object = allocate_flagged_object_node(0x116);
-        state = object + 0x20;
+        state = ((void *)object) + 0x20;
     }
     if (object == NULL) {
         return NULL;
     }
-    object_position = ((S_8009C390_0 *)object)->unk_08;
-    render = ((S_8009C390_0 *)object)->unk_0C;
-    ((S_8009C390_0 *)object)->unk_10 = object_value;
+    object_position = object->position;
+    render = object->sprite;
+    object->unk_10 = object_value;
     state->unk_50 = state_value;
     if (parent != 0) {
         state->unk_9C = (s32)(parent + 0x20);
@@ -136,7 +137,7 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
     s32 part_index;
     S_8009C648_4 *velocity;
     S_8009C648_3 *part_data;
-    void *part_object;
+    ObjectNodeHeader *part_object;
     void *source_object;
     s32 random_z;
     S_8009C648_5 *motion;
@@ -152,9 +153,9 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
         if (part_object == NULL) {
             break;
         }
-        velocity = ((S_8009C648_1 *)part_object)->unk_08;
+        velocity = part_object->position;
         part_data = (u8 *)part_object + 0x20;
-        ((SpriteFrameState *)((S_8009C648_6 *)part_object)->unk_0C)->source =
+        part_object->sprite->source =
             ((s32 *)((S_8009C648_2 *)source_data)->unk_80)[part_indices[part_index]];
         part_data->unk_60 = part_index;
         velocity->unk_0C = (s32)((rand() * 0x10) + velocity_bias);
@@ -167,7 +168,7 @@ void spawn_randomized_effect_parts(u8 *source_data, s32 spawn_arg) {
             (s32)(motion->unk_00 + (motion->unk_0C * 8));
         motion->unk_04 =
             (s32)(motion->unk_04 + (motion->unk_10 * 8));
-        run_object_secondary_callback(part_data, motion, ((S_8009C648_1 *)part_object)->unk_0C);
+        run_object_secondary_callback(part_data, motion, part_object->sprite);
         part_index += 1;
     } while (part_index < 6);
 }

@@ -2,6 +2,7 @@
 #include "shared/tile_object.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
+#include "dungeon/player.h"
 
 typedef struct S_80094270_3 {
     u8 pad_00[0xFA];
@@ -22,8 +23,6 @@ typedef struct S_80094270_5 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 familiar_record_slots[];
 s16 check_familiar_deployment_placement(); /* extern */
-s32 reject_forbidden_familiar_recall();                         /* extern */
-void clear_player_linked_action_flags();                      /* extern */
 s32 get_unused_text_buffer();                          /* extern */
 s32 expand_text_control_codes();                  /* extern */
 void * clear_byte_and_advance();                    /* extern */

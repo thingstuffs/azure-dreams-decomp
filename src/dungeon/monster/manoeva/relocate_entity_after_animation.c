@@ -75,23 +75,12 @@ typedef struct S_80175594_1 {
     u16 unk_10A;
 } S_80175594_1;   /* scratch in relocate_entity_after_animation */
 
-
    /* state in relocate_entity_after_animation */
-
 
 typedef struct S_80175594_5 {
     u8 pad_00[0x1C];
     s32 unk_1C;
 } S_80175594_5;   /* matrix in relocate_entity_after_animation */
-
-typedef struct S_80175594_6 {
-    u8 pad_00[0xB8];
-    u16 unk_B8;
-    u8 pad_BA[0xA];
-    s16 unk_C4;
-    s16 unk_C6;
-    s16 unk_C8;
-} S_80175594_6;   /* global in relocate_entity_after_animation */
 
 typedef struct S_80175594_7 {
     u8 pad_00[0x4];
@@ -118,7 +107,6 @@ typedef struct S_80175594_7 {
 } S_80175594_7;   /* packet in relocate_entity_after_animation */
 
    /* *global in relocate_entity_after_animation */
-
 
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
@@ -171,7 +159,7 @@ typedef struct {
 void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render,
     s16 depth_bias)
 {
-    u8 **render_globals = (u8 **)((u8 *)(&g_game_work));
+    GameWork *render_globals = &g_game_work;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *state;
     u8 *matrix;
@@ -191,7 +179,7 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
         return;
     }
 
-    state = *render_globals;
+    state = *(u8 **)&render_globals->draw_buffer;
     ((S_80175594_1 *)scratch)->unk_EC = 0;
     ((S_80175594_1 *)scratch)->unk_8C = 0;
     ((S_80175594_1 *)scratch)->unk_84 = 0;
@@ -220,13 +208,13 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
         func_800649A0();
         ((S_80175594_1 *)scratch)->unk_B8 -= 0xA0;
         ((S_80175594_1 *)scratch)->unk_BA -= 0x78;
-        ((S_80175594_1 *)scratch)->unk_30 = ((S_80175594_6 *)render_globals)->unk_C4;
-        ((S_80175594_1 *)scratch)->unk_34.s32 = ((S_80175594_6 *)render_globals)->unk_C6;
-        ((S_80175594_1 *)scratch)->unk_38.s32 = ((S_80175594_6 *)render_globals)->unk_C8;
+        ((S_80175594_1 *)scratch)->unk_30 = render_globals->view.camera_rotation.parts.camera_rotation_x;
+        ((S_80175594_1 *)scratch)->unk_34.s32 = render_globals->view.camera_rotation.parts.camera_rotation_y;
+        ((S_80175594_1 *)scratch)->unk_38.s32 = render_globals->view.camera_rotation.parts.viewAngle;
 
         ((S_80175594_1 *)scratch)->unk_100 = render->unk_16;
         ((S_80175594_1 *)scratch)->unk_104 =
-            ((S_80175594_6 *)render_globals)->unk_B8 +
+            *(u16 *)&render_globals->view.view_rotation_offset.parts.view_rotation_offset_z +
             (render->unk_1A - ((S_80175594_1 *)scratch)->unk_34.u16);
         view_angle = (((S_80175594_1 *)scratch)->unk_38.u16 + 0x100) & 0x1FF;
         angle_offset = render->unk_18 - 0x100;
@@ -398,5 +386,5 @@ void relocate_entity_after_animation(S_80175594_0 *sprite, Rec_func_800D6DC0_arg
         func_80064A40();
     }
 
-    ((GpuContext *)(*render_globals))->packetCursor = packet;
+    ((GpuContext *)(*(u8 **)&render_globals->draw_buffer))->packetCursor = packet;
 }

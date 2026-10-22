@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern void apply_scaled_entity_velocity(void *);
@@ -13,7 +13,7 @@ extern u8 D_80175660[];
 /* Starts a direction-based action when the object's state and global flags allow it. */
 /* Copies Barong's turn counts into shared state and starts a directional action when the scaled count and
  * dungeon flags allow. */
-void start_direction_based_action(void *action_state, void *unused, void *animation, void *object)
+void start_direction_based_action(void *action_state, void *unused, SpriteFrameState *animation, void *object)
 {
     u8 *state_data;
     register s32 data_page;
@@ -36,7 +36,7 @@ void start_direction_based_action(void *action_state, void *unused, void *animat
             *(s8 *)((u8 *)action_state + 0x9B) = 0;
             *(s16 *)((u8 *)action_state + 0x96) = 0;
 
-            *(u8 **)((u8 *)animation + 0x2C) = direction_table;
+            animation->frameTable = direction_table;
             data_page = (g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)object + 0x2A) + 0x100) >> 9;
             select_sprite_entry(animation, direction_table[data_page & 7], 0);
             advance_status_timers(object);

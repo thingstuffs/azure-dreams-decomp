@@ -10,12 +10,6 @@ extern M2C_UNK D_80023E64;
 extern s32 D_80044BB0[3];
 extern M2C_UNK D_80079438;
 
-typedef struct S_80956DA0_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    s32 * unk_10;
-} S_80956DA0_0;
-
 typedef struct S_80956DA0_1 {
     u8 pad_00[0x4];
     s32 unk_04;
@@ -23,22 +17,22 @@ typedef struct S_80956DA0_1 {
 
 /* Creates an object with user data and initializes its position and rendering state. */
 void create_user_data_object(s32 user_data) {
-    void *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *render_state;
     S_80956DA0_1 *instance_data;
     s32 color;
 
     object = allocate_flagged_object_node(0x15);
     if (object != NULL) {
-        ((S_80956DA0_0 *)object)->unk_10 = &D_80023E64;
+        object->unk_10 = &D_80023E64;
         color = 0x800000;
         instance_data = (u8 *)object + 0x20;
         register_node(object, &D_80044BB0);
-        render_state = ((S_80956DA0_0 *)object)->unk_0C;
+        render_state = object->sprite;
         instance_data->unk_04 = user_data;
-        ((SignedPositionView *)(((ObjectPayloadView *)object)->unk_08))->unk_02 = 0xF0;
-        ((SignedPositionView *)(((ObjectPayloadView *)object)->unk_08))->unk_06 = 0xAC;
-        ((SignedPositionView *)(((ObjectPayloadView *)object)->unk_08))->unk_0A = 0;
+        ((SignedPositionView *)(object->position))->unk_02 = 0xF0;
+        ((SignedPositionView *)(object->position))->unk_06 = 0xAC;
+        ((SignedPositionView *)(object->position))->unk_0A = 0;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->unk_06 = 0x10;

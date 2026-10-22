@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "modules/dungeon_ovl_7f217800.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -14,7 +15,7 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     SpriteFrameState *part1;
     S_80158854_2 *part0;
     void *actor;
-    void *object;
+    ObjectNodeHeader *object;
     S_80158854_1 *result;
 
     result = 0;
@@ -22,12 +23,12 @@ void *func_80158854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     object = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         result = (u8 *)object + 0x20;
-        ((S_80158854_0 *)object)->unk_10 = func_80158A8C;
+        object->unk_10 = func_80158A8C;
         result->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
-        part0 = ((S_80158854_0 *)object)->unk_08;
+        part0 = *(void ** *)&object->position;
         part0->unk_0A = spawn_value;
-        part1 = ((S_80158854_0 *)object)->unk_0C;
+        part1 = *(void ** *)&object->sprite;
         part1->unk_25 = variant;
         actor = result;
         part1->frameTable = D_8015BD30;

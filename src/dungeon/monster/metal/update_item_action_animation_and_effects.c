@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -6,11 +7,11 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "engine/cd.h"
 
-extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -31,11 +32,6 @@ typedef struct S_80173078_0 {
     u8 unk_9B;
 } S_80173078_0;   /* arg0 in update_item_action_animation_and_effects */
 
-typedef struct S_80173078_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80173078_1_pre;   /* the 0x14 bytes before active in update_item_action_animation_and_effects, addressed as active[-1] */
-
 typedef struct S_80173078_2 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -45,7 +41,7 @@ typedef struct S_80173078_2 {
 /* Updates an item action, its animation, particle effects, and completion state. */
 /* Starts a targeted spell with returning particles and a 20-particle burst, then restores idle after a
  * 32-tick wait. */
-void update_item_action_animation_and_effects(void *action, ObjectPosition *movement, void *sprite, void *actor)
+void update_item_action_animation_and_effects(void *action, ObjectPosition *movement, SpriteFrameState *sprite, void *actor)
 {
     u8 *item_slot;
     s16 special;
@@ -109,7 +105,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
             if (special != 0) {
                 target = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = target;
-                item_id = ((S_80173078_1_pre *)target)[-1].unk_00;
+                item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                 (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173078_2 *)item_id)->unk_24;
                 (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173078_2 *)item_id)->unk_25;
             } else {
@@ -117,7 +113,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
                 if (item_action_definitions[((u8)item_id)].kind == 2) {
                     target = (*(void * *)((u8 *)actor + 0x60));
                     if (target != 0) {
-                        item_id = ((S_80173078_1_pre *)target)[-1].unk_00;
+                        item_id = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                         (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173078_2 *)item_id)->unk_24;
                         (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173078_2 *)item_id)->unk_25;
                     }
@@ -125,8 +121,8 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
                     s32 dx;
                     s32 dy;
 
-                    dx = (s32)scan_monster_along_heading(
-                        actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                    dx = (s32)scan_actor_along_heading(
+                        actor, sprite->unk_24, sprite->unk_25,
                         (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                     (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
                     dx = (*(s8 *)((u8 *)actor + 0x72));
@@ -153,7 +149,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
         movement->velocity_z = 0;
         movement->velocity_y = 0;
         movement->velocity_x = 0;
-        set_record_integer_tile_center(movement, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(movement, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -166,10 +162,10 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_80173078_0 *)action)->unk_9B++;
         play_sound_if_enabled(0x703);
 
@@ -178,18 +174,18 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
             u16 flags;
             s16 timer;
 
-            flags = ((SpriteFrameState *)sprite)->flags;
+            flags = sprite->flags;
             if (flags & 0x8000) {
                 next_state = ((S_80173078_0 *)action)->unk_9B + 1;
                 ((S_80173078_0 *)action)->unk_96.u = 0;
                 ((S_80173078_0 *)action)->unk_9B = next_state;
                 return;
             }
-            if (((SpriteFrameState *)sprite)->unk_04 == 2 && (flags & 0x1000)) {
-                ((SpriteFrameState *)sprite)->flags = flags | 0x800;
+            if (sprite->unk_04 == 2 && (flags & 0x1000)) {
+                sprite->flags = flags | 0x800;
                 ((S_80173078_0 *)action)->unk_96.u = 0x16;
             }
-            if (((SpriteFrameState *)sprite)->unk_04 < 2) {
+            if (sprite->unk_04 < 2) {
                 return;
             }
             timer = ((S_80173078_0 *)action)->unk_96.u - 1;
@@ -197,7 +193,7 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
             if (timer <= 0) {
                 ((S_80173078_0 *)action)->unk_96.u = 0;
                 ((S_80173078_0 *)action)->unk_9B++;
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                sprite->flags &= 0xF7FF;
             }
             if (((S_80173078_0 *)action)->unk_96.s < 7) {
                 return;
@@ -230,10 +226,10 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
         return;
 
     case 3:
-        if ((((SpriteFrameState *)sprite)->unk_04 == 4 &&
-             (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
-            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+        if ((sprite->unk_04 == 4 &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x800;
             ((S_80173078_0 *)action)->unk_96.u = 0x20;
             ((S_80173078_0 *)action)->unk_98 |= 0x80;
             ((S_80173078_0 *)action)->unk_9B++;
@@ -258,21 +254,21 @@ void update_item_action_animation_and_effects(void *action, ObjectPosition *move
             ((S_80173078_0 *)action)->unk_96.u = timer;
             if (timer <= 0) {
                 ((S_80173078_0 *)action)->unk_96.u = 0;
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                sprite->flags &= 0xF7FF;
             }
-            if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            if (!(sprite->flags & 0xE000)) {
                 return;
             }
             movement->velocity_z = 0;
             movement->velocity_y = 0;
             movement->velocity_x = 0;
-            set_record_integer_tile_center(movement, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_801742C8) {
+            set_record_integer_tile_center(movement, sprite->unk_24, sprite->unk_25);
+            if (*(u8 * *)&sprite->frameTable != D_801742C8) {
                 u8 *animation_table;
                 s32 direction;
 
                 animation_table = D_801742C8;
-                ((SpriteFrameState *)sprite)->frameTable = animation_table;
+                sprite->frameTable = animation_table;
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animation_table[direction], 0);
             }

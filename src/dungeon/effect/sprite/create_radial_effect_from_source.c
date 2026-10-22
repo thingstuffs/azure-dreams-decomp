@@ -1,5 +1,6 @@
 /* Targeted moving effects, radial color animation, shaded lines, and fragment creation. */
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
+#include "shared/entity.h"
 #include "dungeon/effect/sprite/create_radial_effect_from_source.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/entity_height_offsets.h"
@@ -8,6 +9,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/effect/sprite.h"
 extern int abs(int);
 
 typedef struct S_func_81886800_1 {
@@ -238,11 +240,6 @@ typedef struct S_func_81886800_15 {
     u16 unk_00;
 } S_func_81886800_15;
 
-typedef struct S_func_81886800_16 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_func_81886800_16;
-
 typedef struct S_func_81886800_17 {
     union {
         s16 s16;
@@ -250,14 +247,9 @@ typedef struct S_func_81886800_17 {
     } unk_00;
 } S_func_81886800_17;
 
-typedef struct S_func_81886800_18 {
-    s32 unk_00;
-} S_func_81886800_18;
-
 typedef struct S_func_81886800_19 {
     s32 unk_00;
 } S_func_81886800_19;
-
 
 extern void draw_textured_ellipse(void *, void *, s32, s32);
 extern s32 get_sprite_attachment_vector(void *, void *, void *, s32);
@@ -548,7 +540,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
         sprite->unk_0C.parts.unk_0C -= sprite->unk_0C.parts.unk_0C >> 2;
         sprite->unk_0C.parts.unk_0D -= sprite->unk_0C.parts.unk_0D >> 2;
         sprite->unk_0C.parts.unk_0E -= sprite->unk_0C.parts.unk_0E >> 2;
-        if ((((S_func_81886800_16 *)(effect->unk_28))->unk_1E & 0x8000) == 0) {
+        if ((((ObjectNodeHeader *)effect->unk_28)->flags & 0x8000) == 0) {
             break;
         }
         if (owner->unk_60 != 0) {
@@ -587,7 +579,7 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
     if (((S_func_81886800_17 *)(&D_80026326))->unk_00.s16 != 0) {
         break;
     }
-    ((S_func_81886800_18 *)(((u8 *)(&g_dungeon_status.active_actor))))->unk_00 = 0;
+    g_dungeon_status.active_actor = 0;
     ((S_func_81886800_12 *)((u8 *)effect - 2))->unk_00 |= 0x8000;
     ((S_func_81886800_19 *)(((u8 *)(&object_flag_block))))->unk_00 |= 0x8000;
 
@@ -603,7 +595,6 @@ void func_80024064(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
 #include "shared/object_flags.h"
-
 
 typedef struct {
     u8 pad0[2];
@@ -657,7 +648,6 @@ void create_radial_effect_from_source(EffectState *effect, Vec3s *pos)
         object = effect->object;
         object->flags |= 0x10000000;
         effect->state++;
-
 
     case 1:
         color = *(ColorObject **)((u8 *)effect->object - 0x14);
@@ -781,7 +771,7 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
     s32 adjusted_value;
     s32 step;
     void *child;
-    void *object;
+    ObjectNodeHeader *object;
     u16 counter;
 
     saved_context = context;
@@ -789,11 +779,11 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
     object = allocate_list_node(2, adjusted_value);
     if (object != 0) {
         counter = D_80026324[0];
-        *(s32 **)((u8 *)object + 0x10) = create_radial_effect_from_source;
+        object->unk_10 = create_radial_effect_from_source;
         D_80026324[0] = counter + 1;
         register_node(object, build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table);
 
-        child = *(void **)((u8 *)object + 8);
+        child = object->position;
         *(u16 *)((u8 *)child + 2) = *(u16 *)((u8 *)source + 2);
         step = 0;
         *(u16 *)((u8 *)child + 6) = *(u16 *)((u8 *)source + 6);
@@ -815,8 +805,6 @@ void *create_an_copies_three_source_fields_child_runs_n_16_child_setup(s32 value
 #include "shared/object_flags.h"
 
 extern u16 D_80026326;
-
-
 
 /* Retail 81887570 (handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark): fade the colour by 1/8 per call and mark the effect (header and global
  * flags) finished once red falls below eight.  effect is the effect's record; its header precedes it. */
@@ -895,14 +883,14 @@ ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_upda
     if (object != NULL) {
         object->unk_10 = (void *)handle_retail_n_81887570_callee_80024_d_70_fade_colour_n_1_n_8_per_call_mark;
         register_node(object, (s32)&D_800CEEFC);
-        transition = object->unk_08;
+        transition = object->position;
         transition->start[0].value = endpoints->start[0].value;
         transition->start[1].value = endpoints->start[1].value;
         transition->start[2].value = endpoints->start[2].value;
         transition->delta[0].value = endpoints->start[0].value - endpoints->end[0].value;
         transition->delta[1].value = endpoints->start[1].value - endpoints->end[1].value;
         transition->delta[2].value = endpoints->start[2].value - endpoints->end[2].value;
-        object_settings = object->unk_0C;
+        object_settings = object->sprite;
         object_settings->scale_x = settings->unk_1C;
         object_settings->scale_y = settings->unk_1E;
         object_settings->color.word = settings->unk_0C;
@@ -945,7 +933,6 @@ typedef struct Entry {
 
 typedef struct EmptyCallArg {
 } EmptyCallArg;
-
 
 extern u32 func_800654B0(
     void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, ...);
@@ -1093,7 +1080,6 @@ typedef struct S_80025160_3 {
     s32 unk_14A0;
 } S_80025160_3;   /* flags_page in advance_the_effect_state_updates_motion_sets_display_color */
 
-
 #define COUNTER D_80026326
 
 typedef struct Global26326 {
@@ -1111,7 +1097,6 @@ typedef struct Global814A0 {
     s32 flags;
     s32 unused[2];
 } Global814A0;
-
 
 /* Advances the effect state, updates its motion, and sets its display color. */
 void advance_the_effect_state_updates_motion_sets_display_color(void *effect, s32 context, S_80025160_1 *visual) {
@@ -1315,12 +1300,6 @@ s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *f
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_8002569C_6 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8002569C_6;
-
-
                   /* extern */
 
 s32 func_800644B8();                             /* extern */
@@ -1329,27 +1308,6 @@ extern s16 D_8002632A;
 extern u8 D_80026478[];
 extern u8 D_80026878[];
 
-typedef struct S_8002569C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    M2C_UNK * unk_10;
-} S_8002569C_0;
-
-typedef struct S_8002569C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} S_8002569C_1;
 
    /* arg0 in create_object_offset */
 
@@ -1384,30 +1342,30 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
     u16 origin_y;
     S_8002569C_4 *position_slot;
     u8 *position_table;
-    S_8002569C_1 *positions;
-    void *object;
+    ObjectPosition *positions;
+    ObjectNodeHeader *object;
     S_8002569C_5 *paired_slot;
     S_8002569C_3 *object_data;
 
     object = allocate_list_node(0x202, alloc_arg);
     if (object != NULL) {
-        ((S_8002569C_0 *)object)->unk_10 = (s32 *)advance_the_effect_state_updates_motion_sets_display_color;
+        object->unk_10 = (s32 *)advance_the_effect_state_updates_motion_sets_display_color;
         register_node(object, (s32 *)build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list);
-        positions = ((S_8002569C_0 *)object)->unk_08;
-        positions->unk_02 = (s16) (origin->unk_02 + ((s32) (func_80064584(angle) * radius) >> 0xF));
-        positions->unk_06 = (s16) (origin->unk_06 + ((s32) (func_800644B8(angle) * radius) >> 0xF));
+        positions = object->position;
+        positions->x.w.i = (s16) (origin->unk_02 + ((s32) (func_80064584(angle) * radius) >> 0xF));
+        positions->y.w.i = (s16) (origin->unk_06 + ((s32) (func_800644B8(angle) * radius) >> 0xF));
         height = origin->unk_0A + ((s32) (height_offset << 0x10) >> 0x13);
-        positions->unk_0A = height;
+        positions->z.w.i = height;
         if ((*(s16 *)D_80026878) < height) {
-            positions->unk_0A = (*(s16 *)D_80026878);
+            positions->z.w.i = (*(s16 *)D_80026878);
         }
-        positions->unk_0E = (u16) origin->unk_02;
-        positions->unk_12 = (u16) origin->unk_06;
-        positions->unk_16 = (u16) origin->unk_0A;
+        *((u16 *)&positions->velocity_x + 1) = (u16) origin->unk_02;
+        *((u16 *)&positions->velocity_y + 1) = (u16) origin->unk_06;
+        *((u16 *)&positions->velocity_z + 1) = (u16) origin->unk_0A;
         object_data = (void *) 0xE04020;
-        (*(s32 *)((u8 *)(((S_8002569C_6 *)object)->unk_0C) + 0xC)) = (s32) object_data;
+        (*(s32 *)((u8 *)(object->sprite) + 0xC)) = (s32) object_data;
         slot_index = (u16)D_8002632A;
-        object_data = object + 0x20;
+        object_data = ((void *)object) + 0x20;
         object_data->unk_16 = angle;
         object_data->unk_1C = height_offset;
         object_data->unk_18 = radius;
@@ -1415,14 +1373,14 @@ void *create_object_offset(MovingPosition *origin, s16 angle, s16 radius, s16 he
         if ((s16) slot_index < 0x71) {
             position_table = D_80026478;
             position_slot = &position_table[(s16) slot_index * 8];
-            origin_x = positions->unk_0E;
+            origin_x = *((u16 *)&positions->velocity_x + 1);
             paired_slot = &position_table[((s16) slot_index + 0x10) * 8];
             position_slot->unk_00 = origin_x;
             paired_slot->unk_00 = origin_x;
-            origin_y = positions->unk_12;
+            origin_y = *((u16 *)&positions->velocity_y + 1);
             position_slot->unk_02 = origin_y;
             paired_slot->unk_02 = origin_y;
-            origin_z = positions->unk_16;
+            origin_z = *((u16 *)&positions->velocity_z + 1);
             D_8002632A = slot_index + 1;
             position_slot->unk_04 = origin_z;
             paired_slot->unk_04 = origin_z;
@@ -1449,14 +1407,11 @@ typedef struct Motion {
     s32 dz;
 } Motion;
 
-
-
 extern u16 D_80026326;
 extern void advance_sprite_animation_and_textures(void *color);
 
-
 /* Advance and fade the effect, flagging expiration when its timer runs out. */
-void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Motion *motion, EffectColor *color)
+void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Motion *motion, SpriteFrameState *color)
 {
     u16 *counter = &D_80026326;
     u16 timer;
@@ -1473,12 +1428,12 @@ void advance_and_fade_effect_flagging_expiration_timer_runs_out(Actor *actor, Mo
     motion->dy -= motion->dy >> 3;
     motion->dz += 0x4000;
 
-    red = color->red;
-    green = color->green;
-    color->red = red - (red >> 2);
-    blue = color->blue;
-    color->green = green - (green >> 2);
-    color->blue = blue - (blue >> 2);
+    red = color->color.c.r;
+    green = color->color.c.g;
+    color->color.c.r = red - (red >> 2);
+    blue = color->color.c.b;
+    color->color.c.g = green - (green >> 2);
+    color->color.c.b = blue - (blue >> 2);
 
     advance_sprite_animation_and_textures(color);
 
@@ -1504,24 +1459,10 @@ extern void select_record_entry_and_value(struct Dst *state, struct Elem *entrie
 s32 rand();                                /* extern */
 extern M2C_UNK D_800263F8;
 
-typedef struct S_8002596C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-    u8 pad_14[0x2];
-    s16 unk_16;
-} S_8002596C_1;
 
 /* Create a sprite effect at the given position with a randomized rotation. */
 void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
-    S_8002596C_1 *transform;
+    ObjectPosition *transform;
     SpriteFrameState *sprite;
     ObjectNodeHeader *effect;
 
@@ -1529,14 +1470,14 @@ void create_a_sprite_effect_position_randomized_rotation(s16 x, s16 y, s16 z) {
     if (effect != NULL) {
         effect->unk_10 = (s32 *)advance_and_fade_effect_flagging_expiration_timer_runs_out;
         register_node(effect, project_sprite_chain);
-        transform = effect->unk_08;
-        transform->unk_02 = x;
-        transform->unk_06 = y;
-        transform->unk_0A = z;
-        transform->unk_0E = 0;
-        transform->unk_12 = 0;
-        transform->unk_16 = (s16) (rand() & 7);
-        sprite = effect->unk_0C;
+        transform = effect->position;
+        transform->x.w.i = x;
+        transform->y.w.i = y;
+        transform->z.w.i = z;
+        *((s16 *)&transform->velocity_x + 1) = 0;
+        *((s16 *)&transform->velocity_y + 1) = 0;
+        *((s16 *)&transform->velocity_z + 1) = (s16) (rand() & 7);
+        sprite = effect->sprite;
         sprite->color.word = 0x808080;
         select_record_entry_and_value(sprite, &D_800263F8, 0);
         sprite->scale_y = 0x1000;
@@ -1712,8 +1653,6 @@ typedef struct S_80025E4C_2 {
     s32 unk_1C;
 } S_80025E4C_2;   /* obj in handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth */
 
-
-
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_8006658C(void *, void *);
 
@@ -1724,10 +1663,9 @@ typedef struct GlobalState {
     void *next;
 } GlobalState;
 
-
 /* Project linked quads and queue their shaded primitives and draw modes by depth. */
 s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *quad) {
-    GlobalState **render_states = ((GlobalState * *)(&g_game_work));
+    GlobalState **render_states = ((GlobalState **)(&g_game_work));
     u8 *scratch = (u8 *)0x1F800000;
     void *packet;
     u32 depth_bucket;
@@ -1738,7 +1676,7 @@ s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *q
     GlobalState *render_state;
 
     render_state = render_states[0];
-    (*(void * *)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
+    (*(void **)((u8 *)scratch + 0x20)) = (u8 *)render_state + 0xB0;
     ((S_80025E4C_0 *)scratch)->unk_18 = render_state->next;
     do {
         packet = ((S_80025E4C_0 *)scratch)->unk_18;
@@ -1885,7 +1823,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
             upper_right = (Cell *)((unsigned long)right_offset + (unsigned long)vertices);
             lower_left = (Cell *)((unsigned long)((quad_index + 0x10) * 8) + (unsigned long)vertices);
 
-            motion = fragment->unk_08;
+            motion = fragment->position;
             object_or_x = (vertices[quad_index].x + upper_right->x + lower_left->x + (lower_right = &vertices[row_start + 0x10 + column_or_coord])->x) >> 2;
             upper_right_y = (vertices[quad_index].y + upper_right->y + lower_left->y + lower_right->y) >> 2;
             lower_left_y = (vertices[quad_index].z + upper_right->z + lower_left->z + lower_right->z) >> 2;
@@ -1897,7 +1835,7 @@ void create_quad_fragments_vertex_grid_randomized_motion_rotation(void) {
             motion->unk_10 = ((rand() & 0xF) - 8) << 0x10;
             motion->unk_14 = ((rand() & 0xF) - 8) << 0x10;
 
-            angles = fragment->unk_0C;
+            angles = fragment->sprite;
             angles->angle_x = (rand() & 0x1FF) - 0x100;
             angles->angle_y = (rand() & 0x1FF) - 0x100;
 

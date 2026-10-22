@@ -3,6 +3,7 @@
 /* Prototypes of the functions defined in src/engine/movie/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/movie_list.h"
 
 struct S_8003AF58_1;
 struct S_8003AF8C_0;
@@ -11,7 +12,7 @@ struct S_8003AF8C_0;
 void append_list_tail(void *list_head, struct S_8003AF58_1 *new_node);
 
 /* clear_town_movie_object_field.c */
-void clear_town_movie_object_field(struct S_8003AF8C_0 *object);
+void clear_town_movie_object_field(MovieListNode *object);
 
 /* load_dispatch_entry_files.c */
 void play_movie_with_fixed_display_flag(s32 table_index, s32 flags);

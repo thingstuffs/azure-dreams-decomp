@@ -11,13 +11,6 @@ typedef struct ActorMotion ActorMotion;
 typedef struct ActorSprite ActorSprite;
 typedef struct CreatureState CreatureState;
 
-typedef struct S_80FD5000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80FD5000_0;
-
 typedef struct S_80FD5000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -79,7 +72,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
 {
     s32 kind;
     S_80FD5000_1 *actor_state;
-    S_80FD5000_0 *created;
+    ObjectNodeHeader *created;
     S_80FD5000_2 *position;
     SpriteFrameState *monster;
     S_80FD5000_1 *actor;
@@ -102,9 +95,9 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         actor_state->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
-        position = created->unk_08;
+        position = created->position;
         position->unk_0A = heading;
-        monster = created->unk_0C;
+        monster = created->sprite;
         kind = spawn_flags & 3;
         monster->unk_25 = tile_y;
         actor = actor_state;

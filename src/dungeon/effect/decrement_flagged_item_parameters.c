@@ -1,10 +1,12 @@
 /* Tinted actor sprite copies and their timed effect completion. */
+#include "shared/entity.h"
 #include "dungeon/effect/decrement_flagged_item_parameters.h"
 #include "shared/object_flags.h"
 
 void (*const dungeon_1966800_entry)(void *, void *) = decrement_flagged_item_parameters;
 #include "dungeon/effect/decrement_flagged_item_parameters.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_status.h"
 
 /* Creates a tinted sprite copy at the actor's attachment offset, plays its sound, and waits for
    completion. */
@@ -16,7 +18,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
     SpriteFrameState *effect_part;
     SpriteFrameState *offset_part;
     SpriteFrameState *source_part;
-    void *position;
+    ObjectPosition *position;
     ActorRecord *shared_data;
     u8 *effect_work;
     DungeonGlobalStatus *shared_state;
@@ -36,9 +38,9 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
     case 0:
         *((s32 *) (((u8 *) primary_actor_record) + 0xF4)) = 0;
 
-        *((s32 *) (((u8 *) saved_position) + 0)) = *((s32 *) (((u8 *) owner->unk_08) + 0));
-        *((s32 *) (((u8 *) saved_position) + 4)) = *((s32 *) (((u8 *) owner->unk_08) + 4));
-        *((s32 *) (((u8 *) saved_position) + 8)) = *((s32 *) (((u8 *) owner->unk_08) + 8));
+        *((s32 *) (((u8 *) saved_position) + 0)) = owner->position->x.v;
+        *((s32 *) (((u8 *) saved_position) + 4)) = owner->position->y.v;
+        *((s32 *) (((u8 *) saved_position) + 8)) = owner->position->z.v;
         (*((u16 *) (((u8 *) action) + 0xA)))++;
     case 1:
         if (((*((u16 *) (((u8 *) (*((void **) (((u8 *) action) + 4)))) + 0))) & 0x80) == 0) {
@@ -51,7 +53,7 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
         shared_data->unk_A8 = *((u8 *) (((u8 *) action) + 8));
         effect = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         if (effect != 0) {
-            offset_part = owner->unk_0C;
+            offset_part = owner->sprite;
             if (resolve_record_orientation_or_fallback(*(s32 *)&offset_part->source, offset_part, offsets, 0) == 0) {
                 offsets[2] = 0;
                 offsets[1] = 0;
@@ -60,8 +62,8 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
             effect->unk_10 = &D_80024374;
             *((void **) (((u8 *) effect) + 0x20)) = action;
             register_node(effect, project_sprite_chain);
-            source_part = ((ObjectNodeHeader *) owner_work)[-1].unk_0C;
-            effect_part = effect->unk_0C;
+            source_part = ((ObjectNodeHeader *) owner_work)[-1].sprite;
+            effect_part = effect->sprite;
             effect_part->unk_28 = source_part->unk_28;
             effect_part->flags = source_part->flags & 0x97FF;
             colors = source_part->frameTable;
@@ -76,31 +78,31 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
             effect_part->tpage_abr = 0x20;
             effect_part->clut -= 0x80;
             effect_part->flags |= 0xC;
-            position = owner->unk_08;
-            *((s32 *) (((u8 *) effect_work) + 0x1C)) = (*((s32 *) (((u8 *) position) + 0))) + (offsets[0] << 16);
-            position = owner->unk_08;
-            *((s32 *) (((u8 *) effect_work) + 0x20)) = (*((s32 *) (((u8 *) position) + 4))) + (offsets[1] << 16);
-            position = owner->unk_08;
-            *((s32 *) (((u8 *) effect_work) + 0x24)) = (*((s32 *) (((u8 *) position) + 8))) + (offsets[2] << 16);
+            position = owner->position;
+            *((s32 *) (((u8 *) effect_work) + 0x1C)) = (position->x.v) + (offsets[0] << 16);
+            position = owner->position;
+            *((s32 *) (((u8 *) effect_work) + 0x20)) = (position->y.v) + (offsets[1] << 16);
+            position = owner->position;
+            *((s32 *) (((u8 *) effect_work) + 0x24)) = (position->z.v) + (offsets[2] << 16);
             {
-                void *owner_position;
-                void *effect_position;
+                ObjectPosition *owner_position;
+                ObjectPosition *effect_position;
                 u16 coord_integer;
-                owner_position = owner->unk_08;
-                effect_position = effect->unk_08;
-                coord_integer = *((u16 *) (((u8 *) owner_position) + 2));
+                owner_position = owner->position;
+                effect_position = effect->position;
+                coord_integer = *(u16 *)&owner_position->x.w.i;
                 *((u16 *) (((u8 *) effect_work) + 0xC)) = coord_integer;
-                *((u16 *) (((u8 *) effect_position) + 2)) = coord_integer;
-                owner_position = owner->unk_08;
-                effect_position = effect->unk_08;
-                coord_integer = *((u16 *) (((u8 *) owner_position) + 6));
+                effect_position->x.w.i = coord_integer;
+                owner_position = owner->position;
+                effect_position = effect->position;
+                coord_integer = *(u16 *)&owner_position->y.w.i;
                 *((u16 *) (((u8 *) effect_work) + 0xE)) = coord_integer;
-                *((u16 *) (((u8 *) effect_position) + 6)) = coord_integer;
-                owner_position = owner->unk_08;
-                effect_position = effect->unk_08;
-                coord_integer = *((u16 *) (((u8 *) owner_position) + 0xA));
+                effect_position->y.w.i = coord_integer;
+                owner_position = owner->position;
+                effect_position = effect->position;
+                coord_integer = *(u16 *)&owner_position->z.w.i;
                 *((u16 *) (((u8 *) effect_work) + 0x10)) = coord_integer;
-                *((u16 *) (((u8 *) effect_position) + 0xA)) = coord_integer;
+                effect_position->z.w.i = coord_integer;
             }
             if (read_sound_mode_blocking_status(4) != 2) {
                 event_code = 0x300;
@@ -131,8 +133,8 @@ void decrement_flagged_item_parameters(void *action, void *saved_position)
             return;
         }
         shared_state = &g_dungeon_status;
-        *((s32 *) (((u8 *) shared_state) + 0xC)) = 0;
-        (*((u16 *) (((u8 *) shared_state) + 0xA)))--;
+        shared_state->active_actor = 0;
+        (*(u16 *)&shared_state->activity_counts.parts.pending_action_count)--;
         *((u16 *) (((u8 *) action) + (-2))) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

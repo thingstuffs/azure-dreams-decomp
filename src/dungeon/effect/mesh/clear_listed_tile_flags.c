@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/mesh.h"
 
 extern s16 sound_idle_vsync_frame_alias[8];
 extern u8 D_800E6000[16400];

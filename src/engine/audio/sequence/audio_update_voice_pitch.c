@@ -85,7 +85,7 @@ void audio_update_voice_pitch(S_80056654_0 *state, s32 force_update) {
     }
     if (state->unk_30 != 0) {
         voice_entry = audio_voice_masks;
-        if (read_selected_voice_key_state(voice_entry[state->unk_00]) != 0) return;
+        if (SpuGetKeyStatus(voice_entry[state->unk_00]) != 0) return;
         state->unk_30 = 0;
         state->unk_3C.s32 = 0;
     }

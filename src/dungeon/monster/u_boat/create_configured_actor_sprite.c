@@ -4,13 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80170F9C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80170F9C_0;   /* object in create_configured_actor_sprite */
-
 typedef struct S_80170F9C_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -48,7 +41,7 @@ extern void create_owner_linked_directional_object();
 extern u8 uboat_default_frames[];
 extern u8 uboat_action_frames[];
 extern u8 D_801711B0[];
-extern u8 D_80171A80[];
+#include "dungeon/monster/u_boat.h"
 
 /* Creates a U-Boat actor, initializes its status and tile placement, and creates a linked directional
  * display. */
@@ -61,7 +54,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     s32 kind;
     u16 saved_x;
     u16 saved_y;
-    void *object;
+    ObjectNodeHeader *object;
     S_80170F9C_2 *part_a;
     SpriteFrameState *part_b;
     S_80170F9C_1 *work;
@@ -72,14 +65,14 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
     mode_copy = mode;
     if (object != 0) {
         work = (u8 *)object + 0x20;
-        ((S_80170F9C_0 *)object)->unk_10 = D_801711B0;
+        object->unk_10 = D_801711B0;
         work->unk_13 = MONSTER_U_BOAT;
         register_node(object, project_sprite_chain);
 
-        part_a = ((S_80170F9C_0 *)object)->unk_08;
+        part_a = object->position;
         kind = mode & 3;
         part_a->unk_0A = held_value_0A;
-        part_b = ((S_80170F9C_0 *)object)->unk_0C;
+        part_b = object->sprite;
         work_copy = work;
         part_b->frameTable = uboat_default_frames;
         part_b->unk_24 = held_value_24;
@@ -104,7 +97,7 @@ void *create_configured_actor_sprite(s16 mode, s16 value_24, s16 value_25, s16 v
         initialize_actor_sprite_and_animation(object, part_a, part_b, mode_copy);
         work_copy->unk_9A = 0xFF;
         work_copy->unk_9C = -1;
-        work_copy->unk_8C = D_80171A80;
+        work_copy->unk_8C = uboat_behavior_entry;
         work->unk_1C |= 0x40000;
         work_copy->unk_92 = -0x20;
         try_move_actor_to_valid_position(work_copy, part_a, part_b, work);

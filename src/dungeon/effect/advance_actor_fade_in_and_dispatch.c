@@ -1,8 +1,8 @@
 #include "common.h"
+#include "dungeon/effect.h"
 
 /* Four word callback ABI; primary dispatch and individual return-boundary evidence accompany this draft. */
 extern s32 update_actor_fade_in();
-extern void dispatch_target_action();
 
 void advance_actor_fade_in_and_dispatch(void *actor, void *motion, void *render, void *context)
 {

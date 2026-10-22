@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -6,22 +7,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_80026ED0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80026ED0_0;
-
-typedef struct S_80026ED0_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_80026ED0_1;
 
 typedef struct S_80026ED0_3 {
     u8 pad_00[0x66];
@@ -37,8 +22,8 @@ extern s32 D_800DF358;
 
 /* Creates a visual object with the given position and size. */
 void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
-    void *object;
-    S_80026ED0_1 *position;
+    ObjectNodeHeader *object;
+    ObjectPosition *position;
     SpriteFrameState *render_data;
     S_80026ED0_3 *effect_data;
     s16 saved_size;
@@ -47,13 +32,13 @@ void *create_visual_object(s16 x, s16 y, s16 z, s32 size) {
 
     object = allocate_list_node(0x12, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        ((S_80026ED0_0 *)object)->unk_10 = &D_80026E3C;
+        object->unk_10 = &D_80026E3C;
         register_node(object, project_sprite_chain);
-        position = ((S_80026ED0_0 *)object)->unk_08;
-        position->unk_02 = x;
-        position->unk_06 = y;
-        position->unk_0A = z;
-        render_data = ((S_80026ED0_0 *)object)->unk_0C;
+        position = object->position;
+        position->x.w.i = x;
+        position->y.w.i = y;
+        position->z.w.i = z;
+        render_data = object->sprite;
         render_data->source = &D_800DF358;
         render_data->color.word = 0x808080;
         render_data->scale_y = saved_size;

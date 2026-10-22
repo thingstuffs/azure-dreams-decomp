@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_18B8824_H
 #define DUNGEON_OVL_18B8824_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
@@ -43,14 +44,6 @@ typedef struct ovl_18b8824_81898A64_S_80024264_0 {
     s32 unk_20;
     s16 unk_24;
 } ovl_18b8824_81898A64_S_80024264_0;
-typedef struct ovl_18b8824_81898A64_S_80024264_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} ovl_18b8824_81898A64_S_80024264_2;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 typedef struct ovl_18b8824_81898B70_S_80024370_0_pre {
     u16 unk_00;
@@ -76,14 +69,6 @@ typedef struct ovl_18b8824_81898C1C_S_8002441C_0 {
     s32 unk_20;
     s16 unk_24;
 } ovl_18b8824_81898C1C_S_8002441C_0;
-typedef struct ovl_18b8824_81898C1C_S_8002441C_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} ovl_18b8824_81898C1C_S_8002441C_2;
 typedef struct ovl_18b8824_81898C1C_S_8002441C_3 {
     s32 unk_00;
     s32 unk_04;
@@ -169,18 +154,17 @@ extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s16 get_surface_height_at_record(void *);
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
-extern s32 increment_bounded_counter(void);
 extern void play_sound_if_enabled(s32);
 extern void *create_actor_sprite_at_tile(u8, s16, s16, s16);
 extern void func_80042640(void *, s32);
 extern s32 generate_random_value(void);
 void interpolate_view_parameters(void *state, void *motion, void *transform);
 void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value);
-void handle_increment_entry_counters_process_target_propagate_status_flags(void *entry, void *unused, void *target);
+void handle_increment_entry_counters_process_target_propagate_status_flags(void *entry, void *unused, SpriteFrameState *target);
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state);
 void advance_the_entry_counters_trigger_count_milestones_update_target(void *entry, s32 unused, void *target);
 void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state);
-void mark_owner_on_target_completion(void *object_ref, s32 unused, void *target);
+void mark_owner_on_target_completion(void *object_ref, s32 unused, SpriteFrameState *target);
 ovl_18b8824_81898DCC_Object *create_sprite_effect_with_data(s32 field_value, s32 *initial_data);
 void advance_launched_effect(ovl_18b8824_81898EBC_EffectState *state, ovl_18b8824_81898EBC_Motion *motion, ovl_18b8824_81898EBC_ColorPart *part);
 #endif

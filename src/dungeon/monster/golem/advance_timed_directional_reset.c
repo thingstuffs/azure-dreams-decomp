@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -15,12 +16,11 @@ typedef struct S_80172334_0 {
     u16 unk_A6;
 } S_80172334_0;   /* arg0 in advance_timed_directional_reset */
 
-
 void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);         /* extern */
 extern u8 D_80175F20;
 
 /* Advance the timer and reset the state and directional sprite after 60 ticks. */
-void advance_timed_directional_reset(void *state, s32 unused, void *sprite, EntityRec *orientation) {
+void advance_timed_directional_reset(void *state, s32 unused, SpriteFrameState *sprite, EntityRec *orientation) {
     u16 ticks;
 
     ticks = ((S_80172334_0 *)state)->unk_A6 + 1;
@@ -33,7 +33,7 @@ void advance_timed_directional_reset(void *state, s32 unused, void *sprite, Enti
         ((S_80172334_0 *)state)->unk_8C = 0;
         ((S_80172334_0 *)state)->unk_9A = 0x17;
         ((S_80172334_0 *)state)->unk_9B = 0;
-        (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
+        (sprite->frameTable) = direction_table;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + orientation->facing + 0x100) >> 9) & 7)
             + direction_table), 0);
     }

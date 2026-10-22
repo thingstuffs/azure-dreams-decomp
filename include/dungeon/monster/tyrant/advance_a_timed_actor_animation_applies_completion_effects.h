@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F0F7800_P05_H
 #define DUNGEON_OVL_7F0F7800_P05_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -45,6 +46,6 @@ extern void spend_actor_mp(T_801727CC_Obj3 *, s32);
 extern void * actor_update_node_cursor[];
 extern u8 D_80173FE8[];
 extern u8 D_80174010[];
-void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 *action, s32 context, T_801727CC_Obj2 *sprite, T_801727CC_Obj3 *actor);
+void advance_a_timed_actor_animation_applies_completion_effects(T_801727CC_Obj0 *action, s32 context, SpriteFrameState *sprite, T_801727CC_Obj3 *actor);
 extern void update_dungeon_actor_behavior();
 #endif

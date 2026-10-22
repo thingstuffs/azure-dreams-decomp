@@ -4,13 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80171080_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80171080_0;   /* object in spawn_configured_overlay_object_b */
-
 typedef struct S_80171080_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -53,7 +46,7 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
     s32 flags0;
     s32 flags1;
     void *result;
-    void *object;
+    ObjectNodeHeader *object;
     S_80171080_2 *part0;
     SpriteFrameState *part1;
     S_80171080_4 *result_copy;
@@ -63,17 +56,17 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        ((S_80171080_0 *)object)->unk_10 = D_80171248;
+        object->unk_10 = D_80171248;
         ((S_80171080_1 *)result)->unk_13 = MONSTER_METAL;
         register_node(object, project_sprite_chain);
 
         {
             void *handler;
 
-            part0 = ((S_80171080_0 *)object)->unk_08;
+            part0 = object->position;
             handler = D_801742C8;
             part0->unk_0A = spawn_value;
-            part1 = ((S_80171080_0 *)object)->unk_0C;
+            part1 = object->sprite;
             kind = flags & 3;
             part1->unk_25 = variant;
             result_copy = result;
@@ -82,21 +75,21 @@ void *spawn_configured_overlay_object_b(s16 flags, s16 kind_id, s16 variant, s32
         part1->unk_24 = kind_id;
 
         if (kind == 1) {
-            flags0 = ((S_80171080_1 *)result)->unk_14;
-            flags1 = ((S_80171080_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x6000;
             flags1 |= 0x6000;
-            ((S_80171080_1 *)result)->unk_14 = flags0;
-            ((S_80171080_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((S_80171080_1 *)result)->unk_14;
-            flags1 = ((S_80171080_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x2000;
             flags1 |= 0x2000;
-            ((S_80171080_1 *)result)->unk_14 = flags0;
-            ((S_80171080_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (((flags & -4) << 16) == 0 &&
-                   (((S_80171080_1 *)result)->unk_14 & 0x200) == 0 &&
+                   (((ObjectNodeHeader *)result)->unk_14 & 0x200) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
             part1->frameTable = D_80174310;

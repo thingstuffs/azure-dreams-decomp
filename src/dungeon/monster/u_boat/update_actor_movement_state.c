@@ -6,7 +6,7 @@ extern void spend_actor_mp(void *, s32);
 extern void advance_status_timers(void *);
 extern s32 check_actor_floor_trap(void *, void *);
 
-extern u8 D_80171A80[];
+#include "dungeon/monster/u_boat.h"
 
 /* Updates actor behavior and state fields according to mode and input. */
 void update_actor_movement_state(void *state, s32 unused, void *action_arg, void *actor_arg)
@@ -25,7 +25,7 @@ void update_actor_movement_state(void *state, s32 unused, void *action_arg, void
             spend_actor_mp(actor, 0x10);
             advance_status_timers(actor);
         }
-        *(void **)((u8 *)state + 0x8C) = D_80171A80;
+        *(void **)((u8 *)state + 0x8C) = uboat_behavior_entry;
     }
 
     if (g_dungeon_status.flags & 0x80) {

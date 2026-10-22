@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
-
 
 typedef void (*EntityCallback)(void *, void *, void *, void *);
 
@@ -8,15 +8,6 @@ extern EntityCallback floor_contact_callbacks[];
 
 extern void advance_sprite_animation_and_textures(void *entity);
 extern s16 sample_terrain_surface_height(u16 x, u16 y, s16 min_height);
-
-
-typedef struct S_800D1E34_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800D1E34_0;   /* ent in update_actor_floor_contact */
 
 typedef struct S_800D1E34_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -46,7 +37,7 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
 {
     void *object = object_arg;
     register void *motion = motion_arg;
-    void *entity = entity_arg;
+    SpriteFrameState *entity= entity_arg;
     void *object_base = object;
     EntityCallback callback;
     s16 floor_height;
@@ -58,14 +49,13 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
         return;
     }
 
-
     callback = (*(EntityCallback *)((u8 *)object_base + (0x8C)));
     if (callback != 0) {
         callback(object_base, motion, entity, object_base);
     }
     floor_contact_callbacks[(*(u8 *)((u8 *)object_base + (0x9A)))](object_base, motion, entity, object_base);
 
-    entity_flags = ((S_800D1E34_0 *)entity)->unk_14;
+    entity_flags = entity->flags;
     if (!(entity_flags & 0x8000)) {
         if (!(entity_flags & 0x40)) {
             advance_sprite_animation_and_textures(entity);
@@ -103,8 +93,8 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
             if ((*(u32 *)((u8 *)object_base + (0x1C))) & 0x40000000) {
                 (*(u32 *)((u8 *)object_base + (0x1C))) &= ~0x40000000;
                 floor_height = sample_terrain_surface_height(
-                    (((S_800D1E34_0 *)entity)->unk_24 << 6) | 0x20,
-                    (((S_800D1E34_0 *)entity)->unk_25 << 6) | 0x20,
+                    (entity->unk_24 << 6) | 0x20,
+                    (entity->unk_25 << 6) | 0x20,
                     (s16)((*(u16 *)((u8 *)object_base + (0x88))) - 0x20));
                 ((S_800D1E34_2 *)object)->unk_90.at02u.v += (*(u16 *)((u8 *)object_base + (0x88))) - floor_height;
                 (*(u16 *)((u8 *)object_base + (0x88))) = floor_height;
@@ -118,6 +108,6 @@ void update_actor_floor_contact(void *object_arg, void *motion_arg, void *entity
 
     ((S_800D1E34_1 *)motion)->unk_0A = (*(u16 *)((u8 *)object_base + (0x88)))
         + ((S_800D1E34_2 *)object)->unk_90.at02u.v;
-    ((S_800D1E34_0 *)entity)->unk_14 |= 0x40;
+    entity->flags |= 0x40;
     (*(u32 *)((u8 *)object_base + (0x1C))) |= 0x200;
 }

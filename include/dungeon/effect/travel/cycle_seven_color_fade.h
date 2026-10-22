@@ -463,9 +463,9 @@ void cycle_seven_color_fade(B28_818B6AFC_FxEffect *effect, M2C_UNK render_arg, B
 s32 func_80024790(s32 texture_index, u8 *color_source);
 s32 draw_two_radial_effect_bands(B28_818B7264_S_80024A64_0 *effect, B28_818B7264_S_80024A64_1 *center, s32 draw_arg);
 void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4_Arg1818B77D4 *payload);
-void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, B28_818B78E8_S818B78E8_State *gfx);
+void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, SpriteFrameState *gfx);
 s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B7BD0_S_818B7BD0_3 *transform);
-void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, B28_818B7D3C_EntityState *entity);
+void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity);
 s32 spawn_owned_random_spin_effect(void *owner, B28_818B7E14_DungeonSource *source);
 void advance_movement_toward_reachable_tile(void *state, void *motion_in, void *render);
 void select_record_entry_and_value(void *, void *, s32);

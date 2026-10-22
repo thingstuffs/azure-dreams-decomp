@@ -1,16 +1,17 @@
 #include "shared/entity_height_offsets.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/level.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
     u8 pad_00[0x2C];
     u8 *field_2C;
 } LocalSpriteFieldView_81008664;
-
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -19,7 +20,6 @@ typedef struct {
 } SpriteFieldView_81008664;
 
 typedef long long s64;
-
 
 typedef struct S_func_81008664_1 {
     u8 pad_00[0x8C];
@@ -112,10 +112,8 @@ typedef struct S_func_81008664_12 {
     s16 unk_0A;
 } S_func_81008664_12;
 
-
 void select_sprite_entry();
 void cycle_map_cell_flags();
-s32 is_neighbor_tile_blocked();
 void update_map_cell_flags_with_item_limit();
 s32 advance_status_timers();
 s32 select_dungeon_spawn_tile();
@@ -131,7 +129,7 @@ extern u8 D_801748F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
 /* Relocates Garuda and its partner to adjacent tiles of equal height, restores occupancy, and spends MP. */
-void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_81008664_4 *sprite, void *entity) {
+void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *motion, SpriteFrameState *sprite, void *entity) {
     u8 **direction_slot;
     S_func_81008664_5 *partner_motion;
     s16 saved_x;
@@ -251,7 +249,7 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         actor_flags |= 0xC;
         angle >>= 9;
         actor->unk_98 = actor_flags;
-        sprite_grounded = sprite->unk_14;
+        sprite_grounded = sprite->flags;
         sprite_grounded &= 0x8000;
         direction = angle & 7;
         if (!sprite_grounded) {
@@ -282,7 +280,7 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
         partner_actor->unk_98 = (u16) (partner_actor->unk_98 | 0xC);
         anim_table0 = D_801748F0;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
-        ((SpriteFieldView_81008664 *)sprite)->field_2C = anim_table0;
+        sprite->frameTable = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
         select_sprite_entry(sprite, ((S_func_81008664_9 *) launch_anim)->unk_00, 0);
@@ -312,7 +310,7 @@ void update_garuda_paired_move(S_func_81008664_1 *actor, S_func_81008664_5 *moti
             actor->unk_96 = fall_anim;
         }
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
-        ((SpriteFieldView_81008664 *)sprite)->field_2C = anim_table1;
+        sprite->frameTable = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
         select_sprite_entry(sprite, ((S_func_81008664_9 *) fall_anim)->unk_00, 0);
@@ -393,7 +391,7 @@ place_actors:
             - motion->unk_08.unk_08) / (s16) actor->unk_96);
         anim_table2 = D_801748F8;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
-        direction_slot = &((LocalSpriteFieldView_81008664 *)sprite)->field_2C;
+        direction_slot = &*(u8 **)&sprite->frameTable;
         *direction_slot = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         rise_anim = rise_anim + (u32) anim_table2;
@@ -410,7 +408,7 @@ place_actors:
             if ((rise_ticks << 0x10) > 0) {
                 return;
             }
-            if (!(sprite->unk_14 & 0x8000)) {
+            if (!(sprite->flags & 0x8000)) {
                 return;
             }
         }
@@ -509,7 +507,7 @@ place_actors:
         }
         anim_table3 = D_80174888;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
-        ((SpriteFieldView_81008664 *)sprite)->field_2C = anim_table3;
+        sprite->frameTable = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;
         select_sprite_entry(sprite, ((S_func_81008664_9 *) idle_anim)->unk_00, 0);

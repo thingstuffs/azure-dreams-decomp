@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -50,7 +51,6 @@ extern void register_node(void *, void *);
 extern u8 D_80169754[9];
 extern u8 D_80173B40[12];
 
-
 typedef struct S_80169C1C_0 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -72,7 +72,7 @@ void create_player_centered_sequence_effect(void)
 {
     ObjectNodeHeader * object;
     S_80169C1C_0 *sub_object;
-    Vec3i *position;
+    ObjectPosition *position;
 
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
@@ -80,17 +80,17 @@ void create_player_centered_sequence_effect(void)
         (object->unk_10) = D_80169754;
         register_node(object, project_sprite_chain);
 
-        sub_object = (object->unk_0C);
+        sub_object = (object-> sprite );
         sub_object->unk_10 = 0x20;
         sub_object->unk_06 = 0;
         sub_object->unk_14 |= 0xC;
 
-        position = (*(Vec3i * *)((u8 *)object + 8));
-        position->x = view_reference_entity.x.v;
-        position->y = view_reference_entity.y.v;
-        position->z = view_reference_entity.z.v;
+        position = (*(Vec3i * *)&object->position);
+        position->x.v = view_reference_entity.x.v;
+        position->y.v = view_reference_entity.y.v;
+        position->z.v = view_reference_entity.z.v;
 
-        sub_object = (object->unk_0C);
+        sub_object = (object-> sprite );
         sub_object->unk_1E = 0x1000;
         sub_object->unk_1C = 0x1000;
         sub_object->unk_0E = 0x80;

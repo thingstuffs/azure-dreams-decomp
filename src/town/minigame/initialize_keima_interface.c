@@ -87,8 +87,8 @@ s32 initialize_keima_interface(void) {
     Word5 widget_data = D_80020100[0];
     Word8 sprite_frames = D_80020114[0];
     Word4 sprite_images = D_80020134[0];
-    u8 *obj;
-    u8 *sprite;
+    ObjectNodeHeader *obj;
+    SpriteFrameState *sprite;
     u8 *child_data;
     s32 *timer;
     s32 index;
@@ -100,9 +100,9 @@ s32 initialize_keima_interface(void) {
 
     obj = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
-        owner = obj + 0x20;
+        owner = ((u8 *)obj) + 0x20;
         AT(s16, owner, 0x2E) = 0x2D;
-        AT(void *, obj, 0x10) = D_800218E4;
+        obj->unk_10 = D_800218E4;
     }
     AT(void *, ((u8 *)(&scene_object_list_anchor)), 0x74) = owner;
     func_80023DA0(owner);
@@ -185,8 +185,8 @@ s32 initialize_keima_interface(void) {
             obj = (u8 *)allocate_flagged_object_node(0x136);
             if (obj != 0) {
                 register_node(obj, D_80046398);
-                grid_sprite = AT(u8 *, obj, 0xC);
-                AT(void *, obj, 0x10) = sprite_handler;
+                grid_sprite = *(u8 * *)&obj->sprite;
+                obj->unk_10 = sprite_handler;
                 grid_sprite->color.word = 0x808080;
                 grid_sprite->scale_x = (s16)sprite;
                 grid_sprite->scale_y = (s16)sprite;
@@ -206,13 +206,13 @@ s32 initialize_keima_interface(void) {
         obj = (u8 *)allocate_flagged_object_node(0x136);
         if (obj != 0) {
             register_node(obj, project_sprite_chain);
-            sprite = AT(u8 *, obj, 0xC);
-            AT(void *, obj, 0x10) = D_80023158;
-            AT(s16, sprite, 0x1E) = 0x1000;
-            AT(s16, sprite, 0x1C) = 0x1000;
-            AT(s32, sprite, 0xC) = 0x808080;
+            sprite = *(u8 * *)&obj->sprite;
+            obj->unk_10 = D_80023158;
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
+            sprite->color.word = 0x808080;
             select_record_entry_and_value(sprite, (void *)sprite_images.v[index], 0);
-            AT(u16, sprite, 0x12) = 0xFFC0;
+            sprite->clut = 0xFFC0;
             AT(s32, AT(u8 *, obj, 8), 0) = ((index >> 2) << 22) + 0x0FD00000;
             AT(s32, AT(u8 *, obj, 8), 4) = ((index % 4) << 22) + 0x04100000;
             AT(s32, AT(u8 *, obj, 8), 8) = 0xFF600000;
@@ -230,21 +230,21 @@ s32 initialize_keima_interface(void) {
             AT(void *, owner + index * 4, 0x20) = new_obj;
             obj = new_obj;
             if (obj != 0) {
-                AT(void *, obj, 0x10) = D_80023260;
+                obj->unk_10 = D_80023260;
                 register_node(obj, project_sprite_chain);
-                sprite = AT(u8 *, obj, 0xC);
+                sprite = *(u8 * *)&obj->sprite;
                 AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
                 AT(s32, AT(u8 *, obj, 8), 4) = (index << 22) + 0x04200000;
-                child_data = obj + 0x20;
-                AT(s16, AT(u8 *, obj, 8), 0xA) = query_lowered_transform_position(AT(void *, obj, 8));
+                child_data = ((u8 *)obj) + 0x20;
+                AT(s16, AT(u8 *, obj, 8), 0xA) = query_lowered_transform_position(obj->position);
                 AT(s16, sprite, 0x1E) = 0x1000;
                 AT(s16, sprite, 0x1C) = 0x1000;
                 sprite_state = &reference_tile_object;
-                AT(s32, sprite, 0x28) = AT(s32, sprite_state, 0x28);
+                sprite->unk_28 = AT(s32, sprite_state, 0x28);
                 AT(s16, child_data, 0x2A) = 0x800;
                 select_record_entry_and_value(sprite, D_800F15E4, 0);
-                AT(s32, sprite, 0xC) = 0x808080;
-                AT(s16, sprite, 0x12) = (index + 1) * 4;
+                sprite->color.word = 0x808080;
+                sprite->clut = (index + 1) * 4;
                 AT(void *, obj, 0x20) = owner;
                 AT(s16, child_data, 0x24) = index + 1;
             }
@@ -254,20 +254,20 @@ s32 initialize_keima_interface(void) {
 
     obj = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
-        AT(void *, obj, 0x10) = D_80023A00;
+        obj->unk_10 = D_80023A00;
         register_node(obj, project_sprite_chain);
-        sprite = AT(u8 *, obj, 0xC);
+        sprite = *(u8 * *)&obj->sprite;
         AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
         AT(s32, AT(u8 *, obj, 8), 4) = 0x03E00000;
-        child_data = obj + 0x20;
-        template_page = query_lowered_transform_position(AT(void *, obj, 8));
+        child_data = ((u8 *)obj) + 0x20;
+        template_page = query_lowered_transform_position(obj->position);
         AT(s16, AT(u8 *, obj, 8), 0xA) = template_page;
-        AT(s16, sprite, 0x1E) = 0x1000;
-        AT(s16, sprite, 0x1C) = 0x1000;
-        AT(s32, sprite, 0x28) = reference_tile_object.render_attributes;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->unk_28 = reference_tile_object.render_attributes;
         AT(s16, child_data, 0x2A) = 0x800;
         select_record_entry_and_value(sprite, D_800F15E4, 0);
-        AT(s32, sprite, 0xC) = 0x808080;
+        sprite->color.word = 0x808080;
         AT(void *, obj, 0x20) = owner;
     }
     return 0;

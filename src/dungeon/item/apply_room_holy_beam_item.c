@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 
 typedef struct {
@@ -28,7 +29,6 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
-extern void create_view_color_flash(s32, s16);
 extern s32 create_timed_region_flag_expiry(s32 unused0, s32 unused1, s32 unused2, s16 payloadValueA, s16 payloadValueC);
 
 

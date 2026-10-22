@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -25,34 +26,10 @@ extern u8 D_800DD100[];
 extern u8 D_800E06E3[];
 extern u8 D_800E06EB[];
 
-
-typedef struct S_8009255C_1 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_8009255C_1;   /* base in update_player_eating_action */
-
-
 typedef struct S_8009255C_3 {
     u8 pad_00[0x2C];
     u8 * unk_2C;
 } S_8009255C_3;   /* call_arg in update_player_eating_action */
-
-
-typedef struct S_8009255C_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    s32 unk_10;
-} S_8009255C_5;
-
-typedef struct S_8009255C_6 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8009255C_6;
 
 typedef struct S_8009255C_7 {
     u8 pad_00[0x8C];
@@ -70,8 +47,8 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
     s32 text_start;
     s32 text_cursor;
     s32 state;
-    void *spawned;
-    S_8009255C_6 *position;
+    ObjectNodeHeader *spawned;
+    ObjectPosition *position;
     S_8009255C_7 *spawned_state;
     S_8009255C_3 *animation_actor;
     u8 *animation_entry;
@@ -111,15 +88,15 @@ void update_player_eating_action(void *controller, s32 action_id, Rec_D_80082E80
         spawned = create_item_render_object(
             controller - 0x20, ((Rec_func_8008ACDC_arg0 *)controller)->unk_110, 0, 0, 0);
         if (spawned != NULL) {
-            ((S_8009255C_5 *)spawned)->unk_10 = (s32)&D_8008D470;
-            position = ((S_8009255C_5 *)spawned)->unk_08;
-            position->unk_02 =
+            spawned->unk_10 = (s32)&D_8008D470;
+            position = spawned->position;
+            position->x.w.i =
                 (actor->unk_24 << 6) + 0x20;
-            position->unk_06 =
+            position->y.w.i =
                 (actor->unk_25 << 6) + 0x20;
-            position->unk_0A =
+            position->z.w.i =
                 ((u16)transform->unk_88) - 0x30;
-            spawned_state = spawned + 0x20;
+            spawned_state = ((void *)spawned) + 0x20;
             spawned_state->unk_A8 = 0x1E;
             spawned_state->unk_AA = 2;
             spawned_state->unk_90 = actor;

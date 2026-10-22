@@ -1,5 +1,6 @@
 /* Pulunpa target scanning and nearby directional action selection. */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -8,18 +9,10 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-
-typedef struct S_80175E6C_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80175E6C_1;   /* arg2p in select_nearby_target_and_start_action */
-
 typedef struct S_80175E6C_2 {
     u8 pad_00[0x14];
     s32 unk_14;
 } S_80175E6C_2;
-
 
 typedef struct S_80175E6C_5 {
     u8 pad_00[0x24];
@@ -31,7 +24,6 @@ typedef struct S_80175E6C_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } S_80175E6C_6_pre;   /* the 0x14 bytes before ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in select_nearby_target_and_start_action, addressed as ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv[-1] */
-
 
 void select_sprite_entry(void *, u8, s32);
 void *probe_directional_neighbor(void *, u8, u8, s16);
@@ -47,7 +39,7 @@ static __inline__ s16 scan_angle(s32 direction)
 }
 
 /* Selects a neighboring target and starts an action when the reference entity is nearby. */
-s32 select_nearby_target_and_start_action(void *action_state, void *unused, void *actor_pos_arg, void *actor) {
+s32 select_nearby_target_and_start_action(void *action_state, void *unused, SpriteFrameState *actor_pos_arg, void *actor) {
     s32 distance;
     s32 neighbor_flags;
     s32 direction;
@@ -65,7 +57,7 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, void
         return result;
     }
     for (direction = 0; direction < 8; direction++) {
-    neighbor = probe_directional_neighbor(actor, ((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25,
+    neighbor = probe_directional_neighbor(actor, actor_pos_arg->unk_24, actor_pos_arg->unk_25,
         scan_angle(direction));
     if (neighbor != NULL) {
         if (neighbor == ((u8 *)dungeon_actor_ring_anchor)) {
@@ -89,10 +81,10 @@ s32 select_nearby_target_and_start_action(void *action_state, void *unused, void
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
         target_pos = ((S_80175E6C_6_pre *)(((EntityRec *)actor)->target))[-1].unk_00;
-        ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(((S_80175E6C_1 *)actor_pos_arg)->unk_24,
-            ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24,
+        ((EntityRec *)actor)->facing = get_rounded_facing_and_rounding_flag(actor_pos_arg->unk_24,
+            actor_pos_arg->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24,
             ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
-        ((Rec_D_80082E80 *)actor_pos_arg)->unk_2C.as_pu8 = D_80176348;
+        actor_pos_arg->frameTable = D_80176348;
         select_sprite_entry(actor_pos_arg, D_80176348[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7], 0);
         build_and_display_encoded_message(actor);

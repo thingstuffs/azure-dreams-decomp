@@ -1,4 +1,6 @@
 /* Kewne actor rendering, moving sprite effects, and projected ellipse geometry. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "modules/dungeon_ovl_9c32d4.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -120,8 +122,8 @@ void update_actor_render_effect_and_position(u8 *actor_data, u8 *output_data, u8
  * change. */
 void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effect_data)
 {
-    void *effect;
-    ovl_9c32d4_809A35A0_S_80174DA0_2 *position;
+    ObjectNodeHeader *effect;
+    ObjectPosition *position;
     SpriteFrameState *display;
     ovl_9c32d4_809A35A0_S_80174DA0_4 *state;
     void *parent_position;
@@ -129,22 +131,22 @@ void create_parent_position_effect(EntityRec *parent, s32 effect_param, u8 *effe
 
     effect = allocate_list_node(0x12, parent);
     if (effect != 0) {
-        ((ovl_9c32d4_809A35A0_S_80174DA0_0 *)effect)->unk_10 = update_actor_render_effect_and_position;
-        position = ((ovl_9c32d4_809A35A0_S_80174DA0_0 *)effect)->unk_08;
+        effect->unk_10 = update_actor_render_effect_and_position;
+        position = effect->position;
 
         coordinate = ((ovl_9c32d4_809A35A0_S_80174DA0_5 *)((*(void * *)&parent->z)))->unk_02;
-        position->unk_0E = coordinate;
-        position->unk_02 = coordinate;
+        *((u16 *)&position->velocity_x + 1) = coordinate;
+        position->x.w.i = coordinate;
 
         coordinate = ((ovl_9c32d4_809A35A0_S_80174DA0_5 *)((*(void * *)&parent->z)))->unk_06;
-        position->unk_12 = coordinate;
-        position->unk_06 = coordinate;
+        *((u16 *)&position->velocity_y + 1) = coordinate;
+        position->y.w.i = coordinate;
 
         coordinate = ((ovl_9c32d4_809A35A0_S_80174DA0_5 *)((*(void * *)&parent->z)))->unk_0A;
-        position->unk_16 = coordinate;
-        position->unk_0A = coordinate;
+        *((u16 *)&position->velocity_z + 1) = coordinate;
+        position->z.w.i = coordinate;
 
-        display = ((ovl_9c32d4_809A35A0_S_80174DA0_0 *)effect)->unk_0C;
+        display = effect->sprite;
         display->source = D_80175F90;
         display->scale_y = 0x1000;
         display->scale_x = 0x1000;

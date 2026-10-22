@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -23,38 +24,25 @@ extern M2C_UNK D_800DEE38;
 extern M2C_UNK D_80167A2C;
 extern PositionTableEntry ribbon_vertices[];
 
-typedef struct S_80167A98_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80167A98_0;
-
-typedef struct S_80167A98_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80167A98_2;
-
 /* Creates a visual object with a source-indexed position offset and appearance. */
 void create_ribbon_head_sprite(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin) {
-    S_80167A98_2 *position;
+    ObjectPosition *position;
     SpriteFrameState *render_state;
-    S_80167A98_0 *object;
+    ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = &D_80167A2C;
         register_node(object, project_sprite_chain);
-        render_state = object->unk_0C;
+        render_state = object->sprite;
         render_state->tpage_abr = 0x20;
         render_state->unk_06 = 0;
         render_state->flags = (u16) (render_state->flags | 0xC);
-        position = object->unk_08;
-        position->unk_00 = origin->unk_00 + (ribbon_vertices[source->unk_1C].x << 0x11);
-        position->unk_04 = origin->unk_04 + (ribbon_vertices[source->unk_1C].y << 0x11);
-        position->unk_08 = origin->unk_08 + (ribbon_vertices[source->unk_1C].z << 0x11);
-        render_state = object->unk_0C;
+        position = object->position;
+        position->x.v = origin->unk_00 + (ribbon_vertices[source->unk_1C].x << 0x11);
+        position->y.v = origin->unk_04 + (ribbon_vertices[source->unk_1C].y << 0x11);
+        position->z.v = origin->unk_08 + (ribbon_vertices[source->unk_1C].z << 0x11);
+        render_state = object->sprite;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->color.c.b = 0x80;

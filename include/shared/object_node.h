@@ -15,11 +15,15 @@
  * 2026-09-28).  Name stays D_ until V_pobj's meaning is proven.  Other fields stay unk_. */
 /* Object-list header preceding a callback-specific body.
  * runtime_reset_object_pool seeds free nodes; allocate_list_node clears and links each allocated node. */
+struct ObjectPosition;
+
+struct SpriteFrameState;
+
 typedef struct ObjectNodeHeader {
     /* 0x00 */ struct ObjectNodeHeader *next; /* next object in this list, or null at the end */
     /* 0x04 */ struct ObjectNodeHeader **pprev; /* address of the list slot that points to this node; supports constant-time unlinking */
-    /* 0x08 */ void *unk_08; /* separate position/motion record; allocator reserves 0x18 bytes before the sprite payload */
-    /* 0x0C */ void *unk_0C; /* sprite/render payload selected by the allocation flags */
+    /* 0x08 */ struct ObjectPosition *position; /* separate position/motion record; allocator reserves 0x18 bytes before the sprite payload */
+    /* 0x0C */ struct SpriteFrameState *sprite; /* sprite/render payload selected by the allocation flags */
     /* 0x10 */ void *unk_10; /* update callback address; active-node dispatch passes body, position and sprite pointers */
     /* 0x14 */ int unk_14; /* draw-registration backlink, stored as an integer address */
     /* 0x18 */ struct ObjectNodeHeader *chain_next; /* next object registered for the same draw callback, or null */

@@ -6,11 +6,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_80024100_0 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_80024100_0;   /* obj in initialize_mogura_minigame */
-
 typedef struct S_80024100_1 {
     u8 pad_00[0x4];
     s16 unk_04;
@@ -39,8 +34,6 @@ typedef struct S_80024100_2 {
     s16 unk_1A;
 } S_80024100_2;   /* part in initialize_mogura_minigame */
 
-
-
 extern TownRewardValues D_80020090;
 extern TownRewardValues D_800200A8;
 extern s32 D_800243D8;
@@ -64,7 +57,7 @@ s32 initialize_mogura_minigame(void)
     TownRewardValues primary_values;
     TownRewardValues secondary_values;
     void *parent_state;
-    void *object;
+    ObjectNodeHeader *object;
     S_80024100_2 *element;
     void *update_callback;
     void *render_data;
@@ -90,7 +83,7 @@ s32 initialize_mogura_minigame(void)
     object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
         parent_state = (u8 *)object + 0x20;
-        ((S_80024100_0 *)object)->unk_10 = &D_800243D8;
+        object->unk_10 = &D_800243D8;
         ((S_80024100_1 *)parent_state)->unk_0A = 0x1E;
         random_value = rand();
         ((S_80024100_1 *)parent_state)->unk_04 = random_value & 3;
@@ -104,7 +97,7 @@ s32 initialize_mogura_minigame(void)
         object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
         element = (u8 *)object + 0x20;
         if (object != NULL) {
-            ((S_80024100_0 *)object)->unk_10 = update_callback;
+            object->unk_10 = update_callback;
             register_node(object, D_80053858);
             element->unk_16.s = 0xB4;
             element->unk_18 = 3;
@@ -125,7 +118,7 @@ s32 initialize_mogura_minigame(void)
         object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
         element = (u8 *)object + 0x20;
         if (object != NULL) {
-            ((S_80024100_0 *)object)->unk_10 = update_callback;
+            object->unk_10 = update_callback;
             register_node(object, D_80053858);
             element->unk_16.s = 0xC4;
             element->unk_18 = 3;
@@ -159,7 +152,7 @@ s32 initialize_mogura_minigame(void)
             S_80024100_2 *third_element;
             render_data = &display_registration_tag;
             third_element = (u8 *)object + 0x20;
-            ((S_80024100_0 *)object)->unk_10 = update_callback;
+            object->unk_10 = update_callback;
             register_node(object, render_data);
             element_flags = third_element->unk_16.u;
             third_element->unk_0C.at02.v = 0xB0;

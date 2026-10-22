@@ -1,11 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800206D0_arg1.h"
 #include "shared/town_state.h"
-
-
-
 
 typedef struct S_800206D0_0 {
     s16 unk_00;
@@ -24,18 +22,6 @@ typedef struct S_800206D0_1 {
     u16 unk_20;
 } S_800206D0_1;   /* object in update_bouncing_pickup */
 
-typedef struct S_800206D0_2 {
-    s32 * unk_00;
-    u8 unk_04;
-    u8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-    u8 pad_0C[0x6];
-    union { u16 s; s16 u; } unk_12;   /* accessed as both */
-    u16 unk_14;
-} S_800206D0_2;   /* arg2 in update_bouncing_pickup */
-
-
 extern void advance_sprite_animation_and_textures(void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
@@ -51,7 +37,7 @@ extern s32 D_8007947C[];
 extern u8 D_800D0420[];
 
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
-void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
+void update_bouncing_pickup(void *pickup, void *motion, SpriteFrameState *sprite)
 {
     void *source_object = ((S_800206D0_0 *)pickup)->unk_04;
     TownRewardValues reward_units = D_80020020;
@@ -85,9 +71,9 @@ void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
         scaled_count = ((S_800206D0_1 *)source_object)->unk_1E / reward;
         reward = scaled_count % 10;
         if (((S_800206D0_0 *)pickup)->unk_56 < reward) {
-            ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
+            sprite->flags &= 0xFF7F;
         } else {
-            ((S_800206D0_2 *)sprite)->unk_14 |= 0x80;
+            sprite->flags |= 0x80;
         }
         ((S_800206D0_0 *)pickup)->unk_1D = 0;
         return;
@@ -97,16 +83,16 @@ void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
     {
         s32 denomination;
 
-        ((S_800206D0_2 *)sprite)->unk_00 = D_8007947C;
-        ((S_800206D0_2 *)sprite)->unk_08 = D_8007947C[1];
-        ((S_800206D0_2 *)sprite)->unk_04 = 0;
-        ((S_800206D0_2 *)sprite)->unk_05 = rand() & 3;
-        ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
+        sprite->unk_00 = D_8007947C;
+        sprite->source = D_8007947C[1];
+        sprite->unk_04 = 0;
+        sprite->unk_05 = rand() & 3;
+        sprite->flags &= 0xFF7F;
         denomination = ((S_800206D0_0 *)pickup)->unk_54;
         if (denomination == 0) {
-            ((S_800206D0_2 *)sprite)->unk_12.s += 5;
+            sprite->clut += 5;
         } else if (denomination == 1) {
-            ((S_800206D0_2 *)sprite)->unk_12.s -= 5;
+            sprite->clut -= 5;
         }
         ((S_800206D0_0 *)pickup)->unk_1D = 0;
         ((S_800206D0_0 *)pickup)->unk_00 = 2;
@@ -156,10 +142,10 @@ void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
         ((S_800206D0_0 *)pickup)->unk_02.u = 180;
         ((S_800206D0_0 *)pickup)->unk_00 = 4;
         idle_frame = D_8002445C[((S_800206D0_0 *)pickup)->unk_54];
-        ((S_800206D0_2 *)sprite)->unk_12.u = 0;
-        ((S_800206D0_2 *)sprite)->unk_04 = 0;
-        ((S_800206D0_2 *)sprite)->unk_05 = 0;
-        ((S_800206D0_2 *)sprite)->unk_08 = idle_frame;
+        sprite->clut = 0;
+        sprite->unk_04 = 0;
+        sprite->unk_05 = 0;
+        sprite->source = idle_frame;
         ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
         return;
     }
@@ -182,9 +168,9 @@ void update_bouncing_pickup(void *pickup, void *motion, void *sprite)
 
     case 5:
         if ((((S_800206D0_0 *)pickup)->unk_02.s >> 2) & 1) {
-            ((S_800206D0_2 *)sprite)->unk_14 |= 0x80;
+            sprite->flags |= 0x80;
         } else {
-            ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
+            sprite->flags &= 0xFF7F;
         }
         if (handle_tests_whether_two_offset_boxes_overlap_touch_all_three_axes(D_80024420, motion, &D_800D0420, ((u8 *)(&view_reference_entity))) != 0) {
             SD_Call(0x516);

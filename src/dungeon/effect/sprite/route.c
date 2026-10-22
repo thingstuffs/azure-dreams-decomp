@@ -1,5 +1,6 @@
 /* Shaded particles, terrain collisions, chasing-star trails, and owner-following effects. */
 #include "dungeon/effect/sprite/route.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 void (*const dungeon_18ee800_entry)(void *, void *, void *) = follow_entity_effect_and_cleanup;
 const B32_818CFB74_PackedOffsets D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
@@ -37,7 +38,7 @@ const B32_818CFB74_PackedOffsets D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{
    /* final_state in func_8002403C */
 
 /* Project linked nodes and enqueue shaded point primitives with their draw modes. */
-s32 func_8002403C(void *start_node, void *start_coords)
+s32 project_linked_shaded_points(void *start_node, void *start_coords)
 {
     u8 **state_ptr;
     u8 *scratch;
@@ -54,19 +55,19 @@ s32 func_8002403C(void *start_node, void *start_coords)
     node = start_node;
     coords = start_coords;
     state_ptr = (u8 **)((u8 *)(&g_game_work));
-    render_state = *(u8 **)((u8 *)(&g_game_work));
+    render_state = *(u8 **)&g_game_work.draw_buffer;
     scratch = (u8 *)0x1F800000;
 
-    *(u8 * *)(scratch + 0x18) = ((GpuContext *)render_state)->packetCursor;
+    *(u8 **)(scratch + 0x18) = ((GpuContext *)render_state)->packetCursor;
     ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_20.p = render_state + 0xB0;
 
     for (;;) {
         coord_x = ((B32_818CE83C_S_8002403C_2 *)coords)->unk_02;
-        packet = *(u8 * *)(scratch + 0x18);
+        packet = *(u8 **)(scratch + 0x18);
         ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_00 = coord_x;
         ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_02 = ((B32_818CE83C_S_8002403C_2 *)coords)->unk_06;
         ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_04 = ((B32_818CE83C_S_8002403C_2 *)coords)->unk_0A;
-        *(u8 * *)(scratch + 0x18) = packet + 0xC;
+        *(u8 **)(scratch + 0x18) = packet + 0xC;
 
         depth_index = func_80065420(scratch, packet + 8, scratch + 0x90,
                              scratch + 0x94);
@@ -121,7 +122,7 @@ s32 func_8002403C(void *start_node, void *start_coords)
                 *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
-            mode_packet = *(u8 * *)(scratch + 0x18);
+            mode_packet = *(u8 **)(scratch + 0x18);
             ((B32_818CE83C_S_8002403C_1 *)scratch)->unk_18 = mode_packet + 0xC;
             color_or_tpage = func_80066460(texture_depth, blend_mode, page_x, texture_depth);
             func_80067F20(mode_packet, 0, 0, (u16)color_or_tpage, 0);
@@ -169,7 +170,7 @@ void advance_jittered_effect_toward_terrain(void *object_data, void *source_data
     x = *(u16 *)(source + 2);
     y = *(u16 *)(source + 6);
     probe_z = z + 2;
-    D_80025924[0] = 1;
+    linked_point_effect_updated[0] = 1;
     height_limit = sample_terrain_surface_height(x, y, (s16)probe_z);
     if (*(s16 *)(source + 0xA) < height_limit) {
         random_value = rand();
@@ -216,7 +217,7 @@ void create_jittered_terrain_seeking_point(
     void *source_obj = source;
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
-    void *object_cursor;
+    ObjectNodeHeader *object_cursor;
     B32_818CEB58_S_818CEB58_0 *fields;
     s32 jitter_x;
     s32 jitter_y;
@@ -234,10 +235,10 @@ void create_jittered_terrain_seeking_point(
 
     object_cursor = allocate_list_node(0x211, source_obj);
     if (object_cursor != NULL) {
-        ((B32_818CEB58_S_818CEB58_0 *)object_cursor)->unk_10 = (s32)advance_jittered_effect_toward_terrain;
+        object_cursor->unk_10 = (s32)advance_jittered_effect_toward_terrain;
         jitter_x = rand() & 0x1F;
         position_x = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_02;
-        dest_x = ((B32_818CEB58_S_818CEB58_0 *)object_cursor)->unk_08.s;
+        dest_x = object_cursor->position;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
@@ -245,18 +246,18 @@ void create_jittered_terrain_seeking_point(
 
         jitter_y = rand() & 0x1F;
         position_y = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_06;
-        dest_y = ((B32_818CEB58_S_818CEB58_0 *)object_cursor)->unk_08.s;
+        dest_y = object_cursor->position;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
         dest_y->unk_06 = (s16)position_y;
 
         jitter_z = rand();
-        init_data = func_8002403C;
+        init_data = project_linked_shaded_points;
         jitter_z &= 0x1F;
         position_z = ((B32_818CEB58_S_818CEB58_6 *)(((B32_818CEB58_S_818CEB58_1 *)source_obj)->unk_08))->unk_0A;
         fields = (B32_818CEB58_S_818CEB58_0 *)((u8 *)object_cursor + 0x20);
-        dest_z = ((B32_818CEB58_S_818CEB58_4 *)object_cursor)->unk_08;
+        dest_z = object_cursor->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;
@@ -275,7 +276,7 @@ void create_jittered_terrain_seeking_point(
 #include "shared/object_flags.h"
 
 /* Advance position and object state, then flag completion on timeout or object status. */
-void move_and_grow_timed_sprite(void *state, void *position, void *object)
+void move_and_grow_timed_sprite(void *state, void *position, SpriteFrameState *object)
 {
     s32 position_z;
     s32 step_z;
@@ -285,12 +286,12 @@ void move_and_grow_timed_sprite(void *state, void *position, void *object)
     *(s32 *)((u8 *)position + 4) += *(s32 *)((u8 *)state + 0x50);
     position_z = *(s32 *)((u8 *)position + 8);
     step_z = *(s32 *)((u8 *)state + 0x54);
-    D_80025924[0] = 1;
+    linked_point_effect_updated[0] = 1;
     *(s32 *)((u8 *)position + 8) = position_z + step_z;
     advance_sprite_animation_and_textures(object);
 
-    *(u16 *)((u8 *)object + 0x1C) += 0x80;
-    *(u16 *)((u8 *)object + 0x1E) += 0x80;
+    object->scale_x += 0x80;
+    object->scale_y += 0x80;
 
     ticks_left = *(u16 *)((u8 *)state + 2) - 1;
     *(u16 *)((u8 *)state + 2) = ticks_left;
@@ -299,7 +300,7 @@ void move_and_grow_timed_sprite(void *state, void *position, void *object)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
-    if (*(u16 *)((u8 *)object + 0x14) & 0x8000) {
+    if (object->flags & 0x8000) {
         *(u16 *)((u8 *)state - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -315,7 +316,7 @@ void update_actor_effect_sequence(void *record)
     u16 counter;
 
     counter = *(u16 *)(record_bytes + 2);
-    D_80025924[0] = 1;
+    linked_point_effect_updated[0] = 1;
     counter--;
     *(u16 *)(record_bytes + 2) = counter;
     if ((counter << 16) <= 0) {
@@ -353,7 +354,7 @@ void advance_damped_ground_sliding_sprite(void *state, B32_818CEDC8_S_818CEDC8_0
     position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C);
     ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = (s32) (((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C + ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_58);
     if ((check_left_tile_and_center_height(position->unk_00.at02.v, position->unk_04.at02.v,
-                       (collision_z = position->unk_08.at02.v, D_80025924[0] = 1, collision_z)) << 0x10) != 0) {
+                       (collision_z = position->unk_08.at02.v, linked_point_effect_updated[0] = 1, collision_z)) << 0x10) != 0) {
         position->unk_00.at00.v = (s32) (position->unk_00.at00.v - ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C);
         ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_4C = 0;
         ((B32_818CEDC8_S_818CEDC8_1 *)state)->unk_58 = 0;
@@ -449,7 +450,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
 {
     u8 *star;
     B32_818CF0E8_S_818CF0E8_7 *env;
-    void *obj;
+    ObjectNodeHeader *obj;
     void *p;
     s32 dv;
     s32 av;
@@ -461,7 +462,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
     s32 w1;
     u32 hi;
 
-    D_80025924[0] = 1;
+    linked_point_effect_updated[0] = 1;
     env = ((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_2C;
     if (((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_00.s == 0) {
         p = (void *)0;
@@ -667,13 +668,13 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             s3 += 0x20;
             if (obj != 0) {
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_02 = 0x34;
-            ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = advance_damped_ground_sliding_sprite;
+            obj->unk_10 = advance_damped_ground_sliding_sprite;
             register_node(obj, project_sprite_chain);
-            p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
+            p = obj->sprite;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s |= 0xC;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_10 = 0x60;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s |= 2;
-            p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_08;
+            p = obj->position;
             {
                 s32 r2;
                 s32 b2;
@@ -693,7 +694,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_54 = func_80069EF8() + 0x30000;
             ((B32_818CF0E8_S_818CF0E8_4 *)s3)->unk_60 = 0x6000;
-            p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
+            p = obj->sprite;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x800;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x800;
             ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_0E = 0x80;
@@ -711,13 +712,13 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
             w1 = (s32)((u8 *)obj + 0x20);
             if (obj != 0) {
                 ((B32_818CF0E8_S_818CF0E8_4 *)w1)->unk_02 = 0x14;
-                ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = move_and_grow_timed_sprite;
+                obj->unk_10 = move_and_grow_timed_sprite;
                 register_node(obj, project_sprite_chain);
-                p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
+                p = obj->sprite;
                 flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_10 = 0;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-                p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_08;
+                p = obj->position;
                 star = ((B32_818CF0E8_S_818CF0E8_8_pre *)(((B32_818CF0E8_S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
                 {
                     s32 r2;
@@ -743,7 +744,7 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
                     b2 -= r2;
                     ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02u.v = b2;
                 }
-                p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
+                p = obj->sprite;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x800;
                 ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x800;
                 ((B32_818CF0E8_S_818CF0E8_4 *)w1)->unk_54 = func_80069EF8() + (s32)0xFFFE0000;
@@ -788,17 +789,17 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
     obj = allocate_flagged_object_node(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
-        ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = update_actor_effect_sequence;
+        obj->unk_10 = update_actor_effect_sequence;
         register_node(obj, project_sprite_chain);
-        p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
+        p = obj->sprite;
         flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_10 = 0x60;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-        p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_08;
+        p = obj->position;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_02.u = pos->unk_00.at02.v;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.u = pos->unk_04.at02.v;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
-        p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
+        p = obj->sprite;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x1000;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x1000;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.s = -1;
@@ -813,17 +814,17 @@ void update_chasing_star_effect(void *entity, B32_818CF0E8_S_818CF0E8_1 *pos, B3
     obj = allocate_flagged_object_node(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
-        ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_10 = update_actor_effect_sequence;
+        obj->unk_10 = update_actor_effect_sequence;
         register_node(obj, project_sprite_chain);
-        p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
+        p = obj->sprite;
         flags = ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s | 0xC;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_10 = 0x60;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_14.s = flags;
-        p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_08;
+        p = obj->position;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_02.u = pos->unk_00.at02.v;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.u = pos->unk_04.at02.v;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
-        p = ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_0C;
+        p = obj->sprite;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1E = 0x1000;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_1C = 0x1000;
         ((B32_818CF0E8_S_818CF0E8_6 *)p)->unk_06.s = -2;
@@ -862,7 +863,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
     u32 variant_bits;
     s32 advance;
     s32 state_index;
-    B32_818CFB74_Vec12 *spawn_position;
+    ObjectPosition *spawn_position;
     u32 flags_or_result;
 
     entity = state->entity0;
@@ -877,7 +878,7 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
         graphic->scale1C = 0x1000;
         select_record_entry_and_value(graphic, D_800DEC00, 0);
         flags = *(u16 *)((u8 *)entity + 0x2A);
-        D_80025924[0] = 1;
+        linked_point_effect_updated[0] = 1;
         next_state = *(u16 *)&state->stateA;
         variant_bits = (flags >> 9) & 7;
         next_state++;
@@ -986,9 +987,9 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
             graphic->field10 = 0;
             graphic->flags14 |= 0xC;
             spawn_position = spawn->position8;
-            ((s32 *)spawn_position)[0] = ((s32 *)position)[0];
-            ((s32 *)spawn_position)[1] = ((s32 *)position)[1];
-            ((s32 *)spawn_position)[2] = ((s32 *)position)[2];
+            spawn_position->x.v = ((s32 *)position)[0];
+            spawn_position->y.v = ((s32 *)position)[1];
+            spawn_position->z.v = ((s32 *)position)[2];
             graphic = spawn->graphicC;
             ((u8 *)graphic)[0xE] = 0x80;
             ((u8 *)graphic)[0xD] = 0x80;
@@ -1014,9 +1015,9 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
             if (spawn->flags1E & 0x8000) {
                 state->sentinel88 = 0;
             } else {
-                ((s32 *)position)[0] = ((s32 *)spawn_position)[0];
-                ((s32 *)position)[1] = ((s32 *)spawn_position)[1];
-                ((s32 *)position)[2] = ((s32 *)spawn_position)[2];
+                ((s32 *)position)[0] = spawn_position->x.v;
+                ((s32 *)position)[1] = spawn_position->y.v;
+                ((s32 *)position)[2] = spawn_position->z.v;
             }
         }
         advance = state->advance86;
@@ -1036,14 +1037,14 @@ void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Ve
         ticks = *(u16 *)&state->counter84;
         state->counter84 = ticks + 1;
         if ((s16)(ticks + 1) >= 11) {
-            pending = D_80025924[0];
+            pending = linked_point_effect_updated[0];
             state->counter84 = ticks;
             if (pending == 0) {
                 g_dungeon_status.active_actor = 0;
                 ((u16 *)state)[-1] |= NODE_REMOVE;
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             } else {
-                D_80025924[0] = 0;
+                linked_point_effect_updated[0] = 0;
             }
         }
         break;

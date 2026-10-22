@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/level.h"
 
 extern u8 D_800E0000;
 

@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
@@ -100,7 +101,6 @@ typedef struct S_800970FC_14 {
     u8 unk_06;
 } S_800970FC_14;   /* temp_s0_8 in draw_entry_overlays */
 
-
 extern void draw_sprite_parts(void *unused, u8 *sprite, s32 ot_depth);
 extern void project_sprite_commands(void *, void *, void *, s16);
 extern s32 func_80066460(s32, s32, s32, s32);
@@ -121,7 +121,6 @@ extern u8 D_800D04E0[];
 extern u8 town_overlay_rotation_offset[];
 extern s16 terrain_height_limits[];
 extern u8 upper_draw_context[];
-
 
 #define CUR_CTX (*page_state)
 #define CUR_PAGE (g_game_work.draw_buffer)
@@ -154,9 +153,9 @@ s32 draw_entry_overlays(void) {
     u16 quad_x;
     void *primitive;
     TileObject *entry;
-    u8 *coord;
+    ObjectPosition *coord;
     u8 *texture_rect;
-    u8 *draw_entry;
+    TileObject *draw_entry;
     u8 *draw_ctx;
     void **page_state;
     u32 *scratch_control;
@@ -173,13 +172,13 @@ s32 draw_entry_overlays(void) {
     page_index = (u16) alternate_page;
     if (!(entry->sprite_flags & 0x80)) {
         coord = view_reference_entity;
-#define view_reference_entity (*coord)
+#define view_reference_entity (*(u8 *)coord)
         overlay_height_in_range[0] = 0;
-        coord_x = ((SignedPositionView *)coord)->unk_02;
-        coord_y = ((SignedPositionView *)coord)->unk_06;
+        coord_x = coord->x.w.i;
+        coord_y = coord->y.w.i;
         height_index = check_masked_value_in_current_range(read_map_cell_at_world_position(coord_x, coord_y) & 0xFFFF);
         if (height_index != 0) {
-            coord_z = ((SignedPositionView *)coord)->unk_0A;
+            coord_z = coord->z.w.i;
             height_delta = (s32) (coord_z - terrain_height_limits[height_index]) / 2;
             overlay_height = height_delta + 6;
             if ((u32) ((height_delta + 5) & 0xFFFF) < 0x3FU) {
@@ -307,11 +306,11 @@ s32 draw_entry_overlays(void) {
                     func_80067E2C(primitive, rect);
                     func_8006658C(CUR_CTX + 0x830, primitive);
                 }
-                draw_entry = ((u8 *)(&reference_tile_object));
+                draw_entry = &reference_tile_object;
                 quad_x = ((S_800970FC_6 *)texture_rect)->unk_00;
                 texture_top = ((S_800970FC_6 *)texture_rect)->unk_02.s;
                 saved_flags = ((S_800970FC_12 *)draw_entry)->unk_14;
-                saved_draw_param = ((S_800970FC_12 *)draw_entry)->unk_10;
+                saved_draw_param = draw_entry->tpage_offset;
                 {
                     if (page_offset != 0) {
                         texture_top -= 0xE0;
@@ -323,7 +322,7 @@ s32 draw_entry_overlays(void) {
                 scratch_y = (u16 *)0x1F800002;
                 *scratch_x = (u16) draw_x;
                 *scratch_y = (u16) draw_y;
-                ((S_800970FC_12 *)draw_entry)->unk_10 = 0x40U;
+                draw_entry->tpage_offset = 0x40U;
                 ((S_800970FC_12 *)draw_entry)->unk_14 = (u16) ((*(u16 *)((u8 *)draw_entry + 0x14)) | 0xC);
                 draw_sprite_parts(0, draw_entry, 0x1F0);
                 scratch_x = (void *)0;
@@ -332,12 +331,12 @@ s32 draw_entry_overlays(void) {
                 scratch_y = (u16 *)0x1F800002;
                 *scratch_x = (u16) draw_x;
                 *scratch_y = (u16) draw_y;
-                ((S_800970FC_12 *)draw_entry)->unk_10 = 0x20U;
+                draw_entry->tpage_offset = 0x20U;
                 ((S_800970FC_12 *)draw_entry)->unk_14 = (u16) ((*(u16 *)((u8 *)draw_entry + 0x14)) & 0xFFF3);
                 draw_sprite_parts(0, draw_entry, 0x1F0);
                 draw_ctx = CUR_CTX;
                 ((S_800970FC_12 *)draw_entry)->unk_14 = saved_flags;
-                ((S_800970FC_12 *)draw_entry)->unk_10 = saved_draw_param;
+                draw_entry->tpage_offset = saved_draw_param;
                 primitive = ((S_800970FC_13 *)draw_ctx)->unk_8D0;
                 ((S_800970FC_13 *)draw_ctx)->unk_8D0 = (void *) (primitive + 0xC);
                 func_80067EF4(primitive, 0, 0);

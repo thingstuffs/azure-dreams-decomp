@@ -1,22 +1,16 @@
 #include "shared/game_work.h"
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef unsigned int u32;
-typedef int s32;
-typedef s32 M2C_UNK;
+#include "engine/movie.h"
 
 struct S_8003AF58_1; void append_list_tail(void *, struct S_8003AF58_1 *);
-extern M2C_UNK town_movie_callback_list;
+extern MovieListNode town_movie_callback_list;
 extern s8 scene_music_hold;
-extern M2C_UNK D_800D429C;
+extern MovieListNode D_800D429C;
 /* Pass the town data pair to append_town_movie_list_node and set the shared flag. */
 void append_data_pair_to_movie_list(void)
 {
     long enabled;
-    append_list_tail(&town_movie_callback_list, (struct S_8003AF58_1 *)(&D_800D429C));
+    append_list_tail(&town_movie_callback_list, &D_800D429C);
     enabled = 1;
     scene_music_hold = enabled;
     scene_music_hold = 1;

@@ -1,33 +1,13 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
-
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-
-typedef struct S_80D659DC_6 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80D659DC_6;
-
-
-typedef struct S_80D659DC_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80D659DC_8;
-
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_angled_random_velocity_effect */
-
 
 typedef struct EffectBase {
     u8 pad0[8];
@@ -98,36 +78,36 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
     effect = allocate_list_node(0x211, source);
     if (effect != NULL) {
         base = &effect->base;
-        ((S_80D659DC_0 *)effect)->unk_10 = &D_800D707C;
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_02 = (u16)
+        ((ObjectNodeHeader *)effect)->unk_10 = &D_800D707C;
+        ((ObjectNodeHeader *)effect)->position->x.w.i = (u16)
         ((MovingPosition *)((*(void * *)&source->z)))->unk_02;
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_06 = (u16)
+        ((ObjectNodeHeader *)effect)->position->y.w.i = (u16)
         ((MovingPosition *)((*(void * *)&source->z)))->unk_06;
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_0A = (s16)
+        ((ObjectNodeHeader *)effect)->position->z.w.i = (s16)
         (((MovingPosition *)((*(void * *)&source->z)))->unk_0A - 0x58);
         direction = (void *)actor_direction_step_pairs + ((angle >> 7) & 0x1C);
-        position_x = ((S_80D659DC_0 *)effect)->unk_08;
+        position_x = ((ObjectNodeHeader *)effect)->position;
         position_x->unk_02 = (u16)
         (position_x->unk_02 +
             (direction->unk_00 * 0x12));
-        position_y = ((S_80D659DC_0 *)effect)->unk_08;
+        position_y = ((ObjectNodeHeader *)effect)->position;
         position_y->unk_06 = (u16)
         (position_y->unk_06 +
             (direction->unk_02 * 0x12));
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_0C = (s32)
+        ((ObjectNodeHeader *)effect)->position->velocity_x = (s32)
         (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_10 = (s32)
+        ((ObjectNodeHeader *)effect)->position->velocity_y = (s32)
         (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_14 = (s32)
+        ((ObjectNodeHeader *)effect)->position->velocity_z = (s32)
         (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        velocity_x = ((S_80D659DC_0 *)effect)->unk_08;
+        velocity_x = ((ObjectNodeHeader *)effect)->position;
         velocity_x->unk_0C = (s32)
         (velocity_x->unk_0C +
             (direction->unk_00 * 0x1C0000));
         {
             s32 direction_y = direction->unk_02;
 
-            velocity_y = ((S_80D659DC_0 *)effect)->unk_08;
+            velocity_y = ((ObjectNodeHeader *)effect)->position;
             velocity_y->unk_10 = (s32)
             (velocity_y->unk_10 +
                 (direction_y * 0x1C0000));

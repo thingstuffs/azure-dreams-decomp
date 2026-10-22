@@ -1,3 +1,5 @@
+
+struct ObjectNodeHeader;
 #include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -23,7 +25,7 @@ extern void display_text_with_fullwidth_adjustment(s8 *text);
 extern void place_actor_item(void *, s32);
 extern void display_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
-extern void create_colored_effect_with_event(void *source, s32 color, unsigned short event_id);
+extern void create_colored_effect_with_event(struct ObjectNodeHeader *source, s32 color, unsigned short event_id);
 
 /* Applies an entity action, updates its state, and displays the result. */
 s32 apply_item_and_update_matching_actor_state(void *entity, s32 action_id, s16 action_arg) {

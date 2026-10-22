@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/item.h"
 
-void inventory_set_embedded_state_four();                         /* extern */
 
 typedef struct S_800255AC_0 {
     u8 pad_00[0x40];

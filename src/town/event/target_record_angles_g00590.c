@@ -11,14 +11,14 @@ void apply_two_records_to_target(s32 target, s32 setup_data)
 
     draw_random_colored_line(setup_data, target);
 
-    record_value = (s16)D_80100D18 / 2;
+    record_value = (s16)town_mesh_scale / 2;
     D_800D1178.field10 = record_value;
     D_800D1178.field14 = record_value;
     D_800D1178.field18 = record_value;
     D_800D1178.fieldA = -D_80100D40;
     transform_and_queue_mesh_quads(&D_800D1178, target);
 
-    record_value2 = (s16)D_80100D18;
+    record_value2 = (s16)town_mesh_scale;
     D_800D119C.field10 = record_value2;
     D_800D119C.field14 = record_value2;
     D_800D119C.field18 = record_value2;
@@ -54,9 +54,9 @@ void update_positions_from_origin(IntVector3 *origin)
         position->z = origin->z;
         D_80100D42 += town_motion_y_step;
         position->y += func_80064584(add_x_and_get_angle(
-            position, func_800644B8(angle) * D_80100D1C, rotation)) * D_80100D1C;
+            position, func_800644B8(angle) * town_orbit_radius, rotation)) * town_orbit_radius;
         draw_random_colored_line((s32)position, (s32)origin);
-        scale = D_80100D1C;
+        scale = town_orbit_radius;
         D_80100D48.x = origin->x + scale * 0x1800;
         D_80100D48.y = origin->y;
         D_80100D48.z = origin->z;

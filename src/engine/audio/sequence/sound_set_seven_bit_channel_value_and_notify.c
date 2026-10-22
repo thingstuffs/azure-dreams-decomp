@@ -11,10 +11,10 @@ typedef struct {
 
 extern S_80084960 audio_channel_controls[];
 
-extern void func_80055E7C();
+extern void noop_channel_control_notification();
 
 /* Stores value masked to seven bits at index and calls the notifier with the low byte of value. */
 void sound_set_seven_bit_channel_value_and_notify(u8 index, s32 unused, s32 value) {
     audio_channel_controls[index].unk1C = value & 0x7F;
-    func_80055E7C(1, index, value & 0xFF);
+    noop_channel_control_notification(1, index, value & 0xFF);
 }

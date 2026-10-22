@@ -1,4 +1,5 @@
 /* Actor-targeted effect movement, rotating particles, and target lift and spin animation. */
+#include "shared/object_node.h"
 #include "dungeon/effect/motion/create_randomized_source_effect.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -30,22 +31,22 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
     Row_8191C938_CopyBlock *object_block;
     Row_8191C938_S_8191C938_1 *state;
     SpriteFrameState *render_data;
-    void *object;
+    ObjectNodeHeader *object;
     Row_8191C938_CopyBlock *source_block;
     void *result;
     register u16 word_override;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = object + 0x20;
-        ((Row_8191C938_S_8191C938_0 *)object)->unk_10 = D_80024048;
+        state = ((void *)object) + 0x20;
+        object->unk_10 = D_80024048;
         ((Row_8191C938_S_8191C938_0 *)object)->unk_20 = source;
         state->unk_04 = 0;
         state->unk_06 = 6;
         random_value = rand();
         state->unk_08 = random_value % 0x1000;
         state->unk_0A = 0x10;
-        render_data = ((Row_8191C938_S_8191C938_0 *)object)->unk_0C;
+        render_data = object->sprite;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
         render_data->color.c.b = 0;
@@ -57,7 +58,7 @@ void *create_randomized_source_effect(Row_8191C938_S_8191C938_3 *source)
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
-        object_block = ((Row_8191C938_S_8191C938_0 *)object)->unk_08;
+        object_block = *(Row_8191C938_CopyBlock * *)&object->position;
         source_block = source->unk_20;
         *object_block = *source_block;
         word_override = source->unk_16;
@@ -164,12 +165,12 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
     s32 angle;
     SpriteFrameState *render;
     Row_8191CBCC_S_8191CBCC_1 *state;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        state = object + 0x20;
-        ((Row_8191CBCC_S_8191CBCC_0 *)object)->unk_10 = &D_80024288;
+        state = ((void *)object) + 0x20;
+        object->unk_10 = &D_80024288;
         ((Row_8191CBCC_S_8191CBCC_0 *)object)->unk_20 = params;
         state->unk_0E = 0;
         state->unk_10 = 0;
@@ -177,7 +178,7 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
         state->unk_12 = (s16)(variant_random % 7);
         state->unk_14.s = (u16) params->unk_12;
         state->unk_16 = (s16) (0x1C - params->unk_10.s);
-        render = ((Row_8191CBCC_S_8191CBCC_0 *)object)->unk_0C;
+        render = object->sprite;
         render->color.c.b = 0x80;
         render->color.c.g = 0x80;
         render->color.c.r = 0x80;
@@ -199,7 +200,7 @@ s32 create_scaled_rotating_effect(void *params_input, void *transform_input) {
         {
             Row_8191CBCC_S_8191CBCC_4 *transform;
 
-            transform = ((Row_8191CBCC_S_8191CBCC_0 *)object)->unk_08;
+            transform = object->position;
             *(Blk24 *) transform = *(Blk24 *) source_transform;
             depth_scale = state->unk_14.u;
             adjusted_depth = ((transform->unk_14 * depth_scale) -

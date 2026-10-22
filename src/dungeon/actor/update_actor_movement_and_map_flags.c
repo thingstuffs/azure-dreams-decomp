@@ -1,8 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/actor.h"
+#include "dungeon/system.h"
 
 extern u8 D_80096384[];
 extern u8 actor_default_frames[];
@@ -15,8 +18,6 @@ extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
 extern s32 classify_adjacent_tile_height();
 extern void append_packed_action_record();
-extern s32 check_action_available_without_nearby_actor();
-extern void clear_pending_item_action_state(void);
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -25,7 +26,7 @@ extern void clear_pending_item_action_state(void);
 #define P32(p, o) (*(void **)((u8 *)(p) + (o)))
 
 /* Moves the actor and updates its animation, movement state, and map flags. */
-void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, void *map)
+void update_actor_movement_and_map_flags(void *obj, s32 move_mode, SpriteFrameState *actor, void *map)
 {
     GameWork *globals;
     register s16 move_kind;
@@ -41,17 +42,17 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
     move_kind = (s16)move_result;
     if (move_kind > 0) {
         U8(obj, 0x9B) = 0;
-        update_map_cell_flags_with_item_limit(U8(actor, 0x24), U8(actor, 0x25), 0x300);
+        update_map_cell_flags_with_item_limit(U8(actor, 0x24), actor->unk_25, 0x300);
         {
             u8 *x_offsets;
             s16 step_index;
 
             step_index = (U16(map, 0x2A) >> 8) & 0xE;
             x_offsets = ((u8 *)dir_step_x);
-            U8(actor, 0x24) = U8(actor, 0x24) + x_offsets[step_index];
-            U8(actor, 0x25) = U8(actor, 0x25) + ((u8 *)dir_step_y)[step_index];
+            actor->unk_24 = actor->unk_24 + x_offsets[step_index];
+            actor->unk_25 = actor->unk_25 + ((u8 *)dir_step_y)[step_index];
         }
-        cycle_map_cell_flags(U8(actor, 0x24), U8(actor, 0x25), 0x300);
+        cycle_map_cell_flags(U8(actor, 0x24), actor->unk_25, 0x300);
 
         move_state = (u16 *)&g_dungeon_status;
         move_state[1] |= 8;
@@ -63,19 +64,19 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
 
                 move_state[1] |= 0x80;
                 anim_table = actor_default_frames;
-                if (P32(actor, 0x2C) != anim_table) {
-                    P32(actor, 0x2C) = anim_table;
-                    facing_offset = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
+                if (actor->frameTable != anim_table) {
+                    actor->frameTable = anim_table;
+                    facing_offset = (globals->view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
                     anim_entry = anim_table + (facing_offset & 0x1C);
                     select_record_entry_and_value(actor, *(void **)anim_entry, 0);
                 }
-            } else if ((S32(globals, 8) & 0x20) && check_action_available_without_nearby_actor()) {
+            } else if ((globals->buttons & 0x20) && check_action_available_without_nearby_actor()) {
                 register u8 *alternate_anim;
 
                 move_state[1] |= 0x80;
                 alternate_anim = actor_default_frames;
-                P32(actor, 0x2C) = alternate_anim;
-                facing_offset = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
+                actor->frameTable = alternate_anim;
+                facing_offset = (globals->view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
                 select_record_entry_and_value(actor, *(void **)(alternate_anim + (facing_offset & 0x1C)), 0);
             } else {
                 move_result = 5;
@@ -92,7 +93,7 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
                 process_unflagged_linked_entries_alt(S32(map, 0x5C));
                 process_unflagged_linked_entries(S32(map, 0x5C));
                 if (!(updated_state->flags & 0x80)) {
-                    P32(actor, 0x2C) = actor_default_frames;
+                    actor->frameTable = actor_default_frames;
                     facing_offset = (g_game_work.view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
                     select_record_entry_and_value(actor, *(void **)(actor_default_frames + (facing_offset & 0x1C)), 0);
                     U8(obj, 0x9A) = 0x35;
@@ -102,7 +103,7 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
                 updated_state->movement_frames_left = 8;
             } else {
                 U16(obj, 0x98) |= 0xC;
-                P32(actor, 0x2C) = actor_default_frames + 0x20;
+                actor->frameTable = actor_default_frames + 0x20;
                 facing_offset = (g_game_work.view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
                 select_record_entry_and_value(actor, *(void **)((actor_default_frames + 0x20) + (facing_offset & 0x1C)), 0);
                 if (move_kind < 4) {
@@ -126,8 +127,8 @@ void update_actor_movement_and_map_flags(void *obj, s32 move_mode, void *actor, 
         u8 *idle_anim;
 
         idle_anim = actor_default_frames;
-        P32(actor, 0x2C) = idle_anim;
-        facing_offset = (S16(globals, 0xC8) + S16(map, 0x2A) + 0x100) >> 7;
+        actor->frameTable = idle_anim;
+        facing_offset = (globals->view.camera_rotation.parts.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
         select_record_entry_and_value(actor, *(void **)(idle_anim + (facing_offset & 0x1C)), 0);
         S32(obj, 0x8C) = (s32)D_80096384;
         return;

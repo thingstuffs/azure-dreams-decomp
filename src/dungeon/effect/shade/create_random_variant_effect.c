@@ -51,13 +51,13 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
     char color_value;
     SpriteFrameState *render_data;
     S_818C370C_1 *state;
-    void *object;
+    ObjectNodeHeader *object;
     void *object_data;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        state = object + 0x20;
-        ((S_818C370C_0 *)object)->unk_10 = &func_80024C48;
+        state = ((void *)object) + 0x20;
+        object->unk_10 = &func_80024C48;
         ((S_818C370C_0 *)object)->unk_20 = owner;
         state->unk_0E = 0;
         state->unk_10 = 0;
@@ -65,7 +65,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
         state->unk_12 = (s16)(variant_random % 7);
         color_value = 0x80;
         state->unk_14 = owner->unk_14;
-        render_data = ((S_818C370C_0 *)object)->unk_0C;
+        render_data = object->sprite;
         render_data->color.c.b = color_value;
         render_data->color.c.g = color_value;
         render_data->color.c.r = color_value;
@@ -80,7 +80,7 @@ s32 create_random_variant_effect(S_818C370C_2 *owner, void *source_data) {
         render_data->scale_y = scale;
         render_data->scale_x = scale;
         register_node(object, D_80045C34);
-        object_data = ((S_818C370C_0 *)object)->unk_08;
+        object_data = object->position;
         *(Copy24 *)object_data = *(Copy24 *)source_data;
         return (s32)object;
     }

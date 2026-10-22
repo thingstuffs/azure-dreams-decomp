@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -30,22 +31,6 @@ typedef struct S_8016ECE4_1 {
     u8 pad_58[0x8];
     s32 unk_60;
 } S_8016ECE4_1;
-
-typedef struct S_8016ECE4_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_8016ECE4_2;
-
-typedef struct S_8016ECE4_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8016ECE4_4;
 
 typedef struct S_8016ECE4_5 {
     u8 pad_00[0x2];
@@ -86,8 +71,8 @@ void spawn_conditional_source_effect(void) {
     S_8016ECE4_1 *effect_state;
     S_8016ECE4_5 *source_pos;
     S_8016ECE4_6 *source_state;
-    void *effect;
-    S_8016ECE4_4 *effect_pos;
+    ObjectNodeHeader *effect;
+    ObjectPosition *effect_pos;
     void *source;
 
     source = ghosh_actor_node[0];
@@ -102,23 +87,23 @@ void spawn_conditional_source_effect(void) {
     if (((count & 3) == 1) && !(func_80069EF8(source) & 1)) {
         effect = allocate_flagged_object_node(0x12);
         if (effect != NULL) {
-            effect_state = effect + 0x20;
+            effect_state = ((void *)effect) + 0x20;
             effect_state->unk_12 = 3;
-            ((S_8016ECE4_2 *)effect)->unk_10 = &D_8016E528;
+            effect->unk_10 = &D_8016E528;
             register_node(effect, project_sprite_chain);
-            sprite = ((S_8016ECE4_2 *)effect)->unk_0C;
+            sprite = effect->sprite;
             sprite->flags = (u16) (sprite->flags & 0xFFF3);
             effect_state->unk_24 = source_state;
-            effect_pos = ((S_8016ECE4_2 *)effect)->unk_08;
-            effect_pos->unk_02 = (u16) source_pos->unk_02.s;
-            effect_pos->unk_06 = (u16) source_pos->unk_06.s;
-            effect_pos->unk_0A = (s16) (source_pos->unk_0A - 0x80);
+            effect_pos = effect->position;
+            effect_pos->x.w.i = (u16) source_pos->unk_02.s;
+            effect_pos->y.w.i = (u16) source_pos->unk_06.s;
+            effect_pos->z.w.i = (s16) (source_pos->unk_0A - 0x80);
             effect_state->unk_50 = 0;
             effect_state->unk_4C = 0;
             effect_state->unk_54 = 0;
             effect_state->unk_60 = 0;
             effect_state->unk_18 = (s16) (((u16) source_state->unk_2A >> 9) & 7);
-            sprite = ((S_8016ECE4_2 *)effect)->unk_0C;
+            sprite = effect->sprite;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->unk_06 = (s16) (D_80174708[((u16) source_state->unk_2A >> 9) & 7].field2 * 6);

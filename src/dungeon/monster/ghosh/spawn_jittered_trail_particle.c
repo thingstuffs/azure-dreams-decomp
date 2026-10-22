@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -49,7 +50,7 @@ extern s32 rand(void);
  * supplied state values. */
 void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16 mode_in)
 {
-    void *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *header;
     void *call_object;
     void *init_data;
@@ -85,24 +86,24 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
             resource_addr = (s32)D_80171E60;
         }
     }
-    ((S_80171F30_0 *)object)->unk_10 = (void *)resource_addr;
-    ((MovingPosition *)(((S_80171F30_0 *)object)->unk_08))->unk_02 =
+    object->unk_10 = (void *)resource_addr;
+    ((MovingPosition *)(object->position))->unk_02 =
         ((MovingPosition *)(parent->unk_08))->unk_02;
-    ((MovingPosition *)(((S_80171F30_0 *)object)->unk_08))->unk_06 =
+    ((MovingPosition *)(object->position))->unk_06 =
         ((MovingPosition *)(parent->unk_08))->unk_06;
-    ((MovingPosition *)(((S_80171F30_0 *)object)->unk_08))->unk_0A =
+    ((MovingPosition *)(object->position))->unk_0A =
         ((MovingPosition *)(parent->unk_08))->unk_0A;
 
     if ((mode_value << 16) == 0) {
         jitter = rand();
-        position = ((S_80171F30_0 *)object)->unk_08;
+        position = object->position;
         coord = ((S_80171F30_2 *)position)->unk_02;
         jitter &= 7;
         coord -= 4;
         coord += jitter;
         ((S_80171F30_2 *)position)->unk_02 = coord;
         jitter = rand();
-        position = ((S_80171F30_0 *)object)->unk_08;
+        position = object->position;
         coord = ((S_80171F30_2 *)position)->unk_06;
         jitter &= 7;
         coord -= 4;
@@ -110,14 +111,14 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
         ((S_80171F30_2 *)position)->unk_06 = coord;
     } else {
         jitter = rand();
-        position = ((S_80171F30_0 *)object)->unk_08;
+        position = object->position;
         coord = ((S_80171F30_2 *)position)->unk_02;
         jitter &= 0xF;
         coord -= 0xC;
         coord += jitter;
         ((S_80171F30_2 *)position)->unk_02 = coord;
         jitter = rand();
-        position = ((S_80171F30_0 *)object)->unk_08;
+        position = object->position;
         coord = ((S_80171F30_2 *)position)->unk_06;
         jitter &= 0xF;
         coord -= 0xC;
@@ -127,7 +128,7 @@ void spawn_jittered_trail_particle(S_80171F30_1 *parent, s32 state_value, s16 ta
 
     call_object = object;
     init_data = D_80171704;
-    header = ((S_80171F30_0 *)object)->unk_0C;
+    header = object->sprite;
     tail = (u8 *)object + 0x20;
     header->unk_06 = 0;
     ((S_80171F30_4 *)tail)->unk_32 = tail_value;

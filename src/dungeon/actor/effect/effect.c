@@ -1,4 +1,7 @@
+
+struct ObjectNodeHeader;
 /* Complete native TU in retail file order. Review pending. */
+#include "dungeon/level/outer_ring.h"
 #include "dungeon/actor/effect/effect.h"
 #include "shared/item_ids.h"
 #include "shared/monster_ids.h"
@@ -6,6 +9,8 @@
 #include "modules/dungeon_engine_entity_effects_storage.h"
 #include "shared/dungeon_item_entries.h"
 #include "common.h"
+#include "dungeon/effect.h"
+#include "dungeon/player.h"
 
 extern int abs(int);
 
@@ -194,8 +199,8 @@ s32 find_first_empty_floor_item_slot(void) {
 
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s32 sample_terrain_surface_height(s32 x, s32 y, s16 min_height);
-extern u16 D_800DCE6C[];
-extern u16 D_800DCE8C[];
+
+
 
 /* Finds a nearby unblocked position with a distance below 0x200. */
 s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, s16 *out_distance) {
@@ -230,12 +235,12 @@ s32 find_valid_floor_item_position(s16 x, s16 y, s16 z, s16 *out_x, s16 *out_y, 
 
     dir = g_dungeon_status.turn_counter & 0xF;
     for (i = 0; i < 0x10; i++, dir = (dir + 1) & 0xF) {
-        if (get_offset_map_cell_value_and_flags(x + D_800DCE6C[dir] - 1, y + D_800DCE8C[dir], 0, &tile_flags) != 0 && !(tile_flags & 0x8820)) {
-            distance = sample_terrain_surface_height((((x + (s16)D_800DCE6C[dir]) << 6) + 0x20) & 0xFFE0,
-                (((y + (s16)D_800DCE8C[dir]) << 6) + 0x20) & 0xFFE0, z - 0x20);
+        if (get_offset_map_cell_value_and_flags(x + outer_ring_dx[dir] - 1, y + outer_ring_dy[dir], 0, &tile_flags) != 0 && !(tile_flags & 0x8820)) {
+            distance = sample_terrain_surface_height((((x + (s16)outer_ring_dx[dir]) << 6) + 0x20) & 0xFFE0,
+                (((y + (s16)outer_ring_dy[dir]) << 6) + 0x20) & 0xFFE0, z - 0x20);
             if ((s16)distance < 0x200) {
-                *out_x = x + D_800DCE6C[dir];
-                *out_y = y + D_800DCE8C[dir];
+                *out_x = x + outer_ring_dx[dir];
+                *out_y = y + outer_ring_dy[dir];
                 *out_distance = distance;
                 return 1;
             }
@@ -351,7 +356,7 @@ extern void * create_item_render_object(s32 parent, s32 sprite_source, s16 x, s3
 /* Create a dungeon descriptor centered on the given tile at the specified z coordinate. */
 DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s32 *init_data) {
     DungeonDescriptor *descriptor;
-    DungeonInner *inner;
+    ObjectPosition *inner;
 
     descriptor = create_item_render_object(((u8 *)(&scene_object_list_anchor)), init_data, 0, 0, 0);
     if (descriptor == 0) {
@@ -359,9 +364,9 @@ DungeonDescriptor *create_timed_effect_at_tile(s32 tile_x, s32 tile_y, s32 z, s3
     }
     descriptor->field10 = &D_800A7548;
     inner = descriptor->inner;
-    inner->x = (s16)((tile_x << 6) + 0x20);
-    inner->y = (s16)((tile_y << 6) + 0x20);
-    inner->z = (s16)z;
+    inner->x.w.i = (s16)((tile_x << 6) + 0x20);
+    inner->y.w.i = (s16)((tile_y << 6) + 0x20);
+    inner->z.w.i = (s16)z;
     descriptor->fieldB8 = *init_data;
     return descriptor;
 }
@@ -461,22 +466,6 @@ void update_floor_object_motion(FuncObj *obj, FuncVec *pos, FuncVec *target) {
 #include "shared/object_node.h"
 #include "shared/dungeon_status.h"
 
-typedef struct S_800A794C_0 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-} S_800A794C_0;   /* object in func_800A794C */
-
-typedef struct S_800A794C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800A794C_1;   /* position in func_800A794C */
-
 typedef struct S_800A794C_2 {
     u8 pad_00[0x98];
     s32 unk_98;
@@ -495,8 +484,8 @@ extern u8 D_800A77AC[];
 /* Create an object at the tile center, initialize its fields, and increment the object count. */
 s32 create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 *payload_ptr,
                   s32 field_aa, s32 field_ac, s32 field_ae) {
-    u8 *object;
-    u8 *position;
+    ObjectNodeHeader *object;
+    ObjectPosition *position;
     u8 *fields;
     s32 payload;
 
@@ -504,13 +493,13 @@ s32 create_tile_centered_item_effect(s32 tile_x, s32 tile_y, s32 height, s32 *pa
     if (object == 0) {
         return 0;
     }
-    ((S_800A794C_0 *)object)->unk_10 = D_800A77AC;
-    position = ((S_800A794C_0 *)object)->unk_08;
-    ((S_800A794C_1 *)position)->unk_02 = (s16)((tile_x << 6) + 0x20);
-    ((S_800A794C_1 *)position)->unk_06 = (s16)((tile_y << 6) + 0x20);
-    ((S_800A794C_1 *)position)->unk_0A = height;
+    object->unk_10 = D_800A77AC;
+    position = *(u8 * *)&object->position;
+    position->x.w.i = (s16)((tile_x << 6) + 0x20);
+    position->y.w.i = (s16)((tile_y << 6) + 0x20);
+    position->z.w.i = height;
 
-    fields = object + 0x20;
+    fields = ((u8 *)object) + 0x20;
     payload = *payload_ptr;
     ((S_800A794C_2 *)fields)->unk_A0 = 4;
     ((S_800A794C_2 *)fields)->unk_AA = (s16)field_aa;
@@ -622,20 +611,14 @@ s32 place_item_at_valid_floor_position(s32 x, s32 y, s32 z, s32 unused, s32 *obj
 extern s32 register_node(void *entry, s32 registration_id);
 extern M2C_UNK D_800A7CC4;
 
-typedef struct S_800A7C64_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    s32 unk_10;
-} S_800A7C64_0;
-
 /* Create an object and initialize its render data to neutral color and unit scale. */
 void create_floor_item_renderer(void) {
     SpriteFrameState *render_data;
-    S_800A7C64_0 *object;
+    ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(2);
     if (object != NULL) {
-        render_data = object->unk_0C;
+        render_data = object->sprite;
         object->unk_10 = 0;
         register_node(object, &D_800A7CC4);
         render_data->color.c.b = 0x80;
@@ -722,7 +705,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
     vertex2 = (u8 *)0x1F800080;
     scratch = (u8 *)0x1F800000;
     render_state = &g_game_work;
-    render_ctx = *(u8 **)((u8 *)(&g_game_work));
+    render_ctx = *(u8 **)&g_game_work.draw_buffer;
     prim = *(u8 **)(render_ctx + 0x8D0);
     U32(scratch, 0x20) = (u32)(render_ctx + 0xB0);
     U32(scratch, 0xE4) = 0;
@@ -732,9 +715,9 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
     U16(scratch, 0x84) = 0;
     U16(scratch, 0x7C) = 0;
     U16(scratch, 0x74) = 0;
-    camera_angles.a = U16(render_state, 196);
-    camera_angles.b = U16(render_state, 198);
-    camera_angles.c = U16(render_state, 200);
+    camera_angles.a = *(u16 *)&render_state->view.camera_rotation.parts.camera_rotation_x;
+    camera_angles.b = *(u16 *)&render_state->view.camera_rotation.parts.camera_rotation_y;
+    camera_angles.c = *(u16 *)&render_state->view.camera_rotation.parts.viewAngle;
 
     do {
         if (((Ent4 *)((entity_index * 4) + (s32)((Ent4 *)dungeon_ground_items)))->b1 != 0) {
@@ -758,7 +741,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
                 U16(scratch, 0xBA) = U16(scratch, 0xBA) - 0x78;
                 U16(scratch, 0x100) = U16(render_params, 0x16);
                 angle_z = U16(render_params, 0x1A) - camera_angles.b;
-                U16(scratch, 0x104) = U16(render_state, 184) + angle_z;
+                U16(scratch, 0x104) = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z + angle_z;
                 angle_y = (camera_angles.c + 0x100) & 0x1FF;
                 angle_y_offset = U16(render_params, 0x18) - 0x100;
                 U16(scratch, 0x102) = angle_y + angle_y_offset;
@@ -874,7 +857,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
                             shadow_scale.vx = shadow_scale.vz;
                             shadow_scale.vy = shadow_scale.vz / 2;
                             U16(scratch, 0x100) = -camera_angles.a;
-                            U16(scratch, 0x104) = U16(render_state, 184) - camera_angles.b;
+                            U16(scratch, 0x104) = *(u16 *)&render_state->view.view_rotation_offset.parts.view_rotation_offset_z - camera_angles.b;
                             func_80065820(scratch + 0x100, rotation_matrix);
                             func_80064840(matrix_page - 0x32D0, rotation_matrix, transform);
                             func_80064BC0(transform, &shadow_scale);
@@ -922,7 +905,7 @@ s32 render_floor_items(s32 unused0, s32 unused1, void *render_params) {
         }
         entity_index += 1;
     } while (entity_index < 64);
-    *(u8 **)(*(u8 **)render_state + 0x8D0) = prim;
+    *(u8 **)(*(u8 **)&render_state->draw_buffer + 0x8D0) = prim;
     return 0;
 }
 #include "common.h"
@@ -938,17 +921,17 @@ extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Create a sprite object with the supplied position and default color and scale. */
 void *create_item_render_object(s32 parent, s32 sprite_source, s16 x, s32 y, s16 z) {
-    void *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *sprite;
-    void *position;
+    ObjectPosition *position;
 
     object = allocate_list_node(0x12, (void *)parent);
     if (object != NULL) {
-        position = F(object, void **, 8);
-        sprite = F(object, void **, 0xC);
-        F(position, s16 *, 2) = x;
-        F(position, s16 *, 6) = y;
-        F(position, s16 *, 0xA) = z;
+        position = object->position;
+        sprite = object->sprite;
+        position->x.w.i = x;
+        position->y.w.i = y;
+        position->z.w.i = z;
         register_node(object, project_sprite_chain);
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
@@ -988,13 +971,11 @@ void compact_item_entry_table(s32 entry_index) {
 #include "shared/dungeon_moving_views.h"
 
 s32 resolve_record_orientation_or_fallback();
-s32 dispatch_dungeon_category_action();
 void unlink_entity_node();
 s32 check_neighbor_tile_blocking();
 void *find_eligible_actor_at_tile_and_height();
 void set_record_integer_tile_center();
 s32 place_item_at_valid_floor_position();
-void emit_scattered_effects_unless_blocked();
 extern M2C_UNK held_item_record;
 extern u8 D_800DD7DC[];
 extern s32 saved_held_item_word;
@@ -1221,7 +1202,7 @@ void update_dropped_object_motion(void *object, register void *motion, void *til
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_25;
             set_record_integer_tile_center(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
             ((S_800A871C_1 *)object)->unk_A0 = (s16) ((u16) ((S_800A871C_1 *)object)->unk_A0 + 1);
-            launch_source = (*(void * *)((u8 *)object_data + (0x60)));
+            launch_source = (*(void **)((u8 *)object_data + (0x60)));
             travel_steps = (*(s16 *)((u8 *)object_data + (0x8A)));
             launch_heading = launch_source->unk_2A;
             (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) launch_heading;
@@ -1457,16 +1438,16 @@ extern u8 D_800A871C[];
 
 extern void * allocate_list_node(s32 flags, void **list_head);
 extern s32 register_node(void *entry, s32 registration_id);
-extern s32 clear_entry_flag_and_link_owner(void *);
+extern s32 clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 extern s32 get_item_category_value(u8 *item);
 extern void create_tracked_effect(void *, s32, s32, s32);
 
 /* Creates a dungeon object at a tile or the supplied coordinates. */
 void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, s32 unused,
                     DungeonData *source_data, s32 *init_data, s16 tile_id) {
-    DungeonObject *object;
+    ObjectNodeHeader *object;
     DungeonData *data;
-    DungeonCoords *coords;
+    ObjectPosition *coords;
     SpriteFrameState *state;
     DungeonTile *tiles;
     s32 init_value;
@@ -1474,22 +1455,22 @@ void *create_indexed_floor_object(s32 object_key, DungeonCoords *source_coords, 
     object = allocate_list_node(0x110, object_key - 0x20);
     if (object != NULL) {
         data = (DungeonData *)((u8 *)object + 0x20);
-        object->field10 = D_800A871C;
-        coords = object->field8;
-        state = object->fieldC;
+        object->unk_10 = D_800A871C;
+        coords = object->position;
+        state = object->sprite;
         data->field60 = source_data;
         if (tile_id >= 0) {
             DungeonTile *tile;
             tiles = ((DungeonTile *)dungeon_ground_item_positions);
             tile = &tiles[tile_id];
-            coords->field2 = (tile->field0 << 6) + 0x20;
-            coords->field6 = (tile->field1 << 6) + 0x20;
-            coords->fieldA = tile->field2;
+            coords->x.w.i = (tile->field0 << 6) + 0x20;
+            coords->y.w.i = (tile->field1 << 6) + 0x20;
+            coords->z.w.i = tile->field2;
             data->field88 = tile->field4;
         } else {
-            coords->field2 = source_coords->field2;
-            coords->field6 = source_coords->field6;
-            coords->fieldA = source_coords->fieldA;
+            coords->x.w.i = source_coords->field2;
+            coords->y.w.i = source_coords->field6;
+            coords->z.w.i = source_coords->fieldA;
             data->field88 = source_data->field88;
         }
         register_node(object, project_sprite_chain);

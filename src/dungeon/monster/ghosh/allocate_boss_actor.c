@@ -13,15 +13,8 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_8016F2E0[];
 extern M2C_UNK D_8016F78C;
-extern u8 D_80174A2C[];
+#include "dungeon/monster/ghosh.h"
 extern void *ghosh_boss_node;
-
-typedef struct S_8016F160_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8016F160_0;   /* obj in allocate_boss_actor */
 
 typedef struct S_8016F160_1 {
     u8 pad_00[0x13];
@@ -53,7 +46,7 @@ typedef struct S_8016F160_4 {
 void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
 {
     s16 mode_kind;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8016F160_2 *part_a;
     SpriteFrameState *part_b;
     void *work;
@@ -73,15 +66,15 @@ void *allocate_boss_actor(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ghosh_boss_node = obj;
-        ((S_8016F160_0 *)obj)->unk_10 = D_8016F2E0;
+        obj->unk_10 = D_8016F2E0;
         ((S_8016F160_1 *)work)->unk_13 = MONSTER_SELFI;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_8016F160_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_config_0a;
-        part_b = ((S_8016F160_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         mode_kind = mode & 3;
-        part_b->frameTable = D_80174A2C;
+        part_b->frameTable = ghosh_direction_frames;
         part_b->unk_25 = saved_config_25;
         actor = work;
         part_b->unk_24 = saved_config_24;

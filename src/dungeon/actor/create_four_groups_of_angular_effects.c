@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 
@@ -23,10 +24,10 @@ void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z)
     s32 sample_angle;
     s32 sample_index;
     s32 group_index;
-    void *effect;
-    u8 *positions;
+    ObjectNodeHeader *effect;
+    ObjectPosition *positions;
     u8 *effect_state;
-    u8 *sprite;
+    SpriteFrameState *sprite;
     void *data;
     void *callback = D_8002744C;
 
@@ -46,29 +47,29 @@ next_group:
 spawn:
     effect = allocate_flagged_object_node(0x202);
     if (effect != 0) {
-        *(void **)((u8 *)effect + 0x10) = callback;
+        effect->unk_10 = callback;
         data = D_800CEEFC;
         register_node(effect, data);
-        positions = *(u8 **)((u8 *)effect + 8);
-        *(s16 *)(positions + 2) = pos_x;
-        *(s16 *)(positions + 0xE) = pos_x;
-        *(s16 *)(positions + 6) = pos_y;
-        *(s16 *)(positions + 0x12) = pos_y;
-        *(s16 *)(positions + 0xA) = pos_z;
-        *(s16 *)(positions + 0x16) = pos_z;
+        positions = *(u8 * *)&effect->position;
+        positions->x.w.i = pos_x;
+        *(s16 *)(((u8 *)positions) + 0xE) = pos_x;
+        positions->y.w.i = pos_y;
+        *(s16 *)(((u8 *)positions) + 0x12) = pos_y;
+        positions->z.w.i = pos_z;
+        *(s16 *)(((u8 *)positions) + 0x16) = pos_z;
         sample_angle = sample_index << 7;
         effect_state = (u8 *)effect + 0x20;
         *(s32 *)(effect_state + 0xC) = (func_80064584(motion_angle) * func_80064584(sample_angle)) >> scale_shift;
         *(s32 *)(effect_state + 0x10) = (func_800644B8(motion_angle) * func_80064584(sample_angle)) >> scale_shift;
         *(s32 *)(effect_state + 0x14) = func_800644B8(sample_angle) << ((group_index >> 1) + 7);
-        sprite = *(u8 **)((u8 *)effect + 0xC);
+        sprite = *(u8 * *)&effect->sprite;
         data = (void *)0x808080;
-        ((SpriteFrameState *)sprite)->scale_y = 0x400;
-        ((SpriteFrameState *)sprite)->scale_x = 0x400;
-        ((SpriteFrameState *)sprite)->source = D_80028880;
-        ((SpriteFrameState *)sprite)->tpage_abr = 0x20;
-        ((SpriteFrameState *)sprite)->color.word = (s32)data;
-        ((SpriteFrameState *)sprite)->flags |= 0xC;
+        sprite->scale_y = 0x400;
+        sprite->scale_x = 0x400;
+        sprite->source = D_80028880;
+        sprite->tpage_abr = 0x20;
+        sprite->color.word = (s32)data;
+        sprite->flags |= 0xC;
         *(s16 *)(effect_state + 0x66) = 0xC;
         *(u16 *)(effect_state + 0x74) = facing;
     }

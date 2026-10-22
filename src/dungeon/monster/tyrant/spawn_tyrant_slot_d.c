@@ -6,13 +6,6 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-typedef struct S_8106B000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_8106B000_0;
-
 typedef struct S_8106B000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -59,7 +52,7 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
     SpriteFrameState *child_0C;
     S_8106B000_2 *child_08;
     S_8106B000_4 *record_alias;
-    void *allocation;
+    ObjectNodeHeader *allocation;
     s8 saved_input1;
     s16 saved_input3;
     s8 saved_input2;
@@ -72,13 +65,13 @@ void *create_flagged_actor_object_2(s16 input0, s16 input1, s16 input2, s16 inpu
     saved_input2 = input2;
     allocation = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (allocation != NULL) {
-        record = allocation + 0x20;
-        ((S_8106B000_0 *)allocation)->unk_10 = &D_8015EAA4;
+        record = ((void *)allocation) + 0x20;
+        allocation->unk_10 = &D_8015EAA4;
         record->unk_13 = MONSTER_TYRANT;
         register_node(allocation, project_sprite_chain);
-        child_08 = ((S_8106B000_0 *)allocation)->unk_08;
+        child_08 = allocation->position;
         child_08->unk_0A = saved_input3;
-        child_0C = ((S_8106B000_0 *)allocation)->unk_0C;
+        child_0C = allocation->sprite;
         value = input0 & 3;
         child_0C->unk_25 = saved_input2;
         record_alias = record;

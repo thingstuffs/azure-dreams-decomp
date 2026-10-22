@@ -1,10 +1,12 @@
+
+struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/item.h"
 
 extern void call_script();
-extern void clear_entry_flag_and_link_owner();
-extern void set_monster_data_pointer(void);
+extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 extern u8 D_800E045C[];
 extern s32 beldo_actor_nodes;
 

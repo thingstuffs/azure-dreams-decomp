@@ -57,7 +57,7 @@ s32 apply_malicious_light_tile_item(void *actor, u8 *item, s16 action) {
         cycle_map_cell_flags(F(entity, u8, 0x24), F(entity, u8, 0x25), 0x10);
         clear_slot_and_update_linked_state(item);
         counter_base = &g_dungeon_status;
-        F(counter_base, u16, 0xA)--;
+        (*(u16 *)&counter_base->activity_counts.parts.pending_action_count)--;
         return 1;
     }
     return 0;

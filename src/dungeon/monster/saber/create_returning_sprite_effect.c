@@ -60,7 +60,7 @@ void create_returning_sprite_effect(
     S_80AC55DC_1 *origin, s16 effect_id, s32 effect_value, s16 duration,
     s32 offset_x, s32 offset_y, s32 offset_z)
 {
-    void *node;
+    ObjectNodeHeader *node;
     S_80AC55DC_2 *work;
     SpriteFrameState *sprite;
     u16 sprite_flags;
@@ -71,13 +71,13 @@ void create_returning_sprite_effect(
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        ((S_80AC55DC_0 *)node)->unk_10 = D_80170A84;
+        node->unk_10 = D_80170A84;
 
-        ((S_80AC55DC_5 *)(((S_80AC55DC_0 *)node)->unk_08))->unk_02 =
+        ((S_80AC55DC_5 *)(node->position))->unk_02 =
             ((MovingPosition *)(origin->unk_08))->unk_02 + offset_x;
-        ((S_80AC55DC_5 *)(((S_80AC55DC_0 *)node)->unk_08))->unk_06 =
+        ((S_80AC55DC_5 *)(node->position))->unk_06 =
             ((MovingPosition *)(origin->unk_08))->unk_06 + offset_y;
-        ((S_80AC55DC_5 *)(((S_80AC55DC_0 *)node)->unk_08))->unk_0A =
+        ((S_80AC55DC_5 *)(node->position))->unk_0A =
             ((MovingPosition *)(origin->unk_08))->unk_0A + offset_z - 0x14;
 
         work = (S_80AC55DC_2 *)((u8 *)node + 0x20);
@@ -104,7 +104,7 @@ void create_returning_sprite_effect(
         work->unk_34 = duration;
         register_node(node, project_sprite_chain);
 
-        sprite = ((S_80AC55DC_0 *)node)->unk_0C;
+        sprite = node->sprite;
         sprite_flags = sprite->flags;
         sprite->tpage_abr = 0x20;
         sprite->scale_y = 0x1000;

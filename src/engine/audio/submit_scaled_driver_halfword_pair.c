@@ -12,7 +12,7 @@ typedef struct {
     s8  pad20[0x08];
 } S_8005A56C_Cmd;
 
-extern void apply_spu_common_attributes(S_8005A56C_Cmd *attr);
+extern void SpuSetCommonAttr(S_8005A56C_Cmd *attr);
 
 /* Dispatches a mode-selected command containing two values scaled by 256. */
 void submit_scaled_driver_halfword_pair(s32 mode, s32 value_1, s32 value_2)
@@ -30,5 +30,5 @@ void submit_scaled_driver_halfword_pair(s32 mode, s32 value_1, s32 value_2)
         command.unk1C = scaled_1;
         command.unk1E = scaled_2;
     }
-    apply_spu_common_attributes(&command);
+    SpuSetCommonAttr(&command);
 }

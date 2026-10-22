@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -17,21 +18,11 @@ typedef struct {
     u8 *field_2C;
 } SpriteFieldView_80DBD29C;
 
-
-
 typedef struct S_80174A9C_1 {
     u8 pad_00[0x9A];
     s8 unk_9A;
     s8 unk_9B;
 } S_80174A9C_1;   /* arg0 in begin_actor_directional_target_action */
-
-typedef struct S_80174A9C_2 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_80174A9C_2;   /* arg2 in begin_actor_directional_target_action */
-
-
 
 void select_sprite_entry(S_80047784 *object, s16 table_index, s16 entry_index);
 s32 find_eligible_actor_at_tile_and_height();
@@ -41,7 +32,7 @@ s32 apply_camera_offset_and_select_target();
 extern u8 D_80175414;
 
 /* Starts an actor action and selects its directional sprite and adjacent target. */
-void begin_actor_directional_target_action(void *action_state, s32 action_context, void *sprite, ActorRecord *actor) {
+void begin_actor_directional_target_action(void *action_state, s32 action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 direction;
 
     actor->movement_queue_state = (u8)(actor->movement_queue_state & 0x7F);
@@ -51,7 +42,7 @@ void begin_actor_directional_target_action(void *action_state, s32 action_contex
             ((S_80174A9C_1 *)action_state)->unk_9A = 0x17;
             (((ActionStateFieldView_80DBD29C *)action_state)->field_8C) = 0;
             ((S_80174A9C_1 *)action_state)->unk_9B = 0;
-            (((SpriteFieldView_80DBD29C *)sprite)->field_2C) = &D_80175414;
+            (sprite->frameTable) = &D_80175414;
             select_sprite_entry(sprite,
                           *(&D_80175414 + (((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                           0);
@@ -60,8 +51,8 @@ void begin_actor_directional_target_action(void *action_state, s32 action_contex
             direction = ((u16)actor->facing >> 9) & 7;
             actor->target =
                 find_eligible_actor_at_tile_and_height(actor,
-                              (((S_80174A9C_2 *)sprite)->unk_24 + ((u16 *)dir_step_x)[direction]) & 0xFFFF,
-                              (((S_80174A9C_2 *)sprite)->unk_25 + ((u16 *)dir_step_y)[direction]) & 0xFFFF,
+                              (sprite->unk_24 + ((u16 *)dir_step_x)[direction]) & 0xFFFF,
+                              (sprite->unk_25 + ((u16 *)dir_step_y)[direction]) & 0xFFFF,
                               actor->ground_height);
         }
     }

@@ -1,5 +1,7 @@
 #ifndef DUNGEON_ACTOR_SPELL_RESOURCE_IDS_G01008_H
 #define DUNGEON_ACTOR_SPELL_RESOURCE_IDS_G01008_H
+
+struct ObjectPosition;
 /* spell resource ids g01008. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01008 - CL:dungeon/func_800A3C30, CL:dungeon/func_800A40CC, PD:dungeon/engine:800DD8E7. */
 
@@ -64,13 +66,6 @@ typedef struct S_800A94A0_7 {
     u16 unk_14;
 } S_800A94A0_7;
 
-typedef struct S_800A94A0_8 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800A94A0_8;
 
 typedef struct S_800A94A0_9 {
     u8 pad_00[0x2A];
@@ -79,9 +74,9 @@ typedef struct S_800A94A0_9 {
     s16 unk_88;
 } S_800A94A0_9;
 
-extern u8 D_800DD8E7[9];
+extern u8 spell_resource_ids[9];
 /* *D_800E3D7C in create_actor_spell_effect */
-extern u8 D_800E3CC8[];
+extern u8 active_spell_parameters[];
 extern u16 direction_x_offsets[];
 extern u16 direction_y_offsets[];
 void *allocate_list_node();
@@ -92,13 +87,12 @@ void *clear_byte_and_advance();
 s32 append_entity_display_text();
 s16 get_tile_chebyshev_distance();
 s32 display_text_with_fullwidth_adjustment();
-s32 select_nearby_target_and_initialize_slot();
+s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 void setup_object_within_planar_range();
-void process_nearby_object_midpoint();
 void spend_actor_mp();
 extern M2C_UNK D_80089080;
-extern u8 D_800DD880[];
-extern u8 D_800DD8B4[];
+extern u8 spell_mp_costs[];
+extern u8 alternate_spell_mp_costs[];
 extern u8 D_800E1C58[12];
 extern u8 current_spell_effect_variant;
 extern void Control_CD(s32, void *, void *);
@@ -107,8 +101,8 @@ extern void pack_tagged_resource_descriptor(s32, void *, void *, s32);
 extern s32 read_stream_cue_start_offset(void);
 extern s32 cd_cue_base[];
 extern s8 spell_effect_selector_cache;
-extern u8 D_800DCF59;
-extern s32 D_800DD918[];
+extern u8 spell_resource_load_state;
+extern s32 spell_audio_cues[];
 extern s32 D_800DDAB8[];
 extern s32 D_800E58B0[];
 

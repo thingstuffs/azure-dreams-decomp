@@ -10,6 +10,6 @@ void reinit_audio_voices(void)
     flush_pending_sound_voice_flags();
     dispatch_combined_driver_flags(0);
     audio_disable_reverb();
-    clear_spu_reverb_work_area(4);
+    SpuClearReverbWorkArea(4);
     enable_available_spu_reverb();
 }

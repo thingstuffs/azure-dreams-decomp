@@ -1,6 +1,8 @@
 #ifndef DUNGEON_OVL_18A6800_H
 #define DUNGEON_OVL_18A6800_H
+#include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
@@ -18,7 +20,7 @@ ObjectNodeHeader *handle_retail_n_818875_e_8_callee_80024_de_8_creates_fade_upda
 void *create_object_offset(MovingPosition *, s16, s16, s16, s32);
 void advance_the_effect_state_updates_motion_sets_display_color(void *, s32, struct S_80025160_1 *);
 s32 build_and_enqueue_interpolated_depth_sorted_shaded_lines_linked_list(void *, void *, void *);
-void advance_and_fade_effect_flagging_expiration_timer_runs_out(struct Actor *, struct Motion *, struct EffectColor *);
+void advance_and_fade_effect_flagging_expiration_timer_runs_out(struct Actor *, struct Motion *, SpriteFrameState *);
 void handle_rotate_move_effect_quad_fade_colors_flag_lifetime_ends(void *, void *, void *);
 s32 handle_project_linked_quads_queue_shaded_primitives_draw_modes_depth(void *);
 #include "modules/dungeon_native_abi.h"
@@ -31,7 +33,6 @@ extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80026478[];
 
-void *create_an_copies_three_source_fields_child_runs_n_16_child_setup();
 void create_radial_effect_from_source();
 s32 build_shaded_quads_adjacent_vertex_rows_adds_them_ordering_table(void);
 

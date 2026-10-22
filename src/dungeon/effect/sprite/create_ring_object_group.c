@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
@@ -8,22 +9,6 @@ s32 func_80064584();                             /* extern */
 extern u8 D_800250B4[];
 extern u8 D_80028220[];
 extern u8 D_80045C34[];
-
-typedef struct S_81959B44_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_81959B44_0;
-
-typedef struct S_81959B44_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_81959B44_1;
 
 typedef struct S_81959B44_2 {
     u8 pad_00[0x14];
@@ -60,9 +45,9 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
     s32 neg_y_fixed;
     s32 x_fixed;
     S_81959B44_2 *state;
-    S_81959B44_1 *position;
+    ObjectPosition *position;
     SpriteFrameState *transform;
-    void *object;
+    ObjectNodeHeader *object;
 
     ring_index = 0;
     div6_magic = 0x2AAAAAAB;
@@ -73,24 +58,24 @@ void *create_ring_object_group(s16 center_x, s16 center_y, s16 center_z, s16 rad
         }
         object = allocate_flagged_object_node(object_flags);
         if (object != 0) {
-            ((S_81959B44_0 *)object)->unk_10 = &D_800250B4;
+            object->unk_10 = &D_800250B4;
             register_node(object, &D_80045C34);
             angle = ring_index << 8;
-            position = ((S_81959B44_0 *)object)->unk_08;
+            position = object->position;
             x_component = func_80064584(angle) >> 7;
             x_offset = x_component + ((s32) ((s16) x_component * radius_scale) >> 2);
             y_component = func_800644B8(angle) >> 7;
             y_scale_product = (s16) y_component * radius_scale;
-            state = object + 0x20;
+            state = ((void *)object) + 0x20;
             pos_x = center_x + x_offset;
-            position->unk_02 = pos_x;
+            position->x.w.i = pos_x;
             state->unk_1C = pos_x;
             pos_y = center_y + (y_component + (y_scale_product >> 2));
-            position->unk_06 = pos_y;
+            position->y.w.i = pos_y;
             state->unk_1E = pos_y;
-            position->unk_0A = center_z;
+            position->z.w.i = center_z;
             state->unk_20 = center_z;
-            transform = ((S_81959B44_0 *)object)->unk_0C;
+            transform = object->sprite;
             transform->source = &D_80028220;
             transform->scale_x = 0x1000;
             transform->angle_z = (u16) (angle + 0x400);

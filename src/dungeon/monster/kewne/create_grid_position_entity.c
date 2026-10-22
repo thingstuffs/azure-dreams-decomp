@@ -16,13 +16,6 @@ extern void update_actor_animation_and_behavior(void);
 extern u8 D_80175E40[];
 extern u8 D_80175EA0[];
 
-typedef struct S_801708B4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_801708B4_0;   /* entity in create_grid_position_entity */
-
 typedef struct S_801708B4_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -51,7 +44,7 @@ typedef struct S_801708B4_4 {
 /* Creates Kewne with default frames at D_80175E40, applies spawn flags, and attempts valid tile placement. */
 void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
 {
-    void *entity;
+    ObjectNodeHeader *entity;
     S_801708B4_2 *position;
     SpriteFrameState *placement;
     S_801708B4_4 *actor;
@@ -70,13 +63,13 @@ void *create_grid_position_entity(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 h
     entity = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (entity != 0) {
         entity_data = (u8 *)entity + 0x20;
-        ((S_801708B4_0 *)entity)->unk_10 = update_actor_callbacks_and_ground;
+        entity->unk_10 = update_actor_callbacks_and_ground;
         ((S_801708B4_1 *)entity_data)->unk_13 = MONSTER_KEWNE;
         register_node(entity, project_sprite_chain);
 
-        position = ((S_801708B4_0 *)entity)->unk_08;
+        position = entity->position;
         position->unk_0A = saved_height;
-        placement = ((S_801708B4_0 *)entity)->unk_0C;
+        placement = entity->sprite;
         spawn_mode = spawn_flags & 3;
         placement->unk_25 = saved_y;
         actor = entity_data;

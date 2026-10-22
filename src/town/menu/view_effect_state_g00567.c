@@ -2,6 +2,7 @@
 /* inferred-strong G00567: view_effect_state_g00567; joins CL:town/func_800A4E6C; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A4E6C. */
 #include "town/menu/view_effect_state_g00567.h"
+#include "shared/object_node.h"
 
 /* Updates state from global values and triggers a refresh every 15 calls. */
 void update_view_driven_state(State *state) {
@@ -24,14 +25,14 @@ void *allocate_randomized_effect_object(s32 state_value)
     s32 offset_sample;
     s16 initial_count;
     S_800A25CC_1 *state;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = allocate_flagged_object_node(0x136);
     if (object == 0) {
         return 0;
     }
-    ((S_800A25CC_0 *)object)->unk_10 = D_800A2690;
-    state = object + 0x20;
+    object->unk_10 = D_800A2690;
+    state = ((void *)object) + 0x20;
     initial_count = scale_random_to_unsigned_halfword_limit(0xB4) + 0x3C;
     state->unk_04 = initial_count;
     state->unk_06 = initial_count;

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -7,12 +8,6 @@
 typedef s32 M2C_UNK;
 struct Dst;
 struct Elem;
-
-typedef struct S_80172CC8_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80172CC8_0;
 
 typedef struct S_80172CC8_1 {
     s32 unk_00;
@@ -55,8 +50,8 @@ extern M2C_UNK D_80170D60[3];
 void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offset, s16 z_offset, s16 variant) {
     SpriteFrameState *setup_sub;
     SpriteFrameState *display_sub;
-    Node *node;
-    S_80172CC8_0 *position;
+    ObjectNodeHeader *node;
+    ObjectPosition *position;
     s32 origin_z;
     u16 x;
     u16 y;
@@ -64,24 +59,24 @@ void create_boss_display_variant(S_80172CC8_1 *origin, s16 x_offset, s16 y_offse
 
     node = (Node *)allocate_flagged_object_node(0x212);
     if (node != 0) {
-        node->callback = D_80170D60;
+        node->unk_10 = D_80170D60;
         register_node(node, project_sprite_chain);
-        setup_sub = node->sub;
+        setup_sub = *(Sub * *)&node->sprite;
         setup_sub->tpage_abr = 0x20;
         setup_sub->unk_06 = 6;
         setup_sub->flags |= 0xC;
         position = node->position;
-        position->unk_00.at00.v = origin->unk_00;
-        position->unk_04.at00.v = origin->unk_04;
-        x = position->unk_00.at02.v;
+        position->x.v = origin->unk_00;
+        position->y.v = origin->unk_04;
+        x = *(u16 *)&position->x.w.i;
         origin_z = origin->unk_08;
-        position->unk_00.at02.v = (u16)(x + x_offset);
-        y = position->unk_04.at02.v;
-        position->unk_08.at00.v = origin_z;
-        z = position->unk_08.at02.v;
-        position->unk_04.at02.v = (u16)(y + y_offset);
-        position->unk_08.at02.v = (u16)(z + z_offset);
-        display_sub = node->sub;
+        position->x.w.i = (u16)(x + x_offset);
+        y = *(u16 *)&position->y.w.i;
+        position->z.v = origin_z;
+        z = *(u16 *)&position->z.w.i;
+        position->y.w.i = (u16)(y + y_offset);
+        position->z.w.i = (u16)(z + z_offset);
+        display_sub = *(Sub * *)&node->sprite;
         display_sub->scale_y = 0x1400;
         display_sub->scale_x = 0x1400;
         display_sub->color.c.b = 0x80;

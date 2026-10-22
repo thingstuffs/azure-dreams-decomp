@@ -1,7 +1,7 @@
 #include "common.h"
 #include "frontend/libcard/message.h"
 
-void func_8004E994(s32 value);
+void noop_release_notification(s32 value);
 
 typedef struct S_800239B0_0 {
     u8 pad_00[0x1D8];
@@ -20,6 +20,6 @@ void card_boot_release_three_row_panel_text(void *record) {
         value_ptr = ((S_800239B0_0 *)entry_cursor)->unk_1D8;
         entry_cursor += 4;
         entry_index += 1;
-        func_8004E994(*value_ptr);
+        noop_release_notification(*value_ptr);
     } while (entry_index < 3);
 }

@@ -1,7 +1,10 @@
 /* Launched tile effects, randomized rotating particles, and actor creation at the destination. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/travel/random_rotation_sprite_effects.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/system.h"
 void (*const dungeon_ovl_18b8824_entry)(void) = (void (*)(void))advance_launched_effect;
 
 /* Advances and spins a particle, increments its owner's counter, and removes it after its lifetime. */
@@ -34,7 +37,7 @@ void interpolate_view_parameters(void *state, void *motion, void *transform)
    setting. */
 void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b8824_818988CC_Copy24 *copy_src, s16 initial_value)
 {
-    ovl_18b8824_818988CC_Object *obj;
+    ObjectNodeHeader *obj;
     ovl_18b8824_818988CC_S_800240CC_0 *fields;
     SpriteFrameState *sprite;
     ovl_18b8824_818988CC_Copy24 *dst;
@@ -42,13 +45,13 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
 
     obj = (ovl_18b8824_818988CC_Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->callback = (void *)interpolate_view_parameters;
+        obj->unk_10 = (void *)interpolate_view_parameters;
         fields = (u8 *)obj + 0x20;
         fields->unk_0C = context;
         fields->unk_10 = 0;
         fields->unk_12 = initial_value;
 
-        sprite = obj->sprite;
+        sprite = *(ovl_18b8824_818988CC_Sprite * *)&obj->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -59,14 +62,14 @@ void *create_a_sprite_random_rotation_copies_initial_data(void *context, ovl_18b
         sprite->scale_x = 0x800;
 
         register_node(obj, project_sprite_chain);
-        dst = obj->dst;
+        dst = *(ovl_18b8824_818988CC_Copy24 * *)&obj->position;
         *dst = *copy_src;
         return obj;
     }
     return 0;
 }
 
-void handle_increment_entry_counters_process_target_propagate_status_flags(void *entry, void *unused, void *target)
+void handle_increment_entry_counters_process_target_propagate_status_flags(void *entry, void *unused, SpriteFrameState *target)
 {
     void *object;
 
@@ -74,7 +77,7 @@ void handle_increment_entry_counters_process_target_propagate_status_flags(void 
     *(u16 *)((u8 *)object + 0x14) += 1;
     *(u16 *)((u8 *)entry + 4) += 1;
     advance_sprite_animation_and_textures(target);
-    if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
+    if (target ->flags & 0x6000) {
         *(u16 *)((u8 *)entry - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -83,7 +86,7 @@ void handle_increment_entry_counters_process_target_propagate_status_flags(void 
 /* Creates a gray sprite with copied motion, a fixed rotation, and a starting height offset of 80 units. */
 void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
 {
-    ovl_18b8824_81898A64_S_80024264_2 *state;
+    ObjectPosition *state;
     SpriteFrameState *appearance;
     ovl_18b8824_81898A64_S_80024264_0 *object;
 
@@ -102,12 +105,12 @@ void *create_randomized_grayscale_effect(s32 object_tag, Rec_func_80024264_arg1 
         appearance->angle_z = 0xC00;
         register_node(object, project_sprite_chain);
         state = object->unk_08;
-        state->unk_00 = initial_state->unk_00.at00_s32.v;
-        state->unk_04 = initial_state->unk_04.at00_s32.v;
-        state->unk_08 = initial_state->unk_08.at00_s32.v + 0x500000;
-        state->unk_0C = initial_state->unk_0C.at00_s32.v;
-        state->unk_10 = initial_state->unk_10.at00_s32.v;
-        state->unk_14 = initial_state->unk_14;
+        state->x.v = initial_state->unk_00.at00_s32.v;
+        state->y.v = initial_state->unk_04.at00_s32.v;
+        state->z.v = initial_state->unk_08.at00_s32.v + 0x500000;
+        state->velocity_x = initial_state->unk_0C.at00_s32.v;
+        state->velocity_y = initial_state->unk_10.at00_s32.v;
+        state->velocity_z = initial_state->unk_14;
         return object;
     } else {
         return NULL;
@@ -148,7 +151,7 @@ void advance_the_entry_counters_trigger_count_milestones_update_target(void *ent
 void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441C_3 *initial_state) {
     SpriteFrameState *display;
     ovl_18b8824_81898C1C_S_8002441C_0 *object;
-    ovl_18b8824_81898C1C_S_8002441C_2 *state;
+    ObjectPosition *state;
     void *result;
 
     object = allocate_flagged_object_node(0x212);
@@ -170,12 +173,12 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
         display->flags = (u16)(display->flags | 0x100);
         register_node(object, project_sprite_chain);
         state = object->unk_08;
-        state->unk_00 = initial_state->unk_00;
-        state->unk_04 = initial_state->unk_04;
-        state->unk_08 = initial_state->unk_08;
-        state->unk_0C = initial_state->unk_0C;
-        state->unk_10 = initial_state->unk_10;
-        state->unk_14 = initial_state->unk_14;
+        state->x.v = initial_state->unk_00;
+        state->y.v = initial_state->unk_04;
+        state->z.v = initial_state->unk_08;
+        state->velocity_x = initial_state->unk_0C;
+        state->velocity_y = initial_state->unk_10;
+        state->velocity_z = initial_state->unk_14;
         result = object;
         return result;
     } else {
@@ -184,13 +187,13 @@ void *create_counted_sprite_effect(s32 object_id, ovl_18b8824_81898C1C_S_8002441
     }
 }
 
-void mark_owner_on_target_completion(void *object_ref, s32 unused, void *target) {
+void mark_owner_on_target_completion(void *object_ref, s32 unused, SpriteFrameState *target) {
     u8 *object;
 
     object = *(u8 **)((u8 *)object_ref + 0x0);
     *(u16 *)(object + 0x14) += 1;
     advance_sprite_animation_and_textures(target);
-    if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
+    if (target ->flags & 0x6000) {
         *(u16 *)((u8 *)object_ref - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

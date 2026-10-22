@@ -34,9 +34,9 @@ extern s32 audio_sequence_track_count[3];
 extern s32 audio_sequence_multitrack_mode[3];
 extern void start_channel_note(s32 a0, s32 a1, s32 a2);
 extern void audio_sequence_note_off(s32 a0, s32 a1, s32 a2);
-extern void func_80057A48(s32 a0, s32 a1, s32 a2);
+extern void noop_midi_a0(s32 a0, s32 a1, s32 a2);
 extern void audio_apply_channel_control(s32 a0, s32 a1, s32 a2);
-extern void func_8005848C(s32 a0, s32 a1);
+extern void noop_midi_d0(s32 a0, s32 a1);
 extern void sound_set_seven_bit_channel_value_and_notify(s32 a0, s32 a1, s32 a2);
 /* Dispatch a MIDI channel event and handle track state save, restore, and repeat controls. */
 void audio_dispatch_midi_event(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second_data)
@@ -62,7 +62,7 @@ void audio_dispatch_midi_event(S_80085FA8 *track_arg, s32 status, s32 first_data
         return;
 
     case 0xA0:
-        func_80057A48(channel, event_data & 0xFF, second_data & 0xFF);
+        noop_midi_a0(channel, event_data & 0xFF, second_data & 0xFF);
         return;
 
     case 0xB0:
@@ -136,7 +136,7 @@ void audio_dispatch_midi_event(S_80085FA8 *track_arg, s32 status, s32 first_data
         return;
 
     case 0xD0:
-        func_8005848C(channel, event_data & 0xFF);
+        noop_midi_d0(channel, event_data & 0xFF);
         return;
     }
 }

@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_188298C_H
 #define DUNGEON_OVL_188298C_H
+
+struct SpriteFrameState;
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
@@ -198,7 +200,6 @@ typedef struct ovl_188298c_818632E4_LargeFlag {
 extern void *dungeon_actor_ring_anchor;
 extern u8 current_spell_effect_variant;
 extern s32 check_entity_interaction_compatibility(void *kind, void *actor);
-extern s32 check_entity_eligibility(void *actor);
 extern s32 generate_random_value(void);
 extern void try_apply_status_effect(void *actor, s32 mode, s32 amount);
 extern s32 abs(s32);
@@ -217,10 +218,10 @@ extern s32 check_layer_offset_height();
 extern s32 sample_terrain_surface_height();
 extern void play_sound_if_enabled();
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
-void func_80024060(s32 x, s32 y, void *kind, s32 flags);
+void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
 void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, ovl_188298c_8186298C_Arg2Ent *effect);
 void spawn_jittered_type_212_effect(s32 owner, void *source);
-void advance_counter_and_propagate_target_flags(void *state, M2C_UNK context, Rec_D_80082E80 *target);
+void advance_counter_and_propagate_target_flags(void *state, M2C_UNK context,struct SpriteFrameState *target);
 void create_radius_directional_effects(s32 effect_param, void *origin_arg, s16 radius_arg, u8 *blocked_dirs);
 s32 project_and_queue_shaded_line(void *line, void *unused_render_context);
 void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Controller *ctrl, ovl_188298c_818632E4_Motion *motion, void *render_data);

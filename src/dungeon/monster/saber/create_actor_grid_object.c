@@ -1,3 +1,6 @@
+
+struct ObjectPosition;
+struct SpriteFrameState;
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -18,7 +21,7 @@ extern void func_80171AE4(void);
 extern void func_80171B44(void);
 extern void func_80173020(void);
 extern void func_80173070(void);
-extern void advance_selected_item_action_2(void);
+extern void advance_selected_item_action_2(void *action, struct ObjectPosition *position,struct SpriteFrameState *sprite, void *actor);
 extern void func_80173158(void);
 extern void func_801731D0(void);
 extern void func_8017329C(void);

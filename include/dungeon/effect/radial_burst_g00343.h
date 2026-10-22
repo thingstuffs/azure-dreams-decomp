@@ -37,17 +37,6 @@ typedef struct S_800B6814_0 {
 } S_800B6814_0;
 
 /* node in spawn_randomized_radial_burst */
-typedef struct S_800B6814_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800B6814_1;
 
 /* part in spawn_randomized_radial_burst */
 /* arg0 in spawn_randomized_radial_burst */
@@ -75,7 +64,6 @@ extern s32 D_800B63A8;
 extern s32 D_800DEC00;
 
 /* Functions defined in this translation unit. */
-void emit_scattered_effects_unless_blocked(void *source);
 void spawn_randomized_radial_burst(MovingPosition *origin);
 
 #endif

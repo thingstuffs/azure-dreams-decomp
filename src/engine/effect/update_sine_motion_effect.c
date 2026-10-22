@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "slus/jtbl_800517CC.h"
 #include "shared/object_flags.h"
 
@@ -13,7 +14,7 @@
 void update_sine_motion_effect(
     EffectState800517CC *effect,
     VecState800517CC *motion,
-    ColorState800517CC *color)
+    SpriteFrameState *color)
 {
     u32 state_index;
 
@@ -192,9 +193,9 @@ void update_sine_motion_effect(
         }
         break;
     default:
-        color->b = 0;
-        color->g = 0;
-        color->r = 0;
+        color->color.c.b = 0;
+        color->color.c.g = 0;
+        color->color.c.r = 0;
     }
 
     ((ParentState800517CC *)effect->parent)->child10 = 0;

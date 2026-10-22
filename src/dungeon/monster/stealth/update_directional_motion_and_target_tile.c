@@ -18,7 +18,7 @@ extern void set_record_integer_tile_center();
 extern void begin_actor_display_action();
 extern void apply_clamped_actor_value_delta();
 
-extern u8 D_80170F74[];
+#include "dungeon/monster/stealth.h"
 extern u8 D_80173D60[];
 
 /* Updates directional movement and returns the entity to its target tile. */
@@ -131,7 +131,7 @@ void update_directional_motion_and_target_tile(S_80172F98_0 *action, ObjectPosit
         if (((s32)g_dungeon_status.pending_display_owner) == (s32)entity - 0x20) {
             *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
         }
-        action->unk_8C = D_80170F74;
+        action->unk_8C = stealth_behavior_entry;
 
         return;
     default:

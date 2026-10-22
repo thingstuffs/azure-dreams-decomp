@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_7E765800_H
 #define DUNGEON_OVL_7E765800_H
+
+struct SpriteFrameState;
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
@@ -101,6 +103,6 @@ extern s32 D_80024264;
 extern s32 transform_effect_tag;
 extern s32 D_800DEF08;
 s32 allocate_display_object_and_copy_state(s32 stored_value, void *input, s16 stored_tag);
-void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record);
+void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused,struct SpriteFrameState *record);
 s32 create_randomized_transform_effect(s32 owner_id, Row_8189EBBC_S_800243BC_3 *transform);
 #endif

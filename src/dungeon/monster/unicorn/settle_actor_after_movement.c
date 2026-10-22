@@ -1,7 +1,9 @@
+#include "shared/sprite_frame_state.h"
 #include "dungeon/monster/unicorn/settle_actor_after_movement.h"
+#include "shared/sprite_frame_state.h"
 
 /* Advance the actor movement animation and settle it onto its destination tile. */
-void settle_actor_after_movement(void *animation, void *motion, void *sprite, void *actor)
+void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 direction_x;
     s32 direction_y;
@@ -17,14 +19,14 @@ void settle_actor_after_movement(void *animation, void *motion, void *sprite, vo
 
     switch (state) {
     case 0:
-        if (((T_80172664_S_80172664_2 *)sprite)->unk_14 & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((T_80172664_S_80172664_1 *)animation)->unk_9B = 0xFF;
-            ((T_80172664_S_80172664_2 *)sprite)->unk_14 |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, ((T_80172664_S_80172664_0 *)actor)->unk_2A, 1);
             return;
         }
 
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174D7C;
+        (sprite->frameTable) = &D_80174D7C;
         select_sprite_entry(
             sprite,
             *(&D_80174D7C +
@@ -52,7 +54,7 @@ void settle_actor_after_movement(void *animation, void *motion, void *sprite, vo
             return;
         }
 
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174D84;
+        (sprite->frameTable) = &D_80174D84;
         select_sprite_entry(
             sprite,
             *(&D_80174D84 +
@@ -101,10 +103,10 @@ void settle_actor_after_movement(void *animation, void *motion, void *sprite, vo
 
     case 4:
         ((T_80172664_S_80172664_1 *)animation)->unk_90 += 0xC0000;
-        if (!(((T_80172664_S_80172664_2 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174D8C;
+        (sprite->frameTable) = &D_80174D8C;
         select_sprite_entry(
             sprite,
             *(&D_80174D8C +
@@ -119,21 +121,21 @@ void settle_actor_after_movement(void *animation, void *motion, void *sprite, vo
 
     case 0xFF:
     {
-        s32 tile_x = ((T_80172664_S_80172664_2 *)sprite)->unk_24 << 6;
+        s32 tile_x = sprite->unk_24 << 6;
         s32 position_x = ((T_80172664_S_80172664_3 *)motion)->unk_02 - 0x20;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C = ((tile_x - position_x) << 15) >> 1;
     }
         {
-            s32 tile_y = ((T_80172664_S_80172664_2 *)sprite)->unk_25 << 6;
+            s32 tile_y = sprite->unk_25 << 6;
             s32 position_y = ((T_80172664_S_80172664_3 *)motion)->unk_06 - 0x20;
             ((T_80172664_S_80172664_3 *)motion)->unk_10 = ((tile_y - position_y) << 15) >> 1;
         }
-        if (!(((T_80172664_S_80172664_2 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         ((T_80172664_S_80172664_3 *)motion)->unk_10 = 0;
         ((T_80172664_S_80172664_3 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((T_80172664_S_80172664_2 *)sprite)->unk_24, ((T_80172664_S_80172664_2 *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
         ((T_80172664_S_80172664_1 *)animation)->unk_8C = &D_80170E7C;
         g_dungeon_status.active_actor = 0;

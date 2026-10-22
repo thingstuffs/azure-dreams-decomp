@@ -124,7 +124,7 @@ void noop_after_window_shrink(void);
 void noop_after_menu_slot_release(void);
 void noop_after_cursor_extent_completion(void);
 void noop_runtime_record_idle(void);
-void func_80038A08(void);
+void noop_installed_script_action(void);
 void vm_op_02_noop(void);
 void vm_op_03_noop(void);
 void vm_op_04_noop(void);

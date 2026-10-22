@@ -5,13 +5,6 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-typedef struct S_80F2D000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80F2D000_0;   /* object in spawn_effect_object */
-
 typedef struct S_80F2D000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -62,7 +55,7 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     SpriteFrameState *part_b;
     S_80F2D000_2 *part_a;
     void *work_copy;
-    void *object;
+    ObjectNodeHeader *object;
     S_80F2D000_1 *work;
 
     unksp20 = (s32) *(s8 *)-0x149C;
@@ -70,13 +63,13 @@ void *spawn_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     variant = 1;
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
-        work = object + 0x20;
-        ((S_80F2D000_0 *)object)->unk_10 = &D_8014CA8C;
+        work = ((void *)object) + 0x20;
+        object->unk_10 = &D_8014CA8C;
         work->unk_13 = MONSTER_STEALTH;
         register_node(object, project_sprite_chain);
-        part_a = ((S_80F2D000_0 *)object)->unk_08;
+        part_a = object->position;
         part_a->unk_0A = attr_c;
-        part_b = ((S_80F2D000_0 *)object)->unk_0C;
+        part_b = object->sprite;
         part_b->unk_25 = attr_b;
         work_copy = work;
         part_b->frameTable = &D_8014FD30;

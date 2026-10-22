@@ -1,15 +1,11 @@
 #include "common.h"
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80FFF000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80FFF000_0;   /* created in spawn_killer_slot_a */
+
 
 typedef struct S_80FFF000_1 {
     u8 pad_00[0x13];
@@ -18,11 +14,6 @@ typedef struct S_80FFF000_1 {
     u8 pad_18[0x4];
     u32 unk_1C;
 } S_80FFF000_1;   /* result in spawn_killer_slot_a */
-
-typedef struct S_80FFF000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80FFF000_2;   /* position in spawn_killer_slot_a */
 
 typedef struct S_80FFF000_4 {
     u8 pad_00[0x8C];
@@ -66,8 +57,8 @@ void *spawn_killer_slot_a(s16 flags, s32 kind_id, s32 variant, s32 spawn_value) 
 void *spawn_killer_slot_a(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 {
     void *result = 0;
-    void *created;
-    void *position;
+    ObjectNodeHeader *created;
+    ObjectPosition *position;
     SpriteFrameState *part_b;
     S_80FFF000_4 *actor;
     s32 left;
@@ -87,13 +78,13 @@ void *spawn_killer_slot_a(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     original_flags = flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;
-        ((S_80FFF000_0 *)created)->unk_10 = D_8014CA7C;
+        created->unk_10 = D_8014CA7C;
         ((S_80FFF000_1 *)result)->unk_13 = MONSTER_KILLER;
         register_node(created, project_sprite_chain);
 
-        position = ((S_80FFF000_0 *)created)->unk_08;
-        ((S_80FFF000_2 *)position)->unk_0A = saved_spawn;
-        part_b = ((S_80FFF000_0 *)created)->unk_0C;
+        position = created->position;
+        position->z.w.i = saved_spawn;
+        part_b = created->sprite;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = result;

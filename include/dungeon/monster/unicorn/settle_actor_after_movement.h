@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F511800_P01_H
 #define DUNGEON_OVL_7F511800_P01_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -60,5 +61,5 @@ extern u8 D_80170E7C;
 extern u8 D_80174D7C;
 extern u8 D_80174D84;
 extern u8 D_80174D8C;
-void settle_actor_after_movement(void *animation, void *motion, void *sprite, void *actor);
+void settle_actor_after_movement(void *animation, void *motion, SpriteFrameState *sprite, void *actor);
 #endif

@@ -1,5 +1,7 @@
 /* Expanding moving sprites and staged attachment, particle emission, and cleanup effects. */
 #include "dungeon/effect/particle/interpolate_view_parameters.h"
+#include "shared/entity.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
@@ -13,13 +15,6 @@ const B31_818C8FD0_OffsetTable D_80024004 = {{{32,0},{32,32},{0,32},{-32,32},{-3
 
    /* the 0x2 bytes before arg0 in interpolate_view_parameters, addressed as arg0[-1] */
 
-
-
-
-
-
-
-
 /* Apply the effect offset, update its object, and flag expired or inactive effects. */
 extern u8 D_800DEC00[];
 extern u8 current_spell_effect_variant;
@@ -32,7 +27,7 @@ void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position,
 
     position[0] += state->x;
     position[1] += state->y;
-    D_80024D04 = 1;
+    moving_particle_effect_updated = 1;
     position[2] += state->z;
     advance_sprite_animation_and_textures(object);
     object->field1C += 0x80;
@@ -51,15 +46,8 @@ void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position,
 
    /* the 0x2 bytes before arg0 in func_80024124, addressed as arg0[-1] */
 
-
-
-
-
-
-
-
 /* Advance effect motion and lifetime, updating its object and marking completion. */
-void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924_EffectObject *object)
+void advance_accelerating_particle(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924_EffectObject *object)
 {
     u16 timer;
     u16 life;
@@ -71,7 +59,7 @@ void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924
     position[1] += effect->y;
     position[2] += effect->z;
 
-    D_80024D04 = 1;
+    moving_particle_effect_updated = 1;
     timer = effect->timer + 1;
     effect->timer = timer;
     if (!(timer & 1)) {
@@ -97,20 +85,9 @@ void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924
 
    /* arg0 in update_a_moving_effect_spawns_particles_advances_timed_phases */
 
-
-
-
-
-
-
    /* arg1 in update_a_moving_effect_spawns_particles_advances_timed_phases */
 
-
-
-
-
    /* the 0x18 bytes before ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30 in update_a_moving_effect_spawns_particles_advances_timed_phases, addressed as ((B31_818C8A70_S_818C8A70_0 *)arg0)->unk_30[-1] */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
@@ -126,41 +103,41 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
     u16 burst_ticks;
     u16 fade_ticks;
     B31_818C8A70_S_818C8A70_3 *sprite;
-    B31_818C8A70_S_818C8A70_5 *particle_pos;
+    ObjectPosition *particle_pos;
     B31_818C8A70_S_818C8A70_1 *particle_state;   /* retained from the base: holds the repeated particle-state role */
     B31_818C8A70_S_818C8A70_6 *source;
-    void *particle;
+    ObjectNodeHeader *particle;
 
-    D_80024D04 = 1;
+    moving_particle_effect_updated = 1;
     source = ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_2C;
     if (((B31_818C8A70_S_818C8A70_0 *)effect)->unk_00 == 0) {
         particle = allocate_flagged_object_node(0x212);
-        particle_state = particle + 0x20;
+        particle_state = ((void *)particle) + 0x20;
         if (particle != NULL) {
             particle_state->unk_02 = 0x1A;
-            ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_10 = func_80024124;
+            particle->unk_10 = advance_accelerating_particle;
             register_node(particle, project_sprite_chain);
-            sprite = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_0C;
+            sprite = particle->sprite;
             sprite->unk_10 = 0x60;
             sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-            particle_pos = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_08;
+            particle_pos = particle->position;
             random_value = func_80069EF8();
             coord = position->unk_00.at02.v;
             coord -= 8;
             coord += random_value & 0xF;
-            particle_pos->unk_02 = coord;
+            particle_pos->x.w.i = coord;
             random_value = func_80069EF8();
             coord = position->unk_04.at02.v;
             coord -= 8;
             coord += random_value & 0xF;
-            particle_pos->unk_06 = coord;
+            particle_pos->y.w.i = coord;
             random_value = func_80069EF8();
             coord = position->unk_08.at02.v;
             coord -= 4;
             coord += random_value & 7;
-            particle_pos->unk_0A = coord;
+            particle_pos->z.w.i = coord;
             particle_state->unk_60 = (s32) (func_80069EF8() + 0xFFFE0000);
-            sprite = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_0C;
+            sprite = particle->sprite;
             sprite->unk_1C = 0x1000;
             sprite->unk_1E = 0x1000;
             sprite->unk_0E = 0x80;
@@ -198,38 +175,38 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
         ((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 = burst_ticks;
         if ((burst_ticks & 3) == phase) {
             particle = allocate_flagged_object_node(0x212);
-            particle_state = particle + 0x20;
+            particle_state = ((void *)particle) + 0x20;
             if (particle != NULL) {
                 u32 particle_z;
                 u16 particle_z_base;
                 particle_state->unk_02 = 0x1A;
-                ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_10 = func_80024124;
+                particle->unk_10 = advance_accelerating_particle;
                 register_node(particle, project_sprite_chain);
-                sprite = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_0C;
+                sprite = particle->sprite;
                 sprite->unk_10 = 0x60;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-                particle_pos = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_08;
+                particle_pos = particle->position;
                 sprite = ((B31_818C8A70_S_818C8A70_7_pre *)(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30))[-1].unk_00;
                 random_value = func_80069EF8();
                 coord = sprite->unk_02;
                 coord -= 0x10;
                 coord += random_value & 0x1F;
-                particle_pos->unk_02 = coord;
+                particle_pos->x.w.i = coord;
                 random_value = func_80069EF8();
                 coord = sprite->unk_06;
                 coord -= 0x10;
                 coord += random_value & 0x1F;
-                particle_pos->unk_06 = coord;
+                particle_pos->y.w.i = coord;
                 random_value = func_80069EF8();
                 random_value &= 0x1F;
                 particle_z_base = sprite->unk_0A;
                 random_value += 0x10;
                 particle_z = (u32)particle_z_base - random_value;
-                particle_pos->unk_0A = particle_z;
+                particle_pos->z.w.i = particle_z;
                 particle_state->unk_58 = (s32) (func_80069EF8() - 0x8000);
                 particle_state->unk_5C = (s32) (func_80069EF8() - 0x8000);
                 particle_state->unk_60 = (s32) ((func_80069EF8() + 0xFFFC0000) * 2);
-                sprite = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_0C;
+                sprite = particle->sprite;
                 sprite->unk_1C = 0x1000;
                 sprite->unk_1E = 0x1000;
                 sprite->unk_0E = 0x80;
@@ -242,34 +219,34 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
         }
         if ((((B31_818C8A70_S_818C8A70_0 *)effect)->unk_02 & 3) == 2) {
             particle = allocate_flagged_object_node(0x212);
-            particle_state = particle + 0x20;
+            particle_state = ((void *)particle) + 0x20;
             if (particle != NULL) {
                 s16 particle_z;
                 particle_state->unk_02 = 0x14;
-                ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_10 = interpolate_view_parameters;
+                particle->unk_10 = interpolate_view_parameters;
                 register_node(particle, project_sprite_chain);
-                sprite = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_0C;
+                sprite = particle->sprite;
                 sprite->unk_10 = 0;
                 sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-                particle_pos = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_08;
+                particle_pos = particle->position;
                 sprite = ((B31_818C8A70_S_818C8A70_7_pre *)(((B31_818C8A70_S_818C8A70_0 *)effect)->unk_30))[-1].unk_00;
                 random_value = func_80069EF8();
                 coord = sprite->unk_02;
                 coord -= 0x10;
                 coord += random_value & 0x1F;
-                particle_pos->unk_02 = coord;
+                particle_pos->x.w.i = coord;
                 random_value = func_80069EF8();
                 coord = sprite->unk_06;
                 coord -= 0x10;
                 coord += random_value & 0x1F;
-                particle_pos->unk_06 = coord;
+                particle_pos->y.w.i = coord;
                 random_value = func_80069EF8();
                 random_value &= 0x3F;
                 coord_2 = sprite->unk_0A;
                 random_value += 0x20;
                 particle_z = coord_2 - random_value;
-                particle_pos->unk_0A = particle_z;
-                sprite = ((B31_818C8A70_S_818C8A70_2 *)particle)->unk_0C;
+                particle_pos->z.w.i = particle_z;
+                sprite = particle->sprite;
                 sprite->unk_1C = 0x800;
                 sprite->unk_1E = 0x800;
                 particle_state->unk_60 = (s32) (func_80069EF8() + 0xFFFE0000);
@@ -311,38 +288,6 @@ void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect,
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Updates an effect through attachment, motion, and timed cleanup. */
 void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part)
 {
@@ -354,8 +299,8 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
     B31_818C8FD0_S_func_818C8FD0_2 *object;
     B31_818C8FD0_S_func_818C8FD0_3 *owner_node;
     B31_818C8FD0_S_func_818C8FD0_4 *owner_pos;
-    B31_818C8FD0_S_func_818C8FD0_3 *effect_node;
-    B31_818C8FD0_S_func_818C8FD0_4 *effect_pos;
+    ObjectNodeHeader *effect_node;
+    ObjectPosition *effect_pos;
     B31_818C8FD0_OffsetTable *offset_table;
     s32 one;
     B31_818C8FD0_OffsetTable *offset_source = &D_80024004;
@@ -378,7 +323,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
         part->unk_1C = 0x1000;
         select_record_entry_and_value(part, D_800DEC00, 0);
         angle = object->unk_2A;
-        D_80024D04 = one;
+        moving_particle_effect_updated = one;
         state->unk_7E.s16 = (angle >> 9) & 7;
         state->unk_0A.u16++;
     case 1:
@@ -507,19 +452,19 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
 
                 effect_node->unk_10 = update_a_moving_effect_spawns_particles_advances_timed_phases;
                 {
-                    effect_pos = effect_node->unk_08;
+                    effect_pos = effect_node->position;
 
-                    effect_pos->unk_00.s32 = output_pos->unk_00.s32;
-                    effect_pos->unk_04.s32 = output_pos->unk_04.s32;
-                    effect_pos->unk_08.s32 = output_pos->unk_08.s32;
+                    effect_pos->x.v = output_pos->unk_00.s32;
+                    effect_pos->y.v = output_pos->unk_04.s32;
+                    effect_pos->z.v = output_pos->unk_08.s32;
                     {
-                        B31_818C8FD0_S_func_818C8FD0_9 *effect_part = effect_node->unk_0C;
+                        SpriteFrameState *effect_part = effect_node->sprite;
 
-                        effect_part->unk_0E = 0x80;
-                        effect_part->unk_0D = 0x80;
-                        effect_part->unk_0C = 0x80;
-                        effect_part->unk_1E = 0x1000;
-                        effect_part->unk_1C = 0x1000;
+                        effect_part->color.c.b = 0x80;
+                        effect_part->color.c.g = 0x80;
+                        effect_part->color.c.r = 0x80;
+                        effect_part->scale_y = 0x1000;
+                        effect_part->scale_x = 0x1000;
                     }
                     state->unk_A8 = effect_node;
                     state->unk_AC = effect_pos;
@@ -534,12 +479,12 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
             effect_node = state->unk_A8;
             effect_pos = state->unk_AC;
 
-            if (effect_node->unk_1E & 0x8000) {
+            if (effect_node->flags & 0x8000) {
                 state->unk_88 = 0;
             } else {
-                output_pos->unk_00.s32 = effect_pos->unk_00.s32;
-                output_pos->unk_04.s32 = effect_pos->unk_04.s32;
-                output_pos->unk_08.s32 = effect_pos->unk_08.s32;
+                output_pos->unk_00.s32 = effect_pos->x.v;
+                output_pos->unk_04.s32 = effect_pos->y.v;
+                output_pos->unk_08.s32 = effect_pos->z.v;
             }
         }
         break;
@@ -553,7 +498,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
 
         state->unk_84.u16 = timer;
         if (state->unk_86 < timer) {
-            s32 active_flag = D_80024D04;
+            s32 active_flag = moving_particle_effect_updated;
 
             state->unk_84.u16 = old_timer;
             if (active_flag == 0) {
@@ -562,7 +507,7 @@ void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_fun
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 return;
             } else {
-                D_80024D04 = 0;
+                moving_particle_effect_updated = 0;
             }
         }
     }

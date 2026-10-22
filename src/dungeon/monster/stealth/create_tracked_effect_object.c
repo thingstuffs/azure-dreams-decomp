@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "dungeon/monster/stealth/create_tracked_effect_object.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -13,7 +14,7 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
     SpriteFrameState *data0C;
     S_8015E854_2 *data08;
     void *objectState;
-    void *objectBase;
+    ObjectNodeHeader *objectBase;
     S_8015E854_1 *result;
 
     result = 0;
@@ -21,12 +22,12 @@ void *create_tracked_effect_object(s16 mode, s16 value24, s16 value25, s16 value
     objectBase = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (objectBase != 0) {
         result = (u8 *)objectBase + 0x20;
-        ((S_8015E854_0 *)objectBase)->unk_10 = func_8015EA8C;
+        objectBase->unk_10 = func_8015EA8C;
         result->unk_13 = MONSTER_STEALTH;
         register_node(objectBase, project_sprite_chain);
-        data08 = ((S_8015E854_0 *)objectBase)->unk_08;
+        data08 = *(void ** *)&objectBase->position;
         data08->unk_0A = value0A;
-        data0C = ((S_8015E854_0 *)objectBase)->unk_0C;
+        data0C = *(void ** *)&objectBase->sprite;
         data0C->unk_25 = value25;
         objectState = result;
         data0C->frameTable = D_80161D30;

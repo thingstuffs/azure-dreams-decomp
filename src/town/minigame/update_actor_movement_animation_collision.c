@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 typedef struct Motion {
@@ -75,7 +76,7 @@ extern HalfTable D_800200E4;
 extern HalfTable D_800200F0;
 
 /* Updates actor movement, animation, and collision through its timed states. */
-void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Anim *anim)
+void update_actor_movement_animation_collision(Actor *actor, Motion *motion, SpriteFrameState *anim)
 {
     Owner *owner = actor->ownerAC;
     HalfTable scale_x = D_800200E4;
@@ -117,13 +118,13 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
         actor->initialA6 = duration;
         motion->vy = -0x400000 / actor->timerA2;
         if (actor->typeA0 < 2) {
-            anim->flags14 |= 1;
+            anim->flags |= 1;
         }
         if (actor->typeA0 & 1) {
-            anim->value6 = -0x100;
+            anim->unk_06 = -0x100;
             motion->vy = -motion->vy;
         } else {
-            anim->value6 = -0x40;
+            anim->unk_06 = -0x40;
             select_record_entry_and_value(anim, D_800F7DD4, 0);
         }
         actor->state68 = 1;
@@ -184,10 +185,10 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
             motion->vy = 0;
             motion->vx = 0;
             motion->y += -0x40000;
-            anim->data0 = D_800F7D3C;
-            anim->data8 = ((AnimData *)D_800F7D3C)->data4;
-            anim->frame4 = 0;
-            anim->frame5 = 0;
+            anim->unk_00 = D_800F7D3C;
+            anim->source = ((AnimData *)D_800F7D3C)->data4;
+            anim->unk_04 = 0;
+            anim->unk_05 = 0;
             if (rand() & 7) {
                 actor->timerA2 = 16;
                 actor->timerA2 = actor->initialA6;
@@ -207,17 +208,17 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
 
     case 4:
         if (motion->z <= -0x580000 && !(actor->flagsA4 & 2)) {
-            anim->value6 = 0;
+            anim->unk_06 = 0;
             actor->callback48 = D_800200FC;
             actor->flagsA4 |= 2;
             configure_the_set_mode_n_1(actor, motion, D_80026F38);
             owner->count8++;
         }
         if (actor->timerA2 == 3) {
-            anim->data0 = D_800F7D3C;
-            anim->data8 = ((AnimData *)D_800F7D3C)->data4;
-            anim->frame4 = 0;
-            anim->frame5 = 0;
+            anim->unk_00 = D_800F7D3C;
+            anim->source = ((AnimData *)D_800F7D3C)->data4;
+            anim->unk_04 = 0;
+            anim->unk_05 = 0;
         }
         if (actor->timerA2 <= 0) {
             motion->vz = 0;
@@ -247,7 +248,7 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
             if (actor->typeA0 & 1) {
                 select_record_entry_and_value(anim, D_800F7D64, 0);
             } else {
-                anim->value6 = 0x40;
+                anim->unk_06 = 0x40;
                 select_record_entry_and_value(anim, D_800F7DD4, 0);
             }
             actor->flagsA4 &= ~2;
@@ -291,8 +292,8 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
             SD_Call(0x511);
         }
         if (actor->timerA2 < 6) {
-            anim->scale1C = scale_x.value[actor->timerA2];
-            anim->scale1E = scale_y.value[actor->timerA2];
+            anim->scale_x = scale_x.value[actor->timerA2];
+            anim->scale_y = scale_y.value[actor->timerA2];
         }
         if (actor->timerA2 <= 0) {
             actor->state68 = 8;
@@ -307,10 +308,10 @@ void update_actor_movement_animation_collision(Actor *actor, Motion *motion, Ani
         motion->vx = 0;
         actor->ownerAC->count6++;
         actor->flagsA4 &= ~2;
-        anim->data0 = D_800F7D3C;
-        anim->data8 = ((AnimData *)D_800F7D3C)->data4;
-        anim->frame4 = 0;
-        anim->frame5 = 0;
+        anim->unk_00 = D_800F7D3C;
+        anim->source = ((AnimData *)D_800F7D3C)->data4;
+        anim->unk_04 = 0;
+        anim->unk_05 = 0;
         actor->timerA2 = 14;
         actor->state68 = 9;
     }

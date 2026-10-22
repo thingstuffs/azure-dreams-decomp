@@ -1,3 +1,5 @@
+
+struct ObjectPosition;
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -71,15 +73,6 @@ typedef struct S_801749A8_6 {
     u16 unk_2A;
 } S_801749A8_6;
 
-typedef struct S_801749A8_7 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    u8 * unk_2C;
-} S_801749A8_7;
-
 extern s32 cd_cue_base[];
 struct S_8003E2D8;
 typedef struct S_8003E2D8 S_8003E2D8;
@@ -99,7 +92,7 @@ void decrement_monster_entry_count();
 void *advance_staged_entity_load();
 s32 play_sound_if_enabled();
 s32 create_status_linked_render_effect();
-s32 select_nearby_target_and_initialize_slot();
+s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 void create_cylindrical_effect();
 s32 lookup_masked_byte_table(void *, ...);
 extern u8 *actor_effect_color_targets[];
@@ -127,7 +120,7 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
     u8 state;
     u8 ready;
     S_801749A8_2 *object;
-    S_801749A8_7 *sprite;
+    SpriteFrameState *sprite;
     void *model;
 
     object = ((struct S_8003E2D8 *)&g_game_work);
@@ -242,9 +235,9 @@ void update_turning_fade_effect_and_model(void *sequence, EntityRec *position, S
             (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
         model = ((Rec_D_80082E80 *)target)->unk_60.as_pv;
         sprite = ((S_801749A8_6_pre *)model)[-1].unk_00;
-        select_indirect_table_entry(sprite, *(sprite->unk_2C + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
+        select_indirect_table_entry(sprite, *(*(u8 **)&sprite->frameTable + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
-        sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
+        sprite->flags = (u16) (sprite->flags & 0xFFFE);
     case 8:
         ticks_left = ((S_801749A8_0 *)sequence)->unk_96 - 1;
         ((S_801749A8_0 *)sequence)->unk_96 = ticks_left;

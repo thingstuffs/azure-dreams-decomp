@@ -25,7 +25,7 @@ void func_8016DAA4(void *, s32, void *, void *);
 extern u8 D_8016B778[];
 extern u8 D_801746A4[];
 extern u8 D_801746AC[];
-extern u8 D_801746C4[];
+#include "dungeon/monster/ghosh.h"
 extern u8 resident_globals_page[];
 
 typedef struct S_8016D6F0_0 {
@@ -96,7 +96,7 @@ void advance_actor_action_and_animation(S_8016D6F0_0 *actor, s32 actor_id, Sprit
             flags_page = (u8 *)0x80010000;
             if (actor->unk_B4 == 0 && !(((S_8016D6F0_5 *)flags_page)->unk_3714 & 8)) {
                 if (entity->unk_64 != 0) {
-                    if (begin_ready_actor_directional_action(actor, actor_id, sprite, D_801746C4) != 0) {
+                    if (begin_ready_actor_directional_action(actor, actor_id, sprite, ghosh_ready_action_frames) != 0) {
                         return;
                     }
                 }

@@ -5,6 +5,7 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
+#include "dungeon/player.h"
 
 typedef struct S_80048A44_Obj S_80048A44_Obj;
 

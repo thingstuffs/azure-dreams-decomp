@@ -1,9 +1,10 @@
 #include "common.h"
+#include "dungeon/effect/mesh/generation_tile_bytes.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
 extern s32 sample_terrain_surface_height(u16, u16, s16, void *);
-extern u8 D_800EA000[];
+
 
 /* Rounds the sampled or fallback height up to a 64-unit boundary relative to the cell height. */
 s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y)
@@ -17,7 +18,7 @@ s16 round_sampled_height_to_cell_boundary(s32 grid_x, s32 grid_y)
 
     grid_info = &g_game_work.map;
     state = (u8 *)grid_info - 0x1C4;
-    cell_table = D_800EA000;
+    cell_table = generation_cells;
     grid_y = (s16)grid_y;
     grid_x = (s16)grid_x;
     cell_height = *(u16 *)(cell_table +

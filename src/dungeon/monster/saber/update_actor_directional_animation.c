@@ -16,8 +16,8 @@ extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, s32, void *, void *);
 extern void update_timed_effect_size_and_position(void *, s32, void *, void *);
 
-extern s32 D_80171728;
-extern u8 D_80174E4C[];
+#include "dungeon/monster/saber.h"
+
 extern u8 D_80174E54[];
 
 typedef struct S_801740DC_0 {
@@ -47,9 +47,9 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count--;
     }
-    ((SpriteFrameState *)target)->frameTable = D_80174E4C;
+    ((SpriteFrameState *)target)->frameTable = saber_direction_frames_2;
     direction = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
-    select_sprite_entry(target, D_80174E4C[direction & 7], 0);
+    select_sprite_entry(target, saber_direction_frames_2[direction & 7], 0);
     ((S_801740DC_0 *)actor_in)->unk_9B++;
     return;
 
@@ -121,7 +121,7 @@ void update_actor_directional_animation(void *actor_in, s32 actor_index, void *t
         shared_counter = &g_dungeon_status;
         shared_counter->activity_counts.parts.pending_action_count--;
     }
-    ((S_801740DC_0 *)actor_in)->unk_8C = &D_80171728;
+    ((S_801740DC_0 *)actor_in)->unk_8C = &saber_behavior_entry;
 
     return;
     default:

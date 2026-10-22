@@ -66,6 +66,6 @@ s32 use_item_to_reset_actor_statuses(void *actor, s32 cause, s16 amount)
     apply_entity_effects(actor);
     clear_slot_and_update_linked_state(cause);
     counters = &g_dungeon_status;
-    *((u16 *) (((s8 *) counters) + 0xA)) = (u16) ((*((u16 *) (((s8 *) counters) + 0xA))) - 1);
+    counters->activity_counts.parts.pending_action_count = (u16) ((*(u16 *)&counters->activity_counts.parts.pending_action_count) - 1);
     return 1;
 }

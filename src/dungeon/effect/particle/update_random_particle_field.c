@@ -1,8 +1,11 @@
 /* Falling particle fields, terrain impacts, nearby attacks, and linked item amount reduction. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/particle/update_random_particle_field.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/particle/update_random_particle_field.h"
+#include "dungeon/actor.h"
 
 /* Selector bank entry calls the complete native initialization member. */
 void (*const D_80024000)(void *, void *) = update_random_particle_field;
@@ -49,7 +52,7 @@ void update_random_particle_field(void *self, void *output)
     void *output_data;
     void *search_origin;
     void *target;
-    void *particle;
+    ObjectNodeHeader *particle;
     s32 rand_quotient;
     s16 state;
     s32 spawn_index;
@@ -91,7 +94,7 @@ void update_random_particle_field(void *self, void *output)
         do {
             particle = allocate_list_node(0x202, ((s32 *)(&scene_object_list_anchor)));
             if (particle != NULL) {
-                ((S_81934928_2 *)particle)->unk_10 = D_8002445C;
+                particle->unk_10 = D_8002445C;
                 register_node(particle, D_80024740);
                 search_origin = (u8 *)particle + 0x20;
 
@@ -231,9 +234,9 @@ void draw_red(void *effect) {
             impact_effect->unk_20 = (void *) ((S_81934C5C_0 *)effect)->unk_00;
             register_node(impact_effect, project_sprite_chain);
             impact_sprite = impact_effect->unk_0C;
-            ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_00 = (s32) ((S_81934C5C_0 *)effect)->unk_1C.at00.v;
-            ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_04 = (s32) ((S_81934C5C_0 *)effect)->unk_20.at00.v;
-            ((S_81934C5C_5 *)(impact_effect->unk_08))->unk_08 = (s32) ((S_81934C5C_0 *)effect)->unk_24.at00.v;
+            (((ObjectPosition *)impact_effect->unk_08))->x.v = (s32) ((S_81934C5C_0 *)effect)->unk_1C.at00.v;
+            (((ObjectPosition *)impact_effect->unk_08))->y.v = (s32) ((S_81934C5C_0 *)effect)->unk_20.at00.v;
+            (((ObjectPosition *)impact_effect->unk_08))->z.v = (s32) ((S_81934C5C_0 *)effect)->unk_24.at00.v;
             impact_sprite->scale_y = 0x500;
             impact_sprite->scale_x = 0x500;
             impact_sprite->flags = (u16) (impact_sprite->flags | 0xC);

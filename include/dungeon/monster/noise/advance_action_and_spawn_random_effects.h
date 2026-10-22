@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F43F800_P06_H
 #define DUNGEON_OVL_7F43F800_P06_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -16,7 +17,6 @@ typedef struct T_80172FFC_S_80172FFC_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } T_80172FFC_S_80172FFC_0;   /* arg0 in func_80172FFC */
-
 
 typedef struct T_80172FFC_S_80172FFC_3 {
     u8 pad_00[0x2];
@@ -42,13 +42,6 @@ typedef struct T_80172FFC_S_80172FFC_4 {
     s32 unk_B4;
 } T_80172FFC_S_80172FFC_4;   /* temp_s2 in func_80172FFC */
 
-typedef struct T_80172FFC_S_80172FFC_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} T_80172FFC_S_80172FFC_5;   /* temp_v0_3 in func_80172FFC */
-
 typedef struct T_80172FFC_S_80172FFC_6 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -62,18 +55,6 @@ typedef struct T_80172FFC_S_80172FFC_6 {
     u8 pad_20[0xC];
     u8 * unk_2C;
 } T_80172FFC_S_80172FFC_6;   /* temp_s1 in func_80172FFC */
-
-typedef struct T_80172FFC_S_80172FFC_7 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} T_80172FFC_S_80172FFC_7;   /* temp_s0 in func_80172FFC */
 
 typedef struct T_80172FFC_S_80172FFC_8 {
     u8 pad_00[0xC];
@@ -89,7 +70,6 @@ typedef struct T_80172FFC_S_80172FFC_10 {
     s16 unk_00;
     u16 unk_02;
 } T_80172FFC_S_80172FFC_10;   /* &sp60[((u16) ((T_80172FFC_S_80172FFC_4 *)temp_s2)->unk_94 >> 7) & 0x1C] in func_80172FFC */
-
 
 typedef struct {
     u8 bytes[32];
@@ -119,7 +99,7 @@ extern Packed32 D_80170838;
 extern u8 D_80174E90[];
 extern u8 D_80174EB8[];
 extern u8 D_80174EC0;
-void advance_action_and_spawn_random_effects(void *action, void *motion, void *sprite, ActorRecord *actor);
+void advance_action_and_spawn_random_effects(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
 extern void update_actor_behavior_and_direction();
 extern void project_sprite_entries_to_quads();
 #endif

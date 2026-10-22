@@ -9,7 +9,7 @@ void clear_resident_bitmap_bit(s32);
 s32 Control_CD(s32 event_code, void *event_data, s32 payload);
 void drain_cd_command_queue(void);
 void apply_building_tile_entry(s16, s16, u8);
-extern M2C_UNK D_800D1BF4;
+extern u32 D_800D1BF4[2];
 extern u8 town_building_records[];
 extern u8 town_building_slot_rectangles[];
 
@@ -42,7 +42,7 @@ void process_enabled_entries(void) {
     S_800B98B4_0 *entry;
     S_800B98B4_2 *reloaded_entry;
 
-    Control_CD(6, &D_800D1BF4, 0);
+    Control_CD(6, D_800D1BF4, 0);
     slot_index = 0;
     drain_cd_command_queue();
     clear_resident_bitmap_bit(F_funsui_sound);

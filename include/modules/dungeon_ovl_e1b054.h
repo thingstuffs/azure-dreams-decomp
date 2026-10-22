@@ -7,7 +7,6 @@
 #include "shared/position_views.h"
 
 
-typedef s32 M2C_UNK;
 
 typedef struct S_80158854_0 {
     u8 pad_00[0x13];

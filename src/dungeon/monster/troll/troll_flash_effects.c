@@ -1,4 +1,6 @@
 /* Troll color flashes, moving effects, attachments, and actor creation. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/monster/troll/troll_flash_effects.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -85,7 +87,7 @@ void update_growing_rotating_flash(void *effect, s32 unused, void *visual) {
 }
 
 /* Updates effect motion, handles collisions, grows the sprite, and flags expiration. */
-void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
+void update_growing_bouncing_effect(void *effect, void *position, SpriteFrameState *sprite)
 {
     s32 height;
     u16 frame_count;
@@ -136,16 +138,16 @@ void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
         advance_sprite_animation_and_textures(sprite);
     }
 
-    scale_x = ((SpriteFrameState *)sprite)->scale_x + 100;
-    ((SpriteFrameState *)sprite)->scale_x = scale_x;
+    scale_x = sprite->scale_x + 100;
+    sprite->scale_x = scale_x;
     if (scale_x > 0x1000) {
-        ((SpriteFrameState *)sprite)->scale_x = 0x1000;
+        sprite->scale_x = 0x1000;
     }
 
-    scale_y = ((SpriteFrameState *)sprite)->scale_y + 100;
-    ((SpriteFrameState *)sprite)->scale_y = scale_y;
+    scale_y = sprite->scale_y + 100;
+    sprite->scale_y = scale_y;
     if (scale_y > 0x1000) {
-        ((SpriteFrameState *)sprite)->scale_y = 0x1000;
+        sprite->scale_y = 0x1000;
     }
 
     ticks_left = ((T_80170F94_S_80170F94_1 *)effect)->unk_18.u - 1;
@@ -155,7 +157,7 @@ void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 
-    if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+    if (sprite->flags & 0x8000) {
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -167,7 +169,7 @@ void update_growing_bouncing_effect(void *effect, void *position, void *sprite)
 void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target)
 {
     T_8017121C_Vec3u16 offset;
-    void *effect;
+    ObjectNodeHeader *effect;
     void *init_effect;
     void *init_data;
     T_8017121C_S_8017121C_3 *coords;
@@ -209,13 +211,13 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
     effect_state = (u8 *)effect + 0x20;
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_18 = 2;
     ((T_8017121C_S_8017121C_0 *)effect_state)->unk_1A = 2;
-    ((T_8017121C_S_8017121C_1 *)effect)->unk_10 = update_stepped_rgb_flash;
+    effect->unk_10 = update_stepped_rgb_flash;
     register_node(init_effect, init_data);
 
-    part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
+    part = effect->sprite;
     part->flags &= 0xFFF3;
 
-    coords = ((T_8017121C_S_8017121C_1 *)effect)->unk_08;
+    coords = effect->position;
     coords->unk_02.s = origin->unk_02;
     coords->unk_06.s = origin->unk_06;
     coords->unk_0A.s = origin->unk_0A;
@@ -225,12 +227,12 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
         coords->unk_02.s += offset.raw_y;
         coords->unk_06.s += offset.y;
         coords->unk_0A.s += offset.z;
-        part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
+        part = effect->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
     } else {
         coords->unk_0A.s -= 0x14;
-        part = ((T_8017121C_S_8017121C_1 *)effect)->unk_0C;
+        part = effect->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
     }
@@ -334,7 +336,7 @@ void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *
 /* Create and position an effect using a linked object or stored tile coordinates. */
 void create_actor_action_effect(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor)
 {
-    void *effect;
+    ObjectNodeHeader *effect;
     void *effect_state;
     void *effect_data;
     void *template_data;
@@ -351,9 +353,9 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     effect_state = (u8 *)effect + 0x20;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_96 = 0xa;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_9E = 0xa;
-    ((T_801714FC_S_801714FC_2 *)effect)->unk_10 = (void *)&update_normalized_gray_fade;
+    effect->unk_10 = (void *)&update_normalized_gray_fade;
     ((T_801714FC_S_801714FC_1 *)effect_state)->unk_94 = ((u16)actor->facing);
-    effect_data = ((T_801714FC_S_801714FC_2 *)effect)->unk_0C;
+    effect_data = effect->sprite;
     template_data = sprite_template;
     {
         Blk16 *src_block = (Blk16 *)template_data;
@@ -376,7 +378,7 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
     select_sprite_entry(effect_data,
         ((u8 *)&D_80175EB4)[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + (s32)actor->facing + 0x100) >> 9) & 7],
         0);
-    effect_data = ((T_801714FC_S_801714FC_2 *)effect)->unk_08;
+    effect_data = effect->position;
     if (((s32)actor->target) != 0 && (actor->flags14 & 0x04000000) == 0) {
         u8 *direction_offsets = (u8 *)((u8 *)D_80175EBC);
         linked_pos = ((T_801714FC_S_801714FC_8_pre *)(actor->target))[-1].unk_00;
@@ -413,12 +415,12 @@ void create_actor_action_effect(void *source_object, void *source_pos, void *spr
 /* Creates an effect at an offset position with randomized attributes and motion. */
 void spawn_random_color_burst_particle(void *source, void *position) {
     T_80171790_S_80171790_5 *source_obj;
-    T_80171790_S_80171790_4 *source_pos;
+    ObjectPosition *source_pos;
     s32 obj_or_angle;
     s32 data_or_speed;
     T_80171790_S_80171790_0 *effect_state;
     void *init_obj;
-    T_80171790_S_80171790_3 *effect_pos;
+    ObjectPosition *effect_pos;
     u8 random_byte_1;
     u8 random_byte_2;
 
@@ -437,10 +439,10 @@ void spawn_random_color_burst_particle(void *source, void *position) {
         ((SpriteFrameState *)data_or_speed)->flags =
             (u16) (((SpriteFrameState *)data_or_speed)->flags | 0xC);
         effect_pos = ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_08;
-        effect_pos->unk_02 = source_pos->unk_02;
-        effect_pos->unk_06 = source_pos->unk_06;
-        effect_pos->unk_0A =
-            (s16) (source_pos->unk_0A - 0x50);
+        effect_pos->x.w.i = *(u16 *)&source_pos->x.w.i;
+        effect_pos->y.w.i = *(u16 *)&source_pos->y.w.i;
+        effect_pos->z.w.i =
+            (s16) (*(u16 *)&source_pos->z.w.i - 0x50);
         data_or_speed = (s32) ((T_80171790_S_80171790_1 *)((void *) obj_or_angle))->unk_0C;
         ((SpriteFrameState *)data_or_speed)->scale_y = 0x1000;
         ((SpriteFrameState *)data_or_speed)->scale_x = 0x1000;
@@ -570,35 +572,35 @@ void update_tracked_attachment_sprite(void *object, T_80171A38_S_80171A38_4 *pos
 void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 *base_position)
 {
     T_80171BEC_Offset3 offset;
-    void *object;
+    ObjectNodeHeader *object;
     T_80171BEC_S_80171BEC_1 *render;
     void *owner;
-    T_80171BEC_S_80171BEC_2 *position;
+    ObjectPosition *position;
 
     object = allocate_list_node(0x212, ((s32 *)&scene_object_list_anchor.next));
     if (object != 0) {
         ((T_80171BEC_S_80171BEC_0 *)object)->unk_40 = attachment;
-        ((T_80171BEC_S_80171BEC_0 *)object)->unk_10 = &update_tracked_attachment_sprite;
+        object->unk_10 = &update_tracked_attachment_sprite;
         register_node(object, project_sprite_chain);
 
-        render = ((T_80171BEC_S_80171BEC_0 *)object)->unk_0C;
+        render = object->sprite;
         render->unk_10 = 0x20;
         render->unk_06 = 8;
         render->unk_14 |= 0xC;
 
-        position = ((T_80171BEC_S_80171BEC_0 *)object)->unk_08;
-        position->unk_00.at00.v = base_position->unk_00;
-        position->unk_04.at00.v = base_position->unk_04;
-        position->unk_08.at00.v = base_position->unk_08;
+        position = object->position;
+        position->x.v = base_position->unk_00;
+        position->y.v = base_position->unk_04;
+        position->z.v = base_position->unk_08;
 
         owner = ((T_80171BEC_S_80171BEC_4_pre *)attachment)[-1].unk_00;
         if (resolve_record_orientation_or_fallback(((T_80171BEC_S_80171BEC_5 *)owner)->unk_08, owner, &offset, 0) != 0) {
-            position->unk_00.at02.v += offset.x;
-            position->unk_04.at02.v += offset.y;
-            position->unk_08.at02.v += offset.z;
+            *(u16 *)&position->x.w.i += offset.x;
+            *(u16 *)&position->y.w.i += offset.y;
+            *(u16 *)&position->z.w.i += offset.z;
         }
 
-        render = ((T_80171BEC_S_80171BEC_0 *)object)->unk_0C;
+        render = object->sprite;
         render->unk_1E = 0x800;
         render->unk_1C = 0x800;
         render->unk_0E = 0x80;
@@ -608,7 +610,6 @@ void create_tracked_attachment_sprite(void *attachment, T_80171BEC_S_80171BEC_3 
         render->unk_08 = (u8 *)object + 0x44;
     }
 }
-
 
 /* Creates an object and initializes its position, flags, and directional frame table. */
 /* Creates Troll, selecting item values and directional sprite tables from the global spawn variant. */
@@ -652,10 +653,10 @@ void *create_actor_entity(s16 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initi
 
         default_frames = (s32)D_80175E24;
         call_position = 0xE;
-        position = object->unk_08;
+        position = object->position;
         alternate_kind = 0xF;
         ((T_80171D64_S_80171D64_2 *)position)->unk_0A = initial_height;
-        sprite = object->unk_0C;
+        sprite = object->sprite;
         
         sprite->unk_24 = saved_x;
         sprite->frameTable = (void *)default_frames;

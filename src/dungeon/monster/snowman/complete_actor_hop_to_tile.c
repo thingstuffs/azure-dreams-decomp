@@ -37,7 +37,7 @@ extern u8 D_8015D9A8[];
 extern u8 D_8015D9B8[];
 
 /* Updates an actor's hop toward its tile and completes the timed action. */
-void func_80B09454(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
+void finish_snowman_tile_hop(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 move_ticks;

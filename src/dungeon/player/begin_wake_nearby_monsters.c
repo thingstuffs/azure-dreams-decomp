@@ -1,11 +1,11 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player.h"
 #ifndef NULL
 #define NULL 0
 #endif
 
-extern void clear_player_linked_action_flags(void);
 extern void set_sprite_animation_frame(void *a0, s16 a1, s16 a2, s32 a3);
 
 extern u8 D_800DCFF0[8];

@@ -183,7 +183,7 @@ extern void *actor_action_frames[];
 extern TileObject D_80082E80_initial __asm__("D_80082E80");
 extern s16 actor_turn_angle_offsets[];
 s32 check_entity_relation();
-s32 rebuild_monster_reachable_tiles();
+s32 select_actor_route_target();
 s32 update_actor_proximity_flag();
 s32 generate_random_value();
 
@@ -198,8 +198,7 @@ extern void update_map_cell_flags_with_item_limit(s32, s32, u16);
 extern s32 check_movement_clearance_and_height(u32, void *, void *, s16);
 
 /* Functions defined in this translation unit. */
-void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_800D8728_2 *monster);
-void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
+void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, SpriteFrameState *monster);
 void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *move_state);
 void advance_actor_traversable_heading(void *move_state, void *context, S_800D92C0_2 *position, void *actor);
 void initialize_actor_direction_table(void *object, void *unusedContext, void *tableTarget, void *headingSource);

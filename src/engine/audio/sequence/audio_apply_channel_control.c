@@ -67,7 +67,7 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
                 }
             }
         }
-        func_80055E7C(4, channel, settings->f08);
+        noop_channel_control_notification(4, channel, settings->f08);
         break;
 
     case 2:
@@ -96,7 +96,7 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
             settings->f0c = control_value & 0xFF;
             pending_voices = 1;
             refresh_notes = pending_voices;
-            func_80055E7C(3, channel, control_value & 0xFF);
+            noop_channel_control_notification(3, channel, control_value & 0xFF);
             break;
         }
 
@@ -105,7 +105,7 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
             settings->f04 = ((control_value & 0xFF) == 0) ? (1) : (control_value & 0xFF);
             pending_voices = 1;
             refresh_notes = pending_voices;
-            func_80055E7C(2, channel, settings->f04);
+            noop_channel_control_notification(2, channel, settings->f04);
             break;
         }
 
@@ -114,7 +114,7 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
             settings->f14 = control_value & 0xFF;
             pending_voices = 1;
             refresh_notes = pending_voices;
-            func_80055E7C(5, channel, control_value & 0xFF);
+            noop_channel_control_notification(5, channel, control_value & 0xFF);
             break;
         }
 
@@ -195,8 +195,8 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
                                 stopped_voices = pending_voices;
                             }
                             do {
-                                set_spu_voice_keys(0, audio_voice_masks[voice_idx]);
-                                voice_status = read_selected_voice_key_state(audio_voice_masks[voice_idx]);
+                                SpuSetKey(0, audio_voice_masks[voice_idx]);
+                                voice_status = SpuGetKeyStatus(audio_voice_masks[voice_idx]);
                             }
                             while ((voice_status != 2) && (voice_status != 0));
                             audio_voice_records[voice_idx].f1d = 0;
@@ -258,7 +258,7 @@ void audio_apply_channel_control(u8 channel, u8 control, u32 value)
     {
         s32 stop_mask = stopped_voices;
         if (stop_mask) {
-            set_spu_voice_keys(0, stop_mask);
+            SpuSetKey(0, stop_mask);
         }
     }
     {

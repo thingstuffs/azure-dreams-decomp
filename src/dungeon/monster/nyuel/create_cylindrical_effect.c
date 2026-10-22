@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -78,7 +79,7 @@ void create_cylindrical_effect(Source *source, Vec3i *origin)
     for (; segment < 16; segment++) {
         Entity *entity;
         Sub *sub;
-        Vec3i *position;
+        ObjectPosition *position;
         SpriteFrameState *prim;
         s32 angle;
         s32 next_angle;
@@ -109,10 +110,10 @@ void create_cylindrical_effect(Source *source, Vec3i *origin)
         prim->flags |= 0x80;
 
         position = entity->vec;
-        position->x = origin->x;
+        position->x.v = origin->x;
         next_angle = (segment + 1) << 8;
-        position->y = origin->y;
-        position->z = origin->z;
+        position->y.v = origin->y;
+        position->z.v = origin->z;
 
         sub->field_6E = -64;
         sub->field_68 = -64;

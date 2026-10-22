@@ -1,5 +1,6 @@
 /* Actor-relative motion effects, trailing particles, and rising and landing sprite sequences. */
 #include "modules/dungeon_ovl_199c800.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
@@ -12,7 +13,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/sprite_source.h"
 #include "m2c_compat.h"
-
 
 typedef struct S_FUNC_8197C800_BODY_0_pre {
     u16 unk_00;
@@ -173,7 +173,6 @@ static __inline__ s32 jitter_coordinate_32(s32 grid, s32 random)
     return scaled + jitter;
 }
 
-
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
  * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
@@ -188,12 +187,12 @@ void update_directional_actor_effect(void *input, void *output)
     void *owner;
     void *particle_script;
     ActorRecord *scene;
-    void *particle;
+    ObjectNodeHeader *particle;
     SpriteFrameState *sprite;
     S_FUNC_8197C800_BODY_6 *src_position;
-    S_FUNC_8197C800_BODY_7 *dst_position;
-    S_FUNC_8197C800_BODY_7 *dst_position_3;
-    S_FUNC_8197C800_BODY_7 *dst_position_2;
+    ObjectPosition *dst_position;
+    ObjectPosition *dst_position_3;
+    ObjectPosition *dst_position_2;
     void *particle_data;
     s32 remaining;
     s32 result;
@@ -246,28 +245,28 @@ void update_directional_actor_effect(void *input, void *output)
             offsets[0] = 0;
         }
         particle_data = (u8 *)particle + 0x20;
-        ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = (void *)build_and_enqueue_five_translucent_quads_between_interpolated_points;
+        particle->unk_10 = (void *)build_and_enqueue_five_translucent_quads_between_interpolated_points;
         register_node(particle, (s32)project_sprite_chain);
         random_value = 0x00800000u;
-        sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
+        sprite = particle->sprite;
         offset_index = offsets[0];
         src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
-        dst_position_2 = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+        dst_position_2 = particle->position;
         result = src_position->unk_00 + (offset_index << 16);
         ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 = result;
-        dst_position_2->unk_00 = result;
+        dst_position_2->x.v = result;
         offset_index = offsets[1];
         src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
-        dst_position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+        dst_position = particle->position;
         result = src_position->unk_04 + (offset_index << 16);
         ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 = result;
-        dst_position->unk_04 = result;
+        dst_position->y.v = result;
         offset_index = offsets[2];
         src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
-        dst_position_3 = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+        dst_position_3 = particle->position;
         result = src_position->unk_08 + (offset_index << 16);
         ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 = result;
-        dst_position_3->unk_08 = result;
+        dst_position_3->z.v = result;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
         sprite->tpage_abr = 0x20;
@@ -313,9 +312,9 @@ void update_directional_actor_effect(void *input, void *output)
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
-                ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
+                particle->unk_10 = particle_script;
                 register_node(particle, (s32)project_sprite_chain);
-                sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
+                sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
                 angle = ((ActorRecord *)(primary_actor_record))->facing;
@@ -325,15 +324,15 @@ void update_directional_actor_effect(void *input, void *output)
                 result = (s32)dir_step_x;
                 {
                     s32 grid_coord;
-                    void *position;
+                    ObjectPosition *position;
                     step *= 2;
                     step += result;
                     result = burst_origin->tile_position.parts.tile_x;
                     step = *(s16 *)step;
                     grid_coord = result + step;
-                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    position = particle->position;
                     result = jitter_coordinate_32(grid_coord, random_value);
-                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
+                    position->x.w.i = result;
                 }
                 random_value = func_80069EF8();
                 angle = ((ActorRecord *)(primary_actor_record))->facing;
@@ -343,24 +342,24 @@ void update_directional_actor_effect(void *input, void *output)
                 result = (s32)dir_step_y;
                 {
                     s32 grid_coord;
-                    void *position;
+                    ObjectPosition *position;
                     step *= 2;
                     step += result;
                     result = burst_origin->tile_position.parts.tile_y;
                     step = *(s16 *)step;
                     grid_coord = result + step;
-                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    position = particle->position;
                     result = jitter_coordinate_32(grid_coord, random_value);
-                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
+                    position->y.w.i = result;
                 }
                 {
                     u32 color;
                     void *sprite_template = 0;
-                    void *position;
+                    ObjectPosition *position;
                     color = 0x00600000u;
-                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    position = particle->position;
                     sprite_template = D_800DE9D0;
-                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_0A = height;
+                    position->z.w.i = height;
                     sprite->scale_x = 0x1800;
                     sprite->scale_y = 0x2000;
                     sprite->tpage_abr = 0x60;
@@ -388,9 +387,9 @@ void update_directional_actor_effect(void *input, void *output)
         do {
             particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
             if (particle != 0) {
-                ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script_debris;
+                particle->unk_10 = particle_script_debris;
                 register_node(particle, (s32)project_sprite_chain);
-                sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
+                sprite = particle->sprite;
                 particle_data = (u8 *)particle + 0x20;
                 random_value = func_80069EF8();
                 angle = ((ActorRecord *)(primary_actor_record))->facing;
@@ -400,15 +399,15 @@ void update_directional_actor_effect(void *input, void *output)
                 result = (s32)dir_step_x;
                 {
                     s32 grid_coord;
-                    void *position;
+                    ObjectPosition *position;
                     step *= 2;
                     step += result;
                     result = debris_origin->tile_position.parts.tile_x;
                     step = *(s16 *)step;
                     grid_coord = result + step;
-                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    position = particle->position;
                     result = jitter_coordinate_64(grid_coord, random_value);
-                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
+                    position->x.w.i = result;
                 }
                 random_value = func_80069EF8();
                 angle = ((ActorRecord *)(primary_actor_record))->facing;
@@ -418,25 +417,25 @@ void update_directional_actor_effect(void *input, void *output)
                 result = (s32)dir_step_y;
                 {
                     s32 grid_coord;
-                    void *position;
+                    ObjectPosition *position;
                     step *= 2;
                     step += result;
                     result = debris_origin->tile_position.parts.tile_y;
                     step = *(s16 *)step;
                     grid_coord = result + step;
-                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    position = particle->position;
                     result = jitter_coordinate_64(grid_coord, random_value);
-                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
+                    position->y.w.i = result;
                 }
                 result = func_80069EF8();
-                ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_0A =
+                (particle->position)->z.w.i =
                     height - (result & 0x1F);
                 result = func_80069EF8();
                 {
                     u32 color;
                     void *sprite_template = 0;
                     color = 0x00100000u;
-                    ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_14 =
+                    (particle->position)->velocity_z =
                         (s32)0xFFE60000 - (result << 2);
                     sprite->scale_y = 0x800;
                     sprite->scale_x = 0x800;
@@ -558,8 +557,6 @@ typedef struct {
     void *entry;
 } EntryTable;
 
-
-
 /* Advance the actor animation, move toward the entry position, and spawn trailing particles. */
 void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor *actor, Vec3 *target, Sprite *sprite) {
     u16 entry_pos[3];
@@ -649,7 +646,7 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     s32 z_jitter;
                     s32 packed_color;
                     s32 data_word;
-                    SpawnState *state;
+                    SpriteFrameState *state;
                     SpawnChild *child;
                     s32 target_y;
                     s32 start_y;
@@ -680,16 +677,16 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     spawn->position->y.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
                     z_jitter = func_80069EF8();
                     spawn->position->z.word = target->z.word + (((z_jitter & 0x3FF) - 0x1FF) << 10);
-                    ((SpriteFrameState *)state)->scale_y = 0x1800;
-                    ((SpriteFrameState *)state)->scale_x = 0x1800;
-                    ((SpriteFrameState *)state)->tpage_abr = 0x60;
-                    ((SpriteFrameState *)state)->unk_00 = (s32)particle_data;
-                    ((SpriteFrameState *)state)->flags = ((SpriteFrameState *)state)->flags | 0xC;
+                    state->scale_y = 0x1800;
+                    state->scale_x = 0x1800;
+                    state->tpage_abr = 0x60;
+                    state->unk_00 = (s32)particle_data;
+                    state->flags = state->flags | 0xC;
                     data_word = particle_data[1];
-                    ((SpriteFrameState *)state)->unk_04 = 0;
-                    ((SpriteFrameState *)state)->unk_05 = 0;
-                    ((SpriteFrameState *)state)->color.word = (0xC00000 | 0x6060);
-                    ((SpriteFrameState *)state)->source = data_word;
+                    state->unk_04 = 0;
+                    state->unk_05 = 0;
+                    state->color.word = (0xC00000 | 0x6060);
+                    state->source = data_word;
                     data_word = (s32)actor->field0;
                     child->field4C = 0;
                     child->parent = (void *)data_word;
@@ -726,7 +723,7 @@ typedef struct S_8197D3B8_2 {
 void move_sprite_until_animation_ends(void *render_entry, void *motion_data, void *render_status)
 {
     S_8197D3B8_0 *motion = motion_data;
-    Rec_D_80082E80 *status = render_status;
+    SpriteFrameState *status = render_status;
     s32 delta_y;
     s32 delta_z;
     S_8197D3B8_2 *primitive;
@@ -741,7 +738,7 @@ void move_sprite_until_animation_ends(void *render_entry, void *motion_data, voi
     primitive->unk_52 |= 0x8000;
 
     advance_sprite_animation_and_textures(status);
-    if (((SpriteFrameState *)status)->flags & 0x6000) {
+    if (status->flags & 0x6000) {
         ((S_8197D3B8_1_pre *)render_entry)[-1].unk_00 |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -763,21 +760,6 @@ typedef struct S_8197D468_1 {
     u8 pad_00[0x52];
     u16 unk_52;
 } S_8197D468_1;
-
-typedef struct S_8197D468_2 {
-    s32 * unk_00;
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    void * unk_08;
-    union { u8 u8; s32 s32; } unk_0C;   /* accessed as both */
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_8197D468_2;   /* arg2 in update_rising_landing_effect */
 
 typedef struct S_8197D468_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -806,19 +788,10 @@ typedef struct S_8197D468_8 {
     s16 unk_4C;
 } S_8197D468_8;
 
-typedef struct S_8197D468_9 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8197D468_9;
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 
 /* Update a rising, expanding, and falling effect, spawning particles on landing. */
-void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
+void update_rising_landing_effect(void *effect, void *motion, SpriteFrameState *sprite) {
     void *particle_work;
     s16 state;
     s16 ground_height;
@@ -835,14 +808,14 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
     void *effect_data;
     SpriteFrameState *particle_sprite;
     void *owner;
-    void *particle;
+    ObjectNodeHeader *particle;
 
     owner = ((S_8197D468_0 *)effect)->unk_00;
     ((S_8197D468_1 *)owner)->unk_52 = (u16) (((S_8197D468_1 *)owner)->unk_52 | 0x8000);
-    if (((S_8197D468_2 *)sprite)->unk_14 & 0x6000) {
-        ((S_8197D468_2 *)sprite)->unk_04 = 0;
-        ((S_8197D468_2 *)sprite)->unk_05 = 0;
-        ((S_8197D468_2 *)sprite)->unk_14 = (u16) (((S_8197D468_2 *)sprite)->unk_14 & 0x9FFF);
+    if (sprite->flags & 0x6000) {
+        sprite->unk_04 = 0;
+        sprite->unk_05 = 0;
+        sprite->flags = (u16) (sprite->flags & 0x9FFF);
     }
     advance_sprite_animation_and_textures(sprite);
     state = ((S_8197D468_0 *)effect)->unk_4C.s;
@@ -854,29 +827,29 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
         rise_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1A000;
         rise_velocity += rise_random >> 1;
         ((S_8197D468_3 *)motion)->unk_14 = rise_velocity;
-        if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x40) {
-            ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
+        if ((u8) sprite->color.c.r < 0x40) {
+            sprite->color.word = (s32) ((s32) sprite->color.word + 0x40404);
         }
         if (((S_8197D468_3 *)motion)->unk_14 > 0) {
-            ((S_8197D468_2 *)sprite)->unk_00 = &D_800DE990;
+            sprite->unk_00 = &D_800DE990;
             sprite_frames = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
-            sprite_flags = ((S_8197D468_2 *)sprite)->unk_14;
-            ((S_8197D468_2 *)sprite)->unk_04 = 0;
-            ((S_8197D468_2 *)sprite)->unk_05 = 0;
-            ((S_8197D468_2 *)sprite)->unk_1E = 0x400U;
-            ((S_8197D468_2 *)sprite)->unk_1C = 0x400U;
-            ((S_8197D468_2 *)sprite)->unk_10 = 0;
-            ((S_8197D468_2 *)sprite)->unk_08 = sprite_frames;
-            ((S_8197D468_2 *)sprite)->unk_14 = (u16) (sprite_flags | 2);
+            sprite_flags = sprite->flags;
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
+            sprite->scale_y = 0x400U;
+            sprite->scale_x = 0x400U;
+            sprite->tpage_abr = 0;
+            sprite->source = sprite_frames;
+            sprite->flags = (u16) (sprite_flags | 2);
             ((S_8197D468_0 *)effect)->unk_48 = (u16) ((func_80069EF8() & 3) + 4);
             ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
             return;
         }
         break;
     case 1:
-        ((S_8197D468_2 *)sprite)->unk_0C.s32 = 0x606060;
-        ((S_8197D468_2 *)sprite)->unk_1C = (u16) (((S_8197D468_2 *)sprite)->unk_1C + 0xC8);
-        ((S_8197D468_2 *)sprite)->unk_1E = (u16) (((S_8197D468_2 *)sprite)->unk_1E + 0xC8);
+        sprite->color.word = 0x606060;
+        sprite->scale_x = (u16) (sprite->scale_x + 0xC8);
+        sprite->scale_y = (u16) (sprite->scale_y + 0xC8);
         frames_left = ((S_8197D468_0 *)effect)->unk_48 - 1;
         ((S_8197D468_0 *)effect)->unk_48 = frames_left;
         if ((frames_left << 0x10) <= 0) {
@@ -885,12 +858,12 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
         }
         break;
     case 2:
-        if (((S_8197D468_2 *)sprite)->unk_14 & 0x6000) {
-            ((S_8197D468_2 *)sprite)->unk_00 = &D_800DE990;
+        if (sprite->flags & 0x6000) {
+            sprite->unk_00 = &D_800DE990;
             effect_data = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
-            ((S_8197D468_2 *)sprite)->unk_04 = 0;
-            ((S_8197D468_2 *)sprite)->unk_05 = 0;
-            ((S_8197D468_2 *)sprite)->unk_08 = effect_data;
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
+            sprite->source = effect_data;
         }
         ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v
             + ((S_8197D468_3 *)motion)->unk_14);
@@ -898,8 +871,8 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
         fall_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1C000;
         fall_velocity += fall_random >> 1;
         ((S_8197D468_3 *)motion)->unk_14 = fall_velocity;
-        if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x80) {
-            ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
+        if ((u8) sprite->color.c.r < 0x80) {
+            sprite->color.word = (s32) ((s32) sprite->color.word + 0x40404);
         }
         ground_height = sample_terrain_surface_height(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v,
             (s16) (((u16)view_reference_entity.z.w.i) - 0x80));
@@ -908,21 +881,21 @@ void update_rising_landing_effect(void *effect, void *motion, void *sprite) {
             do {
                 particle = allocate_list_node(0x312, &scene_object_list_anchor.next);
                 if (particle != NULL) {
-                    ((S_8197D468_5 *)particle)->unk_10 = (void *)move_sprite_until_animation_ends;
+                    particle->unk_10 = (void *)move_sprite_until_animation_ends;
                     register_node(particle, (s32)project_sprite_chain);
-                    particle_sprite = ((S_8197D468_5 *)particle)->unk_0C;
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_00 =
+                    particle_sprite = particle->sprite;
+                    (particle->position)->x.v =
                         (s32) (((S_8197D468_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_04 =
+                    (particle->position)->y.v =
                         (s32) (((S_8197D468_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_08 =
+                    (particle->position)->z.v =
                         (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_0C =
+                    (particle->position)->velocity_x =
                         (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_10 =
+                    (particle->position)->velocity_y =
                         (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
-                    particle_work = particle + 0x20;
-                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_14 =
+                    particle_work = ((void *)particle) + 0x20;
+                    (particle->position)->velocity_z =
                         (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
                     particle_color = 0xC00000;
                     particle_sprite->scale_y = 0xC00;

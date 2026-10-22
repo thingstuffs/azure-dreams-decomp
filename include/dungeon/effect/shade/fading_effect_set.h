@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_188898C_H
 #define DUNGEON_OVL_188898C_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
@@ -18,14 +19,6 @@ typedef struct ovl_188898c_81868A64_S_81868A64_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } ovl_188898c_81868A64_S_81868A64_0;
-typedef struct ovl_188898c_81868A64_S_81868A64_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} ovl_188898c_81868A64_S_81868A64_2;
 typedef struct ovl_188898c_81868A64_S_81868A64_3 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -85,20 +78,6 @@ typedef struct ovl_188898c_81868E84_S_81868E84_3 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } ovl_188898c_81868E84_S_81868E84_3;
-typedef struct ovl_188898c_81868E84_S_81868E84_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} ovl_188898c_81868E84_S_81868E84_4;
 typedef struct {
     u8 pad0[8];
     void *dst;
@@ -242,7 +221,6 @@ typedef struct ovl_188898c_818694D4_LargeFlag {
 extern void *dungeon_actor_ring_anchor;
 extern u8 current_spell_effect_variant;
 extern s32 check_entity_interaction_compatibility(void *kind, void *actor);
-extern s32 check_entity_eligibility(void *actor);
 extern s32 generate_random_value(void);
 extern void try_apply_status_effect(void *actor, s32 mode, s32 amount);
 extern s32 abs(s32);
@@ -262,12 +240,12 @@ extern s32 check_layer_offset_height();
 extern s32 sample_terrain_surface_height();
 extern void play_sound_if_enabled();
 static __inline__ s32 first_delta_s32_s32(s32 end, s32 start);
-void func_80024060(s32 x, s32 y, void *kind, s32 flags);
+void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags);
 void advance_fading_effect(void *effect, void *position, void *render_data);
 void create_randomized_grayscale_effect(s32 user_data, ovl_188898c_81868A64_S_81868A64_3 *source_pos, u8 intensity);
 void animate_spiral_grayscale_effect(void *effect, void *position);
 void create_coordinate_sprite_object(void *owner, ovl_188898c_81868E84_S_81868E84_3 *coords);
-void shrink_and_brighten_effect(void *state_ref, void *unused, void *effect);
+void shrink_and_brighten_effect(void *state_ref, void *unused, SpriteFrameState *effect);
 void delay_and_fade_particle(s32 value, void *source_data);
 s32 interpolate_shade_and_queue_line(void *line_data, void *unused_render_context);
 void move_linked_effect_along_path(ovl_188898c_818694D4_Controller *input_ctrl, ovl_188898c_818694D4_Motion *input_motion, void *input_render_data);

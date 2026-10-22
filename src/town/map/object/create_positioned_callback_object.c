@@ -34,30 +34,32 @@ typedef struct {
 } Object;
 
 extern void register_node(void *, void *);
-extern void draw_linked_sprites(void);
+struct ObjectPosition;
+struct SpriteFrameState;
+extern s32 draw_linked_sprites(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 /* Create an object at the supplied position and initialize its callback and display data. */
 void create_positioned_callback_object(Input *position, s32 object_value, s32 data_value)
 {
-    Object *object;
-    u8 *field_base;
+    ObjectNodeHeader *object;
+    SpriteFrameState *field_base;
     u8 *sub;
     s32 neutral_color;
 
     object = allocate_flagged_object_node(0x136);
     if (object != 0) {
         sub = (u8 *)object + 0x20;
-        object->field_0x10 = object_value;
-        object->vec->field_0x02 = position->field_0x00;
-        object->vec->field_0x06 = position->field_0x02;
+        object->unk_10 = object_value;
+        (*(Vec * *)&object->position)->field_0x02 = position->field_0x00;
+        (*(Vec * *)&object->position)->field_0x06 = position->field_0x02;
         register_node(object, (void *)draw_linked_sprites);
         neutral_color = 0x808080;
         *(s16 *)(sub + 2) = 0x1E;
-        field_base = (u8 *)object->data;
-        ((SpriteFrameState *)field_base)->scale_y = 0x1000;
-        ((SpriteFrameState *)field_base)->scale_x = 0x1000;
-        ((SpriteFrameState *)field_base)->source = data_value;
-        ((SpriteFrameState *)field_base)->color.word = neutral_color;
-        ((SpriteFrameState *)field_base)->tpage_abr = 0x60;
+        field_base = (u8 *)*(Data * *)&object->sprite;
+        field_base->scale_y = 0x1000;
+        field_base->scale_x = 0x1000;
+        field_base->source = data_value;
+        field_base->color.word = neutral_color;
+        field_base->tpage_abr = 0x60;
     }
 }

@@ -2,7 +2,6 @@
 #include "shared/object_node.h"
 #include "shared/dungeon_effect_views.h"
 
-
 typedef struct {
     u8 pad_0[8];
     EffectInitialState *data;

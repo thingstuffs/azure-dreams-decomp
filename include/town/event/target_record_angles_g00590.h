@@ -4,6 +4,7 @@
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AC708, CL:town/func_800AC9AC, PD:town/engine:80100D18, PD:town/engine:80100D40, PD:town/engine:80100D42. */
 
 #include "common.h"
+#include "town/event/mesh_motion.h"
 #include "shared/vector.h"
 
 typedef struct {
@@ -18,11 +19,11 @@ typedef struct {
 
 extern TownRecord D_800D1178;
 extern TownRecord D_800D119C;
-extern u16 D_80100D18;
+
 extern void transform_and_queue_mesh_quads();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern s32 D_80100D1C;
+
 extern IntVector3 D_80100D48, D_80100D68;
 extern PositionRotationPair D_80100D60;
 

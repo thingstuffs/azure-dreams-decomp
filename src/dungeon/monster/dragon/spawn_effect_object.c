@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "dungeon/monster/dragon/spawn_effect_object.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -8,7 +9,7 @@
 void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8014C854_2 *part_a;
     SpriteFrameState *part_b;
     S_8014C854_1 *work;
@@ -26,13 +27,13 @@ void *spawn_effect_object(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8014C854_0 *)obj)->unk_10 = D_8014CA28;
+        obj->unk_10 = D_8014CA28;
         work->unk_13 = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_8014C854_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_id;
-        part_b = ((S_8014C854_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;

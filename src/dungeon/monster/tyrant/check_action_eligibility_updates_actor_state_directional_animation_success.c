@@ -1,8 +1,9 @@
+#include "shared/sprite_frame_state.h"
 #include "dungeon/monster/tyrant/check_action_eligibility_updates_actor_state_directional_animation_success.h"
 #include "shared/actor_action_flags.h"
 
 /* Checks action eligibility and updates the actor state and directional animation on success. */
-s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *action_state, s32 action_id, void *sprite, ActorRecord *actor) {
+s32 check_action_eligibility_updates_actor_state_directional_animation_success(void *action_state, s32 action_id, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 unused[2]; /* never accessed: retail's frame reserves 8 bytes for this unused local */
     s32 target_direction;
     u16 status_flags;
@@ -13,8 +14,8 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
         return -1;
     }
 
-    target_direction = probe_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
-        ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
+    target_direction = probe_directional_neighbor(actor, sprite->unk_24,
+        sprite->unk_25, actor->facing);
 
     if ((((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)
         ? target_direction == 0
@@ -53,7 +54,7 @@ s32 check_action_eligibility_updates_actor_state_directional_animation_success(v
         /* retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (lane r118_fable_f4; decision 45, docs/evidence/r97_decisions.md) */
         target_direction = 0;
     }
-    (*(u8 **)((u8 *)sprite + 0x2C)) = D_80173FB8;
+    (sprite->frameTable) = D_80173FB8;
     select_sprite_entry(sprite,
         D_80173FB8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
         0);

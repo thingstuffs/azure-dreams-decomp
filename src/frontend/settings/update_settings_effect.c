@@ -29,13 +29,6 @@ typedef struct S_80089608_1 {
     u16 unk_26;
 } S_80089608_1;
 
-typedef struct S_80089608_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80089608_2;
-
 typedef struct S_80089608_3 {
     u8 pad_00[0x28];
     s16 unk_28;
@@ -102,7 +95,7 @@ void update_settings_effect(void *effect) {
     s32 axis_offset;
     s32 x_product;
     s32 y_product;
-    void *element;
+    ObjectNodeHeader *element;
     void *element_state;
     SpriteFrameState *sprite;
     void *owner;
@@ -176,17 +169,17 @@ void update_settings_effect(void *effect) {
     do {
         element = allocate_flagged_object_node(0x111);
         if (element != NULL) {
-            sprite = ((S_80089608_2 *)element)->unk_0C;
-            ((S_80089608_2 *)element)->unk_10 = callback;
+            sprite = element->sprite;
+            element->unk_10 = callback;
             register_node(element, &D_80044BB0);
             x_product = func_80064584(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = x_product >> 0xC;
-            ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_02 =
+            ((S_80089608_7 *)(element->position))->unk_02 =
                 (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
             element_state = (void *)((s8 *)element + 0x20);
             y_product = func_800644B8(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = y_product >> 0xC;
-            ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_06 =
+            ((S_80089608_7 *)(element->position))->unk_06 =
                 (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;

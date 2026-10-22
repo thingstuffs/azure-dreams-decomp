@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -20,7 +20,6 @@ extern u8 D_801680E0[];
 extern u8 D_801680E8[];
 extern Callback D_80168168[];
 
-
 typedef struct S_80164DA8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -30,18 +29,6 @@ typedef struct S_80164DA8_0 {
     s32 unk_10;
     s32 unk_14;
 } S_80164DA8_0;   /* arg1 in update_entity_behavior_movement_and_ground */
-
-typedef struct S_80164DA8_1 {
-    u8 pad_00[0x4];
-    union { s8 s8; u16 u16; } unk_04;   /* accessed as both */
-    u8 pad_06[0xE];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80164DA8_1;   /* arg2 in update_entity_behavior_movement_and_ground */
 
 typedef struct S_80164DA8_2 {
     u8 pad_00[0x1C];
@@ -55,7 +42,7 @@ typedef struct S_80164DA8_2 {
 /* Updates entity behavior, movement, directional animation, and ground height. */
 /* Runs Hikewne state callbacks from D_80168168, alternates its bobbing idle frames, and resolves ground
  * contact. */
-void update_entity_behavior_movement_and_ground(void *entity, void *motion, void *sprite)
+void update_entity_behavior_movement_and_ground(void *entity, void *motion, SpriteFrameState *sprite)
 {
     void *entity_state = entity;
     s16 previous_state;
@@ -108,33 +95,33 @@ void update_entity_behavior_movement_and_ground(void *entity, void *motion, void
         (*(u8 *)((u8 *)entity + 0x9D)) = 0;
     }
     (*(s32 *)((u8 *)entity + 0x90)) += ((S_80164DA8_0 *)motion)->unk_14;
-    sprite_flags = ((S_80164DA8_1 *)sprite)->unk_14;
+    sprite_flags = sprite->flags;
 
     if (!(sprite_flags & 0x8000)) {
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7;
         direction_index = direction;
         if ((*(s16 *)((u8 *)entity + 0x94)) != direction_index) {
             select_indirect_table_entry(sprite,
-                (*(u8 *)((u8 *)(((S_80164DA8_1 *)sprite)->unk_2C) + direction_index)),
-                ((S_80164DA8_1 *)sprite)->unk_04.s8);
+                (*(u8 *)((u8 *)(*(u8 **)&sprite->frameTable) + direction_index)),
+                sprite->unk_04);
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
         {
             u32 flip_flags;
             if (dir_sprite_flag[direction_index] != 0) {
-                flip_flags = ((S_80164DA8_1 *)sprite)->unk_14 | 1;
+                flip_flags = sprite->flags | 1;
             } else {
-                flip_flags = ((S_80164DA8_1 *)sprite)->unk_14 & 0xFFFE;
+                flip_flags = sprite->flags & 0xFFFE;
             }
-            ((S_80164DA8_1 *)sprite)->unk_14 = flip_flags;
+            sprite->flags = flip_flags;
         }
         apply_monster_koyaw_data(((S_80164DA8_2 *)entity_state)->unk_1C.s, (u8 *)sprite + 0xC);
         if (!(((S_80164DA8_2 *)entity_state)->unk_1C.u & 0x20)) {
-            if (!(((S_80164DA8_1 *)sprite)->unk_14 & 0x40)) {
+            if (!(sprite->flags & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         } else {
-            ((S_80164DA8_1 *)sprite)->unk_14 |= 0x7000;
+            sprite->flags |= 0x7000;
             ((S_80164DA8_2 *)entity_state)->unk_1C.u &= 0xFFFBFFFF;
         }
 
@@ -161,27 +148,27 @@ void update_entity_behavior_movement_and_ground(void *entity, void *motion, void
                     }
                 }
             } else {
-                if (!(((S_80164DA8_1 *)sprite)->unk_14 & 0x40)) {
-                    if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E0) {
-                        if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x100) {
+                if (!(sprite->flags & 0x40)) {
+                    if (*(u8 **)&sprite->frameTable == D_801680E0) {
+                        if (*(u16 *)&sprite->unk_04 == 0x100) {
                             (*(u16 *)((u8 *)entity + 0x9E)) = 0;
                         }
                         bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
                         bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                         bob_angle = bob_phase * 0xE3;
                         (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
-                        if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E8;
+                        if (*(u16 *)&sprite->unk_04 == 0x103) {
+                            (sprite->frameTable) = D_801680E8;
                             select_sprite_entry(sprite, D_801680E8[((g_game_work.view.camera_rotation.parts.viewAngle
                                 + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                         }
-                    } else if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E8) {
+                    } else if (*(u8 **)&sprite->frameTable == D_801680E8) {
                         bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
                         bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                         bob_angle = bob_phase * 0xE3;
                         (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
-                        if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E0;
+                        if (*(u16 *)&sprite->unk_04 == 0x103) {
+                            (sprite->frameTable) = D_801680E0;
                             select_sprite_entry(sprite, D_801680E0[((g_game_work.view.camera_rotation.parts.viewAngle
                                 + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                         }
@@ -206,7 +193,7 @@ void update_entity_behavior_movement_and_ground(void *entity, void *motion, void
             }
         }
     } else {
-        ((S_80164DA8_1 *)sprite)->unk_14 = (sprite_flags & 0x800)
+        sprite->flags = (sprite_flags & 0x800)
             ? (sprite_flags & 0x8FFF)
         : (sprite_flags | 0x7000);
         ((S_80164DA8_2 *)entity_state)->unk_1C.u &= 0xF7FFFFFF;
@@ -228,27 +215,27 @@ void update_entity_behavior_movement_and_ground(void *entity, void *motion, void
                 }
             }
         } else {
-            if (!(((S_80164DA8_1 *)sprite)->unk_14 & 0x40)) {
-                if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E0) {
-                    if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x100) {
+            if (!(sprite->flags & 0x40)) {
+                if (*(u8 **)&sprite->frameTable == D_801680E0) {
+                    if (*(u16 *)&sprite->unk_04 == 0x100) {
                         (*(u16 *)((u8 *)entity + 0x9E)) = 0;
                     }
                     bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
                     bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                     bob_angle = bob_phase * 0xE3;
                     (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
-                    if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E8;
+                    if (*(u16 *)&sprite->unk_04 == 0x103) {
+                        (sprite->frameTable) = D_801680E8;
                         select_sprite_entry(sprite, D_801680E8[((g_game_work.view.camera_rotation.parts.viewAngle
                             + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                     }
-                } else if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E8) {
+                } else if (*(u8 **)&sprite->frameTable == D_801680E8) {
                     bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
                     bob_phase = (s32)((u32)bob_tick << 16) >> 16;
                     bob_angle = bob_phase * 0xE3;
                     (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
-                    if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E0;
+                    if (*(u16 *)&sprite->unk_04 == 0x103) {
+                        (sprite->frameTable) = D_801680E0;
                         select_sprite_entry(sprite, D_801680E0[((g_game_work.view.camera_rotation.parts.viewAngle
                             + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                     }
@@ -277,8 +264,8 @@ void update_entity_behavior_movement_and_ground(void *entity, void *motion, void
     if (entity_flags & 0x40000000) {
         ((S_80164DA8_2 *)entity_state)->unk_1C.u = entity_flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(
-            (((S_80164DA8_1 *)sprite)->unk_24 << 6) | 0x20,
-            (((S_80164DA8_1 *)sprite)->unk_25 << 6) | 0x20,
+            (sprite->unk_24 << 6) | 0x20,
+            (sprite->unk_25 << 6) | 0x20,
             (s16)(((S_80164DA8_2 *)entity_state)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =
@@ -290,5 +277,5 @@ void update_entity_behavior_movement_and_ground(void *entity, void *motion, void
 
     ((S_80164DA8_0 *)motion)->unk_0A = ((S_80164DA8_2 *)entity_state)->unk_88 +
         (*(u16 *)((u8 *)entity + 0x92)) - (*(u16 *)((u8 *)entity + 0xA2));
-    ((S_80164DA8_1 *)sprite)->unk_14 |= 0x40;
+    sprite->flags |= 0x40;
 }

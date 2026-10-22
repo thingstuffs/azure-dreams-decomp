@@ -5,8 +5,8 @@ extern s32 func_8001A934(void);
 extern s32 func_8001A64C(s32);
 extern void func_8001A554(s32);
 
-extern s16 D_8001AA58[];
-extern s32 D_8001AA6C[][5];
+extern s16 milestone_flag_ids[];
+extern s32 milestone_response_table[][5];
 extern s32 D_8001B160[];
 
 /* Award the first unearned 5/10/20 milestone for one of the three counters and return its reward. */
@@ -40,9 +40,9 @@ s32 award_next_unearned_milestone(s32 counter_id)
     if (*slot == 0) {
         count = func_8001A934();
         less = count < 5;
-        if (less || (event_base = (s16 *)((u8 *)D_8001AA6C - 0x14), events = &event_base[index * 3],
+        if (less || (event_base = (s16 *)((u8 *)milestone_response_table - 0x14), events = &event_base[index * 3],
             func_8001A64C(events[0])) == 0) {
-            award_base = D_8001AA58;
+            award_base = milestone_flag_ids;
             func_8001A554(award_base[index * 3]);
             result = 1;
             *slot = result;
@@ -77,10 +77,10 @@ s32 award_next_unearned_milestone(s32 counter_id)
         s32 reward;
         s32 *reward_addr;
 
-        reward_base = &D_8001AA6C[0][0];
+        reward_base = &milestone_response_table[0][0];
         scaled = index * 4;
         row_offset = (scaled + index) * 4;
-        fresh_base = (s32 *)((u8 *)D_8001AA58 + 0x708);
+        fresh_base = (s32 *)((u8 *)milestone_flag_ids + 0x708);
         reward_addr = (s32 *)(u32)(scaled + (u32)fresh_base);
         reward = *reward_addr;
         result_base = (s32 *)(u32)(row_offset + (u32)reward_base);

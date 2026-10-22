@@ -6,6 +6,7 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon/player.h"
 
 typedef struct S_80048A44_Obj S_80048A44_Obj;
 

@@ -1,11 +1,12 @@
 #include "town/minigame/initialize_source_and_initial_data.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "town/minigame/initialize_source_and_initial_data.h"
 
 /* Creates a bouncing pickup from copied source and motion data and initializes its sprite. */
 void initialize_source_and_initial_data(minigame_pickup_source *source_data, minigame_pickup_initial *initial_data)
 {
-    Object *object;
+    ObjectNodeHeader *object;
     Object *allocated;
     Payload88 *payload;
     SpriteFrameState *part;
@@ -17,10 +18,10 @@ void initialize_source_and_initial_data(minigame_pickup_source *source_data, min
     if (object != 0) {
         payload = (Payload88 *)((u8 *)object + 0x20);
         *payload = *(Payload88 *)source_data;
-        object->callback = update_bouncing_pickup;
-        *object->initial = *(Initial24 *)initial_data;
+        object->unk_10 = update_bouncing_pickup;
+        **(Initial24 * *)&object->position = *(Initial24 *)initial_data;
         register_node((struct RegistrationNode *)object, (s32)project_sprite_chain);
-        part = object->render;
+        part = *(RenderPart * *)&object->sprite;
         part->scale_y = 0x1000;
         part->scale_x = 0x1000;
         part->source = D_8002445C[source_data->x];
@@ -29,6 +30,6 @@ void initialize_source_and_initial_data(minigame_pickup_source *source_data, min
         part->color.word = 0x808080;
         part->flags |= 0x80;
         *(void **)((u8 *)payload + 0x50) = table;
-        configure_the_set_mode_n_1((u8 *)payload + 8, object->initial, D_80024420);
+        configure_the_set_mode_n_1((u8 *)payload + 8, *(Initial24 * *)&object->position, D_80024420);
     }
 }

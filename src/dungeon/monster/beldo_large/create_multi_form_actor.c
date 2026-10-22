@@ -11,15 +11,8 @@ extern void register_node(u8 *, u8 *);
 extern void initialize_actor_sprite_and_animation(u8 *, void *, void *, s32);
 extern void try_move_actor_to_valid_position(u8 *, void *, void *, u8 *);
 extern s32 clear_center_tile_flags_when_enabled(void);
-extern void update_actor_callbacks_and_motion(void *owner_arg, void *motion, void *data);
+extern void update_actor_callbacks_and_motion(void *owner_arg, void *motion, SpriteFrameState *data);
 extern M2C_UNK D_80173980;
-
-typedef struct S_80169D28_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80169D28_0;   /* obj in create_multi_form_actor */
 
 typedef struct S_80169D28_1 {
     u8 pad_00[0x13];
@@ -49,7 +42,7 @@ typedef struct S_80169D28_2 {
 u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0A) {
     u8 *result;
     s32 mode;
-    u8 *obj;
+    ObjectNodeHeader *obj;
     u8 *child;
     u8 *first;
     SpriteFrameState *second;
@@ -66,15 +59,15 @@ u8 *create_multi_form_actor(s16 init_flags, s32 value24, s32 value25, s32 value0
     if (clear_center_tile_flags_when_enabled() == 0) {
         obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
         if (obj != NULL) {
-            result = obj + 0x20;
+            result = ((u8 *)obj) + 0x20;
             *beldo_actor_nodes = obj;
-            ((S_80169D28_0 *)obj)->unk_10 = &update_actor_callbacks_and_motion;
-            child = obj + 0x20;
+            obj->unk_10 = &update_actor_callbacks_and_motion;
+            child = ((u8 *)obj) + 0x20;
             ((S_80169D28_1 *)child)->unk_13 = 0x38;
             register_node(obj, project_sprite_chain);
-            first = ((S_80169D28_0 *)obj)->unk_08;
+            first = obj->position;
             ((S_80169D28_2 *)first)->unk_0A = saved_value0A;
-            second = ((S_80169D28_0 *)obj)->unk_0C;
+            second = obj->sprite;
             mode = saved_init_flags & 3;
             second->unk_24 = saved_value24;
             second->frameTable = &D_80173980;

@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/monster/volcano/create_tracked_effect_object.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -13,10 +15,10 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
     s32 right;
     void *work;
     s16 saved_spawn;
-    void *obj;
+    ObjectNodeHeader *obj;
     register s8 saved_variant;
     s8 saved_kind_id;
-    void *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     void *actor;
 
@@ -30,9 +32,9 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
         ((S_8015E854_0 *)work)->unk_13 = MONSTER_VOLCANO;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_8015E854_1 *)obj)->unk_08;
-        ((S_8015E854_2 *)part_a)->unk_0A = saved_spawn;
-        part_b = ((S_8015E854_1 *)obj)->unk_0C;
+        part_a = obj->position;
+        part_a->z.w.i = saved_spawn;
+        part_b = obj->sprite;
         part_b->unk_24 = saved_kind_id;
         part_b->unk_25 = saved_variant;
         actor = work;
@@ -70,7 +72,7 @@ void *create_tracked_effect_object(s16 flags, s16 kind_id, s16 variant, s16 spaw
                 }
             }
         }
-        ((S_8015E854_1 *)obj)->unk_10 = func_8015EA58;
+        obj->unk_10 = func_8015EA58;
         initialize_actor_sprite_and_animation(obj, part_a, part_b, (s16)flags);
         ((S_8015E854_4 *)actor)->unk_9A = 0xFF;
         ((S_8015E854_4 *)actor)->unk_9C = -1;

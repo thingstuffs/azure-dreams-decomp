@@ -42,7 +42,6 @@ typedef struct {
 
 s32 find_entry_at_tile_coordinates();
 /* extern */
-s32 find_first_free_map_entry();
 /* extern */
 void clear_slot_and_detach_entity();
 /* extern */
@@ -59,7 +58,7 @@ extern void process_unflagged_linked_entries(s32);
 extern s32 select_record_entry_and_value(void *, s32, s32);
 
 extern u8 floor_objects[16];
-extern s32 D_800DF258[16];
+extern s32 floor_object_sprite_sources[16];
 extern D_800E39C8_entry dungeon_floor_object_positions[];
 
 /* Functions defined in this translation unit. */

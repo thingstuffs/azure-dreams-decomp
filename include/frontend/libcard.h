@@ -1,5 +1,7 @@
 #ifndef FRONTEND_LIBCARD_H
 #define FRONTEND_LIBCARD_H
+
+struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/frontend/libcard/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
@@ -142,7 +144,7 @@ void card_boot_link_paired_choice_display_entries(struct S_800491F4 **nodes);
 void card_boot_link_three_row_panel_entries(struct S_800491F4 **input);
 
 /* card_boot_mark_object_complete.c */
-void card_boot_mark_object_complete(void *object);
+void card_boot_mark_object_complete(struct ObjectNodeHeader *object);
 
 /* card_boot_open_save_slot_selection.c */
 void card_boot_open_save_slot_selection(s32 request);
@@ -307,7 +309,7 @@ void dispatch_request_mode_two(s32 request);
 void draw_cylindrical(void *object);
 
 /* entry_card_boot_has_selected_channel.c */
-void func_80027A68(struct S_80027A68_0 *record, s32 value_14, s32 value_00);
+void card_boot_init_channel_record(struct S_80027A68_0 *record, s32 value_14, s32 value_00);
 
 /* init_card_boot_request_object.c */
 struct Node8002BB08 *init_card_boot_request_object(s32 request, s32 mode);

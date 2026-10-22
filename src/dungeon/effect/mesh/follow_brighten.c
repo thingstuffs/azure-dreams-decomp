@@ -1,4 +1,6 @@
 /* Moving radial effects, their line geometry, and timed brightness changes. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/mesh/follow_brighten.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -49,7 +51,7 @@ void write_fixed_palette_pixels(void *unused0, void *unused1, void *unused2) {
     func_80067014(0);
 }
 
-void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, ovl_18d0850_818B097C_EffectCounter *state) {
+void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void *unused, SpriteFrameState *state) {
     owner->parent->flags++;
     advance_sprite_animation_and_textures(state);
     if (state->flags & 0x6000) {
@@ -62,7 +64,7 @@ void advance_owner_effect_counter(ovl_18d0850_818B097C_EffectOwner *owner, void 
 ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32 object_value, ovl_18d0850_818B09F8_VecObj *source_vec) {
     ovl_18d0850_818B09F8_MainObj *obj = (ovl_18d0850_818B09F8_MainObj *)allocate_flagged_object_node(530);
     SpriteFrameState *sub;
-    ovl_18d0850_818B09F8_VecObj *vec;
+    ObjectPosition *vec;
     ovl_18d0850_818B09F8_MainObj *result;
 
     if (obj != 0) {
@@ -81,9 +83,9 @@ ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32
         register_node(obj, project_sprite_chain);
 
         vec = obj->vec;
-        vec->unk2 = source_vec->unk2;
-        vec->unk6 = source_vec->unk6;
-        vec->unkA = source_vec->unkA;
+        vec->x.w.i = source_vec->unk2;
+        vec->y.w.i = source_vec->unk6;
+        vec->z.w.i = source_vec->unkA;
 
         result = obj;
         return result;
@@ -95,7 +97,7 @@ ovl_18d0850_818B09F8_MainObj *create_an_initialized_render_state_copy_vector(s32
 
 /* Steps a sprite's height, resets its radial position at the height limit, and restarts its completed
    animation. */
-void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, Rec_D_80082E80 *object) {
+void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *state, ovl_18d0850_818B0AE0_S_800242E0_2 *position, SpriteFrameState *object) {
     s32 angle;
     u16 height_offset;
     ovl_18d0850_818B0AE0_S_800242E0_1 *counter;
@@ -113,7 +115,7 @@ void advance_height_offset_and_placement(ovl_18d0850_818B0AE0_S_800242E0_0 *stat
     }
     position->unk_0A = (s16)(state->unk_0C + state->unk_04);
     advance_sprite_animation_and_textures(object);
-    if (object->unk_14.at00_u16.v & 0x6000) {
+    if (object->flags & 0x6000) {
         select_record_entry_and_value(object, D_800DEC70, 0);
     }
 }
@@ -125,8 +127,8 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
     s32 angle;
     SpriteFrameState *sprite;
     s32 result;
-    u8 *position;
-    u8 *node;
+    ObjectPosition *position;
+    ObjectNodeHeader *node;
     s16 frame_index = frame;
     s32 sprite_mode;
 
@@ -134,8 +136,8 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
     if (node != 0) {
         node_type = (void *)advance_height_offset_and_placement;
         ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_20 = owner;
-        owner = (s32)(node + 0x20);
-        ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_10 = node_type;
+        owner = (s32)(((u8 *)node) + 0x20);
+        node->unk_10 = node_type;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_04 = motion;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_06 = (s16) (-6 - (func_80069EF8() % 5));
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 = (u16) ((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_02.s;
@@ -143,7 +145,7 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
         node_type = (s32 *)(((ovl_18d0850_818B0C3C_S_8002443C_2 *)origin)->unk_0A.s);
         sprite_mode = 0x7E09;
         ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0C = (u16)node_type;
-        sprite = ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_0C;
+        sprite = node->sprite;
         sprite->color.c.b = 0;
         sprite->color.c.g = 0;
         sprite->color.c.r = 0;
@@ -155,13 +157,13 @@ s32 create_radial_height_offset_effect(s32 owner, void *origin, s16 motion, s16 
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         register_node(node, project_sprite_chain);
-        position = ((ovl_18d0850_818B0C3C_S_8002443C_0 *)node)->unk_08;
+        position = node->position;
         angle = func_80069EF8() % 0x1000;
-        ((ovl_18d0850_818B0C3C_S_8002443C_2 *)position)->unk_02.u = (s16) (((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
-        ((ovl_18d0850_818B0C3C_S_8002443C_2 *)position)->unk_06.u = (s16) (((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
+        position->x.w.i = (s16) (((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
+        position->y.w.i = (s16) (((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
         position_z = ((ovl_18d0850_818B0C3C_S_8002443C_1 *)owner)->unk_0C;
         result = (s32)node;
-        ((ovl_18d0850_818B0C3C_S_8002443C_2 *)position)->unk_0A.u = (s16)position_z;
+        position->z.w.i = (s16)position_z;
         return result;
     }
     result = 0;

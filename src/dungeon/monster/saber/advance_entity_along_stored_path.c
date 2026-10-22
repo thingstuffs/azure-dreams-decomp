@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80171CD4_arg0.h"
 #include "records/Rec_func_80171CD4_arg1.h"
-
 
 extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
@@ -14,7 +14,6 @@ extern s16 get_rounded_facing_and_rounding_flag();
 extern s32 initialize_actor_facing_sprite();
 
 extern u8 D_80174DE4[];
-
 
 typedef struct S_80171CD4_0 {
     u8 pad_00[0x1C];
@@ -27,7 +26,6 @@ typedef struct S_80171CD4_0 {
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_80171CD4_0;   /* state in advance_entity_along_stored_path */
 
-
 typedef struct S_80171CD4_4 {
     u8 pad_00[0x74];
     u8 unk_74;
@@ -36,7 +34,7 @@ typedef struct S_80171CD4_4 {
 } S_80171CD4_4;   /* (u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s in advance_entity_along_stored_path */
 
 /* Advance the entity along its stored path and update movement timing. */
-void advance_entity_along_stored_path(void *movement, void *motion, void *entity, void *path_state) {
+void advance_entity_along_stored_path(void *movement, void *motion, SpriteFrameState *entity, void *path_state) {
     void *state = path_state;
     s32 move_flags;
     s16 heading;
@@ -58,16 +56,16 @@ void advance_entity_along_stored_path(void *movement, void *motion, void *entity
         return;
     }
 
-    if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != D_80174DE4) {
-        (*(u8 * *)((u8 *)entity + (0x2C))) = D_80174DE4;
+    if (*(u8 **)&entity->frameTable != D_80174DE4) {
+        (entity->frameTable) = D_80174DE4;
         select_sprite_entry(
             entity,
             D_80174DE4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171CD4_0 *)state)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
 
-    x = ((Rec_D_80082E80 *)entity)->unk_24;
-    y = ((Rec_D_80082E80 *)entity)->unk_25;
+    x = entity->unk_24;
+    y = entity->unk_25;
     move_flags = 0x3000;
     if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
         move_flags = 0x300;
@@ -82,16 +80,16 @@ void advance_entity_along_stored_path(void *movement, void *motion, void *entity
         (u8 *)movement + 0x98);
     move_result = check_movement_clearance_and_height(heading, entity, state, 0x20);
 
-    ((Rec_D_80082E80 *)entity)->unk_24 =
+    entity->unk_24 =
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_74;
     move_flags = 0x3000;
-    ((Rec_D_80082E80 *)entity)->unk_25 =
+    entity->unk_25 =
         ((S_80171CD4_4 *)((u8 *)state + ((S_80171CD4_0 *)state)->unk_8A.s))->unk_7C;
     ((S_80171CD4_0 *)state)->unk_8A.u++;
 
     {
-        s32 next_x = ((Rec_D_80082E80 *)entity)->unk_24;
-        s32 next_y = ((Rec_D_80082E80 *)entity)->unk_25;
+        s32 next_x = entity->unk_24;
+        s32 next_y = entity->unk_25;
 
         if (((S_80171CD4_0 *)state)->unk_1C & 0x2000) {
             move_flags = 0x300;
@@ -101,7 +99,7 @@ void advance_entity_along_stored_path(void *movement, void *motion, void *entity
 
     ((S_80171CD4_0 *)state)->unk_2A = heading;
     if (move_result == 3) {
-        if (!(g_dungeon_status.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
             initialize_actor_facing_sprite(movement, motion, entity, state);
             ((Rec_func_80171CD4_arg0 *)movement)->unk_8C = 0;
         } else {

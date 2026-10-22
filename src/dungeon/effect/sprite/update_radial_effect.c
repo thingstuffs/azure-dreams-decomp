@@ -113,29 +113,29 @@ void update_radial_effect(DungeonState *effect) {
         DungeonTemplate *object_template = (DungeonTemplate *)secondary_sprite;
 
         do {
-            DungeonObject *object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            ObjectNodeHeader *object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (object != NULL) {
-                object->unk10 = (DungeonInner *)object_data;
+                object->unk_10 = (DungeonInner *)object_data;
                 object_counter->activity_counts.parts.pending_action_count += 1;
                 register_node(object, project_sprite_chain);
                 {
-                    DungeonInner *object_inner = object->unkC;
+                    SpriteFrameState *object_inner = *(DungeonInner * *)&object->sprite;
                     DungeonObjectTail *object_tail = (DungeonObjectTail *)((u8 *)object + 0x20);
                     u16 saved_flags;
 
-                    *(s32 *)((u8 *)object->unk8 + 0x14) = 0xFFFC0000;
-                    saved_flags = ((SpriteFrameState *)object_inner)->flags;
-                    ((SpriteFrameState *)object_inner)->scale_y = 0x600;
-                    ((SpriteFrameState *)object_inner)->scale_x = 0x600;
-                    ((SpriteFrameState *)object_inner)->tpage_abr = 0x20;
-                    ((SpriteFrameState *)object_inner)->unk_00 = object_template;
-                    ((SpriteFrameState *)object_inner)->flags = saved_flags | 0xC;
-                    ((SpriteFrameState *)object_inner)->source = object_template->unk4;
-                    ((SpriteFrameState *)object_inner)->unk_04 = 0;
-                    ((SpriteFrameState *)object_inner)->unk_05 = 0;
-                    ((SpriteFrameState *)object_inner)->color.word = effect->unkC;
+                    *(s32 *)((u8 *)*(DungeonInner * *)&object->position + 0x14) = 0xFFFC0000;
+                    saved_flags = object_inner->flags;
+                    object_inner->scale_y = 0x600;
+                    object_inner->scale_x = 0x600;
+                    object_inner->tpage_abr = 0x20;
+                    object_inner->unk_00 = object_template;
+                    object_inner->flags = saved_flags | 0xC;
+                    object_inner->source = object_template->unk4;
+                    object_inner->unk_04 = 0;
+                    object_inner->unk_05 = 0;
+                    object_inner->color.word = effect->unkC;
                     ((ObjectPositionView *)object)->position = ((StatePositionView *)effect)->position;
-                    *(u16 *)((u8 *)object->unk8 + 0xA) = effect->z;
+                    *(u16 *)((u8 *)*(DungeonInner * *)&object->position + 0xA) = effect->z;
                     object_tail->position = (s16)((spawn_index << 9) + ((s16)effect->timer * 0x28));
                     object_tail->unk1C = 0x180000 - ((0x3C - (s16)effect->timer) << 0xD);
                     object_tail->unk2A = 6;

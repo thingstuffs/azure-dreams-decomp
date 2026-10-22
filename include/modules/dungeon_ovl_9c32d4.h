@@ -79,20 +79,6 @@ typedef struct ovl_9c32d4_809A35A0_S_80174DA0_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } ovl_9c32d4_809A35A0_S_80174DA0_0;
-typedef struct ovl_9c32d4_809A35A0_S_80174DA0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} ovl_9c32d4_809A35A0_S_80174DA0_2;
 typedef struct ovl_9c32d4_809A35A0_S_80174DA0_3 {
     u8 pad_00[0x6];
     s16 unk_06;

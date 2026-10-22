@@ -1,6 +1,9 @@
 /* Radial burst (G00343). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800B10B4. */
 #include "dungeon/effect/radial_burst_g00343.h"
+#include "dungeon/effect.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 
 /* Emits scattered effects at evenly spaced angles unless the tile to the left blocks them. */
 void emit_scattered_effects_unless_blocked(void *source)
@@ -48,8 +51,8 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
     s32 angle;
     s32 particle_index;
     s32 velocity_y;
-    S_800B6814_1 *motion;
-    void *particle;
+    ObjectPosition *motion;
+    ObjectNodeHeader *particle;
     SpriteFrameState *sprite;
     S_800B6814_3 *effect_state;
 
@@ -62,20 +65,20 @@ void spawn_randomized_radial_burst(MovingPosition *origin)
             particle = allocate_flagged_object_node(0x212);
 
             if (particle != NULL) {
-                motion = ((S_800B6814_0 *)particle)->unk_08;
-                sprite = ((S_800B6814_0 *)particle)->unk_0C;
-                ((S_800B6814_0 *)particle)->unk_10 = &D_800B63A8;
+                motion = particle->position;
+                sprite = particle->sprite;
+                particle->unk_10 = &D_800B63A8;
                 register_node(particle, project_sprite_chain);
-                motion->unk_02 =
+                motion->x.w.i =
                     origin->unk_02 + (func_80064584(angle) >> 11);
-                motion->unk_06 =
+                motion->y.w.i =
                     origin->unk_06 + (func_800644B8(angle) >> 11);
-                motion->unk_0A = origin->unk_0A;
-                motion->unk_0C = func_80064584(angle) << 6;
-                motion->unk_10 = func_800644B8(angle) << 6;
-                motion->unk_14 = 0xFFFD0000;
-                ((S_800B6814_0 *)particle)->unk_20 = -motion->unk_0C >> 6;
-                velocity_y = motion->unk_10;
+                motion->z.w.i = origin->unk_0A;
+                motion->velocity_x = func_80064584(angle) << 6;
+                motion->velocity_y = func_800644B8(angle) << 6;
+                motion->velocity_z = 0xFFFD0000;
+                ((S_800B6814_0 *)particle)->unk_20 = -motion->velocity_x >> 6;
+                velocity_y = motion->velocity_y;
                 effect_state = (u8 *)particle + 0x20;
                 effect_state->unk_08 = 0x2000;
                 effect_state->unk_04 = -velocity_y >> 6;

@@ -14,13 +14,6 @@ typedef struct {
 #define NULL 0
 #endif
 
-typedef struct S_80175858_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80175858_0;
-
 typedef struct S_80175858_1 {
     u8 pad_00[0x4];
     union { u16 s; s16 u; } unk_04;   /* accessed as both */
@@ -51,7 +44,7 @@ extern u8 D_80176498[];
 void *create_directional_render_object(void *direction_src, Copy24 *initial_data, void *render_src) {
     SpriteFrameState *render_data;
     void *object_state;
-    void *object;
+    ObjectNodeHeader *object;
     void *data_dst;
     u16 render_attr;
     void *direction_ref = direction_src;
@@ -60,12 +53,12 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
 
     object = allocate_flagged_object_node(0x312);
     if (object != NULL) {
-        ((S_80175858_0 *)object)->unk_10 = &D_8017573C;
+        object->unk_10 = &D_8017573C;
         register_node(object, project_sprite_chain);
-        object_state = object + 0x20;
+        object_state = ((void *)object) + 0x20;
         ((S_80175858_1 *)object_state)->unk_04.s =
             (u16)((S_80175858_2 *)direction_ref)->unk_2A;
-        render_data = ((S_80175858_0 *)object)->unk_0C;
+        render_data = object->sprite;
         render_data->unk_28 =
             ((S_80175858_4 *)render_ref)->unk_28;
         render_attr = ((S_80175858_4 *)render_ref)->unk_12;
@@ -79,7 +72,7 @@ void *create_directional_render_object(void *direction_src, Copy24 *initial_data
                 ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
                 7],
             0);
-        data_dst = ((S_80175858_0 *)object)->unk_08;
+        data_dst = object->position;
         *(Copy24 *)data_dst = *data_src;
         return object;
     }

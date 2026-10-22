@@ -174,7 +174,5 @@ extern void func_80067EF4(void *, s32, s32);
 extern u8 sprite_projection_matrix[];
 
 /* Functions defined in this translation unit. */
-s32 traverse_nodes_and_render_unflagged(void *start_node);
-void render_projected_sprite_with_depth_bias(void *position, void *sprite, s16 world_z, s32 depth_bias);
 
 #endif

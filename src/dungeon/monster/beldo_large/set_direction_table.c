@@ -1,5 +1,6 @@
 /* Encounter direction tables and timed effect sequences. */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -61,10 +62,10 @@ extern void play_sound_if_enabled(s32);
 extern void create_layered_sprite_pulse(DungeonWork *);
 extern void create_targeted_ribbon_trail(DungeonState *, DungeonWork *, DungeonObject *, u8 *, s32);
 
-static __inline__ void set_direction_table(DungeonObject *object, DungeonInput *input, u8 *table) {
+static __inline__ void set_direction_table(SpriteFrameState *object, DungeonInput *input, u8 *table) {
     u32 direction_index;
 
-    object->unk_2C = table;
+    object->frameTable = table;
     direction_index = ((s32)(g_game_work.view.camera_rotation.parts.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
     select_sprite_entry(object, *((u8 *)((u32)direction_index + (u32)table)), 0);
 }

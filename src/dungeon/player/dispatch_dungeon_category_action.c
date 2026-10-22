@@ -10,12 +10,12 @@
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player.h"
 
 
 extern u32 *D_800DD6B8[];
 extern u8 floor_objects[];
 
-extern void clear_player_linked_action_flags(void);
 extern s16 get_special_table_data_index(void *);
 extern void process_unflagged_linked_entries(s32);
 extern void process_unflagged_linked_entries_alt(s32);

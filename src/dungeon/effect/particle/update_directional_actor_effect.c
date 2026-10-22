@@ -1,4 +1,6 @@
 /* Directional particle travel, target impact geometry, and timed status effects. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "modules/dungeon_ovl_190681c.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -10,7 +12,7 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
     u8 *actor;
     u8 *actor_data;
     u8 *actor_header;
-    u8 *particle;
+    ObjectNodeHeader *particle;
     SpriteFrameState *render_data;
     u8 *particle_data;
     s32 count;
@@ -61,14 +63,14 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
             particle = (u8 *)allocate_list_node(786, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
                 register_node(particle, project_sprite_chain);
-                render_data = (u8 *)S32(particle, 12);
-                S32(particle, 16) = (s32)spawn_callback;
-                U16(S32(particle, 8), 2) = (u16)(U16(motion, 2) +
+                render_data = (u8 *)*(s32 *)&particle->sprite;
+                particle->unk_10 = (s32)spawn_callback;
+                ((ObjectPosition *)*(s32 *)&particle->position)->x.w.i = (u16)(U16(motion, 2) +
                                                  (func_80069EF8() & 0x1ff) - 256);
-                U16(S32(particle, 8), 6) = (u16)(U16(motion, 6) +
+                ((ObjectPosition *)*(s32 *)&particle->position)->y.w.i = (u16)(U16(motion, 6) +
                                                  (func_80069EF8() & 0x1ff) - 256);
-                particle_data = particle + 32;
-                U16(S32(particle, 8), 10) = (u16)(U16(motion, 10) +
+                particle_data = ((u8 *)particle) + 32;
+                ((ObjectPosition *)*(s32 *)&particle->position)->z.w.i = (u16)(U16(motion, 10) +
                                                   (func_80069EF8() & 0xf) - 8);
                 S32(particle_data, 28) = S32(motion, 0);
                 S32(particle_data, 32) = S32(motion, 4);
@@ -114,7 +116,7 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
                     offset[0] = 0;
                     offset[2] = (U16(actor_data, 20) & 0x8000) ? -48 : 0;
                 }
-                target = scan_monster_along_heading(actor, U8(actor_data, 36), U8(actor_data, 37), S16(actor, 42),
+                target = scan_actor_along_heading(actor, U8(actor_data, 36), U8(actor_data, 37), S16(actor, 42),
                                        (s16)get_definition_entry_byte_13(36));
                 S32(actor, 96) = target;
                 if (target == 0) {
@@ -219,10 +221,10 @@ void update_directional_actor_effect(u8 *effect, u8 *motion, void *context_arg) 
                     particle = (u8 *)allocate_list_node(770, ((u8 *)(&scene_object_list_anchor)));
                     if (particle != 0) {
                         register_node(particle, D_80024C7C);
-                        S32(particle, 16) = (s32)D_80024B60;
+                        particle->unk_10 = (s32)D_80024B60;
                         {
                             s32 coordinate = S8(actor, 114);
-                            particle_data = particle + 32;
+                            particle_data = ((u8 *)particle) + 32;
                             S16(particle_data, 12) = coordinate << 6;
                             coordinate = S8(actor, 115);
                             S16(particle_data, 14) = coordinate << 6;

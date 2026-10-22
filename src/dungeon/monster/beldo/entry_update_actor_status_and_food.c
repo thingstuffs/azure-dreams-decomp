@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 extern s32 select_sprite_entry();
@@ -10,7 +11,7 @@ extern u8 *D_80174714;
 extern u16 D_80174718;
 
 /* Advance the repeated command stream and apply its direction and action to the actor. */
-s32 replay_actor_direction_commands(u8 *actor, s32 action_context, u8 *sprite) {
+s32 replay_actor_direction_commands(u8 *actor, s32 action_context, SpriteFrameState *sprite) {
     u8 *saved_actor;
     u8 *entry;
     s32 command;
@@ -48,12 +49,12 @@ s32 replay_actor_direction_commands(u8 *actor, s32 action_context, u8 *sprite) {
             func_80171BE0(saved_actor, action_context, sprite, saved_actor);
             return 0;
         case 0x10:
-            if (*(u8 **)(sprite + 0x2C) != D_80173E94) {
-                *(u8 **)(sprite + 0x2C) = D_80173E94;
+            if (*(u8 **)&sprite->frameTable != D_80173E94) {
+                sprite->frameTable = D_80173E94;
                 select_sprite_entry(sprite,
                               D_80173E94[((g_game_work.view.camera_rotation.parts.viewAngle +
                                            *(s16 *)(saved_actor + 0x2A) + 0x100) >> 9) & 7],
-                              *(s8 *)(sprite + 4));
+                              sprite->unk_04);
             }
             break;
         }

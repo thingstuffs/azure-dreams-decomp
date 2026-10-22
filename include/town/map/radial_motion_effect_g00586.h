@@ -12,25 +12,6 @@
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_payload.h"
 
-typedef struct S_800A878C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800A878C_0;
-
-typedef struct S_800A878C_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800A878C_1;
-
 typedef struct S_800A878C_2 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -58,10 +39,6 @@ typedef struct S_800A895C_1 {
 
 /* arg1 in spawn_radial_effect_objects */
 /* object in spawn_radial_effect_objects */
-typedef struct S_800A895C_3 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_800A895C_3;
 
 typedef struct {
     s16 unk0;

@@ -9,6 +9,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/object_links.h"
 #include "shared/dungeon_moving_views.h"
+#include "engine/cd.h"
 extern int abs(int);
 
 typedef s32 Any;
@@ -30,10 +31,9 @@ typedef struct S_801737B0_0 {
 extern u8 D_80171CE8[];
 extern u8 D_80174EB8[];
 
-extern s32 get_cd_command_queue_depth();
 extern Any select_sprite_entry();
 extern s32 func_80069EF8();
-extern void *scan_monster_along_heading();
+extern void *scan_actor_along_heading();
 extern Any set_record_integer_tile_center();
 extern Any advance_status_timers();
 extern Any play_sound_if_enabled();
@@ -43,7 +43,7 @@ extern Any create_random_color_offset_effect();
 /* Updates an actor action through targeting, particle effects, and recovery. */
 /* Starts a targeted spell, emits three randomly colored offset effects per casting tick, then restores
  * idle and status. */
-void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor) {
+void update_actor_targeted_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     s32 use_player_target;
     s32 particle_count;
     s32 offset_z;
@@ -141,10 +141,10 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
                 }
             } else {
 
-                actor->target = scan_monster_along_heading(
+                actor->target = scan_actor_along_heading(
                     actor,
-                    ((SpriteFrameState *)sprite)->unk_24,
-                    ((SpriteFrameState *)sprite)->unk_25,
+                    sprite->unk_24,
+                    sprite->unk_25,
                     actor->facing,
                     0x10);
 
@@ -162,7 +162,7 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -175,15 +175,15 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_801737B0_0 *)action)->unk_9B++;
         play_sound_if_enabled(0x703);
 
     case 2:
-        sprite_flags = ((SpriteFrameState *)sprite)->flags;
+        sprite_flags = sprite->flags;
         if (sprite_flags & 0x8000) {
             ((S_801737B0_0 *)action)->unk_96.s = 0;
             ((S_801737B0_0 *)action)->unk_9B++;
@@ -191,11 +191,11 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
             return;
         }
 
-        if ((((SpriteFrameState *)sprite)->unk_04 == 2) && (sprite_flags & 0x1000)) {
-            ((SpriteFrameState *)sprite)->flags = sprite_flags | 0x800;
+        if ((sprite->unk_04 == 2) && (sprite_flags & 0x1000)) {
+            sprite->flags = sprite_flags | 0x800;
             ((S_801737B0_0 *)action)->unk_96.s = 0x16;
         }
-        if (((SpriteFrameState *)sprite)->unk_04 < 2) {
+        if (sprite->unk_04 < 2) {
             return;
         }
 
@@ -247,19 +247,19 @@ void update_actor_targeted_action(void *action, ObjectPosition *motion, void *sp
         ((S_801737B0_0 *)action)->unk_96.s = timer;
         if ((s16)timer <= 0) {
             ((S_801737B0_0 *)action)->unk_96.s = 0;
-            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+            sprite->flags &= 0xF7FF;
         }
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
 
-        if (((SpriteFrameState *)sprite)->frameTable != D_80174EB8) {
-            ((SpriteFrameState *)sprite)->frameTable = D_80174EB8;
+        if (sprite->frameTable != D_80174EB8) {
+            sprite->frameTable = D_80174EB8;
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7;
             select_sprite_entry(sprite, D_80174EB8[direction], 0);
         }

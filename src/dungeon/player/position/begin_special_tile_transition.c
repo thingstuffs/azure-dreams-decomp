@@ -5,6 +5,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8008D024_arg0.h"
+#include "dungeon/player.h"
+#include "dungeon/player/position.h"
 
 extern u8 player_wait_frames[8];
 extern s16 transition_runtime_slot_index;
@@ -14,7 +16,6 @@ extern s16 lookup_definition_pair_value(u8, u8);
 extern s16 reserve_runtime_slot(s16 slot_id, s16 slot_value);
 extern void mark_category_items_flag_400(s32);
 
-extern void clear_player_linked_action_flags(void);
 /* Initializes action state and animation, then handles the current tile type. */
 void begin_special_tile_transition(Rec_func_8008D024_arg0 *state, s32 unused, SpriteFrameState *entity, ActorRecord *actor) {
     s16 tile_type;

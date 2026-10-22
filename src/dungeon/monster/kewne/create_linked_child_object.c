@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
@@ -39,18 +40,18 @@ void create_linked_child_object(void *parent_state) {
     s32 pair_first;
     s32 pair_second;
     Pair *pair_ptr;
-    void *child;
+    ObjectNodeHeader *child;
     SpriteFrameState *visual;
     S_80175D7C_2 *child_state;
 
     child = allocate_list_node(514, (u8 *)parent_state - 0x20);
     if (child != 0) {
-        ((S_80175D7C_0 *)child)->unk_10 = D_80175B1C;
+        child->unk_10 = D_80175B1C;
         register_node(child, project_sprite_chain);
         pair_first = 0x01000340;
         pair_second = 0x200020;
         pair_ptr = &pair;
-        visual = ((S_80175D7C_0 *)child)->unk_0C;
+        visual = child->sprite;
         visual->source = D_80175FA8;
         visual->scale_x = 0x1000;
         visual->scale_y = 0x800;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct { u8 pad[0xE]; u16 flags; } SpriteOwner;
 typedef struct { u16 flags; u16 unused; SpriteOwner *owner; } OwnerLink;
@@ -9,12 +10,12 @@ extern void advance_sprite_animation_and_textures(Render *);
 extern s32 func_80069EF8(void);
 
 /* Randomize color and mark the owner complete when the render flags request it. */
-void randomize_color(SpriteOwner **action, void *unused, Render *render) {
+void randomize_color(SpriteOwner **action, void *unused, SpriteFrameState *render) {
     (*action)->flags |= 0x8000;
     advance_sprite_animation_and_textures(render);
-    render->r = (func_80069EF8() & 0x7F) + 0x20;
-    render->g = (func_80069EF8() & 0x7F) + 0x20;
-    render->b = (func_80069EF8() & 0x7F) + 0x20;
+    render->color.c.r = (func_80069EF8() & 0x7F) + 0x20;
+    render->color.c.g = (func_80069EF8() & 0x7F) + 0x20;
+    render->color.c.b = (func_80069EF8() & 0x7F) + 0x20;
     if (render->flags & 0x6000) {
         GlobalFlags *status = &D_800814A0;
         ((OwnerLink *)((u8 *)action - 4))->unused |= 0x8000;

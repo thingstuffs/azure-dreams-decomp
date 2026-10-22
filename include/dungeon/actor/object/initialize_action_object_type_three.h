@@ -48,7 +48,7 @@ void initialize_actor_action_state(Rec_func_80094268_arg0 *object, EntityRec *st
 void initialize_threshold_interaction_action(Rec_func_8009431C_arg0 *record);
 void initialize_action_object_type_six(Rec_func_80094268_arg0 *object);
 void initialize_action_object(M2C_UNK **object);
-void func_800943B8(Rec_func_80094268_arg0 *object, M2C_UNK setup_arg, M2C_UNK context, M2C_UNK setup_extra);
+void initialize_movement_action_count_six(Rec_func_80094268_arg0 *object, M2C_UNK setup_arg, M2C_UNK context, M2C_UNK setup_extra);
 void initialize_action_object_and_play_sound(M2C_UNK **object, M2C_UNK unused, M2C_UNK context);
 void initialize_action_handler_with_count_six(ovl_16b08_local_7FFF6D14_InitState *state, void *unused, void *context);
 void initialize_action_object_with_counter(Rec_func_80094268_arg0 *object, M2C_UNK unused, M2C_UNK context);

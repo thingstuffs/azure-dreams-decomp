@@ -7,13 +7,6 @@
 
 typedef struct { s32 word[6]; } Copy24;
 
-typedef struct S_80174A6C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80174A6C_0;   /* obj in create_primitive_state_object */
-
 typedef struct S_80174A6C_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -38,7 +31,7 @@ extern u8 D_80174A00[9];
 s32 create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E80 *source)
 {
     u16 offsets[3];
-    S_80174A6C_0 *obj;
+    ObjectNodeHeader *obj;
     S_80174A6C_4 *dst_state;
     SpriteFrameState *prim;
 
@@ -47,7 +40,7 @@ s32 create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_stat
         obj->unk_10 = D_80174A00;
         register_node(obj, project_sprite_chain);
 
-        prim = obj->unk_0C;
+        prim = obj->sprite;
         prim->unk_28 = source->unk_28.at00_s32.v;
         prim->color.c.b = 0x80;
         prim->color.c.g = 0x80;
@@ -63,7 +56,7 @@ s32 create_primitive_state_object(void *unused, Rec_func_80172D08_arg1 *src_stat
             S_80174A6C_5 *query_arg = source;
             u16 *query_out;
 
-            source = obj->unk_08;
+            source = obj->position;
             dst_state = (void *)source;
             *(Copy24 *)dst_state = *(Copy24 *)src_state;
             query_out = offsets;

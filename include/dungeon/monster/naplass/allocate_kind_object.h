@@ -6,13 +6,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_8015E870_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8015E870_0;   /* obj in func_8015E870 */
-
 typedef struct S_8015E870_1 {
     u8 pad_00[0x13];
     s8 unk_13;

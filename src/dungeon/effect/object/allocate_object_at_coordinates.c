@@ -2,6 +2,7 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect.h"
 
 typedef s32 M2C_UNK;
 
@@ -19,17 +20,11 @@ typedef struct S_800B7B60_1_pre {
     u8 pad_04[0x14];
 } S_800B7B60_1_pre;   /* the 0x18 bytes before arg0 in allocate_object_at_coordinates, addressed as arg0[-1] */
 
-
-
-
-
-
 #ifndef NULL
 #define NULL 0
 #endif
 
 
-extern void spawn_directed_and_scattered_particles();
 extern M2C_UNK D_800B7774;
 
 /* Allocates an object, copies the source coordinates, and increments the object counter. */

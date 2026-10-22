@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
+#include "dungeon/effect/mesh.h"
 
 extern s32 get_offset_map_cell_value_and_flags(s16, s16, s16, u16 *);
 extern s16 process_perpendicular_eligible_tiles(s16, s16, s16);

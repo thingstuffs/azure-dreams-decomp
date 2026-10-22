@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/effect/motion.h"
 typedef struct S_80024930_1 S_80024930_1;
 
 typedef struct S_80024EF8_0 {
@@ -14,7 +14,7 @@ s32 draw_shaded_textured_cylinder(void *unused_data, S_80024930_1 *center, s32 u
 s32 func_800644B8(s32);                                                    /* extern */
 
 /* Draws two effect layers with opposing angles and phase-dependent sizes. */
-s32 func_80024EF8(S_80024EF8_0 *effect, s32 draw_arg1, s32 draw_arg2) {
+s32 draw_counter_rotating_cylinders(S_80024EF8_0 *effect, s32 draw_arg1, s32 draw_arg2) {
     s32 primary_size;
     s32 secondary_size;
     u8 fade;

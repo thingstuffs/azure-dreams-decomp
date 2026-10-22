@@ -38,29 +38,22 @@ typedef struct S_8016FCE4_1 {
     u8 unk_26;
 } S_8016FCE4_1;   /* arg2 in advance_boss_actor_movement_state */
 
-
-
-
-
 typedef struct S_8016FCE4_4 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_8016FCE4_4;   /* heading_base in advance_boss_actor_movement_state */
 
-
-
    /* (arg3 + ((u8) ((S_8016FCE4_0 *)arg3)->unk_71.s & 0x7F)) in advance_boss_actor_movement_state */
-
 
 s32 check_entity_relation(void *, void *);
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void update_map_cell_flags_with_item_limit(s32, s32, s32);
 s32 check_movement_clearance_and_height(s32, void *, void *, s32);
 s32 test_neighbor_position_relation(s32, s32, s32, s32);
-void *find_valid_monster_neighbor(void *entity, u16 x, u16 y);
+void *find_adjacent_actor(void *entity, u16 x, u16 y);
 s32 probe_directional_neighbor(void *, s32, s32, s32);
 s16 get_rounded_facing_and_rounding_flag(s32, s32, s32, s32, void *);
-void rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
+void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 s32 generate_random_value(void);
 void update_actor_status_and_mp(void *);
@@ -104,7 +97,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
         move_flags = ((S_8016FCE4_0 *)actor_in)->unk_1C;
         if (move_flags & 0x410) {
             if (move_flags & 0x400) {
-                target = find_valid_monster_neighbor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                target = find_adjacent_actor(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                     ((S_8016FCE4_1 *)position_in)->unk_24.at01.v);
                 if (target != 0) {
                     target_position = ((SpriteLinkPrefixView *)target)[-1].unk_00;
@@ -166,7 +159,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                         return;
                     }
                 } else {
-                    rebuild_monster_reachable_tiles(position_in, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor_in,
+                    select_actor_route_target(position_in, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor_in,
                         move_state + 0x98);
                 }
             }
@@ -218,7 +211,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                     break;
                 }
             }
-            if ((turn_index != 0) || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v)
+            if ((turn_index != 0) || (reference_tile_object.tile_position.word == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v)
                 || ((check_entity_relation(actor_in, ((s32)((ActorRecord *)((u8 *)primary_actor_record))->previous_actor_header) + 0x20) << 0x10) == 0)) {
                 turn_index += 1;
                 turn_offsets += 1;

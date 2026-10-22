@@ -148,10 +148,6 @@ typedef struct {
     s8 unk14[12];
     s32 params;
 } B22_81893024_M2C_OBJECT;
-typedef struct B22_81893024_S_81893024_0 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} B22_81893024_S_81893024_0;
 typedef struct B22_81892C5C_S_81892C5C_0 {
     u8 pad_00[0x18];
     union { void * s; u32 * u; } unk_18;   /* accessed as both */
@@ -306,9 +302,9 @@ typedef struct B22_81892800_Aux {
     u8 pad_00[0x1A];
     u16 angle;
 } B22_81892800_Aux;
-void func_80024028(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22_81892800_Aux *aux);
+void advance_accelerating_spin_effect(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22_81892800_Aux *aux);
 void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *src_data, s16 state_value);
-void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, void *target);
+void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, SpriteFrameState *target);
 void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant);
 void expire_counted_child_effect(void *counterState);
 s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center);
@@ -327,7 +323,6 @@ extern s32 generate_random_value(void);
 extern void func_80042640(void *, s32);
 extern void *create_actor_at_tile(u8, s16, s16, s16);
 extern void initialize_timed_motion_step(s32, s32);
-extern s32 increment_bounded_counter(void);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
 extern s32 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
 extern s16 get_surface_height_at_record(void *);

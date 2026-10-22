@@ -1,4 +1,5 @@
 #include "shared/dungeon_item_entries.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -112,7 +113,7 @@ void draw_nearby_map_markers(s32 draw_param) {
             union { long value; } kind = {0};
             union { u8 * value; } object = {0};
             if (*(s8 *)(entry + 0x13) > 0) {
-                object.value = *(u8 **)(entry - 0x14);
+                object.value = *(u8 * *)&((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
                 if (!(dungeon_floor_flags & 4)) {
                     if (*(s8 *)(object.value + 0x26) < 0 ||
                         *(s8 *)(object.value + 0x26) != reference_tile_object.room_index) {

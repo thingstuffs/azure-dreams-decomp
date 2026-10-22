@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/system.h"
 
 typedef struct {
     u8 pad00[0x8C];
@@ -32,7 +33,6 @@ extern void prepare_directional_attack(Actor *, s32, s16, s32, s32);
 extern s32 generate_random_value(void);
 extern void process_unflagged_linked_entries_alt(u32);
 extern void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte);
-extern s32 check_action_available_without_nearby_actor(void);
 
 /* Reset the entity state and initialize the active dungeon actor. */
 s32 begin_actor_attack(Entity *entity, s32 unused, s32 action_param, Actor *actor) {

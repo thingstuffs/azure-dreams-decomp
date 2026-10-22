@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/def_table.h"
@@ -6,6 +7,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "shared/object_links.h"
+#include "engine/cd.h"
+#include "shared/sprite_frame_state.h"
 
 typedef struct S_8016C190_0 {
     u8 pad_00[0x8C];
@@ -20,18 +23,6 @@ typedef struct S_8016C190_0 {
 } S_8016C190_0;   /* arg0 in advance_selected_actor_action */
 
    /* the 0x14 bytes before v0 in advance_selected_actor_action, addressed as v0[-1] */
-
-typedef struct S_8016C190_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_8016C190_3;   /* arg2 in advance_selected_actor_action */
-
-
 typedef struct S_8016C190_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -39,10 +30,9 @@ typedef struct S_8016C190_5 {
 } S_8016C190_5;   /* control in advance_selected_actor_action */
 
 
-extern s32 get_cd_command_queue_depth();
 extern s32 abs(s32);
 extern void select_sprite_entry(void *, u8, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -57,7 +47,7 @@ extern u8 D_801739B8[];
 /* Advances the selected actor action through targeting, animation, and cleanup. */
 /* Starts Beldo's targeted spell with an eight-tick casting wait, then restores the current form's idle
  * frames and status. */
-void advance_selected_actor_action(void *action, ObjectPosition *transform, void *sprite, ActorRecord *actor)
+void advance_selected_actor_action(void *action, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u8 action_state;
     u8 *action_slot;
@@ -140,10 +130,10 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
                         actor->target_tile_y = action_control[0x25];
                     }
                 } else {
-                    actor->target = scan_monster_along_heading(
+                    actor->target = scan_actor_along_heading(
                         actor,
-                        ((S_8016C190_3 *)sprite)->unk_24,
-                        ((S_8016C190_3 *)sprite)->unk_25,
+                        sprite->unk_24,
+                        sprite->unk_25,
                         actor->facing,
                         0x10);
                     magnitude_x = abs(actor->target_tile_x);
@@ -164,7 +154,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
+        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -177,10 +167,10 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((S_8016C190_3 *)sprite)->unk_14 |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((S_8016C190_3 *)sprite)->unk_14 &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_8016C190_0 *)action)->unk_9B++;
         play_sound_if_enabled(0x703);
                         /* fall through */
@@ -188,7 +178,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
     case 2:
         ((S_8016C190_0 *)action)->unk_96.u--;
         if ((s16)((S_8016C190_0 *)action)->unk_96.u > 0 &&
-            !(((S_8016C190_3 *)sprite)->unk_14 & 0xE000)) {
+            !(sprite->flags & 0xE000)) {
             return;
         }
         ((S_8016C190_0 *)action)->unk_98 |= 0x80;
@@ -199,45 +189,45 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
         if (((s32)g_dungeon_status.active_actor) == 0) {
             ((S_8016C190_0 *)action)->unk_96.s = 0;
         }
-        if (!(((S_8016C190_3 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
 
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, ((S_8016C190_3 *)sprite)->unk_24, ((S_8016C190_3 *)sprite)->unk_25);
+        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
 
         switch (((S_8016C190_0 *)action)->unk_AC) {
         case 0:
-            current_table = ((S_8016C190_3 *)sprite)->unk_2C;
+            current_table = sprite->frameTable;
             direction_table = D_801739A0;
             if ((u8 *)current_table != direction_table) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+                (sprite->frameTable) = direction_table;
                 select_sprite_entry(sprite, *(u8 *)((unsigned long)(((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
             }
             break;
         case 1:
-            current_table = ((S_8016C190_3 *)sprite)->unk_2C;
+            current_table = sprite->frameTable;
             direction_table = D_801739A8;
             if ((u8 *)current_table != direction_table) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+                (sprite->frameTable) = direction_table;
                 select_sprite_entry(sprite, *(u8 *)((unsigned long)(((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
             }
             break;
         case 2:
-            current_table = ((S_8016C190_3 *)sprite)->unk_2C;
+            current_table = sprite->frameTable;
             direction_table = D_801739B0;
             if ((u8 *)current_table != direction_table) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+                (sprite->frameTable) = direction_table;
                 select_sprite_entry(sprite, *(u8 *)((unsigned long)(((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
             }
             break;
         case 3:
-            current_table = ((S_8016C190_3 *)sprite)->unk_2C;
+            current_table = sprite->frameTable;
             direction_table = D_801739B8;
             if ((u8 *)current_table != direction_table) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+                (sprite->frameTable) = direction_table;
                 select_sprite_entry(sprite, *(u8 *)((unsigned long)(((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
             }
             break;
@@ -246,7 +236,7 @@ void advance_selected_actor_action(void *action, ObjectPosition *transform, void
         }
 
         action_control = (u8 *)&g_dungeon_status.turn_scale;
-        if (((S_8016C190_5 *)action_control)->unk_0C != 0) {
+        if (*(s32 *)&((ObjectNodeHeader *)action_control)->sprite != 0) {
             return;
         }
         ((S_8016C190_5 *)action_control)->unk_0A--;

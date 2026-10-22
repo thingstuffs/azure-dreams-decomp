@@ -3,8 +3,8 @@
 #include "shared/object_flags.h"
 
 
-/* Eases a sprite toward its moving target, advances its animation, and removes it after brightening. */
-void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71DC_S_800249DC_3 *visual) {
+#include "shared/sprite_frame_state.h"/* Eases a sprite toward its moving target, advances its animation, and removes it after brightening. */
+void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, SpriteFrameState *visual) {
     s32 current_x;
     s32 current_y;
     s32 current_z;
@@ -44,19 +44,19 @@ void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position
         (s32)(current_z + (delta / 5));
 
     advance_sprite_animation_and_textures(visual);
-    if (visual->unk_14 & 0x6000) {
+    if (visual->flags & 0x6000) {
         visual->unk_04 = 0;
         visual->unk_05 = 0;
     }
 
-    if ((u8)visual->unk_0C.u8 >= 0x60U) {
+    if ((u8)visual->color.c.r >= 0x60U) {
         ((Row_818E71DC_S_800249DC_0_pre *)motion)[-1].unk_00 =
             (u16)(((Row_818E71DC_S_800249DC_0_pre *)motion)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32)(object_flag_block.flags | OBJECT_REMOVE_PENDING);
         return;
     }
 
-    visual->unk_0C.s32 += 0xC0C0C;
+    visual->color.word += 0xC0C0C;
 }
 
 /* Grows a timed effect for four updates, cycles texture coordinates, and marks it for removal after 15

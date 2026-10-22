@@ -93,11 +93,13 @@ class InlineDataStaging(unittest.TestCase):
     def test_second_stage_is_idempotent(self):
         self.run_stage()
         before = self.snapshot()
+        timestamps = {p: p.stat().st_mtime_ns for p in before}
         result = self.run_stage()
         self.assertEqual(result['new_aliases'], 0)
         self.assertEqual(result['files'], [])
         self.assertEqual(result['metadata_files'], [])
         self.assertEqual(self.snapshot(), before)
+        self.assertEqual({p: p.stat().st_mtime_ns for p in before}, timestamps)
 
     def test_stale_original_hash_refuses_before_writes(self):
         self.records[0]['source_sha256'] = '0'*64
@@ -121,6 +123,18 @@ class InlineDataStaging(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'beyond the spelling map'):
             D.inline_plan(self.root, {self.source: old}, {self.source: after},
                 re.compile(r'\b'+OLD+r'\b'), {OLD: NEW})
+
+    def test_file_rule_retains_an_out_of_scope_member_spelling(self):
+        old = self.source.read_text()
+        after = old.replace(OLD, NEW)
+        pattern = re.compile(r'\b(?:'+OLD+r'|second)\b')
+        mapping = {OLD: NEW, 'second': 'renamed_second'}
+        rules = {'src/slus/merged.c': (re.compile(r'\b'+OLD+r'\b'), {OLD: NEW})}
+        with self.assertRaisesRegex(ValueError, 'beyond the spelling map'):
+            D.inline_plan(self.root, {self.source: old}, {self.source: after}, pattern, mapping)
+        metadata, _ = D.inline_plan(self.root, {self.source: old}, {self.source: after}, pattern, mapping, file_rules=rules)
+        records = [json.loads(line) for line in metadata[self.index][1].splitlines()]
+        self.assertEqual(_fragment(after.encode(), records[1]), _fragment(old.encode(), self.records[1]))
 
     def test_metadata_write_failure_rolls_back_whole_batch(self):
         before = self.snapshot()

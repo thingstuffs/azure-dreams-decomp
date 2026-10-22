@@ -24,7 +24,6 @@ typedef struct S_80173880_2 {
     s8 unk_6D;
 } S_80173880_2;   /* arg3 in advance_an_actor_s_action_state_updating_directional_animations_status_transitions */
 
-
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
@@ -46,7 +45,7 @@ extern u8 D_80174F48[];
 extern u8 D_80174F50[];
 
 /* Advances an actor's action state, updating directional animations and status transitions. */
-void advance_an_actor_s_action_state_updating_directional_animations_status_transitions(void *in_action, void *in_context, void *in_sprite, void *in_actor)
+void advance_an_actor_s_action_state_updating_directional_animations_status_transitions(void *in_action, void *in_context, SpriteFrameState *in_sprite, void *in_actor)
 {
     void *context = in_context;
     void *actor = in_actor;
@@ -56,12 +55,12 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
     state = ((ActorActionStateView *)in_action)->unk_9B;
     switch (state) {
     case 0:
-        if (((SpriteStatusIndexView *)in_sprite)->unk_14 & 0xE000) {
+        if (in_sprite->flags & 0xE000) {
             u8 *anim_table;
             DungeonGlobalStatus *system_state;
 
             anim_table = D_80174F50;
-            (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
+            (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -72,11 +71,11 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
         }
         return;
     case 1:
-        if (((SpriteStatusIndexView *)in_sprite)->unk_14 & 0xE000) {
+        if (in_sprite->flags & 0xE000) {
             u8 *anim_table;
 
             anim_table = D_80174F48;
-            (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
+            (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -87,13 +86,13 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 u8 *anim_table;
 
                 anim_table = D_80174F50;
-                (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
+                (in_sprite->frameTable) = anim_table;
                 select_sprite_entry(in_sprite,
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
 
-            if (((SpriteStatusIndexView *)in_sprite)->unk_14 & 0x8000) {
+            if (in_sprite->flags & 0x8000) {
                 break;
             }
 
@@ -163,7 +162,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
                 s8 coordinate;
 
                 origin = &reference_tile_object;
-                coordinate = ((SpriteStatusIndexView *)in_sprite)->unk_26;
+                coordinate = *(s8 *)&in_sprite->unk_26;
                 if ((((coordinate == origin->room_index) &&
                             (coordinate >= 0)) ||
                      (get_tile_chebyshev_distance(origin, in_sprite) < 2)) &&
@@ -181,13 +180,13 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
             u8 *anim_table;
 
             anim_table = D_80174F50;
-            (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
+            (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
 
-        if (((SpriteStatusIndexView *)in_sprite)->unk_14 & 0x8000) {
+        if (in_sprite->flags & 0x8000) {
             break;
         }
 
@@ -202,11 +201,11 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
         ((ActorActionStateView *)in_action)->unk_9B++;
         return;
     case 2:
-        if (((SpriteStatusIndexView *)in_sprite)->unk_14 & 0xE000) {
+        if (in_sprite->flags & 0xE000) {
             u8 *anim_table;
 
             anim_table = D_80174F40;
-            (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
+            (in_sprite->frameTable) = anim_table;
             select_sprite_entry(in_sprite,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -215,7 +214,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
         }
         return;
     case 3:
-        if (!(((SpriteStatusIndexView *)in_sprite)->unk_14 & 0xE000)) {
+        if (!(in_sprite->flags & 0xE000)) {
             return;
         }
         {

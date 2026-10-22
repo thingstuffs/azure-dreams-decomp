@@ -1,9 +1,11 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef struct S_80172B00_0 {
     u8 pad_00[0x2A];
@@ -14,13 +16,6 @@ typedef struct S_80172B00_0 {
     u8 pad_98[0x14];
     s32 unk_AC;
 } S_80172B00_0;
-
-typedef struct S_80172B00_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_80172B00_1;
 
 typedef struct S_80172B00_2 {
     u8 pad_00[0x2A];
@@ -56,9 +51,9 @@ typedef struct {
 /* Creates a child effect with copied position and sprite data and direction-dependent appearance. */
 void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, void *sprite_template) {
     s32 parent_object;
-    void *sprite;
+    SpriteFrameState *sprite;
     void *effect_data;
-    void *effect_object;
+    ObjectNodeHeader *effect_object;
     MovingPosition *effect_pos;
     CopyBlock *copy_dst;
     CopyBlock *copy_src;
@@ -69,31 +64,31 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
 
     parent_object = parent_data - 0x20;
     effect_object = allocate_list_node(0x112, parent_object);
-    effect_data = effect_object + 0x20;
+    effect_data = ((void *)effect_object) + 0x20;
     if (effect_object != NULL) {
         ((S_80172B00_0 *)effect_data)->unk_96 = 0x78;
-        ((S_80172B00_1 *)effect_object)->unk_10 = &D_80172610;
+        effect_object->unk_10 = &D_80172610;
         ((S_80172B00_0 *)effect_data)->unk_AC = parent_object;
         ((S_80172B00_0 *)effect_data)->unk_94 = (u16) ((S_80172B00_2 *)parent_data)->unk_2A.s;
         copy_src = (CopyBlock *) sprite_template;
         ((S_80172B00_0 *)effect_data)->unk_2A = (u16) ((S_80172B00_2 *)parent_data)->unk_2A.s;
-        sprite = ((S_80172B00_1 *)effect_object)->unk_0C;
+        sprite = effect_object->sprite;
         copy_dst = (CopyBlock *) sprite;
         *(Copy48 *)copy_dst = *(Copy48 *)copy_src;
         register_node(effect_object, project_sprite_chain);
-        ((SpriteFrameState *)sprite)->frameTable = D_80174C74;
+        sprite->frameTable = D_80174C74;
         select_sprite_entry(sprite, D_80174C74[((s32) (g_game_work.view.camera_rotation.parts.viewAngle
             + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
-        effect_pos = ((S_80172B00_1 *)effect_object)->unk_08;
+        effect_pos = effect_object->position;
         effect_pos->unk_02 = (u16) source_pos->unk_02;
         effect_pos->unk_06 = (u16) source_pos->unk_06;
         effect_pos->unk_0A = (u16) source_pos->unk_0A;
         template_1c = ((S_80172B00_7 *)sprite_template)->unk_1C;
-        ((SpriteFrameState *)sprite)->scale_x = template_1c;
-        ((SpriteFrameState *)sprite)->scale_y = (u16) ((S_80172B00_7 *)sprite_template)->unk_1E;
-        ((SpriteFrameState *)sprite)->color.c.b = 0x80;
-        ((SpriteFrameState *)sprite)->color.c.g = 0x80;
-        ((SpriteFrameState *)sprite)->color.c.r = 0x80;
+        sprite->scale_x = template_1c;
+        sprite->scale_y = (u16) ((S_80172B00_7 *)sprite_template)->unk_1E;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
         direction_index = g_game_work.view.camera_rotation.parts.viewAngle;
         parent_angle = ((S_80172B00_2 *)parent_data)->unk_2A.u;
         setup_mode = 0;
@@ -101,8 +96,8 @@ void create_boss_child_effect(void *parent_data, MovingPosition *source_pos, voi
         direction_index += 0x100;
         direction_index >>= 9;
         direction_index &= 7;
-        ((SpriteFrameState *)sprite)->unk_06 = (s16) (view_direction_depth_biases[direction_index] * 4);
+        sprite->unk_06 = (s16) (view_direction_depth_biases[direction_index] * 4);
         ((S_80172B00_2 *)parent_data)->unk_B0 = (u8) (((S_80172B00_2 *)parent_data)->unk_B0 + 1);
-        create_tracked_effect(effect_object, setup_mode, sprite + 0x2C, effect_data + 0x2A);
+        create_tracked_effect(effect_object, setup_mode, ((void *)sprite) + 0x2C, effect_data + 0x2A);
     }
 }

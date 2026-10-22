@@ -1,8 +1,10 @@
 /* Arachne actor spawning, action updates, movement, and wireframe effects. */
-#include "modules/dungeon_resource12_slot0.h"
+#include "dungeon/monster/arachne.h"
 #include "shared/actor_action_flags.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
+#include "engine/cd.h"
 
 void * (*const resource12_slot0_entry0)(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) = func_8017087C;
 void (*const resource12_slot0_entry1)(void *entity, R12_80170A44_S_80170A28_2 *motion, void *part) = create_directional_template_effect;
@@ -310,7 +312,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
 
         if (((R12_80170E70_S_80170E70_1 *)actor)->unk_1C & 0x80000) {
             begin_actor_move_to_target_facing(entity, context, sprite, actor);
-            func_80173D64(entity, context, sprite, actor);
+            update_arachne_parent_motion(entity, context, sprite, actor);
             return;
         }
 
@@ -330,7 +332,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
             return;
         }
         if (*(u16 *)&((SpriteFrameState *)sprite)->unk_24 == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
-            func_8017162C(entity, context, sprite, actor);
+            choose_arachne_move(entity, context, sprite, actor);
             return;
         }
 
@@ -342,13 +344,13 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
                     return;
                 }
             }
-            if ((s16)func_801720B4(entity, context, sprite, 0) == 0) {
+            if ((s16)relink_arachne_path(entity, context, sprite, 0) == 0) {
                 return;
             }
             action_flags = ((R12_80170E70_S_80170E70_1 *)actor)->unk_46 | 0x4000;
             ((R12_80170E70_S_80170E70_1 *)actor)->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
-                func_8017162C(entity, context, sprite, actor);
+                choose_arachne_move(entity, context, sprite, actor);
                 return;
             }
         }
@@ -357,7 +359,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
         switch (action_index) {
         case 7:
         case 8:
-            if ((s16)func_80171DD8(entity, context, sprite, actor) != 0) {
+            if ((s16)try_arachne_attack(entity, context, sprite, actor) != 0) {
                 return;
             }
             select_and_start_target_action(entity, context, sprite, actor);
@@ -387,7 +389,7 @@ void update_actor_state_and_select_target(void *entity, void *context, void *spr
             return;
 
         default:
-            func_8017162C(entity, context, sprite, actor);
+            choose_arachne_move(entity, context, sprite, actor);
             return;
         }
     }
@@ -517,7 +519,7 @@ void advance_actor_path_script_step(void *controller, void *context, void *entit
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void func_8017162C(void *move_data, void *context, void *position_data, void *actor_data)
+void choose_arachne_move(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
@@ -532,7 +534,7 @@ void func_8017162C(void *move_data, void *context, void *position_data, void *ac
 
     if ((dungeon_flags & 0x4000) || ((R12_8017162C_S_80171C34_1 *)actor_data)->unk_71.s >= 0) {
         if (((R12_8017162C_S_80171C34_1 *)actor_data)->unk_12 >= 2 ||
-            (s16)func_80171DD8(move_data, context, position_data, actor_data) == 0) {
+            (s16)try_arachne_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
         }
@@ -549,7 +551,7 @@ void func_8017162C(void *move_data, void *context, void *position_data, void *ac
     actor_flags = ((R12_8017162C_S_80171C34_1 *)actor_data)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            current_angle = (s32)find_valid_monster_neighbor(actor_data,(u8)((SpriteFrameState *)position_data)->unk_24,(u8)((SpriteFrameState *)position_data)->unk_25);
+            current_angle = (s32)find_adjacent_actor(actor_data,(u8)((SpriteFrameState *)position_data)->unk_24,(u8)((SpriteFrameState *)position_data)->unk_25);
             if (((void *)current_angle) != 0) {
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)position_data)->unk_24,(s16)((SpriteFrameState *)position_data)->unk_25,(s16)(((R12_8017162C_S_80171C34_7 *)(((R12_8017162C_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_24),(s16)(((R12_8017162C_S_80171C34_7 *)(((R12_8017162C_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_25),
                     (u8 *)move_data + 0x98));
@@ -604,13 +606,13 @@ void func_8017162C(void *move_data, void *context, void *position_data, void *ac
                     limit_detour = 1;
                 }
             } else {
-                rebuild_monster_reachable_tiles(position_data, ((R12_8017162C_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+                select_actor_route_target(position_data, ((R12_8017162C_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                               (u8 *)move_data + 0x98);
             }
         }
     } else if (*(s8 *)&((SpriteFrameState *)position_data)->unk_26 >= 0 &&
                ((R12_8017162C_DungeonRecord *)dungeon_rooms)[*(s8 *)&((SpriteFrameState *)position_data)->unk_26].flags & 2) {
-        rebuild_monster_reachable_tiles(position_data, ((R12_8017162C_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+        select_actor_route_target(position_data, ((R12_8017162C_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                       (u8 *)move_data + 0x98);
     } else if (!(((R12_8017162C_S_80171C34_1 *)actor_data)->unk_46 & 0x8000)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,(u8)((SpriteFrameState *)position_data)->unk_24,(u8)((SpriteFrameState *)position_data)->unk_25,(s16)(((R12_8017162C_S_80171C34_1 *)actor_data)->unk_2A.s));
@@ -639,7 +641,7 @@ void func_8017162C(void *move_data, void *context, void *position_data, void *ac
                 }
             }
         } else {
-            rebuild_monster_reachable_tiles(position_data, ((R12_8017162C_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+            select_actor_route_target(position_data, ((R12_8017162C_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                           (u8 *)move_data + 0x98);
         }
     }
@@ -745,7 +747,7 @@ void advance_linked_actor_motion_script(void *object, void *unused, void *displa
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 func_80171DD8(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
+s32 try_arachne_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;
@@ -817,7 +819,7 @@ void select_and_start_target_action(void *action_state, void *action_context, vo
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 func_801720B4(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_arachne_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -825,7 +827,7 @@ s32 func_801720B4(void *entity_arg, void *primary_context_arg, void *secondary_c
     state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        func_8017162C(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_arachne_move(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     }
@@ -836,7 +838,7 @@ s32 func_801720B4(void *entity_arg, void *primary_context_arg, void *secondary_c
         result = 0;
         return result;
     case 2:
-        func_8017162C(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_arachne_move(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     case 1:
@@ -1206,7 +1208,7 @@ void advance_actor_motion_and_wait(void *action, void *transform, void *sprite, 
                     }
                 } else {
                     actor->target =
-                        scan_monster_along_heading(actor,(u8)(((SpriteAnimationTableView *)sprite)->unk_24),(u8)(((SpriteAnimationTableView *)sprite)->unk_25),(s16)(actor->facing), 0x10);
+                        scan_actor_along_heading(actor,(u8)(((SpriteAnimationTableView *)sprite)->unk_24),(u8)(((SpriteAnimationTableView *)sprite)->unk_25),(s16)(actor->facing), 0x10);
                     actor->target_tile_x = abs(actor->target_tile_x);
                     actor->target_tile_y = abs(actor->target_tile_y);
                 }
@@ -1497,7 +1499,7 @@ void advance_familiar_defeat_sequence(void *state, void *motion, void *position,
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
-void func_80173634(void *state, void *motion, void *position, void *actor)
+void advance_arachne_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
@@ -1510,7 +1512,7 @@ void finish_actor_hop_and_grow_then_select_target(Resource12CallbackState *state
 }
 
 /* Waits for a status effect to clear, updates actor status and activity counts, then restores movement. */
-void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in_actor)
+void advance_arachne_status_action(void *in_controller, void *in_context, void *sprite, void *in_actor)
 {
     void *context = in_context;
     void *actor = in_actor;
@@ -1569,7 +1571,7 @@ void func_8017368C(void *in_controller, void *in_context, void *sprite, void *in
 
             if (actor_flags & 0x80000) {
                 begin_actor_move_to_target_facing(in_controller, context, sprite, actor);
-                func_80173D64(in_controller, context, sprite, actor);
+                update_arachne_parent_motion(in_controller, context, sprite, actor);
                 return;
             }
 
@@ -1706,7 +1708,7 @@ void resume_actor_target_selection_after_status_animation(void *controller, void
 
         if (entity_flags & 0x80000) {
             begin_actor_move_to_target_facing(controller, context, sprite, entity);
-            func_80173D64(controller, context, sprite, entity);
+            update_arachne_parent_motion(controller, context, sprite, entity);
             return;
         }
 
@@ -1747,7 +1749,7 @@ void resume_actor_target_selection_after_status_animation(void *controller, void
     }
 }
 
-void func_80173D64(R12_80173D64_Actor *actor, s32 action, R12_80173D64_Entity *entity, R12_80173D64_MapObject *map_object)
+void update_arachne_parent_motion(R12_80173D64_Actor *actor, s32 action, R12_80173D64_Entity *entity, R12_80173D64_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
@@ -2039,7 +2041,7 @@ grid_loop:
 }
 
 /* Projects visible sprites in the linked effect chain using the shared depth adjustment. */
-s32 func_8017458C(void *initial_payload, s32 entry_data, R12_8017458C_Entry *entry, s32 unused)
+s32 project_arachne_sprite_chain(void *initial_payload, s32 entry_data, R12_8017458C_Entry *entry, s32 unused)
 {
     void *payload = initial_payload;
     R12_8017458C_Scratchpad *scratch = (R12_8017458C_Scratchpad *)0x1F800000;
@@ -2655,7 +2657,7 @@ void advance_effect_sequence_and_restore_actor(void *sequence, void *position, S
             return;
         }
         node->unk_10.p = ((u8 *)fade_effect_to_neutral);
-        register_node(node, ((u8 *)func_8017458C));
+        register_node(node, ((u8 *)project_arachne_sprite_chain));
         ((R12_80175470_S_80175470_0 *)sequence)->unk_A8 = node;
         model_color = 0x00808080;
         *(s32 *)node->unk_08 = ((s32 *)position)[0];

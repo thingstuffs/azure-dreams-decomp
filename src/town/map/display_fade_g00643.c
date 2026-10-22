@@ -1,5 +1,6 @@
 /* Display fade (G00643). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BEA7C, PD:town/engine:80111FB0. */
+#include "shared/object_node.h"
 #include "town/map/display_fade_g00643.h"
 #include "shared/object_flags.h"
 
@@ -33,7 +34,7 @@ void advance_color_fade_and_set_completion(void *fade_state, s32 unused, void *v
             ((S_800BC290_1 *)visual)->unk_0C.s32 = color;
         }
         if (((S_800BC290_0 *)fade_state)->unk_02.s <= 0) {
-            func_8004E994(D_80111FB0);
+            noop_release_notification(D_80111FB0);
             ((S_800BC290_0 *)fade_state)->unk_00.u++;
         }
         break;
@@ -90,11 +91,11 @@ void advance_timed_state_and_set_completion(void *object)
 void build_two_display_entries(s32 data_id, s32 position_offset)
 {
     Copy8 layout;
-    void *display_obj;
+    ObjectNodeHeader *display_obj;
     u8 *display_data;
 
     layout = D_8008961C;
-    func_8004E9E4();
+    noop_display_setup_hook();
     *(u16 *)&layout.word0 += (s32)(position_offset << 16) >> 14;
     create_positioned_callback_object(&layout, D_800BC290,
                   decode_fullwidth_text(D_80111FB0, (void *)data_id, 0));
@@ -102,7 +103,7 @@ void build_two_display_entries(s32 data_id, s32 position_offset)
 
     display_obj = allocate_flagged_object_node(1);
     if (display_obj != 0) {
-        *(void **)((u8 *)display_obj + 0x10) = D_800BC390;
+        display_obj->unk_10 = D_800BC390;
         display_data = (u8 *)display_obj + 0x20;
         register_node(display_obj, &display_registration_tag);
         *(s16 *)(display_data + 0xC) = 0x64;

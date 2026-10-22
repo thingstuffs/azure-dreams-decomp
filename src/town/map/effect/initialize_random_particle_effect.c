@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_effect_views.h"
@@ -76,7 +77,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
     s32 center_sprite_y;
     s32 center_particle_y;
     u8 particle_blue;
-    Object *child_obj;
+    ObjectNodeHeader *child_obj;
     Core *child_core;
     void *parent_obj;
     SpriteFrameState *particle_prim;
@@ -101,7 +102,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
     do {
         child_obj = allocate_list_node(0x136, (u8 *)parent_core - 0x20);
         if (child_obj != NULL) {
-            child_obj->update = D_800BA8C4;
+            child_obj->unk_10 = D_800BA8C4;
             register_node(child_obj, D_80046398);
             parent_value = parent_core->value;
             child_core = (Core *)((u8 *)child_obj + 0x20);
@@ -109,7 +110,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
             child_core->angle = 0;
             child_core->index = child_index;
             child_core->value = parent_value;
-            particle_prim = child_obj->primitive;
+            particle_prim = *(Primitive * *)&child_obj->sprite;
             particle_prim->scale_x = 0x1000;
             particle_prim->scale_y = 0x1000;
             particle_prim->unk_20 = 0xAAA;
@@ -118,7 +119,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
             particle_blue = g_game_work.view.tint.parts.tint_b;
             particle_prim->source = child_index + 0xA;
             particle_prim->color.c.b = particle_blue;
-            child_pos = child_obj->position;
+            child_pos = *(IntVector3 * *)&child_obj->position;
             child_pos->x = origin->x;
             particle_y = origin->y;
             child_pos->z = 0;
@@ -132,14 +133,14 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
     do {
         child_obj = allocate_list_node(0x36, (u8 *)parent_core - 0x20);
         if (child_obj != NULL) {
-            child_obj->update = D_800B9EDC;
+            child_obj->unk_10 = D_800B9EDC;
             register_node(child_obj, D_80045C34);
             parent_value = parent_core->value;
             child_core = (Core *)((u8 *)child_obj + 0x20);
             child_core->parent = parent_core;
             child_core->index = child_index;
             child_core->value = parent_value;
-            texture_prim = child_obj->primitive;
+            texture_prim = *(Primitive * *)&child_obj->sprite;
             texture_prim->source = D_800F8A1C;
             texture_prim->color.c.b = 0x80;
             texture_prim->color.c.g = 0x80;
@@ -149,7 +150,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
             texture_prim->angle_z = parent_core->angle + (child_index << 10);
             texture_prim->scale_y = 0x1000;
             texture_prim->scale_x = 0x1000;
-            child_pos = child_obj->position;
+            child_pos = *(IntVector3 * *)&child_obj->position;
             child_pos->x = origin->x;
             sprite_y = origin->y;
             child_pos->z = 0xFF2C0000;
@@ -162,13 +163,13 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
     parent_obj = (u8 *)parent_core - 0x20;
     child_obj = allocate_list_node(0x36, parent_obj);
     if (child_obj != NULL) {
-        child_obj->update = D_800B9EDC;
+        child_obj->unk_10 = D_800B9EDC;
         register_node(child_obj, D_80045C34);
         parent_value = parent_core->value;
         child_core = (Core *)((u8 *)child_obj + 0x20);
         child_core->parent = parent_core;
         child_core->value = parent_value;
-        texture_prim = child_obj->primitive;
+        texture_prim = *(Primitive * *)&child_obj->sprite;
         texture_prim->source = D_800F8A28;
         texture_prim->color.c.b = 0x80;
         texture_prim->color.c.g = 0x80;
@@ -178,7 +179,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
         texture_prim->angle_z = parent_core->angle;
         texture_prim->scale_y = 0x1000;
         texture_prim->scale_x = 0x1000;
-        child_pos = child_obj->position;
+        child_pos = *(IntVector3 * *)&child_obj->position;
         child_pos->x = origin->x;
         center_sprite_y = origin->y;
         child_pos->z = 0xFF2C0000;
@@ -188,13 +189,13 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
 
     child_obj = allocate_list_node(0x136, parent_obj);
     if (child_obj != NULL) {
-        child_obj->update = D_800B9F74;
+        child_obj->unk_10 = D_800B9F74;
         register_node(child_obj, D_80046398);
         parent_value = parent_core->value;
         child_core = (Core *)((u8 *)child_obj + 0x20);
         child_core->parent = parent_core;
         child_core->value = parent_value;
-        particle_prim = child_obj->primitive;
+        particle_prim = *(Primitive * *)&child_obj->sprite;
         particle_prim->scale_x = 0x1000;
         particle_prim->scale_y = 0x1000;
         particle_prim->unk_20 = 0x1000;
@@ -202,7 +203,7 @@ void initialize_random_particle_effect(Core *parent_core, IntVector3 *origin)
         particle_prim->color.c.r = g_game_work.view.tint.parts.tint_r;
         particle_prim->color.c.g = g_game_work.view.tint.parts.tint_g;
         particle_prim->color.c.b = g_game_work.view.tint.parts.tint_b;
-        child_pos = child_obj->position;
+        child_pos = *(IntVector3 * *)&child_obj->position;
         particle_prim->source = 9;
         child_pos->x = origin->x;
         center_particle_y = origin->y;

@@ -287,24 +287,6 @@ typedef struct Row_819A1450_S_819A1450_0 {
     s16 unk_3C;
 } Row_819A1450_S_819A1450_0;   /* setup in func_80024C50 */
 
-typedef struct Row_819A1450_S_819A1450_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} Row_819A1450_S_819A1450_1;   /* node in func_80024C50 */
-
-typedef struct Row_819A1450_S_819A1450_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-} Row_819A1450_S_819A1450_3;   /* coords in func_80024C50 */
-
 typedef struct Row_819A1450_S_819A1450_4 {
     u8 pad_00[0x36];
     s16 unk_36;

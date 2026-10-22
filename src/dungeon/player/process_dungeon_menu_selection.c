@@ -8,6 +8,11 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008D024_arg0.h"
 #include "records/Rec_D_80082EB0.h"
+#include "dungeon/level.h"
+#include "dungeon/player.h"
+#include "dungeon/player/item.h"
+#include "dungeon/player/object.h"
+#include "dungeon/player/position.h"
 
 typedef struct S_80090C10_1 {
     union { s32 s; void * (*u)(s32, s32); } unk_00;   /* accessed as both */
@@ -85,27 +90,19 @@ void select_record_entry_and_value();        /* extern */
 s32 get_entity_effect_value();                 /* extern */
 void set_sprite_animation_frame(); /* extern */
 void read_vram_blocks_to_buffer();                            /* extern */
-s32 begin_familiar_command_selection(); /* extern */
 void begin_deferred_item_action(); /* extern */
-s32 begin_target_flagged_action(); /* extern */
-void begin_special_tile_transition(); /* extern */
 void initialize_action_state_29(); /* extern */
 s32 request_familiar_deployment_change(); /* extern */
 void resolve_familiar_deployment_request(); /* extern */
-s32 begin_familiar_summoning(); /* extern */
 void restore_player_control_callback();              /* extern */
-void *register_item_object_in_free_slot(); /* extern */
 void equip_item_and_update_status();              /* extern */
 void change_equipped_item_and_notify();              /* extern */
-s32 dispatch_dungeon_category_action(); /* extern */
 s16 get_special_table_data_index();                          /* extern */
-void *begin_holding_item(); /* extern */
 s32 get_unused_text_buffer();                                /* extern */
 s32 expand_text_control_codes();                  /* extern */
 void *clear_byte_and_advance();                         /* extern */
 s32 append_entity_display_text();                        /* extern */
 void display_formatted_context_message();                   /* extern */
-s32 find_valid_nearby_position(); /* extern */
 void append_packed_action_record();   /* extern */
 s32 display_text_with_fullwidth_adjustment();                         /* extern */
 s32 is_selectable_menu_target();                             /* extern */

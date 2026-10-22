@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
-
 
 typedef void (*DungeonCallback)(void *, void *, void *, void *);
 
@@ -8,7 +8,6 @@ extern DungeonCallback gravity_motion_callbacks[];
 
 extern s16 sample_terrain_surface_height(u16, u16, s16);
 extern void advance_sprite_animation_and_textures(void *);
-
 
 typedef struct S_800D2E9C_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -33,17 +32,9 @@ typedef struct S_800D2E9C_1 {
     u8 unk_9D;
 } S_800D2E9C_1;   /* obj in func_800D2E9C */
 
-typedef struct S_800D2E9C_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800D2E9C_2;   /* ent in func_800D2E9C */
-
 /* Runs object callbacks, applies movement and gravity, and updates ground height. */
 void dispatch_actor_actions_and_integrate_gravity(void *object, void *motion, void *entity) {
-    void *ent = entity;
+    SpriteFrameState *ent= entity;
     void *update_obj = object;
     DungeonCallback callback;
     s32 x;
@@ -62,7 +53,6 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, void *motion, vo
         return;
     }
 
-
     callback = (*(DungeonCallback *)((u8 *)update_obj + (0x8C)));
     if (callback != 0) {
         callback(update_obj, motion, ent, update_obj);
@@ -70,7 +60,7 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, void *motion, vo
     gravity_motion_callbacks[(*(u8 *)((u8 *)update_obj + (0x9A)))](update_obj, motion, ent, update_obj);
 
     {
-        u16 render_flags = ((S_800D2E9C_2 *)ent)->unk_14;
+        u16 render_flags = ent->flags;
         if (!(render_flags & 0x8000)) {
             if (!(render_flags & 0x40)) {
                 advance_sprite_animation_and_textures(ent);
@@ -120,8 +110,8 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, void *motion, vo
                 s32 tile_x;
                 s32 tile_y;
                 (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x40000000;
-                tile_x = (((S_800D2E9C_2 *)ent)->unk_24 << 6) | 0x20;
-                tile_y = (((S_800D2E9C_2 *)ent)->unk_25 << 6) | 0x20;
+                tile_x = (ent->unk_24 << 6) | 0x20;
+                tile_y = (ent->unk_25 << 6) | 0x20;
                 ground_height = sample_terrain_surface_height(
                     tile_x, tile_y, (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
                 ((S_800D2E9C_1 *)object)->unk_90.at02.v += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
@@ -131,8 +121,7 @@ void dispatch_actor_actions_and_integrate_gravity(void *object, void *motion, vo
         (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;
     }
 
-
     ((S_800D2E9C_0 *)motion)->unk_0A = (*(u16 *)((u8 *)update_obj + (0x88))) + ((S_800D2E9C_1 *)object)->unk_90.at02u.v;
-    ((S_800D2E9C_2 *)ent)->unk_14 |= 0x40;
+    ent->flags |= 0x40;
     (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x200;
 }

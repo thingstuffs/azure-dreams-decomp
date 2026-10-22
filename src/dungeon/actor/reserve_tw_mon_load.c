@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/actor.h"
 
 extern s32 town_resource_request;
-void func_8008B550(s32 value) { town_resource_request = value; }
+void reserve_tw_mon_load(s32 value) { town_resource_request = value; }

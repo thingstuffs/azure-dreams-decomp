@@ -9,9 +9,6 @@
 #define NULL 0
 #endif
 
-
-
-
 typedef struct S_800BFB8C_0 {
     u8 pad_00[0x8];
     s16 unk_08;
@@ -19,16 +16,6 @@ typedef struct S_800BFB8C_0 {
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     u16 unk_0E;
 } S_800BFB8C_0;
-
-typedef struct S_800BFB8C_1 {
-    u8 pad_00[0x10];
-    s32 * unk_10;
-} S_800BFB8C_1;
-
-typedef struct S_800BFB8C_2 {
-    u8 pad_00[0xBC];
-    s16 unk_BC;
-} S_800BFB8C_2;   /* town in spawn_randomized_timed_objects */
 
 typedef struct S_800BFB8C_3 {
     u8 pad_00[0xC];
@@ -42,7 +29,6 @@ typedef struct S_800BFB8C_3 {
     u8 pad_24[0x2];
     s16 unk_26;
 } S_800BFB8C_3;
-
 
 s32 test_resident_bit();
 struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader * *);
@@ -67,7 +53,7 @@ void spawn_randomized_timed_objects(void *source)
     u8 *kind;
     void *coords;
     void *new_object;
-    void *object;
+    ObjectNodeHeader *object;
     void *callback;
 
     object = source;
@@ -83,8 +69,8 @@ void spawn_randomized_timed_objects(void *source)
             if (new_object != NULL) {
                 object = new_object;
                 callback = &D_800BFFF4;
-                coords = object + 0x20;
-                ((S_800BFB8C_1 *)object)->unk_10 = (s32 *)kind;
+                coords = ((void *)object) + 0x20;
+                object->unk_10 = (s32 *)kind;
                 register_node(object, callback);
                 random_value = rand();
                 coord_term = town->view.camera_position.parts.camera_position_x;

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/effect.h"
 
 extern s32 get_entity_effect_value(void *, s32);
 extern s8 find_active_rect_containing_point(u8, u8);

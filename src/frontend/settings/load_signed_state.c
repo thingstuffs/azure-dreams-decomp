@@ -31,7 +31,7 @@ static __inline__ s16 load_signed_state(ColorEffect *effect)
 }
 
 /* Cycles a timed color fade and marks the effect for removal when its owner is flagged. */
-void func_7FDD3F8C(ColorEffect *effect)
+void update_settings_color_cycle(ColorEffect *effect)
 {
     s16 state;
     s32 initial_state;

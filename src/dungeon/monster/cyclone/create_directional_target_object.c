@@ -54,7 +54,7 @@ void *create_directional_target_object(void *emitter, Copy24 *position, void *so
     if (object != 0) {
         object->unk_10 = &D_80175978;
         register_node(object, project_sprite_chain);
-        render = object->unk_0C;
+        render = object->sprite;
         render->unk_28 = *((s32 *) (((u8 *) source_copy) + 0x28));
         render->scale_y = 0x800;
         render->scale_x = 0x800;
@@ -62,7 +62,7 @@ void *create_directional_target_object(void *emitter, Copy24 *position, void *so
         render->flags |= 0xC;
         render->tpage_abr |= 0x20;
         select_sprite_entry(render, 0x47, 0);
-        transform = object->unk_08;
+        transform = object->position;
         *((Copy24 *) (((u8 *) object) + 0x24)) = *position_data;
         position_data = (Copy24 *) (((u8 *) object) + 0x20);
         position_offset.z = 0;

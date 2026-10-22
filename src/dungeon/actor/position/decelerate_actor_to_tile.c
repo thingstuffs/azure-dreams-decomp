@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -41,7 +42,7 @@ typedef struct {
 extern u8 D_800D20D8[];
 
 extern void set_record_integer_tile_center(CcaMotion *, u8, u8);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(CcaAnim *);
 
 /* Decelerate motion, then align to the target tile and advance the state. */

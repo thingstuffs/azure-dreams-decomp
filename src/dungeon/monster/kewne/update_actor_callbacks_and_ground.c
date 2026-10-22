@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
 
 typedef s32 (*ActorCallback)(void *, void *, void *, void *);
 extern void select_indirect_table_entry(void *, s32, s32);
@@ -16,7 +16,7 @@ extern u8 D_801710EC[12];
 extern u8 D_80175E40[12];
 extern ActorCallback kewne_callbacks[16];
 /* Update actor callbacks, movement, facing, animation, and ground height. */
-void update_actor_callbacks_and_ground(void *actor, void *motion, void *sprite)
+void update_actor_callbacks_and_ground(void *actor, void *motion, SpriteFrameState *sprite)
 {
     void *entry_actor = actor;
     s16 direction_index;
@@ -72,43 +72,43 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, void *sprite)
     bob_step = view_direction & 7;
     direction_index = bob_step;
     if ((*((s16 *) (((u8 *) actor) + 0x94))) != direction_index) {
-        select_indirect_table_entry(sprite, *((u8 *) ((*((u8 **) (((u8 *) sprite) + 0x2C))) + direction_index)),
-            *((s8 *) (((u8 *) sprite) + 4)));
+        select_indirect_table_entry(sprite, *((u8 *) ((sprite->frameTable) + direction_index)),
+            sprite->unk_04);
         *((s16 *) (((u8 *) actor) + 0x94)) = bob_step;
     }
     if (dir_sprite_flag[direction_index] != 0) {
-        sprite_flags = (*((u16 *) (((u8 *) sprite) + 0x14))) | 1;
-        *((u16 *) (((u8 *) sprite) + 0x14)) = sprite_flags;
+        sprite_flags = (sprite->flags) | 1;
+        sprite->flags = sprite_flags;
     }
     else {
-        sprite_flags = (*((u16 *) (((u8 *) sprite) + 0x14))) & 0xFFFE;
-        *((u16 *) (((u8 *) sprite) + 0x14)) = sprite_flags;
+        sprite_flags = (sprite->flags) & 0xFFFE;
+        sprite->flags = sprite_flags;
     }
-    anim_flags = *((u16 *) (((u8 *) sprite) + 0x14));
+    anim_flags = sprite->flags;
     /* Select the animation path; afterwards physics_flags carries the flight bit. */
     physics_flags = anim_flags & 0x8000;
     switch (physics_flags) {
     case 0:
         apply_monster_koyaw_data(*((s32 *) (((u8 *) actor_base) + 0x1C)), ((u8 *) sprite) + 0xC);
         if (!((*((u32 *) (((u8 *) actor_base) + 0x1C))) & 0x20)) {
-            if (!((*((u16 *) (((u8 *) sprite) + 0x14))) & 0x40)) {
+            if (!((sprite->flags) & 0x40)) {
                 advance_sprite_animation_and_textures(sprite);
             }
         }
         else {
-            *((u16 *) (((u8 *) sprite) + 0x14)) |= 0x7000;
+            sprite->flags |= 0x7000;
             *((u32 *) (((u8 *) actor_base) + 0x1C)) &= 0xFFFBFFFF;
         }
         *((u32 *) (((u8 *) actor_base) + 0x1C)) &= 0xF7FFFFFF;
         physics_flags = (*((u32 *) (((u8 *) actor_base) + 0x1C))) & 0x40000;
         if (physics_flags) {
-            if ((!((*((u16 *) (((u8 *) sprite) + 0x14))) & 0x40))
-                && ((*((void **) (((u8 *) sprite) + 0x2C))) == D_80175E40)) {
-                if ((*((u16 *) (((u8 *) sprite) + 4))) == 0x100) {
+            if ((!((sprite->flags) & 0x40))
+                && ((sprite->frameTable) == D_80175E40)) {
+                if ((*(u16 *)&sprite->unk_04) == 0x100) {
                     *((u16 *) (((u8 *) actor) + 0x9E)) = 0;
                     *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
                 }
-                if (((u32) ((*((u8 *) (((u8 *) sprite) + 4))) - 1)) < 4) {
+                if (((u32) ((*(u8 *)&sprite->unk_04) - 1)) < 4) {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
                     *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 5;
@@ -133,7 +133,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, void *sprite)
         /* Fall through with zero flags to share the ground-physics path. */
     default:
         if (physics_flags) {
-            *((u16 *) (((u8 *) sprite) + 0x14)) = (anim_flags & 0x800) ? (anim_flags & 0x8FFF) : (anim_flags | 0x7000);
+            sprite->flags = (anim_flags & 0x800) ? (anim_flags & 0x8FFF) : (anim_flags | 0x7000);
             clear_mask = 0xF7FFFFFF;
             actor_flags = (*((u32 *) (((u8 *) actor_base) + 0x1C)));
             actor_flags &= clear_mask;
@@ -160,12 +160,12 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, void *sprite)
             }
         }
         else {
-            if ((!((*((u16 *) (((u8 *) sprite) + 0x14))) & 0x40)) && ((*((void **) (((u8 *) sprite) + 0x2C))) == D_80175E40)) {
-                if ((*((u16 *) (((u8 *) sprite) + 4))) == 0x100) {
+            if ((!((sprite->flags) & 0x40)) && ((sprite->frameTable) == D_80175E40)) {
+                if ((*(u16 *)&sprite->unk_04) == 0x100) {
                     *((u16 *) (((u8 *) actor) + 0x9E)) = 0;
                     *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
                 }
-                if (((u32) ((*((u8 *) (((u8 *) sprite) + 4))) - 1)) < 4) {
+                if (((u32) ((*(u8 *)&sprite->unk_04) - 1)) < 4) {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
                     *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 5;
@@ -191,8 +191,7 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, void *sprite)
 
     if (actor_flags & 0x40000000) {
         *((u32 *) (((u8 *) actor_base) + 0x1C)) = actor_flags & 0xBFFFFFFF;
-        ground_height = sample_terrain_surface_height(((*((u8 *) (((u8 *) sprite) + 0x24))) << 6) | 0x20, ((*((u8 *) (((u8 *) sprite)
-            + 0x25))) << 6) | 0x20, (s16) ((*((u16 *) (((u8 *) actor_base) + 0x88))) - 0x20));
+        ground_height = sample_terrain_surface_height(((sprite->unk_24) << 6) | 0x20, ((sprite->unk_25) << 6) | 0x20, (s16) ((*((u16 *) (((u8 *) actor_base) + 0x88))) - 0x20));
         if (((s16) ground_height) < 0x200) {
             height_adjust = (*((u16 *) (((u8 *) actor_base) + 0x88))) - ground_height;
             *((u16 *) (((u8 *) actor) + 0x92)) += height_adjust;
@@ -201,5 +200,5 @@ void update_actor_callbacks_and_ground(void *actor, void *motion, void *sprite)
     }
     *((s16 *) (((u8 *) motion) + 0xA)) = ((*((u16 *) (((u8 *) actor_base) + 0x88))) + (*((u16 *) (((u8 *) actor)
         + 0x92)))) - (*((u16 *) (((u8 *) actor) + 0xA2)));
-    *((u16 *) (((u8 *) sprite) + 0x14)) |= 0x40;
+    sprite->flags |= 0x40;
 }

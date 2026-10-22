@@ -6,9 +6,9 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "dungeon/player.h"
 
 void begin_deferred_item_action(); /* extern */
-void clear_player_linked_action_flags();                            /* extern */
 void clear_slot_and_update_linked_state();                         /* extern */
 void display_formatted_context_message();                   /* extern */
 void adjust_source_value_and_finalize();           /* extern */
@@ -20,15 +20,9 @@ extern u8 D_800E17C6[41];
 extern M2C_UNK D_800E17EF;
 extern M2C_UNK D_800E180E;
 
-
-typedef struct S_800C3900_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C3900_1;
-
 /* Processes an entity action, preserves its state flag, and updates the shared counter. */
 s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_param) {
-    void *counter_page;
+    DungeonGlobalStatus *counter_page;
     DungeonGlobalStatus *counter_base;
     s32 saved_flag;
     s32 flag_test;
@@ -60,7 +54,7 @@ s32 apply_familiar_magic_drain_item(EntityRec *entity, s32 action, s16 action_pa
                 counter_page = (void *)0x80080000;
             }
             counter_page = &g_dungeon_status.turn_scale;
-            ((S_800C3900_1 *)counter_page)->unk_0A = (u16) (((S_800C3900_1 *)counter_page)->unk_0A + 1);
+            counter_page->activity_counts.parts.pending_action_count = (u16) (*(u16 *)&counter_page->activity_counts.parts.pending_action_count + 1);
         }
         play_sound_if_enabled(0x51E);
         if (entity->flags14 & 0x4000) {

@@ -1,10 +1,17 @@
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/effect/screen/change.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80083160.h"
+#include "dungeon/actor/effect.h"
+#include "dungeon/actor/object.h"
+#include "dungeon/effect/screen.h"
+#include "dungeon/item.h"
+#include "dungeon/player.h"
+#include "dungeon/player/object.h"
 
 typedef struct S_8009BE2C_1 {
     u8 pad_00[0x3];
@@ -28,10 +35,6 @@ typedef struct S_8009BE2C_2 {
     s8 unk_05;
     s16 unk_06;
 } S_8009BE2C_2;   /* arg2 in draw_fullscreen_fade */
-
-typedef struct S_8009BE2C_3 {
-    void * unk_00;
-} S_8009BE2C_3;
 
 typedef struct S_8009BE2C_4_pre {
     u16 unk_00;
@@ -59,10 +62,10 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     s16 color_value;
     s8 frames_left;
     void *packet;
-    void **render_context;
+    GameWork *render_context;
 
-    packet = ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&g_game_work)))->unk_00.as_pv))->unk_8D0;
-    ((S_8009BE2C_5 *)(((Rec_D_80083160 *)(((struct S_8003E2D8 *)&g_game_work)))->unk_00.as_pv))->unk_8D0 =
+    packet = ((S_8009BE2C_5 *)(g_game_work.draw_buffer))->unk_8D0;
+    ((S_8009BE2C_5 *)(g_game_work.draw_buffer))->unk_8D0 =
         (void *) (packet + 0x10);
     ((S_8009BE2C_1 *)packet)->unk_0C = 0x140;
     ((S_8009BE2C_1 *)packet)->unk_08 = 0;
@@ -70,7 +73,7 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     ((S_8009BE2C_1 *)packet)->unk_0E = 0xE0;
     intensity = (0xC0 / (s16) fade->unk_06) * fade->unk_05;
     color_value = intensity;
-    render_context = (void **)((struct S_8003E2D8 *)&g_game_work);
+    render_context = &g_game_work;
     if (fade->unk_04 != 0) {
         ((S_8009BE2C_1 *)packet)->unk_04.at02.v = color_value;
         ((S_8009BE2C_1 *)packet)->unk_04.at01.v = color_value;
@@ -80,12 +83,12 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     }
     func_800667A8(packet, intensity);
     ((S_8009BE2C_1 *)packet)->unk_04.at03.v = (u8) (((S_8009BE2C_1 *)packet)->unk_04.at03.v | 2);
-    func_8006658C(((S_8009BE2C_3 *)render_context)->unk_00 + 0xB0, packet);
-    packet = ((S_8009BE2C_6 *)(((S_8009BE2C_3 *)render_context)->unk_00))->unk_8D0;
-    ((S_8009BE2C_6 *)(((S_8009BE2C_3 *)render_context)->unk_00))->unk_8D0 = (void *) (packet + 0xC);
+    func_8006658C(render_context->draw_buffer + 0xB0, packet);
+    packet = ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0;
+    ((S_8009BE2C_6 *)(render_context->draw_buffer))->unk_8D0 = (void *) (packet + 0xC);
     ((S_8009BE2C_1 *)packet)->unk_03 = 1;
     ((S_8009BE2C_1 *)packet)->unk_04.at00u.v = 0xE1000020;
-    func_8006658C(((S_8009BE2C_3 *)render_context)->unk_00 + 0xB0, packet);
+    func_8006658C(render_context->draw_buffer + 0xB0, packet);
     frames_left = (u8) fade->unk_05 - 1;
     fade->unk_05 = frames_left;
     if ((frames_left << 0x18) == 0) {
@@ -97,32 +100,21 @@ void draw_fullscreen_fade(void *effect, s32 unused, S_8009BE2C_2 *fade) {
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-typedef struct S_8009BF7C_2 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_8009BF7C_2;
-
 void *allocate_list_node();                  /* extern */
 extern M2C_UNK D_8009BE2C;
-
-typedef struct S_8009BF7C_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    s32 * unk_10;
-} S_8009BF7C_0;
 
 /* Creates a type 0x212 object and initializes its flag and value. */
 void create_type_212_object(s32 flag, s8 value) {
     SpriteFrameState *state;
-    S_8009BF7C_0 *object;
+    ObjectNodeHeader *object;
 
     object = allocate_list_node(0x212, ((s32)dungeon_actor_ring_anchor) - 0x20);
     if (object != NULL) {
-        state = object->unk_0C;
+        state = object->sprite;
         object->unk_10 = &D_8009BE2C;
         state->unk_05 = value;
         state->unk_06 = (s16) value;
-        ((SpriteFrameState *)((S_8009BF7C_2 *)object)->unk_0C)->unk_04 = (s8) ((flag << 0x10) != 0);
+        object->sprite->unk_04 = (s8) ((flag << 0x10) != 0);
     }
 }
 #include "common.h"
@@ -197,24 +189,18 @@ extern u8 D_800E0000[];
 s32 format_unsigned_double_byte_decimal();
 void initialize_timed_motion_step();
 s32 get_entity_effect_value();
-void clear_player_linked_action_flags();
 s32 clamp_adjusted_value_0_to_99();
 s32 get_unused_text_buffer();
 s32 expand_text_control_codes();
 extern void * clear_byte_and_advance(s8 *byte_ptr);
 s32 write_text_byte_and_advance();
-s32 apply_type_based_entry_adjustments();
 s32 append_entity_display_text();
 extern void create_type_212_object(s32 flag, s8 value);
-void add_random_quarter_value();
-s32 get_masked_record_flags();
-void accumulate_experience_award();
 s32 play_sound_if_enabled();
 extern s32 display_text_with_fullwidth_adjustment(s8 *text);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
 s16 find_directional_entry_and_clear_flag();
 s32 prepare_quarter_damage_return();
-s32 count_occupied_entity_slots();
 extern u8 D_800E0D7B[23];
 extern u8 D_800E0D92[12];
 extern u8 D_800E0D9E[26];
@@ -253,11 +239,6 @@ typedef struct S_8009C12C_2 {
     u8 unk_24;
     u8 unk_25;
 } S_8009C12C_2;   /* arg1 in resolve_attack_damage_and_effects */
-
-typedef struct S_8009C12C_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8009C12C_3_pre;   /* 0x14-byte header immediately before the payload. */
 
 typedef struct S_8009C12C_3 {
     u8 pad_00[0x14];
@@ -361,7 +342,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
     attacker_kind = ((S_8009C12C_0 *)attacker_in)->unk_13;
     kind_check = *(u8 *)((s8 *)attacker_in + 0x13);
     if (attacker_kind >= 0) {
-        target_data = ((S_8009C12C_3_pre *)target)[-1].unk_00;
+        target_data = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
         target_traits = target_data->unk_14;
         if (!(((S_8009C12C_2 *)(tile_in))->unk_14 & target_traits & 0x8000)
             || ((kind_check == 0x23) && (((S_8009C12C_0 *)attacker_in)->unk_A6 != 0) && !(target_traits & 0x8000))) {
@@ -848,7 +829,7 @@ s32 get_masked_record_flags(EntityRec *record, s32 mask, s32 mode) {
         }
         return flags;
     }
-    kind_ptr = (*(u8 * *)&record->unk_50);
+    kind_ptr = (*(u8 **)&record->unk_50);
     if (kind_ptr != NULL) {
         kind = *kind_ptr;
         if (kind == 8) {
@@ -873,10 +854,6 @@ s32 get_masked_record_flags(EntityRec *record, s32 mask, s32 mode) {
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
-typedef struct S_8009CE1C_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8009CE1C_3_pre;   /* the 0x14 bytes before arg0 in apply_attack_power_and_element_effects, addressed as arg0[-1] */
 
 typedef struct S_8009CE1C_0 {
     u8 pad_00[0x11];
@@ -907,7 +884,6 @@ typedef struct S_8009CE1C_1 {
 } S_8009CE1C_1;   /* arg0 in apply_attack_power_and_element_effects; pointer addresses record offset 0x14 */
 
 extern u8 pending_player_damage_kind;
-void clear_player_linked_action_flags(void);
 s32 clamp_adjusted_value_0_to_99();
 s32 func_8009CFB4();
 s32 func_8009CFF4();
@@ -1039,7 +1015,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
         }
         ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_74 = source_flags;
         g_dungeon_status.pending_display_owner = target - 0x20;
-        if (!(((SpriteFrameState *)((S_8009CE1C_3_pre *)target)[-1].unk_00)->flags & 0x8000)) {
+        if (!(((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite->flags & 0x8000)) {
             initialize_timed_motion_step(8, 0x10);
         }
         event_id = 0x601;
@@ -1047,7 +1023,7 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
             event_id = 0x602;
         }
         play_sound_if_enabled(event_id);
-        position = ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_00;
+        position = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
         direction_offset = ((u16) ((S_8009CE1C_1 *)((u8 *)target - 0x14))->unk_3E >> 8) & 0xE;
         transition_effect_halfwords(
             (u16) ((position->unk_24 << 6) + ((dir_step_x[(u32) direction_offset >> 1] * 0x20) + 0x20)),
@@ -1063,7 +1039,6 @@ void apply_attack_power_and_element_effects(void *target, s16 base_power, s16 po
 
 s32 get_entity_effect_value();                 /* extern */
 s32 generate_random_value(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
-void *create_owner_linked_pulsing_effect();
 
 typedef struct S_8009D218_1_pre {
     s32 unk_00;
@@ -1096,7 +1071,7 @@ s32 try_trigger_target_record_effect(ActorRecord *entity, s32 flags, Rec_D_80028
         }
         {
             if (record != NULL) {
-                value_ptr = (*(u8 * *)&entity->unk_50);
+                value_ptr = (*(u8 **)&entity->unk_50);
                 if (value_ptr != NULL) {
                     if ((*value_ptr == 3) && (record->unk_13 >= 0) && (generate_random_value() & 3)) {
                                                 /* Duplicate return node #22. Try simplifying control flow for better match */
@@ -1136,7 +1111,6 @@ s32 try_trigger_target_record_effect(ActorRecord *entity, s32 flags, Rec_D_80028
 #include "common.h"
 
 extern void zero_words(int *dst, int count);          /* extern */
-void update_packed_map_levels();                            /* extern */
 
 /* Process the 0x200-byte global buffer and run the follow-up routine. */
 void process_global_buffer_and_submit(void) {
@@ -1180,7 +1154,7 @@ void update_packed_map_levels(void) {
         for (; y < y_end; y++) {
             for (x = room->x - 1; x < n; x++) {
                 index = (y << grid->shiftX) + x;
-                tile = &D_800EA000[index];
+                tile = &generation_cells[index];
                 if (tile->type != 0 && tile->type != 3) {
                     cell = &packed_tile_heights[index / 2];
                     level = (s16)(tile->height + 0x200) / 64;
@@ -1204,7 +1178,7 @@ void update_packed_map_levels(void) {
             x = reference_tile_object.tile_position.parts.tile_x + dir_step_x[n];
             y = reference_tile_object.tile_position.parts.tile_y + dir_step_y[n];
             index = (y << grid->shiftX) + x;
-            tile = &D_800EA000[index];
+            tile = &generation_cells[index];
             if (tile->type != 0 && tile->type != 3) {
                 cell = &packed_tile_heights[index / 2];
                 level = (s16)(tile->height + 0x200) / 64;
@@ -1273,7 +1247,7 @@ void refresh_packed_grid_nibbles(void) {
 
         first_col = 0;
         dimension_unit = 1;
-        table = (u8 *)D_800EA000;
+        table = (u8 *)generation_cells;
         do {
             col_index = 0;
             if (first_col < (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_14)) {
@@ -1378,7 +1352,7 @@ void pack_and_submit_cell_height_levels(void) {
     if ((1 << config->field_16) > 0) {
         zero = 0;
         one = 1;
-        cells = (u8 *)D_800EA000;
+        cells = (u8 *)generation_cells;
         do {
             column = 0;
             {

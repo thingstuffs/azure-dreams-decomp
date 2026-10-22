@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800C9F34_arg0.h"
+#include "dungeon/actor.h"
 
 
 
@@ -11,7 +12,6 @@ extern s32 check_entity_relation();
 extern s8 find_active_rect_containing_point();
 extern s32 can_entity_gain_level();
 extern void advance_actor_along_path_points();
-extern s32 choose_best_eligible_entry_for_actor();
 extern void set_actor_action_state_eight();
 
 

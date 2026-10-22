@@ -135,17 +135,6 @@ typedef struct
     u16 f1e;
 }
 ovl_19a332c_81982DF8_Arg2;
-typedef struct ovl_19a332c_81982F0C_S_8002470C_0 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} ovl_19a332c_81982F0C_S_8002470C_0;
 typedef struct ovl_19a332c_81982F0C_S_8002470C_2 {
     u8 pad_00[0x30];
     s16 unk_30;
@@ -179,23 +168,6 @@ typedef struct ovl_19a332c_81983088_S_80024888_2 {
     u8 pad_00[0x30];
     u16 unk_30;
 } ovl_19a332c_81983088_S_80024888_2;
-typedef struct ovl_19a332c_81983138_S_80024938_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} ovl_19a332c_81983138_S_80024938_0;
-typedef struct ovl_19a332c_81983138_S_80024938_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} ovl_19a332c_81983138_S_80024938_1;
 typedef struct ovl_19a332c_81983138_S_80024938_3 {
     u8 pad_00[0x30];
     s16 unk_30;
@@ -538,19 +510,10 @@ typedef struct ovl_19a332c_81984BF0_S_81984BF0_0 {
     u8 pad_00[0x5C];
     s32 unk_5C;
 } ovl_19a332c_81984BF0_S_81984BF0_0;
-typedef struct ovl_19a332c_81984BF0_S_81984BF0_1 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} ovl_19a332c_81984BF0_S_81984BF0_1;
 typedef struct ovl_19a332c_81984C44_S_81984C44_1 {
     u8 pad_00[0x26];
     s8 unk_26;
 } ovl_19a332c_81984C44_S_81984C44_1;
-typedef struct ovl_19a332c_81984C44_S_81984C44_2_pre {
-    void * unk_00;
-    u8 pad_04[0xE];
-    u16 unk_12;
-} ovl_19a332c_81984C44_S_81984C44_2_pre;
 typedef struct ovl_19a332c_81984C44_S_81984C44_2 {
     u8 pad_00[0x5C];
     void * unk_5C;
@@ -593,11 +556,11 @@ typedef struct {
 extern u16 D_800269F8;
 s32 play_sound_if_enabled();
 extern s32 D_800269D0;
-extern M2C_UNK D_80027750;
-extern M2C_UNK D_80027C74;
-extern s16 D_80027C94;
-extern u8 D_80027C96;
-extern void *D_80027C98;
+extern M2C_UNK tint_transition_image;
+extern M2C_UNK tint_transition_vram_row;
+extern s16 tint_transition_image_pending;
+extern u8 tint_transition_kind;
+extern void *tint_transition_source;
 extern s32 resolve_record_orientation_or_fallback(s32, void *, u16 *, s32);
 extern void register_node(void *, void *);
 extern void func_8004491C(void *, void *);
@@ -629,10 +592,9 @@ extern ovl_19a332c_81984754_Object *allocate_list_node(s32, void *);
 extern ovl_19a332c_81984754_Object *func_8003FD64(s32, void *);
 extern s16 get_tile_chebyshev_distance(void *, void *);
 extern s32 check_entity_interaction_compatibility(void *, void *);
-extern s32 check_entity_eligibility(void *);
 extern u8 D_80026BE4[16];
 extern u8 camera_transition_timer[16];
-void func_80024064(void *transition);
+void advance_image_tint_transition(void *transition);
 void initialize_entity_position_and_motion(ovl_19a332c_81982B2C_Entity *entity, ovl_19a332c_81982B2C_Position *position, ovl_19a332c_81982B2C_Motion *motion);
 void *allocate_two_part_object(ovl_19a332c_81982CEC_S_800244EC_2 *source_part, s32 offset);
 void move_fade_and_expand_effect(void *effect_data, void *motion_data, void *sprite_data);

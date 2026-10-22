@@ -1,15 +1,11 @@
 #include "common.h"
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80F8D000_0 {
-    u8 pad_00[0x8];
-    void ** unk_08;
-    void ** unk_0C;
-    void * unk_10;
-} S_80F8D000_0;   /* obj in spawn_zu_slot_f */
+
 
 typedef struct S_80F8D000_1 {
     u8 pad_00[0x13];
@@ -18,11 +14,6 @@ typedef struct S_80F8D000_1 {
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_80F8D000_1;   /* work in spawn_zu_slot_f */
-
-typedef struct S_80F8D000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80F8D000_2;   /* part_a in spawn_zu_slot_f */
 
 typedef struct S_80F8D000_4 {
     u8 pad_00[0x8C];
@@ -60,8 +51,8 @@ void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     void *work = 0;
-    void *obj;
-    void *part_a;
+    ObjectNodeHeader *obj;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80F8D000_4 *actor;
     s32 left;
@@ -76,13 +67,13 @@ void *spawn_zu_slot_f(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80F8D000_0 *)obj)->unk_10 = D_8016AA70;
+        obj->unk_10 = D_8016AA70;
         ((S_80F8D000_1 *)work)->unk_13 = MONSTER_ZU;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_80F8D000_0 *)obj)->unk_08;
-        ((S_80F8D000_2 *)part_a)->unk_0A = held_c;
-        part_b = ((S_80F8D000_0 *)obj)->unk_0C;
+        part_a = *(void ** *)&obj->position;
+        part_a->z.w.i = held_c;
+        part_b = *(void ** *)&obj->sprite;
         kind = spawn_flags & 3;
         part_b->unk_25 = held_b;
         actor = work;

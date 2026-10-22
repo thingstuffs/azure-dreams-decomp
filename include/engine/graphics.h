@@ -3,8 +3,11 @@
 /* Prototypes of the functions defined in src/engine/graphics/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "records/Rec_D_80082A38.h"
 
+struct ObjectPosition;
+struct SpriteFrameState;
 struct Entry;
 struct FrameState;
 struct Geometry_80046884;
@@ -89,7 +92,7 @@ void clear_and_draw_paired_text_rows(s16 row, struct S_80052C10_Arg1 *texts);
 void draw_glyph_row(s32 x, s32 y, s32 spacing_index, u8 *glyph_codes);
 
 /* draw_linked_sprites.c */
-s32 draw_linked_sprites(void *first_payload, void *first_coords, void *first_record);
+s32 draw_linked_sprites(void *first_payload, struct ObjectPosition *first_coords, struct SpriteFrameState *first_record);
 
 /* draw_linked_sprites_clipped.c */
 s32 draw_linked_sprites_clipped(u8 *first_data, s32 link_value, struct S_80045C34 *value_record);
@@ -211,8 +214,8 @@ void scene_load_texture_and_data_pair(s8 *status);
 void scene_load_variant_texture_set(void);
 
 /* select_sprite_entry.c */
-void func_80047784(struct S_80047784 *object, s16 table_index, s16 entry_index);
-void select_sprite_entry(struct S_80047784 *object, s16 table_index, s16 entry_index);
+void func_80047784(struct SpriteFrameState *object, s16 table_index, s16 entry_index);
+void select_sprite_entry(struct SpriteFrameState *object, s16 table_index, s16 entry_index);
 
 /* set_color_components_and_scaled_fields.c */
 void set_color_components_and_scaled_fields(struct S_80050550_Outer *outputs, s32 numerator, s32 denominator);

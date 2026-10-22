@@ -18,7 +18,7 @@ extern void create_owner_linked_directional_object(void *, void *, void *);
 
 extern u8 uboat_default_frames[];
 extern u8 D_800E2400[];
-extern u8 D_80171A80[];
+#include "dungeon/monster/u_boat.h"
 
 typedef struct S_80173510_0 {
     u8 pad_00[0x8C];
@@ -250,7 +250,7 @@ void advance_staged_actor_movement(void *action, void *motion, void *record, Act
         }
 
         spend_actor_mp(actor, 0x100);
-        ((S_80173510_0 *)action)->unk_8C = D_80171A80;
+        ((S_80173510_0 *)action)->unk_8C = uboat_behavior_entry;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         ((S_80173510_3 *)motion)->unk_0C = 0;

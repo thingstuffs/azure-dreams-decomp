@@ -45,19 +45,19 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
     s32 object_result;
     void *unused_ptr;
     SpriteFrameState *visual;
-    void *object;
+    ObjectNodeHeader *object;
     S_818BD1C4_1 *state;
     s32 saved_y_offset;
 
     saved_y_offset = y_offset;
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        ((S_818BD1C4_0 *)object)->unk_10 = &func_800248C0;
+        object->unk_10 = &func_800248C0;
         ((S_818BD1C4_0 *)object)->unk_20 = (s32) *owner_id;
-        state = object + 0x20;
+        state = ((void *)object) + 0x20;
         state->unk_06 = 0;
         state->unk_08 = 0;
-        visual = ((S_818BD1C4_0 *)object)->unk_0C;
+        visual = object->sprite;
         color_channel = color_index % 3;
         switch (color_channel) {
         case 0:
@@ -91,7 +91,7 @@ s32 create_channel_tinted_effect(s32 *owner_id, void *transform, s16 color_index
         visual->scale_y = 0x2000;
         visual->scale_x = 0x2000;
         register_node(object, project_sprite_chain);
-        transform_ptr = ((S_818BD1C4_0 *)object)->unk_08;
+        transform_ptr = object->position;
         (*(Copy24 *)((u8 *)transform_ptr + 0)) =
             (*(Copy24 *)((u8 *)transform + 0));
         pos_y = (*(u16 *)((u8 *)transform_ptr + 0xA));

@@ -1,5 +1,6 @@
 /* Targeted effect movement, delayed sprite fading, and accelerating particle emission. */
 #include "modules/dungeon_ovl_185e800.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -7,9 +8,6 @@
 #include "shared/dungeon_status.h"
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
-
-
-
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
  * (retail 0x80024000, the row symbol add_flag_adjusted_target_value).  The state table of the switch below follows
@@ -22,9 +20,9 @@ void func_80024020(u8 *self, u8 *motion)
     u8 *owner;
     u8 *owner_record;
     u8 *owner_object;
-    u8 *particle;
+    ObjectNodeHeader *particle;
     u8 *particle_data;
-    u8 *child_data;
+    SpriteFrameState *child_data;
     u8 *animation;
     u8 *particle_texture;
     s16 state;
@@ -46,9 +44,9 @@ void func_80024020(u8 *self, u8 *motion)
         do {
             particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
-                particle_data = particle + 32;
-                child_data = F(particle, u8 *, 12);
-                F(particle, void *, 16) = advance_delayed_fading_sprite;
+                particle_data = ((u8 *)particle) + 32;
+                child_data = *(u8 * *)&particle->sprite;
+                particle->unk_10 = advance_delayed_fading_sprite;
 
                 F(F(particle, u8 *, 8), u32, 0) = F(motion, u32, 0) +
                     (((func_80069EF8() & 0x1ff) - 255) << 13);
@@ -63,10 +61,10 @@ void func_80024020(u8 *self, u8 *motion)
                 F(child_data, u16, 28) = 0x1000;
                 F(child_data, u16, 16) = 0x60;
                 F(child_data, void *, 0) = particle_texture;
-                F(child_data, u32, 8) = F(particle_texture, u32, 4);
+                child_data->source = F(particle_texture, u32, 4);
                 color |= 0x8080;
-                F(child_data, u8, 4) = 0;
-                F(child_data, u8, 5) = 0;
+                child_data->unk_04 = 0;
+                child_data->unk_05 = 0;
                 F(child_data, u32, 12) = color;
                 F(particle, void *, 32) = self;
                 F(particle_data, u16, 72) = func_80069EF8() & 3;
@@ -84,14 +82,14 @@ void func_80024020(u8 *self, u8 *motion)
         animation = F(self, u8 *, 4);
         if ((F(animation, u16, 0) & 0x80) == 0)
             return;
-        if ((F(owner, u8 *, 96) = scan_monster_along_heading( owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
+        if ((F(owner, u8 *, 96) = scan_actor_along_heading( owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
             F(owner, s16, 42), (s16)get_definition_entry_byte_13(8))) == 0) {
             F(owner, u8, 114) = F(owner_record, u8, 36);
             F(owner, u8, 115) = F(owner_record, u8, 37);
         } else {
             child_data = F(F(owner, u8 *, 96), u8 *, -20);
-            F(owner, u8, 114) = F(child_data, u8, 36);
-            F(owner, u8, 115) = F(child_data, u8, 37);
+            F(owner, u8, 114) = child_data->unk_24;
+            F(owner, u8, 115) = child_data->unk_25;
         }
         if (resolve_record_orientation_or_fallback(F(F(owner_object, u8 *, 12), u8 *, 8),
                           F(owner_object, u8 *, 12), origin_offset, 0) == 0) {
@@ -158,9 +156,9 @@ void func_80024020(u8 *self, u8 *motion)
         if (timer % 3 == 0) {
             particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle != 0) {
-                F(particle, void *, 16) = brighten_accelerate_and_fade_effect;
+                particle->unk_10 = brighten_accelerate_and_fade_effect;
                 register_node(particle, project_sprite_chain);
-                child_data = F(particle, u8 *, 12);
+                child_data = *(u8 * *)&particle->sprite;
 
                 spawn_coord = func_80069EF8();
                 random_sample = func_80069EF8();
@@ -190,10 +188,10 @@ void func_80024020(u8 *self, u8 *motion)
                 F(child_data, u16, 16) = 0x20;
                 F(child_data, void *, 0) = D_800DE990;
                 F(child_data, u16, 20) |= 0xe;
-                F(child_data, u32, 8) = F(D_800DE990, u32, 4);
-                particle_data = particle + 32;
-                F(child_data, u8, 4) = 0;
-                F(child_data, u8, 5) = 0;
+                child_data->source = F(D_800DE990, u32, 4);
+                particle_data = ((u8 *)particle) + 32;
+                child_data->unk_04 = 0;
+                child_data->unk_05 = 0;
                 F(child_data, u32, 12) = 0;
                 F(particle, void *, 32) = self;
                 F(particle_data, u16, 72) = 8;
@@ -244,10 +242,8 @@ void func_80024020(u8 *self, u8 *motion)
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
 
-
-
 /* Waits for the effect delay, then moves and fades the sprite until it expires. */
-void advance_delayed_fading_sprite(void *effect, DelayPosition *motion, void *sprite) {
+void advance_delayed_fading_sprite(void *effect, DelayPosition *motion, SpriteFrameState *sprite) {
     void *owner;
     s16 phase;
     u16 delay;
@@ -272,22 +268,22 @@ void advance_delayed_fading_sprite(void *effect, DelayPosition *motion, void *sp
         position->f4 += position->f10;
         advance_sprite_animation_and_textures(sprite);
 
-        if (*(u16 *)((u8 *)sprite + 0x14) & 0x6000) {
-            *(u8 *)((u8 *)sprite + 4) = 0;
-            *(u8 *)((u8 *)sprite + 5) = 0;
+        if (sprite->flags & 0x6000) {
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
         }
 
-        if ((s32)*(u8 *)((u8 *)sprite + 0xC) <= *(s16 *)((u8 *)effect + 0x4A)) {
-            *(s32 *)((u8 *)sprite + 0xC) = 0;
+        if ((s32)sprite->color.c.r <= *(s16 *)((u8 *)effect + 0x4A)) {
+            sprite->color.word = 0;
             *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
 
-        shade = *(u8 *)((u8 *)sprite + 0xD) - *(u8 *)((u8 *)effect + 0x4A);
-        *(u8 *)((u8 *)sprite + 0xD) = shade;
-        *(u8 *)((u8 *)sprite + 0xC) = shade;
-        *(u8 *)((u8 *)sprite + 0xE) -= *(u8 *)((u8 *)effect + 0x4A) * 2;
+        shade = sprite->color.c.g - *(u8 *)((u8 *)effect + 0x4A);
+        sprite->color.c.g = shade;
+        sprite->color.c.r = shade;
+        sprite->color.c.b -= *(u8 *)((u8 *)effect + 0x4A) * 2;
         break;
     }
 }
@@ -297,7 +293,6 @@ void advance_delayed_fading_sprite(void *effect, DelayPosition *motion, void *sp
 #include "shared/object_node.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 

@@ -5,14 +5,14 @@
 
 
 /* Resets SPU playback state and initializes voice sentinels for the master channel. */
-void reset_spu_runtime_and_start_event_service(s32 channel)
+void _SpuInit(s32 channel)
 {
     s32 saved_channel = channel;
     s32 channel_value;
     s32 voice_index;
 
     ResetCallback(channel);
-    initialize_spu_registers_and_voices(saved_channel);
+    _spu_init(saved_channel);
 
     if (saved_channel == 0) {
         u16 sentinel = 0xC000;
@@ -21,7 +21,7 @@ void reset_spu_runtime_and_start_event_service(s32 channel)
         }
     }
 
-    start_spu_dma_event_service();
+    SpuStart();
 
     channel_value = spu_reverb_start_addresses[0];
 
@@ -34,7 +34,7 @@ void reset_spu_runtime_and_start_event_service(s32 channel)
     spu_reverb_feedback = 0;
     spu_reverb_start_address = (u32)channel_value;
 
-    store_u16_table_entry(0xD1, channel_value, 0);
+    _spu_FsetRXX(0xD1, channel_value, 0);
 
     spu_ram_block_record_count = 0;
     D_800799B8 = 0;
@@ -48,11 +48,11 @@ void reset_spu_runtime_and_start_event_service(s32 channel)
 }
 
 /* Records and returns whether enabled and the stored pointer has no matching entry. */
-s32 set_reverb_address_available(s32 enabled) {
+s32 SpuReserveReverbWorkArea(s32 enabled) {
     s32 check_result;
 
     if (enabled != 0) {
-        check_result = test_spu_blocks_beyond_address(spu_reverb_start_address);
+        check_result = _SpuIsInAllocateArea_(spu_reverb_start_address);
         if (check_result == 0) {
             spu_reverb_range_override = 1;
             return 1;

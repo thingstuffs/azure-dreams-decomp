@@ -6,11 +6,6 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_80166204_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80166204_3;
-
 typedef struct S_80166204_4 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -29,12 +24,6 @@ typedef struct S_80166204_5 {
 } S_80166204_5;
 
    /* ((S_80166204_4 *)arg0)->unk_08 in create_short_lived_red_spark */
-
-typedef struct S_80166204_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_80166204_0;
 
 typedef struct S_80166204_1 {
     u8 pad_00[0x14];
@@ -60,29 +49,29 @@ void create_short_lived_red_spark(S_80166204_4 *source, s16 effect_value, s32 un
     s32 sprite_flags;
     SpriteFrameState *sprite;
     S_80166204_1 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        ((S_80166204_0 *)effect)->unk_10 = &D_80165A0C;
-        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_02 =
+        effect->unk_10 = &D_80165A0C;
+        ((S_80166204_5 *)(effect->position))->unk_02 =
             (s16) (((MovingPosition *)(source->unk_08))->unk_02 + offset_x);
-        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_06 =
+        ((S_80166204_5 *)(effect->position))->unk_06 =
             (s16) (((MovingPosition *)(source->unk_08))->unk_06 + offset_y);
-        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_0A =
+        ((S_80166204_5 *)(effect->position))->unk_0A =
             (s16) (((MovingPosition *)(source->unk_08))->unk_0A + offset_z);
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         effect_state->unk_42 = (u16) ((MovingPosition *)(source->unk_08))->unk_02;
         effect_state->unk_44 = (u16) ((MovingPosition *)(source->unk_08))->unk_06;
         effect_state->unk_46 = (u16) ((MovingPosition *)(source->unk_08))->unk_0A;
-        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_14 = velocity_z;
+        ((S_80166204_5 *)(effect->position))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        ((S_80166204_5 *)(effect->position))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        ((S_80166204_5 *)(effect->position))->unk_14 = velocity_z;
         effect_state->unk_14 = effect_value;
         effect_state->unk_32 = 8;
         effect_state->unk_34 = 8;
         register_node(effect, project_sprite_chain);
-        sprite = ((S_80166204_0 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->scale_y = 0x2AA;
         color_component = 0x20;
         sprite->color.c.b = color_component;

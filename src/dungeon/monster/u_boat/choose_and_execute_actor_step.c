@@ -23,10 +23,10 @@ extern s32 check_diagonal_side_height();
 extern s32 check_directional_move_and_terrain();
 extern s32 test_neighbor_position_relation();
 extern s16 get_actor_height_difference();
-extern void *find_valid_monster_neighbor();
+extern void *find_adjacent_actor();
 extern void *probe_directional_neighbor();
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void rebuild_monster_reachable_tiles();
+extern void select_actor_route_target();
 extern void update_actor_proximity_flag();
 extern s32 generate_random_value();
 extern void update_actor_status_and_mp();
@@ -84,7 +84,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
 
     if (movement_flags & 0x410) {
         if (movement_flags & 0x400) {
-            node = find_valid_monster_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+            node = find_adjacent_actor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
             if (node != NULL) {
                 u8 *node_work;
                 s32 history_index;
@@ -158,7 +158,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
                 limit_turn = 1;
             }
             } else {
-                rebuild_monster_reachable_tiles(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+                select_actor_route_target(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
             }
         }
     } else {
@@ -168,7 +168,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
         tile_type = S8_AT(position, 0x26);
         if (tile_type >= 0 && (tile_records = dungeon_rooms, tile_record = tile_records + tile_type * 0x14,
             U16_AT(tile_record, 0xC) & 2)) {
-            rebuild_monster_reachable_tiles(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+            select_actor_route_target(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
         } else if (!(U16_AT(actor, 0x46) & 0x8000)) {
             node = probe_directional_neighbor(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
                                  S16_AT(actor, 0x2A));
@@ -205,7 +205,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
                     }
                 }
             } else {
-                rebuild_monster_reachable_tiles(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+                select_actor_route_target(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
             }
         }
     }
@@ -281,7 +281,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
             break;
         }
         if (attempt == 0) {
-            if (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != U16_AT(position, 0x24)) {
+            if (reference_tile_object.tile_position.word != U16_AT(position, 0x24)) {
                 if ((check_entity_relation(actor, S32_AT(primary_actor_record, 0x58) + 0x20) << 16) != 0) {
                     return;
                 }
@@ -303,7 +303,7 @@ void choose_and_execute_actor_step(void *work_data, void *action_context, u8 *po
     {
         DungeonGlobalStatus *turn_state_tail = &g_dungeon_status;
 
-        U16_AT(turn_state_tail, 8)++;
+        (*(u16 *)&turn_state_tail->activity_counts.parts.pending_movement_count)++;
     }
     if (S8_AT(actor, 0x6D) == 0) {
         U8_AT(actor, 0x71) &= 0x7F;

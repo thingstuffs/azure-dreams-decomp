@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -11,8 +12,6 @@ typedef struct S_8016FC4C_0 {
     u8 pad_00[0xAC];
     void * unk_AC;
 } S_8016FC4C_0;
-
-
 
 typedef struct S_8016FC4C_2 {
     u8 pad_00[0x14];
@@ -31,21 +30,6 @@ typedef struct S_8016FC4C_4 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_8016FC4C_4;
-
-typedef struct S_8016FC4C_5 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    union { u16 s; u16 u; } unk_1E;   /* accessed as both */
-    u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_8016FC4C_5;   /* object in advance_encounter_actor_effect_phase */
 
 typedef struct S_8016FC4C_6 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -67,7 +51,6 @@ typedef struct S_8016FC4C_8 {
     void * unk_5D50;
 } S_8016FC4C_8;   /* (u8 *)common_page in advance_encounter_actor_effect_phase */
 
-
 void select_indirect_table_entry();
 void advance_sprite_animation_and_textures();
 s32 func_80069EF8();
@@ -81,7 +64,7 @@ extern void *beldo_actor_nodes[3];
 /* Updates the effect phases, particle bursts, movement, and directional sprite. */
 /* Shrinks Beldo while emitting particles, sustains spark bursts, then turns, moves, and hides the
  * encounter sprite. */
-void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
+void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, SpriteFrameState *object) {
     s32 distance;
     s32 burst_y;
     s16 sustain_y;
@@ -135,15 +118,15 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
             object->unk_24, object->unk_25,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
         ((S_8016FC4C_3 *)effect)->unk_96 = (u16)(((S_8016FC4C_3 *)effect)->unk_96 + 1);
-        height = object->unk_1E.s;
+        height = object->scale_y;
         height = (u16)(height - 0x14);
-        object->unk_1E.s = height;
-        width = object->unk_1C;
-        scaled_step = object->unk_1E.u;
+        object->scale_y = height;
+        width = object->scale_x;
+        scaled_step = object->scale_y;
         width = (u16)(width - 0x14);
         scaled_step <<= 6;
         scaled_step = 0 - scaled_step;
-        object->unk_1C = width;
+        object->scale_x = width;
         if (scaled_step < 0)
             scaled_step += 0xFFF;
         rounded_step = scaled_step;
@@ -171,7 +154,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
         heading->unk_2A = get_rounded_facing_and_rounding_flag(
             object->unk_24, object->unk_25,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
-        scaled_step = 0 - (object->unk_1E.s << 6);
+        scaled_step = 0 - (object->scale_y << 6);
         if (scaled_step < 0)
             scaled_step += 0xFFF;
         count = 0;
@@ -250,7 +233,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
         ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
         break;
     case 7:
-        object->unk_14 = (u16)(object->unk_14 | 0x80);
+        object->flags = (u16)(object->flags | 0x80);
         entity->unk_04.at02.v = 1;
         entity->unk_00.at02.v = 1;
         break;
@@ -265,7 +248,7 @@ void advance_encounter_actor_effect_phase(void *effect, S_8016FC4C_6 *entity, S_
         old_direction = ((S_8016FC4C_3 *)effect)->unk_94;
         sprite_direction = direction;
         if (old_direction != sprite_direction) {
-            select_indirect_table_entry(object, *(object->unk_2C + sprite_direction), object->unk_04);
+            select_indirect_table_entry(object, *(*(u8 **)&object->frameTable + sprite_direction), object->unk_04);
             ((S_8016FC4C_3 *)effect)->unk_94 = direction;
         }
         advance_sprite_animation_and_textures(object);

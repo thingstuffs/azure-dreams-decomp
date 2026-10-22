@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
@@ -52,18 +53,18 @@ extern u8 D_80028250[12];
 /* Creates an object at its owner's position and initializes its sprite and angle. */
 void create_owner_positioned_sprite(Object *owner, s16 angle) {
     Pair rect;
-    Object *spawned;
+    ObjectNodeHeader *spawned;
     SpriteFrameState *node;
     ObjectTail *tail;
 
     spawned = allocate_list_node(0x212, owner);
     if (spawned != 0) {
-        spawned->field10 = D_80025AC4;
+        spawned->unk_10 = D_80025AC4;
         register_node(spawned, project_sprite_chain);
-        spawned->sprite->x = owner->sprite->x;
-        spawned->sprite->y = owner->sprite->y;
-        spawned->sprite->z = owner->sprite->z;
-        node = spawned->node;
+        (*(Sprite * *)&spawned->position)->x = owner->sprite->x;
+        (*(Sprite * *)&spawned->position)->y = owner->sprite->y;
+        (*(Sprite * *)&spawned->position)->z = owner->sprite->z;
+        node = *(Node * *)&spawned->sprite;
         node->source = D_800281FC;
         node->scale_y = 0x2800;
         node->scale_x = 0x2800;

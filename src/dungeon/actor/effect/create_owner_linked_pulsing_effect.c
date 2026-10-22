@@ -1,3 +1,5 @@
+
+struct ObjectNodeHeader;
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -9,15 +11,7 @@
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
-
-typedef struct S_800CB82C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-    u8 pad_14[0xA];
-    u16 unk_1E;
-} S_800CB82C_0;
+#include "dungeon/actor/effect.h"
 
 typedef struct S_800CB82C_2 {
     u8 pad_00[0x2];
@@ -58,11 +52,11 @@ typedef struct S_800CB82C_5 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 register_node();                /* extern */
-void clear_entry_flag_and_link_owner();                      /* extern */
+void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);                      /* extern */
 s32 create_actor_spell_effect(); /* extern */
 extern M2C_UNK D_800CB600;
 extern M2C_UNK D_800E03BC;
-extern u8 D_800E3CC8;
+extern u8 active_spell_parameters;
 
 /* Create and register an object using the spawn position, source state, and owner. */
 void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_state, void *owner) {
@@ -71,27 +65,27 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
     SpriteFrameState *map_data;
     void *object_state;
     MovingPosition *position;
-    void *object;
+    ObjectNodeHeader *object;
     MovingTile *owner_map;
     u16 object_count;
 
     object = allocate_flagged_object_node(0x102);
     if (object != NULL) {
-        ((S_800CB82C_0 *)object)->unk_10 = &D_800CB600;
+        object->unk_10 = &D_800CB600;
         register_node(object, project_sprite_chain);
-        position = ((S_800CB82C_0 *)object)->unk_08;
+        position = object->position;
         position->unk_02 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_02;
         position->unk_06 = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_06;
         position->unk_0A = (u16) ((S_800CB82C_2 *)spawn_pos)->unk_08.at02.v;
-        map_data = ((S_800CB82C_0 *)object)->unk_0C;
+        map_data = object->sprite;
         map_data->source = &D_800E03BC;
         map_data->flags = (u16) (map_data->flags | 0xC);
         map_data->unk_24 = (s8) ((u16) position->unk_02 >> 6);
         map_data->unk_25 = (s8) ((u16) position->unk_06 >> 6);
-        object_state = object + 0x20;
+        object_state = ((void *)object) + 0x20;
         (*(s16 *)((u8 *)object_state + 0x96)) = 0x10;
-        ((S_800CB82C_4 *)object_state)->unk_08 = (u8) D_800E3CC8;
-        ((S_800CB82C_4 *)object_state)->unk_09 = (u8) ((S_800CB82C_5 *)(&D_800E3CC8))->unk_01;
+        ((S_800CB82C_4 *)object_state)->unk_08 = (u8) active_spell_parameters;
+        ((S_800CB82C_4 *)object_state)->unk_09 = (u8) ((S_800CB82C_5 *)(&active_spell_parameters))->unk_01;
         ((S_800CB82C_4 *)object_state)->unk_60 = owner;
         owner_map = ((SpriteLinkPrefixView *)owner)[-1].unk_00;
         ((S_800CB82C_4 *)object_state)->unk_72 = (u8) owner_map->unk_24;
@@ -102,10 +96,10 @@ void *create_owner_linked_pulsing_effect(void *spawn_pos, EntityRec *source_stat
         ((S_800CB82C_4 *)object_state)->unk_1C = (s32) source_state->flags1C;
         ((S_800CB82C_4 *)object_state)->unk_2A = (s16) (((Rec_D_800287A4 *)owner)->unk_2A - 0x800);
         ((S_800CB82C_4 *)object_state)->unk_90 = (s32) ((S_800CB82C_2 *)spawn_pos)->unk_08.at00.v;
-        if (create_actor_spell_effect(object_state, object + 0x28, 0, object + 0xB8) == 0) {
-            object_flags = ((S_800CB82C_0 *)object)->unk_1E | 0x8000;
+        if (create_actor_spell_effect(object_state, ((void *)object) + 0x28, 0, ((void *)object) + 0xB8) == 0) {
+            object_flags = object->flags | 0x8000;
             global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
-            ((S_800CB82C_0 *)object)->unk_1E = object_flags;
+            object->flags = object_flags;
             object_flag_block.flags = global_flags;
             return NULL;
         }

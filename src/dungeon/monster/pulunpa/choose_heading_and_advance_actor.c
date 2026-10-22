@@ -89,12 +89,12 @@ typedef struct {
 
 extern void update_actor_status_and_mp(void *);
 extern void update_actor_proximity_flag(void *, void *, s32, s32, void *);
-extern void *find_valid_monster_neighbor(void *, s32, s32);
+extern void *find_adjacent_actor(void *, s32, s32);
 extern s32 get_rounded_facing_and_rounding_flag(s16, s16, s16, s16, void *);
 extern s32 generate_random_value(void);
 extern void *probe_directional_neighbor(void *, s32, s32, s32);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
-extern void rebuild_monster_reachable_tiles(void *, s32, void *, void *);
+extern void select_actor_route_target(void *, s32, void *, void *);
 extern s16 get_actor_height_difference(void *, void *);
 extern s16 check_diagonal_side_height(s32, s32, s32, s32);
 extern s32 calculate_planar_heading(s32, s32, s32, s32);
@@ -143,7 +143,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
     flags = ((S_8017405C_0 *)movement)->unk_1C;
     if (flags & 0x410) {
         if (flags & 0x400) {
-            target = find_valid_monster_neighbor(movement, actor->unk_24.at00.v, actor->unk_24.at01.v);
+            target = find_adjacent_actor(movement, actor->unk_24.at00.v, actor->unk_24.at01.v);
             if (target != 0) {
                 S_8017405C_3 *target_pos = ((S_8017405C_2_pre *)target)[-1].unk_00;
                 ((S_8017405C_0 *)movement)->unk_2A.u = get_rounded_facing_and_rounding_flag(actor->unk_24.at00.v, actor->unk_24.at01.v,
@@ -168,7 +168,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
     } else if (flags & 0x2000) {
         if (!(((S_8017405C_0 *)movement)->unk_46 & 0x8000)) {
             if (!(flags & 0x20000)) {
-                rebuild_monster_reachable_tiles(actor, ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8, movement, (u8 *)context + 0x98);
+                select_actor_route_target(actor, ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8, movement, (u8 *)context + 0x98);
             } else {
                 {
                     s32 dir;
@@ -196,7 +196,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
     } else {
         s32 mode = actor->unk_26.s;
         if (mode >= 0 && (dungeon_rooms[mode].flags & 2)) {
-            rebuild_monster_reachable_tiles(actor, ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8, movement, (u8 *)context + 0x98);
+            select_actor_route_target(actor, ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8, movement, (u8 *)context + 0x98);
         } else {
             if (!(((S_8017405C_0 *)movement)->unk_46 & 0x8000)) {
                 target = probe_directional_neighbor(movement, actor->unk_24.at00.v, actor->unk_24.at01.v,

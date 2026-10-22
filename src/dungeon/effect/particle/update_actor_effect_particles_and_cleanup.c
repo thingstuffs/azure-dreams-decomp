@@ -1,5 +1,7 @@
 /* Shaded particle drawing, accelerating return particles, and staged actor effect cleanup. */
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_18f4800.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
@@ -9,7 +11,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/slus_callbacks.h"
-
 
 typedef struct DungeonState818D4800 {
     u8 pad0[0x8D0];
@@ -66,7 +67,7 @@ s32 func_80024044(void *object_data, void *position_data)
     u8 *position = position_data;
     GameWork *state_slot = &g_game_work;
     DungeonState818D4800 *state =
-        *(DungeonState818D4800 **)((u8 *)(&g_game_work));
+        *(DungeonState818D4800 **)&g_game_work.draw_buffer;
     Scratch818D4800 *scratch = (Scratch818D4800 *)0x1F800000;
     register u8 *prim;
     u8 *tile_prim;
@@ -74,7 +75,6 @@ s32 func_80024044(void *object_data, void *position_data)
     void *next_object;
     u8 *packet_start;
     u8 *next_prim;
-
 
     packet_start = state->next;
     scratch->ot = (u32 *)((u8 *)state + 0xB0);
@@ -150,9 +150,6 @@ typedef struct S_818D4A94_1 {
     s32 unk_50;
 } S_818D4A94_1;   /* arg0 in func_80024294 */
 
-
-
-
 /* Advance position and velocity, and flag completion near the target or when the countdown expires. */
 void accelerate_particle_toward_source(void *motion, void *position_data)
 {
@@ -184,33 +181,7 @@ void accelerate_particle_toward_source(void *motion, void *position_data)
     }
 }
 
-typedef struct S_818D4B94_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_818D4B94_2;
-
-
-typedef struct S_818D4B94_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_818D4B94_4;
-
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80024394 */
-
-
-
-
-
-
-
-typedef struct S_818D4B94_0 {
-    u8 pad_00[0x10];
-    M2C_UNK * unk_10;
-} S_818D4B94_0;
 
 typedef struct S_818D4B94_1 {
     u8 pad_00[0x8];
@@ -235,18 +206,18 @@ void create_accelerating_return_particle(ObjectNodeHeader *source, s32 setting_1
     s32 delta_x;
     s32 velocity;
     S_818D4B94_1 *state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_list_node(0x211, &source->next);
     if (effect != NULL) {
-        ((S_818D4B94_0 *)effect)->unk_10 = (void *)accelerate_particle_toward_source;
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_02 = (s16) (((MovingPosition *)source->unk_08)->unk_02 + offset_x);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_06 = (s16) (((MovingPosition *)source->unk_08)->unk_06 + offset_y);
-        ((S_818D4B94_4 *)(((S_818D4B94_2 *)effect)->unk_08))->unk_0A = (s16) (((MovingPosition *)source->unk_08)->unk_0A + offset_z);
-        state = effect + 0x20;
-        state->unk_34 = (u16) ((MovingPosition *)source->unk_08)->unk_02;
-        state->unk_36 = (u16) ((MovingPosition *)source->unk_08)->unk_06;
-        state->unk_38 = (u16) ((MovingPosition *)source->unk_08)->unk_0A;
+        effect->unk_10 = (void *)accelerate_particle_toward_source;
+        (effect->position)->x.w.i = (s16) (((MovingPosition *)source->position)->unk_02 + offset_x);
+        (effect->position)->y.w.i = (s16) (((MovingPosition *)source->position)->unk_06 + offset_y);
+        (effect->position)->z.w.i = (s16) (((MovingPosition *)source->position)->unk_0A + offset_z);
+        state = ((void *)effect) + 0x20;
+        state->unk_34 = (u16) ((MovingPosition *)source->position)->unk_02;
+        state->unk_36 = (u16) ((MovingPosition *)source->position)->unk_06;
+        state->unk_38 = (u16) ((MovingPosition *)source->position)->unk_0A;
         signed_duration = (s16) duration;
         delta_x = -(offset_x << 16);
         step_count = signed_duration / 8;
@@ -288,11 +259,6 @@ typedef struct RenderFade33 {
     u8 pad_16[0x4];
     u16 unk_1A;
 } RenderFade33;   /* arg2 in func_80024548 */
-
-
-
-
-
 
 /* Fades and rotates an effect, decrements its timer, and flags completion. */
 void fade_and_rotate_timed_effect(void *record_data, s32 unused, RenderFade33 *effect)
@@ -417,10 +383,6 @@ typedef struct Task {
     Packed12 image_data;
 } Task;
 
-
-
-
-
 /* Updates the actor effect through movement, particle emission, fading, and cleanup. */
 void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion, Render33 *render)
 {
@@ -544,19 +506,19 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
             }
             task = (Task *)allocate_flagged_object_node(0x212);
             if (task != 0) {
-                Motion33 *task_motion;
+                ObjectPosition *task_motion;
                 Render33 *task_render;
                 task->field22 = 0x10;
                 task->header.unk_10 = (void *)fade_and_rotate_timed_effect;
                 register_node(task, (s32)project_sprite_chain);
-                task_render = task->header.unk_0C;
+                task_render = task->header.sprite;
                 task_render->field10 = 0x40;
                 task_render->flags |= 0xC;
-                task_motion = task->header.unk_08;
-                task_motion->x.half.hi = motion->x.half.hi;
-                task_motion->y.half.hi = motion->y.half.hi;
-                task_motion->z.half.hi = motion->z.half.hi;
-                task_render = task->header.unk_0C;
+                task_motion = task->header.position;
+                task_motion->x.w.i = motion->x.half.hi;
+                task_motion->y.w.i = motion->y.half.hi;
+                task_motion->z.w.i = motion->z.half.hi;
+                task_render = task->header.sprite;
                 task_render->scale_y = 0x800;
                 task_render->scale_x = 0x800;
                 task_render->color2 = 0x78;
@@ -735,7 +697,7 @@ state1_cleanup:
                 actor->timer82 = old_timer;
                 if (active_flag == 0) {
                     g_dungeon_status.active_actor = 0;
-                    *(u16 *)((u8 *)actor - 2) |= NODE_REMOVE;
+                    ((ObjectNodeHeader *)((u8 *)actor - 0x20) )->flags|= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                     return;
                 }

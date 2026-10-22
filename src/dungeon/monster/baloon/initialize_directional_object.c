@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/game_work.h"
@@ -6,9 +7,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 typedef struct Ent Ent;
-
-
-
 
 void select_sprite_entry();
 Ent *prepare_directional_attack();
@@ -21,7 +19,7 @@ s32 apply_camera_offset_and_select_target();
 extern u8 baloon_attack_frames;
 
 /* Checks action readiness and initializes the actor state and directional animation. */
-s32 initialize_directional_object(void *action_state, s32 action_param, void *sprite, void *actor) {
+s32 initialize_directional_object(void *action_state, s32 action_param, SpriteFrameState *sprite, void *actor) {
     s32 result;
     s32 action_ready;
     s32 direction;
@@ -34,8 +32,8 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
         return -1;
     }
 
-    direction = probe_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
-                         ((Rec_D_80082E80 *)sprite)->unk_25,
+    direction = probe_directional_neighbor(actor, sprite->unk_24,
+                         sprite->unk_25,
                          ((ActorRecord *)actor)->facing);
     result = 0;
     if ((check_entity_interaction_compatibility(actor, direction) << 16) == 0) {
@@ -82,7 +80,7 @@ s32 initialize_directional_object(void *action_state, s32 action_param, void *sp
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 &= 0xFFF7;
         ((ActorRecord *)actor)->flags1C &= 0xFFFBFFFF;
         anim_table = &baloon_attack_frames;
-        ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = anim_table;
+        sprite->frameTable = anim_table;
         select_sprite_entry(sprite,
                       anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                       0);

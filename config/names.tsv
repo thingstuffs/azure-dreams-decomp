@@ -32,7 +32,8 @@
 0x8004E5E8	func_8004E5E8	format_int_zero_padded	knowledge/func_8004E5E8.json: sibling of func_8004E5A0 with the pad char hardcoded to '0' (0x30)
 0x8004E634	func_8004E634	uint_to_dec_str	knowledge/func_8004E634.json: converts an unsigned int to a decimal ASCII string (0xCCCCCCCD /10 magic-multiply idiom, utoa)
 0x8004E928	func_8004E928	alloc_parsed_string	knowledge/func_8004E928.json: allocates a 0x100 buffer and fills it by parsing string a0 via func_8004E298, unless a0 is blank (medium)
-0x8005D550	func_8005D550	store_u16_table_entry	knowledge/func_8005D550.json: stores a value into u16 table D_80079958.ptr[a0], optionally right-shifted by D_80079980[0] when a2!=0 (medium)
+0x8005D550	func_8005D550	store_u16_table_entry	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D550	func_8005D550	_spu_FsetRXX	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2380
 0x80035D40	func_80035D40	set_user_name_win	script call number 140: the town call table 0x800D3CC8 entry 140 = this function; developer symbol FNO_set_user_name_win (TOWN.BIN symbol dump; rule proven by the 2026-09-08 research workflow; numbering corrected 2026-09-28 by the symbol-dump parse fix)
 0x8003AF94	func_8003AF94	town_movie_exe	script call number 167: the town call table 0x800D3CC8 entry 167 = this function; developer symbol FNO_town_movie_exe (TOWN.BIN symbol dump; rule proven by the 2026-09-08 research workflow; numbering corrected 2026-09-28 by the symbol-dump parse fix)
 0x8003B9E8	func_8003B9E8	chg_map_second_house_sel	script call number 183: the town call table 0x800D3CC8 entry 183 = this function; developer symbol FNO_chg_map_second_house_sel (TOWN.BIN symbol dump; rule proven by the 2026-09-08 research workflow; numbering corrected 2026-09-28 by the symbol-dump parse fix)
@@ -387,15 +388,22 @@
 0x8005C6B4	func_8005C6B4	submit_driver_seven_bit_pair	knowledge/r121_n0prep_functions.tsv:227; (high) src/slus/w_8005C6B4.c:19: Builds request tag 3 and selected flags, encodes each argument as (value&0x7F)<<7, calls func_8005F134, and returns zero.; ledger/evidence/knowledge/func_8005C6B4.json
 0x8005C710	func_8005C710	query_driver_halfword_pair	knowledge/r121_n0prep_functions.tsv:228; (high) src/slus/w_8005C710.c:21: Builds query tag zero with selected flags, invokes func_8005FA34 and copies both resulting halfwords to output pointers, returning zero.; ledger/evidence/knowledge/func_8005C710.json
 0x8005C784	func_8005C784	query_driver_pair_shifted_seven	knowledge/r121_n0prep_functions.tsv:229; (high) src/slus/w_8005C784.c:18: Queries the same tag-zero request path and returns both signed halfword outputs shifted right seven through output pointers, returning zero.; ledger/evidence/knowledge/func_8005C784.json
-0x8005D460	func_8005D460	submit_driver_transfer_with_fallback	knowledge/r121_n0prep_functions.tsv:230; (medium) src/slus/w_8005D460.c:35: If D_80079974 is nonzero, calls func_8005CE98; otherwise calls func_8005D1D0 with modes 2,1,3 and forwarded arguments; returns the second argument.; ledger/evidence/knowledge/func_8005D460.json
-0x8005D4E8	func_8005D4E8	submit_driver_transfer_mode_zero	knowledge/r121_n0prep_functions.tsv:231; (medium) src/slus/w_8005D4E8.c:29: Calls func_8005D1D0 with mode 2 and the shifted driver address, then mode 0, then mode 3 with both supplied arguments; returns the second argument.; ledger/evidence/knowledge/func_8005D4E8.json
-0x8005D63C	func_8005D63C	load_u16_table_entry_scaled	knowledge/r121_n0prep_functions.tsv:232; (high) src/slus/w_8005D63C.c:15: Loads a halfword from D_80079958.ptr[index]; returns it raw when mode==-1, otherwise shifts it left by D_80079980.
-0x8005D678	func_8005D678	set_driver_status_bits	knowledge/r121_n0prep_functions.tsv:233; (medium) src/slus/w_8005D678.c:15: Clears mask 0x70000 in the pointed-to driver word and replaces it with 0x30000 for nonzero argument or 0x50000 otherwise.; ledger/evidence/knowledge/func_8005D678.json
-0x8005D730	func_8005D730	delay_multiply_loop	knowledge/r121_n0prep_functions.tsv:234; (medium) src/slus/w_8005D730.c:4: Runs sixty volatile iterations multiplying a volatile local by thirteen; no result is exported.; ledger/evidence/knowledge/func_8005D730.json
+0x8005D460	func_8005D460	submit_driver_transfer_with_fallback	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D460	func_8005D460	_spu_Fw	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2140
+0x8005D4E8	func_8005D4E8	submit_driver_transfer_mode_zero	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D4E8	func_8005D4E8	_spu_Fr	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2276
+0x8005D63C	func_8005D63C	load_u16_table_entry_scaled	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D63C	func_8005D63C	_spu_FgetRXXa	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2616
+0x8005D678	func_8005D678	set_driver_status_bits	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D678	func_8005D678	_spu_FsetPCR	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2676
+0x8005D730	func_8005D730	delay_multiply_loop	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D730	func_8005D730	_spu_Fw1ts	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2860
 0x8005D798	func_8005D798	set_dma_channel_4_callback	knowledge/r121_n0prep_functions.tsv:235; (high) src/slus/code.c:1426: Calls the already-named SDK DMACallback with literal DMA channel four and the supplied callback.
 0x8005EC40	func_8005EC40	clamp_and_submit_driver_parameter	knowledge/r121_n0prep_functions.tsv:236; (high) src/slus/w_8005EC40.c:23: Clamps the unsigned second argument to 0x7EFF0, submits it through func_8005D460, conditionally clears the completion latch, and returns the clamped value.; ledger/evidence/knowledge/func_8005EC40.json
-0x8005ECA0	func_8005ECA0	lookup_and_scale_driver_address	knowledge/r121_n0prep_functions.tsv:237; (medium) src/slus/w_8005ECA0.c:16: Rejects addresses outside the unsigned 0x1010..0x7FFF8 range; calls func_8005D598(-1,address), stores its low halfword, and returns it shifted by the global scale.; ledger/evidence/knowledge/func_8005ECA0.json
-0x8005ECF8	func_8005ECF8	poll_driver_completion_event	knowledge/r121_n0prep_functions.tsv:238; (medium) src/slus/w_8005ECF8.c:22: Returns one if either busy/completion latch is one; otherwise polls TestEvent, optionally waits until nonzero, and latches successful completion.; ledger/evidence/knowledge/func_8005ECF8.json
+0x8005ECA0	func_8005ECA0	lookup_and_scale_driver_address	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005ECA0	func_8005ECA0	SpuSetTransferStartAddr	Psy-Q masked whole-object equality: LIBSPU.LIB/S_STSA.OBJ versions 370,400; object 0x8005eca0 +0
+0x8005ECF8	func_8005ECF8	poll_driver_completion_event	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005ECF8	func_8005ECF8	SpuIsTransferCompleted	Psy-Q masked whole-object equality: LIBSPU.LIB/S_ITC.OBJ versions 370,400; object 0x8005ecf8 +0
 0x80401B30	func_80401B30	card_dev_run_selected_operation	knowledge/r121_n0prep_functions.tsv:239; (medium) src/main/func_8001AB30.c:14: Selects one of the two D_80408AA0 entries, invokes func_8007CAA8, waits by polling func_8040153C with VSync-like calls, prints developer cnt, and maps result 1/3/other to 1/4/5.; ledger/evidence/assertions.jsonl: main/func_8001AB30; developer identifier cnt
 0x80401ED4	func_80401ED4	card_dev_cache_save_header	knowledge/r121_n0prep_functions.tsv:240; (high) src/main/func_8001AED4.c:6: Copies 128 bytes from source+0x200 into the indexed card cache record and marks its first word one.
 0x804022C8	func_804022C8	card_dev_run_slot_operation	knowledge/r121_n0prep_functions.tsv:241; (medium) src/main/func_8001B2C8.c:17: Builds a 32-byte slot state, invokes func_8007CAE8, polls completion, prints cnt, clears an indexed slot marker and increments the selected counter by three, then returns result==1.; ledger/evidence/assertions.jsonl: main/func_8001B2C8; developer identifier cnt
@@ -2096,8 +2104,10 @@
 0x8016AE68	func_8016AE68	update_action_facing_animation	(medium) src/dungeon/func_80D95668.c:69-247: Dispatches action behavior and updates its facing animation from the dungeon entity; caller none recorded in image-local inventory
 0x80024ED4	func_80024ED4	create_linked_effect_segments	(high) src/dungeon/func_819596D4.c:62-127: Creates up to sixteen linked effect segments at the supplied position; caller func_800243C4 at src/dungeon/func_81958BC4.c:69
 0x80024078	func_80024078	advance_screen_transition	(medium) src/dungeon/func_81958878.c:62-174: Advances screen transition, updates fade timers and releases completed state; caller none recorded in image-local inventory
-0x8005F740	func_8005F740	sound_scale_pitch_by_fractional_note	(medium) src/slus/w_8005F740.c:4-29: Scales pitch by a fractional note offset by interpolating adjacent steps; caller none recorded in image-local inventory
-0x8005F90C	func_8005F90C	sound_convert_pitch_to_packed_note	(high) src/slus/w_8005F90C.c:4-72: Converts SPU pitch to packed note and fine value relative to center note and fine offset; caller func_8005FA34 at src/slus/w_8005FA34.c:53
+0x8005F740	func_8005F740	sound_scale_pitch_by_fractional_note	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005F740	func_8005F740	_spu_2pitch	Psy-Q masked whole-object equality: LIBSPU.LIB/S_N2P.OBJ versions 400; object 0x8005f740 +0
+0x8005F90C	func_8005F90C	sound_convert_pitch_to_packed_note	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005F90C	func_8005F90C	_spu_pitch2note	Psy-Q masked whole-object equality: LIBSPU.LIB/S_N2P.OBJ versions 400; object 0x8005f740 +460
 0x801579A0	func_801579A0	update_kind_directional_tables	(medium) src/dungeon/func_80D0A1A0.c:41-137: Updates directional tables for kinds thirteen through fifteen and processes object state; caller none recorded in image-local inventory
 0x801563C4	func_801563C4	advance_actor_action_effects	(medium) src/dungeon/func_80D08BC4.c:40-141: Advances actor action animation and triggers timed effects; caller none recorded in image-local inventory
 0x800160C8	func_800160C8	lookup_entry_and_apply_override	(medium) src/town/func_804D80C8.c:15-36: Looks up entry data and applies entry-specific overrides; caller none recorded in image-local inventory
@@ -2924,9 +2934,9 @@
 0x80048B8C	func_80048B8C	texture_mark_unprocessed_type_n_2_node_sequences_set_low_six_bits_n_14	(high) src/slus/w_80048B8C.c:25-58: Mark unprocessed type-2 node sequences and set the low six value bits to 14.; caller func_80048C3C at src/slus/w_80048C3C.c:26
 0x80048E00	func_80048E00	texture_build_a_hex_48_byte_two_color_swapped_pattern_blocks_returns_base	(high) src/slus/w_80048E00.c:14-58: Builds a 0x48-byte record with two color-swapped pattern blocks and returns its base.; caller func_800AFDD0 at src/town/func_800B2670.c:7
 0x80048734	func_80048734	texture_handle_expands_six_bit_values_runs_one_four_bytes_until_n_1	(high) src/slus/w_80048734.c:6-52: Expands six-bit values into runs of one to four bytes until the 1, 1 terminator.; caller func_8004878C at src/slus/w_8004878C.c:30
-0x800248B8	func_800248B8	advance_animation_values_set_completion_flags_countdown_expires	(medium) src/dungeon/func_819410B8.c:7-26: Advance animation values and set completion flags when the countdown expires.; caller <none> at <none>:0
+0x800248B8	func_800248B8	expand_rotating_countdown_sprite	(medium) src/dungeon/func_819410B8.c:7-26: Advance animation values and set completion flags when the countdown expires.; caller <none> at <none>:0
 0x80024798	func_80024798	handle_spawn_initialize_randomized_offset_parent	(high) src/dungeon/func_81940F98.c:26-60: Spawn and initialize an object at a randomized offset from its parent.; caller func_81941338 at src/dungeon/func_81941338.c:43
-0x800249F0	func_800249F0	create_an_copied_position_packed_data_initialize_rendering_state	(high) src/dungeon/func_819411F0.c:55-92: Create an object with copied position and packed data, and initialize its rendering state.; caller func_81941338 at src/dungeon/func_81941338.c:43
+0x800249F0	func_800249F0	create_packed_sprite_effect	(high) src/dungeon/func_819411F0.c:55-92: Create an object with copied position and packed data, and initialize its rendering state.; caller func_81941338 at src/dungeon/func_81941338.c:43
 0x800243A4	func_800243A4	handle_raise_position_toward_queried_height_set_flags_countdown_expires	(medium) src/dungeon/func_8190ABA4.c:19-36: Raise the position toward the queried height and set flags when the countdown expires.; caller <none> at <none>:0
 0x80024590	func_80024590	get_a_random_in_n_0_limit_zero_limit_zero_rejection_sampling	(medium) src/dungeon/func_8190AD90.c:8-49: Returns a random value in [0, limit), or zero when limit is zero. Rejection sampling: the rand() bits are masked * to the smallest bit range that covers limit (2, 4, 6, 8, 12 or 16 bits) and redrawn until below limit.; caller func_800246B4 at src/dungeon/func_8190AEB4.c:35
 0x80024470	func_80024470	handle_retail_n_8190_ac_70_callee_80024470_spawn_effect_under_parent_node_placed_parent	(high) src/dungeon/func_8190AC70.c:11-65: Retail 8190AC70 (func_80024470): spawn an effect object under the parent node, placed at the parent's * position plus a random jitter (0..31 per axis) and the given offsets (minus half the jitter range).; caller func_80024AD0 at src/dungeon/func_8190B2D0.c:205
@@ -2977,8 +2987,10 @@
 0x800241D8	func_800241D8	handle_increment_entry_counters_process_target_propagate_status_flags	(medium) src/dungeon/func_818989D8.c:7-19: Increment entry and object counters, process the target, and propagate its status flags.; caller <none> at <none>:0
 0x80024370	func_80024370	advance_the_entry_counters_trigger_count_milestones_update_target	(medium) src/dungeon/func_81898B70.c:29-55: Advance the entry counters, trigger count milestones, and update the target.; caller <none> at <none>:0
 0x800240CC	func_800240CC	create_a_sprite_random_rotation_copies_initial_data	(high) src/dungeon/func_818988CC.c:41-73: Creates a sprite object with random rotation and copies its initial data.; caller func_800246BC at src/dungeon/func_81898EBC.c:85
-0x8005D598	func_8005D598	audio_handle_optionally_aligns_shifts_stores_returns_result	(high) src/slus/w_8005D598.c:15-39: Optionally aligns a value, shifts it, and stores or returns the result.; caller func_8005ECA0 at src/slus/w_8005ECA0.c:16
-0x8005D95C	func_8005D95C	audio_get_whether_non_skipped_block_contains_address_starts_beyond	(medium) src/slus/w_8005D95C.c:11-44: Returns whether a non-skipped block contains the address or starts at or beyond it.; caller <none> at <none>:0
+0x8005D598	func_8005D598	audio_handle_optionally_aligns_shifts_stores_returns_result	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D598	func_8005D598	_spu_FsetRXXa	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2452
+0x8005D95C	func_8005D95C	audio_get_whether_non_skipped_block_contains_address_starts_beyond	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D95C	func_8005D95C	_SpuIsInAllocateArea	Psy-Q masked whole-object equality: LIBSPU.LIB/S_M_UTIL.OBJ versions 370,400; object 0x8005d95c +0
 0x800244F0	func_800244F0	fade_the_primitive_flag_effect_countdown_expires	(medium) src/dungeon/func_81994CF0.c:8-33: Fade the primitive and flag the effect when its countdown expires.; caller <none> at <none>:0
 0x800243E4	func_800243E4	create_an_linked_parent_initialize_position_part_data	(high) src/dungeon/func_81994BE4.c:52-84: Create an object linked to its parent and initialize its position and part data.; caller func_8002458C at src/dungeon/func_81994D8C.c:106
 0x804010F0	func_804010F0	advance_processing_selected_slot_sets_completion_flag	(medium) src/main/func_8001A0F0.c:14-77: Advances processing for the selected slot and sets its completion flag.; caller <none> at <none>:0
@@ -4252,7 +4264,8 @@
 0x800AF96C	func_800AF96C	store_item_menu_check_result	(medium) src/town/func_800B220C.c:24-30: mechanics are recorded in the local inventory; caller none in local inventory
 0x800B0134	func_800B0134	initialize_item_menu_request_state	(medium) src/town/func_800B29D4.c:6-12: mechanics are recorded in the local inventory; caller none in local inventory
 0x800B02D4	func_800B02D4	create_item_menu_handler_object	(medium) src/town/func_800B2B74.c:9-17: mechanics are recorded in the local inventory; caller none in local inventory
-0x800AE414	func_800AE414	start_item_menu_object_processing	(medium) src/town/func_800B0CB4.c:17-26: mechanics are recorded in the local inventory; caller none in local inventory
+0x800AE414	func_800AE414	start_item_menu_object_processing	r121w_naudit2: obsolete C spelling retained only for .file canonicalization; semantic claim withdrawn.
+0x800AE414	func_800AE414	release_item_menu_object	r121w_naudit2: Marks the menu object for removal, releases its entry groups, schedules child completion and resumes the selected scene action. The constructor failure path and menu-cancel callback invoke it. This tears down the item menu rather than starting its processing. Evidence: src/town/shop/item_menu_object_lifecycle_g00600.c:45;src/town/shop/state/reset_item_menu_object_state.c:19;src/town/shop/item/set_item_menu_data_pointer.c:11
 0x800AFFA8	func_800AFFA8	process_item_menu_selected_entry	(medium) src/town/func_800B2848.c:22-33: mechanics are recorded in the local inventory; caller none in local inventory
 0x800B03B4	func_800B03B4	reset_item_menu_object_state	(medium) src/town/func_800B2C54.c:19-30: mechanics are recorded in the local inventory; caller none in local inventory
 0x800B0424	func_800B0424	dispatch_item_menu_request_result	(medium) src/town/func_800B2CC4.c:9-21: mechanics are recorded in the local inventory; caller none in local inventory
@@ -4299,7 +4312,8 @@
 0x80026FA8	func_80026FA8	find_menu_entry_by_pair_from_index	(high) src/dungeon/func_81811FA8.c:2-12: Scans entries from the supplied index for matching two-byte values and returns the first matching index or -1.; caller func_8002714C at src/dungeon/func_8181214C.c:11
 0x80027454	func_80027454	dispatch_menu_state_update	(medium) src/dungeon/func_81812454.c:8-19: /* Dispatch an update according to the mode and current state.; caller func_800274F0 at src/dungeon/func_818124F0.c:50
 0x80027F34	func_80027F34	advance_menu_value_fade	(medium) src/dungeon/func_81812F34.c:27-40: /* Decrease the linked value from 0x400 toward zero and advance the state after the final step.; caller none in local inventory
-0x80028534	func_80028534	format_menu_referenced_values	(high) src/dungeon/func_81813534.c:6-19: /* Calls func_8004E99C on nine referenced values, clearing the first eight.; caller func_80028320 at src/dungeon/func_81813320.c:41
+0x80028534	func_80028534	format_menu_referenced_values	r121w_naudit2: obsolete C spelling retained only for .file canonicalization; semantic claim withdrawn.
+0x80028534	func_80028534	clear_menu_value_objects	r121w_naudit2: The complete body calls flag_optional_object_for_removal on nine referenced objects and clears the first eight reference slots. It neither reads a text buffer nor formats values. Cleanup/menu transition callers invoke it before replacing those display objects. Evidence: src/dungeon/menu/entries.c:812;src/dungeon/menu/entries.c:765;include/dungeon/menu/entries.h:470
 0x80026EC0	func_80026EC0	find_menu_entry_occurrence	(high) src/dungeon/func_81811EC0.c:4-19: /* Return the index of the requested zero-based matching occurrence, or -1.; caller func_80027008 at src/dungeon/func_81812008.c:13
 0x80028320	func_80028320	initialize_menu_object_state	(high) src/dungeon/func_81813320.c:41-56: /* Reset object state, store the initial value, and install its handler.; caller func_800257C0 at src/dungeon/func_818107C0.c:16
 0x800283B4	func_800283B4	install_menu_object_handler	(medium) src/dungeon/func_818133B4.c:46-62: /* Initializes object state and installs its handler pointer.; caller none in local inventory
@@ -4493,14 +4507,16 @@
 0x800A07D0	func_800A07D0	calculate_planar_heading	Returns ratan2(end_y-start_y,end_x-start_x); it does not read a monster record or update coordinates. The SDK symbol map independently identifies that callee. Corridor generation uses the result as a direction, and effect callers use it as a heading. The replacement states the planar angle calculation.
 0x800A0E44	func_800A0E44	store_monster_direction_nibble	(high) src/dungeon/func_8009B6E4.c:7-9: Stores the low four bits of the computed result in the global slot.; caller func_80018A70 at src/dungeon/func_80285A70.c:81
 0x800A0E44	func_800A0E44	store_random_nibble	Stores random() AND0xF into one dungeon-state halfword. The sole complete direct caller runs it during floor-seed setup. Neither code reads a monster nor establishes a direction encoding for that word. Keep the literal random-nibble store.
-0x8009FADC	func_8009FADC	select_monster_data_pointer	(high) src/dungeon/func_8009A37C.c:7-18: Selects a table entry address, fixed buffer, or current data pointer by ID.; caller func_8008ACDC at src/dungeon/func_8008557C.c:112
+0x8009FADC	func_8009FADC	select_monster_data_pointer	r121w_naudit2: obsolete C spelling retained only for .file canonicalization; semantic claim withdrawn.
+0x8009FADC	func_8009FADC	select_item_record_pointer	r121w_naudit2: Returns an inventory item entry address for selectors 1..20, the held-item record for selector 21 or the linked current item record otherwise. dispatch_selected_item_use stores the results as selected/secondary items and player input passes them to holding/item actions. These are item records, not monster records. Evidence: src/dungeon/item/select_monster_data_pointer.c:7;src/dungeon/player/item/dispatch_selected_item_use.c:48;src/dungeon/player/input/handle_player_input.c:325
 0x8009FCAC	func_8009FCAC	get_conditional_monster_entry	(high) src/dungeon/func_8009A54C.c:6-24: Return the indexed entry value when its condition is nonzero, or zero otherwise.; caller func_800A0E6C at src/dungeon/func_8009B70C.c:33
 0x8009FCAC	func_8009FCAC	get_active_region_data	Indexes the same20-byte geometric region records, checks the active halfword and returns the data pointer at+0x10. The complete caller indexes the accompanying count at+0x0E to choose coordinate entries. No monster record is returned. Keep the active-region data getter without inventing an exit type.
 0x8009FE94	func_8009FE94	check_monster_neighbor_relations	(medium) src/dungeon/func_8009A734.c:8-26: Checks distinct neighboring positions for equal values or a successful fallback check.; caller func_800A3D18 at src/dungeon/func_8009E5B8.c:55
 0x800A020C	func_800A020C	apply_monster_koyaw_data	(medium) src/dungeon/func_8009AAAC.c:11-34: Selects koyaw data from the flags and applies it unless disabled.; caller func_80089AA0 at src/dungeon/func_80084340.c:229
 0x8009F988	func_8009F988	read_monster_script_entry	(high) src/dungeon/func_8009A228.c:11-36: Return the script entry while updating its index and repeat count.; caller func_8008ACDC at src/dungeon/func_8008557C.c:112
 0x8009F5CC	func_8009F5CC	set_monster_reachability_flag	(high) src/dungeon/func_80099E6C.c:7-33: Sets flag 0x400000 once when the blocking flag is clear and either threshold is met.; caller func_80089AA0 at src/dungeon/func_80084340.c:229
-0x800A02AC	func_800A02AC	find_valid_monster_neighbor	(high) src/dungeon/func_8009AB4C.c:16-44: Check eight neighboring positions in cyclic order and return the first result that passes the direction check.; caller func_800ADE74 at src/dungeon/func_800A8714.c:65
+0x800A02AC	func_800A02AC	find_valid_monster_neighbor	r121w_naudit2: obsolete C spelling retained only for .file canonicalization; semantic claim withdrawn.
+0x800A02AC	func_800A02AC	find_adjacent_actor	r121w_naudit2: Checks eight adjacent positions using find_eligible_actor_at_tile_and_height, which searches the general live actor ring by coordinates, height and HP/status eligibility with no monster-species filter. The returned object is an actor, not a monster-specific record. Evidence: src/dungeon/item/find_valid_monster_neighbor.c:19;src/dungeon/level/tile.c:1071;src/dungeon/actor/ability_eligibility.c:547
 0x800A03C4	func_800A03C4	find_monster_neighbor_candidate	(high) src/dungeon/func_8009AC64.c:10-41: Returns the first valid candidate found while checking eight neighboring positions.; caller func_800ADE74 at src/dungeon/func_800A8714.c:65
 0x8009FBF0	func_8009FBF0	find_active_monster_record	(high) src/dungeon/func_8009A490.c:7-39: Return the first active record containing the coordinates, or -1 if none matches.; caller func_800C5FA8 at src/dungeon/func_800C0848.c:46
 0x8009FBF0	func_8009FBF0	find_padded_rectangle	Scans the same20-byte active rectangles used by the independently read room/rectangle finder, testing the point against left/top minusone and inclusive width/height bounds. Returns the rectangle index, not an actor or monster record. Its complete sole caller compares this index to the selected room before processing every entity in that room.
@@ -4508,10 +4524,12 @@
 0x8009F9E8	func_8009F9E8	find_monster_special_entry	(medium) src/dungeon/func_8009A288.c:19-56: Scan backward through special entry kinds for a matching kind and flag bit.; caller func_8009F644 at src/dungeon/func_80099EE4.c:15
 0x8009F868	func_8009F868	advance_monster_timed_sequence	(high) src/dungeon/func_8009A108.c:22-61: Advances a timed sequence, following relative jumps and handling its end.; caller func_8008ACDC at src/dungeon/func_8008557C.c:112
 0x800A17E8	func_800A17E8	find_monster_entry_by_type_and_id	(high) src/dungeon/func_8009C088.c:8-48: Returns an entry selected by type and ID, or null if no match is found.; caller func_8017398C at src/dungeon/func_80E3A18C.c:17
-0x800A05A4	func_800A05A4	scan_monster_along_heading	(high) src/dungeon/func_8009AE44.c:17-58: Scans along a heading for an object within the height range and records the stopping coordinates.; caller func_800AAF00 at src/dungeon/func_800A57A0.c:71
+0x800A05A4	func_800A05A4	scan_monster_along_heading	r121w_naudit2: obsolete C spelling retained only for .file canonicalization; semantic claim withdrawn.
+0x800A05A4	func_800A05A4	scan_actor_along_heading	r121w_naudit2: Searches the general actor ring through find_eligible_entry_at_coordinates and check_entity_eligibility, which test HP/status but no species restriction. select_creature_action_and_target case 44 aims this scan toward reference_tile_object for a player attack. Monster-only wording excludes that supported target. Evidence: src/dungeon/item/scan_monster_along_heading.c:21;src/dungeon/level/tile.c:1160;src/dungeon/actor/ability_eligibility.c:547;src/dungeon/actor/select_creature_action_and_target.c:548
 0x8009FD7C	func_8009FD7C	compare_monster_neighbor_values	(medium) src/dungeon/func_8009A61C.c:7-69: Tests whether distinct neighboring positions share a lookup value or pass the relation check.; caller func_800D8C64 at src/dungeon/func_800D3504.c:30
 0x8009FD7C	func_8009FD7C	test_neighbor_position_relation	All four inputs are coordinates. The body rejects identical/non-neighbor positions, compares their active-rectangle indices, then accepts even rounded octants. No monster record/value is read. Full rectangle and angle callees establish a geometric predicate; monster-specific interpretation is unsupported.
-0x800A0E6C	func_800A0E6C	rebuild_monster_reachable_tiles	(high) src/dungeon/func_8009B70C.c:33-169: Rebuild the actor's reachable-tile bitmap for its current move kind and hand back the chosen step.; caller func_800ADE74 at src/dungeon/func_800A8714.c:65
+0x800A0E6C	func_800A0E6C	rebuild_monster_reachable_tiles	r121w_naudit2: obsolete C spelling retained only for .file canonicalization; semantic claim withdrawn.
+0x800A0E6C	func_800A0E6C	select_actor_route_target	r121w_naudit2: Never rebuilds a reachability map. Reads existing region entries, selects a different route point, stores its coordinates and index at +0x72/+0x73 and sprite +0x27, and updates facing. Its local eight-byte bitmap excludes candidate headings only; it is not an exported reachable-tile bitmap. Evidence: src/dungeon/item/direction_matches.c:33;src/dungeon/actor/movement_path_g00371.c:384
 0x800A08E8	func_800A08E8	door_no_op	(medium) src/town/func_800A3188.c:4-5: Returns without performing any work.; caller none in local inventory
 0x800A0CC0	func_800A0CC0	set_door_handler_if_ready	(medium) src/town/func_800A3560.c:15-19: Set the object handler when func_800352FC returns zero.; caller none in local inventory
 0x800A0668	func_800A0668	check_door_status_inverted	(high) src/town/func_800A2F08.c:12-17: Test the object status, reversing the result when the linked record has bit 3 set.; caller func_800A07E8 at src/town/func_800A3088.c:25
@@ -5472,7 +5490,8 @@
 0x800A1C58	func_800A1C58	can_entity_gain_level	(medium) src/dungeon/func_8009C4F8.c:8-46: checks entity state, level cap and experience threshold to determine level eligibility.
 0x800A2AE4	func_800A2AE4	clear_monster_event_and_decrement_count	(medium) src/dungeon/func_8009D384.c:7-11: clears the event byte and decrements the active action count.
 0x800A2AE4	func_800A2AE4	clear_counted_action	Clears the shared pending byte and decrements pending_action_count. It reads no monster record, species identifier or event table. The neutral name retains the counted-action clear operation without inheriting an unbound monster-event label.
-0x800A2B28	func_800A2B28	is_dungeon_action_enabled	(medium) src/dungeon/func_8009D3C8.c:8-13: returns true when the mode bit is clear and the shared action value is nonzero.
+0x800A2B28	func_800A2B28	is_dungeon_action_enabled	r121w_naudit2: obsolete C spelling retained only for .file canonicalization; semantic claim withdrawn.
+0x800A2B28	func_800A2B28	is_dungeon_action_blocked	r121w_naudit2: Returns true while the camera transition timer is active and system update bit 2 is clear. try_claim_dungeon_action_slot propagates true as a wait/failure result, and update_player_and_actor_turns advances only when this predicate is false. Enabled reverses the proven boolean contract. Evidence: src/dungeon/player/object/can_entity_gain_level.c:785;src/dungeon/player/object/can_entity_gain_level.c:799;src/dungeon/player/update_player_and_actor_turns.c:836
 0x800A2B5C	func_800A2B5C	try_claim_dungeon_action_slot	(medium) src/dungeon/func_8009D3FC.c:8-27: claims the shared action slot only when no competing action/count/flag is active.
 0x800A2BDC	func_800A2BDC	has_pending_dungeon_activity	(medium) src/dungeon/func_8009D47C.c:5-13: reports whether any shared actor/action/flag field is pending.
 0x800A2C34	func_800A2C34	has_pending_actor_or_turn_action	(medium) src/dungeon/func_8009D4D4.c:6-12: tests the target, secondary actor and turn counter for nonzero state.
@@ -7688,11 +7707,16 @@
 0x8005B4D0	func_8005B4D0	start_sound_effect_program_voices	(medium) src/engine/audio/sequence/sound_reset_indexed_voice_envelope_second.c:107: Walks the selected bank/program tones covering the requested note, allocates voices, computes sample offsets/stereo gain/pitch/envelope attributes and applies each voice's effect flag; sound_start_scaled_primary_and_secondary_voices is its sole caller.
 0x800552C8	func_800552C8	apply_scaled_sound_slot_volume	(high) src/engine/audio/slots/set_sound_slot_byte_pair.c:18: When slot playback flag 0x100 is set, multiplies volume by the global scale and task gain, clamps to seven bits and writes both slot channels.
 0x8005D7BC	func_8005D7BC	stop_spu_dma_event_service	(high) src/engine/audio/spu/SpuQuit.c:17: Inside a critical section clears SPU callback state, removes DMA channel four callback, closes/disables the event, then exits the section when the service is active.
-0x8005D838	func_8005D838	initialize_sound_transfer_range	(high) src/engine/audio/spu/audio_get_whether_non_skipped_block_contains_address_starts_beyond.c:6: For a positive count initializes the range record flags/size and publishes count, pointer and zero cursor; returns zero for a nonpositive count.
-0x8005CB88	func_8005CB88	start_spu_dma_event_service	(high) src/engine/audio/spu/sound_event_start.c:6: Starts once: marks service active, installs DMA channel four callback, opens event 0xF0000009 with mode 0x2000, enables it in a critical section.
-0x8005CA90	func_8005CA90	reset_spu_runtime_and_start_event_service	(high) src/engine/audio/spu/sound_reset_state.c:6: Resets callbacks/voice sentinels, starts the DMA event service, initializes reverb address and clears independent SPU runtime state words.
-0x8005E450	func_8005E450	set_reverb_address_available	(high) src/engine/audio/spu/sound_reset_state.c:49: When enabled tests the reverb address against the range owner; stores and returns one only for an accepted address, otherwise zero; docs/evidence/slus_r120_sound_reset_state.md.
-0x8005D88C	func_8005D88C	set_spu_reverb_enabled_if_available	(high) src/engine/audio/spu/spu_attr.c:11: Toggles SPUCNT bit 0x80 and reverb enable state, rejecting enable when range/address availability checks fail.
+0x8005D838	func_8005D838	initialize_sound_transfer_range	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D838	func_8005D838	SpuInitMalloc	Psy-Q masked whole-object equality: LIBSPU.LIB/S_M_INIT.OBJ versions 330,340,350,370,400,3610,3611; object 0x8005d838 +0
+0x8005CB88	func_8005CB88	start_spu_dma_event_service	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005CB88	func_8005CB88	SpuStart	Psy-Q masked whole-object equality: LIBSPU.LIB/S_INI.OBJ versions 370,400; object 0x8005ca90 +248
+0x8005CA90	func_8005CA90	reset_spu_runtime_and_start_event_service	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005CA90	func_8005CA90	_SpuInit	Psy-Q masked whole-object equality: LIBSPU.LIB/S_INI.OBJ versions 370,400; object 0x8005ca90 +0
+0x8005E450	func_8005E450	set_reverb_address_available	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005E450	func_8005E450	SpuReserveReverbWorkArea	Psy-Q masked whole-object equality: LIBSPU.LIB/S_RRWA.OBJ versions 370,400; object 0x8005e450 +0
+0x8005D88C	func_8005D88C	set_spu_reverb_enabled_if_available	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D88C	func_8005D88C	SpuSetReverb	Psy-Q masked whole-object equality: LIBSPU.LIB/S_SR.OBJ versions 370,400; object 0x8005d88c +0
 0x80054D64	func_80054D64	apply_scaled_cd_stream_volume	(high) src/engine/audio/submit_scaled_driver_halfword_pair_second.c:16: If CD stream playback flag 0x400 is active, scales ramp level by volume scale two and gain, then submits equal left/right driver volumes.
 0x8004D880	func_8004D880	map_fullwidth_character_to_glyph_byte	(high) src/engine/camera/lookup_byte_by_key.c:6: Maps encoded fullwidth digit/uppercase/lowercase ranges to ASCII bytes, otherwise uses the fallback byte lookup; both text-rendering callers use the result to select a glyph rectangle.
 0x8004D614	func_8004D614	reset_camera_transition_fields	(high) src/engine/camera/state_defaults.c:10: Clears view transition accumulators, copies four default words, clears motion counters and binds the default triplet source.
@@ -7863,8 +7887,10 @@
 0x8005CA1C	func_8005CA1C	submit_audio_driver_scaled_pair	(medium) src/slus/code.c:1369: Forwards byte command and two signed halfwords to submit_scaled_driver_halfword_pair.
 0x8005CA4C	func_8005CA4C	dispatch_audio_driver_halfword_flags	(high) src/slus/code.c:1377: Narrows the supplied word to a signed halfword before dispatch_combined_driver_flags.
 0x8005CA70	func_8005CA70	reset_audio_sequence_state_default	(medium) src/slus/code.c:1385: Calls the sequence-state reset func_8005CA90 with mode zero; audio_reset_sequence_subsystem invokes it.
-0x8005D6D8	func_8005D6D8	select_spu_dma_write_channel_flags	(medium) src/slus/code.c:1393: Clears bits 24 through 27 and sets bit 29 in the DMA flags; the transfer dispatcher selects this helper when D_800799A8 is zero and uses DMA control 0x01000201.
-0x8005D704	func_8005D704	select_spu_dma_read_channel_flags	(medium) src/slus/code.c:1403: Clears bits 24 through 27 and sets bits 25 and 29 in the DMA flags; the transfer dispatcher selects this helper with DMA control 0x01000200.
+0x8005D6D8	func_8005D6D8	select_spu_dma_write_channel_flags	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D6D8	func_8005D6D8	_spu_FsetDelayW	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2772
+0x8005D704	func_8005D704	select_spu_dma_read_channel_flags	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D704	func_8005D704	_spu_FsetDelayR	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +2816
 0x8005DA68	func_8005DA68	is_tone_parameter_flag_set	(high) src/slus/code.c:1431: Returns whether bit 0x80 is set in the sound record's field at offset 0x1AA; tone parameter command caller tests it.
 0x8005E4A0	func_8005E4A0	update_spu_register_pair_cc_cd	(medium) src/slus/code.c:1440: Returns the SPU pair-update helper with the supplied values and fixed register indices 0xCC and 0xCD.
 0x8005E78C	func_8005E78C	read_spu_register_pair_cc_cd	(high) src/slus/code.c:1447: Calls read_spu_register_pair with register indices 0xCC and 0xCD.
@@ -7888,11 +7914,16 @@
 0x80050E20	func_80050E20	destroy_selection_menu_and_release_owner	(high) src/slus/w_80050E20.c:33: Destroys the menu, saves its selection, releases the null-terminated payload array and marks both owner and object for removal.
 0x8005ACDC	func_8005ACDC	drain_ready_sound_voice_flags	(high) src/slus/w_8005ACDC.c:26: When not suppressed advances ready voice counters, repeatedly clears flags until hardware state is zero/two, and applies the combined cleared voice mask.
 0x8005AE08	func_8005AE08	allocate_sequence_bank_slot	(high) src/slus/w_8005AE08.c:15: Accepts three recognized sequence-header magic words, finds the first of eight free slots, stores header/ID with state two and returns its index or minus one.
-0x8005CC04	func_8005CC04	initialize_spu_registers_and_voices	(high) src/slus/w_8005CC04.c:4: Mutes/resets SPU registers, waits for status clear, clears transfer/reverb state and on cold initialization resets all twenty-four voice registers before enabling control 0xC000.
-0x8005CE98	func_8005CE98	write_spu_transfer_fifo_in_chunks	(high) src/slus/w_8005CE98.c:4: Transfers halfwords to the SPU FIFO in up-to-0x40-byte chunks, starts each transfer and polls completion, then restores transfer control/status with bounded timeout diagnostics.
-0x8005D064	func_8005D064	complete_spu_dma_and_signal_event	(high) src/slus/w_8005D064.c:4: Clears SPU transfer control bits, polls until idle or timeout, then invokes the installed completion callback or delivers event 0xF0000009 with spec 0x20.
-0x8005D124	func_8005D124	submit_spu_dma_read_blocks	(high) src/slus/w_8005D124.c:4: Sets SPU transfer address, selects read direction, writes RAM address and block count, and triggers DMA control 0x01000200.
-0x8005D1D0	func_8005D1D0	dispatch_spu_dma_transfer_command	(high) src/slus/w_8005D1D0.c:27: Variadic command dispatcher sets transfer address/direction, polls SPU state with timeout and submits rounded 64-byte DMA blocks.
+0x8005CC04	func_8005CC04	initialize_spu_registers_and_voices	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005CC04	func_8005CC04	_spu_init	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +0
+0x8005CE98	func_8005CE98	write_spu_transfer_fifo_in_chunks	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005CE98	func_8005CE98	_spu_FwriteByIO	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +660
+0x8005D064	func_8005D064	complete_spu_dma_and_signal_event	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D064	func_8005D064	_spu_FiDMA	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +1120
+0x8005D124	func_8005D124	submit_spu_dma_read_blocks	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D124	func_8005D124	_spu_Fr_	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +1312
+0x8005D1D0	func_8005D1D0	dispatch_spu_dma_transfer_command	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D1D0	func_8005D1D0	_spu_t	Psy-Q masked whole-object equality: LIBSPU.LIB/SPU.OBJ versions 400; object 0x8005cc04 +1484
 0x8005E4C4	func_8005E4C4	modify_spu_register_bit_pair	(high) src/slus/w_8005E4C4.c:4: Reads a 24-bit low/high register pair from hardware or cache; modes zero/one/eight clear/set/replace bits and mark dirty cached pairs.
 0x80099920	func_80099920	step_actor_positive_y_until_timer_expires	(high) src/town/func_8009C1C0.c:10: Refreshes transformed z, decrements the signed timer and either reinitializes the handler or adds 0x20000 to y.
 0x800999AC	func_800999AC	step_actor_negative_x_until_timer_expires	(high) src/town/func_8009C24C.c:10: Refreshes transformed z, decrements the signed timer and either reinitializes the handler or subtracts 0x20000 from x.
@@ -8339,16 +8370,25 @@
 0x80020034	D_80020034	card_software_handlers	The sole source reader card_boot_dispatch_event_callbacks copies this CallbackSet and indexes it with nonzero software-event results only in backend mode zero. Bounded initial contents confirm a null slot followed by card_advance_selected_operation, card_boot_reset_operation_return_five, consume_pending_event_flag and card_poll_selected_operation_state. See proof/run5_initial_contents.tsv; no common allocation with the bank-ambiguous adjacent table is inferred.
 0x80054104	func_80054104	stop_flagged_sound_voices	Walks 48 sound slots and three lookup entries; availability test selects matching voices to stop.
 0x800599B0	func_800599B0	initialize_audio_sequence_tracks	Decodes sequence format; initializes each track cursor, note defaults, timing and scheduling flags.
-0x8005F7D0	func_8005F7D0	calculate_pitch_from_note	Subtracts center tuning from note plus fine pitch; interpolates octave-scaled pitch and clamps to 0x3fff.
-0x8005D9DC	func_8005D9DC	test_spu_blocks_beyond_address	Shifts address units then scans non-skipped allocated blocks for a base or end beyond that address; reverb callers reject overlap.
-0x8005DA88	func_8005DA88	configure_spu_reverb	Settings mask selects reverb mode, depth, delay and feedback; checks range, writes parameters and optionally clears work area.
-0x8005DF80	func_8005DF80	write_spu_reverb_parameters	Copies mask-selected reverb parameter halfwords into the 32 SPU reverb registers.
-0x8005EDA0	func_8005EDA0	apply_spu_common_attributes	Attribute mask selects master, CD and external volume, mixing and reverb control register updates.
-0x8005E97C	func_8005E97C	set_spu_voice_keys	Voice bitmask and key_on select hardware key-on/key-off writes or their buffered shadows.
-0x8005E7E0	func_8005E7E0	clear_spu_reverb_work_area	Mode selects reverb work-area start; repeatedly DMA-writes spu_reverb_clear_buffer in 0x400-byte chunks and waits for completion.
-0x8005EB78	func_8005EB78	read_selected_voice_key_state	Finds first selected voice and combines its active key mask with its current envelope register into four states.
+0x8005F7D0	func_8005F7D0	calculate_pitch_from_note	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005F7D0	func_8005F7D0	_spu_note2pitch	Psy-Q masked whole-object equality: LIBSPU.LIB/S_N2P.OBJ versions 400; object 0x8005f740 +144
+0x8005D9DC	func_8005D9DC	test_spu_blocks_beyond_address	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005D9DC	func_8005D9DC	_SpuIsInAllocateArea_	Psy-Q masked whole-object equality: LIBSPU.LIB/S_M_UTIL.OBJ versions 370,400; object 0x8005d95c +128
+0x8005DA88	func_8005DA88	configure_spu_reverb	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005DA88	func_8005DA88	SpuSetReverbModeParam	Psy-Q masked whole-object equality: LIBSPU.LIB/S_SRMP.OBJ versions 370,400; object 0x8005da88 +0
+0x8005DF80	func_8005DF80	write_spu_reverb_parameters	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005DF80	func_8005DF80	_spu_setReverbAttr	Psy-Q masked whole-object equality: LIBSPU.LIB/S_SRA.OBJ versions 370,400,410,420,430,440,450,460,470; object 0x8005df80 +0
+0x8005EDA0	func_8005EDA0	apply_spu_common_attributes	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005EDA0	func_8005EDA0	SpuSetCommonAttr	Psy-Q masked whole-object equality: LIBSPU.LIB/S_SCA.OBJ versions 370,400; object 0x8005eda0 +0
+0x8005E97C	func_8005E97C	set_spu_voice_keys	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005E97C	func_8005E97C	SpuSetKey	Psy-Q masked whole-object equality: LIBSPU.LIB/S_SK.OBJ versions 370,400; object 0x8005e97c +0
+0x8005E7E0	func_8005E7E0	clear_spu_reverb_work_area	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005E7E0	func_8005E7E0	SpuClearReverbWorkArea	Psy-Q masked whole-object equality: LIBSPU.LIB/S_CRWA.OBJ versions 370,400; object 0x8005e7e0 +0
+0x8005EB78	func_8005EB78	read_selected_voice_key_state	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005EB78	func_8005EB78	SpuGetKeyStatus	Psy-Q masked whole-object equality: LIBSPU.LIB/S_GKS.OBJ versions 370,400; object 0x8005eb78 +0
 0x8005F134	func_8005F134	apply_spu_voice_attributes	Updates selected voices' pitch, note, volumes, addresses and ADSR registers using attribute mask.
-0x8005FA34	func_8005FA34	read_spu_voice_attributes	Reads first selected voice's volume modes, pitch, note, sample addresses and ADSR fields into attribute record.
+0x8005FA34	func_8005FA34	read_spu_voice_attributes	r121w_integ4: previous spelling retained for filename/bank canonicalization; active SDK binding follows.
+0x8005FA34	func_8005FA34	SpuGetVoiceAttr	Psy-Q masked whole-object equality: LIBSPU.LIB/S_GVA.OBJ versions 370; object 0x8005fa34 +0
 0x8004D1EC	func_8004D1EC	initialize_three_component_interpolation	Stores target and deltas for three halfword values, duration-derived step and runtime interpolation callback.
 0x80042560	func_80042560	replay_actor_status_slots	Removes type 0x1b; saves, removes and reapplies four status slots under temporary global flag bit 1.
 0x800423C0	func_800423C0	apply_actor_template_and_direction	Source byte selects template; copies actor record, restores low class bits and sets direction and update flag.
@@ -8543,3 +8583,297 @@
 0x808B2B98	func_808B2B98	update_flagged_selection_index	Marks the selected value bit on accepted input; otherwise polls callbacks and resolves the returned selection index through the stored current index. Distinguishing service or option meanings are not guessed.
 0x806321E4	func_806321E4	store_scene_service_response	Builds a two-byte request, invokes the scene-table callback and stores its return value in the bank-local response global; the request's game meaning is unasserted.
 0x8004E99C	func_8004E99C	flag_optional_object_for_removal	Checks the object pointer before flag_object_for_removal; complete menu, item-window and shop callers pass optional allocated display handles. Its identical unused sibling remains held for callback identity.
+0x800B2E3C	func_800B2E3C	position_decimal_digit_parts	The object value modulo 10 selects two rows of five; writes paired x/y part coordinates.
+0x8001A8EC	func_8001A8EC	town_table_contains_first_byte	Scans 34 two-byte town records at +0x33A4 and compares byte zero to target_value.
+0x8001A7B0	func_8001A7B0	town_table_contains_first_byte_b	This script copy scans the same 34-record layout and compares byte zero.
+0x8001790C	func_8001790C	town_table_contains_first_byte_c	This script copy scans the same 34-record layout and compares byte zero.
+0x80018800	func_80018800	town_table_contains_first_byte_d	This script copy scans the same 34-record layout and compares byte zero.
+0x80097C50	func_80097C50	tick_random_radial_spawns	Decrements the +0x6C countdown; on expiry resets it randomly and calls spawn_radial_objects.
+0x8008B9D8	func_8008B9D8	run_map_object_callback	Invokes object->unk_68 with object as its sole argument.
+0x80027A68	func_80027A68	card_boot_init_channel_record	Stores the two supplied record values and captures card_boot_has_selected_channel at +0x0C.
+0x80027A68	func_80027A68	update_enabled_menu_callback	r121w_integ4: reviewed hexn1 bank-local spelling; see refs/hexn1/names.tsv.
+0x7FDD3F8C	func_7FDD3F8C	update_settings_color_cycle	Four timed states fade color down to zero and back to 0xC0C0C0; forwards owner removal flags.
+0x80053CD0	func_80053CD0	load_primary_optional_resource_descriptor	Selects D_800812D0 as optional_resource_descriptor then invokes resource_load_current_optional_descriptor.
+0x80053CA4	func_80053CA4	load_secondary_optional_resource_descriptor	Selects D_800812C8 as optional_resource_descriptor then invokes resource_load_current_optional_descriptor.
+0x8004E9C0	func_8004E9C0	flag_optional_object_for_removal_b	Checks object against NULL then invokes flag_object_for_removal; twin of the named neighboring helper.
+0x8004EF90	func_8004EF90	init_object_header_a	Writes defaults named object_header_a_default_word_* and embedded 0x81 header; returns cursor +0x24.
+0x8004EFF4	func_8004EFF4	init_object_header_b	Writes object_header_b defaults, flags 0x60 and embedded header with trailing halfword one.
+0x8004F068	func_8004F068	init_object_header_c	Writes object_header_c defaults, flags 0x61 and embedded header; returns cursor +0x24.
+0x80018718	func_80018718	test_town_counter_threshold	Compares town root counter->value against D_8001B0D0.
+0x80018740	func_80018740	test_town_counter_threshold_b	Compares town root counter->value against the second threshold D_8001B0D4.
+0x80017940	func_80017940	update_and_test_pending_entry_flags	When F_sbs32_pad25 is set, updates entry flags and clears it on a successful kind/value check; otherwise submits the fallback callback.
+0x80043FB8	func_80043FB8	return_zero_variadic	The variadic body returns zero without reading its arguments.
+0x8004E994	func_8004E994	noop_release_notification	Empty body; libcard release helpers pass each referenced entry before clearing it.
+0x8004E9E4	func_8004E9E4	noop_display_setup_hook	Empty hook called by display-fade setup and create_minigame_display_objects.
+0x80055E74	func_80055E74	noop_voice_start_notification	Empty hook invoked by start_channel_note with voice, note and channel arguments.
+0x80055E7C	func_80055E7C	noop_channel_control_notification	Empty notification hook used by audio_apply_channel_control for channel changes.
+0x80057A48	func_80057A48	noop_midi_a0	Empty handler selected by audio_dispatch_midi_event for status high nibble 0xA0.
+0x8005848C	func_8005848C	noop_midi_d0	Empty handler selected by audio_dispatch_midi_event for status high nibble 0xD0.
+0x8005A420	func_8005A420	noop_audio_init_hook	Empty hook called by init_audio_subsystem with the global audio buffer.
+0x80058E64	func_80058E64	noop_sequence_status_hook	Empty hook receiving the event status byte from dispatch_sequence_event.
+0x80038A08	func_80038A08	noop_installed_script_action	Empty callback assigned to script->unk_10 by opcode_35_install_action.
+0x800713FC	D_800713FC	item_name_text_table	Passed as the shared text table to get_item_name_text.
+0x80071684	D_80071684	menu_backdrop_link_indices	The fixed index sequence passed to build_reverse_indexed_chain by link_menu_backdrop_display_nodes.
+0x800717BC	D_800717BC	selection_menu_link_indices	The fixed index sequence passed to build_reverse_indexed_chain with a limit of seventeen.
+0x800812C8	D_800812C8	secondary_optional_resource_descriptor	Selected as optional_resource_descriptor before resource_load_current_optional_descriptor.
+0x800812D0	D_800812D0	primary_optional_resource_descriptor	Selected as optional_resource_descriptor by the engine loader wrapper.
+0x80085FCC	D_80085FCC	sequence_tempo_step	Its first word is returned unchanged by read_sequence_tempo_step.
+0x80080B48	D_80080B48	global_cd_command_six_payload	Its address is passed to Control_CD with command six and a zero payload argument.
+0x80094088	func_80094088	init_threshold_countdown_action	Installs D_80091A08 = update_threshold_countdown_action (src/town/player/update_threshold_countdown_action.c); initializes its handler table and action fields.
+0x800943B8	func_800943B8	initialize_movement_action_count_six	r121w_integ4: reviewed hexn1 bank-local spelling; see refs/hexn1/names.tsv.
+0x800943B8	func_800943B8	init_movement_action	Installs D_80092320 = update_actor_movement_actions (src/town/player/update_actor_movement_actions.c); initializes its handler table and action fields.
+0x80094714	func_80094714	init_sound_threshold_action	Installs D_80093250 = update_threshold_object (src/town/player/object/update_threshold_object.c); initializes its handler table and action fields.
+0x80094774	func_80094774	init_timed_dispatch_action	Installs D_80093328 = update_entity_and_dispatch_timed_state (src/town/player/state/update_entity_and_dispatch_timed_state.c); initializes its handler table and action fields.
+0x800941D8	func_800941D8	init_actor_action_state	Installs D_80091D6C = update_actor_action_state (src/town/player/state/update_actor_action_state.c); initializes its handler table and action fields.
+0x80098DC0	func_80098DC0	init_record_target_approach	Installs D_80098244 = raise_record_value_to_target (src/town/player/raise_record_value_to_target.c); initializes its handler table and action fields.
+0x80094834	func_80094834	init_linked_position_action	Installs D_80093524 = follow_linked_position_until_timeout (src/town/player/position/follow_linked_position_until_timeout.c); initializes its handler table and action fields.
+0x80093E58	func_80093E58	init_ground_input_fallback	Installs D_80091114 = update_and_fallback_on_input (src/town/player/ground_input_fallback_g00532.c); initializes its handler table and action fields.
+0x80093DD8	func_80093DD8	init_button_transition_action	Installs D_80090D44 = update_entity_countdown_transition (src/town/player/object/update_entity_countdown_transition.c); initializes its handler table and action fields.
+0x80093E18	func_80093E18	init_unchanged_action_fallback	Installs D_80090DF0 = run_action_then_fallback_on_no_change (src/town/player/run_action_then_fallback_on_no_change.c); initializes its handler table and action fields.
+0x80093FC8	func_80093FC8	init_periodic_effect_action	Installs D_80091990 = reset_action_handler_on_flag (src/town/player/periodic_action_effect_g00533.c); initializes its handler table and action fields.
+0x80093D90	func_80093D90	init_flagged_entity_action	Installs D_80090C68 = update_entity_and_handle_flagged_action (src/town/player/object/update_entity_and_handle_flagged_action.c); initializes its handler table and action fields.
+0x80094220	func_80094220	init_height_interpolation_action	Installs D_80091EB4 = interpolate_actor_height_until_timeout (src/town/player/interpolate_actor_height_until_timeout.c); initializes its handler table and action fields.
+0x80094894	func_80094894	init_target_tile_action	Installs D_800935BC = approach_target_tile_until_timeout (src/town/player/position/approach_target_tile_until_timeout.c); initializes its handler table and action fields.
+0x80094048	func_80094048	init_flagged_action_fallback	Installs D_80090F84 = run_action_then_fallback_on_flag (src/town/player/state/run_action_then_fallback_on_flag.c); initializes its handler table and action fields.
+0x80093E98	func_80093E98	init_input_action_fallback	Installs D_800911D4 = update_input_and_fallback_action (src/town/player/ground_input_fallback_g00532.c); initializes its handler table and action fields.
+0x8009A060	func_8009A060	init_negative_x_step_action	Installs D_800999AC = step_actor_negative_x_until_timer_expires (src/town/func_8009C24C.c); initializes its handler table and action fields.
+0x800993F4	func_800993F4	init_eased_value_action	Installs D_80098608 = ease_object_value_and_advance_state (src/town/player/state/ease_object_value_and_advance_state.c); initializes its handler table and action fields.
+0x8009A128	func_8009A128	init_player_countdown_action	Installs D_80099AC4 = tick_player_countdown (src/town/player/tick_player_countdown.c); initializes its handler table and action fields.
+0x80094190	func_80094190	init_countdown_handler_action	Installs D_80091CE0 = invoke_handler_when_countdown_expires (src/town/player/invoke_handler_when_countdown_expires.c); initializes its handler table and action fields.
+0x80099390	func_80099390	init_four_tick_record_action	Installs D_8009803C = tick_countdown_and_initialize_record (src/town/player/tick_countdown_and_initialize_record.c); initializes its handler table and action fields.
+0x80099F34	func_80099F34	init_quarter_turn_motion_action	Installs D_80099874 = forward_player_motion_state (src/town/player/motion/forward_player_motion_state.c); initializes its handler table and action fields.
+0x80099F98	func_80099F98	init_object_countdown_action	Installs D_80099894 = update_object_and_countdown (src/town/player/object/update_object_and_countdown.c); initializes its handler table and action fields.
+0x80099294	func_80099294	init_four_tick_target_action	Installs D_80098078 = tick_countdown_and_initialize_target (src/town/player/tick_countdown_and_initialize_target.c); initializes its handler table and action fields.
+0x8009A0C4	func_8009A0C4	init_positive_x_step_action	Installs D_80099A38 = step_actor_positive_x_until_timer_expires (src/town/func_8009C2D8.c); initializes its handler table and action fields.
+0x80099DA8	func_80099DA8	init_twenty_one_tick_record_action	Installs D_8009803C = tick_countdown_and_initialize_record (src/town/player/tick_countdown_and_initialize_record.c); initializes its handler table and action fields.
+0x80099020	func_80099020	init_seven_tick_record_action	Installs D_8009803C = tick_countdown_and_initialize_record (src/town/player/tick_countdown_and_initialize_record.c); initializes its handler table and action fields.
+0x80098E70	func_80098E70	init_twenty_one_tick_target_action	Installs D_80098078 = tick_countdown_and_initialize_target (src/town/player/tick_countdown_and_initialize_target.c); initializes its handler table and action fields.
+0x80099E0C	func_80099E0C	init_half_turn_motion_action	Installs D_80099874 = forward_player_motion_state (src/town/player/motion/forward_player_motion_state.c); initializes its handler table and action fields.
+0x800990E8	func_800990E8	init_sixty_tick_target_action	Installs D_80098078 = tick_countdown_and_initialize_target (src/town/player/tick_countdown_and_initialize_target.c); initializes its handler table and action fields.
+0x80099ED0	func_80099ED0	init_three_quarter_turn_motion_action	Installs D_80099874 = forward_player_motion_state (src/town/player/motion/forward_player_motion_state.c); initializes its handler table and action fields.
+0x80099FFC	func_80099FFC	init_positive_y_step_action	Installs D_80099920 = step_actor_positive_y_until_timer_expires (src/town/func_8009C1C0.c); initializes its handler table and action fields.
+0x80099084	func_80099084	init_sixteen_tick_record_action	Installs D_8009803C = tick_countdown_and_initialize_record (src/town/player/tick_countdown_and_initialize_record.c); initializes its handler table and action fields.
+0x80098EC0	func_80098EC0	init_twenty_one_tick_record_action_b	Installs D_8009803C = tick_countdown_and_initialize_record (src/town/player/tick_countdown_and_initialize_record.c); initializes its handler table and action fields.
+0x80099D44	func_80099D44	init_twenty_one_tick_record_action_c	Installs D_8009803C = tick_countdown_and_initialize_record (src/town/player/tick_countdown_and_initialize_record.c); initializes its handler table and action fields.
+0x800988C8	func_800988C8	init_motion_action_callback	Copies motion parameters, initializes the target/handler table and sets town_player_action_callback to D_80093D48 = initialize_scene_action_record.
+0x8001AA58	D_8001AA58	milestone_flag_ids	Nine halfword flag indices, three per counter, passed to the physically bound set_script_flag_bit helper at runtime 0x8001A554 (file 0x691554).
+0x8001AA6C	D_8001AA6C	milestone_response_table	Three rows of five response pointers, selected by milestone state and returned to dialogue-response selectors; all fifteen words are RAM pointers.
+0x800166E8	func_800166E8	has_grid_entry	Loader-bound direct call resolves to gridY/gridX lookup; this wrapper tests its returned index against -1. Rewrite only its own file and owning API because other modules reuse the runtime address.
+0x8001684C	func_8001684C	has_grid_entry_b	Loader-bound direct call resolves to gridY/gridX lookup; this wrapper tests its returned index against -1. Rewrite only its own file and owning API because other modules reuse the runtime address.
+0x8001673C	func_8001673C	has_grid_entry_c	Loader-bound direct call resolves to gridY/gridX lookup; this wrapper tests its returned index against -1. Rewrite only its own file and owning API because other modules reuse the runtime address.
+0x80016718	func_80016718	has_grid_entry_d	Loader-bound direct call resolves to gridY/gridX lookup; this wrapper tests its returned index against -1. Rewrite only its own file and owning API because other modules reuse the runtime address.
+0x8001696C	func_8001696C	has_grid_entry_e	Loader-bound direct call resolves to gridY/gridX lookup; this wrapper tests its returned index against -1. Rewrite only its own file and owning API because other modules reuse the runtime address.
+0x80024020	func_80024020	advance_arcing_effect_motion	Integrates x/y velocity; computes sine arc for z; increments rotation and expires after duration.
+0x8002403C	func_8002403C	project_linked_shaded_points	Walks linked nodes, projects coordinates and queues brightness-scaled point and draw-mode packets.
+0x8002405C	func_8002405C	try_halve_actor_counter	Chance test halves actor byte +0x27 and reports removed count with a popup.
+0x80024060	func_80024060	apply_status_to_nearby_actors	Walks actor ring; filters relation/eligibility and tile distance <3; applies randomized status duration.
+0x80024064	func_80024064	advance_image_tint_transition	Uploads image/VRAM resources, waits on image flag, restores red/green tint and retires transition.
+0x80024104	func_80024104	spawn_free_slot_display_effect	Finds a free one of eight display slots, copies its rectangle and allocates a timed sprite.
+0x80024124	func_80024124	advance_accelerating_particle	Integrates velocity into offsets, adds offsets to position, grows sprite and expires lifetime.
+0x800243C4	func_800243C4	spawn_jittered_point_child	Allocates under parent, copies position with randomized x/y/z offsets and registers point renderer.
+0x800244E4	func_800244E4	draw_brightness_scaled_point_chain	Traverses point nodes, scales RGB by brightness/128 and queues visible shaded tiles plus draw modes.
+0x80024758	func_80024758	draw_textured_sphere_mesh	Uses latitude/longitude rings and trigonometry to project a spherical mesh and queue textured quads.
+0x800258B0	func_800258B0	inventory_menu_returns_zero	Always returns zero; inventory confirmation ORs it with the type-four action blocker.
+0x80024028	func_80024028	advance_accelerating_spin_effect	Doubles z velocity during first eight ticks, integrates position, rotates sprite and expires past limit.
+0x80024044	func_80024044	advance_shrinking_arc_effect	Integrates motion with a sine arc while shrinking both sprite scales and advancing rotation.
+0x800BCFBC	func_800BCFBC	bank_selector_no_op	Selector hook ignores its argument and returns; called before banked callback dispatch.
+0x8092185C	func_8092185C	ground_items_lack_special_pair	Scans all 64 ground-item entries for bytes 1 and 0x12; returns one only when absent.
+0x800DC0B4	func_800DC0B4	hud_dispatch_no_op	Empty HUD callback for dispatch slot three; ignores object and slot data.
+0x7FFE83DC	func_7FFE83DC	create_positioned_color_sprite	Allocates a sprite, copies source coordinates and supplied color, installs a 30-tick lifetime.
+0x7FFE9C0C	func_7FFE9C0C	create_owner_color_sprite	Allocates a sprite at owner coordinates, copies supplied color and sets lifetime 55.
+0x80024790	func_80024790	create_indexed_color_sprite	Index chooses frame, grayscale, scale and orbital offset around the origin.
+0x80024EF8	func_80024EF8	draw_counter_rotating_cylinders	Draws two cylinder layers with opposing angles and sine-derived radii.
+0x80024B98	func_80024B98	fade_timed_quad_vertices	Scales four vertex RGB triplets by remaining/total ticks and flags completion at zero.
+0x800251E8	func_800251E8	create_random_radial_vector_effect	Initializes 23 randomized radial vectors from radius and two angles, then sets effect position.
+0x800247E8	func_800247E8	try_apply_attached_actor_status	Checks attached actor flags; marks flag 0x20 and applies randomized status slot four.
+0x800244BC	func_800244BC	advance_target_chasing_emitter	Moves toward orientation-adjusted target, emits child effects, then flags sequence completion.
+0x800294D0	D_800294D0	inventory_menu_handlers	inventory_dispatch_indexed_handler indexes this DispatchFunc array by menu action.
+0x800294C4	D_800294C4	inventory_default_entry_data	Selected as entry data when the linked byte pairs are empty; nonempty content selects null.
+0x800294E4	D_800294E4	inventory_shared_entry_value	Copied to field four of each of the five initialized inventory entries.
+0x8002571C	D_8002571C	tint_particle_effect_updated	Set to one by this tint/particle sequence and its timed child updates.
+0x80024D04	D_80024D04	moving_particle_effect_updated	Set to one while moving particles and their emitter advance.
+0x800269B4	D_800269B4	particle_activity	dungeon/effect/particle/propagate_target_flags_effect.c: all live particle/effect update paths set this latch to one; update_staged_particle_effect state four clears it each pass and finishes only after a pass leaves it zero. Two page-base derivations are address arithmetic, not separate payloads. Owning declaration is in the same folder header.
+0x80027C94	D_80027C94	tint_transition_image_pending	Set after image/VRAM upload; transition state two waits until it clears.
+0x80027C96	D_80027C96	tint_transition_kind	Receives the transition kind byte from effect offset nine.
+0x80027C98	D_80027C98	tint_transition_source	Receives the source pointer stored at transition offset zero.
+0x80029514	D_80029514	menu_enabled_callbacks	Indexed by record kind only when record field eight enables dispatch.
+0x8002951C	D_8002951C	menu_update_callbacks	dispatch_menu_update_callback selects this two-entry table by state kind.
+0x80029524	D_80029524	menu_countdown_callbacks	tick_menu_countdown selects this table before decrementing the countdown.
+0x8002952C	D_8002952C	menu_page_countdown_callbacks	Countdown dispatches this table before changing the selected 72-entry page.
+0x80029534	D_80029534	menu_context_chain_indices	Passed to build_reverse_indexed_chain by the menu context constructor.
+0x80029544	D_80029544	menu_entry_chain_indices	Passed to build_reverse_indexed_chain by build_menu_entry_chain.
+0x80029550	D_80029550	menu_record_template	copy_menu_record_template copies its two packed twelve-byte chunks.
+0x80025924	D_80025924	linked_point_effect_updated	Child point effects set this flag; the sequence waits on it and clears it before retiring.
+0x80026664	D_80026664	sphere_particle_effect_updated	Child particle updates set the flag; the enclosing effect sequence consumes and clears it.
+0x800267B8	D_800267B8	traveling_strip_effect_updated	Moving strip children set the flag and update_traveling consumes and clears it.
+0x80025FF4	D_80025FF4	fading_quad_effect_updated	Quad fade and motion updates set it; the enclosing sequence waits and clears it.
+0x800E20D6	D_800E20D6	counter_halved_message	Expanded after the chance test successfully halves actor byte +0x27.
+0x800E20FC	D_800E20FC	counter_halve_failed_message	Passed to the message helper when the chance fails or the counter cannot be halved.
+0x80027750	D_80027750	tint_transition_image	Passed to decode_and_upload_image in transition setup.
+0x80027C74	D_80027C74	tint_transition_vram_row	Passed to upload_vram_row_and_cache at transition setup with destination 0x7AC0.
+0x800256E0	D_800256E0	tint_particle_sprite_data	Twelve-byte template copied into child storage and assigned as sprite rendering data.
+0x80026978	D_80026978	staged_particle_sprite_data	Twelve-byte template copied to child storage at +0x58 and used by its display.
+0x800DD880	D_800DD880	spell_mp_costs	create_actor_spell_effect spends this indexed cost shifted by eight when mode is zero.
+0x800DD8B4	D_800DD8B4	alternate_spell_mp_costs	create_actor_spell_effect spends this indexed cost shifted by six for alternate mode.
+0x800DD8E7	D_800DD8E7	spell_resource_ids	resolve_spell_effect_resource_id indexes this byte table and remaps three resource ids in alternate mode.
+0x800DD918	D_800DD918	spell_audio_cues	load_spell_effect_code indexes this table and passes its two words to sound_set_cd_cue_parameters.
+0x800DCF59	D_800DCF59	spell_resource_load_state	Zero is idle, two waits for CD, and the completion callback writes one before state returns to zero.
+0x800E3CC8	D_800E3CC8	active_spell_parameters	create_actor_spell_effect stores effect id in byte zero and variant in byte one; pulsing effects consume the pair.
+0x800DDC9C	D_800DDC9C	floor_species_pool	load_floor_spawn_tables copies 32 resource bytes here; setup_dungeon_floor_encounters fills four eight-byte groups with selected monster species; populate_floor_item_records samples the same pool for category-18 egg subtypes. A generic item-only name would omit the monster writer.
+0x800DF258	D_800DF258	floor_object_sprite_sources	Indexed by floor-object kind to initialize sprite source and select its rendering record.
+0x800294F8	D_800294F8	text_editor_pair_limits	Limits cursor wrapping and controls buffer clearing length as two bytes per pair plus a terminator.
+0x80029510	D_80029510	text_editor_empty_pair	Both bytes are compared with each entry when checking whether the text editor contains nonempty text.
+0x800294FC	D_800294FC	text_editor_packet_payload	initialize_variant_packet copies this word to the display packet payload at offset four.
+0x8015BE64	func_8015BE64	advance_paired_actor_transfer	Saves partner handler/flags, moves both actors through timed launch/return phases, updates tile occupancy and restores animation/state.
+0x8017162C	func_8017162C	choose_arachne_move	src/dungeon/monster/arachne/arachne.c: Probes neighbor height/clearance, rebuilds reachable tiles, and updates actor movement and map occupancy
+0x801717B4	func_801717B4	choose_grineut_move	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Probes neighbor height/clearance, rebuilds reachable tiles, and updates actor movement and map occupancy
+0x801717F8	func_801717F8	choose_griffon_move	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Probes neighbor height/clearance, rebuilds reachable tiles, and updates actor movement and map occupancy
+0x80171A98	func_80171A98	choose_univern_move	src/dungeon/monster/univern/create_anchored_directional_object.c: Probes neighbor height/clearance, rebuilds reachable tiles, and updates actor movement and map occupancy
+0x80171B1C	func_80171B1C	choose_flame_move	src/dungeon/monster/flame/flame_actions.c: Probes neighbor height/clearance, rebuilds reachable tiles, and updates actor movement and map occupancy
+0x80171FE8	func_80171FE8	choose_snowman_move	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Probes neighbor height/clearance, rebuilds reachable tiles, and updates actor movement and map occupancy
+0x80171784	func_80171784	choose_clown_move	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Probes neighbor height/clearance, rebuilds reachable tiles, and updates actor movement and map occupancy
+0x80173468	func_80173468	update_clown_parent_motion	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Runs update_actor_transform_from_parent; restores behavior after a trap and selects facing frames when the parent is inactive
+0x80173A30	func_80173A30	update_dragon_parent_motion	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Runs update_actor_transform_from_parent; restores behavior after a trap and selects facing frames when the parent is inactive
+0x80173C34	func_80173C34	update_flame_parent_motion	src/dungeon/monster/flame/flame_actions.c: Runs update_actor_transform_from_parent; restores behavior after a trap and selects facing frames when the parent is inactive
+0x80173D64	func_80173D64	update_arachne_parent_motion	src/dungeon/monster/arachne/arachne.c: Runs update_actor_transform_from_parent; restores behavior after a trap and selects facing frames when the parent is inactive
+0x80173EF4	func_80173EF4	update_grineut_parent_motion	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Runs update_actor_transform_from_parent; restores behavior after a trap and selects facing frames when the parent is inactive
+0x80173F20	func_80173F20	update_griffon_parent_motion	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Runs update_actor_transform_from_parent; restores behavior after a trap and selects facing frames when the parent is inactive
+0x80174250	func_80174250	update_univern_parent_motion	src/dungeon/monster/univern/create_anchored_directional_object.c: Runs update_actor_transform_from_parent; restores behavior after a trap and selects facing frames when the parent is inactive
+0x80174258	func_80174258	update_snowman_parent_motion	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Runs update_actor_transform_from_parent; restores behavior after a trap and selects facing frames when the parent is inactive
+0x80171DD8	func_80171DD8	try_arachne_attack	src/dungeon/monster/arachne/arachne.c: Checks neighboring target compatibility/height and claims an action slot before prepare_directional_attack
+0x80171FC0	func_80171FC0	try_grineut_attack	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Checks neighboring target compatibility/height and claims an action slot before prepare_directional_attack
+0x801721E0	func_801721E0	try_univern_attack	src/dungeon/monster/univern/create_anchored_directional_object.c: Checks neighboring target compatibility/height and claims an action slot before prepare_directional_attack
+0x80172264	func_80172264	try_flame_attack	src/dungeon/monster/flame/flame_actions.c: Checks neighboring target compatibility/height and claims an action slot before prepare_directional_attack
+0x801727B8	func_801727B8	try_snowman_attack	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Checks neighboring target compatibility/height and claims an action slot before prepare_directional_attack
+0x801715B4	func_801715B4	advance_griffon_stored_path	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Reads the queued path at +0x74/+0x7C, advances +0x8A, checks clearance, and updates tile occupancy
+0x80171D7C	func_80171D7C	advance_snowman_stored_path	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Reads queued path coordinates, advances the path index, checks clearance, and updates map occupancy and movement timing
+0x80171F40	func_80171F40	begin_griffon_step_animation	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Selects directional frames and initializes action 0x10 phase zero; called for the special movement result
+0x801720B4	func_801720B4	relink_arachne_path	src/dungeon/monster/arachne/arachne.c: Relinks the actor path; dispatches movement/status updates by the returned state and pending dungeon activity
+0x80172168	func_80172168	begin_griffon_attack	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Claims an action slot, selects directional attack frames, decrements pending_turn_updates, and calls prepare_directional_attack
+0x80172184	func_80172184	begin_grineut_attack	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Claims an action slot, selects directional attack frames, decrements pending_turn_updates, and calls prepare_directional_attack
+0x801721B4	func_801721B4	relink_clown_path	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Relinks the actor path; dispatches movement/status updates by the returned state and pending dungeon activity
+0x80172280	func_80172280	relink_griffon_path	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Relinks the actor path; dispatches movement/status updates by the returned state and pending dungeon activity
+0x8017229C	func_8017229C	relink_grineut_path	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Relinks the actor path; dispatches movement/status updates by the returned state and pending dungeon activity
+0x801723A4	func_801723A4	begin_univern_attack	src/dungeon/monster/univern/create_anchored_directional_object.c: Claims an action slot, selects directional attack frames, decrements pending_turn_updates, and calls prepare_directional_attack
+0x801724C4	func_801724C4	relink_univern_path	src/dungeon/monster/univern/create_anchored_directional_object.c: Relinks the actor path; dispatches movement/status updates by the returned state and pending dungeon activity
+0x80172550	func_80172550	relink_flame_path	src/dungeon/monster/flame/flame_actions.c: Relinks the actor path; dispatches movement/status updates by the returned state and pending dungeon activity
+0x80172730	func_80172730	begin_snowman_step_animation	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Selects directional frames for action 0x10 and clears motion height, vertical velocity, and gravity tick
+0x8017297C	func_8017297C	begin_snowman_attack	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Claims an action slot, selects directional attack frames, decrements pending_turn_updates, and calls prepare_directional_attack
+0x80172A94	func_80172A94	relink_snowman_path	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Relinks the actor path; dispatches movement/status updates by the returned state and pending dungeon activity
+0x80173AE8	func_80173AE8	wait_for_clown_action_slot	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Installs a waiting callback; clears it and increments pending_action_count when dungeon activity permits
+0x80174470	func_80174470	wait_for_griffon_action_slot	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Installs a waiting callback; clears it and increments pending_action_count when dungeon activity permits
+0x80175068	func_80175068	wait_for_flame_action_slot	src/dungeon/monster/flame/flame_actions.c: Installs a waiting callback; clears it and increments pending_action_count when dungeon activity permits
+0x801751C0	func_801751C0	wait_for_snowman_action_slot	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Installs a waiting callback; clears it and increments pending_action_count when dungeon activity permits
+0x8016A87C	func_8016A87C	spawn_griffon_actor	src/dungeon/monster/griffon/spawn_griffon.c: Allocates a 0x112 actor node; initializes species, sprite frames, kind flags, and initial behavior
+0x80170878	func_80170878	spawn_clown_actor	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Allocates a 0x112 actor node; initializes species, sprite frames, kind flags, and initial behavior
+0x80170880	func_80170880	spawn_zu_actor	src/dungeon/monster/zu/update_bank_actor_movement.c: Allocates a 0x112 actor node; initializes species, sprite frames, kind flags, and initial behavior
+0x8017089C	func_8017089C	spawn_univern_actor	src/dungeon/monster/univern/create_anchored_directional_object.c: Allocates a 0x112 actor node; initializes species, sprite frames, kind flags, and initial behavior
+0x8017092C	func_8017092C	draw_snowman_point_chain	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Walks linked nodes, projects points and submits linked draw packets through func_80067F20
+0x80170A50	func_80170A50	update_griffon_motion_and_facing	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Dispatches the actor callback/action table, advances motion, updates facing frames, and samples ground height
+0x801717F4	func_801717F4	update_snowman_behavior	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Dispatches path, attack, spell, pushed movement, and status actions; checks familiar MP and current room
+0x801723E0	func_801723E0	move_grineut_to_tile	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Calls update_actor_movement_to_tile; on completion spends 4 MP, advances status, checks the floor trap, and clears height offset
+0x8017245C	func_8017245C	hop_griffon_to_tile	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Interpolates velocity toward the sprite tile with a sine height arc; completion spends MP, advances status, and checks floor traps
+0x801725BC	func_801725BC	update_dragon_linked_motion	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Runs update_linked_actor_motion and restores the behavior callback after a floor-trap check
+0x801727E8	func_801727E8	update_grineut_linked_motion	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Runs update_linked_actor_motion and restores the behavior callback after a floor-trap check
+0x80172BD8	func_80172BD8	move_snowman_to_tile	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Calls update_actor_movement_to_tile; completion spends 4 MP, advances status, checks the floor trap, and resets height
+0x80172C54	func_80172C54	hop_snowman_to_tile	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Interpolates velocity to the sprite tile using a sine height arc; completes status/MP/trap handling
+0x80172CAC	func_80172CAC	remove_defeated_clown	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Delegates defeat removal to update_actor_defeat_removal
+0x80172CCC	func_80172CCC	shrink_hopping_clown	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Delegates hop/shrink motion to update_actor_hop_and_shrink
+0x80172CF8	func_80172CF8	advance_clown_removal	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Delegates removal to advance_actor_removal
+0x80172D50	func_80172D50	advance_clown_status_action	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Advances animation phases, handles status effect one, chooses pending actions, and balances pending_action_count
+0x8017301C	func_8017301C	update_snowman_linked_motion	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Runs update_linked_actor_motion and restores the behavior callback after a floor-trap check
+0x80173114	func_80173114	advance_clown_mp_action	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Advances animation phases around the familiar MP check and balances pending_action_count before restoring behavior
+0x801731BC	func_801731BC	remove_defeated_volcano	src/dungeon/monster/volcano/volcano_actions.c: Delegates defeat removal to update_actor_defeat_removal
+0x801731DC	func_801731DC	shrink_hopping_volcano	src/dungeon/monster/volcano/volcano_actions.c: Delegates hop/shrink motion to update_actor_hop_and_shrink
+0x80173244	func_80173244	advance_univern_flight	src/dungeon/monster/univern/create_anchored_directional_object.c: Starts directional velocity and vertical flight, advances a flight timer, and recenters the actor on its sprite tile
+0x801732C0	func_801732C0	remove_defeated_dragon	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Delegates defeat removal to update_actor_defeat_removal
+0x801732E0	func_801732E0	shrink_hopping_dragon	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Delegates hop/shrink motion to update_actor_hop_and_shrink
+0x80173300	func_80173300	advance_dragon_removal	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Delegates removal to advance_actor_removal
+0x80173304	func_80173304	remove_defeated_block	src/dungeon/monster/block/block.c: Delegates defeat removal to update_actor_defeat_removal
+0x80173320	func_80173320	grow_hopping_dragon	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Runs update_actor_hop_and_grow and restores the behavior callback on completion
+0x80173324	func_80173324	shrink_hopping_block	src/dungeon/monster/block/block.c: Delegates hop/shrink motion to update_actor_hop_and_shrink
+0x80173344	func_80173344	advance_block_removal	src/dungeon/monster/block/block.c: Delegates removal to advance_actor_removal
+0x80173458	func_80173458	advance_flame_removal	src/dungeon/monster/flame/flame_actions.c: Delegates removal to advance_actor_removal
+0x80173478	func_80173478	grow_hopping_flame	src/dungeon/monster/flame/flame_actions.c: Runs update_actor_hop_and_grow and restores the behavior callback on completion
+0x80173634	func_80173634	advance_arachne_removal	src/dungeon/monster/arachne/arachne.c: Delegates removal to advance_actor_removal
+0x8017365C	func_8017365C	remove_defeated_grineut	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Delegates defeat removal to update_actor_defeat_removal
+0x8017367C	func_8017367C	shrink_hopping_grineut	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Delegates hop/shrink motion to update_actor_hop_and_shrink
+0x80173688	func_80173688	remove_defeated_griffon	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Delegates defeat removal to update_actor_defeat_removal
+0x8017368C	func_8017368C	advance_arachne_status_action	src/dungeon/monster/arachne/arachne.c: Advances animation phases and status effect one, handles pending actions, then clears flag 0x200 and restores behavior
+0x8017369C	func_8017369C	advance_grineut_removal	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Delegates removal to advance_actor_removal
+0x801736A8	func_801736A8	shrink_hopping_griffon	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Delegates hop/shrink motion to update_actor_hop_and_shrink
+0x801736AC	func_801736AC	project_clown_sprite_chain	src/dungeon/monster/clown/update_entity_facing_and_ground.c: Walks the linked object chain, loads scratchpad depth, and calls project_sprite_commands for visible entries
+0x801736BC	func_801736BC	grow_hopping_grineut	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Runs update_actor_hop_and_grow and restores the behavior callback on completion
+0x801736C8	func_801736C8	advance_griffon_removal	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Delegates removal to advance_actor_removal
+0x80173868	func_80173868	shrink_hopping_univern	src/dungeon/monster/univern/create_anchored_directional_object.c: Delegates hop/shrink motion to update_actor_hop_and_shrink
+0x80173888	func_80173888	advance_univern_removal	src/dungeon/monster/univern/create_anchored_directional_object.c: Delegates removal to advance_actor_removal
+0x80173AF8	func_80173AF8	update_thrown_dragon	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Runs update_thrown_actor_travel and restores the behavior callback after a floor-trap check
+0x80173B24	func_80173B24	remove_defeated_snowman	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Delegates defeat removal to update_actor_defeat_removal
+0x80173B44	func_80173B44	shrink_hopping_snowman	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Delegates hop/shrink motion to update_actor_hop_and_shrink
+0x80173B5C	func_80173B5C	settle_dragon_on_tile	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Runs interpolate_actor_to_terrain_tile and restores the behavior callback on completion
+0x80173B84	func_80173B84	grow_hopping_snowman	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Runs update_actor_hop_and_grow and restores the behavior callback on completion
+0x80173BBC	func_80173BBC	advance_snowman_status_action	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Advances animation phases, handles status effect one, chooses pending actions, and balances pending_action_count
+0x80173BCC	func_80173BCC	fade_in_dragon	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Runs update_actor_fade_in and restores the behavior callback on completion
+0x80173C04	func_80173C04	resolve_dragon_floor_trap	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Runs resolve_actor_floor_trap_once and restores the behavior callback after success
+0x80173C3C	func_80173C3C	propagate_dragon_action_flag	src/dungeon/monster/dragon/spawn_mode_dependent_object.c: Runs propagate_actor_action_flag and restores the behavior callback after success
+0x80173E08	func_80173E08	project_flame_sprite_chain	src/dungeon/monster/flame/flame_actions.c: Walks the linked object chain, loads scratchpad depth, and calls project_sprite_commands for visible entries
+0x80173F10	func_80173F10	advance_univern_status_action	src/dungeon/monster/univern/create_anchored_directional_object.c: Advances animation phases, handles actor status/MP, balances pending_action_count, clears flags 0x208, and restores behavior
+0x80173F4C	func_80173F4C	advance_snowman_mp_action	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Advances animation phases around the familiar MP check and balances pending_action_count before restoring behavior
+0x80173FBC	func_80173FBC	update_thrown_grineut	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Runs update_thrown_actor_travel and restores the behavior callback after a floor-trap check
+0x80174020	func_80174020	settle_grineut_on_tile	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Runs interpolate_actor_to_terrain_tile and restores the behavior callback on completion
+0x80174058	func_80174058	update_spinning_grineut_fall	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Runs update_spinning_actor_fall and restores the behavior callback on completion
+0x80174090	func_80174090	fade_in_grineut	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Runs update_actor_fade_in and restores the behavior callback on completion
+0x801740C8	func_801740C8	resolve_grineut_floor_trap	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Runs resolve_actor_floor_trap_once and restores the behavior callback after success
+0x80174100	func_80174100	propagate_grineut_action_flag	src/dungeon/monster/grineut/spawn_mode_dependent_object.c: Runs propagate_actor_action_flag and restores the behavior callback after success
+0x80174384	func_80174384	settle_snowman_on_tile	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Runs interpolate_actor_to_terrain_tile and restores the behavior callback on completion
+0x801743F4	func_801743F4	fade_in_snowman	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Runs update_actor_fade_in and restores the behavior callback on completion
+0x8017451C	func_8017451C	finish_griffon_effect_and_tint	src/dungeon/monster/griffon/update_actor_behavior_and_effect.c: Advances the effect animation, unlinks its node, then interpolates all three screen tint components toward 0x80
+0x8017458C	func_8017458C	project_arachne_sprite_chain	src/dungeon/monster/arachne/arachne.c: Walks the linked object chain, loads scratchpad depth, and calls project_sprite_commands for visible entries
+0x80174BE4	func_80174BE4	project_snowman_sprite_chain	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Walks the linked object chain, loads scratchpad depth, and calls project_sprite_commands for visible entries
+0x80175480	func_80175480	advance_cyclone_frame_effect	src/dungeon/monster/cyclone/update_cyclone_frame_effect.c: Advances an eight-frame effect, moves during its first six frames, selects sprite entries, then marks removal
+0x80175910	func_80175910	resolve_snowman_floor_trap	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Runs resolve_actor_floor_trap_once and restores the behavior callback after success
+0x80175948	func_80175948	propagate_snowman_action_flag	src/dungeon/monster/snowman/move_and_shrink_fading_effect.c: Runs propagate_actor_action_flag and restores the behavior callback after success
+0x80ADF3AC	func_80ADF3AC	finish_saber_tile_hop	src/dungeon/monster/saber/advance_actor_toward_tile.c: Interpolates toward the sprite tile with a sine height arc; completes MP, status, facing, and floor-trap handling
+0x80B09454	func_80B09454	finish_snowman_tile_hop	src/dungeon/monster/snowman/complete_actor_hop_to_tile.c: Interpolates toward the sprite tile with a sine height arc; completes MP, status, facing, and floor-trap handling
+0x80171A80	D_80171A80	uboat_behavior_entry	Assigned to the actor callback at +0x8C and compared before paused callback dispatch
+0x80171728	D_80171728	saber_behavior_entry	Address installed at actor callback +0x8C by spawn, movement completion, and action reset
+0x80170F74	D_80170F74	stealth_behavior_entry	Installed at actor callback +0x8C after movement and action completion
+0x80174DEC	D_80174DEC	saber_direction_frames	Installed as sprite frameTable/+0x2C and indexed by camera-relative facing
+0x80174038	D_80174038	killer_direction_frames	Assigned to sprite +0x2C and indexed by camera-relative facing in select_sprite_entry
+0x80175258	D_80175258	mandara_direction_frames	Assigned to sprite +0x2C and indexed by camera-relative facing in action and recovery
+0x80175554	D_80175554	barong_direction_frames	Spawn and arcing-movement recovery install this directional sprite frame table
+0x8017386C	D_8017386C	dreamin_direction_frames	Assigned to sprite +0x2C and indexed by camera-relative facing in behavior and motion recovery
+0x801740E8	D_801740E8	hikewne_alt_direction_frames	Movement switches sprite +0x2C to this alternate facing-indexed frame table
+0x80174A2C	D_80174A2C	ghosh_direction_frames	Spawn and tile movement install this sprite frameTable and select by camera-relative facing
+0x80174E4C	D_80174E4C	saber_direction_frames_2	Alternate sprite frameTable in spawn and directional action; indexed by facing
+0x801753BC	D_801753BC	blume_direction_frames	Spawn and behavior install this directional sprite frame table
+0x8017609C	D_8017609C	glacier_direction_frames	Installed as sprite frameTable and indexed by direction_index in item actions
+0x80176470	D_80176470	cyclone_direction_frames	Spawn installs frameTable; behavior indexes it by camera-relative actor facing
+0x80173D0C	D_80173D0C	battnel_direction_frames	Movement recovery installs frameTable and selects by camera-relative facing
+0x801746C4	D_801746C4	ghosh_ready_action_frames	Passed as the frame table to begin_ready_actor_directional_action and compared in movement recovery
+0x80174820	D_80174820	ifrit_direction_frames	Spawn and jump/impact recovery install frameTable and index by camera-relative facing
+0x80175404	D_80175404	blume_direction_frames_2	Alternate spawn/action frameTable, selected by camera-relative facing
+0x80176300	D_80176300	pulunpa_direction_frames	Spawn installs frameTable; actor-state dispatch and directional data selection reuse it
+0x800EA000	D_800EA000	generation_cells	dungeon/level/generate.c clears 4096 six-byte cells, decompresses layouts into them and carves room/corridor cells; screen/change.c packs the same indexed cells height/type; mesh readers sample their height/flags. Existing typed owning declaration is in dungeon/level/generate.h; partial ABI views retain their types and bounds.
+0x800272C8	D_800272C8	gym_lane	update_gym_lane_selection bounds the selected lane to zero through two and indexes horizontal lane positions; update_gym_minigame starts/restarts at the middle lane; update_gym_score_object only awards a hit for a matching target lane.
+0x800272CA	D_800272CA	gym_lane_delay	update_gym_lane_selection sets three ticks on either lane change, decrements while damping velocity and postpones further input; update_gym_score_object inhibits hits until zero; update_gym_minigame clears it on start/restart.
+0x80026F24	D_80026F24	gym_lane_positions	update_gym_lane_selection indexes the three-choice table and writes the selected horizontal position; update_gym_minigame uses indexed positions to aim spawned score objects. Bound stays unspecified; interior middle-position symbol remains distinct pending an array identity proof.
+0x800135C2	D_800135C2	gym_high_score	update_gym_score_object compares the current score with this halfword and writes the larger score, capped by the current-score check at 9999; the same function tests the literal address before its record-score cue.
+0x80100D18	D_80100D18	town_mesh_scale	initialize_object_state_and_position clears this scale; update_input_motion_and_action ramps it by 0x100 to 0x1000; apply_two_records_to_target assigns it to all three renderer scale components, half-size for the first mesh and full-size for the second.
+0x80100D1C	D_80100D1C	town_orbit_radius	initialize_object_state_and_position clears it; update_input_motion_and_action ramps it to 0x800; update_positions_from_origin multiplies trigonometric displacement and an x-axis separation by this scalar. This names the observed orbit/offset extent without guessing the effect artwork.
+0x800DDC7C	D_800DDC7C	monster_spawn_records	Both init_dungeon_view definitions install this address as g_dungeon_status.monster_spawn_table. The consuming setup/load paths write the pointed-to monster species/level records. Existing scalar and array ABI views are preserved.
+0x8002D690	D_8002D690	menu_primitive_defaults	Six frontend/card and town/menu initializer bodies copy exactly four 32-bit words into menu primitive storage; row/default initializers then overwrite position, width and kind fields. Existing bounded s32[4] and unbounded base views retain their bounds and all interior aliases.
+0x8002D6A0	D_8002D6A0	menu_settings_defaults	The same six initializer bodies copy exactly three 32-bit words into shared settings storage, separately from their four-word primitive template. Existing bounded s32[3] and unbounded base views retain their bounds and the two interior aliases.
+0x800DCF4E	D_800DCF4E	sprite_bundle_loaded	initialize_dungeon_floor_state loads the sprite bundle only when zero and then sets one; the two floor-40 scene-transition paths clear it before requesting scene state 0x21. This is the load-validity latch, not a generic floor-ready flag.
+0x800DCF5B	D_800DCF5B	scripted_boundary_active	mark_scripted_map_boundary raises this after marking the fixed perimeter cells; update_dungeon_tile_boundary_state clears it after unmarking those cells; reset_dungeon_runtime_state clears it, and Baloon/Picket action branches defer while it is set.
+0x800DCE6C	D_800DCE6C	outer_ring_dx	find_valid_floor_item_position and find_valid_nearby_position first inspect the center and eight adjacent tiles, then use these 16 x offsets for the outer search ring. Bounded initialized-content inspection confirms paired offsets trace the Chebyshev-distance-two perimeter; existing u16 array view is preserved.
+0x800DCE8C	D_800DCE8C	outer_ring_dy	The same complete two search bodies add this table to y, paired with outer_ring_dx. Sixteen initialized coordinate pairs trace the Chebyshev-distance-two perimeter, distinguishing the tables from the existing eight-direction unit steps. Existing u16 array view is preserved.
+0x800D0608	D_800D0608	player_target_position	move_player_toward_target interpolates and snaps the third coordinate to word two; approach_player_target_position interpolates and snaps the first two coordinates to words zero and one. The sole owning declaration is in town/player/target_motion_g00547.h.
+0x80400004	D_80400004	card_server_assert_format	Both card_dev_open_events and card_dev_close_events pass this initialized assertion-format string with the c_server.c filename and source line. Bounded contents are bound by linked MAIN devkit namespace delta 0x80197000; this is the server-owned copy, distinct from cardslot.c assertions.
+0x8040002C	D_8040002C	dev_server_filename	Bounded initialized contents are the c_server.c developer filename, supplied to every assertion in card_dev_open_events/card_dev_close_events; main linked MAIN devkit namespace delta is 0x80197000.
+0x804007A4	D_804007A4	card_slot_assert_format	card_dev_flag_slot_dirty, card_dev_set_slot_value_checked and init_card_slot_object pass this assertion-format string with the cardslot.c filename. Bounded contents and linked MAIN devkit namespace delta 0x80197000 distinguish it from the server-owned assertion copy.
+0x804007CC	D_804007CC	card_slot_filename	Bounded initialized contents are the cardslot.c developer filename, supplied by all three inventoried slot assertion consumers; linked MAIN devkit namespace delta is 0x80197000.
+0x8013BB6C	D_8013BB6C	card_first_flg	card_dev_init checks zero, sets one and initializes/starts libcard only once. The debug call prints the initialized label card_first_flg, preserving the developer identifier proven by that label and value argument.
+0x80400044	D_80400044	card_first_flg_label	The bounded initialized label preserves card_first_flg; card_dev_init supplies it with the corresponding one-time initialization flag to the decimal diagnostic format. Linked namespace delta 0x80197000.
+0x80400038	D_80400038	card_decimal_format	Bounded initialized contents format a string label and a decimal integer; card_dev_init prints card_first_flg, and both operation loops print the retry count using the cnt label. All three consumers are in the same main bank at delta 0x80197000.
+0x804000F8	D_804000F8	card_counter_label	Bounded initialized contents are the developer cnt label; both complete card_dev_run_selected_operation and card_dev_run_slot_operation bodies print their count with card_decimal_format. Same main linked namespace delta 0x80197000.

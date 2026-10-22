@@ -146,12 +146,6 @@ typedef struct S_81934C5C_4 {
     s32 unk_04;
 } S_81934C5C_4;   /* temp_spawn_base in func_8002445C */
 
-typedef struct S_81934C5C_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_81934C5C_5;   /* ((S_81934C5C_2 *)temp_v0_3)->unk_08 in func_8002445C */
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK D_80024928;
@@ -169,7 +163,6 @@ void register_node(void *, void *);
 void func_8004491C(void *, void *);
 s32 rand(void);
 void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
-void *find_eligible_nearby_entry(s32, s32, void *, void *);
 void play_sound_if_enabled(s32);
 s32 func_80069EF8();
 s16 sample_terrain_surface_height();

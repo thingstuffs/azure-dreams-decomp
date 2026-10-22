@@ -1,7 +1,9 @@
 /* Builds a menu ring from sixteen segments between two radii around a shared center. */
+#include "shared/sprite_frame_state.h"
 /* inferred-strong G00568: shaded_quad_projection_g00568; joins CL:town/func_800A56D0; no crossing cuts. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A56D0. */
 #include "town/menu/shaded_quad_projection_g00568.h"
+#include "shared/game_work.h"
 
 /* Project and enqueue a shaded quad, then enqueue its draw mode packet. */
 /* C89 promotes the u16 parameter object to the shared s32 prototype. */
@@ -23,7 +25,7 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
     {
         u8 *quad_ctx;
 
-        quad_ctx = *(u8 **)((u8 *)(&g_game_work));
+        quad_ctx = *(u8 **)&g_game_work.draw_buffer;
         packet = ((GpuContext *)quad_ctx)->packetCursor;
         ((GpuContext *)quad_ctx)->packetCursor = packet + 0x24;
         ((S_800A2E30_1 *)packet)->unk_16 = shade;
@@ -61,15 +63,15 @@ void project_and_enqueue_shaded_quad(vertex_0, vertex_1, vertex_2, vertex_3, sha
         depth_or_page = 0;
     }
 
-    func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, packet);
+    func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
 
-    draw_ctx = *(u8 **)((u8 *)(&g_game_work));
+    draw_ctx = *(u8 **)&g_game_work.draw_buffer;
     packet = ((GpuContext *)draw_ctx)->packetCursor;
     ((GpuContext *)draw_ctx)->packetCursor = packet + 0xC;
     depth_or_page = func_80066460(0, 1, 0x140, 0);
     func_80067F20(packet, 0, 0, (u16)depth_or_page, 0);
 
-    func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, packet);
+    func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, packet);
 }
 
 static __inline__ s16 scale_trig(s32 trig, s32 radius)
@@ -113,7 +115,6 @@ void draw_segmented_menu_ring(s32 center_source, s32 radius_a, s32 radius_b, s16
 
     {
         s32 upper_mask = 0xFFFF0000;
-
 
         do {
             copy_menu_vector_halfwords(&prev_a, point_a_ptr);

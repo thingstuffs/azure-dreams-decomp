@@ -41,21 +41,21 @@ static s32 load_actor_display_resource(void *object, s32 entry_count) {
 /* Allocates and initializes an item menu object, releasing its entries if display setup fails. */
 void *create_item_menu_child_object(s32 init_value)
 {
-    void *object;
+    ObjectNodeHeader *object;
     void *object_data;
 
     object = allocate_flagged_object_node(0);
     object_data = (void *)((u8 *)object + 0x20);
     if (object != 0) {
         if (func_800B0198(object_data, 0x28) != 0) {
-            *(void **)((u8 *)object + 0xC) = (u8 *)object + 0xB8;
+            object->sprite = (u8 *)object + 0xB8;
             *(s32 *)((u8 *)object_data + 0xA4) = link_item_menu_object_entries(*(s32 *)((u8 *)object_data + 0xA8));
             initialize_item_menu_state(object_data, init_value);
             register_node(object, (void *)draw_tinted_node_sprites_scratch);
             return object;
         }
         release_null_terminated_entries((u16 **)((u8 *)object + 0xCC));
-        *(u16 *)((u8 *)object + 0x1E) |= 0x8000;
+        object->flags |= 0x8000;
         object = 0;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

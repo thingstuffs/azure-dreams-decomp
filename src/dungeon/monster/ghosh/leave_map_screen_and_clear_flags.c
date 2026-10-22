@@ -1,10 +1,10 @@
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
+#include "dungeon/item.h"
 
 extern s32 ghosh_actor_node[3];
 
-extern void set_monster_data_pointer(void);
 extern void func_8016E264(void);
 
 /* Leave the map screen: clear the three display flags and tear the screen down. */

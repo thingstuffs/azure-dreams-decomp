@@ -1,5 +1,6 @@
 /* Mesh and point rendering, star effects, and projectile trails with target hit animation. */
 #include "modules/dungeon_native_abi.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 
 typedef struct S_func_8187A800_0 {
@@ -253,7 +254,7 @@ typedef struct {
 #define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 
 /* Transform the mesh and enqueue textured quads or lines in the ordering table. */
-void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPositionView *transform, S_func_800241A8_3 *object, s32 depth_bias)
+void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, ObjectPosition *transform, SpriteFrameState *object, s32 depth_bias)
 {
     S_func_800241A8_1 *scratch = (S_func_800241A8_1 *)0x1F800000;
     MeshTexture *texture;
@@ -264,19 +265,19 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
 
     game_work = &g_game_work;
     scratch->unk_24 = (u8 *)game_work->draw_buffer + 0xB0;
-    scratch->unk_88 = transform->unk_02;
-    scratch->unk_8C = transform->unk_06;
-    scratch->unk_90 = transform->unk_0A;
-    ((SpriteFrameState *)object)->flags |= 0x8000;
+    scratch->unk_88 = transform->x.w.i;
+    scratch->unk_8C = transform->y.w.i;
+    scratch->unk_90 = transform->z.w.i;
+    object->flags |= 0x8000;
 
     func_800649A0();
 
     scratch->unk_3C = 0x2000;
     scratch->unk_38 = 0x2000;
     scratch->unk_34 = 0x2000;
-    scratch->unk_A4 = ((SpriteFrameState *)object)->angle_x;
-    scratch->unk_A8 = ((SpriteFrameState *)object)->angle_z;
-    scratch->unk_A6 = ((SpriteFrameState *)object)->angle_y;
+    scratch->unk_A4 = object->angle_x;
+    scratch->unk_A8 = object->angle_z;
+    scratch->unk_A6 = object->angle_y;
     func_80065820(&scratch->unk_A4, (u8 *)scratch + 0x74);
     func_80064AE0(&matrix);
     func_80064840(&matrix, (u8 *)scratch + 0x74, (u8 *)scratch + 0x54);
@@ -285,8 +286,8 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
     func_80064CF0((u8 *)scratch + 0x54);
 
     depth_offset = (s16)depth_bias;
-    texture = ((SpriteFrameState *)object)->source;
-    scratch->unk_28 = ((SpriteFrameState *)object)->flags;
+    texture = object->source;
+    scratch->unk_28 = object->flags;
 
     for (;;) {
         if (mesh->unk_4E != 0) {
@@ -337,7 +338,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
                   ((u16)(packet->unk_22.as_u16_22 + 0x20) < 0x121)))) {
                 packet->unk_00.as_u8_03.unk_03 = 9;
                 packet->unk_04.as_u8_07.unk_07 = 0x2C;
-                ((SpriteFrameState *)object)->flags &= 0x7FFF;
+                object->flags &= 0x7FFF;
 
                 scratch->unk_14.as_s32_14 += scratch->unk_0C.as_s32_0C;
                 if (scratch->unk_14.as_s32_14 & 0x100) {
@@ -352,7 +353,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
 
                 {
                     u32 palette_id;
-                    texture_adjust = ((SpriteFrameState *)object)->clut;
+                    texture_adjust = object->clut;
                     if (texture_adjust != 0) {
                         if (scratch->unk_28 & 0x100) {
                             packet->unk_0E = texture_adjust;
@@ -371,7 +372,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
                 packet->unk_14.as_u16_14 = scratch->unk_10.as_u16_10 +
                                            scratch->unk_14.as_u16_14;
 
-                texture_adjust = ((SpriteFrameState *)object)->tpage_abr;
+                texture_adjust = object->tpage_abr;
                 if (texture_adjust != 0) {
                     packet->unk_16 = texture_adjust + (texture->tpage & 0xFF9F);
                 } else {
@@ -393,14 +394,14 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
                 }
 
                 texture_flags = texture->texture_flags;
-                ((SpriteFrameState *)object)->color.c.code = texture_flags;
+                object->color.c.code = texture_flags;
                 render_flags = scratch->unk_28;
                 if (render_flags & 8) {
-                    ((SpriteFrameState *)object)->color.c.code = (render_flags & 4) ?
+                    object->color.c.code = (render_flags & 4) ?
                         (texture_flags | 2) : (texture_flags & 0xFD);
                 }
 
-                packet->unk_04.as_u32_04 = *(u32 *)&((SpriteFrameState *)object)->color.word;
+                packet->unk_04.as_u32_04 = *(u32 *)&object->color.word;
                 setaddr(packet, getaddr((u32 *)scratch->unk_24 + scratch->unk_100));
                 setaddr((u32 *)scratch->unk_24 + scratch->unk_100, packet);
             }
@@ -465,13 +466,13 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
             render_flags = scratch->unk_28;
             if (render_flags & 8) {
                 if (render_flags & 4) {
-                    ((SpriteFrameState *)object)->color.c.code |= 2;
+                    object->color.c.code |= 2;
                 } else {
-                    ((SpriteFrameState *)object)->color.c.code &= 0xFD;
+                    object->color.c.code &= 0xFD;
                 }
             }
 
-            render_flags = *(u32 *)&((SpriteFrameState *)object)->color.word;
+            render_flags = *(u32 *)&object->color.word;
             line->unk_00.as_u8_03.unk_03 = 3;
             line->unk_04.as_u32_04 = render_flags;
             line->unk_04.as_u8_07.unk_07 = 0x42;
@@ -493,7 +494,7 @@ void transform_and_queue_mesh_primitives(S_func_800241A8_4 *mesh, SignedPosition
     }
     func_80064A40();
 }
-#include "common.h"
+#include "dungeon/effect/mesh.h"
 #include "shared/object_node.h"
 
 #include "modules/dungeon_ovl_189a800.h"
@@ -511,8 +512,8 @@ s32 decrement_object_counter(void *record, void *context, void *data) {
             return 0;
         }
         record = node + 1;
-        context = node->unk_08;
-        data = node->unk_0C;
+        context = node->position;
+        data = node->sprite;
     }
 }
 #include "modules/dungeon_native_abi.h"
@@ -919,9 +920,9 @@ void create_terrain_seeking_colored_point(
     s32 z_pos;
     void *init_obj;
     void *init_data;
-    SignedPositionView *x_dest;
-    SignedPositionView *y_dest;
-    SignedPositionView *z_dest;
+    ObjectPosition *x_dest;
+    ObjectPosition *y_dest;
+    ObjectPosition *z_dest;
 
     spawned_obj = allocate_list_node(0x211, source_obj);
     if (spawned_obj != NULL) {
@@ -933,7 +934,7 @@ void create_terrain_seeking_colored_point(
         x_pos += z_offset;
         x_bias = x_offset - 0x10;
         x_pos += x_bias;
-        x_dest->unk_02 = (s16)x_pos;
+        x_dest->x.w.i = (s16)x_pos;
 
         y_jitter = rand() & 0x1F;
         y_pos = ((MovingPosition *)source_obj->unk_08)->unk_06;
@@ -941,7 +942,7 @@ void create_terrain_seeking_colored_point(
         y_pos += y_jitter;
         y_bias = y_offset - 0x10;
         y_pos += y_bias;
-        y_dest->unk_06 = (s16)y_pos;
+        y_dest->y.w.i = (s16)y_pos;
 
         z_jitter = rand();
         init_obj = spawned_obj;
@@ -953,7 +954,7 @@ void create_terrain_seeking_colored_point(
         z_pos += z_jitter;
         z_bias = saved_z_offset - 0x10;
         z_pos += z_bias;
-        z_dest->unk_0A = (s16)z_pos;
+        z_dest->z.w.i = (s16)z_pos;
         actor_data->unk_04 = saved_field_04;
         actor_data->unk_10 = saved_pair;
         actor_data->unk_12 = saved_pair;
@@ -1002,7 +1003,7 @@ extern s32 func_80064584();
 extern s32 func_80069EF8();
 
 /* Create an effect with 23 random radial vectors and initialize its position and state. */
-void func_800251E8(s32 radius, s32 initial_value, s16 extent, s32 position_x_word, s32 position_y_word, s32 position_z_word) {
+void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 extent, s32 position_x_word, s32 position_y_word, s32 position_z_word) {
     /* Retail accepts word arguments, then carries their low halves across calls. */
     u16 position_x = (u16)position_x_word;
     u16 position_y = (u16)position_y_word;
@@ -1381,7 +1382,7 @@ extern s16 D_8002694C[5];
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
 void initialize_star_effect_sequence(void *state_data, void *source_data) {
     MovingPosition *source_position;
-    u8 *node;
+    ObjectNodeHeader *node;
     u8 *edge_data;
     u8 *sprite;
     MovingPosition *dest_position;
@@ -1423,15 +1424,15 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
                 break;
             }
 
-            edge_data = node + 0x20;
+            edge_data = ((u8 *)node) + 0x20;
             ((S_8187BFE0_2 *)edge_data)->unk_02 = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
-            ((S_8187BFE0_1 *)node)->unk_10 = advance_fading_effect_animation;
+            node->unk_10 = advance_fading_effect_animation;
             register_node(node, decrement_object_counter);
 
-            sprite = ((S_8187BFE0_1 *)node)->unk_0C;
+            sprite = *(u8 * *)&node->sprite;
             ((S_8187BFE0_3 *)sprite)->unk_14 &= 0xFFF3;
 
-            dest_position = ((S_8187BFE0_1 *)node)->unk_08;
+            dest_position = *(u8 * *)&node->position;
             dest_position->unk_02 = source_position->unk_02;
             dest_position->unk_06 = source_position->unk_06;
             dest_position->unk_0A = source_position->unk_0A;
@@ -1534,7 +1535,7 @@ void initialize_star_effect_sequence(void *state_data, void *source_data) {
             ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 =
                 ((S_8187BFE0_2 *)edge_data)->unk_2C.u;
 
-            sprite = ((S_8187BFE0_1 *)node)->unk_0C;
+            sprite = *(u8 * *)&node->sprite;
             ((S_8187BFE0_3 *)sprite)->unk_0C = ((S_8187BFE0_3 *)sprite)->unk_0D = 0xE0;
             ((S_8187BFE0_3 *)sprite)->unk_0E = 0x20;
             ((S_8187BFE0_2 *)edge_data)->unk_36 = ((S_8187BFE0_2 *)edge_data)->unk_37 = 0xE0;
@@ -1619,7 +1620,7 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
     u16 origin_offset[4];
     PointTable direction_steps;
     void *owner;
-    void *object;
+    ObjectNodeHeader *object;
     void *object_data;
     void *effect_object;
     void *owner_sprite;
@@ -1649,7 +1650,7 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
     direction_steps = D_80024074;
     state_index = S16(effect, 0xA);
     object = (u8 *)owner - 0x20;
-    object_data = PTR(object, 8);
+    object_data = object->position;
 
     switch (state_index) {
 
@@ -1667,7 +1668,7 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
         U16(effect, 0xA) += 1;
 
     case 1:
-        origin_sprite = PTR(object, 0xC);
+        origin_sprite = object->sprite;
         if (get_sprite_attachment_vector(PTR(origin_sprite, 8), origin_sprite, origin_offset, 0) == 0) {
             if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
                 return;
@@ -1761,20 +1762,20 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
             if (object != 0) {
                 U16(object_data, 2) = 8;
                 U16(object_data, 4) = 8;
-                PTR(object, 0x10) = create_object_offset;
+                object->unk_10 = create_object_offset;
                 register_node(object, project_sprite_chain);
 
-                spawn_sprite = PTR(object, 0xC);
+                spawn_sprite = object->sprite;
 
                 U16(spawn_sprite, 0x10) = 0x20;
                 U16(spawn_sprite, 0x14) |= 0xC;
                 {
-                    void *spawn_pos = PTR(object, 8);
+                    void *spawn_pos = object->position;
                     U16(spawn_pos, 2) = U16(motion, 2);
                     U16(spawn_pos, 6) = U16(motion, 6);
                     U16(spawn_pos, 0xA) = U16(motion, 0xA);
                 }
-                spawn_sprite = PTR(object, 0xC);
+                spawn_sprite = object->sprite;
                 U16(spawn_sprite, 0x1E) = 0x1000;
                 U16(spawn_sprite, 0x1C) = 0x1000;
                 U8(spawn_sprite, 0xD) = trail_color;
@@ -1848,12 +1849,12 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
             U16(object_data, 4) = 8;
             U16(object_data, 0xA) = 0x30;
             S16(object_data, 0xC) = -0xDE;
-            PTR(object, 0x10) = initialize_star_effect_sequence;
-            spawn_sprite = PTR(object, 0xC);
+            object->unk_10 = initialize_star_effect_sequence;
+            spawn_sprite = object->sprite;
             U16(spawn_sprite, 0x10) = 0x20;
             U16(spawn_sprite, 0x14) |= 0xC;
             {
-                void *spawn_pos = PTR(object, 8);
+                void *spawn_pos = object->position;
                 U16(spawn_pos, 2) = U16(motion, 2);
                 U16(spawn_pos, 6) = U16(motion, 6);
                 U16(spawn_pos, 0xA) = U16(motion, 0xA);
@@ -1927,7 +1928,7 @@ finish_fade:
         object = PTR(PTR(owner, 0x60), -0x18);
         for (particle_index = 0; particle_index < 2; particle_index++) {
             particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
-            func_800251E8((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
+            create_random_radial_vector_effect((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
                                 (entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1)));
@@ -1954,7 +1955,7 @@ finish_fade:
         object = PTR(PTR(owner, 0x60), -0x18);
         for (particle_index = 0; particle_index < 2; particle_index++) {
             particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
-            func_800251E8((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
+            create_random_radial_vector_effect((entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
                                 (entity_height_offsets[U8(PTR(owner, 0x60), 0x13)] >> 1)));

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
@@ -6,24 +7,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_801656F8_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_801656F8_2;
-
-typedef struct S_801656F8_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_801656F8_4;
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_short_lived_child_particle */
 
@@ -55,24 +38,24 @@ void create_short_lived_child_particle(EntityRec *source, s16 effect_param, s32 
                    s16 offset_z, s32 motion_z)
 {
     S_801656F8_1 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_list_node(0x211, source);
     if (effect != NULL) {
-        ((S_801656F8_0 *)effect)->unk_10 = D_801654F0;
-        ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_02 = (s16)
+        effect->unk_10 = D_801654F0;
+        (effect->position)->x.w.i = (s16)
         (((MovingPosition *)((*(void * *)&source->z)))->unk_02 + offset_x);
-        ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_06 = (s16)
+        (effect->position)->y.w.i = (s16)
         (((MovingPosition *)((*(void * *)&source->z)))->unk_06 + offset_y);
-        ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_0A = (s16)
+        (effect->position)->z.w.i = (s16)
         (((MovingPosition *)((*(void * *)&source->z)))->unk_0A + offset_z);
-        ((SpriteFrameState *)((S_801656F8_2 *)effect)->unk_0C)->unk_06 = 6;
-        ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_0C = (s32)
+        effect->sprite->unk_06 = 6;
+        (effect->position)->velocity_x = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 4);
-        ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_10 = (s32)
+        (effect->position)->velocity_y = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 4);
-        effect_state = effect + 0x20;
-        ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_14 = motion_z;
+        effect_state = ((void *)effect) + 0x20;
+        (effect->position)->velocity_z = motion_z;
         effect_state->unk_14 = effect_param;
         effect_state->unk_32 = 8;
         effect_state->unk_34 = 8;

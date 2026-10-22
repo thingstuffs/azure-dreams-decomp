@@ -1,5 +1,7 @@
 #ifndef TOWN_MAP_TOWN_MAP_SET_G01113_H
 #define TOWN_MAP_TOWN_MAP_SET_G01113_H
+
+struct ObjectNodeHeader;
 /* Town map set. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01113 - CL:town/func_8008E0B8. */
 
@@ -17,7 +19,7 @@ extern s32 runtime_find_unused_pool_slot(void);
 extern void runtime_clear_value(s32);
 extern s32 allocate_flagged_object_node(s32);
 extern void unlink_active_node(s32);
-extern void push_node_onto_free_list(s32);
+extern void push_node_onto_free_list(struct ObjectNodeHeader *);
 extern s8 D_800CFC2C[11];
 void unlink_node_if_registered();
 void copy_window_params(struct Container *, struct Source *);

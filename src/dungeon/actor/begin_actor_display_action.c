@@ -1,6 +1,6 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
-
 
 extern void func_80042518(void *slots, s32 type);
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
@@ -8,11 +8,11 @@ extern void clear_slots_of_type(void *owner, s32 match_type);
 extern void select_sprite_entry(void *object, s32 table_index, s32 entry_index);
 
 /* Initializes actor state and selects a display variant for its facing direction. */
-void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants) {
+void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants) {
     *((u8 *) actor + 0x9A) = 8;
     *((u8 *) actor + 0x9B) = 0;
     *(s32 *) ((u8 *) actor + 0x8C) = 0;
-    *(s32 *) ((u8 *) display + 0x2C) = (s32) facing_variants;
+    display->frameTable = (s32) facing_variants;
     if (facing_variants != 0) {
         select_sprite_entry(display, facing_variants[(s32) (g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *) ((u8 *) actor + 0x2A) + 0x100)
             >> 9 & 7], 0);

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player/item.h"
 typedef struct Ent Ent;
 
 typedef struct S_80098864_0 {
@@ -20,7 +21,6 @@ typedef struct S_80098864_1 {
 
 
 void clear_slot_and_update_linked_state();
-void copy_item_category_damage();
 s32 resolve_attack_damage_and_effects();
 Ent *prepare_directional_attack();
 

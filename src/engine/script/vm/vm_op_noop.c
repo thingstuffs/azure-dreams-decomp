@@ -23,7 +23,7 @@ void noop_runtime_record_idle(void) {
 }
 
 /* Returns without performing any work. */
-void func_80038A08(void) {
+void noop_installed_script_action(void) {
 }
 
 /* Returns without performing any work. */

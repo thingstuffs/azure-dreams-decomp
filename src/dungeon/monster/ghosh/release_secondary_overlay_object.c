@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
+#include "dungeon/monster/ghosh.h"
 
 extern void *D_80174CE0[];
 extern void detach_record_and_update_slot_state(void *record);

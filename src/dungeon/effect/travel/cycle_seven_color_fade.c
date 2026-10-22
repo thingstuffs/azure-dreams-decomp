@@ -69,17 +69,17 @@ s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 i
     s16 offset_angle;
     SpriteFrameState *render_state;
     s32 *object_state;
-    void *object;
+    ObjectNodeHeader *object;
     B28_818B6954_S_818B6954_1 *object_data;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        ((B28_818B6954_S_818B6954_0 *)object)->unk_10 = func_800240B8;
+        object->unk_10 = func_800240B8;
         object_data = (B28_818B6954_S_818B6954_1 *)((u8 *)object + 0x20);
         ((B28_818B6954_S_818B6954_0 *)object)->unk_20 = context_value;
         object_data->unk_04 = 0;
         object_data->unk_06 = 0;
-        render_state = ((B28_818B6954_S_818B6954_0 *)object)->unk_0C;
+        render_state = object->sprite;
         render_state->color.word = render_param;
         render_state->clut = 0x7DCF;
         render_state->flags |= 0xC;
@@ -90,7 +90,7 @@ s32 func_80024154(s32 context_value, void *source_state, s32 render_param, s32 i
         render_state->scale_y = 0xC00;
         render_state->scale_x = 0xC00;
         register_node(object, project_sprite_chain);
-        object_state = ((B28_818B6954_S_818B6954_0 *)object)->unk_08;
+        object_state = object->position;
         *(B28_818B6954_Copy24 *)object_state = *(B28_818B6954_Copy24 *)source_state;
         offset_angle = rand() % 0x1000;
         object_state[0] += (func_80064584(offset_angle) >> 4) * 0x1200;
@@ -279,7 +279,7 @@ s32 func_80024790(s32 texture_index, u8 *color_source)
     u8 *transform_flags;
 
     scratch = (u8 *)0x1F800000;
-    render_buffer = *(u8 **)((u8 *)(&g_game_work));
+    render_buffer = *(u8 **)&g_game_work.draw_buffer;
     ((B28_818B6F90_S_818B6F90_0 *)scratch)->unk_00 = render_buffer + 0xB0;
     packet = ((GpuContext *)render_buffer)->packetCursor;
     ((GpuContext *)render_buffer)->packetCursor = packet + 0x34;
@@ -609,7 +609,7 @@ void draw_chained_object_records(B28_818B77D4_Arg0818B77D4 *source, B28_818B77D4
 #include "m2c_compat.h"
 
 /* Per-frame update for the four-phase spark effect: drift, tint ramp, hold, then mark the owner finished. */
-void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, B28_818B78E8_S818B78E8_State *gfx) {
+void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8_Vec *motion, SpriteFrameState *gfx) {
     s32 variant_index;
     s16 fade;
     s16 next_tick;
@@ -643,7 +643,7 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
     variant %= 7;
     variant_index = variant + 1;
     advance_sprite_animation_and_textures(gfx);
-    gfx->field1A = (u16) (gfx->field1A + 0x300);
+    gfx->angle_z = (u16) (gfx->angle_z + 0x300);
     phase = obj->state;
     switch (phase) {
     case 0:
@@ -664,7 +664,7 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
     case 1:
         variant_s16 = (s16) variant_index;
         red = variant_s16;
-        gfx->field12 = 0;
+        gfx->clut = 0;
         gfx->flags = (u16) (gfx->flags & 0xFEFF);
         if (variant_s16 < 0) {
             red = variant_s16 + 3;
@@ -675,14 +675,14 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
         fade_offset = ((s16) obj->field10 * 8) - 0x80;
 
         red -= fade_offset;
-        gfx->fieldC = (s8) red;
-        gfx->fieldD = (s8) (((s32) (((s16) half_variant - (((s32) ((s16) half_variant + ((u32) (half_variant << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
-        gfx->fieldE = (s8) (((s32) ((variant_s16 - (half_variant * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
+        gfx->color.c.r = (s8) red;
+        gfx->color.c.g = (s8) (((s32) (((s16) half_variant - (((s32) ((s16) half_variant + ((u32) (half_variant << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
+        gfx->color.c.b = (s8) (((s32) ((variant_s16 - (half_variant * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
         elapsed_now = obj->field10;
 
         fade = (0x19 - elapsed_now) << 8;
-        gfx->field1E = fade;
-        gfx->field1C = fade;
+        gfx->scale_y = fade;
+        gfx->scale_x = fade;
         if ((s16) obj->field10 >= 0x10) {
             draw_chained_object_records((void *)obj, (void *)motion);
             phase_value = (u16) obj->state;
@@ -698,10 +698,10 @@ void update_spark_effect(B28_818B78E8_S818B78E8_Obj *obj, B28_818B78E8_S818B78E8
             red_state2 = variant_s16 + 3;
         }
         half_variant_b = variant_s16 / 2;
-        gfx->fieldC = (s8) ((red_state2 >> 2) << 7);
+        gfx->color.c.r = (s8) ((red_state2 >> 2) << 7);
         blue_component = (s32) ((variant_s16 - (half_variant_b * 2)) << 0x10) >> 9;
-        gfx->fieldD = (s8) ((s32) (((s16) half_variant_b - (((s32) ((s16) half_variant_b + ((u32) (half_variant_b << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
-        gfx->fieldE = (s8) blue_component;
+        gfx->color.c.g = (s8) ((s32) (((s16) half_variant_b - (((s32) ((s16) half_variant_b + ((u32) (half_variant_b << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
+        gfx->color.c.b = (s8) blue_component;
         if ((s16) obj->field10 >= 0x20) {
             phase_value = (u16) obj->state;
             obj->field10 = 0U;
@@ -740,14 +740,14 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
     void *update_handler;
     SpriteFrameState *render;
     B28_818B7BD0_S_818B7BD0_1 *part;
-    void *obj;
+    ObjectNodeHeader *obj;
     B28_818B7BD0_S_818B7BD0_4 *dst;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != NULL) {
         update_handler = update_spark_effect;
-        part = obj + 0x20;
-        ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_10 = update_handler;
+        part = ((void *)obj) + 0x20;
+        obj->unk_10 = update_handler;
         ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_20 = owner;
         part->unk_0E.s16 = 0;
         part->unk_10 = 0;
@@ -756,7 +756,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
         part->unk_12 = (s16)(roll % 7);
         part->unk_14 = (u16) owner->unk_12;
         part->unk_18.at00.v = (s32) owner->unk_18;
-        render = ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_0C;
+        render = obj->sprite;
         render->color.c.b = 0x80;
         render->color.c.g = 0x80;
         render->color.c.r = 0x80;
@@ -772,7 +772,7 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
         render->scale_y = 0x400;
         render->scale_x = 0x400;
         register_node(obj, draw_linked_sprites_clipped);
-        dst = ((B28_818B7BD0_S_818B7BD0_0 *)obj)->unk_08;
+        dst = obj->position;
         result = (s32) obj;
         *dst = *(B28_818B7BD0_S_818B7BD0_4 *)transform;
         return result;
@@ -784,12 +784,12 @@ s32 spawn_owner_random_variant_effect(B28_818B7BD0_S_818B7BD0_2 *owner, B28_818B
 #include "shared/object_flags.h"
 
 /* Advance counters, rotation, and position, and set flags when the counter exceeds its limit. */
-void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, B28_818B7D3C_EntityState *entity)
+void func_8002553C(B28_818B7D3C_OwnerState *owner, B28_818B7D3C_VecState *vec, SpriteFrameState *entity)
 {
     owner->child->counter++;
     owner->counter++;
     advance_sprite_animation_and_textures(entity);
-    entity->angle += 0x300;
+    entity->angle_z += 0x300;
 
     vec->x += vec->dx;
     vec->y += vec->dy;

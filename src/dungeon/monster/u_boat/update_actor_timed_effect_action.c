@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -8,6 +9,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct S_8017558C_0 {
     u8 pad_00[0x8C];
@@ -35,13 +37,6 @@ typedef struct S_8017558C_0 {
     u16 unk_BA;
 } S_8017558C_0;   /* arg0 in update_actor_timed_effect_action */
 
-typedef struct S_8017558C_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s32 * unk_0C;
-    u8 * unk_10;
-} S_8017558C_4;
-
 typedef struct S_8017558C_5 {
     u8 pad_00[0x38];
     s16 unk_38;
@@ -58,10 +53,9 @@ extern u8 uboat_aura_later_frames[];
 extern u8 D_800E2448[];
 extern u8 uboat_default_frames[];
 extern u8 D_800E2488[];
-extern u8 D_80171A80[];
+#include "dungeon/monster/u_boat.h"
 void *allocate_list_node();               /* extern */
 s32 register_node();               /* extern */
-void pack_and_submit_cell_height_levels();                            /* extern */
 void set_record_integer_tile_center();              /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 sample_terrain_surface_height();                   /* extern */
@@ -87,7 +81,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
     u8 phase;
     s32 restore_phase;
     s32 next_phase;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_8017558C_5 *effect_state;
     MovingPosition *effect_position;
 
@@ -143,20 +137,20 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
             return;
         }
         ((S_8017558C_0 *)action)->unk_AC = effect;
-        ((S_8017558C_4 *)effect)->unk_10 = D_80170A84;
+        effect->unk_10 = D_80170A84;
         register_node(effect, D_80045C34);
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         effect_state->unk_38 = 5;
         effect_state->unk_40 = action;
         effect_state->unk_44 = position;
-        effect_sprite = ((S_8017558C_4 *)effect)->unk_0C;
+        effect_sprite = *(s32 * *)&effect->sprite;
         effect_sprite->tpage_abr = 0x40;
         effect_sprite->flags = (u16) (effect_sprite->flags | 0xC);
-        effect_position = ((S_8017558C_4 *)effect)->unk_08;
+        effect_position = effect->position;
         effect_position->unk_02 = (u16) ((u16)position->x.w.i);
         effect_position->unk_06 = (u16) ((u16)position->y.w.i);
         effect_position->unk_0A = (u16) ((u16)actor->ground_height);
-        effect_sprite = ((S_8017558C_4 *)effect)->unk_0C;
+        effect_sprite = *(s32 * *)&effect->sprite;
         effect_sprite->scale_y = 0xA00;
         effect_sprite->scale_x = 0xA00;
         effect_sprite->color.c.b = 0;
@@ -267,7 +261,7 @@ void update_actor_timed_effect_action(void *action, ObjectPosition *position, Sp
         }
         sprite->unk_06 = 0;
         spend_actor_mp(actor, 0x1000);
-        ((S_8017558C_0 *)action)->unk_8C = D_80171A80;
+        ((S_8017558C_0 *)action)->unk_8C = uboat_behavior_entry;
         g_dungeon_status.active_actor = 0;
         actor->action_flags = (u16) (actor->action_flags & ACTOR_ACTION_CLEAR_PENDING_MASK);
         return;

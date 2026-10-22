@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/tile_object.h"
@@ -19,15 +20,6 @@ typedef struct S_80174F24_0 {
     s32 unk_A0;
 } S_80174F24_0;   /* arg0 in spawn_randomized_oscillating_effect */
 
-typedef struct S_80174F24_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80174F24_1;   /* arg2 in spawn_randomized_oscillating_effect */
-
-
 typedef struct S_80174F24_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -38,7 +30,6 @@ typedef struct S_80174F24_3 {
     s32 unk_10;
     s32 unk_14;
 } S_80174F24_3;   /* arg1 in spawn_randomized_oscillating_effect */
-
 
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 func_800644B8(s32);
@@ -54,7 +45,7 @@ extern u8 D_80176338[];
 extern u8 D_80176340[];
 
 /* Updates the actor's movement animation and finishes the timed action. */
-void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *unit, void *actor)
+void spawn_randomized_oscillating_effect(void *action, void *motion_arg, SpriteFrameState *unit, void *actor)
 {
     s32 direction_aux;
     u8 move_state;
@@ -62,10 +53,10 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
     move_state = ((S_80174F24_0 *)action)->unk_9B;
     switch (move_state) {
     case 0:
-        if (((S_80174F24_1 *)unit)->unk_14 & 0x6000) {
+        if (unit->flags & 0x6000) {
             u8 *direction_table = D_80176338;
 
-            (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
+            (unit->frameTable) = direction_table;
             select_sprite_entry(unit,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
@@ -89,7 +80,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
         ((S_80174F24_0 *)action)->unk_90 -= ((S_80174F24_0 *)action)->unk_A0;
         move_ticks = ((S_80174F24_0 *)action)->unk_9E.s;
         if (move_ticks != 0) {
-            target_delta = ((S_80174F24_1 *)unit)->unk_24 << 6;
+            target_delta = unit->unk_24 << 6;
             axis_pos = ((S_80174F24_3 *)motion_arg)->unk_02 - 0x20;
             target_delta -= axis_pos;
             x_velocity = (target_delta << 16) / move_ticks;
@@ -97,7 +88,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
             axis_pos = ((S_80174F24_3 *)motion_arg)->unk_06;
             ((S_80174F24_3 *)motion_arg)->unk_0C = x_velocity;
             axis_pos -= 0x20;
-            target_delta = ((S_80174F24_1 *)unit)->unk_25 << 6;
+            target_delta = unit->unk_25 << 6;
             target_delta -= axis_pos;
             ((S_80174F24_3 *)motion_arg)->unk_10 =
                 (target_delta << 16) / ((S_80174F24_0 *)action)->unk_9E.s;
@@ -127,9 +118,9 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
             ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
             ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
             set_record_integer_tile_center(motion_arg,
-                ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25);
+                unit->unk_24, unit->unk_25);
             direction_table = D_80176340;
-            (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
+            (unit->frameTable) = direction_table;
             select_sprite_entry(unit,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
@@ -155,7 +146,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
         ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
         ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
         set_record_integer_tile_center(motion_arg,
-            ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25);
+            unit->unk_24, unit->unk_25);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
 
@@ -171,7 +162,7 @@ void spawn_randomized_oscillating_effect(void *action, void *motion_arg, void *u
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                    ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25,
+                    unit->unk_24, unit->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             }
         }

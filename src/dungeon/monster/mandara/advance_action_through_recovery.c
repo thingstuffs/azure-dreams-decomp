@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -7,6 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "engine/cd.h"
 extern int abs(int);
 
 typedef struct S_80172DEC_0 {
@@ -19,20 +21,14 @@ typedef struct S_80172DEC_0 {
     u8 unk_9B;
 } S_80172DEC_0;   /* arg0 in advance_action_through_recovery */
 
-typedef struct S_80172DEC_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80172DEC_2_pre;   /* the 0x14 bytes before obj in advance_action_through_recovery, addressed as obj[-1] */
-
 typedef struct S_80172DEC_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
 } S_80172DEC_3;   /* rec in advance_action_through_recovery */
 
-extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -40,10 +36,10 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 extern void create_two_effect_groups(void *, void *, void *, s32);
 
 extern u8 D_80170F6C[];
-extern u8 D_80175258[];
+#include "dungeon/monster/mandara.h"
 
 /* Advances an actor action through motion selection, execution, and recovery. */
-void advance_action_through_recovery(void *action_state, ObjectPosition *transform, void *sprite, ActorRecord *actor)
+void advance_action_through_recovery(void *action_state, ObjectPosition *transform, SpriteFrameState *sprite, ActorRecord *actor)
 {
     u16 saved_position[3];
     u8 *motion;
@@ -106,19 +102,19 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
                 if (global_target_flag != 0) {
                     target = primary_actor_record;
                     actor->target = target;
-                    target_y = ((S_80172DEC_2_pre *)target)[-1].unk_00;
+                    target_y = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                     actor->target_tile_x = ((S_80172DEC_3 *)target_y)->unk_24;
                     actor->target_tile_y = ((S_80172DEC_3 *)target_y)->unk_25;
                 } else if (item_action_definitions[*motion].kind == 2) {
                     target = actor->target;
                     if (target != 0) {
-                        target_y = ((S_80172DEC_2_pre *)target)[-1].unk_00;
+                        target_y = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                         actor->target_tile_x = ((S_80172DEC_3 *)target_y)->unk_24;
                         actor->target_tile_y = ((S_80172DEC_3 *)target_y)->unk_25;
                     }
                 } else {
                     actor->target =
-                        scan_monster_along_heading(actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                        scan_actor_along_heading(actor, sprite->unk_24, sprite->unk_25,
                                       actor->facing, 0x10);
                     abs_x = abs(actor->target_tile_x);
                     abs_y = abs(actor->target_tile_y);
@@ -132,7 +128,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
             if (create_actor_spell_effect(actor, motion, use_global_target, (u8 *)action_state + 0x98) == 0) {
                 return;
             }
-            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+            sprite->flags &= 0xF7FF;
             play_sound_if_enabled(0x703);
             create_two_effect_groups(transform, sprite, actor, 0x10);
             ((S_80172DEC_0 *)action_state)->unk_9B = ((S_80172DEC_0 *)action_state)->unk_9B + 1;
@@ -142,7 +138,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)&primary_actor_record->unk_A4 + 2)) = (*(u16 *)((u8 *)primary_actor_record + 0xA6)) - 1;
         advance_status_timers(actor);
@@ -155,17 +151,17 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_80172DEC_0 *)action_state)->unk_9B = ((S_80172DEC_0 *)action_state)->unk_9B + 1;
                                         /* fallthrough */
     case 2:
-        if ((((SpriteFrameState *)sprite)->unk_04 == 3 && (((SpriteFrameState *)sprite)->flags & 0x1000))
+        if ((sprite->unk_04 == 3 && (sprite->flags & 0x1000))
             ||
-            (((SpriteFrameState *)sprite)->flags & 0xE000)) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            (sprite->flags & 0xE000)) {
+            sprite->flags |= 0x800;
             ((S_80172DEC_0 *)action_state)->unk_96 = 0xE;
             ((S_80172DEC_0 *)action_state)->unk_98 |= 0x80;
         }
@@ -173,20 +169,20 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
         ((S_80172DEC_0 *)action_state)->unk_96 = ticks_left;
         if ((s16)ticks_left <= 0) {
             ((S_80172DEC_0 *)action_state)->unk_96 = 0;
-            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+            sprite->flags &= 0xF7FF;
         }
-        if ((((SpriteFrameState *)sprite)->flags & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(transform, sprite->unk_24, sprite->unk_25);
         {
-            u8 *direction_table = D_80175258;
+            u8 *direction_table = mandara_direction_frames;
 
-            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != direction_table) {
-                ((SpriteFrameState *)sprite)->frameTable = direction_table;
+            if (*(u8 * *)&sprite->frameTable != direction_table) {
+                sprite->frameTable = direction_table;
                 select_sprite_entry(sprite,
                     direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                     0);
@@ -196,7 +192,7 @@ void advance_action_through_recovery(void *action_state, ObjectPosition *transfo
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_80172DEC_0 *)action_state)->unk_8C = D_80170F6C;
         advance_status_timers(actor);
         if (actor->pending_turn_updates > 0) {

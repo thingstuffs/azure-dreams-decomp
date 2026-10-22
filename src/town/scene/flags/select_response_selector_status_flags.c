@@ -8,7 +8,7 @@ extern char D_8001D000[];
 extern char D_8001D3CC[];
 extern char D_80022694[];
 
-extern s32 func_8001A8EC(s32);
+extern s32 town_table_contains_first_byte(s32);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 extern char *award_next_unearned_milestone(s32, s32, s32, s32);
@@ -28,10 +28,10 @@ char *select_response_selector_status_flags(s32 unused, s32 value, s32 selection
     case 6:
         return D_80022694;
     case 0:
-        if (func_8001A8EC(6) != 0) {
+        if (town_table_contains_first_byte(6) != 0) {
             func_8001A554(F_sbs32_pad16);
         }
-        if (func_8001A8EC(0xB) != 0) {
+        if (town_table_contains_first_byte(0xB) != 0) {
             func_8001A554(F_sbs32_pad17);
         }
         if (func_8001A64C(F_sbs32_pad16) == 0) {

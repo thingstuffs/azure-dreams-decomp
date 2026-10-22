@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/vector.h"
 #include "engine/effect.h"
 #include "sdk/libgte.h"
@@ -32,16 +33,8 @@ typedef struct S_80051548_VolState
 }
 S_80051548_VolState;
 
-typedef struct S_80051548_Flags
-{
-    u8 unk[0xC];
-    u8 c;
-    u8 d;
-    u8 e;
-}
-S_80051548_Flags;
 /* Advances staged object motion and marks completion. */
-void update_staged_motion_effect(S_80051548_Obj *obj, IntVector3 *position, S_80051548_Flags *flags)
+void update_staged_motion_effect(S_80051548_Obj *obj, IntVector3 *position, SpriteFrameState *flags)
 {
     s16 state;
     u16 prior_state;
@@ -85,9 +78,9 @@ void update_staged_motion_effect(S_80051548_Obj *obj, IntVector3 *position, S_80
         break;
 
     default:
-        flags->e = 0;
-        flags->d = 0;
-        flags->c = 0;
+        flags->color.c.b = 0;
+        flags->color.c.g = 0;
+        flags->color.c.r = 0;
         break;
     }
     obj->ptr0->unk0C = 0;

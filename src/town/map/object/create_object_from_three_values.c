@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/game_work.h"
 
 typedef unsigned char u8;
@@ -21,7 +22,7 @@ extern u8 D_800BBCA0[16];
 /* Creates an object and initializes its data pointer and three input values. */
 s32 create_object_from_three_values(s32 *values)
 {
-    S_800BE4BC *object;
+    ObjectNodeHeader *object;
     u8 (*object_data)[16];
     S_800BE4BC *created_object;
     s32 *values_src;
@@ -32,11 +33,11 @@ s32 create_object_from_three_values(s32 *values)
     created_object = object;
     if (created_object != 0) {
         object_data = &D_800BBCA0;
-        object->field_0x10 = object_data;
-        object->field_0x8[0] = values[0];
+        object->unk_10 = object_data;
+        ((ObjectPosition *)*(s32 * *)&object->position)->x.v = values[0];
         values_src = values;
-        object->field_0x8[1] = values_src[1];
-        object->field_0x8[2] = values_src[2];
+        ((ObjectPosition *)*(s32 * *)&object->position)->y.v = values_src[1];
+        ((ObjectPosition *)*(s32 * *)&object->position)->z.v = values_src[2];
     }
     if (object) {
         return 0;

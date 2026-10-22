@@ -10,7 +10,7 @@
 
 
 /* Enables/disables SPU reverb and mirrors the active flag in D_800794F8. */
-s32 set_spu_reverb_enabled_if_available(s32 enable)
+s32 SpuSetReverb(s32 enable)
 {
     u16 spu_control;
 
@@ -23,7 +23,7 @@ s32 set_spu_reverb_enabled_if_available(s32 enable)
         break;
 
     case 1:
-        if ((spu_reverb_range_override != enable) && test_spu_blocks_beyond_address(spu_reverb_start_address)) {
+        if ((spu_reverb_range_override != enable) && _SpuIsInAllocateArea_(spu_reverb_start_address)) {
             spu_control = spu_registers->spucnt;
             spu_reverb_enabled = 0;
             spu_control &= ~0x80;
@@ -41,7 +41,7 @@ s32 set_spu_reverb_enabled_if_available(s32 enable)
 }
 
 /* Applies masked SPU master volumes and CD/external input volume, reverb and mixing settings. */
-void apply_spu_common_attributes(SpuCommonAttr *attr)
+void SpuSetCommonAttr(SpuCommonAttr *attr)
 {
     u32 mask;
     s32 set_all;

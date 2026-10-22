@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_floor.h"
+#include "dungeon/item.h"
 
 extern s16 dungeon_room_count;
 

@@ -4,13 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80170BB0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80170BB0_0;   /* object in create_configured_effect_actor */
-
 typedef struct S_80170BB0_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -56,7 +49,7 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
     s32 kind;
     s32 flags14;
     s32 flags1c;
-    void *object;
+    ObjectNodeHeader *object;
     S_80170BB0_2 *part_a;
     SpriteFrameState *part_b;
     void *handler;
@@ -68,14 +61,14 @@ void *create_configured_effect_actor(s16 mask, s16 value_at_24, s16 value_at_25,
     if (object != 0) {
         actor = object;
         actor = (S_80170BB0_1 *)((u8 *)actor + 0x20);
-        ((S_80170BB0_0 *)object)->unk_10 = D_80170DA8;
+        object->unk_10 = D_80170DA8;
         actor->unk_13 = MONSTER_HIKEWNE;
         register_node(object, project_sprite_chain);
 
-        part_a = ((S_80170BB0_0 *)object)->unk_08;
+        part_a = object->position;
         handler = D_801740E0;
         part_a->unk_0A = value_at_0A;
-        part_b = ((S_80170BB0_0 *)object)->unk_0C;
+        part_b = object->sprite;
         kind = mask & 3;
         part_b->unk_25 = value_at_25;
         actor2 = actor;

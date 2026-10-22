@@ -1,18 +1,21 @@
 /* Linked line travel, directional sprite rings, timed fades, and nearby status effects. */
+#include "shared/object_node.h"
 #include "dungeon/effect/sprite/advance_fading_effect.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
+#include "shared/game_work.h"
 void (*const dungeon_ovl_188298c_entry)(void) = (void (*)(void))move_to_linked_object_and_apply_arrival_effects;
 
 /* Attempts a status effect on compatible, eligible actors within two tiles of the supplied center. */
-void func_80024060(s32 x, s32 y, void *kind, s32 flags) {
+void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
     u8 *actor = dungeon_actor_ring_anchor;
     x = (s16)x;
     y = (s16)y;
     flags = ((u8)flags >> 2) + 0x10;
     do {
         if ((s16)check_entity_interaction_compatibility(kind, actor) != 0) {
-            u8 *header = *(u8 **)(actor - 0x14);
+            u8 *header = *(u8 * *)&((ObjectNodeHeader *)((u8 *)actor - 0x20))->sprite;
             if (abs(header[0x24] - x) < 3 && abs(header[0x25] - y) < 3 && (s16)check_entity_eligibility(actor) != 0) {
                 s32 amount = flags + (generate_random_value() & 3);
                 s32 mode = 0x10;
@@ -59,12 +62,12 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
     s32 roll;
     void *render;
     int white;
-    void *obj;
+    ObjectNodeHeader *obj;
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         *((s32 *) (((s8 *) obj) + 0x20)) = owner;
-        *((s32 **) (((s8 *) obj) + 0x10)) = (void *)advance_fading_effect;
-        render = *((void **) (((s8 *) obj) + 0xC));
+        obj->unk_10 = (void *)advance_fading_effect;
+        render = obj->sprite;
         *((s8 *) (((s8 *) obj) + 0x24)) = 0;
         white = 0x80;
         *((s8 *) (((s8 *) render) + 0xE)) = white;
@@ -77,7 +80,7 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
         *((u16 *) (((s8 *) render) + 0x10)) = (u16) ((*((u16 *) (((s8 *) render) + 0x10))) | 0x60);
         *((u16 *) (((s8 *) render) + 0x14)) = (u16) ((*((u16 *) (((s8 *) render) + 0x14))) | 0x10C);
         register_node(obj, project_sprite_chain);
-        render = *((void **) (((s8 *) obj) + 8));
+        render = obj->position;
         rand();
         *((u16 *) (((s8 *) render) + 2)) = (u16) (*((u16 *) (((s8 *) source) + 2)));
         *((u16 *) (((s8 *) render) + 6)) = (u16) (*((u16 *) (((s8 *) source) + 6)));
@@ -88,7 +91,7 @@ void spawn_jittered_type_212_effect(s32 owner, void *source)
 
 /* Advances sprite animation, spawns a child at update 10, and removes the effect when its animation
    finishes. */
-void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_80082E80 *target) {
+void advance_counter_and_propagate_target_flags(void *state, s32 context, SpriteFrameState *target) {
     u16 update_count;
     ovl_188298c_81862B74_S_81862B74_1 *linked_object;
 
@@ -100,7 +103,7 @@ void advance_counter_and_propagate_target_flags(void *state, s32 context, Rec_D_
     if ((s16) update_count == 0xA) {
         spawn_jittered_type_212_effect(((ovl_188298c_81862B74_S_81862B74_0 *)state)->unk_00, context);
     }
-    if (((SpriteFrameState *)target)->flags & 0x6000) {
+    if (target->flags & 0x6000) {
         ((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 = (u16) (((ovl_188298c_81862B74_S_81862B74_0_pre *)state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
     }
@@ -208,7 +211,7 @@ s32 project_and_queue_shaded_line(void *line, void *unused_render_context)
     s32 depth_or_tag;
     s32 depth_sum;
     u32 *ordering_table;
-    u8 *render_ctx = *(u8 **)((u8 *)(&g_game_work));
+    u8 *render_ctx = *(u8 **)&g_game_work.draw_buffer;
 
     ((ovl_188298c_81862ED8_S_800246D8_0 *)scratch)->unk_18 = (u32 *)(render_ctx + 0xB0);
     packet = ((GpuContext *)render_ctx)->packetCursor;
@@ -615,7 +618,7 @@ void move_to_linked_object_and_apply_arrival_effects(ovl_188298c_818632E4_Contro
         if (ctrl->timer < 36) {
             break;
         }
-        func_80024060(ctrl->cell_x, ctrl->cell_y, root, ctrl->kind);
+        apply_status_to_nearby_actors(ctrl->cell_x, ctrl->cell_y, root, ctrl->kind);
         ctrl->timer = 0;
         ctrl->state++;
         break;

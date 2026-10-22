@@ -43,13 +43,6 @@ typedef struct S_80173F6C_0 {
     s8 unk_B6;
 } S_80173F6C_0;
 
-typedef struct S_80173F6C_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80173F6C_1;
-
 typedef struct S_80173F6C_2 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -61,20 +54,20 @@ void create_boss_directional_animation(void) {
     SpriteFrameState *sprite;
     S_80173F6C_0 *object_state;
     S_80173F6C_2 *model;
-    void *object;
+    ObjectNodeHeader *object;
     u16 sprite_flags;
 
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
-        object_state = object + 0x20;
+        object_state = ((void *)object) + 0x20;
         object_state->unk_13 = MONSTER_U_BOAT;
         object_state->unk_9A = 0;
         object_state->unk_96 = 0;
-        ((S_80173F6C_1 *)object)->unk_10 = &func_801730AC;
+        object->unk_10 = &func_801730AC;
         register_node(object, project_sprite_chain);
-        model = ((S_80173F6C_1 *)object)->unk_08;
+        model = object->position;
         model->unk_0A = (u16) ((S_80173F6C_5 *)((*(void * *)&((EntityRec *)((u8 *)(&scene_object_list_anchor)))->z)))->unk_0A;
-        sprite = ((S_80173F6C_1 *)object)->unk_0C;
+        sprite = object->sprite;
         sprite->unk_24 = (u8) (reference_tile_object.tile_position.parts.tile_x + 9);
         sprite->unk_25 = (u8) (reference_tile_object.tile_position.parts.tile_y - 9);
         sprite->frameTable = D_80174C84;
@@ -87,7 +80,7 @@ void create_boss_directional_animation(void) {
         update_map_cell_flags_with_item_limit(sprite->unk_24, sprite->unk_25,
                       (object_state->unk_1C & 0x2000) ? 0x300 : 0x3000);
         unlink_entity_node(object_state);
-        ((S_80173F6C_1 *)object)->unk_10 = (s32 *) ((s32) ((S_80173F6C_1 *)object)->unk_10 | 0x80000000);
+        object->unk_10 = (s32 *) ((s32) object->unk_10 | 0x80000000);
         create_boss_linked_effect(object_state, model, sprite);
         sprite_flags = sprite->flags;
         *D_80174CE0 = object;

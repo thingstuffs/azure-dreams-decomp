@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -7,7 +8,6 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
@@ -33,37 +33,20 @@ extern void func_8017430C(void *, void *, void *, void *);
 extern void start_direction_based_action(void *, void *, void *, void *);
 
 extern u8 D_801716F4[];
-extern u8 D_80175554[];
+#include "dungeon/monster/barong.h"
 extern u8 D_8017555C[];
 extern u8 D_80175564[];
 extern u8 D_80175594[];
 extern u8 D_8017559C[];
 extern u8 D_801755A4[];
 
-
-typedef struct S_801716F4_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_801716F4_2;   /* arg2 in update_actor_direction_and_animation */
-
-
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
-void update_actor_direction_and_animation(void *actor_arg, void *context_arg, void *sprite, ActorRecord *entity_arg)
+void update_actor_direction_and_animation(void *actor_arg, void *context_arg, SpriteFrameState *sprite, ActorRecord *entity_arg)
 {
     u8 *anim_table;
     s32 room_id;
     s32 distance;
     u32 initial_flags = g_dungeon_status.flags;
-
 
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
@@ -71,14 +54,13 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
         return;
     }
 
-
     if (entity_arg->mp == 0) {
         advance_actor_pending_action(actor_arg, context_arg, sprite, entity_arg);
         {
-        void *current_anim = ((S_801716F4_2 *)sprite)->unk_2C;
-        ((S_801716F4_2 *)sprite)->unk_2C = current_anim;
+        void *current_anim = sprite->frameTable;
+        sprite->frameTable = current_anim;
         if (current_anim != D_801755A4) {
-            (*(void * *)((u8 *)sprite + (0x2C))) = D_8017559C;
+            (sprite->frameTable) = D_8017559C;
             {
                 s32 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, D_8017559C[direction_index], 0);
@@ -89,7 +71,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
     }
 
     if (((u32)entity_arg->flags1C) & 0x200) {
-        if (((S_801716F4_2 *)sprite)->unk_2C == D_801755A4) {
+        if (sprite->frameTable == D_801755A4) {
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
@@ -110,9 +92,9 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
         if (((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 != 0xE) {
             u8 idle_state = 0xE;
 
-            anim_table = D_80175554;
-            if (((S_801716F4_2 *)sprite)->unk_2C != anim_table) {
-                (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
+            anim_table = barong_direction_frames;
+            if (sprite->frameTable != anim_table) {
+                (sprite->frameTable) = anim_table;
                 select_sprite_entry(sprite,
                     anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
                     0);
@@ -138,7 +120,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
             begin_actor_move_to_target_facing(actor_arg, context_arg, sprite, entity_arg);
             func_8017430C(actor_arg, context_arg, sprite, entity_arg);
             event_table = D_8017555C;
-            (*(void * *)((u8 *)sprite + (0x2C))) = event_table;
+            (sprite->frameTable) = event_table;
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
             anim_sprite = sprite;
             anim_entry = event_table + direction_index;
@@ -152,8 +134,8 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
         }
     }
 
-    room_id = find_active_rect_containing_point(((S_801716F4_2 *)sprite)->unk_24.at00.v, ((S_801716F4_2 *)sprite)->unk_24.at01.v);
-    ((S_801716F4_2 *)sprite)->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = room_id;
 
     if (entity_arg->pending_turn_updates > 0) {
         u16 action_flags;
@@ -162,7 +144,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
             update_actor_status_and_mp(entity_arg);
             return;
         }
-        if (((S_801716F4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
             func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
             return;
         }
@@ -205,7 +187,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
             s16 heading;
 
             heading = get_rounded_facing_and_rounding_flag(
-                ((S_801716F4_2 *)sprite)->unk_24.at00.v, ((S_801716F4_2 *)sprite)->unk_24.at01.v,
+                sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &distance);
             player = primary_actor_record;
@@ -238,10 +220,10 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
             if (!(((u32)entity_arg->flags1C) & 0x430)) {
 
                 if ((test_neighbor_position_relation(
-                        ((S_801716F4_2 *)sprite)->unk_24.at00.v, ((S_801716F4_2 *)sprite)->unk_24.at01.v,
+                        sprite->unk_24, sprite->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     entity_arg->facing = get_rounded_facing_and_rounding_flag(
-                        ((S_801716F4_2 *)sprite)->unk_24.at00.v, ((S_801716F4_2 *)sprite)->unk_24.at01.v,
+                        sprite->unk_24, sprite->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }
@@ -252,14 +234,14 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((S_801716F4_2 *)sprite)->unk_14 & 0x40) {
+    if (sprite->flags & 0x40) {
         return;
     }
-    anim_table = D_80175554;
-    if (((S_801716F4_2 *)sprite)->unk_2C == anim_table) {
+    anim_table = barong_direction_frames;
+    if (sprite->frameTable == anim_table) {
         return;
     }
-    (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
+    (sprite->frameTable) = anim_table;
     {
         s32 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
         select_sprite_entry(sprite, anim_table[direction_index], 0);

@@ -44,12 +44,12 @@ void allocate_and_initialize_object(void) {
         (object->unk_10) = D_8016A9FC;
         register_node(object, D_80044BB0);
 
-        position = (object->unk_08);
+        position = (object->position);
         position->unk_0A = 0;
         position->unk_06 = 0;
         position->unk_02 = 0;
 
-        primitive = (object->unk_0C);
+        primitive = (object->sprite);
         primitive->unk_1E = 0;
         primitive->unk_1C = 0;
         primitive->unk_0E = 0;

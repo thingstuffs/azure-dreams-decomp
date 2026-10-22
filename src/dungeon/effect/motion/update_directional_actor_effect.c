@@ -1,5 +1,6 @@
 /* Effect texture loading, target tinting, and spiraling model effects with completion tracking. */
 #include "dungeon/effect/motion/update_directional_actor_effect.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/motion/update_directional_actor_effect.h"
 #include "common.h"
@@ -46,11 +47,6 @@ typedef struct S_8195281C_4 {
     u8 pad_00[0x60];
     void * unk_60;
 } S_8195281C_4;
-
-typedef struct S_8195281C_5_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8195281C_5_pre;
 
 typedef struct S_8195281C_5 {
     u8 pad_00[0x1C];
@@ -158,7 +154,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
     case 3:
         model = ((S_8195281C_10 *)(((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.i))->unk_60;
         if (model != 0) {
-            model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
+            model_colors = ((ObjectNodeHeader *)((u8 *)model - 0x20))->sprite;
             ((S_8195281C_5 *)model)->unk_1C = (s32) (((S_8195281C_5 *)model)->unk_1C | 0x10000000);
             model_colors->unk_0C.at00.v = (u8) (model_colors->unk_0C.at00.v - 4);
             model_colors->unk_0C.at01.v = (u8) (model_colors->unk_0C.at01.v - 4);
@@ -182,7 +178,7 @@ void update_directional_actor_effect(void *effect, void *color_data) {
         }
         model = ((S_8195281C_7 *)(((u8 *)dungeon_actor_ring_anchor)))->unk_60;
         if (model != 0) {
-            model_colors = ((S_8195281C_5_pre *)model)[-1].unk_00;
+            model_colors = ((ObjectNodeHeader *)((u8 *)model - 0x20))->sprite;
             model_colors->unk_0C.at00u.v = 0x808080;
         }
         fade_stage = ((S_8195281C_0 *)effect)->unk_0A.u;
@@ -473,11 +469,6 @@ void process_effect_modes_and_completion(void *state)
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-typedef struct S_80024908_0 {
-    u8 pad_00[0x10];
-    void (*unk_10)(void *);
-} S_80024908_0;
-
 typedef struct S_80024908_1 {
     u8 pad_00[0xC];
     s32 unk_0C;
@@ -491,13 +482,13 @@ typedef struct S_80024908_1 {
 
 /* Allocate an object and initialize its handler and state fields. */
 void allocate_and_initialize_effect_object(s32 alloc_arg, s16 value_26, s16 value_30, s32 value_0c) {
-    void *object;
+    ObjectNodeHeader *object;
     S_80024908_1 *state;
 
     object = allocate_list_node(0x200, (ObjectNodeHeader **)alloc_arg);
     if (object != 0) {
-        ((S_80024908_0 *)object)->unk_10 = process_effect_modes_and_completion;
-        state = object + 0x20;
+        object->unk_10 = process_effect_modes_and_completion;
+        state = ((void *)object) + 0x20;
         state->unk_26 = value_26;
         state->unk_0C = value_0c;
         state->unk_30 = value_30;

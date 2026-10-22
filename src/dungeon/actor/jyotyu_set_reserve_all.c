@@ -1,4 +1,4 @@
-#include "common.h"
+#include "dungeon/actor.h"
 
 /* Reserved callback slot. */
-void func_8008B2BC(void) { }
+void jyotyu_set_reserve_all(void) { }

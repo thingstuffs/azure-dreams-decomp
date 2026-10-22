@@ -1,5 +1,8 @@
 /* Effect quad projection, child particle updates, and a moving status-effect sequence. */
+
+struct ObjectPosition;
 #include "dungeon/effect/particle/project_textured_quad_or_callback.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 struct S_800259D8_2;
 void update_animated_effect_sprite(void *, void *, struct S_800259D8_2 *);
@@ -112,15 +115,6 @@ typedef struct S_81874988_0 {
     s32 unk_100;
 } S_81874988_0;   /* scratch in project_textured_quad_or_callback */
 
-typedef struct S_81874988_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_81874988_1;   /* arg1 in project_textured_quad_or_callback */
-
    /* global_value in project_textured_quad_or_callback */
 
 typedef struct S_81874988_4 {
@@ -174,7 +168,7 @@ extern s32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 
 /* Projects a textured quad and queues it for drawing, or invokes its texture callback. */
-void project_textured_quad_or_callback(void *quad, void *position, SpriteFrameState *material, s16 depth_bias)
+void project_textured_quad_or_callback(void *quad, ObjectPosition *position, SpriteFrameState *material, s16 depth_bias)
 {
     u8 *render_state = g_game_work.draw_buffer;
     u8 *scratch = (u8 *)0x1F800000;
@@ -189,9 +183,9 @@ void project_textured_quad_or_callback(void *quad, void *position, SpriteFrameSt
     MATRIX view_matrix;
 
     ((S_81874988_0 *)scratch)->unk_24.p = render_state + 0xB0;
-    ((S_81874988_0 *)scratch)->unk_88 = ((S_81874988_1 *)position)->unk_02;
-    ((S_81874988_0 *)scratch)->unk_8C = ((S_81874988_1 *)position)->unk_06;
-    ((S_81874988_0 *)scratch)->unk_90 = ((S_81874988_1 *)position)->unk_0A;
+    ((S_81874988_0 *)scratch)->unk_88 = position->x.w.i;
+    ((S_81874988_0 *)scratch)->unk_8C = position->y.w.i;
+    ((S_81874988_0 *)scratch)->unk_90 = position->z.w.i;
 
     packet = ((GpuContext *)render_state)->packetCursor;
     ((GpuContext *)render_state)->packetCursor = packet + 0x28;
@@ -212,7 +206,7 @@ void project_textured_quad_or_callback(void *quad, void *position, SpriteFrameSt
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    texture = *(u8 * *)&material->source;
+    texture = *(u8 **)&material->source;
     ((S_81874988_0 *)scratch)->unk_28 = material->flags;
 
     if (!(texture[0] & 0x20)) {
@@ -337,7 +331,7 @@ void project_textured_quad_or_callback(void *quad, void *position, SpriteFrameSt
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void project_textured_quad_or_callback(void *record, void *context, SpriteFrameState *data, s16 depth_bias);
+extern void project_textured_quad_or_callback(void *record,struct ObjectPosition *context, SpriteFrameState *data, s16 depth_bias);
 
 /* Retail 81874F04 (project_linked_quad_record).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
@@ -352,8 +346,8 @@ s32 project_linked_quad_record(void *record, void *context, void *data) {
             return 0;
         }
         record = node + 1;
-        context = node->unk_08;
-        data = node->unk_0C;
+        context = node->position;
+        data = node->sprite;
     }
 }
 #include "modules/dungeon_native_abi.h"
@@ -380,7 +374,7 @@ void func_80065820(void *, void *);
 void func_800666F4(void *);
 
 /* Draws a textured spherical mesh and adds its visible quads to the ordering table. */
-void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
+void draw_textured_sphere_mesh(void *mesh, void *position, void *material, u16 depth_bias) {
     s32 view_matrix[8];
     u16 saved_depth_bias;
     u8 *texture;
@@ -607,7 +601,7 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
 #include "common.h"
 #include "shared/object_node.h"
 
-extern void func_80024758(void *record, void *context, void *data, u16 depth_bias);
+extern void draw_textured_sphere_mesh(void *record, void *context, void *data, u16 depth_bias);
 
 /* Retail 818757D4 (draw_chained_object_records).
  * Draw the record and then every record chained through the previous header's unk_18 link (node + 0x20 is the
@@ -616,14 +610,14 @@ s32 draw_chained_object_records(void *record, void *context, void *data) {
     ObjectNodeHeader *node;
 
     for (;;) {
-        func_80024758(record, context, data, 0);
+        draw_textured_sphere_mesh(record, context, data, 0);
         node = ((ObjectNodeHeader *)record - 1)->chain_next;
         if (node == 0) {
             return 0;
         }
         record = node + 1;
-        context = node->unk_08;
-        data = node->unk_0C;
+        context = node->position;
+        data = node->sprite;
     }
 }
 #include "modules/dungeon_native_abi.h"
@@ -658,7 +652,7 @@ s32 project_colored_point(u8 *render_data, u8 *source_vertex)
     u32 address_mask;
     u32 *mode_ot_entry;
 
-    context = *(u8 **)&g_game_work;
+    context = *(u8 **)&g_game_work.draw_buffer;
     context_slot = (u8 **)&g_game_work;
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
@@ -730,7 +724,7 @@ void advance_point_effect_toward_terrain(void *state, s16 *position)
     s16 *state_words = state;
     s16 countdown;
 
-    D_80026664 = 1;
+    sphere_particle_effect_updated = 1;
     if (position[5] < (s16)sample_terrain_surface_height((u16)position[1], (u16)position[3], position[5] + 2)) {
         ((s32 *)position)[2] += *(s32 *)((u8 *)state + 0x48);
     }
@@ -762,15 +756,6 @@ typedef struct S_func_81875B38_2 {
     u8 pad_0C[0x4];
     s32 unk_10;
 } S_func_81875B38_2;
-
-typedef struct S_func_81875B38_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_func_81875B38_4;
 
 typedef struct S_func_81875B38_5 {
     u8 pad_00[0x8];
@@ -812,19 +797,19 @@ void create_terrain_seeking_point_effect(
         jitter = rand() & 0x1F;
         effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_02 + jitter;
         effect_pos += x_offset - 0x10;
-        ((S_func_81875B38_4 *)effect_ptr->unk_08)->unk_02 = effect_pos;
+        ((ObjectPosition *)effect_ptr->unk_08)->x.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
         effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_06 + jitter;
         effect_pos += y_offset - 0x10;
-        ((S_func_81875B38_4 *)effect_ptr->unk_08)->unk_06 = effect_pos;
+        ((ObjectPosition *)effect_ptr->unk_08)->y.w.i = effect_pos;
 
         jitter = rand() & 0x1F;
         effect_obj = effect_ptr;
         effect_ptr = effect_offset_32(effect_obj);
         effect_pos = ((MovingPosition *)source_obj->unk_08)->unk_0A + jitter;
         effect_pos += z_offset - 0x10;
-        ((S_func_81875B38_4 *)effect_obj->unk_08)->unk_0A = effect_pos;
+        ((ObjectPosition *)effect_obj->unk_08)->z.w.i = effect_pos;
         ((S_func_81875B38_5 *)effect_ptr)->unk_14 = property_34;
         ((S_func_81875B38_5 *)effect_ptr)->unk_32 = property_52;
         ((S_func_81875B38_5 *)effect_ptr)->unk_34 = property_52;
@@ -871,7 +856,7 @@ void spawn_randomized_spark_burst(u8 *data, void *unused, u8 *context)
     s32 state;
 
     state = *(s16 *)p;
-    D_80026664 = 1;
+    sphere_particle_effect_updated = 1;
 
     switch (state) {
     case 0:
@@ -1081,7 +1066,7 @@ void update_effect_quad_and_completion(void *effect, void *position_out, void *c
     void *owner;
 
     owner = ((S_81876014_0 *)effect)->unk_4C;
-    D_80026664 = 1;
+    sphere_particle_effect_updated = 1;
     if (((S_81876014_1 *)owner)->unk_9C == 0x37) {
         /* vertex 0 of the quad */
         ((S_81876014_0 *)effect)->unk_50 =
@@ -1265,13 +1250,6 @@ typedef struct S_800259D8_6 {
     u8 unk_25;
 } S_800259D8_6;   /* resident_work in update_animated_effect_sprite */
 
-typedef struct S_800259D8_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800259D8_7;   /* spawn in update_animated_effect_sprite */
-
 typedef struct S_800259D8_8 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -1288,12 +1266,6 @@ typedef struct S_800259D8_8 {
     s16 unk_1C;
     s16 unk_1E;
 } S_800259D8_8;   /* work in update_animated_effect_sprite */
-
-typedef struct S_800259D8_9 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800259D8_9;   /* dst in update_animated_effect_sprite */
 
 typedef struct S_800259D8_10_pre {
     void * unk_00;
@@ -1398,7 +1370,7 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
     void *entry;
     void *node;
     S_800259D8_8 *work;
-    void *dst;
+    ObjectPosition *dst;
     u32 state;
     u16 old_count;
     s16 count;
@@ -1428,7 +1400,7 @@ void update_animated_effect_sprite(void *effect, void *entity, S_800259D8_2 *spr
             u16 init_count;
             sprite->unk_08 = (u8 *)effect + 0xA2;
             init_value = (((S_800259D8_3 *)obj)->unk_2A >> 9) & 7;
-            ((s16 *)&D_80026664)[0] = 1;
+            ((s16 *)&sphere_particle_effect_updated)[0] = 1;
             init_count = ((S_800259D8_0 *)effect)->unk_0A.u + 1;
             ((S_800259D8_0 *)effect)->unk_80 = init_value;
             ((S_800259D8_0 *)effect)->unk_0A.u = init_count;
@@ -1540,7 +1512,7 @@ L0_adjust_z:
         ((S_800259D8_0 *)effect)->unk_0A.u++;
         i = 0;
         do {
-            void *spawn;
+            ObjectNodeHeader *spawn;
             spawn = allocate_flagged_object_node(0x12);
             if (spawn != 0) {
                 entry = (u8 *)spawn + 0x20;
@@ -1551,24 +1523,24 @@ L0_adjust_z:
                     ((S_800259D8_5 *)entry)->unk_44 = entity;
                     ((S_800259D8_5 *)entry)->unk_48 = sprite;
                     ((S_800259D8_5 *)entry)->unk_4C = effect;
-                    ((S_800259D8_7 *)spawn)->unk_10 = (void *)update_effect_quad_and_completion;
+                    spawn->unk_10 = (void *)update_effect_quad_and_completion;
                     register_node(spawn_copy, tbl);
                 }
-                work = ((S_800259D8_7 *)spawn)->unk_0C;
+                work = spawn->sprite;
                 work->unk_14 |= 0xC;
                 work->unk_10 = 0x20;
-                dst = ((S_800259D8_7 *)spawn)->unk_08;
+                dst = spawn->position;
                 ((S_800259D8_5 *)entry)->unk_08.at02u.v = (func_80069EF8() & 7) + 12;
                 ((S_800259D8_5 *)entry)->unk_0C = func_80069EF8() & 0xFFF;
                 work->unk_16 = (func_80069EF8() & 0xFF) << 4;
                 work->unk_18 = (func_80069EF8() & 0xFF) << 4;
                 work->unk_1A = (func_80069EF8() & 0xFF) << 4;
                 value = func_80064584(((S_800259D8_5 *)entry)->unk_0C);
-                ((S_800259D8_9 *)dst)->unk_00 = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
+                dst->x.v = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
                 value = func_800644B8(((S_800259D8_5 *)entry)->unk_0C);
-                ((S_800259D8_9 *)dst)->unk_04 = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
-                ((S_800259D8_9 *)dst)->unk_08.at02.v = ((S_800259D8_4 *)entity)->unk_08.at02.v;
-                work = ((S_800259D8_7 *)spawn)->unk_0C;
+                dst->y.v = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
+                dst->z.w.i = ((S_800259D8_4 *)entity)->unk_08.at02.v;
+                work = spawn->sprite;
                 {
                     s32 scale1;
                     scale1 = 0x1000;
@@ -1658,7 +1630,7 @@ L1_calc:
             ((S_800259D8_0 *)effect)->unk_A0 = 0;
         }
         {
-            void *spawn;
+            ObjectNodeHeader *spawn;
             spawn = allocate_flagged_object_node(0x12);
             if (spawn != 0) {
                 entry = (u8 *)spawn + 0x20;
@@ -1674,19 +1646,19 @@ L1_calc:
                 ((S_800259D8_5 *)entry)->unk_1C = 0;
                 ((S_800259D8_5 *)entry)->unk_1A = 0x40;
                 entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-                ((S_800259D8_7 *)spawn)->unk_10 = spawn_randomized_spark_burst;
+                spawn->unk_10 = spawn_randomized_spark_burst;
                 register_node(spawn, draw_chained_object_records);
-                work = ((S_800259D8_7 *)spawn)->unk_0C;
+                work = spawn->sprite;
                 work->unk_10 = 0x20;
                 work->unk_14 |= 0x000C;
-                dst = ((S_800259D8_7 *)spawn)->unk_08;
-                ((S_800259D8_9 *)dst)->unk_00 = ((S_800259D8_5 *)entry)->unk_00.at00.v;
-                ((S_800259D8_9 *)dst)->unk_04 = ((S_800259D8_5 *)entry)->unk_04.at00.v;
+                dst = spawn->position;
+                dst->x.v = ((S_800259D8_5 *)entry)->unk_00.at00.v;
+                dst->y.v = ((S_800259D8_5 *)entry)->unk_04.at00.v;
                 index = ((S_800259D8_3 *)obj)->unk_60 != 0;
                 index = ((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13;
-                ((S_800259D8_9 *)dst)->unk_08.at00.v = ((S_800259D8_5 *)entry)->unk_08.at00.v -
+                dst->z.v = ((S_800259D8_5 *)entry)->unk_08.at00.v -
                     (entity_height_offsets[index] << 15);
-                work = ((S_800259D8_7 *)spawn)->unk_0C;
+                work = spawn->sprite;
                 {
                     s16 scale2 = 0x1000;
                     work->unk_1E = scale2;
@@ -1787,7 +1759,7 @@ L1_calc:
         }
         {
             s32 seen;
-            seen = ((s16 *)&D_80026664)[0];
+            seen = ((s16 *)&sphere_particle_effect_updated)[0];
             ((S_800259D8_0 *)effect)->unk_84.u = old_count;
             if (seen == 0) {
                 g_dungeon_status.active_actor = 0;
@@ -1796,7 +1768,7 @@ L1_calc:
                 return;
             }
         }
-        ((s16 *)&D_80026664)[0] = 0;
+        ((s16 *)&sphere_particle_effect_updated)[0] = 0;
         return;
     }
 

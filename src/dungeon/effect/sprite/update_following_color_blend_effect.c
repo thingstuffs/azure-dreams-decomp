@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
@@ -187,8 +188,8 @@ void update_following_color_blend_effect(AnimState *state, void *pos, void *tint
                 if (S16(state, 0x30) <= 0) {
                     ObjectPosition *base = &view_reference_entity;
                     s32 tableAddress;
-                    color.x = U16(base, 2);
-                    color.y = U16(base, 6);
+                    color.x = *(u16 *)&base->x.w.i;
+                    color.y = *(u16 *)&base->y.w.i;
                     color.z = U16(((u8 *)dungeon_actor_ring_anchor), 0x88) - 0x50;
                     tableAddress =
                         ((g_game_work.view.camera_rotation.parts.viewAngle + S16(((u8 *)dungeon_actor_ring_anchor), 0x2A) + 0x100) >> 7) & 0x1C;

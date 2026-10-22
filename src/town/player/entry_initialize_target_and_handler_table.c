@@ -3,7 +3,7 @@
 #include "records/Rec_func_80097D54_arg0.h"
 s32 service_script_controller(Rec_func_80097D54_arg0 *, s32, s32, s32);                                /* extern */
 #include "records/Rec_func_80094268_arg0.h"
-void func_80093D90(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);    /* extern */
+void init_flagged_entity_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);    /* extern */
 void initialize_target_and_handler_table();    /* extern */
 extern M2C_UNK D_800CFFF0;
 
@@ -18,7 +18,7 @@ void advance_timed_script_controller(Rec_func_80097D54_arg0 *record, s32 call_ar
             return;
         }
         if (record->unk_1C == &D_800CFFF0) {
-            func_80093D90(record, call_arg_1, call_arg_2);
+            init_flagged_entity_action(record, call_arg_1, call_arg_2);
             return;
         }
     }

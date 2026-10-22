@@ -6,7 +6,7 @@
 #include "shared/entity.h"
 
 s32 initialize_actor_movement_interaction_action();        
-s32 func_80094714();        
+s32 init_sound_threshold_action();        
 s32 select_sound_command_from_mode();                            
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"
 void handle_adjust_vector_toward_selected_angle_limit_magnitude();                      
@@ -27,7 +27,7 @@ void update_actor_movement_with_radial_effects(s32 object_id, EntityRec *object,
     store_the_valid_shared_angle_in_offset_hex_10((void *)(object_id));
     handle_adjust_vector_toward_selected_angle_limit_magnitude(object);
     if (((s32)town_state->pressed_buttons) & 0x40) {
-        func_80094714(object_id, object, update_context);
+        init_sound_threshold_action(object_id, object, update_context);
     }
     update_threshold = select_the_smaller_position_query_result_capped_n_64_writes_associated(object, &position_query_scratch);
     if (object->z.w.i >= update_threshold) {

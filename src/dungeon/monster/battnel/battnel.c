@@ -6,13 +6,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80B85054_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80B85054_0;   /* obj in func_80B85054 */
-
 typedef struct S_80B85054_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -55,7 +48,7 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
 {
     s32 kind;
     S_80B85054_1 *work = 0;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_80B85054_2 *part_a;
     SpriteFrameState *part_b;
     S_80B85054_4 *actor;
@@ -72,13 +65,13 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80B85054_0 *)obj)->unk_10 = D_80158A30;
+        obj->unk_10 = D_80158A30;
         work->unk_13 = MONSTER_BATTNEL;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_80B85054_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_part_value;
-        part_b = ((S_80B85054_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_byte_25;
         actor = work;

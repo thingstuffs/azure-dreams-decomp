@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "engine/movie.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void upload_pixel_rectangle(); /* extern */
 extern s32 map_scene_selector_alias;
 extern M2C_UNK D_800FC428;
 

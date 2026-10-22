@@ -3,18 +3,16 @@
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-
+#include "dungeon/level.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-
 typedef struct S_800C1F28_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
 } S_800C1F28_1;
-
 
 typedef struct {
     u8 pad[0x24];
@@ -39,7 +37,6 @@ extern u8 D_800C1EC4;
 
 extern s32 get_entity_class(void *);
 extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
-extern s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y);
 extern u16 sample_terrain_surface_height(s32, s32, s16);
 extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 direction, s16 effect_mode);
 extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
@@ -55,7 +52,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
     S_800C1F28_1 *task_object;
     u8 *position;
     u8 *task_data;
-    void *task;
+    ObjectNodeHeader *task;
     s32 object_index;
     u8 old_x;
     u8 old_y;
@@ -94,7 +91,7 @@ void *teleport_familiar_near_player(void *object, s16 action_arg) {
         position[0x24] = (u8)tile_x;
         position[0x25] = (u8)tile_y;
         ((Rec_D_80082E80 *)object)->unk_88.as_u16 = *(u16 *)(task_data + 8);
-        *(void **)((u8 *)task + 0x10) = &D_800C1EC4;
+        task->unk_10 = &D_800C1EC4;
         *(void **)(task_data + 0xC) = object;
         *(s16 *)(task_data + 2) = 0x20;
         *(s16 *)(task_data + 4) = position[0x24];

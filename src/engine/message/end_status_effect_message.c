@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "slus/jtbl_80042BDC.h"
 #include "shared/object_flags.h"
 
@@ -102,7 +103,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
         if (ent->x13 != 0) {
             spawn_mode = 1;
             if (ent->x13 == 0x2E) {
-            child = *(S_80042BDC_child **)((u8 *)ent - 0x14);
+            child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
             entity_flags = ent->x14;
             ent->x13 = ent->xA8;
             if (entity_flags & 0x4000) {
@@ -172,10 +173,10 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
                      * Found and documented by the Azure Dreams community
                      * (adrando.com/guide/bugs.html).
                      */
-                    begin_actor_move_to_target_facing(owned_ent, *(int *)((u8 *)spawn_result_2 - 0x18),
-                        *(int *)((u8 *)spawn_result_2 - 0x14), spawn_result_2);
-                    update_actor_transform_from_parent(spawn_result_2, *(int *)((u8 *)spawn_result_2 - 0x18),
-                        *(int *)((u8 *)spawn_result_2 - 0x14), spawn_result_2);
+                    begin_actor_move_to_target_facing(owned_ent, *(s32 *)&((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->position,
+                        *(s32 *)&((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->sprite, spawn_result_2);
+                    update_actor_transform_from_parent(spawn_result_2, *(s32 *)&((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->position,
+                        *(s32 *)&((ObjectNodeHeader *)((u8 *)spawn_result_2 - 0x20))->sprite, spawn_result_2);
                 } else {
                     if (spawn_result_2->x25 == 0) {
                         g_dungeon_status.activity_counts.parts.pending_action_count += 1;
@@ -186,7 +187,7 @@ void end_status_effect_message(S_80042BDC *ent, s16 action) {
             ent->x14 |= 0x20000000;
             detach_record_and_update_slot_state(ent);
             unlink_entity_node(ent);
-            *(u16 *)((u8 *)ent - 2) |= NODE_REMOVE;
+            ((ObjectNodeHeader *)((u8 *)ent - 0x20) )->flags|= NODE_REMOVE;
             D_800814A0 |= OBJECT_REMOVE_PENDING;
             ent = spawn_result_2;
         }
@@ -200,12 +201,12 @@ L_print4B:
         break;
     }
     case 26:
-        child = *(S_80042BDC_child **)((u8 *)ent - 0x14);
+        child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
         cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
-        try_move_actor_to_valid_position(ent, *(int *)((u8 *)ent - 0x18), child, ent);
+        try_move_actor_to_valid_position(ent, *(s32 *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->position, child, ent);
         break;
     case 10:
-        child = *(S_80042BDC_child **)((u8 *)ent - 0x14);
+        child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
         update_map_cell_flags_with_item_limit(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
         ent->x1C &= ~0x2000;
         cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
@@ -216,13 +217,13 @@ L_print4B:
             clear_byte_and_advance(expand_text_control_codes(status_end_action_12_text, append_entity_display_text(ent, message_ctx)));
             display_text_with_fullwidth_adjustment(message_ctx);
         }
-        child = *(S_80042BDC_child **)((u8 *)ent - 0x14);
+        child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
         update_map_cell_flags_with_item_limit(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
         ent->x1C |= 0x2000;
         cycle_map_cell_flags(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
         break;
     case 25:
-        child = *(S_80042BDC_child **)((u8 *)ent - 0x14);
+        child = *(S_80042BDC_child * *)&((ObjectNodeHeader *)((u8 *)ent - 0x20))->sprite;
         ent->x98 &= 0x7FFF;
         update_map_cell_flags_with_item_limit(child->x24, child->x25, (ent->x1C & 0x2000) ? 0x300 : 0x3000);
         if (ent->x98 & 0x4000) {

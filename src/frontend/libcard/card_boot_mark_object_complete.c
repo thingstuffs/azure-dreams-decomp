@@ -1,10 +1,11 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 #include "shared/object_flags.h"
 #include "frontend/libcard.h"
-void card_boot_mark_object_complete(void *object) {
-    u16 of = *(u16 *)((char *)object + 0x1E);
+void card_boot_mark_object_complete(ObjectNodeHeader *object) {
+    u16 of = object->flags;
     int gf = object_flag_block.flags;
-    *(u16 *)((char *)object + 0x1E) = of | 0x8000;
+    object->flags = of | 0x8000;
     object_flag_block.flags = gf | 0x8000;
 }

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "modules/dungeon_ovl_7f211800.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -8,7 +9,7 @@
 void *func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8016A894_2 *part_a;
     SpriteFrameState *part_b;
     S_8016A894_1 *work;
@@ -27,13 +28,13 @@ void *func_8016A894(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8016A894_0 *)obj)->unk_10 = func_8016AA68;
+        obj->unk_10 = func_8016AA68;
         work->unk_13 = MONSTER_VIPER;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_8016A894_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_spawn;
-        part_b = ((S_8016A894_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;

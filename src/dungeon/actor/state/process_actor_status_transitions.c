@@ -1,8 +1,9 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
 
 extern void update_actor_status_and_mp(void *);
-extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
+extern void begin_actor_display_action(void *actor, void *unused, SpriteFrameState *display, u8 *facing_variants);
 extern void begin_ready_actor_directional_action(s32, s32, s32, s32);
 
 /* Processes active status, counts completed transitions, and dispatches follow-up work. */

@@ -2,6 +2,7 @@
 #include "shared/game_work.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
+#include "dungeon/player.h"
 
 typedef struct S_80048A44_Obj S_80048A44_Obj;
 typedef struct {
@@ -15,7 +16,6 @@ typedef struct {
 
 void clear_slots_of_type(SlotOwner *owner, s8 match_type);             /* extern */
 void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
-void clear_player_linked_action_flags();                            /* extern */
 s32 generate_random_value();                                /* extern */
 extern u8 D_800DCFE0[];
 extern u8 D_800DCFE8[];

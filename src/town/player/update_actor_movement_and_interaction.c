@@ -14,7 +14,7 @@ struct Rec_func_80094268_arg0; void initialize_actor_position_interaction_action
 struct S_800945B8_0; void initialize_input_driven_scene_object(s32 * *, struct S_800945B8_0 *, s32);     /* extern */
 void initialize_action_callback_from_entry(s32 **record, void *ptr, void *ptr2);
 void initialize_busy_checked_countdown_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value);
-void func_80094774(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
+void init_timed_dispatch_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 s32 run_the_action_sequence_context_unless_flag_hex_a_5_set(s32);                          /* extern */
 #include "town/player/store_the_valid_shared_angle_in_offset_hex_10_api.h"                      /* extern */
 #include "town/player/move_both_components_toward_zero_direction_dependent_steps_clamping_zero_api.h"                      /* extern */
@@ -24,7 +24,7 @@ s32 get_status_active_entry_matching_direction(void *);                       /*
 s16 select_the_smaller_position_query_result_capped_n_64_writes_associated();               /* extern */
 #include "town/player/compute_and_clamps_vector_based_adjustment_updates_town_api.h"      /* extern */
 #include "town/player/position/handle_resolves_movement_collisions_along_one_axis_using_boundary_probes_tile_api.h"                      /* extern */
-void func_800988C8(s32 record, s32 setup_value, s32 init_value);
+void init_motion_action_callback(s32 record, s32 setup_value, s32 init_value);
 #include "town/player/object/entity_record_fields.h"                      /* extern */
 s32 is_unk_18_n_12_unk_1_a_between_n_37_n_41();                                /* extern */
 s32 select_response_for_source_and_target();                     /* extern */
@@ -85,7 +85,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
     if (((s32)input->pressed_buttons) & 0x80) {
         if ((town_target_record != NULL) && (((Rec_D_800CFCC4 *)town_target_record)->unk_14 == 4)) {
             run_the_three_update_routines_context((s32)(position));
-            func_80094774(actor, position, context);
+            init_timed_dispatch_action(actor, position, context);
             town_interaction_pending[0] = 1;
             return;
         }
@@ -104,7 +104,7 @@ void update_actor_movement_and_interaction(void *actor, EntityRec *position, s32
         if ((get_status_active_entry_matching_direction(&D_800CFCB4) == -1) && (is_unk_18_n_12_unk_1_a_between_n_37_n_41() == 0)) {
             select_an_available_entry_matching_direction_returns_status(&D_800CFCB4);
             store_the_valid_shared_angle_in_offset_hex_10(actor);
-            func_800988C8(actor, position, context);
+            init_motion_action_callback(actor, position, context);
             target_handler = ((S_800927EC_5 *)(((Rec_func_80094268_arg0 *)actor)->unk_2C))->unk_50;
             if ((target_handler != &D_8009B828) && (target_handler != &D_8009B8E8)) {
                 if (target_handler != &D_8009B9BC) {

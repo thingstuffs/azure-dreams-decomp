@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
@@ -18,7 +19,6 @@ typedef struct S_800246AC_0 {
     s16 unk_08;
 } S_800246AC_0;   /* arg0 in advance_orbit_and_position */
 
-
 typedef struct S_800246AC_2 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -27,7 +27,7 @@ typedef struct S_800246AC_2 {
 } S_800246AC_2;   /* arg1 in advance_orbit_and_position */
 
 /* Advance the orbit angle and update the position when the object flags allow it. */
-void advance_orbit_and_position(S_800246AC_0 *orbit, S_800246AC_2 *position, Rec_D_80082E80 *object) {
+void advance_orbit_and_position(S_800246AC_0 *orbit, S_800246AC_2 *position, SpriteFrameState *object) {
     s16 angle;
     s32 next_angle;
     s32 wrap_angle;
@@ -40,7 +40,7 @@ void advance_orbit_and_position(S_800246AC_0 *orbit, S_800246AC_2 *position, Rec
     }
     orbit->unk_08 = (s16) (next_angle - ((wrap_angle >> 0xC) << 0xC));
     advance_sprite_animation_and_textures(object);
-    if (object->unk_14.at00_u16.v & 0x6000) {
+    if (object->flags & 0x6000) {
         select_record_entry_and_value(object, &D_800DEB28, 0);
         position->unk_02 = (s16) (orbit->unk_00 + ((s32) ((func_800644B8(orbit->unk_08) >> 4) * 0x1C) >> 8));
         position->unk_06 = (s16) (orbit->unk_02 + ((s32) ((func_80064584(orbit->unk_08) >> 4) * 0x1C) >> 8));

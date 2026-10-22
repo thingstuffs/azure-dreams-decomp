@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -20,25 +21,6 @@ typedef struct S_80172160_1 {
     s16 unk_18;
 } S_80172160_1;
 
-typedef struct S_80172160_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80172160_2;
-
-typedef struct S_80172160_4 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    s32 unk_08;
-} S_80172160_4;
-
-typedef struct S_80172160_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_80172160_5;
-
 void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 extern s32 register_node();
 extern s32 rand();
@@ -50,9 +32,9 @@ void spawn_rising_trail_emitter(void)
 {
     SpriteFrameState *sprite_header;
     SpriteFrameState *sprite;
-    S_80172160_4 *effect_pos;
-    S_80172160_5 *source_pos;
-    void *effect;
+    ObjectPosition *effect_pos;
+    ObjectPosition *source_pos;
+    ObjectNodeHeader *effect;
     S_80172160_1 *effect_state;
     s32 random_offset;
     s32 coord;
@@ -60,30 +42,30 @@ void spawn_rising_trail_emitter(void)
     source_pos = ghosh_boss_node->unk_08;
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         effect_state->unk_16 = 0x1E;
         effect_state->unk_18 = 0x1E;
-        ((S_80172160_2 *)effect)->unk_10 = &update_rising_trail_emitter;
+        effect->unk_10 = &update_rising_trail_emitter;
         register_node(effect, project_sprite_chain);
-        sprite_header = ((S_80172160_2 *)effect)->unk_0C;
+        sprite_header = effect->sprite;
         sprite_header->unk_06 = 0;
-        effect_pos = ((S_80172160_2 *)effect)->unk_08;
-        effect_pos->unk_00.at00.v = source_pos->unk_00;
-        effect_pos->unk_04.at00.v = source_pos->unk_04;
-        effect_pos->unk_08 = source_pos->unk_08;
+        effect_pos = effect->position;
+        effect_pos->x.v = source_pos->x.v;
+        effect_pos->y.v = source_pos->y.v;
+        effect_pos->z.v = source_pos->z.v;
         random_offset = rand(sprite_header);
-        coord = effect_pos->unk_00.at02.v;
+        coord = *(u16 *)&effect_pos->x.w.i;
         random_offset &= 0x3F;
         coord -= 0x20;
         coord += random_offset;
-        effect_pos->unk_00.at02.v = coord;
+        effect_pos->x.w.i = coord;
         random_offset = rand();
-        coord = effect_pos->unk_04.at02.v;
+        coord = *(u16 *)&effect_pos->y.w.i;
         random_offset &= 0x3F;
         coord -= 0x20;
         coord += random_offset;
-        effect_pos->unk_04.at02.v = coord;
-        sprite = ((S_80172160_2 *)effect)->unk_0C;
+        effect_pos->y.w.i = coord;
+        sprite = effect->sprite;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.c.b = 0x80;

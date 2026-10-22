@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/player/object.h"
 
 extern u8 familiar_record_storage[];
 

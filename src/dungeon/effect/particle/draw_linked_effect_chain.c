@@ -1,7 +1,11 @@
 /* Projected effect quads, linked trails, particle animation, and a timed attack sequence. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/particle/draw_linked_effect_chain.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "shared/dungeon_status.h"
+#include "shared/game_work.h"
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
 void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_state, s16 depth_bias)
@@ -15,7 +19,7 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
     u8 **render_context_ptr = (u8 **)((u8 *)(&g_game_work));
     Row_819A088C_MATRIX base_matrix;
 
-    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p = *(u8 **)((u8 *)(&g_game_work)) + 0xB0;
+    ((Row_819A088C_S_819A088C_0 *)scratch)->unk_24.p = *(u8 **)&g_game_work.draw_buffer + 0xB0;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_88 = ((Row_819A088C_S_819A088C_1 *)position)->unk_02;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_8C = ((Row_819A088C_S_819A088C_1 *)position)->unk_06;
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_90 = ((Row_819A088C_S_819A088C_1 *)position)->unk_0A;
@@ -36,7 +40,7 @@ void project_vertex_shaded_effect_quad(void *quad, void *position, void *render_
     func_80064D80(scratch + 0x54);
     func_80064CF0(scratch + 0x54);
 
-    texture = (*(u8 * *)((u8 *)render_state + 8));
+    texture = (*(u8 **)((u8 *)render_state + 8));
     ((Row_819A088C_S_819A088C_0 *)scratch)->unk_28 = ((Row_819A088C_S_819A088C_2 *)render_state)->unk_14;
 
     packet = ((Row_819A088C_S_819A088C_3 *)(g_game_work.draw_buffer))->unk_8D0;
@@ -385,9 +389,9 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 u
                    s16 offset_z)
 {
     Row_819A1450_LocalTable direction_table;
-    void *node;
+    ObjectNodeHeader *node;
     SpriteFrameState *part;
-    Row_819A1450_S_819A1450_3 *coords;
+    ObjectPosition *coords;
     u8 *setup;
     s16 direction;
 
@@ -397,31 +401,31 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, s32 u
         setup = (u8 *)node + 0x20;
         ((Row_819A1450_S_819A1450_0 *)setup)->unk_3A = 5;
         ((Row_819A1450_S_819A1450_0 *)setup)->unk_3C = 5;
-        ((Row_819A1450_S_819A1450_1 *)node)->unk_10 = D_800246F0;
+        node->unk_10 = D_800246F0;
         register_node(node, project_sprite_chain);
 
-        part = ((Row_819A1450_S_819A1450_1 *)node)->unk_0C;
+        part = node->sprite;
         part->tpage_abr = 0x20;
         part->flags |= 0xC;
         part->angle_z = (rand() & 7) << 9;
         part->unk_06 = 0;
 
-        coords = ((Row_819A1450_S_819A1450_1 *)node)->unk_08;
-        coords->unk_02 = offset_x;
-        coords->unk_06 = offset_y;
-        coords->unk_0A = offset_z;
-        coords->unk_02 += source->unk_84;
-        coords->unk_06 += source->unk_86;
-        coords->unk_0A += source->unk_88;
+        coords = node->position;
+        coords->x.w.i = offset_x;
+        coords->y.w.i = offset_y;
+        coords->z.w.i = offset_z;
+        coords->x.w.i += source->unk_84;
+        coords->y.w.i += source->unk_86;
+        coords->z.w.i += source->unk_88;
 
         direction = source->unk_36;
-        coords->unk_0C =
+        coords->velocity_x =
             (s32)direction_table.entries[direction].first << 20;
         direction = source->unk_36;
-        coords->unk_10 =
+        coords->velocity_y =
             (s32)direction_table.entries[direction].second << 20;
 
-        part = ((Row_819A1450_S_819A1450_1 *)node)->unk_0C;
+        part = node->sprite;
         part->scale_y = 0x800;
         part->scale_x = 0x800;
         part->color.c.b = 0x80;
@@ -437,11 +441,11 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
     Row_819A1654_Task *task;
     Row_819A1654_Effect *effect;
     Row_819A1654_Sprite *sprite;
-    Row_819A1654_Coord *coord;
-    Row_819A1654_Coord *start_origin;
-    Row_819A1654_Coord *origin_loop;
+    ObjectPosition *coord;
+    ObjectPosition *start_origin;
+    ObjectPosition *origin_loop;
     EntityRec *origin_second;
-    Row_819A1654_Coord *origin_path;
+    ObjectPosition *origin_path;
     u8 *copy_page;
     ActorRecord *world;
     void *focus;
@@ -474,9 +478,9 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
         start_origin = &view_reference_entity[0];
         {
             Row_819A1654_Blob24 *flag_base = D_80026198;
-            entity->base[0] = start_origin->x;
-            entity->base[1] = start_origin->y;
-            entity->base[2] = start_origin->z;
+            entity->base[0] = start_origin->x.w.i;
+            entity->base[1] = start_origin->y.w.i;
+            entity->base[2] = start_origin->z.w.i;
             *(s16 *)(flag_base->bytes + 24) = 1;
         }
     case 1:
@@ -532,9 +536,9 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                             sprite->field10 = 32;
                             sprite->flags |= 0xC;
                             coord = task->coord;
-                            coord->x = entity->x + origin_loop->x;
-                            coord->y = entity->y + origin_loop->y;
-                            coord->z = entity->z + origin_loop->z;
+                            coord->x.w.i = entity->x + origin_loop->x.w.i;
+                            coord->y.w.i = entity->y + origin_loop->y.w.i;
+                            coord->z.w.i = entity->z + origin_loop->z.w.i;
                             sprite = task->sprite;
                             interp_work = 0x1000;
                             sprite->field1E = interp_work;
@@ -572,9 +576,9 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                         sprite->field10 = burst_size;
                         sprite->flags = burst_flags | 0xC;
                         coord = task->coord;
-                        coord->x = entity->x + origin_second->x.w.i;
-                        coord->y = entity->y + origin_second->y.w.i;
-                        coord->z = entity->z + origin_second->z.w.i;
+                        coord->x.w.i = entity->x + origin_second->x.w.i;
+                        coord->y.w.i = entity->y + origin_second->y.w.i;
+                        coord->z.w.i = entity->z + origin_second->z.w.i;
                         sprite = task->sprite;
                         sprite->field1E = 0x1000;
                         sprite->field1C = 0x1000;
@@ -612,13 +616,13 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                             path_point++;
                             path_half = entity->x / 2;
                             origin_path = view_reference_entity;
-                            path_entity->path[0] = path_half + (origin_path->x - entity->base[0]) / 2;
-                            path_entity->path[1] = entity->y / 2 + (origin_path->y - entity->base[1]) / 2;
-                            path_entity->path[2] = entity->z / 2 + (origin_path->z - entity->base[2]) / 2;
+                            path_entity->path[0] = path_half + (origin_path->x.w.i - entity->base[0]) / 2;
+                            path_entity->path[1] = entity->y / 2 + (origin_path->y.w.i - entity->base[1]) / 2;
+                            path_entity->path[2] = entity->z / 2 + (origin_path->z.w.i - entity->base[2]) / 2;
                             next_entity = (Row_819A1654_Entity *)((u8 *)entity + path_point * 3 * 2);
-                            next_entity->path[0] = entity->x / 4 + (origin_path->x - entity->base[0]) / 2;
-                            next_entity->path[1] = entity->y / 4 + (origin_path->y - entity->base[1]) / 2;
-                            next_entity->path[2] = entity->z / 4 + (origin_path->z - entity->base[2]) / 2;
+                            next_entity->path[0] = entity->x / 4 + (origin_path->x.w.i - entity->base[0]) / 2;
+                            next_entity->path[1] = entity->y / 4 + (origin_path->y.w.i - entity->base[1]) / 2;
+                            next_entity->path[2] = entity->z / 4 + (origin_path->z.w.i - entity->base[2]) / 2;
 
                             if (entity->timer == first_path_timer) {
                                 task = (Row_819A1654_Task *)allocate_flagged_object_node(0x212);
@@ -644,9 +648,9 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     effect->path[10] = entity->path[4];
                                     effect->path[11] = entity->path[5];
                                     coord = task->coord;
-                                    coord->x = entity->base[0];
-                                    coord->y = entity->base[1];
-                                    coord->z = entity->base[2];
+                                    coord->x.w.i = entity->base[0];
+                                    coord->y.w.i = entity->base[1];
+                                    coord->z.w.i = entity->base[2];
                                     sprite = task->sprite;
                                     sprite->field1E = 0x1000;
                                     sprite->field1C = 0x1000;
@@ -693,9 +697,9 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     effect->path[10] = entity->path[10];
                                     effect->path[11] = entity->path[11];
                                     coord = task->coord;
-                                    coord->x = entity->base[0];
-                                    coord->y = entity->base[1];
-                                    coord->z = entity->base[2];
+                                    coord->x.w.i = entity->base[0];
+                                    coord->y.w.i = entity->base[1];
+                                    coord->z.w.i = entity->base[2];
                                     sprite = task->sprite;
                                     sprite->field1E = 0x1000;
                                     sprite->field1C = 0x1000;
@@ -743,9 +747,9 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                     effect->path[10] = entity->path[16];
                                     effect->path[11] = entity->path[17];
                                     coord = task->coord;
-                                    coord->x = entity->base[0];
-                                    coord->y = entity->base[1];
-                                    coord->z = entity->base[2];
+                                    coord->x.w.i = entity->base[0];
+                                    coord->y.w.i = entity->base[1];
+                                    coord->z.w.i = entity->base[2];
                                     sprite = task->sprite;
                                     sprite->field1E = 0x1000;
                                     sprite->field1C = 0x1000;
@@ -796,9 +800,9 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                         effect->path[16] = points.point[entity->point_index].y * 8;
                                         effect->path[17] = 0;
                                         coord = task->coord;
-                                        coord->x = entity->base[0];
-                                        coord->y = entity->base[1];
-                                        coord->z = entity->base[2];
+                                        coord->x.w.i = entity->base[0];
+                                        coord->y.w.i = entity->base[1];
+                                        coord->z.w.i = entity->base[2];
                                         sprite = task->sprite;
                                         sprite->field1E = 0x1000;
                                         sprite->field1C = 0x1000;
@@ -849,9 +853,9 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, void *saved_con
                                             effect->path[16] = points.point[entity->point_index].y * 8;
                                             effect->path[17] = 0;
                                             coord = task->coord;
-                                            coord->x = entity->base[0];
-                                            coord->y = entity->base[1];
-                                            coord->z = entity->base[2];
+                                            coord->x.w.i = entity->base[0];
+                                            coord->y.w.i = entity->base[1];
+                                            coord->z.w.i = entity->base[2];
                                             sprite = task->sprite;
                                             sprite->field1E = 0x1000;
                                             sprite->field1C = 0x1000;
@@ -929,11 +933,11 @@ loop_1:
                     sprite = task->sprite;
                     sprite->field6 = 6;
                     sprite->flags &= 0xFFF3;
-                    focus_coord = *(Row_819A1654_Coord **)((u8 *)focus - 24);
+                    focus_coord = *(Row_819A1654_Coord * *)&((ObjectNodeHeader *)((u8 *)focus - 0x20))->position;
                     coord = task->coord;
-                    coord->x = focus_coord->x;
-                    coord->y = focus_coord->y;
-                    coord->z = focus_coord->z - (entity_height_offsets[*((u8 *)focus + 19)] >> 1);
+                    coord->x.w.i = focus_coord->x;
+                    coord->y.w.i = focus_coord->y;
+                    coord->z.w.i = focus_coord->z - (entity_height_offsets[*((u8 *)focus + 19)] >> 1);
                     sprite = task->sprite;
                     sprite->field1E = 0x1000;
                     sprite->field1C = 0x1000;
@@ -957,9 +961,9 @@ loop_1:
 
         case 4:
             if (((s16 *)D_800261B0)[0] == 0) {
-                ((Row_819A1654_ControlGlobal *)&g_dungeon_status)[0].active = 0;
+                g_dungeon_status.active_actor = 0;
                 D_80082E86[0] = 0;
-                ((Row_819A1654_ControlGlobal *)&g_dungeon_status)[0].count--;
+                (*(u16 *)&g_dungeon_status.activity_counts.parts.pending_action_count)--;
                 *((u16 *)entity - 1) |= 0x8000;
                 D_800814A0[0].flags |= 0x8000;
                 break;

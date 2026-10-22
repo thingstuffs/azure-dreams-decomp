@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
@@ -15,17 +16,6 @@ typedef struct S_800264D4_0 {
 
    /* arg0 in create_linked_objects */
 
-typedef struct S_800264D4_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} S_800264D4_2;
 
 typedef struct S_800264D4_4 {
     u8 pad_00[0x4];
@@ -85,8 +75,8 @@ void *create_linked_objects(MovingPosition *source_pos, s32 effect_value, s16 sp
     s32 new_flags;
     SpriteFrameState *sprite;
     S_800264D4_4 *effect_state;
-    S_800264D4_2 *position;
-    void *object;
+    ObjectPosition *position;
+    ObjectNodeHeader *object;
     void *previous_object;
     u8 *page_base;
 
@@ -97,19 +87,19 @@ void *create_linked_objects(MovingPosition *source_pos, s32 effect_value, s16 sp
 create_object:
     object = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
-        ((S_800264D4_0 *)object)->unk_10 = page_base;
+        object->unk_10 = page_base;
         register_node(object, &D_800CEF54);
-        position = ((S_800264D4_0 *)object)->unk_08;
+        position = object->position;
         pos_x = source_pos->unk_02;
-        position->unk_00.at02.v = pos_x;
-        position->unk_0E = pos_x;
+        position->x.w.i = pos_x;
+        *((u16 *)&position->velocity_x + 1) = pos_x;
         pos_y = source_pos->unk_06;
-        position->unk_04.at02.v = pos_y;
-        position->unk_12 = pos_y;
+        position->y.w.i = pos_y;
+        *((u16 *)&position->velocity_y + 1) = pos_y;
         pos_z = source_pos->unk_0A;
-        position->unk_08.at02.v = pos_z;
-        position->unk_16 = pos_z;
-        sprite = ((S_800264D4_0 *)object)->unk_0C;
+        position->z.w.i = pos_z;
+        *((u16 *)&position->velocity_z + 1) = pos_z;
+        sprite = object->sprite;
         sprite_flags = sprite->flags;
         sprite->source = (void *) ((sprite_index * 0xC) + &D_80028808);
         sprite->scale_y = 0x1000;
@@ -118,24 +108,24 @@ create_object:
         new_flags = sprite_flags;
         new_flags |= 0xC;
         sprite->flags = new_flags;
-        effect_state = object + 0x20;
+        effect_state = ((void *)object) + 0x20;
         effect_state->unk_04 = effect_value;
         ((S_800264D4_0 *)object)->unk_20 = source_pos;
         effect_state->unk_66 = 0x20;
         effect_state->unk_6E = object_index;
-        fixed_x = position->unk_00.at00.v;
+        fixed_x = position->x.v;
         effect_state->unk_18 = fixed_x;
         effect_state->unk_0C = fixed_x;
-        fixed_y = position->unk_04.at00.v;
+        fixed_y = position->y.v;
         effect_state->unk_1C = fixed_y;
         effect_state->unk_10 = fixed_y;
-        fixed_z = position->unk_08.at00.v;
+        fixed_z = position->z.v;
         effect_state->unk_20 = fixed_z;
         effect_state->unk_14 = fixed_z;
         for (history_index = 0; history_index < 8; history_index++) {
-            effect_state->history[history_index].x = position->unk_00.at02.v;
-            effect_state->history[history_index].y = position->unk_04.at02.v;
-            effect_state->history[history_index].z = position->unk_08.at02.v;
+            effect_state->history[history_index].x = *(u16 *)&position->x.w.i;
+            effect_state->history[history_index].y = *(u16 *)&position->y.w.i;
+            effect_state->history[history_index].z = *(u16 *)&position->z.w.i;
         }
         effect_state->unk_08 = previous_object;
         previous_object = object;

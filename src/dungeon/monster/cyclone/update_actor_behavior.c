@@ -30,7 +30,7 @@ extern void func_80174520(void *, void *, void *, void *);
 extern void create_randomized_motion_object(void *, void *);
 
 extern u8 D_80171094[];
-extern u8 D_80176470[];
+#include "dungeon/monster/cyclone.h"
 extern u8 D_80176478[];
 
 /* Updates actor behavior and directional animation through three states, then sets its next callback. */
@@ -53,9 +53,9 @@ void update_actor_behavior_2(void *controller, void *context_in, void *object, A
             create_randomized_motion_object(controller, context_in);
             break;
         }
-        ((SpriteFrameState *)object)->frameTable = D_80176470;
+        ((SpriteFrameState *)object)->frameTable = cyclone_direction_frames;
         select_sprite_entry(object,
-            D_80176470[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            cyclone_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         {
             u8 *counter_base = (u8 *)&g_dungeon_status.turn_scale;

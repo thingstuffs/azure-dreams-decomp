@@ -6,10 +6,10 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/player/item.h"
 
 extern u8 dungeon_button_latch[9];
 void snapshot_inventory_and_familiars();
-void snapshot_inventory_familiar_records();
 void adjust_source_value_and_finalize();
 extern u8 D_800E0672[17];
 

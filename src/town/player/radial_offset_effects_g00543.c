@@ -1,13 +1,15 @@
 /* Create randomized radial offset effects (G00543). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_8009A1CC. */
 #include "town/player/radial_offset_effects_g00543.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 
 /* Creates an offset effect with randomized motion and initializes its appearance. */
 void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
     u32 direction;
     SpriteFrameState *appearance;
-    S_8009792C_1 *motion;
-    void *effect;
+    ObjectPosition *motion;
+    ObjectNodeHeader *effect;
     s16 *effect_params;
 
     angle >>= 9;
@@ -15,16 +17,16 @@ void *create_randomized_offset_effect(S_8009792C_2 *source, u32 angle) {
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         effect_params = (s16 *)((s8 *)effect + 0x20);
-        motion = ((S_8009792C_0 *)effect)->unk_08;
-        appearance = ((S_8009792C_0 *)effect)->unk_0C;
-        ((S_8009792C_0 *)effect)->unk_10 = (s32 *)&D_800ABB20;
+        motion = effect->position;
+        appearance = effect->sprite;
+        effect->unk_10 = (s32 *)&D_800ABB20;
         register_node(effect, project_sprite_chain);
-        motion->unk_02 = source->unk_02 - dir_step_x[direction] * 0x10;
-        motion->unk_06 = source->unk_06 - dir_step_y[direction] * 0x10;
-        motion->unk_0A = source->unk_0A;
-        motion->unk_0C = -(source->unk_0C * ((rand() & 1) + 2)) / 16;
-        motion->unk_10 = -(source->unk_10 * ((rand() & 1) + 2)) / 16;
-        motion->unk_14 = (~rand() & 1) << 0xF;
+        motion->x.w.i = source->unk_02 - dir_step_x[direction] * 0x10;
+        motion->y.w.i = source->unk_06 - dir_step_y[direction] * 0x10;
+        motion->z.w.i = source->unk_0A;
+        motion->velocity_x = -(source->unk_0C * ((rand() & 1) + 2)) / 16;
+        motion->velocity_y = -(source->unk_10 * ((rand() & 1) + 2)) / 16;
+        motion->velocity_z = (~rand() & 1) << 0xF;
         select_record_entry_and_value(appearance, &D_800D1464, 0);
         appearance->color.c.b = 0xFF;
         appearance->color.c.g = 0xFF;
@@ -80,7 +82,7 @@ void spawn_radial_objects(MovingPosition *origin, S_80097AD0_1 *spread, s32 coun
                 if (angle_component < 0) {
                     angle_component = -angle_component;
                 }
-                ((S_80097AD0_3 *)(object->unk_08))->unk_14 = -angle_component;
+                ((ObjectPosition *)object->unk_08)->velocity_z = -angle_component;
             }
             angle += angle_step;
         }

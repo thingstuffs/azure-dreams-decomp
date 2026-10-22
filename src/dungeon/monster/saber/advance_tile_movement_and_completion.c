@@ -31,8 +31,8 @@ extern void on_actor_status_updated(void *);
 extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
-extern s32 D_80171728;
-extern u8 D_80174DEC[];
+#include "dungeon/monster/saber.h"
+
 extern u8 D_80174E0C[];
 extern u8 D_80174E14[];
 
@@ -121,13 +121,13 @@ void advance_tile_movement_and_completion(void *action, void *motion, void *map_
         break;
 
     case 3:
-        if (*(u8 * *)&((SpriteFrameState *)map_entity)->frameTable == D_80174DEC) {
+        if (*(u8 * *)&((SpriteFrameState *)map_entity)->frameTable == saber_direction_frames) {
             break;
         }
-        ((SpriteFrameState *)map_entity)->frameTable = D_80174DEC;
+        ((SpriteFrameState *)map_entity)->frameTable = saber_direction_frames;
         select_sprite_entry(
             map_entity,
-            D_80174DEC[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
+            saber_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
         break;
     }
@@ -165,7 +165,7 @@ void advance_tile_movement_and_completion(void *action, void *motion, void *map_
         }
     }
     if ((check_actor_floor_trap(map_entity, actor) << 16) > 0) {
-        ((S_80172BAC_0 *)action)->unk_8C = &D_80171728;
+        ((S_80172BAC_0 *)action)->unk_8C = &saber_behavior_entry;
         on_actor_status_updated(actor);
     }
 }

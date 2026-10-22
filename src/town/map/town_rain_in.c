@@ -20,7 +20,6 @@ typedef struct S_800BFB00_1 {
     s16 unk_0E;
 } S_800BFB00_1;
 
-
 extern void *allocate_list_node(s32, void *);
 extern void spawn_randomized_timed_objects(void);
 
@@ -28,11 +27,11 @@ extern void spawn_randomized_timed_objects(void);
 void town_rain_in(s16 x, s16 y) {
     u16 preset_value;
     S_800BFB00_1 *state;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = allocate_list_node(2, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
-        ((S_800BFB00_0 *)object)->unk_10 = spawn_randomized_timed_objects;
+        object->unk_10 = spawn_randomized_timed_objects;
         ((S_800BFB00_0 *)object)->unk_20 = ((u16)view_reference_entity.x.w.i);
         state = (s8 *)object + 0x20;
         state->unk_02 = ((u16)view_reference_entity.y.w.i);

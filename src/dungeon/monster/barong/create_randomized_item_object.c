@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -108,7 +109,7 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     Entity *entity;
     EntityWork *work;
     SpriteFrameState *render;
-    EntityPosition *position;
+    ObjectPosition *position;
     DungeonGroup *item_category_table;
     DungeonGroup *item_category;
     s32 *results;
@@ -132,9 +133,9 @@ void create_randomized_item_object(void *owner, SourcePosition *source_pos, void
     object->arg.group = 0;
 
     position = entity->position;
-    position->x = source_pos->x;
-    position->y = source_pos->y;
-    position->z = source_pos->z - 0x20;
+    position->x.w.i = source_pos->x;
+    position->y.w.i = source_pos->y;
+    position->z.w.i = source_pos->z - 0x20;
 
     work->x = D_801755E0[(object->mode >> 9) & 7].x << 18;
     work->y = D_801755E0[(object->mode >> 9) & 7].y << 18;

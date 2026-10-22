@@ -48,7 +48,6 @@ typedef struct S_800A2690_3 {
 
    /* ((S_800A2690_0 *)arg0)->unk_14 in draw_fading_flickering_triangle */
 
-
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80066460(s32, s32, s32, s32);
@@ -99,7 +98,7 @@ void draw_fading_flickering_triangle(void *effect)
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
-        render_state = *(u8 **)((u8 *)(&g_game_work));
+        render_state = *(u8 **)&g_game_work.draw_buffer;
         triangle = ((GpuContext *)render_state)->packetCursor;
         ((GpuContext *)render_state)->packetCursor = triangle + 0x24;
 
@@ -146,20 +145,20 @@ void draw_fading_flickering_triangle(void *effect)
         (*(s16 *)((u8 *)triangle + 0x1A)) =
             (((S_800A2690_0 *)effect)->unk_10 * func_80064584((s16)angle)) / 4096;
 
-        render_state = *(u8 **)((u8 *)(&g_game_work));
+        render_state = *(u8 **)&g_game_work.draw_buffer;
         draw_packet = ((GpuContext *)render_state)->packetCursor;
         ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
         draw_page = func_80066460(0, 0, 0x140, 0);
         func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, draw_packet);
+        func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
 
-        func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, triangle);
+        func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, triangle);
 
-        render_state = *(u8 **)((u8 *)(&g_game_work));
+        render_state = *(u8 **)&g_game_work.draw_buffer;
         draw_packet = ((GpuContext *)render_state)->packetCursor;
         ((GpuContext *)render_state)->packetCursor = draw_packet + 0xC;
         draw_page = func_80066460(0, 1, 0x140, 0);
         func_80067F20(draw_packet, 0, 0, draw_page & 0xFFFF, 0);
-        func_8006658C(*(u8 **)((u8 *)(&g_game_work)) + 0xD8, draw_packet);
+        func_8006658C(*(u8 **)&g_game_work.draw_buffer + 0xD8, draw_packet);
     }
 }

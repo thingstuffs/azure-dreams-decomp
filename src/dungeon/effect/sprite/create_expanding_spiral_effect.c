@@ -3,7 +3,6 @@
 #include "shared/slus_callbacks.h"
 #include "shared/dungeon_moving_views.h"
 
-
 typedef s32 M2C_UNK;
 
 #ifndef NULL
@@ -70,14 +69,14 @@ s32 create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s
     s32 phase_step;
     S_8185CE28_3 *component;
     S_8185CE28_1 *state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
         phase_step = effect_index * 3;
         ((S_8185CE28_0 *)effect)->unk_20 = effect_param;
-        state = effect + 0x20;
-        ((S_8185CE28_0 *)effect)->unk_10 = D_80024330;
+        state = ((void *)effect) + 0x20;
+        effect->unk_10 = D_80024330;
         phase_index = phase_step % 8;
         state->unk_1C = phase_index << 9;
         state->unk_20 = 0x20;
@@ -87,7 +86,7 @@ s32 create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s
         state->unk_06 = position->unk_02;
         state->unk_0A = position->unk_06;
         state->unk_0E = position->unk_0A;
-        component = ((S_8185CE28_0 *)effect)->unk_0C;
+        component = effect->sprite;
         component->unk_0E = 0x80;
         component->unk_0D = 0x80;
         component->unk_0C = 0x80;
@@ -99,7 +98,7 @@ s32 create_expanding_spiral_effect(s32 effect_param, MovingPosition *position, s
         component->unk_10 |= 0x20;
         component->unk_14 |= 0x100;
         register_node(effect, project_sprite_chain);
-        component = ((S_8185CE28_0 *)effect)->unk_08;
+        component = effect->position;
         component->unk_02 = state->unk_06 +
             ((func_800644B8(state->unk_1C) >> 4) *
              state->unk_20 >> 8);

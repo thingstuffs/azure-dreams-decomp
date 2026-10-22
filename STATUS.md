@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-22T19:01:45Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-22T21:31:38Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,7 +13,7 @@ Generated 2026-10-22T19:01:45Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 21,432 of 21,432 rows (100.0%), 8,028,304 bytes; 0 unverified |
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.6%, L4 15.0%, L5 14.6% of bytes (levels below) |
+| **Readability** | L3 90.6%, L4 12.6%, L5 12.2% of bytes (levels below) |
 
 
 ## Not yet C
@@ -64,15 +64,15 @@ Baseline NOT exact: 0 rows
 | L0 | 8,028,304 | 100.0% |
 | L1 | 8,028,304 | 100.0% |
 | L2 | 8,028,304 | 100.0% |
-| L3 | 7,273,888 | 90.6% |
-| L4 | 1,200,256 | 15.0% |
-| L5 | 1,170,924 | 14.6% |
+| L3 | 7,274,152 | 90.6% |
+| L4 | 1,011,168 | 12.6% |
+| L5 | 981,836 | 12.2% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3718 rows, 2,288,216 bytes (28.5%); records used: 98.
+On shared record headers (T7, `include/records/`): 3937 rows, 2,367,804 bytes (29.5%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,641 rows (6,822,200 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 19,018 rows (7,011,372 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -80,7 +80,6 @@ Defects still present in the current tree (files = source files, bytes = image b
 
 | defect still in the clean tree | files | bytes | % of bytes |
 |---|---:|---:|---:|
-| m2c local names | 21 | 25,428 | 0.3% |
 | goto | 142 | 369,172 | 4.6% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 6 | 7,608 | 0.1% |
@@ -88,8 +87,8 @@ Defects still present in the current tree (files = source files, bytes = image b
 | any live audit site, unnarrowed | 1,643 | 2,611,008 | 32.5% |
 | do{}while(0) scheduling barrier | 17 | 135,536 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 2,659 | 3,923,684 | 48.9% |
-| clean shape | 8,137 | 7,633,704 | 95.1% |
+| local address-named struct | 2,632 | 3,859,976 | 48.1% |
+| clean shape | 8,158 | 7,659,132 | 95.4% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -97,7 +96,7 @@ Defects still present in the current tree (files = source files, bytes = image b
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2331 | 510,576 | 6.4% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,449,308 | 18.1% | 0 | 0 | 0.0% |
-| m2c local names | 5181 | 2,162,116 | 26.9% | 21 | 25,428 | 0.3% |
+| m2c local names | 5181 | 2,162,116 | 26.9% | 0 | 0 | 0.0% |
 | ASM_ pins | 2135 | 1,456,292 | 18.1% | 0 | 0 | 0.0% |
 | goto | 1545 | 1,312,068 | 16.3% | 142 | 369,172 | 4.6% |
 | computed-goto jump table | 317 | 436,504 | 5.4% | 1 | 16 | 0.0% |
@@ -109,8 +108,8 @@ Defects still present in the current tree (files = source files, bytes = image b
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 17 | 135,536 | 1.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 2659 | 3,923,684 | 48.9% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8137 | 7,633,704 | 95.1% |
+| local address-named struct | 633 | 346,824 | 4.3% | 2632 | 3,859,976 | 48.1% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8158 | 7,659,132 | 95.4% |
 
 </details>
 

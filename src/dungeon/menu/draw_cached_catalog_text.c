@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/menu.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_800661B0(void *, s32, s32, s32, s32, s32, s32); /* extern */
 s32 get_cached_catalog_glyph();                             /* extern */

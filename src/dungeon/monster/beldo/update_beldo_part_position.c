@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -33,19 +34,6 @@ typedef struct S_81275000_2 {
     u16 unk_1E;
 } S_81275000_2;   /* part in func_8014C898 */
 
-typedef struct S_81275000_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_81275000_3;   /* dst in func_8014C898 */
-
    /* out in func_8014C898 */
 
 typedef struct S_81275000_5 {
@@ -67,9 +55,6 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
 
-
-
-
 void func_8014C898(void *root_data, void *position_data, void *render_data)
 ;
 /* Updates part position, brightness, and flags from the owner and motion state. */
@@ -77,7 +62,7 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
 {
     s16 motion_offset[3];
     register MovingPosition *out_pos = position_data;
-    S_81275000_3 *render_part = render_data;
+    SpriteFrameState *render_part= render_data;
     S_81275000_2 *source_pos;
     S_81275000_1 *owner;
     S_81275000_5 *transform;
@@ -89,7 +74,7 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
     transform = owner->unk_08;
 
     if (!(source_pos->unk_14 & 0x80)) {
-        render_part->unk_14 &= 0xFF7F;
+        render_part->flags &= 0xFF7F;
     }
 
     out_pos->unk_02 = transform->unk_02;
@@ -110,10 +95,10 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
         ((S_81275000_0 *)root_data)->unk_B4 = motion_offset[2];
     }
 
-    transform = render_part->unk_08;
-    render_part->unk_1C = source_pos->unk_1C;
-    render_part->unk_1E = source_pos->unk_1E;
-    render_part->unk_14 = source_pos->unk_14;
+    transform = render_part->source;
+    render_part->scale_x = source_pos->unk_1C;
+    render_part->scale_y = source_pos->unk_1E;
+    render_part->flags = source_pos->unk_14;
     transform->unk_01 &= 0xFE;
 
     if (((S_81275000_0 *)root_data)->unk_B6 == 1) {
@@ -126,9 +111,9 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
             } else {
                 intensity = ((15 - phase) * 14) + 0x20;
             }
-            render_part->unk_0E = intensity;
-            render_part->unk_0D = intensity;
-            render_part->unk_0C = intensity;
+            render_part->color.c.b = intensity;
+            render_part->color.c.g = intensity;
+            render_part->color.c.r = intensity;
         }
         if (!(source_pos->unk_14 & 0x8000) &&
             source_pos->unk_04.u16 == 0x10C) {
@@ -146,9 +131,9 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
             } else {
                 intensity = ((phase - 8) * 14) + 0x20;
             }
-            render_part->unk_0E = intensity;
-            render_part->unk_0D = intensity;
-            render_part->unk_0C = intensity;
+            render_part->color.c.b = intensity;
+            render_part->color.c.g = intensity;
+            render_part->color.c.r = intensity;
         }
         if (!(source_pos->unk_14 & 0x8000) &&
             source_pos->unk_04.u16 == 0x104) {
@@ -162,5 +147,4 @@ void func_8014C898(void *root_data, void *position_data, void *render_data)
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-
 

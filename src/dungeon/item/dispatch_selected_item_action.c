@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 
 
@@ -17,7 +18,6 @@ extern s32 get_unused_text_buffer();
 extern s32 expand_text_control_codes();
 extern s32 clear_byte_and_advance();
 extern s32 append_typed_formatted_value();
-extern s32 apply_type_based_entry_adjustments();
 extern s32 display_formatted_context_message();
 extern s32 copy_fullwidth_vowel_bytes();
 extern s32 append_value_seven_suffix();

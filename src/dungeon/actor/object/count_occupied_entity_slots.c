@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
+#include "dungeon/actor/object.h"
 
 
 typedef struct S_800C82B8_0 {

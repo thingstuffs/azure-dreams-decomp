@@ -2,10 +2,9 @@
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
+#include "dungeon/effect/mesh.h"
+#include "engine/effect.h"
 
-s32 runtime_update_saved_vectors();
-s32 count_flagged_tiles_along_direction_2();
-void clear_listed_tile_flags();
 
 typedef struct S_800D13B8_1 {
     u8 pad_00[0xA4];

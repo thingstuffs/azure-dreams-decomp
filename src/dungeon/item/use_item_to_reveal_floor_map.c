@@ -6,6 +6,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/effect/screen.h"
 
 
 extern u8 D_800E11FD[];
@@ -14,7 +15,6 @@ extern void begin_mode_selected_item_action(s8 *object, s32 unused_1, s32 unused
 extern s32 process_record_and_update_linked_state(s32, s32);
 extern void clear_slot_and_update_linked_state(s32);
 extern void display_formatted_context_message(void *, s32, s16);
-extern void pack_and_submit_cell_height_levels(void);
 extern void play_sound_if_enabled(s32);
 extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);

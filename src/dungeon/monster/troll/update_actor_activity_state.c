@@ -1,8 +1,10 @@
 /* Troll activity state, action animation, and directional display updates. */
+#include "shared/sprite_frame_state.h"
 #include "dungeon/monster/troll/update_actor_activity_state.h"
+#include "shared/sprite_frame_state.h"
 
 /* Updates actor state, directional animations, and the shared activity count. */
-void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void *actor_in) {
+void update_actor_activity_state(void *task, s32 task_id, SpriteFrameState *sprite_in, void *actor_in) {
     u8 *next_anim_table;
     u8 *old_anim_table;
     void *starting_task;
@@ -16,23 +18,23 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
     state = ((T_80175050_S_80175050_0 *)task)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((T_80175050_S_80175050_1 *)sprite_in)->unk_14 & 0xE000)) {
+        if (!(sprite_in->flags & 0xE000)) {
             return;
         }
         kind = ((T_80175050_S_80175050_2 *)actor)->unk_48;
         switch (kind) {
         case 13:
-            ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E54;
+            sprite_in->frameTable = D_80175E54;
             select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                 + 0x100) >> 9) & 7) + (unsigned long)D_80175E54))->unk_00, 0);
             break;
         case 14:
-            ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E5C;
+            sprite_in->frameTable = D_80175E5C;
             select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                 + 0x100) >> 9) & 7) + (unsigned long)D_80175E5C))->unk_00, 0);
             break;
         case 15:
-            ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E64;
+            sprite_in->frameTable = D_80175E64;
             select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                 + 0x100) >> 9) & 7) + (unsigned long)D_80175E64))->unk_00, 0);
             break;
@@ -47,28 +49,28 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
         kind = ((T_80175050_S_80175050_2 *)actor)->unk_48;
         switch (kind) {
         case 13:
-            old_anim_table = ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C;
+            old_anim_table = *(u8 **)&sprite_in->frameTable;
             next_anim_table = D_80175E54;
             if (old_anim_table != next_anim_table) {
-                ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
+                sprite_in->frameTable = next_anim_table;
                 select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
             }
             break;
         case 14:
-            old_anim_table = ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C;
+            old_anim_table = *(u8 **)&sprite_in->frameTable;
             next_anim_table = D_80175E5C;
             if (old_anim_table != next_anim_table) {
-                ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
+                sprite_in->frameTable = next_anim_table;
                 select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
             }
             break;
         case 15:
-            old_anim_table = ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C;
+            old_anim_table = *(u8 **)&sprite_in->frameTable;
             next_anim_table = D_80175E64;
             if (old_anim_table != next_anim_table) {
-                ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
+                sprite_in->frameTable = next_anim_table;
                 select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
             }
@@ -79,17 +81,17 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
             kind = ((T_80175050_S_80175050_2 *)actor)->unk_48;
             switch (kind) {
             case 13:
-                ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E6C;
+                sprite_in->frameTable = D_80175E6C;
                 select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E6C))->unk_00, 0);
                 break;
             case 14:
-                ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E6C + 8;
+                sprite_in->frameTable = D_80175E6C + 8;
                 select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E6C + 8))->unk_00, 0);
                 break;
             case 15:
-                ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E7C;
+                sprite_in->frameTable = D_80175E7C;
                 select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E7C))->unk_00, 0);
                 break;
@@ -134,7 +136,7 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *player;
                 player = &reference_tile_object;
-                floor = ((T_80175050_S_80175050_1 *)sprite_in)->unk_26;
+                floor = *(s8 *)&sprite_in->unk_26;
                 if ((floor == player->room_index && floor >= 0) || get_tile_chebyshev_distance(player, sprite_in) < 2) {
                     if (!(generate_random_value() & 7)) {
                         clear_slots_of_type(actor, 1);
@@ -148,24 +150,24 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
             kind = ((T_80175050_S_80175050_2 *)actor)->unk_48;
             switch (kind) {
             case 13:
-                ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E6C;
+                sprite_in->frameTable = D_80175E6C;
                 select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E6C))->unk_00, 0);
                 break;
             case 14:
-                ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E74;
+                sprite_in->frameTable = D_80175E74;
                 select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E74))->unk_00, 0);
                 break;
             case 15:
-                ((T_80175050_S_80175050_1 *)sprite_in)->unk_2C = D_80175E7C;
+                sprite_in->frameTable = D_80175E7C;
                 select_sprite_entry(sprite_in, ((T_80175050_S_80175050_3 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((T_80175050_S_80175050_2 *)actor)->unk_2A
                     + 0x100) >> 9) & 7) + (unsigned long)D_80175E7C))->unk_00, 0);
                 break;
             }
         }
 
-        if (((T_80175050_S_80175050_1 *)sprite_in)->unk_14 & 0x8000) {
+        if (sprite_in->flags & 0x8000) {
             ((T_80175050_S_80175050_0 *)task)->unk_8C = update_actor_behavior;
             return;
         }
@@ -175,7 +177,7 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
         return;
 
     case 2:
-        if (((T_80175050_S_80175050_1 *)sprite_in)->unk_14 & 0xE000) {
+        if (sprite_in->flags & 0xE000) {
             ((T_80175050_S_80175050_3 *)((u8 *)(&g_dungeon_status)))->unk_0A--;
             ((T_80175050_S_80175050_0 *)task)->unk_8C = update_actor_behavior;
         }
@@ -189,14 +191,13 @@ void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void 
 }
 
 /* Updates the actor's directional animation and advances its action state. */
-void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor)
+void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, SpriteFrameState *animation, T_80175574_Obj3 *actor)
 {
     unsigned long table_entry;
 
-
     switch (((T_80175574_S_80175574_0 *)controller)->unk_9B) {
     case 0:
-        if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
+        if (!(animation->flags & 0xE000)) {
             return;
         }
         {
@@ -210,7 +211,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             default:
                 break;
             case 13:
-                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E54;
+                (animation->frameTable) = D_80175E54;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E54;
                 select_sprite_entry(animation,
@@ -218,7 +219,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                     0);
                 break;
             case 14:
-                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E5C;
+                (animation->frameTable) = D_80175E5C;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E5C;
                 select_sprite_entry(animation,
@@ -226,7 +227,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                     0);
                 break;
             case 15:
-                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E64;
+                (animation->frameTable) = D_80175E64;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E64;
                 select_sprite_entry(animation,
@@ -247,10 +248,10 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
         default:
             break;
         case 13:
-            current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
+            current_table = animation->frameTable;
             dir_table = D_80175E54;
             if (current_table != dir_table) {
-                (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+                (animation->frameTable) = dir_table;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 select_sprite_entry(animation,
@@ -259,10 +260,10 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             }
             break;
         case 14:
-            current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
+            current_table = animation->frameTable;
             dir_table = D_80175E5C;
             if (current_table != dir_table) {
-                (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+                (animation->frameTable) = dir_table;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 select_sprite_entry(animation,
@@ -271,10 +272,10 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             }
             break;
         case 15:
-            current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
+            current_table = animation->frameTable;
             dir_table = D_80175E64;
             if (current_table != dir_table) {
-                (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+                (animation->frameTable) = dir_table;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)dir_table;
                 select_sprite_entry(animation,
@@ -288,7 +289,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
         if (((ActorRecord *)actor)->mp != 0) {
             switch (((ActorRecord *)actor)->unk_48) {
             case 13:
-                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
+                (animation->frameTable) = D_80175E6C;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E6C;
                 select_sprite_entry(animation,
@@ -296,7 +297,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                     0);
                 break;
             case 14:
-                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
+                (animation->frameTable) = D_80175E74;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E74;
                 select_sprite_entry(animation,
@@ -304,7 +305,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                     0);
                 break;
             case 15:
-                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
+                (animation->frameTable) = D_80175E7C;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E7C;
                 select_sprite_entry(animation,
@@ -353,7 +354,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             }
             switch (((ActorRecord *)actor)->unk_48) {
             case 13:
-                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
+                (animation->frameTable) = D_80175E6C;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E6C;
                 select_sprite_entry(animation,
@@ -361,7 +362,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                     0);
                 break;
             case 14:
-                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
+                (animation ->frameTable) = D_80175E74;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E74;
                 select_sprite_entry(animation,
@@ -369,7 +370,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
                     0);
                 break;
             case 15:
-                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
+                (animation ->frameTable) = D_80175E7C;
                 table_entry = ((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7;
                 table_entry += (unsigned long)D_80175E7C;
                 select_sprite_entry(animation,
@@ -390,7 +391,7 @@ increment_state:
         return;
 
     case 2:
-        if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
+        if (!(animation->flags & 0xE000)) {
             return;
         }
         {
@@ -411,7 +412,7 @@ increment_state:
  * floor traps. */
 void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg)
 {
-    T_801759A0_Obj2 *display = display_arg;
+    SpriteFrameState *display= display_arg;
     T_801759A0_Obj3 *state = state_arg;
     u32 selected_table;
     u32 current_table;
@@ -422,14 +423,14 @@ void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_
     switch (kind) {
     case 13:
         if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
-            current_table = (u32)display->table2c;
+            current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80175E54;
         } else {
-            current_table = (u32)display->table2c;
+            current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80175E24;
         }
         if (current_table != selected_table) {
-            *(u32 *)((u8 *)display + 0x2c) = selected_table;
+            display->frameTable = selected_table;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
             select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
@@ -437,14 +438,14 @@ void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_
 
     case 14:
         if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
-            current_table = (u32)display->table2c;
+            current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80175E5C;
         } else {
-            current_table = (u32)display->table2c;
+            current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80175E2C;
         }
         if (current_table != selected_table) {
-            *(u32 *)((u8 *)display + 0x2c) = selected_table;
+            display->frameTable = selected_table;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
             select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
@@ -452,14 +453,14 @@ void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_
 
     case 15:
         if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
-            current_table = (u32)display->table2c;
+            current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80175E64;
         } else {
-            current_table = (u32)display->table2c;
+            current_table = (u32)*(u8 **)&display->frameTable;
             selected_table = (u32)D_80175E34;
         }
         if (current_table != selected_table) {
-            *(u32 *)((u8 *)display + 0x2c) = selected_table;
+            display->frameTable = selected_table;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
             select_sprite_entry(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
@@ -478,29 +479,29 @@ void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_
 
     switch (state->kind48) {
     case 13:
-        if (display->table2c != D_80175E54 ||
+        if (*(u8 **)&display->frameTable != D_80175E54 ||
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        *(u32 *)((u8 *)display + 0x2c) = (u32)&D_80175DC4;
+        display->frameTable = (u32)&D_80175DC4;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DC4), 0);
         return;
     case 14:
-        if (display->table2c != D_80175E5C ||
+        if (*(u8 **)&display->frameTable != D_80175E5C ||
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        *(u32 *)((u8 *)display + 0x2c) = (u32)&D_80175DCC;
+        display->frameTable = (u32)&D_80175DCC;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DCC), 0);
         return;
     case 15:
-        if (display->table2c != D_80175E64 ||
+        if (*(u8 **)&display->frameTable != D_80175E64 ||
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        *(u32 *)((u8 *)display + 0x2c) = (u32)&D_80175DD4;
+        display->frameTable = (u32)&D_80175DD4;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->value2a + 0x100) >> 9;
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DD4), 0);
         return;

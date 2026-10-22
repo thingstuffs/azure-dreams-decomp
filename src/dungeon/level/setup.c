@@ -1,5 +1,11 @@
 /* Dungeon entry state, floor setup, player initialization, and opening camera movement. */
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_dungeon_setup.h"
+#include "dungeon/item.h"
+#include "dungeon/level.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
+#include "shared/dungeon_status.h"
 
 static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)
 {
@@ -59,7 +65,7 @@ void init_dungeon_view(void) {
     *(s16 *)(render_data + 0x1A) = -0x88;
     *(s16 *)(render_data + 0x1C) = 0x172;
     *(s16 *)(render_data + 0x1E) = 0x19A;
-    g_dungeon_status.monster_spawn_table = &D_800DDC7C;
+    g_dungeon_status.monster_spawn_table = &monster_spawn_records;
 }
 
 /* Sets map dimensions and cell storage, generates the floor, and resets camera transition state. */
@@ -71,7 +77,6 @@ void initialize_floor_generation_state(void) {
     u32 block_offset;
     u8 *flag_page;
 
-
     init_block->unk14 = 6;
     init_block->unk18 = block_extent;
     block_offset = 6;
@@ -80,7 +85,7 @@ void initialize_floor_generation_state(void) {
     init_block->unk1E = 0x180;
     init_block->unk1A = block_extent;
     state->unkA8 = color_command;
-    state->unk1DC.unk00 = (u32)D_800EA000;
+    state->unk1DC.unk00 = (u32)generation_cells;
     setup_run_and_load_track();
     flag_page = D_80080AA0 - 0xAA0;
     flag_page[0xAA0] = 0;
@@ -88,10 +93,9 @@ void initialize_floor_generation_state(void) {
         flag_page = camera_transition_timer - 0x3D20;
 
         flag_page[0x3D20] = 0;
-        set_continuation_value(D_800EA000 - 0x9C14);
+        set_continuation_value(generation_cells - 0x9C14);
     }
 }
-
 
 /* Clears floor items and dungeon activity state, records floor progress, and loads shared sprite assets. */
 void reset_dungeon_runtime_state(void) {
@@ -106,7 +110,7 @@ void reset_dungeon_runtime_state(void) {
     g_dungeon_status.trap_counts.parts.pending_trap_count = 0;
     g_dungeon_status.active_actor = 0;
     g_dungeon_status.pending_display_owner = 0;
-    ((Rec_D_80083460 *)(&g_dungeon_status.turn_scale))->unk_00 = 0x100;
+    g_dungeon_status.turn_scale = 0x100;
     g_dungeon_status.flags = 0;
     g_dungeon_status.monster_count = 0;
     g_dungeon_status.movement_frames_left = 0;
@@ -122,7 +126,7 @@ void reset_dungeon_runtime_state(void) {
     ((dungeon_setup_8028325C_S_8001625C_2 *)reset_values)->unk_04 = 0;
     ((dungeon_setup_8028325C_S_8001625C_2 *)reset_values)->unk_08 = 0;
     D_800DCF58 = 1;
-    D_800DCF5B = 0;
+    scripted_boundary_active = 0;
     if (scene_mode_code != 5) {
         progress_stats = floor_generation_state;
         if (progress_stats[2] >= 0x64) {
@@ -176,9 +180,9 @@ void initialize_dungeon_floor_state(void) {
         current_dungeon_floor = (u16)saved_init_value;
     }
     globals_base = (u8 *)0x80010000;
-    if (D_800DCF4E == 0) {
+    if (sprite_bundle_loaded == 0) {
         loaded_sprite_bundle_attributes = load_dungeon_sprite_bundle();
-        D_800DCF4E = 1;
+        sprite_bundle_loaded = 1;
     }
     if ((*(u16 *)(globals_base + 0x3714) & 3) == 0) {
         *(s32 *)(globals_base + 0x3628) = rand();
@@ -211,9 +215,9 @@ void initialize_dungeon_actor(void) {
     u8 pos_x;
     u8 pos_y;
     u16 flags;
-    void *allocation;
+    ObjectNodeHeader *allocation;
     u8 *actor_storage;
-    u8 *actor;
+    ObjectPosition *actor;
     u8 *call_target;
     u8 *state;
     u8 *obj;
@@ -251,14 +255,14 @@ void initialize_dungeon_actor(void) {
     table_base = &g_game_work;
     random_pickup_enabled = 1;
     allocation = initialize_scene_object_in_buffer(0, ((u8 *)(&scene_object_list_anchor)), 0x53);
-    ((dungeon_setup_802835B8_S_800165B8_0 *)allocation)->unk_10 = D_80089AA0;
+    allocation->unk_10 = D_80089AA0;
     register_node(allocation, project_sprite_chain);
     actor_storage = ((u8 *)(&view_reference_entity.x.v));
-    ((dungeon_setup_802835B8_S_800165B8_0 *)allocation)->unk_08 = actor_storage;
+    allocation->position = actor_storage;
     actor = actor_storage;
     zero_words(actor, 6);
     state = ((u8 *)(&reference_tile_object));
-    ((dungeon_setup_802835B8_S_800165B8_0 *)allocation)->unk_0C = state;
+    allocation->sprite = state;
     zero_words(state, 0xC);
     primary_actor_record = obj = (u8 *)allocation + 0x20;
     dungeon_actor_ring_anchor = obj;
@@ -331,10 +335,10 @@ initialize_position:
         set_record_integer_tile_center(call_target, setup_x, setup_y);
     }
     cycle_map_cell_flags(pos_x, pos_y, 0x300);
-    height = sample_terrain_surface_height(((dungeon_setup_802835B8_S_800165B8_4 *)actor)->unk_02, ((dungeon_setup_802835B8_S_800165B8_4 *)actor)->dungeon_setup_802835B8_unk_06, -0x400);
+    height = sample_terrain_surface_height(*(u16 *)&actor->x.w.i, *(u16 *)&actor->y.w.i, -0x400);
     actor_x = pos_x;
     actor_y = pos_y;
-    ((dungeon_setup_802835B8_S_800165B8_4 *)actor)->unk_0A = height;
+    actor->z.w.i = height;
     ((dungeon_setup_802835B8_S_800165B8_5 *)entity)->unk_88 = height;
     (*(s16 *)((u8 *)entity + 0x8A)) = height;
     delta_page = (u8 *)(((dungeon_setup_802835B8_S_800165B8_1 *)obj)->unk_A2);
@@ -362,7 +366,7 @@ initialize_position:
     actor_direction_sprites = unequipped_actor_sprite_sources;
 
     if ((get_entity_effect_value(entity, 0xA) << 16) != 0) {
-        (*(void * *)((u8 *)state + 0x2C)) = actor_default_frames;
+        (*(void **)((u8 *)state + 0x2C)) = actor_default_frames;
         select_record_entry_and_value(state,
             *(void **)((u8 *)actor_default_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
@@ -772,7 +776,7 @@ void clear_dungeon_progress_state(void) {
 }
 
 /* Starts a camera approach from a random offset around the player unless updates are disabled. */
-void initialize_random_effect_position(dungeon_setup_802842A0_S_800172A0_0 *source, s16 base_offset) {
+void initialize_random_effect_position(ObjectPosition *source, s16 base_offset) {
     s16 state_offset;
     s16 position_x;
     s16 position_y;
@@ -788,21 +792,21 @@ void initialize_random_effect_position(dungeon_setup_802842A0_S_800172A0_0 *sour
     effect = &state->slot[0].unk_04;
     random_angle = (rand() & 0x1FFF) - 0x1000;
     if (!((u16) *((s16 *)&system_update_flags) & 2)) {
-        position_x = source->unk_02 + (func_80064584(random_angle) * 2);
+        position_x = *(u16 *)&source->x.w.i + (func_80064584(random_angle) * 2);
         state->camera_position.parts.camera_position_x = position_x;
         if (position_x < 0) {
             state->camera_position.parts.camera_position_x = 0;
         } else if (position_x >= bounds->unk_1C) {
             state->camera_position.parts.camera_position_x = (s16) ((u16) bounds->unk_1C - 1);
         }
-        position_y = source->unk_06 + (func_800644B8(random_angle) * 2);
+        position_y = *(u16 *)&source->y.w.i + (func_800644B8(random_angle) * 2);
         state->camera_position.parts.camera_position_y = position_y;
         if (position_y < 0) {
             state->camera_position.parts.camera_position_y = 0;
         } else if (position_y >= bounds->unk_1E) {
             state->camera_position.parts.camera_position_y = (s16) ((u16) bounds->unk_1E - 1);
         }
-        state_offset = (s16) (source->unk_0A - 0x400);
+        state_offset = (s16) (*(u16 *)&source->z.w.i - 0x400);
         state->camera_rotation.parts.camera_rotation_x = 0;
         state->camera_position.parts.camera_position_z = state_offset;
         random_bits = rand();

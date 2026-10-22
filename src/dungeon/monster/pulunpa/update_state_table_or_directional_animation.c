@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
@@ -15,7 +16,7 @@ extern u8 D_80152360[];
 /* Updates the state table or selects a directional animation for the actor. */
 void update_state_table_or_directional_animation(void *state_arg, void *context, void *visual_arg, void *actor_arg) {
     void *state = state_arg;
-    void *visual = visual_arg;
+    SpriteFrameState *visual= visual_arg;
     void *actor = actor_arg;
     void *current_table;
 
@@ -30,19 +31,19 @@ void update_state_table_or_directional_animation(void *state_arg, void *context,
         return;
     }
 
-    current_table = *(void **)((u8 *)visual + 0x2C);
+    current_table = visual->frameTable;
     if (current_table == D_80152300) {
         if (*(s32 *)((u8 *)actor + 0x1C) & 0x208) {
             return;
         }
-        *(void **)((u8 *)visual + 0x2C) = D_801522C8;
+        visual->frameTable = D_801522C8;
         select_sprite_entry(visual, D_801522C8[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else if (current_table == D_80152360) {
         if (*(s32 *)((u8 *)actor + 0x1C) & 0x208) {
             return;
         }
-        *(void **)((u8 *)visual + 0x2C) = D_80152328;
+        visual->frameTable = D_80152328;
         select_sprite_entry(visual, D_80152328[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else {

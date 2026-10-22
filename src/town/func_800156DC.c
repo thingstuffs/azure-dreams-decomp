@@ -79,7 +79,7 @@ typedef struct S_800AF36C_15 {
 
 
 /* Set paired coordinates from the object's last decimal digit. */
-void func_800B2E3C(Rec_func_800AF254_arg1 *object) {
+void position_decimal_digit_parts(Rec_func_800AF254_arg1 *object) {
     s32 digit;
     s32 row;
     S_800AF36C_2 *x_parts;

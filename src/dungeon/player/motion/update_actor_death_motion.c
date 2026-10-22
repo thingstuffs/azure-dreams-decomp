@@ -6,14 +6,14 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/player.h"
+#include "dungeon/player/position.h"
 
 typedef struct S_80048A44_Obj S_80048A44_Obj;
 
 void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index); /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-void begin_player_damage_reaction(); /* extern */
-void reset_actor_motion_at_sprite_tile(); /* extern */
 void set_record_integer_tile_center();              /* extern */
 void apply_clamped_actor_value_delta();                      /* extern */
 extern u8 player_wait_frames[8];

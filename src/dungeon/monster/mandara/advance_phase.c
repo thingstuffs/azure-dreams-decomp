@@ -127,7 +127,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
             index_or_row--;
         } while (index_or_row >= 0);
         projection_ptr = &projection;
-        camera_z = *((u16 *) (((u8 *) render_state) + 0xC8));
+        camera_z = *(u16 *)&render_state->view.camera_rotation.parts.viewAngle;
         projection.pad0A = 0;
         projection.pad08 = 0;
         projection.vertices = vertex_base;
@@ -187,7 +187,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
         bounds[2] = (s16) (max_xy - min_xy);
         bounds[0] = left_bound;
         depth = depth >> 2;
-        if ((*((u8 **) render_state)) != upper_draw_context) {
+        if ((*(u8 **)&render_state->draw_buffer) != upper_draw_context) {
             base_y += 0xE0;
         }
         max_y = (s16) (max_xy >> 16);
@@ -246,7 +246,7 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
                         s32 poly_link;
                         s32 bucket_link;
                         depth_out_or_phase = advance_phase(depth_out_or_phase, scratch.outer);
-                        frame = *((u8 **) render_state);
+                        frame = *(u8 **)&render_state->draw_buffer;
                         poly = *((u8 **) (frame + 0x8D0));
                         *((u8 **) (frame + 0x8D0)) = poly + 40;
                         *((s32 *) (((u8 *) poly) + 4)) = *((s32 *) (((u8 *) appearance) + 0xC));
@@ -293,10 +293,10 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, void *appea
                         strip_y += 2;
                         *((s16 *) (((u8 *) poly) + 0x22)) = (s16) strip_y;
                         *((s16 *) (((u8 *) poly) + 0x12)) = (s16) strip_y;
-                        poly_link = *((s32 *) ((u8 *) (depth_offset + ((s32) (*((u8 **) render_state)))) + 0xB0));
+                        poly_link = *((s32 *) ((u8 *) (depth_offset + ((s32) (*(u8 **)&render_state->draw_buffer))) + 0xB0));
                         *((s32 *) (((u8 *) poly) + 0)) = ((*((s32 *) (((u8 *) poly) + 0))) & 0xFF000000)
                         | (poly_link & left_bound);
-                        depth_bucket = (u8 *) (depth_offset + ((s32) (*((u8 **) render_state))));
+                        depth_bucket = (u8 *) (depth_offset + ((s32) (*(u8 **)&render_state->draw_buffer)));
                         bucket_link = *((s32 *) (((u8 *) depth_bucket) + 0xB0));
                         *((s32 *) (((u8 *) depth_bucket) + 0xB0)) =
                             (bucket_link & 0xFF000000) | (((s32) poly) & left_bound);

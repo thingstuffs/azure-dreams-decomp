@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -30,7 +31,7 @@ extern s32 func_801720E0(void *, void *, void *, s32);
 extern void func_80173478(void *, void *, void *, void *);
 
 extern u8 D_80170E68[];
-extern u8 D_8017386C[];
+#include "dungeon/monster/dreamin.h"
 extern u8 D_80173874[];
 extern u8 D_8017389C[];
 
@@ -40,7 +41,7 @@ typedef struct S_80170E68_4 {
 } S_80170E68_4;   /* entry in dispatch_actor_behavior_and_facing */
 
 /* Dispatch actor behavior and update its facing animation from dungeon state. */
-void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, ActorRecord *state)
+void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *context, SpriteFrameState *sprite, ActorRecord *state)
 {
     u16 *dungeon_status;
     s32 initial_flags;
@@ -76,11 +77,11 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             }
 
             if (actor->unk_9A.as_u8 != 14) {
-                if (*(u8 **)((u8 *)sprite + 0x2C) != D_8017386C) {
-                    *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
+                if (*(u8 **)&sprite->frameTable != dreamin_direction_frames) {
+                    sprite->frameTable = dreamin_direction_frames;
                     select_sprite_entry(
                         sprite,
-                        D_8017386C[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
+                        dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
                         0);
                 }
                 actor->unk_9A.as_u8 = 14;
@@ -105,8 +106,8 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             }
         }
 
-        result = find_active_rect_containing_point(*(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
-        *(u8 *)((u8 *)sprite + 0x26) = result;
+        result = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+        sprite->unk_26 = result;
 
         if (state->pending_turn_updates > 0) {
             if (((u32)state->flags1C) & 0x20) {
@@ -114,7 +115,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 return;
             }
 
-            if (*(u16 *)((u8 *)sprite + 0x24) == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+            if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
                 func_801715CC(actor, context, sprite, state);
                 return;
             }
@@ -156,7 +157,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
             case 6:
             case 7:
                 result = get_rounded_facing_and_rounding_flag(
-                    *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
+                    sprite->unk_24, sprite->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
                 player = primary_actor_record;
                 state->facing = result;
@@ -195,10 +196,10 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
                 !(((S_80170E68_4 *)entry)->unk_0C & 2)) {
                 if ((flags & 0x430) == 0) {
                     if ((s16)test_neighbor_position_relation(
-                            *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
+                            sprite->unk_24, sprite->unk_25,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         result = get_rounded_facing_and_rounding_flag(
-                            *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
+                            sprite->unk_24, sprite->unk_25,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, (s16 *)&distance);
                         state->facing = result;
                     }
@@ -209,15 +210,15 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
         if (g_dungeon_status.flags & 0x2000) {
             return;
         }
-        if (*(u16 *)((u8 *)sprite + 0x14) & 0x40) {
+        if (sprite->flags & 0x40) {
             return;
         }
     }
-    if (*(u8 * *)((u8 *)sprite + 0x2C) != D_8017386C) {
-        *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
+    if (*(u8 **)&sprite->frameTable != dreamin_direction_frames) {
+        sprite->frameTable = dreamin_direction_frames;
         select_sprite_entry(
             sprite,
-            D_8017386C[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
+            dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7],
             0);
     }
 }

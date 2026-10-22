@@ -69,13 +69,6 @@ typedef struct S_80975244_0 {
     void * unk_B0;
 } S_80975244_0;   /* temp_v1 in func_80170A44 */
 
-typedef struct S_80975244_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_80975244_1;   /* temp_v0 in func_80170A44 */
-
 typedef struct S_80975244_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;

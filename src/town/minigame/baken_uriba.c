@@ -68,7 +68,7 @@ void baken_uriba(void)
     Screen screen;
     Screen *header_screen;
     Screen *value_screen;
-    void *allocation;
+    ObjectNodeHeader *allocation;
     void *buffer;
     s32 grid_index;
     s32 row_index;
@@ -85,7 +85,7 @@ void baken_uriba(void)
     allocation = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (allocation != 0) {
         buffer = (u8 *)allocation + 0x20;
-        *(void **)((u8 *)allocation + 0x10) = D_80020900;
+        allocation->unk_10 = D_80020900;
     }
 
     screen.text.x = 0x14;

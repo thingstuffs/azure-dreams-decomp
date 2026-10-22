@@ -34,7 +34,9 @@ typedef struct S_800520B4 {
 
 extern u8 color_fade_visual_data[0x10];
 extern void update_color_fade_effect(void);
-extern void draw_linked_sprites(void);
+struct ObjectPosition;
+struct SpriteFrameState;
+extern s32 draw_linked_sprites(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 /* Initialize object state, callbacks, settings, and vector values. */
 void init_color_fade_effect(S_800520B4 *object, void *context)

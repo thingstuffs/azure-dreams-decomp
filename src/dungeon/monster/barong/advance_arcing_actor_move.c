@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/tile_object.h"
@@ -5,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon/monster/barong.h"
 
 typedef struct S_80172B4C_0 {
     u8 pad_00[0x8C];
@@ -21,7 +23,6 @@ typedef struct S_80172B4C_0 {
     s32 unk_A4;
 } S_80172B4C_0;   /* arg0 in advance_arcing_actor_move */
 
-
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
@@ -32,12 +33,12 @@ extern void spend_actor_mp(void *, s32);
 extern s32 check_actor_floor_trap(void *, void *);
 
 extern u8 D_801716F4[];
-extern u8 D_80175554[];
+#include "dungeon/monster/barong.h"
 extern u8 D_80175574[];
 extern u8 D_8017557C[];
 
 /* Updates an actor's arcing move to its tile and finishes the action when its timer expires. */
-void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *actor)
+void advance_arcing_actor_move(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 state;
     s32 move_ticks;
@@ -59,15 +60,15 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
     {
         u8 *phase_anims;
 
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
         phase_anims = D_80175574;
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = phase_anims;
+        (sprite->frameTable) = phase_anims;
         select_sprite_entry(sprite,
             phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
+        sprite->scale_y = 0x1000;
         ((S_80172B4C_0 *)action)->unk_98 |= 8;
         ((ActorRecord *)actor)->flags1C &= 0xF7FFFFFF;
         ((S_80172B4C_0 *)action)->unk_9E.s = 5;
@@ -79,7 +80,7 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
         move_ticks = ((S_80172B4C_0 *)action)->unk_9E.s;
         ((S_80172B4C_0 *)action)->unk_90 -= ((S_80172B4C_0 *)action)->unk_A4;
         if (move_ticks != 0) {
-            target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
+            target_x = sprite->unk_24;
             pos_x = ((EntityRec *)motion)->x.w.i;
             target_x <<= 6;
             pos_x -= 0x20;
@@ -88,7 +89,7 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
             pos_y = ((EntityRec *)motion)->y.w.i;
             pos_y -= 0x20;
             ((EntityRec *)motion)->unk_10 =
-                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - pos_y) << 16) /
+                (((sprite->unk_25 << 6) - pos_y) << 16) /
                 ((S_80172B4C_0 *)action)->unk_9E.s;
 
             ((S_80172B4C_0 *)action)->unk_A4 =
@@ -118,25 +119,25 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
             ((EntityRec *)motion)->unk_0C = 0;
-            set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
             phase_anims = D_8017557C;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = phase_anims;
+            (sprite->frameTable) = phase_anims;
             select_sprite_entry(sprite,
                 phase_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0xC00;
+            sprite->scale_y = 0xC00;
             ((S_80172B4C_0 *)action)->unk_9B++;
         }
     }
         break;
     case 3:
-        idle_anims = D_80175554;
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != idle_anims) {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = idle_anims;
+        idle_anims = barong_direction_frames;
+        if (*(u8 **)&sprite->frameTable != idle_anims) {
+            (sprite->frameTable) = idle_anims;
             select_sprite_entry(sprite,
                 idle_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
                 0);
-            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
+            sprite->scale_y = 0x1000;
         }
         break;
     }
@@ -150,8 +151,8 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
-    ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
-    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    sprite->scale_y = 0x1000;
+    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
     spend_actor_mp(actor, 3);
     advance_status_timers(actor);
 
@@ -169,8 +170,8 @@ void advance_arcing_actor_move(void *action, void *motion, void *sprite, void *a
         if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 ((ActorRecord *)actor)->facing = get_rounded_facing_and_rounding_flag(
-                    ((Rec_D_80082E80 *)sprite)->unk_24,
-                    ((Rec_D_80082E80 *)sprite)->unk_25,
+                    sprite->unk_24,
+                    sprite->unk_25,
                     reference_tile_object.tile_position.parts.tile_x,
                     reference_tile_object.tile_position.parts.tile_y,
                     &facing_aux);

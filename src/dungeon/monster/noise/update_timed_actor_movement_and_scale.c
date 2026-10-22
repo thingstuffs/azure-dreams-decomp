@@ -1,7 +1,9 @@
+#include "shared/sprite_frame_state.h"
 #include "dungeon/monster/noise/update_timed_actor_movement_and_scale.h"
+#include "shared/sprite_frame_state.h"
 
 /* Updates timed actor movement and sprite scaling, then handles completion. */
-void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_Motion *motion, T_80172B6C_Sprite *sprite, T_80172B6C_Actor *actor) {
+void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_Motion *motion, SpriteFrameState *sprite, T_80172B6C_Actor *actor) {
     s16 direction_scratch;
     s32 current_state;
 
@@ -14,7 +16,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
         state->count_9e.u = next_count;
         if ((next_count << 16) > 0)
             break;
-        sprite->ptr_2c = D_80174EA8;
+        sprite->frameTable = D_80174EA8;
         select_sprite_entry(sprite,
                       D_80174EA8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                       0);
@@ -37,11 +39,11 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
         state->value_90 -= state->value_a4;
         frames_left = state->count_9e.s;
         if (frames_left != 0) {
-            target_x = sprite->value_24 << 6;
+            target_x = sprite->unk_24 << 6;
             current_x = motion->value_02 - 0x20;
             motion->value_0c = ((target_x - current_x) << 16) / frames_left;
             current_y = motion->value_06 - 0x20;
-            motion->value_10 = (((sprite->value_25 << 6) - current_y) << 16) /
+            motion->value_10 = (((sprite->unk_25 << 6) - current_y) << 16) /
                                state->count_9e.s;
             frames_left = state->count_9e.s;
             state->value_a4 = (-func_800644B8(frames_left * 0x199)) << 9;
@@ -51,20 +53,20 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
         scale_frame = state->count_9e.s;
         switch (scale_frame) {
         case 5:
-            sprite->value_1c = 0xc00;
-            sprite->value_1e = 0x1400;
+            sprite->scale_x = 0xc00;
+            sprite->scale_y = 0x1400;
             break;
         case 4:
-            sprite->value_1c = 0xa00;
-            sprite->value_1e = 0x1600;
+            sprite->scale_x = 0xa00;
+            sprite->scale_y = 0x1600;
             break;
         case 3:
-            sprite->value_1c = 0xe00;
-            sprite->value_1e = 0x1200;
+            sprite->scale_x = 0xe00;
+            sprite->scale_y = 0x1200;
             break;
         case 2:
-            sprite->value_1c = 0x1000;
-            sprite->value_1e = 0x1000;
+            sprite->scale_x = 0x1000;
+            sprite->scale_y = 0x1000;
             break;
         }
         next_count = state->count_9e.u - 1;
@@ -83,10 +85,10 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             motion->value_14 = 0;
             motion->value_10 = 0;
             motion->value_0c = 0;
-            set_record_integer_tile_center(motion, sprite->value_24, sprite->value_25);
-            sprite->value_1e = 0x1000;
-            sprite->value_1c = 0x1000;
-            sprite->ptr_2c = D_80174EB0;
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            sprite->scale_y = 0x1000;
+            sprite->scale_x = 0x1000;
+            sprite->frameTable = D_80174EB0;
             select_sprite_entry(sprite,
                           D_80174EB0[((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2a + 0x100) >> 9) & 7],
                           0);
@@ -94,8 +96,8 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
         }
         break;
     case 3:
-        sprite->value_1c = 0x1000;
-        sprite->value_1e = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->scale_y = 0x1000;
         break;
     }
 
@@ -110,9 +112,9 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             motion->value_14 = 0;
             motion->value_10 = 0;
             motion->value_0c = 0;
-            set_record_integer_tile_center(motion, sprite->value_24, sprite->value_25);
-            sprite->value_1c = 0x1000;
-            sprite->value_1e = 0x1000;
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            sprite->scale_x = 0x1000;
+            sprite->scale_y = 0x1000;
             spend_actor_mp(actor, 4);
             advance_status_timers(actor);
             if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0)
@@ -125,7 +127,7 @@ void update_timed_actor_movement_and_scale(T_80172B6C_State *state, T_80172B6C_M
             } else {
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
-                        actor->value_2a = get_rounded_facing_and_rounding_flag(sprite->value_24, sprite->value_25,
+                        actor->value_2a = get_rounded_facing_and_rounding_flag(sprite->unk_24, sprite->unk_25,
                                                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                                                         &direction_scratch);
                     }

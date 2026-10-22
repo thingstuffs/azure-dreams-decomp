@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -42,25 +43,25 @@ s32 register_node(RegistrationNode *entry, s32 registration_id);
 void func_80170D60(void *destination, s32 unused, void *source);
 
 /* Creates and configures a node at a fixed offset from the given position. */
-void create_offset_animation_sprite(void *unused, void *origin) {
-    Node *node;
+void create_offset_animation_sprite(void *unused, ObjectPosition *origin) {
+    ObjectNodeHeader *node;
     SpriteFrameState *node_sub;
-    Vec3 *position;
+    ObjectPosition *position;
     SpriteFrameState *display_sub;
 
     node = (Node *)allocate_flagged_object_node(0x212);
     if (node != 0) {
-        node->callback = &func_80170D60;
+        node->unk_10 = &func_80170D60;
         register_node(node, project_sprite_chain);
-        node_sub = node->sub;
+        node_sub = *(Sub * *)&node->sprite;
         node_sub->tpage_abr = 0x20;
         node_sub->unk_06 = 6;
         node_sub->flags |= 0xC;
-        position = node->position;
-        position->x = ((Vec3 *)origin)->x + 0x180000;
-        position->y = ((Vec3 *)origin)->y;
-        position->z = ((Vec3 *)origin)->z + 0xFFF00000;
-        display_sub = node->sub;
+        position = *(Vec3 * *)&node->position;
+        position->x.v = origin->x.v + 0x180000;
+        position->y.v = origin->y.v;
+        position->z.v = origin->z.v + 0xFFF00000;
+        display_sub = *(Sub * *)&node->sprite;
         display_sub->scale_y = 0x1400;
         display_sub->scale_x = 0x1400;
         display_sub->color.c.b = 0x80;

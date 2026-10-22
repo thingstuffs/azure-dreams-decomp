@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "dungeon/level.h"
 
 typedef struct {
     u8 pad0[2];
@@ -25,7 +26,6 @@ void *clear_byte_and_advance();
 s32 write_text_byte_and_advance();
 s32 append_entity_display_text();
 void display_formatted_context_message(); /* extern */
-s32 find_valid_nearby_position();
 s32 *(*load_monster_resource_data())(s32, s16, s16, s16); /* extern */
 s32 find_or_retain_sprite_resource_slot();
 s32 raise_entity_level(); /* extern */

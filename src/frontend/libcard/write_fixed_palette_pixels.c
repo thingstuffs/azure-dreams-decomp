@@ -1,14 +1,14 @@
 #include "common.h"
 #include "frontend/libcard.h"
 
-extern void func_8004E994(s32 value);
+extern void noop_release_notification(s32 value);
 
 // Process and clear three referenced values, then clear a fourth referenced value.
 void write_fixed_palette_pixels(void *owner) {
     s32 slotIndex;
 
     for (slotIndex = 0; slotIndex < 3; slotIndex++) {
-        func_8004E994(*(*(s32 **)((u8*)owner + 0x260 + slotIndex * 4)));
+        noop_release_notification(*(*(s32 **)((u8*)owner + 0x260 + slotIndex * 4)));
         *(*(s32 **)((u8*)owner + 0x260 + slotIndex * 4)) = 0;
     }
     *(*(s32 **)((u8*)owner + 0x26C)) = 0;

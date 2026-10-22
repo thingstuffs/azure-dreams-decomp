@@ -3,6 +3,7 @@
 #include "shared/game_work.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/actor/animation.h"
 
 typedef struct S_800A4B88_0_pre {
     s32 unk_00;
@@ -22,7 +23,6 @@ void restore_player_control_callback();              /* extern */
 void cycle_map_cell_flags();             /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 void begin_actor_flagged_action(); /* extern */
-void *reset_actor_animation_state();                      /* extern */
 extern s32 sprite_resource_pointer_slots[];
 extern u8 actor_default_frames[];
 

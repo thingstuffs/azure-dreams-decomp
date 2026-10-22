@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -13,14 +14,6 @@ typedef struct S_80171FC8_0 {
     u16 unk_88;
     union { s16 s; u16 u; } unk_8A;   /* accessed as both */
 } S_80171FC8_0;   /* arg3 in advance_entity_path_state */
-
-typedef struct S_80171FC8_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80171FC8_1;   /* arg2 in advance_entity_path_state */
 
 typedef struct S_80171FC8_2 {
     u8 pad_00[0x74];
@@ -47,7 +40,6 @@ typedef struct S_80171FC8_4 {
     u8 unk_7C;
 } S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in advance_entity_path_state */
 
-
 extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
 extern s32 update_map_cell_flags_with_item_limit();
@@ -56,7 +48,7 @@ extern s16 get_rounded_facing_and_rounding_flag();
 extern u8 D_80174634[];
 
 /* Advance the entity along its path and update its movement state. */
-void advance_entity_path_state(void *motion_state, s32 unused, void *entity, void *path_state)
+void advance_entity_path_state(void *motion_state, s32 unused, SpriteFrameState *entity, void *path_state)
 {
     s32 distance;
     s32 flags;
@@ -75,16 +67,16 @@ void advance_entity_path_state(void *motion_state, s32 unused, void *entity, voi
         return;
     }
 
-    if (((S_80171FC8_1 *)entity)->unk_2C != D_80174634) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = D_80174634;
+    if (*(u8 **)&entity->frameTable != D_80174634) {
+        (entity->frameTable) = D_80174634;
         select_sprite_entry(entity,
                       D_80174634[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
                       0);
     }
 
     path_entry = (u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s;
-    if (((S_80171FC8_1 *)entity)->unk_24 == ((S_80171FC8_2 *)path_entry)->unk_74 &&
-        ((S_80171FC8_1 *)entity)->unk_25 == ((S_80171FC8_2 *)path_entry)->unk_7C) {
+    if (entity->unk_24 == ((S_80171FC8_2 *)path_entry)->unk_74 &&
+        entity->unk_25 == ((S_80171FC8_2 *)path_entry)->unk_7C) {
         hp = ((S_80171FC8_3 *)motion_state)->unk_92;
         energy = ((S_80171FC8_0 *)path_state)->unk_88;
         ((S_80171FC8_3 *)motion_state)->unk_92 = hp + 0x20;
@@ -93,8 +85,8 @@ void advance_entity_path_state(void *motion_state, s32 unused, void *entity, voi
         ((S_80171FC8_0 *)path_state)->unk_8A.u = step_index + 1;
     } else {
         flags = ((S_80171FC8_0 *)path_state)->unk_1C;
-        old_x = ((S_80171FC8_1 *)entity)->unk_24;
-        old_y = ((S_80171FC8_1 *)entity)->unk_25;
+        old_x = entity->unk_24;
+        old_y = entity->unk_25;
         distance = 0x3000;
         if (flags & 0x2000) {
             distance = 0x300;
@@ -102,18 +94,18 @@ void advance_entity_path_state(void *motion_state, s32 unused, void *entity, voi
 
         update_map_cell_flags_with_item_limit(old_x, old_y, distance);
 
-        ((S_80171FC8_1 *)entity)->unk_24 = ((S_80171FC8_4 *)((u8 *)path_state
+        entity->unk_24 = ((S_80171FC8_4 *)((u8 *)path_state
             + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
-        ((S_80171FC8_1 *)entity)->unk_25 = ((S_80171FC8_4 *)((u8 *)path_state
+        entity->unk_25 = ((S_80171FC8_4 *)((u8 *)path_state
             + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
         ((S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
-        cycle_map_cell_flags(((S_80171FC8_1 *)entity)->unk_24, ((S_80171FC8_1 *)entity)->unk_25,
+        cycle_map_cell_flags(entity->unk_24, entity->unk_25,
                       (((S_80171FC8_0 *)path_state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
         ((S_80171FC8_0 *)path_state)->unk_2A =
-            get_rounded_facing_and_rounding_flag(old_x, old_y, ((S_80171FC8_1 *)entity)->unk_24,
-                          ((S_80171FC8_1 *)entity)->unk_25, (u8 *)motion_state + 0x98);
+            get_rounded_facing_and_rounding_flag(old_x, old_y, entity->unk_24,
+                          entity->unk_25, (u8 *)motion_state + 0x98);
     }
 
     ((S_80171FC8_3 *)motion_state)->unk_9A = 0xF;

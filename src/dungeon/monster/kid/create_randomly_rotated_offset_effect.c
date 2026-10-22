@@ -66,14 +66,14 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, EntityRec *source_p
         part->unk_1A = 65;
         (node->unk_10) = &D_80174600;
         register_node(node, project_sprite_chain);
-        data = (node->unk_0C);
+        data = (node->sprite);
         data->unk_10 = 0x60;
         data->unk_14 |= 0xC;
-        pos = (node->unk_08);
+        pos = (node->position);
         pos->unk_02 = ((u16)source_pos->x.w.i);
         pos->unk_06 = ((u16)source_pos->y.w.i);
         pos->unk_0A = ((u16)source_pos->z.w.i) - 0x28;
-        data = (node->unk_0C);
+        data = (node->sprite);
         data->unk_06 = 6;
         data->unk_1E = scale;
         data->unk_1C = scale;

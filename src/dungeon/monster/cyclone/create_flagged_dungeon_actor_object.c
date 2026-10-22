@@ -1,14 +1,10 @@
 #include "common.h"
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 
-typedef struct S_80170890_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80170890_0;   /* obj in create_flagged_dungeon_actor_object */
+
 
 typedef struct S_80170890_1 {
     u8 pad_00[0x13];
@@ -17,11 +13,6 @@ typedef struct S_80170890_1 {
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_80170890_1;   /* work in create_flagged_dungeon_actor_object */
-
-typedef struct S_80170890_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80170890_2;   /* part_a in create_flagged_dungeon_actor_object */
 
 typedef struct S_80170890_4 {
     u8 pad_00[0x8C];
@@ -51,7 +42,7 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 extern s32 D_80045340;
 extern u8 D_80170AE8[];
 extern u8 D_80176460[];
-extern u8 D_80176470[];
+#include "dungeon/monster/cyclone.h"
 extern u8 D_80171094[];
 extern u8 D_801764B8[];
 
@@ -60,9 +51,9 @@ extern u8 D_801764B8[];
  * placement. */
 void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
-    void *obj;
+    ObjectNodeHeader *obj;
     void *work = 0;
-    void *part_a;
+    ObjectPosition *part_a;
     SpriteFrameState *part_b;
     S_80170890_4 *actor;
     s32 kind;
@@ -75,13 +66,13 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
     obj = allocate_list_node(274, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80170890_0 *)obj)->unk_10 = D_80170AE8;
+        obj->unk_10 = D_80170AE8;
         ((S_80170890_1 *)work)->unk_13 = MONSTER_CYCLONE;
         register_node(obj, &D_80045340);
 
-        part_a = ((S_80170890_0 *)obj)->unk_08;
-        ((S_80170890_2 *)part_a)->unk_0A = saved_spawn;
-        part_b = ((S_80170890_0 *)obj)->unk_0C;
+        part_a = obj->position;
+        part_a->z.w.i = saved_spawn;
+        part_b = obj->sprite;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         part_b->unk_24 = saved_kind_id;
@@ -104,7 +95,7 @@ void *create_flagged_dungeon_actor_object(s16 flags, s16 kind_id, s16 variant, s
                     if (generate_random_value() & 1) {
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = D_80176470;
+                        part_b->frameTable = cyclone_direction_frames;
                     }
                 }
             }

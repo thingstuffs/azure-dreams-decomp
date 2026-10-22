@@ -1,9 +1,12 @@
+
+struct ObjectPosition;
 #include "shared/dungeon_actor_callbacks.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082EB0.h"
+#include "dungeon/player.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *player_action_tag[];
@@ -14,14 +17,13 @@ extern u8 D_8004F5F4[];
 void submit_script_with_registered_context();                     /* extern */
 s32 resolve_player_input_facing();                /* extern */
 s32 check_familiar_deployment_placement(); /* extern */
-s32 reject_forbidden_familiar_recall();                         /* extern */
 void display_formatted_context_message();                   /* extern */
 void append_packed_action_record();   /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 void *create_panel_effect_object();                      /* extern */
 s32 create_familiar_selection_marker();                          /* extern */
 void update_selection_tile_markers();                 /* extern */
-s32 select_nearby_target_and_initialize_slot();   /* extern */
+s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);   /* extern */
 extern u8 D_80012D6D;
 extern M2C_UNK D_8001EF2C;
 extern M2C_UNK D_80023C58;

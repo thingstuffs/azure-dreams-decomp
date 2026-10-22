@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -51,7 +52,7 @@ extern void create_directional_target_object(D0 *, void *, D2 *);
 extern void format_entity_message(s32, D3 *);
 
 /* Advances a timed actor state sequence and updates its sprite direction. */
-void advance_timed_actor_state_sequence(D0 *action, void *context, D2 *sprite, D3 *actor) {
+void advance_timed_actor_state_sequence(D0 *action, void *context, SpriteFrameState *sprite, D3 *actor) {
     u16 sprite_flags;
     u16 ticks_left;
 
@@ -63,7 +64,7 @@ void advance_timed_actor_state_sequence(D0 *action, void *context, D2 *sprite, D
             action->state = 2;
             return;
         }
-        if (!(sprite->kind == 1 && (sprite_flags & 0x1000)) && (sprite_flags & 0x6000) == 0) {
+        if (!(sprite->unk_04 == 1 && (sprite_flags & 0x1000)) && (sprite_flags & 0x6000) == 0) {
             break;
         }
         create_directional_target_object(action, context, sprite);
@@ -98,7 +99,7 @@ void advance_timed_actor_state_sequence(D0 *action, void *context, D2 *sprite, D
             }
         }
         spend_actor_mp(actor, 0x400);
-        set_record_integer_tile_center(context, sprite->value_24, sprite->value_25);
+        set_record_integer_tile_center(context, sprite->unk_24, sprite->unk_25);
         action->field_8C = D_80171094;
         g_dungeon_status.active_actor = 0;
         actor->value_46 &= 0x7FFF;
@@ -106,7 +107,7 @@ void advance_timed_actor_state_sequence(D0 *action, void *context, D2 *sprite, D
     }
 
     if (sprite->flags & 0xE000) {
-        sprite->field_2C = D_80176460;
+        sprite->frameTable = D_80176460;
         select_sprite_entry(sprite, D_80176460[(((g_game_work.view.camera_rotation.parts.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);
         action->field_98 &= 0xFFF7;
     }

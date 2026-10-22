@@ -1,11 +1,13 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "engine/cd.h"
+#include "shared/sprite_frame_state.h"
 extern int abs(int);
-
 
 typedef __SIZE_TYPE__ uptr;
 
@@ -34,29 +36,17 @@ typedef struct S_801728E4_1 {
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
 } S_801728E4_1;   /* arg3 in update_actor_item_use_animation */
 
-
 typedef struct S_801728E4_3 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
 } S_801728E4_3;   /* entry in update_actor_item_use_animation */
 
-typedef struct S_801728E4_4 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_801728E4_4;   /* arg2 in update_actor_item_use_animation */
-
 typedef struct S_801728E4_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
 } S_801728E4_5;   /* global in update_actor_item_use_animation */
-
 
 typedef struct {
     u8 pad00[0x12];
@@ -69,9 +59,8 @@ extern u8 D_801765D8[8];
 extern u8 D_80176648[8];
 extern u8 D_80176668[8];
 
-extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -79,14 +68,14 @@ extern s32 create_actor_spell_effect(void *, void *, s32, u16 *);
 extern void create_actor_linked_effect(void *);
 
 /* Advances an actor's item action through source selection, animation, and cleanup. */
-void update_actor_item_use_animation(void *action, void *item, void *sprite, void *actor)
+void update_actor_item_use_animation(void *action, void *item, SpriteFrameState *sprite, void *actor)
 {
     void *act = actor;
     u8 state;
     s32 use_global_source;
     u16 action_flags;
     s32 item_kind;
-    u8 *source_sprite;
+    ObjectNodeHeader *source_sprite;
 
     state = ((S_801728E4_0 *)action)->unk_9B;
     use_global_source = 0;
@@ -147,21 +136,21 @@ void update_actor_item_use_animation(void *action, void *item, void *sprite, voi
                 if (global_source_test) {
                     source_entity = primary_actor_record;
                     ((S_801728E4_1 *)act)->unk_60 = source_entity;
-                    source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
+                    source_sprite = *(u8 * *)&((ObjectNodeHeader *)((u8 *)source_entity - 0x20))->sprite;
                     ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
                     ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
                 } else if (item_action_definitions[(*(u8 *)&((EntityRec *)item)->x)].kind == 2) {
                     source_entity = ((S_801728E4_1 *)act)->unk_60;
                     if (source_entity != 0) {
-                        source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
+                        source_sprite = *(u8 * *)&((ObjectNodeHeader *)((u8 *)source_entity - 0x20))->sprite;
                         ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
                         ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
                     }
                 } else {
                     ((S_801728E4_1 *)act)->unk_60 =
-                        scan_monster_along_heading(act,
-                                      ((S_801728E4_4 *)sprite)->unk_24,
-                                      ((S_801728E4_4 *)sprite)->unk_25,
+                        scan_actor_along_heading(act,
+                                      sprite->unk_24,
+                                      sprite->unk_25,
                                       ((S_801728E4_1 *)act)->unk_2A,
                                       0x10);
                     ((S_801728E4_1 *)act)->unk_72.u = abs(((S_801728E4_1 *)act)->unk_72.u);
@@ -179,17 +168,17 @@ void update_actor_item_use_animation(void *action, void *item, void *sprite, voi
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((S_801728E4_4 *)sprite)->unk_14 |= 0x0800;
+            sprite->flags |= 0x0800;
             return;
         }
-        ((S_801728E4_4 *)sprite)->unk_14 &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_801728E4_0 *)action)->unk_9B++;
 
     case 2:
-        if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176648;
+        (sprite->frameTable) = D_80176648;
         select_sprite_entry(sprite,
             *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)D_80176648),
@@ -198,19 +187,19 @@ void update_actor_item_use_animation(void *action, void *item, void *sprite, voi
         return;
 
     case 3:
-        if (((S_801728E4_4 *)sprite)->unk_04 == 6 && (((S_801728E4_4 *)sprite)->unk_14 & 0x1000)) {
+        if (sprite->unk_04 == 6 && (sprite->flags & 0x1000)) {
             ((S_801728E4_0 *)action)->unk_98 |= 0x80;
-        } else if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
+        } else if (sprite->flags & 0xE000) {
             ((S_801728E4_0 *)action)->unk_98 |= 0x80;
         }
         if (!(((S_801728E4_0 *)action)->unk_98 & 0x80)) {
             return;
         }
-        if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
 
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176668;
+        (sprite->frameTable) = D_80176668;
         select_sprite_entry(sprite,
             *(u8 *)((uptr)(((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                     (uptr)D_80176668),
@@ -219,8 +208,8 @@ void update_actor_item_use_animation(void *action, void *item, void *sprite, voi
         return;
 
     case 4:
-        if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765D8;
+        if (sprite->flags & 0xE000) {
+            (sprite->frameTable) = D_801765D8;
             select_sprite_entry(sprite,
                 D_801765D8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -228,9 +217,9 @@ void update_actor_item_use_animation(void *action, void *item, void *sprite, voi
         ((EntityRec *)item)->flags14 = 0;
         ((EntityRec *)item)->unk_10 = 0;
         ((EntityRec *)item)->unk_0C = 0;
-        set_record_integer_tile_center(item, ((S_801728E4_4 *)sprite)->unk_24, ((S_801728E4_4 *)sprite)->unk_25);
+        set_record_integer_tile_center(item, sprite->unk_24, sprite->unk_25);
         source_sprite = ((u8 *)(&g_dungeon_status));
-        if (((S_801728E4_5 *)source_sprite)->unk_0C != 0) {
+        if (*(s32 *)&source_sprite->sprite != 0) {
             return;
         }
         ((S_801728E4_5 *)source_sprite)->unk_0A--;

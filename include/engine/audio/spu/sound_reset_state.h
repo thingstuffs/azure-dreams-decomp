@@ -20,11 +20,11 @@ extern s32 spu_register_dirty_flags;
 extern s32 spu_buffered_voice_mask;
 extern s32 spu_register_buffer_flags;
 void ResetCallback(s32 channel);
-s32 initialize_spu_registers_and_voices(s32 warm);
-void start_spu_dma_event_service(void);
-void store_u16_table_entry(s32 index, u32 value, s32 apply_shift);
+s32 _spu_init(s32 warm);
+void SpuStart(void);
+void _spu_FsetRXX(s32 index, u32 value, s32 apply_shift);
 
-void reset_spu_runtime_and_start_event_service(s32 channel);
-s32 set_reverb_address_available(s32 enabled);
+void _SpuInit(s32 channel);
+s32 SpuReserveReverbWorkArea(s32 enabled);
 
 #endif

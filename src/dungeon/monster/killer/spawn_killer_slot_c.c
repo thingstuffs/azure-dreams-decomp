@@ -12,13 +12,6 @@ typedef struct R03_80170A28_S_80170A28_2 R03_80170A28_S_80170A28_2;
 typedef struct ActionState ActionState;
 typedef struct ActorSprite ActorSprite;
 
-typedef struct S_80FF3000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80FF3000_0;
-
 typedef struct S_80FF3000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -62,7 +55,7 @@ void *spawn_killer_slot_c(s16, s32, s32, s16)
  * placement. */
 void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
     S_80FF3000_1 *object_state;
-    void *object;
+    ObjectNodeHeader *object;
     u16 saved_value;
     S_80FF3000_2 *base_data;
     s8 saved_y;
@@ -80,14 +73,14 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
     pos_x = 0x112;
     object = allocate_list_node(pos_x, ((void *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        object_state = object + 0x20;
-        ((S_80FF3000_0 *)object)->unk_10 = &func_80158A7C;
+        object_state = ((void *)object) + 0x20;
+        object->unk_10 = &func_80158A7C;
         object_state->unk_13 = MONSTER_KILLER;
         register_node(object, project_sprite_chain);
         config_value = (s32) &D_8015C038;
-        base_data = ((S_80FF3000_0 *)object)->unk_08;
+        base_data = object->position;
         base_data->unk_0A = saved_value;
-        placement = ((S_80FF3000_0 *)object)->unk_0C;
+        placement = object->sprite;
         mode_or_flags = init_flags & 3;
         placement->unk_25 = saved_y;
         extended_state = object_state;

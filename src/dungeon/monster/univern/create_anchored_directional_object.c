@@ -1,17 +1,19 @@
 /* Univern actor spawning, linked displays, movement, attacks, and spell effects. */
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/actor.h"
+#include "engine/cd.h"
+#include "dungeon/monster/univern.h"
 #include "shared/actor_action_flags.h"
 #include "shared/monster_ids.h"
 #include "shared/object_flags.h"
-void * (*const resource17_slot0_entry0)(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value) = func_8017089C;
+void * (*const resource17_slot0_entry0)(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value) = spawn_univern_actor;
 void (*const resource17_slot0_entry1)(void *actor, void *motion, void *object) = create_anchored_directional_object;
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 #include "shared/sprite_frame_state.h"
 
 /* Creates a Univern actor and its linked directional display, then initializes status and tile placement. */
-void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
+void *spawn_univern_actor(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 {
-    void *root;
+    ObjectNodeHeader *root;
     void *copy;
     s32 outer_index;
     s32 saved_kind;
@@ -40,13 +42,13 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
     root = allocated;
     if (allocated != 0) {
         {
-            void *init_root;
+            ObjectNodeHeader *init_root;
             void *setup;
 
             object = (u8 *)allocated + 0x20;
             init_root = allocated;
             setup = project_sprite_chain;
-            ((R17_8017089C_S_8017089C_0 *)init_root)->unk_10 = ((u8 *)create_anchored_directional_object);
+            init_root->unk_10 = ((u8 *)create_anchored_directional_object);
             ((R17_8017089C_S_8017089C_1 *)object)->unk_13 = MONSTER_UNIVERN;
             register_node(init_root, setup);
         }
@@ -55,10 +57,10 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
             void *part_callback;
 
             part_callback = ((u8 *)D_80174494);
-            copy = ((R17_8017089C_S_8017089C_2 *)root)->unk_08.at00.v;
+            copy = root->position;
             ((R17_8017089C_S_8017089C_2 *)copy)->unk_08.at02.v = saved_copy_value;
             stable_object = object;
-            part = ((R17_8017089C_S_8017089C_2 *)root)->unk_0C;
+            part = root->sprite;
             part->frameTable = part_callback;
         }
         part->unk_24 = saved_tile_x;
@@ -125,22 +127,22 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
                 table = ((u8 *)D_801744E4);
                 item_offset = 8;
                 do {
-                    void *item;
+                    SpriteFrameState *item;
                     s32 direction_index;
                     s32 part_value;
                     s32 call_zero;
-                    void *outer_child;
+                    ObjectNodeHeader *outer_child;
 
                     item = (u8 *)(void *)saved_kind + item_offset;
                     ((R17_8017089C_S_8017089C_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
                     part_value = part->unk_28;
-                    ((R17_8017089C_S_8017089C_7 *)item)->unk_10 = 0x20;
-                    ((R17_8017089C_S_8017089C_7 *)item)->unk_0C = 0x00808080;
-                    ((R17_8017089C_S_8017089C_7 *)item)->unk_28 = part_value;
+                    item->tpage_abr = 0x20;
+                    item->color.word = 0x00808080;
+                    item->unk_28 = part_value;
                     outer_child = ((R17_8017089C_S_8017089C_8 *)outer_base)->unk_A4;
                     call_zero = 0;
-                    ((R17_8017089C_S_8017089C_9 *)outer_child)->unk_10 = ((u8 *)D_800D78C0);
-                    (*(void * *)((u8 *)item + 0x2C)) = table;
+                    outer_child->unk_10 = ((u8 *)D_800D78C0);
+                    (*(void **)((u8 *)item + 0x2C)) = table;
                     direction_index = (((*(s16 *)view_facing_angle_alias) +
                         ((R17_8017089C_S_8017089C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
                     select_sprite_entry(item,
@@ -169,10 +171,10 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
     }
     return object;
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Runs actor callbacks and updates facing, animation, bobbing height, movement, and terrain contact. */
-void create_anchored_directional_object(void *actor, void *motion, void *object)
+void create_anchored_directional_object(void *actor, void *motion, SpriteFrameState *object)
 {
     u16 initial_flags = g_dungeon_status.flags;
     s32 bob = 0;
@@ -199,7 +201,6 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
         }
     }
 
-
     previous_index = (s8)(*(u8 *)((u8 *)actor + (0x6D)));
     if (refresh_actor_facing_and_lifecycle(actor, motion, object, actor) != 0) {
         return;
@@ -225,7 +226,7 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
         (*(u8 *)((u8 *)actor + (0x9D))) = 0;
     }
     (*(s32 *)((u8 *)actor + (0x90))) += ((R17_80170BB8_S_80170BB8_0 *)motion)->unk_14;
-    status_flags = ((R17_80170BB8_S_80170BB8_1 *)object)->unk_14;
+    status_flags = object->flags;
 
     if (!(status_flags & 0x8000)) {
         {
@@ -233,55 +234,55 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
             direction = ground_offset & 7;
         }
         if ((*(s16 *)((u8 *)actor + (0x94))) != direction) {
-            select_indirect_table_entry(object, ((R17_80170BB8_S_80170BB8_1 *)object)->unk_2C[direction],
-                          ((R17_80170BB8_S_80170BB8_1 *)object)->unk_04);
+            select_indirect_table_entry(object, (*(u8 **)&object->frameTable)[direction],
+                          object->unk_04);
             (*(s16 *)((u8 *)actor + (0x94))) = direction;
         }
         {
             u32 flip_flags;
             if (dir_sprite_flag[direction] != 0) {
-                flip_flags = ((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 | 1;
+                flip_flags = object->flags | 1;
             } else {
-                flip_flags = ((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 & 0xFFFE;
+                flip_flags = object->flags & 0xFFFE;
             }
-            ((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 = flip_flags;
+            object->flags = flip_flags;
         }
         if ((*(u8 *)((u8 *)actor + (0x9A))) != 8) {
             apply_monster_koyaw_data(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.s, (u8 *)object + 0xC);
         }
 
         if (!(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u & 0x20)) {
-            if (!(((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 & 0x40)) {
+            if (!(object->flags & 0x40)) {
                 advance_sprite_animation_and_textures(object);
             }
         } else {
-            ((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 |= 0x7000;
+            object->flags |= 0x7000;
             ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u &= 0xFFFBFFFF;
         }
 
         ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u = ((u32)(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF));
         if (((u32)(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF)) & 0x40000) {
-            if (!(((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 & 0x40)) {
+            if (!(object->flags & 0x40)) {
                 status_flags = (*(u16 *)((u8 *)actor + (0x98)));
                 if (status_flags & 0x8000) {
                     (*(u16 *)((u8 *)actor + (0x98))) = status_flags & 0x7FFF;
-                    animation_table = ((R17_80170BB8_S_80170BB8_1 *)object)->unk_2C;
+                    animation_table = *(u8 **)&object->frameTable;
                     if (animation_table == ((u8 *)D_8017449C)) {
-                        (*(u8 * *)((u8 *)object + (0x2C))) = ((u8 *)D_80174494);
+                        (object->frameTable) = ((u8 *)D_80174494);
                         select_sprite_entry(object,
                             ((u8 *)D_80174494)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_80170BB8_S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                             0);
                     }
                     else if (animation_table == ((u8 *)D_80174494)) {
-                        (*(u8 * *)((u8 *)object + (0x2C))) = ((u8 *)D_8017449C);
+                        (object->frameTable) = ((u8 *)D_8017449C);
                         select_sprite_entry(object,
                             ((u8 *)D_8017449C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_80170BB8_S_if_0 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                             0);
                     }
                 }
-                if (((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 & 0x6000) {
+                if (object->flags & 0x6000) {
                     (*(u16 *)((u8 *)actor + (0x98))) |= 0x8000;
-                    if (((R17_80170BB8_S_80170BB8_1 *)object)->unk_2C == ((u8 *)D_80174494)) {
+                    if (*(u8 **)&object->frameTable == ((u8 *)D_80174494)) {
                         (*(s16 *)((u8 *)actor + (0xA8))) = 0;
                     }
                 }
@@ -323,9 +324,9 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
         }
     } else {
         if (!(status_flags & 0x800)) {
-            ((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 = status_flags | 0x7000;
+            object->flags = status_flags | 0x7000;
         } else {
-            ((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 = status_flags & 0x8FFF;
+            object->flags = status_flags & 0x8FFF;
         }
         ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u = ((u32)(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF));
 
@@ -346,28 +347,28 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
                 }
             }
         } else {
-            if (!(((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 & 0x40)) {
+            if (!(object->flags & 0x40)) {
                 status_flags = (*(u16 *)((u8 *)actor + (0x98)));
                 if (status_flags & 0x8000) {
                     (*(u16 *)((u8 *)actor + (0x98))) = status_flags & 0x7FFF;
-                    animation_table = ((R17_80170BB8_S_80170BB8_1 *)object)->unk_2C;
+                    animation_table = *(u8 **)&object->frameTable;
                     if (animation_table == ((u8 *)D_8017449C)) {
-                        (*(u8 * *)((u8 *)object + (0x2C))) = ((u8 *)D_80174494);
+                        (object->frameTable) = ((u8 *)D_80174494);
                         select_sprite_entry(object,
                             ((u8 *)D_80174494)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_2A + 0x100)
                                 >> 9) & 7],
                             0);
                     } else if (animation_table == ((u8 *)D_80174494)) {
-                        (*(u8 * *)((u8 *)object + (0x2C))) = ((u8 *)D_8017449C);
+                        (object->frameTable) = ((u8 *)D_8017449C);
                         select_sprite_entry(object,
                             ((u8 *)D_8017449C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_2A + 0x100)
                                 >> 9) & 7],
                             0);
                     }
                 }
-                if (((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 & 0x6000) {
+                if (object->flags & 0x6000) {
                     (*(u16 *)((u8 *)actor + (0x98))) |= 0x8000;
-                    if (((R17_80170BB8_S_80170BB8_1 *)object)->unk_2C == ((u8 *)D_80174494)) {
+                    if (*(u8 **)&object->frameTable == ((u8 *)D_80174494)) {
                         (*(s16 *)((u8 *)actor + (0xA8))) = 0;
                     }
                 }
@@ -398,8 +399,8 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
 
     if (((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u & 0x40000000) {
         ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u = ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_1C.u & 0xBFFFFFFF;
-        ground = ((s16)sample_terrain_surface_height((((R17_80170BB8_S_80170BB8_1 *)object)->unk_24 << 6) | 0x20,
-            (((R17_80170BB8_S_80170BB8_1 *)object)->unk_25 << 6) | 0x20,
+        ground = ((s16)sample_terrain_surface_height((object->unk_24 << 6) | 0x20,
+            (object->unk_25 << 6) | 0x20,
             (s16)(((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_88.u - 0x20)));
         if (ground < 0x200) {
             (*(s16 *)((u8 *)actor + (0x92))) += ((R17_80170BB8_S_80170BB8_2 *)actor_state)->unk_88.u - ground;
@@ -410,12 +411,12 @@ void create_anchored_directional_object(void *actor, void *motion, void *object)
         (u16)(*(s16 *)((u8 *)actor + (0x92)));
     height += bob;
     *(s16 *)((u8 *)motion + 0xA) = height;
-    ((R17_80170BB8_S_80170BB8_1 *)object)->unk_14 |= 0x40;
+    object->flags |= 0x40;
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
-void update_entity_movement_and_ground_height(void *actor, void *context, void *sprite, ActorRecord *status)
+void update_entity_movement_and_ground_height(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *status)
 {
     s32 distance;
     u32 flags;
@@ -432,10 +433,10 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
 
     if (status->mp == 0) {
         advance_actor_pending_action(actor, context, sprite, status);
-        if (((R17_801713A8_S_801713A8_2 *)sprite)->unk_2C == ((u8 *)D_801744FC)) {
+        if (*(u8 **)&sprite->frameTable == ((u8 *)D_801744FC)) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
+        (sprite->frameTable) = ((u8 *)D_801744EC);
         select_sprite_entry(
             sprite,(u8)(((u8 *)D_801744EC)[((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 9) & 7]),
             0);
@@ -443,7 +444,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
     }
 
     if (((u32)status->flags1C) & 0x200) {
-        if (((R17_801713A8_S_801713A8_2 *)sprite)->unk_2C == ((u8 *)D_801744FC)) {
+        if (*(u8 **)&sprite->frameTable == ((u8 *)D_801744FC)) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 13;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 2;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
@@ -465,10 +466,10 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 14;
         }
 
-        if ((((R17_801713A8_S_801713A8_2 *)sprite)->unk_2C != ((u8 *)D_80174494)) &&
-            (((R17_801713A8_S_801713A8_2 *)sprite)->unk_2C != ((u8 *)D_8017449C))) {
+        if ((*(u8 **)&sprite->frameTable != ((u8 *)D_80174494)) &&
+            (*(u8 **)&sprite->frameTable != ((u8 *)D_8017449C))) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017449C);
+            (sprite->frameTable) = ((u8 *)D_8017449C);
             select_sprite_entry(
                 sprite,(u8)(((u8 *)D_8017449C)[((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 9) & 7]),
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_A8);
@@ -486,7 +487,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
         if (((u32)status->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite, status);
             ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
-            func_80174250(actor, context, sprite, status);
+            update_univern_parent_motion(actor, context, sprite, status);
             return;
         }
 
@@ -495,16 +496,16 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
         }
     }
 
-    tile_index = ((s8)find_active_rect_containing_point((u8)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at00.v),(u8)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at01.v)));
-    ((R17_801713A8_S_801713A8_2 *)sprite)->unk_26 = tile_index;
+    tile_index = ((s8)find_active_rect_containing_point((u8)(sprite->unk_24),(u8)(sprite->unk_25)));
+    sprite->unk_26 = tile_index;
 
     if (status->pending_turn_updates > 0) {
         if (((u32)status->flags1C) & 0x20) {
             update_actor_status_and_mp(status);
             return;
         }
-        if (((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
-            func_80171A98(actor, context, sprite, status);
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
+            choose_univern_move(actor, context, sprite, status);
             return;
         }
         action_flags = status->action_flags;
@@ -515,13 +516,13 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
                     return;
                 }
             }
-            if ((s16)func_801724C4(actor, context, sprite, 0) == 0) {
+            if ((s16)relink_univern_path(actor, context, sprite, 0) == 0) {
                 return;
             }
             action_flags = status->action_flags | 0x4000;
             status->action_flags = action_flags;
             if ((action_flags & 0x8000) == 0) {
-                func_80171A98(actor, context, sprite, status);
+                choose_univern_move(actor, context, sprite, status);
                 return;
             }
         }
@@ -531,10 +532,10 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
 
         case 7:
         case 8:
-            if ((s16)func_801721E0(actor, context, sprite, status) != 0) {
+            if ((s16)try_univern_attack(actor, context, sprite, status) != 0) {
                 return;
             }
-            func_801723A4(actor, context, sprite, status);
+            begin_univern_attack(actor, context, sprite, status);
             return;
 
         case 4:
@@ -544,7 +545,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
             s16 target_angle;
             ActorRecord *active_actor;
 
-            target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at00.v),(s16)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at01.v),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
+            target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(sprite->unk_24),(s16)(sprite->unk_25),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
             active_actor = primary_actor_record;
             status->facing = target_angle;
             if (active_actor->unk_9A != 0x11) {
@@ -572,7 +573,7 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
         case 9:
         case 10:
         default:
-            func_80171A98(actor, context, sprite, status);
+            choose_univern_move(actor, context, sprite, status);
             return;
         }
     }
@@ -590,15 +591,15 @@ void update_entity_movement_and_ground_height(void *actor, void *context, void *
         return;
     }
 
-    if ((s16)test_neighbor_position_relation((u8)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at00.v),(u8)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at01.v),(u8)(reference_tile_object.tile_position.parts.tile_x),(u8)(reference_tile_object.tile_position.parts.tile_y)) == 0) {
+    if ((s16)test_neighbor_position_relation((u8)(sprite->unk_24),(u8)(sprite->unk_25),(u8)(reference_tile_object.tile_position.parts.tile_x),(u8)(reference_tile_object.tile_position.parts.tile_y)) == 0) {
         return;
     }
-    status->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at00.v),(s16)(((R17_801713A8_S_801713A8_2 *)sprite)->unk_24.at01.v),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
+    status->facing = ((s16)get_rounded_facing_and_rounding_flag((s16)(sprite->unk_24),(s16)(sprite->unk_25),(s16)(reference_tile_object.tile_position.parts.tile_x),(s16)(reference_tile_object.tile_position.parts.tile_y), &distance));
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Advances one stored path step, updates occupied tiles and facing, and sets the movement delay. */
-void advance_entity_along_path_2(void *motion, s32 unused, void *entity, void *path_state)
+void advance_entity_along_path_2(void *motion, s32 unused, SpriteFrameState *entity, void *path_state)
 {
     u8 *direction_table;
     s32 old_x;
@@ -614,9 +615,9 @@ void advance_entity_along_path_2(void *motion, s32 unused, void *entity, void *p
         return;
     }
 
-    direction_table = ((SpriteTableView *)entity)->unk_2C;
+    direction_table = *(unsigned char **)&entity->frameTable;
     if (direction_table != ((u8 *)D_80174494) && direction_table != ((u8 *)D_8017449C)) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = ((u8 *)D_8017449C);
+        (entity->frameTable) = ((u8 *)D_8017449C);
         select_sprite_entry(
             entity,
             ((u8 *)D_8017449C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
@@ -624,22 +625,22 @@ void advance_entity_along_path_2(void *motion, s32 unused, void *entity, void *p
         ((Rec_func_800A9E70_arg0 *)motion)->unk_A8 = 0;
     }
 
-    old_x = ((SpriteTableView *)entity)->unk_24;
-    old_y = ((SpriteTableView *)entity)->unk_25;
+    old_x = entity->unk_24;
+    old_y = entity->unk_25;
     occupancy_mask = 0x3000;
     if (((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.s & 0x2000) {
         occupancy_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(old_x, old_y, occupancy_mask);
 
-    ((SpriteTableView *)entity)->unk_24 =
+    entity->unk_24 =
         ((ActorStatusBytesView *)((u8 *)path_state + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_8A.s))->unk_74;
-    ((SpriteTableView *)entity)->unk_25 =
+    entity->unk_25 =
         ((ActorStatusBytesView *)((u8 *)path_state + ((R17_801718D0_S_801718D0_0 *)path_state)->unk_8A.s))->unk_7C;
     ((R17_801718D0_S_801718D0_0 *)path_state)->unk_8A.u++;
 
-    new_x = ((SpriteTableView *)entity)->unk_24;
-    new_y = ((SpriteTableView *)entity)->unk_25;
+    new_x = entity->unk_24;
+    new_y = entity->unk_25;
     occupancy_mask = 0x3000;
     if (((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.s & 0x2000) {
         occupancy_mask = 0x300;
@@ -647,7 +648,7 @@ void advance_entity_along_path_2(void *motion, s32 unused, void *entity, void *p
     cycle_map_cell_flags(new_x, new_y, occupancy_mask);
 
     ((R17_801718D0_S_801718D0_0 *)path_state)->unk_2A = ((s16)get_rounded_facing_and_rounding_flag(
-        old_x, old_y, ((SpriteTableView *)entity)->unk_24, ((SpriteTableView *)entity)->unk_25,
+        old_x, old_y, entity->unk_24, entity->unk_25,
         (u8 *)motion + 0x98));
     ((R17_801718D0_S_801718D0_0 *)path_state)->unk_1C.u |= 0x40000000;
     ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xF;
@@ -666,11 +667,11 @@ void advance_entity_along_path_2(void *motion, s32 unused, void *entity, void *p
         }
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void func_80171A98(void *move_data, void *context, void *position_data, void *actor_data)
+void choose_univern_move(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
@@ -685,7 +686,7 @@ void func_80171A98(void *move_data, void *context, void *position_data, void *ac
 
     if ((dungeon_flags & 0x4000) || ((R17_80171A98_S_80171C34_1 *)actor_data)->unk_71.s >= 0) {
         if (((R17_80171A98_S_80171C34_1 *)actor_data)->unk_12 >= 2 ||
-            (s16)func_801721E0(move_data, context, position_data, actor_data) == 0) {
+            (s16)try_univern_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
         }
@@ -702,7 +703,7 @@ void func_80171A98(void *move_data, void *context, void *position_data, void *ac
     actor_flags = ((R17_80171A98_S_80171C34_1 *)actor_data)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            current_angle = (s32)find_valid_monster_neighbor(actor_data,(u8)(((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at00.v),(u8)(((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at01.v));
+            current_angle = (s32)find_adjacent_actor(actor_data,(u8)(((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at00.v),(u8)(((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at01.v));
             if (((void *)current_angle) != 0) {
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)(((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at00.v),(s16)(((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(((R17_80171A98_S_80171C34_7 *)(((R17_80171A98_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_24),(s16)(((R17_80171A98_S_80171C34_7 *)(((R17_80171A98_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_25),
                     (u8 *)move_data + 0x98));
@@ -757,13 +758,13 @@ void func_80171A98(void *move_data, void *context, void *position_data, void *ac
                     limit_detour = 1;
                 }
             } else {
-                rebuild_monster_reachable_tiles(position_data, ((R17_80171A98_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+                select_actor_route_target(position_data, ((R17_80171A98_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                               (u8 *)move_data + 0x98);
             }
         }
     } else if (((R17_80171A98_S_80171C34_2 *)position_data)->unk_26.s >= 0 &&
                ((R17_80171A98_DungeonRecord *)dungeon_rooms)[((R17_80171A98_S_80171C34_2 *)position_data)->unk_26.s].flags & 2) {
-        rebuild_monster_reachable_tiles(position_data, ((R17_80171A98_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+        select_actor_route_target(position_data, ((R17_80171A98_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                       (u8 *)move_data + 0x98);
     } else if (!(((R17_80171A98_S_80171C34_1 *)actor_data)->unk_46 & 0x8000)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,(u8)(((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at00.v),(u8)(((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at01.v),(s16)(((R17_80171A98_S_80171C34_1 *)actor_data)->unk_2A.s));
@@ -792,7 +793,7 @@ void func_80171A98(void *move_data, void *context, void *position_data, void *ac
                 }
             }
         } else {
-            rebuild_monster_reachable_tiles(position_data, ((R17_80171A98_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+            select_actor_route_target(position_data, ((R17_80171A98_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                           (u8 *)move_data + 0x98);
         }
     }
@@ -844,7 +845,7 @@ void func_80171A98(void *move_data, void *context, void *position_data, void *ac
         }
 
         if (turn_index == 0 &&
-            *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != ((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at00u.v) {
+            reference_tile_object.tile_position.word != ((R17_80171A98_S_80171C34_2 *)position_data)->unk_24.at00u.v) {
             if (((s16)check_entity_relation(actor_data,
                     (u8 *)primary_actor_record->previous_actor_header + 0x20)) != 0) {
                 do {
@@ -884,10 +885,10 @@ void func_80171A98(void *move_data, void *context, void *position_data, void *ac
         ((R17_80171A98_S_80171C34_1 *)actor_data)->unk_88.s = turn_index;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor)
+s32 try_univern_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *sprite_arg, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;
@@ -901,8 +902,8 @@ s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
         return -1;
     }
 
-    target_angle = probe_directional_neighbor(actor, ((SpriteTableView *)sprite_arg)->unk_24,
-                           ((SpriteTableView *)sprite_arg)->unk_25, actor->facing);
+    target_angle = probe_directional_neighbor(actor, ((SpriteFrameState *)sprite_arg)->unk_24,
+                           ((SpriteFrameState *)sprite_arg)->unk_25, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_angle) << 16) == 0) {
         return 0;
     }
@@ -928,7 +929,7 @@ s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
         action_state->unk_8C = 0;
         actor->unk_84 = 0x7C;
         actor->unk_85 = 0;
-        ((SpriteTableView *)sprite_arg)->unk_2C = ((u8 *)D_80174494);
+        ((SpriteFrameState *)sprite_arg)->frameTable = ((u8 *)D_80174494);
         select_sprite_entry(sprite_arg, (((u8 *)D_80174494))[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         actor->pending_turn_updates--;
         prepare_directional_attack(actor, sprite_arg, actor->facing, 1, 0);
@@ -936,11 +937,11 @@ s32 func_801721E0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     }
     return -1;
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void func_801723A4(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80082E80 *animation,
+void begin_univern_attack(Rec_func_800A9E70_arg0 *action_state, void *context, SpriteFrameState *animation,
     ActorRecord *entity) {
     entity->movement_queue_state = (s8) (entity->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(entity) << 0x10) == 0)) {
@@ -949,7 +950,7 @@ void func_801723A4(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80
             action_state->unk_9A.as_s8 = 0x11;
             action_state->unk_8C = 0;
             action_state->unk_9B.as_s8 = 0;
-            select_sprite_entry(animation, *(animation->unk_2C.as_pu8 + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
+            select_sprite_entry(animation, *(*(u8 **)&animation->frameTable + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing
                 + 0x100) >> 9) & 7)), 0);
             entity->pending_turn_updates = (u8) (((u8)entity->pending_turn_updates) - 1);
             prepare_directional_attack(entity, animation, entity->facing, 1, 0);
@@ -959,10 +960,10 @@ void func_801723A4(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80
         }
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 func_801724C4(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_univern_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -970,7 +971,7 @@ s32 func_801724C4(void *entity_arg, void *primary_context_arg, void *secondary_c
     state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        func_80171A98(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_univern_move(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     }
@@ -981,7 +982,7 @@ s32 func_801724C4(void *entity_arg, void *primary_context_arg, void *secondary_c
         result = 0;
         return result;
     case 2:
-        func_80171A98(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_univern_move(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     case 1:
@@ -1002,7 +1003,7 @@ s32 func_801724C4(void *entity_arg, void *primary_context_arg, void *secondary_c
     ((R17_801724C4_S_80172628_0 *)entity)->unk_46 = (u16) (((R17_801724C4_S_80172628_0 *)entity)->unk_46 & 0x7FFF);
     return result;
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 void finish_actor_tile_move_then_resume_ground_movement(void *state, s32 unused, s32 source, s32 target) {
     if (update_actor_movement_to_tile() != 0) {
@@ -1018,7 +1019,7 @@ void finish_actor_tile_move_then_resume_ground_movement(void *state, s32 unused,
         *(s16 *)((u8 *)state + 0x92) = -0x20;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(Resource17CallbackState *state, void *entity, void *position, void *graphic)
 {
@@ -1028,10 +1029,10 @@ void finish_linked_actor_motion_and_floor_trap_then_resume_ground_movement(Resou
         }
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Animates a backward hop and forward attack, applies damage, then recenters the actor and spends MP. */
-void update_staged_movement_and_direction(void *action, void *motion, void *sprite, void *actor)
+void update_staged_movement_and_direction(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 step_x;
     s32 step_y;
@@ -1056,17 +1057,17 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
 
     switch (state) {
     case 0:
-        flags = F16(sprite, 0x14);
+        flags = sprite->flags;
         turn_actor = actor;
         if (flags & 0x8000) {
             F8(action, 0x9B) = 0xFF;
-            F16(sprite, 0x14) |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(turn_actor, sprite,(s16)(FS16(turn_actor, 0x2A)),(s16)(1));
             return;
         }
         if (!(flags & 0xE000))
             return;
-        FPTR(sprite, 0x2C) = ((u8 *)D_801744B4);
+        sprite->frameTable = ((u8 *)D_801744B4);
         select_sprite_entry(sprite, ((u8 *)D_801744B4)[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F32(motion, 0xC) = (-step_x) << 18;
         F32(motion, 0x10) = (-step_y) << 18;
@@ -1096,17 +1097,17 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
             F32(motion, 0xC) = 0;
             F32(motion, 0x10) = 0;
             F32(motion, 0x14) = 0;
-            FPTR(sprite, 0x2C) = ((u8 *)D_801744BC);
+            sprite->frameTable = ((u8 *)D_801744BC);
             select_sprite_entry(sprite, ((u8 *)D_801744BC)[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         }
         if (FS16(action, 0x96) > 0)
             return;
-        if (!(F16(sprite, 0x14) & 0xE000))
+        if (!(sprite->flags & 0xE000))
             return;
         F16(action, 0x96) = phase_ticks;
         F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
         F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
-        FPTR(sprite, 0x2C) = ((u8 *)D_801744C4);
+        sprite->frameTable = ((u8 *)D_801744C4);
         select_sprite_entry(sprite, ((u8 *)D_801744C4)[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F8(action, 0x9B)++;
         return;
@@ -1128,9 +1129,9 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
 
     case 4:
         F32(action, 0x90) += 0x80000;
-        if (!(F16(sprite, 0x14) & 0xE000))
+        if (!(sprite->flags & 0xE000))
             return;
-        FPTR(sprite, 0x2C) = ((u8 *)D_801744CC);
+        sprite->frameTable = ((u8 *)D_801744CC);
         select_sprite_entry(sprite, ((u8 *)D_801744CC)[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F32(motion, 0x14) = 0;
         F32(action, 0x90) = 0;
@@ -1140,54 +1141,54 @@ void update_staged_movement_and_direction(void *action, void *motion, void *spri
         return;
 
     case 0xFF:
-        target = F8(sprite, 0x24) << 6;
+        target = sprite->unk_24 << 6;
         current = FS16(motion, 2);
         current -= 0x20;
         target -= current;
         target <<= 15;
         target >>= 1;
         F32(motion, 0xC) = target;
-        target = F8(sprite, 0x25) << 6;
+        target = sprite->unk_25 << 6;
         current = FS16(motion, 6);
         current -= 0x20;
         target -= current;
         target <<= 15;
         target >>= 1;
         F32(motion, 0x10) = target;
-        if (!(F16(sprite, 0x14) & 0xE000))
+        if (!(sprite->flags & 0xE000))
             return;
         F32(motion, 0x10) = 0;
         F32(motion, 0xC) = 0;
         F32(actor, 0x1C) |= 0x40000;
-        set_record_integer_tile_center(motion, F8(sprite, 0x24), F8(sprite, 0x25));
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
         FPTR(action, 0x8C) = ((u8 *)update_entity_movement_and_ground_height);
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
-        FPTR(sprite, 0x2C) = ((u8 *)D_8017449C);
+        sprite->frameTable = ((u8 *)D_8017449C);
         select_sprite_entry(sprite, ((u8 *)D_8017449C)[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         if (FS8(actor, 0x6D) == 0) {
             F16(actor, 0x46) &= 0x7FFF;
             return;
         }
-        (*(void * *)actor_update_node_cursor) = (u8 *)actor - 0x20;
+        (*(void **)actor_update_node_cursor) = (u8 *)actor - 0x20;
 
         return;
     default:
         return;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Targets and starts a spell effect, waits for loading and animation, then restores movement and status. */
-void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, R17_80172C18_Actor *actor, R17_80172C18_Entity *ent)
+void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80172C18_Position *pos, SpriteFrameState *actor, R17_80172C18_Entity *ent)
 {
     u8 *item_slot;
     s32 state_index;
     s16 use_main_link;
     u8 *actor_parts;
     R17_80172C18_SubActor *sub_actor;
-    R17_80172C18_ActorBase *actor_base;
+    SpriteFrameState *actor_base;
 
     use_main_link = 0;
     state_index = state->state9B;
@@ -1257,13 +1258,13 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             if (main_link_test) {
                 link_base = (u8 *)((R17_80172C18_MainObj *)primary_actor_record);
                 ent->f60 = link_base;
-                linked_actor = *(u8 **)(link_base - 0x14);
+                linked_actor = *(u8 * *)&((ObjectNodeHeader *)((u8 *)link_base - 0x20))->sprite;
                 ent->f72 = linked_actor[0x24];
                 ent->f73 = linked_actor[0x25];
             } else if (item_action_definitions[*item_slot].kind == 2) {
                 link_base = ent->f60;
                 if (link_base != 0) {
-                    linked_actor = *(u8 **)(link_base - 0x14);
+                    linked_actor = *(u8 * *)&((ObjectNodeHeader *)((u8 *)link_base - 0x20))->sprite;
                     ent->f72 = linked_actor[0x24];
                     ent->f73 = linked_actor[0x25];
                 }
@@ -1271,8 +1272,8 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
                 s32 offset_y;
                 s32 offset_x;
 
-                ent->f60 = scan_monster_along_heading(
-                    ent,(u8)(actor->f24),(u8)(actor->f25),(s16)(ent->f2A), 0x10);
+                ent->f60 = scan_actor_along_heading(
+                    ent,(u8)(actor->unk_24),(u8)(actor->unk_25),(s16)(ent->f2A), 0x10);
                 offset_x = __builtin_abs(ent->f72);
                 offset_y = __builtin_abs(ent->f73);
                 ent->f72 = offset_x;
@@ -1280,7 +1281,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             }
 
             sub_actor->flags4 &= 0x7FFF;
-            actor_base->f2C = (void (*)(void))((u8 *)D_801744E4);
+            actor_base->frameTable = (void (*)(void))((u8 *)D_801744E4);
             select_sprite_entry(
                 actor_base,
                 ((u8 *)D_801744E4)[((g_game_work.view.camera_rotation.parts.viewAngle + ent->f2A + 0x100) >> 9) & 7],
@@ -1288,7 +1289,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             if (!create_actor_spell_effect(ent, item_slot, use_main_link, &state->flags98)) {
                 return;
             }
-            actor->flags14 &= 0xF7FF;
+            actor->flags &= 0xF7FF;
             create_source_positioned_object(pos, 5);
             play_sound_if_enabled(0x703);
             state->state9B++;
@@ -1301,7 +1302,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         pos->f14 = 0;
         pos->f10 = 0;
         pos->fC = 0;
-        set_record_integer_tile_center(pos,(u8)(actor->f24),(u8)(actor->f25));
+        set_record_integer_tile_center(pos,(u8)(actor->unk_24),(u8)(actor->unk_25));
         {
             R17_80172C18_MainObj *main_obj;
 
@@ -1317,11 +1318,10 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         ent->f46 &= 0x7FFF;
         return;
 
-
     case 1:
         state->u90.h.half92 += (-0x60 - (s16)state->u90.h.half92) >> 3;
-        if (actor->flags14 & 0xE000) {
-            actor->f2C = (void (*)(void))((u8 *)D_801744DC);
+        if (actor->flags & 0xE000) {
+            actor->frameTable = (void (*)(void))((u8 *)D_801744DC);
             select_sprite_entry(
                 actor,
                 ((u8 *)D_801744DC)[((g_game_work.view.camera_rotation.parts.viewAngle + ent->f2A + 0x100) >> 9) & 7],
@@ -1331,27 +1331,25 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         }
         return;
 
-
     case 2:
         if (get_cd_command_queue_depth()) {
-            actor->flags14 |= 0x800;
+            actor->flags |= 0x800;
             return;
         }
-        actor->flags14 &= 0xF7FF;
+        actor->flags &= 0xF7FF;
         state->state9B++;
-
 
     case 3:
         state->u90.h.half92 +=
             (-0x30 - (s16)state->u90.h.half92) >> 3;
         state->f96--;
-        if ((s16)state->f96 <= 0 || (actor->flags14 & 0xE000)) {
+        if ((s16)state->f96 <= 0 || (actor->flags & 0xE000)) {
             state->flags98 |= 0x80;
         }
-        if ((!(state->flags98 & 0x4000) && state->fA8 == 2) || (actor->flags14 & 0x8000)) {
+        if ((!(state->flags98 & 0x4000) && state->fA8 == 2) || (actor->flags & 0x8000)) {
             state->flags98 |= 0x4000;
         }
-        if (!(actor->flags14 & 0xE000)) {
+        if (!(actor->flags & 0xE000)) {
             return;
         }
 
@@ -1359,16 +1357,16 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         pos->f14 = 0;
         pos->f10 = 0;
         pos->fC = 0;
-        set_record_integer_tile_center(pos,(u8)(actor->f24),(u8)(actor->f25));
+        set_record_integer_tile_center(pos,(u8)(actor->unk_24),(u8)(actor->unk_25));
         state->flags98 &= 0xFFF7;
         ent->flags1C |= 0x08000000;
         ent->flags1C |= 0x00040000;
 
-        if (actor->f2C != (void (*)(void))((u8 *)D_80174494) &&
-            actor->f2C != (void (*)(void))((u8 *)D_8017449C)) {
+        if (*(void (**)(void))&actor->frameTable != (void (*)(void))((u8 *)D_80174494) &&
+            *(void (**)(void))&actor->frameTable != (void (*)(void))((u8 *)D_8017449C)) {
             state->fA8 = 0;
             state->flags98 &= 0xBFFF;
-            actor->f2C = (void (*)(void))((u8 *)D_80174494);
+            actor->frameTable = (void (*)(void))((u8 *)D_80174494);
             select_sprite_entry(
                 actor,
                 ((u8 *)D_80174494)[((g_game_work.view.camera_rotation.parts.viewAngle + ent->f2A + 0x100) >> 9) & 7],
@@ -1384,7 +1382,7 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        actor->flags14 &= 0xF7FF;
+        actor->flags &= 0xF7FF;
         state->f8C = (void (*)(void))((u8 *)update_entity_movement_and_ground_height);
         advance_status_timers(ent);
         if (ent->f6D > 0) {
@@ -1400,11 +1398,11 @@ void update_entity_item_action_and_idle_return(R17_80172C18_State *state, R17_80
         return;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 #include "shared/sprite_frame_state.h"
 
 /* Applies a value change and knockback, then returns the actor to its tile and restores movement. */
-void func_80173244(void *action, void *motion, void *sprite, void *actor)
+void advance_univern_flight(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s16 flight_timer;
     s32 direction;
@@ -1426,7 +1424,7 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
             return;
         }
 
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((R17_80173244_S_80173354_1 *)action)->unk_96.s = 0;
             ((R17_80173244_S_80173354_1 *)action)->unk_9B = 2;
             return;
@@ -1463,7 +1461,7 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
 
         if (((R17_80173244_S_80173354_1 *)action)->unk_96.s > 0) {
             ((R17_80173244_S_80173354_1 *)action)->unk_96.u--;
-        } else if (((SpriteFrameState *)sprite)->flags & 0x6000) {
+        } else if (sprite->flags & 0x6000) {
             ((R17_80173244_S_80173354_1 *)action)->unk_96.s = 0;
         }
         if (((R17_80173244_S_80173354_1 *)action)->unk_96.s != 0) {
@@ -1487,13 +1485,13 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
             s32 tile_delta;
             s32 position;
 
-            tile_delta = ((SpriteFrameState *)sprite)->unk_24 << 6;
+            tile_delta = sprite->unk_24 << 6;
             position = ((EntityRec *)motion)->x.w.i;
             position -= 0x20;
             tile_delta -= position;
             tile_delta <<= 15;
             ((EntityRec *)motion)->unk_0C = tile_delta >> 1;
-            tile_delta = ((SpriteFrameState *)sprite)->unk_25 << 6;
+            tile_delta = sprite->unk_25 << 6;
             position = ((EntityRec *)motion)->y.w.i;
             position -= 0x20;
             tile_delta -= position;
@@ -1515,13 +1513,13 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion,(u8)((SpriteFrameState *)sprite)->unk_24,(u8)((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion,(u8)sprite->unk_24,(u8)sprite->unk_25);
 
         ((R17_80173244_S_80173354_1 *)action)->unk_90 = 0;
         ((R17_80173244_S_80173354_1 *)action)->unk_98 &= 0xFFF7;
         ((EntityRec *)actor)->flags1C |= 0x08000000;
         ((EntityRec *)actor)->flags1C |= 0x00040000;
-        ((SpriteFrameState *)sprite)->frameTable = ((u8 *)D_8017449C);
+        sprite->frameTable = ((u8 *)D_8017449C);
         select_sprite_entry(sprite,(u8)(((u8 *)D_8017449C)[((g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7]),
             0);
 
@@ -1539,7 +1537,7 @@ void func_80173244(void *action, void *motion, void *sprite, void *actor)
         return;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Moves and fades the defeated actor, awards experience, clears tile occupancy, and unlinks the actor. */
 void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, MotionDeltaView *motion, R17_80173614_S_func_80C17E14_2 *sprite,
@@ -1642,19 +1640,19 @@ void advance_familiar_defeat_sequence(R17_80173614_S_func_80C17E14_0 *action, Mo
         break;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
-void func_80173868(void *state, void *motion, void *position, void *actor)
+void shrink_hopping_univern(void *state, void *motion, void *position, void *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
-void func_80173888(void *state, void *motion, void *position, void *actor)
+void advance_univern_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
@@ -1662,14 +1660,14 @@ void finish_actor_hop_and_grow_then_resume_ground_movement(Resource17CallbackSta
         state->callback = update_entity_movement_and_ground_height;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Animates status entry and recovery, updates status timers and activity counts, then restores movement. */
 void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity_arg)
 {
     void *actor = actor_arg;
     void *motion = motion_arg;
-    SpriteStatusIndexView *sprite = sprite_arg;
+    SpriteFrameState *sprite= sprite_arg;
     void *entity = entity_arg;
     DungeonGlobalStatus *global_state;
     u8 *anim_table;
@@ -1680,9 +1678,9 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     state = ((R17_801738E0_S_801738E0_0 *)actor)->unk_9B;
     switch (state) {
     case 0:
-        if (sprite->unk_14 & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((R17_801738E0_S_801738E0_0 *)actor)->unk_90 = 0;
-            (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744FC);
+            (sprite->frameTable) = ((u8 *)D_801744FC);
             select_sprite_entry(
                 sprite,(u8)(((u8 *)D_801744FC)[
                     ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
@@ -1694,7 +1692,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 |= 8;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= 0xF7FFFFFF;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C &= 0xFFFBFFFF;
-        if (!(sprite->unk_14 & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             return;
         }
         {
@@ -1702,7 +1700,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             anim_table = ((u8 *)D_801744F4);
             ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = initial_speed;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+        (sprite->frameTable) = anim_table;
         select_sprite_entry(
             sprite,(u8)(*(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7)
                     + (u32)anim_table)),
@@ -1719,7 +1717,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         }
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_90 = 0;
         ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = 0;
-        (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744FC);
+        (sprite->frameTable) = ((u8 *)D_801744FC);
         select_sprite_entry(
             sprite,(u8)(((u8 *)D_801744FC)[
                 ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
@@ -1737,14 +1735,14 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 &= 0xFFF7;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C |= 0x08000000;
         if ((get_entity_effect_value(entity, 1) << 16) == 0) {
-            (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744F4);
+            (sprite->frameTable) = ((u8 *)D_801744F4);
             select_sprite_entry(
                 sprite,(u8)(((u8 *)D_801744F4)[
                     ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
                 0);
             entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C | 0x40000;
             ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C = entity_flags;
-            if (sprite->unk_14 & 0x8000) {
+            if (sprite->flags & 0x8000) {
                 clear_mask = ~0x200U;
                 break;
             }
@@ -1786,7 +1784,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         if (entity_flags & 0x80000) {
             begin_actor_move_to_target_facing(actor, motion, sprite, entity);
             ((R17_801738E0_S_801738E0_0 *)actor)->unk_A8 = 0;
-            func_80174250(actor, motion, sprite, entity);
+            update_univern_parent_motion(actor, motion, sprite, entity);
             return;
         }
         if (((R17_801738E0_S_801738E0_2 *)entity)->unk_6D == 0) {
@@ -1803,7 +1801,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             TileObject *origin = &reference_tile_object;
-            s8 coordinate = sprite->unk_26;
+            s8 coordinate = *(s8 *)&sprite->unk_26;
 
             if ((((coordinate == origin->room_index) && (coordinate >= 0)) ||
                  (((s16)get_tile_chebyshev_distance(origin, sprite)) < 2)) &&
@@ -1815,14 +1813,14 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             return;
         }
 
-        (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744F4);
+        (sprite->frameTable) = ((u8 *)D_801744F4);
         select_sprite_entry(
             sprite,(u8)(((u8 *)D_801744F4)[
                 ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
             0);
         entity_flags = ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C | 0x40000;
         ((R17_801738E0_S_801738E0_2 *)entity)->unk_1C = entity_flags;
-        if (sprite->unk_14 & 0x8000) {
+        if (sprite->flags & 0x8000) {
             clear_mask = ~0x200U;
             break;
         }
@@ -1834,10 +1832,10 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         return;
 
     case 3:
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         } else {
-            (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
+            (sprite->frameTable) = ((u8 *)D_801744EC);
         }
 
         select_sprite_entry(
@@ -1849,13 +1847,13 @@ advance_state:
         return;
 
     case 4:
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         ((R17_801738E0_S_801738E0_3 *)motion)->unk_14 = 0xFFF80000;
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_A8 = 8;
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 &= 0xBFFF;
-        (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_8017449C);
+        (sprite->frameTable) = ((u8 *)D_8017449C);
         select_sprite_entry(
             sprite,(u8)(((u8 *)D_8017449C)[
                 ((g_game_work.view.camera_rotation.parts.viewAngle + ((R17_801738E0_S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7]),
@@ -1866,7 +1864,7 @@ advance_state:
         return;
 
     case 16:
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         ((R17_801738E0_S_801738E0_0 *)actor)->unk_98 &= 0xFFF7;
@@ -1889,13 +1887,13 @@ advance_state:
 
     return;
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 /* Waits for MP recovery while processing actor status, then restores the normal animation and movement. */
-void func_80173F10(void *action, void *context, void *sprite, void *entity)
+void advance_univern_status_action(void *action, void *context, SpriteFrameState *sprite, void *entity)
 {
     void *saved_context;
-    register void *dungeon_state;
+    register DungeonGlobalStatus *dungeon_state;
     void *saved_entity;
     u8 state;
     s32 direction;
@@ -1913,13 +1911,13 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
     {
         u8 *counter_state;
 
-        if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 
         counter_state = (u8 *)&g_dungeon_status.turn_scale;
         ((R17_80173F10_S_80173ED8_2 *)counter_state)->unk_0A--;
-        (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744F4);
+        (sprite->frameTable) = ((u8 *)D_801744F4);
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite,(u8)(((u8 *)D_801744F4)[direction & 7]), 0);
         ((R17_80173F10_S_80173ED8_0 *)action)->unk_9B++;
@@ -1930,7 +1928,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         if (((EntityRec *)entity)->tileY != 0) {
             register u8 *counter_state;
 
-            (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
+            (sprite->frameTable) = ((u8 *)D_801744EC);
             direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
             select_sprite_entry(sprite,(u8)(((u8 *)D_801744EC)[direction & 7]), 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
@@ -1941,7 +1939,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         }
 
         dungeon_state = &g_dungeon_status.turn_scale;
-        if (((R17_80173F10_S_80173ED8_4 *)dungeon_state)->unk_02 & 0x1000) {
+        if (dungeon_state->flags & 0x1000) {
             return;
         }
 
@@ -1962,7 +1960,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         if (((u32)((EntityRec *)entity)->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(action, context, sprite, entity);
             ((R17_80173F10_S_80173ED8_0 *)action)->unk_A8 = 0;
-            func_80174250(action, context, sprite, entity);
+            update_univern_parent_motion(action, context, sprite, entity);
             return;
         }
 
@@ -1985,7 +1983,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
             return;
         }
 
-        (*(void * *)((u8 *)sprite + 0x2C)) = ((u8 *)D_801744EC);
+        (sprite->frameTable) = ((u8 *)D_801744EC);
         direction = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         select_sprite_entry(sprite,(u8)(((u8 *)D_801744EC)[direction & 7]), 0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
@@ -1998,7 +1996,7 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
     {
         u8 *counter_state;
 
-        if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 
@@ -2013,22 +2011,22 @@ void func_80173F10(void *action, void *context, void *sprite, void *entity)
         return;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
-void func_80174250(R17_80174250_Actor *actor, s32 action, R17_80174250_Entity *entity, R17_80174250_MapObject *map_object)
+void update_univern_parent_motion(R17_80174250_Actor *actor, s32 action, SpriteFrameState *entity, R17_80174250_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
             actor->unk_8C = ((u8 *)update_entity_movement_and_ground_height);
             return;
         }
-    } else if (entity->unk_2C == ((u8 *)D_801744FC) &&
+    } else if (*(u8 **)&entity->frameTable == ((u8 *)D_801744FC) &&
                !(map_object->unk_1C & 0x208)) {
-        entity->unk_2C = ((u8 *)D_80174494);
+        entity->frameTable = ((u8 *)D_80174494);
         select_sprite_entry(entity,(s16)(((u8 *)D_80174494)[((g_game_work.view.camera_rotation.parts.viewAngle + map_object->unk_2A + 0x100) >> 9) & 7]),(s16)(0));
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity, void *position, void *graphic)
 {
@@ -2038,7 +2036,7 @@ void update_timed_effect_and_expire(Resource17CallbackState *state, void *entity
         }
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 void finish_actor_terrain_interpolation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
@@ -2046,7 +2044,7 @@ void finish_actor_terrain_interpolation_then_resume_ground_movement(Resource17Ca
         state->callback = update_entity_movement_and_ground_height;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 void finish_spinning_actor_fall_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
@@ -2054,7 +2052,7 @@ void finish_spinning_actor_fall_then_resume_ground_movement(Resource17CallbackSt
         state->callback = update_entity_movement_and_ground_height;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 void update_effect_trajectory_and_sprite(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
@@ -2062,7 +2060,7 @@ void update_effect_trajectory_and_sprite(Resource17CallbackState *state, void *m
         state->callback = update_entity_movement_and_ground_height;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
 
 void blend_animation_palette_and_complete(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {
@@ -2070,7 +2068,10 @@ void blend_animation_palette_and_complete(Resource17CallbackState *state, void *
         state->callback = update_entity_movement_and_ground_height;
     }
 }
-#include "modules/dungeon_resource17_slot0.h"
+#include "dungeon/monster/univern.h"
+#include "shared/object_node.h"
+#include "shared/dungeon_status.h"
+#include "shared/tile_object.h"
 
 void finish_actor_action_flag_propagation_then_resume_ground_movement(Resource17CallbackState *state, void *motion, void *position, void *actor)
 {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
@@ -20,7 +21,6 @@ typedef struct S_8017382C_0 {
     u16 unk_AE;
 } S_8017382C_0;   /* arg0 in advance_actor_entry_active_exit_states */
 
-
 typedef struct S_8017382C_2 {
     u8 unk_00;
 } S_8017382C_2;   /* records in advance_actor_entry_active_exit_states */
@@ -29,12 +29,6 @@ typedef struct S_8017382C_3 {
     u8 pad_00[0x6];
     u16 unk_06;
 } S_8017382C_3;   /* entry in advance_actor_entry_active_exit_states */
-
-
-typedef struct S_8017382C_6 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8017382C_6;   /* effect in advance_actor_entry_active_exit_states */
 
 typedef struct S_8017382C_7 {
     u8 pad_00[0x96];
@@ -47,7 +41,6 @@ typedef struct S_8017382C_7 {
     s16 unk_A6;
     s16 unk_A8;
 } S_8017382C_7;   /* child in advance_actor_entry_active_exit_states */
-
 
 extern void *allocate_list_node(s32, void *);
 extern s32 get_entity_effect_value(void *, s32);
@@ -73,7 +66,7 @@ extern u8 D_80175298[];
 /* Advances the actor action through its entry, active, and exit animation states. */
 /* Animates entry and exit palette changes for status slot 1, processes turns while active, and restores
  * the callback. */
-void advance_actor_entry_active_exit_states(void *action, void *context, void *sprite, ActorRecord *actor)
+void advance_actor_entry_active_exit_states(void *action, void *context, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 state;
     s32 record_index;
@@ -88,16 +81,16 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
         u8 *facing_record;
         u8 *record;
         u8 *direction_table;
-        void *effect;
+        ObjectNodeHeader *effect;
         u16 facing;
 
         record_index = 0;
-        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
 
-        ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12;
-        record = ((Rec_func_800AA258_arg2 *)sprite)->unk_08;
+        ((S_8017382C_0 *)action)->unk_AE = sprite->clut;
+        record = *(u8 **)&sprite->source;
         while (1) {
             index_twice = record_index << 1;
             if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
@@ -108,12 +101,12 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
         }
         word_offset = index_twice + record_index;
         facing_record = (u8 *)((unsigned long)(word_offset << 2) +
-                       (unsigned long)((Rec_func_800AA258_arg2 *)sprite)->unk_08);
+                       (unsigned long)*(u8 **)&sprite->source);
         ((S_8017382C_0 *)action)->unk_AC.s =
             ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
 
         direction_table = D_80175298;
-        (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = direction_table;
+        (sprite->frameTable) = direction_table;
         select_sprite_entry(
             sprite,
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -123,7 +116,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
         effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
-            ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
+            effect->unk_10 = D_80174424;
             ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
             facing = ((S_8017382C_0 *)action)->unk_AC.s;
             ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
@@ -153,7 +146,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
             rounded_angle += 7;
         }
         angle_remainder = signed_angle - ((rounded_angle >> 3) << 3);
-        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 =
+        sprite->clut =
             func_8006649C(
                 ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
                 ((angle_shifted >> 19) + 0x100)) -
@@ -162,11 +155,11 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
         timer = ((S_8017382C_0 *)action)->unk_96 - 1;
         ((S_8017382C_0 *)action)->unk_96 = timer;
         if ((s16)timer > 0) {
-            if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000)) {
+            if (!(sprite->flags & 0x8000)) {
                 return;
             }
         }
-        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE - 0x40;
+        sprite->clut = ((S_8017382C_0 *)action)->unk_AE - 0x40;
         ((S_8017382C_0 *)action)->unk_9B++;
         return;
     }
@@ -179,13 +172,13 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
         u8 *record;
         u8 *direction_table;
         u8 *exit_table;
-        void *effect;
+        ObjectNodeHeader *effect;
         void *check_actor;
         u16 facing;
 
         if (((S_8017382C_0 *)action)->unk_AC.u == 0) {
             record_index = 0;
-            record = ((Rec_func_800AA258_arg2 *)sprite)->unk_08;
+            record = *(u8 **)&sprite->source;
             while (1) {
                 index_twice = record_index << 1;
                 if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
@@ -196,14 +189,14 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
             }
             word_offset = index_twice + record_index;
             facing_record = (u8 *)((unsigned long)(word_offset << 2) +
-                           (unsigned long)((Rec_func_800AA258_arg2 *)sprite)->unk_08);
+                           (unsigned long)*(u8 **)&sprite->source);
             ((S_8017382C_0 *)action)->unk_AC.s =
                 ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
         }
 
         if ((s16)get_entity_effect_value(actor, 1) == 0) {
             direction_table = D_80175298;
-            (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = direction_table;
+            (sprite->frameTable) = direction_table;
             select_sprite_entry(
                 sprite,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -212,7 +205,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
             effect = allocate_list_node(0x10, ((u8 *)(&scene_object_list_anchor)));
             effect_state = (u8 *)effect + 0x20;
             if (effect != 0) {
-                ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
+                effect->unk_10 = D_80174424;
                 ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
                 facing = ((S_8017382C_0 *)action)->unk_AC.s;
                 ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
@@ -224,7 +217,7 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
                 ((S_8017382C_7 *)effect_state)->unk_9E = 1;
             }
 
-            ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
+            ((S_8017382C_0 *)action)->unk_AE = sprite->clut + 0x40;
             g_dungeon_status.activity_counts.parts.pending_action_count++;
 
             ((S_8017382C_0 *)action)->unk_9B++;
@@ -283,8 +276,8 @@ void advance_actor_entry_active_exit_states(void *action, void *context, void *s
             s8 tile;
 
             check_actor = ((u8 *)(&reference_tile_object));
-            tile = ((Rec_func_800AA258_arg2 *)sprite)->unk_26.as_s8;
-            if ((tile != ((Rec_D_80082E80 *)((u8 *)(&reference_tile_object)))->unk_26.as_s8) || (tile < 0)) {
+            tile = *(s8 *)&sprite->unk_26;
+            if ((tile != reference_tile_object.room_index) || (tile < 0)) {
                 s32 distance;
 
                 distance = (s16)get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), sprite);
@@ -305,7 +298,7 @@ second_call:
         }
 
         exit_table = D_80175298;
-        (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pu8) = exit_table;
+        (sprite->frameTable) = exit_table;
         select_sprite_entry(
             sprite,
             exit_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -315,7 +308,7 @@ second_call:
         effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             u16 facing;
-            ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
+            effect->unk_10 = D_80174424;
             ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
             facing = ((S_8017382C_0 *)action)->unk_AC.s;
             ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
@@ -328,7 +321,7 @@ second_call:
         }
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         ((S_8017382C_0 *)action)->unk_9B++;
-        ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
+        ((S_8017382C_0 *)action)->unk_AE = sprite->clut + 0x40;
         return;
     }
 
@@ -347,13 +340,13 @@ second_call:
             rounded_angle += 7;
         }
         angle_remainder = signed_angle - ((rounded_angle >> 3) << 3);
-        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 =
+        sprite->clut =
             func_8006649C(
                 ((((s32)(angle_remainder << 16) >> 18) << 6) + 0x340),
                 ((angle_shifted >> 19) + 0x102)) -
             ((S_8017382C_0 *)action)->unk_AC.s;
 
-        if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000)) {
+        if (!(sprite->flags & 0x8000)) {
             timer = ((S_8017382C_0 *)action)->unk_96 - 1;
             ((S_8017382C_0 *)action)->unk_96 = timer;
             if ((s16)timer > 0) {
@@ -364,7 +357,7 @@ second_call:
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         actor->flags1C &= ~0x200;
         ((S_8017382C_0 *)action)->unk_8C = D_80170F6C;
-        ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE;
+        sprite->clut = ((S_8017382C_0 *)action)->unk_AE;
     }
     }
 

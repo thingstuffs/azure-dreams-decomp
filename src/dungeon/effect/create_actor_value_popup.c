@@ -2,15 +2,14 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/menu.h"
 
 void *allocate_list_node();
 void *build_positioned_text_glyphs();
 char *func_8004E5A0();
 char *func_8004E634();
 s32 func_80069E98();
-void offset_record_coordinates();
 void *find_first_ended_record();
-void apply_record_flags_through_end();
 extern M2C_UNK D_800B45E0;
 extern M2C_UNK D_800B490C;
 extern M2C_UNK D_800DF24C[];
@@ -37,8 +36,6 @@ typedef struct S_800B4C7C_2 {
     u8 pad_00[0x2];
     u16 unk_02;
 } S_800B4C7C_2;
-
-
 
 typedef struct S_800B4C7C_4 {
     u8 pad_00[0x6];
@@ -72,7 +69,7 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
     s16 text_style;
     u16 saved_flags;
     s16 saved_value;
-    void *object;
+    ObjectNodeHeader *object;
     s8 *text_cursor;
     u16 anchor_x;
     u16 anchor_y;
@@ -93,12 +90,12 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
     object = new_object;
     saved_value = value;
     if (object != NULL) {
-        position = (*(void **)((u8 *)object + 8));
-        text_link = (*(void **)((u8 *)object + 0xC));
+        position = (object->position);
+        text_link = (object->sprite);
         source_object = source_data - 0x20;
         (*(void **)((u8 *)object + 0x20)) = source_object;
         source_position = source_object->unk_08;
-        state = object + 0x20;
+        state = ((void *)object) + 0x20;
         ((S_800B4C7C_1 *)state)->unk_14 = source_position;
         anchor_x = source_position->unk_02;
         position->unk_02 = anchor_x;
@@ -113,7 +110,7 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
         number_style = text_style;
         position->unk_0A = anchor_z;
         ((S_800B4C7C_1 *)state)->unk_1C = anchor_z;
-        text_link->unk_08 = object + 0x40;
+        text_link->unk_08 = ((void *)object) + 0x40;
         text = text_link->unk_08;
         text_link->unk_06 = space;
         if (flags & 0x8000) {
@@ -204,12 +201,12 @@ void *create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callba
         callback_kind = (s16) callback_bits;
         if (callback_kind == 1) {
             callback = &D_800B490C;
-            (*(void **)((u8 *)object + 0x10)) = callback;
+            (object->unk_10) = callback;
             text_metrics = find_first_ended_record(text);
             text_position = state + 0x20;
         } else {
             callback = &D_800B45E0;
-            (*(void **)((u8 *)object + 0x10)) = callback;
+            (object->unk_10) = callback;
             text_metrics = find_first_ended_record(text);
             text_position = state + 0x20;
         }

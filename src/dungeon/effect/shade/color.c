@@ -1,4 +1,4 @@
-#include "shared/dungeon_effect_source.h"
+#include "dungeon/effect/shade.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,7 +47,7 @@ extern void func_8010C0F8(void);
 extern u16 emitted_effect_counter[5];
 
 /* Creates and initializes an object at its owner's position. */
-void func_7FFE9C0C(Owner *owner, u32 value)
+void create_owner_color_sprite(Owner *owner, u32 value)
 {
     Object *object;
     RenderData *render;

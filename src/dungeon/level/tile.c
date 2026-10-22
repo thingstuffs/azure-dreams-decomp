@@ -1,8 +1,14 @@
+
+struct ObjectNodeHeader;
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/level/tile.h"
+#include "shared/object_node.h"
+#include "dungeon/level/outer_ring.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor.h"
+#include "dungeon/level.h"
 
 typedef struct {
     s8 pad_00[0x14];
@@ -85,11 +91,6 @@ void process_unflagged_linked_entries_alt(s32 firstNodeBase) {
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 
-typedef struct S_80099FDC_0 {
-    u8 pad_00[0x10];
-    s32 unk_10;
-} S_80099FDC_0;   /* arg0 in clear_entry_flag_and_link_owner */
-
 typedef struct S_80099FDC_2 {
     u8 pad_00[0x58];
     void * unk_58;
@@ -102,14 +103,14 @@ typedef struct S_80099FDC_3 {
 } S_80099FDC_3;
 
 /* Clear the entry flag and link the entry into the current owner list. */
-void clear_entry_flag_and_link_owner(void *entry)
+void clear_entry_flag_and_link_owner(ObjectNodeHeader *entry)
 {
     S_80099FDC_2 *entry_links;
     S_80099FDC_3 *neighbor_links;
     ActorRecord *owner;
 
     owner = primary_actor_record;
-    ((S_80099FDC_0 *)entry)->unk_10 = ((S_80099FDC_0 *)entry)->unk_10 & 0x7FFFFFFF;
+    entry->unk_10 = *(s32 *)&entry->unk_10 & 0x7FFFFFFF;
     neighbor_links = (u8 *)owner->previous_actor_header + 0x20;
     entry_links = (u8 *)entry + 0x20;
     entry_links->unk_5C = neighbor_links->unk_5C;
@@ -153,7 +154,7 @@ void unlink_entity_node(EntityLinkNode *node) {
 void process_unflagged_entries_and_set_update(void)
 {
     void *entry;
-    void *node;
+    ObjectNodeHeader *node;
     void *next_entry;
 
     entry = dungeon_actor_ring_anchor;
@@ -162,7 +163,7 @@ void process_unflagged_entries_and_set_update(void)
         next_entry = (u8 *)node + 0x20;
         if (!(*(s32 *)((u8 *)entry + 0x14) & 0x4000)) {
             node = (u8 *)entry - 0x20;
-            *(u16 *)((u8 *)node + 0x1E) = (u16)(*(u16 *)((u8 *)node + 0x1E) | 0x1000);
+            node->flags = (u16)(node->flags | 0x1000);
             unlink_entity_node(entry);
         }
         entry = next_entry;
@@ -186,7 +187,7 @@ extern struct {
 
 extern s32 D_80012090[];
 
-extern void clear_entry_flag_and_link_owner(void *entry);
+extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 
 /* Process nodes flagged 0x1000 and clear global bit 28 when D_80012090 is not 1. */
 void process_flagged_nodes_and_clear_global_bit(void) {
@@ -269,12 +270,12 @@ typedef struct {
 /* Sets map cell flags or cycles the selected flag fields. */
 void cycle_map_cell_flags(s16 x, s16 y, u16 flags)
 {
-    DungeonState *state = ((DungeonState *)&g_game_work);
+    GameWork *state = &g_game_work;
     MapCell *cell;
     u16 cycled_flags;
     u16 new_flags;
 
-    cell = &state->map[x + (y << state->mapShift)];
+    cell = &(*(MapCell **)&state->map.cells)[x + (y << state->map.shiftX)];
     if (flags & 0xC832) {
         new_flags = cell->flags | flags;
     } else {
@@ -719,11 +720,6 @@ typedef struct {
     u16 y;
 } Func95440Input;
 
-typedef struct {
-    u8 pad0[0x24];
-    u8 x;
-    u8 y;
-} Func95440Actor;
 
 typedef struct {
     u8 pad0[0x14];
@@ -736,7 +732,7 @@ typedef struct {
 } Func95440Object;
 
 /* Checks the adjacent tile and classifies its height relative to the source height. */
-s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, Func95440Actor *actor, u32 source_height,
+s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, SpriteFrameState *actor, u32 source_height,
     s32 height_offset) {
     u16 tile_flags;
     s32 target_height;
@@ -763,7 +759,7 @@ s32 classify_adjacent_tile_height(u32 direction_bits, Func95440Input *position, 
 
     x += dir_step_x[direction] << 6;
     y += dir_step_y[direction] << 6;
-    if ((get_offset_map_cell_value_and_flags(((SpriteFrameState *)actor)->unk_24, ((SpriteFrameState *)actor)->unk_25, direction, &tile_flags) << 16) == 0) {
+    if ((get_offset_map_cell_value_and_flags(actor->unk_24, actor->unk_25, direction, &tile_flags) << 16) == 0) {
         return 0;
     }
     if (tile_flags & 0x8000) {
@@ -861,7 +857,7 @@ s32 can_push_adjacent_actor(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes
     FacingMapCell *next_cell;
 
     map = ((FacingMapCell *)g_game_work.map.cells);
-    map_state = (u8 *)((FacingMapCell * *)&g_game_work.map.cells);
+    map_state = (u8 *)((FacingMapCell **)&g_game_work.map.cells);
     direction = (facing_state->unk_2A >> 9) & 7;
     if (!(attributes->unk_14 & 0x100) ||
         (height = sample_terrain_surface_height(
@@ -1066,7 +1062,6 @@ struct Node {
 };
 
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 check_entity_eligibility(void *entity);
 
 /* Finds an eligible node at the target coordinates with a value difference below 64. */
 void *find_eligible_actor_at_tile_and_height(Node *node, s16 x, s16 y_in, s16 value) {
@@ -1109,7 +1104,6 @@ void *find_eligible_actor_at_tile_and_height(Node *node, s16 x, s16 y_in, s16 va
 #include "shared/record_ptrs.h"
 
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 check_entity_eligibility(void *entity);
 
 /* Find an eligible object at the tile within 64 units of the target height. */
 void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
@@ -1130,7 +1124,7 @@ void *find_object_near_tile_height(s16 tile_x, s16 tile_y, s16 target_height)
     object = dungeon_actor_ring_anchor;
     first_object = object;
     do {
-        tile = *(void **)((u8 *)object - 0x14);
+        tile = ((ObjectNodeHeader *)((u8 *)object - 0x20))->sprite;
         if (*(u8 *)((u8 *)tile + 0x24) == (u16)tile_x &&
             *(u8 *)((u8 *)tile + 0x25) == (u16)tile_y) {
             height_delta = *(s16 *)((u8 *)object + 0x88) - target_height;
@@ -1156,7 +1150,6 @@ typedef struct Rec
 }
 Rec;
 extern s16 get_offset_map_cell_value_and_flags(s16 x, s16 y, s16 offset_index, u16 *flags);
-extern s32 check_entity_eligibility(void *entity);
 /* Finds an eligible entry at the requested coordinates after checking the tile to the left. */
 void *find_eligible_entry_at_coordinates(u8 *entry, s16 x, s16 y)
 {
@@ -1323,17 +1316,17 @@ typedef struct { CoordinateOutput first; CoordinateOutput second; } LocalBytes;
 s32 get_entity_effect_value();             /* extern */
 
 /* Updates the object's coordinates when a target passes the checks and new coordinates are found. */
-s32 update_object_coordinates_if_valid(Rec_D_80082E80 *object, EntityRec *context) {
+s32 update_object_coordinates_if_valid(SpriteFrameState *object, EntityRec *context) {
     LocalBytes next_coords;
     s32 target;
 
-    target = find_eligible_actor_at_tile_and_height(context, ((SpriteFrameState *)object)->unk_24, ((SpriteFrameState *)object)->unk_25, context->unk_88);
+    target = find_eligible_actor_at_tile_and_height(context, object->unk_24, object->unk_25, context->unk_88);
     if (target != 0) {
         if ((get_entity_effect_value(target, 0x1B) << 0x10) == 0) {
-            if ((find_valid_nearby_position(context, ((SpriteFrameState *)object)->unk_24, ((SpriteFrameState *)object)->unk_25, &next_coords.first.coordinate, &next_coords.second.coordinate)
+            if ((find_valid_nearby_position(context, object->unk_24, object->unk_25, &next_coords.first.coordinate, &next_coords.second.coordinate)
                 << 0x10) != 0) {
-                ((SpriteFrameState *)object)->unk_24 = next_coords.first.bytes.low;
-                ((SpriteFrameState *)object)->unk_25 = next_coords.second.bytes.low;
+                object->unk_24 = next_coords.first.bytes.low;
+                object->unk_25 = next_coords.second.bytes.low;
                 return 1;
             }
             return 2;
@@ -1346,9 +1339,10 @@ s32 update_object_coordinates_if_valid(Rec_D_80082E80 *object, EntityRec *contex
 #include "shared/record_ptrs.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_status.h"
+#include "shared/object_node.h"
 
-extern u16 D_800DCE6C[];
-extern u16 D_800DCE8C[];
+
+
 
 extern void zero_words(void *, s32);
 extern s32 func_80065F90(s32, s32);
@@ -1412,7 +1406,7 @@ s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x
     zero_words(occupied, 7);
     entry = *(u8 **)(entry + 92) + 32;
     while (entry != actor || (wrap_check = wrap_pending) != 0) {
-        object = *(u8 **)(entry - 20);
+        object = *(u8 * *)&((ObjectNodeHeader *)((u8 *)entry - 0x20))->sprite;
         object_x = *(u8 *)(object + 36);
         object_y = *(u8 *)(object + 37);
         delta_x = (s16)target_x - object_x;
@@ -1497,8 +1491,8 @@ s32 find_valid_nearby_position(u8 *entry, s16 target_x, s16 target_y, s16 *out_x
     do {
         far_dir = slot;
         if (*(occupied + far_dir + 9) == 0) {
-            far_dx = D_800DCE6C + far_dir;
-            far_dy = D_800DCE8C + far_dir;
+            far_dx = outer_ring_dx + far_dir;
+            far_dy = outer_ring_dy + far_dir;
 
             if ((far_offset_x = far_dx[0], far_offset_y = far_dy[0],
                  is_map_coordinate_out_of_bounds(offset_tile(target_x, far_offset_x), offset_tile(target_y, far_offset_y))) == 0 &&

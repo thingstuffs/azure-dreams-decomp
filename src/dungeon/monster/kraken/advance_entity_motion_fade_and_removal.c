@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/object_links.h"
+#include "dungeon/actor.h"
 
 
 
@@ -11,7 +12,6 @@ void update_map_cell_flags_with_item_limit();
 void distribute_experience_and_report_gains();
 s32 detach_record_and_update_slot_state();
 s32 play_sound_if_enabled();
-void announce_familiar_defeat();
 s16 sample_terrain_surface_height();
 
 

@@ -70,31 +70,31 @@ void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32
     s32 velocity_z) {
     S_8016583C_2 *sprite;
     S_8016583C_1 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
     s32 held_scale ;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         held_scale = scale;
-        (((ObjectNodeHeader *)effect)->unk_10) = &D_801654F0;
-        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_02 =
+        (effect->unk_10) = &D_801654F0;
+        ((S_8016583C_3 *)((effect->position)))->unk_02 =
             (s16) (((MovingPosition *)(source->unk_08))->unk_02 + offset_x);
-        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_06 =
+        ((S_8016583C_3 *)((effect->position)))->unk_06 =
             (s16) (((MovingPosition *)(source->unk_08))->unk_06 + offset_y);
-        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0A =
+        ((S_8016583C_3 *)((effect->position)))->unk_0A =
             (s16) (((MovingPosition *)(source->unk_08))->unk_0A + offset_z);
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         effect_state->unk_42 = (u16) ((MovingPosition *)(source->unk_08))->unk_02;
         effect_state->unk_44 = (u16) ((MovingPosition *)(source->unk_08))->unk_06;
         effect_state->unk_46 = (u16) ((MovingPosition *)(source->unk_08))->unk_0A;
-        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
-        ((S_8016583C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_14 = velocity_z;
+        ((S_8016583C_3 *)((effect->position)))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        ((S_8016583C_3 *)((effect->position)))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        ((S_8016583C_3 *)((effect->position)))->unk_14 = velocity_z;
         effect_state->unk_14 = duration;
         effect_state->unk_32 = 8;
         effect_state->unk_34 = 8;
         register_node(effect, project_sprite_chain);
-        sprite = (((ObjectNodeHeader *)effect)->unk_0C);
+        sprite = (effect->sprite);
         sprite->unk_1E = 0x200;
         sprite->unk_1C = 0x200;
         sprite->unk_0C = held_scale;
@@ -104,7 +104,7 @@ void create_short_lived_colored_particle(S_8016583C_0 *source, s16 duration, s32
         effect_state->unk_08 = held_scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)&particle_sprite_template + 0));
-        sprite->unk_08 = (void *) (effect + 0x56);
+        sprite->unk_08 = (void *) (((void *)effect) + 0x56);
     }
 }
 

@@ -1,6 +1,8 @@
 #ifndef MODULES_TOWN_PLAYER_INIT_H
 #define MODULES_TOWN_PLAYER_INIT_H
 
+
+struct ObjectPosition;
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
@@ -76,10 +78,6 @@ typedef struct func_80092AB0_S_80090210_2 {
     union { s32 (*s)(); s32 u; } unk_438;                         
 } func_80092AB0_S_80090210_2;
 
-typedef struct func_80092C18_S_80090378_0 {
-    s32 unk_00;
-} func_80092C18_S_80090378_0;
-
 typedef void (*func_80092C9C_ObjectCallback)(void *, s32, s32);
 
 typedef void (*func_80092C9C_ActorCallback)(void *, void *, s32);
@@ -117,9 +115,9 @@ void plt_init_sleep_set(void);
 void initialize_scene_render_state(void);
 void initialize_scene_render_object(void);
 void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode);
-void process_scene_record_update(void *context, void *input, void *record);
-s32 func_800909A0();
-void clear_record_state_or_update(void *record);
+void process_scene_record_update(void *context,struct ObjectPosition *input, void *record);
+s32 to_camera_zero_00();
+void clear_record_state_or_update(struct ObjectPosition *record);
 void func_80090A64(void);
 void no_op_scene_callback_b(void);
 

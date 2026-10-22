@@ -1,11 +1,12 @@
 #include "shared/entity_action_selectors.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
-
+#include "dungeon/item.h"
 
 extern s32 entity_level_thresholds[];
 extern u8 D_800E131C[];
@@ -20,8 +21,6 @@ extern void place_actor_item(void *, s32);
 extern void display_actor_item_status_message(void *, s32, s16);
 extern s32 feed_actor_restore_mp(void *, s32, s32);
 extern void create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-extern void create_view_color_flash(s32, s16);
-
 
 typedef struct S_800BF9EC_2_pre {
     void * unk_00;
@@ -85,7 +84,7 @@ s32 use_item_to_level_up_eligible_actors(EntityRec *target, s32 action_id, s16 a
                     (*(u8 *)((u8 *)&target->unk_10 + 1)) < 99) {
                     ((S_800BF9EC_2 *)node)->unk_18 = entity_level_thresholds[((S_800BF9EC_2 *)node)->unk_11];
                     raise_entity_level(node, 0);
-                    if ((((S_800BF9EC_3 *)(((S_800BF9EC_2_pre *)node)[-1].unk_00))->unk_14 & 0x8000) == 0) {
+                    if ((((S_800BF9EC_3 *)(((ObjectNodeHeader *)((u8 *)node - 0x20))->sprite))->unk_14 & 0x8000) == 0) {
                         s32 effect_id = 0x8003;
                         if (((S_800BF9EC_2 *)node)->unk_14 & 0x2000) {
                             effect_id = 0x8002;

@@ -36,8 +36,8 @@ typedef struct {
 
 extern s32 audio_get_current_bank_tone_record(void *row, s32 column);
 extern s32 is_tone_parameter_flag_set(void);
-extern void set_spu_reverb_enabled_if_available(s32 enable);
-extern s32 configure_spu_reverb(void *settings);
+extern void SpuSetReverb(s32 enable);
+extern s32 SpuSetReverbModeParam(void *settings);
 
 extern u8 sound_ram_reserve_mode[0x10];
 

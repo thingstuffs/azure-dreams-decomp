@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -7,7 +8,6 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 rand(void);
@@ -39,24 +39,8 @@ extern u8 D_80174EE0[];
 extern u8 D_80174EE8[];
 extern u8 D_80174EF0[];
 
-
-typedef struct S_80171760_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_80171760_2;   /* arg2 in update_actor_behavior_and_direction */
-
-
 /* Update the actor's dungeon behavior, facing, and directional animation. */
-void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *map_entity, ActorRecord *actor)
+void update_actor_behavior_and_direction(void *motion, void *render_ctx, SpriteFrameState *map_entity, ActorRecord *actor)
 {
     u8 *anim_table;
     s32 room_id;
@@ -71,8 +55,8 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
 
     if (actor->mp == 0) {
         advance_actor_pending_action(motion, render_ctx, map_entity, actor);
-        if (((S_80171760_2 *)map_entity)->unk_2C != D_80174EF0) {
-            (*(void * *)((u8 *)map_entity + (0x2C))) = D_80174EE8;
+        if (map_entity->frameTable != D_80174EF0) {
+            (map_entity->frameTable) = D_80174EE8;
             select_sprite_entry(map_entity,
                 *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)D_80174EE8),
                 0);
@@ -82,7 +66,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
     }
 
     if (((u32)actor->flags1C) & 0x200) {
-        if (((S_80171760_2 *)map_entity)->unk_2C == D_80174EF0) {
+        if (map_entity->frameTable == D_80174EF0) {
             ((Rec_func_800A9E70_arg0 *)motion)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)motion)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)motion)->unk_8C = 0;
@@ -108,8 +92,8 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
             idle_state = 0xE;
             if (current_state != idle_state) {
                 anim_table = D_80174E88;
-                if (((S_80171760_2 *)map_entity)->unk_2C != anim_table) {
-                    (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
+                if (map_entity->frameTable != anim_table) {
+                    (map_entity->frameTable) = anim_table;
                     select_sprite_entry(map_entity,
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                         0);
@@ -138,8 +122,8 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
         }
     }
 
-    room_id = find_active_rect_containing_point(((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v);
-    ((S_80171760_2 *)map_entity)->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(map_entity->unk_24, map_entity->unk_25);
+    map_entity->unk_26 = room_id;
 
     if (actor->pending_turn_updates > 0) {
         u16 action_state;
@@ -148,7 +132,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
             update_actor_status_and_mp(actor);
             return;
         }
-        if (!(((S_80171760_2 *)map_entity)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x))) {
+        if (!( *(u16 *)&map_entity->unk_24 ==reference_tile_object.tile_position.word)) {
             if (!(actor->action_flags & ACTOR_ACTION_PENDING)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(actor,
@@ -185,7 +169,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
                     s16 facing_angle;
 
                     facing_angle = get_rounded_facing_and_rounding_flag(
-                        ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
+                        map_entity->unk_24, map_entity->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_flags);
                     player = primary_actor_record;
@@ -222,10 +206,10 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
             if (!(((u32)actor->flags1C) & 0x430)) {
 
                 if ((test_neighbor_position_relation(
-                        ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
+                        map_entity->unk_24, map_entity->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     actor->facing = get_rounded_facing_and_rounding_flag(
-                        ((S_80171760_2 *)map_entity)->unk_24.at00.v, ((S_80171760_2 *)map_entity)->unk_24.at01.v,
+                        map_entity->unk_24, map_entity->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_flags);
                 }
@@ -236,14 +220,14 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((S_80171760_2 *)map_entity)->unk_14 & 0x40) {
+    if (map_entity->flags & 0x40) {
         return;
     }
     anim_table = D_80174E88;
-    if (((S_80171760_2 *)map_entity)->unk_2C == anim_table) {
+    if (map_entity->frameTable == anim_table) {
         return;
     }
-    (*(void * *)((u8 *)map_entity + (0x2C))) = anim_table;
+    (map_entity->frameTable) = anim_table;
     select_sprite_entry(map_entity,
         *(u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32)anim_table),
         0);

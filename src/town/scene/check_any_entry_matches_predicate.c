@@ -5,7 +5,7 @@ s32 check_any_entry_matches_predicate(void) {
 
     if (D_8001A92C != 0) {
         do {
-            if (func_8001A7B0(*entry) != 0) {
+            if (town_table_contains_first_byte_b(*entry) != 0) {
                 return 1;
             }
             entry++;

@@ -1,5 +1,7 @@
 #ifndef TOWN_SHOP_POSITION_UPDATE_POSITION_DISPLACEMENT_DISPATCH_ACTIVE_ENTITY_HANDLER_G01131_H
 #define TOWN_SHOP_POSITION_UPDATE_POSITION_DISPLACEMENT_DISPATCH_ACTIVE_ENTITY_HANDLER_G01131_H
+
+struct SpriteFrameState;
 /* Update position displacement dispatch active entity handler. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01131 - CL:town/func_800A1A60, CL:town/func_800A1D2C, CL:town/func_800A1D60. */
 
@@ -128,7 +130,7 @@ void func_80042640(void *obj, s16 monsterId);
 /* extern */
 void *memset();
 /* extern */
-void set_object_state_for_mode(void *, void *, s32, s32);
+void set_object_state_for_mode(void *,struct SpriteFrameState *, s32, s32);
 extern s32 town_actor_scratch;
 
 /* Shared import declarations; data casts preserve each measured view. */

@@ -13,7 +13,7 @@ s32 clamp_and_submit_driver_parameter(s32 voice, u32 rate)
         clamped_rate = 0x7EFF0;
     }
 
-    submit_driver_transfer_with_fallback(voice, clamped_rate);
+    _spu_Fw(voice, clamped_rate);
 
     if (spu_transfer_callback == 0) {
         spu_transfer_complete = 0;
@@ -23,7 +23,7 @@ s32 clamp_and_submit_driver_parameter(s32 voice, u32 rate)
 }
 
 /* Latches and shifts the value for an in-range address, or returns zero. */
-s32 lookup_and_scale_driver_address(s32 address)
+s32 SpuSetTransferStartAddr(s32 address)
 {
     u16 shift_input;
 
@@ -31,13 +31,13 @@ s32 lookup_and_scale_driver_address(s32 address)
         return 0;
     }
 
-    shift_input = (u16)audio_handle_optionally_aligns_shifts_stores_returns_result(-1, address);
+    shift_input = (u16)_spu_FsetRXXa(-1, address);
     spu_transfer_address_units = shift_input;
     return (s32)shift_input << spu_address_unit_shift;
 }
 
 /* Polls or waits for SPU transfer completion and latches the completion status. */
-s32 poll_driver_completion_event(s32 wait_for_completion)
+s32 SpuIsTransferCompleted(s32 wait_for_completion)
 {
     s32 event_status;
 

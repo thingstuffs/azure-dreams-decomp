@@ -5,6 +5,7 @@
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_node.h"
+#include "dungeon/menu.h"
 
 void *allocate_list_node();
 extern s32 register_node();
@@ -14,8 +15,6 @@ extern char * func_8004E5A0(int value, unsigned short width, char *buf);
 s32 func_80069E98();
 void *func_800B119C();
 extern s32 allocate_panel_offset_or_zero(void);
-void offset_record_coordinates();
-void set_record_flags_and_negate_x();
 extern M2C_UNK D_80077FEC;
 extern void update_attached_effect_position();
 extern s32 D_800DEFF8[];
@@ -37,35 +36,35 @@ void *create_panel_effect_object(void *owner)
     s32 red_color_2;
     u16 text_id;
     void *owner_pos;
-    void *panel_pos;
+    ObjectPosition *panel_pos;
     void *digits;
     void *prim;
     void *panel_data;
     s32 *color_ptr;
     void *entity;
-    void *panel;
+    ObjectNodeHeader *panel;
     SpriteFrameState *transform;
     entity = owner;
     panel = allocate_list_node(0x12, ((u8 *)(&scene_object_list_anchor)));
     if (panel != 0) {
         color_or_addr = 0x808080;
-        transform = *((void **) (((s8 *) panel) + 0xC));
-        panel_pos = *((void **) (((s8 *) panel) + 8));
+        transform = panel->sprite;
+        panel_pos = panel->position;
         transform->scale_x = 0x1000;
         transform->scale_y = 0x1000;
         transform->color.word = color_or_addr;
         transform->angle_y = 0xFC00;
         owner_pos = *((void **) (((s8 *) entity) + (-0x18)));
-        *((u16 *) (((s8 *) panel_pos) + 2)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 2)));
-        *((u16 *) (((s8 *) panel_pos) + 6)) = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
-        *((s16 *) (((s8 *) panel_pos) + 0xA)) = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA)))
+        panel_pos->x.w.i = (u16) (*((u16 *) (((s8 *) owner_pos) + 2)));
+        panel_pos->y.w.i = (u16) (*((u16 *) (((s8 *) owner_pos) + 6)));
+        panel_pos->z.w.i = (s16) ((*((u16 *) (((s8 *) owner_pos) + 0xA)))
             - (entity_height_offsets[*((u8 *) (((s8 *) entity) + 0x13))] + 0x50));
-        *((s32 **) (((s8 *) panel) + 0x10)) = update_attached_effect_position;
+        panel->unk_10 = update_attached_effect_position;
         register_node(panel, transform_linked_quad_batches, owner_pos, panel_pos);
-        panel_data = panel + 0x20;
+        panel_data = ((void *)panel) + 0x20;
         *((void **) (((s8 *) panel_data) + 0x14)) = entity;
-        *((void **) (((s8 *) panel) + 0x20)) = (void *) (panel + 0x70);
-        *((void **) (((s8 *) panel_data) + 4)) = (void *) (panel + 0x58);
+        *((void **) (((s8 *) panel) + 0x20)) = (void *) (((void *)panel) + 0x70);
+        *((void **) (((s8 *) panel_data) + 4)) = (void *) (((void *)panel) + 0x58);
         *((s32 **) (((s8 *) panel) + 0x70)) = &D_80077FEC;
         *((s32 *) (((s8 *) panel) + 0x58)) = color_or_addr;
         prim = allocate_panel_offset_or_zero();
@@ -579,11 +578,6 @@ extern s32 register_node();
 extern s32 build_positioned_text_glyphs(void *, s32, s32);
 extern s32 func_80069E98(s32);
 extern s32 allocate_panel_offset_or_zero(void);
-extern void offset_record_coordinates(u8 *, s32, s32);
-extern void set_record_flags_and_negate_x(u8 *record, s32 flags);
-extern void apply_record_flags_through_end(void *, s32);
-extern void set_record_byte_flags_through_end(u8 *record, s32 flags);
-extern void *copy_records_through_end(void *, void *);
 
 /* Build the floating number/icon widget: allocate it and lay out its digit sprites for the given style. */
 void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags) {
@@ -601,7 +595,7 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
     s32 count = 0;
     s16 style_byte;
     AcObject *obj;
-    AcHeader *header;
+    ObjectPosition *header;
     SpriteFrameState *meta;
     AcSub *sub;
     s32 *table_entry;
@@ -624,11 +618,11 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
         if ((compact << 0x10) != 0) {
             meta->flags |= 1;
         }
-        header->field02 = value_a;
+        header->x.w.i = value_a;
         sub->field0A = value_a;
-        header->field06 = value_b;
+        header->y.w.i = value_b;
         sub->field0C = value_b;
-        header->field0A = 0;
+        header->z.w.i = 0;
         sub->field08 = 1;
         meta->scale_x = 0x1000;
         meta->color.word = 0;
@@ -837,10 +831,6 @@ s32 func_80069E98();
 s32 get_unused_text_buffer();
 s8 *append_typed_formatted_value();
 extern s32 allocate_panel_offset_or_zero(void);
-void offset_record_coordinates();
-void set_record_flags_and_negate_x();
-void set_record_byte_flags_through_end();
-void *copy_records_through_end();
 extern void update_fading_effect_scale(void *effect, s32 unused, void *render_arg);
 extern s32 transform_linked_quad_batches(u8 *, s32, u8 *);
 
@@ -1124,16 +1114,6 @@ typedef struct S_800B2074_1 {
     u16 * unk_20;
 } S_800B2074_1;
 
-typedef struct S_800B2074_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    u8 pad_0C[0xA];
-    s16 unk_16;
-} S_800B2074_3;
 
 typedef struct S_800B2074_4 {
     s16 unk_00;
@@ -1152,7 +1132,7 @@ typedef union { void *pointer; u32 word; } InitSlot;
 /* Creates an object at the given map position and updates its tile record. */
 s32 create_map_position_object(s32 world_x, s32 world_z) {
     s32 tile_addr;
-    void *object;
+    ObjectNodeHeader *object;
     s32 pos_x;
     s32 pos_z;
     void *init_object;
@@ -1160,7 +1140,7 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
 
     S_800B2074_5 *state_fields;
     u16 inherited_value;
-    S_800B2074_3 *transform;
+    ObjectPosition *transform;
     SpriteFrameState *render_state;
 
     pos_x = world_x;
@@ -1172,26 +1152,26 @@ s32 create_map_position_object(s32 world_x, s32 world_z) {
         {
             InitSlot slot = { advance_timed_panel_motion };
             init_data = draw_linked_lit_meshes;
-            ((S_800B2074_1 *)object)->unk_10 = slot.pointer;
+            object->unk_10 = slot.pointer;
             register_node(init_object, init_data);
         }
-        render_state = ((S_800B2074_1 *)object)->unk_0C;
+        render_state = object->sprite;
         render_state->unk_20 = 0x1000;
         render_state->scale_y = 0x1000;
         render_state->scale_x = 0x1000;
         render_state->source = 2;
         render_state->color.word = 0x808080;
-        transform = ((S_800B2074_1 *)object)->unk_08;
-        transform->unk_16 = 6;
-        transform->unk_02 = pos_x;
-        transform->unk_06 = pos_z;
+        transform = object->position;
+        *((s16 *)&transform->velocity_z + 1) = 6;
+        transform->x.w.i = pos_x;
+        transform->y.w.i = pos_z;
         tile_addr += (((s32) (pos_x << 0xA) >> 0x10) + (((s32) (pos_z << 0xA) >> 0x10) << g_game_work.map.shiftX)) * 6;
         ((S_800B2074_1 *)object)->unk_20 = (u16 *) (tile_addr + 2);
         ((S_800B2074_4 *)tile_addr)->unk_00 = 3;
-        transform->unk_0A = (s16) (0 - *((S_800B2074_1 *)object)->unk_20);
+        transform->z.w.i = (s16) (0 - *((S_800B2074_1 *)object)->unk_20);
         ((S_800B2074_4 *)tile_addr)->unk_02 = (u16) (((S_800B2074_4 *)tile_addr)->unk_02 + 0x20);
         ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
-        state_fields = object + 0x20;
+        state_fields = ((void *)object) + 0x20;
         play_sound_if_enabled(0x603);
         inherited_value = ((u16)primary_actor_record->facing);
         state_fields->unk_0E = inherited_value;

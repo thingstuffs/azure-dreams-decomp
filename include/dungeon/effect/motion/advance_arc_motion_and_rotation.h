@@ -36,5 +36,5 @@ typedef struct Row_8189E820_S_8189E820_3 {
 /* Advances arcing motion and rotation, then flags completion when the duration expires. */
 s32 func_800644B8();
 
-void func_80024020(void *state, Row_8189E820_S_8189E820_2 *motion, Row_8189E820_S_8189E820_3 *rotation);
+void advance_arcing_effect_motion(void *state, Row_8189E820_S_8189E820_2 *motion, Row_8189E820_S_8189E820_3 *rotation);
 #endif

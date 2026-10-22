@@ -1,6 +1,9 @@
+
+struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/item.h"
 
 typedef struct S_8016ED98_0 {
     u8 pad_00[0xA];
@@ -18,9 +21,8 @@ typedef struct S_8016ED98_2 {
 } S_8016ED98_2;   /* D_800E3D7C + i * 4 in finish_multi_form_actor_sequence */
 
 
-extern void set_monster_data_pointer(void);
 extern void func_8016ECFC(void);
-extern void clear_entry_flag_and_link_owner(void *);
+extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 
 extern u16 system_update_flags[];
 extern s32 beldo_actor_nodes;

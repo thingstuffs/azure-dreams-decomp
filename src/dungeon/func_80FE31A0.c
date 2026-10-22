@@ -1,10 +1,12 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "engine/cd.h"
 extern int abs(int);
 
 typedef struct ItemSlots {
@@ -116,11 +118,10 @@ typedef struct DungeonActionCounters {
     s32 pending;
 } DungeonActionCounters;
 
-extern s32 get_cd_command_queue_depth(void);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -134,7 +135,7 @@ extern u8 D_8016E038[];
 extern u8 D_8016E078[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */
-void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion, ActorSprite *sprite, CreatureState *actor_data)
+void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion, SpriteFrameState *sprite, CreatureState *actor_data)
 {
     s16 use_player = 0;
     EffectObject *effect = 0;
@@ -204,7 +205,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                     {
                         ActorSprite *target_sprite;
 
-                        target_sprite = ((ObjectHeaderTail *)((u8 *)target - 0x14))->sprite;
+                        target_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                         actor_data->targetX.u = target_sprite->tileX;
                         actor_data->targetY.u = target_sprite->tileY;
                     }
@@ -216,7 +217,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                     if (item_action_definitions[((u8)selected_item_or_sprite)].kind == 2) {
                         target = actor_data->target;
                         if (target != 0) {
-                            selected_item_or_sprite = ((ObjectHeaderTail *)((u8 *)target - 0x14))->sprite;
+                            selected_item_or_sprite = ((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
                             actor_data->targetX.u = ((ActorSprite *)selected_item_or_sprite)->tileX;
                             actor_data->targetY.u = ((ActorSprite *)selected_item_or_sprite)->tileY;
                         }
@@ -224,10 +225,10 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                         s32 abs_x;
                         s32 abs_y;
 
-                        target = scan_monster_along_heading(
+                        target = scan_actor_along_heading(
                             actor_data,
-                            sprite->tileX,
-                            sprite->tileY,
+                            sprite->unk_24,
+                            sprite->unk_25,
                             actor_data->facing.s,
                             0x10);
                         actor_data->target = target;
@@ -259,16 +260,16 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                     effect->phase = 0;
                     effect->facing = actor_data->facing.u;
                     {
-                        s32 sprite_flags = sprite->renderFlags;
+                        s32 sprite_flags = sprite->unk_28;
                         effect_sprite = effect->sprite;
 
                         effect_sprite->scaleY = 0x1000;
                         effect_sprite->scaleX = 0x1000;
                         effect_sprite->renderFlags = sprite_flags;
                         effect_sprite->flags = sprite->flags;
-                        effect_sprite->renderParam = sprite->renderParam;
+                        effect_sprite->renderParam = sprite->clut;
                         {
-                            s32 sprite_link = sprite->spriteLink;
+                            s32 sprite_link = sprite->color.word;
 
                             effect_sprite->directionFrames = D_8016E078;
                             effect_sprite->spriteLink = sprite_link;
@@ -302,7 +303,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        set_record_integer_tile_center(motion, sprite->tileX, sprite->tileY);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         ((PlayerActionCounter *)primary_actor_record)->pendingActions--;
         advance_status_timers(actor_data);
@@ -327,7 +328,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
             effect = actor->effect;
             *effect->motion = *motion;
         }
-        if ((sprite->frame != 4 ||
+        if ((sprite->unk_04 != 4 ||
              !(sprite->flags & 0x1000)) &&
             !(sprite->flags & 0xE000)) {
             return;
@@ -340,7 +341,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
             effect->phase = 0xFF;
             actor->effect = 0;
         }
-        sprite->directionFrames = D_8016E038;
+        sprite->frameTable = D_8016E038;
         select_sprite_entry(
             sprite,
             D_8016E038[((g_game_work.view.camera_rotation.parts.viewAngle + actor_data->facing.s + 0x100) >> 9) & 7],
@@ -348,7 +349,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        set_record_integer_tile_center(motion, sprite->tileX, sprite->tileY);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         if (((s32)g_dungeon_status.active_actor) != 0) {
             return;
         }

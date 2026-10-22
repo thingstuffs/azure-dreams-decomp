@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7E71D800_H
 #define DUNGEON_OVL_7E71D800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/object_flags.h"
 #include "records/Rec_func_800249DC_arg0.h"
@@ -142,7 +143,7 @@ s32 func_80066640();
 s16 func_80066460();
 s16 func_8006649C();
 extern u8 D_80024004[24];
-void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, Row_818E71DC_S_800249DC_3 *visual);
+void move_effect_toward_target(void *motion, Row_818E71DC_S_800249DC_2 *position, SpriteFrameState *visual);
 void advance_effect_state_and_frame(void *effect);
 s32 render_linked_jittered_effect_strips(void *node_data);
 void copy_selected_table_pair(void *record_field, s32 pair_index);

@@ -54,7 +54,7 @@ s32 compare_values_to_display_code(s32 left, s32 right) {
 }
 
 /* Formats two pairs of stat values with comparison indicators. */
-void *format_compared_stat_pairs(void *text, EntityRec *stats) {
+void *format_compared_stat_pairs(void *text, ActorRecord *stats) {
     s32 format_buf[3];
     s32 first_indicator;
     s32 second_indicator;
@@ -62,32 +62,32 @@ void *format_compared_stat_pairs(void *text, EntityRec *stats) {
 
     prefix = &D_800892F0;
     *(Vec3s *)text = *prefix;
-    first_indicator = compare_values_to_display_code(stats->unk_68, stats->unk_26);
+    first_indicator = compare_values_to_display_code(stats->base_attack, stats->current_attack);
     if (first_indicator != 0) {
-        strcat(text, &D_800892F4);
+        strcat(text, D_800892F4);
         strcat(text, func_8004E634(first_indicator, (char *)(&format_buf)));
     }
-    strcat(text, &D_800892F8);
-    func_8004E5A0(stats->unk_26, 3, (char *)(&format_buf));
+    strcat(text, D_800892F8);
+    func_8004E5A0(stats->current_attack, 3, (char *)(&format_buf));
     strcat(text, &format_buf);
-    strcat(text, &D_800892F4);
+    strcat(text, D_800892F4);
     strcat(text, func_8004E634(0, (char *)(&format_buf)));
-    strcat(text, &D_800892FC);
-    second_indicator = compare_values_to_display_code(stats->unk_69, stats->unk_27);
+    strcat(text, D_800892FC);
+    second_indicator = compare_values_to_display_code(stats->base_defense, stats->current_defense);
     if (second_indicator != 0) {
-        strcat(text, &D_800892F4);
+        strcat(text, D_800892F4);
         strcat(text, func_8004E634(second_indicator, (char *)(&format_buf)));
     }
-    func_8004E5A0(stats->unk_27, 3, (char *)(&format_buf));
+    func_8004E5A0(stats->current_defense, 3, (char *)(&format_buf));
     strcat(text, &format_buf);
-    strcat(text, &D_800892F4);
+    strcat(text, D_800892F4);
     strcat(text, func_8004E634(0, (char *)(&format_buf)));
-    strcat(text, &D_800892D8);
+    strcat(text, D_800892D8);
     strcat(text, &D_80089304);
-    func_8004E5A0(stats->unk_68, 3, (char *)(&format_buf));
+    func_8004E5A0(stats->base_attack, 3, (char *)(&format_buf));
     strcat(text, &format_buf);
-    strcat(text, &D_800892FC);
-    func_8004E5A0(stats->unk_69, 3, (char *)(&format_buf));
+    strcat(text, D_800892FC);
+    func_8004E5A0(stats->base_defense, 3, (char *)(&format_buf));
     strcat(text, &format_buf);
     return text;
 }

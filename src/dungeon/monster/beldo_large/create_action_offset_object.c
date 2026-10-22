@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
@@ -12,13 +13,6 @@ extern void initialize_action_offset_and_notify(void *action, void *position);
 extern s16 D_80173AFC[];
 extern void *beldo_script_node;
 extern void *D_80175DB8;
-
-typedef struct S_801715D0_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_801715D0_1;
 
 typedef struct S_801715D0_3 {
     u8 pad_00[0x24];
@@ -50,21 +44,21 @@ void create_action_offset_object(void) {
     u8 *direction;
     u8 *direction_table;
     S_801715D0_3 *object_state;
-    void *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *render_flags;
     SpriteFrameState *sprite;
 
-    owner_pos = ((Rec_D_80175D54 *)beldo_script_node)->unk_08;
+    owner_pos = ((ObjectNodeHeader *)beldo_script_node)->position;
     owner_state = beldo_script_node + 0x20;
     object = allocate_list_node(0x12, beldo_script_node);
     if (object != NULL) {
-        ((S_801715D0_1 *)object)->unk_10 = &initialize_action_offset_and_notify;
-        object_state = object + 0x20;
+        object->unk_10 = &initialize_action_offset_and_notify;
+        object_state = ((void *)object) + 0x20;
         register_node(object, project_sprite_chain);
-        render_flags = ((S_801715D0_1 *)object)->unk_0C;
+        render_flags = object->sprite;
         render_flags->flags = (u16) ((render_flags->flags & 0xFFF3) | 0x80);
         object_state->unk_24 = owner_state;
-        object_pos = ((S_801715D0_1 *)object)->unk_08;
+        object_pos = object->position;
         object_pos->unk_02 = (u16) owner_pos->unk_02;
         object_pos->unk_06 = (u16) owner_pos->unk_06;
         object_pos->unk_0A = (u16) owner_pos->unk_0A;
@@ -73,7 +67,7 @@ void create_action_offset_object(void) {
         object_pos->unk_02 = (u16) (object_pos->unk_02 + (((S_801715D0_7 *)direction)->unk_00 * 6));
         direction = (u8 *) ((u32) (((u16) owner_state->unk_2A >> 7) & 0x1C) + (u32) direction_table);
         object_pos->unk_06 = (u16) (object_pos->unk_06 + (((S_801715D0_7 *)direction)->unk_02 * 6));
-        sprite = ((S_801715D0_1 *)object)->unk_0C;
+        sprite = object->sprite;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         owner_x = (s16) owner_pos->unk_02;

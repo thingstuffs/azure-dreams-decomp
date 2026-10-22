@@ -1,8 +1,10 @@
 /* Initializes the town player scene and updates movement, camera rotation, and facing animations. */
+#include "shared/sprite_frame_state.h"
 #include "script_symbols.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "town/player/initialize_scene_for_mode.h"
-
-
+#include "shared/tile_object.h"
 
 /* Initialize the town scene and configure its object for the current mode. */
 void initialize_scene_for_mode(void)
@@ -10,7 +12,7 @@ void initialize_scene_for_mode(void)
     ObjectPosition *scene;
     TileObject *render;
     func_80092868_TownState *state;
-    func_80092868_TownObject *object;
+    ObjectNodeHeader *object;
     func_80092868_TownWork *work;
     void *shared_data;
     s32 neutral_color;
@@ -41,13 +43,13 @@ void initialize_scene_for_mode(void)
     }
 
     object = initialize_scene_object_in_buffer(0, ((u8 *)(&scene_object_list_anchor)), 0x22);
-    object->scene = scene;
-    object->render = render;
+    object->position = scene;
+    object->sprite = render;
 
     if (state->alternate != 0) {
         u16 *coords;
 
-        object->callback = D_8008FFC0;
+        object->unk_10 = D_8008FFC0;
         coords = state->coords;
         scene->x.w.i = state->x_offset + coords[0];
         scene->y.w.i = state->y_offset + coords[1];
@@ -59,7 +61,7 @@ void initialize_scene_for_mode(void)
     {
         u16 *coords;
 
-        object->callback = rebuild_menu_node_list;
+        object->unk_10 = rebuild_menu_node_list;
         register_node(object, D_800970FC);
         neutral_color = 0x808080;
         render->scale_y = 0x1000;
@@ -68,7 +70,7 @@ void initialize_scene_for_mode(void)
         coords = state->coords;
         x_offset = state->x_offset;
         x_coord = coords[0];
-        *(s32 *)(&render->primitive_color.parts.color_r) = neutral_color;
+        render->primitive_color.word = neutral_color;
         scene->x.w.i = x_offset + x_coord;
         y_offset = state->y_offset;
         y_coord = coords[1];
@@ -108,7 +110,7 @@ void synchronize_mode_and_pending_callback(void) {
     u8 *handler_state = (u8 *)&scene_object_payload_alias;
     void (*callback)();
 
-    if (((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_00 != D_8008FFC0) {
+    if (*(s32 *)&((ObjectNodeHeader *)((u8 *)handler_state - 0x20))->unk_10 != D_8008FFC0) {
         if (test_resident_bitmap_bit(F_player_mizugi) == 0) {
             ((func_80092AB0_S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 0;
             disabled_flag = test_resident_bitmap_bit(F_player_mizugi);
@@ -149,7 +151,7 @@ void synchronize_mode_and_pending_callback(void) {
 /* Initialize the global record using its preceding value and D_800D0178. */
 void initialize_global_scene_record(void) {
     s32 *record = &scene_object_payload_alias;
-    call_the_handler_selects_nonzero_entry(&D_800D0178, record, ((func_80092C18_S_80090378_0 *)((u8 *)record - 0x14))->unk_00);
+    call_the_handler_selects_nonzero_entry(&D_800D0178, record, *(s32 *)&((ObjectNodeHeader *)((u8 *)record - 0x20))->sprite);
 }
 
 /* plt_init_sleep_set: set the sleep initialization pointer. */
@@ -176,13 +178,13 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
     u8 *work;
     s16 value;
 
-    handler = (*(void * *)((u8 *)owner + (0)));
+    handler = (*(void **)((u8 *)owner + (0)));
     if (handler != D_80097D2C || handler != func_80090A64) {
         apply_the_enabled_movement_offsets_adding_z_offset_only_positive(node_in);
     }
     add_motion_deltas_to_position(node_in);
 
-    handler = (*(void * *)((u8 *)owner + (0)));
+    handler = (*(void **)((u8 *)owner + (0)));
     if (handler != D_80097D2C || handler != func_80090A64) {
         update_object_and_clear_status_fields(node_in);
     }
@@ -220,7 +222,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
                 }
             }
             run_the_three_update_routines_context(node_in);
-            if ((*(void * *)((u8 *)owner + (0))) != D_80097D2C) {
+            if ((*(void **)((u8 *)owner + (0))) != D_80097D2C) {
                 initialize_record_and_select_active_data(owner, node_in, mode);
             }
         }
@@ -229,7 +231,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
     handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(&D_800CFCB4, node_in);
     (*(func_80092C9C_ActorCallback *)((u8 *)owner + (0)))(owner, node_in, mode);
 
-    if ((*(void * *)((u8 *)owner + (-0x10))) == D_800A5638) {
+    if ((*(void **)((u8 *)owner + (-0x10))) == D_800A5638) {
         turn_entity_toward_target(owner, node_in, mode);
         return;
     }
@@ -241,7 +243,7 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
    GCC coalesces both to s0 and emits the two-edge lui/addiu held base. */
 
 /* Updates camera rotation and facing after collision adjustment, then saves the reference position. */
-void process_scene_record_update(void *context, void *input, void *record) {
+void process_scene_record_update(void *context, ObjectPosition *input, void *record) {
     GameWork *work = &g_game_work;
     void *callback;
     s32 initial_flags;
@@ -261,8 +263,8 @@ void process_scene_record_update(void *context, void *input, void *record) {
         if (callback == (void *)D_80097D2C || callback == (void *)&func_80090A64 ||
             service_script_controller() != 0) {
             if (map_scene_selector_alias[0] == 12) {
-                func_800909A0();
-            } else if (*(s16 *)((u8 *)input + 6) < 0x400) {
+                to_camera_zero_00();
+            } else if (input->y.w.i < 0x400) {
                 clear_record_state_or_update(input);
             }
         } else if (map_scene_selector_alias[0] == 12) {
@@ -278,13 +280,13 @@ void process_scene_record_update(void *context, void *input, void *record) {
                     work->view.camera_rotation.parts.viewAngle = 0x1E0;
                 }
             } else {
-                func_800909A0();
+                to_camera_zero_00();
             }
-        } else if (*(s16 *)((u8 *)input + 6) < 0x400) {
+        } else if (input->y.w.i < 0x400) {
             clear_record_state_or_update(input);
         } else {
-            movement = runtime_estimate_vector_length(*(s32 *)((u8 *)input + 0xC),
-                                     *(s32 *)((u8 *)input + 0x10));
+            movement = runtime_estimate_vector_length(input->velocity_x,
+                                     input->velocity_y);
             if (movement == 0) {
                 work->view.camera_rotation.parts.viewAngle =
                     (((u16)work->view.camera_rotation.parts.viewAngle) + 8) & 0xFFF0;
@@ -347,7 +349,7 @@ void process_scene_record_update(void *context, void *input, void *record) {
    Memory fences retain the clear/store call sequence and force the post-store signed-halfword reload. */
 
 /* func_800909A0: Moves the camera offset toward zero in steps of 16. */
-s32 func_800909A0() {
+s32 to_camera_zero_00() {
     GameWork *camera_state = &g_game_work;
     s16 camera_offset = camera_state->view.camera_rotation.parts.viewAngle;
     u16 next_offset = ((u16)camera_state->view.camera_rotation.parts.viewAngle);
@@ -372,8 +374,8 @@ s32 func_800909A0() {
 }
 
 /* Clear the state field or invoke updates according to the record value. */
-void clear_record_state_or_update(void *record) {
-    s16 threshold_value = *(s16 *)((u8 *)record + 6);
+void clear_record_state_or_update(ObjectPosition *record) {
+    s16 threshold_value = record->y.w.i;
     GameWork *state = &g_game_work;
 
     if (threshold_value < 0x200) {
@@ -381,11 +383,11 @@ void clear_record_state_or_update(void *record) {
         return;
     }
     if (threshold_value < 0x300) {
-        func_800909A0(state);
-        func_800909A0();
+        to_camera_zero_00(state);
+        to_camera_zero_00();
     }
-    func_800909A0();
-    func_800909A0();
+    to_camera_zero_00();
+    to_camera_zero_00();
 }
 
 /* Returns without performing any work. */

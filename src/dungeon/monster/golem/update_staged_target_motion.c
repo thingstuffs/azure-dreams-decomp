@@ -1,3 +1,5 @@
+
+struct ObjectPosition;
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -99,7 +101,7 @@ extern s32 func_80069EF8(void);
 extern s32 func_800644B8(s16);
 extern s32 func_80064584(s16);
 extern void resolve_attack_damage_and_effects(void *, void *, s16, s16);
-extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 extern void draw_randomized_shaded_polylines(Vec3Work *, Vec3Work *);
 
 extern u8 D_80175F68;

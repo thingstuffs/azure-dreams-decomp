@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
@@ -51,18 +52,6 @@ typedef struct S_800D5DCC_7 {
     s16 unk_34;
 } S_800D5DCC_7;
 
-typedef struct S_800D5DCC_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_800D5DCC_8;
-
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_randomized_directional_effect */
 
 extern void *allocate_list_node();
@@ -82,33 +71,33 @@ void spawn_randomized_directional_effect(EntityRec *source, s16 angle, s32 effec
     S_800D5DCC_6 *velocity_y;
     S_800D5DCC_3 *direction;
     S_800D5DCC_7 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_list_node(0x211, source);
     if (effect != NULL) {
-        ((S_800D5DCC_0 *)effect)->unk_10 = D_800D5CA0;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_02 =
+        effect->unk_10 = D_800D5CA0;
+        (effect->position)->x.w.i =
             ((MovingPosition *)((*(void * *)&source->z)))->unk_02;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_06 =
+        (effect->position)->y.w.i =
             ((MovingPosition *)((*(void * *)&source->z)))->unk_06;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_0A =
+        (effect->position)->z.w.i =
             ((MovingPosition *)((*(void * *)&source->z)))->unk_0A - 0x14;
         direction = ((angle >> 7) & 0x1C) + (u8 *)actor_direction_step_pairs;
-        pos_x = ((S_800D5DCC_0 *)effect)->unk_08;
+        pos_x = effect->position;
         pos_x->unk_02 += direction->unk_00 * 0x10;
-        pos_y = ((S_800D5DCC_0 *)effect)->unk_08;
+        pos_y = effect->position;
         pos_y->unk_06 += direction->unk_02 * 0x10;
-        ((SpriteFrameState *)((S_800D5DCC_0 *)effect)->unk_0C)->unk_06 = 6;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_0C =
+        effect->sprite->unk_06 = 6;
+        (effect->position)->velocity_x =
             ((rand() & 0x7FFF) - 0x4000) << 6;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_10 =
+        (effect->position)->velocity_y =
             ((rand() & 0x7FFF) - 0x4000) << 6;
-        ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_14 =
+        (effect->position)->velocity_z =
             ((rand() & 0x7FFF) - 0x4000) << 5;
-        velocity_x = ((S_800D5DCC_0 *)effect)->unk_08;
+        velocity_x = effect->position;
         velocity_x->unk_0C += direction->unk_00 * 0x160000;
         effect_state = (u8 *)effect + 0x20;
-        velocity_y = ((S_800D5DCC_0 *)effect)->unk_08;
+        velocity_y = effect->position;
         velocity_y->unk_10 += direction->unk_02 * 0x160000;
         effect_state->unk_14 = angle;
         effect_state->unk_32 = 7;

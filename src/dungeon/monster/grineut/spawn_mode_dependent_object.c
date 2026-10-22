@@ -1,8 +1,9 @@
 /* Grineut actor spawning, movement, attacks, and sprite effects. */
-#include "modules/dungeon_resource07_slot0.h"
+#include "dungeon/monster/grineut.h"
 #include "shared/actor_action_flags.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
+#include "engine/cd.h"
 
 void * (*const resource07_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_mode_dependent_112_object;
 void (*const resource07_slot0_entry1)(void *entity, R07_80170A28_S_80170A28_2 *motion, void *part) = update_entity_facing_motion_and_ground;
@@ -298,7 +299,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, ActorRecord *o
 
         if (((u32)other_entity->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(record, entity, object, other_entity);
-            func_80173EF4(record, entity, object, other_entity);
+            update_grineut_parent_motion(record, entity, object, other_entity);
             (*(void * *)((u8 *)object + 0x2C)) = ((u8 *)D_80174140);
             select_sprite_entry(object,
                 *((u8 *)(((g_game_work.view.camera_rotation.parts.viewAngle + other_entity->facing + 0x100) >> 9) & 7) + (u32)((u8 *)D_80174140)),
@@ -320,7 +321,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, ActorRecord *o
             return;
         }
         if (((R07_80170E54_S_80170E54_2 *)object)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
-            func_801717B4(record, entity, object, other_entity);
+            choose_grineut_move(record, entity, object, other_entity);
             return;
         }
         if (!(other_entity->action_flags & ACTOR_ACTION_PENDING)) {
@@ -330,13 +331,13 @@ void func_80170E54(void *record, EntityRec *entity, void *object, ActorRecord *o
                     return;
                 }
             }
-            if ((func_8017229C(record, entity, object, 0) << 16) == 0) {
+            if ((relink_grineut_path(record, entity, object, 0) << 16) == 0) {
                 return;
             }
             state = other_entity->action_flags | 0x4000;
             other_entity->action_flags = state;
             if (!(state & 0x8000)) {
-                func_801717B4(record, entity, object, other_entity);
+                choose_grineut_move(record, entity, object, other_entity);
                 return;
             }
         }
@@ -345,10 +346,10 @@ void func_80170E54(void *record, EntityRec *entity, void *object, ActorRecord *o
         switch (state) {
         case 8:
         case 9:
-            if ((func_80171FC0(record, entity, object, other_entity) << 16) != 0) {
+            if ((try_grineut_attack(record, entity, object, other_entity) << 16) != 0) {
                 return;
             }
-            func_80172184(record, entity, object, other_entity);
+            begin_grineut_attack(record, entity, object, other_entity);
             return;
 
         case 5:
@@ -380,7 +381,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, ActorRecord *o
 
         case 11:
         default:
-            func_801717B4(record, entity, object, other_entity);
+            choose_grineut_move(record, entity, object, other_entity);
             return;
         }
     }
@@ -555,7 +556,7 @@ void advance_stored_path_motion(void *action, s32 action_id, SpriteFrameState *e
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
-void func_801717B4(void *move_data, void *context, void *position_data, void *actor_data)
+void choose_grineut_move(void *move_data, void *context, void *position_data, void *actor_data)
 {
     u16 dungeon_flags = g_dungeon_status.flags;
     s32 limit_detour = 0;
@@ -570,7 +571,7 @@ void func_801717B4(void *move_data, void *context, void *position_data, void *ac
 
     if ((dungeon_flags & 0x4000) || ((R07_801717B4_S_80171C34_1 *)actor_data)->unk_71.s >= 0) {
         if (((R07_801717B4_S_80171C34_1 *)actor_data)->unk_12 >= 2 ||
-            (s16)func_80171FC0(move_data, context, position_data, actor_data) == 0) {
+            (s16)try_grineut_attack(move_data, context, position_data, actor_data) == 0) {
             update_actor_status_and_mp(actor_data);
             return;
         }
@@ -587,7 +588,7 @@ void func_801717B4(void *move_data, void *context, void *position_data, void *ac
     actor_flags = ((R07_801717B4_S_80171C34_1 *)actor_data)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            current_angle = (s32)find_valid_monster_neighbor(actor_data,(u8)((SpriteFrameState *)position_data)->unk_24,(u8)((SpriteFrameState *)position_data)->unk_25);
+            current_angle = (s32)find_adjacent_actor(actor_data,(u8)((SpriteFrameState *)position_data)->unk_24,(u8)((SpriteFrameState *)position_data)->unk_25);
             if (((void *)current_angle) != 0) {
                 s16 target_angle = ((s16)get_rounded_facing_and_rounding_flag((s16)((SpriteFrameState *)position_data)->unk_24,(s16)((SpriteFrameState *)position_data)->unk_25,(s16)(((R07_801717B4_S_80171C34_7 *)(((R07_801717B4_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_24),(s16)(((R07_801717B4_S_80171C34_7 *)(((R07_801717B4_S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_25),
                     (u8 *)move_data + 0x98));
@@ -642,13 +643,13 @@ void func_801717B4(void *move_data, void *context, void *position_data, void *ac
                     limit_detour = 1;
                 }
             } else {
-                rebuild_monster_reachable_tiles(position_data, ((R07_801717B4_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+                select_actor_route_target(position_data, ((R07_801717B4_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                               (u8 *)move_data + 0x98);
             }
         }
     } else if (*(s8 *)&((SpriteFrameState *)position_data)->unk_26 >= 0 &&
                ((R07_801717B4_DungeonRecord *)dungeon_rooms)[*(s8 *)&((SpriteFrameState *)position_data)->unk_26].flags & 2) {
-        rebuild_monster_reachable_tiles(position_data, ((R07_801717B4_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+        select_actor_route_target(position_data, ((R07_801717B4_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                       (u8 *)move_data + 0x98);
     } else if (!(((R07_801717B4_S_80171C34_1 *)actor_data)->unk_46 & 0x8000)) {
         current_angle = (s32)probe_directional_neighbor(actor_data,(u8)((SpriteFrameState *)position_data)->unk_24,(u8)((SpriteFrameState *)position_data)->unk_25,(s16)(((R07_801717B4_S_80171C34_1 *)actor_data)->unk_2A.s));
@@ -677,7 +678,7 @@ void func_801717B4(void *move_data, void *context, void *position_data, void *ac
                 }
             }
         } else {
-            rebuild_monster_reachable_tiles(position_data, ((R07_801717B4_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+            select_actor_route_target(position_data, ((R07_801717B4_S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
                           (u8 *)move_data + 0x98);
         }
     }
@@ -789,7 +790,7 @@ void initialize_opposite_facing_effect(void *effect, s32 *position, SpriteFrameS
 }
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
-s32 func_80171FC0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
+s32 try_grineut_attack(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 target_angle;
     u16 status_flags;
@@ -841,7 +842,7 @@ s32 func_80171FC0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, Sprite
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
-void func_80172184(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
+void begin_grineut_attack(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
     actor->movement_queue_state = (u8) (actor->movement_queue_state & 0x7F);
     if (!(g_dungeon_status.flags & 0x2000) && ((try_claim_dungeon_action_slot(actor) << 0x10) == 0)) {
         apply_camera_offset_and_select_target((u8 *)actor - 0x20, action_context, 8, 0x300);
@@ -861,7 +862,7 @@ void func_80172184(void *action_state, void *action_context, SpriteFrameState *s
 }
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
-s32 func_8017229C(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
+s32 relink_grineut_path(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     s32 result;
     void *entity = entity_arg;
@@ -869,7 +870,7 @@ s32 func_8017229C(void *entity_arg, void *primary_context_arg, void *secondary_c
     state_type = (s16)relink_entity_and_clear_high_flag(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
     if (state_type < 0) return 0;
     if ((force_state_arg << 0x10) != 0) {
-        func_801717B4(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_grineut_move(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     }
@@ -880,7 +881,7 @@ s32 func_8017229C(void *entity_arg, void *primary_context_arg, void *secondary_c
         result = 0;
         return result;
     case 2:
-        func_801717B4(entity, primary_context_arg, secondary_context_arg, entity);
+        choose_grineut_move(entity, primary_context_arg, secondary_context_arg, entity);
         result = 0;
         return result;
     case 1:
@@ -902,7 +903,7 @@ s32 func_8017229C(void *entity_arg, void *primary_context_arg, void *secondary_c
     return result;
 }
 
-void func_801723E0(R07_801723E0_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
+void move_grineut_to_tile(R07_801723E0_S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (update_actor_movement_to_tile(state, context, source, target) != 0) {
         spend_actor_mp(target, 4);
         advance_status_timers(target);
@@ -1040,7 +1041,7 @@ void advance_target_hop(void *action, void *motion, void *sprite, void *actor)
     }
 }
 
-void func_801727E8(Resource07CallbackState *state, void *entity, void *position, void *graphic)
+void update_grineut_linked_motion(Resource07CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_linked_actor_motion(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
@@ -1264,7 +1265,7 @@ copy_existing:
                     s8 x;
                     s8 y;
 
-                    ((ActorRecord *)actor)->target = (void *)scan_monster_along_heading(
+                    ((ActorRecord *)actor)->target = (void *)scan_actor_along_heading(
                         actor,
                         ((SpriteFrameState *)sprite)->unk_24,
                         ((SpriteFrameState *)sprite)->unk_25,
@@ -1523,22 +1524,22 @@ void settle_directional_motion_at_tile(void *motion_state, void *motion, void *s
     }
 }
 
-void func_8017365C(void *state, void *motion, void *position, void *actor)
+void remove_defeated_grineut(void *state, void *motion, void *position, void *actor)
 {
     update_actor_defeat_removal(state, motion, position, actor);
 }
 
-void func_8017367C(void *state, void *motion, void *position, void *actor)
+void shrink_hopping_grineut(void *state, void *motion, void *position, void *actor)
 {
     update_actor_hop_and_shrink(state, motion, position, actor);
 }
 
-void func_8017369C(void *state, void *motion, void *position, void *actor)
+void advance_grineut_removal(void *state, void *motion, void *position, void *actor)
 {
     advance_actor_removal(state, motion, position, actor);
 }
 
-void func_801736BC(Resource07CallbackState *state, void *motion, void *position, void *actor)
+void grow_hopping_grineut(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_hop_and_grow(state, motion, position, actor)) {
         state->callback = func_80170E54;
@@ -1632,7 +1633,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, ActorRecord 
                 }
                 if (actor_flags & 0x80000) {
                     begin_actor_move_to_target_facing(controller, actor_index, sprite, actor);
-                    func_80173EF4(controller, actor_index, sprite, actor);
+                    update_grineut_parent_motion(controller, actor_index, sprite, actor);
                     return;
                 }
                 if (actor->pending_turn_updates == 0) {
@@ -1772,7 +1773,7 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
 
         if (entity_flags & 0x80000) {
             begin_actor_move_to_target_facing(controller, context, sprite, entity);
-            func_80173EF4(controller, context, sprite, entity);
+            update_grineut_parent_motion(controller, context, sprite, entity);
             return;
         }
 
@@ -1813,7 +1814,7 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
     }
 }
 
-void func_80173EF4(R07_80173EF4_Actor *actor, s32 action, R07_80173EF4_Entity *entity, R07_80173EF4_MapObject *map_object)
+void update_grineut_parent_motion(R07_80173EF4_Actor *actor, s32 action, R07_80173EF4_Entity *entity, R07_80173EF4_MapObject *map_object)
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
@@ -1827,7 +1828,7 @@ void func_80173EF4(R07_80173EF4_Actor *actor, s32 action, R07_80173EF4_Entity *e
     }
 }
 
-void func_80173FBC(Resource07CallbackState *state, void *entity, void *position, void *graphic)
+void update_thrown_grineut(Resource07CallbackState *state, void *entity, void *position, void *graphic)
 {
     if (update_thrown_actor_travel(state, entity, position, graphic)) {
         if ((s16)check_actor_floor_trap(position, graphic) > 0) {
@@ -1836,35 +1837,35 @@ void func_80173FBC(Resource07CallbackState *state, void *entity, void *position,
     }
 }
 
-void func_80174020(Resource07CallbackState *state, void *motion, void *position, void *actor)
+void settle_grineut_on_tile(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (interpolate_actor_to_terrain_tile(state, motion, position, actor)) {
         state->callback = func_80170E54;
     }
 }
 
-void func_80174058(Resource07CallbackState *state, void *motion, void *position, void *actor)
+void update_spinning_grineut_fall(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_spinning_actor_fall(state, motion, position, actor)) {
         state->callback = func_80170E54;
     }
 }
 
-void func_80174090(Resource07CallbackState *state, void *motion, void *position, void *actor)
+void fade_in_grineut(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (update_actor_fade_in(state, motion, position, actor)) {
         state->callback = func_80170E54;
     }
 }
 
-void func_801740C8(Resource07CallbackState *state, void *motion, void *position, void *actor)
+void resolve_grineut_floor_trap(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (resolve_actor_floor_trap_once(state, motion, position, actor) > 0) {
         state->callback = func_80170E54;
     }
 }
 
-void func_80174100(Resource07CallbackState *state, void *motion, void *position, void *actor)
+void propagate_grineut_action_flag(Resource07CallbackState *state, void *motion, void *position, void *actor)
 {
     if (propagate_actor_action_flag(state, motion, position, actor) > 0) {
         state->callback = func_80170E54;

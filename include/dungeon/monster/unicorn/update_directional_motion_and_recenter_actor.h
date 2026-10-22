@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_7F511800_P03_H
 #define DUNGEON_OVL_7F511800_P03_H
+
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_status.h"
@@ -51,9 +53,8 @@ extern void update_map_cell_flags_with_item_limit(s32, s32, s32);
 extern void distribute_experience_and_report_gains(void *);
 extern void detach_record_and_update_slot_state(void *);
 extern void play_sound_if_enabled(s32);
-extern void announce_familiar_defeat(void *);
 extern u8 D_80170E7C;
 extern u8 D_80174D5C;
 void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, ObjectPosition *motion, SpriteFrameState *actor, void *source);
-void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, void *entity);
+void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite,struct SpriteFrameState *entity);
 #endif

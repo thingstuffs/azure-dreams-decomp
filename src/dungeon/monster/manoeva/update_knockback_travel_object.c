@@ -74,14 +74,6 @@ typedef struct S_80174CCC_9 {
     u16 unk_CA;
 } S_80174CCC_9;   /* parent in update_knockback_travel_object */
 
-typedef struct S_80174CCC_10 {
-    u8 pad_00[0x12];
-    u16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x16];
-    union { void * s; u8 * u; } unk_2C;   /* accessed as both */
-} S_80174CCC_10;   /* owner in update_knockback_travel_object */
-
 typedef struct S_80174CCC_11 {
     u8 pad_00[0x5];
     u8 unk_05;
@@ -109,7 +101,7 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
     s32 height_offset;
     void *created;
     S_80174CCC_7 *source;
-    S_80174CCC_10 *owner;
+    SpriteFrameState *owner;
     S_80174CCC_9 *parent;
     register void *linked_object;
     s32 spawn_kind;
@@ -237,11 +229,11 @@ void update_knockback_travel_object(void *motion, S_80174CCC_1 *position, Sprite
                 }
 
                 owner = ((S_80174CCC_6_pre *)created)[-1].unk_00;
-                owner->unk_2C.s = D_80176668;
-                owner->unk_14 |= 0x4000;
-                owner->unk_12 = ((S_80174CCC_0 *)motion)->unk_3A;
+                owner->frameTable = D_80176668;
+                owner->flags |= 0x4000;
+                owner->clut = ((S_80174CCC_0 *)motion)->unk_3A;
                 select_sprite_entry(owner,
-                    owner->unk_2C.u
+                    (*(u8 **)&owner->frameTable)
                         [((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
                     0);
                 retain_spawn_resource(0x1E, 1);

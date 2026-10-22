@@ -3,6 +3,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor/animation.h"
+#include "dungeon/player.h"
 
 typedef struct S_800D8590_0 {
     u8 pad_00[0xC];
@@ -45,7 +47,6 @@ typedef struct S_800D8590_3 {
 extern void select_record_entry_and_value();
 extern void clear_slots_of_type();
 extern void bzero();
-extern void clear_player_linked_action_flags();
 
 extern u8 D_800D8728[];
 extern u8 D_800D8C64[];

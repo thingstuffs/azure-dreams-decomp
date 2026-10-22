@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
 #include "records/Rec_func_8017360C_arg0.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
@@ -15,14 +15,14 @@ extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
+extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
 extern s32 D_801714D4;
 extern u8 D_80174158[];
 extern u8 D_80174160[];
 
 /* Advance actor states, select directional animations, and process entity actions. */
-void advance_actor_states_and_process_actions(void *actor, void *context, void *animation, ActorRecord *entity)
+void advance_actor_states_and_process_actions(void *actor, void *context, SpriteFrameState *animation, ActorRecord *entity)
 {
     s32 state;
 
@@ -32,13 +32,13 @@ void advance_actor_states_and_process_actions(void *actor, void *context, void *
     {
         u8 *direction_anims;
 
-        if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
+        if (!(animation->flags & 0xE000)) {
             return;
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         direction_anims = D_80174158;
-        (*(void * *)((u8 *)animation + 0x2C)) = direction_anims;
+        (animation->frameTable) = direction_anims;
         select_sprite_entry(animation,
             direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
@@ -51,7 +51,7 @@ void advance_actor_states_and_process_actions(void *actor, void *context, void *
 
         if (entity->mp != 0) {
 
-            (*(void * *)((u8 *)animation + 0x2C)) = D_80174160;
+            (animation->frameTable) = D_80174160;
             select_sprite_entry(animation,
                 D_80174160[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
@@ -111,7 +111,7 @@ void advance_actor_states_and_process_actions(void *actor, void *context, void *
             return;
         }
 
-        (*(void * *)((u8 *)animation + 0x2C)) = D_80174160;
+        (animation->frameTable) = D_80174160;
         select_sprite_entry(animation,
             D_80174160[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
@@ -121,7 +121,7 @@ void advance_actor_states_and_process_actions(void *actor, void *context, void *
     }
         break;
     case 2:
-        if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
+        if (animation->flags & 0xE000) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             entity->flags1C &= ~8;

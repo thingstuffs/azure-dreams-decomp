@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -33,19 +34,6 @@ typedef struct S_81269000_2 {
     u16 unk_1E;
 } S_81269000_2;   /* part in update_variant_part_brightness */
 
-typedef struct S_81269000_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_81269000_3;   /* dst in update_variant_part_brightness */
-
    /* out in update_variant_part_brightness */
 
 typedef struct S_81269000_5 {
@@ -67,9 +55,6 @@ extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
 
-
-
-
 void update_variant_part_brightness(void *root_data, void *position_data, void *render_data)
 ;
 /* Updates part position, render state, and brightness from the current motion phase. */
@@ -78,7 +63,7 @@ void update_variant_part_brightness(void *root_data, void *position_data, void *
     s16 offset[3];
     void *root = root_data;
     MovingPosition *output_pos = position_data;
-    S_81269000_3 *render_part = render_data;
+    SpriteFrameState *render_part= render_data;
     S_81269000_1 *owner;
     S_81269000_5 *transform;
     S_81269000_6 *motion_part;
@@ -89,7 +74,7 @@ void update_variant_part_brightness(void *root_data, void *position_data, void *
     transform = owner->unk_08;
 
     if (!(((S_81269000_2 *)position_data)->unk_14 & 0x80)) {
-        render_part->unk_14 &= 0xFF7F;
+        render_part->flags &= 0xFF7F;
     }
 
     output_pos->unk_02 = transform->unk_02;
@@ -110,10 +95,10 @@ void update_variant_part_brightness(void *root_data, void *position_data, void *
         ((S_81269000_0 *)root)->unk_B4 = offset[2];
     }
 
-    transform = render_part->unk_08;
-    render_part->unk_1C = ((S_81269000_2 *)position_data)->unk_1C;
-    render_part->unk_1E = ((S_81269000_2 *)position_data)->unk_1E;
-    render_part->unk_14 = ((S_81269000_2 *)position_data)->unk_14;
+    transform = render_part->source;
+    render_part->scale_x = ((S_81269000_2 *)position_data)->unk_1C;
+    render_part->scale_y = ((S_81269000_2 *)position_data)->unk_1E;
+    render_part->flags = ((S_81269000_2 *)position_data)->unk_14;
     transform->unk_01 &= 0xFE;
 
     if (((S_81269000_0 *)root)->unk_B6 == 1) {
@@ -121,15 +106,15 @@ void update_variant_part_brightness(void *root_data, void *position_data, void *
         if (phase < 8) {
             s32 brightness = (phase * 14) + 0x20;
 
-            render_part->unk_0E = brightness;
-            render_part->unk_0D = brightness;
-            render_part->unk_0C = brightness;
+            render_part->color.c.b = brightness;
+            render_part->color.c.g = brightness;
+            render_part->color.c.r = brightness;
         } else {
             s32 brightness = ((15 - phase) * 14) + 0x20;
 
-            render_part->unk_0E = brightness;
-            render_part->unk_0D = brightness;
-            render_part->unk_0C = brightness;
+            render_part->color.c.b = brightness;
+            render_part->color.c.g = brightness;
+            render_part->color.c.r = brightness;
         }
         if (!(((S_81269000_2 *)position_data)->unk_14 & 0x8000) &&
             ((S_81269000_2 *)position_data)->unk_04.u16 == 0x10C) {
@@ -142,15 +127,15 @@ void update_variant_part_brightness(void *root_data, void *position_data, void *
         if (phase < 8) {
             s32 brightness = ((7 - phase) * 14) + 0x20;
 
-            render_part->unk_0E = brightness;
-            render_part->unk_0D = brightness;
-            render_part->unk_0C = brightness;
+            render_part->color.c.b = brightness;
+            render_part->color.c.g = brightness;
+            render_part->color.c.r = brightness;
         } else {
             s32 brightness = ((phase - 8) * 14) + 0x20;
 
-            render_part->unk_0E = brightness;
-            render_part->unk_0D = brightness;
-            render_part->unk_0C = brightness;
+            render_part->color.c.b = brightness;
+            render_part->color.c.g = brightness;
+            render_part->color.c.r = brightness;
         }
         if (!(((S_81269000_2 *)position_data)->unk_14 & 0x8000) &&
             ((S_81269000_2 *)position_data)->unk_04.u16 == 0x104) {
@@ -164,5 +149,4 @@ void update_variant_part_brightness(void *root_data, void *position_data, void *
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-
 

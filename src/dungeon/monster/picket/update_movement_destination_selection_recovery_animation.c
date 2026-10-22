@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -68,7 +69,7 @@ extern s16 sample_terrain_surface_height(s32, s32, s16);
 /* Updates movement, destination selection, and recovery animation for the object. */
 /* Animates Picket's dash and retreat, selects a new valid tile when allowed, then restores sprite scale
  * and spends MP. */
-void update_movement_destination_selection_recovery_animation(void *state, void *motion, void *actor, void *object)
+void update_movement_destination_selection_recovery_animation(void *state, void *motion, SpriteFrameState *actor, void *object)
 {
     s32 y_step;
     s32 x_step;
@@ -95,9 +96,9 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
     }
     switch (state_id) {
     case 0:
-        update_map_cell_flags_with_item_limit(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
+        update_map_cell_flags_with_item_limit(actor->unk_24, actor->unk_25,
             (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174EF8;
+        (*(u8 **)((u8 *)actor + 0x2C)) = D_80174EF8;
         select_sprite_entry(actor,
             D_80174EF8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         ((S_80174428_3 *)motion)->unk_0C = (x_step << 19) + (x_step << 18);
@@ -106,7 +107,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         play_sound_if_enabled(0x80E);
         ((S_80174428_1 *)state)->unk_9B++;
     case 1:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
+        if (!(actor->flags & 0x8000)) {
             ((S_80174428_1 *)state)->unk_96.s--;
             if (((S_80174428_1 *)state)->unk_96.u > 0) {
                 return;
@@ -114,7 +115,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         }
         ((S_80174428_3 *)motion)->unk_10 = 0;
         ((S_80174428_3 *)motion)->unk_0C = 0;
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F58;
+        (*(u8 **)((u8 *)actor + 0x2C)) = D_80174F58;
         select_sprite_entry(actor,
             D_80174F58[((*(s16 *)(((u8 *)(&reference_tile_object)) + 0x3A8) +
                 ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
@@ -125,12 +126,12 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         return;
 
     case 2:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
+        if (!(actor->flags & 0xE000)) {
             return;
         }
         ((S_80174428_3 *)motion)->unk_10 = 0;
         ((S_80174428_3 *)motion)->unk_0C = 0;
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F00;
+        (*(u8 **)((u8 *)actor + 0x2C)) = D_80174F00;
         select_sprite_entry(actor,
             D_80174F00[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
         if (((S_80174428_0 *)object)->unk_1C & 0x2000) {
@@ -146,7 +147,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         {
             u16 angle = ((S_80174428_0 *)object)->unk_2A.s;
             if ((((S_80174428_0 *)object)->unk_2A.u == 0x400) ||
-                (((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
+                (actor->flags & 0x8000)) {
                 select_sprite_entry(actor, 0x37, 0);
                 ((S_80174428_1 *)state)->unk_9B++;
                 return;
@@ -160,7 +161,7 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         }
 
     case 4:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
+        if (!(actor->flags & 0xE000)) {
             return;
         }
         select_sprite_entry(actor, 0x38, 0);
@@ -168,17 +169,17 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
         world = &reference_tile_object;
         level = floor_generation_state;
         ((S_80174428_1 *)state)->unk_96.s = 0;
-        x_step = ((S_80174428_2 *)actor)->unk_24;
-        y_step = ((S_80174428_2 *)actor)->unk_25;
+        x_step = actor->unk_24;
+        y_step = actor->unk_25;
 
         for (;;) {
             if (--attempts_left <= 0) {
-                ((S_80174428_2 *)actor)->unk_24 = (u8)x_step;
-                ((S_80174428_2 *)actor)->unk_25 = (u8)y_step;
+                actor->unk_24 = (u8)x_step;
+                actor->unk_25 = (u8)y_step;
                 ((S_80174428_1 *)state)->unk_9B++;
                 return;
             }
-            direction_offset = select_dungeon_spawn_tile(actor + 0x24, actor + 0x25);
+            direction_offset = select_dungeon_spawn_tile(&actor->unk_24, &actor->unk_25);
             if (direction_offset < 0) {
                 continue;
             }
@@ -186,8 +187,8 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
                 *(s16 *)((u8 *)level + 6) >= 2) {
                 continue;
             }
-            direction_offset = sample_terrain_surface_height((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
-                (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
+            direction_offset = sample_terrain_surface_height((actor->unk_24 << 6) | 0x20,
+                (actor->unk_25 << 6) | 0x20,
                 (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
             raw_direction = direction_offset < 0x201;
             if (raw_direction) {
@@ -198,12 +199,12 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
 
     case 5:
         {
-            ((S_80174428_2 *)actor)->unk_1C = D_80174FC4[((S_80174428_1 *)state)->unk_96.u];
-            ((S_80174428_2 *)actor)->unk_1E = D_80174FD4[((S_80174428_1 *)state)->unk_96.u];
+            actor->scale_x = D_80174FC4[((S_80174428_1 *)state)->unk_96.u];
+            actor->scale_y = D_80174FD4[((S_80174428_1 *)state)->unk_96.u];
             if (((S_80174428_1 *)state)->unk_96.u == 4) {
                 play_sound_if_enabled(0x705);
             }
-            if (!(((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
+            if (!(actor->flags & 0x8000)) {
                 ((S_80174428_1 *)state)->unk_96.s++;
                 if (((S_80174428_1 *)state)->unk_96.u < 8) {
                     return;
@@ -211,20 +212,20 @@ void update_movement_destination_selection_recovery_animation(void *state, void 
             }
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             refresh_actor_proximity_state(object);
-            height = sample_terrain_surface_height((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
-                (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
+            height = sample_terrain_surface_height((actor->unk_24 << 6) | 0x20,
+                (actor->unk_25 << 6) | 0x20,
                 (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
             ((S_80174428_0 *)object)->unk_88 = height;
             ((S_80174428_2 *)actor)->unk_2C = D_80174F00;
             spend_actor_mp(object, 0x200);
             select_sprite_entry(actor,
-                ((S_80174428_2 *)actor)->unk_2C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)
+                ((u8 *)actor->frameTable)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100)
                     >> 9) & 7], 0);
-            cycle_map_cell_flags(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
+            cycle_map_cell_flags(actor->unk_24, actor->unk_25,
                 (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-            set_record_integer_tile_center(motion, ((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25);
-            ((S_80174428_2 *)actor)->unk_1E = 0x1000;
-            ((S_80174428_2 *)actor)->unk_1C = 0x1000;
+            set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+            actor->scale_y = 0x1000;
+            actor->scale_x = 0x1000;
             ((S_80174428_1 *)state)->unk_8C = D_801710F4;
             advance_status_timers(object);
             ((S_80174428_0 *)object)->unk_6D = 0;

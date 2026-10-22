@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -21,7 +22,7 @@ extern u8 D_80170E68;
 extern u8 D_80173894[];
 
 /* Advances an actor action through animation setup, a delay, and completion. */
-void advance_action_setup_delay(void *action, void *motion, void *sprite, void *actor)
+void advance_action_setup_delay(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 phase;
     s32 loaded_phase;
@@ -30,9 +31,9 @@ void advance_action_setup_delay(void *action, void *motion, void *sprite, void *
     phase = U8(action, 0x9B);
     switch (phase) {
     case 0:
-        if (U16(sprite, 0x14) & 0x8000) {
+        if (sprite->flags & 0x8000) {
             U8(action, 0x9B) = 2;
-            U16(sprite, 0x14) |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
             return;
         }
@@ -40,7 +41,7 @@ void advance_action_setup_delay(void *action, void *motion, void *sprite, void *
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0x0C) = 0;
-        PTR(sprite, 0x2C) = D_80173894;
+        sprite->frameTable = D_80173894;
         select_sprite_entry(sprite,
             D_80173894[((g_game_work.view.camera_rotation.parts.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
             0);
@@ -63,10 +64,10 @@ void advance_action_setup_delay(void *action, void *motion, void *sprite, void *
         return;
 
     case 2:
-        if (!(U16(sprite, 0x14) & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        set_record_integer_tile_center(motion, U8(sprite, 0x24), U8(sprite, 0x25));
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
         PTR(action, 0x8C) = &D_80170E68;
         g_dungeon_status.active_actor = 0;

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_184C800_H
 #define DUNGEON_OVL_184C800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/dir_step.h"
@@ -9,15 +10,6 @@
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
-
-typedef struct S_8182C800_0_pre {
-    u16 unk_00;
-} S_8182C800_0_pre;   /* the 0x2 bytes before arg0 in func_8002401C, addressed as arg0[-1] */
-
-typedef struct S_8182C800_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_8182C800_1_pre;   /* the 0x14 bytes before temp_s7 in func_8002401C, addressed as temp_s7[-1] */
 
 typedef struct S_8182C800_1 {
     u8 pad_00[0x2A];
@@ -137,21 +129,6 @@ typedef struct S_8182C800_22 {
     s32 unk_00;
 } S_8182C800_22;   /* D_800814A0 in func_8002401C */
 
-typedef struct S_8182C800_23 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_8182C800_23;   /* ((S_8182C800_2 *)sp68)->unk_08 in func_8002401C */
-
-typedef struct S_8182C800_24 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8182C800_24;   /* ((S_8182C800_8 *)temp_s4)->unk_08 in func_8002401C */
-
 typedef struct Func80024000Frame {
     s16 pad20;
     s16 sp22;
@@ -258,12 +235,12 @@ extern s32 D_800DEB70;
 s32 resolve_record_orientation_or_fallback();
 s32 func_80069EF8(void);
 void apply_attack_power_and_element_effects();
-s32 scan_monster_along_heading();
+s32 scan_actor_along_heading();
 s32 get_definition_entry_byte_13();
 s32 check_enabled_neighbor_height();
 extern u8 D_800DEBD8;
 extern s32 rand(void);
 void update_directional_actor_effect(void *effect, void *motion, void *sprite);
-void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite);
-void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, Effect *effect);
+void move_the_effect_count_down_timer_fade_sprite_black(void *effect, S_8182D544_2 *motion, SpriteFrameState *sprite);
+void advance_motion_damping_downward_acceleration_count_down_fade_effect(Object *object, Motion *motion, SpriteFrameState *effect);
 #endif

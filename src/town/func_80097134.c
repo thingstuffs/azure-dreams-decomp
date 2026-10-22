@@ -6,8 +6,8 @@
 
 extern s32 D_800935BC;
 
-void func_80094894(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2) {
-    call_the_handler_selects_nonzero_entry((s32 *) D_800D00A0, record, ptr2);
+void init_target_tile_action(Rec_func_80094268_arg0 *record, void *unused, void *handler_context) {
+    call_the_handler_selects_nonzero_entry((s32 *) D_800D00A0, record, handler_context);
     record->unk_00.as_pm = &D_800935BC;
     record->unk_0A.as_s16 = 0xA;
 }

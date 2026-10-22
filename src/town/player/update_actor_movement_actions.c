@@ -8,7 +8,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
-void func_80094088(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
+void init_threshold_countdown_action(Rec_func_80094268_arg0 *record, void *ptr, void *ptr2);
 struct Rec_func_80094268_arg0; struct S_800942B0_0; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct S_800942B0_0 *, s32);     /* extern */
 void initialize_action_object(s32 **record, void *ptr, void *ptr2);
 void initialize_action_object_and_play_sound(s32 * *, s32, s32);     /* extern */
@@ -75,7 +75,7 @@ void update_actor_movement_actions(Rec_func_80094268_arg0 *action, EntityRec *ac
             return;
         }
         if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            func_80094088(action, actor, context);
+            init_threshold_countdown_action(action, actor, context);
             return;
         }
     } else if (select_an_available_entry_matching_direction_returns_status(&D_800CFCB4) <= 0) {

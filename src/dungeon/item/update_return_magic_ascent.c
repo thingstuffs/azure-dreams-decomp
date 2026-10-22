@@ -1,4 +1,5 @@
 #include "shared/runtime_dispatch.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/transition_slots.h"
 #include "shared/tile_object.h"
@@ -6,12 +7,12 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
+#include "dungeon/player/item.h"
 
 typedef struct {
     u8 pad0[0x8D0];
     void *nextPrim;
 } RenderState;
-
 
 typedef struct {
     u8 pad0[4];
@@ -67,7 +68,6 @@ extern void begin_deferred_player_item_effect();
 extern s32 reserve_runtime_slot();
 extern void set_sprite_animation_frame();
 extern void snapshot_inventory_and_familiars();
-extern void snapshot_inventory_familiar_records();
 extern void draw_transformed_sprite_with_clip_rect();
 extern void request_scene_state_with_parameters();
 
@@ -177,7 +177,7 @@ void update_return_magic_ascent(DungeonObject *obj, MotionState *motion, EffectS
             parent_motion->field8 = motion->field8;
             motion->field14 = motion->field14 + 0xFFFC0000;
             if (obj->handle[0x13] == 0 &&
-                (*(u16 *)(*(u8 **)((u8 *)dungeon_actor_ring_anchor - 0x14) + 0x14) & 0x6000)) {
+                (*(u16 *)(*(u8 * *)&((ObjectNodeHeader *)((u8 *)dungeon_actor_ring_anchor - 0x20))->sprite + 0x14) & 0x6000)) {
                 s16 entry_index = reserve_runtime_slot(6, 0x20);
                 u8 *entry_table = (u8 *)runtime_transition_slots;
                 s16 *entry_flag;

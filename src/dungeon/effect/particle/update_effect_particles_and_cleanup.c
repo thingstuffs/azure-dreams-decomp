@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -8,6 +9,7 @@
 #include "m2c_compat.h"
 #include "shared/dungeon_moving_views.h"
 #include "shared/object_links.h"
+#include "dungeon/effect/motion.h"
 
 typedef struct { u8 bytes[8]; } Packed8 __attribute__((packed));
 typedef struct { u8 bytes[12]; } Packed12 __attribute__((packed));
@@ -26,7 +28,6 @@ typedef union {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void apply_random_actor_value_adjustment();          /* extern */
-void spawn_jittered_child_effect(); /* extern */
 void create_owner_linked_mirrored_sprite(); /* extern */
 s32 resolve_record_orientation_or_fallback();     /* extern */
 s32 register_node();           /* extern */
@@ -48,7 +49,6 @@ extern Packed12 D_80025E58;
 extern Packed12 D_80025E70;
 extern s16 D_80025E80;
 extern u8 current_spell_effect_variant;
-
 
 typedef struct S_818FF710_0 {
     u8 pad_00[0x8];
@@ -73,8 +73,6 @@ typedef struct S_818FF710_1 {
     s16 unk_1C;
     s16 unk_1E;
 } S_818FF710_1;   /* arg2 in update_effect_particles_and_cleanup */
-
-
 
 typedef struct S_818FF710_2 {
     u8 pad_00[0x2A];
@@ -106,8 +104,6 @@ typedef struct S_818FF710_5 {
     s32 unk_14;
 } S_818FF710_5;   /* arg1 in update_effect_particles_and_cleanup */
 
-
-
 typedef struct S_818FF710_7_pre {
     void * unk_00;
     u8 pad_04[0x14];
@@ -122,10 +118,6 @@ typedef struct S_818FF710_8 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_818FF710_8;
-
-
-
-
 
 typedef struct S_818FF710_10 {
     u8 pad_00[0x13];
@@ -182,12 +174,6 @@ typedef struct S_818FF710_15 {
     s16 unk_22;
 } S_818FF710_15;
 
-typedef struct S_818FF710_16 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818FF710_16;
-
 typedef struct S_818FF710_17 {
     s32 unk_00;
     s32 unk_04;
@@ -209,12 +195,6 @@ typedef struct S_818FF710_18 {
     s16 unk_1C;
     s16 unk_1E;
 } S_818FF710_18;
-
-typedef struct S_818FF710_19 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818FF710_19;
 
 typedef struct S_818FF710_20 {
     s32 unk_00;
@@ -238,12 +218,6 @@ typedef struct S_818FF710_21 {
     s16 unk_1E;
 } S_818FF710_21;
 
-typedef struct S_818FF710_22 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818FF710_22;
-
 typedef struct S_818FF710_23 {
     s32 unk_00;
     s32 unk_04;
@@ -265,12 +239,6 @@ typedef struct S_818FF710_24 {
     s16 unk_1C;
     s16 unk_1E;
 } S_818FF710_24;
-
-typedef struct S_818FF710_25 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818FF710_25;
 
 typedef struct S_818FF710_26 {
     s32 unk_00;
@@ -363,15 +331,15 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
     S_818FF710_14 *child_effect;
     MovingPosition *parent_position;
     void *parent;
-    void *third_object;
-    void *fourth_object;
-    void *first_object;
-    void *second_object;
+    ObjectNodeHeader *third_object;
+    ObjectNodeHeader *fourth_object;
+    ObjectNodeHeader *first_object;
+    ObjectNodeHeader *second_object;
     S_818FF710_11 *target_hit_flags;
-    S_818FF710_16 *first_position;
-    S_818FF710_19 *second_position;
-    S_818FF710_22 *third_position;
-    S_818FF710_25 *fourth_position;
+    ObjectPosition *first_position;
+    ObjectPosition *second_position;
+    ObjectPosition *third_position;
+    ObjectPosition *fourth_position;
     S_818FF710_27 *target_release_flags;
     void *flight_target;
     void *impact_target;
@@ -594,12 +562,12 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             return;
         }
         first_object = allocate_flagged_object_node(0x212);
-        child_effect = first_object + 0x20;
+        child_effect = ((void *)first_object) + 0x20;
         if (first_object != NULL) {
             child_effect->unk_02 = 0x78;
-            (*(s32 **)((u8 *)first_object + 0x10)) = &D_800246F8;
+            (first_object->unk_10) = &D_800246F8;
             register_node(first_object, project_sprite_chain);
-            first_sprite = (*(void **)((u8 *)first_object + 0xC));
+            first_sprite = (first_object->sprite);
             first_sprite->unk_06 = 0;
             render_value = first_sprite->unk_14 | 0xC;
             first_sprite->unk_14 = render_value;
@@ -608,14 +576,14 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             sprite_flags = first_sprite->unk_14;
             state = sprite_flags | 0x80;
             first_sprite->unk_14 = state;
-            first_position = (*(void **)((u8 *)first_object + 8));
+            first_position = (first_object->position);
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-            first_position->unk_00 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_00;
-            first_position->unk_04 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_04;
-            first_position->unk_08 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_08;
-            first_sprite = (*(void **)((u8 *)first_object + 0xC));
+            first_position->x.v = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_00;
+            first_position->y.v = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_04;
+            first_position->z.v = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_08;
+            first_sprite = (first_object->sprite);
             first_sprite->unk_1C = 0x1004;
             first_sprite->unk_1E = 0x1004;
             first_sprite->unk_22 = (s16) ((s32) (0
@@ -624,16 +592,16 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             first_sprite->unk_0D = 0x80;
             first_sprite->unk_0C = 0x80;
             (*(Packed12 *)((u8 *)first_object + 0x40)) = D_80025E34;
-            first_sprite->unk_08 = (void *) (first_object + 0x40);
+            first_sprite->unk_08 = (void *) (((void *)first_object) + 0x40);
             ((S_818FF710_32 *)(first_sprite->unk_08))->unk_04 = func_80066460(2, 2, 0x340, 0x154);
         }
         second_object = allocate_flagged_object_node(0x212);
-        child_effect = second_object + 0x20;
+        child_effect = ((void *)second_object) + 0x20;
         if (second_object != NULL) {
             child_effect->unk_02 = 0x78;
-            (*(s32 **)((u8 *)second_object + 0x10)) = &advance_timed_visual_effect;
+            (second_object->unk_10) = &advance_timed_visual_effect;
             register_node(second_object, project_sprite_chain);
-            second_sprite = (*(void **)((u8 *)second_object + 0xC));
+            second_sprite = (second_object->sprite);
             second_sprite->unk_14 &= 0xFFF3;
             second_sprite->unk_10 = 0x20;
             second_sprite->unk_14 |= 0x80;
@@ -642,30 +610,30 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             child_effect->unk_34 = effect;
             child_effect->unk_30 = follow_target;
             second_sprite->unk_06 = 0;
-            second_position = (*(void **)((u8 *)second_object + 8));
+            second_position = (second_object->position);
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-            second_position->unk_00 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_00;
-            second_position->unk_04 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_04;
-            second_position->unk_08 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_08;
-            second_sprite = (*(void **)((u8 *)second_object + 0xC));
+            second_position->x.v = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_00;
+            second_position->y.v = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_04;
+            second_position->z.v = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_08;
+            second_sprite = (second_object->sprite);
             second_sprite->unk_1E = 0x1000;
             second_sprite->unk_1C = 0x1000;
             second_sprite->unk_0E = 0x80;
             second_sprite->unk_0D = 0x80;
             second_sprite->unk_0C = 0x80;
             (*(Packed12 *)((u8 *)second_object + 0x40)) = D_80025E40;
-            second_sprite->unk_08 = (void *) (second_object + 0x40);
+            second_sprite->unk_08 = (void *) (((void *)second_object) + 0x40);
             ((S_818FF710_33 *)(second_sprite->unk_08))->unk_04 = func_80066460(2, 1, 0x340, 0x1A8);
         }
         third_object = allocate_flagged_object_node(0x212);
-        child_effect = third_object + 0x20;
+        child_effect = ((void *)third_object) + 0x20;
         if (third_object != NULL) {
             child_effect->unk_02 = 0x78;
-            (*(s32 **)((u8 *)third_object + 0x10)) = &D_800245EC;
+            (third_object->unk_10) = &D_800245EC;
             register_node(third_object, project_sprite_chain);
-            second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)third_object + 0xC));
+            second_sprite = (S_818FF710_18 *)(third_object->sprite);
             ((S_818FF710_21 *)((void *)second_sprite))->unk_06 = 0;
             render_value = ((S_818FF710_21 *)((void *)second_sprite))->unk_14 & 0xFFF3;
             ((S_818FF710_21 *)((void *)second_sprite))->unk_14 = render_value;
@@ -674,24 +642,24 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             sprite_flags = ((S_818FF710_21 *)((void *)second_sprite))->unk_14;
             state = sprite_flags | 0x80;
             ((S_818FF710_21 *)((void *)second_sprite))->unk_14 = state;
-            third_position = (*(void **)((u8 *)third_object + 8));
+            third_position = (third_object->position);
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-            third_position->unk_00 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_00;
-            third_position->unk_04 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_04;
-            third_position->unk_08 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_08;
-            second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)third_object + 0xC));
+            third_position->x.v = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_00;
+            third_position->y.v = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_04;
+            third_position->z.v = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_08;
+            second_sprite = (S_818FF710_18 *)(third_object->sprite);
             ((S_818FF710_21 *)((void *)second_sprite))->unk_0E = 0x80;
             ((S_818FF710_21 *)((void *)second_sprite))->unk_0D = 0x80;
             ((S_818FF710_21 *)((void *)second_sprite))->unk_0C = 0x80;
             ((S_818FF710_21 *)((void *)second_sprite))->unk_1E = 0;
             ((S_818FF710_21 *)((void *)second_sprite))->unk_1C = 0;
             (*(Packed12 *)((u8 *)third_object + 0x40)) = D_80025E58;
-            ((S_818FF710_21 *)((void *)second_sprite))->unk_08 = (void *) (third_object + 0x40);
+            ((S_818FF710_21 *)((void *)second_sprite))->unk_08 = (void *) (((void *)third_object) + 0x40);
         }
         fourth_object = allocate_flagged_object_node(0x212);
-        child_effect = fourth_object + 0x20;
+        child_effect = ((void *)fourth_object) + 0x20;
         if (fourth_object != NULL) {
             particle_owner = fourth_object;
             sprite_resource = (void *) project_sprite_chain;
@@ -699,12 +667,12 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             fourth_position = (void *) ((S_818FF710_2 *)parent)->unk_60;
             child_effect->unk_30 = (void *) fourth_position;
             child_effect->unk_34 = effect;
-            child_effect->unk_38 = first_object + 0x20;
-            child_effect->unk_3C = third_object + 0x20;
-            child_effect->unk_40 = second_object + 0x20;
-            (*(s32 **)((u8 *)fourth_object + 0x10)) = &update_tiled_fade_effect;
+            child_effect->unk_38 = ((void *)first_object) + 0x20;
+            child_effect->unk_3C = ((void *)third_object) + 0x20;
+            child_effect->unk_40 = ((void *)second_object) + 0x20;
+            (fourth_object->unk_10) = &update_tiled_fade_effect;
             register_node(particle_owner, sprite_resource);
-            second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)fourth_object + 0xC));
+            second_sprite = (S_818FF710_18 *)(fourth_object->sprite);
             ((S_818FF710_24 *)((void *)second_sprite))->unk_06 = 0;
             render_value = ((S_818FF710_24 *)((void *)second_sprite))->unk_14 | 0xC;
             ((S_818FF710_24 *)((void *)second_sprite))->unk_14 = render_value;
@@ -713,21 +681,21 @@ void update_effect_particles_and_cleanup(void *effect, void *motion, void *sprit
             sprite_flags = ((S_818FF710_24 *)((void *)second_sprite))->unk_14;
             state = sprite_flags | 0x80;
             ((S_818FF710_24 *)((void *)second_sprite))->unk_14 = state;
-            fourth_position = (*(void **)((u8 *)fourth_object + 8));
+            fourth_position = (fourth_object->position);
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-            fourth_position->unk_00 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_00;
-            fourth_position->unk_04 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_04;
-            fourth_position->unk_08 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_08;
-            second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)fourth_object + 0xC));
+            fourth_position->x.v = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_00;
+            fourth_position->y.v = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_04;
+            fourth_position->z.v = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_08;
+            second_sprite = (S_818FF710_18 *)(fourth_object->sprite);
             ((S_818FF710_24 *)((void *)second_sprite))->unk_1E = 0x1000;
             ((S_818FF710_24 *)((void *)second_sprite))->unk_1C = 0x1000;
             ((S_818FF710_24 *)((void *)second_sprite))->unk_0E = 0x80;
             ((S_818FF710_24 *)((void *)second_sprite))->unk_0D = 0x80;
             ((S_818FF710_24 *)((void *)second_sprite))->unk_0C = 0x80;
             (*(Packed12 *)((u8 *)fourth_object + 0x40)) = D_80025E28;
-            ((S_818FF710_24 *)((void *)second_sprite))->unk_08 = (void *) (fourth_object + 0x40);
+            ((S_818FF710_24 *)((void *)second_sprite))->unk_08 = (void *) (((void *)fourth_object) + 0x40);
         }
         spawn_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));
         if (spawn_tick != impact_tick) {

@@ -1,4 +1,5 @@
 /* Pulunpa map selection and actor action and animation updates. */
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -14,12 +15,10 @@ typedef struct S_800AA258_2 S_800AA258_2;
 #include "records/Rec_func_800AA258_arg2.h"
 typedef struct S_8017405C_1 S_8017405C_1;
 
-
 typedef struct S_set_map_0 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_set_map_0;   /* arg3 in set_map */
-
 
 typedef struct S_80173B98_2 {
     u8 pad_00[0x14];
@@ -34,8 +33,6 @@ typedef struct S_80173B98_2 {
     u8 pad_27[0x5];
     void * unk_2C;
 } S_80173B98_2;   /* arg2 in update_creature_actions_and_animation */
-
-
 
 void select_sprite_entry(void *sprite, u8 frame, s32 mode);
 s32 check_entity_relation(void *creature, s32 offset);
@@ -61,8 +58,8 @@ extern M2C_UNK D_80176358;
 extern M2C_UNK D_80176360;
 extern M2C_UNK D_80176370;
 
-static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) {
-    (((S_80173B98_2 *)sprite)->unk_2C) = (void *)direction_map;
+static __inline__ void set_map(SpriteFrameState *sprite, void *creature, u8 *direction_map) {
+    (sprite->frameTable) = (void *)direction_map;
     select_sprite_entry(sprite, direction_map[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_set_map_0 *)creature)->unk_2A + 0x100)
         >> 9) & 7], 0);
 }
@@ -134,7 +131,7 @@ void update_creature_actions_and_animation(void *actor, s32 context, void *sprit
             update_actor_status_and_mp(creature);
             return;
         }
-        if (((S_80173B98_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (((S_80173B98_2 *)sprite)->unk_24.at00u.v == reference_tile_object.tile_position.word) {
             choose_heading_and_advance_actor(actor, context, sprite, creature);
             return;
         }

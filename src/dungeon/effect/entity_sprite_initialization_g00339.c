@@ -1,27 +1,29 @@
 /* Entity sprite initialization (G00339). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800ACB90. */
 #include "dungeon/effect/entity_sprite_initialization_g00339.h"
+#include "dungeon/effect.h"
+#include "shared/sprite_frame_state.h"
 
 /* Initialize the entity sprite position, scale, color, and active state. */
-void initialize_entity_sprite_effect(void *entity, EntityRec *position, void *sprite, s16 unused)
+void initialize_entity_sprite_effect(void *entity, EntityRec *position, SpriteFrameState *sprite, s16 unused)
 {
     u8 *state = (u8 *)entity + 0x20;
 
-    ((S_800B22F0_0 *)sprite)->unk_26 =
-        find_active_rect_containing_point(((S_800B22F0_0 *)sprite)->unk_24, ((S_800B22F0_0 *)sprite)->unk_25);
-    set_record_integer_tile_center(position, ((S_800B22F0_0 *)sprite)->unk_24, ((S_800B22F0_0 *)sprite)->unk_25);
+    sprite->unk_26 =
+        find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
 
     ((S_800B22F0_1 *)state)->unk_88 =
         sample_terrain_surface_height(((u16)position->x.w.i), ((u16)position->y.w.i),
                       (s16)(((u16)position->z.w.i) - 0x20));
 
-    ((S_800B22F0_0 *)sprite)->unk_1E = 0x1000;
-    ((S_800B22F0_0 *)sprite)->unk_1C = 0x1000;
-    ((S_800B22F0_0 *)sprite)->unk_0C = 0x2C808080;
-    ((S_800B22F0_0 *)sprite)->unk_14 |= 0x8000;
+    sprite->scale_y = 0x1000;
+    sprite->scale_x = 0x1000;
+    sprite->color.word = 0x2C808080;
+    sprite->flags |= 0x8000;
     clear_entry_flag_and_link_owner(entity);
 
-    cycle_map_cell_flags(((S_800B22F0_0 *)sprite)->unk_24, ((S_800B22F0_0 *)sprite)->unk_25,
+    cycle_map_cell_flags(sprite->unk_24, sprite->unk_25,
                   (((S_800B22F0_1 *)state)->unk_1C & 0x2000) ? 0x300 : 0x3000);
 
     ((S_800B22F0_1 *)state)->unk_AD = 1;

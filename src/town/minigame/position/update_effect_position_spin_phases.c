@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/entity_objects.h"
 extern int abs(int);
 
@@ -60,7 +61,7 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
 
     if (world_pos->y.v > 0x035FFFFF ? distance < 185 : distance < 193) {
         close_pos = &view_reference_entity;
-        if (S16(close_pos, 0xA) >= S16(target_arg, 0xA)) {
+        if (close_pos->z.w.i >= S16(target_arg, 0xA)) {
             close_pos->x.v = S32(state_arg, 4);
             close_pos->y.v = S32(state_arg, 8);
         }
@@ -73,7 +74,7 @@ void update_effect_position_spin_phases(void *state_arg, void *target_arg, void 
     } else if (distance < 209) {
         ObjectPosition *mid_pos;
         mid_pos = &view_reference_entity;
-        if (S16(mid_pos, 0xA) >= S16(target_arg, 0xA)) {
+        if (mid_pos->z.w.i >= S16(target_arg, 0xA)) {
             mid_pos->x.v = S32(state_arg, 4);
             mid_pos->y.v = S32(state_arg, 8);
         }

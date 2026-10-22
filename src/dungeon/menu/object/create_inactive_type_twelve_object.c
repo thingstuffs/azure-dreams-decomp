@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
@@ -65,7 +66,7 @@ extern u8 D_800DD7E0[];
 
 /* Create and initialize the type 0x12 object if it is not already active. */
 void create_inactive_type_twelve_object(void) {
-    Obj12 *object;
+    ObjectNodeHeader *object;
 
     if (!(dungeon_floor_flags & 0x80)) {
         object = allocate_flagged_object_node(0x12);
@@ -77,7 +78,7 @@ void create_inactive_type_twelve_object(void) {
                 u16 field_value_2;
                 u16 field_z;
                 Obj12State *object_state;
-                Obj12Child *child;
+                ObjectPosition *child;
                 s32 color;
                 void *config_value;
                 s32 config_word;
@@ -85,9 +86,9 @@ void create_inactive_type_twelve_object(void) {
                 s32 flags;
                 SpriteFrameState *render_data;
 
-                child = object->unk_08;
-                child->unk_0A = -1;
-                render_data = object->unk_0C;
+                child = object->position;
+                child->z.w.i = -1;
+                render_data = object->sprite;
                 render_data->flags = 0xC;
                 render_data->source = D_800DD7E0;
                 config_value = (void *) 0x80010000;
@@ -97,10 +98,10 @@ void create_inactive_type_twelve_object(void) {
                 object_state = (Obj12State *)((u8 *)object + 0x20);
                 object_state->unk_1E = field_value_2;
                 field_value = ((Obj12ConfigPage *)config_value)->unk_3638;
-                child->unk_02 = field_value;
+                child->x.w.i = field_value;
                 object_state->unk_14 = field_value;
                 field_z = ((Obj12ConfigPage *)config_value)->unk_363A;
-                child->unk_06 = field_z;
+                child->y.w.i = field_z;
                 object_state->unk_16 = field_z;
                 object_state->unk_1A = 0x10;
                 object_state->unk_1C = 8;

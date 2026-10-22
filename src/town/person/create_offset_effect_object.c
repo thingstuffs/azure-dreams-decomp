@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -14,21 +15,6 @@ typedef struct S_800C8B8C_0 S_800C8B8C_0;
 void call_owner_callback(S_800C8B8C_0 *owner);
 extern M2C_UNK D_800EE344;
 
-typedef struct S_800C8A68_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800C8A68_0;
-
-typedef struct S_800C8A68_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-} S_800C8A68_1;
-
    /* arg0 in create_offset_effect_object */
 
 typedef struct S_800C8A68_3 {
@@ -38,26 +24,26 @@ typedef struct S_800C8A68_3 {
 
 /* Allocate and initialize an object at an offset from the supplied position. */
 s32 create_offset_effect_object(IntVector3 *source_pos) {
-    S_800C8A68_1 *position;
+    ObjectPosition *position;
     S_800C8A68_3 *object_state;
     SpriteFrameState *render_state;
-    void *object;
+    ObjectNodeHeader *object;
     s32 offset_z;
 
     object = allocate_list_node(0x136, ((s32 *)&scene_object_list_anchor.next));
     if (object == NULL) {
         return 0;
     }
-    position = ((S_800C8A68_0 *)object)->unk_08;
-    render_state = ((S_800C8A68_0 *)object)->unk_0C;
-    object_state = object + 0x20;
-    position->unk_00 = source_pos->x;
-    position->unk_04 = source_pos->y;
+    position = object->position;
+    render_state = object->sprite;
+    object_state = ((void *)object) + 0x20;
+    position->x.v = source_pos->x;
+    position->y.v = source_pos->y;
     offset_z = source_pos->z + 0xFFDC0000;
-    position->unk_0C = 0x100000;
-    position->unk_10 = 0;
-    position->unk_08 = offset_z;
-    ((S_800C8A68_0 *)object)->unk_10 = &call_owner_callback;
+    position->velocity_x = 0x100000;
+    position->velocity_y = 0;
+    position->z.v = offset_z;
+    object->unk_10 = &call_owner_callback;
     object_state->unk_90 = 2;
     load_indexed_state_value(object_state, position, render_state);
     render_state->scale_y = 0x1000;

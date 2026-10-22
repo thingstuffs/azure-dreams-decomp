@@ -1,6 +1,8 @@
+#include "shared/sprite_frame_state.h"
 /* Shaded tile rendering (G00594). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AF9D8, PD:town/engine:800D1548. */
 #include "town/map/shaded_tile_rendering_g00594.h"
+#include "shared/game_work.h"
 
 /* Set texture coordinates, page, and palette for a 32-by-32 quad. */
 void set_texture_quad_32_uv(s16 texture_page, s16 palette, s8 texture_u, s8 texture_v) {
@@ -73,11 +75,11 @@ void render_shaded_map_tiles(void) {
     s32 one;
     ScratchAddress scratch;
     register void *vertex_input;
-    S_func_800AED64_1 *render_state;
+    GameWork *render_state;
 
     render_state = (S_func_800AED64_1 *)&g_game_work;
     map_data = (u8 *)render_state + 0x1DC;
-    tile_map = render_state->unk_1DC;
+    tile_map = render_state->map.cells;
     vertices = map_data->unk_08;
     normals = map_data->unk_0C;
     func_80064D50((u8 *)render_state + 0x70);
@@ -89,21 +91,21 @@ void render_shaded_map_tiles(void) {
     scratch = (ScratchAddress){ (S_func_800AED64_4 *)0x1F800000 };
     func_80064D20((u8 *)render_state + 0x50);
     if (map_wide_culling[0] != 0) {
-        render_state->unk_1A = -0xB8;
-        render_state->unk_1E = 0x1DA;
+        render_state->view.clip_y = -0xB8;
+        render_state->view.clip_height = 0x1DA;
     } else {
 
-        render_state->unk_1A = -0x88;
-        render_state->unk_1E = 0x1AA;
+        render_state->view.clip_y = -0x88;
+        render_state->view.clip_height = 0x1AA;
     }
     view_bounds = (u8 *)render_state + 0x20;
     build_screen_outline((u8 *)render_state + 0x18, view_bounds, 0);
     work_ptr = view_bounds;
     coord_offset = (void *) (scratch.address | 0x1C);
-    base_color = render_state->unk_A8;
+    base_color = *(s32 *)&render_state->view.tint.word;
     edge_count = (void *) (scratch.address | 0x174);
     scratch.ptr->unk_00 = base_color;
-    ordering_table = render_state->unk_00;
+    ordering_table = render_state->draw_buffer;
     width_shift = map_data->unk_14;
     height_shift = map_data->unk_16;
     max_column = map_data->unk_18;
@@ -125,7 +127,7 @@ void render_shaded_map_tiles(void) {
     scratch.ptr->unk_120 = (s32) max_row;
     scratch.ptr->unk_110 = flat_color;
     scratch.ptr->unk_176 = draw_mode;
-    render_buffer = render_state->unk_00;
+    render_buffer = render_state->draw_buffer;
     scratch.ptr->unk_118 = 0x40 << scratch.ptr->unk_128;
     packet = render_buffer->unk_8D0;
     scratch.ptr->unk_14C = 0xFFFF;
@@ -555,7 +557,7 @@ void render_shaded_map_tiles(void) {
                             break;
                         }
                         if ((u32) scratch.ptr->unk_164 < packet) {
-                            ((S_func_800AED64_6 *)(render_state->unk_00))->unk_8D0 = packet;
+                            ((S_func_800AED64_6 *)(render_state->draw_buffer))->unk_8D0 = packet;
                             {
                                 S_func_800AED64_17 *scene_state;
                                 scene_state = map_runtime_state;
@@ -590,7 +592,7 @@ void render_shaded_map_tiles(void) {
             }
         } while (scratch.ptr->unk_174 != 0);
     }
-    ((S_func_800AED64_6 *)(render_state->unk_00))->unk_8D0 = packet;
+    ((S_func_800AED64_6 *)(render_state->draw_buffer))->unk_8D0 = packet;
     {
         S_func_800AED64_17 *scene_state;
         scene_state = map_runtime_state;

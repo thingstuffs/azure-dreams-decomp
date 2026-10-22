@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "dungeon/monster/clown/create_flagged_actor_object.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -11,7 +12,7 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
     s32 flags_1c;
     SpriteFrameState *placement;
     SignedHeightView *object_data;
-    void *object;
+    ObjectNodeHeader *object;
     S_8016A878_4 *runtime;
     S_8016A878_1 *state;
     s8 saved_x;
@@ -24,13 +25,14 @@ void *create_flagged_actor_object(s16 init_flags, s16 tile_x, s16 tile_y, s16 ob
     saved_y = tile_y;
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
-        state = object + 0x20;
-        ((S_8016A878_0 *)object)->unk_10 = D_8016AA58;
+        state = 
+        ((void *)object)+ 0x20;
+        object->unk_10 = D_8016AA58;
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
-        object_data = ((S_8016A878_0 *)object)->unk_08;
+        object_data = object->position;
         object_data->unk_0A = saved_id;
-        placement = ((S_8016A878_0 *)object)->unk_0C;
+        placement = object->sprite;
         mode = init_flags & 3;
         placement->unk_25 = saved_y;
         runtime = state;

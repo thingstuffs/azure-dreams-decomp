@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
+#include "dungeon/player/object.h"
 
 void append_packed_action_record(); /* extern */
 s32 play_sound_if_enabled();                     /* extern */

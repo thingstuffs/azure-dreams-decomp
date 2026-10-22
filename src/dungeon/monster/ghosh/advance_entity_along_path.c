@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
-
 
 extern s32 select_sprite_entry();
 extern s32 cycle_map_cell_flags();
@@ -12,7 +12,6 @@ extern s16 get_rounded_facing_and_rounding_flag();
 extern s32 func_8016C698();
 
 extern u8 D_80174674[];
-
 
 typedef struct S_8016BD14_0 {
     u8 pad_00[0x1C];
@@ -42,7 +41,6 @@ typedef struct S_8016BD14_2 {
     s32 unk_14;
 } S_8016BD14_2;   /* arg1 in advance_entity_along_path */
 
-
 typedef struct S_8016BD14_4 {
     u8 pad_00[0x7C];
     u8 unk_7C;
@@ -56,7 +54,7 @@ typedef struct S_8016BD14_5 {
 } S_8016BD14_5;   /* (u8 *)ctx + ((S_8016BD14_0 *)ctx)->unk_8A.s in advance_entity_along_path */
 
 /* Advance the entity along its path and update its heading and movement state. */
-void advance_entity_along_path(void *actor, void *action, void *entity, void *path_arg) {
+void advance_entity_along_path(void *actor, void *action, SpriteFrameState *entity, void *path_arg) {
     register void *path;
     s32 step_index;
     s32 old_tile_flags;
@@ -87,8 +85,8 @@ void advance_entity_along_path(void *actor, void *action, void *entity, void *pa
         return;
     }
 
-    if (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8 != D_80174674) {
-        (((Rec_D_80082E80 *)entity)->unk_2C.as_pu8) = D_80174674;
+    if (*(u8 **)&entity->frameTable != D_80174674) {
+        (entity->frameTable) = D_80174674;
         select_sprite_entry(
             entity,
             D_80174674[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BD14_0 *)path)->unk_2A + 0x100) >> 9) & 7],
@@ -96,8 +94,8 @@ void advance_entity_along_path(void *actor, void *action, void *entity, void *pa
     }
 
     old_tile_flags = ((S_8016BD14_0 *)path)->unk_1C;
-    tile_x = ((Rec_D_80082E80 *)entity)->unk_24;
-    tile_y = ((Rec_D_80082E80 *)entity)->unk_25;
+    tile_x = entity->unk_24;
+    tile_y = entity->unk_25;
     old_tile_flags = old_tile_flags & 0x2000;
     update_map_cell_flags_with_item_limit(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
 
@@ -109,23 +107,23 @@ void advance_entity_along_path(void *actor, void *action, void *entity, void *pa
 
     next_x = ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74;
     raw_result = raw_result << 16;
-    ((Rec_D_80082E80 *)entity)->unk_24 = next_x;
+    entity->unk_24 = next_x;
     step = (u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s;
     move_result = raw_result >> 16;
     do {
-        ((Rec_D_80082E80 *)entity)->unk_25 = ((S_8016BD14_4 *)step)->unk_7C;
+        entity->unk_25 = ((S_8016BD14_4 *)step)->unk_7C;
         step_index = ((S_8016BD14_0 *)path)->unk_8A.u;
     } while (0);
     new_tile_flags = ((S_8016BD14_0 *)path)->unk_1C;
     step_index = step_index + 1;
     new_tile_flags = new_tile_flags & 0x2000;
     ((S_8016BD14_0 *)path)->unk_8A.u = step_index;
-    cycle_map_cell_flags(((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25,
+    cycle_map_cell_flags(entity->unk_24, entity->unk_25,
                   new_tile_flags ? 0x300 : 0x3000);
     ((S_8016BD14_0 *)path)->unk_2A = heading;
 
     if (move_result == 3) {
-        if (!(g_dungeon_status.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+        if (!(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
             func_8016C698(actor, action, entity, path);
         } else {
             ((S_8016BD14_1 *)actor)->unk_9A = 15;

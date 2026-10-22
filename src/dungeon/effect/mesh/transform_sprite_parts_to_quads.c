@@ -1,4 +1,5 @@
 #include "shared/gpu_packets.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
@@ -60,15 +61,6 @@ typedef struct S_800D07C8_0 {
     u16 unk_10A;
 } S_800D07C8_0;   /* scratch in transform_sprite_parts_to_quads */
 
-typedef struct S_800D07C8_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800D07C8_1;   /* arg1 in transform_sprite_parts_to_quads */
-
    /* global_page->table[0] in transform_sprite_parts_to_quads */
 
 typedef struct S_800D07C8_4 {
@@ -94,7 +86,7 @@ typedef struct S_800D07C8_5 {
    /* table[0] in transform_sprite_parts_to_quads */
 
 /* Transform sprite parts into textured quads, queue visible quads, and invoke part callbacks. */
-void transform_sprite_parts_to_quads(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
+void transform_sprite_parts_to_quads(s32 context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias) {
     u8 matrix[32];
     u8 *scratch = (u8 *)0x1F800000;
     u8 *part_uv;
@@ -119,24 +111,24 @@ void transform_sprite_parts_to_quads(s32 context, u8 *position, u8 *sprite, s16 
     Callback callback;
 
     ((S_800D07C8_0 *)scratch)->unk_20.p = table[0] + 0xB0;
-    ((S_800D07C8_0 *)scratch)->unk_E4 = ((S_800D07C8_1 *)position)->unk_02;
-    ((S_800D07C8_0 *)scratch)->unk_E8 = ((S_800D07C8_1 *)position)->unk_06;
-    ((S_800D07C8_0 *)scratch)->unk_EC = ((S_800D07C8_1 *)position)->unk_0A;
+    ((S_800D07C8_0 *)scratch)->unk_E4 = position->x.w.i;
+    ((S_800D07C8_0 *)scratch)->unk_E8 = position->y.w.i;
+    ((S_800D07C8_0 *)scratch)->unk_EC = position->z.w.i;
     ((S_800D07C8_0 *)scratch)->unk_8C = 0;
     ((S_800D07C8_0 *)scratch)->unk_84 = 0;
     ((S_800D07C8_0 *)scratch)->unk_7C = 0;
     ((S_800D07C8_0 *)scratch)->unk_74 = 0;
     packet = ((GpuContext *)(table[0]))->packetCursor;
-    ((SpriteFrameState *)sprite)->flags |= 0x8000;
+    sprite->flags |= 0x8000;
     func_800649A0();
-    ((S_800D07C8_0 *)scratch)->unk_108 = ((SpriteFrameState *)sprite)->unk_20;
-    ((S_800D07C8_0 *)scratch)->unk_10A = ((SpriteFrameState *)sprite)->unk_22;
-    ((S_800D07C8_0 *)scratch)->unk_30 = ((SpriteFrameState *)sprite)->scale_x * 2;
-    ((S_800D07C8_0 *)scratch)->unk_34 = ((SpriteFrameState *)sprite)->scale_y * 2;
+    ((S_800D07C8_0 *)scratch)->unk_108 = sprite->unk_20;
+    ((S_800D07C8_0 *)scratch)->unk_10A = sprite->unk_22;
+    ((S_800D07C8_0 *)scratch)->unk_30 = sprite->scale_x * 2;
+    ((S_800D07C8_0 *)scratch)->unk_34 = sprite->scale_y * 2;
     ((S_800D07C8_0 *)scratch)->unk_38 = 0;
-    ((S_800D07C8_0 *)scratch)->unk_100 = ((SpriteFrameState *)sprite)->angle_x;
-    ((S_800D07C8_0 *)scratch)->unk_104 = ((SpriteFrameState *)sprite)->angle_z;
-    ((S_800D07C8_0 *)scratch)->unk_102 = ((SpriteFrameState *)sprite)->angle_y;
+    ((S_800D07C8_0 *)scratch)->unk_100 = sprite->angle_x;
+    ((S_800D07C8_0 *)scratch)->unk_104 = sprite->angle_z;
+    ((S_800D07C8_0 *)scratch)->unk_102 = sprite->angle_y;
     func_80065820(scratch + 0x100, scratch + 0xD0);
     func_80064AE0(matrix);
     func_80064840(matrix, scratch + 0xD0, scratch + 0x50);
@@ -144,8 +136,8 @@ void transform_sprite_parts_to_quads(s32 context, u8 *position, u8 *sprite, s16 
     func_80064D80(scratch + 0x50);
     func_80064CF0(scratch + 0x50);
 
-    part = *(u8 * *)&((SpriteFrameState *)sprite)->source;
-    ((S_800D07C8_0 *)scratch)->unk_24 = ((SpriteFrameState *)sprite)->flags;
+    part = *(u8 * *)&sprite->source;
+    ((S_800D07C8_0 *)scratch)->unk_24 = sprite->flags;
     for (;;) {
         part_uv = part + 8;
         if (!(((S_800D07C8_4 *)part)->unk_00.u & 0x20)) {
@@ -218,7 +210,7 @@ void transform_sprite_parts_to_quads(s32 context, u8 *position, u8 *sprite, s16 
                     vertex_3_visible = screen_y < 0x121U;
                 }
                 if ((first_three_visible | vertex_3_visible) != 0) {
-                    ((SpriteFrameState *)sprite)->flags &= 0x7FFF;
+                    sprite->flags &= 0x7FFF;
                     u_end = ((S_800D07C8_0 *)scratch)->unk_10.s32 + ((S_800D07C8_0 *)scratch)->unk_08.s32;
                     ((S_800D07C8_0 *)scratch)->unk_10.s32 = u_end;
                     if (u_end & 0x100) {
@@ -232,9 +224,9 @@ void transform_sprite_parts_to_quads(s32 context, u8 *position, u8 *sprite, s16 
                     ((S_800D07C8_0 *)scratch)->unk_0C.s32 <<= 8;
                     ((S_800D07C8_0 *)scratch)->unk_14.s32 <<= 8;
                     if (((S_800D07C8_0 *)scratch)->unk_24 & 0x100) {
-                        (*(s16 *)(packet + 0xE)) = ((SpriteFrameState *)sprite)->clut;
+                        (*(s16 *)(packet + 0xE)) = sprite->clut;
                     } else {
-                        (*(s16 *)(packet + 0xE)) = ((SpriteFrameState *)sprite)->clut + (*(u16 *)((u8 *)part_uv
+                        (*(s16 *)(packet + 0xE)) = sprite->clut + (*(u16 *)((u8 *)part_uv
                             + -2));
                     }
                     (*(s16 *)(packet + 0xC)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
@@ -242,7 +234,7 @@ void transform_sprite_parts_to_quads(s32 context, u8 *position, u8 *sprite, s16 
                     (*(s16 *)(packet + 0x18)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
                         + ((S_800D07C8_0 *)scratch)->unk_10.u16;
                     {
-                        s32 tpage_base = ((SpriteFrameState *)sprite)->tpage_abr;
+                        s32 tpage_base = sprite->tpage_abr;
                         s32 tpage;
                         if (tpage_base != 0) {
                             tpage = tpage_base + ((*(u16 *)((u8 *)part_uv + -4)) & 0xFF9F);
@@ -263,7 +255,7 @@ void transform_sprite_parts_to_quads(s32 context, u8 *position, u8 *sprite, s16 
                         ((S_800D07C8_5 *)(packet + 7))->unk_1E--;
                         ((S_800D07C8_5 *)(packet + 7))->unk_2A--;
                     }
-                    color = ((SpriteFrameState *)sprite)->color.word;
+                    color = sprite->color.word;
                     (*(s32 *)(packet + 0x28)) = 0;
                     (*(s32 *)(packet + 0x1C)) = 0;
                     ((S_800D07C8_5_pre *)(packet + 3))->unk_00 = 0xC;

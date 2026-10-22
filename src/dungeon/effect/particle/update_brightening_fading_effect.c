@@ -1,5 +1,6 @@
 /* Animated terrain grids, tile-region restoration, projected quads, and fading particle transitions. */
 #include "modules/dungeon_ovl_197e800.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/tile_object.h"
@@ -246,7 +247,7 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
 {
     s32 rect[2];
     s32 rect_size;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8195ED3C_1 *part;
     void *handle;
 
@@ -259,12 +260,12 @@ void *create_brightening_fading_effect(S_8195ED3C_2 *source, s32 offset)
         rect[0] = 0x01000360;
         rect[1] = rect_size;
         draw_textured_ellipse(&D_80027380, rect, 1, 0);
-        part = ((S_8195ED3C_0 *)obj)->unk_08;
-        ((S_8195ED3C_0 *)obj)->unk_10 = update_brightening_fading_effect;
+        part = obj->position;
+        obj->unk_10 = update_brightening_fading_effect;
         part->unk_02 = source->unk_02;
         part->unk_06 = source->unk_06;
         part->unk_08.at02.v = source->unk_0A;
-        part = ((S_8195ED3C_0 *)obj)->unk_0C;
+        part = obj->sprite;
         part->unk_08.at00.v = &D_800273B0;
         part->unk_1E = 0xC00;
         part->unk_1C = 0xC00;
@@ -342,11 +343,11 @@ void update_effect_and_spawn_fragments(S_8195EE48_0 *state, S_8195EE48_1 *motion
 /* Allocate and initialize an object using the map cell at the supplied position. */
 void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 {
-    void *obj;
+    ObjectNodeHeader *obj;
     SpriteFrameState *work;
     MapGrid *map;
     u8 *coord;
-    void *render;
+    ObjectPosition *render;
     s32 cell_x;
     s32 cell_y;
     u16 cell;
@@ -354,27 +355,27 @@ void *allocate_map_cell_object(s16 world_x, s16 world_y, s16 world_z, s16 coord_
     map = &g_game_work.map;
     obj = allocate_flagged_object_node(2);
     if (obj != NULL) {
-        work = *(void **)((u8 *)obj + 0xC);
+        work = obj->sprite;
         cell_x = world_x / 64;
         cell_y = world_y / 64;
         cell = ((u16 *)map->cells)[(cell_x + (cell_y << map->shiftX)) * 3];
         work->source = cell;
         if (cell == 0) {
-            u16 obj_flags = *(u16 *)((u8 *)obj + 0x1E) | 0x8000;
+            u16 obj_flags = obj->flags | 0x8000;
             s32 global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
-            *(u16 *)((u8 *)obj + 0x1E) = obj_flags;
+            obj->flags = obj_flags;
             object_flag_block.flags = global_flags;
             return NULL;
         }
         coord = (u8 *)obj + 0x20;
-        *(void **)((u8 *)obj + 0x10) = update_effect_and_spawn_fragments;
+        obj->unk_10 = update_effect_and_spawn_fragments;
         register_node(obj, draw_linked_lit_meshes);
-        render = *(void **)((u8 *)obj + 8);
-        ((S_8195EF44_4 *)render)->unk_02 = world_x;
+        render = obj->position;
+        render->x.w.i = world_x;
         ((S_8195EF44_5 *)coord)->unk_38 = world_x;
-        ((S_8195EF44_4 *)render)->unk_06 = world_y;
+        render->y.w.i = world_y;
         ((S_8195EF44_5 *)coord)->unk_3A = world_y;
-        ((S_8195EF44_4 *)render)->unk_0A = world_z;
+        render->z.w.i = world_z;
         ((S_8195EF44_5 *)coord)->unk_3C = world_z;
         work->unk_20 = 0x1000;
         work->scale_y = 0x1000;
@@ -806,8 +807,8 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
     void *init_object;
     void *callback;
     S_8195FB34_2 *render_state;
-    void *object;
-    S_8195FB34_1 *position;
+    ObjectNodeHeader *object;
+    ObjectPosition *position;
     S_8195FB34_3 *object_data;
 
     row_index = 0;
@@ -830,17 +831,17 @@ void create_animated_tile_grid(s16 x, s16 y, s16 z) {
 
         callback = animate_tile_heights_and_transition;
 
-        ((S_8195FB34_0 *)object)->unk_10 = callback;
+        object->unk_10 = callback;
         register_node(init_object, dispatch_seven_by_seven_tile_grid);
-        position = ((S_8195FB34_0 *)object)->unk_08;
-        position->unk_02 = x;
-        position->unk_06 = y;
-        position->unk_0A = z;
-        render_state = ((S_8195FB34_0 *)object)->unk_0C;
+        position = object->position;
+        position->x.w.i = x;
+        position->y.w.i = y;
+        position->z.w.i = z;
+        render_state = object->sprite;
         render_state->unk_1E = 0x2000;
         render_state->unk_1C = 0x2000;
         render_state->unk_0C = 0x808080;
-        object_data = object + 0x20;
+        object_data = ((void *)object) + 0x20;
         render_state->unk_10 = 0x20;
         ((S_8195FB34_0 *)object)->unk_20 = 0xF8F82CC0;
         object_data->unk_04 = 0x13D;
@@ -1057,24 +1058,24 @@ void set_record_pair_to_one(s16 x, s16 y, s16 z, s16 tile_col, s16 tile_row) {
     s32 random_angle;
     s32 primitive_word;
     s16 tile_row_copy;
-    S_8196012C_1 *position;
+    ObjectPosition *position;
     S_8196012C_3 *primitive;
     S_8196012C_2 *render;
-    void *object;
+    ObjectNodeHeader *object;
 
     tile_row_copy = tile_row;
     object = allocate_flagged_object_node(0x202);
     if (object != NULL) {
-        ((S_8196012C_0 *)object)->unk_10 = advance_ballistic_fading_effect;
+        object->unk_10 = advance_ballistic_fading_effect;
         register_node(object, (s32)draw_linked_object_chain);
-        position = ((S_8196012C_0 *)object)->unk_08;
-        position->unk_02 = x;
-        position->unk_06 = y;
-        position->unk_0A = z;
-        position->unk_0E = (rand() & 0xF) - 8;
-        position->unk_12 = (rand() & 0xF) - 8;
-        position->unk_16 = -0x10 - (rand() & 0xF);
-        render = ((S_8196012C_0 *)object)->unk_0C;
+        position = object->position;
+        position->x.w.i = x;
+        position->y.w.i = y;
+        position->z.w.i = z;
+        *((s16 *)&position->velocity_x + 1) = (rand() & 0xF) - 8;
+        *((s16 *)&position->velocity_y + 1) = (rand() & 0xF) - 8;
+        *((s16 *)&position->velocity_z + 1) = -0x10 - (rand() & 0xF);
+        render = object->sprite;
         render->unk_1E = 0x400;
         render->unk_1C = 0x400;
         random_angle = rand();
@@ -1764,7 +1765,7 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s32 origin_height;
     s16 saved_row;
     s8 *height_row;
-    void *output;
+    ObjectPosition *output;
     void *quad;
     s16 *top_heights;
     s16 *top_row;
@@ -1822,10 +1823,10 @@ void create_terrain_tile_quad(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         local_height += height_br;
         local_height >>= 2;
         local_height += origin_height;
-        ((TempBuffer *)output)->fieldA = local_height;
-        ((TempBuffer *)output)->field2 = local_x_or_height;
+        output->z.w.i = local_height;
+        output->x.w.i = local_x_or_height;
         output = (s16 *)output + 3;
-        *(s16 *)output = local_y;
+        output->x.w.frac = local_y;
         height_or_child = (s32)object->fieldC;
         quad = (void *)&object->field20;
         ((TempChild *)height_or_child)->field1E = 0x800;
@@ -2057,16 +2058,16 @@ void *allocate_nine_position_objects(void *position)
     s32 *object_handler;
     s32 *control_handler;
     s32 last_slot;
-    void *object;
+    ObjectNodeHeader *object;
     s16 slot_offset;
     s16 control_value;
     u16 control_scale;
     u16 pos_x;
     u16 pos_y;
     u16 pos_z;
-    S_81961A04_4 *control;
+    SpriteFrameState *control;
     S_81961A04_3 *state;
-    S_81961A04_2 *positions;
+    ObjectPosition *positions;
 
     source_pos = position;
     slot = 0;
@@ -2076,34 +2077,34 @@ void *allocate_nine_position_objects(void *position)
     do {
         object = allocate_flagged_object_node(2);
         if (object != NULL) {
-            ((S_81961A04_0 *)object)->unk_10 = object_handler;
+            object->unk_10 = object_handler;
             register_node(object, &D_800CEEFC);
-            positions = ((S_81961A04_0 *)object)->unk_08;
+            positions = object->position;
             pos_x = source_pos->unk_02;
-            state = object + 0x20;
-            positions->unk_02 = pos_x;
-            positions->unk_0E = pos_x;
+            state = ((void *)object) + 0x20;
+            positions->x.w.i = pos_x;
+            *((u16 *)&positions->velocity_x + 1) = pos_x;
             state->unk_38 = pos_x;
             pos_y = source_pos->unk_06;
-            positions->unk_06 = pos_y;
-            positions->unk_12 = pos_y;
+            positions->y.w.i = pos_y;
+            *((u16 *)&positions->velocity_y + 1) = pos_y;
             state->unk_3A = pos_y;
             pos_z = source_pos->unk_0A;
-            positions->unk_0A = pos_z;
-            positions->unk_16 = pos_z;
+            positions->z.w.i = pos_z;
+            *((u16 *)&positions->velocity_z + 1) = pos_z;
             state->unk_3C = pos_z;
-            control = ((S_81961A04_0 *)object)->unk_0C;
-            ((SpriteFrameState *)control)->source = control_handler;
+            control = object->sprite;
+            control->source = control_handler;
             if (slot != last_slot) {
-                ((SpriteFrameState *)control)->scale_y = 0x200U;
+                control->scale_y = 0x200U;
             } else {
-                ((SpriteFrameState *)control)->scale_y = 0x800U;
+                control->scale_y = 0x800U;
             }
             slot_offset = (last_slot - slot) * 4;
             control_value = -0x80 - slot_offset;
-            control_scale = ((SpriteFrameState *)control)->scale_y;
-            ((SpriteFrameState *)control)->color.c.r = (s8)control_value;
-            ((SpriteFrameState *)control)->scale_x = control_scale;
+            control_scale = control->scale_y;
+            control->color.c.r = (s8)control_value;
+            control->scale_x = control_scale;
             state->unk_54 = slot;
             if (slot == last_slot) {
                 state->unk_54 = 7;

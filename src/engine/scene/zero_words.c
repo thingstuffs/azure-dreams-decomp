@@ -49,18 +49,18 @@ ObjectNodeHeader *allocate_flagged_object_node(s32 flags)
         buffer = (u8 *)node + 0x124;
         if (flags & 0x100) {
             buffer = (u8 *)node + 0xF4;
-            node->unk_0C = buffer;
+            node->sprite = buffer;
         } else if (flags & 0x6) {
             buffer = (u8 *)node + 0x100;
-            node->unk_0C = buffer;
+            node->sprite = buffer;
         } else if (flags & 0x41) {
             buffer = (u8 *)node + 0x10C;
-            node->unk_0C = buffer;
+            node->sprite = buffer;
         }
 
         if (flags & 0x157) {
             buffer = buffer - 0x18;
-            node->unk_08 = buffer;
+            node->position = buffer;
         }
 
         return node;

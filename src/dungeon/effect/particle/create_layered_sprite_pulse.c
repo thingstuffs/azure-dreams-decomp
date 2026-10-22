@@ -18,19 +18,6 @@ typedef struct S_801676CC_0 {
     s16 unk_1A;
 } S_801676CC_0;
 
-typedef struct S_801676CC_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_801676CC_1;
-
-typedef struct S_801676CC_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_801676CC_3;
-
 /* Creates sixteen effects at the given position with increasing sprite scales. */
 void create_layered_sprite_pulse(EntityRec *origin) {
     s16 scale_x;
@@ -39,9 +26,9 @@ void create_layered_sprite_pulse(EntityRec *origin) {
     s16 initial_ticks;
     void *effect_data;
     SpriteFrameState *render_params;
-    S_801676CC_3 *position;
+    ObjectPosition *position;
     SpriteFrameState *sprite;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_801676CC_0 *effect_state;
 
     effect_index = 0;
@@ -52,19 +39,19 @@ void create_layered_sprite_pulse(EntityRec *origin) {
     do {
         effect = allocate_flagged_object_node(0x212);
         if (effect != NULL) {
-            effect_state = effect + 0x20;
+            effect_state = ((void *)effect) + 0x20;
             effect_state->unk_18 = initial_ticks;
             effect_state->unk_1A = initial_ticks;
-            ((S_801676CC_1 *)effect)->unk_10 = effect_data;
+            effect->unk_10 = effect_data;
             register_node(effect, project_sprite_chain);
-            render_params = ((S_801676CC_1 *)effect)->unk_0C;
+            render_params = effect->sprite;
             render_params->tpage_abr = 0x60;
             render_params->flags = (u16) (render_params->flags | 0xC);
-            position = ((S_801676CC_1 *)effect)->unk_08;
-            position->unk_00 = (s32) origin->x.v;
-            position->unk_04 = (s32) origin->y.v;
-            position->unk_08 = (s32) (origin->z.v + 0xFFC00000);
-            sprite = ((S_801676CC_1 *)effect)->unk_0C;
+            position = effect->position;
+            position->x.v = (s32) origin->x.v;
+            position->y.v = (s32) origin->y.v;
+            position->z.v = (s32) (origin->z.v + 0xFFC00000);
+            sprite = effect->sprite;
             sprite->scale_x = scale_x;
             sprite->scale_y = scale_y;
             sprite->color.c.b = 0;

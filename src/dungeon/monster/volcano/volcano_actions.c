@@ -1,9 +1,11 @@
 /* Volcano actor spawning, movement, attacks, spell sequences, and sprite effects. */
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/system.h"
+#include "engine/cd.h"
+#include "dungeon/monster/volcano.h"
 #include "shared/actor_action_flags.h"
 #include "shared/object_flags.h"
 void *(*const e0365c_spawn_entry)(s16,s16,s16,s16) = spawn_mode_dependent_112_object;
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
 /* Creates a Volcano actor at the supplied tile and height, then initializes mode flags, status, and
@@ -61,7 +63,7 @@ void *spawn_mode_dependent_112_object(s16 flags,s16 attr_x,s16 attr_y,s16 attr_h
  }
  return actor;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
 void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *motion, void *monster)
@@ -195,7 +197,7 @@ void update_entity_facing_and_ground(void *entity, E_80170A58_S_80170A58_2 *moti
     ((E_80170A58_S_80170A58_0 *)monster)->unk_14 |= 0x40;
 
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Selects movement, attacks, and spells from actor status, MP, and its position relative to the player. */
 void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_in, void *sprite_in, void *status_in)
@@ -407,7 +409,7 @@ update_table:
                 (u32)anim_table),
         0);
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Chooses a clear step or attack, records the actor's path, and updates occupied tiles and movement
  * counts. */
@@ -445,7 +447,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
     actor_flags = *(s32 *)(actor + 0x1C);
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            target_record = find_valid_monster_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25));
+            target_record = find_adjacent_actor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25));
             if (target_record != 0) {
                 target_tile = *((void **) (((u8 *) target_record) + (-0x14)));
                 *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(target_tile
@@ -478,7 +480,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
     else if (actor_flags & 0x2000) {
         if (!((*(u16 *)(actor + 0x46)) & 0x8000)) {
             if (!(actor_flags & 0x20000)) {
-                rebuild_monster_reachable_tiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                select_actor_route_target(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
             }
             else {
                 {
@@ -520,7 +522,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
         {
             s8 tile_kind = *(s8 *)(tile + 0x26);
             if ((tile_kind >= 0) && (dungeon_rooms[tile_kind].flags & 2)) {
-                rebuild_monster_reachable_tiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                select_actor_route_target(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
             }
             else {
                 if (!((*(u16 *)(actor + 0x46)) & 0x8000)) {
@@ -539,7 +541,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
                     }
                 }
                 if (!((*(s32 *)(actor + 0x1C)) & 0x20000)) {
-                    rebuild_monster_reachable_tiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                    select_actor_route_target(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
                 }
                 else {
                     u8 *angle_flags = object + 0x98;
@@ -640,7 +642,7 @@ void update_actor_targeting_and_movement(u8 *object, void *entry_context, u8 *ti
     return;
 
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
 /* Advances one stored path step, updates occupied tiles and facing, and selects the movement animation and
@@ -722,7 +724,7 @@ void advance_actor_path_step(void *action, s32 action_id, void *entity, void *mo
         ((E_80171B68_S_80171570_2 *)action)->unk_96 = 8 / step_count;
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
 void set_actor_directional_animation(void *object, void *unused, SpriteFrameState *display, void *orientation) {
@@ -736,7 +738,7 @@ void set_actor_directional_animation(void *object, void *unused, SpriteFrameStat
     directionIndex = ((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)orientation + 0x2A) + 0x100) >> 9) & 7;
     select_sprite_entry(display, directionTable[directionIndex], 0);
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Checks target compatibility, height, and action availability; starts an adjacent attack when allowed. */
 s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *sprite, ActorRecord *actor) {
@@ -785,7 +787,7 @@ s32 begin_actor_directional_attack(void *action_state, void *action_ctx, void *s
     }
     return -1;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Claims an action slot, starts the directional attack animation, and prepares its target and damage
  * state. */
@@ -807,7 +809,7 @@ void begin_actor_attack_after_status_check(void *action_state, void *action_cont
         }
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -919,7 +921,7 @@ return_tail:
     }
     return 1;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Claims an action slot, starts the directional action animation, and advances status and turn counters. */
 void start_actor_directional_animation(void *actor_state, s32 action_param, void *sprite, ActorRecord *actor) {
@@ -940,7 +942,7 @@ void start_actor_directional_animation(void *actor_state, s32 action_param, void
         }
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void move_actor_to_tile_and_check_trap(E_8017246C_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_actor_movement_to_tile(state,motion,sprite,actor)!=0) {
@@ -952,7 +954,7 @@ void move_actor_to_tile_and_check_trap(E_8017246C_ActionState *state,void *motio
   }
  }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
 /* Hops to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
@@ -1057,13 +1059,13 @@ void update_actor_hop_to_tile(void *anim, ObjectPosition *motion, void *actor, A
         }
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void update_linked_actor_motion_and_trap(E_80172850_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_linked_actor_motion(state,motion,sprite,actor)!=0 &&
     (check_actor_floor_trap(sprite,actor)<<16)>0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Times the attack animation and damage, spends MP, and restores normal actor movement and status. */
 void resolve_actor_attack_damage(void *obj, ObjectPosition *record, void *entity, void *actor) {
@@ -1118,7 +1120,7 @@ void resolve_actor_attack_damage(void *obj, ObjectPosition *record, void *entity
         break;
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Starts a targeted spell and linked effect, then restores movement and status after loading and
  * animation. */
@@ -1172,7 +1174,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
                     ((E_80172A58_S_80172A58_1 *)actor)->unk_73 = (s8) target_position->unk_25;
                 }
             } else {
-                ((E_80172A58_S_80172A58_1 *)actor)->unk_60 = scan_monster_along_heading(actor, sprite->unk_24, sprite->unk_25, ((E_80172A58_S_80172A58_1 *)actor)->unk_2A, 0x10);
+                ((E_80172A58_S_80172A58_1 *)actor)->unk_60 = scan_actor_along_heading(actor, sprite->unk_24, sprite->unk_25, ((E_80172A58_S_80172A58_1 *)actor)->unk_2A, 0x10);
                 ((E_80172A58_S_80172A58_1 *)actor)->unk_72 = abs(((E_80172A58_S_80172A58_1 *)actor)->unk_72);
                 ((E_80172A58_S_80172A58_1 *)actor)->unk_73 = abs(((E_80172A58_S_80172A58_1 *)actor)->unk_73);
             }
@@ -1238,7 +1240,7 @@ void update_actor_spell_action(void *state, E_80172A58_S_80172A58_6 *position, E
         break;
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
 /* Applies a value change and damped motion, then returns the actor to its tile and restores movement. */
@@ -1351,29 +1353,29 @@ void dampen_actor_movement_to_tile(E_80172ED0_S_80172ED0_0 *action, ObjectPositi
         return;
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
-void func_801731BC(void *state,void *position,void *render_state,void *entity) {
+void remove_defeated_volcano(void *state,void *position,void *render_state,void *entity) {
     update_actor_defeat_removal(state,position,render_state,entity);
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
-void func_801731DC(void *state,void *motion,void *sprite,void *actor) {
+void shrink_hopping_volcano(void *state,void *motion,void *sprite,void *actor) {
  update_actor_hop_and_shrink(state,motion,sprite,actor);
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void advance_entity_motion_fade_and_removal(void *state, s32 action, SpriteFrameState *source, EntityRec *target)
 {
     advance_actor_removal(state, action, source, target);
 }
 
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void finish_actor_hop_and_grow_then_resume_facing_animation(E_8017321C_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_actor_hop_and_grow(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Processes actor status while waiting for an effect to clear, then restores the normal animation and
  * movement. */
@@ -1484,7 +1486,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Acto
         }
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -1578,7 +1580,7 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
         actor->flags1C &= ~0x200;
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void update_actor_landing_and_trap(E_801737DC_ActionState *state,void *motion,E_801737DC_RenderState *sprite,E_801737DC_RenderActor *actor) {
  if(update_actor_transform_from_parent(state,motion,sprite,actor)!=0) {
@@ -1588,38 +1590,38 @@ void update_actor_landing_and_trap(E_801737DC_ActionState *state,void *motion,E_
   select_sprite_entry(sprite,D_80174518[((g_game_work.view.camera_rotation.parts.viewAngle+actor->facing+0x100)>>9)&7],0);
  }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void update_thrown_actor_and_trap(E_801738A4_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_thrown_actor_travel(state,motion,sprite,actor)!=0 &&
     (check_actor_floor_trap(sprite,actor)<<16)>0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void finish_actor_terrain_interpolation_then_resume_facing_animation(E_80173908_ActionState *state,void *motion,void *sprite,void *actor) {
  if(interpolate_actor_to_terrain_tile(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void finish_spinning_actor_fall_then_resume_facing_animation(E_80173940_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_spinning_actor_fall(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void finish_actor_fade_in_then_resume_facing_animation(E_80173978_ActionState *state,void *motion,void *sprite,void *actor) {
  if(update_actor_fade_in(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void finish_actor_floor_trap_then_resume_facing_animation(E_801739B0_ActionState *state,void *motion,void *sprite,void *actor) {
  if(resolve_actor_floor_trap_once(state,motion,sprite,actor) > 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void finish_actor_action_flag_propagation_then_resume_facing_animation(E_801739E8_ActionState *state,void *motion,void *sprite,void *actor) {
  if(propagate_actor_action_flag(state,motion,sprite,actor) != 0) state->handler=update_actor_behavior_facing_and_animation_2;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Displays directional effects, creates an actor on the tile ahead, initializes its stats, and spends MP. */
 void advance_actor_state_with_child(void *actor, void *context, void *entity, void *creature)
@@ -1719,7 +1721,7 @@ void advance_actor_state_with_child(void *actor, void *context, void *entity, vo
     }
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Displays the action message and directional effects, then spends MP and restores movement after
  * animation. */
@@ -1763,7 +1765,7 @@ void advance_actor_state_when_allowed(void *state_ctx, s32 entity_id, void *acti
         return;
     }
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Relinks actor state, updates status or movement as needed, and reports whether a new action may start. */
 s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, void *secondary_context_arg, s32 force_state_arg) {
@@ -1806,7 +1808,7 @@ s32 select_actor_relation_state(void *entity_arg, void *primary_context_arg, voi
     ((E_80173E48_S_80172628_0 *)entity)->unk_46 = (u16) (((E_80173E48_S_80172628_0 *)entity)->unk_46 & 0x7FFF);
     return result;
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 /* Grows and animates the sprite, damps horizontal motion, accelerates vertically, and removes finished
  * effects. */
@@ -1827,7 +1829,7 @@ void dampen_actor_motion(void *state_data, s32 *motion, E_80173F8C_Func80DE678C_
     motion[1] += motion[4];
     motion[2] += motion[5];
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
 /* Creates four gray sprite effects with randomized rotation and motion along the actor's facing. */
@@ -1883,7 +1885,7 @@ void create_four_directional_effects(void *owner_arg, void *motion_arg, void *or
 /* MECHANISM: the 24-byte motion block is one aggregate copy from motion_arg (movstrsi leaves its fourth
    word in a1, which the one-argument trig call never reads); the small u16 helpers keep the loop at 88
    real insns so loop.c does not hoist the 0x60 colour constant into a callee-saved register. */
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
 void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *record) {
@@ -1899,7 +1901,7 @@ void advance_effect_record_counters(u16 *counter, s32 unused, SpriteFrameState *
     }
     advance_sprite_animation_and_textures(record);
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 #include "shared/sprite_frame_state.h"
 
 /* Creates a growing gray sprite on the tile ahead and limits its height to the terrain surface. */
@@ -1952,7 +1954,7 @@ s32 create_directional_effect_object(E_801742AC_S_80DE6AAC_2 *source, void *init
 /* MECHANISM: A typed 24-byte assignment restores the packed lw/sw copy and natural seven-register
    frame. An unsigned color byte plus a post-copy schedule seam fixes the immediate and held table-base
    order. The moved shape selects 2.7.2-cdk-G0. */
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void display_formatted_actor_message(void *record) {
  u8 *original;
@@ -1964,7 +1966,7 @@ void display_formatted_actor_message(void *record) {
  clear_byte_and_advance((s8 *)expand_text_control_codes(D_801745CC,current));
  display_text_with_fullwidth_adjustment((s8 *)original);
 }
-#include "modules/dungeon_ovl_e0365c.h"
+#include "dungeon/monster/volcano.h"
 
 void display_entity_action_message(void *record) {
  u8 *original;

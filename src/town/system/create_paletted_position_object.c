@@ -44,7 +44,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
     s32 negative;
     u32 tint_color;
     s32 palette_value;
-    void *object;
+    ObjectNodeHeader *object;
     S_80956E6C_1 *position;
     u32 aux_value;
     SpriteFrameState *primitive;
@@ -53,13 +53,13 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
     object = allocate_flagged_object_node(0x15);
     if (object != 0) {
         palette_entries = palette.value;
-        ((S_80956E6C_0 *)object)->unk_10 = D_80023FA8;
+        object->unk_10 = D_80023FA8;
         register_node(object, D_80044BB0);
 
-        primitive = ((S_80956E6C_0 *)object)->unk_0C;
+        primitive = object->sprite;
         negative = signed_position < 0;
         value = signed_position;
-        position = ((S_80956E6C_0 *)object)->unk_08.p32;
+        position = object->position;
         if (negative) {
             value = -value;
             position->unk_02 = value;
@@ -67,7 +67,7 @@ void create_paletted_position_object(s32 signed_position, s32 palette_index, S_8
             position->unk_02 = value;
         }
         value = 0x80;
-        aux_value = (u32)((S_80956E6C_0 *)object)->unk_08.p32;
+        aux_value = (u32)object->position;
         ((S_80956E6C_2 *)aux_value)->unk_06 = value;
 
         aux_value = 0x60;

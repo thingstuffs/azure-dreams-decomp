@@ -1,3 +1,5 @@
+
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
@@ -7,6 +9,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
 
 extern void select_record_entry_and_value();
 extern void request_scene_dispatch_state(s32);
@@ -14,11 +17,8 @@ extern void apply_pending_byte_increase();
 extern void begin_player_menu_action();
 extern s16 resolve_player_input_facing();
 extern s32 has_action_input_without_modifier(void);
-extern void begin_action_33_and_dispatch();
 extern void reset_record_to_state_34();
-extern void update_actor_movement_and_map_flags();
 extern s32 begin_actor_attack();
-extern void run_saved_actor_action();
 extern void func_80097C50();
 extern void *advance_monster_timed_sequence();
 extern void read_monster_script_entry();

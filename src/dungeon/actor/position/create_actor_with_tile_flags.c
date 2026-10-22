@@ -1,4 +1,7 @@
+
+struct ObjectNodeHeader;
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -24,29 +27,13 @@ typedef struct S_800D3F74_0 {
     s8 unk_9C;
 } S_800D3F74_0;   /* result in create_actor_with_tile_flags */
 
-typedef struct S_800D3F74_1 {
-    u8 pad_00[0x8];
-    s8 * unk_08;
-    s8 * unk_0C;
-    void * unk_10;
-} S_800D3F74_1;   /* object in create_actor_with_tile_flags */
-
-typedef struct S_800D3F74_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_800D3F74_2;   /* part0 in create_actor_with_tile_flags */
-
 extern void *allocate_list_node();
 extern void register_node();
 extern void select_record_entry_and_value();
 extern s8 find_active_rect_containing_point();
 extern void set_record_integer_tile_center();
 extern s16 sample_terrain_surface_height();
-extern void clear_entry_flag_and_link_owner();
+extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *entry);
 extern void cycle_map_cell_flags();
 
 extern u8 D_800D4158;
@@ -56,9 +43,9 @@ extern u8 D_800DEEC0;
 /* Creates an object at the given tile and height, initializing its sprite and tile flags. */
 void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spawn_height)
 {
-    s8 *position;
+    ObjectPosition *position;
     s8 *entity = NULL;
-    s8 *object;
+    ObjectNodeHeader *object;
     u8 saved_tile_y = tile_y;
     u8 saved_tile_x = tile_x;
     SpriteFrameState *sprite;
@@ -69,16 +56,16 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
 
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        entity = object + 0x20;
+        entity = ((s8 *)object) + 0x20;
         ((S_800D3F74_0 *)entity)->unk_13 = 0x34;
         if (variant == 1) {
             ((S_800D3F74_0 *)entity)->unk_14 |= 0x2000;
             ((S_800D3F74_0 *)entity)->unk_1C |= 0x2000;
         }
         register_node(object, project_sprite_chain);
-        position = ((S_800D3F74_1 *)object)->unk_08;
-        ((S_800D3F74_2 *)position)->unk_0A = spawn_height;
-        sprite = ((S_800D3F74_1 *)object)->unk_0C;
+        position = *(s8 * *)&object->position;
+        position->z.w.i = spawn_height;
+        sprite = *(s8 * *)&object->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -89,15 +76,15 @@ void *create_actor_with_tile_flags(s16 variant, u16 tile_x, u16 tile_y, s16 spaw
         sprite->clut = 0x7E40;
         sprite->flags |= 0x100;
         select_record_entry_and_value(sprite, &D_800DEEC0, 0);
-        ((S_800D3F74_1 *)object)->unk_10 = &D_800D4158;
+        object->unk_10 = &D_800D4158;
         ((S_800D3F74_0 *)entity)->unk_8C = &D_800D4494;
         sprite->unk_26 =
             find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
         set_record_integer_tile_center(position, sprite->unk_24,
                      sprite->unk_25);
-        ground_height = sample_terrain_surface_height(((S_800D3F74_2 *)position)->unk_02,
-                               ((S_800D3F74_2 *)position)->unk_06,
-                               ((S_800D3F74_2 *)position)->unk_0A);
+        ground_height = sample_terrain_surface_height(*(u16 *)&position->x.w.i,
+                               *(u16 *)&position->y.w.i,
+                               position->z.w.i);
         ((S_800D3F74_0 *)entity)->unk_88 = ground_height;
         ((S_800D3F74_0 *)entity)->unk_90.at00.v = 0;
         ((S_800D3F74_0 *)entity)->unk_90.at02.v = spawn_height - ground_height;

@@ -1,10 +1,11 @@
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/record_ptrs.h"
 
 extern u8 held_item_record[];
 
 /* Selects a table entry address, fixed buffer, or current data pointer by ID. */
-u8 *select_monster_data_pointer(s32 selector_id) {
+u8 *select_item_record_pointer(s32 selector_id) {
     s16 selector_index = selector_id - 1;
     u8 *result;
     if (selector_index < 0x14) {

@@ -78,7 +78,7 @@ typedef struct S_800243D8_2 {
 /* Advances object spawning, result displays, and high-score handling. */
 void advance_object_spawning_displays_high(State8081A3D8 *controller)
 {
-    u8 *object;
+    ObjectNodeHeader *object;
     u8 *object_data;
     SpriteFrameState *inner_data;
     u8 *callback;
@@ -114,13 +114,13 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 
             object = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
-                u8 *object_tail = object + 0x20;
-                ((S_800243D8_0 *)object)->unk_10 = D_80024B48;
+                u8 *object_tail = ((u8 *)object) + 0x20;
+                object->unk_10 = D_80024B48;
                 register_node(object, project_sprite_chain);
-                inner_data = ((S_800243D8_0 *)object)->unk_0C;
-                ((IntVector3 *)(((S_800243D8_0 *)object)->unk_08))->x = 0x03200000;
-                ((IntVector3 *)(((S_800243D8_0 *)object)->unk_08))->y = 0x02E00000;
-                ((IntVector3 *)(((S_800243D8_0 *)object)->unk_08))->z = 0xFFFC0000;
+                inner_data = *(u8 * *)&object->sprite;
+                ((IntVector3 *)(*(u8 * *)&object->position))->x = 0x03200000;
+                ((IntVector3 *)(*(u8 * *)&object->position))->y = 0x02E00000;
+                ((IntVector3 *)(*(u8 * *)&object->position))->z = 0xFFFC0000;
                 {
                     u16 object_phase = controller->phase;
                     ((S_800243D8_1 *)object_tail)->unk_AC = controller;
@@ -149,8 +149,8 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 
         object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
-            object_data = object + 0x20;
-            ((S_800243D8_0 *)object)->unk_10 = D_80024AC0;
+            object_data = ((u8 *)object) + 0x20;
+            object->unk_10 = D_80024AC0;
             register_node(object, D_80053858);
             ((S_800243D8_2 *)object_data)->unk_14 = 0x7C;
             ((S_800243D8_2 *)object_data)->unk_16.s = 0x78;
@@ -162,8 +162,8 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 
         object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
-            object_data = object + 0x20;
-            ((S_800243D8_0 *)object)->unk_10 = D_80024B04;
+            object_data = ((u8 *)object) + 0x20;
+            object->unk_10 = D_80024B04;
             register_node(object, &display_registration_tag);
             ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x74;
             ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;
@@ -180,8 +180,8 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
     case 2:
         object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
-            object_data = object + 0x20;
-            ((S_800243D8_0 *)object)->unk_10 = D_80024AC0;
+            object_data = ((u8 *)object) + 0x20;
+            object->unk_10 = D_80024AC0;
             register_node(object, D_80053858);
             ((S_800243D8_2 *)object_data)->unk_14 = 0x80;
             ((S_800243D8_2 *)object_data)->unk_16.s = 0x78;
@@ -193,8 +193,8 @@ void advance_object_spawning_displays_high(State8081A3D8 *controller)
 
         object = allocate_list_node(((s32)(1)), ((u8 *)(((u8 *)(&scene_object_list_anchor)))));
         if (object != 0) {
-            object_data = object + 0x20;
-            ((S_800243D8_0 *)object)->unk_10 = D_80024B04;
+            object_data = ((u8 *)object) + 0x20;
+            object->unk_10 = D_80024B04;
             register_node(object, &display_registration_tag);
             ((S_800243D8_2 *)object_data)->unk_0C.at00u.v = 0x78;
             ((S_800243D8_2 *)object_data)->unk_0C.at02.v = 0x74;

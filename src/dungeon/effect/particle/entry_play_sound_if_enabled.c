@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/object_flags.h"
@@ -95,27 +96,6 @@ typedef struct S_818154FC_9 {
     s32 unk_08;
 } S_818154FC_9;   /* motion in func_818154FC */
 
-typedef struct S_818154FC_10 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-    u8 pad_14[0xA];
-    u16 unk_1E;
-} S_818154FC_10;   /* node in func_818154FC */
-
-typedef struct S_818154FC_11 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818154FC_11;
-
-typedef struct S_818154FC_13 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_818154FC_13;   /* saved in func_818154FC */
-
 typedef struct S_818154FC_14 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -158,8 +138,8 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
     u16 spawn_tick;
     u16 angle;
     u8 *point_table;
-    S_818154FC_11 *spawn_position;
-    u8 *node;
+    ObjectPosition *spawn_position;
+    ObjectNodeHeader *node;
     S_818154FC_4 *parent_sprite;
     void *parent;
     S_818154FC_1 *parent_node;
@@ -239,7 +219,7 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                 MovingTile *map;
                 s32 index;
 
-                work = node + 0x20;
+                work = ((u8 *)node) + 0x20;
                 {
                     s16 *entry;
 
@@ -327,12 +307,12 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
                         ((S_818154FC_0 *)effect)->unk_86 = 0x1E;
                     }
                 }
-                spawn_position = ((S_818154FC_10 *)node)->unk_08;
-                ((S_818154FC_10 *)node)->unk_10 = &func_800246DC;
-                spawn_position->unk_00 = ((S_818154FC_0 *)effect)->unk_B0;
-                spawn_position->unk_04 = ((S_818154FC_0 *)effect)->unk_B4;
-                spawn_position->unk_08 = ((S_818154FC_0 *)effect)->unk_B8;
-                spawn_sprite = ((S_818154FC_10 *)node)->unk_0C;
+                spawn_position = node->position;
+                node->unk_10 = &func_800246DC;
+                spawn_position->x.v = ((S_818154FC_0 *)effect)->unk_B0;
+                spawn_position->y.v = ((S_818154FC_0 *)effect)->unk_B4;
+                spawn_position->z.v = ((S_818154FC_0 *)effect)->unk_B8;
+                spawn_sprite = node->sprite;
                 spawn_sprite->color.c.b = 0x80;
                 spawn_sprite->color.c.g = 0x80;
                 spawn_sprite->color.c.r = 0x80;
@@ -349,12 +329,12 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
 
             node = ((S_818154FC_0 *)effect)->unk_90;
             spawn_position = ((S_818154FC_0 *)effect)->unk_94.s;
-            if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
+            if (node->flags & 0x8000) {
                 ((S_818154FC_0 *)effect)->unk_88 = 0;
             } else {
-                position->unk_00.at00.v = ((S_818154FC_13 *)spawn_position)->unk_00;
-                position->unk_04.at00.v = ((S_818154FC_13 *)spawn_position)->unk_04;
-                position->unk_08.at00.v = ((S_818154FC_13 *)spawn_position)->unk_08;
+                position->unk_00.at00.v = spawn_position->x.v;
+                position->unk_04.at00.v = spawn_position->y.v;
+                position->unk_08.at00.v = spawn_position->z.v;
             }
         }
         if ((s16) ((S_818154FC_0 *)effect)->unk_84.s >= 0xB) {
@@ -372,12 +352,12 @@ void emit_attached_directional_particle_chain(void *effect, S_818154FC_5 *positi
 
             node = ((S_818154FC_0 *)effect)->unk_90;
             spawn_position = ((S_818154FC_0 *)effect)->unk_94.s;
-            if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
+            if (node->flags & 0x8000) {
                 ((S_818154FC_0 *)effect)->unk_88 = 0;
             } else {
-                position->unk_00.at00.v = ((S_818154FC_13 *)spawn_position)->unk_00;
-                position->unk_04.at00.v = ((S_818154FC_13 *)spawn_position)->unk_04;
-                position->unk_08.at00.v = ((S_818154FC_13 *)spawn_position)->unk_08;
+                position->unk_00.at00.v = spawn_position->x.v;
+                position->unk_04.at00.v = spawn_position->y.v;
+                position->unk_08.at00.v = spawn_position->z.v;
             }
         }
         {

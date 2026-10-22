@@ -1,6 +1,8 @@
+#include "shared/sprite_frame_state.h"
 /* Map cursor input (G00641). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800BBAA4. */
 #include "town/map/map_cursor_input_g00641.h"
+#include "shared/game_work.h"
 
 /* Store the state byte and invoke the handler at the stored tile center. */
 void store_state_and_update_tile_center(s32 state)
@@ -34,7 +36,7 @@ void update_wrapping_indices_and_input(void) {
     buttons = D_800D185D;
     buttons -= buttons / 67 * 67;
     *(u8 *) &D_800D185D = buttons;
-    buttons = *(s32 *) &input_state->buttons;
+    buttons = input_state->buttons;
     masked_buttons = buttons & 0x500000;
     if (masked_buttons == 0x500000) {
         store_state_and_update_tile_center(D_800D185D);

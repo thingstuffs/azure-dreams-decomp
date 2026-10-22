@@ -1,5 +1,7 @@
 #ifndef DUNGEON_TOWN_MAP_H
 #define DUNGEON_TOWN_MAP_H
+
+struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
@@ -112,7 +114,7 @@ extern void *runtime_find_unused_pool_slot(void);
 extern void runtime_initialize_state_value(void *, s32);
 extern void runtime_clear_value(void *);
 extern void unlink_active_node(void *);
-extern void push_node_onto_free_list(void *);
+extern void push_node_onto_free_list(struct ObjectNodeHeader *);
 extern s8 D_800CFC2C;
 extern u8 town_map_status;
 extern void *register_node(void *, void *);

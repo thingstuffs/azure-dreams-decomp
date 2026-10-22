@@ -1,9 +1,11 @@
 #include "shared/entity_height_offsets.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/level.h"
 
 typedef struct PairAction {
     u8 pad_00[0x8C];
@@ -98,7 +100,6 @@ typedef struct SignedHeight {
 
 void select_sprite_entry();
 void cycle_map_cell_flags();
-s32 is_neighbor_tile_blocked();
 void update_map_cell_flags_with_item_limit();
 s32 advance_status_timers();
 s32 select_dungeon_spawn_tile();
@@ -114,7 +115,7 @@ extern u8 D_801508F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
 /* Moves Garuda and its partner to matching-height neighboring tiles, restores both actors, and spends MP. */
-void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *motion, ActorSprite *sprite, void *entity) {
+void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *motion, SpriteFrameState *sprite, void *entity) {
     ActorMotion *partner_motion;
     s16 saved_x;
     s16 saved_y;
@@ -214,11 +215,11 @@ void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *moti
             partner_tile_mask = 0x300;
         }
         update_map_cell_flags_with_item_limit(partner_x, partner_y, partner_tile_mask);
-        sprite_x = sprite->tileX;
+        sprite_x = sprite->unk_24;
         entity_flags = ((CreatureState *)entity)->flags;
         entity_flags &= 0x2000;
         tile_mask = 0x3000;
-        sprite_y = sprite->tileY;
+        sprite_y = sprite->unk_25;
         if (entity_flags) {
             tile_mask = 0x300;
         }
@@ -264,7 +265,7 @@ void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *moti
         partner_actor->flags = (u16) (partner_actor->flags | 0xC);
         anim_table0 = D_801508F0;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
-        sprite->directionFrames = anim_table0;
+        sprite->frameTable = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) anim_table0;
         select_sprite_entry(sprite, ((AnimationFrame *) launch_anim)->frame, 0);
@@ -294,7 +295,7 @@ void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *moti
             actor->ticks = fall_anim;
         }
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
-        sprite->directionFrames = anim_table1;
+        sprite->frameTable = anim_table1;
         fall_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         fall_anim = fall_anim + (u32) anim_table1;
         select_sprite_entry(sprite, ((AnimationFrame *) fall_anim)->frame, 0);
@@ -341,10 +342,10 @@ void update_paired_actor_movement_and_tiles(PairAction *actor, ActorMotion *moti
                 continue;
             }
             partner_sprite->room = (s8) tile_type;
-            sprite->room = (s8) tile_type;
-            sprite->tileX = partner_sprite->tileX + dir_step_x[direction];
-            sprite->tileY = partner_sprite->tileY + dir_step_y[direction];
-            landing_height = sample_terrain_surface_height((sprite->tileX << 6) | 0x20, (sprite->tileY << 6) | 0x20,
+            sprite->unk_26 = (s8) tile_type;
+            sprite->unk_24 = partner_sprite->tileX + dir_step_x[direction];
+            sprite->unk_25 = partner_sprite->tileY + dir_step_y[direction];
+            landing_height = sample_terrain_surface_height((sprite->unk_24 << 6) | 0x20, (sprite->unk_25 << 6) | 0x20,
                 (s16) (motion->z.parts.integer - 0x80));
             ((CreatureState *)entity)->groundHeight = landing_height;
             if (landing_height >= 0x201) {
@@ -434,10 +435,10 @@ commit_tile_positions:
                 return;
             }
         }
-        final_x = sprite->tileX;
+        final_x = sprite->unk_24;
         final_x = ((final_x << 6) + 0x20) << 0x10;
         motion->x = final_x;
-        final_y = sprite->tileY;
+        final_y = sprite->unk_25;
         reset_entity = entity;
         motion->dy = 0;
         motion->dx = 0;
@@ -466,8 +467,8 @@ commit_tile_positions:
             restore_flags |= restore_mask;
             ((CreatureState *)entity)->flags = restore_flags;
             restore_flags &= 0x2000;
-            restore_x = sprite->tileX;
-            restore_y = sprite->tileY;
+            restore_x = sprite->unk_24;
+            restore_y = sprite->unk_25;
             restore_tile_mask = 0x3000;
             if (restore_flags) {
                 restore_tile_mask = 0x300;
@@ -491,7 +492,7 @@ commit_tile_positions:
         }
         anim_table3 = D_80150888;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
-        sprite->directionFrames = anim_table3;
+        sprite->frameTable = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
         idle_anim = idle_anim + (u32) anim_table3;
         select_sprite_entry(sprite, ((AnimationFrame *) idle_anim)->frame, 0);

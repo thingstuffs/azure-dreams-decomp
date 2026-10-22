@@ -8,7 +8,7 @@ s32 SD_Call();
 extern s32 D_80093524;
 extern s32 D_800D0188;
 
-void func_80094834(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value) {
+void init_linked_position_action(Rec_func_80094268_arg0 *record, s32 unused, s32 setup_value) {
     SD_Call(0x500);
     call_the_handler_selects_nonzero_entry(&D_800D0188, record, (void *)(setup_value));
     record->unk_00.as_pm = &D_80093524;

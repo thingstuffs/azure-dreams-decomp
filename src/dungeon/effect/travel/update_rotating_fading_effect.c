@@ -1,4 +1,6 @@
 /* Rotating linked particles and their travel toward an actor or terrain endpoint. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/travel/update_rotating_fading_effect.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -24,10 +26,8 @@ void func_8002403C(void *target, s32 amount_input, void *owner) {
     }
 }
 
-
 /* Delays a rotating sprite, eases it to its destination, expands and fades it, then plays its final
-   animation. */
-void update_rotating_fading_effect(void *effect, void *position, void *sprite)
+   animation. */void update_rotating_fading_effect(void *effect, void *position, SpriteFrameState *sprite)
 {
     s32 quarter_turn;
     s32 rot;
@@ -41,9 +41,9 @@ void update_rotating_fading_effect(void *effect, void *position, void *sprite)
     owner = *((void **) (((u8 *) effect) + 0));
     *(u16 *)((u8 *) owner + 0x14) = (*(u16 *)((u8 *) owner + 0x14)) + 1;
     *(u16 *)((u8 *) effect + 0x36) = (*(u16 *)((u8 *) effect + 0x36)) + 1;
-    *(u16 *)((u8 *) sprite + 0x1A) = (*(u16 *)((u8 *) sprite + 0x1A)) + 0x10;
-    rot = *(u16 *)((u8 *) sprite + 0x1A);
-    *(u16 *)((u8 *) sprite + 0x1A) = rot & 0xFFF;
+    sprite->angle_z = (sprite->angle_z) + 0x10;
+    rot = sprite->angle_z;
+    sprite->angle_z = rot & 0xFFF;
     switch (*(s16 *)((u8 *) effect + 0x34)) {
     case 0:
         if ((*(s16 *)((u8 *) effect + 0x36)) < (*(s16 *)((u8 *) effect + 0x38))) {
@@ -88,28 +88,28 @@ void update_rotating_fading_effect(void *effect, void *position, void *sprite)
         rounded_random = rand_value;
         *(u16 *)((u8 *) position + 0xA) = z_upper - (rand_value % 4);
 
-        *(u8 *)((u8 *) sprite + 0xE) = (brightness = (*(u8 *)((u8 *) sprite + 0xE)) - 8);
-        scale = (*(u16 *)((u8 *) sprite + 0x1E)) + 0x100;
-        *(u16 *)((u8 *) sprite + 0x1E) = scale;
-        *(u16 *)((u8 *) sprite + 0x1C) = scale;
-        *(u8 *)((u8 *) sprite + 0xD) = brightness;
-        *(u8 *)((u8 *) sprite + 0xC) = brightness;
+        sprite->color.c.b = (brightness = (sprite->color.c.b) - 8);
+        scale = (sprite->scale_y) + 0x100;
+        sprite->scale_y = scale;
+        sprite->scale_x = scale;
+        sprite->color.c.g = brightness;
+        sprite->color.c.r = brightness;
         if (((u16) scale) < 0x1801U) {
             break;
         }
         *(u16 *)((u8 *) effect + 0x34) = (*(u16 *)((u8 *) effect + 0x34)) + 1;
-        *(u8 *)((u8 *) sprite + 0xE) = 0x80;
-        *(u8 *)((u8 *) sprite + 0xD) = 0x80;
-        *(u8 *)((u8 *) sprite + 0xC) = 0x80;
-        *(u16 *)((u8 *) sprite + 0x1E) = 0x1000;
-        *(u16 *)((u8 *) sprite + 0x1C) = 0x1000;
-        *(u16 *)((u8 *) sprite + 0x10) |= 0x20;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
+        sprite->scale_y = 0x1000;
+        sprite->scale_x = 0x1000;
+        sprite->tpage_abr |= 0x20;
         select_record_entry_and_value(sprite, &D_800DECF8, 0);
         return;
 
     case 3:
         advance_sprite_animation_and_textures(sprite);
-        if (!((*(u16 *)((u8 *) sprite + 0x14)) & 0x6000)) {
+        if (!((sprite->flags) & 0x6000)) {
             break;
         }
 
@@ -127,16 +127,16 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
     s16 amplitude;
     s32 angle_x;
     s32 angle_y;
-    void *obj;
+    ObjectNodeHeader *obj;
     ovl_18ca83c_818AABB8_S_800243B8_1 *data;
     SpriteFrameState *sprite;
-    ovl_18ca83c_818AABB8_S_800243B8_6 *position;
+    ObjectPosition *position;
     register s32 start_z;
 
     obj = allocate_flagged_object_node(0x212);
     if (obj != NULL) {
         data = (u8 *)obj + 0x20;
-        ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_10 = (void *)update_rotating_fading_effect;
+        obj->unk_10 = (void *)update_rotating_fading_effect;
         ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_20 = source;
         data->unk_34 = 0;
         data->unk_36 = 0;
@@ -189,7 +189,7 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
         data->unk_2C = data->unk_20 - start->unk_04;
         data->unk_30 = data->unk_24 - start->unk_08;
 
-        sprite = ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_0C;
+        sprite = obj->sprite;
         sprite->color.c.b = 0xFF;
         sprite->color.c.g = 0xFF;
         sprite->color.c.r = 0xFF;
@@ -202,11 +202,11 @@ void *create_randomized_target_effect(Rec_func_800243B8_arg0 *source, ovl_18ca83
         sprite->tpage_abr |= 0x60;
         sprite->flags |= 0xC;
 
-        position = ((ovl_18ca83c_818AABB8_S_800243B8_0 *)obj)->unk_08;
-        position->unk_00 = start->unk_00;
-        position->unk_04 = start->unk_04;
+        position = obj->position;
+        position->x.v = start->unk_00;
+        position->y.v = start->unk_04;
         start_z = start->unk_08;
-        position->unk_08 = start_z;
+        position->z.v = start_z;
         return obj;
     }
     return NULL;

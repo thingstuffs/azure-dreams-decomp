@@ -58,33 +58,33 @@ void apply_tone_parameter_command(S_80057A94 *command) {
         break;
     case 15:
         if (is_tone_parameter_flag_set() == 1) {
-            set_spu_reverb_enabled_if_available(0);
+            SpuSetReverb(0);
         }
         if (command->f4E != 0) {
             message.type = 1;
             message.f4 = command->f4E;
             sound_ram_reserve_mode[0] = command->f4E;
-            configure_spu_reverb(&message);
-            set_spu_reverb_enabled_if_available(1);
+            SpuSetReverbModeParam(&message);
+            SpuSetReverb(1);
         }
         break;
     case 16:
         message.type = 6;
         message.x = command->f4E << 8;
         message.y = command->f4E << 8;
-        configure_spu_reverb(&message);
-        set_spu_reverb_enabled_if_available(1);
+        SpuSetReverbModeParam(&message);
+        SpuSetReverb(1);
         break;
     case 17:
         message.type = 0x10;
         message.f10 = command->f4E;
-        configure_spu_reverb(&message);
+        SpuSetReverbModeParam(&message);
         break;
     case 18:
     case 19:
         message.type = 8;
         message.fc = command->f4E;
-        configure_spu_reverb(&message);
+        SpuSetReverbModeParam(&message);
         break;
     case 0:
     case 13:

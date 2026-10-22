@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -31,29 +32,15 @@ typedef struct S_8016BE20_2 {
     u8 unk_6D;
 } S_8016BE20_2;   /* ctx in advance_actor_transition_sequence */
 
-typedef struct S_8016BE20_3 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    u8 * unk_2C;
-} S_8016BE20_3;   /* actor in advance_actor_transition_sequence */
-
 typedef struct S_8016BE20_4 {
     u8 pad_00[0x28];
     u8 unk_28;
 } S_8016BE20_4;   /* world in advance_actor_transition_sequence */
 
-typedef struct S_8016BE20_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_8016BE20_5;   /* control in advance_actor_transition_sequence */
-
 typedef struct S_8016BE20_6 {
     u8 pad_00[0x10];
     u32 unk_10;
 } S_8016BE20_6;   /* header in advance_actor_transition_sequence */
-
 
 typedef struct ResetFlagWord { u16 flags; } ResetFlagWord;
 
@@ -76,7 +63,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
 {
     void *state = state_arg;
     void *work = work_arg;
-    void *actor = actor_arg;
+    SpriteFrameState *actor= actor_arg;
     void *ctx = ctx_arg;
     u8 *world;
     u8 *anim_table;
@@ -105,7 +92,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
         if (D_80175DC1 == 0) {
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
-            (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
+            (actor->frameTable) = D_80173A40;
             select_sprite_entry(actor,
                 D_80173A40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -116,7 +103,7 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
             play_sound_if_enabled(0x300);
-            (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
+            (actor->frameTable) = D_80173A40;
             select_sprite_entry(actor,
                 D_80173A40[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -139,12 +126,12 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
         return;
 
     case 3:
-        if (!(((S_8016BE20_3 *)actor)->unk_14 & 0xE000)) {
+        if (!(actor->flags & 0xE000)) {
             return;
         }
         anim_table = D_801739B8;
-        if (((S_8016BE20_3 *)actor)->unk_2C != anim_table) {
-            (*(u8 * *)((u8 *)actor + 0x2C)) = anim_table;
+        if (*(u8 **)&actor->frameTable != anim_table) {
+            (actor->frameTable) = anim_table;
             select_sprite_entry(actor,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -186,10 +173,10 @@ void advance_actor_transition_sequence(void *state_arg, void *work_arg, void *ac
                 ((S_8016BE20_0 *)state)->unk_9B.n = 0;
 
                 for (object_index = 0; object_index < 2; object_index++) {
-                    object = (*(void * *)((u8 *)(*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC + object_index * 4));
+                    object = (*(void **)((u8 *)(*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC + object_index * 4));
                     if (object != 0) {
                         func_80164BA4(object);
-                        object_header = (u8 *)(*(void * *)((u8 *)(*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC
+                        object_header = (u8 *)(*(void **)((u8 *)(*(u8 **)((u8 *)(&dungeon_actor_ring_anchor))) + 0xAC
                             + object_index * 4)) - 0x20;
                         ((S_8016BE20_6 *)object_header)->unk_10 |= 0x80000000;
                     }

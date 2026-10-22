@@ -7,6 +7,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_80083460.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/actor.h"
 
 typedef struct S_801733BC_0 {
     u8 pad_00[0xC];
@@ -88,18 +89,17 @@ extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 extern void distribute_experience_and_report_gains(void *);
 extern void detach_record_and_update_slot_state(void *);
 extern void play_sound_if_enabled(s32);
-extern void announce_familiar_defeat(void *);
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect *, Point *, s32, s32);
 
 /* Updates an entity's particles, projectile, and fade-out sequence before removing it. */
 /* Animates Ifrit's defeat with particles and a projectile, fades the sprite, awards experience, and
  * removes the actor. */
-void update_particles_projectile_and_fade(void *effect_state, MovingPosition *position, void *render_part, void *entity)
+void update_particles_projectile_and_fade(void *effect_state, MovingPosition *position, void *render_part, SpriteFrameState *entity)
 {
     Rect rect;
     Point center;
     s32 particles_left;
-    void *spawned_object;
+    ObjectNodeHeader *spawned_object;
     void *particle_callback;
     void *particle_state;
     SpriteFrameState *particle_render;
@@ -122,14 +122,14 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
             spawned_object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             if (spawned_object != 0) {
                 register_node(spawned_object, project_sprite_chain);
-                ((S_801733BC_2 *)spawned_object)->unk_10 = particle_callback;
+                spawned_object->unk_10 = particle_callback;
 
                 random_offset = func_80069EF8();
-                ((MovingPosition *)(((S_801733BC_2 *)spawned_object)->unk_08))->unk_02 =
+                ((MovingPosition *)(spawned_object->position))->unk_02 =
                     position->unk_02 + (random_offset & 0x3F) - 0x20;
 
                 random_offset = func_80069EF8();
-                ((MovingPosition *)(((S_801733BC_2 *)spawned_object)->unk_08))->unk_06 =
+                ((MovingPosition *)(spawned_object->position))->unk_06 =
                     position->unk_06 + (random_offset & 0x3F) - 0x20;
 
                 random_offset = func_80069EF8();
@@ -146,14 +146,14 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
                     particle_color = 0x00500000;
                     source_z = position->unk_0A;
                     particle_color |= 0x5050;
-                    ((MovingPosition *)(((S_801733BC_2 *)spawned_object)->unk_08))->unk_0A =
+                    ((MovingPosition *)(spawned_object->position))->unk_0A =
                         source_z - random_offset - 0x10;
 
                     particle_state = (u8 *)spawned_object + 0x20;
                     ((S_801733BC_4 *)particle_state)->unk_A4 = particle_render;
                     ((S_801733BC_4 *)particle_state)->unk_96 = 6;
 
-                    particle_render = ((S_801733BC_2 *)spawned_object)->unk_0C;
+                    particle_render = spawned_object->sprite;
                     owner = ((S_801733BC_0 *)render_part)->unk_28;
                     draw_command = 0x2E;
                     particle_render->unk_28 = owner;
@@ -175,11 +175,11 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
 
     switch (((S_801733BC_1 *)effect_state)->unk_9B) {
     case 0:
-        if (((Rec_D_80083460 *)((u8 *)(&g_dungeon_status)))->unk_0A != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             break;
         }
-        if (((Rec_D_80082E80 *)entity)->unk_14.at00_u32.v & 0x4000) {
-            if (!(((Rec_D_80082E80 *)entity)->unk_14.at00_u32.v & 0x20000000)) {
+        if (*(u32 *)&entity->flags & 0x4000) {
+            if (!(*(u32 *)&entity->flags & 0x20000000)) {
                 announce_familiar_defeat(entity);
             }
         }
@@ -205,7 +205,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
             draw_transformed_sprite_with_clip_rect(center_object, rect_ptr, center_ptr, 1, 0);
         }
 
-        ((Rec_D_80082E80 *)entity)->unk_1C.at00_u32.v |= 0x10000000;
+        *(u32 *)&entity->scale_x |= 0x10000000;
         ((S_801733BC_0 *)render_part)->unk_10 = 0x60;
         ((S_801733BC_0 *)render_part)->unk_0C.u32 = 0x00C0C0C0;
         ((S_801733BC_0 *)render_part)->unk_14 |= 0xC;
@@ -219,7 +219,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         }
         register_node(spawned_object, D_80174228);
         frames_left = (u32)D_801741A4;
-        ((S_801733BC_2 *)spawned_object)->unk_10 = (void *)frames_left;
+        spawned_object->unk_10 = (void *)frames_left;
         ((S_801733BC_2 *)spawned_object)->unk_20 = position->unk_02;
         projectile_y = position->unk_06;
         projectile_state = (u8 *)spawned_object + 0x20;
@@ -234,7 +234,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         break;
 
     case 2:
-        ((Rec_D_80082E80 *)entity)->unk_1C.at00_u32.v |= 0x10000000;
+        *(u32 *)&entity->scale_x |= 0x10000000;
         ((S_801733BC_0 *)render_part)->unk_0C.u32 += 0xFFEFEFF0;
         if (((S_801733BC_0 *)render_part)->unk_0C.u8 < 0x11) {
             ((S_801733BC_1 *)effect_state)->unk_96 = 10;
@@ -255,7 +255,7 @@ void update_particles_projectile_and_fade(void *effect_state, MovingPosition *po
         distribute_experience_and_report_gains(entity);
         detach_record_and_update_slot_state(entity);
         update_map_cell_flags_with_item_limit(((S_801733BC_0 *)render_part)->unk_24, ((S_801733BC_0 *)render_part)->unk_25,
-            (((Rec_D_80082E80 *)entity)->unk_1C.at00_u32.v & 0x2000) ? 0x300 : 0x3000);
+            (*(u32 *)&entity->scale_x & 0x2000) ? 0x300 : 0x3000);
         unlink_entity_node(entity);
         (*(u16 *)((u8 *)entity + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

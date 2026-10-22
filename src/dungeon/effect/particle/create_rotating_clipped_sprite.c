@@ -48,7 +48,7 @@ void create_rotating_clipped_sprite(u32 *source_pos, s16 variant) {
     u32 *buffer;
     Child *child;
     Subobject *state;
-    Object *object;
+    ObjectNodeHeader *object;
 
     object = (Object *)allocate_flagged_object_node(0x212);
     if (object != 0) {
@@ -56,20 +56,20 @@ void create_rotating_clipped_sprite(u32 *source_pos, s16 variant) {
         state->field18 = 0x1E;
         state->field1A = 0x1E;
         if ((variant << 0x10) == 0) {
-            object->field10 = D_80166D68;
+            object->unk_10 = D_80166D68;
         } else {
-            object->field10 = D_80166E48;
+            object->unk_10 = D_80166E48;
         }
         register_node(object, project_sprite_chain);
-        child = object->child;
+        child = *(Child * *)&object->sprite;
         child->field10 = 0x20;
         child->field6 = 0;
         child->field14 |= 0xC;
-        buffer = object->buffer;
+        buffer = *(u32 * *)&object->position;
         buffer[0] = source_pos[0];
         buffer[1] = source_pos[1];
         buffer[2] = source_pos[2] + 0xFF880000;
-        child = object->child;
+        child = *(Child * *)&object->sprite;
         child->field1E = 0x1000;
         child->field1C = 0x1000;
         child->fieldE = 0x80;

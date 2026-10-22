@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -24,11 +25,6 @@ typedef struct S_801725D0_1 {
     s16 unk_A6;
 } S_801725D0_1;   /* arg0 in advance_actor_movement_sequence_and_resets */
 
-typedef struct S_801725D0_3_pre {
-    void * unk_00;
-    u8 pad_04[0x14];
-} S_801725D0_3_pre;   /* the 0x18 bytes before linked in advance_actor_movement_sequence_and_resets, addressed as linked[-1] */
-
 typedef struct S_801725D0_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -48,7 +44,7 @@ extern u8 D_80173D04[];
 extern u8 D_80173D34[];
 
 /* Advances the actor's movement sequence and resets motion and animation on landing. */
-void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *motion, void *sprite, ActorRecord *actor)
+void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 direction_offset;
     s32 x_step;
@@ -66,14 +62,14 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
 
     switch (state) {
     case 0:
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_801725D0_1 *)action)->unk_9B = 0xFF;
-            ((SpriteFrameState *)sprite)->flags |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
 
-        ((SpriteFrameState *)sprite)->frameTable = D_80173D34;
+        sprite->frameTable = D_80173D34;
         select_sprite_entry(
             sprite,
             D_80173D34[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
@@ -81,13 +77,13 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
 
         if (actor->target != 0) {
             void *linked = actor->target;
-            void *height_entry = ((S_801725D0_3_pre *)linked)[-1].unk_00;
+            void *height_entry = ((ObjectNodeHeader *)((u8 *)linked - 0x20))->position;
             ((S_801725D0_1 *)action)->unk_A6 = ((S_801725D0_4 *)height_entry)->unk_0A - 0x34;
         } else {
             ((S_801725D0_1 *)action)->unk_A6 =
                 sample_terrain_surface_height(
-                    ((((SpriteFrameState *)sprite)->unk_24 + x_step) << 6) & 0xFFC0,
-                    ((((SpriteFrameState *)sprite)->unk_25 + y_step) << 6) & 0xFFC0,
+                    ((sprite->unk_24 + x_step) << 6) & 0xFFC0,
+                    ((sprite->unk_25 + y_step) << 6) & 0xFFC0,
                     (s16)(((u16)actor->ground_height) - 0xA0)) - 0x34;
         }
         ((S_801725D0_1 *)action)->unk_96.s = 2;
@@ -143,7 +139,7 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
 
     case 0xFF:
         motion->velocity_z += 0x18000;
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         motion->velocity_z = 0;
@@ -152,12 +148,12 @@ void advance_actor_movement_sequence_and_resets(void *action, ObjectPosition *mo
         ((S_801725D0_1 *)action)->unk_98 &= 0xFFF7;
         actor->flags1C |= 0x08000000;
         ((S_801725D0_1 *)action)->unk_90.at00.v = 0;
-        ((SpriteFrameState *)sprite)->frameTable = D_80173D04;
+        sprite->frameTable = D_80173D04;
         select_sprite_entry(
             sprite,
             D_80173D04[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         spend_actor_mp(actor, 0x100);
         ((S_801725D0_1 *)action)->unk_8C = &D_80170E5C;
         g_dungeon_status.active_actor = 0;

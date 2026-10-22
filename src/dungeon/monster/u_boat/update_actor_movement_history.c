@@ -1,7 +1,9 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/effect/screen.h"
 
 typedef struct {
     signed short x;
@@ -9,7 +11,6 @@ typedef struct {
 } DirectionDelta;
 
 extern signed short check_forward_collision_and_height(void *, void *);
-extern void pack_and_submit_cell_height_levels(void);
 extern void play_sound_if_enabled(s32);
 extern s32 sample_terrain_surface_height(u16, u16, signed short);
 
@@ -50,7 +51,7 @@ typedef struct S_80174C64_3 {
 /* Updates movement, turning, position history, and timed stop states. */
 /* Steers around obstacles while recording positions; stops on repeated positions, timeout, or the sprite
  * flag. */
-void update_actor_movement_history(S_80174C64_0 *motion, void *position, SpriteFrameState *record, void *object)
+void update_actor_movement_history(S_80174C64_0 *motion, ObjectPosition *position, SpriteFrameState *record, void *object)
 {
     u16 angle;
     u16 next_angle;
@@ -101,8 +102,8 @@ void update_actor_movement_history(S_80174C64_0 *motion, void *position, SpriteF
                         u16 position_y;
 
                         history_base = (u8 *)history + 0x20;
-                        (*(u16 *)((u8 *)history_base + 0x62)) = (*(u16 *)((u8 *)position + 2));
-                        position_y = (*(u16 *)((u8 *)position + 6));
+                        (*(u16 *)((u8 *)history_base + 0x62)) = (*(u16 *)&position->x.w.i);
+                        position_y = (*(u16 *)&position->y.w.i);
                         (*(u16 *)((u8 *)history_base + 0x68)) = 0;
                         (*(u16 *)((u8 *)history_base + 0x66)) = 0;
                         (*(u16 *)((u8 *)history_base + 0x64)) = position_y;
@@ -166,8 +167,8 @@ void update_actor_movement_history(S_80174C64_0 *motion, void *position, SpriteF
             if ((timer << 16) <= 0) {
                 motion->unk_B2 = 0;
             }
-            (*(u16 *)((u8 *)position + 2)) = actor_direction_step_pairs[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
-            (*(u16 *)((u8 *)position + 6)) = actor_direction_step_pairs[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
+            (position->x.w.i) = actor_direction_step_pairs[direction].x * 16 + (*(u16 *)&position->x.w.i);
+            (position->y.w.i) = actor_direction_step_pairs[direction].y * 16 + (*(u16 *)&position->y.w.i);
             break;
         }
 
@@ -204,8 +205,8 @@ void update_actor_movement_history(S_80174C64_0 *motion, void *position, SpriteF
                     history_base = (u8 *)history_check + 0x20;
                     if (((*(signed short *)((u8 *)history_base + 0x66)) != 0 ||
                          (*(signed short *)((u8 *)history_base + 0x68)) != 0) &&
-                        (*(signed short *)((u8 *)history_base + 0x62)) == (*(signed short *)((u8 *)position + 2)) &&
-                        (*(signed short *)((u8 *)history_base + 0x64)) == (*(signed short *)((u8 *)position + 6))) {
+                        (*(signed short *)((u8 *)history_base + 0x62)) == (position->x.w.i) &&
+                        (*(signed short *)((u8 *)history_base + 0x64)) == (position->y.w.i)) {
                         motion->unk_B3 = 3;
                         motion->unk_B1 = 0;
                         goto state3_test;
@@ -309,8 +310,8 @@ state1_case2:
                 {
                     u16 timer;
 
-                    (*(u16 *)((u8 *)position + 2)) = actor_direction_step_pairs[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
-                    (*(u16 *)((u8 *)position + 6)) = actor_direction_step_pairs[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
+                    (position->x.w.i) = actor_direction_step_pairs[direction].x * 16 + (*(u16 *)&position->x.w.i);
+                    (position->y.w.i) = actor_direction_step_pairs[direction].y * 16 + (*(u16 *)&position->y.w.i);
 
                     timer = motion->unk_96;
                     motion->unk_96 = timer - 1;
@@ -331,8 +332,8 @@ state1_case2:
                                     ((S_80174C64_3 *)((u8 *)((unsigned long)history_base
                                         + ((history_index - 1) << 2))))->unk_64;
                             }
-                            (*(u16 *)((u8 *)history_base + 0x66)) = (*(u16 *)((u8 *)position + 2));
-                            (*(u16 *)((u8 *)history_base + 0x68)) = (*(u16 *)((u8 *)position + 6));
+                            (*(u16 *)((u8 *)history_base + 0x66)) = (*(u16 *)&position->x.w.i);
+                            (*(u16 *)((u8 *)history_base + 0x68)) = (*(u16 *)&position->y.w.i);
                         }
                     }
 
@@ -483,6 +484,6 @@ state3_test:
 
     }
     (*(signed short *)((u8 *)object + 0x88)) = sample_terrain_surface_height(
-        (*(u16 *)((u8 *)position + 2)), (*(u16 *)((u8 *)position + 6)),
-        (signed short)((*(u16 *)((u8 *)position + 0xA)) - 0x20));
+        (*(u16 *)((u8 *)position + 2)), (*(u16 *)&position->y.w.i),
+        (signed short)((*(u16 *)&position->z.w.i) - 0x20));
 }

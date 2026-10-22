@@ -48,18 +48,18 @@ void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head)
         payload_cursor = (u8 *)node + 0x124;
         if (flags & 0x100) {
             payload_cursor = (u8 *)node + 0xF4;
-            node->unk_0C = payload_cursor;
+            node->sprite = payload_cursor;
         } else if (flags & 0x6) {
             payload_cursor = (u8 *)node + 0x100;
-            node->unk_0C = payload_cursor;
+            node->sprite = payload_cursor;
         } else if (flags & 0x41) {
             payload_cursor = (u8 *)node + 0x10C;
-            node->unk_0C = payload_cursor;
+            node->sprite = payload_cursor;
         }
 
         if (flags & 0x157) {
             payload_cursor = payload_cursor - 0x18;
-            node->unk_08 = payload_cursor;
+            node->position = payload_cursor;
         }
 
         return node;

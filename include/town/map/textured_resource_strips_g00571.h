@@ -199,22 +199,10 @@ typedef struct S_800A41D8_7 {
     u8 unk_0B;
 } S_800A41D8_7;
 
-typedef struct S_800A47A8_4 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-} S_800A47A8_4;
-
 typedef struct {
     s16 value;
     u8 pad[10];
 } LargeS16;
-
-typedef struct S_800A47A8_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800A47A8_0;
 
 typedef struct S_800A47A8_1 {
     u8 pad_00[0x2];

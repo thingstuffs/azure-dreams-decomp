@@ -1,5 +1,7 @@
 #ifndef TOWN_SHOP_FLOATING_NUMBER_WIDGET_G00612_H
 #define TOWN_SHOP_FLOATING_NUMBER_WIDGET_G00612_H
+
+struct ObjectNodeHeader;
 /* Floating number widget declarations (G00612). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800B41D8, CL:town/func_800B4200, CL:town/func_800B4298, CL:town/func_800B43B0, CL:town/func_800B4410. */
 
@@ -90,13 +92,6 @@ typedef struct S_800B1BEC_0 {
 } S_800B1BEC_0;
 
 /* part in create_dual_buffer_object */
-typedef struct S_800B1BEC_1 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xA];
-    u16 unk_1E;
-} S_800B1BEC_1;
 
 /* ((S_800B19F8_5 *)(((S_800B19F8_1 *)arg0)->unk_50))->unk_04 in initialize_panel_content_and_positions */
 extern void *decode_fullwidth_text(void *a0, u8 *a1, s32 a2);
@@ -111,7 +106,7 @@ extern void *create_callback_pair_default(s32);
 extern void flag_object_for_removal(void *);
 extern void *process_context_with_selector_4(void *);
 extern void register_node(void *, void *);
-extern void lower_value_toward_target(void);
+extern void lower_value_toward_target(struct ObjectNodeHeader *object);
 extern u8 dungeon_menu_tag[];
 
 /* Functions defined in this translation unit. */

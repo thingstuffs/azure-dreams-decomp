@@ -19,17 +19,9 @@ typedef struct S_800C4AFC_0 {
     s32 unk_28;
 } S_800C4AFC_0;   /* state in create_timed_paired_particle_emitter */
 
-typedef struct S_800C4AFC_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-} S_800C4AFC_1;   /* object in create_timed_paired_particle_emitter */
-
    /* arg0 in create_timed_paired_particle_emitter */
 
    /* (void *)temp in create_timed_paired_particle_emitter */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void draw_textured_ellipse(void *, s32 *, s32, s32);
@@ -42,7 +34,7 @@ extern u8 D_800DCF78[12];
 void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_param, s32 state_param)
 {
     s32 effect_init[2];
-    void *object;
+    ObjectNodeHeader *object;
     s32 init_value;
     MovingPosition *components;
     DungeonGlobalStatus *status;
@@ -67,8 +59,8 @@ void create_timed_paired_particle_emitter(MovingPosition *source, s32 effect_par
 
     state = (u8 *)object + 0x20;
     ((S_800C4AFC_0 *)state)->unk_02 = 0x40;
-    ((S_800C4AFC_1 *)object)->unk_10 = (void *)tick_paired_particle_emitter;
-    components = ((S_800C4AFC_1 *)object)->unk_08;
+    object->unk_10 = (void *)tick_paired_particle_emitter;
+    components = object->position;
     component_x = source->unk_02;
     components->unk_02 = component_x;
     ((S_800C4AFC_0 *)state)->unk_20 = component_x;

@@ -1,3 +1,5 @@
+
+struct ObjectPosition;
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
@@ -9,26 +11,15 @@ s32 get_entity_effect_value(void *, s32);
 s32 can_entity_gain_level(void *);
 void raise_entity_level(void *, s32);
 void play_sound_if_enabled(s32);
-void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 extern s32 monster_species_table;
 extern s8 scene_music_hold;
 extern s8 D_80080AA0;
-
-
-typedef struct S_800AAB10_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    s16 unk_0A;
-    s32 unk_0C;
-} S_800AAB10_0;   /* state in process_selected_actor_record */
-
 
 typedef struct S_800AAB10_2_pre {
     u16 unk_00;
     u8 pad_02[0x12];
 } S_800AAB10_2_pre;   /* 0x14-byte header immediately before the payload. */
-
 
 /* Processes the selected record, checks eligibility, and clears completed state. */
 s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, ActorRecord *record) {
@@ -59,7 +50,7 @@ s32 process_selected_actor_record(s32 buffer_addr, s32 source, s32 unused, Actor
                         if ((can_entity_gain_level(record) << 0x10) != 0) {
                             return 0;
                         }
-                        ((Rec_D_80083460 *)(&g_dungeon_status.turn_scale))->unk_0C = 0;
+                        g_dungeon_status.active_actor = 0;
                     } else {
                         return 0;
                     }

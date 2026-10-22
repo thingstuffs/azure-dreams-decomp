@@ -9,13 +9,6 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-typedef struct S_80173140_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80173140_0;
-
 typedef struct S_80173140_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -43,7 +36,7 @@ void select_sprite_entry();         /* extern */
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 void initialize_actor_sprite_and_animation(void *, void *, void *, s32); /* extern */
-extern void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *sprite_in);
+extern void advance_linked_actor_motion_script(void *state_in, void *motion_in, SpriteFrameState *sprite_in);
 extern M2C_UNK D_80173DA4;
 extern void *beldo_script_node;
 
@@ -60,7 +53,7 @@ void create_scripted_encounter_object(void) {
     s16 initial_offset;
     s32 cell_x;
     s32 cell_y;
-    void *object;
+    ObjectNodeHeader *object;
     s32 cell_mask;
     s32 origin_x;
     s32 origin_y;
@@ -71,15 +64,15 @@ void create_scripted_encounter_object(void) {
 
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        state = object + 0x20;
+        state = ((void *)object) + 0x20;
         st = (S_80173140_1 *)state;
-        ((S_80173140_0 *)object)->unk_10 = &advance_linked_actor_motion_script;
+        object->unk_10 = &advance_linked_actor_motion_script;
         st->unk_13 = MONSTER_KEWNE;
         register_node(object, project_sprite_chain);
-        object_attrs = ((S_80173140_0 *)object)->unk_08;
+        object_attrs = object->position;
         ((S_80173140_2 *)object_attrs)->unk_0A =
-            (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((s32 *)&scene_object_list_anchor.next)))->z)))->unk_0A;
-        sprite = ((S_80173140_0 *)object)->unk_0C;
+            (u16) ((S_80173140_5 *)((*(void **)&((EntityRec *)(((s32 *)&scene_object_list_anchor.next)))->z)))->unk_0A;
+        sprite = object->sprite;
         origin_x = reference_tile_object.tile_position.parts.tile_x;
         sprite->unk_24 = (u8) (origin_x - 1);
         origin_y = reference_tile_object.tile_position.parts.tile_y;
@@ -107,6 +100,6 @@ void create_scripted_encounter_object(void) {
         update_map_cell_flags_with_item_limit(cell_x, cell_y, cell_mask);
         unlink_entity_node(st);
         beldo_script_node = object;
-        ((S_80173140_0 *)object)->unk_10 = (s32 *) ((s32) ((S_80173140_0 *)object)->unk_10 | 0x80000000);
+        object->unk_10 = (s32 *) ((s32) *(s32 * *)&object->unk_10 | 0x80000000);
     }
 }

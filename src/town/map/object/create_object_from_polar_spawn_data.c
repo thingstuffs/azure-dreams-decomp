@@ -17,18 +17,6 @@ typedef struct S_800BB798_0 {
     s32 unk_10;
 } S_800BB798_0;   /* arg0 in create_object_from_polar_spawn_data */
 
-typedef struct S_800BB798_1 {
-    u8 pad_00[0xC8];
-    s16 unk_C8;
-} S_800BB798_1;
-
-typedef struct S_800BB798_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    s32 * unk_10;
-} S_800BB798_2;
-
 typedef struct S_800BB798_3 {
     u8 pad_00[0x48];
     s16 unk_48;
@@ -42,7 +30,7 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
     s32 radius;
     s32 component;
     s32 trig_factor;
-    void *object;
+    ObjectNodeHeader *object;
     S_800BB798_3 *object_state;
     void *object_data;
 
@@ -59,10 +47,10 @@ s32 create_object_from_polar_spawn_data(S_800BB798_0 *spawn_data, s16 state_48, 
     spawn_data->unk_10 = component;
     object = allocate_list_node(0x312, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        object_data = ((S_800BB798_2 *)object)->unk_08;
-        ((S_800BB798_2 *)object)->unk_10 = &D_800BB894;
+        object_data = object->position;
+        object->unk_10 = &D_800BB894;
         *(Copy24 *)object_data = *(Copy24 *)spawn_data;
-        object_state = object + 0x20;
+        object_state = ((void *)object) + 0x20;
         object_state->unk_48 = state_48;
         object_state->unk_4A = state_4a;
     }

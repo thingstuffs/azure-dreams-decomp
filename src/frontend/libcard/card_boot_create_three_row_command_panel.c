@@ -1,16 +1,10 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "engine/node.h"
 #include "engine/scene.h"
 #include "main/data.h"
 #include "sdk/libc.h"
 #include "slus.h"
-
-typedef struct S_800238D4_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    u8 pad_10[0xE];
-    u16 unk_1E;
-} S_800238D4_0;   /* base in card_boot_create_three_row_command_panel */
 
 typedef struct S_800238D4_1 {
     u8 pad_00[0x19C];
@@ -28,7 +22,7 @@ extern u8 menu_backdrop_tag[];
 /* Creates or resets the object, initializes its state, and runs its update callback. */
 void *card_boot_create_three_row_command_panel(s32 init_value)
 {
-    u8 *object;
+    ObjectNodeHeader *object;
     u8 *state;
 
     object = D_800291D0;
@@ -38,15 +32,15 @@ void *card_boot_create_three_row_command_panel(s32 init_value)
         register_node(object, menu_backdrop_tag);
     } else {
         process_nonzero(object);
-        ((S_800238D4_0 *)object)->unk_1E &= 0x7FFF;
+        object->flags &= 0x7FFF;
         bzero(state, 0x428);
     }
 
     func_800237EC(state, 0x12);
-    ((S_800238D4_0 *)object)->unk_0C = state + 0x190;
+    object->sprite = state + 0x190;
     ((S_800238D4_1 *)state)->unk_19C = card_boot_link_three_row_panel_entries(state + 0x1A0);
     card_boot_initialize_three_row_command_panel(state, init_value);
-    *(void (**)(void *))(object + 0x10) = card_boot_animate_three_row_selection;
+    object->unk_10 = card_boot_animate_three_row_selection;
     card_boot_animate_three_row_selection(state);
     return object;
 }

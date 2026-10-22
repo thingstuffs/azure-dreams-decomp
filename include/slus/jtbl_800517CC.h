@@ -3,6 +3,7 @@
 
 /* Present C interface; historical filename and TU boundary remain inferred. */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 extern int D_800814A0;
 
 typedef struct EffectState800517CC {
@@ -43,7 +44,7 @@ extern s32 rand(void);
 
 /* Update the effect motion state and detach it from its parent when finished. */
 
-void update_sine_motion_effect( EffectState800517CC *effect, VecState800517CC *motion, ColorState800517CC *color);
-void func_800517CC( EffectState800517CC *effect, VecState800517CC *motion, ColorState800517CC *color);
+void update_sine_motion_effect( EffectState800517CC *effect, VecState800517CC *motion, SpriteFrameState *color);
+void func_800517CC( EffectState800517CC *effect, VecState800517CC *motion, SpriteFrameState *color);
 
 #endif

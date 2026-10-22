@@ -10,13 +10,13 @@
 extern void submit_object_resource_data();
 s32 read_map_cell_at_world_position(s16, s16);
 extern void initialize_scene_action_record();
-void func_80093E58(s32 * *, void *, void *);
+void init_ground_input_fallback(s32 * *, void *, void *);
 struct Rec_func_80094268_arg0; void initialize_randomized_object_action(struct Rec_func_80094268_arg0 *, s32, s32);
-struct Rec_func_80094268_arg0; void func_80093FC8(struct Rec_func_80094268_arg0 *, s32, s32);
-struct Rec_func_80094268_arg0; void func_80094088(struct Rec_func_80094268_arg0 *, void *, void *);
+struct Rec_func_80094268_arg0; void init_periodic_effect_action(struct Rec_func_80094268_arg0 *, s32, s32);
+struct Rec_func_80094268_arg0; void init_threshold_countdown_action(struct Rec_func_80094268_arg0 *, void *, void *);
 struct Rec_func_80094268_arg0; struct S_800942B0_0; void initialize_actor_action_state(struct Rec_func_80094268_arg0 *, struct S_800942B0_0 *, s32);
 void initialize_action_object(s32 * *, void *, void *);
-struct Rec_func_80094268_arg0; void func_800943B8(struct Rec_func_80094268_arg0 *, s32, s32);
+struct Rec_func_80094268_arg0; void init_movement_action(struct Rec_func_80094268_arg0 *, s32, s32);
 struct Rec_func_80094268_arg0; void initialize_action_object_with_counter(struct Rec_func_80094268_arg0 *, s32, s32);
 void initialize_actor_movement_interaction_action(s32 * *, void *, void *);
 void play_periodic_sound(s32, s32);
@@ -85,7 +85,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
                 return;
             }
         } else if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            func_80094088((struct Rec_func_80094268_arg0 *)(actor), position, (void *)(context));
+            init_threshold_countdown_action((struct Rec_func_80094268_arg0 *)(actor), position, (void *)(context));
             return;
         }
         return;
@@ -101,7 +101,7 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
             submit_object_resource_data(action_data[4]);
             return;
         } else {
-            func_800943B8((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
+            init_movement_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
             return;
         }
         return;
@@ -112,10 +112,10 @@ void dispatch_actor_input_actions(S_80091260_2 *actor, EntityRec *position, s32 
         if (actor->unk_16 == 1) {
             tile_id = read_map_cell_at_world_position(position->x.w.i, position->y.w.i);
             if (check_masked_value_in_current_range((u16)tile_id) != 0 &&position->z.v > 0) {
-                func_80093FC8((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
+                init_periodic_effect_action((struct Rec_func_80094268_arg0 *)(actor), (s32)(position), context);
                 return;
             } else {
-                func_80093E58((s32 * *)(actor), position, (void *)(context));
+                init_ground_input_fallback((s32 * *)(actor), position, (void *)(context));
                 return;
             }
         } else {

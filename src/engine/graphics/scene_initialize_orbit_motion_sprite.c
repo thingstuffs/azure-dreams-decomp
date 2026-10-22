@@ -9,7 +9,9 @@
 
 /* callback/update-function pointers, assigned by address only */
 extern void update_sine_motion_effect(void);
-extern void draw_linked_sprites(void);
+struct ObjectPosition;
+struct SpriteFrameState;
+extern s32 draw_linked_sprites(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
 /* struct Elem / struct Dst mirror the layout used by the already-matched
  * func_8003DB94 (src/code.c), extended with the extra fields (0x1C/0x1E)

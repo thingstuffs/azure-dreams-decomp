@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/monster/nyuel.h"
 
 extern s32 check_entity_relation();
 extern void cycle_map_cell_flags();
@@ -13,15 +14,14 @@ extern s32 check_diagonal_side_height();
 extern s32 check_movement_clearance_and_height();
 extern s32 test_neighbor_position_relation();
 extern s16 get_actor_height_difference();
-extern void *find_valid_monster_neighbor();
+extern void *find_adjacent_actor();
 extern void *probe_directional_neighbor();
 extern u16 get_rounded_facing_and_rounding_flag();
-extern void rebuild_monster_reachable_tiles();
+extern void select_actor_route_target();
 extern void update_actor_proximity_flag();
 extern s32 generate_random_value();
 extern void update_actor_status_and_mp();
 extern s16 sample_terrain_surface_height();
-extern s32 check_movement_and_initialize_action();
 extern s16 actor_turn_angle_offsets[8];
 /* Updates actor movement, recording the path and refreshing the tile position and height. */
 void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8 *tile, u8 *actor)
@@ -58,7 +58,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
     actor_flags = *(s32 *)(actor + 0x1C);
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            target_record = find_valid_monster_neighbor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25));
+            target_record = find_adjacent_actor(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25));
             if (target_record != 0) {
                 target_tile = *((void **) (((u8 *) target_record) + (-0x14)));
                 *(u16 *)(actor + 0x2A) = get_rounded_facing_and_rounding_flag(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(target_tile
@@ -91,7 +91,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
     else if (actor_flags & 0x2000) {
         if (!((*(u16 *)(actor + 0x46)) & 0x8000)) {
             if (!(actor_flags & 0x20000)) {
-                rebuild_monster_reachable_tiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                select_actor_route_target(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
             }
             else {
                 {
@@ -133,7 +133,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
         {
             s8 tile_kind = *(s8 *)(tile + 0x26);
             if ((tile_kind >= 0) && (dungeon_rooms[tile_kind].flags & 2)) {
-                rebuild_monster_reachable_tiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                select_actor_route_target(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
             }
             else {
                 if (!((*(u16 *)(actor + 0x46)) & 0x8000)) {
@@ -152,7 +152,7 @@ void update_actor_movement_and_tile_position(u8 *object, void *entry_context, u8
                     }
                 }
                 if (!((*(s32 *)(actor + 0x1C)) & 0x20000)) {
-                    rebuild_monster_reachable_tiles(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+                    select_actor_route_target(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
                 }
                 else {
                     u8 *angle_flags = object + 0x98;

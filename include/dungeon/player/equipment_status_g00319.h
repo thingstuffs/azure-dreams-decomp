@@ -65,7 +65,6 @@ extern u8 D_800E089C[];
 extern u8 D_800E08AB[];
 extern u8 D_800E08BA[];
 
-extern void *register_item_object_in_free_slot(void *, void *, void *, s16);
 typedef struct { u8 unk0; u8 unk1; s8 unk2; u8 unk3; } FuncData;
 extern u8 *append_typed_formatted_value(FuncData *, u8 *);
 

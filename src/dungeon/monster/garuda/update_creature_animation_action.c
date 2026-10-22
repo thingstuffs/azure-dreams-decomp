@@ -1,4 +1,5 @@
 #include "shared/tile_object.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -53,7 +54,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
     s32 direction_aux;
     s8 room_id;
     u16 action;
-    void *sprite;
+    SpriteFrameState *sprite;
     u32 dungeon_flags = g_dungeon_status.flags;
     if (dungeon_flags & 0x1000) {
         *((u8 *) (((u8 *) actor) + 0x9A)) = 0xE;
@@ -74,7 +75,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
     }
     sprite = sprite_arg;
     if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x200) {
-        if ((*((void **) (((u8 *) sprite) + 0x2C))) == D_801748E0) {
+        if ((sprite->frameTable) == D_801748E0) {
             *((u8 *) (((u8 *) actor) + 0x9A)) = 0xD;
             *((u8 *) (((u8 *) actor) + 0x9B)) = 1;
             *((s32 *) (((u8 *) actor) + 0x8C)) = 0;
@@ -103,13 +104,13 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
 
             }
 
-            current_anim = *((void **) (((u8 *) sprite) + 0x2C));
+            current_anim = sprite->frameTable;
             anim_table = D_80174880;
             if (current_anim != anim_table) {
-                *((void **) (((u8 *) sprite) + 0x2C)) = anim_table;
+                sprite->frameTable = anim_table;
                 select_sprite_entry(sprite, ((u8 *) anim_table)[(((g_game_work.view.camera_rotation.parts.viewAngle + (*((s16 *) (((u8 *) creature)
                     + 0x2A)))) + 0x100) >> 9) & 7], 0);
-                *((u8 *) (((u8 *) sprite) + 5)) = 1;
+                sprite->unk_05 = 1;
                 *((s16 *) (((u8 *) actor) + 0xA6)) = 0;
                 *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
             }
@@ -135,14 +136,14 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
             process_selected_actor_record(actor, context, sprite, creature);
         }
     }
-    room_id = find_active_rect_containing_point(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)));
-    *((u8 *) (((u8 *) sprite) + 0x26)) = room_id;
+    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = room_id;
     if ((*((s8 *) (((u8 *) creature) + 0x6D))) > 0) {
         if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x20) {
             update_actor_status_and_mp(creature);
             return;
         }
-        if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (((s8 *)&reference_tile_object.tile_position.parts.tile_x))))) {
+        if ((*(u16 *)&sprite->unk_24) == (reference_tile_object.tile_position.word)) {
             func_80171848(actor, context, sprite, creature);
             return;
         }
@@ -170,8 +171,7 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
         switch (action - 1) {
         case 8:
         {
-            void *target = probe_directional_neighbor(creature, *((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite)
-                + 0x25)), *((s16 *) (((u8 *) creature) + 0x2A)));
+            void *target = probe_directional_neighbor(creature, sprite->unk_24, sprite->unk_25, *((s16 *) (((u8 *) creature) + 0x2A)));
             *((void **) (((u8 *) actor) + 0xA8)) = target;
             if (target == 0) {
                 func_80171848(actor, context, sprite, creature);
@@ -198,11 +198,11 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
         case 5:
         case 6:
         {
-            u8 *player_pos = ((u8 *)(&reference_tile_object));
+            TileObject *player_pos = &reference_tile_object;
             void *player;
             s16 facing_angle;
-            facing_angle = get_rounded_facing_and_rounding_flag(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)),
-                *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
+            facing_angle = get_rounded_facing_and_rounding_flag(sprite->unk_24, sprite->unk_25,
+                player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y, &direction_aux);
             player = primary_actor_record;
             *((s16 *) (((u8 *) creature) + 0x2A)) = facing_angle;
             if ((*((u8 *) (((u8 *) player) + 0x9A))) == 0x11) {
@@ -230,12 +230,12 @@ void update_creature_animation_action(void *actor, void *context, void *sprite_a
         s32 room_index = room_id;
         if ((room_index < 0) || (!(dungeon_rooms[room_index].flags & 2))) {
             if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x430)) {
-                u8 *player_pos = ((u8 *)(&reference_tile_object));
-                if ((test_neighbor_position_relation(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)),
-                    *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25))) << 16) != 0) {
-                    *((s16 *) (((u8 *) creature) + 0x2A)) = get_rounded_facing_and_rounding_flag(*((u8 *) (((u8 *) sprite) + 0x24)),
-                        *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)),
-                        *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
+                TileObject *player_pos = &reference_tile_object;
+                if ((test_neighbor_position_relation(sprite->unk_24, sprite->unk_25,
+                    player_pos->tile_position.parts.tile_x, player_pos->tile_position.parts.tile_y) << 16) != 0) {
+                    *((s16 *) (((u8 *) creature) + 0x2A)) = get_rounded_facing_and_rounding_flag(sprite->unk_24,
+                        sprite->unk_25, player_pos->tile_position.parts.tile_x,
+                        player_pos->tile_position.parts.tile_y, &direction_aux);
                 }
             }
         }

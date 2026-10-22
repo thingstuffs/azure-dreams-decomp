@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -8,6 +9,7 @@
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "engine/cd.h"
 extern int abs(int);
 
 typedef struct S_80172C90_1 {
@@ -23,11 +25,6 @@ typedef struct S_80172C90_1 {
     union { u16 s; s16 u; } unk_AC;   /* accessed as both */
 } S_80172C90_1;   /* arg0 in update_the_actor_action_sequence_including_movement_landing_recovery */
 
-typedef struct S_80172C90_3_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80172C90_3_pre;   /* the 0x14 bytes before localOwner in update_the_actor_action_sequence_including_movement_landing_recovery, addressed as localOwner[-1] */
-
 typedef struct S_80172C90_3 {
     u8 pad_00[0xA6];
     u16 unk_A6;
@@ -39,13 +36,12 @@ typedef struct S_80172C90_4 {
     u8 unk_25;
 } S_80172C90_4;   /* localLinked in update_the_actor_action_sequence_including_movement_landing_recovery */
 
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 mode, void *context);
 extern void play_sound_if_enabled(s32);
 extern void create_two_effect_groups(void *, void *, void *, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
-extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, u8, s32);
 
 extern u8 D_801710F4[];
@@ -139,7 +135,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
             if (use_owner) {
                 owner = primary_actor_record;
                 actor->target = owner;
-                move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
+                move_result = ((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite;
                 actor->target_tile_x = ((S_80172C90_4 *)move_result)->unk_24;
                 actor->target_tile_y = ((S_80172C90_4 *)move_result)->unk_25;
             } else {
@@ -147,12 +143,12 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
                 if (item_action_definitions[dir_offset].kind == 2) {
                     owner = actor->target;
                     if (owner != 0) {
-                        move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
+                        move_result = ((ObjectNodeHeader *)((u8 *)owner - 0x20))->sprite;
                         actor->target_tile_x = ((S_80172C90_4 *)move_result)->unk_24;
                         actor->target_tile_y = ((S_80172C90_4 *)move_result)->unk_25;
                     }
                 } else {
-                    actor->target = scan_monster_along_heading(actor,
+                    actor->target = scan_actor_along_heading(actor,
                         sprite->unk_24,
                         sprite->unk_25,
                         actor->facing, 16);
@@ -357,7 +353,7 @@ void update_the_actor_action_sequence_including_movement_landing_recovery(void *
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
-        if (*(u8 * *)&sprite->frameTable != D_80174F00) {
+        if (*(u8 **)&sprite->frameTable != D_80174F00) {
             sprite->frameTable = D_80174F00;
             select_sprite_entry(sprite,
                 D_80174F00[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

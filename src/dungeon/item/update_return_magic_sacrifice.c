@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
@@ -11,11 +12,6 @@ typedef struct S_800C2824_0 {
     s16 unk_04;
     s16 unk_06;
 } S_800C2824_0;   /* effect in update_return_magic_sacrifice */
-
-typedef struct S_800C2824_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_800C2824_1;   /* object_base in update_return_magic_sacrifice */
 
    /* object_vertices in update_return_magic_sacrifice */
 
@@ -70,10 +66,6 @@ typedef struct S_800C2824_8 {
     s16 unk_88;
 } S_800C2824_8;   /* effect_object in update_return_magic_sacrifice */
 
-typedef struct S_800C2824_9_pre {
-    u16 unk_00;
-} S_800C2824_9_pre;   /* the 0x2 bytes before c3_object in update_return_magic_sacrifice, addressed as c3_object[-1] */
-
 typedef struct S_800C2824_10 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
@@ -89,15 +81,6 @@ typedef struct S_800C2824_12 {
 } S_800C2824_12;   /* c17_object in update_return_magic_sacrifice */
 
    /* (void *)c17_coord in update_return_magic_sacrifice */
-
-typedef struct S_800C2824_14_pre {
-    u16 unk_00;
-} S_800C2824_14_pre;   /* the 0x2 bytes before finished_object in update_return_magic_sacrifice, addressed as finished_object[-1] */
-
-typedef struct S_800C2824_15 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_800C2824_15;   /* c17_final_ptr in update_return_magic_sacrifice */
 
 typedef struct S_800C2824_16 {
     u8 pad_00[0x14];
@@ -152,7 +135,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
     u16 vertex_z;
     u8 shade;
     MovingTile *object_coords;
-    void *object_base;
+    ObjectNodeHeader *object_base;
     void *source_object;
 
     MovingPosition *object_vertices;
@@ -165,7 +148,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
     u32 expired_coord;
     s32 expired_status;
     s32 expired_x;
-    void *final_object;
+    ObjectNodeHeader *final_object;
     u16 final_flags;
     void *effect_object;
     u8 *slots_page;
@@ -185,7 +168,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         object_base = ((S_800C2824_0 *)effect)->unk_00 - 0x20;
         unlink_node(object_base);
         retire_tracked_effect_by_id(object_base);
-        object_vertices = ((S_800C2824_1 *)object_base)->unk_08;
+        object_vertices = object_base->position;
         vertex_x = object_vertices->unk_02;
         ((S_800C2824_3 *)vertices)->unk_02 = vertex_x;
         ((S_800C2824_3 *)vertices)->unk_0E = vertex_x;
@@ -231,7 +214,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         if ((get_entity_effect_value(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) == 0) {
             release_object = ((S_800C2824_0 *)effect)->unk_00;
             release_status = ((S_800C2824_6 *)release_object)->unk_1C;
-            release_coord = (u32)((SpriteLinkPrefixView *)release_object)[-1].unk_00;
+            release_coord = (u32)((ObjectNodeHeader *)((u8 *)release_object - 0x20))->sprite;
             release_status &= 0x2000;
             release_x = ((MovingTile *)((void *)release_coord))->unk_24;
             release_coord = ((MovingTile *)((void *)release_coord))->unk_25;
@@ -257,7 +240,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         }
         flags_page = (u8 *)0x80080000;
         marked_object = ((S_800C2824_0 *)effect)->unk_00;
-        ((S_800C2824_9_pre *)marked_object)[-1].unk_00 = (u16) (((S_800C2824_9_pre *)marked_object)[-1].unk_00
+        ((ObjectNodeHeader *)((u8 *)marked_object - 0x20))->flags = (u16) (((ObjectNodeHeader *)((u8 *)marked_object - 0x20))->flags
             | 0x8000);
         effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
         effect_flags |= 0x8000;
@@ -268,7 +251,7 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
     }
     case 16:
         source_object = ((S_800C2824_0 *)effect)->unk_00;
-        object_coords = (*(void **)((u8 *)source_object + -0x14));
+        object_coords = (((ObjectNodeHeader *)((u8 *)source_object - 0x20))->sprite);
         effect_object = source_object;
         effect_param = ((S_800C2824_8 *)effect_object)->unk_88;
         D_800DF55C = effect_object;
@@ -289,14 +272,14 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
         if ((get_entity_effect_value(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
             unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
             finished_object = ((S_800C2824_0 *)effect)->unk_00;
-            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
+            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((ObjectNodeHeader *)((u8 *)finished_object - 0x20))->flags | 0x8000);
             final_object = D_800DF560;
             flags_page = (u8 *)0x80080000;
             effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
         } else {
             expired_object = ((S_800C2824_0 *)effect)->unk_00;
             expired_status = ((S_800C2824_12 *)expired_object)->unk_1C;
-            expired_coord = (u32)((SpriteLinkPrefixView *)expired_object)[-1].unk_00;
+            expired_coord = (u32)((ObjectNodeHeader *)((u8 *)expired_object - 0x20))->sprite;
             expired_status &= 0x2000;
             expired_x = ((MovingTile *)((void *)expired_coord))->unk_24;
             expired_coord = ((MovingTile *)((void *)expired_coord))->unk_25;
@@ -307,16 +290,16 @@ void update_return_magic_sacrifice(void *effect, void *vertices, void *sprite) {
             update_map_cell_flags_with_item_limit(expired_x, expired_coord, tile_flags);
             unlink_entity_node(((S_800C2824_0 *)effect)->unk_00);
             finished_object = ((S_800C2824_0 *)effect)->unk_00;
-            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
+            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((ObjectNodeHeader *)((u8 *)finished_object - 0x20))->flags | 0x8000);
             final_object = D_800DF560;
             flags_page = (u8 *)0x80080000;
             effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
         }
         ;
-        final_flags = ((S_800C2824_15 *)final_object)->unk_1E;
+        final_flags = final_object->flags;
         effect_flags |= 0x8000;
         ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
-        ((S_800C2824_15 *)final_object)->unk_1E = (u16)(final_flags | 0x8000);
+        final_object->flags = (u16)(final_flags | 0x8000);
         (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
         ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
         return;

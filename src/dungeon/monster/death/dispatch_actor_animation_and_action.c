@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
@@ -21,7 +21,7 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *direction_frames);
 extern s32 process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
-extern void advance_entity_path_state(void *, void *, void *, void *);
+extern void advance_entity_path_state(void *, void *, SpriteFrameState *, void *);
 extern void func_801721D8(void *, void *, void *, void *);
 extern s32 attempt_target_action(void *, void *, void *, void *);
 extern void apply_conditional_actor_effect(void *, void *, void *, void *);
@@ -34,7 +34,6 @@ extern u8 D_80174644[];
 extern u8 D_80174674[];
 extern u8 D_8017467C[];
 extern u8 D_80174684[];
-
 
 typedef struct S_801719DC_0 {
     u8 pad_00[0x8C];
@@ -73,27 +72,10 @@ typedef struct S_801719DC_1 {
     s8 unk_6D;
 } S_801719DC_1;   /* arg3 in dispatch_actor_animation_and_action */
 
-typedef struct S_801719DC_2 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0xE];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_801719DC_2;   /* arg2 in dispatch_actor_animation_and_action */
-
-
 /* Update actor animation, facing, and action dispatch from dungeon state. */
 /* Dispatches Death's movement, attacks, spells, and turn processing, resetting its vertical animation
  * offsets on return to idle. */
-void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void *entity_in, void *actor_in)
+void dispatch_actor_animation_and_action(void *motion_in, void *context_in, SpriteFrameState *entity_in, void *actor_in)
 {
     s32 direction_aux;
     s8 room_id;
@@ -108,11 +90,11 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
         void *anim_table;
 
         advance_actor_pending_action(motion_in, context_in, entity_in, actor_in);
-        if (((S_801719DC_2 *)entity_in)->unk_2C == D_80174684) {
+        if (entity_in->frameTable == D_80174684) {
             return;
         }
         anim_table = D_8017467C;
-        (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
+        (entity_in->frameTable) = anim_table;
         select_sprite_entry(entity_in,
             ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -120,7 +102,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
     }
 
     if (((S_801719DC_1 *)actor_in)->unk_1C & 0x200) {
-        if (((S_801719DC_2 *)entity_in)->unk_2C == D_80174684) {
+        if (entity_in->frameTable == D_80174684) {
             ((S_801719DC_0 *)motion_in)->unk_9A = 0xD;
             ((S_801719DC_0 *)motion_in)->unk_9B = 1;
             ((S_801719DC_0 *)motion_in)->unk_8C = 0;
@@ -149,15 +131,15 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
 
             next_state = 0xE;
             if (current_state != next_state) {
-                current_anim = ((S_801719DC_2 *)entity_in)->unk_2C;
+                current_anim = entity_in->frameTable;
                 anim_table = D_80174634;
                 if (current_anim != anim_table) {
-                    (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
+                    (entity_in->frameTable) = anim_table;
                     select_sprite_entry(entity_in,
                         ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100)
                             >> 9) & 7],
                         1);
-                    ((S_801719DC_2 *)entity_in)->unk_05 = 1;
+                    entity_in->unk_05 = 1;
                     motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
                     ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
                     ((S_801719DC_0 *)motion_in)->unk_B8 = 0;
@@ -202,15 +184,15 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
         }
     }
 
-    room_id = find_active_rect_containing_point(((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v);
-    ((S_801719DC_2 *)entity_in)->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(entity_in->unk_24, entity_in->unk_25);
+    entity_in->unk_26 = room_id;
 
     if (((S_801719DC_1 *)actor_in)->unk_6D > 0) {
         if (((S_801719DC_1 *)actor_in)->unk_1C & 0x20) {
             update_actor_status_and_mp(actor_in);
             return;
         }
-        if (((S_801719DC_2 *)entity_in)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&entity_in->unk_24 == reference_tile_object.tile_position.word) {
             func_801721D8(motion_in, context_in, entity_in, actor_in);
             return;
         }
@@ -251,7 +233,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
             s16 heading;
 
             heading = get_rounded_facing_and_rounding_flag(
-                ((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v,
+                entity_in->unk_24, entity_in->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &direction_aux);
             player = primary_actor_record;
@@ -289,10 +271,10 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
             if (!(((S_801719DC_1 *)actor_in)->unk_1C & 0x430)) {
 
                 if ((test_neighbor_position_relation(
-                        ((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v,
+                        entity_in->unk_24, entity_in->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     ((S_801719DC_1 *)actor_in)->unk_2A = get_rounded_facing_and_rounding_flag(
-                        ((S_801719DC_2 *)entity_in)->unk_24.at00.v, ((S_801719DC_2 *)entity_in)->unk_24.at01.v,
+                        entity_in->unk_24, entity_in->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_aux);
                 }
@@ -303,19 +285,19 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((S_801719DC_2 *)entity_in)->unk_14 & 0x40) {
+    if (entity_in->flags & 0x40) {
         return;
     }
     {
         void *anim_table = D_80174634;
         s32 motion_value;
 
-        if (((S_801719DC_2 *)entity_in)->unk_2C != anim_table) {
-            (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
+        if (entity_in->frameTable != anim_table) {
+            (entity_in->frameTable) = anim_table;
             select_sprite_entry(entity_in,
                 ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
                 1);
-            ((S_801719DC_2 *)entity_in)->unk_05 = 1;
+            entity_in->unk_05 = 1;
             motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
             ((S_801719DC_0 *)motion_in)->unk_A4.at02.v = 0;
             ((S_801719DC_0 *)motion_in)->unk_B8 = 0;

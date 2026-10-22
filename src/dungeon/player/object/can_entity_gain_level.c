@@ -1,7 +1,10 @@
+#include "shared/sprite_frame_state.h"
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/player/object/can_entity_gain_level.h"
+#include "dungeon/player/object/action_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/player/object.h"
 #define F(p,t,o) (*(t *)((u8 *)(p) + (o)))
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern s32 entity_level_thresholds[];
@@ -57,7 +60,6 @@ s32 can_entity_gain_level(void *entity) {
 #include "shared/def_table.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
-
 
 extern s32 format_unsigned_double_byte_decimal();
 extern s32 apply_entity_effects();
@@ -757,7 +759,6 @@ s32 lower_entity_level(void *entity_data, s32 show_message) {
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-
 /* Clear D_800DCF4F and decrement the sixth counter in D_80083460. */
 void clear_counted_action(void) {
 
@@ -768,7 +769,6 @@ void clear_counted_action(void) {
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
-
 
 /* Store tile coordinates as centered positions in 64-unit tiles. */
 void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile_y) {
@@ -782,7 +782,7 @@ void set_record_integer_tile_center(ObjectPosition *record, s32 tile_x, s32 tile
 extern u8 camera_transition_timer;
 
 /* Returns whether D_800E3D20 is set while bit 1 of D_80013714 is clear. */
-s32 is_dungeon_action_enabled(void) {
+s32 is_dungeon_action_blocked(void) {
     if (!(system_update_flags & 2) && camera_transition_timer) {
         return 1;
     }
@@ -791,8 +791,7 @@ s32 is_dungeon_action_enabled(void) {
 #include "common.h"
 #include "shared/dungeon_status.h"
 
-
-extern s32 is_dungeon_action_enabled(void);
+extern s32 is_dungeon_action_blocked(void);
 
 /* Sets or reuses the requested value and calls is_dungeon_action_enabled when state permits. */
 s16 try_claim_dungeon_action_slot(s32 requested_value) {
@@ -813,7 +812,7 @@ s16 try_claim_dungeon_action_slot(s32 requested_value) {
         }
         g_dungeon_status.active_actor = requested_value;
     }
-    return is_dungeon_action_enabled();
+    return is_dungeon_action_blocked();
 }
 #include "common.h"
 #include "shared/dungeon_status.h"
@@ -822,7 +821,7 @@ s16 try_claim_dungeon_action_slot(s32 requested_value) {
 s32 has_pending_dungeon_activity(void) {
     if (g_dungeon_status.active_actor != 0 ||
         g_dungeon_status.pending_display_owner != 0 ||
-        *(s32 *)&g_dungeon_status.activity_counts.parts.pending_movement_count != 0 ||
+        *(s32 *)&g_dungeon_status.activity_counts.word != 0 ||
         (g_dungeon_status.flags & 0x2008) != 0) {
         return 1;
     }
@@ -830,7 +829,6 @@ s32 has_pending_dungeon_activity(void) {
 }
 #include "common.h"
 #include "shared/dungeon_status.h"
-
 
 /* Returns whether any of the state fields at offsets 0x0A, 0x0C, and 0x10 is nonzero. */
 s32 has_pending_actor_or_turn_action(void) {
@@ -848,7 +846,6 @@ typedef struct {
     s16 unk0A;
     s32 unk0C;
 } Struct_D_80083460;
-
 
 /* Returns whether either state field at offset 0x0A or 0x0C is nonzero. */
 s32 has_actor_or_actions(void) {
@@ -879,7 +876,6 @@ s32 has_low_actor_mp(S_800A2CAC_0 *record) {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 
-
 typedef struct S_800A2CB8_1 {
     u8 pad_00[0x14];
     u32 unk_14;
@@ -909,7 +905,6 @@ u32 check_entity_interaction_compatibility(void *entity, S_800A2CB8_1 *other_ent
 #include "common.h"
 #include "shared/dungeon_floor.h"
 
-
 /* Adds to the big-endian value at offset 0x41, saturates at 0xFFFF, and sets the update flag. */
 void accumulate_experience_award(u8 *record, u16 amount)
 {
@@ -932,10 +927,7 @@ void accumulate_experience_award(u8 *record, u16 amount)
 #define NULL 0
 #endif
 
-
-extern void accumulate_experience_award(u8 *record, u16 amount);
 extern void * create_actor_value_popup(s32 flags, u8 *source_data, s16 value, u16 callback_mode);
-
 
 typedef struct S_800A2DB8_0 {
     u8 pad_00[0x6];
@@ -1264,7 +1256,6 @@ void mark_owned_linked_actor_actions(Entity *owner_entity) {
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
-
 
 typedef struct S_800A32A4_1 {
     u8 pad_00[0x14A8];

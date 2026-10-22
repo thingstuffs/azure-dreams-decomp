@@ -2,6 +2,8 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800AB02C.
  */
 #include "town/map/radial_motion_effect_g00586.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 
 /* Creates an effect behind the source with randomized reverse motion and launch speed. */
 void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
@@ -14,28 +16,28 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
     s32 velocity_y;
     u32 direction;
     SpriteFrameState *sprite;
-    S_800A878C_1 *motion;
+    ObjectPosition *motion;
     S_800A878C_4 *launch;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     direction = (flags >> 9) & 7;
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        motion = ((S_800A878C_0 *)effect)->unk_08;
-        sprite = ((S_800A878C_0 *)effect)->unk_0C;
-        ((S_800A878C_0 *)effect)->unk_10 = &D_800A86BC;
+        motion = effect->position;
+        sprite = effect->sprite;
+        effect->unk_10 = &D_800A86BC;
         register_node(effect, project_sprite_chain);
         direction_index = direction;
-        motion->unk_02 = (s16) (source_motion->unk_02 - (dir_step_x[direction_index] * 0x10));
+        motion->x.w.i = (s16) (source_motion->unk_02 - (dir_step_x[direction_index] * 0x10));
         direction_y = &dir_step_y[direction_index];
-        motion->unk_06 = (s16) (source_motion->unk_06 - (*direction_y * 0x10));
-        motion->unk_0A = (u16) source_motion->unk_0A;
+        motion->y.w.i = (s16) (source_motion->unk_06 - (*direction_y * 0x10));
+        motion->z.w.i = (u16) source_motion->unk_0A;
         velocity_x = 0 - (source_motion->unk_0C * ((rand() & 1) + 2));
-        launch = effect + 0x20;
-        motion->unk_0C = (s32) (velocity_x / 16);
+        launch = ((void *)effect) + 0x20;
+        motion->velocity_x = (s32) (velocity_x / 16);
         velocity_y = 0 - (source_motion->unk_10 * ((rand() & 1) + 2));
-        motion->unk_10 = (s32) (velocity_y / 16);
-        motion->unk_14 = (s32) ((~rand() & 1) << 0xF);
+        motion->velocity_y = (s32) (velocity_y / 16);
+        motion->velocity_z = (s32) ((~rand() & 1) << 0xF);
         select_record_entry_and_value(sprite, &D_800F15AC, 0);
         sprite->color.c.b = 0xFF;
         sprite->color.c.g = 0xFF;
@@ -47,7 +49,7 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
         speed_roll = scale_random_to_unsigned_halfword_limit(7);
         launch_speed = speed_roll + scale_random_to_unsigned_halfword_limit(7);
         launch->unk_02 = launch_speed;
-        motion->unk_14 = (s32) (0 - (launch_speed << 0x10));
+        motion->velocity_z = (s32) (0 - (launch_speed << 0x10));
         stored_speed = launch->unk_02;
         launch->unk_04 = (s32) ((s32) (stored_speed * stored_speed) / 2);
     }
@@ -56,7 +58,6 @@ void *create_reverse_motion_effect(S_800A878C_2 *source_motion, u32 flags) {
 
 /* Spawns objects at randomized positions around a center with evenly spaced angles. */
 void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s32 count) {
-
 
     StackRecord record;
     s32 angle;
@@ -98,7 +99,7 @@ void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s
                 if (angle_value < 0) {
                     angle_value = -angle_value;
                 }
-                ((S_800A895C_3 *)(object->unk_08))->unk_14 = -angle_value;
+                ((ObjectPosition *)object->unk_08)->velocity_z = -angle_value;
             }
             angle += angle_step;
         }

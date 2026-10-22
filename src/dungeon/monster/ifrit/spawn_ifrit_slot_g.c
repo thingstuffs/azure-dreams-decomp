@@ -6,13 +6,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_80170884_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80170884_0;   /* object in build_projected_tile_packets */
-
 typedef struct S_80170884_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -42,7 +35,7 @@ extern void set_or_clear_actor_status_slot();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 extern u8 D_80170A58[];
-extern u8 D_80174820[];
+#include "dungeon/monster/ifrit.h"
 extern u8 D_80174860[];
 extern M2C_UNK D_80170E84;
 
@@ -52,7 +45,7 @@ extern void *build_projected_tile_packets(s16, s16, s16, s16);
 void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_input, s16 value_0A_input)
 {
     s32 kind;
-    void *object;
+    ObjectNodeHeader *object;
     S_80170884_2 *part_a;
     SpriteFrameState *part_b;
     S_80170884_1 *work;
@@ -70,17 +63,17 @@ void *build_projected_tile_packets(s16 mask, s16 value_24_input, s16 value_25_in
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         work = (u8 *)object + 0x20;
-        ((S_80170884_0 *)object)->unk_10 = D_80170A58;
+        object->unk_10 = D_80170A58;
         work->unk_13 = MONSTER_IFRIT;
         register_node(object, project_sprite_chain);
 
-        part_a = ((S_80170884_0 *)object)->unk_08;
+        part_a = object->position;
         part_a->unk_0A = value_0A;
-        part_b = ((S_80170884_0 *)object)->unk_0C;
+        part_b = object->sprite;
         kind = mask & 3;
         part_b->unk_25 = value_25;
         actor = work;
-        part_b->frameTable = D_80174820;
+        part_b->frameTable = ifrit_direction_frames;
         part_b->unk_24 = value_24;
 
         if (kind == 1) {

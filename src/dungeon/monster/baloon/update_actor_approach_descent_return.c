@@ -8,6 +8,9 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/player.h"
+#include "dungeon/player/item.h"
+#include "engine/texture.h"
 
 typedef struct S_80175CD8_0 {
     u8 pad_00[0x8C];
@@ -83,10 +86,7 @@ extern s32 D_80171F1C;
 extern void request_scene_dispatch_state(u8);
 extern s32 get_entity_class(void *);
 extern void select_sprite_entry(void *, u8, s32);
-extern void mark_sprite_resources_for_purge(void);
 extern void snapshot_inventory_and_familiars(void *);
-extern void snapshot_inventory_familiar_records(void);
-extern void clear_player_linked_action_flags(void);
 extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
@@ -101,7 +101,7 @@ extern void create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 d
 /* Updates the actor's approach, descent, and return sequence. */
 /* Spends MP to descend with the player, then saves party state for a scene change or returns with a
  * message. */
-void update_actor_approach_descent_return(void *action, void *motion, void *sprite, void *actor)
+void update_actor_approach_descent_return(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 slot;
     s32 companion_type;
@@ -135,8 +135,8 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             effect_actor = actor;
             effect_flags = 0x2000;
             target_tile_x = reference_tile_object.tile_position.parts.tile_x;
-            sprite_tile_x = ((SpriteFrameState *)sprite)->unk_24;
-            sprite_tile_y = ((SpriteFrameState *)sprite)->unk_25;
+            sprite_tile_x = sprite->unk_24;
+            sprite_tile_y = sprite->unk_25;
             tile_dx = target_tile_x - sprite_tile_x;
             target_tile_y = reference_tile_object.tile_position.parts.tile_y;
             tile_dx = __builtin_abs(tile_dx);
@@ -147,21 +147,21 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             spend_actor_mp(effect_actor, effect_flags);
         }
 
-            if (reference_tile_object.tile_position.parts.tile_x == ((SpriteFrameState *)sprite)->unk_24) {
-                if (reference_tile_object.tile_position.parts.tile_y > ((SpriteFrameState *)sprite)->unk_25) {
+            if (reference_tile_object.tile_position.parts.tile_x == sprite->unk_24) {
+                if (reference_tile_object.tile_position.parts.tile_y > sprite->unk_25) {
                     direction = 2;
                 } else {
                     direction = 6;
                 }
-            } else if (reference_tile_object.tile_position.parts.tile_y == ((SpriteFrameState *)sprite)->unk_25) {
-                direction = (((SpriteFrameState *)sprite)->unk_24 >= reference_tile_object.tile_position.parts.tile_x) * 4;
-            } else if (((SpriteFrameState *)sprite)->unk_24 < reference_tile_object.tile_position.parts.tile_x) {
-                if (((SpriteFrameState *)sprite)->unk_25 < reference_tile_object.tile_position.parts.tile_y) {
+            } else if (reference_tile_object.tile_position.parts.tile_y == sprite->unk_25) {
+                direction = (sprite->unk_24 >= reference_tile_object.tile_position.parts.tile_x) * 4;
+            } else if (sprite->unk_24 < reference_tile_object.tile_position.parts.tile_x) {
+                if (sprite->unk_25 < reference_tile_object.tile_position.parts.tile_y) {
                     direction = 1;
                 } else {
                     direction = 7;
                 }
-            } else if (((SpriteFrameState *)sprite)->unk_25 < reference_tile_object.tile_position.parts.tile_y) {
+            } else if (sprite->unk_25 < reference_tile_object.tile_position.parts.tile_y) {
                 direction = 3;
             } else {
                 direction = 5;
@@ -229,7 +229,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             return;
 
         case 2:
-            ((SpriteFrameState *)sprite)->frameTable = baloon_hop_frames;
+            sprite->frameTable = baloon_hop_frames;
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_hop_frames[facing & 7], 0);
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
@@ -258,11 +258,11 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
 
         case 4:
         {
-            u8 *scene = ((u8 *)(&view_reference_entity));
+            ObjectPosition *scene = ((u8 *)(&view_reference_entity));
             s32 fall_speed = (s32)0xFFF40000;
 
             ((S_80175CD8_3 *)motion)->unk_14 = fall_speed;
-            ((S_80175CD8_5 *)scene)->unk_08 += fall_speed;
+            scene->z.v += fall_speed;
         }
             {
                 u16 old_timer = ((S_80175CD8_0 *)action)->unk_96.u;
@@ -327,7 +327,7 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
         case 7:
         {
             u8 *player = ((u8 *)dungeon_actor_ring_anchor);
-            u8 *scene;
+            ObjectPosition *scene;
             u8 *scene_base;
             u32 player_flags;
             u16 height;
@@ -362,8 +362,8 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             display_text_with_fullwidth_adjustment(text_start);
 
         case 8:
-            target_x = ((((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20) << 16;
-            target_y = ((((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20) << 16;
+            target_x = ((sprite->unk_24 << 6) + 0x20) << 16;
+            target_y = ((sprite->unk_25 << 6) + 0x20) << 16;
             target_z = (((S_80175CD8_0 *)action)->unk_B4.s - 0x20) << 16;
             return_ticks = ((S_80175CD8_0 *)action)->unk_96.s;
             if (return_ticks >= 0xE) {
@@ -416,16 +416,16 @@ void update_actor_approach_descent_return(void *action, void *motion, void *spri
             g_dungeon_status.active_actor = 0;
             ((EntityRec *)actor)->flags1C |= 0x40000;
             (*(u16 *)((u8 *)action + 0x98)) &= 0xFFF7;
-            ((SpriteFrameState *)sprite)->frameTable = baloon_default_frames;
+            sprite->frameTable = baloon_default_frames;
             facing = (g_game_work.view.camera_rotation.parts.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
             select_sprite_entry(sprite, baloon_default_frames[facing & 7], 0);
-            ((SpriteFrameState *)sprite)->unk_05 = 1;
+            sprite->unk_05 = 1;
             ((S_80175CD8_0 *)action)->unk_A2.s = 0;
             ((S_80175CD8_0 *)action)->unk_9E = 0;
             ((S_80175CD8_0 *)action)->unk_90.at02.v = -0x20;
             ((EntityRec *)actor)->unk_88 = ((S_80175CD8_0 *)action)->unk_B4.u;
-            ((S_80175CD8_3 *)motion)->unk_00.at02.v = (((SpriteFrameState *)sprite)->unk_24 << 6) + 0x20;
-            ((S_80175CD8_3 *)motion)->unk_04.at02.v = (((SpriteFrameState *)sprite)->unk_25 << 6) + 0x20;
+            ((S_80175CD8_3 *)motion)->unk_00.at02.v = (sprite->unk_24 << 6) + 0x20;
+            ((S_80175CD8_3 *)motion)->unk_04.at02.v = (sprite->unk_25 << 6) + 0x20;
             ((S_80175CD8_3 *)motion)->unk_0A = ((u16)((EntityRec *)actor)->unk_88) +
                 ((S_80175CD8_0 *)action)->unk_90.at02u.v - ((S_80175CD8_0 *)action)->unk_A2.u;
 

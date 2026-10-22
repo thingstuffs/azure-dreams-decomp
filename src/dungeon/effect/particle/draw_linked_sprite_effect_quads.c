@@ -1,5 +1,6 @@
 /* Linked sprite quad rendering, nearby target effects, and fading radial grids. */
 #include "dungeon/effect/particle/draw_linked_sprite_effect_quads.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 #include "common.h"
@@ -9,10 +10,10 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/actor.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 resolve_record_orientation_or_fallback();     /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
-void *find_eligible_nearby_entry();           /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 
 typedef struct S_func_819B2800_0 {
@@ -192,8 +193,8 @@ void update_directional_actor_effect(S_func_819B2800_0 *effect, S_func_819B2800_
             data_bytes = ((u8 *)(&reference_tile_object));
             direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&primary_actor_record)))[0])->unk_2A >> 9) & 7;
             offset[0] = direction;
-            visual->unk_0C = (s16) (((S_func_819B2800_3 *) ((u8 *)(&reference_tile_object)))->unk_24 + dir_step_x[direction]);
-            visual->unk_0E = (s16) (((S_func_819B2800_3 *) ((u8 *)(&reference_tile_object)))->unk_25 + dir_step_y[offset[0]]);
+            visual->unk_0C = (s16) (reference_tile_object.tile_position.parts.tile_x + dir_step_x[direction]);
+            visual->unk_0E = (s16) (reference_tile_object.tile_position.parts.tile_y + dir_step_y[offset[0]]);
             visual->unk_10 = (u16) position->unk_08.unk_0A.unk_0A;
             object_data->unk_20 = effect;
         }
@@ -462,12 +463,6 @@ typedef struct S_8002466C_9 {
     s16 unk_4C;
 } S_8002466C_9;   /* ent in update_animated_target_effect */
 
-typedef struct S_8002466C_10 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8002466C_10;   /* ((S_8002466C_6 *)obj)->unk_08 in update_animated_target_effect */
-
 extern s16 GetTPage(s32, s32, s32, s32);
 extern s16 GetClut(s32, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, s16 *, s32);
@@ -488,7 +483,7 @@ void update_animated_target_effect(void *effect)
     void *owner;
     TileObject *approach_target;
     TileObject *follow_target;
-    void *particle;
+    ObjectNodeHeader *particle;
     void *particle_state;
     SpriteFrameState *sprite;
     void *particle_data;
@@ -578,17 +573,17 @@ void update_animated_target_effect(void *effect)
         do {
             particle = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (particle != NULL) {
-                ((S_8002466C_6 *)particle)->unk_10 = particle_data;
+                particle->unk_10 = particle_data;
                 register_node(particle, project_sprite_chain);
-                sprite = ((S_8002466C_6 *)particle)->unk_0C;
+                sprite = particle->sprite;
                 particle_state = (u8 *)particle + 0x20;
-                ((S_8002466C_10 *)(((S_8002466C_6 *)particle)->unk_08))->unk_00 =
+                (particle->position)->x.v =
                     ((S_8002466C_0 *)effect)->unk_1C.at00.v +
                     (((rand() & 0x3FF) - 0x1FF) << 12);
-                ((S_8002466C_10 *)(((S_8002466C_6 *)particle)->unk_08))->unk_04 =
+                (particle->position)->y.v =
                     ((S_8002466C_0 *)effect)->unk_20.at00.v +
                     (((rand() & 0x3FF) - 0x1FF) << 12);
-                ((S_8002466C_10 *)(((S_8002466C_6 *)particle)->unk_08))->unk_08 =
+                (particle->position)->z.v =
                     ((S_8002466C_0 *)effect)->unk_24.at00.v +
                     (((rand() & 0x3FF) - 0x1FF) << 11);
                 sprite->scale_y = 0x1000;
@@ -644,12 +639,12 @@ typedef struct SpriteEntry {
 
 /* Retail 819B32CC (build_and_queue_interpolated_vertical_quads_around_five_perimeter_points): marks the owner, and once the sprite reaches status 0x6000 marks the
  * effect's own header and the global object flags too. */
-void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(EffectRecord *effect, void *unused, SpriteEntry *sprite) {
+void build_and_queue_interpolated_vertical_quads_around_five_perimeter_points(EffectRecord *effect, void *unused, SpriteFrameState *sprite) {
     EffectOwner *owner = effect->owner;
 
     owner->flags |= 0x8000;
     advance_sprite_animation_and_textures(sprite);
-    if (sprite->status & 0x6000) {
+    if (sprite->flags & 0x6000) {
         ((ObjectNodeHeader *)effect - 1)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

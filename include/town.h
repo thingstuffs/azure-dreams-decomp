@@ -5,6 +5,6 @@
 
 
 /* func_806D6800.c */
-s32 func_80018800(s32 target_value);
+s32 town_table_contains_first_byte_d(s32 target_value);
 
 #endif

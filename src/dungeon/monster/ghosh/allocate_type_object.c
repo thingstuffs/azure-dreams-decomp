@@ -49,12 +49,12 @@ void allocate_type_12_object(void)
         (object->unk_10) = D_8016ABC8;
         register_node(object, D_80044BB0);
 
-        primary_state = (object->unk_08);
+        primary_state = (object->position);
         primary_state->unk_0A = 0;
         primary_state->unk_06 = 0;
         primary_state->unk_02 = 0;
 
-        secondary_state = (object->unk_0C);
+        secondary_state = (object->sprite);
         secondary_state->unk_1E = 0;
         secondary_state->unk_1C = 0;
         secondary_state->unk_0E = 0;

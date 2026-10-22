@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 
@@ -10,9 +11,9 @@ extern u8 D_80175DBC[];
 /* Initializes an offset position and sends a message at action phase three. */
 void initialize_action_offset_and_notify(void *action, void *position)
 {
-    u8 *object = beldo_script_node;
-    u8 *object_position = *(u8 **)(object + 8);
-    u8 *object_data = object + 0x20;
+    ObjectNodeHeader *object = beldo_script_node;
+    u8 *object_position = *(u8 * *)&object->position;
+    u8 *object_data = ((u8 *)object) + 0x20;
 
     if (*(s16 *)((u8 *)action + 0x12) == 0) {
         s16 *direction_offsets = D_80173AFC;

@@ -2,10 +2,10 @@
 #include "records/Rec_func_800B15B8_arg0.h"
 
 
-typedef s32 M2C_UNK;
+#include "slus.h"
 
 
-extern M2C_UNK flag_optional_object_for_removal();
+
 
 
 typedef struct S_800B15B8_1 {

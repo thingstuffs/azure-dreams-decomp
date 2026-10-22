@@ -14,13 +14,6 @@ typedef struct S_80CBD000_0 {
     void * unk_8C;
 } S_80CBD000_0;   /* work in create_actor_grid_object */
 
-typedef struct S_80CBD000_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80CBD000_1;   /* part in create_actor_grid_object */
-
 typedef struct S_80CBD000_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
@@ -50,7 +43,7 @@ extern u8 D_80170AE0[];
 extern u8 D_80170F20[];
 extern u8 D_80173B98[];
 extern u8 D_801762C0[];
-extern u8 D_80176300[];
+#include "dungeon/monster/pulunpa.h"
 extern u8 D_80176320[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
@@ -65,7 +58,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
     s16 arg0_copy;
     s32 alloc_id;
     ObjectNodeHeader *alloc_base;
-    void *part;
+    ObjectNodeHeader *part;
     void *work;
     S_80CBD000_2 *coord;
     SpriteFrameState *state;
@@ -82,10 +75,10 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
         work = (u8 *)part + 0x20;
         ((S_80CBD000_0 *)work)->unk_13 = MONSTER_PULUNPA;
         register_node(part, project_sprite_chain);
-        coord = ((S_80CBD000_1 *)part)->unk_08;
+        coord = part->position;
         kind = flags & 3;
         coord->unk_0A = spawn_value;
-        state = ((S_80CBD000_1 *)part)->unk_0C;
+        state = part->sprite;
         state->unk_25 = variant;
         actor = work;
         state->unk_24 = kind_id;
@@ -106,7 +99,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
                 if (random & 1) {
                     random = generate_random_value();
                     set_or_clear_actor_status_slot(work, 1, (random & 0x3F) | 0x20);
-                    state->frameTable = D_80176300;
+                    state->frameTable = pulunpa_direction_frames;
                 }
             }
             if (entity_spawn_variant_code < 10) {
@@ -122,7 +115,7 @@ void *create_actor_grid_object(s16 flags, s16 unused_kind_id, s16 variant, s16 u
             state->frameTable = D_801762C0;
         }
 
-        ((S_80CBD000_1 *)part)->unk_10 = D_80170AE0;
+        part->unk_10 = D_80170AE0;
         initialize_actor_sprite_and_animation(part, coord, state, arg0_copy);
         ((S_80CBD000_4 *)actor)->unk_9A = 0xFF;
         ((S_80CBD000_4 *)actor)->unk_9C = -1;

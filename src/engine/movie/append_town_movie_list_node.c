@@ -4,27 +4,16 @@
 #include "common.h"
 #include "engine/movie.h"
 
-typedef struct S_8003AF58_0 {
-    u8 pad_00[0x14];
-    union { s32 s; void * u; } unk_14;   /* accessed as both */
-} S_8003AF58_0;   /* var_a0 in append_town_movie_list_node */
-
-typedef struct S_8003AF58_1 {
-    u8 pad_00[0x14];
-    s32 unk_14;
-} S_8003AF58_1;   /* arg1 in append_town_movie_list_node */
-
-
 /* Appends a node to the end of the linked list. */
-void append_list_tail(void *list_head, S_8003AF58_1 *new_node) {
-    S_8003AF58_0 *tail;
+void append_list_tail(void *list_head, MovieListNode *new_node) {
+    MovieListNode *tail;
 
     tail = list_head;
-    if (tail->unk_14.s != 0) {
+    if (tail->next != 0) {
         do {
-            tail = tail->unk_14.u;
-        } while (tail->unk_14.s != 0);
+            tail = tail->next;
+        } while (tail->next != 0);
     }
-    tail->unk_14.u = new_node;
-    new_node->unk_14 = 0;
+    tail->next = new_node;
+    new_node->next = 0;
 }

@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/game_work.h"
@@ -15,7 +16,6 @@ typedef struct S_80172314_2 {
     u8 unk_9B;
 } S_80172314_2;   /* arg0 in validate_transition_and_update_action */
 
-
 extern s32 select_sprite_entry();
 extern s32 prepare_directional_attack();
 extern s32 get_actor_height_difference();
@@ -23,10 +23,10 @@ extern s32 probe_directional_neighbor();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target();
-extern u8 D_80175258[];
+#include "dungeon/monster/mandara.h"
 
 /* Validate an actor transition and update its state and directional animation on success. */
-s32 validate_transition_and_update_action(void *state, s32 transition_id, void *sprite, ActorRecord *actor)
+s32 validate_transition_and_update_action(void *state, s32 transition_id, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s16 transitioned;
     s32 target_heading;
@@ -36,8 +36,8 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, void *
     if (g_dungeon_status.flags & 0x2000) {
         return -1;
     }
-    target_heading = probe_directional_neighbor(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
-                           ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
+    target_heading = probe_directional_neighbor(actor, sprite->unk_24,
+                           sprite->unk_25, actor->facing);
     if ((check_entity_interaction_compatibility(actor, target_heading) << 16) == 0) {
         return 0;
     }
@@ -76,9 +76,9 @@ s32 validate_transition_and_update_action(void *state, s32 transition_id, void *
         }
     }
 
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80175258;
+    (sprite->frameTable) = mandara_direction_frames;
     select_sprite_entry(sprite,
-                  D_80175258[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                  mandara_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     actor->pending_turn_updates--;
     prepare_directional_attack(actor, sprite, actor->facing, 1, 0);

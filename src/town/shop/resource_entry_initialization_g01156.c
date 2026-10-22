@@ -1,6 +1,7 @@
 /* Resource entry initialization g01156.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01156 - CL:town/func_800B5204, CL:town/func_800B5270, CL:town/func_800B52D8, CL:town/func_800B5400, CL:town/func_800B550C.
  */
+#include "shared/object_node.h"
 #include "town/shop/resource_entry_initialization_g01156.h"
 #include "shared/object_flags.h"
 
@@ -122,7 +123,7 @@ s32 open_twin_souko(s32 option) {
             came_bright_set(5);
             obj_disp23_cancel_sw_set(1);
             ((S_800B2BA0_0 *)state)->unk_48 = option;
-            ((S_800B2BA0_0_pre *)state)[-1].unk_00 = &handle_item_menu_input_2;
+            ((ObjectNodeHeader *)((u8 *)state - 0x20))->unk_10 = &handle_item_menu_input_2;
         }
         return (s32)task;
     }

@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -6,26 +7,10 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_moving_views.h"
 
-typedef struct S_80024550_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80024550_0;
-
 typedef struct S_80024550_1 {
     u8 pad_00[0x8];
     s16 unk_08;
 } S_80024550_1;
-
-typedef struct S_80024550_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80024550_3;
 
    /* arg0 in mark_owner_on_target_completion */
 
@@ -44,14 +29,14 @@ void mark_owner_on_target_completion(MovingPosition *origin)
     s32 random_value;
     s32 adjusted_random;
     SpriteFrameState *render_data;
-    S_80024550_3 *position;
+    ObjectPosition *position;
     S_80024550_1 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     scene_state = &g_game_work;
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        ((S_80024550_0 *)effect)->unk_10 = D_800244A4;
+        effect->unk_10 = D_800244A4;
         adjusted_random = rand();
         random_value = adjusted_random;
         effect_state = (u8 *)effect + 0x20;
@@ -59,7 +44,7 @@ void mark_owner_on_target_completion(MovingPosition *origin)
             adjusted_random = random_value + 0xFFF;
         }
         effect_state->unk_08 = (random_value % 4096);
-        render_data = ((S_80024550_0 *)effect)->unk_0C;
+        render_data = effect->sprite;
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
@@ -72,11 +57,11 @@ void mark_owner_on_target_completion(MovingPosition *origin)
             (s32)(0 - ((func_80064584(effect_state->unk_08 -
                                       scene_state->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
         register_node(effect, project_sprite_chain);
-        position = ((S_80024550_0 *)effect)->unk_08;
-        position->unk_02 = origin->unk_02 +
+        position = effect->position;
+        position->x.w.i = origin->unk_02 +
             ((func_800644B8(effect_state->unk_08) * 2) >> 8);
-        position->unk_06 = origin->unk_06 +
+        position->y.w.i = origin->unk_06 +
             ((func_80064584(effect_state->unk_08) * 2) >> 8);
-        position->unk_0A = origin->unk_0A;
+        position->z.w.i = origin->unk_0A;
     }
 }

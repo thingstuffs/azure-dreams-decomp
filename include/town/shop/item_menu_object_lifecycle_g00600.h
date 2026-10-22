@@ -40,6 +40,6 @@ extern void handle_selection_and_create_object(void);
 
 /* Functions defined in this translation unit. */
 s32 create_item_menu_object(s32 selector);
-void start_item_menu_object_processing(ItemMenuParameters *parameters);
+void release_item_menu_object(ItemMenuParameters *parameters);
 
 #endif

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
@@ -6,24 +7,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
-typedef struct S_80164ED0_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_80164ED0_2;
-
-typedef struct S_80164ED0_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_80164ED0_4;
 
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in create_random_velocity_child_effect */
 
@@ -52,24 +35,24 @@ typedef struct S_80164ED0_1 {
 void create_random_velocity_child_effect(EntityRec *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
 {
     S_80164ED0_1 *effect_data;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_list_node(0x211, parent);
     if (effect != NULL) {
-        ((S_80164ED0_0 *)effect)->unk_10 = D_80164DA4;
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_02 = (s16)
+        effect->unk_10 = D_80164DA4;
+        (effect->position)->x.w.i = (s16)
         (((MovingPosition *)((*(void * *)&parent->z)))->unk_02 + offset_x);
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_06 = (s16)
+        (effect->position)->y.w.i = (s16)
         (((MovingPosition *)((*(void * *)&parent->z)))->unk_06 + offset_y);
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0A = (s16)
+        (effect->position)->z.w.i = (s16)
         (((MovingPosition *)((*(void * *)&parent->z)))->unk_0A + offset_z);
-        ((SpriteFrameState *)((S_80164ED0_2 *)effect)->unk_0C)->unk_06 = 6;
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0C = (s32)
+        effect->sprite->unk_06 = 6;
+        (effect->position)->velocity_x = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 6);
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_10 = (s32)
+        (effect->position)->velocity_y = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 6);
-        effect_data = effect + 0x20;
-        ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_14 = (s32)
+        effect_data = ((void *)effect) + 0x20;
+        (effect->position)->velocity_z = (s32)
         (((rand() & 0x7FFF) - 0x4000) << 6);
         effect_data->unk_32 = pair_value;
         effect_data->unk_34 = pair_value;

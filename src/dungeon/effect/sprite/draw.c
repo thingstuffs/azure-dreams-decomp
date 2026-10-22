@@ -1,6 +1,7 @@
 /* Waving textured sprite strips and linked shaded particle rendering. */
+#include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/draw.h"
-
+#include "shared/game_work.h"
 
 /* Projects waving sprite strips, queues visible textured quads, and invokes custom part callbacks. */
 void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *position, Row_818F2800_S_BODY_1 *state, s32 depth_offset)
@@ -27,7 +28,7 @@ void render_textured_effect_parts(Row_818F2800_S_BODY_3 *geometry, void *positio
     Row_818F2800_S_BODY_6 *cache;
     s32 position_z;
 
-    globals = ((void * *)(&g_game_work));
+    globals = ((void **)(&g_game_work));
     graphics = globals[0];
     scratch = (u8 *)0x1F800000;
 
@@ -423,7 +424,7 @@ s32 draw_linked_shaded_tiles(void *first_point, void *first_position)
     void *position = first_position;
     GameWork *render_state = &g_game_work;
     u32 addr_mask = 0x00FFFFFF;
-    u8 *render_ctx = *(u8 **)((u8 *)(&g_game_work));
+    u8 *render_ctx = *(u8 **)&g_game_work.draw_buffer;
     u8 *packet_start;
     u32 tag_mask = 0xFF000000;
     Row_818F30EC_Scratch800248EC *scratch =

@@ -80,10 +80,10 @@ s32 check_diagonal_side_height(s32, s16, s16, s16);                /* extern */
 s32 check_movement_clearance_and_height();    /* extern */
 s32 test_neighbor_position_relation(s32, s32, s32, s32);                  /* extern */
 s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);                  /* extern */
-void *find_valid_monster_neighbor();                /* extern */
+void *find_adjacent_actor();                /* extern */
 void *probe_directional_neighbor();           /* extern */
 u16 get_rounded_facing_and_rounding_flag();          /* extern */
-s32 rebuild_monster_reachable_tiles(u8 *, s32, u8 *, u16 *);  /* extern */
+s32 select_actor_route_target(u8 *, s32, u8 *, u16 *);  /* extern */
 s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *); /* extern */
 s32 generate_random_value();                            /* extern */
 void update_actor_status_and_mp(struct ActorRecord *);                      /* extern */
@@ -171,7 +171,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
         actor_flags = ((S_8016BF74_1 *)actor)->unk_1C;
         if (actor_flags & 0x410) {
             if (actor_flags & 0x400) {
-                initialized_bit = (s32)(find_valid_monster_neighbor(actor, position->unk_24.at00.v, position->unk_24.at01.v));
+                initialized_bit = (s32)(find_adjacent_actor(actor, position->unk_24.at00.v, position->unk_24.at01.v));
                 if ((void *)initialized_bit != NULL) {
                     source_x = position->unk_24.at00.v;
                     target_position = ((SpriteLinkPrefixView *)(void *)initialized_bit)[-1].unk_00;
@@ -234,7 +234,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                         return;
                     }
                 } else {
-                    rebuild_monster_reachable_tiles((u8 *)(position), ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                    select_actor_route_target((u8 *)(position), ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
                 }
             }
         } else {
@@ -270,7 +270,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                             } else {
                             }
                         } else {
-                            rebuild_monster_reachable_tiles((u8 *)(position), ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                            select_actor_route_target((u8 *)(position), ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
                         }
                     } else {
                         ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
@@ -278,7 +278,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                     }
                 }
             } else {
-                rebuild_monster_reachable_tiles((u8 *)(position), ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
+                select_actor_route_target((u8 *)(position), ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
             }
         }
         turn_index = 0;

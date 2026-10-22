@@ -125,7 +125,7 @@ void update_spark_emitter_effect(void *effect, void *position) {
     SpriteFrameState *sprite;
     S_81814EDC_5 *debris;
     MovingPosition *owner_position;
-    void *particle;
+    ObjectNodeHeader *particle;
 
     if (((S_81814EDC_0 *)effect)->unk_00 == 0) {
         if (!(((S_81814EDC_0 *)effect)->unk_0A & 1)) {
@@ -137,11 +137,11 @@ void update_spark_emitter_effect(void *effect, void *position) {
         particle = allocate_flagged_object_node(0x212);
         if (particle != NULL) {
             ((S_81814EDC_1 *)particle)->unk_22 = 9;
-            ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
+            particle->unk_10 = &D_80024280;
             register_node(particle, project_sprite_chain);
-            sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+            sprite = particle->sprite;
             sprite->flags = (u16) (sprite->flags | 0xC);
-            debris = ((S_81814EDC_1 *)particle)->unk_08;
+            debris = particle->position;
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
                 s32 coordinate;
@@ -169,7 +169,7 @@ void update_spark_emitter_effect(void *effect, void *position) {
                 coordinate += random_offset;
                 ((S_81814EDC_4 *)debris)->unk_0A.s = (s16) coordinate;
             }
-            sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+            sprite = particle->sprite;
             sprite->scale_x = 0x2000;
             sprite->scale_y = 0x1000;
             sprite->color.c.b = 0x80;
@@ -196,21 +196,21 @@ loop_effects:
                 effect_index = 0;
                 do {
                     particle = allocate_flagged_object_node(0x212);
-                    debris = particle + 0x20;
+                    debris = ((void *)particle) + 0x20;
                     if (particle != NULL) {
                         s32 random_offset = 0xB;
                         s32 coordinate;
 
                         debris->unk_02 = 0xD;
                         owner_position = ((S_81814EDC_12_pre *)(((S_81814EDC_0 *)effect)->unk_30))[-1].unk_00;
-                        ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
+                        particle->unk_10 = &D_80024280;
                         register_node(particle, project_sprite_chain);
-                        sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+                        sprite = particle->sprite;
                         sprite->flags = (u16) (sprite->flags | 0xC);
                         debris->unk_58 = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
                         debris->unk_5C = (s32) (((func_80069EF8() & 0x7FFF) << 5) + 0xFFF80000);
                         debris->unk_60 = (s32) (((func_80069EF8() & 0x3FFF) << 5) + 0xFFF80000);
-                        debris = ((S_81814EDC_1 *)particle)->unk_08;
+                        debris = particle->position;
                         random_offset = func_80069EF8() & 0xF;
                         coordinate = owner_position->unk_02;
                         coordinate -= 8;
@@ -222,7 +222,7 @@ loop_effects:
                         coordinate += random_offset;
                         debris->unk_06 = (s16) coordinate;
                         debris->unk_0A = (s16) (owner_position->unk_0A - 0x20);
-                        sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+                        sprite = particle->sprite;
                         sprite->scale_y = 0x1000;
                         sprite->scale_x = 0x1000;
                         sprite->color.c.b = 0x80;
@@ -244,11 +244,11 @@ loop_effects:
 
                         ((S_81814EDC_1 *)particle)->unk_22 = random_offset;
                         owner_position = ((S_81814EDC_7_pre *)(((S_81814EDC_0 *)effect)->unk_30))[-1].unk_00;
-                        ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
+                        particle->unk_10 = &D_80024280;
                         register_node(particle, project_sprite_chain);
-                        sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+                        sprite = particle->sprite;
                         sprite->flags = (u16) (sprite->flags | 0xC);
-                        debris = ((S_81814EDC_1 *)particle)->unk_08;
+                        debris = particle->position;
                         random_offset = func_80069EF8() & 0xF;
                         coordinate = owner_position->unk_02;
                         coordinate -= 8;
@@ -260,7 +260,7 @@ loop_effects:
                         coordinate += random_offset;
                         ((S_81814EDC_4 *)debris)->unk_06 = (s16) coordinate;
                         ((S_81814EDC_4 *)debris)->unk_0A.u = (u16) owner_position->unk_0A;
-                        sprite = ((S_81814EDC_1 *)particle)->unk_0C;
+                        sprite = particle->sprite;
                         sprite->color.c.b = neutral_color;
                         sprite->color.c.g = neutral_color;
                         sprite->color.c.r = neutral_color;

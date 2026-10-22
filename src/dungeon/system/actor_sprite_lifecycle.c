@@ -1,5 +1,6 @@
 /* Actor sprite lifecycle and its file-private helper. */
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -13,25 +14,7 @@ extern void advance_sprite_animation_and_textures(void *entity);
 extern void begin_actor_flagged_action(void *entity, s32 unused, void *status, void *event_state);
 extern void initialize_actor_object_action(void *object_state, s32 unused_context, void *properties, void *status);
 extern s16 pending_marked_actor_count;
-typedef struct S_800A9E70_2 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    union { s32 * p; u8 * p2; } unk_2C;   /* accessed as both */
-} S_800A9E70_2;
 /* arg2 in refresh_actor_facing_and_lifecycle */
-
-typedef struct S_800A9E70_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x4];
-    s16 unk_08;
-    u8 pad_0A[0x2];
-    void * unk_0C;
-    s32 unk_10;
-} S_800A9E70_3;
 
 static s32 uses_direct_actor_sprite_frames(void *record) {
     if (*(s32 *)(*(void **)((s8 *)record - 0x14)) == 0) {
@@ -46,7 +29,7 @@ static s32 uses_direct_actor_sprite_frames(void *record) {
 }
 
 /* Updates directional sprite frames and starts pending actor actions when dungeon activity allows. */
-s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_arg, S_800A9E70_2 *sprite, ActorRecord *entity) {
+s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_arg, SpriteFrameState *sprite, ActorRecord *entity) {
     void *active_entity;
     s32 entity_flags;
     s32 direction;
@@ -57,19 +40,19 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         if (anim->unk_94 != direction) {
             if (uses_direct_actor_sprite_frames(entity) != 0) {
-                select_record_entry_and_value(sprite, sprite->unk_2C.p[direction],
+                select_record_entry_and_value(sprite, (*(s32 **)&sprite->frameTable)[direction],
                               sprite->unk_04);
                 anim->unk_94 = direction;
             } else {
-                select_indirect_table_entry(sprite, sprite->unk_2C.p2[direction],
+                select_indirect_table_entry(sprite, (*(u8 **)&sprite->frameTable)[direction],
                               sprite->unk_04);
                 anim->unk_94 = direction;
             }
         }
         if (dir_sprite_flag[direction] != 0) {
-            sprite->unk_14 |= 1;
+            sprite->flags |= 1;
         } else {
-            sprite->unk_14 &= 0xFFFE;
+            sprite->flags &= 0xFFFE;
         }
         advance_sprite_animation_and_textures(sprite);
         return 1;
@@ -87,14 +70,14 @@ s32 refresh_actor_facing_and_lifecycle(Rec_func_800A9E70_arg0 *anim, s32 action_
         }
     }
 
-    if (!(sprite->unk_14 & 0x8000)) {
+    if (!(sprite->flags & 0x8000)) {
         if (anim->unk_98 & 0x400) {
             direction = ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
             if (uses_direct_actor_sprite_frames(entity) != 0) {
-                select_record_entry_and_value(sprite, sprite->unk_2C.p[direction],
+                select_record_entry_and_value(sprite, (*(s32 **)&sprite->frameTable)[direction],
                               sprite->unk_04);
             } else {
-                select_indirect_table_entry(sprite, sprite->unk_2C.p2[direction],
+                select_indirect_table_entry(sprite, (*(u8 **)&sprite->frameTable)[direction],
                               sprite->unk_04);
             }
             anim->unk_98 &= 0xFBFF;

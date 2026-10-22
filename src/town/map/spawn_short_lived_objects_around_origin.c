@@ -68,19 +68,19 @@ void spawn_short_lived_objects_around_origin(Self *self, Copy24 *origin) {
         Resource *resource;
 
         do {
-            Object *object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
+            ObjectNodeHeader *object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
 
             if (object != NULL) {
                 SpriteFrameState *primitive;
 
-                object->callback = callback;
+                object->unk_10 = callback;
                 register_node(object, project_sprite_chain);
-                primitive = object->primitive;
-                *object->position = *origin;
+                primitive = *(Primitive * *)&object->sprite;
+                **(Copy24 * *)&object->position = *origin;
 
-                object->position->word[0] +=
+                (*(Copy24 * *)&object->position)->word[0] +=
                     ((rand() % 255) - 0x80) * 0x40000;
-                object->position->word[1] +=
+                (*(Copy24 * *)&object->position)->word[1] +=
                     ((rand() % 255) - 0x80) * 0x40000;
 
                 primitive->scale_y = 0x1000;

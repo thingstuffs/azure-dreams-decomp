@@ -1,28 +1,15 @@
 #ifndef DUNGEON_OVL_189A800_H
 #define DUNGEON_OVL_189A800_H
+
+
+struct SpriteFrameState;
+struct ObjectPosition;
 #include "modules/dungeon_native_abi.h"
 #include "shared/position_views.h"
 
 /* Record views shared by the mesh renderer and linked-record walker. */
 
 
-typedef struct S_func_800241A8_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    union {
-        u32 as_u32_0C;
-        struct {
-            u8 pad_0C[0x3];
-            u8 unk_0F;
-        } as_u8_0F;
-    } unk_0C;
-    u16 unk_10;
-    u16 unk_12;
-    u16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
-    u16 unk_1A;
-} S_func_800241A8_3;
 
 typedef struct S_func_800241A8_4 {
     u8 pad_00[0x4E];
@@ -78,7 +65,7 @@ typedef struct S_func_800241A8_4 {
     } unk_6E;
 } S_func_800241A8_4;
 
-void transform_and_queue_mesh_primitives(S_func_800241A8_4 *, SignedPositionView *, S_func_800241A8_3 *, s32);
+void transform_and_queue_mesh_primitives(S_func_800241A8_4 *,struct ObjectPosition *,struct SpriteFrameState *, s32);
 /* Bank callbacks whose definitions precede their users in the native TU. */
 void rotate_point_cloud_until_expired(void *object, s32 unused, void *target);
 void advance_fading_effect_animation(void *effect_data, s32 unused_arg, void *color_data);

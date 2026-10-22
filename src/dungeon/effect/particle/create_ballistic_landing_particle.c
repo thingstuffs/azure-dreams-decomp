@@ -76,30 +76,30 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
     s32 sprite_scale;
     S_80165D0C_2 *sprite;
     S_80165D0C_1 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x12);
     if (effect != NULL) {
-        (((ObjectNodeHeader *)effect)->unk_10) = &D_80165AB8;
-        ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_02 =
+        (effect->unk_10) = &D_80165AB8;
+        ((S_80165D0C_3 *)((effect->position)))->unk_02 =
             (s16) (((MovingPosition *)(source->unk_08))->unk_02 + offset_x);
-        ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_06 =
+        ((S_80165D0C_3 *)((effect->position)))->unk_06 =
             (s16) (((MovingPosition *)(source->unk_08))->unk_06 + offset_y);
-        ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0A =
+        ((S_80165D0C_3 *)((effect->position)))->unk_0A =
             (s16) (((MovingPosition *)(source->unk_08))->unk_0A + offset_z);
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         effect_state->unk_42 = (u16) ((MovingPosition *)(source->unk_08))->unk_02;
         effect_state->unk_44 = (u16) ((MovingPosition *)(source->unk_08))->unk_06;
         effect_state->unk_46 = (u16) ((MovingPosition *)(source->unk_08))->unk_0A;
-        ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
-        ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
-        ((S_80165D0C_3 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_14 = (s32) (velocity_z + 0xFFFC0000);
+        ((S_80165D0C_3 *)((effect->position)))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
+        ((S_80165D0C_3 *)((effect->position)))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 8);
+        ((S_80165D0C_3 *)((effect->position)))->unk_14 = (s32) (velocity_z + 0xFFFC0000);
         effect_state->unk_60 = 0x10000;
         effect_state->unk_14 = duration;
         effect_state->unk_32 = 0;
         effect_state->unk_34 = 0;
         register_node(effect, project_sprite_chain);
-        sprite = (((ObjectNodeHeader *)effect)->unk_0C);
+        sprite = (effect->sprite);
         sprite->unk_06 = -4;
         sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFF3);
         sprite_scale = 0x1000 / (s32) (func_80167088(5) + 8);
@@ -111,7 +111,7 @@ void create_ballistic_landing_particle(S_80165D0C_0 *source, s16 duration, s32 s
         effect_state->unk_08 = scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)&particle_sprite_template + 0));
-        sprite->unk_08 = (void *) (effect + 0x56);
+        sprite->unk_08 = (void *) (((void *)effect) + 0x56);
     }
 }
 

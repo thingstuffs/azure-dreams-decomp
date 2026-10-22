@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
+#include "dungeon/player.h"
 
 typedef struct S_80094E34_1 {
     u8 pad_00[0x1C];

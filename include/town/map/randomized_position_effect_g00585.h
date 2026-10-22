@@ -18,13 +18,6 @@ struct Dst;
 
 struct Elem;
 
-typedef struct S_800A84D0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800A84D0_0;
-
 /* arg0 in create_randomized_position_effect */
 typedef struct S_800A84D0_4 {
     u8 pad_00[0x2];

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor.h"
 
 typedef struct DungeonState {
     u8 pad0[0xA];

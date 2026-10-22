@@ -1,4 +1,6 @@
 /* Moving attack visuals, linked particle creation, and timed view parameter updates. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/motion/interpolate_view_parameters.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -114,7 +116,7 @@ void advance_motion_counters_position_set_completion_flags_past_lifetime(void *m
 void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void *initial_data, Row_81916AEC_S_800242EC_2 *source)
 {
     SpriteFrameState *visual;
-    void *object;
+    ObjectNodeHeader *object;
     Row_81916AEC_S_800242EC_1 *state;
     Row_81916AEC_Copy6 *object_data;
     void *result;
@@ -122,13 +124,13 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         state = (u8 *)object + 0x20;
-        ((Row_81916AEC_S_800242EC_0 *)object)->unk_10 = &D_800241E4;
+        object->unk_10 = &D_800241E4;
         ((Row_81916AEC_S_800242EC_0 *)object)->unk_20 = object_id;
         state->unk_04 = 0;
         state->unk_06 = 8;
         state->unk_08 = 8;
         state->unk_0A = source->unk_2A;
-        visual = ((Row_81916AEC_S_800242EC_0 *)object)->unk_0C;
+        visual = object->sprite;
         visual->color.c.g = 0x30;
         visual->color.c.r = 0x30;
         visual->color.c.b = 0xC0;
@@ -140,7 +142,7 @@ void *create_an_initializes_visual_state_copies_initial_data(s32 object_id, void
         visual->scale_y = 0x1000;
         visual->scale_x = 0x1000;
         register_node(object, project_sprite_chain);
-        object_data = ((Row_81916AEC_S_800242EC_0 *)object)->unk_08;
+        object_data = *(Row_81916AEC_Copy6 * *)&object->position;
         result = object;
         *object_data = *(Row_81916AEC_Copy6 *)initial_data;
         return object;
@@ -190,14 +192,14 @@ void create_a_type_hex_212_initializes_handler_mode(s32 initial_value) {
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         object->unk_10 = &D_8002441C;
-        ((SpriteFrameState *)((Row_81916D2C_S_8002452C_1 *)object)->unk_0C)->unk_05 = 4;
+        ((ObjectNodeHeader *)object)->sprite->unk_05 = 4;
         object->unk_20 = initial_value;
     }
 }
 
 /* Advances sprite animation and, when it finishes, removes the child and increments the owner's
    completion counter. */
-void update_the_target_records_counts_flags_status(void *object_slot, void *unused, void *target)
+void update_the_target_records_counts_flags_status(void *object_slot, void *unused, SpriteFrameState *target)
 {
     void *post_object;
     void *pre_object;
@@ -205,7 +207,7 @@ void update_the_target_records_counts_flags_status(void *object_slot, void *unus
     pre_object = *(void **)object_slot;
     *(u16 *)((u8 *)pre_object + 0x14) += 1;
     advance_sprite_animation_and_textures(target);
-    if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
+    if (target->flags & 0x6000) {
         u16 object_count;
         u16 slot_flags;
         s32 global_flags;
@@ -272,7 +274,7 @@ void advance_the_counter_offset_position_using_two_angles(Row_81916F10_S_8002471
 void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin, s16 size_step)
 {
     s16 saved_step = size_step;
-    void *effect;
+    ObjectNodeHeader *effect;
     SpriteFrameState *part;
     Row_81917004_Copy24 *position;
     u8 *effect_state;
@@ -290,11 +292,11 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
     alloc_source = (u8 *)source - 0x20;
     effect = allocate_list_node(alloc_kind, alloc_source);
     if (effect != NULL) {
-        ((Row_81917004_S_80024804_0 *)effect)->unk_10 = &D_80024710;
+        effect->unk_10 = &D_80024710;
         ((Row_81917004_S_80024804_0 *)effect)->unk_20 = ((Row_81917004_S_80024804_1 *)source)->unk_00;
 
         step_word = (s32)saved_step << 16;
-        part = ((Row_81917004_S_80024804_0 *)effect)->unk_0C;
+        part = effect->sprite;
         part->color.c.g = -0x60 - ((step_word >> 16) << 6);
         part->color.c.r = -0x60 - ((step_word >> 16) << 6);
         part->color.c.b = 0xC0;
@@ -314,7 +316,7 @@ void *create_radial_effect_from_source(void *source, Row_81917004_Copy24 *origin
         part->scale_x = part_scale;
         register_node(effect, project_sprite_chain);
 
-        position = ((Row_81917004_S_80024804_0 *)effect)->unk_08;
+        position = *(Row_81917004_Copy24 * *)&effect->position;
         *position = *origin;
 
         ((Row_81917004_S_80024804_3 *)effect_state)->unk_0E.u = ((Row_81917004_S_80024804_1 *)source)->unk_0E;
@@ -403,7 +405,7 @@ void initialize_the_s_visual_state_apply_random_spherical_position_offset(void *
 
 /* Moves a rotating sprite along its radial direction, then scatters, expands, and fades it at its
    travel limit. */
-void advance_radial_effect_state(void *motion, void *position, void *effect) {
+void advance_radial_effect_state(void *motion, void *position, SpriteFrameState *effect) {
     s32 direction_scale;
     s32 sin_a;
     s32 sin_b;
@@ -424,7 +426,7 @@ void advance_radial_effect_state(void *motion, void *position, void *effect) {
     state = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.s;
     switch (state) {
     case 0:
-        ((SpriteFrameState *)effect)->angle_z += 0x200;
+        effect->angle_z += 0x200;
         sin_a = func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_0E);
         direction_scale = (sin_a >> 4) * (func_800644B8(((Row_8191740C_S_80024C0C_0 *)motion)->unk_10) >> 4);
         ((Rec_func_80024600_arg1 *)position)->unk_00 += direction_scale * 0x1C;
@@ -459,18 +461,18 @@ void advance_radial_effect_state(void *motion, void *position, void *effect) {
         ((Row_8191740C_S_80024C0C_0 *)motion)->unk_04.u++;
         break;
     case 1:
-        if (((SpriteFrameState *)effect)->color.c.r != 0) {
-            intensity = ((SpriteFrameState *)effect)->color.c.b - 0x20;
-            ((SpriteFrameState *)effect)->color.c.b = intensity;
-            ((SpriteFrameState *)effect)->color.c.g = intensity;
-            ((SpriteFrameState *)effect)->color.c.r = intensity;
+        if (effect->color.c.r != 0) {
+            intensity = effect->color.c.b - 0x20;
+            effect->color.c.b = intensity;
+            effect->color.c.g = intensity;
+            effect->color.c.r = intensity;
         }
-        size = ((SpriteFrameState *)effect)->scale_y + 0x400;
-        ((SpriteFrameState *)effect)->scale_y = size;
-        ((SpriteFrameState *)effect)->scale_x = size;
+        size = effect->scale_y + 0x400;
+        effect->scale_y = size;
+        effect->scale_x = size;
         advance_sprite_animation_and_textures(effect);
         advance_sprite_animation_and_textures(effect);
-        if (((SpriteFrameState *)effect)->flags & 0x6000) {
+        if (effect->flags & 0x6000) {
             object = ((Row_8191740C_S_80024C0C_0 *)motion)->unk_00;
             ((Row_8191740C_S_80024C0C_1 *)object)->unk_16++;
             global_flags = &object_flag_block;
@@ -484,7 +486,7 @@ void advance_radial_effect_state(void *motion, void *position, void *effect) {
 /* Creates a sprite aimed from the supplied position toward the owner's saved coordinates and adds
    three trail sprites. */
 void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_80024E80_arg1 *start_pos) {
-    void *effect;
+    ObjectNodeHeader *effect;
     Row_81917680_S_80024E80_2 *state;
     SpriteFrameState *render;
     Row_81917680_S_80024E80_4 *endpoints;
@@ -497,12 +499,12 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
 
     effect = allocate_list_node(0x212, (u8 *)owner - 0x20);
     if (effect != 0) {
-        ((Row_81917680_S_80024E80_0 *)effect)->unk_10 = D_80024C0C;
+        effect->unk_10 = D_80024C0C;
         state = (u8 *)effect + 0x20;
         ((Row_81917680_S_80024E80_0 *)effect)->unk_20 = ((Row_81917680_S_80024E80_1 *)owner)->unk_00;
         state->unk_04 = 0;
 
-        render = ((Row_81917680_S_80024E80_0 *)effect)->unk_0C;
+        render = effect->sprite;
         render->color.c.b = 0x80;
         render->color.c.g = 0x80;
         render->color.c.r = 0x80;
@@ -517,7 +519,7 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
 
         register_node(effect, project_sprite_chain);
 
-        endpoints = ((Row_81917680_S_80024E80_0 *)effect)->unk_08;
+        endpoints = effect->position;
         *(Row_81917680_SixWords *)endpoints = *(Row_81917680_SixWords *)start_pos;
         endpoints->unk_0C = ((Row_81917680_S_80024E80_1 *)owner)->unk_20;
         endpoints->unk_10 = ((Row_81917680_S_80024E80_1 *)owner)->unk_24;
@@ -552,7 +554,7 @@ void *create_an_oriented_effect_between_position_owner(void *owner, Rec_func_800
 
 /* Grows and brightens an orbiting sprite, waits for its indexed delay, then replaces it with a
    directed effect. */
-void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform, void *visual) {
+void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void *effect, void *transform, SpriteFrameState *visual) {
     s32 scale;
     s16 phase;
     u8 brightness;
@@ -562,7 +564,7 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
     ((Row_81917894_S_80025094_1 *)owner)->unk_14 = (u16) (((Row_81917894_S_80025094_1 *)owner)->unk_14 + 1);
     advance_sprite_animation_and_textures(visual);
     ((Row_81917894_S_80025094_0 *)effect)->unk_06.u = (u16) (((Row_81917894_S_80025094_0 *)effect)->unk_06.u + 1);
-    ((SpriteFrameState *)visual)->angle_z = (u16) (((SpriteFrameState *)visual)->angle_z + 0x200);
+    visual->angle_z = (u16) (visual->angle_z + 0x200);
     phase = ((Row_81917894_S_80025094_0 *)effect)->unk_04.s;
 
     switch (phase) {
@@ -577,13 +579,13 @@ void advance_the_effect_phase_brightness_scale_position_until_lifetime_ends(void
         }
         ((Row_81917894_S_80025094_0 *)effect)->unk_0A = radius;
     }
-        brightness = ((SpriteFrameState *)visual)->color.c.b + 3;
-        ((SpriteFrameState *)visual)->color.c.b = brightness;
-        ((SpriteFrameState *)visual)->color.c.g = brightness;
-        ((SpriteFrameState *)visual)->color.c.r = brightness;
+        brightness = visual->color.c.b + 3;
+        visual->color.c.b = brightness;
+        visual->color.c.g = brightness;
+        visual->color.c.r = brightness;
         scale = ((Row_81917894_S_80025094_0 *)effect)->unk_06.s << 5;
-        ((SpriteFrameState *)visual)->scale_y = scale;
-        ((SpriteFrameState *)visual)->scale_x = scale;
+        visual->scale_y = scale;
+        visual->scale_x = scale;
         ((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v =
             (u16) (((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v - 2);
     case 1:
@@ -621,14 +623,14 @@ s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *objec
     s32 random_value;
     s32 adjusted_random;
     Row_81917A70_S_80025270_1 *state;
-    Row_81917A70_Copy24 *transform;
-    void *effect;
+    ObjectPosition *transform;
+    ObjectNodeHeader *effect;
     s16 saved_index;
     effect = allocate_list_node(0x212, (u8 *)object - 0x20);
     if (effect != NULL) {
         saved_index = effect_index;
-        state = effect + 0x20;
-        ((Row_81917A70_S_80025270_0 *)effect)->unk_10 = &D_80025094;
+        state = ((void *)effect) + 0x20;
+        effect->unk_10 = &D_80025094;
         ((Row_81917A70_S_80025270_0 *)effect)->unk_20 = (s32)object;
         state->unk_08 = (s16) (saved_index * 7);
         state->unk_04 = 0;
@@ -638,7 +640,7 @@ s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *objec
         state->unk_20 = src_transform->wordC;
         state->unk_24 = src_transform->word10;
         state->unk_28 = src_transform->word14;
-        object = ((Row_81917A70_S_80025270_0 *)effect)->unk_0C;
+        object = effect->sprite;
         ((Rec_D_80082E80 *)object)->unk_0C.at02_s8.v = 0x20;
         ((Rec_D_80082E80 *)object)->unk_0C.at01_s8.v = 0x20;
         ((Rec_D_80082E80 *)object)->unk_0C.at00_s8.v = 0x20;
@@ -656,12 +658,12 @@ s32 create_an_attached_effect_copied_transform_data_randomized_angle(void *objec
         ((Rec_D_80082E80 *)object)->unk_1C.at02_s16.v = 0x400;
         ((Rec_D_80082E80 *)object)->unk_1C.at00_s16.v = 0x400;
         register_node(effect, project_sprite_chain);
-        transform = ((Row_81917A70_S_80025270_0 *)effect)->unk_08;
-        *transform = *src_transform;
-        first_word = ((Row_81917A70_S_80025270_3 *)transform)->unk_00;
-        second_word = ((Row_81917A70_S_80025270_3 *)transform)->unk_04;
-        ((Row_81917A70_S_80025270_3 *)transform)->unk_0C = first_word;
-        ((Row_81917A70_S_80025270_3 *)transform)->unk_10 = second_word;
+        transform = *(Row_81917A70_Copy24 * *)&effect->position;
+        *(Row_81917A70_Copy24 *)transform = *src_transform;
+        first_word = transform->x.v;
+        second_word = transform->y.v;
+        transform->velocity_x = first_word;
+        transform->velocity_y = second_word;
         return (s32)effect;
     }
     return 0;
@@ -675,7 +677,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
     EntityRec *target;
     ObjectNodeHeader *node;
     Row_81917C08_EffectMotion *target_motion;
-    Row_81917C08_EffectMotion *actor_motion;
+    ObjectPosition *actor_motion;
     SpriteFrameState *actor_visual;
     SpriteFrameState *scan_visual;
     Row_81917C08_EffectMotion destination;
@@ -700,16 +702,16 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         /* The initial movement work is shared with phase 1. */
     case 1:
         node = (ObjectNodeHeader *)actor - 1;
-        actor_visual = node->unk_0C;
+        actor_visual = node->sprite;
         if (!resolve_record_orientation_or_fallback(actor_visual->source, actor_visual, offset, 0)) {
-            if (!( ((SpriteFrameState *)node->unk_0C)->flags & 0x8000))
+            if (!( node->sprite->flags & 0x8000))
                 break;
         }
-        actor_motion = node->unk_08;
+        actor_motion = node->position;
         motion->x.w.i = actor_motion->x.w.i;
         motion->y.w.i = actor_motion->y.w.i;
         motion->z.w.i = actor_motion->z.w.i;
-        if (!(((SpriteFrameState *)node->unk_0C)->flags & 0x8000)) {
+        if (!(node->sprite->flags & 0x8000)) {
             motion->x.w.i += offset[0];
             motion->y.w.i += offset[1];
             motion->z.w.i += offset[2];
@@ -721,12 +723,12 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         steps = 0;
         target = actor->target;
         if (target) {
-            target_motion = ((ObjectNodeHeader *)target - 1)->unk_08;
+            target_motion = ((ObjectNodeHeader *)target - 1)->position;
             motion->next_x = target_motion->x.v;
             motion->next_y = target_motion->y.v;
             motion->next_z = target_motion->z.v - (entity_height_offsets[((u8 *)actor->target)[0x13]] << 15);
         } else {
-            scan_visual = node->unk_0C;
+            scan_visual = node->sprite;
             tile_x = scan_visual->unk_24;
             tile_y = scan_visual->unk_25;
             dest_tile_x = tile_x;
@@ -782,7 +784,7 @@ void build_inverted(Row_81917C08_ActionState *action, Row_81917C08_EffectMotion 
         create_a_type_hex_212_initializes_handler_mode(action);
         target = actor->target;
         if (target) {
-            target_motion = ((ObjectNodeHeader *)target - 1)->unk_08;
+            target_motion = ((ObjectNodeHeader *)target - 1)->position;
             motion->next_x = (target_motion->x.v - motion->x.v) / 32;
             motion->next_y = (target_motion->y.v - motion->y.v) / 32;
             motion->next_z = (target_motion->z.v -

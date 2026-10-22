@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
 
 typedef struct S_800D991C_0 {
     u8 pad_00[0x8C];
@@ -26,7 +27,6 @@ s32 advance_status_timers();                      /* extern */
 void on_actor_status_updated(void *actor);                      /* extern */
 void spend_actor_mp();             /* extern */
 s32 check_actor_floor_trap();                  /* extern */
-void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite, ActorRecord *status);
 extern void *actor_action_frames[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */

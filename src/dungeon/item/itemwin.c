@@ -1,4 +1,6 @@
 /* Inventory action menu input, item text editing, and widget allocation and layout. */
+#include "shared/object_node.h"
+#include "dungeon/item.h"
 #include "dungeon/item/itemwin.h"
 #include "shared/item_ids.h"
 #include "shared/object_flags.h"
@@ -8,7 +10,7 @@ void inventory_dispatch_indexed_handler(void *context, s32 handler_index) {
     DispatchFunc *table;
     DispatchFunc *handler_entry;
 
-    table = D_800294D0;
+    table = inventory_menu_handlers;
     handler_entry = table + handler_index;
     (*handler_entry)(context, (void *)handler_entry);
 }
@@ -21,7 +23,7 @@ void inventory_set_paired_index_offset(ovl_1830850_81810888_S_80025888_0 *pair, 
     ((ovl_1830850_81810888_S_80025888_4 *)(((ovl_1830850_81810888_S_80025888_2 *)(pair->unk_08))->unk_04))->unk_0A = offset;
 }
 
-s32 func_800258B0(void *menu) { return 0; }
+s32 inventory_menu_returns_zero(void *menu) { return 0; }
 
 /* Restores the saved item category record when present, otherwise copies the original text back. */
 void restore_item_text_before_edit(void *item_object)
@@ -53,7 +55,7 @@ void inventory_select_null_or_default_data(void *object)
         return;
     }
 
-    **(void ***)((u8 *)*(void **)((u8 *)object + 0x54) + 0x30) = D_800294C4;
+    **(void ***)((u8 *)*(void **)((u8 *)object + 0x54) + 0x30) = inventory_default_entry_data;
 }
 
 s32 inventory_check_type_four_linked_object(Rec_func_80025850_arg0 *context) {
@@ -77,7 +79,7 @@ void inventory_handle_menu_actions_and_repeat(ovl_1830850_81810A0C_DungeonArg *m
             set_object_data_pointer(menu->unk14);
             restore_item_text_before_edit(menu);
         } else if (input->unk10 & 0x40) {
-            if (func_800258B0(menu) != 0 || inventory_check_type_four_linked_object(menu) != 0) {
+            if (inventory_menu_returns_zero(menu) != 0 || inventory_check_type_four_linked_object(menu) != 0) {
                 SD_Call(0x506);
             } else {
                 if (menu->unk8 == 4) {
@@ -159,7 +161,7 @@ void *inventory_initialize_five_shared_entries(void *entryBuffer) {
     entries = entryBuffer;
     do {
         entries[entryIndex].f1 = 40;
-        sharedEntryValue = D_800294E4;
+        sharedEntryValue = inventory_shared_entry_value;
         entries[entryIndex].f3 = (entryIndex * 16) - 62;
         entries[entryIndex].f2 = 2;
         entries[entryIndex].f10 = 12;

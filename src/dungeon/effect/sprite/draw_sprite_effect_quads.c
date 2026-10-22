@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/effect/sprite.h"
 
 typedef struct Scratch800D1A48
 {

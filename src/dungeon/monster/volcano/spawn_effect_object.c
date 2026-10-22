@@ -1,4 +1,6 @@
 #include "dungeon/monster/volcano/spawn_effect_object.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/volcano/spawn_effect_object.h"
 
@@ -10,8 +12,8 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     u8 *work = 0;
     long part_b;
     long work_copy;
-    u8 *object;
-    u8 *part_a;
+    ObjectNodeHeader *object;
+    ObjectPosition *part_a;
     s16 flags_s16;
     s32 alloc_kind;
     ObjectNodeHeader *alloc_data;
@@ -24,13 +26,13 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     object = allocate_list_node(alloc_kind, alloc_data);
     flags_s16 = spawn_flags;
     if (object != 0) {
-        work = object + 0x20;
+        work = ((u8 *)object) + 0x20;
         *(u8 *)(work + 0x13) = 0x1C;
         register_node(object, project_sprite_chain);
 
-        part_a = *(u8 **)(object + 8);
-        *(s16 *)(part_a + 0xA) = attr_c;
-        part_b = (long)*(u8 **)(object + 0xC);
+        part_a = *(u8 * *)&object->position;
+        part_a->z.w.i = attr_c;
+        part_b = (long)*(u8 * *)&object->sprite;
         ((SpriteFrameState *)part_b)->unk_24 = attr_a;
         ((SpriteFrameState *)part_b)->unk_25 = attr_b;
         work_copy = (long)work;
@@ -65,7 +67,7 @@ void *spawn_effect_object(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
             }
         }
 
-        *(Callback *)(object + 0x10) = func_8014CA58;
+        object->unk_10 = func_8014CA58;
         initialize_actor_sprite_and_animation(object, part_a, (u8 *)part_b, (s16)flags_s16);
 
         *(u8 *)((u8 *)work_copy + 0x9A) = 0xFF;

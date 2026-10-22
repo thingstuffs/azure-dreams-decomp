@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_7F469800_P01_H
 #define DUNGEON_OVL_7F469800_P01_H
+
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/object_flags.h"
 
@@ -111,13 +113,6 @@ typedef struct T_8017121C_S_8017121C_0 {
     s16 unk_62;
 } T_8017121C_S_8017121C_0;   /* base in func_8017121C */
 
-typedef struct T_8017121C_S_8017121C_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} T_8017121C_S_8017121C_1;   /* effect in func_8017121C */
-
 typedef struct T_8017121C_S_8017121C_3 {
     u8 pad_00[0x2];
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
@@ -174,13 +169,6 @@ typedef struct T_801714FC_S_801714FC_1 {
     u8 pad_98[0x6];
     s16 unk_9E;
 } T_801714FC_S_801714FC_1;   /* v1 in func_801714FC */
-
-typedef struct T_801714FC_S_801714FC_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} T_801714FC_S_801714FC_2;   /* s2 in func_801714FC */
 
 typedef struct T_801714FC_S_801714FC_3 {
     u8 pad_00[0x2];
@@ -254,24 +242,6 @@ typedef struct T_80171790_S_80171790_1 {
     u8 pad_14[0xC];
     u8 unk_20;
 } T_80171790_S_80171790_1;   /* (void *) saved_obj_angle in func_80171790 */
-
-typedef struct T_80171790_S_80171790_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} T_80171790_S_80171790_3;   /* copy_dst in func_80171790 */
-
-typedef struct T_80171790_S_80171790_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} T_80171790_S_80171790_4;   /* saved_arg1 in func_80171790 */
 
 typedef struct T_80171790_S_80171790_5 {
     u8 pad_00[0xAE];
@@ -400,12 +370,6 @@ typedef struct T_80171BEC_S_80171BEC_1 {
     s16 unk_1E;
 } T_80171BEC_S_80171BEC_1;   /* render in func_80171BEC */
 
-typedef struct T_80171BEC_S_80171BEC_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} T_80171BEC_S_80171BEC_2;   /* position in func_80171BEC */
-
 typedef struct T_80171BEC_S_80171BEC_3 {
     s32 unk_00;
     s32 unk_04;
@@ -480,7 +444,7 @@ void update_stepped_rgb_flash(void *fade_state, void *unused, T_80170D40_S_80170
 void update_normalized_gray_fade(void *countdownState, s32 unused, T_80170DC4_S_80170DC4_1 *output);
 void update_saved_rgb_fade(T_80170E2C_FadeState *fade, s32 unused, T_80170E2C_FadeOutput *output);
 void update_growing_rotating_flash(void *effect, s32 unused, void *visual);
-void update_growing_bouncing_effect(void *effect, void *position, void *sprite);
+void update_growing_bouncing_effect(void *effect, void *position,struct SpriteFrameState *sprite);
 void create_targeted_motion_effect(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unused, EntityRec *target);
 void create_actor_action_effect(void *source_object, void *source_pos, void *sprite_template, EntityRec *actor);
 void spawn_random_color_burst_particle(void *source, void *position);

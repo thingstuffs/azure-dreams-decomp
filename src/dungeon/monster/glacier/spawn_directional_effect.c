@@ -17,13 +17,6 @@ typedef struct S_801746EC_0 {
     s32 unk_64;
 } S_801746EC_0;   /* work in spawn_directional_effect */
 
-typedef struct S_801746EC_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_801746EC_1;   /* node in spawn_directional_effect */
-
    /* coords in spawn_directional_effect */
 
 typedef struct {
@@ -42,7 +35,7 @@ extern Pair16 D_8017610C[];
 /* Spawn an effect with randomized position and velocity based on the source direction. */
 void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_arg1 *origin)
 {
-    void *effect;
+    ObjectNodeHeader *effect;
     S_801746EC_0 *motion;
     SpriteFrameState *sprite;
     MovingPosition *position;
@@ -52,16 +45,16 @@ void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_
     if (effect != 0) {
         motion = (u8 *)effect + 0x20;
         motion->unk_1E = 0x4;
-        ((S_801746EC_1 *)effect)->unk_10 = &D_80174300;
+        effect->unk_10 = &D_80174300;
         register_node(effect, project_sprite_chain);
 
-        sprite = ((S_801746EC_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->tpage_abr = 0x20;
         sprite->flags |= 0xC;
         sprite->angle_z = (rand() & 7) << 9;
         sprite->unk_06 = 0;
 
-        position = ((S_801746EC_1 *)effect)->unk_08;
+        position = effect->position;
         position->unk_02 = origin->unk_02;
         position->unk_06 = origin->unk_06;
         position->unk_0A = origin->unk_0A;
@@ -79,7 +72,7 @@ void spawn_directional_effect(Rec_func_801744DC_arg0 *source, Rec_func_801744DC_
         motion->unk_54 = (motion->unk_54 + velocity_bias) + ((rand() & 0x3FFF) << 6);
         motion->unk_58 = (motion->unk_58 + velocity_bias) + ((rand() & 0x3FFF) << 6);
 
-        sprite = ((S_801746EC_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.c.b = 0x80;

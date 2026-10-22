@@ -1,4 +1,5 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -33,11 +34,6 @@ typedef struct S_80FB1000_0 {
     s32 unk_1C;
 } S_80FB1000_0;   
 
-typedef struct S_80FB1000_1 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80FB1000_1;   
-
 typedef struct S_80FB1000_2 {
     u8 pad_00[0x6];
     u16 unk_06;
@@ -50,9 +46,9 @@ void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     s16 saved_kind_id;
     s8 saved_variant;
     s16 saved_spawn_value;
-    void *created;
+    ObjectNodeHeader *created;
     u8 *work = 0;
-    u8 *position;
+    ObjectPosition *position;
     SpriteFrameState *monster;
     u8 *actor;
     s32 kind;
@@ -74,13 +70,13 @@ void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         s32 scale;
 
         work = (u8 *)created + 0x20;
-        (*(Callback *)((u8 *)created + 0x10)) = D_8015EB40;
+        (created ->unk_10) = D_8015EB40;
         ((S_80FB1000_0 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(created, project_sprite_chain);
 
-        position = (*(u8 * *)((u8 *)created + 8));
-        ((S_80FB1000_1 *)position)->unk_0A = saved_spawn_value;
-        monster = (*(u8 * *)((u8 *)created + 0xC));
+        position = (*(u8 * *)&created ->position);
+        position->z.w.i = saved_spawn_value;
+        monster = (*(u8 * *)&created ->sprite);
         monster->unk_25 = saved_variant;
         actor = work;
         monster->frameTable = D_80163258;

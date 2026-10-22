@@ -35,7 +35,7 @@ extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void advance_actor_pending_action(void *, void *, void *, void *);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
+extern void update_directional_sprite_state_and_signals(void *, void *, SpriteFrameState *, void *);
 
 extern u8 D_801714D4[];
 extern u8 D_801740F0[];

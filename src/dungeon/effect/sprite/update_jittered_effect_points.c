@@ -1,7 +1,8 @@
 /* Timed target effects, jittered intermediate points, and linked trail quad rendering. */
 #include "modules/dungeon_ovl_19c6800.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
-#include "common.h"
+#include "dungeon/effect/sprite.h"
 #include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/slus_callbacks.h"
@@ -96,7 +97,7 @@ typedef struct S_func_819A6800_9 {
 
 extern u8 primary_actor_record[16];
 struct S_800244BC_2;
-void func_800244BC(void *, struct S_800244BC_2 *, s32);
+void advance_target_chasing_emitter(void *, struct S_800244BC_2 *, s32);
 void update_jittered_effect_points(void *);
 s32 update_segment(void *);
 extern u8 D_800DEE38[];
@@ -104,7 +105,7 @@ extern u32 D_800814A0[];
 
 #define GLOBAL_OBJECT (*(void **)primary_actor_record)
 
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s32 read_sound_mode_blocking_status(s32);
 extern u16 func_80066460(s32, s32, s32, s32);
@@ -146,14 +147,14 @@ void func_80024020(void *sequence, void *out_position)
         global_slot = (u8 *)&D_800814A0[2];
         global_object = *(void **)global_slot;
         global_object->unk_102 = 1;
-        reloaded_object = *(void * *)global_slot;
+        reloaded_object = *(void **)global_slot;
         reloaded_object->unk_F4 = 0;
 
         ((S_func_819A6800_5 *)(out_position))->unk_00.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.u;
         ((S_func_819A6800_5 *)(out_position))->unk_04.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.u;
         ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
-        new_object = scan_monster_along_heading(reloaded_object,
+        new_object = scan_actor_along_heading(reloaded_object,
                                    reference_tile_object.tile_position.parts.tile_x,
                                    reference_tile_object.tile_position.parts.tile_y,
                                    reloaded_object->unk_2A,
@@ -181,27 +182,27 @@ void func_80024020(void *sequence, void *out_position)
         new_object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
         record = new_object;
         if (record != 0) {
-            if (resolve_record_orientation_or_fallback(((S_func_819A6800_2 *)(owner_object->unk_0C))->unk_08,
+            if (resolve_record_orientation_or_fallback(((ObjectNodeHeader *)owner_object->unk_0C)->position,
                               owner_object->unk_0C, position_offset, 0) == 0) {
                 position_offset[2] = 0;
                 position_offset[1] = 0;
                 position_offset[0] = 0;
             }
-            record->unk_10 = func_800244BC;
+            record->unk_10 = advance_target_chasing_emitter;
             register_node(record, project_sprite_chain);
             sprite = record->unk_0C;
 
-            ((S_func_819A6800_5 *)(record->unk_08))->unk_00.s =
+            (((ObjectPosition *)record->unk_08))->x.v =
                 ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.s + ((s32)position_offset[0] << 16);
-            ((S_func_819A6800_5 *)(record->unk_08))->unk_04.s =
+            (((ObjectPosition *)record->unk_08))->y.v =
                 ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.s + ((s32)position_offset[1] << 16);
-            ((S_func_819A6800_5 *)(record->unk_08))->unk_08.s =
+            (((ObjectPosition *)record->unk_08))->z.v =
                 ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.s + ((s32)position_offset[2] << 16);
 
             effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
-            effect_data->unk_0C = ((S_func_819A6800_5 *)(record->unk_08))->unk_00.h.unk_02;
-            effect_data->unk_0E = ((S_func_819A6800_5 *)(record->unk_08))->unk_04.h.unk_06;
-            effect_data->unk_10 = ((S_func_819A6800_5 *)(record->unk_08))->unk_08.h.unk_0A;
+            effect_data->unk_0C = *(u16 *)&(((ObjectPosition *)record->unk_08))->x.w.i;
+            effect_data->unk_0E = *(u16 *)&(((ObjectPosition *)record->unk_08))->y.w.i;
+            effect_data->unk_10 = *(u16 *)&(((ObjectPosition *)record->unk_08))->z.w.i;
 
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
@@ -386,12 +387,12 @@ s32 rand();                                /* extern */
 void update_randomized_intermediate_points(void *);
 
 /* Move toward the target while spawning effects, then mark the sequence complete. */
-void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
+void advance_target_chasing_emitter(void *object, S_800244BC_2 *position, s32 context) {
     s16 target_pos[3];
     s16 phase;
     s32 effects_left;
     S_800244BC_4 *effect_data;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_800244BC_1 *owner;
 
     owner = ((S_800244BC_0 *)object)->unk_00;
@@ -417,9 +418,9 @@ void func_800244BC(void *object, S_800244BC_2 *position, s32 context) {
                 - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
             do {
                 effect = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
-                effect_data = effect + 0x20;
+                effect_data = ((void *)effect) + 0x20;
                 if (effect != 0) {
-                    ((S_800244BC_3 *)effect)->unk_10 = update_randomized_intermediate_points;
+                    effect->unk_10 = update_randomized_intermediate_points;
                     effect_data->unk_3C = 0;
                     effect_data->unk_3E = (s16) ((rand() & 3) + 2);
                     effect_data->unk_32 = 0x1F;
@@ -656,7 +657,7 @@ s32 update_segment(void *node)
         dy = (s16) sxy[0].y;
         dy = dy - ((s16) sxy[5].y);
         scratch.y = (u16) abs((s32) dy);
-        prim.f0C = *((u16 *) (((s8 *) base) + 0xC8));
+        prim.f0C = *(u16 *)&base->view.camera_rotation.parts.viewAngle;
         transform_rotated_vertices(&prim, (s16) sxy[5].y);
         for (i = 0; i < 4; i++) {
             poly = *((void **) (((s8 *) (base->draw_buffer)) + 0x8D0));

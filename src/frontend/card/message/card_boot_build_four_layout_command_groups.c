@@ -5,10 +5,10 @@
 
 typedef struct S_80402A1C_0 {
     u8 pad_00[0x8];
-    s32 unk_08;
+    s32 layout_index; /* 0x08 */
     u8 pad_0C[0xC];
-    u32 unk_18;
-    u32 unk_1C;
+    u32 width; /* 0x18 */
+    u32 height; /* 0x1C */
 } S_80402A1C_0;   /* arg1 in card_boot_build_four_layout_command_groups */
 
 typedef struct LayoutCommand {
@@ -58,7 +58,7 @@ void *card_boot_build_four_layout_command_groups(void *buffer, S_80402A1C_0 *lay
         opcode = 0x48;
         shade = 0x101010;
         id_ptr = (u8 *)&command_ids;
-        layout_index = layout->unk_08;
+        layout_index = layout->layout_index;
         stack_end = (u8 *)&ids_limit;
     } while (0);
     layout_offset = layout_index * 4;
@@ -67,7 +67,7 @@ void *card_boot_build_four_layout_command_groups(void *buffer, S_80402A1C_0 *lay
     width = width_extent + 8;
     height_extent = D_80408ADC[layout_offset + 1] * 0x11;
     half_width = width >> 1;
-    layout->unk_18 = width;
+    layout->width = width;
     height = height_extent + 8;
     half_height = height >> 1;
     width_extent += 0xA;
@@ -77,7 +77,7 @@ void *card_boot_build_four_layout_command_groups(void *buffer, S_80402A1C_0 *lay
             outer_height = height_extent + 0xA;
         } while (0);
     } while (0);
-    layout->unk_1C = height;
+    layout->height = height;
 loop:
     do {
         ((LayoutCommand *)(size_ptr - 0xB))->half_width = (u8)half_width;

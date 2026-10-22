@@ -31,19 +31,6 @@ typedef struct S_80172D1C_3 {
     s16 unk_48;
 } S_80172D1C_3;   /* (u8 *)calc_other in update_actor_movement_and_emit_particles */
 
-typedef struct S_80172D1C_5 {
-    u8 pad_00[0xC];
-    s32 unk_0C;
-    s16 unk_10;
-    s16 unk_12;
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-    u8 pad_20[0x8];
-    s32 unk_28;
-} S_80172D1C_5;   /* part in update_actor_movement_and_emit_particles */
-
 typedef struct S_80172D1C_8 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -74,7 +61,7 @@ extern u8 D_80174194[];
  * and idle frames. */
 void update_actor_movement_and_emit_particles(void *actor, void *motion, void *sprite, void *entity) {
     void *particle;
-    void *particle_sprite;
+    SpriteFrameState *particle_sprite;
     void *particle_update;
     u8 *unused_particle_state;
     s32 particle_or_dir_index;
@@ -118,16 +105,16 @@ void update_actor_movement_and_emit_particles(void *actor, void *motion, void *s
 
                 ((S_80172D1C_3 *)particle_work)->unk_48 = 10;
                 sprite_flags = ((SpriteFrameState *)sprite)->unk_28;
-                component_work = ((S_80172D1C_5 *)particle_sprite)->unk_14 | 0xC;
-                ((S_80172D1C_5 *)particle_sprite)->unk_1E = 0x1800;
-                ((S_80172D1C_5 *)particle_sprite)->unk_1C = 0x1800;
-                ((S_80172D1C_5 *)particle_sprite)->unk_28 = sprite_flags;
-                ((S_80172D1C_5 *)particle_sprite)->unk_14 = component_work;
+                component_work = particle_sprite->flags | 0xC;
+                particle_sprite->scale_y = 0x1800;
+                particle_sprite->scale_x = 0x1800;
+                particle_sprite->unk_28 = sprite_flags;
+                particle_sprite->flags = component_work;
                 component_work_2 = ((SpriteFrameState *)sprite)->clut;
-                ((S_80172D1C_5 *)particle_sprite)->unk_10 = 0x20;
-                ((S_80172D1C_5 *)particle_sprite)->unk_12 = component_work_2 - 0x80;
+                particle_sprite->tpage_abr = 0x20;
+                particle_sprite->clut = component_work_2 - 0x80;
                 select_sprite_entry(particle_sprite, 0x2D, 0);
-                ((S_80172D1C_5 *)particle_sprite)->unk_0C = 0x808080;
+                particle_sprite->color.word = 0x808080;
             }
             particle_or_dir_index--;
         } while (particle_or_dir_index >= 0);

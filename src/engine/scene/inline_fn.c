@@ -1,5 +1,6 @@
 /* Scene-node initialization in caller storage, active-list linking and optional tail allocation. */
 #include "common.h"
+#include "shared/object_node.h"
 #include "engine/scene.h"
 #include "slus.h"
 
@@ -31,14 +32,14 @@ void *initialize_scene_object_in_buffer(s32 flags_or_addr, S_8003FE78 *buffer, s
     s32 flags = flags_or_addr | 0x80;
     S_8003FE78 *old_head;
     s32 *tail;
-    S_8003FE78 *node;
+    ObjectNodeHeader *node;
 
     flags_or_addr = (s32)buffer;
     node = buffer;
     zero_words((int *)flags_or_addr, word_count);
     old_head = free_node_list_head.active_head;
     active_node_list_head = node;
-    node->prev = 0;
+    node->pprev = 0;
     node->next = old_head;
     if (old_head != 0) {
         old_head->prev = node;
@@ -47,14 +48,14 @@ void *initialize_scene_object_in_buffer(s32 flags_or_addr, S_8003FE78 *buffer, s
     tail = ((s32 *)node) + word_count;
     if (flags & 6) {
         tail -= 0x24 / 4;
-        node->field_C = tail;
+        node->sprite = tail;
     } else if (flags & 0x41) {
         tail -= 0x18 / 4;
-        node->field_C = tail;
+        node->sprite = tail;
     }
     if (0x57 & flags) {
         tail -= 0x18 / 4;
-        node->field_8 = tail;
+        node->position = tail;
     }
     return node;
 }

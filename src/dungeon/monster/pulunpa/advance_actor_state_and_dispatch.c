@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -14,7 +15,6 @@ typedef struct S_801733F0_0 {
     u8 unk_A7;
 } S_801733F0_0;   /* arg0 in advance_actor_state_and_dispatch */
 
-
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s32 has_pending_actor_or_turn_action(void *);
@@ -27,13 +27,13 @@ extern void update_object_or_select_directional_data(void *, void *, void *, voi
 
 extern u8 D_80170F20[];
 extern u8 D_80173B98[];
-extern u8 D_80176300[];
+#include "dungeon/monster/pulunpa.h"
 extern u8 D_80176308[];
 extern u8 D_80176360[];
 extern u8 D_80176368[];
 
 /* Advance the actor state, select directional sprite data, and dispatch entity actions. */
-void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_func_800AA258_arg2 *sprite, ActorRecord *entity)
+void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
     u8 state;
 
@@ -42,19 +42,19 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
     case 0:
     {
 
-        if ((sprite->unk_14 & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         if (actor->unk_A7 != 0) {
-            sprite->unk_2C.as_pv = D_80176360;
+            sprite->frameTable = D_80176360;
         } else {
-            sprite->unk_2C.as_pv = D_80176300;
+            sprite->frameTable = pulunpa_direction_frames;
         }
         select_sprite_entry(
             sprite,
-            ((u8 *)sprite->unk_2C.as_pv)[
+            ((u8 *)sprite->frameTable)[
                 ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         goto increment_state;
@@ -63,9 +63,9 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
     case 1:
         if (entity->mp != 0) {
             if (actor->unk_A7 != 0) {
-                sprite->unk_2C.as_pv = D_80176368;
+                sprite->frameTable = D_80176368;
             } else {
-                sprite->unk_2C.as_pv = D_80176308;
+                sprite->frameTable = D_80176308;
             }
         } else {
             if (g_dungeon_status.flags & 0x1000) {
@@ -113,14 +113,14 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
             }
 
             if (actor->unk_A7 != 0) {
-                sprite->unk_2C.as_pv = D_80176368;
+                sprite->frameTable = D_80176368;
             } else {
-                sprite->unk_2C.as_pv = D_80176308;
+                sprite->frameTable = D_80176308;
             }
         }
         select_sprite_entry(
             sprite,
-            ((u8 *)sprite->unk_2C.as_pv)[
+            ((u8 *)sprite->frameTable)[
                 ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
@@ -135,7 +135,7 @@ increment_state:
     case 2:
     {
 
-        if ((sprite->unk_14 & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
 

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/system.h"
 
 typedef struct {
     u8 text[17];

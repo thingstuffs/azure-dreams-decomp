@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -63,9 +64,9 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
  * placement. */
 void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) {
     DungeonSub1 *state;
-    DungeonNode *node;
+    ObjectNodeHeader *node;
     u16 saved_placement;
-    void *node_data;
+    ObjectPosition *node_data;
     s8 saved_grid_y;
     s8 saved_grid_x;
     s32 mode;
@@ -82,13 +83,13 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
     node = allocate_list_node(grid_x, ((s32 *)&scene_object_list_anchor.next));
     if (node != NULL) {
         state = (DungeonSub1 *)((u8 *)node + 0x20);
-        node->field10 = &D_8015EA7C;
+        node->unk_10 = &D_8015EA7C;
         state->field13 = 0x28;
         register_node(node, project_sprite_chain);
         flags = (s32) &D_80162038;
-        node_data = node->field08;
-        *(s16 *)((u8 *)node_data + 0x0a) = saved_placement;
-        placement = node->field0c;
+        node_data = node->position;
+        node_data->z.w.i = saved_placement;
+        placement = *(DungeonSub2 * *)&node->sprite;
         mode = setup_bits & 3;
         placement->unk_25 = saved_grid_y;
         init_state = state;

@@ -43,15 +43,6 @@ typedef struct T_8017406C_S_8017406C_3 {
     u16 unk_0A;
 } T_8017406C_S_8017406C_3;   /* temp_s3 in func_8017406C */
 
-typedef struct T_8017406C_S_8017406C_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} T_8017406C_S_8017406C_4;   /* temp_v1 in func_8017406C */
-
 s32 rand();
 
 #include "shared/entity.h"
@@ -94,20 +85,6 @@ typedef struct T_80174374_S_80174374_0 {
 } T_80174374_S_80174374_0;   /* work in func_80174374 */
 
 typedef void (*unicorn_orbit_update_fn)(void *effect, ObjectPosition *position, SpriteFrameState *primitive);
-
-typedef struct T_80174374_S_80174374_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    unicorn_orbit_update_fn unk_10;
-} T_80174374_S_80174374_1;   /* obj in func_80174374 */
-
-typedef struct T_80174374_S_80174374_4 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} T_80174374_S_80174374_4;   /* pos in func_80174374 */
 
 extern s32 rand(void);
 

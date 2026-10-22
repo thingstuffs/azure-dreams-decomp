@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/event/mesh_motion.h"
 #include "shared/town_handler_entries.h"
 #include "shared/town_handler.h"
 #include "shared/vector.h"
@@ -6,8 +7,8 @@
 
 extern u8 D_800AA5F8[];
 extern void *D_800D0B14;
-extern s16 D_80100D18;
-extern s32 D_80100D1C;
+
+
 extern IntVector3 D_80100D28;
 extern s16 D_80100D40;
 extern s16 D_80100D42;
@@ -22,12 +23,12 @@ void initialize_object_state_and_position(void **object, IntVector3 *start_posit
 
     call_the_handler_selects_nonzero_entry((s32 *) D_800D0130, (Rec_func_80094268_arg0 *) object, ptr2);
     *object = D_800AA5F8;
-    D_80100D1C = 0;
+    town_orbit_radius = 0;
     town_motion_x_step = 8;
     town_motion_y_step = 8;
     D_80100D40 = 0;
     D_80100D42 = 0;
-    D_80100D18 = 0;
+    town_mesh_scale = 0;
     D_80100D60[1] = 0;
     D_80100D60[0] = 0;
     D_80100D28.x = start_position->x;

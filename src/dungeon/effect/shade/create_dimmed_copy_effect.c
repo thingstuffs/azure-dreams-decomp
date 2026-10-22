@@ -53,18 +53,18 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
     u16 angle;
     void *init_data;
     SpriteFrameState *visual;
-    void *object;
+    ObjectNodeHeader *object;
     S_818C32F4_1 *object_state;
     S_818C32F4_5 *object_data;
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        ((S_818C32F4_0 *)object)->unk_10 = D_80024A08;
+        object->unk_10 = D_80024A08;
         ((S_818C32F4_0 *)object)->unk_20 = *object_id;
         object_state = (u8 *)object + 0x20;
         object_state->unk_04 = 0;
         object_state->unk_06 = 0;
-        visual = ((S_818C32F4_0 *)object)->unk_0C;
+        visual = object->sprite;
         visual->color.word = ((S_818C32F4_3 *)(visual_template))->unk_0C;
         if ((u8)visual->color.word != 0) {
             visual->color.c.r = 0xC0;
@@ -84,7 +84,7 @@ s32 create_dimmed_copy_effect(s32 *object_id, S_818C32F4_4 *source_data, void *v
         visual->scale_x = 0x1400;
         visual->angle_z = angle;
         register_node(object, init_data);
-        object_data = ((S_818C32F4_0 *)object)->unk_08;
+        object_data = object->position;
         *object_data = *(S_818C32F4_5 *)source_data;
         return (s32)object;
     }

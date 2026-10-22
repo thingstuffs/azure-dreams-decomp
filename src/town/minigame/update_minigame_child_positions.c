@@ -19,7 +19,7 @@ extern u8 D_800F8E9C[16];
 /* Initialize two child objects, blink their color, and ease their positions toward active or resting targets. */
 void update_minigame_child_positions(void *state)
 {
-    void *child_obj;
+    ObjectNodeHeader *child_obj;
     u8 *child_state;
     s32 kind;
     s32 mask_index;
@@ -64,9 +64,9 @@ void update_minigame_child_positions(void *state)
             child_obj = allocate_flagged_object_node(0x136);
             if (child_obj != 0) {
                 child_state = (u8 *)child_obj + 0x20;
-                PTR_AT(child_obj, 0x10) = D_80024334;
+                child_obj->unk_10 = D_80024334;
                 register_node(child_obj, project_sprite_chain);
-                kind = (s32)PTR_AT(child_obj, 0xC);
+                kind = (s32)child_obj->sprite;
                 ((SpriteFrameState *)kind)->flags = 0xC;
                 color = 0x00808080;
                 ((SpriteFrameState *)kind)->scale_y = 0x800;

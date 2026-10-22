@@ -7,8 +7,8 @@ short SD_Call(int flags);
 void drain_audio_commands_and_service_channels(void);
 s32 func_80066F78(s32);
 extern s8 scene_music_hold;
-extern M2C_UNK town_scene_resource_descriptor;
-extern M2C_UNK D_800D1D54;
+extern u32 town_scene_resource_descriptor[2];
+extern u32 D_800D1D54[2];
 
 /* Sets the global flag, runs the setup sequence, and processes both global data blocks. */
 void set_global_flag_runs_setup(void) {
@@ -19,6 +19,6 @@ void set_global_flag_runs_setup(void) {
     drain_audio_commands_and_service_channels();
     play_movie_with_fixed_display_flag(0x13, 0xC6);
     func_80066F78(1);
-    file_load_com(&town_scene_resource_descriptor);
-    file_load_com(&D_800D1D54);
+    file_load_com(town_scene_resource_descriptor);
+    file_load_com(D_800D1D54);
 }

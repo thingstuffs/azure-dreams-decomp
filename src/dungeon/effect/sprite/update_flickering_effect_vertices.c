@@ -6,6 +6,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
+#include "dungeon/actor.h"
 
 extern int abs(int);
 
@@ -77,7 +78,7 @@ void func_80024020(void *state, TrailMotion *motion, void *source_data) {
         search_mode = start_y << 0x10;
         tile_data = actor_data;
         end_x = tile_data->unk_24;
-        header_raw = (u32)scan_monster_along_heading(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
+        header_raw = (u32)scan_actor_along_heading(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
     }
     actor->unk_60 = (TrailActor *)header_raw;
     if (((TrailActor *)header_raw) == 0) {

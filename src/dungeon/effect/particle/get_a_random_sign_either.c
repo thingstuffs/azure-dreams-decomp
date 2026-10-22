@@ -1,4 +1,5 @@
 /* Linked particle creation with jittered coordinates, color, and lifetime settings. */
+#include "shared/object_node.h"
 #include "dungeon/effect/particle/get_a_random_sign_either.h"
 #include "shared/object_flags.h"
 
@@ -27,13 +28,13 @@ void create_linked_effect_segments(ParticleWork *work, ParticlePosition *positio
 
 /* Creates a linked particle at a jittered source offset with the supplied age, color, and lifetime. */
 void spawn_linked_effect_particle(Row_818ED7A0_ParticleNode *owner, s32 age, s32 color, s32 lifetime, s16 dx, s16 dy, s16 dz) {
-    Row_818ED7A0_ParticleNode *node = allocate_list_node(0x211, owner);
+    ObjectNodeHeader *node = allocate_list_node(0x211, owner);
     NewParticleWork *work;
     if (node != 0) {
-        node->update = create_linked_effect_segments;
-        node->position->x = owner->position->x + (rand() & 31) + (dx - 16);
-        node->position->y = owner->position->y + (rand() & 31) + (dy - 16);
-        node->position->z = owner->position->z + (rand() & 31) + (dz - 16);
+        node->unk_10 = create_linked_effect_segments;
+        (*(ParticleVector * *)&node->position)->x = owner->position->x + (rand() & 31) + (dx - 16);
+        (*(ParticleVector * *)&node->position)->y = owner->position->y + (rand() & 31) + (dy - 16);
+        (*(ParticleVector * *)&node->position)->z = owner->position->z + (rand() & 31) + (dz - 16);
         work = (NewParticleWork *)((u8 *)node + 0x20);
         work->age = age;
         work->lifetime = lifetime;

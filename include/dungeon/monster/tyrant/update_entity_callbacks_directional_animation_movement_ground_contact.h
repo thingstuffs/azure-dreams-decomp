@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F0F7800_P01_H
 #define DUNGEON_OVL_7F0F7800_P01_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -35,7 +36,6 @@ typedef struct T_80170AA4_S_80170AA4_1 {
 
    /* arg1 in func_80170AA4 */
 
-extern void update_owner_class_bits();
 extern void func_80042984();
 extern void select_indirect_table_entry();
 extern void advance_sprite_animation_and_textures();
@@ -45,6 +45,6 @@ extern s32 refresh_actor_facing_and_lifecycle();
 extern void try_move_actor_to_valid_position();
 extern s32 sample_terrain_surface_height();
 extern T_80170AA4_EntityCallback tyrant_callbacks[];
-void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, void *part);
+void update_entity_callbacks_directional_animation_movement_ground_contact(void *actor, TrailMotion *motion, SpriteFrameState *part);
 extern void update_dungeon_actor_behavior();
 #endif

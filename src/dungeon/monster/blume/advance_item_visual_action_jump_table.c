@@ -1,6 +1,9 @@
+
+struct ObjectPosition;
+struct SpriteFrameState;
 #include "common.h"
 
-extern void advance_item_visual_action(void);
+extern void advance_item_visual_action(void *controller, struct ObjectPosition *motion,struct SpriteFrameState *actor, void *object);
 
 /* Exact jump_table span; dispatch consumer dungeon/func_80DBBFC8. */
 const u32 D_80170838[7] __attribute__((aligned(4))) = {

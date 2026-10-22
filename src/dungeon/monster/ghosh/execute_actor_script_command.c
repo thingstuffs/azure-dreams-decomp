@@ -1,16 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
-typedef struct S_8016EF10_0 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_8016EF10_0;   /* entity in execute_actor_script_command */
 
 typedef struct S_8016EF10_1 {
     u8 pad_00[0x2A];
@@ -26,12 +17,6 @@ typedef struct S_8016EF10_1 {
     u8 pad_9C[0x16];
     u8 unk_B2;
 } S_8016EF10_1;   /* actor in execute_actor_script_command */
-
-typedef struct S_8016EF10_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8016EF10_2;   /* global_base in execute_actor_script_command */
-
 
 extern s32 select_sprite_entry();
 extern s32 update_actor_status_and_mp();
@@ -50,7 +35,7 @@ extern s16 D_80174CD0[];
 /* Executes the current actor script command and advances its repeat counter. */
 s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_arg) {
     u8 *actor = actor_arg;
-    u8 *entity = entity_arg;
+    SpriteFrameState *entity= entity_arg;
     u8 *command_stream;
     u16 command;
     s32 command_wide;
@@ -59,7 +44,7 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
     s32 opcode;
     s32 direction_index;
 
-    if (((S_8016EF10_0 *)entity)->unk_14 & 0x40) {
+    if (entity->flags & 0x40) {
         return 0;
     }
 
@@ -94,16 +79,16 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
         return 0;
 
     case 0x10:
-        if (((S_8016EF10_0 *)entity)->unk_2C != D_8017467C) {
-            ((S_8016EF10_0 *)entity)->unk_2C = D_8017467C;
+        if (*(u8 **)&entity->frameTable != D_8017467C) {
+            entity->frameTable = D_8017467C;
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             select_sprite_entry(entity, D_8017467C[direction_index], 0);
         }
         break;
 
     case 0xF8:
-        if (((S_8016EF10_0 *)entity)->unk_2C != D_801746FC) {
-            ((S_8016EF10_0 *)entity)->unk_2C = D_801746FC;
+        if (*(u8 **)&entity->frameTable != D_801746FC) {
+            entity->frameTable = D_801746FC;
             direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
             select_sprite_entry(entity, D_801746FC[direction_index], 0);
         }
@@ -112,13 +97,13 @@ s32 execute_actor_script_command(u8 *actor_arg, s32 action_context, u8 *entity_a
     case 0xF0:
         if (((S_8016EF10_1 *)actor)->unk_9B == 0) {
             ((S_8016EF10_1 *)actor)->unk_2A = func_8016A928(action_context) << 9;
-            if (((S_8016EF10_0 *)entity)->unk_2C != D_80174694) {
-                ((S_8016EF10_0 *)entity)->unk_2C = D_80174694;
+            if (*(u8 **)&entity->frameTable != D_80174694) {
+                entity->frameTable = D_80174694;
                 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016EF10_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
                 select_sprite_entry(entity, D_80174694[direction_index], 0);
             }
-            if (create_five_point_effect(((S_8016EF10_0 *)entity)->unk_24,
-                              ((S_8016EF10_0 *)entity)->unk_25,
+            if (create_five_point_effect(entity->unk_24,
+                              entity->unk_25,
                               ((S_8016EF10_1 *)actor)->unk_88,
                               D_800DF45C, 0x2800, 0x208020,
                               D_8016EEBC) == 0) {

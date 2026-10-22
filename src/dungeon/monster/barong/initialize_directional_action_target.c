@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -25,14 +26,14 @@ extern u8 D_8017556C[];
 extern void select_sprite_entry(Obj *, u8, s32);
 
 /* Initialize state and configure the object using the direction lookup table. */
-void initialize_directional_action_target(First *state, s32 unused, Obj *object, Other *angle_source)
+void initialize_directional_action_target(First *state, s32 unused, SpriteFrameState *object, Other *angle_source)
 {
     state->field9A = 0x10;
     state->field9B = 0;
     state->field9E = 2;
-    object->field2C = D_8017556C;
+    object->frameTable = D_8017556C;
     select_sprite_entry(object,
                   D_8017556C[((g_game_work.view.camera_rotation.parts.viewAngle + angle_source->field2A + 0x100) >> 9) & 7],
                   0);
-    object->field1E = 0xC00;
+    object->scale_y = 0xC00;
 }

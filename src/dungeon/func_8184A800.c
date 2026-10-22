@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 extern void advance_sprite_animation_and_textures(void *target);
@@ -49,7 +50,7 @@ __attribute__((section(".text.func_8184A800"))) = {
 #endif
 
 /* Apply a random number of updates to the target and propagate its status flags. */
-void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
+void FUNC_8184A800_BODY(void *owner, void *unused, SpriteFrameState *target)
 {
     s32 random_value;
     s16 update_count;
@@ -59,7 +60,7 @@ void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
 
     owner_data = *(void **)((u8 *)owner + 0xC);
     *(u16 *)((u8 *)owner_data + 0x16) += 1;
-    *(s16 *)((u8 *)target + 0x1A) = 0;
+    target->angle_z = 0;
 
     random_value = rand();
     update_count = (random_value % 4) + 1;
@@ -73,7 +74,7 @@ void FUNC_8184A800_BODY(void *owner, void *unused, void *target)
         } while (next_index < update_count);
     }
 
-    if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
+    if (target->flags & 0x6000) {
         *(u16 *)((u8 *)owner - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

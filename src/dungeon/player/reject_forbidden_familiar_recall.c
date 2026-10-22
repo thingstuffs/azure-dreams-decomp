@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/player.h"
 
 extern void adjust_source_value_and_finalize(s32, void *);
 extern u8 D_800E0600[];

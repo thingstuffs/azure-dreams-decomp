@@ -1,9 +1,10 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player.h"
+#include "dungeon/player/position.h"
 
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
-extern void clear_player_linked_action_flags(void);
 extern s32 set_record_integer_tile_center();
 extern u8 D_800DD120[];
 

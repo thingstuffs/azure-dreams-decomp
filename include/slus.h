@@ -1,10 +1,14 @@
 #ifndef SLUS_H
 #define SLUS_H
+
+struct ObjectNodeHeader;
 /* Prototypes of the functions defined in src/slus/ (one true prototype each; maintained by tools/headers). */
 
 #include "common.h"
 #include "shared/sound_volume.h"
 
+struct ObjectPosition;
+struct SpriteFrameState;
 struct Dst;
 struct Elem;
 struct Node;
@@ -29,7 +33,7 @@ int read_sound_payload_slot(void);
 void set_sound_payload_slot(int value);
 void wait_512_vertical_syncs(void);
 void pack_tagged_resource_descriptor(int tag, int id, int *record, int value);
-void push_node_onto_free_list(void *node);
+void push_node_onto_free_list(struct ObjectNodeHeader *node);
 void mark_resource_list_flags_ten_and_eleven(void);
 int count_null_terminated_pointers(void **entries);
 void append_terminated_runtime_word(int value);
@@ -38,7 +42,7 @@ void apply_actor_template_and_class(void *entity, int value);
 void set_cd_cue_and_submit_sound_command(int first, int second, int third, int fourth);
 int read_stream_cue_start_offset(void);
 int draw_linked_lit_meshes(void *object, int value, void *record);
-short draw_linked_sprites_and_narrow_result(void);
+short draw_linked_sprites_and_narrow_result(void *payload, struct ObjectPosition *coords, struct SpriteFrameState *record);
 void advance_sprite_animation_and_textures(void *entity);
 void clear_sprite_work_table(void);
 void *get_sprite_resource_slot_buffer(s32 index);
@@ -87,10 +91,10 @@ void clear_resident_bitmap_bit_two(void);
 void set_glyph_style_index(void *record, int index);
 unsigned char *read_decimal_digit_value(unsigned char *text, int *digit);
 void format_reversed_decimal_space_padded(int value, unsigned short width, char *buf);
-void func_8004E994(void);
+void noop_release_notification(void);
 void flag_optional_object_for_removal(void *object);
-void func_8004E9C0(void *object);
-void func_8004E9E4(void);
+void flag_optional_object_for_removal_b(void *object);
+void noop_display_setup_hook(void);
 void clear_vram_callback_state(void);
 void create_resource_transition_for_descriptor_check(void *object);
 void create_resource_transition_card(int object);
@@ -121,22 +125,22 @@ void clear_audio_command_queue(void);
 void initialize_audio_ramp_defaults(SoundTask *state);
 void func_80055CEC(void);
 void func_80055E6C(void);
-void func_80055E74(void);
-void func_80055E7C(void);
+void noop_voice_start_notification(void);
+void noop_channel_control_notification(void);
 void func_80056D3C(void);
-void func_80057A48(void);
-void func_8005848C(void);
+void noop_midi_a0(void);
+void noop_midi_d0(void);
 void tick_enabled_sequence_tracks(void);
 void func_800587F8(void);
 unsigned int pack_big_endian_word(int byte_3, int byte_2, int byte_1, int byte_0);
 int pack_big_endian_halfword(int high, int low);
 int add_to_sequence_counter(int *counter, int delta);
-void func_80058E64(u8 status);
+void noop_sequence_status_hook(u8 status);
 void service_audio_timer_callback(void);
 void set_audio_timer_state(int value);
 void run_enabled_sound_sequence_update(void);
 void clear_cd_audio_mix_mode(void);
-void func_8005A420(void);
+void noop_audio_init_hook(void);
 void reset_voices_slots_and_stop_spu_service(void);
 void set_sound_flag_update_suppression(short value);
 void flush_pending_sound_voice_flags(void);
@@ -156,8 +160,8 @@ void submit_audio_driver_byte_command(s32 first, s32 second, s32 third);
 void submit_audio_driver_scaled_pair(unsigned char code, short first, short second);
 void dispatch_audio_driver_halfword_flags(s32 value);
 void reset_audio_sequence_state_default(void);
-void select_spu_dma_write_channel_flags(void);
-void select_spu_dma_read_channel_flags(void);
+void _spu_FsetDelayW(void);
+void _spu_FsetDelayR(void);
 void set_dma_channel_4_callback(int callback);
 s32 is_tone_parameter_flag_set(void);
 s32 update_spu_register_pair_cc_cd(s32 first, s32 second);
@@ -181,7 +185,7 @@ void clear_runtime_slot_word_table(void);
 void item_clear_recorded_category_pair(int first_value, int second_value);
 void scene_save_previous_mode_and_reset_callbacks(void);
 u8 select_display_spacing_table_entry(s32 index, s32 count);
-void func_80053CA4(void);
+void load_secondary_optional_resource_descriptor(void);
 u8 get_previous_cd_command_byte(void);
 void audio_disable_reverb(void);
 int audio_get_channel_pan(int unused, short index);
@@ -201,18 +205,18 @@ s32 interpret_script_opcodes_until_action_changes(struct RuntimeContext *context
 s32 is_message_byte_in_lookup_set(s8 value);
 
 /* sound_dma_lifecycle.c */
-s32 initialize_spu_registers_and_voices(s32 warm);
-void write_spu_transfer_fifo_in_chunks(u16 *src, u32 bytes_left);
-void complete_spu_dma_and_signal_event(void);
-void submit_spu_dma_read_blocks(s32 ram_address, s16 spu_address, s32 block_count);
-void delay_multiply_loop(void);
+s32 _spu_init(s32 warm);
+void _spu_FwriteByIO(u16 *src, u32 bytes_left);
+void _spu_FiDMA(void);
+void _spu_Fr_(s32 ram_address, s16 spu_address, s32 block_count);
+void _spu_Fw1ts(void);
 
 /* sound_key_buffer.c */
 u32 modify_spu_register_bit_pair(s32 mode, u32 value, s32 low_index, s32 high_index);
-void set_spu_voice_keys(s32 key_on, u32 voices);
+void SpuSetKey(s32 key_on, u32 voices);
 
 /* sound_streaming_transfer.c */
-s32 clear_spu_reverb_work_area(s32 voice);
+s32 SpuClearReverbWorkArea(s32 voice);
 
 /* w_8003E34C.c */
 void reset_cd_command_retry_state(void);
@@ -264,13 +268,13 @@ void runtime_dispatch_and_reset_control_string(char *text);
 void enqueue_script_message_command(void);
 
 /* w_8004EF90.c */
-void *func_8004EF90(void *cursor);
+void *init_object_header_a(void *cursor);
 
 /* w_8004EFF4.c */
-void *func_8004EFF4(struct S_8004EFF4 *record);
+void *init_object_header_b(struct S_8004EFF4 *record);
 
 /* w_8004F068.c */
-void *func_8004F068(void *cursor);
+void *init_object_header_c(void *cursor);
 
 /* w_80050DA8.c */
 void begin_selection_menu_teardown_and_fade(u8 *object);

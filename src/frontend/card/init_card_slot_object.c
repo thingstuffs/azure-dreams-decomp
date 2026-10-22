@@ -1,10 +1,11 @@
 #include "common.h"
+#include "frontend/card/slot_assert_bytes.h"
 #include "frontend/card.h"
 #include "main/data.h"
 
 
-extern u8 D_804007A4[];
-extern u8 D_804007CC[];
+
+
 
 extern s32 func_8003C714(s32 option, void *object, s32 param);
 extern void func_80040560(s32 object, void *data);
@@ -41,7 +42,7 @@ void *init_card_slot_object(s32 init_option)
     if (func_80047FD8(base) == 0) {
         base = (void *)(unsigned long)func_8003C714(0, base, 0x42);
         if (base == 0) {
-            func_8007C040(D_804007A4, D_804007CC, 0x136);
+            func_8007C040(card_slot_assert_format, card_slot_filename, 0x136);
             func_8007BEF0(1);
         }
         func_80040560((s32)(unsigned long)base, D_8040861C);

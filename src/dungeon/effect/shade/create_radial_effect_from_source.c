@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 
 #include "shared/object_node.h"
@@ -16,21 +17,21 @@ void *create_radial_effect_from_source(s32 type_code, void *source, s32 unused, 
     register u32 stored_value;
     s32 type_id;
     s32 step;
-    void *child;
-    void *object;
+    ObjectPosition *child;
+    ObjectNodeHeader *object;
 
     stored_value = object_value;
     type_id = type_code - 0x20;
     object = allocate_list_node(2, type_id);
     if (object != 0) {
-        *(s32 **)((u8 *)object + 0x10) = D_800247AC;
+        object->unk_10 = D_800247AC;
         register_node(object, draw_adjacent_row_quads);
 
-        child = *(void **)((u8 *)object + 8);
-        *(u16 *)((u8 *)child + 2) = *(u16 *)((u8 *)source + 2);
+        child = object->position;
+        child->x.w.i = *(u16 *)((u8 *)source + 2);
         step = 0;
-        *(u16 *)((u8 *)child + 6) = *(u16 *)((u8 *)source + 6);
-        *(u16 *)((u8 *)child + 0xA) = *(u16 *)((u8 *)source + 0xA);
+        child->y.w.i = *(u16 *)((u8 *)source + 6);
+        child->z.w.i = *(u16 *)((u8 *)source + 0xA);
         source = (void *)type_id;
         *(s32 *)((u8 *)object + 0x20) = stored_value;
 

@@ -1,3 +1,5 @@
+
+struct SpriteFrameState;
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
@@ -52,7 +54,7 @@ s32 advance_actor_pending_action();
 void begin_actor_move_to_target_facing();
 void apply_clamped_actor_value_delta();
 extern void func_80171F94(void *action_state, void *action_context, void *sprite, EntityRec *actor);
-void advance_actor_effect_sequence();
+void advance_actor_effect_sequence(Rec_func_801732A4_arg0 *state, EntityRec *position,struct SpriteFrameState *actor, void *model);
 extern u8 effect_update_tag[];
 extern u8 D_80170E68[];
 extern u8 D_801741DC[];
@@ -64,7 +66,7 @@ extern u8 D_801741FC[];
 /* Advances the actor effect sequence, updating directional animation and its attached effect. */
 /* Animates status slot 1, processes MP and turn updates while active, and releases its linked sprite
  * before restoring movement. */
-void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite, void *actor_state) {
+void advance_actor_effect_sequence_2(ObjectNodeHeader *actor, void *transform, SpriteFrameState *sprite, void *actor_state) {
     s32 actor_flags;
     s32 action_flags;
     s32 sprite_data;
@@ -84,19 +86,19 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
     default:
         return;
     case 0:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000))
+        if (!(sprite->flags & 0xE000))
             return;
-        ((SpriteFrameState *)sprite)->frameTable = D_801741DC;
+        sprite->frameTable = D_801741DC;
         select_sprite_entry(sprite, D_801741DC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
     case 1:
-        sprite_flags = ((SpriteFrameState *)sprite)->flags;
+        sprite_flags = sprite->flags;
         if (!(sprite_flags & 0x8000)) {
             if (sprite_flags & 0x6000) {
-                ((SpriteFrameState *)sprite)->flags = (u16)(sprite_flags & 0x9FFF);
+                sprite->flags = (u16)(sprite_flags & 0x9FFF);
                 count = ((Rec_func_801732A4_arg0 *)actor)->unk_96 + 1;
                 ((Rec_func_801732A4_arg0 *)actor)->unk_96 = count;
                 if (count & 1) {
@@ -107,10 +109,10 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         if (g_dungeon_status.flags & 0x1000)
             return;
         if ((get_entity_effect_value(actor_state, 1) << 0x10) == 0) {
-            ((SpriteFrameState *)sprite)->frameTable = D_801741E4;
+            sprite->frameTable = D_801741E4;
             select_sprite_entry(sprite, D_801741E4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
                 >> 9) & 7], 0);
-            if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+            if (sprite->flags & 0x8000) {
                 if (((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000) {
                     count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
                     g_dungeon_status.activity_counts.parts.pending_action_count = count;
@@ -167,7 +169,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         on_actor_status_updated(actor_state);
         if ((get_entity_effect_value(actor_state, 1) << 0x10) != 0) {
             player_sprite = &reference_tile_object;
-            region_id = *(s8 *)&((SpriteFrameState *)sprite)->unk_26;
+            region_id = *(s8 *)&sprite->unk_26;
             if (region_id == player_sprite->room_index && region_id >= 0) {
                 if (!(generate_random_value() & 7)) {
                     clear_slots_of_type(actor_state, 1);
@@ -183,10 +185,10 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         }
         if ((get_entity_effect_value(actor_state, 1) << 0x10) != 0)
             return;
-        ((SpriteFrameState *)sprite)->frameTable = D_801741E4;
+        sprite->frameTable = D_801741E4;
         select_sprite_entry(sprite, D_801741E4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) {
                 ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
                 ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_80170E68;
@@ -206,17 +208,17 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
     case 2:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000))
+        if (!(sprite->flags & 0xE000))
             return;
-        ((SpriteFrameState *)sprite)->frameTable = D_801741EC;
+        sprite->frameTable = D_801741EC;
         select_sprite_entry(sprite, D_801741EC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
     case 3:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000))
+        if (!(sprite->flags & 0xE000))
             return;
-        ((SpriteFrameState *)sprite)->frameTable = D_801741F4;
+        sprite->frameTable = D_801741F4;
         select_sprite_entry(sprite, D_801741F4[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
@@ -226,25 +228,25 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         if (actor == NULL)
             return;
         register_node(actor, project_sprite_chain);
-        effect_transform = ((Rec_func_801732A4_arg0 *)actor)->unk_08;
-        ((Rec_func_801732A4_arg0 *)actor)->unk_10 = effect_update_tag;
+        effect_transform = actor->position;
+        actor->unk_10 = effect_update_tag;
         *(Copy24 *)effect_transform = *(Copy24 *)transform;
         ((Rec_func_801732A4_arg0 *)actor)->unk_BB = 0;
-        effect_sprite = ((Rec_func_801732A4_arg0 *)actor)->unk_0C;
+        effect_sprite = actor->sprite;
         ((Rec_func_801732A4_arg0 *)actor)->unk_4A = (u16)((S_801732A4_2 *)actor_state)->unk_2A;
-        sprite_data = ((SpriteFrameState *)sprite)->unk_28;
+        sprite_data = sprite->unk_28;
         effect_sprite->scale_y = 0x1000;
         effect_sprite->scale_x = 0x1000;
         effect_sprite->unk_28 = sprite_data;
-        effect_sprite->flags = (u16)((SpriteFrameState *)sprite)->flags;
-        effect_sprite->clut = (u16)((SpriteFrameState *)sprite)->clut;
-        effect_sprite->color.word = (s32)((SpriteFrameState *)sprite)->color.word;
+        effect_sprite->flags = (u16)sprite->flags;
+        effect_sprite->clut = (u16)sprite->clut;
+        effect_sprite->color.word = (s32)sprite->color.word;
         effect_sprite->frameTable = D_801741FC;
         select_sprite_entry(effect_sprite, D_801741FC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A
             + 0x100) >> 9) & 7], 0);
         return;
     case 4:
-        if (!(((SpriteFrameState *)sprite)->flags & 0xE000))
+        if (!(sprite->flags & 0xE000))
             return;
         active_effect = ((Rec_func_801732A4_arg0 *)actor)->unk_A0;
         if (active_effect != NULL) {

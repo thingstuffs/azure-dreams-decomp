@@ -291,15 +291,15 @@ u8 select_display_spacing_table_entry(s32 index, s32 count)
 }
 
 extern char optional_resource_descriptor[16]; /* >8B forces hi/lo addressing (pointer stored at offset 0) */
-extern char D_800812C8[16]; /* >8B forces hi/lo addressing (address-of target) */
+extern char secondary_optional_resource_descriptor[16]; /* >8B forces hi/lo addressing (address-of target) */
 
 extern void resource_load_current_optional_descriptor(void);
 
 /* Stores the address of D_800812C8 in D_8006ADC0, then calls resource_load_current_optional_descriptor. */
-void func_80053CA4(void)
+void load_secondary_optional_resource_descriptor(void)
 {
     char **pointer_slot = (char **)optional_resource_descriptor;
-    *pointer_slot = D_800812C8;
+    *pointer_slot = secondary_optional_resource_descriptor;
     resource_load_current_optional_descriptor();
 }
 
@@ -320,15 +320,15 @@ u8 get_previous_cd_command_byte(void) {
 
 extern unsigned char sound_ram_reserve_mode[9];
 
-extern void set_spu_reverb_enabled_if_available(int value);
-extern void set_reverb_address_available(int value);
+extern void SpuSetReverb(int value);
+extern void SpuReserveReverbWorkArea(int value);
 
 /* Clears D_8007382B and calls both reset routines with zero. */
 void audio_disable_reverb(void)
 {
     sound_ram_reserve_mode[0] = 0;
-    set_spu_reverb_enabled_if_available(0);
-    set_reverb_address_available(0);
+    SpuSetReverb(0);
+    SpuReserveReverbWorkArea(0);
 }
 
 /* Returns the word at offset 4 of the indexed D_80084960 entry. */

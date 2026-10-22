@@ -11,12 +11,6 @@
 #include "shared/entity_objects.h"
 #include "shared/object_flags.h"
 
-typedef struct S_800A8184_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    void * unk_0C;
-} S_800A8184_0;
-
 typedef struct S_800A8184_1 {
     u8 pad_00[0x4C];
     u8 unk_4C;

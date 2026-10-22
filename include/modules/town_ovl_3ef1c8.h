@@ -99,7 +99,7 @@ extern s16 D_8001A91E;
 extern s32 D_8001AB94;
 extern s32 D_8001ABE8;
 extern s32 D_8001B320;
-s32 func_8001A7B0(u8);
+s32 town_table_contains_first_byte_b(u8);
 s32 func_8001A510(s32 code);
 void func_8001A418(s32 code);
 void func_8001A490(s32 code);

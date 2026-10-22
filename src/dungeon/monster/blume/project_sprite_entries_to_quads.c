@@ -1,4 +1,5 @@
 #include "dungeon/monster/blume/project_sprite_entries_to_quads.h"
+#include "dungeon/monster/garuda.h"
 
 
 /* Project sprite entries into textured quads and append visible quads to the ordering table. */

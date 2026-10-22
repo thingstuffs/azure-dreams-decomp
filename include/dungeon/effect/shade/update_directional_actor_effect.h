@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_7E6B7800_H
 #define DUNGEON_OVL_7E6B7800_H
+
+struct SpriteFrameState;
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/tile_object.h"
@@ -147,28 +149,6 @@ typedef struct Row_8194CF00_S_80024700_0 {
     u8 unk_30;
 } Row_8194CF00_S_80024700_0;   /* data in func_80024700 */
 
-typedef struct Row_8194CF00_S_80024700_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    union { u16 u16; s32 s32; } unk_10;   /* accessed as both */
-    union {
-        struct { u16 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-    } unk_14;   /* overlapping accesses */
-    s16 unk_18;
-    u16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
-} Row_8194CF00_S_80024700_1;   /* primitive in func_80024700 */
-
 /* Creates a textured object from the source and applies a transformed positional offset. */
 typedef struct Row_8194D118_S_80024918_0 {
     void * unk_00;
@@ -231,11 +211,6 @@ typedef struct Row_8194D354_S_80024B54_0 {
     s16 unk_1A;
 } Row_8194D354_S_80024B54_0;   /* arg0 in func_80024B54 */
 
-typedef struct Row_8194D354_S_80024B54_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} Row_8194D354_S_80024B54_1_pre;   /* the 0x14 bytes before temp_v1_2 in func_80024B54, addressed as temp_v1_2[-1] */
-
 typedef struct Row_8194D354_S_80024B54_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -258,11 +233,6 @@ typedef struct Row_8194D354_S_80024B54_5 {
     u8 pad_2C[0x5C];
     u16 unk_88;
 } Row_8194D354_S_80024B54_5;   /* temp_a0 in func_80024B54 */
-
-typedef struct Row_8194D354_S_80024B54_6_pre {
-    M2C_UNK * unk_00;
-    u8 pad_04[0x14];
-} Row_8194D354_S_80024B54_6_pre;   /* the 0x18 bytes before temp_v0_3 in func_80024B54, addressed as temp_v0_3[-1] */
 
 typedef struct Row_8194D354_S_80024B54_7 {
     u8 pad_00[0x2];
@@ -299,17 +269,6 @@ typedef struct Row_8194D354_S_80024B54_11 {
     u16 unk_0A;
 } Row_8194D354_S_80024B54_11;   /* var_v1 in func_80024B54 */
 
-typedef struct Row_8194D354_S_80024B54_13_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} Row_8194D354_S_80024B54_13_pre;   /* the 0x14 bytes before ((Row_8194D354_S_80024B54_0 *)arg0)->unk_14 in func_80024B54, addressed as ((Row_8194D354_S_80024B54_0 *)arg0)->unk_14[-1] */
-
-
-
-
-
-
-
 /* Updates a three-way effect, selects its target, and animates the target color. */
 s32 func_80065F90(s32, s32);
 s32 func_80064710(s32);
@@ -330,7 +289,7 @@ s32 read_sound_mode_blocking_status();
 void * func_80065820();
 s32 func_80069EF8();
 void apply_attack_power_and_element_effects();
-void *scan_monster_along_heading();
+void *scan_actor_along_heading();
 s32 check_left_tile_and_center_height();
 s32 play_sound_if_enabled();
 s16 get_surface_height_at_record();
@@ -345,7 +304,7 @@ void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 
                    s16 end_z, s16 *angles);
 void update_homing_arc_and_brighten_effect(void *effect, void *motion, void *sprite);
 void allocate_effect_and_initialize_sprite(s32 effect_data, s32 effect_param, s32 render_param);
-void update_rotating_effect_and_fade(void *effect, void *position, void *sprite);
+void update_rotating_effect_and_fade(void *effect, void *position,struct SpriteFrameState *sprite);
 void create_textured_offset_object(void *source_object);
 void advance_object_motion_and_animation(void *object);
 void allocate_effect_with_endpoints(s32 object_value, void *start_pos, void *end_pos, s16 setting, Row_8194D1E4_FourWords params_a,

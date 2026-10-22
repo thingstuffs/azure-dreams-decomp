@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/player.h"
 
 
 /* Set the indexed object value and its mirrored table entry. */

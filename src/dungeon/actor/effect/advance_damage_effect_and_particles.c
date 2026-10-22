@@ -3,6 +3,7 @@
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/actor.h"
 
 typedef struct S_800CABA8_0 {
     u8 pad_00[0x8C];
@@ -41,7 +42,6 @@ void *resolve_attack_damage_and_effects();
 void set_record_integer_tile_center();
 s32 advance_status_timers();
 extern void set_actor_action_state_eight(void *, s32, void *);
-void spawn_salam_particles();
 void *create_source_linked_fading_effect();
 extern u8 D_800C9F34;
 

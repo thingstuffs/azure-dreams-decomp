@@ -83,6 +83,20 @@ class DataNamesTests(unittest.TestCase):
         self.assertNotIn("alreadyUsed\tevidence", self.table.read_text())
         self.assertIn("D_80001234", self.source.read_text())
 
+    def test_scoped_data_batch_keeps_other_source_and_header(self):
+        other = self.root / 'src/dungeon/consumer.c'
+        other.parent.mkdir()
+        other.write_text('extern int D_80001234;\nint other(void){return D_80001234;}\n')
+        header = self.root / 'include/other.h'
+        header.write_text('extern int D_80001234;\n')
+        original = {p: p.read_bytes() for p in (other, header)}
+        self.proposed.write_text('0x80001234\tD_80001234\treadable_data\tevidence\n')
+        self.run_names('--batch', '--rewrite', '--defer-verification', '--path-prefix', 'src/town')
+        self.assertIn('return readable_data;', self.source.read_text())
+        self.assertIn('D_80001234\treadable_data', self.table.read_text())
+        for p, text in original.items():
+            self.assertEqual(p.read_bytes(), text)
+
 
 if __name__ == "__main__":
     unittest.main()

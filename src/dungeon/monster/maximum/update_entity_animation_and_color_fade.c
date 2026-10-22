@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -6,24 +7,10 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80173204_arg0.h"
 
-
-typedef struct S_80173204_1 {
-    u8 pad_00[0xC];
-    union { u8 u8; s32 s32; } unk_0C;   /* accessed as both */
-    u8 pad_10[0x4];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} S_80173204_1;   /* arg2 in update_entity_animation_and_color_fade */
-
-
 typedef struct S_80173204_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80173204_7;   /* counter in update_entity_animation_and_color_fade */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -45,7 +32,7 @@ extern u8 D_80173C9C[];
 extern u8 D_80173CA4[];
 
 /* Updates entity state, directional animation, and color fading. */
-void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, s32 update_mode, S_80173204_1 *sprite, ActorRecord *entity)
+void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, s32 update_mode, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 state;
     s32 flags;
@@ -54,21 +41,21 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
     TileObject *floor_base;
 
     if (controller->unk_9B < 2U) {
-        if (sprite->unk_0C.u8 >= 0x33U) {
-            sprite->unk_0C.s32 += -0x30303;
+        if (sprite->color.c.r >= 0x33U) {
+            sprite->color.word += -0x30303;
         }
-    } else if (sprite->unk_0C.u8 < 0x80U) {
-        sprite->unk_0C.s32 += 0x30303;
+    } else if (sprite->color.c.r < 0x80U) {
+        sprite->color.word += 0x30303;
     }
 
     state = controller->unk_9B;
     switch (state) {
     case 0:
         entity->flags1C |= 0x10000000;
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->unk_2C = D_80173C9C;
+        sprite->frameTable = D_80173C9C;
         select_sprite_entry(
             sprite,
             D_80173C9C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -81,15 +68,15 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
 
     case 1:
         if ((get_entity_effect_value(entity, 1) << 16) == 0) {
-            sprite->unk_2C = D_80173CA4;
+            sprite->frameTable = D_80173CA4;
             select_sprite_entry(
                 sprite,
                 D_80173CA4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
-            if (sprite->unk_14 & 0x8000) {
+            if (sprite->flags & 0x8000) {
                 entity->flags1C &= ~0x200;
                 entity->flags1C &= 0xEFFFFFFF;
-                sprite->unk_0C.s32 = 0x808080;
+                sprite->color.word = 0x808080;
                 controller->unk_8C.as_pu8 = &D_80170E54;
                 return;
             }
@@ -141,7 +128,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         on_actor_status_updated(entity);
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             floor_base = &reference_tile_object;
-            floor = sprite->unk_26;
+            floor = *(s8 *)&sprite->unk_26;
             if (((floor == floor_base->room_index) && (floor >= 0)) ||
                 get_tile_chebyshev_distance(floor_base, sprite) < 2) {
                 if ((generate_random_value() & 7) == 0) {
@@ -153,15 +140,15 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         if ((get_entity_effect_value(entity, 1) << 16) != 0) {
             return;
         }
-        sprite->unk_2C = D_80173CA4;
+        sprite->frameTable = D_80173CA4;
         select_sprite_entry(
             sprite,
             D_80173CA4[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        if (sprite->unk_14 & 0x8000) {
+        if (sprite->flags & 0x8000) {
             entity->flags1C &= ~0x200;
             entity->flags1C &= 0xEFFFFFFF;
-            sprite->unk_0C.s32 = 0x808080;
+            sprite->color.word = 0x808080;
             controller->unk_8C.as_pu8 = &D_80170E54;
             return;
         }
@@ -176,8 +163,8 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         return;
 
     case 2:
-        if (!(sprite->unk_14 & 0x8000)) {
-            if (sprite->unk_0C.u8 < 0x80U) {
+        if (!(sprite->flags & 0x8000)) {
+            if (sprite->color.c.r < 0x80U) {
                 return;
             }
         }
@@ -186,7 +173,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
             ((S_80173204_7 *)counter)->unk_0A--;
         }
         entity->flags1C &= 0xEFFFFFFF;
-        sprite->unk_0C.s32 = 0x808080;
+        sprite->color.word = 0x808080;
         entity->flags1C &= ~0x200;
         controller->unk_8C.as_pu8 = &D_80170E54;
 

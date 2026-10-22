@@ -6,8 +6,11 @@
 #include "m2c_compat.h"
 #include "shared/game_work.h"
 #include "shared/resident_resources.h"
+#include "shared/movie_list.h"
 #include "shared/sound_state.h"
 
+
+struct InputRecord;
 
 /* Data declarations. */
 extern u8 D_80012D6E[ 9 ];
@@ -19,15 +22,15 @@ extern s16 D_8006AE18[ 5 ];
 extern s32 D_8006D6D8[ 4 ];
 extern s8 D_800712E4[ ];
 extern u8 D_800712F0[ ];
-extern int D_800713FC[ 4 ];
-extern unsigned char D_80071684[ 16 ];
-extern unsigned char D_800717BC[ 16 ];
+extern int item_name_text_table[ 4 ];
+extern unsigned char menu_backdrop_link_indices[ 16 ];
+extern unsigned char selection_menu_link_indices[ 16 ];
 extern s32 D_800737D4[ 4 ];
 extern int *D_8007996C[ 4 ];
 extern u8 D_800809C4[ ];
-extern int D_80080B48;
-extern char D_800812C8[ 16 ];
-extern int D_800812D0[ 4 ];
+extern int global_cd_command_six_payload;
+extern char secondary_optional_resource_descriptor[ 16 ];
+extern int primary_optional_resource_descriptor[ 4 ];
 extern u8 D_800812F8;
 extern s32 D_800814A0_abs;
 extern s32 D_800814A0_load[ 3 ];
@@ -39,7 +42,7 @@ extern u16 D_80083164[ ];
 extern u8 D_80084548[ ];
 extern short D_800847F6[ 8 ];
 extern s32 D_8008485C[ 3 ];
-extern int D_80085FCC[ 4 ];
+extern int sequence_tempo_step[ 4 ];
 extern u8 D_800C321C[ ];
 extern u32 D_800D0858[ 3 ];
 extern u8 D_800DCF54[ ];
@@ -108,7 +111,7 @@ extern M2C_UNK fade_and_shrink_window_on_value_change;
 extern u8 flagged_effect_source_0[ 12 ];
 extern u8 flagged_effect_source_1[ 12 ];
 extern u32 frame_packet_limit_pointers[ 3 ];
-extern s32 func_80038A08;
+extern s32 noop_installed_script_action;
 extern GameView game_view_state_alias;
 extern s32 glyph_code_values[ ];
 extern s32 glyph_vram_column_steps[ ];
@@ -120,9 +123,9 @@ extern u8 gradient_rectangle_center_color[ 16 ];
 extern u8 gradient_rectangle_edge_color[ 16 ];
 extern u8 graphics_clear_rectangle_0[ ];
 extern u8 graphics_clear_rectangle_1[ ];
-extern M2C_UNK home_rank_primary_map_table[ ];
-extern M2C_UNK home_rank_secondary_map_table[ ];
-extern M2C_UNK home_rank_tertiary_map_table[ ];
+extern struct InputRecord *home_rank_primary_map_table[];
+extern struct InputRecord *home_rank_secondary_map_table[];
+extern struct InputRecord *home_rank_tertiary_map_table[];
 extern void *indexed_resource_packages[ ];
 extern u8 indexed_sprite_bundle_records[ ];
 extern s32 item_display_icon_words[ 256 ];
@@ -212,7 +215,7 @@ extern s32 script_command_resource_indices[ 32 ];
 extern u8 script_message_default_record[ 1 ];
 extern u8 scrolling_window_display_storage[ ];
 extern u8 scrolling_window_node_storage[ ];
-extern M2C_UNK second_house_rank_map_table[ ];
+extern struct InputRecord *second_house_rank_map_table[];
 extern s32 secondary_mode_resource_table;
 extern u8 secondary_packet_limit_indices[ 256 ];
 extern u8 selection_menu_animation_keys[ ];
@@ -223,7 +226,7 @@ extern s32 sequence_payload_slot_20[ ];
 extern s32 sequence_payload_slot_24[ ];
 extern u8 session_reset_default_block[ 10 ];
 extern u8 session_reset_default_pair[ 10 ];
-extern M2C_UNK shared_sprite_resource_descriptor;
+extern u32 shared_sprite_resource_descriptor[2];
 extern s8 shared_sprite_resource_loaded;
 extern s32 sixteen_sprite_sequence_source[ 4 ];
 extern s32 sound_ram_reserved_sizes[ 9 ];
@@ -231,8 +234,8 @@ extern s32 sound_stream_primary_marker_address[ 4 ];
 extern s32 sound_stream_secondary_marker_address[ 4 ];
 extern s16 sprite_depth_amplitude_table[ ];
 extern u8 sprite_fixed_transform_matrix[ 32 ];
-extern M2C_UNK sprite_image_read_descriptor;
-extern M2C_UNK sprite_metadata_read_descriptor;
+extern s32 sprite_image_read_descriptor[2];
+extern s32 sprite_metadata_read_descriptor[2];
 extern s32 sprite_scaled_depth_word[ ];
 extern u8 sprite_transform_copy_flags[ ];
 extern SoundSequenceListState spu_allocation_record_storage;
@@ -247,9 +250,9 @@ extern u8 town_movie_descriptor_2[ ];
 extern u8 town_movie_descriptor_3[ ];
 extern u8 town_movie_descriptor_4[ ];
 extern u8 town_movie_descriptor_5[ ];
-extern M2C_UNK town_movie_primary_resource;
-extern M2C_UNK town_movie_resource_descriptor;
-extern M2C_UNK town_movie_secondary_resource;
+extern u32 town_movie_primary_resource[2];
+extern MovieListNode town_movie_resource_descriptor;
+extern u32 town_movie_secondary_resource[2];
 extern s32 town_record_capacities[ ];
 extern s16 town_saved_sequence_command;
 extern s16 town_saved_stream_index;

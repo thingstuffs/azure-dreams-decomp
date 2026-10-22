@@ -4,14 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef s32 M2C_UNK;
-
-typedef struct S_8014C894_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8014C894_0;   /* obj in func_8014C894 */
 
 typedef struct S_8014C894_1 {
     u8 pad_00[0x13];

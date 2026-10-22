@@ -28,7 +28,7 @@ extern u8 D_800DF334[9];
 /* Allocate and initialize an effect object from the supplied part data. */
 void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base) {
     s32 init_data[2];
-    void *object;
+    ObjectNodeHeader *object;
     MovingPosition *part;
     SpriteFrameState *effect;
     void *result;
@@ -39,13 +39,13 @@ void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base)
         init_data[1] = 0x00200020;
         draw_textured_ellipse(D_800DF334, init_data, 1, 0);
 
-        part = ((S_80024578_0 *)object)->unk_08;
-        ((S_80024578_0 *)object)->unk_10 = D_800243C4;
+        part = object->position;
+        object->unk_10 = D_800243C4;
         part->unk_02 = source_part->unk_02;
         part->unk_06 = source_part->unk_06;
         part->unk_0A = source_part->unk_0A;
 
-        effect = ((S_80024578_0 *)object)->unk_0C;
+        effect = object->sprite;
         effect->source = D_80028208;
         effect->scale_y = 0xC00;
         effect->scale_x = 0xC00;

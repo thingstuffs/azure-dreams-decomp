@@ -81,7 +81,6 @@ typedef struct S_8009E798_3 {
     u8 unk_25;
 } S_8009E798_3;
 
-
 typedef struct S_8009E798_5_pre {
     u32 unk_00;
     u8 pad_04[0x4];
@@ -139,8 +138,6 @@ typedef struct S_8009E798_7 {
 
    /* ret_state in build_transformed_sprite_quads */
 
-
-
 extern void copy_words_forward(void *, void *, s32);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -190,7 +187,7 @@ s32 build_transformed_sprite_quads(void *draw_area, void *placement, void *sprit
 
     ((S_8009E798_1 *)scratch)->unk_98 = 0;
     ((S_8009E798_1 *)scratch)->unk_9A = 0;
-    ((S_8009E798_1 *)scratch)->unk_9C = ((Rec_D_80083160 *)((u8 *)(&g_game_work)))->unk_C8.as_u16;
+    ((S_8009E798_1 *)scratch)->unk_9C = *(u16 *)&g_game_work.view.camera_rotation.parts.viewAngle;
     func_80065820(scratch + 0x98, scratch + 0xD0);
     func_80064BC0(scratch + 0xD0, scratch + 0x30);
 

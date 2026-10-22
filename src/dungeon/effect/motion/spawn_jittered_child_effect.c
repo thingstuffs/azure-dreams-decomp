@@ -1,4 +1,6 @@
 #include "dungeon/effect/motion/spawn_jittered_child_effect.h"
+#include "dungeon/effect/motion.h"
+#include "shared/object_node.h"
 
 
 /* Creates a child effect at a random offset from its source and stores the supplied control values. */
@@ -14,7 +16,7 @@ void spawn_jittered_child_effect(
     void *source_obj = source;
     u32 saved_field_28 = field_28;
     s16 saved_field_52 = field_52;
-    void *object_cursor;
+    ObjectNodeHeader *object_cursor;
     Row_818FECCC_S_818FECCC_0 *fields;
     s32 jitter_x;
     s32 jitter_y;
@@ -32,10 +34,10 @@ void spawn_jittered_child_effect(
 
     object_cursor = allocate_list_node(0x211, source_obj);
     if (object_cursor != NULL) {
-        ((Row_818FECCC_S_818FECCC_0 *)object_cursor)->unk_10 = (s32)D_80024400;
+        object_cursor->unk_10 = (s32)D_80024400;
         jitter_x = func_80069EF8() & 0x1F;
         position_x = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_02;
-        dest_x = ((Row_818FECCC_S_818FECCC_0 *)object_cursor)->unk_08.s;
+        dest_x = object_cursor->position;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
@@ -43,7 +45,7 @@ void spawn_jittered_child_effect(
 
         jitter_y = func_80069EF8() & 0x1F;
         position_y = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_06;
-        dest_y = ((Row_818FECCC_S_818FECCC_0 *)object_cursor)->unk_08.s;
+        dest_y = object_cursor->position;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
@@ -54,7 +56,7 @@ void spawn_jittered_child_effect(
         jitter_z &= 0x1F;
         position_z = ((Row_818FECCC_S_818FECCC_6 *)(((Row_818FECCC_S_818FECCC_1 *)source_obj)->unk_08))->unk_0A;
         fields = (Row_818FECCC_S_818FECCC_0 *)((u8 *)object_cursor + 0x20);
-        dest_z = ((Row_818FECCC_S_818FECCC_4 *)object_cursor)->unk_08;
+        dest_z = object_cursor->position;
         position_z += jitter_z;
         bias_z = offset_z + 0x10;
         position_z += bias_z;

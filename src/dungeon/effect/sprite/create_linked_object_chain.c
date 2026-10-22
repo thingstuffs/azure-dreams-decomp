@@ -66,11 +66,11 @@ void *create_linked_object_chain(s16 x, s16 y, s16 z, s16 angle)
         objects[i] = allocate_list_node(18, (i != 0) ? objects[0] : (void *)&scene_object_list_anchor);
         if (objects[i] != NULL) {
             ((ObjectNodeHeader *)objects[i])->unk_10 = &D_80025C80;
-            position = ((ObjectNodeHeader *)objects[i])->unk_08;
+            position = ((ObjectNodeHeader *)objects[i])->position;
             position->unk_02 = x;
             position->unk_06 = y;
             position->unk_0A = z;
-            node = ((ObjectNodeHeader *)objects[i])->unk_0C;
+            node = ((ObjectNodeHeader *)objects[i])->sprite;
             node->unk_16 = 0x400;
             node->unk_1A = angle + 0x400;
             node->unk_20 = 0x1000;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -12,13 +13,6 @@ typedef struct S_8016D0FC_0 {
     u8 pad_9C[0x10];
     u8 unk_AC;
 } S_8016D0FC_0;   /* arg0 in update_multi_form_actor_behavior */
-
-typedef struct S_8016D0FC_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    u8 * unk_2C;
-} S_8016D0FC_1;   /* object_arg in update_multi_form_actor_behavior */
 
 typedef struct S_8016D0FC_3 {
     u8 pad_00[0x1C];
@@ -41,16 +35,16 @@ extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, s32, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, s32, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, s32, void *, void *);
-extern void update_multi_form_actor_movement(void *, s32, void *, void *);
+extern void update_multi_form_actor_movement(void *, s32, SpriteFrameState *, void *);
 
 extern u8 D_8016A36C[];
 extern u8 D_80173AC8[];
 extern u8 D_80173AD0[];
 
 /* Advance the actor_arg state, updating directional tables and the shared counter. */
-void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *object_arg, void *actor_arg)
+void update_multi_form_actor_behavior(void *context, s32 callback_arg, SpriteFrameState *object_arg, void *actor_arg)
 {
-    void *object;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    SpriteFrameState *object;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     u8 *expected_table;
     u8 *current_table;
@@ -62,7 +56,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
     state = ((S_8016D0FC_0 *)context)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((S_8016D0FC_1 *)object_arg)->unk_14 & 0xE000)) {
+        if (!(object_arg->flags & 0xE000)) {
             return;
         }
         current_table = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
@@ -70,7 +64,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
         g_dungeon_status.activity_counts.parts.pending_action_count = current_table;
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
-            (*(u8 * *)((u8 *)object_arg + 0x2C)) = D_80173AC8;
+            (object_arg->frameTable) = D_80173AC8;
             direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9;
             select_sprite_entry(object_arg, D_80173AC8[direction_index & 7], 0);
         }
@@ -79,10 +73,10 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
     case 1:
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
-            current_table = ((S_8016D0FC_1 *)object_arg)->unk_2C;
+            current_table = *(u8 **)&object_arg->frameTable;
             expected_table = D_80173AC8;
             if (current_table != expected_table) {
-                (*(u8 * *)((u8 *)object_arg + 0x2C)) = expected_table;
+                (object_arg->frameTable) = expected_table;
                 direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9;
                 select_sprite_entry(object_arg, expected_table[direction_index & 7], 0);
             }
@@ -91,7 +85,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
         if (((S_8016D0FC_3 *)actor_arg)->unk_25 != 0) {
             kind = ((S_8016D0FC_0 *)context)->unk_AC;
             if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
-                (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
+                (object->frameTable) = D_80173AD0;
                 select_sprite_entry(object,
                     D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
             }
@@ -136,7 +130,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
         }
         kind = ((S_8016D0FC_0 *)context)->unk_AC;
         if (kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)) {
-            (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
+            (object->frameTable) = D_80173AD0;
             select_sprite_entry(object,
                 D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
         }
@@ -146,7 +140,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
         return;
     case 2:
         object = object_arg;
-        if (((S_8016D0FC_1 *)object)->unk_14 & 0xE000) {
+        if (object->flags & 0xE000) {
             current_table = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
             current_table--;
             g_dungeon_status.activity_counts.parts.pending_action_count = current_table;

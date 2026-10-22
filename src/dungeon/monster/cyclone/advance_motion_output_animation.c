@@ -1,4 +1,7 @@
+
+struct ObjectPosition;
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -20,14 +23,13 @@ typedef struct {
     u16 value;
 } FuncOutput;
 
-
 extern s32 func_800644B8(u32);
-extern void select_nearby_target_and_initialize_slot(s32 slot_id, void *target, s32 target_id, s16 slot_value);
+extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s16 slot_value);
 extern void advance_sprite_animation_and_textures(void *);
 extern void select_sprite_entry(void *, s32, s32);
 
 /* Advances motion and output animation, then signals completion after a short delay. */
-void advance_motion_output_animation(FuncState *motion, void *position, FuncOutput *output) {
+void advance_motion_output_animation(FuncState *motion, void *position, SpriteFrameState *output) {
     u16 frame_count;
     void *object;
 
@@ -35,8 +37,8 @@ void advance_motion_output_animation(FuncState *motion, void *position, FuncOutp
     motion->count = frame_count;
     switch (motion->state) {
     case 0:
-        output->value = output->value + 0x40;
-        output->count = output->value;
+        output->scale_y = output->scale_y + 0x40;
+        output->scale_x = output->scale_y;
         motion->value0 = motion->value0 + motion->step0;
         ((s32 *)position)[0] = motion->value0;
         motion->value1 = motion->value1 + motion->step1;

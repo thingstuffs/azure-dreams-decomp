@@ -12,20 +12,7 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082D58.h"
 
-typedef struct S_800A71F0_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800A71F0_0;
 
-typedef struct S_800A71F0_1 {
-    s32 unk_00;
-    s32 unk_04;
-    u8 pad_08[0x4];
-    s32 unk_0C;
-    s32 unk_10;
-} S_800A71F0_1;
 
 typedef struct S_800A71F0_3 {
     u8 pad_00[0x4];

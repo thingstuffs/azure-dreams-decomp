@@ -1,4 +1,5 @@
 /* Hikewne effect intensity, transformed effect animation, and directional effect creation. */
+#include "shared/object_node.h"
 #include "dungeon/monster/hikewne/apply_countdown_scaled_effect_intensity.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -57,7 +58,7 @@ void advance_and_fade_transformed_effect(void *effect, MovingPosition *transform
 /* Copies a sprite template into a gray directional effect linked to the source position. */
 void create_directional_template_effect(void *unused, MovingPosition *source_pos, void *sprite_template, S_80975244_3 *facing_source) {
     SpriteFrameState *sprite;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_80975244_0 *effect_state;
     MovingPosition *effect_pos;
     void *template_data;
@@ -68,12 +69,12 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
     effect = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     template_data = sprite_template;
     if (effect != NULL) {
-        effect_state = effect + 0x20;
+        effect_state = ((void *)effect) + 0x20;
         effect_state->unk_96 = 7;
         effect_state->unk_AA = 7;
-        ((S_80975244_1 *)effect)->unk_10 = advance_and_fade_transformed_effect;
+        effect->unk_10 = advance_and_fade_transformed_effect;
         effect_state->unk_B0 = source_pos;
-        sprite = ((S_80975244_1 *)effect)->unk_0C;
+        sprite = effect->sprite;
         src = (Block16 *)template_data;
         dst = (Block16 *)sprite;
         end = src + 3;
@@ -95,7 +96,7 @@ void create_directional_template_effect(void *unused, MovingPosition *source_pos
         sprite->frameTable = &D_80174128;
         select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
             + D_80174128), 0);
-        effect_pos = ((S_80975244_1 *)effect)->unk_08;
+        effect_pos = effect->position;
         effect_pos->unk_02 = (u16) source_pos->unk_02;
         effect_pos->unk_06 = (u16) source_pos->unk_06;
         effect_pos->unk_0A = (u16) source_pos->unk_0A;

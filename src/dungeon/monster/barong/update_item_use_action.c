@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "engine/cd.h"
 extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
@@ -20,11 +21,10 @@ typedef struct {
     u8 pad;
 } LocalItemInfo;
 
-extern s32 get_cd_command_queue_depth(void);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_80069EF8(void);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -32,7 +32,7 @@ extern s32 create_actor_spell_effect(void *actor, EntityRec *effect_record, s16 
 
 extern u8 D_80171030[];
 extern u8 D_801716F4[];
-extern u8 D_80175554[];
+#include "dungeon/monster/barong.h"
 extern u8 D_80175594[];
 extern u8 D_801755CC[];
 extern LocalPacket D_801755D4;
@@ -46,11 +46,6 @@ typedef struct S_801731C8_0 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_801731C8_0;   /* arg0 in update_item_use_action */
-
-typedef struct S_801731C8_1_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_801731C8_1_pre;   /* the 0x14 bytes before active in update_item_use_action, addressed as active[-1] */
 
 typedef struct S_801731C8_2 {
     u8 pad_00[0x24];
@@ -88,7 +83,7 @@ typedef struct S_801731C8_6 {
 /* Updates an item-use action, its animation, and its particle effects. */
 /* Starts a targeted spell, emits randomly colored particles during its animation, then restores movement
  * and status. */
-void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, void *actor)
+void update_item_use_action(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor)
 {
     u8 *item_slot;
     s16 is_special;
@@ -146,7 +141,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
             if (is_special != 0) {
                 target = primary_actor_record;
                 (*(void * *)((u8 *)actor + 0x60)) = target;
-                state = (s32)(((S_801731C8_1_pre *)target)[-1].unk_00);
+                state = (s32)(((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite);
                 (*(u8 *)((u8 *)actor + 0x72)) = ((S_801731C8_2 *)((u8 *)state))->unk_24;
                 (*(u8 *)((u8 *)actor + 0x73)) = ((S_801731C8_2 *)((u8 *)state))->unk_25;
             } else {
@@ -156,7 +151,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
                 if (((LocalItemInfo *)item_action_definitions)[item_id].kind == 2) {
                     target = (*(void * *)((u8 *)actor + 0x60));
                     if (target != 0) {
-                        state = (s32)(((S_801731C8_1_pre *)target)[-1].unk_00);
+                        state = (s32)(((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite);
                         (*(u8 *)((u8 *)actor + 0x72)) = ((S_801731C8_2 *)((u8 *)state))->unk_24;
                         (*(u8 *)((u8 *)actor + 0x73)) = ((S_801731C8_2 *)((u8 *)state))->unk_25;
                     }
@@ -164,8 +159,8 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
                     s32 dx;
                     s32 dy;
 
-                    dx = (s32)scan_monster_along_heading(
-                        actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                    dx = (s32)scan_actor_along_heading(
+                        actor, sprite->unk_24, sprite->unk_25,
                         (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
                     (*(void * *)((u8 *)actor + 0x60)) = (void *)dx;
                     dx = abs(*(s8 *)((u8 *)actor + 0x72));
@@ -184,20 +179,20 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
                 s32 direction;
 
                 animations = D_801755CC;
-                ((SpriteFrameState *)sprite)->frameTable = animations;
+                sprite->frameTable = animations;
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animations[direction], 0);
             }
             next_state = ((S_801731C8_0 *)action)->unk_9B + 1;
             ((S_801731C8_0 *)action)->unk_9B = next_state;
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
 
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
         g_dungeon_status.active_actor = 0;
         (*(u16 *)((u8 *)primary_actor_record + 0xA6))--;
         advance_status_timers(actor);
@@ -210,7 +205,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
 
     case 1:
         if (get_cd_command_queue_depth()) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
         ((S_801731C8_0 *)action)->unk_9B++;
@@ -222,10 +217,10 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
 
             timer = ((S_801731C8_0 *)action)->unk_96.u - 1;
             ((S_801731C8_0 *)action)->unk_96.u = timer;
-            if (timer <= 0 || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            if (timer <= 0 || (sprite->flags & 0xE000)) {
                 ((S_801731C8_0 *)action)->unk_98 |= 0x80;
                 ((S_801731C8_0 *)action)->unk_9B++;
-                ((SpriteFrameState *)sprite)->flags |= 0x800;
+                sprite->flags |= 0x800;
                 ((S_801731C8_0 *)action)->unk_96.u = 0xF;
             }
             if (((S_801731C8_0 *)action)->unk_96.s == 8) {
@@ -233,8 +228,8 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
                 s32 direction;
 
                 animations = D_80175594;
-                ((SpriteFrameState *)sprite)->frameTable = animations;
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                sprite->frameTable = animations;
+                sprite->flags &= 0xF7FF;
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animations[direction], 0);
             }
@@ -254,7 +249,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
             low_color = 0x20;
             high_color = 0xE0;
             for (; particle_count < 1; particle_count++) {
-                void *particle;
+                ObjectNodeHeader *particle;
 
                 particle = allocate_flagged_object_node(0x212);
                 if (particle == 0) {
@@ -266,13 +261,13 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
                     s16 color_choice;
 
                     ((S_801731C8_5 *)particle)->unk_22 = 8;
-                    ((S_801731C8_5 *)particle)->unk_10 = particle_script;
+                    particle->unk_10 = particle_script;
                     register_node(particle, project_sprite_chain);
-                    particle_part = ((S_801731C8_5 *)particle)->unk_0C;
+                    particle_part = particle->sprite;
                     ((S_801731C8_6 *)particle_part)->unk_10 = low_color;
                     ((S_801731C8_6 *)particle_part)->unk_14 |= 0xC;
 
-                    particle_part = ((S_801731C8_5 *)particle)->unk_08;
+                    particle_part = particle->position;
                     {
                         s32 position_roll;
                         s32 position_base;
@@ -294,7 +289,7 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
                     ((S_801731C8_6 *)particle_part)->unk_08.at02.v =
                         ((u16)motion->z.w.i) - (func_80069EF8() & 0x1F) - 0x30;
 
-                    particle_part = ((S_801731C8_5 *)particle)->unk_0C;
+                    particle_part = particle->sprite;
                     {
                         s32 initial_color;
 
@@ -348,24 +343,24 @@ void update_item_use_action(void *action, ObjectPosition *motion, void *sprite, 
             ((S_801731C8_0 *)action)->unk_96.u = timer;
             if (timer <= 0) {
                 ((S_801731C8_0 *)action)->unk_96.u = 0;
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                sprite->flags &= 0xF7FF;
             }
-            if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            if (!(sprite->flags & 0xE000)) {
                 return;
             }
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80175554) {
+            set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+            if (*(u8 * *)&sprite->frameTable != barong_direction_frames) {
                 u8 *animations;
                 s32 direction;
 
-                animations = D_80175554;
-                ((SpriteFrameState *)sprite)->frameTable = animations;
+                animations = barong_direction_frames;
+                sprite->frameTable = animations;
                 direction = ((g_game_work.view.camera_rotation.parts.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite, animations[direction], 0);
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                sprite->flags &= 0xF7FF;
             }
             if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;

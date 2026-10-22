@@ -60,7 +60,7 @@ void func_8016AE84(void *controller, void *context, void *entity, ActorRecord *a
 void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value_25_input, s16 value_0A_input)
 {
     s32 kind;
-    void *object;
+    ObjectNodeHeader *object;
     S_FUNC_80A23000_BODY_2 *part_a;
     SpriteFrameState *part_b;
     S_FUNC_80A23000_BODY_1 *work;
@@ -74,13 +74,13 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
         work = (u8 *)object + 0x20;
-        ((S_FUNC_80A23000_BODY_0 *)object)->unk_10 = D_8016AA58;
+        object->unk_10 = D_8016AA58;
         work->unk_13 = MONSTER_IFRIT;
         register_node(object, project_sprite_chain);
 
-        part_a = ((S_FUNC_80A23000_BODY_0 *)object)->unk_08;
+        part_a = object->position;
         part_a->unk_0A = value_0A;
-        part_b = ((S_FUNC_80A23000_BODY_0 *)object)->unk_0C;
+        part_b = object->sprite;
         kind = mask & 3;
         part_b->unk_25 = value_25_input;
         actor = work;

@@ -4,18 +4,18 @@
 #include "town/menu/object/allocate_and_initialize_display_object_g01137.h"
 #include "shared/object_flags.h"
 
-/* Allocate an object and initialize its payload, display transform, and color. */
+#include "shared/object_node.h"/* Allocate an object and initialize its payload, display transform, and color. */
 void *allocate_and_initialize_display_object(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,
     s32 object_value) {
-    void *obj = allocate_list_node(0x136, object_key - 0x20);
+    ObjectNodeHeader *obj = allocate_list_node(0x136, object_key - 0x20);
     SpriteFrameState *display;
     S_800A2000_1 *payload;
 
     if (obj == 0) {
         return 0;
     }
-    display = ((S_800A2000_0 *)obj)->unk_0C;
-    ((S_800A2000_0 *)obj)->unk_10 = object_param;
+    display = obj->sprite;
+    obj->unk_10 = object_param;
     ((S_800A2000_0 *)obj)->unk_20 = object_value;
     payload = (u8 *)obj + 0x20;
     payload->unk_10 = object_key;

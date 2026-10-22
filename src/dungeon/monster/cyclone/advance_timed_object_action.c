@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -52,7 +53,7 @@ extern void create_source_adjusted_motion_object(Obj0 *, void *, Obj2 *);
 extern void format_entity_message(s32, Obj3 *);
 
 /* Advance the timed object state sequence and update its direction from flags. */
-void advance_timed_object_action(Obj0 *controller, void *context, Obj2 *object, Obj3 *actor) {
+void advance_timed_object_action(Obj0 *controller, void *context, SpriteFrameState *object, Obj3 *actor) {
     s32 state;
     s32 old_state;
     u16 ticks_left;
@@ -64,13 +65,13 @@ void advance_timed_object_action(Obj0 *controller, void *context, Obj2 *object, 
     actor_selector = 1;
     switch (state) {
     case 0:
-        object_flags = object->field14;
+        object_flags = object->flags;
         if (object_flags & 0x8000) {
-            object->field14 = (u16) (object_flags | 0x6000);
+            object->flags = (u16) (object_flags | 0x6000);
             controller->state9b = 2;
             return;
         }
-        if (object->field04 != actor_selector) {
+        if (object->unk_04 != actor_selector) {
             if ((object_flags & 0x6000) == 0) {
                 break;
             }
@@ -94,7 +95,7 @@ void advance_timed_object_action(Obj0 *controller, void *context, Obj2 *object, 
         ticks_left = controller->field96 - 1;
         controller->field96 = ticks_left;
         if ((ticks_left << 0x10) != 0) {
-            if ((object->field14 | 0x8000) == 0) {
+            if ((object->flags | 0x8000) == 0) {
                 break;
             }
         }
@@ -106,18 +107,18 @@ void advance_timed_object_action(Obj0 *controller, void *context, Obj2 *object, 
     case 2:
         ticks_left = controller->field96 - 1;
         controller->field96 = ticks_left;
-        if ((ticks_left << 0x10) != 0 && (object->field14 & 0xE000) == 0) {
+        if ((ticks_left << 0x10) != 0 && (object->flags & 0xE000) == 0) {
             return;
         }
         spend_actor_mp(actor, 0x400);
-        set_record_integer_tile_center(context, object->field24, object->field25);
+        set_record_integer_tile_center(context, object->unk_24, object->unk_25);
         controller->field8c = D_80171094;
         g_dungeon_status.active_actor = 0;
         actor->field46 &= 0x7FFF;
     }
 
-    if (object->field14 & 0xE000) {
-        object->field2c = D_80176460;
+    if (object->flags & 0xE000) {
+        object->frameTable = D_80176460;
         select_sprite_entry(object, D_80176460[((g_game_work.view.camera_rotation.parts.viewAngle + actor->field2a + 0x100) >> 9) & 7], 0);
         controller->field98 &= 0xFFF7;
     }

@@ -40,8 +40,9 @@ class LayoutStaging(unittest.TestCase):
         self.proposal=r/'proposed.tsv';self.proposal.write_text('0x80000000\tfunc_80000000\tread_constant_one\tbody evidence\n')
         self.identity=r/'identity.json';self.identity.write_text(json.dumps({'read_constant_one':dict(row='town/first',symbol='func_80000000')}))
 
-    def stage(self):
+    def stage(self, extra=()):
         argv=['apply_names.py',str(self.proposal),'--batch','--identity-map',str(self.identity),'--defer-verification']
+        argv.extend(extra)
         with patch.multiple(N,ROOT=self.root,NAMES=self.names,JOURNAL=self.journal,INCLUDE=self.root/'include'), \
              patch.object(N,'rows',return_value=self.rows),patch.object(N,'verify',side_effect=AssertionError('staging must not claim verification')), \
              patch.object(sys,'argv',argv),contextlib.redirect_stdout(io.StringIO()):
@@ -76,5 +77,54 @@ class LayoutStaging(unittest.TestCase):
         with patch.object(Path,'write_bytes',reject):
             with self.assertRaisesRegex(OSError,'metadata write failed'):self.stage()
         self.assertEqual(self.protected(),before)
+
+    def test_reference_sites_preserve_other_overlay_and_rebase_merged_members(self):
+        other=self.root/'src/town/actor/other_overlay.c'
+        original='int func_80000000(void) { return 7; }\n'
+        other.write_text(original)
+        sites=self.root/'sites.json'
+        sites.write_text(json.dumps({'func_80000000':['src/town/actor/merged.c']}))
+        self.stage(['--reference-map',str(sites)])
+        self.assertEqual(other.read_text(),original)
+        self.assertIn('return read_constant_one()',own_source(self.rows[1],self.root)[0])
+        before=self.protected()
+        self.stage(['--reference-map',str(sites)])
+        self.assertEqual(self.protected(),before)
+
+    def test_reference_map_cannot_escape_or_omit_definition(self):
+        other=self.root/'src/town/actor/caller.c'
+        other.write_text('int caller(void) { return func_80000000(); }\n')
+        sites=self.root/'sites.json'
+        for paths,reason in [([''],'invalid reference path'),
+                             (['../escape.c'],'invalid reference path'),
+                             (['src/town/actor/missing.c'],'unknown reference source'),
+                             (['src/town/actor/caller.c'],'omits the definition')]:
+            sites.write_text(json.dumps({'func_80000000':paths}))
+            before=self.protected()
+            with self.assertRaisesRegex(ValueError,reason):
+                self.stage(['--reference-map',str(sites)])
+            self.assertEqual(self.protected(),before)
+
+    def test_each_merged_file_uses_only_its_own_symbol_map(self):
+        other=self.root/'src/town/actor/other_overlay.c'
+        other.write_text('int func_80000004(void) { return 9; }\n')
+        row=dict(id='town/other',func='func_80000004',container='town',kind='overlay',c_path='other.c')
+        self.rows.append(row)
+        with (self.root/'ledger/rows.jsonl').open('a') as f:
+            f.write(json.dumps(row)+'\n')
+        with (self.root/'ledger/layout.jsonl').open('a') as f:
+            f.write(json.dumps(dict(id=row['id'],path='src/town/actor/other_overlay.c'))+'\n')
+        with self.proposal.open('a') as f:
+            f.write('0x80000004\tfunc_80000004\tread_other_value\tother overlay\n')
+        identities=json.loads(self.identity.read_text())
+        identities['read_other_value']=dict(row='town/other',symbol='func_80000004')
+        self.identity.write_text(json.dumps(identities))
+        sites=self.root/'sites.json'
+        sites.write_text(json.dumps({'func_80000000':['src/town/actor/merged.c'],
+                                    'func_80000004':['src/town/actor/other_overlay.c']}))
+        self.stage(['--reference-map',str(sites)])
+        self.assertIn('int func_80000004(void)',own_source(self.rows[1],self.root)[0])
+        self.assertIn('return read_constant_one()',own_source(self.rows[1],self.root)[0])
+        self.assertIn('int read_other_value(void)',other.read_text())
 
 if __name__=='__main__':unittest.main()

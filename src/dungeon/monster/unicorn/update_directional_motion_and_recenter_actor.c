@@ -1,7 +1,9 @@
 /* Unicorn directional movement, tile recentering, and sprite removal. */
+#include "shared/dungeon_status.h"
 #include "dungeon/monster/unicorn/update_directional_motion_and_recenter_actor.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/actor.h"
 
 /* Updates directional movement, decelerates it, and recenters the actor on its tile. */
 void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, ObjectPosition *motion, SpriteFrameState *actor, void *source)
@@ -110,7 +112,7 @@ void update_directional_motion_and_recenter_actor(ActorActionTimerView *action, 
 }
 
 /* Fade the entity sprite, then remove the entity and update its tile flags. */
-void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, void *entity)
+void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, SpriteFrameState *entity)
 {
     s32 state;
     s32 entity_flags;
@@ -123,13 +125,13 @@ void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, voi
     state = ((T_80173450_S_80173450_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (*(s16 *)((u8 *)&g_dungeon_status.activity_counts.parts.pending_action_count) != 0) {
+        if (g_dungeon_status.activity_counts.parts.pending_action_count != 0) {
             return;
         }
         ((T_80173450_S_80173450_0 *)action)->unk_9B = 1;
                         /* fallthrough */
     case 1:
-        entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_s32.v;
+        entity_flags = *(s32 *)&entity->flags;
         if (entity_flags & 0x4000) {
             if (!(entity_flags & 0x20000000)) {
                 announce_familiar_defeat(entity);
@@ -146,7 +148,7 @@ void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, voi
         return;
     }
 
-    ((Rec_D_80082E80 *)entity)->unk_1C.at00_s32.v |= 0x10000000;
+    *(s32 *)&entity->scale_x |= 0x10000000;
     fade_delay = ((T_80173450_S_80173450_0 *)action)->unk_96 - 1;
     ((T_80173450_S_80173450_0 *)action)->unk_96 = fade_delay;
     if ((s16)fade_delay <= 0) {
@@ -175,7 +177,7 @@ void fade_and_remove_entity_sprite(void *action, void *unused, void *sprite, voi
     tile_x = ((T_80173450_S_80173450_2 *)sprite)->unk_24;
     tile_y = ((T_80173450_S_80173450_2 *)sprite)->unk_25;
     tile_mask = 0x3000;
-    if (((Rec_D_80082E80 *)entity)->unk_1C.at00_s32.v & 0x2000) {
+    if (*(s32 *)&entity->scale_x & 0x2000) {
         tile_mask = 0x300;
     }
     update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);

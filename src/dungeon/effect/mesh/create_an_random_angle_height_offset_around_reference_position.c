@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -90,18 +91,18 @@ void create_an_random_angle_height_offset_around_reference_position(void)
             render_data->tpage_abr = (u16) (render_data->tpage_abr | 0x20);
         }
         {
-            TargetVec *position;
+            ObjectPosition *position;
             TargetVec *origin;
             s32 origin_y;
             position = obj->field8;
             axis_offset = (func_800644B8(motion->field8) >> 4) * motion->field6;
-            position->field0 = D_80026208[0]->field0 + (axis_offset << 8);
+            position->x.v = D_80026208[0]->field0 + (axis_offset << 8);
             axis_factor = func_80064584(motion->field8);
             axis_offset = (axis_factor >> 4) * motion->field6;
             origin = D_80026208[0];
             origin_y = origin->field4;
-            position->field4 = origin_y + (axis_offset << 8);
-            position->fieldA = (s16) (origin->fieldA + motion->fieldA);
+            position->y.v = origin_y + (axis_offset << 8);
+            position->z.w.i = (s16) (origin->fieldA + motion->fieldA);
             register_node(obj, project_sprite_chain);
         }
     }

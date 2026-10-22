@@ -1,4 +1,5 @@
 #include "shared/entity_height_offsets.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/object_node.h"
 #include "m2c_compat.h"
@@ -44,20 +45,6 @@ typedef struct S_80026C88_2 {
     s16 unk_6E;
 } S_80026C88_2;
 
-typedef struct S_80026C88_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-    u8 pad_0C[0x2];
-    u16 unk_0E;
-    u8 pad_10[0x2];
-    u16 unk_12;
-    u8 pad_14[0x2];
-    u16 unk_16;
-} S_80026C88_3;
 
 typedef struct S_80026C88_4 {
     u8 pad_00[0x8];
@@ -84,8 +71,8 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
     TableEntry *table_entry;
     s32 object_index;
 
-    S_80026C88_3 *coords;
-    void *object;
+    ObjectPosition *coords;
+    ObjectNodeHeader *object;
     void *point_cursor;
     S_80026C88_0 *source_object;
     union { u16 *offset; S_80026C88_4 *render; } pointers;
@@ -108,23 +95,23 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
             S_80026C88_2 *state;
             void *self_link;
 
-            ((S_80026C88_1 *)object)->unk_10 = callback;
+            object->unk_10 = callback;
             register_node(object, D_800CEEFC);
-            state = object + 0x20;
+            state = ((void *)object) + 0x20;
             state->unk_1A = (s16) (x + position_offset[0]);
             state->unk_1E = (s16) (y + position_offset[1]);
             state->unk_22 = (s16) (z + position_offset[2]);
-            coords = ((S_80026C88_1 *)object)->unk_08;
-            coords->unk_02 = x;
-            coords->unk_0E = x;
-            coords->unk_06 = y;
-            coords->unk_12 = y;
-            coords->unk_0A = z - 0x100;
-            coords->unk_16 = z - 0x100;
-            pointers.render = ((S_80026C88_1 *)object)->unk_0C;
+            coords = object->position;
+            coords->x.w.i = x;
+            *((u16 *)&coords->velocity_x + 1) = x;
+            coords->y.w.i = y;
+            *((u16 *)&coords->velocity_y + 1) = y;
+            coords->z.w.i = z - 0x100;
+            *((u16 *)&coords->velocity_z + 1) = z - 0x100;
+            pointers.render = object->sprite;
             pointers.render->unk_1E = 0x1000;
             pointers.render->unk_1C = 0x1000;
-            self_link = object + 0x38;
+            self_link = ((void *)object) + 0x38;
             pointers.render->unk_08 = table_entry;
             pointers.render->unk_14 = (u16) (pointers.render->unk_14 | 0xC);
             ((S_80026C88_1 *)object)->unk_20 = self_link;
@@ -132,9 +119,9 @@ void *create_and_link_six_offset_objects(u16 x, u16 y, s16 z, void *source)
             state->unk_6E = object_index;
             for (point_index = 0; point_index < 8; point_index++) {
                 point_cursor = (u8 *)state + point_index * 8;
-                ((S_80026C88_5 *)point_cursor)->unk_24 = (u16) coords->unk_02;
-                ((S_80026C88_5 *)point_cursor)->unk_26 = (u16) coords->unk_06;
-                ((S_80026C88_5 *)point_cursor)->unk_28 = (u16) coords->unk_0A;
+                ((S_80026C88_5 *)point_cursor)->unk_24 = (u16) *(u16 *)&coords->x.w.i;
+                ((S_80026C88_5 *)point_cursor)->unk_26 = (u16) *(u16 *)&coords->y.w.i;
+                ((S_80026C88_5 *)point_cursor)->unk_28 = (u16) *(u16 *)&coords->z.w.i;
             }
             state->unk_08 = list_head;
             list_head = object;

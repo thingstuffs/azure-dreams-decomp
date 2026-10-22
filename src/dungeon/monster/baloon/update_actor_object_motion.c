@@ -1,8 +1,8 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
@@ -18,7 +18,6 @@ extern u8 baloon_default_frames[];
 extern void D_80171F1C(void *, void *, void *, void *);
 extern Callback baloon_callbacks[];
 
-
 typedef struct S_80171964_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -28,18 +27,6 @@ typedef struct S_80171964_0 {
     s32 unk_10;
     s32 unk_14;
 } S_80171964_0;   /* motion in update_actor_object_motion */
-
-typedef struct S_80171964_1 {
-    u8 pad_00[0x4];
-    union { s8 s8; u16 u16; } unk_04;   /* accessed as both */
-    u8 pad_06[0xE];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_80171964_1;   /* part in update_actor_object_motion */
 
 typedef struct S_80171964_2 {
     u8 pad_00[0x1C];
@@ -53,7 +40,7 @@ typedef struct S_80171964_2 {
 /* Updates object callbacks, motion, sprite direction, and ground-relative height. */
 /* Runs Baloon's callbacks, facing, and motion, adds its idle bob, and uses a separate height rule for
  * action state 24. */
-void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_arg)
+void update_actor_object_motion(void *object_arg, void *motion_arg, SpriteFrameState *part_arg)
 {
     void *base = object_arg;
     Callback first_callback;
@@ -78,7 +65,6 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
         (*(u8 *)((u8 *)object_arg + (0x71))) &= 0x7F;
         return;
     }
-
 
     {
         s16 old_state = (s8)(*(u8 *)((u8 *)object_arg + (0x6D)));
@@ -108,7 +94,7 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
     }
 
     (*(s32 *)((u8 *)object_arg + (0x90))) += ((S_80171964_0 *)motion_arg)->unk_14;
-    part_flags = ((S_80171964_1 *)part_arg)->unk_14;
+    part_flags = part_arg->flags;
 
     if (!(part_flags & 0x8000)) {
         s32 view_direction;
@@ -121,24 +107,24 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
         page_index = direction_index;
         if ((*(s16 *)((u8 *)object_arg + (0x94))) != (s16)page_index) {
             select_indirect_table_entry(part_arg,
-                (*(u8 *)((u8 *)(((S_80171964_1 *)part_arg)->unk_2C) + (page_index))),
-                ((S_80171964_1 *)part_arg)->unk_04.s8);
+                (*(u8 *)((u8 *)(*(u8 **)&part_arg->frameTable) + (page_index))),
+                part_arg->unk_04);
             (*(s16 *)((u8 *)object_arg + (0x94))) = direction_index;
         }
         page_table = dir_sprite_flag;
         if (page_table[page_index] != 0) {
-            ((S_80171964_1 *)part_arg)->unk_14 |= 1;
+            part_arg->flags |= 1;
         } else {
-            ((S_80171964_1 *)part_arg)->unk_14 &= 0xFFFE;
+            part_arg->flags &= 0xFFFE;
         }
         apply_monster_koyaw_data(((S_80171964_2 *)base)->unk_1C.s, (u8 *)part_arg + 0xC);
 
         if (!(((S_80171964_2 *)base)->unk_1C.u & 0x20)) {
-            if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40)) {
+            if (!(part_arg->flags & 0x40)) {
                 advance_sprite_animation_and_textures(part_arg);
             }
         } else {
-            ((S_80171964_1 *)part_arg)->unk_14 |= 0x7000;
+            part_arg->flags |= 0x7000;
             ((S_80171964_2 *)base)->unk_1C.u &= 0xFFFBFFFF;
         }
 
@@ -167,9 +153,9 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
             }
         } else {
 
-            if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40) &&
-                ((S_80171964_1 *)part_arg)->unk_2C == baloon_default_frames) {
-                if (((S_80171964_1 *)part_arg)->unk_04.u16 == 0x400) {
+            if (!(part_arg->flags & 0x40) &&
+                *(u8 **)&part_arg->frameTable == baloon_default_frames) {
+                if (*(u16 *)&part_arg->unk_04 == 0x400) {
                     (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
                 }
                 {
@@ -197,9 +183,9 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
         }
     } else {
         if (part_flags & 0x800) {
-            ((S_80171964_1 *)part_arg)->unk_14 = part_flags & 0x8FFF;
+            part_arg->flags = part_flags & 0x8FFF;
         } else {
-            ((S_80171964_1 *)part_arg)->unk_14 = part_flags | 0x7000;
+            part_arg->flags = part_flags | 0x7000;
         }
         flags = ((S_80171964_2 *)base)->unk_1C.u;
         flags &= 0xF7FFFFFF;
@@ -223,9 +209,9 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
                 }
             }
         } else {
-            if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40) &&
-                ((S_80171964_1 *)part_arg)->unk_2C == baloon_default_frames) {
-                if (((S_80171964_1 *)part_arg)->unk_04.u16 == 0x400) {
+            if (!(part_arg->flags & 0x40) &&
+                *(u8 **)&part_arg->frameTable == baloon_default_frames) {
+                if (*(u16 *)&part_arg->unk_04 == 0x400) {
                     (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
                 }
                 {
@@ -257,8 +243,8 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
     if (flags & 0x40000000) {
         ((S_80171964_2 *)base)->unk_1C.u = flags & 0xBFFFFFFF;
         ground_height = sample_terrain_surface_height(
-            (((S_80171964_1 *)part_arg)->unk_24 << 6) | 0x20,
-            (((S_80171964_1 *)part_arg)->unk_25 << 6) | 0x20,
+            (part_arg->unk_24 << 6) | 0x20,
+            (part_arg->unk_25 << 6) | 0x20,
             (s16)(((S_80171964_2 *)base)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(u16 *)((u8 *)object_arg + (0x92))) += ((S_80171964_2 *)base)->unk_88 - ground_height;
@@ -273,5 +259,5 @@ void update_actor_object_motion(void *object_arg, void *motion_arg, void *part_a
         ((S_80171964_0 *)motion_arg)->unk_0A = (*(u16 *)((u8 *)object_arg + (0x92))) - (*(u16 *)((u8 *)object_arg
             + (0xA2)));
     }
-    ((S_80171964_1 *)part_arg)->unk_14 |= 0x40;
+    part_arg->flags |= 0x40;
 }

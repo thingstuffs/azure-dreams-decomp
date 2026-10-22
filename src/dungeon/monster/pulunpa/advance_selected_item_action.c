@@ -5,12 +5,12 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "engine/cd.h"
 
 
 extern int abs(int);
-extern s32 get_cd_command_queue_depth(void);
 extern void select_sprite_entry(void *, s32, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -129,7 +129,7 @@ void advance_selected_item_action(void *action, ObjectPosition *motion, void *sp
 
 
 
-                        (actor->target) = scan_monster_along_heading(
+                        (actor->target) = scan_actor_along_heading(
                             actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                             (actor->facing), 0x10);
                         actor->target_tile_x = abs(actor->target_tile_x);

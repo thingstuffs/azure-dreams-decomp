@@ -24,7 +24,6 @@ typedef struct {
     s16 unk_2A;
 } MapObject;
 
-
 typedef struct S_801711A4_2 {
     u8 pad_00[0x5];
     s8 unk_05;
@@ -46,7 +45,6 @@ typedef struct S_801711A4_3 {
     u8 unk_9A;
     s8 unk_9B;
 } S_801711A4_3;   /* saved0 in update_actor_animation_and_dispatch */
-
 
 typedef struct EmptyArg {
 } EmptyArg;
@@ -172,7 +170,7 @@ void update_actor_animation_and_dispatch(void *actor, s32 context, void *sprite,
             update_actor_status_and_mp(status);
             return;
         }
-        if (((S_801711A4_2 *)sprite)->unk_24.at00u.v != *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (((S_801711A4_2 *)sprite)->unk_24.at00u.v != reference_tile_object.tile_position.word) {
             if (!(status->action_flags & ACTOR_ACTION_PENDING)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(status, ((s32)primary_actor_record->previous_actor_header) + 0x20) << 0x10) != 0) {

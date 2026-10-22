@@ -11,13 +11,6 @@ typedef struct S_800BF9E4_0_pre {
 
    /* arg1 in create_positioned_linked_visual_child */
 
-typedef struct S_800BF9E4_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    u8 * unk_10;
-} S_800BF9E4_2;
-
 typedef struct S_800BF9E4_5 {
     u8 pad_00[0xA0];
     void * unk_A0;
@@ -38,7 +31,7 @@ extern u8 D_800F9F78[];
 
 /* Initialize the object and create a positioned visual child linked to it. */
 void create_positioned_linked_visual_child(void *object, IntVector3 *position, s32 resource_context) {
-    void *child;
+    ObjectNodeHeader *child;
     S_800BF9E4_5 *child_data;
     SpriteFrameState *child_visual;
     IntVector3 *child_position;
@@ -54,17 +47,17 @@ void create_positioned_linked_visual_child(void *object, IntVector3 *position, s
     ((Rec_func_8008F074_arg0 *)object)->unk_48 = D_800D237C[0];
     child = allocate_flagged_object_node(0x136);
     if (child != 0) {
-        child_data = child + 0x20;
+        child_data = ((void *)child) + 0x20;
         register_node(child, &D_80046398[0]);
-        child_visual = ((S_800BF9E4_2 *)child)->unk_0C;
-        ((S_800BF9E4_2 *)child)->unk_10 = &D_800BF72C[0];
+        child_visual = child->sprite;
+        child->unk_10 = &D_800BF72C[0];
         child_visual->scale_x = 0x1000;
         child_visual->scale_y = 0x1000;
         child_visual->unk_20 = 0x1000;
         child_visual->angle_z = 0;
         child_visual->color.word = 0x808080;
         child_visual->source = 0x75;
-        child_position = ((S_800BF9E4_2 *)child)->unk_08;
+        child_position = child->position;
         child_position->x = 0x0FA00000;
         child_position->y = 0x02300000;
         child_position->z = 0;

@@ -54,7 +54,7 @@ extern u8 D_80025DF8[];
 /* Allocate and initialize a randomized object from the source and initial data. */
 s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
 {
-    void *object;
+    ObjectNodeHeader *object;
     S_818BDB44_1 *payload;
     SpriteFrameState *part;
     s32 variant_random;
@@ -64,7 +64,7 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
         payload = (u8 *)object + 0x20;
-        ((S_818BDB44_0 *)object)->unk_10 = D_80024F4C;
+        object->unk_10 = D_80024F4C;
         ((S_818BDB44_0 *)object)->unk_20 = source;
         payload->unk_0E = 0;
         payload->unk_10 = 0;
@@ -77,7 +77,7 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
         payload->unk_16 = random_value % 0x1000;
         payload->unk_18 = source->unk_18;
 
-        part = ((S_818BDB44_0 *)object)->unk_0C;
+        part = object->sprite;
         part->color.c.b = 0x80;
         part->color.c.g = 0x80;
         part->color.c.r = 0x80;
@@ -101,7 +101,7 @@ s32 create_random_spin_effect(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
         {
             S_818BDB44_5 *object_data;
             {
-                object_data = ((S_818BDB44_0 *)object)->unk_08;
+                object_data = object->position;
                 *(Copy24 *)object_data = *(Copy24 *)init_data;
                 return (s32)object;
             }

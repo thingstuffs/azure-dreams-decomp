@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
 typedef struct S_80047784 S_80047784;
-
 
 typedef struct S_801722E0_2 {
     u8 pad_00[0x8C];
@@ -30,7 +30,7 @@ extern u8 D_80174880[9];
 
 #line 1 "a"
 /* Step the actor's walk animation: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, arm state 0x17, point the part at the direction table and advance the shared counters. */
-void advance_actor_walk_animation(void *owner, void *unused, void *part, EntityRec *actor) {
+void advance_actor_walk_animation(void *owner, void *unused, SpriteFrameState *part, EntityRec *actor) {
     s32 original_value;
     s32 current_value;
     s32 adjusted_value;
@@ -43,7 +43,7 @@ void advance_actor_walk_animation(void *owner, void *unused, void *part, EntityR
         ((S_801722E0_2 *)owner)->unk_9A = 0x17;
         ((S_801722E0_2 *)owner)->unk_8C = 0;
         ((S_801722E0_2 *)owner)->unk_9B = 0;
-        (*(u8 * *)((u8 *)part + 0x2C)) = table;
+        (part->frameTable) = table;
         select_sprite_entry(
             part,
             table[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],

@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -23,24 +24,6 @@ typedef struct S_8016BFA4_0 {
     u8 pad_A4[0x12];
     s16 unk_B6;
 } S_8016BFA4_0;   /* arg0 in choose_kewne_uncached_action */
-
-
-typedef struct S_8016BFA4_2 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0xE];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_8016BFA4_2;   /* arg2 in choose_kewne_uncached_action */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
@@ -72,7 +55,7 @@ extern u8 D_8016FCA0[];
 extern u8 D_8016FCA8[];
 
 /* Updates actor animation, facing, and action handling from dungeon state. */
-void choose_kewne_uncached_action(void *actor, void *context, void *sprite, ActorRecord *entity)
+void choose_kewne_uncached_action(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 direction_flags;
     s8 area_id;
@@ -87,11 +70,11 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Acto
         void *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (((S_8016BFA4_2 *)sprite)->unk_2C == D_8016FC90) {
+        if (sprite->frameTable == D_8016FC90) {
             return;
         }
         anim_table = D_8016FCA0;
-        (((S_8016BFA4_2 *)sprite)->unk_2C) = anim_table;
+        (sprite->frameTable) = anim_table;
         select_sprite_entry(sprite,
             ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
@@ -99,7 +82,7 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Acto
     }
 
     if (((u32)entity->flags1C) & 0x200) {
-        if (((S_8016BFA4_2 *)sprite)->unk_2C == D_8016FC90) {
+        if (sprite->frameTable == D_8016FC90) {
             ((S_8016BFA4_0 *)actor)->unk_9A = 0xD;
             ((S_8016BFA4_0 *)actor)->unk_9B = 1;
             ((S_8016BFA4_0 *)actor)->unk_8C = 0;
@@ -127,27 +110,27 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Acto
                 ((S_8016BFA4_0 *)actor)->unk_9A = next_state;
                 ((S_8016BFA4_0 *)actor)->unk_B6 = 0;
             }
-            current_anim = ((S_8016BFA4_2 *)sprite)->unk_2C;
+            current_anim = sprite->frameTable;
             if (current_anim == D_8016FCA8) {
-                if (((S_8016BFA4_2 *)sprite)->unk_14 & 0xE000) {
+                if (sprite->flags & 0xE000) {
                     void *idle_anim; /* MATCH: form the jump arm anim_table address in a1. */
                     idle_anim = D_8016FC30;
-                    (((S_8016BFA4_2 *)sprite)->unk_2C) = idle_anim;
+                    (sprite->frameTable) = idle_anim;
                     select_sprite_entry(sprite,
                         ((u8 *)idle_anim)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
-                    ((S_8016BFA4_2 *)sprite)->unk_05 = 1;
+                    sprite->unk_05 = 1;
                     ((S_8016BFA4_0 *)actor)->unk_A2.s = 0;
                     ((S_8016BFA4_0 *)actor)->unk_9E = 0;
                 }
             } else {
                 anim_table = D_8016FC30;
                 if (current_anim != anim_table) {
-                    (((S_8016BFA4_2 *)sprite)->unk_2C) = anim_table;
+                    (sprite->frameTable) = anim_table;
                     select_sprite_entry(sprite,
                         ((u8 *)anim_table)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                         0);
-                    ((S_8016BFA4_2 *)sprite)->unk_05 = 1;
+                    sprite->unk_05 = 1;
                     ((S_8016BFA4_0 *)actor)->unk_A2.s = 0;
                     ((S_8016BFA4_0 *)actor)->unk_9E = 0;
                 }
@@ -180,15 +163,15 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Acto
         }
     }
 
-    area_id = find_active_rect_containing_point(((S_8016BFA4_2 *)sprite)->unk_24.at00.v, ((S_8016BFA4_2 *)sprite)->unk_24.at01.v);
-    ((S_8016BFA4_2 *)sprite)->unk_26 = area_id;
+    area_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = area_id;
 
     if (entity->pending_turn_updates > 0) {
         if (((u32)entity->flags1C) & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (((S_8016BFA4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
             func_8016C6C8(actor, context, sprite, entity);
             return;
         }
@@ -225,7 +208,7 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Acto
                 s16 facing;
 
                 facing = get_rounded_facing_and_rounding_flag(
-                    ((S_8016BFA4_2 *)sprite)->unk_24.at00.v, ((S_8016BFA4_2 *)sprite)->unk_24.at01.v,
+                    sprite->unk_24, sprite->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &direction_flags);
                 player = primary_actor_record;
@@ -263,10 +246,10 @@ void choose_kewne_uncached_action(void *actor, void *context, void *sprite, Acto
             if (!(((u32)entity->flags1C) & 0x430)) {
 
                 if ((test_neighbor_position_relation(
-                        ((S_8016BFA4_2 *)sprite)->unk_24.at00.v, ((S_8016BFA4_2 *)sprite)->unk_24.at01.v,
+                        sprite->unk_24, sprite->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     entity->facing = get_rounded_facing_and_rounding_flag(
-                        ((S_8016BFA4_2 *)sprite)->unk_24.at00.v, ((S_8016BFA4_2 *)sprite)->unk_24.at01.v,
+                        sprite->unk_24, sprite->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &direction_flags);
                 }

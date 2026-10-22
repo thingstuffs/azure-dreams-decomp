@@ -63,18 +63,12 @@ typedef struct S_8016B230_5 {
     u8 unk_AF;
 } S_8016B230_5;   /* arg0 in advance_actor_movement_step */
 
-
 typedef struct S_8016B230_10 {
     u8 pad_00[0xC];
     u16 unk_0C;
 } S_8016B230_10;   /* kind_table + kind * 0x14 in advance_actor_movement_step */
 
-typedef struct S_8016B230_11 {
-    u16 unk_00;
-} S_8016B230_11;   /* &D_80082EA4 in advance_actor_movement_step */
-
    /* arg3 + (((S_8016B230_1 *)arg3)->unk_71.u & 0x7F) in advance_actor_movement_step */
-
 
 struct ActorRecord; s32 check_entity_relation(struct ActorRecord *, struct ActorRecord *);
 void cycle_map_cell_flags(s16, s16, u16);
@@ -83,10 +77,10 @@ s32 check_diagonal_side_height(s32, s16, s16, s16);
 extern s32 check_movement_clearance_and_height();
 s32 test_neighbor_position_relation(s32, s32, s32, s32);
 s16 get_actor_height_difference(struct ActorRecord *, struct ActorRecord *);
-extern void *find_valid_monster_neighbor();
+extern void *find_adjacent_actor();
 extern void *probe_directional_neighbor();
 extern u16 get_rounded_facing_and_rounding_flag();
-s32 rebuild_monster_reachable_tiles(u8 *, s32, u8 *, u16 *);
+s32 select_actor_route_target(u8 *, s32, u8 *, u16 *);
 s32 update_actor_proximity_flag(void *, void *, s32, s32, s8 *);
 extern s32 generate_random_value();
 void update_actor_status_and_mp(struct ActorRecord *);
@@ -144,7 +138,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
     actor_flags = ((S_8016B230_1 *)actor)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            found = find_valid_monster_neighbor(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
+            found = find_adjacent_actor(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
                 ((S_8016B230_2 *)position)->unk_24.at01.v);
             if (found != NULL) {
                 object = ((S_8016B230_3_pre *)found)[-1].unk_00;
@@ -218,7 +212,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                     }
                 }
             } else {
-                rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
+                select_actor_route_target(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
             }
         }
     } else {
@@ -226,7 +220,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
 
         kind = ((S_8016B230_2 *)position)->unk_26.s;
         if ((kind >= 0) && (((S_8016B230_10 *)((u8 *)dungeon_rooms + kind * 0x14))->unk_0C & 2)) {
-            rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
+            select_actor_route_target(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
         } else if (!(((S_8016B230_1 *)actor)->unk_46 & 0x8000)) {
             found = probe_directional_neighbor(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
                 ((S_8016B230_2 *)position)->unk_24.at01.v,
@@ -258,7 +252,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
                     }
                 }
             } else {
-                rebuild_monster_reachable_tiles(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
+                select_actor_route_target(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, (u16 *)(movement_in + 0x98));
             }
         }
     }
@@ -311,7 +305,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
             break;
         }
         if (attempt == 0) {
-            if ((((S_8016B230_11 *)(((s8 *)&reference_tile_object.tile_position.parts.tile_x)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v)
+            if ((reference_tile_object.tile_position.word != ((S_8016B230_2 *)position)->unk_24.at00u.v)
                 &&
                 ((s16)check_entity_relation((struct ActorRecord *)(actor), (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) != 0)) {
                 return;

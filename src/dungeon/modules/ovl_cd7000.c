@@ -1,8 +1,12 @@
 /* Actor creation and behavior, directional actions, and staged actor replacement effects. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "modules/dungeon_ovl_cd7000.h"
 #include "shared/actor_action_flags.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect.h"
+#include "engine/cd.h"
 
 void *(*const cd7000_spawn_entry)(s16,s16,s16,s32) = func_8014CA5C;
 void (*const cd7000_update_entry)(void *,CL_CD7000_80170C24_S_80170C24_2 *,void *) = func_8014CC24;
@@ -11,7 +15,7 @@ void (*const cd7000_update_entry)(void *,CL_CD7000_80170C24_S_80170C24_2 *,void 
 void func_8014C87C(CL_CD7000_8017087C_Object *object, s32 field60_value, CL_CD7000_8017087C_CopyFields *source_coords)
 {
     SpriteFrameState *part;
-    CL_CD7000_8017087C_CopyFields *copy;
+    ObjectPosition *copy;
 
     object->field60 = field60_value;
     register_node(object, project_sprite_chain);
@@ -21,9 +25,9 @@ void func_8014C87C(CL_CD7000_8017087C_Object *object, s32 field60_value, CL_CD70
     part->flags |= 0xC;
 
     copy = object->copy;
-    copy->x = source_coords->x;
-    copy->y = source_coords->y;
-    copy->z = source_coords->z;
+    copy->x.w.i = source_coords->x;
+    copy->y.w.i = source_coords->y;
+    copy->z.w.i = source_coords->z;
 
     part = object->part;
     part->scale_y = 0x1000;
@@ -89,7 +93,7 @@ void *func_8014CA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     s32 flags0;
     s32 flags1;
     void *result;
-    void *object;
+    ObjectNodeHeader *object;
     CL_CD7000_80170A5C_S_80170A5C_2 *part0;
     SpriteFrameState *part1;
     CL_CD7000_80170A5C_S_80170A5C_4 *result_copy;
@@ -99,17 +103,17 @@ void *func_8014CA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        ((CL_CD7000_80170A5C_S_80170A5C_0 *)object)->unk_10 = func_8014CC24;
+        object->unk_10 = func_8014CC24;
         ((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_13 = 20;
         register_node(object, project_sprite_chain);
 
         {
             void *handler;
 
-            part0 = ((CL_CD7000_80170A5C_S_80170A5C_0 *)object)->unk_08;
+            part0 = object->position;
             handler = D_801512B4;
             part0->unk_0A = attr_c;
-            part1 = ((CL_CD7000_80170A5C_S_80170A5C_0 *)object)->unk_0C;
+            part1 = object->sprite;
             kind = spawn_flags & 3;
             part1->unk_25 = attr_b;
             result_copy = result;
@@ -118,21 +122,21 @@ void *func_8014CA5C(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
         part1->unk_24 = attr_a;
 
         if (kind == 1) {
-            flags0 = ((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_14;
-            flags1 = ((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x6000;
             flags1 |= 0x6000;
-            ((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_14 = flags0;
-            ((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_14;
-            flags1 = ((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x2000;
             flags1 |= 0x2000;
-            ((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_14 = flags0;
-            ((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (((spawn_flags & -4) << 16) == 0 &&
-                   (((CL_CD7000_80170A5C_S_80170A5C_1 *)result)->unk_14 & 0x200) == 0 &&
+                   (((ObjectNodeHeader *)result)->unk_14 & 0x200) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
             part1->frameTable = D_801512FC;
@@ -177,7 +181,6 @@ void func_8014CC24(void *entity, CL_CD7000_80170C24_S_80170C24_2 *motion, void *
         }
         return;
     }
-
 
     old_direction = (s8)(*(u8 *)((u8 *)entity + 0x6D));
     if (refresh_actor_facing_and_lifecycle(entity, motion, monster, entity) != 0) {
@@ -526,10 +529,10 @@ void func_8014D810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            current_angle = (s32)find_valid_monster_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
+            current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
             blocker = (EntityRec *)current_angle;
             if (blocker != 0) {
-                EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->unk_0C;
+                EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     blocker_owner->tileX, blocker_owner->tileY,
@@ -588,13 +591,13 @@ void func_8014D810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
                     limit_detour = 1;
                 }
             } else {
-                rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
+                select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                               &move_data->unk_98);
             }
         }
     } else if (position_data->room_index >= 0 &&
                dungeon_rooms[position_data->room_index].flags & 2) {
-        rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
+        select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
@@ -631,7 +634,7 @@ void func_8014D810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
                 }
             }
         } else {
-            rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
+            select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                           &move_data->unk_98);
         }
     }
@@ -719,7 +722,6 @@ void func_8014D810(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject 
         actor_data->ground_height = turn_index;
     }
 }
-
 
 void func_8014DF58(CL_CD7000_80171F58_S_80171F58_0 *state, void *unused_position, CL_CD7000_80171F58_S_80171F58_1 *render_state, CL_CD7000_80171F58_S_80171F58_2 *entity) {
     state->action = 0x10;
@@ -853,7 +855,7 @@ void func_8014E3DC(void *state_arg,void *position,void *render_state,void *entit
 }
 
 /* Animates a hop to the actor tile, spends MP, advances status timers, and checks for floor traps. */
-void func_8014E458(void *action, ObjectPosition *motion, void *map_entry, ActorRecord *actor) {
+void func_8014E458(void *action, ObjectPosition *motion, SpriteFrameState *map_entry, ActorRecord *actor) {
     u16 facing_output;
     s32 move_frames;
     s16 next_move_frame;
@@ -869,32 +871,32 @@ void func_8014E458(void *action, ObjectPosition *motion, void *map_entry, ActorR
     phase = ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_9B;
     switch (phase) {
     case 0:
-        if (!(((SpriteFrameState *)map_entry)->flags & 0x6000)) {
+        if (!(map_entry->flags & 0x6000)) {
             break;
         }
-        ((SpriteFrameState *)map_entry)->frameTable = D_801512CC;
+        map_entry->frameTable = D_801512CC;
         select_sprite_entry(map_entry, D_801512CC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_98 = (u16) (((CL_CD7000_80172458_S_80172458_0 *)action)->unk_98 | 8);
         actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
         ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_9E = 5;
         ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_A0 = 0;
         ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_9B = (u8) (((CL_CD7000_80172458_S_80172458_0 *)action)->unk_9B + 1);
-        ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_A6 = sample_terrain_surface_height((((SpriteFrameState *)map_entry)->unk_24 << 6) | 0x20,
-            (((SpriteFrameState *)map_entry)->unk_25 << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
+        ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_A6 = sample_terrain_surface_height((map_entry->unk_24 << 6) | 0x20,
+            (map_entry->unk_25 << 6) | 0x20, (s16) (((u16)actor->ground_height) - 0x20));
         ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_A8 = (u16) ((u16)motion->z.w.i);
                         /* fall through */
     case 1:
         move_frames = ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_9E;
         ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_90 = (s32) (((CL_CD7000_80172458_S_80172458_0 *)action)->unk_90 - ((CL_CD7000_80172458_S_80172458_0 *)action)->unk_A0);
         if (move_frames != 0) {
-            move_value = ((SpriteFrameState *)map_entry)->unk_24;
+            move_value = map_entry->unk_24;
             move_operand = motion->x.w.i;
             move_value <<= 6;
             move_operand -= 0x20;
             move_value = ((move_value - move_operand) << 0x10) / move_frames;
             move_operand = motion->y.w.i;
             motion->velocity_x = move_value;
-            move_value = ((SpriteFrameState *)map_entry)->unk_25;
+            move_value = map_entry->unk_25;
             move_operand -= 0x20;
             move_value <<= 6;
             move_value -= move_operand;
@@ -954,8 +956,8 @@ void func_8014E458(void *action, ObjectPosition *motion, void *map_entry, ActorR
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entry)->unk_24, ((SpriteFrameState *)map_entry)->unk_25);
-            ((SpriteFrameState *)map_entry)->frameTable = D_801512D4;
+            set_record_integer_tile_center(motion, map_entry->unk_24, map_entry->unk_25);
+            map_entry->frameTable = D_801512D4;
             select_sprite_entry(map_entry, D_801512D4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
             initialize_timed_motion_step(4, 8);
             emit_scattered_effects_unless_blocked(motion);
@@ -971,7 +973,7 @@ void func_8014E458(void *action, ObjectPosition *motion, void *map_entry, ActorR
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)map_entry)->unk_24, ((SpriteFrameState *)map_entry)->unk_25);
+        set_record_integer_tile_center(motion, map_entry->unk_24, map_entry->unk_25);
         spend_actor_mp(actor, 4);
         advance_status_timers(actor);
         if (g_dungeon_status.activity_counts.parts.pending_movement_count != 0) {
@@ -985,8 +987,8 @@ void func_8014E458(void *action, ObjectPosition *motion, void *map_entry, ActorR
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-                actor->facing = get_rounded_facing_and_rounding_flag(((SpriteFrameState *)map_entry)->unk_24,
-                    ((SpriteFrameState *)map_entry)->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_output);
+                actor->facing = get_rounded_facing_and_rounding_flag(map_entry->unk_24,
+                    map_entry->unk_25, reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &facing_output);
             }
         }
         if ((check_actor_floor_trap(map_entry, actor) << 0x10) > 0) {
@@ -1003,7 +1005,7 @@ void func_8014E944(S_80172944_0 *state,void *position,void *render_state,void *e
 }
 
 /* Times an attack animation and sound, resolves its hit, then spends MP and advances status timers. */
-void func_8014E9A8(void *action, void *motion, void *sprite, void *actor)
+void func_8014E9A8(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 state;
     s32 next_state;
@@ -1017,9 +1019,9 @@ void func_8014E9A8(void *action, void *motion, void *sprite, void *actor)
         ((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_9B = start_state;
                         /* fall through */
     case 1:
-        if (((SpriteFrameState *)sprite)->flags & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_9B = 3;
-            ((SpriteFrameState *)sprite)->flags |= 0x6000;
+            sprite->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
             return;
         }
@@ -1027,7 +1029,7 @@ void func_8014E9A8(void *action, void *motion, void *sprite, void *actor)
         ((CL_CD7000_801729A8_S_801729A8_3 *)motion)->unk_14 = 0;
         ((CL_CD7000_801729A8_S_801729A8_3 *)motion)->unk_10 = 0;
         ((CL_CD7000_801729A8_S_801729A8_3 *)motion)->unk_0C = 0;
-        ((SpriteFrameState *)sprite)->frameTable = D_801512DC;
+        sprite->frameTable = D_801512DC;
         select_sprite_entry(sprite,
             D_801512DC[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor)->facing + 0x100) >> 9) & 7],
             0);
@@ -1039,25 +1041,25 @@ void func_8014E9A8(void *action, void *motion, void *sprite, void *actor)
     case 2:
         timer = ((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_96.s + 1;
         ((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_96.s = timer;
-        if ((s16)timer == 7 || (((SpriteFrameState *)sprite)->flags & 0x8000)) {
+        if ((s16)timer == 7 || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, ((ActorRecord *)actor)->facing, 1);
         }
         if (((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_96.u == 6) {
             play_sound_if_enabled(0x808);
         }
         if (((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_96.u == 8) {
-            ((SpriteFrameState *)sprite)->flags |= 0x0800;
+            sprite->flags |= 0x0800;
         }
         if (((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_96.u == 15 ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
-            ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+            (sprite->flags & 0x8000)) {
+            sprite->flags &= 0xF7FF;
             next_state = ((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_9B;
             next_state++;
             ((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_9B = next_state;
         }
         return;
     case 3:
-        if (((SpriteFrameState *)sprite)->flags & 0xE000) {
+        if (sprite->flags & 0xE000) {
             spend_actor_mp(actor, 0x100);
             ((CL_CD7000_801729A8_S_801729A8_0 *)action)->unk_8C = func_8014D02C;
             g_dungeon_status.active_actor = 0;
@@ -1127,12 +1129,12 @@ void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BC
             (work->unk_98) &= 0xFF7F;
             if ((s8)alternate) {
                 actor->unk_60 = target_actor = primary_actor_record;
-                target_entity = *(CL_CD7000_80172BCC_S_func_80C953CC_3 **)((u8 *)target_actor - 0x14);
+                target_entity = *(CL_CD7000_80172BCC_S_func_80C953CC_3 **)&((ObjectNodeHeader *)((u8 *)target_actor - 0x20))->sprite;
                 actor->unk_72.u8 = target_entity->unk_24;
                 actor->unk_73.u8 = target_entity->unk_25;
             } else if (item_action_definitions[part->unk_00].kind == 2) {
                 if ((target_actor = actor->unk_60) != 0) {
-                    target_entity = *(CL_CD7000_80172BCC_S_func_80C953CC_3 **)((u8 *)target_actor - 0x14);
+                    target_entity = *(CL_CD7000_80172BCC_S_func_80C953CC_3 **)&((ObjectNodeHeader *)((u8 *)target_actor - 0x20))->sprite;
                     actor->unk_72.u8 = target_entity->unk_24;
                     actor->unk_73.u8 = target_entity->unk_25;
                 }
@@ -1141,7 +1143,7 @@ void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BC
                 s32 target_y;
 
                 actor->unk_60 =
-                    scan_monster_along_heading(actor, entity->unk_24,
+                    scan_actor_along_heading(actor, entity->unk_24,
                                   entity->unk_25,
                                   actor->unk_2A, 0x10);
                 target_x = abs(actor->unk_72.s8);
@@ -1257,7 +1259,7 @@ void func_8014EBCC(CL_CD7000_80172BCC_S_func_80C953CC_1 *work, CL_CD7000_80172BC
 
 /* Applies the actor value change, emits impact visuals, and returns to normal behavior after the timed
    reaction. */
-void update_a_timed_hop_actor_s_tile_restores_idle_animation(CL_CD7000_801730E0_S_801730E0_0 *state, ObjectPosition *motion, Rec_D_80082E80 *action, EntityRec *entity) {
+void update_a_timed_hop_actor_s_tile_restores_idle_animation(CL_CD7000_801730E0_S_801730E0_0 *state, ObjectPosition *motion, SpriteFrameState *action, EntityRec *entity) {
     s16 phase;
     u16 ticks_left;
     s16 wait_ticks;
@@ -1276,7 +1278,7 @@ void update_a_timed_hop_actor_s_tile_restores_idle_animation(CL_CD7000_801730E0_
         initialize_timed_motion_step(4, 6);
         state->unk_9B = state->unk_9B + 1;
         if (entity->unk_28 != 0) {
-            if (((SpriteFrameState *)action)->flags & 0x8000) {
+            if (action->flags & 0x8000) {
                 state->unk_96.s = 0;
                 state->unk_9B = 2;
                 return;
@@ -1297,7 +1299,7 @@ void update_a_timed_hop_actor_s_tile_restores_idle_animation(CL_CD7000_801730E0_
             ticks_left = state->unk_96.s - 1;
             state->unk_96.s = ticks_left;
         } else {
-            if (((SpriteFrameState *)action)->flags & 0x6000)
+            if (action->flags & 0x6000)
                 state->unk_96.s = 0;
         }
         if (state->unk_96.u != 0)
@@ -1321,7 +1323,7 @@ void update_a_timed_hop_actor_s_tile_restores_idle_animation(CL_CD7000_801730E0_
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((SpriteFrameState *)action)->unk_24, ((SpriteFrameState *)action)->unk_25);
+        set_record_integer_tile_center(motion, action->unk_24, action->unk_25);
         if (((s32)g_dungeon_status.pending_display_owner) == ((u8 *)entity - 0x20)) {
             g_dungeon_status.pending_display_owner = ((s32)g_dungeon_status.pending_display_owner) & 0x7FFFFFFF;
         }
@@ -1651,25 +1653,25 @@ void func_8014FC0C(void *effect, s32 unused, void *primitive)
 /* Creates a randomly rotated gray sprite with the requested scale and a five-update fade. */
 void func_8014FCFC(void *unused_context, Rec_func_80173CFC_arg1 *source_pos, s32 unused_value, s16 scale)
 {
-    void *effect;
+    ObjectNodeHeader *effect;
     CL_CD7000_80173CFC_S_80173CFC_0 *effect_part;
     CL_CD7000_80173CFC_S_80173CFC_1 *effect_data;
-    CL_CD7000_80173CFC_S_80173CFC_2 *effect_pos;
+    ObjectPosition *effect_pos;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         effect_part = (u8 *)effect + 0x20;
         effect_part->unk_24 = 5;
-        (*(void * *)((u8 *)effect + 0x10)) = func_8014FC0C;
+        (effect->unk_10) = func_8014FC0C;
         func_8004491C(effect, func_80045340);
-        effect_data = (*(void * *)((u8 *)effect + 0xC));
+        effect_data = (effect->sprite);
         effect_data->unk_10 = 0x60;
         effect_data->unk_14 |= 0xC;
-        effect_pos = (*(void * *)((u8 *)effect + 8));
-        effect_pos->unk_02 = source_pos->unk_00.at02_u16.v;
-        effect_pos->unk_06 = source_pos->unk_04.at02_u16.v;
-        effect_pos->unk_0A = source_pos->unk_0A - 0x28;
-        effect_data = (*(void * *)((u8 *)effect + 0xC));
+        effect_pos = (effect->position);
+        effect_pos->x.w.i = source_pos->unk_00.at02_u16.v;
+        effect_pos->y.w.i = source_pos->unk_04.at02_u16.v;
+        effect_pos->z.w.i = source_pos->unk_0A - 0x28;
+        effect_data = (effect->sprite);
         effect_data->unk_06 = 6;
         effect_data->unk_1E = scale;
         effect_data->unk_1C = scale;
@@ -1966,7 +1968,7 @@ void func_80150724(CL_CD7000_80174724_S_80C96F24_0 *owner, void *origin, void *e
             s16 end_radius = 0;
             s16 start_radius = 0;
             s32 last_band;
-            void *effect;
+            ObjectNodeHeader *effect;
 
             if (band_index == 0) {
                 start_radius = 0x18;
@@ -1986,7 +1988,7 @@ void func_80150724(CL_CD7000_80174724_S_80C96F24_0 *owner, void *origin, void *e
             if (effect != 0) {
                 void *render_state;
                 void *effect_data;
-                CL_CD7000_80174724_S_80C96F24_5 *position;
+                ObjectPosition *position;
                 s16 init_value;
                 s16 angle_index;
                 s32 start_angle;
@@ -2001,25 +2003,25 @@ void func_80150724(CL_CD7000_80174724_S_80C96F24_0 *owner, void *origin, void *e
 
                 ((CL_CD7000_80174724_S_80C96F24_1 *)effect_data)->unk_2C =
                     init_value - ((CL_CD7000_80174724_S_80C96F24_2 *)owner)->unk_A4;
-                ((CL_CD7000_80174724_S_80C96F24_3 *)effect)->unk_10 = func_80150374;
+                effect->unk_10 = func_80150374;
                 func_8004491C(effect, func_80150320);
 
-                render_state = ((CL_CD7000_80174724_S_80C96F24_3 *)effect)->unk_0C;
+                render_state = *(u8 * *)&effect->sprite;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_10 = 0x20;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_14 |= 0x0C;
 
                 {
 
-                    position = ((CL_CD7000_80174724_S_80C96F24_3 *)effect)->unk_08;
-                    position->unk_00 =
+                    position = *(u8 * *)&effect->position;
+                    position->x.v =
                         ((CL_CD7000_80174724_S_80C96F24_6 *)origin)->unk_00;
-                    position->unk_04 =
+                    position->y.v =
                         ((CL_CD7000_80174724_S_80C96F24_6 *)origin)->unk_04;
-                    position->unk_08 =
+                    position->z.v =
                         ((CL_CD7000_80174724_S_80C96F24_6 *)origin)->unk_08 + 0x200000;
                 }
 
-                render_state = ((CL_CD7000_80174724_S_80C96F24_3 *)effect)->unk_0C;
+                render_state = *(u8 * *)&effect->sprite;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_1E = 0x1000;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_1C = 0x1000;
                 ((CL_CD7000_80174724_S_80C96F24_4 *)render_state)->unk_0E = 0x80;
@@ -2284,9 +2286,9 @@ void func_80150D14(void *state, EntityRec *position, SpriteFrameState *entity, v
         effect->unk_10 = func_80150BE8;
         register_node(effect, project_sprite_chain);
         ((CL_CD7000_80174D14_S_80C97514_0 *)state)->unk_AC = effect;
-        ((CL_CD7000_80174D14_S_80C97514_14 *)(((CL_CD7000_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
-        ((CL_CD7000_80174D14_S_80C97514_14 *)(((CL_CD7000_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
-        ((CL_CD7000_80174D14_S_80C97514_14 *)(((CL_CD7000_80174D14_S_80C97514_12 *)effect)->unk_08))->unk_08 = (s32) position->z.v;
+        ((ObjectPosition *)((CL_CD7000_80174D14_S_80C97514_12 *)effect)->unk_08)->x.v = (s32) position->x.v;
+        ((ObjectPosition *)((CL_CD7000_80174D14_S_80C97514_12 *)effect)->unk_08)->y.v = (s32) position->y.v;
+        ((ObjectPosition *)((CL_CD7000_80174D14_S_80C97514_12 *)effect)->unk_08)->z.v = (s32) position->z.v;
         render_obj = effect->unk_0C;
         render_obj->unk_1E = 0x1000;
         render_obj->unk_1C = 0x1000;

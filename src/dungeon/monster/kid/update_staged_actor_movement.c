@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/game_work.h"
@@ -36,12 +37,6 @@ typedef struct S_80172790_1 {
     s16 unk_A8;
 } S_80172790_1;   /* arg0 in update_staged_actor_movement */
 
-typedef struct S_80172790_2 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    void * unk_10;
-} S_80172790_2;   /* object in update_staged_actor_movement */
-
 typedef struct S_80172790_3 {
     u8 pad_00[0xC];
     s16 unk_0C;
@@ -69,22 +64,6 @@ typedef struct S_80172790_4 {
     s32 unk_14;
 } S_80172790_4;   /* arg1 in update_staged_actor_movement */
 
-typedef struct S_80172790_5 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    s8 unk_05;
-    u8 pad_06[0x2];
-    s32 unk_08;
-} S_80172790_5;   /* sprite in update_staged_actor_movement */
-
-typedef struct S_80172790_6 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_80172790_6;   /* arg2 in update_staged_actor_movement */
-
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, s32, s32);
@@ -105,7 +84,7 @@ extern u8 D_80175160[];
 /* Updates an actor's staged movement, particle effects, and return to its tile. */
 /* Animates a backward leap and forward strike with particle trails, resolves damage, then recenters and
  * spends MP. */
-void update_staged_actor_movement(void *action, void *motion, void *tile, void *actor)
+void update_staged_actor_movement(void *action, void *motion, SpriteFrameState *tile, void *actor)
 {
     s32 particle_x_offset;
     u8 *move_frames;
@@ -134,9 +113,9 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
     s32 y_step;
     s32 particle_y;
     s32 heading_raw;
-    void *particle;
+    ObjectNodeHeader *particle;
     S_80172790_3 *particle_motion;
-    void *sprite;
+    SpriteFrameState *sprite;
     u8 *x_step_entry;
     u8 *x_step_base;
 
@@ -157,8 +136,8 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
             if (particle != NULL) {
                 register_node(particle, project_sprite_chain);
                 particle_motion = (u8 *)particle + 0x20;
-                ((S_80172790_2 *)particle)->unk_10 = D_801743EC;
-                sprite = ((S_80172790_2 *)particle)->unk_0C;
+                particle->unk_10 = D_801743EC;
+                sprite = particle->sprite;
                 if (((S_80172790_1 *)action)->unk_9B < 3U) {
                     particle_motion->unk_0C = ((S_80172790_4 *)motion)->unk_02.s + (rand() & 0xF) - 8;
                     random_offset = rand();
@@ -191,14 +170,14 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
                 (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
                 (*(s16 *)((u8 *)sprite + 0x10)) = 0x60;
                 sprite_data = D_800DEC28;
-                (*(void * *)((u8 *)sprite + 0)) = sprite_data;
+                (*(void **)((u8 *)sprite + 0)) = sprite_data;
                 (*(u16 *)((u8 *)sprite + 0x14)) |= 0xC;
                 sprite_params = *(s32 *)(sprite_data + 4);
                 color |= 0xC0C0;
-                ((S_80172790_5 *)sprite)->unk_04 = 0;
-                ((S_80172790_5 *)sprite)->unk_05 = 0;
+                sprite->unk_04 = 0;
+                sprite->unk_05 = 0;
                 (*(s32 *)((u8 *)sprite + 0xC)) = color;
-                ((S_80172790_5 *)sprite)->unk_08 = sprite_params;
+                sprite->source = sprite_params;
             }
             heading_byte--;
         } while (heading_byte >= 0);
@@ -207,16 +186,16 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
     state = ((S_80172790_1 *)action)->unk_9B;
     switch (state) {
     case 0:
-        flags = ((S_80172790_6 *)tile)->unk_14;
+        flags = tile->flags;
         if (flags & 0x8000) {
             ((S_80172790_1 *)action)->unk_9B = 0xFF;
-            ((S_80172790_6 *)tile)->unk_14 |= 0x6000;
+            tile->flags |= 0x6000;
             resolve_attack_damage_and_effects(actor, tile, ((S_80172790_0 *)actor)->unk_2A.u, 1);
             return;
         }
         if (flags & 0xE000) {
             move_frames = D_80175160;
-            (*(void * *)((u8 *)tile + 0x2C)) = move_frames;
+            (tile->frameTable) = move_frames;
             move_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
             move_direction = ((move_angle + 0x100) >> 9) & 7;
             select_sprite_entry(tile, move_frames[move_direction], 0);
@@ -280,13 +259,13 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
         return;
 
     case 0xFF:
-        return_speed_2 = ((S_80172790_6 *)tile)->unk_24 << 6;
+        return_speed_2 = tile->unk_24 << 6;
         origin_x = ((S_80172790_4 *)motion)->unk_02.u - 0x20;
         return_speed_2 -= origin_x;
         return_speed_2 <<= 0xF;
         return_speed_2 >>= 1;
         ((S_80172790_4 *)motion)->unk_0C = return_speed_2;
-        return_speed = ((S_80172790_6 *)tile)->unk_25 << 6;
+        return_speed = tile->unk_25 << 6;
         origin_y = ((S_80172790_4 *)motion)->unk_06.u - 0x20;
         return_speed -= origin_y;
         return_speed <<= 0xF;
@@ -297,13 +276,13 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
         } else {
             ((S_80172790_4 *)motion)->unk_14 = -((S_80172790_1 *)action)->unk_92 << 0xD;
         }
-        if (((S_80172790_1 *)action)->unk_96.u > 0 && !(((S_80172790_6 *)tile)->unk_14 & 0x8000)) {
+        if (((S_80172790_1 *)action)->unk_96.u > 0 && !(tile->flags & 0x8000)) {
             return;
         }
         ((S_80172790_4 *)motion)->unk_10 = 0;
         ((S_80172790_4 *)motion)->unk_0C = 0;
         ((S_80172790_0 *)actor)->unk_1C |= 0x40000;
-        set_record_integer_tile_center(motion, ((S_80172790_6 *)tile)->unk_24, ((S_80172790_6 *)tile)->unk_25);
+        set_record_integer_tile_center(motion, tile->unk_24, tile->unk_25);
         spend_actor_mp(actor, 0x100);
         ((S_80172790_1 *)action)->unk_8C = D_80171400;
         g_dungeon_status.active_actor = 0;
@@ -313,7 +292,7 @@ void update_staged_actor_movement(void *action, void *motion, void *tile, void *
         ((S_80172790_0 *)actor)->unk_1C |= 0x08000000;
         ((S_80172790_1 *)action)->unk_A8 = 7;
         idle_frames = D_80175148;
-        (*(void * *)((u8 *)tile + 0x2C)) = idle_frames;
+        (tile->frameTable) = idle_frames;
         idle_angle = g_game_work.view.camera_rotation.parts.viewAngle + ((S_80172790_0 *)actor)->unk_2A.u;
         idle_direction = ((idle_angle + 0x100) >> 9) & 7;
         select_sprite_entry(tile, idle_frames[idle_direction], 2);

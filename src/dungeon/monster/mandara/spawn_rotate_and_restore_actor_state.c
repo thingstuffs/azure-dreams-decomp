@@ -1,4 +1,5 @@
 #include "shared/sprite_source.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "m2c_compat.h"
 #include "shared/object_node.h"
@@ -14,16 +15,6 @@ typedef struct S_80174668_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80174668_0;   /* arg0 in spawn_rotate_and_restore_actor_state */
-
-typedef struct S_80174668_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_80174668_1;   /* arg2 in spawn_rotate_and_restore_actor_state */
 
 typedef struct S_80174668_2 {
     u8 pad_00[0x2A];
@@ -89,24 +80,6 @@ typedef struct S_80174668_7 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_80174668_7;   /* state_object in spawn_rotate_and_restore_actor_state */
-
-typedef struct S_80174668_8 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-} S_80174668_8;   /* inner in spawn_rotate_and_restore_actor_state */
-
-
-typedef struct S_80174668_10 {
-    s32 unk_00;
-} S_80174668_10;   /* D_8008346C in spawn_rotate_and_restore_actor_state */
-
-typedef struct S_80174668_11_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_80174668_11_pre;   /* the 0x14 bytes before ((S_80174668_2 *)arg3)->unk_60.u in spawn_rotate_and_restore_actor_state, addressed as ((S_80174668_2 *)arg3)->unk_60.u[-1] */
-
 typedef struct S_80174668_12 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -115,7 +88,6 @@ typedef struct S_80174668_12 {
     u8 pad_08[0x2];
     s16 unk_0A;
 } S_80174668_12;   /* ((S_80174668_5 *)alloc)->unk_08 in spawn_rotate_and_restore_actor_state */
-
 
 typedef struct {
     s16 x;
@@ -137,7 +109,7 @@ extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
@@ -154,20 +126,21 @@ extern u8 D_80170F6C[];
 extern u8 D_80174B20[];
 extern u8 D_80174B98[];
 extern u8 D_80175174[];
-extern u8 D_80175258[];
+#include "dungeon/monster/mandara.h"
+#include "shared/sprite_frame_state.h"
 
 /* Spawns and rotates an object, emits particles, then restores the actor state. */
 /* Targets a monster ahead, rotates it amid green particles, attempts confusion, and spends Mandara's MP
  * before restoring movement. */
-void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *sprite, void *actor)
+void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *motion, SpriteFrameState *sprite, void *actor)
 {
     SpawnOffset spawn = *(SpawnOffset *)D_8017086C;
     Position2 center;
     s32 state;
     u8 *spawned_object;
     u8 *rotating_object;
-    u8 *particle_pos;
-    u8 *effect_alloc;
+    ObjectPosition *particle_pos;
+    ObjectNodeHeader *effect_alloc;
     u8 *direction_table;
     u8 *effect_data;
     u8 *tile;
@@ -181,15 +154,15 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
     state = effect->unk_9B;
     switch (state) {
     case 0:
-        spawned_object = scan_monster_along_heading(actor, sprite->unk_24,
+        spawned_object = scan_actor_along_heading(actor, sprite->unk_24,
             sprite->unk_25, ((S_80174668_2 *)actor)->unk_2A, 0x10);
         ((S_80174668_2 *)actor)->unk_60.s = spawned_object;
-        direction_table = D_80175258;
-        sprite->unk_2C = direction_table;
+        direction_table = mandara_direction_frames;
+        sprite->frameTable = direction_table;
         select_sprite_entry(sprite,
             direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        if (sprite->unk_14 & 0x8000) {
+        if (sprite->flags & 0x8000) {
             effect->unk_9B = 2;
             return;
         }
@@ -210,7 +183,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         display_text_with_fullwidth_adjustment(previous_context);
         play_sound_if_enabled(0x60A);
 
-        tile = ((S_80174668_11_pre *)(((S_80174668_2 *)actor)->unk_60.u))[-1].unk_00;
+        tile = *(u8 * *)&((ObjectNodeHeader *)((u8 *)((S_80174668_2 *)actor)->unk_60.u - 0x20))->sprite;
         ((S_80174668_2 *)actor)->unk_72.s = ((S_80174668_4 *)tile)->unk_24;
         ((S_80174668_2 *)actor)->unk_73.s = ((S_80174668_4 *)tile)->unk_25;
         center.x = spawn.x + (spawn.dx >> 1);
@@ -222,8 +195,8 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
             return;
         }
         register_node(effect_alloc, D_80174B98);
-        ((S_80174668_5 *)effect_alloc)->unk_10 = D_80174B20;
-        effect_data = effect_alloc + 0x20;
+        effect_alloc->unk_10 = D_80174B20;
+        effect_data = ((u8 *)effect_alloc) + 0x20;
         ((S_80174668_6 *)effect_data)->unk_A2 = (sprite->unk_24 << 6) + 0x20;
         ((S_80174668_6 *)effect_data)->unk_A4 = (sprite->unk_25 << 6) + 0x20;
         {
@@ -248,31 +221,31 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
             effect_alloc = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (effect_alloc != 0) {
                 register_node(effect_alloc, project_sprite_chain);
-                effect_data = effect_alloc + 0x20;
-                tile = ((S_80174668_5 *)effect_alloc)->unk_0C;
-                ((S_80174668_5 *)effect_alloc)->unk_10 = D_80175174;
+                effect_data = ((u8 *)effect_alloc) + 0x20;
+                tile = *(u8 * *)&effect_alloc->sprite;
+                effect_alloc->unk_10 = D_80175174;
 
                 random = rand();
                 {
                     s32 tile_x = ((S_80174668_2 *)actor)->unk_72.u;
-                    ((S_80174668_12 *)(((S_80174668_5 *)effect_alloc)->unk_08))->unk_02 =
+                    ((S_80174668_12 *)(*(u8 * *)&effect_alloc->position))->unk_02 =
                         (tile_x << 6) + (random % 64);
                 }
                 random = rand();
                 {
                     s32 tile_y = ((S_80174668_2 *)actor)->unk_73.u;
-                    ((S_80174668_12 *)(((S_80174668_5 *)effect_alloc)->unk_08))->unk_06 =
+                    ((S_80174668_12 *)(*(u8 * *)&effect_alloc->position))->unk_06 =
                         (tile_y << 6) + (random % 64);
                 }
-                particle_pos = ((S_80174668_5 *)effect_alloc)->unk_08;
-                height = sample_terrain_surface_height(((S_80174668_8 *)particle_pos)->unk_02,
-                    ((S_80174668_8 *)particle_pos)->unk_06, -0x400);
+                particle_pos = *(u8 * *)&effect_alloc->position;
+                height = sample_terrain_surface_height(*(u16 *)&particle_pos->x.w.i,
+                    *(u16 *)&particle_pos->y.w.i, -0x400);
                 {
                     s32 height_random = rand();
                     height -= height_random % 95;
                     height -= 0x20;
                 }
-                ((S_80174668_12 *)(((S_80174668_5 *)effect_alloc)->unk_08))->unk_0A = height;
+                ((S_80174668_12 *)(*(u8 * *)&effect_alloc->position))->unk_0A = height;
 
                 ((S_80174668_4 *)tile)->unk_1E = 0xC04;
                 ((S_80174668_4 *)tile)->unk_1C = 0xC04;
@@ -298,7 +271,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
         return;
 
     case 2:
-        if (!(sprite->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         ((S_80174668_2 *)actor)->unk_73.s = 0;
@@ -308,7 +281,7 @@ void spawn_rotate_and_restore_actor_state(S_80174668_0 *effect, S_80174668_3 *mo
             void *actor_to_reset;
             actor_to_reset = actor;
             effect->unk_8C = D_80170F6C;
-            ((S_80174668_10 *)((u8 *)(&g_dungeon_status.active_actor)))->unk_00 = 0;
+            g_dungeon_status.active_actor = 0;
             advance_status_timers(actor_to_reset);
         }
         if (((S_80174668_2 *)actor)->unk_6D == 0) {

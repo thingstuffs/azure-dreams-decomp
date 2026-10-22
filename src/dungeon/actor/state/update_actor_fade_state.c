@@ -3,6 +3,7 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 #include "shared/entity.h"
+#include "dungeon/system.h"
 
 typedef struct S_800D34CC_0 {
     u8 pad_00[0x96];
@@ -45,7 +46,6 @@ s32 get_entity_effect_value();                 /* extern */
 void unlink_entity_node();                      /* extern */
 void update_map_cell_flags_with_item_limit();             /* extern */
 void detach_record_and_update_slot_state(void *);                 /* extern */
-void decrement_bounded_counter();                            /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 
 /* Waits for pending actions, shrinks and darkens the actor sprite, then detaches the actor and clears

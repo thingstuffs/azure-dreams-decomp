@@ -32,7 +32,7 @@ void initialize_action_object(s32 **object) {
     *object = (void *)update_threshold_bound_object;
 }
 
-void func_800943B8(Rec_func_80094268_arg0 *object, s32 setup_arg, s32 context, s32 setup_extra) {
+void initialize_movement_action_count_six(Rec_func_80094268_arg0 *object, s32 setup_arg, s32 context, s32 setup_extra) {
     store_the_valid_shared_angle_in_offset_hex_10(object);
     call_the_handler_selects_nonzero_entry(&D_800D0108, object, context);
     object->unk_00.as_pm = (void *)update_actor_movement_actions;

@@ -93,7 +93,7 @@ s32 handle_project_three_vertices_queue_textured_shaded_triangle_depth(s32 verte
     void *scratch_base;
     u32 ordering_link;
 
-    state = *(State81976F70 **)((u8 *)(&g_game_work));
+    state = *(State81976F70 **)&g_game_work.draw_buffer;
     scratch->ordering_table = (u32 *)((u8 *)state + 0xB0);
     packet = state->next;
     state->next = packet + 1;

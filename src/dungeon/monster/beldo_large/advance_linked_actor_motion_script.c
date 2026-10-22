@@ -1,4 +1,5 @@
 #include "shared/runtime_dispatch.h"
+#include "shared/sprite_frame_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/dir_step.h"
@@ -8,6 +9,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_800E3D7C.h"
+#include "dungeon/player/item.h"
 
 typedef struct S_80171D74_0 {
     s32 unk_00;
@@ -53,15 +55,6 @@ typedef struct S_80171D74_4 {
     u16 unk_88;
 } S_80171D74_4;
 
-typedef struct S_80171D74_5 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0xF];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    union { s32 * p; u8 * p2; } unk_2C;   /* accessed as both */
-} S_80171D74_5;   /* arg2 in advance_linked_actor_motion_script */
-
 typedef struct S_80171D74_6 {
     s16 unk_00;
 } S_80171D74_6;   /* D_80083228 in advance_linked_actor_motion_script */
@@ -78,7 +71,6 @@ typedef struct S_80171D74_8 {
     u8 pad_28[0x2];
     u16 unk_2A;
 } S_80171D74_8;
-
 
 typedef struct S_80171D74_10 {
     u8 pad_00[0x32];
@@ -135,7 +127,6 @@ typedef struct S_80171D74_21 {
     u16 unk_04;
 } S_80171D74_21;
 
-
 typedef struct { u32 v; } __attribute__((packed)) UA32;
 typedef struct { UA32 word[8]; } __attribute__((packed)) Table32;
 
@@ -152,7 +143,6 @@ void request_scene_state_with_parameters(s32, s16, s16, s16, s32); /* extern */
 void advance_sprite_animation_and_textures();  /* extern */
 s32 func_800644B8();                     /* extern */
 void snapshot_inventory_and_familiars();                 /* extern */
-void snapshot_inventory_familiar_records(void);                            /* extern */
 void play_sound_if_enabled();             /* extern */
 s32 is_special_floor_entry_absent();                      /* extern */
 void create_rotating_clipped_sprite(u32 *, s16);             /* extern */
@@ -174,7 +164,7 @@ extern void *D_80175DB8[16];
 /* Advances a scripted movement sequence and updates the sprite facing. */
 /* Runs Beldo's timed leaps, turns, and sprite effects, changes map flags, and saves party state for a
  * scene change. */
-void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *sprite_in) {
+void advance_linked_actor_motion_script(void *state_in, void *motion_in, SpriteFrameState *sprite_in) {
     Table32 offset_table;
     Table32 direction_table;
     s16 right_angle;
@@ -310,7 +300,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
         update_phase_driven_motion_offset(state_in, motion_in, sprite_in);
         break;
     case 6:
-        ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DAC;
+        sprite_in->frameTable = &D_80173DAC;
         select_sprite_entry(sprite_in, D_80173DAC[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 3);
         ((S_80171D74_1 *)state_in)->unk_96 = 0U;
@@ -326,7 +316,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_3 *)motion_in)->unk_0C = 0;
-            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 | 0x80);
+            sprite_in->flags = (u16) (sprite_in->flags | 0x80);
             ((S_80171D74_3 *)motion_in)->unk_04.at02.v = 1;
             ((S_80171D74_3 *)motion_in)->unk_00.at02.v = 1U;
         }
@@ -351,7 +341,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             s32 angle_input_m;
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xFF7F);
+            sprite_in->flags = (u16) (sprite_in->flags & 0xFF7F);
             ((S_80171D74_3 *)motion_in)->unk_00.at02.v = (u16) (target_pos->unk_00.at02.v + (SP1_X_AT(offset_base,
                 target_state->unk_2A) * 0x28));
             ((S_80171D74_3 *)motion_in)->unk_04.at02.v = (s16) (target_pos->unk_04.at02.v + ((s16) SP1_Y_AT(offset_base,
@@ -367,7 +357,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             }
             owner_state->unk_2A.n = angle_input_m;
             ((S_80171D74_1 *)state_in)->unk_94 = 1;
-            ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DB4;
+            sprite_in->frameTable = &D_80173DB4;
             select_sprite_entry(sprite_in, D_80173DB4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
@@ -424,7 +414,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_10 *)(D_80175DB8[0]))->unk_32 = 3;
-            ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
+            sprite_in->frameTable = &D_80173DA4;
             select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             angle_input_m = owner_state->unk_2A.n;
@@ -524,15 +514,15 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
         }
         break;
     case 21:
-        if (((S_80171D74_5 *)sprite_in)->unk_04 == 0) {
-            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 | 0x800);
+        if (sprite_in->unk_04 == 0) {
+            sprite_in->flags = (u16) (sprite_in->flags | 0x800);
         }
         break;
     case 22:
         {
             u16 next_frame;
-            if (((S_80171D74_5 *)sprite_in)->unk_04 == 0) {
-                ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 | 0x800);
+            if (sprite_in->unk_04 == 0) {
+                sprite_in->flags = (u16) (sprite_in->flags | 0x800);
                 bounce_frame = ((S_80171D74_1 *)state_in)->unk_96;
                 next_frame = bounce_frame + 1;
             } else {
@@ -585,8 +575,8 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
             u8 *direction_base;
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
-            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xF7FF);
+            sprite_in->frameTable = &D_80173DA4;
+            sprite_in->flags = (u16) (sprite_in->flags & 0xF7FF);
             select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             direction_base = (u8 *)&direction_table;
@@ -666,8 +656,8 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
         }
         turn_value = (s16) ((S_80171D74_1 *)state_in)->unk_96;
         if (turn_value == 0x1A) {
-            ((S_80171D74_5 *)sprite_in)->unk_2C.p = &D_80173DA4;
-            ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xF7FF);
+            sprite_in->frameTable = &D_80173DA4;
+            sprite_in->flags = (u16) (sprite_in->flags & 0xF7FF);
             select_sprite_entry(sprite_in, D_80173DA4[((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
                 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
         }
@@ -700,7 +690,7 @@ void advance_linked_actor_motion_script(void *state_in, void *motion_in, void *s
                 facing_angle = quarter_turn - 0x1000;
             }
             owner_state->unk_2A.n = (u16) facing_angle;
-            select_sprite_entry(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2
+            select_sprite_entry(sprite_in, *(*(u8 **)&sprite_in->frameTable
                 + (((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00 + facing_angle + 0x100)
                     >> 9) & 7)), 0);
         }
@@ -809,18 +799,18 @@ shared_tail:
         sprite_dir = ((s32) (((S_80171D74_6 *)((s16 *)(&g_game_work.view.camera_rotation.parts.viewAngle)))->unk_00
             + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7;
         if (((S_80171D74_1 *)state_in)->unk_94 != sprite_dir) {
-            select_indirect_table_entry(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2 + sprite_dir),
-                ((S_80171D74_5 *)sprite_in)->unk_04);
+            select_indirect_table_entry(sprite_in, *(*(u8 **)&sprite_in->frameTable + sprite_dir),
+                sprite_in->unk_04);
             ((S_80171D74_1 *)state_in)->unk_94 = sprite_dir;
         }
         {
             u16 sprite_flags;
             if ((*(u8 *)((u8 *)dir_sprite_flag + sprite_dir)) != 0) {
-                sprite_flags = ((S_80171D74_5 *)sprite_in)->unk_14 | 1;
+                sprite_flags = sprite_in->flags | 1;
             } else {
-                sprite_flags = ((S_80171D74_5 *)sprite_in)->unk_14 & 0xFFFE;
+                sprite_flags = sprite_in->flags & 0xFFFE;
             }
-            ((S_80171D74_5 *)sprite_in)->unk_14 = sprite_flags;
+            sprite_in->flags = sprite_flags;
         }
     }
     return;

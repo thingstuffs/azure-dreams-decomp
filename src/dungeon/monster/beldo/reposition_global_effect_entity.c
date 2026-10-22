@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 
@@ -17,7 +18,7 @@ extern void cycle_map_cell_flags(s16 x, s16 y, u16 flags);
 void reposition_global_effect_entity(s32 offset_index)
 {
     s16 offsets[2] = { 1, -1 };
-    u8 *object;
+    ObjectNodeHeader *object;
     u8 *state;
     u8 *entity;
     void *motion;
@@ -25,9 +26,9 @@ void reposition_global_effect_entity(s32 offset_index)
     TileObject *origin;
 
     object = D_80174710;
-    state = object + 0x20;
-    entity = *(u8 **)(object + 0xC);
-    motion = *(void **)(object + 8);
+    state = ((u8 *)object) + 0x20;
+    entity = *(u8 * *)&object->sprite;
+    motion = object->position;
 
     ((SpriteFrameState *)entity)->flags &= 0xFF7F;
 

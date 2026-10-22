@@ -1,7 +1,8 @@
 #include "common.h"
+#include "dungeon/menu.h"
+#include "engine/camera.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-s32 map_fullwidth_character_to_glyph_byte();                             /* extern */
 extern s32 func_800673A0(s32 *, s32, s32);         /* extern */
 
 typedef struct S_80123928_0 {

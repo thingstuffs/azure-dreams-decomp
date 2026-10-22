@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -7,7 +8,6 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
@@ -31,31 +31,15 @@ extern s32 func_801729EC(void *, void *, void *, s32);
 extern void update_timed_effect_size_and_position(void *, void *, void *, void *);
 extern void clear_actor_flag_and_apply_effect(void *, void *, void *, void *);
 
-extern s32 D_80171728;
-extern u8 D_80174DEC[];
+#include "dungeon/monster/saber.h"
+
 extern u8 D_80174DFC[];
 extern u8 D_80174E2C[];
 extern u8 D_80174E44[];
-extern u8 D_80174E4C[];
-
-
-typedef struct S_80171728_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_80171728_2;   /* arg2 in update_creature_behavior_and_animation_2 */
 
 
 /* Updates creature behavior, facing, and animation from dungeon and action state. */
-void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, void *sprite, ActorRecord *creature_in)
+void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, SpriteFrameState *sprite, ActorRecord *creature_in)
 {
     u8 *anim_table;
     s32 distance;
@@ -71,10 +55,10 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
 
     if (creature_in->mp == 0) {
         advance_actor_pending_action(actor_in, context_in, sprite, creature_in);
-        if (((S_80171728_2 *)sprite)->unk_2C == D_80174E4C) {
+        if (sprite->frameTable == saber_direction_frames_2) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E44;
+        (sprite->frameTable) = D_80174E44;
         select_sprite_entry(sprite,
             D_80174E44[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
             0);
@@ -82,7 +66,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
     }
 
     if (((u32)creature_in->flags1C) & 0x200) {
-        if (((S_80171728_2 *)sprite)->unk_2C == D_80174E4C) {
+        if (sprite->frameTable == saber_direction_frames_2) {
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_8C = 0;
@@ -106,9 +90,9 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
 
             next_state = 0xE;
             if (current_state != next_state) {
-                anim_table = D_80174DEC;
-                if (((S_80171728_2 *)sprite)->unk_2C != anim_table) {
-                    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+                anim_table = saber_direction_frames;
+                if (sprite->frameTable != anim_table) {
+                    (sprite->frameTable) = anim_table;
                     select_sprite_entry(sprite,
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
                         0);
@@ -129,9 +113,9 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         if (((u32)creature_in->flags1C) & 0x80000) {
             begin_actor_move_to_target_facing(actor_in, context_in, sprite, creature_in);
             update_timed_effect_size_and_position(actor_in, context_in, sprite, creature_in);
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174DEC;
+            (sprite->frameTable) = saber_direction_frames;
             select_sprite_entry(sprite,
-                D_80174DEC[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
+                saber_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
                 0);
             ((Rec_func_800A9E70_arg0 *)actor_in)->unk_90.at00_s32.v = 0;
             return;
@@ -142,15 +126,15 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         }
     }
 
-    room_id = find_active_rect_containing_point(((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v);
-    ((S_80171728_2 *)sprite)->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = room_id;
 
     if (creature_in->pending_turn_updates > 0) {
         if (((u32)creature_in->flags1C) & 0x20) {
             update_actor_status_and_mp(creature_in);
             return;
         }
-        if (((S_80171728_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
             func_80171F40(actor_in, context_in, sprite, creature_in);
             return;
         }
@@ -193,13 +177,13 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
                 s16 heading;
 
                 heading = get_rounded_facing_and_rounding_flag(
-                    ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
+                    sprite->unk_24, sprite->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
                 player = primary_actor_record;
                 creature_in->facing = heading;
                 if (player->unk_9A == 0x11) {
-                    begin_actor_spell_action(actor_in, context_in, sprite, D_80174E2C, &D_80171728);
+                    begin_actor_spell_action(actor_in, context_in, sprite, D_80174E2C, &saber_behavior_entry);
                     return;
                 }
             }
@@ -211,7 +195,7 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_in, context_in, sprite, D_80174E2C, &D_80171728);
+            begin_actor_spell_action(actor_in, context_in, sprite, D_80174E2C, &saber_behavior_entry);
             return;
 
         case 10:
@@ -229,10 +213,10 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
             if (!(((u32)creature_in->flags1C) & 0x430)) {
 
                 if ((test_neighbor_position_relation(
-                    ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
+                    sprite->unk_24, sprite->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     creature_in->facing = get_rounded_facing_and_rounding_flag(
-                        ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
+                        sprite->unk_24, sprite->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                 }
@@ -243,14 +227,14 @@ void update_creature_behavior_and_animation_2(void *actor_in, void *context_in, 
     if (g_dungeon_status.flags & 0x2000) {
         return;
     }
-    if (((S_80171728_2 *)sprite)->unk_14 & 0x40) {
+    if (sprite->flags & 0x40) {
         return;
     }
-    anim_table = D_80174DEC;
-    if (((S_80171728_2 *)sprite)->unk_2C == anim_table) {
+    anim_table = saber_direction_frames;
+    if (sprite->frameTable == anim_table) {
         return;
     }
-    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+    (sprite->frameTable) = anim_table;
     select_sprite_entry(sprite,
         *(u8 *)(((((g_game_work.view.camera_rotation.parts.viewAngle + creature_in->facing + 0x100) >> 9) & 7)) + (u32)anim_table),
         0);

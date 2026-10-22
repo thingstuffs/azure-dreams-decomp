@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dir_step.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -31,8 +32,6 @@ typedef struct {
     } field_9D;
 } EntityArgFieldView_8102F83C;
 
-
-
 typedef void (*Callback)(void *, void *, void *, void *);
 
 extern s32 get_entity_effect_value();
@@ -45,23 +44,6 @@ extern s16 sample_terrain_surface_height();
 
 extern u8 D_801714B8;
 extern Callback glacier_callbacks[];
-
-
-typedef struct S_8017103C_0 {
-    u8 pad_00[0x4];
-    s8 unk_04;
-    u8 pad_05[0x7];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_8017103C_0;   /* monster in update_monster_appearance_motion */
 
 typedef struct S_8017103C_1 {
     u8 pad_00[0x1C];
@@ -84,7 +66,7 @@ typedef struct S_8017103C_2 {
 void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *monster_arg)
 {
     S_8017103C_2 *motion = motion_arg;
-    void *monster = monster_arg;
+    SpriteFrameState *monster= monster_arg;
     S_8017103C_1 *actor = entity_arg;
     s32 direction;
     s16 direction_copy;
@@ -119,7 +101,6 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
         call_context = entity_arg;
     }
 
-
     if (refresh_actor_facing_and_lifecycle(call_entity, call_motion, call_monster, call_context) != 0) {
         return;
     }
@@ -138,7 +119,7 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
         try_move_actor_to_valid_position(entity_arg, motion, monster, entity_arg);
     }
 
-    monster_flags = ((S_8017103C_0 *)monster)->unk_14;
+    monster_flags = monster->flags;
     if (!(monster_flags & 0x8000)) {
         facing_angle = g_game_work.view.camera_rotation.parts.viewAngle + (((EntityArgFieldView_8102F83C *)entity_arg)->field_2A) + 0x100;
         direction = (facing_angle >> 9) & 7;
@@ -146,37 +127,37 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
         direction_index = direction;
 
         if ((((EntityArgFieldView_8102F83C *)entity_arg)->field_94) != direction_index) {
-            u8 *tile_map = ((S_8017103C_0 *)monster)->unk_2C;
+            u8 *tile_map = *(u8 **)&monster->frameTable;
 
             if (tile_map != 0) {
                 select_indirect_table_entry(monster, tile_map[direction_index],
-                              ((S_8017103C_0 *)monster)->unk_04);
+                              monster->unk_04);
             }
             (((EntityArgFieldView_8102F83C *)entity_arg)->field_94) = direction;
         }
 
         if (dir_sprite_flag[direction_copy] != 0) {
-            ((S_8017103C_0 *)monster)->unk_14 |= 1;
+            monster->flags |= 1;
         } else {
-            ((S_8017103C_0 *)monster)->unk_14 &= 0xFFFE;
+            monster->flags &= 0xFFFE;
         }
 
         if (!(actor->unk_1C & 0x20)) {
-            if (!(((S_8017103C_0 *)monster)->unk_14 & 0x40)) {
+            if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
         } else {
-            ((S_8017103C_0 *)monster)->unk_14 |= 0x7000;
+            monster->flags |= 0x7000;
         }
 
         if (!(actor->unk_1C & 0x10000000)) {
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
-                s32 monster_state = ((S_8017103C_0 *)monster)->unk_04;
+                s32 monster_state = monster->unk_04;
                 s32 shade;
                 if (monster_state == 0) {
-                    ((S_8017103C_0 *)monster)->unk_0E = 0x80;
-                    ((S_8017103C_0 *)monster)->unk_0D = 0x80;
-                    ((S_8017103C_0 *)monster)->unk_0C = 0x80;
+                    monster->color.c.b = 0x80;
+                    monster->color.c.g = 0x80;
+                    monster->color.c.r = 0x80;
                 } else {
                     if (monster_state == 1) {
                         shade = 0x64;
@@ -187,9 +168,9 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
                     } else {
                         goto flags_done;
                     }
-                    ((S_8017103C_0 *)monster)->unk_0E = shade;
-                    ((S_8017103C_0 *)monster)->unk_0D = shade;
-                    ((S_8017103C_0 *)monster)->unk_0C = shade;
+                    monster->color.c.b = shade;
+                    monster->color.c.g = shade;
+                    monster->color.c.r = shade;
                 }
             } else {
                 apply_monster_koyaw_data(actor->unk_1C,
@@ -198,7 +179,7 @@ void update_monster_appearance_motion(void *entity_arg, void *motion_arg, void *
         }
     } else {
         new_flags = (monster_flags & 0x0800) ? (monster_flags & 0x8FFF) : (monster_flags | 0x7000);
-        ((S_8017103C_0 *)monster)->unk_14 = new_flags;
+        monster->flags = new_flags;
     }
 
 flags_done:
@@ -234,8 +215,8 @@ flags_done:
         if (actor->unk_1C & 0x40000000) {
             actor->unk_1C &= 0xBFFFFFFF;
             floor_height = sample_terrain_surface_height(
-                (((S_8017103C_0 *)monster)->unk_24 << 6) | 0x20,
-                (((S_8017103C_0 *)monster)->unk_25 << 6) | 0x20,
+                (monster->unk_24 << 6) | 0x20,
+                (monster->unk_25 << 6) | 0x20,
                 (s16)(actor->unk_88.u - 0x20));
             (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.s16_at_2.value) +=
                 actor->unk_88.u - floor_height;
@@ -246,6 +227,6 @@ flags_done:
     }
     motion->unk_0A =
         actor->unk_88.u + (((EntityArgFieldView_8102F83C *)entity_arg)->field_90.u16_at_2.value);
-    ((S_8017103C_0 *)monster)->unk_14 |= 0x40;
+    monster->flags |= 0x40;
 
 }

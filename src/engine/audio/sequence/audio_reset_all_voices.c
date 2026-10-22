@@ -68,7 +68,7 @@ void audio_reset_all_voices(void) {
         slot_flags = audio_voice_masks[slot];
         sound_reset_indexed_voice_envelope(slot);
         all_flags |= slot_flags;
-        set_spu_voice_keys(0, slot_flags);
+        SpuSetKey(0, slot_flags);
     }
 
     audio_reset_channel_control_alias.f0c = 0x7F;
@@ -81,5 +81,5 @@ void audio_reset_all_voices(void) {
     audio_reset_channel_control_alias.f08 = 0;
     audio_reset_channel_control_alias.f94 = 0;
     audio_reset_channel_control_alias.f50 = 0;
-    set_spu_voice_keys(0, all_flags);
+    SpuSetKey(0, all_flags);
 }

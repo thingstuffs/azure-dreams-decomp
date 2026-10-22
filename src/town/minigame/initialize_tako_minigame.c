@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
@@ -20,14 +21,6 @@ typedef struct S_800254A4_1 {
     u8 pad_00[0x18];
     s16 unk_18;
 } S_800254A4_1;   /* root in initialize_tako_minigame */
-
-typedef struct S_800254A4_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    u8 pad_0C[0x8];
-    s32 unk_14;
-} S_800254A4_2;   /* packet in initialize_tako_minigame */
 
 typedef struct S_800254A4_3 {
     u8 pad_00[0x4C];
@@ -103,13 +96,13 @@ s32 initialize_tako_minigame(void)
     u8 *parent_state = NULL;
     void * left_data[2] = { D_8002012C, D_80020134 };
     void * right_data[2] = { D_8002013C, D_80020140 };
-    void *object;
+    ObjectNodeHeader *object;
     S_800254A4_3 *child_state;
     S_800254A4_5 *left_state;
     S_800254A4_6 *right_state;
     S_800254A4_7 *final_state;
     SpriteFrameState *draw_state;
-    S_800254A4_2 *packet;
+    ObjectPosition *packet;
     void *value_ptr;
     void *row_data;
     void *child_callback;
@@ -133,7 +126,7 @@ s32 initialize_tako_minigame(void)
     object = allocate_flagged_object_node(2);
     if (object != NULL) {
         parent_state = (u8 *)object + 0x20;
-        ((S_800254A4_0 *)object)->unk_10 = D_80025BC8;
+        object->unk_10 = D_80025BC8;
         ((S_800254A4_1 *)parent_state)->unk_18 = rand() & 1;
     }
 
@@ -145,15 +138,15 @@ create_child:
     object = allocate_flagged_object_node(0x136);
     *child_slot = object;
     if (object != NULL) {
-        ((S_800254A4_0 *)object)->unk_10 = child_callback;
+        object->unk_10 = child_callback;
         register_node(object, project_sprite_chain);
         child_state = (u8 *)object + 0x20;
-        draw_state = ((S_800254A4_0 *)object)->unk_0C;
-        packet = ((S_800254A4_0 *)object)->unk_08;
-        packet->unk_00 = 0x05600000;
-        packet->unk_04 = (index << 0x16) + 0x03E00000;
-        packet->unk_08 = 0x00800000;
-        packet->unk_14 = 0xFFFC0000;
+        draw_state = object->sprite;
+        packet = object->position;
+        packet->x.v = 0x05600000;
+        packet->y.v = (index << 0x16) + 0x03E00000;
+        packet->z.v = 0x00800000;
+        packet->velocity_z = 0xFFFC0000;
         ((S_800254A4_0 *)object)->unk_20 = parent_state;
         child_state->unk_56 = index;
         draw_state->scale_y = 0x1000;
@@ -161,7 +154,7 @@ create_child:
         select_record_entry_and_value(draw_state, tako_minigame_sprites, 0);
         draw_state->color.word = 0x00808080;
         child_state->unk_4C = child_data;
-        configure_the_set_mode_n_1((u8 *)object + 0x24, ((S_800254A4_0 *)object)->unk_08, D_80026F50);
+        configure_the_set_mode_n_1((u8 *)object + 0x24, object->position, D_80026F50);
     }
     index--;
     child_slot--;
@@ -176,7 +169,7 @@ next_left:
     object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     left_state = (u8 *)object + 0x20;
     if (object != NULL) {
-        ((S_800254A4_0 *)object)->unk_10 = callback;
+        object->unk_10 = callback;
         register_node(object, D_80053858);
         left_state->unk_14 = 0x20;
         left_state->unk_18 = 3;
@@ -213,7 +206,7 @@ next_right:
     object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     right_state = (u8 *)object + 0x20;
     if (object != NULL) {
-        ((S_800254A4_0 *)object)->unk_10 = callback;
+        object->unk_10 = callback;
         register_node(object, D_80053858);
         right_state->unk_14 = 0x50;
         right_state->unk_18 = 3;
@@ -246,7 +239,7 @@ next_right_row:
 
     object = allocate_list_node(1, ((u8 *)(&scene_object_list_anchor)));
     if (object != NULL) {
-        ((S_800254A4_0 *)object)->unk_10 = D_80026C54;
+        object->unk_10 = D_80026C54;
         register_node(object, &display_registration_tag);
         final_color = 0x00404040;
         final_state = (u8 *)object + 0x20;

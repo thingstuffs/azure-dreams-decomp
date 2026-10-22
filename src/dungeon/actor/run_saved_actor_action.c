@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
+#include "dungeon/actor.h"
 
 struct Dst;
 struct Elem;

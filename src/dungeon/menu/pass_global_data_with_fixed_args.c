@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/menu.h"
 
 typedef struct {
     u32 words[2];

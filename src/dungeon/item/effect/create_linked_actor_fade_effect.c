@@ -1,4 +1,6 @@
 #include "common.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/slus_callbacks.h"
 
@@ -57,7 +59,7 @@ extern void register_node(EntityFields *, void *);
 void *create_linked_actor_fade_effect(EntityFields *source) {
     EntityFields *entity;
     CopyFields *source_fields;
-    CopyFields *entity_fields;
+    ObjectPosition *entity_fields;
     SpriteFrameState *config;
     TailFields *entity_tail;
     TailFields *source_tail;
@@ -72,9 +74,9 @@ void *create_linked_actor_fade_effect(EntityFields *source) {
 
         source_fields = source->field8;
         entity_fields = entity->field8;
-        entity_fields->field2 = source_fields->field2;
-        entity_fields->field6 = source_fields->field6;
-        entity_fields->fieldA = source_fields->fieldA;
+        entity_fields->x.w.i = source_fields->field2;
+        entity_fields->y.w.i = source_fields->field6;
+        entity_fields->z.w.i = source_fields->fieldA;
 
         config = entity->fieldC;
         config->tpage_abr = 0x20;

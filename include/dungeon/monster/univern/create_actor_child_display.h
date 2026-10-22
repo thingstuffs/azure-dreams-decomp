@@ -6,11 +6,6 @@
 
 typedef unsigned long uptr;
 
-typedef struct S_8014C89C_0 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8014C89C_0;   /* init_root in func_8014C89C */
-
 typedef struct S_8014C89C_1 {
     u8 pad_00[0x13];
     u8 unk_13;
@@ -70,11 +65,6 @@ typedef struct S_8014C89C_8 {
     void * unk_A4;
 } S_8014C89C_8;   /* slot_base in func_8014C89C */
 
-typedef struct S_8014C89C_9 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8014C89C_9;   /* child_root in func_8014C89C */
-
 extern s16 view_facing_angle_alias;
 
 extern void *allocate_list_node(s32, void *);
@@ -89,12 +79,9 @@ extern void select_sprite_entry(void *, s32, s32);
 extern void func_80047784(void *, s32, s32);
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots(void *, void *, s32);
 
-extern void process_effect_block_entries();
 extern void func_8014CBB8();
-extern void update_entity_movement_animation_and_ground();
 extern u8 D_80150494[];
 extern u8 D_801504FC[];
 
 void * create_actor_child_display(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfword);
-extern void * draw_sprite_effect_quads();
 #endif

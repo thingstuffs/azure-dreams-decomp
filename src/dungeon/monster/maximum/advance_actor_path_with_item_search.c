@@ -7,13 +7,6 @@
 #include "shared/dir_step.h"
 extern int abs(int);
 
-typedef struct S_801715F4_0 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x8];
-    void * unk_0C;
-} S_801715F4_0;   /* global in advance_actor_path_with_item_search */
-
 typedef struct S_801715F4_1 {
     u8 pad_00[0x12];
     u8 unk_12;
@@ -65,23 +58,12 @@ typedef struct S_801715F4_6 {
     u16 unk_0C;
 } S_801715F4_6;   /* monster_table + index * 0x14 in advance_actor_path_with_item_search */
 
-typedef struct S_801715F4_7 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-} S_801715F4_7;   /* held_origin in advance_actor_path_with_item_search */
-
 typedef struct S_801715F4_8 {
     u8 pad_00[0x98];
     u16 unk_98;
     u8 pad_9A[0x2];
     union { s8 s; u8 u; } unk_9C;   /* accessed as both */
 } S_801715F4_8;   /* arg0 in advance_actor_path_with_item_search */
-
-typedef struct S_801715F4_9 {
-    u8 pad_00[0x8];
-    u16 unk_08;
-} S_801715F4_9;   /* counter_state in advance_actor_path_with_item_search */
 
 typedef struct S_801715F4_10 {
     u8 pad_00[0x74];
@@ -97,10 +79,10 @@ extern s32 check_diagonal_side_height(s32, u8, u8, s16);
 extern s16 check_movement_clearance_and_height(s16, void *, void *, s32);
 extern s32 test_neighbor_position_relation(u8, u8, u8, u8);
 extern s16 get_actor_height_difference(void *, void *);
-extern void *find_valid_monster_neighbor(void *, u8, u8);
+extern void *find_adjacent_actor(void *, u8, u8);
 extern void *probe_directional_neighbor(void *, u8, u8, s16);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
-extern void rebuild_monster_reachable_tiles(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
+extern void select_actor_route_target(u8 *actor_held, s32 kind, u8 *work_p, u16 *out);
 extern void update_actor_proximity_flag(void *source, void *state, s32 lower_limit, s32 upper_limit, s8 *result);
 extern s32 generate_random_value(void);
 extern s16 find_nearest_floor_item_in_room(void *, s32, s16 *, s16 *);
@@ -155,7 +137,7 @@ void advance_actor_path_with_item_search(void *move_state, void *caller_context,
     flags = ((S_801715F4_1 *)actor_arg)->unk_1C;
     if (flags & 0x410) {
         if (flags & 0x400) {
-            angle = find_valid_monster_neighbor(actor_arg, ((S_801715F4_2 *)position_arg)->unk_24.at00.v,
+            angle = find_adjacent_actor(actor_arg, ((S_801715F4_2 *)position_arg)->unk_24.at00.v,
                                   ((S_801715F4_2 *)position_arg)->unk_24.at01.v);
             if (angle != 0) {
                 S_801715F4_4 *other = ((S_801715F4_3_pre *)angle)[-1].unk_00;
@@ -192,7 +174,7 @@ void advance_actor_path_with_item_search(void *move_state, void *caller_context,
         turn_index = 0;
         if (!(((S_801715F4_1 *)actor_arg)->unk_46 & 0x8000)) {
             if (!(flags & 0x20000)) {
-                rebuild_monster_reachable_tiles(position_arg, ((S_801715F4_8 *)move_state)->unk_9C.s, actor_arg,
+                select_actor_route_target(position_arg, ((S_801715F4_8 *)move_state)->unk_9C.s, actor_arg,
                               (u8 *)move_state + 0x98);
             } else {
                 {
@@ -299,7 +281,7 @@ void advance_actor_path_with_item_search(void *move_state, void *caller_context,
                 }
             } else {
                 if (turn_index == 0) {
-                    rebuild_monster_reachable_tiles(position_arg, ((S_801715F4_8 *)move_state)->unk_9C.s, actor_arg,
+                    select_actor_route_target(position_arg, ((S_801715F4_8 *)move_state)->unk_9C.s, actor_arg,
                   (u8 *)move_state + 0x98);
                 } else {
                     dx = ((S_801715F4_2 *)position_arg)->unk_24.at00.v;
@@ -319,7 +301,7 @@ void advance_actor_path_with_item_search(void *move_state, void *caller_context,
     }
     goto loop_setup;
 call_obstacle:
-    rebuild_monster_reachable_tiles(position_arg, ((S_801715F4_8 *)move_state)->unk_9C.s, actor_arg,
+    select_actor_route_target(position_arg, ((S_801715F4_8 *)move_state)->unk_9C.s, actor_arg,
                   (u8 *)move_state + 0x98);
 
 loop_setup:
@@ -375,7 +357,7 @@ loop_setup:
         }
 
         if (turn_index == 0) {
-            if (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != ((S_801715F4_2 *)position_arg)->unk_24.at00u.v) {
+            if (reference_tile_object.tile_position.word != ((S_801715F4_2 *)position_arg)->unk_24.at00u.v) {
                 if ((s16)check_entity_relation(
                         actor_arg,
                         (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {

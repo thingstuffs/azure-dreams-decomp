@@ -14,20 +14,10 @@
 
 #include "slus/gp_shared_81510.h"
 
-typedef struct S_80174B20_13 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80174B20_13;
-
 typedef struct S_80174B20_14 {
     u8 pad_00[0x60];
     void * unk_60;
 } S_80174B20_14;   /* arg3 in advance_actor_replacement_sequence */
-
-typedef struct S_80174B20_15 {
-    s32 unk_00;
-    s32 unk_04;
-} S_80174B20_15;
 
 typedef struct S_80174B20_16 {
     u8 pad_00[0x2A];
@@ -62,13 +52,6 @@ typedef struct S_80174B20_4 {
     u8 unk_01;
     u8 unk_02;
 } S_80174B20_4;
-
-typedef struct S_80174B20_5 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80174B20_5;
 
 typedef struct S_80174B20_7 {
     u8 pad_00[0x14A0];
@@ -139,7 +122,7 @@ extern s32 D_80175220;
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */
 /* Loads Kid's transition effects, fades the view tint and emits seven rotated sprites, then replaces the
  * actor and restores facing. */
-void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
+void advance_actor_replacement_sequence(void *state, EntityRec *position, SpriteFrameState *entity, void *actor) {
     s32 tint;
     S_80174B20_7 *globals_base;
     s32 global_flags;
@@ -161,7 +144,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
     S_80174B20_8 *effect_position;
     GameWork *scene_color;
     S_80174B20_9 *sprite;
-    S_80174B20_5 *effect;
+    ObjectNodeHeader *effect;
     void *new_actor;
     void *replacement;
 
@@ -226,13 +209,13 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         register_node(effect, &update_actor_state_after_map_check);
         tint = 0x808080;
         ((Rec_func_80174800_arg0 *)state)->unk_AC = effect;
-        ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
-        ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
-        effect_position = effect->unk_08;
+        effect->position->x.v = (s32) position->x.v;
+        effect->position->y.v = (s32) position->y.v;
+        effect_position = effect->position;
         position_z = position->z.v;
         D_80175218 = -4;
         effect_position->unk_08 = position_z;
-        sprite = effect->unk_0C;
+        sprite = effect->sprite;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         sprite->unk_0C.s = tint;
@@ -243,7 +226,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
             style = random_value % 3;
         }
         select_record_entry_and_value(sprite, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
-        ((SpriteFrameState *)entity)->flags = (u16) (((SpriteFrameState *)entity)->flags | 0x80);
+        entity->flags = (u16) (entity->flags | 0x80);
         ray_index = 1;
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
@@ -260,7 +243,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
             ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
             ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
             decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
-            update_map_cell_flags_with_item_limit(((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25, 0x300);
+            update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
             unlink_entity_node(actor);
             sprite = actor - 0x20;
             sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
@@ -275,7 +258,7 @@ void advance_actor_replacement_sequence(void *state, EntityRec *position, Rec_D_
         ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         decrement_monster_entry_count(((S_80174B20_1 *)actor)->unk_13, 3);
-        update_map_cell_flags_with_item_limit(((SpriteFrameState *)entity)->unk_24, ((SpriteFrameState *)entity)->unk_25, 0x300);
+        update_map_cell_flags_with_item_limit(entity->unk_24, entity->unk_25, 0x300);
         unlink_entity_node(actor);
         sprite = actor - 0x20;
         sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);

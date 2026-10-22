@@ -1,8 +1,14 @@
+
+struct ObjectPosition;
 /* One native TU; source order follows the complete ledger cohort. */
 #include "dungeon/effect/screen/menu.h"
 #include "shared/gpu_packets.h"
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/effect/screen.h"
+#include "dungeon/level.h"
+#include "dungeon/menu.h"
+#include "dungeon/player.h"
 
 
 
@@ -1421,7 +1427,7 @@ extern s32 register_node();
 extern s32 draw_linked_sprites_clipped();
 extern void update_familiar_selection_marker(void *state, void *position_arg, void *marker_arg);
 extern void select_record_entry_and_value();
-extern s32 select_nearby_target_and_initialize_slot();
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Creates and initializes a display object attached to the entity. */
 void *create_familiar_selection_marker(EntityHdr **entity_ref) {
@@ -1541,12 +1547,11 @@ typedef struct GlobalObj {
 extern s32 func_800644B8(s32, ...);
 extern s32 func_80064584(s32, ...);
 extern s32 get_special_table_data_index();
-extern s32 dispatch_dungeon_category_action();
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
 extern void advance_sprite_animation_and_textures();
 extern void append_packed_action_record();
-extern s32 select_nearby_target_and_initialize_slot();
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Updates entity selection, interpolates its position, and animates the rendered output. */
 void update_item_target_marker(Work *work, Out *out, Render *render_arg)
@@ -1817,7 +1822,7 @@ typedef struct D_80083780_t {
 
 extern s32 has_enough_available_runtime_nodes(s32);
 extern s32 register_node();
-extern s32 select_nearby_target_and_initialize_slot();
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 extern s32 lookup_item_category_mapped_value(u8, u8);
 extern void select_record_entry_and_value();
 extern void *func_800BA110();
@@ -1827,7 +1832,6 @@ extern void func_800BA2A0(void);
 extern void func_800BA308(void);
 struct S_800BA33C_0;
 extern s32 is_selectable_menu_target(struct S_800BA33C_0 *object);
-extern void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
 extern void build_owned_floating_number_widget(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags);
 
 extern s32 draw_linked_sprites_clipped();
@@ -3043,7 +3047,6 @@ extern s32 func_800644B8(s32, ...);
 extern s32 func_80064584(s32, ...);
 s16 calculate_planar_heading();
 extern s32 play_sound_if_enabled();
-void draw_content_or_rect();
 extern void * create_orbiting_color_particle(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48);
 
 typedef struct DungeonWork {
@@ -3244,8 +3247,7 @@ extern void select_record_entry_and_value();
 extern void * allocate_list_node();
 extern s32 register_node();
 extern s32 play_sound_if_enabled();
-void draw_content_or_rect(); /* extern */
-extern s32 select_nearby_target_and_initialize_slot();
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 struct S_800BB55C_2;
 extern void update_five_point_effect(void *effect, struct S_800BB55C_2 *position, s32 restore_link);
 extern s32 process_linked_menu_effect(u8 *buffer, s32 value, void *data);
@@ -3770,7 +3772,6 @@ typedef struct S_800BC26C_1 {
 extern void * allocate_list_node();
 extern s32 register_node();
 extern void retire_effect_when_owner_or_value_ends(void *context);
-extern s32 traverse_nodes_and_render_unflagged();
 
 /* Creates an object and initializes its owner, parameter, and mode-dependent fields. */
 void *create_tracked_effect(s32 owner, s16 mode, s32 param)

@@ -38,7 +38,7 @@ void initialize_settings_screen(void);
 void load_indexed(void *entry);
 
 /* load_signed_state.c */
-void func_7FDD3F8C(struct ColorEffect *effect);
+void update_settings_color_cycle(struct ColorEffect *effect);
 
 /* load_table.c */
 void load_table(struct MainTitleValueEntry *entry);

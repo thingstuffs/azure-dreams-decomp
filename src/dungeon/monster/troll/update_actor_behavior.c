@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -8,22 +9,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "shared/entity.h"
-
-
-typedef struct S_801724BC_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    s8 unk_26;
-    u8 pad_27[0x5];
-    s32 * unk_2C;
-} S_801724BC_2;   /* arg2 in update_actor_behavior */
-
+#include "dungeon/monster/troll.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void select_sprite_entry();         /* extern */
@@ -41,12 +27,9 @@ s32 reset_actor_action_state(); /* extern */
 s32 process_selected_actor_record(); /* extern */
 void begin_actor_spell_action(); /* extern */
 void advance_actor_stored_path_2(void *movement, s32 actor_index, void *actor, void *path_state);                            /* extern */
-void select_and_advance_actor_move(); /* extern */
-s32 check_and_prepare_actor_move(); /* extern */
-void prepare_actor_path_movement(); /* extern */
 s32 func_80173EAC(); /* extern */
 void update_directional_action_display(); /* extern */
-void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *state);
+void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, ActorRecord *state);
 extern M2C_UNK D_80175DF4;
 extern M2C_UNK D_80175DFC;
 extern M2C_UNK D_80175E04;
@@ -66,7 +49,7 @@ extern M2C_UNK D_80175E94;
 /* Updates actor animation, facing, and actions from its dungeon state. */
 /* Selects Troll's movement, attacks, spells, and turn processing using separate sprite tables for item
  * kinds 13 through 15. */
-void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *state) {
+void update_actor_behavior(void *actor, s32 context, SpriteFrameState *sprite, ActorRecord *state) {
     s32 path_info;
     u8 *next_row;
     s32 *current_row;
@@ -94,24 +77,24 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
         anim_mode = state->unk_48;
         switch (anim_mode) {
         case 0xD:
-            if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E54) {
+            if (*(s32 **)&sprite->frameTable == &D_80175E54) {
                 return;
             }
-            (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E84;
+            (sprite->frameTable) = &D_80175E84;
             select_sprite_entry(sprite, ((u8 *)&D_80175E84)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         case 0xE:
-            if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E5C) {
+            if (*(s32 **)&sprite->frameTable == &D_80175E5C) {
                 return;
             }
-            (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E8C;
+            (sprite->frameTable) = &D_80175E8C;
             select_sprite_entry(sprite, ((u8 *)&D_80175E8C)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         case 0xF:
-            if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E64) {
+            if (*(s32 **)&sprite->frameTable == &D_80175E64) {
                 return;
             }
-            (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E94;
+            (sprite->frameTable) = &D_80175E94;
             select_sprite_entry(sprite, ((u8 *)&D_80175E94)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
             return;
         }
@@ -121,7 +104,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
         transition_mode = state->unk_48;
         switch (transition_mode) {
         case 0xD:
-            if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E54) {
+            if (*(s32 **)&sprite->frameTable == &D_80175E54) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = transition_mode;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
@@ -133,7 +116,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
             }
             break;
         case 0xE:
-            if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E5C) {
+            if (*(s32 **)&sprite->frameTable == &D_80175E5C) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xDU;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
@@ -145,7 +128,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
             }
             break;
         case 0xF:
-            if (((S_801724BC_2 *)sprite)->unk_2C == &D_80175E64) {
+            if (*(s32 **)&sprite->frameTable == &D_80175E64) {
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xDU;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = 1;
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
@@ -170,22 +153,22 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
             idle_mode = state->unk_48;
             switch (idle_mode) {
             case 0xD:
-                if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E24) {
-                    (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E24;
+                if (*(s32 **)&sprite->frameTable != &D_80175E24) {
+                    (sprite->frameTable) = &D_80175E24;
                     select_sprite_entry(sprite, ((u8 *)&D_80175E24)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
             case 0xE:
-                if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E2C) {
-                    (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E2C;
+                if (*(s32 **)&sprite->frameTable != &D_80175E2C) {
+                    (sprite->frameTable) = &D_80175E2C;
                     select_sprite_entry(sprite, ((u8 *)&D_80175E2C)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
                 break;
             case 0xF:
-                if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E34) {
-                    (*(s32 **)((u8 *)sprite + 0x2C)) = &D_80175E34;
+                if (*(s32 **)&sprite->frameTable != &D_80175E34) {
+                    (sprite->frameTable) = &D_80175E34;
                     select_sprite_entry(sprite, ((u8 *)&D_80175E34)[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100)
                         >> 9) & 7], 0);
                 }
@@ -223,14 +206,14 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
             process_selected_actor_record(actor, context, sprite, state);
         }
     }
-    room_id = find_active_rect_containing_point(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v);
-    ((S_801724BC_2 *)sprite)->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = room_id;
     if (state->pending_turn_updates > 0) {
         if (state->flags1C & 0x20) {
             update_actor_status_and_mp(state);
             return;
         }
-        if (((S_801724BC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
             select_and_advance_actor_move(actor, context, sprite, state);
             return;
         }
@@ -266,7 +249,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
         case 6:
         case 7:
         {
-            heading = get_rounded_facing_and_rounding_flag(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+            heading = get_rounded_facing_and_rounding_flag(sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &path_info);
         }
             player = primary_actor_record;
@@ -303,30 +286,30 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
             return;
         }
     } else {
-        if ((test_neighbor_position_relation(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+        if ((test_neighbor_position_relation(sprite->unk_24, sprite->unk_25,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 0x10) != 0) {
-            state->facing = get_rounded_facing_and_rounding_flag(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+            state->facing = get_rounded_facing_and_rounding_flag(sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &path_info);
         }
         if (g_dungeon_status.flags & 0x2000) {
             return;
         }
     }
-    if (((S_801724BC_2 *)sprite)->unk_14 & 0x40) {
+    if (sprite->flags & 0x40) {
         return;
     }
     rest_mode = state->unk_48;
     switch (rest_mode) {
     case 0xD:
-        current_row = ((S_801724BC_2 *)sprite)->unk_2C;
+        current_row = *(s32 **)&sprite->frameTable;
         next_row = (u8 *)&D_80175E24;
         break;
     case 0xE:
-        current_row = ((S_801724BC_2 *)sprite)->unk_2C;
+        current_row = *(s32 **)&sprite->frameTable;
         next_row = (u8 *)&D_80175E2C;
         break;
     case 0xF:
-        current_row = ((S_801724BC_2 *)sprite)->unk_2C;
+        current_row = *(s32 **)&sprite->frameTable;
         next_row = (u8 *)&D_80175E34;
         break;
     default:
@@ -335,7 +318,7 @@ void update_actor_behavior(void *actor, s32 context, void *sprite, ActorRecord *
     if (current_row == next_row) {
         return;
     }
-    (*(s32 **)((u8 *)sprite + 0x2C)) = next_row;
+    (sprite->frameTable) = next_row;
     select_sprite_entry(sprite, *(u8 *)((unsigned long)(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7)
         + (unsigned long)next_row), 0);
     return;

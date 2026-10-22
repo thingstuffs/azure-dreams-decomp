@@ -173,14 +173,14 @@ typedef struct ovl_1831370_81811C20_S_80026C20_1 {
 } ovl_1831370_81811C20_S_80026C20_1;
 #define M2C_FIELD(expr, type_ptr, offset)  (*(type_ptr)((s8 *)(expr) + (offset)))
 extern s32 advance_index_with_single_wrap(s32 target, s32 input_value, s32 count);
-extern u8 D_800294F8[9];
+extern u8 text_editor_pair_limits[9];
 s32 func_8004DC14();
 extern s16 SD_Call(s32);
 extern s32 memset();
 extern void write_char_pair();
 extern void func_8004EAC4();
 extern void strcpy(s32, s32);
-extern s32 D_800294FC;
+extern s32 text_editor_packet_payload;
 S_800491F4 *build_reverse_indexed_chain(S_800491F4 **, u8 *, s32);
 extern u8 menu_selection_chain_indices[5];
 extern ovl_1831370_818117D8_S_8002E5D8 display_block_defaults;
@@ -195,7 +195,7 @@ extern int draw_tinted_node_sprites_scratch(void *object, int unused, void *data
 extern int func_8004CAA0(void *object, int unused, void *data);
 void flag_optional_object_for_removal();
 extern int D_800814A0;
-extern u8 D_80029510[12];
+extern u8 text_editor_empty_pair[12];
 void set_indexed_object_field(ovl_1831370_81811370_S_80026370_0 *object, s32 index);
 s32 adjust_selection_by_item_count(s32 input_value, s32 target, s32 lookup_index);
 void inventory_set_object_entry_address(ovl_1831370_818113C0_S_800263C0_0 *object, M2C_UNK source);
@@ -203,7 +203,6 @@ void update_menu_selection_from_input(ovl_1831370_8181140C_MenuState *menu);
 void update_embedded_state_from_table(s32 object_addr);
 void clear_object_buffer_and_state(s32 objectAddress);
 void write_text_and_advance_selection(s32 objectAddress, s32 updateValue);
-void copy_string_to_object_buffer(s8 *object, s32 sourceString);
 void apply_step_and_reset_after_five(s32 *step);
 void *initialize_variant_packet(ovl_1831370_81811708_Packet *packet, s32 variant);
 void set_descriptor_fields_and_flag(void *descriptor);

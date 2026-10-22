@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F43F800_P08_H
 #define DUNGEON_OVL_7F43F800_P08_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -57,15 +58,6 @@ typedef struct T_801748D0_S_801748D0_6_pre {
     u8 pad_04[0x14];
 } T_801748D0_S_801748D0_6_pre;   /* the 0x18 bytes before body_link in func_801748D0, addressed as body_link[-1] */
 
-typedef struct T_801748D0_S_801748D0_9 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} T_801748D0_S_801748D0_9;   /* anchor in func_801748D0 */
-
 typedef struct T_801748D0_S_801748D0_10 {
     u8 pad_00[0xC];
     void * unk_0C;
@@ -110,8 +102,7 @@ extern u8 D_80174EC8;
 extern s8 view_direction_depth_biases[];
 extern u8 D_80174E88[];
 extern u8 D_80174ED0[];
-void start_directional_action_and_record_tile(void *action_state, void *action_context, void *sprite, ActorRecord *actor);
-void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *position, void *source_mesh, ActorRecord *actor);
-extern void update_effect_visuals_and_lifetime();
+void start_directional_action_and_record_tile(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void advance_timed_actor_visual_effect(void *effect_state, ObjectPosition *position, SpriteFrameState *source_mesh, ActorRecord *actor);
 extern void update_actor_behavior_and_direction();
 #endif

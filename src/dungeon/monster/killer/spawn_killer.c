@@ -1,15 +1,11 @@
 #include "common.h"
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80FDB000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80FDB000_0;   /* created in spawn_killer */
+
 
 typedef struct S_80FDB000_1 {
     u8 pad_00[0x13];
@@ -18,11 +14,6 @@ typedef struct S_80FDB000_1 {
     u8 pad_18[0x4];
     u32 unk_1C;
 } S_80FDB000_1;   /* result in spawn_killer */
-
-typedef struct S_80FDB000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80FDB000_2;   /* position in spawn_killer */
 
 typedef struct S_80FDB000_4 {
     u8 pad_00[0x8C];
@@ -42,7 +33,7 @@ extern void try_move_actor_to_valid_position();
 
 extern u8 D_80170A7C[];
 extern u8 D_80170EA8[];
-extern u8 D_80174038[];
+#include "dungeon/monster/killer.h"
 extern u8 D_80174088[];
 extern void *spawn_killer(s16, s32, s32, s32);
 extern u8 D_801712B8[];
@@ -68,8 +59,8 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 {
     void *result = 0;
-    void *created;
-    void *position;
+    ObjectNodeHeader *created;
+    ObjectPosition *position;
     SpriteFrameState *part_b;
     S_80FDB000_4 *actor;
     s32 left;
@@ -89,17 +80,17 @@ void *spawn_killer(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     original_flags = flags;
     if (created != 0) {
         result = (u8 *)created + 0x20;
-        ((S_80FDB000_0 *)created)->unk_10 = D_80170A7C;
+        created->unk_10 = D_80170A7C;
         ((S_80FDB000_1 *)result)->unk_13 = MONSTER_KILLER;
         register_node(created, project_sprite_chain);
 
-        position = ((S_80FDB000_0 *)created)->unk_08;
-        ((S_80FDB000_2 *)position)->unk_0A = saved_spawn;
-        part_b = ((S_80FDB000_0 *)created)->unk_0C;
+        position = created->position;
+        position->z.w.i = saved_spawn;
+        part_b = created->sprite;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = result;
-        part_b->frameTable = D_80174038;
+        part_b->frameTable = killer_direction_frames;
         part_b->unk_24 = saved_kind_id;
 
         if (kind == 1) {

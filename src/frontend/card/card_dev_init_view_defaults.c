@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/menu_default_words.h"
 #include "frontend/card.h"
 
 typedef struct S_8001B974_3 {
@@ -17,11 +18,11 @@ typedef struct S_8001B974_4 {
 
 
 
-extern s32 D_8002D690[];
+
 extern s32 D_8002D694[];
 extern s32 D_8002D698[];
 extern s32 D_8002D69C[];
-extern s32 D_8002D6A0[];
+
 extern s32 D_8002D6A4[];
 extern s32 D_8002D6A8[];
 
@@ -47,8 +48,8 @@ typedef struct S_8001B974_2 {
 /* Initialize the state with default configuration blocks and fixed main settings. */
 void card_dev_init_view_defaults(S_8001B974_2 *state, S_8001B974_0 *main_config, S_8001B974_1 *aux_config) {
     s32 aux_default;
-    main_config->unk_00 = D_8002D690[0];
-    aux_default = D_8002D6A0[0];
+    main_config->unk_00 = menu_primitive_defaults[0];
+    aux_default = menu_settings_defaults[0];
     main_config->unk_04 = D_8002D694[0];
     main_config->unk_08 = D_8002D698[0];
     main_config->unk_0C = D_8002D69C[0];

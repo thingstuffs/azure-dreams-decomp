@@ -34,14 +34,14 @@ struct Func8003800CState {
 extern u8 D_800809C4[];
 extern u8 message_window_audio_sync_data[];
 
-extern s32 func_80043FB8(void *, ...);
+extern s32 return_zero_variadic(void *, ...);
 
 /* Synchronize changed data, consume the pending value, and run the state callback. */
 void sync_message_window_data(Func8003800CState *state)
 {
-    func_80043FB8(D_800809C4);
-    func_80043FB8(message_window_audio_sync_data, read_sound_mode_blocking_status(4));
-    func_80043FB8(D_800809C4);
+    return_zero_variadic(D_800809C4);
+    return_zero_variadic(message_window_audio_sync_data, read_sound_mode_blocking_status(4));
+    return_zero_variadic(D_800809C4);
 
     {
         Func8003800CData *data = state->field80;

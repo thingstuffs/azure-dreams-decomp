@@ -58,15 +58,6 @@ typedef struct Row_818A4A64_S_818A4A64_2 {
     u16 unk_0A;
 } Row_818A4A64_S_818A4A64_2;   /* arg1 in func_80024264 */
 
-typedef struct Row_818A4A64_S_818A4A64_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} Row_818A4A64_S_818A4A64_3;   /* temp_v1 in func_80024264 */
-
 /* Creates an object, initializes its rendering state, and copies its position. */
 /* extern */
                       /* extern */
@@ -131,15 +122,6 @@ typedef struct Row_818A4CA0_S_818A4CA0_2 {
     u16 unk_0A;
 } Row_818A4CA0_S_818A4CA0_2;   /* arg1 in func_800244A0 */
 
-typedef struct Row_818A4CA0_S_818A4CA0_4 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} Row_818A4CA0_S_818A4CA0_4;   /* temp_s3 in func_800244A0 */
-
 /* Create a sprite effect at a random offset from the supplied position. */
 typedef struct Row_818A4E74_S_func_818A4E74_0 {
     u8 pad_00[0x14];
@@ -163,15 +145,6 @@ typedef struct Row_818A4ED0_S_818A4ED0_0 {
     u8 pad_14[0xC];
     s32 unk_20;
 } Row_818A4ED0_S_818A4ED0_0;   /* temp_v0 in func_800246D0 */
-
-typedef struct Row_818A4ED0_S_818A4ED0_2 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} Row_818A4ED0_S_818A4ED0_2;   /* temp_s0_2 in func_800246D0 */
 
 typedef struct Row_818A4ED0_S_818A4ED0_3 {
     u8 pad_00[0x2];
@@ -201,7 +174,7 @@ extern M2C_UNK D_800DECF8;
 extern u8 D_80025214[];
 void func_80024028(void *target, s32 effect_param);
 void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_ref, s32 unused,
-                   Row_818A48C4_Func818A48C4Object *target);
+                   SpriteFrameState *target);
 void *create_coordinate_sprite_effect(s32 user_data, Row_818A4948_S_func_818A4948_2 *source_coords);
 void advance_counted_sprite_animation(void **object_ref, long long value);
 void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);

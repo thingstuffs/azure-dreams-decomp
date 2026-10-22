@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 extern void advance_sprite_animation_and_textures(void *work);
@@ -8,10 +9,10 @@ void tick_object_motion_and_expire(void *object_data, void *motion_data, void *w
 {
     s32 *motion = motion_data;
     u8 *object = object_data;
-    u8 *work = work_data;
+    SpriteFrameState *work= work_data;
     s16 timer;
 
-    *(s32 *)(work + 0xC) -= *(s32 *)(object + 0xA4);
+    work->color.word -= *(s32 *)(object + 0xA4);
     motion[0] += motion[3];
     motion[1] += motion[4];
     motion[2] += motion[5];

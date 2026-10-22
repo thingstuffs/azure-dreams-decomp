@@ -1,8 +1,9 @@
 #include "common.h"
+#include "frontend/card/menu_defaults.h"
 #include "frontend/card.h"
 
-extern s32 D_8002D690[4];
-extern s32 D_8002D6A0[3];
+
+
 extern s32 D_8002D6A4[3];
 extern s32 D_8002D6A8[3];
 
@@ -18,7 +19,7 @@ void card_background_init_entry_tables(void *object, s32 entry_count) {
 
     entry_index = 0;
     if (entry_count > 0) {
-        defaults = D_8002D690;
+        defaults = menu_primitive_defaults;
         shared_data = (u8 *) object + 0x204;
         data_offset = 0x294;
         do {
@@ -35,7 +36,7 @@ void card_background_init_entry_tables(void *object, s32 entry_count) {
             entry_index += 1;
         } while (entry_index < entry_count);
     }
-    *(s32 *) ((u8 *) object + 0x204) = D_8002D6A0[0];
+    *(s32 *) ((u8 *) object + 0x204) = menu_settings_defaults[0];
     *(s32 *) ((u8 *) object + 0x208) = D_8002D6A4[0];
     *(s32 *) ((u8 *) object + 0x20C) = D_8002D6A8[0];
 }

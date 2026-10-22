@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+#include "shared/entity.h"
 #include "m2c_compat.h"
 #include "shared/object_links.h"
 extern int abs(int);
@@ -34,14 +35,6 @@ typedef struct S_8080C650_1 {
     s16 unk_36;
 } S_8080C650_1;   /* sequence in update_sequenced_object */
 
-typedef struct S_8080C650_2 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} S_8080C650_2;   /* motion in update_sequenced_object */
 
 typedef struct S_8080C650_3 {
     u8 pad_00[0xC];
@@ -99,7 +92,7 @@ extern s32 D_8029070C[3];
 extern u8 D_80529080[12];
 extern s16 D_80530658[];
 /* Advances the object's motion sequence, switches animations, spawns effects, and handles its exit. */
-void update_sequenced_object(void *in0, void *motion, void *in2) {
+void update_sequenced_object(void *in0, ObjectPosition *motion, void *in2) {
     s16 *count_cursor;
     s16 raw_s1;
     s32 slot_count;
@@ -151,8 +144,8 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
     } else {
         func_80245C10(motion);
     }
-    if (((S_8080C650_2 *)motion)->unk_08.at02.v >= ((s32)floor_height_or_spawned_object)) {
-        ((S_8080C650_2 *)motion)->unk_08.at02.v = (s32)floor_height_or_spawned_object;
+    if (motion->z.w.i >= ((s32)floor_height_or_spawned_object)) {
+        motion->z.w.i = (s32)floor_height_or_spawned_object;
         func_8003EA54(primitive);
     } else {
         func_8003EA54(primitive);
@@ -160,27 +153,27 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
     phase = ((S_8080C650_0 *)in0)->unk_68.s;
     switch (phase) {
     case 0:
-        ((S_8080C650_2 *)motion)->unk_00 = 0x03A00000;
-        ((S_8080C650_2 *)motion)->unk_04 = 0x01E00000;
-        ((S_8080C650_2 *)motion)->unk_08.at02.v = func_8025E01C(motion);
+        motion->x.v = 0x03A00000;
+        motion->y.v = 0x01E00000;
+        motion->z.w.i = func_8025E01C(motion);
         ((S_8080C650_0 *)in0)->unk_6C = 0x40U;
         ((S_8080C650_0 *)in0)->unk_15 = 0;
         ((S_8080C650_0 *)in0)->unk_68.s = 1;
     case 1:
         if (((S_8080C650_3 *)primitive)->unk_14 & 0x6000) {
-            ((S_8080C650_2 *)motion)->unk_10 = 0x80000;
+            motion->velocity_y = 0x80000;
             animation_descriptor = (s32)D_802892EC;
         }
         if (((S_8080C650_0 *)in0)->unk_A8 & 1) {
             orbit_ticks = ((S_8080C650_0 *)in0)->unk_6C - 1;
             ((S_8080C650_0 *)in0)->unk_6C = orbit_ticks;
             if ((s16) orbit_ticks >= 0) {
-                ((S_8080C650_2 *)motion)->unk_00 = (s32) ((func_8006A3A4((s16) orbit_ticks << 7) << 7) + 0x03A00000);
+                motion->x.v = (s32) ((func_8006A3A4((s16) orbit_ticks << 7) << 7) + 0x03A00000);
             }
         }
-        if (((S_8080C650_2 *)motion)->unk_04 > 0x0477FFFF) {
+        if (motion->y.v > 0x0477FFFF) {
             ((S_8080C650_3 *)primitive)->unk_14 = (u16) (((S_8080C650_3 *)primitive)->unk_14 | 1);
-            ((S_8080C650_2 *)motion)->unk_0C = 0x80000;
+            motion->velocity_x = 0x80000;
             animation_descriptor = (s32)D_80289334;
             ((S_8080C650_0 *)in0)->unk_68.s = 2;
         }
@@ -192,10 +185,10 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
         if (((S_8080C650_3 *)primitive)->unk_14 & 0x6000) {
             animation_descriptor = (s32)D_802893C4;
         }
-        if (((S_8080C650_2 *)motion)->unk_04 > 0x048FFFFF) {
+        if (motion->y.v > 0x048FFFFF) {
             tmpx = 3;
             animation_descriptor = (s32)D_8028937C;
-            ((S_8080C650_2 *)motion)->unk_10 = 0;
+            motion->velocity_y = 0;
             ((S_8080C650_0 *)in0)->unk_68.s = tmpx;
         }
         break;
@@ -203,20 +196,20 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
         if (((S_8080C650_3 *)primitive)->unk_14 & 0x6000) {
             animation_descriptor = (s32)D_802893C4;
         }
-        if (((S_8080C650_2 *)motion)->unk_00 > 0x03DFFFFF) {
-            ((S_8080C650_2 *)motion)->unk_14 = -0x100000;
+        if (motion->x.v > 0x03DFFFFF) {
+            motion->velocity_z = -0x100000;
             animation_descriptor = (s32)D_80289454;
             ((S_8080C650_0 *)in0)->unk_68.s = 4;
         }
         break;
     case 4:
-        x_before_acceleration = ((S_8080C650_2 *)motion)->unk_00;
+        x_before_acceleration = motion->x.v;
         state4_a1 = 0x48000;
-        state4_v0 = ((S_8080C650_2 *)motion)->unk_14 + state4_a1;
-        ((S_8080C650_2 *)motion)->unk_14 = state4_v0;
+        state4_v0 = motion->velocity_z + state4_a1;
+        motion->velocity_z = state4_v0;
         if (x_before_acceleration > 0x041FFFFF) {
-            ((S_8080C650_2 *)motion)->unk_14 = 0;
-            ((S_8080C650_2 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_x = 0;
             ((S_8080C650_0 *)in0)->unk_15 = 1;
             ((S_8080C650_0 *)in0)->unk_68.s = 5;
         }
@@ -230,30 +223,30 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
         }
         break;
     case 6:
-        ((S_8080C650_2 *)motion)->unk_0C = (s32) ((s32) (town_motion_state[0] - ((S_8080C650_2 *)motion)->unk_00) >> 1);
-        ((S_8080C650_2 *)motion)->unk_10 = (s32) ((s32) (D_80132AEC[0] - ((S_8080C650_2 *)motion)->unk_04) >> 1);
+        motion->velocity_x = (s32) ((s32) (town_motion_state[0] - motion->x.v) >> 1);
+        motion->velocity_y = (s32) ((s32) (D_80132AEC[0] - motion->y.v) >> 1);
         state6_v0 = D_80132AF0[0] + D_8029070C[0];
-        state6_v1 = ((S_8080C650_2 *)motion)->unk_08.at00.v + 0x80000;
+        state6_v1 = motion->z.v + 0x80000;
         state6_v0 -= state6_v1;
-        ((S_8080C650_2 *)motion)->unk_14 = state6_v0 >> 1;
+        motion->velocity_z = state6_v0 >> 1;
         func_80245C10(motion);
         global_s5[0] = (s32)D_80243200;
         approach_ticks = ((S_8080C650_0 *)in0)->unk_6C - 1;
         ((S_8080C650_0 *)in0)->unk_6C = approach_ticks;
         if ((approach_ticks << 0x10) <= 0) {
             global_s5[0] = (s32)D_80243200;
-            ((S_8080C650_2 *)motion)->unk_14 = 0;
-            ((S_8080C650_2 *)motion)->unk_10 = 0;
-            ((S_8080C650_2 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             ((S_8080C650_0 *)in0)->unk_68.s = 7;
         }
         break;
     case 7:
     case 8:
     case 9:
-        ((S_8080C650_2 *)motion)->unk_00 = (s32) town_motion_state[0];
-        ((S_8080C650_2 *)motion)->unk_04 = (s32) D_80132AEC[0];
-        ((S_8080C650_2 *)motion)->unk_08.at00.v = (s32) (D_80132AF0[0] + D_8029070C[0] + 0xFFF80000);
+        motion->x.v = (s32) town_motion_state[0];
+        motion->y.v = (s32) D_80132AEC[0];
+        motion->z.v = (s32) (D_80132AF0[0] + D_8029070C[0] + 0xFFF80000);
         global_s7 += 4;
         if (*global_s7 & 0x20) {
             if (D_80132AF2[0] == 0) {
@@ -263,7 +256,7 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
                     ((S_8080C650_1 *)sequence)->unk_00 = tmpx;
                 } else {
                     global_s5[0] = (s32)D_802434B0;
-                    ((S_8080C650_2 *)motion)->unk_14 = 0x100000;
+                    motion->velocity_z = 0x100000;
                 }
             } else {
                 global_s5[0] = (s32)D_80243200;
@@ -279,40 +272,40 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
     case 10:
         velocity_component = (s32) (((s32) ((S_8080C650_1 *)sequence)->unk_00
             >> 0xC) * func_8006A3A4(((S_8080C650_1 *)sequence)->unk_2C));
-        ((S_8080C650_2 *)motion)->unk_0C = velocity_component;
+        motion->velocity_x = velocity_component;
         velocity_component = ((s32) (0 - ((S_8080C650_1 *)sequence)->unk_00)
             >> 0xC) * func_8006A470(((S_8080C650_1 *)sequence)->unk_2C);
-        ((S_8080C650_2 *)motion)->unk_10 = velocity_component;
+        motion->velocity_y = velocity_component;
         if (velocity_component > -0x40000) {
-            ((S_8080C650_2 *)motion)->unk_10 = -0x40000;
+            motion->velocity_y = -0x40000;
         }
         ((S_8080C650_1 *)sequence)->unk_2C = (s16) ((u16) ((S_8080C650_1 *)sequence)->unk_2C
             - ((s32) (((S_8080C650_1 *)sequence)->unk_2E << 0x10) >> 0x14));
-        if (((S_8080C650_2 *)motion)->unk_08.at00.v > 0) {
+        if (motion->z.v > 0) {
             sequence_flags = ((S_8080C650_1 *)sequence)->unk_2A;
             if (!(sequence_flags & 4)) {
                 ((S_8080C650_1 *)sequence)->unk_2A = (u16) (sequence_flags | 4);
                 func_80058F88(0x701);
             }
-            x_before_clamp = ((S_8080C650_2 *)motion)->unk_00;
-            ((S_8080C650_2 *)motion)->unk_08.at00.v = 0x200000;
+            x_before_clamp = motion->x.v;
+            motion->z.v = 0x200000;
             if (x_before_clamp <= 0x041FFFFF) {
                 if (x_before_clamp > 0x03BFFFFF) {
                     clamped_x = 0x03B80000;
-                    ((S_8080C650_2 *)motion)->unk_00 = clamped_x;
+                    motion->x.v = clamped_x;
                 } else if (x_before_clamp <= 0x03800000) {
-                    ((S_8080C650_2 *)motion)->unk_00 = 0x03880000;
+                    motion->x.v = 0x03880000;
                 }
             } else if (x_before_clamp > 0x04BFFFFF) {
                 clamped_x = 0x04B80000;
-                ((S_8080C650_2 *)motion)->unk_00 = clamped_x;
+                motion->x.v = clamped_x;
             } else if (x_before_clamp <= 0x04800000) {
                 clamped_x = 0x04880000;
-                ((S_8080C650_2 *)motion)->unk_00 = clamped_x;
+                motion->x.v = clamped_x;
             }
             ((S_8080C650_1 *)sequence)->unk_2C = (s16) ((s32) (0 - ((S_8080C650_1 *)sequence)->unk_2C) >> 1);
         }
-        if (((S_8080C650_2 *)motion)->unk_04 <= 0x01E00000) {
+        if (motion->y.v <= 0x01E00000) {
             func_80058F88(0x1700);
             func_80058F88(0x1701);
             if (D_80530658[((S_8080C650_1 *)sequence)->unk_34] == 8) {
@@ -339,9 +332,9 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
                 ((S_8080C650_0 *)in0)->unk_A8 = (s32) (((S_8080C650_0 *)in0)->unk_A8 & ~1);
             }
             animation_descriptor = (s32)D_802894AC;
-            ((S_8080C650_2 *)motion)->unk_14 = 0;
-            ((S_8080C650_2 *)motion)->unk_10 = 0;
-            ((S_8080C650_2 *)motion)->unk_0C = 0;
+            motion->velocity_z = 0;
+            motion->velocity_y = 0;
+            motion->velocity_x = 0;
             ((S_8080C650_0 *)in0)->unk_6C = 0x14U;
             ((S_8080C650_0 *)in0)->unk_68.s = 0xB;
         }
@@ -352,7 +345,7 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
             animation_descriptor = (s32)D_802892EC;
             ((S_8080C650_3 *)primitive)->unk_14 = (u16) (primitive_flags | 0x800);
         }
-        current_x = ((S_8080C650_2 *)motion)->unk_00;
+        current_x = motion->x.v;
         x_limit_flags_or_phase = 0x03A00000;
         if (current_x > x_limit_flags_or_phase) {
             x_limit_flags_or_phase = ((S_8080C650_3 *)primitive)->unk_14 & 0xFFFE;
@@ -360,36 +353,36 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
             x_limit_flags_or_phase = ((S_8080C650_3 *)primitive)->unk_14 | 1;
         }
         ((S_8080C650_3 *)primitive)->unk_14 = (u16)x_limit_flags_or_phase;
-        current_y = ((S_8080C650_2 *)motion)->unk_04;
-        ((S_8080C650_2 *)motion)->unk_04 = (s32) (((s32) (0x01E00000 - current_y) >> 1) + current_y);
+        current_y = motion->y.v;
+        motion->y.v = (s32) (((s32) (0x01E00000 - current_y) >> 1) + current_y);
         return_ticks = ((S_8080C650_0 *)in0)->unk_6C - 1;
         ((S_8080C650_0 *)in0)->unk_6C = return_ticks;
         if ((return_ticks << 0x10) == 0) {
             ((S_8080C650_3 *)primitive)->unk_14 = (u16) (((S_8080C650_3 *)primitive)->unk_14 & 0xF7FF);
-            current_x = ((S_8080C650_2 *)motion)->unk_00;
+            current_x = motion->x.v;
             if (current_x > 0x03A80000) {
-                ((S_8080C650_2 *)motion)->unk_0C = -0x80000;
+                motion->velocity_x = -0x80000;
             } else if (current_x <= 0x0397FFFF) {
-                ((S_8080C650_2 *)motion)->unk_0C = 0x80000;
+                motion->velocity_x = 0x80000;
             } else {
                 animation_descriptor = (s32)D_8028937C;
-                ((S_8080C650_2 *)motion)->unk_0C = 0;
-                ((S_8080C650_2 *)motion)->unk_00 = 0x03A00000;
+                motion->velocity_x = 0;
+                motion->x.v = 0x03A00000;
             }
         }
-        if ((u32) (((S_8080C650_2 *)motion)->unk_00 + 0xFC440000) <= 0xC80000U) {
-            ((S_8080C650_2 *)motion)->unk_08.at00.v = 0;
+        if ((u32) (motion->x.v + 0xFC440000) <= 0xC80000U) {
+            motion->z.v = 0;
         } else {
-            ((S_8080C650_2 *)motion)->unk_08.at00.v = 0x200000;
+            motion->z.v = 0x200000;
         }
         abs_v1 = 0xFC600000;
-        delta = ((S_8080C650_2 *)motion)->unk_00 + abs_v1;
+        delta = motion->x.v + abs_v1;
         if ((abs(delta)) <= 0x80000) {
             if (((s32) (s16) ((S_8080C650_0 *)in0)->unk_6C) < 0) {
                 ((S_8080C650_1 *)sequence)->unk_2A = (u16) (((S_8080C650_1 *)sequence)->unk_2A | 2);
-                ((S_8080C650_2 *)motion)->unk_14 = 0;
-                ((S_8080C650_2 *)motion)->unk_10 = 0;
-                ((S_8080C650_2 *)motion)->unk_0C = 0;
+                motion->velocity_z = 0;
+                motion->velocity_y = 0;
+                motion->velocity_x = 0;
                 ((S_8080C650_0 *)in0)->unk_68.s = 0;
                 break;
             }
@@ -412,7 +405,7 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
             func_80050BD8(0x5DA);
         }
         animation_descriptor = (s32)D_802892EC;
-        ((S_8080C650_2 *)motion)->unk_10 = 0x80000;
+        motion->velocity_y = 0x80000;
         ((S_8080C650_0 *)in0)->unk_6C = 0x1EU;
         ((S_8080C650_0 *)in0)->unk_68.s = (s16) ((u16) ((S_8080C650_0 *)in0)->unk_68.s + 1);
     case 0x100:
@@ -420,19 +413,19 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
         high_phase_ticks = ((S_8080C650_0 *)in0)->unk_6C - 1;
         ((S_8080C650_0 *)in0)->unk_6C = high_phase_ticks;
         if ((high_phase_ticks << 0x10) <= 0) {
-            ((S_8080C650_2 *)motion)->unk_10 = 0;
-            ((S_8080C650_2 *)motion)->unk_14 = -0x100000;
+            motion->velocity_y = 0;
+            motion->velocity_z = -0x100000;
             phase_before_increment = ((S_8080C650_0 *)in0)->unk_68.u;
             ((S_8080C650_0 *)in0)->unk_68.s = (s16) (phase_before_increment + 1);
         }
         break;
     case 0x101:
     case 0x103:
-        high_v0 = ((S_8080C650_2 *)motion)->unk_14 + 0x20000;
-        ((S_8080C650_2 *)motion)->unk_14 = high_v0;
-        if (((S_8080C650_2 *)motion)->unk_08.at00.v > 0x1FFFFF) {
-            ((S_8080C650_2 *)motion)->unk_08.at00.v = 0x200000;
-            ((S_8080C650_2 *)motion)->unk_14 = 0;
+        high_v0 = motion->velocity_z + 0x20000;
+        motion->velocity_z = high_v0;
+        if (motion->z.v > 0x1FFFFF) {
+            motion->z.v = 0x200000;
+            motion->velocity_z = 0;
             phase_before_increment = ((S_8080C650_0 *)in0)->unk_68.u;
             ((S_8080C650_0 *)in0)->unk_68.s = (s16) (phase_before_increment + 1);
         }
@@ -454,7 +447,7 @@ void update_sequenced_object(void *in0, void *motion, void *in2) {
         break;
     case 0x107:
         count_sum_or_color = 0xC0C0C0;
-        ((S_8080C650_2 *)motion)->unk_10 = -0x80000;
+        motion->velocity_y = -0x80000;
         primitive_flags = ((S_8080C650_3 *)primitive)->unk_14;
         ((S_8080C650_3 *)primitive)->unk_10 = 0x60;
         ((S_8080C650_3 *)primitive)->unk_0C.s32 = count_sum_or_color;

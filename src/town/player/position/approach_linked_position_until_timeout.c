@@ -18,7 +18,7 @@ typedef struct TownObject {
 } TownObject;
 
 extern TownState D_800CFCB4;
-extern void func_80094834(TownObject *, IntVector3 *, void *);
+extern void init_linked_position_action(TownObject *, IntVector3 *, void *);
 
 /* Move halfway toward the linked position and call func_80094834 when the timer expires. */
 void approach_linked_position_until_timeout(TownObject *object, IntVector3 *position, void *context)
@@ -28,6 +28,6 @@ void approach_linked_position_until_timeout(TownObject *object, IntVector3 *posi
     position->z = (D_800CFCB4.link->position->z + position->z) / 2;
 
     if (--object->timer < 0) {
-        func_80094834(object, position, context);
+        init_linked_position_action(object, position, context);
     }
 }

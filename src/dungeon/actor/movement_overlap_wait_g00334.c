@@ -1,6 +1,7 @@
 /* Movement overlap wait (G00334). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800A4DA8. */
 #include "dungeon/actor/movement_overlap_wait_g00334.h"
+#include "dungeon/actor.h"
 
 /* Try to move the entity, update positional sounds, and select the next action state. */
 s32 try_move_actor_to_valid_position(void *action, void *context, void *position, void *entity) {

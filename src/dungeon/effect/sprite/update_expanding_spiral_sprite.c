@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 extern s32 func_800644B8(s32);
@@ -12,7 +13,7 @@ extern u8 D_800DEAE0[];
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Advance an expanding spiral effect and update its sprite. */
-void update_expanding_spiral_sprite(void *state, void *position, void *sprite)
+void update_expanding_spiral_sprite(void *state, void *position, SpriteFrameState *sprite)
 {
     s16 angle;
     GameWork *angle_table;
@@ -20,7 +21,7 @@ void update_expanding_spiral_sprite(void *state, void *position, void *sprite)
 
     owner = *(void **)state;
     U16_AT(owner, 0x14) = U16_AT(owner, 0x14) + 1;
-    S32_AT(sprite, 0xC) = S32_AT(sprite, 0xC) + 0xFFF7F7F8;
+    sprite->color.word = sprite->color.word + 0xFFF7F7F8;
 
     angle = U16_AT(state, 0x1C) + U16_AT(state, 0x1E);
     angle_table = &g_game_work;
@@ -34,11 +35,11 @@ void update_expanding_spiral_sprite(void *state, void *position, void *sprite)
     S16_AT(position, 6) = U16_AT(state, 0xA) +
         (((func_80064584(S16_AT(state, 0x1C)) >> 4) *
           S16_AT(state, 0x20)) >> 8);
-    S16_AT(sprite, 0x1A) =
+    sprite->angle_z =
         (s32)(0 - ((func_80064584(S16_AT(state, 0x1C) - angle_table->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
 
     advance_sprite_animation_and_textures(sprite);
-    if (U16_AT(sprite, 0x14) & 0x6000) {
+    if (sprite->flags & 0x6000) {
         select_record_entry_and_value(sprite, D_800DEAE0, 0);
     }
 }

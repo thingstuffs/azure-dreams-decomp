@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -19,13 +20,13 @@ void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
     s32 random_offset;
     SpriteFrameState *sprite;
     int color;
-    void *effect_pos;
-    void *effect;
+    ObjectPosition *effect_pos;
+    ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
-        *((s32 **)(((s8 *)effect) + 0x10)) = &func_8002418C;
-        sprite = *((void **)(((s8 *)effect) + 0xC));
+        effect->unk_10 = &func_8002418C;
+        sprite = effect->sprite;
         *((s32 *)(((s8 *)effect) + 0x20)) = effect_param;
         color = 0x80;
         sprite->color.c.b = color;
@@ -40,14 +41,14 @@ void create_random_offset_sprite_effect(s32 effect_param, void *source_pos)
         sprite->flags =
             (u16)(sprite->flags | 0x10C);
         register_node(effect, project_sprite_chain);
-        effect_pos = *((void **)(((s8 *)effect) + 8));
+        effect_pos = effect->position;
         rand();
-        *((u16 *)(((s8 *)effect_pos) + 2)) =
+        effect_pos->x.w.i =
             (u16)(*((u16 *)(((s8 *)source_pos) + 2)));
-        *((u16 *)(((s8 *)effect_pos) + 6)) =
+        effect_pos->y.w.i =
             (u16)(*((u16 *)(((s8 *)source_pos) + 6)));
         random_offset = rand();
-        *((s16 *)(((s8 *)effect_pos) + 0xA)) =
+        effect_pos->z.w.i =
             (s16)((*((u16 *)(((s8 *)source_pos) + 0xA)) - 0x20) -
                   (random_offset % 16));
     }

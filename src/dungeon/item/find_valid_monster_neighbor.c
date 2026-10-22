@@ -6,6 +6,7 @@
  * Ordinary code: no alias, no section attribute, no literal word arrays.
  */
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
@@ -13,7 +14,7 @@ s32 check_diagonal_side_height(s32, u8, u8, s16);
 s32 find_eligible_actor_at_tile_and_height(void *, u16, u16, s16);
 
 /* Check eight neighboring positions in cyclic order and return the first result that passes the direction check. */
-s32 find_valid_monster_neighbor(void *entity, u16 x, u16 y) {
+s32 find_adjacent_actor(void *entity, u16 x, u16 y) {
     u16 *x_offsets;
     u16 *y_offsets;
     void *entity_data;

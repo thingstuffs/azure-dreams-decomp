@@ -1,4 +1,7 @@
+
+struct ObjectPosition;
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -21,13 +24,6 @@ typedef struct S_800AAF00_0 {
     u8 unk_71;
 } S_800AAF00_0;   /* obj in begin_actor_spell_action */
 
-typedef struct S_800AAF00_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_800AAF00_1;   /* state in begin_actor_spell_action */
-
 typedef struct S_800AAF00_2 {
     u8 pad_00[0x98];
     union { s32 s32; u16 u16; } unk_98;   /* accessed as both */
@@ -45,30 +41,15 @@ typedef struct S_800AAF00_3 {
     u8 unk_9B;
 } S_800AAF00_3;   /* owner in begin_actor_spell_action */
 
-typedef struct S_800AAF00_4 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-} S_800AAF00_4;   /* other in begin_actor_spell_action */
-
-typedef struct S_800AAF00_5 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800AAF00_5;   /* state2 in begin_actor_spell_action */
-
-
 extern s32 select_sprite_entry();
-extern s32 scan_monster_along_heading();
+extern s32 scan_actor_along_heading();
 extern s32 try_claim_dungeon_action_slot();
 extern void advance_status_timers();
 extern s32 generate_random_value();
-extern void select_nearby_target_and_initialize_slot();
-
+extern void select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 
 /* Updates the object action state and applies direction data to its target. */
-void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state) {
+void begin_actor_spell_action(void *actor, s32 effect_param, SpriteFrameState *target, u8 *direction_table, s32 next_state) {
     void *object;
     s32 special_action;
     u8 *slot_data;
@@ -133,10 +114,10 @@ void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *d
                 type_index = slot_data[8];
                 type_data = type_table + type_index * 20;
                 if ((type_data[0x12] == 2) && (((S_800AAF00_0 *)object)->unk_60 == 0)) {
-                    ((S_800AAF00_0 *)object)->unk_60 = scan_monster_along_heading(
+                    ((S_800AAF00_0 *)object)->unk_60 = scan_actor_along_heading(
                         object,
-                        ((S_800AAF00_4 *)target)->unk_24,
-                        ((S_800AAF00_4 *)target)->unk_25,
+                        target->unk_24,
+                        target->unk_25,
                         ((S_800AAF00_0 *)object)->unk_2A.s,
                         type_data[0x13]);
 
@@ -150,13 +131,13 @@ void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *d
         ((S_800AAF00_3 *)actor)->unk_9B = 0;
         ((S_800AAF00_3 *)actor)->unk_8C = 0;
         if (direction_table != 0) {
-            (*(u8 * *)((u8 *)target + 0x2C)) = direction_table;
+            (target->frameTable) = direction_table;
             select_sprite_entry(
                 target,
                 direction_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800AAF00_0 *)object)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
         }
-        ((S_800AAF00_4 *)target)->unk_14 |= 0x800;
+        target->flags |= 0x800;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
     }
 

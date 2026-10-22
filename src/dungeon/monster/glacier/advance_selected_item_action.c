@@ -8,6 +8,7 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "engine/cd.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -45,11 +46,10 @@ typedef struct Copy48 {
 } Copy48;
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, u16 *, s32);
-extern s32 get_cd_command_queue_depth(void);
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void select_sprite_entry(void *, u8, s32);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void set_record_integer_tile_center(void *, u8, u8);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
@@ -57,7 +57,7 @@ extern s32 create_actor_spell_effect(void *, u8 *, s32, void *);
 
 extern u8 D_801708D4;
 extern u8 D_801714B8;
-extern u8 D_8017609C[];
+#include "dungeon/monster/glacier.h"
 extern u8 D_801760FC[];
 
 typedef struct S_801730E4_0 {
@@ -69,11 +69,6 @@ typedef struct S_801730E4_0 {
     u8 pad_9A[0x1];
     u8 unk_9B;
 } S_801730E4_0;   /* arg0 in advance_selected_item_action_2 */
-
-typedef struct S_801730E4_1_pre {
-    u8 * unk_00;
-    u8 pad_04[0x10];
-} S_801730E4_1_pre;   /* the 0x14 bytes before active in advance_selected_item_action_2, addressed as active[-1] */
 
 typedef struct S_801730E4_2 {
     u8 pad_00[0x24];
@@ -88,13 +83,6 @@ typedef struct S_801730E4_5 {
     u8 pad_98[0x10];
     void * unk_A8;
 } S_801730E4_5;   /* part in advance_selected_item_action_2 */
-
-typedef struct S_801730E4_6 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 * unk_0C;
-    void * unk_10;
-} S_801730E4_6;   /* object in advance_selected_item_action_2 */
 
 typedef struct S_801730E4_7 {
     u8 pad_00[0x2];
@@ -130,7 +118,7 @@ typedef struct S_801730E4_9 {
 /* Advances the selected item's action, visual effect, and cleanup states. */
 /* Starts a targeted spell with an attached copied sprite, waits for its animation, then recenters and
  * updates status. */
-void advance_selected_item_action_2(void *action, ObjectPosition *position, void *sprite, void *actor)
+void advance_selected_item_action_2(void *action, ObjectPosition *position, SpriteFrameState *sprite, void *actor)
 {
     u16 position_delta[3];
     s16 is_special;
@@ -196,7 +184,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
                 if (use_special != 0) {
                     active = primary_actor_record;
                     (((ActorFieldView_810318E4 *)actor)->field_60) = active;
-                    linked = (u32)((S_801730E4_1_pre *)active)[-1].unk_00;
+                    linked = (u32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)active - 0x20))->sprite;
                     (((ActorFieldView_810318E4 *)actor)->field_72.u8) = ((S_801730E4_2 *)linked)->unk_24;
                     (((ActorFieldView_810318E4 *)actor)->field_73.u8) = ((S_801730E4_2 *)linked)->unk_25;
                 } else {
@@ -204,7 +192,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
                     if (linked == 2) {
                         active = (((ActorFieldView_810318E4 *)actor)->field_60);
                         if (active != 0) {
-                            linked = (u32)((S_801730E4_1_pre *)active)[-1].unk_00;
+                            linked = (u32)*(u8 * *)&((ObjectNodeHeader *)((u8 *)active - 0x20))->sprite;
                             (((ActorFieldView_810318E4 *)actor)->field_72.u8) = ((S_801730E4_2 *)linked)->unk_24;
                             (((ActorFieldView_810318E4 *)actor)->field_73.u8) = ((S_801730E4_2 *)linked)->unk_25;
                         }
@@ -213,8 +201,8 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
                             s32 target_x;
                             s32 target_y;
 
-                            target_x = (s32)scan_monster_along_heading(
-                                actor, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25,
+                            target_x = (s32)scan_actor_along_heading(
+                                actor, sprite->unk_24, sprite->unk_25,
                                 (((ActorFieldView_810318E4 *)actor)->field_2A.s16), 0x10);
                             (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
                             target_x = (((ActorFieldView_810318E4 *)actor)->field_72.s8);
@@ -243,7 +231,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
         position->velocity_z = 0;
         position->velocity_y = 0;
         position->velocity_x = 0;
-        set_record_integer_tile_center(position, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
+        set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
         {
             void *active;
 
@@ -261,14 +249,14 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
 
     case 1:
         if (get_cd_command_queue_depth() != 0) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+            sprite->flags |= 0x800;
             return;
         }
-        ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
         ((S_801730E4_0 *)action)->unk_96 = 10;
         ((S_801730E4_0 *)action)->unk_9B++;
         {
-            u8 *effect_object;
+            ObjectNodeHeader *effect_object;
 
             effect_object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
             if (effect_object != 0) {
@@ -277,12 +265,12 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
                 void *owner_sprite;
                 u8 animation_id;
 
-                effect_state = effect_object + 0x20;
+                effect_state = ((u8 *)effect_object) + 0x20;
                 ((S_801730E4_5 *)effect_state)->unk_96 = 0xF;
-                ((S_801730E4_6 *)effect_object)->unk_10 = &D_801708D4;
+                effect_object->unk_10 = &D_801708D4;
                 ((S_801730E4_5 *)effect_state)->unk_A8 = position;
                 ((S_801730E4_5 *)effect_state)->unk_94 = (((ActorFieldView_810318E4 *)actor)->field_2A.u16);
-                effect_data = ((S_801730E4_6 *)effect_object)->unk_0C;
+                effect_data = *(u8 * *)&effect_object->sprite;
                 *(Copy48 *)effect_data = *(Copy48 *)sprite;
                 ((S_801730E4_7 *)effect_data)->unk_1E = 0x1000;
                 ((S_801730E4_7 *)effect_data)->unk_1C = 0x1000;
@@ -298,7 +286,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
                 ((S_801730E4_7 *)effect_data)->unk_14 |= 0xC;
 
                 owner_sprite = ((S_801730E4_8 *)owner_object)->unk_0C;
-                effect_data = ((S_801730E4_6 *)effect_object)->unk_08;
+                effect_data = *(u8 * *)&effect_object->position;
                 if (resolve_record_orientation_or_fallback(((S_801730E4_9 *)owner_sprite)->unk_08, owner_sprite, position_delta, 0) != 0) {
                     ((S_801730E4_7 *)effect_data)->unk_02 = ((u16)position->x.w.i);
                     ((S_801730E4_7 *)effect_data)->unk_06 = ((u16)position->y.w.i);
@@ -316,7 +304,7 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
 
             timer = ((S_801730E4_0 *)action)->unk_96 - 1;
             ((S_801730E4_0 *)action)->unk_96 = timer;
-            if ((s16)timer > 0 && !(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            if ((s16)timer > 0 && !(sprite->flags & 0xE000)) {
                 return;
             }
         }
@@ -325,10 +313,10 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
         return;
 
     case 3:
-        if ((((SpriteFrameState *)sprite)->unk_04 == 2 &&
-             (((SpriteFrameState *)sprite)->flags & 0x1000)) ||
-            (((SpriteFrameState *)sprite)->flags & 0x8000)) {
-            ((SpriteFrameState *)sprite)->flags |= 0x800;
+        if ((sprite->unk_04 == 2 &&
+             (sprite->flags & 0x1000)) ||
+            (sprite->flags & 0x8000)) {
+            sprite->flags |= 0x800;
             ((S_801730E4_0 *)action)->unk_96 = 0x14;
         }
         {
@@ -341,23 +329,23 @@ void advance_selected_item_action_2(void *action, ObjectPosition *position, void
             ((S_801730E4_0 *)action)->unk_96 = timer;
             if ((s16)timer <= 0) {
                 ((S_801730E4_0 *)action)->unk_96 = 0;
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                sprite->flags &= 0xF7FF;
             }
-            if (!(((SpriteFrameState *)sprite)->flags & 0xE000)) {
+            if (!(sprite->flags & 0xE000)) {
                 return;
             }
 
             position->velocity_z = 0;
             position->velocity_y = 0;
             position->velocity_x = 0;
-            set_record_integer_tile_center(position, ((SpriteFrameState *)sprite)->unk_24, ((SpriteFrameState *)sprite)->unk_25);
-            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_8017609C) {
+            set_record_integer_tile_center(position, sprite->unk_24, sprite->unk_25);
+            if (*(u8 * *)&sprite->frameTable != glacier_direction_frames) {
                 s32 direction_index;
 
-                ((SpriteFrameState *)sprite)->frameTable = D_8017609C;
+                sprite->frameTable = glacier_direction_frames;
                 direction_index = ((g_game_work.view.camera_rotation.parts.viewAngle + (((ActorFieldView_810318E4 *)actor)->field_2A.s16) + 0x100) >> 9) & 7;
-                select_sprite_entry(sprite, D_8017609C[direction_index], 0);
-                ((SpriteFrameState *)sprite)->flags &= 0xF7FF;
+                select_sprite_entry(sprite, glacier_direction_frames[direction_index], 0);
+                sprite->flags &= 0xF7FF;
             }
             if (((s32)g_dungeon_status.active_actor) != 0) {
                 return;

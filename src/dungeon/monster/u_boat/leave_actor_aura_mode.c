@@ -31,7 +31,7 @@ void create_owner_linked_directional_object(u8 *owner_data, u8 *source_position,
 
 extern u8 uboat_default_frames[];
 extern u8 D_800E2448[];
-extern u8 D_80171A80[];
+#include "dungeon/monster/u_boat.h"
 
 /* Advance a two-phase animation transition and finalize the entity state. */
 void leave_actor_aura_mode(void *state, ObjectPosition *motion, void *sprite, ActorRecord *entity) {
@@ -92,7 +92,7 @@ void leave_actor_aura_mode(void *state, ObjectPosition *motion, void *sprite, Ac
     ((S_80176084_0 *)state)->unk_96 = (u16)(finish_ticks - 1);
     if (((finish_ticks << 0x10) <= 0) || (((SpriteFrameState *)sprite)->flags & 0xE000)) {
         ((SpriteFrameState *)sprite)->unk_06 = 0;
-        ((S_80176084_0 *)state)->unk_8C = (u8 *)D_80171A80;
+        ((S_80176084_0 *)state)->unk_8C = (u8 *)uboat_behavior_entry;
         clear_slots_of_type(entity, 0x1B);
         if (((S_80176084_0 *)state)->unk_B4 == 0) {
             g_dungeon_status.active_actor = 0;

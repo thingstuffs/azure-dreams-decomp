@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -13,20 +14,6 @@ typedef struct S_8017313C_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_8017313C_0;   /* arg0 in update_entity_dimming_and_brightness */
-
-typedef struct S_8017313C_1 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-    u8 pad_27[0x5];
-    union { void * s; u8 * u; } unk_2C;   /* accessed as both */
-} S_8017313C_1;   /* arg2 in update_entity_dimming_and_brightness */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -47,7 +34,7 @@ extern u8 D_80170E9C[];
 extern u8 D_80174F00[];
 
 /* Updates entity dimming, status behavior, and brightness recovery. */
-void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite, ActorRecord *entity)
+void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *context, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 entity_flags;
     u16 fade_ticks;
@@ -57,19 +44,19 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
     state = controller->unk_9B;
     switch (state) {
     case 0:
-        shade = sprite->unk_0E - 0xC;
-        sprite->unk_0E = shade;
-        sprite->unk_0D = shade;
-        sprite->unk_0C = shade;
-        if (!(sprite->unk_14 & 0xE000)) {
+        shade = sprite->color.c.b - 0xC;
+        sprite->color.c.b = shade;
+        sprite->color.c.g = shade;
+        sprite->color.c.r = shade;
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->unk_2C.s = D_80174F00;
-        sprite->unk_0E = 0x40;
-        sprite->unk_0D = 0x40;
-        sprite->unk_0C = 0x40;
+        sprite->frameTable = D_80174F00;
+        sprite->color.c.b = 0x40;
+        sprite->color.c.g = 0x40;
+        sprite->color.c.r = 0x40;
         select_sprite_entry(sprite,
-            sprite->unk_2C.u[
+            (*(u8 **)&sprite->frameTable)[
                 ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
         {
@@ -85,12 +72,12 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
 
     case 1:
         if ((get_entity_effect_value(entity, 1) << 16) == 0) {
-            if (sprite->unk_14 & 0x8000) {
+            if (sprite->flags & 0x8000) {
                 s32 cleared_flags;
 
-                sprite->unk_0E = 0x80;
-                sprite->unk_0D = 0x80;
-                sprite->unk_0C = 0x80;
+                sprite->color.c.b = 0x80;
+                sprite->color.c.g = 0x80;
+                sprite->color.c.r = 0x80;
                 cleared_flags = entity->flags1C & 0xEFFFFFFF;
                 entity->flags1C = cleared_flags & ~0x200;
                 controller->unk_8C = D_80170E9C;
@@ -140,7 +127,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
             on_actor_status_updated(entity);
             if ((get_entity_effect_value(entity, 1) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = sprite->unk_26;
+                s8 tile = *(s8 *)&sprite->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
@@ -153,12 +140,12 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                 return;
             }
 
-            if (sprite->unk_14 & 0x8000) {
+            if (sprite->flags & 0x8000) {
                 s32 cleared_flags;
 
-                sprite->unk_0E = 0x80;
-                sprite->unk_0D = 0x80;
-                sprite->unk_0C = 0x80;
+                sprite->color.c.b = 0x80;
+                sprite->color.c.g = 0x80;
+                sprite->color.c.r = 0x80;
                 cleared_flags = entity->flags1C & 0xEFFFFFFF;
                 entity->flags1C = cleared_flags & ~0x200;
                 controller->unk_8C = D_80170E9C;
@@ -181,10 +168,10 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
     {
         s32 cleared_flags;
 
-        shade = sprite->unk_0E + 0xC;
-        sprite->unk_0E = shade;
-        sprite->unk_0D = shade;
-        sprite->unk_0C = shade;
+        shade = sprite->color.c.b + 0xC;
+        sprite->color.c.b = shade;
+        sprite->color.c.g = shade;
+        sprite->color.c.r = shade;
         fade_ticks = controller->unk_96 - 1;
         controller->unk_96 = fade_ticks;
         if ((fade_ticks << 16) > 0) {
@@ -194,9 +181,9 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
         }
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
+        sprite->color.c.b = 0x80;
+        sprite->color.c.g = 0x80;
+        sprite->color.c.r = 0x80;
         cleared_flags = entity->flags1C & 0xEFFFFFFF;
         entity->flags1C = cleared_flags & ~0x200;
         controller->unk_8C = D_80170E9C;

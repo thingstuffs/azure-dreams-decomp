@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/sys_flags.h"
 
@@ -19,13 +20,6 @@ typedef struct S_800AB538_1 {
     u16 unk_8A;
 } S_800AB538_1;   /* p3 in update_actor_hop_and_shrink */
 
-typedef struct S_800AB538_2 {
-    u8 pad_00[0x2];
-    union { s16 s; u16 u; } unk_02;   /* accessed as both */
-    u8 pad_04[0x2];
-    union { s16 s; u16 u; } unk_06;   /* accessed as both */
-} S_800AB538_2;   /* base in update_actor_hop_and_shrink */
-
 typedef struct S_800AB538_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -44,7 +38,7 @@ extern u8 view_reference_entity[];
 extern s16 D_8008378A;
 
 /* Move toward the target while shrinking, then mark the animation complete. */
-s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void *render)
+s32 update_actor_hop_and_shrink(void *animation, void *motion, SpriteFrameState *scale, void *render)
 {
     s32 move_frames;
     s16 frames_left;
@@ -70,20 +64,20 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
     case 1:
         move_frames = ((S_800AB538_0 *)animation)->unk_96.s - 2;
         if (move_frames > 0) {
-            u8 *target = view_reference_entity;
+            ObjectPosition *target = view_reference_entity;
 
             (*(s32 *)((u8 *)motion + 0xC)) =
-                ((((S_800AB538_2 *)target)->unk_02.s - ((S_800AB538_3 *)motion)->unk_02) << 16) / move_frames;
+                ((target->x.w.i - ((S_800AB538_3 *)motion)->unk_02) << 16) / move_frames;
             ((S_800AB538_3 *)motion)->unk_10 =
-                ((((S_800AB538_2 *)target)->unk_06.s - ((S_800AB538_3 *)motion)->unk_06.s) << 16) /
+                ((target->y.w.i - ((S_800AB538_3 *)motion)->unk_06.s) << 16) /
                 (((S_800AB538_0 *)animation)->unk_96.s - 2);
         } else {
-            u8 *target = view_reference_entity;
+            ObjectPosition *target = view_reference_entity;
 
             (*(s32 *)((u8 *)motion + 0x10)) = 0;
             (*(s32 *)((u8 *)motion + 0xC)) = 0;
-            (*(u16 *)((u8 *)motion + 2)) = ((S_800AB538_2 *)target)->unk_02.u;
-            ((S_800AB538_3 *)motion)->unk_06.u = ((S_800AB538_2 *)target)->unk_06.u;
+            (*(u16 *)((u8 *)motion + 2)) = *(u16 *)&target->x.w.i;
+            ((S_800AB538_3 *)motion)->unk_06.u = *(u16 *)&target->y.w.i;
         }
 
         frames_left = ((S_800AB538_0 *)animation)->unk_96.s;
@@ -98,9 +92,9 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
             }
         }
 
-        scale_value = ((SpriteFrameState *)scale)->scale_x - ((S_800AB538_1 *)render)->unk_8A;
-        ((SpriteFrameState *)scale)->scale_x = scale_value;
-        ((SpriteFrameState *)scale)->scale_y = scale_value;
+        scale_value = scale->scale_x - ((S_800AB538_1 *)render)->unk_8A;
+        scale->scale_x = scale_value;
+        scale->scale_y = scale_value;
 
         frames_left = ((S_800AB538_0 *)animation)->unk_96.u - 1;
         ((S_800AB538_0 *)animation)->unk_96.s = frames_left;
@@ -115,8 +109,8 @@ s32 update_actor_hop_and_shrink(void *animation, void *motion, void *scale, void
         }
         break;
     case 2:
-        ((SpriteFrameState *)scale)->scale_y = 0;
-        ((SpriteFrameState *)scale)->scale_x = 0;
+        scale->scale_y = 0;
+        scale->scale_x = 0;
 
         {
             s32 flags = ((S_800AB538_1 *)render)->unk_1C;

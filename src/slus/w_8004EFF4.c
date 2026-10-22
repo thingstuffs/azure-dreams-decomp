@@ -21,7 +21,7 @@ typedef struct S_8004EFF4_sub {
 } S_8004EFF4_sub;
 
 /* Initialize the header and embedded record with global defaults and flags, then return the next address. */
-void *func_8004EFF4(S_8004EFF4 *record)
+void *init_object_header_b(S_8004EFF4 *record)
 {
     s32 initial_word_4;
     s32 initial_word_c;

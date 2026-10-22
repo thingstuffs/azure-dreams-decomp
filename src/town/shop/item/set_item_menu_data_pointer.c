@@ -1,6 +1,6 @@
 #include "common.h"
 typedef struct FuncArg FuncArg;
-void start_item_menu_object_processing(FuncArg *parameters);
+void release_item_menu_object(FuncArg *parameters);
 
 typedef struct S_800AE484_0 {
     u8 pad_00[0x10];
@@ -9,5 +9,5 @@ typedef struct S_800AE484_0 {
 
 /* Sets the object's data pointer to start_item_menu_object_processing. */
 void set_item_menu_data_pointer(S_800AE484_0 *object) {
-    object->unk_10 = &start_item_menu_object_processing;
+    object->unk_10 = &release_item_menu_object;
 }

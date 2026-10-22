@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_floor.h"
@@ -23,24 +24,6 @@ typedef struct S_8016B0EC_0 {
     u8 pad_A4[0xE];
     s16 unk_B2;
 } S_8016B0EC_0;   /* arg0 in update_creature_behavior_animation_and_facing */
-
-
-typedef struct S_8016B0EC_2 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0xE];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_8016B0EC_2;   /* arg2 in update_creature_behavior_animation_and_facing */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void select_sprite_entry(void *, s32, s32);
@@ -73,7 +56,7 @@ extern u8 D_8016FEB0[];
 extern u8 D_8016FEB8[];
 
 /* Updates creature behavior, animation, and facing according to its current state. */
-void update_creature_behavior_animation_and_facing(void *actor, void *context, void *sprite, ActorRecord *creature)
+void update_creature_behavior_animation_and_facing(void *actor, void *context, SpriteFrameState *sprite, ActorRecord *creature)
 {
     s32 distance;
     s8 room_id;
@@ -89,11 +72,11 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, creature);
-        if (((S_8016B0EC_2 *)sprite)->unk_2C == D_8016FEA0) {
+        if (sprite->frameTable == D_8016FEA0) {
             return;
         }
         anim_table = D_8016FEB0;
-        (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+        (sprite->frameTable) = anim_table;
         select_sprite_entry(sprite,
             anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
             0);
@@ -101,7 +84,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
     }
 
     if (((u32)creature->flags1C) & 0x200) {
-        if (((S_8016B0EC_2 *)sprite)->unk_2C == D_8016FEA0) {
+        if (sprite->frameTable == D_8016FEA0) {
             ((S_8016B0EC_0 *)actor)->unk_9A = 0xD;
             ((S_8016B0EC_0 *)actor)->unk_9B = 1;
             ((S_8016B0EC_0 *)actor)->unk_8C = 0;
@@ -128,27 +111,27 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
                 ((S_8016B0EC_0 *)actor)->unk_B2 = 0;
             }
 
-            current_anims = ((S_8016B0EC_2 *)sprite)->unk_2C;
+            current_anims = sprite->frameTable;
             if (current_anims == D_8016FEB8) {
-                if (((S_8016B0EC_2 *)sprite)->unk_14 & 0xE000) {
+                if (sprite->flags & 0xE000) {
                     u8 *reset_anims = D_8016FE40;
 
-                    (*(void * *)((u8 *)sprite + 0x2C)) = reset_anims;
+                    (sprite->frameTable) = reset_anims;
                     select_sprite_entry(sprite,
                         reset_anims[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
                         0);
-                    ((S_8016B0EC_2 *)sprite)->unk_05 = 1;
+                    sprite->unk_05 = 1;
                     ((S_8016B0EC_0 *)actor)->unk_A2.s = 0;
                     ((S_8016B0EC_0 *)actor)->unk_9E = 0;
                 }
             } else {
                 anim_table = D_8016FE40;
                 if (current_anims != anim_table) {
-                    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+                    (sprite->frameTable) = anim_table;
                     select_sprite_entry(sprite,
                         anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + creature->facing + 0x100) >> 9) & 7],
                         0);
-                    ((S_8016B0EC_2 *)sprite)->unk_05 = 1;
+                    sprite->unk_05 = 1;
                     ((S_8016B0EC_0 *)actor)->unk_A2.s = 0;
                     ((S_8016B0EC_0 *)actor)->unk_9E = 0;
                 }
@@ -181,15 +164,15 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
         }
     }
 
-    room_id = find_active_rect_containing_point(((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v);
-    ((S_8016B0EC_2 *)sprite)->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = room_id;
 
     if (creature->pending_turn_updates > 0) {
         if (((u32)creature->flags1C) & 0x20) {
             update_actor_status_and_mp(creature);
             return;
         }
-        if (((S_8016B0EC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
             func_8016B854(actor, context, sprite, creature);
             return;
         }
@@ -231,7 +214,7 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
                 s16 facing_angle;
 
                 facing_angle = get_rounded_facing_and_rounding_flag(
-                    ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
+                    sprite->unk_24, sprite->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                     &distance);
                 player = primary_actor_record;
@@ -271,10 +254,10 @@ void update_creature_behavior_animation_and_facing(void *actor, void *context, v
             if (!(((u32)creature->flags1C) & 0x430)) {
 
                 if ((test_neighbor_position_relation(
-                        ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
+                        sprite->unk_24, sprite->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     creature->facing = get_rounded_facing_and_rounding_flag(
-                        ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
+                        sprite->unk_24, sprite->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                         &distance);
                     return;

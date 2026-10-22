@@ -14,7 +14,7 @@ extern s32 probe_directional_neighbor();
 extern s32 try_claim_dungeon_action_slot();
 extern s32 check_entity_interaction_compatibility();
 extern s32 apply_camera_offset_and_select_target();
-extern u8 D_8017386C[];
+#include "dungeon/monster/dreamin.h"
 
 /* Attempt an actor transition and update its state and sprite on success. */
 s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, ActorRecord *actor)
@@ -74,9 +74,9 @@ s32 attempt_actor_transition(void *state, s32 action_id, void *sprite, ActorReco
         }
     }
 
-    ((SpriteFrameState *)sprite)->frameTable = D_8017386C;
+    ((SpriteFrameState *)sprite)->frameTable = dreamin_direction_frames;
     select_sprite_entry(sprite,
-                  D_8017386C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                  dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                   0);
     actor->pending_turn_updates--;
     if (((Rec_func_800A9E70_arg0 *)state)->unk_9A.as_u8 != 0x11) {

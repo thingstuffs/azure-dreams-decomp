@@ -58,7 +58,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
     s32 biased_random;
     SpriteFrameState *sprite;
     void *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_818C3A3C_5 *effect_data;
     void *effect_name;
 
@@ -67,13 +67,13 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         handler = D_80025098;
         effect_state = (u8 *)effect + 0x20;
         effect_name = D_80025AF0;
-        ((S_818C3A3C_0 *)effect)->unk_10 = handler;
+        effect->unk_10 = handler;
         ((S_818C3A3C_0 *)effect)->unk_20 = owner;
         ((S_818C3A3C_1 *)effect_state)->unk_10 = 0;
         call_zero = 0;
         *(u16 *)((u8 *)effect_state + 0x14) = owner->unk_14;
 
-        sprite = ((S_818C3A3C_0 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -95,7 +95,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_dat
         sprite->scale_x = scale;
         register_node(effect, D_80045C34);
 
-        effect_data = ((S_818C3A3C_0 *)effect)->unk_08;
+        effect_data = effect->position;
         *effect_data = *(S_818C3A3C_5 *)initial_data;
         return (s32)effect;
     }

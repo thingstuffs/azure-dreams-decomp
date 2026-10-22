@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/monster_ids.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player.h"
 
 typedef struct S_800AD594_0 {
     u8 pad_00[0x13];
@@ -26,7 +27,6 @@ typedef struct S_800AD594_1 {
 
 
 extern s32 get_entity_effect_value(void *, s32);
-extern void clear_player_linked_action_flags(void);
 
 /* Apply a modified reduction to an entity's stored amount and handle a drop to zero. */
 void spend_actor_mp(S_800AD594_0 *entity, s32 base_reduction) {

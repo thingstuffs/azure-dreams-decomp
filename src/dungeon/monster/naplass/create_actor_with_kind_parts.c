@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "dungeon/monster/naplass/create_actor_with_kind_parts.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -10,7 +11,7 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
 {
     s32 kind;
     S_8014C870_1 *work;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8014C870_2 *part_a;
     SpriteFrameState *part_b;
     S_8014C870_4 *actor;
@@ -28,13 +29,13 @@ void *create_actor_with_kind_parts(s16 kind_flags, s16 grid_x, s16 grid_y, s16 p
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (void *)((Work *)((u8 *)obj + 0x20));
-        ((S_8014C870_0 *)obj)->unk_10 = func_8014CA3C;
+        obj->unk_10 = func_8014CA3C;
         work->unk_13 = MONSTER_NAPLASS;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_8014C870_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_value;
-        part_b = ((S_8014C870_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = kind_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;

@@ -1,3 +1,4 @@
+#include "shared/object_node.h"
 #include "modules/dungeon_ovl_7f535800.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -11,7 +12,7 @@ void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
     s32 update_flags;
     SpriteFrameState *placement_data;
     SignedHeightView *config_data;
-    void *object;
+    ObjectNodeHeader *object;
     S_80158878_4 *extended_state;
     S_80158878_1 *state;
     s8 saved_x;
@@ -24,13 +25,14 @@ void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
     saved_y = pos_y;
     object = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (object != 0) {
-        state = object + 0x20;
-        ((S_80158878_0 *)object)->unk_10 = &D_80158A58;
+        state = 
+        ((void *)object)+ 0x20;
+        object->unk_10 = &D_80158A58;
         state->unk_13 = MONSTER_CLOWN;
         register_node(object, project_sprite_chain);
-        config_data = ((S_80158878_0 *)object)->unk_08;
+        config_data = object->position;
         config_data->unk_0A = saved_value;
-        placement_data = ((S_80158878_0 *)object)->unk_0C;
+        placement_data = object->sprite;
         init_mode = init_flags & 3;
         placement_data->unk_25 = saved_y;
         extended_state = state;

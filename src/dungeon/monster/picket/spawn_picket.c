@@ -6,13 +6,6 @@
 
 #include "shared/entity.h"
 
-typedef struct S_80170AF4_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80170AF4_0;   /* obj in spawn_picket */
-
 typedef struct S_80170AF4_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -52,7 +45,7 @@ extern u8 D_80174F48[];
 void *spawn_picket(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_80170AF4_2 *part_a;
     SpriteFrameState *part_b;
     S_80170AF4_1 *work;
@@ -71,13 +64,13 @@ void *spawn_picket(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80170AF4_0 *)obj)->unk_10 = D_80170CC8;
+        obj->unk_10 = D_80170CC8;
         work->unk_13 = MONSTER_PICKET;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_80170AF4_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_spawn;
-        part_b = ((S_80170AF4_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;

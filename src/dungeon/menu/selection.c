@@ -1,4 +1,6 @@
 /* Selection menu input, widget descriptors, child allocation, and text-content checks. */
+#include "shared/object_node.h"
+#include "dungeon/menu.h"
 #include "dungeon/menu/selection.h"
 #include "shared/object_flags.h"
 
@@ -9,7 +11,7 @@ void set_indexed_object_field(ovl_1831370_81811370_S_80026370_0 *object, s32 ind
 
 s32 adjust_selection_by_item_count(s32 input_value, s32 target, s32 lookup_index)
 {
-    return advance_index_with_single_wrap(target, input_value, D_800294F8[lookup_index]);
+    return advance_index_with_single_wrap(target, input_value, text_editor_pair_limits[lookup_index]);
 }
 
 void inventory_set_object_entry_address(ovl_1831370_818113C0_S_800263C0_0 *object, s32 source) {
@@ -73,7 +75,7 @@ void clear_object_buffer_and_state(s32 objectAddress)
 
     objectState = (void *)(objectAddress + 0x20);
     memset(objectState->unk_14, 0,
-           (D_800294F8[objectState->unk_10] * 2) | 1);
+           (text_editor_pair_limits[objectState->unk_10] * 2) | 1);
     inventory_set_object_entry_address(objectState->unk_70, objectState->unk_14);
     objectState->unk_08 = 0;
     set_indexed_object_field(objectState->unk_70, 0);
@@ -94,7 +96,7 @@ void write_text_and_advance_selection(s32 objectAddress, s32 updateValue) {
 void copy_string_to_object_buffer(s8 *object, s32 sourceString) {
     ovl_1831370_8181161C_Func8181161CData *textData = (ovl_1831370_8181161C_Func8181161CData *)(object + 0x20);
 
-    memset(textData->field_14, 0, (D_800294F8[textData->index] << 1) | 1);
+    memset(textData->field_14, 0, (text_editor_pair_limits[textData->index] << 1) | 1);
     strcpy(textData->field_14, sourceString);
     inventory_set_object_entry_address(textData->field_70, textData->field_14);
 }
@@ -119,7 +121,7 @@ void *initialize_variant_packet(ovl_1831370_81811708_Packet *packet, s32 variant
     s32 payload;
 
     packet->unk1 = 0x28;
-    payload = D_800294FC;
+    payload = text_editor_packet_payload;
     packet->unk2 = -0x21;
     packet->unk3 = 5;
     packet->unk4 = payload;
@@ -229,20 +231,20 @@ s32 get_and_position_object_handle(void *object)
 
 /* Creates a selection menu child with widget data and drawing, marking failed allocations for removal. */
 void *allocate_initialized_child_object(s32 parent_object, s32 type_code, s32 config_value) {
-    u8 *object;
+    ObjectNodeHeader *object;
     u8 *state;
 
     object = allocate_flagged_object_node(0);
-    state = object + 0x20;
+    state = ((u8 *)object )+ 0x20;
     if (object != 0) {
         if (get_and_position_object_handle(state) != 0) {
-            *(void **)(object + 0xC) = object + 0x80;
+            object->sprite =((u8*)object )  + 0x80;
             *(s32 *)(state + 0x6C) = (s32)forward_value_to_shared_helper(*(S_800491F4 ***)(state + 0x70));
             initialize_embedded_object_state(state, parent_object, type_code, config_value);
             register_node(object, draw_tinted_node_sprites_scratch);
         } else {
             flag_object_for_removal(*(s32 *)(state + 0x74));
-            *(u16 *)(object + 0x1E) |= 0x8000;
+            object ->flags |= 0x8000;
             object = 0;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
@@ -307,11 +309,11 @@ s32 check_object_byte_pairs_content(s32 object_addr) {
         byte_count = pair_count * 2;
         byte_offset = 0;
         if (has_content < byte_count) {
-            default_pair = D_80029510;
+            default_pair = text_editor_empty_pair;
             compare_space = 0x20;
             loop_bound = byte_count;
             pair_data = pair_info->unk_14;
-            default_first = D_80029510[0];
+            default_first = text_editor_empty_pair[0];
 next_pair:
             pair = pair_data + byte_offset;
             first_byte = pair->unk_00;

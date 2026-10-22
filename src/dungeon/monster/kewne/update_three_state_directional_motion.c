@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -22,7 +23,7 @@ extern u8 D_80175E88[];
 extern u8 resident_globals_page[];
 
 /* Updates the actor's directional motion and animation across three action states. */
-void update_three_state_directional_motion(void *action, void *motion, void *sprite, void *actor)
+void update_three_state_directional_motion(void *action, void *motion, SpriteFrameState *sprite, void *actor)
 {
     s32 delta_x;
     s32 delta_y;
@@ -40,9 +41,9 @@ void update_three_state_directional_motion(void *action, void *motion, void *spr
     {
         u8 *facing_ptr;
 
-        flags = U16(sprite, 0x14);
+        flags = sprite->flags;
         if (flags & 0x8000) {
-            U16(sprite, 0x14) = flags | 0x6000;
+            sprite->flags = flags | 0x6000;
             U8(action, 0x9B) = 2;
             resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
             return;
@@ -104,8 +105,8 @@ void update_three_state_directional_motion(void *action, void *motion, void *spr
                 S32(motion, 0xC) = 0;
             }
         }
-        object_type = S8(sprite, 4);
-        if ((object_type == 5 && (U16(sprite, 0x14) & 0x1000)) || (U16(sprite, 0x14) & 0x8000)) {
+        object_type = sprite->unk_04;
+        if ((object_type == 5 && (sprite->flags & 0x1000)) || (sprite->flags & 0x8000)) {
             resolve_attack_damage_and_effects(actor, sprite, S16(actor, 0x2A), 1);
             anim_table = 0x80170000;
         } else {
@@ -114,7 +115,7 @@ void update_three_state_directional_motion(void *action, void *motion, void *spr
         {
             u8 *facing_ptr;
 
-            if ((U16(sprite, 0x14) & 0xE000) == 0) {
+            if ((sprite->flags & 0xE000) == 0) {
                 return;
             }
             anim_table += 0x5EB8;
@@ -128,7 +129,7 @@ void update_three_state_directional_motion(void *action, void *motion, void *spr
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;
-        set_record_integer_tile_center(motion, U8(sprite, 0x24), U8(sprite, 0x25));
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
 advance_state:
         U8(action, 0x9B)++;
         return;
@@ -137,7 +138,7 @@ advance_state:
     case 2:
     {
 
-        if ((U16(sprite, 0x14) & 0xE000) == 0) {
+        if ((sprite->flags & 0xE000) == 0) {
             return;
         }
         spend_actor_mp(actor, 0x100);

@@ -1,5 +1,7 @@
 #ifndef DUNGEON_OVL_1960800_H
 #define DUNGEON_OVL_1960800_H
+
+struct ObjectNodeHeader;
 #include "shared/dungeon_effect_views.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
@@ -32,16 +34,6 @@ typedef struct S_80024104_0 {
     u8 unk_7A;
     u8 unk_7B;
 } S_80024104_0;
-typedef struct S_80024104_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80024104_1;
-typedef struct S_80024104_2_pre {
-    void * unk_00;
-    u8 pad_04[0x14];
-} S_80024104_2_pre;
 typedef struct {
     u16 x;
     u16 y;
@@ -102,11 +94,6 @@ typedef struct S_800243D8_1_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } S_800243D8_1_pre;
-typedef struct S_800243D8_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800243D8_2;
 typedef struct S_800243D8_3 {
     s32 unk_00;
     s32 unk_04;
@@ -169,11 +156,6 @@ typedef struct S_800249F0_2_pre {
     void * unk_00;
     u8 pad_04[0x14];
 } S_800249F0_2_pre;
-typedef struct S_800249F0_3 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_800249F0_3;
 typedef struct S_800249F0_4 {
     s32 unk_00;
     s32 unk_04;
@@ -195,17 +177,18 @@ typedef struct {
 void select_record_entry_and_value(void *, void *, s32);
 s32 draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 u32 func_80065420(void *, void *, void *, void *);
-extern s16 D_8002571C;
-extern PackedVec3 D_800256E0;
+extern s16 tint_particle_effect_updated;
+extern PackedVec3 tint_particle_sprite_data;
 void func_8002405C(void *effect, void *unused, void *primitive);
-void func_80024104(void *owner);
+void spawn_free_slot_display_effect(void *owner);
 void advance_object_spawning_displays_high(void *source, void *unused_position, void *unused_sprite);
-s32 func_800244E4(PointRecord *first_point, ObjectPosition *first_position);
+s32 draw_brightness_scaled_point_chain(PointRecord *first_point, ObjectPosition *first_position);
 void lower_timed_effect_position(Entity *entity, State *state);
-void handle_spawn_initialize_randomized_offset_parent(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
-void advance_animation_values_set_completion_flags_countdown_expires(void *countdownState, s32 unused, void *animationState);
+void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
+void expand_rotating_countdown_sprite(void *countdownState, s32 unused, void *animationState);
 void advance_timed_effect_animation(DungeonObject *object, s32 unused, void *handlerContext);
 void decrement_object_counter(void *object);
-void *create_an_copied_position_packed_data_initialize_rendering_state(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
-void advance_actor_tint_particle_sequence(void *effect, void *effect_pos, void *effect_data);
+void *create_packed_sprite_effect(void *source, void *unused_1, void *unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode);
+void advance_actor_tint_particle_sequence(struct ObjectNodeHeader *effect, void *effect_pos, void *effect_data);
+
 #endif

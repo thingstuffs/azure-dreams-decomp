@@ -4,7 +4,7 @@
 #include "slus/sound_dma_lifecycle.h"
 
 /* Initialize the SPU, resetting voice settings on a cold start. */
-s32 initialize_spu_registers_and_voices(s32 warm)
+s32 _spu_init(s32 warm)
 {
     s32 entry_index;
     s32 result;
@@ -19,7 +19,7 @@ s32 initialize_spu_registers_and_voices(s32 warm)
     spu_registers->mvoll = 0;
     spu_registers->mvolr = 0;
     spu_registers->control = 0;
-    delay_multiply_loop();
+    _spu_Fw1ts();
     spu_registers->mvoll = 0;
     spu_registers->mvolr = 0;
     status_polls = 0;
@@ -56,7 +56,7 @@ s32 initialize_spu_registers_and_voices(s32 warm)
         spu_registers->cdvolr = 0;
         spu_registers->extvoll = 0;
         spu_registers->extvolr = 0;
-        write_spu_transfer_fifo_in_chunks(spu_cold_start_sample, 0x10);
+        _spu_FwriteByIO(spu_cold_start_sample, 0x10);
         spu_regs = spu_registers;
         for (entry_index = 0; entry_index < 24; entry_index++) {
             spu_regs->voice[entry_index].voll = 0;
@@ -68,16 +68,16 @@ s32 initialize_spu_registers_and_voices(s32 warm)
         }
         spu_registers->keyon_lo = 0xFFFF;
         spu_registers->keyon_hi = 0xFF;
-        delay_multiply_loop();
-        delay_multiply_loop();
-        delay_multiply_loop();
-        delay_multiply_loop();
+        _spu_Fw1ts();
+        _spu_Fw1ts();
+        _spu_Fw1ts();
+        _spu_Fw1ts();
         spu_registers->keyoff_lo = 0xFFFF;
         spu_registers->keyoff_hi = 0xFF;
-        delay_multiply_loop();
-        delay_multiply_loop();
-        delay_multiply_loop();
-        delay_multiply_loop();
+        _spu_Fw1ts();
+        _spu_Fw1ts();
+        _spu_Fw1ts();
+        _spu_Fw1ts();
     }
     result = 0;
     spu_transfer_complete = 1;
@@ -89,7 +89,7 @@ s32 initialize_spu_registers_and_voices(s32 warm)
 #include "slus/sound_dma_lifecycle.h"
 
 /* Writes source data to SPU RAM through the transfer FIFO and waits for completion. */
-void write_spu_transfer_fifo_in_chunks(u16 *src, u32 bytes_left)
+void _spu_FwriteByIO(u16 *src, u32 bytes_left)
 {
     u16 *src_pos;
     u16 initial_status;
@@ -104,7 +104,7 @@ void write_spu_transfer_fifo_in_chunks(u16 *src, u32 bytes_left)
     initial_status = spu_registers->status.value;
     spu_registers->transfer_address.value = spu_transfer_address_units;
     saved_status = initial_status & 0x7FF;
-    delay_multiply_loop();
+    _spu_Fw1ts();
 
     while (bytes_left != 0) {
         chunk_bytes = 0x40;
@@ -117,7 +117,7 @@ void write_spu_transfer_fifo_in_chunks(u16 *src, u32 bytes_left)
         control = spu_registers->control;
         control = (control & 0xFFCF) | 0x10;
         spu_registers->control = control;
-        delay_multiply_loop();
+        _spu_Fw1ts();
         poll_count = 0;
         while (spu_registers->status.value & 0x400) {
             if (++poll_count >= 0xF01) {
@@ -125,8 +125,8 @@ void write_spu_transfer_fifo_in_chunks(u16 *src, u32 bytes_left)
                 break;
             }
         }
-        delay_multiply_loop();
-        delay_multiply_loop();
+        _spu_Fw1ts();
+        _spu_Fw1ts();
         bytes_left -= chunk_bytes;
     }
 
@@ -145,14 +145,14 @@ void write_spu_transfer_fifo_in_chunks(u16 *src, u32 bytes_left)
 #include "slus/sound_dma_lifecycle.h"
 
 /* Clears the SPU transfer mode, waits for it to clear, and signals completion. */
-void complete_spu_dma_and_signal_event(void)
+void _spu_FiDMA(void)
 {
     u32 poll_count;
     u32 event_class;
     SoundTransferRegisters *spu_regs;
 
     if (spu_dma_read_direction == 0) {
-        delay_multiply_loop();
+        _spu_Fw1ts();
     }
 
     spu_regs = spu_registers;
@@ -176,13 +176,13 @@ void complete_spu_dma_and_signal_event(void)
 #include "slus/sound_dma_lifecycle.h"
 
 /* Starts a DMA transfer from SPU RAM to main RAM. */
-void submit_spu_dma_read_blocks(s32 ram_address, s16 spu_address, s32 block_count)
+void _spu_Fr_(s32 ram_address, s16 spu_address, s32 block_count)
 {
     spu_registers->transfer_address.ordered = spu_address;
-    delay_multiply_loop();
+    _spu_Fw1ts();
     spu_registers->control |= 0x30;
-    delay_multiply_loop();
-    select_spu_dma_read_channel_flags();
+    _spu_Fw1ts();
+    _spu_FsetDelayR();
 
     *spu_dma_ram_address_register = ram_address;
     *spu_dma_block_control_register = ((u32)block_count << 16) | 0x10;
@@ -215,7 +215,7 @@ typedef char *va_list_t;
 #define VA_ARG(ap, T)      (ap += sizeof(T), *(T *)(ap - sizeof(T)))
 
 /* Sets the SPU transfer address or direction, or starts a DMA transfer. */
-s32 dispatch_spu_dma_transfer_command(s32 command, ...)
+s32 _spu_t(s32 command, ...)
 {
     va_list_t args;
     u16 expected_addr;
@@ -279,9 +279,9 @@ s32 dispatch_spu_dma_transfer_command(s32 command, ...)
             }
         }
         if (spu_dma_read_direction == 1) {
-            select_spu_dma_read_channel_flags();
+            _spu_FsetDelayR();
         } else {
-            select_spu_dma_write_channel_flags();
+            _spu_FsetDelayW();
         }
         transfer_arg = VA_ARG(args, s32);
         *(s32 *)&spu_dma_ram_address = transfer_arg;
@@ -304,7 +304,7 @@ s32 dispatch_spu_dma_transfer_command(s32 command, ...)
 #include "slus.h"
 
 /* Multiplies a volatile stack value by 13 sixty times, then discards the result. */
-void delay_multiply_loop(void) {
+void _spu_Fw1ts(void) {
     volatile s32 iteration;
     volatile s32 product;
 

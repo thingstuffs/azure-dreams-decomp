@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -17,27 +18,13 @@ typedef struct S_func_810870DC_0 {
     s16 unk_A6;
 } S_func_810870DC_0;
 
-typedef struct S_func_810870DC_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x16];
-    void *unk_2C;
-} S_func_810870DC_1;
-
 typedef struct S_func_810870DC_2 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_func_810870DC_2;
 
-typedef struct S_func_810870DC_3 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    u8 pad_0C[0xBC];
-    s16 unk_C8;
-} S_func_810870DC_3;
-
 /* Updates directional animation and entity state when the transition flags allow. */
-void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *animation,
+void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused, SpriteFrameState *animation,
     S_func_810870DC_2 *orientation)
 {
     GameWork *scene_data = &g_game_work;
@@ -45,8 +32,8 @@ void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused
 
     switch (state) {
     case 0:
-        if (animation->unk_14 & 0xE000) {
-            animation->unk_2C = D_80175F28;
+        if (animation->flags & 0xE000) {
+            animation->frameTable = D_80175F28;
             select_sprite_entry(animation,
                 D_80175F28[((scene_data->view.camera_rotation.parts.viewAngle +
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);
@@ -64,7 +51,7 @@ void update_directional_transition_state(S_func_810870DC_0 *entity, void *unused
          * enter its tile. Found and documented by the Azure Dreams community (adrando.com/guide/bugs.html).
          */
         if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
-            animation->unk_2C = D_80175F10;
+            animation->frameTable = D_80175F10;
             select_sprite_entry(animation,
                 D_80175F10[((scene_data->view.camera_rotation.parts.viewAngle +
                     orientation->unk_2A + 0x100) >> 9) & 7], 0);

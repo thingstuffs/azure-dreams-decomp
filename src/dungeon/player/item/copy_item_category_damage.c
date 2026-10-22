@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/player/item.h"
 
 extern u8 D_800DD704[];
 

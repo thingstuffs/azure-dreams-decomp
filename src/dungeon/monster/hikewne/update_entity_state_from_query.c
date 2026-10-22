@@ -1,11 +1,11 @@
 #include "common.h"
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
+#include "dungeon/monster/hikewne.h"
 
 s32 has_pending_dungeon_activity();                          /* extern */
 void update_actor_status_and_mp();                      /* extern */
 s32 relink_entity_and_clear_high_flag(); /* extern */
-void select_movement_direction_and_advance(); /* extern */
 
 typedef struct S_80172628_0 {
     u8 pad_00[0x46];

@@ -18,18 +18,6 @@ typedef struct S_8016A800_0 {
     void * unk_8C;
 } S_8016A800_0;   /* result in func_8016A854 */
 
-typedef struct S_8016A800_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8016A800_1;   /* root in func_8016A854 */
-
-typedef struct S_8016A800_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_8016A800_2;   /* position in func_8016A854 */
-
 typedef struct S_8016A800_4 {
     u8 pad_00[0x8C];
     void * unk_8C;

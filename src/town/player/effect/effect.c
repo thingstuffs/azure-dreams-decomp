@@ -14,7 +14,7 @@ extern void spawn_radial_objects(s32, UnkStackData *, s32);
 extern UnkStackData D_80088D60;
 
 /* Decrements an object's countdown and triggers a randomized update when it expires. */
-void func_80097C50(void *object, s32 target)
+void tick_random_radial_spawns(void *object, s32 target)
 {
     UnkStackData update_data;
     u16 ticks_left;

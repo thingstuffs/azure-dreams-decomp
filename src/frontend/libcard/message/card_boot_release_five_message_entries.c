@@ -1,6 +1,6 @@
 #include "common.h"
 #include "frontend/libcard/message.h"
-void func_8004E994(s32);                         /* extern */
+void noop_release_notification(s32);                         /* extern */
 
 typedef struct S_80023194_0 {
     u8 pad_00[0x8CC];
@@ -19,6 +19,6 @@ void card_boot_release_five_message_entries(void *record) {
         value_ptr = ((S_80023194_0 *)entry_cursor)->unk_8CC;
         entry_cursor += 4;
         entry_index += 1;
-        func_8004E994(*value_ptr);
+        noop_release_notification(*value_ptr);
     } while (entry_index < 5);
 }

@@ -6,13 +6,6 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-typedef struct S_8100B000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8100B000_0;   /* obj in spawn_garuda_slot_f */
-
 typedef struct S_8100B000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -60,7 +53,7 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
     s16 final_arg0;
     s32 left;
     S_8100B000_1 *work = NULL;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8100B000_2 *part_a;
     SpriteFrameState *part_b;
     S_8100B000_4 *actor;
@@ -74,13 +67,13 @@ void *spawn_garuda_slot_f(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) 
     obj = allocate_list_node(0x112, ((void *)&scene_object_list_anchor.next));
     final_arg0 = flags;
     if (obj != NULL) {
-        work = obj + 0x20;
-        ((S_8100B000_0 *)obj)->unk_10 = &D_8016AA78;
+        work = ((void *)obj) + 0x20;
+        obj->unk_10 = &D_8016AA78;
         work->unk_13 = MONSTER_GARUDA;
         register_node(obj, project_sprite_chain);
-        part_a = ((S_8100B000_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_spawn;
-        part_b = ((S_8100B000_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;

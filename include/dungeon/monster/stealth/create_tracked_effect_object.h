@@ -4,15 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-
 typedef s32 M2C_UNK;
-
-typedef struct S_8015E854_0 {
-    u8 pad_00[0x8];
-    void ** unk_08;
-    void ** unk_0C;
-    void * unk_10;
-} S_8015E854_0;   /* objectBase in func_8015E854 */
 
 typedef struct S_8015E854_1 {
     u8 pad_00[0x13];
@@ -50,7 +42,6 @@ typedef struct S_8015E854_4 {
     s16 unk_A4;
     s16 unk_A6;
 } S_8015E854_4;   /* objectState in func_8015E854 */
-
 
 extern void func_8015EA8C();
 extern u8 D_80161D30[];

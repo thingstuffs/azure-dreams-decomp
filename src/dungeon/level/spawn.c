@@ -1,7 +1,9 @@
 /* Floor item selection and placement, saved monster restoration, traps, and floor label sprites. */
+#include "shared/object_node.h"
 #include "dungeon/level/spawn.h"
 #include "shared/item_ids.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/level.h"
 
 s32 is_floor_item_tile_occupied(s32 excluded_slot, s16 x, s16 y)
 {
@@ -141,7 +143,7 @@ main_loop:
                         u32 item_flags;
 
                         item_category = 0x12;
-                        item_subtype = D_800DDC9C[generate_random_value() & 0x1F];
+                        item_subtype = floor_species_pool[generate_random_value() & 0x1F];
                         item_flags = item_category_table[18].entries[item_subtype].flags;
                         if ((item_flags & 0x10) != 0 &&
                             (item_category_table[19].entries[item_subtype].flags & 0x80) != 0 &&
@@ -718,7 +720,7 @@ void restore_spawns_and_place_floor_traps(void) {
             s32 table_index;
 
             table_index = trap_type;
-            lookup_base = D_800DF258;
+            lookup_base = floor_object_sprite_sources;
             value = *(s32 *)(lookup_base + (table_index << 2));
         }
         if (value < 0) {
@@ -751,19 +753,19 @@ void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
 {
     u16 flags;
     SpriteFrameState *render_state;
-    void *object;
+    ObjectNodeHeader *object;
     s16 *position;
     s16 *object_data;
 
     object = allocate_flagged_object_node(2);
     if (object != NULL) {
-        ((floor_spawns_isolated_8028C354_S_8001F354_0 *)object)->unk_10 = (s32)D_800A5AF0;
+        object->unk_10 = (s32)D_800A5AF0;
         register_node(object, D_80044BB0);
-        position = (s16 *)((floor_spawns_isolated_8028C354_S_8001F354_0 *)object)->unk_08;
+        position = (s16 *)object->position;
         position[1] = x + 0x280;
         position[3] = y;
         position[5] = 1;
-        render_state = ((floor_spawns_isolated_8028C354_S_8001F354_0 *)object)->unk_0C;
+        render_state = object->sprite;
         render_state->scale_x = 0x2000;
         render_state->scale_y = 0x1000;
         render_state->source = render_param;
@@ -774,7 +776,7 @@ void create_tinted_dungeon_object(s16 x, s16 y, s16 tinted, s32 render_param)
         }
         flags = render_state->flags;
         render_state->tpage_abr = 0x20;
-        object_data = (s16 *)(object + 0x20);
+        object_data = (s16 *)(((void *)object) + 0x20);
         render_state->flags = flags | 0xC;
         object_data[3] = 0x18;
         object_data[4] = x;

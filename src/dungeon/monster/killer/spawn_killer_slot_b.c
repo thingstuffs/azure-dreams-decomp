@@ -6,13 +6,6 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-typedef struct S_80FF9000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80FF9000_0;   /* obj in spawn_killer_slot_b */
-
 typedef struct S_80FF9000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -74,7 +67,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
     s32 flags_1c;
     SpriteFrameState *part_b;
     S_80FF9000_2 *part_a;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_80FF9000_4 *actor;
 
     work = NULL;
@@ -86,13 +79,13 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
     obj = allocate_list_node(alloc_kind, alloc_desc);
     init_flags = spawn_flags;
     if (obj != NULL) {
-        work = obj + 0x20;
-        ((S_80FF9000_0 *)obj)->unk_10 = &D_80152A7C;
+        work = ((void *)obj) + 0x20;
+        obj->unk_10 = &D_80152A7C;
         work->unk_13 = MONSTER_KILLER;
         register_node(obj, project_sprite_chain);
-        part_a = ((S_80FF9000_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = part_value;
-        part_b = ((S_80FF9000_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->unk_25 = saved_y;
         actor = work;

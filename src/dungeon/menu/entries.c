@@ -1,4 +1,6 @@
 /* Paged menu records, cursor input, widget setup, resource lifetime, and drawing packets. */
+#include "shared/object_node.h"
+#include "dungeon/menu.h"
 #include "dungeon/menu/entries.h"
 #include "shared/object_flags.h"
 
@@ -501,15 +503,15 @@ void handle_menu_button_input(void *menu) {
 
 void invoke_enabled_menu_callback(s32 *record) {
     if (record[8] != 0) {
-        D_80029514[record[5]](record);
+        menu_enabled_callbacks[record[5]](record);
     }
 }
 
-void func_80027A68(s32 *record) { invoke_enabled_menu_callback(record); }
+void update_enabled_menu_callback(s32 *record) { invoke_enabled_menu_callback(record); }
 
 void handle_menu_record_check(void *record) {
     if (advance_timed_tagged_stream(record + 0x2C) != 0) {
-        ((ovl_1831cd8_81812A88_S_80027A88_0 *)((u8 *)record - 0x10))->unk_00 = (void *)func_80027A68;
+        ((ovl_1831cd8_81812A88_S_80027A88_0 *)((u8 *)record - 0x10))->unk_00 = (void *)update_enabled_menu_callback;
         ((ovl_1831cd8_81812A88_S_80027A88_0 *)((u8 *)record - 0x10))->unk_10 = 0;
     }
     invoke_enabled_menu_callback(record);
@@ -603,7 +605,7 @@ void update_menu_progress_bar(ovl_1831cd8_81812D08_ProgressState *state) {
 }
 
 void dispatch_menu_update_callback(s32 *state) {
-    D_8002951C[state[5]](state);
+    menu_update_callbacks[state[5]](state);
     state[0]++;
     if (state[1] < state[0]) {
         set_entry_destination_and_value(state[34], state[19]);
@@ -614,7 +616,7 @@ void dispatch_menu_update_callback(s32 *state) {
 }
 
 void tick_menu_countdown(s32 *countdownState) {
-    D_80029524[countdownState[5]](countdownState);
+    menu_countdown_callbacks[countdownState[5]](countdownState);
     countdownState[0]--;
     if (countdownState[0] < 0) {
         countdownState[0] = 0;
@@ -624,7 +626,7 @@ void tick_menu_countdown(s32 *countdownState) {
 }
 
 void run_menu_countdown_callback(s32 *state) {
-    D_8002952C[state[5]](state);
+    menu_page_countdown_callbacks[state[5]](state);
     state[0]--;
     if (state[0] < 0) {
         state[0] = 0;
@@ -644,16 +646,16 @@ void advance_menu_value_fade(void *state) {
     ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 = nextStep;
     if (((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_14 < nextStep) {
         ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 = 0;
-        ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_00 = (void *)func_80027A68;
+        ((ovl_1831cd8_81812F34_S_80027F34_0 *)((u8 *)state - 0x10))->unk_00 = (void *)update_enabled_menu_callback;
     }
     invoke_enabled_menu_callback(state);
 }
 
 S_800491F4 *link_menu_record_nodes(S_800491F4 **nodes) {
-    return build_reverse_indexed_chain(nodes, &D_80029534, 15);
+    return build_reverse_indexed_chain(nodes, &menu_context_chain_indices, 15);
 }
 
-S_800491F4 *build_menu_entry_chain(S_800491F4 **nodes) { return build_reverse_indexed_chain(nodes, D_80029544, 15); }
+S_800491F4 *build_menu_entry_chain(S_800491F4 **nodes) { return build_reverse_indexed_chain(nodes, menu_entry_chain_indices, 15); }
 
 void *initialize_menu_mode_one_fields(ovl_1831cd8_81812FF4_S_80027FF4_0 *object, s32 mode) {
     copy_menu_record_template(object);
@@ -779,7 +781,7 @@ void initialize_menu_object_state(s32 object_addr, s32 initial_value) {
         ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_38);
     initialize_menu_mode_one_fields(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_5C, ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_24);
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_94 = (s32)link_menu_record_nodes(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
-    format_menu_referenced_values(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
+    clear_menu_value_objects(((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
     mark_menu_object_ready(object_addr);
     ((ovl_1831cd8_81813320_S_80028320_0 *)((u8 *)state - 0x10))->unk_00 = (void *)dispatch_menu_update_callback;
 }
@@ -798,7 +800,7 @@ void install_menu_object_handler(s32 object_addr) {
         ((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_28);
     initialize_menu_mode_one_fields(((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_4C, ((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_14);
     ((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_84 = (s32)link_menu_record_nodes(((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_88);
-    format_menu_referenced_values(((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_88);
+    clear_menu_value_objects(((ovl_1831cd8_818133B4_S_800283B4_0 *)object_state)->unk_88);
     mark_menu_object_ready(object_addr);
     ((ovl_1831cd8_818133B4_S_800283B4_0_pre *)object_state)[-1].unk_00 = (void *)dispatch_menu_update_callback;
 }
@@ -830,7 +832,7 @@ void *create_menu_child_object(s32 parent_obj, s32 descriptor_value)
 }
 
 /* Marks the eight row resources and final widget resource for removal, clearing the row pointers. */
-void format_menu_referenced_values(void *state) {
+void clear_menu_value_objects(void *state) {
     s32 **value_slot;
     s32 slot_index;
 
@@ -854,7 +856,7 @@ void retire_menu_object(void *object)
 
     if (object != 0) {
         objectData = (u8 *)object + 0x20;
-        format_menu_referenced_values(*(void **)(objectData + 0x88));
+        clear_menu_value_objects(*(void **)(objectData + 0x88));
         flag_object_for_removal(*(void **)(objectData + 0x40));
         release_null_terminated_entries((u8 *)object + 0xAC);
         objectFlags = *(u16 *)((u8 *)object + 0x1E);
@@ -919,8 +921,8 @@ void *build_menu_draw_packets(void *packet, void *coords) {
 }
 
 ovl_1831cd8_81813774_UnalignedBlock12 *copy_menu_record_template(ovl_1831cd8_81813774_UnalignedBlock12 *dest) {
-    dest[0] = D_80029550.chunks[0];
-    dest[1] = D_80029550.chunks[1];
+    dest[0] = menu_record_template.chunks[0];
+    dest[1] = menu_record_template.chunks[1];
     return dest;
 }
 

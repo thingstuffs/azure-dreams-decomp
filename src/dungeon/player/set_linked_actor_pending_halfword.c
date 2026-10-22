@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
+#include "dungeon/player.h"
 
 typedef struct S_800945C4_0 {
     u8 pad_00[0xAC];

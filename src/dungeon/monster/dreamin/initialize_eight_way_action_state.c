@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -23,11 +24,11 @@ extern u8 D_8017387C[9];
 extern void select_sprite_entry(Context *, s16, s16);
 
 // Initializes state and configures the context from an eight-way direction lookup.
-void initialize_eight_way_action_state(State *state, s32 unused, Context *context, IndexSource *directionSource)
+void initialize_eight_way_action_state(State *state, s32 unused, SpriteFrameState *context, IndexSource *directionSource)
 {
     state->unk9A = 0x10;
     state->unk9B = 0;
     state->unk9E = 8;
-    context->unk2C = D_8017387C;
+    context->frameTable = D_8017387C;
     select_sprite_entry(context, D_8017387C[((g_game_work.view.camera_rotation.parts.viewAngle + directionSource->unk2A + 0x100) >> 9) & 7], 0);
 }

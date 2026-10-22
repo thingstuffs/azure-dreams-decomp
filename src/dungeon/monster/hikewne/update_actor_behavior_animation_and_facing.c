@@ -1,10 +1,12 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+#include "dungeon/monster/hikewne.h"
 
 
 extern void select_sprite_entry(void *, u8, s32);
@@ -22,20 +24,18 @@ extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *d
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 
-extern void advance_actor_along_queued_path(void *, void *, void *, void *);
-extern void select_movement_direction_and_advance(void *, void *, void *, void *);
+extern void advance_actor_along_queued_path(void *, void *, SpriteFrameState *, void *);
 extern s32 validate_action_and_apply_effect(void *, void *, void *, void *);
 extern void clear_entity_flag_and_advance_action(void *, void *, void *, void *);
 extern s32 update_entity_state_from_query(void *, void *, void *, s32);
 extern void update_directional_sprite_state_and_signals(void *, void *, void *, void *);
 
 extern u8 D_801740E0[];
-extern u8 D_801740E8[];
+#include "dungeon/monster/hikewne.h"
 extern u8 D_801740F0[];
 extern u8 D_80174140[];
 extern u8 D_80174150[];
 extern u8 D_80174158[];
-
 
 typedef struct S_801714D4_0 {
     u8 pad_00[0x8C];
@@ -52,28 +52,12 @@ typedef struct S_801714D4_0 {
     union { s16 s; u16 u; } unk_A2;   /* accessed as both */
 } S_801714D4_0;   /* arg0 in update_actor_behavior_animation_and_facing */
 
-
-typedef struct S_801714D4_2 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0x1E];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    s8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} S_801714D4_2;   /* arg2 in update_actor_behavior_animation_and_facing */
-
-
 /* Updates actor behavior, animation, and facing from its status and current tile. */
 void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
 {
     register void *actor_head = actor_arg;
     register void *context = context_arg;
-    register void *sprite = sprite_arg;
+    register SpriteFrameState *sprite= sprite_arg;
     register EntityRec *stats = stats_arg;
     s16 distance;
     s32 flags;
@@ -87,20 +71,18 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
 #define actor_arg actor_head
 #define context_arg context
 
-
     if (g_dungeon_status.flags & 0x1000) {
         ((S_801714D4_0 *)actor_arg)->unk_9A = 14;
         advance_actor_along_queued_path(actor_arg, context_arg, sprite, stats);
         return;
     }
 
-
     if (stats->tileY == 0) {
         advance_actor_pending_action(actor_arg, context_arg, sprite, stats);
-        if (((S_801714D4_2 *)sprite)->unk_2C == D_80174158) {
+        if (*(u8 **)&sprite->frameTable == D_80174158) {
             return;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174150;
+        (sprite->frameTable) = D_80174150;
         select_sprite_entry(
             sprite,
             D_80174150[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
@@ -109,7 +91,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
     }
 
     if (((u32)stats->flags1C) & 0x200) {
-        if (((S_801714D4_2 *)sprite)->unk_2C == D_80174158) {
+        if (*(u8 **)&sprite->frameTable == D_80174158) {
             ((S_801714D4_0 *)actor_arg)->unk_9A = 13;
             ((S_801714D4_0 *)actor_arg)->unk_9B = 1;
             ((S_801714D4_0 *)actor_arg)->unk_8C = 0;
@@ -131,14 +113,14 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
             ((S_801714D4_0 *)actor_arg)->unk_9A = 14;
         }
 
-        if ((((S_801714D4_2 *)sprite)->unk_2C != D_801740E0) &&
-            (((S_801714D4_2 *)sprite)->unk_2C != D_801740E8)) {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801740E0;
+        if ((*(u8 **)&sprite->frameTable != D_801740E0) &&
+            (*(u8 **)&sprite->frameTable != hikewne_alt_direction_frames)) {
+            (sprite->frameTable) = D_801740E0;
             select_sprite_entry(
                 sprite,
                 D_801740E0[((g_game_work.view.camera_rotation.parts.viewAngle + stats->facing + 0x100) >> 9) & 7],
                 0);
-            ((S_801714D4_2 *)sprite)->unk_05 = 1;
+            sprite->unk_05 = 1;
             ((S_801714D4_0 *)actor_arg)->unk_A2.s = 0;
             ((S_801714D4_0 *)actor_arg)->unk_9E = 0;
         }
@@ -169,15 +151,15 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
     actor_tail = actor_head;
 #undef actor_arg
 #define actor_arg actor_tail
-    tile_index = find_active_rect_containing_point(((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v);
-    ((S_801714D4_2 *)sprite)->unk_26 = tile_index;
+    tile_index = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = tile_index;
 
     if (stats->unk_6D > 0) {
         if (((u32)stats->flags1C) & 0x20) {
             update_actor_status_and_mp(stats);
             return;
         }
-        if (((S_801714D4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
             select_movement_direction_and_advance(actor_arg, context_arg, sprite, stats);
             return;
         }
@@ -215,7 +197,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
         case 5:
         case 6:
             angle = get_rounded_facing_and_rounding_flag(
-                ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
+                sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
             owner = primary_actor_record;
             stats->facing = angle;
@@ -259,12 +241,12 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
     {
 
         if ((s16)test_neighbor_position_relation(
-                ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
+                sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) == 0) {
             return;
         }
         stats->facing = get_rounded_facing_and_rounding_flag(
-            ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
+            sprite->unk_24, sprite->unk_25,
             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
     }
 #undef actor_arg

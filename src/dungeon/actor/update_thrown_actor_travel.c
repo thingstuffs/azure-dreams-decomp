@@ -6,10 +6,10 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
+#include "dungeon/level.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 check_neighbor_tile_blocking();             /* extern */
-s32 find_valid_nearby_position();      /* extern */
 void *prepare_directional_attack(); /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
 u8 find_active_rect_containing_point();                           /* extern */

@@ -1,6 +1,7 @@
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
+#include "dungeon/actor/state.h"
 
 typedef s32 M2C_UNK;
 
@@ -32,12 +33,6 @@ extern M2C_UNK D_800AFBFC;
 extern s8 D_800DCF4C;
 extern M2C_UNK D_800DEF90;
 
-typedef struct S_800B0544_0 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    s32 * unk_10;
-} S_800B0544_0;   /* obj in create_default_state_object */
-
 typedef struct S_800B0544_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -50,7 +45,7 @@ void create_default_state_object(s16 new_state) {
     S_800B0544_3 *obj_state;
     SpriteFrameState *color;
     SpriteFrameState *scale;
-    void *obj;
+    ObjectNodeHeader *obj;
 
     state = &D_800DCF4C;
     if (*state != new_state) {
@@ -59,21 +54,21 @@ void create_default_state_object(s16 new_state) {
     }
     obj = allocate_flagged_object_node(0x12);
     if (obj != NULL) {
-        ((S_800B0544_0 *)obj)->unk_10 = &D_800AFAD8;
+        obj->unk_10 = &D_800AFAD8;
         register_node(obj, &D_800AFBFC);
-        ((SpriteFrameState *)((S_800B0544_4 *)obj)->unk_0C)->source = &D_800DEF90;
-        color = ((S_800B0544_0 *)obj)->unk_0C;
+        obj->sprite->source = &D_800DEF90;
+        color = obj->sprite;
         color->color.c.b = 0xE0;
         color->color.c.g = 0xE0;
         color->color.c.r = 0xE0;
-        scale = ((S_800B0544_0 *)obj)->unk_0C;
+        scale = obj->sprite;
         scale->scale_y = 0x1000;
         scale->scale_x = 0x1000;
-        ((S_800B0544_6 *)(((S_800B0544_4 *)obj)->unk_08))->unk_02 = 0;
-        ((S_800B0544_6 *)(((S_800B0544_4 *)obj)->unk_08))->unk_06 = 0;
-        ((S_800B0544_6 *)(((S_800B0544_4 *)obj)->unk_08))->unk_0A = 0x4000;
+        ((S_800B0544_6 *)(obj->position))->unk_02 = 0;
+        ((S_800B0544_6 *)(obj->position))->unk_06 = 0;
+        ((S_800B0544_6 *)(obj->position))->unk_0A = 0x4000;
         mode = *(s32 *)0x80012090;
-        obj_state = obj + 0x20;
+        obj_state = ((void *)obj) + 0x20;
         if (mode == 0) {
             if (current_dungeon_floor == 0x28) {
                 obj_state->unk_02 = 1;

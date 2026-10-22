@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -15,15 +16,6 @@ typedef struct S_8016CC70_0 {
     u8 unk_AC;
 } S_8016CC70_0;   /* obj in update_actor_action_state_2 */
 
-typedef struct S_8016CC70_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} S_8016CC70_1;   /* target_arg in update_actor_action_state_2 */
-
 typedef struct S_8016CC70_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -36,7 +28,6 @@ typedef struct S_8016CC70_2 {
     u8 pad_66[0x7];
     s8 unk_6D;
 } S_8016CC70_2;   /* actor_arg in update_actor_action_state_2 */
-
 
 s32 get_entity_effect_value(void *, s32);
 void clear_slots_of_type(void *, s32);
@@ -57,8 +48,8 @@ extern u8 D_80173AC8[];
 extern u8 D_80173AD0[];
 
 /* Processes object action states, dispatches actor_arg actions, and updates directional tiles. */
-void update_actor_action_state_2(void *obj_arg, s32 context_arg, void *target_arg, void *actor_arg) {
-    void *target;
+void update_actor_action_state_2(void *obj_arg, s32 context_arg, SpriteFrameState *target_arg, void *actor_arg) {
+    SpriteFrameState *target;
 
     DungeonGlobalStatus *held_base;
     void *callback;
@@ -73,27 +64,27 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, void *target_ar
     action_state = ((S_8016CC70_0 *)obj_arg)->unk_9B;
     switch (action_state) {
     case 0:
-        if (!(((S_8016CC70_1 *)target_arg)->unk_14 & 0xE000)) {
+        if (!(target_arg->flags & 0xE000)) {
             return;
         }
         obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
-            (*(u8 **)((u8 *)target_arg + 0x2C)) = D_80173AC8;
+            (target_arg->frameTable) = D_80173AC8;
             select_sprite_entry(target_arg, D_80173AC8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
                 >> 9) & 7], 0);
         }
         counter_base = &g_dungeon_status;
         counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
         counter_value--;
-        *(u16 *)&counter_base->activity_counts.parts.pending_action_count = counter_value;
+        counter_base->activity_counts.parts.pending_action_count = counter_value;
         ((S_8016CC70_0 *)obj_arg)->unk_9B++;
         return;
 
     case 1:
         obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
-            if (((S_8016CC70_1 *)target_arg)->unk_2C != D_80173AC8) {
-                (*(u8 **)((u8 *)target_arg + 0x2C)) = D_80173AC8;
+            if (*(u8 **)&target_arg->frameTable != D_80173AC8) {
+                (target_arg->frameTable) = D_80173AC8;
                 select_sprite_entry(target_arg, D_80173AC8[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
                     >> 9) & 7], 0);
             }
@@ -102,7 +93,7 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, void *target_ar
         if ((get_entity_effect_value(actor_arg, 1) << 0x10) == 0) {
             obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
-                (*(u8 **)((u8 *)target + 0x2C)) = D_80173AD0;
+                (target->frameTable) = D_80173AD0;
                 select_sprite_entry(target, D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
                     >> 9) & 7], 0);
             }
@@ -148,7 +139,7 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, void *target_ar
             on_actor_status_updated(actor_arg);
             if ((get_entity_effect_value(actor_arg, 1) << 0x10) != 0) {
                 room_base = &reference_tile_object;
-                target_room = ((S_8016CC70_1 *)target)->unk_26;
+                target_room = *(s8 *)&target->unk_26;
                 if (!(((target_room != room_base->room_index) || (target_room < 0))
                       && get_tile_chebyshev_distance(room_base, target) >= 2)) {
                     if ((generate_random_value() & 7) == 0) {
@@ -161,30 +152,30 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, void *target_ar
             }
             obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
-                (*(u8 **)((u8 *)target + 0x2C)) = D_80173AD0;
+                (target->frameTable) = D_80173AD0;
                 select_sprite_entry(target, D_80173AD0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8016CC70_2 *)actor_arg)->unk_2A + 0x100)
                     >> 9) & 7], 0);
             }
         }
-        if (((S_8016CC70_1 *)target)->unk_14 & 0x8000) {
+        if (target->flags & 0x8000) {
             break;
         }
         counter_base = &g_dungeon_status;
         counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
         counter_value++;
-        *(u16 *)&counter_base->activity_counts.parts.pending_action_count = counter_value;
+        counter_base->activity_counts.parts.pending_action_count = counter_value;
         ((S_8016CC70_0 *)obj_arg)->unk_9B++;
         return;
 
     case 2:
         target = target_arg;
-        if (!(((S_8016CC70_1 *)target)->unk_14 & 0xE000)) {
+        if (!(target->flags & 0xE000)) {
             return;
         }
         counter_base = &g_dungeon_status;
         counter_value = *(u16 *)&counter_base->activity_counts.parts.pending_action_count;
         counter_value--;
-        *(u16 *)&counter_base->activity_counts.parts.pending_action_count = counter_value;
+        counter_base->activity_counts.parts.pending_action_count = counter_value;
         break;
 
     default:

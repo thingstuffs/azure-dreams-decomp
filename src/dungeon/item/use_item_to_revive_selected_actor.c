@@ -22,12 +22,6 @@ extern u8 D_800E1580[34];
 extern M2C_UNK D_800E15A2;
 extern void *familiar_record_slots[];
 
-
-typedef struct S_800C22EC_1 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800C22EC_1;   /* counter in use_item_to_revive_selected_actor */
-
 typedef struct S_800C22EC_2 {
     u8 pad_00[0x1];
     u8 unk_01;
@@ -73,7 +67,7 @@ s32 use_item_to_revive_selected_actor(EntityRec *entity, s32 action, s16 action_
         }
         return 1;
     }
-    selection = *(void **)((u8 *)&reference_tile_object.unk_000 + 0x34);
+    selection = *(void **)&reference_tile_object.secondary_item;
     if (selection->unk_01 == ITEM_KIND_FAMILIAR) {
         target_index = selection->unk_03 & 0x1F;
         if (target_index < 0x14) {

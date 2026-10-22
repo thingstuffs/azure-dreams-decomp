@@ -26,7 +26,6 @@ typedef struct S_81977B40_1 {
     s16 unk_82;
 } S_81977B40_1;   /* base in create_an_n_30_randomized_entries_spread_across_six_angular_directions */
 
-
 extern void *allocate_list_node();
 extern void register_node();
 extern s32 rand();
@@ -48,13 +47,13 @@ typedef struct S_81977B40_2 {
 void create_an_n_30_randomized_entries_spread_across_six_angular_directions(void *source_data)
 {
     s32 entry_index;
-    void *object;
+    ObjectNodeHeader *object;
     S_81977B40_2 *data;
 
     object = allocate_list_node(0x212, ((u8 *)(&scene_object_list_anchor)));
     entry_index = 0;
     if (object != NULL) {
-        ((S_81977B40_0 *)object)->unk_10 = D_800251E8;
+        object->unk_10 = D_800251E8;
         data = (S_81977B40_2 *)((u8 *)object + 0x20);
         ((S_81977B40_0 *)object)->unk_20 = ((S_81977B40_1 *)source_data)->unk_20;
         data->unk_04 = 0;

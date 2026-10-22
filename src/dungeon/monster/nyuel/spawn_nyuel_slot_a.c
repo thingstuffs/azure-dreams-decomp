@@ -1,4 +1,5 @@
 #include "modules/dungeon_ovl_bdb094.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_bdb094.h"
 

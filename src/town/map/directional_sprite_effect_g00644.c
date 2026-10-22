@@ -1,13 +1,14 @@
 /* Directional sprite effect (G00644). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800F15E4. */
+#include "shared/sprite_frame_state.h"
 #include "town/map/directional_sprite_effect_g00644.h"
 #include "shared/object_flags.h"
 
-/* Creates an effect at the supplied position with directional motion and initializes its sprite. */
+#include "shared/object_node.h"/* Creates an effect at the supplied position with directional motion and initializes its sprite. */
 s32 create_directional_sprite_effect(void *position, s16 angle) {
     s32 position_z;
     SpriteFrameState *sprite;
-    S_800BC574_0 *effect;
+    ObjectNodeHeader *effect;
     IntVector3 *source_pos = position;
     GameWork *world_state = &g_game_work;
     IntVector3 *data_ptr;
@@ -18,21 +19,21 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
         saved_angle = angle;
         effect->unk_10 = &D_800BC6CC;
         register_node(effect, project_sprite_chain);
-        sprite = effect->unk_0C;
-        data_ptr = effect->unk_08;
+        sprite = effect->sprite;
+        data_ptr = effect->position;
         data_ptr->x = (s32) source_pos->x;
-        data_ptr = effect->unk_08;
+        data_ptr = effect->position;
         data_ptr->y = (s32) source_pos->y;
-        data_ptr = effect->unk_08;
+        data_ptr = effect->position;
         position_z = source_pos->z;
         {
             s16 angle_short;
 
             angle_short = (s16) saved_angle;
             data_ptr->z = position_z;
-            ((S_800BC574_7 *)(((ObjectPayloadView *)effect)->unk_08))->unk_0C =
+            ((S_800BC574_7 *)(effect->position))->unk_0C =
                 (s32) (func_80064584(angle_short + world_state->view.camera_rotation.parts.viewAngle) * 0x30);
-            ((S_800BC574_7 *)(((ObjectPayloadView *)effect)->unk_08))->unk_10 =
+            ((S_800BC574_7 *)(effect->position))->unk_10 =
                 (s32) (func_800644B8(angle_short + world_state->view.camera_rotation.parts.viewAngle) * 0x30);
         }
         {
@@ -44,7 +45,7 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
             init_value_2 = 0x1000;
             sprite->scale_y = init_value_2;
             sprite->scale_x = init_value_2;
-            init_value = (s32) effect->unk_08;
+            init_value = (s32) effect->position;
             init_value = ((S_800BC574_5 *)((void *) init_value))->unk_0C;
             if (init_value > 0) {
                 sprite->flags = (u16) (sprite->flags | 1);
@@ -62,18 +63,18 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
 }
 
 /* Advance the two coordinates and propagate status flags to the object and global state. */
-void advance_coordinates_and_propagate_flags(void *object_data, void *motion, void *status) {
+void advance_coordinates_and_propagate_flags(void *object_data, void *motion, SpriteFrameState *status) {
     advance_sprite_animation_and_textures(status);
     ((S_800BC6CC_0 *)motion)->unk_00 = (s32) (((S_800BC6CC_0 *)motion)->unk_00 + ((S_800BC6CC_0 *)motion)->unk_0C);
     ((S_800BC6CC_0 *)motion)->unk_04 = (s32) (((S_800BC6CC_0 *)motion)->unk_04 + ((S_800BC6CC_0 *)motion)->unk_10);
-    if (((SpriteFrameState *)status)->flags & 0x6000) {
+    if (status->flags & 0x6000) {
         (*(u16 *)((u8 *)object_data + -2)) = (u16) (((ObjectStatusPrefix16 *)object_data)[-1].unk_00 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
 
 /* Waits 60 updates, then processes the record until a reset flag is set. */
-void wait_then_process_record(S_800BC764_0 *context, void *unused, Rec_D_80082E80 *record) {
+void wait_then_process_record(S_800BC764_0 *context, void *unused, SpriteFrameState *record) {
     s16 state;
     u16 ticks_left;
 
@@ -92,7 +93,7 @@ void wait_then_process_record(S_800BC764_0 *context, void *unused, Rec_D_80082E8
         return;
     case 2:
         advance_sprite_animation_and_textures(record);
-        if (record->unk_14.at00_u16.v & 0x6000) {
+        if (record->flags & 0x6000) {
             select_record_entry_and_value(record, &D_800F15E4, 0);
             context->unk_68 = 0;
         }

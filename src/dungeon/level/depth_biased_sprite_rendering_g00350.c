@@ -1,6 +1,9 @@
+#include "shared/sprite_frame_state.h"
 /* Depth biased sprite rendering (G00350). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800B6D74. */
 #include "dungeon/level/depth_biased_sprite_rendering_g00350.h"
+#include "dungeon/level.h"
+#include "shared/game_work.h"
 
 /* Traverse object nodes backward and process unflagged primitives with their computed depth. */
 s32 traverse_nodes_and_render_unflagged(void *start_node) {
@@ -66,7 +69,7 @@ void render_projected_sprite_with_depth_bias(void *position, void *sprite, s16 w
     perspective = scratch_base;
     scratch = scratch_base;
     perspective = (u8 *)((u32)perspective | 0x90);
-    root = *(u8 **)((u8 *)(&g_game_work));
+    root = *(u8 **)&g_game_work.draw_buffer;
     packet = ((GpuContext *)root)->packetCursor;
     ((S_800BC4D4_1 *)scratch)->unk_20 = root + 0xB0;
     ((S_800BC4D4_1 *)scratch)->unk_EC = 0;

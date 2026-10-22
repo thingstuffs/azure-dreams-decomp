@@ -1,4 +1,6 @@
 /* Timed visual effects, linked sprite copies, and tile fade animation. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/sprite/advance_timed_visual_effect.h"
 #include "shared/object_flags.h"
 
@@ -9,7 +11,6 @@ void expire_effect_at_unit_scale(void *state_data, s32 unused, void *scale_data)
     u8 *state = state_data;
     s32 remaining_ticks;
     u8 *scale = scale_data;
-
 
     *(u16 *)(state + 2) = *(u16 *)(state + 2) - 1;
     *(s16 *)(scale + 0x1C) = 0x1000;
@@ -207,27 +208,27 @@ void update_tiled_fade_effect(void *effect, void *offset_state, void *render_sta
    rotation. */
 void create_owner_linked_mirrored_sprite(void **owner_ref, Row_818FF5B8_S_818FF5B8_4 *spawn_pos, Row_818FF5B8_S_818FF5B8_5 *appearance) {
     Row_818FF5B8_S_818FF5B8_2 *sprite;
-    void *object;
+    ObjectNodeHeader *object;
     Row_818FF5B8_S_818FF5B8_0 *state;
-    Row_818FF5B8_S_818FF5B8_3 *position;
+    ObjectPosition *position;
 
     object = allocate_flagged_object_node(0x212);
-    state = object + 0x20;
+    state = ((void *)object) + 0x20;
     if (object != 0) {
         state->unk_2C = (void *) *owner_ref;
         state->unk_30 = (s32) ((Row_818FF5B8_S_818FF5B8_1 *)(*owner_ref))->unk_60;
         state->unk_34 = owner_ref;
-        (*(s32 **)((u8 *)object + 0x10)) = &D_80024750;
+        (object->unk_10) = &D_80024750;
         register_node(object, project_sprite_chain);
-        sprite = (*(void **)((u8 *)object + 0xC));
+        sprite = (object->sprite);
         sprite->unk_10 = 0x20;
         sprite->unk_06 = 0;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
-        position = (*(void **)((u8 *)object + 8));
-        position->unk_00 = (s32) spawn_pos->unk_00;
-        position->unk_04 = (s32) spawn_pos->unk_04;
-        position->unk_08 = (s32) spawn_pos->unk_08;
-        sprite = (*(void **)((u8 *)object + 0xC));
+        position = (object->position);
+        position->x.v = (s32) spawn_pos->unk_00;
+        position->y.v = (s32) spawn_pos->unk_04;
+        position->z.v = (s32) spawn_pos->unk_08;
+        sprite = (object->sprite);
         sprite->unk_1E = 0x800;
         sprite->unk_1C = 0x800;
         sprite->unk_0C = (u8) appearance->unk_0C;
@@ -235,7 +236,7 @@ void create_owner_linked_mirrored_sprite(void **owner_ref, Row_818FF5B8_S_818FF5
         sprite->unk_0E = (u8) appearance->unk_0E;
         sprite->unk_1A = (s16) (0x1000 - appearance->unk_1A);
         *(Row_818FF5B8_Copy12 *)((u8 *)object + 0x40) = D_80025E64;
-        sprite->unk_08 = (void *) (object + 0x40);
+        sprite->unk_08 = (void *) (((void *)object) + 0x40);
     }
 }
 

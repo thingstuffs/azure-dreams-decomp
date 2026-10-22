@@ -9,13 +9,6 @@
 #define NULL 0
 #endif
 
-typedef struct Row_818F33BC_S_80024BBC_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-} Row_818F33BC_S_80024BBC_0;   /* object in func_80024BBC */
-
 typedef struct Row_818F33BC_S_80024BBC_2 {
     u8 pad_00[0x2];
     s16 unk_02;

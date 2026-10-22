@@ -28,8 +28,8 @@ s32 is_town_state_pair_accepted(void) {
 void initialize_town_context_action(void) {
     ObjectNodeHeader *context = &scene_object_list_anchor;
     initialize_scene_action_record((Rec_func_80094268_arg0 *)((u8 *)context + 0x20),
-                  ((void *)(s32)context->unk_08),
-                  ((void *)(s32)context->unk_0C));
+                  ((void *)(s32)context->position),
+                  ((void *)(s32)context->sprite));
 }
 
 /* Checks the current selection, displays rejection messages, or creates and selects an object. */
@@ -50,8 +50,8 @@ void handle_selection_and_create_object(void) {
     data = &scene_object_list_anchor;
     object = (u8 *)data + 0x20;
     context = item_menu_scene_state;
-    position = data->unk_08;
-    callback_data = data->unk_0C;
+    position = data->position;
+    callback_data = data->sprite;
 
     if (((S_80093894_1 *)context)->unk_08 == 3) {
         Unk96134Bytes *source = ((S_80093894_1 *)context)->unk_00;

@@ -193,7 +193,6 @@ extern void func_80064D80();
 extern u32 func_80065420();
 extern void func_800654B0();
 extern void func_80065820();
-extern void update_object_movement_facing_terrain();
 extern s32 func_80170B40();
 extern s32 func_80170BAC();
 extern s32 func_80170DF8();

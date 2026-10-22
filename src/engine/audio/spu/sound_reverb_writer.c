@@ -4,7 +4,7 @@
 #include "engine/audio/spu.h"
 
 /* Copies selected fields to D_80079958, or all 32 fields when the mask is zero. */
-void write_spu_reverb_parameters(SoundReverbParameters *source) {
+void _spu_setReverbAttr(SoundReverbParameters *source) {
     s32 field_mask;
     s32 copy_all;
 

@@ -1,29 +1,12 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
+#include "dungeon/effect/motion.h"
 
-typedef struct S_800B7D74_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_800B7D74_0;
-
-typedef struct S_800B7D74_1 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_0C;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
-    u8 pad_14[0x2];
-    s16 unk_16;
-} S_800B7D74_1;
 
 typedef struct S_800B7D74_2 {
     u8 pad_00[0x8];
@@ -56,66 +39,66 @@ extern M2C_UNK D_8006E258;
 extern M2C_UNK D_8006E51C;
 extern M2C_UNK D_8006E57C;
 extern M2C_UNK D_8006E5D4;
-void advance_effect_fade_and_remove(void *effect, void *motion, void *primitive);
+void advance_effect_fade_and_remove(void *effect, void *motion, SpriteFrameState *primitive);
 
 /* Spawns an effect at the given position with variant-specific graphics and randomized motion. */
 void spawn_variant_effect_with_random_motion(s32 pos_x, s32 pos_y, s32 pos_z, u32 variant) {
     GameView *game_state = &g_game_work.view;
     s32 velocity_y;
     SpriteFrameState *sprite;
-    S_800B7D74_1 *motion;
+    ObjectPosition *motion;
     S_800B7D74_2 *effect_data;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_flagged_object_node(0x212);
     if (effect == NULL) {
         return;
     }
-    ((S_800B7D74_0 *)effect)->unk_10 = &advance_effect_fade_and_remove;
+    effect->unk_10 = &advance_effect_fade_and_remove;
     register_node(effect, project_sprite_chain);
-    motion = ((S_800B7D74_0 *)effect)->unk_08;
-    motion->unk_02 = pos_x;
-    effect_data = effect + 0x20;
-    motion->unk_06 = pos_y;
-    motion->unk_0A = pos_z;
-    sprite = ((S_800B7D74_0 *)effect)->unk_0C;
+    motion = effect->position;
+    motion->x.w.i = pos_x;
+    effect_data = ((void *)effect) + 0x20;
+    motion->y.w.i = pos_y;
+    motion->z.w.i = pos_z;
+    sprite = effect->sprite;
     switch (variant) {
     case 0:
-        motion->unk_0C.at02.v = (s16) ((rand() & 0x1F) - 0x10);
-        motion->unk_10.at02.v = (s16) ((rand() & 0x1F) - 0x10);
-        motion->unk_16 = (s16) (-8 - (rand() & 0x1F));
+        *((s16 *)&motion->velocity_x + 1) = (s16) ((rand() & 0x1F) - 0x10);
+        *((s16 *)&motion->velocity_y + 1) = (s16) ((rand() & 0x1F) - 0x10);
+        *((s16 *)&motion->velocity_z + 1) = (s16) (-8 - (rand() & 0x1F));
         effect_data->unk_08 = &D_8006E5D4;
         select_record_entry_and_value(sprite, &D_8006E5D4, 0);
         break;
     case 1:
         sprite->source = &D_8006E24C;
-        motion->unk_16 = (s16) (-0x10 - (rand() & 0xF));
-        motion->unk_0C.at00.v = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
-        motion->unk_10.at00.v = (s32) (func_800644B8(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
+        *((s16 *)&motion->velocity_z + 1) = (s16) (-0x10 - (rand() & 0xF));
+        motion->velocity_x = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
+        motion->velocity_y = (s32) (func_800644B8(game_state->camera_rotation.parts.viewAngle - 0x300) << 7);
         effect_data->unk_12 = 1;
         break;
     case 2:
         sprite->source = &D_8006E258;
-        motion->unk_16 = (s16) (-8 - (rand() & 0xF));
-        motion->unk_0C.at00.v = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
-        motion->unk_10.at00.v = (s32) (func_800644B8(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
+        *((s16 *)&motion->velocity_z + 1) = (s16) (-8 - (rand() & 0xF));
+        motion->velocity_x = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
+        motion->velocity_y = (s32) (func_800644B8(game_state->camera_rotation.parts.viewAngle + 0x500) << 7);
         effect_data->unk_12 = 1;
         break;
     case 3:
         effect_data->unk_08 = &D_8006E51C;
         select_record_entry_and_value(sprite, &D_8006E51C, 0);
-        motion->unk_0C.at00.v = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle) << 7);
+        motion->velocity_x = (s32) (func_80064584(game_state->camera_rotation.parts.viewAngle) << 7);
         velocity_y = func_800644B8(game_state->camera_rotation.parts.viewAngle) << 7;
-        motion->unk_10.at00.v = velocity_y;
-        motion->unk_16 = (s16) (-0xC - (rand() & 0xF));
+        motion->velocity_y = velocity_y;
+        *((s16 *)&motion->velocity_z + 1) = (s16) (-0xC - (rand() & 0xF));
         break;
     case 4:
         effect_data->unk_08 = &D_8006E57C;
         select_record_entry_and_value(sprite, &D_8006E57C, 0);
-        motion->unk_0C.at00.v = (s32) ((0 - func_80064584(game_state->camera_rotation.parts.viewAngle)) << 7);
+        motion->velocity_x = (s32) ((0 - func_80064584(game_state->camera_rotation.parts.viewAngle)) << 7);
         velocity_y = (0 - func_800644B8(game_state->camera_rotation.parts.viewAngle)) << 7;
-        motion->unk_10.at00.v = velocity_y;
-        motion->unk_16 = (s16) (-0xC - (rand() & 0xF));
+        motion->velocity_y = velocity_y;
+        *((s16 *)&motion->velocity_z + 1) = (s16) (-0xC - (rand() & 0xF));
     }
     sprite->color.c.b = 0x80;
     sprite->color.c.g = 0x80;

@@ -6,13 +6,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_func_80025BA0_0 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
-    void *unk_10;
-} S_func_80025BA0_0;
-
 typedef struct S_func_80025BA0_1 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -72,7 +65,7 @@ void spawn_randomized_quad_effects(void) {
     Cell *diagonal;
     Cell *below;
     Cell *right;
-    S_func_80025BA0_0 *effect;
+    ObjectNodeHeader *effect;
     S_func_80025BA0_1 *motion;
     SpriteFrameState *angles;
     S_func_80025BA0_3 *quad_data;
@@ -105,7 +98,7 @@ void spawn_randomized_quad_effects(void) {
             right = (Cell *)((unsigned long)right_offset + (unsigned long)vertices);
             below = (Cell *)((unsigned long)((quad_index + 0x10) * 8) + (unsigned long)vertices);
 
-            motion = effect->unk_08;
+            motion = effect->position;
             effect_or_x = (vertices[quad_index].x + right->x + below->x + (diagonal = &vertices[row_start + 0x10 + index_or_coord])->x) >> 2;
             right_y = (vertices[quad_index].y + right->y + below->y + diagonal->y) >> 2;
             below_y = (vertices[quad_index].z + right->z + below->z + diagonal->z) >> 2;
@@ -117,7 +110,7 @@ void spawn_randomized_quad_effects(void) {
             motion->unk_10 = ((func_80069EF8() & 0xF) - 8) << 0x10;
             motion->unk_14 = ((func_80069EF8() & 0xF) - 8) << 0x10;
 
-            angles = effect->unk_0C;
+            angles = effect->sprite;
             angles->angle_x = (func_80069EF8() & 0x1FF) - 0x100;
             angles->angle_y = (func_80069EF8() & 0x1FF) - 0x100;
 

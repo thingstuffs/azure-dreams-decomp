@@ -20,7 +20,7 @@ extern u8 D_80170A54[9];
 /* Allocate and initialize an effect node with default parameters and data. */
 void create_boss_effect_node(void)
 {
-    Node *node;
+    ObjectNodeHeader *node;
     s16 *node_params;
     s16 *effect;
     u32 *part_words;
@@ -30,17 +30,17 @@ void create_boss_effect_node(void)
         node_params = (s16 *)((u8 *)node + 0x20);
         node_params[11] = 0x1E;
         node_params[12] = 0x1E;
-        node->data10 = D_80170A54;
+        node->unk_10 = D_80170A54;
         register_node(node, project_sprite_chain);
 
-        effect = node->partC;
+        effect = node->sprite;
         ((SpriteFrameState *)effect)->unk_06 = 0;
-        part_words = (u32 *)node->part8;
+        part_words = (u32 *)node->position;
         part_words[0] = ((u32)view_reference_entity.x.v);
         part_words[1] = ((u32)view_reference_entity.y.v);
         part_words[2] = ((u32)view_reference_entity.z.v);
 
-        effect = (s16 *)node->partC;
+        effect = (s16 *)node->sprite;
         effect[15] = 0x1000;
         effect[14] = 0x1000;
         ((SpriteFrameState *)effect)->color.c.b = 0;

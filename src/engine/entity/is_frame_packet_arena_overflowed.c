@@ -71,9 +71,9 @@ extern void *optional_resource_descriptor[4];
 extern void resource_load_current_optional_descriptor(void);
 
 /* Set the list tail to D_800812D0 and process the list. */
-void func_80053CD0(void)
+void load_primary_optional_resource_descriptor(void)
 {
-    optional_resource_descriptor[0] = (void *)D_800812D0;
+    optional_resource_descriptor[0] = (void *)primary_optional_resource_descriptor;
     resource_load_current_optional_descriptor();
 }
 

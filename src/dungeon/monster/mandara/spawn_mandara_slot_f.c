@@ -1,29 +1,18 @@
 #include "common.h"
 #include "shared/monster_ids.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80FB7000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80FB7000_0;   /* obj in create_actor_with_parts_and_flags */
-
-typedef struct S_80FB7000_1 {
+typedef struct  S_80FB7000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
 } S_80FB7000_1;   /* work in create_actor_with_parts_and_flags */
-
-typedef struct S_80FB7000_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80FB7000_2;   /* pin_part_a in create_actor_with_parts_and_flags */
 
 typedef struct S_80FB7000_4 {
     u8 pad_00[0x8C];
@@ -59,7 +48,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
 void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 {
     void *work;
-    void *obj;
+    ObjectNodeHeader *obj;
     s32 object_type;
     ObjectNodeHeader *object_pool;
     SpriteFrameState *part_b;
@@ -75,7 +64,7 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
     s16 rect[4];
     u8 *entry;
     s16 saved_part_value;
-    void *pin_part_a;
+    ObjectPosition *pin_part_a;
     void *pin_actor;
 
     work = 0;
@@ -86,13 +75,13 @@ void *create_actor_with_parts_and_flags(s32 spawn_flags, s16 pos_x, s16 pos_y, s
     saved_flags = (s16)spawn_flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_80FB7000_0 *)obj)->unk_10 = D_8016AB40;
+        obj->unk_10 = D_8016AB40;
         ((S_80FB7000_1 *)work)->unk_13 = MONSTER_MANDARA;
         register_node(obj, project_sprite_chain);
 
-        pin_part_a = ((S_80FB7000_0 *)obj)->unk_08;
-        ((S_80FB7000_2 *)pin_part_a)->unk_0A = saved_part_value;
-        part_b = ((S_80FB7000_0 *)obj)->unk_0C;
+        pin_part_a = obj->position;
+        pin_part_a->z.w.i = saved_part_value;
+        part_b = obj->sprite;
         kind = spawn_flags & 3;
         part_b->unk_25 = pos_y;
         pin_actor = work;

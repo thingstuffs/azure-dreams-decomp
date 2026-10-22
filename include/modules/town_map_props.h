@@ -1,6 +1,7 @@
 #ifndef MODULE_TOWN_MAP_PROPS_H
 #define MODULE_TOWN_MAP_PROPS_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_node.h"
@@ -21,7 +22,7 @@ void update_record_output_grid(struct S_800BDE7C_0 *record, s32 unused_value, st
 void no_op_effect_callback(void);
 void initialize_record_visual_state(struct S_800BDFA0_0 *record, s32 unused, s32 value);
 void copy_record_state_to_destination(struct TownPropAnimationActor *self, s32 unused_value, struct TownPropAnimationDestination *destination);
-void advance_actor_animation_pose(struct S_800BE214_0 *actor, struct TrailHeightView *pose, Rec_D_80082E80 *animation);
+void advance_actor_animation_pose(struct S_800BE214_0 *actor, struct TrailHeightView *pose, SpriteFrameState *animation);
 void select_record_entry_and_value(void *destination, void *animation, s16 mode);
 void *allocate_list_node(s32 object_type, void *list);
 void *func_8003FD64(s32 object_type, void *list);

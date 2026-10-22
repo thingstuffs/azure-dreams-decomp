@@ -2,9 +2,10 @@
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor.h"
+#include "dungeon/system.h"
 
 
-extern s32 check_action_available_without_nearby_actor(void);
 extern void append_packed_action_record(s32 object_ptr, s32 action_code, s32 payload, s32 extra_byte);
 
 typedef struct ActionDispatchState {

@@ -1,3 +1,4 @@
+#include "dungeon/monster/manoeva.h"
 #include "modules/dungeon_ovl_7f43f800_p01.h"
 #include "shared/object_flags.h"
 

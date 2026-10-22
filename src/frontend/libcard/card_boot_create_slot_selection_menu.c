@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "m2c_compat.h"
 
 #include "modules/main_server_ship_interfaces.h"
@@ -29,18 +30,18 @@ typedef struct S_80025C7C_1 {
 /* Creates an object and initializes its state. */
 void *card_boot_create_slot_selection_menu(s32 init_value) {
     S_80025C7C_0 *state;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = initialize_scene_object_in_buffer(0, (struct S_8003FE78 *)(&D_8002B7E0), 0x1C);
-    state = object + 0x20;
+    state = ((void *)object) + 0x20;
     card_boot_initialize_slot_menu_request(state, init_value);
     card_boot_erase_temporary_file();
     card_boot_refresh_directory_summary();
     state->unk_48 = 1;
-    ((S_80025C7C_1 *)object)->unk_20 = create_or_reset_seven_entry_menu_backdrop(object, object + 0x68);
+    ((S_80025C7C_1 *)object)->unk_20 = create_or_reset_seven_entry_menu_backdrop(object, ((void *)object) + 0x68);
     state->unk_18 = card_boot_create_three_row_command_panel(object);
     state->unk_1C = render_rotated_grid_surface(object, state->unk_28, 0);
     state->unk_24 = 0;
-    ((S_80025C7C_1 *)object)->unk_10 = &update_inventory_menu;
+    object->unk_10 = &update_inventory_menu;
     return object;
 }

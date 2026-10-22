@@ -1,12 +1,13 @@
 #include "dungeon/monster/kid/create_kid_actor_with_animation.h"
 #include "shared/monster_ids.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/monster/kid/create_kid_actor_with_animation.h"
 
 /* Creates a Kid actor and its linked directional display, then initializes status and tile placement. */
 void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
 {
-    void *root;
+    ObjectNodeHeader *root;
     void *copy;
     s32 outer_index;
     s32 saved_kind;
@@ -35,13 +36,13 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
     if (allocated != 0) {
 
         {
-            void *init_root;
+            ObjectNodeHeader *init_root;
             void *setup;
 
             object = (u8 *)allocated + 0x20;
             init_root = allocated;
             setup = project_sprite_chain;
-            ((S_801708DC_0 *)init_root)->unk_10 = D_80170BF8;
+            init_root->unk_10 = D_80170BF8;
             ((S_801708DC_1 *)object)->unk_13 = MONSTER_KID;
             register_node(init_root, setup);
         }
@@ -50,10 +51,10 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
             void *part_callback;
 
             part_callback = D_80175140;
-            copy = ((S_801708DC_2 *)root)->unk_08.at00.v;
+            copy = root->position;
             ((S_801708DC_2 *)copy)->unk_08.at02.v = saved_copy_value;
             stable_object = object;
-            part = ((S_801708DC_2 *)root)->unk_0C;
+            part = root->sprite;
             part->frameTable = part_callback;
         }
         part->unk_24 = saved_part_byte_24;
@@ -120,22 +121,22 @@ void *create_actor_with_child_sprites(s32 kind, s32 part_x, s32 part_y, s32 copy
                 table = D_80175140 + 0x28;
                 item_offset = 8;
                 do {
-                    void *item;
+                    SpriteFrameState *item;
                     s32 direction_index;
                     s32 part_value;
                     s32 zero;
-                    void *outer_child;
+                    ObjectNodeHeader *outer_child;
 
                     item = (u8 *)(void *)saved_kind + item_offset;
                     ((S_801708DC_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
                     part_value = part->unk_28;
-                    ((S_801708DC_7 *)item)->unk_10 = 0x20;
-                    ((S_801708DC_7 *)item)->unk_0C = 0x00808080;
-                    ((S_801708DC_7 *)item)->unk_28 = part_value;
+                    item->tpage_abr = 0x20;
+                    item->color.word = 0x00808080;
+                    item->unk_28 = part_value;
                     outer_child = ((S_801708DC_8 *)outer_base)->unk_A4;
                     zero = 0;
-                    ((S_801708DC_9 *)outer_child)->unk_10 = D_800D78C0;
-                    (*(void * *)((u8 *)item + 0x2C)) = table;
+                    outer_child->unk_10 = D_800D78C0;
+                    (*(void **)((u8 *)item + 0x2C)) = table;
                     direction_index = ((view_facing_angle_alias +
                         ((S_801708DC_1 *)object)->unk_2A + 0x100) >> 9) & 7;
                     select_sprite_entry(item,

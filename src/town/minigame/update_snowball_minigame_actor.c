@@ -44,20 +44,6 @@ typedef struct S_80020DF0_2 {
     s32 unk_14;
 } S_80020DF0_2;   /* arg1 in update_snowball_minigame_actor */
 
-typedef struct S_80020DF0_3 {
-    u8 pad_00[0xC];
-    union { s32 s; u32 u; } unk_0C;   /* accessed as both */
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_80020DF0_3;   /* arg2 in update_snowball_minigame_actor */
-
-typedef struct S_80020DF0_6 {
-    u8 pad_00[0xC];
-    void * unk_0C;
-    void * unk_10;
-} S_80020DF0_6;   /* particle in update_snowball_minigame_actor */
-
 typedef struct S_80020DF0_8 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -97,7 +83,7 @@ extern void add_motion_deltas_to_position(void *);
 extern s32 query_lowered_transform_position(void *);
 
 /* Updates actor movement, animation, scoring, and departure through its state sequence. */
-void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
+void update_snowball_minigame_actor(void *object, void *motion, SpriteFrameState *sprite)
 {
     u8 *effect;
     void *actor;
@@ -142,7 +128,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
                         /* fall through */
 
     case 1:
-        if (((S_80020DF0_3 *)sprite)->unk_14 & 0x6000) {
+        if (sprite->flags & 0x6000) {
             ((S_80020DF0_2 *)motion)->unk_10 = 0x80000;
             effect = D_800F2DC0;
         }
@@ -158,14 +144,14 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
         }
         if (((S_80020DF0_2 *)motion)->unk_04 > 0x0477FFFF) {
             effect = D_800F2E08;
-            ((S_80020DF0_3 *)sprite)->unk_14 |= 1;
+            sprite->flags |= 1;
             ((S_80020DF0_2 *)motion)->unk_0C = 0x80000;
             ((S_80020DF0_0 *)object)->unk_68.s = 2;
         }
         break;
 
     case 2:
-        if (((S_80020DF0_3 *)sprite)->unk_14 & 0x6000) {
+        if (sprite->flags & 0x6000) {
             effect = D_800F2E98;
         }
         if (((S_80020DF0_2 *)motion)->unk_04 > 0x048FFFFF) {
@@ -176,7 +162,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
         break;
 
     case 3:
-        if (((S_80020DF0_3 *)sprite)->unk_14 & 0x6000) {
+        if (sprite->flags & 0x6000) {
             effect = D_800F2E98;
         }
         if (((S_80020DF0_2 *)motion)->unk_00 > 0x03DFFFFF) {
@@ -330,14 +316,14 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
                 particle_data = D_80022B80;
                 ((S_80020DF0_0 *)object)->unk_A8 |= 1;
                 do {
-                    void *particle;
+                    ObjectNodeHeader *particle;
 
                     particle = allocate_list_node(0x136, ((u8 *)(&scene_object_list_anchor)));
                     if (particle != NULL) {
                         SpriteFrameState *part;
                         void *link;
 
-                        part = ((S_80020DF0_6 *)particle)->unk_0C;
+                        part = particle->sprite;
                         register_node(particle, project_sprite_chain);
                         link = (u8 *)particle + 0x20;
                         part->color.word = 0x00808080;
@@ -345,7 +331,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
                         part->scale_x = scale;
                         ((S_80020DF0_8 *)link)->unk_04 = motion;
                         ((S_80020DF0_8 *)link)->unk_02 = 0x78;
-                        ((S_80020DF0_6 *)particle)->unk_10 = particle_data;
+                        particle->unk_10 = particle_data;
                         select_record_entry_and_value(part, snowball_actor_sprites, (s16)(index * 4));
                     }
                     index--;
@@ -369,15 +355,15 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
         s32 y;
         s32 x;
 
-        flags = ((S_80020DF0_3 *)sprite)->unk_14;
+        flags = sprite->flags;
         if ((flags & 0x6000) && ((S_80020DF0_0 *)object)->unk_6C.u > 0) {
             effect = D_800F2DC0;
-            ((S_80020DF0_3 *)sprite)->unk_14 = flags | 0x800;
+            sprite->flags = flags | 0x800;
         }
         if (((S_80020DF0_2 *)motion)->unk_00 > 0x03A00000) {
-            ((S_80020DF0_3 *)sprite)->unk_14 &= 0xFFFE;
+            sprite->flags &= 0xFFFE;
         } else {
-            ((S_80020DF0_3 *)sprite)->unk_14 |= 1;
+            sprite->flags |= 1;
         }
         y = ((S_80020DF0_2 *)motion)->unk_04;
         ((S_80020DF0_2 *)motion)->unk_04 = y + ((0x01E00000 - y) >> 1);
@@ -388,7 +374,7 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
             if (timer == 0) {
                 s32 x;
 
-                ((S_80020DF0_3 *)sprite)->unk_14 &= 0xF7FF;
+                sprite->flags &= 0xF7FF;
                 x = ((S_80020DF0_2 *)motion)->unk_00;
                 if (x > 0x03A80000) {
                     ((S_80020DF0_2 *)motion)->unk_0C = -0x80000;
@@ -503,16 +489,16 @@ void update_snowball_minigame_actor(void *object, void *motion, void *sprite)
 
     case 0x107:
         ((S_80020DF0_2 *)motion)->unk_10 = -0x80000;
-        ((S_80020DF0_3 *)sprite)->unk_10 = 0x60;
-        ((S_80020DF0_3 *)sprite)->unk_0C.s = 0x00C0C0C0;
-        ((S_80020DF0_3 *)sprite)->unk_14 |= 0xC;
+        sprite->tpage_abr = 0x60;
+        sprite->color.word = 0x00C0C0C0;
+        sprite->flags |= 0xC;
         effect = D_800F2EE0;
         ((S_80020DF0_0 *)object)->unk_68.u++;
         break;
 
     case 0x108:
-        ((S_80020DF0_3 *)sprite)->unk_0C.s += -0x80808;
-        if ((u8)((S_80020DF0_3 *)sprite)->unk_0C.u < 0x11) {
+        sprite->color.word += -0x80808;
+        if ((u8)*(u32 *)&sprite->color.word < 0x11) {
             ((S_80020DF0_0 *)object)->unk_68.u++;
         }
         break;

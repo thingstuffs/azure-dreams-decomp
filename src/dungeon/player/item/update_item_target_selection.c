@@ -1,4 +1,5 @@
 #include "shared/dungeon_actor_callbacks.h"
+#include "shared/object_node.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "records/Rec_D_80082EB0.h"
@@ -12,17 +13,10 @@ typedef struct S_80091958_0 {
     void * unk_C8;
 } S_80091958_0;   /* arg0 in update_item_target_selection */
 
-
 typedef struct S_80091958_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
 } S_80091958_2;   /* arg3 in update_item_target_selection */
-
-typedef struct S_80091958_3 {
-    u8 pad_00[0x1E];
-    u16 unk_1E;
-} S_80091958_3;   /* ((S_80091958_0 *)arg0)->unk_C8 in update_item_target_selection */
-
 
 extern u8 player_action_tag[];
 
@@ -42,13 +36,13 @@ void update_item_target_selection(S_80091958_0 *state, s32 unused_1, s32 unused_
         }
         state->unk_9B++;
     case 1:
-        if (((S_80091958_3 *)(state->unk_C8))->unk_1E & 0x8000) {
+        if (((ObjectNodeHeader *)state->unk_C8)->flags & 0x8000) {
             state->unk_C8 = 0;
             state->unk_9B++;
         }
         break;
     case 2:
-        ((Rec_D_80082EB0 *)(&reference_tile_object.selected_item))->unk_08 = 0;
+        reference_tile_object.unk_038 = 0;
         if (context->unk_1C & 0x100000) {
             state->unk_8C = player_action_tag;
         } else {

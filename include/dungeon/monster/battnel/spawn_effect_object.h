@@ -4,15 +4,7 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-
 typedef s32 M2C_UNK;
-
-typedef struct S_8014C854_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8014C854_0;   /* obj in func_8014C854 */
 
 typedef struct S_8014C854_1 {
     u8 pad_00[0x13];
@@ -46,7 +38,6 @@ typedef struct S_8014C854_4 {
     s16 unk_A4;
 } S_8014C854_4;   /* actor in func_8014C854 */
 
-
 extern void *allocate_list_node();
 extern void *func_8003FD64();
 extern void register_node();
@@ -59,7 +50,6 @@ extern u8 D_8014CA30[];
 extern M2C_UNK D_8014CE5C;
 extern u8 D_8014FD0C[];
 extern u8 D_8014FD4C[];
-
 
 void *spawn_effect_object(s16 flags, s16 value_24, s16 value_25, s16 value_0A);
 #endif

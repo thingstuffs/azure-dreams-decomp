@@ -1,6 +1,9 @@
+#include "shared/sprite_frame_state.h"
 /* Action target selection (G00359). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800C4A80, CL:dungeon/func_800C4CE4, CL:dungeon/func_800C5028, CL:dungeon/func_800C51DC, CL:dungeon/func_800C5334. */
 #include "dungeon/actor/action_target_selection_g00359.h"
+#include "dungeon/actor.h"
+#include "shared/tile_object.h"
 
 /* Checks whether a directional step is in bounds and clear of obstacles. */
 s32 get_adjacent_tile_for_action(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset) {
@@ -72,9 +75,9 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
     update_actor_proximity_flag(tile, actor, 3, 6, motion + 0x9C);
     tile_type = tile->unk_26;
     if (tile_type >= 0 && (dungeon_rooms[tile_type].flags & 2)) {
-        rebuild_monster_reachable_tiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
+        select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     } else if (!(((S_800CA444_1 *)actor)->unk_46 & 0x8000)) {
-        rebuild_monster_reachable_tiles(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
+        select_actor_route_target(tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
     }
     scan_result = 0;
     heading_offsets = actor_turn_angle_offsets;
@@ -98,7 +101,7 @@ void update_actor_targeting_for_tile(void *motion, s32 unused, S_800CA444_0 *til
             tile->unk_24.at01.v += dir_step_y[direction_index];
             break;
         }
-        if (scan_result == 0 && *(u16 *)(&map_state->tile_position.parts.tile_x) != tile->unk_24.at00u.v) {
+        if (scan_result == 0 && map_state->tile_position.word != tile->unk_24.at00u.v) {
             if ((check_entity_relation(actor, ((S_800CA444_4 *)(((int)primary_actor_record)))->unk_58 + 0x20) << 0x10) != 0) {
                 return;
             }

@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_func_800AD058_arg0.h"
+#include "dungeon/actor.h"
 
 
 s32 func_800644B8(s32);
@@ -13,7 +14,6 @@ void update_map_cell_flags_with_item_limit();
 void distribute_experience_and_report_gains(); /* extern */
 s32 detach_record_and_update_slot_state(); /* extern */
 s32 play_sound_if_enabled(); /* extern */
-void announce_familiar_defeat(); /* extern */
 s32 get_entity_effect_value();
 void *create_effect_or_fallback();
 

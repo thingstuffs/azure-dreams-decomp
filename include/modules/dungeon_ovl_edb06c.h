@@ -4,13 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_8016A86C_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8016A86C_0;   /* obj in func_8016A86C */
-
 typedef struct S_8016A86C_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -69,11 +62,6 @@ typedef struct S_8016A86C_8 {
     void * unk_A4;
 } S_8016A86C_8;   /* base in func_8016A86C */
 
-typedef struct S_8016A86C_9 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_8016A86C_9;   /* ((S_8016A86C_8 *)base)->unk_A4 in func_8016A86C */
-
 extern void *allocate_list_node();
 extern void *func_8003FD64();
 extern void register_node();
@@ -86,7 +74,6 @@ extern void func_80047784();
 extern void texture_set_the_active_entries_matching_id_in_type_n_2_table_slots();
 extern void try_move_actor_to_valid_position();
 
-extern void process_effect_block_entries();
 extern void func_8016AB64();
 extern void func_8016B1A4();
 extern u8 D_8016E18C[];
@@ -94,5 +81,4 @@ extern u8 D_8016E1CC[];
 
 void * spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
 void * func_8016A86C(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
-extern void * draw_sprite_effect_quads();
 #endif

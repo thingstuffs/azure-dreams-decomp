@@ -1,4 +1,5 @@
 /* Timed target effects, textured quad rendering, scattered fragments, and segment animation. */
+#include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
 #include "shared/sprite_frame_state.h"
 #include "dungeon/effect/sprite/update_directional_actor_effect.h"
@@ -8,6 +9,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/actor.h"
 
 typedef s32 M2C_UNK;
 
@@ -88,7 +90,6 @@ extern M2C_UNK D_80024D58;
 extern s32 resolve_record_orientation_or_fallback();
 extern s32 read_sound_mode_blocking_status();
 extern void apply_attack_power_and_element_effects();
-extern void *find_eligible_nearby_entry();
 
 void update_directional_actor_effect(void *state_data, void *position_data);
 
@@ -101,7 +102,7 @@ void (*const dungeon_19a8800_entry)(void *, void *) = update_directional_actor_e
 void update_directional_actor_effect(void *state_data, void *position_data)
 {
     s16 offset[3];
-    void *object;
+    ObjectNodeHeader *object;
     u8 *work;
     void *source;
     void *list_head;
@@ -141,7 +142,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
                     offset[1] = 0;
                     offset[0] = 0;
                 }
-                ((S_81988800_5 *)object)->unk_10 = update_effect_and_spawn_fragments;
+                object->unk_10 = update_effect_and_spawn_fragments;
                 register_node(object, (s32)create_counted_sprite_effect);
                 ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = (u8 *)object + 0x20;
@@ -187,7 +188,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
         if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
             object = allocate_list_node(0x302, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
-                ((S_81988800_5 *)object)->unk_10 = update_segment;
+                object->unk_10 = update_segment;
                 register_node(object, (s32)&D_80024D58);
                 actor = (void *)((u8 *)(&reference_tile_object));
                 offset[0] = (((u16)primary_actor_record->facing) >> 9) & 7;
@@ -219,7 +220,7 @@ void update_directional_actor_effect(void *state_data, void *position_data)
 loop:
                 object = find_eligible_nearby_entry(work[0x24], work[0x25], list_head, object);
                 if (object != 0) {
-                    if (!(((S_81988800_5 *)object)->unk_1C & 0x2000)) {
+                    if (!(*(s32 *)&object->pad_1C & 0x2000)) {
                         apply_attack_power_and_element_effects(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
                                       ((S_81988800_8 *)source)->unk_2A, source, 2);
                     }
@@ -334,7 +335,7 @@ s32 create_counted_sprite_effect(void *first_item) {
     u8 screen_points[8];
     s32 projection_scratch;
     void *node = first_item;
-    S_800A1600_D80083160 *render_state = ((S_800A1600_D80083160 *)&g_game_work);
+    GameWork *render_state = &g_game_work;
     void *screen_base = screen_points;
     void *next_node;
 
@@ -374,7 +375,7 @@ s32 create_counted_sprite_effect(void *first_item) {
             u32 addr_mask = 0;
             u32 color_or_tag_mask = 0;
 
-            packet_pool = ((S_81988C1C_2 *)render_state)->unk_00.s;
+            packet_pool = render_state->draw_buffer;
             packet = ((S_81988C1C_3 *)packet_pool)->unk_8D0;
             ((S_81988C1C_3 *)packet_pool)->unk_8D0 = (u8 *)packet + 0x34;
             ((S_81988C1C_4 *)packet)->unk_04 = 0xA0A0A0;
@@ -415,8 +416,8 @@ s32 create_counted_sprite_effect(void *first_item) {
 
             ((S_81988C1C_4 *)packet)->unk_00 =
                 (((S_81988C1C_4 *)packet)->unk_00 & color_or_tag_mask) |
-                (((S_81988C1C_7 *)((u8 *)(depth_offset + ((S_81988C1C_2 *)render_state)->unk_00.u)))->unk_B0 & addr_mask);
-            ot_slot = depth_offset + (u32)((S_81988C1C_2 *)render_state)->unk_00.s;
+                (((S_81988C1C_7 *)((u8 *)(depth_offset + *(u32 *)&render_state->draw_buffer)))->unk_B0 & addr_mask);
+            ot_slot = depth_offset + (u32)render_state->draw_buffer;
             ((S_81988C1C_5 *)((u8 *)ot_slot))->unk_B0 =
                 (((S_81988C1C_5 *)((u8 *)ot_slot))->unk_B0 & color_or_tag_mask) |
                 ((u32)packet & addr_mask);
@@ -627,14 +628,14 @@ void update_effect_and_spawn_fragments(MainObject *obj)
 #include "shared/object_flags.h"
 
 /* Marks the referenced object and updates entry and global flags based on target status. */
-void mark_referenced_object_and_update_flags(void *entry, void *unused, void *target) {
+void mark_referenced_object_and_update_flags(void *entry, void *unused, SpriteFrameState *target) {
     void *object;
 
     object = *(void **)entry;
     *(u16 *)((u8 *)object + 0x52) =
         (u16)(*(u16 *)((u8 *)object + 0x52) | 0x8000);
     advance_sprite_animation_and_textures(target);
-    if (*(u16 *)((u8 *)target + 0x14) & 0x6000) {
+    if (target->flags & 0x6000) {
         *(u16 *)((u8 *)entry - 2) =
             (u16)(*(u16 *)((u8 *)entry - 2) | NODE_REMOVE);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;

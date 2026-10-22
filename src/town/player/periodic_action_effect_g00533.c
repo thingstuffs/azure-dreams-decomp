@@ -43,7 +43,7 @@ void update_actor_with_periodic_effect(Rec_func_80094268_arg0 *actor, EntityRec 
         call_the_valid_shared_angle_fixed_hex_120000_context_callee_80094_f_58(position);
         return;
     }
-    func_80094048(actor, position, context);
+    init_flagged_action_fallback(actor, position, context);
 }
 
 /* Resets the handler when state flags are set, then invokes the base handler. */

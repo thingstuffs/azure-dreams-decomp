@@ -1,7 +1,8 @@
 #include "common.h"
+#include "dungeon/effect.h"
+#include "dungeon/effect/motion.h"
 
 s32 play_sound_if_enabled();                     /* extern */
-void spawn_variant_effect_with_random_motion(); /* extern */
 
 /* Spawn four directed particles and ten scattered particles at the given position. */
 void spawn_directed_and_scattered_particles(s32 x, s32 y, s32 z) {

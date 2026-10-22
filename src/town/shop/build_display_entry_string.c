@@ -5,9 +5,9 @@ void strcat(void *dest, void *source); /* extern */
 s32 select_object_state_value(void *object);                        /* extern */
 void set_display_entry_text_and_position(); /* extern */
 extern M2C_UNK D_800892C0;
-extern M2C_UNK D_800892C8;
-extern M2C_UNK D_800892CC;
-extern M2C_UNK D_800892D8;
+extern char D_800892C8[];
+extern char D_800892CC[];
+extern char D_800892D8[];
 
 typedef struct {
     s32 unk0;
@@ -28,9 +28,9 @@ void build_display_entry_string(s32 text_id, S_800B52F4_1 *context) {
     text = &text_buffer;
     memcpy(text, &D_800892C0, 5);
     strcat(text, ((s32)primary_actor_record) + 0x34);
-    strcat(text, &D_800892C8);
-    strcat(text, &D_800892CC);
-    strcat(text, &D_800892D8);
+    strcat(text, D_800892C8);
+    strcat(text, D_800892CC);
+    strcat(text, D_800892D8);
     strcat(text, select_object_state_value(text_id));
     set_display_entry_text_and_position(context->unk_0C, text, 0, 0x47, 0x88);
 }

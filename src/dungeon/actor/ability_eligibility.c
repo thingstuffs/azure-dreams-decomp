@@ -4,6 +4,7 @@
  * B1@0x80089000; B1@0x80089080; partial span, complete TU edges unknown.
  */
 #include "dungeon/actor/ability_eligibility.h"
+#include "dungeon/actor.h"
 
 /* Copy the indexed entry data into the entity and clear its final byte. */
 void copy_indexed_entry_data(void *entity) {

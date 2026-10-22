@@ -37,7 +37,7 @@ extern void update_actor_action_transition(void *, void *, void *, void *);
 
 extern u8 uboat_action_frames[];
 extern u8 D_800E2430[];
-extern u8 D_80171A80[];
+#include "dungeon/monster/u_boat.h"
 
 /* Advances the entity action through animation, behavior, and callback transitions. */
 void advance_actor_action(void *action, void *context, void *sprite, ActorRecord *entity)
@@ -133,7 +133,7 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
             0);
         (*(u32 *)&entity->flags1C) |= 0x40000;
         if (((SpriteFrameState *)sprite)->flags & 0x8000) {
-            ((S_801743DC_0 *)action)->unk_8C = D_80171A80;
+            ((S_801743DC_0 *)action)->unk_8C = uboat_behavior_entry;
             return;
         }
         {
@@ -148,7 +148,7 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
             return;
         }
         g_dungeon_status.activity_counts.parts.pending_action_count--;
-        ((S_801743DC_0 *)action)->unk_8C = D_80171A80;
+        ((S_801743DC_0 *)action)->unk_8C = uboat_behavior_entry;
         return;
     default:
         return;

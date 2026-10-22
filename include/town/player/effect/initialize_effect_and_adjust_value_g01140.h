@@ -1,5 +1,7 @@
 #ifndef TOWN_PLAYER_EFFECT_INITIALIZE_EFFECT_AND_ADJUST_VALUE_G01140_H
 #define TOWN_PLAYER_EFFECT_INITIALIZE_EFFECT_AND_ADJUST_VALUE_G01140_H
+
+struct ObjectPosition;
 /* Initialize effect and adjust value. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01140 - CL:town/func_800A7E6C, CL:town/func_800A8134. */
 
@@ -110,7 +112,7 @@ extern u8 D_800970FC[];
 extern s32 D_800D0CC0[];
 void handle_resolve_bounding_box_overlaps_linked_colliders_along_least_penetrating_axis(void *, void *);
 /* extern */
-void process_scene_record_update(void *, void *, void *);
+void process_scene_record_update(void *,struct ObjectPosition *, void *);
 /* extern */
 void add_motion_deltas_to_position();
 void apply_the_enabled_movement_offsets_adding_z_offset_only_positive(struct IntVector3 *);

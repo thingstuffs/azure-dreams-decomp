@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/entity_objects.h"
 #include "shared/slus_callbacks.h"
@@ -9,7 +10,6 @@
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 typedef struct State8081FF68 {
     u8 pad00[0x4C];
@@ -35,7 +35,6 @@ extern u8 D_80023BCC[];
 extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
-
 extern s16 query_lowered_transform_position(void *position);
 extern void initialize_town_context_action(void);
 extern s32 test_three_axis_box_overlap(void *box, void *offset);
@@ -45,7 +44,6 @@ extern void *create_familiar_deployment_effect_with_owner_state(void);
 extern void set_object_data_pointer_2(void *object);
 extern void register_node(void *entry, void *registration_id);
 extern void configure_the_set_mode_n_1(void *record, void *setup_value, void *setup_param);
-
 
 typedef struct ReelSlotCursor {
     u8 pad_00[0x4C];
@@ -60,8 +58,6 @@ typedef struct SlotObject {
     u8 pad_14[0x10];
     s16 unk_24;
 } SlotObject;
-
-
 
 typedef struct SlotPrimitive {
     void *unk_00;
@@ -117,7 +113,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
     s32 angle_delta_2;
     s32 reel_mode;
     s32 symbols[3][3];
-    void *coin;
+    ObjectNodeHeader *coin;
 
     payout_callback = D_80020224;
 
@@ -389,7 +385,7 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             if ((state->flags & 1) != 0) {
                 coin = allocate_flagged_object_node(0x100);
                 if (coin != NULL) {
-                    ((SlotObject *)coin)->unk_10 = D_80023BCC;
+                    coin->unk_10 = D_80023BCC;
                 }
             }
 
@@ -467,53 +463,53 @@ void process_slot_machine_state(State8081FF68 *state, void *position)
             {
                 void *payout_obj;
                 u8 *primitive;
-                u8 *sprite;
+                SpriteFrameState *sprite;
                 u8 *payout_state;
                 coin = allocate_flagged_object_node(0x136);
                 if (coin == NULL) {
                     return;
                 }
                 payout_obj = coin;
-                ((SlotObject *)coin)->unk_10 = D_800236BC;
-                ((SlotBody *)(((SlotObject *)coin)->unk_08.p))->unk_00 =
+                coin->unk_10 = D_800236BC;
+                ((SlotBody *)(*(u8 * *)&coin->position))->unk_00 =
                     ((IntVector3 *)position)->x + (s32)0xFEC00000;
-                ((SlotBody *)(((SlotObject *)coin)->unk_08.p))->unk_04 =
+                ((SlotBody *)(*(u8 * *)&coin->position))->unk_04 =
                     ((IntVector3 *)position)->y + (s32)0xFFC00000;
-                ((SlotBody *)(((SlotObject *)coin)->unk_08.p))->unk_08 =
+                ((SlotBody *)(*(u8 * *)&coin->position))->unk_08 =
                     ((IntVector3 *)position)->z + (s32)0xFFC00000;
-                primitive = ((SlotObject *)coin)->unk_08.p;
-                ((SlotPrimitive *)primitive)->unk_10 = 0;
-                ((SlotPrimitive *)primitive)->unk_0C = 0;
-                ((SlotBody *)(((SlotObject *)coin)->unk_08.p))->unk_14 = 0x40000;
+                primitive = *(u8 * *)&coin->position;
+                ((ObjectPosition *)primitive)->velocity_y = 0;
+                ((ObjectPosition *)primitive)->velocity_x = 0;
+                ((SlotBody *)(*(u8 * *)&coin->position))->unk_14 = 0x40000;
                 payout_state = (u8 *)coin + 0x20;
                 register_node(payout_obj, project_sprite_chain);
-                sprite = ((SlotObject *)coin)->unk_0C;
-                ((SlotSprite *)sprite)->unk_1E = 0x1000;
-                ((SlotSprite *)sprite)->unk_1C = 0x1000;
+                sprite = *(u8 * *)&coin->sprite;
+                sprite->scale_y = 0x1000;
+                sprite->scale_x = 0x1000;
                 if (digits[2] != 0) {
                     digits[2]--;
                     ((SlotPayout *)payout_state)->unk_54 = 2;
                 } else if (digits[1] != 0) {
                     digits[1]--;
                     ((SlotPayout *)payout_state)->unk_54 = 1;
-                    ((SlotSprite *)sprite)->unk_12 = (u16)(((SlotSprite *)sprite)->unk_12 - 5);
+                    sprite->clut = (u16)(sprite->clut - 5);
                 } else if (digits[0] != 0) {
                     digits[0]--;
                     ((SlotPayout *)payout_state)->unk_54 = 0;
-                    ((SlotSprite *)sprite)->unk_12 = (u16)((*(u16 *)((u8 *)sprite + (0x12))) + 5);
+                    sprite->clut = (u16)((*(u16 *)((u8 *)sprite + (0x12))) + 5);
                 }
                 {
                     u8 *primitive = sprite;
                     u8 *sprite_data = D_8007947C;
-                    ((SlotPrimitive *)primitive)->unk_00 = sprite_data;
-                    ((SlotPrimitive *)primitive)->unk_08 = ((SlotSpriteData *)sprite_data)->unk_04;
-                    ((SlotPrimitive *)primitive)->unk_04 = 0;
-                    ((SlotPrimitive *)primitive)->unk_05 = 0;
-                    ((SlotPrimitive *)primitive)->unk_0C = 0x00808080;
+                    ((SpriteFrameState *)primitive)->unk_00 = sprite_data;
+                    ((SpriteFrameState *)primitive)->source = ((SlotSpriteData *)sprite_data)->unk_04;
+                    ((SpriteFrameState *)primitive)->unk_04 = 0;
+                    ((SpriteFrameState *)primitive)->unk_05 = 0;
+                    ((SpriteFrameState *)primitive)->color.word = 0x00808080;
                 }
                 ((SlotPayout *)payout_state)->unk_00 = state;
                 ((SlotPayout *)payout_state)->unk_50 = payout_callback;
-                configure_the_set_mode_n_1(payout_state + 8, ((SlotObject *)coin)->unk_08.p2, D_80024488);
+                configure_the_set_mode_n_1(payout_state + 8, coin->position, D_80024488);
             }
         }
     }

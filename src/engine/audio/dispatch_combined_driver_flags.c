@@ -14,5 +14,5 @@ void dispatch_combined_driver_flags(void) {
     for (flag_index = 0; flag_index < audio_voice_count[0]; flag_index++) {
         flags |= audio_voice_masks[flag_index];
     }
-    set_spu_voice_keys(0, flags);
+    SpuSetKey(0, flags);
 }

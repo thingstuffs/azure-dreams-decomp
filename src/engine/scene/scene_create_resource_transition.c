@@ -37,7 +37,7 @@ void *scene_create_resource_transition(void *owner_arg, void *context_arg)
         *(void **)(node_fields + 4) = context;
         node->owner_0x20 = owner;
         SD_Call(0xD1);
-        *(void (**)(void *))(node_fields - 0x10) = schedule_deferred_resource_transition;
+        ((ObjectNodeHeader *)((u8 *)node_fields - 0x20))->unk_10 = schedule_deferred_resource_transition;
         scene_begin_transition_texture_read((u8 *)node + 0x28);
     }
     return node;

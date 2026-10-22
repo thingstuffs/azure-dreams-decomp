@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "common.h"
 
 #ifndef NULL
@@ -11,7 +12,6 @@ typedef struct PackedVec3 {
     s32 z;
 } __attribute__((packed)) PackedVec3;
 
-
 extern void register_node(void *, void *);
 
 extern u8 D_80044BB0[];
@@ -19,7 +19,6 @@ extern u8 D_8016F99C[];
 extern u8 D_80173B1C[];
 extern u8 D_80173B28[];
 extern u8 D_80170000[];
-
 
 typedef struct S_8016FAFC_0 {
     u8 pad_00[0x18];
@@ -41,15 +40,6 @@ typedef struct S_8016FAFC_1 {
     s16 unk_1E;
 } S_8016FAFC_1;   /* sprite in create_encounter_overlay */
 
-typedef struct S_8016FAFC_2 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8016FAFC_2;   /* coords in create_encounter_overlay */
-
 typedef struct S_8016FAFC_3 {
     u8 pad_00[0x5D58];
     void * unk_5D58;
@@ -59,32 +49,32 @@ typedef struct S_8016FAFC_3 {
 /* Creates a sprite object with the selected vector preset and stores its global pointer. */
 void create_encounter_overlay(s32 variant)
 {
-    u8 *obj;
+    ObjectNodeHeader *obj;
     u8 *part;
     u8 *call_obj;
     u8 *sprite;
     u8 *copy_src;
     u8 *sprite_vector;
-    u8 *coords;
+    ObjectPosition *coords;
 
     obj = allocate_flagged_object_node(0x12);
     if (obj != NULL) {
         call_obj = obj;
-        part = obj + 0x20;
+        part = ((u8 *)obj) + 0x20;
         ((S_8016FAFC_0 *)part)->unk_18 = 0;
         ((S_8016FAFC_0 *)part)->unk_1C = variant;
-        (*(void * *)((u8 *)obj + 0x10)) = D_8016F99C;
+        (obj->unk_10) = D_8016F99C;
         register_node(call_obj, D_80044BB0);
 
-        sprite = (*(u8 * *)((u8 *)obj + 0xC));
+        sprite = (*(u8 * *)&obj->sprite);
         ((S_8016FAFC_1 *)sprite)->unk_14 &= 0xFFF3;
 
-        coords = (*(u8 * *)((u8 *)obj + 8));
-        ((S_8016FAFC_2 *)coords)->unk_02 = 0xA0;
-        ((S_8016FAFC_2 *)coords)->unk_06 = 0xA;
-        ((S_8016FAFC_2 *)coords)->unk_0A = 2;
+        coords = (*(u8 * *)&obj->position);
+        coords->x.w.i = 0xA0;
+        coords->y.w.i = 0xA;
+        coords->z.w.i = 2;
 
-        sprite = (*(u8 * *)((u8 *)obj + 0xC));
+        sprite = (*(u8 * *)&obj->sprite);
         ((S_8016FAFC_1 *)sprite)->unk_1E = 0x1000;
         ((S_8016FAFC_1 *)sprite)->unk_1C = 0x1000;
         ((S_8016FAFC_1 *)sprite)->unk_0E = 0x80;

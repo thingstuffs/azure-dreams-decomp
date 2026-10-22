@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -14,25 +15,6 @@ typedef struct S_801722F0_1 {
     s16 unk_18;
 } S_801722F0_1;
 
-typedef struct S_801722F0_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_801722F0_2;
-
-typedef struct S_801722F0_4 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_801722F0_4;
-
-typedef struct S_801722F0_5 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_801722F0_5;
-
 s32 register_node();
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);
 s32 play_sound_if_enabled();
@@ -43,27 +25,27 @@ extern Rec_D_80174CD8 *ghosh_boss_node;
 void spawn_cascading_trail_emitter(void) {
     SpriteFrameState *sprite;
     void *setup_data;
-    S_801722F0_5 *source_pos;
-    void *effect;
+    ObjectPosition *source_pos;
+    ObjectNodeHeader *effect;
     S_801722F0_1 *effect_params;
-    S_801722F0_4 *effect_pos;
+    ObjectPosition *effect_pos;
 
     source_pos = ghosh_boss_node->unk_08;
     effect = allocate_flagged_object_node(0x212);
     if (effect != 0) {
         setup_data = project_sprite_chain;
-        effect_params = effect + 0x20;
+        effect_params = ((void *)effect) + 0x20;
         effect_params->unk_16 = 0x1E;
         effect_params->unk_18 = 0x1E;
-        ((S_801722F0_2 *)effect)->unk_10 = &update_cascading_trail_emitter;
+        effect->unk_10 = &update_cascading_trail_emitter;
         register_node(effect, setup_data);
-        sprite = ((S_801722F0_2 *)effect)->unk_0C;
+        sprite = effect->sprite;
         sprite->unk_06 = 0;
-        effect_pos = ((S_801722F0_2 *)effect)->unk_08;
-        effect_pos->unk_00 = (s32) source_pos->unk_00;
-        effect_pos->unk_04 = (s32) source_pos->unk_04;
-        effect_pos->unk_08 = (s32) source_pos->unk_08;
-        sprite = ((S_801722F0_2 *)effect)->unk_0C;
+        effect_pos = effect->position;
+        effect_pos->x.v = (s32) source_pos->x.v;
+        effect_pos->y.v = (s32) source_pos->y.v;
+        effect_pos->z.v = (s32) source_pos->z.v;
+        sprite = effect->sprite;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.c.b = 0x80;

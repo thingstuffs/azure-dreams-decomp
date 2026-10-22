@@ -1,7 +1,10 @@
 #ifndef MODULES_TOWN_TOWN_WINDOWS_H
 #define MODULES_TOWN_TOWN_WINDOWS_H
 
+
+struct SpriteFrameState;
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
 #include "records/Rec_D_80082E80.h"
@@ -69,22 +72,6 @@ typedef struct func_8009FAAC_S_8009D20C_2 {
 
 typedef void (*func_8009FCC4_Callback)(void *, void *, void *);
 
-typedef struct func_8009FCC4_S_8009D424_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    u32 unk_10;
-} func_8009FCC4_S_8009D424_0;
-
-typedef struct func_8009FCC4_S_8009D424_1 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} func_8009FCC4_S_8009D424_1;
-
 typedef struct func_8009FCC4_S_8009D424_2 {
     u8 pad_00[0x84];
     u16 unk_84;
@@ -108,18 +95,6 @@ typedef struct func_8009FCC4_S_8009D424_3 {
     u8 pad_97[0x1];
     s32 unk_98;
 } func_8009FCC4_S_8009D424_3;
-
-typedef struct func_8009FCC4_S_if_b1_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} func_8009FCC4_S_if_b1_0;
-
-typedef struct func_8009FCC4_S_if_b2_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} func_8009FCC4_S_if_b2_0;
 
 typedef struct func_8009FE60_GlobalADBC { u8 pad0[0x18]; s16 field18; s16 field1A; } func_8009FE60_GlobalADBC;
 
@@ -397,7 +372,7 @@ void compute_four_point_coordinate_bounds(void *points, func_800A00A8_S_8009D808
 void collect_overlapping_rectangles(func_800A01E0_S_8009D940_1 *query_max, func_800A01E0_S_8009D940_2 *query_min, void **entries, void **matches);
 void rectangle_to_four_corners(func_800A0284_S_8009D9E4_0 *rectangle, func_800A0284_S_8009D9E4_1 *vertices);
 void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds, s32 origin_x, s32 origin_y);
-void set_object_state_for_mode(void *owner, void *object, s32 mode, s32 flags);
+void set_object_state_for_mode(void *owner, struct SpriteFrameState *object, s32 mode, s32 flags);
 void cleanup_or_dispatch_object(void *object, s32 source, s32 context);
 void invoke_entity_callback_and_follow_up(func_800A06C8_EntityLike *entity, s32 callback_id, s32 callback_data);
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
@@ -414,7 +389,7 @@ s32 kewn_namewin_close_check(void);
 s32 t_soukowin_open(void);
 s32 t_soukowin_close_check(void);
 void set_object_types_and_resource(void *object, s32 index, void *output);
-void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, func_800A0FB4_S_func_8009E714_1 *primitive);
+void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, struct SpriteFrameState *primitive);
 void initialize_entity_from_table_and_callback(void *entity, func_800A10FC_S_8009E85C_1 *placement, func_800A10FC_S_8009E85C_2 *state);
 
 extern void register_node(s32, void *);

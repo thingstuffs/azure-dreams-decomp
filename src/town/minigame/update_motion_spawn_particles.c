@@ -60,7 +60,7 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
     u16 color;
     u16 *source_color;
     u16 *original_palette;
-    Object *particle;
+    ObjectNodeHeader *particle;
     SpriteFrameState *sprite;
 
     gravity = 0x38000;
@@ -80,12 +80,12 @@ void update_motion_spawn_particles(EffectPhaseTimer16 *state, Motion *motion, u8
         do {
             particle = (Object *)allocate_flagged_object_node(0x136);
             if (particle != 0) {
-                particle->callback = set_linked_object_and_global_flags;
+                particle->unk_10 = set_linked_object_and_global_flags;
                 register_node(particle, project_sprite_chain);
-                sprite = particle->sprite;
-                particle->position->x = motion->x + ((rand() & 0x1FF) - 0x100) * 0x2000;
-                particle->position->y = motion->y + ((rand() & 0x1FF) - 0x100) * 0x2000;
-                particle->position->z = motion->z;
+                sprite = *(Sprite * *)&particle->sprite;
+                (*(IntVector3 * *)&particle->position)->x = motion->x + ((rand() & 0x1FF) - 0x100) * 0x2000;
+                (*(IntVector3 * *)&particle->position)->y = motion->y + ((rand() & 0x1FF) - 0x100) * 0x2000;
+                (*(IntVector3 * *)&particle->position)->z = motion->z;
                 sprite->tpage_abr = 0x60;
                 sprite->scale_y = 0x1000;
                 sprite->scale_x = 0x1000;

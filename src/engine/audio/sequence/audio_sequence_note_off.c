@@ -48,7 +48,7 @@ void audio_sequence_note_off(s32 first_key, s32 second_key) {
                     sound_apply_indexed_voice_envelope(record_index, record);
                     record_mask = *mask_entry;
                     combined_mask |= record_mask;
-                    set_spu_voice_keys(0, record_mask);
+                    SpuSetKey(0, record_mask);
                     record->field1A = 0;
                 } else {
                     record->field1C |= 0x80;
@@ -59,7 +59,7 @@ void audio_sequence_note_off(s32 first_key, s32 second_key) {
     }
     if (combined_mask != 0) {
         do {
-            set_spu_voice_keys(0, combined_mask);
+            SpuSetKey(0, combined_mask);
         } while (0);
     }
 }

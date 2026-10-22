@@ -16,13 +16,6 @@
 
 typedef struct S_800CB9B8_2 S_800CB9B8_2;
 
-typedef struct S_800CB8CC_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    void * unk_0C;
-    s32 (*unk_10)(void *, s32, void *);
-} S_800CB8CC_0;
-
 typedef struct S_800CB8CC_1 {
     u8 pad_00[0x60];
     s32 unk_60;
@@ -70,18 +63,6 @@ struct Rec_D_800CFCB4;
 
 /* extern */
 struct Rec_D_80082E80;
-
-typedef struct S_800CBB68_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s32 unk_0C;
-} S_800CBB68_0;
-
-typedef struct S_800CBB68_1 {
-    s32 unk_00;
-    s32 unk_04;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_800CBB68_1;
 
 typedef struct S_800CBB68_2 {
     u8 pad_00[0x96];

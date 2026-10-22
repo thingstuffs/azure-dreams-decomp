@@ -18,7 +18,7 @@ typedef struct Obj {
 extern u8 D_80078CDC[];
 
 extern void func_800B3558(void *ptr);
-extern void func_800B2E3C(void *ptr);
+extern void position_decimal_digit_parts(void *ptr);
 extern void func_800B2F88(void *ptr);
 extern void func_800B3108(void *ptr);
 extern void func_800B331C(void *ptr);
@@ -43,7 +43,7 @@ void initialize_four_slot_object_variant(Obj *object) {
         obj->unk0xA8[slot_index]->unk04->unk08 = (slot_index - 2) << 7;
     }
 
-    func_800B2E3C(obj);
+    position_decimal_digit_parts(obj);
     func_800B2F88((u8 *)obj->unk0xA8 + 0x18);
     func_800B3108((u8 *)obj->unk0xA8 + 0x40);
     func_800B331C(obj->unk0xA8);

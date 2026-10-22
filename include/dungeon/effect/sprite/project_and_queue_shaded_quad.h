@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7E6E1800_H
 #define DUNGEON_OVL_7E6E1800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_sprite_data.h"
 #include "m2c_compat.h"
 #include "shared/game_work.h"
@@ -187,15 +188,6 @@ typedef struct Row_81922FB8_S_800247B8_1 {
     s32 unk_20;
 } Row_81922FB8_S_800247B8_1;   /* obj in func_800247B8 */
 
-typedef struct Row_81922FB8_S_800247B8_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} Row_81922FB8_S_800247B8_4;   /* dest in func_800247B8 */
-
 /* Creates an effect at the supplied position with randomized color and radial offsets. */
 typedef struct Row_819231FC_S_800249FC_0 {
     u8 pad_00[0x14];
@@ -236,13 +228,6 @@ typedef struct Row_819232EC_S_80024AEC_1 {
     s32 unk_88;
 } Row_819232EC_S_80024AEC_1;   /* arg0 in func_80024AEC */
 
-typedef struct Row_819232EC_S_80024AEC_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} Row_819232EC_S_80024AEC_2;   /* temp_v0 in func_80024AEC */
-
 typedef struct Row_819232EC_S_80024AEC_3 {
     u8 pad_00[0x6];
     s16 unk_06;
@@ -258,15 +243,6 @@ typedef struct Row_819232EC_S_80024AEC_3 {
     s16 unk_1C;
     s16 unk_1E;
 } Row_819232EC_S_80024AEC_3;   /* temp_a3 in func_80024AEC */
-
-typedef struct Row_819232EC_S_80024AEC_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} Row_819232EC_S_80024AEC_4;   /* temp_v1_2 in func_80024AEC */
 
 /* Create an effect at the supplied position and initialize its rendering state. */
 typedef struct {
@@ -292,22 +268,6 @@ typedef struct Row_81923534_S_80024D34_0 {
     s16 unk_5A;
     s16 unk_5C;
 } Row_81923534_S_80024D34_0;   /* sub in func_80024D34 */
-
-typedef struct Row_81923534_S_80024D34_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} Row_81923534_S_80024D34_1;   /* node in func_80024D34 */
-
-typedef struct Row_81923534_S_80024D34_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} Row_81923534_S_80024D34_3;   /* position in func_80024D34 */
 
 /* Creates and initializes an effect at a random offset from the given position. */
 /* extern */
@@ -438,8 +398,8 @@ void fade_four_colors_to_black(Row_81922EC4_DungeonColorWork *work);
 void create_randomized_radial_effect(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origin, void *unused_sprite);
 void update_effect_values_and_expire(void *object, s32 unused, Row_819231FC_S_800249FC_0 *effect);
 void create_positioned_render_effect(Row_819232EC_S_80024AEC_1 *source, Rec_func_800247B8_arg1 *position, void *unused_sprite);
-void advance_radial_effect_state(void *entity_data, s32 unused, Row_8192340C_DungeonEffect *effect_data);
+void advance_radial_effect_state(void *entity_data, s32 unused, SpriteFrameState *effect_data);
 void create_random_offset_effect(void *unused, Rec_func_800247B8_arg1 *origin, void *unused_sprite);
-void update_effect_cycle_and_bursts(void *effect, void *motion, void *sprite);
+void update_effect_cycle_and_bursts(void *effect, void *motion, SpriteFrameState *sprite);
 extern u8 D_80025B60[];
 #endif

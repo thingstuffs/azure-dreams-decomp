@@ -36,20 +36,6 @@ typedef struct S_8196B4A4_0 {
     u8 pad_98[0x8];
     s32 unk_A0;
 } S_8196B4A4_0;
-typedef struct S_8196B4A4_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8196B4A4_1;
-typedef struct S_8196B4A4_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8196B4A4_3;
 typedef struct S_8196B4A4_4 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -169,12 +155,6 @@ typedef struct S_8196BD3C_0 {
     u8 pad_2E[0x4E];
     void * unk_7C;
 } S_8196BD3C_0;
-typedef struct S_8196BD3C_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8196BD3C_1;
 typedef struct S_8196BD3C_2_pre {
     void * unk_00;
     u8 pad_04[0x14];
@@ -209,16 +189,6 @@ typedef struct S_8196BA5C_0 {
     u8 pad_52[0x2A];
     void * unk_7C;
 } S_8196BA5C_0;
-typedef struct S_8196BA5C_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8196BA5C_1;
-typedef struct S_8196BA5C_2_pre {
-    void * unk_00;
-    u8 pad_04[0x14];
-} S_8196BA5C_2_pre;
 typedef struct {
     u16 x;
     u16 y;
@@ -355,20 +325,6 @@ typedef struct S_8196B780_0 {
     u8 pad_98[0x8];
     s32 unk_A0;
 } S_8196B780_0;
-typedef struct S_8196B780_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8196B780_1;
-typedef struct S_8196B780_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8196B780_3;
 typedef struct S_8196B780_4 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -508,8 +464,8 @@ typedef struct Effect {
 typedef union NativeOffsets58 { s16 pairs[8][2]; LocalPoints raw; OffsetTable signed_pairs; } NativeOffsets58;
 extern const NativeOffsets58 D_80024004;
 extern const RectTable D_80024024;
-extern s16 D_800269B4;
-extern PackedVec3 D_80026978;
+extern s16 particle_activity;
+extern PackedVec3 staged_particle_sprite_data;
 s32 rand(void);
 void select_record_entry_and_value(void *, void *, s32);
 s32 check_left_tile_and_center_height(s32, s32, s16);
@@ -527,7 +483,7 @@ void create_brief_ballistic_sprite(S_8196B780_5 *source, s32 unused_1, s32 unuse
 void shrink_particle_emitting_projectile(void *effect, void *position, void *sprite);
 void draw_effect_and_restore_clip(void *effect, s32 unused, u8 *primitive);
 void apply_random_actor_value_adjustment(void *state, void *unused, void *visual);
-void func_800243C4(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
+void spawn_jittered_point_child(ObjectNodeHeader *source, s32 state_14_value, s32 state_08_value, s32 state_32_value, s16 x_offset, s16 y_offset, s16 z_offset);
 s32 func_80024124(PointRecord *first_point, ObjectPosition *first_position);
 void create_randomized_paletted_sprite(s32 unused_0, s32 unused_1, s32 unused_2, s16 x, s16 y, s16 z);
 #endif

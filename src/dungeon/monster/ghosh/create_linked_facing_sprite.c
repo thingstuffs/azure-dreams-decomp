@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #define F(p,t,o) (*(t)((u8 *)(p)+(o)))
 extern s16 view_facing_angle_alias;
@@ -32,7 +33,7 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
         call_object = object;
         z_offset = z - 0x18;
         position = F(object, void**, 8);
-        F(position, s16*, 0xA) = z_offset;
+        ((ObjectPosition *)position)->z.w.i = z_offset;
         sprite = F(object, void**, 0xC);
         ((SpriteFrameState *)sprite)->frameTable = &D_80174C5C;
         ((SpriteFrameState *)sprite)->unk_24 = saved_x;
@@ -43,8 +44,8 @@ void create_linked_facing_sprite(u16 x, u16 y, s32 z) {
         select_sprite_entry(sprite, ((u8 *)(*(s32 * *)&((SpriteFrameState *)sprite)->frameTable))[((view_facing_angle_alias + 0x300) >> 9) & 7], 0);
         ((SpriteFrameState *)sprite)->scale_y = 0x1800;
         ((SpriteFrameState *)sprite)->scale_x = 0x1800;
-        F(position, u16*, 2) -= 0x10;
-        F(position, u16*, 6) -= 0x10;
+        *(u16 *)&((ObjectPosition *)position)->x.w.i -= 0x10;
+        *(u16 *)&((ObjectPosition *)position)->y.w.i -= 0x10;
         tile_x = ((SpriteFrameState *)sprite)->unk_24;
         tile_y = ((SpriteFrameState *)sprite)->unk_25;
         tile_mask = 0x3000;

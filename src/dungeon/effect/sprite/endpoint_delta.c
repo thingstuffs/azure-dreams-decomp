@@ -65,8 +65,6 @@ typedef struct S_800247D4_4 {
     u32 unk_00;
 } S_800247D4_4;   /* (void *)scaled_index in draw_animated_shaded_lines */
 
-
-
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
@@ -80,7 +78,7 @@ static __inline__ s32 endpoint_delta(u16 end, u16 start)
 s32 draw_animated_shaded_lines(void *effect_data)
 {
     u8 *effect = effect_data;
-    u8 *initial_render_ctx = *(u8 **)((u8 *)(&g_game_work));
+    u8 *initial_render_ctx = *(u8 **)&g_game_work.draw_buffer;
     u8 *render_ctx;
     u8 **ctx_ref = (u8 **)((u8 *)(&g_game_work));
     s32 red_scale = 15;
@@ -260,7 +258,6 @@ s32 draw_animated_shaded_lines(void *effect_data)
             }
         }
         }
-
 
         project_work_a = scratch + 0x84;
         project_work_b = scratch + 0x88;

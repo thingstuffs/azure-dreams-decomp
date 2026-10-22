@@ -1,3 +1,5 @@
+
+struct SpriteFrameState;
 #include "common.h"
 
 typedef struct S_80173C40_0 {
@@ -9,7 +11,7 @@ typedef struct S_80173C40_0 {
 } S_80173C40_0;   /* arg0 in initialize_object_and_clear_state */
 
 
-extern void update_actor_hop_and_shrink(S_80173C40_0 *, void *, void *);
+extern void update_actor_hop_and_shrink(S_80173C40_0 *, void *,struct SpriteFrameState *);
 
 
 /* Initialize the object, save its A4 value, and clear its trailing state. */

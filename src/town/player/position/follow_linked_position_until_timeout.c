@@ -23,7 +23,7 @@ typedef struct CopyGlobal {
 
 
 extern CopyGlobal D_800CFCB4;
-extern void func_80094894(UnsignedCountdownView *, IntVector3 *, s32);
+extern void init_target_tile_action(UnsignedCountdownView *, IntVector3 *, s32);
 
 /* Copy source coordinates, decrement the counter, and call the handler when it becomes negative. */
 void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVector3 *out, s32 handler_arg) {
@@ -35,6 +35,6 @@ void follow_linked_position_until_timeout(UnsignedCountdownView *state, IntVecto
     remaining = state->unk_0A - 1;
     state->unk_0A = remaining;
     if (remaining < 0) {
-        func_80094894(state, out, handler_arg);
+        init_target_tile_action(state, out, handler_arg);
     }
 }

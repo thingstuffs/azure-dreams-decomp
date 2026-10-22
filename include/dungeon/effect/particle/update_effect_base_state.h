@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_1864800_H
 #define DUNGEON_OVL_1864800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/dungeon_status.h"
 #include "shared/game_work.h"
@@ -198,7 +199,7 @@ extern u8 secondary_sprite[];
 extern u8 D_800DECF8[];
 extern s32 func_80069EF8(void);
 extern s32 get_definition_entry_byte_13(s16 entry_index);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s16);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s16);
 extern void apply_attack_power_and_element_effects(void *, s32, s32, s32, s32, void *, s32);
 extern void *resolve_record_orientation_or_fallback(void *, void *, Vec3 *, s32);
 extern s32 func_80065420(Packed8 *, Coord *, Coord *, Coord *);
@@ -209,5 +210,5 @@ extern void func_800666F4(void *);
 void func_80024020(void *effect, void *motion, void *source_render);
 void update_effect_base_state(s32 effect_or_count);
 s32 draw_layered_vertical_sprite_chain(u8 *first_node);
-void fade_effect_sprite_to_black(void *effect, VecState *motion, void *sprite);
+void fade_effect_sprite_to_black(void *effect, VecState *motion, SpriteFrameState *sprite);
 #endif

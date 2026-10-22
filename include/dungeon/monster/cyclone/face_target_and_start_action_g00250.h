@@ -1,5 +1,7 @@
 #ifndef DUNGEON_MONSTER_CYCLONE_FACE_TARGET_AND_START_ACTION_G00250_H
 #define DUNGEON_MONSTER_CYCLONE_FACE_TARGET_AND_START_ACTION_G00250_H
+
+struct ObjectPosition;
 /* Face target and start action. Shared declarations. */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00250 - CL:dungeon/func_80E0EC38@dungeon/bank_e2d000, CL:dungeon/func_80E0EC38@dungeon/bank_e33000, CL:dungeon/func_80E0EC38@dungeon/bank_e39000, CL:dungeon/func_80E0EC38@dungeon/bank_e3f000, CL:dungeon/func_80E0EC38@dungeon/bank_e45000, CL:dungeon/func_80E0EC38@dungeon/bank_e4b000, CL:dungeon/func_80E0EF2C@dungeon/bank_e2d000, CL:dungeon/func_80E0EF2C@dungeon/bank_e33000 (+4 more). */
 
@@ -81,7 +83,7 @@ typedef struct S_8017294C_1 {
 } S_8017294C_1;
 
 extern s16 get_rounded_facing_and_rounding_flag();
-extern s32 select_nearby_target_and_initialize_slot();
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 extern u8 D_801764A0[];
 /* arg0 in search_ahead_and_start_action */
 extern s32 check_layer_offset_height(s32, s32, s16, s32);
@@ -97,10 +99,10 @@ extern void advance_status_timers(void *);
 extern void apply_camera_offset_and_select_target(void *, void *, s32, s32);
 
 /* Functions defined in this translation unit. */
-void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context, S_801722E4_1 *sprite, ActorRecord *actor);
-s32 search_ahead_and_start_action(void *action_state, void *action_context, void *sprite, ActorRecord *actor);
-void update_action_state_direction_specific(void *action_state, s32 action_param, void *sprite, void *actor);
-void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_context, Rec_D_80082E80 *animation, ActorRecord *actor);
+void face_target_and_start_action(S_801722E4_3 *action_state, s32 event_context, SpriteFrameState *sprite, ActorRecord *actor);
+s32 search_ahead_and_start_action(void *action_state, void *action_context, SpriteFrameState *sprite, ActorRecord *actor);
+void update_action_state_direction_specific(void *action_state, s32 action_param, SpriteFrameState *sprite, void *actor);
+void clear_actor_action_flag_and_animate(S_8017283C_1 *action_state, s32 action_context, SpriteFrameState *animation, ActorRecord *actor);
 void attempt_actor_directional_action(S_8017294C_1 *action_state, s32 action_ctx, Rec_D_80082E80 *sprite, ActorRecord *actor);
 
 #endif

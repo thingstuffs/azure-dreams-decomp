@@ -9,7 +9,7 @@
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
 extern s32 test_resident_bitmap_bit(s32);
-extern void func_80094088(void *, void *, s32);
+extern void init_threshold_countdown_action(void *, void *, s32);
 extern void initialize_actor_action_state(void *, void *, s32);
 extern void initialize_action_object(void *, void *, s32);
 extern void initialize_action_handler_with_count_six(void *, void *, s32);
@@ -62,7 +62,7 @@ void update_actor_input_actions(void *context, EntityRec *entity, s32 update_arg
             return;
         }
         if (test_resident_bitmap_bit(F_t_attack_enable) != 0) {
-            func_80094088(context, entity, update_arg);
+            init_threshold_countdown_action(context, entity, update_arg);
             return;
         }
     }

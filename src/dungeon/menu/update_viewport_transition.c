@@ -4,10 +4,9 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 #include "shared/game_work.h"
-void queue_black_draw_buffer_rectangle();
+#include "dungeon/menu.h"
+#include "dungeon/system.h"
 s32 has_pending_actor_or_turn_action();
-void *create_fullscreen_quad_updater();
-void clear_pending_item_action_state();
 
 typedef struct S_func_8009E038_0 {
     u8 pad_00[4];

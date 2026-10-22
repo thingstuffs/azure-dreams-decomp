@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/dungeon_sprite_data.h"
@@ -11,19 +12,6 @@ typedef struct S_80172F44_0 {
     s32 unk_5C;
     s32 unk_60;
 } S_80172F44_0;   /* state in create_boss_randomized_effect */
-
-typedef struct S_80172F44_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80172F44_1;   /* object in create_boss_randomized_effect */
-
-typedef struct S_80172F44_3 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_80172F44_3;   /* transform in create_boss_randomized_effect */
 
 typedef struct S_80172F44_4 {
     s32 unk_00;
@@ -42,8 +30,8 @@ extern void update_accelerating_growing_particle(void);
  * growing-particle callback. */
 void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_offset, s32 z_offset)
 {
-    void *object;
-    S_80172F44_3 *transform;
+    ObjectNodeHeader *object;
+    ObjectPosition *transform;
     SpriteFrameState *display;
     u8 *state;
     s32 random_value;
@@ -54,24 +42,24 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
     if (object != 0) {
         state = (u8 *)object + 0x20;
         ((S_80172F44_0 *)state)->unk_16 = 0x1A;
-        ((S_80172F44_1 *)object)->unk_10 = update_accelerating_growing_particle;
+        object->unk_10 = update_accelerating_growing_particle;
         register_node(object, project_sprite_chain);
 
-        display = ((S_80172F44_1 *)object)->unk_0C;
+        display = object->sprite;
         display->tpage_abr = 0x40;
         display->unk_06 = 6;
         display->flags |= 0xC;
 
-        transform = ((S_80172F44_1 *)object)->unk_08;
-        transform->unk_00.at00.v = position->unk_00;
-        transform->unk_04.at00.v = position->unk_04;
+        transform = object->position;
+        transform->x.v = position->unk_00;
+        transform->y.v = position->unk_04;
 
-        x_integer = transform->unk_00.at02.v;
+        x_integer = *(u16 *)&transform->x.w.i;
         z_fixed = position->unk_08;
-        transform->unk_00.at02.v = x_integer + x_offset;
-        transform->unk_08.at00.v = z_fixed;
-        transform->unk_04.at02.v += y_offset;
-        transform->unk_08.at02.v += z_offset;
+        transform->x.w.i = x_integer + x_offset;
+        transform->z.v = z_fixed;
+        *(u16 *)&transform->y.w.i += y_offset;
+        *(u16 *)&transform->z.w.i += z_offset;
 
         random_value = rand();
         ((S_80172F44_0 *)state)->unk_58 = random_value - 0x8000;
@@ -80,7 +68,7 @@ void create_boss_randomized_effect(S_80172F44_4 *position, s32 x_offset, s32 y_o
         random_value = rand();
         ((S_80172F44_0 *)state)->unk_60 = random_value - 0x40000;
 
-        display = ((S_80172F44_1 *)object)->unk_0C;
+        display = object->sprite;
         display->scale_y = 0x400;
         display->scale_x = 0x400;
         display->color.c.b = 0x16;

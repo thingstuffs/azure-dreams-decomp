@@ -1,7 +1,7 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/entity.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
@@ -9,7 +9,6 @@ extern void set_record_integer_tile_center(void *, u8, u8);
 
 extern u8 D_80174A7C[];
 extern u8 D_80170000[];
-
 
 typedef struct S_801740F8_0 {
     u8 pad_00[0x90];
@@ -24,14 +23,6 @@ typedef struct S_801740F8_0 {
     s32 unk_A4;
 } S_801740F8_0;   /* arg0 in update_boss_timed_animation */
 
-typedef struct S_801740F8_1 {
-    u8 pad_00[0x24];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    u8 * unk_2C;
-} S_801740F8_1;   /* arg2 in update_boss_timed_animation */
-
 typedef struct S_801740F8_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -39,9 +30,8 @@ typedef struct S_801740F8_2 {
     s16 unk_2A;
 } S_801740F8_2;   /* arg3 in update_boss_timed_animation */
 
-
 /* Updates a timed animation offset and restores the actor's directional animation. */
-void update_boss_timed_animation(void *actor, ObjectPosition *transform, void *animation, void *motion)
+void update_boss_timed_animation(void *actor, ObjectPosition *transform, SpriteFrameState *animation, void *motion)
 {
     s32 timer;
     s16 next_timer;
@@ -52,8 +42,8 @@ void update_boss_timed_animation(void *actor, ObjectPosition *transform, void *a
     switch (state) {
     case 0:
         anim_table = D_80170000 + 0x4A7C;
-        if (((S_801740F8_1 *)animation)->unk_2C != anim_table) {
-            (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;
+        if (*(u8 **)&animation->frameTable != anim_table) {
+            (animation->frameTable) = anim_table;
             select_sprite_entry(
                 animation,
                 *(u8 *)(((((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7))
@@ -89,12 +79,12 @@ void update_boss_timed_animation(void *actor, ObjectPosition *transform, void *a
         transform->velocity_z = 0;
         transform->velocity_y = 0;
         transform->velocity_x = 0;
-        set_record_integer_tile_center(transform, ((S_801740F8_1 *)animation)->unk_24, ((S_801740F8_1 *)animation)->unk_25);
+        set_record_integer_tile_center(transform, animation->unk_24, animation->unk_25);
         ((S_801740F8_0 *)actor)->unk_9B++;
         return;
     case 3:
-        if (((S_801740F8_1 *)animation)->unk_2C != D_80174A7C - 0x50) {
-            (*(u8 * *)((u8 *)animation + (0x2C))) = D_80174A7C - 0x50;
+        if (*(u8 **)&animation->frameTable != D_80174A7C - 0x50) {
+            (animation->frameTable) = D_80174A7C - 0x50;
             select_sprite_entry(
                 animation,
                 (D_80174A7C - 0x50)[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],

@@ -1,5 +1,7 @@
 /* Noise actor creation and randomized moving, fading effects. */
 #include "dungeon/monster/noise/move_fade_and_accelerate_effect.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 
 /* Move and fade the effect, apply vertical acceleration, and flag it when its lifetime ends. */
 void move_fade_and_accelerate_effect(T_80170F0C_S_func_80D1170C_1 *effect, IntVector3 *position)
@@ -52,26 +54,26 @@ void spawn_random_velocity_offset_effect(EntityRec *parent, s16 effect_id, s32 e
     T_80171020_S_80171020_2 *position_x;
     T_80171020_S_80171020_3 *position_y;
     T_80171020_S_80171020_1 *effect_state;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     effect = allocate_list_node(0x211, parent);
     if (effect == NULL) {
         return;
     }
-    ((T_80171020_S_80171020_0 *)effect)->unk_10 = &move_fade_and_accelerate_effect;
-    ((T_80171020_S_80171020_6 *)(((T_80171020_S_80171020_4 *)effect)->unk_08))->unk_02 =
+    effect->unk_10 = &move_fade_and_accelerate_effect;
+    (effect->position)->x.w.i =
         (s16) (((T_80171020_S_80171020_7 *)((*(void * *)&parent->z)))->unk_02 + x_offset);
-    ((T_80171020_S_80171020_6 *)(((T_80171020_S_80171020_4 *)effect)->unk_08))->unk_06 =
+    (effect->position)->y.w.i =
         (s16) (((T_80171020_S_80171020_7 *)((*(void * *)&parent->z)))->unk_06 + y_offset);
-    ((T_80171020_S_80171020_6 *)(((T_80171020_S_80171020_4 *)effect)->unk_08))->unk_0A =
+    (effect->position)->z.w.i =
         (s16) (((T_80171020_S_80171020_7 *)((*(void * *)&parent->z)))->unk_0A + z_offset);
-    effect_state = effect + 0x20;
+    effect_state = ((void *)effect) + 0x20;
     effect_state->unk_40 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
     effect_state->unk_44 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
     effect_state->unk_48 = (s32) (((rand() & 0x3FFF) - 0x6000) * 0x10);
-    position_x = ((T_80171020_S_80171020_0 *)effect)->unk_08;
+    position_x = effect->position;
     position_x->unk_00 = (s32) (position_x->unk_00 + (effect_state->unk_40 * 2));
-    position_y = ((T_80171020_S_80171020_0 *)effect)->unk_08;
+    position_y = effect->position;
     position_y->unk_04 = (s32) (position_y->unk_04 + (effect_state->unk_44 * 2));
     effect_state->unk_54 = 0x8000;
     effect_state->unk_14 = saved_effect_id;

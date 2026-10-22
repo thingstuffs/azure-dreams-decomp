@@ -20,7 +20,7 @@ void advance_boss_actor_movement_state(void *, void *, void *, void *); /* exter
 struct Rec_func_800A9E70_arg0; s32 update_boss_action_result(struct Rec_func_800A9E70_arg0 *, s32, s32, s16); /* extern */
 s32 func_8017092C(); /* extern */
 s32 advance_boss_command_stream();     /* extern */
-extern u8 D_80174A2C[];
+#include "dungeon/monster/ghosh.h"
 extern u8 D_80174A64[];
 
 typedef struct S_8016F78C_0 {
@@ -50,9 +50,9 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
         current_state = ((S_8016F78C_0 *)actor)->unk_9A;
         next_state = 0xE;
         if (current_state != next_state) {
-            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != D_80174A2C) {
-                ((SpriteFrameState *)sprite)->frameTable = D_80174A2C;
-                select_sprite_entry(sprite, D_80174A2C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+            if (*(u8 * *)&((SpriteFrameState *)sprite)->frameTable != ghosh_direction_frames) {
+                ((SpriteFrameState *)sprite)->frameTable = ghosh_direction_frames;
+                select_sprite_entry(sprite, ghosh_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             }
             ((S_8016F78C_0 *)actor)->unk_9A = next_state;
         }
@@ -63,8 +63,8 @@ void update_boss_actor_action(void *actor, void *context, void *sprite, ActorRec
         if (entity->flags1C & 0x80000) {
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
             func_8017092C(actor, context, sprite, entity);
-            ((SpriteFrameState *)sprite)->frameTable = D_80174A2C;
-            select_sprite_entry(sprite, D_80174A2C[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+            ((SpriteFrameState *)sprite)->frameTable = ghosh_direction_frames;
+            select_sprite_entry(sprite, ghosh_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
             ((S_8016F78C_0 *)actor)->unk_90 = 0;
             return;
         }

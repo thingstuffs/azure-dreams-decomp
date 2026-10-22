@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/entity_objects.h"
 #include "shared/game_work.h"
 
@@ -39,7 +40,7 @@ extern s16 get_player_relative_point_octant(void *);
  * timed phases. */
 void update_encounter_camera_focus(Entity *entity) {
     PhaseHeights heights = D_80164A54;
-    Actor *actor = *(Actor **)(beldo_actor_nodes + 8);
+    Actor *actor = *(Actor * *)&((ObjectNodeHeader *)beldo_actor_nodes)->position;
     s16 phase_slot;
     s16 height_slot;
     s32 state = entity->state;
@@ -51,7 +52,7 @@ void update_encounter_camera_focus(Entity *entity) {
     switch (state) {
     case 0:
     {
-        u8 *globals;
+        GameWork *globals;
 
         entity->timer = 0;
         entity->phase = 2;
@@ -62,9 +63,9 @@ void update_encounter_camera_focus(Entity *entity) {
         beldo_camera_position[0] = actor->x;
         beldo_camera_position[1] = actor->y - 0x100;
         beldo_camera_position[2] = actor->z;
-        globals = ((u8 *)(&g_game_work));
-        *(s32 *)(globals + 0x154) = 0;
-        *(s32 *)(globals + 0xCC) = 0;
+        globals = &g_game_work;
+        globals->view.slot[2].callback = 0;
+        globals->view.slot[0].callback = 0;
         queue_view_slot(1);
         queue_view_slot(0);
         set_camera_targets(beldo_camera_position, beldo_camera_rotation, 0xA);
@@ -104,7 +105,7 @@ void update_encounter_camera_focus(Entity *entity) {
     case 4:
     {
         s32 y_sum;
-        u8 *globals;
+        GameWork *globals;
 
         entity->timer = 0;
         entity->state++;
@@ -120,9 +121,9 @@ void update_encounter_camera_focus(Entity *entity) {
         y_sum = actor->y + view_reference_entity.y.w.i;
         beldo_camera_position[1] = y_sum / 2;
         beldo_camera_position[2] = actor->z;
-        globals = ((u8 *)(&g_game_work));
-        *(s32 *)(globals + 0x154) = 0;
-        *(s32 *)(globals + 0xCC) = 0;
+        globals = &g_game_work;
+        globals->view.slot[2].callback = 0;
+        globals->view.slot[0].callback = 0;
         queue_view_slot(1);
         queue_view_slot(0);
         set_camera_targets(beldo_camera_position, beldo_camera_rotation, 0xA);
@@ -132,7 +133,7 @@ void update_encounter_camera_focus(Entity *entity) {
     case 6:
     {
         s32 y_sum;
-        u8 *globals;
+        GameWork *globals;
 
         entity->timer = 0;
         entity->state++;
@@ -148,9 +149,9 @@ void update_encounter_camera_focus(Entity *entity) {
         y_sum = actor->y + view_reference_entity.y.w.i;
         beldo_camera_position[1] = y_sum / 2;
         beldo_camera_position[2] = actor->z;
-        globals = ((u8 *)(&g_game_work));
-        *(s32 *)(globals + 0x154) = 0;
-        *(s32 *)(globals + 0xCC) = 0;
+        globals = &g_game_work;
+        globals->view.slot[2].callback = 0;
+        globals->view.slot[0].callback = 0;
         queue_view_slot(1);
         queue_view_slot(0);
         set_camera_targets(beldo_camera_position, beldo_camera_rotation, 2);
@@ -160,7 +161,7 @@ void update_encounter_camera_focus(Entity *entity) {
     case 20:
     {
         s32 y_sum;
-        u8 *globals;
+        GameWork *globals;
 
         if ((entity->timer & 0xF) == 0) {
             height_slot = get_player_relative_point_octant(actor);
@@ -176,9 +177,9 @@ void update_encounter_camera_focus(Entity *entity) {
             y_sum = actor->y + view_reference_entity.y.w.i;
             beldo_camera_position[1] = y_sum / 2;
             beldo_camera_position[2] = actor->z;
-            globals = ((u8 *)(&g_game_work));
-            *(s32 *)(globals + 0x154) = 0;
-            *(s32 *)(globals + 0xCC) = 0;
+            globals = &g_game_work;
+            globals->view.slot[2].callback = 0;
+            globals->view.slot[0].callback = 0;
             queue_view_slot(1);
             queue_view_slot(0);
             set_camera_targets(beldo_camera_position, beldo_camera_rotation, 4);

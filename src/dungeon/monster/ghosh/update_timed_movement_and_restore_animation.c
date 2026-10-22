@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -29,16 +30,6 @@ typedef struct S_func_81325A04_1 {
     s32 unk_14;
 } S_func_81325A04_1;
 
-typedef struct S_func_81325A04_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x0E];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x06];
-    s32 unk_2C;
-} S_func_81325A04_2;
-
 typedef struct S_func_81325A04_3 {
     u8 pad_00[0x28];
     u8 unk_28;
@@ -51,7 +42,7 @@ typedef struct S_func_81325A04_3 {
 extern u8 D_8016B778[];
 extern u8 D_8017467C[];
 extern u8 D_80174684[];
-extern u8 D_801746C4[];
+#include "dungeon/monster/ghosh.h"
 extern u8 D_801746CC[];
 
 extern s32 set_record_integer_tile_center();
@@ -62,7 +53,7 @@ extern s32 select_sprite_entry();
 /* Updates timed movement, returns the entity to its tile, and restores its animation. */
 /* Applies Ghosh's pending HP change, animates damped recoil, then recenters it and updates its action
  * state. */
-void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_81325A04_2 *entity,
+void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, SpriteFrameState *entity,
     S_func_81325A04_3 *actor) {
     s32 state;
     s16 timer;
@@ -103,7 +94,7 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
             return;
         }
         final_state = (u8 *)3;
-        if (!(entity->unk_14 & 0x8000)) {
+        if (!(entity->flags & 0x8000)) {
             return;
         }
         action->unk_96.s = 0;
@@ -120,7 +111,7 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
             *(s16 *)((u8 *)dir_step_x + ((actor->unk_6A >> 8) & 0xE)) << 20;
             motion->unk_10 =
             *(s16 *)((u8 *)dir_step_y + ((actor->unk_6A >> 8) & 0xE)) << 20;
-            entity->unk_14 |= 0x800;
+            entity->flags |= 0x800;
             return;
         }
         if (timer >= 7) {
@@ -140,7 +131,7 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
             return;
         }
         if (timer == state) {
-            entity->unk_14 &= 0xF7FF;
+            entity->flags &= 0xF7FF;
             return;
         }
         if (timer != 0) {
@@ -196,15 +187,15 @@ void update_timed_movement_and_restore_animation(S_func_81325A04_0 *action, S_fu
                 return;
             }
         }
-        anim_addr = entity->unk_2C;
-        if (anim_addr == (s32)D_801746C4) {
+        anim_addr = *(s32 *)&entity->frameTable;
+        if (anim_addr == (s32)ghosh_ready_action_frames) {
             if (action->unk_B3 == 0) {
                 anim_table = D_8017467C;
             } else {
                 anim_table = D_80174684;
             }
             if (anim_addr != (s32)anim_table) {
-                entity->unk_2C = (s32)anim_table;
+                entity->frameTable = (s32)anim_table;
                 facing = g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A;
                 select_sprite_entry(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
             }

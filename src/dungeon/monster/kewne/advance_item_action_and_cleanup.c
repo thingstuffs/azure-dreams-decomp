@@ -1,11 +1,12 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
-
-
+#include "engine/cd.h"
+#include "shared/sprite_frame_state.h"
 extern s32 cd_cue_base[];
 extern u8 animation_tick_scale;
 extern u8 D_800DCF50;
@@ -16,11 +17,10 @@ extern u8 D_80175F40[];
 extern u16 D_80175F6E;
 
 extern s32 Control_CD();
-extern s32 get_cd_command_queue_depth();
 extern s32 sound_set_cd_cue_parameters();
 extern s32 read_stream_cue_start_offset();
 extern s32 select_sprite_entry();
-extern void *scan_monster_along_heading();
+extern void *scan_actor_along_heading();
 extern s32 set_record_integer_tile_center();
 extern s32 advance_status_timers();
 extern s32 play_sound_if_enabled();
@@ -29,7 +29,6 @@ extern s32 create_actor_spell_effect();
 extern s32 create_actor_linked_effect();
 extern s32 create_linked_source_object();
 extern s32 create_linked_child_object();
-
 
 typedef struct S_80173560_0 {
     u8 pad_00[0x8C];
@@ -57,11 +56,6 @@ typedef struct S_80173560_1 {
     union { u8 u; s8 s; } unk_73;   /* accessed as both */
 } S_80173560_1;   /* arg3 in advance_item_action_and_cleanup */
 
-typedef struct S_80173560_2_pre {
-    void * unk_00;
-    u8 pad_04[0x10];
-} S_80173560_2_pre;   /* the 0x14 bytes before outer in advance_item_action_and_cleanup, addressed as outer[-1] */
-
 typedef struct S_80173560_3 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -81,11 +75,10 @@ typedef struct S_80173560_4 {
     void * unk_2C;
 } S_80173560_4;   /* arg2 in advance_item_action_and_cleanup */
 
-
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
 /* Starts Kewne's targeted spell and linked effects, times optional CD audio playback, then restores
  * movement and status. */
-void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void *sprite, void *actor_arg) {
+void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, SpriteFrameState *sprite, void *actor_arg) {
     void *actor = actor_arg;
     s32 state;
     s32 action_value;
@@ -144,19 +137,19 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void 
     if (has_item != 0) {
         target = primary_actor_record;
         ((S_80173560_1 *)actor)->unk_60 = target;
-        state = (s32)((S_80173560_2_pre *)target)[-1].unk_00;
+        state = (s32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
         ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)state)->unk_24;
         ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
     } else if (item_action_definitions[*(u8 *)item_addr].kind == 2) {
         target = ((S_80173560_1 *)actor)->unk_60;
         if (target != 0) {
-            state = (s32)((S_80173560_2_pre *)target)[-1].unk_00;
+            state = (s32)((ObjectNodeHeader *)((u8 *)target - 0x20))->sprite;
             ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)state)->unk_24;
             ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
         }
     } else {
-        resource = scan_monster_along_heading(actor, ((S_80173560_4 *)sprite)->unk_24,
-                            ((S_80173560_4 *)sprite)->unk_25, ((S_80173560_1 *)actor)->unk_2A, 0x10);
+        resource = scan_actor_along_heading(actor, sprite->unk_24,
+                            sprite->unk_25, ((S_80173560_1 *)actor)->unk_2A, 0x10);
         ((S_80173560_1 *)actor)->unk_60 = resource;
         ((S_80173560_1 *)actor)->unk_72.u = abs(((S_80173560_1 *)actor)->unk_72.s);
         ((S_80173560_1 *)actor)->unk_73.u = abs(((S_80173560_1 *)actor)->unk_73.s);
@@ -170,8 +163,8 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void 
         ((S_80173560_1 *)actor)->unk_13 |= 0x80;
     }
     direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-    select_sprite_entry(sprite, ((u8 *)((S_80173560_4 *)sprite)->unk_2C)[direction], 2);
-    ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
+    select_sprite_entry(sprite, ((u8 *)sprite->frameTable)[direction], 2);
+    sprite->flags |= 0x800;
     if (item_or_audio_base != 0 && !(((S_80173560_1 *)actor)->unk_13 & 0x80)) {
         create_linked_source_object(actor);
         create_linked_child_object(actor);
@@ -206,7 +199,7 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void 
     case 2:
     ((S_80173560_0 *)action)->unk_96.u -= animation_tick_scale;
     if (((S_80173560_0 *)action)->unk_96.s < 3) {
-        ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
+        sprite->flags &= 0xF7FF;
     }
     if (((S_80173560_0 *)action)->unk_96.s > 0) {
         return;
@@ -225,32 +218,32 @@ void advance_item_action_and_cleanup(void *action, ObjectPosition *motion, void 
 
     case 3:
     if (get_cd_command_queue_depth() != 0) {
-        ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
+        sprite->flags |= 0x800;
         return;
     }
-    ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
+    sprite->flags &= 0xF7FF;
     ((S_80173560_0 *)action)->unk_9B.n++;
 
     case 4:
     if (!(((S_80173560_0 *)action)->unk_98 & 0x80)) {
-        ((S_80173560_4 *)sprite)->unk_05--;
+        sprite->unk_05--;
     }
 
-    if (!((((S_80173560_4 *)sprite)->unk_04 == 4 && (((S_80173560_4 *)sprite)->unk_14 & 0x1000)) ||
-          (((S_80173560_4 *)sprite)->unk_14 & 0xE000))) {
+    if (!((sprite->unk_04 == 4 && (sprite->flags & 0x1000)) ||
+          (sprite->flags & 0xE000))) {
         return;
     }
     ((S_80173560_0 *)action)->unk_98 |= 0x80;
-    if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
+    if (!(sprite->flags & 0xE000)) {
         return;
     }
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, ((S_80173560_4 *)sprite)->unk_24, ((S_80173560_4 *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
     resource = D_80175E40;
-    if (((S_80173560_4 *)sprite)->unk_2C != resource) {
-        (*(void * *)((u8 *)sprite + (0x2C))) = resource;
+    if (sprite->frameTable != resource) {
+        (sprite->frameTable) = resource;
         direction = ((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
         select_sprite_entry(sprite, D_80175E40[direction], 0);
     }

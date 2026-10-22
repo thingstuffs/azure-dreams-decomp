@@ -1,6 +1,8 @@
 #include "common.h"
+#include "town/minigame/gym.h"
 #include "shared/town_handler_entries.h"
 #include "shared/object_flags.h"
+#include "shared/entity.h"
 
 typedef struct {
     void *child;
@@ -31,9 +33,9 @@ typedef struct {
     s32 y;
 } TownTarget;
 
-extern u16 D_800135C2[];
-extern s16 D_800272C8[];
-extern s16 D_800272CA[];
+
+
+
 extern TownTarget view_reference_entity[];
 
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
@@ -46,7 +48,6 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
     TownChild *child;
     s16 ticks_left;
     u16 state;
-
 
     child = obj->child;
     motion->x += motion->dx;
@@ -84,10 +85,10 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
         if (obj->state == 0 && (child->flags & 1)) {
             break;
         }
-        if (D_800272CA[0] != 0) {
+        if (gym_lane_delay != 0) {
             break;
         }
-        if (obj->target != D_800272C8[0]) {
+        if (obj->target != gym_lane) {
             break;
         }
 
@@ -98,8 +99,8 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
             if (obj->state == 0) {
                 score++;
                 child->count = score;
-                if ((D_800135C2[0] << 16) < (score << 16)) {
-                    D_800135C2[0] = score;
+                if ((gym_high_score[0] << 16) < (score << 16)) {
+                    gym_high_score[0] = score;
                 }
             }
         }
@@ -146,13 +147,13 @@ void update_gym_score_object(TownObject *obj, TownMotion *motion)
 
     case 0x21:
     {
-        TownTarget *target = view_reference_entity;
-        s32 target_z = target->z;
+        ObjectPosition *target = view_reference_entity;
+        s32 target_z = target->y.v;
         s32 z = motion->z;
         s32 y = motion->y;
         s32 offset_y = y + 0x600000;
         motion->z = z + ((target_z - z) >> 1);
-        motion->y = y + ((target->y - offset_y) >> 1);
+        motion->y = y + ((target->z.v - offset_y) >> 1);
         if ((s16)obj->timer <= 0) {
             obj->state = 1;
         }

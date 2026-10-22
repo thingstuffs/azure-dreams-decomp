@@ -6,13 +6,6 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-typedef struct S_80DA7000_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80DA7000_0;
-
 typedef struct S_80DA7000_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -55,7 +48,7 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
     s32 init_mode;
     SpriteFrameState *data_0c;
     S_80DA7000_2 *data_08;
-    void *object;
+    ObjectNodeHeader *object;
     S_80DA7000_4 *extended_state;
     S_80DA7000_1 *state = NULL;
     s8 saved_value_24;
@@ -70,13 +63,13 @@ void *damp_effect_motion_and_fade_sprite(s16 init_flags, s16 value_24, s16 value
     global_byte = (s32) *(s8 *)-0x56D4;
     object = allocate_list_node(0x112, ((s32 *)&scene_object_list_anchor.next));
     if (object != NULL) {
-        state = object + 0x20;
-        ((S_80DA7000_0 *)object)->unk_10 = &D_80158A3C;
+        state = ((void *)object) + 0x20;
+        object->unk_10 = &D_80158A3C;
         state->unk_13 = MONSTER_DREAMIN;
         register_node(object, project_sprite_chain);
-        data_08 = ((S_80DA7000_0 *)object)->unk_08;
+        data_08 = object->position;
         data_08->unk_0A = saved_value_0a;
-        data_0c = ((S_80DA7000_0 *)object)->unk_0C;
+        data_0c = object->sprite;
         init_mode = init_flags & 3;
         data_0c->unk_25 = saved_value_25;
         extended_state = state;

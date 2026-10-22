@@ -4,13 +4,6 @@
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
-typedef struct S_80171850_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80171850_0;   /* object in spawn_dual_part_overlay_effect */
-
 typedef struct S_80171850_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -42,8 +35,8 @@ extern void try_move_actor_to_valid_position(void *, void *, void *, void *);
 
 extern u8 D_80171A18[];
 extern s32 D_80171E20;
-extern u8 D_801753BC[];
-extern u8 D_80175404[];
+#include "dungeon/monster/blume.h"
+
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 /* Creates Blume with default frames at D_801753BC, applies spawn flags, and attempts valid tile placement. */
@@ -53,7 +46,7 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
     s32 flags0;
     s32 flags1;
     void *result;
-    void *object;
+    ObjectNodeHeader *object;
     S_80171850_2 *part0;
     SpriteFrameState *part1;
     S_80171850_4 *result_copy;
@@ -63,17 +56,17 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
     if (object != 0) {
         result = (u8 *)object;
         result += 0x20;
-        ((S_80171850_0 *)object)->unk_10 = D_80171A18;
+        object->unk_10 = D_80171A18;
         ((S_80171850_1 *)result)->unk_13 = MONSTER_BLUME;
         register_node(object, project_sprite_chain);
 
         {
             void *handler;
 
-            part0 = ((S_80171850_0 *)object)->unk_08;
-            handler = D_801753BC;
+            part0 = object->position;
+            handler = blume_direction_frames;
             part0->unk_0A = attr_c;
-            part1 = ((S_80171850_0 *)object)->unk_0C;
+            part1 = object->sprite;
             kind = spawn_flags & 3;
             part1->unk_25 = attr_b;
             result_copy = result;
@@ -82,25 +75,25 @@ void *spawn_dual_part_overlay_effect(s16 spawn_flags, s16 attr_a, s16 attr_b, s3
         part1->unk_24 = attr_a;
 
         if (kind == 1) {
-            flags0 = ((S_80171850_1 *)result)->unk_14;
-            flags1 = ((S_80171850_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x6000;
             flags1 |= 0x6000;
-            ((S_80171850_1 *)result)->unk_14 = flags0;
-            ((S_80171850_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((S_80171850_1 *)result)->unk_14;
-            flags1 = ((S_80171850_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x2000;
             flags1 |= 0x2000;
-            ((S_80171850_1 *)result)->unk_14 = flags0;
-            ((S_80171850_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else {
             if (((spawn_flags & -4) << 16) == 0 &&
-                (((S_80171850_1 *)result)->unk_14 & 0x200) == 0) {
+                (((ObjectNodeHeader *)result)->unk_14 & 0x200) == 0) {
                 if ((generate_random_value() & 1) != 0) {
                     set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
-                    part1->frameTable = D_80175404;
+                    part1->frameTable = blume_direction_frames_2;
                 }
             }
         }

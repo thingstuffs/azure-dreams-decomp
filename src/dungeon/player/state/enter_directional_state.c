@@ -1,6 +1,7 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/player/state.h"
 
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
 extern u8 D_800DD000[];

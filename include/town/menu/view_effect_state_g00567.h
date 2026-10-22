@@ -24,11 +24,6 @@ typedef struct {
     s16 field_C;
 } State;
 
-typedef struct S_800A25CC_0 {
-    u8 pad_00[0x10];
-    void * unk_10;
-} S_800A25CC_0;
-
 typedef struct S_800A25CC_1 {
     u8 pad_00[0x4];
     s16 unk_04;

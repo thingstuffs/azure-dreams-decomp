@@ -48,5 +48,5 @@ void init_dungeon_view(void)
     render_data->view.clip_y = -0x88;
     render_data->view.clip_width = 0x172;
     render_data->view.clip_height = 0x19A;
-    g_dungeon_status.monster_spawn_table = D_800DDC7C;
+    g_dungeon_status.monster_spawn_table = monster_spawn_records;
 }

@@ -30,7 +30,7 @@ typedef struct S_8004EF90 {
 } S_8004EF90;
 
 /* Initialize the object header and embedded record, then return the following anchor. */
-void *func_8004EF90(void *cursor)
+void *init_object_header_a(void *cursor)
 {
     S_8004EF90 *object = (S_8004EF90 *)cursor;
     S_8004EF90_sub *sub_header;

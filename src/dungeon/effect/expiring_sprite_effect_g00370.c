@@ -1,6 +1,8 @@
 /* Expiring sprite effect (G00370). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D1374. */
 #include "dungeon/effect/expiring_sprite_effect_g00370.h"
+#include "shared/entity.h"
+#include "shared/object_node.h"
 
 /* Creates an object at an offset from its parent and initializes its motion and state. */
 void create_offset_sprite_effect(EntityRec *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset,
@@ -11,7 +13,7 @@ void create_offset_sprite_effect(EntityRec *parent, s32 state_value, s16 x_offse
     s32 saved_motion_scale = *motion_argument;
     s32 scaled_motion;
     S_800D6AD4_5 *object_state;
-    void *object;
+    ObjectNodeHeader *object;
     S_800D6AD4_4 *motion;
     S_800D6AD4_1 *x_position;
     S_800D6AD4_2 *y_position;
@@ -19,28 +21,28 @@ void create_offset_sprite_effect(EntityRec *parent, s32 state_value, s16 x_offse
 
     object = allocate_list_node(0x211, parent);
     if (object != 0) {
-        ((S_800D6AD4_0 *)object)->unk_10 = D_800D6804;
-        ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_02 =
+        object->unk_10 = D_800D6804;
+        (object->position)->x.w.i =
             (u16)((MovingPosition *)((*(void * *)&parent->z)))->unk_02;
-        ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_06 =
+        (object->position)->y.w.i =
             (u16)((MovingPosition *)((*(void * *)&parent->z)))->unk_06;
-        ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_0A =
+        (object->position)->z.w.i =
             (u16)((MovingPosition *)((*(void * *)&parent->z)))->unk_0A;
-        x_position = ((S_800D6AD4_0 *)object)->unk_08;
+        x_position = object->position;
         x_position->unk_02 =
             (u16)(x_position->unk_02 + x_offset);
-        y_position = ((S_800D6AD4_0 *)object)->unk_08;
+        y_position = object->position;
         y_position->unk_06 =
             (u16)(y_position->unk_06 + y_offset);
-        z_position = ((S_800D6AD4_0 *)object)->unk_08;
+        z_position = object->position;
         scaled_motion = saved_motion_scale << 0x12;
         z_position->unk_0A =
             (u16)(z_position->unk_0A + saved_z_offset);
-        motion = ((S_800D6AD4_0 *)object)->unk_08;
-        object_state = object + 0x20;
+        motion = object->position;
+        object_state = ((void *)object) + 0x20;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        ((S_800D6AD4_8 *)(((S_800D6AD4_6 *)object)->unk_08))->unk_14 =
+        (object->position)->velocity_z =
             (s32)(0xFFFA0000 - scaled_motion);
         object_state->unk_32 = 0x14;
         object_state->unk_34 = 0x14;

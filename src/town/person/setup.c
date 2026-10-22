@@ -12,13 +12,6 @@ struct ObjectNodeHeader; void * allocate_list_node(s32, struct ObjectNodeHeader 
 s32 register_node();           /* extern */
 s32 lookup_item_category_mapped_value(s32, s32);                /* extern */
 
-typedef struct S_800C6C10_0 {
-    u8 pad_00[0x8];
-    s32 unk_08;
-    void * unk_0C;
-    s32 (*unk_10)(void *, s32, void *);
-} S_800C6C10_0;
-
 typedef struct S_800C6C10_1 {
     u8 pad_00[0x9C];
     s32 unk_9C;
@@ -29,22 +22,22 @@ s32 create_owner_following_sprite(s32 state_value) {
     s32 callback_arg;
     SpriteFrameState *render_data;
     S_800C6C10_1 *state;
-    void *object;
+    ObjectNodeHeader *object;
 
     object = allocate_list_node(0x136, (struct ObjectNodeHeader * *)(((s32 *)&scene_object_list_anchor.next)));
     if (object == 0) {
         return 0;
     }
-    state = object + 0x20;
-    callback_arg = ((S_800C6C10_0 *)object)->unk_08;
-    render_data = ((S_800C6C10_0 *)object)->unk_0C;
+    state = ((void *)object) + 0x20;
+    callback_arg = *(s32 *)&object->position;
+    render_data = object->sprite;
     state->unk_9C = state_value;
-    ((S_800C6C10_0 *)object)->unk_10 = compute_offset_position_linked_object;
+    object->unk_10 = compute_offset_position_linked_object;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = 0x808080;
     render_data->source = lookup_item_category_mapped_value(0xD, 3);
     register_node(object, project_sprite_chain);
-    ((S_800C6C10_0 *)object)->unk_10(state, callback_arg, render_data);
+    ((s32 (*)(void *, s32, void *))object->unk_10)(state, callback_arg, render_data);
     return (s32)object;
 }

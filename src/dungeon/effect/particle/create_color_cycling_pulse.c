@@ -1,11 +1,11 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
-
 
 typedef struct {
     s32 word[3];
@@ -15,7 +15,6 @@ extern void register_node(void *, void *);
 
 extern u8 D_801671AC;
 extern u8 D_80173B58[48];
-
 
 typedef struct S_8016738C_0 {
     u8 pad_00[0x18];
@@ -39,12 +38,6 @@ typedef struct S_8016738C_1 {
     s16 unk_1E;
 } S_8016738C_1;   /* ctrl in create_color_cycling_pulse */
 
-typedef struct S_8016738C_2 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-} S_8016738C_2;   /* dst in create_color_cycling_pulse */
-
 typedef struct S_8016738C_3 {
     s32 unk_00;
     s32 unk_04;
@@ -54,8 +47,8 @@ typedef struct S_8016738C_3 {
 /* Create and initialize an object at the supplied position with a fixed Z offset. */
 void create_color_cycling_pulse(S_8016738C_3 *origin)
 {
-    void *object;
-    S_8016738C_2 *position;
+    ObjectNodeHeader *object;
+    ObjectPosition *position;
     S_8016738C_1 *control;
     S_8016738C_0 *node;
 
@@ -64,20 +57,20 @@ void create_color_cycling_pulse(S_8016738C_3 *origin)
         node = (u8 *)object + 0x20;
         node->unk_18 = 0x1E;
         node->unk_1A = 0x1E;
-        (*(void * *)((u8 *)object + 0x10)) = &D_801671AC;
+        (object->unk_10) = &D_801671AC;
         register_node(object, project_sprite_chain);
 
-        control = (*(void * *)((u8 *)object + 0xC));
+        control = (object->sprite);
 
         control->unk_10 = 0x20;
         control->unk_14 = control->unk_14 | 0xC;
 
-        position = (*(void * *)((u8 *)object + 8));
-        position->unk_00 = origin->unk_00;
-        position->unk_04 = origin->unk_04;
-        position->unk_08 = origin->unk_08 + 0x180000;
+        position = (object->position);
+        position->x.v = origin->unk_00;
+        position->y.v = origin->unk_04;
+        position->z.v = origin->unk_08 + 0x180000;
 
-        control = (*(void * *)((u8 *)object + 0xC));
+        control = (object->sprite);
 
         control->unk_1C = 0x1400;
         control->unk_1E = 0x1400;

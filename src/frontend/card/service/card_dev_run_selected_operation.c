@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/service/decimal_format_bytes.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
 
@@ -9,7 +10,7 @@ extern s32 func_8040153C(void);
 extern void func_80401578(void);
 extern void func_80408654(s32 value);
 extern s32 dev_card_paths[];
-extern u8 D_80400038[];
+
 
 /* Starts the selected card operation and maps its completion status. */
 s32 card_dev_run_selected_operation(s32 card_index) {
@@ -34,7 +35,7 @@ s32 card_dev_run_selected_operation(s32 card_index) {
         count++;
         func_800702F0(0);
     }
-    func_8007C040(D_80400038, D_804000F8, count);
+    func_8007C040(card_decimal_format, card_counter_label, count);
     if (result != 1) {
         if (result == 3) {
             result = 4;

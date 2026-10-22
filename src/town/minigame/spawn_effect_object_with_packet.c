@@ -7,13 +7,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_800BF654_0 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_800BF654_0;   /* obj in spawn_effect_object_with_packet */
-
 typedef struct S_800BF654_2 {
     u8 pad_00[0x48];
     s32 unk_48;
@@ -30,7 +23,7 @@ extern s32 D_800D2360;
 /* Initialize an object and its packet, then set the caller and global flags. */
 void spawn_effect_object_with_packet(void *caller_data)
 {
-    void *obj;
+    ObjectNodeHeader *obj;
     SpriteFrameState *part;
     void *setup;
     s32 *packet;
@@ -38,8 +31,8 @@ void spawn_effect_object_with_packet(void *caller_data)
     obj = allocate_flagged_object_node(0x136);
     if (obj != NULL) {
         register_node(obj, D_80046398);
-        ((S_800BF654_0 *)obj)->unk_10 = D_800BF4CC;
-        part = ((S_800BF654_0 *)obj)->unk_0C;
+        obj->unk_10 = D_800BF4CC;
+        part = obj->sprite;
         part->scale_x = 0x1000;
         part->scale_y = 0x1000;
         part->unk_20 = 0x1000;
@@ -47,7 +40,7 @@ void spawn_effect_object_with_packet(void *caller_data)
         setup = (u8 *)obj + 0x20;
         part->angle_z = 0;
         part->source = 0x60;
-        packet = ((S_800BF654_0 *)obj)->unk_08;
+        packet = *(s32 * *)&obj->position;
         packet[0] = 0x05400000;
         packet[1] = 0x02300000;
         packet[2] = 0;

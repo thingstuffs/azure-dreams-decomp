@@ -5,6 +5,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
+#include "dungeon/monster/beldo_large.h"
 
 /* Sparse views for fields not covered by the existing record types. */
 typedef struct {
@@ -47,7 +48,6 @@ typedef struct S_8016EE8C_5 {
 
 
 void unlink_entity_node();                         /* extern */
-void create_multi_form_segment_ring();                   /* extern */
 extern s32 D_80173C94;
 extern s32 D_80173D5C;
 extern s32 beldo_actor_nodes;

@@ -37,7 +37,6 @@ extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern void D_8002222C(void);
 
-
 /* Creates an effect with two vectors, two colors, and the supplied parameters. */
 void create_paired_vector_color_effect(s32 effect_param, Vec3s *vectors, Color *colors, s32 sub_param)
 {

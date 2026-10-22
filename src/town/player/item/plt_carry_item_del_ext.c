@@ -24,7 +24,7 @@ typedef struct CarryLinkedObject {
 /* plt_carry_item_del_ext: Updates the carried object and detaches it when its type or state matches. */
 void plt_carry_item_del_ext(void) {
     u8 *base;
-    void *input_values;
+    ObjectNodeHeader *input_values;
     s32 first_value;
     s32 second_value;
     u8 *saved_object;
@@ -33,8 +33,8 @@ void plt_carry_item_del_ext(void) {
     base = (u8 *)&scene_object_payload_alias;
     context = base;
     input_values = base - 0x20;
-    first_value = (s32)((ObjectNodeHeader *)input_values)->unk_08;
-    second_value = (s32)((ObjectNodeHeader *)input_values)->unk_0C;
+    first_value = (s32)input_values->position;
+    second_value = (s32)input_values->sprite;
     saved_object = ((CarryRecord *)base)->linked_object;
 
     if (get_linked_carry_item_data(context, first_value, second_value) != 0) {

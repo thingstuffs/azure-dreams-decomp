@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
@@ -14,12 +14,11 @@ extern void update_actor_status_and_mp(void *);
 extern void begin_pushed_actor_move(void *, void *, void *, void *);
 extern s32 begin_ready_actor_directional_action(void *, void *, void *, s32);
 extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
-extern void update_actor_state_after_map_check(void *, void *, void *, void *);
+extern void update_actor_state_after_map_check(void *, void *, SpriteFrameState *, void *);
 
 extern s32 D_801710EC;
 extern u8 D_80175EA0[];
 extern u8 D_80175EC0[];
-
 
 typedef struct S_80174214_0 {
     u8 pad_00[0x8C];
@@ -34,23 +33,8 @@ typedef struct S_80174214_0 {
     u16 unk_A2;
 } S_80174214_0;   /* arg0 in advance_actor_action_and_update_status */
 
-
-typedef struct S_80174214_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80174214_2;   /* base in advance_actor_action_and_update_status */
-
-
-typedef struct S_80174214_4 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x6];
-    u16 unk_0A;
-} S_80174214_4;   /* global in advance_actor_action_and_update_status */
-
-
 /* Advances the actor action state, updating directional animation and entity status. */
-void advance_actor_action_and_update_status(void *actor, void *context, void *animation, void *entity)
+void advance_actor_action_and_update_status(void *actor, void *context, SpriteFrameState *animation, void *entity)
 {
 
     s32 state;
@@ -61,14 +45,14 @@ void advance_actor_action_and_update_status(void *actor, void *context, void *an
     {
         u8 *direction_anims;
 
-        if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
+        if (!(animation->flags & 0xE000)) {
             return;
         }
 
         g_dungeon_status.activity_counts.parts.pending_action_count--;
         direction_anims = D_80175EA0;
-        if (((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv != direction_anims) {
-            (*(void * *)((u8 *)animation + (0x2C))) = direction_anims;
+        if (animation->frameTable != direction_anims) {
+            (animation->frameTable) = direction_anims;
             select_sprite_entry(animation,
                 direction_anims[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
                 0);
@@ -82,7 +66,7 @@ void advance_actor_action_and_update_status(void *actor, void *context, void *an
 
         if (((ActorRecord *)entity)->mp != 0) {
 
-            (*(void * *)((u8 *)animation + (0x2C))) = D_80175EC0;
+            (animation->frameTable) = D_80175EC0;
             select_sprite_entry(animation,
                 D_80175EC0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
                 0);
@@ -142,7 +126,7 @@ void advance_actor_action_and_update_status(void *actor, void *context, void *an
             return;
         }
 
-        (*(void * *)((u8 *)animation + (0x2C))) = D_80175EC0;
+        (animation->frameTable) = D_80175EC0;
         select_sprite_entry(animation,
             D_80175EC0[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)entity)->facing + 0x100) >> 9) & 7],
             0);
@@ -152,7 +136,7 @@ void advance_actor_action_and_update_status(void *actor, void *context, void *an
         return;
     }
     case 2:
-        if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
+        if (animation->flags & 0xE000) {
 
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             ((ActorRecord *)entity)->flags1C &= ~8;

@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:town/func_800A6420, CL:town/func_800A6A78, PD:town/engine:80100D88, PD:town/engine:80100D8A.
  */
 #include "town/map/textured_resource_strips_g00571.h"
+#include "shared/object_node.h"
 
 /* Process linked states until a nonzero signed 16-bit result or the end of the chain. */
 s32 process_linked_state_chain(void *initial_state) {
@@ -30,7 +31,6 @@ s32 process_linked_state_chain(void *initial_state) {
 /* Emits segments in both angular directions and updates the town output pointer. */
 s32 emit_bidirectional_angular_segments(S_800A3B80_3 *object, s32 unused, void *context)
 {
-
 
     Scratch *scratch;
     s16 coord_y;
@@ -503,33 +503,32 @@ void *project_visible_textured_strips(void *origin, void *render_flags, void *dr
 /* Creates an object with the selected resource and initializes its display and state. */
 void create_resource_display_object(s16 resource_index) {
 
-
-    void *object;
+    ObjectNodeHeader *object;
     S_800A47A8_3 *object_state;
     S_800A47A8_1 *component;
     SpriteFrameState *scale;
 
     object = allocate_flagged_object_node(0x12);
     if (object != NULL) {
-        ((S_800A47A8_0 *)object)->unk_10 = D_800A3918;
+        object->unk_10 = D_800A3918;
         register_node(object, D_800A3B1C);
-        ((SpriteFrameState *)((S_800A47A8_4 *)object)->unk_0C)->source = D_800D0C40[resource_index];
-        component = ((S_800A47A8_0 *)object)->unk_0C;
+        object->sprite->source = D_800D0C40[resource_index];
+        component = object->sprite;
         component->unk_0E = 0xE0;
         component->unk_0D = 0xE0;
         component->unk_0C = 0xE0;
-        scale = ((S_800A47A8_0 *)object)->unk_0C;
+        scale = object->sprite;
         scale->scale_y = 0x1000;
         scale->scale_x = 0x1000;
-        component = ((S_800A47A8_0 *)object)->unk_08;
+        component = object->position;
         ((LargeS16 *)&D_80100D88)->value = 0;
         component->unk_02 = 0;
-        component = ((S_800A47A8_0 *)object)->unk_08;
+        component = object->position;
         ((LargeS16 *)&D_80100D8A)->value = 0;
         component->unk_06 = 0;
-        component = ((S_800A47A8_0 *)object)->unk_08;
+        component = object->position;
         component->unk_0A = 0x4000;
-        object_state = object + 0x20;
+        object_state = ((void *)object) + 0x20;
         object_state->unk_0C = resource_index;
         object_state->unk_02 = 0;
         object_state->unk_12 = 0;

@@ -90,7 +90,7 @@ s32 handle_project_queue_textured_triangle_per_vertex_colors(s32 vertex_color0, 
     void *depth_cue;
     void *transform_flags;
 
-    state = *(State81976CB0 **)((u8 *)(&g_game_work));
+    state = *(State81976CB0 **)&g_game_work.draw_buffer;
     scratch->ordering_table = (u32 *)((u8 *)state + 0xB0);
     packet = state->next;
     state->next = packet + 1;

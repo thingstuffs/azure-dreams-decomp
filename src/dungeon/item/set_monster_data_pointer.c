@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/item.h"
 
 extern s32 *D_8001371C;
 extern M2C_UNK D_80013720;

@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_18E8800_H
 #define DUNGEON_OVL_18E8800_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "m2c_compat.h"
 #include "shared/dir_step.h"
 #include "shared/dungeon_status.h"
@@ -85,15 +86,6 @@ typedef struct B31_818C8FD0_S_func_818C8FD0_8 {
     u8 unk_24;
     u8 unk_25;
 } B31_818C8FD0_S_func_818C8FD0_8;
-typedef struct B31_818C8FD0_S_func_818C8FD0_9 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} B31_818C8FD0_S_func_818C8FD0_9;
 typedef struct B31_818C8FD0_S_func_818C8FD0_10 {
     u16 unk_00;
 } B31_818C8FD0_S_func_818C8FD0_10;
@@ -127,12 +119,6 @@ typedef struct B31_818C8A70_S_818C8A70_1 {
     s32 unk_5C;
     s32 unk_60;
 } B31_818C8A70_S_818C8A70_1;
-typedef struct B31_818C8A70_S_818C8A70_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} B31_818C8A70_S_818C8A70_2;
 typedef struct B31_818C8A70_S_818C8A70_3 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -156,14 +142,6 @@ typedef struct B31_818C8A70_S_818C8A70_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
 } B31_818C8A70_S_818C8A70_4;
-typedef struct B31_818C8A70_S_818C8A70_5 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} B31_818C8A70_S_818C8A70_5;
 typedef struct B31_818C8A70_S_818C8A70_6 {
     u8 pad_00[0x60];
     s32 unk_60;
@@ -213,12 +191,12 @@ typedef struct {
     u16 field1E;
 } B31_818C8824_EffectObject;
 void interpolate_view_parameters(B31_818C8824_EffectState *state, s32 *position, B31_818C8824_EffectObject *object);
-void func_80024124(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924_EffectObject *object);
+void advance_accelerating_particle(B31_818C8924_EffectState *effect, s32 *position, B31_818C8924_EffectObject *object);
 void update_a_moving_effect_spawns_particles_advances_timed_phases(void *effect, B31_818C8A70_S_818C8A70_4 *position);
 void update_an_effect_through_attachment_motion_timed_cleanup(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_818C8FD0_S_func_818C8FD0_4 *output_pos, B31_818C8FD0_S_func_818C8FD0_5 *part);
 void select_record_entry_and_value(void *, void *, s32);
 extern const B31_818C8FD0_OffsetTable D_80024004;
-extern s16 D_80024D04;
+extern s16 moving_particle_effect_updated;
 s32 try_apply_confusion_status();        /* extern */
 s32 generate_random_value();                                /* extern */
 s32 check_adjacent_tile_height_clearance();           /* extern */

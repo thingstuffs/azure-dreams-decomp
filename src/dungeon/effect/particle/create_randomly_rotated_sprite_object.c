@@ -1,13 +1,14 @@
 /* Rotating sprites, vertical motion, ring rendering, and staged particle bursts and impacts. */
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/system.h"
 void (*const dungeon_18b2800_entry)(B22_81893474_EffectState *, B22_81893474_Motion *, B22_81893474_ColorPart *) = update_effect_launch_travel_impact_cleanup;
 #include "dungeon/effect/particle/create_randomly_rotated_sprite_object.h"
 #include "common.h"
 #include "shared/object_flags.h"
 
 /* Advance motion and rotation, then set completion flags when the timer exceeds its limit. */
-void func_80024028(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22_81892800_Aux *aux) {
+void advance_accelerating_spin_effect(B22_81892800_Entity *entity, B22_81892800_Motion *motion, B22_81892800_Aux *aux) {
     s16 timer;
 
     entity->link->counter++;
@@ -39,7 +40,7 @@ extern u8 D_80025308[];
 /* Create an object with a randomly rotated sprite and initialize its copied data. */
 void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *src_data, s16 state_value)
 {
-    B22_818928F8_Object *obj;
+    ObjectNodeHeader *obj;
     B22_818928F8_S_818928F8_0 *state;
     SpriteFrameState *sprite;
     B22_818928F8_Copy24 *dst_data;
@@ -48,13 +49,13 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
 
     obj = (B22_818928F8_Object *)allocate_flagged_object_node(0x212);
     if (obj != 0) {
-        obj->callback = func_80024028;
+        obj->unk_10 = advance_accelerating_spin_effect;
         state = (u8 *)obj + 0x20;
         state->unk_0C = context;
         state->unk_10 = 0;
         state->unk_12 = state_value;
 
-        sprite = obj->sprite;
+        sprite = *(B22_818928F8_Sprite * *)&obj->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -66,7 +67,7 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
         sprite->scale_x = 0x800;
 
         register_node(sprite_obj, project_sprite_chain);
-        dst_data = obj->dst;
+        dst_data = *(B22_818928F8_Copy24 * *)&obj->position;
         *dst_data = *src_data;
         dst_data->word[5] = (s32)0xFFFF0000;
         return obj;
@@ -78,7 +79,7 @@ void *create_randomly_rotated_sprite_object(void *context, B22_818928F8_Copy24 *
 #include "shared/object_flags.h"
 
 /* Advance the accumulation step, update the target, and flag completion past the final step. */
-void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, void *target)
+void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, SpriteFrameState *target)
 {
     void *owner;
     s32 total;
@@ -96,7 +97,7 @@ void accelerate_and_expire_animated_sprite(void *step_state, void *accumulator, 
     }
 
     if (*(s16 *)((u8 *)step_state + 4) == *(s16 *)((u8 *)step_state + 6)) {
-        *(u16 *)((u8 *)target + 0x1E) >>= 1;
+        target->scale_y >>= 1;
     }
 
     advance_sprite_animation_and_textures(target);
@@ -121,17 +122,17 @@ extern s32 D_800E2178;
 void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *source_transform, s16 variant) {
     B22_81892AF0_Copy24 *transform;
     SpriteFrameState *sprite;
-    void *object;
+    ObjectNodeHeader *object;
     B22_81892AF0_S_81892AF0_1 *state;
 
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
-        ((B22_81892AF0_S_81892AF0_0 *)object)->unk_10 = accelerate_and_expire_animated_sprite;
-        state = object + 0x20;
+        object->unk_10 = accelerate_and_expire_animated_sprite;
+        state = ((void *)object) + 0x20;
         ((B22_81892AF0_S_81892AF0_0 *)object)->unk_20 = state_value;
         state->unk_04 = 0;
         state->unk_06 = variant;
-        sprite = ((B22_81892AF0_S_81892AF0_0 *)object)->unk_0C;
+        sprite = object->sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
@@ -139,7 +140,7 @@ void *create_vertical_acceleration_sprite(s32 state_value, B22_81892AF0_Copy24 *
         sprite->scale_y = 0x1800;
         sprite->scale_x = 0x1800;
         register_node(object, project_sprite_chain);
-        transform = ((B22_81892AF0_S_81892AF0_0 *)object)->unk_08;
+        transform = *(B22_81892AF0_Copy24 * *)&object->position;
         *transform = *source_transform;
         ((B22_81892AF0_S_81892AF0_3 *)transform)->unk_14 = 0x10000;
         ((B22_81892AF0_S_81892AF0_3 *)transform)->unk_08 += 0xFD010000;
@@ -203,10 +204,10 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
     s32 radius;
     s32 segment;
     s32 angle_step;
-    void **ot_ctx;
+    GameWork *ot_ctx;
 
-    ot_ctx = (void **)((u8 *)(&g_game_work));
-    initial_context = *ot_ctx;
+    ot_ctx = &g_game_work;
+    initial_context = ot_ctx->draw_buffer;
     ((B22_81892C5C_S_81892C5C_0 *)scratch)->unk_18.s = (u8 *)initial_context + 0xB0;
     for (;;) {
         base_height = ((B22_81892C5C_S_81892C5C_1 *)effect)->unk_04;
@@ -227,7 +228,7 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
             s32 height;
             s32 x_trig;
 
-            render_context = *ot_ctx;
+            render_context = ot_ctx->draw_buffer;
             polyline = ((B22_81892C5C_S_81892C5C_3 *)render_context)->unk_8D0;
             ((B22_81892C5C_S_81892C5C_3 *)render_context)->unk_8D0 = (u8 *)polyline + 0x18;
             ((B22_81892C5C_S_81892C5C_4 *)polyline)->unk_00.at03.v = 5;
@@ -294,7 +295,7 @@ s32 draw_red(void *effect, B22_81892C5C_S_81892C5C_2 *center)
                     {
                         B22_81892C5C_S_81892C5C_5 *draw_context;
 
-                        draw_context = ((struct B22_81892C5C_OtCtxS *)ot_ctx)->cur;
+                        draw_context = ot_ctx->draw_buffer;
                         tpage = draw_context->unk_8D0;
                         draw_context->unk_8D0 = (u8 *)tpage + 0xC;
                     }
@@ -330,7 +331,7 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
     B22_81893024_M2C_BLOCK *src;
     B22_81893024_M2C_OBJECT *object;
     s32 *object_args;
-    B22_81893024_M2C_BLOCK *data;
+    ObjectPosition *data;
 
     object = allocate_flagged_object_node(0x212);
 
@@ -342,8 +343,8 @@ void *create_timed_transform_copy_effect(s32 object_arg, void *source_data, s16 
         ((s16 *)object_args)[2] = 0;
         ((s16 *)object_args)[3] = initial_value;
         data = object->data;
-        *data = *src;
-        ((B22_81893024_S_81893024_0 *)data)->unk_0A = (s16) (((B22_81893024_S_81893024_0 *)data)->unk_0A + field_delta);
+        *(B22_81893024_M2C_BLOCK *)data = *src;
+        data->z.w.i = (s16) (*(u16 *)&data->z.w.i + field_delta);
         register_node(object, draw_red);
     } else {
         return NULL;
@@ -412,7 +413,7 @@ extern s32 D_800253BC;
 /* Spawns a primary effect and eight randomly offset particles from the supplied data. */
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param) {
     SpriteFrameState *sprite;
-    B22_81893244_Func81893244Data *payload;
+    ObjectPosition *payload;
     B22_81893244_Func81893244Object *effect;
     B22_81893244_Func81893244Status *status;
     s32 brightness;
@@ -433,7 +434,7 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
         sprite->scale_x = 0x1800;
         register_node(effect, project_sprite_chain);
         payload = effect->field8;
-        *payload = *initial_data;
+        *(B22_81893244_Func81893244Data *)payload = *initial_data;
         create_timed_transform_copy_effect(source, payload, 8, -0x40);
     }
     particle_index = 0;
@@ -457,9 +458,9 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
             sprite->tpage_abr = (u16) (sprite->tpage_abr | 0x60);
             register_node(effect, project_sprite_chain);
             payload = effect->field8;
-            *payload = *initial_data;
-            payload->u0.halves0.field2 = (u16) (payload->u0.halves0.field2 + ((s32) (func_800644B8(rand()) * 2) >> 8));
-            payload->u4.halves4.field6 = (u16) (payload->u4.halves4.field6 + ((s32) (func_80064584(rand()) * 2) >> 8));
+            *(B22_81893244_Func81893244Data *)payload = *initial_data;
+            payload->x.w.i = (u16) (*(u16 *)&payload->x.w.i + ((s32) (func_800644B8(rand()) * 2) >> 8));
+            payload->y.w.i = (u16) (*(u16 *)&payload->y.w.i + ((s32) (func_80064584(rand()) * 2) >> 8));
         }
         particle_index += 1;
     } while (particle_index < 8);

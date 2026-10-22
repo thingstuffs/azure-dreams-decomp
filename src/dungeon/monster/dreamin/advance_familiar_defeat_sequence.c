@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
@@ -14,7 +15,7 @@ extern s32 get_unused_text_buffer(void);
 extern s32 expand_text_control_codes(u8 *src, u8 *dst);
 extern void clear_byte_and_advance(s8 *byte_ptr);
 extern s32 append_entity_display_text(void *record, u8 *out);
-extern void *scan_monster_along_heading(void *, u8, u8, s16, s32);
+extern void *scan_actor_along_heading(void *, u8, u8, s16, s32);
 extern void advance_status_timers(void *);
 extern void play_sound_if_enabled(s32);
 extern void display_text_with_fullwidth_adjustment(s8 *text);
@@ -27,7 +28,7 @@ extern u8 D_80170E68;
 extern u8 D_801738A4[];
 
 /* Run the actor's two-step death sequence: post its message, then spawn the drop and release it. */
-void advance_familiar_defeat_sequence(void *work, void *part_a, void *part_b, void *actor)
+void advance_familiar_defeat_sequence(void *work, void *part_a, SpriteFrameState *part_b, void *actor)
 {
     s32 first;
     s32 result;
@@ -43,10 +44,10 @@ void advance_familiar_defeat_sequence(void *work, void *part_a, void *part_b, vo
         first = result;
         clear_byte_and_advance(expand_text_control_codes(D_80170854, first));
         display_text_with_fullwidth_adjustment(saved_first);
-        object = scan_monster_along_heading(actor, U8(part_b, 0x24), U8(part_b, 0x25),
+        object = scan_actor_along_heading(actor, part_b->unk_24, part_b->unk_25,
                                S16(actor, 0x2A), 0x10);
         PTR(actor, 0x60) = object;
-        PTR(part_b, 0x2C) = D_801738A4;
+        part_b->frameTable = D_801738A4;
         select_sprite_entry(part_b,
             D_801738A4[((g_game_work.view.camera_rotation.parts.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
             0);
@@ -57,7 +58,7 @@ void advance_familiar_defeat_sequence(void *work, void *part_a, void *part_b, vo
         S32(part_a, 0x0C) = 0;
         return;
     case 1:
-        if (!(U16(part_b, 0x14) & 0xE000)) {
+        if (!(part_b->flags & 0xE000)) {
             return;
         }
         spend_actor_mp(actor, 0xC00);

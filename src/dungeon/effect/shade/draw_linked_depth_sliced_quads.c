@@ -1,9 +1,13 @@
+
+struct SpriteFrameState;
+
+struct ObjectPosition;
 #include "common.h"
 #include "shared/object_node.h"
 
 /* The registered three-word callback traverses the registry's +0x18 link.
  * register_node writes that link; dispatch_registered_draw_callbacks supplies payload and +8/+C. */
-extern void project_depth_sliced_quads(void *, void *, void *, s16);
+extern void project_depth_sliced_quads(void *,struct ObjectPosition *,struct SpriteFrameState *, s16);
 
 /* Projects depth-sliced quads for each linked node using its position and rendering state. */
 s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_state)
@@ -14,8 +18,8 @@ s32 draw_linked_depth_sliced_quads(void *payload, void *position, void *render_s
         next = ((ObjectNodeHeader *)((u8 *)payload - 0x20))->chain_next;
         if (next == 0) break;
         payload = (u8 *)next + 0x20;
-        position = next->unk_08;
-        render_state = next->unk_0C;
+        position = next->position;
+        render_state = next->sprite;
     } while (1);
     return 0;
 }

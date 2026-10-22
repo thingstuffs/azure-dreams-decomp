@@ -45,15 +45,12 @@ typedef struct {
     s8 field9C;
 } Func812A5000Entity;
 
-
-
 void *allocate_list_node();
 void *func_8003FD64();                 /* extern */
 s32 register_node();
 s32 func_8004491C();                /* extern */
 void initialize_actor_sprite_and_animation(); /* extern */
 s32 try_move_actor_to_valid_position(); /* extern */
-s32 get_direction_toward_target_position();                          /* extern */
 extern void *D_800FBE1C[];
 void update_actor_scripts_and_motion(void *, void *, void *);
 
@@ -74,7 +71,6 @@ typedef struct S_812A524C_0 {
 typedef struct S_812A524C_1 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
 } S_812A524C_1;   /* &D_800FBE20 in func_80170A4C */
-
 
 typedef struct S_812A524C_3 {
     u8 pad_00[0x2A];
@@ -129,13 +125,6 @@ typedef struct S_812A524C_7 {
     u8 unk_25;
 } S_812A524C_7;   /* ev0 in func_80170A4C */
 
-typedef struct S_812A524C_8 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_8;   /* pos0 in func_80170A4C */
-
 typedef struct S_812A524C_9 {
     u8 pad_00[0x2A];
     s16 unk_2A;
@@ -170,13 +159,6 @@ typedef struct S_812A524C_14 {
     } unk_24;   /* overlapping accesses */
 } S_812A524C_14;   /* ev3 in func_80170A4C */
 
-typedef struct S_812A524C_15 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_15;   /* pos3 in func_80170A4C */
-
 typedef struct S_812A524C_16 {
     u8 pad_00[0x24];
     union {
@@ -185,13 +167,6 @@ typedef struct S_812A524C_16 {
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
 } S_812A524C_16;   /* ev4 in func_80170A4C */
-
-typedef struct S_812A524C_17 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_17;   /* pos4 in func_80170A4C */
 
 typedef struct S_812A524C_18 {
     u8 pad_00[0x24];
@@ -220,13 +195,6 @@ typedef struct S_812A524C_23 {
     } unk_24;   /* overlapping accesses */
 } S_812A524C_23;   /* ev7 in func_80170A4C */
 
-typedef struct S_812A524C_24 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_24;   /* pos7 in func_80170A4C */
-
 typedef struct S_812A524C_25 {
     u8 pad_00[0x24];
     union {
@@ -236,25 +204,11 @@ typedef struct S_812A524C_25 {
     } unk_24;   /* overlapping accesses */
 } S_812A524C_25;   /* ev8 in func_80170A4C */
 
-typedef struct S_812A524C_26 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_26;   /* pos8 in func_80170A4C */
-
 typedef struct S_812A524C_27 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
 } S_812A524C_27;   /* ev9 in func_80170A4C */
-
-typedef struct S_812A524C_28 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_28;   /* pos9 in func_80170A4C */
 
 typedef struct S_812A524C_29 {
     u8 pad_00[0x24];
@@ -270,13 +224,6 @@ typedef struct S_812A524C_31 {
         struct { u8 pad[0x1]; u8 v; } at01;
     } unk_24;   /* overlapping accesses */
 } S_812A524C_31;   /* ev11 in func_80170A4C */
-
-typedef struct S_812A524C_32 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-} S_812A524C_32;   /* pos11 in func_80170A4C */
 
 typedef struct S_812A524C_34 {
     u8 pad_00[0x24];
@@ -322,7 +269,6 @@ typedef struct S_812A524C_40 {
     void * unk_0C;
 } S_812A524C_40;   /* ((S_812A524C_5 *)(&D_800FBE54))->unk_00 in func_80170A4C */
 
-
 s32 enqueue_runtime_pool_script(); /* extern */
 void clear_slots_of_type();
 void func_80042B68();                /* extern */
@@ -335,7 +281,6 @@ s16 set_or_clear_actor_status_slot();       /* extern */
 void update_actor_status_and_mp();                      /* extern */
 s32 refresh_actor_facing_and_lifecycle();  /* extern */
 s32 sample_terrain_surface_height();                   /* extern */
-void *find_linked_entity_of_type_21();                /* extern */
 extern u16 system_update_flags[8];
 extern u8 D_8006EE9C[16];
 extern u8 D_8006F47A[16];

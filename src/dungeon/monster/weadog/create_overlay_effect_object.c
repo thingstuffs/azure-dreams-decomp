@@ -34,7 +34,6 @@ typedef struct S_80171718_4 {
     s8 unk_9C;
 } S_80171718_4;   /* result_copy in create_overlay_effect_object */
 
-
 extern void *allocate_list_node(s32, void *);
 extern void register_node(void *, void *);
 extern s32 generate_random_value(void);
@@ -85,21 +84,21 @@ void *create_overlay_effect_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s32 
         part1->unk_24 = attr_a;
 
         if (kind == 1) {
-            flags0 = ((S_80171718_1 *)result)->unk_14;
-            flags1 = ((S_80171718_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x6000;
             flags1 |= 0x6000;
-            ((S_80171718_1 *)result)->unk_14 = flags0;
-            ((S_80171718_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (kind >= 2) {
-            flags0 = ((S_80171718_1 *)result)->unk_14;
-            flags1 = ((S_80171718_1 *)result)->unk_1C;
+            flags0 = ((ObjectNodeHeader *)result)->unk_14;
+            flags1 = *(s32 *)&((ObjectNodeHeader *)result)->pad_1C;
             flags0 |= 0x2000;
             flags1 |= 0x2000;
-            ((S_80171718_1 *)result)->unk_14 = flags0;
-            ((S_80171718_1 *)result)->unk_1C = flags1;
+            ((ObjectNodeHeader *)result)->unk_14 = flags0;
+            *(s32 *)&((ObjectNodeHeader *)result)->pad_1C = flags1;
         } else if (((spawn_flags & -4) << 16) == 0 &&
-                   (((S_80171718_1 *)result)->unk_14 & 0x200) == 0 &&
+                   (((ObjectNodeHeader *)result)->unk_14 & 0x200) == 0 &&
                    (generate_random_value() & 1) != 0) {
             set_or_clear_actor_status_slot(result, 1, (generate_random_value() & 0x3F) | 0x20);
             part1->unk_2C = D_80174F00;

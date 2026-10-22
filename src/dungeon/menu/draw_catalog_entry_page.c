@@ -1,12 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/menu.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 func_80067014(s32);
 extern s32 func_800671A8(s16 *, s32, s32, s32);
 s32 is_catalog_entry_available();
-void draw_vram_glyph_text();
-void draw_cached_catalog_text();
 extern M2C_UNK D_8011ACD8;
 extern M2C_UNK catalog_glyphs;
 

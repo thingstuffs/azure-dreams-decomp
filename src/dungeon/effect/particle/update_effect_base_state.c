@@ -1,4 +1,5 @@
 /* Staged target motion, layered sprite-chain drawing, and delayed sprite fading. */
+#include "shared/object_node.h"
 #include "dungeon/effect/particle/update_effect_base_state.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -20,7 +21,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
     s32 target_timer;
     void *owner_start;
     void *owner_sprite;
-    void *spawned;
+    ObjectNodeHeader *spawned;
     void *particle_data;
     SpriteFrameState *sprite;
     s32 particles_left;
@@ -42,13 +43,13 @@ void func_80024020(void *effect, void *motion, void *source_render) {
                 spawned = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
                 if (spawned != 0) {
                     particle_data = (u8 *)spawned + 0x20;
-                    sprite = ((S_81844800_2 *)spawned)->unk_0C;
-                    ((S_81844800_2 *)spawned)->unk_10 = fade_effect_sprite_to_black;
-                    ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_00.s =
+                    sprite = spawned->sprite;
+                    spawned->unk_10 = fade_effect_sprite_to_black;
+                    ((S_81844800_14 *)(spawned->position))->unk_00.s =
                         ((S_81844800_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
-                    ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_04.s =
+                    ((S_81844800_14 *)(spawned->position))->unk_04.s =
                         ((S_81844800_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
-                    ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_08.at00.v =
+                    ((S_81844800_14 *)(spawned->position))->unk_08.at00.v =
                         ((S_81844800_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 10);
 
                     {
@@ -82,7 +83,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
         if ((((S_81844800_15 *)(((S_81844800_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
-        target = scan_monster_along_heading(
+        target = scan_actor_along_heading(
             owner,
             ((S_81844800_7 *)owner_sprite)->unk_24,
             ((S_81844800_7 *)owner_sprite)->unk_25,
@@ -198,7 +199,7 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             spawned = allocate_list_node(0x201, (ObjectNodeHeader **)&scene_object_list_anchor);
             if (spawned != 0) {
                 S_81844800_12 *burst_data = (u8 *)spawned + 0x20;
-                ((S_81844800_2 *)spawned)->unk_10 = update_effect_base_state;
+                spawned->unk_10 = update_effect_base_state;
                 register_node(spawned, (s32)draw_layered_vertical_sprite_chain);
                 burst_data->unk_2A = 8;
                 ((S_81844800_2 *)spawned)->unk_20 = effect;
@@ -225,18 +226,18 @@ void func_80024020(void *effect, void *motion, void *source_render) {
             spawned = allocate_list_node(0x312, (ObjectNodeHeader **)&scene_object_list_anchor);
             if (spawned != 0) {
                 particle_data = (u8 *)spawned + 0x20;
-                sprite = ((S_81844800_2 *)spawned)->unk_0C;
-                ((S_81844800_2 *)spawned)->unk_10 = fade_effect_sprite_to_black;
-                ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_00.u =
+                sprite = spawned->sprite;
+                spawned->unk_10 = fade_effect_sprite_to_black;
+                ((S_81844800_14 *)(spawned->position))->unk_00.u =
                     ((S_81844800_3 *)motion)->unk_00.at00.v;
-                ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_04.u =
+                ((S_81844800_14 *)(spawned->position))->unk_04.u =
                     ((S_81844800_3 *)motion)->unk_04.at00.v;
                 state = (func_80069EF8() & 0x3F) - 176;
-                ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_08.at02.v =
+                ((S_81844800_14 *)(spawned->position))->unk_08.at02.v =
                     ((S_81844800_3 *)motion)->unk_08.at02.v - state;
-                ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_0E = (func_80069EF8() & 0xF) - 8;
-                ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_12 = (func_80069EF8() & 0xF) - 8;
-                ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_16 = -(func_80069EF8() & 7);
+                ((S_81844800_14 *)(spawned->position))->unk_0E = (func_80069EF8() & 0xF) - 8;
+                ((S_81844800_14 *)(spawned->position))->unk_12 = (func_80069EF8() & 0xF) - 8;
+                ((S_81844800_14 *)(spawned->position))->unk_16 = -(func_80069EF8() & 7);
                 {
                     u16 flags = sprite->flags;
                     sprite->scale_y = 0x1000;
@@ -424,7 +425,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
         scratch_or_height = (Coord *)(screen_coords[0].y - screen_coords[1].y);
 
         if ((u32)depth_bucket < 0x1E0) {
-            alloc_ctx = LOAD_PTR(render_state);
+            alloc_ctx = *(u8 **)&render_state->draw_buffer;
             prim = LOAD_PTR(alloc_ctx + 0x8D0);
             LOAD_PTR(alloc_ctx + 0x8D0) = prim + 0x34;
             STORE_U32(prim + 4, 0x00808080);
@@ -476,7 +477,7 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
             }
         }
 
-        alloc_ctx_2 = LOAD_PTR(render_state);
+        alloc_ctx_2 = *(u8 **)&render_state->draw_buffer;
         prim = LOAD_PTR(alloc_ctx_2 + 0x8D0);
         LOAD_PTR(alloc_ctx_2 + 0x8D0) = prim + 0x34;
         STORE_U32(prim + 4, 0x00161616);
@@ -534,9 +535,10 @@ s32 draw_layered_vertical_sprite_chain(u8 *first_node)
     return 0;
 }
 #include "dungeon/effect/particle/update_effect_base_state.h"
+#include "shared/game_work.h"
 
 /* Updates effect motion, waits for its timer, then fades its sprite to black. */
-void fade_effect_sprite_to_black(void *effect, VecState *motion, void *sprite) {
+void fade_effect_sprite_to_black(void *effect, VecState *motion, SpriteFrameState *sprite) {
     void *owner = *(void **)effect;
     s32 z_velocity;
     s16 state;
@@ -566,21 +568,21 @@ void fade_effect_sprite_to_black(void *effect, VecState *motion, void *sprite) {
 
     case 1:
         advance_sprite_animation_and_textures(sprite);
-        if (*(u16 *)((s8 *)sprite + 0x14) & 0x6000) {
-            *(s8 *)((s8 *)sprite + 4) = 0;
-            *(s8 *)((s8 *)sprite + 5) = 0;
+        if (sprite->flags & 0x6000) {
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
         }
-        if (*(u8 *)((s8 *)sprite + 0xC) <= *(s16 *)((s8 *)effect + 0x4A)) {
-            *(u32 *)((s8 *)sprite + 0xC) = 0;
+        if (sprite->color.c.r <= *(s16 *)((s8 *)effect + 0x4A)) {
+            sprite->color.word = 0;
             *(u16 *)((s8 *)effect - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }
         {
-            u8 brightness = *(u8 *)((s8 *)sprite + 0xE) - *(u8 *)((s8 *)effect + 0x4A);
-            *(u8 *)((s8 *)sprite + 0xE) = brightness;
-            *(u8 *)((s8 *)sprite + 0xD) = brightness;
-            *(u8 *)((s8 *)sprite + 0xC) = brightness;
+            u8 brightness = sprite->color.c.b - *(u8 *)((s8 *)effect + 0x4A);
+            sprite->color.c.b = brightness;
+            sprite->color.c.g = brightness;
+            sprite->color.c.r = brightness;
         }
         break;
     }

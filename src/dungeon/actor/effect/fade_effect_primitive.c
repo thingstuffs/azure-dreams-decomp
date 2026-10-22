@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 typedef struct S_800CB374_0_pre {
@@ -13,21 +14,6 @@ typedef struct S_800CB374_0 {
     u8 pad_AC[0x8];
     s16 unk_B4;
 } S_800CB374_0;   /* arg0 in fade_effect_primitive */
-
-typedef struct S_800CB374_1 {
-    u8 pad_00[0x6];
-    u16 unk_06;
-    u8 pad_08[0x4];
-    union {
-        struct { u8 v; } at00;
-        struct { s32 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-        struct { u8 pad[0x2]; u8 v; } at02;
-    } unk_0C;   /* overlapping accesses */
-    u8 pad_10[0xC];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_800CB374_1;   /* arg2 in fade_effect_primitive */
 
 typedef struct S_800CB374_2 {
     u8 pad_00[0x1C];
@@ -45,30 +31,30 @@ typedef struct S_800CB374_3 {
 } S_800CB374_3;   /* ((S_800CB374_0 *)arg0)->unk_A8 in fade_effect_primitive */
 
 /* Fades primitive colors or copies source attributes and propagates completion flags. */
-void fade_effect_primitive(void *effect, void *unused, S_800CB374_1 *primitive) {
+void fade_effect_primitive(void *effect, void *unused, SpriteFrameState *primitive) {
     s16 fade_steps;
     u8 blue;
     S_800CB374_2 *source_primitive;
 
     advance_sprite_animation_and_textures(primitive);
     if (((S_800CB374_0 *)effect)->unk_B4 != 0) {
-        primitive->unk_0C.at00.v = (u8) (primitive->unk_0C.at00.v
-            - ((s32) primitive->unk_0C.at00.v / (s16) ((S_800CB374_0 *)effect)->unk_96));
-        primitive->unk_0C.at01.v = (u8) (primitive->unk_0C.at01.v
-            - ((s32) primitive->unk_0C.at01.v / (s16) ((S_800CB374_0 *)effect)->unk_96));
-        blue = primitive->unk_0C.at02.v - ((s32) primitive->unk_0C.at02.v / (s16) ((S_800CB374_0 *)effect)->unk_96);
-        primitive->unk_0C.at02.v = blue;
-        primitive->unk_06 = (u16) (primitive->unk_06 - 1);
+        primitive->color.c.r = (u8) (primitive->color.c.r
+            - ((s32) primitive->color.c.r / (s16) ((S_800CB374_0 *)effect)->unk_96));
+        primitive->color.c.g = (u8) (primitive->color.c.g
+            - ((s32) primitive->color.c.g / (s16) ((S_800CB374_0 *)effect)->unk_96));
+        blue = primitive->color.c.b - ((s32) primitive->color.c.b / (s16) ((S_800CB374_0 *)effect)->unk_96);
+        primitive->color.c.b = blue;
+        primitive->unk_06 = (u16) (*(u16 *)&primitive->unk_06 - 1);
         fade_steps = (u16) ((S_800CB374_0 *)effect)->unk_96 - 1;
         ((S_800CB374_0 *)effect)->unk_96 = fade_steps;
         if ((fade_steps << 0x10) > 0) {
             return;
         }
     } else {
-        primitive->unk_0C.at00u.v = ((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_CC;
+        primitive->color.word = ((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_CC;
         source_primitive = ((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_0C;
-        primitive->unk_1C = (u16) source_primitive->unk_1C;
-        primitive->unk_1E = (u16) source_primitive->unk_1E;
+        primitive->scale_x = (u16) source_primitive->unk_1C;
+        primitive->scale_y = (u16) source_primitive->unk_1E;
         if (!(((S_800CB374_3 *)(((S_800CB374_0 *)effect)->unk_A8))->unk_1E & 0x8000)) {
             return;
         }

@@ -1,4 +1,5 @@
 #include "script_symbols.h"
+#include "shared/entity.h"
 #define ARG0_TYPE s16
 #define ARG1_TYPE s16
 #define ARG2_TYPE s16
@@ -22,7 +23,7 @@ extern u8 D_800D620C[];
 void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header_value_02, ARG3_TYPE header_value_06)
 {
     Node *node;
-    SignedPositionView *header;
+    ObjectPosition *header;
     Work *work;
     s32 node_aux;
     if (test_resident_bitmap_bit(snf_truth) == 0)
@@ -35,9 +36,9 @@ void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header
     work = &node->work;
     work->field_6C = work_value;
     work->field_96 = work_byte;
-    header->unk_02 = header_value_02;
-    header->unk_06 = header_value_06;
-    header->unk_0A = query_lowered_transform_position(header);
+    header->x.w.i = header_value_02;
+    header->y.w.i = header_value_06;
+    header->z.w.i = query_lowered_transform_position(header);
     initialize_object_entries(work, node_aux, D_800D620C);
     register_node_if_unregistered(work, &D_80045340);
 }

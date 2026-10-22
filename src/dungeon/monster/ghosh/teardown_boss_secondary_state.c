@@ -1,13 +1,15 @@
+
+struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/item.h"
 
 extern s32 ghosh_boss_node[3];
 
-extern void set_monster_data_pointer(void);
 extern void func_80173ED0(void);
-extern void clear_entry_flag_and_link_owner(void *);
+extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 
 /* Dungeon teardown: clear the on-screen/status flag bits, run both shutdown hooks, and release the two objects held in the actor table. */
 void teardown_boss_secondary_state(void) {

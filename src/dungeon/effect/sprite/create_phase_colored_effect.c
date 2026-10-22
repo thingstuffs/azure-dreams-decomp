@@ -68,12 +68,12 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
     SpriteFrameState *part;
     S_818BD52C_2 *base;
     S_818BD52C_4 *coords;
-    void *node;
+    ObjectNodeHeader *node;
     s32 end_z;
 
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
-        ((S_818BD52C_0 *)node)->unk_10 = D_80024BB0;
+        node->unk_10 = D_80024BB0;
         base = (u8 *)node + 0x20;
         ((S_818BD52C_0 *)node)->unk_20 = owner->unk_00;
         base->unk_04 = 0;
@@ -89,7 +89,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
         base->unk_08 = color_level;
         base->unk_0C = effect_param;
 
-        part = ((S_818BD52C_0 *)node)->unk_0C;
+        part = node->sprite;
         part->color.c.r = (phase / 4) * 0x80;
         phase_half = phase / 2;
         phase_half_s16 = phase_half;
@@ -109,7 +109,7 @@ void *create_phase_colored_effect(S_818BD52C_1 *owner, void *source_coords, s32 
         part->scale_x = 0xC00;
         register_node(node, project_sprite_chain);
 
-        coords = ((S_818BD52C_0 *)node)->unk_08;
+        coords = node->position;
         *(Copy24 *)coords = *(Copy24 *)source_coords;
         coords->unk_0C = coords->unk_00;
         coords->unk_10 = coords->unk_04;

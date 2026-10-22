@@ -2,6 +2,7 @@
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01178 - CL:town/func_800C7AB4.
  */
 #include "town/person/object/initialize_object_resources_g01178.h"
+#include "shared/object_node.h"
 
 /* Initialize object resources and display state, then copy its position to shared state. */
 void initialize_object_resources_2(void *object, IntVector3 *position, S_800C4F6C_2 *display_state) {

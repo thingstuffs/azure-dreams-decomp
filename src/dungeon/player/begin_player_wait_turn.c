@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/player.h"
+#include "dungeon/system.h"
 typedef struct { u8 pad[0x3714]; u16 flags; } SysPage;
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -19,7 +21,6 @@ typedef struct S_8008C7B4_0 {
 
 extern void set_sprite_animation_frame(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 extern void append_packed_action_record();
-extern s32 check_action_available_without_nearby_actor(void);
 extern u8 player_wait_frames;
 extern M2C_UNK player_carry_frames;
 

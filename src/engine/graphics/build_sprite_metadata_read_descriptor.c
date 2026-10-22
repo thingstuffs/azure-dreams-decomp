@@ -23,6 +23,6 @@ s32 *build_sprite_metadata_read_descriptor(s16 record_id, s32 packed_value) {
         }
         count = 0x1A;
     }
-    pack_tagged_resource_descriptor(count, packed_value, &sprite_metadata_read_descriptor, offset);
-    return &sprite_metadata_read_descriptor;
+    pack_tagged_resource_descriptor(count, packed_value, sprite_metadata_read_descriptor, offset);
+    return sprite_metadata_read_descriptor;
 }

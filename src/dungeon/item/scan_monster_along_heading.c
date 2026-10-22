@@ -1,4 +1,5 @@
 #include "common.h"
+#include "dungeon/item/actor_target.h"
 #include "shared/dir_step.h"
 #include "shared/entity.h"
 extern int abs(int);
@@ -14,7 +15,7 @@ extern s32 is_map_coordinate_out_of_bounds(s16, s16);
 extern s16 check_layer_offset_height(u16, u16, s16, u32);
 
 /* Scans along a heading for an object within the height range and records the stopping coordinates. */
-void *scan_monster_along_heading(EntityRec *source, s32 start_x, s32 start_y, u16 heading, s16 max_steps)
+void *scan_actor_along_heading(EntityRec *source, s32 start_x, s32 start_y, u16 heading, s16 max_steps)
 {
     s32 dir;
     u16 x;

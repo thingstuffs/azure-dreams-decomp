@@ -1,4 +1,6 @@
 /* Builds town display entries, checks their bounds, dispatches object updates, and opens menu windows. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "town/menu/window.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -220,8 +222,8 @@ s32 classify_record_by_state_and_position(Rec_D_80082D58 *record, void *position
 s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, s32 state_94, u8 state_95, u8 state_96, u8 height_mode, s32 state_48, s16 coord_x, s16 coord_z, s32 state_98)
 {
     s32 saved_angle_index;
-    void *object;
-    void *position;
+    ObjectNodeHeader *object;
+    ObjectPosition *position;
     void *object_state;
     SpriteFrameState *render_data;
     u16 angle;
@@ -239,46 +241,46 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
         return 0;
     }
     if ((callback_id & 0xC0000000) == 0xC0000000) {
-        ((func_8009FCC4_S_8009D424_0 *)object)->unk_10 = D_800D3950[(u16)callback_id];
+        object->unk_10 = D_800D3950[(u16)callback_id];
     }
     if ((callback_id & 0xC0000000) != 0xC0000000) {
-        ((func_8009FCC4_S_8009D424_0 *)object)->unk_10 = callback_id;
+        object->unk_10 = callback_id;
     }
 
     if (callback_id & 1) {
-        position = ((func_8009FCC4_S_8009D424_0 *)object)->unk_08;
-        render_data = ((func_8009FCC4_S_8009D424_0 *)object)->unk_0C;
+        position = object->position;
+        render_data = object->sprite;
     }
     else if (callback_id & 2) {
-        position = ((func_8009FCC4_S_if_b1_0 *)object)->unk_08;
-        render_data = ((func_8009FCC4_S_if_b1_0 *)object)->unk_0C;
+        position = object->position;
+        render_data = object->sprite;
     }
     else if (callback_id & 4) {
-        position = ((func_8009FCC4_S_if_b2_0 *)object)->unk_08;
-        render_data = ((func_8009FCC4_S_if_b2_0 *)object)->unk_0C;
+        position = object->position;
+        render_data = object->sprite;
     }
     else {
-        position = ((func_8009FCC4_S_8009D424_0 *)object)->unk_08;
-        render_data = ((func_8009FCC4_S_8009D424_0 *)object)->unk_0C;
+        position = object->position;
+        render_data = object->sprite;
     }
 
-    ((func_8009FCC4_S_8009D424_1 *)position)->unk_02 = coord_x;
+    position->x.w.i = coord_x;
     object_state = (u8 *)object + 0x20;
-    ((func_8009FCC4_S_8009D424_1 *)position)->unk_06 = coord_z;
+    position->y.w.i = coord_z;
 
     if (height_mode == 0) {
-        ((func_8009FCC4_S_8009D424_1 *)position)->unk_0A = -0x40;
+        position->z.w.i = -0x40;
     } else {
-        ((func_8009FCC4_S_8009D424_1 *)position)->unk_0A = -0xC0;
+        position->z.w.i = -0xC0;
     }
-    ((func_8009FCC4_S_8009D424_1 *)position)->unk_0A = query_lowered_transform_position(position);
+    position->z.w.i = query_lowered_transform_position(position);
     if (position != 0) {
         color = 0x808080;
     }
     else {
         color = 0x808080;
     }
-    ((func_8009FCC4_S_8009D424_2 *)object_state)->unk_84 = ((func_8009FCC4_S_8009D424_1 *)position)->unk_02;
+    ((func_8009FCC4_S_8009D424_2 *)object_state)->unk_84 = *(u16 *)&position->x.w.i;
     if (position != 0) {
         if (render_data != 0) {
             state = object_state;
@@ -294,7 +296,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
             state = object_state;
         }
     }
-    ((func_8009FCC4_S_8009D424_3 *)state)->unk_86 = ((func_8009FCC4_S_8009D424_1 *)position)->unk_06;
+    ((func_8009FCC4_S_8009D424_3 *)state)->unk_86 = *(u16 *)&position->y.w.i;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = color;
@@ -339,7 +341,7 @@ s32 create_object_and_initialize_render_state(s32 callback_id, s32 angle_index, 
     } else {
         callback_render = render_data;
     }
-    ((func_8009FCC4_Callback)((func_8009FCC4_S_8009D424_0 *)object)->unk_10)(state, position, callback_render);
+    ((func_8009FCC4_Callback)*(u32 *)&object->unk_10)(state, position, callback_render);
     return 1;
 }
 
@@ -596,7 +598,7 @@ void process_eligible_entries(func_800A02F0_S_8009DA50_2 *entries, void *bounds,
 }
 
 /* Sets the object state for the selected mode and flags. */
-void set_object_state_for_mode(void *owner, void *object, s32 mode, s32 flags) {
+void set_object_state_for_mode(void *owner, SpriteFrameState *object, s32 mode, s32 flags) {
     if (mode == 2) {
         ((Rec_func_80094268_arg0 *)owner)->unk_93 = 1;
         (*(s32 *)((u8 *)object + (0x28))) = loaded_town_resource_attributes[0];
@@ -605,14 +607,14 @@ void set_object_state_for_mode(void *owner, void *object, s32 mode, s32 flags) {
     }
     select_record_entry_and_value(object, window_sprites[mode], 0);
     if (flags & 2) {
-        ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0x100;
+        object->clut = 0x100;
         return;
     }
     if (flags & 4) {
-        ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0x200;
+        object->clut = 0x200;
         return;
     }
-    ((Rec_D_80082E80 *)object)->unk_12.at00_s16.v = 0;
+    object->clut = 0;
 }
 
 /* Cleans up an object when its state check succeeds, or dispatches its callback and updates it. */
@@ -687,9 +689,9 @@ void reset_object_handler_and_saved_byte(void *object, void *context) {
 /* Creates an object with the supplied data, position, and callback mode. */
 void *create_configured_object(void *object_data, void *source_position, s32 alternate_callback)
 {
-    void *created;
+    ObjectNodeHeader *created;
     SpriteFrameState *render_state;
-    void *position;
+    ObjectPosition *position;
     void *object;
     u8 type;
 
@@ -698,11 +700,11 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
         return 0;
     }
 
-    position = POINTER_AT(created, 8);
-    render_state = POINTER_AT(created, 0xC);
-    HALF_AT(position, 2) = HALF_AT(source_position, 2);
-    HALF_AT(position, 6) = HALF_AT(source_position, 6);
-    HALF_AT(position, 0xA) = HALF_AT(source_position, 0xA);
+    position = created->position;
+    render_state = created->sprite;
+    position->x.w.i = HALF_AT(source_position, 2);
+    position->y.w.i = HALF_AT(source_position, 6);
+    position->z.w.i = HALF_AT(source_position, 0xA);
 
     object = (u8 *)created + 0x20;
     render_state->scale_y = 0x1000;
@@ -748,7 +750,7 @@ void *create_configured_object(void *object_data, void *source_position, s32 alt
             BYTE_AT(object, 0x4D), BYTE_AT(object, 0x4C));
     }
 
-    POINTER_AT(created, 0x10) = dispatch_object_or_switch_alternate_state;
+    created->unk_10 = dispatch_object_or_switch_alternate_state;
     initialize_object_and_maybe_play_sound(object, object, position, render_state);
     del_t_item_w_ptr(object_data);
     return created;
@@ -910,7 +912,7 @@ void set_object_types_and_resource(void *object, s32 index, void *output)
 }
 
 /* Updates an object's pulse brightness and handles its completion state. */
-void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, func_800A0FB4_S_func_8009E714_1 *primitive) {
+void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32 context, SpriteFrameState *primitive) {
     s32 status_match;
     s16 phase;
     s32 wave;
@@ -945,9 +947,9 @@ void update_object_pulse_brightness(func_800A0FB4_S_func_8009E714_0 *object, s32
         brightness += 0x3F;
     }
     brightness >>= 6;
-    primitive->unk_0E = (s8)brightness;
-    primitive->unk_0D = (s8)brightness;
-    primitive->unk_0C = (s8)brightness;
+    primitive->color.c.b = (s8)brightness;
+    primitive->color.c.g = (s8)brightness;
+    primitive->color.c.r = (s8)brightness;
     if (!(((func_800A0FB4_S_func_8009E714_2 *)object)[-1].unk_00 & 0x8000) &&
         object->unk_4D == 0x13) {
         advance_sprite_animation_and_textures(primitive);

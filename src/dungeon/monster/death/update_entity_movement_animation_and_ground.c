@@ -5,6 +5,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/monster/death.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
 

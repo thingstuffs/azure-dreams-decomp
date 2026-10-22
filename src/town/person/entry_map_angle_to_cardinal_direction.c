@@ -13,7 +13,7 @@ extern u8 D_800C321C[];
 extern s32 map_angle_to_cardinal_direction(s32, void *);
 
 /* anyone_now_ang_get: store the selected object's current angle in the script result. */
-void func_800C4C88(s32 object_slot) {
+void anyone_now_ang_get(s32 object_slot) {
     s32 *script_values = runtime_script_state;
     void *entry;
     u8 *data;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
@@ -22,16 +23,6 @@ typedef struct S_801738B8_1 {
     u16 unk_6A;
 } S_801738B8_1;   /* room in reset_actor_after_timed_movement */
 
-typedef struct S_801738B8_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    u8 unk_24;
-    u8 unk_25;
-    u8 pad_26[0x6];
-    void * unk_2C;
-} S_801738B8_2;   /* actor in reset_actor_after_timed_movement */
-
 typedef struct S_801738B8_3 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -43,14 +34,13 @@ typedef struct S_801738B8_3 {
     s32 unk_14;
 } S_801738B8_3;   /* motion in reset_actor_after_timed_movement */
 
-
 extern void select_sprite_entry(void *, s32, s32);
 extern void set_record_integer_tile_center(void *, s32, s32);
 extern void begin_actor_display_action(void *actor, void *unused, void *display, u8 *facing_variants);
 extern void apply_clamped_actor_value_delta(void *);
 
 extern u8 D_801716F4[];
-extern u8 D_80175554[];
+#include "dungeon/monster/barong.h"
 extern u8 D_80175564[];
 extern u8 D_8017558C[];
 
@@ -59,7 +49,7 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
 {
     void *object = object_arg;
     void *motion = motion_arg;
-    void *actor = actor_arg;
+    SpriteFrameState *actor= actor_arg;
     void *room = room_arg;
     s16 timer;
     u16 old_timer;
@@ -77,7 +67,7 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
             begin_actor_display_action(object, motion, actor, D_8017558C);
             return;
         }
-        if (!(((S_801738B8_2 *)actor)->unk_14 & 0x8000)) {
+        if (!(actor->flags & 0x8000)) {
             return;
         }
         ((S_801738B8_0 *)object)->unk_96.s = 0;
@@ -121,14 +111,14 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         timer = ((S_801738B8_0 *)object)->unk_96.s;
         if (timer != 0) {
             {
-                s32 target_coord = ((S_801738B8_2 *)actor)->unk_24 << 6;
+                s32 target_coord = actor->unk_24 << 6;
                 s32 current_coord = ((S_801738B8_3 *)motion)->unk_02 - 0x20;
 
                 ((S_801738B8_3 *)motion)->unk_0C =
                     ((target_coord - current_coord) << 16) / timer;
             }
             {
-                s32 target_coord = ((S_801738B8_2 *)actor)->unk_25 << 6;
+                s32 target_coord = actor->unk_25 << 6;
                 s32 current_coord = ((S_801738B8_3 *)motion)->unk_06 - 0x20;
 
                 ((S_801738B8_3 *)motion)->unk_10 =
@@ -151,11 +141,11 @@ void reset_actor_after_timed_movement(void *object_arg, void *motion_arg, void *
         ((S_801738B8_3 *)motion)->unk_14 = 0;
         ((S_801738B8_3 *)motion)->unk_10 = 0;
         ((S_801738B8_3 *)motion)->unk_0C = 0;
-        set_record_integer_tile_center(motion, ((S_801738B8_2 *)actor)->unk_24, ((S_801738B8_2 *)actor)->unk_25);
-        if (((S_801738B8_2 *)actor)->unk_2C == D_80175564) {
-            (*(void * *)((u8 *)actor + 0x2C)) = D_80175554;
+        set_record_integer_tile_center(motion, actor->unk_24, actor->unk_25);
+        if (actor->frameTable == D_80175564) {
+            (actor->frameTable) = barong_direction_frames;
             select_sprite_entry(actor,
-                D_80175554[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
+                barong_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801738B8_1 *)room)->unk_2A + 0x100)
                     >> 9) & 7], 0);
         }
         room_ref = ((s32)g_dungeon_status.pending_display_owner);

@@ -23,13 +23,6 @@ typedef struct S_800D58D8_0 {
     u16 unk_96;
 } S_800D58D8_0;   /* arg0 in update_facing_and_spawn_expired_effect */
 
-typedef struct S_800D58D8_2 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_800D58D8_2;
-
    /* arg1 in update_facing_and_spawn_expired_effect */
 
 typedef struct S_800D58D8_6 {
@@ -51,7 +44,7 @@ void advance_sprite_animation_and_textures();                      /* extern */
 extern s32 D_800D586C[];
 
 /* Update sprite facing and animation, then spawn an effect when the countdown expires. */
-void update_facing_and_spawn_expired_effect(void *state, MovingPosition *position, void *sprite) {
+void update_facing_and_spawn_expired_effect(void *state, MovingPosition *position, SpriteFrameState *sprite) {
     Vec3u16 delta;
     s16 facing;
     void *direction_frames;
@@ -59,13 +52,13 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
     SpriteFrameState *effect_render;
     void *owner;
     MovingPosition *effect_pos;
-    void *effect;
+    ObjectNodeHeader *effect;
 
     facing = ((s32) (g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D58D8_0 *)state)->unk_2A + 0x100) >> 9) & 7;
     if (((S_800D58D8_0 *)state)->unk_94 != facing) {
-        direction_frames = *(s32 *)&((SpriteFrameState *)sprite)->frameTable;
+        direction_frames = *(s32 *)&sprite->frameTable;
         if (direction_frames != 0) {
-            select_indirect_table_entry(sprite, *((u8 *)direction_frames + facing), ((SpriteFrameState *)sprite)->unk_04);
+            select_indirect_table_entry(sprite, *((u8 *)direction_frames + facing), sprite->unk_04);
         }
         ((S_800D58D8_0 *)state)->unk_94 = facing;
     }
@@ -76,28 +69,28 @@ void update_facing_and_spawn_expired_effect(void *state, MovingPosition *positio
         effect = allocate_flagged_object_node(0x12);
         if (effect != NULL) {
             register_node(effect, project_sprite_chain);
-            effect_render = ((S_800D58D8_2 *)effect)->unk_0C;
+            effect_render = effect->sprite;
             effect_render->tpage_abr = 0x20;
             effect_render->flags = (u16) (effect_render->flags | 0xC);
-            effect_pos = ((S_800D58D8_2 *)effect)->unk_08;
+            effect_pos = effect->position;
             effect_pos->unk_02 = (u16) position->unk_02;
             effect_pos->unk_06 = (u16) position->unk_06;
             effect_pos->unk_0A = (u16) position->unk_0A;
-            effect_render = ((S_800D58D8_2 *)effect)->unk_0C;
+            effect_render = effect->sprite;
             effect_render->scale_y = 0x1800;
             effect_render->scale_x = 0x1800;
             effect_render->color.c.b = 0x80;
             effect_render->color.c.g = 0x80;
             effect_render->color.c.r = 0x80;
-            effect_render->unk_06 = (u16) *(u16 *)&((SpriteFrameState *)sprite)->unk_06;
-            ((S_800D58D8_2 *)effect)->unk_10 = &D_800D586C;
+            effect_render->unk_06 = (u16) *(u16 *)&sprite->unk_06;
+            effect->unk_10 = &D_800D586C;
             owner = ((S_800D58D8_0_pre *)state)[-1].unk_00;
             if (resolve_record_orientation_or_fallback(((S_800D58D8_6 *)owner)->unk_08, owner, &delta, 0) != 0) {
                 effect_pos->unk_02 = (u16) (effect_pos->unk_02 + delta.x);
                 effect_pos->unk_06 = (u16) (effect_pos->unk_06 + delta.y);
                 effect_pos->unk_0A = (u16) (effect_pos->unk_0A + delta.z);
             }
-            select_record_entry_and_value(((S_800D58D8_2 *)effect)->unk_0C, effect_sprite_sources, 0);
+            select_record_entry_and_value(effect->sprite, effect_sprite_sources, 0);
         }
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800D58D8_0_pre *)state)[-1].unk_12 | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

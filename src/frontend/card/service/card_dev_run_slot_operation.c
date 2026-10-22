@@ -1,4 +1,5 @@
 #include "common.h"
+#include "frontend/card/service/decimal_format_bytes.h"
 #include "frontend/card/service.h"
 #include "main/data.h"
 
@@ -9,7 +10,7 @@ extern s32 func_8040153C(void);
 extern void func_80401578(void);
 extern void configure_target_for_active_state_and_entry(void *target, s32 entry_index);
 extern void func_80408654(s32 value);
-extern u8 D_80400038[];
+
 extern s32 card_selected_channel[];
 extern s32 card_slot_header_cache[];
 
@@ -33,7 +34,7 @@ s32 card_dev_run_slot_operation(s32 slot_index)
             func_800702F0(0);
         }
     } while (result == 0);
-    func_8007C040(D_80400038, D_804000F8, count);
+    func_8007C040(card_decimal_format, card_counter_label, count);
 
     if (slot_index < 5) {
         s32 *counters;

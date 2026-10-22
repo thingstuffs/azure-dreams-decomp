@@ -1,10 +1,10 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "records/Rec_D_80082E80.h"
 
 struct Dst;
 struct Elem;
-
 
 typedef struct S_800B7C14_1_pre {
     u16 unk_00;
@@ -29,19 +29,18 @@ typedef struct S_800B7C14_2 {
     s32 unk_14;
 } S_800B7C14_2;   /* arg1 in advance_effect_fade_and_remove */
 
-
 extern void select_record_entry_and_value(struct Dst *state, struct Elem *entries, short index);        /* extern */
 extern void advance_sprite_animation_and_textures(void *entity);                      /* extern */
 
 /* Advance effect motion, fade its primitive, and mark it for removal when its lifetime ends. */
-void advance_effect_fade_and_remove(void *effect, void *motion, void *primitive) {
+void advance_effect_fade_and_remove(void *effect, void *motion, SpriteFrameState *primitive) {
     s32 velocity_x;
     u16 life_left;
     u8 brightness;
 
-    if (((Rec_D_80082E80 *)primitive)->unk_00 != 0) {
+    if (*(s32 *)&primitive->unk_00 != 0) {
         advance_sprite_animation_and_textures(primitive);
-        if (((Rec_D_80082E80 *)primitive)->unk_14.at00_u16.v & 0x4000) {
+        if (primitive->flags & 0x4000) {
             select_record_entry_and_value(primitive, ((S_800B7C14_1 *)effect)->unk_08, 0);
         }
     }
@@ -54,17 +53,17 @@ void advance_effect_fade_and_remove(void *effect, void *motion, void *primitive)
         >> 4));
     ((S_800B7C14_2 *)motion)->unk_14 = (s32) (((S_800B7C14_2 *)motion)->unk_14 + 0x40000);
     if (((S_800B7C14_1 *)effect)->unk_12 != 0) {
-        brightness = ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v;
+        brightness = primitive->color.c.r;
         if (brightness != 0) {
             brightness -= 8;
-            ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v = brightness;
-            ((Rec_D_80082E80 *)primitive)->unk_0C.at02_u8.v = brightness;
-            ((Rec_D_80082E80 *)primitive)->unk_0C.at01_u8.v = brightness;
+            primitive->color.c.r = brightness;
+            primitive->color.c.b = brightness;
+            primitive->color.c.g = brightness;
         }
     }
-    ((Rec_D_80082E80 *)primitive)->unk_14.at02_u16.v = (u16) (((Rec_D_80082E80 *)primitive)->unk_14.at02_u16.v
+    primitive->angle_x = (u16) (primitive->angle_x
         + ((S_800B7C14_1 *)effect)->unk_14);
-    ((Rec_D_80082E80 *)primitive)->unk_18 = (u16) (((Rec_D_80082E80 *)primitive)->unk_18
+    primitive->angle_y = (u16) (primitive->angle_y
         + ((S_800B7C14_1 *)effect)->unk_16);
     life_left = ((S_800B7C14_1 *)effect)->unk_10 - 1;
     ((S_800B7C14_1 *)effect)->unk_10 = life_left;

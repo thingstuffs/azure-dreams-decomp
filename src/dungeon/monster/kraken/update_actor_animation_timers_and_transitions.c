@@ -50,7 +50,6 @@ typedef struct S_8017352C_9 {
     s32 unk_14;
 } S_8017352C_9;   /* arg1 in update_actor_animation_timers_and_transitions */
 
-
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
 extern void select_sprite_entry(void *, u8, s32);
@@ -72,14 +71,14 @@ extern u8 D_80174184[];
 extern u8 D_801741CC[];
 
 /* Updates the actor's animation state, timers, and action transitions. */
-void update_actor_animation_timers_and_transitions(void *entity, void *motion, void *sprite, void *actor)
+void update_actor_animation_timers_and_transitions(void *entity, void *motion, SpriteFrameState *sprite, void *actor)
 {
     u8 *body_part;
-    u8 *part_anim;
+    SpriteFrameState *part_anim;
     DungeonGlobalStatus *global_base;
     u8 *body;
     DungeonGlobalStatus *state_zero_counter_base;
-    u8 *animate_counter_base;
+    DungeonGlobalStatus *animate_counter_base;
     u8 *state_two_counter_base;
     s32 actor_flags;
     s32 state;
@@ -93,10 +92,10 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
     switch (state) {
     case 0:
         ((S_8017352C_0 *)entity)->unk_90 += 0x80000;
-        if (!(((SpriteStatusIndexView *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_801741CC;
+        (sprite->frameTable) = D_801741CC;
         select_sprite_entry(sprite,
             D_801741CC[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -146,7 +145,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
                 select_sprite_entry(part_anim, 0x27, 0);
                 ((S_8017352C_0 *)entity)->unk_96 = (rand() & 0xF) + 0x20;
             }
-            if (((SpriteFlagsView *)part_anim)->unk_14 & 0x6000) {
+            if (part_anim->flags & 0x6000) {
                 ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
             }
             if (((S_8017352C_2 *)actor)->unk_6D == 0) {
@@ -164,7 +163,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
             on_actor_status_updated(actor);
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 TileObject *origin = &reference_tile_object;
-                s8 tile = ((SpriteStatusIndexView *)sprite)->unk_26;
+                s8 tile = *(s8 *)&sprite->unk_26;
 
                 if (((tile == origin->room_index) && (tile >= 0)) ||
                     ((s16)get_tile_chebyshev_distance(origin, sprite) < 2)) {
@@ -176,37 +175,37 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
             if ((get_entity_effect_value(actor, 1) << 16) != 0) {
                 return;
             }
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174184;
+            (sprite->frameTable) = D_80174184;
             select_sprite_entry(sprite,
                 D_80174184[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
             ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
-            if (!(((SpriteStatusIndexView *)sprite)->unk_14 & 0x8000)) {
+            if (!(sprite->flags & 0x8000)) {
                 animate_counter_base = (u8 *)3;
                 ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
                 ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
                 animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
-                count = ((TrailHeightView *)animate_counter_base)->unk_0A + 1;
-                ((TrailHeightView *)animate_counter_base)->unk_0A = count;
+                count = *(u16 *)&animate_counter_base->activity_counts.parts.pending_action_count + 1;
+                animate_counter_base->activity_counts.parts.pending_action_count = count;
                 ((S_8017352C_0 *)entity)->unk_9B++;
                 return;
             }
             break;
         } else {
-            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174184;
+            (sprite->frameTable) = D_80174184;
             select_sprite_entry(sprite,
                 D_80174184[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             ((S_8017352C_2 *)actor)->unk_1C.u |= 0x40000;
             ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
-            if (!(((SpriteStatusIndexView *)sprite)->unk_14 & 0x8000)) {
+            if (!(sprite->flags & 0x8000)) {
                 animate_counter_base = (u8 *)3;
                 ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
                 ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
                 animate_counter_base = (u8 *)&g_dungeon_status.turn_scale;
-                count = ((TrailHeightView *)animate_counter_base)->unk_0A + 1;
-                ((TrailHeightView *)animate_counter_base)->unk_0A = count;
+                count = *(u16 *)&animate_counter_base->activity_counts.parts.pending_action_count + 1;
+                animate_counter_base->activity_counts.parts.pending_action_count = count;
                 ((S_8017352C_0 *)entity)->unk_9B++;
                 return;
             }
@@ -219,7 +218,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
             ((S_8017352C_0 *)entity)->unk_98 |= 0x4000;
             ((S_8017352C_9 *)motion)->unk_14 = 0xFFF80000;
         }
-        if (!(((SpriteStatusIndexView *)sprite)->unk_14 & 0xE000)) {
+        if (!(sprite->flags & 0xE000)) {
             return;
         }
         state_two_counter_base = (u8 *)&g_dungeon_status.turn_scale;

@@ -1,11 +1,11 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
-
 
 extern void store_recalled_familiar(void *, void *, void *, void *);
 extern void unlink_entity_node(void *);
@@ -20,14 +20,12 @@ extern void display_record_name_message(void *);
 
 extern u8 D_80173B98;
 
-
 typedef struct S_80176028_0 {
     u8 pad_00[0x4];
     s8 unk_04;
     u8 pad_05[0xF];
     u16 unk_14;
 } S_80176028_0;   /* arg2 in advance_actor_transition_state */
-
 
 typedef struct S_80176028_4 {
     u8 pad_00[0x1C];
@@ -113,13 +111,13 @@ void advance_actor_transition_state(void *owner_data, s32 unused, void *entry_da
             *(u32 *)(map + 0xAC + owner[0xA9] * 4) = 0;
             *(u32 *)(map + 0xD0 + owner[0xA9] * 4) = 0;
             decrement_monster_entry_count(actor[0x13], 3);
-            tile = *(u8 **)(actor - 0x14);
+            tile = *(u8 **)&((ObjectNodeHeader *)((u8 *)actor - 0x20))->sprite;
             x = tile[0x24];
             y = tile[0x25];
             tile_mask = (((S_80176028_4 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000;
             update_map_cell_flags_with_item_limit(x, y, tile_mask);
             unlink_entity_node(actor);
-            (*(u16 *)((u8 *)actor + (-2))) |= NODE_REMOVE;
+            (((ObjectNodeHeader *)((u8 *)actor -0x20))->flags) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             {
                 u8 *actor_slot;

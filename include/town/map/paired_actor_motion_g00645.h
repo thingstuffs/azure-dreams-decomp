@@ -1,5 +1,7 @@
 #ifndef TOWN_MAP_PAIRED_ACTOR_MOTION_G00645_H
 #define TOWN_MAP_PAIRED_ACTOR_MOTION_G00645_H
+
+struct SpriteFrameState;
 /* Paired actor motion (G00645). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - PD:town/engine:800D20CC, PD:town/engine:800E9E14, PD:town/engine:800E9E34, PD:town/engine:800E9E7C. */
 
@@ -141,13 +143,6 @@ typedef struct S_800BD980_0 {
     u16 unk_10;
 } S_800BD980_0;
 
-typedef struct S_800BD980_1 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-} S_800BD980_1;
-
 typedef struct LinkedMotionObject {
     u8 pad_00[0x10];
     union {
@@ -191,7 +186,7 @@ extern s32 register_node(struct RegistrationNode *, s32);
 extern void *allocate_list_node(s32, void *);
 extern s32 D_800E9E14[];
 /* Functions defined in this translation unit. */
-void update_randomized_actor_movement(void *actor, void *motion, void *sprite, s32 update_mode);
+void update_randomized_actor_movement(void *actor, void *motion,struct SpriteFrameState *sprite, s32 update_mode);
 void initialize_object_and_dispatch_by_state(Func800BFE50Object *object, s32 *params, void *dispatch_context);
 void randomize_paired_object_motion(void *pair_in);
 void advance_motion_and_flag_zero_velocity(Actor *actor, Motion *motion, s32 actor_id);

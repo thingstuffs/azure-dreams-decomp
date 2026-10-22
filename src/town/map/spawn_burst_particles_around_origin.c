@@ -11,13 +11,6 @@ typedef struct S_800BBCA0_0 {
     union { s16 s; u16 u; } unk_4C;   /* accessed as both */
 } S_800BBCA0_0;   /* self in spawn_burst_particles_around_origin */
 
-typedef struct S_800BBCA0_1 {
-    u8 pad_00[0x8];
-    s32 * unk_08;
-    u8 * unk_0C;
-    u8 * unk_10;
-} S_800BBCA0_1;   /* object in spawn_burst_particles_around_origin */
-
 typedef struct S_800BBCA0_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -56,7 +49,7 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
     u16 timer;
     s32 spawn_count;
     s32 rand_value;
-    u8 *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *sprite;
     u8 *motion;
     s32 *position;
@@ -76,19 +69,19 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
         do {
             object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (object != 0) {
-                ((S_800BBCA0_1 *)object)->unk_10 = object_type;
+                object->unk_10 = object_type;
                 register_node(object, project_sprite_chain);
-                sprite = ((S_800BBCA0_1 *)object)->unk_0C;
-                motion = object + 0x20;
+                sprite = *(u8 * *)&object->sprite;
+                motion = ((u8 *)object) + 0x20;
 
                 rand_value = rand();
-                position = ((S_800BBCA0_1 *)object)->unk_08;
+                position = *(s32 * *)&object->position;
                 position[0] = ((S_800BBCA0_2 *)origin)->unk_00.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
                 rand_value = rand();
-                position = ((S_800BBCA0_1 *)object)->unk_08;
+                position = *(s32 * *)&object->position;
                 position[1] = ((S_800BBCA0_2 *)origin)->unk_04.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
                 rand_value = rand();
-                position = ((S_800BBCA0_1 *)object)->unk_08;
+                position = *(s32 * *)&object->position;
                 position[2] = ((S_800BBCA0_2 *)origin)->unk_08.at00.v + (((rand_value & 0x1FF) - 0x100) << 13);
 
                 ((S_800BBCA0_3 *)motion)->unk_0C = ((S_800BBCA0_2 *)origin)->unk_00.at02.v;
@@ -124,29 +117,29 @@ void spawn_burst_particles_around_origin(void *self, void *origin)
         sprite_type = D_800F1654;
         do {
             object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
-            motion = object + 0x20;
+            motion = ((u8 *)object) + 0x20;
             if (object != 0) {
-                ((S_800BBCA0_1 *)object)->unk_10 = object_type;
+                object->unk_10 = object_type;
                 register_node(object, project_sprite_chain);
-                sprite = ((S_800BBCA0_1 *)object)->unk_0C;
+                sprite = *(u8 * *)&object->sprite;
 
                 rand_value = rand();
-                position = ((S_800BBCA0_1 *)object)->unk_08;
+                position = *(s32 * *)&object->position;
                 position[0] = ((S_800BBCA0_2 *)origin)->unk_00.at00.v + (((rand_value & 0x1FF) - 0x100) << 10);
                 rand_value = rand();
-                position = ((S_800BBCA0_1 *)object)->unk_08;
+                position = *(s32 * *)&object->position;
                 position[1] = ((S_800BBCA0_2 *)origin)->unk_04.at00.v + (((rand_value & 0x1FF) - 0x100) << 10);
                 rand_value = rand();
-                position = ((S_800BBCA0_1 *)object)->unk_08;
+                position = *(s32 * *)&object->position;
                 position[2] = ((S_800BBCA0_2 *)origin)->unk_08.at00.v + (((rand_value & 0x1FF) - 0x100) << 10);
                 rand_value = rand();
-                velocity = ((S_800BBCA0_1 *)object)->unk_08;
+                velocity = *(s32 * *)&object->position;
                 velocity[3] = ((rand_value & 0x1FF) - 0x100) << 14;
                 rand_value = rand();
-                velocity = ((S_800BBCA0_1 *)object)->unk_08;
+                velocity = *(s32 * *)&object->position;
                 velocity[4] = ((rand_value & 0x1FF) - 0x100) << 14;
                 rand_value = rand();
-                velocity = ((S_800BBCA0_1 *)object)->unk_08;
+                velocity = *(s32 * *)&object->position;
                 velocity[5] = ((rand_value & 0x1FF) - 0x100) << 12;
 
                 sprite->scale_y = 0x200;

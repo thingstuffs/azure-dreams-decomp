@@ -14,18 +14,6 @@ typedef struct S_80158894_0 {
     void * unk_8C;
 } S_80158894_0;   /* result in func_80158894 */
 
-typedef struct S_80158894_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80158894_1;   /* created in func_80158894 */
-
-typedef struct S_80158894_2 {
-    u8 pad_00[0xA];
-    s16 unk_0A;
-} S_80158894_2;   /* position in func_80158894 */
-
 typedef struct S_80158894_3 {
     u8 pad_00[0x24];
     s8 unk_24;
@@ -42,7 +30,6 @@ typedef struct S_80158894_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80158894_4;   /* (void *)actor_ptr in func_80158894 */
-
 
 extern void *allocate_list_node(s32, void *);
 extern void *func_8003FD64(s32, void *);

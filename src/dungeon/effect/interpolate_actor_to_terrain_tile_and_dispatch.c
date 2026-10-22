@@ -1,8 +1,8 @@
 #include "common.h"
+#include "dungeon/effect.h"
 
 /* Four word callback ABI; primary dispatch and individual return-boundary evidence accompany this draft. */
 extern s32 interpolate_actor_to_terrain_tile();
-extern void dispatch_target_action();
 
 void interpolate_actor_to_terrain_tile_and_dispatch(void *actor, void *motion, void *render, void *context)
 {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/object_flags.h"
 
 extern u8 *D_80174710;
@@ -10,13 +11,13 @@ extern void unlink_entity_node(void *node);
 /* Updates the active object, triggers its positional effect, and clears its slot. */
 void update_global_effect_object(void) {
     u8 **active_slot;
-    u8 *active_obj;
+    ObjectNodeHeader *active_obj;
 
     active_slot = &D_80174710;
     active_obj = *active_slot;
     if (active_obj != 0) {
-        u8 *obj_state = active_obj + 0x20;
-        u8 *obj_data = *(u8 **)(active_obj + 0xC);
+        u8 *obj_state = ((u8 *)active_obj) + 0x20;
+        u8 *obj_data = *(u8 * *)&active_obj->sprite;
         s32 sound_x;
         s32 sound_y;
         s32 effect_id;
@@ -30,7 +31,7 @@ void update_global_effect_object(void) {
         }
         update_map_cell_flags_with_item_limit(sound_x, sound_y, effect_id);
         unlink_entity_node(obj_state);
-        *(u16 *)(obj_state - 2) |= 0x8000;
+        ((ObjectNodeHeader *)((u8 *)obj_state - 0x20))->flags |= 0x8000;
         *active_slot = 0;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

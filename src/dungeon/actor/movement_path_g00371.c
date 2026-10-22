@@ -1,10 +1,12 @@
 /* Movement path (G00371). */
 /* Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - CL:dungeon/func_800D38EC, CL:dungeon/func_800D3B60, CL:dungeon/func_800D40C0, PD:dungeon/engine:800E260C. */
+#include "dungeon/actor.h"
 #include "dungeon/actor/movement_path_g00371.h"
 #include "dungeon/actor/state_ids.h"
 
-/* Update entity callbacks, facing, movement, and floor contact. */
-void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_800D8728_2 *monster)
+#include "shared/tile_object.h"
+#include "shared/sprite_frame_state.h"/* Update entity callbacks, facing, movement, and floor contact. */
+void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, SpriteFrameState *monster)
 {
     S_func_800D8728_0 *actor;
     s16 previous_direction;
@@ -16,7 +18,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
     u16 model_flags;
 
     actor = entity;
-    monster->unk_12 = 0;
+    monster->clut = 0;
 
     if (g_dungeon_status.flags & 0x2000) {
         Callback special_callback = entity->unk_8C;
@@ -45,14 +47,14 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
         try_move_actor_to_valid_position(entity, motion, monster, entity);
     }
 
-    model_flags = monster->unk_14;
+    model_flags = monster->flags;
     if (!(model_flags & 0x8000)) {
         direction_sector = (g_game_work.view.camera_rotation.parts.viewAngle + entity->unk_2A + 0x100) >> 9;
         state_direction = direction_sector & 7;
         lookup_direction = state_direction;
         compare_direction = state_direction;
         if (entity->unk_94 != compare_direction) {
-            void *direction_table = monster->unk_2C;
+            void *direction_table = *(u8 **)&monster->frameTable;
             if (direction_table != 0) {
                 s32 direction_offset = (s16)compare_direction * 4;
                 select_record_entry_and_value(monster,
@@ -63,24 +65,24 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
         }
 
         if (dir_sprite_flag[lookup_direction] != 0) {
-            monster->unk_14 |= 1;
+            monster->flags |= 1;
         } else {
-            ((S_func_800D8728_2 *)monster)->unk_14 &= 0xFFFE;
+            monster->flags &= 0xFFFE;
         }
 
         if (!(actor->unk_1C & 0x20)) {
-            if (!(((S_func_800D8728_2 *)monster)->unk_14 & 0x40)) {
+            if (!(monster->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster);
             }
         } else {
-            ((S_func_800D8728_2 *)monster)->unk_14 |= 0x7000;
+            monster->flags |= 0x7000;
         }
 
         apply_monster_koyaw_data(actor->unk_1C, (u8 *)monster + 0xC);
     } else if (model_flags & 0x800) {
-        monster->unk_14 = model_flags & 0x8FFF;
+        monster->flags = model_flags & 0x8FFF;
     } else {
-        monster->unk_14 = model_flags | 0x7000;
+        monster->flags = model_flags | 0x7000;
     }
 
     motion->unk_00.s32 += motion->unk_0C;
@@ -92,7 +94,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
         if (hop_timer == 2) {
             s32 hop_direction_offset;
             entity->unk_98 |= 1;
-            monster->unk_2C = actor_movement_frames;
+            monster->frameTable = actor_movement_frames;
             hop_direction_offset = ((g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 7) & 0x1C;
             select_record_entry_and_value(monster, *(void **)(actor_movement_frames + hop_direction_offset), 0);
         }
@@ -159,7 +161,7 @@ void update_actor_movement_and_contact(S_func_800D8728_0 *entity, S_func_800D872
     }
     motion->unk_0A =
         actor->unk_88.u16 + entity->unk_90.half.unk_92.u16;
-    monster->unk_14 |= 0x40;
+    monster->flags |= 0x40;
 }
 
 /* Updates actor state, facing, and directional animation. */
@@ -210,7 +212,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
 
                 anim_table = actor_action_frames;
                 if (((Rec_func_800AA258_arg2 *)sprite)->unk_2C.as_pv != anim_table) {
-                    (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
+                    (*(void **)((u8 *)sprite + (0x2C))) = anim_table;
                     select_record_entry_and_value(sprite,
                         *(void **)((u8 *)anim_table +
                             (((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C)),
@@ -292,7 +294,7 @@ void update_actor_facing_animation(void *actor, EntityRec *motion, void *sprite,
             return;
         }
     }
-    (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
+    (*(void **)((u8 *)sprite + (0x2C))) = anim_table;
     select_record_entry_and_value(sprite,
         *(void **)((((g_game_work.view.camera_rotation.parts.viewAngle + status->facing + 0x100) >> 7) & 0x1C) +
             (u32)anim_table),
@@ -318,7 +320,7 @@ void advance_actor_queued_path(void *action, s32 action_id, void *actor, void *m
         if (anim_table != actor_movement_frames) {
             void *anim_slot;
 
-            (*(void * *)((u8 *)actor + (0x2C))) = actor_movement_frames;
+            (*(void **)((u8 *)actor + (0x2C))) = actor_movement_frames;
             anim_slot = actor_movement_frames +
                 (((g_game_work.view.camera_rotation.parts.viewAngle + ((S_800D904C_0 *)state)->unk_2A + 0x100) >> 7) & 0x1C);
             select_record_entry_and_value(actor, *(void **)anim_slot, 0);
@@ -471,7 +473,7 @@ void advance_actor_traversable_heading(void *move_state, void *context, S_800D92
                     }
                 }
             }
-            rebuild_monster_reachable_tiles(position, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor, move_state + 0x98);
+            select_actor_route_target(position, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor, move_state + 0x98);
 init_loop:
             turn_index = 0;
 loop_entry:
@@ -520,7 +522,7 @@ try_heading:
                 }
             }
             if (turn_index == 0) {
-                if (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == position->unk_24.at00u.v) {
+                if (reference_tile_object.tile_position.word == position->unk_24.at00u.v) {
                     if (++turn_index < 8) {
                         goto try_heading;
                     }

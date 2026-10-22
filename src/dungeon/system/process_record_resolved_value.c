@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/item.h"
+#include "dungeon/menu.h"
 
 s32 get_work_value();                             /* extern */
-void inventory_clear_object_field_and_entry();                         /* extern */
-void initialize_menu_object_state();                    /* extern */
 
 typedef struct S_800257C0_0 {
     u8 pad_00[0x8];

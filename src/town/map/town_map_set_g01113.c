@@ -1,3 +1,5 @@
+
+struct ObjectNodeHeader;
 /* Town map set.
  * Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01113 - CL:town/func_8008E0B8.
  */
@@ -39,7 +41,7 @@ s32 town_map_set(s32 value_7c, s32 value_78)
             do {
                 object_slot--;
                 unlink_active_node(*object_slot);
-                push_node_onto_free_list(*object_slot);
+                push_node_onto_free_list((struct ObjectNodeHeader *)*object_slot);
             } while (object_slot != array_start);
         }
         if (resource_slot != resources) {

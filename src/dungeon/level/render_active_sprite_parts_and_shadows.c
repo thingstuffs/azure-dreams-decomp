@@ -78,7 +78,6 @@ typedef struct S_SCRATCH {
     u16 unk_104;
 } S_SCRATCH;
 
-
 void advance_sprite_animation_and_textures();                      /* extern */
 s32 func_80064840(void *, void *, void *); /* extern */
 void func_80064AE0(void *);
@@ -128,7 +127,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     u8 *depth_cue;
     u8 *transform_flags;
 
-    u8 *game_base = (u8 *)&g_game_work;
+    GameWork *game_base = &g_game_work;
     u8 *matrix_base;
 
     S_SCRATCH *scr;
@@ -196,16 +195,16 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
     void *entry_flags;
     void *render_state;
     scr = (S_SCRATCH *) 0x1F800000;
-    render_state = *((void **) (((s8 *) (((struct S_8003E2D8 *)&g_game_work))) + 0));
+    render_state = g_game_work.draw_buffer;
     primitive_buffer = *((void **) (((s8 *) render_state) + 0x8D0));
     scr->unk_020 = render_state + 0xB0;
     scr->unk_08C = 0;
     scr->unk_084 = 0;
     scr->unk_07C = 0;
     scr->unk_074 = 0;
-    camera.pitch = *((u16 *) (((s8 *) game_base) + 0xC4));
-    camera.yaw = *((u16 *) (((s8 *) game_base) + 0xC6));
-    camera.roll = *((u16 *) (((s8 *) game_base) + 0xC8));
+    camera.pitch = *(u16 *)&game_base->view.camera_rotation.parts.camera_rotation_x;
+    camera.yaw = *(u16 *)&game_base->view.camera_rotation.parts.camera_rotation_y;
+    camera.roll = *(u16 *)&game_base->view.camera_rotation.parts.viewAngle;
     scr->unk_018 = primitive_buffer;
     func_80064AE0(saved_matrix);
     entry_index = 0;
@@ -367,7 +366,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                     + (((s32) (pitch_bits << 0x10)) >> 0x11));
                 sprite_yaw = *((u16 *) (((s8 *) render_params) + 0x1A));
                 view_yaw = camera.yaw;
-                scr->unk_104 = (s16) ((*((u16 *) (((s8 *) game_base) + 0xB8))) + (sprite_yaw
+                scr->unk_104 = (s16) ((*(u16 *)&game_base->view.view_rotation_offset.parts.view_rotation_offset_z) + (sprite_yaw
                     - view_yaw));
 
                 scr->unk_102 = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
@@ -507,7 +506,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
                             shadow_scale[1] = scale_component;
                             {
                                 u16 shadow_pitch = (u16) (0 - camera.pitch);
-                                u16 shadow_roll = (u16) ((*((u16 *) (((s8 *) game_base) + 0xB8))) - camera.yaw);
+                                u16 shadow_roll = (u16) ((*(u16 *)&game_base->view.view_rotation_offset.parts.view_rotation_offset_z) - camera.yaw);
                                 scr->unk_100 = (s16) shadow_pitch;
                                 scr->unk_104 = (s16) shadow_roll;
                             }
@@ -592,7 +591,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, void 
         }
     }
     } while (++entry_index < 0x20);
-    *((void **) (((s8 *) (*((void **) (((s8 *) game_base) + 0)))) + 0x8D0)) =
+    *((void **) (((s8 *) (game_base->draw_buffer)) + 0x8D0)) =
         (void *) (scr->unk_018);
     return 0;
 }

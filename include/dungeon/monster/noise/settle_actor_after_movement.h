@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F43F800_P04_H
 #define DUNGEON_OVL_7F43F800_P04_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 typedef struct {
@@ -26,5 +27,5 @@ typedef struct {
 extern void select_sprite_entry(T_80172664_Context *, s16, s16);
 extern void func_80047784(T_80172664_Context *, s16, s16);
 extern u8 D_80174EA0[9];
-void settle_actor_after_movement(T_80172664_State *state, s32 unused, T_80172664_Context *context, T_80172664_IndexSource *source);
+void settle_actor_after_movement(T_80172664_State *state, s32 unused, SpriteFrameState *context, T_80172664_IndexSource *source);
 #endif

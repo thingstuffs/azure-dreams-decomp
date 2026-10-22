@@ -5,6 +5,7 @@
 #include "shared/object_flags.h"
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
+#include "dungeon/actor.h"
 
 #define HI16(v) (((s16 *)&(v))[1])
 #define HI16U(v) (((u16 *)&(v))[1])
@@ -133,7 +134,7 @@ void func_80024020(ProjectileState *effect, ProjectileMotion *motion, Projectile
         register_node((u8 *)effect - 0x20, func_800248F8);
         range = (s16)get_definition_entry_byte_13(7);
         offset_y = caster_sprite->unk_24;
-        target = (void *)scan_monster_along_heading(caster, offset_y,
+        target = (void *)scan_actor_along_heading(caster, offset_y,
                                        caster_sprite->unk_25,
                                        caster->unk_2A.s, range);
         caster->unk_60.p = target;

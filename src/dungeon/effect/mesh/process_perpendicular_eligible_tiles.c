@@ -1,13 +1,9 @@
 #include "common.h"
+#include "dungeon/effect/mesh/generation_tile_flags.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
 
-typedef struct {
-    u8 pad[4];
-    u16 flags;
-} DungeonTile;
 
-extern DungeonTile D_800EA000[2];
 
 extern s16 func_800D0FBC(void);
 extern s16 func_800D10D0(void);
@@ -39,7 +35,7 @@ s16 process_perpendicular_eligible_tiles(s32 direction, s32 origin_x, s32 origin
             first_stopped = 1;
         }
         if (!first_stopped) {
-            DungeonTile *tile = &D_800EA000[first_x + (first_y << settings->shiftX)];
+            DungeonTile *tile = &generation_cells[first_x + (first_y << settings->shiftX)];
             if (tile->flags & 4) {
                 first_count++;
                 tile->flags |= 0x80;
@@ -60,7 +56,7 @@ s16 process_perpendicular_eligible_tiles(s32 direction, s32 origin_x, s32 origin
             second_stopped = 1;
         }
         if (!second_stopped) {
-            DungeonTile *tile = &D_800EA000[second_x + (second_y << settings->shiftX)];
+            DungeonTile *tile = &generation_cells[second_x + (second_y << settings->shiftX)];
             if (tile->flags & 4) {
                 second_count++;
                 tile->flags |= 0x80;

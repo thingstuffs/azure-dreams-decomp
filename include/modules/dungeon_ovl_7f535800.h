@@ -19,13 +19,6 @@ extern s32 generate_random_value();
 extern void initialize_actor_sprite_and_animation();
 extern void try_move_actor_to_valid_position();
 
-typedef struct S_80158878_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    s32 * unk_10;
-} S_80158878_0;   /* temp_v0 in func_80158878 */
-
 typedef struct S_80158878_1 {
     u8 pad_00[0x13];
     s8 unk_13;

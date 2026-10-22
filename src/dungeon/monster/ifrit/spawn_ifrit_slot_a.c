@@ -6,13 +6,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct S_8014C884_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_8014C884_0;   /* obj in queue_linked_point_packets */
-
 typedef struct S_8014C884_1 {
     u8 pad_00[0x13];
     s8 unk_13;
@@ -69,7 +62,7 @@ extern u8 D_8014E98C[];
 void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
-    void *obj;
+    ObjectNodeHeader *obj;
     S_8014C884_2 *part_a;
     SpriteFrameState *part_b;
     S_8014C884_1 *work;
@@ -88,13 +81,13 @@ void *queue_linked_point_packets(s16 flags, s16 kind_id, s16 variant, s16 spawn_
     obj = allocate_list_node(0x112, ((u8 *)(&scene_object_list_anchor)));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
-        ((S_8014C884_0 *)obj)->unk_10 = D_8014CA58;
+        obj->unk_10 = D_8014CA58;
         work->unk_13 = MONSTER_IFRIT;
         register_node(obj, project_sprite_chain);
 
-        part_a = ((S_8014C884_0 *)obj)->unk_08;
+        part_a = obj->position;
         part_a->unk_0A = saved_spawn;
-        part_b = ((S_8014C884_0 *)obj)->unk_0C;
+        part_b = obj->sprite;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
         actor = work;

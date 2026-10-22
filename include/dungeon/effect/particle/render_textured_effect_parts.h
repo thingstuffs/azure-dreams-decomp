@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_183A800_H
 #define DUNGEON_OVL_183A800_H
 #include "shared/dungeon_effect_views.h"
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "modules/dungeon_native_abi.h"
 #include "m2c_compat.h"
@@ -111,12 +112,6 @@ typedef struct S_8181B1A0_0 {
     u8 pad_04[0x5C];
     s32 unk_60;
 } S_8181B1A0_0;
-typedef struct S_8181B1A0_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    M2C_UNK * unk_10;
-} S_8181B1A0_1;
 typedef struct S_8181B1A0_2 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -129,17 +124,6 @@ typedef struct S_8181B1A0_2 {
     s16 unk_1C;
     s16 unk_1E;
 } S_8181B1A0_2;
-typedef struct S_8181B1A0_3 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    s16 unk_0A;
-} S_8181B1A0_3;
-typedef struct S_80024BE8_0_pre {
-    u16 unk_00;
-} S_80024BE8_0_pre;
 typedef struct S_80024BE8_0 {
     void * unk_00;
     u16 * unk_04;
@@ -233,26 +217,6 @@ typedef struct S_80024BE8_10 {
     s8 unk_0D;
     s8 unk_0E;
 } S_80024BE8_10;
-typedef struct S_80024BE8_11 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80024BE8_11;
-typedef struct S_80024BE8_12 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x1];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024BE8_12;
 typedef struct S_80024BE8_13 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -274,30 +238,6 @@ typedef struct S_80024BE8_15 {
     u8 pad_14[0xE];
     s16 unk_22;
 } S_80024BE8_15;
-typedef struct S_80024BE8_16 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    u8 pad_08[0x8];
-    s16 unk_10;
-    u8 pad_12[0x2];
-    u16 unk_14;
-} S_80024BE8_16;
-typedef struct S_80024BE8_17 {
-    u8 pad_00[0x2];
-    s16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    s32 unk_08;
-} S_80024BE8_17;
-typedef struct S_80024BE8_18 {
-    u8 pad_00[0xC];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 pad_0F[0xD];
-    s16 unk_1C;
-    s16 unk_1E;
-} S_80024BE8_18;
 typedef struct S_80024BE8_19 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -344,11 +284,11 @@ s32 func_80045C34(u8 *, s32, S_80045C34 *);
 void render_textured_effect_parts(void *record_data, void *unused, void *update_data);
 void create_offset_paletted_sprite(void *unused_context, void *origin, s32 unused_id, s16 offset_x, s16 offset_y, s16 offset_z);
 s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_position);
-void create_radial_height_offset_effect(MotionState *state, s32 *sum, UpdateFlags *flags);
+void create_radial_height_offset_effect(MotionState *state, s32 *sum, SpriteFrameState *flags);
 void advance_scattered_directional_particle(void *object_data, s16 *position);
 void func_80024758(ObjectNodeHeader *parent, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void cycle_moving_effect_phase(void *object, S_8181B078_1 *position, S_8181B078_2 *source);
 void decrement_object_counter(void *source, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value);
 void grow_timed_sprite_effect(void *state_data, s32 unused, void *target);
-void advance_projectile_burst_and_impact(void *effect, void *motion, void *sprite);
+void advance_projectile_burst_and_impact(void *effect, void *motion, SpriteFrameState *sprite);
 #endif

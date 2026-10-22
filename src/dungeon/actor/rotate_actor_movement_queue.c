@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/actor.h"
 
 typedef struct S_800A9AFC_2 {
     u8 pad_00[0x73];

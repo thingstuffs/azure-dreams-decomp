@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -38,7 +39,7 @@ void begin_multi_form_directional_script(void)
     u16 direction;
     u8 *work_page;
     SysWork *sys_work;
-    u8 *active_object;
+    ObjectNodeHeader *active_object;
     u8 *object_state;
     u8 *position_data;
     u8 *entry;
@@ -60,9 +61,9 @@ void begin_multi_form_directional_script(void)
     handler_index = D_800834E2 >> 7;
     handler_table = D_80173C8C;
     sys_work->handler = *(void **)(handler_table + (handler_index & 0x1C));
-    position_data = *(u8 **)(active_object + 0xC);
+    position_data = *(u8 * *)&active_object->sprite;
     dungeon_floor_flags |= 0x200000;
-    object_state = active_object + 0x20;
+    object_state = ((u8 *)active_object) + 0x20;
     direction = get_rounded_facing_and_rounding_flag(position_data[0x24], position_data[0x25],
                               reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &unused_result);
     *(u16 *)(object_state + 0x2A) = direction;

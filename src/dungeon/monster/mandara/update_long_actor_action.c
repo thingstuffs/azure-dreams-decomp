@@ -1,4 +1,5 @@
 #include "shared/sprite_source.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "m2c_compat.h"
@@ -42,20 +43,6 @@ typedef struct S_80170F6C_1 {
     s8 unk_6D;
 } S_80170F6C_1;   /* arg3 in update_long_actor_action */
 
-typedef struct S_80170F6C_2 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0xE];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    s8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_80170F6C_2;   /* arg2 in update_long_actor_action */
-
 typedef struct S_80170F6C_3 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -72,12 +59,6 @@ typedef struct S_80170F6C_4 {
     u8 pad_14[0xA6];
     u8 unk_BA;
 } S_80170F6C_4;   /* object in update_long_actor_action */
-
-typedef struct S_80170F6C_5 {
-    s32 unk_00;
-    s32 unk_04;
-    u32 unk_08;
-} S_80170F6C_5;   /* payload in update_long_actor_action */
 
 typedef struct S_80170F6C_8 {
     u8 pad_00[0x58];
@@ -124,7 +105,7 @@ extern void func_80174250(void *, void *, void *, void *);
 extern void *primary_actor_record[3];
 extern u8 secondary_sprite[];
 extern u8 D_80175174[];
-extern u8 D_80175258[];
+#include "dungeon/monster/mandara.h"
 extern u8 D_80175260[];
 extern u8 D_80175290[];
 extern u8 D_80175298[];
@@ -132,7 +113,7 @@ extern u8 D_801752A0[];
 
 /* Selects movement, attacks, and spells from actor status, including a timed directional particle
  * sequence. */
-void update_long_actor_action(void *self_object, void *aux_entity, void *sprite, void *entity)
+void update_long_actor_action(void *self_object, void *aux_entity, SpriteFrameState *sprite, void *entity)
 {
     u16 initial_flags = g_dungeon_status.flags;
     void *post_current;
@@ -150,7 +131,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
         advance_actor_pending_action(self_object, aux_entity, sprite, entity);
         {
             void *current =
-                ((S_80170F6C_2 *)sprite)->unk_2C;
+                sprite->frameTable;
             void *table;
             table = (u8 *)&D_80175298;
             post_current = current;
@@ -158,7 +139,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
             if (post_current != post_table) {
                 u32 post_index;
 
-                ((S_80170F6C_2 *)sprite)->unk_2C = post_table;
+                sprite->frameTable = post_table;
                 post_index = ((g_game_work.view.camera_rotation.parts.viewAngle +
                     ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7;
                 select_sprite_entry(sprite,
@@ -171,7 +152,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
     }
 
     if (((S_80170F6C_1 *)entity)->unk_1C & 0x200) {
-        if (((S_80170F6C_2 *)sprite)->unk_2C == D_80175298) {
+        if (sprite->frameTable == D_80175298) {
             ((S_80170F6C_0 *)self_object)->unk_9A = 0xD;
             ((S_80170F6C_0 *)self_object)->unk_9B = 1;
             ((S_80170F6C_0 *)self_object)->unk_8C = 0;
@@ -194,10 +175,10 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
             u32 current_state = ((S_80170F6C_0 *)self_object)->unk_9A;
             state = 0xE;
             if (current_state != state) {
-                if (((S_80170F6C_2 *)sprite)->unk_2C != D_80175258) {
-                    ((S_80170F6C_2 *)sprite)->unk_2C = D_80175258;
+                if (sprite->frameTable != mandara_direction_frames) {
+                    sprite->frameTable = mandara_direction_frames;
                     select_sprite_entry(sprite,
-                        D_80175258[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+                        mandara_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
                 ((S_80170F6C_0 *)self_object)->unk_9A = state;
@@ -207,12 +188,12 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
         if (((S_80170F6C_1 *)entity)->unk_14 & 0x20000) {
             switch (((S_80170F6C_0 *)self_object)->unk_A8.s) {
             case 0:
-                if (((S_80170F6C_2 *)sprite)->unk_2C != D_801752A0) {
+                if (sprite->frameTable != D_801752A0) {
                     g_dungeon_status.activity_counts.parts.pending_action_count++;
                     ((S_80170F6C_0 *)self_object)->unk_AA = ((S_80170F6C_1 *)entity)->unk_2A.u;
                     ((S_80170F6C_1 *)entity)->unk_2A.s =
                         (((S_80170F6C_1 *)entity)->unk_6A + 0x800) & 0xFFF;
-                    ((S_80170F6C_2 *)sprite)->unk_14 &= 0x9FFF;
+                    sprite->flags &= 0x9FFF;
                     ((S_80170F6C_0 *)self_object)->unk_A6 = 300;
                 }
                 ((S_80170F6C_0 *)self_object)->unk_A8.u++;
@@ -229,14 +210,14 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
                     ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
                     ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
                     set_record_integer_tile_center(aux_entity,
-                        ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v);
+                        sprite->unk_24, sprite->unk_25);
                     ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
                     ((S_80170F6C_0 *)self_object)->unk_A8.u = 0;
                     return;
                 }
                 if (((S_80170F6C_1 *)entity)->unk_14 & 0x1000000) {
                     ((S_80170F6C_0 *)self_object)->unk_A8.u++;
-                    ((S_80170F6C_2 *)sprite)->unk_2C = D_801752A0;
+                    sprite->frameTable = D_801752A0;
                     select_sprite_entry(sprite,
                         D_801752A0[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
@@ -251,7 +232,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
                 s32 scale;
                 S_80170F6C_4 *object;
                 SpriteFrameState *part;
-                void *payload;
+                ObjectPosition *payload;
                 u32 color;
                 u32 payload_word;
                 u32 texture_word;
@@ -273,13 +254,13 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
                     payload = object->unk_08;
                     object->unk_10 = D_80175174;
                     part = object->unk_0C;
-                    ((S_80170F6C_5 *)payload)->unk_00 = ((S_80170F6C_3 *)aux_entity)->unk_00.at00.v;
+                    payload->x.v = ((S_80170F6C_3 *)aux_entity)->unk_00.at00.v;
                     payload = object->unk_08;
-                    ((S_80170F6C_5 *)payload)->unk_04 = ((S_80170F6C_3 *)aux_entity)->unk_04.at00.v;
+                    payload->y.v = ((S_80170F6C_3 *)aux_entity)->unk_04.at00.v;
                     payload = object->unk_08;
                     payload_word = ((S_80170F6C_3 *)aux_entity)->unk_08;
                     color = 0x00800000;
-                    ((S_80170F6C_5 *)payload)->unk_08 = payload_word;
+                    payload->z.v = payload_word;
                     part->scale_y = 0x1000;
                     part->scale_x = 0x1000;
                     part->tpage_abr = 0;
@@ -298,7 +279,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
                     u16 old_timer = ((S_80170F6C_0 *)self_object)->unk_A6;
                     ((S_80170F6C_0 *)self_object)->unk_A6 = old_timer + 1;
                     if ((s16)old_timer >= 3) {
-                        ((S_80170F6C_2 *)sprite)->unk_14 &= 0xF7FF;
+                        sprite->flags &= 0xF7FF;
                         ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
                         ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
                         ((S_80170F6C_0 *)self_object)->unk_A6 = 4;
@@ -315,7 +296,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
 
                 ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
                 if (((s32)timer << 16) <= 0) {
-                    ((S_80170F6C_2 *)sprite)->unk_14 &= 0xF7FF;
+                    sprite->flags &= 0xF7FF;
                     ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
                     ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
                     ((S_80170F6C_0 *)self_object)->unk_A6 = 3;
@@ -335,11 +316,11 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
                 s32 delta_2;
                 u16 timer;
 
-                coord_2 = ((S_80170F6C_2 *)sprite)->unk_24.at00.v << 6;
+                coord_2 = sprite->unk_24 << 6;
                 delta_2 = ((S_80170F6C_3 *)aux_entity)->unk_00.at02.v - 0x20;
                 x = coord_2 - delta_2;
                 ((S_80170F6C_3 *)aux_entity)->unk_0C = (s32)((u32)x << 15) >> 1;
-                coord = ((S_80170F6C_2 *)sprite)->unk_24.at01.v << 6;
+                coord = sprite->unk_25 << 6;
                 delta = ((S_80170F6C_3 *)aux_entity)->unk_04.at02.v - 0x20;
                 y = coord - delta;
                 ((S_80170F6C_3 *)aux_entity)->unk_10 = (s32)((u32)y << 15) >> 1;
@@ -350,12 +331,12 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
                     ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
                     ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
                     set_record_integer_tile_center(aux_entity,
-                        ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v);
+                        sprite->unk_24, sprite->unk_25);
                     ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
                     ((S_80170F6C_1 *)entity)->unk_2A.s = ((S_80170F6C_0 *)self_object)->unk_AA;
-                    ((S_80170F6C_2 *)sprite)->unk_2C = D_80175258;
+                    sprite->frameTable = mandara_direction_frames;
                     select_sprite_entry(sprite,
-                        D_80175258[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
+                        mandara_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                     ((S_80170F6C_0 *)self_object)->unk_A8.u = 0;
                     return;
@@ -383,15 +364,15 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
         }
     }
 
-    result = find_active_rect_containing_point(((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v);
-    ((S_80170F6C_2 *)sprite)->unk_26 = result;
+    result = find_active_rect_containing_point(sprite->unk_24, sprite->unk_25);
+    sprite->unk_26 = result;
 
     if (((S_80170F6C_1 *)entity)->unk_6D > 0) {
         if (((S_80170F6C_1 *)entity)->unk_1C & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (((S_80170F6C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite->unk_24 == reference_tile_object.tile_position.word) {
             advance_actor_path_step(self_object, aux_entity, sprite, entity);
             return;
         }
@@ -437,7 +418,7 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
             void *status_object;
 
             next_position = get_rounded_facing_and_rounding_flag(
-                ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
+                sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                 &scratch);
             status_object = primary_actor_record[0];
@@ -476,10 +457,10 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
                 if (!final_mask) {
 
                     if ((test_neighbor_position_relation(
-                            ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
+                            sprite->unk_24, sprite->unk_25,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                         ((S_80170F6C_1 *)entity)->unk_2A.s = get_rounded_facing_and_rounding_flag(
-                            ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
+                            sprite->unk_24, sprite->unk_25,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                             &scratch);
                     }
@@ -489,14 +470,14 @@ void update_long_actor_action(void *self_object, void *aux_entity, void *sprite,
     }
 
     if (!(g_dungeon_status.flags & 0x2000) &&
-        !(((S_80170F6C_2 *)sprite)->unk_14 & 0x40)) {
+        !(sprite->flags & 0x40)) {
         post_current =
-            ((S_80170F6C_2 *)sprite)->unk_2C;
-        post_table = (u8 *)&D_80175258;
+            sprite->frameTable;
+        post_table = (u8 *)&mandara_direction_frames;
         if (post_current != post_table) {
             u32 post_index;
 
-            ((S_80170F6C_2 *)sprite)->unk_2C = post_table;
+            sprite->frameTable = post_table;
             post_index = ((g_game_work.view.camera_rotation.parts.viewAngle +
                 ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7;
             select_sprite_entry(sprite,

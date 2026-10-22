@@ -4,6 +4,8 @@
 #include "shared/game_work.h"
 #include "records/Rec_func_8008D024_arg0.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/menu.h"
+#include "dungeon/player.h"
 
 typedef struct {
     s8 pad_00[0x2A];
@@ -14,7 +16,6 @@ extern u8 player_carry_frames[8];
 extern u8 player_wait_frames[8];
 
 extern void create_panel_effect_object(void *);
-extern void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags);
 extern void set_sprite_animation_frame(void *, u8, s32, s32);
 
 typedef struct S_8008D024_0 {

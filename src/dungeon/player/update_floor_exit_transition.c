@@ -7,6 +7,10 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 #include "shared/dungeon_moving_views.h"
+#include "dungeon/player/item.h"
+#include "dungeon/system.h"
+#include "engine/entity.h"
+#include "engine/texture.h"
 extern u8 resident_globals_page[];
 
 
@@ -68,12 +72,8 @@ typedef struct S_800930F0_9 {
 void request_scene_dispatch_state();
 void request_scene_state_with_parameters();
 s32 get_entity_class();
-void reset_tagged_entry_states();
-void mark_sprite_resources_for_purge();
 void snapshot_inventory_and_familiars(); /* extern */
-void snapshot_inventory_familiar_records();
 s32 play_sound_if_enabled(); /* extern */
-s32 create_expanding_screen_rectangle();
 s32 check_action_boundary_and_set_flag(); /* extern */
 void create_map_position_object();
 void *create_orbiting_teleport_effect();

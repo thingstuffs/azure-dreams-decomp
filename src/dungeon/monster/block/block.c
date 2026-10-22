@@ -1,9 +1,11 @@
 /* Block actor spawning, movement, attacks, and radial visual effects. */
-#include "modules/dungeon_ovl_cb3000.h"
+#include "dungeon/monster/block.h"
 #include "shared/actor_action_flags.h"
 #include "shared/monster_ids.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/effect.h"
+#include "engine/cd.h"
 
 void *(*const cb3000_spawn_entry)(s16,s16,s16,s32) = create_linked_object_position;
 void (*const cb3000_update_entry)(void *,CB_80170C24_S_80170C24_2 *,void *) = set_boss_effect_flag;
@@ -529,10 +531,10 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, void *context
     actor_flags = actor_data->flags1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            current_angle = (s32)find_valid_monster_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
+            current_angle = (s32)find_adjacent_actor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y);
             blocker = (EntityRec *)current_angle;
             if (blocker != 0) {
-                EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->unk_0C;
+                EntityRec *blocker_owner = (EntityRec *)((ObjectNodeHeader *)blocker - 1)->sprite;
                 s16 target_angle = (s16)get_rounded_facing_and_rounding_flag(
                     position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y,
                     blocker_owner->tileX, blocker_owner->tileY,
@@ -591,13 +593,13 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, void *context
                     limit_detour = 1;
                 }
             } else {
-                rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
+                select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                               &move_data->unk_98);
             }
         }
     } else if (position_data->room_index >= 0 &&
                dungeon_rooms[position_data->room_index].flags & 2) {
-        rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
+        select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                       &move_data->unk_98);
     } else if (!(actor_data->action_flags & ACTOR_ACTION_PENDING)) {
         current_angle = (s32)probe_directional_neighbor(actor_data, position_data->tile_position.parts.tile_x, position_data->tile_position.parts.tile_y, actor_data->facing);
@@ -634,7 +636,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, void *context
                 }
             }
         } else {
-            rebuild_monster_reachable_tiles((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
+            select_actor_route_target((u8 *)position_data, move_data->unk_9C.as_s8, (u8 *)actor_data,
                           &move_data->unk_98);
         }
     }
@@ -1146,7 +1148,7 @@ void advance_actor_item_action_effect(CB_80172BCC_S_func_80C953CC_1 *work, CB_80
                 s32 target_y;
 
                 actor->unk_60 =
-                    scan_monster_along_heading(actor, entity->unk_24,
+                    scan_actor_along_heading(actor, entity->unk_24,
                                   entity->unk_25,
                                   actor->unk_2A, 0x10);
                 target_x = abs(actor->unk_72.s8);
@@ -1336,15 +1338,15 @@ void func_801730E0(CB_801730E0_S_801730E0_0 *state, ObjectPosition *motion, Rec_
     }
 }
 
-void func_80173304(void *state,void *position,void *render_state,void *entity) {
+void remove_defeated_block(void *state,void *position,void *render_state,void *entity) {
     update_actor_defeat_removal(state,position,render_state,entity);
 }
 
-void func_80173324(void *state,void *position,void *render_state,void *entity) {
+void shrink_hopping_block(void *state,void *position,void *render_state,void *entity) {
     update_actor_hop_and_shrink(state,position,render_state,entity);
 }
 
-void func_80173344(void *state,void *position,void *render_state,void *entity) {
+void advance_block_removal(void *state,void *position,void *render_state,void *entity) {
     advance_actor_removal(state,position,render_state,entity);
 }
 
@@ -1666,14 +1668,14 @@ void create_randomized_rotated_effect(void *unused_context, Rec_func_80173CFC_ar
         effect_part->unk_24 = 5;
         (effect->unk_10) = fade_timed_primitive_effect;
         register_node(effect, project_sprite_chain);
-        effect_data = (effect->unk_0C);
+        effect_data = (effect->sprite);
         effect_data->unk_10 = 0x60;
         effect_data->unk_14 |= 0xC;
-        effect_pos = (effect->unk_08);
+        effect_pos = (effect->position);
         effect_pos->unk_02 = source_pos->unk_00.at02_u16.v;
         effect_pos->unk_06 = source_pos->unk_04.at02_u16.v;
         effect_pos->unk_0A = source_pos->unk_0A - 0x28;
-        effect_data = (effect->unk_0C);
+        effect_data = (effect->sprite);
         effect_data->unk_06 = 6;
         effect_data->unk_1E = scale;
         effect_data->unk_1C = scale;

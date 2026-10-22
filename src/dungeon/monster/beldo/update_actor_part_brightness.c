@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -33,19 +34,6 @@ typedef struct S_81251000_2 {
     u16 unk_1E;
 } S_81251000_2;   /* part in update_actor_part_brightness */
 
-typedef struct S_81251000_3 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    s8 unk_0C;
-    s8 unk_0D;
-    s8 unk_0E;
-    u8 pad_0F[0x5];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_81251000_3;   /* dst in update_actor_part_brightness */
-
    /* out in update_actor_part_brightness */
 
 typedef struct S_81251000_5 {
@@ -63,13 +51,9 @@ typedef struct S_81251000_6 {
     s32 unk_08;
 } S_81251000_6;   /* callee_part in update_actor_part_brightness */
 
-
 extern s32 resolve_record_orientation_or_fallback(s32, void *, s16 *, s16);
 extern void advance_sprite_animation_and_textures(void *);
 extern void play_sound_if_enabled(s32);
-
-
-
 
 void update_actor_part_brightness(void *root_data, void *position_out, void *part_out)
 ;
@@ -78,7 +62,7 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
 {
     s16 offset[3];
     register MovingPosition *output_pos = position_out;
-    S_81251000_3 *output_part = part_out;
+    SpriteFrameState *output_part= part_out;
     S_81251000_2 *source_part;
     S_81251000_1 *owner;
     S_81251000_5 *transform;
@@ -90,7 +74,7 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
     transform = owner->unk_08;
 
     if (!(source_part->unk_14 & 0x80)) {
-        output_part->unk_14 &= 0xFF7F;
+        output_part->flags &= 0xFF7F;
     }
 
     output_pos->unk_02 = transform->unk_02;
@@ -111,10 +95,10 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
         ((S_81251000_0 *)root_data)->unk_B4 = offset[2];
     }
 
-    transform = output_part->unk_08;
-    output_part->unk_1C = source_part->unk_1C;
-    output_part->unk_1E = source_part->unk_1E;
-    output_part->unk_14 = source_part->unk_14;
+    transform = output_part->source;
+    output_part->scale_x = source_part->unk_1C;
+    output_part->scale_y = source_part->unk_1E;
+    output_part->flags = source_part->unk_14;
     transform->unk_01 &= 0xFE;
 
     if (((S_81251000_0 *)root_data)->unk_B6 == 1) {
@@ -122,15 +106,15 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
         if (phase < 8) {
             s32 brightness = (phase * 14) + 0x20;
 
-            output_part->unk_0E = brightness;
-            output_part->unk_0D = brightness;
-            output_part->unk_0C = brightness;
+            output_part->color.c.b = brightness;
+            output_part->color.c.g = brightness;
+            output_part->color.c.r = brightness;
         } else {
             s32 brightness = ((15 - phase) * 14) + 0x20;
 
-            output_part->unk_0E = brightness;
-            output_part->unk_0D = brightness;
-            output_part->unk_0C = brightness;
+            output_part->color.c.b = brightness;
+            output_part->color.c.g = brightness;
+            output_part->color.c.r = brightness;
         }
         if (!(source_part->unk_14 & 0x8000) &&
             source_part->unk_04.u16 == 0x10C) {
@@ -143,15 +127,15 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
         if (phase < 8) {
             s32 brightness = ((7 - phase) * 14) + 0x20;
 
-            output_part->unk_0E = brightness;
-            output_part->unk_0D = brightness;
-            output_part->unk_0C = brightness;
+            output_part->color.c.b = brightness;
+            output_part->color.c.g = brightness;
+            output_part->color.c.r = brightness;
         } else {
             s32 brightness = ((phase - 8) * 14) + 0x20;
 
-            output_part->unk_0E = brightness;
-            output_part->unk_0D = brightness;
-            output_part->unk_0C = brightness;
+            output_part->color.c.b = brightness;
+            output_part->color.c.g = brightness;
+            output_part->color.c.r = brightness;
         }
         if (!(source_part->unk_14 & 0x8000) &&
             source_part->unk_04.u16 == 0x104) {
@@ -165,5 +149,4 @@ void update_actor_part_brightness(void *root_data, void *position_out, void *par
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
-
 

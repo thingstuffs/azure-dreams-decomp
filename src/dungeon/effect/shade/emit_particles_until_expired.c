@@ -1,3 +1,5 @@
+
+struct ObjectNodeHeader;
 #include "shared/object_node.h"
 #include "shared/entity_height_offsets.h"
 #include "common.h"
@@ -15,7 +17,6 @@ typedef struct S_800D4DE8_0_pre {
     u16 unk_00;
 } S_800D4DE8_0_pre;   /* the 0x2 bytes before arg0 in emit_particles_until_expired, addressed as arg0[-1] */
 
-
 typedef struct S_800D4DE8_2 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -27,13 +28,6 @@ typedef struct S_800D4DE8_3 {
     s16 unk_20;
 } S_800D4DE8_3;
 
-typedef struct S_800D4DE8_4 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    u8 pad_0C[0x4];
-    void * unk_10;
-} S_800D4DE8_4;
-
 typedef struct S_800D4DE8_5 {
     u8 pad_00[0xA];
     u16 unk_0A;
@@ -42,21 +36,13 @@ typedef struct S_800D4DE8_5 {
     s32 unk_14;
 } S_800D4DE8_5;
 
-typedef struct S_800D4DE8_6 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_800D4DE8_6;   /* global in emit_particles_until_expired */
-
-
-
 typedef struct S_800D4DE8_8 {
     u8 pad_00[0x13];
     u8 unk_13;
 } S_800D4DE8_8;   /* ((Rec_func_800D4BD4_arg1 *)arg0)->unk_00 in emit_particles_until_expired */
 
-
 extern s32 rand(void);
-extern void initialize_effect_object_state(void *, void *, void *, s32);
+extern void initialize_effect_object_state(struct ObjectNodeHeader *, void *, void *, s32);
 extern u8 D_800D4CB0[];
 
 /* Emit particles around the parent position and retire the emitter when its lifetime expires. */
@@ -66,7 +52,7 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
     u16 life_left;
     S_800D4DE8_2 *parent;
     S_800D4DE8_5 *particle_motion;
-    void *particle;
+    ObjectNodeHeader *particle;
     S_800D4DE8_3 *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
@@ -90,8 +76,8 @@ void emit_particles_until_expired(void *emitter, Rec_func_800D4BD4_arg2 *positio
                 particle_state = (u8 *)particle + 0x20;
                 particle_state->unk_1E = 0xA;
                 particle_state->unk_20 = 0xA;
-                ((S_800D4DE8_4 *)particle)->unk_10 = D_800D4CB0;
-                particle_motion = ((S_800D4DE8_4 *)particle)->unk_08;
+                particle->unk_10 = D_800D4CB0;
+                particle_motion = particle->position;
                 particle_motion->unk_0C =
                     ((rand() & 0x7FFF) - 0x4000) << 7;
                 particle_motion->unk_10 =

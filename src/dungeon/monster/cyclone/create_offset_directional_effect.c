@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/slus_callbacks.h"
@@ -23,10 +24,6 @@ typedef struct {
     s32 field14;
 } FuncArg1;
 
-typedef struct {
-    u8 pad00[0x28];
-    s32 field28;
-} FuncArg2;
 
 typedef struct {
     u8 pad00[6];
@@ -63,11 +60,11 @@ extern void register_node(FuncTemp *, u8 *);
 extern void select_sprite_entry(FuncInner *, s16, s16);
 
 /* Creates a directional effect and applies the supplied position offsets. */
-s32 create_offset_directional_effect(FuncArg0 *source, FuncArg1 *position, FuncArg2 *render_context) {
+s32 create_offset_directional_effect(FuncArg0 *source, FuncArg1 *position, SpriteFrameState *render_context) {
     FuncTemp *effect;
     FuncTail *direction_state;
     SpriteFrameState *sprite;
-    FuncArg1 *effect_position;
+    ObjectPosition *effect_position;
     s16 angle;
     s32 biased_angle;
 
@@ -81,7 +78,7 @@ s32 create_offset_directional_effect(FuncArg0 *source, FuncArg1 *position, FuncA
         direction_state->field04 = (s16) (((angle % 4096) << 0x10) >> 0x19);
         direction_state->field06 = source->fieldB0;
         sprite = effect->inner;
-        sprite->unk_28 = ((SpriteFrameState *)render_context)->unk_28;
+        sprite->unk_28 = render_context->unk_28;
         sprite->flags |= 0x100;
         sprite->clut = direction_state->field06 + ((direction_state->field04 + 6) % 8);
         sprite->color.word = 0x808080;
@@ -92,9 +89,9 @@ s32 create_offset_directional_effect(FuncArg0 *source, FuncArg1 *position, FuncA
         sprite->tpage_abr |= 0x20;
         select_sprite_entry(sprite, 0x31, 0);
         effect_position = effect->buffer;
-        *effect_position = *position;
-        effect_position->field00 += effect_position->field0C;
-        effect_position->field04 += effect_position->field10;
+        *(FuncArg1 *)effect_position = *position;
+        effect_position->x.v += effect_position->velocity_x;
+        effect_position->y.v += effect_position->velocity_y;
         return (s32) effect;
     }
     return 0;

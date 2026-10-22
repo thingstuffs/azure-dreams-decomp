@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -6,7 +7,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "records/Rec_func_800A9E70_arg0.h"
-
 
 typedef struct S_80171400_1 {
     u8 pad_00[0x1C];
@@ -22,19 +22,6 @@ typedef struct S_80171400_1 {
     u8 pad_66[0x7];
     s8 unk_6D;
 } S_80171400_1;   /* arg3 in update_dungeon_actor_state */
-
-typedef struct S_80171400_2 {
-    u8 pad_00[0x24];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    u8 unk_26;
-    u8 pad_27[0x5];
-    void * unk_2C;
-} S_80171400_2;   /* arg2 in update_dungeon_actor_state */
-
 
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 check_entity_relation(void *, void *);
@@ -68,7 +55,7 @@ extern u8 D_80175188[];
 extern u8 D_80175190[];
 
 /* Updates a dungeon actor's state, animation, and facing direction. */
-void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, void *entity)
+void update_dungeon_actor_state(void *actor, void *context, SpriteFrameState *sprite_in, void *entity)
 {
     s32 direction_aux;
     s8 room_id;
@@ -85,11 +72,11 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite_in, entity);
-        if (((S_80171400_2 *)sprite_in)->unk_2C == D_80175188) {
+        if (sprite_in->frameTable == D_80175188) {
             return;
         }
         anim_table = D_80175180;
-        (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
+        (sprite_in->frameTable) = anim_table;
         select_sprite_entry(sprite_in,
             anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171400_1 *)entity)->unk_2A + 0x100) >> 9) & 7],
             0);
@@ -97,7 +84,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
     }
 
     if (((S_80171400_1 *)entity)->unk_1C & 0x200) {
-        if (((S_80171400_2 *)sprite_in)->unk_2C == D_80175190) {
+        if (sprite_in->frameTable == D_80175190) {
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
@@ -119,12 +106,12 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
         }
 
-        if ((((S_80171400_2 *)sprite_in)->unk_2C != D_80175140) &&
-            (((S_80171400_2 *)sprite_in)->unk_2C != D_80175148)) {
+        if ((sprite_in->frameTable != D_80175140) &&
+            (sprite_in->frameTable != D_80175148)) {
             u8 *anim_table = D_80175140;
 
             ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
-            (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
+            (sprite_in->frameTable) = anim_table;
             select_sprite_entry(sprite_in,
                 anim_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171400_1 *)entity)->unk_2A + 0x100) >> 9) & 7],
                 ((Rec_func_800A9E70_arg0 *)actor)->unk_A8);
@@ -153,15 +140,15 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
         }
     }
 
-    room_id = find_active_rect_containing_point(((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v);
-    ((S_80171400_2 *)sprite_in)->unk_26 = room_id;
+    room_id = find_active_rect_containing_point(sprite_in->unk_24, sprite_in->unk_25);
+    sprite_in->unk_26 = room_id;
 
     if (((S_80171400_1 *)entity)->unk_6D > 0) {
         if (((S_80171400_1 *)entity)->unk_1C & 0x20) {
             update_actor_status_and_mp(entity);
             return;
         }
-        if (((S_80171400_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite_in->unk_24 == reference_tile_object.tile_position.word) {
             func_80171B28(actor, context, sprite_in, entity);
             return;
         }
@@ -204,7 +191,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
             s16 direction;
 
             direction = get_rounded_facing_and_rounding_flag(
-                ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
+                sprite_in->unk_24, sprite_in->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
             player = primary_actor_record;
             ((S_80171400_1 *)entity)->unk_2A = direction;
@@ -220,7 +207,7 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
         {
             void *anim_table;
 
-            if (((S_80171400_2 *)sprite_in)->unk_2C == D_80175140) {
+            if (sprite_in->frameTable == D_80175140) {
                 anim_table = D_80175170;
             } else {
                 anim_table = D_80175178;
@@ -242,10 +229,10 @@ void update_dungeon_actor_state(void *actor, void *context, void *sprite_in, voi
             if (!(((S_80171400_1 *)entity)->unk_1C & 0x430)) {
 
                 if ((test_neighbor_position_relation(
-                        ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
+                        sprite_in->unk_24, sprite_in->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) << 16) != 0) {
                     ((S_80171400_1 *)entity)->unk_2A = get_rounded_facing_and_rounding_flag(
-                        ((S_80171400_2 *)sprite_in)->unk_24.at00.v, ((S_80171400_2 *)sprite_in)->unk_24.at01.v,
+                        sprite_in->unk_24, sprite_in->unk_25,
                         reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &direction_aux);
                 }
             }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
@@ -9,7 +10,6 @@ typedef struct S_800BBA98_0 {
     u8 pad_4C[0x2];
     union { s16 s; u16 u; } unk_4E;   /* accessed as both */
 } S_800BBA98_0;
-
 
 typedef struct {
     s32 f0;
@@ -42,7 +42,7 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
     State *motion;
     s32 x_decay;
     void *fade_step;
-    register void *display;
+    register SpriteFrameState *display;
 
     effect_data = effect;
     motion = (State *)motion_data;
@@ -56,8 +56,8 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
         ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A = ticks_left;
         phase_value = 0x60;
         if ((ticks_left << 0x10) <= 0) {
-            ((Arg2State *)display)->f10 = phase_value;
-            ((Arg2State *)display)->f14 |= 0xC;
+            display->tpage_abr = phase_value;
+            display->flags |= 0xC;
             ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E.u += 1;
         }
         break;
@@ -69,8 +69,8 @@ void update_effect_motion_and_fade(void *effect, void *motion_data, void *displa
         motion->fc = x_velocity - x_decay;
         motion->f10 -= (motion->f10 >> 1);
         fade_step = (void *)0xFFEFEFF0;
-        ((Arg2State *)display)->fc += (s32)fade_step;
-        if ((u8) ((Arg2State *)display)->fc < 0x11U) {
+        display->color.word += (s32)fade_step;
+        if ((u8) display->color.word < 0x11U) {
             ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_00 |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }

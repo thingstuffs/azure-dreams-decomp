@@ -77,10 +77,10 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
     reference = ((S_80E122F4_6_pre *)(owner->unk_60))[-1].unk_00;
     obj = allocate_flagged_object_node(0x312);
     if (obj != 0) {
-        (*(s32 * *)((u8 *)obj + 0x10)) = &D_80175978;
+        (obj->unk_10) = &D_80175978;
         register_node(obj, project_sprite_chain);
 
-        child = (obj->unk_0C);
+        child = (obj->sprite);
         child->unk_28 = source_obj->unk_28;
         child->scale_y = 0x800;
         child->scale_x = 0x800;
@@ -89,7 +89,7 @@ void *create_source_to_owner_sprite(S_80E122F4_0 *owner, void *transform, void *
         child->tpage_abr |= 0x20;
         select_sprite_entry(child, 0x47, 0);
 
-        coords = (obj->unk_08);
+        coords = (obj->position);
         (*(Copy24 *)((u8 *)obj + 0x24)) = *(Copy24 *)transform;
 
         offset.z = 0;

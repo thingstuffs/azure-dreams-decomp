@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/dungeon_status.h"
@@ -11,7 +12,6 @@ typedef struct S_80171F9C_0 {
     u8 pad_26[0x6];
     u8 * unk_2C;
 } S_80171F9C_0;   /* held_arg2 in select_and_start_target_action */
-
 
 extern s32 select_sprite_entry();
 extern s32 prepare_directional_attack();
@@ -27,7 +27,7 @@ extern u8 D_80175EA8[];
 /* Select and start an actor action based on the target delta. */
 /* Chooses one of three Kewne attacks by target height; returns its mode, 0 for no valid target, or -1
  * while busy. */
-s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *visual_data, ActorRecord *actor) {
+s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 action_param, SpriteFrameState *visual_data, ActorRecord *actor) {
     s32 target_delta;
     s16 action_mode;
     u16 pending_amount;
@@ -44,7 +44,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
             return -1;
         }
 
-        target = probe_directional_neighbor(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25,
+        target = probe_directional_neighbor(actor, visual_data->unk_24, visual_data->unk_25,
             actor->facing);
         if ((check_entity_interaction_compatibility(actor, target) << 16) == 0) {
             return 0;
@@ -81,7 +81,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
             action_state->unk_9B.as_s8 = 0;
             if (selected_mode == 1) {
                 action_state->unk_8C = 0;
-                ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175E50;
+                visual_data->frameTable = D_80175E50;
                 new_action = 0x11;
                 action_state->unk_98 |= 8;
                 action_state->unk_9A.as_s8 = new_action;
@@ -89,7 +89,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
                 actor->unk_85 = 0;
             } else if (selected_mode == 2) {
                 action_state->unk_8C = 0;
-                ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175E70;
+                visual_data->frameTable = D_80175E70;
                 new_action = 0x17;
                 action_state->unk_98 |= 8;
                 action_state->unk_9A.as_s8 = new_action;
@@ -97,7 +97,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
                 actor->unk_85 = 0;
             } else {
                 action_state->unk_8C = 0;
-                ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175EA8;
+                visual_data->frameTable = D_80175EA8;
                 action_state->unk_9A.as_s8 = 0x18;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
@@ -108,7 +108,7 @@ s32 select_and_start_target_action(Rec_func_800A9E70_arg0 *action_state, s32 act
                 u8 *phase_page;
                 phase_page = (u8 *)0x80080000;
                 select_sprite_entry(((S_80171F9C_0 *)(visual_data)),
-                    ((S_80171F9C_0 *)(visual_data))->unk_2C[((*(s16 *)(phase_page + 0x3228) + actor->facing + 0x100)
+                    (*(u8 **)&visual_data->frameTable)[((*(s16 *)(phase_page + 0x3228) + actor->facing + 0x100)
                     >> 9) & 7], 0);
             }
             actor->pending_turn_updates--;

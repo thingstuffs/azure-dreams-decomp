@@ -2,7 +2,7 @@
 #include "modules/dungeon_ovl_1852800.h"
 #include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_1852800.h"
-#include "common.h"
+#include "dungeon/effect/particle.h"
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 #include "shared/object_flags.h"
@@ -22,7 +22,7 @@ void *allocate_list_node();                     /* extern */
 s32 register_node();                /* extern */
 s32 func_80069EF8();                /* extern */
 void apply_attack_power_and_element_effects(); /* extern */
-void *scan_monster_along_heading();      /* extern */
+void *scan_actor_along_heading();      /* extern */
 s32 get_definition_entry_byte_13(s16);                         /* extern */
 s32 play_sound_if_enabled();                     /* extern */
 s32 sample_terrain_surface_height(s32, s32, s16);                   /* extern */
@@ -144,19 +144,19 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     u16 spawn_state;
     u16 scale_x;
     EntityRec *target;
-    S_func_81832800_4 *jitter_position_x;
-    S_func_81832800_4 *jitter_position_y;
-    S_func_81832800_4 *burst_position;
-    S_func_81832800_4 *burst_position_y;
-    S_func_81832800_4 *target_position;
+    ObjectPosition *jitter_position_x;
+    ObjectPosition *jitter_position_y;
+    ObjectPosition *burst_position;
+    ObjectPosition *burst_position_y;
+    ObjectPosition *target_position;
     S_func_81832800_5 *source_sprite;
     SpriteFrameState *sprite;
     S_func_81832800_6 *particle_data;
     EntityRec *source;
     S_func_81832800_3 *object;
-    S_func_81832800_4 *particle_position;
+    ObjectPosition *particle_position;
     EntityRec *found_target;
-    S_func_81832800_4 *height_position;
+    ObjectPosition *height_position;
     u32 sprite_flags;
     s32 texture_word;
     void *particle_callback;
@@ -181,45 +181,45 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
             object = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (object != NULL) {
                 void *callback;
-                S_func_81832800_4 *spawn_position;
+                ObjectPosition *spawn_position;
                 register_node(object, project_sprite_chain);
                 sprite = object->unk_0C;
                 spawn_position = object->unk_08;
                 callback = particle_callback;
                 object->unk_10 = callback;
-                spawn_position->unk_00.as_s32 = (s32) position->unk_00.as_s32;
+                spawn_position->x.v = (s32) position->unk_00.as_s32;
                 particle_data = (S_func_81832800_6 *) ((u8 *) object + 0x20);
                 jitter_count = 1;
-                ((S_func_81832800_4 *) object->unk_08)->unk_04.as_s32 = (s32) position->unk_04.as_s32;
+                (((ObjectPosition *)object->unk_08))->y.v = (s32) position->unk_04.as_s32;
                 do {
                     spawn_value = func_80069EF8();
                     jitter_position_x = object->unk_08;
                     jitter_x = spawn_value;
-                    jitter_base = jitter_position_x->unk_00.parts.unk_02.as_u16 - 0x10;
+                    jitter_base = *(u16 *)&jitter_position_x->x.w.i - 0x10;
                     if (spawn_value < 0) {
                         jitter_x = spawn_value + 0x1F;
                     }
-                    jitter_position_x->unk_00.parts.unk_02.as_u16 = jitter_base + (spawn_value - ((jitter_x >> 5) << 5));
+                    jitter_position_x->x.w.i = jitter_base + (spawn_value - ((jitter_x >> 5) << 5));
                     spawn_value = func_80069EF8(spawn_value, jitter_position_x, jitter_base);
                     jitter_position_y = object->unk_08;
                     jitter_y = spawn_value;
-                    jitter_base = jitter_position_y->unk_04.parts.unk_06.as_u16 - 0x10;
+                    jitter_base = *(u16 *)&jitter_position_y->y.w.i - 0x10;
                     if (spawn_value < 0) {
                         jitter_y = spawn_value + 0x1F;
                     }
-                    jitter_position_y->unk_04.parts.unk_06.as_u16 = jitter_base + (spawn_value - ((jitter_y >> 5) << 5));
+                    jitter_position_y->y.w.i = jitter_base + (spawn_value - ((jitter_y >> 5) << 5));
                     jitter_count -= 1;
                 } while (jitter_count >= 0);
                 particle_position = object->unk_08;
-                ((S_func_81832800_4 *) object->unk_08)->unk_08.parts.unk_0A.as_s16 =
-                    sample_terrain_surface_height(particle_position->unk_00.parts.unk_02.as_u16,
-                    particle_position->unk_04.parts.unk_06.as_u16, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
+                (((ObjectPosition *)object->unk_08))->z.w.i =
+                    sample_terrain_surface_height(*(u16 *)&particle_position->x.w.i,
+                    *(u16 *)&particle_position->y.w.i, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
                 height_position = object->unk_08;
-                if (height_position->unk_08.parts.unk_0A.as_s16 >= 0x200) {
-                    height_position->unk_08.parts.unk_0A.as_s16 = (s16) position->unk_08.parts.unk_0A.as_u16;
+                if (height_position->z.w.i >= 0x200) {
+                    height_position->z.w.i = (s16) position->unk_08.parts.unk_0A.as_u16;
                 }
                 position->unk_08.parts.unk_0A.as_u16 =
-                    (u16) ((S_func_81832800_4 *) object->unk_08)->unk_08.parts.unk_0A.as_s16;
+                    (u16) (((ObjectPosition *)object->unk_08))->z.w.i;
                 color = 0xC0C0C0;
                 {
                     s32 scale = 0x1400;
@@ -246,14 +246,14 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
     switch (state) {
     case 0:
         if (*effect->unk_04 & 0x80) {
-            found_target = scan_monster_along_heading(source, source_sprite->unk_24, source_sprite->unk_25, source->facing,
+            found_target = scan_actor_along_heading(source, source_sprite->unk_24, source_sprite->unk_25, source->facing,
                 (s32)(s16) get_definition_entry_byte_13(6));
             source->target = found_target;
             if (found_target == NULL) {
                 source->unk_72 = (u8) source_sprite->unk_24;
                 source->unk_73 = (u8) source_sprite->unk_25;
             } else {
-                sprite = ((S_func_81832800_3 *) ((u8 *) found_target - 0x20))->unk_0C;
+                sprite = ((ObjectNodeHeader *)((u8 *)found_target - 0x20))->sprite;
                 if (!(sprite->flags & 0x8000) || !(((S_func_81832800_5 *) effect_sprite)->unk_14 & 0x8000)) {
                     source->unk_72 = (u8) sprite->unk_24;
                     source->unk_73 = (u8) sprite->unk_25;
@@ -325,7 +325,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 if (random_x < 0) {
                     rounded_x = random_x + 0x7F;
                 }
-                burst_position->unk_00.parts.unk_02.as_s16 = (s16) ((origin_x + (random_x - ((rounded_x >> 7) << 7)))
+                burst_position->x.w.i = (s16) ((origin_x + (random_x - ((rounded_x >> 7) << 7)))
                     - 0x40);
                 rounded_y = func_80069EF8((s32) origin_x, burst_position);
                 random_y = rounded_y;
@@ -335,7 +335,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 if (random_y < 0) {
                     rounded_y = random_y + 0x7F;
                 }
-                burst_position_y->unk_04.parts.unk_06.as_s16 = (s16) ((origin_y + (random_y - ((rounded_y >> 7) << 7)))
+                burst_position_y->y.w.i = (s16) ((origin_y + (random_y - ((rounded_y >> 7) << 7)))
                     - 0x40);
                 rounded_height = func_80069EF8((s32) origin_y, burst_position_y);
                 random_height = rounded_height;
@@ -344,7 +344,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 if (random_height < 0) {
                     rounded_height = random_height + 0x3F;
                 }
-                burst_position->unk_08.parts.unk_0A.as_s16 = (s16) ((ground_height + (random_height - ((rounded_height
+                burst_position->z.w.i = (s16) ((ground_height + (random_height - ((rounded_height
                     >> 6) << 6))) - 0x80);
                 color = 0x101010;
                 sprite_flags = sprite->flags;
@@ -366,10 +366,10 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         } while (count >= 0);
         object = source->target - 0x20;
         target_position = object->unk_08;
-        height_delta = target_position->unk_08.parts.unk_0A.as_s16 - 0x18;
+        height_delta = target_position->z.w.i - 0x18;
         height_delta = ground_height - height_delta;
         height_step = height_delta / 10;
-        target_position->unk_08.parts.unk_0A.as_s16 = (s16) ((u16) target_position->unk_08.parts.unk_0A.as_s16
+        target_position->z.w.i = (s16) ((u16) target_position->z.w.i
             + height_step);
         sprite = object->unk_0C;
         if ((u16) sprite->scale_x >= 0x21C1U) {
@@ -394,7 +394,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
         return;
 
     case 0xF0:
-        sprite = ((S_func_81832800_3 *) ((u8 *) source->target - 0x20))->unk_0C;
+        sprite = ((ObjectNodeHeader *)((u8 *)source->target - 0x20))->sprite;
         scale_x = sprite->scale_x;
         scale_y = sprite->scale_y;
         sprite->scale_x = (u16) (scale_x + ((s32) (0x1000 - scale_x) >> 2));
@@ -435,7 +435,7 @@ typedef struct S_81832FE8_1 {
 } S_81832FE8_1;
 
 /* Set flag 0x20 and apply a randomized effect to an eligible attached object. */
-void func_800247E8(S_81832FE8_0 *owner) {
+void try_apply_attached_actor_status(S_81832FE8_0 *owner) {
     s32 flags;
     S_81832FE8_1 *object;
 
@@ -467,17 +467,16 @@ typedef struct StructA2 {
     u16 unk1E;
 } StructA2;
 
-
 /* Decreases paired state values by 0x80, invokes the state handler, and sets flags. */
-void update_shrinking_effect_sprite(StructA0 *owner, void *unused, StructA2 *state) {
+void update_shrinking_effect_sprite(StructA0 *owner, void *unused, SpriteFrameState *state) {
     u16 adjusted_value;
 
-    adjusted_value = state->unk1E - 0x80;
-    state->unk1E = adjusted_value;
-    state->unk1C = adjusted_value;
+    adjusted_value = state->scale_y - 0x80;
+    state->scale_y = adjusted_value;
+    state->scale_x = adjusted_value;
     owner->inner->unk52 |= 0x8000;
     advance_sprite_animation_and_textures(state);
-    if (state->unk14 & 0x6000) {
+    if (state->flags & 0x6000) {
         ((u16 *)owner)[-1] |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

@@ -26,16 +26,16 @@ extern u8 D_8028E170[];
 void create_sprite_object(FiveWords *init_data, s32 y_position)
 {
     IntVector3 *position;
-    u8 *object;
+    ObjectNodeHeader *object;
     SpriteFrameState *sprite;
 
     object = func_800373DC(0x136);
     if (object != NULL) {
         ((ObjectWithInitialWords *)object)->initial_words = *init_data;
-        ((ObjectNodeHeader *)object)->unk_10 = D_8052F2C8;
+        object->unk_10 = D_8052F2C8;
         func_8003BC18(object, D_8003C558);
-        position = ((ObjectNodeHeader *)object)->unk_08;
-        sprite = ((ObjectNodeHeader *)object)->unk_0C;
+        position = object->position;
+        sprite = object->sprite;
         position->x = 0x05380000;
         position->y = y_position;
         position->z = 0xFFE00000;

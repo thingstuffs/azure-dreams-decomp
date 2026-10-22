@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
+#include "dungeon/system.h"
 
 void set_object_data_pointer();                         /* extern */
-void store_unique_text_record();               /* extern */
 s32 get_work_value_third();                             /* extern */
 s32 strcmp();                     /* extern */
 

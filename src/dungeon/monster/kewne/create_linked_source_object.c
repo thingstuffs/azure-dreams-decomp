@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/object_node.h"
 
 typedef struct S807AF9A4 S807AF9A4;
 
@@ -18,7 +19,6 @@ typedef struct S_80175814_1 {
     u8 pad_04[0x3E];
     u16 unk_42;
 } S_80175814_1;   /* arg0 in create_linked_source_object; pointer addresses record offset 0x18 */
-
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *allocate_list_node();                  /* extern */

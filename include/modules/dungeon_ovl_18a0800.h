@@ -1,6 +1,7 @@
 #ifndef R108_BANK19_H
 #define R108_BANK19_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_native_abi.h"
 #include "shared/dungeon_moving_views.h"
 
@@ -22,7 +23,7 @@ void tint_effect_and_advance_motion(void *,void *);
 void *create_initialized_effect_object(s32,MovingPosition *,s16,s32);
 void advance_sprite_on_alternate_ticks_until_complete(void *,s32,void *);
 void *create_radial_effect_node(MovingPosition *);
-void func_80024B98(void *,void *,void *);
+void func_80024B98(void *,void *,SpriteFrameState *);
 void *spawn_ring_effects(void *,s16);
 void move_and_fade_effect(void *,void *,void *);
 void *create_effect_render_object(MovingPosition *,s16,s16);

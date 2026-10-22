@@ -15,8 +15,6 @@ typedef struct S_func_818BC9CC_0 {
     u8 unk_0E;
 } S_func_818BC9CC_0;
 
-
-
 typedef struct S_func_818BC9CC_2 {
     u8 pad_00[0x18];
     void *unk_18;
@@ -103,12 +101,6 @@ typedef struct S_func_818BC9CC_5 {
     void *unk_8D0;
 } S_func_818BC9CC_5;
 
-typedef struct S_func_818BC9CC_6 {
-    void *unk_00;
-    u8 pad_04[0xC4];
-    s16 unk_C8;
-} S_func_818BC9CC_6;
-
 typedef struct { unsigned addr : 24; unsigned len : 8; } PacketTag;
 
 #define OT_ADDR(sc) ((u32 *)((((S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
@@ -151,7 +143,7 @@ s32 draw_four_shaded_quads(S_func_818BC9CC_0 *effect, MovingPosition *position)
     render_state = &g_game_work;
     scratch = (S_func_818BC9CC_2 *)0x1F800000;
     angle = render_state->view.camera_rotation.parts.viewAngle;
-    scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)((u8 *)(&g_game_work)))->unk_00 + 0xB0;
+    scratch->unk_18 = (u8 *)g_game_work.draw_buffer + 0xB0;
     x_extent = (u32)((func_80064584(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     y_extent = (u32)((func_800644B8(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     texture_v = (effect->unk_04 % 4) << 3;

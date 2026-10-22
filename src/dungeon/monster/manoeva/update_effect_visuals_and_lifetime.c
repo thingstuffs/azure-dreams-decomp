@@ -3,9 +3,9 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/manoeva.h"
 
 typedef void (*Callback)(void *, void *, void *, void *);
-
 
 extern void select_indirect_table_entry(void *, u8, s8);
 extern void advance_sprite_animation_and_textures(void *);
@@ -16,7 +16,6 @@ extern s16 sample_terrain_surface_height(u16, u16, s16);
 
 extern u8 D_80170EE4[];
 extern Callback manoeva_callbacks[];
-
 
 typedef struct S_80170AD0_0 {
     u8 pad_00[0x1C];
@@ -42,7 +41,7 @@ typedef struct S_80170AD0_2 {
 } S_80170AD0_2;   /* motion in update_effect_visuals_and_lifetime */
 
 /* Updates actor callbacks, facing, movement, and floor contact. */
-void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, void *monster_arg)
+void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, SpriteFrameState *monster_arg)
 {
     void *actor = entity_arg;
     s16 direction_index;
@@ -65,7 +64,6 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, void
         return;
     }
 
-
     direction_index = *(s8 *)((u8 *)entity_arg + 0x6D);
     entity_kind = (*(u8 *)((u8 *)entity_arg + 0x9A));
     if (entity_kind != 0x17 && entity_kind != 0x19) {
@@ -85,7 +83,7 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, void
         try_move_actor_to_valid_position(entity_arg, motion_arg, monster_arg, actor);
     }
 
-    monster_flags = ((SpriteAnimationTableView *)monster_arg)->unk_14;
+    monster_flags = monster_arg->flags;
     if (!(monster_flags & 0x8000)) {
         s32 direction_sector;
 
@@ -95,29 +93,29 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, void
         direction_index = direction;
 
         if ((*(s16 *)((u8 *)entity_arg + 0x94)) != direction_index) {
-            u8 *direction_tiles = ((SpriteAnimationTableView *)monster_arg)->unk_2C;
+            u8 *direction_tiles = *(unsigned char **)&monster_arg->frameTable;
             select_indirect_table_entry(monster_arg, direction_tiles[direction_index],
-                          ((SpriteAnimationTableView *)monster_arg)->unk_04);
+                          monster_arg->unk_04);
             (*(s16 *)((u8 *)entity_arg + 0x94)) = direction;
         }
 
         if (dir_sprite_flag[direction_index] != 0) {
-            ((SpriteAnimationTableView *)monster_arg)->unk_14 |= 1;
+            monster_arg->flags |= 1;
         } else {
-            ((SpriteAnimationTableView *)monster_arg)->unk_14 &= 0xFFFE;
+            monster_arg->flags &= 0xFFFE;
         }
 
         if (!(((S_80170AD0_0 *)actor)->unk_1C.u & 0x20)) {
-            if (!(((SpriteAnimationTableView *)monster_arg)->unk_14 & 0x40)) {
+            if (!(monster_arg->flags & 0x40)) {
                 advance_sprite_animation_and_textures(monster_arg);
             }
         } else {
-            ((SpriteAnimationTableView *)monster_arg)->unk_14 |= 0x7000;
+            monster_arg->flags |= 0x7000;
         }
 
         apply_monster_koyaw_data(((S_80170AD0_0 *)actor)->unk_1C.s, (u8 *)monster_arg + 0xC);
     } else {
-        ((SpriteAnimationTableView *)monster_arg)->unk_14 =
+        monster_arg->flags =
             (monster_flags & 0x0800) ? (monster_flags & 0x8FFF) : (monster_flags | 0x7000);
     }
 
@@ -156,8 +154,8 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, void
             if (((S_80170AD0_0 *)actor)->unk_1C.u & 0x40000000) {
                 ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xBFFFFFFF;
                 floor_height = sample_terrain_surface_height(
-                    (((SpriteAnimationTableView *)monster_arg)->unk_24 << 6) | 0x20,
-                    (((SpriteAnimationTableView *)monster_arg)->unk_25 << 6) | 0x20,
+                    (monster_arg->unk_24 << 6) | 0x20,
+                    (monster_arg->unk_25 << 6) | 0x20,
                     (s16)(((S_80170AD0_0 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity_arg + 0x92)) +=
                     ((S_80170AD0_0 *)actor)->unk_88.u - floor_height;
@@ -172,6 +170,6 @@ void update_effect_visuals_and_lifetime(void *entity_arg, void *motion_arg, void
 
     ((S_80170AD0_2 *)motion_arg)->unk_0A =
         ((S_80170AD0_0 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity_arg + 0x92));
-    ((SpriteAnimationTableView *)monster_arg)->unk_14 |= 0x40;
+    monster_arg->flags |= 0x40;
 
 }

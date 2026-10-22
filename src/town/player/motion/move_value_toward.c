@@ -5,7 +5,7 @@ typedef struct S_800981D4_0 {
     union { s16 s; u16 u; } unk_06;   /* accessed as both */
 } S_800981D4_0;   /* arg1 in move_value_toward_300 */
 
-extern s32 func_80098DC0(s32 value, S_800981D4_0 *field_ptr, s32 other_value);
+extern s32 init_record_target_approach(s32 value, S_800981D4_0 *field_ptr, s32 other_value);
 
 /* Moves the halfword at +6 toward 0x300 by four and calls the next handler when it reaches that value. */
 s32 move_value_toward_300(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
@@ -22,7 +22,7 @@ s32 move_value_toward_300(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
         if (current >= 0x300) {
             result = 0x300;
             field_ptr->unk_06.s = result;
-            result = func_80098DC0(value, field_ptr, other_value);
+            result = init_record_target_approach(value, field_ptr, other_value);
             return result;
         }
     } else {
@@ -31,7 +31,7 @@ s32 move_value_toward_300(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
         if (current < 0x301) {
             result = 0x300;
             field_ptr->unk_06.s = result;
-            result = func_80098DC0(value, field_ptr, other_value);
+            result = init_record_target_approach(value, field_ptr, other_value);
             return result;
         }
     }

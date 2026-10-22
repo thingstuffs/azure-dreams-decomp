@@ -73,31 +73,31 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
     s32 scale;
     S_80165F00_1 *source_pos;
     S_80165F00_3 *sprite;
-    void *effect;
+    ObjectNodeHeader *effect;
     S_80165F00_2 *effect_transform;
 
     effect = allocate_flagged_object_node(0x12);
     if (effect != 0) {
-        (((ObjectNodeHeader *)effect)->unk_10) = &update_landing_particle_fade;
+        (effect->unk_10) = &update_landing_particle_fade;
         x_jitter = rand() & 0x3F;
         base_x =
             ((S_80165F00_4 *)(source->unk_08))->unk_02 - 0x20;
-        ((S_80165F00_5 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_02 =
+        ((S_80165F00_5 *)((effect->position)))->unk_02 =
             base_x + x_jitter;
         y_jitter = rand() & 0x3F;
         source_pos = source->unk_08;
         base_y = source_pos->unk_06 - 0x1A0;
-        ((S_80165F00_5 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_06 =
+        ((S_80165F00_5 *)((effect->position)))->unk_06 =
             base_y + y_jitter;
-        ((S_80165F00_5 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_0A =
+        ((S_80165F00_5 *)((effect->position)))->unk_0A =
             (s16)(((S_80165F00_4 *)(source->unk_08))->unk_0A -
                   0x100);
-        effect_transform = (((ObjectNodeHeader *)effect)->unk_08);
+        effect_transform = (effect->position);
         effect_transform->unk_10 = 0;
         effect_transform->unk_0C = 0;
-        ((S_80165F00_5 *)((((ObjectNodeHeader *)effect)->unk_08)))->unk_14 = 0x200000;
+        ((S_80165F00_5 *)((effect->position)))->unk_14 = 0x200000;
         register_node(effect, (void *)((s32)&draw_linked_sprites_clipped));
-        sprite = (((ObjectNodeHeader *)effect)->unk_0C);
+        sprite = (effect->sprite);
         sprite->unk_14 =
             (u16)(sprite->unk_14 & 0xFFF3);
         scale = 0x1000 / (s32)(func_80167088(5) + 6);
@@ -108,7 +108,7 @@ void create_jittered_landing_spark(S_80165F00_0 *source)
         sprite->unk_1C = (s16)scale;
         (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)&particle_sprite_template + 0));
-        sprite->unk_08 = (void *)(effect + 0x56);
+        sprite->unk_08 = (void *)(((void *)effect) + 0x56);
     }
 }
 

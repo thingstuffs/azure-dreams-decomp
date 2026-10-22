@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
@@ -18,7 +19,7 @@ extern void play_sound_if_enabled(s32);
 void emit_randomized_relative_particles(void *emitter, Rec_func_800D4BD4_arg2 *position, s32 spawn_context);
 extern M2C_UNK D_800DECF8[3];
 /* Creates a colored effect at the source object's position. */
-void create_colored_effect_with_event(void *source, s32 color, unsigned short event_id)
+void create_colored_effect_with_event(ObjectNodeHeader *source, s32 color, unsigned short event_id)
 {
     DungeonGlobalStatus *effect_state;
     s32 *color_ptr;
@@ -28,23 +29,23 @@ void create_colored_effect_with_event(void *source, s32 color, unsigned short ev
     SpriteFrameState *render_data;
     void *effect_data;
     void *render_params;
-    void *effect;
-    void *position;
+    ObjectNodeHeader *effect;
+    ObjectPosition *position;
     color_ptr = &color;
     effect = allocate_flagged_object_node(0x12);
     if (effect != 0) {
-        effect_data = effect + 0x20;
+        effect_data = ((void *)effect) + 0x20;
         *((void **) (((u8 *) effect_data) + 0x24)) = source;
-        *((s32 **) (((u8 *) effect) + 0x10)) = &emit_randomized_relative_particles;
+        effect->unk_10 = &emit_randomized_relative_particles;
         *((s16 *) (((u8 *) effect_data) + 0x1E)) = 0x32;
-        render_setup = *((void **) (((u8 *) effect) + 0xC));
+        render_setup = effect->sprite;
         render_setup->tpage_abr = 0x20;
         render_setup->flags = (u16) (render_setup->flags | 0xC);
-        position = *((void **) (((u8 *) effect) + 8));
-        *((u16 *) (((u8 *) position) + 2)) = (u16) (*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 2)));
-        *((u16 *) (((u8 *) position) + 6)) = (u16) (*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 6)));
-        *((u16 *) (((u8 *) position) + 0xA)) = (u16) (*((u16 *) (((u8 *) (*((void **) (((u8 *) source) + 8)))) + 0xA)));
-        render_data = *((void **) (((u8 *) effect) + 0xC));
+        position = effect->position;
+        position->x.w.i = (u16) (*((u16 *) (((u8 *) (source->position)) + 2)));
+        position->y.w.i = (u16) (*((u16 *) (((u8 *) (source->position)) + 6)));
+        position->z.w.i = (u16) (*((u16 *) (((u8 *) (source->position)) + 0xA)));
+        render_data = effect->sprite;
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
@@ -62,6 +63,6 @@ void create_colored_effect_with_event(void *source, s32 color, unsigned short ev
             play_sound_if_enabled(event_code);
         }
         effect_state = &g_dungeon_status;
-        *((u16 *) (((u8 *) effect_state) + 0xA)) = (u16) ((*((u16 *) (((u8 *) effect_state) + 0xA))) + 1);
+        effect_state->activity_counts.parts.pending_action_count = (u16) ((*(u16 *)&effect_state->activity_counts.parts.pending_action_count) + 1);
     }
 }

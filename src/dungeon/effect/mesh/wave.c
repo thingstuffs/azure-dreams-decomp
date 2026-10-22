@@ -1,4 +1,5 @@
 /* Wave-displaced sprite strips, shaded particles, timed fades, and projectile impact effects. */
+#include "shared/sprite_frame_state.h"
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
 void (*const dungeon_1918800_entry)(struct ProjectileSelf *self, struct OutView *position, struct PacketView *render_data) = set_record_pair_to_one;
@@ -52,9 +53,6 @@ typedef struct Scratchpad {
 #define SCR32(off) (*(s32 *)((u8 *)scratch + (off)))
 #define SCRPTR(off) ((void *)((u8 *)scratch + (off)))
 
-
-
-
 /* Draw sprite parts as textured strips displaced by a wave along either axis. */
 void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_table, s32 draw_control)
 {
@@ -98,7 +96,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     void *row_wave;
     void *column_wave;
     void *sprite;
-    u8 *globals;
+    GameWork *globals;
     u8 *view_matrix;
     void *screen_link;
     s32 wave_index;
@@ -131,11 +129,11 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
         *start_link = ((*start_link) & 0xFF000000) | ((s32) screen_link);
     }
     view_matrix = (u8 *) (&D_8006CD10);
-    *((s32 *) (view_matrix + 0x1C)) = (s32) (*((s32 *) (globals + 0xA0)));
+    *((s32 *) (view_matrix + 0x1C)) = (s32) (globals->view.projection_distance);
     func_800649A0();
-    *((s32 *) (((u8 *) scratch) + 0x30)) = *((s16 *) (globals + 0xC4));
-    *((s32 *) (((u8 *) scratch) + 0x34)) = *((s16 *) (globals + 0xC6));
-    *((s32 *) (((u8 *) scratch) + 0x38)) = *((s16 *) (globals + 0xC8));
+    *((s32 *) (((u8 *) scratch) + 0x30)) = globals->view.camera_rotation.parts.camera_rotation_x;
+    *((s32 *) (((u8 *) scratch) + 0x34)) = globals->view.camera_rotation.parts.camera_rotation_y;
+    *((s32 *) (((u8 *) scratch) + 0x38)) = globals->view.camera_rotation.parts.viewAngle;
     *((u16 *) (((u8 *) scratch) + 0x100)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x16)));
     *((u16 *) (((u8 *) scratch) + 0x104)) = (s16) ((*((u16 *) (((s8 *) sprite) + 0x1A))) - (*((u16 *) (((u8 *) scratch)
         + 0x34))));
@@ -413,7 +411,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
         *end_link = ((*end_link) & 0xFF000000) | ((s32) end_packet);
     }
     func_80064A40();
-    *((s32 **) (((s8 *) (*((void **) globals))) + 0x8D0)) = packet;
+    *((s32 **) (((s8 *) (globals->draw_buffer)) + 0x8D0)) = packet;
 }
 
 #include "modules/dungeon_ovl_1918800.h"
@@ -630,7 +628,7 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
         if (prev_entry == 0) {
             break;
         }
-        coords = prev_entry->unk_08;
+        coords = prev_entry->position;
     }
 
     final_state = *state_ptr;
@@ -640,7 +638,6 @@ s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start
 
 #include "modules/dungeon_ovl_1918800.h"
 #include "common.h"
-
 
 /* Return a random sign of either -1 or 1. */
 s32 advance_effect_sequence(void) {
@@ -660,7 +657,6 @@ s32 advance_effect_sequence(void) {
 #include "shared/entity.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
-
 
 /* Raise the entity toward the queried ground height and set flags when the countdown expires. */
 void raise_entity_to_ground(PointRecord *state, ObjectPosition *position)
@@ -724,16 +720,16 @@ void create_random_jitter_child(
     if (spawned != 0) {
         spawned->unk_10 = (void *)raise_entity_to_ground;
         jitter_x = rand() & 0x1F;
-        position_x = ((ObjectPosition *)source_obj->unk_08)->x.w.i;
-        dest_x = spawned->unk_08;
+        position_x = source_obj->position->x.w.i;
+        dest_x = spawned->position;
         position_x += jitter_x;
         bias_x = offset_x - 0x10;
         position_x += bias_x;
         dest_x->x.w.i = position_x;
 
         jitter_y = rand() & 0x1F;
-        position_y = ((ObjectPosition *)source_obj->unk_08)->y.w.i;
-        dest_y = spawned->unk_08;
+        position_y = source_obj->position->y.w.i;
+        dest_y = spawned->position;
         position_y += jitter_y;
         bias_y = offset_y - 0x10;
         position_y += bias_y;
@@ -742,9 +738,9 @@ void create_random_jitter_child(
         jitter_z = rand();
         init_data = draw_linked_brightness_points;
         jitter_z &= 0x1F;
-        position_z = ((ObjectPosition *)source_obj->unk_08)->z.w.i;
+        position_z = source_obj->position->z.w.i;
         fields = (PointRecord *)(spawned + 1);
-        dest_z = spawned->unk_08;
+        dest_z = spawned->position;
         position_z += jitter_z;
         bias_z = offset_z - 0x10;
         position_z += bias_z;
@@ -760,7 +756,6 @@ void create_random_jitter_child(
 #include "common.h"
 #include "shared/object_flags.h"
 #include "shared/object_node.h"
-
 
 /* The effect's record; its ObjectNodeHeader sits right before it. */
 typedef struct CountdownRecord {
@@ -816,13 +811,6 @@ typedef struct S_80025398_2 {
     u8 pad_00[0x38];
     s8 unk_38;
 } S_80025398_2;   /* cursor in process_five_context_entries_or_fallback */
-
-
-
-
-
-
-
 
 /* Update the effect's fade and rotation, draw it, and flag completion at its final frame. */
 void process_five_context_entries_or_fallback(void *effect, void *unused, void *primitive)
@@ -938,7 +926,6 @@ typedef struct Func818F9D8CState {
     s16 target;
 } Func818F9D8CState;
 
-
 /* Updates a grayscale fade, advances its progress, and flags completion. */
 void advance_grayscale_fade(Func818F9D8CState *state, s32 unused, u8 *out)
 {
@@ -1037,17 +1024,10 @@ typedef struct S_818F9E48_6 {
     s16 unk_9C;
 } S_818F9E48_6;   /* ((S_818F9E48_0 *)arg0)->unk_30 in func_818F9E48 */
 
-
-
-
-
-
 typedef struct EffectState {
     u8 pad[0x38];
     u8 levels[0x60];
 } EffectState;
-
-
 
 /* Update a timed visual effect using its owner's appearance and position. */
 void update_timed(void *state, void *position_out, void *effect_arg) {
@@ -1160,11 +1140,6 @@ void update_timed(void *state, void *position_out, void *effect_arg) {
 #include "shared/dungeon_moving_views.h"
 extern int abs(int);
 
-
-
-
-
-
 typedef struct {
     u8 bytes[12];
 } __attribute__((packed)) Copy12;
@@ -1276,8 +1251,6 @@ typedef struct OutView {
     s32 unk_10;
     s32 unk_14;
 } OutView;
-
-
 
 typedef struct ObjHeadView {
     void * unk_00;
@@ -1879,7 +1852,7 @@ void set_record_pair_to_one(ProjectileSelf *self, OutView *position, PacketView 
         self->timer = ticks;
         if (effect_active == 0) {
             g_dungeon_status.active_actor = 0;
-            (*(u16 *)((u8 *)self + -2)) |= NODE_REMOVE;
+            (((ObjectNodeHeader *)((u8 *)self - 0x20))->flags) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
             return;
         }

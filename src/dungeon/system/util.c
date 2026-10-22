@@ -1,6 +1,9 @@
 /* Complete native TU in retail file order. Review pending. */
 #include "dungeon/system/util.h"
 #include "common.h"
+#include "dungeon/effect.h"
+#include "dungeon/menu.h"
+#include "dungeon/system.h"
 
 extern s16 D_800E3CCE;
 
@@ -455,7 +458,6 @@ void create_timed_status_object(void) {
 #include "records/Rec_func_800A5DFC_arg1.h"
 
 void *create_actor_value_popup(); /* extern */
-void *spawn_randomized_particle_burst();
 typedef struct S_800A5DFC_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -1319,10 +1321,6 @@ void advance_record_values_by_step(Record *record, s16 step)
 s32 register_node(void *entry, s32 registration_id);
 s32 decode_fullwidth_text();
 void advance_record_values_by_step();
-void offset_record_coordinates();
-void set_record_flags_and_negate_x();
-void apply_record_flags_through_end();
-void set_record_byte_flags_through_end();
 extern M2C_UNK D_80089074;
 extern M2C_UNK D_800A6B70;
 extern M2C_UNK D_800B06F0;

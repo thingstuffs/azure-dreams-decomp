@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
@@ -38,21 +39,6 @@ typedef struct S_80171094_1 {
     s8 unk_6D;
 } S_80171094_1;   /* arg3 in update_actor_animation */
 
-typedef struct S_80171094_2 {
-    u8 pad_00[0x5];
-    u8 unk_05;
-    u8 pad_06[0x1E];
-    union {
-        struct { u8 v; } at00;
-        struct { u16 v; } at00u;
-        struct { u8 pad[0x1]; u8 v; } at01;
-    } unk_24;   /* overlapping accesses */
-    s8 unk_26;
-    u8 pad_27[0x5];
-    u8 * unk_2C;
-} S_80171094_2;   /* arg2 in update_actor_animation */
-
-
 extern void select_sprite_entry(void *, u8, s32);
 extern s32 check_entity_relation(void *, void *);
 extern s8 find_active_rect_containing_point(u8, u8);
@@ -69,7 +55,7 @@ extern s32 reset_actor_action_state(void *actor, s32 unused, void *sprite, u8 *d
 extern void process_selected_actor_record(void *, void *, void *, void *);
 extern void begin_actor_spell_action(void *actor, s32 effect_param, void *target, u8 *direction_table, s32 next_state);
 
-extern void advance_path_motion(void *, void *, void *, void *);
+extern void advance_path_motion(void *, void *, SpriteFrameState *, void *);
 extern void func_801718B4(void *, void *, void *, void *);
 extern s32 func_80171FFC(void *, void *, void *, void *);
 extern void finish_actor_tile_move_and_check_trap(void *, void *, void *, void *);
@@ -83,11 +69,11 @@ extern void func_80174520(void *, void *, void *, void *);
 extern u8 D_80171094[];
 extern u8 D_80176460[];
 extern u8 D_80176468[];
-extern u8 D_80176470[];
+#include "dungeon/monster/cyclone.h"
 extern u8 D_801764A8[];
 
 /* Updates actor animation, status, and behavior according to dungeon state. */
-void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
+void update_actor_animation(void *actor_arg, void *context_arg, SpriteFrameState *sprite_arg, void *stats_arg)
 {
     void *stats = stats_arg;
     s16 distance;
@@ -100,15 +86,14 @@ void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg
         return;
     }
 
-
     if (((S_80171094_1 *)stats)->unk_25 == 0) {
         advance_actor_pending_action(actor_arg, context_arg, sprite_arg, stats);
-        if (((S_80171094_2 *)sprite_arg)->unk_2C == D_80176470) {
+        if (*(u8 **)&sprite_arg->frameTable == cyclone_direction_frames) {
             return;
         }
         {
             u8 *animations = D_80176468;
-            (*(u8 * *)((u8 *)sprite_arg + 0x2C)) = animations;
+            (sprite_arg->frameTable) = animations;
             select_sprite_entry(
                 sprite_arg,
                 animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171094_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
@@ -118,7 +103,7 @@ void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg
     }
 
     if (((S_80171094_1 *)stats)->unk_1C & 0x200) {
-        if (((S_80171094_2 *)sprite_arg)->unk_2C == D_80176470) {
+        if (*(u8 **)&sprite_arg->frameTable == cyclone_direction_frames) {
             ((S_80171094_0 *)actor_arg)->unk_9A = 13;
             ((S_80171094_0 *)actor_arg)->unk_9B = 1;
             ((S_80171094_0 *)actor_arg)->unk_8C = 0;
@@ -140,14 +125,14 @@ void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg
             ((S_80171094_0 *)actor_arg)->unk_9A = 14;
         }
 
-        if (((S_80171094_2 *)sprite_arg)->unk_2C != D_80176460) {
+        if (*(u8 **)&sprite_arg->frameTable != D_80176460) {
             u8 *animations = D_80176460;
-            (*(u8 * *)((u8 *)sprite_arg + 0x2C)) = animations;
+            (sprite_arg->frameTable) = animations;
             select_sprite_entry(
                 sprite_arg,
                 animations[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_80171094_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
-            ((S_80171094_2 *)sprite_arg)->unk_05 = 1;
+            sprite_arg->unk_05 = 1;
             ((S_80171094_0 *)actor_arg)->unk_A6.s = 0;
             ((S_80171094_0 *)actor_arg)->unk_AC.s = 0;
         }
@@ -186,15 +171,15 @@ void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg
         }
     }
 
-    tile_id = find_active_rect_containing_point(((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v);
-    ((S_80171094_2 *)sprite_arg)->unk_26 = tile_id;
+    tile_id = find_active_rect_containing_point(sprite_arg->unk_24, sprite_arg->unk_25);
+    sprite_arg->unk_26 = tile_id;
 
     if (((S_80171094_1 *)stats)->unk_6D > 0) {
         if (((S_80171094_1 *)stats)->unk_1C & 0x20) {
             update_actor_status_and_mp(stats);
             return;
         }
-        if (((S_80171094_2 *)sprite_arg)->unk_24.at00u.v == *(u16 *)(&reference_tile_object.tile_position.parts.tile_x)) {
+        if (*(u16 *)&sprite_arg->unk_24 == reference_tile_object.tile_position.word) {
             func_801718B4(actor_arg, context_arg, sprite_arg, stats);
             return;
         }
@@ -254,7 +239,7 @@ void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg
         case 7:
             {
                 s16 heading = get_rounded_facing_and_rounding_flag(
-                    ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
+                    sprite_arg->unk_24, sprite_arg->unk_25,
                     reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, &distance);
                 ActorRecord *player = primary_actor_record;
                 ((S_80171094_1 *)stats)->unk_2A.s = heading;
@@ -288,10 +273,10 @@ void update_actor_animation(void *actor_arg, void *context_arg, void *sprite_arg
                 !(dungeon_rooms[tile_index].flags & 2)) {
                 if (!(flags & 0x430)) {
                     if ((s16)test_neighbor_position_relation(
-                            ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
+                            sprite_arg->unk_24, sprite_arg->unk_25,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y) != 0) {
                         ((S_80171094_1 *)stats)->unk_2A.s = get_rounded_facing_and_rounding_flag(
-                            ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
+                            sprite_arg->unk_24, sprite_arg->unk_25,
                             reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y,
                             &distance);
                     }

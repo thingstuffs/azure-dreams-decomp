@@ -1,3 +1,4 @@
+#include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/actor_action_flags.h"
 #include "shared/tile_object.h"
@@ -21,7 +22,6 @@ typedef struct S_80173A08_0 {
     union { s16 s; u16 u; } unk_B0;   /* accessed as both */
 } S_80173A08_0;   /* arg0 in complete_timed_tile_movement */
 
-
 extern void select_sprite_entry(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 get_rounded_facing_and_rounding_flag(s16 start_x, s16 start_y, s16 end_x, s16 end_y, u16 *flags);
@@ -36,7 +36,7 @@ extern u8 D_801748A8[];
 extern u8 D_801748B0[];
 
 /* Advance a timed movement animation, snap the entity to its tile, and finish the action. */
-void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sprite, ActorRecord *entity)
+void complete_timed_tile_movement(void *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
 {
     s32 direction_work[2];
     s32 state;
@@ -57,10 +57,10 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sp
     state = ((S_80173A08_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A0;
+        (sprite->frameTable) = D_801748A0;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_801748A0[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_98 |= 8;
@@ -71,10 +71,10 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sp
         break;
     case 1:
         ((S_80173A08_0 *)action)->unk_90 += 0xC0000;
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        if (!(sprite->flags & 0x6000)) {
             break;
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A8;
+        (sprite->frameTable) = D_801748A8;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_801748A8[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_98 |= 8;
@@ -88,7 +88,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sp
         move_ticks = ((S_80173A08_0 *)action)->unk_B0.s;
         ((S_80173A08_0 *)action)->unk_90 -= ((S_80173A08_0 *)action)->unk_A0;
         if (move_ticks != 0) {
-            target_x = ((Rec_D_80082E80 *)sprite)->unk_24;
+            target_x = sprite->unk_24;
             world_x = motion->x.w.i;
             target_x <<= 6;
             world_x -= 0x20;
@@ -97,7 +97,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sp
             world_y = motion->y.w.i;
             world_y -= 0x20;
             motion->velocity_y =
-                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - world_y) << 16) /
+                (((sprite->unk_25 << 6) - world_y) << 16) /
                 ((S_80173A08_0 *)action)->unk_B0.s;
 
             arc_base = (0 - func_800644B8(((S_80173A08_0 *)action)->unk_B0.s * 0x199)) << 10;
@@ -117,7 +117,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sp
             ((S_80173A08_0 *)action)->unk_90 = 0;
             ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
             entity->flags1C |= entity_mask;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
+            (sprite->frameTable) = D_801748B0;
             facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
             select_sprite_entry(sprite, D_801748B0[facing_index & 7], 0);
             ((S_80173A08_0 *)action)->unk_9B++;
@@ -131,8 +131,8 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sp
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
+        set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
+        (sprite->frameTable) = D_801748B0;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9;
         select_sprite_entry(sprite, D_801748B0[facing_index & 7], 0);
         ((S_80173A08_0 *)action)->unk_9B++;
@@ -151,7 +151,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sp
     motion->velocity_z = 0;
     motion->velocity_y = 0;
     motion->velocity_x = 0;
-    set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    set_record_integer_tile_center(motion, sprite->unk_24, sprite->unk_25);
     spend_actor_mp(entity, 4);
     advance_status_timers(entity);
 
@@ -168,7 +168,7 @@ void complete_timed_tile_movement(void *action, ObjectPosition *motion, void *sp
     } else if (!(entity_flags & 0x410)) {
         if (entity_flags & 0x20000) {
             entity->facing = get_rounded_facing_and_rounding_flag(
-                ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                sprite->unk_24, sprite->unk_25,
                 reference_tile_object.tile_position.parts.tile_x, reference_tile_object.tile_position.parts.tile_y, direction_work);
         }
     }

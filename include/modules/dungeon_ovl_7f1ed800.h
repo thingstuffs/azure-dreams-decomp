@@ -5,14 +5,6 @@
 #include "shared/slus_callbacks.h"
 
 
-typedef s32 M2C_UNK;
-
-typedef struct S_80158894_0 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-    void * unk_10;
-} S_80158894_0;   /* obj in func_80158894 */
 
 typedef struct S_80158894_1 {
     u8 pad_00[0x13];
@@ -43,7 +35,6 @@ typedef struct S_80158894_4 {
     u8 pad_9B[0x1];
     s8 unk_9C;
 } S_80158894_4;   /* actor in func_80158894 */
-
 
 extern void *allocate_list_node();
 extern void *func_8003FD64();

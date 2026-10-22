@@ -1,5 +1,7 @@
 #include "common.h"
+#include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
+#include "dungeon/monster/ghosh.h"
 
 typedef struct
 {
@@ -26,7 +28,7 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
     void *motion;
     void *direction_entry;
     void *y_motion;
-    void *effect;
+    ObjectNodeHeader *effect;
     s32 motion_value;
     s32 y_velocity;
     void *velocity_base;
@@ -34,39 +36,39 @@ void create_boss_directional_effect(void *source, s16 angle, s32 initial_value, 
 
     effect = allocate_list_node(0x211, source);
     if (effect != 0) {
-        *((s32 **) (((s8 *) effect) + 0x10)) = &func_801718E4;
+        effect->unk_10 = &func_801718E4;
         entry = (u8 *)&direction_table + ((angle >> 7) & 0x1C);
-        *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 2)) =
+        *((u16 *) (((s8 *) (effect->position)) + 2)) =
             (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 2)));
-        *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 6)) =
+        *((u16 *) (((s8 *) (effect->position)) + 6)) =
             (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 6)));
-        *((s16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 0xA)) =
+        *((s16 *) (((s8 *) (effect->position)) + 0xA)) =
             (s16) ((*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 0xA))) - 0x14);
-        x_position = *((void **) (((s8 *) effect) + 8));
+        x_position = effect->position;
         *((u16 *) (((s8 *) x_position) + 2)) = (u16) ((*((u16 *) (((s8 *) x_position) + 2)))
             + ((*((s16 *) (entry + 0))) * 0x10));
-        y_position = *((void **) (((s8 *) effect) + 8));
+        y_position = effect->position;
         *((u16 *) (((s8 *) y_position) + 6)) = (u16) ((*((u16 *) (((s8 *) y_position) + 6)))
             + (((s32) ((*((u16 *) (entry + 2))) << 0x10)) >> 0xC));
-        ((SpriteFrameState *)*((void **) (((s8 *) effect) + 0xC)))->unk_06 = 6;
-        source = effect + 0x20;
+        effect->sprite->unk_06 = 6;
+        source = ((void *)effect) + 0x20;
         if (spread_mode == 0) {
-            *((s32 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 0xC)) =
+            *((s32 *) (((s8 *) (effect->position)) + 0xC)) =
                 (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 7);
             y_velocity = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 7);
-            velocity_base = *((void **) (((s8 *) effect) + 8));
+            velocity_base = effect->position;
             *((s32 *) (((s8 *) velocity_base) + 0x10)) = y_velocity;
         }
         else {
-            *((s32 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 0xC)) =
+            *((s32 *) (((s8 *) (effect->position)) + 0xC)) =
                 (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 6);
             y_velocity = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 6);
-            velocity_base = *((void **) (((s8 *) effect) + 8));
+            velocity_base = effect->position;
             *((s32 *) (((s8 *) velocity_base) + 0x10)) = y_velocity;
         }
         motion_value = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 5);
         direction_entry = (u8 *)&direction_table + ((saved_angle >> 7) & 0x1C);
-        motion = (effect_obj = *((void **) (((s8 *) effect) + 8)));
+        motion = (effect_obj = effect->position);
         *((s32 *) (((s8 *) motion) + 0x14)) = motion_value;
         effect_obj = effect;
 

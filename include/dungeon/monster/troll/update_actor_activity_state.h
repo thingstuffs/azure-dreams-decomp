@@ -1,6 +1,7 @@
 #ifndef DUNGEON_OVL_7F469800_P07_H
 #define DUNGEON_OVL_7F469800_P07_H
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -155,8 +156,8 @@ extern s32 D_80175DD4;
 extern u8 D_80175E24[];
 extern u8 D_80175E2C[];
 extern u8 D_80175E34[];
-void update_actor_activity_state(void *task, s32 task_id, void *sprite_in, void *actor_in);
-void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, T_80175574_Obj2 *animation, T_80175574_Obj3 *actor);
+void update_actor_activity_state(void *task, s32 task_id, SpriteFrameState *sprite_in, void *actor_in);
+void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *context, SpriteFrameState *animation, T_80175574_Obj3 *actor);
 void update_directional_action_display(T_801759A0_Obj0 *actor, void *context, T_801759A0_Obj2 *display_arg, T_801759A0_Obj3 *state_arg);
 extern void update_actor_behavior();
 #endif

@@ -3,6 +3,8 @@
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
+#include "dungeon/level.h"
+#include "dungeon/player.h"
 
 typedef struct S_8009402C_0 {
     u8 pad_00[0x1C];
@@ -38,10 +40,8 @@ typedef struct DungeonSlot {
     u32 flags;
 } DungeonSlot;
 
-void clear_player_linked_action_flags();
 void cycle_map_cell_flags();
 void update_map_cell_flags_with_item_limit();
-s32 find_valid_nearby_position();
 extern DungeonSlot *familiar_record_slots[];
 
 /* Check the forward tile and selected slot, then clear the actor action flags on success. */

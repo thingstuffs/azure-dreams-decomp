@@ -1,4 +1,6 @@
 /* Directional actor effects and their spiraling particle animation. */
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/effect/directional_actor.h"
 #include "shared/object_flags.h"
 #include "shared/sprite_frame_state.h"
@@ -10,7 +12,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
 {
     void *actor;
     void *actor_base;
-    void *entity;
+    ObjectNodeHeader *entity;
     void *target;
     SpriteFrameState *render_state;
     void *particle;
@@ -43,9 +45,9 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
                 ((Row_818E0800_S_818E0800_13 *)(((Row_818E0800_S_818E0800_3 *)actor_base)->unk_08))->unk_08;
         } else {
             entity = (u8 *)target - 0x20;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at00.v = ((Row_818E0800_S_818E0800_13 *)(((Row_818E0800_S_818E0800_4 *)entity)->unk_08))->unk_00;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at00.v = ((Row_818E0800_S_818E0800_13 *)(((Row_818E0800_S_818E0800_4 *)entity)->unk_08))->unk_04;
-            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at00.v = ((Row_818E0800_S_818E0800_13 *)(((Row_818E0800_S_818E0800_4 *)entity)->unk_08))->unk_08;
+            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at00.v = (entity->position)->x.v;
+            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at00.v = (entity->position)->y.v;
+            ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_08.at00.v = (entity->position)->z.v;
         }
 
         particles_left = 5;
@@ -54,8 +56,8 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
             entity = allocate_list_node(0x312, ((u8 *)(&scene_object_list_anchor)));
             if (entity != 0) {
                 register_node(entity, project_sprite_chain);
-                render_state = ((Row_818E0800_S_818E0800_4 *)entity)->unk_0C;
-                ((Row_818E0800_S_818E0800_4 *)entity)->unk_10 = shrink_spiraling_sprite_effect;
+                render_state = entity->sprite;
+                entity->unk_10 = shrink_spiraling_sprite_effect;
                 particle = (u8 *)entity + 0x20;
                 ((Row_818E0800_S_818E0800_5 *)particle)->unk_0C = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_00.at02.v;
                 ((Row_818E0800_S_818E0800_5 *)particle)->unk_0E = ((Row_818E0800_S_818E0800_2 *)motion_arg)->unk_04.at02.v;
@@ -90,7 +92,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, void *motion_arg, Ro
         if (!(((Row_818E0800_S_818E0800_14 *)(((void *)effect_arg->y.v)))->unk_00 & 0x80)) {
             return;
         }
-        found_target = (s32)scan_monster_along_heading(
+        found_target = (s32)scan_actor_along_heading(
             actor, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_24, ((Row_818E0800_S_818E0800_8 *)actor_data)->unk_25,
             ((Row_818E0800_S_818E0800_1 *)actor)->unk_2A,
             (s16)get_definition_entry_byte_13(0x23));

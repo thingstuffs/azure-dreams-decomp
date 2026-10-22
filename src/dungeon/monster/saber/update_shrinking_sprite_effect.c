@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/object_flags.h"
 
 typedef struct {
@@ -28,7 +29,7 @@ typedef struct {
 extern void advance_sprite_animation_and_textures(Sprite *);
 
 /* Advance the actor, fade and shrink its sprite, and flag proximity or fade completion. */
-void update_shrinking_sprite_effect(Actor *actor, Vec3 *vec, Sprite *sprite)
+void update_shrinking_sprite_effect(Actor *actor, Vec3 *vec, SpriteFrameState *sprite)
 {
     s32 distance_x;
     s32 distance_y;
@@ -51,17 +52,17 @@ void update_shrinking_sprite_effect(Actor *actor, Vec3 *vec, Sprite *sprite)
         }
     }
 
-    sprite->color[0] = actor->color[0] * actor->scale / actor->divisor;
-    sprite->color[1] = actor->color[1] * actor->scale / actor->divisor;
-    sprite_size = sprite->size0;
+    sprite->color.c.r = actor->color[0] * actor->scale / actor->divisor;
+    sprite->color.c.g = actor->color[1] * actor->scale / actor->divisor;
+    sprite_size = sprite->scale_x;
     reduced_size = sprite_size - 0xC8;
     sprite_size = reduced_size;
-    sprite->color[2] = actor->color[2] * actor->scale / actor->divisor;
+    sprite->color.c.b = actor->color[2] * actor->scale / actor->divisor;
     if ((s16)reduced_size < 0) {
         sprite_size = 0;
     }
-    sprite->size0 = sprite_size;
-    sprite->size1 = sprite_size;
+    sprite->scale_x = sprite_size;
+    sprite->scale_y = sprite_size;
     actor->scale = (u16)actor->scale - 8;
     advance_sprite_animation_and_textures(sprite);
     if (actor->scale <= 0) {

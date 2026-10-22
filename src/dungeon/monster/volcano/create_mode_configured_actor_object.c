@@ -1,3 +1,5 @@
+#include "shared/entity.h"
+#include "shared/object_node.h"
 #include "dungeon/monster/volcano/create_mode_configured_actor_object.h"
 #include "shared/monster_ids.h"
 #include "shared/sprite_frame_state.h"
@@ -8,8 +10,8 @@
 void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     void *result = NULL;
-    void *root;
-    void *position;
+    ObjectNodeHeader *root;
+    ObjectPosition *position;
     s16 held_flags;
     s32 kind;
     s8 saved_a;
@@ -30,10 +32,10 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
             ((S_8016A800_0 *)result)->unk_13 = MONSTER_VOLCANO;
             register_node(root, project_sprite_chain);
 
-            position = ((S_8016A800_1 *)root)->unk_08;
+            position = root->position;
             kind = spawn_flags & 3;
-            ((S_8016A800_2 *)position)->unk_0A = saved_c;
-            arg3_part = ((S_8016A800_1 *)root)->unk_0C;
+            position->z.w.i = saved_c;
+            arg3_part = root->sprite;
             arg3_part->unk_24 = saved_a;
             arg3_part->unk_25 = saved_b;
             arg2_work = result;
@@ -67,7 +69,7 @@ void *create_mode_configured_actor_object(s16 spawn_flags, s16 attr_a, s16 attr_
 
                 }
             }
-            ((S_8016A800_1 *)root)->unk_10 = func_8016AA58;
+            root->unk_10 = func_8016AA58;
             initialize_actor_sprite_and_animation(root, position, arg3_part, (s16)held_flags);
             ((S_8016A800_4 *)((void *)arg2_work))->unk_9A = 0xFF;
             ((S_8016A800_4 *)((void *)arg2_work))->unk_9C = -1;

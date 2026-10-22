@@ -1,5 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
+#include "dungeon/menu.h"
 
 extern u8 upper_draw_context[16];
 

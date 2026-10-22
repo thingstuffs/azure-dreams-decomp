@@ -50,7 +50,7 @@ typedef struct S_80173ED8_5 {
 void advance_entity_animation_actions(void *action, void *context, void *sprite, void *entity)
 {
     void *saved_context;
-    register void *dungeon_state;
+    register DungeonGlobalStatus *dungeon_state;
     void *saved_entity;
     u8 state;
     s32 direction;
@@ -96,7 +96,7 @@ void advance_entity_animation_actions(void *action, void *context, void *sprite,
         }
 
         dungeon_state = &g_dungeon_status.turn_scale;
-        if (((S_80173ED8_4 *)dungeon_state)->unk_02 & 0x1000) {
+        if (dungeon_state->flags & 0x1000) {
             return;
         }
 

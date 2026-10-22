@@ -27,7 +27,6 @@ extern void register_node(void *a0, void *a1);
 extern void draw_tinted_node_sprites_scratch(void);
 extern void release_null_terminated_entries(u16 **a0);
 
-
 /* Allocate and initialize a paged item-list node, returning null on failure. */
 void *allocate_paged_shop_item_list(s32 parent, s32 selected_index, s32 item_count, s32 page_index, s32 last_page, s32 item_base,
     s32 display_mode)

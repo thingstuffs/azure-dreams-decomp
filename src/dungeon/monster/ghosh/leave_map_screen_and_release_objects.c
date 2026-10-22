@@ -1,13 +1,15 @@
+
+struct ObjectNodeHeader;
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/dungeon_floor.h"
 #include "shared/record_ptrs.h"
+#include "dungeon/item.h"
 
 extern s32 ghosh_actor_node[3];
 
-extern void set_monster_data_pointer(void);
 extern void func_8016E264(void);
-extern void clear_entry_flag_and_link_owner(void *);
+extern void clear_entry_flag_and_link_owner(struct ObjectNodeHeader *);
 
 /* Leave the map screen and release the two attached objects. */
 void leave_map_screen_and_release_objects(void)

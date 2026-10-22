@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -12,13 +13,6 @@ typedef struct S_8017388C_0 {
     u8 unk_9B;
 } S_8017388C_0;   /* arg0 in advance_actor_action_and_status */
 
-typedef struct S_8017388C_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_8017388C_1;   /* arg2 in advance_actor_action_and_status */
-
 typedef struct S_8017388C_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -31,7 +25,6 @@ typedef struct S_8017388C_2 {
     u8 pad_66[0x7];
     s8 unk_6D;
 } S_8017388C_2;   /* arg3 in advance_actor_action_and_status */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -52,7 +45,7 @@ extern u8 D_80170E84[];
 extern u8 D_80174860[];
 
 /* Advance the actor action through animation setup, status handling, and completion. */
-void advance_actor_action_and_status(void *in_action, void *in_context, void *in_sprite, void *in_actor)
+void advance_actor_action_and_status(void *in_action, void *in_context, SpriteFrameState *in_sprite, void *in_actor)
 {
     void *context = in_context;
     void *actor = in_actor;
@@ -61,12 +54,12 @@ void advance_actor_action_and_status(void *in_action, void *in_context, void *in
     state = ((S_8017388C_0 *)in_action)->unk_9B;
     switch (state) {
     case 0:
-        if (((S_8017388C_1 *)in_sprite)->unk_14 & 0xE000) {
+        if (in_sprite->flags & 0xE000) {
             u8 *direction_frames;
             DungeonGlobalStatus *system_base;
 
             direction_frames = D_80174860;
-            (*(void * *)((u8 *)in_sprite + 0x2C)) = direction_frames;
+            (in_sprite->frameTable) = direction_frames;
             select_sprite_entry(in_sprite,
                 direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_8017388C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
@@ -134,7 +127,7 @@ void advance_actor_action_and_status(void *in_action, void *in_context, void *in
                 s8 coordinate;
 
                 origin = &reference_tile_object;
-                coordinate = ((S_8017388C_1 *)in_sprite)->unk_26;
+                coordinate = *(s8 *)&in_sprite->unk_26;
                 if ((((coordinate == origin->room_index) &&
                     (coordinate >= 0)) ||
                     (get_tile_chebyshev_distance(origin, in_sprite) < 2)) &&
@@ -148,7 +141,7 @@ void advance_actor_action_and_status(void *in_action, void *in_context, void *in
             }
         }
 
-        if (!(((S_8017388C_1 *)in_sprite)->unk_14 & 0x8000)) {
+        if (!(in_sprite->flags & 0x8000)) {
             DungeonGlobalStatus *system_base = &g_dungeon_status;
 
             (*(u16 *)&system_base->activity_counts.parts.pending_action_count)++;
@@ -158,7 +151,7 @@ void advance_actor_action_and_status(void *in_action, void *in_context, void *in
         break;
 
     case 2:
-        if (!(((S_8017388C_1 *)in_sprite)->unk_14 & 0xE000)) {
+        if (!(in_sprite->flags & 0xE000)) {
             return;
         }
         {

@@ -1,3 +1,5 @@
+
+struct ObjectPosition;
 #include "shared/object_node.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
@@ -41,7 +43,7 @@ extern s32 decrement_monster_entry_count();
 extern void *advance_staged_entity_load();
 extern s32 play_sound_if_enabled();
 extern s32 create_status_linked_render_effect();
-extern s32 select_nearby_target_and_initialize_slot();
+extern s32 select_nearby_target_and_initialize_slot(s32 slot_id,struct ObjectPosition *target, s32 target_id, s32 slot_value);
 extern void create_angular_offset_effect();
 
 typedef struct S_80174704_0_pre {

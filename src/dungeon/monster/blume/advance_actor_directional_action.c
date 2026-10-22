@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/tile_object.h"
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
@@ -12,20 +13,12 @@ typedef struct {
     void *field_2C;
 } SpriteFieldView_80DBC9D8;
 
-
 typedef struct S_801741D8_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
     u8 pad_90[0xB];
     u8 unk_9B;
 } S_801741D8_0;   /* arg0 in advance_actor_directional_action */
-
-typedef struct S_801741D8_1 {
-    u8 pad_00[0x14];
-    u16 unk_14;
-    u8 pad_16[0x10];
-    s8 unk_26;
-} S_801741D8_1;   /* arg2 in advance_actor_directional_action */
 
 typedef struct S_801741D8_2 {
     u8 pad_00[0x1C];
@@ -39,7 +32,6 @@ typedef struct S_801741D8_2 {
     u8 pad_66[0x7];
     s8 unk_6D;
 } S_801741D8_2;   /* arg3 in advance_actor_directional_action */
-
 
 extern s32 get_entity_effect_value(void *, s32);
 extern void clear_slots_of_type(void *, s32);
@@ -57,11 +49,11 @@ extern void begin_actor_move_to_target_facing(void *, void *, void *, void *);
 extern void func_80174890(void *, void *, void *, void *);
 
 extern u8 D_80171E20[];
-extern u8 D_80175404[];
+#include "dungeon/monster/blume.h"
 extern u8 D_8017540C[];
 
 /* Advance the actor action state and update its directional animation. */
-void advance_actor_directional_action(void *controller, void *context, void *sprite, void *actor_in)
+void advance_actor_directional_action(void *controller, void *context, SpriteFrameState *sprite, void *actor_in)
 {
     void *actor;
     u8 state;
@@ -74,12 +66,12 @@ void advance_actor_directional_action(void *controller, void *context, void *spr
     actor = actor_in;
     switch (state) {
     case 0:
-        if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
+        if (sprite->flags & 0xE000) {
             DungeonGlobalStatus *counter;
 
-            (((SpriteFieldView_80DBC9D8 *)sprite)->field_2C) = D_80175404;
+            (sprite->frameTable) = blume_direction_frames_2;
             select_sprite_entry(sprite,
-                D_80175404[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                blume_direction_frames_2[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
                 0);
             counter = &g_dungeon_status;
             (*(u16 *)&counter->activity_counts.parts.pending_action_count)--;
@@ -144,8 +136,8 @@ void advance_actor_directional_action(void *controller, void *context, void *spr
         do {
             if ((s16)get_entity_effect_value(actor, 1) != 0) {
                 check_target = ((u8 *)(&reference_tile_object));
-                tile = ((S_801741D8_1 *)sprite)->unk_26;
-                if (tile != ((Rec_D_80082E80 *)((u8 *)(&reference_tile_object)))->unk_26.as_s8 || tile < 0) {
+                tile = *(s8 *)&sprite->unk_26;
+            if (tile != reference_tile_object.room_index || tile < 0) {
                     s16 distance;
 
                     distance = get_tile_chebyshev_distance(((u8 *)(&reference_tile_object)), sprite);
@@ -168,11 +160,11 @@ void advance_actor_directional_action(void *controller, void *context, void *spr
         }
         }
 
-        (((SpriteFieldView_80DBC9D8 *)sprite)->field_2C) = D_8017540C;
+        (sprite->frameTable) = D_8017540C;
         select_sprite_entry(sprite,
             D_8017540C[((g_game_work.view.camera_rotation.parts.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        if (((S_801741D8_1 *)sprite)->unk_14 & 0x8000) {
+        if (sprite->flags & 0x8000) {
             ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
             break;
         } else {
@@ -185,7 +177,7 @@ void advance_actor_directional_action(void *controller, void *context, void *spr
         break;
 
     case 2:
-        if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
+        if (sprite->flags & 0xE000) {
             DungeonGlobalStatus *counter_m = &g_dungeon_status;
             counter_m->activity_counts.parts.pending_action_count--;
 

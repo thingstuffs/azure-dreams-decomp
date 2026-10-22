@@ -1,4 +1,5 @@
 #include "shared/object_node.h"
+#include "shared/entity.h"
 #include "shared/sprite_frame_state.h"
 #include "common.h"
 #include "shared/entity_objects.h"
@@ -18,15 +19,6 @@ typedef struct S_80170700_1 {
     s16 unk_38;
 } S_80170700_1;
 
-typedef struct S_80170700_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    s16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80170700_3;
-
 extern s32 register_node();
 extern s32 select_sprite_entry();
 typedef struct {
@@ -40,12 +32,12 @@ extern void *D_80175D64;
 /* Creates an object from the current object's data and initializes its position and appearance. */
 void create_secondary_encounter_object(void) {
     s32 data_index;
-    S_80170700_3 *position;
+    ObjectPosition *position;
     void *source_data;
     SpriteFrameState *render_data;
     S_80170700_1 *object;
 
-    source_data = ((Rec_D_80175D50 *)beldo_actor_nodes)->unk_0C;
+    source_data = ((ObjectNodeHeader *)beldo_actor_nodes)->sprite;
     object = allocate_flagged_object_node(0x112);
     if (object != NULL) {
         render_data = object->unk_0C;
@@ -61,9 +53,9 @@ void create_secondary_encounter_object(void) {
         render_data->unk_06 = 6;
         render_data->flags &= 0xFFF3;
         position = object->unk_08;
-        position->unk_02 = ((u16)view_reference_entity.x.w.i);
-        position->unk_06 = ((u16)view_reference_entity.y.w.i) - 0x400;
-        position->unk_0A = ((u16)view_reference_entity.z.w.i);
+        position->x.w.i = ((u16)view_reference_entity.x.w.i);
+        position->y.w.i = ((u16)view_reference_entity.y.w.i) - 0x400;
+        position->z.w.i = ((u16)view_reference_entity.z.w.i);
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->color.c.b = 0x80;

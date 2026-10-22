@@ -1,4 +1,6 @@
 #include "common.h"
+#include "dungeon/effect/object.h"
+#include "shared/object_node.h"
 
 void *allocate_list_node();                  /* extern */
 extern void update_oriented_offset_effect_position(void *state, void *position);
@@ -19,14 +21,14 @@ typedef struct S_800B341C_1 {
 
 /* Allocates and initializes an object when the payload value is nonzero. */
 void allocate_payload_object(s32 allocationKey, s32 payloadValue, s16 payloadShortValue) {
-    void *allocatedObject;
+    ObjectNodeHeader *allocatedObject;
     S_800B341C_1 *objectData;
 
     if (payloadValue != 0) {
         allocatedObject = allocate_list_node(0x210, allocationKey);
         if (allocatedObject != 0) {
-            ((S_800B341C_0 *)allocatedObject)->unk_10 = &update_oriented_offset_effect_position;
-            objectData = allocatedObject + 0x20;
+            allocatedObject->unk_10 = &update_oriented_offset_effect_position;
+            objectData = ((void *)allocatedObject) + 0x20;
             ((S_800B341C_0 *)allocatedObject)->unk_20 = allocationKey;
             objectData->unk_04 = payloadValue;
             objectData->unk_8E = payloadShortValue;

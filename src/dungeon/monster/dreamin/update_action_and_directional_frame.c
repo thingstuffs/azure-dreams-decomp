@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -9,10 +10,10 @@ extern void apply_camera_offset_and_select_target();
 extern void select_sprite_entry();
 extern void prepare_directional_attack();
 
-extern u8 D_8017386C[];
+#include "dungeon/monster/dreamin.h"
 
 /* Update actor action state and select its directional animation. */
-void update_action_and_directional_frame(void *action_state, s32 update_arg, void *sprite, EntityRec *actor)
+void update_action_and_directional_frame(void *action_state, s32 update_arg, SpriteFrameState *sprite, EntityRec *actor)
 {
     actor->unk_71 &= 0x7F;
 
@@ -32,9 +33,9 @@ void update_action_and_directional_frame(void *action_state, s32 update_arg, voi
             actor->unk_84 = 0x7C;
             actor->unk_85 = 0;
         }
-        (*(u8 **)((u8 *)sprite + 0x2C)) = D_8017386C;
+        (sprite->frameTable) = dreamin_direction_frames;
         select_sprite_entry(sprite,
-                      D_8017386C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                      dreamin_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
         actor->unk_6D--;
 

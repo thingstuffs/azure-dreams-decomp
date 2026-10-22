@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/sprite_frame_state.h"
 #include "shared/game_work.h"
 
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
@@ -15,7 +16,7 @@ extern u8 D_80164360[];
 /* Updates the state or selects a sprite frame from the actor flags and heading. */
 void update_actor_state_or_directional_sprite(void *state_arg, void *context, void *sprite_arg, void *actor_arg) {
     void *state = state_arg;
-    void *sprite = sprite_arg;
+    SpriteFrameState *sprite= sprite_arg;
     void *actor = actor_arg;
     void *current_table;
 
@@ -30,19 +31,19 @@ void update_actor_state_or_directional_sprite(void *state_arg, void *context, vo
         return;
     }
 
-    current_table = *(void **)((u8 *)sprite + 0x2C);
+    current_table = sprite->frameTable;
     if (current_table == D_80164300) {
         if (*(s32 *)((u8 *)actor + 0x1C) & 0x208) {
             return;
         }
-        *(void **)((u8 *)sprite + 0x2C) = D_801642C8;
+        sprite->frameTable = D_801642C8;
         select_sprite_entry(sprite, D_801642C8[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else if (current_table == D_80164360) {
         if (*(s32 *)((u8 *)actor + 0x1C) & 0x208) {
             return;
         }
-        *(void **)((u8 *)sprite + 0x2C) = D_80164328;
+        sprite->frameTable = D_80164328;
         select_sprite_entry(sprite, D_80164328[((g_game_work.view.camera_rotation.parts.viewAngle + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7],
             0);
     } else {
