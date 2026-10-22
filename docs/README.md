@@ -10,6 +10,8 @@ for measured coverage and remaining limitations. The
 
 | Your goal | Read |
 |---|---|
+| Start reading the game code by feature | [Subsystem reader guides](guide/README.md) |
+| Build and check the complete registered images | [Make build](BUILD.md) |
 | Find a function after the source reorganization | [Source locations](SOURCE_LAYOUT.md) |
 | Understand what a successful match proves | [Proof and quality levels](PLAN.md), then [fidelity limitations](FIDELITY.md) |
 | Improve a function or field name | [Naming evidence](EVIDENCE.md) and [symbol conventions](SYMBOLS.md) |
@@ -26,12 +28,13 @@ old container name or address even when its source file has moved. A **translati
 unit** (TU) is one C compiler input; several rows can share it. A **placement**
 reuses a TU in another load image. These are different counts.
 
-The per-row verifier helps assess a candidate. The overlay **window gate** links
-the surrounding region and compares its bytes to the extracted retail container;
-the executable gate compares the complete linked SLUS image. Module certificates
-add reviewed membership, storage ownership, genuine-assembler comparison and
-input freshness where required. An unchanged object or a zero scorer distance
-alone does not establish all of these claims. See [PLAN.md](PLAN.md).
+The landing proof is `make configure`, `make -j4`, then `make check`: complete
+registered images, extra recipe/placement checks and placed switch-table contents
+are compared with the user-supplied disc. Native TUs use genuine ASPSX comparison
+when provisioned. Module certificates are retired from the landing requirement;
+current content-bound image proof supplies the byte evidence used by L4/L5, with
+their independent quality predicates. The per-row verifier and local window gate
+remain useful for candidate diagnostics. See [BUILD.md](BUILD.md).
 
 The byte maps also describe library code, data, padding and unresolved spans.
 Matching every registered C row does not mean that every byte on the disc is C.
@@ -73,7 +76,7 @@ python3 tools/verify.py town/func_8008D54C src/town/scene/copy_words_backward_fr
 The verifier reports whether it ran a window or used proven scorer/gate
 equivalence for a registered true-name row. Use the path resolver again if that
 file moves. A shared-header or TU change
-needs all affected rows/windows and any stale module certificates refreshed.
+needs its affected objects/images rebuilt and current `make check` proof.
 [Rename proof](RENAME_PROOF.md) explains why spelling-only changes still need
 object, relocation and retail checks. Keep generated `STATUS.md` and source
 indexes generated, and submit source, explanation and compact proof receipts
@@ -83,7 +86,8 @@ together. Do not submit disc images, extracted assets or compiled objects.
 
 [Evidence records](evidence/) contain the detailed reasoning and measurements.
 The [decision record](evidence/r97_decisions.md) includes the source-layout,
-naming and publication rules (decisions 60–68). Earlier entries are historical;
+naming, object records, header ownership and shared placements (decisions 61,
+73, 74 and 75), plus publication rules. Earlier entries are historical;
 later rulings may supersede them.
 
 The public export omits the working journals. Dated evidence and any archived
