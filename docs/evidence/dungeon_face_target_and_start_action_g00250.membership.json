@@ -1,0 +1,24 @@
+{
+  "module": "dungeon_face_target_and_start_action_g00250",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "face_target_and_start_action_g00250.c",
+    "module_index": 134214
+  },
+  "members": [
+    "dungeon/func_80E0EAE4",
+    "dungeon/func_80E0EC38",
+    "dungeon/func_80E0EF2C",
+    "dungeon/func_80E0F03C",
+    "dungeon/func_80E0F14C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00250 - CL:dungeon/func_80E0EC38@dungeon/bank_e2d000, CL:dungeon/func_80E0EC38@dungeon/bank_e33000, CL:dungeon/func_80E0EC38@dungeon/bank_e39000, CL:dungeon/func_80E0EC38@dungeon/bank_e3f000, CL:dungeon/func_80E0EC38@dungeon/bank_e45000, CL:dungeon/func_80E0EC38@dungeon/bank_e4b000, CL:dungeon/func_80E0EF2C@dungeon/bank_e2d000, CL:dungeon/func_80E0EF2C@dungeon/bank_e33000 (+4 more). Grouping by tools/tu/infer_groups.py (group G00250); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G00250 reconciled to fresh G00208 by unique_image_level_count.",
+    "Members are the contiguous registered home rows 0xE2EAE4..0xE2F25C at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

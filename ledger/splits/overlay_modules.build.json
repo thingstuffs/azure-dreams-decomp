@@ -6311,6 +6311,456 @@
       ]
     },
     {
+      "module": "town_call_reset_dispatch_state_flags_g01229",
+      "source": "src/town/scene/flags/call_reset_dispatch_state_flags_g01229.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_804683DC",
+        "town/func_80468418",
+        "town/func_8046847C",
+        "town/func_80468514",
+        "town/func_80468560",
+        "town/func_804686A4"
+      ]
+    },
+    {
+      "module": "town_start_dispatch_event_g01230",
+      "source": "src/town/scene/event/start_dispatch_event_g01230.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8046875C",
+        "town/func_80468800",
+        "town/func_8046888C",
+        "town/func_804688AC"
+      ]
+    },
+    {
+      "module": "town_apply_global_pointer_deltas_a_g01232",
+      "source": "src/town/scene/apply_global_pointer_deltas_a_g01232.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80468F10",
+        "town/func_80468F34",
+        "town/func_80468F58",
+        "town/func_80468F7C"
+      ]
+    },
+    {
+      "module": "town_apply_global_delta_record_b_g01233",
+      "source": "src/town/scene/apply_global_delta_record_b_g01233.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80468FA0",
+        "town/func_80468FC4",
+        "town/func_80468FE8",
+        "town/func_8046900C"
+      ]
+    },
+    {
+      "module": "town_apply_global_delta_record_f_g01234",
+      "source": "src/town/scene/apply_global_delta_record_f_g01234.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80469030",
+        "town/func_80469054",
+        "town/func_80469078",
+        "town/func_8046909C"
+      ]
+    },
+    {
+      "module": "town_apply_global_delta_record_j_g01235",
+      "source": "src/town/scene/apply_global_delta_record_j_g01235.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_804690C0",
+        "town/func_804690E4",
+        "town/func_80469108",
+        "town/func_8046912C"
+      ]
+    },
+    {
+      "module": "town_initialize_object_resources_g01178",
+      "source": "src/town/person/object/initialize_object_resources_g01178.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800C780C",
+        "town/func_800C7904",
+        "town/func_800C796C",
+        "town/func_800C79A0",
+        "town/func_800C7A7C",
+        "town/func_800C7AB4"
+      ]
+    },
+    {
+      "module": "town_initialize_scene_slot_b_g01187",
+      "source": "src/town/person/initialize_scene_slot_b_g01187.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800CD668",
+        "town/func_800CD6B0",
+        "town/func_800CD6F8",
+        "town/func_800CD740",
+        "town/func_800CD788",
+        "town/func_800CD7D0",
+        "town/func_8004D818",
+        "town/func_800CD880"
+      ]
+    },
+    {
+      "module": "town_move_flag_object_until_timer_expiry_g01192",
+      "source": "src/town/person/motion/move_flag_object_until_timer_expiry_g01192.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800CF814",
+        "town/func_800CF8B4",
+        "town/func_800CF8E0",
+        "town/func_800CF910",
+        "town/func_800CF940",
+        "town/func_800CF96C",
+        "town/func_800CF99C",
+        "town/func_800CF9CC"
+      ]
+    },
+    {
+      "module": "town_configure_actor_slot_e_g01193",
+      "source": "src/town/person/configure_actor_slot_e_g01193.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8004FCF8",
+        "town/func_8004FD40",
+        "town/func_8004FD88",
+        "town/func_8004FDD0",
+        "town/func_8004FE18",
+        "town/func_8004FE60"
+      ]
+    },
+    {
+      "module": "town_town_map_set_g01113",
+      "source": "src/town/map/town_map_set_g01113.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8008DEF4",
+        "town/func_8008E094",
+        "town/func_8008E0A8",
+        "town/func_8008E0B8"
+      ]
+    },
+    {
+      "module": "town_clear_object_link_and_mark_complete_g01169",
+      "source": "src/town/map/object/clear_object_link_and_mark_complete_g01169.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800BDDA8",
+        "town/func_800BDE1C",
+        "town/func_800BDEE0",
+        "town/func_800BDF28",
+        "town/func_800BDF64",
+        "town/func_800BDF84",
+        "town/func_800BDFC0",
+        "town/func_800BDFFC"
+      ]
+    },
+    {
+      "module": "town_approach_player_angle_target_g01125",
+      "source": "src/town/player/approach_player_angle_target_g01125.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8009CFC4",
+        "town/func_8009D0BC",
+        "town/func_8009D148",
+        "town/func_8009D150"
+      ]
+    },
+    {
+      "module": "town_initialize_effect_and_adjust_value_g01140",
+      "source": "src/town/player/effect/initialize_effect_and_adjust_value_g01140.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800A7E6C",
+        "town/func_800A7ED8",
+        "town/func_800A7FDC",
+        "town/func_800A8134",
+        "town/func_800A816C",
+        "town/func_800A8338",
+        "town/func_800A8698",
+        "town/func_800A887C"
+      ]
+    },
+    {
+      "module": "town_allocate_and_initialize_display_object_g01137",
+      "source": "src/town/menu/object/allocate_and_initialize_display_object_g01137.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800A48A0",
+        "town/func_800A4978",
+        "town/func_800A4A20",
+        "town/func_800A4A8C",
+        "town/func_800A4B70",
+        "town/func_800A4BA4"
+      ]
+    },
+    {
+      "module": "dungeon_begin_familiar_restoration_effects_g01015",
+      "source": "src/dungeon/item/begin_familiar_restoration_effects_g01015.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_800BBDCC",
+        "dungeon/func_800BBE54",
+        "dungeon/func_800BBFB8",
+        "dungeon/func_800BC2E4"
+      ]
+    },
+    {
+      "module": "main_card_boot_stop_timer_and_init_server_g01041",
+      "source": "src/frontend/libcard/card_boot_stop_timer_and_init_server_g01041.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "main/func_80014C60",
+        "main/func_80014C90",
+        "main/func_80014D0C",
+        "main/func_80014D40",
+        "main/func_80014D7C"
+      ]
+    },
+    {
+      "module": "town_spawn_and_flag_object_parts_g01128",
+      "source": "src/town/event/state/spawn_and_flag_object_parts_g01128.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8009EB68",
+        "town/func_8009EBE0",
+        "town/func_8009EC30",
+        "town/func_8009ED0C",
+        "town/func_8009ED34",
+        "town/func_8009ED88",
+        "town/func_8009EE78",
+        "town/func_8009EEE8"
+      ]
+    },
+    {
+      "module": "town_build_selected_entry_output_g01237",
+      "source": "src/town/scene/build_selected_entry_output_g01237.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8046986C",
+        "town/func_804699B4",
+        "town/func_80469A80",
+        "town/func_80469AFC",
+        "town/func_80469B68",
+        "town/func_80469BB4"
+      ]
+    },
+    {
+      "module": "town_forward_surface_query_with_argument_g01117",
+      "source": "src/town/map/forward_surface_query_with_argument_g01117.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8008F7E8",
+        "town/func_8008F820",
+        "town/func_8008F854",
+        "town/func_8008F888",
+        "town/func_8008F8BC",
+        "town/func_8008F8F0",
+        "town/func_8008F924",
+        "town/func_8008F958",
+        "town/func_8008FE64",
+        "town/func_80090320",
+        "town/func_80090854",
+        "town/func_80090D8C",
+        "town/func_800912C0"
+      ]
+    },
+    {
+      "module": "town_update_position_displacement_dispatch_active_entity_handler_g01131",
+      "source": "src/town/shop/position/update_position_displacement_dispatch_active_entity_handler_g01131.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800A173C",
+        "town/func_800A1828",
+        "town/func_800A19E8",
+        "town/func_800A1A60",
+        "town/func_800A1B10",
+        "town/func_800A1B48",
+        "town/func_800A1C14",
+        "town/func_800A1D2C",
+        "town/func_800A1D60"
+      ]
+    },
+    {
+      "module": "town_create_positioned_sprite_object_g01142",
+      "source": "src/town/menu/object/create_positioned_sprite_object_g01142.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_800A9A90",
+        "town/func_800A9BA8",
+        "town/func_800A9BD8",
+        "town/func_800A9C00",
+        "town/func_800A9C80"
+      ]
+    },
+    {
+      "module": "town_lshop_g00008",
+      "source": "src/town/shop/object/lshop_g00008.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032E514",
+        "town/func_8032E634",
+        "town/func_8032E6A8",
+        "town/func_8032E720",
+        "town/func_8032E8C0"
+      ]
+    },
+    {
+      "module": "dungeon_steer_effect_toward_target_g00278",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80EDF8B8",
+        "dungeon/func_80EDFAC4",
+        "dungeon/func_80EDFC98"
+      ]
+    },
+    {
+      "module": "town_set_lshop_special_flag_g00699",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032E9EC",
+        "town/func_8032EA2C"
+      ]
+    },
+    {
+      "module": "town_set_scaled_record_coordinates_g00704",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8032FE28",
+        "town/func_8032FE58",
+        "town/func_8032FE78",
+        "town/func_8032FEDC",
+        "town/func_8032FF04",
+        "town/func_8032FF60",
+        "town/func_8032FFF4"
+      ]
+    },
+    {
+      "module": "town_squared_distance_g00705",
+      "source": "src/town/player/squared_distance_g00705.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0 -O1",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80330320",
+        "town/func_80330374"
+      ]
+    },
+    {
+      "module": "town_cache_scaled_service_result_g00738",
+      "source": "src/town/scene/service/cache_scaled_service_result_g00738.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_8060127C",
+        "town/func_806012DC"
+      ]
+    },
+    {
+      "module": "dungeon_face_target_and_start_action_g00250",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
+      "recipe": {
+        "cfg": "2.7.2-cdk-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "dungeon/func_80E0EAE4",
+        "dungeon/func_80E0EC38",
+        "dungeon/func_80E0EF2C",
+        "dungeon/func_80E0F03C",
+        "dungeon/func_80E0F14C"
+      ]
+    },
+    {
       "module": "dungeon_ovl_7f0f7800_p01",
       "placement": "dungeon_ovl_7f0f7800_p01_bank_107f000",
       "image": "dungeon/bank_107f000",
@@ -15486,46 +15936,6 @@
       },
       "rows": [
         "dungeon/func_800BBC68"
-      ]
-    },
-    {
-      "source": "src/dungeon/item/begin_familiar_restoration_effects.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_800BBDCC"
-      ]
-    },
-    {
-      "source": "src/dungeon/item/use_item_to_draw_full_recovery_circle.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_800BBE54"
-      ]
-    },
-    {
-      "source": "src/dungeon/item/effect/update_familiar_restoration_effect.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_800BBFB8"
-      ]
-    },
-    {
-      "source": "src/dungeon/item/effect/create_familiar_restoration_effect.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_800BC2E4"
       ]
     },
     {
@@ -77889,56 +78299,6 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/face_target_and_start_action.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_80E0EAE4"
-      ]
-    },
-    {
-      "source": "src/dungeon/monster/cyclone/search_ahead_and_start_action.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_80E0EC38"
-      ]
-    },
-    {
-      "source": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_80E0EF2C"
-      ]
-    },
-    {
-      "source": "src/dungeon/monster/cyclone/clear_actor_action_flag_and_animate.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_80E0F03C"
-      ]
-    },
-    {
-      "source": "src/dungeon/monster/cyclone/attempt_actor_directional_action.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_80E0F14C"
-      ]
-    },
-    {
       "source": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -78399,7 +78759,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/face_target_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78409,7 +78769,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/search_ahead_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78419,7 +78779,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78429,7 +78789,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/clear_actor_action_flag_and_animate.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78439,7 +78799,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/attempt_actor_directional_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78919,7 +79279,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/face_target_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78929,7 +79289,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/search_ahead_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78939,7 +79299,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78949,7 +79309,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/clear_actor_action_flag_and_animate.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -78959,7 +79319,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/attempt_actor_directional_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79439,7 +79799,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/face_target_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79449,7 +79809,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/search_ahead_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79459,7 +79819,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79469,7 +79829,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/clear_actor_action_flag_and_animate.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79479,7 +79839,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/attempt_actor_directional_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79959,7 +80319,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/face_target_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79969,7 +80329,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/search_ahead_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79979,7 +80339,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79989,7 +80349,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/clear_actor_action_flag_and_animate.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -79999,7 +80359,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/attempt_actor_directional_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80479,7 +80839,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/face_target_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80489,7 +80849,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/search_ahead_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80499,7 +80859,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80509,7 +80869,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/clear_actor_action_flag_and_animate.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80519,7 +80879,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/attempt_actor_directional_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80979,7 +81339,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/face_target_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80989,7 +81349,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/search_ahead_and_start_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -80999,7 +81359,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -81009,7 +81369,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/clear_actor_action_flag_and_animate.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -81019,7 +81379,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/cyclone/attempt_actor_directional_action.c",
+      "source": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -91329,36 +91689,6 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/steer_effect_toward_target.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_80EDF8B8"
-      ]
-    },
-    {
-      "source": "src/dungeon/monster/weadog/initialize_shared_state_active_entries.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_80EDFAC4"
-      ]
-    },
-    {
-      "source": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "dungeon/func_80EDFC98"
-      ]
-    },
-    {
       "source": "src/dungeon/monster/weadog/create_overlay_effect_object.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -91669,7 +91999,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/steer_effect_toward_target.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -91679,7 +92009,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/initialize_shared_state_active_entries.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -91689,7 +92019,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -91999,7 +92329,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/steer_effect_toward_target.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -92009,7 +92339,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/initialize_shared_state_active_entries.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -92019,7 +92349,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -92339,7 +92669,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/steer_effect_toward_target.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -92349,7 +92679,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/initialize_shared_state_active_entries.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -92359,7 +92689,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -92679,7 +93009,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/steer_effect_toward_target.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -92689,7 +93019,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/initialize_shared_state_active_entries.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -92699,7 +93029,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -93009,7 +93339,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/steer_effect_toward_target.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -93019,7 +93349,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/initialize_shared_state_active_entries.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -93029,7 +93359,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -93349,7 +93679,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/steer_effect_toward_target.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -93359,7 +93689,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/initialize_shared_state_active_entries.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -93369,7 +93699,7 @@
       ]
     },
     {
-      "source": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "source": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -131599,56 +131929,6 @@
       ]
     },
     {
-      "source": "src/frontend/libcard/card_boot_stop_timer_and_init_server.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "main/func_80014C60"
-      ]
-    },
-    {
-      "source": "src/frontend/libcard/card_boot_destroy_card_chooser.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "main/func_80014C90"
-      ]
-    },
-    {
-      "source": "src/frontend/libcard/card_boot_open_save_slot_selection.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "main/func_80014D0C"
-      ]
-    },
-    {
-      "source": "src/frontend/libcard/dispatch_request_mode_two.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "main/func_80014D40"
-      ]
-    },
-    {
-      "source": "src/frontend/libcard/dispatch_menu_update_callback.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "main/func_80014D7C"
-      ]
-    },
-    {
       "source": "src/frontend/libcard/card_boot_render_panel_hierarchy.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -135829,16 +136109,6 @@
       ]
     },
     {
-      "source": "src/town/person/configure_actor_slot_render_state_c.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8004D818"
-      ]
-    },
-    {
       "source": "src/town/person/configure_actor_slot_render_state_d.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -135946,66 +136216,6 @@
       },
       "rows": [
         "town/func_8004FC90"
-      ]
-    },
-    {
-      "source": "src/town/person/configure_actor_slot_e.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8004FCF8"
-      ]
-    },
-    {
-      "source": "src/town/person/configure_actor_slot_f.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8004FD40"
-      ]
-    },
-    {
-      "source": "src/town/person/configure_actor_slot_g.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8004FD88"
-      ]
-    },
-    {
-      "source": "src/town/person/configure_actor_slot_h.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8004FDD0"
-      ]
-    },
-    {
-      "source": "src/town/person/configure_actor_slot_i.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8004FE18"
-      ]
-    },
-    {
-      "source": "src/town/person/configure_actor_slot_j.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8004FE60"
       ]
     },
     {
@@ -136236,46 +136446,6 @@
       },
       "rows": [
         "town/func_8008DEC0"
-      ]
-    },
-    {
-      "source": "src/town/map/town_map_set.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008DEF4"
-      ]
-    },
-    {
-      "source": "src/town/map/town_map_del.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008E094"
-      ]
-    },
-    {
-      "source": "src/town/map/state/clear_town_map_status.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008E0A8"
-      ]
-    },
-    {
-      "source": "src/town/map/state/initialize_town_map_object_state.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008E0B8"
       ]
     },
     {
@@ -136566,136 +136736,6 @@
       },
       "rows": [
         "town/func_8008F6A8"
-      ]
-    },
-    {
-      "source": "src/town/map/forward_surface_query_with_argument.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008F7E8"
-      ]
-    },
-    {
-      "source": "src/town/map/forward_highest_surface_query.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008F820"
-      ]
-    },
-    {
-      "source": "src/town/map/forward_smallest_surface_x_query.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008F854"
-      ]
-    },
-    {
-      "source": "src/town/map/evaluate_surface_components_a.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008F888"
-      ]
-    },
-    {
-      "source": "src/town/map/evaluate_surface_components_b.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008F8BC"
-      ]
-    },
-    {
-      "source": "src/town/map/evaluate_surface_components_c.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008F8F0"
-      ]
-    },
-    {
-      "source": "src/town/map/update_map_world_extents.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008F924"
-      ]
-    },
-    {
-      "source": "src/town/map/find_min_qualifying_plane_height.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008F958"
-      ]
-    },
-    {
-      "source": "src/town/map/find_highest_surface_within_range.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8008FE64"
-      ]
-    },
-    {
-      "source": "src/town/map/find_smallest_surface_x_across_tiles.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80090320"
-      ]
-    },
-    {
-      "source": "src/town/map/find_greatest_cell_intersection.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80090854"
-      ]
-    },
-    {
-      "source": "src/town/map/find_lowest_surface_height.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80090D8C"
-      ]
-    },
-    {
-      "source": "src/town/map/find_highest_valid_cell_height.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800912C0"
       ]
     },
     {
@@ -139459,46 +139499,6 @@
       ]
     },
     {
-      "source": "src/town/player/approach_player_angle_target.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009CFC4"
-      ]
-    },
-    {
-      "source": "src/town/player/update_player_countdown_values.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009D0BC"
-      ]
-    },
-    {
-      "source": "src/town/player/player_no_op.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009D148"
-      ]
-    },
-    {
-      "source": "src/town/player/approach_player_value.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009D150"
-      ]
-    },
-    {
       "source": "src/town/func_8009D18C.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -139769,86 +139769,6 @@
       ]
     },
     {
-      "source": "src/town/event/state/spawn_and_flag_object_parts.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009EB68"
-      ]
-    },
-    {
-      "source": "src/town/event/serch_item_kt.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009EBE0"
-      ]
-    },
-    {
-      "source": "src/town/event/object/create_town_effect_object.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009EC30"
-      ]
-    },
-    {
-      "source": "src/town/event/run_object_secondary_callback.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009ED0C"
-      ]
-    },
-    {
-      "source": "src/town/event/object/initialize_timed_fade_object.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009ED34"
-      ]
-    },
-    {
-      "source": "src/town/event/object/update_timed_object_to_height_limit.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009ED88"
-      ]
-    },
-    {
-      "source": "src/town/event/object/fade_object_primitive.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009EE78"
-      ]
-    },
-    {
-      "source": "src/town/event/spawn_randomized_effect_parts.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8009EEE8"
-      ]
-    },
-    {
       "source": "src/town/event/state/select_object_state_by_mode.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -140086,96 +140006,6 @@
       },
       "rows": [
         "town/func_800A161C"
-      ]
-    },
-    {
-      "source": "src/town/shop/position/update_position_displacement_dispatch_active_entity_handler.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A173C"
-      ]
-    },
-    {
-      "source": "src/town/shop/update_motion_toward_target_resolves_entity_countdown_expires.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A1828"
-      ]
-    },
-    {
-      "source": "src/town/shop/object/initialize_entity_flags_transform_type_dependent_variant.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A19E8"
-      ]
-    },
-    {
-      "source": "src/town/shop/state/initialize_the_entity_s_action_copy_selected_state.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A1A60"
-      ]
-    },
-    {
-      "source": "src/town/shop/get_target_itemp.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A1B10"
-      ]
-    },
-    {
-      "source": "src/town/shop/state/update_the_target_offset_advance_phase_handle_active_event.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A1B48"
-      ]
-    },
-    {
-      "source": "src/town/shop/position/handle_jitter_position_pulse_scale_until_countdown_expires.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A1C14"
-      ]
-    },
-    {
-      "source": "src/town/shop/call_callee_set_handler.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A1D2C"
-      ]
-    },
-    {
-      "source": "src/town/shop/state/initialize_the_town_entity_synchronize_slot_state.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A1D60"
       ]
     },
     {
@@ -140486,66 +140316,6 @@
       },
       "rows": [
         "town/func_800A488C"
-      ]
-    },
-    {
-      "source": "src/town/menu/object/allocate_and_initialize_display_object.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A48A0"
-      ]
-    },
-    {
-      "source": "src/town/menu/create_objects_descending_by_count.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A4978"
-      ]
-    },
-    {
-      "source": "src/town/menu/state/update_menu_node_or_retire_on_zero_state.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A4A20"
-      ]
-    },
-    {
-      "source": "src/town/menu/state/initialize_directional_object_state.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A4A8C"
-      ]
-    },
-    {
-      "source": "src/town/menu/state/copy_signed_inner_value_by_flag.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A4B70"
-      ]
-    },
-    {
-      "source": "src/town/menu/object/create_object_with_shared_data.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A4BA4"
       ]
     },
     {
@@ -140949,86 +140719,6 @@
       ]
     },
     {
-      "source": "src/town/player/effect/initialize_effect_and_adjust_value.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A7E6C"
-      ]
-    },
-    {
-      "source": "src/town/player/effect/update_effect_record_and_dispatch.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A7ED8"
-      ]
-    },
-    {
-      "source": "src/town/player/object/turn_entity_toward_target.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A7FDC"
-      ]
-    },
-    {
-      "source": "src/town/player/compute_height_based_offset.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A8134"
-      ]
-    },
-    {
-      "source": "src/town/player/object/update_object_view_transition.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A816C"
-      ]
-    },
-    {
-      "source": "src/town/player/update_actor_movement_and_actions.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A8338"
-      ]
-    },
-    {
-      "source": "src/town/player/effect/update_actor_effect_transition.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A8698"
-      ]
-    },
-    {
-      "source": "src/town/player/update_town_movement_and_actions.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A887C"
-      ]
-    },
-    {
       "source": "src/town/player/store_value_and_get_masked_offset.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -141156,56 +140846,6 @@
       },
       "rows": [
         "town/func_800A998C"
-      ]
-    },
-    {
-      "source": "src/town/menu/object/create_positioned_sprite_object.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A9A90"
-      ]
-    },
-    {
-      "source": "src/town/menu/motion/copy_indexed_motion_value_and_advance.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A9BA8"
-      ]
-    },
-    {
-      "source": "src/town/menu/object/invoke_emote_object_callback.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A9BD8"
-      ]
-    },
-    {
-      "source": "src/town/menu/motion/advance_emote_motion.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A9C00"
-      ]
-    },
-    {
-      "source": "src/town/menu/position/advance_position_and_handle_ground_contact.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800A9C80"
       ]
     },
     {
@@ -143979,86 +143619,6 @@
       ]
     },
     {
-      "source": "src/town/map/object/clear_object_link_and_mark_complete.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800BDDA8"
-      ]
-    },
-    {
-      "source": "src/town/map/state/initialize_object_state_and_appearance.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800BDE1C"
-      ]
-    },
-    {
-      "source": "src/town/map/state/advance_object_state_angle.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800BDEE0"
-      ]
-    },
-    {
-      "source": "src/town/map/initialize_object_state_and_appearance.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800BDF28"
-      ]
-    },
-    {
-      "source": "src/town/map/clear_object_link_and_complete.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800BDF64"
-      ]
-    },
-    {
-      "source": "src/town/map/set_handler_variant_b_counter.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800BDF84"
-      ]
-    },
-    {
-      "source": "src/town/map/init_object_with_countdown.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800BDFC0"
-      ]
-    },
-    {
-      "source": "src/town/map/set_handler_variant_b_counter_b.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800BDFFC"
-      ]
-    },
-    {
       "source": "src/town/map/object/create_object_from_polar_spawn_data.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -145569,66 +145129,6 @@
       ]
     },
     {
-      "source": "src/town/person/object/initialize_object_resources.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800C780C"
-      ]
-    },
-    {
-      "source": "src/town/person/set_camera_chase_data.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800C7904"
-      ]
-    },
-    {
-      "source": "src/town/person/object/clear_object_slot_table_run.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800C796C"
-      ]
-    },
-    {
-      "source": "src/town/person/apply_object_setup_and_update.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800C79A0"
-      ]
-    },
-    {
-      "source": "src/town/person/init_actor_handler_state.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800C7A7C"
-      ]
-    },
-    {
-      "source": "src/town/person/create_user_data_object_b.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800C7AB4"
-      ]
-    },
-    {
       "source": "src/town/person/position/compute_offset_position.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -146809,76 +146309,6 @@
       ]
     },
     {
-      "source": "src/town/person/initialize_scene_slot_b.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CD668"
-      ]
-    },
-    {
-      "source": "src/town/person/initialize_scene_slot_c.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CD6B0"
-      ]
-    },
-    {
-      "source": "src/town/person/initialize_scene_slot_d.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CD6F8"
-      ]
-    },
-    {
-      "source": "src/town/person/initialize_scene_slot_context_c.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CD740"
-      ]
-    },
-    {
-      "source": "src/town/person/initialize_scene_slot_context_d.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CD788"
-      ]
-    },
-    {
-      "source": "src/town/person/initialize_scene_slot_e.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CD7D0"
-      ]
-    },
-    {
-      "source": "src/town/person/initialize_scene_slot_f.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CD880"
-      ]
-    },
-    {
       "source": "src/town/person/object/initialize_object_referenced_data_pointers.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -147256,86 +146686,6 @@
       },
       "rows": [
         "town/func_800CF800"
-      ]
-    },
-    {
-      "source": "src/town/person/motion/move_flag_object_until_timer_expiry.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CF814"
-      ]
-    },
-    {
-      "source": "src/town/person/state/run_tick_movement_phase.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CF8B4"
-      ]
-    },
-    {
-      "source": "src/town/person/motion/move_flag_object_by_step_minus_plus.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CF8E0"
-      ]
-    },
-    {
-      "source": "src/town/person/motion/move_flag_object_by_step_plus_minus.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CF910"
-      ]
-    },
-    {
-      "source": "src/town/person/motion/move_flag_object_by_step_minus.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CF940"
-      ]
-    },
-    {
-      "source": "src/town/person/motion/move_flag_object_by_step_plus_plus.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CF96C"
-      ]
-    },
-    {
-      "source": "src/town/person/motion/move_flag_object_by_step_minus_minus.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CF99C"
-      ]
-    },
-    {
-      "source": "src/town/person/motion/move_flag_object_by_step_plus_y.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_800CF9CC"
       ]
     },
     {
@@ -149479,56 +148829,6 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032E514"
-      ]
-    },
-    {
-      "source": "src/town/shop/release_lshop_entry.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032E634"
-      ]
-    },
-    {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032E6A8"
-      ]
-    },
-    {
-      "source": "src/town/shop/find_unused_shop_slot.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032E720"
-      ]
-    },
-    {
-      "source": "src/town/shop/append_shop_entry.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032E8C0"
-      ]
-    },
-    {
       "source": "src/town/shop/refresh_lshop_entry_list.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
@@ -149536,26 +148836,6 @@
       },
       "rows": [
         "town/func_8032E9C4"
-      ]
-    },
-    {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032E9EC"
-      ]
-    },
-    {
-      "source": "src/town/shop/process_lshop_entries.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032EA2C"
       ]
     },
     {
@@ -149939,76 +149219,6 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032FE28"
-      ]
-    },
-    {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032FE58"
-      ]
-    },
-    {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032FE78"
-      ]
-    },
-    {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032FEDC"
-      ]
-    },
-    {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032FF04"
-      ]
-    },
-    {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032FF60"
-      ]
-    },
-    {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8032FFF4"
-      ]
-    },
-    {
       "source": "src/town/scene/call_state_handler_and_copy_values.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
@@ -150046,26 +149256,6 @@
       },
       "rows": [
         "town/func_803302F0"
-      ]
-    },
-    {
-      "source": "src/town/player/squared_distance.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80330320"
-      ]
-    },
-    {
-      "source": "src/town/player/find_nearest_point.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0 -O1",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80330374"
       ]
     },
     {
@@ -150589,7 +149779,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -150599,7 +149789,7 @@
       ]
     },
     {
-      "source": "src/town/shop/release_lshop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -150609,7 +149799,7 @@
       ]
     },
     {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -150619,7 +149809,7 @@
       ]
     },
     {
-      "source": "src/town/shop/find_unused_shop_slot.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -150629,7 +149819,7 @@
       ]
     },
     {
-      "source": "src/town/shop/append_shop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -150639,7 +149829,7 @@
       ]
     },
     {
-      "source": "src/town/shop/process_lshop_entries.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -150779,7 +149969,7 @@
       ]
     },
     {
-      "source": "src/town/player/squared_distance.c",
+      "source": "src/town/player/squared_distance_g00705.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -150789,7 +149979,7 @@
       ]
     },
     {
-      "source": "src/town/player/find_nearest_point.c",
+      "source": "src/town/player/squared_distance_g00705.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -151439,66 +150629,6 @@
       ]
     },
     {
-      "source": "src/town/scene/flags/call_reset_dispatch_state_flags.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_804683DC"
-      ]
-    },
-    {
-      "source": "src/town/scene/event/tick_shop_event_state.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468418"
-      ]
-    },
-    {
-      "source": "src/town/scene/event/query_event_state_or_reset.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8046847C"
-      ]
-    },
-    {
-      "source": "src/town/scene/get_callback_selected_table_value.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468514"
-      ]
-    },
-    {
-      "source": "src/town/scene/event/run_event_opcode_script.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468560"
-      ]
-    },
-    {
-      "source": "src/town/scene/flags/reset_dispatch_state_and_flags.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_804686A4"
-      ]
-    },
-    {
       "source": "src/town/scene/advance_dispatch_state_to_two.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -151506,46 +150636,6 @@
       },
       "rows": [
         "town/func_80468730"
-      ]
-    },
-    {
-      "source": "src/town/scene/event/start_dispatch_event.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8046875C"
-      ]
-    },
-    {
-      "source": "src/town/scene/event/dispatch_active_event.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468800"
-      ]
-    },
-    {
-      "source": "src/town/scene/is_dispatch_state_two.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8046888C"
-      ]
-    },
-    {
-      "source": "src/town/scene/event/select_next_event_state.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_804688AC"
       ]
     },
     {
@@ -151606,166 +150696,6 @@
       },
       "rows": [
         "town/func_80468E7C"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_pointer_deltas_a.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468F10"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_a.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468F34"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_pointer_deltas_b.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468F58"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_pointer_deltas_c.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468F7C"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_b.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468FA0"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_c.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468FC4"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80468FE8"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_e.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8046900C"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_f.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80469030"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_g.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80469054"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_h.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80469078"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_i.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8046909C"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_j.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_804690C0"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_k.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_804690E4"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_l.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80469108"
-      ]
-    },
-    {
-      "source": "src/town/scene/apply_global_delta_record_m.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8046912C"
       ]
     },
     {
@@ -151906,66 +150836,6 @@
       },
       "rows": [
         "town/func_80469834"
-      ]
-    },
-    {
-      "source": "src/town/scene/build_selected_entry_output.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8046986C"
-      ]
-    },
-    {
-      "source": "src/town/scene/build_entry_list.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_804699B4"
-      ]
-    },
-    {
-      "source": "src/town/scene/build_selected_record_buffer.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80469A80"
-      ]
-    },
-    {
-      "source": "src/town/scene/build_four_record_value_block.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80469AFC"
-      ]
-    },
-    {
-      "source": "src/town/scene/build_two_record_value_block.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80469B68"
-      ]
-    },
-    {
-      "source": "src/town/scene/build_three_record_value_block.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_80469BB4"
       ]
     },
     {
@@ -153879,7 +152749,7 @@
       ]
     },
     {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -156689,7 +155559,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -156699,7 +155569,7 @@
       ]
     },
     {
-      "source": "src/town/shop/release_lshop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -156709,7 +155579,7 @@
       ]
     },
     {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -156719,7 +155589,7 @@
       ]
     },
     {
-      "source": "src/town/shop/find_unused_shop_slot.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -156729,7 +155599,7 @@
       ]
     },
     {
-      "source": "src/town/shop/append_shop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -156749,7 +155619,7 @@
       ]
     },
     {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -156759,7 +155629,7 @@
       ]
     },
     {
-      "source": "src/town/shop/process_lshop_entries.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -157119,7 +155989,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -157129,7 +155999,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -157139,7 +156009,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -157149,7 +156019,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -157159,7 +156029,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -157169,7 +156039,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -157179,7 +156049,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -159089,7 +157959,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -159099,7 +157969,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -159109,7 +157979,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -159119,7 +157989,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -159129,7 +157999,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -159139,7 +158009,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -159149,7 +158019,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -161459,7 +160329,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -161469,7 +160339,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -161479,7 +160349,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -161489,7 +160359,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -161499,7 +160369,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -161509,7 +160379,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -161519,7 +160389,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -162069,7 +160939,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -162079,7 +160949,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -162089,7 +160959,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -162099,7 +160969,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -162109,7 +160979,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -162119,7 +160989,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -162129,7 +160999,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163509,7 +162379,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163519,7 +162389,7 @@
       ]
     },
     {
-      "source": "src/town/shop/release_lshop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163529,7 +162399,7 @@
       ]
     },
     {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163539,7 +162409,7 @@
       ]
     },
     {
-      "source": "src/town/shop/find_unused_shop_slot.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163549,7 +162419,7 @@
       ]
     },
     {
-      "source": "src/town/shop/append_shop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163569,7 +162439,7 @@
       ]
     },
     {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163579,7 +162449,7 @@
       ]
     },
     {
-      "source": "src/town/shop/process_lshop_entries.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163979,7 +162849,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163989,7 +162859,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -163999,7 +162869,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -164009,7 +162879,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -164019,7 +162889,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -164029,7 +162899,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -164039,7 +162909,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165359,7 +164229,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165369,7 +164239,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165379,7 +164249,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165389,7 +164259,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165399,7 +164269,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165409,7 +164279,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165419,7 +164289,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165439,7 +164309,7 @@
       ]
     },
     {
-      "source": "src/town/player/squared_distance.c",
+      "source": "src/town/player/squared_distance_g00705.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165449,7 +164319,7 @@
       ]
     },
     {
-      "source": "src/town/player/find_nearest_point.c",
+      "source": "src/town/player/squared_distance_g00705.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165559,26 +164429,6 @@
       ]
     },
     {
-      "source": "src/town/scene/service/cache_scaled_service_result.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_8060127C"
-      ]
-    },
-    {
-      "source": "src/town/scene/submit_request_1_1.c",
-      "recipe": {
-        "cfg": "2.7.2-cdk-G0",
-        "row_asflags": ""
-      },
-      "rows": [
-        "town/func_806012DC"
-      ]
-    },
-    {
       "source": "src/town/scene/check_counter_threshold.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
@@ -165619,7 +164469,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165629,7 +164479,7 @@
       ]
     },
     {
-      "source": "src/town/shop/release_lshop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165639,7 +164489,7 @@
       ]
     },
     {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165649,7 +164499,7 @@
       ]
     },
     {
-      "source": "src/town/shop/find_unused_shop_slot.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165659,7 +164509,7 @@
       ]
     },
     {
-      "source": "src/town/shop/append_shop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165679,7 +164529,7 @@
       ]
     },
     {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -165689,7 +164539,7 @@
       ]
     },
     {
-      "source": "src/town/shop/process_lshop_entries.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -166489,7 +165339,7 @@
       ]
     },
     {
-      "source": "src/town/scene/service/cache_scaled_service_result.c",
+      "source": "src/town/scene/service/cache_scaled_service_result_g00738.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -166499,7 +165349,7 @@
       ]
     },
     {
-      "source": "src/town/scene/submit_request_1_1.c",
+      "source": "src/town/scene/service/cache_scaled_service_result_g00738.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0",
         "row_asflags": ""
@@ -166549,7 +165399,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -166559,7 +165409,7 @@
       ]
     },
     {
-      "source": "src/town/shop/release_lshop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -166569,7 +165419,7 @@
       ]
     },
     {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -166579,7 +165429,7 @@
       ]
     },
     {
-      "source": "src/town/shop/find_unused_shop_slot.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -166589,7 +165439,7 @@
       ]
     },
     {
-      "source": "src/town/shop/append_shop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -166609,7 +165459,7 @@
       ]
     },
     {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -166619,7 +165469,7 @@
       ]
     },
     {
-      "source": "src/town/shop/process_lshop_entries.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -167019,7 +165869,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -167029,7 +165879,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -167039,7 +165889,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -167049,7 +165899,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -167059,7 +165909,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -167069,7 +165919,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -167079,7 +165929,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -168149,7 +166999,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -168159,7 +167009,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -168169,7 +167019,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -168179,7 +167029,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -168189,7 +167039,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -168199,7 +167049,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -168209,7 +167059,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169329,7 +168179,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169339,7 +168189,7 @@
       ]
     },
     {
-      "source": "src/town/shop/release_lshop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169349,7 +168199,7 @@
       ]
     },
     {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169359,7 +168209,7 @@
       ]
     },
     {
-      "source": "src/town/shop/find_unused_shop_slot.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169369,7 +168219,7 @@
       ]
     },
     {
-      "source": "src/town/shop/append_shop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169389,7 +168239,7 @@
       ]
     },
     {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169399,7 +168249,7 @@
       ]
     },
     {
-      "source": "src/town/shop/process_lshop_entries.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169759,7 +168609,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169769,7 +168619,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169779,7 +168629,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169789,7 +168639,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169799,7 +168649,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169809,7 +168659,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -169819,7 +168669,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170259,7 +169109,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170269,7 +169119,7 @@
       ]
     },
     {
-      "source": "src/town/shop/release_lshop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170279,7 +169129,7 @@
       ]
     },
     {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170289,7 +169139,7 @@
       ]
     },
     {
-      "source": "src/town/shop/find_unused_shop_slot.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170299,7 +169149,7 @@
       ]
     },
     {
-      "source": "src/town/shop/append_shop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170319,7 +169169,7 @@
       ]
     },
     {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170329,7 +169179,7 @@
       ]
     },
     {
-      "source": "src/town/shop/process_lshop_entries.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170689,7 +169539,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170699,7 +169549,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170709,7 +169559,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170719,7 +169569,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170729,7 +169579,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170739,7 +169589,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -170749,7 +169599,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -171679,7 +170529,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -171689,7 +170539,7 @@
       ]
     },
     {
-      "source": "src/town/shop/release_lshop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -171699,7 +170549,7 @@
       ]
     },
     {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -171709,7 +170559,7 @@
       ]
     },
     {
-      "source": "src/town/shop/find_unused_shop_slot.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -171719,7 +170569,7 @@
       ]
     },
     {
-      "source": "src/town/shop/append_shop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -171739,7 +170589,7 @@
       ]
     },
     {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -171749,7 +170599,7 @@
       ]
     },
     {
-      "source": "src/town/shop/process_lshop_entries.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -172149,7 +170999,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -172159,7 +171009,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -172169,7 +171019,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -172179,7 +171029,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -172189,7 +171039,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -172199,7 +171049,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -172209,7 +171059,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -175539,7 +174389,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -175549,7 +174399,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -175559,7 +174409,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -175569,7 +174419,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -175579,7 +174429,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -175589,7 +174439,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -175599,7 +174449,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -175619,7 +174469,7 @@
       ]
     },
     {
-      "source": "src/town/player/squared_distance.c",
+      "source": "src/town/player/squared_distance_g00705.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -175629,7 +174479,7 @@
       ]
     },
     {
-      "source": "src/town/player/find_nearest_point.c",
+      "source": "src/town/player/squared_distance_g00705.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -176289,7 +175139,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -176299,7 +175149,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -176309,7 +175159,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -176319,7 +175169,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -176329,7 +175179,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -176339,7 +175189,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -176349,7 +175199,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -177329,7 +176179,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -177339,7 +176189,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -177349,7 +176199,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -177359,7 +176209,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -177369,7 +176219,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -177379,7 +176229,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -177389,7 +176239,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178109,7 +176959,7 @@
       ]
     },
     {
-      "source": "src/town/shop/object/clear_shop_object_and_link.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178119,7 +176969,7 @@
       ]
     },
     {
-      "source": "src/town/shop/release_lshop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178129,7 +176979,7 @@
       ]
     },
     {
-      "source": "src/town/shop/compact_lshop_entry_list.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178139,7 +176989,7 @@
       ]
     },
     {
-      "source": "src/town/shop/find_unused_shop_slot.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178149,7 +176999,7 @@
       ]
     },
     {
-      "source": "src/town/shop/append_shop_entry.c",
+      "source": "src/town/shop/object/lshop_g00008.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178169,7 +177019,7 @@
       ]
     },
     {
-      "source": "src/town/shop/state/set_lshop_special_flag.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178179,7 +177029,7 @@
       ]
     },
     {
-      "source": "src/town/shop/process_lshop_entries.c",
+      "source": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178579,7 +177429,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_record_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178589,7 +177439,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_scaled_pointer_value.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178599,7 +177449,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178609,7 +177459,7 @@
       ]
     },
     {
-      "source": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178619,7 +177469,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_selected_entry_position.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178629,7 +177479,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_tile_center_destination.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""
@@ -178639,7 +177489,7 @@
       ]
     },
     {
-      "source": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "source": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "recipe": {
         "cfg": "2.7.2-cdk-G0 -O1",
         "row_asflags": ""

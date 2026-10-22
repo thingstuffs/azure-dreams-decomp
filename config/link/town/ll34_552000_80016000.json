@@ -724,7 +724,7 @@
     },
     {
       "row": "town/func_805D4FBC",
-      "tu": "src/town/scene/set_scaled_record_coordinates.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FE28",
       "foff": "0x554FBC",
       "vma": "0x80018FBC",
@@ -737,7 +737,7 @@
     },
     {
       "row": "town/func_805D4FEC",
-      "tu": "src/town/scene/set_scaled_pointer_value.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FE58",
       "foff": "0x554FEC",
       "vma": "0x80018FEC",
@@ -750,7 +750,7 @@
     },
     {
       "row": "town/func_805D500C",
-      "tu": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FE78",
       "foff": "0x55500C",
       "vma": "0x8001900C",
@@ -763,7 +763,7 @@
     },
     {
       "row": "town/func_805D5070",
-      "tu": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FEDC",
       "foff": "0x555070",
       "vma": "0x80019070",
@@ -776,7 +776,7 @@
     },
     {
       "row": "town/func_805D5098",
-      "tu": "src/town/scene/motion/set_selected_entry_position.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FF04",
       "foff": "0x555098",
       "vma": "0x80019098",
@@ -789,7 +789,7 @@
     },
     {
       "row": "town/func_805D50F4",
-      "tu": "src/town/scene/motion/set_tile_center_destination.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FF60",
       "foff": "0x5550F4",
       "vma": "0x800190F4",
@@ -802,7 +802,7 @@
     },
     {
       "row": "town/func_805D5188",
-      "tu": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FFF4",
       "foff": "0x555188",
       "vma": "0x80019188",
@@ -828,7 +828,7 @@
     },
     {
       "row": "town/func_805D5218",
-      "tu": "src/town/player/squared_distance.c",
+      "tu": "src/town/player/squared_distance_g00705.c",
       "home": "town/func_80330320",
       "foff": "0x555218",
       "vma": "0x80019218",
@@ -840,7 +840,7 @@
     },
     {
       "row": "town/func_805D526C",
-      "tu": "src/town/player/find_nearest_point.c",
+      "tu": "src/town/player/squared_distance_g00705.c",
       "home": "town/func_80330374",
       "foff": "0x55526C",
       "vma": "0x8001926C",

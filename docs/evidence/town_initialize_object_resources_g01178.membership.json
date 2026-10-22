@@ -1,0 +1,25 @@
+{
+  "module": "town_initialize_object_resources_g01178",
+  "ledger_group": {
+    "container": "town",
+    "module": "initialize_object_resources_g01178.c",
+    "module_index": 134192
+  },
+  "members": [
+    "town/func_800C780C",
+    "town/func_800C7904",
+    "town/func_800C796C",
+    "town/func_800C79A0",
+    "town/func_800C7A7C",
+    "town/func_800C7AB4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01178 - CL:town/func_800C7AB4. Grouping by tools/tu/infer_groups.py (group G01178); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01178 reconciled to fresh G01055 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x4780C..0x47B70 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

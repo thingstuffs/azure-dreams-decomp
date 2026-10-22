@@ -22,7 +22,7 @@
     },
     {
       "row": "dungeon/func_80E0EF2C",
-      "tu": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
+      "tu": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "home": "dungeon/func_80E0EF2C",
       "foff": "0xE2EF2C",
       "vma": "0x8017272c",

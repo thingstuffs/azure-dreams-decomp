@@ -1,0 +1,44 @@
+{
+  "module": "town_update_position_displacement_dispatch_active_entity_handler_g01131",
+  "runtime_views": {
+    "D_800834B8": {
+      "symbol": "D_800834B8",
+      "kind": "runtime_data",
+      "vma": 2148021432,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_update_position_displacement_dispatch_active_entity_handler_g01131.imports.json",
+      "declaration": "include/town/shop/position/update_position_displacement_dispatch_active_entity_handler_g01131.h"
+    },
+    "D_80083780": {
+      "symbol": "D_80083780",
+      "kind": "runtime_data",
+      "vma": 2148022144,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_update_position_displacement_dispatch_active_entity_handler_g01131.imports.json",
+      "declaration": "include/town/shop/position/update_position_displacement_dispatch_active_entity_handler_g01131.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800834B8": "word_default",
+    "D_80083780": "word_default",
+    "D_80093328": "sizeof",
+    "D_80093524": "sizeof",
+    "D_800935BC": "sizeof",
+    "D_8009EE9C": "retail_string",
+    "D_8009EF88": "sizeof",
+    "D_8009F2A8": "sizeof",
+    "D_800CFCC4": "word_default",
+    "D_800D09C8": "word_default",
+    "D_80100A10": "word_default",
+    "D_80100AF8": "word_default"
+  },
+  "address_only_anchors": {}
+}

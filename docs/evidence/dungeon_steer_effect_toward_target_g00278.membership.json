@@ -1,0 +1,22 @@
+{
+  "module": "dungeon_steer_effect_toward_target_g00278",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "steer_effect_toward_target_g00278.c",
+    "module_index": 134209
+  },
+  "members": [
+    "dungeon/func_80EDF8B8",
+    "dungeon/func_80EDFAC4",
+    "dungeon/func_80EDFC98"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00278 - CL:dungeon/func_80EDF8B8@dungeon/bank_eff000, CL:dungeon/func_80EDF8B8@dungeon/bank_f05000, CL:dungeon/func_80EDF8B8@dungeon/bank_f0b000, CL:dungeon/func_80EDF8B8@dungeon/bank_f11000, CL:dungeon/func_80EDF8B8@dungeon/bank_f17000, CL:dungeon/func_80EDF8B8@dungeon/bank_f1d000. Grouping by tools/tu/infer_groups.py (group G00278); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G00278 reconciled to fresh G00224 by unique_image_level_count.",
+    "Members are the contiguous registered home rows 0xEFF8B8..0xEFFF18 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

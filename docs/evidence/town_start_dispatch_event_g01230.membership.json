@@ -1,0 +1,23 @@
+{
+  "module": "town_start_dispatch_event_g01230",
+  "ledger_group": {
+    "container": "town",
+    "module": "start_dispatch_event_g01230.c",
+    "module_index": 134187
+  },
+  "members": [
+    "town/func_8046875C",
+    "town/func_80468800",
+    "town/func_8046888C",
+    "town/func_804688AC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01230 - CL:town/func_804688AC. Grouping by tools/tu/infer_groups.py (group G01230); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01230 reconciled to fresh G01107 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x3E875C..0x3E8AFC at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

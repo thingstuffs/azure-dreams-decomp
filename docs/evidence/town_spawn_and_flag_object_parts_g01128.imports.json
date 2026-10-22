@@ -1,0 +1,28 @@
+{
+  "module": "town_spawn_and_flag_object_parts_g01128",
+  "runtime_views": {
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_spawn_and_flag_object_parts_g01128.imports.json",
+      "declaration": "include/town/event/state/spawn_and_flag_object_parts_g01128.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800814A0": "word_default",
+    "D_80088D78": "sizeof",
+    "D_8009C4E8": "retail_string",
+    "D_8009C5D8": "retail_string",
+    "D_800D06C8": "sizeof"
+  },
+  "address_only_anchors": {}
+}

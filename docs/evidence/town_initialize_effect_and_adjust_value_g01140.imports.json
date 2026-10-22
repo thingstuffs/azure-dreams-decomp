@@ -1,0 +1,50 @@
+{
+  "module": "town_initialize_effect_and_adjust_value_g01140",
+  "runtime_views": {
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_initialize_effect_and_adjust_value_g01140.imports.json",
+      "declaration": "include/town/player/effect/initialize_effect_and_adjust_value_g01140.h"
+    },
+    "D_80083780": {
+      "symbol": "D_80083780",
+      "kind": "runtime_data",
+      "vma": 2148022144,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_initialize_effect_and_adjust_value_g01140.imports.json",
+      "declaration": "include/town/player/effect/initialize_effect_and_adjust_value_g01140.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083160": "word_default",
+    "D_80083780": "word_default",
+    "D_800903FC": "retail_string",
+    "D_800970FC": "retail_string",
+    "D_800A58CC": "sizeof",
+    "D_800A5A98": "sizeof",
+    "D_800A5DF8": "sizeof",
+    "D_800A5FDC": "retail_string",
+    "D_800CFCB4": "sizeof",
+    "D_800CFCEE": "word_default",
+    "D_800CFCEF": "word_default",
+    "D_800D0000": "retail_string",
+    "D_800D01F8": "retail_string",
+    "D_800D0CC0": "word_default",
+    "D_800FE488": "word_default",
+    "D_800FE490": "word_default",
+    "D_80100D98": "word_default",
+    "D_80100E20": "word_default"
+  },
+  "address_only_anchors": {}
+}

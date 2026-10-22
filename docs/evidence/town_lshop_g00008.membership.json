@@ -1,0 +1,24 @@
+{
+  "module": "town_lshop_g00008",
+  "ledger_group": {
+    "container": "town",
+    "module": "lshop_g00008.c",
+    "module_index": 134208
+  },
+  "members": [
+    "town/func_8032E514",
+    "town/func_8032E634",
+    "town/func_8032E6A8",
+    "town/func_8032E720",
+    "town/func_8032E8C0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: proven (string literals) - group G00008 - J1:town/image_2ab800#g0176, J1:town/image_3ef000#g0101, J1:town/ll34_400000_80016000#g0030, J1:town/ll34_51e000_80016000#g0057, J1:town/ll34_581000_80016000#g0013, J1:town/ll34_594800_80016000#g0051, J1:town/ll34_5ff000_80016000#g0033, J1:town/ll34_617000_80016000#g0038 (+2 more). Grouping by tools/tu/infer_groups.py (group G00008); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G00008 reconciled to fresh G00008 by unique_image_level_count.",
+    "Members are the contiguous registered home rows 0x2AE514..0x2AE9C4 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

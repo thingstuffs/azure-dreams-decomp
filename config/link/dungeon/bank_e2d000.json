@@ -46,7 +46,7 @@
     },
     {
       "row": "dungeon/func_80E0EAE4",
-      "tu": "src/dungeon/monster/cyclone/face_target_and_start_action.c",
+      "tu": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "home": "dungeon/func_80E0EAE4",
       "foff": "0xE2EAE4",
       "vma": "0x801722E4",
@@ -54,7 +54,7 @@
     },
     {
       "row": "dungeon/func_80E0EC38",
-      "tu": "src/dungeon/monster/cyclone/search_ahead_and_start_action.c",
+      "tu": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "home": "dungeon/func_80E0EC38",
       "foff": "0xE2EC38",
       "vma": "0x80172438",
@@ -62,7 +62,7 @@
     },
     {
       "row": "dungeon/func_80E0F03C",
-      "tu": "src/dungeon/monster/cyclone/clear_actor_action_flag_and_animate.c",
+      "tu": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "home": "dungeon/func_80E0F03C",
       "foff": "0xE2F03C",
       "vma": "0x8017283C",
@@ -70,7 +70,7 @@
     },
     {
       "row": "dungeon/func_80E0F14C",
-      "tu": "src/dungeon/monster/cyclone/attempt_actor_directional_action.c",
+      "tu": "src/dungeon/monster/cyclone/face_target_and_start_action_g00250.c",
       "home": "dungeon/func_80E0F14C",
       "foff": "0xE2F14C",
       "vma": "0x8017294C",

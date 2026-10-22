@@ -10,7 +10,7 @@
   "entries": [
     {
       "row": "dungeon/func_80F038B8",
-      "tu": "src/dungeon/monster/weadog/steer_effect_toward_target.c",
+      "tu": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "home": "dungeon/func_80EDF8B8",
       "foff": "0xF238B8",
       "vma": "0x8014D0B8",
@@ -22,7 +22,7 @@
     },
     {
       "row": "dungeon/func_80F03AC4",
-      "tu": "src/dungeon/monster/weadog/initialize_shared_state_active_entries.c",
+      "tu": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "home": "dungeon/func_80EDFAC4",
       "foff": "0xF23AC4",
       "vma": "0x8014D2C4",
@@ -34,7 +34,7 @@
     },
     {
       "row": "dungeon/func_80F03C98",
-      "tu": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "tu": "src/dungeon/monster/weadog/steer_effect_toward_target_g00278.c",
       "home": "dungeon/func_80EDFC98",
       "foff": "0xf23c98",
       "vma": "0x8014d498",

@@ -218,7 +218,7 @@
     },
     {
       "row": "town/func_80697BE4",
-      "tu": "src/town/shop/object/clear_shop_object_and_link.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E514",
       "foff": "0x617BE4",
       "vma": "0x80016BE4",
@@ -232,7 +232,7 @@
     },
     {
       "row": "town/func_80697D04",
-      "tu": "src/town/shop/release_lshop_entry.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E634",
       "foff": "0x617D04",
       "vma": "0x80016D04",
@@ -246,7 +246,7 @@
     },
     {
       "row": "town/func_80697D78",
-      "tu": "src/town/shop/compact_lshop_entry_list.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E6A8",
       "foff": "0x617D78",
       "vma": "0x80016D78",
@@ -259,7 +259,7 @@
     },
     {
       "row": "town/func_80697DF0",
-      "tu": "src/town/shop/find_unused_shop_slot.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E720",
       "foff": "0x617DF0",
       "vma": "0x80016DF0",
@@ -275,7 +275,7 @@
     },
     {
       "row": "town/func_80697F90",
-      "tu": "src/town/shop/append_shop_entry.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E8C0",
       "foff": "0x617F90",
       "vma": "0x80016F90",
@@ -780,7 +780,7 @@
     },
     {
       "row": "town/func_80699340",
-      "tu": "src/town/scene/set_scaled_record_coordinates.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FE28",
       "foff": "0x619340",
       "vma": "0x80018340",
@@ -793,7 +793,7 @@
     },
     {
       "row": "town/func_80699370",
-      "tu": "src/town/scene/set_scaled_pointer_value.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FE58",
       "foff": "0x619370",
       "vma": "0x80018370",
@@ -806,7 +806,7 @@
     },
     {
       "row": "town/func_80699390",
-      "tu": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FE78",
       "foff": "0x619390",
       "vma": "0x80018390",
@@ -819,7 +819,7 @@
     },
     {
       "row": "town/func_806993F4",
-      "tu": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FEDC",
       "foff": "0x6193F4",
       "vma": "0x800183F4",
@@ -832,7 +832,7 @@
     },
     {
       "row": "town/func_8069941C",
-      "tu": "src/town/scene/motion/set_selected_entry_position.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FF04",
       "foff": "0x61941C",
       "vma": "0x8001841C",
@@ -845,7 +845,7 @@
     },
     {
       "row": "town/func_80699478",
-      "tu": "src/town/scene/motion/set_tile_center_destination.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FF60",
       "foff": "0x619478",
       "vma": "0x80018478",
@@ -858,7 +858,7 @@
     },
     {
       "row": "town/func_8069950C",
-      "tu": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FFF4",
       "foff": "0x61950C",
       "vma": "0x8001850C",

@@ -1,0 +1,27 @@
+{
+  "module": "town_initialize_scene_slot_b_g01187",
+  "ledger_group": {
+    "container": "town",
+    "module": "initialize_scene_slot_b_g01187.c",
+    "module_index": 134193
+  },
+  "members": [
+    "town/func_800CD668",
+    "town/func_800CD6B0",
+    "town/func_800CD6F8",
+    "town/func_800CD740",
+    "town/func_800CD788",
+    "town/func_800CD7D0",
+    "town/func_8004D818",
+    "town/func_800CD880"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01187 - PD:town/engine:800D6824, PD:town/engine:800D682C, PD:town/engine:800D6854, PD:town/engine:800D6858. Grouping by tools/tu/infer_groups.py (group G01187); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01187 reconciled to fresh G01064 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x4D668..0x4D8C8 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

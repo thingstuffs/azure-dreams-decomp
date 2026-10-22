@@ -1,0 +1,47 @@
+{
+  "module": "town_clear_object_link_and_mark_complete_g01169",
+  "runtime_views": {
+    "D_80046398": {
+      "symbol": "D_80046398",
+      "kind": "runtime_data",
+      "vma": 2147771288,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_clear_object_link_and_mark_complete_g01169.imports.json",
+      "declaration": "include/town/map/object/clear_object_link_and_mark_complete_g01169.h"
+    },
+    "D_800814A0": {
+      "symbol": "D_800814A0",
+      "kind": "runtime_data",
+      "vma": 2148013216,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_clear_object_link_and_mark_complete_g01169.imports.json",
+      "declaration": "include/town/map/object/clear_object_link_and_mark_complete_g01169.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_clear_object_link_and_mark_complete_g01169.imports.json",
+      "declaration": "include/town/map/object/clear_object_link_and_mark_complete_g01169.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80046398": "word_default",
+    "D_800814A0": "word_default",
+    "D_80083160": "word_default",
+    "D_800BB640": "retail_string",
+    "D_800BB6C4": "retail_string",
+    "D_800D1BDC": "word_default"
+  },
+  "address_only_anchors": {}
+}

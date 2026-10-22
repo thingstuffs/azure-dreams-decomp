@@ -1,0 +1,23 @@
+{
+  "module": "dungeon_begin_familiar_restoration_effects_g01015",
+  "ledger_group": {
+    "container": "dungeon",
+    "module": "begin_familiar_restoration_effects_g01015.c",
+    "module_index": 134201
+  },
+  "members": [
+    "dungeon/func_800BBDCC",
+    "dungeon/func_800BBE54",
+    "dungeon/func_800BBFB8",
+    "dungeon/func_800BC2E4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01015 - CL:dungeon/func_800BC2E4. Grouping by tools/tu/infer_groups.py (group G01015); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01015 reconciled to fresh G00892 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0xDBDCC..0xDC3BC at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

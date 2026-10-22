@@ -1,0 +1,21 @@
+{
+  "module": "town_set_lshop_special_flag_g00699",
+  "ledger_group": {
+    "container": "town",
+    "module": "set_lshop_special_flag_g00699.c",
+    "module_index": 134210
+  },
+  "members": [
+    "town/func_8032E9EC",
+    "town/func_8032EA2C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00699 - CL:town/func_8032E634, CL:town/func_8032E6A8, CL:town/func_8032E9EC. Grouping by tools/tu/infer_groups.py (group G00699); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G00699 reconciled to fresh G00631 by unique_image_level_count.",
+    "Members are the contiguous registered home rows 0x2AE9EC..0x2AEAE8 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

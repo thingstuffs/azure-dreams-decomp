@@ -193,7 +193,7 @@
     },
     {
       "row": "town/func_8032E514",
-      "tu": "src/town/shop/object/clear_shop_object_and_link.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E514",
       "foff": "0x2AE514",
       "vma": "0x80018D14",
@@ -201,7 +201,7 @@
     },
     {
       "row": "town/func_8032E634",
-      "tu": "src/town/shop/release_lshop_entry.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E634",
       "foff": "0x2AE634",
       "vma": "0x80018E34",
@@ -209,7 +209,7 @@
     },
     {
       "row": "town/func_8032E6A8",
-      "tu": "src/town/shop/compact_lshop_entry_list.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E6A8",
       "foff": "0x2AE6A8",
       "vma": "0x80018EA8",
@@ -217,7 +217,7 @@
     },
     {
       "row": "town/func_8032E720",
-      "tu": "src/town/shop/find_unused_shop_slot.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E720",
       "foff": "0x2AE720",
       "vma": "0x80018F20",
@@ -225,7 +225,7 @@
     },
     {
       "row": "town/func_8032E8C0",
-      "tu": "src/town/shop/append_shop_entry.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E8C0",
       "foff": "0x2AE8C0",
       "vma": "0x800190C0",
@@ -233,7 +233,7 @@
     },
     {
       "row": "town/func_8032EA2C",
-      "tu": "src/town/shop/process_lshop_entries.c",
+      "tu": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "home": "town/func_8032EA2C",
       "foff": "0x2AEA2C",
       "vma": "0x8001922C",
@@ -385,7 +385,7 @@
     },
     {
       "row": "town/func_80330320",
-      "tu": "src/town/player/squared_distance.c",
+      "tu": "src/town/player/squared_distance_g00705.c",
       "home": "town/func_80330320",
       "foff": "0x2B0320",
       "vma": "0x8001AB20",
@@ -393,7 +393,7 @@
     },
     {
       "row": "town/func_80330374",
-      "tu": "src/town/player/find_nearest_point.c",
+      "tu": "src/town/player/squared_distance_g00705.c",
       "home": "town/func_80330374",
       "foff": "0x2B0374",
       "vma": "0x8001AB74",

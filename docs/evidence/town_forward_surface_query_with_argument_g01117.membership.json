@@ -1,0 +1,32 @@
+{
+  "module": "town_forward_surface_query_with_argument_g01117",
+  "ledger_group": {
+    "container": "town",
+    "module": "forward_surface_query_with_argument_g01117.c",
+    "module_index": 134205
+  },
+  "members": [
+    "town/func_8008F7E8",
+    "town/func_8008F820",
+    "town/func_8008F854",
+    "town/func_8008F888",
+    "town/func_8008F8BC",
+    "town/func_8008F8F0",
+    "town/func_8008F924",
+    "town/func_8008F958",
+    "town/func_8008FE64",
+    "town/func_80090320",
+    "town/func_80090854",
+    "town/func_80090D8C",
+    "town/func_800912C0"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01117 - CL:town/func_8008F958, CL:town/func_8008FE64, CL:town/func_80090320, CL:town/func_80090854, CL:town/func_80090D8C, CL:town/func_800912C0, PD:town/engine:800FE480, PD:town/engine:800FE484. Grouping by tools/tu/infer_groups.py (group G01117); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01117 reconciled to fresh G00994 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0xF7E8..0x117F8 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

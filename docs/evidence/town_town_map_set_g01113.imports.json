@@ -1,0 +1,61 @@
+{
+  "module": "town_town_map_set_g01113",
+  "runtime_views": {
+    "D_80033D54": {
+      "symbol": "D_80033D54",
+      "kind": "runtime_data",
+      "vma": 2147695956,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_town_map_set_g01113.imports.json",
+      "declaration": "include/town/map/town_map_set_g01113.h"
+    },
+    "D_80037714": {
+      "symbol": "D_80037714",
+      "kind": "runtime_data",
+      "vma": 2147710740,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_town_map_set_g01113.imports.json",
+      "declaration": "include/town/map/town_map_set_g01113.h"
+    },
+    "D_800794AC": {
+      "symbol": "D_800794AC",
+      "kind": "runtime_data",
+      "vma": 2147980460,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_town_map_set_g01113.imports.json",
+      "declaration": "include/town/map/town_map_set_g01113.h"
+    },
+    "D_80082ABC": {
+      "symbol": "D_80082ABC",
+      "kind": "runtime_data",
+      "vma": 2148018876,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_town_map_set_g01113.imports.json",
+      "declaration": "include/town/map/town_map_set_g01113.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80033D54": "word_default",
+    "D_80037714": "sizeof",
+    "D_800794AC": "sizeof",
+    "D_80082ABC": "word_default",
+    "D_8008B9D8": "sizeof",
+    "D_8008BA00": "sizeof",
+    "D_800CFB74": "retail_string",
+    "D_800CFC2C": "sizeof",
+    "D_800CFC38": "word_default",
+    "D_800CFC44": "retail_string",
+    "D_800FC418": "word_default"
+  },
+  "address_only_anchors": {}
+}

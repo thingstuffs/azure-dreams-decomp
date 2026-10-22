@@ -566,7 +566,7 @@
     {
       "row": "town/func_80648474",
       "home": "town/func_8032FE28",
-      "tu": "src/town/scene/set_scaled_record_coordinates.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "foff": "0x005C8474",
       "vma": "0x80017474",
       "size": 48,
@@ -579,7 +579,7 @@
     {
       "row": "town/func_806484A4",
       "home": "town/func_8032FE58",
-      "tu": "src/town/scene/set_scaled_pointer_value.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "foff": "0x005C84A4",
       "vma": "0x800174A4",
       "size": 32,
@@ -592,7 +592,7 @@
     {
       "row": "town/func_806484C4",
       "home": "town/func_8032FE78",
-      "tu": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "foff": "0x005C84C4",
       "vma": "0x800174C4",
       "size": 100,
@@ -605,7 +605,7 @@
     {
       "row": "town/func_80648528",
       "home": "town/func_8032FEDC",
-      "tu": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "foff": "0x005C8528",
       "vma": "0x80017528",
       "size": 40,
@@ -618,7 +618,7 @@
     {
       "row": "town/func_80648550",
       "home": "town/func_8032FF04",
-      "tu": "src/town/scene/motion/set_selected_entry_position.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "foff": "0x005C8550",
       "vma": "0x80017550",
       "size": 92,
@@ -631,7 +631,7 @@
     {
       "row": "town/func_806485AC",
       "home": "town/func_8032FF60",
-      "tu": "src/town/scene/motion/set_tile_center_destination.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "foff": "0x005C85AC",
       "vma": "0x800175AC",
       "size": 148,
@@ -644,7 +644,7 @@
     {
       "row": "town/func_80648640",
       "home": "town/func_8032FFF4",
-      "tu": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "foff": "0x005C8640",
       "vma": "0x80017640",
       "size": 96,

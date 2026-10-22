@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-22T00:37:11Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-22T03:25:30Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -13,7 +13,7 @@ Generated 2026-10-22T00:37:11Z. Baseline: first-pass text frozen 2026-09-07.
 | **Byte-identical to retail** | 21,432 of 21,432 rows (100.0%), 8,028,304 bytes; 0 unverified |
 | **Code that is C** | 99.0% as C; 99.5% counting byte-identical copies of C functions proven elsewhere (of 7,619,712 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,918 at the first pass) |
-| **Readability** | L3 90.6%, L4 14.5%, L5 14.1% of bytes (levels below) |
+| **Readability** | L3 90.6%, L4 14.9%, L5 14.5% of bytes (levels below) |
 
 
 ## Not yet C
@@ -65,14 +65,14 @@ Baseline NOT exact: 0 rows
 | L1 | 8,028,304 | 100.0% |
 | L2 | 8,028,304 | 100.0% |
 | L3 | 7,273,888 | 90.6% |
-| L4 | 1,162,976 | 14.5% |
-| L5 | 1,133,644 | 14.1% |
+| L4 | 1,195,016 | 14.9% |
+| L5 | 1,165,684 | 14.5% |
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3693 rows, 2,284,192 bytes (28.5%); records used: 98.
+On shared record headers (T7, `include/records/`): 3707 rows, 2,287,252 bytes (28.5%); records used: 98.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,838 rows (6,861,616 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,678 rows (6,829,576 B).
 
 ## Code shape: what is left to clean in the C
 
@@ -119,7 +119,7 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,918; REG 12,816, KEEP 6,9
 
 ## Image proof
 
-`make check`: 1490/1490 images exact; 8488 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
+`make check`: 1490/1490 images exact; 8581 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
 
 
 

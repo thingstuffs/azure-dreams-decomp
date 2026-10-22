@@ -594,7 +594,7 @@
     },
     {
       "row": "town/func_80521038",
-      "tu": "src/town/scene/set_scaled_record_coordinates.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FE28",
       "foff": "0x4A1038",
       "vma": "0x80018838",
@@ -607,7 +607,7 @@
     },
     {
       "row": "town/func_80521068",
-      "tu": "src/town/scene/set_scaled_pointer_value.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FE58",
       "foff": "0x4A1068",
       "vma": "0x80018868",
@@ -620,7 +620,7 @@
     },
     {
       "row": "town/func_80521088",
-      "tu": "src/town/scene/motion/set_position_from_tile_and_entry_offsets.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FE78",
       "foff": "0x4A1088",
       "vma": "0x80018888",
@@ -633,7 +633,7 @@
     },
     {
       "row": "town/func_805210EC",
-      "tu": "src/town/scene/set_record_scaled_auxiliary_values.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FEDC",
       "foff": "0x4A10EC",
       "vma": "0x800188EC",
@@ -646,7 +646,7 @@
     },
     {
       "row": "town/func_80521114",
-      "tu": "src/town/scene/motion/set_selected_entry_position.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FF04",
       "foff": "0x4A1114",
       "vma": "0x80018914",
@@ -659,7 +659,7 @@
     },
     {
       "row": "town/func_80521170",
-      "tu": "src/town/scene/motion/set_tile_center_destination.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FF60",
       "foff": "0x4A1170",
       "vma": "0x80018970",
@@ -672,7 +672,7 @@
     },
     {
       "row": "town/func_80521204",
-      "tu": "src/town/scene/motion/set_scaled_destination_coordinates.c",
+      "tu": "src/town/scene/set_scaled_record_coordinates_g00704.c",
       "home": "town/func_8032FFF4",
       "foff": "0x4A1204",
       "vma": "0x80018A04",

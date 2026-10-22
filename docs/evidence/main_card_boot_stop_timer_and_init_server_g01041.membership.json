@@ -1,0 +1,24 @@
+{
+  "module": "main_card_boot_stop_timer_and_init_server_g01041",
+  "ledger_group": {
+    "container": "main",
+    "module": "card_boot_stop_timer_and_init_server_g01041.c",
+    "module_index": 134202
+  },
+  "members": [
+    "main/func_80014C60",
+    "main/func_80014C90",
+    "main/func_80014D0C",
+    "main/func_80014D40",
+    "main/func_80014D7C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01041 - CL:main/func_80014C60. Grouping by tools/tu/infer_groups.py (group G01041); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01041 reconciled to fresh G00918 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x264C60..0x264DD0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

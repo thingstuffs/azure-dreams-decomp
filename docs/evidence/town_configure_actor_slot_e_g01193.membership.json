@@ -1,0 +1,25 @@
+{
+  "module": "town_configure_actor_slot_e_g01193",
+  "ledger_group": {
+    "container": "town",
+    "module": "configure_actor_slot_e_g01193.c",
+    "module_index": 134195
+  },
+  "members": [
+    "town/func_8004FCF8",
+    "town/func_8004FD40",
+    "town/func_8004FD88",
+    "town/func_8004FDD0",
+    "town/func_8004FE18",
+    "town/func_8004FE60"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01193 - PD:town/engine:800D7238, PD:town/engine:800D7240, PD:town/engine:800D7268, PD:town/engine:800D726C. Grouping by tools/tu/infer_groups.py (group G01193); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01193 reconciled to fresh G01070 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x4FCF8..0x4FEA8 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

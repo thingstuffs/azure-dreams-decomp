@@ -1,0 +1,28 @@
+{
+  "module": "town_update_position_displacement_dispatch_active_entity_handler_g01131",
+  "ledger_group": {
+    "container": "town",
+    "module": "update_position_displacement_dispatch_active_entity_handler_g01131.c",
+    "module_index": 134206
+  },
+  "members": [
+    "town/func_800A173C",
+    "town/func_800A1828",
+    "town/func_800A19E8",
+    "town/func_800A1A60",
+    "town/func_800A1B10",
+    "town/func_800A1B48",
+    "town/func_800A1C14",
+    "town/func_800A1D2C",
+    "town/func_800A1D60"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01131 - CL:town/func_800A1A60, CL:town/func_800A1D2C, CL:town/func_800A1D60. Grouping by tools/tu/infer_groups.py (group G01131); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01131 reconciled to fresh G01008 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x2173C..0x21F74 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

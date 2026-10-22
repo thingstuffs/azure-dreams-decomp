@@ -1,0 +1,27 @@
+{
+  "module": "town_spawn_and_flag_object_parts_g01128",
+  "ledger_group": {
+    "container": "town",
+    "module": "spawn_and_flag_object_parts_g01128.c",
+    "module_index": 134203
+  },
+  "members": [
+    "town/func_8009EB68",
+    "town/func_8009EBE0",
+    "town/func_8009EC30",
+    "town/func_8009ED0C",
+    "town/func_8009ED34",
+    "town/func_8009ED88",
+    "town/func_8009EE78",
+    "town/func_8009EEE8"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01128 - CL:town/func_8009ED0C, CL:town/func_8009EEE8. Grouping by tools/tu/infer_groups.py (group G01128); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01128 reconciled to fresh G01005 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x1EB68..0x1F048 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

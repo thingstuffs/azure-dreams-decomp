@@ -1,0 +1,75 @@
+{
+  "module": "dungeon_face_target_and_start_action_g00250",
+  "runtime_views": {
+    "D_8006CCD8": {
+      "symbol": "D_8006CCD8",
+      "kind": "runtime_data",
+      "vma": 2147929304,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_face_target_and_start_action_g00250.imports.json",
+      "declaration": "include/dungeon/monster/cyclone/face_target_and_start_action_g00250.h"
+    },
+    "D_8006CCE8": {
+      "symbol": "D_8006CCE8",
+      "kind": "runtime_data",
+      "vma": 2147929320,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_face_target_and_start_action_g00250.imports.json",
+      "declaration": "include/dungeon/monster/cyclone/face_target_and_start_action_g00250.h"
+    },
+    "D_80083160": {
+      "symbol": "D_80083160",
+      "kind": "runtime_data",
+      "vma": 2148020576,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_face_target_and_start_action_g00250.imports.json",
+      "declaration": "include/dungeon/monster/cyclone/face_target_and_start_action_g00250.h"
+    },
+    "D_80083460": {
+      "symbol": "D_80083460",
+      "kind": "runtime_data",
+      "vma": 2148021344,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_face_target_and_start_action_g00250.imports.json",
+      "declaration": "include/dungeon/monster/cyclone/face_target_and_start_action_g00250.h"
+    },
+    "D_8014A000": {
+      "symbol": "D_8014A000",
+      "kind": "runtime_data",
+      "vma": 2148835328,
+      "view_bytes": 1,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/dungeon_face_target_and_start_action_g00250.imports.json",
+      "declaration": "include/shared/dungeon_image_buffer.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_8006CCD8": "word_default",
+    "D_8006CCE8": "word_default",
+    "D_80083160": "word_default",
+    "D_80083460": "word_default",
+    "D_8014A000": "address_only_runtime_anchor",
+    "D_801764A0": "retail_string"
+  },
+  "address_only_anchors": {
+    "D_8014A000": {
+      "declaration": "include/shared/dungeon_image_buffer.h",
+      "view_bytes": 1,
+      "basis": "Existing resident runtime image scratch area, not a retail allocation; resident upload caller constructs 0x8014A000 and forwards it to the tile uploader. Existing reviewed runtime evidence is reused without any extent or initialization claim.",
+      "review_inputs": [
+        "docs/evidence/dungeon_runtime_image_buffer.json",
+        "include/shared/dungeon_image_buffer.h"
+      ]
+    }
+  }
+}

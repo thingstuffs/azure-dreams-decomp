@@ -1,0 +1,27 @@
+{
+  "module": "town_create_positioned_sprite_object_g01142",
+  "runtime_views": {
+    "D_80083498": {
+      "symbol": "D_80083498",
+      "kind": "runtime_data",
+      "vma": 2148021400,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_create_positioned_sprite_object_g01142.imports.json",
+      "declaration": "include/town/menu/object/create_positioned_sprite_object_g01142.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_80083498": "word_default",
+    "D_800A7360": "sizeof",
+    "D_800D0DF0": "sizeof",
+    "D_800D0DF8": "word_default"
+  },
+  "address_only_anchors": {}
+}

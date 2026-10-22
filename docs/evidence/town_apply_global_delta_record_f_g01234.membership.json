@@ -1,0 +1,23 @@
+{
+  "module": "town_apply_global_delta_record_f_g01234",
+  "ledger_group": {
+    "container": "town",
+    "module": "apply_global_delta_record_f_g01234.c",
+    "module_index": 134190
+  },
+  "members": [
+    "town/func_80469030",
+    "town/func_80469054",
+    "town/func_80469078",
+    "town/func_8046909C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01234 - PR:town/ll34_3e5000_80016000:80017B98. Grouping by tools/tu/infer_groups.py (group G01234); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01234 reconciled to fresh G01111 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x3E9030..0x3E90C0 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

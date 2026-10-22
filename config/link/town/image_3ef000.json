@@ -65,7 +65,7 @@
     },
     {
       "row": "town/func_803D1AC4",
-      "tu": "src/town/shop/object/clear_shop_object_and_link.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E514",
       "foff": "0x3F1AC4",
       "vma": "0x80018AC4",
@@ -73,7 +73,7 @@
     },
     {
       "row": "town/func_803D1BE4",
-      "tu": "src/town/shop/release_lshop_entry.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E634",
       "foff": "0x3F1BE4",
       "vma": "0x80018BE4",
@@ -81,7 +81,7 @@
     },
     {
       "row": "town/func_803D1C58",
-      "tu": "src/town/shop/compact_lshop_entry_list.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E6A8",
       "foff": "0x3F1C58",
       "vma": "0x80018C58",
@@ -89,7 +89,7 @@
     },
     {
       "row": "town/func_803D1CD0",
-      "tu": "src/town/shop/find_unused_shop_slot.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E720",
       "foff": "0x3F1CD0",
       "vma": "0x80018CD0",
@@ -97,7 +97,7 @@
     },
     {
       "row": "town/func_803D1E70",
-      "tu": "src/town/shop/append_shop_entry.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E8C0",
       "foff": "0x3F1E70",
       "vma": "0x80018E70",
@@ -106,7 +106,7 @@
     {
       "row": "town/func_80471F9C",
       "home": "town/func_8032E9EC",
-      "tu": "src/town/shop/state/set_lshop_special_flag.c",
+      "tu": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "foff": "0x3f1f9c",
       "vma": "0x80018f9c",
       "size": 64,
@@ -117,7 +117,7 @@
     },
     {
       "row": "town/func_803D1FDC",
-      "tu": "src/town/shop/process_lshop_entries.c",
+      "tu": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "home": "town/func_8032EA2C",
       "foff": "0x3F1FDC",
       "vma": "0x80018FDC",
@@ -240,7 +240,7 @@
     },
     {
       "row": "town/func_803D3250",
-      "tu": "src/town/player/squared_distance.c",
+      "tu": "src/town/player/squared_distance_g00705.c",
       "home": "town/func_80330320",
       "foff": "0x3F3250",
       "vma": "0x8001A250",
@@ -248,7 +248,7 @@
     },
     {
       "row": "town/func_803D32A4",
-      "tu": "src/town/player/find_nearest_point.c",
+      "tu": "src/town/player/squared_distance_g00705.c",
       "home": "town/func_80330374",
       "foff": "0x3F32A4",
       "vma": "0x8001A2A4",

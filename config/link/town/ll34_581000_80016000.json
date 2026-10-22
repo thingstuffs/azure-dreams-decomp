@@ -9,7 +9,7 @@
   "entries": [
     {
       "row": "town/func_8060127C",
-      "tu": "src/town/scene/service/cache_scaled_service_result.c",
+      "tu": "src/town/scene/service/cache_scaled_service_result_g00738.c",
       "home": "town/func_8060127C",
       "foff": "0x58127C",
       "vma": "0x8001627C",
@@ -17,7 +17,7 @@
     },
     {
       "row": "town/func_806012DC",
-      "tu": "src/town/scene/submit_request_1_1.c",
+      "tu": "src/town/scene/service/cache_scaled_service_result_g00738.c",
       "home": "town/func_806012DC",
       "foff": "0x5812DC",
       "vma": "0x800162DC",
@@ -68,7 +68,7 @@
     },
     {
       "row": "town/func_80601510",
-      "tu": "src/town/shop/object/clear_shop_object_and_link.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E514",
       "foff": "0x581510",
       "vma": "0x80016510",
@@ -82,7 +82,7 @@
     },
     {
       "row": "town/func_80601630",
-      "tu": "src/town/shop/release_lshop_entry.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E634",
       "foff": "0x581630",
       "vma": "0x80016630",
@@ -96,7 +96,7 @@
     },
     {
       "row": "town/func_806016A4",
-      "tu": "src/town/shop/compact_lshop_entry_list.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E6A8",
       "foff": "0x5816A4",
       "vma": "0x800166A4",
@@ -109,7 +109,7 @@
     },
     {
       "row": "town/func_8060171C",
-      "tu": "src/town/shop/find_unused_shop_slot.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E720",
       "foff": "0x58171C",
       "vma": "0x8001671C",
@@ -125,7 +125,7 @@
     },
     {
       "row": "town/func_806018BC",
-      "tu": "src/town/shop/append_shop_entry.c",
+      "tu": "src/town/shop/object/lshop_g00008.c",
       "home": "town/func_8032E8C0",
       "foff": "0x5818BC",
       "vma": "0x800168BC",

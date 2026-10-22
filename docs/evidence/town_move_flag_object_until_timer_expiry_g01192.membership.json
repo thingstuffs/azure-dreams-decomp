@@ -1,0 +1,27 @@
+{
+  "module": "town_move_flag_object_until_timer_expiry_g01192",
+  "ledger_group": {
+    "container": "town",
+    "module": "move_flag_object_until_timer_expiry_g01192.c",
+    "module_index": 134194
+  },
+  "members": [
+    "town/func_800CF814",
+    "town/func_800CF8B4",
+    "town/func_800CF8E0",
+    "town/func_800CF910",
+    "town/func_800CF940",
+    "town/func_800CF96C",
+    "town/func_800CF99C",
+    "town/func_800CF9CC"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01192 - CL:town/func_800CF814. Grouping by tools/tu/infer_groups.py (group G01192); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01192 reconciled to fresh G01069 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x4F814..0x4F9F8 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

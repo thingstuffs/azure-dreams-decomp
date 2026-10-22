@@ -1,0 +1,27 @@
+{
+  "module": "town_initialize_effect_and_adjust_value_g01140",
+  "ledger_group": {
+    "container": "town",
+    "module": "initialize_effect_and_adjust_value_g01140.c",
+    "module_index": 134199
+  },
+  "members": [
+    "town/func_800A7E6C",
+    "town/func_800A7ED8",
+    "town/func_800A7FDC",
+    "town/func_800A8134",
+    "town/func_800A816C",
+    "town/func_800A8338",
+    "town/func_800A8698",
+    "town/func_800A887C"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01140 - CL:town/func_800A7E6C, CL:town/func_800A8134. Grouping by tools/tu/infer_groups.py (group G01140); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01140 reconciled to fresh G01017 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x27E6C..0x28B88 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

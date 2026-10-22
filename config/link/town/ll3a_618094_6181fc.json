@@ -24,7 +24,7 @@
     {
       "row": "town/func_806980BC",
       "home": "town/func_8032E9EC",
-      "tu": "src/town/shop/state/set_lshop_special_flag.c",
+      "tu": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "foff": "0x006180BC",
       "vma": "0x800170BC",
       "size": 64,
@@ -37,7 +37,7 @@
     {
       "row": "town/func_806980FC",
       "home": "town/func_8032EA2C",
-      "tu": "src/town/shop/process_lshop_entries.c",
+      "tu": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "foff": "0x006180FC",
       "vma": "0x800170FC",
       "size": 188,

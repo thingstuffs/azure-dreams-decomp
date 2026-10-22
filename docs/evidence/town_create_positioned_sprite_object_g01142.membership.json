@@ -1,0 +1,24 @@
+{
+  "module": "town_create_positioned_sprite_object_g01142",
+  "ledger_group": {
+    "container": "town",
+    "module": "create_positioned_sprite_object_g01142.c",
+    "module_index": 134207
+  },
+  "members": [
+    "town/func_800A9A90",
+    "town/func_800A9BA8",
+    "town/func_800A9BD8",
+    "town/func_800A9C00",
+    "town/func_800A9C80"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01142 - CL:town/func_800A9BA8. Grouping by tools/tu/infer_groups.py (group G01142); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01142 reconciled to fresh G01019 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x29A90..0x29D78 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

@@ -1,0 +1,26 @@
+{
+  "module": "town_set_scaled_record_coordinates_g00704",
+  "ledger_group": {
+    "container": "town",
+    "module": "set_scaled_record_coordinates_g00704.c",
+    "module_index": 134211
+  },
+  "members": [
+    "town/func_8032FE28",
+    "town/func_8032FE58",
+    "town/func_8032FE78",
+    "town/func_8032FEDC",
+    "town/func_8032FF04",
+    "town/func_8032FF60",
+    "town/func_8032FFF4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-strong - group G00704 - XB:town/func_8032FE28. Grouping by tools/tu/infer_groups.py (group G00704); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G00704 reconciled to fresh G00636 by unique_image_level_count.",
+    "Members are the contiguous registered home rows 0x2AFE28..0x2B0054 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}

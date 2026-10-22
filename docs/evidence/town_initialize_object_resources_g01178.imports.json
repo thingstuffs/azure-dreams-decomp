@@ -1,0 +1,55 @@
+{
+  "module": "town_initialize_object_resources_g01178",
+  "runtime_views": {
+    "D_800345B8": {
+      "symbol": "D_800345B8",
+      "kind": "runtime_data",
+      "vma": 2147698104,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_initialize_object_resources_g01178.imports.json",
+      "declaration": "include/town/person/object/initialize_object_resources_g01178.h"
+    },
+    "D_80082660": {
+      "symbol": "D_80082660",
+      "kind": "runtime_data",
+      "vma": 2148017760,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_initialize_object_resources_g01178.imports.json",
+      "declaration": "include/town/person/object/initialize_object_resources_g01178.h"
+    },
+    "D_80083780": {
+      "symbol": "D_80083780",
+      "kind": "runtime_data",
+      "vma": 2148022144,
+      "view_bytes": 4,
+      "owner": "resident_runtime:slus",
+      "evidence": "docs/evidence/town_initialize_object_resources_g01178.imports.json",
+      "declaration": "include/town/person/object/initialize_object_resources_g01178.h"
+    }
+  },
+  "views": {},
+  "maps": {},
+  "basis": [
+    "Existing runtime objects and explicitly reviewed address anchors referenced by this TU; external runtime views, no allocation claim.",
+    "Views of other proven resident load regions (engine) of this container; no ownership claim."
+  ],
+  "view_bytes_method": {
+    "D_800345B8": "word_default",
+    "D_80082660": "word_default",
+    "D_80083780": "word_default",
+    "D_800C321C": "retail_string",
+    "D_800C5100": "sizeof",
+    "D_800C52D0": "retail_string",
+    "D_800D50DC": "sizeof",
+    "D_800D50F0": "sizeof",
+    "D_800D50F8": "sizeof",
+    "D_800D5120": "sizeof",
+    "D_800D5124": "sizeof",
+    "D_800F148C": "retail_string",
+    "D_80100D98": "word_default",
+    "D_80113208": "word_default"
+  },
+  "address_only_anchors": {}
+}

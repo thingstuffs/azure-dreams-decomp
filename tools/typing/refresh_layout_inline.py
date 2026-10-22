@@ -88,9 +88,17 @@ def main():
     args = ap.parse_args()
     root = Path(args.root)
     base_ledger = git_show(root, args.base, LEDGER).decode()
-    records = [json.loads(line) for line in base_ledger.splitlines() if line.strip()]
+    base_records = [json.loads(line) for line in base_ledger.splitlines() if line.strip()]
+    current = (root / LEDGER).read_text()
+    records = [json.loads(line) for line in current.splitlines() if line.strip()]
+    base_by_key = {(r['member_id'], r['tu_new']): r for r in base_records}
     texts, maps, changed = {}, {}, 0
-    for i, record in enumerate(records):
+    for i, current_record in enumerate(records):
+        # Installs since --base add records and may retire old TUs. Refresh only
+        # surviving baseline records, retaining the current ledger's full roster.
+        record = base_by_key.get((current_record['member_id'], current_record['tu_new']))
+        if record is None:
+            continue
         tu = record['tu_new']
         if tu not in texts:
             old = git_show(root, args.base, tu)
@@ -101,11 +109,10 @@ def main():
         if maps[tu] is None:
             continue
         out = refresh(record, old, new, maps[tu])
-        if out != record:
+        if out != current_record:
             changed += 1
             records[i] = out
     text = ''.join(json.dumps(r, separators=(',', ':')) + '\n' for r in records)
-    current = (root / LEDGER).read_text()
     print(f'{changed} records refreshed against {args.base}; ledger {"unchanged" if text == current else "differs"}')
     if args.check:
         return 1 if text != current else 0

@@ -126,7 +126,7 @@
     {
       "row": "town/func_8032E9EC",
       "home": "town/func_8032E9EC",
-      "tu": "src/town/shop/state/set_lshop_special_flag.c",
+      "tu": "src/town/shop/state/set_lshop_special_flag_g00699.c",
       "foff": "0x2ae9ec",
       "vma": "0x800191ec",
       "size": 64

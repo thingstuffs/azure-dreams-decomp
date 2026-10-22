@@ -1,0 +1,25 @@
+{
+  "module": "town_build_selected_entry_output_g01237",
+  "ledger_group": {
+    "container": "town",
+    "module": "build_selected_entry_output_g01237.c",
+    "module_index": 134204
+  },
+  "members": [
+    "town/func_8046986C",
+    "town/func_804699B4",
+    "town/func_80469A80",
+    "town/func_80469AFC",
+    "town/func_80469B68",
+    "town/func_80469BB4"
+  ],
+  "confidence": "strong",
+  "coverage_complete": true,
+  "basis": [
+    "Original-file evidence: inferred (adjacency/recipe/locality), inferred-weak - group G01237 - PR:town/ll34_3e5000_80016000:80017ADC, PR:town/ll34_3e5000_80016000:80017AE8, PR:town/ll34_3e5000_80016000:80017AF4, PR:town/ll34_3e5000_80016000:80017B00, PR:town/ll34_3e5000_80016000:80017B0C, PR:town/ll34_3e5000_80016000:80017B18. Grouping by tools/tu/infer_groups.py (group G01237); every join is a byte fact read with a model (call locality, private data, cross-image order), never decisive alone.",
+    "Decision 72; reference group G01237 reconciled to fresh G01114 by exact_ordered_members.",
+    "Members are the contiguous registered home rows 0x3E986C..0x3E9C10 at one uniform recipe; tools/tu/tu_merge.py proved the module object equal to the in-order concatenation of the members compiled one by one (code bytes and relocations)."
+  ],
+  "private_functions": [],
+  "source_facades": "Members are inlined; no standalone member files remain."
+}
