@@ -82,34 +82,36 @@ void *create_placed_dungeon_actor(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 r
         actor = work;
         part_b->frameTable = D_80161D0C;
         part_b->unk_24 = saved_x;
+        do {
 
-        if (kind == 1) {
-            flags_or_roll = ((S_80B7F054_1 *)work)->unk_14 | 0x6000;
-            pending_flags = ((S_80B7F054_1 *)work)->unk_1C | 0x6000;
-            ((S_80B7F054_1 *)work)->unk_14 = flags_or_roll;
-            ((S_80B7F054_1 *)work)->unk_1C = pending_flags;
-        } else if (kind >= 2) {
-            flags_or_roll = ((S_80B7F054_1 *)work)->unk_14 | 0x2000;
-            pending_flags = ((S_80B7F054_1 *)work)->unk_1C | 0x2000;
-            ((S_80B7F054_1 *)work)->unk_14 = flags_or_roll;
-            ((S_80B7F054_1 *)work)->unk_1C = pending_flags;
-        } else {
-            saved_part_a = obj;
-            if (((spawn_flags & ~3) << 16) == 0 && !(((S_80B7F054_1 *)work)->unk_14 & 0x200)) {
-                saved_part_a = part_a;
-                flags_or_roll = generate_random_value();
+            if (kind == 1) {
+                flags_or_roll = ((S_80B7F054_1 *)work)->unk_14 | 0x6000;
+                pending_flags = ((S_80B7F054_1 *)work)->unk_1C | 0x6000;
+                ((S_80B7F054_1 *)work)->unk_14 = flags_or_roll;
+                ((S_80B7F054_1 *)work)->unk_1C = pending_flags;
+            } else if (kind >= 2) {
+                flags_or_roll = ((S_80B7F054_1 *)work)->unk_14 | 0x2000;
+                pending_flags = ((S_80B7F054_1 *)work)->unk_1C | 0x2000;
+                ((S_80B7F054_1 *)work)->unk_14 = flags_or_roll;
+                ((S_80B7F054_1 *)work)->unk_1C = pending_flags;
+            } else {
                 saved_part_a = obj;
-                if (!(flags_or_roll & 1)) {
-                    goto init_actor;
+                if (((spawn_flags & ~3) << 16) == 0 && !(((S_80B7F054_1 *)work)->unk_14 & 0x200)) {
+                    saved_part_a = part_a;
+                    flags_or_roll = generate_random_value();
+                    saved_part_a = obj;
+                    if (!(flags_or_roll & 1)) {
+                        break;
+                    }
+                    ((S_80B7F054_1 *)work)->unk_1C |= 0x200;
+                    set_or_clear_actor_status_slot(work, 1,
+                                  (generate_random_value(obj) & 0x3F) | 0x20);
+                    part_b->frameTable = D_80161D4C;
                 }
-                ((S_80B7F054_1 *)work)->unk_1C |= 0x200;
-                set_or_clear_actor_status_slot(work, 1,
-                              (generate_random_value(obj) & 0x3F) | 0x20);
-                part_b->frameTable = D_80161D4C;
             }
-        }
-        saved_part_a = obj;
-init_actor:
+            saved_part_a = obj;
+
+        } while (0);
         initialize_actor_sprite_and_animation(saved_part_a, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

@@ -81,36 +81,38 @@ void *create_battnel_actor(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, 
         actor = work;
         part_b->frameTable = D_8015BD0C;
         part_b->unk_24 = saved_byte_24;
+        do {
 
-        if (kind == 1) {
-            flags_or_roll = work->unk_14 | 0x6000;
-            secondary_flags = work->unk_1C | 0x6000;
-            work->unk_14 = flags_or_roll;
-            work->unk_1C = secondary_flags;
-        } else if (kind >= 2) {
-            flags_or_roll = work->unk_14 | 0x2000;
-            secondary_flags = work->unk_1C | 0x2000;
-            work->unk_14 = flags_or_roll;
-            work->unk_1C = secondary_flags;
-        } else {
-            part_arg = obj;
-            if (((spawn_flags & ~3) << 16) == 0) {
-                if (!(work->unk_14 & 0x200)) {
-                    part_arg = part_a;
-                    flags_or_roll = generate_random_value();
-                    part_arg = obj;
-                    if (!(flags_or_roll & 1)) {
-                        goto init_actor;
+            if (kind == 1) {
+                flags_or_roll = work->unk_14 | 0x6000;
+                secondary_flags = work->unk_1C | 0x6000;
+                work->unk_14 = flags_or_roll;
+                work->unk_1C = secondary_flags;
+            } else if (kind >= 2) {
+                flags_or_roll = work->unk_14 | 0x2000;
+                secondary_flags = work->unk_1C | 0x2000;
+                work->unk_14 = flags_or_roll;
+                work->unk_1C = secondary_flags;
+            } else {
+                part_arg = obj;
+                if (((spawn_flags & ~3) << 16) == 0) {
+                    if (!(work->unk_14 & 0x200)) {
+                        part_arg = part_a;
+                        flags_or_roll = generate_random_value();
+                        part_arg = obj;
+                        if (!(flags_or_roll & 1)) {
+                            break;
+                        }
+                        work->unk_1C |= 0x200;
+                        set_or_clear_actor_status_slot(work, 1,
+                                      (generate_random_value(obj) & 0x3F) | 0x20);
+                        part_b->frameTable = D_8015BD4C;
                     }
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
-                                  (generate_random_value(obj) & 0x3F) | 0x20);
-                    part_b->frameTable = D_8015BD4C;
                 }
             }
-        }
-        part_arg = obj;
-init_actor:
+            part_arg = obj;
+
+        } while (0);
         initialize_actor_sprite_and_animation(part_arg, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

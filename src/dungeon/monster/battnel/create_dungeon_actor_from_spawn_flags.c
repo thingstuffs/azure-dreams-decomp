@@ -81,36 +81,38 @@ void *create_dungeon_actor_from_spawn_flags(s16 spawn_flags, s16 tile_x, s16 til
         actor = work;
         part_b->frameTable = D_8016DD0C;
         part_b->unk_24 = saved_x;
+        do {
 
-        if (kind == 1) {
-            state_bits = work->unk_14 | 0x6000;
-            next_state_bits = work->unk_1C | 0x6000;
-            work->unk_14 = state_bits;
-            work->unk_1C = next_state_bits;
-        } else if (kind >= 2) {
-            state_bits = work->unk_14 | 0x2000;
-            next_state_bits = work->unk_1C | 0x2000;
-            work->unk_14 = state_bits;
-            work->unk_1C = next_state_bits;
-        } else {
-            saved_part = obj;
-            if (((spawn_flags & ~3) << 16) == 0) {
-                if (!(work->unk_14 & 0x200)) {
-                    saved_part = part_a;
-                    state_bits = generate_random_value();
-                    saved_part = obj;
-                    if (!(state_bits & 1)) {
-                        goto init_parts;
+            if (kind == 1) {
+                state_bits = work->unk_14 | 0x6000;
+                next_state_bits = work->unk_1C | 0x6000;
+                work->unk_14 = state_bits;
+                work->unk_1C = next_state_bits;
+            } else if (kind >= 2) {
+                state_bits = work->unk_14 | 0x2000;
+                next_state_bits = work->unk_1C | 0x2000;
+                work->unk_14 = state_bits;
+                work->unk_1C = next_state_bits;
+            } else {
+                saved_part = obj;
+                if (((spawn_flags & ~3) << 16) == 0) {
+                    if (!(work->unk_14 & 0x200)) {
+                        saved_part = part_a;
+                        state_bits = generate_random_value();
+                        saved_part = obj;
+                        if (!(state_bits & 1)) {
+                            break;
+                        }
+                        work->unk_1C |= 0x200;
+                        set_or_clear_actor_status_slot(work, 1,
+                                      (generate_random_value(obj) & 0x3F) | 0x20);
+                        part_b->frameTable = D_8016DD4C;
                     }
-                    work->unk_1C |= 0x200;
-                    set_or_clear_actor_status_slot(work, 1,
-                                  (generate_random_value(obj) & 0x3F) | 0x20);
-                    part_b->frameTable = D_8016DD4C;
                 }
             }
-        }
-        saved_part = obj;
-init_parts:
+            saved_part = obj;
+
+        } while (0);
         initialize_actor_sprite_and_animation(saved_part, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

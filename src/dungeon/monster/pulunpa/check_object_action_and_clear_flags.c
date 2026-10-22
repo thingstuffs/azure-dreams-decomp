@@ -19,22 +19,24 @@ s32 check_object_action_and_clear_flags(void *object, s32 query_x, s32 query_y, 
         return 0;
     }
     override_bits = action_override << 16;
-    if (override_bits == 0) {
-        next_state = 0xE;
-        if (action_result != 0) {
-            if (action_result == 2) {
-                goto call_block;
+    do {
+        if (override_bits == 0) {
+            next_state = 0xE;
+            if (action_result != 0) {
+                if (action_result == 2) {
+                    break;
+                }
+                goto tail_block;
             }
-            goto tail_block;
+            *((s8 *)saved_object + 0x9A) = next_state;
+            update_actor_status_and_mp(saved_object);
+            return 0;
+        } else {
+            choose_heading_and_advance_actor(saved_object, query_x, query_y, saved_object);
+            return 0;
         }
-        *((s8 *)saved_object + 0x9A) = next_state;
-        update_actor_status_and_mp(saved_object);
-        return 0;
-    } else {
-        choose_heading_and_advance_actor(saved_object, query_x, query_y, saved_object);
-        return 0;
-    }
-call_block:
+
+    } while (0);
     choose_heading_and_advance_actor(saved_object, query_x, query_y, saved_object);
     return 0;
 

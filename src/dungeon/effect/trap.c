@@ -2305,23 +2305,26 @@ snap_target_tile:
             do {
                 snap_initial_col = 0;
                 snap_initial_ptr = (u16 *)(snap_initial_base + 4);
-snap_initial_tile:
-                origin_y = effect->y;
-                row_shift = grid->shiftX;
-                origin_x = effect->x;
-                tiles[((restore_row + origin_y) << row_shift) + origin_x + snap_initial_col].height = *snap_initial_ptr;
-                initial_height = *snap_initial_ptr;
-                snap_initial_ptr++;
-                x_or_mask = (s16)((u16)effect->x + snap_initial_col);
-                set_value_of_active_entries_at_tile(x_or_mask,
-                              (s16)((u16)effect->y + restore_row),
-                              (s16)-initial_height);
-                snap_initial_col++;
-                if (snap_initial_col < 5) {
-                    goto snap_initial_tile;
+                for (;;) {
+                    origin_y = effect->y;
+                    row_shift = grid->shiftX;
+                    origin_x = effect->x;
+                    tiles[((restore_row + origin_y) << row_shift) + origin_x + snap_initial_col].height = *snap_initial_ptr;
+                    initial_height = *snap_initial_ptr;
+                    snap_initial_ptr++;
+                    x_or_mask = (s16)((u16)effect->x + snap_initial_col);
+                    set_value_of_active_entries_at_tile(x_or_mask,
+                                  (s16)((u16)effect->y + restore_row),
+                                  (s16)-initial_height);
+                    snap_initial_col++;
+                    if (snap_initial_col < 5) {
+                        continue;
+                    }
+                    restore_row++;
+                    snap_initial_base += 0xA;
+
+                    break;
                 }
-                restore_row++;
-                snap_initial_base += 0xA;
             } while (restore_row < 5);
             refresh_packed_grid_nibbles();
             g_dungeon_status.activity_counts.parts.pending_action_count--;

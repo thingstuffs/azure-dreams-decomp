@@ -362,8 +362,13 @@ process_queue:
                 {
                     int disk_error;
                     disk_error = 5;
-                    if (sync_result == disk_error)
-                        goto command_failed;
+                    if (sync_result == disk_error) {
+                        func_8003E70C();
+                        cd_command_phase[0] = 0xFF;
+                        cd_driver_prefix[0].unk4 = 0;
+                        cd_command_status_flags[0] = 0;
+                        break;
+                    }
                 }
                 cd_read_sync_result = CdReadSync(1, cd_read_status_bytes);
                 if (cd_read_sync_result > 0)
@@ -395,7 +400,13 @@ process_queue:
                 }
                 if (cd_read_sync_result >= 0)
                     break;
-                goto command_failed;
+                {
+                    func_8003E70C();
+                    cd_command_phase[0] = 0xFF;
+                    cd_driver_prefix[0].unk4 = 0;
+                    cd_command_status_flags[0] = 0;
+                    break;
+                }
 
             case 9:
                 sync_result = CdSync(1, CDBUF);
@@ -404,10 +415,26 @@ process_queue:
                 {
                     int disk_error;
                     disk_error = 5;
-                    if (sync_result == disk_error)
-                        goto command_failed;
+                    if (sync_result == disk_error) {
+                        do {
+                            func_8003E70C();
+                            cd_command_phase[0] = 0xFF;
+                            cd_driver_prefix[0].unk4 = 0;
+                            cd_command_status_flags[0] = 0;
+                        } while (0);
+                        break;
+                    }
                 }
-                goto check_drive_status;
+                {
+                    if (CdControl(1, 0, CDBUF) == 0)
+                        break;
+                    if ((cd_command_result.bytes[0] & 0xFD) != 0)
+                        break;
+                    cd_driver_prefix[0].unk4 = 2;
+                    cd_command_phase[0] = 0xFF;
+                    cd_command_read_index = cd_command_read_index + 1;
+                    break;
+                }
 
             case 0x15:
                 sync_result = CdSync(1, sync_status);
@@ -415,7 +442,6 @@ process_queue:
                     break;
                 if (sync_result != 5)
                     goto check_drive_status;
-    command_failed:
                 func_8003E70C();
                 cd_command_phase[0] = 0xFF;
                 cd_driver_prefix[0].unk4 = 0;

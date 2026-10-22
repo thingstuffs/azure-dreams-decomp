@@ -28,26 +28,28 @@ s32 roll_threshold_effect_variant_b(State *state_ptr, s16 limit_input, s8 byte_i
     } else {
         dispatch_v1 = 0;
     }
-    {
-        s32 signed_limit;
+    do {
+        {
+            s32 signed_limit;
 
-        result = (s32)limit << 16;
-        signed_limit = result >> 16;
-        result = dispatch_v1 < signed_limit;
-        if (result == 0) {
-            result = 0xFF;
-            if (signed_limit != result) {
-                goto failure;
+            result = (s32)limit << 16;
+            signed_limit = result >> 16;
+            result = dispatch_v1 < signed_limit;
+            if (result == 0) {
+                result = 0xFF;
+                if (signed_limit != result) {
+                    break;
+                }
+            }
+            dispatch_v1 =
+                (s32)((u32)set_or_clear_actor_status_slot(state, 3, byte_value) << 16);
+            result = 1;
+            if (dispatch_v1 >= 0) {
+                goto done;
             }
         }
-        dispatch_v1 =
-            (s32)((u32)set_or_clear_actor_status_slot(state, 3, byte_value) << 16);
-        result = 1;
-        if (dispatch_v1 >= 0) {
-            goto done;
-        }
-    }
-failure:
+
+    } while (0);
     result = 0;
 done:
     return result;

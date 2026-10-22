@@ -118,11 +118,15 @@ check_zone:
                                 velocity = actor->dy;
                                 if (velocity > 0) {
                                     actor->y = ((Box *)candidate)->y;
-                                    goto adjusted;
+                                    do {
+                                        return 2;
+                                    } while (0);
                                 }
                                 if (velocity < 0) {
                                     actor->y = ((Box *)candidate)->y + ((Box *)candidate)->h;
-                                    goto adjusted;
+                                    do {
+                                        return 2;
+                                    } while (0);
                                 }
                                 if (abs(actor->y - ((Box *)candidate)->y) < abs(((Box *)candidate)->y + ((Box *)candidate)->h - actor->y)) {
                                     actor->y = (u16)((Box *)candidate)->y;
@@ -353,6 +357,5 @@ clamp_to_zone:
             box_id--;
         } while (box_id >= *zone_id - 1);
     }
-adjusted:
     return 2;
 }

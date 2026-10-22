@@ -448,23 +448,26 @@ copy_pairs:
                     table_offset = table_base;
                     object_prev_pos = copy_row_offset + 0x80;
                     object_pos = copy_row_offset + 0x74;
-copy_object_axes:
-                    object_axis_offset = object_axis * 2;
-                    *object_pos = *(u16 *)(object_axis_offset + (table_offset + (object_offset
-                        + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base))));
-                    object_axis += 1;
-                    object_pos += 1;
-                    object_copy_index = object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60)
-                        + (s32)object_base);
-                    object_copy_index += 0xC;
-                    object_axis_offset += table_offset + object_copy_index;
-                    *object_prev_pos = *(u16 *)object_axis_offset;
-                    object_prev_pos += 1;
-                    if (object_axis < 3)
-                        goto copy_object_axes;
-                    copy_row_offset += 6;
-                    object_pair += 1;
-                    table_base += 6;
+                    for (;;) {
+                        object_axis_offset = object_axis * 2;
+                        *object_pos = *(u16 *)(object_axis_offset + (table_offset + (object_offset
+                            + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base))));
+                        object_axis += 1;
+                        object_pos += 1;
+                        object_copy_index = object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60)
+                            + (s32)object_base);
+                        object_copy_index += 0xC;
+                        object_axis_offset += table_offset + object_copy_index;
+                        *object_prev_pos = *(u16 *)object_axis_offset;
+                        object_prev_pos += 1;
+                        if (object_axis < 3)
+                        continue;
+                        copy_row_offset += 6;
+                        object_pair += 1;
+                        table_base += 6;
+
+                        break;
+                    }
                 } while (object_pair < 2);
             }
             object_index += 1;

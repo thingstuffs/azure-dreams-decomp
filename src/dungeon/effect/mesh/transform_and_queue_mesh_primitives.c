@@ -1782,13 +1782,29 @@ void update_projectile_trail_and_hit_effect(void *effect, void *motion, void *sp
 
             if ((s16)check_adjacent_tile_height_clearance(U16(motion, 2), U16(motion, 6), S16(motion, 0xA),
                                    PTR(owner, 0x60)) != 0) {
-                goto collision_hit;
+                {
+                    U16(effect, 0xA) = 7;
+                    U16(effect, 0x82) = 0;
+                    render_flags = U16(sprite, 0x14);
+                    render_flags |= 0x80;
+                    U16(sprite, 0x14) = render_flags;
+                    return;
+                }
             }
 
             U8(effect, 0x7B) = U8(effect, 0x7B) - 1;
             if (S8(effect, 0x7B) <= 0) {
                 if (PTR(owner, 0x60) != 0) {
-                    goto reach_target;
+                    {
+                        U16(effect, 0xA) = 3;
+                        U16(effect, 0x82) = 0;
+                        object = PTR(PTR(owner, 0x60), -0x18);
+                        U16(motion, 2) = U16(object, 2);
+                        U16(motion, 6) = U16(object, 6);
+                        U16(motion, 0xA) = U16(effect, 0x78);
+                        play_sound_if_enabled(0x300);
+                        return;
+                    }
                 }
                 U16(effect, 0xA) = 7;
                 U16(effect, 0x82) = 0;
@@ -1980,30 +1996,12 @@ finish_fade:
             object_flag_block.flags |= 0x8000;
             return;
         }
-        goto clear_busy;
+        {
+            D_8002694C[0] = 0;
+
+            return;
+        }
     default:
         return;
     }
-collision_hit:
-    U16(effect, 0xA) = 7;
-    U16(effect, 0x82) = 0;
-    render_flags = U16(sprite, 0x14);
-    render_flags |= 0x80;
-    U16(sprite, 0x14) = render_flags;
-    return;
-
-reach_target:
-    U16(effect, 0xA) = 3;
-    U16(effect, 0x82) = 0;
-    object = PTR(PTR(owner, 0x60), -0x18);
-    U16(motion, 2) = U16(object, 2);
-    U16(motion, 6) = U16(object, 6);
-    U16(motion, 0xA) = U16(effect, 0x78);
-    play_sound_if_enabled(0x300);
-    return;
-
-clear_busy:
-    D_8002694C[0] = 0;
-
-    return;
 }
