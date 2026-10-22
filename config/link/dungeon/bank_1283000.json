@@ -124,6 +124,15 @@
       }
     },
     {
+      "row": "dungeon/func_81263D14",
+      "tu": "src/dungeon/monster/beldo/update_object_animation.c",
+      "home": "dungeon/func_81251D14",
+      "foff": "0x1283D14",
+      "vma": "0x8015f514",
+      "size": 1196,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_812641C0",
       "tu": "src/dungeon/monster/beldo/advance_queued_movement_step.c",
       "home": "dungeon/func_812521C0",
@@ -268,6 +277,15 @@
       }
     },
     {
+      "row": "dungeon/func_81264D6C",
+      "tu": "src/dungeon/monster/beldo/advance_actor_action_and_target.c",
+      "home": "dungeon/func_81252D6C",
+      "foff": "0x1284D6C",
+      "vma": "0x8016056c",
+      "size": 1504,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_8126534C",
       "tu": "src/dungeon/monster/hikewne/slow_directional_motion.c",
       "home": "dungeon/func_80977A94",
@@ -394,6 +412,23 @@
         "0x801739E8": "0x801739E8",
         "0x812543F0": "0x812543F0"
       }
+    },
+    {
+      "row": "dungeon/func_812656C4",
+      "tu": "src/dungeon/monster/hikewne/advance_actor_state_sequence.c",
+      "home": "dungeon/func_80977E0C",
+      "foff": "0x12856C4",
+      "vma": "0x80160ec4",
+      "size": 1184,
+      "bindings": {
+        "0x80173E00": "0x801616B8",
+        "0x801740F0": "0x80161E94",
+        "0x801740F8": "0x80161E94",
+        "0x80174150": "0x80161EBC",
+        "0x80174158": "0x80161EC4",
+        "0x80174160": "0x80161ECC"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_81265B64",

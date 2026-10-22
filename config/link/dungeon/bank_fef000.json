@@ -10,29 +10,16 @@
   "entries": [
     {
       "row": "dungeon/func_80FCF340",
-      "tu": "src/dungeon/monster/mandara/update_actor_facing_and_lifecycle.c",
-      "home": "dungeon/func_80FBD340",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809C9228",
       "foff": "0xFEF340",
       "vma": "0x80152B40",
       "size": 1068,
       "bindings": {
-        "0x80083460": "0x80083460",
-        "0x80164F6C": "0x80152F6C",
-        "0x800A9E70": "0x800A9E70",
-        "0x801692A8": "0x801572A8",
-        "0x800AA36C": "0x800AA36C",
-        "0x80083160": "0x80083160",
-        "0x80047738": "0x80047738",
-        "0x8006CCF8": "0x8006CCF8",
-        "0x800478B8": "0x800478B8",
-        "0x800A020C": "0x800A020C",
-        "0x800BCB04": "0x800BCB04",
-        "0x80164B40": "0x80152B40",
-        "0x8014D810": "0x8014D810",
-        "0x8017445C": "0x8017445C",
-        "0x80174668": "0x80174668"
+        "0x80170E54": "0x80152F6C",
+        "0x80173CEC": "0x801572A8"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80FBD340 onto dungeon/func_809C9228; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80FD0110",
@@ -184,21 +171,16 @@
     },
     {
       "row": "dungeon/func_80FD15EC",
-      "tu": "src/dungeon/monster/mandara/update_item_slot_action.c",
-      "home": "dungeon/func_80FCB5EC",
+      "tu": "src/dungeon/monster/mandara/advance_action_through_recovery.c",
+      "home": "dungeon/func_80FB35EC",
       "foff": "0xFF15EC",
       "vma": "0x80154DEC",
       "size": 1224,
       "bindings": {
-        "0x80174B98": "0x80174B98",
-        "0x8017382C": "0x8017382C",
-        "0x80174424": "0x80174424",
-        "0x80164B40": "0x80164B40",
-        "0x8014D810": "0x8014D810",
-        "0x8017445C": "0x8017445C",
-        "0x80174668": "0x80174668"
+        "0x80170F6C": "0x80152F6C",
+        "0x80175258": "0x80157258"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80FCB5EC onto dungeon/func_80FB35EC; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80FD1AB4",
@@ -310,6 +292,21 @@
         "0x80174668": "0x80174668"
       },
       "evidence": "LL3a attestation sha256:58a83392b4e871efe0ac910f9ba7338ec2bde70584c9cd35dec1bd4f635b4ed3; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "dungeon/func_80FD2714",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CBEF4",
+      "foff": "0xFF2714",
+      "vma": "0x80155f14",
+      "size": 828,
+      "bindings": {
+        "0x80170E54": "0x80152F6C",
+        "0x80173A30": "0x80156250",
+        "0x80173CD4": "0x80157298",
+        "0x80173CDC": "0x80157298"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80FD2A50",
@@ -480,6 +477,15 @@
         "0x8014D810": "0x8014D810"
       },
       "evidence": "LL3a attestation sha256:66f154580af2d866ea4c08c180c02f0103215b452b7d9bb120b9600bac3e7e0a; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "dungeon/func_80FD3974",
+      "tu": "src/town/minigame/object/set_linked_object_and_global_flags.c",
+      "home": "town/func_800C19FC",
+      "foff": "0xFF3974",
+      "vma": "0x80157174",
+      "size": 108,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80FD39E0",

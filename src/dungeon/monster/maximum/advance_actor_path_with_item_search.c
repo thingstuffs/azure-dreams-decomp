@@ -376,7 +376,7 @@ loop_setup:
             if (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != ((S_801715F4_2 *)position_arg)->unk_24.at00u.v) {
                 if ((s16)check_entity_relation(
                         actor_arg,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }

@@ -18,16 +18,26 @@
     },
     {
       "row": "dungeon/func_80C03814",
-      "tu": "src/dungeon/monster/clown/update_actor_action_variant.c",
-      "home": "dungeon/func_80BFD814",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+      "home": "dungeon/func_80BEB814",
       "foff": "0xC23814",
       "vma": "0x80159014",
       "size": 1376,
       "bindings": {
-        "0x80173604": "0x80173604",
-        "0x80173904": "0x80173904",
-        "0x80173738": "0x80173738"
-      }
+        "0x80171574": "0x80159574",
+        "0x80171784": "0x80159784",
+        "0x80171ECC": "0x80159ECC",
+        "0x80172090": "0x8015A090",
+        "0x801721B4": "0x8015A1B4",
+        "0x80173468": "0x8015B468",
+        "0x80173AE8": "0x8015BAE8",
+        "0x8017420C": "0x8015C20C",
+        "0x8017421C": "0x8015C21C",
+        "0x8017424C": "0x8015C24C",
+        "0x80174254": "0x8015C254",
+        "0x8017425C": "0x8015C25C"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80BFD814 onto dungeon/func_80BEB814; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80C03D74",
@@ -122,16 +132,12 @@
     },
     {
       "row": "dungeon/func_80C04DA4",
-      "tu": "src/dungeon/monster/clown/update_actor_motion_variant.c",
-      "home": "dungeon/func_80BFEDA4",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+      "home": "dungeon/func_80BECDA4",
       "foff": "0xC24DA4",
       "vma": "0x8015A5A4",
       "size": 1076,
-      "bindings": {
-        "0x80173604": "0x80173604",
-        "0x80173904": "0x80173904",
-        "0x80173738": "0x80173738"
-      }
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80BFEDA4 onto dungeon/func_80BECDA4; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80C051D8",
@@ -367,45 +373,21 @@
     },
     {
       "row": "dungeon/func_80C064EC",
-      "tu": "src/dungeon/monster/clown/update_actor_sequence_variant.c",
-      "home": "dungeon/func_80C004EC",
-      "foff": "0xc264ec",
-      "vma": "0x8015bcec",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+      "home": "dungeon/func_80BEE4EC",
+      "foff": "0xC264EC",
+      "vma": "0x8015BCEC",
       "size": 1312,
       "bindings": {
-        "0x8003DB94": "0x8003DB94",
-        "0x8003E140": "0x8003E140",
-        "0x8003E4FC": "0x8003E4FC",
-        "0x8003F540": "0x8003F540",
-        "0x8003FC64": "0x8003FC64",
-        "0x80041588": "0x80041588",
-        "0x800445E0": "0x800445E0",
-        "0x8004491C": "0x8004491C",
-        "0x800498A0": "0x800498A0",
-        "0x80069EF8": "0x80069EF8",
-        "0x8006CD58": "0x8006CD58",
-        "0x80083160": "0x80083160",
-        "0x8009A028": "0x8009A028",
-        "0x8009A3D0": "0x8009A3D0",
-        "0x800A18E8": "0x800A18E8",
-        "0x800A504C": "0x800A504C",
-        "0x800A56E0": "0x800A56E0",
-        "0x800ADC4C": "0x800ADC4C",
-        "0x800C77D0": "0x800C77D0",
-        "0x800DCEEC": "0x800DCEEC",
-        "0x800DCF5C": "0x800DCF5C",
-        "0x8014A000": "0x8014A000",
-        "0x801616AC": "0x8015B6AC",
-        "0x80161904": "0x8015B904",
-        "0x80161B94": "0x8015BB94",
-        "0x801622CC": "0x8015C2CC",
-        "0x801622D4": "0x8015C2D4",
-        "0x801622E0": "0x8015C2E0",
-        "0x801622E4": "0x8015C2E4",
-        "0x801622E5": "0x8015C2E5",
-        "0x801622E8": "0x8015C2E8"
+        "0x801736AC": "0x8015B6AC",
+        "0x801742CC": "0x8015C2CC",
+        "0x801742D4": "0x8015C2D4",
+        "0x801742E0": "0x8015C2E0",
+        "0x801742E4": "0x8015C2E4",
+        "0x801742E5": "0x8015C2E5",
+        "0x801742E8": "0x8015C2E8"
       },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80C004EC onto dungeon/func_80BEE4EC; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     }
   ],
   "symbols": {

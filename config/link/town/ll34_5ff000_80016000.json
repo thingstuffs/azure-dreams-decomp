@@ -8,6 +8,46 @@
   "evidence": "ledger/instance_load_regions.jsonl; validated packed-CD loader record",
   "entries": [
     {
+      "row": "town/func_8067F770",
+      "tu": "src/town/scene/store_result_calling.c",
+      "home": "town/func_804712B4",
+      "foff": "0x5FF770",
+      "vma": "0x80016770",
+      "size": 44,
+      "bindings": {
+        "0x800189FC": "0x80016A4C",
+        "0x8001B210": "0x800188C8",
+        "0x8001B218": "0x800188D0"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_8067F79C",
+      "tu": "src/town/scene/money/store_price_from_entries.c",
+      "home": "town/func_804712E0",
+      "foff": "0x5FF79C",
+      "vma": "0x8001679c",
+      "size": 44,
+      "bindings": {
+        "0x800189FC": "0x80016A4C",
+        "0x8001B210": "0x800188C8",
+        "0x8001B218": "0x800188D0"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_8067F7C8",
+      "tu": "src/town/scene/is_progress_at_threshold.c",
+      "home": "town/func_8032E22C",
+      "foff": "0x5FF7C8",
+      "vma": "0x800167c8",
+      "size": 40,
+      "bindings": {
+        "0x8001C368": "0x800188C8"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "town/func_8067F7F0",
       "tu": "src/town/scene/tick_scene_state_counter.c",
       "home": "town/func_804804BC",
@@ -20,6 +60,18 @@
         "0x800164BC": "0x800167F0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "town/func_8067F818",
+      "tu": "src/town/scene/add_global_increment_current_state.c",
+      "home": "town/func_804713B8",
+      "foff": "0x5FF818",
+      "vma": "0x80016818",
+      "size": 40,
+      "bindings": {
+        "0x8001B210": "0x800188C8"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "town/func_8068012C",

@@ -6,26 +6,5 @@
   "size": "0x4f98",
   "vma": "0x8014ca44",
   "evidence": "docs/evidence/r121w_s2_receipts.json",
-  "entries": [
-    {
-      "row": "dungeon/func_80B6BC70",
-      "tu": "src/dungeon/monster/arachne/arachne.c",
-      "home": "dungeon/func_80B47C70",
-      "foff": "0xb8bc70",
-      "vma": "0x80151470",
-      "size": 1388,
-      "bindings": {
-        "0x80175b0c": "0x80151b0c",
-        "0x80175b14": "0x80151b14",
-        "0x80175b20": "0x80151b20",
-        "0x80175b24": "0x80151b24",
-        "0x80175b25": "0x80151b25",
-        "0x80175b28": "0x80151b28",
-        "0x8017458c": "0x8015058c",
-        "0x80175180": "0x80151180",
-        "0x80175318": "0x80151318"
-      },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80B6BC70"
-    }
-  ]
+  "entries": []
 }

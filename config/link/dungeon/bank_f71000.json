@@ -18,11 +18,26 @@
     },
     {
       "row": "dungeon/func_80F51694",
-      "tu": "src/dungeon/monster/weadog/update_actor_action_behavior.c",
-      "home": "dungeon/func_80F044E8",
+      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "home": "dungeon/func_80DBA620",
       "foff": "0xF71694",
       "vma": "0x80152E94",
-      "size": 1380
+      "size": 1380,
+      "bindings": {
+        "0x80172384": "0x801533F8",
+        "0x801725C8": "0x8015363C",
+        "0x80172D74": "0x80153DFC",
+        "0x80172F38": "0x80153FC0",
+        "0x80173050": "0x801541F8",
+        "0x80174890": "0x80156278",
+        "0x80174A9C": "0x801540D8",
+        "0x801753BC": "0x80156A7C",
+        "0x801753C4": "0x80156A84",
+        "0x801753F4": "0x80156AC4",
+        "0x801753FC": "0x80156ACC",
+        "0x80175404": "0x80156AD4"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80F044E8 onto dungeon/func_80DBA620; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80F51BF8",
@@ -106,11 +121,12 @@
     },
     {
       "row": "dungeon/func_80F52FB4",
-      "tu": "src/dungeon/monster/viper/update_actor_behavior_variant.c",
-      "home": "dungeon/func_80F46FB4",
+      "tu": "src/dungeon/monster/viper/update_staged_movement_and_restore_actor.c",
+      "home": "dungeon/func_80F34FB4",
       "foff": "0xF72FB4",
       "vma": "0x801547B4",
-      "size": 1960
+      "size": 1960,
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80F46FB4 onto dungeon/func_80F34FB4; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80F5375C",

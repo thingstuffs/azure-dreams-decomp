@@ -6,32 +6,5 @@
   "size": "0x528",
   "vma": "0x8016b3a8",
   "evidence": "work/native_lane/r121_heur/evidence/placements.json",
-  "entries": [
-    {
-      "row": "dungeon/func_80C3BBA8",
-      "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
-      "home": "dungeon/func_80C15BA8",
-      "foff": "0xc3bba8",
-      "vma": "0x8016b3a8",
-      "size": 1320,
-      "bindings": {
-        "0x801718d0": "0x8016b8d0",
-        "0x801718b0": "0x8016b8b0",
-        "0x801744fc": "0x8016e4fc",
-        "0x801744ec": "0x8016e4ec",
-        "0x80174494": "0x8016e494",
-        "0x8017449c": "0x8016e49c",
-        "0x801744a4": "0x8016e4a4",
-        "0x80174250": "0x8016e250",
-        "0x801724c4": "0x8016c4c4",
-        "0x80170808": "0x8016a808",
-        "0x801721e0": "0x8016c1e0",
-        "0x801723a4": "0x8016c3a4",
-        "0x801713a8": "0x8016b3a8",
-        "0x801744d4": "0x8016e4d4",
-        "0x80171a98": "0x8016ba98"
-      },
-      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json"
-    }
-  ]
+  "entries": []
 }

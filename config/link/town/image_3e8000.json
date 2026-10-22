@@ -168,6 +168,25 @@
       "size": 120
     },
     {
+      "row": "town/func_8046CFB0",
+      "home": "town/func_8032F844",
+      "tu": "src/town/scene/object/build_object_set_and_select_lists.c",
+      "foff": "0x3ecfb0",
+      "vma": "0x8001dfb0",
+      "size": 864,
+      "bindings": {
+        "0x80016094": "0x800191cc",
+        "0x800160a0": "0x800191d8",
+        "0x800160cc": "0x80019204",
+        "0x800160fc": "0x80019234",
+        "0x8001dc10": "0x8001edf8",
+        "0x800196e4": "0x8001d650",
+        "0x8001976c": "0x8001d6d8",
+        "0x80019f94": "0x8001df00"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_8046CFB0; opus_place1 view_merge: moved from town/region_3e8280_3ed488 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_803CD310",
       "tu": "src/town/scene/mark_indexed_records.c",
       "home": "town/func_8032FBA4",

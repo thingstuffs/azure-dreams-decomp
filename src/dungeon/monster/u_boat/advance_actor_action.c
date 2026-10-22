@@ -107,7 +107,7 @@ void advance_actor_action(void *action, void *context, void *sprite, ActorRecord
             ActorRecord *owner = primary_actor_record;
 
             if ((check_entity_relation(entity,
-                    (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)owner->previous_actor_header + 0x20) << 16) != 0) {
                 return;
             }
         }

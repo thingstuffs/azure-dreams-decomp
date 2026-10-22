@@ -168,7 +168,7 @@ void update_actor_direction_and_animation(void *actor_arg, void *context_arg, vo
         if (!(entity_arg->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(entity_arg,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }

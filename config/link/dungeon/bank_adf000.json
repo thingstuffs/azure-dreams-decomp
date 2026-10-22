@@ -264,6 +264,22 @@
       "size": 80
     },
     {
+      "row": "dungeon/func_80AC29D0",
+      "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
+      "home": "dungeon/func_80A9E9D0",
+      "foff": "0xae29d0",
+      "vma": "0x801501d0",
+      "size": 328,
+      "bindings": {
+        "0x8003FC64": "0x8003FC64",
+        "0x8004491C": "0x8004491C",
+        "0x80045340": "0x80045340",
+        "0x80174180": "0x80150180",
+        "0x80174D08": "0x80150D08"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required; opus_place1 view_merge: moved from dungeon/s2_img_ae1e88_8014f688 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80AC2B18",
       "tu": "src/dungeon/monster/griffon/update_actor_behavior_and_effect.c",
       "home": "dungeon/func_80A9EB18",

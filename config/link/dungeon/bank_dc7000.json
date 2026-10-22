@@ -20,6 +20,24 @@
       }
     },
     {
+      "row": "dungeon/func_80DA7668",
+      "tu": "src/dungeon/monster/dreamin/dispatch_actor_behavior_and_facing.c",
+      "home": "dungeon/func_80D8F668",
+      "foff": "0xDC7668",
+      "vma": "0x80158e68",
+      "size": 1312,
+      "bindings": {
+        "0x80171388": "0x80159388",
+        "0x801715CC": "0x801595CC",
+        "0x80171D80": "0x80159D80",
+        "0x80171F90": "0x80159F90",
+        "0x801720E0": "0x8015A0E0",
+        "0x80173478": "0x8015B478",
+        "0x8017389C": "0x8015B89C"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80DA7B88",
       "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
@@ -162,6 +180,15 @@
       }
     },
     {
+      "row": "dungeon/func_80DA9070",
+      "tu": "src/dungeon/monster/dreamin/advance_actor_motion_and_reset_action.c",
+      "home": "dungeon/func_80D91070",
+      "foff": "0xDC9070",
+      "vma": "0x8015a870",
+      "size": 1204,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80DA9524",
       "tu": "src/dungeon/monster/dreamin/advance_timed_directional_movement.c",
       "home": "dungeon/func_80D91524",
@@ -222,6 +249,20 @@
         "0x8016D2C0": "0x8016D2C0",
         "0x8014D810": "0x8014D810"
       }
+    },
+    {
+      "row": "dungeon/func_80DA993C",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CBEF4",
+      "foff": "0xDC993C",
+      "vma": "0x8015b13c",
+      "size": 828,
+      "bindings": {
+        "0x80173A30": "0x8015B478",
+        "0x80173CD4": "0x8015B86C",
+        "0x80173CDC": "0x8015B86C"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80DA9C78",

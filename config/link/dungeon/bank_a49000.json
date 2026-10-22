@@ -21,19 +21,18 @@
     },
     {
       "row": "dungeon/func_80A29684",
-      "tu": "src/dungeon/monster/ifrit/update_actor_behavior_variant_f.c",
-      "home": "dungeon/func_80A2F684",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809C9654",
       "foff": "0xA49684",
       "vma": "0x80164E84",
       "size": 1352,
       "bindings": {
-        "0x801730B8": "0x801730B8",
-        "0x80174228": "0x80174228",
-        "0x8016C8C4": "0x8016C8C4",
-        "0x801717B4": "0x801717B4",
-        "0x801733BC": "0x801733BC"
+        "0x801715F4": "0x80165624",
+        "0x8017207C": "0x801660AC",
+        "0x80173C84": "0x80168830",
+        "0x80173CCC": "0x80168848"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80A2F684 onto dungeon/func_809C9654; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80A29BCC",
@@ -180,36 +179,18 @@
     },
     {
       "row": "dungeon/func_80A2B0C4",
-      "tu": "src/dungeon/func_80A250C4.c",
-      "home": "dungeon/func_80A250C4",
-      "foff": "0xa4b0c4",
-      "vma": "0x801668c4",
+      "tu": "src/dungeon/monster/ifrit/update_actor_actions_and_impact_effects.c",
+      "home": "dungeon/func_80A1F0C4",
+      "foff": "0xA4B0C4",
+      "vma": "0x801668C4",
       "size": 2036,
       "bindings": {
-        "0x8003DE58": "0x8003DE58",
-        "0x8003F270": "0x8003F270",
-        "0x8003FD64": "0x8003FD64",
-        "0x8004491C": "0x8004491C",
-        "0x80045340": "0x80045340",
-        "0x80047784": "0x80047784",
-        "0x80069EF8": "0x80069EF8",
-        "0x8006DE24": "0x8006DE24",
-        "0x800814A8": "0x800814A8",
-        "0x80083160": "0x80083160",
-        "0x80083460": "0x80083460",
-        "0x80083498": "0x80083498",
-        "0x800A05A4": "0x800A05A4",
-        "0x800A2B04": "0x800A2B04",
-        "0x800A4ACC": "0x800A4ACC",
-        "0x800A56E0": "0x800A56E0",
-        "0x800A94A0": "0x800A94A0",
-        "0x800DA840": "0x800DA840",
-        "0x8016AE84": "0x80164E84",
-        "0x8016E0FC": "0x801680FC",
-        "0x8016E820": "0x80168820",
-        "0x8016E850": "0x80168850"
+        "0x80170E84": "0x80164E84",
+        "0x801740FC": "0x801680FC",
+        "0x80174820": "0x80168820",
+        "0x80174850": "0x80168850"
       },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80A250C4 onto dungeon/func_80A1F0C4; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80A2B8B8",

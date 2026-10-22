@@ -55,6 +55,15 @@
       }
     },
     {
+      "row": "dungeon/func_809E8534",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0xA08534",
+      "vma": "0x80153d34",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_809E853C",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CA53C",

@@ -60,6 +60,34 @@
       "size": 96
     },
     {
+      "row": "dungeon/func_8002DB7C",
+      "tu": "src/dungeon/actor/object/advance_object_countdown.c",
+      "home": "dungeon/func_8002DB7C",
+      "foff": "0x4DB7C",
+      "vma": "0x800cb2dc",
+      "size": 108
+    },
+    {
+      "row": "dungeon/func_8002DBE8",
+      "tu": "src/dungeon/actor/object/initialize_six_tick_object.c",
+      "home": "dungeon/func_8002DBE8",
+      "foff": "0x4DBE8",
+      "vma": "0x800cb348",
+      "size": 96
+    },
+    {
+      "row": "dungeon/func_8002DC48",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x4DC48",
+      "vma": "0x800cb3a8",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800CB028"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_8002DCB4",
       "tu": "src/dungeon/actor/object/initialize_seven_tick_object.c",
       "home": "dungeon/func_8002DB1C",
@@ -69,6 +97,14 @@
       "bindings": {
         "0x8008B2BC": "0x8008B2BC"
       }
+    },
+    {
+      "row": "dungeon/func_8002DD50",
+      "tu": "src/dungeon/actor/object/advance_object_counter_reset_state.c",
+      "home": "dungeon/func_8002DD50",
+      "foff": "0x4DD50",
+      "vma": "0x800cb4b0",
+      "size": 96
     },
     {
       "row": "dungeon/func_8002DDB0",
@@ -83,6 +119,38 @@
         "0x8008B2BC": "0x8008B2BC"
       },
       "evidence": "r121 obj_screen (same object modulo symbols): copy relocation target (rule 2 override)"
+    },
+    {
+      "row": "dungeon/func_8002DE10",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x4DE10",
+      "vma": "0x800cb570",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800CB060"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "dungeon/func_8002DE7C",
+      "tu": "src/dungeon/actor/object/initialize_ten_tick_object.c",
+      "home": "dungeon/func_8002DE7C",
+      "foff": "0x4DE7C",
+      "vma": "0x800cb5dc",
+      "size": 96
+    },
+    {
+      "row": "dungeon/func_8002DEDC",
+      "tu": "src/town/person/run_record_countdown_follow_up.c",
+      "home": "town/func_800C90B4",
+      "foff": "0x4DEDC",
+      "vma": "0x800cb63c",
+      "size": 108,
+      "bindings": {
+        "0x800C641C": "0x800CB028"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_8002DF48",

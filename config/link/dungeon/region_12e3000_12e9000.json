@@ -115,6 +115,19 @@
       "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_812C7DA0; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_812C806C",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "home": "dungeon/func_809A35A0",
+      "foff": "0x12E806C",
+      "vma": "0x8015786c",
+      "size": 248,
+      "bindings": {
+        "0x80174AD4": "0x801575A0",
+        "0x80175F90": "0x80157D7C"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_812C8164",
       "home": "dungeon/func_809A38E4",
       "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",

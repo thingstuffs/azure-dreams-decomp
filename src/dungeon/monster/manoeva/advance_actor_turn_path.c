@@ -289,7 +289,7 @@ void advance_actor_turn_path(void *move_data_in, void *context, void *tile_in, v
         if (turn_or_height == 0 &&
             *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != ((S_801716A4_2 *)tile_in)->unk_24.at00u.v) {
             if (check_entity_relation(actor_in,
-                    (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                 return;
             }
         }

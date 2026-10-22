@@ -50,40 +50,6 @@
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
-      "row": "dungeon/func_809B8A34",
-      "tu": "src/dungeon/monster/kewne/start_kewne_attack_action.c",
-      "home": "dungeon/func_809A0A34",
-      "foff": "0x9d8a34",
-      "vma": "0x8015a234",
-      "size": 292,
-      "bindings": {
-        "0x80047784": "0x80047784",
-        "0x80083160": "0x80083160",
-        "0x80083460": "0x80083460",
-        "0x8009C93C": "0x8009C93C",
-        "0x800A2B5C": "0x800A2B5C",
-        "0x800C7930": "0x800C7930",
-        "0x80175E70": "0x8015DE70"
-      },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
-    },
-    {
-      "row": "dungeon/func_809B8B58",
-      "tu": "src/dungeon/monster/kewne/update_kewne_charge_counter.c",
-      "home": "dungeon/func_809A0B58",
-      "foff": "0x9d8b58",
-      "vma": "0x8015a358",
-      "size": 296,
-      "bindings": {
-        "0x80047784": "0x80047784",
-        "0x80083160": "0x80083160",
-        "0x80083460": "0x80083460",
-        "0x8009A350": "0x8009A350",
-        "0x80175EA8": "0x8015DEA8"
-      },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
-    },
-    {
       "row": "dungeon/func_809B90A8",
       "tu": "src/dungeon/monster/kewne/update_movement_height_and_animation.c",
       "home": "dungeon/func_809A10A8",
@@ -162,26 +128,6 @@
         "0x80172DDC": "0x80172DDC"
       },
       "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_809B9D60"
-    },
-    {
-      "row": "dungeon/func_809BB2D4",
-      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
-      "home": "dungeon/func_809A32D4",
-      "foff": "0x9db2d4",
-      "vma": "0x8015cad4",
-      "size": 716,
-      "bindings": {
-        "0x8004491C": "0x8004491C",
-        "0x8006658C": "0x8006658C",
-        "0x80067E2C": "0x80067E2C",
-        "0x800814A0": "0x800814A0",
-        "0x80083160": "0x80083160",
-        "0x800CEEFC": "0x800CEEFC",
-        "0x80174FC0": "0x8015CFC0",
-        "0x801750E4": "0x8015D0E4",
-        "0x801C9E40": "0x801C9E40"
-      },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
       "row": "dungeon/func_809BB8E4",

@@ -25,6 +25,40 @@
       "size": 664
     },
     {
+      "row": "dungeon/func_809B2A34",
+      "tu": "src/dungeon/monster/kewne/start_kewne_attack_action.c",
+      "home": "dungeon/func_809A0A34",
+      "foff": "0x9d2a34",
+      "vma": "0x80160234",
+      "size": 292,
+      "bindings": {
+        "0x80047784": "0x80047784",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009C93C": "0x8009C93C",
+        "0x800A2B5C": "0x800A2B5C",
+        "0x800C7930": "0x800C7930",
+        "0x80175E70": "0x80163E70"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required; opus_place1 view_merge: moved from dungeon/region_9d1294_9d657c (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "dungeon/func_809B2B58",
+      "tu": "src/dungeon/monster/kewne/update_kewne_charge_counter.c",
+      "home": "dungeon/func_809A0B58",
+      "foff": "0x9d2b58",
+      "vma": "0x80160358",
+      "size": 296,
+      "bindings": {
+        "0x80047784": "0x80047784",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009A350": "0x8009A350",
+        "0x80175EA8": "0x80163EA8"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required; opus_place1 view_merge: moved from dungeon/region_9d1294_9d657c (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_809B2C80",
       "tu": "src/dungeon/monster/kewne/advance_turn_animation_and_restore_heading.c",
       "home": "dungeon/func_809A0C80",
@@ -174,6 +208,26 @@
       "foff": "0x9D4FB8",
       "vma": "0x801627B8",
       "size": 344
+    },
+    {
+      "row": "dungeon/func_809B52D4",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "home": "dungeon/func_809A32D4",
+      "foff": "0x9d52d4",
+      "vma": "0x80162ad4",
+      "size": 716,
+      "bindings": {
+        "0x8004491C": "0x8004491C",
+        "0x8006658C": "0x8006658C",
+        "0x80067E2C": "0x80067E2C",
+        "0x800814A0": "0x800814A0",
+        "0x80083160": "0x80083160",
+        "0x800CEEFC": "0x800CEEFC",
+        "0x80174FC0": "0x80162FC0",
+        "0x801750E4": "0x801630E4",
+        "0x801C9E40": "0x801C9E40"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required; opus_place1 view_merge: moved from dungeon/region_9d1294_9d657c (same load delta) so the merged file's members share one view"
     },
     {
       "row": "dungeon/func_809B55A0",

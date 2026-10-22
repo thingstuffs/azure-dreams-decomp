@@ -23,16 +23,26 @@
     },
     {
       "row": "dungeon/func_80F57694",
-      "tu": "src/dungeon/monster/weadog/update_actor_action_behavior.c",
-      "home": "dungeon/func_80F044E8",
+      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "home": "dungeon/func_80DBA620",
       "foff": "0xF77694",
       "vma": "0x8014CE94",
       "size": 1380,
       "bindings": {
-        "0x800B2C68": "0x800B2C68",
-        "0x800D491C": "0x800D491C"
+        "0x80172384": "0x8014D3F8",
+        "0x801725C8": "0x8014D63C",
+        "0x80172D74": "0x8014DDFC",
+        "0x80172F38": "0x8014DFC0",
+        "0x80173050": "0x8014E1F8",
+        "0x80174890": "0x80150278",
+        "0x80174A9C": "0x8014E0D8",
+        "0x801753BC": "0x80150A7C",
+        "0x801753C4": "0x80150A84",
+        "0x801753F4": "0x80150AC4",
+        "0x801753FC": "0x80150ACC",
+        "0x80175404": "0x80150AD4"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80F044E8 onto dungeon/func_80DBA620; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80F57BF8",
@@ -164,16 +174,12 @@
     },
     {
       "row": "dungeon/func_80F58FB4",
-      "tu": "src/dungeon/monster/viper/update_actor_behavior_variant.c",
-      "home": "dungeon/func_80F46FB4",
+      "tu": "src/dungeon/monster/viper/update_staged_movement_and_restore_actor.c",
+      "home": "dungeon/func_80F34FB4",
       "foff": "0xF78FB4",
       "vma": "0x8014E7B4",
       "size": 1960,
-      "bindings": {
-        "0x800B2C68": "0x800B2C68",
-        "0x800D491C": "0x800D491C"
-      },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80F46FB4 onto dungeon/func_80F34FB4; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80F5975C",

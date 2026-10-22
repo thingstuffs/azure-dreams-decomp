@@ -118,6 +118,15 @@
       }
     },
     {
+      "row": "dungeon/func_80D35F60",
+      "tu": "src/dungeon/monster/noise/update_actor_behavior_and_direction.c",
+      "home": "dungeon/func_80D11F60",
+      "foff": "0xD55F60",
+      "vma": "0x8014d760",
+      "size": 1400,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80D364D8",
       "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
@@ -283,6 +292,15 @@
         "0x801588A4": "0x801588A4",
         "0x8014F39C": "0x8014F39C"
       }
+    },
+    {
+      "row": "dungeon/func_80D37E4C",
+      "tu": "src/dungeon/monster/noise/update_ability_action_and_completion.c",
+      "home": "dungeon/func_80D13E4C",
+      "foff": "0xD57E4C",
+      "vma": "0x8014f64c",
+      "size": 1280,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80D3834C",

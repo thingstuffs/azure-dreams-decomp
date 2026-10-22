@@ -61,6 +61,18 @@
       "size": 756
     },
     {
+      "row": "dungeon/func_80E14F2C",
+      "tu": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
+      "home": "dungeon/func_80E0EF2C",
+      "foff": "0xE34F2C",
+      "vma": "0x8016c72c",
+      "size": 272,
+      "bindings": {
+        "0x8014A000": "0x80144000"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH; opus_place1 view_merge: moved from dungeon/region_e332e8_e38c58 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80E1503C",
       "tu": "src/dungeon/monster/cyclone/clear_actor_action_flag_and_animate.c",
       "home": "dungeon/func_80E0F03C",

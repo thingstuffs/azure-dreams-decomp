@@ -254,6 +254,25 @@
       "evidence": "LL3a attestation sha256:faa470995b740814dbabf512bbd8379c21edeb94749eb42f35d3c7c5004c95b0; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
+      "row": "dungeon/func_80D274C0",
+      "tu": "src/dungeon/monster/troll/advance_actor_stored_path.c",
+      "home": "dungeon/func_80CE94C0",
+      "foff": "0xd274c0",
+      "vma": "0x80154cc0",
+      "size": 664,
+      "bindings": {
+        "0x80172db8": "0x80154db8",
+        "0x80172d7c": "0x80154d7c",
+        "0x80175dc4": "0x80157dc4",
+        "0x80175dcc": "0x80157dcc",
+        "0x80175dd4": "0x80157dd4",
+        "0x80173678": "0x80155678",
+        "0x80172edc": "0x80154edc",
+        "0x80172f30": "0x80154f30"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; opus_place1 view_merge: moved from dungeon/heur_d274c0 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80D07758",
       "tu": "src/dungeon/monster/troll/advance_actor_stored_path.c",
       "home": "dungeon/func_80CE9758",
@@ -267,6 +286,20 @@
         "0x800D491C": "0x800D491C"
       },
       "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+    },
+    {
+      "row": "dungeon/func_80D27E78",
+      "tu": "src/dungeon/monster/troll/advance_actor_stored_path.c",
+      "home": "dungeon/func_80CE9E78",
+      "foff": "0xd27e78",
+      "vma": "0x80155678",
+      "size": 188,
+      "bindings": {
+        "0x80175E9C": "0x80157E9C",
+        "0x80175EA4": "0x80157EA4",
+        "0x80175EAC": "0x80157EAC"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; B10 re-homed from dungeon/func_80CF5E78 (now an LL placement of dungeon/func_80CE9E78): bindings translated through dungeon/func_80CF5E78's object-screen resolution; opus_place1 view_merge: moved from dungeon/heur_d27e78 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "dungeon/func_80D086AC",

@@ -18,11 +18,23 @@
     },
     {
       "row": "dungeon/func_80CDB720",
-      "tu": "src/dungeon/monster/pulunpa/update_actor_behavior_by_status.c",
-      "home": "dungeon/func_80CBD720",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809C9654",
       "foff": "0xCFB720",
       "vma": "0x80152F20",
-      "size": 1352
+      "size": 1352,
+      "bindings": {
+        "0x8017139C": "0x80153BB0",
+        "0x801715F4": "0x80153468",
+        "0x80171DA0": "0x80153E58",
+        "0x80171F64": "0x8015401C",
+        "0x8017207C": "0x80155A54",
+        "0x80173C7C": "0x801582C0",
+        "0x80173C84": "0x80158310",
+        "0x80173CCC": "0x801582F0",
+        "0x80173CD4": "0x801582F8"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80CBD720 onto dungeon/func_809C9654; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80CDBC68",
@@ -264,11 +276,16 @@
     },
     {
       "row": "dungeon/func_80CDFC80",
-      "tu": "src/dungeon/monster/pulunpa/update_pulunpa_item_action.c",
-      "home": "dungeon/func_80CC1C80",
+      "tu": "src/dungeon/monster/pulunpa/advance_selected_item_action.c",
+      "home": "dungeon/func_80CBEF98",
       "foff": "0xCFFC80",
       "vma": "0x80157480",
-      "size": 1144
+      "size": 1144,
+      "bindings": {
+        "0x80170F20": "0x80155B98",
+        "0x801762C0": "0x80158320"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80CC1C80 onto dungeon/func_80CBEF98; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80CE00F8",
@@ -307,6 +324,21 @@
       "foff": "0xD00614",
       "vma": "0x80157E14",
       "size": 88
+    },
+    {
+      "row": "dungeon/func_80CE066C",
+      "home": "dungeon/func_80CC266C",
+      "tu": "src/dungeon/monster/pulunpa/scan_angle.c",
+      "foff": "0xd0066c",
+      "vma": "0x80157e6c",
+      "size": 444,
+      "bindings": {
+        "0x80176348": "0x80158348",
+        "0x80175e14": "0x80157e14",
+        "0x80173000": "0x80173000",
+        "0x8016D2C0": "0x8016D2C0"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CE066C; LL3a preserves prior rule-3 binding; opus_place1 view_merge: moved from dungeon/region_cfb2e0_d00ac0 (same load delta) so the merged file's members share one view"
     }
   ],
   "symbols": {

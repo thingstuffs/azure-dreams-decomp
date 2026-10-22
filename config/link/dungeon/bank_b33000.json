@@ -10,25 +10,15 @@
   "entries": [
     {
       "row": "dungeon/func_80B134F8",
-      "tu": "src/dungeon/monster/snowman/create_returning_sprite_effect_snowman.c",
-      "home": "dungeon/func_80AF54F8",
+      "tu": "src/dungeon/monster/saber/create_returning_sprite_effect.c",
+      "home": "dungeon/func_80AC55DC",
       "foff": "0xB334F8",
       "vma": "0x8014CCF8",
       "size": 580,
       "bindings": {
-        "0x8003FC64": "0x8003FC64",
-        "0x8016AB0C": "0x8014CB0C",
-        "0x80045340": "0x80045340",
-        "0x8004491C": "0x8004491C",
-        "0x800DEC70": "0x800DEC70",
-        "0x8003DB94": "0x8003DB94",
-        "0x8016ACF8": "0x8014CCF8",
-        "0x80174C70": "0x80174C70",
-        "0x80174F24": "0x80174F24",
-        "0x80175398": "0x80175398",
-        "0x80171FE8": "0x80171FE8"
+        "0x80170A84": "0x8014CB0C"
       },
-      "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80AF54F8 onto dungeon/func_80AC55DC; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80B1373C",

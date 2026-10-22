@@ -675,7 +675,7 @@ void choose_and_step_actor_path(Rec_func_800A9E70_arg0 *move_data, void *context
         if (turn_index == 0 &&
             *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&position_data->tile_position.parts.tile_x) {
             if ((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                 return;
             }
         }
@@ -1393,7 +1393,7 @@ void wait_actor_status_and_animate(void *action, void *context, void *sprite_in,
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 if ((check_entity_relation(actor_in,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -1530,7 +1530,7 @@ void wait_actor_mp_and_animate(void *actor_in, s32 actor_index, void *target, vo
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                 return;
             }
             update_actor_status_and_mp(entity);

@@ -89,21 +89,22 @@
     },
     {
       "row": "dungeon/func_80C7BE50",
-      "tu": "src/dungeon/monster/ifrit/update_actor_behavior_variant_f.c",
-      "home": "dungeon/func_80A2F684",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809C9654",
       "foff": "0xC9BE50",
       "vma": "0x8015F650",
       "size": 1352,
       "bindings": {
-        "0x80173078": "0x80173078",
-        "0x80173D4C": "0x80173D4C",
-        "0x8016D568": "0x8016D568",
-        "0x80171810": "0x80171810",
-        "0x80172A24": "0x80172A24",
-        "0x80175274": "0x80175274",
-        "0x80170F2C": "0x80170F2C"
+        "0x8017139C": "0x8015FB98",
+        "0x801715F4": "0x8015FDDC",
+        "0x8017207C": "0x80160864",
+        "0x80173A30": "0x8016207C",
+        "0x80173C84": "0x801622D0",
+        "0x80173CCC": "0x80162300",
+        "0x80173CD4": "0x80162308",
+        "0x80173CDC": "0x80162310"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80A2F684 onto dungeon/func_809C9654; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80C7C398",

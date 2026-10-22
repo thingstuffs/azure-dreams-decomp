@@ -156,7 +156,7 @@ void update_actor_animation_timers_and_transitions(void *entity, void *motion, v
                 ActorRecord *owner = primary_actor_record;
 
                 if ((check_entity_relation(actor,
-                        (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)owner->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }

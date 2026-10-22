@@ -23,17 +23,26 @@
     },
     {
       "row": "dungeon/func_80F4B694",
-      "tu": "src/dungeon/monster/weadog/advance_actor_action_variant_b.c",
-      "home": "dungeon/func_80EF24E8",
+      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "home": "dungeon/func_80DBA620",
       "foff": "0xF6B694",
       "vma": "0x80158E94",
       "size": 1380,
       "bindings": {
-        "0x800B2C68": "0x800B2C68",
-        "0x8017345C": "0x8017345C",
-        "0x800D491C": "0x800D491C"
+        "0x80172384": "0x801593F8",
+        "0x801725C8": "0x8015963C",
+        "0x80172D74": "0x80159DFC",
+        "0x80172F38": "0x80159FC0",
+        "0x80173050": "0x8015A1F8",
+        "0x80174890": "0x8015C278",
+        "0x80174A9C": "0x8015A0D8",
+        "0x801753BC": "0x8015CA7C",
+        "0x801753C4": "0x8015CA84",
+        "0x801753F4": "0x8015CAC4",
+        "0x801753FC": "0x8015CACC",
+        "0x80175404": "0x8015CAD4"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80EF24E8 onto dungeon/func_80DBA620; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80F4BBF8",
@@ -167,17 +176,12 @@
     },
     {
       "row": "dungeon/func_80F4CFB4",
-      "tu": "src/dungeon/monster/viper/update_actor_behavior_variant.c",
-      "home": "dungeon/func_80F46FB4",
+      "tu": "src/dungeon/monster/viper/update_staged_movement_and_restore_actor.c",
+      "home": "dungeon/func_80F34FB4",
       "foff": "0xF6CFB4",
       "vma": "0x8015A7B4",
       "size": 1960,
-      "bindings": {
-        "0x800B2C68": "0x800B2C68",
-        "0x8017345C": "0x8017345C",
-        "0x800D491C": "0x800D491C"
-      },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80F46FB4 onto dungeon/func_80F34FB4; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80F4D75C",

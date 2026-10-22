@@ -21,6 +21,15 @@
       }
     },
     {
+      "row": "dungeon/func_8106B768",
+      "tu": "src/dungeon/monster/tyrant/update_dungeon_actor_behavior.c",
+      "home": "dungeon/func_81059768",
+      "foff": "0x108B768",
+      "vma": "0x8015ef68",
+      "size": 1448,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_8106BD10",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9B9C",
@@ -153,6 +162,15 @@
         "0x8016D2C0": "0x8016D2C0",
         "0x80166404": "0x80166404"
       }
+    },
+    {
+      "row": "dungeon/func_8106D1D4",
+      "tu": "src/dungeon/monster/tyrant/advance_the_actor_animation_state_reset_movement_finishes.c",
+      "home": "dungeon/func_8105B1D4",
+      "foff": "0x108D1D4",
+      "vma": "0x801609d4",
+      "size": 1208,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_8106D68C",
@@ -318,6 +336,15 @@
         "0x8016D2C0": "0x8016D2C0",
         "0x80166404": "0x80166404"
       }
+    },
+    {
+      "row": "dungeon/func_8106E45C",
+      "tu": "src/dungeon/monster/tyrant/run_the_actor_s_eight_step_sink_animation_advancing_state_swapping.c",
+      "home": "dungeon/func_8105C45C",
+      "foff": "0x108E45C",
+      "vma": "0x80161c5c",
+      "size": 740,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_8106E740",

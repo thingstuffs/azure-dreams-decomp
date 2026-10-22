@@ -231,6 +231,14 @@
       "size": 1616
     },
     {
+      "row": "dungeon/func_80D13E4C",
+      "tu": "src/dungeon/monster/noise/update_ability_action_and_completion.c",
+      "home": "dungeon/func_80D13E4C",
+      "foff": "0xD33E4C",
+      "vma": "0x8017364c",
+      "size": 1280
+    },
+    {
       "row": "dungeon/func_80D1434C",
       "tu": "src/dungeon/monster/snowman/move_and_shrink_fading_effect.c",
       "home": "dungeon/func_80AF200C",

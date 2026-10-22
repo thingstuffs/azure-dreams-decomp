@@ -21,15 +21,18 @@
     },
     {
       "row": "dungeon/func_810CB654",
-      "tu": "src/dungeon/monster/ifrit/update_dungeon_actor_behavior_and_targets.c",
-      "home": "dungeon/func_80A41684",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809C9654",
       "foff": "0x10EB654",
       "vma": "0x80152E54",
       "size": 1352,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0",
-        "0x8017445C": "0x8017445C"
-      }
+        "0x801715F4": "0x801535F4",
+        "0x8017207C": "0x80154198",
+        "0x80173C84": "0x80155C74",
+        "0x80173CCC": "0x80155C8C"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80A41684 onto dungeon/func_809C9654; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_810CBB9C",

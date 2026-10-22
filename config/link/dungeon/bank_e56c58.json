@@ -326,6 +326,14 @@
       "foff": "0xE5CBD0",
       "vma": "0x801763D0",
       "size": 176
+    },
+    {
+      "row": "dungeon/func_80E3CC80",
+      "tu": "src/dungeon/monster/manoeva/spawn_manoeva_particle_burst.c",
+      "home": "dungeon/func_80E3CC80",
+      "foff": "0xE5CC80",
+      "vma": "0x80176480",
+      "size": 336
     }
   ],
   "symbols": {

@@ -125,7 +125,7 @@ void update_multi_form_actor_behavior(void *context, s32 callback_arg, void *obj
             return;
         }
         if ((has_pending_actor_or_turn_action(actor_arg) << 16) != 0) {
-            if ((check_entity_relation(actor_arg, ((ActorRecord *)((u8 *)primary_actor_record))->unk_58 + 0x20) << 16) != 0) {
+            if ((check_entity_relation(actor_arg, ((ActorRecord *)((u8 *)primary_actor_record))->previous_actor_header + 0x20) << 16) != 0) {
                 return;
             }
         }

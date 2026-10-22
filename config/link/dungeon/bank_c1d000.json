@@ -34,11 +34,26 @@
     },
     {
       "row": "dungeon/func_80BFD814",
-      "tu": "src/dungeon/monster/clown/update_actor_action_variant.c",
-      "home": "dungeon/func_80BFD814",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+      "home": "dungeon/func_80BEB814",
       "foff": "0xC1D814",
-      "vma": "0x8015F014",
-      "size": 1376
+      "vma": "0x8015f014",
+      "size": 1376,
+      "bindings": {
+        "0x80171574": "0x8015F574",
+        "0x80171784": "0x8015F784",
+        "0x80171ECC": "0x8015FECC",
+        "0x80172090": "0x80160090",
+        "0x801721B4": "0x801601B4",
+        "0x80173468": "0x80161468",
+        "0x80173AE8": "0x80161AE8",
+        "0x8017420C": "0x8016220C",
+        "0x8017421C": "0x8016221C",
+        "0x8017424C": "0x8016224C",
+        "0x80174254": "0x80162254",
+        "0x8017425C": "0x8016225C"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80BFDD74",
@@ -134,11 +149,12 @@
     },
     {
       "row": "dungeon/func_80BFEDA4",
-      "tu": "src/dungeon/monster/clown/update_actor_motion_variant.c",
-      "home": "dungeon/func_80BFEDA4",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+      "home": "dungeon/func_80BECDA4",
       "foff": "0xC1EDA4",
-      "vma": "0x801605A4",
-      "size": 1076
+      "vma": "0x801605a4",
+      "size": 1076,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80BFF1D8",
@@ -394,6 +410,26 @@
       "bindings": {
         "0x8016D568": "0x8016D568"
       }
+    },
+    {
+      "row": "dungeon/func_80C004EC",
+      "tu": "src/dungeon/monster/clown/update_entity_facing_and_ground.c",
+      "home": "dungeon/func_80BEE4EC",
+      "foff": "0xC204EC",
+      "vma": "0x80161cec",
+      "size": 1312,
+      "bindings": {
+        "0x801736AC": "0x801616AC",
+        "0x80173904": "0x80161904",
+        "0x80173B94": "0x80161B94",
+        "0x801742CC": "0x801622CC",
+        "0x801742D4": "0x801622D4",
+        "0x801742E0": "0x801622E0",
+        "0x801742E4": "0x801622E4",
+        "0x801742E5": "0x801622E5",
+        "0x801742E8": "0x801622E8"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH; opus_place1 view_merge: moved from dungeon/heur_c204ec (same load delta) so the merged file's members share one view"
     }
   ],
   "symbols": {

@@ -140,7 +140,7 @@ void update_actor_action_state_2(void *obj_arg, s32 context_arg, void *target_ar
                 return;
             }
             if ((has_pending_actor_or_turn_action(actor_arg) << 0x10) != 0) {
-                if ((check_entity_relation(actor_arg, (u8 *)primary_actor_record->unk_58 + 0x20) << 0x10) != 0) {
+                if ((check_entity_relation(actor_arg, (u8 *)primary_actor_record->previous_actor_header + 0x20) << 0x10) != 0) {
                     return;
                 }
             }

@@ -153,6 +153,25 @@
       "size": 344
     },
     {
+      "row": "dungeon/func_812CDDA0",
+      "home": "dungeon/func_809A32D4",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "foff": "0x12edda0",
+      "vma": "0x801515a0",
+      "size": 716,
+      "bindings": {
+        "0x80174fc0": "0x800f7a38",
+        "0x801750e4": "0x80151964",
+        "0x8016D568": "0x8016D568",
+        "0x80173408": "0x80173408",
+        "0x80172234": "0x80172234",
+        "0x8017169C": "0x8017169C",
+        "0x80173930": "0x80173930",
+        "0x801739E8": "0x801739E8"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_812CDDA0; opus_place1 view_merge: moved from dungeon/region_12e924c_12ee430 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_812CE06C",
       "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "home": "dungeon/func_809A35A0",

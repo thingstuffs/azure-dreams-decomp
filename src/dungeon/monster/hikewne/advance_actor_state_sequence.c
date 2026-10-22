@@ -176,7 +176,7 @@ void advance_actor_state_sequence(void *action, void *context, void *entity, Act
                 ActorRecord *owner = primary_actor_record;
 
                 if ((s16)check_entity_relation(actor,
-                        (u8 *)owner->unk_58 + 0x20) != 0) {
+                        (u8 *)owner->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }

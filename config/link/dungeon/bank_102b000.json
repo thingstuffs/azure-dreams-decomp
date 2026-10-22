@@ -29,6 +29,15 @@
       "evidence": "docs/evidence/r121w_goto2_receipts.json: dungeon/func_8100B278; complete SDK2 donor twin, authenticated header entry, ELF relocations, scoped gate"
     },
     {
+      "row": "dungeon/func_8100B858",
+      "tu": "src/dungeon/monster/garuda/update_creature_animation_action.c",
+      "home": "dungeon/func_81005858",
+      "foff": "0x102B858",
+      "vma": "0x8016b058",
+      "size": 1432,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_8100BDF0",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9B9C",
@@ -162,6 +171,15 @@
       "bindings": {
         "0x8014D810": "0x8014D810"
       }
+    },
+    {
+      "row": "dungeon/func_8100D034",
+      "tu": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "home": "dungeon/func_81007034",
+      "foff": "0x102D034",
+      "vma": "0x8016c834",
+      "size": 1196,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_8100D4E0",

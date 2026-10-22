@@ -21,6 +21,14 @@
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80E0E0B4"
     },
     {
+      "row": "dungeon/func_80E0EF2C",
+      "tu": "src/dungeon/monster/cyclone/update_action_state_direction_specific.c",
+      "home": "dungeon/func_80E0EF2C",
+      "foff": "0xE2EF2C",
+      "vma": "0x8017272c",
+      "size": 272
+    },
+    {
       "row": "dungeon/func_80E0F498",
       "tu": "src/dungeon/monster/cyclone/advance_backward_forward_motion.c",
       "home": "dungeon/func_80E0F498",

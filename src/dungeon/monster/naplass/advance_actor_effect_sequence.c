@@ -158,7 +158,7 @@ void advance_actor_effect_sequence_2(void *actor, void *transform, void *sprite,
         if (((S_801732A4_2 *)actor_state)->unk_6D == 0)
             return;
         if ((has_pending_actor_or_turn_action(actor_state) << 0x10) != 0) {
-            if ((check_entity_relation(actor_state, ((s32)primary_actor_record->unk_58) + 0x20) << 0x10) != 0)
+            if ((check_entity_relation(actor_state, ((s32)primary_actor_record->previous_actor_header) + 0x20) << 0x10) != 0)
                 return;
         }
         update_actor_status_and_mp(actor_state);

@@ -103,20 +103,6 @@
       "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CCC398"
     },
     {
-      "row": "dungeon/func_80CCE66C",
-      "home": "dungeon/func_80CC266C",
-      "tu": "src/dungeon/monster/pulunpa/scan_angle.c",
-      "foff": "0xcee66c",
-      "vma": "0x80169e6c",
-      "size": 444,
-      "bindings": {
-        "0x80176348": "0x8016a348",
-        "0x80175e14": "0x80169e14",
-        "0x80173000": "0x80173000"
-      },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_80CCE66C; LL3a preserves prior rule-3 binding"
-    },
-    {
       "row": "dungeon/func_80CCE828",
       "home": "dungeon/func_80CC2828",
       "tu": "src/dungeon/monster/pulunpa/advance_actor_transition_state.c",

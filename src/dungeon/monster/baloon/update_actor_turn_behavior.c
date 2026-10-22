@@ -182,7 +182,7 @@ void update_actor_turn_behavior(void *motion_arg, void *actor_index_arg, void *a
             if (!(move_data->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(move_data,
-                            (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                            (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                         return;
                     }
                 }

@@ -185,7 +185,7 @@ void update_actor_behavior_animation_and_facing(void *actor_arg, void *context_a
         if ((action_flags & 0x8000) == 0) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(
-                        stats, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                        stats, (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }

@@ -8,6 +8,14 @@
   "evidence": "docs/evidence/r121w_s2_receipts.json",
   "entries": [
     {
+      "row": "dungeon/func_80FB176C",
+      "tu": "src/dungeon/monster/mandara/update_long_actor_action.c",
+      "home": "dungeon/func_80FB176C",
+      "foff": "0xFD176C",
+      "vma": "0x80170f6c",
+      "size": 2468
+    },
+    {
       "row": "dungeon/func_80FB2368",
       "tu": "src/dungeon/modules/ovl_cd7000.c",
       "home": "dungeon/func_80CB8010",
@@ -42,12 +50,35 @@
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
+      "row": "dungeon/func_80FB35EC",
+      "tu": "src/dungeon/monster/mandara/advance_action_through_recovery.c",
+      "home": "dungeon/func_80FB35EC",
+      "foff": "0xFD35EC",
+      "vma": "0x80172dec",
+      "size": 1224
+    },
+    {
       "row": "dungeon/func_80FB402C",
       "home": "dungeon/func_80FB402C",
       "tu": "src/dungeon/monster/mandara/advance_actor_entry_active_exit_states.c",
       "foff": "0x00FD402C",
       "vma": "0x8017382C",
       "size": 1768
+    },
+    {
+      "row": "dungeon/func_80FB4714",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CBEF4",
+      "foff": "0xFD4714",
+      "vma": "0x80173f14",
+      "size": 828,
+      "bindings": {
+        "0x80170E54": "0x80170F6C",
+        "0x80173A30": "0x80174250",
+        "0x80173CD4": "0x80175298",
+        "0x80173CDC": "0x80175298"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80FB4C24",

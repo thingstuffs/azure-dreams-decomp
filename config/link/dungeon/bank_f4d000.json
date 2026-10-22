@@ -21,6 +21,29 @@
       }
     },
     {
+      "row": "dungeon/func_80F2D774",
+      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "home": "dungeon/func_80DBA620",
+      "foff": "0xF4D774",
+      "vma": "0x8014cf74",
+      "size": 1380,
+      "bindings": {
+        "0x80172384": "0x8014D4D8",
+        "0x801725C8": "0x8014D71C",
+        "0x80172D74": "0x8014DEC8",
+        "0x80172F38": "0x8014E08C",
+        "0x80173050": "0x8014E308",
+        "0x80174890": "0x8014FA1C",
+        "0x80174A9C": "0x8014E1A4",
+        "0x801753BC": "0x8014FD30",
+        "0x801753C4": "0x8014FD38",
+        "0x801753F4": "0x8014FD68",
+        "0x801753FC": "0x8014FD70",
+        "0x80175404": "0x8014FD78"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80F2DCD8",
       "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
@@ -190,6 +213,15 @@
         "0x8016D2C0": "0x8016D2C0",
         "0x8014D810": "0x8014D810"
       }
+    },
+    {
+      "row": "dungeon/func_80F2F2A8",
+      "tu": "src/dungeon/monster/stealth/advance_selected_motion_and_recover.c",
+      "home": "dungeon/func_80F0B2A8",
+      "foff": "0xF4F2A8",
+      "vma": "0x8014eaa8",
+      "size": 1264,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80F2F798",

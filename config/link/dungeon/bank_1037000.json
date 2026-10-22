@@ -30,11 +30,12 @@
     },
     {
       "row": "dungeon/func_81017858",
-      "tu": "src/dungeon/monster/garuda/update_creature_animation_dispatch_dungeon_action.c",
-      "home": "dungeon/func_81017858",
+      "tu": "src/dungeon/monster/garuda/update_creature_animation_action.c",
+      "home": "dungeon/func_81005858",
       "foff": "0x1037858",
-      "vma": "0x8015F058",
-      "size": 1432
+      "vma": "0x8015f058",
+      "size": 1432,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_81017DF0",
@@ -172,6 +173,15 @@
       "bindings": {
         "0x8014D810": "0x8014D810"
       }
+    },
+    {
+      "row": "dungeon/func_81019034",
+      "tu": "src/dungeon/monster/garuda/update_jump_motion.c",
+      "home": "dungeon/func_81007034",
+      "foff": "0x1039034",
+      "vma": "0x80160834",
+      "size": 1196,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_810194E0",

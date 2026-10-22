@@ -5151,7 +5151,6 @@
 0x80017370	func_80017370	select_record_pointer_by_status	(medium) src/town/func_805D3370.c:18
 0x80017370	func_80017370	get_scene_record_pointer	The complete body returns the single stored pointer unchanged. It reads no status, makes no selection and invokes no predicate. The replacement preserves the getter and generic scene-record role.
 0x800173C8	func_800173C8	append_flagged_entries_to_object_list	(medium) src/town/func_8059F3C8.c:12
-0x800173E8	func_800173E8	process_flagged_entries_after_header	(medium) src/town/func_8059F3E8.c:12
 0x8001741C	func_8001741C	call_set_global_pointer	(medium) src/town/func_8047641C.c:10: Call func_800182A8, then set the global pointer and base-derived value. (definition at line 11)
 0x80017450	func_80017450	subtract_value_from_twenty	(medium) src/town/func_8059F450.c:4
 0x8001747C	func_8001747C	select_event_fallback_event_handler	(medium) src/town/func_8070E47C.c:13
@@ -5861,11 +5860,6 @@
 0x8015EEA8	func_8015EEA8	update_entity_action	(medium) src/dungeon/func_80FED6A8.c:59: Updates the entity action, facing direction, and animation from dungeon state.
 0x8015F0EC	func_8015F0EC	update_actor_animation_and_dispatch_current	(medium) src/dungeon/func_809B18EC.c:75: Update a dungeon actor's animation and dispatch its current behavior.
 0x80160870	func_80160870	advance_actor_ability_and_reset_state	(medium) src/dungeon/func_80DA3070.c:72: Advances actor ability, waits for completion, and resets the action state.
-0x80164B40	func_80164B40	update_actor_facing_and_lifecycle_2	(medium) src/dungeon/func_80FBD340.c:8-64: Refreshes actor facing and lifecycle state, selects the directional table entry and applies actor data.
-0x80165010	func_80165010	create_origin_relative_effect	(medium) src/dungeon/func_80D71810.c:74: Creates an effect relative to the origin and initializes its motion and appearance.
-0x80165010	func_80165010	create_baloon_puff_effect	(medium) src/dungeon/func_80D71810.c:74: Creates an effect relative to the origin and initializes its motion and appearance.
-0x8016545C	func_8016545C	spawn_randomized_directional_sprite_effect	(medium) src/dungeon/func_80D71C5C.c:77: Spawns a directional sprite effect near the source with randomized velocity.
-0x8016545C	func_8016545C	spawn_baloon_directional_puff	(medium) src/dungeon/func_80D71C5C.c:77: Spawns a directional sprite effect near the source with randomized velocity.
 0x80166C54	func_80166C54	complete_timed_actor_hop_and_restore_state	(medium) src/dungeon/func_80AFD454.c:39: Updates a timed hop to a tile and restores the actor's animation and movement state.
 0x8016A854	func_8016A854	create_mode_configured_actor_object	(medium) src/dungeon/func_80DE9000.c:3-70: Allocates object type 0x112, stores the supplied actor attributes and applies mode-selected flags.
 0x8016A874	func_8016A874	damp_and_fade_effect_sprite	(medium) src/dungeon/func_80D17000.c:66: Move and damp the effect, expand and fade its sprite, and expire its lifetime.
@@ -6272,15 +6266,8 @@
 0x80155DAC	func_80155DAC	update_kewne_defeat_removal_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_809C05AC.c
 0x8014FDAC	func_8014FDAC	update_kewne_defeat_removal_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_809C65AC.c
 0x8016D2C0	func_8016D2C0	forward_actor_defeat_removal_second	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_809D1AC0.c
-0x8016B40C	func_8016B40C	choose_flame_action	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80A4DC0C.c
-0x8016540C	func_8016540C	choose_flame_action_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A53C0C.c
-0x8015F40C	func_8015F40C	choose_flame_action_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A59C0C.c
-0x8015940C	func_8015940C	choose_flame_action_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A5FC0C.c
-0x8015340C	func_8015340C	choose_flame_action_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A65C0C.c
-0x8014D40C	func_8014D40C	choose_flame_action_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80A6BC0C.c
 0x8016D234	func_8016D234	update_griffon_recoil	owner decisions 65+68; shard:dungeon; src/dungeon/func_80AA3A34.c
 0x80171158	func_80171158	spawn_saber	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80AC5958.c
-0x8016ACF8	func_8016ACF8	create_returning_sprite_effect_snowman	owner decisions 65+68; shard:dungeon; src/dungeon/func_80AF54F8.c
 0x8016D0A4	func_8016D0A4	update_nyuel_defeat_removal_slot_f	owner decisions 65+68; shard:dungeon; src/dungeon/func_80B9F8A4.c
 0x801670A4	func_801670A4	update_nyuel_defeat_removal_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BA58A4.c
 0x801610A4	func_801610A4	update_nyuel_defeat_removal_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BAB8A4.c
@@ -6289,10 +6276,6 @@
 0x8014F0A4	func_8014F0A4	update_nyuel_defeat_removal_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BBD8A4.c
 0x8016CCAC	func_8016CCAC	update_clown_defeat_removal_slot_f	owner decisions 65+68; shard:dungeon; src/dungeon/func_80BF34AC.c
 0x8015ACAC	func_8015ACAC	update_clown_defeat_removal_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80C054AC.c
-0x8015EE7C	func_8015EE7C	choose_unicorn_action	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80C5167C.c
-0x80158E7C	func_80158E7C	choose_unicorn_action_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80C5767C.c
-0x80152E7C	func_80152E7C	choose_unicorn_action_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80C5D67C.c
-0x8014CE7C	func_8014CE7C	choose_unicorn_action_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80C6367C.c
 0x80160FA0	func_80160FA0	update_pulunpa_defeat_removal	owner decisions 65+68; shard:dungeon; src/dungeon/func_80CD17A0.c
 0x80174FB8	func_80174FB8	update_troll_defeat_removal_slot_g	owner decisions 65+68; shard:dungeon; src/dungeon/func_80CEB7B8.c
 0x8016EFB8	func_8016EFB8	update_troll_defeat_removal	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80CF17B8.c
@@ -6301,28 +6284,13 @@
 0x8015CFB8	func_8015CFB8	update_troll_defeat_removal_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D037B8.c
 0x80156FB8	func_80156FB8	update_troll_defeat_removal_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D097B8.c
 0x80150FB8	func_80150FB8	update_troll_defeat_removal_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D0F7B8.c
-0x80155B4C	func_80155B4C	update_noise_knockback	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80D3234C.c
 0x80171780	func_80171780	spawn_baloon	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80D65F80.c
 0x801724B0	func_801724B0	advance_baloon_along_path	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80D66CB0.c
-0x8015F010	func_8015F010	create_baloon_puff_effect_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D77810.c
-0x8015F45C	func_8015F45C	spawn_baloon_directional_puff_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D77C5C.c
-0x80159010	func_80159010	create_baloon_puff_effect_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D7D810.c
-0x8015945C	func_8015945C	spawn_baloon_directional_puff_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D7DC5C.c
-0x80153010	func_80153010	create_baloon_puff_effect_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D83810.c
-0x8015345C	func_8015345C	spawn_baloon_directional_puff_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D83C5C.c
-0x8014D010	func_8014D010	create_baloon_puff_effect_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D89810.c
-0x8014D45C	func_8014D45C	spawn_baloon_directional_puff_slot_a	owner decisions 65+68; shard:dungeon; src/dungeon/func_80D89C5C.c
 0x8016D1BC	func_8016D1BC	update_volcano_defeat_removal	owner decisions 65+68; shard:dungeon; src/dungeon/func_80DEB9BC.c
 0x80E12A58	func_80E12A58	consume_object_code_19	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12A58.c
 0x80E12AA4	func_80E12AA4	show_entity_message	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12AA4.c
 0x80E12B30	func_80E12B30	show_entity_message_with_prefix	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E12B30.c
 0x8017618C	func_8017618C	spawn_manoeva_from_record	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E3C98C.c
-0x80170480	func_80170480	spawn_manoeva_particle_burst_slot_g	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E42C80.c
-0x8016A480	func_8016A480	spawn_manoeva_particle_burst_slot_f	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E48C80.c
-0x80164480	func_80164480	spawn_manoeva_particle_burst_slot_e	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E4EC80.c
-0x8015E480	func_8015E480	spawn_manoeva_particle_burst_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E54C80.c
-0x80158480	func_80158480	spawn_manoeva_particle_burst_slot_c	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E5AC80.c
-0x80152480	func_80152480	spawn_manoeva_particle_burst_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E60C80.c
 0x80170AF4	func_80170AF4	spawn_picket	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_80E8B2F4.c
 0x80160C90	func_80160C90	update_picket_move_action_slot_d	owner decisions 65+68; shard:dungeon; src/dungeon/func_80E9F490.c
 0x80158908	func_80158908	pick_up_adjacent_item	owner decisions 65+68; shard:dungeon; src/dungeon/func_80EA3000.c
@@ -6347,7 +6315,6 @@
 0x801748B0	func_801748B0	update_kewne_uncached_defeat_removal_slot_g	owner decisions 65+68; shard:dungeon; src/dungeon/func_812A90B0.c
 0x8016BFA4	func_8016BFA4	choose_kewne_uncached_action	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_812AC7A4.c
 0x801568B0	func_801568B0	update_kewne_uncached_defeat_removal_slot_b	owner decisions 65+68; shard:dungeon; src/dungeon/func_812C70B0.c
-0x8015786C	func_8015786C	create_attached_effect_kewne_uncached	owner decisions 65+68; shard:dungeon; src/dungeon/func_812C806C.c
 0x8016DA9C	func_8016DA9C	no_op_ghosh_hook	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_8132629C.c
 0x8016DEE8	func_8016DEE8	check_ghosh_bound	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_813266E8.c
 0x8016DF08	func_8016DF08	no_op_ghosh_hook_second	owner decisions 65+68; dedupe2:names_after; src/dungeon/func_81326708.c

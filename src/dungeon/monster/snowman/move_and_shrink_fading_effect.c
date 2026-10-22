@@ -571,7 +571,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, ActorRe
         if (!(entity_arg->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(entity_arg,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }
@@ -912,7 +912,7 @@ void func_80171FE8(void *move_data, void *context, void *position_data, void *ac
         if (turn_index == 0 &&
             *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&((SpriteFrameState *)position_data)->unk_24) {
             if (((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->unk_58 + 0x20)) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20)) != 0) {
                 do {
                     return;
                 } while (0);
@@ -1713,7 +1713,7 @@ void func_80173BBC(void *action, void *context, void *sprite_in, void *actor_in)
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 if ((check_entity_relation(actor_in,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -1848,7 +1848,7 @@ void func_80173F4C(void *actor_in, s32 actor_index, void *target, void *entity_i
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                 return;
             }
             update_actor_status_and_mp(entity);

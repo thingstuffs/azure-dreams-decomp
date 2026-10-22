@@ -341,7 +341,7 @@ void update_actor_action_animation_state(T_80175574_Obj0 *controller, void *cont
             }
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 if ((check_entity_relation(actor,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }

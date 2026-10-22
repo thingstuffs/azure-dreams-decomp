@@ -311,7 +311,7 @@ void advance_actor_movement_step(u8 *movement_in, void *action_ctx, u8 *position
         if (attempt == 0) {
             if ((((S_8016B230_11 *)(((s8 *)&reference_tile_object.tile_position.parts.tile_x)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v)
                 &&
-                ((s16)check_entity_relation((struct ActorRecord *)(actor), (struct ActorRecord *)(((s32)primary_actor_record->unk_58) + 0x20)) != 0)) {
+                ((s16)check_entity_relation((struct ActorRecord *)(actor), (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) != 0)) {
                 return;
             }
         }

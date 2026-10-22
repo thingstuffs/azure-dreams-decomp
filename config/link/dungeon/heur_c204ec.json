@@ -6,14 +6,5 @@
   "size": "0x520",
   "vma": "0x80161cec",
   "evidence": "work/native_lane/r121_heur/evidence/placements.json",
-  "entries": [
-    {
-      "row": "dungeon/func_80C004EC",
-      "tu": "src/dungeon/monster/clown/update_actor_sequence_variant.c",
-      "home": "dungeon/func_80C004EC",
-      "foff": "0xc204ec",
-      "vma": "0x80161cec",
-      "size": 1312
-    }
-  ]
+  "entries": []
 }

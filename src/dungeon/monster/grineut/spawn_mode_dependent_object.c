@@ -318,7 +318,7 @@ void func_80170E54(void *record, EntityRec *entity, void *object, ActorRecord *o
         if (!(other_entity->action_flags & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(other_entity,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -719,7 +719,7 @@ void func_801717B4(void *move_data, void *context, void *position_data, void *ac
         if (turn_index == 0 &&
             *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != *(u16 *)&((SpriteFrameState *)position_data)->unk_24) {
             if (((s16)check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->unk_58 + 0x20)) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20)) != 0) {
                 do {
                     return;
                 } while (0);
@@ -1619,7 +1619,7 @@ void func_801736F4(void *controller, s32 actor_index, void *sprite, ActorRecord 
                 if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                     if ((check_entity_relation(
                              actor,
-                             ((s32)primary_actor_record->unk_58)
+                             ((s32)primary_actor_record->previous_actor_header)
                                  + 0x20)
                          << 16)
                         != 0) {
@@ -1758,7 +1758,7 @@ void dim_and_clear_flagged_effect(void *controller, void *context, void *sprite,
         }
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(entity,
-                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                 return;
             }
         }

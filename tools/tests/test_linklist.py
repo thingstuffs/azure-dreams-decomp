@@ -161,6 +161,24 @@ class Inputs(Fixture):
                          [COPY, dict(helper_home, row="dungeon/func_80FB0700", foff="0xFB0700", vma="0x8016DF00")]))
         self.assertIn("config/link/dungeon/engine.json", K.window_files(self.root, [COPY["row"]]))
 
+    def test_cross_container_home_compiles_with_its_own_family_evidence(self):
+        # decision 75 (A): a dungeon placement of a town home binds the TOWN scope, under a separate key
+        town_home = {"row": "town/func_8008D7CC", "tu": "src/town/t.c", "home": "town/func_8008D7CC",
+                     "foff": "0x1B7CC", "vma": "0x8008D7CC", "size": 56}
+        self.write(image("bank_fa7000", "0xFA7000", "0x80170800", [HOME]),
+                   image("bank_fad000", "0xFAD000", "0x8016A800",
+                         [COPY, dict(town_home, row="dungeon/func_80FB0800", foff="0xFB0800", vma="0x8016E000")]))
+        d = self.root / "config/link/town"
+        d.mkdir(parents=True)
+        (d / "engine.json").write_text(json.dumps(dict(image("engine", "0x0", "0x80072000", [town_home], size="0x80000",
+                                                               layout=None), image="town/engine", container="town")))
+        e = K.load(self.root)[2]["dungeon/func_80FB0800"]
+        self.assertEqual(K.evidence_scope(self.root, e), ("town", 0x1B7CC))
+        self.assertEqual(K.evidence_offsets(self.root, "dungeon", {0xFB0664, 0xFB0800}), {0xFAA664})
+        self.assertEqual(K.cross_evidence(self.root, "dungeon", {0xFB0664, 0xFB0800}), {"town": {0x1B7CC}})
+        with self.assertRaisesRegex(ValueError, "evidence_scope"):
+            K.evidence_foff(self.root, e)
+
 
 class Check(Fixture):
     def test_split_registry_and_module_consistency(self):
@@ -205,6 +223,33 @@ class Rebind(Fixture):
         sections = subprocess.run(["mipsel-linux-gnu-objdump", "-h", str(obj)], capture_output=True, text=True).stdout
         self.assertIn(".text.func_8016DE64", sections)
         self.assertEqual(K.rebind_object(self.root, K.load(self.root)[2][HOME["row"]], obj), {})
+
+    def _asm(self, body):
+        src = self.root / "a.s"
+        src.write_text(".section .text.func_80173E64,\"ax\"\n.globl func_80173E64\nfunc_80173E64:\n" + body)
+        obj = self.root / "a.o"
+        subprocess.run(["mipsel-linux-gnu-as", "-EL", "-march=r3000", "-o", str(obj), str(src)], check=True)
+        return obj
+
+    def test_two_references_merge_onto_one_destination(self):
+        # opus_place1: the destination keeps one table where the home kept two -> both references bind to it
+        self.pair(copy={"bindings": {"0x80174AD4": "0x8016E000", "0x80174AFC": "0x8016E000"}})
+        obj = self._asm(" lui $2,%hi(D_80174AD4)\n lw $2,%lo(D_80174AD4)($2)\n"
+                        " lui $3,%hi(D_80174AFC)\n lw $3,%lo(D_80174AFC)($3)\n")
+        renames = K.rebind_object(self.root, K.load(self.root)[2][COPY["row"]], obj)
+        self.assertEqual(renames["D_80174AD4"], "D_8016E000")
+        self.assertEqual(renames["D_80174AFC"], "D_8016E000")
+        names = subprocess.run([K.NM, str(obj)], capture_output=True, text=True, check=True).stdout
+        self.assertNotIn("D_80174AD4", names); self.assertNotIn("D_80174AFC", names)
+        rel = subprocess.run(["mipsel-linux-gnu-readelf", "-rW", str(obj)], capture_output=True, text=True).stdout
+        self.assertEqual(rel.count("D_8016E000"), 4)
+
+    def test_a_definition_never_merges(self):
+        # a reference binding onto the placement's own (defined) entry name is still a collision
+        self.pair(copy={"bindings": {"0x80174AD4": "0x8016DE64"}})
+        obj = self._asm(" lui $2,%hi(func_80174AD4)\n lw $2,%lo(func_80174AD4)($2)\n")
+        with self.assertRaises(SystemExit):
+            K.rebind_object(self.root, K.load(self.root)[2][COPY["row"]], obj)
 
 
 class Resolver(unittest.TestCase):

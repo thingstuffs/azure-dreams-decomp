@@ -101,7 +101,7 @@ void advance_actor_state_and_dispatch(S_801733F0_0 *actor, void *context, Rec_fu
 
                 owner = primary_actor_record;
                 if ((s16)check_entity_relation(
-                        entity, (u8 *)owner->unk_58 + 0x20) != 0) {
+                        entity, (u8 *)owner->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }

@@ -270,6 +270,15 @@
       }
     },
     {
+      "row": "dungeon/func_81288B28",
+      "tu": "src/town/scene/hooks/return_zero_fn.c",
+      "home": "town/func_8032FD14",
+      "foff": "0x12A8B28",
+      "vma": "0x80165328",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_81288B30",
       "tu": "src/dungeon/monster/hikewne/update_entity_state_from_query.c",
       "home": "dungeon/func_80976E28",
@@ -470,6 +479,36 @@
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
+      "row": "dungeon/func_812896C4",
+      "tu": "src/dungeon/monster/hikewne/advance_actor_state_sequence.c",
+      "home": "dungeon/func_80977E0C",
+      "foff": "0x12A96C4",
+      "vma": "0x80165ec4",
+      "size": 1184,
+      "bindings": {
+        "0x80042900": "0x800424C4",
+        "0x80042B68": "0x8004272C",
+        "0x800814A8": "0x800803DC",
+        "0x80082E80": "0x80081490",
+        "0x8009A180": "0x80098F70",
+        "0x8009FD40": "0x8009EB30",
+        "0x800A2C34": "0x800A1904",
+        "0x800A6D30": "0x800A59E8",
+        "0x800A9A04": "0x800A86BC",
+        "0x800AA258": "0x800A8F10",
+        "0x800AA6B4": "0x800A936C",
+        "0x800AA79C": "0x800A9454",
+        "0x800AA888": "0x800A9540",
+        "0x80173E00": "0x801666B8",
+        "0x801740F0": "0x80166E94",
+        "0x801740F8": "0x80166E94",
+        "0x80174150": "0x80166EBC",
+        "0x80174158": "0x80166EC4",
+        "0x80174160": "0x80166ECC"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_81289B64",
       "tu": "src/dungeon/monster/hikewne/advance_actor_states_and_process_actions.c",
       "home": "dungeon/func_809782AC",
@@ -633,6 +672,15 @@
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
+      "row": "dungeon/func_8128A0F0",
+      "tu": "src/town/scene/hooks/noop_at_ffc.c",
+      "home": "town/func_80092860",
+      "foff": "0x12AA0F0",
+      "vma": "0x801668f0",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_8128A0F8",
       "tu": "src/dungeon/monster/beldo/reset_global_effect_state.c",
       "home": "dungeon/func_812540F8",
@@ -748,6 +796,15 @@
         "0x812543F0": "0x812543F0"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_8128A3E8",
+      "tu": "src/town/scene/hooks/noop_at_ffc.c",
+      "home": "town/func_80092860",
+      "foff": "0x12AA3E8",
+      "vma": "0x80166be8",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_8128A3F0",

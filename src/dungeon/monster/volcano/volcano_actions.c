@@ -291,7 +291,7 @@ void update_actor_behavior_facing_and_animation_2(void *actor_in, void *context_
         if (!(((E_80170E5C_S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(status,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }
@@ -1421,7 +1421,7 @@ void handle_actor_pending_action(void *action, void *context, void *sprite, Acto
 
             if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
                 if ((check_entity_relation(entity,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -1534,7 +1534,7 @@ void handle_actor_action_effects(void *controller, void *context, void *sprite, 
                 ActorRecord *owner;
 
                 owner = primary_actor_record;
-                if ((s16)check_entity_relation(actor, (u8 *)owner->unk_58 + 0x20) != 0) {
+                if ((s16)check_entity_relation(actor, (u8 *)owner->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }

@@ -329,6 +329,7 @@ def window_inputs(root, target):
                 raise ValueError('unknown window source kind: ' + kind)
     # Link-list placements compile with their home's bank evidence (linklist.evidence_foff): bind it too.
     from gate import linklist
+    cross = linklist.cross_evidence(root, family, offsets)  # decision 75 (A)
     offsets.update(linklist.evidence_offsets(root, family, offsets))
     modules = []
     selected_modules=modules_for_window(root,cfg,target)
@@ -375,7 +376,13 @@ def window_inputs(root, target):
         stream.seek(start);retail = stream.read(end-start)
     if len(retail) != end-start:
         raise ValueError('truncated retail window')
-    return dict(schema=SCHEMA, kind='overlay-window', target=target, config=cfg,
+    extra_keys = {}
+    if cross:
+        extra_keys['cross_noreturn'] = {f: dict(noreturn=bank_inputs(root, f, sorted(o), rosters, G),
+                                                symbols=optional(root, ['config/%s_syms%s.txt' % (k, '' if f == 'main' else '.' + f)
+                                                                        for k in ('noreturn', 'sibcall')]))
+                                        for f, o in sorted(cross.items())}
+    return dict(schema=SCHEMA, kind='overlay-window', target=target, config=cfg, **extra_keys,
                 config_sha256=sha(root/target), registry=registry, splits=rosters, sources=sources,
                 assignments=[r for r in records(root/'ledger/modules.jsonl') if r['id'] in ids],
                 modules=modules, headers=headers, symbols=optional(root,symbols),

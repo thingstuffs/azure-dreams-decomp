@@ -133,7 +133,7 @@ void update_entity_animation_and_color_fade(Rec_func_80173204_arg0 *controller, 
         if ((has_pending_actor_or_turn_action(entity) << 16) != 0) {
             if ((check_entity_relation(
                      entity,
-                     ((s32)primary_actor_record->unk_58) + 0x20) << 16) != 0) {
+                     ((s32)primary_actor_record->previous_actor_header) + 0x20) << 16) != 0) {
                 return;
             }
         }

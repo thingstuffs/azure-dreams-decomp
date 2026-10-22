@@ -663,6 +663,15 @@
       "bindings": {
         "0x8016D2C0": "0x8016D2C0"
       }
+    },
+    {
+      "row": "dungeon/func_80E5AC80",
+      "tu": "src/dungeon/monster/manoeva/spawn_manoeva_particle_burst.c",
+      "home": "dungeon/func_80E3CC80",
+      "foff": "0xE7AC80",
+      "vma": "0x80158480",
+      "size": 336,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     }
   ],
   "symbols": {

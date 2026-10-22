@@ -556,6 +556,7 @@ def _window_digest(root,wn,wins,splits,reg,physical,assign,regions,owners,mods,l
     if linklist.link_dir(root).is_dir():
         for d in linklist.link_dir(root).iterdir():observe(d)
     for f in linklist.files(root):observe(f)
+    cross=linklist.cross_evidence(root,fam,off)  # decision 75 (A): homes in another container
     off|=linklist.evidence_offsets(root,fam,off)  # placements compile with their home's bank evidence
     for name in ['config/names.tsv','config/slus_006.14.symbols.txt','config/overlays/abs_syms.txt',cfg.get('options',{}).get('symbol_addrs_path'),f'config/overlays/{fam}.as_flags.jsonl',f'config/sibcall_syms{evidence_suffix(fam)}.txt']:
         if name:symbol_inputs[name]=G.sha(root/name) if _exists(root/name) else None
@@ -568,6 +569,12 @@ def _window_digest(root,wn,wins,splits,reg,physical,assign,regions,owners,mods,l
     # window holds none, so a tree without config/link/ keeps every existing digest.
     links=linklist.window_files(root,sorted(wid))
     if links:window['link_lists']={n:G.sha(root/n) for n in links}
+    # Cross-container placements compile with their HOME family's evidence; absent key = unchanged digest.
+    if cross:
+        window['cross_noreturn']={f:dict(noreturn(root,f,sorted(o),splits,regions,G),
+                                         sibcall=G.sha(root/f'config/sibcall_syms{evidence_suffix(f)}.txt')
+                                         if _exists(root/f'config/sibcall_syms{evidence_suffix(f)}.txt') else None)
+                                  for f,o in sorted(cross.items())}
     # Every neighbor TU can consume own review/storage evidence too.
     window['module_inputs']={v['key']:{p:G.sha(root/p) for p in v['review_inputs']} for v in wm}
     window['module_registry']={v['key']:[reg[a['id']] for a in G.all_members(v)] for v in wm}

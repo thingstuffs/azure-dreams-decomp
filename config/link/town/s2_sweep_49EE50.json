@@ -44,6 +44,33 @@
       "size": 120,
       "bindings": {},
       "evidence": "docs/evidence/r121w_s2_wave2_receipts.json#town/func_8047F158"
+    },
+    {
+      "row": "town/func_8047F754",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x49F754",
+      "vma": "0x80016f54",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_8047FAB4",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x49FAB4",
+      "vma": "0x800172b4",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_8047FBE8",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x49FBE8",
+      "vma": "0x800173e8",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     }
   ]
 }

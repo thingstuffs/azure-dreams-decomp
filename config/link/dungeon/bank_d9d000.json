@@ -25,6 +25,15 @@
       "evidence": "LL3a attestation sha256:66beac2ea09f2178f96669e89c6390de5900cbafa218485986d618655ddf7bbd; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
+      "row": "dungeon/func_80D7D810",
+      "tu": "src/dungeon/monster/baloon/create_origin_motion_effect.c",
+      "home": "dungeon/func_80D65810",
+      "foff": "0xD9D810",
+      "vma": "0x80159010",
+      "size": 460,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80D7D9DC",
       "home": "dungeon/func_80D659DC",
       "tu": "src/dungeon/monster/baloon/spawn_angled_random_velocity_effect.c",
@@ -56,6 +65,15 @@
         "0x80171384": "0x80159384"
       },
       "evidence": "LL3a attestation sha256:82fdcb2c8fab4533ae511a71499e144148896b80aadcf7d674a1ab763930d850; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "dungeon/func_80D7DC5C",
+      "tu": "src/dungeon/monster/baloon/spawn_directional_random_velocity_effect.c",
+      "home": "dungeon/func_80D65C5C",
+      "foff": "0xD9DC5C",
+      "vma": "0x8015945c",
+      "size": 512,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80D7DE5C",

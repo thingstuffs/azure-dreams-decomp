@@ -209,6 +209,21 @@
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_80C61EBC",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CBB58",
+      "foff": "0xc61ebc",
+      "vma": "0x801736bc",
+      "size": 924,
+      "bindings": {
+        "0x80170E54": "0x80170E7C",
+        "0x80173A30": "0x80173D94",
+        "0x80173CDC": "0x80174DB4",
+        "0x80173CE4": "0x80174DBC"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; B10 re-homed from dungeon/func_80C47EBC (now an LL placement of dungeon/func_809CBB58): bindings translated through dungeon/func_80C47EBC's object-screen resolution; opus_place1 view_merge: moved from dungeon/heur_c61ebc (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80C42258",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809CBEF4",

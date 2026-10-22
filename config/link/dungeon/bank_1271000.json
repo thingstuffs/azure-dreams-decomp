@@ -202,6 +202,23 @@
       }
     },
     {
+      "row": "dungeon/func_812536C4",
+      "tu": "src/dungeon/monster/hikewne/advance_actor_state_sequence.c",
+      "home": "dungeon/func_80977E0C",
+      "foff": "0x12736C4",
+      "vma": "0x80172ec4",
+      "size": 1184,
+      "bindings": {
+        "0x80173E00": "0x801736B8",
+        "0x801740F0": "0x80173E94",
+        "0x801740F8": "0x80173E94",
+        "0x80174150": "0x80173EBC",
+        "0x80174158": "0x80173EC4",
+        "0x80174160": "0x80173ECC"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_81253B64",
       "tu": "src/dungeon/monster/hikewne/advance_actor_states_and_process_actions.c",
       "home": "dungeon/func_809782AC",

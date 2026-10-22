@@ -18,11 +18,18 @@
     },
     {
       "row": "dungeon/func_80A1D684",
-      "tu": "src/dungeon/monster/ifrit/update_actor_behavior_variant_g.c",
-      "home": "dungeon/func_80A1D684",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809C9654",
       "foff": "0xA3D684",
-      "vma": "0x80170E84",
-      "size": 1352
+      "vma": "0x80170e84",
+      "size": 1352,
+      "bindings": {
+        "0x801715F4": "0x80171624",
+        "0x8017207C": "0x801720AC",
+        "0x80173C84": "0x80174830",
+        "0x80173CCC": "0x80174848"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80A1DBCC",
@@ -31,6 +38,40 @@
       "foff": "0xA3DBCC",
       "vma": "0x801713CC",
       "size": 600
+    },
+    {
+      "row": "dungeon/func_80A1DE24",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809C9DF4",
+      "foff": "0xa3de24",
+      "vma": "0x80171624",
+      "size": 1864,
+      "bindings": {
+        "0x8006CCD8": "0x8006CCD8",
+        "0x8006CCE8": "0x8006CCE8",
+        "0x8006CD00": "0x8006CD00",
+        "0x800814A8": "0x800814A8",
+        "0x80082E80": "0x80082E80",
+        "0x80083460": "0x80083460",
+        "0x8009A180": "0x8009A180",
+        "0x8009A21C": "0x8009A21C",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x8009A540": "0x8009A540",
+        "0x8009A66C": "0x8009A66C",
+        "0x8009FD7C": "0x8009FD7C",
+        "0x800A0134": "0x800A0134",
+        "0x800A02AC": "0x800A02AC",
+        "0x800A04F0": "0x800A04F0",
+        "0x800A0818": "0x800A0818",
+        "0x800A0E6C": "0x800A0E6C",
+        "0x800A19E4": "0x800A19E4",
+        "0x800A6D30": "0x800A6D30",
+        "0x800A9A0C": "0x800A9A0C",
+        "0x800BCB04": "0x800BCB04",
+        "0x800E2970": "0x800E2970",
+        "0x80171DA0": "0x80171DD0"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required; opus_place1 view_merge: moved from dungeon/s2_sweep_0A3D000_rc1_A3DBCC_A40FA8 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "dungeon/func_80A1E56C",

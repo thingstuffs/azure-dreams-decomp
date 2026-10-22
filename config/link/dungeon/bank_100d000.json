@@ -21,6 +21,28 @@
       }
     },
     {
+      "row": "dungeon/func_80FED6A8",
+      "tu": "src/dungeon/monster/killer/update_entity_action_facing.c",
+      "home": "dungeon/func_80FDB6A8",
+      "foff": "0x100D6A8",
+      "vma": "0x8015eea8",
+      "size": 1424,
+      "bindings": {
+        "0x80171438": "0x8015F438",
+        "0x8017167C": "0x8015F67C",
+        "0x80171E28": "0x8015FE28",
+        "0x8017208C": "0x8016008C",
+        "0x80172230": "0x80160230",
+        "0x80173A84": "0x80161A84",
+        "0x80174038": "0x80162038",
+        "0x80174040": "0x80162040",
+        "0x80174070": "0x80162070",
+        "0x80174080": "0x80162080",
+        "0x80174088": "0x80162088"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80FEDC38",
       "tu": "src/dungeon/monster/grineut/spawn_mode_dependent_object.c",
       "home": "dungeon/func_80A71D70",
@@ -178,6 +200,20 @@
         "0x8016D2C0": "0x8016D2C0",
         "0x8014D810": "0x8014D810"
       }
+    },
+    {
+      "row": "dungeon/func_80FEF1A0",
+      "tu": "src/dungeon/monster/killer/update_item_use.c",
+      "home": "dungeon/func_80FDD1A0",
+      "foff": "0x100F1A0",
+      "vma": "0x801609a0",
+      "size": 1604,
+      "bindings": {
+        "0x80170EA8": "0x8015EEA8",
+        "0x80174038": "0x80162038",
+        "0x80174078": "0x80162078"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80FEF7E4",

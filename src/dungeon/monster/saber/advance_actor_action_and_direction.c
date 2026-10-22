@@ -116,7 +116,7 @@ void advance_actor_action_and_direction(void *action, void *context, void *sprit
             }
             if ((has_pending_actor_or_turn_action(actor_in) << 16) != 0) {
                 if ((check_entity_relation(actor_in,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }

@@ -80,6 +80,15 @@
       }
     },
     {
+      "row": "dungeon/func_80ACBF28",
+      "tu": "src/dungeon/monster/saber/update_creature_behavior_and_animation.c",
+      "home": "dungeon/func_80AC5F28",
+      "foff": "0xAEBF28",
+      "vma": "0x8016b728",
+      "size": 1452,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80ACC4D4",
       "tu": "src/dungeon/monster/saber/advance_entity_along_stored_path.c",
       "home": "dungeon/func_80AC64D4",
@@ -189,6 +198,24 @@
       "bindings": {
         "0x8016D2C0": "0x8016D2C0"
       }
+    },
+    {
+      "row": "dungeon/func_80ACD7D8",
+      "tu": "src/dungeon/monster/saber/advance_timed_animation_and_cleanup.c",
+      "home": "dungeon/func_80AC77D8",
+      "foff": "0xAED7D8",
+      "vma": "0x8016cfd8",
+      "size": 600,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "dungeon/func_80ACDA30",
+      "tu": "src/dungeon/monster/saber/advance_item_use_and_recovery.c",
+      "home": "dungeon/func_80AC7A30",
+      "foff": "0xAEDA30",
+      "vma": "0x8016d230",
+      "size": 1844,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80ACE164",

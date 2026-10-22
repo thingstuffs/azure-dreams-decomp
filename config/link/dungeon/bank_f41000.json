@@ -22,17 +22,26 @@
     },
     {
       "row": "dungeon/func_80F21774",
-      "tu": "src/dungeon/monster/weadog/advance_actor_action_variant_b.c",
-      "home": "dungeon/func_80EF24E8",
+      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "home": "dungeon/func_80DBA620",
       "foff": "0xF41774",
       "vma": "0x80158F74",
       "size": 1380,
       "bindings": {
-        "0x8016D2C0": "0x8016D2C0",
-        "0x8014D810": "0x8014D810",
-        "0x8017445C": "0x8017445C",
-        "0x80174F24": "0x80174F24"
-      }
+        "0x80172384": "0x801594D8",
+        "0x801725C8": "0x8015971C",
+        "0x80172D74": "0x80159EC8",
+        "0x80172F38": "0x8015A08C",
+        "0x80173050": "0x8015A308",
+        "0x80174890": "0x8015BA1C",
+        "0x80174A9C": "0x8015A1A4",
+        "0x801753BC": "0x8015BD30",
+        "0x801753C4": "0x8015BD38",
+        "0x801753F4": "0x8015BD68",
+        "0x801753FC": "0x8015BD70",
+        "0x80175404": "0x8015BD78"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80EF24E8 onto dungeon/func_80DBA620; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80F21CD8",

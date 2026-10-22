@@ -132,7 +132,7 @@ void update_entity_dimming_and_brightness(S_8017313C_0 *controller, void *contex
                 ActorRecord *owner = primary_actor_record;
 
                 if ((check_entity_relation(entity,
-                        (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)owner->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }

@@ -150,7 +150,7 @@ void advance_an_actor_s_action_state_updating_directional_animations_status_tran
 
             if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
                 if ((check_entity_relation(actor,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }

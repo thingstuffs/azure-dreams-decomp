@@ -172,6 +172,10 @@ def read_parts(paths, source_root=None):
                         if inherited is None:
                             original = json.loads((Path(source_root)/expected).read_text())
                             inherited = {e['row']:e for e in original['entries'] if 'kind' not in e}
+                        if row not in inherited:
+                            # the entry moved to another production view of the same load (opus_place1
+                            # view_merge): its evidence text travels with the row
+                            inherited.update(_moved_entries(source_root, doc['container'], row))
                         entry['evidence'] = inherited[row]['evidence']
                 else:
                     if k not in invert(KINDS) or not x.isdecimal() or int(x) >= len(profiles):
@@ -186,6 +190,15 @@ def read_parts(paths, source_root=None):
     if doc is None:
         raise ValueError('empty compact image')
     return dict(doc, entries=entries)
+
+
+def _moved_entries(source_root, container, row):
+    for p in sorted((Path(source_root)/'config/link'/container).glob('*.json')):
+        doc = json.loads(p.read_text())
+        hit = {e['row']: e for e in doc['entries'] if 'kind' not in e and e.get('row') == row}
+        if hit:
+            return hit
+    raise KeyError(row)
 
 
 def load_documents(directory, source_root=None):

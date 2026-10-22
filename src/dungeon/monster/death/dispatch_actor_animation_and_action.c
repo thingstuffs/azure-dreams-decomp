@@ -215,7 +215,7 @@ void dispatch_actor_animation_and_action(void *motion_in, void *context_in, void
         if (!(((S_801719DC_1 *)actor_in)->unk_46 & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((check_entity_relation(actor_in,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }

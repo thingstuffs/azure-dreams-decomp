@@ -86,7 +86,7 @@ void update_actor_state_and_directional_effect(void *controller, void *context, 
                 ActorRecord *owner;
 
                 owner = primary_actor_record;
-                if ((s16)check_entity_relation(actor, (u8 *)owner->unk_58 + 0x20) != 0) {
+                if ((s16)check_entity_relation(actor, (u8 *)owner->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }

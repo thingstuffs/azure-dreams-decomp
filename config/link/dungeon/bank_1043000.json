@@ -35,18 +35,12 @@
     },
     {
       "row": "dungeon/func_81023858",
-      "tu": "src/dungeon/monster/garuda/update_creature_animation_and_action.c",
-      "home": "dungeon/func_81029858",
+      "tu": "src/dungeon/monster/garuda/update_creature_animation_action.c",
+      "home": "dungeon/func_81005858",
       "foff": "0x1043858",
       "vma": "0x80153058",
       "size": 1432,
-      "bindings": {
-        "0x80170A78": "0x80170A78",
-        "0x80173A08": "0x80173A08",
-        "0x80172CE0": "0x80172CE0",
-        "0x80173010": "0x80173010"
-      },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_81029858 onto dungeon/func_81005858; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_81023DF0",

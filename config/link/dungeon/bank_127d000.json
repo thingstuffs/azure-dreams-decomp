@@ -151,29 +151,12 @@
     },
     {
       "row": "dungeon/func_8125DD14",
-      "tu": "src/dungeon/monster/beldo/update_object_animation_and_facing_state.c",
-      "home": "dungeon/func_81257D14",
+      "tu": "src/dungeon/monster/beldo/update_object_animation.c",
+      "home": "dungeon/func_81251D14",
       "foff": "0x127DD14",
       "vma": "0x80165514",
       "size": 1196,
-      "bindings": {
-        "0x80172328": "0x80172328",
-        "0x800F67CC": "0x800F67CC",
-        "0x801738F0": "0x801738F0",
-        "0x81254430": "0x81254430",
-        "0x81254248": "0x81254248",
-        "0x800DA660": "0x800DA660",
-        "0x81254060": "0x81254060",
-        "0x81254460": "0x81254460",
-        "0x80173AAC": "0x80173AAC",
-        "0x812542E4": "0x812542E4",
-        "0x812540F8": "0x812540F8",
-        "0x81254134": "0x81254134",
-        "0x8125414C": "0x8125414C",
-        "0x81254374": "0x81254374",
-        "0x801739E8": "0x801739E8",
-        "0x812543F0": "0x812543F0"
-      }
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_81257D14 onto dungeon/func_81251D14; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_8125E1C0",
@@ -321,29 +304,12 @@
     },
     {
       "row": "dungeon/func_8125ED6C",
-      "tu": "src/dungeon/monster/beldo/advance_actor_action_phase_and_completion.c",
-      "home": "dungeon/func_81258D6C",
+      "tu": "src/dungeon/monster/beldo/advance_actor_action_and_target.c",
+      "home": "dungeon/func_81252D6C",
       "foff": "0x127ED6C",
       "vma": "0x8016656C",
       "size": 1504,
-      "bindings": {
-        "0x80172328": "0x80172328",
-        "0x800F67CC": "0x800F67CC",
-        "0x801738F0": "0x801738F0",
-        "0x81254430": "0x81254430",
-        "0x81254248": "0x81254248",
-        "0x800DA660": "0x800DA660",
-        "0x81254060": "0x81254060",
-        "0x81254460": "0x81254460",
-        "0x80173AAC": "0x80173AAC",
-        "0x812542E4": "0x812542E4",
-        "0x812540F8": "0x812540F8",
-        "0x81254134": "0x81254134",
-        "0x8125414C": "0x8125414C",
-        "0x81254374": "0x81254374",
-        "0x801739E8": "0x801739E8",
-        "0x812543F0": "0x812543F0"
-      }
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_81258D6C onto dungeon/func_81252D6C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_8125F34C",
@@ -475,29 +441,20 @@
     },
     {
       "row": "dungeon/func_8125F6C4",
-      "tu": "src/dungeon/monster/beldo/advance_actor_facing_effect_sequence.c",
-      "home": "dungeon/func_812596C4",
+      "tu": "src/dungeon/monster/hikewne/advance_actor_state_sequence.c",
+      "home": "dungeon/func_80977E0C",
       "foff": "0x127F6C4",
       "vma": "0x80166EC4",
       "size": 1184,
       "bindings": {
-        "0x80172328": "0x80172328",
-        "0x800F67CC": "0x800F67CC",
-        "0x801738F0": "0x801738F0",
-        "0x81254430": "0x81254430",
-        "0x81254248": "0x81254248",
-        "0x800DA660": "0x800DA660",
-        "0x81254060": "0x81254060",
-        "0x81254460": "0x81254460",
-        "0x80173AAC": "0x80173AAC",
-        "0x812542E4": "0x812542E4",
-        "0x812540F8": "0x812540F8",
-        "0x81254134": "0x81254134",
-        "0x8125414C": "0x8125414C",
-        "0x81254374": "0x81254374",
-        "0x801739E8": "0x801739E8",
-        "0x812543F0": "0x812543F0"
-      }
+        "0x80173E00": "0x801676B8",
+        "0x801740F0": "0x80167E94",
+        "0x801740F8": "0x80167E94",
+        "0x80174150": "0x80167EBC",
+        "0x80174158": "0x80167EC4",
+        "0x80174160": "0x80167ECC"
+      },
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_812596C4 onto dungeon/func_80977E0C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_8125FB64",

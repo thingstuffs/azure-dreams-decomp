@@ -332,7 +332,7 @@ void select_and_advance_actor_move(u8 *move_input, void *action_context, u8 *pos
         if (attempt == 0) {
             if ((((T_80172F58_S_80172F58_11 *)(((s8 *)&reference_tile_object.tile_position.parts.tile_x)))->unk_00 != ((T_80172F58_S_80172F58_2 *)position)->unk_24.at00u.v)
                 &&
-                ((s16)check_entity_relation(actor, ((s32)primary_actor_record->unk_58) + 0x20) != 0)) {
+                ((s16)check_entity_relation(actor, ((s32)primary_actor_record->previous_actor_header) + 0x20) != 0)) {
                 return;
             }
         }

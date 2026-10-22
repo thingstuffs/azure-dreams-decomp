@@ -8,6 +8,24 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F6F1800: img_a74000_80165800, r121nd_A73C0C; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80A53C0C",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
+      "home": "dungeon/func_80A47C0C",
+      "foff": "0xA73C0C",
+      "vma": "0x8016540c",
+      "size": 1368,
+      "bindings": {
+        "0x80171964": "0x80165964",
+        "0x80171B1C": "0x80165B1C",
+        "0x80172264": "0x80166264",
+        "0x80172550": "0x80166550",
+        "0x80175068": "0x80169068",
+        "0x80175874": "0x80169874",
+        "0x80175884": "0x80169884"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80A5431C",
       "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8802C",
@@ -206,6 +224,52 @@
       "foff": "0xA77914",
       "vma": "0x80169114",
       "size": 348
+    },
+    {
+      "row": "dungeon/func_80A57A70",
+      "tu": "src/dungeon/monster/flame/flame_actions.c",
+      "home": "dungeon/func_80A4BA70",
+      "foff": "0xa77a70",
+      "vma": "0x80169270",
+      "size": 1420,
+      "bindings": {
+        "0x8003DB94": "0x8003DB94",
+        "0x8003E140": "0x8003E140",
+        "0x8003E4FC": "0x8003E4FC",
+        "0x8003F540": "0x8003F540",
+        "0x8003FC64": "0x8003FC64",
+        "0x80041588": "0x80041588",
+        "0x800445E0": "0x800445E0",
+        "0x8004491C": "0x8004491C",
+        "0x80047738": "0x80047738",
+        "0x800498A0": "0x800498A0",
+        "0x80069EF8": "0x80069EF8",
+        "0x8006CD58": "0x8006CD58",
+        "0x800814A0": "0x800814A0",
+        "0x80083160": "0x80083160",
+        "0x80083460": "0x80083460",
+        "0x8009A028": "0x8009A028",
+        "0x8009A3D0": "0x8009A3D0",
+        "0x800A18E8": "0x800A18E8",
+        "0x800A504C": "0x800A504C",
+        "0x800A56E0": "0x800A56E0",
+        "0x800ADC4C": "0x800ADC4C",
+        "0x800C77D0": "0x800C77D0",
+        "0x800DCEEC": "0x800DCEEC",
+        "0x800DCF5C": "0x800DCF5C",
+        "0x8014A000": "0x8014A000",
+        "0x80173E08": "0x80167E08",
+        "0x80174E78": "0x80168E78",
+        "0x80175114": "0x80169114",
+        "0x801758FC": "0x801698FC",
+        "0x80175904": "0x80169904",
+        "0x8017591C": "0x8016991C",
+        "0x80175920": "0x80169920",
+        "0x80175921": "0x80169921",
+        "0x80175924": "0x80169924",
+        "0x80175928": "0x80169928"
+      },
+      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required; opus_place1 view_merge: moved from dungeon/region_a74000_a77ffc (same load delta) so the merged file's members share one view"
     }
   ],
   "symbols": {

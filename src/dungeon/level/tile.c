@@ -110,11 +110,11 @@ void clear_entry_flag_and_link_owner(void *entry)
 
     owner = primary_actor_record;
     ((S_80099FDC_0 *)entry)->unk_10 = ((S_80099FDC_0 *)entry)->unk_10 & 0x7FFFFFFF;
-    neighbor_links = (u8 *)owner->unk_58 + 0x20;
+    neighbor_links = (u8 *)owner->previous_actor_header + 0x20;
     entry_links = (u8 *)entry + 0x20;
     entry_links->unk_5C = neighbor_links->unk_5C;
-    entry_links->unk_58 = owner->unk_58;
-    owner->unk_58 = entry;
+    entry_links->unk_58 = owner->previous_actor_header;
+    owner->previous_actor_header = entry;
     neighbor_links->unk_5C = entry;
 }
 #include "modules/dungeon_engine_tile_map_fragment_b48c8.h"
@@ -242,7 +242,7 @@ s32 check_entity_relation(ActorRecord *entry, ActorRecord *anchor) {
     entry->next_actor_header = prev_link;
     prev_node = (void *)(prev_link + 0x20);
     link_bits = (u32)prev_node->unk_58;
-    entry->unk_58 = (void *)link_bits;
+    entry->previous_actor_header = (void *)link_bits;
     link_bits = (u32)((u8 *)entry - 0x20);
     prev_node->unk_58 = (void *)link_bits;
     anchor->next_actor_header = (void *)link_bits;

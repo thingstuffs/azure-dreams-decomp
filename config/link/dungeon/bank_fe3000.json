@@ -9,6 +9,29 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F17B800: r101_rc7_func_80FC376C, r101_rc7_func_80FC55EC, rc7_res_FE4110_FE55EC, rc7_res_FE5AB4_FE7A50, sweep_0FE3000; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80FC376C",
+      "tu": "src/dungeon/monster/mandara/update_long_actor_action.c",
+      "home": "dungeon/func_80FB176C",
+      "foff": "0xFE376C",
+      "vma": "0x8015ef6c",
+      "size": 2468,
+      "bindings": {
+        "0x80171910": "0x8015F910",
+        "0x80171B68": "0x8015FB68",
+        "0x80172314": "0x80160314",
+        "0x80172514": "0x80160514",
+        "0x80172658": "0x80160658",
+        "0x80174250": "0x80162250",
+        "0x80175174": "0x80163174",
+        "0x80175258": "0x80163258",
+        "0x80175260": "0x80163260",
+        "0x80175290": "0x80163290",
+        "0x80175298": "0x80163298",
+        "0x801752A0": "0x801632A0"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80FC4110",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9B9C",
@@ -148,6 +171,19 @@
       }
     },
     {
+      "row": "dungeon/func_80FC55EC",
+      "tu": "src/dungeon/monster/mandara/advance_action_through_recovery.c",
+      "home": "dungeon/func_80FB35EC",
+      "foff": "0xFE55EC",
+      "vma": "0x80160dec",
+      "size": 1224,
+      "bindings": {
+        "0x80170F6C": "0x8015EF6C",
+        "0x80175258": "0x80163258"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80FC5AB4",
       "tu": "src/dungeon/monster/mandara/update_motion_and_recenter_entity.c",
       "home": "dungeon/func_80FB3AB4",
@@ -251,6 +287,21 @@
         "0x80174668": "0x80174668"
       },
       "evidence": "LL3a attestation sha256:12c8f83d873b7166b0c80d7de4496cf857343bfc85fe6ce85a46f9da072efda8; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "dungeon/func_80FC6714",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CBEF4",
+      "foff": "0xFE6714",
+      "vma": "0x80161f14",
+      "size": 828,
+      "bindings": {
+        "0x80170E54": "0x8015EF6C",
+        "0x80173A30": "0x80162250",
+        "0x80173CD4": "0x80163298",
+        "0x80173CDC": "0x80163298"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80FC6A50",
@@ -413,6 +464,15 @@
         "0x8014D810": "0x8014D810"
       },
       "evidence": "LL3a attestation sha256:a3a41be57081bc03d26d8f8d9ebed5fb36d813b4ea600dfdbe36e1ed03a28b01; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "dungeon/func_80FC7974",
+      "tu": "src/town/minigame/object/set_linked_object_and_global_flags.c",
+      "home": "town/func_800C19FC",
+      "foff": "0xFE7974",
+      "vma": "0x80163174",
+      "size": 108,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80FC79E0",

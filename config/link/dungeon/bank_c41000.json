@@ -36,6 +36,32 @@
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
     },
     {
+      "row": "dungeon/func_80C41BA8",
+      "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
+      "home": "dungeon/func_80C15BA8",
+      "foff": "0xc41ba8",
+      "vma": "0x801653a8",
+      "size": 1320,
+      "bindings": {
+        "0x801744fc": "0x801684fc",
+        "0x801744ec": "0x801684ec",
+        "0x80174494": "0x80168494",
+        "0x8017449c": "0x8016849c",
+        "0x801744a4": "0x801684a4",
+        "0x80170808": "0x80164808",
+        "0x801713a8": "0x801653a8",
+        "0x801744d4": "0x801684d4",
+        "0x801718d0": "0x801658d0",
+        "0x801718b0": "0x801658b0",
+        "0x80174250": "0x80168250",
+        "0x801724c4": "0x801664c4",
+        "0x801721e0": "0x801661e0",
+        "0x801723a4": "0x801663a4",
+        "0x80171a98": "0x80165a98"
+      },
+      "evidence": "work/native_lane/r121_heur/evidence/placements2.json: complete donor, strict base promotion, native ELF relocation replay and final scoped production gate; opus_place1 view_merge: moved from dungeon/heur_c41ba8 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80C220D0",
       "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "home": "dungeon/func_80C160D0",

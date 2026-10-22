@@ -760,7 +760,7 @@ def _generate():
             # T1 member projection: the gate wrote this unit from its home's span in the owner TU.
             # Bind the owner TU and inline ledger, and re-project at compile time (compile_one).
             from gate.source_layout import row_relative
-            home = family + '/' + source.stem
+            home = capture.get('home') or family + '/' + source.stem
             spec['projection'] = dict(home=home, owner=str(row_relative(registry[home], ROOT)))
         key = sha(json.dumps(spec, sort_keys=True).encode())[:24]
         spec['output'] = 'build/obj/' + key + '.o'
@@ -799,12 +799,18 @@ def _generate():
                 for (off, size), match in table.items():
                     if (family, off, size) in module_rows:
                         continue
+                    # A placement compiles with its HOME's evidence: family and frozen scope (decision 75 (A):
+                    # the home may live in another container).  The scope is part of the checkpoint key.
+                    place = linklist.placement(gate.ROOT, family, off, row=family+'/'+match.source.stem) if match.source_kind == 'c' else None
+                    evidence_family, evidence_offset = (linklist.evidence_scope(gate.ROOT, place)
+                                                        if place and place['row'] != place['home'] else (family, off))
+                    scope_key = '' if (evidence_family, evidence_offset) == (family, off) else f':home={evidence_family}:{evidence_offset}'
                     def enumerate_row():
                         nonlocal capture
-                        place = linklist.placement(gate.ROOT, family, off, row=family+'/'+match.source.stem) if match.source_kind == 'c' else None
-                        evidence_offset = linklist.evidence_foff(gate.ROOT, place) if place and place['row'] != place['home'] else off
-                        base_names = E._gen_noreturn().scoped_census(family, evidence_offset)['names'] if family in {'town','dungeon'} else E.load_noreturn_file(E.evidence_env(family).get('MASPSX_NORETURN_FILE', E.DEFAULT_NORETURN_FILE))
+                        base_names = E._gen_noreturn().scoped_census(evidence_family, evidence_offset)['names'] if evidence_family in {'town','dungeon'} else E.load_noreturn_file(E.evidence_env(evidence_family).get('MASPSX_NORETURN_FILE', E.DEFAULT_NORETURN_FILE))
                         capture = dict(live=dict(base_names=sorted(base_names))) if match.source_kind == 'c' else {}
+                        if place and place['row'] != place['home']:
+                            capture['home'] = place['home']
                         segment = gate.Segment(0, match.source_kind, off, off+size,
                             match.link_vram or off, '.text.*', name=match.func, match=match)
                         if match.source_kind == 'c':
@@ -819,7 +825,7 @@ def _generate():
                         plan = dict(recipe=key, rebind=capture.get('rebind'), func=match.func,
                                     source_stem=match.source.stem, recipe_vma=match.link_vram, kind=match.source_kind)
                         return dict(key=key, spec=spec, plan=plan, artifacts=artifacts)
-                    cached = checkpoint(f'row:{family}:{off}:{size}', enumerate_row, copy_value=False)
+                    cached = checkpoint(f'row:{family}:{off}:{size}{scope_key}', enumerate_row, copy_value=False)
                     recipes.setdefault(cached['key'], dict(cached['spec']))
                     for name, text in cached['artifacts'].items():
                         replay(name, text)

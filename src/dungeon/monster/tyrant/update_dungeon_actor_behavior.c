@@ -169,7 +169,7 @@ void update_dungeon_actor_behavior(void *actor_arg, void *context_arg, void *map
         if (!(((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x8000)) {
             if (g_dungeon_status.flags & 0x2000) {
                 if ((s16)check_entity_relation(actor_state_arg,
-                        (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                        (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }

@@ -18,11 +18,23 @@
     },
     {
       "row": "dungeon/func_80CBD720",
-      "tu": "src/dungeon/monster/pulunpa/update_actor_behavior_by_status.c",
-      "home": "dungeon/func_80CBD720",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809C9654",
       "foff": "0xCDD720",
-      "vma": "0x80170F20",
-      "size": 1352
+      "vma": "0x80170f20",
+      "size": 1352,
+      "bindings": {
+        "0x8017139C": "0x80171BB0",
+        "0x801715F4": "0x80171468",
+        "0x80171DA0": "0x80171E58",
+        "0x80171F64": "0x8017201C",
+        "0x8017207C": "0x80173A54",
+        "0x80173C7C": "0x801762C0",
+        "0x80173C84": "0x80176310",
+        "0x80173CCC": "0x801762F0",
+        "0x80173CD4": "0x801762F8"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80CBDC68",
@@ -272,11 +284,16 @@
     },
     {
       "row": "dungeon/func_80CC1C80",
-      "tu": "src/dungeon/monster/pulunpa/update_pulunpa_item_action.c",
-      "home": "dungeon/func_80CC1C80",
+      "tu": "src/dungeon/monster/pulunpa/advance_selected_item_action.c",
+      "home": "dungeon/func_80CBEF98",
       "foff": "0xCE1C80",
       "vma": "0x80175480",
-      "size": 1144
+      "size": 1144,
+      "bindings": {
+        "0x80170F20": "0x80173B98",
+        "0x801762C0": "0x80176320"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80CC20F8",

@@ -133,11 +133,12 @@
     },
     {
       "row": "dungeon/func_81275D14",
-      "tu": "src/dungeon/func_81275D14.c",
-      "home": "dungeon/func_81275D14",
-      "foff": "0x1295d14",
+      "tu": "src/dungeon/monster/beldo/update_object_animation.c",
+      "home": "dungeon/func_81251D14",
+      "foff": "0x1295D14",
       "vma": "0x8014d514",
-      "size": 1196
+      "size": 1196,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_812761C0",
@@ -285,11 +286,12 @@
     },
     {
       "row": "dungeon/func_81276D6C",
-      "tu": "src/dungeon/func_81276D6C.c",
-      "home": "dungeon/func_81276D6C",
-      "foff": "0x1296d6c",
+      "tu": "src/dungeon/monster/beldo/advance_actor_action_and_target.c",
+      "home": "dungeon/func_81252D6C",
+      "foff": "0x1296D6C",
       "vma": "0x8014e56c",
-      "size": 1504
+      "size": 1504,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_8127734C",
@@ -421,11 +423,20 @@
     },
     {
       "row": "dungeon/func_812776C4",
-      "tu": "src/dungeon/func_812776C4.c",
-      "home": "dungeon/func_812776C4",
-      "foff": "0x12976c4",
+      "tu": "src/dungeon/monster/hikewne/advance_actor_state_sequence.c",
+      "home": "dungeon/func_80977E0C",
+      "foff": "0x12976C4",
       "vma": "0x8014eec4",
-      "size": 1184
+      "size": 1184,
+      "bindings": {
+        "0x80173E00": "0x8014F6B8",
+        "0x801740F0": "0x8014FE94",
+        "0x801740F8": "0x8014FE94",
+        "0x80174150": "0x8014FEBC",
+        "0x80174158": "0x8014FEC4",
+        "0x80174160": "0x8014FECC"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_81277B64",

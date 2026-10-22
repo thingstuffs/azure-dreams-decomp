@@ -330,7 +330,7 @@ void choose_heading_and_advance_actor(void *context, s32 action, S_8017405C_1 *a
                 break;
             }
             if (move_index == 0 && reference_tile_position_alias != actor->unk_24.at00u.v) {
-                if (check_entity_relation(movement, primary_actor_record->unk_58 + 0x20) != 0) {
+                if (check_entity_relation(movement, primary_actor_record->previous_actor_header + 0x20) != 0) {
                     return;
                 }
             }

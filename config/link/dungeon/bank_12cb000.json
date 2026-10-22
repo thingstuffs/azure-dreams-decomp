@@ -203,6 +203,21 @@
       }
     },
     {
+      "row": "dungeon/func_812CFDA0",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "home": "dungeon/func_809A32D4",
+      "foff": "0x12cfda0",
+      "vma": "0x8016f5a0",
+      "size": 716,
+      "bindings": {
+        "0x801750e4": "0x8016f964",
+        "0x80174ce8": "0x8016f7b4",
+        "0x80174cf8": "0x8016f7c4",
+        "0x80174fc0": "0x800f7a38"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; opus_place1 view_merge: moved from dungeon/heur_12cfda0 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_812B006C",
       "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
       "home": "dungeon/func_809A35A0",

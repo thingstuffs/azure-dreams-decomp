@@ -33,6 +33,21 @@
       }
     },
     {
+      "row": "dungeon/func_80EF7C98",
+      "tu": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "home": "dungeon/func_80EDFC98",
+      "foff": "0xf17c98",
+      "vma": "0x80159498",
+      "size": 640,
+      "bindings": {
+        "0x80170ed8": "0x80158ed8",
+        "0x801712c4": "0x801592c4",
+        "0x801710b8": "0x801590b8",
+        "0x801588A4": "0x801588A4"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80EF7C98; opus_place1 view_merge: moved from dungeon/s2_r101_rc2_res_F176D8_F184E8 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80EF7F18",
       "tu": "src/dungeon/monster/weadog/create_overlay_effect_object.c",
       "home": "dungeon/func_80EDFF18",
@@ -57,6 +72,29 @@
         "0x8014D810": "0x8014D810"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
+    },
+    {
+      "row": "dungeon/func_80EF84E8",
+      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "home": "dungeon/func_80DBA620",
+      "foff": "0xF184E8",
+      "vma": "0x80159ce8",
+      "size": 1380,
+      "bindings": {
+        "0x80172384": "0x8015A24C",
+        "0x801725C8": "0x8015A490",
+        "0x80172D74": "0x8015AC44",
+        "0x80172F38": "0x8015AE08",
+        "0x80173050": "0x8015AF20",
+        "0x80174890": "0x8015C650",
+        "0x80174A9C": "0x8015C824",
+        "0x801753BC": "0x8015CEB8",
+        "0x801753C4": "0x8015CEC0",
+        "0x801753F4": "0x8015CEF0",
+        "0x801753FC": "0x8015CEF8",
+        "0x80175404": "0x8015CF00"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80EF8A4C",
@@ -183,19 +221,30 @@
     },
     {
       "row": "dungeon/func_80EF9D14",
-      "tu": "src/dungeon/monster/weadog/advance_actor_action_phase.c",
-      "home": "dungeon/func_80EF9D14",
+      "tu": "src/dungeon/monster/weadog/advance_timed_sprite_flashing_sequence.c",
+      "home": "dungeon/func_80EE1D14",
       "foff": "0xF19D14",
-      "vma": "0x8015B514",
-      "size": 668
+      "vma": "0x8015b514",
+      "size": 668,
+      "bindings": {
+        "0x80171CE8": "0x80159CE8",
+        "0x80174EE0": "0x8015CEE0"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80EF9FB0",
-      "tu": "src/dungeon/func_80EF9FB0.c",
-      "home": "dungeon/func_80EF9FB0",
-      "foff": "0xf19fb0",
+      "tu": "src/dungeon/monster/weadog/update_actor_targeted_action.c",
+      "home": "dungeon/func_80EE1FB0",
+      "foff": "0xF19FB0",
       "vma": "0x8015b7b0",
-      "size": 1412
+      "size": 1412,
+      "bindings": {
+        "0x80171498": "0x80159498",
+        "0x80171CE8": "0x80159CE8",
+        "0x80174EB8": "0x8015CEB8"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80EFA534",

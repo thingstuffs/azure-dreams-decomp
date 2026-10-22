@@ -318,29 +318,27 @@
     },
     {
       "row": "dungeon/func_80D31E4C",
-      "tu": "src/dungeon/func_80D25E4C.c",
-      "home": "dungeon/func_80D25E4C",
-      "foff": "0xd51e4c",
-      "vma": "0x8015564c",
+      "tu": "src/dungeon/monster/noise/update_ability_action_and_completion.c",
+      "home": "dungeon/func_80D13E4C",
+      "foff": "0xD51E4C",
+      "vma": "0x8015564C",
       "size": 1280,
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80D25E4C onto dungeon/func_80D13E4C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
+    },
+    {
+      "row": "dungeon/func_80D3234C",
+      "tu": "src/dungeon/monster/snowman/move_and_shrink_fading_effect.c",
+      "home": "dungeon/func_80AF200C",
+      "foff": "0xD5234C",
+      "vma": "0x80155b4c",
+      "size": 792,
       "bindings": {
-        "0x8003F270": "0x8003F270",
-        "0x80047784": "0x80047784",
-        "0x80069EF8": "0x80069EF8",
-        "0x8006DE24": "0x8006DE24",
-        "0x800814A8": "0x800814A8",
-        "0x80083160": "0x80083160",
-        "0x80083460": "0x80083460",
-        "0x800A05A4": "0x800A05A4",
-        "0x800A2B04": "0x800A2B04",
-        "0x800A4ACC": "0x800A4ACC",
-        "0x800A56E0": "0x800A56E0",
-        "0x800A94A0": "0x800A94A0",
-        "0x8015F020": "0x80153020",
-        "0x8015F760": "0x80153760",
-        "0x80162E88": "0x80156E88"
+        "0x801717F4": "0x80153760",
+        "0x80175988": "0x80156E88",
+        "0x80175998": "0x80156E98",
+        "0x801759C8": "0x80156ED8"
       },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80D32664",

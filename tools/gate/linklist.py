@@ -317,18 +317,42 @@ def evidence_foff(root, entry):
     the home bytes, and the same text saw the same declarations in every bank it was linked into."""
     home = load(root)[2][entry["home"]]
     if home["container"] != entry["container"]:
-        raise ValueError("cross-container placement evidence is not modelled yet: " + entry["row"])
+        raise ValueError("cross-container placement: use evidence_scope: " + entry["row"])
     return home["foff"]
 
 
+def evidence_scope(root, entry):
+    """(family, file offset) of the frozen evidence a placement compiles with: its HOME's (decision 75 (A): the
+    home may live in another container; the home's family evidence then applies, exactly as its own window
+    compiles it)."""
+    home = load(root)[2][entry["home"]]
+    return family(home["container"]), home["foff"]
+
+
 def evidence_offsets(root, container, offsets):
-    """Home offsets of the placements among (container, offsets): the extra evidence a window binds."""
+    """Home offsets of the same-container placements among (container, offsets): the extra evidence a window
+    binds.  Cross-container homes are bound by cross_evidence (a separate key, so same-container digests stay)."""
     by_place = load(root)[1]
     out = set()
     for off in offsets:
         e = by_place.get((family(container), off))
         if e is not None and e["home"] != e["row"]:
-            out.add(evidence_foff(root, e))
+            fam, foff = evidence_scope(root, e)
+            if fam == family(container):
+                out.add(foff)
+    return out
+
+
+def cross_evidence(root, container, offsets):
+    """{home family: {home offsets}} for the cross-container placements among (container, offsets)."""
+    by_place = load(root)[1]
+    out = {}
+    for off in offsets:
+        e = by_place.get((family(container), off))
+        if e is not None and e["home"] != e["row"]:
+            fam, foff = evidence_scope(root, e)
+            if fam != family(container):
+                out.setdefault(fam, set()).add(foff)
     return out
 
 
@@ -392,13 +416,32 @@ def rebind_object(root, entry, obj, log=None):
         Path(log).write_text("".join("%s -> %s\n" % kv for kv in sorted(renames.items())))
     if not renames:
         return {}
-    if len(set(renames.values())) != len(renames) or set(renames.values()) & (names - set(renames)):
-        raise SystemExit("link list %s: rebinding of %s collides with an existing symbol" % (entry["image"], entry["row"]))
-    args = [OBJCOPY]
+    # Several home REFERENCES may bind to one destination address (the destination keeps one table where
+    # the home kept two, opus_place1): those undefined symbols merge into one name, applied in successive
+    # objcopy passes (objcopy refuses two redefinitions onto one target in a single call). The link
+    # resolves every reference by address, so the merge is exact. A definition never merges.
+    undefined = {l.split()[-1] for l in out.splitlines() if len(l.split()) == 2 and l.split()[0] == "U"}
+    groups = {}
     for o, n in renames.items():
-        args += ["--redefine-sym", o + "=" + n, "--rename-section", ".text." + o + "=.text." + n,
-                 "--rename-section", ".rel.text." + o + "=.rel.text." + n]
-    subprocess.run(args + [str(obj)], check=True, capture_output=True, text=True)
+        groups.setdefault(n, []).append(o)
+    clash = set(renames.values()) & (names - set(renames))
+    if (any(len(v) > 1 and not set(v) <= undefined for v in groups.values())
+            or not clash <= undefined or any(not set(groups[n]) <= undefined for n in clash)):
+        raise SystemExit("link list %s: rebinding of %s collides with an existing symbol" % (entry["image"], entry["row"]))
+    pending, passes = dict(renames), []
+    while pending:
+        batch = {}
+        for o, n in list(pending.items()):
+            if n not in batch.values():
+                batch[o] = n
+                del pending[o]
+        passes.append(batch)
+    for batch in passes:
+        args = [OBJCOPY]
+        for o, n in batch.items():
+            args += ["--redefine-sym", o + "=" + n, "--rename-section", ".text." + o + "=.text." + n,
+                     "--rename-section", ".rel.text." + o + "=.rel.text." + n]
+        subprocess.run(args + [str(obj)], check=True, capture_output=True, text=True)
     return renames
 
 
@@ -530,8 +573,6 @@ def check(root, splits, registry, tu_of):
             bad.append(where + " extent differs from its split record")
         if split_vma(s) != e["vma"]:
             bad.append("%s vma 0x%X, split record links at 0x%X" % (where, e["vma"], split_vma(s) or 0))
-        if e["container"] != by_row[e["home"]]["container"]:
-            bad.append(where + " has a home in another container (cross-container placements are not modelled yet)")
         if rid in module_rows and e["home"] != rid:
             # A home may be a module member: its member file is compiled standalone at the placement and the
             # window gate proves it (or fails closed). A placement row inside a module is a module placement.

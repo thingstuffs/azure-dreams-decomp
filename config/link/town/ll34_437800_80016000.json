@@ -16,6 +16,33 @@
       "size": 48
     },
     {
+      "row": "town/func_80418570",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x438570",
+      "vma": "0x80016d70",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_80418A68",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x438A68",
+      "vma": "0x80017268",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_80418CE0",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x438CE0",
+      "vma": "0x800174e0",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "town/func_804B8E1C",
       "tu": "src/town/scene/select_status_code_from_callback.c",
       "home": "town/func_8032E254",

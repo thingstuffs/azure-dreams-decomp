@@ -329,7 +329,7 @@ void advance_actor_path(void *motion, void *context, S_8016BF74_2 *position, voi
                 break;
             }
             if ((turn_index == 0) && (reference_tile_position_alias != position->unk_24.at00u.v)
-                && ((check_entity_relation(actor, (struct ActorRecord *)(((s32)primary_actor_record->unk_58) + 0x20)) << 0x10) != 0)) {
+                && ((check_entity_relation(actor, (struct ActorRecord *)(((s32)primary_actor_record->previous_actor_header) + 0x20)) << 0x10) != 0)) {
                 return;
             }
             turn_index += 1;

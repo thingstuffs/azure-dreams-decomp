@@ -254,6 +254,25 @@
       "evidence": "LL3a attestation sha256:3bb35a7bf7db907b6a49c5cb66ebff71a6d77dcaa0901a561c81d376418707a3; current-TU paired HI16/LO16 relocation screen; scoped window gate"
     },
     {
+      "row": "dungeon/func_80D154C0",
+      "tu": "src/dungeon/monster/troll/advance_actor_stored_path.c",
+      "home": "dungeon/func_80CE94C0",
+      "foff": "0xd154c0",
+      "vma": "0x80166cc0",
+      "size": 664,
+      "bindings": {
+        "0x80172db8": "0x80166db8",
+        "0x80172d7c": "0x80166d7c",
+        "0x80175dc4": "0x80169dc4",
+        "0x80175dcc": "0x80169dcc",
+        "0x80175dd4": "0x80169dd4",
+        "0x80173678": "0x80167678",
+        "0x80172edc": "0x80166edc",
+        "0x80172f30": "0x80166f30"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; opus_place1 view_merge: moved from dungeon/heur_d154c0 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80CF5758",
       "tu": "src/dungeon/monster/troll/advance_actor_stored_path.c",
       "home": "dungeon/func_80CE9758",

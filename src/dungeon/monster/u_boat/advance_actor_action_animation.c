@@ -95,7 +95,7 @@ void advance_actor_action_animation(void *action, s32 actor_index, void *sprite,
             return;
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
-            if ((check_entity_relation(actor, ((s32)primary_actor_record->unk_58) + 0x20) << 16) != 0) {
+            if ((check_entity_relation(actor, ((s32)primary_actor_record->previous_actor_header) + 0x20) << 16) != 0) {
                 return;
             }
         }

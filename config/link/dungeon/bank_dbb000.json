@@ -289,6 +289,20 @@
       }
     },
     {
+      "row": "dungeon/func_80D9D93C",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809CBEF4",
+      "foff": "0xDBD93C",
+      "vma": "0x8016713c",
+      "size": 828,
+      "bindings": {
+        "0x80173A30": "0x80167478",
+        "0x80173CD4": "0x8016786C",
+        "0x80173CDC": "0x8016786C"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80D9DC78",
       "tu": "src/dungeon/monster/kewne/update_actor_state_after_map_check.c",
       "home": "dungeon/func_809A2D74",

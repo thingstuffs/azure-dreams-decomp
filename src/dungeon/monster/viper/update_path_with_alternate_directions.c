@@ -293,7 +293,7 @@ void update_path_with_alternate_directions(void *move_ctx_in, void *action_ctx, 
         if (turn_index == 0 &&
             *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != ((S_8017163C_2 *)position_in)->unk_24.at00u.v) {
             if (check_entity_relation(actor_in,
-                    (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                 return;
             }
         }

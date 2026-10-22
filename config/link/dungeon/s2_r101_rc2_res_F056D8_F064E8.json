@@ -21,21 +21,6 @@
         "0x80083160": "0x80083160"
       },
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
-    },
-    {
-      "row": "dungeon/func_80EE5C98",
-      "tu": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
-      "home": "dungeon/func_80EDFC98",
-      "foff": "0xf05c98",
-      "vma": "0x8016b498",
-      "size": 640,
-      "bindings": {
-        "0x80170ed8": "0x8016aed8",
-        "0x801712c4": "0x8016b2c4",
-        "0x801710b8": "0x8016b0b8",
-        "0x801588A4": "0x801588A4"
-      },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80EE5C98"
     }
   ]
 }

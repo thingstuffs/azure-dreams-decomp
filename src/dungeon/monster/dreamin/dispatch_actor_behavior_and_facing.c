@@ -120,7 +120,7 @@ void dispatch_actor_behavior_and_facing(Rec_func_800A9E70_arg0 *actor, void *con
 
             if ((state->action_flags & 0x8000) == 0) {
                 if (g_dungeon_status.flags & 0x2000) {
-                    if ((s16)check_entity_relation(state, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                    if ((s16)check_entity_relation(state, (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                         return;
                     }
                 }

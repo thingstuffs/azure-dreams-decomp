@@ -8,6 +8,14 @@
   "evidence": "docs/evidence/r121w_s2_receipts.json",
   "entries": [
     {
+      "row": "dungeon/func_80FDB6A8",
+      "tu": "src/dungeon/monster/killer/update_entity_action_facing.c",
+      "home": "dungeon/func_80FDB6A8",
+      "foff": "0xFFB6A8",
+      "vma": "0x80170ea8",
+      "size": 1424
+    },
+    {
       "row": "dungeon/func_80FDBE7C",
       "tu": "src/dungeon/modules/ovl_cd7000.c",
       "home": "dungeon/func_80CB8010",
@@ -48,6 +56,14 @@
       "foff": "0xffcc0c",
       "vma": "0x8017240c",
       "size": 892
+    },
+    {
+      "row": "dungeon/func_80FDD1A0",
+      "tu": "src/dungeon/monster/killer/update_item_use.c",
+      "home": "dungeon/func_80FDD1A0",
+      "foff": "0xFFD1A0",
+      "vma": "0x801729a0",
+      "size": 1604
     },
     {
       "row": "dungeon/func_80FDDB14",

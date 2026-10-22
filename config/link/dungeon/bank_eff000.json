@@ -42,11 +42,26 @@
     },
     {
       "row": "dungeon/func_80EE04E8",
-      "tu": "src/dungeon/monster/weadog/update_effect_actor_behavior.c",
-      "home": "dungeon/func_80EE04E8",
+      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "home": "dungeon/func_80DBA620",
       "foff": "0xF004E8",
-      "vma": "0x80171CE8",
-      "size": 1380
+      "vma": "0x80171ce8",
+      "size": 1380,
+      "bindings": {
+        "0x80172384": "0x8017224C",
+        "0x801725C8": "0x80172490",
+        "0x80172D74": "0x80172C44",
+        "0x80172F38": "0x80172E08",
+        "0x80173050": "0x80172F20",
+        "0x80174890": "0x80174650",
+        "0x80174A9C": "0x80174824",
+        "0x801753BC": "0x80174EB8",
+        "0x801753C4": "0x80174EC0",
+        "0x801753F4": "0x80174EF0",
+        "0x801753FC": "0x80174EF8",
+        "0x80175404": "0x80174F00"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80EE0A4C",

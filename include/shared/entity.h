@@ -164,9 +164,8 @@ typedef struct ActorRecord {
     /* 0x050 */ unsigned short unk_50;            /* equipment/item pointer spans +0x50..+0x53 (candidate; u16 views) */
     /* 0x052 */ unsigned short unk_52;
     /* 0x054 */ int status_flags;                 /* medium: additional actor status bits */
-    /* 0x058 */ void * unk_58;                    /* medium: previous_actor_header (live actor list link to the previous actor's
-                                                   * ObjectNodeHeader); the rename waits for the relinked copies of the
-                                                   * dragon, flame and arachne actions that read D_800814A8->unk_58 */
+    /* 0x058 */ void * previous_actor_header;     /* medium: live actor list link to the previous actor's ObjectNodeHeader
+                                                   * (decision 73; renamed once the relinked copies became placements) */
     /* 0x05C */ int next_actor_header;            /* medium: live actor list link (next actor's header; int-typed leaf kept) */
     /* 0x060 */ void * target;                    /* the actor an action targets (actor data; header at -0x20) */
     /* 0x064 */ short unk_64;                     /* pending signed HP delta (candidate) */

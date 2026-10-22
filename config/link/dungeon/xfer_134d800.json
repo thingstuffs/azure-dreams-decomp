@@ -40,6 +40,15 @@
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_8132E580",
+      "tu": "src/town/minigame/object/set_linked_object_and_global_flags.c",
+      "home": "town/func_800C19FC",
+      "foff": "0x134E580",
+      "vma": "0x80165580",
+      "size": 108,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_8132F3AC",
       "home": "dungeon/func_8132F3AC",
       "tu": "src/dungeon/effect/particle/draw_gouraud_textured_ribbon_quad.c",
@@ -94,6 +103,15 @@
         "0x81254134": "0x81254134"
       },
       "evidence": "; LL3a preserves prior rule-3 binding"
+    },
+    {
+      "row": "dungeon/func_81330A2C",
+      "tu": "src/town/minigame/object/set_linked_object_and_global_flags.c",
+      "home": "town/func_800C19FC",
+      "foff": "0x1350A2C",
+      "vma": "0x80167a2c",
+      "size": 108,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_81330C30",

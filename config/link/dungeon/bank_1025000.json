@@ -17,6 +17,14 @@
       "size": 1504
     },
     {
+      "row": "dungeon/func_81005858",
+      "tu": "src/dungeon/monster/garuda/update_creature_animation_action.c",
+      "home": "dungeon/func_81005858",
+      "foff": "0x1025858",
+      "vma": "0x80171058",
+      "size": 1432
+    },
+    {
       "row": "dungeon/func_81005DF0",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9B9C",

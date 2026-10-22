@@ -151,7 +151,7 @@ void update_actor_behavior_and_direction(void *motion, void *render_ctx, void *m
             if (!(actor->action_flags & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((check_entity_relation(actor,
-                            (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                            (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                         return;
                     }
                 }

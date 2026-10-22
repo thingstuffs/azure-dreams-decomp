@@ -32,11 +32,25 @@
     },
     {
       "row": "dungeon/func_80E9D8F4",
-      "tu": "src/dungeon/monster/picket/update_dungeon_action_behavior_and_facing.c",
-      "home": "dungeon/func_80E9D8F4",
+      "tu": "src/dungeon/monster/picket/update_dungeon_actor_behavior_facing_animation_state.c",
+      "home": "dungeon/func_80E8B8F4",
       "foff": "0xEBD8F4",
-      "vma": "0x8015F0F4",
-      "size": 1424
+      "vma": "0x8015f0f4",
+      "size": 1424,
+      "bindings": {
+        "0x80171684": "0x8015F684",
+        "0x801718DC": "0x8015F8DC",
+        "0x80172088": "0x80160088",
+        "0x8017224C": "0x8016024C",
+        "0x80172364": "0x80160364",
+        "0x80174060": "0x80162060",
+        "0x80174F00": "0x80162F00",
+        "0x80174F08": "0x80162F08",
+        "0x80174F38": "0x80162F38",
+        "0x80174F40": "0x80162F40",
+        "0x80174F48": "0x80162F48"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80E9DE84",
@@ -176,11 +190,17 @@
     },
     {
       "row": "dungeon/func_80E9F490",
-      "tu": "src/dungeon/monster/picket/update_picket_move_action_slot_d.c",
-      "home": "dungeon/func_80E9F490",
+      "tu": "src/dungeon/monster/picket/update_the_actor_action_sequence_including_movement_landing_recovery.c",
+      "home": "dungeon/func_80E8D490",
       "foff": "0xEBF490",
-      "vma": "0x80160C90",
-      "size": 1936
+      "vma": "0x80160c90",
+      "size": 1936,
+      "bindings": {
+        "0x801710F4": "0x8015F0F4",
+        "0x80174EF8": "0x80162EF8",
+        "0x80174F00": "0x80162F00"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80E9FC20",
@@ -372,6 +392,15 @@
         "0x8014D810": "0x8014D810"
       },
       "evidence": "LL3a attestation sha256:2ab079e45bd20c305c318eb8a538a94707c83fd5151bbcf63eb6a4b228a26369; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "dungeon/func_80EA0C28",
+      "tu": "src/dungeon/monster/picket/update_movement_destination_selection_recovery_animation.c",
+      "home": "dungeon/func_80E8EC28",
+      "foff": "0xEC0C28",
+      "vma": "0x80162428",
+      "size": 1360,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80EA1178",

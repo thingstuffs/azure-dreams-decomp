@@ -56,6 +56,15 @@
       }
     },
     {
+      "row": "dungeon/func_813250A4",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x13450A4",
+      "vma": "0x8016c8a4",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_8132530C",
       "tu": "src/dungeon/monster/ghosh/advance_actor_movement_and_trap_check.c",
       "home": "dungeon/func_8132530C",
@@ -555,6 +564,15 @@
       }
     },
     {
+      "row": "dungeon/func_81329560",
+      "tu": "src/town/minigame/object/set_linked_object_and_global_flags.c",
+      "home": "town/func_800C19FC",
+      "foff": "0x1349560",
+      "vma": "0x80170d60",
+      "size": 108,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_8132990C",
       "tu": "src/dungeon/monster/ghosh/reset_active_encounter_action_state.c",
       "home": "dungeon/func_813266CC",
@@ -608,6 +626,15 @@
         "0x812540F8": "0x812540F8",
         "0x81254134": "0x81254134"
       }
+    },
+    {
+      "row": "dungeon/func_8132A658",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x134A658",
+      "vma": "0x80171e58",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_8132C6D0",

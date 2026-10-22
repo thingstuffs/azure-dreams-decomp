@@ -573,3 +573,16 @@ and the pickup recommendations and agreed with all of them (2026-10-06).
     retail-imported symbols without a C definition go in a per-image data header; applied after the data-name lane so
     headers carry final names. (d) Every rewrite is proven by complete-TU object identity; a declaration whose
     prototype changes caller bytes or does not compile stays local and is ledgered with its mechanism (holds.tsv).
+75. **(r121, OWNER 2026-10-21) Copies become placements; shared code is one file.** A relinked copy of a function (the
+    same C at another address, in the same or another image) is removed and its image links the home file instead
+    (link-list placement), proven byte-exact per image. (A) Placements may cross containers (town <- main, dungeon <-
+    town, ...): overlays were separately linked programs, so one shared source file (actions, logic, utilities used
+    by several areas) linked into each overlay that needs it is the plausible original; a later step may move homes
+    used by 2+ containers into a common folder. (B) When two references in the home object need the same destination
+    address, linklist.rebind_object merges them (definitions never merge; existing placements produce identical
+    commands). (C) An image's rowbase is proven by its load record + at least one absolute internal reference + every
+    row inside linking at foff+delta + matching windows; such rowbase may be written as gap records (existing records
+    untouched). (D) Placements live in the enclosing view; entries may move between same-delta views when every
+    reference resolves exactly as before. Lane opus_place1: 349 copies placed (228 within a container, including all 45
+    decision-73 copies, and 121 across containers from 11 home files), 98 placements re-homed; 56 copies held with
+    their reason (no load image covers the address, home owns .rodata tables, bytes differ, jump-table naming).

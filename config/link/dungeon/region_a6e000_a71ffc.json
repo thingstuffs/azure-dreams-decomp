@@ -116,52 +116,6 @@
         "0x80174934": "0x8016E934"
       },
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
-    },
-    {
-      "row": "dungeon/func_80A51A70",
-      "tu": "src/dungeon/monster/flame/flame_actions.c",
-      "home": "dungeon/func_80A4BA70",
-      "foff": "0xa71a70",
-      "vma": "0x8016f270",
-      "size": 1420,
-      "bindings": {
-        "0x8003DB94": "0x8003DB94",
-        "0x8003E140": "0x8003E140",
-        "0x8003E4FC": "0x8003E4FC",
-        "0x8003F540": "0x8003F540",
-        "0x8003FC64": "0x8003FC64",
-        "0x80041588": "0x80041588",
-        "0x800445E0": "0x800445E0",
-        "0x8004491C": "0x8004491C",
-        "0x80047738": "0x80047738",
-        "0x800498A0": "0x800498A0",
-        "0x80069EF8": "0x80069EF8",
-        "0x8006CD58": "0x8006CD58",
-        "0x800814A0": "0x800814A0",
-        "0x80083160": "0x80083160",
-        "0x80083460": "0x80083460",
-        "0x8009A028": "0x8009A028",
-        "0x8009A3D0": "0x8009A3D0",
-        "0x800A18E8": "0x800A18E8",
-        "0x800A504C": "0x800A504C",
-        "0x800A56E0": "0x800A56E0",
-        "0x800ADC4C": "0x800ADC4C",
-        "0x800C77D0": "0x800C77D0",
-        "0x800DCEEC": "0x800DCEEC",
-        "0x800DCF5C": "0x800DCF5C",
-        "0x8014A000": "0x8014A000",
-        "0x80173E08": "0x8016DE08",
-        "0x80174E78": "0x8016EE78",
-        "0x80175114": "0x8016F114",
-        "0x801758FC": "0x8016F8FC",
-        "0x80175904": "0x8016F904",
-        "0x8017591C": "0x8016F91C",
-        "0x80175920": "0x8016F920",
-        "0x80175921": "0x8016F921",
-        "0x80175924": "0x8016F924",
-        "0x80175928": "0x8016F928"
-      },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     }
   ]
 }

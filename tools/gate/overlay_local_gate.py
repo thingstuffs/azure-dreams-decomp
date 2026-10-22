@@ -952,23 +952,32 @@ def compile_c_segments(
                 compile_source = unit_dir / (_place["home"].split("/", 1)[1] + ".c")
                 compile_source.write_bytes(unit)
                 source_text = unit.decode("utf-8", "replace")
-        if family_for(overlay) in {"town", "dungeon"}:
+        # The compile evidence is the HOME's: its family and its frozen bank scope (decision 75 (A): a
+        # placement's home may live in another container; same-container placements are unchanged).
+        ev_family, ev_foff = family_for(overlay), seg.match.start
+        seg_base_noreturn = base_noreturn
+        if _place is not None:
+            ev_family, ev_foff = linklist.evidence_scope(ROOT, _place)
+            if ev_family != family_for(overlay):
+                seg_env = {k: v for k, v in (env or {}).items()
+                           if k not in ("MASPSX_NORETURN_FILE", "MASPSX_SIBCALL_FILE")}
+                seg_env.update(evidence_env(ev_family))
+                seg_base_noreturn = load_noreturn_file(seg_env.get("MASPSX_NORETURN_FILE", str(DEFAULT_NORETURN_FILE)))
+        if ev_family in {"town", "dungeon"}:
             ev_dir = obj_dir / (segment_obj_key(seg, dup_funcs) + ".evidence")
             ev_dir.mkdir(exist_ok=True)
-            seg_env = dict(env or {})
-            seg_env.update(evidence_env_with_candidate(
-                overlay, source_text, ev_dir,
-                foff=seg.match.start if _place is None else linklist.evidence_foff(ROOT, _place)))
+            seg_env = dict(seg_env or {})
+            seg_env.update(evidence_env_with_candidate(ev_family, source_text, ev_dir, foff=ev_foff))
             own = set()  # the per-row merge above already includes this TU
         else:
             own = candidate_noreturn_syms(source_text)
-        if own - base_noreturn:
+        if own - seg_base_noreturn:
             merged = obj_dir / f"{segment_obj_key(seg, dup_funcs)}.noreturn.txt"
             merged.write_text(
                 "# AUTO-MERGED (overlay_local_gate per-segment evidence): window "
                 "census + this segment's own zero-arg noreturn decls\n"
-                + "".join(f"{s}\n" for s in sorted(base_noreturn | own)))
-            seg_env = dict(env or {})
+                + "".join(f"{s}\n" for s in sorted(seg_base_noreturn | own)))
+            seg_env = dict(seg_env or {})
             seg_env["MASPSX_NORETURN_FILE"] = str(merged)
         run(
             [

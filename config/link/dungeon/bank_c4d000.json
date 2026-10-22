@@ -9,6 +9,32 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F50B800: native_resource_17_slot_4; symbol map: r121 obj_screen bindings of the placements in this image (rule 5)",
   "entries": [
     {
+      "row": "dungeon/func_80C4DBA8",
+      "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
+      "home": "dungeon/func_80C15BA8",
+      "foff": "0xc4dba8",
+      "vma": "0x801593a8",
+      "size": 1320,
+      "bindings": {
+        "0x801718d0": "0x801598d0",
+        "0x801718b0": "0x801598b0",
+        "0x801744fc": "0x8015c4fc",
+        "0x801744ec": "0x8015c4ec",
+        "0x80174494": "0x8015c494",
+        "0x8017449c": "0x8015c49c",
+        "0x801744a4": "0x8015c4a4",
+        "0x80174250": "0x8015c250",
+        "0x801724c4": "0x8015a4c4",
+        "0x80170808": "0x80158808",
+        "0x801721e0": "0x8015a1e0",
+        "0x801723a4": "0x8015a3a4",
+        "0x801713a8": "0x801593a8",
+        "0x801744d4": "0x8015c4d4",
+        "0x80171a98": "0x80159a98"
+      },
+      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; opus_place1 view_merge: moved from dungeon/heur_c4dba8 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80C2E0D0",
       "tu": "src/dungeon/monster/univern/create_anchored_directional_object.c",
       "home": "dungeon/func_80C160D0",

@@ -17,6 +17,29 @@
       "size": 1068
     },
     {
+      "row": "dungeon/func_80C5D67C",
+      "tu": "src/dungeon/monster/arachne/arachne.c",
+      "home": "dungeon/func_80B43670",
+      "foff": "0xC7D67C",
+      "vma": "0x80152e7c",
+      "size": 1380,
+      "bindings": {
+        "0x801713D4": "0x801533E0",
+        "0x8017162C": "0x80153638",
+        "0x80171DD8": "0x80153DE4",
+        "0x80171F9C": "0x80153FA8",
+        "0x801720B4": "0x801540C0",
+        "0x80173D64": "0x80155D94",
+        "0x8017526C": "0x8015652C",
+        "0x80175A54": "0x80156D4C",
+        "0x80175A5C": "0x80156D54",
+        "0x80175A8C": "0x80156D94",
+        "0x80175A94": "0x80156DAC",
+        "0x80175A9C": "0x80156DB4"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80C5DBE0",
       "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
       "home": "dungeon/func_809C9B9C",

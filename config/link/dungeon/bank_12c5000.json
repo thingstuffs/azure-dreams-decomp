@@ -289,6 +289,32 @@
       "evidence": "; LL3a preserves prior rule-3 binding"
     },
     {
+      "row": "dungeon/func_812A9DA0",
+      "home": "dungeon/func_809A32D4",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "foff": "0x12c9da0",
+      "vma": "0x801755a0",
+      "size": 716,
+      "bindings": {
+        "0x80174fc0": "0x800f7a38",
+        "0x801750e4": "0x80175964"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: dungeon/func_812A9DA0; opus_place1 view_merge: moved from dungeon/region_12c5000_12cb000 (same load delta) so the merged file's members share one view"
+    },
+    {
+      "row": "dungeon/func_812AA06C",
+      "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",
+      "home": "dungeon/func_809A35A0",
+      "foff": "0x12CA06C",
+      "vma": "0x8017586c",
+      "size": 248,
+      "bindings": {
+        "0x80174AD4": "0x801755A0",
+        "0x80175F90": "0x80175D7C"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_812AA164",
       "home": "dungeon/func_809A38E4",
       "tu": "src/dungeon/monster/kewne/update_actor_render_effect_and_position.c",

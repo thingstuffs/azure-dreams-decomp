@@ -195,6 +195,15 @@
       "size": 1500
     },
     {
+      "row": "dungeon/func_80FB5974",
+      "tu": "src/town/minigame/object/set_linked_object_and_global_flags.c",
+      "home": "town/func_800C19FC",
+      "foff": "0xFD5974",
+      "vma": "0x80175174",
+      "size": 108,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80FB59E0",
       "tu": "src/dungeon/actor/set_actor_data_pointer.c",
       "home": "dungeon/func_800CF1BC",

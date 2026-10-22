@@ -8,6 +8,18 @@
   "evidence": "config/overlays/dungeon.rowbase.jsonl proven regions with delta 0x7F7B5000: img_9411bc_800f61bc, img_9417d4_800f67d4",
   "entries": [
     {
+      "row": "dungeon/func_80921250",
+      "tu": "src/town/map/object/allocate_object_with_data_pointer.c",
+      "home": "town/func_800BB95C",
+      "foff": "0x941250",
+      "vma": "0x800f6250",
+      "size": 52,
+      "bindings": {
+        "0x800B90B4": "0x800F6020"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_809217A4",
       "tu": "src/dungeon/effect/sprite/play_transition_sound_and_reset_status.c",
       "home": "dungeon/func_809217A4",

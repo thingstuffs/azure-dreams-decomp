@@ -2,7 +2,7 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-10-21T21:12:27Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-10-22T00:37:11Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
@@ -70,7 +70,7 @@ Baseline NOT exact: 0 rows
 
 L0 byte-exact, L1 no fidelity blockers, L2 typed field access, L3 readable body landed in `src/`, L4 zero pins and placed in a module with a shared header and current make image proof, L5 nothing left (no fidelity site, goto table, inline asm or `NON_MATCHING`). Full definitions: docs/PLAN.md.
 
-On shared record headers (T7, `include/records/`): 3741 rows, 2,342,848 bytes (29.2%); records used: 98.
+On shared record headers (T7, `include/records/`): 3693 rows, 2,284,192 bytes (28.5%); records used: 98.
 
 L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 0 rows (0 B), tail_jump 0 rows (0 B), not_in_module 18,838 rows (6,861,616 B).
 
@@ -85,11 +85,11 @@ Defects still present in the current tree (files = source files, bytes = image b
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 6 | 7,608 | 0.1% |
 | any fidelity site | 2 | 23,708 | 0.3% |
-| any live audit site, unnarrowed | 1,643 | 2,473,124 | 30.8% |
+| any live audit site, unnarrowed | 1,643 | 2,611,008 | 32.5% |
 | do{}while(0) scheduling barrier | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 2,710 | 3,690,184 | 46.0% |
-| clean shape | 8,477 | 7,618,176 | 94.9% |
+| local address-named struct | 2,658 | 3,923,620 | 48.9% |
+| clean shape | 8,128 | 7,618,176 | 94.9% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -104,13 +104,13 @@ Defects still present in the current tree (files = source files, bytes = image b
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 3.0% | 6 | 7,608 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.4% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 16.0% | 2 | 23,708 | 0.3% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,473,124 | 30.8% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 16.0% | 1643 | 2,611,008 | 32.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 6.1% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.3% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 14 | 125,648 | 1.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.3% | 2710 | 3,690,184 | 46.0% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8477 | 7,618,176 | 94.9% |
+| local address-named struct | 633 | 346,824 | 4.3% | 2658 | 3,923,620 | 48.9% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 8128 | 7,618,176 | 94.9% |
 
 </details>
 
@@ -119,7 +119,7 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,918; REG 12,816, KEEP 6,9
 
 ## Image proof
 
-`make check`: 1490/1490 images exact; 8721 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
+`make check`: 1490/1490 images exact; 8488 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
 
 
 
@@ -203,7 +203,7 @@ Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_
 
 Dead-initializer trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"dead_init","id":row,"site":pins,"init":decl,"lane":lane,"at":iso,"note":str}` -- a never-read `= 0` at a declaration makes the variable multi-set; ordinary C by the owner ruling 2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by tools/apply_candidates.py at landing): 24.
 
-Union trades (`ledger/union_trades.jsonl`, owner 2026-10-13: kept as nicer-than-a-pin but TRACKED - their plausibility as original 1997 code is unproven; census work/native_lane/_r118/union_census): zero-init one-member idiom (accepted trade): 30 sites in 6 rows (6 rows still carry a union; most: func_8180B064 16, func_80098378 9, func_808119EC 2, func_809A38E4 1); host-merge levers (int/pointer share one union variable; owner ruling pending): 11 sites in 10 rows (10 rows still carry a union; most: func_81983138 2, func_800C7F80 1, func_80EF3FB0 1, func_80EF9FB0 1). Resolved by re-spells (original-C shapes, byte-exact): 11 of 52 recorded sites. Refused union levers (float launders, dead-value keepers) are recorded in the hard basket.
+Union trades (`ledger/union_trades.jsonl`, owner 2026-10-13: kept as nicer-than-a-pin but TRACKED - their plausibility as original 1997 code is unproven; census work/native_lane/_r118/union_census): zero-init one-member idiom (accepted trade): 30 sites in 6 rows (6 rows still carry a union; most: func_8180B064 16, func_80098378 9, func_808119EC 2, func_809A38E4 1); host-merge levers (int/pointer share one union variable; owner ruling pending): 11 sites in 10 rows (7 rows still carry a union; most: func_81983138 2, func_800C7F80 1, func_80EF3FB0 1, func_80EF9FB0 1). Resolved by re-spells (original-C shapes, byte-exact): 11 of 52 recorded sites. Refused union levers (float launders, dead-value keepers) are recorded in the hard basket.
 
 Dead-branch trades (decision 45, owner 2026-10-13; `ledger/recipe_trades.jsonl` kind dead_branch - a one-arm `if (value) { local = 0; }` over a retail-evidenced value whose arm sets a never-read local, reconstructing a set-but-unused leftover that jump2 deletes while delete_computation keeps the load): 4 rows (func_800A3D40, func_80B467DC, func_8105A724, func_81339F68).
 

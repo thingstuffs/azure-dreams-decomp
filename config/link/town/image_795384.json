@@ -8,6 +8,15 @@
   "evidence": "config/overlays/town.rowbase.jsonl proven regions with delta 0x7F88A000: sweep_795384, sweep_796260",
   "entries": [
     {
+      "row": "town/func_80776480",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x796480",
+      "vma": "0x80020480",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "town/func_808166F4",
       "tu": "src/town/minigame/object/create_scene_object_with_byte_payload.c",
       "home": "town/func_808166F4",

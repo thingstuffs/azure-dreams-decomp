@@ -95,7 +95,7 @@ void update_actor_status_callback(void *actor_in, void *context_in, void *sprite
                 ActorRecord *owner = primary_actor_record;
 
                 if ((check_entity_relation(entity_in,
-                        (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
+                        (u8 *)owner->previous_actor_header + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -242,7 +242,7 @@ void advance_entity_directional_events(void *entity, void *context, void *sprite
         }
         if ((has_pending_actor_or_turn_action(actor) << 16) != 0) {
             if ((check_entity_relation(actor,
-                    (u8 *)primary_actor_record->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20) << 16) != 0) {
                 return;
             }
         }

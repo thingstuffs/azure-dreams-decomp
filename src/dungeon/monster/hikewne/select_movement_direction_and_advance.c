@@ -283,7 +283,7 @@ void select_movement_direction_and_advance(void *move_data, void *context, void 
         if (turn_index == 0 &&
             *(u16 *)(&reference_tile_object.tile_position.parts.tile_x) != ((S_80171C34_2 *)position_data)->unk_24.at00u.v) {
             if (check_entity_relation(actor_data,
-                    (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                    (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                 do {
                     return;
                 } while (0);

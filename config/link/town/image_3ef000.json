@@ -104,6 +104,18 @@
       "size": 260
     },
     {
+      "row": "town/func_80471F9C",
+      "home": "town/func_8032E9EC",
+      "tu": "src/town/shop/state/set_lshop_special_flag.c",
+      "foff": "0x3f1f9c",
+      "vma": "0x80018f9c",
+      "size": 64,
+      "bindings": {
+        "0x8001ace8": "0x8001a418"
+      },
+      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80471F9C; opus_place1 view_merge: moved from town/region_3ef1c8_3f33d0 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "town/func_803D1FDC",
       "tu": "src/town/shop/process_lshop_entries.c",
       "home": "town/func_8032EA2C",
@@ -166,6 +178,25 @@
       "foff": "0x3F279C",
       "vma": "0x8001979C",
       "size": 120
+    },
+    {
+      "row": "town/func_80472D04",
+      "home": "town/func_8032F844",
+      "tu": "src/town/scene/object/build_object_set_and_select_lists.c",
+      "foff": "0x3f2d04",
+      "vma": "0x80019d04",
+      "size": 864,
+      "bindings": {
+        "0x80016094": "0x800160b0",
+        "0x800160a0": "0x800160bc",
+        "0x800160cc": "0x800160e8",
+        "0x800160fc": "0x80016118",
+        "0x8001dc10": "0x8001b5f0",
+        "0x800196e4": "0x800193a4",
+        "0x8001976c": "0x8001942c",
+        "0x80019f94": "0x80019c54"
+      },
+      "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_80472D04; opus_place1 view_merge: moved from town/region_3ef1c8_3f33d0 (same load delta) so the merged file's members share one view"
     },
     {
       "row": "town/func_803D3064",

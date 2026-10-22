@@ -8,6 +8,14 @@
   "evidence": "docs/evidence/r121w_s2_receipts.json",
   "entries": [
     {
+      "row": "dungeon/func_80E8B8F4",
+      "tu": "src/dungeon/monster/picket/update_dungeon_actor_behavior_facing_animation_state.c",
+      "home": "dungeon/func_80E8B8F4",
+      "foff": "0xEAB8F4",
+      "vma": "0x801710f4",
+      "size": 1424
+    },
+    {
       "row": "dungeon/func_80E8C0DC",
       "tu": "src/dungeon/modules/ovl_cd7000.c",
       "home": "dungeon/func_80CB8010",
@@ -40,6 +48,14 @@
         "0x8014DFBC": "0x80172088"
       },
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+    },
+    {
+      "row": "dungeon/func_80E8D490",
+      "tu": "src/dungeon/monster/picket/update_the_actor_action_sequence_including_movement_landing_recovery.c",
+      "home": "dungeon/func_80E8D490",
+      "foff": "0xEAD490",
+      "vma": "0x80172c90",
+      "size": 1936
     },
     {
       "row": "dungeon/func_80E8EA34",

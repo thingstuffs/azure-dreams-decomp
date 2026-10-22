@@ -33,6 +33,22 @@
       }
     },
     {
+      "row": "dungeon/func_80EEBC98",
+      "tu": "src/dungeon/monster/weadog/create_random_color_offset_effect.c",
+      "home": "dungeon/func_80EDFC98",
+      "foff": "0xf0bc98",
+      "vma": "0x80165498",
+      "size": 640,
+      "bindings": {
+        "0x80170ed8": "0x80164ed8",
+        "0x801712c4": "0x801652c4",
+        "0x801710b8": "0x801650b8",
+        "0x8014D810": "0x8014D810",
+        "0x801588A4": "0x801588A4"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80EEBC98; opus_place1 view_merge: moved from dungeon/s2_img_f0b6d8_80164ed8 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80EEBF18",
       "tu": "src/dungeon/monster/weadog/create_overlay_effect_object.c",
       "home": "dungeon/func_80EDFF18",
@@ -60,18 +76,26 @@
     },
     {
       "row": "dungeon/func_80EEC4E8",
-      "tu": "src/dungeon/monster/weadog/advance_actor_action_variant_b.c",
-      "home": "dungeon/func_80EF24E8",
+      "tu": "src/dungeon/monster/blume/update_actor_dungeon_behavior_and_animation.c",
+      "home": "dungeon/func_80DBA620",
       "foff": "0xF0C4E8",
       "vma": "0x80165CE8",
       "size": 1380,
       "bindings": {
-        "0x801748E0": "0x801748E0",
-        "0x80173D4C": "0x80173D4C",
-        "0x8016D2C0": "0x8016D2C0",
-        "0x8016D7B0": "0x8016D7B0"
+        "0x80172384": "0x8016624C",
+        "0x801725C8": "0x80166490",
+        "0x80172D74": "0x80166C44",
+        "0x80172F38": "0x80166E08",
+        "0x80173050": "0x80166F20",
+        "0x80174890": "0x80168650",
+        "0x80174A9C": "0x80168824",
+        "0x801753BC": "0x80168EB8",
+        "0x801753C4": "0x80168EC0",
+        "0x801753F4": "0x80168EF0",
+        "0x801753FC": "0x80168EF8",
+        "0x80175404": "0x80168F00"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80EF24E8 onto dungeon/func_80DBA620; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EECA4C",
@@ -161,42 +185,30 @@
     },
     {
       "row": "dungeon/func_80EEDD14",
-      "tu": "src/dungeon/monster/weadog/advance_flashing_sprite_sequence.c",
-      "home": "dungeon/func_80EE7D14",
+      "tu": "src/dungeon/monster/weadog/advance_timed_sprite_flashing_sequence.c",
+      "home": "dungeon/func_80EE1D14",
       "foff": "0xF0DD14",
       "vma": "0x80167514",
       "size": 668,
       "bindings": {
-        "0x801748E0": "0x801748E0",
-        "0x80173D4C": "0x80173D4C"
+        "0x80171CE8": "0x80165CE8",
+        "0x80174EE0": "0x80168EE0"
       },
-      "evidence": "; LL3a preserves prior rule-3 binding; LL3a preserves prior rule-3 binding"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80EE7D14 onto dungeon/func_80EE1D14; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EEDFB0",
-      "tu": "src/dungeon/func_80EE7FB0.c",
-      "home": "dungeon/func_80EE7FB0",
-      "foff": "0xf0dfb0",
-      "vma": "0x801677b0",
+      "tu": "src/dungeon/monster/weadog/update_actor_targeted_action.c",
+      "home": "dungeon/func_80EE1FB0",
+      "foff": "0xF0DFB0",
+      "vma": "0x801677B0",
       "size": 1412,
       "bindings": {
-        "0x8003F270": "0x8003F270",
-        "0x80047784": "0x80047784",
-        "0x80069EF8": "0x80069EF8",
-        "0x8006DE24": "0x8006DE24",
-        "0x800814A8": "0x800814A8",
-        "0x80083160": "0x80083160",
-        "0x80083460": "0x80083460",
-        "0x800A05A4": "0x800A05A4",
-        "0x800A2B04": "0x800A2B04",
-        "0x800A4ACC": "0x800A4ACC",
-        "0x800A56E0": "0x800A56E0",
-        "0x800A94A0": "0x800A94A0",
-        "0x8016B498": "0x80165498",
-        "0x8016BCE8": "0x80165CE8",
-        "0x8016EEB8": "0x80168EB8"
+        "0x80171498": "0x80165498",
+        "0x80171CE8": "0x80165CE8",
+        "0x80174EB8": "0x80168EB8"
       },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80EE7FB0 onto dungeon/func_80EE1FB0; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80EEE534",

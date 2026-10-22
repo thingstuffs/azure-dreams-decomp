@@ -134,7 +134,7 @@ void advance_actor_directional_action(void *controller, void *context, void *spr
 
         if ((s16)has_pending_actor_or_turn_action(actor) != 0) {
             if ((s16)check_entity_relation(
-                    actor, (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                    actor, (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                 break;
             }
         }

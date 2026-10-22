@@ -322,29 +322,12 @@
     },
     {
       "row": "dungeon/func_80D1FE4C",
-      "tu": "src/dungeon/func_80D19E4C.c",
-      "home": "dungeon/func_80D19E4C",
-      "foff": "0xd3fe4c",
-      "vma": "0x8016764c",
+      "tu": "src/dungeon/monster/noise/update_ability_action_and_completion.c",
+      "home": "dungeon/func_80D13E4C",
+      "foff": "0xD3FE4C",
+      "vma": "0x8016764C",
       "size": 1280,
-      "bindings": {
-        "0x8003F270": "0x8003F270",
-        "0x80047784": "0x80047784",
-        "0x80069EF8": "0x80069EF8",
-        "0x8006DE24": "0x8006DE24",
-        "0x800814A8": "0x800814A8",
-        "0x80083160": "0x80083160",
-        "0x80083460": "0x80083460",
-        "0x800A05A4": "0x800A05A4",
-        "0x800A2B04": "0x800A2B04",
-        "0x800A4ACC": "0x800A4ACC",
-        "0x800A56E0": "0x800A56E0",
-        "0x800A94A0": "0x800A94A0",
-        "0x8016B020": "0x80165020",
-        "0x8016B760": "0x80165760",
-        "0x8016EE88": "0x80168E88"
-      },
-      "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
+      "evidence": "opus_place1: re-homed from relinked copy dungeon/func_80D19E4C onto dungeon/func_80D13E4C; tools/tu/copy_place.py derive (dependent object == home object modulo relocation targets)"
     },
     {
       "row": "dungeon/func_80D2034C",

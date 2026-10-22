@@ -32,6 +32,24 @@
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
+      "row": "dungeon/func_80F8D938",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "home": "dungeon/func_80F87938",
+      "foff": "0xFAD938",
+      "vma": "0x8016b138",
+      "size": 1336,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "dungeon/func_80F8DE70",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "home": "dungeon/func_80F87E70",
+      "foff": "0xFADE70",
+      "vma": "0x8016b670",
+      "size": 444,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80F8E02C",
       "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F8802C",
@@ -41,6 +59,15 @@
       "bindings": {
         "0x80F8ADE0": "0x80F8ADE0"
       }
+    },
+    {
+      "row": "dungeon/func_80F8E774",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "home": "dungeon/func_80F88774",
+      "foff": "0xFAE774",
+      "vma": "0x8016bf74",
+      "size": 452,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80F8E938",
@@ -87,6 +114,24 @@
       }
     },
     {
+      "row": "dungeon/func_80F8F240",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "home": "dungeon/func_80F89240",
+      "foff": "0xFAF240",
+      "vma": "0x8016ca40",
+      "size": 1216,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "dungeon/func_80F8F700",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "home": "dungeon/func_80F89700",
+      "foff": "0xFAF700",
+      "vma": "0x8016cf00",
+      "size": 916,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "dungeon/func_80F8FA94",
       "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
       "home": "dungeon/func_80F89A94",
@@ -129,6 +174,24 @@
       "bindings": {
         "0x80F8ADE0": "0x80F8ADE0"
       }
+    },
+    {
+      "row": "dungeon/func_80F8FD7C",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "home": "dungeon/func_80F89D7C",
+      "foff": "0xFAFD7C",
+      "vma": "0x8016d57c",
+      "size": 1148,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "dungeon/func_80F901F8",
+      "tu": "src/dungeon/monster/zu/update_bank_actor_movement.c",
+      "home": "dungeon/func_80F8A1F8",
+      "foff": "0xFB01F8",
+      "vma": "0x8016d9f8",
+      "size": 832,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80F90538",

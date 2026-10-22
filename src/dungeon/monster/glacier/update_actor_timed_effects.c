@@ -227,7 +227,7 @@ void update_actor_timed_effects(void *actor_arg, void *context_arg, void *sprite
             if (!(((S_801714B8_1 *)stats)->unk_46 & 0x8000)) {
                 if (g_dungeon_status.flags & 0x2000) {
                     if ((s16)check_entity_relation(stats,
-                            (u8 *)primary_actor_record->unk_58 + 0x20) != 0) {
+                            (u8 *)primary_actor_record->previous_actor_header + 0x20) != 0) {
                         return;
                     }
                 }

@@ -48,6 +48,15 @@
       "size": 88
     },
     {
+      "row": "town/func_807D8540",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x7F8540",
+      "vma": "0x80702540",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "town/func_80878670",
       "tu": "src/town/shop/state/shop_set_indexed_flag.c",
       "home": "town/func_80878670",

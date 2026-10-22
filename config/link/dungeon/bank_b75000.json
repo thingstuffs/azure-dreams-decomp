@@ -255,6 +255,26 @@
       "foff": "0xB79B18",
       "vma": "0x80163318",
       "size": 344
+    },
+    {
+      "row": "dungeon/func_80B59C70",
+      "tu": "src/dungeon/monster/arachne/arachne.c",
+      "home": "dungeon/func_80B47C70",
+      "foff": "0xb79c70",
+      "vma": "0x80163470",
+      "size": 1388,
+      "bindings": {
+        "0x80175b0c": "0x80163b0c",
+        "0x80175b14": "0x80163b14",
+        "0x80175b20": "0x80163b20",
+        "0x80175b24": "0x80163b24",
+        "0x80175b25": "0x80163b25",
+        "0x80175b28": "0x80163b28",
+        "0x8017458c": "0x8016258c",
+        "0x80175180": "0x80163180",
+        "0x80175318": "0x80163318"
+      },
+      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80B59C70; opus_place1 view_merge: moved from dungeon/s2_img_b75244_8015ea44 (same load delta) so the merged file's members share one view"
     }
   ],
   "symbols": {

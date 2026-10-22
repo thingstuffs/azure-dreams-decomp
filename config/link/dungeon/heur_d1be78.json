@@ -6,20 +6,5 @@
   "size": "0xbc",
   "vma": "0x80161678",
   "evidence": "work/native_lane/r121_heur/evidence/placements.json",
-  "entries": [
-    {
-      "row": "dungeon/func_80D1BE78",
-      "tu": "src/dungeon/monster/troll/advance_actor_stored_path.c",
-      "home": "dungeon/func_80CE9E78",
-      "foff": "0xd1be78",
-      "vma": "0x80161678",
-      "size": 188,
-      "bindings": {
-        "0x80175E9C": "0x80163E9C",
-        "0x80175EA4": "0x80163EA4",
-        "0x80175EAC": "0x80163EAC"
-      },
-      "evidence": "Complete retail donor comparison; exact ELF replay and full production windows in work/native_lane/r121_heur/evidence/placements.json; B10 re-homed from dungeon/func_80CF5E78 (now an LL placement of dungeon/func_80CE9E78): bindings translated through dungeon/func_80CF5E78's object-screen resolution"
-    }
-  ]
+  "entries": []
 }

@@ -42,6 +42,22 @@
       "evidence": "LL4: current home/copy object shape and complete rebound byte equality; canonical address bindings; destination window proof required"
     },
     {
+      "row": "dungeon/func_80EE1D14",
+      "tu": "src/dungeon/monster/weadog/advance_timed_sprite_flashing_sequence.c",
+      "home": "dungeon/func_80EE1D14",
+      "foff": "0xF01D14",
+      "vma": "0x80173514",
+      "size": 668
+    },
+    {
+      "row": "dungeon/func_80EE1FB0",
+      "tu": "src/dungeon/monster/weadog/update_actor_targeted_action.c",
+      "home": "dungeon/func_80EE1FB0",
+      "foff": "0xF01FB0",
+      "vma": "0x801737b0",
+      "size": 1412
+    },
+    {
       "row": "dungeon/func_80EE271C",
       "tu": "src/dungeon/actor/forward_actor_defeat_removal_second.c",
       "home": "dungeon/func_809D1AC0",
@@ -54,6 +70,15 @@
         "0x8014D810": "0x8014D810"
       },
       "evidence": "r121w_ll34: fresh current-home native object, all relocation fields evaluated and exact retail bytes; docs/evidence/r121w_ll34/results.tsv"
+    },
+    {
+      "row": "dungeon/func_80EE301C",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0xF0301C",
+      "vma": "0x8017481c",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80EE30E0",

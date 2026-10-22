@@ -8,6 +8,30 @@
   "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase w4t2_bank_3ef1c8",
   "entries": [
     {
+      "row": "town/func_804712B4",
+      "tu": "src/town/scene/store_result_calling.c",
+      "home": "town/func_804712B4",
+      "foff": "0x3F12B4",
+      "vma": "0x800182b4",
+      "size": 44
+    },
+    {
+      "row": "town/func_804712E0",
+      "tu": "src/town/scene/money/store_price_from_entries.c",
+      "home": "town/func_804712E0",
+      "foff": "0x3F12E0",
+      "vma": "0x800182e0",
+      "size": 44
+    },
+    {
+      "row": "town/func_804713B8",
+      "tu": "src/town/scene/add_global_increment_current_state.c",
+      "home": "town/func_804713B8",
+      "foff": "0x3F13B8",
+      "vma": "0x800183b8",
+      "size": 40
+    },
+    {
       "row": "town/func_8047144C",
       "home": "town/func_8046C188",
       "tu": "src/town/scene/prepend_entry_to_group_history.c",
@@ -59,18 +83,6 @@
         "0x80018AEC": "0x800187AC"
       },
       "evidence": "LL3a attestation sha256:07f32d6d26ba480b356414ff1b0cda1879afc5e3e117414755a39ac41393ba35; current-TU paired HI16/LO16 relocation screen; scoped window gate"
-    },
-    {
-      "row": "town/func_80471F9C",
-      "home": "town/func_8032E9EC",
-      "tu": "src/town/shop/state/set_lshop_special_flag.c",
-      "foff": "0x3f1f9c",
-      "vma": "0x80018f9c",
-      "size": 64,
-      "bindings": {
-        "0x8001ace8": "0x8001a418"
-      },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80471F9C"
     },
     {
       "row": "town/func_804720DC",
@@ -261,25 +273,6 @@
         "0x800173f4": "0x8001a510"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_80472C54"
-    },
-    {
-      "row": "town/func_80472D04",
-      "home": "town/func_8032F844",
-      "tu": "src/town/scene/object/build_object_set_and_select_lists.c",
-      "foff": "0x3f2d04",
-      "vma": "0x80019d04",
-      "size": 864,
-      "bindings": {
-        "0x80016094": "0x800160b0",
-        "0x800160a0": "0x800160bc",
-        "0x800160cc": "0x800160e8",
-        "0x800160fc": "0x80016118",
-        "0x8001dc10": "0x8001b5f0",
-        "0x800196e4": "0x800193a4",
-        "0x8001976c": "0x8001942c",
-        "0x80019f94": "0x80019c54"
-      },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_80472D04"
     }
   ]
 }

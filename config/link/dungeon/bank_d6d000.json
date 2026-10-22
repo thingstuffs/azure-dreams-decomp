@@ -293,6 +293,23 @@
       "size": 224
     },
     {
+      "row": "dungeon/func_80D51D8C",
+      "home": "dungeon/func_80D3FD8C",
+      "tu": "src/dungeon/monster/u_boat/update_actor_timed_effect_action.c",
+      "foff": "0xd71d8c",
+      "vma": "0x8016358c",
+      "size": 1564,
+      "bindings": {
+        "0x80170a84": "0x8015ea84",
+        "0x80171a80": "0x8015fa80",
+        "0x801708b8": "0x8015e8b8",
+        "0x80174c64": "0x80162c64",
+        "0x8016D568": "0x8016D568",
+        "0x801711B0": "0x801711B0"
+      },
+      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D51D8C; opus_place1 view_merge: moved from dungeon/region_d6d284_d72b04 (same load delta) so the merged file's members share one view"
+    },
+    {
       "row": "dungeon/func_80D523A8",
       "tu": "src/dungeon/monster/u_boat/enter_actor_aura_mode.c",
       "home": "dungeon/func_80D403A8",

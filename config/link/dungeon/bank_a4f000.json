@@ -18,11 +18,18 @@
     },
     {
       "row": "dungeon/func_80A2F684",
-      "tu": "src/dungeon/monster/ifrit/update_actor_behavior_variant_f.c",
-      "home": "dungeon/func_80A2F684",
+      "tu": "src/dungeon/monster/dragon/spawn_mode_dependent_object.c",
+      "home": "dungeon/func_809C9654",
       "foff": "0xA4F684",
-      "vma": "0x8015EE84",
-      "size": 1352
+      "vma": "0x8015ee84",
+      "size": 1352,
+      "bindings": {
+        "0x801715F4": "0x8015F624",
+        "0x8017207C": "0x801600AC",
+        "0x80173C84": "0x80162830",
+        "0x80173CCC": "0x80162848"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80A2FBCC",
@@ -143,6 +150,21 @@
       "foff": "0xA50ED4",
       "vma": "0x801606D4",
       "size": 496
+    },
+    {
+      "row": "dungeon/func_80A310C4",
+      "tu": "src/dungeon/monster/ifrit/update_actor_actions_and_impact_effects.c",
+      "home": "dungeon/func_80A1F0C4",
+      "foff": "0xA510C4",
+      "vma": "0x801608c4",
+      "size": 2036,
+      "bindings": {
+        "0x80170E84": "0x8015EE84",
+        "0x801740FC": "0x801620FC",
+        "0x80174820": "0x80162820",
+        "0x80174850": "0x80162850"
+      },
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "dungeon/func_80A318B8",

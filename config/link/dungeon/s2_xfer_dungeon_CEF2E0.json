@@ -28,19 +28,6 @@
       "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80CD2398"
     },
     {
-      "row": "dungeon/func_80CD466C",
-      "tu": "src/dungeon/monster/pulunpa/scan_angle.c",
-      "home": "dungeon/func_80CC266C",
-      "foff": "0xcf466c",
-      "vma": "0x80163e6c",
-      "size": 444,
-      "bindings": {
-        "0x80176348": "0x80164348",
-        "0x80175e14": "0x80163e14"
-      },
-      "evidence": "docs/evidence/r121w_s2_receipts.json#dungeon/func_80CD466C"
-    },
-    {
       "row": "dungeon/func_80CD4828",
       "tu": "src/dungeon/monster/pulunpa/advance_actor_transition_state.c",
       "home": "dungeon/func_80CC2828",

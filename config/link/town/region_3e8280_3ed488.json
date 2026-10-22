@@ -8,6 +8,24 @@
   "evidence": "docs/evidence/r121w_s1.receipt.json: rowbase w4t2_bank_3e8280",
   "entries": [
     {
+      "row": "town/func_803C8728",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x3E8728",
+      "vma": "0x80019728",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_803C9180",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x3E9180",
+      "vma": "0x8001a180",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
       "row": "town/func_804692F0",
       "home": "town/func_804692F0",
       "tu": "src/town/scene/count_enabled_town_entries.c",
@@ -30,6 +48,24 @@
       "foff": "0x3e94f0",
       "vma": "0x8001a4f0",
       "size": 156
+    },
+    {
+      "row": "town/func_803C9DF0",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x3E9DF0",
+      "vma": "0x8001adf0",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_803C9F24",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x3E9F24",
+      "vma": "0x8001af24",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "town/func_8046A020",
@@ -98,6 +134,24 @@
         "0x8001BAC4": "0x8001BB30"
       },
       "evidence": "LL3a attestation sha256:59a4e47d3d4e64271a3d568f44516812805fdf8f496fbc7aa37100b4d1638461; current-TU paired HI16/LO16 relocation screen; scoped window gate"
+    },
+    {
+      "row": "town/func_803CB6C8",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x3EB6C8",
+      "vma": "0x8001c6c8",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
+    },
+    {
+      "row": "town/func_803CC040",
+      "tu": "src/main/func_8000E904.c",
+      "home": "main/func_8000E904",
+      "foff": "0x3EC040",
+      "vma": "0x8001d040",
+      "size": 8,
+      "evidence": "opus_place1: relinked copy -> placement; home object == copy object outside relocation fields, relocation map derived by tools/tu/copy_place.py derive; window gate MATCH"
     },
     {
       "row": "town/func_8046C048",
@@ -314,25 +368,6 @@
         "0x800173f4": "0x8001e670"
       },
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: town/func_8046CF00"
-    },
-    {
-      "row": "town/func_8046CFB0",
-      "home": "town/func_8032F844",
-      "tu": "src/town/scene/object/build_object_set_and_select_lists.c",
-      "foff": "0x3ecfb0",
-      "vma": "0x8001dfb0",
-      "size": 864,
-      "bindings": {
-        "0x80016094": "0x800191cc",
-        "0x800160a0": "0x800191d8",
-        "0x800160cc": "0x80019204",
-        "0x800160fc": "0x80019234",
-        "0x8001dc10": "0x8001edf8",
-        "0x800196e4": "0x8001d650",
-        "0x8001976c": "0x8001d6d8",
-        "0x80019f94": "0x8001df00"
-      },
-      "evidence": "docs/evidence/r121w_s1.receipt.json: town/func_8046CFB0"
     }
   ]
 }

@@ -136,23 +136,6 @@
       "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D5D268"
     },
     {
-      "row": "dungeon/func_80D5DD8C",
-      "home": "dungeon/func_80D3FD8C",
-      "tu": "src/dungeon/monster/u_boat/update_actor_timed_effect_action.c",
-      "foff": "0xd7dd8c",
-      "vma": "0x8015758c",
-      "size": 1564,
-      "bindings": {
-        "0x80170a84": "0x80152a84",
-        "0x80171a80": "0x80153a80",
-        "0x801708b8": "0x801528b8",
-        "0x80174c64": "0x80156c64",
-        "0x8016D568": "0x8016D568",
-        "0x801711B0": "0x801711B0"
-      },
-      "evidence": "docs/evidence/r121w_s1_wave2.receipt.json: dungeon/func_80D5DD8C"
-    },
-    {
       "row": "dungeon/func_80D5E884",
       "home": "dungeon/func_80D40884",
       "tu": "src/dungeon/monster/u_boat/leave_actor_aura_mode.c",

@@ -218,7 +218,7 @@ void advance_boss_actor_movement_state(void *move_state, void *unused, void *pos
                 }
             }
             if ((turn_index != 0) || (*(u16 *)(&reference_tile_object.tile_position.parts.tile_x) == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v)
-                || ((check_entity_relation(actor_in, ((s32)((ActorRecord *)((u8 *)primary_actor_record))->unk_58) + 0x20) << 0x10) == 0)) {
+                || ((check_entity_relation(actor_in, ((s32)((ActorRecord *)((u8 *)primary_actor_record))->previous_actor_header) + 0x20) << 0x10) == 0)) {
                 turn_index += 1;
                 turn_offsets += 1;
             } else {
