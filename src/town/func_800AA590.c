@@ -1,5 +1,6 @@
 /* Recovered retail twin; complete-function proof is in the lane receipt. */
 #include "common.h"
+#include "town/shop/projected_sprite_setup.h"
 #include "shared/slus_callbacks.h"
 
 
@@ -20,7 +21,7 @@ void register_node_if_unregistered(void *, s32);
 extern s32 D_800A7DF8;
 extern s32 D_800F8F78;
 
-void func_800A7CF0(void *object, s32 unused, s32 context) {
+void initialize_projected_sprite_chain_a(void *object, s32 unused, s32 context) {
     ((S_800A7C98_0_pre *)object)[-1].unk_00 = &D_800A7DF8;
     ((S_800A7C98_0 *)object)->unk_50 = 0;
     clear_object_status_and_dispatch_target(object, context, (int)(&D_800F8F78), 0);

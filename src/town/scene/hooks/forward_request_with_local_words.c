@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/entry_requests.h"
 
 typedef struct {
     s32 words[4];
@@ -9,8 +10,8 @@ extern u8 D_800170D0[];
 extern void func_80018FC8(UnkStruct80476358 *, u8 *, s32, s32);
 
 /* Pass a local copy of the word template and fixed data to the handler. */
-void func_80017358(s32 handler_arg_a, s32 unused_1, s32 handler_arg_b) {
+void dispatch_scene_request_with_local_words(s32 request, s32 unused, s32 value) {
     UnkStruct80476358 local_words = D_80017124;
 
-    func_80018FC8(&local_words, D_800170D0, handler_arg_a, handler_arg_b);
+    func_80018FC8(&local_words, D_800170D0, request, value);
 }

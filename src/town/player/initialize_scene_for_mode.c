@@ -179,13 +179,13 @@ void rebuild_menu_node_list(void *owner, ObjectPosition *node_in, s32 mode) {
     s16 value;
 
     handler = (*(void **)((u8 *)owner + (0)));
-    if (handler != D_80097D2C || handler != func_80090A64) {
+    if (handler != D_80097D2C || handler != noop_player_scene_action) {
         apply_the_enabled_movement_offsets_adding_z_offset_only_positive(node_in);
     }
     add_motion_deltas_to_position(node_in);
 
     handler = (*(void **)((u8 *)owner + (0)));
-    if (handler != D_80097D2C || handler != func_80090A64) {
+    if (handler != D_80097D2C || handler != noop_player_scene_action) {
         update_object_and_clear_status_fields(node_in);
     }
 
@@ -260,7 +260,7 @@ void process_scene_record_update(void *context, ObjectPosition *input, void *rec
 
         callback = *(void **)context;
                 /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_motion_along_blocked_directions_update_affected_axes. */
-        if (callback == (void *)D_80097D2C || callback == (void *)&func_80090A64 ||
+        if (callback == (void *)D_80097D2C || callback == (void *)&noop_player_scene_action ||
             service_script_controller() != 0) {
             if (map_scene_selector_alias[0] == 12) {
                 to_camera_zero_00();
@@ -391,7 +391,7 @@ void clear_record_state_or_update(ObjectPosition *record) {
 }
 
 /* Returns without performing any work. */
-void func_80090A64(void) {
+void noop_player_scene_action(void) {
 }
 
 /* Return without performing any work. */

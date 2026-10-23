@@ -119,7 +119,7 @@ void vm_op_79_load_value_indexed_pointer(struct RuntimeState *state);
 void vm_op_73_multiply_values(struct Decoder *script);
 
 /* vm_op_noop.c */
-void func_80034E40(void);
+void noop_scene_setup(void);
 void noop_after_window_shrink(void);
 void noop_after_menu_slot_release(void);
 void noop_after_cursor_extent_completion(void);
@@ -139,10 +139,10 @@ void vm_op_32_noop(void);
 void vm_op_33_noop(void);
 void vm_op_34_noop(void);
 void vm_op_45_noop(void);
-void func_8003AEE8(void);
-void func_8003AEF0(void);
+void noop_scene_setup_a(void);
+void noop_scene_setup_b(void);
 void func_8003B644(void);
-void func_8003BD7C(void);
+void noop_scene_resource_setup(void);
 void func_8003C064(void);
 void noop_after_fade_ramp_completion(void);
 

@@ -21,7 +21,7 @@ extern S_80085458 audio_voice_records[64];
 /* D_80085F98: mode/busy flag, set while this function runs. */
 extern s32 audio_update_guard[4];
 
-extern s16 func_8005BBFC(s16 idx, s16 a0, s16 a1, s16 a2, s16 a3, s16 a4, s16 a5, s16 a6);
+#include "engine/audio/channel_voice.h"
 
 /* Dispatches to the first done or empty slot and returns the result, or -1 if none is available. */
 s16 start_sequence_in_free_slot(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispatch_arg2, s16 dispatch_arg3, s16 dispatch_arg4,
@@ -55,7 +55,7 @@ s16 start_sequence_in_free_slot(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispat
     }
 
     if (slot != -1) {
-        slot = func_8005BBFC((s16) slot, dispatch_arg0, dispatch_arg1, dispatch_arg2, dispatch_arg3, dispatch_arg4,
+        slot = (s16) start_voice_on_channel((s16) slot, dispatch_arg0, dispatch_arg1, dispatch_arg2, dispatch_arg3, dispatch_arg4,
             dispatch_arg5, dispatch_arg6);
     }
 

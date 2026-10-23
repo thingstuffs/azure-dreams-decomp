@@ -1,5 +1,6 @@
 #include "common.h"
+#include "town/scene/script_hooks.h"
 
 /* Returns without performing any work. */
-void func_805D3524(void) {
+void noop_scene_script_call(void) {
 }

@@ -1,4 +1,5 @@
 #include "script_symbols.h"
+#include "town/scene/entry_requests.h"
 #include "common.h"
 
 void store_supplied_values();                /* extern */
@@ -8,12 +9,12 @@ s32 func_8001894C();                             /* extern */
 extern s16 D_80018AEA;
 
 /* Conditionally processes 0x50C, then forwards the inputs to both shared routines. */
-void func_804B7BD0(s32 forwardedValue, s32 forwardedData) {
+void store_scene_values_after_flag_check(s32 value, s32 data) {
     if (func_8001894C(F_sbs07_pad21) != 0) {
         if (func_8001894C(D_80018AEA) == 0) {
             func_800188CC(F_sbs07_pad21);
         }
     }
-    store_supplied_values(forwardedValue, forwardedData);
-    func_80017EB0(forwardedValue, forwardedData);
+    store_supplied_values(value, data);
+    func_80017EB0(value, data);
 }

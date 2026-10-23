@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/scene/entry_flag_queries.h"
 
 /* Copy, in this TOWN script module, of the module-0 helper resolve_entry_flag (src/town/func_8032F544.c);
  * this build reads the flag number from offset 0x4 of the flag record. */
@@ -24,9 +25,9 @@ extern s32 func_80016168(ScriptEntry8 *entries, s32 entry_key);
 extern s32 func_80017388(s32 flag);
 
 /* Resolve a table entry to its referenced flag and query that flag. */
-void func_80016A24(ScriptEntry8 *entry_table, ScriptContext *context, s32 entry_key) {
+void query_scene_entry_flag_c(ScriptEntry8 *entries, ScriptContext *context, s32 entry_key) {
     s32 entry_index;
 
-    entry_index = func_80016168(entry_table, entry_key);
-    func_80017388(*(s16 *)((u8 *)context->flag_records + entry_table[entry_index].flag_index * 8 + 0x4));
+    entry_index = func_80016168(entries, entry_key);
+    func_80017388(*(s16 *)((u8 *)context->flag_records + entries[entry_index].flag_index * 8 + 0x4));
 }

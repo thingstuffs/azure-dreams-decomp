@@ -1,5 +1,6 @@
 #include "common.h"
+#include "town/shop/monster_status_idle.h"
 
 /* Returns without performing any work. */
-void func_800B6578(void) {
+void noop_monster_status_idle(void) {
 }

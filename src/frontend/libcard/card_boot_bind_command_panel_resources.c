@@ -56,7 +56,7 @@ void card_boot_bind_command_panel_resources(void *object)
     s32 slot_index;
     s32 block_offset;
 
-    kind_value = func_80049E6C(3);
+    kind_value = get_menu_count_template(3);
     slot_index = 0;
     primary_table = D_80077EF0;
     secondary_table = D_80077EFC;

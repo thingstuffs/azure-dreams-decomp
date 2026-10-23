@@ -141,7 +141,7 @@ s32 select_interaction_result_with_refresh(s32 input, s32 check_value, s32 conte
 void invoke_match_callback_or_lookup(void);
 void invoke_handler_with_code_7_a_1(void);
 void invoke_alternate_handler_with_code_7_a_1(void);
-void func_80016BA8(void);
+#include "town/scene/record_services.h"
 void invoke_handler_with_code_47_d(void);
 s32 *select_response_by_selector_and_flags(s32 context, s32 check_value, s32 selector);
 s32 wait_for_dialogue_then_close(void);
@@ -158,7 +158,7 @@ s32 func_80017100(s32 value, s32 check_value, s32 lookup_value);
 s32 dispatch_by_state_code_0x799(s32 slot_index, s32 slot_value);
 s32 select_one_time_interaction_response(void *object, s32 check_value, s32 selection);
 s32 dispatch_entry_by_799_flag(s32 context, s32 entryIndex);
-s32 func_80017358(s32 context, s32 check_value, s32 selector);
+#include "town/scene/entry_requests.h"
 s32 dispatch_entry_and_set_11_fb_when_flagged(s32 context, s32 entry_index);
 s32 select_event_fallback_event_handler(s32 object, s32 request, s32 context);
 s32 dispatch_entry_by_798_and_799_flags(s32 context, s32 entry_index);
@@ -193,7 +193,7 @@ void invoke_handler_with_code_798(void);
 void invoke_handler_with_code_799(void);
 void invoke_handler_with_code_11_fb(void);
 void invoke_alternate_handler_with_code_11_fb(void);
-void func_80017E34(void);
+#include "town/scene/fixed_position.h"
 s32 start_callback_with_fixed_parameters(void);
 /* Incomplete inherited argument-list evidence; retain the caller register passthrough. */
 s32 check_table_result_below_minus_47();

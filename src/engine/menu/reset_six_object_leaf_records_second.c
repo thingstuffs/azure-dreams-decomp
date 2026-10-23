@@ -46,7 +46,7 @@ void initialize_gauge_menu_display_rows(S_800506BC_Obj *obj, S_800506BC_Ctx *ctx
     S_800506BC_Mid *variant_entry;
     u8 *variant_data;
 
-    obj->slot0->val = func_80049E6C(6);
+    obj->slot0->val = get_menu_count_template(6);
     obj->arr5[0]->val = (s32) menu_leaf_template_0;
     obj->arr5[1]->val = (s32) menu_leaf_template_1;
     obj->arr5[2]->val = (s32) menu_leaf_template_2;

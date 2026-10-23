@@ -1,4 +1,5 @@
 #include "common.h"
+#include "engine/audio/channel_voice.h"
 #include "engine/audio/sequence.h"
 #include "engine/audio/spu.h"
 #include "slus.h"
@@ -93,7 +94,7 @@ extern S_80085458 audio_voice_records[64];
 extern s32 audio_update_guard[4];
 extern S_80086A40 audio_bank_slots[16];
 /* Starts a channel voice with sample, pitch, envelope, and panned volume settings. */
-s32 func_8005BBFC(channel_arg, bank_arg, program_arg, tone_arg, note_arg, fine_note_arg, left_gain_arg, right_gain_arg)
+s32 start_voice_on_channel(channel_arg, bank_arg, program_arg, tone_arg, note_arg, fine_note_arg, left_gain_arg, right_gain_arg)
 s16 channel_arg;
 s16 bank_arg;
 s16 program_arg;
@@ -143,7 +144,7 @@ u16 right_gain_arg;
     }
     if (channel != (-1)) {
         bank_data = audio_bank_slots[bank_arg].f04;
-        program_offset = ((s32) (program_arg << 0x10)) >> 0xC;
+        program_offset = (program_arg << 0x10) >> 0xC;
         program_data = bank_data + (program_offset + 0x20);
         note_pitch = (note_arg << 8) + fine_note_arg;
         tone_data = (S_8005BBFC_rec *) (bank_data + (((program_offset + tone_arg) << 5) + 0x820));

@@ -1,6 +1,7 @@
 #include "modules/town_ovl_3ef1c8.h"
+#include "town/scene/entry_requests.h"
 
-s32 func_80017358(s32 context, s32 check_value, s32 selector) {
+s32 lookup_scene_entry_with_checked_fallback(s32 context, s32 check_value, s32 selector) {
     s32 result;
 
     if (check_table_result_below_minus_47(context, check_value) != 0) {

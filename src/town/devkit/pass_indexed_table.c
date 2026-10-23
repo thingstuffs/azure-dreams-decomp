@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit/stage_dispatch.h"
 
 
 typedef struct {
@@ -20,7 +21,7 @@ extern void pass_indexed_table(s32 entry);
 extern s32 func_80701404();
 
 /* When the gate and the counter both pass, set the stage flag and return the stage handler's result. */
-s32 func_808752CC(s32 entry) {
+s32 set_stage_flag_two_if_ready(s32 fallback_result) {
 
     if ((func_80700C9C(1) != 0) && (*D_80701988[0]->value >= 2)) {
         shift_index_and_add_offset(1);
@@ -28,5 +29,5 @@ s32 func_808752CC(s32 entry) {
         return func_80701404();
     }
     pass_indexed_table(1);
-    return entry;
+    return fallback_result;
 }

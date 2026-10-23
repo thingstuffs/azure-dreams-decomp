@@ -1,6 +1,7 @@
 #include "common.h"
+#include "town/scene/entry_conditions.h"
 
 /* Returns zero. */
-s32 func_8065D58C(void) {
+s32 scene_condition_false_i(void) {
     return 0;
 }

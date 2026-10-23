@@ -65,7 +65,7 @@ int get_low_flag_priority(int flags);
 int set_flag_and_return_success(int *flag);
 void initialize_packet_pair_from_record(void *packets, void *record);
 int advance_index_with_single_wrap(int index, int delta, int limit);
-int func_80049E6C(int index);
+#include "slus/menu_count_template.h"
 int read_second_argument_scaled_byte(void *unused, void *object);
 s32 func_8004A618(void *item);
 s32 get_item_sell_money(void *item);
@@ -98,7 +98,7 @@ void noop_display_setup_hook(void);
 void clear_vram_callback_state(void);
 void create_resource_transition_for_descriptor_check(void *object);
 void create_resource_transition_card(int object);
-void *func_8004EE70(void *object);
+#include "slus/resource_transition_task.h"
 void build_menu_backdrop_display_buffers(void *object);
 void link_menu_backdrop_display_nodes(void *entries);
 void set_menu_backdrop_initial_value(int *dst, int value);

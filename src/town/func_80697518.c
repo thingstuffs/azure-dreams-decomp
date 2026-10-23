@@ -1,10 +1,11 @@
 #include "common.h"
+#include "town/scene/data_access.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80018A0C;
 extern u8 *D_80018BF0;
 
 /* Initialize D_80018BF0 to point to D_80018A0C. */
-void func_80697518(void) {
+void initialize_scene_entry_data_c(void) {
     D_80018BF0 = &D_80018A0C;
 }

@@ -174,8 +174,8 @@ s8 *copy_decoder_blocks_to_globals(s8 *data) {
 #include "../../ovmovie/modules/ovmovie_libpress.h"
 
 /* Returns the unsigned 16-bit value at the given pointer. */
-s32 func_80177838(u16 *value_ptr) {
-    return *value_ptr;
+s32 read_decoder_word_count(u16 *command) {
+    return *command;
 }
 #include "../../ovmovie/modules/ovmovie_libpress.h"
 

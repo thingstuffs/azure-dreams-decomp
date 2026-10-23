@@ -1,4 +1,5 @@
 #include "common.h"
+#include "town/devkit/stage_dispatch.h"
 
 typedef struct S_808B2F58_0 {
     u8 pad_00[0x8];
@@ -17,7 +18,7 @@ extern s32 func_807002D4();
 extern s32 dispatch_first_failed_entry();
 
 /* When the gate and the counter both pass, refresh the status byte and return the stage handler's result. */
-s32 func_808B2F58(s32 entry)
+s32 dispatch_scene_stage_if_counter_positive(s32 fallback_result)
 {
     S_808B2F58_1 *status;
 
@@ -29,5 +30,5 @@ s32 func_808B2F58(s32 entry)
         return dispatch_first_failed_entry();
     }
     func_807002D4(1);
-    return entry;
+    return fallback_result;
 }

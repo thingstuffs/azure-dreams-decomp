@@ -3,7 +3,7 @@
 #include "engine/script/vm.h"
 
 /* Returns without performing any work. */
-void func_80034E40(void) {
+void noop_scene_setup(void) {
 }
 
 /* Returns without performing any work. */
@@ -83,11 +83,11 @@ void vm_op_45_noop(void) {
 }
 
 /* Returns without performing any work. */
-void func_8003AEE8(void) {
+void noop_scene_setup_a(void) {
 }
 
 /* Returns without performing any work. */
-void func_8003AEF0(void) {
+void noop_scene_setup_b(void) {
 }
 
 /* Returns without performing any work. */
@@ -95,7 +95,7 @@ void func_8003B644(void) {
 }
 
 /* Returns without performing any work. */
-void func_8003BD7C(void) {
+void noop_scene_resource_setup(void) {
 }
 
 /* Returns without performing any work. */

@@ -1,5 +1,7 @@
 /* Resident helpers for rendering, resource loading, text, menu state and sound command dispatch. */
 #include "script_symbols.h"
+#include "slus/resource_transition_task.h"
+#include "slus/menu_count_template.h"
 #include "shared/object_node.h"
 #include "shared/sound_state.h"
 #include "common.h"
@@ -520,10 +522,10 @@ int advance_index_with_single_wrap(int index, int delta, int limit) {
 }
 
 /* Read the indexed word from the volatile global table. */
-int func_80049E6C(int index)
+int get_menu_count_template(int count)
 {
     volatile int *values = D_800712B4;
-    return values[index];
+    return values[count];
 }
 
 extern int get_scaled_byte_value(void *a1);
@@ -805,9 +807,9 @@ void create_resource_transition_card(int object) {
 extern void *scene_create_resource_transition(void *owner, int task_context);
 
 /* Create an object task with mode two and return it. */
-void *func_8004EE70(void *object)
+void *create_resource_transition_task(void *owner)
 {
-    return scene_create_resource_transition(object, 2);
+    return scene_create_resource_transition(owner, 2);
 }
 
 extern void init_object_header_a(void *a0);

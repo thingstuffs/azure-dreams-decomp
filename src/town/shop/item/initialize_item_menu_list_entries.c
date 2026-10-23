@@ -61,7 +61,7 @@ typedef struct S_800AECA4_10 {
    /* ((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)arg0)->unk_D8))->unk_00))->unk_04 in initialize_item_menu_list_entries */
 
 
-int func_80049E6C(int);
+int get_menu_count_template(int);
 s32 func_8004DC14();
 s32 get_item_menu_table_entry(s32);
 void animate_item_menu_cursor_transition(void *);
@@ -101,7 +101,7 @@ void initialize_item_menu_list_entries(void *list) {
 
     *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_04 = &menu_leaf_template_6;
     row_index = 0;
-    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00 = func_80049E6C(((S_800AECA4_0 *)list)->unk_28);
+    *((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00 = get_menu_count_template(((S_800AECA4_0 *)list)->unk_28);
     ((SignedWidgetYView *)(((S_800AECA4_10 *)(((S_800AECA4_5 *)(((S_800AECA4_2 *)list)->unk_D8))->unk_00))->unk_04))->unk_0A =
         (s16) ((((S_800AECA4_0 *)list)->unk_28 * 8) + 2);
     if (((S_800AECA4_0 *)list)->unk_28 > 0) {
