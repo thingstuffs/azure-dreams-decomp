@@ -244,7 +244,7 @@ def main(argv=None, root=ROOT):
     new = [os.fsdecode(n) for n in command(['git','ls-files','--others','--exclude-standard','-z'],root).split(b'\0') if n]
     staged = sorted(set(dirty+new))
     permitted = ('src/','include/','tools/','config/','docs/','ledger/','link/')  # link/ = byte maps / link lists
-    if any(n not in ('Makefile','STATUS.md','.gitignore','README.md') and not n.startswith(permitted) for n in staged):
+    if any(n not in ('Makefile','STATUS.md','.gitignore','README.md','CONTRIBUTING.md') and not n.startswith(permitted) for n in staged):
         raise ValueError('unexpected changed path outside landing trees')
     if not args.no_commit:
         if not staged:
